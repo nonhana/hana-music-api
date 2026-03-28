@@ -1,0 +1,21 @@
+{
+  "name": "hana-music-api",
+  "private": true,
+  "type": "module",
+  "module": "index.ts",
+  "scripts": {
+    "lint": "oxlint",
+    "lint:fix": "oxlint --fix",
+    "fmt": "oxfmt",
+    "fmt:check": "oxfmt --check"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "oxfmt": "^0.42.0",
+    "oxlint": "^1.57.0",
+    "oxlint-tsgolint": "^0.18.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
