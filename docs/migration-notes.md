@@ -1,4 +1,4 @@
-# Phase 2 迁移记录
+# Phase 3 迁移记录
 
 ## 目标
 
@@ -27,7 +27,7 @@
 
 1. `multipart/form-data` 已可经 Hono 解析，但旧仓库 `express-fileupload` 的全部细节行为尚未逐项回归。
 2. PAC 代理暂未在当前 Bun `fetch` 适配器中恢复。
-3. 真实业务模块尚未批量迁入，当前服务层主要通过测试注入模块定义验证行为。
+3. 虽然 `src/modules` 已完成批量迁移，但大部分文件仍处于“兼容优先”的机械迁移阶段，后续仍需逐批去掉 `@ts-nocheck` 并收紧类型。
 4. TypeScript 版本在迁移初期仍保持 `^5` 约束，避免和业务迁移同时引入编译语义变化。
 
 ## Phase 1 前置提醒
@@ -91,6 +91,24 @@
 
 ## Phase 2 当前边界
 
-1. 服务层已经可以稳定承接后续模块迁移，但 `src/modules` 目前仍未进入大规模迁移阶段。
+1. 服务层已经可以稳定承接后续模块迁移，这也是 Phase 3 可以直接批量推进的前提。
 2. 当前缓存实现是轻量内存缓存，目标是先对齐旧行为，而不是立即引入更重的缓存后端。
 3. `createServer()` 与 `startServer()` 已经变为异步边界，因为模块加载本身是异步过程。
+
+## Phase 3 已完成
+
+本阶段已经在新仓库内完成模块层的首轮批量迁移：
+
+- 新增 `scripts/migrate-modules.ts`，可重复执行旧模块到新模块的机械迁移
+- `src/modules/` 已生成 366 个 `.ts` 模块，对应旧仓库全部 `module/*.js`
+- `src/plugins/upload.ts` 与 `src/plugins/song-upload.ts` 已作为模块兼容支撑一并迁入
+- `src/modules/_migration.ts` 负责收敛旧模块的多种返回值形态，补齐默认 `cookie` 与 `status`
+- `src/server/module-loader.ts` 已跳过以下划线开头的内部辅助文件，避免把迁移 helper 误装载为业务模块
+- `package.json` 已补充 `migrate:modules` 脚本，便于后续重复生成与增量覆盖
+
+## Phase 3 当前边界
+
+1. 当前批量迁移以“先恢复装载与行为闭环”为首要目标，因此模块文件统一保留了 `@ts-nocheck` 过渡标记。
+2. 为了兼容旧模块中的二维码、上传、XML 解析和音频元信息逻辑，当前新增了 `axios`、`qrcode`、`xml2js`、`music-metadata`、`md5`、`crypto-js` 等运行时依赖。
+3. 高频模块虽然已经进入新装载链路，但尚未逐个建立真实上游回归用例；这一部分应在后续 Phase 5 按批次补齐。
+4. 插件目录目前只迁入了被模块直接依赖的最小支撑集，不代表 Phase 4 已整体完成。

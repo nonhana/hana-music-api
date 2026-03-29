@@ -75,7 +75,8 @@ async function collectModuleFiles(directory: string): Promise<string[]> {
       if (
         entry.isFile() &&
         (entry.name.endsWith('.ts') || entry.name.endsWith('.tsx')) &&
-        !entry.name.endsWith('.d.ts')
+        !entry.name.endsWith('.d.ts') &&
+        !entry.name.startsWith('_')
       ) {
         return [filePath]
       }
