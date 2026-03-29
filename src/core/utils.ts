@@ -39,6 +39,8 @@ export function toBoolean(value: BooleanLike | undefined): '' | boolean {
   return value === 'true' || value === 1 || value === '1'
 }
 
+// 将 cookie 字符串转换为 JSON 对象
+// 单个 cookie 的格式为 "key=value"，多个 cookie 之间用 ";" 分隔
 export function cookieToJson(cookie: string | undefined): CookieRecord {
   if (!cookie) {
     return {}

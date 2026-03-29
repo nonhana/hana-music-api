@@ -43,6 +43,7 @@ export const OS_PROFILES = {
     appver: '3.1.17.204416',
     channel: 'netease',
     os: 'pc',
+    // 这里刻意保留旧桌面端伪装串，迁移阶段不能因为“看起来过时”就擅自改掉。
     osver: 'Microsoft-Windows-10-Professional-build-19045-64bit',
   },
 } as const

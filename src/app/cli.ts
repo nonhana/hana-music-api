@@ -2,7 +2,7 @@ import type { StartedServer, StartServerOptions } from '../types/index.ts'
 
 import { createServer } from '../server/create-server.ts'
 
-const DEFAULT_PORT = 3000
+const DEFAULT_PORT = 3021
 const DEFAULT_HOSTNAME = '0.0.0.0'
 
 function parsePort(value: string | undefined, fallback: number): number {
@@ -29,9 +29,9 @@ function resolveStartServerOptions(
 /**
  * 启动 Bun HTTP 服务。
  */
-export function startServer(options: StartServerOptions = {}): StartedServer {
+export async function startServer(options: StartServerOptions = {}): Promise<StartedServer> {
   const resolvedOptions = resolveStartServerOptions(options)
-  const app = createServer(resolvedOptions)
+  const app = await createServer(resolvedOptions)
   const server = Bun.serve({
     fetch: app.fetch,
     hostname: resolvedOptions.hostname,
@@ -53,5 +53,5 @@ export function startServer(options: StartServerOptions = {}): StartedServer {
 }
 
 if (import.meta.main) {
-  startServer()
+  await startServer()
 }

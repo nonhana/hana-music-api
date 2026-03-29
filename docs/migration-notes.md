@@ -1,4 +1,4 @@
-# Phase 0 迁移记录
+# Phase 2 迁移记录
 
 ## 目标
 
@@ -25,10 +25,10 @@
 
 ## 已知风险
 
-1. 当前服务层只提供最小骨架，尚未恢复旧项目的 CORS、Cookie、Body 合并、文件上传与特殊路由映射。
-2. `src/core`、`src/modules`、`src/plugins` 目前仍是占位目录，尚未进入高风险核心迁移。
-3. 根入口的程序化 API 只定义了初始边界，未来迁移 `main.js` 能力时需要继续审视兼容策略。
-4. TypeScript 版本在迁移初期仍应保持 `^5` 约束，避免和业务迁移同时引入编译语义变化。
+1. `multipart/form-data` 已可经 Hono 解析，但旧仓库 `express-fileupload` 的全部细节行为尚未逐项回归。
+2. PAC 代理暂未在当前 Bun `fetch` 适配器中恢复。
+3. 真实业务模块尚未批量迁入，当前服务层主要通过测试注入模块定义验证行为。
+4. TypeScript 版本在迁移初期仍保持 `^5` 约束，避免和业务迁移同时引入编译语义变化。
 
 ## Phase 1 前置提醒
 
@@ -65,3 +65,32 @@
 2. 常规 HTTP/HTTPS 代理可透传给 Bun 的 `fetch`，但 PAC 代理暂未在当前适配器中恢复。
 3. 旧项目依赖的 `global.deviceId` / `global.cnIp` / 匿名 token 文件状态，已被 `src/core/runtime.ts` 收敛为显式运行时状态。
 4. `generateConfig()` 已可完成匿名 token 的生成与写入，但完整 CLI 启动串联仍留待后续服务层阶段继续接入。
+
+## Phase 2 已完成
+
+本阶段已经在新仓库内完成 Hono 服务层重建：
+
+- `src/server/create-server.ts`
+- `src/server/routes.ts`
+- `src/server/module-loader.ts`
+- `src/server/parse-body.ts`
+- `src/server/cookies.ts`
+- `src/core/cache.ts`
+
+已恢复或明确实现的行为包括：
+
+- 基础 CORS 处理
+- 请求头 Cookie 解析
+- query/body 合并
+- `cookie` 字段覆盖逻辑
+- 特殊路由映射
+- 模块请求适配与客户端 IP 注入
+- `Set-Cookie` 透传
+- HTTPS 请求下 `SameSite=None; Secure` 补丁
+- 轻量内存缓存
+
+## Phase 2 当前边界
+
+1. 服务层已经可以稳定承接后续模块迁移，但 `src/modules` 目前仍未进入大规模迁移阶段。
+2. 当前缓存实现是轻量内存缓存，目标是先对齐旧行为，而不是立即引入更重的缓存后端。
+3. `createServer()` 与 `startServer()` 已经变为异步边界，因为模块加载本身是异步过程。

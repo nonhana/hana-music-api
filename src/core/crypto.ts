@@ -26,6 +26,7 @@ export function aesEncrypt(
   text: string,
   mode: AesMode,
   key: string,
+  // 旧调用点即使在 ECB 模式下也会继续传 iv，这里保留同样的函数签名，避免迁移期额外改调用方。
   iv: string,
   format: CipherOutputFormat = 'base64',
 ): string {
