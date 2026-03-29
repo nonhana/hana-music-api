@@ -27,3 +27,46 @@ export interface StartedServer {
   readonly server: Server<unknown>
   readonly url: URL
 }
+
+export type RequestCrypto = '' | 'api' | 'eapi' | 'linuxapi' | 'weapi'
+
+export type BooleanLike = boolean | number | string
+
+export type CookieValue = boolean | number | string
+
+export type CookieRecord = Record<string, CookieValue | undefined>
+
+export type FetchLike = (input: Request | URL | string, init?: RequestInit) => Promise<Response>
+
+export interface RuntimeState {
+  readonly anonymousToken: string
+  readonly cnIp: string
+  readonly deviceId: string
+}
+
+export interface CreateRequestOptions {
+  readonly checkToken?: BooleanLike
+  readonly cookie?: CookieRecord | string
+  readonly crypto?: RequestCrypto
+  readonly domain?: string
+  readonly e_r?: BooleanLike
+  readonly fetcher?: FetchLike
+  readonly headers?: Record<string, string>
+  readonly ip?: string
+  readonly proxy?: string
+  readonly realIP?: string
+  readonly state?: Partial<RuntimeState>
+  readonly ua?: string
+}
+
+export interface NcmApiResponse<TBody = unknown> {
+  body: TBody
+  cookie: string[]
+  status: number
+}
+
+export interface GenerateConfigOptions {
+  readonly fetcher?: FetchLike
+  readonly state?: Partial<RuntimeState>
+  readonly tokenFilePath?: string
+}

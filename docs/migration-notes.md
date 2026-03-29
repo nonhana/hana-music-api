@@ -39,3 +39,29 @@
 - `util/option.js`
 - `util/request.js`
 - `generateConfig.js`
+
+## Phase 1 已完成
+
+本阶段已经在新仓库内补齐以下核心能力：
+
+- `src/core/crypto.ts`
+- `src/core/utils.ts`
+- `src/core/options.ts`
+- `src/core/request.ts`
+- `src/core/runtime.ts`
+- `src/app/generate-config.ts`
+
+当前新增的公共可调用能力包括：
+
+- `createRequest()`
+- `createOption()`
+- `generateConfig()`
+- `registerAnonymous()`
+- `weapi()` / `linuxapi()` / `eapi()` 及对应解密工具
+
+## Phase 1 当前边界
+
+1. `request` 层已经改为 Bun 原生 `fetch`，不再依赖 `axios`。
+2. 常规 HTTP/HTTPS 代理可透传给 Bun 的 `fetch`，但 PAC 代理暂未在当前适配器中恢复。
+3. 旧项目依赖的 `global.deviceId` / `global.cnIp` / 匿名 token 文件状态，已被 `src/core/runtime.ts` 收敛为显式运行时状态。
+4. `generateConfig()` 已可完成匿名 token 的生成与写入，但完整 CLI 启动串联仍留待后续服务层阶段继续接入。
