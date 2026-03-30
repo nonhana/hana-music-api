@@ -1,12 +1,13 @@
-# Phase 5+ 技术债消化指南
+# Phase 6 剩余技术债指南
 
 ## 一、文档目的
 
-本文档面向后续接手的 LLM 或开发者。它对 Phase 5 完成后仍存在的技术债进行了逐项盘点，并给出优先级、操作方式和验收标准，确保接手者可以**按条目直接上手**，而不需要再做一轮全仓库摸底。
+本文档面向后续接手的 LLM 或开发者。它对 phase 6 开始后仍存在的技术债进行了逐项盘点，并给出优先级、操作方式和验收标准，确保接手者可以**按条目直接上手**，而不需要再做一轮全仓库摸底。
 
 > 本文档基于 2026-03-30 对仓库实际源码的逐文件审计结果编写。
 > 2026-03-30 晚间更新：`D-01`、`D-02`、`D-03`、`D-04`、`D-05`、`D-07`、`D-12` 已完成主清理。当前仓库已经达到 `src/` 内 `0` 个 `@ts-nocheck`、运行时移除 `axios` / `crypto-js` / `md5`、`tsc --noEmit` 可全量通过的新基线。
-> 2026-03-30 深夜增量更新：`D-06` 的高优先级代码质量清理已完成，`D-08` 已覆盖高频模块（`search`、`song_url`、`playlist_detail`、`batch`、登录相关模块），`D-12` 已补服务层 multipart 兼容回归。当前主线剩余事项应视为：长尾模块类型继续精细化、`xml2js` 是否保留、PAC 代理是否按需支持。
+> 2026-03-30 深夜增量更新：`D-06` 的高优先级代码质量清理已完成，`D-08` 已覆盖高频模块（`search`、`song_url`、`playlist_detail`、`batch`、登录相关模块），`D-12` 已补服务层 multipart 兼容回归。
+> 2026-03-31 phase 6 更新：`src/types/` 已拆分为更清晰的运行时/请求/契约/上游边界结构；`voice_upload.ts` 已移除 `xml2js`；PAC 代理已正式定稿为“当前版本明确不支持”。当前主线剩余事项应视为：长尾模块 query 继续细化、更多模块纳入 `ModuleContractMap`、真实上传场景手工回归。
 
 ---
 
@@ -17,10 +18,10 @@
 | `src/core/` (7 文件)      | 已完成类型化，无 `@ts-nocheck`，已用 `node:crypto` 替代旧加密库                                           |
 | `src/server/` (6 文件)    | 已完成类型化，无 `@ts-nocheck`                                                                            |
 | `src/app/` (3 文件)       | 已完成类型化，无 `@ts-nocheck`                                                                            |
-| `src/types/index.ts`      | 已作为共享类型边界，覆盖主要公共接口                                                                      |
+| `src/types/`             | 已拆分为 `runtime.ts`、`request.ts`、`server.ts`、`module-contracts.ts`、`upstream.ts` 与门面 `index.ts` |
 | `src/modules/` (367 文件) | 已完成显式函数签名类型化，`@ts-nocheck` 已清零；高频模块已补更具体 query 类型，剩余模块采用兼容型边界类型 |
 | `src/plugins/` (2 文件)   | 已完成类型化，并切换到原生 `fetch`                                                                        |
-| `tests/` (6 文件)         | 已覆盖加密、请求、服务层、CLI、程序化 API 和 Phase 5 回归                                                 |
+| `tests/` (7 文件)         | 已覆盖加密、请求、服务层、CLI、程序化 API、Phase 5 回归与上传链路 helper                                  |
 | `index.ts`                | 公共入口，导出稳定                                                                                        |
 
 ---
@@ -56,7 +57,7 @@
 | ---- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | P0   | 登录相关：`login.ts`、`login_cellphone.ts`、`login_email.ts`、`login_qr_*.ts`、`register_anonimous.ts`、`register_cellphone.ts` | 涉及加密库替换（D-02），需要一并改                                       |
 | P1   | 高频基础：`search.ts`、`song_url.ts`、`song_url_v1.ts`、`playlist_detail.ts`、`user_account.ts`、`batch.ts`                     | Phase 5 回归已覆盖行为，类型化后可立即做编译级守护                       |
-| P2   | 文件上传类：`cloud.ts`、`voice_upload.ts`、`audio_match.ts`、`related_playlist.ts`                                              | 涉及 `axios`/`md5`/`xml2js` 替换（D-03），需要与依赖替换一并改           |
+| P2   | 文件上传类：`cloud.ts`、`voice_upload.ts`、`audio_match.ts`、`related_playlist.ts`                                              | 上传链路已完成主替换，后续重点转为 query 细化与真实场景回归             |
 | P3   | 其余 ~350 个模块                                                                                                                | 大多数模块结构简单（仅构造 data + 调用 request），批量脚本可覆盖绝大部分 |
 
 **验收标准**：
@@ -121,7 +122,7 @@ createHash('md5').update(query.password).digest('hex')
 
 **注意事项**：
 
-- `voice_upload.ts` 中同时依赖 `xml2js` 解析 NOS 返回的 XML；替换 axios 时可一并考虑是否用更轻量的 XML 解析方案（如手动正则或 DOMParser）
+- `voice_upload.ts` 已改为内部 XML helper 解析 NOS 返回的 XML；后续重点不再是依赖替换，而是真实上传链路手工验证
 - `song-upload.ts` 使用了 `maxContentLength: Infinity`、`maxBodyLength: Infinity`，原生 `fetch` 没有这些选项，但 Bun 的 `fetch` 默认无此限制
 
 **验收标准**：
@@ -284,31 +285,28 @@ interface LoginCellphoneQuery extends ModuleQuery {
 
 ---
 
-### D-10：`xml2js` 依赖评估
+### D-10：上传链路真实场景回归
 
-**影响范围**：仅 `src/modules/voice_upload.ts` 使用
+**现状**：`xml2js` 已移除，`voice_upload.ts` 现通过内部 XML helper 解析 `UploadId` 并组装 multipart complete XML。
 
-**现状**：用于解析 NOS 分块上传返回的 XML 响应。
+**剩余工作**：
 
-**建议**：
-
-- 如果 D-03 替换 axios 时同步处理 `voice_upload.ts`，可考虑用正则或 Bun 内置能力替换 `xml2js`
-- 但 XML 解析本身风险较低，如果时间紧可保留
-- 优先级低于 D-02 / D-03
+- 在真实 NOS 上传场景下补一份人工检查清单
+- 核对大文件、多分块和异常 XML 返回的行为
+- 按需继续补上传模块的 query 类型
 
 ---
 
-### D-11：PAC 代理支持
+### D-11：PAC 代理边界
 
-**现状**：`src/core/request.ts` 第 276 行显式 `throw` 了 PAC 代理不支持的错误。
+**现状**：`src/core/request.ts` 保留了 PAC 代理不支持的显式报错。
 
-**原因**：Bun 的 `fetch` API 尚不原生支持 PAC 代理协议。
+**结论**：这已经不是“待恢复能力”，而是当前版本的有意边界。
 
-**建议**：
+**后续策略**：
 
-- 短期内保持现状，PAC 使用场景极少
-- 如后续有真实需求，可考虑在 fetch 之前手动解析 PAC 脚本，或引入第三方 PAC 解析库
-- 优先级最低
+- README、架构文档和实现已统一表述为“当前版本明确不支持 PAC 代理”
+- 除非出现真实业务需求，否则不再作为主线技术债追踪
 
 ---
 
@@ -357,14 +355,14 @@ D-12（multipart 适配）       ← 与 D-03 合并推进
     ▼
 D-01 P2 批次                 ← 文件上传类模块类型化（依赖 D-03 完成）
 D-06（代码质量清理）         ← 可与 D-01 各批次穿插进行
-D-10（xml2js 评估）          ← 低优先级
+D-10（上传链路真实回归）     ← 低优先级
     │
     ▼
 D-01 P3 批次                 ← 剩余 ~350 个模块批量类型化
 D-08（ModuleQuery 精细化）   ← 渐进式，与 D-01 同步
     │
     ▼
-D-11（PAC 代理）             ← 最低优先级，按需推进
+D-11（PAC 边界）             ← 已定稿，不再作为主线推进
 ```
 
 ---
@@ -387,7 +385,7 @@ D-11（PAC 代理）             ← 最低优先级，按需推进
 | ------------- | -------------------------------------------------------------------------- |
 | `@ts-nocheck` | 全仓库 0 个                                                                |
 | 旧依赖        | `crypto-js`、`axios`、`md5` 从 `dependencies` 中移除                       |
-| 运行时依赖    | 仅保留 `hono`、`qrcode`、`music-metadata`（业务必需），`xml2js` 视评估结果 |
+| 运行时依赖    | 仅保留 `hono`、`qrcode`、`music-metadata`（业务必需）                        |
 | 类型覆盖      | 所有模块函数签名有明确类型标注，高频模块有具体 query 接口                  |
 | 代码质量      | 无 `var`、无残留 `console.log`、无松散等值比较、无已废弃 API               |
 | 工程校验      | `tsc --noEmit` + `bun test` + `oxlint src/` 全量通过                       |

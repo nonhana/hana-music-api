@@ -17,7 +17,7 @@ import { appendResponseCookies, parseRequestCookies } from './cookies.ts'
 import { parseRequestBody } from './parse-body.ts'
 
 const DEFAULT_SERVICE_NAME = 'hana-music-api'
-const DEFAULT_SERVICE_VERSION = 'phase-5'
+const DEFAULT_SERVICE_VERSION = 'phase-6'
 
 export interface RegisteredRouteContext {
   readonly cache: MemoryResponseCache | null
@@ -33,9 +33,9 @@ export function registerBaseRoutes(app: Hono, options: CreateServerOptions = {})
 
   app.get('/', (context) => {
     return context.json({
-      message: 'hana-music-api phase 5 regression baseline is ready',
+      message: 'hana-music-api phase 6 finalization baseline is ready',
       name: serviceName,
-      phase: 5,
+      phase: 6,
       ready: true,
     })
   })
@@ -269,7 +269,7 @@ function safeDecodeURIComponent(value: string): string {
 }
 
 export function createDefaultRequestHandler(): ModuleRequest {
-  return (uri, data, options = {}) => createRequest(uri, data, options)
+  return createRequest as ModuleRequest
 }
 
 // 创建原生 Response 对象，设置 Content-Type 为 application/json; charset=utf-8

@@ -461,7 +461,7 @@ function createRequestSpy(
   readonly requestHandler: ModuleRequest
 } {
   const calls: CapturedRequest[] = []
-  const requestHandler: ModuleRequest = async (uri, data, options = {}) => {
+  const requestHandler = (async (uri, data, options = {}) => {
     calls.push({
       data,
       options,
@@ -469,7 +469,7 @@ function createRequestSpy(
     })
 
     return responder(uri, data, options)
-  }
+  }) as ModuleRequest
 
   return {
     calls,

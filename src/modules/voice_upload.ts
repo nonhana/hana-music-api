@@ -1,12 +1,23 @@
 import { randomUUID } from 'node:crypto'
-import * as xml2js from 'xml2js'
 
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { VoiceUploadQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const parser = new xml2js.Parser()
+import { createMultipartCompleteXml, parseMultipartUploadId } from './_voice-upload-xml.ts'
+
+interface TokenAllocationBody {
+  result: {
+    docId: string
+    objectKey: string
+    token: string
+  }
+}
+
+interface VoiceUploadBody {
+  data?: unknown
+}
 
 function createDupkey(): string {
   return randomUUID()
@@ -16,7 +27,7 @@ function isEnabledFlag(value: unknown): boolean {
   return Number(value) === 1
 }
 
-const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = async (query: VoiceUploadQuery, request: ModuleRequest) => {
   if (!query.songFile) {
     throw {
       status: 500,
@@ -38,7 +49,7 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
       .replace(/\s/g, '')
       .replace(/\./g, '_')
 
-  const tokenRes = await request(
+  const tokenRes = await request<TokenAllocationBody>(
     `/api/nos/token/alloc`,
     {
       bucket: 'ymusic',
@@ -60,20 +71,20 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
       'X-Nos-Meta-Content-Type': 'audio/mpeg',
     },
   })
-  const res2 = await parser.parseStringPromise(await initResponse.text())
+  const uploadId = parseMultipartUploadId(await initResponse.text())
 
-  const fileSize = query.songFile.data.length
+  const fileSize = getBinarySize(query.songFile.data)
   const blockSize = 10 * 1024 * 1024 // 10MB
   let offset = 0
   let blockIndex = 1
 
-  const etags = []
+  const etags: string[] = []
 
   while (offset < fileSize) {
-    const chunk = query.songFile.data.slice(offset, Math.min(offset + blockSize, fileSize))
+    const chunk = sliceBinaryChunk(query.songFile.data, offset, Math.min(offset + blockSize, fileSize))
 
     const partResponse = await fetch(
-      `https://ymusic.nos-hz.163yun.com/${objectKey}?partNumber=${blockIndex}&uploadId=${res2.InitiateMultipartUploadResult.UploadId[0]}`,
+      `https://ymusic.nos-hz.163yun.com/${objectKey}?partNumber=${blockIndex}&uploadId=${uploadId}`,
       {
         method: 'PUT',
         headers: {
@@ -89,15 +100,9 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
     blockIndex++
   }
 
-  let completeStr = '<CompleteMultipartUpload>'
-  for (let i = 0; i < etags.length; i++) {
-    completeStr += `<Part><PartNumber>${i + 1}</PartNumber><ETag>${etags[i]}</ETag></Part>`
-  }
-  completeStr += '</CompleteMultipartUpload>'
-
   // 文件处理
   await fetch(
-    `https://ymusic.nos-hz.163yun.com/${objectKey}?uploadId=${res2.InitiateMultipartUploadResult.UploadId[0]}`,
+    `https://ymusic.nos-hz.163yun.com/${objectKey}?uploadId=${uploadId}`,
     {
       method: 'POST',
       headers: {
@@ -105,7 +110,7 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
         'X-Nos-Meta-Content-Type': 'audio/mpeg',
         'x-nos-token': tokenRes.body.result.token,
       },
-      body: completeStr,
+      body: createMultipartCompleteXml(etags),
     },
   )
 
@@ -139,7 +144,7 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
       },
     },
   )
-  const result = await request(
+  const result = await request<VoiceUploadBody>(
     `/api/voice/workbench/voice/batch/upload/v2`,
     {
       dupkey: createDupkey(),
@@ -178,7 +183,7 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
 }
 
 export default async function migratedVoiceUpload(
-  query: LegacyModuleQuery,
+  query: VoiceUploadQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {
@@ -186,4 +191,24 @@ export default async function migratedVoiceUpload(
   } catch (error) {
     throw normalizeLegacyModuleError(error)
   }
+}
+
+function getBinarySize(data: ArrayBuffer | Buffer | Uint8Array): number {
+  if (data instanceof ArrayBuffer) {
+    return data.byteLength
+  }
+
+  return data.length
+}
+
+function sliceBinaryChunk(
+  data: ArrayBuffer | Buffer | Uint8Array,
+  start: number,
+  end: number,
+): ArrayBuffer | Buffer | Uint8Array {
+  if (data instanceof ArrayBuffer) {
+    return data.slice(start, end)
+  }
+
+  return data.slice(start, end)
 }

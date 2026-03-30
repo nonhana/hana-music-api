@@ -4,10 +4,11 @@ import { fileURLToPath } from 'node:url'
 
 import type {
   CreateRequestOptions,
+  DynamicProgrammaticApi,
   ModuleDefinition,
-  ProgrammaticApi,
   ProgrammaticModuleInvoker,
 } from '../src/types/index.ts'
+import type { ModuleRequest } from '../src/types/index.ts'
 
 import { createModuleApi, invokeModule, loadProgrammaticApi } from '../src/app/module-api.ts'
 
@@ -22,6 +23,7 @@ describe('programmatic module api', () => {
           '/api/search/get',
           {
             keyword: query.keyword,
+            keywords: query.keywords,
           },
           {
             cookie: readCookieRecord(query.cookie),
@@ -44,7 +46,7 @@ describe('programmatic module api', () => {
   test('should expose eagerly loaded module invokers', async () => {
     const api = await loadProgrammaticApi({
       moduleDefinitions,
-      requestHandler: async (_uri, _data, options = {}) => {
+      requestHandler: asModuleRequest(async (_uri, _data, options = {}) => {
         return {
           body: {
             code: 200,
@@ -53,13 +55,13 @@ describe('programmatic module api', () => {
           cookie: [],
           status: 200,
         }
-      },
+      }),
     })
 
     const search = getProgrammaticInvoker(api, 'search')
     const response = await search({
       cookie: 'MUSIC_U=test-cookie',
-      keyword: 'hello',
+      keywords: 'hello',
     })
 
     expect(response.status).toBe(200)
@@ -68,7 +70,7 @@ describe('programmatic module api', () => {
         cookie: {
           MUSIC_U: 'test-cookie',
         },
-        keyword: 'hello',
+        keywords: 'hello',
       },
       upstream: {
         body: {
@@ -86,7 +88,7 @@ describe('programmatic module api', () => {
   test('should expose lazy proxy invokers', async () => {
     const api = createModuleApi({
       moduleDefinitions,
-      requestHandler: async () => {
+      requestHandler: asModuleRequest(async () => {
         return {
           body: {
             code: 200,
@@ -94,12 +96,12 @@ describe('programmatic module api', () => {
           cookie: [],
           status: 200,
         }
-      },
+      }),
     })
 
     const search = getProgrammaticInvoker(api, 'search')
     const response = await search({
-      keyword: 'proxy-call',
+      keywords: 'proxy-call',
     })
 
     expect(response.status).toBe(200)
@@ -110,11 +112,11 @@ describe('programmatic module api', () => {
     const response = await invokeModule(
       'search',
       {
-        keyword: 'invoke',
+        keywords: 'invoke',
       },
       {
         moduleDefinitions,
-        requestHandler: async () => {
+        requestHandler: asModuleRequest(async () => {
           return {
             body: {
               code: 200,
@@ -122,7 +124,7 @@ describe('programmatic module api', () => {
             cookie: [],
             status: 200,
           }
-        },
+        }),
       },
     )
 
@@ -138,7 +140,7 @@ describe('programmatic module api', () => {
     } = {}
     const api = await loadProgrammaticApi({
       modulesDirectory: REAL_MODULES_DIRECTORY,
-      requestHandler: async (uri, data, options = {}) => {
+      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
         captured.uri = uri
         captured.data = data
         captured.options = options
@@ -153,7 +155,7 @@ describe('programmatic module api', () => {
           cookie: [],
           status: 200,
         }
-      },
+      }),
     })
 
     const search = getProgrammaticInvoker(api, 'search')
@@ -185,7 +187,7 @@ describe('programmatic module api', () => {
 })
 
 function getProgrammaticInvoker(
-  api: ProgrammaticApi,
+  api: DynamicProgrammaticApi,
   identifier: string,
 ): ProgrammaticModuleInvoker {
   const candidate = api[identifier]
@@ -210,11 +212,11 @@ function readKeywordFromBody(value: unknown): string {
   }
 
   const query = value.query
-  if (!isRecordLike(query) || typeof query.keyword !== 'string') {
-    throw new TypeError('Expected response body to contain query.keyword')
+  if (!isRecordLike(query) || typeof query.keywords !== 'string') {
+    throw new TypeError('Expected response body to contain query.keywords')
   }
 
-  return query.keyword
+  return query.keywords
 }
 
 function isRecordLike(value: unknown): value is Record<string, unknown> {
@@ -228,4 +230,18 @@ function isStringRecord(value: unknown): value is Record<string, string> {
       return typeof entry === 'string'
     })
   )
+}
+
+function asModuleRequest(
+  handler: (
+    uri: string,
+    data: Record<string, unknown>,
+    options?: CreateRequestOptions,
+  ) => Promise<{
+    body: unknown
+    cookie: string[]
+    status: number
+  }>,
+): ModuleRequest {
+  return handler as ModuleRequest
 }

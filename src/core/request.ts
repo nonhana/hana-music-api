@@ -6,6 +6,7 @@ import type {
   RequestCrypto,
   RuntimeState,
 } from '../types/index.ts'
+import type { DynamicJsonRecord, UpstreamBody } from '../types/upstream.ts'
 
 import { APP_CONF, OS_PROFILES, SPECIAL_STATUS_CODES, USER_AGENT_MAP } from './config.ts'
 import { eapi, eapiResDecrypt, linuxapi, weapi } from './crypto.ts'
@@ -25,7 +26,7 @@ export async function createRequest(
   uri: string,
   data: RequestPayload,
   options: CreateRequestOptions = {},
-): Promise<NcmApiResponse<Record<string, any>>> {
+): Promise<NcmApiResponse> {
   const headers: Record<string, string> = {
     ...options.headers,
   }
@@ -109,7 +110,7 @@ export async function createRequest(
 
   try {
     const response = await fetcher(url, createFetchInit(headers, requestBody, options.proxy))
-    const answer: NcmApiResponse<Record<string, any>> = {
+    const answer: NcmApiResponse = {
       body: {},
       cookie: getSetCookies(response.headers).map(stripCookieDomain),
       status: 500,
@@ -119,22 +120,21 @@ export async function createRequest(
       const encryptedBody = Buffer.from(await response.arrayBuffer())
         .toString('hex')
         .toUpperCase()
-      answer.body = (eapiResDecrypt(encryptedBody, headers['x-aeapi'] === 'true') ?? {}) as Record<
-        string,
-        any
-      >
+      answer.body = normalizeUpstreamBody(eapiResDecrypt(encryptedBody, headers['x-aeapi'] === 'true'))
     } else {
-      answer.body = ((await parseResponseBody(response)) ?? {}) as Record<string, any>
+      answer.body = normalizeUpstreamBody(await parseResponseBody(response))
     }
 
-    if (isRecord(answer.body) && answer.body.code !== undefined) {
-      answer.body.code = Number(answer.body.code)
-      answer.status = Number(answer.body.code)
+    const bodyRecord = isRecord(answer.body) ? (answer.body as Record<string, unknown>) : undefined
+
+    if (bodyRecord?.code !== undefined) {
+      bodyRecord.code = Number(bodyRecord.code)
+      answer.status = Number(bodyRecord.code)
     } else {
       answer.status = response.status
     }
 
-    if (isRecord(answer.body) && SPECIAL_STATUS_CODES.has(Number(answer.body.code))) {
+    if (bodyRecord && SPECIAL_STATUS_CODES.has(Number(bodyRecord.code))) {
       answer.status = 200
     }
 
@@ -152,7 +152,7 @@ export async function createRequest(
     }
 
     const message = error instanceof Error ? error.message : String(error)
-    const answer: NcmApiResponse<Record<string, any>> = {
+    const answer: NcmApiResponse<DynamicJsonRecord> = {
       body: {
         code: 502,
         msg: message,
@@ -323,7 +323,7 @@ function getSetCookies(headers: Headers): string[] {
   return splitSetCookieHeader(rawSetCookie)
 }
 
-function isNcmApiResponse(error: unknown): error is NcmApiResponse<Record<string, any>> {
+function isNcmApiResponse(error: unknown): error is NcmApiResponse {
   return (
     typeof error === 'object' &&
     error !== null &&
@@ -331,6 +331,27 @@ function isNcmApiResponse(error: unknown): error is NcmApiResponse<Record<string
     'cookie' in error &&
     'status' in error
   )
+}
+
+function normalizeUpstreamBody(value: unknown): UpstreamBody {
+  if (
+    value === null ||
+    typeof value === 'boolean' ||
+    typeof value === 'number' ||
+    typeof value === 'string'
+  ) {
+    return value
+  }
+
+  if (Array.isArray(value)) {
+    return value as UpstreamBody
+  }
+
+  if (isRecord(value)) {
+    return value as DynamicJsonRecord
+  }
+
+  return {}
 }
 
 function splitSetCookieHeader(headerValue: string): string[] {

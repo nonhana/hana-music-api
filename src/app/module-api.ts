@@ -3,9 +3,13 @@ import { fileURLToPath } from 'node:url'
 
 import type {
   CreateModuleApiOptions,
+  DynamicProgrammaticApi,
+  ModuleIdentifier,
   ModuleDefinition,
+  ModuleQueryOf,
   ModuleQuery,
   ModuleRequest,
+  ModuleResponseOf,
   NcmApiResponse,
   ProgrammaticApi,
   ProgrammaticModuleInvoker,
@@ -18,10 +22,32 @@ import { loadModuleDefinitions } from '../server/module-loader.ts'
 const DEFAULT_MODULES_DIRECTORY = resolve(dirname(fileURLToPath(import.meta.url)), '../modules')
 
 type ModuleRegistry = ReadonlyMap<string, ModuleDefinition>
+type DynamicCreateModuleApiOptions = CreateModuleApiOptions &
+  (
+    | {
+        moduleDefinitions: ModuleDefinition[]
+        modulesDirectory?: string
+      }
+    | {
+        moduleDefinitions?: ModuleDefinition[]
+        modulesDirectory: string
+      }
+  )
+type StaticCreateModuleApiOptions = Omit<CreateModuleApiOptions, 'moduleDefinitions' | 'modulesDirectory'> & {
+  moduleDefinitions?: undefined
+  modulesDirectory?: undefined
+}
 
+export async function loadProgrammaticApi(): Promise<ProgrammaticApi>
+export async function loadProgrammaticApi(
+  options: StaticCreateModuleApiOptions,
+): Promise<ProgrammaticApi>
+export async function loadProgrammaticApi(
+  options: DynamicCreateModuleApiOptions,
+): Promise<DynamicProgrammaticApi>
 export async function loadProgrammaticApi(
   options: CreateModuleApiOptions = {},
-): Promise<ProgrammaticApi> {
+): Promise<ProgrammaticApi | DynamicProgrammaticApi> {
   const registry = await loadModuleRegistry(options)
   const requestHandler = options.requestHandler ?? createDefaultModuleRequest()
 
@@ -29,10 +55,15 @@ export async function loadProgrammaticApi(
     [...registry.entries()].map(([identifier, moduleDefinition]) => {
       return [identifier, createModuleInvoker(moduleDefinition, requestHandler)]
     }),
-  ) as ProgrammaticApi
+  ) as DynamicProgrammaticApi
 }
 
-export function createModuleApi(options: CreateModuleApiOptions = {}): ProgrammaticApi {
+export function createModuleApi(): ProgrammaticApi
+export function createModuleApi(options: StaticCreateModuleApiOptions): ProgrammaticApi
+export function createModuleApi(options: DynamicCreateModuleApiOptions): DynamicProgrammaticApi
+export function createModuleApi(
+  options: CreateModuleApiOptions = {},
+): ProgrammaticApi | DynamicProgrammaticApi {
   const registryPromise = loadModuleRegistry(options)
   const requestHandler = options.requestHandler ?? createDefaultModuleRequest()
 
@@ -61,9 +92,19 @@ export function createModuleApi(options: CreateModuleApiOptions = {}): Programma
         return []
       },
     },
-  ) as ProgrammaticApi
+  ) as DynamicProgrammaticApi
 }
 
+export async function invokeModule<K extends ModuleIdentifier>(
+  identifier: K,
+  query: ModuleQueryOf<K>,
+  options?: StaticCreateModuleApiOptions,
+): Promise<ModuleResponseOf<K>>
+export async function invokeModule(
+  identifier: string,
+  query: ModuleQuery,
+  options: DynamicCreateModuleApiOptions,
+): Promise<NcmApiResponse>
 export async function invokeModule(
   identifier: string,
   query: ModuleQuery = {},
@@ -82,7 +123,7 @@ export async function invokeModule(
 export const NeteaseCloudMusicApi = createModuleApi()
 
 function createDefaultModuleRequest(): ModuleRequest {
-  return (uri, data, requestOptions = {}) => createRequest(uri, data, requestOptions)
+  return createRequest as ModuleRequest
 }
 
 function createModuleInvoker(

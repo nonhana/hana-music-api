@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import type { CreateRequestOptions, ModuleDefinition } from '../src/types/index.ts'
+import type { CreateRequestOptions, ModuleDefinition, ModuleRequest } from '../src/types/index.ts'
 import type { LegacyUploadedFile } from '../src/types/modules.ts'
 
 import { createServer } from '../src/server/create-server.ts'
@@ -25,9 +25,9 @@ describe('createServer', () => {
     expect(response.status).toBe(200)
     expect(body).toEqual({
       name: 'hana-music-api',
-      phase: 5,
+      phase: 6,
       ready: true,
-      message: 'hana-music-api phase 5 regression baseline is ready',
+      message: 'hana-music-api phase 6 finalization baseline is ready',
     })
   })
 
@@ -77,7 +77,7 @@ describe('createServer', () => {
     ]
     const app = await createServer({
       moduleDefinitions,
-      requestHandler: async (uri, data, options = {}) => {
+      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
         captured.uri = uri
         captured.data = data
         captured.options = options
@@ -89,7 +89,7 @@ describe('createServer', () => {
           cookie: [],
           status: 200,
         }
-      },
+      }),
     })
     const response = await app.request('http://localhost/search?keyword=test', {
       body: 'limit=10&cookie=MUSIC_A%3Dbody-token',
@@ -271,7 +271,7 @@ describe('createServer', () => {
     const app = await createServer({
       cacheEnabled: false,
       modulesDirectory: REAL_MODULES_DIRECTORY,
-      requestHandler: async (uri, data, options = {}) => {
+      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
         return {
           body: {
             code: 200,
@@ -282,7 +282,7 @@ describe('createServer', () => {
           cookie: [],
           status: 200,
         }
-      },
+      }),
     })
 
     const searchResponse = await app.request('http://localhost/search?keywords=phase5&type=2000')
@@ -316,7 +316,7 @@ describe('createServer', () => {
     const app = await createServer({
       cacheEnabled: false,
       modulesDirectory: REAL_MODULES_DIRECTORY,
-      requestHandler: async (uri, data, options = {}) => {
+      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
         return {
           body: {
             code: 200,
@@ -327,7 +327,7 @@ describe('createServer', () => {
           cookie: ['MUSIC_U=server-cookie; Path=/'],
           status: 200,
         }
-      },
+      }),
     })
 
     const personalFm = await app.request('http://localhost/personal_fm?cookie=MUSIC_U%3Dfm-cookie')
@@ -385,7 +385,7 @@ describe('createServer', () => {
     const app = await createServer({
       cacheEnabled: false,
       modulesDirectory: REAL_MODULES_DIRECTORY,
-      requestHandler: async (uri, data, options = {}) => {
+      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
         return {
           body: {
             code: 200,
@@ -396,7 +396,7 @@ describe('createServer', () => {
           cookie: ['MUSIC_U=account-cookie; Path=/'],
           status: 200,
         }
-      },
+      }),
     })
     const response = await app.request('http://localhost/user/account', {
       body: 'cookie=MUSIC_U%3Dbody-cookie',
@@ -480,6 +480,20 @@ function toByteLength(data: LegacyUploadedFile['data']): number {
   return data instanceof Uint8Array
     ? Buffer.from(data).byteLength
     : Buffer.from(new Uint8Array(data)).byteLength
+}
+
+function asModuleRequest(
+  handler: (
+    uri: string,
+    data: Record<string, unknown>,
+    options?: CreateRequestOptions,
+  ) => Promise<{
+    body: unknown
+    cookie: string[]
+    status: number
+  }>,
+): ModuleRequest {
+  return handler as ModuleRequest
 }
 
 describe('parseModuleRoute', () => {

@@ -1,6 +1,8 @@
-import type { CookieRecord, ModuleQuery } from './index.ts'
+import type { CookieRecord, ModuleQuery } from './runtime.ts'
+import type { DynamicJsonRecord, UnsafeUpstreamRecord } from './upstream.ts'
 
 export type LegacyModulePrimitive = boolean | number | string
+export type QueryBooleanLike = boolean | 0 | 1 | '0' | '1' | 'true' | 'false'
 
 export interface LegacyUploadedFile {
   data: ArrayBuffer | Buffer | Uint8Array
@@ -10,7 +12,7 @@ export interface LegacyUploadedFile {
   size: number
 }
 
-export type LegacyModuleValue = any
+export type LegacyModuleValue = UnsafeUpstreamRecord[string]
 export type QueryNumberLike = number | `${number}`
 export type QueryIdentifier = string | number
 export type BatchRouteKey = `/api/${string}`
@@ -154,6 +156,28 @@ export interface UploadImageQuery extends OptionCompatibleQuery {
 
 export interface UploadSongQuery extends OptionCompatibleQuery {
   songFile?: LegacyUploadedFile
+}
+
+export interface VoiceUploadQuery extends OptionCompatibleQuery {
+  autoPublish?: QueryBooleanLike
+  autoPublishText?: string
+  categoryId?: QueryIdentifier
+  composedSongs?: string
+  coverImgId?: QueryIdentifier
+  description?: string
+  orderNo?: QueryNumberLike
+  privacy?: QueryBooleanLike
+  publishTime?: QueryNumberLike
+  secondCategoryId?: QueryIdentifier
+  songFile?: LegacyUploadedFile
+  songName?: string
+  voiceListId?: QueryIdentifier
+}
+
+export interface ApiQuery extends OptionCompatibleQuery {
+  crypto?: string
+  data?: DynamicJsonRecord | string
+  uri?: string
 }
 
 export interface RegisterAnonymousQuery extends OptionCompatibleQuery {}

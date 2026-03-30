@@ -1,37 +1,39 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { ApiQuery } from '../types/modules.ts'
+import type { DynamicJsonRecord } from '../types/upstream.ts'
 
 import { createOption } from '../core/options.ts'
-import { cookieToJson } from '../core/utils.ts'
+import { cookieToJson, isRecord } from '../core/utils.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: ApiQuery, request: ModuleRequest) => {
   const uri = String(query.uri ?? '')
-  let data: Record<string, any> = {}
+  let data: DynamicJsonRecord = {}
   try {
     data =
       typeof query.data === 'string'
-        ? (JSON.parse(query.data) as Record<string, any>)
-        : ((query.data as Record<string, any> | undefined) ?? {})
+        ? readDynamicJsonRecord(JSON.parse(query.data))
+        : readDynamicJsonRecord(query.data)
     if (typeof data.cookie === 'string') {
-      data.cookie = cookieToJson(data.cookie)
-      query.cookie = data.cookie
+      const normalizedCookie = cookieToJson(data.cookie)
+      data.cookie = normalizedCookie
+      query.cookie = normalizedCookie
     }
   } catch {
     data = {}
   }
 
-  const crypto = query.crypto || ''
+  const crypto = readRequestCrypto(query.crypto)
 
   const res = request(
     uri,
     data,
-    createOption(query, String(crypto) as '' | 'api' | 'eapi' | 'linuxapi' | 'weapi'),
+    createOption(query, crypto),
   )
   return res
 }
 
 export default async function migratedApi(
-  query: LegacyModuleQuery,
+  query: ApiQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {
@@ -39,4 +41,26 @@ export default async function migratedApi(
   } catch (error) {
     throw normalizeLegacyModuleError(error)
   }
+}
+
+function readDynamicJsonRecord(value: unknown): DynamicJsonRecord {
+  if (isRecord(value)) {
+    return value
+  }
+
+  return {}
+}
+
+function readRequestCrypto(value: unknown): '' | 'api' | 'eapi' | 'linuxapi' | 'weapi' {
+  if (
+    value === '' ||
+    value === 'api' ||
+    value === 'eapi' ||
+    value === 'linuxapi' ||
+    value === 'weapi'
+  ) {
+    return value
+  }
+
+  return ''
 }

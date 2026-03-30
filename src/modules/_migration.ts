@@ -1,4 +1,5 @@
 import type { NcmApiResponse } from '../types/index.ts'
+import type { UpstreamBody } from '../types/upstream.ts'
 
 function isRecordLike(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
@@ -28,7 +29,7 @@ function toResponseLike(value: unknown): NcmApiResponse | null {
   }
 
   return {
-    body: value.body,
+    body: normalizeBody(value.body),
     cookie: normalizeCookieList(value.cookie),
     status: normalizeStatusCode(value.status),
   }
@@ -44,7 +45,7 @@ export function normalizeLegacyModuleResponse(value: unknown): NcmApiResponse {
   }
 
   return {
-    body: value,
+    body: normalizeBody(value),
     cookie: [],
     status: 200,
   }
@@ -55,4 +56,22 @@ export function normalizeLegacyModuleResponse(value: unknown): NcmApiResponse {
  */
 export function normalizeLegacyModuleError(error: unknown): unknown {
   return toResponseLike(error) ?? error
+}
+
+function normalizeBody(value: unknown): UpstreamBody {
+  if (
+    value === null ||
+    typeof value === 'boolean' ||
+    typeof value === 'number' ||
+    typeof value === 'string' ||
+    Array.isArray(value)
+  ) {
+    return value
+  }
+
+  if (isRecordLike(value)) {
+    return value
+  }
+
+  return {}
 }
