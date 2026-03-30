@@ -5,6 +5,7 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import type { CreateRequestOptions, ModuleDefinition } from '../src/types/index.ts'
+import type { LegacyUploadedFile } from '../src/types/modules.ts'
 
 import { createServer } from '../src/server/create-server.ts'
 import { parseModuleRoute } from '../src/server/module-loader.ts'
@@ -114,6 +115,62 @@ describe('createServer', () => {
       limit: '10',
     })
     expect(response.headers.get('set-cookie')).toContain('MUSIC_U=server-cookie; Path=/')
+  })
+
+  test('should normalize multipart uploads into legacy file objects', async () => {
+    const moduleDefinitions: ModuleDefinition[] = [
+      {
+        identifier: 'upload-probe',
+        module: async (query) => {
+          const songFile = readLegacyUploadedFile(query, 'songFile')
+
+          return {
+            body: {
+              file: {
+                byteLength: toByteLength(songFile.data),
+                hasMd5: 'md5' in songFile,
+                mimetype: songFile.mimetype,
+                name: songFile.name,
+                size: songFile.size,
+              },
+              title: query.title,
+            },
+            cookie: [],
+            status: 200,
+          }
+        },
+        route: '/upload-probe',
+      },
+    ]
+    const app = await createServer({
+      moduleDefinitions,
+    })
+    const formData = new FormData()
+    formData.set('title', 'phase5 upload')
+    formData.set(
+      'songFile',
+      new File([Uint8Array.from([1, 2, 3, 4])], 'demo.mp3', {
+        type: 'audio/mpeg',
+      }),
+    )
+
+    const response = await app.request('http://localhost/upload-probe', {
+      body: formData,
+      method: 'POST',
+    })
+    const body = await readJson(response)
+
+    expect(response.status).toBe(200)
+    expect(body).toEqual({
+      file: {
+        byteLength: 4,
+        hasMd5: false,
+        mimetype: 'audio/mpeg',
+        name: 'demo.mp3',
+        size: 4,
+      },
+      title: 'phase5 upload',
+    })
   })
 
   test('should append secure cookie attributes for https requests', async () => {
@@ -393,6 +450,36 @@ function isModuleQueryBody(value: unknown): value is { readonly query: Record<st
     typeof value.query === 'object' &&
     value.query !== null
   )
+}
+
+function readLegacyUploadedFile(query: Record<string, unknown>, key: string): LegacyUploadedFile {
+  const value = query[key]
+  if (!isLegacyUploadedFile(value)) {
+    throw new TypeError(`Expected "${key}" to be normalized as a legacy uploaded file`)
+  }
+
+  return value
+}
+
+function isLegacyUploadedFile(value: unknown): value is LegacyUploadedFile {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'data' in value &&
+    'mimetype' in value &&
+    'name' in value &&
+    'size' in value
+  )
+}
+
+function toByteLength(data: LegacyUploadedFile['data']): number {
+  if (Buffer.isBuffer(data)) {
+    return data.byteLength
+  }
+
+  return data instanceof Uint8Array
+    ? Buffer.from(data).byteLength
+    : Buffer.from(new Uint8Array(data)).byteLength
 }
 
 describe('parseModuleRoute', () => {

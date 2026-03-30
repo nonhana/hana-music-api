@@ -1,4 +1,4 @@
-import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
+import { access, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import { basename, dirname, extname, resolve } from 'node:path'
 
 const WORKSPACE_ROOT = resolve(import.meta.dir, '..')
@@ -10,12 +10,14 @@ const OUTPUT_PLUGINS_DIRECTORY = resolve(WORKSPACE_ROOT, 'src', 'plugins')
 const PACKAGE_JSON_PATH = resolve(WORKSPACE_ROOT, 'package.json')
 const MODULE_MIGRATION_IMPORT =
   "import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'"
-const AUTO_GENERATED_HEADER = `// @ts-nocheck
-// 此文件由 \`scripts/migrate-modules.ts\` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 \`@ts-nocheck\` 并收紧类型。
+const MODULE_TYPE_IMPORTS = `import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { LegacyModuleQuery } from '../types/modules.ts'`
+const PLUGIN_TYPE_IMPORTS = `import type { ModuleRequest } from '../types/index.ts'
+import type { LegacyModuleQuery } from '../types/modules.ts'`
+const AUTO_GENERATED_HEADER = `// 此文件由 \`scripts/migrate-modules.ts\` 自动生成。
+// 它的职责是保留旧模块行为，并以最小类型边界为后续人工收敛留出空间。
 `
-const AUTO_GENERATED_PLUGIN_HEADER = `// @ts-nocheck
-// 此文件由 \`scripts/migrate-modules.ts\` 自动生成，作为 Phase 3 的兼容支撑插件。
+const AUTO_GENERATED_PLUGIN_HEADER = `// 此文件由 \`scripts/migrate-modules.ts\` 自动生成，作为兼容支撑插件模板。
 `
 
 interface PackageManifest {
@@ -28,6 +30,7 @@ interface GeneratedArtifact {
 }
 
 async function main(): Promise<void> {
+  const forceRegeneration = Bun.argv.includes('--force')
   const packageJson = await readPackageJson()
   const legacyModuleFiles = await collectFiles(LEGACY_MODULES_DIRECTORY, '.js')
   const legacyPluginFiles = await collectFiles(LEGACY_PLUGINS_DIRECTORY, '.js')
@@ -39,7 +42,9 @@ async function main(): Promise<void> {
     recursive: true,
   })
 
-  await cleanupGeneratedModuleFiles()
+  if (forceRegeneration) {
+    await cleanupGeneratedModuleFiles()
+  }
 
   const generatedModules = await Promise.all(
     legacyModuleFiles.map((filePath) => {
@@ -55,17 +60,22 @@ async function main(): Promise<void> {
       .map((filePath) => createGeneratedPluginArtifact(filePath)),
   )
 
-  await Promise.all(
-    [...generatedModules, ...generatedPlugins].map(async (artifact) => {
-      await mkdir(dirname(artifact.outputPath), {
-        recursive: true,
-      })
-      await writeFile(artifact.outputPath, artifact.source, 'utf8')
-    }),
+  const writeResults = await Promise.all(
+    [...generatedModules, ...generatedPlugins].map((artifact) =>
+      writeGeneratedArtifact(artifact, forceRegeneration),
+    ),
   )
+  const writtenCount = writeResults.filter(Boolean).length
+  const skippedCount = writeResults.length - writtenCount
 
   console.log(
-    `Migrated ${generatedModules.length} modules and ${generatedPlugins.length} supporting plugins.`,
+    [
+      `Migrated ${writtenCount} artifacts`,
+      skippedCount > 0 ? `skipped ${skippedCount} existing artifacts` : null,
+      forceRegeneration ? '(forced regeneration enabled)' : '(safe mode)',
+    ]
+      .filter(Boolean)
+      .join(', '),
   )
 }
 
@@ -140,6 +150,22 @@ async function cleanupGeneratedModuleFiles(): Promise<void> {
   )
 }
 
+async function writeGeneratedArtifact(
+  artifact: GeneratedArtifact,
+  forceRegeneration: boolean,
+): Promise<boolean> {
+  if (!forceRegeneration && (await pathExists(artifact.outputPath))) {
+    return false
+  }
+
+  await mkdir(dirname(artifact.outputPath), {
+    recursive: true,
+  })
+  await writeFile(artifact.outputPath, artifact.source, 'utf8')
+
+  return true
+}
+
 async function createGeneratedModuleArtifact(
   filePath: string,
   packageVersion: string,
@@ -153,12 +179,10 @@ async function createGeneratedModuleArtifact(
 
 async function createGeneratedPluginArtifact(filePath: string): Promise<GeneratedArtifact> {
   const source = await readFile(filePath, 'utf8')
+  const normalizedFileName = normalizePluginFileName(basename(filePath, '.js'))
   return {
-    outputPath: resolve(
-      OUTPUT_PLUGINS_DIRECTORY,
-      `${normalizePluginFileName(basename(filePath, '.js'))}.ts`,
-    ),
-    source: transformLegacyPluginSource(source),
+    outputPath: resolve(OUTPUT_PLUGINS_DIRECTORY, `${normalizedFileName}.ts`),
+    source: transformLegacyPluginSource(source, normalizedFileName),
   }
 }
 
@@ -175,14 +199,19 @@ function transformLegacyModuleSource(
   })
 
   transformed = transformed.replace(/module\.exports\s*=\s*/u, `const legacyModule = `)
+  transformed = annotateLegacyFunctionParameters(transformed, 'legacyModule')
 
   transformed = transformed.trimEnd()
 
   return `${AUTO_GENERATED_HEADER}
+${MODULE_TYPE_IMPORTS}
 ${MODULE_MIGRATION_IMPORT}
 ${transformed}
 
-export default async function migrated${toPascalCase(fileName)}(query, request) {
+export default async function migrated${toPascalCase(fileName)}(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {
@@ -192,7 +221,7 @@ export default async function migrated${toPascalCase(fileName)}(query, request) 
 `
 }
 
-function transformLegacyPluginSource(originalSource: string): string {
+function transformLegacyPluginSource(originalSource: string, fileName: string): string {
   let transformed = originalSource.replaceAll('\r\n', '\n')
 
   transformed = applyCommonReplacements(transformed, {
@@ -200,11 +229,20 @@ function transformLegacyPluginSource(originalSource: string): string {
     packageVersion: '0.0.0',
   })
 
-  transformed = transformed.replace(/module\.exports\s*=\s*/u, 'export default ')
+  transformed = transformed.replace(/module\.exports\s*=\s*/u, 'const legacyPlugin = ')
+  transformed = annotateLegacyFunctionParameters(transformed, 'legacyPlugin')
   transformed = transformed.trimEnd()
 
   return `${AUTO_GENERATED_PLUGIN_HEADER}
+${PLUGIN_TYPE_IMPORTS}
 ${transformed}
+
+export default function migrated${toPascalCase(fileName)}Plugin(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+) {
+  return legacyPlugin(query, request)
+}
 `
 }
 
@@ -312,6 +350,35 @@ function normalizePluginFileName(fileName: string): string {
   return fileName
 }
 
+function annotateLegacyFunctionParameters(source: string, bindingName: string): string {
+  const patterns: readonly [RegExp, string][] = [
+    [
+      new RegExp(`const ${bindingName} = async \\(query, request\\) =>`, 'u'),
+      `const ${bindingName} = async (query: LegacyModuleQuery, request: ModuleRequest) =>`,
+    ],
+    [
+      new RegExp(`const ${bindingName} = \\(query, request\\) =>`, 'u'),
+      `const ${bindingName} = (query: LegacyModuleQuery, request: ModuleRequest) =>`,
+    ],
+    [
+      new RegExp(`const ${bindingName} = async function\\s*\\(query, request\\)`, 'u'),
+      `const ${bindingName} = async function (query: LegacyModuleQuery, request: ModuleRequest)`,
+    ],
+    [
+      new RegExp(`const ${bindingName} = function\\s*\\(query, request\\)`, 'u'),
+      `const ${bindingName} = function (query: LegacyModuleQuery, request: ModuleRequest)`,
+    ],
+  ]
+
+  let transformed = source
+
+  for (const [pattern, replacement] of patterns) {
+    transformed = transformed.replace(pattern, replacement)
+  }
+
+  return transformed
+}
+
 function toPascalCase(fileName: string): string {
   return basename(fileName, extname(fileName))
     .split(/[_-]/u)
@@ -320,4 +387,13 @@ function toPascalCase(fileName: string): string {
     .join('')
 }
 
-void main()
+async function pathExists(filePath: string): Promise<boolean> {
+  try {
+    await access(filePath)
+    return true
+  } catch {
+    return false
+  }
+}
+
+await main()

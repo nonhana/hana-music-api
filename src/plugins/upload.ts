@@ -1,9 +1,14 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成，作为 Phase 3 的兼容支撑插件。
+import type { ModuleRequest } from '../types/index.ts'
+import type { UploadImageQuery } from '../types/modules.ts'
 
-import axios from 'axios'
 import { createOption } from '../core/options.ts'
-export default async (query, request) => {
+
+export default async function uploadPlugin(query: UploadImageQuery, request: ModuleRequest) {
+  if (!query.imgFile) {
+    throw new TypeError('imgFile is required for upload plugin')
+  }
+  const imageBuffer = toBuffer(query.imgFile.data)
+
   const data = {
     bucket: 'yyimgs',
     ext: 'jpg',
@@ -14,27 +19,29 @@ export default async (query, request) => {
     type: 'other',
   }
   //   获取key和token
-  const res = await request(
-    `/api/nos/token/alloc`,
-    data,
-    createOption(query, 'weapi'),
-  )
-  //   上传图片
-  const res2 = await axios({
-    method: 'post',
-    url: `https://nosup-hz1.127.net/yyimgs/${res.body.result.objectKey}?offset=0&complete=true&version=1.0`,
-    headers: {
-      'x-nos-token': res.body.result.token,
-      'Content-Type': 'image/jpeg',
+  const res = await request(`/api/nos/token/alloc`, data, createOption(query, 'weapi'))
+  await fetch(
+    `https://nosup-hz1.127.net/yyimgs/${String(res.body.result.objectKey)}?offset=0&complete=true&version=1.0`,
+    {
+      method: 'POST',
+      headers: {
+        'x-nos-token': String(res.body.result.token),
+        'Content-Type': 'image/jpeg',
+      },
+      body: imageBuffer,
     },
-    data: query.imgFile.data,
-  })
+  )
 
   return {
-    // ...res.body.result,
-    // ...res2.data,
-    // ...res3.body,
-    url_pre: 'https://p1.music.126.net/' + res.body.result.objectKey,
+    url_pre: 'https://p1.music.126.net/' + String(res.body.result.objectKey),
     imgId: res.body.result.docId,
   }
+}
+
+function toBuffer(data: ArrayBuffer | Buffer | Uint8Array): Buffer {
+  if (Buffer.isBuffer(data)) {
+    return data
+  }
+
+  return data instanceof Uint8Array ? Buffer.from(data) : Buffer.from(new Uint8Array(data))
 }

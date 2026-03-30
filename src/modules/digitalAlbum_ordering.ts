@@ -1,12 +1,10 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
-
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { LegacyModuleQuery } from '../types/modules.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 购买数字专辑
 
 import { createOption } from '../core/options.ts'
-const legacyModule = (query, request) => {
+const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     business: 'Album',
     paymentMethod: query.payment,
@@ -26,7 +24,7 @@ const legacyModule = (query, request) => {
   )
 }
 
-export default async function migratedDigitalAlbumOrdering(query, request) {
+export default async function migratedDigitalAlbumOrdering(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

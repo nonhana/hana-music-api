@@ -23,6 +23,9 @@ bun run test
 bun run test:phase5
 bun run typecheck
 bun run lint
+bun run lint:full
+bun run lint:fix
+bun run fmt
 bun run fmt:check
 bun run migrate:modules
 ```
@@ -49,8 +52,9 @@ bun run migrate:modules
 已知边界：
 
 - PAC 代理仍未恢复
-- `multipart/form-data` 虽可解析，但尚未逐项对齐旧版 `express-fileupload`
-- `src/modules` 里的大部分文件仍保留迁移期 `@ts-nocheck`，默认 `lint` 当前只覆盖入口、核心层、服务层与测试目录；全仓库扫描可使用 `bun run lint:full`
+- `multipart/form-data` 已补齐旧上传对象兼容层，并已有服务层回归覆盖；但仍建议在真实上传场景下继续做手工回归
+- 当前仓库已经移除 `src/` 内全部 `@ts-nocheck`；`bun run lint` 和 `bun run lint:full` 都可直接用于全量审计
+- 高频模块的 query 类型已开始收紧，但长尾模块仍以兼容型边界为主，后续会继续渐进细化
 
 ## 程序化调用
 

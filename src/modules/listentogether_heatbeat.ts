@@ -1,12 +1,10 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
-
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { LegacyModuleQuery } from '../types/modules.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 一起听 发送心跳
 
 import { createOption } from '../core/options.ts'
-const legacyModule = (query, request) => {
+const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     roomId: query.roomId,
     songId: query.songId,
@@ -16,7 +14,7 @@ const legacyModule = (query, request) => {
   return request(`/api/listen/together/heartbeat`, data, createOption(query))
 }
 
-export default async function migratedListentogetherHeatbeat(query, request) {
+export default async function migratedListentogetherHeatbeat(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

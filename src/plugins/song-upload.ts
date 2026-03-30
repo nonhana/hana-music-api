@@ -1,15 +1,21 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成，作为 Phase 3 的兼容支撑插件。
+import type { ModuleRequest } from '../types/index.ts'
+import type { UploadSongQuery } from '../types/modules.ts'
 
-import axios from 'axios'
 import { createOption } from '../core/options.ts'
-export default async (query, request) => {
+
+interface LbsResponse {
+  upload?: string[]
+}
+
+export default async function uploadSongPlugin(query: UploadSongQuery, request: ModuleRequest) {
+  if (!query.songFile) {
+    throw new TypeError('songFile is required for song upload plugin')
+  }
+  const songBuffer = toBuffer(query.songFile.data)
+
   let ext = 'mp3'
-  // if (query.songFile.name.indexOf('flac') > -1) {
-  //   ext = 'flac'
-  // }
   if (query.songFile.name.includes('.')) {
-    ext = query.songFile.name.split('.').pop()
+    ext = query.songFile.name.split('.').pop() ?? ext
   }
   const filename = query.songFile.name
     .replace('.' + ext, '')
@@ -33,31 +39,39 @@ export default async (query, request) => {
 
   // 上传
   const objectKey = tokenRes.body.result.objectKey.replace('/', '%2F')
-  try {
-    const lbs = (
-      await axios({
-        method: 'get',
-        url: `https://wanproxy.127.net/lbs?version=1.0&bucketname=${bucket}`,
-      })
-    ).data
-    await axios({
-      method: 'post',
-      url: `${lbs.upload[0]}/${bucket}/${objectKey}?offset=0&complete=true&version=1.0`,
+  const lbs = (await (
+    await fetch(`https://wanproxy.127.net/lbs?version=1.0&bucketname=${bucket}`)
+  ).json()) as LbsResponse
+  const uploadBase = lbs.upload?.[0]
+  if (!uploadBase) {
+    throw new TypeError('NOS LBS upload endpoint is missing')
+  }
+
+  const response = await fetch(
+    `${uploadBase}/${bucket}/${objectKey}?offset=0&complete=true&version=1.0`,
+    {
+      method: 'POST',
       headers: {
-        'x-nos-token': tokenRes.body.result.token,
-        'Content-MD5': query.songFile.md5,
+        'x-nos-token': String(tokenRes.body.result.token),
+        'Content-MD5': String(query.songFile.md5 ?? ''),
         'Content-Type': 'audio/mpeg',
         'Content-Length': String(query.songFile.size),
       },
-      data: query.songFile.data,
-      maxContentLength: Infinity,
-      maxBodyLength: Infinity,
-    })
-  } catch (error) {
-    console.log('error', error.response)
-    throw error.response
+      body: songBuffer,
+    },
+  )
+  if (!response.ok) {
+    throw new Error(`song upload failed with status ${response.status}`)
   }
   return {
     ...tokenRes,
   }
+}
+
+function toBuffer(data: ArrayBuffer | Buffer | Uint8Array): Buffer {
+  if (Buffer.isBuffer(data)) {
+    return data
+  }
+
+  return data instanceof Uint8Array ? Buffer.from(data) : Buffer.from(new Uint8Array(data))
 }

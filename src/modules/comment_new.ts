@@ -1,17 +1,15 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { LegacyModuleQuery } from '../types/modules.ts'
 
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 import { RESOURCE_TYPE_MAP as resourceTypeMap } from '../core/config.ts'
-// 评论
-
 import { createOption } from '../core/options.ts'
-const legacyModule = (query, request) => {
-  query.type = resourceTypeMap[query.type]
-  const threadId = query.type + query.id
-  const pageSize = query.pageSize || 20
-  const pageNo = query.pageNo || 1
+// 评论
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+  query.type = resourceTypeMap[Number(query.type ?? 0) as keyof typeof resourceTypeMap]
+  const threadId = `${String(query.type ?? '')}${String(query.id ?? '')}`
+  const pageSize = Number(query.pageSize ?? 20) || 20
+  const pageNo = Number(query.pageNo ?? 1) || 1
   let sortType = Number(query.sortType) || 99
   if (sortType === 1) {
     sortType = 99
@@ -19,10 +17,10 @@ const legacyModule = (query, request) => {
   let cursor = ''
   switch (sortType) {
     case 99:
-      cursor = (pageNo - 1) * pageSize
+      cursor = String((pageNo - 1) * pageSize)
       break
     case 2:
-      cursor = 'normalHot#' + (pageNo - 1) * pageSize
+      cursor = 'normalHot#' + String((pageNo - 1) * pageSize)
       break
     case 3:
       cursor = query.cursor || '0'
@@ -41,7 +39,10 @@ const legacyModule = (query, request) => {
   return request(`/api/v2/resource/comments`, data, createOption(query))
 }
 
-export default async function migratedCommentNew(query, request) {
+export default async function migratedCommentNew(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

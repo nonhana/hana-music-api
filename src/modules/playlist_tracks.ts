@@ -1,14 +1,12 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
-
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 收藏单曲到歌单 从歌单删除歌曲
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-const legacyModule = async (query, request) => {
+// 收藏单曲到歌单 从歌单删除歌曲
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
   //
-  const tracks = query.tracks.split(',')
+  const tracks = String(query.tracks ?? '').split(',')
   const data = {
     op: query.op, // del,add
     pid: query.pid, // 歌单id
@@ -17,11 +15,7 @@ const legacyModule = async (query, request) => {
   }
 
   try {
-    const res = await request(
-      `/api/playlist/manipulate/tracks`,
-      data,
-      createOption(query),
-    )
+    const res = await request(`/api/playlist/manipulate/tracks`, data, createOption(query))
     return {
       status: 200,
       body: {
@@ -29,7 +23,15 @@ const legacyModule = async (query, request) => {
       },
     }
   } catch (error) {
-    if (error.body.code === 512) {
+    if (
+      typeof error === 'object' &&
+      error !== null &&
+      'body' in error &&
+      typeof error.body === 'object' &&
+      error.body !== null &&
+      'code' in error.body &&
+      error.body.code === 512
+    ) {
       return request(
         `/api/playlist/manipulate/tracks`,
         {
@@ -43,13 +45,19 @@ const legacyModule = async (query, request) => {
     } else {
       return {
         status: 200,
-        body: error.body,
+        body:
+          typeof error === 'object' && error !== null && 'body' in error
+            ? (error.body as Record<string, unknown>)
+            : { code: 500, msg: String(error) },
       }
     }
   }
 }
 
-export default async function migratedPlaylistTracks(query, request) {
+export default async function migratedPlaylistTracks(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

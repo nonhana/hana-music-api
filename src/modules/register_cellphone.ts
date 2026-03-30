@@ -1,17 +1,16 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
-
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 注册账号
-import * as CryptoJS from 'crypto-js'
+import { createHash } from 'node:crypto'
+
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { RegisterCellphoneQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-const legacyModule = (query, request) => {
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+const legacyModule = (query: RegisterCellphoneQuery, request: ModuleRequest) => {
   const data = {
     captcha: query.captcha,
     phone: query.phone,
-    password: CryptoJS.MD5(query.password).toString(),
+    password: createHash('md5').update(String(query.password)).digest('hex'),
     nickname: query.nickname,
     countrycode: query.countrycode || '86',
     force: 'false',
@@ -19,7 +18,10 @@ const legacyModule = (query, request) => {
   return request(`/api/w/register/cellphone`, data, createOption(query))
 }
 
-export default async function migratedRegisterCellphone(query, request) {
+export default async function migratedRegisterCellphone(
+  query: RegisterCellphoneQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

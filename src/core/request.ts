@@ -25,7 +25,7 @@ export async function createRequest(
   uri: string,
   data: RequestPayload,
   options: CreateRequestOptions = {},
-): Promise<NcmApiResponse> {
+): Promise<NcmApiResponse<Record<string, any>>> {
   const headers: Record<string, string> = {
     ...options.headers,
   }
@@ -96,20 +96,20 @@ export async function createRequest(
     }
 
     default: {
-      return Promise.reject({
+      throw {
         body: {
           code: 500,
           msg: `Unknown crypto mode: ${crypto}`,
         },
         cookie: [],
         status: 500,
-      } satisfies NcmApiResponse)
+      } satisfies NcmApiResponse
     }
   }
 
   try {
     const response = await fetcher(url, createFetchInit(headers, requestBody, options.proxy))
-    const answer: NcmApiResponse = {
+    const answer: NcmApiResponse<Record<string, any>> = {
       body: {},
       cookie: getSetCookies(response.headers).map(stripCookieDomain),
       status: 500,
@@ -119,9 +119,12 @@ export async function createRequest(
       const encryptedBody = Buffer.from(await response.arrayBuffer())
         .toString('hex')
         .toUpperCase()
-      answer.body = eapiResDecrypt(encryptedBody, headers['x-aeapi'] === 'true')
+      answer.body = (eapiResDecrypt(encryptedBody, headers['x-aeapi'] === 'true') ?? {}) as Record<
+        string,
+        any
+      >
     } else {
-      answer.body = await parseResponseBody(response)
+      answer.body = ((await parseResponseBody(response)) ?? {}) as Record<string, any>
     }
 
     if (isRecord(answer.body) && answer.body.code !== undefined) {
@@ -141,11 +144,15 @@ export async function createRequest(
       return answer
     }
 
-    console.log('[ERR]', answer)
-    return Promise.reject(answer)
+    console.error('[ERR]', answer)
+    throw answer
   } catch (error) {
+    if (isNcmApiResponse(error)) {
+      throw error
+    }
+
     const message = error instanceof Error ? error.message : String(error)
-    const answer: NcmApiResponse = {
+    const answer: NcmApiResponse<Record<string, any>> = {
       body: {
         code: 502,
         msg: message,
@@ -153,8 +160,8 @@ export async function createRequest(
       cookie: [],
       status: 502,
     }
-    console.log('[ERR]', answer)
-    return Promise.reject(answer)
+    console.error('[ERR]', answer)
+    throw answer
   }
 }
 
@@ -314,6 +321,16 @@ function getSetCookies(headers: Headers): string[] {
   }
 
   return splitSetCookieHeader(rawSetCookie)
+}
+
+function isNcmApiResponse(error: unknown): error is NcmApiResponse<Record<string, any>> {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'body' in error &&
+    'cookie' in error &&
+    'status' in error
+  )
 }
 
 function splitSetCookieHeader(headerValue: string): string[] {

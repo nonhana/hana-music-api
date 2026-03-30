@@ -1,44 +1,60 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 相关歌单
-import axios from 'axios'
-import { createOption } from '../core/options.ts'
-const legacyModule = async (query, request) => {
-  const res = await axios({
-    method: 'GET',
-    url: `https://music.163.com/playlist?id=${query.id}`,
-  })
+const legacyModule = async (query: LegacyModuleQuery) => {
+  const response = await fetch(`https://music.163.com/playlist?id=${query.id}`)
+  const html = await response.text()
   try {
     const pattern =
       /<div class="cver u-cover u-cover-3">[\s\S]*?<img src="([^"]+)">[\s\S]*?<a class="sname f-fs1 s-fc0" href="([^"]+)"[^>]*>([^<]+?)<\/a>[\s\S]*?<a class="nm nm f-thide s-fc3" href="([^"]+)"[^>]*>([^<]+?)<\/a>/g
-    let result,
-      playlists = []
-    while ((result = pattern.exec(res.data)) != null) {
+    let result: RegExpExecArray | null
+    const playlists: Array<{
+      coverImgUrl: string
+      creator: { nickname: string; userId: string }
+      id: string
+      name: string
+    }> = []
+    while ((result = pattern.exec(html)) != null) {
+      const [
+        ,
+        coverImgUrl = '',
+        playlistHref = '',
+        playlistName = '',
+        userHref = '',
+        nickname = '',
+      ] = result
       playlists.push({
         creator: {
-          userId: result[4].slice('/user/home?id='.length),
-          nickname: result[5],
+          userId: userHref.slice('/user/home?id='.length),
+          nickname,
         },
-        coverImgUrl: result[1].slice(0, -'?param=50y50'.length),
-        name: result[3],
-        id: result[2].slice('/playlist?id='.length),
+        coverImgUrl: coverImgUrl.replace(/\?param=50y50$/u, ''),
+        name: playlistName,
+        id: playlistHref.slice('/playlist?id='.length),
       })
     }
-    res.body = { code: 200, playlists: playlists }
-    return res
+    return {
+      status: 200,
+      body: { code: 200, playlists },
+      cookie: [],
+    }
   } catch (err) {
-    res.status = 500
-    res.body = { code: 500, msg: err.stack }
-    return Promise.reject(res)
+    throw {
+      status: 500,
+      body: { code: 500, msg: err instanceof Error ? err.stack || err.message : String(err) },
+      cookie: [],
+    }
   }
 }
 
-export default async function migratedRelatedPlaylist(query, request) {
+export default async function migratedRelatedPlaylist(
+  query: LegacyModuleQuery,
+  _request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
+    return normalizeLegacyModuleResponse(await legacyModule(query))
   } catch (error) {
     throw normalizeLegacyModuleError(error)
   }

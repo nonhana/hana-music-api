@@ -1,4 +1,9 @@
-import type { CookieRecord, CreateRequestOptions, RequestCrypto } from '../types/index.ts'
+import type {
+  CookieRecord,
+  CreateRequestOptions,
+  ModuleQuery,
+  RequestCrypto,
+} from '../types/index.ts'
 
 interface OptionSource {
   readonly checkToken?: unknown
@@ -16,7 +21,7 @@ interface OptionSource {
  * 这里尽量保持旧项目的字段语义，避免过早引入额外的标准化逻辑。
  */
 export function createOption(
-  query: OptionSource,
+  query: ModuleQuery & OptionSource,
   crypto: RequestCrypto = '',
 ): CreateRequestOptions {
   return {

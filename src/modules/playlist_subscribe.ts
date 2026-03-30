@@ -1,24 +1,25 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { LegacyModuleQuery } from '../types/modules.ts'
 
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 收藏与取消收藏歌单
 import { APP_CONF } from '../core/config.ts'
 import { createOption } from '../core/options.ts'
-const legacyModule = (query, request) => {
-  const path = query.t == 1 ? 'subscribe' : 'unsubscribe'
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+  const shouldSubscribe = Number(query.t) === 1
+  const path = shouldSubscribe ? 'subscribe' : 'unsubscribe'
   const data = {
     id: query.id,
-    ...(query.t === 1
-      ? { checkToken: query.checkToken || APP_CONF.checkToken }
-      : {}),
+    ...(shouldSubscribe ? { checkToken: query.checkToken || APP_CONF.checkToken } : {}),
   }
   query.checkToken = true // 强制开启checkToken
   return request(`/api/playlist/${path}`, data, createOption(query, 'eapi'))
 }
 
-export default async function migratedPlaylistSubscribe(query, request) {
+export default async function migratedPlaylistSubscribe(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

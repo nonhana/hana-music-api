@@ -1,13 +1,11 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
-
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 搜索
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { SearchQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-const legacyModule = (query, request) => {
-  if (query.type && query.type == '2000') {
+// 搜索
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+const legacyModule = (query: SearchQuery, request: ModuleRequest) => {
+  if (String(query.type ?? '') === '2000') {
     const data = {
       keyword: query.keywords,
       scene: 'normal',
@@ -25,7 +23,10 @@ const legacyModule = (query, request) => {
   return request(`/api/search/get`, data, createOption(query))
 }
 
-export default async function migratedSearch(query, request) {
+export default async function migratedSearch(
+  query: SearchQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

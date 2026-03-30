@@ -44,7 +44,7 @@ export async function startServer(options: StartServerOptions = {}): Promise<Sta
   const url = new URL(`http://${exposedHostname}:${resolvedOptions.port}`)
 
   if (!resolvedOptions.silent) {
-    console.log(`[hana-music-api] listening on ${url.toString()}`)
+    console.info(`[hana-music-api] listening on ${url.toString()}`)
   }
 
   return {

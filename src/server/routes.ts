@@ -80,7 +80,6 @@ export function registerModuleRoutes(
           query,
           createServerRequestHandler(context, options.requestHandler),
         )
-        console.log('[OK]', context.req.url)
 
         if (cacheKey && moduleResponse.status === 200) {
           options.cache?.set(cacheKey, moduleResponse)
@@ -89,7 +88,7 @@ export function registerModuleRoutes(
         return toResponse(context, moduleResponse, query)
       } catch (error) {
         const moduleResponse = normalizeErrorResponse(error)
-        console.log('[ERR]', context.req.url, {
+        console.error('[ERR]', context.req.url, {
           body: moduleResponse.body,
           status: moduleResponse.status,
         })

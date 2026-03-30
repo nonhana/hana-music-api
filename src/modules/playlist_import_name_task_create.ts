@@ -1,19 +1,22 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { LegacyModuleQuery } from '../types/modules.ts'
 
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 歌单导入 - 元数据/文字/链接导入
 import { createOption } from '../core/options.ts'
-const legacyModule = (query, request) => {
-  let data = {
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+  let data: Record<string, unknown> = {
     importStarPlaylist: query.importStarPlaylist || false, // 导入我喜欢的音乐
   }
 
   if (query.local) {
     // 元数据导入
-    let local = JSON.parse(query.local)
-    let multiSongs = JSON.stringify(
+    const local = JSON.parse(String(query.local)) as Array<{
+      album?: string
+      artist?: string
+      name?: string
+    }>
+    const multiSongs = JSON.stringify(
       local.map(function (e) {
         return {
           songName: e.name,
@@ -27,8 +30,7 @@ const legacyModule = (query, request) => {
       multiSongs: multiSongs,
     }
   } else {
-    let playlistName = // 歌单名称
-      query.playlistName || '导入音乐 '.concat(new Date().toLocaleString())
+    const playlistName = query.playlistName || '导入音乐 '.concat(new Date().toLocaleString()) // 歌单名称
     let songs = ''
     if (query.text) {
       // 文字导入
@@ -43,9 +45,9 @@ const legacyModule = (query, request) => {
 
     if (query.link) {
       // 链接导入
-      let link = JSON.parse(query.link)
+      const link = JSON.parse(String(query.link)) as string[]
       songs = JSON.stringify(
-        link.map(function (e) {
+        link.map(function (e: string) {
           return { name: playlistName, type: '', url: encodeURI(e) }
         }),
       )
@@ -59,14 +61,13 @@ const legacyModule = (query, request) => {
       songs: songs,
     }
   }
-  return request(
-    `/api/playlist/import/name/task/create`,
-    data,
-    createOption(query),
-  )
+  return request(`/api/playlist/import/name/task/create`, data, createOption(query))
 }
 
-export default async function migratedPlaylistImportNameTaskCreate(query, request) {
+export default async function migratedPlaylistImportNameTaskCreate(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

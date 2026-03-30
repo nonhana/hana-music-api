@@ -426,6 +426,22 @@ describe('phase 5 module regression suite', () => {
     expect(personalFm.status).toBe(200)
     expect(readArrayProperty(personalFm.body, 'data')).toEqual([])
   })
+
+  test('should keep voice_upload missing-file validation on the legacy error contract', async () => {
+    try {
+      await invokeRealModule('voice_upload', {})
+      throw new TypeError('Expected voice_upload to reject when songFile is missing')
+    } catch (error) {
+      expect(error).toEqual({
+        body: {
+          code: 500,
+          msg: '请上传音频文件',
+        },
+        cookie: [],
+        status: 500,
+      })
+    }
+  })
 })
 
 interface CapturedRequest {
@@ -475,7 +491,7 @@ async function invokeRealModule(
 }
 
 type PromiseLikeReturn = {
-  readonly body: unknown
+  readonly body: Record<string, unknown>
   readonly cookie: string[]
   readonly status: number
 }

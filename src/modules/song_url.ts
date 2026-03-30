@@ -1,23 +1,18 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { SongUrlQuery } from '../types/modules.ts'
 
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 歌曲链接
 import { createOption } from '../core/options.ts'
-const legacyModule = async (query, request) => {
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+const legacyModule = async (query: SongUrlQuery, request: ModuleRequest) => {
   const ids = String(query.id).split(',')
   const data = {
     ids: JSON.stringify(ids),
-    br: parseInt(query.br || 999000),
+    br: parseInt(String(query.br ?? 999000), 10),
   }
-  const res = await request(
-    `/api/song/enhance/player/url`,
-    data,
-    createOption(query),
-  )
+  const res = await request(`/api/song/enhance/player/url`, data, createOption(query))
   // 根据id排序
-  const result = res.body.data
+  const result = [...((res.body.data as Array<{ id: number | string; url?: string }>) ?? [])]
   result.sort((a, b) => {
     return ids.indexOf(String(a.id)) - ids.indexOf(String(b.id))
   })
@@ -30,7 +25,10 @@ const legacyModule = async (query, request) => {
   }
 }
 
-export default async function migratedSongUrl(query, request) {
+export default async function migratedSongUrl(
+  query: SongUrlQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

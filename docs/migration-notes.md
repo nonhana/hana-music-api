@@ -79,16 +79,10 @@
 
 ### 默认 lint 范围
 
-由于 `src/modules/` 中的大量文件仍保留迁移期 `@ts-nocheck`，当前默认 `lint` 只覆盖以下目录：
+当前仓库已移除 `src/` 内全部 `@ts-nocheck`，并恢复了全量 lint 能力：
 
-- `index.ts`
-- `src/app`
-- `src/core`
-- `src/server`
-- `src/types`
-- `tests`
-
-如果需要审计全仓库迁移债，可使用 `bun run lint:full`。
+- `bun run lint`：审计整个工作区
+- `bun run lint:full`：聚焦 `src/` 目录做源码层全量审计
 
 ### 默认环境变量
 
@@ -100,7 +94,7 @@
 ## 当前已知边界
 
 1. PAC 代理仍未在当前 Bun `fetch` 适配器中恢复。
-2. `multipart/form-data` 已可解析，但尚未逐项对齐旧版 `express-fileupload` 的全部边角行为。
-3. `src/modules/` 中的大多数迁移文件仍处于“兼容优先”状态，后续仍需按优先级逐步去掉 `@ts-nocheck`。
+2. `multipart/form-data` 已补齐 `File -> { name, data, size, mimetype }` 的兼容层，并已有服务层回归覆盖；但真实上传链路仍建议继续手工验证边角行为。
+3. `src/modules/` 已无 `@ts-nocheck`；当前剩余工作主要是继续把长尾模块从“兼容优先”收敛到“更精细的 query 类型边界”。
 4. 静态资源已可托管，但 `public/` 下的历史页面目前仍以“可访问、可格式校验”为主，尚未逐页做浏览器级回归。
 5. 匿名 token 自动准备仅发生在 CLI 主入口；程序化调用 `startServer()` 仍保持显式、可控的启动语义。

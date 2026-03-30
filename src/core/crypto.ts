@@ -127,7 +127,7 @@ export function eapiResDecrypt(
 
     return parseJsonRecord(decrypted.toString('utf8'))
   } catch (error) {
-    console.log('eapiResDecrypt error:', error)
+    console.error('eapiResDecrypt error:', error)
     return null
   }
 }

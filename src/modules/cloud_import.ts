@@ -1,11 +1,9 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
-
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { CloudImportQuery } from '../types/modules.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 云盘导入歌曲
 import { createOption } from '../core/options.ts'
-const legacyModule = async (query, request) => {
+const legacyModule = async (query: CloudImportQuery, request: ModuleRequest) => {
   query.id = query.id || -2
   query.artist = query.artist || '未知'
   query.album = query.album || '未知'
@@ -43,7 +41,7 @@ const legacyModule = async (query, request) => {
   return request(`/api/cloud/user/song/import`, importData, createOption(query))
 }
 
-export default async function migratedCloudImport(query, request) {
+export default async function migratedCloudImport(query: CloudImportQuery, request: ModuleRequest): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

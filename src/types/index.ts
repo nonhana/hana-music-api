@@ -29,7 +29,7 @@ export type ModuleRequest = (
   uri: string,
   data: Record<string, unknown>,
   options?: CreateRequestOptions,
-) => Promise<NcmApiResponse>
+) => Promise<NcmApiResponse<Record<string, any>>>
 
 export interface ModuleDefinition {
   readonly identifier: string

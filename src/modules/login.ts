@@ -1,19 +1,17 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
+import { createHash } from 'node:crypto'
 
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { LoginQuery } from '../types/modules.ts'
 // 邮箱登录
 
-import * as CryptoJS from 'crypto-js'
-
 import { createOption } from '../core/options.ts'
-const legacyModule = async (query, request) => {
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+const legacyModule = async (query: LoginQuery, request: ModuleRequest) => {
   const data = {
     type: '0',
     https: 'true',
     username: query.email,
-    password: query.md5_password || CryptoJS.MD5(query.password).toString(),
+    password: query.md5_password || createHash('md5').update(String(query.password)).digest('hex'),
     rememberLogin: 'true',
   }
   let result = await request(`/api/w/login`, data, createOption(query))
@@ -31,12 +29,7 @@ const legacyModule = async (query, request) => {
     result = {
       status: 200,
       body: {
-        ...JSON.parse(
-          JSON.stringify(result.body).replace(
-            /avatarImgId_str/g,
-            'avatarImgIdStr',
-          ),
-        ),
+        ...JSON.parse(JSON.stringify(result.body).replace(/avatarImgId_str/g, 'avatarImgIdStr')),
         cookie: result.cookie.join(';'),
       },
       cookie: result.cookie,
@@ -45,7 +38,10 @@ const legacyModule = async (query, request) => {
   return result
 }
 
-export default async function migratedLogin(query, request) {
+export default async function migratedLogin(
+  query: LoginQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

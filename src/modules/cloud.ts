@@ -1,49 +1,48 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
-
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 import * as mm from 'music-metadata'
-import uploadPlugin from '../plugins/song-upload.ts'
-import md5 from 'md5'
+import { createHash } from 'node:crypto'
+
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { CloudQuery } from '../types/modules.ts'
+
 import { createOption } from '../core/options.ts'
-const legacyModule = async (query, request) => {
-  let ext = 'mp3'
-  // if (query.songFile.name.indexOf('flac') > -1) {
-  //   ext = 'flac'
-  // }
-  if (query.songFile.name.includes('.')) {
-    ext = query.songFile.name.split('.').pop()
-  }
-  query.songFile.name = Buffer.from(query.songFile.name, 'latin1').toString(
-    'utf-8',
-  )
-  const filename = query.songFile.name
-    .replace('.' + ext, '')
-    .replace(/\s/g, '')
-    .replace(/\./g, '_')
-  const bitrate = 999000
+import uploadPlugin from '../plugins/song-upload.ts'
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+const legacyModule = async (query: CloudQuery, request: ModuleRequest) => {
   if (!query.songFile) {
-    return Promise.reject({
+    throw {
       status: 500,
       body: {
         msg: '请上传音乐文件',
         code: 500,
       },
-    })
+      cookie: [],
+    }
   }
-  if (!query.songFile.md5) {
+
+  const songFile = query.songFile
+  const songBuffer = toBuffer(songFile.data)
+  let ext = 'mp3'
+  if (songFile.name.includes('.')) {
+    ext = songFile.name.split('.').pop() ?? ext
+  }
+  songFile.name = Buffer.from(songFile.name, 'latin1').toString('utf-8')
+  const filename = songFile.name
+    .replace('.' + ext, '')
+    .replace(/\s/g, '')
+    .replace(/\./g, '_')
+  const bitrate = 999000
+  if (!songFile.md5) {
     // 命令行上传没有md5和size信息,需要填充
-    query.songFile.md5 = md5(query.songFile.data)
-    query.songFile.size = query.songFile.data.byteLength
+    songFile.md5 = createHash('md5').update(songBuffer).digest('hex')
+    songFile.size = songBuffer.byteLength
   }
   const res = await request(
     `/api/cloud/upload/check`,
     {
       bitrate: String(bitrate),
       ext: '',
-      length: query.songFile.size,
-      md5: query.songFile.md5,
+      length: songFile.size,
+      md5: songFile.md5,
       songId: '0',
       version: 1,
     },
@@ -53,10 +52,7 @@ const legacyModule = async (query, request) => {
   let album = ''
   let songName = ''
   try {
-    const metadata = await mm.parseBuffer(
-      query.songFile.data,
-      query.songFile.mimetype,
-    )
+    const metadata = await mm.parseBuffer(songBuffer, songFile.mimetype)
     const info = metadata.common
 
     if (info.title) {
@@ -68,33 +64,7 @@ const legacyModule = async (query, request) => {
     if (info.artist) {
       artist = info.artist
     }
-    // if (metadata.native.ID3v1) {
-    //   metadata.native.ID3v1.forEach((item) => {
-    //     // console.log(item.id, item.value)
-    //     if (item.id === 'title') {
-    //       songName = item.value
-    //     }
-    //     if (item.id === 'artist') {
-    //       artist = item.value
-    //     }
-    //     if (item.id === 'album') {
-    //       album = item.value
-    //     }
-    //   })
-    //   // console.log({
-    //   //   songName,
-    //   //   album,
-    //   //   songName,
-    //   // })
-    // }
-    // console.log({
-    //   songName,
-    //   album,
-    //   songName,
-    // })
-  } catch (error) {
-    console.log(error)
-  }
+  } catch {}
   const tokenRes = await request(
     `/api/nos/token/alloc`,
     {
@@ -104,22 +74,20 @@ const legacyModule = async (query, request) => {
       local: false,
       nos_product: 3,
       type: 'audio',
-      md5: query.songFile.md5,
+      md5: songFile.md5,
     },
     createOption(query),
   )
 
   if (res.body.needUpload) {
-    const uploadInfo = await uploadPlugin(query, request)
-    // console.log('uploadInfo', uploadInfo.body.result.resourceId)
+    await uploadPlugin(query, request)
   }
-  // console.log(tokenRes.body.result)
   const res2 = await request(
     `/api/upload/cloud/info/v2`,
     {
-      md5: query.songFile.md5,
+      md5: songFile.md5,
       songid: res.body.songId,
-      filename: query.songFile.name,
+      filename: songFile.name,
       song: songName || filename,
       album: album || '未知专辑',
       artist: artist || '未知艺术家',
@@ -128,8 +96,6 @@ const legacyModule = async (query, request) => {
     },
     createOption(query),
   )
-  // console.log({ res2, privateCloud: res2.body.privateCloud })
-  // console.log(res.body.songId, 'songid')
   const res3 = await request(
     `/api/cloud/pub/v2`,
     {
@@ -137,22 +103,31 @@ const legacyModule = async (query, request) => {
     },
     createOption(query),
   )
-  // console.log({ res3 })
   return {
     status: 200,
     body: {
       ...res.body,
       ...res3.body,
-      // ...uploadInfo,
     },
     cookie: res.cookie,
   }
 }
 
-export default async function migratedCloud(query, request) {
+export default async function migratedCloud(
+  query: CloudQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {
     throw normalizeLegacyModuleError(error)
   }
+}
+
+function toBuffer(data: ArrayBuffer | Buffer | Uint8Array): Buffer {
+  if (Buffer.isBuffer(data)) {
+    return data
+  }
+
+  return data instanceof Uint8Array ? Buffer.from(data) : Buffer.from(new Uint8Array(data))
 }

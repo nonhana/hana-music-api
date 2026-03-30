@@ -71,7 +71,7 @@ export async function generateConfig(options: GenerateConfigOptions = {}): Promi
 
     return token
   } catch (error) {
-    console.log(error)
+    console.error('[generateConfig] failed to create anonymous token', error)
     return ''
   }
 }

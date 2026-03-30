@@ -1,28 +1,34 @@
-// @ts-nocheck
-// 此文件由 `scripts/migrate-modules.ts` 自动生成。
-// 它的职责是保留旧模块行为，后续应按优先级逐步去掉 `@ts-nocheck` 并收紧类型。
-
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-import axios from 'axios'
+import { randomUUID } from 'node:crypto'
 import * as xml2js from 'xml2js'
 
+import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
+import type { LegacyModuleQuery } from '../types/modules.ts'
+
 import { createOption } from '../core/options.ts'
-var parser = new xml2js.Parser(/* options */)
-function createDupkey() {
-  // 格式:3b443c7c-a87f-468d-ba38-46d407aaf23a
-  var s = []
-  var hexDigits = '0123456789abcdef'
-  for (var i = 0; i < 36; i++) {
-    s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1)
-  }
-  s[14] = '4' // bits 12-15 of the time_hi_and_version field to 0010
-  s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1) // bits 6-7 of the clock_seq_hi_and_reserved to 01
-  s[8] = s[13] = s[18] = s[23] = '-'
-  return s.join('')
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+const parser = new xml2js.Parser()
+
+function createDupkey(): string {
+  return randomUUID()
 }
-const legacyModule = async (query, request) => {
+
+function isEnabledFlag(value: unknown): boolean {
+  return Number(value) === 1
+}
+
+const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
+  if (!query.songFile) {
+    throw {
+      status: 500,
+      body: {
+        msg: '请上传音频文件',
+        code: 500,
+      },
+    }
+  }
+
   let ext = 'mp3'
-  if (query.songFile.name.indexOf('flac') > -1) {
+  if (query.songFile.name.includes('flac')) {
     ext = 'flac'
   }
   const filename =
@@ -31,16 +37,6 @@ const legacyModule = async (query, request) => {
       .replace('.' + ext, '')
       .replace(/\s/g, '')
       .replace(/\./g, '_')
-
-  if (!query.songFile) {
-    return Promise.reject({
-      status: 500,
-      body: {
-        msg: '请上传音频文件',
-        code: 500,
-      },
-    })
-  }
 
   const tokenRes = await request(
     `/api/nos/token/alloc`,
@@ -57,42 +53,37 @@ const legacyModule = async (query, request) => {
 
   const objectKey = tokenRes.body.result.objectKey.replace('/', '%2F')
   const docId = tokenRes.body.result.docId
-  const res = await axios({
-    method: 'post',
-    url: `https://ymusic.nos-hz.163yun.com/${objectKey}?uploads`,
+  const initResponse = await fetch(`https://ymusic.nos-hz.163yun.com/${objectKey}?uploads`, {
+    method: 'POST',
     headers: {
       'x-nos-token': tokenRes.body.result.token,
       'X-Nos-Meta-Content-Type': 'audio/mpeg',
     },
-    data: null,
   })
-  // return xml
-  const res2 = await parser.parseStringPromise(res.data)
+  const res2 = await parser.parseStringPromise(await initResponse.text())
 
   const fileSize = query.songFile.data.length
   const blockSize = 10 * 1024 * 1024 // 10MB
   let offset = 0
   let blockIndex = 1
 
-  let etags = []
+  const etags = []
 
   while (offset < fileSize) {
-    const chunk = query.songFile.data.slice(
-      offset,
-      Math.min(offset + blockSize, fileSize),
-    )
+    const chunk = query.songFile.data.slice(offset, Math.min(offset + blockSize, fileSize))
 
-    const res3 = await axios({
-      method: 'put',
-      url: `https://ymusic.nos-hz.163yun.com/${objectKey}?partNumber=${blockIndex}&uploadId=${res2.InitiateMultipartUploadResult.UploadId[0]}`,
-      headers: {
-        'x-nos-token': tokenRes.body.result.token,
-        'Content-Type': 'audio/mpeg',
+    const partResponse = await fetch(
+      `https://ymusic.nos-hz.163yun.com/${objectKey}?partNumber=${blockIndex}&uploadId=${res2.InitiateMultipartUploadResult.UploadId[0]}`,
+      {
+        method: 'PUT',
+        headers: {
+          'x-nos-token': tokenRes.body.result.token,
+          'Content-Type': 'audio/mpeg',
+        },
+        body: chunk,
       },
-      data: chunk,
-    })
-    // get etag
-    const etag = res3.headers.etag
+    )
+    const etag = partResponse.headers.get('etag') ?? ''
     etags.push(etag)
     offset += blockSize
     blockIndex++
@@ -100,23 +91,23 @@ const legacyModule = async (query, request) => {
 
   let completeStr = '<CompleteMultipartUpload>'
   for (let i = 0; i < etags.length; i++) {
-    completeStr += `<Part><PartNumber>${i + 1}</PartNumber><ETag>${
-      etags[i]
-    }</ETag></Part>`
+    completeStr += `<Part><PartNumber>${i + 1}</PartNumber><ETag>${etags[i]}</ETag></Part>`
   }
   completeStr += '</CompleteMultipartUpload>'
 
   // 文件处理
-  await axios({
-    method: 'post',
-    url: `https://ymusic.nos-hz.163yun.com/${objectKey}?uploadId=${res2.InitiateMultipartUploadResult.UploadId[0]}`,
-    headers: {
-      'Content-Type': 'text/plain;charset=UTF-8',
-      'X-Nos-Meta-Content-Type': 'audio/mpeg',
-      'x-nos-token': tokenRes.body.result.token,
+  await fetch(
+    `https://ymusic.nos-hz.163yun.com/${objectKey}?uploadId=${res2.InitiateMultipartUploadResult.UploadId[0]}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'text/plain;charset=UTF-8',
+        'X-Nos-Meta-Content-Type': 'audio/mpeg',
+        'x-nos-token': tokenRes.body.result.token,
+      },
+      body: completeStr,
     },
-    data: completeStr,
-  })
+  )
 
   // preCheck
   await request(
@@ -126,7 +117,7 @@ const legacyModule = async (query, request) => {
       voiceData: JSON.stringify([
         {
           name: filename,
-          autoPublish: query.autoPublish == 1 ? true : false,
+          autoPublish: isEnabledFlag(query.autoPublish),
           autoPublishText: query.autoPublishText || '',
           description: query.description,
           voiceListId: query.voiceListId,
@@ -134,10 +125,8 @@ const legacyModule = async (query, request) => {
           dfsId: docId,
           categoryId: query.categoryId,
           secondCategoryId: query.secondCategoryId,
-          composedSongs: query.composedSongs
-            ? query.composedSongs.split(',')
-            : [],
-          privacy: query.privacy == 1 ? true : false,
+          composedSongs: query.composedSongs ? query.composedSongs.split(',') : [],
+          privacy: isEnabledFlag(query.privacy),
           publishTime: query.publishTime || 0,
           orderNo: query.orderNo || 1,
         },
@@ -157,7 +146,7 @@ const legacyModule = async (query, request) => {
       voiceData: JSON.stringify([
         {
           name: filename,
-          autoPublish: query.autoPublish == 1 ? true : false,
+          autoPublish: isEnabledFlag(query.autoPublish),
           autoPublishText: query.autoPublishText || '',
           description: query.description,
           voiceListId: query.voiceListId,
@@ -165,10 +154,8 @@ const legacyModule = async (query, request) => {
           dfsId: docId,
           categoryId: query.categoryId,
           secondCategoryId: query.secondCategoryId,
-          composedSongs: query.composedSongs
-            ? query.composedSongs.split(',')
-            : [],
-          privacy: query.privacy == 1 ? true : false,
+          composedSongs: query.composedSongs ? query.composedSongs.split(',') : [],
+          privacy: isEnabledFlag(query.privacy),
           publishTime: query.publishTime || 0,
           orderNo: query.orderNo || 1,
         },
@@ -190,7 +177,10 @@ const legacyModule = async (query, request) => {
   }
 }
 
-export default async function migratedVoiceUpload(query, request) {
+export default async function migratedVoiceUpload(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

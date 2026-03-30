@@ -1,6 +1,7 @@
 import type { Context } from 'hono'
 
 import type { ModuleQuery } from '../types/index.ts'
+import type { LegacyUploadedFile } from '../types/modules.ts'
 
 import { isRecord } from '../core/utils.ts'
 
@@ -31,7 +32,7 @@ export async function parseRequestBody(context: Context): Promise<ModuleQuery> {
         all: true,
       })
 
-      return normalizeParsedBody(parsed)
+      return await normalizeParsedBody(parsed)
     }
   } catch {
     return {} // 静默失败，避免中断模块调用
@@ -40,12 +41,37 @@ export async function parseRequestBody(context: Context): Promise<ModuleQuery> {
   return {}
 }
 
-function normalizeParsedBody(body: Record<string, string | File | (string | File)[]>): ModuleQuery {
+async function normalizeParsedBody(
+  body: Record<string, string | File | (string | File)[]>,
+): Promise<ModuleQuery> {
   const normalized: ModuleQuery = {}
 
   for (const [key, value] of Object.entries(body)) {
-    normalized[key] = value
+    normalized[key] = await normalizeBodyValue(value)
   }
 
   return normalized
+}
+
+async function normalizeBodyValue(value: string | File | (string | File)[]): Promise<unknown> {
+  if (Array.isArray(value)) {
+    return Promise.all(value.map((entry) => normalizeBodyValue(entry)))
+  }
+
+  if (value instanceof File) {
+    return toLegacyUploadedFile(value)
+  }
+
+  return value
+}
+
+async function toLegacyUploadedFile(file: File): Promise<LegacyUploadedFile> {
+  const data = Buffer.from(await file.arrayBuffer())
+
+  return {
+    data,
+    mimetype: file.type || 'application/octet-stream',
+    name: file.name,
+    size: file.size,
+  }
 }
