@@ -1,6 +1,8 @@
-import type { StartedServer, StartServerOptions } from '../types/index.ts'
+import type { GenerateConfigOptions, StartedServer, StartServerOptions } from '../types/index.ts'
 
+import { readAnonymousToken, setRuntimeState } from '../core/runtime.ts'
 import { createServer } from '../server/create-server.ts'
+import { generateConfig } from './generate-config.ts'
 
 const DEFAULT_PORT = 3021
 const DEFAULT_HOSTNAME = '0.0.0.0'
@@ -52,6 +54,20 @@ export async function startServer(options: StartServerOptions = {}): Promise<Sta
   }
 }
 
+export async function ensureAnonymousToken(options: GenerateConfigOptions = {}): Promise<string> {
+  const token = readAnonymousToken(options.tokenFilePath)
+  if (token) {
+    setRuntimeState({
+      anonymousToken: token,
+    })
+
+    return token
+  }
+
+  return generateConfig(options)
+}
+
 if (import.meta.main) {
+  await ensureAnonymousToken()
   await startServer()
 }

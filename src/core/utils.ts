@@ -86,7 +86,7 @@ export function generateRandomChineseIP(): string {
   return `${prefix}.${generateIPSegment()}.${generateIPSegment()}`
 }
 
-export function generateChainId(cookie: string | undefined): string {
+export function generateChainId(cookie: CookieRecord | string | undefined): string {
   const version = 'v1'
   const randomNumber = Math.floor(Math.random() * 1e6)
   const deviceId = getCookieValue(cookie, 'sDeviceId') || `unknown-${randomNumber}`
@@ -121,9 +121,14 @@ function generateIPSegment(): number {
   return Math.floor(Math.random() * 255) + 1
 }
 
-function getCookieValue(cookie: string | undefined, name: string): string {
+function getCookieValue(cookie: CookieRecord | string | undefined, name: string): string {
   if (!cookie) {
     return ''
+  }
+
+  if (isRecord(cookie)) {
+    const value = cookie[name]
+    return value === undefined ? '' : String(value)
   }
 
   const parts = `; ${cookie}`.split(`; ${name}=`)

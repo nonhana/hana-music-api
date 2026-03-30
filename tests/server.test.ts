@@ -1,16 +1,22 @@
 import { describe, expect, test } from 'bun:test'
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { dirname, join, resolve } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 import type { CreateRequestOptions, ModuleDefinition } from '../src/types/index.ts'
 
 import { createServer } from '../src/server/create-server.ts'
 import { parseModuleRoute } from '../src/server/module-loader.ts'
 
+const REAL_MODULES_DIRECTORY = resolve(dirname(fileURLToPath(import.meta.url)), '../src/modules')
+
 async function readJson(response: Response): Promise<unknown> {
   return response.json()
 }
 
 describe('createServer', () => {
-  test('should expose the phase 0 baseline route', async () => {
+  test('should expose the phase 5 baseline route', async () => {
     const app = await createServer()
     const response = await app.request('/')
     const body = await readJson(response)
@@ -18,9 +24,9 @@ describe('createServer', () => {
     expect(response.status).toBe(200)
     expect(body).toEqual({
       name: 'hana-music-api',
-      phase: 2,
+      phase: 5,
       ready: true,
-      message: 'hana-music-api migration baseline is ready',
+      message: 'hana-music-api phase 5 regression baseline is ready',
     })
   })
 
@@ -173,6 +179,198 @@ describe('createServer', () => {
       invokeCount: 1,
     })
     expect(invokeCount).toBe(1)
+  })
+
+  test('should serve static assets from the configured public directory', async () => {
+    const temporaryDirectory = mkdtempSync(join(tmpdir(), 'hana-static-'))
+    const docsDirectory = join(temporaryDirectory, 'docs')
+    mkdirSync(docsDirectory, {
+      recursive: true,
+    })
+    writeFileSync(join(temporaryDirectory, 'hello.txt'), 'hello static world', 'utf8')
+    writeFileSync(join(docsDirectory, 'index.html'), '<h1>docs home</h1>', 'utf8')
+
+    try {
+      const app = await createServer({
+        moduleDefinitions: [],
+        publicDirectory: temporaryDirectory,
+      })
+      const fileResponse = await app.request('http://localhost/hello.txt')
+      const directoryResponse = await app.request('http://localhost/docs')
+
+      expect(fileResponse.status).toBe(200)
+      expect(await fileResponse.text()).toBe('hello static world')
+      expect(directoryResponse.status).toBe(200)
+      expect(await directoryResponse.text()).toContain('docs home')
+    } finally {
+      rmSync(temporaryDirectory, {
+        force: true,
+        recursive: true,
+      })
+    }
+  })
+
+  test('should load real migrated modules from the modules directory', async () => {
+    const app = await createServer({
+      cacheEnabled: false,
+      modulesDirectory: REAL_MODULES_DIRECTORY,
+      requestHandler: async (uri, data, options = {}) => {
+        return {
+          body: {
+            code: 200,
+            data,
+            options,
+            uri,
+          },
+          cookie: [],
+          status: 200,
+        }
+      },
+    })
+
+    const searchResponse = await app.request('http://localhost/search?keywords=phase5&type=2000')
+    const body = await readJson(searchResponse)
+
+    expect(searchResponse.status).toBe(200)
+    expect(body).toEqual({
+      code: 200,
+      data: {
+        keyword: 'phase5',
+        limit: 30,
+        offset: 0,
+        scene: 'normal',
+      },
+      options: {
+        checkToken: false,
+        cookie: {},
+        crypto: '',
+        domain: '',
+        e_r: undefined,
+        ip: expect.any(String),
+        proxy: undefined,
+        realIP: undefined,
+        ua: '',
+      },
+      uri: '/api/search/voice/get',
+    })
+  })
+
+  test('should preserve special routes and noCookie semantics with real migrated modules', async () => {
+    const app = await createServer({
+      cacheEnabled: false,
+      modulesDirectory: REAL_MODULES_DIRECTORY,
+      requestHandler: async (uri, data, options = {}) => {
+        return {
+          body: {
+            code: 200,
+            data,
+            options,
+            uri,
+          },
+          cookie: ['MUSIC_U=server-cookie; Path=/'],
+          status: 200,
+        }
+      },
+    })
+
+    const personalFm = await app.request('http://localhost/personal_fm?cookie=MUSIC_U%3Dfm-cookie')
+    const personalFmBody = await readJson(personalFm)
+    const dailySignin = await app.request(
+      'http://localhost/daily_signin?type=1&cookie=MUSIC_U%3Dsignin-cookie&noCookie=true',
+    )
+    const dailySigninBody = await readJson(dailySignin)
+
+    expect(personalFm.status).toBe(200)
+    expect(personalFm.headers.get('set-cookie')).toContain('MUSIC_U=server-cookie; Path=/')
+    expect(personalFmBody).toEqual({
+      code: 200,
+      data: {},
+      options: {
+        checkToken: false,
+        cookie: {
+          MUSIC_U: 'fm-cookie',
+        },
+        crypto: 'weapi',
+        domain: '',
+        e_r: undefined,
+        ip: expect.any(String),
+        proxy: undefined,
+        realIP: undefined,
+        ua: '',
+      },
+      uri: '/api/v1/radio/get',
+    })
+    expect(dailySignin.status).toBe(200)
+    expect(dailySignin.headers.get('set-cookie')).toBeNull()
+    expect(dailySigninBody).toEqual({
+      code: 200,
+      data: {
+        type: '1',
+      },
+      options: {
+        checkToken: false,
+        cookie: {
+          MUSIC_U: 'signin-cookie',
+        },
+        crypto: '',
+        domain: '',
+        e_r: undefined,
+        ip: expect.any(String),
+        proxy: undefined,
+        realIP: undefined,
+        ua: '',
+      },
+      uri: '/api/point/dailyTask',
+    })
+  })
+
+  test('should let real migrated modules override header cookies with body cookies', async () => {
+    const app = await createServer({
+      cacheEnabled: false,
+      modulesDirectory: REAL_MODULES_DIRECTORY,
+      requestHandler: async (uri, data, options = {}) => {
+        return {
+          body: {
+            code: 200,
+            data,
+            options,
+            uri,
+          },
+          cookie: ['MUSIC_U=account-cookie; Path=/'],
+          status: 200,
+        }
+      },
+    })
+    const response = await app.request('http://localhost/user/account', {
+      body: 'cookie=MUSIC_U%3Dbody-cookie',
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded',
+        cookie: 'MUSIC_U=header-cookie',
+      },
+      method: 'POST',
+    })
+    const body = await readJson(response)
+
+    expect(response.status).toBe(200)
+    expect(response.headers.get('set-cookie')).toContain('MUSIC_U=account-cookie; Path=/')
+    expect(body).toEqual({
+      code: 200,
+      data: {},
+      options: {
+        checkToken: false,
+        cookie: {
+          MUSIC_U: 'body-cookie',
+        },
+        crypto: 'weapi',
+        domain: '',
+        e_r: undefined,
+        ip: expect.any(String),
+        proxy: undefined,
+        realIP: undefined,
+        ua: '',
+      },
+      uri: '/api/nuser/account/get',
+    })
   })
 })
 

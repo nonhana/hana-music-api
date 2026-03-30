@@ -67,6 +67,7 @@ export interface CreateServerOptions {
   readonly corsAllowOrigin?: string
   readonly moduleDefinitions?: ModuleDefinition[]
   readonly modulesDirectory?: string
+  readonly publicDirectory?: string
   readonly requestHandler?: ModuleRequest
   readonly serviceName?: string
   readonly serviceVersion?: string
@@ -89,3 +90,13 @@ export interface StartedServer {
   readonly server: Server<unknown>
   readonly url: URL
 }
+
+export interface CreateModuleApiOptions {
+  readonly moduleDefinitions?: ModuleDefinition[]
+  readonly modulesDirectory?: string
+  readonly requestHandler?: ModuleRequest
+}
+
+export type ProgrammaticModuleInvoker = (query?: ModuleQuery) => Promise<NcmApiResponse>
+
+export type ProgrammaticApi = Record<string, ProgrammaticModuleInvoker>

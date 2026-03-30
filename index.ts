@@ -1,5 +1,11 @@
-export { startServer } from './src/app/cli.ts'
+export { ensureAnonymousToken, startServer } from './src/app/cli.ts'
 export { generateConfig, registerAnonymous } from './src/app/generate-config.ts'
+export {
+  createModuleApi,
+  invokeModule,
+  loadProgrammaticApi,
+  NeteaseCloudMusicApi,
+} from './src/app/module-api.ts'
 export {
   aesDecrypt,
   aesEncrypt,
@@ -15,8 +21,10 @@ export {
 export { createOption } from './src/core/options.ts'
 export { createRequest } from './src/core/request.ts'
 export { createServer } from './src/server/create-server.ts'
+export { startServer as serveNcmApi } from './src/app/cli.ts'
 
 export type {
+  CreateModuleApiOptions,
   CreateRequestOptions,
   CreateServerOptions,
   GenerateConfigOptions,
@@ -24,6 +32,8 @@ export type {
   ModuleQuery,
   ModuleRequest,
   NcmApiResponse,
+  ProgrammaticApi,
+  ProgrammaticModuleInvoker,
   RequestCrypto,
   RuntimeState,
   StartedServer,

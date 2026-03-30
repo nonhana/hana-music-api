@@ -17,7 +17,7 @@ import { appendResponseCookies, parseRequestCookies } from './cookies.ts'
 import { parseRequestBody } from './parse-body.ts'
 
 const DEFAULT_SERVICE_NAME = 'hana-music-api'
-const DEFAULT_SERVICE_VERSION = 'phase-2'
+const DEFAULT_SERVICE_VERSION = 'phase-5'
 
 export interface RegisteredRouteContext {
   readonly cache: MemoryResponseCache | null
@@ -33,9 +33,9 @@ export function registerBaseRoutes(app: Hono, options: CreateServerOptions = {})
 
   app.get('/', (context) => {
     return context.json({
-      message: 'hana-music-api migration baseline is ready',
+      message: 'hana-music-api phase 5 regression baseline is ready',
       name: serviceName,
-      phase: 2,
+      phase: 5,
       ready: true,
     })
   })

@@ -1,114 +1,106 @@
-# Phase 3 迁移记录
+# Phase 5 迁移与回归记录
 
 ## 目标
 
-`Phase 0` 的职责不是迁移旧业务，而是把 `hana-music-api` 从 Bun 初始化模板收敛成可承接后续迁移的最小工程骨架。
+`Phase 5` 的核心目标不再是继续大规模迁移功能，而是为已经完成的迁移结果建立可信回归基线，确认当前仓库不是“能跑就算完成”，而是能够被重复验证、被后续维护者接手的实现。
 
-## 本阶段已收敛的内容
+## 当前阶段结论
 
-- 补齐 `package.json` 的基础脚本：`dev`、`start`、`test`、`typecheck`
-- 引入 HTTP 壳层依赖 `hono`
-- 明确根目录 `index.ts` 只作为公共导出入口
-- 建立 `src/app`、`src/server`、`src/core`、`src/modules`、`src/plugins`、`src/types`、`tests`、`scripts` 目录骨架
-- 提供最小可运行的 Hono 服务与健康检查路由
-- 添加一组最小 smoke test，验证服务骨架可直接调用
+当前仓库已经从 `Phase 4` 进入 `Phase 5`。判断依据如下：
 
-## 当前公共导出边界
+- `crypto -> request -> server -> modules` 主链路已经完整接通
+- `public/`、`data/`、程序化 API 与 CLI 启动链路已经恢复
+- `src/modules/` 中的 `366` 个迁移模块已可被服务层和程序化入口装载
+- `typecheck` 与基础测试已通过，开始具备建立回归基线的条件
 
-当前根入口只对外导出以下能力：
+## Phase 5 已落地内容
 
-- `createServer()`：创建 Hono 应用实例
-- `startServer()`：启动 Bun HTTP 服务
-- `CreateServerOptions` / `StartServerOptions` / `StartedServer`：程序化调用边界类型
+### 1. 默认回归策略已明确
 
-这意味着后续迁移即便要接入 Cookie 解析、模块路由映射和请求适配，也应继续在 `src/` 内部完成，而不是把业务逻辑直接堆回根目录入口。
+当前默认采用“离线契约回归”策略：
 
-## 已知风险
+- 直接加载 `src/modules` 中的真实迁移模块
+- 通过注入 `requestHandler` 观测模块发出的上游请求路径、参数、加密模式与 Cookie 语义
+- 对不依赖真实网易上游的链路做本地稳定验证，例如：
+  - 二维码生成
+  - 匿名 token 初始化
+  - 程序化 API 加载
+  - 特殊路由映射
 
-1. `multipart/form-data` 已可经 Hono 解析，但旧仓库 `express-fileupload` 的全部细节行为尚未逐项回归。
-2. PAC 代理暂未在当前 Bun `fetch` 适配器中恢复。
-3. 虽然 `src/modules` 已完成批量迁移，但大部分文件仍处于“兼容优先”的机械迁移阶段，后续仍需逐批去掉 `@ts-nocheck` 并收紧类型。
-4. TypeScript 版本在迁移初期仍保持 `^5` 约束，避免和业务迁移同时引入编译语义变化。
+这样可以避免：
 
-## Phase 1 前置提醒
+- 上游接口波动导致 CI 不稳定
+- 把登录 Cookie、手机号等敏感信息固化到仓库
+- 因网络或风控因素让迁移验收结果失真
 
-进入下一阶段前，必须先以旧仓库 JS 实现为真相，逐步迁移并验证以下核心模块：
+### 2. 最小回归集已补齐离线验证
 
-- `util/crypto.js`
-- `util/index.js`
-- `util/option.js`
-- `util/request.js`
-- `generateConfig.js`
+当前已为以下高风险路径补齐可重复执行的行为回归：
 
-## Phase 1 已完成
+- `/search`
+- `/song/url`
+- `/playlist/detail`
+- `/user/account`
+- `/login/cellphone`
+- `/login/qr/create`
+- `/batch`
+- `/daily_signin`
+- `/personal/fm`
 
-本阶段已经在新仓库内补齐以下核心能力：
+这些回归重点验证的不是完整响应快照，而是：
 
-- `src/core/crypto.ts`
-- `src/core/utils.ts`
-- `src/core/options.ts`
-- `src/core/request.ts`
-- `src/core/runtime.ts`
-- `src/app/generate-config.ts`
+- 请求路径是否与旧行为一致
+- 参数构造是否保持兼容
+- 加密模式是否正确
+- Cookie / 登录态语义是否明确
+- 旧项目中的特殊返回值收敛是否仍成立
 
-当前新增的公共可调用能力包括：
+### 3. 服务层与程序化入口补齐了真实模块验收
 
-- `createRequest()`
-- `createOption()`
-- `generateConfig()`
-- `registerAnonymous()`
-- `weapi()` / `linuxapi()` / `eapi()` 及对应解密工具
+本阶段新增的验收重点包括：
 
-## Phase 1 当前边界
+- 使用真实 `src/modules` 文件做服务层 E2E 验证
+- 使用真实迁移模块校验 `loadProgrammaticApi()`、`createModuleApi()`、`invokeModule()`
+- 为 CLI 匿名 token 初始化逻辑补可测边界，验证“缺 token 时生成、已有 token 时复用”
 
-1. `request` 层已经改为 Bun 原生 `fetch`，不再依赖 `axios`。
-2. 常规 HTTP/HTTPS 代理可透传给 Bun 的 `fetch`，但 PAC 代理暂未在当前适配器中恢复。
-3. 旧项目依赖的 `global.deviceId` / `global.cnIp` / 匿名 token 文件状态，已被 `src/core/runtime.ts` 收敛为显式运行时状态。
-4. `generateConfig()` 已可完成匿名 token 的生成与写入，但完整 CLI 启动串联仍留待后续服务层阶段继续接入。
+## 与 Phase 4 的差异
 
-## Phase 2 已完成
+`Phase 4` 更关注“能力是否已经迁进来”，而 `Phase 5` 更关注“这些能力是否已经有稳定证据证明它们仍然成立”。
 
-本阶段已经在新仓库内完成 Hono 服务层重建：
+因此，`Phase 5` 的验收重点已经从功能骨架转成以下五类证据：
 
-- `src/server/create-server.ts`
-- `src/server/routes.ts`
-- `src/server/module-loader.ts`
-- `src/server/parse-body.ts`
-- `src/server/cookies.ts`
-- `src/core/cache.ts`
+1. 加密与请求层测试
+2. 真实迁移模块的行为回归
+3. 服务层真实装载链路验证
+4. 程序化 API 与 CLI 启动链路验证
+5. 与当前阶段一致的文档与工程校验策略
 
-已恢复或明确实现的行为包括：
+## 当前工程策略
 
-- 基础 CORS 处理
-- 请求头 Cookie 解析
-- query/body 合并
-- `cookie` 字段覆盖逻辑
-- 特殊路由映射
-- 模块请求适配与客户端 IP 注入
-- `Set-Cookie` 透传
-- HTTPS 请求下 `SameSite=None; Secure` 补丁
-- 轻量内存缓存
+### 默认 lint 范围
 
-## Phase 2 当前边界
+由于 `src/modules/` 中的大量文件仍保留迁移期 `@ts-nocheck`，当前默认 `lint` 只覆盖以下目录：
 
-1. 服务层已经可以稳定承接后续模块迁移，这也是 Phase 3 可以直接批量推进的前提。
-2. 当前缓存实现是轻量内存缓存，目标是先对齐旧行为，而不是立即引入更重的缓存后端。
-3. `createServer()` 与 `startServer()` 已经变为异步边界，因为模块加载本身是异步过程。
+- `index.ts`
+- `src/app`
+- `src/core`
+- `src/server`
+- `src/types`
+- `tests`
 
-## Phase 3 已完成
+如果需要审计全仓库迁移债，可使用 `bun run lint:full`。
 
-本阶段已经在新仓库内完成模块层的首轮批量迁移：
+### 默认环境变量
 
-- 新增 `scripts/migrate-modules.ts`，可重复执行旧模块到新模块的机械迁移
-- `src/modules/` 已生成 366 个 `.ts` 模块，对应旧仓库全部 `module/*.js`
-- `src/plugins/upload.ts` 与 `src/plugins/song-upload.ts` 已作为模块兼容支撑一并迁入
-- `src/modules/_migration.ts` 负责收敛旧模块的多种返回值形态，补齐默认 `cookie` 与 `status`
-- `src/server/module-loader.ts` 已跳过以下划线开头的内部辅助文件，避免把迁移 helper 误装载为业务模块
-- `package.json` 已补充 `migrate:modules` 脚本，便于后续重复生成与增量覆盖
+当前默认离线回归不依赖新增环境变量。服务启动仍继续使用已有环境变量：
 
-## Phase 3 当前边界
+- `HOST`
+- `PORT`
 
-1. 当前批量迁移以“先恢复装载与行为闭环”为首要目标，因此模块文件统一保留了 `@ts-nocheck` 过渡标记。
-2. 为了兼容旧模块中的二维码、上传、XML 解析和音频元信息逻辑，当前新增了 `axios`、`qrcode`、`xml2js`、`music-metadata`、`md5`、`crypto-js` 等运行时依赖。
-3. 高频模块虽然已经进入新装载链路，但尚未逐个建立真实上游回归用例；这一部分应在后续 Phase 5 按批次补齐。
-4. 插件目录目前只迁入了被模块直接依赖的最小支撑集，不代表 Phase 4 已整体完成。
+## 当前已知边界
+
+1. PAC 代理仍未在当前 Bun `fetch` 适配器中恢复。
+2. `multipart/form-data` 已可解析，但尚未逐项对齐旧版 `express-fileupload` 的全部边角行为。
+3. `src/modules/` 中的大多数迁移文件仍处于“兼容优先”状态，后续仍需按优先级逐步去掉 `@ts-nocheck`。
+4. 静态资源已可托管，但 `public/` 下的历史页面目前仍以“可访问、可格式校验”为主，尚未逐页做浏览器级回归。
+5. 匿名 token 自动准备仅发生在 CLI 主入口；程序化调用 `startServer()` 仍保持显式、可控的启动语义。
