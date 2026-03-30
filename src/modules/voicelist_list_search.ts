@@ -1,8 +1,9 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 //声音搜索
 import { createOption } from '../core/options.ts'
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || '200',
@@ -16,7 +17,10 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request('/api/voice/workbench/voice/list', data, createOption(query))
 }
 
-export default async function migratedVoicelistListSearch(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedVoicelistListSearch(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

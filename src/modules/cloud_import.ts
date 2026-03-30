@@ -1,8 +1,9 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { CloudImportQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 // 云盘导入歌曲
 import { createOption } from '../core/options.ts'
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = async (query: CloudImportQuery, request: ModuleRequest) => {
   query.id = query.id || -2
   query.artist = query.artist || '未知'
@@ -18,11 +19,7 @@ const legacyModule = async (query: CloudImportQuery, request: ModuleRequest) => 
       },
     ]),
   }
-  const res = await request(
-    `/api/cloud/upload/check/v2`,
-    checkData,
-    createOption(query),
-  )
+  const res = await request(`/api/cloud/upload/check/v2`, checkData, createOption(query))
   //res.body.data[0].upload 0:文件可导入,1:文件已在云盘,2:不能导入
   //只能用song决定云盘文件名，且上传后的文件名后缀固定为mp3
   const importData = {
@@ -41,7 +38,10 @@ const legacyModule = async (query: CloudImportQuery, request: ModuleRequest) => 
   return request(`/api/cloud/user/song/import`, importData, createOption(query))
 }
 
-export default async function migratedCloudImport(query: CloudImportQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedCloudImport(
+  query: CloudImportQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

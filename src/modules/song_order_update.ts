@@ -1,9 +1,9 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 更新歌曲顺序
 
 import { createOption } from '../core/options.ts'
+// 更新歌曲顺序
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     pid: query.pid,
@@ -14,7 +14,10 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/playlist/manipulate/tracks`, data, createOption(query))
 }
 
-export default async function migratedSongOrderUpdate(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedSongOrderUpdate(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

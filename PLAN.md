@@ -17,23 +17,23 @@
 
 ### 2.1 仓库角色
 
-| 仓库 | 角色 | 当前状态 |
-| ---- | ---- | -------- |
-| `hana-music-api` | 目标仓库 | 已完成最小 Bun + TS 骨架初始化，但尚未落地业务实现 |
-| `netease-music-api` | 参考仓库 | 保留完整的旧版 JS 实现，可作为迁移来源与行为对照 |
+| 仓库                | 角色     | 当前状态                                           |
+| ------------------- | -------- | -------------------------------------------------- |
+| `hana-music-api`    | 目标仓库 | 已完成最小 Bun + TS 骨架初始化，但尚未落地业务实现 |
+| `netease-music-api` | 参考仓库 | 保留完整的旧版 JS 实现，可作为迁移来源与行为对照   |
 
 ### 2.2 `hana-music-api` 当前基线
 
 当前新项目不是空目录，而是已经存在一套应被继承的初始基线：
 
-| 维度 | 当前状态 |
-| ---- | -------- |
-| 运行时 | Bun，ESM |
-| 入口 | 根目录 `index.ts` |
-| 包配置 | `package.json` 已存在，`module` 指向 `index.ts` |
-| TS 配置 | 已存在 `tsconfig.json`，开启 `strict`，`module: "Preserve"` |
-| 代码质量 | 使用 `oxlint` + `oxfmt`，并已配置 `.oxlintrc.json`、`.oxfmtrc.json` |
-| 依赖状态 | 当前几乎没有运行时依赖，尚未引入 Web 框架 |
+| 维度     | 当前状态                                                                                                        |
+| -------- | --------------------------------------------------------------------------------------------------------------- |
+| 运行时   | Bun，ESM                                                                                                        |
+| 入口     | 根目录 `index.ts`                                                                                               |
+| 包配置   | `package.json` 已存在，`module` 指向 `index.ts`                                                                 |
+| TS 配置  | 已存在 `tsconfig.json`，开启 `strict`，`module: "Preserve"`                                                     |
+| 代码质量 | 使用 `oxlint` + `oxfmt`，并已配置 `.oxlintrc.json`、`.oxfmtrc.json`                                             |
+| 依赖状态 | 当前几乎没有运行时依赖，尚未引入 Web 框架                                                                       |
 | 文档结构 | 已存在 `README.md`、`AGENT.md`、`docs/` 目录，但 `README.md` 仍偏初始化模板，`docs/` 也可能尚未形成有效交接文档 |
 
 补充说明：
@@ -74,16 +74,16 @@
 
 ### 3.2 迁移完成后的目标形态
 
-| 维度 | 旧项目现状 | 新项目目标 |
-| ---- | ---------- | ---------- |
-| 运行时 | Node.js / CommonJS | Bun / ESM |
-| 语言 | JavaScript + JSDoc | TypeScript 严格模式 |
-| 代码质量工具 | 历史配置混杂 | 继承 `hana-music-api` 现有 `oxlint` + `oxfmt` |
-| 入口组织 | 多个根目录 JS 文件 | 保留根目录 `index.ts` 作为公共入口，内部实现迁入 `src/` |
-| 服务实现 | Express 中间件栈 | 使用 Hono 作为 HTTP 请求层 |
-| HTTP 客户端 | axios | 原生 `fetch` |
-| 加密实现 | `crypto-js` + `node-forge` | `node:crypto` |
-| 测试 | 旧测试体系不再沿用 | `bun test` |
+| 维度         | 旧项目现状                 | 新项目目标                                              |
+| ------------ | -------------------------- | ------------------------------------------------------- |
+| 运行时       | Node.js / CommonJS         | Bun / ESM                                               |
+| 语言         | JavaScript + JSDoc         | TypeScript 严格模式                                     |
+| 代码质量工具 | 历史配置混杂               | 继承 `hana-music-api` 现有 `oxlint` + `oxfmt`           |
+| 入口组织     | 多个根目录 JS 文件         | 保留根目录 `index.ts` 作为公共入口，内部实现迁入 `src/` |
+| 服务实现     | Express 中间件栈           | 使用 Hono 作为 HTTP 请求层                              |
+| HTTP 客户端  | axios                      | 原生 `fetch`                                            |
+| 加密实现     | `crypto-js` + `node-forge` | `node:crypto`                                           |
+| 测试         | 旧测试体系不再沿用         | `bun test`                                              |
 
 ---
 
@@ -210,21 +210,21 @@ hana-music-api/
 
 ## 六、源目录到目标目录的映射关系
 
-| 旧项目 | 新项目 | 说明 |
-| ------ | ------ | ---- |
-| `app.js` | `src/app/cli.ts` | CLI 启动逻辑 |
-| `server.js` | `src/server/create-server.ts` | 服务构建、路由分发 |
-| `main.js` | `index.ts` + 局部内部模块 | 对外导出能力 |
-| `generateConfig.js` | `src/app/generate-config.ts` 或 `src/core/generate-config.ts` | 匿名 token 初始化 |
-| `util/crypto.js` | `src/core/crypto.ts` | 高风险核心模块 |
-| `util/request.js` | `src/core/request.ts` | 请求网关核心 |
-| `util/index.js` | `src/core/utils.ts` | 通用工具函数 |
-| `util/option.js` | `src/core/options.ts` | 请求选项构建 |
-| `util/apicache.js` + `util/memory-cache.js` | `src/core/cache.ts` | 优先简化重写 |
-| `module/*.js` | `src/modules/*.ts` | 366 个端点模块 |
-| `plugins/*.js` | `src/plugins/*.ts` | 上传相关逻辑 |
-| `public/` | `public/` | 资源整体迁移 |
-| `data/` | `data/` | 资源整体迁移 |
+| 旧项目                                      | 新项目                                                        | 说明               |
+| ------------------------------------------- | ------------------------------------------------------------- | ------------------ |
+| `app.js`                                    | `src/app/cli.ts`                                              | CLI 启动逻辑       |
+| `server.js`                                 | `src/server/create-server.ts`                                 | 服务构建、路由分发 |
+| `main.js`                                   | `index.ts` + 局部内部模块                                     | 对外导出能力       |
+| `generateConfig.js`                         | `src/app/generate-config.ts` 或 `src/core/generate-config.ts` | 匿名 token 初始化  |
+| `util/crypto.js`                            | `src/core/crypto.ts`                                          | 高风险核心模块     |
+| `util/request.js`                           | `src/core/request.ts`                                         | 请求网关核心       |
+| `util/index.js`                             | `src/core/utils.ts`                                           | 通用工具函数       |
+| `util/option.js`                            | `src/core/options.ts`                                         | 请求选项构建       |
+| `util/apicache.js` + `util/memory-cache.js` | `src/core/cache.ts`                                           | 优先简化重写       |
+| `module/*.js`                               | `src/modules/*.ts`                                            | 366 个端点模块     |
+| `plugins/*.js`                              | `src/plugins/*.ts`                                            | 上传相关逻辑       |
+| `public/`                                   | `public/`                                                     | 资源整体迁移       |
+| `data/`                                     | `data/`                                                       | 资源整体迁移       |
 
 ---
 
@@ -317,12 +317,12 @@ hana-music-api/
 
 机械替换规则示例：
 
-| 旧写法 | 新写法 |
-| ------ | ------ |
-| `require(...)` | `import ...` |
-| `module.exports = fn` | `export default fn` |
-| `../util/option.js` | `../core/options` |
-| `CryptoJS.MD5(...)` | `createHash('md5')...` |
+| 旧写法                | 新写法                 |
+| --------------------- | ---------------------- |
+| `require(...)`        | `import ...`           |
+| `module.exports = fn` | `export default fn`    |
+| `../util/option.js`   | `../core/options`      |
+| `CryptoJS.MD5(...)`   | `createHash('md5')...` |
 
 优先批次建议：
 
@@ -413,14 +413,14 @@ hana-music-api/
 
 ## 九、风险矩阵
 
-| 风险 | 概率 | 影响 | 缓解措施 |
-| ---- | ---- | ---- | -------- |
-| `node-forge` 到 `node:crypto` 的 RSA 行为不完全一致 | 高 | 高 | 先做向量验证，再做模块迁移 |
-| `axios` 与 `fetch` 在 Cookie / Header 行为上存在细节差异 | 高 | 中 | 对关键请求做逐项比对 |
-| 旧 Express 中间件语义无法直接平移到 Bun | 中 | 高 | 先抽象请求适配层，再恢复行为 |
-| 批量迁移模块后类型错误数量过大 | 高 | 中 | 先脚本迁移，再按批修复 |
-| 旧项目 Bun/TS 配置与实际源码不一致，误导迁移判断 | 高 | 中 | 以旧 JS 代码为唯一实现真相 |
-| 新仓库工具链切换过多导致任务发散 | 中 | 中 | 保持 `oxlint` + `oxfmt` 不动 |
+| 风险                                                     | 概率 | 影响 | 缓解措施                     |
+| -------------------------------------------------------- | ---- | ---- | ---------------------------- |
+| `node-forge` 到 `node:crypto` 的 RSA 行为不完全一致      | 高   | 高   | 先做向量验证，再做模块迁移   |
+| `axios` 与 `fetch` 在 Cookie / Header 行为上存在细节差异 | 高   | 中   | 对关键请求做逐项比对         |
+| 旧 Express 中间件语义无法直接平移到 Bun                  | 中   | 高   | 先抽象请求适配层，再恢复行为 |
+| 批量迁移模块后类型错误数量过大                           | 高   | 中   | 先脚本迁移，再按批修复       |
+| 旧项目 Bun/TS 配置与实际源码不一致，误导迁移判断         | 高   | 中   | 以旧 JS 代码为唯一实现真相   |
+| 新仓库工具链切换过多导致任务发散                         | 中   | 中   | 保持 `oxlint` + `oxfmt` 不动 |
 
 ---
 

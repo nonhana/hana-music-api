@@ -1,9 +1,9 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 全部MV
 
 import { createOption } from '../core/options.ts'
+// 全部MV
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     tags: JSON.stringify({
@@ -18,7 +18,10 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/mv/all`, data, createOption(query))
 }
 
-export default async function migratedMvAll(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedMvAll(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

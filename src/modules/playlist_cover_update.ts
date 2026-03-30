@@ -1,8 +1,9 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-import uploadPlugin from '../plugins/upload.ts'
+
 import { createOption } from '../core/options.ts'
+import uploadPlugin from '../plugins/upload.ts'
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
   if (!query.imgFile) {
     return {
@@ -34,7 +35,10 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
   }
 }
 
-export default async function migratedPlaylistCoverUpdate(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedPlaylistCoverUpdate(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

@@ -1,8 +1,9 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 //电台排行榜获取
 import { createOption } from '../core/options.ts'
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     djRadioId: query.djRadioId || null, // 电台id
@@ -10,14 +11,13 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
     dataGapDays: query.dataGapDays || 7, // 天数 7:一周 30:一个月 90:三个月
     dataType: query.dataType || 3, // 未知
   }
-  return request(
-    '/api/expert/worksdata/works/top/get',
-    data,
-    createOption(query),
-  )
+  return request('/api/expert/worksdata/works/top/get', data, createOption(query))
 }
 
-export default async function migratedDjRadioTop(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedDjRadioTop(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

@@ -1,19 +1,18 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 曲风偏好
 
 import { createOption } from '../core/options.ts'
+// 曲风偏好
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {}
-  return request(
-    `/api/tag/my/preference/get`,
-    data,
-    createOption(query, 'weapi'),
-  )
+  return request(`/api/tag/my/preference/get`, data, createOption(query, 'weapi'))
 }
 
-export default async function migratedStylePreference(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedStylePreference(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

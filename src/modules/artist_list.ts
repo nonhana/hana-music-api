@@ -1,9 +1,9 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 歌手分类
 
-/* 
+import { createOption } from '../core/options.ts'
+// 歌手分类
+/*
     type 取值
     1:男歌手
     2:女歌手
@@ -19,8 +19,7 @@ import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_mi
 
     initial 取值 a-z/A-Z
 */
-
-import { createOption } from '../core/options.ts'
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     initial: isNaN(query.initial)
@@ -35,7 +34,10 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/v1/artist/list`, data, createOption(query, 'weapi'))
 }
 
-export default async function migratedArtistList(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedArtistList(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

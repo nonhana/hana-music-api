@@ -1,9 +1,9 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 曲风-歌单
 
 import { createOption } from '../core/options.ts'
+// 曲风-歌单
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     cursor: query.cursor || 0,
@@ -11,14 +11,13 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
     tagId: query.tagId,
     sort: 0,
   }
-  return request(
-    `/api/style-tag/home/playlist`,
-    data,
-    createOption(query, 'weapi'),
-  )
+  return request(`/api/style-tag/home/playlist`, data, createOption(query, 'weapi'))
 }
 
-export default async function migratedStylePlaylist(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedStylePlaylist(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

@@ -1,22 +1,21 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// MV链接
 
 import { createOption } from '../core/options.ts'
+// MV链接
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     id: query.id,
     r: query.r || 1080,
   }
-  return request(
-    `/api/song/enhance/play/mv/url`,
-    data,
-    createOption(query, 'weapi'),
-  )
+  return request(`/api/song/enhance/play/mv/url`, data, createOption(query, 'weapi'))
 }
 
-export default async function migratedMvUrl(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedMvUrl(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

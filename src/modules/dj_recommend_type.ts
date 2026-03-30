@@ -1,8 +1,8 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 精选电台分类
 
+import { createOption } from '../core/options.ts'
+// 精选电台分类
 /*
     有声书 10001
     知识技能 453050
@@ -25,8 +25,7 @@ import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_mi
     校园|教育 4001
     旅途|城市 12
 */
-
-import { createOption } from '../core/options.ts'
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     cateId: query.type,
@@ -34,7 +33,10 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/djradio/recommend`, data, createOption(query, 'weapi'))
 }
 
-export default async function migratedDjRecommendType(query: LegacyModuleQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedDjRecommendType(
+  query: LegacyModuleQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

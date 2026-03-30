@@ -1,8 +1,10 @@
+import * as QRCode from 'qrcode'
+
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { VerifyGetQrQuery } from '../types/modules.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-import * as QRCode from 'qrcode'
+
 import { createOption } from '../core/options.ts'
+import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 const legacyModule = async (query: VerifyGetQrQuery, request: ModuleRequest) => {
   const data = {
     verifyConfigId: query.vid,
@@ -15,11 +17,7 @@ const legacyModule = async (query: VerifyGetQrQuery, request: ModuleRequest) => 
     size: 150,
   }
 
-  const res = await request(
-    `/api/frontrisk/verify/getqrcode`,
-    data,
-    createOption(query, 'weapi'),
-  )
+  const res = await request(`/api/frontrisk/verify/getqrcode`, data, createOption(query, 'weapi'))
   const result = `https://st.music.163.com/encrypt-pages?qrCode=${
     res.body.data.qrCode
   }&verifyToken=${query.token}&verifyId=${query.vid}&verifyType=${
@@ -41,7 +39,10 @@ const legacyModule = async (query: VerifyGetQrQuery, request: ModuleRequest) => 
   }
 }
 
-export default async function migratedVerifyGetQr(query: VerifyGetQrQuery, request: ModuleRequest): Promise<NcmApiResponse> {
+export default async function migratedVerifyGetQr(
+  query: VerifyGetQrQuery,
+  request: ModuleRequest,
+): Promise<NcmApiResponse> {
   try {
     return normalizeLegacyModuleResponse(await legacyModule(query, request))
   } catch (error) {

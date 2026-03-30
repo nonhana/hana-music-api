@@ -12,16 +12,16 @@
 
 ## 二、当前基线状态速览
 
-| 维度 | 状态 |
-| ---- | ---- |
-| `src/core/` (7 文件) | 已完成类型化，无 `@ts-nocheck`，已用 `node:crypto` 替代旧加密库 |
-| `src/server/` (6 文件) | 已完成类型化，无 `@ts-nocheck` |
-| `src/app/` (3 文件) | 已完成类型化，无 `@ts-nocheck` |
-| `src/types/index.ts` | 已作为共享类型边界，覆盖主要公共接口 |
+| 维度                      | 状态                                                                                                      |
+| ------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `src/core/` (7 文件)      | 已完成类型化，无 `@ts-nocheck`，已用 `node:crypto` 替代旧加密库                                           |
+| `src/server/` (6 文件)    | 已完成类型化，无 `@ts-nocheck`                                                                            |
+| `src/app/` (3 文件)       | 已完成类型化，无 `@ts-nocheck`                                                                            |
+| `src/types/index.ts`      | 已作为共享类型边界，覆盖主要公共接口                                                                      |
 | `src/modules/` (367 文件) | 已完成显式函数签名类型化，`@ts-nocheck` 已清零；高频模块已补更具体 query 类型，剩余模块采用兼容型边界类型 |
-| `src/plugins/` (2 文件) | 已完成类型化，并切换到原生 `fetch` |
-| `tests/` (6 文件) | 已覆盖加密、请求、服务层、CLI、程序化 API 和 Phase 5 回归 |
-| `index.ts` | 公共入口，导出稳定 |
+| `src/plugins/` (2 文件)   | 已完成类型化，并切换到原生 `fetch`                                                                        |
+| `tests/` (6 文件)         | 已覆盖加密、请求、服务层、CLI、程序化 API 和 Phase 5 回归                                                 |
+| `index.ts`                | 公共入口，导出稳定                                                                                        |
 
 ---
 
@@ -52,12 +52,12 @@
 
 **建议优先批次**：
 
-| 批次 | 范围 | 原因 |
-| ---- | ---- | ---- |
-| P0 | 登录相关：`login.ts`、`login_cellphone.ts`、`login_email.ts`、`login_qr_*.ts`、`register_anonimous.ts`、`register_cellphone.ts` | 涉及加密库替换（D-02），需要一并改 |
-| P1 | 高频基础：`search.ts`、`song_url.ts`、`song_url_v1.ts`、`playlist_detail.ts`、`user_account.ts`、`batch.ts` | Phase 5 回归已覆盖行为，类型化后可立即做编译级守护 |
-| P2 | 文件上传类：`cloud.ts`、`voice_upload.ts`、`audio_match.ts`、`related_playlist.ts` | 涉及 `axios`/`md5`/`xml2js` 替换（D-03），需要与依赖替换一并改 |
-| P3 | 其余 ~350 个模块 | 大多数模块结构简单（仅构造 data + 调用 request），批量脚本可覆盖绝大部分 |
+| 批次 | 范围                                                                                                                            | 原因                                                                     |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
+| P0   | 登录相关：`login.ts`、`login_cellphone.ts`、`login_email.ts`、`login_qr_*.ts`、`register_anonimous.ts`、`register_cellphone.ts` | 涉及加密库替换（D-02），需要一并改                                       |
+| P1   | 高频基础：`search.ts`、`song_url.ts`、`song_url_v1.ts`、`playlist_detail.ts`、`user_account.ts`、`batch.ts`                     | Phase 5 回归已覆盖行为，类型化后可立即做编译级守护                       |
+| P2   | 文件上传类：`cloud.ts`、`voice_upload.ts`、`audio_match.ts`、`related_playlist.ts`                                              | 涉及 `axios`/`md5`/`xml2js` 替换（D-03），需要与依赖替换一并改           |
+| P3   | 其余 ~350 个模块                                                                                                                | 大多数模块结构简单（仅构造 data + 调用 request），批量脚本可覆盖绝大部分 |
 
 **验收标准**：
 
@@ -71,13 +71,13 @@
 
 **影响范围**：5 个模块文件
 
-| 文件 | 用法 |
-| ---- | ---- |
-| `src/modules/login.ts` | `CryptoJS.MD5(query.password).toString()` |
-| `src/modules/login_cellphone.ts` | `CryptoJS.MD5(query.password).toString()` |
-| `src/modules/register_anonimous.ts` | `CryptoJS.MD5(...)` |
-| `src/modules/register_cellphone.ts` | `CryptoJS.MD5(...)` |
-| `src/modules/user_bindingcellphone.ts` | `CryptoJS.MD5(...)` |
+| 文件                                   | 用法                                      |
+| -------------------------------------- | ----------------------------------------- |
+| `src/modules/login.ts`                 | `CryptoJS.MD5(query.password).toString()` |
+| `src/modules/login_cellphone.ts`       | `CryptoJS.MD5(query.password).toString()` |
+| `src/modules/register_anonimous.ts`    | `CryptoJS.MD5(...)`                       |
+| `src/modules/register_cellphone.ts`    | `CryptoJS.MD5(...)`                       |
+| `src/modules/user_bindingcellphone.ts` | `CryptoJS.MD5(...)`                       |
 
 **替换方式**：
 
@@ -105,13 +105,13 @@ createHash('md5').update(query.password).digest('hex')
 
 **影响范围**：5 个文件
 
-| 文件 | axios 用途 |
-| ---- | ---------- |
-| `src/plugins/upload.ts` | 向 NOS 上传图片 |
-| `src/plugins/song-upload.ts` | 向 NOS 上传音频（含 LBS 查询） |
-| `src/modules/voice_upload.ts` | 向 NOS 上传音频（含分块 multipart） |
-| `src/modules/related_playlist.ts` | 直接调用外部接口获取关联歌单 |
-| `src/modules/audio_match.ts` | 调用音频匹配服务 |
+| 文件                              | axios 用途                          |
+| --------------------------------- | ----------------------------------- |
+| `src/plugins/upload.ts`           | 向 NOS 上传图片                     |
+| `src/plugins/song-upload.ts`      | 向 NOS 上传音频（含 LBS 查询）      |
+| `src/modules/voice_upload.ts`     | 向 NOS 上传音频（含分块 multipart） |
+| `src/modules/related_playlist.ts` | 直接调用外部接口获取关联歌单        |
+| `src/modules/audio_match.ts`      | 调用音频匹配服务                    |
 
 **替换难度分级**：
 
@@ -136,8 +136,8 @@ createHash('md5').update(query.password).digest('hex')
 
 **影响范围**：1 个文件
 
-| 文件 | 用法 |
-| ---- | ---- |
+| 文件                   | 用法                                            |
+| ---------------------- | ----------------------------------------------- |
 | `src/modules/cloud.ts` | `md5(query.songFile.data)` 对文件 buffer 取 MD5 |
 
 **替换方式**：
@@ -188,14 +188,14 @@ query.songFile.md5 = createHash('md5').update(query.songFile.data).digest('hex')
 
 以下表格保留为审计记录，便于追踪历史问题来源：
 
-| 问题 | 涉及文件数 | 示例 |
-| ---- | ---------- | ---- |
-| `var` 声明 | 1 (`voice_upload.ts`) | `var s = []`、`var parser = ...` |
-| 残留 `console.log` | 4 (共 12 处) | `cloud.ts` 有 9 处 |
-| `Promise.reject({status, body})` | 4 | `cloud.ts`、`check_music.ts`、`related_playlist.ts`、`voice_upload.ts` |
-| 已废弃 `.substr()` | 1 (`voice_upload.ts`) | 应替换为 `.substring()` 或 `.slice()` |
-| `.indexOf()` 代替 `.includes()` | 4 | `song_url.ts`、`cloud.ts` 等 |
-| 松散等值比较 `==` | ~30 个文件 | 应替换为 `===` |
+| 问题                             | 涉及文件数            | 示例                                                                   |
+| -------------------------------- | --------------------- | ---------------------------------------------------------------------- |
+| `var` 声明                       | 1 (`voice_upload.ts`) | `var s = []`、`var parser = ...`                                       |
+| 残留 `console.log`               | 4 (共 12 处)          | `cloud.ts` 有 9 处                                                     |
+| `Promise.reject({status, body})` | 4                     | `cloud.ts`、`check_music.ts`、`related_playlist.ts`、`voice_upload.ts` |
+| 已废弃 `.substr()`               | 1 (`voice_upload.ts`) | 应替换为 `.substring()` 或 `.slice()`                                  |
+| `.indexOf()` 代替 `.includes()`  | 4                     | `song_url.ts`、`cloud.ts` 等                                           |
+| 松散等值比较 `==`                | ~30 个文件            | 应替换为 `===`                                                         |
 
 **操作建议**：
 
@@ -383,12 +383,12 @@ D-11（PAC 代理）             ← 最低优先级，按需推进
 
 当上述技术债全部消化后，项目应达到以下状态：
 
-| 维度 | 目标 |
-| ---- | ---- |
-| `@ts-nocheck` | 全仓库 0 个 |
-| 旧依赖 | `crypto-js`、`axios`、`md5` 从 `dependencies` 中移除 |
-| 运行时依赖 | 仅保留 `hono`、`qrcode`、`music-metadata`（业务必需），`xml2js` 视评估结果 |
-| 类型覆盖 | 所有模块函数签名有明确类型标注，高频模块有具体 query 接口 |
-| 代码质量 | 无 `var`、无残留 `console.log`、无松散等值比较、无已废弃 API |
-| 工程校验 | `tsc --noEmit` + `bun test` + `oxlint src/` 全量通过 |
-| 文档 | `README.md` 与 `package.json` 脚本一致，`docs/` 保持最新 |
+| 维度          | 目标                                                                       |
+| ------------- | -------------------------------------------------------------------------- |
+| `@ts-nocheck` | 全仓库 0 个                                                                |
+| 旧依赖        | `crypto-js`、`axios`、`md5` 从 `dependencies` 中移除                       |
+| 运行时依赖    | 仅保留 `hono`、`qrcode`、`music-metadata`（业务必需），`xml2js` 视评估结果 |
+| 类型覆盖      | 所有模块函数签名有明确类型标注，高频模块有具体 query 接口                  |
+| 代码质量      | 无 `var`、无残留 `console.log`、无松散等值比较、无已废弃 API               |
+| 工程校验      | `tsc --noEmit` + `bun test` + `oxlint src/` 全量通过                       |
+| 文档          | `README.md` 与 `package.json` 脚本一致，`docs/` 保持最新                   |
