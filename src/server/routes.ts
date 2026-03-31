@@ -269,6 +269,7 @@ function safeDecodeURIComponent(value: string): string {
 }
 
 export function createDefaultRequestHandler(): ModuleRequest {
+  // oxlint-disable-next-line typescript-eslint/no-unsafe-type-assertion -- ModuleRequest is the typed facade used across migrated modules.
   return createRequest as ModuleRequest
 }
 

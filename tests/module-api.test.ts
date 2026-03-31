@@ -184,6 +184,100 @@ describe('programmatic module api', () => {
       },
     })
   })
+
+  test('should support typed comment module identifiers in the real module registry', async () => {
+    const captured: {
+      data?: Record<string, unknown>
+      options?: CreateRequestOptions
+      uri?: string
+    } = {}
+
+    const response = await invokeModule(
+      'comment_music',
+      {
+        before: 10,
+        cookie: 'MUSIC_U=comment-cookie',
+        id: 12345,
+        limit: 30,
+        offset: 5,
+      },
+      {
+        requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+          captured.uri = uri
+          captured.data = data
+          captured.options = options
+
+          return {
+            body: {
+              code: 200,
+              comments: [],
+            },
+            cookie: [],
+            status: 200,
+          }
+        }),
+      },
+    )
+
+    expect(captured.uri).toBe('/api/v1/resource/comments/R_SO_4_12345')
+    expect(captured.data).toEqual({
+      beforeTime: 10,
+      limit: 30,
+      offset: 5,
+      rid: 12345,
+    })
+    expect(captured.options?.cookie).toEqual({
+      MUSIC_U: 'comment-cookie',
+    })
+    expect(response.status).toBe(200)
+  })
+
+  test('should support typed user detail module identifiers in the real module registry', async () => {
+    const captured: {
+      data?: Record<string, unknown>
+      options?: CreateRequestOptions
+      uri?: string
+    } = {}
+
+    const response = await invokeModule(
+      'user_detail',
+      {
+        cookie: 'MUSIC_U=user-detail-cookie',
+        uid: 67890,
+      },
+      {
+        requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+          captured.uri = uri
+          captured.data = data
+          captured.options = options
+
+          return {
+            body: {
+              code: 200,
+              profile: {
+                avatarImgId_str: '1',
+              },
+            },
+            cookie: [],
+            status: 200,
+          }
+        }),
+      },
+    )
+
+    expect(captured.uri).toBe('/api/v1/user/detail/67890')
+    expect(captured.data).toEqual({})
+    expect(captured.options?.cookie).toEqual({
+      MUSIC_U: 'user-detail-cookie',
+    })
+    expect(response.status).toBe(200)
+    expect(response.body).toEqual({
+      code: 200,
+      profile: {
+        avatarImgIdStr: '1',
+      },
+    })
+  })
 })
 
 function getProgrammaticInvoker(

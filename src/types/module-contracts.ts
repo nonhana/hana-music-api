@@ -1,5 +1,13 @@
 import type {
+  AudioMatchQuery,
   BatchQuery,
+  CommentEventQuery,
+  CommentFloorQuery,
+  CommentHotQuery,
+  CommentLikeQuery,
+  CommentNewQuery,
+  CommentQuery,
+  CommentThreadQuery,
   CheckMusicQuery,
   CloudImportQuery,
   CloudQuery,
@@ -14,6 +22,7 @@ import type {
   SearchQuery,
   SongUrlQuery,
   SongUrlV1Query,
+  UserDetailQuery,
   UserAccountQuery,
   VerifyGetQrQuery,
   VoiceUploadQuery,
@@ -29,8 +38,21 @@ export interface ModuleContractDefinition<
 }
 
 export interface ModuleContractMap {
+  audio_match: ModuleContractDefinition<AudioMatchQuery>
   batch: ModuleContractDefinition<BatchQuery>
   check_music: ModuleContractDefinition<CheckMusicQuery>
+  comment: ModuleContractDefinition<CommentQuery>
+  comment_album: ModuleContractDefinition<CommentThreadQuery>
+  comment_dj: ModuleContractDefinition<CommentThreadQuery>
+  comment_event: ModuleContractDefinition<CommentEventQuery>
+  comment_floor: ModuleContractDefinition<CommentFloorQuery>
+  comment_hot: ModuleContractDefinition<CommentHotQuery>
+  comment_like: ModuleContractDefinition<CommentLikeQuery>
+  comment_music: ModuleContractDefinition<CommentThreadQuery>
+  comment_mv: ModuleContractDefinition<CommentThreadQuery>
+  comment_new: ModuleContractDefinition<CommentNewQuery>
+  comment_playlist: ModuleContractDefinition<CommentThreadQuery>
+  comment_video: ModuleContractDefinition<CommentThreadQuery>
   cloud: ModuleContractDefinition<CloudQuery>
   cloud_import: ModuleContractDefinition<CloudImportQuery>
   login: ModuleContractDefinition<LoginQuery>
@@ -45,6 +67,7 @@ export interface ModuleContractMap {
   song_url: ModuleContractDefinition<SongUrlQuery>
   song_url_v1: ModuleContractDefinition<SongUrlV1Query>
   user_account: ModuleContractDefinition<UserAccountQuery>
+  user_detail: ModuleContractDefinition<UserDetailQuery>
   verify_getQr: ModuleContractDefinition<VerifyGetQrQuery>
   voice_upload: ModuleContractDefinition<VoiceUploadQuery>
 }

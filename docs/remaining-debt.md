@@ -295,6 +295,8 @@ interface LoginCellphoneQuery extends ModuleQuery {
 - 核对大文件、多分块和异常 XML 返回的行为
 - 按需继续补上传模块的 query 类型
 
+**当前文档入口**：`docs/upload-manual-checklist.md`
+
 ---
 
 ### D-11：PAC 代理边界

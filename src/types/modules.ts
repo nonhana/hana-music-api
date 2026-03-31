@@ -88,6 +88,58 @@ export interface SearchQuery extends OptionCompatibleQuery {
   type?: QueryNumberLike
 }
 
+export interface CommentThreadQuery extends OptionCompatibleQuery {
+  before?: QueryNumberLike
+  id: QueryIdentifier
+  limit?: QueryNumberLike
+  offset?: QueryNumberLike
+}
+
+export interface CommentEventQuery extends OptionCompatibleQuery {
+  before?: QueryNumberLike
+  limit?: QueryNumberLike
+  offset?: QueryNumberLike
+  threadId: string
+}
+
+export interface CommentResourceQuery extends OptionCompatibleQuery {
+  id: QueryIdentifier
+  type: QueryNumberLike
+}
+
+export interface CommentHotQuery extends CommentResourceQuery {
+  before?: QueryNumberLike
+  limit?: QueryNumberLike
+  offset?: QueryNumberLike
+}
+
+export interface CommentQuery extends CommentResourceQuery {
+  commentId?: QueryIdentifier
+  content?: string
+  t: 0 | 1 | 2 | '0' | '1' | '2'
+  threadId?: string
+}
+
+export interface CommentFloorQuery extends CommentResourceQuery {
+  limit?: QueryNumberLike
+  parentCommentId: QueryIdentifier
+  time?: QueryNumberLike
+}
+
+export interface CommentLikeQuery extends CommentResourceQuery {
+  cid: QueryIdentifier
+  t: 0 | 1 | '0' | '1'
+  threadId?: string
+}
+
+export interface CommentNewQuery extends CommentResourceQuery {
+  cursor?: string
+  pageNo?: QueryNumberLike
+  pageSize?: QueryNumberLike
+  showInner?: QueryBooleanLike
+  sortType?: QueryNumberLike
+}
+
 export interface SongUrlQuery extends OptionCompatibleQuery {
   br?: QueryNumberLike
   id: QueryIdentifier
@@ -150,6 +202,11 @@ export interface CloudQuery extends OptionCompatibleQuery {
   songFile?: LegacyUploadedFile
 }
 
+export interface AudioMatchQuery extends OptionCompatibleQuery {
+  audioFP: string
+  duration: QueryNumberLike
+}
+
 export interface UploadImageQuery extends OptionCompatibleQuery {
   imgFile?: LegacyUploadedFile
 }
@@ -178,6 +235,10 @@ export interface ApiQuery extends OptionCompatibleQuery {
   crypto?: string
   data?: DynamicJsonRecord | string
   uri?: string
+}
+
+export interface UserDetailQuery extends OptionCompatibleQuery {
+  uid: QueryIdentifier
 }
 
 export interface RegisterAnonymousQuery extends OptionCompatibleQuery {}

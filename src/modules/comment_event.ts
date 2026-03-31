@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { CommentEventQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 // 获取动态评论
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: CommentEventQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 20,
     offset: query.offset || 0,
@@ -14,7 +14,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedCommentEvent(
-  query: LegacyModuleQuery,
+  query: CommentEventQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

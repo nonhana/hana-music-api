@@ -1,17 +1,17 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { UserDetailQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 // 用户详情
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = async (query: UserDetailQuery, request: ModuleRequest) => {
   const res = await request(`/api/v1/user/detail/${query.uid}`, {}, createOption(query, 'weapi'))
   const result = JSON.stringify(res).replace(/avatarImgId_str/g, 'avatarImgIdStr')
   return JSON.parse(result)
 }
 
 export default async function migratedUserDetail(
-  query: LegacyModuleQuery,
+  query: UserDetailQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

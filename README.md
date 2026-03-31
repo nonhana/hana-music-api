@@ -58,6 +58,8 @@ bun run migrate:modules
 - 当前仓库已经移除 `src/` 内全部 `@ts-nocheck`；`bun run lint` 和 `bun run lint:full` 都可直接用于全量审计
 - 高频模块的 query 类型、程序化 API 模块标识和上游类型边界已开始收紧，但长尾模块仍以兼容型边界为主，后续会继续渐进细化
 
+上传人工回归步骤见 `docs/upload-manual-checklist.md`。
+
 后续收尾取舍与执行方案见 `docs/phase-6-finalization-plan.md`。
 
 ## 程序化调用

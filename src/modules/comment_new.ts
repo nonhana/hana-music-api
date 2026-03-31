@@ -1,13 +1,13 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { CommentNewQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 评论
 import { resolveResourceType } from './_module-inputs.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  query.type = resolveResourceType(query.type)
-  const threadId = `${String(query.type ?? '')}${String(query.id ?? '')}`
+const legacyModule = (query: CommentNewQuery, request: ModuleRequest) => {
+  const resourceType = resolveResourceType(query.type)
+  const threadId = `${resourceType}${String(query.id)}`
   const pageSize = Number(query.pageSize ?? 20) || 20
   const pageNo = Number(query.pageNo ?? 1) || 1
   let sortType = Number(query.sortType) || 99
@@ -40,7 +40,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedCommentNew(
-  query: LegacyModuleQuery,
+  query: CommentNewQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

@@ -1,36 +1,36 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { CommentQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 发送与删除评论
 import { resolveResourceType } from './_module-inputs.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: CommentQuery, request: ModuleRequest) => {
   const actionMap: Record<number, string> = {
     1: 'add',
     0: 'delete',
     2: 'reply',
   }
-  query.t = actionMap[Number(query.t ?? 0)] ?? 'add'
-  query.type = resolveResourceType(query.type)
+  const action = actionMap[Number(query.t ?? 0)] ?? 'add'
+  const resourceType = resolveResourceType(query.type)
   const data: Record<string, unknown> = {
-    threadId: `${String(query.type ?? '')}${String(query.id ?? '')}`,
+    threadId: `${resourceType}${String(query.id)}`,
   }
 
-  if (query.type === 'A_EV_2_') {
+  if (resourceType === 'A_EV_2_') {
     data.threadId = query.threadId
   }
-  if (query.t === 'add') data.content = query.content
-  else if (query.t === 'delete') data.commentId = query.commentId
-  else if (query.t === 'reply') {
+  if (action === 'add') data.content = query.content
+  else if (action === 'delete') data.commentId = query.commentId
+  else if (action === 'reply') {
     data.commentId = query.commentId
     data.content = query.content
   }
-  return request(`/api/resource/comments/${query.t}`, data, createOption(query, 'weapi'))
+  return request(`/api/resource/comments/${action}`, data, createOption(query, 'weapi'))
 }
 
 export default async function migratedComment(
-  query: LegacyModuleQuery,
+  query: CommentQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

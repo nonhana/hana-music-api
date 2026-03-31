@@ -1,5 +1,5 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { AudioMatchQuery } from '../types/modules.ts'
 
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -9,7 +9,7 @@ interface AudioMatchResponseBody {
   }
 }
 
-const legacyModule = async (query: LegacyModuleQuery, _request: ModuleRequest) => {
+const legacyModule = async (query: AudioMatchQuery, _request: ModuleRequest) => {
   const response = await fetch(
     `https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=${
       query.duration
@@ -27,7 +27,7 @@ const legacyModule = async (query: LegacyModuleQuery, _request: ModuleRequest) =
 }
 
 export default async function migratedAudioMatch(
-  query: LegacyModuleQuery,
+  query: AudioMatchQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

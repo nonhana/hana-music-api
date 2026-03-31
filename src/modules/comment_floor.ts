@@ -1,14 +1,14 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { CommentFloorQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 import { resolveResourceType } from './_module-inputs.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  query.type = resolveResourceType(query.type)
+const legacyModule = (query: CommentFloorQuery, request: ModuleRequest) => {
+  const resourceType = resolveResourceType(query.type)
   const data = {
     parentCommentId: query.parentCommentId,
-    threadId: `${String(query.type ?? '')}${String(query.id ?? '')}`,
+    threadId: `${resourceType}${String(query.id)}`,
     time: query.time || -1,
     limit: query.limit || 20,
   }
@@ -16,7 +16,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedCommentFloor(
-  query: LegacyModuleQuery,
+  query: CommentFloorQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {
