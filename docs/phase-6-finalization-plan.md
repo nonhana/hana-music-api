@@ -1,656 +1,352 @@
-# Phase 6 收尾方案
+# Phase 6 收尾执行基线
+
+> 最后校准日期：2026-03-31  
+> 本文档已按当前仓库真实实现、测试结果与文档基线重新整理。后续接手时，应优先把它当作 `Phase 6` 的直接开工说明，而不是历史讨论稿。
 
 ## 一、文档目的
 
-本文档用于承接 `Phase 5` 之后的收尾工作。它不再讨论“是否继续迁移旧能力”，而是明确以下问题的最终取舍：
+本文档不再讨论“Phase 6 应该不要做”，而是明确三件事：
 
-1. `any` 在当前项目中的允许边界
-2. 模块 `query` 类型的收敛方案
-3. 程序化 API 的类型映射方案
-4. `xml2js` 的替换方向
-5. PAC 代理支持的最终决策
+1. 当前仓库已经完成了哪些 `Phase 6` 目标
+2. 现在真正还剩哪些收尾工作
+3. 后续 LLM 或开发者接手时，第一步应该改哪里、验收到什么程度
 
-本文档的目标不是追求“纸面上绝对零 `any`”，而是把仓库从“迁移已可用”进一步收敛为“边界清楚、文档一致、可长期维护”的现代 Bun + TypeScript + Hono API 服务。
+目标是让接手者可以：
 
----
-
-## 二、收尾阶段的总体判断
-
-当前仓库已经满足以下前提：
-
-- Bun 服务可正常启动
-- 主链路 `crypto -> request -> server -> modules` 已可实际运行
-- `src/modules/` 的迁移结果已能够被 HTTP 服务层和程序化入口装载
-- `typecheck` 与离线回归基线已经建立
-
-因此，接下来的工作重点不再是“继续批量迁模块”，而是三类收敛：
-
-1. **类型边界收敛**：把输入、公共导出和模块契约从“兼容优先”收紧到“可推导、可约束、可维护”
-2. **兼容层收敛**：减少散落在模块内部的历史写法，让遗留兼容逻辑集中在少数明确边界
-3. **边角能力定稿**：对上传链路、PAC 代理这类剩余事项给出明确决策，不再长期悬而未决
+- 不必再先做一轮全仓摸底
+- 不必再重复判断 `xml2js`、PAC、类型拆分这些事项是否已完成
+- 直接从剩余尾项开始推进
 
 ---
 
-## 三、决策摘要
+## 二、当前仓库真实状态
 
-### 3.1 `any` 的最终取舍
+截至 2026-03-31，以下事项已经通过源码、依赖、测试或文档核对确认：
 
-结论：**允许保留少量、集中、带注释的 `any`，但仅限“上游响应未知边界”与极少数动态解析边界。**
+### 2.1 已完成的 Phase 6 主体工作
 
-原因：
+1. **类型目录已拆分**
+   当前 `src/types/` 已拆分为：
+   - `runtime.ts`
+   - `request.ts`
+   - `server.ts`
+   - `modules.ts`
+   - `module-contracts.ts`
+   - `upstream.ts`
+   - `index.ts`
 
-- 网易云上游接口的返回值结构并不稳定，也缺少可信的官方 schema
-- 如果为了追求“绝对零 `any`”而把所有上游响应都写成伪精确类型，反而会制造大量虚假的类型安全
-- 当前项目首先是 HTTP API 后端应用，不是以发布完整 SDK 类型声明为第一目标
+2. **上游边界已集中**
+   `src/types/upstream.ts` 已承担上游动态响应边界，仓库 `src/` 内已不存在四处分散的显式 `any`。
 
-允许保留 `any` 的位置：
+3. **程序化 API 已具备基础类型映射**
+   当前已存在：
+   - `ModuleContractMap`
+   - `ModuleIdentifier`
+   - `ModuleQueryOf`
+   - `ModuleResponseOf`
+   - `ProgrammaticApi`
 
-1. 上游原始响应体边界
-2. 真实结构未知、且必须动态访问的 JSON 解析结果
-3. 少量第三方返回结构无法稳定建模的过渡点
+   `invokeModule()`、`createModuleApi()`、`loadProgrammaticApi()` 也已经接入这些类型。
 
-不允许保留 `any` 的位置：
+4. **`xml2js` 已移除**
+   `voice_upload.ts` 不再依赖 `xml2js`，而是改为内部 XML helper。
 
-1. 公共输入边界，例如 `query`、配置对象、启动参数
-2. 程序化 API 的模块标识和调用签名
-3. 服务层内部适配逻辑
-4. 可以用 `unknown` + 类型守卫表达的场景
+5. **PAC 边界已定稿**
+   当前版本明确不支持 PAC 代理；`src/core/request.ts` 中保留显式报错，README 与架构文档也已基本统一到这一结论。
+
+6. **主线工程校验已可通过**
+   当前基线为：
+   - `bun test` 通过
+   - `bun run typecheck` 通过
+   - `bun run lint:full` 无 error，但仍有 2 个 warning
+
+### 2.2 当前剩余工作的真实范围
+
+`Phase 6` 现在已经不是“大规模实现阶段”，而是以下四类尾项：
+
+1. **长尾模块 query 类型继续收窄**
+2. **继续扩展 `ModuleContractMap` 覆盖范围**
+3. **上传链路补真实环境手工验证说明**
+4. **清理少量文档与 lint 尾差**
+
+换句话说：
+
+- `Phase 6` 主体已完成
+- 现在缺的不是主链路能力，而是收口质量
+
+---
+
+## 三、当前判断与取舍
+
+### 3.1 `any` 的最终判断
+
+当前结论已经从“是否允许少量 `any`”变成：
+
+**仓库主线已达到“无分散显式 `any`、动态边界集中处理”的目标，后续不应重新引入散落式 `any`。**
+
+后续规则：
+
+1. 新增输入边界不得写显式 `any`
+2. 模块 query 类型优先用真实字段约束
+3. 上游不稳定响应仍保持保守，不追求伪精确 schema
+4. 如果确实需要新的不安全边界，必须继续集中在 `src/types/upstream.ts` 附近，而不是扩散到模块、服务层或公共 API
+
+### 3.2 `query` 类型的最终判断
+
+当前最重要的未完成事项，是把更多模块从兼容型 `LegacyModuleQuery` 收敛到真实 query 类型。
+
+现状：
+
+- 高频模块、登录模块、上传相关模块与少量聚合模块，已经有显式 query 类型
+- 但大量长尾模块仍以 `LegacyModuleQuery` 为主
+
+结论：
+
+**后续 phase 6 的第一优先级，不是继续改响应类型，而是继续改输入边界。**
 
 执行原则：
 
-- 不再允许“散落式 `Record<string, any>`”
-- 所有确有必要的 `any`，都应集中到少数类型别名中，并附带注释说明原因
-- 收尾目标应调整为：**清零无解释的 `any` warning**，而不是机械追求“仓库一个 `any` 都没有”
+1. 以模块内部真实读取的 `query.xxx` 为准补类型
+2. 先补必填字段、可选字段和基础 number-like / boolean-like
+3. 不为未读取的字段预先建模
+4. 不要求一次性覆盖全部模块，但要持续缩小 `LegacyModuleQuery` 使用面
 
-建议做法：
+### 3.3 程序化 API 的最终判断
 
-1. 新增专门的上游边界类型文件，例如 `src/types/upstream.ts`
-2. 在其中集中定义少数过渡类型，例如：
-   - `UpstreamBody`
-   - `DynamicJsonRecord`
-3. 对这些集中保留的 `any` 使用局部 lint 关闭，并写清楚原因
-4. 仓库其余位置不得继续新增新的显式 `any`
+程序化 API 的“从纯动态 Record 到受约束类型映射”的第一步已经完成，但覆盖面仍不足。
 
----
+现状：
 
-### 3.2 `query` 类型的最终取舍
+- 类型框架已建立
+- 运行时入口已接入
+- 仍只有一部分模块被纳入 `ModuleContractMap`
 
-结论：**模块 `query` 类型应继续收紧，而且收紧依据应来自“当前模块的实际调用输入”，而不是上游响应结构。**
+结论：
 
-原因：
+**后续工作不需要重写程序化 API 机制本身，而是继续把已完成 query 收敛的模块纳入契约映射。**
 
-- `query` 是当前项目自己定义和消费的输入边界，可控、稳定、收益高
-- 与响应体不同，入参结构完全可以从模块实现、HTTP 调用方式和程序化 API 用法中提取
-- 即便上游响应体仍保持宽泛边界，输入边界的严格化也能显著提升可维护性
+优先纳入原则：
 
-实施原则：
+1. 先纳入已经拥有显式 query 类型的模块
+2. 先纳入高频、登录、上传、聚合类模块
+3. 响应类型允许继续保守，不要求立即精细化
 
-1. 以模块实际读取的字段为准定义 `query` 类型
-2. 先保证“字段存在性和基本类型”准确，再考虑更细的枚举和值域
-3. 优先为高频、登录、上传和聚合类模块定义明确 query 类型
-4. 长尾模块允许采用“最小但真实”的 query 类型，而不是一次性补完整业务语义
+### 3.4 上传链路的最终判断
 
-推荐分层：
+上传链路现代化已经完成主要代码替换，但验收尚未完全闭合。
 
-- **A 类模块**：高频基础模块、登录模块、上传模块、聚合模块  
-  要求具备显式 query 类型，字段级约束尽量明确
-- **B 类模块**：普通读操作模块  
-  至少补齐必填字段、可选字段和基础字面量/数字字符串类型
-- **C 类模块**：长尾兼容模块  
-  可先保留宽松边界，但要逐步从 `LegacyModuleQuery` 收敛到更小的局部类型
+已完成：
 
-注意：
+1. `xml2js` 已移除
+2. `voice_upload.ts` 已切到内部 XML helper
+3. 已补 helper 与离线 multipart 组装测试
+4. 服务层 multipart 兼容适配已存在
 
-- 这里的“类型完全”首先应理解为**输入边界完全**，而不是“把 366 个接口的响应都做成伪精确 schema”
+未完成：
 
----
+1. 还没有一份清晰的真实环境手工验证清单
+2. 还没有把“大文件、多分块、异常 XML 返回”的人工验证步骤写成文档
 
-### 3.3 程序化 API 的最终取舍
+结论：
 
-结论：**程序化 API 应优先建立“模块标识 -> query/response”类型映射；响应类型允许保守，但调用签名不能继续是纯动态 `Record<string, ...>`。**
+**上传链路当前不缺主实现，缺的是“真实场景如何验证”的操作说明。**
 
-当前问题：
+### 3.5 PAC 代理的最终判断
 
-- `createModuleApi()` 返回动态 `Proxy`
-- `invokeModule()` 以任意字符串作为模块标识
-- `ProgrammaticApi` 当前只是 `Record<string, ProgrammaticModuleInvoker>`
+PAC 已经不是待恢复能力，而是当前版本的有意边界。
 
-这意味着：
+后续要求只有两条：
 
-- 运行时可用
-- 但编译期无法约束模块标识是否合法
-- 也无法根据模块标识推导 query 类型
-
-最终方案：
-
-1. 引入统一的模块契约映射，例如 `ModuleContractMap`
-2. 让每个已收紧的模块在类型层声明：
-   - `query`
-   - `response`
-3. 生成以下公共类型：
-   - `ModuleIdentifier`
-   - `ModuleQueryOf<TIdentifier>`
-   - `ModuleResponseOf<TIdentifier>`
-4. 重写程序化 API 的公开签名：
-   - `invokeModule<K extends ModuleIdentifier>(identifier: K, query: ModuleQueryOf<K>)`
-   - `ProgrammaticApi = { [K in ModuleIdentifier]: (query: ModuleQueryOf<K>) => Promise<ModuleResponseOf<K>> }`
-
-响应类型取舍：
-
-- 对无法稳定建模的模块，`response` 允许退回 `NcmApiResponse<UpstreamBody>`
-- 对已知高频模块，可逐步补更具体的返回结构
-- 当前阶段不要求一次性给全部模块补齐精确响应 schema
-
-目标：
-
-- 让程序化 API 至少做到“标识可校验、入参可推导、响应边界有保底类型”
+1. 不再把 PAC 写成“尚未恢复”
+2. 如果未来真要支持 PAC，作为独立专题处理，不再挂在 `Phase 6` 主线中
 
 ---
 
-### 3.4 `xml2js` 的最终取舍
+## 四、剩余收尾工作的执行清单
 
-结论：**移除 `xml2js`，改为更轻量、更现代、只覆盖当前真实需求的 XML 解析方案。**
+本节是后续接手时应直接执行的工作单。
 
-当前现状：
+### 4.1 工作项 A：继续收窄长尾模块 query 类型
 
-- `xml2js` 仅在 `voice_upload.ts` 中用于解析 NOS 分块上传返回的 XML
-- 当前实际需求只依赖少量字段，例如 `UploadId`
+**优先级：P0**
 
-因此，不需要保留完整对象映射型 XML 库。
+**目标**：
 
-推荐方案：
+- 继续减少 `LegacyModuleQuery` 的使用范围
+- 让更多模块的输入边界进入“真实、可推导、可维护”状态
 
-1. 优先使用 Bun 可直接消费的 Web API 方案，例如 `DOMParser`
-2. 把解析逻辑封装为小型辅助函数，例如：
-   - `parseXmlText(xml, tagName)`
-   - `parseMultipartUploadId(xml)`
-3. 仅解析当前链路真正需要的 XML 节点，不引入新的重量级 XML 依赖
+**建议优先批次**：
 
-验收标准：
+1. 已有行为回归、但仍未收窄 query 的高频模块
+2. 上传相关长尾模块
+3. 常用详情、列表、评论、用户相关模块
 
-- `package.json` 移除 `xml2js`
-- `voice_upload.ts` 不再依赖第三方 XML 解析库
-- 补一组上传链路的最小单测或回归测试，至少覆盖：
-  - upload init XML 解析
-  - 缺文件报错
-  - multipart 完成请求组装
+**操作步骤**：
 
-补充说明：
+1. 选一批模块
+2. 列出模块内部实际读取的 `query.xxx`
+3. 在 `src/types/modules.ts` 或模块本地补最小真实类型
+4. 替换模块签名中的 `LegacyModuleQuery`
+5. 运行 `bun test`、`bun run typecheck`、`bun run lint:full`
 
-- CI 中不要求接入真实 NOS 上传
-- 但应补一份手工验证步骤，供后续在真实环境做上传链路检查
+**完成标准**：
+
+- 新增收窄模块不再依赖 `LegacyModuleQuery`
+- 不引入新的类型断言噪音
+- 既有回归保持通过
+
+### 4.2 工作项 B：扩展 `ModuleContractMap`
+
+**优先级：P1**
+
+**目标**：
+
+- 让程序化 API 的强类型覆盖更多真实模块
+
+**执行方式**：
+
+1. 以“已经具备显式 query 类型的模块”为起点
+2. 在 `src/types/module-contracts.ts` 中补充映射
+3. 确认 `invokeModule()` 和 `createModuleApi()` 调用时能够推导对应 query
+4. 视需要补充 `tests/module-api.test.ts`
+
+**完成标准**：
+
+- 新增模块标识可被编译期校验
+- query 可被正确推导
+- 不要求响应类型立刻精细化
+
+### 4.3 工作项 C：补上传链路手工验证说明
+
+**优先级：P1**
+
+**目标**：
+
+- 让后续接手者知道真实上传场景如何验证，而不是只看到离线测试
+
+**应新增的内容**：
+
+建议新增一份独立文档，例如：
+
+- `docs/upload-manual-checklist.md`
+
+文档至少包含：
+
+1. 需要的前置条件
+2. 如何准备真实 cookie / 环境
+3. 如何验证：
+   - 缺文件报错
+   - 单分块上传
+   - 多分块上传
+   - multipart complete XML
+   - 上游返回异常 XML 时的预期行为
+4. 成功标准和失败时应记录的信息
+
+**完成标准**：
+
+- 仓库内存在明确的上传手工验证说明
+- README 或相关文档有链接入口
+
+### 4.4 工作项 D：清理文档与 lint 尾差
+
+**优先级：P2**
+
+**当前已知尾差**：
+
+1. `docs/migration-notes.md` 仍保留“PAC 代理仍未恢复”的旧表述
+2. `bun run lint:full` 仍有 2 个 warning：
+   - `src/app/module-api.ts`
+   - `src/server/routes.ts`
+
+**目标**：
+
+- 让文档表述统一
+- 让 `lint:full` 尽量收敛到干净状态
+
+**完成标准**：
+
+- `migration-notes.md` 不再与 README / architecture / request.ts 冲突
+- 2 个 warning 被移除，或至少被明确记录为有意保留的白名单
 
 ---
 
-### 3.5 PAC 代理的最终取舍
+## 五、推荐执行顺序
 
-结论：**明确不支持 PAC 代理，并将其从“未完成债务”调整为“有意边界”。**
+后续接手时，建议严格按下面顺序推进：
 
-原因：
+1. **先做 A：长尾模块 query 收窄**
+   这是当前 phase 6 最大剩余工作，也是收益最高的部分。
+2. **再做 B：扩展 `ModuleContractMap`**
+   当 query 类型补好后，顺手把对应模块纳入程序化 API 映射。
+3. **再做 C：补上传手工验证说明**
+   这一步主要补文档闭环，不会大改运行时代码。
+4. **最后做 D：统一文档和 lint 尾差**
+   作为 phase 6 的收口动作。
 
-- Bun 当前 `fetch` 适配器不原生支持 PAC
-- 当前项目的主目标是承接网易云 API 能力，而不是实现完整代理能力矩阵
-- PAC 使用场景属于低频边缘需求，不应长期阻塞主线收尾
+这样安排的原因是：
 
-落实方式：
-
-1. 保留当前显式报错行为
-2. 在 README、架构文档和技术债文档中统一改写表述：
-   - 不再写“PAC 代理仍未恢复”
-   - 改为“当前版本明确不支持 PAC 代理”
-3. 若未来出现真实业务需求，再以独立专题实现，而不是继续挂在主线债务列表中
+- 先收输入契约，再扩公共类型映射
+- 先做高收益代码收敛，再补文档闭环
+- 最后统一处理低风险清理项，避免打断主线推进
 
 ---
 
-### 3.6 类型系统落地设计
-
-本节用于回答一个更具体的问题：
-
-- 在当前项目中，究竟哪些地方要强类型
-- 哪些地方应该保守
-- 文件应该怎么拆
-- `request()`、模块层和程序化 API 应该分别承担什么类型责任
-
-核心原则只有一句话：
-
-**对自己定义的契约严格，对上游未知事实保守。**
-
-#### 3.6.1 类型系统的三层模型
-
-建议把当前项目的类型系统拆成三层，而不是混在一个 `index.ts` 里：
-
-1. **输入契约层**
-   负责描述当前项目自己接收和消费的输入。
-   例如：
-   - HTTP query / body 进入模块时的参数
-   - `createServer()` / `startServer()` 配置
-   - `createRequest()` 选项
-   - 程序化 API 的模块调用参数
-2. **运行时边界层**
-   负责描述本项目内部流动的数据形状。
-   例如：
-   - `NcmApiResponse`
-   - `ModuleDefinition`
-   - `ModuleRequest`
-   - `LegacyUploadedFile`
-3. **上游原始响应层**
-   负责承接网易云返回体和动态解析结果。
-   这里允许保守类型，必要时允许集中保留 `any`。
-
-这三层不要混写，否则很容易出现一个问题：
-
-- 为了迁就上游响应的不确定性，把整个项目都拖回宽泛类型
-
-#### 3.6.2 推荐的 `src/types/` 拆分方式
-
-推荐将类型目录整理为以下结构：
-
-```text
-src/types/
-├── index.ts          # 公共导出门面
-├── runtime.ts        # 运行时公共结构：NcmApiResponse、ModuleDefinition、ModuleRequest
-├── request.ts        # createRequest() 相关输入类型
-├── modules.ts        # 各模块 query 类型、上传文件类型、LegacyModuleQuery 过渡类型
-├── module-contracts.ts # ModuleContractMap、ModuleIdentifier、ModuleQueryOf、ModuleResponseOf
-├── upstream.ts       # UpstreamBody、DynamicJsonRecord、少量集中保留的 any
-└── vendor.d.ts       # 第三方声明补丁
-```
-
-拆分目的：
-
-- `index.ts` 只做门面导出，不再承载所有类型定义
-- `modules.ts` 专注于模块输入
-- `module-contracts.ts` 专注于程序化 API 的类型映射
-- `upstream.ts` 作为唯一允许保守边界集中的地方
-
-#### 3.6.3 `unknown`、`any`、`Record<string, unknown>` 的使用规则
-
-建议固定采用以下判定规则：
-
-1. **能先不信任，就先用 `unknown`**
-   适用场景：
-   - `JSON.parse()`
-   - 外部响应体
-   - 动态配置源
-2. **需要表达“对象，但字段未知”时，用 `Record<string, unknown>`**
-   适用场景：
-   - query 合并后的中间对象
-   - 只做浅层属性转发的 data 对象
-3. **只有在“必须允许任意属性访问且短期无法建模”时，才允许集中式 `any`**
-   适用场景：
-   - 上游响应原始边界
-   - 第三方回包结构极不稳定、且当前项目仅做透传
-
-不建议继续使用的写法：
-
-```ts
-Record<string, any>
-```
-
-替代策略：
-
-```ts
-export type UpstreamBody = Record<string, unknown>
-
-// 仅用于上游原始返回体边界，禁止向输入边界和公共 API 扩散。
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type UnsafeUpstreamBody = Record<string, any>
-```
-
-执行约束：
-
-- `UnsafeUpstreamBody` 只能定义在 `src/types/upstream.ts`
-- 其他文件不得直接写新的 `Record<string, any>`
-- 如果某处必须使用 `UnsafeUpstreamBody`，应优先在变量命名上体现其“不安全”性质
-
-#### 3.6.4 `request()` 的类型责任
-
-`createRequest()` 的职责不是告诉调用者“网易云一定返回什么”，而是提供一个**稳定、诚实的上游请求边界**。
-
-因此，建议将其签名收敛为：
-
-```ts
-export type UpstreamBody = Record<string, unknown>
-
-export interface NcmApiResponse<TBody = UpstreamBody> {
-  body: TBody
-  cookie: string[]
-  status: number
-}
-
-export type ModuleRequest = <TBody = UpstreamBody>(
-  uri: string,
-  data: Record<string, unknown>,
-  options?: CreateRequestOptions,
-) => Promise<NcmApiResponse<TBody>>
-```
-
-这样做的含义是：
-
-- 默认情况下，`request()` 返回保守的 `UpstreamBody`
-- 模块如果确实知道某一段局部结构，可以在局部显式声明 `TBody`
-- 不要求 `request()` 预设全局精确响应 schema
-
-这个泛型应该谨慎使用：
-
-- 只有当模块确实消费了某些字段，且这些字段在当前链路里稳定时，才传具体 `TBody`
-- 否则应保持默认保守边界
-
-#### 3.6.5 模块层的类型责任
-
-模块层最重要的类型责任是**定义输入，不是承诺完整输出**。
-
-每个模块最终应尽量接近如下结构：
-
-```ts
-import type { ModuleRequest, NcmApiResponse } from '../types/runtime.ts'
-import type { SearchQuery } from '../types/modules.ts'
-import type { UpstreamBody } from '../types/upstream.ts'
-
-export default async function search(
-  query: SearchQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse<UpstreamBody>> {
-  // ...
-}
-```
-
-如果某模块确实依赖某个返回片段，可以局部定义最小响应片段类型：
-
-```ts
-interface SongUrlItem {
-  id: number | string
-  url?: string
-}
-
-interface SongUrlBody {
-  code?: number
-  data?: SongUrlItem[]
-}
-```
-
-然后：
-
-```ts
-const res = await request<SongUrlBody>(...)
-```
-
-注意：
-
-- 这里定义的是“当前模块真实消费到的最小片段”，不是上游完整 schema
-- 不要为了追求完美而把整份返回体全部写全
-
-#### 3.6.6 `query` 类型的设计方法
-
-每个模块的 `query` 类型应从以下四个来源提取：
-
-1. 模块内部实际读取的字段
-2. 服务层允许透传的 HTTP 参数
-3. 程序化 API 的调用方式
-4. 旧项目的真实接口调用习惯
-
-建议按以下顺序收敛：
-
-1. 先列出模块访问了哪些 `query.xxx`
-2. 标出必填和可选
-3. 把数字字符串保留成 `number | \`\${number}\``
-4. 把有限枚举值收敛成字面量联合
-5. 对上传文件、cookie、代理等公共字段复用共享类型
-
-推荐的公共积木类型：
-
-```ts
-export type QueryNumberLike = number | `${number}`
-export type QueryBooleanLike = boolean | 0 | 1 | '0' | '1' | 'true' | 'false'
-export type QueryIdentifier = string | number
-```
-
-模块类型示例：
-
-```ts
-export interface SearchQuery extends OptionCompatibleQuery {
-  keywords: string
-  limit?: QueryNumberLike
-  offset?: QueryNumberLike
-  type?: QueryNumberLike
-}
-
-export interface LoginCellphoneQuery extends OptionCompatibleQuery {
-  phone: string
-  countrycode?: QueryNumberLike
-  password?: string
-  md5_password?: string
-  captcha?: string
-}
-```
-
-不建议的做法：
-
-- 把所有模块都继续挂在 `LegacyModuleQuery`
-- 把根本没读过的字段也先写进类型里“以防以后要用”
-- 为了消除错误把所有字段都做成可选
-
-#### 3.6.7 程序化 API 的类型设计
-
-程序化 API 的目标不是消灭运行时动态装载，而是在公共类型层给出**可校验的调用契约**。
-
-推荐设计如下：
-
-```ts
-export interface ModuleContractMap {
-  search: {
-    query: SearchQuery
-    response: NcmApiResponse<UpstreamBody>
-  }
-  song_url: {
-    query: SongUrlQuery
-    response: NcmApiResponse<SongUrlBody>
-  }
-  user_account: {
-    query: UserAccountQuery
-    response: NcmApiResponse<UpstreamBody>
-  }
-}
-
-export type ModuleIdentifier = keyof ModuleContractMap
-
-export type ModuleQueryOf<K extends ModuleIdentifier> = ModuleContractMap[K]['query']
-
-export type ModuleResponseOf<K extends ModuleIdentifier> = ModuleContractMap[K]['response']
-
-export type ProgrammaticApi = {
-  [K in ModuleIdentifier]: (query: ModuleQueryOf<K>) => Promise<ModuleResponseOf<K>>
-}
-```
-
-公共函数签名建议改成：
-
-```ts
-export async function invokeModule<K extends ModuleIdentifier>(
-  identifier: K,
-  query: ModuleQueryOf<K>,
-  options?: CreateModuleApiOptions,
-): Promise<ModuleResponseOf<K>>
-```
-
-`createModuleApi()` 的运行时仍然可以返回 `Proxy`，但对外暴露的类型应是 `ProgrammaticApi`，而不是通用 `Record<string, ...>`。
-
-这里的重点是：
-
-- 模块标识在编译期受约束
-- query 能被自动提示
-- response 至少有保底边界
-
-#### 3.6.8 模块响应类型的策略
-
-本项目不适合把响应类型作为第一优先级全面精细化。
-
-建议分三级：
-
-1. **Level 1：保底响应**
-   使用 `NcmApiResponse<UpstreamBody>`
-   适用于绝大多数模块
-2. **Level 2：最小消费片段**
-   只为模块内部真实读取的字段定义局部片段类型
-   适用于 `song_url`、`playlist_track_all`、`check_music` 这类会读上游字段的模块
-3. **Level 3：公共高频响应**
-   对 `search`、`playlist_detail`、`user_account` 等高频模块，若程序化调用确有价值，可逐步补更明确的返回体
-
-这三层足以覆盖当前项目需要，没必要一步到位走向“全量 SDK schema 化”。
-
-#### 3.6.9 兼容层的类型定位
-
-`src/modules/_migration.ts` 不应被视为“类型失败后的兜底脏区”，而应明确定位为：
-
-- **旧模块返回形态归一化边界**
-- **旧式错误对象归一化边界**
-
-因此，兼容层允许保守类型，但它的职责要写清楚：
-
-- 负责把未知旧响应压成稳定 `NcmApiResponse`
-- 不负责替代模块自己的输入类型设计
-- 不负责提供精确业务语义
-
-这意味着：
-
-- 模块可以继续复用兼容层
-- 但类型现代化工作的主战场仍是 `query`、`request()` 和程序化 API
-
-#### 3.6.10 建议的迁移顺序
-
-为了让 LLM 接手时能直接开工，建议按下面顺序实施：
-
-1. 新增 `src/types/upstream.ts`
-   先把保守边界集中起来
-2. 拆分 `src/types/index.ts`
-   把 `runtime`、`request`、`module-contracts` 拆出去
-3. 改造 `ModuleRequest` 为带默认泛型的函数类型
-4. 清理 `src/core/request.ts`、`src/modules/api.ts` 中散落的 `Record<string, any>`
-5. 扩展 `src/types/modules.ts`
-   继续补高频、登录、上传、聚合模块 query 类型
-6. 引入 `ModuleContractMap`
-   先覆盖已经完成 query 收敛的模块
-7. 再改造 `invokeModule()`、`createModuleApi()`、`NeteaseCloudMusicApi`
-
-这样推进的原因是：
-
-- 先集中不安全边界，后收缩输入契约
-- 先把基础类型地基打稳，再给程序化 API 加编译期约束
-- 避免一上来就改 `ProgrammaticApi`，导致大范围类型连锁错误
+## 六、后续接手时的第一轮动作
+
+如果你是下一位接手的 LLM 或开发者，建议第一轮固定按下面动作执行：
+
+1. 阅读本文件
+2. 阅读：
+   - `src/types/modules.ts`
+   - `src/types/module-contracts.ts`
+   - `src/app/module-api.ts`
+   - `docs/remaining-debt.md`
+3. 用检索确认当前仍在使用 `LegacyModuleQuery` 的模块批次
+4. 先挑一小批模块收窄 query 类型
+5. 同步把这批模块里适合公开消费的模块加入 `ModuleContractMap`
+6. 运行：
+   - `bun test`
+   - `bun run typecheck`
+   - `bun run lint:full`
+
+不要再把以下事项当作未完成主线：
+
+1. 不要再评估是否继续保留 `xml2js`
+2. 不要再把 PAC 当成“待恢复能力”
+3. 不要再重做 `src/types/` 的目录拆分
+4. 不要再把 phase 6 理解成“大规模迁移模块阶段”
 
 ---
 
-## 四、Phase 6 的实施方案
+## 七、非目标
 
-### 4.1 第一阶段：收敛类型边界
+以下事项不属于当前 `Phase 6` 主线收尾：
 
-目标：先把“宽泛类型散落”的问题集中治理。
-
-任务：
-
-1. 新增上游边界类型文件，集中管理允许保留的 `any`
-2. 替换 `src/core/request.ts`、`src/types/index.ts`、`src/modules/api.ts` 等位置散落的 `Record<string, any>`
-3. 约定：
-   - 输入边界优先 `unknown` / 明确类型
-   - 上游响应边界允许集中保留少量 `any`
-
-完成标准：
-
-- 不再出现无解释的显式 `any`
-- `lint:full` 中与 `any` 相关的 warning 收敛到预期白名单范围
-
-### 4.2 第二阶段：收缩模块 query 类型
-
-目标：把模块输入边界从“全局兼容”收敛到“局部真实”。
-
-任务：
-
-1. 继续扩展 `src/types/modules.ts`
-2. 先完成以下批次：
-   - 高频基础模块
-   - 登录模块
-   - 上传模块
-   - 聚合模块
-3. 为剩余长尾模块建立“最小 query 类型”模板，避免继续直接复用 `LegacyModuleQuery`
-
-完成标准：
-
-- 高频与关键模块不再依赖 `LegacyModuleQuery`
-- 长尾模块的 `LegacyModuleQuery` 使用范围持续下降
-
-### 4.3 第三阶段：重建程序化 API 类型映射
-
-目标：让程序化调用接口具备真正可消费的 TypeScript 体验。
-
-任务：
-
-1. 定义 `ModuleContractMap`
-2. 改造 `ProgrammaticApi`、`invokeModule()`、`createModuleApi()` 的类型签名
-3. 保持运行时动态装载不变，但在公共导出层提供编译期约束
-
-完成标准：
-
-- `invokeModule('search', ...)` 能推导 `search` 的 query 类型
-- 非法模块标识在编译期报错
-- 高频模块的程序化调用具有清晰提示
-
-### 4.4 第四阶段：替换 `xml2js` 并收尾上传链路
-
-目标：完成上传链路现代化。
-
-任务：
-
-1. 用轻量 XML 解析 helper 替换 `xml2js`
-2. 更新上传链路测试
-3. 写一份真实上传手工验证清单
-
-完成标准：
-
-- `xml2js` 已从依赖中移除
-- 上传链路具备最小可信回归和手工验证说明
-
-### 4.5 第五阶段：正式定稿 PAC 边界
-
-目标：清理文档表述，结束 PAC 相关悬而未决状态。
-
-任务：
-
-1. 更新 README
-2. 更新 `docs/remaining-debt.md`
-3. 更新 `docs/architecture.md`
-
-完成标准：
-
-- PAC 不再被描述为“待恢复能力”
-- 仓库对 PAC 的边界表述一致
+1. 不为全部网易云响应建立精确 schema
+2. 不恢复 PAC 代理支持
+3. 不重写程序化 API 的运行时机制
+4. 不重做上传主链路实现
+5. 不把 phase 6 重新扩大为另一轮大规模架构重构
 
 ---
 
-## 五、非目标
+## 八、验收口径
 
-以下事项不属于本轮收尾目标：
+当 `Phase 6` 真正收尾完成时，项目应满足以下条件：
 
-1. 不以“一次性为全部网易云响应建立精确 schema”为目标
-2. 不把 PAC 代理能力重新拉回主线开发
-3. 不为了追求极致类型美观而破坏当前已验证的旧行为兼容性
-4. 不重写模块装载机制，只在类型层和边界层做收敛
+1. 主线工程校验持续通过：
+   - `bun test`
+   - `bun run typecheck`
+   - `bun run lint:full`
+2. 长尾模块 `LegacyModuleQuery` 使用面继续明显下降
+3. `ModuleContractMap` 覆盖更多真实高价值模块
+4. 上传链路具备离线测试 + 手工验证说明
+5. PAC 边界在全部文档中表述一致
+6. 仓库不再保留明显的 phase 6 文档冲突或低价值尾差
 
----
+简化后的验收表述：
 
-## 六、验收口径
-
-当 `Phase 6` 收尾完成后，项目应满足以下标准：
-
-1. 服务可正常启动，主链路可实际调用网易云上游
-2. `query` 输入边界达到“可类型化、可推导、可维护”
-3. 程序化 API 具备模块标识和入参的编译期约束
-4. `xml2js` 已移除
-5. PAC 代理被明确记录为当前版本有意不支持
-6. 仓库中不存在无解释、无约束、四处分散的 `any`
-
-简化表述：
-
-- **响应类型允许保守**
-- **输入类型必须真实**
-- **兼容层可以存在，但边界必须清楚**
-- **低频边缘能力要做决策，不再长期挂账**
+- **输入类型继续收窄**
+- **程序化 API 继续扩图**
+- **上传验证补操作说明**
+- **文档与 lint 完成收口**
