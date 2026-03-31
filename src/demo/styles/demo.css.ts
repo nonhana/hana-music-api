@@ -243,6 +243,13 @@ pre {
   padding: 24px;
 }
 
+.subtle-panel {
+  border-radius: var(--radius-medium);
+  box-shadow: none;
+  padding: 16px;
+  background: rgba(248, 250, 252, 0.95);
+}
+
 .metric-card {
   gap: 8px;
 }
@@ -438,6 +445,38 @@ pre {
   padding-bottom: 32px;
 }
 
+#audio-match-waveform {
+  width: 100%;
+  height: 160px;
+  border-radius: var(--radius-medium);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background:
+    linear-gradient(180deg, rgba(37, 99, 235, 0.06), rgba(37, 99, 235, 0.02)),
+    #f8fafc;
+}
+
+.audio-match-meta {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.match-results {
+  min-height: 96px;
+  padding: 16px;
+  border-radius: var(--radius-medium);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  background: rgba(248, 250, 252, 0.92);
+  color: var(--text-body);
+}
+
+.match-result-list {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.match-result-list a {
+  color: var(--brand);
+}
+
 @media (max-width: 980px) {
   .stats-grid,
   .two-column-grid {
@@ -445,6 +484,10 @@ pre {
   }
 
   .compact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .audio-match-meta {
     grid-template-columns: 1fr;
   }
 

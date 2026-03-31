@@ -258,12 +258,36 @@ describe('createServer', () => {
     })
     const apiDebugResponse = await app.request('http://localhost/demo/api-debug')
     const qrLoginResponse = await app.request('http://localhost/demo/qr-login')
+    const audioMatchResponse = await app.request('http://localhost/demo/experiments/audio-match')
+    const audioMatchAssetResponse = await app.request(
+      'http://localhost/demo/assets/audio-match/rec.js',
+    )
+    const audioMatchFpRuntimeResponse = await app.request(
+      'http://localhost/demo/assets/audio-match/afp.js',
+    )
+    const audioMatchWasmResponse = await app.request(
+      'http://localhost/demo/assets/audio-match/afp.wasm',
+    )
 
     expect(apiDebugResponse.status).toBe(200)
     expect(await apiDebugResponse.text()).toContain('API Debug')
 
     expect(qrLoginResponse.status).toBe(200)
     expect(await qrLoginResponse.text()).toContain('QR Login')
+
+    expect(audioMatchResponse.status).toBe(200)
+    expect(await audioMatchResponse.text()).toContain('Audio Match')
+
+    expect(audioMatchAssetResponse.status).toBe(200)
+    const audioMatchAssetScript = await audioMatchAssetResponse.text()
+    expect(audioMatchAssetScript).toContain('class TimedRecorder extends AudioWorkletProcessor')
+    expect(audioMatchAssetScript).toContain("registerProcessor('timed-recorder', TimedRecorder)")
+
+    expect(audioMatchFpRuntimeResponse.status).toBe(200)
+    expect(await audioMatchFpRuntimeResponse.text()).toContain('globalThis.GenerateFP = GenerateFP')
+
+    expect(audioMatchWasmResponse.status).toBe(200)
+    expect(audioMatchWasmResponse.headers.get('content-type')).toContain('application/wasm')
   })
 
   test('should return 404 for legacy static files after demo migration', async () => {

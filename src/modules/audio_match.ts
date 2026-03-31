@@ -4,9 +4,9 @@ import type { AudioMatchQuery } from '../types/modules.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 interface AudioMatchResponseBody {
-  data?: {
-    data?: unknown
-  }
+  code?: number
+  data?: Record<string, unknown>
+  message?: string
 }
 
 const legacyModule = async (query: AudioMatchQuery, _request: ModuleRequest) => {
@@ -19,8 +19,9 @@ const legacyModule = async (query: AudioMatchQuery, _request: ModuleRequest) => 
   return {
     status: 200,
     body: {
-      code: 200,
-      data: res.data?.data,
+      code: res.code ?? 200,
+      data: res.data,
+      message: res.message,
     },
     cookie: [],
   }
@@ -39,16 +40,17 @@ export default async function migratedAudioMatch(
 
 function readAudioMatchResponse(value: unknown): AudioMatchResponseBody {
   if (!isRecordLike(value)) {
-    return {}
+    return {
+      code: 200,
+    }
   }
 
-  const payload = isRecordLike(value.data) ? value.data : undefined
+  const code = typeof value.code === 'number' ? value.code : 200
+  const data = isRecordLike(value.data) ? value.data : undefined
   return {
-    data: payload
-      ? {
-          data: payload.data,
-        }
-      : undefined,
+    code,
+    data,
+    message: typeof value.message === 'string' ? value.message : undefined,
   }
 }
 

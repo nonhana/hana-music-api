@@ -80,11 +80,11 @@ export const demoPages = [
     title: 'Playlist Cover Upload',
   },
   {
-    description: '重浏览器能力页，保留为后续单独迁移专题。',
+    description: '上传音频片段或混入麦克风采集后，生成指纹并直接调用 `/audio/match`。',
     groupId: 'experiments',
     path: '/demo/experiments/audio-match',
-    status: 'planned',
-    summary: '当前只提供占位说明，后续再恢复音频指纹与麦克风采集能力。',
+    status: 'ready',
+    summary: '实验性恢复旧听歌识曲能力，包含文件识别、波形预览和麦克风混音。',
     title: 'Audio Match',
   },
 ] as const satisfies readonly DemoPageDefinition[]

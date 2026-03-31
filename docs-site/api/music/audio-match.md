@@ -1,11 +1,11 @@
 ---
 title: '听歌识曲'
-description: '使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息。旧 `audio_match_demo` 静态页已移除，当前仅保留 `/demo/experiments/audio-match` 占位入口。'
+description: '使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息。新的本地实验页已切换到 `/demo/experiments/audio-match`。'
 ---
 
 # 听歌识曲
 
-> 使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息。旧 `audio_match_demo` 静态页已移除，当前仅保留 `/demo/experiments/audio-match` 占位入口。
+> 使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息。新的本地实验页已切换到 `/demo/experiments/audio-match`。
 
 ## 接口信息
 
@@ -41,7 +41,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明: 使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息。旧静态实验页已经退出主线；当前 `/demo/experiments/audio-match` 仅用于跟踪后续回归状态
+说明: 使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息。本地实验页现已切换到 `/demo/experiments/audio-match`
 
 **接口地址:** `/audio/match`
 
