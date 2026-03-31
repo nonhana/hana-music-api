@@ -2,11 +2,11 @@ import { afterEach, beforeEach, describe, expect, test } from 'bun:test'
 
 import type { ModuleRequest } from '../src/types/index.ts'
 
-import voiceUpload from '../src/modules/voice_upload.ts'
 import {
   createMultipartCompleteXml,
   parseMultipartUploadId,
 } from '../src/modules/_voice-upload-xml.ts'
+import voiceUpload from '../src/modules/voice_upload.ts'
 
 describe('voice upload xml helpers', () => {
   test('should parse upload id from initiate xml', () => {

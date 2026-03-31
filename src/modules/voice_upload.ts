@@ -81,7 +81,11 @@ const legacyModule = async (query: VoiceUploadQuery, request: ModuleRequest) => 
   const etags: string[] = []
 
   while (offset < fileSize) {
-    const chunk = sliceBinaryChunk(query.songFile.data, offset, Math.min(offset + blockSize, fileSize))
+    const chunk = sliceBinaryChunk(
+      query.songFile.data,
+      offset,
+      Math.min(offset + blockSize, fileSize),
+    )
 
     const partResponse = await fetch(
       `https://ymusic.nos-hz.163yun.com/${objectKey}?partNumber=${blockIndex}&uploadId=${uploadId}`,
@@ -101,18 +105,15 @@ const legacyModule = async (query: VoiceUploadQuery, request: ModuleRequest) => 
   }
 
   // 文件处理
-  await fetch(
-    `https://ymusic.nos-hz.163yun.com/${objectKey}?uploadId=${uploadId}`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'text/plain;charset=UTF-8',
-        'X-Nos-Meta-Content-Type': 'audio/mpeg',
-        'x-nos-token': tokenRes.body.result.token,
-      },
-      body: createMultipartCompleteXml(etags),
+  await fetch(`https://ymusic.nos-hz.163yun.com/${objectKey}?uploadId=${uploadId}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'text/plain;charset=UTF-8',
+      'X-Nos-Meta-Content-Type': 'audio/mpeg',
+      'x-nos-token': tokenRes.body.result.token,
     },
-  )
+    body: createMultipartCompleteXml(etags),
+  })
 
   // preCheck
   await request(

@@ -1,12 +1,12 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-import { RESOURCE_TYPE_MAP as resourceTypeMap } from '../core/config.ts'
 import { createOption } from '../core/options.ts'
-// 评论
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+// 评论
+import { resolveResourceType } from './_module-inputs.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  query.type = resourceTypeMap[Number(query.type ?? 0) as keyof typeof resourceTypeMap]
+  query.type = resolveResourceType(query.type)
   const threadId = `${String(query.type ?? '')}${String(query.id ?? '')}`
   const pageSize = Number(query.pageSize ?? 20) || 20
   const pageNo = Number(query.pageNo ?? 1) || 1

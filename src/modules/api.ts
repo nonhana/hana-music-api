@@ -24,11 +24,7 @@ const legacyModule = (query: ApiQuery, request: ModuleRequest) => {
 
   const crypto = readRequestCrypto(query.crypto)
 
-  const res = request(
-    uri,
-    data,
-    createOption(query, crypto),
-  )
+  const res = request(uri, data, createOption(query, crypto))
   return res
 }
 

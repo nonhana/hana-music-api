@@ -37,9 +37,6 @@ export interface ModuleDefinition<
   TResponse extends NcmApiResponse = NcmApiResponse,
 > {
   readonly identifier: TIdentifier
-  readonly module: (
-    query: TQuery,
-    request: ModuleRequest,
-  ) => Promise<TResponse> | TResponse
+  readonly module: (query: TQuery, request: ModuleRequest) => Promise<TResponse> | TResponse
   readonly route: string
 }

@@ -33,7 +33,10 @@ type DynamicCreateModuleApiOptions = CreateModuleApiOptions &
         modulesDirectory: string
       }
   )
-type StaticCreateModuleApiOptions = Omit<CreateModuleApiOptions, 'moduleDefinitions' | 'modulesDirectory'> & {
+type StaticCreateModuleApiOptions = Omit<
+  CreateModuleApiOptions,
+  'moduleDefinitions' | 'modulesDirectory'
+> & {
   moduleDefinitions?: undefined
   modulesDirectory?: undefined
 }

@@ -4,6 +4,13 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 // 歌单导入 - 元数据/文字/链接导入
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
+interface PlaylistImportLocalEntry {
+  album?: string
+  artist?: string
+  name?: string
+}
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   let data: Record<string, unknown> = {
     importStarPlaylist: query.importStarPlaylist || false, // 导入我喜欢的音乐
@@ -11,11 +18,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 
   if (query.local) {
     // 元数据导入
-    const local = JSON.parse(String(query.local)) as Array<{
-      album?: string
-      artist?: string
-      name?: string
-    }>
+    const local = readPlaylistImportLocalEntries(query.local)
     const multiSongs = JSON.stringify(
       local.map(function (e) {
         return {
@@ -45,7 +48,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 
     if (query.link) {
       // 链接导入
-      const link = JSON.parse(String(query.link)) as string[]
+      const link = readPlaylistImportLinks(query.link)
       songs = JSON.stringify(
         link.map(function (e: string) {
           return { name: playlistName, type: '', url: encodeURI(e) }
@@ -73,4 +76,37 @@ export default async function migratedPlaylistImportNameTaskCreate(
   } catch (error) {
     throw normalizeLegacyModuleError(error)
   }
+}
+
+function readPlaylistImportLocalEntries(value: unknown): PlaylistImportLocalEntry[] {
+  const parsed = readJsonArray(value)
+
+  return parsed
+    .filter((entry): entry is Record<string, unknown> => isRecordLike(entry))
+    .map((entry) => {
+      return {
+        album: typeof entry.album === 'string' ? entry.album : undefined,
+        artist: typeof entry.artist === 'string' ? entry.artist : undefined,
+        name: typeof entry.name === 'string' ? entry.name : undefined,
+      }
+    })
+}
+
+function readPlaylistImportLinks(value: unknown): string[] {
+  return readJsonArray(value)
+    .filter((entry): entry is string => typeof entry === 'string')
+    .map((entry) => entry)
+}
+
+function readJsonArray(value: unknown): unknown[] {
+  try {
+    const parsed = JSON.parse(String(value))
+    return Array.isArray(parsed) ? parsed : []
+  } catch {
+    return []
+  }
+}
+
+function isRecordLike(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
 }

@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-import { RESOURCE_TYPE_MAP as resourceTypeMap } from '../core/config.ts'
 import { createOption } from '../core/options.ts'
-// 发送与删除评论
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+// 发送与删除评论
+import { resolveResourceType } from './_module-inputs.ts'
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const actionMap: Record<number, string> = {
     1: 'add',
@@ -12,7 +12,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
     2: 'reply',
   }
   query.t = actionMap[Number(query.t ?? 0)] ?? 'add'
-  query.type = resourceTypeMap[Number(query.type ?? 0) as keyof typeof resourceTypeMap]
+  query.type = resolveResourceType(query.type)
   const data: Record<string, unknown> = {
     threadId: `${String(query.type ?? '')}${String(query.id ?? '')}`,
   }

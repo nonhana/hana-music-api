@@ -2,13 +2,20 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
+interface AudioMatchResponseBody {
+  data?: {
+    data?: unknown
+  }
+}
+
 const legacyModule = async (query: LegacyModuleQuery, _request: ModuleRequest) => {
   const response = await fetch(
     `https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=${
       query.duration
     }&rawdata=${encodeURIComponent(String(query.audioFP ?? ''))}&times=1&decrypt=1`,
   )
-  const res = (await response.json()) as { data?: { data?: unknown } }
+  const res = readAudioMatchResponse(await response.json())
   return {
     status: 200,
     body: {
@@ -28,4 +35,23 @@ export default async function migratedAudioMatch(
   } catch (error) {
     throw normalizeLegacyModuleError(error)
   }
+}
+
+function readAudioMatchResponse(value: unknown): AudioMatchResponseBody {
+  if (!isRecordLike(value)) {
+    return {}
+  }
+
+  const payload = isRecordLike(value.data) ? value.data : undefined
+  return {
+    data: payload
+      ? {
+          data: payload.data,
+        }
+      : undefined,
+  }
+}
+
+function isRecordLike(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
 }

@@ -39,9 +39,9 @@ export default async function uploadSongPlugin(query: UploadSongQuery, request: 
 
   // 上传
   const objectKey = tokenRes.body.result.objectKey.replace('/', '%2F')
-  const lbs = (await (
-    await fetch(`https://wanproxy.127.net/lbs?version=1.0&bucketname=${bucket}`)
-  ).json()) as LbsResponse
+  const lbs = readLbsResponse(
+    await (await fetch(`https://wanproxy.127.net/lbs?version=1.0&bucketname=${bucket}`)).json(),
+  )
   const uploadBase = lbs.upload?.[0]
   if (!uploadBase) {
     throw new TypeError('NOS LBS upload endpoint is missing')
@@ -74,4 +74,18 @@ function toBuffer(data: ArrayBuffer | Buffer | Uint8Array): Buffer {
   }
 
   return data instanceof Uint8Array ? Buffer.from(data) : Buffer.from(new Uint8Array(data))
+}
+
+function readLbsResponse(value: unknown): LbsResponse {
+  if (!isRecordLike(value) || !Array.isArray(value.upload)) {
+    return {}
+  }
+
+  return {
+    upload: value.upload.map((entry) => String(entry)),
+  }
+}
+
+function isRecordLike(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
 }

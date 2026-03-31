@@ -18,7 +18,7 @@
 | `src/core/` (7 文件)      | 已完成类型化，无 `@ts-nocheck`，已用 `node:crypto` 替代旧加密库                                           |
 | `src/server/` (6 文件)    | 已完成类型化，无 `@ts-nocheck`                                                                            |
 | `src/app/` (3 文件)       | 已完成类型化，无 `@ts-nocheck`                                                                            |
-| `src/types/`             | 已拆分为 `runtime.ts`、`request.ts`、`server.ts`、`module-contracts.ts`、`upstream.ts` 与门面 `index.ts` |
+| `src/types/`              | 已拆分为 `runtime.ts`、`request.ts`、`server.ts`、`module-contracts.ts`、`upstream.ts` 与门面 `index.ts`  |
 | `src/modules/` (367 文件) | 已完成显式函数签名类型化，`@ts-nocheck` 已清零；高频模块已补更具体 query 类型，剩余模块采用兼容型边界类型 |
 | `src/plugins/` (2 文件)   | 已完成类型化，并切换到原生 `fetch`                                                                        |
 | `tests/` (7 文件)         | 已覆盖加密、请求、服务层、CLI、程序化 API、Phase 5 回归与上传链路 helper                                  |
@@ -57,7 +57,7 @@
 | ---- | ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
 | P0   | 登录相关：`login.ts`、`login_cellphone.ts`、`login_email.ts`、`login_qr_*.ts`、`register_anonimous.ts`、`register_cellphone.ts` | 涉及加密库替换（D-02），需要一并改                                       |
 | P1   | 高频基础：`search.ts`、`song_url.ts`、`song_url_v1.ts`、`playlist_detail.ts`、`user_account.ts`、`batch.ts`                     | Phase 5 回归已覆盖行为，类型化后可立即做编译级守护                       |
-| P2   | 文件上传类：`cloud.ts`、`voice_upload.ts`、`audio_match.ts`、`related_playlist.ts`                                              | 上传链路已完成主替换，后续重点转为 query 细化与真实场景回归             |
+| P2   | 文件上传类：`cloud.ts`、`voice_upload.ts`、`audio_match.ts`、`related_playlist.ts`                                              | 上传链路已完成主替换，后续重点转为 query 细化与真实场景回归              |
 | P3   | 其余 ~350 个模块                                                                                                                | 大多数模块结构简单（仅构造 data + 调用 request），批量脚本可覆盖绝大部分 |
 
 **验收标准**：
@@ -381,12 +381,12 @@ D-11（PAC 边界）             ← 已定稿，不再作为主线推进
 
 当上述技术债全部消化后，项目应达到以下状态：
 
-| 维度          | 目标                                                                       |
-| ------------- | -------------------------------------------------------------------------- |
-| `@ts-nocheck` | 全仓库 0 个                                                                |
-| 旧依赖        | `crypto-js`、`axios`、`md5` 从 `dependencies` 中移除                       |
-| 运行时依赖    | 仅保留 `hono`、`qrcode`、`music-metadata`（业务必需）                        |
-| 类型覆盖      | 所有模块函数签名有明确类型标注，高频模块有具体 query 接口                  |
-| 代码质量      | 无 `var`、无残留 `console.log`、无松散等值比较、无已废弃 API               |
-| 工程校验      | `tsc --noEmit` + `bun test` + `oxlint src/` 全量通过                       |
-| 文档          | `README.md` 与 `package.json` 脚本一致，`docs/` 保持最新                   |
+| 维度          | 目标                                                         |
+| ------------- | ------------------------------------------------------------ |
+| `@ts-nocheck` | 全仓库 0 个                                                  |
+| 旧依赖        | `crypto-js`、`axios`、`md5` 从 `dependencies` 中移除         |
+| 运行时依赖    | 仅保留 `hono`、`qrcode`、`music-metadata`（业务必需）        |
+| 类型覆盖      | 所有模块函数签名有明确类型标注，高频模块有具体 query 接口    |
+| 代码质量      | 无 `var`、无残留 `console.log`、无松散等值比较、无已废弃 API |
+| 工程校验      | `tsc --noEmit` + `bun test` + `oxlint src/` 全量通过         |
+| 文档          | `README.md` 与 `package.json` 脚本一致，`docs/` 保持最新     |

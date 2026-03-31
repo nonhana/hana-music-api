@@ -21,7 +21,12 @@ export type {
   RequestCrypto,
   RuntimeState,
 } from './runtime.ts'
-export type { CreateModuleApiOptions, CreateServerOptions, StartedServer, StartServerOptions } from './server.ts'
+export type {
+  CreateModuleApiOptions,
+  CreateServerOptions,
+  StartedServer,
+  StartServerOptions,
+} from './server.ts'
 export type {
   DynamicJsonArray,
   DynamicJsonRecord,

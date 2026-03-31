@@ -120,7 +120,9 @@ export async function createRequest(
       const encryptedBody = Buffer.from(await response.arrayBuffer())
         .toString('hex')
         .toUpperCase()
-      answer.body = normalizeUpstreamBody(eapiResDecrypt(encryptedBody, headers['x-aeapi'] === 'true'))
+      answer.body = normalizeUpstreamBody(
+        eapiResDecrypt(encryptedBody, headers['x-aeapi'] === 'true'),
+      )
     } else {
       answer.body = normalizeUpstreamBody(await parseResponseBody(response))
     }

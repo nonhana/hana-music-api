@@ -1,4 +1,10 @@
-import type { BooleanLike, CookieRecord, FetchLike, RequestCrypto, RuntimeState } from './runtime.ts'
+import type {
+  BooleanLike,
+  CookieRecord,
+  FetchLike,
+  RequestCrypto,
+  RuntimeState,
+} from './runtime.ts'
 
 export interface CreateRequestOptions {
   readonly checkToken?: BooleanLike

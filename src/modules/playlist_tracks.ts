@@ -45,10 +45,7 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
     } else {
       return {
         status: 200,
-        body:
-          typeof error === 'object' && error !== null && 'body' in error
-            ? (error.body as Record<string, unknown>)
-            : { code: 500, msg: String(error) },
+        body: readErrorBody(error),
       }
     }
   }
@@ -63,4 +60,20 @@ export default async function migratedPlaylistTracks(
   } catch (error) {
     throw normalizeLegacyModuleError(error)
   }
+}
+
+function readErrorBody(error: unknown): Record<string, unknown> {
+  if (
+    typeof error === 'object' &&
+    error !== null &&
+    'body' in error &&
+    typeof error.body === 'object' &&
+    error.body !== null
+  ) {
+    return {
+      ...error.body,
+    }
+  }
+
+  return { code: 500, msg: String(error) }
 }
