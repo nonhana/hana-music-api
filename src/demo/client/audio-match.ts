@@ -1,4 +1,6 @@
 export const audioMatchClientScript = `
+import { initCopyButtons } from '/demo/client/shared.js'
+
 const SAMPLE_RATE = 8000
 const CLIP_DURATION_SECONDS = 3
 
@@ -254,4 +256,5 @@ useMicInput?.addEventListener('change', () => {
 drawWaveform()
 writeLog('页面已就绪')
 setResults('还没有识别结果')
+initCopyButtons()
 `

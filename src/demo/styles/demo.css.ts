@@ -16,6 +16,9 @@ export const demoStyles = `
   --radius-medium: 18px;
   --radius-small: 12px;
   --page-width: 1180px;
+  --content-width: 960px;
+  --code-panel-max-height: min(52vh, 460px);
+  --code-panel-max-height-tall: min(68vh, 720px);
   --font-sans: "IBM Plex Sans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
   --font-mono: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
 }
@@ -177,7 +180,9 @@ pre {
 }
 
 .two-column-grid {
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  width: min(100%, var(--content-width));
+  margin: 0 auto;
+  grid-template-columns: minmax(0, 1fr);
   align-items: start;
 }
 
@@ -351,20 +356,85 @@ pre {
   flex-wrap: wrap;
 }
 
+.code-block {
+  display: grid;
+  gap: 10px;
+}
+
+.code-block-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.code-block-spacer {
+  flex: 1;
+}
+
+.code-copy-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 999px;
+  background: rgba(248, 250, 252, 0.96);
+  color: var(--text-body);
+  cursor: pointer;
+  transition:
+    border-color 120ms ease,
+    background-color 120ms ease,
+    color 120ms ease,
+    transform 120ms ease;
+}
+
+.code-copy-button:hover {
+  border-color: rgba(37, 99, 235, 0.28);
+  background: rgba(239, 246, 255, 0.98);
+  color: var(--text-strong);
+  transform: translateY(-1px);
+}
+
+.code-copy-button[data-copy-state="success"] {
+  border-color: rgba(22, 163, 74, 0.24);
+  background: rgba(240, 253, 244, 0.98);
+  color: #166534;
+}
+
+.code-copy-button[data-copy-state="error"] {
+  border-color: rgba(239, 68, 68, 0.24);
+  background: rgba(254, 242, 242, 0.98);
+  color: #b91c1c;
+}
+
+.code-copy-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .result-panel {
   min-height: 160px;
+  max-height: var(--code-panel-max-height);
   margin: 0;
   overflow: auto;
   border-radius: var(--radius-medium);
+  border: 1px solid rgba(148, 163, 184, 0.12);
   background: #0f172a;
   color: #dbeafe;
-  padding: 16px;
-  white-space: pre-wrap;
-  word-break: break-word;
+  padding: 18px 20px;
+  white-space: pre;
+  word-break: normal;
+  line-height: 1.55;
+  font-size: 0.88rem;
+  scrollbar-gutter: stable;
 }
 
-.tall-result {
-  min-height: 320px;
+.code-block.is-tall .result-panel {
+  min-height: 240px;
+  max-height: var(--code-panel-max-height-tall);
 }
 
 .toggle {

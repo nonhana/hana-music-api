@@ -1,11 +1,8 @@
-/** @jsxImportSource hono/jsx */
-
 import type { Hono } from 'hono'
 
+import { jsxRenderer } from 'hono/jsx-renderer'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-
-import { jsxRenderer } from 'hono/jsx-renderer'
 
 import { apiDebugClientScript } from '../demo/client/api-debug.ts'
 import { audioMatchClientScript } from '../demo/client/audio-match.ts'
@@ -14,8 +11,8 @@ import { searchClientScript } from '../demo/client/search.ts'
 import { sharedClientScript } from '../demo/client/shared.ts'
 import { uploadPlaylistCoverClientScript } from '../demo/client/upload-playlist-cover.ts'
 import { DemoLayout } from '../demo/layouts/demo-layout.tsx'
-import { AudioMatchPage } from '../demo/pages/audio-match.tsx'
 import { ApiDebugPage } from '../demo/pages/api-debug.tsx'
+import { AudioMatchPage } from '../demo/pages/audio-match.tsx'
 import { DemoIndexPage } from '../demo/pages/demo-index.tsx'
 import { QrLoginPage } from '../demo/pages/qr-login.tsx'
 import { SearchPage } from '../demo/pages/search.tsx'

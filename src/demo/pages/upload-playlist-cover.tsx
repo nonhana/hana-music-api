@@ -1,16 +1,12 @@
-/** @jsxImportSource hono/jsx */
-
 import type { FC } from 'hono/jsx'
 
+import { CodeBlock } from '../components/code-block.tsx'
 import { PageHeader, Surface } from '../components/demo-shell.tsx'
 
 export const UploadPlaylistCoverPage: FC = () => {
   return (
     <>
-      <PageHeader
-        description="读取歌单当前封面并上传新图片。"
-        title="歌单封面"
-      />
+      <PageHeader description="读取歌单当前封面并上传新图片。" title="歌单封面" />
 
       <div class="two-column-grid">
         <Surface description="填写歌单信息、裁剪参数和图片文件。" title="上传参数">
@@ -72,9 +68,9 @@ export const UploadPlaylistCoverPage: FC = () => {
             <div class="cover-preview-shell">
               <img alt="歌单封面预览" id="playlist-cover-preview" />
             </div>
-            <pre class="result-panel tall-result" id="playlist-result">
+            <CodeBlock id="playlist-result" tall>
               等待读取或上传
-            </pre>
+            </CodeBlock>
           </div>
         </Surface>
       </div>

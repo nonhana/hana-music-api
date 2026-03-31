@@ -1,5 +1,3 @@
-/** @jsxImportSource hono/jsx */
-
 import type { FC, PropsWithChildren } from 'hono/jsx'
 
 import type { DemoPageDefinition, DemoPageStatus } from '../registry.ts'

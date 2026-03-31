@@ -1,5 +1,3 @@
-/** @jsxImportSource hono/jsx */
-
 import type { FC, PropsWithChildren } from 'hono/jsx'
 
 import type { DemoPageDefinition } from '../registry.ts'
@@ -54,6 +52,7 @@ export const DemoLayout: FC<DemoLayoutProps> = ({ children, currentPath, page })
             <div class="page-frame">{children}</div>
           </main>
         </div>
+        <script src="/demo/client/shared.js" type="module"></script>
       </body>
     </html>
   )

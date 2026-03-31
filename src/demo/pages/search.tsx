@@ -1,16 +1,12 @@
-/** @jsxImportSource hono/jsx */
-
 import type { FC } from 'hono/jsx'
 
+import { CodeBlock } from '../components/code-block.tsx'
 import { PageHeader, Surface } from '../components/demo-shell.tsx'
 
 export const SearchPage: FC = () => {
   return (
     <>
-      <PageHeader
-        description="按关键词搜索并查看请求地址与返回结果。"
-        title="搜索"
-      />
+      <PageHeader description="按关键词搜索并查看请求地址与返回结果。" title="搜索" />
 
       <div class="two-column-grid">
         <Surface description="支持搜索歌曲、专辑、歌手、歌单和用户。" title="搜索参数">
@@ -62,18 +58,12 @@ export const SearchPage: FC = () => {
 
         <Surface description="查看请求地址和搜索结果。" title="搜索结果">
           <div class="result-stack">
-            <div>
-              <h3 class="panel-heading">请求地址</h3>
-              <pre class="result-panel" id="search-url-preview">
-                等待发送请求
-              </pre>
-            </div>
-            <div>
-              <h3 class="panel-heading">响应内容</h3>
-              <pre class="result-panel" id="search-result">
-                等待返回结果
-              </pre>
-            </div>
+            <CodeBlock heading="请求地址" id="search-url-preview">
+              等待发送请求
+            </CodeBlock>
+            <CodeBlock heading="响应内容" id="search-result" tall>
+              等待返回结果
+            </CodeBlock>
           </div>
         </Surface>
       </div>

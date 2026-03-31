@@ -1,16 +1,12 @@
-/** @jsxImportSource hono/jsx */
-
 import type { FC } from 'hono/jsx'
 
+import { CodeBlock } from '../components/code-block.tsx'
 import { PageHeader, Surface } from '../components/demo-shell.tsx'
 
 export const QrLoginPage: FC = () => {
   return (
     <>
-      <PageHeader
-        description="生成二维码、查看登录状态，并保存当前 Cookie。"
-        title="扫码登录"
-      />
+      <PageHeader description="生成二维码、查看登录状态，并保存当前 Cookie。" title="扫码登录" />
 
       <div class="two-column-grid">
         <Surface description="扫码后会自动刷新状态并同步 Cookie。" title="登录流程">
@@ -56,9 +52,9 @@ export const QrLoginPage: FC = () => {
         </Surface>
 
         <Surface description="查看当前登录状态返回结果。" title="登录状态">
-          <pre class="result-panel tall-result" id="qr-login-status">
+          <CodeBlock id="qr-login-status" tall>
             等待读取登录态
-          </pre>
+          </CodeBlock>
         </Surface>
       </div>
 

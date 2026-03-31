@@ -1,5 +1,3 @@
-/** @jsxImportSource hono/jsx */
-
 import type { FC } from 'hono/jsx'
 
 import type { DemoGroupDefinition, DemoPageDefinition } from '../registry.ts'
