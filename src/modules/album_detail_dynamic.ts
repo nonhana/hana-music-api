@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { AlbumQuery } from '../types/modules.ts'
 
 // 专辑动态信息
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: AlbumQuery, request: ModuleRequest) => {
   const data = {
     id: query.id,
   }
@@ -12,7 +12,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedAlbumDetailDynamic(
-  query: LegacyModuleQuery,
+  query: AlbumQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

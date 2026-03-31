@@ -5,6 +5,9 @@ node_modules
 out
 dist
 *.tgz
+docs-site/.vitepress/dist
+public/docs
+public/docs-legacy
 
 # code coverage
 coverage

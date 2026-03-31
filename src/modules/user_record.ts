@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { UserRecordQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 // 听歌排行
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: UserRecordQuery, request: ModuleRequest) => {
   const data = {
     uid: query.uid,
     type: query.type || 0, // 1: 最近一周, 0: 所有时间
@@ -13,7 +13,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedUserRecord(
-  query: LegacyModuleQuery,
+  query: UserRecordQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

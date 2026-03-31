@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { ArtistPagedQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 // 歌手相关MV
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: ArtistPagedQuery, request: ModuleRequest) => {
   const data = {
     artistId: query.id,
     limit: query.limit,
@@ -15,7 +15,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedArtistMv(
-  query: LegacyModuleQuery,
+  query: ArtistPagedQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { AlbumListQuery } from '../types/modules.ts'
 
 // 全部新碟
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: AlbumListQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 30,
     offset: query.offset || 0,
@@ -15,7 +15,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedAlbumNew(
-  query: LegacyModuleQuery,
+  query: AlbumListQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

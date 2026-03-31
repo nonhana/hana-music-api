@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { AlbumSublistQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 // 已收藏专辑列表
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: AlbumSublistQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 25,
     offset: query.offset || 0,
@@ -14,7 +14,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedAlbumSublist(
-  query: LegacyModuleQuery,
+  query: AlbumSublistQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

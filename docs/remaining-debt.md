@@ -7,7 +7,7 @@
 > 本文档基于 2026-03-30 对仓库实际源码的逐文件审计结果编写。
 > 2026-03-30 晚间更新：`D-01`、`D-02`、`D-03`、`D-04`、`D-05`、`D-07`、`D-12` 已完成主清理。当前仓库已经达到 `src/` 内 `0` 个 `@ts-nocheck`、运行时移除 `axios` / `crypto-js` / `md5`、`tsc --noEmit` 可全量通过的新基线。
 > 2026-03-30 深夜增量更新：`D-06` 的高优先级代码质量清理已完成，`D-08` 已覆盖高频模块（`search`、`song_url`、`playlist_detail`、`batch`、登录相关模块），`D-12` 已补服务层 multipart 兼容回归。
-> 2026-03-31 phase 6 更新：`src/types/` 已拆分为更清晰的运行时/请求/契约/上游边界结构；`voice_upload.ts` 已移除 `xml2js`；PAC 代理已正式定稿为“当前版本明确不支持”。当前主线剩余事项应视为：长尾模块 query 继续细化、更多模块纳入 `ModuleContractMap`、真实上传场景手工回归。
+> 2026-03-31 phase 6 更新：`src/types/` 已拆分为更清晰的运行时/请求/契约/上游边界结构；`voice_upload.ts` 已移除 `xml2js`；PAC 代理已正式定稿为“当前版本明确不支持”。当前主线剩余事项应视为：长尾模块 query 继续细化、更多模块纳入 `ModuleContractMap`、已通过的上传人工回归结果持续留档。
 
 ---
 
@@ -287,12 +287,12 @@ interface LoginCellphoneQuery extends ModuleQuery {
 
 ### D-10：上传链路真实场景回归
 
-**现状**：`xml2js` 已移除，`voice_upload.ts` 现通过内部 XML helper 解析 `UploadId` 并组装 multipart complete XML。
+**现状**：`xml2js` 已移除，`voice_upload.ts` 现通过内部 XML helper 解析 `UploadId` 并组装 multipart complete XML；仓库内已有上传手工验证清单，且当前基线已完成一轮人工验证。
 
-**剩余工作**：
+**后续工作**：
 
-- 在真实 NOS 上传场景下补一份人工检查清单
-- 核对大文件、多分块和异常 XML 返回的行为
+- 后续如改动上传链路，应重新执行人工检查清单
+- 继续保留大文件、多分块和异常 XML 返回的验证记录
 - 按需继续补上传模块的 query 类型
 
 **当前文档入口**：`docs/upload-manual-checklist.md`
@@ -318,7 +318,7 @@ interface LoginCellphoneQuery extends ModuleQuery {
 
 - 已完成：`src/server/parse-body.ts` 已把 Hono 的 `File` 对象适配为旧项目兼容的 `{ name, data, size, mimetype }` 结构
 - 已完成：服务层已补针对 multipart 上传对象的回归测试
-- 当前剩余差异：`md5` 仍采用模块侧按需补算，而不是在解析阶段预先生成；真实上传链路的边角行为仍建议手工验证
+- 当前剩余差异：`md5` 仍采用模块侧按需补算，而不是在解析阶段预先生成；真实上传链路已完成一轮手工验证，后续修改时仍建议复验
 
 **遗留差异**：旧项目使用 `express-fileupload`，其行为包括：
 

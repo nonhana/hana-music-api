@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { UserFollowMixedQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 // 当前账号关注的用户/歌手
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: UserFollowMixedQuery, request: ModuleRequest) => {
   const size = query.size || 30
   const cursor = query.cursor || 0
   const scene = query.scene || 0 // 0: 所有关注 1: 关注的歌手 2: 关注的用户
@@ -22,7 +22,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedUserFollowMixed(
-  query: LegacyModuleQuery,
+  query: UserFollowMixedQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

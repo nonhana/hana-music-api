@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { UserEventQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 // 用户动态
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: UserEventQuery, request: ModuleRequest) => {
   const data = {
     getcounts: true,
     time: query.lasttime || -1,
@@ -15,7 +15,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedUserEvent(
-  query: LegacyModuleQuery,
+  query: UserEventQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

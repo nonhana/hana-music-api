@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { AlbumListStyleQuery } from '../types/modules.ts'
 
 // 数字专辑-语种风格馆
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: AlbumListStyleQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 10,
     offset: query.offset || 0,
@@ -15,7 +15,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedAlbumListStyle(
-  query: LegacyModuleQuery,
+  query: AlbumListStyleQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { UserDetailQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 // 用户详情
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = async (query: UserDetailQuery, request: ModuleRequest) => {
   const data = {
     all: 'true',
     userId: query.uid,
@@ -19,7 +19,7 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
 }
 
 export default async function migratedUserDetailNew(
-  query: LegacyModuleQuery,
+  query: UserDetailQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

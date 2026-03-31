@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { UserScopedListQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 // 用户电台节目
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: UserScopedListQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 30,
     offset: query.offset || 0,
@@ -13,7 +13,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedUserDj(
-  query: LegacyModuleQuery,
+  query: UserScopedListQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

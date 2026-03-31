@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { ArtistQuery } from '../types/modules.ts'
 
 // 歌手热门 50 首歌曲
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: ArtistQuery, request: ModuleRequest) => {
   const data = {
     id: query.id,
   }
@@ -12,7 +12,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedArtistTopSong(
-  query: LegacyModuleQuery,
+  query: ArtistQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

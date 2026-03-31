@@ -1,4 +1,16 @@
 import type {
+  AlbumListQuery,
+  AlbumListStyleQuery,
+  AlbumNewestQuery,
+  AlbumQuery,
+  AlbumSongsaleboardQuery,
+  AlbumSublistQuery,
+  AlbumSubQuery,
+  ArtistPagedQuery,
+  ArtistQuery,
+  ArtistSongsQuery,
+  ArtistSublistQuery,
+  ArtistSubQuery,
   AudioMatchQuery,
   BatchQuery,
   CommentEventQuery,
@@ -23,6 +35,12 @@ import type {
   SongUrlQuery,
   SongUrlV1Query,
   UserDetailQuery,
+  UserEventQuery,
+  UserFollowMixedQuery,
+  UserRecordQuery,
+  UserScopedListQuery,
+  UserScopedQuery,
+  UserSummaryQuery,
   UserAccountQuery,
   VerifyGetQrQuery,
   VoiceUploadQuery,
@@ -38,6 +56,27 @@ export interface ModuleContractDefinition<
 }
 
 export interface ModuleContractMap {
+  album: ModuleContractDefinition<AlbumQuery>
+  album_detail: ModuleContractDefinition<AlbumQuery>
+  album_detail_dynamic: ModuleContractDefinition<AlbumQuery>
+  album_list: ModuleContractDefinition<AlbumListQuery>
+  album_list_style: ModuleContractDefinition<AlbumListStyleQuery>
+  album_new: ModuleContractDefinition<AlbumListQuery>
+  album_newest: ModuleContractDefinition<AlbumNewestQuery>
+  album_privilege: ModuleContractDefinition<AlbumQuery>
+  album_songsaleboard: ModuleContractDefinition<AlbumSongsaleboardQuery>
+  album_sub: ModuleContractDefinition<AlbumSubQuery>
+  album_sublist: ModuleContractDefinition<AlbumSublistQuery>
+  artist_album: ModuleContractDefinition<ArtistPagedQuery>
+  artist_desc: ModuleContractDefinition<ArtistQuery>
+  artist_detail: ModuleContractDefinition<ArtistQuery>
+  artist_detail_dynamic: ModuleContractDefinition<ArtistQuery>
+  artist_mv: ModuleContractDefinition<ArtistPagedQuery>
+  artist_songs: ModuleContractDefinition<ArtistSongsQuery>
+  artist_sub: ModuleContractDefinition<ArtistSubQuery>
+  artist_sublist: ModuleContractDefinition<ArtistSublistQuery>
+  artist_top_song: ModuleContractDefinition<ArtistQuery>
+  artists: ModuleContractDefinition<ArtistQuery>
   audio_match: ModuleContractDefinition<AudioMatchQuery>
   batch: ModuleContractDefinition<BatchQuery>
   check_music: ModuleContractDefinition<CheckMusicQuery>
@@ -67,7 +106,18 @@ export interface ModuleContractMap {
   song_url: ModuleContractDefinition<SongUrlQuery>
   song_url_v1: ModuleContractDefinition<SongUrlV1Query>
   user_account: ModuleContractDefinition<UserAccountQuery>
+  user_audio: ModuleContractDefinition<UserScopedQuery>
   user_detail: ModuleContractDefinition<UserDetailQuery>
+  user_detail_new: ModuleContractDefinition<UserDetailQuery>
+  user_dj: ModuleContractDefinition<UserScopedListQuery>
+  user_event: ModuleContractDefinition<UserEventQuery>
+  user_follow_mixed: ModuleContractDefinition<UserFollowMixedQuery>
+  user_followeds: ModuleContractDefinition<UserScopedListQuery>
+  user_follows: ModuleContractDefinition<UserScopedListQuery>
+  user_level: ModuleContractDefinition<UserSummaryQuery>
+  user_playlist: ModuleContractDefinition<UserScopedListQuery>
+  user_record: ModuleContractDefinition<UserRecordQuery>
+  user_subcount: ModuleContractDefinition<UserSummaryQuery>
   verify_getQr: ModuleContractDefinition<VerifyGetQrQuery>
   voice_upload: ModuleContractDefinition<VoiceUploadQuery>
 }

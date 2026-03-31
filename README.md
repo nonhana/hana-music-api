@@ -21,6 +21,9 @@
 bun install
 bun run dev
 bun run start
+bun run docs:dev
+bun run docs:build
+bun run docs:preview
 bun run test
 bun run test:phase5
 bun run typecheck
@@ -31,6 +34,8 @@ bun run fmt
 bun run fmt:check
 bun run migrate:modules
 ```
+
+文档源码位于 `docs-site/`。`docs-site/.vitepress/dist/`、`public/docs/` 和 `public/docs-legacy/` 均视为构建产物或历史遗留目录，不纳入版本管理；部署时应在流水线中执行 `bun run docs:build` 再发布静态产物。
 
 ## Phase 6 基线
 
@@ -54,7 +59,7 @@ bun run migrate:modules
 已知边界：
 
 - 当前版本明确不支持 PAC 代理；如未来确有需求，应以独立专题实现
-- `multipart/form-data` 已补齐旧上传对象兼容层，并已有服务层回归覆盖；但仍建议在真实上传场景下继续做手工回归
+- `multipart/form-data` 已补齐旧上传对象兼容层，并已完成一轮真实上传场景手工回归；后续若修改上传链路，仍建议按清单复验
 - 当前仓库已经移除 `src/` 内全部 `@ts-nocheck`；`bun run lint` 和 `bun run lint:full` 都可直接用于全量审计
 - 高频模块的 query 类型、程序化 API 模块标识和上游类型边界已开始收紧，但长尾模块仍以兼容型边界为主，后续会继续渐进细化
 

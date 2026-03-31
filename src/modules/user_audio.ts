@@ -1,10 +1,10 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import type { UserScopedQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 // 用户创建的电台
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
+const legacyModule = (query: UserScopedQuery, request: ModuleRequest) => {
   const data = {
     userId: query.uid,
   }
@@ -12,7 +12,7 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
 }
 
 export default async function migratedUserAudio(
-  query: LegacyModuleQuery,
+  query: UserScopedQuery,
   request: ModuleRequest,
 ): Promise<NcmApiResponse> {
   try {

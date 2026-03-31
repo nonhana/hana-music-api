@@ -232,6 +232,95 @@ describe('programmatic module api', () => {
     expect(response.status).toBe(200)
   })
 
+  test('should support typed album list module identifiers in the real module registry', async () => {
+    const captured: {
+      data?: Record<string, unknown>
+      options?: CreateRequestOptions
+      uri?: string
+    } = {}
+
+    const response = await invokeModule(
+      'album_list',
+      {
+        area: 'EA',
+        cookie: 'MUSIC_U=album-cookie',
+        limit: 12,
+        offset: 24,
+        type: 2,
+      },
+      {
+        requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+          captured.uri = uri
+          captured.data = data
+          captured.options = options
+
+          return {
+            body: {
+              code: 200,
+              products: [],
+            },
+            cookie: [],
+            status: 200,
+          }
+        }),
+      },
+    )
+
+    expect(captured.uri).toBe('/api/vipmall/albumproduct/list')
+    expect(captured.data).toEqual({
+      area: 'EA',
+      limit: 12,
+      offset: 24,
+      total: true,
+      type: 2,
+    })
+    expect(captured.options?.cookie).toEqual({
+      MUSIC_U: 'album-cookie',
+    })
+    expect(response.status).toBe(200)
+  })
+
+  test('should support typed album subscription module identifiers in the real module registry', async () => {
+    const captured: {
+      data?: Record<string, unknown>
+      options?: CreateRequestOptions
+      uri?: string
+    } = {}
+
+    const response = await invokeModule(
+      'album_sub',
+      {
+        cookie: 'MUSIC_U=album-sub-cookie',
+        id: 99887,
+        t: 1,
+      },
+      {
+        requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+          captured.uri = uri
+          captured.data = data
+          captured.options = options
+
+          return {
+            body: {
+              code: 200,
+            },
+            cookie: [],
+            status: 200,
+          }
+        }),
+      },
+    )
+
+    expect(captured.uri).toBe('/api/album/sub')
+    expect(captured.data).toEqual({
+      id: 99887,
+    })
+    expect(captured.options?.cookie).toEqual({
+      MUSIC_U: 'album-sub-cookie',
+    })
+    expect(response.status).toBe(200)
+  })
+
   test('should support typed user detail module identifiers in the real module registry', async () => {
     const captured: {
       data?: Record<string, unknown>
@@ -277,6 +366,177 @@ describe('programmatic module api', () => {
         avatarImgIdStr: '1',
       },
     })
+  })
+
+  test('should support typed user playlist module identifiers in the real module registry', async () => {
+    const captured: {
+      data?: Record<string, unknown>
+      options?: CreateRequestOptions
+      uri?: string
+    } = {}
+
+    const response = await invokeModule(
+      'user_playlist',
+      {
+        cookie: 'MUSIC_U=user-playlist-cookie',
+        limit: 20,
+        offset: 40,
+        uid: 24680,
+      },
+      {
+        requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+          captured.uri = uri
+          captured.data = data
+          captured.options = options
+
+          return {
+            body: {
+              code: 200,
+              playlist: [],
+            },
+            cookie: [],
+            status: 200,
+          }
+        }),
+      },
+    )
+
+    expect(captured.uri).toBe('/api/user/playlist')
+    expect(captured.data).toEqual({
+      includeVideo: true,
+      limit: 20,
+      offset: 40,
+      uid: 24680,
+    })
+    expect(captured.options?.cookie).toEqual({
+      MUSIC_U: 'user-playlist-cookie',
+    })
+    expect(response.status).toBe(200)
+  })
+
+  test('should support typed user level module identifiers in the real module registry', async () => {
+    const captured: {
+      data?: Record<string, unknown>
+      options?: CreateRequestOptions
+      uri?: string
+    } = {}
+
+    const response = await invokeModule(
+      'user_level',
+      {
+        cookie: 'MUSIC_U=user-level-cookie',
+      },
+      {
+        requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+          captured.uri = uri
+          captured.data = data
+          captured.options = options
+
+          return {
+            body: {
+              code: 200,
+              level: 10,
+            },
+            cookie: [],
+            status: 200,
+          }
+        }),
+      },
+    )
+
+    expect(captured.uri).toBe('/api/user/level')
+    expect(captured.data).toEqual({})
+    expect(captured.options?.cookie).toEqual({
+      MUSIC_U: 'user-level-cookie',
+    })
+    expect(response.status).toBe(200)
+  })
+
+  test('should support typed artist album module identifiers in the real module registry', async () => {
+    const captured: {
+      data?: Record<string, unknown>
+      options?: CreateRequestOptions
+      uri?: string
+    } = {}
+
+    const response = await invokeModule(
+      'artist_album',
+      {
+        cookie: 'MUSIC_U=artist-album-cookie',
+        id: 1122,
+        limit: 15,
+        offset: 30,
+      },
+      {
+        requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+          captured.uri = uri
+          captured.data = data
+          captured.options = options
+
+          return {
+            body: {
+              code: 200,
+              hotAlbums: [],
+            },
+            cookie: [],
+            status: 200,
+          }
+        }),
+      },
+    )
+
+    expect(captured.uri).toBe('/api/artist/albums/1122')
+    expect(captured.data).toEqual({
+      limit: 15,
+      offset: 30,
+      total: true,
+    })
+    expect(captured.options?.cookie).toEqual({
+      MUSIC_U: 'artist-album-cookie',
+    })
+    expect(response.status).toBe(200)
+  })
+
+  test('should support typed artist subscription module identifiers in the real module registry', async () => {
+    const captured: {
+      data?: Record<string, unknown>
+      options?: CreateRequestOptions
+      uri?: string
+    } = {}
+
+    const response = await invokeModule(
+      'artist_sub',
+      {
+        cookie: 'MUSIC_U=artist-sub-cookie',
+        id: 4455,
+        t: 1,
+      },
+      {
+        requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+          captured.uri = uri
+          captured.data = data
+          captured.options = options
+
+          return {
+            body: {
+              code: 200,
+            },
+            cookie: [],
+            status: 200,
+          }
+        }),
+      },
+    )
+
+    expect(captured.uri).toBe('/api/artist/sub')
+    expect(captured.data).toEqual({
+      artistId: 4455,
+      artistIds: '[4455]',
+    })
+    expect(captured.options?.cookie).toEqual({
+      MUSIC_U: 'artist-sub-cookie',
+    })
+    expect(response.status).toBe(200)
   })
 })
 

@@ -17,6 +17,10 @@ export type QueryNumberLike = number | `${number}`
 export type QueryIdentifier = string | number
 export type BatchRouteKey = `/api/${string}`
 export type BatchSubRequest = Record<string, unknown>
+export type AlbumArea = 'ALL' | 'ZH' | 'EA' | 'KR' | 'JP' | (string & {})
+export type AlbumStyleArea = 'Z_H' | 'E_A' | 'KR' | 'JP' | (string & {})
+export type AlbumSalesBoardType = 'daily' | 'week' | 'year' | 'total' | (string & {})
+export type ArtistSongsOrder = 'hot' | 'time' | (string & {})
 
 export interface LegacyModuleQuery extends ModuleQuery {
   [key: string]: LegacyModuleValue
@@ -140,6 +144,64 @@ export interface CommentNewQuery extends CommentResourceQuery {
   sortType?: QueryNumberLike
 }
 
+export interface AlbumQuery extends OptionCompatibleQuery {
+  id: QueryIdentifier
+}
+
+export interface AlbumListQuery extends OptionCompatibleQuery {
+  area?: AlbumArea
+  limit?: QueryNumberLike
+  offset?: QueryNumberLike
+  type?: QueryNumberLike
+}
+
+export interface AlbumListStyleQuery extends OptionCompatibleQuery {
+  area?: AlbumStyleArea
+  limit?: QueryNumberLike
+  offset?: QueryNumberLike
+}
+
+export interface AlbumNewestQuery extends OptionCompatibleQuery {}
+
+export interface AlbumSongsaleboardQuery extends OptionCompatibleQuery {
+  albumType?: QueryNumberLike
+  type?: AlbumSalesBoardType
+  year?: QueryNumberLike
+}
+
+export interface AlbumSubQuery extends OptionCompatibleQuery {
+  id: QueryIdentifier
+  t: 0 | 1 | '0' | '1'
+}
+
+export interface AlbumSublistQuery extends OptionCompatibleQuery {
+  limit?: QueryNumberLike
+  offset?: QueryNumberLike
+}
+
+export interface ArtistQuery extends OptionCompatibleQuery {
+  id: QueryIdentifier
+}
+
+export interface ArtistPagedQuery extends ArtistQuery {
+  limit?: QueryNumberLike
+  offset?: QueryNumberLike
+}
+
+export interface ArtistSongsQuery extends ArtistPagedQuery {
+  order?: ArtistSongsOrder
+}
+
+export interface ArtistSubQuery extends OptionCompatibleQuery {
+  id: QueryIdentifier
+  t: 0 | 1 | '0' | '1'
+}
+
+export interface ArtistSublistQuery extends OptionCompatibleQuery {
+  limit?: QueryNumberLike
+  offset?: QueryNumberLike
+}
+
 export interface SongUrlQuery extends OptionCompatibleQuery {
   br?: QueryNumberLike
   id: QueryIdentifier
@@ -240,5 +302,30 @@ export interface ApiQuery extends OptionCompatibleQuery {
 export interface UserDetailQuery extends OptionCompatibleQuery {
   uid: QueryIdentifier
 }
+
+export interface UserScopedQuery extends OptionCompatibleQuery {
+  uid: QueryIdentifier
+}
+
+export interface UserScopedListQuery extends UserScopedQuery {
+  limit?: QueryNumberLike
+  offset?: QueryNumberLike
+}
+
+export interface UserEventQuery extends UserScopedListQuery {
+  lasttime?: QueryNumberLike
+}
+
+export interface UserRecordQuery extends UserScopedQuery {
+  type?: 0 | 1 | '0' | '1'
+}
+
+export interface UserFollowMixedQuery extends OptionCompatibleQuery {
+  cursor?: QueryNumberLike
+  scene?: 0 | 1 | 2 | '0' | '1' | '2'
+  size?: QueryNumberLike
+}
+
+export interface UserSummaryQuery extends OptionCompatibleQuery {}
 
 export interface RegisterAnonymousQuery extends OptionCompatibleQuery {}
