@@ -1,21 +1,21 @@
 ---
-title: "听歌识曲"
-description: "使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息,具体调用例子参考 `/audio_match_demo/index.html` (项目文件: `public/audio_match_demo/index.html`)"
+title: '听歌识曲'
+description: '使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息。旧 `audio_match_demo` 静态页已移除，当前仅保留 `/demo/experiments/audio-match` 占位入口。'
 ---
 
 # 听歌识曲
 
-> 使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息,具体调用例子参考 `/audio_match_demo/index.html` (项目文件: `public/audio_match_demo/index.html`)
+> 使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息。旧 `audio_match_demo` 静态页已移除，当前仅保留 `/demo/experiments/audio-match` 占位入口。
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值             |
+| -------- | -------------- |
 | 接口地址 | `/audio/match` |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `audio_match` |
-| 文档分类 | 歌曲与播放 |
+| 需要登录 | 否             |
+| 对应模块 | `audio_match`  |
+| 文档分类 | 歌曲与播放     |
 
 ## 请求参数
 
@@ -41,11 +41,11 @@ console.log(result.body)
 
 ## 补充说明
 
-说明: 使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息,具体调用例子参考 `/audio_match_demo/index.html` (项目文件: `public/audio_match_demo/index.html`)
+说明: 使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息。旧静态实验页已经退出主线；当前 `/demo/experiments/audio-match` 仅用于跟踪后续回归状态
 
 **接口地址:** `/audio/match`
 
-**必选参数：**     
+**必选参数：**
 
 `duration`: 音频时长,单位秒
 

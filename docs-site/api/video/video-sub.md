@@ -1,6 +1,6 @@
 ---
-title: "收藏视频"
-description: "调用此接口,可收藏视频"
+title: '收藏视频'
+description: '调用此接口,可收藏视频'
 ---
 
 # 收藏视频
@@ -9,20 +9,20 @@ description: "调用此接口,可收藏视频"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/video/sub` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/video/sub`   |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `video_sub` |
-| 文档分类 | 视频与 MV |
+| 需要登录 | 否             |
+| 对应模块 | `video_sub`    |
+| 文档分类 | 视频与 MV      |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 视频 id |
-| `t` | string | ✅ | - | 1 为收藏,其他为取消收藏 |
+| 参数 | 类型   | 必填 | 默认值 | 说明                    |
+| ---- | ------ | :--: | ------ | ----------------------- |
+| `id` | string |  ✅  | -      | 视频 id                 |
+| `t`  | string |  ✅  | -      | 1 为收藏,其他为取消收藏 |
 
 ## HTTP 示例
 
@@ -38,8 +38,8 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.video_sub({
-  id: "123456",
-  t: "your-t",
+  id: '123456',
+  t: 'your-t',
 })
 
 console.log(result.body)

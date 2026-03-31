@@ -1,6 +1,6 @@
 ---
-title: "广播电台 - 电台信息"
-description: "调用此接口, 传入电台id, 获取广播电台 - 电台信息"
+title: '广播电台 - 电台信息'
+description: '调用此接口, 传入电台id, 获取广播电台 - 电台信息'
 ---
 
 # 广播电台 - 电台信息
@@ -9,13 +9,13 @@ description: "调用此接口, 传入电台id, 获取广播电台 - 电台信息
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                               |
+| -------- | -------------------------------- |
 | 接口地址 | `/broadcast/channel/currentinfo` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `broadcast_channel_currentinfo` |
-| 文档分类 | 其他工具 |
+| 请求方式 | `GET` / `POST`                   |
+| 需要登录 | 否                               |
+| 对应模块 | `broadcast_channel_currentinfo`  |
+| 文档分类 | 其他工具                         |
 
 ## 请求参数
 
@@ -35,7 +35,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.broadcast_channel_currentinfo({
-  id: "5",
+  id: '5',
 })
 
 console.log(result.body)

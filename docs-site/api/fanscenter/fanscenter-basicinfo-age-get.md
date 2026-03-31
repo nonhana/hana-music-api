@@ -1,6 +1,6 @@
 ---
-title: "fanscenter basicinfo age get"
-description: "fanscenter basicinfo age get 接口文档。"
+title: 'fanscenter basicinfo age get'
+description: 'fanscenter basicinfo age get 接口文档。'
 ---
 
 # fanscenter basicinfo age get
@@ -9,13 +9,13 @@ description: "fanscenter basicinfo age get 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                              |
+| -------- | ------------------------------- |
 | 接口地址 | `/fanscenter/basicinfo/age/get` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `fanscenter_basicinfo_age_get` |
-| 文档分类 | 粉丝中心 |
+| 请求方式 | `GET` / `POST`                  |
+| 需要登录 | 否                              |
+| 对应模块 | `fanscenter_basicinfo_age_get`  |
+| 文档分类 | 粉丝中心                        |
 
 ## 请求参数
 

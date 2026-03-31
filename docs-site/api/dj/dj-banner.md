@@ -1,6 +1,6 @@
 ---
-title: "电台 banner"
-description: "调用此接口,可获取电台 banner"
+title: '电台 banner'
+description: '调用此接口,可获取电台 banner'
 ---
 
 # 电台 banner
@@ -9,13 +9,13 @@ description: "调用此接口,可获取电台 banner"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/dj/banner` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/dj/banner`   |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `dj_banner` |
-| 文档分类 | 电台与播客 |
+| 需要登录 | 否             |
+| 对应模块 | `dj_banner`    |
+| 文档分类 | 电台与播客     |
 
 ## 请求参数
 

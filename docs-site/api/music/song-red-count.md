@@ -1,6 +1,6 @@
 ---
-title: "歌曲红心数量"
-description: "调用此接口获取歌曲的红心用户数量"
+title: '歌曲红心数量'
+description: '调用此接口获取歌曲的红心用户数量'
 ---
 
 # 歌曲红心数量
@@ -9,13 +9,13 @@ description: "调用此接口获取歌曲的红心用户数量"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                |
+| -------- | ----------------- |
 | 接口地址 | `/song/red/count` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `song_red_count` |
-| 文档分类 | 歌曲与播放 |
+| 请求方式 | `GET` / `POST`    |
+| 需要登录 | 否                |
+| 对应模块 | `song_red_count`  |
+| 文档分类 | 歌曲与播放        |
 
 ## 请求参数
 
@@ -35,7 +35,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.song_red_count({
-  id: "186016",
+  id: '186016',
 })
 
 console.log(result.body)
@@ -45,7 +45,7 @@ console.log(result.body)
 
 说明: 调用此接口获取歌曲的红心用户数量
 
-**必选参数：**     
+**必选参数：**
 
 `id`: 歌曲id
 

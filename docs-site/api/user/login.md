@@ -1,6 +1,6 @@
 ---
-title: "邮箱登录"
-description: "可以直接从浏览器中获取cookie值, 只需要其中key为`MUSIC_U`的数据即可"
+title: '邮箱登录'
+description: '可以直接从浏览器中获取cookie值, 只需要其中key为`MUSIC_U`的数据即可'
 ---
 
 # 邮箱登录
@@ -9,21 +9,21 @@ description: "可以直接从浏览器中获取cookie值, 只需要其中key为`
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/login` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/login`       |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `login` |
-| 文档分类 | 用户与登录 |
+| 需要登录 | 否             |
+| 对应模块 | `login`        |
+| 文档分类 | 用户与登录     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `email` | string | ✅ | - | 163 网易邮箱 |
-| `password` | string | ✅ | - | 密码 |
-| `md5_password` | string | — | - | md5 加密后的密码,传入后 `password` 将失效 |
+| 参数           | 类型   | 必填 | 默认值 | 说明                                      |
+| -------------- | ------ | :--: | ------ | ----------------------------------------- |
+| `email`        | string |  ✅  | -      | 163 网易邮箱                              |
+| `password`     | string |  ✅  | -      | 密码                                      |
+| `md5_password` | string |  —   | -      | md5 加密后的密码,传入后 `password` 将失效 |
 
 ## HTTP 示例
 
@@ -39,8 +39,8 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.login({
-  email: "xxx@163.com",
-  password: "yyy",
+  email: 'xxx@163.com',
+  password: 'yyy',
 })
 
 console.log(result.body)
@@ -73,9 +73,11 @@ v3.30.0 后支持手动传入 cookie,登录接口返回内容新增 `cookie` 字
     cookie:"xxx"
 }
 ```
+
 另外的cookie说明:
 可以直接从浏览器中获取cookie值, 只需要其中key为`MUSIC_U`的数据即可
 请求
+
 ```
 GET https://example.com/search?keywords=HELLO&cookie=MUSIC_U%3Dxxxx
 POST https://example.com/search?keywords=HELLO

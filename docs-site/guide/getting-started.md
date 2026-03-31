@@ -67,7 +67,7 @@ bun run docs:preview
 
 - 提交 `docs-site/` 下的文档源码、配置与生成脚本
 - 不提交 `docs-site/.vitepress/dist/` 等构建产物
-- 不再保留 `public/docs/`、`public/docs-legacy/` 这类发布产物或历史备份目录
+- 不再保留旧 `public/` 目录下的历史发布产物或静态调试页
 
 ## 迁移说明
 

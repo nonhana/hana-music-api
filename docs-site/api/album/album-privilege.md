@@ -1,6 +1,6 @@
 ---
-title: "获取专辑歌曲的音质"
-description: "调用后可获取专辑歌曲的音质"
+title: '获取专辑歌曲的音质'
+description: '调用后可获取专辑歌曲的音质'
 ---
 
 # 获取专辑歌曲的音质
@@ -9,19 +9,19 @@ description: "调用后可获取专辑歌曲的音质"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                 |
+| -------- | ------------------ |
 | 接口地址 | `/album/privilege` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `album_privilege` |
-| 文档分类 | 专辑 |
+| 请求方式 | `GET` / `POST`     |
+| 需要登录 | 否                 |
+| 对应模块 | `album_privilege`  |
+| 文档分类 | 专辑               |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 专辑 id |
+| 参数 | 类型   | 必填 | 默认值 | 说明    |
+| ---- | ------ | :--: | ------ | ------- |
+| `id` | string |  ✅  | -      | 专辑 id |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.album_privilege({
-  id: "168223858",
+  id: '168223858',
 })
 
 console.log(result.body)

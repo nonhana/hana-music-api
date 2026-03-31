@@ -1,6 +1,6 @@
 ---
-title: "音乐百科 - 简要信息"
-description: "调用此接口可以获取歌曲的音乐百科简要信息"
+title: '音乐百科 - 简要信息'
+description: '调用此接口可以获取歌曲的音乐百科简要信息'
 ---
 
 # 音乐百科 - 简要信息
@@ -9,19 +9,19 @@ description: "调用此接口可以获取歌曲的音乐百科简要信息"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                   |
+| -------- | -------------------- |
 | 接口地址 | `/song/wiki/summary` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `song_wiki_summary` |
-| 文档分类 | 歌曲与播放 |
+| 请求方式 | `GET` / `POST`       |
+| 需要登录 | 否                   |
+| 对应模块 | `song_wiki_summary`  |
+| 文档分类 | 歌曲与播放           |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 歌曲 ID |
+| 参数 | 类型   | 必填 | 默认值 | 说明    |
+| ---- | ------ | :--: | ------ | ------- |
+| `id` | string |  ✅  | -      | 歌曲 ID |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.song_wiki_summary({
-  id: "1958384591",
+  id: '1958384591',
 })
 
 console.log(result.body)

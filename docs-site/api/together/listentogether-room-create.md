@@ -1,6 +1,6 @@
 ---
-title: "listentogether room create"
-description: "listentogether room create 接口文档。"
+title: 'listentogether room create'
+description: 'listentogether room create 接口文档。'
 ---
 
 # listentogether room create
@@ -9,13 +9,13 @@ description: "listentogether room create 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                            |
+| -------- | ----------------------------- |
 | 接口地址 | `/listentogether/room/create` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `listentogether_room_create` |
-| 文档分类 | 一起听 |
+| 请求方式 | `GET` / `POST`                |
+| 需要登录 | 否                            |
+| 对应模块 | `listentogether_room_create`  |
+| 文档分类 | 一起听                        |
 
 ## 请求参数
 

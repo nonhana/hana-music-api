@@ -1,6 +1,6 @@
 ---
-title: "listentogether end"
-description: "listentogether end 接口文档。"
+title: 'listentogether end'
+description: 'listentogether end 接口文档。'
 ---
 
 # listentogether end
@@ -9,13 +9,13 @@ description: "listentogether end 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                    |
+| -------- | --------------------- |
 | 接口地址 | `/listentogether/end` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `listentogether_end` |
-| 文档分类 | 一起听 |
+| 请求方式 | `GET` / `POST`        |
+| 需要登录 | 否                    |
+| 对应模块 | `listentogether_end`  |
+| 文档分类 | 一起听                |
 
 ## 请求参数
 

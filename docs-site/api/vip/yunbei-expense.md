@@ -1,6 +1,6 @@
 ---
-title: "yunbei expense"
-description: "yunbei expense 接口文档。"
+title: 'yunbei expense'
+description: 'yunbei expense 接口文档。'
 ---
 
 # yunbei expense
@@ -9,13 +9,13 @@ description: "yunbei expense 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                |
+| -------- | ----------------- |
 | 接口地址 | `/yunbei/expense` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `yunbei_expense` |
-| 文档分类 | 会员与云贝 |
+| 请求方式 | `GET` / `POST`    |
+| 需要登录 | 否                |
+| 对应模块 | `yunbei_expense`  |
+| 文档分类 | 会员与云贝        |
 
 ## 请求参数
 

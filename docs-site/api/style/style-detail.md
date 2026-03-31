@@ -1,6 +1,6 @@
 ---
-title: "曲风详情"
-description: "调用此接口可以获取该曲风的描述信息"
+title: '曲风详情'
+description: '调用此接口可以获取该曲风的描述信息'
 ---
 
 # 曲风详情
@@ -9,19 +9,19 @@ description: "调用此接口可以获取该曲风的描述信息"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值              |
+| -------- | --------------- |
 | 接口地址 | `/style/detail` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `style_detail` |
-| 文档分类 | 曲风 |
+| 请求方式 | `GET` / `POST`  |
+| 需要登录 | 否              |
+| 对应模块 | `style_detail`  |
+| 文档分类 | 曲风            |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `tagId` | string | ✅ | - | 曲风 ID |
+| 参数    | 类型   | 必填 | 默认值 | 说明    |
+| ------- | ------ | :--: | ------ | ------- |
+| `tagId` | string |  ✅  | -      | 曲风 ID |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.style_detail({
-  tagId: "1000",
+  tagId: '1000',
 })
 
 console.log(result.body)

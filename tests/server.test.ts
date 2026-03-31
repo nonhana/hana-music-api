@@ -1,7 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
-import { tmpdir } from 'node:os'
-import { dirname, join, resolve } from 'node:path'
+import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import type { CreateRequestOptions, ModuleDefinition, ModuleRequest } from '../src/types/index.ts'
@@ -238,33 +236,43 @@ describe('createServer', () => {
     expect(invokeCount).toBe(1)
   })
 
-  test('should serve static assets from the configured public directory', async () => {
-    const temporaryDirectory = mkdtempSync(join(tmpdir(), 'hana-static-'))
-    const docsDirectory = join(temporaryDirectory, 'docs')
-    mkdirSync(docsDirectory, {
-      recursive: true,
+  test('should expose the demo home page and client assets', async () => {
+    const app = await createServer({
+      moduleDefinitions: [],
     })
-    writeFileSync(join(temporaryDirectory, 'hello.txt'), 'hello static world', 'utf8')
-    writeFileSync(join(docsDirectory, 'index.html'), '<h1>docs home</h1>', 'utf8')
+    const pageResponse = await app.request('http://localhost/demo')
+    const scriptResponse = await app.request('http://localhost/demo/client/shared.js')
 
-    try {
-      const app = await createServer({
-        moduleDefinitions: [],
-        publicDirectory: temporaryDirectory,
-      })
-      const fileResponse = await app.request('http://localhost/hello.txt')
-      const directoryResponse = await app.request('http://localhost/docs')
+    expect(pageResponse.status).toBe(200)
+    expect(pageResponse.headers.get('content-type')).toContain('text/html')
+    expect(await pageResponse.text()).toContain('本地 Demo UI')
 
-      expect(fileResponse.status).toBe(200)
-      expect(await fileResponse.text()).toBe('hello static world')
-      expect(directoryResponse.status).toBe(200)
-      expect(await directoryResponse.text()).toContain('docs home')
-    } finally {
-      rmSync(temporaryDirectory, {
-        force: true,
-        recursive: true,
-      })
-    }
+    expect(scriptResponse.status).toBe(200)
+    expect(scriptResponse.headers.get('content-type')).toContain('text/javascript')
+    expect(await scriptResponse.text()).toContain('hana-demo-cookie')
+  })
+
+  test('should expose the first batch of demo pages', async () => {
+    const app = await createServer({
+      moduleDefinitions: [],
+    })
+    const apiDebugResponse = await app.request('http://localhost/demo/api-debug')
+    const qrLoginResponse = await app.request('http://localhost/demo/qr-login')
+
+    expect(apiDebugResponse.status).toBe(200)
+    expect(await apiDebugResponse.text()).toContain('API Debug')
+
+    expect(qrLoginResponse.status).toBe(200)
+    expect(await qrLoginResponse.text()).toContain('QR Login')
+  })
+
+  test('should return 404 for legacy static files after demo migration', async () => {
+    const app = await createServer({
+      moduleDefinitions: [],
+    })
+    const response = await app.request('http://localhost/hello.txt')
+
+    expect(response.status).toBe(404)
   })
 
   test('should load real migrated modules from the modules directory', async () => {

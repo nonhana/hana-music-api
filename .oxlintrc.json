@@ -37,6 +37,5 @@
   ],
   "options": {
     "typeAware": true
-  },
-  "ignorePatterns": ["public/"]
+  }
 }

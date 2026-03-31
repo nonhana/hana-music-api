@@ -1,6 +1,6 @@
 ---
-title: "电台 - 节目榜"
-description: "登录后调用此接口 , 可获得电台节目榜"
+title: '电台 - 节目榜'
+description: '登录后调用此接口 , 可获得电台节目榜'
 ---
 
 # 电台 - 节目榜
@@ -9,20 +9,20 @@ description: "登录后调用此接口 , 可获得电台节目榜"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                    |
+| -------- | --------------------- |
 | 接口地址 | `/dj/program/toplist` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `dj_program_toplist` |
-| 文档分类 | 电台与播客 |
+| 请求方式 | `GET` / `POST`        |
+| 需要登录 | 是                    |
+| 对应模块 | `dj_program_toplist`  |
+| 文档分类 | 电台与播客            |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `limit` | number \| string | — | 100 | 返回数量 , 默认为 100 |
-| `offset` | number \| string | — | 0 | 偏移数量，用于分页 , 如 :( 页数 -1)\*100, 其中 100 为 limit 的值 , 默认为 0 |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                        |
+| -------- | ---------------- | :--: | ------ | --------------------------------------------------------------------------- |
+| `limit`  | number \| string |  —   | 100    | 返回数量 , 默认为 100                                                       |
+| `offset` | number \| string |  —   | 0      | 偏移数量，用于分页 , 如 :( 页数 -1)\*100, 其中 100 为 limit 的值 , 默认为 0 |
 
 ## HTTP 示例
 
@@ -38,7 +38,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.dj_program_toplist({
-  limit: "1",
+  limit: '1',
 })
 
 console.log(result.body)

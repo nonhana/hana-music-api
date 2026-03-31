@@ -1,6 +1,6 @@
 ---
-title: "播客列表"
-description: "可以获取播客列表"
+title: '播客列表'
+description: '可以获取播客列表'
 ---
 
 # 播客列表
@@ -9,13 +9,13 @@ description: "可以获取播客列表"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                  |
+| -------- | ------------------- |
 | 接口地址 | `/voicelist/search` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `voicelist_search` |
-| 文档分类 | 电台与播客 |
+| 请求方式 | `GET` / `POST`      |
+| 需要登录 | 否                  |
+| 对应模块 | `voicelist_search`  |
+| 文档分类 | 电台与播客          |
 
 ## 请求参数
 
@@ -45,7 +45,7 @@ console.log(result.body)
 
 **接口地址:** `/voicelist/search`
 
-**可选参数：** 
+**可选参数：**
 
 `limit`: 取出歌单数量 , 默认为 200
 

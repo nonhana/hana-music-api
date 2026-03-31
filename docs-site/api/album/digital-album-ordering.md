@@ -1,6 +1,6 @@
 ---
-title: "购买数字专辑"
-description: "登录后调用此接口 ,可获取购买数字专辑的地址,把地址生成二维码后,可扫描购买专辑"
+title: '购买数字专辑'
+description: '登录后调用此接口 ,可获取购买数字专辑的地址,把地址生成二维码后,可扫描购买专辑'
 ---
 
 # 购买数字专辑
@@ -9,21 +9,21 @@ description: "登录后调用此接口 ,可获取购买数字专辑的地址,把
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                       |
+| -------- | ------------------------ |
 | 接口地址 | `/digitalAlbum/ordering` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `digitalAlbum_ordering` |
-| 文档分类 | 专辑 |
+| 请求方式 | `GET` / `POST`           |
+| 需要登录 | 是                       |
+| 对应模块 | `digitalAlbum_ordering`  |
+| 文档分类 | 专辑                     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 专辑的 id |
-| `payment` | string | ✅ | - | 支付方式， 0 为支付宝 3 为微信 |
-| `quantity` | number \| string | ✅ | - | 购买的数量 |
+| 参数       | 类型             | 必填 | 默认值 | 说明                           |
+| ---------- | ---------------- | :--: | ------ | ------------------------------ |
+| `id`       | string           |  ✅  | -      | 专辑的 id                      |
+| `payment`  | string           |  ✅  | -      | 支付方式， 0 为支付宝 3 为微信 |
+| `quantity` | number \| string |  ✅  | -      | 购买的数量                     |
 
 ## HTTP 示例
 
@@ -39,9 +39,9 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.digitalAlbum_ordering({
-  id: "86286082",
-  payment: "3",
-  quantity: "1",
+  id: '86286082',
+  payment: '3',
+  quantity: '1',
 })
 
 console.log(result.body)

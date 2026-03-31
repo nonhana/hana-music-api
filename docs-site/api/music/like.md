@@ -1,6 +1,6 @@
 ---
-title: "喜欢音乐"
-description: "调用此接口 , 传入音乐 id, 可喜欢该音乐"
+title: '喜欢音乐'
+description: '调用此接口 , 传入音乐 id, 可喜欢该音乐'
 ---
 
 # 喜欢音乐
@@ -9,20 +9,20 @@ description: "调用此接口 , 传入音乐 id, 可喜欢该音乐"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/like` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/like`        |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `like` |
-| 文档分类 | 歌曲与播放 |
+| 需要登录 | 否             |
+| 对应模块 | `like`         |
+| 文档分类 | 歌曲与播放     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 歌曲 id |
-| `like` | boolean | — | true | 布尔值 , 默认为 true 即喜欢 , 若传 false, 则取消喜欢 |
+| 参数   | 类型    | 必填 | 默认值 | 说明                                                 |
+| ------ | ------- | :--: | ------ | ---------------------------------------------------- |
+| `id`   | string  |  ✅  | -      | 歌曲 id                                              |
+| `like` | boolean |  —   | true   | 布尔值 , 默认为 true 即喜欢 , 若传 false, 则取消喜欢 |
 
 ## HTTP 示例
 
@@ -38,7 +38,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.like({
-  id: "347230",
+  id: '347230',
 })
 
 console.log(result.body)

@@ -1,6 +1,6 @@
 ---
-title: "获取话题详情热门动态"
-description: "调用此接口 , 可获取话题详情热门动态"
+title: '获取话题详情热门动态'
+description: '调用此接口 , 可获取话题详情热门动态'
 ---
 
 # 获取话题详情热门动态
@@ -9,13 +9,13 @@ description: "调用此接口 , 可获取话题详情热门动态"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                        |
+| -------- | ------------------------- |
 | 接口地址 | `/topic/detail/event/hot` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `topic_detail_event_hot` |
-| 文档分类 | 社交与消息 |
+| 请求方式 | `GET` / `POST`            |
+| 需要登录 | 否                        |
+| 对应模块 | `topic_detail_event_hot`  |
+| 文档分类 | 社交与消息                |
 
 ## 请求参数
 
@@ -35,7 +35,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.topic_detail_event_hot({
-  actid: "111551188",
+  actid: '111551188',
 })
 
 console.log(result.body)

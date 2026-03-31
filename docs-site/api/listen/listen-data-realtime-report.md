@@ -1,6 +1,6 @@
 ---
-title: "听歌足迹 - 本周/本月收听时长"
-description: "登录后调用此接口, 获取本周/本月收听时长"
+title: '听歌足迹 - 本周/本月收听时长'
+description: '登录后调用此接口, 获取本周/本月收听时长'
 ---
 
 # 听歌足迹 - 本周/本月收听时长
@@ -9,19 +9,19 @@ description: "登录后调用此接口, 获取本周/本月收听时长"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                             |
+| -------- | ------------------------------ |
 | 接口地址 | `/listen/data/realtime/report` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `listen_data_realtime_report` |
-| 文档分类 | 听歌记录 |
+| 请求方式 | `GET` / `POST`                 |
+| 需要登录 | 是                             |
+| 对应模块 | `listen_data_realtime_report`  |
+| 文档分类 | 听歌记录                       |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `type` | string | ✅ | - | 维度类型 周 week 月 month; 今年没结束，不支持今年的数据 |
+| 参数   | 类型   | 必填 | 默认值 | 说明                                                    |
+| ------ | ------ | :--: | ------ | ------------------------------------------------------- |
+| `type` | string |  ✅  | -      | 维度类型 周 week 月 month; 今年没结束，不支持今年的数据 |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.listen_data_realtime_report({
-  type: "month",
+  type: 'month',
 })
 
 console.log(result.body)
@@ -47,7 +47,7 @@ console.log(result.body)
 
 说明 : 登录后调用此接口, 获取本周/本月收听时长
 
-**必选参数 :**  
+**必选参数 :**
 
 `type`: 维度类型 周 week 月 month; 今年没结束，不支持今年的数据
 

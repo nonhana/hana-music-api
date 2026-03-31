@@ -1,6 +1,6 @@
 ---
-title: "数字专辑详情"
-description: "调用此接口 , 传入专辑 id, 可获取数字专辑信息"
+title: '数字专辑详情'
+description: '调用此接口 , 传入专辑 id, 可获取数字专辑信息'
 ---
 
 # 数字专辑详情
@@ -9,19 +9,19 @@ description: "调用此接口 , 传入专辑 id, 可获取数字专辑信息"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                     |
+| -------- | ---------------------- |
 | 接口地址 | `/digitalAlbum/detail` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `digitalAlbum_detail` |
-| 文档分类 | 专辑 |
+| 请求方式 | `GET` / `POST`         |
+| 需要登录 | 否                     |
+| 对应模块 | `digitalAlbum_detail`  |
+| 文档分类 | 专辑                   |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 专辑 id |
+| 参数 | 类型   | 必填 | 默认值 | 说明    |
+| ---- | ------ | :--: | ------ | ------- |
+| `id` | string |  ✅  | -      | 专辑 id |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.digitalAlbum_detail({
-  id: "120605500",
+  id: '120605500',
 })
 
 console.log(result.body)

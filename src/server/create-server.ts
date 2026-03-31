@@ -6,9 +6,9 @@ import { fileURLToPath } from 'node:url'
 import type { CreateServerOptions } from '../types/index.ts'
 
 import { MemoryResponseCache } from '../core/cache.ts'
+import { registerDemoRoutes } from './demo-routes.tsx'
 import { loadModuleDefinitions } from './module-loader.ts'
 import { createDefaultRequestHandler, registerBaseRoutes, registerModuleRoutes } from './routes.ts'
-import { getDefaultPublicDirectory, registerStaticRoutes } from './static.ts'
 
 /**
  * 创建 Hono 服务实例。
@@ -30,7 +30,7 @@ export async function createServer(options: CreateServerOptions = {}): Promise<H
     cache,
     requestHandler: options.requestHandler ?? createDefaultRequestHandler(),
   })
-  registerStaticRoutes(app, options.publicDirectory ?? getDefaultPublicDirectory())
+  registerDemoRoutes(app)
 
   return app
 }

@@ -1,6 +1,6 @@
 ---
-title: "音乐人播放趋势"
-description: "音乐人登录后调用此接口 , 可获取歌曲播放趋势"
+title: '音乐人播放趋势'
+description: '音乐人登录后调用此接口 , 可获取歌曲播放趋势'
 ---
 
 # 音乐人播放趋势
@@ -9,20 +9,20 @@ description: "音乐人登录后调用此接口 , 可获取歌曲播放趋势"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                     |
+| -------- | ---------------------- |
 | 接口地址 | `/musician/play/trend` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `musician_play_trend` |
-| 文档分类 | 会员与云贝 |
+| 请求方式 | `GET` / `POST`         |
+| 需要登录 | 是                     |
+| 对应模块 | `musician_play_trend`  |
+| 文档分类 | 会员与云贝             |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `startTime` | string | ✅ | - | 开始时间 |
-| `endTime` | string | ✅ | - | 结束时间 |
+| 参数        | 类型   | 必填 | 默认值 | 说明     |
+| ----------- | ------ | :--: | ------ | -------- |
+| `startTime` | string |  ✅  | -      | 开始时间 |
+| `endTime`   | string |  ✅  | -      | 结束时间 |
 
 ## HTTP 示例
 
@@ -38,8 +38,8 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.musician_play_trend({
-  startTime: "2021-05-24",
-  endTime: "2021-05-30",
+  startTime: '2021-05-24',
+  endTime: '2021-05-30',
 })
 
 console.log(result.body)

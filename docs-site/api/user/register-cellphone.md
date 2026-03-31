@@ -1,6 +1,6 @@
 ---
-title: "注册(修改密码)"
-description: "调用此接口 ,传入手机号码和验证码,密码,昵称, 可注册网易云音乐账号(同时可修改密码)"
+title: '注册(修改密码)'
+description: '调用此接口 ,传入手机号码和验证码,密码,昵称, 可注册网易云音乐账号(同时可修改密码)'
 ---
 
 # 注册(修改密码)
@@ -9,23 +9,23 @@ description: "调用此接口 ,传入手机号码和验证码,密码,昵称, 可
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                    |
+| -------- | --------------------- |
 | 接口地址 | `/register/cellphone` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `register_cellphone` |
-| 文档分类 | 用户与登录 |
+| 请求方式 | `GET` / `POST`        |
+| 需要登录 | 否                    |
+| 对应模块 | `register_cellphone`  |
+| 文档分类 | 用户与登录            |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `captcha` | string | ✅ | - | 验证码 |
-| `phone` | string | ✅ | - | 手机号码 |
-| `password` | string | ✅ | - | 密码 |
-| `nickname` | string | ✅ | - | 昵称 |
-| `countrycode` | string | — | 86 | 国家码，用于国外手机号，例如美国传入：`1` ,默认 86 即中国 |
+| 参数          | 类型   | 必填 | 默认值 | 说明                                                      |
+| ------------- | ------ | :--: | ------ | --------------------------------------------------------- |
+| `captcha`     | string |  ✅  | -      | 验证码                                                    |
+| `phone`       | string |  ✅  | -      | 手机号码                                                  |
+| `password`    | string |  ✅  | -      | 密码                                                      |
+| `nickname`    | string |  ✅  | -      | 昵称                                                      |
+| `countrycode` | string |  —   | 86     | 国家码，用于国外手机号，例如美国传入：`1` ,默认 86 即中国 |
 
 ## HTTP 示例
 
@@ -41,10 +41,10 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.register_cellphone({
-  phone: "13xxx",
-  password: "xxxxx",
-  captcha: "1234",
-  nickname: "binary1345",
+  phone: '13xxx',
+  password: 'xxxxx',
+  captcha: '1234',
+  nickname: 'binary1345',
 })
 
 console.log(result.body)

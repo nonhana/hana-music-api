@@ -8,24 +8,24 @@
 - `src/core`：加密、请求、配置、缓存、运行时状态等核心基础设施
 - `src/modules`：已承接旧仓库 `module/*.js` 的首轮批量迁移结果
 - `src/plugins`：已迁入旧仓库的实际插件实现
+- `src/demo`：本地专用 Demo UI 子系统，负责 `/demo/*` 页面、样式和局部客户端脚本
 - `src/types`：共享边界类型
 - `tests`：行为验证与回归测试
 - `scripts`：迁移辅助脚本
-- `public`：旧仓库迁入的静态页面与文档资源
 - `data`：旧仓库迁入的只读数据资源
 
 ## 当前运行链路
 
-进入 `Phase 6` 后，运行时主链路不再追求继续批量迁模块，而是在 `Phase 5` 的“服务、静态资源、程序化 API 三者并存”基础上继续收敛类型边界、上传链路与文档基线：
+进入 `Phase 7` 的第一轮 Demo UI 重建后，运行时主链路不再保留旧静态托管，而是在 `Phase 6` 的“服务 + 程序化 API”基础上新增统一的 `/demo/*` 本地调试入口：
 
 1. `index.ts` 导出 `createServer()` 与 `startServer()`
 2. `src/app/cli.ts` 负责读取环境变量并启动 Bun 服务
 3. `src/server/create-server.ts` 创建 Hono 实例并装配 CORS、缓存与模块表
 4. `src/server/module-loader.ts` 负责从 `src/modules` 动态加载模块定义，并忽略以下划线开头的内部辅助文件
 5. `src/server/routes.ts` 负责基础路由、特殊路由映射、query/body/cookie 合并、请求适配与响应回写
-6. `src/core/request.ts` 负责发起上游网易请求
-7. `scripts/migrate-modules.ts` 负责把旧仓库模块与最小支撑插件批量迁入当前目录结构
-8. `src/server/static.ts` 负责把 `public/` 目录暴露给 Hono 服务
+6. `src/server/demo-routes.tsx` 负责注册 `/demo/*` 路由，并把请求映射到 `src/demo/pages/*`
+7. `src/core/request.ts` 负责发起上游网易请求
+8. `scripts/migrate-modules.ts` 负责把旧仓库模块与最小支撑插件批量迁入当前目录结构
 9. `src/app/module-api.ts` 负责构建程序化模块调用入口
 10. `src/types/` 已拆分为 `runtime.ts`、`request.ts`、`server.ts`、`module-contracts.ts`、`upstream.ts` 与 `modules.ts`
 
@@ -42,7 +42,7 @@
 
 1. 新服务层已经同时支持：
    - HTTP 模块路由
-   - 静态资源托管
+   - `/demo/*` 本地调试 UI
    - 程序化模块直接调用
 2. `index.ts` 现在不仅导出 `createServer()` / `startServer()`，还导出面向模块调用的公共门面。
 3. CLI 主入口会在真正监听端口前尝试准备匿名 token，以补齐旧项目启动链路中的关键初始化动作。
@@ -83,3 +83,4 @@
 3. 旧项目行为真相以 `netease-music-api` 的 JS 实现为准，不以旧半成品 TS 目录为准。
 4. 当前模块装载器已经兼容旧下划线命名和迁移期 kebab-case 命名，但仍以旧行为兼容优先。
 5. 当前版本明确不支持 PAC 代理；`src/core/request.ts` 中的显式报错属于有意边界而非待恢复债务。
+6. 旧 `public/` 静态页已经退出运行时主线，复杂实验页后续统一回到 `/demo/experiments/*` 体系。

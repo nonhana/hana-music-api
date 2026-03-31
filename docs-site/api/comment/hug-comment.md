@@ -1,6 +1,6 @@
 ---
-title: "抱一抱评论"
-description: "调用此接口,可抱一抱评论"
+title: '抱一抱评论'
+description: '调用此接口,可抱一抱评论'
 ---
 
 # 抱一抱评论
@@ -9,21 +9,21 @@ description: "调用此接口,可抱一抱评论"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值             |
+| -------- | -------------- |
 | 接口地址 | `/hug/comment` |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `hug_comment` |
-| 文档分类 | 评论 |
+| 需要登录 | 否             |
+| 对应模块 | `hug_comment`  |
+| 文档分类 | 评论           |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `uid` | string | ✅ | - | 用户 id |
-| `cid` | string | ✅ | - | 评论 id |
-| `sid` | string | ✅ | - | 资源 id |
+| 参数  | 类型   | 必填 | 默认值 | 说明    |
+| ----- | ------ | :--: | ------ | ------- |
+| `uid` | string |  ✅  | -      | 用户 id |
+| `cid` | string |  ✅  | -      | 评论 id |
+| `sid` | string |  ✅  | -      | 资源 id |
 
 ## HTTP 示例
 
@@ -39,9 +39,9 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.hug_comment({
-  uid: "285516405",
-  cid: "1167145843",
-  sid: "863481066",
+  uid: '285516405',
+  cid: '1167145843',
+  sid: '863481066',
 })
 
 console.log(result.body)

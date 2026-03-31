@@ -1,6 +1,6 @@
 ---
-title: "获取歌词"
-description: "调用此接口 , 传入音乐 id 可获得对应音乐的歌词 ( 不需要登录 )"
+title: '获取歌词'
+description: '调用此接口 , 传入音乐 id 可获得对应音乐的歌词 ( 不需要登录 )'
 ---
 
 # 获取歌词
@@ -9,19 +9,19 @@ description: "调用此接口 , 传入音乐 id 可获得对应音乐的歌词 (
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/lyric` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/lyric`       |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `lyric` |
-| 文档分类 | 歌曲与播放 |
+| 需要登录 | 否             |
+| 对应模块 | `lyric`        |
+| 文档分类 | 歌曲与播放     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 音乐 id |
+| 参数 | 类型   | 必填 | 默认值 | 说明    |
+| ---- | ------ | :--: | ------ | ------- |
+| `id` | string |  ✅  | -      | 音乐 id |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.lyric({
-  id: "33894312",
+  id: '33894312',
 })
 
 console.log(result.body)

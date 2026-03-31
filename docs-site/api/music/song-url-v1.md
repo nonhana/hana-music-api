@@ -1,6 +1,6 @@
 ---
-title: "获取音乐 url - 新版"
-description: "使用注意事项同上"
+title: '获取音乐 url - 新版'
+description: '使用注意事项同上'
 ---
 
 # 获取音乐 url - 新版
@@ -9,21 +9,21 @@ description: "使用注意事项同上"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值             |
+| -------- | -------------- |
 | 接口地址 | `/song/url/v1` |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `song_url_v1` |
-| 文档分类 | 歌曲与播放 |
+| 需要登录 | 否             |
+| 对应模块 | `song_url_v1`  |
+| 文档分类 | 歌曲与播放     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 音乐 id |
-| `level` | string | ✅ | - | 播放音质等级, 分为 `standard` => `标准`,`higher` => `较高`, `exhigh`=>`极高`, |
-| `lossless` | string | ✅ | - | =>`无损`, `hires`=>`Hi-Res`, `jyeffect` => `高清环绕声`, `sky` => `沉浸环绕声`, `dolby` => `杜比全景声`, `jymaster` => `超清母带` |
+| 参数       | 类型   | 必填 | 默认值 | 说明                                                                                                                              |
+| ---------- | ------ | :--: | ------ | --------------------------------------------------------------------------------------------------------------------------------- |
+| `id`       | string |  ✅  | -      | 音乐 id                                                                                                                           |
+| `level`    | string |  ✅  | -      | 播放音质等级, 分为 `standard` => `标准`,`higher` => `较高`, `exhigh`=>`极高`,                                                     |
+| `lossless` | string |  ✅  | -      | =>`无损`, `hires`=>`Hi-Res`, `jyeffect` => `高清环绕声`, `sky` => `沉浸环绕声`, `dolby` => `杜比全景声`, `jymaster` => `超清母带` |
 
 ## HTTP 示例
 
@@ -40,8 +40,8 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.song_url_v1({
-  id: "33894312",
-  level: "exhigh",
+  id: '33894312',
+  level: 'exhigh',
 })
 
 console.log(result.body)
@@ -52,7 +52,7 @@ console.log(result.body)
 说明 : 使用注意事项同上
 
 **必选参数 :** `id` : 音乐 id
- `level`: 播放音质等级, 分为 `standard` => `标准`,`higher` => `较高`, `exhigh`=>`极高`, 
+`level`: 播放音质等级, 分为 `standard` => `标准`,`higher` => `较高`, `exhigh`=>`极高`,
 `lossless`=>`无损`, `hires`=>`Hi-Res`, `jyeffect` => `高清环绕声`, `sky` => `沉浸环绕声`, `dolby` => `杜比全景声`, `jymaster` => `超清母带`
 
 **接口地址 :** `/song/url/v1`

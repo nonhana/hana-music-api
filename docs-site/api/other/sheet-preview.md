@@ -1,6 +1,6 @@
 ---
-title: "乐谱内容"
-description: "登录后调用此接口获取乐谱的内容"
+title: '乐谱内容'
+description: '登录后调用此接口获取乐谱的内容'
 ---
 
 # 乐谱内容
@@ -9,19 +9,19 @@ description: "登录后调用此接口获取乐谱的内容"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值               |
+| -------- | ---------------- |
 | 接口地址 | `/sheet/preview` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `sheet_preview` |
-| 文档分类 | 其他工具 |
+| 请求方式 | `GET` / `POST`   |
+| 需要登录 | 是               |
+| 对应模块 | `sheet_preview`  |
+| 文档分类 | 其他工具         |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | **乐谱** ID |
+| 参数 | 类型   | 必填 | 默认值 | 说明        |
+| ---- | ------ | :--: | ------ | ----------- |
+| `id` | string |  ✅  | -      | **乐谱** ID |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.sheet_preview({
-  id: "143190",
+  id: '143190',
 })
 
 console.log(result.body)

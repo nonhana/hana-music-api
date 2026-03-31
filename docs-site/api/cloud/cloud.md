@@ -1,5 +1,5 @@
 ---
-title: "云盘上传"
+title: '云盘上传'
 description: "登录后调用此接口,使用`'Content-Type': 'multipart/form-data'`上传 mp3 formData(name 为'songFile'),可上传歌曲到云盘"
 ---
 
@@ -9,13 +9,13 @@ description: "登录后调用此接口,使用`'Content-Type': 'multipart/form-da
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/cloud` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/cloud`       |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `cloud` |
-| 文档分类 | 云盘与上传 |
+| 需要登录 | 是             |
+| 对应模块 | `cloud`        |
+| 文档分类 | 云盘与上传     |
 
 ## 请求参数
 
@@ -43,9 +43,7 @@ console.log(result.body)
 
 说明 : 登录后调用此接口,使用`'Content-Type': 'multipart/form-data'`上传 mp3 formData(name 为'songFile'),可上传歌曲到云盘
 
-参考: https://gitlab.com/Binaryify/NeteaseCloudMusicApi/blob/main/public/cloud.html
-
-访问地址: `/cloud.html`)
+旧静态示例页已移除；该上传类页面会在后续 `/demo/*` 第二阶段中统一回归。
 
 支持命令行调用,参考 module_example 目录下`song_upload.js`
 

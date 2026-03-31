@@ -1,6 +1,6 @@
 ---
-title: "fanscenter basicinfo gender get"
-description: "fanscenter basicinfo gender get 接口文档。"
+title: 'fanscenter basicinfo gender get'
+description: 'fanscenter basicinfo gender get 接口文档。'
 ---
 
 # fanscenter basicinfo gender get
@@ -9,13 +9,13 @@ description: "fanscenter basicinfo gender get 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                                 |
+| -------- | ---------------------------------- |
 | 接口地址 | `/fanscenter/basicinfo/gender/get` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `fanscenter_basicinfo_gender_get` |
-| 文档分类 | 粉丝中心 |
+| 请求方式 | `GET` / `POST`                     |
+| 需要登录 | 否                                 |
+| 对应模块 | `fanscenter_basicinfo_gender_get`  |
+| 文档分类 | 粉丝中心                           |
 
 ## 请求参数
 

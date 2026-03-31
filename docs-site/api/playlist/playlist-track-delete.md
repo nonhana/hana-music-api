@@ -1,6 +1,6 @@
 ---
-title: "删除视频歌单里的视频"
-description: "调用此接口 , 可删除视频歌单里的视频 ( 需要登录 )"
+title: '删除视频歌单里的视频'
+description: '调用此接口 , 可删除视频歌单里的视频 ( 需要登录 )'
 ---
 
 # 删除视频歌单里的视频
@@ -9,20 +9,20 @@ description: "调用此接口 , 可删除视频歌单里的视频 ( 需要登录
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                       |
+| -------- | ------------------------ |
 | 接口地址 | `/playlist/track/delete` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `playlist_track_delete` |
-| 文档分类 | 歌单 |
+| 请求方式 | `GET` / `POST`           |
+| 需要登录 | 是                       |
+| 对应模块 | `playlist_track_delete`  |
+| 文档分类 | 歌单                     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `pid` | string | ✅ | - | 歌单 id |
-| `ids` | string[] \| string | ✅ | - | 视频 id,支持多个,用`,`隔开 |
+| 参数  | 类型               | 必填 | 默认值 | 说明                       |
+| ----- | ------------------ | :--: | ------ | -------------------------- |
+| `pid` | string             |  ✅  | -      | 歌单 id                    |
+| `ids` | string[] \| string |  ✅  | -      | 视频 id,支持多个,用`,`隔开 |
 
 ## HTTP 示例
 
@@ -38,8 +38,8 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.playlist_track_delete({
-  pid: "5271999357",
-  ids: "186041",
+  pid: '5271999357',
+  ids: '186041',
 })
 
 console.log(result.body)

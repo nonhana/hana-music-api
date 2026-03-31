@@ -1,6 +1,6 @@
 ---
-title: "歌曲是否喜爱"
-description: "登录后调用此接口, 传入歌曲id, 可判断歌曲是否被喜爱;"
+title: '歌曲是否喜爱'
+description: '登录后调用此接口, 传入歌曲id, 可判断歌曲是否被喜爱;'
 ---
 
 # 歌曲是否喜爱
@@ -9,19 +9,19 @@ description: "登录后调用此接口, 传入歌曲id, 可判断歌曲是否被
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                 |
+| -------- | ------------------ |
 | 接口地址 | `/song/like/check` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `song_like_check` |
-| 文档分类 | 歌曲与播放 |
+| 请求方式 | `GET` / `POST`     |
+| 需要登录 | 是                 |
+| 对应模块 | `song_like_check`  |
+| 文档分类 | 歌曲与播放         |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `ids` | string[] \| string | ✅ | - | 歌曲 id 列表 |
+| 参数  | 类型               | 必填 | 默认值 | 说明         |
+| ----- | ------------------ | :--: | ------ | ------------ |
+| `ids` | string[] \| string |  ✅  | -      | 歌曲 id 列表 |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.song_like_check({
-  ids: "[2058263032,1497529942]",
+  ids: '[2058263032,1497529942]',
 })
 
 console.log(result.body)
@@ -49,7 +49,7 @@ console.log(result.body)
 
 若传入一个包含多个歌曲ID的数组, 则接口将返回一个由这些ID中被标记为喜爱的歌曲组成的数组
 
-**必选参数 :**  
+**必选参数 :**
 
 `ids`: 歌曲 id 列表
 

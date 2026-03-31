@@ -1,6 +1,6 @@
 ---
-title: "电台 - 订阅"
-description: "登录后调用此接口 , 传入`rid`, 可订阅 dj,dj 的 `rid` 可通过搜索指定"
+title: '电台 - 订阅'
+description: '登录后调用此接口 , 传入`rid`, 可订阅 dj,dj 的 `rid` 可通过搜索指定'
 ---
 
 # 电台 - 订阅
@@ -9,19 +9,19 @@ description: "登录后调用此接口 , 传入`rid`, 可订阅 dj,dj 的 `rid` 
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/dj/sub` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/dj/sub`      |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `dj_sub` |
-| 文档分类 | 电台与播客 |
+| 需要登录 | 是             |
+| 对应模块 | `dj_sub`       |
+| 文档分类 | 电台与播客     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `rid` | string | ✅ | - | 电台 的 id |
+| 参数  | 类型   | 必填 | 默认值 | 说明       |
+| ----- | ------ | :--: | ------ | ---------- |
+| `rid` | string |  ✅  | -      | 电台 的 id |
 
 ## HTTP 示例
 
@@ -38,8 +38,8 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.dj_sub({
-  rid: "336355127",
-  t: "1",
+  rid: '336355127',
+  t: '1',
 })
 
 console.log(result.body)

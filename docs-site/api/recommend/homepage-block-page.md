@@ -1,6 +1,6 @@
 ---
-title: "首页-发现"
-description: "调用此接口 , 可获取 APP 首页信息"
+title: '首页-发现'
+description: '调用此接口 , 可获取 APP 首页信息'
 ---
 
 # 首页-发现
@@ -9,20 +9,20 @@ description: "调用此接口 , 可获取 APP 首页信息"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                     |
+| -------- | ---------------------- |
 | 接口地址 | `/homepage/block/page` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `homepage_block_page` |
-| 文档分类 | 推荐与发现 |
+| 请求方式 | `GET` / `POST`         |
+| 需要登录 | 否                     |
+| 对应模块 | `homepage_block_page`  |
+| 文档分类 | 推荐与发现             |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `refresh` | boolean | — | false | 是否刷新数据,默认为 false |
-| `cursor` | number \| string | — | - | 上一条数据返回的 cursor |
+| 参数      | 类型             | 必填 | 默认值 | 说明                      |
+| --------- | ---------------- | :--: | ------ | ------------------------- |
+| `refresh` | boolean          |  —   | false  | 是否刷新数据,默认为 false |
+| `cursor`  | number \| string |  —   | -      | 上一条数据返回的 cursor   |
 
 ## HTTP 示例
 

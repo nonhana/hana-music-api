@@ -1,29 +1,29 @@
 ---
-title: "更新头像"
-description: "登录后调用此接口,使用`'Content-Type': 'multipart/form-data'`上传图片 formData(name 为'imgFile'),可更新头像(参考: https://gitlab.com/Binaryify/NeteaseCloudMusicApi/blob/main/public/avatar_update.html ),支持命令行调用,参考module_example目录下`avatar_upload.js`"
+title: '更新头像'
+description: "登录后调用此接口,使用`'Content-Type': 'multipart/form-data'`上传图片 formData(name 为'imgFile'),可更新头像。旧静态示例页已移除；当前可参考新的 `/demo/upload/playlist-cover` 上传页模式。"
 ---
 
 # 更新头像
 
-> 登录后调用此接口,使用`'Content-Type': 'multipart/form-data'`上传图片 formData(name 为'imgFile'),可更新头像(参考: https://gitlab.com/Binaryify/NeteaseCloudMusicApi/blob/main/public/avatar_update.html ),支持命令行调用,参考module_example目录下`avatar_upload.js`
+> 登录后调用此接口,使用`'Content-Type': 'multipart/form-data'`上传图片 formData(name 为'imgFile'),可更新头像。旧静态示例页已移除；当前可参考新的 `/demo/upload/playlist-cover` 上传页模式。
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值               |
+| -------- | ---------------- |
 | 接口地址 | `/avatar/upload` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `avatar_upload` |
-| 文档分类 | 用户与登录 |
+| 请求方式 | `GET` / `POST`   |
+| 需要登录 | 是               |
+| 对应模块 | `avatar_upload`  |
+| 文档分类 | 用户与登录       |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `imgSize` | number \| string | — | 300 | 图片尺寸,默认为 300 |
-| `imgX` | number \| string | — | 0 | 水平裁剪偏移,方形图片可不传,默认为 0 |
-| `imgY` | number \| string | — | 0 | 垂直裁剪偏移,方形图片可不传,默认为 0 |
+| 参数      | 类型             | 必填 | 默认值 | 说明                                 |
+| --------- | ---------------- | :--: | ------ | ------------------------------------ |
+| `imgSize` | number \| string |  —   | 300    | 图片尺寸,默认为 300                  |
+| `imgX`    | number \| string |  —   | 0      | 水平裁剪偏移,方形图片可不传,默认为 0 |
+| `imgY`    | number \| string |  —   | 0      | 垂直裁剪偏移,方形图片可不传,默认为 0 |
 
 ## HTTP 示例
 
@@ -39,7 +39,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.avatar_upload({
-  imgSize: "200",
+  imgSize: '200',
 })
 
 console.log(result.body)
@@ -47,7 +47,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 登录后调用此接口,使用`'Content-Type': 'multipart/form-data'`上传图片 formData(name 为'imgFile'),可更新头像(参考: https://gitlab.com/Binaryify/NeteaseCloudMusicApi/blob/main/public/avatar_update.html  ),支持命令行调用,参考module_example目录下`avatar_upload.js`
+说明 : 登录后调用此接口,使用`'Content-Type': 'multipart/form-data'`上传图片 formData(name 为'imgFile'),可更新头像。旧静态示例页已移除；当前可参考新的 `/demo/upload/playlist-cover` 上传页模式
 
 **可选参数 :**
 

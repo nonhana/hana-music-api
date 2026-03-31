@@ -1,6 +1,6 @@
 ---
-title: "weblog"
-description: "weblog 接口文档。"
+title: 'weblog'
+description: 'weblog 接口文档。'
 ---
 
 # weblog
@@ -9,13 +9,13 @@ description: "weblog 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/weblog` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/weblog`      |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `weblog` |
-| 文档分类 | 其他工具 |
+| 需要登录 | 否             |
+| 对应模块 | `weblog`       |
+| 文档分类 | 其他工具       |
 
 ## 请求参数
 

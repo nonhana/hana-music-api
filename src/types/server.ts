@@ -9,7 +9,6 @@ export interface CreateServerOptions {
   readonly corsAllowOrigin?: string
   readonly moduleDefinitions?: ModuleDefinition[]
   readonly modulesDirectory?: string
-  readonly publicDirectory?: string
   readonly requestHandler?: ModuleRequest
   readonly serviceName?: string
   readonly serviceVersion?: string

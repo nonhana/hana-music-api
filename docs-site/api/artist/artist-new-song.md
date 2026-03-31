@@ -1,6 +1,6 @@
 ---
-title: "关注歌手新歌"
-description: "登录后调用此接口可获取关注歌手新歌"
+title: '关注歌手新歌'
+description: '登录后调用此接口可获取关注歌手新歌'
 ---
 
 # 关注歌手新歌
@@ -9,20 +9,20 @@ description: "登录后调用此接口可获取关注歌手新歌"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                 |
+| -------- | ------------------ |
 | 接口地址 | `/artist/new/song` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `artist_new_song` |
-| 文档分类 | 歌手 |
+| 请求方式 | `GET` / `POST`     |
+| 需要登录 | 是                 |
+| 对应模块 | `artist_new_song`  |
+| 文档分类 | 歌手               |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `limit` | number \| string | — | 20 | 取出评论数量 , 默认为 20 |
-| `before` | number \| string | — | - | 上一页数据返回的 publishTime 的数据 |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                |
+| -------- | ---------------- | :--: | ------ | ----------------------------------- |
+| `limit`  | number \| string |  —   | 20     | 取出评论数量 , 默认为 20            |
+| `before` | number \| string |  —   | -      | 上一页数据返回的 publishTime 的数据 |
 
 ## HTTP 示例
 
@@ -39,7 +39,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.artist_new_song({
-  limit: "1",
+  limit: '1',
 })
 
 console.log(result.body)

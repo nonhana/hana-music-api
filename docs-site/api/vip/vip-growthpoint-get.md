@@ -1,6 +1,6 @@
 ---
-title: "领取 vip 成长值"
-description: "登录后调用此接口 , 可获取已完成的会员任务的成长值奖励"
+title: '领取 vip 成长值'
+description: '登录后调用此接口 , 可获取已完成的会员任务的成长值奖励'
 ---
 
 # 领取 vip 成长值
@@ -9,19 +9,19 @@ description: "登录后调用此接口 , 可获取已完成的会员任务的成
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                     |
+| -------- | ---------------------- |
 | 接口地址 | `/vip/growthpoint/get` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `vip_growthpoint_get` |
-| 文档分类 | 会员与云贝 |
+| 请求方式 | `GET` / `POST`         |
+| 需要登录 | 是                     |
+| 对应模块 | `vip_growthpoint_get`  |
+| 文档分类 | 会员与云贝             |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `ids` | string | ✅ | - | 通过`/vip/tasks`获取到的`unGetIds` |
+| 参数  | 类型   | 必填 | 默认值 | 说明                               |
+| ----- | ------ | :--: | ------ | ---------------------------------- |
+| `ids` | string |  ✅  | -      | 通过`/vip/tasks`获取到的`unGetIds` |
 
 ## HTTP 示例
 
@@ -38,7 +38,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.vip_growthpoint_get({
-  ids: "7043206830_7",
+  ids: '7043206830_7',
 })
 
 console.log(result.body)

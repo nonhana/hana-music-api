@@ -1,6 +1,6 @@
 ---
-title: "收藏/取消收藏歌手"
-description: "调用此接口,可收藏歌手"
+title: '收藏/取消收藏歌手'
+description: '调用此接口,可收藏歌手'
 ---
 
 # 收藏/取消收藏歌手
@@ -9,20 +9,20 @@ description: "调用此接口,可收藏歌手"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/artist/sub` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/artist/sub`  |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `artist_sub` |
-| 文档分类 | 歌手 |
+| 需要登录 | 否             |
+| 对应模块 | `artist_sub`   |
+| 文档分类 | 歌手           |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 歌手 id |
-| `t` | string | ✅ | - | 操作,1 为收藏,其他为取消收藏 |
+| 参数 | 类型   | 必填 | 默认值 | 说明                         |
+| ---- | ------ | :--: | ------ | ---------------------------- |
+| `id` | string |  ✅  | -      | 歌手 id                      |
+| `t`  | string |  ✅  | -      | 操作,1 为收藏,其他为取消收藏 |
 
 ## HTTP 示例
 
@@ -38,8 +38,8 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.artist_sub({
-  id: "6452",
-  t: "1",
+  id: '6452',
+  t: '1',
 })
 
 console.log(result.body)

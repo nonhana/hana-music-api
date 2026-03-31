@@ -1,6 +1,6 @@
 ---
-title: "副歌时间"
-description: "调用此接口, 传入歌曲id, 获取副歌时间"
+title: '副歌时间'
+description: '调用此接口, 传入歌曲id, 获取副歌时间'
 ---
 
 # 副歌时间
@@ -9,13 +9,13 @@ description: "调用此接口, 传入歌曲id, 获取副歌时间"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值             |
+| -------- | -------------- |
 | 接口地址 | `/song/chorus` |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `song_chorus` |
-| 文档分类 | 歌曲与播放 |
+| 需要登录 | 否             |
+| 对应模块 | `song_chorus`  |
+| 文档分类 | 歌曲与播放     |
 
 ## 请求参数
 
@@ -35,7 +35,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.song_chorus({
-  id: "2058263032",
+  id: '2058263032',
 })
 
 console.log(result.body)
@@ -45,7 +45,7 @@ console.log(result.body)
 
 说明: 调用此接口, 传入歌曲id, 获取副歌时间
 
-**必选参数：**     
+**必选参数：**
 
 `id`: 歌曲id
 

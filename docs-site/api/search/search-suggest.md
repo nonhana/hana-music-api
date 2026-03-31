@@ -1,6 +1,6 @@
 ---
-title: "搜索建议"
-description: "调用此接口 , 传入搜索关键词可获得搜索建议 , 搜索结果同时包含单曲 , 歌手 , 歌单信息"
+title: '搜索建议'
+description: '调用此接口 , 传入搜索关键词可获得搜索建议 , 搜索结果同时包含单曲 , 歌手 , 歌单信息'
 ---
 
 # 搜索建议
@@ -9,20 +9,20 @@ description: "调用此接口 , 传入搜索关键词可获得搜索建议 , 搜
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                |
+| -------- | ----------------- |
 | 接口地址 | `/search/suggest` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `search_suggest` |
-| 文档分类 | 搜索 |
+| 请求方式 | `GET` / `POST`    |
+| 需要登录 | 否                |
+| 对应模块 | `search_suggest`  |
+| 文档分类 | 搜索              |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `keywords` | string | ✅ | - | 关键词 |
-| `type` | string | — | - | 如果传 'mobile' 则返回移动端数据 |
+| 参数       | 类型   | 必填 | 默认值 | 说明                             |
+| ---------- | ------ | :--: | ------ | -------------------------------- |
+| `keywords` | string |  ✅  | -      | 关键词                           |
+| `type`     | string |  —   | -      | 如果传 'mobile' 则返回移动端数据 |
 
 ## HTTP 示例
 
@@ -39,7 +39,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.search_suggest({
-  keywords: "海阔天空",
+  keywords: '海阔天空',
 })
 
 console.log(result.body)

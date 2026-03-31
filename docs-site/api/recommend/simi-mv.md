@@ -1,6 +1,6 @@
 ---
-title: "相似 mv"
-description: "调用此接口 , 传入 `mvid` 可获取相似 mv"
+title: '相似 mv'
+description: '调用此接口 , 传入 `mvid` 可获取相似 mv'
 ---
 
 # 相似 mv
@@ -9,19 +9,19 @@ description: "调用此接口 , 传入 `mvid` 可获取相似 mv"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/simi/mv` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/simi/mv`     |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `simi_mv` |
-| 文档分类 | 推荐与发现 |
+| 需要登录 | 否             |
+| 对应模块 | `simi_mv`      |
+| 文档分类 | 推荐与发现     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `mvid` | string | ✅ | - | mv id |
+| 参数   | 类型   | 必填 | 默认值 | 说明  |
+| ------ | ------ | :--: | ------ | ----- |
+| `mvid` | string |  ✅  | -      | mv id |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.simi_mv({
-  mvid: "5436712",
+  mvid: '5436712',
 })
 
 console.log(result.body)

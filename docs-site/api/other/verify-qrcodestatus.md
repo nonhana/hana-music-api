@@ -1,6 +1,6 @@
 ---
-title: "验证接口 - 二维码检测"
-description: "使用此接口,传入`/verify/getQr`接口返回的`qr`字符串,可检测二维码扫描状态"
+title: '验证接口 - 二维码检测'
+description: '使用此接口,传入`/verify/getQr`接口返回的`qr`字符串,可检测二维码扫描状态'
 ---
 
 # 验证接口 - 二维码检测
@@ -9,13 +9,13 @@ description: "使用此接口,传入`/verify/getQr`接口返回的`qr`字符串,
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                     |
+| -------- | ---------------------- |
 | 接口地址 | `/verify/qrcodestatus` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `verify_qrcodestatus` |
-| 文档分类 | 其他工具 |
+| 请求方式 | `GET` / `POST`         |
+| 需要登录 | 否                     |
+| 对应模块 | `verify_qrcodestatus`  |
+| 文档分类 | 其他工具               |
 
 ## 请求参数
 
@@ -45,7 +45,7 @@ console.log(result.body)
 
 **接口地址:** `/verify/qrcodestatus`
 
-**必选参数：**   
+**必选参数：**
 
 `qr`: `/verify/getQr`接口返回的`qr`字符串
 
@@ -55,9 +55,9 @@ qrCodeStatus:0,detailReason:0 二维码生成成功
 
 qrCodeStatus:0,detailReason:303 账号不一致
 
-qrCodeStatus:10,detailReason:0  二维码已扫描,并且手机号相同
+qrCodeStatus:10,detailReason:0 二维码已扫描,并且手机号相同
 
-qrCodeStatus:20,detailReason:0  验证成功qrCodeStatus:21,detailReason:0 二维码已失效
+qrCodeStatus:20,detailReason:0 验证成功qrCodeStatus:21,detailReason:0 二维码已失效
 
 ## 维护说明
 

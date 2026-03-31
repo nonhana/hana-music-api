@@ -1,6 +1,6 @@
 ---
-title: "toplist detail v2"
-description: "toplist detail v2 接口文档。"
+title: 'toplist detail v2'
+description: 'toplist detail v2 接口文档。'
 ---
 
 # toplist detail v2
@@ -9,13 +9,13 @@ description: "toplist detail v2 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                   |
+| -------- | -------------------- |
 | 接口地址 | `/toplist/detail/v2` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `toplist_detail_v2` |
-| 文档分类 | 排行榜 |
+| 请求方式 | `GET` / `POST`       |
+| 需要登录 | 否                   |
+| 对应模块 | `toplist_detail_v2`  |
+| 文档分类 | 排行榜               |
 
 ## 请求参数
 

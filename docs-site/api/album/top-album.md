@@ -1,6 +1,6 @@
 ---
-title: "新碟上架"
-description: "调用此接口 , 可获取新碟上架列表 , 如需具体音乐信息需要调用获取专辑列表接"
+title: '新碟上架'
+description: '调用此接口 , 可获取新碟上架列表 , 如需具体音乐信息需要调用获取专辑列表接'
 ---
 
 # 新碟上架
@@ -9,22 +9,22 @@ description: "调用此接口 , 可获取新碟上架列表 , 如需具体音乐
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/top/album` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/top/album`   |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `top_album` |
-| 文档分类 | 专辑 |
+| 需要登录 | 否             |
+| 对应模块 | `top_album`    |
+| 文档分类 | 专辑           |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `area` | string | — | - | ALL:全部,ZH:华语,EA:欧美,KR:韩国,JP:日本 |
-| `type` | string | — | new | new:全部 hot:热门,默认为 new |
-| `year` | string | — | 本年 | 年,默认本年 |
-| `month` | string | — | 本月 | 月,默认本月 |
+| 参数    | 类型   | 必填 | 默认值 | 说明                                     |
+| ------- | ------ | :--: | ------ | ---------------------------------------- |
+| `area`  | string |  —   | -      | ALL:全部,ZH:华语,EA:欧美,KR:韩国,JP:日本 |
+| `type`  | string |  —   | new    | new:全部 hot:热门,默认为 new             |
+| `year`  | string |  —   | 本年   | 年,默认本年                              |
+| `month` | string |  —   | 本月   | 月,默认本月                              |
 
 ## HTTP 示例
 
@@ -40,10 +40,10 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.top_album({
-  offset: "0",
-  limit: "30",
-  year: "2019",
-  month: "6",
+  offset: '0',
+  limit: '30',
+  year: '2019',
+  month: '6',
 })
 
 console.log(result.body)

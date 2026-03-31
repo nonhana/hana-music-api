@@ -2,14 +2,15 @@
 
 `hana-music-api` 是对旧版 `netease-music-api` 的 Bun + TypeScript + Hono 重写仓库。
 
-当前仓库已经进入 `Phase 6`：主链路与 `Phase 5` 离线回归基线已经稳定，当前工作的重点转为类型边界收敛、程序化 API 类型映射、上传链路现代化与文档定稿。
+当前仓库已经进入 `Phase 7` 的第一轮 Demo UI 重建阶段：主链路与 `Phase 6` 离线回归基线已经稳定，本地调试入口开始从旧静态页切换到新的 `/demo/*` 路由体系。
 
 ## 当前状态
 
 - 核心加密与请求链路已迁入 `src/core`
 - Hono 服务层已恢复模块分发、Cookie、缓存与特殊路由
 - `366` 个旧模块已批量迁入 `src/modules`
-- 旧仓库 `public/` 与 `data/` 已迁入当前仓库
+- 旧静态页已经退出主线，本地调试入口开始切换到 `/demo/*`
+- `data/` 只读资源仍保留在当前仓库
 - 已恢复程序化模块调用 API
 - 已补齐一组围绕真实迁移模块与上传链路 helper 的离线回归测试
 - `src/types/` 已拆分为运行时、请求、模块契约与上游边界几个子文件
@@ -35,7 +36,7 @@ bun run fmt:check
 bun run migrate:modules
 ```
 
-文档源码位于 `docs-site/`。`docs-site/.vitepress/dist/`、`public/docs/` 和 `public/docs-legacy/` 均视为构建产物或历史遗留目录，不纳入版本管理；部署时应在流水线中执行 `bun run docs:build` 再发布静态产物。
+文档源码位于 `docs-site/`。`docs-site/.vitepress/dist/` 视为构建产物，不纳入版本管理；部署时应在流水线中执行 `bun run docs:build` 再发布静态产物。
 
 ## Phase 6 基线
 
@@ -99,4 +100,4 @@ const account = await invokeModule('user_account', {
 bun run start
 ```
 
-默认会启动 Hono 服务，并保留根路径的元信息接口；旧仓库的静态资源由根目录 `public/` 提供。CLI 主入口在真正监听端口前，会先检查匿名 token，缺失时自动调用 `generateConfig()` 进行补齐。
+默认会启动 Hono 服务，并保留根路径的元信息接口与 `/demo/*` 本地调试页。CLI 主入口在真正监听端口前，会先检查匿名 token，缺失时自动调用 `generateConfig()` 进行补齐。

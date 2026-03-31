@@ -1,6 +1,6 @@
 ---
-title: "DIFM电台 - 收藏列表"
-description: "调用此接口, 获取DIFM电台收藏列表"
+title: 'DIFM电台 - 收藏列表'
+description: '调用此接口, 获取DIFM电台收藏列表'
 ---
 
 # DIFM电台 - 收藏列表
@@ -9,19 +9,19 @@ description: "调用此接口, 获取DIFM电台收藏列表"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                                |
+| -------- | --------------------------------- |
 | 接口地址 | `/dj/difm/subscribe/channels/get` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `dj_difm_subscribe_channels_get` |
-| 文档分类 | 电台与播客 |
+| 请求方式 | `GET` / `POST`                    |
+| 需要登录 | 否                                |
+| 对应模块 | `dj_difm_subscribe_channels_get`  |
+| 文档分类 | 电台与播客                        |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `sources` | string[] \| string | ✅ | - | 来源列表, 0: 最嗨电音 1: 古典电台 2: 爵士电台 |
+| 参数      | 类型               | 必填 | 默认值 | 说明                                          |
+| --------- | ------------------ | :--: | ------ | --------------------------------------------- |
+| `sources` | string[] \| string |  ✅  | -      | 来源列表, 0: 最嗨电音 1: 古典电台 2: 爵士电台 |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.dj_difm_subscribe_channels_get({
-  sources: "[0]",
+  sources: '[0]',
 })
 
 console.log(result.body)
@@ -47,7 +47,7 @@ console.log(result.body)
 
 说明: 调用此接口, 获取DIFM电台收藏列表
 
-**必选参数 :**  
+**必选参数 :**
 
 `sources`: 来源列表, 0: 最嗨电音 1: 古典电台 2: 爵士电台
 

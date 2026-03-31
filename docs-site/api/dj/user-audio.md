@@ -1,6 +1,6 @@
 ---
-title: "用户电台"
-description: "调用此接口, 传入用户 id 可获取用户创建的电台"
+title: '用户电台'
+description: '调用此接口, 传入用户 id 可获取用户创建的电台'
 ---
 
 # 用户电台
@@ -9,19 +9,19 @@ description: "调用此接口, 传入用户 id 可获取用户创建的电台"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/user/audio` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/user/audio`  |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `user_audio` |
-| 文档分类 | 电台与播客 |
+| 需要登录 | 否             |
+| 对应模块 | `user_audio`   |
+| 文档分类 | 电台与播客     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `uid` | string | ✅ | - | 用户 id |
+| 参数  | 类型   | 必填 | 默认值 | 说明    |
+| ----- | ------ | :--: | ------ | ------- |
+| `uid` | string |  ✅  | -      | 用户 id |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.user_audio({
-  uid: "32953014",
+  uid: '32953014',
 })
 
 console.log(result.body)

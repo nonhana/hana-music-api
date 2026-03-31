@@ -1,6 +1,6 @@
 ---
-title: "检测手机号码是否已注册"
-description: "调用此接口 ,可检测手机号码是否已注册"
+title: '检测手机号码是否已注册'
+description: '调用此接口 ,可检测手机号码是否已注册'
 ---
 
 # 检测手机号码是否已注册
@@ -9,20 +9,20 @@ description: "调用此接口 ,可检测手机号码是否已注册"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                           |
+| -------- | ---------------------------- |
 | 接口地址 | `/cellphone/existence/check` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `cellphone_existence_check` |
-| 文档分类 | 用户与登录 |
+| 请求方式 | `GET` / `POST`               |
+| 需要登录 | 否                           |
+| 对应模块 | `cellphone_existence_check`  |
+| 文档分类 | 用户与登录                   |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `phone` | string | ✅ | - | 手机号码 |
-| `countrycode` | string | — | 86 | 国家码，用于国外手机号，例如美国传入：`1` ,默认 86 即中国 |
+| 参数          | 类型   | 必填 | 默认值 | 说明                                                      |
+| ------------- | ------ | :--: | ------ | --------------------------------------------------------- |
+| `phone`       | string |  ✅  | -      | 手机号码                                                  |
+| `countrycode` | string |  —   | 86     | 国家码，用于国外手机号，例如美国传入：`1` ,默认 86 即中国 |
 
 ## HTTP 示例
 
@@ -38,7 +38,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.cellphone_existence_check({
-  phone: "13xxx",
+  phone: '13xxx',
 })
 
 console.log(result.body)

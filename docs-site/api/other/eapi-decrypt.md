@@ -1,6 +1,6 @@
 ---
-title: "eapi decrypt"
-description: "eapi decrypt 接口文档。"
+title: 'eapi decrypt'
+description: 'eapi decrypt 接口文档。'
 ---
 
 # eapi decrypt
@@ -9,13 +9,13 @@ description: "eapi decrypt 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值              |
+| -------- | --------------- |
 | 接口地址 | `/eapi/decrypt` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `eapi_decrypt` |
-| 文档分类 | 其他工具 |
+| 请求方式 | `GET` / `POST`  |
+| 需要登录 | 否              |
+| 对应模块 | `eapi_decrypt`  |
+| 文档分类 | 其他工具        |
 
 ## 请求参数
 
