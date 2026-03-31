@@ -8,13 +8,12 @@ export const QrLoginPage: FC = () => {
   return (
     <>
       <PageHeader
-        description="统一承接旧二维码登录页，支持带 Cookie 和 noCookie 两种轮询模式，并把登录 Cookie 保存在浏览器本地。"
-        eyebrow="Auth"
-        title="QR Login"
+        description="生成二维码、查看登录状态，并保存当前 Cookie。"
+        title="扫码登录"
       />
 
       <div class="two-column-grid">
-        <Surface description="生成二维码并轮询 `/login/qr/check`。" title="Login Flow">
+        <Surface description="扫码后会自动刷新状态并同步 Cookie。" title="登录流程">
           <div class="stack-form">
             <div class="action-row">
               <button class="primary-button" id="qr-refresh" type="button">
@@ -22,13 +21,13 @@ export const QrLoginPage: FC = () => {
               </button>
               <label class="toggle">
                 <input id="qr-no-cookie" type="checkbox" />
-                <span>轮询时附加 `noCookie=true`</span>
+                <span>轮询时不写入 Cookie</span>
               </label>
             </div>
 
             <div class="qr-layout">
               <div class="qr-card">
-                <img alt="QR code" id="qr-image" />
+                <img alt="登录二维码" id="qr-image" />
               </div>
               <div class="status-stack">
                 <p class="inline-note" id="qr-status">
@@ -38,13 +37,13 @@ export const QrLoginPage: FC = () => {
                   读取当前登录态
                 </button>
                 <button class="secondary-button" id="qr-clear-cookie" type="button">
-                  清空本地 Cookie
+                  清空 Cookie
                 </button>
               </div>
             </div>
 
             <label class="field">
-              <span>Stored Cookie</span>
+              <span>Cookie</span>
               <textarea
                 data-demo-cookie-input
                 id="qr-cookie"
@@ -56,7 +55,7 @@ export const QrLoginPage: FC = () => {
           </div>
         </Surface>
 
-        <Surface description="显示 `/login/status` 的原始响应。" title="Login Status">
+        <Surface description="查看当前登录状态返回结果。" title="登录状态">
           <pre class="result-panel tall-result" id="qr-login-status">
             等待读取登录态
           </pre>

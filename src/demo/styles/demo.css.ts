@@ -84,44 +84,6 @@ pre {
   padding: 18px 0;
 }
 
-.brand {
-  display: inline-flex;
-  gap: 14px;
-  align-items: center;
-  min-width: 0;
-}
-
-.brand-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #2563eb, #0f172a);
-  color: #ffffff;
-  font-size: 0.9rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.brand-copy {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.brand-copy strong {
-  color: var(--text-strong);
-  font-size: 0.98rem;
-}
-
-.brand-copy small {
-  color: var(--text-muted);
-  font-size: 0.8rem;
-}
-
 .site-nav {
   display: flex;
   flex-wrap: wrap;
@@ -310,6 +272,7 @@ pre {
   border-radius: 999px;
   padding: 0 18px;
   font-weight: 600;
+  background: var(--brand-soft);
 }
 
 .text-link {

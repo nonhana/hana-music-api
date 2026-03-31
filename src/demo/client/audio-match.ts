@@ -48,7 +48,7 @@ function handleInitializationFailure(error) {
   runButton.textContent = '开始识别'
   setStatus('初始化失败：' + message)
   setResults('初始化失败，请检查音频运行时日志')
-  writeLog('[audio-match] 初始化失败: ' + message)
+  writeLog('初始化失败: ' + message)
 }
 
 function renderMatches(matches) {
@@ -112,13 +112,13 @@ async function ensureAudioContext() {
     micSourceNode = audioContext.createMediaStreamSource(microphoneStream)
     micSourceNode.connect(recorderNode)
     useMicInput.checked = true
-    writeLog('[audio-match] 麦克风已接入')
+    writeLog('麦克风已接入')
   } catch (error) {
     useMicInput.checked = false
-    writeLog('[audio-match] 麦克风不可用，将仅使用文件音频')
+    writeLog('麦克风不可用，将仅使用文件音频')
   }
 
-  writeLog('[audio-match] AudioContext 已启动')
+  writeLog('音频环境已启动')
   return audioContext
 }
 
@@ -128,11 +128,11 @@ async function handleRecorderFinished(recording) {
   }
 
   setStatus('生成音频指纹中')
-  writeLog('[audio-match] 开始生成指纹')
+  writeLog('开始生成指纹')
 
   const samples = new Float32Array(recording.subarray(0, CLIP_DURATION_SECONDS * SAMPLE_RATE))
   const fingerprint = await globalThis.GenerateFP(samples)
-  writeLog('[audio-match] 指纹生成完成')
+  writeLog('指纹生成完成')
   setStatus('请求 /audio/match 中')
 
   const query = new URLSearchParams({
@@ -143,12 +143,12 @@ async function handleRecorderFinished(recording) {
     method: 'POST',
   })
   const payload = await response.json()
-  writeLog('[audio-match] /audio/match 返回 code=' + String(payload?.code ?? 'unknown'))
+  writeLog('/audio/match 返回 code=' + String(payload?.code ?? 'unknown'))
 
   const matchData = payload?.data
   const matches = matchData?.result
   if ((!Array.isArray(matches) || matches.length === 0) && typeof matchData?.noMatchReason === 'number') {
-    writeLog('[audio-match] noMatchReason=' + String(matchData.noMatchReason))
+    writeLog('noMatchReason=' + String(matchData.noMatchReason))
   }
   renderMatches(matches)
   setStatus(Array.isArray(matches) && matches.length > 0 ? '识别完成' : '识别完成，但没有命中结果')
@@ -168,7 +168,7 @@ function handleRecorderMessage(event) {
       runButton.textContent = '开始识别'
       handleRecorderFinished(data.recording).catch((error) => {
         const message = getErrorMessage(error)
-        writeLog('[audio-match] ' + message)
+        writeLog(message)
         setStatus(message)
       })
       break
@@ -212,7 +212,7 @@ fileInput?.addEventListener('change', async () => {
     player.src = URL.createObjectURL(file)
     runButton.disabled = false
     setStatus('文件已加载，可以开始识别')
-    writeLog('[audio-match] 已加载文件 ' + file.name)
+    writeLog('已加载文件 ' + file.name)
   } catch (error) {
     handleInitializationFailure(error)
   }
@@ -244,14 +244,14 @@ useMicInput?.addEventListener('change', () => {
 
   if (useMicInput.checked) {
     micSourceNode.connect(recorderNode)
-    writeLog('[audio-match] 麦克风混音已开启')
+    writeLog('麦克风混音已开启')
   } else {
     micSourceNode.disconnect(recorderNode)
-    writeLog('[audio-match] 麦克风混音已关闭')
+    writeLog('麦克风混音已关闭')
   }
 })
 
 drawWaveform()
-writeLog('[audio-match] 页面初始化完成')
+writeLog('页面已就绪')
 setResults('还没有识别结果')
 `

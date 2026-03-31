@@ -20,24 +20,23 @@ export const ApiDebugPage: FC = () => {
   return (
     <>
       <PageHeader
-        description="保留旧 `api.html` 的直接请求能力，但改成更适合阅读和粘贴 JSON 的双栏表单。"
-        eyebrow="Request Debug"
-        title="API Debug"
+        description="填写接口地址、加密方式和请求体后直接发送请求。"
+        title="API 请求"
       />
 
       <div class="two-column-grid">
         <Surface
-          description="通过 `/api` 模块直接调用任意上游接口，适合快速验证 `uri`、`crypto` 和原始 payload。"
-          title="Request Builder"
+          description="支持自定义接口地址、加密方式和 JSON 请求体。"
+          title="请求参数"
         >
           <form class="stack-form" id="api-debug-form">
             <label class="field">
-              <span>URI</span>
+              <span>接口地址</span>
               <input id="api-uri" name="uri" type="text" value="/api/song/lyric/v1" />
             </label>
 
             <label class="field">
-              <span>Crypto</span>
+              <span>加密方式</span>
               <select id="api-crypto" name="crypto">
                 <option value="">(默认)</option>
                 <option value="weapi">weapi</option>
@@ -48,7 +47,7 @@ export const ApiDebugPage: FC = () => {
             </label>
 
             <label class="field">
-              <span>JSON Data</span>
+              <span>请求体</span>
               <textarea id="api-data" name="data" rows={14}>
                 {API_DEBUG_SAMPLE}
               </textarea>
@@ -66,18 +65,18 @@ export const ApiDebugPage: FC = () => {
         </Surface>
 
         <Surface
-          description="显示提交时的请求摘要和接口返回，便于直接复制到 issue、文档或测试里。"
-          title="Response"
+          description="查看本次请求内容和接口返回结果。"
+          title="返回结果"
         >
           <div class="result-stack">
             <div>
-              <h3 class="panel-heading">Request Snapshot</h3>
+              <h3 class="panel-heading">请求内容</h3>
               <pre class="result-panel" id="api-request-preview">
                 等待发送请求
               </pre>
             </div>
             <div>
-              <h3 class="panel-heading">Raw Response</h3>
+              <h3 class="panel-heading">响应内容</h3>
               <pre class="result-panel" id="api-result">
                 等待返回结果
               </pre>

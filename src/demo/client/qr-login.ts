@@ -53,7 +53,7 @@ async function loadLoginStatus(cookie = getStoredCookie()) {
     method: 'POST',
   })
   setFormattedResult(loginStatusPanel, data)
-  setTextContent(statusText, cookie ? '已同步本地 Cookie 对应的登录态' : '当前本地没有保存 Cookie')
+  setTextContent(statusText, cookie ? '已读取当前 Cookie 对应的登录态' : '当前没有可用 Cookie')
 }
 
 async function pollStatus() {
@@ -135,9 +135,9 @@ clearCookieButton?.addEventListener('click', () => {
   syncCookieInputs()
   setFormattedResult(loginStatusPanel, {
     ok: false,
-    reason: 'local cookie cleared',
+    reason: 'cookie cleared',
   })
-  setTextContent(statusText, '本地 Cookie 已清空')
+  setTextContent(statusText, 'Cookie 已清空')
 })
 
 window.addEventListener('beforeunload', () => {

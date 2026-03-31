@@ -8,22 +8,21 @@ export const SearchPage: FC = () => {
   return (
     <>
       <PageHeader
-        description="首轮不再复刻旧 `home.html` 的临时脚本，而是提供一个稳定的 `/search` 观测页。"
-        eyebrow="Request Debug"
-        title="Search Probe"
+        description="按关键词搜索并查看请求地址与返回结果。"
+        title="搜索"
       />
 
       <div class="two-column-grid">
-        <Surface description="常用关键词搜索，支持保留本地 Cookie。" title="Search Form">
+        <Surface description="支持搜索歌曲、专辑、歌手、歌单和用户。" title="搜索参数">
           <form class="stack-form" id="search-form">
             <label class="field">
-              <span>Keywords</span>
+              <span>关键词</span>
               <input id="search-keywords" name="keywords" type="text" value="周杰伦" />
             </label>
 
             <div class="compact-grid">
               <label class="field">
-                <span>Type</span>
+                <span>类型</span>
                 <select id="search-type" name="type">
                   <option value="1">单曲</option>
                   <option value="10">专辑</option>
@@ -34,7 +33,7 @@ export const SearchPage: FC = () => {
               </label>
 
               <label class="field">
-                <span>Limit</span>
+                <span>数量</span>
                 <input id="search-limit" max="50" min="1" name="limit" type="number" value="10" />
               </label>
             </div>
@@ -55,22 +54,22 @@ export const SearchPage: FC = () => {
                 搜索
               </button>
               <p class="inline-note" id="search-feedback">
-                会直接请求 `/search`。
+                准备开始搜索
               </p>
             </div>
           </form>
         </Surface>
 
-        <Surface description="返回搜索响应的原始 JSON。" title="Search Result">
+        <Surface description="查看请求地址和搜索结果。" title="搜索结果">
           <div class="result-stack">
             <div>
-              <h3 class="panel-heading">Resolved URL</h3>
+              <h3 class="panel-heading">请求地址</h3>
               <pre class="result-panel" id="search-url-preview">
                 等待发送请求
               </pre>
             </div>
             <div>
-              <h3 class="panel-heading">Raw Response</h3>
+              <h3 class="panel-heading">响应内容</h3>
               <pre class="result-panel" id="search-result">
                 等待返回结果
               </pre>

@@ -8,16 +8,15 @@ export const UploadPlaylistCoverPage: FC = () => {
   return (
     <>
       <PageHeader
-        description="首批上传页保留最关键的两个动作：读取歌单当前封面、上传新图片并立即查看返回结果。"
-        eyebrow="Upload"
-        title="Playlist Cover Upload"
+        description="读取歌单当前封面并上传新图片。"
+        title="歌单封面"
       />
 
       <div class="two-column-grid">
-        <Surface description="输入歌单 id、Cookie 和裁剪参数后执行读取或上传。" title="Upload Form">
+        <Surface description="填写歌单信息、裁剪参数和图片文件。" title="上传参数">
           <form class="stack-form" id="playlist-cover-form">
             <label class="field">
-              <span>Playlist ID</span>
+              <span>歌单 ID</span>
               <input id="playlist-id" name="playlistId" placeholder="3143833470" type="text" />
             </label>
 
@@ -50,7 +49,7 @@ export const UploadPlaylistCoverPage: FC = () => {
             </div>
 
             <label class="field">
-              <span>Image File</span>
+              <span>图片文件</span>
               <input accept="image/*" id="playlist-file" name="imgFile" type="file" />
             </label>
 
@@ -63,15 +62,15 @@ export const UploadPlaylistCoverPage: FC = () => {
               </button>
             </div>
             <p class="inline-note" id="playlist-feedback">
-              上传时会直接调用 `/playlist/cover/update`。
+              准备开始上传
             </p>
           </form>
         </Surface>
 
-        <Surface description="显示当前封面预览和接口返回。" title="Preview">
+        <Surface description="查看封面预览和接口返回结果。" title="预览">
           <div class="preview-stack">
             <div class="cover-preview-shell">
-              <img alt="Playlist cover preview" id="playlist-cover-preview" />
+              <img alt="歌单封面预览" id="playlist-cover-preview" />
             </div>
             <pre class="result-panel tall-result" id="playlist-result">
               等待读取或上传

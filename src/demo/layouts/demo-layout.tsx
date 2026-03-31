@@ -13,7 +13,7 @@ interface DemoLayoutProps extends PropsWithChildren {
 
 export const DemoLayout: FC<DemoLayoutProps> = ({ children, currentPath, page }) => {
   const navigationPages = getReadyDemoPages()
-  const title = page ? `${page.title} | hana-music-api Demo` : 'hana-music-api Demo'
+  const title = page ? `${page.title} | HANA Demo` : 'HANA Demo'
 
   return (
     <html lang="zh-CN">
@@ -21,7 +21,7 @@ export const DemoLayout: FC<DemoLayoutProps> = ({ children, currentPath, page })
         <meta charSet="utf-8" />
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <meta
-          content="本地专用的 hana-music-api Demo UI，基于 Hono + Bun + TypeScript。"
+          content="hana-music-api 功能演示页面，包含接口请求、搜索、扫码登录、封面上传与听歌识曲。"
           name="description"
         />
         <title>{title}</title>
@@ -32,11 +32,7 @@ export const DemoLayout: FC<DemoLayoutProps> = ({ children, currentPath, page })
           <header class="site-header">
             <div class="site-header-inner">
               <a class="brand" href="/demo">
-                <span class="brand-mark">hana</span>
-                <span class="brand-copy">
-                  <strong>Demo UI</strong>
-                  <small>Local development only</small>
-                </span>
+                <h3>hana-music-api 调试</h3>
               </a>
               <nav aria-label="Demo navigation" class="site-nav">
                 <a class={currentPath === '/demo' ? 'nav-link is-active' : 'nav-link'} href="/demo">
@@ -57,12 +53,6 @@ export const DemoLayout: FC<DemoLayoutProps> = ({ children, currentPath, page })
           <main class="page-shell">
             <div class="page-frame">{children}</div>
           </main>
-
-          <footer class="site-footer">
-            <p>
-              `bun dev` 会同时暴露 API 路由与 `/demo/*` 调试页。旧 `public/` 静态页面已退出主线。
-            </p>
-          </footer>
         </div>
       </body>
     </html>

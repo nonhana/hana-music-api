@@ -45,9 +45,11 @@ export const DemoCard: FC<{ page: DemoPageDefinition }> = ({ page }) => {
 
   return (
     <article class={linkClass}>
-      <div class="demo-card-meta">
-        <StatusBadge status={page.status} />
-      </div>
+      {page.status === 'planned' ? (
+        <div class="demo-card-meta">
+          <StatusBadge status={page.status} />
+        </div>
+      ) : null}
       <h3>{page.title}</h3>
       <p>{page.summary}</p>
       <p class="demo-card-description">{page.description}</p>
