@@ -1,0 +1,66 @@
+---
+title: "获取动态列表"
+description: "调用此接口 , 可获取各种动态 , 对应网页版网易云，朋友界面里的各种动态消息"
+---
+
+# 获取动态列表
+
+> 调用此接口 , 可获取各种动态 , 对应网页版网易云，朋友界面里的各种动态消息
+
+## 接口信息
+
+| 项目 | 值 |
+| --- | --- |
+| 接口地址 | `/event` |
+| 请求方式 | `GET` / `POST` |
+| 需要登录 | 否 |
+| 对应模块 | `event` |
+| 文档分类 | 社交与消息 |
+
+## 请求参数
+
+| 参数 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | :---: | --- | --- |
+| `pagesize` | number \| string | ✅ | 20 | 每页数据,默认 20 |
+| `lasttime` | string | ✅ | -1,传入上一次返回结果的 | 返回数据的 `lasttime` ,默认-1,传入上一次返回结果的 lasttime,将会返回下一页的数据 |
+
+## HTTP 示例
+
+```bash
+GET /event?pagesize=30&lasttime=1556740526369
+```
+
+## 编程式调用
+
+```ts
+import { createModuleApi } from 'hana-music-api'
+
+const api = createModuleApi()
+
+const result = await api.event({
+  pagesize: "30",
+  lasttime: "1556740526369",
+})
+
+console.log(result.body)
+```
+
+## 补充说明
+
+说明 : 调用此接口 , 可获取各种动态 , 对应网页版网易云，朋友界面里的各种动态消息
+，如分享的视频，音乐，照片等！
+
+**必选参数 :**
+`pagesize` : 每页数据,默认 20
+
+`lasttime` : 返回数据的 `lasttime` ,默认-1,传入上一次返回结果的 lasttime,将会返回下一页的数据
+
+**接口地址 :** `/event`
+
+**调用例子 :** `/event?pagesize=30&lasttime=1556740526369`
+
+## 维护说明
+
+- 本页由脚本根据当前模块与整理后的接口说明自动生成。
+- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
+- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

@@ -36,7 +36,7 @@ bun run fmt:check
 bun run migrate:modules
 ```
 
-文档源码位于 `docs-site/`。`docs-site/.vitepress/dist/` 视为构建产物，不纳入版本管理；部署时应在流水线中执行 `bun run docs:build` 再发布静态产物。
+文档源码位于 `docs/`。`docs/.vitepress/dist/` 视为构建产物，不纳入版本管理；部署时应在流水线中执行 `bun run docs:build` 再发布静态产物。
 
 ## Phase 6 基线
 

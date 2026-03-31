@@ -1,0 +1,67 @@
+---
+title: "mv 排行"
+description: "调用此接口 , 可获取 mv 排行"
+---
+
+# mv 排行
+
+> 调用此接口 , 可获取 mv 排行
+
+## 接口信息
+
+| 项目 | 值 |
+| --- | --- |
+| 接口地址 | `/top/mv` |
+| 请求方式 | `GET` / `POST` |
+| 需要登录 | 否 |
+| 对应模块 | `top_mv` |
+| 文档分类 | 排行榜 |
+
+## 请求参数
+
+| 参数 | 类型 | 必填 | 默认值 | 说明 |
+| --- | --- | :---: | --- | --- |
+| `limit` | number \| string | — | 30 | 取出数量 , 默认为 30 |
+| `area` | string | — | - | 地区,可选值为内地,港台,欧美,日本,韩国,不填则为全部 |
+| `offset` | number \| string | — | <br>为 | 偏移数量 , 用于分页 , 如 :( 页数 -1)\*30, 其中 30 为 limit 的值 , 默认<br>为 0 |
+
+## HTTP 示例
+
+```bash
+GET /top/mv?limit=10
+```
+
+## 编程式调用
+
+```ts
+import { createModuleApi } from 'hana-music-api'
+
+const api = createModuleApi()
+
+const result = await api.top_mv({
+  limit: "10",
+})
+
+console.log(result.body)
+```
+
+## 补充说明
+
+说明 : 调用此接口 , 可获取 mv 排行
+
+**可选参数 :** `limit`: 取出数量 , 默认为 30
+
+`area`: 地区,可选值为内地,港台,欧美,日本,韩国,不填则为全部
+
+`offset`: 偏移数量 , 用于分页 , 如 :( 页数 -1)\*30, 其中 30 为 limit 的值 , 默认
+为 0
+
+**接口地址 :** `/top/mv`
+
+**调用例子 :** `/top/mv?limit=10`
+
+## 维护说明
+
+- 本页由脚本根据当前模块与整理后的接口说明自动生成。
+- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
+- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。
