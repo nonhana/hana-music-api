@@ -6,6 +6,7 @@ out
 dist
 *.tgz
 docs/.vitepress/dist
+docs/.vitepress/cache
 
 # code coverage
 coverage
