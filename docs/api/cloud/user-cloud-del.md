@@ -1,6 +1,6 @@
 ---
-title: "云盘歌曲删除"
-description: "登录后调用此接口 , 可删除云盘歌曲"
+title: '云盘歌曲删除'
+description: '登录后调用此接口 , 可删除云盘歌曲'
 ---
 
 # 云盘歌曲删除
@@ -9,19 +9,19 @@ description: "登录后调用此接口 , 可删除云盘歌曲"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                |
+| -------- | ----------------- |
 | 接口地址 | `/user/cloud/del` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `user_cloud_del` |
-| 文档分类 | 云盘与上传 |
+| 请求方式 | `GET` / `POST`    |
+| 需要登录 | 是                |
+| 对应模块 | `user_cloud_del`  |
+| 文档分类 | 云盘与上传        |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string[] \| string | ✅ | - | 歌曲 id,可多个,用逗号隔开 |
+| 参数 | 类型               | 必填 | 默认值 | 说明                      |
+| ---- | ------------------ | :--: | ------ | ------------------------- |
+| `id` | string[] \| string |  ✅  | -      | 歌曲 id,可多个,用逗号隔开 |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.user_cloud_del({
-  id: "123456",
+  id: '123456',
 })
 
 console.log(result.body)

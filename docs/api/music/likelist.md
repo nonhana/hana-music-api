@@ -1,6 +1,6 @@
 ---
-title: "喜欢音乐列表"
-description: "调用此接口 , 传入用户 id, 可获取已喜欢音乐 id 列表(id 数组)"
+title: '喜欢音乐列表'
+description: '调用此接口 , 传入用户 id, 可获取已喜欢音乐 id 列表(id 数组)'
 ---
 
 # 喜欢音乐列表
@@ -9,19 +9,19 @@ description: "调用此接口 , 传入用户 id, 可获取已喜欢音乐 id 列
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/likelist` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/likelist`    |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `likelist` |
-| 文档分类 | 歌曲与播放 |
+| 需要登录 | 否             |
+| 对应模块 | `likelist`     |
+| 文档分类 | 歌曲与播放     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `uid` | string | ✅ | - | 用户 id |
+| 参数  | 类型   | 必填 | 默认值 | 说明    |
+| ----- | ------ | :--: | ------ | ------- |
+| `uid` | string |  ✅  | -      | 用户 id |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.likelist({
-  uid: "32953014",
+  uid: '32953014',
 })
 
 console.log(result.body)

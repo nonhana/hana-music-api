@@ -1,6 +1,6 @@
 ---
-title: "歌词摘录 - 删除摘录歌词"
-description: "登录后调用此接口, 传入摘录歌词id, 删除摘录歌词"
+title: '歌词摘录 - 删除摘录歌词'
+description: '登录后调用此接口, 传入摘录歌词id, 删除摘录歌词'
 ---
 
 # 歌词摘录 - 删除摘录歌词
@@ -9,13 +9,13 @@ description: "登录后调用此接口, 传入摘录歌词id, 删除摘录歌词
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                      |
+| -------- | ----------------------- |
 | 接口地址 | `/song/lyrics/mark/del` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `song_lyrics_mark_del` |
-| 文档分类 | 歌词摘录 |
+| 请求方式 | `GET` / `POST`          |
+| 需要登录 | 是                      |
+| 对应模块 | `song_lyrics_mark_del`  |
+| 文档分类 | 歌词摘录                |
 
 ## 请求参数
 
@@ -35,7 +35,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.song_lyrics_mark_del({
-  id: "2083850",
+  id: '2083850',
 })
 
 console.log(result.body)

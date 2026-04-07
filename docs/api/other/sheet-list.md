@@ -1,6 +1,6 @@
 ---
-title: "乐谱列表"
-description: "调用此接口可以获取歌曲的乐谱列表"
+title: '乐谱列表'
+description: '调用此接口可以获取歌曲的乐谱列表'
 ---
 
 # 乐谱列表
@@ -9,19 +9,19 @@ description: "调用此接口可以获取歌曲的乐谱列表"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/sheet/list` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/sheet/list`  |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `sheet_list` |
-| 文档分类 | 其他工具 |
+| 需要登录 | 否             |
+| 对应模块 | `sheet_list`   |
+| 文档分类 | 其他工具       |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 歌曲 ID |
+| 参数 | 类型   | 必填 | 默认值 | 说明    |
+| ---- | ------ | :--: | ------ | ------- |
+| `id` | string |  ✅  | -      | 歌曲 ID |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.sheet_list({
-  id: "1815684465",
+  id: '1815684465',
 })
 
 console.log(result.body)

@@ -1,6 +1,6 @@
 ---
-title: "获取 mv 点赞转发评论数数据"
-description: "调用此接口 , 传入 mvid ( 在搜索音乐的时候传 type=1004 获得 ) , 可获取对应"
+title: '获取 mv 点赞转发评论数数据'
+description: '调用此接口 , 传入 mvid ( 在搜索音乐的时候传 type=1004 获得 ) , 可获取对应'
 ---
 
 # 获取 mv 点赞转发评论数数据
@@ -9,19 +9,19 @@ description: "调用此接口 , 传入 mvid ( 在搜索音乐的时候传 type=1
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                |
+| -------- | ----------------- |
 | 接口地址 | `/mv/detail/info` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `mv_detail_info` |
-| 文档分类 | 视频与 MV |
+| 请求方式 | `GET` / `POST`    |
+| 需要登录 | 否                |
+| 对应模块 | `mv_detail_info`  |
+| 文档分类 | 视频与 MV         |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `mvid` | string | ✅ | - | mv 的 id |
+| 参数   | 类型   | 必填 | 默认值 | 说明     |
+| ------ | ------ | :--: | ------ | -------- |
+| `mvid` | string |  ✅  | -      | mv 的 id |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.mv_detail_info({
-  mvid: "5436712",
+  mvid: '5436712',
 })
 
 console.log(result.body)

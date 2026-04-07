@@ -1,6 +1,6 @@
 ---
-title: "相关歌单推荐"
-description: "调用此接口, 传入歌单id, 获取相关歌单推荐"
+title: '相关歌单推荐'
+description: '调用此接口, 传入歌单id, 获取相关歌单推荐'
 ---
 
 # 相关歌单推荐
@@ -9,13 +9,13 @@ description: "调用此接口, 传入歌单id, 获取相关歌单推荐"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                          |
+| -------- | --------------------------- |
 | 接口地址 | `/playlist/detail/rcmd/get` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `playlist_detail_rcmd_get` |
-| 文档分类 | 歌单 |
+| 请求方式 | `GET` / `POST`              |
+| 需要登录 | 否                          |
+| 对应模块 | `playlist_detail_rcmd_get`  |
+| 文档分类 | 歌单                        |
 
 ## 请求参数
 
@@ -35,7 +35,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.playlist_detail_rcmd_get({
-  id: "8039587836",
+  id: '8039587836',
 })
 
 console.log(result.body)
@@ -45,7 +45,7 @@ console.log(result.body)
 
 说明: 调用此接口, 传入歌单id, 获取相关歌单推荐
 
-**必选参数：**     
+**必选参数：**
 
 `id`: 歌单id
 

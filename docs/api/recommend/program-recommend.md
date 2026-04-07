@@ -1,6 +1,6 @@
 ---
-title: "推荐节目"
-description: "调用此接口 , 可获取推荐电台"
+title: '推荐节目'
+description: '调用此接口 , 可获取推荐电台'
 ---
 
 # 推荐节目
@@ -9,20 +9,20 @@ description: "调用此接口 , 可获取推荐电台"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                   |
+| -------- | -------------------- |
 | 接口地址 | `/program/recommend` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `program_recommend` |
-| 文档分类 | 推荐与发现 |
+| 请求方式 | `GET` / `POST`       |
+| 需要登录 | 否                   |
+| 对应模块 | `program_recommend`  |
+| 文档分类 | 推荐与发现           |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `limit` | number \| string | — | 10 | 取出数量 , 默认为 10 |
-| `offset` | number \| string | — | <br>为 | 偏移数量 , 用于分页 , 如 :( 页数 -1)\*10, 其中 10 为 limit 的值 , 默认<br>为 0 |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                           |
+| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------------------ |
+| `limit`  | number \| string |  —   | 10     | 取出数量 , 默认为 10                                                           |
+| `offset` | number \| string |  —   | <br>为 | 偏移数量 , 用于分页 , 如 :( 页数 -1)\*10, 其中 10 为 limit 的值 , 默认<br>为 0 |
 
 ## HTTP 示例
 
@@ -38,7 +38,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.program_recommend({
-  limit: "5",
+  limit: '5',
 })
 
 console.log(result.body)

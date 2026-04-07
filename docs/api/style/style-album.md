@@ -1,6 +1,6 @@
 ---
-title: "曲风-专辑"
-description: "调用此接口可以获取该曲风对应的专辑"
+title: '曲风-专辑'
+description: '调用此接口可以获取该曲风对应的专辑'
 ---
 
 # 曲风-专辑
@@ -9,22 +9,22 @@ description: "调用此接口可以获取该曲风对应的专辑"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值             |
+| -------- | -------------- |
 | 接口地址 | `/style/album` |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `style_album` |
-| 文档分类 | 曲风 |
+| 需要登录 | 否             |
+| 对应模块 | `style_album`  |
+| 文档分类 | 曲风           |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `tagId` | string | ✅ | - | 曲风 ID |
-| `size` | number \| string | — | 20 | 返回数量 , 默认为 20 |
-| `cursor` | number \| string | — | 0 | 返回数据的 cursor, 默认为 0 , 传入上一次返回结果的 cursor,将会返回下一页的数据 |
-| `sort` | string | — | - | 排序方式，0: 按热度排序，1: 按时间排序 |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                           |
+| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------------------ |
+| `tagId`  | string           |  ✅  | -      | 曲风 ID                                                                        |
+| `size`   | number \| string |  —   | 20     | 返回数量 , 默认为 20                                                           |
+| `cursor` | number \| string |  —   | 0      | 返回数据的 cursor, 默认为 0 , 传入上一次返回结果的 cursor,将会返回下一页的数据 |
+| `sort`   | string           |  —   | -      | 排序方式，0: 按热度排序，1: 按时间排序                                         |
 
 ## HTTP 示例
 
@@ -41,7 +41,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.style_album({
-  tagId: "1000",
+  tagId: '1000',
 })
 
 console.log(result.body)

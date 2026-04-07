@@ -7,6 +7,7 @@ export interface CreateServerOptions {
   readonly cacheEnabled?: boolean
   readonly cacheTtlMs?: number
   readonly corsAllowOrigin?: string
+  readonly docsDistDirectory?: string
   readonly moduleDefinitions?: ModuleDefinition[]
   readonly modulesDirectory?: string
   readonly requestHandler?: ModuleRequest

@@ -1,6 +1,6 @@
 ---
-title: "发送验证码"
-description: "调用此接口 ,传入手机号码, 可发送验证码"
+title: '发送验证码'
+description: '调用此接口 ,传入手机号码, 可发送验证码'
 ---
 
 # 发送验证码
@@ -9,20 +9,20 @@ description: "调用此接口 ,传入手机号码, 可发送验证码"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值              |
+| -------- | --------------- |
 | 接口地址 | `/captcha/sent` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `captcha_sent` |
-| 文档分类 | 用户与登录 |
+| 请求方式 | `GET` / `POST`  |
+| 需要登录 | 否              |
+| 对应模块 | `captcha_sent`  |
+| 文档分类 | 用户与登录      |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `phone` | string | ✅ | - | 手机号码 |
-| `ctcode` | string | — | 86 | 国家区号,默认 86 即中国 |
+| 参数     | 类型   | 必填 | 默认值 | 说明                    |
+| -------- | ------ | :--: | ------ | ----------------------- |
+| `phone`  | string |  ✅  | -      | 手机号码                |
+| `ctcode` | string |  —   | 86     | 国家区号,默认 86 即中国 |
 
 ## HTTP 示例
 
@@ -38,7 +38,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.captcha_sent({
-  phone: "13xxx",
+  phone: '13xxx',
 })
 
 console.log(result.body)

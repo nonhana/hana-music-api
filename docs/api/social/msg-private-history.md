@@ -1,6 +1,6 @@
 ---
-title: "私信内容"
-description: "登录后调用此接口 , 可获取私信内容"
+title: '私信内容'
+description: '登录后调用此接口 , 可获取私信内容'
 ---
 
 # 私信内容
@@ -9,21 +9,21 @@ description: "登录后调用此接口 , 可获取私信内容"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                     |
+| -------- | ---------------------- |
 | 接口地址 | `/msg/private/history` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `msg_private_history` |
-| 文档分类 | 社交与消息 |
+| 请求方式 | `GET` / `POST`         |
+| 需要登录 | 是                     |
+| 对应模块 | `msg_private_history`  |
+| 文档分类 | 社交与消息             |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `uid` | string | ✅ | - | 用户 id |
-| `limit` | number \| string | — | 30 | 返回数量 , 默认为 30 |
-| `before` | number \| string | — | - | 分页参数,取上一页最后一项的 `time` 获取下一页数据 |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                              |
+| -------- | ---------------- | :--: | ------ | ------------------------------------------------- |
+| `uid`    | string           |  ✅  | -      | 用户 id                                           |
+| `limit`  | number \| string |  —   | 30     | 返回数量 , 默认为 30                              |
+| `before` | number \| string |  —   | -      | 分页参数,取上一页最后一项的 `time` 获取下一页数据 |
 
 ## HTTP 示例
 
@@ -39,7 +39,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.msg_private_history({
-  uid: "9003",
+  uid: '9003',
 })
 
 console.log(result.body)

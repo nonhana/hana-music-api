@@ -100,4 +100,6 @@ const account = await invokeModule('user_account', {
 bun run start
 ```
 
-默认会启动 Hono 服务，并保留根路径的元信息接口与 `/demo/*` 本地调试页。CLI 主入口在真正监听端口前，会先检查匿名 token，缺失时自动调用 `generateConfig()` 进行补齐。
+默认会启动 Hono 服务，在根路径展示欢迎页，并提供 `/docs` 文档入口、`/demo/*` 本地调试页和 `/health` 健康检查接口。CLI 主入口在真正监听端口前，会先检查匿名 token，缺失时自动调用 `generateConfig()` 进行补齐。
+
+`/docs` 只托管 `bun run docs:build` 生成的静态产物；如文档有变更，需要先重新构建后再刷新页面。

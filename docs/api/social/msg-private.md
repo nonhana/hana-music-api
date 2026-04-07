@@ -1,6 +1,6 @@
 ---
-title: "通知 - 私信"
-description: "登录后调用此接口 ,可获取私信"
+title: '通知 - 私信'
+description: '登录后调用此接口 ,可获取私信'
 ---
 
 # 通知 - 私信
@@ -9,20 +9,20 @@ description: "登录后调用此接口 ,可获取私信"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值             |
+| -------- | -------------- |
 | 接口地址 | `/msg/private` |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `msg_private` |
-| 文档分类 | 社交与消息 |
+| 需要登录 | 是             |
+| 对应模块 | `msg_private`  |
+| 文档分类 | 社交与消息     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `limit` | number \| string | — | 30 | 返回数量 , 默认为 30 |
-| `offset` | number \| string | — | 0 | 偏移数量，用于分页 , 如 :( 页数 -1)\*30, 其中 30 为 limit 的值 , 默认为 0 |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                      |
+| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------------- |
+| `limit`  | number \| string |  —   | 30     | 返回数量 , 默认为 30                                                      |
+| `offset` | number \| string |  —   | 0      | 偏移数量，用于分页 , 如 :( 页数 -1)\*30, 其中 30 为 limit 的值 , 默认为 0 |
 
 ## HTTP 示例
 
@@ -38,7 +38,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.msg_private({
-  limit: "3",
+  limit: '3',
 })
 
 console.log(result.body)

@@ -1,0 +1,57 @@
+:root {
+  --vp-font-family-base: 'IBM Plex Sans', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  --vp-font-family-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
+  --vp-c-brand-1: #2563eb;
+  --vp-c-brand-2: #1d4ed8;
+  --vp-c-brand-3: #1e40af;
+  --vp-c-brand-soft: rgba(37, 99, 235, 0.12);
+  --vp-c-brand-hover: #1d4ed8;
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f6f8fb;
+  --vp-c-bg-elv: rgba(255, 255, 255, 0.92);
+  --vp-c-bg-soft: #eff6ff;
+  --vp-c-border: rgba(15, 23, 42, 0.08);
+  --vp-c-divider: rgba(15, 23, 42, 0.08);
+  --vp-c-text-1: #0f172a;
+  --vp-c-text-2: #334155;
+  --vp-c-text-3: #64748b;
+  --vp-shadow-1: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --vp-shadow-2: 0 12px 32px rgba(15, 23, 42, 0.06);
+  --vp-shadow-3: 0 20px 50px rgba(15, 23, 42, 0.08);
+  --vp-shadow-4: 0 20px 60px rgba(15, 23, 42, 0.12);
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32%),
+    linear-gradient(180deg, #ffffff 0%, #f6f8fb 55%);
+}
+
+.VPNavBar {
+  backdrop-filter: blur(18px);
+  background: rgba(246, 248, 251, 0.82);
+  border-bottom-color: rgba(148, 163, 184, 0.16);
+}
+
+.VPButton.brand {
+  box-shadow: 0 16px 32px rgba(37, 99, 235, 0.16);
+}
+
+.VPFeature {
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+}
+
+.VPFeature,
+.vp-doc div[class*='language-'],
+.VPDocAsideOutline .content,
+.VPDoc .content .content-container > .vp-doc > div[class*='custom-block'] {
+  border-radius: 22px;
+}
+
+.vp-doc a,
+.VPNavBarTitle .title,
+.VPSidebarItem.is-active > .item .link-text {
+  font-weight: 600;
+}

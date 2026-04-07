@@ -1,5 +1,5 @@
 ---
-title: "云盘上传"
+title: '云盘上传'
 description: "登录后调用此接口,使用`'Content-Type': 'multipart/form-data'`上传 mp3 formData(name 为'songFile'),可上传歌曲到云盘"
 ---
 
@@ -9,13 +9,13 @@ description: "登录后调用此接口,使用`'Content-Type': 'multipart/form-da
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/cloud` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/cloud`       |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `cloud` |
-| 文档分类 | 云盘与上传 |
+| 需要登录 | 是             |
+| 对应模块 | `cloud`        |
+| 文档分类 | 云盘与上传     |
 
 ## 请求参数
 

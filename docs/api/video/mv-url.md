@@ -1,6 +1,6 @@
 ---
-title: "mv 地址"
-description: "调用此接口 , 传入 mv id,可获取 mv 播放地址"
+title: 'mv 地址'
+description: '调用此接口 , 传入 mv id,可获取 mv 播放地址'
 ---
 
 # mv 地址
@@ -9,20 +9,20 @@ description: "调用此接口 , 传入 mv id,可获取 mv 播放地址"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/mv/url` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/mv/url`      |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `mv_url` |
-| 文档分类 | 视频与 MV |
+| 需要登录 | 否             |
+| 对应模块 | `mv_url`       |
+| 文档分类 | 视频与 MV      |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | mv id |
-| `r` | string[] \| string | — | 1080 | 分辨率,默认 1080,可从 `/mv/detail` 接口获取分辨率列表 |
+| 参数 | 类型               | 必填 | 默认值 | 说明                                                  |
+| ---- | ------------------ | :--: | ------ | ----------------------------------------------------- |
+| `id` | string             |  ✅  | -      | mv id                                                 |
+| `r`  | string[] \| string |  —   | 1080   | 分辨率,默认 1080,可从 `/mv/detail` 接口获取分辨率列表 |
 
 ## HTTP 示例
 
@@ -39,7 +39,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.mv_url({
-  id: "5436712",
+  id: '5436712',
 })
 
 console.log(result.body)

@@ -1,6 +1,6 @@
 ---
-title: "获取话题详情"
-description: "调用此接口 , 可获取话题详情"
+title: '获取话题详情'
+description: '调用此接口 , 可获取话题详情'
 ---
 
 # 获取话题详情
@@ -9,13 +9,13 @@ description: "调用此接口 , 可获取话题详情"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值              |
+| -------- | --------------- |
 | 接口地址 | `/topic/detail` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `topic_detail` |
-| 文档分类 | 社交与消息 |
+| 请求方式 | `GET` / `POST`  |
+| 需要登录 | 否              |
+| 对应模块 | `topic_detail`  |
+| 文档分类 | 社交与消息      |
 
 ## 请求参数
 
@@ -35,7 +35,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.topic_detail({
-  actid: "111551188",
+  actid: '111551188',
 })
 
 console.log(result.body)

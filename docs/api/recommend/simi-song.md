@@ -1,6 +1,6 @@
 ---
-title: "获取相似音乐"
-description: "调用此接口 , 传入歌曲 id, 可获得相似歌曲"
+title: '获取相似音乐'
+description: '调用此接口 , 传入歌曲 id, 可获得相似歌曲'
 ---
 
 # 获取相似音乐
@@ -9,19 +9,19 @@ description: "调用此接口 , 传入歌曲 id, 可获得相似歌曲"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/simi/song` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/simi/song`   |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `simi_song` |
-| 文档分类 | 推荐与发现 |
+| 需要登录 | 否             |
+| 对应模块 | `simi_song`    |
+| 文档分类 | 推荐与发现     |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 歌曲 id |
+| 参数 | 类型   | 必填 | 默认值 | 说明    |
+| ---- | ------ | :--: | ------ | ------- |
+| `id` | string |  ✅  | -      | 歌曲 id |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.simi_song({
-  id: "347230",
+  id: '347230',
 })
 
 console.log(result.body)

@@ -1,6 +1,6 @@
 ---
-title: "播客上传声音"
-description: "可以上传声音到播客,例子在 `/public/voice_upload.html` 访问地址: <a href=\"/voice_upload.html\" target=\"_blank\">/voice_upload.html</a>"
+title: '播客上传声音'
+description: '可以上传声音到播客,例子在 `/public/voice_upload.html` 访问地址: <a href="/voice_upload.html" target="_blank">/voice_upload.html</a>'
 ---
 
 # 播客上传声音
@@ -9,13 +9,13 @@ description: "可以上传声音到播客,例子在 `/public/voice_upload.html` 
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值              |
+| -------- | --------------- |
 | 接口地址 | `/voice/upload` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `voice_upload` |
-| 文档分类 | 电台与播客 |
+| 请求方式 | `GET` / `POST`  |
+| 需要登录 | 否              |
+| 对应模块 | `voice_upload`  |
+| 文档分类 | 电台与播客      |
 
 ## 请求参数
 
@@ -45,18 +45,18 @@ console.log(result.body)
 
 **接口地址:** `/voice/upload`
 
-**必选参数：** 
-`voiceListId`: 播客 id  
+**必选参数：**
+`voiceListId`: 播客 id
 
-`coverImgId`: 播客封面  
+`coverImgId`: 播客封面
 
-`categoryId`: 分类id  
+`categoryId`: 分类id
 
-`secondCategoryId`:次级分类id  
+`secondCategoryId`:次级分类id
 
 `description`: 声音介绍
 
-**可选参数：** 
+**可选参数：**
 `songName`: 声音名称
 
 `privacy`: 设为隐私声音,播客如果是隐私博客,则必须设为1

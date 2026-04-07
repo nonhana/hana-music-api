@@ -1,12 +1,6 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "ignorePatterns": [
-    "dist/**",
-    "coverage/**",
-    "pnpm-lock.yaml",
-    "package-lock.json",
-    "node_modules/**"
-  ],
+  "ignorePatterns": ["dist/**", "node_modules/**", "src/demo/assets/**"],
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "all",

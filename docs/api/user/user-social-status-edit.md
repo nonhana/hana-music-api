@@ -1,6 +1,6 @@
 ---
-title: "用户状态 - 编辑"
-description: "登录后调用此接口, 编辑当前用户状态， 所需参数可在接口`/user/social/status/support`获取"
+title: '用户状态 - 编辑'
+description: '登录后调用此接口, 编辑当前用户状态， 所需参数可在接口`/user/social/status/support`获取'
 ---
 
 # 用户状态 - 编辑
@@ -9,13 +9,13 @@ description: "登录后调用此接口, 编辑当前用户状态， 所需参数
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                         |
+| -------- | -------------------------- |
 | 接口地址 | `/user/social/status/edit` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `user_social_status_edit` |
-| 文档分类 | 用户与登录 |
+| 请求方式 | `GET` / `POST`             |
+| 需要登录 | 是                         |
+| 对应模块 | `user_social_status_edit`  |
+| 文档分类 | 用户与登录                 |
 
 ## 请求参数
 

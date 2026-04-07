@@ -1,6 +1,6 @@
 ---
-title: "播客列表详情"
-description: "可以获取播客封面、分类、名称、简介等"
+title: '播客列表详情'
+description: '可以获取播客封面、分类、名称、简介等'
 ---
 
 # 播客列表详情
@@ -9,13 +9,13 @@ description: "可以获取播客封面、分类、名称、简介等"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                  |
+| -------- | ------------------- |
 | 接口地址 | `/voicelist/detail` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `voicelist_detail` |
-| 文档分类 | 电台与播客 |
+| 请求方式 | `GET` / `POST`      |
+| 需要登录 | 否                  |
+| 对应模块 | `voicelist_detail`  |
+| 文档分类 | 电台与播客          |
 
 ## 请求参数
 
@@ -45,7 +45,7 @@ console.log(result.body)
 
 **接口地址:** `/voicelist/detail`
 
-**必选参数：** 
+**必选参数：**
 
 `id`: 播客id，即voiceListId
 

@@ -1,6 +1,6 @@
 ---
-title: "album songsaleboard"
-description: "album songsaleboard 接口文档。"
+title: 'album songsaleboard'
+description: 'album songsaleboard 接口文档。'
 ---
 
 # album songsaleboard
@@ -9,13 +9,13 @@ description: "album songsaleboard 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                     |
+| -------- | ---------------------- |
 | 接口地址 | `/album/songsaleboard` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `album_songsaleboard` |
-| 文档分类 | 专辑 |
+| 请求方式 | `GET` / `POST`         |
+| 需要登录 | 否                     |
+| 对应模块 | `album_songsaleboard`  |
+| 文档分类 | 专辑                   |
 
 ## 请求参数
 

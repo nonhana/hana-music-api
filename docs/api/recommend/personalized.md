@@ -1,6 +1,6 @@
 ---
-title: "推荐歌单"
-description: "调用此接口 , 可获取推荐歌单"
+title: '推荐歌单'
+description: '调用此接口 , 可获取推荐歌单'
 ---
 
 # 推荐歌单
@@ -9,19 +9,19 @@ description: "调用此接口 , 可获取推荐歌单"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值              |
+| -------- | --------------- |
 | 接口地址 | `/personalized` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `personalized` |
-| 文档分类 | 推荐与发现 |
+| 请求方式 | `GET` / `POST`  |
+| 需要登录 | 否              |
+| 对应模块 | `personalized`  |
+| 文档分类 | 推荐与发现      |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `limit` | number \| string | — | 30 | 取出数量 , 默认为 30 (不支持 offset) |
+| 参数    | 类型             | 必填 | 默认值 | 说明                                 |
+| ------- | ---------------- | :--: | ------ | ------------------------------------ |
+| `limit` | number \| string |  —   | 30     | 取出数量 , 默认为 30 (不支持 offset) |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.personalized({
-  limit: "1",
+  limit: '1',
 })
 
 console.log(result.body)

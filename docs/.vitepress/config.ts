@@ -3,9 +3,10 @@ import { defineConfig } from 'vitepress'
 import { apiNavLink, apiSidebar } from './sidebar.generated.ts'
 
 export default defineConfig({
+  base: '/docs/',
   lang: 'zh-CN',
   title: 'hana-music-api',
-  description: '网易云音乐 API 的 Bun + TypeScript + Hono 重写版本文档站点。',
+  description: 'hana-music-api 接口文档与使用说明。',
   cleanUrls: true,
   lastUpdated: true,
   themeConfig: {
@@ -46,8 +47,7 @@ export default defineConfig({
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/nonhana/hana-music-api' }],
     footer: {
-      message:
-        '文档内容综合整理自当前 TypeScript 模块实现与历史接口资料，若存在差异请以当前源码为准。',
+      message: '文档内容以当前服务实现为准。',
       copyright: '© 2026 hana-music-api contributors',
     },
   },

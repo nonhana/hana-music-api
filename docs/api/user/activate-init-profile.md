@@ -1,6 +1,6 @@
 ---
-title: "初始化昵称"
-description: "刚注册的账号(需登录),调用此接口 ,可初始化昵称"
+title: '初始化昵称'
+description: '刚注册的账号(需登录),调用此接口 ,可初始化昵称'
 ---
 
 # 初始化昵称
@@ -9,19 +9,19 @@ description: "刚注册的账号(需登录),调用此接口 ,可初始化昵称"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                       |
+| -------- | ------------------------ |
 | 接口地址 | `/activate/init/profile` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `activate_init_profile` |
-| 文档分类 | 用户与登录 |
+| 请求方式 | `GET` / `POST`           |
+| 需要登录 | 是                       |
+| 对应模块 | `activate_init_profile`  |
+| 文档分类 | 用户与登录               |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `nickname` | string | ✅ | - | 昵称 |
+| 参数       | 类型   | 必填 | 默认值 | 说明 |
+| ---------- | ------ | :--: | ------ | ---- |
+| `nickname` | string |  ✅  | -      | 昵称 |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.activate_init_profile({
-  nickname: "testUser2019",
+  nickname: 'testUser2019',
 })
 
 console.log(result.body)

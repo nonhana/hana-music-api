@@ -55,13 +55,15 @@ bun run docs:preview
 - API 服务根路径：`http://localhost:3000/`
 - 文档开发站：`http://localhost:5173/`
 - 文档预览站：执行 `bun run docs:preview` 后按终端输出访问
+- 主服务内嵌文档：先执行 `bun run docs:build`，再通过 `http://127.0.0.1:3021/docs` 访问静态文档
 
 ## 推荐工作流
 
 1. 运行 `bun run dev` 启动 API 服务
-2. 另开终端运行 `bun run docs:dev`
+2. 需要维护文档时，另开终端运行 `bun run docs:dev`
 3. 修改 `src/modules/` 或脚本后重新执行 `bun run docs:generate`
-4. 在部署流水线中执行 `bun run docs:build`，发布 `docs/.vitepress/dist/`
+4. 执行 `bun run docs:build`，让主服务通过 `/docs` 托管最新静态产物
+5. 在部署流水线中发布 `docs/.vitepress/dist/`
 
 ## 版本管理约定
 

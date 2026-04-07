@@ -1,6 +1,6 @@
 ---
-title: "获取动态评论"
-description: "登录后调用此接口 , 可以获取动态下评论"
+title: '获取动态评论'
+description: '登录后调用此接口 , 可以获取动态下评论'
 ---
 
 # 获取动态评论
@@ -9,19 +9,19 @@ description: "登录后调用此接口 , 可以获取动态下评论"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值               |
+| -------- | ---------------- |
 | 接口地址 | `/comment/event` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `comment_event` |
-| 文档分类 | 评论 |
+| 请求方式 | `GET` / `POST`   |
+| 需要登录 | 是               |
+| 对应模块 | `comment_event`  |
+| 文档分类 | 评论             |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `threadId` | string | ✅ | - | 动态 id，可通过 `/event`，`/user/event` 接口获取 |
+| 参数       | 类型   | 必填 | 默认值 | 说明                                             |
+| ---------- | ------ | :--: | ------ | ------------------------------------------------ |
+| `threadId` | string |  ✅  | -      | 动态 id，可通过 `/event`，`/user/event` 接口获取 |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.comment_event({
-  threadId: "A_EV_2_6559519868_32953014",
+  threadId: 'A_EV_2_6559519868_32953014',
 })
 
 console.log(result.body)

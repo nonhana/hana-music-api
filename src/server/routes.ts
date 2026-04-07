@@ -18,6 +18,144 @@ import { parseRequestBody } from './parse-body.ts'
 
 const DEFAULT_SERVICE_NAME = 'hana-music-api'
 const DEFAULT_SERVICE_VERSION = 'phase-6'
+const WELCOME_PAGE_STYLE = `
+  :root {
+    color-scheme: light;
+    --page-background: #f6f8fb;
+    --panel-background: rgba(255, 255, 255, 0.92);
+    --panel-border: rgba(15, 23, 42, 0.08);
+    --panel-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+    --text-strong: #0f172a;
+    --text-body: #334155;
+    --text-muted: #64748b;
+    --brand: #2563eb;
+    --brand-hover: #1d4ed8;
+    --brand-soft: rgba(37, 99, 235, 0.12);
+    --font-sans: "IBM Plex Sans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    font-family: var(--font-sans);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32%),
+      linear-gradient(180deg, #ffffff 0%, var(--page-background) 55%);
+    color: var(--text-body);
+  }
+
+  main {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 32px 20px;
+  }
+
+  .panel {
+    width: min(680px, 100%);
+    padding: 40px;
+    border-radius: 28px;
+    background: var(--panel-background);
+    box-shadow: var(--panel-shadow);
+    border: 1px solid var(--panel-border);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    background: var(--brand-soft);
+    color: var(--brand);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 20px 0 16px;
+    font-size: clamp(36px, 6vw, 56px);
+    line-height: 1.08;
+    color: var(--text-strong);
+  }
+
+  p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.8;
+    color: var(--text-body);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: 28px;
+  }
+
+  .action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 168px;
+    padding: 14px 20px;
+    border-radius: 16px;
+    text-decoration: none;
+    font-weight: 700;
+    transition:
+      transform 160ms ease,
+      box-shadow 160ms ease,
+      background 160ms ease;
+  }
+
+  .action:hover {
+    transform: translateY(-1px);
+  }
+
+  .action-primary {
+    background: linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%);
+    color: white;
+    box-shadow: 0 16px 32px rgba(37, 99, 235, 0.2);
+  }
+
+  .action-secondary {
+    background: var(--brand-soft);
+    color: var(--brand);
+  }
+
+  .helper-text {
+    margin-top: 20px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  .helper-text a {
+    color: var(--brand);
+    text-decoration: none;
+    font-weight: 600;
+  }
+
+  @media (max-width: 640px) {
+    .panel {
+      padding: 28px 22px;
+      border-radius: 22px;
+    }
+
+    .actions {
+      flex-direction: column;
+    }
+
+    .action {
+      width: 100%;
+    }
+  }
+`
 
 export interface RegisteredRouteContext {
   readonly cache: MemoryResponseCache | null
@@ -32,12 +170,13 @@ export function registerBaseRoutes(app: Hono, options: CreateServerOptions = {})
   const serviceVersion = options.serviceVersion ?? DEFAULT_SERVICE_VERSION
 
   app.get('/', (context) => {
-    return context.json({
-      message: 'hana-music-api phase 6 finalization baseline is ready',
-      name: serviceName,
-      phase: 6,
-      ready: true,
-    })
+    return context.html(
+      createWelcomePage({
+        docsPath: '/docs',
+        healthPath: '/health',
+        name: serviceName,
+      }),
+    )
   })
 
   app.get('/health', (context) => {
@@ -47,6 +186,44 @@ export function registerBaseRoutes(app: Hono, options: CreateServerOptions = {})
       version: serviceVersion,
     })
   })
+}
+
+interface WelcomePageOptions {
+  readonly docsPath: string
+  readonly healthPath: string
+  readonly name: string
+}
+
+function createWelcomePage(options: WelcomePageOptions): string {
+  return `<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>${options.name}</title>
+    <meta
+      content="${options.name} 服务已启动，可从这里进入文档站和 Demo 调试页。"
+      name="description"
+    />
+    <style>${WELCOME_PAGE_STYLE}</style>
+  </head>
+  <body>
+    <main>
+      <section class="panel">
+        <div class="eyebrow">HANA Music API</div>
+        <h1>${options.name}</h1>
+        <p>
+          服务已经启动。你可以先查看接口文档，或直接进入 Demo 页面体验常用能力。
+        </p>
+        <div class="actions">
+          <a class="action action-primary" href="${options.docsPath}">查看文档</a>
+          <a class="action action-secondary" href="/demo">打开 Demo</a>
+        </div>
+        <p class="helper-text">服务状态检查请访问 <a href="${options.healthPath}">${options.healthPath}</a></p>
+      </section>
+    </main>
+  </body>
+</html>`
 }
 
 /**

@@ -1,6 +1,6 @@
 ---
-title: "收藏的专栏"
-description: "调用此接口,可获取收藏的专栏"
+title: '收藏的专栏'
+description: '调用此接口,可获取收藏的专栏'
 ---
 
 # 收藏的专栏
@@ -9,20 +9,20 @@ description: "调用此接口,可获取收藏的专栏"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值               |
+| -------- | ---------------- |
 | 接口地址 | `/topic/sublist` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `topic_sublist` |
-| 文档分类 | 社交与消息 |
+| 请求方式 | `GET` / `POST`   |
+| 需要登录 | 否               |
+| 对应模块 | `topic_sublist`  |
+| 文档分类 | 社交与消息       |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `limit` | number \| string | — | 50 | 取出歌单数量 , 默认为 50 |
-| `offset` | number \| string | — | - | 偏移数量 , 用于分页 , 如 :( 评论页数 -1)\*50, 其中 50 为 limit 的值 |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                |
+| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------- |
+| `limit`  | number \| string |  —   | 50     | 取出歌单数量 , 默认为 50                                            |
+| `offset` | number \| string |  —   | -      | 偏移数量 , 用于分页 , 如 :( 评论页数 -1)\*50, 其中 50 为 limit 的值 |
 
 ## HTTP 示例
 
@@ -38,8 +38,8 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.topic_sublist({
-  limit: "2",
-  offset: "1",
+  limit: '2',
+  offset: '1',
 })
 
 console.log(result.body)

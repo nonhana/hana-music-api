@@ -1,6 +1,6 @@
 ---
-title: "broadcast sub"
-description: "broadcast sub 接口文档。"
+title: 'broadcast sub'
+description: 'broadcast sub 接口文档。'
 ---
 
 # broadcast sub
@@ -9,13 +9,13 @@ description: "broadcast sub 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值               |
+| -------- | ---------------- |
 | 接口地址 | `/broadcast/sub` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `broadcast_sub` |
-| 文档分类 | 其他工具 |
+| 请求方式 | `GET` / `POST`   |
+| 需要登录 | 否               |
+| 对应模块 | `broadcast_sub`  |
+| 文档分类 | 其他工具         |
 
 ## 请求参数
 

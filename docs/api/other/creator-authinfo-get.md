@@ -1,6 +1,6 @@
 ---
-title: "creator authinfo get"
-description: "creator authinfo get 接口文档。"
+title: 'creator authinfo get'
+description: 'creator authinfo get 接口文档。'
 ---
 
 # creator authinfo get
@@ -9,13 +9,13 @@ description: "creator authinfo get 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                      |
+| -------- | ----------------------- |
 | 接口地址 | `/creator/authinfo/get` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `creator_authinfo_get` |
-| 文档分类 | 其他工具 |
+| 请求方式 | `GET` / `POST`          |
+| 需要登录 | 否                      |
+| 对应模块 | `creator_authinfo_get`  |
+| 文档分类 | 其他工具                |
 
 ## 请求参数
 

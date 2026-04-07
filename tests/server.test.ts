@@ -1,4 +1,6 @@
 import { describe, expect, test } from 'bun:test'
+import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -15,18 +17,17 @@ async function readJson(response: Response): Promise<unknown> {
 }
 
 describe('createServer', () => {
-  test('should expose the phase 5 baseline route', async () => {
+  test('should expose the welcome page at root', async () => {
     const app = await createServer()
     const response = await app.request('/')
-    const body = await readJson(response)
+    const body = await response.text()
 
     expect(response.status).toBe(200)
-    expect(body).toEqual({
-      name: 'hana-music-api',
-      phase: 6,
-      ready: true,
-      message: 'hana-music-api phase 6 finalization baseline is ready',
-    })
+    expect(response.headers.get('content-type')).toContain('text/html')
+    expect(body).toContain('hana-music-api')
+    expect(body).toContain('查看文档')
+    expect(body).toContain('href="/docs"')
+    expect(body).toContain('href="/demo"')
   })
 
   test('should expose the health route', async () => {
@@ -245,7 +246,7 @@ describe('createServer', () => {
 
     expect(pageResponse.status).toBe(200)
     expect(pageResponse.headers.get('content-type')).toContain('text/html')
-    expect(await pageResponse.text()).toContain('本地 Demo UI')
+    expect(await pageResponse.text()).toContain('hana-music-api 调试')
 
     expect(scriptResponse.status).toBe(200)
     expect(scriptResponse.headers.get('content-type')).toContain('text/javascript')
@@ -270,13 +271,13 @@ describe('createServer', () => {
     )
 
     expect(apiDebugResponse.status).toBe(200)
-    expect(await apiDebugResponse.text()).toContain('API Debug')
+    expect(await apiDebugResponse.text()).toContain('API 请求')
 
     expect(qrLoginResponse.status).toBe(200)
-    expect(await qrLoginResponse.text()).toContain('QR Login')
+    expect(await qrLoginResponse.text()).toContain('扫码登录')
 
     expect(audioMatchResponse.status).toBe(200)
-    expect(await audioMatchResponse.text()).toContain('Audio Match')
+    expect(await audioMatchResponse.text()).toContain('听歌识曲')
 
     expect(audioMatchAssetResponse.status).toBe(200)
     const audioMatchAssetScript = await audioMatchAssetResponse.text()
@@ -288,6 +289,49 @@ describe('createServer', () => {
 
     expect(audioMatchWasmResponse.status).toBe(200)
     expect(audioMatchWasmResponse.headers.get('content-type')).toContain('application/wasm')
+  })
+
+  test('should serve built docs assets under /docs with clean url support', async () => {
+    const docsDistDirectory = createDocsFixture()
+
+    try {
+      const app = await createServer({
+        docsDistDirectory,
+        moduleDefinitions: [],
+      })
+      const docsHomeResponse = await app.request('http://localhost/docs')
+      const docsGuideResponse = await app.request('http://localhost/docs/guide/getting-started')
+      const docsAssetResponse = await app.request('http://localhost/docs/assets/app.js')
+
+      expect(docsHomeResponse.status).toBe(200)
+      expect(docsHomeResponse.headers.get('content-type')).toContain('text/html')
+      expect(await docsHomeResponse.text()).toContain('docs home')
+
+      expect(docsGuideResponse.status).toBe(200)
+      expect(docsGuideResponse.headers.get('content-type')).toContain('text/html')
+      expect(await docsGuideResponse.text()).toContain('getting started')
+
+      expect(docsAssetResponse.status).toBe(200)
+      expect(docsAssetResponse.headers.get('content-type')).toContain('text/javascript')
+      expect(await docsAssetResponse.text()).toContain('docs asset')
+    } finally {
+      rmSync(docsDistDirectory, {
+        force: true,
+        recursive: true,
+      })
+    }
+  })
+
+  test('should return a build hint when docs dist is missing', async () => {
+    const app = await createServer({
+      docsDistDirectory: resolve(tmpdir(), `hana-music-api-docs-missing-${Date.now()}`),
+      moduleDefinitions: [],
+    })
+    const response = await app.request('http://localhost/docs')
+
+    expect(response.status).toBe(503)
+    expect(response.headers.get('content-type')).toContain('text/html')
+    expect(await response.text()).toContain('bun run docs:build')
   })
 
   test('should return 404 for legacy static files after demo migration', async () => {
@@ -462,6 +506,26 @@ describe('createServer', () => {
     })
   })
 })
+
+function createDocsFixture(): string {
+  const docsDistDirectory = mkdtempSync(resolve(tmpdir(), 'hana-music-api-docs-'))
+
+  mkdirSync(resolve(docsDistDirectory, 'guide'), {
+    recursive: true,
+  })
+  mkdirSync(resolve(docsDistDirectory, 'assets'), {
+    recursive: true,
+  })
+
+  writeFileSync(resolve(docsDistDirectory, 'index.html'), '<!DOCTYPE html><h1>docs home</h1>')
+  writeFileSync(
+    resolve(docsDistDirectory, 'guide/getting-started.html'),
+    '<!DOCTYPE html><h1>getting started</h1>',
+  )
+  writeFileSync(resolve(docsDistDirectory, 'assets/app.js'), 'console.log("docs asset")')
+
+  return docsDistDirectory
+}
 
 async function readModuleQueryBody(
   response: Response,

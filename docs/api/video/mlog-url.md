@@ -1,6 +1,6 @@
 ---
-title: "获取 mlog 播放地址"
-description: "调用此接口 , 传入 mlog id, 可获取 mlog 播放地址"
+title: '获取 mlog 播放地址'
+description: '调用此接口 , 传入 mlog id, 可获取 mlog 播放地址'
 ---
 
 # 获取 mlog 播放地址
@@ -9,20 +9,20 @@ description: "调用此接口 , 传入 mlog id, 可获取 mlog 播放地址"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
-| 接口地址 | `/mlog/url` |
+| 项目     | 值             |
+| -------- | -------------- |
+| 接口地址 | `/mlog/url`    |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `mlog_url` |
-| 文档分类 | 视频与 MV |
+| 需要登录 | 否             |
+| 对应模块 | `mlog_url`     |
+| 文档分类 | 视频与 MV      |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | mlog id |
-| `res` | number \| string | — | 1080 | 分辨率 , 默认为 1080 |
+| 参数  | 类型             | 必填 | 默认值 | 说明                 |
+| ----- | ---------------- | :--: | ------ | -------------------- |
+| `id`  | string           |  ✅  | -      | mlog id              |
+| `res` | number \| string |  —   | 1080   | 分辨率 , 默认为 1080 |
 
 ## HTTP 示例
 
@@ -38,7 +38,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.mlog_url({
-  id: "a1qOVPTWKS1ZrK8",
+  id: 'a1qOVPTWKS1ZrK8',
 })
 
 console.log(result.body)

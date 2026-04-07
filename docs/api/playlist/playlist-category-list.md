@@ -1,6 +1,6 @@
 ---
-title: "playlist category list"
-description: "playlist category list 接口文档。"
+title: 'playlist category list'
+description: 'playlist category list 接口文档。'
 ---
 
 # playlist category list
@@ -9,13 +9,13 @@ description: "playlist category list 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                        |
+| -------- | ------------------------- |
 | 接口地址 | `/playlist/category/list` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `playlist_category_list` |
-| 文档分类 | 歌单 |
+| 请求方式 | `GET` / `POST`            |
+| 需要登录 | 否                        |
+| 对应模块 | `playlist_category_list`  |
+| 文档分类 | 歌单                      |
 
 ## 请求参数
 

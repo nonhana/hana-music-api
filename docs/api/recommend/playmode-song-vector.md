@@ -1,6 +1,6 @@
 ---
-title: "playmode song vector"
-description: "playmode song vector 接口文档。"
+title: 'playmode song vector'
+description: 'playmode song vector 接口文档。'
 ---
 
 # playmode song vector
@@ -9,13 +9,13 @@ description: "playmode song vector 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                      |
+| -------- | ----------------------- |
 | 接口地址 | `/playmode/song/vector` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `playmode_song_vector` |
-| 文档分类 | 推荐与发现 |
+| 请求方式 | `GET` / `POST`          |
+| 需要登录 | 否                      |
+| 对应模块 | `playmode_song_vector`  |
+| 文档分类 | 推荐与发现              |
 
 ## 请求参数
 

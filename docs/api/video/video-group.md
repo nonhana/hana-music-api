@@ -1,6 +1,6 @@
 ---
-title: "获取视频标签/分类下的视频"
-description: "调用此接口 , 传入标签/分类`id`,可获取到相关的视频,分页参数只能传入 offset"
+title: '获取视频标签/分类下的视频'
+description: '调用此接口 , 传入标签/分类`id`,可获取到相关的视频,分页参数只能传入 offset'
 ---
 
 # 获取视频标签/分类下的视频
@@ -9,20 +9,20 @@ description: "调用此接口 , 传入标签/分类`id`,可获取到相关的视
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值             |
+| -------- | -------------- |
 | 接口地址 | `/video/group` |
 | 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `video_group` |
-| 文档分类 | 视频与 MV |
+| 需要登录 | 否             |
+| 对应模块 | `video_group`  |
+| 文档分类 | 视频与 MV      |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | videoGroup 的 id |
-| `offset` | number \| string | — | 0 | 默认 0 |
+| 参数     | 类型             | 必填 | 默认值 | 说明             |
+| -------- | ---------------- | :--: | ------ | ---------------- |
+| `id`     | string           |  ✅  | -      | videoGroup 的 id |
+| `offset` | number \| string |  —   | 0      | 默认 0           |
 
 ## HTTP 示例
 
@@ -38,7 +38,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.video_group({
-  id: "9104",
+  id: '9104',
 })
 
 console.log(result.body)

@@ -1,6 +1,6 @@
 ---
-title: "专辑动态信息"
-description: "调用此接口 , 传入专辑 id, 可获得专辑动态信息,如是否收藏,收藏数,评论数,分享数"
+title: '专辑动态信息'
+description: '调用此接口 , 传入专辑 id, 可获得专辑动态信息,如是否收藏,收藏数,评论数,分享数'
 ---
 
 # 专辑动态信息
@@ -9,19 +9,19 @@ description: "调用此接口 , 传入专辑 id, 可获得专辑动态信息,如
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                      |
+| -------- | ----------------------- |
 | 接口地址 | `/album/detail/dynamic` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `album_detail_dynamic` |
-| 文档分类 | 专辑 |
+| 请求方式 | `GET` / `POST`          |
+| 需要登录 | 否                      |
+| 对应模块 | `album_detail_dynamic`  |
+| 文档分类 | 专辑                    |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 专辑 id |
+| 参数 | 类型   | 必填 | 默认值 | 说明    |
+| ---- | ------ | :--: | ------ | ------- |
+| `id` | string |  ✅  | -      | 专辑 id |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.album_detail_dynamic({
-  id: "32311",
+  id: '32311',
 })
 
 console.log(result.body)

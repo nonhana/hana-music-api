@@ -1,6 +1,6 @@
 ---
-title: "user detail new"
-description: "user detail new 接口文档。"
+title: 'user detail new'
+description: 'user detail new 接口文档。'
 ---
 
 # user detail new
@@ -9,13 +9,13 @@ description: "user detail new 接口文档。"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                 |
+| -------- | ------------------ |
 | 接口地址 | `/user/detail/new` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `user_detail_new` |
-| 文档分类 | 用户与登录 |
+| 请求方式 | `GET` / `POST`     |
+| 需要登录 | 否                 |
+| 对应模块 | `user_detail_new`  |
+| 文档分类 | 用户与登录         |
 
 ## 请求参数
 

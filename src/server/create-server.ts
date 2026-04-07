@@ -7,6 +7,7 @@ import type { CreateServerOptions } from '../types/index.ts'
 
 import { MemoryResponseCache } from '../core/cache.ts'
 import { registerDemoRoutes } from './demo-routes.tsx'
+import { registerDocsRoutes } from './docs-routes.ts'
 import { loadModuleDefinitions } from './module-loader.ts'
 import { createDefaultRequestHandler, registerBaseRoutes, registerModuleRoutes } from './routes.ts'
 
@@ -26,6 +27,10 @@ export async function createServer(options: CreateServerOptions = {}): Promise<H
   app.use('*', createCorsMiddleware(options))
 
   registerBaseRoutes(app, options)
+  registerDocsRoutes(app, {
+    docsDistDirectory: options.docsDistDirectory,
+    serviceName: options.serviceName ?? 'hana-music-api',
+  })
   registerModuleRoutes(app, moduleDefinitions, {
     cache,
     requestHandler: options.requestHandler ?? createDefaultRequestHandler(),

@@ -1,6 +1,6 @@
 ---
-title: "分享文本、歌曲、歌单、mv、电台、电台节目到动态"
-description: "登录后调用此接口 ,可以分享文本、歌曲、歌单、mv、电台、电台节目,专辑到动态"
+title: '分享文本、歌曲、歌单、mv、电台、电台节目到动态'
+description: '登录后调用此接口 ,可以分享文本、歌曲、歌单、mv、电台、电台节目,专辑到动态'
 ---
 
 # 分享文本、歌曲、歌单、mv、电台、电台节目到动态
@@ -9,21 +9,21 @@ description: "登录后调用此接口 ,可以分享文本、歌曲、歌单、m
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                |
+| -------- | ----------------- |
 | 接口地址 | `/share/resource` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是 |
-| 对应模块 | `share_resource` |
-| 文档分类 | 社交与消息 |
+| 请求方式 | `GET` / `POST`    |
+| 需要登录 | 是                |
+| 对应模块 | `share_resource`  |
+| 文档分类 | 社交与消息        |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 资源 id （歌曲，歌单，mv，电台，电台节目对应 id） |
-| `type` | string | — | 歌曲 | 资源类型，默认歌曲 song，可传 `song`,`playlist`,`mv`,`djradio`,`djprogram`, `album` |
-| `msg` | string | — | - | 内容，140 字限制，支持 emoji，@用户名（`/user/follows`接口获取的用户名，用户名后和内容应该有空格），图片暂不支持 |
+| 参数   | 类型   | 必填 | 默认值 | 说明                                                                                                             |
+| ------ | ------ | :--: | ------ | ---------------------------------------------------------------------------------------------------------------- |
+| `id`   | string |  ✅  | -      | 资源 id （歌曲，歌单，mv，电台，电台节目对应 id）                                                                |
+| `type` | string |  —   | 歌曲   | 资源类型，默认歌曲 song，可传 `song`,`playlist`,`mv`,`djradio`,`djprogram`, `album`                              |
+| `msg`  | string |  —   | -      | 内容，140 字限制，支持 emoji，@用户名（`/user/follows`接口获取的用户名，用户名后和内容应该有空格），图片暂不支持 |
 
 ## HTTP 示例
 
@@ -42,8 +42,8 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.share_resource({
-  id: "1297494209",
-  msg: "测试",
+  id: '1297494209',
+  msg: '测试',
 })
 
 console.log(result.body)

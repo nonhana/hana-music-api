@@ -1,6 +1,6 @@
 ---
-title: "相关视频"
-description: "调用此接口 , 可获取相关视频"
+title: '相关视频'
+description: '调用此接口 , 可获取相关视频'
 ---
 
 # 相关视频
@@ -9,19 +9,19 @@ description: "调用此接口 , 可获取相关视频"
 
 ## 接口信息
 
-| 项目 | 值 |
-| --- | --- |
+| 项目     | 值                  |
+| -------- | ------------------- |
 | 接口地址 | `/related/allvideo` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否 |
-| 对应模块 | `related_allvideo` |
-| 文档分类 | 视频与 MV |
+| 请求方式 | `GET` / `POST`      |
+| 需要登录 | 否                  |
+| 对应模块 | `related_allvideo`  |
+| 文档分类 | 视频与 MV           |
 
 ## 请求参数
 
-| 参数 | 类型 | 必填 | 默认值 | 说明 |
-| --- | --- | :---: | --- | --- |
-| `id` | string | ✅ | - | 视频 的 id |
+| 参数 | 类型   | 必填 | 默认值 | 说明       |
+| ---- | ------ | :--: | ------ | ---------- |
+| `id` | string |  ✅  | -      | 视频 的 id |
 
 ## HTTP 示例
 
@@ -37,7 +37,7 @@ import { createModuleApi } from 'hana-music-api'
 const api = createModuleApi()
 
 const result = await api.related_allvideo({
-  id: "89ADDE33C0AAE8EC14B99F6750DB954D",
+  id: '89ADDE33C0AAE8EC14B99F6750DB954D',
 })
 
 console.log(result.body)
