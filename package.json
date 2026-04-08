@@ -9,6 +9,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
+    "postinstall": "bun docs:build",
     "test": "bun test",
     "test:phase5": "bun test tests/phase-5-regression.test.ts",
     "typecheck": "tsc --noEmit",
