@@ -213,7 +213,7 @@ function createWelcomePage(options: WelcomePageOptions): string {
         <div class="eyebrow">HANA Music API</div>
         <h1>${options.name}</h1>
         <p>
-          服务已经启动。你可以先查看接口文档，或直接进入 Demo 页面体验常用能力。
+          服务已经启动。可以查看接口文档，或进入 Demo 测试功能。
         </p>
         <div class="actions">
           <a class="action action-primary" href="${options.docsPath}">查看文档</a>

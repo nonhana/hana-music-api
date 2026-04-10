@@ -6,9 +6,9 @@
 
 你可以使用以下 API：
 
-- `createModuleApi()`：创建动态模块调用器
-- `invokeModule()`：按模块标识直接调用
-- `NeteaseCloudMusicApi`：开箱即用的默认模块 API
+- `createModuleApi()`：创建按接口调用名访问的 API 客户端
+- `invokeModule()`：直接调用单个接口
+- `NeteaseCloudMusicApi`：开箱即用的默认 API 对象
 
 ## createModuleApi
 
@@ -50,7 +50,7 @@ console.log(result.body)
 
 ## Cookie 自动归一化
 
-程序化调用会在内部对字符串形式的 Cookie 做归一化处理，所以你可以直接传入旧文档中的 `cookie` 字符串。
+程序化调用会在内部对字符串形式的 Cookie 做归一化处理，因此你可以直接复用 HTTP 场景中的 `cookie` 字符串。
 
 ## 推荐用法
 
@@ -64,10 +64,10 @@ console.log(result.body)
 
 - HTTP 请求示例
 - 程序化调用示例
-- 对应模块标识
+- 对应调用名
 
-模块标识通常与 `src/modules/*.ts` 文件名一致，例如：
+调用名通常使用与接口路径对应的下划线形式，例如：
 
-- `login_cellphone.ts` → `api.login_cellphone()`
-- `song_url.ts` → `api.song_url()`
-- `playlist_detail.ts` → `api.playlist_detail()`
+- `/login/cellphone` → `api.login_cellphone()`
+- `/song/url` → `api.song_url()`
+- `/playlist/detail` → `api.playlist_detail()`

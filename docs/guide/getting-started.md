@@ -1,12 +1,12 @@
 # 快速开始
 
-`hana-music-api` 是对旧版 `netease-music-api` 的 Bun + TypeScript + Hono 重写版本。本页聚焦两件事：先把服务跑起来，再把文档站跑起来。
+`hana-music-api` 是基于 Bun + TypeScript + Hono 现代技术栈构建的网易云音乐第三方 API 实现，适合本地自部署、接口调试与程序化集成。
 
 ## 环境要求
 
 - 建议使用最新稳定版 [Bun](https://bun.sh/)
 - Windows、macOS、Linux 均可运行
-- 默认 HTTP 服务监听 `3000` 端口，文档开发站默认监听 `5173` 端口
+- 默认 HTTP 服务监听 `3021` 端口，文档开发站默认监听 `5173` 端口
 
 ## 安装依赖
 
@@ -26,13 +26,36 @@ bun run start
 bun run dev
 ```
 
-## 启动文档站
+服务启动后，默认可以访问：
+
+- API 服务首页：`http://127.0.0.1:3021/`
+- 内嵌文档：`http://127.0.0.1:3021/docs`
+- 健康检查：`http://127.0.0.1:3021/health`
+
+## 验证服务是否可用
+
+可以先用一个无需登录的接口做快速验证，例如：
+
+```bash
+curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=5"
+```
+
+## 本地预览文档（可选）
+
+如果你希望在本地单独预览文档站，可运行：
 
 ```bash
 bun run docs:dev
 ```
 
-这会先自动扫描公开模块与文档资料，再启动 VitePress 本地开发服务。
+如需构建或预览静态文档，可运行：
+
+```bash
+bun run docs:build
+bun run docs:preview
+```
+
+执行 `bun run docs:build` 后，主服务会通过 `/docs` 提供最新构建产物。
 
 ## 常用命令
 
@@ -40,7 +63,6 @@ bun run docs:dev
 bun run test
 bun run typecheck
 bun run lint:full
-bun run docs:generate
 bun run docs:build
 bun run docs:preview
 ```
@@ -52,29 +74,13 @@ bun run docs:preview
 
 ## 本地访问路径
 
-- API 服务根路径：`http://localhost:3000/`
+- API 服务根路径：`http://127.0.0.1:3021/`
 - 文档开发站：`http://localhost:5173/`
 - 文档预览站：执行 `bun run docs:preview` 后按终端输出访问
-- 主服务内嵌文档：先执行 `bun run docs:build`，再通过 `http://127.0.0.1:3021/docs` 访问静态文档
+- 主服务内嵌文档：执行 `bun run docs:build` 后访问 `http://127.0.0.1:3021/docs`
 
-## 推荐工作流
+## 推荐阅读
 
-1. 运行 `bun run dev` 启动 API 服务
-2. 需要维护文档时，另开终端运行 `bun run docs:dev`
-3. 修改 `src/modules/` 或脚本后重新执行 `bun run docs:generate`
-4. 执行 `bun run docs:build`，让主服务通过 `/docs` 托管最新静态产物
-5. 在部署流水线中发布 `docs/.vitepress/dist/`
-
-## 版本管理约定
-
-- 提交 `docs/` 下的文档源码、配置与生成脚本
-- 不提交 `docs/.vitepress/dist/` 等构建产物
-- 不再保留旧 `public/` 目录下的历史发布产物或静态调试页
-
-## 迁移说明
-
-历史接口说明提供了大量背景信息，但旧的运行时文档站结构已经不再保留。当前文档站会：
-
-- 以 `src/modules/` 的真实模块作为公开接口基准
-- 以整理后的接口说明作为参数、示例和注意事项来源
-- 自动生成 API 页面与侧边栏，避免手工维护数百个条目
+1. 先阅读 [认证机制](/guide/authentication)，了解登录与 Cookie 的使用方式
+2. 再阅读 [调用约定](/guide/request-convention)，避免缓存、代理与参数传递问题
+3. 需要在代码中集成时，继续阅读 [编程式调用](/guide/programmatic-api)
