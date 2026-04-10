@@ -1,74 +1,54 @@
 # hana-music-api
 
-`hana-music-api` 是对旧版 `netease-music-api` 的 Bun + TypeScript + Hono 重写仓库。
+`hana-music-api` 是基于 Bun、TypeScript 与 Hono 构建的网易云音乐第三方 API 实现，支持 HTTP 调用与程序化集成。
 
-当前仓库已经进入 `Phase 7` 的第一轮 Demo UI 重建阶段：主链路与 `Phase 6` 离线回归基线已经稳定，本地调试入口开始从旧静态页切换到新的 `/demo/*` 路由体系。
+## 特性
 
-## 当前状态
+- 提供 `366` 个公开接口，覆盖搜索、歌曲、歌单、专辑、用户、评论、视频等常见能力
+- 支持 HTTP 服务与 Bun / Node.js / TypeScript 程序化调用
+- 支持 Cookie、缓存、代理、自定义 `User-Agent` 等常见调用场景
 
-- 核心加密与请求链路已迁入 `src/core`
-- Hono 服务层已恢复模块分发、Cookie、缓存与特殊路由
-- `366` 个旧模块已批量迁入 `src/modules`
-- 旧静态页已经退出主线，本地调试入口开始切换到 `/demo/*`
-- `data/` 只读资源仍保留在当前仓库
-- 已恢复程序化模块调用 API
-- 已补齐一组围绕真实迁移模块与上传链路 helper 的离线回归测试
-- `src/types/` 已拆分为运行时、请求、模块契约与上游边界几个子文件
-- `voice_upload` 已移除 `xml2js` 依赖，改为轻量 XML helper
+## 环境要求
 
-## 常用命令
+- 建议使用最新稳定版 [Bun](https://bun.sh/)
+- Windows、macOS、Linux 均可运行
+- 默认 HTTP 服务监听 `3021` 端口
+
+## 快速开始
+
+安装依赖：
 
 ```bash
-bun install
-bun run dev
-bun run start
-bun run docs:dev
-bun run docs:build
-bun run docs:preview
-bun run test
-bun run test:phase5
-bun run typecheck
-bun run lint
-bun run lint:full
-bun run lint:fix
-bun run fmt
-bun run fmt:check
-bun run migrate:modules
+bun i
 ```
 
-文档源码位于 `docs/`。`docs/.vitepress/dist/` 视为构建产物，不纳入版本管理；部署时应在流水线中执行 `bun run docs:build` 再发布静态产物。
+启动服务：
 
-## Phase 6 基线
+```bash
+bun start
+```
 
-当前默认采用的是“离线契约回归”策略，而不是把真实网易上游请求直接作为默认 CI 验收：
+开发模式：
 
-- 测试直接加载 `src/modules` 中的真实迁移模块
-- 通过注入 `requestHandler` 来记录请求路径、参数、加密模式、Cookie 语义和返回值归一化行为
-- 对二维码生成、匿名 token 初始化、服务层特殊路由映射等不依赖上游网络的链路，直接做可重复执行的本地验证
+```bash
+bun dev
+```
 
-这样做的原因是：
+服务启动后，默认可以访问：
 
-- 避免真实上游接口波动导致 CI 失真
-- 避免把登录 Cookie、手机号、密码等敏感信息写入仓库
-- 让 phase 6 的收尾建立在“模块行为、输入契约和程序化调用边界都可验证”的基线上
+- 首页：`http://127.0.0.1:3021/`
+- 文档：`http://127.0.0.1:3021/docs`
+- 健康检查：`http://127.0.0.1:3021/health`
 
-当前默认回归不依赖新增环境变量。运行服务时仍可使用现有环境变量：
+可以先用一个无需登录的接口做快速验证：
 
-- `HOST`：覆盖默认监听主机
-- `PORT`：覆盖默认监听端口
-
-已知边界：
-
-- 当前版本明确不支持 PAC 代理；如未来确有需求，应以独立专题实现
-- `multipart/form-data` 已补齐旧上传对象兼容层，并已完成一轮真实上传场景手工回归；后续若修改上传链路，仍建议按清单复验
-- 当前仓库已经移除 `src/` 内全部 `@ts-nocheck`；`bun run lint` 和 `bun run lint:full` 都可直接用于全量审计
-- 高频模块的 query 类型、程序化 API 模块标识和上游类型边界已开始收紧，但长尾模块仍以兼容型边界为主，后续会继续渐进细化
-
-上传人工回归步骤见 `docs/upload-manual-checklist.md`。
-
-后续收尾取舍与执行方案见 `docs/phase-6-finalization-plan.md`。
+```bash
+curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=5"
+```
 
 ## 程序化调用
+
+如果你在代码中直接调用接口，建议先确保匿名 token 已生成：
 
 ```ts
 import {
@@ -94,12 +74,58 @@ const account = await invokeModule('user_account', {
 })
 ```
 
-## HTTP 服务
+可按使用场景选择：
+
+- 需要最少样板代码时，使用 `NeteaseCloudMusicApi`
+- 需要按调用名访问多个接口时，使用 `createModuleApi()`
+- 只调用单个接口时，使用 `invokeModule()`
+
+## 文档
+
+本项目使用 VitePress 提供文档站。
+
+本地单独预览文档：
 
 ```bash
-bun run start
+bun docs:dev
 ```
 
-默认会启动 Hono 服务，在根路径展示欢迎页，并提供 `/docs` 文档入口、`/demo/*` 本地调试页和 `/health` 健康检查接口。CLI 主入口在真正监听端口前，会先检查匿名 token，缺失时自动调用 `generateConfig()` 进行补齐。
+构建与预览静态文档：
 
-`/docs` 只托管 `bun run docs:build` 生成的静态产物；如文档有变更，需要先重新构建后再刷新页面。
+```bash
+bun docs:build
+bun docs:preview
+```
+
+如果 `/docs` 返回“文档静态资源尚未生成”，请先执行 `bun docs:build`。
+
+## 常用命令
+
+```bash
+bun test
+bun typecheck
+bun lint
+bun lint:full
+bun lint:fix
+bun fmt
+bun fmt:check
+bun docs:build
+bun docs:preview
+```
+
+## 环境变量
+
+- `HOST`：覆盖默认监听主机
+- `PORT`：覆盖默认监听端口
+
+## 使用说明
+
+- 涉及账户信息、歌单管理、云盘、私信、签到等接口时，通常需要有效 Cookie
+- 轮询二维码状态、刷新登录状态等请求，建议追加时间戳参数以避免缓存影响
+- 如果遇到区域限制或 `460` 一类异常，可尝试通过 `proxy` 或 `realIP` 参数调整请求环境
+
+## 已知限制
+
+- 这是第三方非官方实现，接口可用性会受到网易云音乐上游策略变化影响
+- 少数接口可能因上游调整出现参数、返回字段或登录要求变化
+- 当前版本不支持 PAC 代理
