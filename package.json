@@ -11,10 +11,8 @@
     "docs:preview": "vitepress preview docs",
     "postinstall": "bun docs:build",
     "test": "bun test",
-    "test:phase5": "bun test tests/phase-5-regression.test.ts",
     "typecheck": "tsc --noEmit",
     "lint": "oxlint .",
-    "lint:full": "oxlint src/",
     "lint:fix": "oxlint . --fix",
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt . --check"
