@@ -126,7 +126,7 @@ function createFetchMock(originalFetch: typeof fetch): typeof fetch {
   const completeBodies: string[] = []
 
   const mockFetch = async (input: string | Request | URL, init?: RequestInit) => {
-    const url = String(input)
+    const url = getRequestUrl(input)
 
     if (url.endsWith('?uploads')) {
       return new Response(
@@ -156,7 +156,12 @@ function createFetchMock(originalFetch: typeof fetch): typeof fetch {
     }
 
     if (url.includes('uploadId=upload-123')) {
-      completeBodies.push(String(init?.body ?? ''))
+      const body = init?.body
+      if (typeof body !== 'string') {
+        throw new TypeError('Expected complete multipart body to be a string')
+      }
+
+      completeBodies.push(body)
       expect(completeBodies[0]).toBe(
         '<CompleteMultipartUpload><Part><PartNumber>1</PartNumber><ETag>etag-1</ETag></Part><Part><PartNumber>2</PartNumber><ETag>etag-2</ETag></Part></CompleteMultipartUpload>',
       )
@@ -172,4 +177,16 @@ function createFetchMock(originalFetch: typeof fetch): typeof fetch {
   return Object.assign(mockFetch, {
     preconnect: originalFetch.preconnect.bind(originalFetch),
   }) as typeof fetch
+}
+
+function getRequestUrl(input: string | Request | URL): string {
+  if (typeof input === 'string') {
+    return input
+  }
+
+  if (input instanceof URL) {
+    return input.toString()
+  }
+
+  return input.url
 }

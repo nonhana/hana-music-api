@@ -11,13 +11,13 @@
 ## 安装依赖
 
 ```bash
-bun install
+bun install --frozen-lockfile
 ```
 
 ## 启动 API 服务
 
 ```bash
-bun run start
+bun start
 ```
 
 开发模式可使用：
@@ -62,7 +62,7 @@ bun run docs:preview
 ```bash
 bun run test
 bun run typecheck
-bun run lint:full
+bun run lint
 bun run docs:build
 bun run docs:preview
 ```

@@ -17,6 +17,10 @@ function parsePort(value: string | undefined, fallback: number): number {
   return Number.isNaN(parsed) ? fallback : parsed
 }
 
+function resolveAnonymousTokenFilePath(options: GenerateConfigOptions): string | undefined {
+  return options.tokenFilePath ?? Bun.env.ANONYMOUS_TOKEN_FILE
+}
+
 function resolveStartServerOptions(
   options: StartServerOptions = {},
 ): Required<Pick<StartServerOptions, 'hostname' | 'port' | 'silent'>> & StartServerOptions {
@@ -55,7 +59,8 @@ export async function startServer(options: StartServerOptions = {}): Promise<Sta
 }
 
 export async function ensureAnonymousToken(options: GenerateConfigOptions = {}): Promise<string> {
-  const token = readAnonymousToken(options.tokenFilePath)
+  const tokenFilePath = resolveAnonymousTokenFilePath(options)
+  const token = readAnonymousToken(tokenFilePath)
   if (token) {
     setRuntimeState({
       anonymousToken: token,
@@ -64,10 +69,33 @@ export async function ensureAnonymousToken(options: GenerateConfigOptions = {}):
     return token
   }
 
-  return generateConfig(options)
+  return generateConfig({
+    ...options,
+    tokenFilePath,
+  })
 }
 
 if (import.meta.main) {
   await ensureAnonymousToken()
-  await startServer()
+  const startedServer = await startServer()
+  let isStopping = false
+  const stopServerAndExit = async () => {
+    if (isStopping) {
+      return
+    }
+
+    isStopping = true
+    try {
+      await startedServer.server.stop()
+    } finally {
+      process.exit(0)
+    }
+  }
+
+  process.once('SIGINT', () => {
+    void stopServerAndExit()
+  })
+  process.once('SIGTERM', () => {
+    void stopServerAndExit()
+  })
 }
