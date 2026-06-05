@@ -23,17 +23,17 @@
     "pm2:logs": "pm2 logs hana-music-api"
   },
   "dependencies": {
-    "hono": "^4.12.10",
+    "hono": "^4.12.23",
     "music-metadata": "^11.12.3",
     "qrcode": "^1.5.4"
   },
   "devDependencies": {
     "@types/bun": "latest",
     "@types/qrcode": "^1.5.6",
-    "oxfmt": "^0.43.0",
-    "oxlint": "^1.58.0",
-    "oxlint-tsgolint": "^0.19.0",
-    "typescript": "^6.0.2",
+    "oxfmt": "^0.53.0",
+    "oxlint": "^1.68.0",
+    "oxlint-tsgolint": "^0.23.0",
+    "typescript": "^6.0.3",
     "vitepress": "^1.6.4"
   }
 }
