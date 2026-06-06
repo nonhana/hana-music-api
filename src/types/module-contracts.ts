@@ -1,28 +1,23 @@
 import type {
-  AlbumListQuery,
+  GeneratedModuleContractMap,
+  GeneratedModuleIdentifier,
+} from './generated/module-surface.generated.ts'
+import type {
   AlbumListStyleQuery,
   AlbumNewestQuery,
-  AlbumQuery,
   AlbumSongsaleboardQuery,
-  AlbumSublistQuery,
-  AlbumSubQuery,
-  ArtistPagedQuery,
-  ArtistQuery,
   ArtistSongsQuery,
-  ArtistSublistQuery,
-  ArtistSubQuery,
   AudioMatchQuery,
   BatchQuery,
+  CheckMusicQuery,
+  CloudImportQuery,
+  CloudQuery,
   CommentEventQuery,
   CommentFloorQuery,
   CommentHotQuery,
   CommentLikeQuery,
   CommentNewQuery,
   CommentQuery,
-  CommentThreadQuery,
-  CheckMusicQuery,
-  CloudImportQuery,
-  CloudQuery,
   LoginCellphoneQuery,
   LoginQrCheckQuery,
   LoginQrCreateQuery,
@@ -34,17 +29,28 @@ import type {
   SearchQuery,
   SongUrlQuery,
   SongUrlV1Query,
-  UserDetailQuery,
+  UserAccountQuery,
   UserEventQuery,
   UserFollowMixedQuery,
   UserRecordQuery,
+  VerifyGetQrQuery,
+  VoiceUploadQuery,
+} from './module-overrides.ts'
+import type {
+  AlbumListQuery,
+  AlbumQuery,
+  AlbumSublistQuery,
+  AlbumSubQuery,
+  ArtistPagedQuery,
+  ArtistQuery,
+  ArtistSublistQuery,
+  ArtistSubQuery,
+  CommentThreadQuery,
+  UserDetailQuery,
   UserScopedListQuery,
   UserScopedQuery,
   UserSummaryQuery,
-  UserAccountQuery,
-  VerifyGetQrQuery,
-  VoiceUploadQuery,
-} from './modules.ts'
+} from './module-shared.ts'
 import type { ModuleQuery, NcmApiResponse } from './runtime.ts'
 
 export interface ModuleContractDefinition<
@@ -55,7 +61,7 @@ export interface ModuleContractDefinition<
   response: TResponse
 }
 
-export interface ModuleContractMap {
+export interface ModuleOverrideContractMap {
   album: ModuleContractDefinition<AlbumQuery>
   album_detail: ModuleContractDefinition<AlbumQuery>
   album_detail_dynamic: ModuleContractDefinition<AlbumQuery>
@@ -121,6 +127,15 @@ export interface ModuleContractMap {
   verify_getQr: ModuleContractDefinition<VerifyGetQrQuery>
   voice_upload: ModuleContractDefinition<VoiceUploadQuery>
 }
+
+export type ModuleContractMap = Omit<GeneratedModuleContractMap, keyof ModuleOverrideContractMap> &
+  ModuleOverrideContractMap
+
+type InvalidModuleOverrideKeys = Exclude<keyof ModuleOverrideContractMap, GeneratedModuleIdentifier>
+const moduleOverrideKeysAreGeneratedIdentifiers: InvalidModuleOverrideKeys extends never
+  ? true
+  : never = true
+void moduleOverrideKeysAreGeneratedIdentifiers
 
 export type ModuleIdentifier = keyof ModuleContractMap
 

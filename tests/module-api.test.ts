@@ -538,6 +538,48 @@ describe('programmatic module api', () => {
     })
     expect(response.status).toBe(200)
   })
+
+  test('should expose fallback-typed module identifiers from the real module registry', async () => {
+    const captured: {
+      data?: Record<string, unknown>
+      options?: CreateRequestOptions
+      uri?: string
+    } = {}
+
+    const response = await invokeModule(
+      'top_song',
+      {
+        cookie: 'MUSIC_U=top-song-cookie',
+        type: 96,
+      },
+      {
+        requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+          captured.uri = uri
+          captured.data = data
+          captured.options = options
+
+          return {
+            body: {
+              code: 200,
+              data: [],
+            },
+            cookie: [],
+            status: 200,
+          }
+        }),
+      },
+    )
+
+    expect(captured.uri).toBe('/api/v1/discovery/new/songs')
+    expect(captured.data).toEqual({
+      areaId: 96,
+      total: true,
+    })
+    expect(captured.options?.cookie).toEqual({
+      MUSIC_U: 'top-song-cookie',
+    })
+    expect(response.status).toBe(200)
+  })
 })
 
 function getProgrammaticInvoker(
