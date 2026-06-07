@@ -255,7 +255,7 @@ export function registerModuleRoutes(
       try {
         const moduleResponse = await moduleDefinition.module(
           query,
-          createServerRequestHandler(context, options.requestHandler),
+          bindRequestHandlerToContext(context, options.requestHandler),
         )
 
         if (cacheKey && moduleResponse.status === 200) {
@@ -299,7 +299,7 @@ function normalizeCookieField(query: ModuleQuery): void {
 }
 
 // 专门处理 ip 获取问题
-function createServerRequestHandler(
+export function bindRequestHandlerToContext(
   context: Context,
   requestHandler: ModuleRequest,
 ): ModuleRequest {

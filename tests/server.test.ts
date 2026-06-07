@@ -291,6 +291,63 @@ describe('createServer', () => {
     expect(audioMatchWasmResponse.headers.get('content-type')).toContain('application/wasm')
   })
 
+  test('should handle api debug requests without exposing the raw /api module route', async () => {
+    const captured: {
+      data?: Record<string, unknown>
+      options?: CreateRequestOptions
+      uri?: string
+    } = {}
+    const app = await createServer({
+      moduleDefinitions: [],
+      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+        captured.uri = uri
+        captured.data = data
+        captured.options = options
+
+        return {
+          body: {
+            code: 200,
+            ok: true,
+          },
+          cookie: ['MUSIC_U=demo-cookie; Path=/'],
+          status: 200,
+        }
+      }),
+    })
+    const response = await app.request('http://localhost/demo/api-debug/request?timestamp=1', {
+      body: JSON.stringify({
+        crypto: 'weapi',
+        data: {
+          hello: 'world',
+        },
+        uri: '/api/example',
+      }),
+      headers: {
+        cookie: 'MUSIC_U=request-cookie',
+        'content-type': 'application/json',
+        'x-forwarded-for': '1.2.3.4',
+      },
+      method: 'POST',
+    })
+    const body = await readJson(response)
+
+    expect(response.status).toBe(200)
+    expect(body).toEqual({
+      code: 200,
+      ok: true,
+    })
+    expect(captured.uri).toBe('/api/example')
+    expect(captured.data).toEqual({
+      hello: 'world',
+    })
+    expect(captured.options?.cookie).toEqual({
+      MUSIC_U: 'request-cookie',
+    })
+    expect(captured.options?.crypto).toBe('weapi')
+    expect(captured.options?.ip).toBe('1.2.3.4')
+    expect(response.headers.get('set-cookie')).toContain('MUSIC_U=demo-cookie; Path=/')
+  })
+
   test('should serve built docs assets under /docs with clean url support', async () => {
     const docsDistDirectory = createDocsFixture()
 

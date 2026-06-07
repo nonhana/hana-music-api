@@ -132,14 +132,6 @@ export const apiSidebar = [
         text: '用户状态 - 编辑',
         link: '/api/user/user-social-status-edit',
       },
-      {
-        text: 'user bindingcellphone',
-        link: '/api/user/user-bindingcellphone',
-      },
-      {
-        text: 'user detail new',
-        link: '/api/user/user-detail-new',
-      },
     ],
   },
   {
@@ -422,10 +414,6 @@ export const apiSidebar = [
         text: '用户的收藏歌单列表',
         link: '/api/playlist/user-playlist-collect',
       },
-      {
-        text: 'playlist category list',
-        link: '/api/playlist/playlist-category-list',
-      },
     ],
   },
   {
@@ -493,7 +481,7 @@ export const apiSidebar = [
         link: '/api/album/album-privilege',
       },
       {
-        text: 'album songsaleboard',
+        text: '数字专辑&数字单曲-榜单',
         link: '/api/album/album-songsaleboard',
       },
     ],
@@ -742,10 +730,6 @@ export const apiSidebar = [
         text: '私人 DJ',
         link: '/api/recommend/aidj-content-rcmd',
       },
-      {
-        text: 'playmode song vector',
-        link: '/api/recommend/playmode-song-vector',
-      },
     ],
   },
   {
@@ -771,10 +755,6 @@ export const apiSidebar = [
       {
         text: '所有榜单内容摘要',
         link: '/api/toplist/toplist-detail',
-      },
-      {
-        text: 'toplist detail v2',
-        link: '/api/toplist/toplist-detail-v2',
       },
     ],
   },
@@ -1241,39 +1221,39 @@ export const apiSidebar = [
     collapsed: true,
     items: [
       {
-        text: 'listentogether accept',
+        text: '接受邀请',
         link: '/api/together/listentogether-accept',
       },
       {
-        text: 'listentogether end',
+        text: '结束房间',
         link: '/api/together/listentogether-end',
       },
       {
-        text: 'listentogether heatbeat',
+        text: '心跳',
         link: '/api/together/listentogether-heatbeat',
       },
       {
-        text: 'listentogether play command',
+        text: '播放指令',
         link: '/api/together/listentogether-play-command',
       },
       {
-        text: 'listentogether room check',
+        text: '房间检查',
         link: '/api/together/listentogether-room-check',
       },
       {
-        text: 'listentogether room create',
+        text: '创建房间',
         link: '/api/together/listentogether-room-create',
       },
       {
-        text: 'listentogether status',
+        text: '一起听状态',
         link: '/api/together/listentogether-status',
       },
       {
-        text: 'listentogether sync list command',
+        text: '同步播放列表',
         link: '/api/together/listentogether-sync-list-command',
       },
       {
-        text: 'listentogether sync playlist get',
+        text: '获取同步歌单',
         link: '/api/together/listentogether-sync-playlist-get',
       },
     ],
@@ -1387,11 +1367,11 @@ export const apiSidebar = [
         link: '/api/vip/vip-timemachine',
       },
       {
-        text: 'yunbei expense',
+        text: '云贝支出',
         link: '/api/vip/yunbei-expense',
       },
       {
-        text: 'yunbei receipt',
+        text: '云贝收入',
         link: '/api/vip/yunbei-receipt',
       },
     ],
@@ -1487,32 +1467,6 @@ export const apiSidebar = [
     ],
   },
   {
-    text: '粉丝中心',
-    collapsed: true,
-    items: [
-      {
-        text: 'fanscenter basicinfo age get',
-        link: '/api/fanscenter/fanscenter-basicinfo-age-get',
-      },
-      {
-        text: 'fanscenter basicinfo gender get',
-        link: '/api/fanscenter/fanscenter-basicinfo-gender-get',
-      },
-      {
-        text: 'fanscenter basicinfo province get',
-        link: '/api/fanscenter/fanscenter-basicinfo-province-get',
-      },
-      {
-        text: 'fanscenter overview get',
-        link: '/api/fanscenter/fanscenter-overview-get',
-      },
-      {
-        text: 'fanscenter trend list',
-        link: '/api/fanscenter/fanscenter-trend-list',
-      },
-    ],
-  },
-  {
     text: '其他工具',
     collapsed: true,
     items: [
@@ -1569,28 +1523,8 @@ export const apiSidebar = [
         link: '/api/other/broadcast-channel-list',
       },
       {
-        text: 'api',
-        link: '/api/other/api',
-      },
-      {
-        text: 'broadcast sub',
+        text: '广播电台 - 收藏/取消收藏电台',
         link: '/api/other/broadcast-sub',
-      },
-      {
-        text: 'creator authinfo get',
-        link: '/api/other/creator-authinfo-get',
-      },
-      {
-        text: 'eapi decrypt',
-        link: '/api/other/eapi-decrypt',
-      },
-      {
-        text: 'threshold detail get',
-        link: '/api/other/threshold-detail-get',
-      },
-      {
-        text: 'weblog',
-        link: '/api/other/weblog',
       },
     ],
   },

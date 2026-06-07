@@ -24,7 +24,7 @@ form?.addEventListener('submit', async (event) => {
     setFormattedResult(requestPreview, payload)
     setTextContent(resultPanel, '等待响应')
 
-    const { data, response } = await fetchJson('/api?timestamp=' + Date.now(), {
+    const { data, response } = await fetchJson('/demo/api-debug/request?timestamp=' + Date.now(), {
       body: JSON.stringify(payload),
       headers: {
         'content-type': 'application/json',

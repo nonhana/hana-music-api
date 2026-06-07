@@ -16,7 +16,6 @@ import type {
   UserScopedListQuery,
   UserScopedQuery,
 } from './module-shared.ts'
-import type { DynamicJsonRecord } from './upstream.ts'
 
 type PasswordCredential =
   | {
@@ -211,12 +210,6 @@ export interface VoiceUploadQuery extends OptionCompatibleQuery {
   songFile?: LegacyUploadedFile
   songName?: string
   voiceListId?: QueryIdentifier
-}
-
-export interface ApiQuery extends OptionCompatibleQuery {
-  crypto?: string
-  data?: DynamicJsonRecord | string
-  uri?: string
 }
 
 export interface UserEventQuery extends UserScopedListQuery {

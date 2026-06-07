@@ -1,9 +1,13 @@
-import type { Hono } from 'hono'
+import type { Context, Hono } from 'hono'
 
 import { jsxRenderer } from 'hono/jsx-renderer'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import type { ModuleQuery, ModuleRequest, NcmApiResponse } from '../types/index.ts'
+
+import { cookieToJson } from '../core/utils.ts'
+import { invokeApiDebugRequest } from '../demo/api-debug-request.ts'
 import { apiDebugClientScript } from '../demo/client/api-debug.ts'
 import { audioMatchClientScript } from '../demo/client/audio-match.ts'
 import { qrLoginClientScript } from '../demo/client/qr-login.ts'
@@ -19,6 +23,9 @@ import { SearchPage } from '../demo/pages/search.tsx'
 import { UploadPlaylistCoverPage } from '../demo/pages/upload-playlist-cover.tsx'
 import { getDemoPageByPath, getGroupedDemoPages } from '../demo/registry.ts'
 import { demoStyles } from '../demo/styles/demo.css.ts'
+import { appendResponseCookies, parseRequestCookies } from './cookies.ts'
+import { parseRequestBody } from './parse-body.ts'
+import { bindRequestHandlerToContext } from './routes.ts'
 
 const clientScripts = {
   'api-debug.js': apiDebugClientScript,
@@ -57,7 +64,11 @@ function isAudioMatchAsset(asset: string): asset is keyof typeof audioMatchAsset
   return asset in audioMatchAssets
 }
 
-export function registerDemoRoutes(app: Hono): void {
+interface DemoRouteOptions {
+  readonly requestHandler: ModuleRequest
+}
+
+export function registerDemoRoutes(app: Hono, options: DemoRouteOptions): void {
   const renderer = jsxRenderer(({ children }, context) => {
     const page = getDemoPageByPath(context.req.path)
 
@@ -116,6 +127,22 @@ export function registerDemoRoutes(app: Hono): void {
     return context.render(<ApiDebugPage />)
   })
 
+  app.post('/demo/api-debug/request', async (context) => {
+    const query = await buildDemoRouteQuery(context)
+
+    try {
+      const moduleResponse = await invokeApiDebugRequest(
+        query,
+        bindRequestHandlerToContext(context, options.requestHandler),
+        readRequestCookies(context),
+      )
+
+      return toDemoJsonResponse(context, moduleResponse, query)
+    } catch (error) {
+      return toDemoJsonResponse(context, normalizeDemoErrorResponse(error), query)
+    }
+  })
+
   app.get('/demo/search', (context) => {
     return context.render(<SearchPage />)
   })
@@ -131,4 +158,108 @@ export function registerDemoRoutes(app: Hono): void {
   app.get('/demo/experiments/audio-match', (context) => {
     return context.render(<AudioMatchPage />)
   })
+}
+
+async function buildDemoRouteQuery(context: Context): Promise<ModuleQuery> {
+  const requestCookies = readRequestCookies(context)
+  const query = Object.fromEntries(new URL(context.req.url).searchParams.entries())
+  const body = await parseRequestBody(context)
+
+  normalizeCookieField(query)
+  normalizeCookieField(body)
+
+  return {
+    cookie: requestCookies,
+    ...query,
+    ...body,
+  }
+}
+
+function normalizeCookieField(query: ModuleQuery): void {
+  if (typeof query.cookie === 'string') {
+    query.cookie = cookieToJson(safeDecodeURIComponent(query.cookie))
+  }
+}
+
+function readRequestCookies(context: Context) {
+  return parseRequestCookies(context.req.header('cookie'))
+}
+
+function normalizeDemoErrorResponse(error: unknown): NcmApiResponse {
+  if (isNcmApiResponse(error)) {
+    return error
+  }
+
+  return {
+    body: {
+      code: 500,
+      msg: error instanceof Error ? error.message : String(error),
+    },
+    cookie: [],
+    status: 500,
+  }
+}
+
+function toDemoJsonResponse(
+  context: Context,
+  moduleResponse: NcmApiResponse,
+  query: ModuleQuery,
+): Response {
+  if (shouldWriteCookies(query) && moduleResponse.cookie.length > 0) {
+    appendResponseCookies(context.res.headers, moduleResponse.cookie, isHttpsRequest(context))
+  }
+
+  if (
+    moduleResponse.status !== 200 &&
+    typeof moduleResponse.body === 'object' &&
+    moduleResponse.body !== null &&
+    'code' in moduleResponse.body &&
+    moduleResponse.body.code === '301'
+  ) {
+    ;(moduleResponse.body as Record<string, unknown>).msg = '需要登录'
+  }
+
+  const headers = new Headers(context.res.headers)
+  headers.set('Content-Type', 'application/json; charset=utf-8')
+
+  return new Response(JSON.stringify(moduleResponse.body), {
+    headers,
+    status: moduleResponse.status,
+  })
+}
+
+function shouldWriteCookies(query: ModuleQuery): boolean {
+  return (
+    query.noCookie !== true &&
+    query.noCookie !== 1 &&
+    query.noCookie !== 'true' &&
+    query.noCookie !== '1'
+  )
+}
+
+function isHttpsRequest(context: Context): boolean {
+  const forwardedProto = context.req.header('x-forwarded-proto')
+  if (forwardedProto?.toLowerCase() === 'https') {
+    return true
+  }
+
+  return new URL(context.req.url).protocol === 'https:'
+}
+
+function isNcmApiResponse(value: unknown): value is NcmApiResponse {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'status' in value &&
+    'body' in value &&
+    'cookie' in value
+  )
+}
+
+function safeDecodeURIComponent(value: string): string {
+  try {
+    return decodeURIComponent(value)
+  } catch {
+    return value
+  }
 }

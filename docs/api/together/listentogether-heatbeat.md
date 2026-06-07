@@ -1,30 +1,36 @@
 ---
-title: 'listentogether heatbeat'
-description: 'listentogether heatbeat 接口文档。'
+title: '一起听 - 心跳'
+description: '上报一起听房间的当前歌曲、播放状态和进度。'
 ---
 
-# listentogether heatbeat
+# 一起听 - 心跳
 
-> listentogether heatbeat 接口文档。
+> 维持一起听播放状态的心跳接口。路由名沿用历史拼写 `heatbeat`。
 
 ## 接口信息
 
-| 项目     | 值                         |
-| -------- | -------------------------- |
-| 接口地址 | `/listentogether/heatbeat` |
-| 请求方式 | `GET` / `POST`             |
-| 需要登录 | 否                         |
-| 对应模块 | `listentogether_heatbeat`  |
-| 文档分类 | 一起听                     |
+| 项目     | 值                               |
+| -------- | -------------------------------- |
+| 接口地址 | `/listentogether/heatbeat`       |
+| 请求方式 | `GET` / `POST`                   |
+| 需要登录 | 是                               |
+| 对应模块 | `listentogether_heatbeat`        |
+| 文档分类 | 一起听                           |
+| 上游路径 | `/api/listen/together/heartbeat` |
 
 ## 请求参数
 
-当前整理后的接口资料未明确列出参数，调用时请参考对应模块实现或程序化调用示例。
+| 参数         | 类型   | 必填 | 默认值 | 说明                               |
+| ------------ | ------ | :--: | ------ | ---------------------------------- |
+| `roomId`     | string |  ✅  | -      | 房间 ID                            |
+| `songId`     | string |  ✅  | -      | 当前播放歌曲 ID                    |
+| `playStatus` | string |  ✅  | -      | 播放状态，常见为 `PLAY` 或 `PAUSE` |
+| `progress`   | number |  ✅  | -      | 当前播放进度，单位毫秒             |
 
 ## HTTP 示例
 
 ```bash
-GET /listentogether/heatbeat
+POST /listentogether/heatbeat?roomId=MzA0NjY5...&songId=1372188635&playStatus=PLAY&progress=0
 ```
 
 ## 编程式调用
@@ -34,17 +40,28 @@ import { createModuleApi } from 'hana-music-api'
 
 const api = createModuleApi()
 
-const result = await api.listentogether_heatbeat()
+const result = await api.listentogether_heatbeat({
+  roomId: 'MzA0NjY5...',
+  songId: '1372188635',
+  playStatus: 'PLAY',
+  progress: 0,
+})
 
 console.log(result.body)
 ```
 
-## 说明
+## 返回关注点
 
-当前未在整理后的历史接口资料中找到完全对应的章节，本页内容由当前公开模块、路由和调用约定自动生成。若需要补充更精细的返回字段说明，请优先参考对应模块实现。
+- `code`: 是否上报成功。
+- `message`: 心跳失败时的错误原因。
+
+## 相关接口
+
+- [`/listentogether/play/command`](/api/together/listentogether-play-command)
+- [`/listentogether/status`](/api/together/listentogether-status)
 
 ## 维护说明
 
-- 本页由脚本根据当前模块与整理后的接口说明自动生成。
+- 本页基于上游 issue、PR 与当前 `hana-music-api` 模块实现补写。
 - 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
 - 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

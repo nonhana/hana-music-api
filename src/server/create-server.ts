@@ -23,6 +23,7 @@ export async function createServer(options: CreateServerOptions = {}): Promise<H
     options.moduleDefinitions ?? (await loadModuleDefinitions(modulesDirectory))
   const cache =
     options.cacheEnabled === false ? null : new MemoryResponseCache(options.cacheTtlMs ?? 120_000)
+  const requestHandler = options.requestHandler ?? createDefaultRequestHandler()
 
   app.use('*', createCorsMiddleware(options))
 
@@ -33,9 +34,11 @@ export async function createServer(options: CreateServerOptions = {}): Promise<H
   })
   registerModuleRoutes(app, moduleDefinitions, {
     cache,
-    requestHandler: options.requestHandler ?? createDefaultRequestHandler(),
+    requestHandler,
   })
-  registerDemoRoutes(app)
+  registerDemoRoutes(app, {
+    requestHandler,
+  })
 
   return app
 }

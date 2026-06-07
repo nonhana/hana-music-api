@@ -1,30 +1,33 @@
 ---
-title: 'listentogether room check'
-description: 'listentogether room check 接口文档。'
+title: '一起听 - 房间检查'
+description: '检查一起听房间是否可加入以及当前可用状态。'
 ---
 
-# listentogether room check
+# 一起听 - 房间检查
 
-> listentogether room check 接口文档。
+> 校验房间是否存在、是否还能加入，以及当前房间状态。
 
 ## 接口信息
 
-| 项目     | 值                           |
-| -------- | ---------------------------- |
-| 接口地址 | `/listentogether/room/check` |
-| 请求方式 | `GET` / `POST`               |
-| 需要登录 | 否                           |
-| 对应模块 | `listentogether_room_check`  |
-| 文档分类 | 一起听                       |
+| 项目     | 值                                |
+| -------- | --------------------------------- |
+| 接口地址 | `/listentogether/room/check`      |
+| 请求方式 | `GET` / `POST`                    |
+| 需要登录 | 是                                |
+| 对应模块 | `listentogether_room_check`       |
+| 文档分类 | 一起听                            |
+| 上游路径 | `/api/listen/together/room/check` |
 
 ## 请求参数
 
-当前整理后的接口资料未明确列出参数，调用时请参考对应模块实现或程序化调用示例。
+| 参数     | 类型   | 必填 | 默认值 | 说明    |
+| -------- | ------ | :--: | ------ | ------- |
+| `roomId` | string |  ✅  | -      | 房间 ID |
 
 ## HTTP 示例
 
 ```bash
-GET /listentogether/room/check
+POST /listentogether/room/check?roomId=MzA0NjY5...
 ```
 
 ## 编程式调用
@@ -34,17 +37,48 @@ import { createModuleApi } from 'hana-music-api'
 
 const api = createModuleApi()
 
-const result = await api.listentogether_room_check()
+const result = await api.listentogether_room_check({
+  roomId: 'MzA0NjY5...',
+})
 
 console.log(result.body)
 ```
 
-## 说明
+## 返回示例
 
-当前未在整理后的历史接口资料中找到完全对应的章节，本页内容由当前公开模块、路由和调用约定自动生成。若需要补充更精细的返回字段说明，请优先参考对应模块实现。
+```json
+{
+  "code": 200,
+  "data": {
+    "joinable": true,
+    "type": "NORMAL",
+    "copywriting": null,
+    "status": "AVAILABLE"
+  },
+  "message": ""
+}
+```
+
+## 返回关注点
+
+- `data.joinable`: 当前房间是否还能加入。
+- `data.status`: 房间状态，公开样例里可见 `AVAILABLE`。
+- `data.type`: 房间类型，公开样例里可见 `NORMAL`。
+- `data.copywriting`: 服务端返回的补充文案，可能为空。
+
+## 调用场景
+
+- 房主创建房间后检查是否创建成功。
+- 从机接受邀请前后确认房间仍可加入。
+- 前端在分享页或轮询逻辑里做可用性校验。
+
+## 相关接口
+
+- [`/listentogether/room/create`](/api/together/listentogether-room-create)
+- [`/listentogether/accept`](/api/together/listentogether-accept)
 
 ## 维护说明
 
-- 本页由脚本根据当前模块与整理后的接口说明自动生成。
+- 本页基于上游 issue、PR 与当前 `hana-music-api` 模块实现补写。
 - 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
 - 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。
