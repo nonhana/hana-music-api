@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 全部视频列表
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -16,6 +15,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/videotimeline/otherclient/get`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 全部视频列表
+ */
 export default async function migratedVideoTimelineAll(
   query: LegacyModuleQuery,
   request: ModuleRequest,

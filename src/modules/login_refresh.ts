@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 登录刷新
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -20,6 +19,9 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
   return result
 }
 
+/**
+ * 登录刷新
+ */
 export default async function migratedLoginRefresh(
   query: LegacyModuleQuery,
   request: ModuleRequest,

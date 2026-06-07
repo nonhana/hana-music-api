@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 云盘歌曲删除
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/cloud/del`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 云盘歌曲删除
+ */
 export default async function migratedUserCloudDel(
   query: LegacyModuleQuery,
   request: ModuleRequest,

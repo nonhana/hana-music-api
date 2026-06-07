@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 创建歌单
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/playlist/create`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 创建歌单
+ */
 export default async function migratedPlaylistCreate(
   query: LegacyModuleQuery,
   request: ModuleRequest,

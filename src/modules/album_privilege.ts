@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { AlbumQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 获取专辑歌曲的音质
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: AlbumQuery, request: ModuleRequest) => {
@@ -12,6 +11,9 @@ const legacyModule = (query: AlbumQuery, request: ModuleRequest) => {
   return request(`/api/album/privilege`, data, createOption(query))
 }
 
+/**
+ * 获取专辑歌曲的音质
+ */
 export default async function migratedAlbumPrivilege(
   query: AlbumQuery,
   request: ModuleRequest,

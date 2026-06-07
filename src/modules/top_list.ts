@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 排行榜
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -24,6 +23,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/playlist/v4/detail`, data, createOption(query))
 }
 
+/**
+ * 排行榜
+ */
 export default async function migratedTopList(
   query: LegacyModuleQuery,
   request: ModuleRequest,

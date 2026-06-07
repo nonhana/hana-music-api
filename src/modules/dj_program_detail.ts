@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 电台节目详情
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/dj/program/detail`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 电台节目详情
+ */
 export default async function migratedDjProgramDetail(
   query: LegacyModuleQuery,
   request: ModuleRequest,

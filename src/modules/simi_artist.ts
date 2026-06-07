@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 相似歌手
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/discovery/simiArtist`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 相似歌手
+ */
 export default async function migratedSimiArtist(
   query: LegacyModuleQuery,
   request: ModuleRequest,

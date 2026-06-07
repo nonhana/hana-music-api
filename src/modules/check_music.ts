@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { CheckMusicQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 歌曲可用性
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 interface CheckMusicItem {
@@ -42,6 +41,9 @@ const legacyModule = (query: CheckMusicQuery, request: ModuleRequest) => {
   })
 }
 
+/**
+ * 歌曲可用性
+ */
 export default async function migratedCheckMusic(
   query: CheckMusicQuery,
   request: ModuleRequest,

@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 广播电台 - 我的收藏
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/content/channel/collect/list`, data, createOption(query))
 }
 
+/**
+ * 广播电台 - 我的收藏
+ */
 export default async function migratedBroadcastChannelCollectList(
   query: LegacyModuleQuery,
   request: ModuleRequest,

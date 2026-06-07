@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 云随机播放
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/playmode/song/vector/get`, data, createOption(query))
 }
 
+/**
+ * 云随机播放
+ */
 export default async function migratedPlaymodeSongVector(
   query: LegacyModuleQuery,
   request: ModuleRequest,

@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 喜欢的歌曲(无序)
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/song/like/get`, data, createOption(query))
 }
 
+/**
+ * 喜欢的歌曲(无序)
+ */
 export default async function migratedLikelist(
   query: LegacyModuleQuery,
   request: ModuleRequest,

@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 红心与取消红心歌曲
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -16,6 +15,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/radio/like`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 红心与取消红心歌曲
+ */
 export default async function migratedLike(
   query: LegacyModuleQuery,
   request: ModuleRequest,

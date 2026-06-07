@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 精品歌单
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/playlist/highquality/list`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 精品歌单
+ */
 export default async function migratedTopPlaylistHighquality(
   query: LegacyModuleQuery,
   request: ModuleRequest,

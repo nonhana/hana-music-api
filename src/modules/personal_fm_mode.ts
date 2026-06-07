@@ -2,9 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 私人FM - 模式选择
-// aidj, DEFAULT, FAMILIAR, EXPLORE, SCENE_RCMD ( EXERCISE, FOCUS, NIGHT_EMO  )
-// 来不及解释这几个了
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -16,6 +13,11 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/v1/radio/get`, data, createOption(query))
 }
 
+/**
+ * 私人FM - 模式选择
+ * aidj, DEFAULT, FAMILIAR, EXPLORE, SCENE_RCMD ( EXERCISE, FOCUS, NIGHT_EMO  )
+ * 来不及解释这几个了
+ */
 export default async function migratedPersonalFmMode(
   query: LegacyModuleQuery,
   request: ModuleRequest,

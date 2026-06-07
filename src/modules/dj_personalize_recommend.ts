@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 电台个性推荐
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   )
 }
 
+/**
+ * 电台个性推荐
+ */
 export default async function migratedDjPersonalizeRecommend(
   query: LegacyModuleQuery,
   request: ModuleRequest,

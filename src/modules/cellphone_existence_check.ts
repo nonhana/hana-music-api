@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 检测手机号码是否已注册
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -13,6 +12,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/cellphone/existence/check`, data, createOption(query))
 }
 
+/**
+ * 检测手机号码是否已注册
+ */
 export default async function migratedCellphoneExistenceCheck(
   query: LegacyModuleQuery,
   request: ModuleRequest,

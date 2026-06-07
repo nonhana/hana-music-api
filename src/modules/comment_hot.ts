@@ -3,7 +3,6 @@ import type { CommentHotQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 热门评论
 import { resolveResourceType } from './_module-inputs.ts'
 
 const legacyModule = (query: CommentHotQuery, request: ModuleRequest) => {
@@ -21,6 +20,9 @@ const legacyModule = (query: CommentHotQuery, request: ModuleRequest) => {
   )
 }
 
+/**
+ * 热门评论
+ */
 export default async function migratedCommentHot(
   query: CommentHotQuery,
   request: ModuleRequest,

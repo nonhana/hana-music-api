@@ -1,4 +1,3 @@
-// 注册账号
 import { createHash } from 'node:crypto'
 
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
@@ -19,6 +18,9 @@ const legacyModule = (query: RegisterCellphoneQuery, request: ModuleRequest) => 
   return request(`/api/w/register/cellphone`, data, createOption(query))
 }
 
+/**
+ * 注册账号
+ */
 export default async function migratedRegisterCellphone(
   query: RegisterCellphoneQuery,
   request: ModuleRequest,

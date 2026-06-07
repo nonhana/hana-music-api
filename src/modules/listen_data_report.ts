@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 听歌足迹 - 周/月/年收听报告
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -16,6 +15,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   )
 }
 
+/**
+ * 听歌足迹 - 周/月/年收听报告
+ */
 export default async function migratedListenDataReport(
   query: LegacyModuleQuery,
   request: ModuleRequest,

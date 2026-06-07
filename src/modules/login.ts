@@ -2,7 +2,6 @@ import { createHash } from 'node:crypto'
 
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LoginQuery } from '../types/modules.ts'
-// 邮箱登录
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
@@ -39,6 +38,9 @@ const legacyModule = async (query: LoginQuery, request: ModuleRequest) => {
   return result
 }
 
+/**
+ * 邮箱登录
+ */
 export default async function migratedLogin(
   query: LoginQuery,
   request: ModuleRequest,

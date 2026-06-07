@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 歌曲详情
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/v3/song/detail`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 歌曲详情
+ */
 export default async function migratedSongDetail(
   query: LegacyModuleQuery,
   request: ModuleRequest,

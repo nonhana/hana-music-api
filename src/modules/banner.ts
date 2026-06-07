@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 首页轮播图
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -16,6 +15,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/v2/banner/get`, { clientType: type }, createOption(query))
 }
 
+/**
+ * 首页轮播图
+ */
 export default async function migratedBanner(
   query: LegacyModuleQuery,
   request: ModuleRequest,

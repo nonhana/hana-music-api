@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 购买数字专辑
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -21,6 +20,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/ordering/web/digital`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 购买数字专辑
+ */
 export default async function migratedDigitalAlbumOrdering(
   query: LegacyModuleQuery,
   request: ModuleRequest,

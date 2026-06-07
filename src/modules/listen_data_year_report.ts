@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 听歌足迹 - 年度听歌足迹
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -9,6 +8,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/content/activity/listen/data/year/report`, {}, createOption(query))
 }
 
+/**
+ * 听歌足迹 - 年度听歌足迹
+ */
 export default async function migratedListenDataYearReport(
   query: LegacyModuleQuery,
   request: ModuleRequest,

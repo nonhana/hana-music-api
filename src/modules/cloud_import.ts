@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { CloudImportQuery } from '../types/modules.ts'
 
-// 云盘导入歌曲
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -39,6 +38,9 @@ const legacyModule = async (query: CloudImportQuery, request: ModuleRequest) => 
   return request(`/api/cloud/user/song/import`, importData, createOption(query))
 }
 
+/**
+ * 云盘导入歌曲
+ */
 export default async function migratedCloudImport(
   query: CloudImportQuery,
   request: ModuleRequest,

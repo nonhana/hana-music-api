@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 云村星评馆 - 简要评论列表
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -16,6 +15,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/homepage/block/page`, data, createOption(query))
 }
 
+/**
+ * 云村星评馆 - 简要评论列表
+ */
 export default async function migratedStarpickCommentsSummary(
   query: LegacyModuleQuery,
   request: ModuleRequest,

@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 一起听 房间情况
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/listen/together/room/check`, data, createOption(query))
 }
 
+/**
+ * 一起听 房间情况
+ */
 export default async function migratedListentogetherRoomCheck(
   query: LegacyModuleQuery,
   request: ModuleRequest,

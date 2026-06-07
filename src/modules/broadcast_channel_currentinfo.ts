@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 广播电台 - 电台信息
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/voice/broadcast/channel/currentinfo`, data, createOption(query))
 }
 
+/**
+ * 广播电台 - 电台信息
+ */
 export default async function migratedBroadcastChannelCurrentinfo(
   query: LegacyModuleQuery,
   request: ModuleRequest,

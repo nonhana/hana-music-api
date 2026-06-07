@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// DIFM电台 - 播放列表
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/dj/difm/playing/tracks/list`, data, createOption(query))
 }
 
+/**
+ * DIFM电台 - 播放列表
+ */
 export default async function migratedDjDifmPlayingTracksList(
   query: LegacyModuleQuery,
   request: ModuleRequest,

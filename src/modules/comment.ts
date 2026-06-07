@@ -3,7 +3,6 @@ import type { CommentQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 发送与删除评论
 import { resolveResourceType } from './_module-inputs.ts'
 
 const legacyModule = (query: CommentQuery, request: ModuleRequest) => {
@@ -30,6 +29,9 @@ const legacyModule = (query: CommentQuery, request: ModuleRequest) => {
   return request(`/api/resource/comments/${action}`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 发送与删除评论
+ */
 export default async function migratedComment(
   query: CommentQuery,
   request: ModuleRequest,

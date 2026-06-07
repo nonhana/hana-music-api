@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 获取客户端歌曲下载链接
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -13,6 +12,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/song/enhance/download/url`, data, createOption(query))
 }
 
+/**
+ * 获取客户端歌曲下载链接
+ */
 export default async function migratedSongDownloadUrl(
   query: LegacyModuleQuery,
   request: ModuleRequest,

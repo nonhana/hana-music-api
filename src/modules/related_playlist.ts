@@ -2,7 +2,7 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 相关歌单
+
 const legacyModule = async (query: LegacyModuleQuery) => {
   const response = await fetch(`https://music.163.com/playlist?id=${query.id}`)
   const html = await response.text()
@@ -49,6 +49,9 @@ const legacyModule = async (query: LegacyModuleQuery) => {
   }
 }
 
+/**
+ * 相关歌单
+ */
 export default async function migratedRelatedPlaylist(
   query: LegacyModuleQuery,
   _request: ModuleRequest,

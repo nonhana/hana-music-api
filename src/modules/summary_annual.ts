@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 年度听歌报告2017-2024
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -11,6 +10,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/activity/summary/annual/${query.year}/${key}`, data, createOption(query))
 }
 
+/**
+ * 年度听歌报告2017-2024
+ */
 export default async function migratedSummaryAnnual(
   query: LegacyModuleQuery,
   request: ModuleRequest,

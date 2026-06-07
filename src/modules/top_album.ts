@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 新碟上架
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -21,6 +20,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/discovery/new/albums/area`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 新碟上架
+ */
 export default async function migratedTopAlbum(
   query: LegacyModuleQuery,
   request: ModuleRequest,

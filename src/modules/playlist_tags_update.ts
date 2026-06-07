@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 更新歌单标签
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -13,6 +12,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/playlist/tags/update`, data, createOption(query))
 }
 
+/**
+ * 更新歌单标签
+ */
 export default async function migratedPlaylistTagsUpdate(
   query: LegacyModuleQuery,
   request: ModuleRequest,

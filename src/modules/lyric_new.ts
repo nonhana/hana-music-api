@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 新版歌词 - 包含逐字歌词
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -20,6 +19,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/song/lyric/v1`, data, createOption(query))
 }
 
+/**
+ * 新版歌词 - 包含逐字歌词
+ */
 export default async function migratedLyricNew(
   query: LegacyModuleQuery,
   request: ModuleRequest,

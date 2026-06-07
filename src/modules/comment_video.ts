@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { CommentThreadQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 视频评论
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: CommentThreadQuery, request: ModuleRequest) => {
@@ -19,6 +18,9 @@ const legacyModule = (query: CommentThreadQuery, request: ModuleRequest) => {
   )
 }
 
+/**
+ * 视频评论
+ */
 export default async function migratedCommentVideo(
   query: CommentThreadQuery,
   request: ModuleRequest,

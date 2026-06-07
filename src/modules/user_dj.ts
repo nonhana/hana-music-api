@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { UserScopedListQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 用户电台节目
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: UserScopedListQuery, request: ModuleRequest) => {
@@ -13,6 +12,9 @@ const legacyModule = (query: UserScopedListQuery, request: ModuleRequest) => {
   return request(`/api/dj/program/${query.uid}`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 用户电台节目
+ */
 export default async function migratedUserDj(
   query: UserScopedListQuery,
   request: ModuleRequest,

@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 点赞与取消点赞资源
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 import { resolveResourceType } from './_module-inputs.ts'
@@ -18,6 +17,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/resource/${query.t}`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 点赞与取消点赞资源
+ */
 export default async function migratedResourceLike(
   query: LegacyModuleQuery,
   request: ModuleRequest,

@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 一起听 更新播放列表
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -25,6 +24,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/listen/together/sync/list/command/report`, data, createOption(query))
 }
 
+/**
+ * 一起听 更新播放列表
+ */
 export default async function migratedListentogetherSyncListCommand(
   query: LegacyModuleQuery,
   request: ModuleRequest,

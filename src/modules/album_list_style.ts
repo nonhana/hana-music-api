@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { AlbumListStyleQuery } from '../types/modules.ts'
 
-// 数字专辑-语种风格馆
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -15,6 +14,9 @@ const legacyModule = (query: AlbumListStyleQuery, request: ModuleRequest) => {
   return request(`/api/vipmall/appalbum/album/style`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 数字专辑-语种风格馆
+ */
 export default async function migratedAlbumListStyle(
   query: AlbumListStyleQuery,
   request: ModuleRequest,

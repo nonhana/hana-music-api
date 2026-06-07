@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 电台最热主播榜
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -13,6 +12,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/dj/toplist/popular`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 电台最热主播榜
+ */
 export default async function migratedDjToplistPopular(
   query: LegacyModuleQuery,
   request: ModuleRequest,

@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 乐谱预览
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/music/sheet/preview/info`, data, createOption(query))
 }
 
+/**
+ * 乐谱预览
+ */
 export default async function migratedSheetPreview(
   query: LegacyModuleQuery,
   request: ModuleRequest,

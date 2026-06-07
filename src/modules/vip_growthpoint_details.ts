@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 会员成长值领取记录
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -13,6 +12,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/vipnewcenter/app/level/growth/details`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 会员成长值领取记录
+ */
 export default async function migratedVipGrowthpointDetails(
   query: LegacyModuleQuery,
   request: ModuleRequest,

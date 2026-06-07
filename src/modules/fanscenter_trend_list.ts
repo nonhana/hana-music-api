@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 粉丝来源
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -14,6 +13,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/fanscenter/trend/list`, data, createOption(query))
 }
 
+/**
+ * 粉丝来源
+ */
 export default async function migratedFanscenterTrendList(
   query: LegacyModuleQuery,
   request: ModuleRequest,

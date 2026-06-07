@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 更新歌曲顺序
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/playlist/manipulate/tracks`, data, createOption(query))
 }
 
+/**
+ * 更新歌曲顺序
+ */
 export default async function migratedSongOrderUpdate(
   query: LegacyModuleQuery,
   request: ModuleRequest,

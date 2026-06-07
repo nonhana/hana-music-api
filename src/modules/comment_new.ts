@@ -3,7 +3,6 @@ import type { CommentNewQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 评论
 import { resolveResourceType } from './_module-inputs.ts'
 
 const legacyModule = (query: CommentNewQuery, request: ModuleRequest) => {
@@ -40,6 +39,9 @@ const legacyModule = (query: CommentNewQuery, request: ModuleRequest) => {
   return request(`/api/v2/resource/comments`, data, createOption(query))
 }
 
+/**
+ * 评论
+ */
 export default async function migratedCommentNew(
   query: CommentNewQuery,
   request: ModuleRequest,

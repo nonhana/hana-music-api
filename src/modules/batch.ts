@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { BatchQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 批量请求接口
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: BatchQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: BatchQuery, request: ModuleRequest) => {
   return request(`/api/batch`, data, createOption(query))
 }
 
+/**
+ * 批量请求接口
+ */
 export default async function migratedBatch(
   query: BatchQuery,
   request: ModuleRequest,

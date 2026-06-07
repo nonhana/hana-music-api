@@ -1,8 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 搜索歌手
-// 可传关键字或者歌手id
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -14,6 +12,10 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/rep/ugc/artist/search`, data, createOption(query))
 }
 
+/**
+ * 搜索歌手
+ * 可传关键字或者歌手id
+ */
 export default async function migratedUgcArtistSearch(
   query: LegacyModuleQuery,
   request: ModuleRequest,

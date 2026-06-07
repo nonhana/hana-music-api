@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 歌词摘录 - 添加/修改摘录歌词
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/song/play/lyrics/mark/add`, data, createOption(query))
 }
 
+/**
+ * 歌词摘录 - 添加/修改摘录歌词
+ */
 export default async function migratedSongLyricsMarkAdd(
   query: LegacyModuleQuery,
   request: ModuleRequest,

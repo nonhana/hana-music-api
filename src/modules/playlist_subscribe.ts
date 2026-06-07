@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 收藏与取消收藏歌单
 import { APP_CONF } from '../core/config.ts'
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
@@ -17,6 +16,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/playlist/${path}`, data, createOption(query, 'eapi'))
 }
 
+/**
+ * 收藏与取消收藏歌单
+ */
 export default async function migratedPlaylistSubscribe(
   query: LegacyModuleQuery,
   request: ModuleRequest,

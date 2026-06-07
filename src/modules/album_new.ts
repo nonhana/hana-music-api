@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { AlbumListQuery } from '../types/modules.ts'
 
-// 全部新碟
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -15,6 +14,9 @@ const legacyModule = (query: AlbumListQuery, request: ModuleRequest) => {
   return request(`/api/album/new`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 全部新碟
+ */
 export default async function migratedAlbumNew(
   query: AlbumListQuery,
   request: ModuleRequest,

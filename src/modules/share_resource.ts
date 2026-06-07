@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 分享歌曲到动态
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/share/friends/resource`, data, createOption(query))
 }
 
+/**
+ * 分享歌曲到动态
+ */
 export default async function migratedShareResource(
   query: LegacyModuleQuery,
   request: ModuleRequest,

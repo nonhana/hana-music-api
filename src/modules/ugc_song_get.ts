@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 歌曲简要百科信息
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/rep/ugc/song/get`, data, createOption(query))
 }
 
+/**
+ * 歌曲简要百科信息
+ */
 export default async function migratedUgcSongGet(
   query: LegacyModuleQuery,
   request: ModuleRequest,

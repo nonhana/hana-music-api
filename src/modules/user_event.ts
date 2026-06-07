@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { UserEventQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 用户动态
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: UserEventQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: UserEventQuery, request: ModuleRequest) => {
   return request(`/api/event/get/${query.uid}`, data, createOption(query))
 }
 
+/**
+ * 用户动态
+ */
 export default async function migratedUserEvent(
   query: UserEventQuery,
   request: ModuleRequest,

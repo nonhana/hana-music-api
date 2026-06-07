@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 黑胶时光机
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -16,6 +15,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/vipmusic/newrecord/weekflow`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 黑胶时光机
+ */
 export default async function migratedVipTimemachine(
   query: LegacyModuleQuery,
   request: ModuleRequest,

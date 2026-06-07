@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 收藏单曲到歌单 从歌单删除歌曲
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -52,6 +51,9 @@ const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) =>
   }
 }
 
+/**
+ * 收藏单曲到歌单 从歌单删除歌曲
+ */
 export default async function migratedPlaylistTracks(
   query: LegacyModuleQuery,
   request: ModuleRequest,

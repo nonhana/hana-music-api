@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 音乐百科基础信息
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/song/play/about/block/page`, data, createOption(query))
 }
 
+/**
+ * 音乐百科基础信息
+ */
 export default async function migratedSongWikiSummary(
   query: LegacyModuleQuery,
   request: ModuleRequest,

@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { AlbumSubQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 收藏/取消收藏专辑
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: AlbumSubQuery, request: ModuleRequest) => {
@@ -13,6 +12,9 @@ const legacyModule = (query: AlbumSubQuery, request: ModuleRequest) => {
   return request(`/api/album/${action}`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 收藏/取消收藏专辑
+ */
 export default async function migratedAlbumSub(
   query: AlbumSubQuery,
   request: ModuleRequest,

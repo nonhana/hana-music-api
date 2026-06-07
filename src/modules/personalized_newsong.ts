@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 推荐新歌
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/personalized/newsong`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 推荐新歌
+ */
 export default async function migratedPersonalizedNewsong(
   query: LegacyModuleQuery,
   request: ModuleRequest,

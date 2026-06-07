@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 最近联系
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -10,6 +9,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/msg/recentcontact/get`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 最近联系
+ */
 export default async function migratedMsgRecentcontact(
   query: LegacyModuleQuery,
   request: ModuleRequest,

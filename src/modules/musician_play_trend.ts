@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 音乐人歌曲播放趋势
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -17,6 +16,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   )
 }
 
+/**
+ * 音乐人歌曲播放趋势
+ */
 export default async function migratedMusicianPlayTrend(
   query: LegacyModuleQuery,
   request: ModuleRequest,

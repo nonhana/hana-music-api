@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { SearchQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 搜索
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: SearchQuery, request: ModuleRequest) => {
@@ -24,6 +23,9 @@ const legacyModule = (query: SearchQuery, request: ModuleRequest) => {
   return request(`/api/search/get`, data, createOption(query))
 }
 
+/**
+ * 搜索
+ */
 export default async function migratedSearch(
   query: SearchQuery,
   request: ModuleRequest,

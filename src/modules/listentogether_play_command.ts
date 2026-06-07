@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 一起听 发送播放状态
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -20,6 +19,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/listen/together/play/command/report`, data, createOption(query))
 }
 
+/**
+ * 一起听 发送播放状态
+ */
 export default async function migratedListentogetherPlayCommand(
   query: LegacyModuleQuery,
   request: ModuleRequest,

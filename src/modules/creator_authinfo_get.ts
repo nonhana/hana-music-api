@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 获取达人用户信息
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -10,6 +9,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/user/creator/authinfo/get`, data, createOption(query))
 }
 
+/**
+ * 获取达人用户信息
+ */
 export default async function migratedCreatorAuthinfoGet(
   query: LegacyModuleQuery,
   request: ModuleRequest,

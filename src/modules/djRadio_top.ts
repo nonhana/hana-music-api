@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-//电台排行榜获取
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -15,6 +14,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request('/api/expert/worksdata/works/top/get', data, createOption(query))
 }
 
+/**
+ * 电台排行榜获取
+ */
 export default async function migratedDjRadioTop(
   query: LegacyModuleQuery,
   request: ModuleRequest,

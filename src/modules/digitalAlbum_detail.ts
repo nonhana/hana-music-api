@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 数字专辑详情
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/vipmall/albumproduct/detail`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 数字专辑详情
+ */
 export default async function migratedDigitalAlbumDetail(
   query: LegacyModuleQuery,
   request: ModuleRequest,

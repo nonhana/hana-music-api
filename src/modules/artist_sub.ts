@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { ArtistSubQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 收藏与取消收藏歌手
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: ArtistSubQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: ArtistSubQuery, request: ModuleRequest) => {
   return request(`/api/artist/${action}`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 收藏与取消收藏歌手
+ */
 export default async function migratedArtistSub(
   query: ArtistSubQuery,
   request: ModuleRequest,

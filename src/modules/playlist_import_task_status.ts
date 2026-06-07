@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 歌单导入 - 任务状态
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -15,6 +14,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   )
 }
 
+/**
+ * 歌单导入 - 任务状态
+ */
 export default async function migratedPlaylistImportTaskStatus(
   query: LegacyModuleQuery,
   request: ModuleRequest,

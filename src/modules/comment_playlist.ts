@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { CommentThreadQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 歌单评论
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: CommentThreadQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: CommentThreadQuery, request: ModuleRequest) => {
   return request(`/api/v1/resource/comments/A_PL_0_${query.id}`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 歌单评论
+ */
 export default async function migratedCommentPlaylist(
   query: CommentThreadQuery,
   request: ModuleRequest,

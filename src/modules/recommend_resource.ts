@@ -2,13 +2,15 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 每日推荐歌单
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/v1/discovery/recommend/resource`, {}, createOption(query, 'weapi'))
 }
 
+/**
+ * 每日推荐歌单
+ */
 export default async function migratedRecommendResource(
   query: LegacyModuleQuery,
   request: ModuleRequest,

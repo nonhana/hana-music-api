@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 用户贡献内容
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -21,6 +20,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/rep/ugc/detail`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 用户贡献内容
+ */
 export default async function migratedUgcDetail(
   query: LegacyModuleQuery,
   request: ModuleRequest,

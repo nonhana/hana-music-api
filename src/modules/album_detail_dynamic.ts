@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { AlbumQuery } from '../types/modules.ts'
 
-// 专辑动态信息
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -12,6 +11,9 @@ const legacyModule = (query: AlbumQuery, request: ModuleRequest) => {
   return request(`/api/album/detail/dynamic`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 专辑动态信息
+ */
 export default async function migratedAlbumDetailDynamic(
   query: AlbumQuery,
   request: ModuleRequest,

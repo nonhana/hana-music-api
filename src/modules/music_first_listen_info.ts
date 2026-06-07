@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 回忆坐标
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/content/activity/music/first/listen/info`, data, createOption(query))
 }
 
+/**
+ * 回忆坐标
+ */
 export default async function migratedMusicFirstListenInfo(
   query: LegacyModuleQuery,
   request: ModuleRequest,

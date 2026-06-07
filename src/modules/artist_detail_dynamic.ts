@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { ArtistQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 歌手动态信息
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: ArtistQuery, request: ModuleRequest) => {
@@ -12,6 +11,9 @@ const legacyModule = (query: ArtistQuery, request: ModuleRequest) => {
   return request(`/api/artist/detail/dynamic`, data, createOption(query))
 }
 
+/**
+ * 歌手动态信息
+ */
 export default async function migratedArtistDetailDynamic(
   query: ArtistQuery,
   request: ModuleRequest,

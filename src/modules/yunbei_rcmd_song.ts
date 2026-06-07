@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 云贝推歌
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -16,6 +15,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/yunbei/rcmd/song/submit`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 云贝推歌
+ */
 export default async function migratedYunbeiRcmdSong(
   query: LegacyModuleQuery,
   request: ModuleRequest,

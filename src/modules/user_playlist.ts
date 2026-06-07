@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { UserScopedListQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 用户歌单
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: UserScopedListQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: UserScopedListQuery, request: ModuleRequest) => {
   return request(`/api/user/playlist`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 用户歌单
+ */
 export default async function migratedUserPlaylist(
   query: UserScopedListQuery,
   request: ModuleRequest,

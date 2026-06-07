@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// DIFM电台 - 收藏频道
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -12,6 +11,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/dj/difm/channel/subscribe`, data, createOption(query))
 }
 
+/**
+ * DIFM电台 - 收藏频道
+ */
 export default async function migratedDjDifmChannelSubscribe(
   query: LegacyModuleQuery,
   request: ModuleRequest,

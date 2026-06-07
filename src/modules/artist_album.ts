@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { ArtistPagedQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 歌手专辑列表
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: ArtistPagedQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: ArtistPagedQuery, request: ModuleRequest) => {
   return request(`/api/artist/albums/${query.id}`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 歌手专辑列表
+ */
 export default async function migratedArtistAlbum(
   query: ArtistPagedQuery,
   request: ModuleRequest,

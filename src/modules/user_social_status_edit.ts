@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 用户状态 - 编辑
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -20,6 +19,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   )
 }
 
+/**
+ * 用户状态 - 编辑
+ */
 export default async function migratedUserSocialStatusEdit(
   query: LegacyModuleQuery,
   request: ModuleRequest,

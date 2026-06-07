@@ -2,13 +2,15 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 精选电台
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/djradio/recommend/v1`, {}, createOption(query, 'weapi'))
 }
 
+/**
+ * 精选电台
+ */
 export default async function migratedDjRecommend(
   query: LegacyModuleQuery,
   request: ModuleRequest,

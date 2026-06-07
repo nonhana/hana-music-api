@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 歌手相关视频
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -18,6 +17,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/mlog/artist/video`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 歌手相关视频
+ */
 export default async function migratedArtistVideo(
   query: LegacyModuleQuery,
   request: ModuleRequest,

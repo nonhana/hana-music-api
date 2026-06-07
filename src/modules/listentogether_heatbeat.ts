@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 一起听 发送心跳
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/listen/together/heartbeat`, data, createOption(query))
 }
 
+/**
+ * 一起听 发送心跳
+ */
 export default async function migratedListentogetherHeatbeat(
   query: LegacyModuleQuery,
   request: ModuleRequest,

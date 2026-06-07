@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { UserSummaryQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 类别热门电台
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: UserSummaryQuery, request: ModuleRequest) => {
@@ -10,6 +9,9 @@ const legacyModule = (query: UserSummaryQuery, request: ModuleRequest) => {
   return request(`/api/user/level`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 类别热门电台
+ */
 export default async function migratedUserLevel(
   query: UserSummaryQuery,
   request: ModuleRequest,

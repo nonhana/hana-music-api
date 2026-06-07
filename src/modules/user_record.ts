@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { UserRecordQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 听歌排行
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: UserRecordQuery, request: ModuleRequest) => {
@@ -13,6 +12,9 @@ const legacyModule = (query: UserRecordQuery, request: ModuleRequest) => {
   return request(`/api/v1/play/record`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 听歌排行
+ */
 export default async function migratedUserRecord(
   query: UserRecordQuery,
   request: ModuleRequest,

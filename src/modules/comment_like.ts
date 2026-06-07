@@ -3,7 +3,6 @@ import type { CommentLikeQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-// 点赞与取消点赞评论
 import { resolveResourceType } from './_module-inputs.ts'
 
 const legacyModule = (query: CommentLikeQuery, request: ModuleRequest) => {
@@ -19,6 +18,9 @@ const legacyModule = (query: CommentLikeQuery, request: ModuleRequest) => {
   return request(`/api/v1/comment/${action}`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 点赞与取消点赞评论
+ */
 export default async function migratedCommentLike(
   query: CommentLikeQuery,
   request: ModuleRequest,

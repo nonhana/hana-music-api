@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { ArtistQuery } from '../types/modules.ts'
 
-// 歌手热门 50 首歌曲
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -12,6 +11,9 @@ const legacyModule = (query: ArtistQuery, request: ModuleRequest) => {
   return request(`/api/artist/top/song`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 歌手热门 50 首歌曲
+ */
 export default async function migratedArtistTopSong(
   query: ArtistQuery,
   request: ModuleRequest,

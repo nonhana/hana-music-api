@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { CommentEventQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 获取动态评论
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: CommentEventQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: CommentEventQuery, request: ModuleRequest) => {
   return request(`/api/v1/resource/comments/${query.threadId}`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 获取动态评论
+ */
 export default async function migratedCommentEvent(
   query: CommentEventQuery,
   request: ModuleRequest,

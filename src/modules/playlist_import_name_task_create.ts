@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 歌单导入 - 元数据/文字/链接导入
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -67,6 +66,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/playlist/import/name/task/create`, data, createOption(query))
 }
 
+/**
+ * 歌单导入 - 元数据/文字/链接导入
+ */
 export default async function migratedPlaylistImportNameTaskCreate(
   query: LegacyModuleQuery,
   request: ModuleRequest,

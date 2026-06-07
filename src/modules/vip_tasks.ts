@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 会员任务
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -10,6 +9,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/vipnewcenter/app/level/task/list`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 会员任务
+ */
 export default async function migratedVipTasks(
   query: LegacyModuleQuery,
   request: ModuleRequest,

@@ -2,8 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { PlaylistTrackAllQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 通过传过来的歌单id拿到所有歌曲数据
-// 支持传递参数limit来限制获取歌曲的数据数量 例如: /playlist/track/all?id=7044354223&limit=10
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 interface PlaylistTrackId {
@@ -44,6 +42,10 @@ const legacyModule = (query: PlaylistTrackAllQuery, request: ModuleRequest) => {
   )
 }
 
+/**
+ * 通过传过来的歌单id拿到所有歌曲数据
+ * 支持传递参数limit来限制获取歌曲的数据数量 例如: /playlist/track/all?id=7044354223&limit=10
+ */
 export default async function migratedPlaylistTrackAll(
   query: PlaylistTrackAllQuery,
   request: ModuleRequest,

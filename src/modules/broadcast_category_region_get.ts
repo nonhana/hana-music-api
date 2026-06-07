@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 广播电台 - 分类/地区信息
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -10,6 +9,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/voice/broadcast/category/region/get`, data, createOption(query))
 }
 
+/**
+ * 广播电台 - 分类/地区信息
+ */
 export default async function migratedBroadcastCategoryRegionGet(
   query: LegacyModuleQuery,
   request: ModuleRequest,

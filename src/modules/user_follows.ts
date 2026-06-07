@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { UserScopedListQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// TA关注的人(关注)
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: UserScopedListQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: UserScopedListQuery, request: ModuleRequest) => {
   return request(`/api/user/getfollows/${query.uid}`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * TA关注的人(关注)
+ */
 export default async function migratedUserFollows(
   query: UserScopedListQuery,
   request: ModuleRequest,

@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 多类型搜索
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -13,6 +12,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/search/suggest/multimatch`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 多类型搜索
+ */
 export default async function migratedSearchMultimatch(
   query: LegacyModuleQuery,
   request: ModuleRequest,

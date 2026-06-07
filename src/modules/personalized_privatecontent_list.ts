@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 独家放送列表
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/v2/privatecontent/list`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 独家放送列表
+ */
 export default async function migratedPersonalizedPrivatecontentList(
   query: LegacyModuleQuery,
   request: ModuleRequest,

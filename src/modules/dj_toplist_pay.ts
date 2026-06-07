@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
-// 付费精品
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -13,6 +12,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/djradio/toplist/pay`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 付费精品
+ */
 export default async function migratedDjToplistPay(
   query: LegacyModuleQuery,
   request: ModuleRequest,

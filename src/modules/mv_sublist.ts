@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 已收藏MV列表
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -14,6 +13,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/cloudvideo/allvideo/sublist`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 已收藏MV列表
+ */
 export default async function migratedMvSublist(
   query: LegacyModuleQuery,
   request: ModuleRequest,

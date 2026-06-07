@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { SongUrlQuery } from '../types/modules.ts'
 
-// 歌曲链接
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -35,6 +34,9 @@ const legacyModule = async (query: SongUrlQuery, request: ModuleRequest) => {
   }
 }
 
+/**
+ * 歌曲链接
+ */
 export default async function migratedSongUrl(
   query: SongUrlQuery,
   request: ModuleRequest,

@@ -1,7 +1,6 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { AlbumSongsaleboardQuery } from '../types/modules.ts'
 
-// 数字专辑&数字单曲-榜单
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
@@ -19,6 +18,9 @@ const legacyModule = (query: AlbumSongsaleboardQuery, request: ModuleRequest) =>
   return request(`/api/feealbum/songsaleboard/${type}/type`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 数字专辑&数字单曲-榜单
+ */
 export default async function migratedAlbumSongsaleboard(
   query: AlbumSongsaleboardQuery,
   request: ModuleRequest,

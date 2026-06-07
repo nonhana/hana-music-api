@@ -2,7 +2,6 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
-// 云贝推歌历史记录
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
@@ -15,6 +14,9 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/yunbei/rcmd/song/history/list`, data, createOption(query, 'weapi'))
 }
 
+/**
+ * 云贝推歌历史记录
+ */
 export default async function migratedYunbeiRcmdSongHistory(
   query: LegacyModuleQuery,
   request: ModuleRequest,
