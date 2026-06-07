@@ -3,6 +3,7 @@ import type { ArtistSongsQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: ArtistSongsQuery, request: ModuleRequest) => {
   const data = {
     id: query.id,

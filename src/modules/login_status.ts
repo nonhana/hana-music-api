@@ -3,6 +3,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {}
   let result = await request(`/api/w/nuser/account/get`, data, createOption(query, 'weapi'))

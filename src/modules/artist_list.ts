@@ -20,6 +20,7 @@ import { createOption } from '../core/options.ts'
     initial 取值 a-z/A-Z
 */
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     initial: isNaN(query.initial)

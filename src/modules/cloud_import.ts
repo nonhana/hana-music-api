@@ -4,6 +4,7 @@ import type { CloudImportQuery } from '../types/modules.ts'
 // 云盘导入歌曲
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = async (query: CloudImportQuery, request: ModuleRequest) => {
   query.id = query.id || -2
   query.artist = query.artist || '未知'

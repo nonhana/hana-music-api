@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 // 首页轮播图
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const clientTypeMap: Record<string, string> = {
     0: 'pc',

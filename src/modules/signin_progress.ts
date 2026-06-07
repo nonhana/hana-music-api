@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 签到进度
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     moduleId: query.moduleId || '1207signin-1207signin',

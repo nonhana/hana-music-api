@@ -7,6 +7,7 @@ import type { CloudQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 import uploadPlugin from '../plugins/song-upload.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = async (query: CloudQuery, request: ModuleRequest) => {
   if (!query.songFile) {
     throw {

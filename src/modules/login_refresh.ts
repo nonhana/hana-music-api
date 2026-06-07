@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 登录刷新
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
   let result = await request(`/api/login/token/refresh`, {}, createOption(query))
   if (result.body.code === 200) {

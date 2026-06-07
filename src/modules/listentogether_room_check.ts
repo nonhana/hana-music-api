@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 一起听 房间情况
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     roomId: query.roomId,

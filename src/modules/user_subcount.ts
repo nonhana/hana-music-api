@@ -4,6 +4,7 @@ import type { UserSummaryQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 收藏计数
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: UserSummaryQuery, request: ModuleRequest) => {
   return request(`/api/subcount`, {}, createOption(query, 'weapi'))
 }

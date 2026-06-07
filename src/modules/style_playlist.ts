@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 曲风-歌单
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     cursor: query.cursor || 0,

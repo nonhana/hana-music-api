@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 领取会员成长值
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     taskIds: query.ids,

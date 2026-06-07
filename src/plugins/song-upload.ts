@@ -53,7 +53,7 @@ export default async function uploadSongPlugin(query: UploadSongQuery, request: 
       method: 'POST',
       headers: {
         'x-nos-token': String(tokenRes.body.result.token),
-        'Content-MD5': String(query.songFile.md5 ?? ''),
+        'Content-MD5': query.songFile.md5 ?? '',
         'Content-Type': 'audio/mpeg',
         'Content-Length': String(query.songFile.size),
       },

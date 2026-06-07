@@ -5,8 +5,9 @@ import type { DynamicJsonRecord } from '../types/upstream.ts'
 import { createOption } from '../core/options.ts'
 import { cookieToJson, isRecord } from '../core/utils.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: ApiQuery, request: ModuleRequest) => {
-  const uri = String(query.uri ?? '')
+  const uri = query.uri ?? ''
   let data: DynamicJsonRecord = {}
   try {
     data =

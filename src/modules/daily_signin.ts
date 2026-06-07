@@ -10,6 +10,7 @@ import { createOption } from '../core/options.ts'
     未登录 {'android': {'code': 301}, 'web': {'code': 301}}
 */
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     type: query.type || 0,

@@ -6,11 +6,12 @@ import type { RegisterCellphoneQuery } from '../types/modules.ts'
 
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: RegisterCellphoneQuery, request: ModuleRequest) => {
   const data = {
     captcha: query.captcha,
     phone: query.phone,
-    password: createHash('md5').update(String(query.password)).digest('hex'),
+    password: createHash('md5').update(query.password).digest('hex'),
     nickname: query.nickname,
     countrycode: query.countrycode || '86',
     force: 'false',

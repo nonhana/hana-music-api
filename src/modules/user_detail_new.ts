@@ -4,6 +4,7 @@ import type { UserDetailQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 用户详情
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = async (query: UserDetailQuery, request: ModuleRequest) => {
   const data = {
     all: 'true',

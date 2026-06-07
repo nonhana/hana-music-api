@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 // 粉丝来源
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     startTime: query.startTime || Date.now() - 7 * 24 * 3600 * 1000,

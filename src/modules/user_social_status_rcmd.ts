@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 // 用户状态 - 相同状态的用户
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   return request(`/api/social/user/status/rcmd`, {}, createOption(query))
 }

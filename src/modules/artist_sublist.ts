@@ -4,6 +4,7 @@ import type { ArtistSublistQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 关注歌手列表
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: ArtistSublistQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 25,

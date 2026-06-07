@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["typescript", "unicorn", "node"],
+  "plugins": ["typescript", "unicorn", "node", "import"],
   "env": {
     "builtin": true,
     "node": true,
@@ -17,11 +17,19 @@
     "unicorn/prefer-node-protocol": "error",
     "unicorn/prefer-module": "error",
     "unicorn/prefer-top-level-await": "error",
-    "@typescript-eslint/no-explicit-any": "warn",
-    "@typescript-eslint/ban-ts-comment": [
+    "typescript/no-explicit-any": "warn",
+    "typescript/ban-ts-comment": [
       "error",
       {
         "minimumDescriptionLength": 10
+      }
+    ],
+    "typescript/no-unsafe-type-assertion": "off",
+    "import/newline-after-import": "error",
+    "import/no-unassigned-import": [
+      "error",
+      {
+        "allow": ["**/*.css"]
       }
     ]
   },

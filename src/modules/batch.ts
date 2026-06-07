@@ -4,6 +4,7 @@ import type { BatchQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 批量请求接口
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: BatchQuery, request: ModuleRequest) => {
   const data: Record<string, unknown> = {}
   Object.keys(query).forEach((i) => {

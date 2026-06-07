@@ -4,6 +4,7 @@ import type { UserScopedListQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 用户电台节目
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: UserScopedListQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 30,

@@ -4,6 +4,7 @@ import type { UserDetailQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 用户详情
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = async (query: UserDetailQuery, request: ModuleRequest) => {
   const res = await request(`/api/v1/user/detail/${query.uid}`, {}, createOption(query, 'weapi'))
   const result = JSON.stringify(res).replace(/avatarImgId_str/g, 'avatarImgIdStr')

@@ -4,6 +4,7 @@ import type { ArtistQuery } from '../types/modules.ts'
 // 歌手热门 50 首歌曲
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: ArtistQuery, request: ModuleRequest) => {
   const data = {
     id: query.id,

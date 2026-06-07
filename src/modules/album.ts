@@ -4,6 +4,7 @@ import type { AlbumQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 专辑内容
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: AlbumQuery, request: ModuleRequest) => {
   return request(`/api/v1/album/${query.id}`, {}, createOption(query, 'weapi'))
 }

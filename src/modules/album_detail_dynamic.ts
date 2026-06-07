@@ -4,6 +4,7 @@ import type { AlbumQuery } from '../types/modules.ts'
 // 专辑动态信息
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: AlbumQuery, request: ModuleRequest) => {
   const data = {
     id: query.id,

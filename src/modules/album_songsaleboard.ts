@@ -4,6 +4,7 @@ import type { AlbumSongsaleboardQuery } from '../types/modules.ts'
 // 数字专辑&数字单曲-榜单
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: AlbumSongsaleboardQuery, request: ModuleRequest) => {
   let data: Record<string, unknown> = {
     albumType: query.albumType || 0, //0为数字专辑,1为数字单曲

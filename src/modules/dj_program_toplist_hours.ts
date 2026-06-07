@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 // 电台24小时节目榜
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 100,

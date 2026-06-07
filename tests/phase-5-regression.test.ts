@@ -461,6 +461,7 @@ function createRequestSpy(
   readonly requestHandler: ModuleRequest
 } {
   const calls: CapturedRequest[] = []
+  /* oxlint-disable typescript/no-unsafe-type-assertion -- Test double matches ModuleRequest at runtime. */
   const requestHandler = (async (uri, data, options = {}) => {
     calls.push({
       data,
@@ -470,6 +471,7 @@ function createRequestSpy(
 
     return responder(uri, data, options)
   }) as ModuleRequest
+  /* oxlint-enable typescript/no-unsafe-type-assertion */
 
   return {
     calls,

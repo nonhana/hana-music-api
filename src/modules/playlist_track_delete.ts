@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 收藏单曲到歌单 从歌单删除歌曲
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
   const ids = String(query.ids ?? '')
   const data = {

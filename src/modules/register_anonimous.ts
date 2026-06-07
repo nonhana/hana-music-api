@@ -5,6 +5,7 @@ import type { RegisterAnonymousQuery } from '../types/modules.ts'
 
 import { setRuntimeState } from '../core/runtime.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const ID_XOR_KEY_1 = '3go8&$8*3*3h0k(2)2'
 
 import { createOption } from '../core/options.ts'

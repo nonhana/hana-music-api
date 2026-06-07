@@ -4,6 +4,7 @@ import type { ArtistPagedQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 歌手相关MV
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: ArtistPagedQuery, request: ModuleRequest) => {
   const data = {
     artistId: query.id,

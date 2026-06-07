@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 // mv简要百科信息
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     mvId: query.id,

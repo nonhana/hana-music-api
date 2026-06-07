@@ -5,6 +5,7 @@ import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 热门评论
 import { resolveResourceType } from './_module-inputs.ts'
+
 const legacyModule = (query: CommentHotQuery, request: ModuleRequest) => {
   const resourceType = resolveResourceType(query.type)
   const data = {

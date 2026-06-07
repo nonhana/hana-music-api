@@ -5,6 +5,7 @@ import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 点赞与取消点赞评论
 import { resolveResourceType } from './_module-inputs.ts'
+
 const legacyModule = (query: CommentLikeQuery, request: ModuleRequest) => {
   const action = Number(query.t) === 1 ? 'like' : 'unlike'
   const resourceType = resolveResourceType(query.type)

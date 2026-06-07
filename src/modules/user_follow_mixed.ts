@@ -4,6 +4,7 @@ import type { UserFollowMixedQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 当前账号关注的用户/歌手
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: UserFollowMixedQuery, request: ModuleRequest) => {
   const size = query.size || 30
   const cursor = query.cursor || 0

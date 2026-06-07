@@ -26,6 +26,7 @@ import { createOption } from '../core/options.ts'
     旅途|城市 12
 */
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     cateId: query.type,

@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 import uploadPlugin from '../plugins/upload.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
   if (!query.imgFile) {
     return {

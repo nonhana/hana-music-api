@@ -4,6 +4,7 @@ import type { AlbumListQuery } from '../types/modules.ts'
 // 数字专辑-新碟上架
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: AlbumListQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 30,

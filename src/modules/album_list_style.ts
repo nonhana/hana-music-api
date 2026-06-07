@@ -4,6 +4,7 @@ import type { AlbumListStyleQuery } from '../types/modules.ts'
 // 数字专辑-语种风格馆
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: AlbumListStyleQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 10,

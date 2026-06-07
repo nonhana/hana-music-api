@@ -44,7 +44,7 @@ export async function createRequest(
   const cookie = processCookieObject(cookieInput, uri, state)
   headers.Cookie = cookieObjToString(cookie)
 
-  const csrfToken = String(cookie.__csrf ?? '')
+  const csrfToken = String(cookie['__csrf'] ?? '')
   const crypto = resolveCrypto(options.crypto)
   const payload = {
     ...data,
@@ -196,8 +196,8 @@ function processCookieObject(cookie: CookieRecord, uri: string, state: RuntimeSt
   const processedCookie: CookieRecord = {
     ...cookie,
     __remember_me: 'true',
-    _ntes_nnid: String(cookie._ntes_nnid ?? `${randomNuid},${Date.now()}`),
-    _ntes_nuid: String(cookie._ntes_nuid ?? randomNuid),
+    _ntes_nnid: String(cookie['_ntes_nnid'] ?? `${randomNuid},${Date.now()}`),
+    _ntes_nuid: String(cookie['_ntes_nuid'] ?? randomNuid),
     WEVNSM: String(cookie.WEVNSM ?? '1.0.0'),
     WNMCID: String(cookie.WNMCID ?? WNMCID),
     appver: String(cookie.appver ?? osProfile.appver),

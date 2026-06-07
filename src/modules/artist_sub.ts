@@ -4,6 +4,7 @@ import type { ArtistSubQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 收藏与取消收藏歌手
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: ArtistSubQuery, request: ModuleRequest) => {
   const action = Number(query.t) === 1 ? 'sub' : 'unsub'
   const data = {

@@ -4,6 +4,7 @@ import type { UserRecordQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 听歌排行
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: UserRecordQuery, request: ModuleRequest) => {
   const data = {
     uid: query.uid,

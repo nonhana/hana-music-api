@@ -13,7 +13,7 @@ const legacyModule = async (query: AudioMatchQuery, _request: ModuleRequest) => 
   const response = await fetch(
     `https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=${
       query.duration
-    }&rawdata=${encodeURIComponent(String(query.audioFP ?? ''))}&times=1&decrypt=1`,
+    }&rawdata=${encodeURIComponent(query.audioFP)}&times=1&decrypt=1`,
   )
   const res = readAudioMatchResponse(await response.json())
   return {

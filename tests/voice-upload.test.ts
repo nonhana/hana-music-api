@@ -43,6 +43,49 @@ describe('voice upload module', () => {
 
   test('should complete multipart upload and forward voice metadata', async () => {
     const requestCalls: Array<{ data: Record<string, unknown>; uri: string }> = []
+    /* oxlint-disable typescript/no-unsafe-type-assertion -- Test double matches ModuleRequest at runtime. */
+    const requestHandler = (async (uri, data) => {
+      requestCalls.push({ data, uri })
+
+      if (uri === '/api/nos/token/alloc') {
+        return {
+          body: {
+            result: {
+              docId: 'doc-1',
+              objectKey: '/voice/demo',
+              token: 'nos-token',
+            },
+          },
+          cookie: [],
+          status: 200,
+        }
+      }
+
+      if (uri === '/api/voice/workbench/voice/batch/upload/preCheck') {
+        return {
+          body: {
+            code: 200,
+          },
+          cookie: [],
+          status: 200,
+        }
+      }
+
+      if (uri === '/api/voice/workbench/voice/batch/upload/v2') {
+        return {
+          body: {
+            data: {
+              voiceId: 'voice-1',
+            },
+          },
+          cookie: [],
+          status: 200,
+        }
+      }
+
+      throw new TypeError(`Unexpected request uri: ${uri}`)
+    }) as ModuleRequest
+    /* oxlint-enable typescript/no-unsafe-type-assertion */
     const response = await voiceUpload(
       {
         autoPublish: 1,
@@ -57,47 +100,7 @@ describe('voice upload module', () => {
         },
         songName: 'demo-track',
       },
-      (async (uri, data) => {
-        requestCalls.push({ data, uri })
-
-        if (uri === '/api/nos/token/alloc') {
-          return {
-            body: {
-              result: {
-                docId: 'doc-1',
-                objectKey: '/voice/demo',
-                token: 'nos-token',
-              },
-            },
-            cookie: [],
-            status: 200,
-          }
-        }
-
-        if (uri === '/api/voice/workbench/voice/batch/upload/preCheck') {
-          return {
-            body: {
-              code: 200,
-            },
-            cookie: [],
-            status: 200,
-          }
-        }
-
-        if (uri === '/api/voice/workbench/voice/batch/upload/v2') {
-          return {
-            body: {
-              data: {
-                voiceId: 'voice-1',
-              },
-            },
-            cookie: [],
-            status: 200,
-          }
-        }
-
-        throw new TypeError(`Unexpected request uri: ${uri}`)
-      }) as ModuleRequest,
+      requestHandler,
     )
 
     expect(response.status).toBe(200)

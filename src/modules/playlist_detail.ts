@@ -4,6 +4,7 @@ import type { PlaylistDetailQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 歌单详情
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: PlaylistDetailQuery, request: ModuleRequest) => {
   const data = {
     id: query.id,

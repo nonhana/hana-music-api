@@ -4,6 +4,7 @@ import type { CommentThreadQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // MV评论
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: CommentThreadQuery, request: ModuleRequest) => {
   const data = {
     rid: query.id,

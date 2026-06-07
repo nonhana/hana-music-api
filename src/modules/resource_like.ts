@@ -5,6 +5,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 import { resolveResourceType } from './_module-inputs.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   query.t = Number(query.t) === 1 ? 'like' : 'unlike'
   query.type = resolveResourceType(query.type)

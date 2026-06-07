@@ -4,6 +4,7 @@ import type { CommentFloorQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 import { resolveResourceType } from './_module-inputs.ts'
+
 const legacyModule = (query: CommentFloorQuery, request: ModuleRequest) => {
   const resourceType = resolveResourceType(query.type)
   const data = {

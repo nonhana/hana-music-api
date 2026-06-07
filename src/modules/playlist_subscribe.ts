@@ -5,6 +5,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 import { APP_CONF } from '../core/config.ts'
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const shouldSubscribe = Number(query.t) === 1
   const path = shouldSubscribe ? 'subscribe' : 'unsubscribe'

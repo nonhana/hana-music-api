@@ -4,6 +4,10 @@ import type { ModuleRequest } from '../src/types/index.ts'
 
 import audioMatch from '../src/modules/audio_match.ts'
 
+const requestHandler: ModuleRequest = async () => {
+  throw new Error('audio_match should not use ModuleRequest for upstream fetch')
+}
+
 describe('audio match module', () => {
   const originalFetch = globalThis.fetch
 
@@ -21,9 +25,7 @@ describe('audio match module', () => {
         audioFP: 'fingerprint-value',
         duration: 3,
       },
-      (async () => {
-        throw new Error('audio_match should not use ModuleRequest for upstream fetch')
-      }) as ModuleRequest,
+      requestHandler,
     )
 
     expect(response.status).toBe(200)
@@ -51,39 +53,40 @@ describe('audio match module', () => {
   })
 })
 
-function createFetchMock(originalFetch: typeof fetch): typeof fetch {
-  const mockFetch = async (_input: string | Request | URL, _init?: RequestInit) =>
-    new Response(
-      JSON.stringify({
-        code: 200,
-        data: {
-          noMatchReason: 10,
-          queryId: 'query-1',
-          result: [
-            {
-              song: {
-                album: {
-                  name: 'Album',
-                },
-                id: 123,
-                name: 'Song',
+async function mockAudioMatchFetch(_input: string | Request | URL, _init?: RequestInit) {
+  return new Response(
+    JSON.stringify({
+      code: 200,
+      data: {
+        noMatchReason: 10,
+        queryId: 'query-1',
+        result: [
+          {
+            song: {
+              album: {
+                name: 'Album',
               },
-              startTime: 1500,
+              id: 123,
+              name: 'Song',
             },
-          ],
-          type: 0,
-        },
-        message: '',
-      }),
-      {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        status: 200,
+            startTime: 1500,
+          },
+        ],
+        type: 0,
       },
-    )
+      message: '',
+    }),
+    {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      status: 200,
+    },
+  )
+}
 
-  return Object.assign(mockFetch, {
+function createFetchMock(originalFetch: typeof fetch): typeof fetch {
+  return Object.assign(mockAudioMatchFetch, {
     preconnect: originalFetch.preconnect.bind(originalFetch),
   }) as typeof fetch
 }

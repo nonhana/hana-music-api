@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 import { resolveResourceType } from './_module-inputs.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   query.type = resolveResourceType(query.type)
   const threadId = `${String(query.type ?? '')}${String(query.sid ?? '')}`

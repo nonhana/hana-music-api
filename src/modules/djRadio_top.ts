@@ -4,6 +4,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 //电台排行榜获取
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     djRadioId: query.djRadioId || null, // 电台id

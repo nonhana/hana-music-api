@@ -4,6 +4,7 @@ import type { UserScopedListQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // TA关注的人(关注)
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: UserScopedListQuery, request: ModuleRequest) => {
   const data = {
     offset: query.offset || 0,

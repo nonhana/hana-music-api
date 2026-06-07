@@ -4,6 +4,7 @@ import type { UserScopedQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 用户创建的电台
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: UserScopedQuery, request: ModuleRequest) => {
   const data = {
     userId: query.uid,

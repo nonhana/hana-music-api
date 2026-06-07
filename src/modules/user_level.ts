@@ -4,6 +4,7 @@ import type { UserSummaryQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 类别热门电台
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: UserSummaryQuery, request: ModuleRequest) => {
   const data = {}
   return request(`/api/user/level`, data, createOption(query, 'weapi'))

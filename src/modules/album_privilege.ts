@@ -4,6 +4,7 @@ import type { AlbumQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 获取专辑歌曲的音质
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: AlbumQuery, request: ModuleRequest) => {
   const data = {
     id: query.id,

@@ -5,6 +5,7 @@ import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 发送与删除评论
 import { resolveResourceType } from './_module-inputs.ts'
+
 const legacyModule = (query: CommentQuery, request: ModuleRequest) => {
   const actionMap: Record<number, string> = {
     1: 'add',

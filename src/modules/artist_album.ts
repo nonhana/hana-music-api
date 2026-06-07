@@ -4,6 +4,7 @@ import type { ArtistPagedQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 歌手专辑列表
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: ArtistPagedQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 30,

@@ -4,6 +4,7 @@ import type { CommentEventQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 获取动态评论
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: CommentEventQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 20,

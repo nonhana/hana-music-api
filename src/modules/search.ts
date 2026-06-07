@@ -4,6 +4,7 @@ import type { SearchQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 搜索
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: SearchQuery, request: ModuleRequest) => {
   if (String(query.type ?? '') === '2000') {
     const data = {

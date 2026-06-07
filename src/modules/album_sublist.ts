@@ -4,6 +4,7 @@ import type { AlbumSublistQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 已收藏专辑列表
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: AlbumSublistQuery, request: ModuleRequest) => {
   const data = {
     limit: query.limit || 25,

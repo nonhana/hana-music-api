@@ -4,6 +4,7 @@ import type { UserEventQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 用户动态
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: UserEventQuery, request: ModuleRequest) => {
   const data = {
     getcounts: true,

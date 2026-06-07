@@ -5,6 +5,7 @@ import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 // 评论
 import { resolveResourceType } from './_module-inputs.ts'
+
 const legacyModule = (query: CommentNewQuery, request: ModuleRequest) => {
   const resourceType = resolveResourceType(query.type)
   const threadId = `${resourceType}${String(query.id)}`

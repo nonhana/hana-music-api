@@ -2,6 +2,7 @@ import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const pkg = { version: '0.0.0' }
 const legacyModule = (_query: LegacyModuleQuery, _request: ModuleRequest) => {
   return Promise.resolve({

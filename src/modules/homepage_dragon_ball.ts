@@ -7,6 +7,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 // !需要登录或者游客登录，非登录返回 []
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {}
 

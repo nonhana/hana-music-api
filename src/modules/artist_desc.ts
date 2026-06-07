@@ -4,6 +4,7 @@ import type { ArtistQuery } from '../types/modules.ts'
 import { createOption } from '../core/options.ts'
 // 歌手介绍
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: ArtistQuery, request: ModuleRequest) => {
   const data = {
     id: query.id,

@@ -6,6 +6,7 @@ import type { LegacyModuleQuery } from '../types/modules.ts'
 // query.refresh 是否刷新数据
 import { createOption } from '../core/options.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = { refresh: query.refresh || false, cursor: query.cursor }
   return request(`/api/homepage/block/page`, data, createOption(query, 'weapi'))

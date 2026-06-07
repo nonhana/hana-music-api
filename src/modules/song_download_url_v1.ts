@@ -6,6 +6,7 @@ import { createOption } from '../core/options.ts'
 // 此版本不再采用 br 作为音质区分的标准
 // 而是采用 standard, exhigh, lossless, hires, jyeffect(高清环绕声), sky(沉浸环绕声), jymaster(超清母带) 进行音质判断
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+
 const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
   const data = {
     id: query.id,
