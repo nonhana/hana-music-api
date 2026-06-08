@@ -1,9 +1,9 @@
 import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
 import type { LegacyModuleQuery } from '../types/modules.ts'
 
+import { SERVICE_VERSION } from '../core/service-metadata.ts'
 import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
 
-const pkg = { version: '0.0.0' }
 const legacyModule = (_query: LegacyModuleQuery, _request: ModuleRequest) => {
   return Promise.resolve({
     code: 200,
@@ -11,7 +11,7 @@ const legacyModule = (_query: LegacyModuleQuery, _request: ModuleRequest) => {
     body: {
       code: 200,
       data: {
-        version: pkg.version,
+        version: SERVICE_VERSION,
       },
     },
   })

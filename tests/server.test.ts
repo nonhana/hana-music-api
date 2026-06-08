@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import { mkdtempSync, mkdirSync, rmSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -11,9 +11,23 @@ import { createServer } from '../src/server/create-server.ts'
 import { parseModuleRoute } from '../src/server/module-loader.ts'
 
 const REAL_MODULES_DIRECTORY = resolve(dirname(fileURLToPath(import.meta.url)), '../src/modules')
+const PACKAGE_VERSION = readPackageVersion()
 
 async function readJson(response: Response): Promise<unknown> {
   return response.json()
+}
+
+function readPackageVersion(): string {
+  const packageJsonPath = resolve(dirname(fileURLToPath(import.meta.url)), '../package.json')
+  const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8')) as {
+    readonly version?: string
+  }
+
+  if (typeof packageJson.version !== 'string' || packageJson.version.length === 0) {
+    throw new TypeError(`Missing package version in ${packageJsonPath}`)
+  }
+
+  return packageJson.version
 }
 
 describe('createServer', () => {
@@ -42,6 +56,19 @@ describe('createServer', () => {
       ok: true,
       name: 'hana-music-api',
       version: 'test-version',
+    })
+  })
+
+  test('should expose the default package version in the health route', async () => {
+    const app = await createServer()
+    const response = await app.request('/health')
+    const body = await readJson(response)
+
+    expect(response.status).toBe(200)
+    expect(body).toEqual({
+      ok: true,
+      name: 'hana-music-api',
+      version: PACKAGE_VERSION,
     })
   })
 
@@ -442,6 +469,24 @@ describe('createServer', () => {
         ua: '',
       },
       uri: '/api/search/voice/get',
+    })
+  })
+
+  test('should expose the package version through the real inner_version module', async () => {
+    const app = await createServer({
+      cacheEnabled: false,
+      modulesDirectory: REAL_MODULES_DIRECTORY,
+    })
+
+    const response = await app.request('http://localhost/inner/version')
+    const body = await readJson(response)
+
+    expect(response.status).toBe(200)
+    expect(body).toEqual({
+      code: 200,
+      data: {
+        version: PACKAGE_VERSION,
+      },
     })
   })
 

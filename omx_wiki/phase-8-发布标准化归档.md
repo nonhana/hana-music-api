@@ -12,7 +12,7 @@ schemaVersion: 1
 
 # Phase 8：发布标准化归档
 
-- **状态**：partially-landed
+- **状态**：completed
 - **历史窗口**：把迁移后的项目整理成可部署、可验证、可回滚的 Bun HTTP 服务
 - **原始来源**：`stash/phase-8-bun-pm2-release-plan.md`、`stash/phase-8-release-checklist.md`
 
@@ -38,17 +38,18 @@ Phase 8 的目标非常明确：
 - `src/app/cli.ts` 已在主入口中处理匿名 token 初始化，并补上 `SIGINT` / `SIGTERM` 优雅退出。
 - 当前仓库可以成功执行 `bun run docs:build`，并在本地启动后返回 `/health` 与 `/docs`。
 
-## 为什么还不能算完全闭环
+## 这次收口完成了什么
 
-虽然“可部署服务形态”已经基本成立，但正式发布层面还有几步没有完成：
+本轮以 `0.0.1` 为首个正式源码服务版本，补齐了 Phase 8 最后的发布闭环：
 
-1. **仓库还没有版本 tag**，无法证明首个稳定源码版本已经正式发出。
-2. **服务默认版本字符串仍是 `phase-6`**，没有切到正式版本元信息策略。
-3. **`docs/changelog.md` 还未形成与版本发布同步的演进记录。**
+1. **仓库具备正式版本元信息**：`package.json` 明确声明 `0.0.1`。
+2. **运行时版本出口已统一**：`/health` 与 `/inner/version` 默认返回 `0.0.1`。
+3. **发布文档已同步**：`README.md`、`docs/changelog.md` 与部署/回滚说明已改为正式发布口径。
+4. **发布前 gate 已验证**：`bun run verify` 全绿，并通过本地 `/health`、`/inner/version`、`/docs` 与代表性业务接口冒烟。
 
-因此，Phase 8 当前更适合被描述为：
+因此，Phase 8 现在更准确的描述是：
 
-> **发布标准化主体已落地，release closeout 尚未完成。**
+> **发布标准化与首次服务版本收口已经完成，`v0.0.1` 成为后续维护与升级的起点。**
 
 ## `phase-8-release-checklist` 的当前身份
 
@@ -62,7 +63,7 @@ Phase 8 的目标非常明确：
 - 明确 Bun 是生产运行时，而非 Node.js 回退方案
 - 明确 docs build 是显式步骤，而不是安装副作用
 - 明确 PM2 的单实例 fork 是当前安全选择
-- 为未来真正打 `v0.1.0` 之类标签提供直接检查口径
+- 为后续服务版本继续沿用 tag、verify 与回滚锚点提供直接检查口径
 
 ## 后续接替文档
 

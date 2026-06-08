@@ -12,7 +12,7 @@ schemaVersion: 1
 
 # Phase 8 归档摘要（发布标准化）
 
-- 状态：`partially-landed`
+- 状态：`completed`
 - 主档：`omx_wiki/phase-8-发布标准化归档.md`
 - 原始来源：`stash/phase-8-bun-pm2-release-plan.md`、`stash/phase-8-release-checklist.md`
 
@@ -24,11 +24,12 @@ schemaVersion: 1
 - README 部署/回滚/健康检查说明
 - CLI 匿名 token 初始化与优雅退出
 
-## 仍未闭环
+## 本轮收口结果
 
-- 仓库还没有正式版本 tag
-- 服务默认版本元信息仍是 `phase-6`
-- 发布历史与 release 证据仍需最后收口
+- `package.json` 已声明 `0.0.1`
+- `/health` 与 `/inner/version` 已统一为 `0.0.1`
+- `README` 与 `docs/changelog.md` 已改为正式服务发布口径
+- `bun run verify` 已重新回到全绿状态
 
 ## 关联页
 

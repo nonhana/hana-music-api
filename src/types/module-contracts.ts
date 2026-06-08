@@ -114,7 +114,6 @@ export interface ModuleOverrideContractMap {
   user_account: ModuleContractDefinition<UserAccountQuery>
   user_audio: ModuleContractDefinition<UserScopedQuery>
   user_detail: ModuleContractDefinition<UserDetailQuery>
-  user_detail_new: ModuleContractDefinition<UserDetailQuery>
   user_dj: ModuleContractDefinition<UserScopedListQuery>
   user_event: ModuleContractDefinition<UserEventQuery>
   user_follow_mixed: ModuleContractDefinition<UserFollowMixedQuery>

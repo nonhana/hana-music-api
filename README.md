@@ -55,7 +55,7 @@ curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=5"
 ```bash
 git clone https://github.com/<owner>/hana-music-api.git
 cd hana-music-api
-git checkout v0.1.0
+git checkout v0.0.1
 
 bun install --frozen-lockfile
 bun run docs:build
@@ -97,11 +97,11 @@ curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=5"
 
 ## 升级
 
-切换到新标签后，重新安装锁定依赖并构建文档，再重载进程：
+切换到新的发布标签后，重新安装锁定依赖并构建文档，再重载进程：
 
 ```bash
 git fetch --tags
-git checkout v0.1.1
+git checkout <new-tag>
 
 bun install --frozen-lockfile
 bun run docs:build
@@ -109,12 +109,14 @@ pm2 reload hana-music-api
 curl -f http://127.0.0.1:3021/health
 ```
 
+将 `<new-tag>` 替换为目标发布标签，例如后续的 `v0.0.2`。
+
 ## 回滚
 
-回滚流程与升级一致，只是切换回旧标签：
+首次正式发布前，建议先在当前生产状态上创建一个回滚锚点标签，例如 `pre-v0.0.1-deploy-20260608`。回滚流程与升级一致，只是切换回这个已记录的稳定锚点：
 
 ```bash
-git checkout v0.1.0
+git checkout pre-v0.0.1-deploy-20260608
 
 bun install --frozen-lockfile
 bun run docs:build
@@ -194,6 +196,16 @@ bun run fmt
 bun run fmt:check
 bun run docs:build
 bun run docs:preview
+```
+
+首次正式发布前，建议至少执行以下检查：
+
+```bash
+bun run verify
+bun start
+curl -f http://127.0.0.1:3021/health
+curl http://127.0.0.1:3021/inner/version
+curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=1"
 ```
 
 ## 使用说明

@@ -12,12 +12,12 @@ import type {
 import { MemoryResponseCache } from '../core/cache.ts'
 import { createRequest } from '../core/request.ts'
 import { getRuntimeState } from '../core/runtime.ts'
+import { SERVICE_VERSION } from '../core/service-metadata.ts'
 import { cookieToJson } from '../core/utils.ts'
 import { appendResponseCookies, parseRequestCookies } from './cookies.ts'
 import { parseRequestBody } from './parse-body.ts'
 
 const DEFAULT_SERVICE_NAME = 'hana-music-api'
-const DEFAULT_SERVICE_VERSION = 'phase-6'
 const WELCOME_PAGE_STYLE = `
   :root {
     color-scheme: light;
@@ -167,7 +167,7 @@ export interface RegisteredRouteContext {
  */
 export function registerBaseRoutes(app: Hono, options: CreateServerOptions = {}): void {
   const serviceName = options.serviceName ?? DEFAULT_SERVICE_NAME
-  const serviceVersion = options.serviceVersion ?? DEFAULT_SERVICE_VERSION
+  const serviceVersion = options.serviceVersion ?? SERVICE_VERSION
 
   app.get('/', (context) => {
     return context.html(
