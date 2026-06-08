@@ -29,6 +29,9 @@ type StripExecutionKeys<T> = Omit<RemoveIndexSignature<T>, keyof ModuleCallConfi
   DisallowExecutionKeys
 
 type HasExplicitKeys<T> = keyof RemoveIndexSignature<T> extends never ? false : true
+type RequiredKeys<T> = {
+  [K in keyof T]-?: {} extends Pick<T, K> ? never : K
+}[keyof T]
 
 type SdkFallbackQuery = Record<string, unknown> & DisallowExecutionKeys
 
@@ -37,10 +40,10 @@ export type SdkQueryOf<K extends ModuleIdentifier> =
     ? StripExecutionKeys<ModuleQueryOf<K>>
     : SdkFallbackQuery
 
-export type SdkModuleInvoker<K extends ModuleIdentifier> = (
-  query: SdkQueryOf<K>,
-  config?: ModuleCallConfig,
-) => Promise<ModuleResponseOf<K>>
+export type SdkModuleInvoker<K extends ModuleIdentifier> =
+  RequiredKeys<SdkQueryOf<K>> extends never
+    ? (query?: SdkQueryOf<K>, config?: ModuleCallConfig) => Promise<ModuleResponseOf<K>>
+    : (query: SdkQueryOf<K>, config?: ModuleCallConfig) => Promise<ModuleResponseOf<K>>
 
 export type SdkModuleImplementation<K extends ModuleIdentifier = ModuleIdentifier> = (
   query: ModuleQueryOf<K>,

@@ -45,12 +45,14 @@ export function createModuleInvoker<K extends ModuleIdentifier>(
   moduleImplementation: SdkModuleImplementation<K>,
   baseConfig: CreateHanaMusicApiConfig = {},
 ): SdkModuleInvoker<K> {
-  return async (query, config) => {
-    return invokeStaticModule(identifier, moduleImplementation, query, {
+  return (async (query?: SdkQueryOf<K>, config?: ModuleCallConfig) => {
+    const resolvedQuery = (query ?? {}) as SdkQueryOf<K>
+
+    return invokeStaticModule(identifier, moduleImplementation, resolvedQuery, {
       ...baseConfig,
       ...config,
     })
-  }
+  }) as SdkModuleInvoker<K>
 }
 
 async function invokeStaticModule<K extends ModuleIdentifier>(

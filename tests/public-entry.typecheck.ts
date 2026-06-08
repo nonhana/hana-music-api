@@ -9,7 +9,15 @@ import type {
   RequestCrypto,
 } from '../index.ts'
 
-import { createHanaMusicApi, invokeModule, search, songUrl } from '../index.ts'
+import {
+  banner,
+  createHanaMusicApi,
+  innerVersion,
+  invokeModule,
+  playlistHot,
+  search,
+  songUrl,
+} from '../index.ts'
 
 async function assertPublicEntrySurface() {
   const config: CreateHanaMusicApiConfig = {
@@ -31,6 +39,9 @@ async function assertPublicEntrySurface() {
   await songUrl({
     id: '1,2',
   })
+  await banner()
+  await innerVersion()
+  await playlistHot()
 
   await search({
     keywords: '周杰伦',
