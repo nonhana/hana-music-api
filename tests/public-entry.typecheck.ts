@@ -32,6 +32,18 @@ async function assertPublicEntrySurface() {
     id: '1,2',
   })
 
+  await search({
+    keywords: '周杰伦',
+    // @ts-expect-error query/config split forbids cookie in query
+    cookie: 'MUSIC_U=forbidden',
+  })
+
+  await songUrl({
+    id: '1,2',
+    // @ts-expect-error query/config split forbids proxy in query
+    proxy: 'http://localhost:8080',
+  })
+
   const fallbackResponse: ModuleResponseOf<'top_song'> = await invokeModule(
     topSongIdentifier,
     {

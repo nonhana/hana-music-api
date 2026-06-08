@@ -9,6 +9,8 @@ const OUTPUT_FILE = resolve(import.meta.dir, '../src/types/generated/module-surf
 const TEMP_FILE = resolve(import.meta.dir, '../src/types/generated/module-surface.tmp.ts')
 const SDK_GENERATED_FILE = resolve(import.meta.dir, '../src/sdk/generated/client.generated.ts')
 const SDK_GENERATED_TEMP_FILE = resolve(import.meta.dir, '../src/sdk/generated/client.tmp.ts')
+const SDK_REGISTRY_FILE = resolve(import.meta.dir, '../src/sdk/generated/registry.generated.ts')
+const SDK_REGISTRY_TEMP_FILE = resolve(import.meta.dir, '../src/sdk/generated/registry.tmp.ts')
 const SDK_API_DIRECTORY = resolve(import.meta.dir, '../src/sdk/api')
 
 interface GeneratedArtifacts {
@@ -26,11 +28,16 @@ function toCamelCase(identifier: string): string {
   })
 }
 
-function buildSdkGeneratedClient(identifiers: readonly string[]): string {
+function buildSdkEntries(identifiers: readonly string[]): ReadonlyArray<{
+  readonly functionName: string
+  readonly identifier: string
+  readonly importName: string
+}> {
   const entries = identifiers.map((identifier) => {
     return {
       functionName: toCamelCase(identifier),
       identifier,
+      importName: `${toCamelCase(identifier)}Module`,
     }
   })
   const collisions = new Map<string, string>()
@@ -46,18 +53,24 @@ function buildSdkGeneratedClient(identifiers: readonly string[]): string {
     collisions.set(entry.functionName, entry.identifier)
   }
 
+  return entries
+}
+
+function buildSdkGeneratedClient(identifiers: readonly string[]): string {
+  const entries = buildSdkEntries(identifiers)
   const methodLines = entries.map(({ functionName, identifier }) => {
     return `  ${functionName}: SdkModuleInvoker<'${identifier}'>`
   })
   const exportLines = entries.map(({ functionName, identifier }) => {
-    return `export const ${functionName} = createModuleInvoker('${identifier}')`
+    return `export const ${functionName} = createModuleInvoker('${identifier}', sdkModuleRegistry.${identifier})`
   })
   const clientLines = entries.map(({ functionName, identifier }) => {
-    return `    ${functionName}: createModuleInvoker('${identifier}', config),`
+    return `    ${functionName}: createModuleInvoker('${identifier}', sdkModuleRegistry.${identifier}, config),`
   })
 
   return `import type { CreateHanaMusicApiConfig, SdkModuleInvoker } from '../../types/index.ts'
 import { createModuleInvoker } from '../runtime.ts'
+import { sdkModuleRegistry } from './registry.generated.ts'
 
 export interface HanaMusicApiClient {
 ${methodLines.join('\n')}
@@ -70,6 +83,24 @@ export function createHanaMusicApi(config: CreateHanaMusicApiConfig = {}): HanaM
 ${clientLines.join('\n')}
   }
 }
+`
+}
+
+function buildSdkRegistry(identifiers: readonly string[]): string {
+  const entries = buildSdkEntries(identifiers)
+  const importLines = entries.map(({ identifier, importName }) => {
+    return `import ${importName} from '../../modules/${identifier}.ts'`
+  })
+  const registryLines = entries.map(({ identifier, importName }) => {
+    return `  ${identifier}: ${importName},`
+  })
+
+  return `import type { SdkModuleRegistry } from '../../types/index.ts'
+${importLines.join('\n')}
+
+export const sdkModuleRegistry = {
+${registryLines.join('\n')}
+} as const satisfies SdkModuleRegistry
 `
 }
 
@@ -114,6 +145,11 @@ export type GeneratedModuleContractMap = {
         contents: buildSdkGeneratedClient(identifiers),
         path: SDK_GENERATED_FILE,
         tempPath: SDK_GENERATED_TEMP_FILE,
+      },
+      {
+        contents: buildSdkRegistry(identifiers),
+        path: SDK_REGISTRY_FILE,
+        tempPath: SDK_REGISTRY_TEMP_FILE,
       },
       ...identifiers.map((identifier) => {
         const sdkApiPath = resolve(SDK_API_DIRECTORY, `${identifier}.ts`)
