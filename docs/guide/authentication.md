@@ -2,6 +2,14 @@
 
 大多数接口既支持未登录调用，也支持携带登录态调用。涉及账户信息、歌单管理、云盘、私信、签到等接口时，通常需要 Cookie。
 
+## 对 SDK 1.0.0 的影响
+
+在冻结中的 SDK 合同里，**认证信息属于执行配置（config），而不是业务 query 的一部分**。这意味着：
+
+- `createHanaMusicApi(config)` 适合绑定共享 Cookie
+- 原始模块函数采用 `(query, config?)`
+- `invokeModule(identifier, query, config?)` 继续支持动态调用
+
 ## 支持的登录方式
 
 ### 手机号登录
@@ -46,27 +54,35 @@
 
 登录成功后，返回体中通常会包含 `cookie` 字段。后续调用需要登录的接口时，可以通过以下方式传入：
 
-- GET 请求：把 `cookie` 放到 query 参数里
-- POST 请求：把 `cookie` 放到 body 中
-- 程序化调用：把 `cookie` 作为 query 对象中的字段传入
+- HTTP GET 请求：把 `cookie` 放到 query 参数里
+- HTTP POST 请求：把 `cookie` 放到 body 中
+- SDK 调用：把 `cookie` 放到 `config`，而不是业务 query
 
-示例：
+### 推荐的 SDK 形状
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { createHanaMusicApi } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const login = await api.login_cellphone({
-  phone: '13800138000',
-  password: 'your-password',
+const hana = createHanaMusicApi({
+  cookie: 'MUSIC_U=your-cookie',
 })
 
-const detail = await api.user_account({
-  cookie: login.body.cookie,
-})
+const detail = await hana.userAccount({})
 
 console.log(detail.body)
+```
+
+或者按单函数调用：
+
+```ts
+import { userAccount } from 'hana-music-api'
+
+const detail = await userAccount(
+  {},
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 ```
 
 ## 认证相关注意事项
@@ -81,3 +97,4 @@ console.log(detail.body)
 - Web 客户端优先使用二维码登录或验证码登录
 - 服务端或脚本调用优先保存登录返回的 `cookie`
 - 需要批量调用登录态接口时，优先复用已有 Cookie，而不是重复登录
+- 在 SDK 中优先把认证信息放到 `config`，避免把执行上下文和业务 query 混在一起

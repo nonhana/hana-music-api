@@ -1,221 +1,103 @@
 # hana-music-api
 
-`hana-music-api` 是基于 Bun、TypeScript 与 Hono 构建的网易云音乐第三方 API，实现了可直接部署的 HTTP 服务，也保留了程序化调用入口。
+`hana-music-api` 正在从 Bun 服务仓库演进为一个 **SDK-first、ESM-only** 的 npm 包。冻结中的 `1.0.0` 公开合同以 Node.js 消费者为中心：根入口提供 `createHanaMusicApi(config)`，同时保留 `invokeModule(identifier, query, config?)` 作为动态逃生口，并暴露按 camelCase 命名的原始模块函数。
 
-## 环境要求
+> 当前仓库仍保留 Bun 服务、CLI、文档站与部署脚本；这些能力会继续存在于仓库内，但**不属于 `1.0.0` npm SDK 默认合同**。
 
-- Bun 最新稳定版
-- Git
-- `curl`
-- 生产环境建议准备 PM2
-- 默认 HTTP 端口为 `3021`
+## 1.0.0 SDK 合同摘要
 
-## 本地启动
+- **单包发布**：包名方向为 `hana-music-api`
+- **运行时**：面向 Node.js 消费者，**仅 ESM**
+- **默认入口**：`createHanaMusicApi(config)`
+- **低层逃生口**：`invokeModule(identifier, query, config?)`
+- **原始函数层**：根入口公开 camelCase 命名的模块函数
+- **子路径合同**：保留显式的 extensionless SDK 子路径（如 `hana-music-api/api/<module-identifier>`）
+- **明确排除**：Bun server / CLI / docs / demo 不进入 `1.0.0` npm 默认导出面
 
-首次拉取后，先按锁文件安装依赖：
+## 推荐的 SDK 使用方式
 
-```bash
-bun install --frozen-lockfile
-```
-
-启动服务：
-
-```bash
-bun start
-```
-
-开发模式：
-
-```bash
-bun dev
-```
-
-如果需要本地预览文档站，先显式构建：
-
-```bash
-bun run docs:build
-```
-
-服务启动后可访问：
-
-- 首页：`http://127.0.0.1:3021/`
-- 文档：`http://127.0.0.1:3021/docs`
-- 健康检查：`http://127.0.0.1:3021/health`
-
-快速验证示例：
-
-```bash
-curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=5"
-```
-
-## 生产部署
-
-推荐按发布标签部署源码版本：
-
-```bash
-git clone https://github.com/<owner>/hana-music-api.git
-cd hana-music-api
-git checkout v0.0.1
-
-bun install --frozen-lockfile
-bun run docs:build
-
-cp .env.example .env
-mkdir -p logs data/runtime
-```
-
-如果环境变量已经通过系统或 PM2 注入，可以跳过 `.env` 文件。
-
-## PM2 托管
-
-使用仓库中的 PM2 配置启动服务：
-
-```bash
-pm2 start ecosystem.config.cjs
-pm2 save
-```
-
-建议使用单实例 fork 模式，保留 Bun 作为运行时。若服务器上的 `bun` 不在 PATH 中，请把 PM2 配置里的 interpreter 改成绝对路径。
-
-常用操作：
-
-```bash
-pm2 status hana-music-api
-pm2 logs hana-music-api
-pm2 reload hana-music-api
-pm2 stop hana-music-api
-```
-
-## 健康检查
-
-部署完成后，先检查服务存活，再检查业务接口：
-
-```bash
-curl -f http://127.0.0.1:3021/health
-curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=5"
-```
-
-## 升级
-
-切换到新的发布标签后，重新安装锁定依赖并构建文档，再重载进程：
-
-```bash
-git fetch --tags
-git checkout <new-tag>
-
-bun install --frozen-lockfile
-bun run docs:build
-pm2 reload hana-music-api
-curl -f http://127.0.0.1:3021/health
-```
-
-将 `<new-tag>` 替换为目标发布标签，例如后续的 `v0.0.2`。
-
-## 回滚
-
-首次正式发布前，建议先在当前生产状态上创建一个回滚锚点标签，例如 `pre-v0.0.1-deploy-20260608`。回滚流程与升级一致，只是切换回这个已记录的稳定锚点：
-
-```bash
-git checkout pre-v0.0.1-deploy-20260608
-
-bun install --frozen-lockfile
-bun run docs:build
-pm2 reload hana-music-api
-curl -f http://127.0.0.1:3021/health
-```
-
-## 环境变量
-
-- `HOST`：覆盖默认监听主机
-- `PORT`：覆盖默认监听端口
-- `ANONYMOUS_TOKEN_FILE`：指定匿名 token 的持久化路径，适合长期运行
-- `NODE_ENV`：建议生产环境设置为 `production`
-
-## 程序化调用
-
-如果在代码中直接调用接口，可以先确保匿名 token 已生成：
+### 1. 创建绑定配置的 client
 
 ```ts
-import {
-  NeteaseCloudMusicApi,
-  createModuleApi,
-  ensureAnonymousToken,
-  invokeModule,
-} from 'hana-music-api'
+import { createHanaMusicApi } from 'hana-music-api'
 
-await ensureAnonymousToken()
-
-const search = await NeteaseCloudMusicApi.search({
-  keywords: '周杰伦',
-})
-
-const api = createModuleApi()
-const detail = await api.song_url({
-  id: '347230',
-})
-
-const account = await invokeModule('user_account', {
+const hana = createHanaMusicApi({
   cookie: 'MUSIC_U=your-cookie',
 })
+
+const result = await hana.search({
+  keywords: '周杰伦',
+  limit: 5,
+})
 ```
 
-可按使用场景选择：
+适合需要共享 Cookie、代理、请求实现或其他执行上下文的场景。
 
-- 需要最少样板代码时，使用 `NeteaseCloudMusicApi`
-- 需要按调用名访问多个接口时，使用 `createModuleApi()`
-- 只调用单个接口时，使用 `invokeModule()`
+### 2. 直接导入单个原始函数
 
-## 文档
+```ts
+import { songUrl } from 'hana-music-api'
 
-本项目使用 VitePress 提供文档站。
-
-本地单独预览文档：
-
-```bash
-bun run docs:dev
+const result = await songUrl(
+  {
+    id: '347230',
+    br: 320000,
+  },
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 ```
 
-构建与预览静态文档：
+适合追求 tree-shaking、只调用少量模块的场景。
 
-```bash
-bun run docs:build
-bun run docs:preview
+### 3. 使用动态模块调用逃生口
+
+```ts
+import { invokeModule } from 'hana-music-api'
+
+const result = await invokeModule(
+  'user_account',
+  {},
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 ```
 
-如果 `/docs` 返回“文档静态资源尚未生成”，请先执行 `bun run docs:build`。
+适合模块标识符来自运行时字符串、脚本配置或插件系统的场景。
 
-## 常用命令
+## Query / Config 分离原则
 
-```bash
-bun run verify
-bun run test
-bun run typecheck
-bun run lint
-bun run lint:fix
-bun run fmt
-bun run fmt:check
-bun run docs:build
-bun run docs:preview
-```
+`1.0.0` SDK 合同要求把**业务 query**与**执行配置**分开：
 
-首次正式发布前，建议至少执行以下检查：
+- `query` 只承载接口业务参数
+- `config` 承载 Cookie、代理、fetch 实现、运行时状态等执行上下文
 
-```bash
-bun run verify
-bun start
-curl -f http://127.0.0.1:3021/health
-curl http://127.0.0.1:3021/inner/version
-curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=1"
-```
+这让 `createHanaMusicApi(config)` 可以复用共享配置，也让原始函数和 `invokeModule` 的调用形态保持一致。
 
-## 使用说明
+## 仓库内仍保留的能力
 
-- 涉及账户信息、歌单管理、云盘、私信、签到等接口时，通常需要有效 Cookie
-- 轮询二维码状态、刷新登录状态等请求，建议追加时间戳参数以避免缓存影响
-- 如果遇到区域限制或 `460` 一类异常，可尝试通过 `proxy` 或 `realIP` 参数调整请求环境
+以下能力仍然属于当前仓库工程的一部分，但不进入 `1.0.0` npm 根导出 allowlist：
 
-## 已知限制
+- Bun HTTP 服务与 CLI
+- 内嵌 `/docs` 文档站
+- PM2 部署脚本与服务运维流程
+- 仅面向 Bun server 的运行时能力
 
-- 这是第三方非官方实现，接口可用性会受到网易云音乐上游策略变化影响
-- 少数接口可能因上游调整出现参数、返回字段或登录要求变化
-- 当前版本不支持 PAC 代理
+如果你需要自部署 HTTP 服务，当前仓库仍可继续用于本地运行、文档构建与服务验证；但 npm SDK 发行面会优先围绕 Node.js 消费者整理。
+
+## 文档阅读建议
+
+- 了解 SDK 合同：`docs/guide/programmatic-api.md`
+- 了解 Cookie / 登录态输入原则：`docs/guide/authentication.md`
+- 浏览 HTTP 接口能力：`docs/api/`
+
+## 当前发布执行说明
+
+本次 SDK 发布专题仍在实施中，仓库中的历史 Bun 服务说明与 SDK 文档正在逐步替换为新的 `1.0.0` 合同表述。若发现旧的 `createModuleApi()` / `NeteaseCloudMusicApi` 示例残留，应以冻结的 SDK 合同为准：
+
+- `createHanaMusicApi`
+- camelCase 原始模块函数
+- `invokeModule`
+- 显式子路径导出

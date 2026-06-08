@@ -1,49 +1,20 @@
-export { ensureAnonymousToken, startServer } from './src/app/cli.ts'
-export { generateConfig, registerAnonymous } from './src/app/generate-config.ts'
-export {
-  createModuleApi,
-  invokeModule,
-  loadProgrammaticApi,
-  NeteaseCloudMusicApi,
-} from './src/app/module-api.ts'
-export {
-  aesDecrypt,
-  aesEncrypt,
-  createWeapiSecretKey,
-  decrypt,
-  eapi,
-  eapiReqDecrypt,
-  eapiResDecrypt,
-  linuxapi,
-  rsaEncrypt,
-  weapi,
-} from './src/core/crypto.ts'
 export { createOption } from './src/core/options.ts'
 export { createRequest } from './src/core/request.ts'
-export { createServer } from './src/server/create-server.ts'
-export { startServer as serveNcmApi } from './src/app/cli.ts'
+export { createHanaMusicApi } from './src/sdk/generated/client.generated.ts'
+export * from './src/sdk/generated/client.generated.ts'
+export { invokeModule } from './src/sdk/runtime.ts'
 
 export type {
-  CreateModuleApiOptions,
-  CreateRequestOptions,
-  CreateServerOptions,
-  DynamicProgrammaticApi,
-  GenerateConfigOptions,
-  ModuleDefinition,
+  CreateHanaMusicApiConfig,
+  CookieRecord,
+  FetchLike,
+  ModuleCallConfig,
   ModuleIdentifier,
   ModuleQueryOf,
   ModuleResponseOf,
-  ModuleQuery,
-  ModuleRequest,
-  ModuleContractDefinition,
-  ModuleContractMap,
   NcmApiResponse,
-  ProgrammaticApi,
-  ProgrammaticModuleInvoker,
   RequestCrypto,
   RuntimeState,
-  StartedServer,
-  StartServerOptions,
-  UnsafeUpstreamRecord,
-  UpstreamBody,
+  SdkModuleInvoker,
 } from './src/types/index.ts'
+export type { HanaMusicApiClient } from './src/sdk/generated/client.generated.ts'

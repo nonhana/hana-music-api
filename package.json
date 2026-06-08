@@ -1,25 +1,68 @@
 {
   "name": "hana-music-api",
   "version": "0.0.1",
-  "private": true,
+  "private": false,
+  "description": "SDK-first, ESM-only Netease Cloud Music API package for Node.js consumers.",
+  "keywords": [
+    "bun",
+    "esm",
+    "music-api",
+    "netease-cloud-music",
+    "sdk",
+    "typescript"
+  ],
+  "homepage": "https://github.com/nonhana/hana-music-api#readme",
+  "bugs": {
+    "url": "https://github.com/nonhana/hana-music-api/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nonhana/hana-music-api.git"
+  },
+  "files": [
+    "dist"
+  ],
   "type": "module",
-  "module": "index.ts",
+  "sideEffects": false,
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./api/*": {
+      "types": "./dist/api/*.d.ts",
+      "default": "./dist/api/*.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
   "scripts": {
+    "build": "tsdown",
+    "build:check": "bun run build && publint --strict && attw --pack . --profile esm-only",
+    "changeset": "changeset",
     "dev": "bun --watch src/app/cli.ts",
-    "start": "bun src/app/cli.ts",
-    "start:prod": "NODE_ENV=production bun src/app/cli.ts",
-    "types:modules:generate": "bun scripts/generate-module-type-surface.ts",
-    "types:modules:check": "bun scripts/generate-module-type-surface.ts --check",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "test": "bun test",
-    "typecheck": "tsc --noEmit",
-    "lint": "oxlint .",
-    "lint:fix": "oxlint . --fix",
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt . --check",
-    "verify": "bun run types:modules:check && bun test && bun run typecheck && bun run lint && bun run fmt:check && bun run docs:build",
+    "lint": "oxlint .",
+    "lint:fix": "oxlint . --fix",
+    "release": "changeset publish",
+    "start": "bun src/app/cli.ts",
+    "start:prod": "NODE_ENV=production bun src/app/cli.ts",
+    "test": "bun test",
+    "test:sdk-contract": "bun test tests/sdk-release-contract.test.ts",
+    "typecheck": "tsc --noEmit",
+    "types:modules:generate": "bun scripts/generate-module-type-surface.ts",
+    "types:modules:check": "bun scripts/generate-module-type-surface.ts --check",
+    "verify": "bun run types:modules:check && bun run build && bun test && bun run typecheck && bun run lint && bun run fmt:check && bun run docs:build",
+    "verify:sdk": "bun run types:modules:check && bun run build:check && bun test tests/sdk-release-contract.test.ts tests/module-api.test.ts tests/module-discovery-alignment.test.ts && bun run typecheck && bun run lint && bun run fmt:check && bun run docs:build",
+    "version-packages": "changeset version",
     "pm2:start": "pm2 start ecosystem.config.cjs",
     "pm2:reload": "pm2 reload hana-music-api",
     "pm2:stop": "pm2 stop hana-music-api",
@@ -31,12 +74,19 @@
     "qrcode": "^1.5.4"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
+    "@changesets/cli": "^2.29.6",
     "@types/bun": "latest",
     "@types/qrcode": "^1.5.6",
     "oxfmt": "^0.53.0",
     "oxlint": "^1.68.0",
     "oxlint-tsgolint": "^0.23.0",
+    "publint": "^0.3.15",
+    "tsdown": "^0.14.2",
     "typescript": "^6.0.3",
     "vitepress": "^1.6.4"
+  },
+  "engines": {
+    "node": ">=20"
   }
 }

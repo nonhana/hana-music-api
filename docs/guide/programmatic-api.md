@@ -1,106 +1,167 @@
 # 编程式调用
 
-除了直接访问 HTTP 接口，`hana-music-api` 也提供了程序化调用入口，适合 Bun / Node.js / TypeScript 场景。
+本页描述的是 `hana-music-api` **SDK 1.0.0 冻结合同**。核心目标是提供一个对 npm 消费者友好的、**SDK-first + ESM-only** 的公开接口，同时保留高级用户需要的低层逃生口。
 
-## 主要入口
+## 主入口
 
-你可以使用以下 API：
+SDK 根入口将围绕三个层次组织：
 
-- `createModuleApi()`：创建按接口调用名访问的 API 客户端
-- `invokeModule()`：直接调用单个接口
-- `NeteaseCloudMusicApi`：开箱即用的默认 API 对象
+1. `createHanaMusicApi(config)`：默认推荐入口，返回绑定配置的 client
+2. camelCase 原始模块函数：适合细粒度导入与 tree-shaking
+3. `invokeModule(identifier, query, config?)`：动态字符串模块调用逃生口
 
-## 模块可发现性与类型精度
-
-程序化调用现在区分两个概念：
-
-- **模块可发现性**：只要某个模块能被当前 `src/modules` 运行时注册表加载，TypeScript 就能静态看到它的调用名。
-- **类型精度**：只有一部分高价值模块会提供精确的 query typing；其余长尾模块仍然使用兼容层 query 类型。
-
-这意味着：
-
-- `api.search()`、`api.song_url()`、`api.login_cellphone()` 这类模块会有更强的参数提示。
-- `api.top_song()`、`api.ugc_detail()` 这类长尾模块同样可以被静态发现和调用，但参数通常停留在 compatibility fallback，而不是伪装成已经完全精确建模。
-
-这种分层的目标是让 SDK 同时满足两件事：
-
-1. 不再因为某个模块还没手写进白名单就“看不见”它。
-2. 不强行把所有模块都包装成同等精度的类型契约。
-
-## createModuleApi
+## createHanaMusicApi
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { createHanaMusicApi } from 'hana-music-api'
 
-const api = createModuleApi()
+const hana = createHanaMusicApi({
+  cookie: 'MUSIC_U=your-cookie',
+})
 
-const result = await api.search({
+const searchResult = await hana.search({
   keywords: '周杰伦',
+  limit: 5,
 })
 
-console.log(result.body)
+const detailResult = await hana.songUrl({
+  id: '347230',
+  br: 320000,
+})
 ```
 
-长尾模块也可以直接通过同一个 API 对象调用：
+`createHanaMusicApi(config)` 适合：
+
+- 多次调用多个模块
+- 需要复用 Cookie / 代理 / fetch / 运行时状态
+- 希望业务代码始终只传 query，不反复拼执行配置
+
+## 原始模块函数
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { search, songUrl } from 'hana-music-api'
 
-const api = createModuleApi()
+const searchResult = await search(
+  {
+    keywords: '林俊杰',
+    limit: 3,
+  },
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 
-const result = await api.top_song({
-  type: 96,
-})
-
-console.log(result.body)
+const songUrlResult = await songUrl(
+  {
+    id: '347230',
+  },
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 ```
+
+这一层的设计目标是：
+
+- 命名符合 JavaScript / TypeScript 常见习惯（camelCase）
+- 支持 tree-shaking
+- 让单模块调用不需要先创建 client
 
 ## invokeModule
 
 ```ts
 import { invokeModule } from 'hana-music-api'
 
-const result = await invokeModule('song_url', {
-  id: '347230',
-})
-
-console.log(result.body)
+const account = await invokeModule(
+  'user_account',
+  {},
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 ```
 
-## 默认 API 对象
+`invokeModule` 保留了对规范 module identifier 的直接调用能力，适合：
+
+- identifier 来自配置文件、数据库或插件系统
+- 需要保留原始模块命名（如 `song_url`、`user_account`）
+- 不想在上层代码里预先绑定所有模块函数
+
+## Query / Config 分离原则
+
+`1.0.0` 合同的核心变化之一，是把接口业务输入与执行上下文显式拆开。
+
+### 推荐形状
 
 ```ts
-import { NeteaseCloudMusicApi } from 'hana-music-api'
-
-const result = await NeteaseCloudMusicApi.user_account({
-  cookie: 'MUSIC_U=your-cookie',
-})
-
-console.log(result.body)
+await songUrl(
+  {
+    id: '347230',
+    br: 320000,
+  },
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 ```
 
-## Cookie 自动归一化
+### 不再推荐的旧形状
 
-程序化调用会在内部对字符串形式的 Cookie 做归一化处理，因此你可以直接复用 HTTP 场景中的 `cookie` 字符串。
+```ts
+await invokeModule('song_url', {
+  id: '347230',
+  br: 320000,
+  cookie: 'MUSIC_U=your-cookie',
+})
+```
 
-## 推荐用法
+拆分后的好处：
 
-- 需要大量调用多个模块时：优先 `createModuleApi()`
-- 只调用单个模块时：`invokeModule()` 足够直接
-- 想要最少样板代码时：使用 `NeteaseCloudMusicApi`
-- 需要 strongest typing 时：优先使用已经有精确 query 契约的高价值模块
-- 调用长尾模块时：把它视为“可发现 + 兼容层参数”，不要默认假设它已经拥有同等级的精确类型
+- 业务 query 更清晰
+- 共享 config 可以在 client 层统一绑定
+- 原始函数、client 方法与动态调用保持一致的认知模型
 
-## 与 HTTP 文档如何对应
+## 命名与子路径合同
 
-每个 API 文档页面都会同时给出：
+- 根入口与 client 方法采用 **camelCase**
+- 动态调用继续使用规范的 snake_case module identifier
+- `1.0.0` 计划保留 extensionless 子路径：`hana-music-api/api/<module-identifier>`
+- 未写入 `exports` map 的路径都不属于稳定消费面
 
-- HTTP 请求示例
-- 程序化调用示例
-- 对应调用名
+## 高阶使用场景
 
-调用名通常使用与接口路径对应的下划线形式，例如：
+### 自定义 fetch
 
-- `/login/cellphone` → `api.login_cellphone()`
-- `/song/url` → `api.song_url()`
-- `/playlist/detail` → `api.playlist_detail()`
+```ts
+import { createHanaMusicApi } from 'hana-music-api'
+
+const hana = createHanaMusicApi({
+  fetch: globalThis.fetch,
+})
+```
+
+### 每次调用覆盖部分配置
+
+```ts
+import { search } from 'hana-music-api'
+
+const result = await search(
+  {
+    keywords: '周杰伦',
+  },
+  {
+    proxy: 'http://127.0.0.1:7890',
+  },
+)
+```
+
+## 与仓库内 Bun 能力的关系
+
+当前仓库仍然维护：
+
+- Bun HTTP 服务
+- CLI 与部署脚本
+- 文档站构建
+- 服务侧运维流程
+
+这些能力不会进入 `1.0.0` npm 根导出 allowlist。编程式调用文档应优先服务 npm SDK 消费者，而不是继续让默认心智停留在 Bun 服务根入口。

@@ -26,6 +26,7 @@ export default defineConfig({
             { text: '认证机制', link: '/guide/authentication' },
             { text: '调用约定', link: '/guide/request-convention' },
             { text: '编程式调用', link: '/guide/programmatic-api' },
+            { text: 'SDK 包合同（冻结草案）', link: '/guide/sdk-package-contract' },
           ],
         },
       ],
