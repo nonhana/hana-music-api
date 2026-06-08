@@ -30,11 +30,9 @@ GET /video/group/list
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { videoGroupList } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.video_group_list()
+const result = await videoGroupList()
 
 console.log(result.body)
 ```

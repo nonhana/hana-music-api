@@ -30,11 +30,9 @@ GET /dj/today/perfered
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djTodayPerfered } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_today_perfered()
+const result = await djTodayPerfered()
 
 console.log(result.body)
 ```

@@ -30,11 +30,9 @@ GET /search/match?title=富士山下&album=&artist=陈奕迅&duration=259.21&md5
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { searchMatch } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.search_match({
+const result = await searchMatch({
   title: '富士山下',
   album: '',
   artist: '陈奕迅',

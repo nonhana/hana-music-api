@@ -32,11 +32,9 @@ GET /recommend/songs/dislike?id=168091
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { recommendSongsDislike } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.recommend_songs_dislike({
+const result = await recommendSongsDislike({
   id: '168091',
 })
 

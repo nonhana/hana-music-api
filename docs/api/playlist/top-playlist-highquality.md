@@ -34,11 +34,9 @@ GET /top/playlist/highquality?before=1503639064232&limit=3
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { topPlaylistHighquality } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.top_playlist_highquality({
+const result = await topPlaylistHighquality({
   before: '1503639064232',
   limit: '3',
 })

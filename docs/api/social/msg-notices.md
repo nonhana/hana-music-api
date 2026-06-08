@@ -33,11 +33,9 @@ GET /msg/notices?limit=3
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { msgNotices } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.msg_notices({
+const result = await msgNotices({
   limit: '3',
 })
 

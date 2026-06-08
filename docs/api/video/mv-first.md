@@ -32,11 +32,9 @@ GET /mv/first?limit=10
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { mvFirst } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.mv_first({
+const result = await mvFirst({
   limit: '10',
 })
 

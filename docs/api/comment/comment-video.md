@@ -35,11 +35,9 @@ GET /comment/video?id=89ADDE33C0AAE8EC14B99F6750DB954D
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentVideo } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_video({
+const result = await commentVideo({
   id: '89ADDE33C0AAE8EC14B99F6750DB954D',
 })
 

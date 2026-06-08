@@ -32,11 +32,9 @@ GET /artist/fans?id=2116&limit=10&offset=0
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { artistFans } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.artist_fans({
+const result = await artistFans({
   id: '2116',
   limit: '10',
   offset: '0',

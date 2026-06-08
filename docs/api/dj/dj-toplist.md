@@ -35,11 +35,9 @@ GET /dj/toplist?type=new&limit=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djToplist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_toplist({
+const result = await djToplist({
   type: 'hot',
 })
 

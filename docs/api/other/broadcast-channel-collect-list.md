@@ -32,11 +32,9 @@ GET /broadcast/channel/collect/list
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { broadcastChannelCollectList } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.broadcast_channel_collect_list()
+const result = await broadcastChannelCollectList()
 
 console.log(result.body)
 ```

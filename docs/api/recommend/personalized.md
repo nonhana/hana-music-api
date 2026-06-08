@@ -32,11 +32,9 @@ GET /personalized?limit=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { personalized } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.personalized({
+const result = await personalized({
   limit: '1',
 })
 

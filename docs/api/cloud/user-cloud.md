@@ -33,11 +33,9 @@ GET /user/cloud
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userCloud } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_cloud()
+const result = await userCloud()
 
 console.log(result.body)
 ```

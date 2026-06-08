@@ -30,11 +30,9 @@ GET /search/hot
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { searchHot } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.search_hot()
+const result = await searchHot()
 
 console.log(result.body)
 ```

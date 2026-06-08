@@ -30,11 +30,9 @@ GET /personal_fm
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { personalFm } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.personal_fm()
+const result = await personalFm()
 
 console.log(result.body)
 ```

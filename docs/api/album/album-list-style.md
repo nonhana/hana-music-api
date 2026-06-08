@@ -34,11 +34,9 @@ GET /album/list/style?area=Z_H&offset=2
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { albumListStyle } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.album_list_style({
+const result = await albumListStyle({
   area: 'Z_H',
   offset: '2',
 })

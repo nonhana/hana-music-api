@@ -36,11 +36,9 @@ GET /vip/timemachine?startTime=1609430400&endTime=1640966399999&limit=60
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { vipTimemachine } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.vip_timemachine()
+const result = await vipTimemachine()
 
 console.log(result.body)
 ```

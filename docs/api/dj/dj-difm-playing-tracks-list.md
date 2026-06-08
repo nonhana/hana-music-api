@@ -34,11 +34,9 @@ GET /dj/difm/playing/tracks/list?source=0&channelId=1012
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djDifmPlayingTracksList } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_difm_playing_tracks_list({
+const result = await djDifmPlayingTracksList({
   source: '0',
   channelId: '1012',
 })

@@ -34,11 +34,9 @@ GET /user/playlist?uid=32953014
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userPlaylist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_playlist({
+const result = await userPlaylist({
   uid: '32953014',
 })
 

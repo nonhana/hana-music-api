@@ -30,11 +30,9 @@ GET /album/detail?id=84547195
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { albumDetail } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.album_detail({
+const result = await albumDetail({
   id: '84547195',
 })
 

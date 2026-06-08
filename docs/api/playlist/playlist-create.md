@@ -35,11 +35,9 @@ GET /playlist/create?name=test&type=VIDEO
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistCreate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_create({
+const result = await playlistCreate({
   name: '测试歌单',
 })
 

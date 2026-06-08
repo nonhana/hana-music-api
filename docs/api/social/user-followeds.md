@@ -36,11 +36,9 @@ GET /user/followeds?uid=416608258&limit=1&offset=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userFolloweds } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_followeds({
+const result = await userFolloweds({
   uid: '32953014',
 })
 

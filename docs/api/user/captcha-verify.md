@@ -34,11 +34,9 @@ GET /captcha/verify?phone=13xxx&captcha=1597
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { captchaVerify } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.captcha_verify({
+const result = await captchaVerify({
   phone: '13xxx',
   captcha: '1597',
 })

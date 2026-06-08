@@ -32,11 +32,9 @@ GET /playlist/detail/dynamic?id=24381616
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistDetailDynamic } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_detail_dynamic({
+const result = await playlistDetailDynamic({
   id: '24381616',
 })
 

@@ -33,11 +33,9 @@ GET /topic/sublist?limit=2&offset=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { topicSublist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.topic_sublist({
+const result = await topicSublist({
   limit: '2',
   offset: '1',
 })

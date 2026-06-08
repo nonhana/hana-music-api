@@ -30,11 +30,9 @@ GET /ugc/user/devote
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { ugcUserDevote } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.ugc_user_devote()
+const result = await ugcUserDevote()
 
 console.log(result.body)
 ```

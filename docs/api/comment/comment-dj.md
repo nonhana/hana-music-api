@@ -35,11 +35,9 @@ GET /comment/dj?id=794062371
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentDj } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_dj({
+const result = await commentDj({
   id: '794062371',
 })
 

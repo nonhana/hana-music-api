@@ -30,11 +30,9 @@ GET /login/refresh
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { loginRefresh } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.login_refresh()
+const result = await loginRefresh()
 
 console.log(result.body)
 ```

@@ -30,11 +30,9 @@ GET /song/lyrics/mark?id=2083850
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songLyricsMarkDel } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_lyrics_mark_del({
+const result = await songLyricsMarkDel({
   id: '2083850',
 })
 

@@ -136,7 +136,7 @@ await invokeModule('song_url', {
 import { createHanaMusicApi } from 'hana-music-api'
 
 const hana = createHanaMusicApi({
-  fetch: globalThis.fetch,
+  fetcher: globalThis.fetch,
 })
 ```
 

@@ -30,11 +30,9 @@ GET /voice/lyric
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { voiceLyric } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.voice_lyric()
+const result = await voiceLyric()
 
 console.log(result.body)
 ```

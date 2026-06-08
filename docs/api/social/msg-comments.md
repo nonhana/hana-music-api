@@ -34,11 +34,9 @@ GET /msg/comments?uid=32953014
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { msgComments } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.msg_comments({
+const result = await msgComments({
   uid: '32953014',
 })
 

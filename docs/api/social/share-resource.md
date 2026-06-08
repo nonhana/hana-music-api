@@ -37,11 +37,9 @@ GET /share/resource?type=djprogram&id=2061034798&msg=测试@binaryify
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { shareResource } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.share_resource({
+const result = await shareResource({
   id: '1297494209',
   msg: '测试',
 })

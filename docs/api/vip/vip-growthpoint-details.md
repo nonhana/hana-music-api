@@ -33,11 +33,9 @@ GET /vip/growthpoint/details?limit=10
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { vipGrowthpointDetails } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.vip_growthpoint_details({
+const result = await vipGrowthpointDetails({
   limit: '10',
 })
 

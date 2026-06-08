@@ -32,11 +32,9 @@ GET /user/cloud/detail?id=5374627
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userCloudDetail } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_cloud_detail({
+const result = await userCloudDetail({
   id: '5374627',
 })
 

@@ -34,11 +34,9 @@ GET /artist/album?id=6452&limit=5
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { artistAlbum } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.artist_album({
+const result = await artistAlbum({
   id: '6452',
   limit: '5',
 })

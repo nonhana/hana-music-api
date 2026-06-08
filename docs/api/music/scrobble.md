@@ -33,11 +33,9 @@ GET /scrobble?id=518066366&sourceid=36780169&time=291
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { scrobble } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.scrobble({
+const result = await scrobble({
   id: '518066366',
   sourceid: '36780169',
   time: '291',

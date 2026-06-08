@@ -30,11 +30,9 @@ GET /logout
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { logout } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.logout()
+const result = await logout()
 
 console.log(result.body)
 ```

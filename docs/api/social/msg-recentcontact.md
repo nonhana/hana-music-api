@@ -30,11 +30,9 @@ GET /msg/recentcontact
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { msgRecentcontact } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.msg_recentcontact()
+const result = await msgRecentcontact()
 
 console.log(result.body)
 ```

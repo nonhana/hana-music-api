@@ -35,11 +35,9 @@ GET /comment/music?id=186016&limit=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentMusic } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_music({
+const result = await commentMusic({
   id: '186016',
   limit: '1',
 })

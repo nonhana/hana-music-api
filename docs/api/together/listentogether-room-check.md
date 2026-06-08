@@ -33,11 +33,9 @@ POST /listentogether/room/check?roomId=MzA0NjY5...
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listentogetherRoomCheck } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listentogether_room_check({
+const result = await listentogetherRoomCheck({
   roomId: 'MzA0NjY5...',
 })
 

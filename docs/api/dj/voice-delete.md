@@ -30,11 +30,9 @@ GET /voice/delete
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { voiceDelete } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.voice_delete()
+const result = await voiceDelete()
 
 console.log(result.body)
 ```

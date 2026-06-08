@@ -33,11 +33,9 @@ GET /yunbei/task/finish?userTaskId=5146243240&depositCode=0
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { yunbeiTaskFinish } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.yunbei_task_finish({
+const result = await yunbeiTaskFinish({
   userTaskId: '5146243240',
   depositCode: '0',
 })

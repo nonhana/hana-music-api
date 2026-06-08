@@ -32,11 +32,9 @@ GET /activate/init/profile?nickname=testUser2019
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { activateInitProfile } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.activate_init_profile({
+const result = await activateInitProfile({
   nickname: 'testUser2019',
 })
 

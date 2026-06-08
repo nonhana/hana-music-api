@@ -32,11 +32,9 @@ GET /video/timeline/recommend?offset=10
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { videoTimelineRecommend } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.video_timeline_recommend({
+const result = await videoTimelineRecommend({
   offset: '10',
 })
 

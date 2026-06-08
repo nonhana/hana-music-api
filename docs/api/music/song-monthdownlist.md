@@ -33,11 +33,9 @@ GET /song/monthdownlist
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songMonthdownlist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_monthdownlist()
+const result = await songMonthdownlist()
 
 console.log(result.body)
 ```

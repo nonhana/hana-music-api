@@ -30,11 +30,9 @@ GET /djRadio/top
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djRadioTop } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.djRadio_top()
+const result = await djRadioTop()
 
 console.log(result.body)
 ```

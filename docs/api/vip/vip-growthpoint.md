@@ -30,11 +30,9 @@ GET /vip/growthpoint
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { vipGrowthpoint } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.vip_growthpoint()
+const result = await vipGrowthpoint()
 
 console.log(result.body)
 ```

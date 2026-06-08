@@ -34,11 +34,9 @@ GET /artist/new/mv?limit=1&before=1602777625000
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { artistNewMv } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.artist_new_mv({
+const result = await artistNewMv({
   limit: '1',
 })
 

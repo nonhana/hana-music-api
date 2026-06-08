@@ -30,11 +30,9 @@ GET /toplist
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { toplist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.toplist()
+const result = await toplist()
 
 console.log(result.body)
 ```

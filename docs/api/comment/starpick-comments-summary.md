@@ -30,11 +30,9 @@ GET /starpick/comments/summary
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { starpickCommentsSummary } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.starpick_comments_summary()
+const result = await starpickCommentsSummary()
 
 console.log(result.body)
 ```

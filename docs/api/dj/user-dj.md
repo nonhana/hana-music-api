@@ -32,11 +32,9 @@ GET /user/dj?uid=32953014
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userDj } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_dj({
+const result = await userDj({
   uid: '32953014',
 })
 

@@ -30,11 +30,9 @@ GET /voice/upload
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { voiceUpload } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.voice_upload()
+const result = await voiceUpload()
 
 console.log(result.body)
 ```

@@ -30,11 +30,9 @@ GET /personalized/privatecontent
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { personalizedPrivatecontent } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.personalized_privatecontent()
+const result = await personalizedPrivatecontent()
 
 console.log(result.body)
 ```

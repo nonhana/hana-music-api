@@ -34,11 +34,9 @@ GET /hug/comment?uid=285516405&cid=1167145843&sid=863481066
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { hugComment } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.hug_comment({
+const result = await hugComment({
   uid: '285516405',
   cid: '1167145843',
   sid: '863481066',

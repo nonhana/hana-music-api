@@ -30,11 +30,9 @@ GET /user/account
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userAccount } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_account()
+const result = await userAccount()
 
 console.log(result.body)
 ```

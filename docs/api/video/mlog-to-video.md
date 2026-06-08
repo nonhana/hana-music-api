@@ -32,11 +32,9 @@ GET /mlog/to/video?id=a1qOVPTWKS1ZrK8
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { mlogToVideo } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.mlog_to_video({
+const result = await mlogToVideo({
   id: 'a1qOVPTWKS1ZrK8',
 })
 

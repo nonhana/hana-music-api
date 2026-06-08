@@ -33,11 +33,9 @@ GET /hot/topic?limit=30&offset=30
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { hotTopic } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.hot_topic({
+const result = await hotTopic({
   limit: '30',
   offset: '30',
 })

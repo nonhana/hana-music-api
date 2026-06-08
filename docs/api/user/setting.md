@@ -30,11 +30,9 @@ GET /setting
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { setting } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.setting()
+const result = await setting()
 
 console.log(result.body)
 ```

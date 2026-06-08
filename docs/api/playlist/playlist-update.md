@@ -35,11 +35,9 @@ GET /playlist/update?id=24381616&name=新歌单&desc=描述&tags=欧美
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistUpdate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_update({
+const result = await playlistUpdate({
   id: '24381616',
   name: '新歌单',
   desc: '描述',

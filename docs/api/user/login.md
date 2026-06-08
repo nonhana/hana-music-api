@@ -34,11 +34,9 @@ GET /login?email=xxx@163.com&password=yyy
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { login } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.login({
+const result = await login({
   email: 'xxx@163.com',
   password: 'yyy',
 })

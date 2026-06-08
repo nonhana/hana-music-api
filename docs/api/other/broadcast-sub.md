@@ -34,11 +34,9 @@ GET /broadcast/sub?id=5&t=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { broadcastSub } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.broadcast_sub({
+const result = await broadcastSub({
   id: '5',
   t: 1,
 })

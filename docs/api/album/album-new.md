@@ -34,11 +34,9 @@ GET /album/new?area=KR&limit=10
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { albumNew } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.album_new({
+const result = await albumNew({
   area: 'KR',
   limit: '10',
 })

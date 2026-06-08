@@ -30,11 +30,9 @@ GET /user/subcount
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userSubcount } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_subcount()
+const result = await userSubcount()
 
 console.log(result.body)
 ```

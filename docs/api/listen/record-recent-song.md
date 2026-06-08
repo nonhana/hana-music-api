@@ -32,11 +32,9 @@ GET /record/recent/song?limit=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { recordRecentSong } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.record_recent_song({
+const result = await recordRecentSong({
   limit: '1',
 })
 

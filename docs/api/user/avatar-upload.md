@@ -34,11 +34,9 @@ GET /avatar/upload?imgSize=200
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { avatarUpload } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.avatar_upload({
+const result = await avatarUpload({
   imgSize: '200',
 })
 

@@ -33,11 +33,9 @@ GET /album/list?limit=10
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { albumList } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.album_list({
+const result = await albumList({
   limit: '10',
 })
 

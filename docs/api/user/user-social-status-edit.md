@@ -30,11 +30,9 @@ GET /user/social/status/edit
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userSocialStatusEdit } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_social_status_edit()
+const result = await userSocialStatusEdit()
 
 console.log(result.body)
 ```

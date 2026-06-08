@@ -32,11 +32,9 @@ GET /dj/personalize/recommend?limit=5
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djPersonalizeRecommend } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_personalize_recommend({
+const result = await djPersonalizeRecommend({
   limit: '5',
 })
 

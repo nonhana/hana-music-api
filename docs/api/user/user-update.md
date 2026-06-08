@@ -37,11 +37,9 @@ GET /user/update?gender=0&signature=测试签名&city=440300&nickname=binary&bir
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userUpdate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_update({
+const result = await userUpdate({
   gender: '0',
   signature: '测试签名',
   city: '440300',

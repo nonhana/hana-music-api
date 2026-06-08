@@ -30,11 +30,9 @@ GET /music/first/listen/info
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { musicFirstListenInfo } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.music_first_listen_info()
+const result = await musicFirstListenInfo()
 
 console.log(result.body)
 ```

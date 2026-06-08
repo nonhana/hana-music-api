@@ -32,11 +32,9 @@ GET /video/url?id=89ADDE33C0AAE8EC14B99F6750DB954D
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { videoUrl } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.video_url({
+const result = await videoUrl({
   id: '89ADDE33C0AAE8EC14B99F6750DB954D',
 })
 

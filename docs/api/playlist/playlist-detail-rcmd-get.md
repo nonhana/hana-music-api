@@ -30,11 +30,9 @@ GET /playlist/detail/rcmd/get?id=8039587836
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistDetailRcmdGet } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_detail_rcmd_get({
+const result = await playlistDetailRcmdGet({
   id: '8039587836',
 })
 

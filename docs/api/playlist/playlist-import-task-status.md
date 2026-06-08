@@ -30,11 +30,9 @@ GET /playlist/import/task/status?id=123834369
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistImportTaskStatus } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_import_task_status({
+const result = await playlistImportTaskStatus({
   id: '123834369',
 })
 

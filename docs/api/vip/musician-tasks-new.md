@@ -30,11 +30,9 @@ GET /musician/tasks/new
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { musicianTasksNew } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.musician_tasks_new()
+const result = await musicianTasksNew()
 
 console.log(result.body)
 ```

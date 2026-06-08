@@ -36,11 +36,9 @@ GET /mv/all?area=港台
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { mvAll } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.mv_all({
+const result = await mvAll({
   area: '港台',
 })
 

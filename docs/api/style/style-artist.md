@@ -34,11 +34,9 @@ GET /style/artist?tagId=1000
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { styleArtist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.style_artist({
+const result = await styleArtist({
   tagId: '1000',
 })
 

@@ -33,11 +33,9 @@ GET /musician/play/trend?startTime=2021-05-24&endTime=2021-05-30
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { musicianPlayTrend } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.musician_play_trend({
+const result = await musicianPlayTrend({
   startTime: '2021-05-24',
   endTime: '2021-05-30',
 })

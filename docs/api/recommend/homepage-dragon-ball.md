@@ -30,11 +30,9 @@ GET /homepage/dragon/ball
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { homepageDragonBall } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.homepage_dragon_ball()
+const result = await homepageDragonBall()
 
 console.log(result.body)
 ```

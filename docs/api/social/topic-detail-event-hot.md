@@ -30,11 +30,9 @@ GET /topic/detail/event/hot?actid=111551188
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { topicDetailEventHot } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.topic_detail_event_hot({
+const result = await topicDetailEventHot({
   actid: '111551188',
 })
 

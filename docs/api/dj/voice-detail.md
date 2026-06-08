@@ -30,11 +30,9 @@ GET /voice/detail
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { voiceDetail } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.voice_detail()
+const result = await voiceDetail()
 
 console.log(result.body)
 ```

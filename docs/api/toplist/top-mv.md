@@ -34,11 +34,9 @@ GET /top/mv?limit=10
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { topMv } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.top_mv({
+const result = await topMv({
   limit: '10',
 })
 

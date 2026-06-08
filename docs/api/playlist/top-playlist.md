@@ -35,11 +35,9 @@ GET /top/playlist?limit=10&order=new
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { topPlaylist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.top_playlist({
+const result = await topPlaylist({
   limit: '10',
   order: 'new',
 })

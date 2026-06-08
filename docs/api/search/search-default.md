@@ -30,11 +30,9 @@ GET /search/default
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { searchDefault } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.search_default()
+const result = await searchDefault()
 
 console.log(result.body)
 ```

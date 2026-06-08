@@ -35,11 +35,9 @@ GET /yunbei/rcmd/song?id=65528&reason=人间好声音推荐给你听
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { yunbeiRcmdSong } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.yunbei_rcmd_song({
+const result = await yunbeiRcmdSong({
   id: '65528',
 })
 

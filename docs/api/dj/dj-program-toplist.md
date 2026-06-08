@@ -33,11 +33,9 @@ GET /dj/program/toplist?limit=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djProgramToplist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_program_toplist({
+const result = await djProgramToplist({
   limit: '1',
 })
 

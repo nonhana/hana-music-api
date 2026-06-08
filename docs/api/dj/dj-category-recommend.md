@@ -30,11 +30,9 @@ GET /dj/category/recommend
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djCategoryRecommend } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_category_recommend()
+const result = await djCategoryRecommend()
 
 console.log(result.body)
 ```

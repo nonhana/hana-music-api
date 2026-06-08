@@ -32,11 +32,9 @@ GET /dj/detail?rid=336355127
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djDetail } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_detail({
+const result = await djDetail({
   rid: '336355127',
 })
 

@@ -35,11 +35,9 @@ GET /dj/radio/hot?cateId=10002
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djRadioHot } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_radio_hot({
+const result = await djRadioHot({
   cateId: '2001',
 })
 

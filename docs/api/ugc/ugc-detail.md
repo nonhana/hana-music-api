@@ -30,11 +30,9 @@ GET /ugc/detail
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { ugcDetail } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.ugc_detail()
+const result = await ugcDetail()
 
 console.log(result.body)
 ```

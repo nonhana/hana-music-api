@@ -34,11 +34,9 @@ GET /mlog/music/rcmd
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { mlogMusicRcmd } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.mlog_music_rcmd({
+const result = await mlogMusicRcmd({
   songid: 'your-songid',
 })
 

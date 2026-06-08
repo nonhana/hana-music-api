@@ -33,11 +33,9 @@ GET /dj/hot
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djHot } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_hot()
+const result = await djHot()
 
 console.log(result.body)
 ```

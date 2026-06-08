@@ -32,11 +32,9 @@ GET /top/song?type=96
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { topSong } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.top_song({
+const result = await topSong({
   type: '96',
 })
 

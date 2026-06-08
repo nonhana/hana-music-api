@@ -33,11 +33,9 @@ GET /follow?id=32953014&t=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { follow } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.follow({
+const result = await follow({
   id: '32953014',
   t: '1',
 })

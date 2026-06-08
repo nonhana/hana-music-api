@@ -33,11 +33,9 @@ GET /song/lyrics/mark/user/page
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songLyricsMarkUserPage } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_lyrics_mark_user_page()
+const result = await songLyricsMarkUserPage()
 
 console.log(result.body)
 ```

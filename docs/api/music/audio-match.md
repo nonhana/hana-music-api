@@ -30,11 +30,9 @@ GET /audio/match
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { audioMatch } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.audio_match()
+const result = await audioMatch()
 
 console.log(result.body)
 ```

@@ -32,11 +32,9 @@ GET /album/detail/dynamic?id=32311
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { albumDetailDynamic } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.album_detail_dynamic({
+const result = await albumDetailDynamic({
   id: '32311',
 })
 

@@ -30,11 +30,9 @@ GET /ugc/mv/get?id=14572641
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { ugcMvGet } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.ugc_mv_get({
+const result = await ugcMvGet({
   id: '14572641',
 })
 

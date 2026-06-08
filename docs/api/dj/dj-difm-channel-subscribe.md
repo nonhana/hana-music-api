@@ -32,11 +32,9 @@ GET /dj/difm/channel/subscribe?id=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djDifmChannelSubscribe } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_difm_channel_subscribe({
+const result = await djDifmChannelSubscribe({
   id: '1',
 })
 

@@ -32,11 +32,9 @@ GET /style/detail?tagId=1000
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { styleDetail } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.style_detail({
+const result = await styleDetail({
   tagId: '1000',
 })
 

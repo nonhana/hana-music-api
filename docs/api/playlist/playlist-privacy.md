@@ -32,11 +32,9 @@ GET /playlist/privacy
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistPrivacy } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_privacy({
+const result = await playlistPrivacy({
   id: '123456',
 })
 

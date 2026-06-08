@@ -33,11 +33,9 @@ GET /vip/info/v2?uid=32953014
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { vipInfoV2 } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.vip_info_v2()
+const result = await vipInfoV2()
 
 console.log(result.body)
 ```

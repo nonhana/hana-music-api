@@ -30,11 +30,9 @@ GET /dj/banner
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djBanner } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_banner()
+const result = await djBanner()
 
 console.log(result.body)
 ```

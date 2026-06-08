@@ -34,11 +34,9 @@ GET /playlist/tracks?op=add&pid=24381616&tracks=347231
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistTracks } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_tracks({
+const result = await playlistTracks({
   op: 'add',
   pid: '24381616',
   tracks: '347231',

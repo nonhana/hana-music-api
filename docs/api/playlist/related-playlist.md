@@ -32,11 +32,9 @@ GET /related/playlist?id=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { relatedPlaylist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.related_playlist({
+const result = await relatedPlaylist({
   id: '1',
 })
 

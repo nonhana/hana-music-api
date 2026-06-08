@@ -35,11 +35,9 @@ GET /user/comment/history?uid=32953014&limit=1&time=1616217577564
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userCommentHistory } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_comment_history({
+const result = await userCommentHistory({
   uid: '32953014',
 })
 

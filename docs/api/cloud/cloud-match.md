@@ -35,11 +35,9 @@ GET /cloud/match?uid=32953014&sid=bbb&asid=0
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { cloudMatch } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.cloud_match({
+const result = await cloudMatch({
   uid: '32953014',
   sid: 'aaa',
   asid: 'bbb',

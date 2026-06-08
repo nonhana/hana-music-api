@@ -35,11 +35,9 @@ GET /rebind?phone=xxx&oldcaptcha=1234&captcha=5678
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { rebind } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.rebind({
+const result = await rebind({
   phone: 'xxx',
   oldcaptcha: '1234',
   captcha: '5678',

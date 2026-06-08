@@ -33,11 +33,9 @@ GET /msg/forwards?limit=3
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { msgForwards } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.msg_forwards({
+const result = await msgForwards({
   limit: '3',
 })
 

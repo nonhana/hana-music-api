@@ -36,11 +36,9 @@ GET /style/song?tagId=1010&sort=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { styleSong } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.style_song({
+const result = await styleSong({
   tagId: '1000',
 })
 

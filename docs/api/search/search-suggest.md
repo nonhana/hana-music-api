@@ -34,11 +34,9 @@ GET /search/suggest?keywords=海阔天空&type=mobile
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { searchSuggest } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.search_suggest({
+const result = await searchSuggest({
   keywords: '海阔天空',
 })
 

@@ -30,11 +30,9 @@ GET /sign/happy/info
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { signHappyInfo } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.sign_happy_info()
+const result = await signHappyInfo()
 
 console.log(result.body)
 ```

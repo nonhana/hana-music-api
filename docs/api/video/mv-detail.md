@@ -32,11 +32,9 @@ GET /mv/detail?mvid=5436712
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { mvDetail } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.mv_detail({
+const result = await mvDetail({
   mvid: '5436712',
 })
 

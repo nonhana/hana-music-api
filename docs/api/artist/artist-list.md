@@ -37,11 +37,9 @@ GET /artist/list?type=2&area=2&initial=b
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { artistList } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.artist_list({
+const result = await artistList({
   type: '1',
   area: '96',
   initial: 'b',

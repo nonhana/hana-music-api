@@ -34,11 +34,9 @@ GET /msg/private/history?uid=9003
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { msgPrivateHistory } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.msg_private_history({
+const result = await msgPrivateHistory({
   uid: '9003',
 })
 

@@ -34,11 +34,9 @@ GET /user/follow/mixed?scene=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userFollowMixed } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_follow_mixed({
+const result = await userFollowMixed({
   scene: '1',
 })
 

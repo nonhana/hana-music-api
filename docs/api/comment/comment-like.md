@@ -36,11 +36,9 @@ GET /comment/like?type=6&cid=1419532712&threadId=A_EV_2_6559519868_32953014&t=0
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentLike } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_like({
+const result = await commentLike({
   id: '29178366',
   cid: '12840183',
   t: '1',

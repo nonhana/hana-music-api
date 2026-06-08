@@ -39,11 +39,9 @@ POST /listentogether/play/command?roomId=MzA0NjY5...&commandType=PLAY&targetSong
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listentogetherPlayCommand } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listentogether_play_command({
+const result = await listentogetherPlayCommand({
   roomId: 'MzA0NjY5...',
   commandType: 'GOTO',
   targetSongId: '1372188635',

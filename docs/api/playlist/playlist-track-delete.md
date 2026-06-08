@@ -33,11 +33,9 @@ GET /playlist/track/delete?pid=5271999357&ids=186041
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistTrackDelete } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_track_delete({
+const result = await playlistTrackDelete({
   pid: '5271999357',
   ids: '186041',
 })

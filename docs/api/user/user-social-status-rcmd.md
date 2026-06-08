@@ -30,11 +30,9 @@ GET /user/social/status/rcmd
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userSocialStatusRcmd } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_social_status_rcmd()
+const result = await userSocialStatusRcmd()
 
 console.log(result.body)
 ```

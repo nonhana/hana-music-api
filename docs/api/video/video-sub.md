@@ -33,11 +33,9 @@ GET /video/sub
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { videoSub } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.video_sub({
+const result = await videoSub({
   id: '123456',
   t: 'your-t',
 })

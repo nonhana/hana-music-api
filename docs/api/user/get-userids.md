@@ -31,11 +31,9 @@ GET /get/userids?nicknames=binaryify;binaryify2
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { getUserids } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.get_userids({
+const result = await getUserids({
   nicknames: 'binaryify',
 })
 

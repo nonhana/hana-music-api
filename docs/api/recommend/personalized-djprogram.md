@@ -30,11 +30,9 @@ GET /personalized/djprogram
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { personalizedDjprogram } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.personalized_djprogram()
+const result = await personalizedDjprogram()
 
 console.log(result.body)
 ```

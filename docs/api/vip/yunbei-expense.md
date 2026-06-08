@@ -35,11 +35,9 @@ GET /yunbei/expense?limit=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { yunbeiExpense } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.yunbei_expense({
+const result = await yunbeiExpense({
   limit: 10,
   offset: 0,
 })

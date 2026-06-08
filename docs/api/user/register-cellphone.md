@@ -36,11 +36,9 @@ GET /register/cellphone?phone=13xxx&password=xxxxx&captcha=1234&nickname=binary1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { registerCellphone } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.register_cellphone({
+const result = await registerCellphone({
   phone: '13xxx',
   password: 'xxxxx',
   captcha: '1234',

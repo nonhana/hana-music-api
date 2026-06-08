@@ -32,11 +32,9 @@ GET /history/recommend/songs/detail?date=2020-06-21
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { historyRecommendSongsDetail } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.history_recommend_songs_detail({
+const result = await historyRecommendSongsDetail({
   date: '2020-06-21',
 })
 

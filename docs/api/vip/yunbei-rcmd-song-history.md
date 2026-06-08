@@ -33,11 +33,9 @@ GET /yunbei/rcmd/song/history?size=10
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { yunbeiRcmdSongHistory } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.yunbei_rcmd_song_history({
+const result = await yunbeiRcmdSongHistory({
   size: '10',
 })
 

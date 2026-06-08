@@ -32,11 +32,9 @@ GET /daily_signin
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { dailySignin } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.daily_signin()
+const result = await dailySignin()
 
 console.log(result.body)
 ```

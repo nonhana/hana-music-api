@@ -32,11 +32,9 @@ GET /dj/program/detail?id=1367665101
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djProgramDetail } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_program_detail({
+const result = await djProgramDetail({
   id: '1367665101',
 })
 

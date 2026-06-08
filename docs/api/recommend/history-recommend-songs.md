@@ -30,11 +30,9 @@ GET /history/recommend/songs
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { historyRecommendSongs } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.history_recommend_songs()
+const result = await historyRecommendSongs()
 
 console.log(result.body)
 ```

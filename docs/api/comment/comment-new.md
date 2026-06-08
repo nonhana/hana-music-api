@@ -38,11 +38,9 @@ GET /comment/new?type=0&id=1407551413&sortType=3&cursor=1602072870260&pageSize=2
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentNew } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_new({
+const result = await commentNew({
   type: '0',
   id: '1407551413',
   sortType: '3',

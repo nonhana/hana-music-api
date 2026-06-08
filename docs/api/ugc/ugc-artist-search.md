@@ -30,11 +30,9 @@ GET /ugc/artist/search?keyword=sasakure
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { ugcArtistSearch } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.ugc_artist_search({
+const result = await ugcArtistSearch({
   keyword: 'sasakure',
 })
 

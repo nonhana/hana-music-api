@@ -32,11 +32,9 @@ GET /song/dynamic/cover?id=2101179024
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songDynamicCover } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_dynamic_cover({
+const result = await songDynamicCover({
   id: '2101179024',
 })
 

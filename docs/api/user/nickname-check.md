@@ -32,11 +32,9 @@ GET /nickname/check?nickname=binaryify
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { nicknameCheck } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.nickname_check({
+const result = await nicknameCheck({
   nickname: 'binaryify',
 })
 

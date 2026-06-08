@@ -34,11 +34,9 @@ GET /digitalAlbum/ordering?id=86286082&payment=3&quantity=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { digitalAlbumOrdering } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.digitalAlbum_ordering({
+const result = await digitalAlbumOrdering({
   id: '86286082',
   payment: '3',
   quantity: '1',

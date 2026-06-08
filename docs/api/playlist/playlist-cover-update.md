@@ -35,11 +35,9 @@ GET /playlist/cover/update?id=3143833470&imgSize=200
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistCoverUpdate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_cover_update({
+const result = await playlistCoverUpdate({
   id: '3143833470',
   imgSize: '200',
 })

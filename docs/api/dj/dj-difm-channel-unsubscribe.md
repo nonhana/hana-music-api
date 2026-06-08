@@ -32,11 +32,9 @@ GET /dj/difm/channel/unsubscribe?id=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djDifmChannelUnsubscribe } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_difm_channel_unsubscribe({
+const result = await djDifmChannelUnsubscribe({
   id: '1',
 })
 

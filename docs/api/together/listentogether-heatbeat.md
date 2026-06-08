@@ -36,11 +36,9 @@ POST /listentogether/heatbeat?roomId=MzA0NjY5...&songId=1372188635&playStatus=PL
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listentogetherHeatbeat } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listentogether_heatbeat({
+const result = await listentogetherHeatbeat({
   roomId: 'MzA0NjY5...',
   songId: '1372188635',
   playStatus: 'PLAY',

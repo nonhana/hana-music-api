@@ -35,11 +35,9 @@ GET /artist/video?id=2116
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { artistVideo } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.artist_video({
+const result = await artistVideo({
   id: '2116',
 })
 

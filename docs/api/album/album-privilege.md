@@ -32,11 +32,9 @@ GET /album/privilege?id=168223858
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { albumPrivilege } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.album_privilege({
+const result = await albumPrivilege({
   id: '168223858',
 })
 

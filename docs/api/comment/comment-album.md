@@ -35,11 +35,9 @@ GET /comment/album?id=32311
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentAlbum } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_album({
+const result = await commentAlbum({
   id: '32311',
 })
 

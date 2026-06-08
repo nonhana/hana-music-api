@@ -30,11 +30,9 @@ GET /broadcast/channel/currentinfo?id=5
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { broadcastChannelCurrentinfo } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.broadcast_channel_currentinfo({
+const result = await broadcastChannelCurrentinfo({
   id: '5',
 })
 

@@ -30,11 +30,9 @@ GET /yunbei/tasks
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { yunbeiTasks } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.yunbei_tasks()
+const result = await yunbeiTasks()
 
 console.log(result.body)
 ```

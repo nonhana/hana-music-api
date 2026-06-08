@@ -32,11 +32,9 @@ GET /user/social/status?uid=32953014
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userSocialStatus } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_social_status({
+const result = await userSocialStatus({
   uid: '32953014',
 })
 

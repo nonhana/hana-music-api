@@ -30,11 +30,9 @@ GET /album/newest
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { albumNewest } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.album_newest()
+const result = await albumNewest()
 
 console.log(result.body)
 ```

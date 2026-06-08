@@ -33,11 +33,9 @@ GET /artist/sub?id=6452&t=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { artistSub } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.artist_sub({
+const result = await artistSub({
   id: '6452',
   t: '1',
 })

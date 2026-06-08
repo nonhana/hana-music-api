@@ -30,11 +30,9 @@ GET /musician/cloudbean
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { musicianCloudbean } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.musician_cloudbean()
+const result = await musicianCloudbean()
 
 console.log(result.body)
 ```

@@ -32,11 +32,9 @@ GET /sheet/preview?id=143190
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { sheetPreview } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.sheet_preview({
+const result = await sheetPreview({
   id: '143190',
 })
 

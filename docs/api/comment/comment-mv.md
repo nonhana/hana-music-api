@@ -35,11 +35,9 @@ GET /comment/mv?id=5436712
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentMv } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_mv({
+const result = await commentMv({
   id: '5436712',
 })
 

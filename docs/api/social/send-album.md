@@ -34,11 +34,9 @@ GET /send/album?user_ids=1&id=351318&msg=测试
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { sendAlbum } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.send_album({
+const result = await sendAlbum({
   user_ids: '1',
   id: '351318',
   msg: '测试',

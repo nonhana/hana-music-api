@@ -32,11 +32,9 @@ GET /dj/difm/all/style/channel?sources=[0]
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djDifmAllStyleChannel } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_difm_all_style_channel({
+const result = await djDifmAllStyleChannel({
   sources: '[0]',
 })
 

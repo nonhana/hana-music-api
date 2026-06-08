@@ -30,11 +30,9 @@ GET /musician/sign
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { musicianSign } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.musician_sign()
+const result = await musicianSign()
 
 console.log(result.body)
 ```

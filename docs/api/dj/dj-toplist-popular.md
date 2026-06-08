@@ -32,11 +32,9 @@ GET /dj/toplist/popular?limit=30
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djToplistPopular } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_toplist_popular({
+const result = await djToplistPopular({
   limit: '30',
 })
 

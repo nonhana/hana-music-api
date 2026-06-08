@@ -33,11 +33,9 @@ GET /personalized/privatecontent/list?limit=1&offset=2
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { personalizedPrivatecontentList } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.personalized_privatecontent_list({
+const result = await personalizedPrivatecontentList({
   limit: '1',
   offset: '2',
 })

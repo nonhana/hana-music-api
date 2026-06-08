@@ -30,11 +30,9 @@ GET /cloud/import?song=最伟大的作品&artist=周杰伦&album=最伟大的作
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { cloudImport } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.cloud_import({
+const result = await cloudImport({
   song: '最伟大的作品',
   artist: '周杰伦',
   album: '最伟大的作品',

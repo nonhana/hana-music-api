@@ -32,11 +32,9 @@ GET /video/detail/info?vid=89ADDE33C0AAE8EC14B99F6750DB954D
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { videoDetailInfo } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.video_detail_info({
+const result = await videoDetailInfo({
   vid: '89ADDE33C0AAE8EC14B99F6750DB954D',
 })
 

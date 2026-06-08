@@ -30,11 +30,9 @@ GET /dj/catelist
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djCatelist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_catelist()
+const result = await djCatelist()
 
 console.log(result.body)
 ```

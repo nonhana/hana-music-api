@@ -35,11 +35,9 @@ GET /user/event?uid=32953014&limit=1&lasttime=1558011138743
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userEvent } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_event({
+const result = await userEvent({
   uid: '32953014',
 })
 

@@ -32,11 +32,9 @@ GET /song/like/check?ids=[2058263032,1497529942]
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songLikeCheck } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_like_check({
+const result = await songLikeCheck({
   ids: '[2058263032,1497529942]',
 })
 

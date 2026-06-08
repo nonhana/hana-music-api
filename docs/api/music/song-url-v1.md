@@ -35,11 +35,9 @@ GET /song/url/v1?id=405998841,33894312&level=lossless
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songUrlV1 } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_url_v1({
+const result = await songUrlV1({
   id: '33894312',
   level: 'exhigh',
 })

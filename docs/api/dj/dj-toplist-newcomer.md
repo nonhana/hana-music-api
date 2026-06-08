@@ -32,11 +32,9 @@ GET /dj/toplist/newcomer?limit=30
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djToplistNewcomer } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_toplist_newcomer({
+const result = await djToplistNewcomer({
   limit: '30',
 })
 

@@ -30,11 +30,9 @@ GET /yunbei
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { yunbei } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.yunbei()
+const result = await yunbei()
 
 console.log(result.body)
 ```

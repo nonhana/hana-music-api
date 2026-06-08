@@ -30,11 +30,9 @@ GET /countries/code/list
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { countriesCodeList } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.countries_code_list()
+const result = await countriesCodeList()
 
 console.log(result.body)
 ```

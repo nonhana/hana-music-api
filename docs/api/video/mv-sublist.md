@@ -30,11 +30,9 @@ GET /mv/sublist
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { mvSublist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.mv_sublist()
+const result = await mvSublist()
 
 console.log(result.body)
 ```

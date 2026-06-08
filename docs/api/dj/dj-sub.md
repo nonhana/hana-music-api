@@ -33,11 +33,9 @@ GET /dj/sub?rid=336355127&t=0
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djSub } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_sub({
+const result = await djSub({
   rid: '336355127',
   t: '1',
 })

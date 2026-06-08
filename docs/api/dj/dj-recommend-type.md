@@ -34,11 +34,9 @@ GET /dj/recommend/type?type=2001
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djRecommendType } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_recommend_type({
+const result = await djRecommendType({
   type: '1',
 })
 

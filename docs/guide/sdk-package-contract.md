@@ -94,7 +94,7 @@ hana-music-api/api/<module-identifier>
 `1.0.0` SDK 的原始函数层会把：
 
 - 业务查询参数（query）
-- 执行上下文（cookie / proxy / signal / runtime config）
+- 执行上下文（cookie / proxy / fetcher / runtime config）
 
 明确分离，避免把执行配置继续混入业务 query 对象。
 

@@ -33,11 +33,9 @@ GET /artist/sublist
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { artistSublist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.artist_sublist()
+const result = await artistSublist()
 
 console.log(result.body)
 ```

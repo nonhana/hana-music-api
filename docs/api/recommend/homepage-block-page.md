@@ -33,11 +33,9 @@ GET /homepage/block/page
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { homepageBlockPage } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.homepage_block_page()
+const result = await homepageBlockPage()
 
 console.log(result.body)
 ```

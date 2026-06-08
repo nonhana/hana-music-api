@@ -33,11 +33,9 @@ GET /song/purchased?limit=10
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songPurchased } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_purchased({
+const result = await songPurchased({
   limit: '10',
 })
 

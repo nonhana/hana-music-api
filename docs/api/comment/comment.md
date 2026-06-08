@@ -39,11 +39,9 @@ GET /comment?t=0&type=1&id=5436712&commentId=1535550516319
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { comment } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment({
+const result = await comment({
   t: '1',
   type: '1',
   id: '5436712',

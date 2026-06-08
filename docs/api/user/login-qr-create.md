@@ -30,11 +30,9 @@ GET /login/qr/create?key=xxx
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { loginQrCreate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.login_qr_create({
+const result = await loginQrCreate({
   key: 'xxx',
 })
 

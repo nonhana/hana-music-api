@@ -33,11 +33,9 @@ GET /banner?type=2
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { banner } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.banner()
+const result = await banner()
 
 console.log(result.body)
 ```

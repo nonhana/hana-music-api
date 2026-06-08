@@ -33,11 +33,9 @@ POST /listentogether/sync/playlist/get?roomId=MzA0NjY5...
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listentogetherSyncPlaylistGet } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listentogether_sync_playlist_get({
+const result = await listentogetherSyncPlaylistGet({
   roomId: 'MzA0NjY5...',
 })
 

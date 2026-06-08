@@ -35,11 +35,9 @@ GET /dj/subscriber?id=335425050&time=1602761825390
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djSubscriber } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_subscriber({
+const result = await djSubscriber({
   id: '335425050',
 })
 

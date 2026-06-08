@@ -30,11 +30,9 @@ GET /verify/getQr
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { verifyGetQr } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.verify_getQr()
+const result = await verifyGetQr()
 
 console.log(result.body)
 ```

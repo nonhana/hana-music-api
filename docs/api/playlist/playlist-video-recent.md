@@ -30,11 +30,9 @@ GET /playlist/video/recent
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistVideoRecent } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_video_recent()
+const result = await playlistVideoRecent()
 
 console.log(result.body)
 ```

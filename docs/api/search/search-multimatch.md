@@ -32,11 +32,9 @@ GET /search/multimatch?keywords=海阔天空
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { searchMultimatch } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.search_multimatch({
+const result = await searchMultimatch({
   keywords: '海阔天空',
 })
 

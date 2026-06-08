@@ -30,11 +30,9 @@ GET /song/chorus?id=2058263032
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songChorus } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_chorus({
+const result = await songChorus({
   id: '2058263032',
 })
 

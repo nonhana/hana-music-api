@@ -33,11 +33,9 @@ GET /playlist/import/name/task/create?local=${local}
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistImportNameTaskCreate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_import_name_task_create({
+const result = await playlistImportNameTaskCreate({
   local: '${local}',
 })
 

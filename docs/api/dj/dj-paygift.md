@@ -33,11 +33,9 @@ GET /dj/paygift?limit=10&offset=20
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djPaygift } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_paygift({
+const result = await djPaygift({
   limit: '10',
   offset: '20',
 })

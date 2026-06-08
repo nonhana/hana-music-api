@@ -33,11 +33,9 @@ GET /captcha/sent?phone=13xxx
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { captchaSent } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.captcha_sent({
+const result = await captchaSent({
   phone: '13xxx',
 })
 

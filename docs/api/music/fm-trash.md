@@ -32,11 +32,9 @@ GET /fm_trash?id=347230
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { fmTrash } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.fm_trash({
+const result = await fmTrash({
   id: '347230',
 })
 

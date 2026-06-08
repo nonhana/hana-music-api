@@ -30,11 +30,9 @@ GET /login/qr/check?key=xxx
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { loginQrCheck } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.login_qr_check({
+const result = await loginQrCheck({
   key: 'xxx',
 })
 

@@ -33,11 +33,9 @@ GET /musician/cloudbean/obtain?id=7036416928&period=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { musicianCloudbeanObtain } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.musician_cloudbean_obtain({
+const result = await musicianCloudbeanObtain({
   id: '7036416928',
   period: '1',
 })

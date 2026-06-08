@@ -32,11 +32,9 @@ GET /user/mutualfollow/get?uid=32953014
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userMutualfollowGet } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_mutualfollow_get({
+const result = await userMutualfollowGet({
   uid: '32953014',
 })
 

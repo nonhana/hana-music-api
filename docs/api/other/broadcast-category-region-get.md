@@ -30,11 +30,9 @@ GET /broadcast/category/region/get
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { broadcastCategoryRegionGet } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.broadcast_category_region_get()
+const result = await broadcastCategoryRegionGet()
 
 console.log(result.body)
 ```

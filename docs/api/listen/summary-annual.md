@@ -30,11 +30,9 @@ GET /summary/annual?year=2024
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { summaryAnnual } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.summary_annual({
+const result = await summaryAnnual({
   year: '2024',
 })
 

@@ -35,11 +35,9 @@ GET /resource/like?t=1&type=6&threadId=A_EV_2_6559519868_32953014
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { resourceLike } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.resource_like({
+const result = await resourceLike({
   t: '1',
   type: '1',
   id: '5436712',

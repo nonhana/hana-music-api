@@ -32,11 +32,9 @@ GET /playlist/update/playcount?id=24381616
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistUpdatePlaycount } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_update_playcount({
+const result = await playlistUpdatePlaycount({
   id: '24381616',
 })
 

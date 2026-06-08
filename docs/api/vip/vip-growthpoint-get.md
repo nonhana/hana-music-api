@@ -33,11 +33,9 @@ GET /vip/growthpoint/get?ids=8613118351_1,8607552957_1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { vipGrowthpointGet } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.vip_growthpoint_get({
+const result = await vipGrowthpointGet({
   ids: '7043206830_7',
 })
 

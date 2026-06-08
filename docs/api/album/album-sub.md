@@ -34,11 +34,9 @@ GET /album/sub?t=0
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { albumSub } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.album_sub({
+const result = await albumSub({
   t: '1',
 })
 

@@ -30,11 +30,9 @@ GET /ugc/album/get?id=168223858
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { ugcAlbumGet } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.ugc_album_get({
+const result = await ugcAlbumGet({
   id: '168223858',
 })
 

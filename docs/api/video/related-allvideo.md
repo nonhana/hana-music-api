@@ -32,11 +32,9 @@ GET /related/allvideo?id=89ADDE33C0AAE8EC14B99F6750DB954D
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { relatedAllvideo } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.related_allvideo({
+const result = await relatedAllvideo({
   id: '89ADDE33C0AAE8EC14B99F6750DB954D',
 })
 

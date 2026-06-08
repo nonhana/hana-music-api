@@ -36,11 +36,9 @@ GET /comment/floor?parentCommentId=1438569889&id=29764564&type=0
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentFloor } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_floor({
+const result = await commentFloor({
   parentCommentId: '1438569889',
   id: '29764564',
   type: '0',

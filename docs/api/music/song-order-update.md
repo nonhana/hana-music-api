@@ -33,11 +33,9 @@ GET /song/order/update?pid=2039116066&ids=[5268328,1219871]
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songOrderUpdate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_order_update({
+const result = await songOrderUpdate({
   pid: '2039116066',
   ids: '[5268328,1219871]',
 })

@@ -30,11 +30,9 @@ GET /login/status
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { loginStatus } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.login_status()
+const result = await loginStatus()
 
 console.log(result.body)
 ```

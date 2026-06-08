@@ -32,11 +32,9 @@ GET /song/wiki/summary?id=1958384591
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songWikiSummary } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_wiki_summary({
+const result = await songWikiSummary({
   id: '1958384591',
 })
 

@@ -32,11 +32,9 @@ GET /likelist?uid=32953014
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { likelist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.likelist({
+const result = await likelist({
   uid: '32953014',
 })
 

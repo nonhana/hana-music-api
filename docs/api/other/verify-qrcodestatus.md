@@ -30,11 +30,9 @@ GET /verify/qrcodestatus
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { verifyQrcodestatus } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.verify_qrcodestatus()
+const result = await verifyQrcodestatus()
 
 console.log(result.body)
 ```

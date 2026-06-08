@@ -30,11 +30,9 @@ GET /inner/version
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { innerVersion } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.inner_version()
+const result = await innerVersion()
 
 console.log(result.body)
 ```

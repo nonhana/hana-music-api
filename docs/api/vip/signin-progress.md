@@ -32,11 +32,9 @@ GET /signin/progress?moduleId=1207signin-1207signin
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { signinProgress } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.signin_progress({
+const result = await signinProgress({
   moduleId: '1207signin-1207signin',
 })
 

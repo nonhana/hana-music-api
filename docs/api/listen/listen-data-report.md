@@ -33,11 +33,9 @@ GET /listen/data/report?type=month
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listenDataReport } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listen_data_report({
+const result = await listenDataReport({
   type: 'month',
 })
 

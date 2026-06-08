@@ -32,11 +32,9 @@ GET /video/timeline/all
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { videoTimelineAll } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.video_timeline_all()
+const result = await videoTimelineAll()
 
 console.log(result.body)
 ```

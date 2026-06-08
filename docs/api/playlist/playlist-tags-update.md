@@ -33,11 +33,9 @@ GET /playlist/tags/update?id=24381616&tags=学习
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistTagsUpdate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_tags_update({
+const result = await playlistTagsUpdate({
   id: '24381616',
   tags: '学习',
 })

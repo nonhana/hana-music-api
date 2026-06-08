@@ -30,11 +30,9 @@ GET /playlist/highquality/tags
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistHighqualityTags } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_highquality_tags()
+const result = await playlistHighqualityTags()
 
 console.log(result.body)
 ```

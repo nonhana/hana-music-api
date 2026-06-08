@@ -30,11 +30,9 @@ GET /style/preference
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { stylePreference } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.style_preference()
+const result = await stylePreference()
 
 console.log(result.body)
 ```

@@ -30,11 +30,9 @@ GET /listen/data/year/report
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listenDataYearReport } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listen_data_year_report()
+const result = await listenDataYearReport()
 
 console.log(result.body)
 ```

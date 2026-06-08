@@ -31,11 +31,9 @@ GET /listentogether/room/create
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listentogetherRoomCreate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listentogether_room_create()
+const result = await listentogetherRoomCreate()
 
 console.log(result.body)
 ```

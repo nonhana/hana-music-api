@@ -30,11 +30,9 @@ GET /personalized/mv
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { personalizedMv } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.personalized_mv()
+const result = await personalizedMv()
 
 console.log(result.body)
 ```

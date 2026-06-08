@@ -32,11 +32,9 @@ GET /dj/toplist/pay?limit=30
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djToplistPay } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_toplist_pay({
+const result = await djToplistPay({
   limit: '30',
 })
 

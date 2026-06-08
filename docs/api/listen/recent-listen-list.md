@@ -30,11 +30,9 @@ GET /recent/listen/list
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { recentListenList } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.recent_listen_list()
+const result = await recentListenList()
 
 console.log(result.body)
 ```

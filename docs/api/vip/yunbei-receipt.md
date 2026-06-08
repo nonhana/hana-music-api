@@ -35,11 +35,9 @@ GET /yunbei/receipt?limit=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { yunbeiReceipt } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.yunbei_receipt({
+const result = await yunbeiReceipt({
   limit: 10,
   offset: 0,
 })

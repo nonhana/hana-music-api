@@ -32,11 +32,9 @@ GET /personalized/newsong
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { personalizedNewsong } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.personalized_newsong()
+const result = await personalizedNewsong()
 
 console.log(result.body)
 ```

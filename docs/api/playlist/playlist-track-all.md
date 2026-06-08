@@ -33,11 +33,9 @@ GET /playlist/track/all?id=24381616&limit=10&offset=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistTrackAll } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_track_all({
+const result = await playlistTrackAll({
   id: '24381616',
   limit: '10',
   offset: '1',

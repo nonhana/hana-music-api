@@ -33,11 +33,9 @@ GET /top/artists?offset=0&limit=30
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { topArtists } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.top_artists({
+const result = await topArtists({
   offset: '0',
   limit: '30',
 })

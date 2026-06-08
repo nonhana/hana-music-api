@@ -33,11 +33,9 @@ GET /program/recommend?limit=5
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { programRecommend } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.program_recommend({
+const result = await programRecommend({
   limit: '5',
 })
 

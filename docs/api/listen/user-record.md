@@ -33,11 +33,9 @@ GET /user/record?uid=32953014&type=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userRecord } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_record({
+const result = await userRecord({
   uid: '32953014',
   type: '1',
 })

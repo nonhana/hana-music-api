@@ -32,11 +32,9 @@ GET /artist/top/song?id=6452
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { artistTopSong } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.artist_top_song({
+const result = await artistTopSong({
   id: '6452',
 })
 

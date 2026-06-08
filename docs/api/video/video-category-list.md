@@ -30,11 +30,9 @@ GET /video/category/list
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { videoCategoryList } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.video_category_list()
+const result = await videoCategoryList()
 
 console.log(result.body)
 ```

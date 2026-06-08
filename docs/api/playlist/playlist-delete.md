@@ -33,11 +33,9 @@ GET /playlist/delete?id=5013464397,5013427772
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistDelete } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_delete({
+const result = await playlistDelete({
   id: '2947311456',
 })
 

@@ -38,11 +38,9 @@ POST /listentogether/sync/list/command?roomId=MzA0NjY5...&commandType=REPLACE&us
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listentogetherSyncListCommand } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listentogether_sync_list_command({
+const result = await listentogetherSyncListCommand({
   roomId: 'MzA0NjY5...',
   commandType: 'REPLACE',
   userId: '32953014',

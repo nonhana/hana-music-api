@@ -30,11 +30,9 @@ GET /register/anonimous
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { registerAnonimous } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.register_anonimous()
+const result = await registerAnonimous()
 
 console.log(result.body)
 ```

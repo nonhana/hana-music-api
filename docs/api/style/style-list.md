@@ -30,11 +30,9 @@ GET /style/list
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { styleList } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.style_list()
+const result = await styleList()
 
 console.log(result.body)
 ```

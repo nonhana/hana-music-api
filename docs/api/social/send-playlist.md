@@ -34,11 +34,9 @@ GET /send/playlist?msg=test2&user_ids=475625142,32953014&playlist=705123493
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { sendPlaylist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.send_playlist({
+const result = await sendPlaylist({
   msg: 'test',
   user_ids: '475625142',
   playlist: '705123491',

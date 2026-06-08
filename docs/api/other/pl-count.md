@@ -30,11 +30,9 @@ GET /pl/count
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { plCount } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.pl_count()
+const result = await plCount()
 
 console.log(result.body)
 ```

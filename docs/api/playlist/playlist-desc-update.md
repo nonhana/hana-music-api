@@ -33,11 +33,9 @@ GET /playlist/desc/update?id=24381616&desc=描述
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistDescUpdate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_desc_update({
+const result = await playlistDescUpdate({
   id: '24381616',
   desc: '描述',
 })

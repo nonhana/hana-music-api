@@ -33,11 +33,9 @@ GET /msg/private?limit=3
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { msgPrivate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.msg_private({
+const result = await msgPrivate({
   limit: '3',
 })
 

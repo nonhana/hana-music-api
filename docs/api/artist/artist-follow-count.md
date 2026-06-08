@@ -34,11 +34,9 @@ GET /artist/follow/count?id=2116
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { artistFollowCount } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.artist_follow_count({
+const result = await artistFollowCount({
   id: '2116',
 })
 

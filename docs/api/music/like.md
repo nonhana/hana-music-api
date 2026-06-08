@@ -33,11 +33,9 @@ GET /like?id=347230
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { like } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.like({
+const result = await like({
   id: '347230',
 })
 

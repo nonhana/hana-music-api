@@ -33,11 +33,9 @@ GET /song/download/url
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songDownloadUrl } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_download_url({
+const result = await songDownloadUrl({
   id: '123456',
 })
 

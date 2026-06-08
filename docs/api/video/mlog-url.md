@@ -33,11 +33,9 @@ GET /mlog/url?id=a1qOVPTWKS1ZrK8
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { mlogUrl } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.mlog_url({
+const result = await mlogUrl({
   id: 'a1qOVPTWKS1ZrK8',
 })
 

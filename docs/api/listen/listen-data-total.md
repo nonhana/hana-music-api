@@ -30,11 +30,9 @@ GET /listen/data/total
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listenDataTotal } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listen_data_total()
+const result = await listenDataTotal()
 
 console.log(result.body)
 ```

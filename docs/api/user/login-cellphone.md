@@ -38,11 +38,9 @@ GET /login/cellphone?phone=xxx&captcha=1234
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { loginCellphone } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.login_cellphone({
+const result = await loginCellphone({
   phone: 'xxx',
   password: 'yyy',
 })

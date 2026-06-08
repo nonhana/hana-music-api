@@ -33,11 +33,9 @@ GET /event?pagesize=30&lasttime=1556740526369
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { event } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.event({
+const result = await event({
   pagesize: '30',
   lasttime: '1556740526369',
 })

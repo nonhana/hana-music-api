@@ -32,11 +32,9 @@ GET /lyric?id=33894312
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { lyric } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.lyric({
+const result = await lyric({
   id: '33894312',
 })
 

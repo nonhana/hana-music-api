@@ -30,11 +30,9 @@ GET /vip/tasks
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { vipTasks } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.vip_tasks()
+const result = await vipTasks()
 
 console.log(result.body)
 ```

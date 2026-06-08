@@ -30,11 +30,9 @@ GET /playlist/mylike
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistMylike } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_mylike()
+const result = await playlistMylike()
 
 console.log(result.body)
 ```

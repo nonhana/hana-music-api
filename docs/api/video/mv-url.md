@@ -34,11 +34,9 @@ GET /mv/url?id=10896407&r=1080
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { mvUrl } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.mv_url({
+const result = await mvUrl({
   id: '5436712',
 })
 

@@ -32,11 +32,9 @@ GET /playlist/order/update?ids=[111,222]
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistOrderUpdate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_order_update({
+const result = await playlistOrderUpdate({
   ids: '[111,222]',
 })
 

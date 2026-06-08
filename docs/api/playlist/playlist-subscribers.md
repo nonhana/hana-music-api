@@ -34,11 +34,9 @@ GET /playlist/subscribers?id=544215255&limit=30
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistSubscribers } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_subscribers({
+const result = await playlistSubscribers({
   id: '544215255',
   limit: '30',
 })

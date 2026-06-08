@@ -32,11 +32,9 @@ GET /simi/user?id=347230
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { simiUser } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.simi_user({
+const result = await simiUser({
   id: '347230',
 })
 

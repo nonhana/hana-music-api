@@ -30,11 +30,9 @@ GET /aidj/content/rcmd
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { aidjContentRcmd } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.aidj_content_rcmd()
+const result = await aidjContentRcmd()
 
 console.log(result.body)
 ```

@@ -33,11 +33,9 @@ GET /cellphone/existence/check?phone=13xxx
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { cellphoneExistenceCheck } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.cellphone_existence_check({
+const result = await cellphoneExistenceCheck({
   phone: '13xxx',
 })
 

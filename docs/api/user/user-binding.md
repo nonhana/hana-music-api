@@ -32,11 +32,9 @@ GET /user/binding?uid=32953014
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userBinding } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_binding({
+const result = await userBinding({
   uid: '32953014',
 })
 

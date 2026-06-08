@@ -30,11 +30,9 @@ GET /user/level
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { userLevel } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.user_level()
+const result = await userLevel()
 
 console.log(result.body)
 ```

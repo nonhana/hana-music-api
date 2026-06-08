@@ -35,11 +35,9 @@ GET /dj/program?rid=336355127&limit=40
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djProgram } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_program({
+const result = await djProgram({
   rid: '336355127',
   limit: '40',
 })

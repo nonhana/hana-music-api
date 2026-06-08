@@ -34,11 +34,9 @@ GET /event/forward?evId=6712917601&uid=32953014&forwards=测试内容
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { eventForward } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.event_forward({
+const result = await eventForward({
   evId: '6712917601',
   uid: '32953014',
   forwards: '测试内容',

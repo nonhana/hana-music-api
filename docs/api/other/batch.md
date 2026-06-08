@@ -30,11 +30,9 @@ GET /batch?/api/v2/banner/get={"clientType":"pc"}
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { batch } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.batch({
+const result = await batch({
   /api/v2/banner/get: "{\"clientType\":\"pc\"}",
 })
 

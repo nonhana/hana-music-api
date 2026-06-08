@@ -30,11 +30,9 @@ GET /dj/sublist
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { djSublist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.dj_sublist()
+const result = await djSublist()
 
 console.log(result.body)
 ```

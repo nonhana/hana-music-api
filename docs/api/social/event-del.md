@@ -32,11 +32,9 @@ GET /event/del?evId=6712917601
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { eventDel } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.event_del({
+const result = await eventDel({
   evId: '6712917601',
 })
 

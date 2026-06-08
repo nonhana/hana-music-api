@@ -33,11 +33,9 @@ GET /mv/exclusive/rcmd?limit=10
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { mvExclusiveRcmd } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.mv_exclusive_rcmd({
+const result = await mvExclusiveRcmd({
   limit: '10',
 })
 

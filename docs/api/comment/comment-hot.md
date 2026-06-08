@@ -36,11 +36,9 @@ GET /comment/hot?id=186016&type=0
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentHot } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_hot({
+const result = await commentHot({
   id: '186016',
   type: '0',
 })

@@ -33,11 +33,9 @@ POST /listentogether/end?roomId=MzA0NjY5...
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listentogetherEnd } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listentogether_end({
+const result = await listentogetherEnd({
   roomId: 'MzA0NjY5...',
 })
 

@@ -32,11 +32,9 @@ GET /comment/event?threadId=A_EV_2_6559519868_32953014
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentEvent } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_event({
+const result = await commentEvent({
   threadId: 'A_EV_2_6559519868_32953014',
 })
 

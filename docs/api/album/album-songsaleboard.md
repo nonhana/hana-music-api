@@ -36,11 +36,9 @@ GET /album/songsaleboard?type=year&year=2020&albumType=0
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { albumSongsaleboard } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.album_songsaleboard({
+const result = await albumSongsaleboard({
   type: 'year',
   year: 2020,
   albumType: 0,

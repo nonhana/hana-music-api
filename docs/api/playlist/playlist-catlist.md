@@ -30,11 +30,9 @@ GET /playlist/catlist
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { playlistCatlist } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.playlist_catlist()
+const result = await playlistCatlist()
 
 console.log(result.body)
 ```
