@@ -100,6 +100,12 @@ hana-music-api/api/<module-identifier>
 
 这既服务 `createHanaMusicApi()` 的共享配置能力，也降低原始函数调用的歧义。
 
+额外约束：
+
+- factory 级 `config` 与单次调用的 `config` 采用**浅层对象覆盖**
+- 单次调用 `config` 会覆盖同名顶层字段
+- SDK 不会对 `headers` 等嵌套对象做 deep merge；需要组合嵌套配置时，必须由消费者自行先合并
+
 ## Node-only 消费者硬门槛
 
 正式发布前必须证明打包后的声明文件对纯 Node 消费者成立：

@@ -27,24 +27,21 @@ const FORBIDDEN_ROOT_EXPORTS = [
   'loadProgrammaticApi',
   'NeteaseCloudMusicApi',
 ]
-const FORBIDDEN_EXPORT_PATHS = ['./src/app/cli', './docs', './demo', './server', './cli']
-const REQUIRED_EXPORT_PATTERNS = ['./api/*']
+const EXPECTED_EXPORT_PATHS = ['.']
 
 describe('sdk release contract', () => {
-  test('should expose single-package ESM metadata with explicit export boundaries', () => {
+  test('should expose only the root package entrypoint as the public ESM boundary', () => {
+    const exportMap = sdkPackage.exports ?? {}
+
     expect(sdkPackage.name).toBe('hana-music-api')
     expect(sdkPackage.private).toBe(false)
     expect(sdkPackage.type).toBe('module')
     expect(sdkPackage.sideEffects).toBe(false)
-    expect(Object.hasOwn(sdkPackage.exports ?? {}, '.')).toBe(true)
-
-    for (const subpath of REQUIRED_EXPORT_PATTERNS) {
-      expect(Object.hasOwn(sdkPackage.exports ?? {}, subpath)).toBe(true)
-    }
-
-    for (const forbiddenPath of FORBIDDEN_EXPORT_PATHS) {
-      expect(Object.hasOwn(sdkPackage.exports ?? {}, forbiddenPath)).toBe(false)
-    }
+    expect(Object.keys(exportMap).toSorted()).toEqual(EXPECTED_EXPORT_PATHS)
+    expect(exportMap['.']).toEqual({
+      types: './dist/index.d.ts',
+      default: './dist/index.js',
+    })
   })
 
   test('should keep the root runtime surface inside the frozen allowlist/denylist contract', async () => {
@@ -78,6 +75,8 @@ describe('sdk release contract', () => {
   })
 
   test('should pack a consumer-safe tarball and allow only approved runtime imports', () => {
+    ensureBuiltArtifacts()
+
     const packResult = run(['npm', 'pack', '--json'], ROOT)
     expect(packResult.exitCode).toBe(0)
 
@@ -89,9 +88,11 @@ describe('sdk release contract', () => {
     const filePaths = files.map((file) => file.path)
 
     expect(filename.length).toBeGreaterThan(0)
-    expect(filePaths.some((file) => file.startsWith('package/docs/'))).toBe(false)
-    expect(filePaths.some((file) => file.startsWith('package/src/server/'))).toBe(false)
-    expect(filePaths.some((file) => file.startsWith('package/src/demo/'))).toBe(false)
+    expect(filePaths).toContain('dist/index.d.ts')
+    expect(filePaths).toContain('dist/index.js')
+    expect(filePaths.some((file) => file.startsWith('docs/'))).toBe(false)
+    expect(filePaths.some((file) => file.startsWith('src/server/'))).toBe(false)
+    expect(filePaths.some((file) => file.startsWith('src/demo/'))).toBe(false)
 
     const consumerDirectory = mkdtempSync(join(tmpdir(), 'hana-music-api-sdk-consumer-'))
     const tarballPath = resolve(ROOT, filename)
@@ -120,9 +121,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         smokeScriptPath,
         [
-          "import * as sdk from 'hana-music-api'",
-          "import { search } from 'hana-music-api/api/search'",
-          "import { songUrl } from 'hana-music-api/api/song_url'",
+          "import { createHanaMusicApi, invokeModule, search, songUrl } from 'hana-music-api'",
           '',
           'const fetcher = async () => {',
           '  return new Response(JSON.stringify({ code: 200, result: { songs: [] }, data: [] }), {',
@@ -130,15 +129,17 @@ describe('sdk release contract', () => {
           '  })',
           '}',
           '',
-          "if (typeof sdk.createHanaMusicApi !== 'function') throw new Error('missing createHanaMusicApi')",
-          "if (typeof sdk.invokeModule !== 'function') throw new Error('missing invokeModule')",
-          "if (typeof search !== 'function') throw new Error('missing search subpath export')",
-          "if (typeof songUrl !== 'function') throw new Error('missing songUrl subpath export')",
-          'const client = sdk.createHanaMusicApi({ fetcher })',
+          "if (typeof createHanaMusicApi !== 'function') throw new Error('missing createHanaMusicApi')",
+          "if (typeof invokeModule !== 'function') throw new Error('missing invokeModule')",
+          "if (typeof search !== 'function') throw new Error('missing root search export')",
+          "if (typeof songUrl !== 'function') throw new Error('missing root songUrl export')",
+          'const client = createHanaMusicApi({ fetcher })',
           "const clientSearchResult = await client.search({ keywords: 'demo' })",
           "const rawSearchResult = await search({ keywords: 'demo' }, { fetcher })",
+          "const invokedSearchResult = await invokeModule('search', { keywords: 'demo' }, { fetcher })",
           "if (clientSearchResult.status !== 200) throw new Error('client search call failed')",
           "if (rawSearchResult.status !== 200) throw new Error('raw search call failed')",
+          "if (invokedSearchResult.status !== 200) throw new Error('invokeModule search call failed')",
         ].join('\n'),
       )
 
@@ -149,13 +150,16 @@ describe('sdk release contract', () => {
       writeFileSync(
         negativeImportScriptPath,
         [
-          'let failedAsExpected = false',
-          'try {',
-          "  await import('hana-music-api/src/app/cli.ts')",
-          '} catch {',
-          '  failedAsExpected = true',
+          "const blockedSpecifiers = ['hana-music-api/api/search', 'hana-music-api/src/app/cli.ts']",
+          'for (const specifier of blockedSpecifiers) {',
+          '  let failedAsExpected = false',
+          '  try {',
+          '    await import(specifier)',
+          '  } catch {',
+          '    failedAsExpected = true',
+          '  }',
+          '  if (!failedAsExpected) throw new Error(`blocked import unexpectedly resolved: ${specifier}`)',
           '}',
-          "if (!failedAsExpected) throw new Error('private deep import unexpectedly resolved')",
         ].join('\n'),
       )
 
@@ -166,8 +170,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         typesFixturePath,
         [
-          "import { createHanaMusicApi, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
-          "import { songUrl } from 'hana-music-api/api/song_url'",
+          "import { createHanaMusicApi, songUrl, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
           '',
           'const config: CreateHanaMusicApiConfig = {',
           "  cookie: 'MUSIC_U=consumer',",
@@ -217,6 +220,18 @@ describe('sdk release contract', () => {
 
 function readPackageJson(): PackageJsonLike {
   return JSON.parse(readFileSync(PACKAGE_JSON_PATH, 'utf8')) as PackageJsonLike
+}
+
+function ensureBuiltArtifacts(): void {
+  const buildOutputPath = resolve(ROOT, 'dist/index.js')
+
+  try {
+    readFileSync(buildOutputPath, 'utf8')
+    return
+  } catch {}
+
+  const buildResult = run(['bun', 'run', 'build'], ROOT)
+  expect(buildResult.exitCode).toBe(0)
 }
 
 function run(cmd: string[], cwd: string) {

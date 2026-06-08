@@ -76,6 +76,12 @@ const result = await invokeModule(
 
 这让 `createHanaMusicApi(config)` 可以复用共享配置，也让原始函数和 `invokeModule` 的调用形态保持一致。
 
+补充语义约束：
+
+- factory 级 `config` 与单次调用的 `config` 采用**浅层覆盖**合并
+- 单次调用 `config` 优先级更高
+- `headers` 这类嵌套对象不会做 deep merge；如果你需要组合多个嵌套配置，请先在应用侧自行合并后再传入
+
 ## 仓库内仍保留的能力
 
 以下能力仍然属于当前仓库工程的一部分，但不进入 `1.0.0` npm 根导出 allowlist：

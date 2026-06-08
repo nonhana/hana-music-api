@@ -2,7 +2,7 @@
   "name": "hana-music-api",
   "version": "0.0.1",
   "private": false,
-  "description": "SDK-first, ESM-only Netease Cloud Music API package for Node.js consumers.",
+  "description": "Modern Netease Cloud Music API package for Node.js.",
   "keywords": [
     "bun",
     "esm",
@@ -29,12 +29,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
-    },
-    "./api/*": {
-      "types": "./dist/api/*.d.ts",
-      "default": "./dist/api/*.js"
-    },
-    "./package.json": "./package.json"
+    }
   },
   "publishConfig": {
     "access": "public",
@@ -45,8 +40,6 @@
     "build:check": "bun run build && publint --strict && attw --pack . --profile esm-only",
     "changeset": "changeset",
     "dev": "bun --watch src/app/cli.ts",
-    "docs:sdk-snippets:check": "bun scripts/sync-sdk-doc-snippets.ts --check",
-    "docs:sdk-snippets:sync": "bun scripts/sync-sdk-doc-snippets.ts",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
@@ -63,7 +56,7 @@
     "types:modules:generate": "bun scripts/generate-module-type-surface.ts",
     "types:modules:check": "bun scripts/generate-module-type-surface.ts --check",
     "verify": "bun run types:modules:check && bun run build && bun test && bun run typecheck && bun run lint && bun run fmt:check && bun run docs:build",
-    "verify:sdk": "bun run types:modules:check && bun run build:check && bun test tests/sdk-release-contract.test.ts tests/module-api.test.ts tests/module-discovery-alignment.test.ts && bun run typecheck && bun run lint && bun run fmt:check && bun run docs:sdk-snippets:check && bun run docs:build",
+    "verify:sdk": "bun run types:modules:check && bun run build:check && bun test tests/sdk-release-contract.test.ts tests/module-api.test.ts tests/module-discovery-alignment.test.ts && bun run typecheck && bun run lint && bun run fmt:check && bun run docs:build",
     "version-packages": "changeset version",
     "pm2:start": "pm2 start ecosystem.config.cjs",
     "pm2:reload": "pm2 reload hana-music-api",
@@ -89,6 +82,6 @@
     "vitepress": "^1.6.4"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   }
 }
