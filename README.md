@@ -102,8 +102,8 @@ curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=5"
 
 ## 文档
 
-- 快速开始：[docs/guide/getting-started.md](/Users/nonhana/code_life/Campanula/hana-music-api.omx-worktrees/sdk-release-exec/docs/guide/getting-started.md:1)
-- 编程式调用：[docs/guide/programmatic-api.md](/Users/nonhana/code_life/Campanula/hana-music-api.omx-worktrees/sdk-release-exec/docs/guide/programmatic-api.md:1)
-- 认证机制：[docs/guide/authentication.md](/Users/nonhana/code_life/Campanula/hana-music-api.omx-worktrees/sdk-release-exec/docs/guide/authentication.md:1)
-- 调用约定：[docs/guide/request-convention.md](/Users/nonhana/code_life/Campanula/hana-music-api.omx-worktrees/sdk-release-exec/docs/guide/request-convention.md:1)
-- API 参考：[docs/api/index.md](/Users/nonhana/code_life/Campanula/hana-music-api.omx-worktrees/sdk-release-exec/docs/api/index.md:1)
+- 快速开始：[docs/guide/getting-started.md](docs/guide/getting-started.md)
+- 编程式调用：[docs/guide/programmatic-api.md](docs/guide/programmatic-api.md)
+- 认证机制：[docs/guide/authentication.md](docs/guide/authentication.md)
+- 调用约定：[docs/guide/request-convention.md](docs/guide/request-convention.md)
+- API 参考：[docs/api/index.md](docs/api/index.md)
