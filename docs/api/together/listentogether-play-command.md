@@ -67,9 +67,3 @@ console.log(result.body)
 
 - [`/listentogether/heatbeat`](/api/together/listentogether-heatbeat)
 - [`/listentogether/sync/list/command`](/api/together/listentogether-sync-list-command)
-
-## 维护说明
-
-- 本页基于上游 PR 示例页与当前 `hana-music-api` 模块实现补写。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

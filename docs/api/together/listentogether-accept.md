@@ -59,9 +59,3 @@ console.log(result.body)
 3. 调用 [`/listentogether/room/check`](/api/together/listentogether-room-check) 检查房间是否可加入。
 4. 调用 [`/listentogether/sync/playlist/get`](/api/together/listentogether-sync-playlist-get) 拉取当前房间的播放列表。
 5. 轮询或按需调用 [`/listentogether/status`](/api/together/listentogether-status) 获取成员和当前房间状态。
-
-## 维护说明
-
-- 本页基于上游 issue、PR、示例页与当前 `hana-music-api` 模块实现补写。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。
