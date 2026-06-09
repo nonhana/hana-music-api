@@ -1,6 +1,6 @@
 {
   "name": "hana-music-api",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": false,
   "description": "Modern Netease Cloud Music API package for Node.js.",
   "keywords": [
