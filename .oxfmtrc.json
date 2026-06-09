@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/oxfmt/configuration_schema.json",
-  "ignorePatterns": ["dist/**", "node_modules/**", "src/demo/assets/**"],
+  "ignorePatterns": ["dist/**", "node_modules/**", "src/demo/assets/**", "**/*.md"],
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "all",
