@@ -36,11 +36,9 @@ GET /comment/like?type=6&cid=1419532712&threadId=A_EV_2_6559519868_32953014&t=0
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { commentLike } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment_like({
+const result = await commentLike({
   id: '29178366',
   cid: '12840183',
   t: '1',
@@ -86,9 +84,3 @@ console.log(result.body)
 **调用例子 :** `/comment/like?id=29178366&cid=12840183&t=1&type=0` 对应给 [https://music.163.com/#/song?id=29178366](https://music.163.com/#/song?id=29178366) 最热门的评论点赞
 
 注意： 动态点赞不需要传入 id 参数，需要传入动态的 `threadId` 参数,如：`/comment/like?type=6&cid=1419532712&threadId=A_EV_2_6559519868_32953014&t=0`， `threadId` 可通过 `/event`，`/user/event` 接口获取
-
-## 维护说明
-
-- 本页由脚本根据当前模块与整理后的接口说明自动生成。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

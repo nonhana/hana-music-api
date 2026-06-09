@@ -39,11 +39,9 @@ GET /comment?t=0&type=1&id=5436712&commentId=1535550516319
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { comment } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.comment({
+const result = await comment({
   t: '1',
   type: '1',
   id: '5436712',
@@ -126,9 +124,3 @@ console.log(result.body)
    **调用例子** : `/comment?t=0&type=1&id=5436712&commentId=1535550516319` (在广岛之恋 mv 删除评论)
 
    注意：如给动态删除评论，则不需要传 id，需要传动态的 `threadId`,如：`/comment?t=0&type=6&threadId=A_EV_2_6559519868_32953014&commentId=1419516382`
-
-## 维护说明
-
-- 本页由脚本根据当前模块与整理后的接口说明自动生成。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

@@ -1,86 +1,116 @@
 # 快速开始
 
-`hana-music-api` 是基于 Bun + TypeScript + Hono 现代技术栈构建的网易云音乐第三方 API 实现，适合本地自部署、接口调试与程序化集成。
+`hana-music-api` 主要有两种用法：
 
-## 环境要求
+- 在自己的项目里直接调用
+- 启动一个 Bun HTTP 服务，对外提供接口
 
-- 建议使用最新稳定版 [Bun](https://bun.sh/)
-- Windows、macOS、Linux 均可运行
-- 默认 HTTP 服务监听 `3021` 端口，文档开发站默认监听 `5173` 端口
+## 直接调用
 
-## 安装依赖
+先安装包：
+
+```bash
+npm install hana-music-api
+```
+
+SDK 运行环境：
+
+- Node.js `>=24`
+- ESM 项目
+
+最省事的方式是先创建一个 client：
+
+```ts
+import { createHanaMusicApi } from 'hana-music-api'
+
+const hana = createHanaMusicApi({
+  cookie: 'MUSIC_U=your-cookie',
+})
+
+const result = await hana.search({
+  keywords: '周杰伦',
+  limit: 5,
+})
+
+console.log(result.body)
+```
+
+如果你只想调少量接口，也可以直接导入单个函数：
+
+```ts
+import { songUrl } from 'hana-music-api'
+
+const result = await songUrl(
+  {
+    id: '347230',
+  },
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
+
+console.log(result.body)
+```
+
+如果模块名来自运行时字符串，可以用 `invokeModule()`：
+
+```ts
+import { invokeModule } from 'hana-music-api'
+
+const result = await invokeModule(
+  'user_account',
+  {},
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
+
+console.log(result.body)
+```
+
+## 配置怎么传
+
+SDK 调用时，业务参数和执行配置要分开：
+
+- `query`：接口本身的业务参数
+- `config`：`cookie`、`proxy`、`fetcher` 这类执行配置
+
+例如：
+
+```ts
+const result = await songUrl(
+  {
+    id: '347230',
+  },
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
+```
+
+## 启动 HTTP 服务
+
+如果你想自己部署服务，可以直接运行仓库里的 Bun 服务：
 
 ```bash
 bun install --frozen-lockfile
-```
-
-## 启动 API 服务
-
-```bash
 bun start
 ```
 
-开发模式可使用：
+默认地址：
 
-```bash
-bun run dev
-```
-
-服务启动后，默认可以访问：
-
-- API 服务首页：`http://127.0.0.1:3021/`
-- 内嵌文档：`http://127.0.0.1:3021/docs`
+- 服务首页：`http://127.0.0.1:3021/`
+- 文档：`http://127.0.0.1:3021/docs`
 - 健康检查：`http://127.0.0.1:3021/health`
 
-## 验证服务是否可用
+## 什么时候用哪种入口
 
-可以先用一个无需登录的接口做快速验证，例如：
-
-```bash
-curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=5"
-```
-
-## 本地预览文档（可选）
-
-如果你希望在本地单独预览文档站，可运行：
-
-```bash
-bun run docs:dev
-```
-
-如需构建或预览静态文档，可运行：
-
-```bash
-bun run docs:build
-bun run docs:preview
-```
-
-执行 `bun run docs:build` 后，主服务会通过 `/docs` 提供最新构建产物。
-
-## 常用命令
-
-```bash
-bun run test
-bun run typecheck
-bun run lint
-bun run docs:build
-bun run docs:preview
-```
-
-## 运行时环境变量
-
-- `HOST`：覆盖默认监听主机
-- `PORT`：覆盖默认监听端口
-
-## 本地访问路径
-
-- API 服务根路径：`http://127.0.0.1:3021/`
-- 文档开发站：`http://localhost:5173/`
-- 文档预览站：执行 `bun run docs:preview` 后按终端输出访问
-- 主服务内嵌文档：执行 `bun run docs:build` 后访问 `http://127.0.0.1:3021/docs`
+- 需要连续调多个接口：用 `createHanaMusicApi()`
+- 只调用少量接口：直接导入单个函数
+- 模块名来自运行时字符串：用 `invokeModule()`
 
 ## 推荐阅读
 
-1. 先阅读 [认证机制](/guide/authentication)，了解登录与 Cookie 的使用方式
-2. 再阅读 [调用约定](/guide/request-convention)，避免缓存、代理与参数传递问题
-3. 需要在代码中集成时，继续阅读 [编程式调用](/guide/programmatic-api)
+1. 如果要调登录态接口，先看 [认证机制](/guide/authentication)
+2. 如果遇到缓存、代理、Cookie 问题，再看 [调用约定](/guide/request-convention)
+3. 想看不同调用方式的区别，再看 [编程式调用](/guide/programmatic-api)

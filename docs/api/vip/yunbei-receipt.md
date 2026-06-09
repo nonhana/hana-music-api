@@ -35,11 +35,9 @@ GET /yunbei/receipt?limit=1
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { yunbeiReceipt } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.yunbei_receipt({
+const result = await yunbeiReceipt({
   limit: 10,
   offset: 0,
 })
@@ -51,9 +49,3 @@ console.log(result.body)
 
 - `code`: 请求是否成功。
 - `data`: 当前账号的云贝收入明细。
-
-## 维护说明
-
-- 本页依据历史 `home.md` 和当前迁移实现补写。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

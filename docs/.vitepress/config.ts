@@ -26,6 +26,7 @@ export default defineConfig({
             { text: '认证机制', link: '/guide/authentication' },
             { text: '调用约定', link: '/guide/request-convention' },
             { text: '编程式调用', link: '/guide/programmatic-api' },
+            { text: 'SDK 使用边界', link: '/guide/sdk-package-contract' },
           ],
         },
       ],
@@ -47,7 +48,7 @@ export default defineConfig({
     },
     socialLinks: [{ icon: 'github', link: 'https://github.com/nonhana/hana-music-api' }],
     footer: {
-      message: '文档内容以当前服务实现为准。',
+      message: '第三方接口会随上游变化，文档会持续同步。',
       copyright: '© 2026 hana-music-api contributors',
     },
   },

@@ -31,11 +31,9 @@ GET /listentogether/room/create
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listentogetherRoomCreate } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listentogether_room_create()
+const result = await listentogetherRoomCreate()
 
 console.log(result.body)
 ```
@@ -65,9 +63,3 @@ console.log(result.body)
    `https://st.music.163.com/listen-together/share/?songId=歌曲ID&roomId=房间ID&inviterId=创建者ID`
 3. 调用 [`/listentogether/room/check`](/api/together/listentogether-room-check) 确认房间可用。
 4. 主机准备歌单后调用 [`/listentogether/sync/list/command`](/api/together/listentogether-sync-list-command) 推送房间播放列表。
-
-## 维护说明
-
-- 本页基于上游 issue、PR 与当前 `hana-music-api` 模块实现补写。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

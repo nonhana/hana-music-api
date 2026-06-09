@@ -10,6 +10,15 @@ export type {
 } from './module-contracts.ts'
 export type { CreateRequestOptions, GenerateConfigOptions } from './request.ts'
 export type {
+  CreateHanaMusicApiConfig,
+  LegacyCompatibleSdkModuleInvoker,
+  ModuleCallConfig,
+  SdkModuleImplementation,
+  SdkModuleInvoker,
+  SdkModuleRegistry,
+  SdkQueryOf,
+} from './sdk.ts'
+export type {
   BooleanLike,
   CookieRecord,
   CookieValue,

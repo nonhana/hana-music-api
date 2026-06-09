@@ -19,7 +19,7 @@ description: '使用此接口,上传音频文件或者麦克风采集声音可�
 
 ## 请求参数
 
-当前整理后的接口资料未明确列出参数，调用时请参考对应模块实现或程序化调用示例。
+这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
 
 ## HTTP 示例
 
@@ -30,11 +30,9 @@ GET /audio/match
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { audioMatch } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.audio_match()
+const result = await audioMatch()
 
 console.log(result.body)
 ```
@@ -50,9 +48,3 @@ console.log(result.body)
 `duration`: 音频时长,单位秒
 
 `audioFP`: 音频指纹,参考项目调用例子获取
-
-## 维护说明
-
-- 本页由脚本根据当前模块与整理后的接口说明自动生成。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

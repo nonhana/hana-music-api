@@ -19,7 +19,7 @@ description: '登录后调用此接口, 传入歌曲id, 可以添加/修改摘�
 
 ## 请求参数
 
-当前整理后的接口资料未明确列出参数，调用时请参考对应模块实现或程序化调用示例。
+这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
 
 ## HTTP 示例
 
@@ -30,11 +30,9 @@ GET /song/lyrics/mark/add
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { songLyricsMarkAdd } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.song_lyrics_mark_add()
+const result = await songLyricsMarkAdd()
 
 console.log(result.body)
 ```
@@ -65,9 +63,3 @@ let data = encodeURIComponent(
 若需要修改摘录信息, 则需要填入参数`markId`, 修改对应的摘录信息
 
 **接口地址:** `/song/lyrics/mark/add`
-
-## 维护说明
-
-- 本页由脚本根据当前模块与整理后的接口说明自动生成。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

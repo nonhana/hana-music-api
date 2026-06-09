@@ -33,11 +33,9 @@ POST /listentogether/end?roomId=MzA0NjY5...
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { listentogetherEnd } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.listentogether_end({
+const result = await listentogetherEnd({
   roomId: 'MzA0NjY5...',
 })
 
@@ -60,9 +58,3 @@ console.log(result.body)
 
 - [`/listentogether/status`](/api/together/listentogether-status)
 - [`/listentogether/room/check`](/api/together/listentogether-room-check)
-
-## 维护说明
-
-- 本页基于上游 issue、PR 与当前 `hana-music-api` 模块实现补写。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

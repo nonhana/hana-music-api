@@ -1,106 +1,98 @@
 # 编程式调用
 
-除了直接访问 HTTP 接口，`hana-music-api` 也提供了程序化调用入口，适合 Bun / Node.js / TypeScript 场景。
+如果你准备在自己的项目里直接接入 `hana-music-api`，常用入口只有 3 个：`createHanaMusicApi()`、原始模块函数、`invokeModule()`。
 
-## 主要入口
+## createHanaMusicApi
 
-你可以使用以下 API：
-
-- `createModuleApi()`：创建按接口调用名访问的 API 客户端
-- `invokeModule()`：直接调用单个接口
-- `NeteaseCloudMusicApi`：开箱即用的默认 API 对象
-
-## 模块可发现性与类型精度
-
-程序化调用现在区分两个概念：
-
-- **模块可发现性**：只要某个模块能被当前 `src/modules` 运行时注册表加载，TypeScript 就能静态看到它的调用名。
-- **类型精度**：只有一部分高价值模块会提供精确的 query typing；其余长尾模块仍然使用兼容层 query 类型。
-
-这意味着：
-
-- `api.search()`、`api.song_url()`、`api.login_cellphone()` 这类模块会有更强的参数提示。
-- `api.top_song()`、`api.ugc_detail()` 这类长尾模块同样可以被静态发现和调用，但参数通常停留在 compatibility fallback，而不是伪装成已经完全精确建模。
-
-这种分层的目标是让 SDK 同时满足两件事：
-
-1. 不再因为某个模块还没手写进白名单就“看不见”它。
-2. 不强行把所有模块都包装成同等精度的类型契约。
-
-## createModuleApi
+这是最省事的用法，适合连续调用多个接口。
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { createHanaMusicApi } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.search({
-  keywords: '周杰伦',
+const hana = createHanaMusicApi({
+  cookie: 'MUSIC_U=your-cookie',
 })
 
-console.log(result.body)
+const searchResult = await hana.search({
+  keywords: '周杰伦',
+  limit: 5,
+})
+
+const detailResult = await hana.songUrl({
+  id: '347230',
+  br: 320000,
+})
 ```
 
-长尾模块也可以直接通过同一个 API 对象调用：
+## 原始模块函数
+
+适合按需导入少量接口。
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { search, songUrl } from 'hana-music-api'
 
-const api = createModuleApi()
+const searchResult = await search(
+  {
+    keywords: '林俊杰',
+    limit: 3,
+  },
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 
-const result = await api.top_song({
-  type: 96,
-})
-
-console.log(result.body)
+const songUrlResult = await songUrl(
+  {
+    id: '347230',
+  },
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 ```
 
 ## invokeModule
 
+适合模块名来自运行时字符串的场景。
+
 ```ts
 import { invokeModule } from 'hana-music-api'
 
-const result = await invokeModule('song_url', {
-  id: '347230',
-})
-
-console.log(result.body)
+const account = await invokeModule(
+  'user_account',
+  {},
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 ```
 
-## 默认 API 对象
+## 配置怎么传
+
+业务参数和执行配置要分开：
+
+- `query`：接口本身的业务参数
+- `config`：`cookie`、`proxy`、`fetcher` 这类执行配置
+
+推荐这样写：
 
 ```ts
-import { NeteaseCloudMusicApi } from 'hana-music-api'
-
-const result = await NeteaseCloudMusicApi.user_account({
-  cookie: 'MUSIC_U=your-cookie',
-})
-
-console.log(result.body)
+await songUrl(
+  {
+    id: '347230',
+    br: 320000,
+  },
+  {
+    cookie: 'MUSIC_U=your-cookie',
+  },
+)
 ```
 
-## Cookie 自动归一化
+不要把执行配置直接混进业务参数里。
 
-程序化调用会在内部对字符串形式的 Cookie 做归一化处理，因此你可以直接复用 HTTP 场景中的 `cookie` 字符串。
+## 常见用法建议
 
-## 推荐用法
-
-- 需要大量调用多个模块时：优先 `createModuleApi()`
-- 只调用单个模块时：`invokeModule()` 足够直接
-- 想要最少样板代码时：使用 `NeteaseCloudMusicApi`
-- 需要 strongest typing 时：优先使用已经有精确 query 契约的高价值模块
-- 调用长尾模块时：把它视为“可发现 + 兼容层参数”，不要默认假设它已经拥有同等级的精确类型
-
-## 与 HTTP 文档如何对应
-
-每个 API 文档页面都会同时给出：
-
-- HTTP 请求示例
-- 程序化调用示例
-- 对应调用名
-
-调用名通常使用与接口路径对应的下划线形式，例如：
-
-- `/login/cellphone` → `api.login_cellphone()`
-- `/song/url` → `api.song_url()`
-- `/playlist/detail` → `api.playlist_detail()`
+- 需要连续调多个接口：用 `createHanaMusicApi()`
+- 只调用少量接口：直接导入函数
+- 模块名来自运行时字符串：用 `invokeModule()`
+- 要调登录态接口：把 `cookie` 放进 `config`

@@ -34,11 +34,9 @@ GET /mlog/music/rcmd
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { mlogMusicRcmd } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.mlog_music_rcmd({
+const result = await mlogMusicRcmd({
   songid: 'your-songid',
 })
 
@@ -57,9 +55,3 @@ console.log(result.body)
 `limit` : 取出的 Mlog 数量, 不包含第一个 mvid
 
 **接口地址 :** `/mlog/music/rcmd`
-
-## 维护说明
-
-- 本页由脚本根据当前模块与整理后的接口说明自动生成。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

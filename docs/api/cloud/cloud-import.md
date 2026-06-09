@@ -19,7 +19,7 @@ description: '登录后调用此接口,使用此接口,可云盘导入歌曲而�
 
 ## 请求参数
 
-当前整理后的接口资料未明确列出参数，调用时请参考对应模块实现或程序化调用示例。
+这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
 
 ## HTTP 示例
 
@@ -30,11 +30,9 @@ GET /cloud/import?song=最伟大的作品&artist=周杰伦&album=最伟大的作
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { cloudImport } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.cloud_import({
+const result = await cloudImport({
   song: '最伟大的作品',
   artist: '周杰伦',
   album: '最伟大的作品',
@@ -90,9 +88,3 @@ bitrate = Math.floor(br / 1000)
 ```
 
 导入后的文件名后缀均为 `.mp3` 。但用 `获取音乐url` 获取到的文件格式仍然是正确的。
-
-## 维护说明
-
-- 本页由脚本根据当前模块与整理后的接口说明自动生成。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。

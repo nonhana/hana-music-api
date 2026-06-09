@@ -33,11 +33,9 @@ GET /banner?type=2
 ## 编程式调用
 
 ```ts
-import { createModuleApi } from 'hana-music-api'
+import { banner } from 'hana-music-api'
 
-const api = createModuleApi()
-
-const result = await api.banner()
+const result = await banner()
 
 console.log(result.body)
 ```
@@ -63,9 +61,3 @@ console.log(result.body)
 **接口地址 :** `/banner`
 
 **调用例子 :** `/banner`, `/banner?type=2`
-
-## 维护说明
-
-- 本页由脚本根据当前模块与整理后的接口说明自动生成。
-- 如果补充说明与当前实现存在冲突，请以 `hana-music-api` 当前源码为准。
-- 如需进一步校验行为，建议结合真实上游请求或现有回归测试验证。
