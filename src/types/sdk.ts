@@ -9,7 +9,14 @@ import type { ModuleRequest } from './runtime.ts'
 
 export interface ModuleCallConfig extends CreateRequestOptions {}
 
-export interface CreateHanaMusicApiConfig extends ModuleCallConfig {}
+export interface SdkCacheConfig {
+  readonly enabled?: boolean
+  readonly ttlMs?: number
+}
+
+export interface CreateHanaMusicApiConfig extends ModuleCallConfig {
+  readonly cache?: SdkCacheConfig
+}
 
 type RemoveIndexSignature<T> = {
   [K in keyof T as string extends K

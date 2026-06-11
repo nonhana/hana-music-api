@@ -7,14 +7,16 @@ import type {
   ModuleQueryOf,
   ModuleRequest,
   ModuleResponseOf,
+  NcmApiResponse,
   SdkModuleImplementation,
   SdkModuleInvoker,
   SdkQueryOf,
 } from '../types/index.ts'
 
 import { ensureRuntimeAnonymousToken } from '../core/anonymous.ts'
+import { MemoryResponseCache } from '../core/cache.ts'
 import { createRequest } from '../core/request.ts'
-import { cookieToJson, isRecord } from '../core/utils.ts'
+import { cookieToJson, isRecord, stableStringify } from '../core/utils.ts'
 import { sdkModuleRegistry } from './generated/registry.generated.ts'
 
 function mergeQueryAndConfig(query: ModuleQuery, config: ModuleCallConfig = {}): ModuleQuery {
@@ -47,13 +49,49 @@ export function createModuleInvoker<K extends ModuleIdentifier>(
   moduleImplementation: SdkModuleImplementation<K>,
   baseConfig: CreateHanaMusicApiConfig = {},
 ): SdkModuleInvoker<K> {
+  const { cache, ...requestConfig } = baseConfig
+  const cacheStore =
+    cache && cache.enabled !== false ? new MemoryResponseCache(cache.ttlMs ?? 120_000) : null
+  const inflight = new Map<string, Promise<ModuleResponseOf<K>>>()
+
   return (async (query?: SdkQueryOf<K>, config?: ModuleCallConfig) => {
     const resolvedQuery = (query ?? {}) as SdkQueryOf<K>
-
-    return invokeStaticModule(identifier, moduleImplementation, resolvedQuery, {
-      ...baseConfig,
+    const callConfig: ModuleCallConfig = {
+      ...requestConfig,
       ...config,
-    })
+    }
+
+    if (!cacheStore) {
+      return invokeStaticModule(identifier, moduleImplementation, resolvedQuery, callConfig)
+    }
+
+    // 缓存 key 取决于模块标识、query 与本次调用的 cookie(不同账号互不串)。
+    const key = `${identifier}:${stableStringify(resolvedQuery)}:${stableStringify(callConfig.cookie ?? '')}`
+    const cached = cacheStore.get(key)
+    if (cached) {
+      return cached as ModuleResponseOf<K>
+    }
+
+    const existing = inflight.get(key)
+    if (existing) {
+      return existing
+    }
+
+    const pending = invokeStaticModule(identifier, moduleImplementation, resolvedQuery, callConfig)
+      .then((response) => {
+        if (response.status === 200) {
+          cacheStore.set(key, response as NcmApiResponse)
+        }
+
+        return response
+      })
+      .finally(() => {
+        inflight.delete(key)
+      })
+
+    inflight.set(key, pending)
+
+    return pending
   }) as SdkModuleInvoker<K>
 }
 

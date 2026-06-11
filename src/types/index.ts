@@ -19,6 +19,7 @@ export type {
   CreateHanaMusicApiConfig,
   LegacyCompatibleSdkModuleInvoker,
   ModuleCallConfig,
+  SdkCacheConfig,
   SdkModuleImplementation,
   SdkModuleInvoker,
   SdkModuleRegistry,
