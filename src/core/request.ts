@@ -62,6 +62,14 @@ export async function createRequest(
   const payload = {
     ...data,
   }
+  // e_r 决定服务端是否返回加密响应。旧项目对所有 crypto 统一注入该标记,
+  // 并对 eapi / weapi 两种加密都做响应解密,这里保持同样语义。
+  const encryptResponse = toBoolean(
+    options.e_r !== undefined
+      ? options.e_r
+      : (readBooleanLike(payload.e_r) ?? APP_CONF.encryptResponse),
+  )
+  payload.e_r = encryptResponse
 
   let url = ''
   let requestBody: Record<string, string>
@@ -95,11 +103,6 @@ export async function createRequest(
 
       if (crypto === 'eapi') {
         payload.header = header
-        payload.e_r = toBoolean(
-          options.e_r !== undefined
-            ? options.e_r
-            : (readBooleanLike(payload.e_r) ?? APP_CONF.encryptResponse),
-        )
         requestBody = eapi(uri, payload)
         url = `${options.domain || APP_CONF.apiDomain}/eapi/${uri.slice(5)}`
       } else {
@@ -173,7 +176,7 @@ export async function createRequest(
         status: 500,
       }
 
-      if (crypto === 'eapi' && payload.e_r) {
+      if ((crypto === 'eapi' || crypto === 'weapi') && encryptResponse) {
         const encryptedBody = Buffer.from(await response.arrayBuffer())
           .toString('hex')
           .toUpperCase()

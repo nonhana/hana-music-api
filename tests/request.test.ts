@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test'
 
 import type { FetchLike, RequestDebugEvent } from '../src/types/index.ts'
 
+import { aesEncrypt } from '../src/core/crypto.ts'
 import { createRequest } from '../src/core/request.ts'
 
 const specialCodeFetcher: FetchLike = async () => {
@@ -241,6 +242,44 @@ describe('createRequest', () => {
     })
 
     expect(calls).toBe(1)
+  })
+
+  test('should decrypt weapi encrypted responses when e_r is enabled', async () => {
+    const EAPI_KEY = 'e82ckenh8dichen8'
+    const encryptedHex = aesEncrypt(
+      JSON.stringify({ code: 200, lrc: { lyric: 'demo' } }),
+      'ecb',
+      EAPI_KEY,
+      '',
+      'hex',
+    )
+    const fetcher: FetchLike = async () => {
+      return new Response(Buffer.from(encryptedHex, 'hex'), {
+        status: 200,
+      })
+    }
+
+    const response = await createRequest(
+      '/api/song/lyric',
+      {},
+      {
+        crypto: 'weapi',
+        e_r: true,
+        fetcher,
+        state: {
+          anonymousToken: 'anonymous-token',
+          deviceId: 'DEVICE_ID',
+        },
+      },
+    )
+
+    expect(response.status).toBe(200)
+    expect(response.body).toMatchObject({
+      code: 200,
+      lrc: {
+        lyric: 'demo',
+      },
+    })
   })
 })
 
