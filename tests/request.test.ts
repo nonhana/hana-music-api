@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 
-import type { FetchLike } from '../src/types/index.ts'
+import type { FetchLike, RequestDebugEvent } from '../src/types/index.ts'
 
 import { createRequest } from '../src/core/request.ts'
 
@@ -102,6 +102,146 @@ describe('createRequest', () => {
 
     expect(response.status).toBe(200)
   })
+
+  test('should retry transient transport errors with a fresh connection path', async () => {
+    const initList: RequestInit[] = []
+    const events: RequestDebugEvent[] = []
+    let calls = 0
+    const fetcher: FetchLike = async (_requestInput, requestInit) => {
+      calls += 1
+      if (requestInit) {
+        initList.push(requestInit)
+      }
+
+      if (calls === 1) {
+        throw new Error('The socket connection was closed unexpectedly')
+      }
+
+      return new Response(JSON.stringify({ code: 200, ok: true }), {
+        status: 200,
+      })
+    }
+
+    const response = await createRequest(
+      '/api/test',
+      {},
+      {
+        crypto: 'api',
+        fetcher,
+        onRequestEvent: (event) => events.push(event),
+        retry: {
+          backoffMs: 0,
+          jitter: false,
+          retries: 1,
+          retryNonIdempotent: true,
+        },
+        state: {
+          anonymousToken: 'anonymous-token',
+          deviceId: 'DEVICE_ID',
+        },
+      },
+    )
+
+    expect(response.status).toBe(200)
+    expect(calls).toBe(2)
+    expect(getHeader(initList[0], 'Connection')).toBe('')
+    expect(getHeader(initList[1], 'Connection')).toBe('close')
+    expect(events.some((event) => event.type === 'retry')).toBe(true)
+  })
+
+  test('should abort requests that exceed timeoutMs', async () => {
+    let sawSignal = false
+    const fetcher: FetchLike = async (_requestInput, requestInit) => {
+      sawSignal = requestInit?.signal instanceof AbortSignal
+
+      return new Promise<Response>((_resolve, reject) => {
+        requestInit?.signal?.addEventListener(
+          'abort',
+          () => reject(new Error('aborted by request timeout')),
+          { once: true },
+        )
+      })
+    }
+
+    await expect(
+      createRequest(
+        '/api/test',
+        {},
+        {
+          crypto: 'api',
+          fetcher,
+          state: {
+            anonymousToken: 'anonymous-token',
+            deviceId: 'DEVICE_ID',
+          },
+          timeoutMs: 1,
+        },
+      ),
+    ).rejects.toMatchObject({
+      status: 504,
+    })
+
+    expect(sawSignal).toBe(true)
+  })
+
+  test('should force connection close when configured', async () => {
+    let init: RequestInit | undefined
+    const fetcher: FetchLike = async (_requestInput, requestInit) => {
+      init = requestInit
+
+      return new Response(JSON.stringify({ code: 200 }), {
+        status: 200,
+      })
+    }
+
+    await createRequest(
+      '/api/test',
+      {},
+      {
+        connectionStrategy: 'close',
+        crypto: 'api',
+        fetcher,
+        state: {
+          anonymousToken: 'anonymous-token',
+          deviceId: 'DEVICE_ID',
+        },
+      },
+    )
+
+    expect(getHeader(init, 'Connection')).toBe('close')
+  })
+
+  test('should not retry post requests unless explicitly allowed', async () => {
+    let calls = 0
+    const fetcher: FetchLike = async () => {
+      calls += 1
+      throw new Error('The socket connection was closed unexpectedly')
+    }
+
+    await expect(
+      createRequest(
+        '/api/test',
+        {},
+        {
+          crypto: 'api',
+          fetcher,
+          retry: {
+            backoffMs: 0,
+            jitter: false,
+            retries: 2,
+          },
+          state: {
+            anonymousToken: 'anonymous-token',
+            deviceId: 'DEVICE_ID',
+          },
+        },
+      ),
+    ).rejects.toMatchObject({
+      status: 502,
+    })
+
+    expect(calls).toBe(1)
+  })
 })
 
 function getRequestUrl(input: Parameters<FetchLike>[0] | undefined): string {
@@ -121,14 +261,18 @@ function getBodyText(init: RequestInit | undefined): string {
 }
 
 function getCookieHeader(init: RequestInit | undefined): string {
+  return getHeader(init, 'Cookie')
+}
+
+function getHeader(init: RequestInit | undefined, name: string): string {
   const headers = init?.headers
   if (headers instanceof Headers) {
-    return headers.get('Cookie') ?? ''
+    return headers.get(name) ?? ''
   }
 
   if (headers && !Array.isArray(headers)) {
-    const cookie = headers.Cookie
-    return typeof cookie === 'string' ? cookie : ''
+    const value = headers[name as keyof typeof headers]
+    return typeof value === 'string' ? value : ''
   }
 
   return ''

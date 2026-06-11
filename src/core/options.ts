@@ -7,12 +7,20 @@ import type {
 
 interface OptionSource {
   readonly checkToken?: unknown
+  readonly connectionStrategy?: CreateRequestOptions['connectionStrategy']
   readonly cookie?: CookieRecord | string
   readonly crypto?: unknown
   readonly domain?: unknown
   readonly e_r?: unknown
+  readonly fetcher?: CreateRequestOptions['fetcher']
+  readonly headers?: CreateRequestOptions['headers']
+  readonly ip?: unknown
+  readonly onRequestEvent?: CreateRequestOptions['onRequestEvent']
   readonly proxy?: unknown
   readonly realIP?: unknown
+  readonly retry?: CreateRequestOptions['retry']
+  readonly state?: CreateRequestOptions['state']
+  readonly timeoutMs?: unknown
   readonly ua?: unknown
 }
 
@@ -26,12 +34,20 @@ export function createOption(
 ): CreateRequestOptions {
   return {
     checkToken: query.checkToken ? toBooleanLike(query.checkToken) : false,
+    connectionStrategy: query.connectionStrategy,
     cookie: query.cookie,
     crypto: toRequestCrypto(query.crypto) ?? crypto,
     domain: toOptionalString(query.domain) ?? '',
     e_r: query.e_r === undefined || query.e_r === null ? undefined : toBooleanLike(query.e_r),
+    fetcher: query.fetcher,
+    headers: query.headers,
+    ip: toOptionalString(query.ip),
+    onRequestEvent: query.onRequestEvent,
     proxy: toOptionalString(query.proxy),
     realIP: toOptionalString(query.realIP),
+    retry: query.retry,
+    state: query.state,
+    timeoutMs: toOptionalNumber(query.timeoutMs),
     ua: toOptionalString(query.ua) ?? '',
   }
 }
@@ -58,6 +74,23 @@ function toOptionalString(value: unknown): string | undefined {
   }
 
   return JSON.stringify(value)
+}
+
+function toOptionalNumber(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === '') {
+    return undefined
+  }
+
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : undefined
+  }
+
+  if (typeof value === 'string') {
+    const parsed = Number(value)
+    return Number.isFinite(parsed) ? parsed : undefined
+  }
+
+  return undefined
 }
 
 function toRequestCrypto(value: unknown): RequestCrypto | undefined {

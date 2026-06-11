@@ -13,7 +13,10 @@ export type {
   ModuleQueryOf,
   ModuleResponseOf,
   NcmApiResponse,
+  RequestConnectionStrategy,
   RequestCrypto,
+  RequestDebugEvent,
+  RequestRetryOptions,
   RuntimeState,
   SdkModuleInvoker,
 } from './src/types/index.ts'

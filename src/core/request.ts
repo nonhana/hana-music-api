@@ -19,7 +19,20 @@ type BunFetchInit = RequestInit & {
 }
 type UserAgentCrypto = 'api' | 'linuxapi' | 'weapi'
 type OsProfileKey = keyof typeof OS_PROFILES
+type ActiveConnectionStrategy = 'default' | 'close'
+interface NormalizedRetryOptions {
+  readonly backoffMs: number
+  readonly jitter: boolean
+  readonly maxAttempts: number
+  readonly maxBackoffMs: number
+  readonly retryNonIdempotent: boolean
+  readonly statusCodes: ReadonlySet<number>
+}
 
+const DEFAULT_RETRIES = 2
+const DEFAULT_RETRY_BACKOFF_MS = 300
+const DEFAULT_RETRY_MAX_BACKOFF_MS = 2_000
+const MAX_RETRIES = 5
 const WNMCID = createWnmcid()
 
 export async function createRequest(
@@ -108,63 +121,195 @@ export async function createRequest(
     }
   }
 
-  try {
-    const response = await fetcher(url, createFetchInit(headers, requestBody, options.proxy))
-    const answer: NcmApiResponse = {
-      body: {},
-      cookie: getSetCookies(response.headers).map(stripCookieDomain),
-      status: 500,
+  const retry = normalizeRetryOptions(options.retry)
+  let forceFreshConnection = false
+
+  for (let attempt = 1; attempt <= retry.maxAttempts; attempt += 1) {
+    const connectionStrategy = resolveAttemptConnectionStrategy(
+      options.connectionStrategy,
+      forceFreshConnection,
+      attempt,
+    )
+    const startedAt = Date.now()
+    let didTimeout = false
+    let timeoutId: ReturnType<typeof setTimeout> | undefined
+    const timeoutMs = normalizeTimeoutMs(options.timeoutMs)
+    const controller = timeoutMs === undefined ? undefined : new AbortController()
+
+    if (controller && timeoutMs !== undefined) {
+      timeoutId = setTimeout(() => {
+        didTimeout = true
+        controller.abort()
+      }, timeoutMs)
     }
 
-    if (crypto === 'eapi' && payload.e_r) {
-      const encryptedBody = Buffer.from(await response.arrayBuffer())
-        .toString('hex')
-        .toUpperCase()
-      answer.body = normalizeUpstreamBody(
-        eapiResDecrypt(encryptedBody, headers['x-aeapi'] === 'true'),
+    options.onRequestEvent?.({
+      attempt,
+      connectionStrategy,
+      crypto,
+      maxAttempts: retry.maxAttempts,
+      type: 'attempt',
+      url,
+    })
+
+    try {
+      const response = await fetcher(
+        url,
+        createFetchInit(
+          headers,
+          requestBody,
+          options.proxy,
+          controller?.signal,
+          connectionStrategy,
+        ),
       )
-    } else {
-      answer.body = normalizeUpstreamBody(await parseResponseBody(response))
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+
+      const answer: NcmApiResponse = {
+        body: {},
+        cookie: getSetCookies(response.headers).map(stripCookieDomain),
+        status: 500,
+      }
+
+      if (crypto === 'eapi' && payload.e_r) {
+        const encryptedBody = Buffer.from(await response.arrayBuffer())
+          .toString('hex')
+          .toUpperCase()
+        answer.body = normalizeUpstreamBody(
+          eapiResDecrypt(encryptedBody, headers['x-aeapi'] === 'true'),
+        )
+      } else {
+        answer.body = normalizeUpstreamBody(await parseResponseBody(response))
+      }
+
+      const bodyRecord = isRecord(answer.body)
+        ? (answer.body as Record<string, unknown>)
+        : undefined
+
+      if (bodyRecord?.code !== undefined) {
+        bodyRecord.code = Number(bodyRecord.code)
+        answer.status = Number(bodyRecord.code)
+      } else {
+        answer.status = response.status
+      }
+
+      if (bodyRecord && SPECIAL_STATUS_CODES.has(Number(bodyRecord.code))) {
+        answer.status = 200
+      }
+
+      answer.status = answer.status > 100 && answer.status < 600 ? answer.status : 400
+
+      if (answer.status === 200) {
+        return answer
+      }
+
+      const durationMs = Date.now() - startedAt
+      if (canRetry(retry, attempt) && retry.statusCodes.has(answer.status)) {
+        const delayMs = getRetryDelay(retry, attempt)
+        options.onRequestEvent?.({
+          attempt,
+          connectionStrategy,
+          crypto,
+          delayMs,
+          durationMs,
+          maxAttempts: retry.maxAttempts,
+          status: answer.status,
+          type: 'retry',
+          url,
+        })
+        await sleep(delayMs)
+        continue
+      }
+
+      options.onRequestEvent?.({
+        attempt,
+        connectionStrategy,
+        crypto,
+        durationMs,
+        maxAttempts: retry.maxAttempts,
+        status: answer.status,
+        type: 'failure',
+        url,
+      })
+      console.error('[ERR]', answer)
+      throw answer
+    } catch (error) {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+
+      if (isNcmApiResponse(error)) {
+        throw error
+      }
+
+      const durationMs = Date.now() - startedAt
+      const message =
+        didTimeout && timeoutMs !== undefined
+          ? `Request timed out after ${timeoutMs}ms`
+          : error instanceof Error
+            ? error.message
+            : String(error)
+      const answer: NcmApiResponse<DynamicJsonRecord> = {
+        body: {
+          attempt,
+          attempts: retry.maxAttempts,
+          code: didTimeout ? 504 : 502,
+          crypto,
+          durationMs,
+          msg: message,
+          url,
+        },
+        cookie: [],
+        status: didTimeout ? 504 : 502,
+      }
+
+      const isRetryableError = didTimeout || isTransientTransportError(error)
+      if (isRetryableError && (didTimeout || shouldUseFreshConnection(error))) {
+        forceFreshConnection = true
+      }
+
+      if (isRetryableError && canRetry(retry, attempt)) {
+        const delayMs = getRetryDelay(retry, attempt)
+        options.onRequestEvent?.({
+          attempt,
+          connectionStrategy,
+          crypto,
+          delayMs,
+          durationMs,
+          error: message,
+          maxAttempts: retry.maxAttempts,
+          type: 'retry',
+          url,
+        })
+        await sleep(delayMs)
+        continue
+      }
+
+      options.onRequestEvent?.({
+        attempt,
+        connectionStrategy,
+        crypto,
+        durationMs,
+        error: message,
+        maxAttempts: retry.maxAttempts,
+        type: 'failure',
+        url,
+      })
+      console.error('[ERR]', answer)
+      throw answer
     }
-
-    const bodyRecord = isRecord(answer.body) ? (answer.body as Record<string, unknown>) : undefined
-
-    if (bodyRecord?.code !== undefined) {
-      bodyRecord.code = Number(bodyRecord.code)
-      answer.status = Number(bodyRecord.code)
-    } else {
-      answer.status = response.status
-    }
-
-    if (bodyRecord && SPECIAL_STATUS_CODES.has(Number(bodyRecord.code))) {
-      answer.status = 200
-    }
-
-    answer.status = answer.status > 100 && answer.status < 600 ? answer.status : 400
-
-    if (answer.status === 200) {
-      return answer
-    }
-
-    console.error('[ERR]', answer)
-    throw answer
-  } catch (error) {
-    if (isNcmApiResponse(error)) {
-      throw error
-    }
-
-    const message = error instanceof Error ? error.message : String(error)
-    const answer: NcmApiResponse<DynamicJsonRecord> = {
-      body: {
-        code: 502,
-        msg: message,
-      },
-      cookie: [],
-      status: 502,
-    }
-    console.error('[ERR]', answer)
-    throw answer
   }
+
+  throw {
+    body: {
+      code: 502,
+      msg: 'Request failed before execution',
+    },
+    cookie: [],
+    status: 502,
+  } satisfies NcmApiResponse
 }
 
 function resolveCrypto(crypto: RequestCrypto | undefined): RequestCrypto {
@@ -271,14 +416,26 @@ function createFetchInit(
   headers: Record<string, string>,
   data: Record<string, string>,
   proxy: string | undefined,
+  signal: AbortSignal | undefined,
+  connectionStrategy: ActiveConnectionStrategy,
 ): BunFetchInit {
+  const requestHeaders: Record<string, string> = {
+    'Content-Type': 'application/x-www-form-urlencoded',
+    ...headers,
+  }
+
+  if (connectionStrategy === 'close') {
+    requestHeaders.Connection = 'close'
+  }
+
   const init: BunFetchInit = {
     body: new URLSearchParams(data).toString(),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-      ...headers,
-    },
+    headers: requestHeaders,
     method: 'POST',
+  }
+
+  if (signal) {
+    init.signal = signal
   }
 
   if (proxy) {
@@ -290,6 +447,122 @@ function createFetchInit(
   }
 
   return init
+}
+
+function normalizeRetryOptions(options: CreateRequestOptions['retry']): NormalizedRetryOptions {
+  const retries =
+    options === undefined ? 0 : clampInteger(options.retries ?? DEFAULT_RETRIES, 0, MAX_RETRIES)
+  const retryNonIdempotent = options?.retryNonIdempotent === true
+
+  return {
+    backoffMs: clampInteger(options?.backoffMs ?? DEFAULT_RETRY_BACKOFF_MS, 0, 60_000),
+    jitter: options?.jitter ?? true,
+    maxAttempts: retryNonIdempotent ? retries + 1 : 1,
+    maxBackoffMs: clampInteger(options?.maxBackoffMs ?? DEFAULT_RETRY_MAX_BACKOFF_MS, 0, 60_000),
+    retryNonIdempotent,
+    statusCodes: new Set(
+      (options?.statusCodes ?? []).filter((status) => {
+        return Number.isInteger(status) && status >= 100 && status < 600
+      }),
+    ),
+  }
+}
+
+function normalizeTimeoutMs(value: number | undefined): number | undefined {
+  if (value === undefined || !Number.isFinite(value) || value <= 0) {
+    return undefined
+  }
+
+  return Math.floor(value)
+}
+
+function resolveAttemptConnectionStrategy(
+  strategy: CreateRequestOptions['connectionStrategy'],
+  forceFreshConnection: boolean,
+  attempt: number,
+): ActiveConnectionStrategy {
+  if (
+    strategy === 'close' ||
+    forceFreshConnection ||
+    (strategy === 'fresh-on-retry' && attempt > 1)
+  ) {
+    return 'close'
+  }
+
+  return 'default'
+}
+
+function canRetry(retry: NormalizedRetryOptions, attempt: number): boolean {
+  return retry.retryNonIdempotent && attempt < retry.maxAttempts
+}
+
+function getRetryDelay(retry: NormalizedRetryOptions, attempt: number): number {
+  const baseDelay = Math.min(retry.backoffMs * 2 ** (attempt - 1), retry.maxBackoffMs)
+  if (!retry.jitter || baseDelay <= 0) {
+    return baseDelay
+  }
+
+  return Math.floor(baseDelay * (0.5 + Math.random()))
+}
+
+function sleep(delayMs: number): Promise<void> {
+  if (delayMs <= 0) {
+    return Promise.resolve()
+  }
+
+  return new Promise((resolve) => setTimeout(resolve, delayMs))
+}
+
+function isTransientTransportError(error: unknown): boolean {
+  const text = collectErrorText(error).toLowerCase()
+  return (
+    isSocketCloseText(text) ||
+    text.includes('aborterror') ||
+    text.includes('econnreset') ||
+    text.includes('eai_again') ||
+    text.includes('etimedout') ||
+    text.includes('fetch failed') ||
+    text.includes('network') ||
+    text.includes('timeout') ||
+    text.includes('und_err_connect_timeout')
+  )
+}
+
+function shouldUseFreshConnection(error: unknown): boolean {
+  return isSocketCloseText(collectErrorText(error).toLowerCase())
+}
+
+function isSocketCloseText(text: string): boolean {
+  return (
+    text.includes('socket connection was closed unexpectedly') ||
+    text.includes('socket closed') ||
+    text.includes('socket hang up') ||
+    text.includes('und_err_socket') ||
+    text.includes('connection closed') ||
+    text.includes('terminated')
+  )
+}
+
+function collectErrorText(error: unknown, depth = 0): string {
+  const text = error instanceof Error ? `${error.name} ${error.message}` : String(error)
+  if (depth >= 3 || typeof error !== 'object' || error === null || !('cause' in error)) {
+    return text
+  }
+
+  const cause = (error as { cause?: unknown }).cause
+  if (cause === undefined || cause === error) {
+    return text
+  }
+
+  return `${text} ${collectErrorText(cause, depth + 1)}`
+}
+
+function clampInteger(value: number, min: number, max: number): number {
+  if (!Number.isFinite(value)) {
+    return min
+  }
+
+  return Math.min(Math.max(Math.floor(value), min), max)
 }
 
 async function parseResponseBody(response: Response): Promise<unknown> {
