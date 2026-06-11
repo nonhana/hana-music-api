@@ -13,7 +13,7 @@ import { MemoryResponseCache } from '../core/cache.ts'
 import { createRequest } from '../core/request.ts'
 import { getRuntimeState } from '../core/runtime.ts'
 import { SERVICE_VERSION } from '../core/service-metadata.ts'
-import { cookieToJson } from '../core/utils.ts'
+import { cookieToJson, stableStringify } from '../core/utils.ts'
 import { appendResponseCookies, parseRequestCookies } from './cookies.ts'
 import { parseRequestBody } from './parse-body.ts'
 
@@ -414,27 +414,7 @@ function createRequestStateFallbackIp(): string {
 }
 
 function createReqCacheKey(method: string, route: string, query: ModuleQuery): string {
-  return `${method.toUpperCase()}:${route}:${stableSerialize(query)}`
-}
-
-function stableSerialize(value: unknown): string {
-  if (Array.isArray(value)) {
-    return `[${value.map(stableSerialize).join(',')}]`
-  }
-
-  if (value instanceof File) {
-    return `File(${value.name}:${value.size}:${value.type})`
-  }
-
-  if (isRecordLike(value)) {
-    const entries = Object.entries(value).toSorted(([left], [right]) => left.localeCompare(right))
-
-    return `{${entries
-      .map(([key, entryValue]) => `${key}:${stableSerialize(entryValue)}`)
-      .join(',')}}`
-  }
-
-  return JSON.stringify(value)
+  return `${method.toUpperCase()}:${route}:${stableStringify(query)}`
 }
 
 function safeDecodeURIComponent(value: string): string {
@@ -458,8 +438,4 @@ function createJsonResponse(body: unknown, status: number, headers: Headers): Re
     headers: responseHeaders,
     status,
   })
-}
-
-function isRecordLike(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null
 }

@@ -138,3 +138,23 @@ function getCookieValue(cookie: CookieRecord | string | undefined, name: string)
 
   return parts[1]?.split(';')[0] ?? ''
 }
+
+// 稳定序列化:对象 key 排序后输出,使得字段顺序不同也得到相同字符串。
+// 供 SDK 缓存 key 与 server 缓存 key 共用。
+export function stableStringify(value: unknown): string {
+  if (Array.isArray(value)) {
+    return `[${value.map(stableStringify).join(',')}]`
+  }
+
+  if (value instanceof File) {
+    return `File(${value.name}:${value.size}:${value.type})`
+  }
+
+  if (isRecord(value)) {
+    const entries = Object.entries(value).toSorted(([left], [right]) => left.localeCompare(right))
+
+    return `{${entries.map(([key, entryValue]) => `${key}:${stableStringify(entryValue)}`).join(',')}}`
+  }
+
+  return JSON.stringify(value)
+}
