@@ -362,6 +362,45 @@ describe('createRequest', () => {
 
     expect(sawSignal).toBe(false)
   })
+
+  test.each([
+    'getaddrinfo EAI_AGAIN music.163.com',
+    'connect ECONNREFUSED 1.2.3.4:443',
+    'connect ETIMEDOUT 1.2.3.4:443',
+    'connect UND_ERR_CONNECT_TIMEOUT',
+  ])('should retry connection-never-established error by default: %s', async (message) => {
+    let calls = 0
+    const fetcher: FetchLike = async () => {
+      calls += 1
+      if (calls === 1) {
+        throw new Error(message)
+      }
+
+      return new Response(JSON.stringify({ code: 200, ok: true }), {
+        status: 200,
+      })
+    }
+
+    const response = await createRequest(
+      '/api/test',
+      {},
+      {
+        crypto: 'api',
+        fetcher,
+        retry: {
+          backoffMs: 0,
+          jitter: false,
+        },
+        state: {
+          anonymousToken: 'anonymous-token',
+          deviceId: 'DEVICE_ID',
+        },
+      },
+    )
+
+    expect(response.status).toBe(200)
+    expect(calls).toBe(2)
+  })
 })
 
 function getRequestUrl(input: Parameters<FetchLike>[0] | undefined): string {

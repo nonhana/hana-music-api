@@ -32,6 +32,7 @@ interface NormalizedRetryOptions {
 const DEFAULT_RETRIES = 2
 const DEFAULT_RETRY_BACKOFF_MS = 300
 const DEFAULT_RETRY_MAX_BACKOFF_MS = 2_000
+const DEFAULT_SAFE_RETRIES = 2
 const DEFAULT_TIMEOUT_MS = 8_000
 const MAX_RETRIES = 5
 const WNMCID = createWnmcid()
@@ -272,12 +273,16 @@ export async function createRequest(
         status: didTimeout ? 504 : 502,
       }
 
-      const isRetryableError = didTimeout || isTransientTransportError(error)
+      // 显式 opt-in:超时 + 所有瞬态传输错误;默认:仅"连接从未建立"类。
+      const isExplicitlyRetryable = didTimeout || isTransientTransportError(error)
+      const isRetryableError = retry.retryNonIdempotent
+        ? isExplicitlyRetryable
+        : isConnectionNeverEstablished(error)
       if (isRetryableError && (didTimeout || shouldUseFreshConnection(error))) {
         forceFreshConnection = true
       }
 
-      if (isRetryableError && canRetry(retry, attempt)) {
+      if (isRetryableError && attempt < retry.maxAttempts) {
         const delayMs = getRetryDelay(retry, attempt)
         options.onRequestEvent?.({
           attempt,
@@ -464,7 +469,7 @@ function normalizeRetryOptions(options: CreateRequestOptions['retry']): Normaliz
   return {
     backoffMs: clampInteger(options?.backoffMs ?? DEFAULT_RETRY_BACKOFF_MS, 0, 60_000),
     jitter: options?.jitter ?? true,
-    maxAttempts: retryNonIdempotent ? retries + 1 : 1,
+    maxAttempts: retryNonIdempotent ? retries + 1 : DEFAULT_SAFE_RETRIES + 1,
     maxBackoffMs: clampInteger(options?.maxBackoffMs ?? DEFAULT_RETRY_MAX_BACKOFF_MS, 0, 60_000),
     retryNonIdempotent,
     statusCodes: new Set(
@@ -547,6 +552,18 @@ function isSocketCloseText(text: string): boolean {
     text.includes('und_err_socket') ||
     text.includes('connection closed') ||
     text.includes('terminated')
+  )
+}
+
+// 仅匹配连接从未建立的错误:此时请求确定没到达服务端,重试无重复提交风险。
+// 中途断开(socket closed 等歧义错误)不在此列,需调用方显式 opt-in。
+function isConnectionNeverEstablished(error: unknown): boolean {
+  const text = collectErrorText(error).toLowerCase()
+  return (
+    text.includes('eai_again') ||
+    text.includes('econnrefused') ||
+    text.includes('und_err_connect_timeout') ||
+    /\bconnect etimedout\b/.test(text)
   )
 }
 
