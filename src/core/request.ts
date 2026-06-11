@@ -106,6 +106,10 @@ export async function createRequest(
 
       if (crypto === 'eapi') {
         payload.header = header
+        // 真客户端会以 x-aeapi 声明可接受 gzip 压缩响应;按需开启以省带宽。
+        if (options.acceptGzip) {
+          headers['x-aeapi'] = 'true'
+        }
         requestBody = eapi(uri, payload)
         url = `${options.domain || APP_CONF.apiDomain}/eapi/${uri.slice(5)}`
       } else {

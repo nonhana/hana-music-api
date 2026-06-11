@@ -1,11 +1,15 @@
 import type {
+  BooleanLike,
   CookieRecord,
   CreateRequestOptions,
   ModuleQuery,
   RequestCrypto,
 } from '../types/index.ts'
 
+import { toBoolean } from './utils.ts'
+
 interface OptionSource {
+  readonly acceptGzip?: unknown
   readonly checkToken?: unknown
   readonly connectionStrategy?: CreateRequestOptions['connectionStrategy']
   readonly cookie?: CookieRecord | string
@@ -33,6 +37,10 @@ export function createOption(
   crypto: RequestCrypto = '',
 ): CreateRequestOptions {
   return {
+    acceptGzip:
+      query.acceptGzip === undefined || query.acceptGzip === null
+        ? undefined
+        : toBoolean(query.acceptGzip as BooleanLike) === true,
     checkToken: query.checkToken ? toBooleanLike(query.checkToken) : false,
     connectionStrategy: query.connectionStrategy,
     cookie: query.cookie,

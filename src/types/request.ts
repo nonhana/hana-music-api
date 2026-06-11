@@ -31,6 +31,7 @@ export interface RequestDebugEvent {
 }
 
 export interface CreateRequestOptions {
+  readonly acceptGzip?: boolean
   readonly checkToken?: BooleanLike
   readonly connectionStrategy?: RequestConnectionStrategy
   readonly cookie?: CookieRecord | string

@@ -1,4 +1,6 @@
 import { describe, expect, test } from 'bun:test'
+import { createCipheriv } from 'node:crypto'
+import { gzipSync } from 'node:zlib'
 
 import type { FetchLike, RequestDebugEvent } from '../src/types/index.ts'
 
@@ -279,6 +281,47 @@ describe('createRequest', () => {
       lrc: {
         lyric: 'demo',
       },
+    })
+  })
+
+  test('should request gzipped eapi responses when acceptGzip is enabled', async () => {
+    const EAPI_KEY = 'e82ckenh8dichen8'
+    let sawHeader = ''
+    const cipher = createCipheriv('aes-128-ecb', Buffer.from(EAPI_KEY, 'utf8'), null)
+    cipher.setAutoPadding(true)
+    const zippedHex = Buffer.concat([
+      cipher.update(gzipSync(JSON.stringify({ code: 200, gz: true }))),
+      cipher.final(),
+    ])
+      .toString('hex')
+      .toUpperCase()
+    const fetcher: FetchLike = async (_requestInput, requestInit) => {
+      sawHeader = getHeader(requestInit, 'x-aeapi')
+
+      return new Response(Buffer.from(zippedHex, 'hex'), {
+        status: 200,
+      })
+    }
+
+    const response = await createRequest(
+      '/api/song/lyric',
+      {},
+      {
+        acceptGzip: true,
+        crypto: 'eapi',
+        e_r: true,
+        fetcher,
+        state: {
+          anonymousToken: 'anonymous-token',
+          deviceId: 'DEVICE_ID',
+        },
+      },
+    )
+
+    expect(sawHeader).toBe('true')
+    expect(response.body).toMatchObject({
+      code: 200,
+      gz: true,
     })
   })
 
