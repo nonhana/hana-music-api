@@ -32,6 +32,7 @@ interface NormalizedRetryOptions {
 const DEFAULT_RETRIES = 2
 const DEFAULT_RETRY_BACKOFF_MS = 300
 const DEFAULT_RETRY_MAX_BACKOFF_MS = 2_000
+const DEFAULT_TIMEOUT_MS = 8_000
 const MAX_RETRIES = 5
 const WNMCID = createWnmcid()
 
@@ -137,7 +138,9 @@ export async function createRequest(
     const startedAt = Date.now()
     let didTimeout = false
     let timeoutId: ReturnType<typeof setTimeout> | undefined
-    const timeoutMs = normalizeTimeoutMs(options.timeoutMs)
+    // 未显式配置时给一个保守默认超时,避免高并发下挂死连接拖垮整体吞吐;
+    // 显式传 0 / 负数仍按禁用处理(normalizeTimeoutMs 对 <=0 返回 undefined)。
+    const timeoutMs = normalizeTimeoutMs(options.timeoutMs ?? DEFAULT_TIMEOUT_MS)
     const controller = timeoutMs === undefined ? undefined : new AbortController()
 
     if (controller && timeoutMs !== undefined) {

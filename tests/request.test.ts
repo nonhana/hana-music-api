@@ -309,6 +309,59 @@ describe('createRequest', () => {
     expect(getHeader(init, 'X-Real-IP')).toBe('116.25.123.45')
     expect(getHeader(init, 'X-Forwarded-For')).toBe('116.25.123.45')
   })
+
+  test('should attach an abort signal using the default timeout', async () => {
+    let sawSignal = false
+    const fetcher: FetchLike = async (_requestInput, requestInit) => {
+      sawSignal = requestInit?.signal instanceof AbortSignal
+
+      return new Response(JSON.stringify({ code: 200 }), {
+        status: 200,
+      })
+    }
+
+    await createRequest(
+      '/api/test',
+      {},
+      {
+        crypto: 'api',
+        fetcher,
+        state: {
+          anonymousToken: 'anonymous-token',
+          deviceId: 'DEVICE_ID',
+        },
+      },
+    )
+
+    expect(sawSignal).toBe(true)
+  })
+
+  test('should allow disabling the timeout with timeoutMs 0', async () => {
+    let sawSignal = true
+    const fetcher: FetchLike = async (_requestInput, requestInit) => {
+      sawSignal = requestInit?.signal instanceof AbortSignal
+
+      return new Response(JSON.stringify({ code: 200 }), {
+        status: 200,
+      })
+    }
+
+    await createRequest(
+      '/api/test',
+      {},
+      {
+        crypto: 'api',
+        fetcher,
+        state: {
+          anonymousToken: 'anonymous-token',
+          deviceId: 'DEVICE_ID',
+        },
+        timeoutMs: 0,
+      },
+    )
+
+    expect(sawSignal).toBe(false)
+  })
 })
 
 function getRequestUrl(input: Parameters<FetchLike>[0] | undefined): string {
