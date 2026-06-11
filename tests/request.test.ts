@@ -281,6 +281,34 @@ describe('createRequest', () => {
       },
     })
   })
+
+  test('should fall back to runtime cnIp when no ip is provided', async () => {
+    let init: RequestInit | undefined
+    const fetcher: FetchLike = async (_requestInput, requestInit) => {
+      init = requestInit
+
+      return new Response(JSON.stringify({ code: 200 }), {
+        status: 200,
+      })
+    }
+
+    await createRequest(
+      '/api/test',
+      {},
+      {
+        crypto: 'api',
+        fetcher,
+        state: {
+          anonymousToken: 'anonymous-token',
+          cnIp: '116.25.123.45',
+          deviceId: 'DEVICE_ID',
+        },
+      },
+    )
+
+    expect(getHeader(init, 'X-Real-IP')).toBe('116.25.123.45')
+    expect(getHeader(init, 'X-Forwarded-For')).toBe('116.25.123.45')
+  })
 })
 
 function getRequestUrl(input: Parameters<FetchLike>[0] | undefined): string {

@@ -43,15 +43,16 @@ export async function createRequest(
   const headers: Record<string, string> = {
     ...options.headers,
   }
-  const ip = options.realIP ?? options.ip ?? ''
+  const fetcher: FetchLike = options.fetcher ?? fetch
+  const state = getRuntimeState(options.state)
+  // 调用方未显式给 ip/realIP 时回退到进程级 cnIp。SDK 链路据此默认获得中国区伪装 IP,
+  // HTTP server 始终显式传 ip,不受影响。
+  const ip = options.realIP ?? options.ip ?? state.cnIp
 
   if (ip) {
     headers['X-Forwarded-For'] = ip
     headers['X-Real-IP'] = ip
   }
-
-  const fetcher: FetchLike = options.fetcher ?? fetch
-  const state = getRuntimeState(options.state)
   const cookieInput =
     typeof options.cookie === 'string' ? cookieToJson(options.cookie) : { ...options.cookie }
   const cookie = processCookieObject(cookieInput, uri, state)
