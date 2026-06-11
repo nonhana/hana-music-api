@@ -14,8 +14,13 @@ export interface SdkCacheConfig {
   readonly ttlMs?: number
 }
 
+export interface IdentityPoolConfig {
+  readonly size: number
+}
+
 export interface CreateHanaMusicApiConfig extends ModuleCallConfig {
   readonly cache?: SdkCacheConfig
+  readonly identityPool?: IdentityPoolConfig
 }
 
 type RemoveIndexSignature<T> = {

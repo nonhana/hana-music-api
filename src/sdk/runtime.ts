@@ -15,6 +15,7 @@ import type {
 
 import { ensureRuntimeAnonymousToken } from '../core/anonymous.ts'
 import { MemoryResponseCache } from '../core/cache.ts'
+import { createIdentityPool } from '../core/identity.ts'
 import { createRequest } from '../core/request.ts'
 import { cookieToJson, isRecord, stableStringify } from '../core/utils.ts'
 import { sdkModuleRegistry } from './generated/registry.generated.ts'
@@ -49,16 +50,19 @@ export function createModuleInvoker<K extends ModuleIdentifier>(
   moduleImplementation: SdkModuleImplementation<K>,
   baseConfig: CreateHanaMusicApiConfig = {},
 ): SdkModuleInvoker<K> {
-  const { cache, ...requestConfig } = baseConfig
+  const { cache, identityPool, ...requestConfig } = baseConfig
   const cacheStore =
     cache && cache.enabled !== false ? new MemoryResponseCache(cache.ttlMs ?? 120_000) : null
+  const pool = identityPool ? createIdentityPool(identityPool, requestConfig.fetcher) : null
   const inflight = new Map<string, Promise<ModuleResponseOf<K>>>()
 
   return (async (query?: SdkQueryOf<K>, config?: ModuleCallConfig) => {
     const resolvedQuery = (query ?? {}) as SdkQueryOf<K>
+    const identity = pool ? await pool.next() : {}
     const callConfig: ModuleCallConfig = {
       ...requestConfig,
       ...config,
+      ...identity,
     }
 
     if (!cacheStore) {

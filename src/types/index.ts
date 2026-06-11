@@ -17,6 +17,7 @@ export type {
 } from './request.ts'
 export type {
   CreateHanaMusicApiConfig,
+  IdentityPoolConfig,
   LegacyCompatibleSdkModuleInvoker,
   ModuleCallConfig,
   SdkCacheConfig,
