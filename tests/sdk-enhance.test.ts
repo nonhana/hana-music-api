@@ -80,7 +80,7 @@ describe('sdk identity pool', () => {
           ? (init.headers.get('Cookie') ?? '')
           : ((init?.headers as Record<string, string> | undefined)?.Cookie ?? '')
       const parsed = cookieToJson(decodeURIComponent(cookieHeader))
-      const url = typeof input === 'string' ? input : String(input)
+      const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
 
       if (url.includes('register/anonimous')) {
         const token = `pool-token-${registered.length + 1}`

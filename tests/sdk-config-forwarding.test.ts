@@ -111,7 +111,7 @@ function getHeader(init: RequestInit | undefined, name: string): string {
   }
 
   if (headers && !Array.isArray(headers)) {
-    const value = headers[name as keyof typeof headers]
+    const value = headers[name]
     return typeof value === 'string' ? value : ''
   }
 
