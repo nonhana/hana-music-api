@@ -8,11 +8,19 @@ export type {
   ProgrammaticApi,
   ProgrammaticModuleInvoker,
 } from './module-contracts.ts'
-export type { CreateRequestOptions, GenerateConfigOptions } from './request.ts'
+export type {
+  CreateRequestOptions,
+  GenerateConfigOptions,
+  RequestConnectionStrategy,
+  RequestDebugEvent,
+  RequestRetryOptions,
+} from './request.ts'
 export type {
   CreateHanaMusicApiConfig,
+  IdentityPoolConfig,
   LegacyCompatibleSdkModuleInvoker,
   ModuleCallConfig,
+  SdkCacheConfig,
   SdkModuleImplementation,
   SdkModuleInvoker,
   SdkModuleRegistry,

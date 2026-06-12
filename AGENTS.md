@@ -52,3 +52,13 @@ tests/            — Crypto, request, server, module integration
 - `bun run verify` passes (`types:modules:check && test && typecheck && lint && fmt:check && docs:build`)
 - Changed files committed with conventional commit messages
 - Crypto/request tests pass (highest risk area)
+
+## Simplicity Rules
+
+- **WRITE THE MINIMAL SOLUTION.** A feature should be implemented in the simplest way that works. Do not add abstractions, configurability, or indirection that is not needed right now.
+- **ONE CALLER = NO ABSTRACTION.** Do not extract a function/class/interface until there is at least 3+ callers requiring it.
+- **NO DEFENSIVE CODING BEYOND THE SPEC.** Do not add null checks, type guards, error recovery, or fallback logic for cases not described in the requirements.
+- **NO UNREQUESTED FEATURES.** Every line of code must be justified by the current task. Do not "future-proof".
+- **NO REFORMATTING / RENAMING SIDE EFFECTS.** Only touch the lines that need to change.
+- **TARGET DIFF SIZE: < 50 lines per feature.** If the diff is larger, you are over-engineering.
+- **BEFORE CODING:** State your plan in 2-3 sentences. If it sounds like too much, it is.
