@@ -7,9 +7,11 @@ export default defineConfig({
   lang: 'zh-CN',
   title: 'hana-music-api',
   description: 'hana-music-api 接口文档与使用说明。',
+  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/docs/logo.svg' }]],
   cleanUrls: true,
   lastUpdated: true,
   themeConfig: {
+    logo: '/logo.svg',
     nav: [
       { text: '首页', link: '/' },
       { text: '指南', link: '/guide/getting-started' },
