@@ -1,0 +1,13 @@
+[build]
+  command = "DOCS_BASE=/ bun run docs:build"
+  publish = "docs/.vitepress/dist"
+
+[[redirects]]
+  from = "/docs"
+  to = "/"
+  status = 301
+
+[[redirects]]
+  from = "/docs/*"
+  to = "/:splat"
+  status = 301
