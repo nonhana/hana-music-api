@@ -83,7 +83,7 @@ console.log(result.body)
 
 其中比特率`bitrate`要进行以下转换
 
-```
+```js
 bitrate = Math.floor(br / 1000)
 ```
 

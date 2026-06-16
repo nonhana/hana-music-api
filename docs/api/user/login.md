@@ -60,12 +60,14 @@ console.log(result.body)
 
 **调用例子 :** `/login?email=xxx@163.com&password=yyy`
 
-完成登录后 , 会在浏览器保存一个 Cookies 用作登录凭证 , 大部分 API 都需要用到这个
+完成登录后，会在浏览器保存一个 Cookies 用作登录凭证，大部分 API 都需要用到这个
 Cookies,非跨域情况请求会自动带上 Cookies,跨域情况参考`调用前须知`
 
-v3.30.0 后支持手动传入 cookie,登录接口返回内容新增 `cookie` 字段,保存到本地后,get 请求带上`?cookie=xxx` (先使用 `encodeURIComponent()` 编码 cookie 值) 或者 post 请求 body 带上 `cookie` 即可,如:`/user/cloud?cookie=xxx` 或者
+v3.30.0 后支持手动传入 cookie。登录接口返回内容新增 `cookie` 字段，保存到本地后，
+get 请求带上 `?cookie=xxx`（先使用 `encodeURIComponent()` 编码 cookie 值），
+或者 post 请求 body 带上 `cookie` 即可，例如：`/user/cloud?cookie=xxx` 或者
 
-```
+```json
 {
     ...,
     cookie:"xxx"
@@ -76,7 +78,7 @@ v3.30.0 后支持手动传入 cookie,登录接口返回内容新增 `cookie` 字
 可以直接从浏览器中获取cookie值, 只需要其中key为`MUSIC_U`的数据即可
 请求
 
-```
+```text
 GET https://example.com/search?keywords=HELLO&cookie=MUSIC_U%3Dxxxx
 POST https://example.com/search?keywords=HELLO
 body {

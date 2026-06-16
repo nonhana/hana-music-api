@@ -25,7 +25,7 @@ description: '手机登录 接口文档。'
 | `password`     | string |  ✅  | -      | 密码                                                                                                                                  |
 | `countrycode`  | string |  —   | -      | 国家码，用于国外手机号登录，例如美国传入：`1`                                                                                         |
 | `md5_password` | string |  —   | -      | md5 加密后的密码,传入后 `password` 参数将失效                                                                                         |
-| `captcha`      | string |  —   | -      | 验证码,使用 [`/captcha/sent`](#发送验证码)接口传入手机号获取验证码,调用此接口传入验证码,可使用验证码登录,传入后 `password` 参数将失效 |
+| `captcha`      | string |  —   | -      | 验证码,使用 [`/captcha/sent`](/api/user/captcha-sent)接口传入手机号获取验证码,调用此接口传入验证码,可使用验证码登录,传入后 `password` 参数将失效 |
 
 ## HTTP 示例
 

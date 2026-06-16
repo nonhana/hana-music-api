@@ -59,4 +59,9 @@ console.log(result.body)
 
 **接口地址 :** `/share/resource`
 
-**调用例子 :** `/share/resource?id=1297494209&msg=测试` `/share/resource?type=djradio&id=336355127` `/share/resource?type=djprogram&id=2061034798` `/share/resource?type=djprogram&id=2061034798&msg=测试@binaryify 测试` `/share/resource?type=noresource&msg=测试`
+**调用例子 :**
+`/share/resource?id=1297494209&msg=测试`
+`/share/resource?type=djradio&id=336355127`
+`/share/resource?type=djprogram&id=2061034798`
+`/share/resource?type=djprogram&id=2061034798&msg=测试@binaryify 测试`
+`/share/resource?type=noresource&msg=测试`

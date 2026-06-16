@@ -48,6 +48,6 @@ console.log(result.body)
 
 返回结果的`displayStatus`参数对应:
 
-```
+```text
 同上
 ```

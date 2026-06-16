@@ -48,13 +48,13 @@ console.log(result.body)
 
 返回结果的`displayStatus`参数对应:
 
-```
+```text
 AUDITING 审核中
 ONLY_SELF_SEE 仅自己可见
 ONLINE 已发布
 ```
 
 **可选参数：**
-`limit`: 取出歌单数量 , 默认为 200
+`limit`: 取出歌单数量，默认为 200
 
-`offset`: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)\*200, 其中 200 为 limit 的值
+`offset`: 偏移数量，用于分页，如：(评论页数 - 1)\*200, 其中 200 为 limit 的值

@@ -1,11 +1,11 @@
 ---
 title: '心动模式/智能播放'
-description: '登录后调用此接口 , 可获取心动模式/智能播放列表'
+description: '登录后调用此接口，可获取心动模式/智能播放列表'
 ---
 
 # 心动模式/智能播放
 
-> 登录后调用此接口 , 可获取心动模式/智能播放列表
+> 登录后调用此接口，可获取心动模式/智能播放列表
 
 ## 接口信息
 
@@ -47,7 +47,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 登录后调用此接口 , 可获取心动模式/智能播放列表
+说明 : 登录后调用此接口，可获取心动模式/智能播放列表
 **必选参数 :** `id` : 歌曲 id
 
 `pid` : 歌单 id
@@ -57,4 +57,4 @@ console.log(result.body)
 
 **接口地址 :** `/playmode/intelligence/list`
 
-**调用例子 :** `/playmode/intelligence/list?id=33894312&pid=24381616` , `/playmode/intelligence/list?id=33894312&pid=24381616&sid=36871368`
+**调用例子 :** `/playmode/intelligence/list?id=33894312&pid=24381616`，`/playmode/intelligence/list?id=33894312&pid=24381616&sid=36871368`

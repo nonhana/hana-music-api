@@ -58,10 +58,7 @@ console.log(result.body)
 
 **调用例子 :** `/playlist/track/all?id=24381616&limit=10&offset=1`
 
-> 注：关于`offset`，你可以这样理解，假设你当前的歌单有200首歌
->
-> 你传入limit=50&offset=0等价于limit=50，你会得到第1-50首歌曲
-
-> 你传入limit=50&offset=50，你会得到第51-100首歌曲
-
-> 如果你设置limit=50&offset=100，你就会得到第101-150首歌曲
+> 注：关于 `offset`，可以这样理解，假设当前的歌单有 200 首歌。
+> 传入 `limit=50&offset=0` 等价于 `limit=50`，会得到第 1-50 首歌曲。
+> 传入 `limit=50&offset=50`，会得到第 51-100 首歌曲。
+> 如果设置 `limit=50&offset=100`，就会得到第 101-150 首歌曲。

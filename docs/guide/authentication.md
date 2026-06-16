@@ -58,7 +58,7 @@
 - HTTP POST 请求：把 `cookie` 放到 body 中
 - SDK 调用：把 `cookie` 放到 `config`，而不是业务参数
 
-### 推荐的 SDK 形状
+### SDK 调用实践
 
 ```ts
 import { createHanaMusicApi } from 'hana-music-api'
@@ -72,7 +72,7 @@ const detail = await hana.userAccount({})
 console.log(detail.body)
 ```
 
-或者按单函数调用：
+或者单函数调用：
 
 ```ts
 import { userAccount } from 'hana-music-api'
@@ -85,16 +85,10 @@ const detail = await userAccount(
 )
 ```
 
-## 认证相关注意事项
+## 注意事项
 
-- 不要频繁调用登录接口，否则可能触发风控
+- 不要频繁调用登录接口，登录态接口优先复用已有 Cookie，重复登录可能触发风控
 - 登录接口通常比普通接口更慢，因为会经过额外加密逻辑
-- 对跨域请求而言，务必确保请求会携带 Cookie
-- 如果登录后仍遇到 `301` 或类似状态，优先检查缓存和 Cookie 是否正确传递
-
-## 推荐实践
-
-- Web 客户端优先使用二维码登录或验证码登录
-- 服务端或脚本调用优先保存登录返回的 `cookie`
-- 需要批量调用登录态接口时，优先复用已有 Cookie，而不是重复登录
-- 在 SDK 中优先把认证信息放到 `config`，避免把执行上下文和业务参数混在一起
+- 跨域请求务必确保携带 Cookie
+- 登录后仍遇到 `301` 或类似状态时，优先检查缓存和 Cookie 是否正确传递
+- Web 客户端优先用二维码或验证码登录，服务端或脚本调用保存登录返回的 `cookie`

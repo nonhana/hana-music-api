@@ -45,4 +45,6 @@ console.log(result.body)
 
 **接口地址 :** `/batch`
 
-**调用例子 :** 使用 GET 方式:`/batch?/api/v2/banner/get={"clientType":"pc"}` 使用 POST 方式传入参数:`{ "/api/v2/banner/get": {"clientType":"pc"} }`
+**调用例子 :**
+使用 GET 方式：`/batch?/api/v2/banner/get={"clientType":"pc"}`
+使用 POST 方式传入参数：`{ "/api/v2/banner/get": {"clientType":"pc"} }`

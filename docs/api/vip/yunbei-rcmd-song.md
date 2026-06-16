@@ -1,11 +1,11 @@
 ---
 title: '云贝推歌'
-description: '登录后调用此接口 , 传入歌曲 id, 可以进行云贝推歌'
+description: '登录后调用此接口，传入歌曲 id, 可以进行云贝推歌'
 ---
 
 # 云贝推歌
 
-> 登录后调用此接口 , 传入歌曲 id, 可以进行云贝推歌
+> 登录后调用此接口，传入歌曲 id, 可以进行云贝推歌
 
 ## 接口信息
 
@@ -29,7 +29,7 @@ description: '登录后调用此接口 , 传入歌曲 id, 可以进行云贝推�
 
 ```bash
 GET /yunbei/rcmd/song?id=65528
-GET /yunbei/rcmd/song?id=65528&reason=人间好声音推荐给你听
+GET /yunbei/rcmd/song?id=65528&reason=人间好声音推荐给听
 ```
 
 ## 编程式调用
@@ -46,7 +46,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 登录后调用此接口 , 传入歌曲 id, 可以进行云贝推歌
+说明 : 登录后调用此接口，传入歌曲 id, 可以进行云贝推歌
 
 **必选参数 :** `id` : 歌曲 id
 
@@ -56,4 +56,4 @@ console.log(result.body)
 
 **接口地址 :** `/yunbei/rcmd/song`
 
-**调用例子 :** `/yunbei/rcmd/song?id=65528` `/yunbei/rcmd/song?id=65528&reason=人间好声音推荐给你听`
+**调用例子 :** `/yunbei/rcmd/song?id=65528` `/yunbei/rcmd/song?id=65528&reason=人间好声音推荐给听`

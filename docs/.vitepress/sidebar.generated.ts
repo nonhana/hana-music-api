@@ -1,9 +1,11 @@
-export const apiNavLink = {
+import type { DefaultTheme } from 'vitepress'
+
+export const apiNavLink: DefaultTheme.NavItem = {
   text: 'API 参考',
   link: '/api/user/login-cellphone',
-} as const
+}
 
-export const apiSidebar = [
+export const apiSidebar: DefaultTheme.SidebarItem[] = [
   {
     text: '用户与登录',
     collapsed: false,
@@ -81,7 +83,7 @@ export const apiSidebar = [
         link: '/api/user/user-account',
       },
       {
-        text: '获取用户信息 , 歌单，收藏，mv, dj 数量',
+        text: '获取用户信息，歌单，收藏，mv, dj 数量',
         link: '/api/user/user-subcount',
       },
       {
@@ -1528,4 +1530,4 @@ export const apiSidebar = [
       },
     ],
   },
-] as const
+]

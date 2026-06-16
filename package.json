@@ -15,6 +15,7 @@
   "bugs": {
     "url": "https://github.com/nonhana/hana-music-api/issues"
   },
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nonhana/hana-music-api.git"
@@ -38,8 +39,9 @@
   "scripts": {
     "build": "tsdown",
     "build:check": "bun run build && publint --strict && attw --pack . --profile esm-only",
-    "changeset": "changeset",
     "dev": "bun --watch src/app/cli.ts",
+    "docs:lint": "markdownlint-cli2",
+    "docs:lint:fix": "markdownlint-cli2 --fix",
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
@@ -47,7 +49,6 @@
     "fmt:check": "oxfmt . --check",
     "lint": "oxlint .",
     "lint:fix": "oxlint . --fix",
-    "release": "changeset publish",
     "start": "bun src/app/cli.ts",
     "start:prod": "NODE_ENV=production bun src/app/cli.ts",
     "test": "bun test",
@@ -57,6 +58,8 @@
     "types:modules:check": "bun scripts/generate-module-type-surface.ts --check",
     "verify": "bun run types:modules:check && bun run build && bun test && bun run typecheck && bun run lint && bun run fmt:check && bun run docs:build",
     "verify:sdk": "bun run types:modules:check && bun run build:check && bun test tests/sdk-release-contract.test.ts tests/module-api.test.ts tests/module-discovery-alignment.test.ts && bun run typecheck && bun run lint && bun run fmt:check && bun run docs:build",
+    "changeset": "changeset",
+    "release": "changeset publish",
     "version-packages": "changeset version",
     "pm2:start": "pm2 start ecosystem.config.cjs",
     "pm2:reload": "pm2 reload hana-music-api",
@@ -73,13 +76,16 @@
     "@changesets/cli": "^2.29.6",
     "@types/bun": "latest",
     "@types/qrcode": "^1.5.6",
+    "markdownlint-cli2": "^0.22.1",
+    "mermaid": "11.15.0",
     "oxfmt": "^0.53.0",
     "oxlint": "^1.68.0",
     "oxlint-tsgolint": "^0.23.0",
     "publint": "^0.3.15",
     "tsdown": "^0.14.2",
     "typescript": "^6.0.3",
-    "vitepress": "^1.6.4"
+    "vitepress": "^1.6.4",
+    "vitepress-plugin-mermaid": "2.0.17"
   },
   "engines": {
     "node": ">=24"

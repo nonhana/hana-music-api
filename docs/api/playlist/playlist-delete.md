@@ -1,11 +1,11 @@
 ---
 title: '删除歌单'
-description: '调用此接口 , 传入歌单 id 可删除歌单'
+description: '调用此接口，传入歌单 id 可删除歌单'
 ---
 
 # 删除歌单
 
-> 调用此接口 , 传入歌单 id 可删除歌单
+> 调用此接口，传入歌单 id 可删除歌单
 
 ## 接口信息
 
@@ -44,10 +44,10 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 调用此接口 , 传入歌单 id 可删除歌单
+说明 : 调用此接口，传入歌单 id 可删除歌单
 
 **必选参数 :** `id` : 歌单 id,可多个,用逗号隔开
 
 **接口地址 :** `/playlist/delete`
 
-**调用例子 :** `/playlist/delete?id=2947311456` , `/playlist/delete?id=5013464397,5013427772`
+**调用例子 :** `/playlist/delete?id=2947311456`，`/playlist/delete?id=5013464397,5013427772`

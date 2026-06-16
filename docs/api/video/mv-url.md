@@ -1,11 +1,11 @@
 ---
 title: 'mv 地址'
-description: '调用此接口 , 传入 mv id,可获取 mv 播放地址'
+description: '调用此接口，传入 mv id,可获取 mv 播放地址'
 ---
 
 # mv 地址
 
-> 调用此接口 , 传入 mv id,可获取 mv 播放地址
+> 调用此接口，传入 mv id,可获取 mv 播放地址
 
 ## 接口信息
 
@@ -45,7 +45,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 调用此接口 , 传入 mv id,可获取 mv 播放地址
+说明 : 调用此接口，传入 mv id,可获取 mv 播放地址
 
 **必选参数 :** `id`: mv id
 

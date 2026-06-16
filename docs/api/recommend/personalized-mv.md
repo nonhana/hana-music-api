@@ -1,11 +1,11 @@
 ---
 title: '推荐 mv'
-description: '调用此接口 , 可获取推荐 mv'
+description: '调用此接口，可获取推荐 mv'
 ---
 
 # 推荐 mv
 
-> 调用此接口 , 可获取推荐 mv
+> 调用此接口，可获取推荐 mv
 
 ## 接口信息
 
@@ -39,7 +39,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 调用此接口 , 可获取推荐 mv
+说明 : 调用此接口，可获取推荐 mv
 
 **接口地址 :** `/personalized/mv`
 

@@ -1,11 +1,11 @@
 ---
 title: '相似 mv'
-description: '调用此接口 , 传入 `mvid` 可获取相似 mv'
+description: '调用此接口，传入 `mvid` 可获取相似 mv'
 ---
 
 # 相似 mv
 
-> 调用此接口 , 传入 `mvid` 可获取相似 mv
+> 调用此接口，传入 `mvid` 可获取相似 mv
 
 ## 接口信息
 
@@ -43,7 +43,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 调用此接口 , 传入 `mvid` 可获取相似 mv
+说明 : 调用此接口，传入 `mvid` 可获取相似 mv
 
 **必选参数 :** `mvid`: mv id
 

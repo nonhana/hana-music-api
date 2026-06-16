@@ -49,7 +49,7 @@ console.log(result.body)
 
 **可选参数：**
 
-`limit`: 取出条目数量 , 默认为 40
+`limit`: 取出条目数量，默认为 40
 
 **接口地址:** `/ugc/artist/search`
 
