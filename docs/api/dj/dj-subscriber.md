@@ -56,4 +56,4 @@ console.log(result.body)
 
 **接口地址 :** `/dj/subscriber`
 
-**调用例子 :** `/dj/subscriber?id=335425050` , `/dj/subscriber?id=335425050&time=1602761825390`
+**调用例子 :** `/dj/subscriber?id=335425050`，`/dj/subscriber?id=335425050&time=1602761825390`

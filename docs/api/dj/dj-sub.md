@@ -1,11 +1,11 @@
 ---
 title: '电台 - 订阅'
-description: '登录后调用此接口 , 传入`rid`, 可订阅 dj,dj 的 `rid` 可通过搜索指定'
+description: '登录后调用此接口，传入`rid`, 可订阅 dj,dj 的 `rid` 可通过搜索指定'
 ---
 
 # 电台 - 订阅
 
-> 登录后调用此接口 , 传入`rid`, 可订阅 dj,dj 的 `rid` 可通过搜索指定
+> 登录后调用此接口，传入`rid`, 可订阅 dj,dj 的 `rid` 可通过搜索指定
 
 ## 接口信息
 
@@ -45,7 +45,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 登录后调用此接口 , 传入`rid`, 可订阅 dj,dj 的 `rid` 可通过搜索指定
+说明 : 登录后调用此接口，传入`rid`, 可订阅 dj,dj 的 `rid` 可通过搜索指定
 type='1009' 获取其 id, 如`/search?keywords= 代码时间 &type=1009`
 
 **必选参数 :** `rid`: 电台 的 id

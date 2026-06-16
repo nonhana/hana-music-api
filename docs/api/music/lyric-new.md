@@ -59,7 +59,7 @@ console.log(result.body)
 
 - （可能存在）JSON 歌曲元数据
 
-```
+```json
 {"t":0,"c":[{"tx":"作曲: "},{"tx":"柳重言","li":"http://p1.music.126.net/Icj0IcaOjH2ZZpyAM-QGoQ==/6665239487822533.jpg","or":"orpheus://nm/artist/home?id=228547&type=artist"}]}
 {"t":5403,"c":[{"tx":"编曲: "},{"tx":"Alex San","li":"http://p1.music.126.net/pSbvYkrzZ1RFKqoh-fA9AQ==/109951166352922615.jpg","or":"orpheus://nm/artist/home?id=28984845&type=artist"}]}
 {"t":10806,"c":[{"tx":"制作人: "},{"tx":"王菲","li":"http://p1.music.126.net/1KQVD6XWbs5IAV0xOj1ZIA==/18764265441342019.jpg","or":"orpheus://nm/artist/home?id=9621&type=artist"},{"tx":"/"},{"tx":"梁荣骏","li":"http://p1.music.126.net/QrD8drwrRcegfKLPoiiG2Q==/109951166288436155.jpg","or":"orpheus://nm/artist/home?id=189294&type=artist"}]}
@@ -73,9 +73,9 @@ console.log(result.body)
 - `li`: 艺术家、歌手头像图url
 - `or`：云音乐app内路径；例中作用即打开艺术家主页
 
-* 逐字歌词
+- 逐字歌词
 
-```
+```text
 [16210,3460](16210,670,0)还(16880,410,0)没...
  ~~~~1 ~~~2  ~~~~3 ~~4 5 ~6 (...)
 ```

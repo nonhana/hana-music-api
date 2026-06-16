@@ -5,7 +5,7 @@ description: '可以上传声音到播客,例子在 `/public/voice_upload.html` 
 
 # 播客上传声音
 
-> 可以上传声音到播客,例子在 `/public/voice_upload.html` 访问地址: <a href="/voice_upload.html" target="_blank">/voice_upload.html</a>
+> 可以上传声音到播客，示例页面见 [`/voice_upload.html`](/voice_upload.html)。
 
 ## 接口信息
 
@@ -39,7 +39,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明: 可以上传声音到播客,例子在 `/public/voice_upload.html` 访问地址: <a href="/voice_upload.html" target="_blank">/voice_upload.html</a>
+说明: 可以上传声音到播客，示例页面见 [`/voice_upload.html`](/voice_upload.html)。
 
 **接口地址:** `/voice/upload`
 

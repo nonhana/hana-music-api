@@ -53,7 +53,7 @@ console.log(result.body)
 
 返回字段说明 :
 
-```
+```text
 "br": 比特率Bit Rate,
 "size": 文件大小,
 "vd": Volume Delta,

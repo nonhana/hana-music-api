@@ -1,11 +1,11 @@
 ---
 title: '内部版本接口'
-description: '调用此接口 , 可获得内部版本号(从package.json读取)'
+description: '调用此接口，可获得内部版本号(从package.json读取)'
 ---
 
 # 内部版本接口
 
-> 调用此接口 , 可获得内部版本号(从package.json读取)
+> 调用此接口，可获得内部版本号(从package.json读取)
 
 ## 接口信息
 
@@ -39,7 +39,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 调用此接口 , 可获得内部版本号(从package.json读取)
+说明 : 调用此接口，可获得内部版本号(从package.json读取)
 
 **接口地址 :** `/inner/version`
 

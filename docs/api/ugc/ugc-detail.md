@@ -49,7 +49,7 @@ console.log(result.body)
 曲库补充 专辑:101 MV:103
 
 **可选参数：**
-`limit`: 取出条目数量 , 默认为 10
+`limit`: 取出条目数量，默认为 10
 
 `offset`: 偏移数量
 

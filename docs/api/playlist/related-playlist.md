@@ -1,11 +1,11 @@
 ---
 title: '相关歌单'
-description: '请替换为[相关歌单推荐](#相关歌单推荐)接口; 本接口通过html抓取内容, 现已无法抓取歌单'
+description: '请替换为[相关歌单推荐](/api/playlist/playlist-detail-rcmd-get)接口; 本接口通过html抓取内容, 现已无法抓取歌单'
 ---
 
 # 相关歌单
 
-> 请替换为[相关歌单推荐](#相关歌单推荐)接口; 本接口通过html抓取内容, 现已无法抓取歌单
+> 请替换为[相关歌单推荐](/api/playlist/playlist-detail-rcmd-get)接口; 本接口通过html抓取内容, 现已无法抓取歌单
 
 ## 接口信息
 

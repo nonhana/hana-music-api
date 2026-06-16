@@ -1,11 +1,11 @@
 ---
 title: '首页-发现'
-description: '调用此接口 , 可获取 APP 首页信息'
+description: '调用此接口，可获取 APP 首页信息'
 ---
 
 # 首页-发现
 
-> 调用此接口 , 可获取 APP 首页信息
+> 调用此接口，可获取 APP 首页信息
 
 ## 接口信息
 
@@ -42,7 +42,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 调用此接口 , 可获取 APP 首页信息
+说明 : 调用此接口，可获取 APP 首页信息
 
 **接口地址 :** `/homepage/block/page`
 

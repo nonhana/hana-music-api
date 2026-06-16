@@ -45,8 +45,8 @@ console.log(result.body)
 
 **可选参数：**
 
-`limit`: 取出歌单数量 , 默认为 200
+`limit`: 取出歌单数量，默认为 200
 
-`offset`: 偏移数量 , 用于分页 , 如 :( 评论页数 -1)\*200, 其中 200 为 limit 的值
+`offset`: 偏移数量，用于分页，如：(评论页数 - 1)\*200, 其中 200 为 limit 的值
 
 `podcastName`: 播客名称

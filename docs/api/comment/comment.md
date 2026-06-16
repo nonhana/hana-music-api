@@ -65,7 +65,7 @@ console.log(result.body)
 
    `type`: 数字,资源类型,对应歌曲,mv,专辑,歌单,电台,视频对应以下类型
 
-   ```
+   ```text
    0: 歌曲
 
    1: mv
@@ -99,7 +99,7 @@ console.log(result.body)
 
    `type`: 数字,资源类型,对应歌曲,mv,专辑,歌单,电台,视频对应以下类型
 
-   ```
+   ```text
    0: 歌曲
 
    1: mv

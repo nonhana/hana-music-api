@@ -41,7 +41,7 @@ console.log(result.body)
 
 说明 : 登录后调用此接口,使用`'Content-Type': 'multipart/form-data'`上传 mp3 formData(name 为'songFile'),可上传歌曲到云盘
 
-参考: https://gitlab.com/Binaryify/NeteaseCloudMusicApi/blob/main/public/cloud.html
+参考: <https://gitlab.com/Binaryify/NeteaseCloudMusicApi/blob/main/public/cloud.html>l>
 
 访问地址: `/cloud.html`)
 

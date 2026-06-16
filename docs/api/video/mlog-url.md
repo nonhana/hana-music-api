@@ -1,11 +1,11 @@
 ---
 title: '获取 mlog 播放地址'
-description: '调用此接口 , 传入 mlog id, 可获取 mlog 播放地址'
+description: '调用此接口，传入 mlog id, 可获取 mlog 播放地址'
 ---
 
 # 获取 mlog 播放地址
 
-> 调用此接口 , 传入 mlog id, 可获取 mlog 播放地址
+> 调用此接口，传入 mlog id, 可获取 mlog 播放地址
 
 ## 接口信息
 
@@ -22,7 +22,7 @@ description: '调用此接口 , 传入 mlog id, 可获取 mlog 播放地址'
 | 参数  | 类型             | 必填 | 默认值 | 说明                 |
 | ----- | ---------------- | :--: | ------ | -------------------- |
 | `id`  | string           |  ✅  | -      | mlog id              |
-| `res` | number \| string |  —   | 1080   | 分辨率 , 默认为 1080 |
+| `res` | number \| string |  —   | 1080   | 分辨率，默认为 1080 |
 
 ## HTTP 示例
 
@@ -44,11 +44,11 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 调用此接口 , 传入 mlog id, 可获取 mlog 播放地址
+说明 : 调用此接口，传入 mlog id, 可获取 mlog 播放地址
 
 **必选参数 :** `id` : mlog id
 
-**可选参数 :** `res`: 分辨率 , 默认为 1080
+**可选参数 :** `res`: 分辨率，默认为 1080
 
 **接口地址 :** `/mlog/url`
 

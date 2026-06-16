@@ -21,7 +21,7 @@ description: '调用此接口,可获取主播新人榜'
 
 | 参数    | 类型             | 必填 | 默认值 | 说明                                  |
 | ------- | ---------------- | :--: | ------ | ------------------------------------- |
-| `limit` | number \| string |  —   | 100    | 返回数量 , 默认为 100 (不支持 offset) |
+| `limit` | number \| string |  —   | 100    | 返回数量，默认为 100 (不支持 offset) |
 
 ## HTTP 示例
 
@@ -47,7 +47,7 @@ console.log(result.body)
 
 **可选参数 :**
 
-`limit` : 返回数量 , 默认为 100 (不支持 offset)
+`limit` : 返回数量，默认为 100 (不支持 offset)
 
 **接口地址 :** `/dj/toplist/newcomer`
 

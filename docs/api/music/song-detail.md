@@ -1,11 +1,11 @@
 ---
 title: '获取歌曲详情'
-description: '调用此接口 , 传入音乐 id(支持多个 id, 用 `,` 隔开), 可获得歌曲详情(dt为歌曲时长)'
+description: '调用此接口，传入音乐 id(支持多个 id, 用 `,` 隔开), 可获得歌曲详情(dt为歌曲时长)'
 ---
 
 # 获取歌曲详情
 
-> 调用此接口 , 传入音乐 id(支持多个 id, 用 `,` 隔开), 可获得歌曲详情(dt为歌曲时长)
+> 调用此接口，传入音乐 id(支持多个 id, 用 `,` 隔开), 可获得歌曲详情(dt为歌曲时长)
 
 ## 接口信息
 
@@ -44,7 +44,7 @@ console.log(result.body)
 
 ## 补充说明
 
-说明 : 调用此接口 , 传入音乐 id(支持多个 id, 用 `,` 隔开), 可获得歌曲详情(dt为歌曲时长)
+说明 : 调用此接口，传入音乐 id(支持多个 id, 用 `,` 隔开), 可获得歌曲详情(dt为歌曲时长)
 
 **必选参数 :** `ids`: 音乐 id, 如 `ids=347230`
 
@@ -54,7 +54,7 @@ console.log(result.body)
 
 返回字段说明(感谢 [@tuxzz](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/1121#issuecomment-774438040) 整理):
 
-```
+```text
 name: String, 歌曲标题
 id: u64, 歌曲ID
 pst: 0，功能未知
