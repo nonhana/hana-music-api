@@ -83,7 +83,7 @@ export const apiSidebar: DefaultTheme.SidebarItem[] = [
         link: '/api/user/user-account',
       },
       {
-        text: '获取用户信息 , 歌单，收藏，mv, dj 数量',
+        text: '获取用户信息，歌单，收藏，mv, dj 数量',
         link: '/api/user/user-subcount',
       },
       {

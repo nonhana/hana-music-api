@@ -1,15 +1,15 @@
 # 编程式调用
 
-如果你准备在自己的项目里直接接入 `hana-music-api`，常用入口只有 3 个：`createHanaMusicApi()`、原始模块函数、`invokeModule()`。
+如果准备在自己的项目里直接接入 `hana-music-api`，常用入口只有 3 个：`createHanaMusicApi()`、原始模块函数、`invokeModule()`。
 
 ## createHanaMusicApi
 
-这是最省事的用法，适合连续调用多个接口。
+适合连续调用多个接口。
 
 ```ts
 import { createHanaMusicApi } from 'hana-music-api'
 
-const hana = createHanaMusicApi({
+export const hana = createHanaMusicApi({
   cookie: 'MUSIC_U=your-cookie',
 })
 
@@ -67,7 +67,7 @@ const account = await invokeModule(
 )
 ```
 
-## 配置怎么传
+## 怎么传配置
 
 业务参数和执行配置要分开：
 
@@ -88,11 +88,6 @@ await songUrl(
 )
 ```
 
-不要把执行配置直接混进业务参数里。
+## 想更进一步
 
-## 常见用法建议
-
-- 需要连续调多个接口：用 `createHanaMusicApi()`
-- 只调用少量接口：直接导入函数
-- 模块名来自运行时字符串：用 `invokeModule()`
-- 要调登录态接口：把 `cookie` 放进 `config`
+`config` 能传的远不止 `cookie`。要完整了解请求层的控制点，包括加密模式、自定义 fetcher、重试与超时、缓存与身份池，见 [请求层架构总览](/guide/request-layer-overview) 及「请求层进阶」分组。
