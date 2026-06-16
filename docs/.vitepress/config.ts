@@ -18,10 +18,13 @@ export default withMermaid({
       { text: '首页', link: '/' },
       { text: '指南', link: '/guide/getting-started' },
       apiNavLink,
-      { text: '更新日志', link: '/changelog' },
+      {
+        text: '更新日志',
+        link: 'https://github.com/nonhana/hana-music-api/blob/master/CHANGELOG.md',
+      },
       {
         text: 'GitHub',
-        link: 'https://github.com/nonhana/hana-music-api/blob/master/CHANGELOG.md',
+        link: 'https://github.com/nonhana/hana-music-api/',
       },
     ],
     sidebar: {
