@@ -2,12 +2,14 @@ import { withMermaid } from 'vitepress-plugin-mermaid'
 
 import { apiNavLink, apiSidebar } from './sidebar.generated.ts'
 
+const docsBase = normalizeDocsBase(process.env.DOCS_BASE)
+
 export default withMermaid({
-  base: '/docs/',
+  base: docsBase,
   lang: 'zh-CN',
   title: 'hana-music-api',
   description: 'hana-music-api 接口文档与使用说明。',
-  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: '/docs/logo.svg' }]],
+  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: `${docsBase}logo.svg` }]],
   cleanUrls: true,
   lastUpdated: true,
   themeConfig: {
@@ -16,10 +18,13 @@ export default withMermaid({
       { text: '首页', link: '/' },
       { text: '指南', link: '/guide/getting-started' },
       apiNavLink,
-      { text: '更新日志', link: '/changelog' },
+      {
+        text: '更新日志',
+        link: 'https://github.com/nonhana/hana-music-api/blob/master/CHANGELOG.md',
+      },
       {
         text: 'GitHub',
-        link: 'https://github.com/nonhana/hana-music-api/blob/master/CHANGELOG.md',
+        link: 'https://github.com/nonhana/hana-music-api/',
       },
     ],
     sidebar: {
@@ -73,3 +78,15 @@ export default withMermaid({
     },
   },
 })
+
+function normalizeDocsBase(base?: string): string {
+  if (!base) {
+    return '/docs/'
+  }
+
+  if (base === '/') {
+    return '/'
+  }
+
+  return `/${base.replace(/^\/+|\/+$/g, '')}/`
+}

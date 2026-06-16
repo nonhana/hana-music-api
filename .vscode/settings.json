@@ -20,5 +20,8 @@
   "[jsonc]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
+  "[toml]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
   "js/ts.tsdk.path": "node_modules/typescript/lib"
 }
