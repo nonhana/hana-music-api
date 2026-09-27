@@ -88,5 +88,5 @@ async function mockAudioMatchFetch(_input: string | Request | URL, _init?: Reque
 function createFetchMock(originalFetch: typeof fetch): typeof fetch {
   return Object.assign(mockAudioMatchFetch, {
     preconnect: originalFetch.preconnect.bind(originalFetch),
-  }) as typeof fetch
+  })
 }

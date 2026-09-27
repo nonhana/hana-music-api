@@ -3,6 +3,8 @@ title: '将 mlog id 转为视频 id'
 description: '调用此接口，传入 mlog id, 可获取 video id，然后通过`video/url` 获取播放地址'
 ---
 
+<!-- cSpell:ignore OVPTWKS -->
+
 # 将 mlog id 转为视频 id
 
 > 调用此接口，传入 mlog id, 可获取 video id，然后通过`video/url` 获取播放地址

@@ -11,6 +11,7 @@ Runs as an HTTP API server, **not** an npm library (`"private": true`).
 - Lint: `bun run lint` (oxlint)
 - Format: `bun run fmt` (oxfmt)
 - Type check: `bun run typecheck` (tsc --noEmit)
+- Spell: `bun run spell` (cspell; dictionary in `.cspell/project-words.txt`)
 - Full verify: `bun run verify`
 
 ## Stack
@@ -49,7 +50,7 @@ tests/            — Crypto, request, server, module integration
 
 ## Done criteria
 
-- `bun run verify` passes (`types:modules:check && test && typecheck && lint && fmt:check && docs:build`)
+- `bun run verify` passes (`types:modules:check && test && typecheck && lint && spell && fmt:check && docs:build`)
 - Changed files committed with conventional commit messages
 - Crypto/request tests pass (highest risk area)
 

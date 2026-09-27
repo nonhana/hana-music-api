@@ -118,6 +118,7 @@ describe('createServer', () => {
       }),
     })
     const response = await app.request('http://localhost/search?keyword=test', {
+      // cSpell:ignore Dbody
       body: 'limit=10&cookie=MUSIC_A%3Dbody-token',
       headers: {
         'content-type': 'application/x-www-form-urlencoded',

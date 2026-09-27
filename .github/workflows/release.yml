@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -35,7 +35,7 @@ jobs:
           bun-version: latest
 
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22.14.0
           registry-url: https://registry.npmjs.org
@@ -56,8 +56,9 @@ jobs:
           npm pack
 
       - name: Create release PR or publish
-        if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.mode == 'publish') }}
-        uses: changesets/action@v1
+        if: ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch'
+          && inputs.mode == 'publish') }}
+        uses: changesets/action@v2.1.2
         with:
           version: bun run version-packages
           publish: bun run release

@@ -165,6 +165,7 @@ export async function createRequest(
     })
 
     try {
+      // 真正调用 fetcher 向上游发送请求
       const response = await fetcher(
         url,
         createFetchInit(
@@ -651,7 +652,7 @@ function normalizeUpstreamBody(value: unknown): UpstreamBody {
   }
 
   if (isRecord(value)) {
-    return value as DynamicJsonRecord
+    return value
   }
 
   return {}

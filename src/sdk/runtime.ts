@@ -4,10 +4,8 @@ import type {
   ModuleCallConfig,
   ModuleIdentifier,
   ModuleQuery,
-  ModuleQueryOf,
   ModuleRequest,
   ModuleResponseOf,
-  NcmApiResponse,
   SdkModuleImplementation,
   SdkModuleInvoker,
   SdkQueryOf,
@@ -40,7 +38,7 @@ export function createLegacyCompatibleModuleInvoker<K extends ModuleIdentifier>(
   identifier: K,
   moduleImplementation: SdkModuleImplementation<K>,
 ): LegacyCompatibleSdkModuleInvoker<K> {
-  return async (query = {} as ModuleQueryOf<K>) => {
+  return async (query = {}) => {
     return moduleImplementation(query, createRequest as ModuleRequest)
   }
 }
@@ -56,7 +54,7 @@ export function createModuleInvoker<K extends ModuleIdentifier>(
   const pool = identityPool ? createIdentityPool(identityPool, requestConfig.fetcher) : null
   const inflight = new Map<string, Promise<ModuleResponseOf<K>>>()
 
-  return (async (query?: SdkQueryOf<K>, config?: ModuleCallConfig) => {
+  return async (query?: SdkQueryOf<K>, config?: ModuleCallConfig) => {
     const resolvedQuery = (query ?? {}) as SdkQueryOf<K>
     const identity = pool ? await pool.next() : {}
     const callConfig: ModuleCallConfig = {
@@ -84,7 +82,7 @@ export function createModuleInvoker<K extends ModuleIdentifier>(
     const pending = invokeStaticModule(identifier, moduleImplementation, resolvedQuery, callConfig)
       .then((response) => {
         if (response.status === 200) {
-          cacheStore.set(key, response as NcmApiResponse)
+          cacheStore.set(key, response)
         }
 
         return response
@@ -96,7 +94,7 @@ export function createModuleInvoker<K extends ModuleIdentifier>(
     inflight.set(key, pending)
 
     return pending
-  }) as SdkModuleInvoker<K>
+  }
 }
 
 // 调用方已带身份(MUSIC_U/MUSIC_A 或 state.anonymousToken)时,不应再触发懒刷新。
@@ -136,8 +134,5 @@ async function invokeStaticModule<K extends ModuleIdentifier>(
     })
   }
 
-  return moduleImplementation(
-    mergeQueryAndConfig(query, config) as ModuleQueryOf<K>,
-    createRequest as ModuleRequest,
-  )
+  return moduleImplementation(mergeQueryAndConfig(query, config), createRequest as ModuleRequest)
 }

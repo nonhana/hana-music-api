@@ -3,6 +3,8 @@ title: '获取 mlog 播放地址'
 description: '调用此接口，传入 mlog id, 可获取 mlog 播放地址'
 ---
 
+<!-- cSpell:ignore OVPTWKS -->
+
 # 获取 mlog 播放地址
 
 > 调用此接口，传入 mlog id, 可获取 mlog 播放地址

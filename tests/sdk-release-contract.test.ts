@@ -80,10 +80,9 @@ describe('sdk release contract', () => {
     const packResult = run(['npm', 'pack', '--json'], ROOT)
     expect(packResult.exitCode).toBe(0)
 
-    const packEntries = JSON.parse(packResult.stdout) as Array<{
-      files?: Array<{ path: string }>
-      filename: string
-    }>
+    // npm < 12 返回数组；npm >= 12 返回按包名键控的对象。
+    const packOutput = JSON.parse(packResult.stdout) as Array<PackEntry> | Record<string, PackEntry>
+    const packEntries = Array.isArray(packOutput) ? packOutput : Object.values(packOutput)
     const [{ filename, files = [] } = { filename: '', files: [] }] = packEntries
     const filePaths = files.map((file) => file.path)
 
@@ -248,6 +247,11 @@ function run(cmd: string[], cwd: string) {
     stderr: Buffer.from(result.stderr).toString('utf8'),
     stdout: Buffer.from(result.stdout).toString('utf8'),
   }
+}
+
+type PackEntry = {
+  files?: Array<{ path: string }>
+  filename: string
 }
 
 type PackageJsonLike = {

@@ -179,7 +179,7 @@ function createFetchMock(originalFetch: typeof fetch): typeof fetch {
 
   return Object.assign(mockFetch, {
     preconnect: originalFetch.preconnect.bind(originalFetch),
-  }) as typeof fetch
+  })
 }
 
 function getRequestUrl(input: string | Request | URL): string {

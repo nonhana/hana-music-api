@@ -58,7 +58,7 @@ export async function loadProgrammaticApi(
     [...registry.entries()].map(([identifier, moduleDefinition]) => {
       return [identifier, createModuleInvoker(moduleDefinition, requestHandler)]
     }),
-  ) as DynamicProgrammaticApi
+  )
 }
 
 export function createModuleApi(): ProgrammaticApi
@@ -95,7 +95,7 @@ export function createModuleApi(
         return []
       },
     },
-  ) as DynamicProgrammaticApi
+  )
 }
 
 export async function invokeModule<K extends ModuleIdentifier>(
