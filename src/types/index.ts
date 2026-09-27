@@ -18,7 +18,6 @@ export type {
 export type {
   CreateHanaMusicApiConfig,
   IdentityPoolConfig,
-  LegacyCompatibleSdkModuleInvoker,
   ModuleCallConfig,
   SdkCacheConfig,
   SdkModuleImplementation,

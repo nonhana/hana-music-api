@@ -15,10 +15,12 @@ export default defineConfig({
   },
   format: ['esm'],
   external: ['bun'],
+  fixedExtension: false,
+  platform: 'node',
+  target: 'esnext',
   dts: true,
   clean: true,
   outDir: 'dist',
-  target: 'esnext',
   publint: true,
   attw: true,
 })

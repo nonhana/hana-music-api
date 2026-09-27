@@ -1,6 +1,5 @@
 import type {
   CreateHanaMusicApiConfig,
-  LegacyCompatibleSdkModuleInvoker,
   ModuleCallConfig,
   ModuleIdentifier,
   ModuleQuery,
@@ -32,15 +31,6 @@ export async function invokeModule<K extends ModuleIdentifier>(
 ): Promise<ModuleResponseOf<K>> {
   const moduleImplementation = sdkModuleRegistry[identifier] as SdkModuleImplementation<K>
   return invokeStaticModule(identifier, moduleImplementation, query, config)
-}
-
-export function createLegacyCompatibleModuleInvoker<K extends ModuleIdentifier>(
-  identifier: K,
-  moduleImplementation: SdkModuleImplementation<K>,
-): LegacyCompatibleSdkModuleInvoker<K> {
-  return async (query = {}) => {
-    return moduleImplementation(query, createRequest as ModuleRequest)
-  }
 }
 
 export function createModuleInvoker<K extends ModuleIdentifier>(

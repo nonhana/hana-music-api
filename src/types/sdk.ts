@@ -1,9 +1,4 @@
-import type {
-  ModuleIdentifier,
-  ModuleQueryOf,
-  ModuleResponseOf,
-  ProgrammaticModuleInvoker,
-} from './module-contracts.ts'
+import type { ModuleIdentifier, ModuleQueryOf, ModuleResponseOf } from './module-contracts.ts'
 import type { CreateRequestOptions } from './request.ts'
 import type { ModuleRequest } from './runtime.ts'
 
@@ -67,6 +62,3 @@ export type SdkModuleImplementation<K extends ModuleIdentifier = ModuleIdentifie
 export type SdkModuleRegistry = {
   [K in ModuleIdentifier]: SdkModuleImplementation<K>
 }
-
-export type LegacyCompatibleSdkModuleInvoker<K extends ModuleIdentifier> =
-  ProgrammaticModuleInvoker<ModuleQueryOf<K>, ModuleResponseOf<K>>
