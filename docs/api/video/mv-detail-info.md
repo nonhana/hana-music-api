@@ -32,13 +32,13 @@ GET /mv/detail/info?mvid=5436712
 ## 编程式调用
 
 ```ts
-import { mvDetailInfo } from 'hana-music-api'
+import { mvDetailInfo } from 'hana-music-api';
 
 const result = await mvDetailInfo({
   mvid: '5436712',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

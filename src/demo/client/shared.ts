@@ -1,11 +1,11 @@
 export const sharedClientScript = `
 const DEMO_COOKIE_KEY = 'hana-demo-cookie'
 
-function isBrowser() {
+const isBrowser = () => {
   return typeof window !== 'undefined'
 }
 
-export function getStoredCookie() {
+export const getStoredCookie = () => {
   if (!isBrowser()) {
     return ''
   }
@@ -13,7 +13,7 @@ export function getStoredCookie() {
   return window.localStorage.getItem(DEMO_COOKIE_KEY) ?? ''
 }
 
-export function setStoredCookie(value) {
+export const setStoredCookie = (value) => {
   if (!isBrowser()) {
     return
   }
@@ -28,7 +28,7 @@ export function setStoredCookie(value) {
   syncCookieInputs()
 }
 
-export function syncCookieInputs(root = document) {
+export const syncCookieInputs = (root = document) => {
   const cookie = getStoredCookie()
   for (const input of root.querySelectorAll('[data-demo-cookie-input]')) {
     if (!(input instanceof HTMLTextAreaElement || input instanceof HTMLInputElement)) {
@@ -48,11 +48,11 @@ export function syncCookieInputs(root = document) {
   }
 }
 
-export function formatJson(value) {
+export const formatJson = (value) => {
   return JSON.stringify(value, null, 2)
 }
 
-async function fallbackCopyText(value) {
+const fallbackCopyText = async (value) => {
   const input = document.createElement('textarea')
   input.value = value
   input.setAttribute('readonly', 'true')
@@ -68,7 +68,7 @@ async function fallbackCopyText(value) {
   }
 }
 
-export async function copyText(value) {
+export const copyText = async (value) => {
   if (navigator.clipboard?.writeText) {
     await navigator.clipboard.writeText(value)
     return
@@ -77,15 +77,15 @@ export async function copyText(value) {
   await fallbackCopyText(value)
 }
 
-export function setTextContent(target, value) {
+export const setTextContent = (target, value) => {
   target.textContent = value
 }
 
-export function setFormattedResult(target, value) {
+export const setFormattedResult = (target, value) => {
   target.textContent = typeof value === 'string' ? value : formatJson(value)
 }
 
-export async function readJsonResponse(response) {
+export const readJsonResponse = async (response) => {
   const text = await response.text()
   if (!text) {
     return null
@@ -98,7 +98,7 @@ export async function readJsonResponse(response) {
   }
 }
 
-export async function fetchJson(url, init) {
+export const fetchJson = async (url, init) => {
   const response = await fetch(url, init)
   const data = await readJsonResponse(response)
 
@@ -108,7 +108,7 @@ export async function fetchJson(url, init) {
   }
 }
 
-export function initCopyButtons(root = document) {
+export const initCopyButtons = (root = document) => {
   for (const element of root.querySelectorAll('[data-copy-button]')) {
     if (!(element instanceof HTMLButtonElement) || element.dataset.copyBound) {
       continue
@@ -151,11 +151,11 @@ export function initCopyButtons(root = document) {
   }
 }
 
-function initializeSharedUi() {
+const initializeSharedUi = () => {
   syncCookieInputs()
   initCopyButtons()
 }
 
 initializeSharedUi()
 document.addEventListener('DOMContentLoaded', initializeSharedUi)
-`
+`;

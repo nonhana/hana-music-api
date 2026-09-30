@@ -30,11 +30,11 @@ GET /msg/recentcontact
 ## 编程式调用
 
 ```ts
-import { msgRecentcontact } from 'hana-music-api'
+import { msgRecentcontact } from 'hana-music-api';
 
-const result = await msgRecentcontact()
+const result = await msgRecentcontact();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

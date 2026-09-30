@@ -1,29 +1,35 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    cursor: query.cursor || 0,
-    size: query.size || 20,
-    tagId: query.tagId,
-    sort: 0,
-  }
-  return request(`/api/style-tag/home/playlist`, data, createOption(query, 'weapi'))
-}
+const stylePlaylist: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      cursor: query.cursor || 0,
+      size: query.size || 20,
+      tagId: query.tagId,
+      sort: 0,
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/style-tag/home/playlist`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 曲风-歌单
  */
-export default async function migratedStylePlaylist(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default stylePlaylist;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

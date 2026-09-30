@@ -1,1 +1,1 @@
-export { vipTasks } from '../generated/client.generated.ts'
+export { vipTasks } from '../generated/client.generated.ts';

@@ -33,13 +33,13 @@ GET /video/group?id=9104
 ## 编程式调用
 
 ```ts
-import { videoGroup } from 'hana-music-api'
+import { videoGroup } from 'hana-music-api';
 
 const result = await videoGroup({
   id: '9104',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

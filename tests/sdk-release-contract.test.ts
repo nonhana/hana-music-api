@@ -1,21 +1,28 @@
-import { describe, expect, test } from 'bun:test'
-import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { tmpdir } from 'node:os'
-import { basename, join, resolve } from 'node:path'
+import { describe, expect, test } from 'bun:test';
+import {
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
+import { tmpdir } from 'node:os';
+import { basename, join, resolve } from 'node:path';
 
-const ROOT = resolve(import.meta.dir, '..')
-const PACKAGE_JSON_PATH = resolve(ROOT, 'package.json')
-const WORKFLOWS_DIRECTORY = resolve(ROOT, '.github/workflows')
-const CHANGESET_CONFIG_PATH = resolve(ROOT, '.changeset/config.json')
-const TSC_CLI_PATH = resolve(ROOT, 'node_modules/typescript/bin/tsc')
-const sdkPackage = readPackageJson()
+import { findForbiddenArtifactSymbols } from './fixtures/architecture-artifacts.ts';
+
+const ROOT = resolve(import.meta.dir, '..');
+const PACKAGE_JSON_PATH = resolve(ROOT, 'package.json');
+const WORKFLOWS_DIRECTORY = resolve(ROOT, '.github/workflows');
+const CHANGESET_CONFIG_PATH = resolve(ROOT, '.changeset/config.json');
+const TSC_CLI_PATH = resolve(ROOT, 'node_modules/typescript/bin/tsc');
 const REQUIRED_ROOT_EXPORTS = [
   'createHanaMusicApi',
   'invokeModule',
   'createRequest',
   'createOption',
-]
-const REPRESENTATIVE_CAMEL_CASE_EXPORTS = ['search', 'songUrl']
+];
+const REPRESENTATIVE_CAMEL_CASE_EXPORTS = ['search', 'songUrl'];
 const FORBIDDEN_ROOT_EXPORTS = [
   'startServer',
   'serveNcmApi',
@@ -26,75 +33,94 @@ const FORBIDDEN_ROOT_EXPORTS = [
   'createModuleApi',
   'loadProgrammaticApi',
   'NeteaseCloudMusicApi',
-]
-const EXPECTED_EXPORT_PATHS = ['.']
+];
+const EXPECTED_EXPORT_PATHS = ['.'];
 
 describe('sdk release contract', () => {
   test('should expose only the root package entrypoint as the public ESM boundary', () => {
-    const exportMap = sdkPackage.exports ?? {}
+    const exportMap = sdkPackage.exports ?? {};
 
-    expect(sdkPackage.name).toBe('hana-music-api')
-    expect(sdkPackage.private).toBe(false)
-    expect(sdkPackage.type).toBe('module')
-    expect(sdkPackage.sideEffects).toBe(false)
-    expect(Object.keys(exportMap).toSorted()).toEqual(EXPECTED_EXPORT_PATHS)
+    expect(sdkPackage.name).toBe('hana-music-api');
+    expect(sdkPackage.private).toBe(false);
+    expect(sdkPackage.type).toBe('module');
+    expect(sdkPackage.sideEffects).toBe(false);
+    expect(Object.keys(exportMap).toSorted()).toEqual(EXPECTED_EXPORT_PATHS);
     expect(exportMap['.']).toEqual({
       types: './dist/index.d.ts',
       default: './dist/index.js',
-    })
-  })
+    });
+  });
 
   test('should keep the root runtime surface inside the frozen allowlist/denylist contract', async () => {
-    const entry = (await import('../index.ts')) as Record<string, unknown>
+    const entry = (await import('../index.ts')) as Record<string, unknown>;
 
     for (const exportName of REQUIRED_ROOT_EXPORTS) {
-      expect(entry).toHaveProperty(exportName)
+      expect(entry).toHaveProperty(exportName);
     }
 
     for (const exportName of REPRESENTATIVE_CAMEL_CASE_EXPORTS) {
-      expect(entry).toHaveProperty(exportName)
+      expect(entry).toHaveProperty(exportName);
     }
 
     for (const exportName of FORBIDDEN_ROOT_EXPORTS) {
-      expect(entry).not.toHaveProperty(exportName)
+      expect(entry).not.toHaveProperty(exportName);
     }
-  })
+  });
 
   test('should provide release governance files with changesets and trusted publishing guardrails', () => {
-    expect(() => readFileSync(CHANGESET_CONFIG_PATH, 'utf8')).not.toThrow()
+    expect(() => readFileSync(CHANGESET_CONFIG_PATH, 'utf8')).not.toThrow();
 
     const workflows = readdirSync(WORKFLOWS_DIRECTORY)
       .filter((file) => file.endsWith('.yml') || file.endsWith('.yaml'))
-      .map((file) => readFileSync(resolve(WORKFLOWS_DIRECTORY, file), 'utf8'))
+      .map((file) => readFileSync(resolve(WORKFLOWS_DIRECTORY, file), 'utf8'));
 
-    expect(workflows.length).toBeGreaterThan(0)
-    expect(workflows.some((workflow) => workflow.includes('changesets'))).toBe(true)
-    expect(workflows.some((workflow) => workflow.includes('id-token: write'))).toBe(true)
-    expect(workflows.some((workflow) => workflow.includes('22.14.0'))).toBe(true)
-    expect(workflows.some((workflow) => workflow.includes('11.5.1'))).toBe(true)
-  })
+    expect(workflows.length).toBeGreaterThan(0);
+    expect(workflows.some((workflow) => workflow.includes('changesets'))).toBe(
+      true,
+    );
+    expect(
+      workflows.some((workflow) => workflow.includes('id-token: write')),
+    ).toBe(true);
+    expect(
+      workflows
+        .filter((workflow) => workflow.includes('setup-node'))
+        .every((workflow) => workflow.includes('node-version: 24')),
+    ).toBe(true);
+    expect(workflows.some((workflow) => workflow.includes('11.5.1'))).toBe(
+      true,
+    );
+  });
 
-  test('should pack a consumer-safe tarball and allow only approved runtime imports', () => {
-    ensureBuiltArtifacts()
+  test('should pack a consumer-safe tarball and allow only approved runtime imports', async () => {
+    ensureBuiltArtifacts();
 
-    const packResult = run(['npm', 'pack', '--json'], ROOT)
-    expect(packResult.exitCode).toBe(0)
+    const packResult = run(['npm', 'pack', '--json'], ROOT);
+    expect(packResult.exitCode).toBe(0);
 
     // npm < 12 返回数组；npm >= 12 返回按包名键控的对象。
-    const packOutput = JSON.parse(packResult.stdout) as Array<PackEntry> | Record<string, PackEntry>
-    const packEntries = Array.isArray(packOutput) ? packOutput : Object.values(packOutput)
-    const [{ filename, files = [] } = { filename: '', files: [] }] = packEntries
-    const filePaths = files.map((file) => file.path)
+    const packOutput = JSON.parse(packResult.stdout) as
+      | Array<PackEntry>
+      | Record<string, PackEntry>;
+    const packEntries = Array.isArray(packOutput)
+      ? packOutput
+      : Object.values(packOutput);
+    const [{ filename, files = [] } = { filename: '', files: [] }] =
+      packEntries;
+    const filePaths = files.map((file) => file.path);
 
-    expect(filename.length).toBeGreaterThan(0)
-    expect(filePaths).toContain('dist/index.d.ts')
-    expect(filePaths).toContain('dist/index.js')
-    expect(filePaths.some((file) => file.startsWith('docs/'))).toBe(false)
-    expect(filePaths.some((file) => file.startsWith('src/server/'))).toBe(false)
-    expect(filePaths.some((file) => file.startsWith('src/demo/'))).toBe(false)
+    expect(filename.length).toBeGreaterThan(0);
+    expect(filePaths).toContain('dist/index.d.ts');
+    expect(filePaths).toContain('dist/index.js');
+    expect(filePaths.some((file) => file.startsWith('docs/'))).toBe(false);
+    expect(filePaths.some((file) => file.startsWith('src/server/'))).toBe(
+      false,
+    );
+    expect(filePaths.some((file) => file.startsWith('src/demo/'))).toBe(false);
 
-    const consumerDirectory = mkdtempSync(join(tmpdir(), 'hana-music-api-sdk-consumer-'))
-    const tarballPath = resolve(ROOT, filename)
+    const consumerDirectory = mkdtempSync(
+      join(tmpdir(), 'hana-music-api-sdk-consumer-'),
+    );
+    const tarballPath = resolve(ROOT, filename);
 
     try {
       writeFileSync(
@@ -108,15 +134,20 @@ describe('sdk release contract', () => {
           null,
           2,
         ),
-      )
+      );
 
       const installResult = run(
         ['npm', 'install', '--no-package-lock', tarballPath],
         consumerDirectory,
-      )
-      expect(installResult.exitCode).toBe(0)
+      );
+      expect(installResult.exitCode).toBe(0);
+      expect(
+        await findForbiddenArtifactSymbols(
+          resolve(consumerDirectory, 'node_modules/hana-music-api/dist'),
+        ),
+      ).toEqual([]);
 
-      const smokeScriptPath = resolve(consumerDirectory, 'smoke.mjs')
+      const smokeScriptPath = resolve(consumerDirectory, 'smoke.mjs');
       writeFileSync(
         smokeScriptPath,
         [
@@ -132,20 +163,24 @@ describe('sdk release contract', () => {
           "if (typeof invokeModule !== 'function') throw new Error('missing invokeModule')",
           "if (typeof search !== 'function') throw new Error('missing root search export')",
           "if (typeof songUrl !== 'function') throw new Error('missing root songUrl export')",
-          'const client = createHanaMusicApi({ fetcher })',
+          "const config = { fetcher, cookie: { MUSIC_A: 'consumer-test-token' } }",
+          'const client = createHanaMusicApi(config)',
           "const clientSearchResult = await client.search({ keywords: 'demo' })",
-          "const rawSearchResult = await search({ keywords: 'demo' }, { fetcher })",
-          "const invokedSearchResult = await invokeModule('search', { keywords: 'demo' }, { fetcher })",
+          "const rawSearchResult = await search({ keywords: 'demo' }, config)",
+          "const invokedSearchResult = await invokeModule('search', { keywords: 'demo' }, config)",
           "if (clientSearchResult.status !== 200) throw new Error('client search call failed')",
           "if (rawSearchResult.status !== 200) throw new Error('raw search call failed')",
           "if (invokedSearchResult.status !== 200) throw new Error('invokeModule search call failed')",
         ].join('\n'),
-      )
+      );
 
-      const smokeResult = run(['node', smokeScriptPath], consumerDirectory)
-      expect(smokeResult.exitCode).toBe(0)
+      const smokeResult = run(['node', smokeScriptPath], consumerDirectory);
+      expect(smokeResult.exitCode, smokeResult.stderr).toBe(0);
 
-      const negativeImportScriptPath = resolve(consumerDirectory, 'negative-import.mjs')
+      const negativeImportScriptPath = resolve(
+        consumerDirectory,
+        'negative-import.mjs',
+      );
       writeFileSync(
         negativeImportScriptPath,
         [
@@ -160,12 +195,15 @@ describe('sdk release contract', () => {
           '  if (!failedAsExpected) throw new Error(`blocked import unexpectedly resolved: ${specifier}`)',
           '}',
         ].join('\n'),
-      )
+      );
 
-      const negativeImportResult = run(['node', negativeImportScriptPath], consumerDirectory)
-      expect(negativeImportResult.exitCode).toBe(0)
+      const negativeImportResult = run(
+        ['node', negativeImportScriptPath],
+        consumerDirectory,
+      );
+      expect(negativeImportResult.exitCode).toBe(0);
 
-      const typesFixturePath = resolve(consumerDirectory, 'types-fixture.ts')
+      const typesFixturePath = resolve(consumerDirectory, 'types-fixture.ts');
       writeFileSync(
         typesFixturePath,
         [
@@ -181,7 +219,7 @@ describe('sdk release contract', () => {
           'void resultPromise',
           'void rawResultPromise',
         ].join('\n'),
-      )
+      );
 
       writeFileSync(
         resolve(consumerDirectory, 'tsconfig.json'),
@@ -201,63 +239,70 @@ describe('sdk release contract', () => {
           null,
           2,
         ),
-      )
+      );
 
       const nodeOnlyTypecheckResult = run(
-        ['node', TSC_CLI_PATH, '--project', resolve(consumerDirectory, 'tsconfig.json')],
+        [
+          'node',
+          TSC_CLI_PATH,
+          '--project',
+          resolve(consumerDirectory, 'tsconfig.json'),
+        ],
         consumerDirectory,
-      )
-      expect(nodeOnlyTypecheckResult.exitCode).toBe(0)
+      );
+      expect(nodeOnlyTypecheckResult.exitCode).toBe(0);
     } finally {
-      rmSync(consumerDirectory, { force: true, recursive: true })
+      rmSync(consumerDirectory, { force: true, recursive: true });
       if (filename.length > 0) {
-        rmSync(resolve(ROOT, basename(filename)), { force: true })
+        rmSync(resolve(ROOT, basename(filename)), { force: true });
       }
     }
-  }, 30_000)
-})
+  }, 30_000);
+});
 
-function readPackageJson(): PackageJsonLike {
-  return JSON.parse(readFileSync(PACKAGE_JSON_PATH, 'utf8')) as PackageJsonLike
-}
+const readPackageJson = (): PackageJsonLike => {
+  return JSON.parse(readFileSync(PACKAGE_JSON_PATH, 'utf8')) as PackageJsonLike;
+};
 
-function ensureBuiltArtifacts(): void {
-  const buildOutputPath = resolve(ROOT, 'dist/index.js')
+const sdkPackage = readPackageJson();
+
+const ensureBuiltArtifacts = (): void => {
+  const buildOutputPath = resolve(ROOT, 'dist/index.js');
 
   try {
-    readFileSync(buildOutputPath, 'utf8')
-    return
+    readFileSync(buildOutputPath, 'utf8');
+    return;
   } catch {}
 
-  const buildResult = run(['bun', 'run', 'build'], ROOT)
-  expect(buildResult.exitCode).toBe(0)
-}
+  const buildResult = run(['bun', 'run', 'build'], ROOT);
+  expect(buildResult.exitCode).toBe(0);
+};
 
-function run(cmd: string[], cwd: string) {
+const run = (cmd: Array<string>, cwd: string) => {
   const result = Bun.spawnSync({
     cmd,
     cwd,
     env: process.env,
     stderr: 'pipe',
     stdout: 'pipe',
-  })
+  });
 
   return {
     exitCode: result.exitCode,
     stderr: Buffer.from(result.stderr).toString('utf8'),
     stdout: Buffer.from(result.stdout).toString('utf8'),
-  }
-}
+  };
+};
 
 type PackEntry = {
-  files?: Array<{ path: string }>
-  filename: string
-}
+  files?: Array<{ path: string }>;
+  filename: string;
+};
 
 type PackageJsonLike = {
-  exports?: Record<string, unknown>
-  name?: string
-  private?: boolean
-  sideEffects?: boolean
-  type?: string
-}
+  exports?: Record<string, unknown>;
+  name?: string;
+  private?: boolean;
+  sideEffects?: boolean;
+  type?: string;
+};

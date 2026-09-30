@@ -35,15 +35,15 @@ GET /user/replacephone?phone=xxx&captcha=1234&oldcaptcha=2345
 ## 编程式调用
 
 ```ts
-import { userReplacephone } from 'hana-music-api'
+import { userReplacephone } from 'hana-music-api';
 
 const result = await userReplacephone({
   phone: 'xxx',
   captcha: '1234',
   oldcaptcha: '2345',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

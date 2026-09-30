@@ -30,11 +30,11 @@ GET /aidj/content/rcmd
 ## 编程式调用
 
 ```ts
-import { aidjContentRcmd } from 'hana-music-api'
+import { aidjContentRcmd } from 'hana-music-api';
 
-const result = await aidjContentRcmd()
+const result = await aidjContentRcmd();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

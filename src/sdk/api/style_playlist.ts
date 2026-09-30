@@ -1,1 +1,1 @@
-export { stylePlaylist } from '../generated/client.generated.ts'
+export { stylePlaylist } from '../generated/client.generated.ts';

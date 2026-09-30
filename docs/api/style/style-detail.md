@@ -32,13 +32,13 @@ GET /style/detail?tagId=1000
 ## 编程式调用
 
 ```ts
-import { styleDetail } from 'hana-music-api'
+import { styleDetail } from 'hana-music-api';
 
 const result = await styleDetail({
   tagId: '1000',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,1 +1,1 @@
-export { listenDataTodaySong } from '../generated/client.generated.ts'
+export { listenDataTodaySong } from '../generated/client.generated.ts';

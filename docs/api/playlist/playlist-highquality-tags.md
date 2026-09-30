@@ -30,11 +30,11 @@ GET /playlist/highquality/tags
 ## 编程式调用
 
 ```ts
-import { playlistHighqualityTags } from 'hana-music-api'
+import { playlistHighqualityTags } from 'hana-music-api';
 
-const result = await playlistHighqualityTags()
+const result = await playlistHighqualityTags();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

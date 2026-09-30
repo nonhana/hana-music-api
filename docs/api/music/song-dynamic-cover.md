@@ -32,13 +32,13 @@ GET /song/dynamic/cover?id=2101179024
 ## 编程式调用
 
 ```ts
-import { songDynamicCover } from 'hana-music-api'
+import { songDynamicCover } from 'hana-music-api';
 
 const result = await songDynamicCover({
   id: '2101179024',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

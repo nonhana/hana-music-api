@@ -32,13 +32,13 @@ GET /lyric/new?id=1824020871
 ## 编程式调用
 
 ```ts
-import { lyricNew } from 'hana-music-api'
+import { lyricNew } from 'hana-music-api';
 
 const result = await lyricNew({
   id: '1824020871',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

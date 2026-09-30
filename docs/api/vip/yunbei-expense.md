@@ -35,14 +35,14 @@ GET /yunbei/expense?limit=1
 ## 编程式调用
 
 ```ts
-import { yunbeiExpense } from 'hana-music-api'
+import { yunbeiExpense } from 'hana-music-api';
 
 const result = await yunbeiExpense({
   limit: 10,
   offset: 0,
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回关注点

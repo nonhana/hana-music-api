@@ -1,28 +1,34 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    songId: query.id,
-    alg: 'RT',
-    time: query.time || 25,
-  }
-  return request(`/api/radio/trash/add`, data, createOption(query, 'weapi'))
-}
+const fmTrash: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      songId: query.id,
+      alg: 'RT',
+      time: query.time || 25,
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/radio/trash/add`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 垃圾桶
  */
-export default async function migratedFmTrash(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default fmTrash;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

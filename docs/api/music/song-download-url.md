@@ -33,13 +33,13 @@ GET /song/download/url
 ## 编程式调用
 
 ```ts
-import { songDownloadUrl } from 'hana-music-api'
+import { songDownloadUrl } from 'hana-music-api';
 
 const result = await songDownloadUrl({
   id: '123456',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

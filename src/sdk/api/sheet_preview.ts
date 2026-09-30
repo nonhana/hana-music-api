@@ -1,1 +1,1 @@
-export { sheetPreview } from '../generated/client.generated.ts'
+export { sheetPreview } from '../generated/client.generated.ts';

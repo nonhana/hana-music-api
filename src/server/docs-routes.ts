@@ -1,38 +1,43 @@
-import type { Hono } from 'hono'
+import { dirname, extname, relative, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import { dirname, extname, relative, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import type { Hono } from 'hono';
 
 const DEFAULT_DOCS_DIST_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
   '../../docs/.vitepress/dist',
-)
+);
 
-const TEXT_HTML = 'text/html; charset=utf-8'
+const TEXT_HTML = 'text/html; charset=utf-8';
 
 export interface RegisterDocsRoutesOptions {
-  readonly docsDistDirectory?: string
-  readonly serviceName: string
+  readonly docsDistDirectory?: string;
+  readonly serviceName: string;
 }
 
-export function registerDocsRoutes(app: Hono, options: RegisterDocsRoutesOptions): void {
+export const registerDocsRoutes = (
+  app: Hono,
+  options: RegisterDocsRoutesOptions,
+): void => {
   app.get('/docs', async () => {
-    return createDocsResponse(options, '')
-  })
+    return createDocsResponse(options, '');
+  });
 
   app.get('/docs/*', async (context) => {
-    const requestedPath = context.req.path.replace(/^\/docs\/?/, '')
+    const requestedPath = context.req.path.replace(/^\/docs\/?/, '');
 
-    return createDocsResponse(options, requestedPath)
-  })
-}
+    return createDocsResponse(options, requestedPath);
+  });
+};
 
-async function createDocsResponse(
+const createDocsResponse = async (
   options: RegisterDocsRoutesOptions,
   requestedPath: string,
-): Promise<Response> {
-  const docsDistDirectory = resolve(options.docsDistDirectory ?? DEFAULT_DOCS_DIST_DIRECTORY)
-  const indexFile = Bun.file(resolve(docsDistDirectory, 'index.html'))
+): Promise<Response> => {
+  const docsDistDirectory = resolve(
+    options.docsDistDirectory ?? DEFAULT_DOCS_DIST_DIRECTORY,
+  );
+  const indexFile = Bun.file(resolve(docsDistDirectory, 'index.html'));
 
   if (!(await indexFile.exists())) {
     return new Response(createDocsBuildRequiredPage(options.serviceName), {
@@ -40,36 +45,36 @@ async function createDocsResponse(
         'Content-Type': TEXT_HTML,
       },
       status: 503,
-    })
+    });
   }
 
-  const relativePath = normalizeRequestedPath(requestedPath)
-  const candidates = buildDocsCandidates(relativePath)
+  const relativePath = normalizeRequestedPath(requestedPath);
+  const candidates = buildDocsCandidates(relativePath);
 
   for (const candidate of candidates) {
-    const safePath = resolveDocsFilePath(docsDistDirectory, candidate)
+    const safePath = resolveDocsFilePath(docsDistDirectory, candidate);
 
     if (!safePath) {
-      continue
+      continue;
     }
 
-    const file = Bun.file(safePath)
+    const file = Bun.file(safePath);
 
     if (await file.exists()) {
       return new Response(file, {
         headers: createFileHeaders(file),
         status: 200,
-      })
+      });
     }
   }
 
-  const notFoundFile = Bun.file(resolve(docsDistDirectory, '404.html'))
+  const notFoundFile = Bun.file(resolve(docsDistDirectory, '404.html'));
 
   if (await notFoundFile.exists()) {
     return new Response(notFoundFile, {
       headers: createFileHeaders(notFoundFile, TEXT_HTML),
       status: 404,
-    })
+    });
   }
 
   return new Response('Not Found', {
@@ -77,54 +82,60 @@ async function createDocsResponse(
       'Content-Type': 'text/plain; charset=utf-8',
     },
     status: 404,
-  })
-}
+  });
+};
 
-function normalizeRequestedPath(requestedPath: string): string {
+const normalizeRequestedPath = (requestedPath: string): string => {
   return requestedPath
     .split('/')
     .map((segment) => segment.trim())
     .filter(Boolean)
-    .join('/')
-}
+    .join('/');
+};
 
-function buildDocsCandidates(relativePath: string): string[] {
+const buildDocsCandidates = (relativePath: string): Array<string> => {
   if (!relativePath) {
-    return ['index.html']
+    return ['index.html'];
   }
 
   if (hasExtension(relativePath)) {
-    return [relativePath]
+    return [relativePath];
   }
 
-  return [`${relativePath}.html`, `${relativePath}/index.html`]
-}
+  return [`${relativePath}.html`, `${relativePath}/index.html`];
+};
 
-function hasExtension(pathname: string): boolean {
-  return extname(pathname) !== ''
-}
+const hasExtension = (pathname: string): boolean => {
+  return extname(pathname) !== '';
+};
 
-function resolveDocsFilePath(docsDistDirectory: string, candidate: string): string | null {
-  const resolvedPath = resolve(docsDistDirectory, candidate)
-  const relativeCandidate = relative(docsDistDirectory, resolvedPath)
+const resolveDocsFilePath = (
+  docsDistDirectory: string,
+  candidate: string,
+): string | null => {
+  const resolvedPath = resolve(docsDistDirectory, candidate);
+  const relativeCandidate = relative(docsDistDirectory, resolvedPath);
 
-  if (relativeCandidate.startsWith('..') || relativeCandidate.includes('/../')) {
-    return null
+  if (
+    relativeCandidate.startsWith('..') ||
+    relativeCandidate.includes('/../')
+  ) {
+    return null;
   }
 
-  return resolvedPath
-}
+  return resolvedPath;
+};
 
-function createFileHeaders(
+const createFileHeaders = (
   file: Blob & { readonly type: string },
   fallbackType?: string,
-): ResponseInit['headers'] {
+): ResponseInit['headers'] => {
   return {
     'Content-Type': file.type || fallbackType || 'application/octet-stream',
-  }
-}
+  };
+};
 
-function createDocsBuildRequiredPage(serviceName: string): string {
+const createDocsBuildRequiredPage = (serviceName: string): string => {
   return `<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -198,5 +209,5 @@ function createDocsBuildRequiredPage(serviceName: string): string {
       <p>服务状态检查请访问 <a href="/health">/health</a>。</p>
     </main>
   </body>
-</html>`
-}
+</html>`;
+};

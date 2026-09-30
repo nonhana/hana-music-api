@@ -30,11 +30,11 @@ GET /listen/data/today/song
 ## 编程式调用
 
 ```ts
-import { listenDataTodaySong } from 'hana-music-api'
+import { listenDataTodaySong } from 'hana-music-api';
 
-const result = await listenDataTodaySong()
+const result = await listenDataTodaySong();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

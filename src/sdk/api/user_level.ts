@@ -1,1 +1,1 @@
-export { userLevel } from '../generated/client.generated.ts'
+export { userLevel } from '../generated/client.generated.ts';

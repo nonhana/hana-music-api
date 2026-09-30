@@ -1,1 +1,1 @@
-export { batch } from '../generated/client.generated.ts'
+export { batch } from '../generated/client.generated.ts';

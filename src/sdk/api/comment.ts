@@ -1,1 +1,1 @@
-export { comment } from '../generated/client.generated.ts'
+export { comment } from '../generated/client.generated.ts';

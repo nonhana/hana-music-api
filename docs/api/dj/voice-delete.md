@@ -30,11 +30,11 @@ GET /voice/delete
 ## 编程式调用
 
 ```ts
-import { voiceDelete } from 'hana-music-api'
+import { voiceDelete } from 'hana-music-api';
 
-const result = await voiceDelete()
+const result = await voiceDelete();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

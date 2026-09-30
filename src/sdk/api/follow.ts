@@ -1,1 +1,1 @@
-export { follow } from '../generated/client.generated.ts'
+export { follow } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { topSong } from '../generated/client.generated.ts'
+export { topSong } from '../generated/client.generated.ts';

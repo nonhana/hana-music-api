@@ -184,3 +184,6 @@ khtml
 noto
 sasakure
 tuxzz
+cooldowns
+interruptible
+econnrefused

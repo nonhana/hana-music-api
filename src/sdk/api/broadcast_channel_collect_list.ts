@@ -1,1 +1,1 @@
-export { broadcastChannelCollectList } from '../generated/client.generated.ts'
+export { broadcastChannelCollectList } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { yunbeiTasksTodo } from '../generated/client.generated.ts'
+export { yunbeiTasksTodo } from '../generated/client.generated.ts';

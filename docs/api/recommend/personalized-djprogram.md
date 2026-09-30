@@ -30,11 +30,11 @@ GET /personalized/djprogram
 ## 编程式调用
 
 ```ts
-import { personalizedDjprogram } from 'hana-music-api'
+import { personalizedDjprogram } from 'hana-music-api';
 
-const result = await personalizedDjprogram()
+const result = await personalizedDjprogram();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -19,10 +19,10 @@ description: '登录后调用此接口，传入分类,可获得对应类型电�
 
 ## 请求参数
 
-| 参数   | 类型   | 必填 | 默认值 | 说明                                                    |
-| ------ | ------ | :--: | ------ | ------------------------------------------------------- |
+| 参数   | 类型   | 必填 | 默认值 | 说明                                                 |
+| ------ | ------ | :--: | ------ | ---------------------------------------------------- |
 | `type` | string |  ✅  | -      | 电台类型，数字，可通过`/dj/catelist`获取，对应关系为 |
-| `id`   | string |  ✅  | -      | 对应 此接口的 type, name 对应类型                       |
+| `id`   | string |  ✅  | -      | 对应 此接口的 type, name 对应类型                    |
 
 ## HTTP 示例
 
@@ -34,13 +34,13 @@ GET /dj/recommend/type?type=2001
 ## 编程式调用
 
 ```ts
-import { djRecommendType } from 'hana-music-api'
+import { djRecommendType } from 'hana-music-api';
 
 const result = await djRecommendType({
   type: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

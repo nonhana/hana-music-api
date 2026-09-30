@@ -30,11 +30,11 @@ GET /playlist/mylike
 ## 编程式调用
 
 ```ts
-import { playlistMylike } from 'hana-music-api'
+import { playlistMylike } from 'hana-music-api';
 
-const result = await playlistMylike()
+const result = await playlistMylike();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

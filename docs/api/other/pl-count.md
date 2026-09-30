@@ -30,11 +30,11 @@ GET /pl/count
 ## 编程式调用
 
 ```ts
-import { plCount } from 'hana-music-api'
+import { plCount } from 'hana-music-api';
 
-const result = await plCount()
+const result = await plCount();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

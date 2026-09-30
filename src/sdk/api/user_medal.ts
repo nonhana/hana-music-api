@@ -1,1 +1,1 @@
-export { userMedal } from '../generated/client.generated.ts'
+export { userMedal } from '../generated/client.generated.ts';

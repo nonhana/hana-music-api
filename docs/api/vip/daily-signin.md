@@ -19,8 +19,8 @@ description: '调用此接口，传入签到类型 ( 可不传，默认安卓端
 
 ## 请求参数
 
-| 参数   | 类型   | 必填 | 默认值 | 说明                                                     |
-| ------ | ------ | :--: | ------ | -------------------------------------------------------- |
+| 参数   | 类型   | 必填 | 默认值 | 说明                                                    |
+| ------ | ------ | :--: | ------ | ------------------------------------------------------- |
 | `type` | string |  —   | 0      | 签到类型，默认 0, 其中 0 为安卓端签到 ,1 为 web/PC 签到 |
 
 ## HTTP 示例
@@ -32,11 +32,11 @@ GET /daily_signin
 ## 编程式调用
 
 ```ts
-import { dailySignin } from 'hana-music-api'
+import { dailySignin } from 'hana-music-api';
 
-const result = await dailySignin()
+const result = await dailySignin();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

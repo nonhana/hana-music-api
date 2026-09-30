@@ -1,1 +1,1 @@
-export { listentogetherAccept } from '../generated/client.generated.ts'
+export { listentogetherAccept } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { djProgramToplistHours } from '../generated/client.generated.ts'
+export { djProgramToplistHours } from '../generated/client.generated.ts';

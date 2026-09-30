@@ -1,29 +1,35 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    captcha: query.captcha,
-    phone: query.phone,
-    oldcaptcha: query.oldcaptcha,
-    ctcode: query.ctcode || '86',
-  }
-  return request(`/api/user/replaceCellphone`, data, createOption(query, 'weapi'))
-}
+const rebind: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      captcha: query.captcha,
+      phone: query.phone,
+      oldcaptcha: query.oldcaptcha,
+      ctcode: query.ctcode || '86',
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/user/replaceCellphone`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 更换手机
  */
-export default async function migratedRebind(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default rebind;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

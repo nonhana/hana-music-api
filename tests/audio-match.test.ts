@@ -1,92 +1,53 @@
-import { afterEach, beforeEach, describe, expect, test } from 'bun:test'
+import { expect, test } from 'bun:test';
 
-import type { ModuleRequest } from '../src/types/index.ts'
+import { Effect } from 'effect';
 
-import audioMatch from '../src/modules/audio_match.ts'
+import audioMatch from '../src/modules/audio_match.ts';
+import type { RequestIntent } from '../src/types/index.ts';
+import { executeModule, response } from './fixtures/upload-effect.ts';
 
-const requestHandler: ModuleRequest = async () => {
-  throw new Error('audio_match should not use ModuleRequest for upstream fetch')
-}
-
-describe('audio match module', () => {
-  const originalFetch = globalThis.fetch
-
-  beforeEach(() => {
-    globalThis.fetch = createFetchMock(originalFetch)
-  })
-
-  afterEach(() => {
-    globalThis.fetch = originalFetch
-  })
-
-  test('should preserve upstream match payload at top-level data', async () => {
-    const response = await audioMatch(
-      {
-        audioFP: 'fingerprint-value',
-        duration: 3,
-      },
-      requestHandler,
-    )
-
-    expect(response.status).toBe(200)
-    expect(response.body).toEqual({
-      code: 200,
-      data: {
-        noMatchReason: 10,
-        queryId: 'query-1',
-        result: [
-          {
-            song: {
-              album: {
-                name: 'Album',
-              },
-              id: 123,
-              name: 'Song',
-            },
-            startTime: 1500,
-          },
-        ],
-        type: 0,
-      },
-      message: '',
-    })
-  })
-})
-
-async function mockAudioMatchFetch(_input: string | Request | URL, _init?: RequestInit) {
-  return new Response(
-    JSON.stringify({
-      code: 200,
-      data: {
-        noMatchReason: 10,
-        queryId: 'query-1',
-        result: [
-          {
-            song: {
-              album: {
-                name: 'Album',
-              },
-              id: 123,
-              name: 'Song',
-            },
-            startTime: 1500,
-          },
-        ],
-        type: 0,
-      },
-      message: '',
-    }),
+test('audio matching emits a plain read intent and preserves arbitrary data', async () => {
+  const intents: Array<RequestIntent> = [];
+  const data = {
+    result: [{ song: { id: 123, album: { name: 'Album' } } }],
+    future: [null, true],
+  };
+  const result = await Effect.runPromise(
+    executeModule(audioMatch, { audioFP: 'fp&value', duration: 3 }, (intent) =>
+      Effect.sync(() => {
+        intents.push(intent);
+        return response({ code: 200, data, message: '' });
+      }),
+    ),
+  );
+  expect(result).toEqual({
+    status: 200,
+    cookie: [],
+    body: { code: 200, data, message: '' },
+  });
+  expect(intents).toEqual([
     {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      status: 200,
+      target:
+        'https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=3&rawdata=fp%26value&times=1&decrypt=1',
+      protocol: 'plain',
+      method: 'GET',
+      headers: {},
+      response: 'json',
+      semantic: 'read',
     },
-  )
-}
+  ]);
+});
 
-function createFetchMock(originalFetch: typeof fetch): typeof fetch {
-  return Object.assign(mockAudioMatchFetch, {
-    preconnect: originalFetch.preconnect.bind(originalFetch),
-  })
-}
+test('audio matching rejects a non-object response with a typed shape error', async () => {
+  const error = await Effect.runPromise(
+    Effect.flip(
+      executeModule(audioMatch, { audioFP: 'fp', duration: 3 }, () =>
+        Effect.succeed(response(null)),
+      ),
+    ),
+  );
+  expect(error).toMatchObject({
+    _tag: 'UnexpectedUpstreamShape',
+    module: 'audio_match',
+  });
+});

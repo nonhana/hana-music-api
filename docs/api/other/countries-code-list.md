@@ -30,11 +30,11 @@ GET /countries/code/list
 ## 编程式调用
 
 ```ts
-import { countriesCodeList } from 'hana-music-api'
+import { countriesCodeList } from 'hana-music-api';
 
-const result = await countriesCodeList()
+const result = await countriesCodeList();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

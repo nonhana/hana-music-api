@@ -30,11 +30,11 @@ GET /user/level
 ## 编程式调用
 
 ```ts
-import { userLevel } from 'hana-music-api'
+import { userLevel } from 'hana-music-api';
 
-const result = await userLevel()
+const result = await userLevel();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

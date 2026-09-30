@@ -1,1 +1,1 @@
-export { historyRecommendSongs } from '../generated/client.generated.ts'
+export { historyRecommendSongs } from '../generated/client.generated.ts';

@@ -32,13 +32,13 @@ GET /user/mutualfollow/get?uid=32953014
 ## 编程式调用
 
 ```ts
-import { userMutualfollowGet } from 'hana-music-api'
+import { userMutualfollowGet } from 'hana-music-api';
 
 const result = await userMutualfollowGet({
   uid: '32953014',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

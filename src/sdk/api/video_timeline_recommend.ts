@@ -1,1 +1,1 @@
-export { videoTimelineRecommend } from '../generated/client.generated.ts'
+export { videoTimelineRecommend } from '../generated/client.generated.ts';

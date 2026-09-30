@@ -1,15 +1,21 @@
-import type { FC } from 'hono/jsx'
+import type { FC } from 'hono/jsx';
 
-import { CodeBlock } from '../components/code-block.tsx'
-import { PageHeader, Surface } from '../components/demo-shell.tsx'
+import { CodeBlock } from '../components/code-block.tsx';
+import { PageHeader, Surface } from '../components/demo-shell.tsx';
 
 export const QrLoginPage: FC = () => {
   return (
     <>
-      <PageHeader description="生成二维码、查看登录状态，并保存当前 Cookie。" title="扫码登录" />
+      <PageHeader
+        description="生成二维码、查看登录状态，并保存当前 Cookie。"
+        title="扫码登录"
+      />
 
       <div class="two-column-grid">
-        <Surface description="扫码后会自动刷新状态并同步 Cookie。" title="登录流程">
+        <Surface
+          description="扫码后会自动刷新状态并同步 Cookie。"
+          title="登录流程"
+        >
           <div class="stack-form">
             <div class="action-row">
               <button class="primary-button" id="qr-refresh" type="button">
@@ -29,10 +35,18 @@ export const QrLoginPage: FC = () => {
                 <p class="inline-note" id="qr-status">
                   初始化中
                 </p>
-                <button class="secondary-button" id="qr-refresh-status" type="button">
+                <button
+                  class="secondary-button"
+                  id="qr-refresh-status"
+                  type="button"
+                >
                   读取当前登录态
                 </button>
-                <button class="secondary-button" id="qr-clear-cookie" type="button">
+                <button
+                  class="secondary-button"
+                  id="qr-clear-cookie"
+                  type="button"
+                >
                   清空 Cookie
                 </button>
               </div>
@@ -60,5 +74,5 @@ export const QrLoginPage: FC = () => {
 
       <script src="/demo/client/qr-login.js" type="module"></script>
     </>
-  )
-}
+  );
+};

@@ -34,15 +34,15 @@ GET /send/playlist?msg=test2&user_ids=475625142,32953014&playlist=705123493
 ## 编程式调用
 
 ```ts
-import { sendPlaylist } from 'hana-music-api'
+import { sendPlaylist } from 'hana-music-api';
 
 const result = await sendPlaylist({
   msg: 'test',
   user_ids: '475625142',
   playlist: '705123491',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

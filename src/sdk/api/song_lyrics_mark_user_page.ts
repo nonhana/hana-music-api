@@ -1,1 +1,1 @@
-export { songLyricsMarkUserPage } from '../generated/client.generated.ts'
+export { songLyricsMarkUserPage } from '../generated/client.generated.ts';

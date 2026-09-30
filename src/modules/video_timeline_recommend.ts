@@ -1,30 +1,36 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    offset: query.offset || 0,
-    filterLives: '[]',
-    withProgramInfo: 'true',
-    needUrl: '1',
-    resolution: '480',
-  }
-  return request(`/api/videotimeline/get`, data, createOption(query, 'weapi'))
-}
+const videoTimelineRecommend: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      offset: query.offset || 0,
+      filterLives: '[]',
+      withProgramInfo: 'true',
+      needUrl: '1',
+      resolution: '480',
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/videotimeline/get`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 推荐视频
  */
-export default async function migratedVideoTimelineRecommend(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default videoTimelineRecommend;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

@@ -1,112 +1,169 @@
-import { describe, expect, test } from 'bun:test'
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
-import { tmpdir } from 'node:os'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { describe, expect, test } from 'bun:test';
+import {
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import type { CreateRequestOptions, ModuleDefinition, ModuleRequest } from '../src/types/index.ts'
-import type { LegacyUploadedFile } from '../src/types/modules.ts'
+import { Effect } from 'effect';
 
-import { createServer } from '../src/server/create-server.ts'
-import { parseModuleRoute } from '../src/server/module-loader.ts'
+import { decodeLegacyModuleInput } from '../src/modules/_input.ts';
+import { setConnectionIp } from '../src/server/admission.ts';
+import { createServer } from '../src/server/create-server.ts';
+import { parseModuleRoute } from '../src/server/module-loader.ts';
+import type {
+  CreateRequestOptions,
+  ModuleDefinition,
+  ModuleQuery,
+  RequestCapability,
+} from '../src/types/index.ts';
+import type { LegacyUploadedFile } from '../src/types/modules.ts';
+import {
+  mockRequest,
+  moduleResponse,
+  testRequest,
+} from './fixtures/request-capability.ts';
 
-const REAL_MODULES_DIRECTORY = resolve(dirname(fileURLToPath(import.meta.url)), '../src/modules')
-const PACKAGE_VERSION = readPackageVersion()
+const REAL_MODULES_DIRECTORY = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../src/modules',
+);
 
-async function readJson(response: Response): Promise<unknown> {
-  return response.json()
-}
-
-function readPackageVersion(): string {
-  const packageJsonPath = resolve(dirname(fileURLToPath(import.meta.url)), '../package.json')
+const readPackageVersion = (): string => {
+  const packageJsonPath = resolve(
+    dirname(fileURLToPath(import.meta.url)),
+    '../package.json',
+  );
   const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8')) as {
-    readonly version?: string
+    readonly version?: string;
+  };
+
+  if (
+    typeof packageJson.version !== 'string' ||
+    packageJson.version.length === 0
+  ) {
+    throw new TypeError(`Missing package version in ${packageJsonPath}`);
   }
 
-  if (typeof packageJson.version !== 'string' || packageJson.version.length === 0) {
-    throw new TypeError(`Missing package version in ${packageJsonPath}`)
-  }
+  return packageJson.version;
+};
 
-  return packageJson.version
-}
+const PACKAGE_VERSION = readPackageVersion();
+
+const readJson = async (response: Response): Promise<unknown> => {
+  return response.json();
+};
 
 describe('createServer', () => {
+  test('separate services do not share response caches', async () => {
+    let calls = 0;
+    const moduleDefinitions: Array<ModuleDefinition> = [
+      {
+        identifier: 'search',
+        route: '/search',
+        decodeInput: decodeLegacyModuleInput,
+        execute: () =>
+          Effect.sync(() => {
+            return { status: 200, cookie: [], body: { calls: ++calls } };
+          }).pipe(Effect.map(moduleResponse)),
+      },
+    ];
+    const first = await createServer({ moduleDefinitions });
+    const second = await createServer({ moduleDefinitions });
+    expect(
+      await (await first.request('http://localhost/search')).json(),
+    ).toEqual({ calls: 1 });
+    expect(
+      await (await second.request('http://localhost/search')).json(),
+    ).toEqual({ calls: 2 });
+    expect(
+      await (await first.request('http://localhost/search')).json(),
+    ).toEqual({ calls: 1 });
+  });
   test('should expose the welcome page at root', async () => {
-    const app = await createServer()
-    const response = await app.request('/')
-    const body = await response.text()
+    const app = await createServer();
+    const response = await app.request('/');
+    const body = await response.text();
 
-    expect(response.status).toBe(200)
-    expect(response.headers.get('content-type')).toContain('text/html')
-    expect(body).toContain('hana-music-api')
-    expect(body).toContain('查看文档')
-    expect(body).toContain('href="/docs"')
-    expect(body).toContain('href="/demo"')
-  })
+    expect(response.status).toBe(200);
+    expect(response.headers.get('content-type')).toContain('text/html');
+    expect(body).toContain('hana-music-api');
+    expect(body).toContain('查看文档');
+    expect(body).toContain('href="/docs"');
+    expect(body).toContain('href="/demo"');
+  });
 
   test('should expose the health route', async () => {
     const app = await createServer({
       serviceVersion: 'test-version',
-    })
-    const response = await app.request('/health')
-    const body = await readJson(response)
+    });
+    const response = await app.request('/health');
+    const body = await readJson(response);
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(200);
     expect(body).toEqual({
       ok: true,
       name: 'hana-music-api',
       version: 'test-version',
-    })
-  })
+    });
+  });
 
   test('should expose the default package version in the health route', async () => {
-    const app = await createServer()
-    const response = await app.request('/health')
-    const body = await readJson(response)
+    const app = await createServer();
+    const response = await app.request('/health');
+    const body = await readJson(response);
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(200);
     expect(body).toEqual({
       ok: true,
       name: 'hana-music-api',
       version: PACKAGE_VERSION,
-    })
-  })
+    });
+  });
 
   test('should merge request data and inject client ip into module request adapter', async () => {
     const captured: {
-      data?: Record<string, unknown>
-      options?: CreateRequestOptions
-      uri?: string
-    } = {}
-    const moduleDefinitions: ModuleDefinition[] = [
+      data?: Record<string, unknown>;
+      options?: CreateRequestOptions;
+      uri?: string;
+    } = {};
+    const moduleDefinitions: Array<ModuleDefinition> = [
       {
         identifier: 'search',
-        module: async (query, request) => {
-          await request(
-            '/api/example',
-            {
-              hello: 'world',
-            },
-            {},
-          )
+        decodeInput: decodeLegacyModuleInput,
+        execute: (query: ModuleQuery, request: RequestCapability) =>
+          Effect.gen(function* () {
+            yield* testRequest(
+              request,
+              '/api/example',
+              {
+                hello: 'world',
+              },
+              {},
+            );
 
-          return {
-            body: {
-              query,
-            },
-            cookie: ['MUSIC_U=server-cookie; Path=/'],
-            status: 200,
-          }
-        },
+            return {
+              body: {
+                query,
+              },
+              cookie: ['MUSIC_U=server-cookie; Path=/'],
+              status: 200,
+            };
+          }).pipe(Effect.map(moduleResponse)),
         route: '/search',
       },
-    ]
+    ];
     const app = await createServer({
       moduleDefinitions,
-      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
-        captured.uri = uri
-        captured.data = data
-        captured.options = options
+      requestHandler: mockRequest(async (uri, data, options = {}) => {
+        captured.uri = uri;
+        captured.data = data;
+        captured.options = options;
 
         return {
           body: {
@@ -114,10 +171,13 @@ describe('createServer', () => {
           },
           cookie: [],
           status: 200,
-        }
+        };
       }),
-    })
-    const response = await app.request('http://localhost/search?keyword=test', {
+      traffic: {
+        trustedProxyIps: ['127.0.0.1'],
+      },
+    });
+    const request = new Request('http://localhost/search?keyword=test', {
       // cSpell:ignore Dbody
       body: 'limit=10&cookie=MUSIC_A%3Dbody-token',
       headers: {
@@ -126,68 +186,74 @@ describe('createServer', () => {
         'x-forwarded-for': '8.8.8.8',
       },
       method: 'POST',
-    })
-    const body = await readModuleQueryBody(response)
+    });
+    setConnectionIp(request, '127.0.0.1');
+    const response = await app.request(request);
+    const body = await readModuleQueryBody(response);
 
-    expect(captured.uri).toBe('/api/example')
+    expect(captured.uri).toBe('/api/example');
     expect(captured.data).toEqual({
       hello: 'world',
-    })
-    expect(captured.options?.ip).toBe('8.8.8.8')
+    });
+    expect(captured.options?.ip).toBe('8.8.8.8');
     expect(body.query).toEqual({
       cookie: {
         MUSIC_A: 'body-token',
       },
       keyword: 'test',
       limit: '10',
-    })
-    expect(response.headers.get('set-cookie')).toContain('MUSIC_U=server-cookie; Path=/')
-  })
+    });
+    expect(response.headers.get('set-cookie')).toContain(
+      'MUSIC_U=server-cookie; Path=/',
+    );
+  });
 
   test('should normalize multipart uploads into legacy file objects', async () => {
-    const moduleDefinitions: ModuleDefinition[] = [
+    const moduleDefinitions: Array<ModuleDefinition> = [
       {
         identifier: 'upload-probe',
-        module: async (query) => {
-          const songFile = readLegacyUploadedFile(query, 'songFile')
+        decodeInput: decodeLegacyModuleInput,
+        execute: (query: ModuleQuery) =>
+          Effect.sync(() => {
+            const songFile = readLegacyUploadedFile(query, 'songFile');
 
-          return {
-            body: {
-              file: {
-                byteLength: toByteLength(songFile.data),
-                hasMd5: 'md5' in songFile,
-                mimetype: songFile.mimetype,
-                name: songFile.name,
-                size: songFile.size,
+            return {
+              body: {
+                file: {
+                  byteLength: toByteLength(songFile.data),
+                  hasMd5: 'md5' in songFile,
+                  mimetype: songFile.mimetype,
+                  name: songFile.name,
+                  size: songFile.size,
+                },
+                title: query.title,
               },
-              title: query.title,
-            },
-            cookie: [],
-            status: 200,
-          }
-        },
+              cookie: [],
+              status: 200,
+            };
+          }).pipe(Effect.map(moduleResponse)),
         route: '/upload-probe',
       },
-    ]
+    ];
     const app = await createServer({
       moduleDefinitions,
-    })
-    const formData = new FormData()
-    formData.set('title', 'phase5 upload')
+    });
+    const formData = new FormData();
+    formData.set('title', 'phase5 upload');
     formData.set(
       'songFile',
       new File([Uint8Array.from([1, 2, 3, 4])], 'demo.mp3', {
         type: 'audio/mpeg',
       }),
-    )
+    );
 
     const response = await app.request('http://localhost/upload-probe', {
       body: formData,
       method: 'POST',
-    })
-    const body = await readJson(response)
+    });
+    const body = await readJson(response);
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(200);
     expect(body).toEqual({
       file: {
         byteLength: 4,
@@ -197,259 +263,311 @@ describe('createServer', () => {
         size: 4,
       },
       title: 'phase5 upload',
-    })
-  })
+    });
+  });
 
   test('should append secure cookie attributes for https requests', async () => {
-    const moduleDefinitions: ModuleDefinition[] = [
+    const moduleDefinitions: Array<ModuleDefinition> = [
       {
         identifier: 'secure-cookie',
-        module: async () => {
-          return {
-            body: {
-              code: 200,
-            },
-            cookie: ['MUSIC_U=secure-cookie; Path=/'],
-            status: 200,
-          }
-        },
+        decodeInput: decodeLegacyModuleInput,
+        execute: () =>
+          Effect.sync(() => {
+            return {
+              body: {
+                code: 200,
+              },
+              cookie: ['MUSIC_U=secure-cookie; Path=/'],
+              status: 200,
+            };
+          }).pipe(Effect.map(moduleResponse)),
         route: '/secure-cookie',
       },
-    ]
+    ];
     const app = await createServer({
       moduleDefinitions,
-    })
-    const response = await app.request('https://localhost/secure-cookie')
+    });
+    const response = await app.request('https://localhost/secure-cookie');
 
     expect(response.headers.get('set-cookie')).toContain(
       'MUSIC_U=secure-cookie; Path=/; SameSite=None; Secure',
-    )
-  })
+    );
+  });
 
   test('should cache successful module responses', async () => {
-    let invokeCount = 0
-    const moduleDefinitions: ModuleDefinition[] = [
+    let invokeCount = 0;
+    const moduleDefinitions: Array<ModuleDefinition> = [
       {
-        identifier: 'cached-route',
-        module: async () => {
-          invokeCount += 1
+        identifier: 'search',
+        decodeInput: decodeLegacyModuleInput,
+        execute: () =>
+          Effect.sync(() => {
+            invokeCount += 1;
 
-          return {
-            body: {
-              code: 200,
-              invokeCount,
-            },
-            cookie: [],
-            status: 200,
-          }
-        },
+            return {
+              body: {
+                code: 200,
+                invokeCount,
+              },
+              cookie: [],
+              status: 200,
+            };
+          }).pipe(Effect.map(moduleResponse)),
         route: '/cached-route',
       },
-    ]
+    ];
     const app = await createServer({
       cacheTtlMs: 5_000,
       moduleDefinitions,
-    })
+    });
 
-    const first = await app.request('http://localhost/cached-route?foo=bar')
-    const second = await app.request('http://localhost/cached-route?foo=bar')
+    const first = await app.request('http://localhost/cached-route?foo=bar');
+    const second = await app.request('http://localhost/cached-route?foo=bar');
 
     expect(await readJson(first)).toEqual({
       code: 200,
       invokeCount: 1,
-    })
+    });
     expect(await readJson(second)).toEqual({
       code: 200,
       invokeCount: 1,
-    })
-    expect(invokeCount).toBe(1)
-  })
+    });
+    expect(invokeCount).toBe(1);
+  });
 
   test('should expose the demo home page and client assets', async () => {
     const app = await createServer({
       moduleDefinitions: [],
-    })
-    const pageResponse = await app.request('http://localhost/demo')
-    const scriptResponse = await app.request('http://localhost/demo/client/shared.js')
+    });
+    const pageResponse = await app.request('http://localhost/demo');
+    const scriptResponse = await app.request(
+      'http://localhost/demo/client/shared.js',
+    );
 
-    expect(pageResponse.status).toBe(200)
-    expect(pageResponse.headers.get('content-type')).toContain('text/html')
-    expect(await pageResponse.text()).toContain('hana-music-api 调试')
+    expect(pageResponse.status).toBe(200);
+    expect(pageResponse.headers.get('content-type')).toContain('text/html');
+    expect(await pageResponse.text()).toContain('hana-music-api 调试');
 
-    expect(scriptResponse.status).toBe(200)
-    expect(scriptResponse.headers.get('content-type')).toContain('text/javascript')
-    expect(await scriptResponse.text()).toContain('hana-demo-cookie')
-  })
+    expect(scriptResponse.status).toBe(200);
+    expect(scriptResponse.headers.get('content-type')).toContain(
+      'text/javascript',
+    );
+    expect(await scriptResponse.text()).toContain('hana-demo-cookie');
+  });
 
   test('should expose the first batch of demo pages', async () => {
     const app = await createServer({
       moduleDefinitions: [],
-    })
-    const apiDebugResponse = await app.request('http://localhost/demo/api-debug')
-    const qrLoginResponse = await app.request('http://localhost/demo/qr-login')
-    const audioMatchResponse = await app.request('http://localhost/demo/experiments/audio-match')
+    });
+    const apiDebugResponse = await app.request(
+      'http://localhost/demo/api-debug',
+    );
+    const qrLoginResponse = await app.request('http://localhost/demo/qr-login');
+    const audioMatchResponse = await app.request(
+      'http://localhost/demo/experiments/audio-match',
+    );
     const audioMatchAssetResponse = await app.request(
       'http://localhost/demo/assets/audio-match/rec.js',
-    )
+    );
     const audioMatchFpRuntimeResponse = await app.request(
       'http://localhost/demo/assets/audio-match/afp.js',
-    )
+    );
     const audioMatchWasmResponse = await app.request(
       'http://localhost/demo/assets/audio-match/afp.wasm',
-    )
+    );
 
-    expect(apiDebugResponse.status).toBe(200)
-    expect(await apiDebugResponse.text()).toContain('API 请求')
+    expect(apiDebugResponse.status).toBe(200);
+    expect(await apiDebugResponse.text()).toContain('API 请求');
 
-    expect(qrLoginResponse.status).toBe(200)
-    expect(await qrLoginResponse.text()).toContain('扫码登录')
+    expect(qrLoginResponse.status).toBe(200);
+    expect(await qrLoginResponse.text()).toContain('扫码登录');
 
-    expect(audioMatchResponse.status).toBe(200)
-    expect(await audioMatchResponse.text()).toContain('听歌识曲')
+    expect(audioMatchResponse.status).toBe(200);
+    expect(await audioMatchResponse.text()).toContain('听歌识曲');
 
-    expect(audioMatchAssetResponse.status).toBe(200)
-    const audioMatchAssetScript = await audioMatchAssetResponse.text()
-    expect(audioMatchAssetScript).toContain('class TimedRecorder extends AudioWorkletProcessor')
-    expect(audioMatchAssetScript).toContain("registerProcessor('timed-recorder', TimedRecorder)")
+    expect(audioMatchAssetResponse.status).toBe(200);
+    const audioMatchAssetScript = await audioMatchAssetResponse.text();
+    expect(audioMatchAssetScript).toContain(
+      'class TimedRecorder extends AudioWorkletProcessor',
+    );
+    expect(audioMatchAssetScript).toContain(
+      "registerProcessor('timed-recorder', TimedRecorder)",
+    );
 
-    expect(audioMatchFpRuntimeResponse.status).toBe(200)
-    expect(await audioMatchFpRuntimeResponse.text()).toContain('globalThis.GenerateFP = GenerateFP')
+    expect(audioMatchFpRuntimeResponse.status).toBe(200);
+    expect(await audioMatchFpRuntimeResponse.text()).toContain(
+      'globalThis.GenerateFP = GenerateFP',
+    );
 
-    expect(audioMatchWasmResponse.status).toBe(200)
-    expect(audioMatchWasmResponse.headers.get('content-type')).toContain('application/wasm')
-  })
+    expect(audioMatchWasmResponse.status).toBe(200);
+    expect(audioMatchWasmResponse.headers.get('content-type')).toContain(
+      'application/wasm',
+    );
+  });
 
   test('should handle api debug requests without exposing the raw /api module route', async () => {
     const captured: {
-      data?: Record<string, unknown>
-      options?: CreateRequestOptions
-      uri?: string
-    } = {}
-    const app = await createServer({
-      moduleDefinitions: [],
-      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
-        captured.uri = uri
-        captured.data = data
-        captured.options = options
-
-        return {
-          body: {
-            code: 200,
-            ok: true,
-          },
-          cookie: ['MUSIC_U=demo-cookie; Path=/'],
-          status: 200,
-        }
-      }),
-    })
-    const response = await app.request('http://localhost/demo/api-debug/request?timestamp=1', {
-      body: JSON.stringify({
-        crypto: 'weapi',
-        data: {
-          hello: 'world',
+      data?: Record<string, unknown>;
+      options?: CreateRequestOptions;
+      uri?: string;
+    } = {};
+    const app = await createServer(
+      {
+        debugApiRequests: true,
+        hostname: '127.0.0.1',
+        moduleDefinitions: [],
+        traffic: {
+          trustedProxyIps: ['127.0.0.1'],
         },
-        uri: '/api/example',
-      }),
-      headers: {
-        cookie: 'MUSIC_U=request-cookie',
-        'content-type': 'application/json',
-        'x-forwarded-for': '1.2.3.4',
-      },
-      method: 'POST',
-    })
-    const body = await readJson(response)
+        requestHandler: mockRequest(async (uri, data, options = {}) => {
+          captured.uri = uri;
+          captured.data = data;
+          captured.options = options;
 
-    expect(response.status).toBe(200)
+          return {
+            body: {
+              code: 200,
+              ok: true,
+            },
+            cookie: ['MUSIC_U=demo-cookie; Path=/'],
+            status: 200,
+          };
+        }),
+      },
+      { allowDebugApiRequests: true },
+    );
+    const request = new Request(
+      'http://localhost/demo/api-debug/request?timestamp=1',
+      {
+        body: JSON.stringify({
+          crypto: 'weapi',
+          data: {
+            hello: 'world',
+          },
+          uri: '/api/example',
+        }),
+        headers: {
+          cookie: 'MUSIC_U=request-cookie',
+          'content-type': 'application/json',
+          'x-forwarded-for': '1.2.3.4',
+        },
+        method: 'POST',
+      },
+    );
+    setConnectionIp(request, '127.0.0.1');
+    const response = await app.request(request);
+    const body = await readJson(response);
+
+    expect(response.status).toBe(200);
     expect(body).toEqual({
       code: 200,
       ok: true,
-    })
-    expect(captured.uri).toBe('/api/example')
+    });
+    expect(captured.uri).toBe('/api/example');
     expect(captured.data).toEqual({
       hello: 'world',
-    })
+    });
     expect(captured.options?.cookie).toEqual({
       MUSIC_U: 'request-cookie',
-    })
-    expect(captured.options?.crypto).toBe('weapi')
-    expect(captured.options?.ip).toBe('1.2.3.4')
-    expect(response.headers.get('set-cookie')).toContain('MUSIC_U=demo-cookie; Path=/')
-  })
+    });
+    expect(captured.options?.crypto).toBe('weapi');
+    expect(captured.options?.ip).toBe('1.2.3.4');
+    expect(response.headers.get('set-cookie')).toContain(
+      'MUSIC_U=demo-cookie; Path=/',
+    );
+  });
 
   test('should serve built docs assets under /docs with clean url support', async () => {
-    const docsDistDirectory = createDocsFixture()
+    const docsDistDirectory = createDocsFixture();
 
     try {
       const app = await createServer({
         docsDistDirectory,
         moduleDefinitions: [],
-      })
-      const docsHomeResponse = await app.request('http://localhost/docs')
-      const docsGuideResponse = await app.request('http://localhost/docs/guide/getting-started')
-      const docsAssetResponse = await app.request('http://localhost/docs/assets/app.js')
+      });
+      const docsHomeResponse = await app.request('http://localhost/docs');
+      const docsGuideResponse = await app.request(
+        'http://localhost/docs/guide/getting-started',
+      );
+      const docsAssetResponse = await app.request(
+        'http://localhost/docs/assets/app.js',
+      );
 
-      expect(docsHomeResponse.status).toBe(200)
-      expect(docsHomeResponse.headers.get('content-type')).toContain('text/html')
-      expect(await docsHomeResponse.text()).toContain('docs home')
+      expect(docsHomeResponse.status).toBe(200);
+      expect(docsHomeResponse.headers.get('content-type')).toContain(
+        'text/html',
+      );
+      expect(await docsHomeResponse.text()).toContain('docs home');
 
-      expect(docsGuideResponse.status).toBe(200)
-      expect(docsGuideResponse.headers.get('content-type')).toContain('text/html')
-      expect(await docsGuideResponse.text()).toContain('getting started')
+      expect(docsGuideResponse.status).toBe(200);
+      expect(docsGuideResponse.headers.get('content-type')).toContain(
+        'text/html',
+      );
+      expect(await docsGuideResponse.text()).toContain('getting started');
 
-      expect(docsAssetResponse.status).toBe(200)
-      expect(docsAssetResponse.headers.get('content-type')).toContain('text/javascript')
-      expect(await docsAssetResponse.text()).toContain('docs asset')
+      expect(docsAssetResponse.status).toBe(200);
+      expect(docsAssetResponse.headers.get('content-type')).toContain(
+        'text/javascript',
+      );
+      expect(await docsAssetResponse.text()).toContain('docs asset');
     } finally {
       rmSync(docsDistDirectory, {
         force: true,
         recursive: true,
-      })
+      });
     }
-  })
+  });
 
   test('should return a build hint when docs dist is missing', async () => {
     const app = await createServer({
-      docsDistDirectory: resolve(tmpdir(), `hana-music-api-docs-missing-${Date.now()}`),
+      docsDistDirectory: resolve(
+        tmpdir(),
+        `hana-music-api-docs-missing-${Date.now()}`,
+      ),
       moduleDefinitions: [],
-    })
-    const response = await app.request('http://localhost/docs')
+    });
+    const response = await app.request('http://localhost/docs');
 
-    expect(response.status).toBe(503)
-    expect(response.headers.get('content-type')).toContain('text/html')
-    expect(await response.text()).toContain('bun run docs:build')
-  })
+    expect(response.status).toBe(503);
+    expect(response.headers.get('content-type')).toContain('text/html');
+    expect(await response.text()).toContain('bun run docs:build');
+  });
 
   test('should return 404 for legacy static files after demo migration', async () => {
     const app = await createServer({
       moduleDefinitions: [],
-    })
-    const response = await app.request('http://localhost/hello.txt')
+    });
+    const response = await app.request('http://localhost/hello.txt');
 
-    expect(response.status).toBe(404)
-  })
+    expect(response.status).toBe(404);
+  });
 
   test('should load real migrated modules from the modules directory', async () => {
     const app = await createServer({
       cacheEnabled: false,
       modulesDirectory: REAL_MODULES_DIRECTORY,
-      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+      requestHandler: mockRequest(async (uri, data, options = {}) => {
+        const { signal, ...responseOptions } = options;
+        expect(signal).toBeInstanceOf(AbortSignal);
         return {
           body: {
             code: 200,
             data,
-            options,
+            options: responseOptions,
             uri,
           },
           cookie: [],
           status: 200,
-        }
+        };
       }),
-    })
+    });
 
-    const searchResponse = await app.request('http://localhost/search?keywords=phase5&type=2000')
-    const body = await readJson(searchResponse)
+    const searchResponse = await app.request(
+      'http://localhost/search?keywords=phase5&type=2000',
+    );
+    const body = await readJson(searchResponse);
 
-    expect(searchResponse.status).toBe(200)
+    expect(searchResponse.status).toBe(200);
     expect(body).toEqual({
       code: 200,
       data: {
@@ -458,44 +576,40 @@ describe('createServer', () => {
         offset: 0,
         scene: 'normal',
       },
-      options: {
-        checkToken: false,
+      options: expect.objectContaining({
         cookie: {},
-        crypto: '',
+        crypto: 'eapi',
         domain: '',
-        e_r: undefined,
+        headers: {},
         ip: expect.any(String),
-        proxy: undefined,
-        realIP: undefined,
-        ua: '',
-      },
+      }),
       uri: '/api/search/voice/get',
-    })
-  })
+    });
+  });
 
   test('should expose the package version through the real inner_version module', async () => {
     const app = await createServer({
       cacheEnabled: false,
       modulesDirectory: REAL_MODULES_DIRECTORY,
-    })
+    });
 
-    const response = await app.request('http://localhost/inner/version')
-    const body = await readJson(response)
+    const response = await app.request('http://localhost/inner/version');
+    const body = await readJson(response);
 
-    expect(response.status).toBe(200)
+    expect(response.status).toBe(200);
     expect(body).toEqual({
       code: 200,
       data: {
         version: PACKAGE_VERSION,
       },
-    })
-  })
+    });
+  });
 
   test('should preserve special routes and noCookie semantics with real migrated modules', async () => {
     const app = await createServer({
       cacheEnabled: false,
       modulesDirectory: REAL_MODULES_DIRECTORY,
-      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+      requestHandler: mockRequest(async (uri, data, options = {}) => {
         return {
           body: {
             code: 200,
@@ -505,66 +619,62 @@ describe('createServer', () => {
           },
           cookie: ['MUSIC_U=server-cookie; Path=/'],
           status: 200,
-        }
+        };
       }),
-    })
+    });
 
-    const personalFm = await app.request('http://localhost/personal_fm?cookie=MUSIC_U%3Dfm-cookie')
-    const personalFmBody = await readJson(personalFm)
+    const personalFm = await app.request(
+      'http://localhost/personal_fm?cookie=MUSIC_U%3Dfm-cookie',
+    );
+    const personalFmBody = await readJson(personalFm);
     const dailySignin = await app.request(
       'http://localhost/daily_signin?type=1&cookie=MUSIC_U%3Dsignin-cookie&noCookie=true',
-    )
-    const dailySigninBody = await readJson(dailySignin)
+    );
+    const dailySigninBody = await readJson(dailySignin);
 
-    expect(personalFm.status).toBe(200)
-    expect(personalFm.headers.get('set-cookie')).toContain('MUSIC_U=server-cookie; Path=/')
+    expect(personalFm.status).toBe(200);
+    expect(personalFm.headers.get('set-cookie')).toContain(
+      'MUSIC_U=server-cookie; Path=/',
+    );
     expect(personalFmBody).toEqual({
       code: 200,
       data: {},
-      options: {
-        checkToken: false,
+      options: expect.objectContaining({
         cookie: {
           MUSIC_U: 'fm-cookie',
         },
         crypto: 'weapi',
         domain: '',
-        e_r: undefined,
         ip: expect.any(String),
-        proxy: undefined,
-        realIP: undefined,
-        ua: '',
-      },
+        signal: {},
+      }),
       uri: '/api/v1/radio/get',
-    })
-    expect(dailySignin.status).toBe(200)
-    expect(dailySignin.headers.get('set-cookie')).toBeNull()
+    });
+    expect(dailySignin.status).toBe(200);
+    expect(dailySignin.headers.get('set-cookie')).toBeNull();
     expect(dailySigninBody).toEqual({
       code: 200,
       data: {
         type: '1',
       },
-      options: {
-        checkToken: false,
+      options: expect.objectContaining({
         cookie: {
           MUSIC_U: 'signin-cookie',
         },
-        crypto: '',
+        crypto: 'eapi',
         domain: '',
-        e_r: undefined,
         ip: expect.any(String),
-        proxy: undefined,
-        realIP: undefined,
-        ua: '',
-      },
+        signal: {},
+      }),
       uri: '/api/point/dailyTask',
-    })
-  })
+    });
+  });
 
   test('should let real migrated modules override header cookies with body cookies', async () => {
     const app = await createServer({
       cacheEnabled: false,
       modulesDirectory: REAL_MODULES_DIRECTORY,
-      requestHandler: asModuleRequest(async (uri, data, options = {}) => {
+      requestHandler: mockRequest(async (uri, data, options = {}) => {
         return {
           body: {
             code: 200,
@@ -574,9 +684,9 @@ describe('createServer', () => {
           },
           cookie: ['MUSIC_U=account-cookie; Path=/'],
           status: 200,
-        }
+        };
       }),
-    })
+    });
     const response = await app.request('http://localhost/user/account', {
       body: 'cookie=MUSIC_U%3Dbody-cookie',
       headers: {
@@ -584,83 +694,96 @@ describe('createServer', () => {
         cookie: 'MUSIC_U=header-cookie',
       },
       method: 'POST',
-    })
-    const body = await readJson(response)
+    });
+    const body = await readJson(response);
 
-    expect(response.status).toBe(200)
-    expect(response.headers.get('set-cookie')).toContain('MUSIC_U=account-cookie; Path=/')
+    expect(response.status).toBe(200);
+    expect(response.headers.get('set-cookie')).toContain(
+      'MUSIC_U=account-cookie; Path=/',
+    );
     expect(body).toEqual({
       code: 200,
       data: {},
-      options: {
-        checkToken: false,
+      options: expect.objectContaining({
         cookie: {
           MUSIC_U: 'body-cookie',
         },
         crypto: 'weapi',
         domain: '',
-        e_r: undefined,
         ip: expect.any(String),
-        proxy: undefined,
-        realIP: undefined,
-        ua: '',
-      },
+        signal: {},
+      }),
       uri: '/api/nuser/account/get',
-    })
-  })
-})
+    });
+  });
+});
 
-function createDocsFixture(): string {
-  const docsDistDirectory = mkdtempSync(resolve(tmpdir(), 'hana-music-api-docs-'))
+const createDocsFixture = (): string => {
+  const docsDistDirectory = mkdtempSync(
+    resolve(tmpdir(), 'hana-music-api-docs-'),
+  );
 
   mkdirSync(resolve(docsDistDirectory, 'guide'), {
     recursive: true,
-  })
+  });
   mkdirSync(resolve(docsDistDirectory, 'assets'), {
     recursive: true,
-  })
+  });
 
-  writeFileSync(resolve(docsDistDirectory, 'index.html'), '<!DOCTYPE html><h1>docs home</h1>')
+  writeFileSync(
+    resolve(docsDistDirectory, 'index.html'),
+    '<!DOCTYPE html><h1>docs home</h1>',
+  );
   writeFileSync(
     resolve(docsDistDirectory, 'guide/getting-started.html'),
     '<!DOCTYPE html><h1>getting started</h1>',
-  )
-  writeFileSync(resolve(docsDistDirectory, 'assets/app.js'), 'console.log("docs asset")')
+  );
+  writeFileSync(
+    resolve(docsDistDirectory, 'assets/app.js'),
+    'console.log("docs asset")',
+  );
 
-  return docsDistDirectory
-}
+  return docsDistDirectory;
+};
 
-async function readModuleQueryBody(
+const readModuleQueryBody = async (
   response: Response,
-): Promise<{ readonly query: Record<string, unknown> }> {
-  const body = await readJson(response)
+): Promise<{ readonly query: Record<string, unknown> }> => {
+  const body = await readJson(response);
   if (isModuleQueryBody(body)) {
-    return body
+    return body;
   }
 
-  throw new TypeError('Expected response body to include query object')
-}
+  throw new TypeError('Expected response body to include query object');
+};
 
-function isModuleQueryBody(value: unknown): value is { readonly query: Record<string, unknown> } {
+const isModuleQueryBody = (
+  value: unknown,
+): value is { readonly query: Record<string, unknown> } => {
   return (
     typeof value === 'object' &&
     value !== null &&
     'query' in value &&
     typeof value.query === 'object' &&
     value.query !== null
-  )
-}
+  );
+};
 
-function readLegacyUploadedFile(query: Record<string, unknown>, key: string): LegacyUploadedFile {
-  const value = query[key]
+const readLegacyUploadedFile = (
+  query: Record<string, unknown>,
+  key: string,
+): LegacyUploadedFile => {
+  const value = query[key];
   if (!isLegacyUploadedFile(value)) {
-    throw new TypeError(`Expected "${key}" to be normalized as a legacy uploaded file`)
+    throw new TypeError(
+      `Expected "${key}" to be normalized as a legacy uploaded file`,
+    );
   }
 
-  return value
-}
+  return value;
+};
 
-function isLegacyUploadedFile(value: unknown): value is LegacyUploadedFile {
+const isLegacyUploadedFile = (value: unknown): value is LegacyUploadedFile => {
   return (
     typeof value === 'object' &&
     value !== null &&
@@ -668,38 +791,24 @@ function isLegacyUploadedFile(value: unknown): value is LegacyUploadedFile {
     'mimetype' in value &&
     'name' in value &&
     'size' in value
-  )
-}
+  );
+};
 
-function toByteLength(data: LegacyUploadedFile['data']): number {
+const toByteLength = (data: LegacyUploadedFile['data']): number => {
   if (Buffer.isBuffer(data)) {
-    return data.byteLength
+    return data.byteLength;
   }
 
   return data instanceof Uint8Array
     ? Buffer.from(data).byteLength
-    : Buffer.from(new Uint8Array(data)).byteLength
-}
-
-function asModuleRequest(
-  handler: (
-    uri: string,
-    data: Record<string, unknown>,
-    options?: CreateRequestOptions,
-  ) => Promise<{
-    body: unknown
-    cookie: string[]
-    status: number
-  }>,
-): ModuleRequest {
-  return handler as ModuleRequest
-}
+    : Buffer.from(new Uint8Array(data)).byteLength;
+};
 
 describe('parseModuleRoute', () => {
   test('should preserve legacy special route mappings', () => {
-    expect(parseModuleRoute('daily_signin')).toBe('/daily_signin')
-    expect(parseModuleRoute('fm-trash')).toBe('/fm_trash')
-    expect(parseModuleRoute('personal_fm')).toBe('/personal_fm')
-    expect(parseModuleRoute('song_url')).toBe('/song/url')
-  })
-})
+    expect(parseModuleRoute('daily_signin')).toBe('/daily_signin');
+    expect(parseModuleRoute('fm-trash')).toBe('/fm_trash');
+    expect(parseModuleRoute('personal_fm')).toBe('/personal_fm');
+    expect(parseModuleRoute('song_url')).toBe('/song/url');
+  });
+});

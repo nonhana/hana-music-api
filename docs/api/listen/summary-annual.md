@@ -30,13 +30,13 @@ GET /summary/annual?year=2024
 ## 编程式调用
 
 ```ts
-import { summaryAnnual } from 'hana-music-api'
+import { summaryAnnual } from 'hana-music-api';
 
 const result = await summaryAnnual({
   year: '2024',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

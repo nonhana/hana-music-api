@@ -1,1 +1,1 @@
-export { banner } from '../generated/client.generated.ts'
+export { banner } from '../generated/client.generated.ts';

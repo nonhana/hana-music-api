@@ -1,29 +1,41 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { BatchQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import { decodeModuleInput as decodeInput, LegacyInput } from './_input.ts';
 
-const legacyModule = (query: BatchQuery, request: ModuleRequest) => {
-  const data: Record<string, unknown> = {}
-  Object.keys(query).forEach((i) => {
-    if (i.startsWith('/api/')) {
-      data[i] = query[i]
-    }
-  })
-  return request(`/api/batch`, data, createOption(query))
-}
+export type BatchSubRequest = Record<string, unknown>;
+
+export type BatchRouteKey = `/api/${string}`;
+
+export type ModuleInput = Partial<Record<BatchRouteKey, BatchSubRequest>>;
+
+const inputSchema = Schema.Record(
+  Schema.TemplateLiteral(['/api/', Schema.String]),
+  Schema.UndefinedOr(LegacyInput),
+);
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const batch: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data: Record<string, unknown> = {};
+    Object.entries(query).forEach(([route, parameters]) => {
+      if (route.startsWith('/api/')) {
+        data[route] = parameters;
+      }
+    });
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(`/api/batch`, data, createOption(query)),
+      ),
+    );
+  });
 
 /**
  * 批量请求接口
  */
-export default async function migratedBatch(
-  query: BatchQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default batch;

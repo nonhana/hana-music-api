@@ -1,56 +1,106 @@
-import type { FetchLike, IdentityPoolConfig, ModuleCallConfig } from '../types/index.ts'
+import { createHash } from 'node:crypto';
 
-import { registerAnonymousToken } from './anonymous.ts'
+import { Effect, Ref } from 'effect';
+
+import type {
+  CookieRecord,
+  IdentityPoolConfig,
+  ModuleCallConfig,
+  RuntimeState,
+} from '../types/index.ts';
+import { registerAnonymousEffect } from './anonymous.ts';
+import type { RequestError } from './errors.ts';
+import { ReadStore } from './read-store.ts';
+import { ProcessServices } from './runtime.ts';
+import { resolveRequestCookie } from './utils.ts';
+
+export interface IdentitySnapshot {
+  readonly cookie: Readonly<CookieRecord>;
+  readonly state: Readonly<RuntimeState>;
+  readonly fingerprint: string;
+  readonly source:
+    | 'cookie-user'
+    | 'cookie-anonymous'
+    | 'runtime-anonymous'
+    | 'device';
+}
+
+export const resolveIdentitySnapshot = (
+  config: ModuleCallConfig,
+  state: RuntimeState,
+): IdentitySnapshot => {
+  const cookie = resolveRequestCookie(config);
+  const source = cookie.MUSIC_U
+    ? 'cookie-user'
+    : cookie.MUSIC_A
+      ? 'cookie-anonymous'
+      : state.anonymousToken
+        ? 'runtime-anonymous'
+        : 'device';
+  const value =
+    cookie.MUSIC_U || cookie.MUSIC_A || state.anonymousToken || state.deviceId;
+  if (!cookie.MUSIC_U && !cookie.MUSIC_A && state.anonymousToken) {
+    cookie.MUSIC_A = state.anonymousToken;
+  }
+  return Object.freeze({
+    cookie: Object.freeze(cookie),
+    state: Object.freeze({ ...state }),
+    fingerprint: createHash('sha256').update(String(value)).digest('hex'),
+    source,
+  });
+};
 
 export interface IdentityPool {
-  next: () => Promise<Partial<ModuleCallConfig>>
+  readonly next: Effect.Effect<
+    Partial<ModuleCallConfig>,
+    RequestError,
+    ProcessServices
+  >;
 }
 
-// 惰性注册 size 个匿名身份,按调用轮询。每个身份携带自己的 cnIp / deviceId / MUSIC_A。
-export function createIdentityPool(
+export const createIdentityPool = (
   config: IdentityPoolConfig,
-  fetcher: FetchLike | undefined,
-): IdentityPool {
-  const size = Math.max(1, Math.floor(config.size))
-  const identities: Array<Partial<ModuleCallConfig>> = []
-  let ready: Promise<void> | null = null
-  let cursor = 0
-
-  const register = async (): Promise<void> => {
-    identities.length = 0
-    for (let index = 0; index < size; index += 1) {
-      const registration = await registerAnonymousToken({
-        fetcher,
-      })
-      identities.push({
-        cookie: {
-          MUSIC_A: registration.anonymousToken,
-        },
-        ip: registration.cnIp,
-        state: {
-          anonymousToken: registration.anonymousToken,
-          cnIp: registration.cnIp,
-          deviceId: registration.deviceId,
-        },
-      })
-    }
+  options: ModuleCallConfig,
+): IdentityPool => {
+  if (!Number.isFinite(config.size) || config.size < 1) {
+    throw new TypeError('identityPool.size must be positive');
   }
-
+  const size = Math.floor(config.size);
+  const cursor = Ref.makeUnsafe(0);
+  const identities = Ref.makeUnsafe<Array<Partial<ModuleCallConfig>>>([]);
+  const initialization = new ReadStore<void, RequestError>(null);
   return {
-    async next() {
-      if (!ready) {
-        // 初始化失败(瞬态网络错误)时清空 ready,允许后续调用重试,避免池永久不可用。
-        ready = register().catch((error: unknown) => {
-          ready = null
-          throw error
-        })
-      }
-      await ready
-
-      const identity = identities[cursor % identities.length]
-      cursor += 1
-
-      return identity ?? {}
-    },
-  }
-}
+    next: Effect.gen(function* () {
+      const process = yield* ProcessServices;
+      yield* initialization.run(
+        'pool',
+        Effect.gen(function* () {
+          for (
+            let index = (yield* Ref.get(identities)).length;
+            index < size;
+            index += 1
+          ) {
+            const registration = yield* registerAnonymousEffect({
+              ...options,
+              timeoutMs: 0,
+            });
+            yield* Ref.update(identities, (values) => [
+              ...values,
+              {
+                cookie: { MUSIC_A: registration.anonymousToken },
+                ip: registration.cnIp,
+                state: registration,
+              },
+            ]);
+          }
+        }).pipe(Effect.provideService(ProcessServices, process)),
+      );
+      const values = yield* Ref.get(identities);
+      const index = yield* Ref.modify(cursor, (value) => [
+        value % size,
+        value + 1,
+      ]);
+      return values[index]!;
+    }),
+  };
+};

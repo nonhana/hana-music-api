@@ -1,1 +1,1 @@
-export { vipGrowthpoint } from '../generated/client.generated.ts'
+export { vipGrowthpoint } from '../generated/client.generated.ts';

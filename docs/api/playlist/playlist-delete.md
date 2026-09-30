@@ -33,13 +33,13 @@ GET /playlist/delete?id=5013464397,5013427772
 ## 编程式调用
 
 ```ts
-import { playlistDelete } from 'hana-music-api'
+import { playlistDelete } from 'hana-music-api';
 
 const result = await playlistDelete({
   id: '2947311456',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

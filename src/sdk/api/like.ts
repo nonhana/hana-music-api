@@ -1,1 +1,1 @@
-export { like } from '../generated/client.generated.ts'
+export { like } from '../generated/client.generated.ts';

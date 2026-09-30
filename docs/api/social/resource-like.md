@@ -35,15 +35,15 @@ GET /resource/like?t=1&type=6&threadId=A_EV_2_6559519868_32953014
 ## 编程式调用
 
 ```ts
-import { resourceLike } from 'hana-music-api'
+import { resourceLike } from 'hana-music-api';
 
 const result = await resourceLike({
   t: '1',
   type: '1',
   id: '5436712',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

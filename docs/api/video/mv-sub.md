@@ -33,14 +33,14 @@ GET /mv/sub
 ## 编程式调用
 
 ```ts
-import { mvSub } from 'hana-music-api'
+import { mvSub } from 'hana-music-api';
 
 const result = await mvSub({
   mvid: '123456',
   t: 'your-t',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

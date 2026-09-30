@@ -1,14 +1,22 @@
-import { describe, expect, test } from 'bun:test'
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { describe, expect, test } from 'bun:test';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import type { CreateRequestOptions, ModuleRequest } from '../src/types/index.ts'
+import { invokeModule } from '../src/app/module-api.ts';
+import { loadModuleDefinitions } from '../src/server/module-loader.ts';
+import type {
+  CreateRequestOptions,
+  RequestCapability,
+} from '../src/types/index.ts';
+import { mockRequest } from './fixtures/request-capability.ts';
 
-import { invokeModule } from '../src/app/module-api.ts'
-import { loadModuleDefinitions } from '../src/server/module-loader.ts'
-
-const REAL_MODULES_DIRECTORY = resolve(dirname(fileURLToPath(import.meta.url)), '../src/modules')
-const realModuleDefinitionsPromise = loadModuleDefinitions(REAL_MODULES_DIRECTORY)
+const REAL_MODULES_DIRECTORY = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../src/modules',
+);
+const realModuleDefinitionsPromise = loadModuleDefinitions(
+  REAL_MODULES_DIRECTORY,
+);
 
 describe('phase 5 module regression suite', () => {
   test('should keep search and voice-search request shapes aligned with legacy behavior', async () => {
@@ -20,8 +28,8 @@ describe('phase 5 module regression suite', () => {
         },
         cookie: [],
         status: 200,
-      }
-    })
+      };
+    });
 
     await invokeRealModule(
       'search',
@@ -31,7 +39,7 @@ describe('phase 5 module regression suite', () => {
         offset: 5,
       },
       requestSpy.requestHandler,
-    )
+    );
 
     await invokeRealModule(
       'search',
@@ -40,9 +48,9 @@ describe('phase 5 module regression suite', () => {
         type: '2000',
       },
       requestSpy.requestHandler,
-    )
+    );
 
-    expect(requestSpy.calls).toHaveLength(2)
+    expect(requestSpy.calls).toHaveLength(2);
     expect(requestSpy.calls[0]).toEqual({
       data: {
         limit: 20,
@@ -50,18 +58,20 @@ describe('phase 5 module regression suite', () => {
         s: '周杰伦',
         type: 1,
       },
-      options: {
+      options: expect.objectContaining({
         checkToken: false,
         cookie: undefined,
-        crypto: '',
+        crypto: 'eapi',
+        headers: {},
         domain: '',
         e_r: undefined,
         proxy: undefined,
         realIP: undefined,
+        signal: expect.any(AbortSignal),
         ua: '',
-      },
+      }),
       uri: '/api/search/get',
-    })
+    });
     expect(requestSpy.calls[1]).toEqual({
       data: {
         keyword: '语音搜索',
@@ -69,19 +79,21 @@ describe('phase 5 module regression suite', () => {
         offset: 0,
         scene: 'normal',
       },
-      options: {
+      options: expect.objectContaining({
         checkToken: false,
         cookie: undefined,
-        crypto: '',
+        crypto: 'eapi',
+        headers: {},
         domain: '',
         e_r: undefined,
         proxy: undefined,
         realIP: undefined,
+        signal: expect.any(AbortSignal),
         ua: '',
-      },
+      }),
       uri: '/api/search/voice/get',
-    })
-  })
+    });
+  });
 
   test('should preserve song_url ordering and playlist_detail request shape', async () => {
     const requestSpy = createRequestSpy((uri) => {
@@ -96,7 +108,7 @@ describe('phase 5 module regression suite', () => {
           },
           cookie: [],
           status: 200,
-        }
+        };
       }
 
       return {
@@ -109,8 +121,8 @@ describe('phase 5 module regression suite', () => {
         },
         cookie: [],
         status: 200,
-      }
-    })
+      };
+    });
 
     const songUrl = await invokeRealModule(
       'song_url',
@@ -119,59 +131,62 @@ describe('phase 5 module regression suite', () => {
         br: '320000',
       },
       requestSpy.requestHandler,
-    )
+    );
     const playlistDetail = await invokeRealModule(
       'playlist_detail',
       {
         id: '123',
       },
       requestSpy.requestHandler,
-    )
+    );
 
     expect(requestSpy.calls[0]).toEqual({
       data: {
         br: 320000,
         ids: '["1","2"]',
       },
-      options: {
+      options: expect.objectContaining({
         checkToken: false,
         cookie: undefined,
-        crypto: '',
+        crypto: 'eapi',
         domain: '',
         e_r: undefined,
         proxy: undefined,
         realIP: undefined,
+        signal: expect.any(AbortSignal),
         ua: '',
-      },
+      }),
       uri: '/api/song/enhance/player/url',
-    })
+    });
     expect(requestSpy.calls[1]).toEqual({
       data: {
         id: '123',
         n: 100000,
         s: 8,
       },
-      options: {
+      options: expect.objectContaining({
         checkToken: false,
         cookie: undefined,
-        crypto: '',
+        crypto: 'eapi',
+        headers: {},
         domain: '',
         e_r: undefined,
         proxy: undefined,
         realIP: undefined,
+        signal: expect.any(AbortSignal),
         ua: '',
-      },
+      }),
       uri: '/api/v6/playlist/detail',
-    })
+    });
     expect(readArrayProperty(songUrl.body, 'data')).toEqual([
       { id: 1, url: 'first' },
       { id: 2, url: 'second' },
-    ])
+    ]);
     expect(readRecordProperty(playlistDetail.body, 'playlist')).toEqual({
       id: 123,
       trackCount: 2,
-    })
-  })
+    });
+  });
 
   test('should keep user_account on weapi and retain cookie semantics', async () => {
     const requestSpy = createRequestSpy(() => {
@@ -184,8 +199,8 @@ describe('phase 5 module regression suite', () => {
         },
         cookie: ['MUSIC_U=upstream-account; Path=/'],
         status: 200,
-      }
-    })
+      };
+    });
 
     const response = await invokeRealModule(
       'user_account',
@@ -193,12 +208,12 @@ describe('phase 5 module regression suite', () => {
         cookie: 'MUSIC_U=phase5-cookie',
       },
       requestSpy.requestHandler,
-    )
+    );
 
     expect(requestSpy.calls).toEqual([
       {
         data: {},
-        options: {
+        options: expect.objectContaining({
           checkToken: false,
           cookie: {
             MUSIC_U: 'phase5-cookie',
@@ -208,16 +223,17 @@ describe('phase 5 module regression suite', () => {
           e_r: undefined,
           proxy: undefined,
           realIP: undefined,
+          signal: expect.any(AbortSignal),
           ua: '',
-        },
+        }),
         uri: '/api/nuser/account/get',
       },
-    ])
-    expect(response.cookie).toEqual(['MUSIC_U=upstream-account; Path=/'])
+    ]);
+    expect(response.cookie).toEqual(['MUSIC_U=upstream-account; Path=/']);
     expect(readRecordProperty(response.body, 'profile')).toEqual({
       userId: 1,
-    })
-  })
+    });
+  });
 
   test('should preserve login_cellphone request body and success normalization', async () => {
     const requestSpy = createRequestSpy(() => {
@@ -231,8 +247,8 @@ describe('phase 5 module regression suite', () => {
         },
         cookie: ['MUSIC_U=login-cookie; Path=/', '__csrf=token; Path=/'],
         status: 200,
-      }
-    })
+      };
+    });
 
     const response = await invokeRealModule(
       'login_cellphone',
@@ -241,12 +257,11 @@ describe('phase 5 module regression suite', () => {
         phone: '13800138000',
       },
       requestSpy.requestHandler,
-    )
+    );
 
     expect(requestSpy.calls).toEqual([
       {
         data: {
-          captcha: undefined,
           countrycode: '86',
           https: 'true',
           password: '5ebe2294ecd0e0f08eab7690d2a6ee69',
@@ -254,7 +269,7 @@ describe('phase 5 module regression suite', () => {
           remember: 'true',
           type: '1',
         },
-        options: {
+        options: expect.objectContaining({
           checkToken: false,
           cookie: undefined,
           crypto: 'weapi',
@@ -262,16 +277,19 @@ describe('phase 5 module regression suite', () => {
           e_r: undefined,
           proxy: undefined,
           realIP: undefined,
+          signal: expect.any(AbortSignal),
           ua: '',
-        },
+        }),
         uri: '/api/w/login/cellphone',
       },
-    ])
-    expect(readStringProperty(response.body, 'avatarImgIdStr')).toBe('avatar-id')
+    ]);
+    expect(readStringProperty(response.body, 'avatarImgIdStr')).toBe(
+      'avatar-id',
+    );
     expect(readStringProperty(response.body, 'cookie')).toBe(
       'MUSIC_U=login-cookie; Path=/;__csrf=token; Path=/',
-    )
-  })
+    );
+  });
 
   test('should keep login_qr_create local qr generation behavior', async () => {
     const response = await invokeRealModule('login_qr_create', {
@@ -279,17 +297,17 @@ describe('phase 5 module regression suite', () => {
       key: 'qr-key',
       platform: 'web',
       qrimg: true,
-    })
+    });
 
-    const bodyData = readRecordProperty(response.body, 'data')
-    const qrurl = readStringProperty(bodyData, 'qrurl')
-    const qrimg = readStringProperty(bodyData, 'qrimg')
+    const bodyData = readRecordProperty(response.body, 'data');
+    const qrurl = readStringProperty(bodyData, 'qrurl');
+    const qrimg = readStringProperty(bodyData, 'qrimg');
 
     expect(qrurl).toMatch(
       /^https:\/\/music\.163\.com\/login\?codekey=qr-key&chainId=v1_device-phase5_web_login_\d+$/,
-    )
-    expect(qrimg.startsWith('data:image/png;base64,')).toBe(true)
-  })
+    );
+    expect(qrimg.startsWith('data:image/png;base64,')).toBe(true);
+  });
 
   test('should keep batch filtering only legacy /api-prefixed subrequests', async () => {
     const requestSpy = createRequestSpy(() => {
@@ -299,8 +317,8 @@ describe('phase 5 module regression suite', () => {
         },
         cookie: [],
         status: 200,
-      }
-    })
+      };
+    });
 
     await invokeRealModule(
       'batch',
@@ -312,7 +330,7 @@ describe('phase 5 module regression suite', () => {
         shouldIgnore: true,
       },
       requestSpy.requestHandler,
-    )
+    );
 
     expect(requestSpy.calls).toEqual([
       {
@@ -322,20 +340,21 @@ describe('phase 5 module regression suite', () => {
           },
           '/api/user/account': {},
         },
-        options: {
+        options: expect.objectContaining({
           checkToken: false,
           cookie: undefined,
-          crypto: '',
+          crypto: 'eapi',
           domain: '',
           e_r: undefined,
           proxy: undefined,
           realIP: undefined,
+          signal: expect.any(AbortSignal),
           ua: '',
-        },
+        }),
         uri: '/api/batch',
       },
-    ])
-  })
+    ]);
+  });
 
   test('should keep daily_signin and personal_fm request contracts', async () => {
     const requestSpy = createRequestSpy((uri) => {
@@ -346,7 +365,7 @@ describe('phase 5 module regression suite', () => {
           },
           cookie: [],
           status: 301,
-        })
+        });
       }
 
       return {
@@ -356,8 +375,8 @@ describe('phase 5 module regression suite', () => {
         },
         cookie: [],
         status: 200,
-      }
-    })
+      };
+    });
 
     try {
       await invokeRealModule(
@@ -367,8 +386,10 @@ describe('phase 5 module regression suite', () => {
           type: 1,
         },
         requestSpy.requestHandler,
-      )
-      throw new TypeError('Expected daily_signin to preserve the legacy 301 response')
+      );
+      throw new TypeError(
+        'Expected daily_signin to preserve the legacy 301 response',
+      );
     } catch (error) {
       expect(error).toEqual({
         body: {
@@ -376,7 +397,7 @@ describe('phase 5 module regression suite', () => {
         },
         cookie: [],
         status: 301,
-      })
+      });
     }
 
     const personalFm = await invokeRealModule(
@@ -385,30 +406,31 @@ describe('phase 5 module regression suite', () => {
         cookie: 'MUSIC_U=fm-cookie',
       },
       requestSpy.requestHandler,
-    )
+    );
 
     expect(requestSpy.calls).toEqual([
       {
         data: {
           type: 1,
         },
-        options: {
+        options: expect.objectContaining({
           checkToken: false,
           cookie: {
             MUSIC_U: 'signed-in',
           },
-          crypto: '',
+          crypto: 'eapi',
           domain: '',
           e_r: undefined,
           proxy: undefined,
           realIP: undefined,
+          signal: expect.any(AbortSignal),
           ua: '',
-        },
+        }),
         uri: '/api/point/dailyTask',
       },
       {
         data: {},
-        options: {
+        options: expect.objectContaining({
           checkToken: false,
           cookie: {
             MUSIC_U: 'fm-cookie',
@@ -418,19 +440,22 @@ describe('phase 5 module regression suite', () => {
           e_r: undefined,
           proxy: undefined,
           realIP: undefined,
+          signal: expect.any(AbortSignal),
           ua: '',
-        },
+        }),
         uri: '/api/v1/radio/get',
       },
-    ])
-    expect(personalFm.status).toBe(200)
-    expect(readArrayProperty(personalFm.body, 'data')).toEqual([])
-  })
+    ]);
+    expect(personalFm.status).toBe(200);
+    expect(readArrayProperty(personalFm.body, 'data')).toEqual([]);
+  });
 
   test('should keep voice_upload missing-file validation on the legacy error contract', async () => {
     try {
-      await invokeRealModule('voice_upload', {})
-      throw new TypeError('Expected voice_upload to reject when songFile is missing')
+      await invokeRealModule('voice_upload', {});
+      throw new TypeError(
+        'Expected voice_upload to reject when songFile is missing',
+      );
     } catch (error) {
       expect(error).toEqual({
         body: {
@@ -439,89 +464,94 @@ describe('phase 5 module regression suite', () => {
         },
         cookie: [],
         status: 500,
-      })
+      });
     }
-  })
-})
+  });
+});
 
 interface CapturedRequest {
-  readonly data: Record<string, unknown>
-  readonly options: CreateRequestOptions
-  readonly uri: string
+  readonly data: Record<string, unknown>;
+  readonly options: CreateRequestOptions;
+  readonly uri: string;
 }
 
-function createRequestSpy(
+const createRequestSpy = (
   responder: (
     uri: string,
     data: Record<string, unknown>,
     options: CreateRequestOptions,
   ) => PromiseLikeReturn | Promise<PromiseLikeReturn>,
 ): {
-  readonly calls: CapturedRequest[]
-  readonly requestHandler: ModuleRequest
-} {
-  const calls: CapturedRequest[] = []
-  /* oxlint-disable typescript/no-unsafe-type-assertion -- Test double matches ModuleRequest at runtime. */
-  const requestHandler = (async (uri, data, options = {}) => {
+  readonly calls: Array<CapturedRequest>;
+  readonly requestHandler: RequestCapability;
+} => {
+  const calls: Array<CapturedRequest> = [];
+  /* oxlint-disable typescript/no-unsafe-type-assertion -- Test double matches RequestCapability at runtime. */
+  const requestHandler = mockRequest(async (uri, data, options = {}) => {
     calls.push({
       data,
       options,
       uri,
-    })
+    });
 
-    return responder(uri, data, options)
-  }) as ModuleRequest
+    return responder(uri, data, options);
+  });
   /* oxlint-enable typescript/no-unsafe-type-assertion */
 
   return {
     calls,
     requestHandler,
-  }
-}
+  };
+};
 
-async function invokeRealModule(
+const invokeRealModule = async (
   identifier: string,
   query: Record<string, unknown>,
-  requestHandler?: ModuleRequest,
-) {
-  const moduleDefinitions = await realModuleDefinitionsPromise
+  requestHandler?: RequestCapability,
+) => {
+  const moduleDefinitions = await realModuleDefinitionsPromise;
 
   return invokeModule(identifier, query, {
     moduleDefinitions,
     requestHandler,
-  })
-}
+  });
+};
 
 type PromiseLikeReturn = {
-  readonly body: Record<string, unknown>
-  readonly cookie: string[]
-  readonly status: number
-}
+  readonly body: Record<string, unknown>;
+  readonly cookie: Array<string>;
+  readonly status: number;
+};
 
-function readArrayProperty(value: unknown, key: string): unknown[] {
+const readArrayProperty = (value: unknown, key: string): Array<unknown> => {
   if (!isRecordLike(value) || !Array.isArray(value[key])) {
-    throw new TypeError('Expected response body to contain an array data field')
+    throw new TypeError(
+      'Expected response body to contain an array data field',
+    );
   }
 
-  return value[key]
-}
+  return value[key];
+};
 
-function readRecordProperty(value: unknown, key: string): Record<string, unknown> {
+const readRecordProperty = (
+  value: unknown,
+  key: string,
+): Record<string, unknown> => {
   if (!isRecordLike(value) || !isRecordLike(value[key])) {
-    throw new TypeError(`Expected "${key}" to be an object property`)
+    throw new TypeError(`Expected "${key}" to be an object property`);
   }
 
-  return value[key]
-}
+  return value[key];
+};
 
-function readStringProperty(value: unknown, key: string): string {
+const readStringProperty = (value: unknown, key: string): string => {
   if (!isRecordLike(value) || typeof value[key] !== 'string') {
-    throw new TypeError(`Expected "${key}" to be a string property`)
+    throw new TypeError(`Expected "${key}" to be a string property`);
   }
 
-  return value[key]
-}
+  return value[key];
+};
 
-function isRecordLike(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null
-}
+const isRecordLike = (value: unknown): value is Record<string, unknown> => {
+  return typeof value === 'object' && value !== null;
+};

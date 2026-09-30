@@ -1,1 +1,1 @@
-export { activateInitProfile } from '../generated/client.generated.ts'
+export { activateInitProfile } from '../generated/client.generated.ts';

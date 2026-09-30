@@ -1,1 +1,1 @@
-export { playmodeIntelligenceList } from '../generated/client.generated.ts'
+export { playmodeIntelligenceList } from '../generated/client.generated.ts';

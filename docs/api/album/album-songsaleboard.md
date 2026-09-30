@@ -36,15 +36,15 @@ GET /album/songsaleboard?type=year&year=2020&albumType=0
 ## 编程式调用
 
 ```ts
-import { albumSongsaleboard } from 'hana-music-api'
+import { albumSongsaleboard } from 'hana-music-api';
 
 const result = await albumSongsaleboard({
   type: 'year',
   year: 2020,
   albumType: 0,
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回关注点

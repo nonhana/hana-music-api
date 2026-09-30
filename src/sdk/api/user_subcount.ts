@@ -1,1 +1,1 @@
-export { userSubcount } from '../generated/client.generated.ts'
+export { userSubcount } from '../generated/client.generated.ts';

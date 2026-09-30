@@ -32,13 +32,13 @@ GET /dj/personalize/recommend?limit=5
 ## 编程式调用
 
 ```ts
-import { djPersonalizeRecommend } from 'hana-music-api'
+import { djPersonalizeRecommend } from 'hana-music-api';
 
 const result = await djPersonalizeRecommend({
   limit: '5',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

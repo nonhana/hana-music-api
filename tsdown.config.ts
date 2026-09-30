@@ -1,12 +1,12 @@
-import { defineConfig } from 'tsdown'
+import { defineConfig } from 'tsdown';
 
-import { generatedModuleIdentifiers } from './src/types/generated/module-surface.generated.ts'
+import { generatedModuleIdentifiers } from './src/types/generated/module-surface.generated.ts';
 
 const apiEntries = Object.fromEntries(
   generatedModuleIdentifiers.map((identifier) => {
-    return [`api/${identifier}`, `./src/sdk/api/${identifier}.ts`]
+    return [`api/${identifier}`, `./src/sdk/api/${identifier}.ts`];
   }),
-)
+);
 
 export default defineConfig({
   entry: {
@@ -23,4 +23,4 @@ export default defineConfig({
   outDir: 'dist',
   publint: true,
   attw: true,
-})
+});

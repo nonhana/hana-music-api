@@ -30,13 +30,13 @@ GET /login/qr/check?key=xxx
 ## 编程式调用
 
 ```ts
-import { loginQrCheck } from 'hana-music-api'
+import { loginQrCheck } from 'hana-music-api';
 
 const result = await loginQrCheck({
   key: 'xxx',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

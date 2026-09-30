@@ -30,13 +30,13 @@ GET /login/qr/create?key=xxx
 ## 编程式调用
 
 ```ts
-import { loginQrCreate } from 'hana-music-api'
+import { loginQrCreate } from 'hana-music-api';
 
 const result = await loginQrCreate({
   key: 'xxx',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

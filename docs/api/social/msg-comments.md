@@ -22,7 +22,7 @@ description: '登录后调用此接口 ,可获取评论'
 | 参数     | 类型             | 必填 | 默认值 | 说明                                                        |
 | -------- | ---------------- | :--: | ------ | ----------------------------------------------------------- |
 | `uid`    | string           |  ✅  | -      | 用户 的 id，只能和登录账号的 id 一致                        |
-| `limit`  | number \| string |  —   | 30     | 返回数量，默认为 30                                        |
+| `limit`  | number \| string |  —   | 30     | 返回数量，默认为 30                                         |
 | `before` | number \| string |  —   | -      | 分页参数,取上一页最后一个歌单的 `updateTime` 获取下一页数据 |
 
 ## HTTP 示例
@@ -34,13 +34,13 @@ GET /msg/comments?uid=32953014
 ## 编程式调用
 
 ```ts
-import { msgComments } from 'hana-music-api'
+import { msgComments } from 'hana-music-api';
 
 const result = await msgComments({
   uid: '32953014',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

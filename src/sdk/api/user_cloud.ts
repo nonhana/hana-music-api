@@ -1,1 +1,1 @@
-export { userCloud } from '../generated/client.generated.ts'
+export { userCloud } from '../generated/client.generated.ts';

@@ -30,11 +30,11 @@ GET /recent/listen/list
 ## 编程式调用
 
 ```ts
-import { recentListenList } from 'hana-music-api'
+import { recentListenList } from 'hana-music-api';
 
-const result = await recentListenList()
+const result = await recentListenList();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

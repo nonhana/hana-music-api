@@ -1,1 +1,1 @@
-export { commentMv } from '../generated/client.generated.ts'
+export { commentMv } from '../generated/client.generated.ts';

@@ -30,11 +30,11 @@ GET /yunbei/tasks/todo
 ## 编程式调用
 
 ```ts
-import { yunbeiTasksTodo } from 'hana-music-api'
+import { yunbeiTasksTodo } from 'hana-music-api';
 
-const result = await yunbeiTasksTodo()
+const result = await yunbeiTasksTodo();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

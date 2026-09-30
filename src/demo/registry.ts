@@ -1,18 +1,18 @@
-export type DemoPageStatus = 'ready' | 'planned'
+export type DemoPageStatus = 'ready' | 'planned';
 
 export interface DemoGroupDefinition {
-  readonly description: string
-  readonly id: string
-  readonly title: string
+  readonly description: string;
+  readonly id: string;
+  readonly title: string;
 }
 
 export interface DemoPageDefinition {
-  readonly description: string
-  readonly groupId: DemoGroupDefinition['id']
-  readonly path: string
-  readonly status: DemoPageStatus
-  readonly summary: string
-  readonly title: string
+  readonly description: string;
+  readonly groupId: DemoGroupDefinition['id'];
+  readonly path: string;
+  readonly status: DemoPageStatus;
+  readonly summary: string;
+  readonly title: string;
 }
 
 export const demoGroups = [
@@ -36,7 +36,7 @@ export const demoGroups = [
     id: 'experiments',
     title: '音频识别',
   },
-] as const satisfies readonly DemoGroupDefinition[]
+] as const satisfies ReadonlyArray<DemoGroupDefinition>;
 
 export const demoPages = [
   {
@@ -87,22 +87,26 @@ export const demoPages = [
     summary: '查看波形、日志和识别结果。',
     title: '听歌识曲',
   },
-] as const satisfies readonly DemoPageDefinition[]
+] as const satisfies ReadonlyArray<DemoPageDefinition>;
 
-export function getDemoPageByPath(path: string): DemoPageDefinition | undefined {
-  return demoPages.find((page) => page.path === path)
-}
+export const getDemoPageByPath = (
+  path: string,
+): DemoPageDefinition | undefined => {
+  return demoPages.find((page) => page.path === path);
+};
 
-export function getGroupedDemoPages(): Array<{
-  readonly group: DemoGroupDefinition
-  readonly pages: DemoPageDefinition[]
-}> {
+export const getGroupedDemoPages = (): Array<{
+  readonly group: DemoGroupDefinition;
+  readonly pages: Array<DemoPageDefinition>;
+}> => {
   return demoGroups.map((group) => ({
     group,
     pages: demoPages.filter((page) => page.groupId === group.id),
-  }))
-}
+  }));
+};
 
-export function getReadyDemoPages(): DemoPageDefinition[] {
-  return demoPages.filter((page) => page.status === 'ready' && page.path !== '/demo')
-}
+export const getReadyDemoPages = (): Array<DemoPageDefinition> => {
+  return demoPages.filter(
+    (page) => page.status === 'ready' && page.path !== '/demo',
+  );
+};

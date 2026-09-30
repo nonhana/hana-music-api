@@ -19,11 +19,11 @@ description: '登录后调用此接口，可获得新晋电台榜/热门电台�
 
 ## 请求参数
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                        |
-| -------- | ---------------- | :--: | ------ | --------------------------------------------------------------------------- |
-| `limit`  | number \| string |  —   | 100    | 返回数量，默认为 100                                                       |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                      |
+| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------------- |
+| `limit`  | number \| string |  —   | 100    | 返回数量，默认为 100                                                      |
 | `offset` | number \| string |  —   | 0      | 偏移数量，用于分页，如：(页数 - 1)\*100, 其中 100 为 limit 的值，默认为 0 |
-| `type`   | string           |  —   | -      | 榜单类型, `new` 为新晋电台榜,`hot`为热门电台榜                              |
+| `type`   | string           |  —   | -      | 榜单类型, `new` 为新晋电台榜,`hot`为热门电台榜                            |
 
 ## HTTP 示例
 
@@ -35,13 +35,13 @@ GET /dj/toplist?type=new&limit=1
 ## 编程式调用
 
 ```ts
-import { djToplist } from 'hana-music-api'
+import { djToplist } from 'hana-music-api';
 
 const result = await djToplist({
   type: 'hot',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

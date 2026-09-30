@@ -32,13 +32,13 @@ GET /video/timeline/recommend?offset=10
 ## 编程式调用
 
 ```ts
-import { videoTimelineRecommend } from 'hana-music-api'
+import { videoTimelineRecommend } from 'hana-music-api';
 
 const result = await videoTimelineRecommend({
   offset: '10',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

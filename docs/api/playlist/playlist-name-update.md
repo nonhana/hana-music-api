@@ -33,14 +33,14 @@ GET /playlist/name/update?id=24381616&name=歌单名
 ## 编程式调用
 
 ```ts
-import { playlistNameUpdate } from 'hana-music-api'
+import { playlistNameUpdate } from 'hana-music-api';
 
 const result = await playlistNameUpdate({
   id: '24381616',
   name: '歌单名',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

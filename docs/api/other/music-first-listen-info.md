@@ -30,11 +30,11 @@ GET /music/first/listen/info
 ## 编程式调用
 
 ```ts
-import { musicFirstListenInfo } from 'hana-music-api'
+import { musicFirstListenInfo } from 'hana-music-api';
 
-const result = await musicFirstListenInfo()
+const result = await musicFirstListenInfo();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

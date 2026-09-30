@@ -1,1 +1,1 @@
-export { broadcastSub } from '../generated/client.generated.ts'
+export { broadcastSub } from '../generated/client.generated.ts';

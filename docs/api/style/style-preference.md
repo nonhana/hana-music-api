@@ -30,11 +30,11 @@ GET /style/preference
 ## 编程式调用
 
 ```ts
-import { stylePreference } from 'hana-music-api'
+import { stylePreference } from 'hana-music-api';
 
-const result = await stylePreference()
+const result = await stylePreference();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

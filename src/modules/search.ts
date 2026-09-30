@@ -1,38 +1,55 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { SearchQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { Call } from '../core/call.ts';
+import { APP_CONF } from '../core/config.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { PagedQuery, QueryNumberLike } from '../types/module-shared.ts';
+import { decodeModuleInput as decodeInput, QueryNumber } from './_input.ts';
 
-const legacyModule = (query: SearchQuery, request: ModuleRequest) => {
-  if (String(query.type ?? '') === '2000') {
-    const data = {
-      keyword: query.keywords,
-      scene: 'normal',
-      limit: query.limit || 30,
-      offset: query.offset || 0,
-    }
-    return request(`/api/search/voice/get`, data, createOption(query))
-  }
-  const data = {
-    s: query.keywords,
-    type: query.type || 1, // 1: 单曲, 10: 专辑, 100: 歌手, 1000: 歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频
-    limit: query.limit || 30,
-    offset: query.offset || 0,
-  }
-  return request(`/api/search/get`, data, createOption(query))
-}
+export type ModuleInput = PagedQuery & {
+  keywords: string;
+  type?: QueryNumberLike;
+};
 
-/**
- * 搜索
- */
-export default async function migratedSearch(
-  query: SearchQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+const inputSchema = Schema.Struct({
+  keywords: Schema.String,
+  type: Schema.optional(QueryNumber),
+  limit: Schema.optional(QueryNumber),
+  offset: Schema.optional(QueryNumber),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const search: ModuleEffect<ModuleInput> = (input, request) =>
+  Effect.gen(function* () {
+    const call = yield* Call;
+    const voice = String(input.type ?? '') === '2000';
+    const data = voice
+      ? {
+          keyword: input.keywords,
+          scene: 'normal',
+          limit: input.limit || 30,
+          offset: input.offset || 0,
+        }
+      : {
+          s: input.keywords,
+          type: input.type || 1,
+          limit: input.limit || 30,
+          offset: input.offset || 0,
+        };
+    return toModuleResponse(
+      yield* request({
+        target: voice ? '/api/search/voice/get' : '/api/search/get',
+        protocol: call.config.crypto || (APP_CONF.encrypt ? 'eapi' : 'api'),
+        method: 'POST',
+        headers: {},
+        body: JSON.stringify(data),
+        response: 'json',
+        semantic: 'read',
+      }),
+    );
+  });
+
+export default search;

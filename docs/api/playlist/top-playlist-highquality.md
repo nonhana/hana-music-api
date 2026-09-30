@@ -22,7 +22,7 @@ description: '调用此接口，可获取精品歌单'
 | 参数     | 类型               | 必填 | 默认值 | 说明                                                                                                                           |
 | -------- | ------------------ | :--: | ------ | ------------------------------------------------------------------------------------------------------------------------------ |
 | `cat`    | string[] \| string |  —   | 为     | tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为<br>"全部",可从精品歌单标签列表接口获取(`/playlist/highquality/tags`) |
-| `limit`  | number \| string   |  —   | 50     | 取出歌单数量，默认为 50                                                                                                       |
+| `limit`  | number \| string   |  —   | 50     | 取出歌单数量，默认为 50                                                                                                        |
 | `before` | number \| string   |  —   | -      | 分页参数,取上一页最后一个歌单的 `updateTime` 获取下一页数据                                                                    |
 
 ## HTTP 示例
@@ -34,14 +34,14 @@ GET /top/playlist/highquality?before=1503639064232&limit=3
 ## 编程式调用
 
 ```ts
-import { topPlaylistHighquality } from 'hana-music-api'
+import { topPlaylistHighquality } from 'hana-music-api';
 
 const result = await topPlaylistHighquality({
   before: '1503639064232',
   limit: '3',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -32,13 +32,13 @@ GET /activate/init/profile?nickname=testUser2019
 ## 编程式调用
 
 ```ts
-import { activateInitProfile } from 'hana-music-api'
+import { activateInitProfile } from 'hana-music-api';
 
 const result = await activateInitProfile({
   nickname: 'testUser2019',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

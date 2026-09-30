@@ -1,23 +1,28 @@
-import type { Context, Hono } from 'hono'
+import type { Context, Hono } from 'hono';
 
+import { runCall } from '../core/call.ts';
+import type { createServiceLayer } from '../core/call.ts';
+import { getRuntimeState } from '../core/runtime.ts';
+import { SERVICE_VERSION } from '../core/service-metadata.ts';
+import { cookieToJson } from '../core/utils.ts';
 import type {
   CreateRequestOptions,
   CreateServerOptions,
-  ModuleDefinition,
   ModuleQuery,
-  ModuleRequest,
   NcmApiResponse,
-} from '../types/index.ts'
+  RequestCapability,
+} from '../types/index.ts';
+import {
+  type AdmissionController,
+  admissionMiddleware,
+  resolveAdmissionIdentity,
+} from './admission.ts';
+import { appendResponseCookies, parseRequestCookies } from './cookies.ts';
+import { validateHttpInput } from './execution-input.ts';
+import type { LoadedModuleDefinition } from './module-loader.ts';
+import { parseRequestBody, RequestBodyError } from './parse-body.ts';
 
-import { MemoryResponseCache } from '../core/cache.ts'
-import { createRequest } from '../core/request.ts'
-import { getRuntimeState } from '../core/runtime.ts'
-import { SERVICE_VERSION } from '../core/service-metadata.ts'
-import { cookieToJson, stableStringify } from '../core/utils.ts'
-import { appendResponseCookies, parseRequestCookies } from './cookies.ts'
-import { parseRequestBody } from './parse-body.ts'
-
-const DEFAULT_SERVICE_NAME = 'hana-music-api'
+const DEFAULT_SERVICE_NAME = 'hana-music-api';
 const WELCOME_PAGE_STYLE = `
   :root {
     color-scheme: light;
@@ -155,19 +160,24 @@ const WELCOME_PAGE_STYLE = `
       width: 100%;
     }
   }
-`
+`;
 
 export interface RegisteredRouteContext {
-  readonly cache: MemoryResponseCache | null
-  readonly requestHandler: ModuleRequest
+  readonly modules: ReturnType<typeof createServiceLayer>;
+  readonly admission: AdmissionController;
+  readonly serverOptions: CreateServerOptions;
+  readonly requestHandler?: RequestCapability;
 }
 
 /**
  * 注册基础元信息路由。
  */
-export function registerBaseRoutes(app: Hono, options: CreateServerOptions = {}): void {
-  const serviceName = options.serviceName ?? DEFAULT_SERVICE_NAME
-  const serviceVersion = options.serviceVersion ?? SERVICE_VERSION
+export const registerBaseRoutes = (
+  app: Hono,
+  options: CreateServerOptions = {},
+): void => {
+  const serviceName = options.serviceName ?? DEFAULT_SERVICE_NAME;
+  const serviceVersion = options.serviceVersion ?? SERVICE_VERSION;
 
   app.get('/', (context) => {
     return context.html(
@@ -176,25 +186,25 @@ export function registerBaseRoutes(app: Hono, options: CreateServerOptions = {})
         healthPath: '/health',
         name: serviceName,
       }),
-    )
-  })
+    );
+  });
 
   app.get('/health', (context) => {
     return context.json({
       name: serviceName,
       ok: true,
       version: serviceVersion,
-    })
-  })
-}
+    });
+  });
+};
 
 interface WelcomePageOptions {
-  readonly docsPath: string
-  readonly healthPath: string
-  readonly name: string
+  readonly docsPath: string;
+  readonly healthPath: string;
+  readonly name: string;
 }
 
-function createWelcomePage(options: WelcomePageOptions): string {
+const createWelcomePage = (options: WelcomePageOptions): string => {
   return `<!DOCTYPE html>
 <html lang="zh-CN">
   <head>
@@ -223,8 +233,8 @@ function createWelcomePage(options: WelcomePageOptions): string {
       </section>
     </main>
   </body>
-</html>`
-}
+</html>`;
+};
 
 /**
  * 注册模块路由。
@@ -233,91 +243,86 @@ function createWelcomePage(options: WelcomePageOptions): string {
  * 2. query/body 里的 cookie 字段如果存在，会覆盖请求头 cookie；
  * 3. response cookie 会在 HTTPS 请求下自动补上 SameSite=None; Secure。
  */
-export function registerModuleRoutes(
+export const registerModuleRoutes = (
   app: Hono,
-  moduleDefinitions: ModuleDefinition[],
+  moduleDefinitions: Array<LoadedModuleDefinition>,
   options: RegisteredRouteContext,
-): void {
+): void => {
   for (const moduleDefinition of moduleDefinitions) {
-    app.all(moduleDefinition.route, async (context) => {
-      const query = await buildModuleQuery(context)
-      // 根据一次请求的 method、route、query 生成一个唯一的缓存 key
-      const cacheKey = options.cache
-        ? createReqCacheKey(context.req.method, moduleDefinition.route, query)
-        : null
-      // 根据缓存 key 从缓存中获取缓存数据
-      const cached = cacheKey ? (options.cache?.get(cacheKey) ?? null) : null
-
-      if (cached) {
-        return toResponse(context, cached, query)
-      }
-
-      try {
-        const moduleResponse = await moduleDefinition.module(
-          query,
-          bindRequestHandlerToContext(context, options.requestHandler),
-        )
-
-        if (cacheKey && moduleResponse.status === 200) {
-          options.cache?.set(cacheKey, moduleResponse)
+    app.all(
+      moduleDefinition.route,
+      admissionMiddleware(
+        options.admission,
+        options.serverOptions,
+        moduleDefinition.identifier,
+      ),
+      async (context) => {
+        let query: ModuleQuery = {};
+        try {
+          query = await buildModuleQuery(context, options.serverOptions);
+          const moduleResponse = await runCall(
+            {
+              identifier: moduleDefinition.identifier,
+              input: query,
+              signal: context.req.raw.signal,
+              config: {
+                cookie: query.cookie as CreateRequestOptions['cookie'],
+                ip: resolveClientIp(context, options.serverOptions),
+                domain: '',
+                proxy: undefined,
+                fetcher: undefined,
+                headers: undefined,
+                state: undefined,
+                retry: undefined,
+              },
+            },
+            options.modules,
+            moduleDefinition,
+            options.requestHandler,
+          );
+          return toResponse(context, moduleResponse, query);
+        } catch (error) {
+          return toResponse(context, normalizeErrorResponse(error), query);
         }
-
-        return toResponse(context, moduleResponse, query)
-      } catch (error) {
-        const moduleResponse = normalizeErrorResponse(error)
-        console.error('[ERR]', context.req.url, {
-          body: moduleResponse.body,
-          status: moduleResponse.status,
-        })
-
-        return toResponse(context, moduleResponse, query)
-      }
-    })
+      },
+    );
   }
-}
+};
 
 // 将 cookie、query、body 合并成一个纯粹的 JS 对象，不依赖框架细节
-async function buildModuleQuery(context: Context): Promise<ModuleQuery> {
-  const requestCookies = parseRequestCookies(context.req.header('cookie'))
-  const query = Object.fromEntries(new URL(context.req.url).searchParams.entries())
-  const body = await parseRequestBody(context)
+const buildModuleQuery = async (
+  context: Context,
+  options: CreateServerOptions = {},
+): Promise<ModuleQuery> => {
+  const requestCookies = parseRequestCookies(context.req.header('cookie'));
+  const query = Object.fromEntries(
+    new URL(context.req.url).searchParams.entries(),
+  );
+  validateHttpInput(query);
+  const body = await parseRequestBody(context, options);
+  validateHttpInput(body);
 
-  normalizeCookieField(query)
-  normalizeCookieField(body)
+  normalizeCookieField(query);
+  normalizeCookieField(body);
 
   return {
     cookie: requestCookies,
     ...query,
     ...body,
-  }
-}
+  };
+};
 
-function normalizeCookieField(query: ModuleQuery): void {
+const normalizeCookieField = (query: ModuleQuery): void => {
   if (typeof query.cookie === 'string') {
-    query.cookie = cookieToJson(safeDecodeURIComponent(query.cookie))
+    query.cookie = cookieToJson(safeDecodeURIComponent(query.cookie));
   }
-}
+};
 
-// 专门处理 ip 获取问题
-export function bindRequestHandlerToContext(
-  context: Context,
-  requestHandler: ModuleRequest,
-): ModuleRequest {
-  return (uri, data, options = {}) => {
-    const requestOptions: CreateRequestOptions = {
-      ...options,
-      ip: options.ip ?? resolveClientIp(context),
-    }
-
-    return requestHandler(uri, data, requestOptions)
-  }
-}
-
-function toResponse(
+const toResponse = (
   context: Context,
   moduleResponse: NcmApiResponse,
   query: ModuleQuery,
-): Response {
+): Response => {
   if (moduleResponse.body === undefined) {
     return createJsonResponse(
       {
@@ -327,11 +332,25 @@ function toResponse(
       },
       404,
       context.res.headers,
-    )
+    );
   }
 
   if (shouldWriteCookies(query) && moduleResponse.cookie.length > 0) {
-    appendResponseCookies(context.res.headers, moduleResponse.cookie, isHttpsRequest(context))
+    appendResponseCookies(
+      context.res.headers,
+      moduleResponse.cookie,
+      isHttpsRequest(context),
+    );
+  }
+  if (
+    typeof moduleResponse.body === 'object' &&
+    moduleResponse.body !== null &&
+    'retryAfter' in moduleResponse.body
+  ) {
+    context.res.headers.set(
+      'Retry-After',
+      String(moduleResponse.body.retryAfter),
+    );
   }
 
   if (
@@ -341,15 +360,27 @@ function toResponse(
     'code' in moduleResponse.body &&
     moduleResponse.body.code === '301'
   ) {
-    ;(moduleResponse.body as Record<string, unknown>).msg = '需要登录'
+    (moduleResponse.body as Record<string, unknown>).msg = '需要登录';
   }
 
-  return createJsonResponse(moduleResponse.body, moduleResponse.status, context.res.headers)
-}
+  return createJsonResponse(
+    moduleResponse.body,
+    moduleResponse.status,
+    context.res.headers,
+  );
+};
 
-function normalizeErrorResponse(error: unknown): NcmApiResponse {
+const normalizeErrorResponse = (error: unknown): NcmApiResponse => {
   if (isNcmApiResponse(error)) {
-    return error
+    return error;
+  }
+
+  if (error instanceof RequestBodyError) {
+    return {
+      body: { code: error.status, msg: error.message },
+      cookie: [],
+      status: error.status,
+    };
   }
 
   return {
@@ -359,83 +390,80 @@ function normalizeErrorResponse(error: unknown): NcmApiResponse {
     },
     cookie: [],
     status: 500,
-  }
-}
+  };
+};
 
-function isNcmApiResponse(value: unknown): value is NcmApiResponse {
+const isNcmApiResponse = (value: unknown): value is NcmApiResponse => {
   return (
     typeof value === 'object' &&
     value !== null &&
     'status' in value &&
     'body' in value &&
     'cookie' in value
-  )
-}
+  );
+};
 
-function shouldWriteCookies(query: ModuleQuery): boolean {
+const shouldWriteCookies = (query: ModuleQuery): boolean => {
   return (
     query.noCookie !== true &&
     query.noCookie !== 1 &&
     query.noCookie !== 'true' &&
     query.noCookie !== '1'
-  )
-}
+  );
+};
 
-function isHttpsRequest(context: Context): boolean {
-  const forwardedProto = context.req.header('x-forwarded-proto')
+const isHttpsRequest = (context: Context): boolean => {
+  const forwardedProto = context.req.header('x-forwarded-proto');
   if (forwardedProto?.toLowerCase() === 'https') {
-    return true
+    return true;
   }
 
-  return new URL(context.req.url).protocol === 'https:'
-}
+  return new URL(context.req.url).protocol === 'https:';
+};
 
 // 从请求头中提取客户端 IP
-function resolveClientIp(context: Context): string {
-  const forwardedFor = context.req.header('x-forwarded-for')
-  const realIp = context.req.header('x-real-ip')
-  const candidate = forwardedFor?.split(',')[0]?.trim() || realIp || '::1'
+export const resolveClientIp = (
+  context: Context,
+  options: CreateServerOptions,
+): string => {
+  const candidate = resolveAdmissionIdentity(context, options);
 
   // 1. 如果客户端 IP 以 "::ffff:" 开头，则去掉前缀（将 IPv6 地址转换为 IPv4 地址）
   if (candidate.startsWith('::ffff:')) {
-    return candidate.slice(7)
+    return candidate.slice(7);
   }
 
   // 2. 如果客户端 IP 是 "::1"，则使用备用 IP（通常是本地回环地址）
-  if (candidate === '::1') {
-    return createRequestStateFallbackIp()
+  if (candidate === '::1' || candidate === 'unknown') {
+    return createRequestStateFallbackIp();
   }
 
-  return candidate
-}
+  return candidate;
+};
 
-function createRequestStateFallbackIp(): string {
-  return getRuntimeState().cnIp
-}
+const createRequestStateFallbackIp = (): string => {
+  return getRuntimeState().cnIp;
+};
 
-function createReqCacheKey(method: string, route: string, query: ModuleQuery): string {
-  return `${method.toUpperCase()}:${route}:${stableStringify(query)}`
-}
-
-function safeDecodeURIComponent(value: string): string {
+const safeDecodeURIComponent = (value: string): string => {
   try {
-    return decodeURIComponent(value)
+    return decodeURIComponent(value);
   } catch {
-    return value
+    return value;
   }
-}
-
-export function createDefaultRequestHandler(): ModuleRequest {
-  return createRequest as ModuleRequest
-}
+};
 
 // 创建原生 Response 对象，设置 Content-Type 为 application/json; charset=utf-8
-function createJsonResponse(body: unknown, status: number, headers: Headers): Response {
-  const responseHeaders = new Headers(headers)
-  responseHeaders.set('Content-Type', 'application/json; charset=utf-8')
+const createJsonResponse = (
+  body: unknown,
+  status: number,
+  headers: Headers,
+): Response => {
+  const responseHeaders = new Headers(headers);
+  responseHeaders.set('Content-Type', 'application/json; charset=utf-8');
 
   return new Response(JSON.stringify(body), {
     headers: responseHeaders,
     status,
-  })
-}
+  });
+};

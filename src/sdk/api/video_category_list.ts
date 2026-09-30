@@ -1,1 +1,1 @@
-export { videoCategoryList } from '../generated/client.generated.ts'
+export { videoCategoryList } from '../generated/client.generated.ts';

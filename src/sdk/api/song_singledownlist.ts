@@ -1,1 +1,1 @@
-export { songSingledownlist } from '../generated/client.generated.ts'
+export { songSingledownlist } from '../generated/client.generated.ts';

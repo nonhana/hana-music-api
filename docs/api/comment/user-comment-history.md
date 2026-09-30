@@ -22,7 +22,7 @@ description: '登录后调用此接口，传入用户 id, 可以获取用户历�
 | 参数    | 类型             | 必填 | 默认值 | 说明                                      |
 | ------- | ---------------- | :--: | ------ | ----------------------------------------- |
 | `uid`   | string           |  ✅  | -      | 用户 id                                   |
-| `limit` | number \| string |  —   | 10     | 返回数量，默认为 10                      |
+| `limit` | number \| string |  —   | 10     | 返回数量，默认为 10                       |
 | `time`  | number \| string |  —   | 0      | 上一条数据的 time,第一页不需要传,默认为 0 |
 
 ## HTTP 示例
@@ -35,13 +35,13 @@ GET /user/comment/history?uid=32953014&limit=1&time=1616217577564
 ## 编程式调用
 
 ```ts
-import { userCommentHistory } from 'hana-music-api'
+import { userCommentHistory } from 'hana-music-api';
 
 const result = await userCommentHistory({
   uid: '32953014',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

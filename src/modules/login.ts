@@ -1,53 +1,101 @@
-import { createHash } from 'node:crypto'
+import { createHash } from 'node:crypto';
 
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LoginQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import { renameAvatarField } from './_avatar-field.ts';
+import { decodeModuleInput as decodeInput } from './_input.ts';
 
-const legacyModule = async (query: LoginQuery, request: ModuleRequest) => {
-  const data = {
-    type: '0',
-    https: 'true',
-    username: query.email,
-    password: query.md5_password || createHash('md5').update(String(query.password)).digest('hex'),
-    rememberLogin: 'true',
-  }
-  let result = await request(`/api/w/login`, data, createOption(query))
-  if (result.body.code === 502) {
-    return {
-      status: 200,
-      body: {
-        msg: '账号或密码错误',
-        code: 502,
-        message: '账号或密码错误',
-      },
+type PasswordCredential =
+  | {
+      md5_password?: string;
+      password: string;
     }
-  }
-  if (result.body.code === 200) {
-    result = {
-      status: 200,
-      body: {
-        ...JSON.parse(JSON.stringify(result.body).replace(/avatarImgId_str/g, 'avatarImgIdStr')),
-        cookie: result.cookie.join(';'),
-      },
-      cookie: result.cookie,
-    }
-  }
-  return result
-}
+  | {
+      md5_password: string;
+      password?: string;
+    };
 
-/**
- * 邮箱登录
- */
-export default async function migratedLogin(
-  query: LoginQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export type ModuleInput = PasswordCredential & {
+  email: string;
+};
+
+const inputSchema = Schema.Union([
+  Schema.Struct({
+    md5_password: Schema.optional(Schema.String),
+    password: Schema.String,
+    email: Schema.String,
+  }),
+  Schema.Struct({
+    md5_password: Schema.String,
+    password: Schema.optional(Schema.String),
+    email: Schema.String,
+  }),
+]);
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const login: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      type: '0',
+      https: 'true',
+      username: query.email,
+      password:
+        query.md5_password ||
+        createHash('md5').update(String(query.password)).digest('hex'),
+      rememberLogin: 'true',
+    };
+    const result = yield* request(
+      buildApiRequestIntent('/api/w/login', data, createOption(query)),
+    );
+    const body = renameAvatarField(result.body);
+    if (
+      body === null ||
+      typeof body !== 'object' ||
+      Array.isArray(body) ||
+      typeof body.code !== 'number'
+    ) {
+      return yield* Effect.fail(
+        new UnexpectedUpstreamShape({
+          module: 'login',
+          path: 'body.code',
+          expected: 'number',
+          actual: typeof body,
+        }),
+      );
+    }
+    if (body.code === 502) {
+      return toModuleResponse({
+        ...result,
+        status: 200,
+        cookie: [],
+        body: { msg: '账号或密码错误', code: 502, message: '账号或密码错误' },
+      });
+    }
+    if (body.code !== 200) {
+      return toModuleResponse(result);
+    }
+    if (!result.cookie.some((cookie) => /^MUSIC_U=[^;]+/.test(cookie))) {
+      return yield* Effect.fail(
+        new UnexpectedUpstreamShape({
+          module: 'login',
+          path: 'cookie.MUSIC_U',
+          expected: 'nonempty credential',
+          actual: 'missing',
+        }),
+      );
+    }
+    return toModuleResponse({
+      ...result,
+      status: 200,
+      body: { ...body, cookie: result.cookie.join(';') },
+    });
+  });
+
+export default login;

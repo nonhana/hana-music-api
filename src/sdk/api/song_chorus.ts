@@ -1,1 +1,1 @@
-export { songChorus } from '../generated/client.generated.ts'
+export { songChorus } from '../generated/client.generated.ts';

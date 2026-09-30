@@ -1,0 +1,23 @@
+name: local upstream soak
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '20 5 * * *'
+
+jobs:
+  soak:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: bun install --frozen-lockfile
+      - run: bun run test:load:soak
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: local-load-reports
+          path: _notes/load-reports/*.json

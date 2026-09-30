@@ -19,9 +19,9 @@ description: '调用此接口,可获取热门电台'
 
 ## 请求参数
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                      |
-| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------------- |
-| `limit`  | number \| string |  —   | 30     | 返回数量，默认为 30                                                      |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                    |
+| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------- |
+| `limit`  | number \| string |  —   | 30     | 返回数量，默认为 30                                                     |
 | `offset` | number \| string |  —   | 0      | 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0 |
 
 ## HTTP 示例
@@ -33,11 +33,11 @@ GET /dj/hot
 ## 编程式调用
 
 ```ts
-import { djHot } from 'hana-music-api'
+import { djHot } from 'hana-music-api';
 
-const result = await djHot()
+const result = await djHot();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,1 +1,1 @@
-export { voiceLyric } from '../generated/client.generated.ts'
+export { voiceLyric } from '../generated/client.generated.ts';

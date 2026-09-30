@@ -1,1 +1,1 @@
-export { logout } from '../generated/client.generated.ts'
+export { logout } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { djDifmAllStyleChannel } from '../generated/client.generated.ts'
+export { djDifmAllStyleChannel } from '../generated/client.generated.ts';

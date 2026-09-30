@@ -1,30 +1,36 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    categoryId: query.categoryId || '0',
-    regionId: query.regionId || '0',
-    limit: query.limit || '20',
-    lastId: query.lastId || '0',
-    score: query.score || '-1',
-  }
-  return request(`/api/voice/broadcast/channel/list`, data, createOption(query))
-}
+const broadcastChannelList: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      categoryId: query.categoryId || '0',
+      regionId: query.regionId || '0',
+      limit: query.limit || '20',
+      lastId: query.lastId || '0',
+      score: query.score || '-1',
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/voice/broadcast/channel/list`,
+          data,
+          createOption(query),
+        ),
+      ),
+    );
+  });
 
 /**
  * 广播电台 - 全部电台
  */
-export default async function migratedBroadcastChannelList(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default broadcastChannelList;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

@@ -1,7 +1,7 @@
 # hana-music-api
 
 A TypeScript rewrite/evolution of `netease-cloud-music-api` / `UnblockNeteaseMusic` legacy.
-Runs as an HTTP API server, **not** an npm library (`"private": true`).
+Ships a Promise-based Node.js SDK (`"private": false`) and a Bun/Hono HTTP server.
 
 ## Commands
 
@@ -18,7 +18,8 @@ Runs as an HTTP API server, **not** an npm library (`"private": true`).
 
 - Runtime: **Bun** (dev & prod)
 - HTTP: **Hono** (routing, middleware, request/response)
-- Lang: **TypeScript 6** (strict: `noUncheckedIndexedAccess`, `noImplicitOverride`; ESNext target)
+- Lang: **TypeScript 7** (strict: `noUncheckedIndexedAccess`, `noImplicitOverride`; ESNext target)
+- Core: **Effect 4.0.0-rc.117**, internal only; public SDK contracts remain Promise-based
 - Tooling: **oxlint** + **oxfmt** (no ESLint / Prettier)
 - Testing: **bun:test**
 
@@ -38,7 +39,7 @@ tests/            — Crypto, request, server, module integration
 ## Architecture Constraints
 
 1. **Hono is the HTTP layer** — routing, middleware, cookie/header coordination. Do **not** let Hono leak into `src/core/`; core must stay testable without Hono context.
-2. **Module pattern** — each file in `src/modules/` exports a default async `(query, request) => NcmApiResponse` using `normalizeLegacyModuleResponse`. Legacy cookie behavior (header Cookie → query/body override → HTTPS SameSite=None;Secure) is preserved in `src/server/routes.ts`.
+2. **Module pattern** — each endpoint in `src/modules/` declares a local `ModuleInput`, exports `decodeModuleInput`, and exports a default `ModuleEffect<ModuleInput>` using `RequestCapability`. Responses use dynamic `ModuleResponse` bodies. Legacy cookie behavior (header Cookie → query/body override → HTTPS SameSite=None;Secure) is preserved in `src/server/routes.ts`.
 3. **Rewrite priorities** — (1) crypto & request core, (2) Hono server layer, (3) high-frequency modules, (4) rest. **Behavior alignment with legacy is more important than abstraction elegance.**
 
 ## Boundaries
@@ -50,8 +51,9 @@ tests/            — Crypto, request, server, module integration
 
 ## Done criteria
 
-- `bun run verify` passes (`types:modules:check && test && typecheck && lint && spell && fmt:check && docs:build`)
-- Changed files committed with conventional commit messages
+- `bun run verify`, `bun run verify:sdk`, and `bun run build:check` pass. Run these serially because packaging shares output paths.
+- For request/traffic changes, run `bun run test:load:smoke`; final traffic acceptance also requires the 10-minute `bun run test:load:soak` against loopback only.
+- Commit only when explicitly authorized by the user, using conventional commit messages.
 - Crypto/request tests pass (highest risk area)
 
 ## Simplicity Rules

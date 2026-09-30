@@ -34,13 +34,13 @@ GET /mlog/to/video?id=a1qOVPTWKS1ZrK8
 ## 编程式调用
 
 ```ts
-import { mlogToVideo } from 'hana-music-api'
+import { mlogToVideo } from 'hana-music-api';
 
 const result = await mlogToVideo({
   id: 'a1qOVPTWKS1ZrK8',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

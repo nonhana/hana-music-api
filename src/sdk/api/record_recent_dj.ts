@@ -1,1 +1,1 @@
-export { recordRecentDj } from '../generated/client.generated.ts'
+export { recordRecentDj } from '../generated/client.generated.ts';

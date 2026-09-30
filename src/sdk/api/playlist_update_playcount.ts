@@ -1,1 +1,1 @@
-export { playlistUpdatePlaycount } from '../generated/client.generated.ts'
+export { playlistUpdatePlaycount } from '../generated/client.generated.ts';

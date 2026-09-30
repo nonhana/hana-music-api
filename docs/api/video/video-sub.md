@@ -33,14 +33,14 @@ GET /video/sub
 ## 编程式调用
 
 ```ts
-import { videoSub } from 'hana-music-api'
+import { videoSub } from 'hana-music-api';
 
 const result = await videoSub({
   id: '123456',
   t: 'your-t',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

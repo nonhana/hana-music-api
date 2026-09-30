@@ -1,10 +1,10 @@
-import { readdir } from 'node:fs/promises'
-import { join, relative, resolve } from 'node:path'
+import { readdir } from 'node:fs/promises';
+import { join, relative, resolve } from 'node:path';
 
 export interface DiscoveredModuleFile {
-  readonly filePath: string
-  readonly identifier: string
-  readonly route: string
+  readonly filePath: string;
+  readonly identifier: string;
+  readonly route: string;
 }
 
 const DEFAULT_SPECIAL_ROUTES: Readonly<Record<string, string>> = {
@@ -14,57 +14,71 @@ const DEFAULT_SPECIAL_ROUTES: Readonly<Record<string, string>> = {
   fm_trash: '/fm_trash',
   'personal-fm': '/personal_fm',
   personal_fm: '/personal_fm',
-}
+};
 
-export async function discoverModuleFiles(
+export const discoverModuleFiles = async (
   modulesDirectory: string,
-): Promise<DiscoveredModuleFile[]> {
-  const files = await collectModuleFiles(modulesDirectory)
+): Promise<Array<DiscoveredModuleFile>> => {
+  const files = await collectModuleFiles(modulesDirectory);
   return files.toReversed().map((filePath) => {
-    const relativePath = relative(modulesDirectory, filePath)
-    const identifier = relativePath.replace(/\.[^.]+$/u, '').replaceAll('\\', '/')
+    const relativePath = relative(modulesDirectory, filePath);
+    const identifier = relativePath
+      .replace(/\.[^.]+$/u, '')
+      .replaceAll('\\', '/');
 
     return {
       filePath,
       identifier,
       route: parseModuleRoute(identifier),
-    }
-  })
-}
+    };
+  });
+};
 
-export function parseModuleRoute(identifier: string): string {
-  const normalized = identifier.replaceAll('\\', '/')
+export const parseModuleRoute = (identifier: string): string => {
+  const normalized = identifier.replaceAll('\\', '/');
   if (normalized in DEFAULT_SPECIAL_ROUTES) {
-    return DEFAULT_SPECIAL_ROUTES[normalized]!
+    return DEFAULT_SPECIAL_ROUTES[normalized]!;
   }
 
   const route = normalized
     .split('/')
     .flatMap((segment) => segment.split(/[_-]/u))
     .filter(Boolean)
-    .join('/')
+    .join('/');
 
-  return `/${route}`
-}
+  return `/${route}`;
+};
 
-async function collectModuleFiles(directory: string): Promise<string[]> {
-  let entries
+const collectModuleFiles = async (
+  directory: string,
+): Promise<Array<string>> => {
+  let entries;
   try {
     entries = await readdir(resolve(directory), {
       withFileTypes: true,
-    })
+    });
   } catch (error) {
     if (hasErrorCode(error, 'ENOENT')) {
-      return []
+      return [];
     }
 
-    throw error
+    throw error;
   }
   const files = await Promise.all(
     entries.map(async (entry) => {
-      const filePath = join(directory, entry.name)
+      const filePath = join(directory, entry.name);
       if (entry.isDirectory()) {
-        return collectModuleFiles(filePath)
+        if (
+          entries.some(
+            (sibling) =>
+              sibling.isFile() &&
+              (sibling.name === `${entry.name}.ts` ||
+                sibling.name === `${entry.name}.tsx`),
+          )
+        ) {
+          return [];
+        }
+        return collectModuleFiles(filePath);
       }
 
       if (
@@ -73,16 +87,24 @@ async function collectModuleFiles(directory: string): Promise<string[]> {
         !entry.name.endsWith('.d.ts') &&
         !entry.name.startsWith('_')
       ) {
-        return [filePath]
+        return [filePath];
       }
 
-      return []
+      return [];
     }),
-  )
+  );
 
-  return files.flat()
-}
+  return files.flat();
+};
 
-function hasErrorCode(value: unknown, code: string): value is NodeJS.ErrnoException {
-  return typeof value === 'object' && value !== null && 'code' in value && value.code === code
-}
+const hasErrorCode = (
+  value: unknown,
+  code: string,
+): value is NodeJS.ErrnoException => {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'code' in value &&
+    value.code === code
+  );
+};

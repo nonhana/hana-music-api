@@ -1,1 +1,1 @@
-export { hotTopic } from '../generated/client.generated.ts'
+export { hotTopic } from '../generated/client.generated.ts';

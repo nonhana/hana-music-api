@@ -61,28 +61,28 @@
 ### SDK 调用实践
 
 ```ts
-import { createHanaMusicApi } from 'hana-music-api'
+import { createHanaMusicApi } from 'hana-music-api';
 
 const hana = createHanaMusicApi({
   cookie: 'MUSIC_U=your-cookie',
-})
+});
 
-const detail = await hana.userAccount({})
+const detail = await hana.userAccount({});
 
-console.log(detail.body)
+console.log(detail.body);
 ```
 
 或者单函数调用：
 
 ```ts
-import { userAccount } from 'hana-music-api'
+import { userAccount } from 'hana-music-api';
 
 const detail = await userAccount(
   {},
   {
     cookie: 'MUSIC_U=your-cookie',
   },
-)
+);
 ```
 
 ## 注意事项

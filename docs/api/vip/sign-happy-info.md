@@ -30,11 +30,11 @@ GET /sign/happy/info
 ## 编程式调用
 
 ```ts
-import { signHappyInfo } from 'hana-music-api'
+import { signHappyInfo } from 'hana-music-api';
 
-const result = await signHappyInfo()
+const result = await signHappyInfo();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,1 +1,1 @@
-export { djRecommend } from '../generated/client.generated.ts'
+export { djRecommend } from '../generated/client.generated.ts';

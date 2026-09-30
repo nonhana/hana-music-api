@@ -1,1 +1,1 @@
-export { djCategoryExcludehot } from '../generated/client.generated.ts'
+export { djCategoryExcludehot } from '../generated/client.generated.ts';

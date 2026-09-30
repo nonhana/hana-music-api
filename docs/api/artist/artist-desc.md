@@ -32,13 +32,13 @@ GET /artist/desc?id=6452
 ## 编程式调用
 
 ```ts
-import { artistDesc } from 'hana-music-api'
+import { artistDesc } from 'hana-music-api';
 
 const result = await artistDesc({
   id: '6452',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

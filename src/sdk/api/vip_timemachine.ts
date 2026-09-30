@@ -1,1 +1,1 @@
-export { vipTimemachine } from '../generated/client.generated.ts'
+export { vipTimemachine } from '../generated/client.generated.ts';

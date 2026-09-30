@@ -1,1 +1,1 @@
-export { verifyQrcodestatus } from '../generated/client.generated.ts'
+export { verifyQrcodestatus } from '../generated/client.generated.ts';

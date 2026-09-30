@@ -19,11 +19,11 @@ description: '电台 - 类别热门电台 接口文档。'
 
 ## 请求参数
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                      |
-| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------------- |
-| `limit`  | number \| string |  —   | 30     | 返回数量，默认为 30                                                      |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                    |
+| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------- |
+| `limit`  | number \| string |  —   | 30     | 返回数量，默认为 30                                                     |
 | `offset` | number \| string |  —   | 0      | 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0 |
-| `cateId` | string           |  —   | -      | 类别 id,可通过 `/dj/category/recommend` 接口获取                          |
+| `cateId` | string           |  —   | -      | 类别 id,可通过 `/dj/category/recommend` 接口获取                        |
 
 ## HTTP 示例
 
@@ -35,13 +35,13 @@ GET /dj/radio/hot?cateId=10002
 ## 编程式调用
 
 ```ts
-import { djRadioHot } from 'hana-music-api'
+import { djRadioHot } from 'hana-music-api';
 
 const result = await djRadioHot({
   cateId: '2001',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

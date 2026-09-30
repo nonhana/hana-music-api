@@ -1,1 +1,1 @@
-export { broadcastCategoryRegionGet } from '../generated/client.generated.ts'
+export { broadcastCategoryRegionGet } from '../generated/client.generated.ts';

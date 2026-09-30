@@ -1,27 +1,39 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { InvalidModuleInput } from '../core/errors.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const id = query.id.replace(/\s/g, '').split(',')
-  const data = {
-    songIds: id,
-  }
-  return request(`/api/v1/cloud/get/byids`, data, createOption(query, 'weapi'))
-}
+const userCloudDetail: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    if (typeof query.id !== 'string') {
+      return yield* Effect.fail(
+        new InvalidModuleInput({ message: 'id must be a string' }),
+      );
+    }
+    const id = query.id.replace(/\s/g, '').split(',');
+    const data = {
+      songIds: id,
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/v1/cloud/get/byids`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 云盘数据详情
  */
-export default async function migratedUserCloudDetail(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default userCloudDetail;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

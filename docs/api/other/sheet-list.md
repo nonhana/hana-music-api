@@ -32,13 +32,13 @@ GET /sheet/list?id=1815684465
 ## 编程式调用
 
 ```ts
-import { sheetList } from 'hana-music-api'
+import { sheetList } from 'hana-music-api';
 
 const result = await sheetList({
   id: '1815684465',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

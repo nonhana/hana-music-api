@@ -1,1 +1,1 @@
-export { playlistTrackDelete } from '../generated/client.generated.ts'
+export { playlistTrackDelete } from '../generated/client.generated.ts';

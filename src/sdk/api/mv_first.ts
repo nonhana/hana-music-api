@@ -1,1 +1,1 @@
-export { mvFirst } from '../generated/client.generated.ts'
+export { mvFirst } from '../generated/client.generated.ts';

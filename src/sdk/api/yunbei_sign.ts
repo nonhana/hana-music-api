@@ -1,1 +1,1 @@
-export { yunbeiSign } from '../generated/client.generated.ts'
+export { yunbeiSign } from '../generated/client.generated.ts';

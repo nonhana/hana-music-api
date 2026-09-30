@@ -1,1 +1,1 @@
-export { recommendResource } from '../generated/client.generated.ts'
+export { recommendResource } from '../generated/client.generated.ts';

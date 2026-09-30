@@ -1,6 +1,11 @@
-import { randomBytes } from 'node:crypto'
+import { randomBytes } from 'node:crypto';
 
-import type { BooleanLike, CookieRecord, CookieValue } from '../types/index.ts'
+import type {
+  BooleanLike,
+  CookieRecord,
+  CookieValue,
+  CreateRequestOptions,
+} from '../types/index.ts';
 
 const CHINA_IP_PREFIXES = [
   '116.25',
@@ -23,138 +28,160 @@ const CHINA_IP_PREFIXES = [
   '116.92',
   '116.93',
   '116.94',
-] as const
+] as const;
 
-const DEVICE_ID_CHARS = '0123456789ABCDEF'
+const DEVICE_ID_CHARS = '0123456789ABCDEF';
 
-export function toBoolean(value: BooleanLike | undefined): '' | boolean {
+export const toBoolean = (value: BooleanLike | undefined): '' | boolean => {
   if (typeof value === 'boolean') {
-    return value
+    return value;
   }
 
   if (value === '') {
-    return value
+    return value;
   }
 
-  return value === 'true' || value === 1 || value === '1'
-}
+  return value === 'true' || value === 1 || value === '1';
+};
 
 // 将 cookie 字符串转换为 JSON 对象
 // 单个 cookie 的格式为 "key=value"，多个 cookie 之间用 ";" 分隔
-export function cookieToJson(cookie: string | undefined): CookieRecord {
+export const cookieToJson = (cookie: string | undefined): CookieRecord => {
   if (!cookie) {
-    return {}
+    return {};
   }
 
-  const result: CookieRecord = {}
+  const result: CookieRecord = {};
 
   for (const part of cookie.split(';')) {
-    const equalsIndex = part.indexOf('=')
+    const equalsIndex = part.indexOf('=');
 
     if (equalsIndex < 1 || equalsIndex >= part.length - 1) {
-      continue
+      continue;
     }
 
-    const key = part.slice(0, equalsIndex).trim()
-    const value = part.slice(equalsIndex + 1).trim()
-    result[key] = value
+    const key = part.slice(0, equalsIndex).trim();
+    const value = part.slice(equalsIndex + 1).trim();
+    result[key] = value;
   }
 
-  return result
-}
+  return result;
+};
 
-export function cookieObjToString(cookie: CookieRecord): string {
+export const cookieObjToString = (cookie: CookieRecord): string => {
   return Object.entries(cookie)
     .filter((entry): entry is [string, CookieValue] => entry[1] !== undefined)
     .map(([key, value]) => {
-      return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`
+      return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`;
     })
-    .join('; ')
-}
+    .join('; ');
+};
 
-export function getRandom(length: number): number {
-  const randomValue = Math.random()
-  const floorValue = Math.floor(randomValue * 9 + 1)
-  const powerValue = 10 ** (length - 1)
+export const resolveRequestCookie = (
+  options: Pick<CreateRequestOptions, 'cookie' | 'headers'>,
+): CookieRecord => {
+  const supplied =
+    options.cookie ??
+    Object.entries(options.headers ?? {}).find(
+      ([name]) => name.toLowerCase() === 'cookie',
+    )?.[1];
+  return typeof supplied === 'string'
+    ? cookieToJson(supplied)
+    : { ...supplied };
+};
 
-  return Math.floor((randomValue + floorValue) * powerValue)
-}
+export const getRandom = (length: number): number => {
+  const randomValue = Math.random();
+  const floorValue = Math.floor(randomValue * 9 + 1);
+  const powerValue = 10 ** (length - 1);
 
-export function generateRandomChineseIP(): string {
-  const prefix = CHINA_IP_PREFIXES[Math.floor(Math.random() * CHINA_IP_PREFIXES.length)]
+  return Math.floor((randomValue + floorValue) * powerValue);
+};
 
-  return `${prefix}.${generateIPSegment()}.${generateIPSegment()}`
-}
+export const generateRandomChineseIP = (): string => {
+  const prefix =
+    CHINA_IP_PREFIXES[Math.floor(Math.random() * CHINA_IP_PREFIXES.length)];
 
-export function generateChainId(cookie: CookieRecord | string | undefined): string {
-  const version = 'v1'
-  const randomNumber = Math.floor(Math.random() * 1e6)
-  const deviceId = getCookieValue(cookie, 'sDeviceId') || `unknown-${randomNumber}`
-  const platform = 'web'
-  const action = 'login'
-  const timestamp = Date.now()
+  return `${prefix}.${generateIPSegment()}.${generateIPSegment()}`;
+};
 
-  return `${version}_${deviceId}_${platform}_${action}_${timestamp}`
-}
+export const generateChainId = (
+  cookie: CookieRecord | string | undefined,
+): string => {
+  const version = 'v1';
+  const randomNumber = Math.floor(Math.random() * 1e6);
+  const deviceId =
+    getCookieValue(cookie, 'sDeviceId') || `unknown-${randomNumber}`;
+  const platform = 'web';
+  const action = 'login';
+  const timestamp = Date.now();
 
-export function generateDeviceId(): string {
-  const characters: string[] = []
+  return `${version}_${deviceId}_${platform}_${action}_${timestamp}`;
+};
+
+export const generateDeviceId = (): string => {
+  const characters: Array<string> = [];
 
   for (let index = 0; index < 52; index += 1) {
-    const randomIndex = Math.floor(Math.random() * DEVICE_ID_CHARS.length)
-    const character = DEVICE_ID_CHARS[randomIndex]
-    characters.push(character === undefined ? '0' : character)
+    const randomIndex = Math.floor(Math.random() * DEVICE_ID_CHARS.length);
+    const character = DEVICE_ID_CHARS[randomIndex];
+    characters.push(character === undefined ? '0' : character);
   }
 
-  return characters.join('')
-}
+  return characters.join('');
+};
 
-export function createRandomHex(byteLength: number): string {
-  return randomBytes(byteLength).toString('hex')
-}
+export const createRandomHex = (byteLength: number): string => {
+  return randomBytes(byteLength).toString('hex');
+};
 
-export function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
+export const isRecord = (value: unknown): value is Record<string, unknown> => {
+  return typeof value === 'object' && value !== null && !Array.isArray(value);
+};
 
-function generateIPSegment(): number {
-  return Math.floor(Math.random() * 255) + 1
-}
+const generateIPSegment = (): number => {
+  return Math.floor(Math.random() * 255) + 1;
+};
 
-function getCookieValue(cookie: CookieRecord | string | undefined, name: string): string {
+const getCookieValue = (
+  cookie: CookieRecord | string | undefined,
+  name: string,
+): string => {
   if (!cookie) {
-    return ''
+    return '';
   }
 
   if (isRecord(cookie)) {
-    const value = cookie[name]
-    return value === undefined ? '' : String(value)
+    const value = cookie[name];
+    return value === undefined ? '' : String(value);
   }
 
-  const parts = `; ${cookie}`.split(`; ${name}=`)
+  const parts = `; ${cookie}`.split(`; ${name}=`);
   if (parts.length !== 2) {
-    return ''
+    return '';
   }
 
-  return parts[1]?.split(';')[0] ?? ''
-}
+  return parts[1]?.split(';')[0] ?? '';
+};
 
 // 稳定序列化:对象 key 排序后输出,使得字段顺序不同也得到相同字符串。
 // 供 SDK 缓存 key 与 server 缓存 key 共用。
-export function stableStringify(value: unknown): string {
+export const stableStringify = (value: unknown): string => {
   if (Array.isArray(value)) {
-    return `[${value.map(stableStringify).join(',')}]`
+    return `[${value.map(stableStringify).join(',')}]`;
   }
 
   if (value instanceof File) {
-    return `File(${value.name}:${value.size}:${value.type})`
+    return `File(${value.name}:${value.size}:${value.type})`;
   }
 
   if (isRecord(value)) {
-    const entries = Object.entries(value).toSorted(([left], [right]) => left.localeCompare(right))
+    const entries = Object.entries(value).toSorted(([left], [right]) =>
+      left.localeCompare(right),
+    );
 
-    return `{${entries.map(([key, entryValue]) => `${key}:${stableStringify(entryValue)}`).join(',')}}`
+    return `{${entries.map(([key, entryValue]) => `${JSON.stringify(key)}:${stableStringify(entryValue)}`).join(',')}}`;
   }
 
-  return JSON.stringify(value)
-}
+  return JSON.stringify(value);
+};

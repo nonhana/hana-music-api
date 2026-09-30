@@ -33,14 +33,14 @@ GET /musician/cloudbean/obtain?id=7036416928&period=1
 ## 编程式调用
 
 ```ts
-import { musicianCloudbeanObtain } from 'hana-music-api'
+import { musicianCloudbeanObtain } from 'hana-music-api';
 
 const result = await musicianCloudbeanObtain({
   id: '7036416928',
   period: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

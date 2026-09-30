@@ -30,13 +30,13 @@ GET /digitalAlbum/purchased?limit=10
 ## 编程式调用
 
 ```ts
-import { digitalAlbumPurchased } from 'hana-music-api'
+import { digitalAlbumPurchased } from 'hana-music-api';
 
 const result = await digitalAlbumPurchased({
   limit: '10',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

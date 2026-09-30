@@ -34,15 +34,15 @@ GET /playlist/tracks?op=add&pid=24381616&tracks=347231
 ## 编程式调用
 
 ```ts
-import { playlistTracks } from 'hana-music-api'
+import { playlistTracks } from 'hana-music-api';
 
 const result = await playlistTracks({
   op: 'add',
   pid: '24381616',
   tracks: '347231',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

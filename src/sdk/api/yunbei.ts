@@ -1,1 +1,1 @@
-export { yunbei } from '../generated/client.generated.ts'
+export { yunbei } from '../generated/client.generated.ts';

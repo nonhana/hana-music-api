@@ -19,9 +19,9 @@ description: '登录后调用此接口可获取会员成长值领取记录'
 
 ## 请求参数
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                |
-| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------- |
-| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20                                            |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                              |
+| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------- |
+| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20                                           |
 | `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*10, 其中 10 为 limit 的值 |
 
 ## HTTP 示例
@@ -33,13 +33,13 @@ GET /vip/growthpoint/details?limit=10
 ## 编程式调用
 
 ```ts
-import { vipGrowthpointDetails } from 'hana-music-api'
+import { vipGrowthpointDetails } from 'hana-music-api';
 
 const result = await vipGrowthpointDetails({
   limit: '10',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

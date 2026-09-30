@@ -1,38 +1,55 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import uploadPlugin from '../plugins/upload.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { Call } from '../core/call.ts';
+import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import { uploadWork } from '../core/upload-work.ts';
+import { isRecord } from '../core/utils.ts';
+import uploadPlugin from '../plugins/upload.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyUploadedFile } from '../types/module-shared.ts';
+import { decodeModuleInput as decodeInput, UploadedFile } from './_input.ts';
 
-const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const uploadInfo = await uploadPlugin(query, request)
-  const res = await request(
-    `/api/user/avatar/upload/v1`,
-    {
-      imgid: uploadInfo.imgId,
-    },
-    createOption(query),
-  )
-  return {
-    status: 200,
-    body: {
-      code: 200,
-      data: {
-        ...uploadInfo,
-        ...res.body,
-      },
-    },
-  }
-}
+export type ModuleInput = {
+  imgFile?: LegacyUploadedFile;
+};
 
-export default async function migratedAvatarUpload(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+const inputSchema = Schema.Struct({
+  imgFile: Schema.optional(UploadedFile),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const avatarUpload: ModuleEffect<ModuleInput> = (input, request) =>
+  uploadWork('avatar_upload', request, (stage) =>
+    Effect.gen(function* () {
+      const call = yield* Call;
+      const uploaded = yield* uploadPlugin(input, stage);
+      const response = yield* stage({
+        target: '/api/user/avatar/upload/v1',
+        protocol: call.config.crypto || 'eapi',
+        method: 'POST',
+        headers: {},
+        body: JSON.stringify({ imgid: uploaded.imgId }),
+        response: 'json',
+        semantic: 'upload',
+      });
+      if (!isRecord(response.body)) {
+        return yield* Effect.fail(
+          new UnexpectedUpstreamShape({
+            module: 'avatar_upload',
+            path: 'body',
+            expected: 'object',
+            actual: typeof response.body,
+          }),
+        );
+      }
+      return {
+        status: 200,
+        cookie: [],
+        body: { code: 200, data: { ...uploaded, ...response.body } },
+      };
+    }),
+  );
+
+export default avatarUpload;

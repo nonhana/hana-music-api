@@ -1,1 +1,1 @@
-export { djBanner } from '../generated/client.generated.ts'
+export { djBanner } from '../generated/client.generated.ts';

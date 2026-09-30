@@ -1,1 +1,1 @@
-export { cloudsearch } from '../generated/client.generated.ts'
+export { cloudsearch } from '../generated/client.generated.ts';

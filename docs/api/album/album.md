@@ -32,13 +32,13 @@ GET /album?id=32311
 ## 编程式调用
 
 ```ts
-import { album } from 'hana-music-api'
+import { album } from 'hana-music-api';
 
 const result = await album({
   id: '32311',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,1 +1,1 @@
-export { mvUrl } from '../generated/client.generated.ts'
+export { mvUrl } from '../generated/client.generated.ts';

@@ -30,11 +30,11 @@ GET /voice/lyric
 ## 编程式调用
 
 ```ts
-import { voiceLyric } from 'hana-music-api'
+import { voiceLyric } from 'hana-music-api';
 
-const result = await voiceLyric()
+const result = await voiceLyric();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

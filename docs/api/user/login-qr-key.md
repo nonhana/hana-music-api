@@ -30,11 +30,11 @@ GET /login/qr/key
 ## 编程式调用
 
 ```ts
-import { loginQrKey } from 'hana-music-api'
+import { loginQrKey } from 'hana-music-api';
 
-const result = await loginQrKey()
+const result = await loginQrKey();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

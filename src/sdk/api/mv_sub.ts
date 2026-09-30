@@ -1,1 +1,1 @@
-export { mvSub } from '../generated/client.generated.ts'
+export { mvSub } from '../generated/client.generated.ts';

@@ -30,13 +30,13 @@ GET /playlist/detail/rcmd/get?id=8039587836
 ## 编程式调用
 
 ```ts
-import { playlistDetailRcmdGet } from 'hana-music-api'
+import { playlistDetailRcmdGet } from 'hana-music-api';
 
 const result = await playlistDetailRcmdGet({
   id: '8039587836',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

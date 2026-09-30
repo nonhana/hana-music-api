@@ -30,11 +30,11 @@ GET /user/subcount
 ## 编程式调用
 
 ```ts
-import { userSubcount } from 'hana-music-api'
+import { userSubcount } from 'hana-music-api';
 
-const result = await userSubcount()
+const result = await userSubcount();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

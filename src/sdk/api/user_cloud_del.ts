@@ -1,1 +1,1 @@
-export { userCloudDel } from '../generated/client.generated.ts'
+export { userCloudDel } from '../generated/client.generated.ts';

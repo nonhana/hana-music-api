@@ -1,23 +1,38 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { ArtistQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { IdentifierQuery } from '../types/module-shared.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+} from './_input.ts';
 
-const legacyModule = (query: ArtistQuery, request: ModuleRequest) => {
-  return request(`/api/v1/artist/${query.id}`, {}, createOption(query, 'weapi'))
-}
+export type ModuleInput = IdentifierQuery;
+
+const inputSchema = Schema.Struct({
+  id: Identifier,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const artists: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/v1/artist/${query.id}`,
+          {},
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 歌手单曲
  */
-export default async function migratedArtists(
-  query: ArtistQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default artists;

@@ -1,1 +1,1 @@
-export { playlistDetailRcmdGet } from '../generated/client.generated.ts'
+export { playlistDetailRcmdGet } from '../generated/client.generated.ts';

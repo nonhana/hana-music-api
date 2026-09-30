@@ -1,31 +1,28 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    type: 3,
-  }
-  const result = await request(`/api/login/qrcode/unikey`, data, createOption(query))
-  return {
-    status: 200,
-    body: {
-      data: result.body,
-      code: 200,
-    },
-    cookie: result.cookie,
-  }
-}
+const loginQrKey: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const result = yield* request(
+      buildApiRequestIntent(
+        '/api/login/qrcode/unikey',
+        { type: 3 },
+        createOption(query),
+      ),
+    );
+    return toModuleResponse({
+      ...result,
+      status: 200,
+      body: { data: result.body, code: 200 },
+    });
+  });
 
-export default async function migratedLoginQrKey(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default loginQrKey;
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

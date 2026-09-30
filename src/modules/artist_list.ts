@@ -1,7 +1,9 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
+import { InvalidModuleInput } from '../core/errors.ts';
+import { createOption } from '../core/options.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 // 歌手分类
 /*
     type 取值
@@ -19,29 +21,49 @@ import { createOption } from '../core/options.ts'
 
     initial 取值 a-z/A-Z
 */
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    initial: isNaN(query.initial)
-      ? (query.initial || '').toUpperCase().charCodeAt() || undefined
-      : query.initial,
-    offset: query.offset || 0,
-    limit: query.limit || 30,
-    total: true,
-    type: query.type || '1',
-    area: query.area,
-  }
-  return request(`/api/v1/artist/list`, data, createOption(query, 'weapi'))
-}
+const artistList: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    if (
+      query.initial !== undefined &&
+      query.initial !== null &&
+      typeof query.initial !== 'string' &&
+      typeof query.initial !== 'number' &&
+      typeof query.initial !== 'boolean'
+    ) {
+      return yield* Effect.fail(
+        new InvalidModuleInput({
+          message: 'initial must be a primitive value',
+        }),
+      );
+    }
+    const data = {
+      initial: Number.isNaN(Number(query.initial))
+        ? String(query.initial || '')
+            .toUpperCase()
+            .charCodeAt(0) || undefined
+        : query.initial,
+      offset: query.offset || 0,
+      limit: query.limit || 30,
+      total: true,
+      type: query.type || '1',
+      area: query.area,
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/v1/artist/list`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
-export default async function migratedArtistList(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default artistList;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

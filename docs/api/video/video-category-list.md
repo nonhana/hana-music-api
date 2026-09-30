@@ -30,11 +30,11 @@ GET /video/category/list
 ## 编程式调用
 
 ```ts
-import { videoCategoryList } from 'hana-music-api'
+import { videoCategoryList } from 'hana-music-api';
 
-const result = await videoCategoryList()
+const result = await videoCategoryList();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

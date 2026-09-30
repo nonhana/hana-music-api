@@ -36,14 +36,14 @@ POST /listentogether/accept?roomId=MzA0NjY5...&inviterId=32953014
 ## 编程式调用
 
 ```ts
-import { listentogetherAccept } from 'hana-music-api'
+import { listentogetherAccept } from 'hana-music-api';
 
 const result = await listentogetherAccept({
   roomId: 'MzA0NjY5...',
   inviterId: '32953014',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回关注点

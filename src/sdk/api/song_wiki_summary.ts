@@ -1,1 +1,1 @@
-export { songWikiSummary } from '../generated/client.generated.ts'
+export { songWikiSummary } from '../generated/client.generated.ts';

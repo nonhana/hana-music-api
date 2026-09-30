@@ -1,33 +1,45 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {}
-  let result = await request(`/api/w/nuser/account/get`, data, createOption(query, 'weapi'))
-  if (result.body.code === 200) {
-    result = {
-      status: 200,
-      body: {
-        data: {
-          ...result.body,
-        },
-      },
-      cookie: result.cookie,
+const loginStatus: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const result = yield* request(
+      buildApiRequestIntent(
+        '/api/w/nuser/account/get',
+        {},
+        createOption(query, 'weapi'),
+      ),
+    );
+    const body = result.body;
+    if (
+      body === null ||
+      typeof body !== 'object' ||
+      Array.isArray(body) ||
+      typeof body.code !== 'number'
+    ) {
+      return yield* Effect.fail(
+        new UnexpectedUpstreamShape({
+          module: 'login_status',
+          path: 'body.code',
+          expected: 'number',
+          actual: typeof body,
+        }),
+      );
     }
-  }
-  return result
-}
+    return toModuleResponse(
+      body.code === 200
+        ? { ...result, status: 200, body: { data: body } }
+        : result,
+    );
+  });
 
-export default async function migratedLoginStatus(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default loginStatus;
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

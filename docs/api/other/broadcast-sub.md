@@ -34,14 +34,14 @@ GET /broadcast/sub?id=5&t=1
 ## 编程式调用
 
 ```ts
-import { broadcastSub } from 'hana-music-api'
+import { broadcastSub } from 'hana-music-api';
 
 const result = await broadcastSub({
   id: '5',
   t: 1,
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回关注点

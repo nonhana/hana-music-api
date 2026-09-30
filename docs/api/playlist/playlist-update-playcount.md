@@ -32,13 +32,13 @@ GET /playlist/update/playcount?id=24381616
 ## 编程式调用
 
 ```ts
-import { playlistUpdatePlaycount } from 'hana-music-api'
+import { playlistUpdatePlaycount } from 'hana-music-api';
 
 const result = await playlistUpdatePlaycount({
   id: '24381616',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

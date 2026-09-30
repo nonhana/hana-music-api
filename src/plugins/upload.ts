@@ -1,47 +1,72 @@
-import type { ModuleRequest } from '../types/index.ts'
-import type { UploadImageQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
+import { Call } from '../core/call.ts';
+import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
+import type { ModuleInput as UploadImageQuery } from '../modules/avatar_upload.ts';
+import type { RequestCapability } from '../types/index.ts';
 
-export default async function uploadPlugin(query: UploadImageQuery, request: ModuleRequest) {
-  if (!query.imgFile) {
-    throw new TypeError('imgFile is required for upload plugin')
-  }
-  const imageBuffer = toBuffer(query.imgFile.data)
-
-  const data = {
-    bucket: 'yyimgs',
-    ext: 'jpg',
-    filename: query.imgFile.name,
-    local: false,
-    nos_product: 0,
-    return_body: `{"code":200,"size":"$(ObjectSize)"}`,
-    type: 'other',
-  }
-  //   获取key和token
-  const res = await request(`/api/nos/token/alloc`, data, createOption(query, 'weapi'))
-  await fetch(
-    `https://nosup-hz1.127.net/yyimgs/${String(res.body.result.objectKey)}?offset=0&complete=true&version=1.0`,
-    {
+export default (input: UploadImageQuery, request: RequestCapability) => {
+  return Effect.gen(function* () {
+    if (!input.imgFile) {
+      return yield* Effect.fail(
+        new InvalidModuleInput({
+          message: 'imgFile is required for upload plugin',
+          status: 502,
+        }),
+      );
+    }
+    const call = yield* Call;
+    const allocation = yield* request({
+      target: '/api/nos/token/alloc',
+      protocol: call.config.crypto || 'weapi',
       method: 'POST',
-      headers: {
-        'x-nos-token': String(res.body.result.token),
-        'Content-Type': 'image/jpeg',
-      },
-      body: imageBuffer,
-    },
-  )
-
-  return {
-    url_pre: 'https://p1.music.126.net/' + String(res.body.result.objectKey),
-    imgId: res.body.result.docId,
-  }
-}
-
-function toBuffer(data: ArrayBuffer | Buffer | Uint8Array): Buffer {
-  if (Buffer.isBuffer(data)) {
-    return data
-  }
-
-  return data instanceof Uint8Array ? Buffer.from(data) : Buffer.from(new Uint8Array(data))
-}
+      headers: {},
+      body: JSON.stringify({
+        bucket: 'yyimgs',
+        ext: 'jpg',
+        filename: input.imgFile.name,
+        local: false,
+        nos_product: 0,
+        return_body: '{"code":200,"size":"$(ObjectSize)"}',
+        type: 'other',
+      }),
+      response: 'json',
+      semantic: 'upload',
+    });
+    const { result: token } = yield* Schema.decodeUnknownEffect(
+      Schema.Struct({
+        result: Schema.Struct({
+          objectKey: Schema.String,
+          token: Schema.String,
+          docId: Schema.Union([Schema.String, Schema.Number]),
+        }),
+      }),
+    )(allocation.body).pipe(
+      Effect.mapError(
+        () =>
+          new UnexpectedUpstreamShape({
+            module: call.identifier,
+            path: 'result',
+            expected: 'objectKey, token and docId',
+            actual: typeof allocation.body,
+          }),
+      ),
+    );
+    yield* request({
+      target: `https://nosup-hz1.127.net/yyimgs/${token.objectKey}?offset=0&complete=true&version=1.0`,
+      protocol: 'plain',
+      method: 'POST',
+      headers: { 'x-nos-token': token.token, 'Content-Type': 'image/jpeg' },
+      body:
+        input.imgFile.data instanceof ArrayBuffer
+          ? new Uint8Array(input.imgFile.data)
+          : input.imgFile.data,
+      response: 'bytes',
+      semantic: 'upload',
+    });
+    return {
+      url_pre: 'https://p1.music.126.net/' + token.objectKey,
+      imgId: token.docId,
+    };
+  });
+};

@@ -1,1 +1,1 @@
-export { djToplistPay } from '../generated/client.generated.ts'
+export { djToplistPay } from '../generated/client.generated.ts';

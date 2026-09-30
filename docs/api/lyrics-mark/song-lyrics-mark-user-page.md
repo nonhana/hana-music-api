@@ -19,8 +19,8 @@ description: '登录后调用此接口, 获取我的歌词本'
 
 ## 请求参数
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                     |
-| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------------ |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                    |
+| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------- |
 | `limit`  | number \| string |  —   | 20     | 返回数量，默认为 20                                                     |
 | `offset` | number \| string |  —   | 0      | 偏移数量，用于分页 ,如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0 |
 
@@ -33,11 +33,11 @@ GET /song/lyrics/mark/user/page
 ## 编程式调用
 
 ```ts
-import { songLyricsMarkUserPage } from 'hana-music-api'
+import { songLyricsMarkUserPage } from 'hana-music-api';
 
-const result = await songLyricsMarkUserPage()
+const result = await songLyricsMarkUserPage();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

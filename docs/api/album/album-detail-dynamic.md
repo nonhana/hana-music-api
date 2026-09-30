@@ -32,13 +32,13 @@ GET /album/detail/dynamic?id=32311
 ## 编程式调用
 
 ```ts
-import { albumDetailDynamic } from 'hana-music-api'
+import { albumDetailDynamic } from 'hana-music-api';
 
 const result = await albumDetailDynamic({
   id: '32311',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

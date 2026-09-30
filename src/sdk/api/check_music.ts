@@ -1,1 +1,1 @@
-export { checkMusic } from '../generated/client.generated.ts'
+export { checkMusic } from '../generated/client.generated.ts';

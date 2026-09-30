@@ -1,1 +1,1 @@
-export { cellphoneExistenceCheck } from '../generated/client.generated.ts'
+export { cellphoneExistenceCheck } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { innerVersion } from '../generated/client.generated.ts'
+export { innerVersion } from '../generated/client.generated.ts';

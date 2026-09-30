@@ -1,1 +1,1 @@
-export { verifyGetQr } from '../generated/client.generated.ts'
+export { verifyGetQr } from '../generated/client.generated.ts';

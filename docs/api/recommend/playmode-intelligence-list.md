@@ -35,14 +35,14 @@ GET /playmode/intelligence/list?id=33894312&pid=24381616&sid=36871368
 ## 编程式调用
 
 ```ts
-import { playmodeIntelligenceList } from 'hana-music-api'
+import { playmodeIntelligenceList } from 'hana-music-api';
 
 const result = await playmodeIntelligenceList({
   id: '33894312',
   pid: '24381616',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

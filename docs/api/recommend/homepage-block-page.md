@@ -33,11 +33,11 @@ GET /homepage/block/page
 ## 编程式调用
 
 ```ts
-import { homepageBlockPage } from 'hana-music-api'
+import { homepageBlockPage } from 'hana-music-api';
 
-const result = await homepageBlockPage()
+const result = await homepageBlockPage();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

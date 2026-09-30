@@ -1,21 +1,39 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { InvalidModuleInput } from '../core/errors.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {}
-  return request(`/api/v1/user/bindings/${query.uid}`, data, createOption(query, 'weapi'))
-}
+const userBinding: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    if (
+      query.uid !== undefined &&
+      query.uid !== null &&
+      typeof query.uid !== 'string' &&
+      typeof query.uid !== 'number' &&
+      typeof query.uid !== 'boolean'
+    ) {
+      return yield* Effect.fail(
+        new InvalidModuleInput({ message: 'uid must be a primitive value' }),
+      );
+    }
+    const data = {};
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/v1/user/bindings/${String(query.uid)}`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
-export default async function migratedUserBinding(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default userBinding;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

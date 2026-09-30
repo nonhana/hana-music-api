@@ -32,13 +32,13 @@ GET /user/binding?uid=32953014
 ## 编程式调用
 
 ```ts
-import { userBinding } from 'hana-music-api'
+import { userBinding } from 'hana-music-api';
 
 const result = await userBinding({
   uid: '32953014',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

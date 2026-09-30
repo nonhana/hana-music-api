@@ -1,1 +1,1 @@
-export { videoTimelineAll } from '../generated/client.generated.ts'
+export { videoTimelineAll } from '../generated/client.generated.ts';

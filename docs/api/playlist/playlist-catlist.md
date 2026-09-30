@@ -30,11 +30,11 @@ GET /playlist/catlist
 ## 编程式调用
 
 ```ts
-import { playlistCatlist } from 'hana-music-api'
+import { playlistCatlist } from 'hana-music-api';
 
-const result = await playlistCatlist()
+const result = await playlistCatlist();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

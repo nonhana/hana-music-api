@@ -30,11 +30,11 @@ GET /voicelist/trans
 ## 编程式调用
 
 ```ts
-import { voicelistTrans } from 'hana-music-api'
+import { voicelistTrans } from 'hana-music-api';
 
-const result = await voicelistTrans()
+const result = await voicelistTrans();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

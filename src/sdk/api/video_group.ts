@@ -1,1 +1,1 @@
-export { videoGroup } from '../generated/client.generated.ts'
+export { videoGroup } from '../generated/client.generated.ts';

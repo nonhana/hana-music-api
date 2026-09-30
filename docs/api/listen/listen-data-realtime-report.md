@@ -32,13 +32,13 @@ GET /listen/data/realtime/report?type=month
 ## 编程式调用
 
 ```ts
-import { listenDataRealtimeReport } from 'hana-music-api'
+import { listenDataRealtimeReport } from 'hana-music-api';
 
 const result = await listenDataRealtimeReport({
   type: 'month',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

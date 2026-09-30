@@ -11,7 +11,7 @@ function createRequest(
   uri: string,
   data: Record<string, unknown>,
   options?: CreateRequestOptions,
-): Promise<NcmApiResponse>
+): Promise<NcmApiResponse>;
 ```
 
 - `uri`：上游接口路径，约定以 `/api/...` 开头。
@@ -22,16 +22,16 @@ function createRequest(
 
 ```ts
 interface NcmApiResponse<TBody = unknown> {
-  body: TBody // 解密、归一化后的响应体
-  cookie: string[] // 上游下发的 Set-Cookie
-  status: number // 归一化后的状态码
+  body: TBody; // 解密、归一化后的响应体
+  cookie: string[]; // 上游下发的 Set-Cookie
+  status: number; // 归一化后的状态码
 }
 ```
 
 ### 例子：直接调搜索接口
 
 ```ts
-import { createRequest } from 'hana-music-api'
+import { createRequest } from 'hana-music-api';
 
 // 等价于 search({ keywords: '周杰伦', limit: 5 })
 const res = await createRequest(
@@ -46,9 +46,9 @@ const res = await createRequest(
     crypto: 'eapi', // 不传则默认 eapi
     cookie: 'MUSIC_U=your-cookie',
   },
-)
+);
 
-console.log(res.body)
+console.log(res.body);
 ```
 
 `uri` 会根据 `crypto` 被改写成最终 URL（比如 eapi 下 `/api/search/get` → `interface.music.163.com/eapi/search/get`）。
@@ -67,7 +67,7 @@ console.log(res.body)
 function createOption(
   query: ModuleQuery & OptionSource,
   crypto?: RequestCrypto,
-): CreateRequestOptions
+): CreateRequestOptions;
 ```
 
 `createOption()` 的作用是从一个**混在一起的 query 对象**里，
@@ -78,7 +78,7 @@ function createOption(
 
 ```ts
 // src/modules/banner.ts 的核心一行
-request('/api/v2/banner/get', { clientType: type }, createOption(query))
+request('/api/v2/banner/get', { clientType: type }, createOption(query));
 ```
 
 模块拿到的 `query` 里既有业务参数（`type`），也可能夹带执行配置（`cookie`、`proxy` 等）。`createOption(query)` 负责把后者提取出来。

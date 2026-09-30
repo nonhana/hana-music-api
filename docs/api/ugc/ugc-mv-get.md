@@ -30,13 +30,13 @@ GET /ugc/mv/get?id=14572641
 ## 编程式调用
 
 ```ts
-import { ugcMvGet } from 'hana-music-api'
+import { ugcMvGet } from 'hana-music-api';
 
 const result = await ugcMvGet({
   id: '14572641',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

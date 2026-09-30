@@ -1,1 +1,1 @@
-export { musicianSign } from '../generated/client.generated.ts'
+export { musicianSign } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { commentHugList } from '../generated/client.generated.ts'
+export { commentHugList } from '../generated/client.generated.ts';

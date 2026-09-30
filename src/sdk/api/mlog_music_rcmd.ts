@@ -1,1 +1,1 @@
-export { mlogMusicRcmd } from '../generated/client.generated.ts'
+export { mlogMusicRcmd } from '../generated/client.generated.ts';

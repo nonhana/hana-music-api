@@ -1,1 +1,1 @@
-export { personalized } from '../generated/client.generated.ts'
+export { personalized } from '../generated/client.generated.ts';

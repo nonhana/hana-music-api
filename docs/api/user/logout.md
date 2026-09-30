@@ -30,11 +30,11 @@ GET /logout
 ## 编程式调用
 
 ```ts
-import { logout } from 'hana-music-api'
+import { logout } from 'hana-music-api';
 
-const result = await logout()
+const result = await logout();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

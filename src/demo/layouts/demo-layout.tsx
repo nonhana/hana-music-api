@@ -1,17 +1,20 @@
-import type { FC, PropsWithChildren } from 'hono/jsx'
+import type { FC, PropsWithChildren } from 'hono/jsx';
 
-import type { DemoPageDefinition } from '../registry.ts'
-
-import { getReadyDemoPages } from '../registry.ts'
+import type { DemoPageDefinition } from '../registry.ts';
+import { getReadyDemoPages } from '../registry.ts';
 
 interface DemoLayoutProps extends PropsWithChildren {
-  readonly currentPath: string
-  readonly page?: DemoPageDefinition
+  readonly currentPath: string;
+  readonly page?: DemoPageDefinition;
 }
 
-export const DemoLayout: FC<DemoLayoutProps> = ({ children, currentPath, page }) => {
-  const navigationPages = getReadyDemoPages()
-  const title = page ? `${page.title} | HANA Demo` : 'HANA Demo'
+export const DemoLayout: FC<DemoLayoutProps> = ({
+  children,
+  currentPath,
+  page,
+}) => {
+  const navigationPages = getReadyDemoPages();
+  const title = page ? `${page.title} | HANA Demo` : 'HANA Demo';
 
   return (
     <html lang="zh-CN">
@@ -33,12 +36,21 @@ export const DemoLayout: FC<DemoLayoutProps> = ({ children, currentPath, page })
                 <h3>hana-music-api 调试</h3>
               </a>
               <nav aria-label="Demo navigation" class="site-nav">
-                <a class={currentPath === '/demo' ? 'nav-link is-active' : 'nav-link'} href="/demo">
+                <a
+                  class={
+                    currentPath === '/demo' ? 'nav-link is-active' : 'nav-link'
+                  }
+                  href="/demo"
+                >
                   首页
                 </a>
                 {navigationPages.map((item) => (
                   <a
-                    class={currentPath === item.path ? 'nav-link is-active' : 'nav-link'}
+                    class={
+                      currentPath === item.path
+                        ? 'nav-link is-active'
+                        : 'nav-link'
+                    }
                     href={item.path}
                   >
                     {item.title}
@@ -55,5 +67,5 @@ export const DemoLayout: FC<DemoLayoutProps> = ({ children, currentPath, page })
         <script src="/demo/client/shared.js" type="module"></script>
       </body>
     </html>
-  )
-}
+  );
+};

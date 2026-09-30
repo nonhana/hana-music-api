@@ -1,1 +1,1 @@
-export { voiceUpload } from '../generated/client.generated.ts'
+export { voiceUpload } from '../generated/client.generated.ts';

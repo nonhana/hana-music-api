@@ -1,1 +1,1 @@
-export { simiSong } from '../generated/client.generated.ts'
+export { simiSong } from '../generated/client.generated.ts';

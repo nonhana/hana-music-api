@@ -33,13 +33,13 @@ POST /listentogether/room/check?roomId=MzA0NjY5...
 ## 编程式调用
 
 ```ts
-import { listentogetherRoomCheck } from 'hana-music-api'
+import { listentogetherRoomCheck } from 'hana-music-api';
 
 const result = await listentogetherRoomCheck({
   roomId: 'MzA0NjY5...',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回示例

@@ -34,14 +34,14 @@ GET /dj/difm/playing/tracks/list?source=0&channelId=1012
 ## 编程式调用
 
 ```ts
-import { djDifmPlayingTracksList } from 'hana-music-api'
+import { djDifmPlayingTracksList } from 'hana-music-api';
 
 const result = await djDifmPlayingTracksList({
   source: '0',
   channelId: '1012',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

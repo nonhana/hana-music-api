@@ -1,14 +1,3 @@
-export const RESOURCE_TYPE_MAP = {
-  0: 'R_SO_4_',
-  1: 'R_MV_5_',
-  2: 'A_PL_0_',
-  3: 'R_AL_3_',
-  4: 'A_DJ_1_',
-  5: 'R_VI_62_',
-  6: 'A_EV_2_',
-  7: 'A_DR_14_',
-} as const
-
 export const APP_CONF = {
   apiDomain: 'https://interface.music.163.com',
   domain: 'https://music.163.com',
@@ -18,7 +7,7 @@ export const APP_CONF = {
     '18:C0:4D:B9:8F:FE@@@453832335F384641365F424635335F303030315F303031425F343434415F343643365F333638332@@@@@@6ff673ef74955b38bce2fa8562d95c976ed4758b1227c4e9ee345987cee17bc9',
   checkToken:
     '9ca17ae2e6ffcda170e2e6ee8af14fbabdb988f225b3868eb2c15a879b9a83d274a790ac8ff54a97b889d5d42af0feaec3b92af58cff99c470a7eafd88f75e839a9ea7c14e909da883e83fb692a3abdb6b92adee9e',
-} as const
+} as const;
 
 export const OS_PROFILES = {
   android: {
@@ -43,10 +32,9 @@ export const OS_PROFILES = {
     appver: '3.1.17.204416',
     channel: 'netease',
     os: 'pc',
-    // 这里刻意保留旧桌面端伪装串，迁移阶段不能因为“看起来过时”就擅自改掉。
     osver: 'Microsoft-Windows-10-Professional-build-19045-64bit',
   },
-} as const
+} as const;
 
 export const USER_AGENT_MAP = {
   api: {
@@ -62,6 +50,8 @@ export const USER_AGENT_MAP = {
   weapi: {
     pc: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
   },
-} as const
+} as const;
 
-export const SPECIAL_STATUS_CODES = new Set([201, 302, 400, 502, 800, 801, 802, 803])
+export const SPECIAL_STATUS_CODES = new Set([
+  201, 302, 400, 502, 800, 801, 802, 803,
+]);

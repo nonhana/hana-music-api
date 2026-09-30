@@ -36,16 +36,16 @@ POST /listentogether/heatbeat?roomId=MzA0NjY5...&songId=1372188635&playStatus=PL
 ## 编程式调用
 
 ```ts
-import { listentogetherHeatbeat } from 'hana-music-api'
+import { listentogetherHeatbeat } from 'hana-music-api';
 
 const result = await listentogetherHeatbeat({
   roomId: 'MzA0NjY5...',
   songId: '1372188635',
   playStatus: 'PLAY',
   progress: 0,
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回关注点

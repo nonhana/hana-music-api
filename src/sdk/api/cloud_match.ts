@@ -1,1 +1,1 @@
-export { cloudMatch } from '../generated/client.generated.ts'
+export { cloudMatch } from '../generated/client.generated.ts';

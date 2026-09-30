@@ -30,11 +30,11 @@ GET /login/refresh
 ## 编程式调用
 
 ```ts
-import { loginRefresh } from 'hana-music-api'
+import { loginRefresh } from 'hana-music-api';
 
-const result = await loginRefresh()
+const result = await loginRefresh();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

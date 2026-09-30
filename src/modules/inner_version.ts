@@ -1,29 +1,17 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { SERVICE_VERSION } from '../core/service-metadata.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { SERVICE_VERSION } from '../core/service-metadata.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (_query: LegacyModuleQuery, _request: ModuleRequest) => {
-  return Promise.resolve({
-    code: 200,
+const innerVersion: ModuleEffect<ModuleInput> = () =>
+  Effect.succeed({
     status: 200,
-    body: {
-      code: 200,
-      data: {
-        version: SERVICE_VERSION,
-      },
-    },
-  })
-}
+    cookie: [],
+    body: { code: 200, data: { version: SERVICE_VERSION } },
+  });
 
-export default async function migratedInnerVersion(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default innerVersion;
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

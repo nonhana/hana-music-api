@@ -1,1 +1,1 @@
-export { playlistCatlist } from '../generated/client.generated.ts'
+export { playlistCatlist } from '../generated/client.generated.ts';

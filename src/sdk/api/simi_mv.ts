@@ -1,1 +1,1 @@
-export { simiMv } from '../generated/client.generated.ts'
+export { simiMv } from '../generated/client.generated.ts';

@@ -30,14 +30,14 @@ GET /calendar?startTime=1606752000000&endTime=1609430399999
 ## 编程式调用
 
 ```ts
-import { calendar } from 'hana-music-api'
+import { calendar } from 'hana-music-api';
 
 const result = await calendar({
   startTime: '1606752000000',
   endTime: '1609430399999',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

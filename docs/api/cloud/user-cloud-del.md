@@ -32,13 +32,13 @@ GET /user/cloud/del
 ## 编程式调用
 
 ```ts
-import { userCloudDel } from 'hana-music-api'
+import { userCloudDel } from 'hana-music-api';
 
 const result = await userCloudDel({
   id: '123456',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,11 +1,11 @@
-import type { DefaultTheme } from 'vitepress'
+import type { DefaultTheme } from 'vitepress';
 
 export const apiNavLink: DefaultTheme.NavItem = {
   text: 'API 参考',
   link: '/api/user/login-cellphone',
-}
+};
 
-export const apiSidebar: DefaultTheme.SidebarItem[] = [
+export const apiSidebar: Array<DefaultTheme.SidebarItem> = [
   {
     text: '用户与登录',
     collapsed: false,
@@ -1530,4 +1530,4 @@ export const apiSidebar: DefaultTheme.SidebarItem[] = [
       },
     ],
   },
-]
+];

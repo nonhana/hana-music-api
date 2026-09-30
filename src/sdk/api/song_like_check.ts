@@ -1,1 +1,1 @@
-export { songLikeCheck } from '../generated/client.generated.ts'
+export { songLikeCheck } from '../generated/client.generated.ts';

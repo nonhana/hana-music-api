@@ -1,6 +1,7 @@
 # 运行时状态与身份伪装
 
-要让网易云上游把请求当成正常客户端，光有 `MUSIC_U` 不够，还需要设备号、系统伪装串、来源 IP、匿名 token 这一整套身份。请求层会自动凑齐这些，你通常只需要管登录态。需要精细控制（比如多账号、多身份隔离）时，再按下面的字段介入。
+要让网易云上游把请求当成正常客户端，光有 `MUSIC_U` 不够，还需要设备号、系统伪装串、来源 IP、匿名 token 这一整套身份。请求层会自动凑齐这些，你通常只需要管登录态。
+需要精细控制（比如多账号、多身份隔离）时，再按下面的字段介入。
 
 ## 运行时状态 `RuntimeState`
 
@@ -8,9 +9,9 @@
 
 ```ts
 interface RuntimeState {
-  anonymousToken: string // 匿名 token，未登录时充当身份
-  cnIp: string // 伪装的中国来源 IP
-  deviceId: string // 伪装的设备号
+  anonymousToken: string; // 匿名 token，未登录时充当身份
+  cnIp: string; // 伪装的中国来源 IP
+  deviceId: string; // 伪装的设备号
 }
 ```
 
@@ -21,6 +22,10 @@ interface RuntimeState {
 - `deviceId`：随机生成一个设备号。
 
 这意味着**即使什么都不配置，请求也会带上一套可用的伪装身份**。
+
+ProcessServices 通过显式 Layer 提供状态读取。每次 Call 在模块执行前冻结一个内部身份快照，之后 RequestEffect 不再读取全局身份。
+快照的优先级是显式 `cookie`、不区分大小写的 Cookie 头、运行时匿名 token，最后才是设备号；同一快照生成标准 API、网页/NOS 和读取缓存使用的身份指纹。
+调用开始后进程匿名状态变化不会改写这次调用的出口身份。
 
 ## Cookie 是怎么被补全的
 
@@ -54,19 +59,22 @@ realIP  >  ip  >  运行时 cnIp
 
 ```ts
 // 显式指定来源 IP
-await songUrl({ id: '347230' }, { realIP: '116.25.146.177' })
+await songUrl({ id: '347230' }, { realIP: '116.25.146.177' });
 ```
 
 - 都不传时，SDK 链路会自动回退到运行时的伪装中国 IP（`cnIp`）。
-- 遇到上游区域限制（如 `460`）时，手动传一个国内 `realIP` 往往能解决。
+- `ip` / `realIP` 只改变请求头，不会改变实际网络出口，不保证绕过区域限制或风控。
 - 这条只影响 SDK 直接调用链路。HTTP 服务链路始终根据请求来源显式传 IP，不受这个默认回退影响。
 
 ## 匿名 token 的懒加载
 
 走 SDK 调用时，如果**没有提供任何身份**（既没有带 `MUSIC_U` / `MUSIC_A` 的 cookie，也没有在 `state` 里给 `anonymousToken`），请求层会在首次调用时惰性注册一个匿名 token：
 
-- 用 single-flight 去重：并发的首次调用只会触发一次注册，其余等待复用结果。
+- 通过 ReadStore、Ref、Deferred 和 Fiber 合并并发注册；其余等待者复用同一个 Effect 结果。
 - 注册成功后写回运行时状态，后续调用直接复用，不再重复注册。
+- 注册也构造 RequestIntent，通过同一个 RequestEffect 使用进程出口预算。注册等待者取消彼此隔离，最后一个取消才中断共享注册；失败后允许再次注册。
+
+Call 的总期限包含注册等待；匿名注册不在内部启动独立 Promise 执行器。单独的 CLI 注册在包边缘执行 Effect。
 
 反过来，只要带了任何有效身份，这个懒加载就不会触发，不会有多余的注册请求。
 
@@ -84,7 +92,7 @@ await songUrl(
       deviceId: 'device-for-this-call',
     },
   },
-)
+);
 ```
 
 `state` 按调用合并到全局运行时状态之上，只影响这一次请求，不会污染进程级状态。

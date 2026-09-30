@@ -30,13 +30,13 @@ GET /song/red/count?id=186016
 ## 编程式调用
 
 ```ts
-import { songRedCount } from 'hana-music-api'
+import { songRedCount } from 'hana-music-api';
 
 const result = await songRedCount({
   id: '186016',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

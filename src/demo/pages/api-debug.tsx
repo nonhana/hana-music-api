@@ -1,7 +1,7 @@
-import type { FC } from 'hono/jsx'
+import type { FC } from 'hono/jsx';
 
-import { CodeBlock } from '../components/code-block.tsx'
-import { PageHeader, Surface } from '../components/demo-shell.tsx'
+import { CodeBlock } from '../components/code-block.tsx';
+import { PageHeader, Surface } from '../components/demo-shell.tsx';
 
 const API_DEBUG_SAMPLE = `{
   "cp": false,
@@ -13,19 +13,30 @@ const API_DEBUG_SAMPLE = `{
   "yrv": 0,
   "ytv": 0,
   "yv": 0
-}`
+}`;
 
 export const ApiDebugPage: FC = () => {
   return (
     <>
-      <PageHeader description="填写接口地址、加密方式和请求体后直接发送请求。" title="API 请求" />
+      <PageHeader
+        description="填写接口地址、加密方式和请求体后直接发送请求。"
+        title="API 请求"
+      />
 
       <div class="two-column-grid">
-        <Surface description="支持自定义接口地址、加密方式和 JSON 请求体。" title="请求参数">
+        <Surface
+          description="支持自定义接口地址、加密方式和 JSON 请求体。"
+          title="请求参数"
+        >
           <form class="stack-form" id="api-debug-form">
             <label class="field">
               <span>接口地址</span>
-              <input id="api-uri" name="uri" type="text" value="/api/song/lyric/v1" />
+              <input
+                id="api-uri"
+                name="uri"
+                type="text"
+                value="/api/song/lyric/v1"
+              />
             </label>
 
             <label class="field">
@@ -57,7 +68,10 @@ export const ApiDebugPage: FC = () => {
           </form>
         </Surface>
 
-        <Surface description="查看本次请求内容和接口返回结果。" title="返回结果">
+        <Surface
+          description="查看本次请求内容和接口返回结果。"
+          title="返回结果"
+        >
           <div class="result-stack">
             <CodeBlock heading="请求内容" id="api-request-preview">
               等待发送请求
@@ -71,5 +85,5 @@ export const ApiDebugPage: FC = () => {
 
       <script src="/demo/client/api-debug.js" type="module"></script>
     </>
-  )
-}
+  );
+};

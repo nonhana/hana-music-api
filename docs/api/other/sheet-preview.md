@@ -32,13 +32,13 @@ GET /sheet/preview?id=143190
 ## 编程式调用
 
 ```ts
-import { sheetPreview } from 'hana-music-api'
+import { sheetPreview } from 'hana-music-api';
 
 const result = await sheetPreview({
   id: '143190',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

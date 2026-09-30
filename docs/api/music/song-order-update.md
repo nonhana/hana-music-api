@@ -33,14 +33,14 @@ GET /song/order/update?pid=2039116066&ids=[5268328,1219871]
 ## 编程式调用
 
 ```ts
-import { songOrderUpdate } from 'hana-music-api'
+import { songOrderUpdate } from 'hana-music-api';
 
 const result = await songOrderUpdate({
   pid: '2039116066',
   ids: '[5268328,1219871]',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

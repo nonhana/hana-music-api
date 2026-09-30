@@ -32,13 +32,13 @@ GET /comment/event?threadId=A_EV_2_6559519868_32953014
 ## 编程式调用
 
 ```ts
-import { commentEvent } from 'hana-music-api'
+import { commentEvent } from 'hana-music-api';
 
 const result = await commentEvent({
   threadId: 'A_EV_2_6559519868_32953014',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

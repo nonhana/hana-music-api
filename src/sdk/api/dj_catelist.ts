@@ -1,1 +1,1 @@
-export { djCatelist } from '../generated/client.generated.ts'
+export { djCatelist } from '../generated/client.generated.ts';

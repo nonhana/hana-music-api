@@ -33,15 +33,15 @@ GET /playlist/track/all?id=24381616&limit=10&offset=1
 ## 编程式调用
 
 ```ts
-import { playlistTrackAll } from 'hana-music-api'
+import { playlistTrackAll } from 'hana-music-api';
 
 const result = await playlistTrackAll({
   id: '24381616',
   limit: '10',
   offset: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

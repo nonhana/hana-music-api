@@ -1,1 +1,1 @@
-export { calendar } from '../generated/client.generated.ts'
+export { calendar } from '../generated/client.generated.ts';

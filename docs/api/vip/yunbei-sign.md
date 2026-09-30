@@ -30,11 +30,11 @@ GET /yunbei/sign
 ## 编程式调用
 
 ```ts
-import { yunbeiSign } from 'hana-music-api'
+import { yunbeiSign } from 'hana-music-api';
 
-const result = await yunbeiSign()
+const result = await yunbeiSign();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

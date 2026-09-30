@@ -1,1 +1,1 @@
-export { commentPlaylist } from '../generated/client.generated.ts'
+export { commentPlaylist } from '../generated/client.generated.ts';

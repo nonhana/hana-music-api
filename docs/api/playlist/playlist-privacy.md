@@ -32,13 +32,13 @@ GET /playlist/privacy
 ## 编程式调用
 
 ```ts
-import { playlistPrivacy } from 'hana-music-api'
+import { playlistPrivacy } from 'hana-music-api';
 
 const result = await playlistPrivacy({
   id: '123456',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

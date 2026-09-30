@@ -1,1 +1,1 @@
-export { styleList } from '../generated/client.generated.ts'
+export { styleList } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { searchHot } from '../generated/client.generated.ts'
+export { searchHot } from '../generated/client.generated.ts';

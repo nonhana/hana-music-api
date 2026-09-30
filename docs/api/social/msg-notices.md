@@ -21,7 +21,7 @@ description: '登录后调用此接口 ,可获取通知'
 
 | 参数       | 类型             | 必填 | 默认值                  | 说明                                                                     |
 | ---------- | ---------------- | :--: | ----------------------- | ------------------------------------------------------------------------ |
-| `limit`    | number \| string |  —   | 30                      | 返回数量，默认为 30                                                     |
+| `limit`    | number \| string |  —   | 30                      | 返回数量，默认为 30                                                      |
 | `lasttime` | string           |  —   | -1,传入上一次返回结果的 | 返回数据的 `time` ,默认-1,传入上一次返回结果的 time,将会返回下一页的数据 |
 
 ## HTTP 示例
@@ -33,13 +33,13 @@ GET /msg/notices?limit=3
 ## 编程式调用
 
 ```ts
-import { msgNotices } from 'hana-music-api'
+import { msgNotices } from 'hana-music-api';
 
 const result = await msgNotices({
   limit: '3',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

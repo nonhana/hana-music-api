@@ -1,1 +1,1 @@
-export { personalizedDjprogram } from '../generated/client.generated.ts'
+export { personalizedDjprogram } from '../generated/client.generated.ts';

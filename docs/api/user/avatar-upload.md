@@ -36,13 +36,13 @@ GET /avatar/upload?imgSize=200
 ## 编程式调用
 
 ```ts
-import { avatarUpload } from 'hana-music-api'
+import { avatarUpload } from 'hana-music-api';
 
 const result = await avatarUpload({
   imgSize: '200',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

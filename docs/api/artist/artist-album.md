@@ -19,10 +19,10 @@ description: '调用此接口，传入歌手 id, 可获得歌手专辑内容'
 
 ## 请求参数
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                           |
-| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------------------ |
-| `id`     | string           |  ✅  | -      | 歌手 id                                                                        |
-| `limit`  | number \| string |  —   | 30     | 取出数量，默认为 30                                                           |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                        |
+| -------- | ---------------- | :--: | ------ | --------------------------------------------------------------------------- |
+| `id`     | string           |  ✅  | -      | 歌手 id                                                                     |
+| `limit`  | number \| string |  —   | 30     | 取出数量，默认为 30                                                         |
 | `offset` | number \| string |  —   | <br>为 | 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认<br>为 0 |
 
 ## HTTP 示例
@@ -34,14 +34,14 @@ GET /artist/album?id=6452&limit=5
 ## 编程式调用
 
 ```ts
-import { artistAlbum } from 'hana-music-api'
+import { artistAlbum } from 'hana-music-api';
 
 const result = await artistAlbum({
   id: '6452',
   limit: '5',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

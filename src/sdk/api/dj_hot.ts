@@ -1,1 +1,1 @@
-export { djHot } from '../generated/client.generated.ts'
+export { djHot } from '../generated/client.generated.ts';

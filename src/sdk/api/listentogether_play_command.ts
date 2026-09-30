@@ -1,1 +1,1 @@
-export { listentogetherPlayCommand } from '../generated/client.generated.ts'
+export { listentogetherPlayCommand } from '../generated/client.generated.ts';

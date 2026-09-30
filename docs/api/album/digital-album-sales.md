@@ -33,13 +33,13 @@ GET /digitalAlbum/sales?ids=120605500,125080528
 ## 编程式调用
 
 ```ts
-import { digitalAlbumSales } from 'hana-music-api'
+import { digitalAlbumSales } from 'hana-music-api';
 
 const result = await digitalAlbumSales({
   ids: '120605500',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

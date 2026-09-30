@@ -1,5 +1,11 @@
 # hana-music-api
 
+HTTP 模块请求默认每个连接 IP 每秒 2 次、突发 10 次，最多同时执行 32 个模块及 2 个上传。
+超频返回 429，容量耗尽返回 503，并附带 `Retry-After`。仅显式 `traffic.trustedProxyIps` 中的连接地址可转发客户端 IP。
+HTTP 只接受业务参数及传统 `cookie` / `noCookie`；`domain`、`proxy`、`headers`、`retry` 等执行配置请迁移到受信任 SDK config。
+请求体默认限制为 10 MiB；multipart 文件总量按此上限计算，完整请求另预留 64 KiB 容纳表单字段、边界和头。读取超过 5 秒返回 408；服务端可通过 `maxBodyBytes` / `bodyTimeoutMs` 调整，更大的音频文件需相应提高上限。
+调试执行入口默认关闭；本地调用 `startServer({ hostname: '127.0.0.1', debugApiRequests: true })` 才可开启。
+
 `hana-music-api` 是一个第三方网易云音乐 API 库，可直接在代码里调用，也可以作为 Bun 服务自行部署。
 
 ## 安装
@@ -18,24 +24,24 @@ SDK 运行环境：
 最省事的方式是先创建一个 client：
 
 ```ts
-import { createHanaMusicApi } from 'hana-music-api'
+import { createHanaMusicApi } from 'hana-music-api';
 
 const hana = createHanaMusicApi({
   cookie: 'MUSIC_U=your-cookie',
-})
+});
 
 const result = await hana.search({
   keywords: '周杰伦',
   limit: 5,
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 如果你只想调少量接口，也可以直接导入单个函数：
 
 ```ts
-import { songUrl } from 'hana-music-api'
+import { songUrl } from 'hana-music-api';
 
 const result = await songUrl(
   {
@@ -44,15 +50,15 @@ const result = await songUrl(
   {
     cookie: 'MUSIC_U=your-cookie',
   },
-)
+);
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 如果模块名来自运行时字符串，可以用 `invokeModule()`：
 
 ```ts
-import { invokeModule } from 'hana-music-api'
+import { invokeModule } from 'hana-music-api';
 
 const result = await invokeModule(
   'user_account',
@@ -60,9 +66,9 @@ const result = await invokeModule(
   {
     cookie: 'MUSIC_U=your-cookie',
   },
-)
+);
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 启动 HTTP 服务

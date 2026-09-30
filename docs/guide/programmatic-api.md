@@ -7,21 +7,21 @@
 适合连续调用多个接口。
 
 ```ts
-import { createHanaMusicApi } from 'hana-music-api'
+import { createHanaMusicApi } from 'hana-music-api';
 
 export const hana = createHanaMusicApi({
   cookie: 'MUSIC_U=your-cookie',
-})
+});
 
 const searchResult = await hana.search({
   keywords: '周杰伦',
   limit: 5,
-})
+});
 
 const detailResult = await hana.songUrl({
   id: '347230',
   br: 320000,
-})
+});
 ```
 
 ## 原始模块函数
@@ -29,7 +29,7 @@ const detailResult = await hana.songUrl({
 适合按需导入少量接口。
 
 ```ts
-import { search, songUrl } from 'hana-music-api'
+import { search, songUrl } from 'hana-music-api';
 
 const searchResult = await search(
   {
@@ -39,7 +39,7 @@ const searchResult = await search(
   {
     cookie: 'MUSIC_U=your-cookie',
   },
-)
+);
 
 const songUrlResult = await songUrl(
   {
@@ -48,7 +48,7 @@ const songUrlResult = await songUrl(
   {
     cookie: 'MUSIC_U=your-cookie',
   },
-)
+);
 ```
 
 ## invokeModule
@@ -56,7 +56,7 @@ const songUrlResult = await songUrl(
 适合模块名来自运行时字符串的场景。
 
 ```ts
-import { invokeModule } from 'hana-music-api'
+import { invokeModule } from 'hana-music-api';
 
 const account = await invokeModule(
   'user_account',
@@ -64,7 +64,7 @@ const account = await invokeModule(
   {
     cookie: 'MUSIC_U=your-cookie',
   },
-)
+);
 ```
 
 ## 怎么传配置
@@ -85,7 +85,7 @@ await songUrl(
   {
     cookie: 'MUSIC_U=your-cookie',
   },
-)
+);
 ```
 
 ## 想更进一步

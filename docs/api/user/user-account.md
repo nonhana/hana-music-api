@@ -30,11 +30,11 @@ GET /user/account
 ## 编程式调用
 
 ```ts
-import { userAccount } from 'hana-music-api'
+import { userAccount } from 'hana-music-api';
 
-const result = await userAccount()
+const result = await userAccount();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

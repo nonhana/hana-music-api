@@ -1,1 +1,1 @@
-export { summaryAnnual } from '../generated/client.generated.ts'
+export { summaryAnnual } from '../generated/client.generated.ts';

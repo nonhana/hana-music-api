@@ -34,15 +34,15 @@ GET /event/forward?evId=6712917601&uid=32953014&forwards=测试内容
 ## 编程式调用
 
 ```ts
-import { eventForward } from 'hana-music-api'
+import { eventForward } from 'hana-music-api';
 
 const result = await eventForward({
   evId: '6712917601',
   uid: '32953014',
   forwards: '测试内容',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

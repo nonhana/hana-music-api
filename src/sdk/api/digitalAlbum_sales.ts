@@ -1,1 +1,1 @@
-export { digitalAlbumSales } from '../generated/client.generated.ts'
+export { digitalAlbumSales } from '../generated/client.generated.ts';

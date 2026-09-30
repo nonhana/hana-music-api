@@ -30,13 +30,13 @@ GET /ugc/artist/get?id=15396
 ## 编程式调用
 
 ```ts
-import { ugcArtistGet } from 'hana-music-api'
+import { ugcArtistGet } from 'hana-music-api';
 
 const result = await ugcArtistGet({
   id: '15396',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

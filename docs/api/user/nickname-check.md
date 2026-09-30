@@ -32,13 +32,13 @@ GET /nickname/check?nickname=binaryify
 ## 编程式调用
 
 ```ts
-import { nicknameCheck } from 'hana-music-api'
+import { nicknameCheck } from 'hana-music-api';
 
 const result = await nicknameCheck({
   nickname: 'binaryify',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -30,11 +30,11 @@ GET /setting
 ## 编程式调用
 
 ```ts
-import { setting } from 'hana-music-api'
+import { setting } from 'hana-music-api';
 
-const result = await setting()
+const result = await setting();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -16,7 +16,7 @@ const urlPreview = document.querySelector('#search-url-preview')
 const resultPanel = document.querySelector('#search-result')
 const feedback = document.querySelector('#search-feedback')
 
-function buildSearchUrl() {
+const buildSearchUrl = () => {
   const params = new URLSearchParams()
   params.set('keywords', keywordsInput.value.trim())
   params.set('type', typeInput.value)
@@ -51,4 +51,4 @@ form?.addEventListener('submit', async (event) => {
     setTextContent(resultPanel, message)
   }
 })
-`
+`;

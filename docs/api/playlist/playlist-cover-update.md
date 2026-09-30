@@ -35,14 +35,14 @@ GET /playlist/cover/update?id=3143833470&imgSize=200
 ## 编程式调用
 
 ```ts
-import { playlistCoverUpdate } from 'hana-music-api'
+import { playlistCoverUpdate } from 'hana-music-api';
 
 const result = await playlistCoverUpdate({
   id: '3143833470',
   imgSize: '200',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

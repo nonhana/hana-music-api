@@ -1,42 +1,50 @@
-import * as QRCode from 'qrcode'
+import { Effect, Schema } from 'effect';
+import * as QRCode from 'qrcode';
 
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LoginQrCreateQuery } from '../types/modules.ts'
+import { Call } from '../core/call.ts';
+import { ModuleInvariantFailed } from '../core/errors.ts';
+import { generateChainId } from '../core/utils.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import { decodeModuleInput as decodeInput } from './_input.ts';
 
-import { generateChainId } from '../core/utils.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+export type ModuleInput = {
+  key: string;
+  platform?: 'pc' | 'web' | (string & {});
+  qrimg?: boolean | number | string;
+};
 
-const legacyModule = async (query: LoginQrCreateQuery) => {
-  const platform = query.platform || 'pc'
-  const cookie = query.cookie || ''
+const inputSchema = Schema.Struct({
+  key: Schema.String,
+  platform: Schema.optional(
+    Schema.Union([Schema.Literal('pc'), Schema.Literal('web'), Schema.String]),
+  ),
+  qrimg: Schema.optional(
+    Schema.Union([Schema.Boolean, Schema.Number, Schema.String]),
+  ),
+});
 
-  let url = `https://music.163.com/login?codekey=${query.key}`
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
-  if (platform === 'web') {
-    const chainId = generateChainId(cookie)
-    url += `&chainId=${chainId}`
-  }
+const loginQrCreate: ModuleEffect<ModuleInput> = (query) =>
+  Effect.gen(function* () {
+    const call = yield* Call;
+    let url = `https://music.163.com/login?codekey=${query.key}`;
+    if ((query.platform || 'pc') === 'web') {
+      url += `&chainId=${generateChainId(call.identity.cookie)}`;
+    }
+    const qrimg = query.qrimg
+      ? yield* Effect.tryPromise({
+          try: () => QRCode.toDataURL(url),
+          catch: (error) =>
+            new ModuleInvariantFailed({ message: String(error) }),
+        })
+      : '';
+    return {
+      status: 200,
+      body: { code: 200, data: { qrurl: url, qrimg } },
+      cookie: [],
+    };
+  });
 
-  return {
-    status: 200,
-    body: {
-      code: 200,
-      data: {
-        qrurl: url,
-        qrimg: query.qrimg ? await QRCode.toDataURL(url) : '',
-      },
-    },
-    cookie: [],
-  }
-}
-
-export default async function migratedLoginQrCreate(
-  query: LoginQrCreateQuery,
-  _request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default loginQrCreate;

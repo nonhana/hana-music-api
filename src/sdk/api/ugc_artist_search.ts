@@ -1,1 +1,1 @@
-export { ugcArtistSearch } from '../generated/client.generated.ts'
+export { ugcArtistSearch } from '../generated/client.generated.ts';

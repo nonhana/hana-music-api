@@ -32,13 +32,13 @@ GET /artist/mv?id=6452
 ## 编程式调用
 
 ```ts
-import { artistMv } from 'hana-music-api'
+import { artistMv } from 'hana-music-api';
 
 const result = await artistMv({
   id: '6452',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,1 +1,1 @@
-export { djTodayPerfered } from '../generated/client.generated.ts'
+export { djTodayPerfered } from '../generated/client.generated.ts';

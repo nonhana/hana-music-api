@@ -32,13 +32,13 @@ GET /top/list?id=2809577409
 ## 编程式调用
 
 ```ts
-import { topList } from 'hana-music-api'
+import { topList } from 'hana-music-api';
 
 const result = await topList({
   id: '2809577409',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

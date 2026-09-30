@@ -1,1 +1,1 @@
-export { recordRecentAlbum } from '../generated/client.generated.ts'
+export { recordRecentAlbum } from '../generated/client.generated.ts';

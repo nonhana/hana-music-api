@@ -1,1 +1,1 @@
-export { ugcArtistGet } from '../generated/client.generated.ts'
+export { ugcArtistGet } from '../generated/client.generated.ts';

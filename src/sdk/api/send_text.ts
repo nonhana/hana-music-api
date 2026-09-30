@@ -1,1 +1,1 @@
-export { sendText } from '../generated/client.generated.ts'
+export { sendText } from '../generated/client.generated.ts';

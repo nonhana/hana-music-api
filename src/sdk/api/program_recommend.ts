@@ -1,1 +1,1 @@
-export { programRecommend } from '../generated/client.generated.ts'
+export { programRecommend } from '../generated/client.generated.ts';

@@ -19,9 +19,9 @@ description: '调用此接口，传入音乐 id, 可喜欢该音乐'
 
 ## 请求参数
 
-| 参数   | 类型    | 必填 | 默认值 | 说明                                                 |
-| ------ | ------- | :--: | ------ | ---------------------------------------------------- |
-| `id`   | string  |  ✅  | -      | 歌曲 id                                              |
+| 参数   | 类型    | 必填 | 默认值 | 说明                                               |
+| ------ | ------- | :--: | ------ | -------------------------------------------------- |
+| `id`   | string  |  ✅  | -      | 歌曲 id                                            |
 | `like` | boolean |  —   | true   | 布尔值，默认为 true 即喜欢，若传 false, 则取消喜欢 |
 
 ## HTTP 示例
@@ -33,13 +33,13 @@ GET /like?id=347230
 ## 编程式调用
 
 ```ts
-import { like } from 'hana-music-api'
+import { like } from 'hana-music-api';
 
 const result = await like({
   id: '347230',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

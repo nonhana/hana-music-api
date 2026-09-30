@@ -22,8 +22,8 @@ description: '调用此接口，传入音乐 id 和 limit 参数，可获得该�
 | 参数     | 类型             | 必填 | 默认值 | 说明                                                                                  |
 | -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------------------------- |
 | `id`     | string           |  ✅  | -      | 音乐 id                                                                               |
-| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20                                                              |
-| `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*20, 其中 20 为 limit 的值                   |
+| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20                                                               |
+| `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*20, 其中 20 为 limit 的值                     |
 | `before` | number \| string |  —   | -      | 分页参数,取上一页最后一项的 `time` 获取下一页数据(获取超过 5000 条评论的时候需要用到) |
 
 ## HTTP 示例
@@ -35,14 +35,14 @@ GET /comment/music?id=186016&limit=1
 ## 编程式调用
 
 ```ts
-import { commentMusic } from 'hana-music-api'
+import { commentMusic } from 'hana-music-api';
 
 const result = await commentMusic({
   id: '186016',
   limit: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

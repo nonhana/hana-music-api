@@ -30,7 +30,7 @@ GET /cloud/import?song=最伟大的作品&artist=周杰伦&album=最伟大的作
 ## 编程式调用
 
 ```ts
-import { cloudImport } from 'hana-music-api'
+import { cloudImport } from 'hana-music-api';
 
 const result = await cloudImport({
   song: '最伟大的作品',
@@ -40,9 +40,9 @@ const result = await cloudImport({
   fileSize: '50412168',
   bitrate: '1652',
   md5: 'd02b8ab79d91c01167ba31e349fe5275',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明
@@ -84,7 +84,7 @@ console.log(result.body)
 其中比特率`bitrate`要进行以下转换
 
 ```js
-bitrate = Math.floor(br / 1000)
+bitrate = Math.floor(br / 1000);
 ```
 
 导入后的文件名后缀均为 `.mp3` 。但用 `获取音乐url` 获取到的文件格式仍然是正确的。

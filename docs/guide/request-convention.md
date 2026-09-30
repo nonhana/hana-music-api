@@ -1,78 +1,47 @@
 # 调用约定
 
-很多接口问题不是参数写错，而是请求方式、缓存、Cookie 或代理没处理好。这一页整理这几类规则。
+## HTTP 输入
 
-## 请求方式
+模块路由接受 GET/POST 业务参数和传统的 `cookie` / `noCookie`。请求头 Cookie 作为默认值，query 再覆盖，body 最后覆盖；HTTPS 响应保留 `SameSite=None; Secure`。
 
-为了兼容常见调用方式，大多数接口同时支持 `GET` / `POST`。实际使用时建议按场景选择：
+HTTP 不能设置执行配置。`domain`、`proxy`、`headers`、`fetcher`、`state`、`retry`、`timeoutMs` 等会在发送前返回 400。
+`signal`、`crypto`、`ip`、`realIP`、`ua` 也一样。
+SDK 调用应把这些字段放在 config。
 
-- 简单调试：`GET`
-- 密码、Cookie、复杂输入：优先 `POST`
+## 入口保护
 
-## 时间戳与缓存
+默认每个连接 IP 每秒 2 次、突发 10 次，最多同时执行 32 个模块和 2 个上传。限流返回 429，容量耗尽返回 503，附带 `Retry-After`。许可在 body 解析前取得。
+静态资源、文档与 `/health` 不消耗模块配额。
 
-部分接口为了降低对上游的重复请求，会对相同 URL 在短时间内命中缓存。因此：
+身份取 Bun 的真实连接地址。只有连接地址属于显式的 `traffic.trustedProxyIps` 才接受第一个有效的 `X-Forwarded-For` IP；
+反向代理必须覆盖客户端传入的 `X-Forwarded-For`，不能追加。嵌入式 Hono 没有连接地址时共用 `unknown` 桶。
 
-- 如果需要每次都重新请求结果，请追加时间戳参数
-- 轮询二维码状态、刷新登录状态、需要强制刷新结果的接口，请务必这么处理
+调试执行入口 `/demo/api-debug/request` 默认返回 404。本地代码可用以下配置开启：
 
-示例：
-
-```text
-/simi/playlist?id=347230&timestamp=1503019930000
+```ts
+startServer({ hostname: '127.0.0.1', debugApiRequests: true });
 ```
 
-## Cookie 传递
+只接受受控的 `/api/` URI 与加密枚举。
 
-跨域请求或脚本调用时，Cookie 需要显式传入：
+## 缓存
 
-- 浏览器：确保请求携带凭证
-- 程序化调用：把 `cookie` 放在 query 对象中
-- 手动 HTTP 调用：把 `cookie` 作为 query/body 字段
+HTTP 只缓存 `search`、`lyric`、`song_detail`、`playlist_detail`，默认 120 秒。同身份、参数、目标和配置的同时读取只发一次上游请求。
 
-## 登录态接口
+登录、二维码轮询、批量、写入、上传以及未分类模块不缓存、不合并。轮询不需要用时间戳避免本地缓存；读取接口可用变化的 timestamp 刷新。
 
-如果接口说明中标注了“需要登录”或“登录后调用”，未携带有效 Cookie 时常见现象包括：
+## SDK 配置
 
-- `301`
-- 返回空数据
-- 上游要求额外验证
-
-遇到这类问题时，优先确认：
-
-1. 是否真的带了 Cookie
-2. 是否命中了缓存中的旧结果
-3. 登录状态是否过期
-
-## 代理、IP 与区域限制
-
-项目支持通过 query 参数传入代理：
-
-```text
-?proxy=http://host:port
+```ts
+await hana.search(
+  { keywords: '音乐' },
+  {
+    cookie: 'MUSIC_U=your-token',
+    timeoutMs: 5000,
+    signal: controller.signal,
+  },
+);
 ```
 
-在部分环境下，如果网易上游出现区域限制或 `460` 一类异常，可尝试传入国内 IP：
-
-```text
-?realIP=116.25.146.177
-```
-
-## 其他常见约定
-
-- 图片资源支持 `?param=宽y高` 形式控制尺寸
-- 分页接口的 `more = true` 通常表示还有下一页
-- 可通过 `noCookie=true` 禁止接口头部携带 Cookie
-- 可通过 `ua` 参数手动覆盖 `User-Agent`
-
-## 当文档与实际行为不一致时
-
-受上游策略变化影响，少数接口的参数、返回字段或可用性可能出现调整。若页面说明与实际调用结果不一致，建议优先以当前服务行为为准，以下情况尤其值得留意：
-
-- 页面示例可访问，但旧参数名已经失效
-- 返回字段与示例存在差异
-- 上游接口已下线、限流，或需要额外验证
-
-## 深入请求层
-
-如果要改造请求层本身，比如换底层 fetch、配置重试与超时、做流量伪装、接入埋点，从 [请求层架构总览](/guide/request-layer-overview) 开始。
+`proxy` 配置真实代理；`ip` / `realIP` 仅影响 HTTP 头，不会改变网络出口。
+详见 [执行配置](/guide/config-reference) 和 [请求层总览](/guide/request-layer-overview)。

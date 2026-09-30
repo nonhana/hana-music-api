@@ -32,13 +32,13 @@ GET /dj/detail?rid=336355127
 ## 编程式调用
 
 ```ts
-import { djDetail } from 'hana-music-api'
+import { djDetail } from 'hana-music-api';
 
 const result = await djDetail({
   rid: '336355127',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

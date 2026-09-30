@@ -31,13 +31,13 @@ GET /get/userids?nicknames=binaryify;binaryify2
 ## 编程式调用
 
 ```ts
-import { getUserids } from 'hana-music-api'
+import { getUserids } from 'hana-music-api';
 
 const result = await getUserids({
   nicknames: 'binaryify',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

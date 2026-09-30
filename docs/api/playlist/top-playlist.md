@@ -21,10 +21,10 @@ description: '调用此接口，可获取网友精选碟歌单'
 
 | 参数     | 类型             | 必填 | 默认值 | 说明                                                                                                        |
 | -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------------------------------------------- |
-| `order`  | string           |  —   | 为     | 可选值为 'new' 和 'hot', 分别对应最新和最热，默认为<br>'hot'                                               |
+| `order`  | string           |  —   | 为     | 可选值为 'new' 和 'hot', 分别对应最新和最热，默认为<br>'hot'                                                |
 | `cat`    | string           |  —   | 为     | tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为<br>"全部",可从歌单分类接口获取(/playlist/catlist) |
-| `limit`  | number \| string |  —   | 50     | 取出歌单数量，默认为 50                                                                                    |
-| `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*50, 其中 50 为 limit 的值                                         |
+| `limit`  | number \| string |  —   | 50     | 取出歌单数量，默认为 50                                                                                     |
+| `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*50, 其中 50 为 limit 的值                                           |
 
 ## HTTP 示例
 
@@ -35,14 +35,14 @@ GET /top/playlist?limit=10&order=new
 ## 编程式调用
 
 ```ts
-import { topPlaylist } from 'hana-music-api'
+import { topPlaylist } from 'hana-music-api';
 
 const result = await topPlaylist({
   limit: '10',
   order: 'new',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

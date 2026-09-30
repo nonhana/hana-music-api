@@ -1,15 +1,20 @@
-import { withMermaid } from 'vitepress-plugin-mermaid'
+import { withMermaid } from 'vitepress-plugin-mermaid';
 
-import { apiNavLink, apiSidebar } from './sidebar.generated.ts'
+import { apiNavLink, apiSidebar } from './sidebar.generated.ts';
 
-const docsBase = normalizeDocsBase(process.env.DOCS_BASE)
+const docsBase = normalizeDocsBase(process.env.DOCS_BASE);
 
 export default withMermaid({
   base: docsBase,
   lang: 'zh-CN',
   title: 'hana-music-api',
   description: 'hana-music-api 接口文档与使用说明。',
-  head: [['link', { rel: 'icon', type: 'image/svg+xml', href: `${docsBase}logo.svg` }]],
+  head: [
+    [
+      'link',
+      { rel: 'icon', type: 'image/svg+xml', href: `${docsBase}logo.svg` },
+    ],
+  ],
   cleanUrls: true,
   lastUpdated: true,
   themeConfig: {
@@ -32,7 +37,10 @@ export default withMermaid({
         {
           text: '上手指南',
           items: [
-            { text: '什么是 hana-music-api', link: '/guide/what-is-hana-music-api' },
+            {
+              text: '什么是 hana-music-api',
+              link: '/guide/what-is-hana-music-api',
+            },
             { text: '快速开始', link: '/guide/getting-started' },
             { text: '认证机制', link: '/guide/authentication' },
             { text: '调用约定', link: '/guide/request-convention' },
@@ -47,11 +55,20 @@ export default withMermaid({
             { text: '执行配置完整参考', link: '/guide/config-reference' },
             { text: '加密模式', link: '/guide/crypto-modes' },
             { text: '自定义 fetcher', link: '/guide/custom-fetcher' },
-            { text: '重试、超时与连接策略', link: '/guide/retry-timeout-resilience' },
+            {
+              text: '重试、超时与连接策略',
+              link: '/guide/retry-timeout-resilience',
+            },
             { text: '调试与可观测性', link: '/guide/observability' },
             { text: '运行时状态与身份伪装', link: '/guide/runtime-identity' },
-            { text: 'SDK 缓存与身份池', link: '/guide/sdk-cache-and-identity-pool' },
-            { text: '直接使用请求原语', link: '/guide/create-request-and-create-option' },
+            {
+              text: 'SDK 缓存与身份池',
+              link: '/guide/sdk-cache-and-identity-pool',
+            },
+            {
+              text: '直接使用请求原语',
+              link: '/guide/create-request-and-create-option',
+            },
           ],
         },
       ],
@@ -71,22 +88,24 @@ export default withMermaid({
       prev: '上一页',
       next: '下一页',
     },
-    socialLinks: [{ icon: 'github', link: 'https://github.com/nonhana/hana-music-api' }],
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/nonhana/hana-music-api' },
+    ],
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2025-present non_hana',
     },
   },
-})
+});
 
 function normalizeDocsBase(base?: string): string {
   if (!base) {
-    return '/docs/'
+    return '/docs/';
   }
 
   if (base === '/') {
-    return '/'
+    return '/';
   }
 
-  return `/${base.replace(/^\/+|\/+$/g, '')}/`
+  return `/${base.replace(/^\/+|\/+$/g, '')}/`;
 }

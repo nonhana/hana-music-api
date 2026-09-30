@@ -21,9 +21,9 @@ description: '调用此接口，传入 mlog id, 可获取 mlog 播放地址'
 
 ## 请求参数
 
-| 参数  | 类型             | 必填 | 默认值 | 说明                 |
-| ----- | ---------------- | :--: | ------ | -------------------- |
-| `id`  | string           |  ✅  | -      | mlog id              |
+| 参数  | 类型             | 必填 | 默认值 | 说明                |
+| ----- | ---------------- | :--: | ------ | ------------------- |
+| `id`  | string           |  ✅  | -      | mlog id             |
 | `res` | number \| string |  —   | 1080   | 分辨率，默认为 1080 |
 
 ## HTTP 示例
@@ -35,13 +35,13 @@ GET /mlog/url?id=a1qOVPTWKS1ZrK8
 ## 编程式调用
 
 ```ts
-import { mlogUrl } from 'hana-music-api'
+import { mlogUrl } from 'hana-music-api';
 
 const result = await mlogUrl({
   id: 'a1qOVPTWKS1ZrK8',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

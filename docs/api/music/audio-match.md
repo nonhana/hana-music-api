@@ -30,11 +30,11 @@ GET /audio/match
 ## 编程式调用
 
 ```ts
-import { audioMatch } from 'hana-music-api'
+import { audioMatch } from 'hana-music-api';
 
-const result = await audioMatch()
+const result = await audioMatch();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

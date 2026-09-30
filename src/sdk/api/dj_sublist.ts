@@ -1,1 +1,1 @@
-export { djSublist } from '../generated/client.generated.ts'
+export { djSublist } from '../generated/client.generated.ts';

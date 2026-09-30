@@ -1,134 +1,194 @@
-import * as mm from 'music-metadata'
-import { createHash } from 'node:crypto'
+import { createHash } from 'node:crypto';
 
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { CloudQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
+import * as metadata from 'music-metadata';
 
-import { createOption } from '../core/options.ts'
-import uploadPlugin from '../plugins/song-upload.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { Call } from '../core/call.ts';
+import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
+import { uploadWork } from '../core/upload-work.ts';
+import { isRecord } from '../core/utils.ts';
+import uploadSongPlugin from '../plugins/song-upload.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyUploadedFile } from '../types/module-shared.ts';
+import { decodeModuleInput as decodeInput, UploadedFile } from './_input.ts';
 
-const legacyModule = async (query: CloudQuery, request: ModuleRequest) => {
-  if (!query.songFile) {
-    throw {
-      status: 500,
-      body: {
-        msg: '请上传音乐文件',
-        code: 500,
-      },
-      cookie: [],
-    }
-  }
+export type ModuleInput = {
+  songFile?: LegacyUploadedFile;
+};
 
-  const songFile = query.songFile
-  const songBuffer = toBuffer(songFile.data)
-  let ext = 'mp3'
-  if (songFile.name.includes('.')) {
-    ext = songFile.name.split('.').pop() ?? ext
-  }
-  songFile.name = Buffer.from(songFile.name, 'latin1').toString('utf-8')
-  const filename = songFile.name
-    .replace('.' + ext, '')
-    .replace(/\s/g, '')
-    .replace(/\./g, '_')
-  const bitrate = 999000
-  if (!songFile.md5) {
-    // 命令行上传没有md5和size信息,需要填充
-    songFile.md5 = createHash('md5').update(songBuffer).digest('hex')
-    songFile.size = songBuffer.byteLength
-  }
-  const res = await request(
-    `/api/cloud/upload/check`,
-    {
-      bitrate: String(bitrate),
-      ext: '',
-      length: songFile.size,
-      md5: songFile.md5,
-      songId: '0',
-      version: 1,
-    },
-    createOption(query),
-  )
-  let artist = ''
-  let album = ''
-  let songName = ''
-  try {
-    const metadata = await mm.parseBuffer(songBuffer, songFile.mimetype)
-    const info = metadata.common
+const inputSchema = Schema.Struct({
+  songFile: Schema.optional(UploadedFile),
+});
 
-    if (info.title) {
-      songName = info.title
-    }
-    if (info.album) {
-      album = info.album
-    }
-    if (info.artist) {
-      artist = info.artist
-    }
-  } catch {}
-  const tokenRes = await request(
-    `/api/nos/token/alloc`,
-    {
-      bucket: '',
-      ext: ext,
-      filename: filename,
-      local: false,
-      nos_product: 3,
-      type: 'audio',
-      md5: songFile.md5,
-    },
-    createOption(query),
-  )
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
-  if (res.body.needUpload) {
-    await uploadPlugin(query, request)
-  }
-  const res2 = await request(
-    `/api/upload/cloud/info/v2`,
-    {
-      md5: songFile.md5,
-      songid: res.body.songId,
-      filename: songFile.name,
-      song: songName || filename,
-      album: album || '未知专辑',
-      artist: artist || '未知艺术家',
-      bitrate: String(bitrate),
-      resourceId: tokenRes.body.result.resourceId,
-    },
-    createOption(query),
-  )
-  const res3 = await request(
-    `/api/cloud/pub/v2`,
-    {
-      songid: res2.body.songId,
-    },
-    createOption(query),
-  )
-  return {
-    status: 200,
-    body: {
-      ...res.body,
-      ...res3.body,
-    },
-    cookie: res.cookie,
-  }
-}
+const cloud: ModuleEffect<ModuleInput> = (input, request) =>
+  uploadWork('cloud', request, (stage) =>
+    Effect.gen(function* () {
+      if (!input.songFile) {
+        return yield* Effect.fail(
+          new InvalidModuleInput({ message: '请上传音乐文件', status: 500 }),
+        );
+      }
+      const call = yield* Call;
+      const bytes =
+        input.songFile.data instanceof ArrayBuffer
+          ? new Uint8Array(input.songFile.data)
+          : input.songFile.data;
+      const ext = input.songFile.name.includes('.')
+        ? input.songFile.name.split('.').pop()!
+        : 'mp3';
+      const songFile = {
+        ...input.songFile,
+        name: Buffer.from(input.songFile.name, 'latin1').toString('utf-8'),
+        md5:
+          input.songFile.md5 || createHash('md5').update(bytes).digest('hex'),
+        size: input.songFile.md5 ? input.songFile.size : bytes.byteLength,
+      };
+      const filename = songFile.name
+        .replace('.' + ext, '')
+        .replace(/\s/g, '')
+        .replace(/\./g, '_');
+      const checked = yield* stage({
+        target: '/api/cloud/upload/check',
+        protocol: call.config.crypto || 'eapi',
+        method: 'POST',
+        headers: {},
+        body: JSON.stringify({
+          bitrate: '999000',
+          ext: '',
+          length: songFile.size,
+          md5: songFile.md5,
+          songId: '0',
+          version: 1,
+        }),
+        response: 'json',
+        semantic: 'upload',
+      });
+      const check = yield* Schema.decodeUnknownEffect(
+        Schema.Struct({
+          needUpload: Schema.Boolean,
+          songId: Schema.Union([Schema.String, Schema.Number]),
+        }),
+      )(checked.body).pipe(
+        Effect.mapError(
+          () =>
+            new UnexpectedUpstreamShape({
+              module: 'cloud',
+              path: 'body',
+              expected: 'needUpload and songId',
+              actual: typeof checked.body,
+            }),
+        ),
+      );
+      const tags = yield* Effect.tryPromise(() =>
+        metadata.parseBuffer(bytes, songFile.mimetype),
+      ).pipe(
+        Effect.map((info) => info.common),
+        Effect.catch(() =>
+          Effect.succeed({ title: '', album: '', artist: '' }),
+        ),
+      );
+      const allocation = yield* stage({
+        target: '/api/nos/token/alloc',
+        protocol: call.config.crypto || 'eapi',
+        method: 'POST',
+        headers: {},
+        body: JSON.stringify({
+          bucket: '',
+          ext,
+          filename,
+          local: false,
+          nos_product: 3,
+          type: 'audio',
+          md5: songFile.md5,
+        }),
+        response: 'json',
+        semantic: 'upload',
+      });
+      const { result: token } = yield* Schema.decodeUnknownEffect(
+        Schema.Struct({
+          result: Schema.Struct({
+            resourceId: Schema.Union([Schema.String, Schema.Number]),
+          }),
+        }),
+      )(allocation.body).pipe(
+        Effect.mapError(
+          () =>
+            new UnexpectedUpstreamShape({
+              module: 'cloud',
+              path: 'result.resourceId',
+              expected: 'resource identifier',
+              actual: typeof allocation.body,
+            }),
+        ),
+      );
+      if (check.needUpload) {
+        yield* uploadSongPlugin({ ...input, songFile }, stage);
+      }
+      const information = yield* stage({
+        target: '/api/upload/cloud/info/v2',
+        protocol: call.config.crypto || 'eapi',
+        method: 'POST',
+        headers: {},
+        body: JSON.stringify({
+          md5: songFile.md5,
+          songid: check.songId,
+          filename: songFile.name,
+          song: tags.title || filename,
+          album: tags.album || '未知专辑',
+          artist: tags.artist || '未知艺术家',
+          bitrate: '999000',
+          resourceId: token.resourceId,
+        }),
+        response: 'json',
+        semantic: 'upload',
+      });
+      const info = yield* Schema.decodeUnknownEffect(
+        Schema.Struct({ songId: Schema.Union([Schema.String, Schema.Number]) }),
+      )(information.body).pipe(
+        Effect.mapError(
+          () =>
+            new UnexpectedUpstreamShape({
+              module: 'cloud',
+              path: 'songId',
+              expected: 'song identifier',
+              actual: typeof information.body,
+            }),
+        ),
+      );
+      const published = yield* stage({
+        target: '/api/cloud/pub/v2',
+        protocol: call.config.crypto || 'eapi',
+        method: 'POST',
+        headers: {},
+        body: JSON.stringify({ songid: info.songId }),
+        response: 'json',
+        semantic: 'upload',
+      });
+      if (!isRecord(published.body)) {
+        return yield* Effect.fail(
+          new UnexpectedUpstreamShape({
+            module: 'cloud',
+            path: 'body',
+            expected: 'object',
+            actual: typeof published.body,
+          }),
+        );
+      }
+      return {
+        status: 200,
+        cookie: [...checked.cookie],
+        body: {
+          ...(checked.body as Record<
+            string,
+            import('../types/index.ts').UnknownJson
+          >),
+          ...published.body,
+        },
+      };
+    }),
+  );
 
-export default async function migratedCloud(
-  query: CloudQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
-
-function toBuffer(data: ArrayBuffer | Buffer | Uint8Array): Buffer {
-  if (Buffer.isBuffer(data)) {
-    return data
-  }
-
-  return data instanceof Uint8Array ? Buffer.from(data) : Buffer.from(new Uint8Array(data))
-}
+export default cloud;

@@ -33,14 +33,14 @@ GET /event?pagesize=30&lasttime=1556740526369
 ## 编程式调用
 
 ```ts
-import { event } from 'hana-music-api'
+import { event } from 'hana-music-api';
 
 const result = await event({
   pagesize: '30',
   lasttime: '1556740526369',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

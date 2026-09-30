@@ -1,1 +1,1 @@
-export { userFollowMixed } from '../generated/client.generated.ts'
+export { userFollowMixed } from '../generated/client.generated.ts';

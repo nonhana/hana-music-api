@@ -1,1 +1,1 @@
-export { loginStatus } from '../generated/client.generated.ts'
+export { loginStatus } from '../generated/client.generated.ts';

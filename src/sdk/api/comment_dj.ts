@@ -1,1 +1,1 @@
-export { commentDj } from '../generated/client.generated.ts'
+export { commentDj } from '../generated/client.generated.ts';

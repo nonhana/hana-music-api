@@ -1,1 +1,1 @@
-export { relatedAllvideo } from '../generated/client.generated.ts'
+export { relatedAllvideo } from '../generated/client.generated.ts';

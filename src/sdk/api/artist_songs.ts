@@ -1,1 +1,1 @@
-export { artistSongs } from '../generated/client.generated.ts'
+export { artistSongs } from '../generated/client.generated.ts';

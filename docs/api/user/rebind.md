@@ -35,15 +35,15 @@ GET /rebind?phone=xxx&oldcaptcha=1234&captcha=5678
 ## 编程式调用
 
 ```ts
-import { rebind } from 'hana-music-api'
+import { rebind } from 'hana-music-api';
 
 const result = await rebind({
   phone: 'xxx',
   oldcaptcha: '1234',
   captcha: '5678',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

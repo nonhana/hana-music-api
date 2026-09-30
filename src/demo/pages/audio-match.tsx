@@ -1,15 +1,21 @@
-import type { FC } from 'hono/jsx'
+import type { FC } from 'hono/jsx';
 
-import { CodeBlock } from '../components/code-block.tsx'
-import { PageHeader, Surface } from '../components/demo-shell.tsx'
+import { CodeBlock } from '../components/code-block.tsx';
+import { PageHeader, Surface } from '../components/demo-shell.tsx';
 
 export const AudioMatchPage: FC = () => {
   return (
     <>
-      <PageHeader description="上传音频片段识别歌曲，可选混入麦克风。" title="听歌识曲" />
+      <PageHeader
+        description="上传音频片段识别歌曲，可选混入麦克风。"
+        title="听歌识曲"
+      />
 
       <div class="two-column-grid">
-        <Surface description="选择音频文件后开始识别，可选混入麦克风。" title="音频输入">
+        <Surface
+          description="选择音频文件后开始识别，可选混入麦克风。"
+          title="音频输入"
+        >
           <div class="stack-form">
             <div class="compact-grid audio-match-meta">
               <div class="surface subtle-panel">
@@ -39,7 +45,12 @@ export const AudioMatchPage: FC = () => {
             </label>
 
             <div class="action-row">
-              <button class="primary-button" disabled id="audio-match-run" type="button">
+              <button
+                class="primary-button"
+                disabled
+                id="audio-match-run"
+                type="button"
+              >
                 开始识别
               </button>
               <p class="inline-note" id="audio-match-status">
@@ -69,5 +80,5 @@ export const AudioMatchPage: FC = () => {
       <script src="/demo/assets/audio-match/afp.js"></script>
       <script src="/demo/client/audio-match.js" type="module"></script>
     </>
-  )
-}
+  );
+};

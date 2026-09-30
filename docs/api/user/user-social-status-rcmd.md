@@ -30,11 +30,11 @@ GET /user/social/status/rcmd
 ## 编程式调用
 
 ```ts
-import { userSocialStatusRcmd } from 'hana-music-api'
+import { userSocialStatusRcmd } from 'hana-music-api';
 
-const result = await userSocialStatusRcmd()
+const result = await userSocialStatusRcmd();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

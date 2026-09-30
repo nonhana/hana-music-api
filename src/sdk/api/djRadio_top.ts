@@ -1,1 +1,1 @@
-export { djRadioTop } from '../generated/client.generated.ts'
+export { djRadioTop } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { mlogUrl } from '../generated/client.generated.ts'
+export { mlogUrl } from '../generated/client.generated.ts';

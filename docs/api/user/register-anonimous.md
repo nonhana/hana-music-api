@@ -30,11 +30,11 @@ GET /register/anonimous
 ## 编程式调用
 
 ```ts
-import { registerAnonimous } from 'hana-music-api'
+import { registerAnonimous } from 'hana-music-api';
 
-const result = await registerAnonimous()
+const result = await registerAnonimous();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

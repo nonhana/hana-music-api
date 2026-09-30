@@ -1,4 +1,4 @@
-import type { FC, PropsWithChildren } from 'hono/jsx'
+import type { FC, PropsWithChildren } from 'hono/jsx';
 
 const CopyIcon: FC = () => {
   return (
@@ -17,20 +17,20 @@ const CopyIcon: FC = () => {
       <rect width="8" height="4" x="8" y="2" rx="1" ry="1" />
       <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
     </svg>
-  )
-}
+  );
+};
 
 export const CodeBlock: FC<
   PropsWithChildren<{
-    className?: string
-    heading?: string
-    id: string
-    tall?: boolean
+    className?: string;
+    heading?: string;
+    id: string;
+    tall?: boolean;
   }>
 > = ({ children, className, heading, id, tall }) => {
   const blockClassName = ['code-block', tall ? 'is-tall' : '', className ?? '']
     .filter(Boolean)
-    .join(' ')
+    .join(' ');
 
   return (
     <section class={blockClassName}>
@@ -57,5 +57,5 @@ export const CodeBlock: FC<
         {children}
       </pre>
     </section>
-  )
-}
+  );
+};

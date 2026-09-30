@@ -1,1 +1,1 @@
-export { yunbeiReceipt } from '../generated/client.generated.ts'
+export { yunbeiReceipt } from '../generated/client.generated.ts';

@@ -30,11 +30,11 @@ GET /recommend/songs
 ## 编程式调用
 
 ```ts
-import { recommendSongs } from 'hana-music-api'
+import { recommendSongs } from 'hana-music-api';
 
-const result = await recommendSongs()
+const result = await recommendSongs();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

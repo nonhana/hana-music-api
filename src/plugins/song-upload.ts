@@ -1,91 +1,106 @@
-import type { ModuleRequest } from '../types/index.ts'
-import type { UploadSongQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
+import { Call } from '../core/call.ts';
+import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
+import { isRecord } from '../core/utils.ts';
+import type { RequestCapability } from '../types/index.ts';
+import type { LegacyUploadedFile } from '../types/module-shared.ts';
 
-interface LbsResponse {
-  upload?: string[]
-}
+export type UploadSongQuery = { songFile?: LegacyUploadedFile };
 
-export default async function uploadSongPlugin(query: UploadSongQuery, request: ModuleRequest) {
-  if (!query.songFile) {
-    throw new TypeError('songFile is required for song upload plugin')
-  }
-  const songBuffer = toBuffer(query.songFile.data)
-
-  let ext = 'mp3'
-  if (query.songFile.name.includes('.')) {
-    ext = query.songFile.name.split('.').pop() ?? ext
-  }
-  const filename = query.songFile.name
-    .replace('.' + ext, '')
-    .replace(/\s/g, '')
-    .replace(/\./g, '_')
-  const bucket = 'jd-musicrep-privatecloud-audio-public'
-  //   获取key和token
-  const tokenRes = await request(
-    `/api/nos/token/alloc`,
-    {
-      bucket: bucket,
-      ext: ext,
-      filename: filename,
-      local: false,
-      nos_product: 3,
-      type: 'audio',
-      md5: query.songFile.md5,
-    },
-    createOption(query, 'weapi'),
-  )
-
-  // 上传
-  const objectKey = tokenRes.body.result.objectKey.replace('/', '%2F')
-  const lbs = readLbsResponse(
-    await (await fetch(`https://wanproxy.127.net/lbs?version=1.0&bucketname=${bucket}`)).json(),
-  )
-  const uploadBase = lbs.upload?.[0]
-  if (!uploadBase) {
-    throw new TypeError('NOS LBS upload endpoint is missing')
-  }
-
-  const response = await fetch(
-    `${uploadBase}/${bucket}/${objectKey}?offset=0&complete=true&version=1.0`,
-    {
+export default (input: UploadSongQuery, request: RequestCapability) => {
+  return Effect.gen(function* () {
+    if (!input.songFile) {
+      return yield* Effect.fail(
+        new InvalidModuleInput({
+          message: 'songFile is required for song upload plugin',
+          status: 502,
+        }),
+      );
+    }
+    const call = yield* Call;
+    const ext = input.songFile.name.includes('.')
+      ? input.songFile.name.split('.').pop()!
+      : 'mp3';
+    const filename = input.songFile.name
+      .replace('.' + ext, '')
+      .replace(/\s/g, '')
+      .replace(/\./g, '_');
+    const bucket = 'jd-musicrep-privatecloud-audio-public';
+    const allocation = yield* request({
+      target: '/api/nos/token/alloc',
+      protocol: call.config.crypto || 'weapi',
+      method: 'POST',
+      headers: {},
+      body: JSON.stringify({
+        bucket,
+        ext,
+        filename,
+        local: false,
+        nos_product: 3,
+        type: 'audio',
+        md5: input.songFile.md5,
+      }),
+      response: 'json',
+      semantic: 'upload',
+    });
+    const { result: token } = yield* Schema.decodeUnknownEffect(
+      Schema.Struct({
+        result: Schema.Struct({
+          objectKey: Schema.String,
+          token: Schema.String,
+        }),
+      }),
+    )(allocation.body).pipe(
+      Effect.mapError(
+        () =>
+          new UnexpectedUpstreamShape({
+            module: call.identifier,
+            path: 'result',
+            expected: 'objectKey and token',
+            actual: typeof allocation.body,
+          }),
+      ),
+    );
+    const lookup = yield* request({
+      target: `https://wanproxy.127.net/lbs?version=1.0&bucketname=${bucket}`,
+      protocol: 'plain',
+      method: 'GET',
+      headers: {},
+      response: 'json',
+      semantic: 'read',
+    });
+    const uploadBase =
+      isRecord(lookup.body) && Array.isArray(lookup.body.upload)
+        ? lookup.body.upload[0]
+        : undefined;
+    if (typeof uploadBase !== 'string' || !uploadBase) {
+      return yield* Effect.fail(
+        new UnexpectedUpstreamShape({
+          module: call.identifier,
+          path: 'upload[0]',
+          expected: 'upload URL',
+          actual: typeof uploadBase,
+        }),
+      );
+    }
+    yield* request({
+      target: `${uploadBase}/${bucket}/${encodeURIComponent(token.objectKey)}?offset=0&complete=true&version=1.0`,
+      protocol: 'plain',
       method: 'POST',
       headers: {
-        'x-nos-token': String(tokenRes.body.result.token),
-        'Content-MD5': query.songFile.md5 ?? '',
+        'x-nos-token': token.token,
+        'Content-MD5': input.songFile.md5 ?? '',
         'Content-Type': 'audio/mpeg',
-        'Content-Length': String(query.songFile.size),
+        'Content-Length': String(input.songFile.size),
       },
-      body: songBuffer,
-    },
-  )
-  if (!response.ok) {
-    throw new Error(`song upload failed with status ${response.status}`)
-  }
-  return {
-    ...tokenRes,
-  }
-}
-
-function toBuffer(data: ArrayBuffer | Buffer | Uint8Array): Buffer {
-  if (Buffer.isBuffer(data)) {
-    return data
-  }
-
-  return data instanceof Uint8Array ? Buffer.from(data) : Buffer.from(new Uint8Array(data))
-}
-
-function readLbsResponse(value: unknown): LbsResponse {
-  if (!isRecordLike(value) || !Array.isArray(value.upload)) {
-    return {}
-  }
-
-  return {
-    upload: value.upload.map((entry) => String(entry)),
-  }
-}
-
-function isRecordLike(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null
-}
+      body:
+        input.songFile.data instanceof ArrayBuffer
+          ? new Uint8Array(input.songFile.data)
+          : input.songFile.data,
+      response: 'bytes',
+      semantic: 'upload',
+    });
+    return allocation;
+  });
+};

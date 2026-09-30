@@ -1,1 +1,1 @@
-export { yunbeiRcmdSongHistory } from '../generated/client.generated.ts'
+export { yunbeiRcmdSongHistory } from '../generated/client.generated.ts';

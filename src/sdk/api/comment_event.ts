@@ -1,1 +1,1 @@
-export { commentEvent } from '../generated/client.generated.ts'
+export { commentEvent } from '../generated/client.generated.ts';

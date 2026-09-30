@@ -1,1 +1,1 @@
-export { cloud } from '../generated/client.generated.ts'
+export { cloud } from '../generated/client.generated.ts';

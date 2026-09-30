@@ -1,1 +1,1 @@
-export { aidjContentRcmd } from '../generated/client.generated.ts'
+export { aidjContentRcmd } from '../generated/client.generated.ts';

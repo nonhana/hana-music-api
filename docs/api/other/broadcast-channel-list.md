@@ -33,11 +33,11 @@ GET /broadcast/channel/list
 ## 编程式调用
 
 ```ts
-import { broadcastChannelList } from 'hana-music-api'
+import { broadcastChannelList } from 'hana-music-api';
 
-const result = await broadcastChannelList()
+const result = await broadcastChannelList();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

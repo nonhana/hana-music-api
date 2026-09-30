@@ -21,24 +21,24 @@ SDK 运行环境：
 标准调用方式是单例模式，先创建一个 client：
 
 ```ts
-import { createHanaMusicApi } from 'hana-music-api'
+import { createHanaMusicApi } from 'hana-music-api';
 
 export const hana = createHanaMusicApi({
   cookie: 'MUSIC_U=your-cookie',
-})
+});
 
 const result = await hana.search({
   keywords: '周杰伦',
   limit: 5,
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 如果只想调少量接口，也可以直接导入单个函数：
 
 ```ts
-import { songUrl } from 'hana-music-api'
+import { songUrl } from 'hana-music-api';
 
 const result = await songUrl(
   {
@@ -47,15 +47,15 @@ const result = await songUrl(
   {
     cookie: 'MUSIC_U=your-cookie',
   },
-)
+);
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 如果模块名来自运行时字符串，可以用 `invokeModule()`：
 
 ```ts
-import { invokeModule } from 'hana-music-api'
+import { invokeModule } from 'hana-music-api';
 
 const result = await invokeModule(
   'user_account',
@@ -63,9 +63,9 @@ const result = await invokeModule(
   {
     cookie: 'MUSIC_U=your-cookie',
   },
-)
+);
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 配置怎么传

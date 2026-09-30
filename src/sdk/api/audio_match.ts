@@ -1,1 +1,1 @@
-export { audioMatch } from '../generated/client.generated.ts'
+export { audioMatch } from '../generated/client.generated.ts';

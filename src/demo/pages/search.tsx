@@ -1,19 +1,30 @@
-import type { FC } from 'hono/jsx'
+import type { FC } from 'hono/jsx';
 
-import { CodeBlock } from '../components/code-block.tsx'
-import { PageHeader, Surface } from '../components/demo-shell.tsx'
+import { CodeBlock } from '../components/code-block.tsx';
+import { PageHeader, Surface } from '../components/demo-shell.tsx';
 
 export const SearchPage: FC = () => {
   return (
     <>
-      <PageHeader description="按关键词搜索并查看请求地址与返回结果。" title="搜索" />
+      <PageHeader
+        description="按关键词搜索并查看请求地址与返回结果。"
+        title="搜索"
+      />
 
       <div class="two-column-grid">
-        <Surface description="支持搜索歌曲、专辑、歌手、歌单和用户。" title="搜索参数">
+        <Surface
+          description="支持搜索歌曲、专辑、歌手、歌单和用户。"
+          title="搜索参数"
+        >
           <form class="stack-form" id="search-form">
             <label class="field">
               <span>关键词</span>
-              <input id="search-keywords" name="keywords" type="text" value="周杰伦" />
+              <input
+                id="search-keywords"
+                name="keywords"
+                type="text"
+                value="周杰伦"
+              />
             </label>
 
             <div class="compact-grid">
@@ -30,7 +41,14 @@ export const SearchPage: FC = () => {
 
               <label class="field">
                 <span>数量</span>
-                <input id="search-limit" max="50" min="1" name="limit" type="number" value="10" />
+                <input
+                  id="search-limit"
+                  max="50"
+                  min="1"
+                  name="limit"
+                  type="number"
+                  value="10"
+                />
               </label>
             </div>
 
@@ -70,5 +88,5 @@ export const SearchPage: FC = () => {
 
       <script src="/demo/client/search.js" type="module"></script>
     </>
-  )
-}
+  );
+};

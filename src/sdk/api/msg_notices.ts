@@ -1,1 +1,1 @@
-export { msgNotices } from '../generated/client.generated.ts'
+export { msgNotices } from '../generated/client.generated.ts';

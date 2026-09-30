@@ -1,42 +1,48 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LoginQrCheckQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import { decodeModuleInput as decodeInput } from './_input.ts';
 
-const legacyModule = async (query: LoginQrCheckQuery, request: ModuleRequest) => {
-  const data = {
-    key: query.key,
-    type: 3,
-  }
-  let result
-  try {
-    result = await request(`/api/login/qrcode/client/login`, data, createOption(query))
-    result = {
-      status: 200,
-      body: {
-        ...result.body,
-        cookie: result.cookie.join(';'),
-      },
-      cookie: result.cookie,
+export type ModuleInput = {
+  key: string;
+};
+
+const inputSchema = Schema.Struct({
+  key: Schema.String,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const loginQrCheck: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const result = yield* request(
+      buildApiRequestIntent(
+        '/api/login/qrcode/client/login',
+        { key: query.key, type: 3 },
+        createOption(query),
+      ),
+    );
+    const body = result.body;
+    if (body === null || typeof body !== 'object' || Array.isArray(body)) {
+      return yield* Effect.fail(
+        new UnexpectedUpstreamShape({
+          module: 'login_qr_check',
+          path: 'body',
+          expected: 'object',
+          actual: typeof body,
+        }),
+      );
     }
-    return result
-  } catch {
-    return {
+    return toModuleResponse({
+      ...result,
       status: 200,
-      body: {},
-      cookie: result?.cookie ?? [],
-    }
-  }
-}
+      body: { ...body, cookie: result.cookie.join(';') },
+    });
+  });
 
-export default async function migratedLoginQrCheck(
-  query: LoginQrCheckQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default loginQrCheck;

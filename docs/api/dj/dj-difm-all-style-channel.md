@@ -32,13 +32,13 @@ GET /dj/difm/all/style/channel?sources=[0]
 ## 编程式调用
 
 ```ts
-import { djDifmAllStyleChannel } from 'hana-music-api'
+import { djDifmAllStyleChannel } from 'hana-music-api';
 
 const result = await djDifmAllStyleChannel({
   sources: '[0]',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

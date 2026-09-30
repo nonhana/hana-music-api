@@ -1,1 +1,1 @@
-export { listenDataTotal } from '../generated/client.generated.ts'
+export { listenDataTotal } from '../generated/client.generated.ts';

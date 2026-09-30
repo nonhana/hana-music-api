@@ -1,29 +1,35 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    djRadioId: query.djRadioId || null, // 电台id
-    sortIndex: query.sortIndex || 1, // 排序 1:播放数 2:点赞数 3：评论数 4：分享数 5：收藏数
-    dataGapDays: query.dataGapDays || 7, // 天数 7:一周 30:一个月 90:三个月
-    dataType: query.dataType || 3, // 未知
-  }
-  return request('/api/expert/worksdata/works/top/get', data, createOption(query))
-}
+const djRadioTop: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      djRadioId: query.djRadioId || null, // 电台id
+      sortIndex: query.sortIndex || 1, // 排序 1:播放数 2:点赞数 3：评论数 4：分享数 5：收藏数
+      dataGapDays: query.dataGapDays || 7, // 天数 7:一周 30:一个月 90:三个月
+      dataType: query.dataType || 3, // 未知
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          '/api/expert/worksdata/works/top/get',
+          data,
+          createOption(query),
+        ),
+      ),
+    );
+  });
 
 /**
  * 电台排行榜获取
  */
-export default async function migratedDjRadioTop(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default djRadioTop;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+
+export type ModuleInput = LegacyModuleInput;

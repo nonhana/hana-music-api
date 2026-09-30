@@ -1,58 +1,114 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { PlaylistTrackAllQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type {
+  IdentifierQuery,
+  QueryNumberLike,
+} from '../types/module-shared.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+  QueryNumber,
+} from './_input.ts';
 
-interface PlaylistTrackId {
-  id: number | string
-}
+export type ModuleInput = IdentifierQuery & {
+  s?: QueryNumberLike;
 
-interface PlaylistTrackAllBody {
-  playlist?: {
-    trackIds?: PlaylistTrackId[]
-  }
-}
+  limit?: QueryNumberLike;
+  offset?: QueryNumberLike;
+};
 
-const legacyModule = (query: PlaylistTrackAllQuery, request: ModuleRequest) => {
-  const data = {
-    id: query.id,
-    n: 100000,
-    s: query.s || 8,
-  }
-  //不放在data里面避免请求带上无用的数据
-  const limit = parseInt(String(query.limit ?? 1000), 10) || 1000
-  const offset = parseInt(String(query.offset ?? 0), 10) || 0
+const inputSchema = Schema.Struct({
+  id: Identifier,
+  s: Schema.optional(QueryNumber),
+  limit: Schema.optional(QueryNumber),
+  offset: Schema.optional(QueryNumber),
+});
 
-  return request<PlaylistTrackAllBody>(`/api/v6/playlist/detail`, data, createOption(query)).then(
-    (res) => {
-      const trackIds = res.body.playlist?.trackIds ?? []
-      const idsData = {
-        c:
-          '[' +
-          trackIds
-            .slice(offset, offset + limit)
-            .map((item) => '{"id":' + item.id + '}')
-            .join(',') +
-          ']',
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const playlistTrackAll: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const limit = parseInt(String(query.limit ?? 1000), 10) || 1000;
+    const offset = parseInt(String(query.offset ?? 0), 10) || 0;
+    const response = yield* request(
+      buildApiRequestIntent(
+        '/api/v6/playlist/detail',
+        { id: query.id, n: 100000, s: query.s || 8 },
+        createOption(query),
+      ),
+    );
+    const body = response.body;
+    if (body === null || typeof body !== 'object' || Array.isArray(body)) {
+      return yield* Effect.fail(
+        new UnexpectedUpstreamShape({
+          module: 'playlist_track_all',
+          path: 'body',
+          expected: 'object',
+          actual: typeof body,
+        }),
+      );
+    }
+    const playlist = body.playlist;
+    if (
+      playlist !== undefined &&
+      (playlist === null ||
+        typeof playlist !== 'object' ||
+        Array.isArray(playlist))
+    ) {
+      return yield* Effect.fail(
+        new UnexpectedUpstreamShape({
+          module: 'playlist_track_all',
+          path: 'body.playlist',
+          expected: 'object',
+          actual: typeof playlist,
+        }),
+      );
+    }
+    const trackIds = playlist?.trackIds ?? [];
+    if (!Array.isArray(trackIds)) {
+      return yield* Effect.fail(
+        new UnexpectedUpstreamShape({
+          module: 'playlist_track_all',
+          path: 'body.playlist.trackIds',
+          expected: 'array',
+          actual: typeof trackIds,
+        }),
+      );
+    }
+    const ids: Array<number | string> = [];
+    for (const track of trackIds.slice(offset, offset + limit)) {
+      if (
+        track === null ||
+        typeof track !== 'object' ||
+        Array.isArray(track) ||
+        (typeof track.id !== 'number' && typeof track.id !== 'string')
+      ) {
+        return yield* Effect.fail(
+          new UnexpectedUpstreamShape({
+            module: 'playlist_track_all',
+            path: 'body.playlist.trackIds[].id',
+            expected: 'number or string',
+            actual: typeof track,
+          }),
+        );
       }
+      ids.push(track.id);
+    }
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          '/api/v3/song/detail',
+          { c: '[' + ids.map((id) => '{"id":' + id + '}').join(',') + ']' },
+          createOption(query),
+        ),
+      ),
+    );
+  });
 
-      return request(`/api/v3/song/detail`, idsData, createOption(query))
-    },
-  )
-}
-
-/**
- * 通过传过来的歌单id拿到所有歌曲数据
- * 支持传递参数limit来限制获取歌曲的数据数量 例如: /playlist/track/all?id=7044354223&limit=10
- */
-export default async function migratedPlaylistTrackAll(
-  query: PlaylistTrackAllQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default playlistTrackAll;

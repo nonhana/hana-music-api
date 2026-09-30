@@ -1,1 +1,1 @@
-export { listentogetherRoomCreate } from '../generated/client.generated.ts'
+export { listentogetherRoomCreate } from '../generated/client.generated.ts';

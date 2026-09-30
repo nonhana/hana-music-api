@@ -1,1 +1,1 @@
-export { djSubscriber } from '../generated/client.generated.ts'
+export { djSubscriber } from '../generated/client.generated.ts';

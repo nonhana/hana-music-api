@@ -32,13 +32,13 @@ GET /simi/mv?mvid=5436712
 ## 编程式调用
 
 ```ts
-import { simiMv } from 'hana-music-api'
+import { simiMv } from 'hana-music-api';
 
 const result = await simiMv({
   mvid: '5436712',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

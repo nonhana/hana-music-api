@@ -32,13 +32,13 @@ GET /signin/progress?moduleId=1207signin-1207signin
 ## 编程式调用
 
 ```ts
-import { signinProgress } from 'hana-music-api'
+import { signinProgress } from 'hana-music-api';
 
 const result = await signinProgress({
   moduleId: '1207signin-1207signin',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

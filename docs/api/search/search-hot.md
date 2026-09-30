@@ -30,11 +30,11 @@ GET /search/hot
 ## 编程式调用
 
 ```ts
-import { searchHot } from 'hana-music-api'
+import { searchHot } from 'hana-music-api';
 
-const result = await searchHot()
+const result = await searchHot();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

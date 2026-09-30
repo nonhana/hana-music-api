@@ -32,13 +32,13 @@ GET /playlist/order/update?ids=[111,222]
 ## 编程式调用
 
 ```ts
-import { playlistOrderUpdate } from 'hana-music-api'
+import { playlistOrderUpdate } from 'hana-music-api';
 
 const result = await playlistOrderUpdate({
   ids: '[111,222]',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

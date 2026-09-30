@@ -1,5 +1,6 @@
 :root {
-  --vp-font-family-base: 'IBM Plex Sans', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  --vp-font-family-base:
+    'IBM Plex Sans', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
   --vp-font-family-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
   --vp-c-brand-1: #2563eb;
   --vp-c-brand-2: #1d4ed8;

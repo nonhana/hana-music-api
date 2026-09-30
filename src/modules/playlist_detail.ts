@@ -1,28 +1,45 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { PlaylistDetailQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { Call } from '../core/call.ts';
+import { APP_CONF } from '../core/config.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type {
+  IdentifierQuery,
+  QueryNumberLike,
+} from '../types/module-shared.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+  QueryNumber,
+} from './_input.ts';
 
-const legacyModule = (query: PlaylistDetailQuery, request: ModuleRequest) => {
-  const data = {
-    id: query.id,
-    n: 100000,
-    s: query.s || 8,
-  }
-  return request(`/api/v6/playlist/detail`, data, createOption(query))
-}
+export type ModuleInput = IdentifierQuery & {
+  s?: QueryNumberLike;
+};
 
-/**
- * 歌单详情
- */
-export default async function migratedPlaylistDetail(
-  query: PlaylistDetailQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+const inputSchema = Schema.Struct({
+  id: Identifier,
+  s: Schema.optional(QueryNumber),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const playlistDetail: ModuleEffect<ModuleInput> = (input, request) =>
+  Effect.gen(function* () {
+    const call = yield* Call;
+    return toModuleResponse(
+      yield* request({
+        target: '/api/v6/playlist/detail',
+        protocol: call.config.crypto || (APP_CONF.encrypt ? 'eapi' : 'api'),
+        method: 'POST',
+        headers: {},
+        body: JSON.stringify({ id: input.id, n: 100000, s: input.s || 8 }),
+        response: 'json',
+        semantic: 'read',
+      }),
+    );
+  });
+
+export default playlistDetail;

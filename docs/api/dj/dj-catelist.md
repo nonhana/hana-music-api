@@ -30,11 +30,11 @@ GET /dj/catelist
 ## 编程式调用
 
 ```ts
-import { djCatelist } from 'hana-music-api'
+import { djCatelist } from 'hana-music-api';
 
-const result = await djCatelist()
+const result = await djCatelist();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

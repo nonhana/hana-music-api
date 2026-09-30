@@ -30,11 +30,11 @@ GET /video/group/list
 ## 编程式调用
 
 ```ts
-import { videoGroupList } from 'hana-music-api'
+import { videoGroupList } from 'hana-music-api';
 
-const result = await videoGroupList()
+const result = await videoGroupList();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

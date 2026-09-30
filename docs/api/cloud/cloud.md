@@ -30,11 +30,11 @@ GET /cloud
 ## 编程式调用
 
 ```ts
-import { cloud } from 'hana-music-api'
+import { cloud } from 'hana-music-api';
 
-const result = await cloud()
+const result = await cloud();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

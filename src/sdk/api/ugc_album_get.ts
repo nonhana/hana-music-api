@@ -1,1 +1,1 @@
-export { ugcAlbumGet } from '../generated/client.generated.ts'
+export { ugcAlbumGet } from '../generated/client.generated.ts';
