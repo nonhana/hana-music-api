@@ -3,9 +3,9 @@ import * as QRCode from 'qrcode';
 
 import { Call } from '../core/call.ts';
 import { ModuleInvariantFailed } from '../core/errors.ts';
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import { generateChainId } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import { decodeModuleInput as decodeInput } from './_input.ts';
 
 export type ModuleInput = {
   key: string;

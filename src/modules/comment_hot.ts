@@ -1,5 +1,11 @@
 import { Effect, Schema } from 'effect';
 
+import { resolveResourceType } from '../core/comment-thread.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+  QueryNumber,
+} from '../core/module-input.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -8,12 +14,6 @@ import type {
   IdentifierQuery,
   QueryNumberLike,
 } from '../types/module-shared.ts';
-import {
-  decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
-} from './_input.ts';
-import { resolveResourceType } from './comment/resource-type.ts';
 
 export type ModuleInput = IdentifierQuery & {
   type: QueryNumberLike;

@@ -2,10 +2,10 @@ import { Effect } from 'effect';
 
 import { buildCallServices, runCall } from '../core/call.ts';
 import { requestSemantic } from '../core/endpoint-policy.ts';
+import { decodeLegacyModuleInput } from '../core/module-input.ts';
 import { createOption } from '../core/options.ts';
 import { requestEffect } from '../core/request.ts';
 import { cookieToJson, isCookieRecord, isRecord } from '../core/utils.ts';
-import { decodeLegacyModuleInput } from '../modules/_input.ts';
 import { RequestBodyError } from '../server/parse-body.ts';
 import type {
   CookieRecord,

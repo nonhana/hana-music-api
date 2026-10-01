@@ -24,6 +24,6 @@ const searchDefault: ModuleEffect<ModuleInput> = (query, request) =>
  */
 export default searchDefault;
 
-export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
 
 export type ModuleInput = LegacyModuleInput;

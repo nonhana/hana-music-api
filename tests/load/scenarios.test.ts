@@ -5,10 +5,10 @@ import { TestClock } from 'effect/testing';
 
 import { buildCallServices, runCall } from '../../src/core/call.ts';
 import { UpstreamRateLimited } from '../../src/core/errors.ts';
+import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { resolveProcessServices } from '../../src/core/runtime.ts';
 import { TrafficGovernor } from '../../src/core/traffic.ts';
 import { transportEffect } from '../../src/core/transport.ts';
-import { decodeLegacyModuleInput } from '../../src/modules/_input.ts';
 import voiceUpload from '../../src/modules/voice_upload.ts';
 import { runEffect } from '../_kit/it.ts';
 import { createFakeUpstream } from '../fixtures/fake-upstream.ts';

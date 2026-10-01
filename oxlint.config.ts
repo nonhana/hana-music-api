@@ -118,6 +118,13 @@ export default defineConfig({
       },
     },
     {
+      files: ['tests/_kit/**'],
+      rules: {
+        'effecttsgo/strict-effect-provide': 'off',
+        'effecttsgo/unsafe-effect-type-assertion': 'off',
+      },
+    },
+    {
       files: ['scripts/**'],
       rules: {
         'no-await-in-loop': 'off',

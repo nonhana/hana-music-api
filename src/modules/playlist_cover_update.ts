@@ -2,6 +2,11 @@ import { Effect, Schema } from 'effect';
 
 import { Call } from '../core/call.ts';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+  UploadedFile,
+} from '../core/module-input.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
 import uploadPlugin from '../plugins/upload.ts';
@@ -10,11 +15,6 @@ import type {
   LegacyUploadedFile,
   QueryIdentifier,
 } from '../types/module-shared.ts';
-import {
-  decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  UploadedFile,
-} from './_input.ts';
 
 export type ModuleInput = {
   imgFile?: LegacyUploadedFile;

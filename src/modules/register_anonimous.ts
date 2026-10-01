@@ -4,11 +4,11 @@ import { Effect, Schema } from 'effect';
 
 import { Call } from '../core/call.ts';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import { decodeModuleInput as decodeInput } from './_input.ts';
 
 export type ModuleInput = {};
 

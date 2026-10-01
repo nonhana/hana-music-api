@@ -4,6 +4,13 @@ import { Effect, Schema } from 'effect';
 
 import { Call } from '../core/call.ts';
 import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+  QueryBoolean,
+  QueryNumber,
+  UploadedFile,
+} from '../core/module-input.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -13,17 +20,6 @@ import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
-import {
-  decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryBoolean,
-  QueryNumber,
-  UploadedFile,
-} from './_input.ts';
-import {
-  createMultipartCompleteXml,
-  parseMultipartUploadId,
-} from './voice_upload/multipart_xml.ts';
 
 export type ModuleInput = {
   autoPublish?: QueryBooleanLike;
@@ -59,6 +55,35 @@ const inputSchema = Schema.Struct({
 
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
+
+export const parseMultipartUploadId = (xml: unknown) => {
+  const uploadId =
+    typeof xml === 'string'
+      ? xml.match(/<UploadId>([^<]+)<\/UploadId>/iu)?.[1]?.trim()
+      : undefined;
+  return uploadId
+    ? Effect.succeed(uploadId)
+    : Effect.fail(
+        new UnexpectedUpstreamShape({
+          module: 'voice_upload',
+          path: 'UploadId',
+          expected: 'non-empty XML UploadId',
+          actual: typeof xml,
+        }),
+      );
+};
+
+export const createMultipartCompleteXml = (
+  etags: ReadonlyArray<string>,
+): string => {
+  const parts = etags
+    .map(
+      (etag, index) =>
+        `<Part><PartNumber>${index + 1}</PartNumber><ETag>${etag}</ETag></Part>`,
+    )
+    .join('');
+  return `<CompleteMultipartUpload>${parts}</CompleteMultipartUpload>`;
+};
 
 const voiceUpload: ModuleEffect<ModuleInput> = (input, request) =>
   uploadWork('voice_upload', request, (stage) =>

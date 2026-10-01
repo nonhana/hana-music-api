@@ -3,10 +3,10 @@ import { Clock, Effect } from 'effect';
 import { buildCallServices, Call, runCall } from '../../src/core/call.ts';
 import { requestSemantic } from '../../src/core/endpoint-policy.ts';
 import { ProtocolFailed } from '../../src/core/errors.ts';
+import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { requestEffect, runRequestAtEdge } from '../../src/core/request.ts';
 import type { RequestRuntime } from '../../src/core/runtime.ts';
 import { TrafficGovernor } from '../../src/core/traffic.ts';
-import { decodeLegacyModuleInput } from '../../src/modules/_input.ts';
 import type {
   CreateRequestOptions,
   ModuleCallConfig,

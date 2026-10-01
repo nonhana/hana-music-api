@@ -7,10 +7,10 @@ import { Effect, Option } from 'effect';
 
 import { startServer } from '../src/app/cli.ts';
 import { Call, CallServices, ProcessServices } from '../src/core/call.ts';
+import { decodeLegacyModuleInput } from '../src/core/module-input.ts';
 import type { ReadStore } from '../src/core/read-store.ts';
 import { requestEffect } from '../src/core/request.ts';
 import { TrafficGovernor } from '../src/core/traffic.ts';
-import { decodeLegacyModuleInput } from '../src/modules/_input.ts';
 import avatarUpload, {
   decodeModuleInput as decodeAvatarInput,
 } from '../src/modules/avatar_upload.ts';

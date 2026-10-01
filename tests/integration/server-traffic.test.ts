@@ -4,9 +4,9 @@ import { Effect } from 'effect';
 
 import { startServer } from '../../src/app/cli.ts';
 import { Call, ProcessServices } from '../../src/core/call.ts';
+import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { createRuntimeRequest, requestEffect } from '../../src/core/request.ts';
 import { TrafficGovernor } from '../../src/core/traffic.ts';
-import { decodeLegacyModuleInput } from '../../src/modules/_input.ts';
 import { createServer } from '../../src/server/create-server.ts';
 import type {
   ModuleDefinition,

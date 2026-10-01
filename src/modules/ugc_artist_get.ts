@@ -27,6 +27,6 @@ const ugcArtistGet: ModuleEffect<ModuleInput> = (query, request) =>
  */
 export default ugcArtistGet;
 
-export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
 
 export type ModuleInput = LegacyModuleInput;

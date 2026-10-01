@@ -1,13 +1,13 @@
 import { Effect, Schema } from 'effect';
 
 import { Call } from '../core/call.ts';
-import { toModuleResponse } from '../core/response.ts';
-import type { ModuleEffect } from '../types/index.ts';
-import type { QueryIdentifier } from '../types/module-shared.ts';
 import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
-} from './_input.ts';
+} from '../core/module-input.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { QueryIdentifier } from '../types/module-shared.ts';
 
 export type ModuleInput = { ids?: QueryIdentifier };
 

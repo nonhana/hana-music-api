@@ -31,6 +31,6 @@ const broadcastSub: ModuleEffect<ModuleInput> = (input, request) =>
  */
 export default broadcastSub;
 
-export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
 
 export type ModuleInput = LegacyModuleInput;

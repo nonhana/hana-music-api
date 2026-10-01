@@ -5,9 +5,9 @@ import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi } from '../../index.ts';
 import { Call, runCall } from '../../src/core/call.ts';
+import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { getRuntimeState, setRuntimeState } from '../../src/core/runtime.ts';
 import { resetDefaultTrafficGovernor } from '../../src/core/traffic.ts';
-import { decodeLegacyModuleInput } from '../../src/modules/_input.ts';
 import registerAnonymous from '../../src/modules/register_anonimous.ts';
 import { decodeModuleInput as decodeSearchInput } from '../../src/modules/search.ts';
 import voiceUpload from '../../src/modules/voice_upload.ts';

@@ -5,7 +5,9 @@ import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
-import { resolveDjToplistType } from './dj_toplist/type.ts';
+
+const resolveDjToplistType = (value: unknown): 0 | 1 =>
+  value === 'hot' ? 1 : 0;
 
 const djToplist: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
@@ -30,6 +32,6 @@ const djToplist: ModuleEffect<ModuleInput> = (query, request) =>
  */
 export default djToplist;
 
-export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
 
 export type ModuleInput = LegacyModuleInput;

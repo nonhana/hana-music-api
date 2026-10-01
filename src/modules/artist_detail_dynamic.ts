@@ -1,14 +1,14 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+} from '../core/module-input.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { IdentifierQuery } from '../types/module-shared.ts';
-import {
-  decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-} from './_input.ts';
 
 export type ModuleInput = IdentifierQuery;
 

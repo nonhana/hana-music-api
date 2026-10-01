@@ -87,8 +87,7 @@ const collectModuleFiles = async (
       if (
         entry.isFile() &&
         (entry.name.endsWith('.ts') || entry.name.endsWith('.tsx')) &&
-        !entry.name.endsWith('.d.ts') &&
-        !entry.name.startsWith('_')
+        !entry.name.endsWith('.d.ts')
       ) {
         return [filePath];
       }

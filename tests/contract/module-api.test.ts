@@ -9,7 +9,7 @@ import {
   invokeModule,
   loadProgrammaticApi,
 } from '../../src/app/module-api.ts';
-import { decodeLegacyModuleInput } from '../../src/modules/_input.ts';
+import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import type {
   CreateRequestOptions,
   DynamicProgrammaticApi,

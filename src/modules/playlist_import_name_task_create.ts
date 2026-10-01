@@ -131,6 +131,6 @@ const readJsonArray = (value: unknown): Array<unknown> => {
 const isRecordLike = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null;
 
-export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
 
 export type ModuleInput = LegacyModuleInput;

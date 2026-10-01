@@ -3,8 +3,6 @@ import { test } from 'bun:test';
 import type { Exit, Layer } from 'effect';
 import { Effect } from 'effect';
 
-/* oxlint-disable effecttsgo/strict-effect-provide effecttsgo/any-unknown-in-error-context effecttsgo/unsafe-effect-type-assertion typescript/no-unsafe-type-assertion -- The kit is the only sanctioned Effect entry point for tests. */
-
 export const runEffect = <A, E, R>(
   eff: Effect.Effect<A, E, R>,
   layer?: Layer.Layer<R>,

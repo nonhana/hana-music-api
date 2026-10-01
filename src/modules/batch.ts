@@ -1,10 +1,13 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  LegacyInput,
+} from '../core/module-input.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import { decodeModuleInput as decodeInput, LegacyInput } from './_input.ts';
 
 export type BatchSubRequest = Record<string, unknown>;
 

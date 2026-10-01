@@ -12,8 +12,8 @@ import {
 } from '../../src/app/module-api.ts';
 import { buildCallServices, Call, runCall } from '../../src/core/call.ts';
 import { InvalidModuleInput } from '../../src/core/errors.ts';
+import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { getRuntimeState, setRuntimeState } from '../../src/core/runtime.ts';
-import { decodeLegacyModuleInput } from '../../src/modules/_input.ts';
 import audioMatch, {
   decodeModuleInput as decodeAudioInput,
 } from '../../src/modules/audio_match.ts';

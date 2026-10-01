@@ -3,12 +3,12 @@ import { createHash } from 'node:crypto';
 import { Effect, Schema } from 'effect';
 
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import { renameAvatarField } from './_avatar-field.ts';
-import { decodeModuleInput as decodeInput } from './_input.ts';
 
 type PasswordCredential =
   | {

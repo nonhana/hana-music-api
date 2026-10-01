@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+  QueryNumber,
+} from '../core/module-input.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -8,11 +13,6 @@ import type {
   IdentifierPagedQuery,
   QueryNumberLike,
 } from '../types/module-shared.ts';
-import {
-  decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
-} from './_input.ts';
 
 export type ModuleInput = IdentifierPagedQuery & {
   before?: QueryNumberLike;

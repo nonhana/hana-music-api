@@ -24,7 +24,7 @@ import {
   invokeModule as invokeProgrammatic,
   loadProgrammaticApi,
 } from '../../src/app/module-api.ts';
-import { decodeModuleInput } from '../../src/modules/_input.ts';
+import { decodeModuleInput } from '../../src/core/module-input.ts';
 import type { ModuleInput as SearchInput } from '../../src/modules/search.ts';
 import type {
   ModuleDefinition,

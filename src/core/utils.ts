@@ -5,6 +5,7 @@ import type {
   CookieRecord,
   CookieValue,
   CreateRequestOptions,
+  UnknownJson,
 } from '../types/index.ts';
 
 const CHINA_IP_PREFIXES = [
@@ -190,4 +191,24 @@ export const stableStringify = (value: unknown): string => {
   }
 
   return JSON.stringify(value);
+};
+
+// 网易云部分接口把 avatarImgId_str 之类的 snake_case 字段混在响应里，
+// 统一递归改写为 camelCase，登录/用户详情相关模块共用。
+export const renameAvatarField = (value: UnknownJson): UnknownJson => {
+  if (typeof value === 'string') {
+    return value.replaceAll('avatarImgId_str', 'avatarImgIdStr');
+  }
+  if (Array.isArray(value)) {
+    return value.map(renameAvatarField);
+  }
+  if (value !== null && typeof value === 'object') {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, entry]) => [
+        key.replaceAll('avatarImgId_str', 'avatarImgIdStr'),
+        renameAvatarField(entry),
+      ]),
+    );
+  }
+  return value;
 };

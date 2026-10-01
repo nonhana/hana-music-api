@@ -5,11 +5,10 @@ import { TestClock } from 'effect/testing';
 
 import { DeadlineExceeded, ProtocolFailed } from '../../src/core/errors.ts';
 import { normalizeFailure } from '../../src/core/response.ts';
-import voiceUpload from '../../src/modules/voice_upload.ts';
-import {
+import voiceUpload, {
   createMultipartCompleteXml,
   parseMultipartUploadId,
-} from '../../src/modules/voice_upload/multipart_xml.ts';
+} from '../../src/modules/voice_upload.ts';
 import type {
   RequestCapability,
   RequestIntent,

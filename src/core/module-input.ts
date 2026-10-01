@@ -1,8 +1,8 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
+import { InvalidModuleInput } from './errors.ts';
 
 export const QueryNumber = Schema.declare<QueryNumberLike>(
   (value): value is QueryNumberLike =>

@@ -1,10 +1,13 @@
 import { Effect, Schema } from 'effect';
 
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryNumber,
+} from '../core/module-input.ts';
 import { isRecord } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
-import { decodeModuleInput as decodeInput, QueryNumber } from './_input.ts';
 
 export type ModuleInput = {
   audioFP: string;

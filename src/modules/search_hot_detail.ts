@@ -25,6 +25,6 @@ const searchHotDetail: ModuleEffect<ModuleInput> = (query, request) =>
  */
 export default searchHotDetail;
 
-export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
 
 export type ModuleInput = LegacyModuleInput;

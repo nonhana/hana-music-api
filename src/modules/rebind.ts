@@ -30,6 +30,6 @@ const rebind: ModuleEffect<ModuleInput> = (query, request) =>
  */
 export default rebind;
 
-export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
 
 export type ModuleInput = LegacyModuleInput;

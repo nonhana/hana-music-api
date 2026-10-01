@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 
 import { Effect } from 'effect';
 
-import { decodeLegacyModuleInput } from '../../src/modules/_input.ts';
+import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { setConnectionIp } from '../../src/server/admission.ts';
 import { createServer } from '../../src/server/create-server.ts';
 import { parseModuleRoute } from '../../src/server/module-loader.ts';

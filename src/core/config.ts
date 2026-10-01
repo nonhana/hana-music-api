@@ -3,15 +3,13 @@ export const APP_CONF = {
   domain: 'https://music.163.com',
   encrypt: true,
   encryptResponse: false,
-  clientSign:
-    '18:C0:4D:B9:8F:FE@@@453832335F384641365F424635335F303030315F303031425F343434415F343643365F333638332@@@@@@6ff673ef74955b38bce2fa8562d95c976ed4758b1227c4e9ee345987cee17bc9',
   checkToken:
     '9ca17ae2e6ffcda170e2e6ee8af14fbabdb988f225b3868eb2c15a879b9a83d274a790ac8ff54a97b889d5d42af0feaec3b92af58cff99c470a7eafd88f75e839a9ea7c14e909da883e83fb692a3abdb6b92adee9e',
 } as const;
 
 export const OS_PROFILES = {
   android: {
-    appver: '8.20.20.231215173437',
+    appver: '9.1.65.240927161425',
     channel: 'xiaomi',
     os: 'android',
     osver: '14',
@@ -38,10 +36,7 @@ export const OS_PROFILES = {
 
 export const USER_AGENT_MAP = {
   api: {
-    android:
-      'NeteaseMusic/9.1.65.240927161425(9001065);Dalvik/2.1.0 (Linux; U; Android 14; 23013RK75C Build/UKQ1.230804.001)',
     iphone: 'NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)',
-    pc: 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Safari/537.36 Chrome/91.0.4472.164 NeteaseMusicDesktop/3.0.18.203152',
   },
   linuxapi: {
     linux:

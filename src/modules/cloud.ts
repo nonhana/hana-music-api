@@ -5,12 +5,15 @@ import * as metadata from 'music-metadata';
 
 import { Call } from '../core/call.ts';
 import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  UploadedFile,
+} from '../core/module-input.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
 import uploadSongPlugin from '../plugins/song-upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyUploadedFile } from '../types/module-shared.ts';
-import { decodeModuleInput as decodeInput, UploadedFile } from './_input.ts';
 
 export type ModuleInput = {
   songFile?: LegacyUploadedFile;

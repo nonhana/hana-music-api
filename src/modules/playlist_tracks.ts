@@ -82,6 +82,6 @@ const playlistTracks: ModuleEffect<ModuleInput> = (query, request) =>
   });
 
 export default playlistTracks;
-export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
 
 export type ModuleInput = LegacyModuleInput;

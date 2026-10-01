@@ -5,10 +5,10 @@ import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi } from '../../index.ts';
 import { buildCallServices, runCall } from '../../src/core/call.ts';
+import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { resetDefaultTrafficGovernor } from '../../src/core/traffic.ts';
 import { uploadWork } from '../../src/core/upload-work.ts';
 import { cookieToJson } from '../../src/core/utils.ts';
-import { decodeLegacyModuleInput } from '../../src/modules/_input.ts';
 import {
   createEffectModuleInvoker as createModuleInvoker,
   invokeModule,

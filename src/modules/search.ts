@@ -2,10 +2,13 @@ import { Effect, Schema } from 'effect';
 
 import { Call } from '../core/call.ts';
 import { APP_CONF } from '../core/config.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryNumber,
+} from '../core/module-input.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { PagedQuery, QueryNumberLike } from '../types/module-shared.ts';
-import { decodeModuleInput as decodeInput, QueryNumber } from './_input.ts';
 
 export type ModuleInput = PagedQuery & {
   keywords: string;

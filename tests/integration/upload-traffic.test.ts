@@ -6,12 +6,12 @@ import { TestClock } from 'effect/testing';
 import { createHanaMusicApi } from '../../index.ts';
 import { invokeModule as invokeProgrammatic } from '../../src/app/module-api.ts';
 import { buildCallServices, runCall } from '../../src/core/call.ts';
+import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { resolveProcessServices } from '../../src/core/runtime.ts';
 import {
   resetDefaultTrafficGovernor,
   TrafficGovernor,
 } from '../../src/core/traffic.ts';
-import { decodeLegacyModuleInput } from '../../src/modules/_input.ts';
 import audioMatch from '../../src/modules/audio_match.ts';
 import avatarUpload from '../../src/modules/avatar_upload.ts';
 import relatedPlaylist from '../../src/modules/related_playlist.ts';
