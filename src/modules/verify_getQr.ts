@@ -22,7 +22,7 @@ const inputSchema = Schema.Struct({
   evid: Schema.optional(Schema.String),
   sign: Schema.optional(Schema.String),
   token: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.Union([Schema.Number, Schema.String])),
+  type: Schema.optional(Schema.Union([Schema.Finite, Schema.String])),
   vid: Schema.optional(Schema.String),
 });
 
@@ -55,14 +55,12 @@ const verifyGetQr: ModuleEffect<ModuleInput> = (query, request) =>
       Array.isArray(body.data) ||
       typeof body.data.qrCode !== 'string'
     ) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'verify_getQr',
-          path: 'body.data.qrCode',
-          expected: 'string',
-          actual: typeof body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'verify_getQr',
+        path: 'body.data.qrCode',
+        expected: 'string',
+        actual: typeof body,
+      });
     }
     const qrCode = body.data.qrCode;
     const qrurl = `https://st.music.163.com/encrypt-pages?qrCode=${qrCode}&verifyToken=${query.token}&verifyId=${query.vid}&verifyType=${query.type}&params=${params}`;

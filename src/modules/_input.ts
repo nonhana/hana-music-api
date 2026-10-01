@@ -12,7 +12,7 @@ export const QueryNumber = Schema.declare<QueryNumberLike>(
       Number.isFinite(Number(value))),
 );
 
-export const QueryIdentifier = Schema.Union([Schema.String, Schema.Number]);
+export const QueryIdentifier = Schema.Union([Schema.String, Schema.Finite]);
 export const QueryBoolean = Schema.Literals([
   true,
   false,
@@ -42,7 +42,7 @@ export const UploadedFile = Schema.Struct({
   md5: Schema.optional(Schema.String),
   mimetype: Schema.String,
   name: Schema.String,
-  size: Schema.Number,
+  size: Schema.Finite,
 });
 
 export const decodeLegacyModuleInput = (input: unknown) =>
@@ -55,11 +55,10 @@ export const decodeLegacyModuleInput = (input: unknown) =>
 export const decodeModuleInput = <InputSchema extends Schema.Constraint>(
   schema: InputSchema,
   input: unknown,
-) => {
-  return decodeLegacyModuleInput(input).pipe(
+) =>
+  decodeLegacyModuleInput(input).pipe(
     Effect.flatMap(Schema.decodeUnknownEffect(schema)),
     Effect.mapError(
       (error) => new InvalidModuleInput({ message: error.message }),
     ),
   );
-};

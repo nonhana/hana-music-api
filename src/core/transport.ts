@@ -33,6 +33,9 @@ export interface TransportOptions {
   readonly waitForRate?: boolean;
 }
 
+/** Bun.fetch 支持非标 `proxy` 选项；自定义 fetcher 也按此约定读取。 */
+type ProxyRequestInit = RequestInit & { readonly proxy?: string };
+
 export const transportEffect = <
   A extends ConsumedResponse | UpstreamResponse = ConsumedResponse,
 >(
@@ -62,13 +65,14 @@ export const transportEffect = <
             }
           }),
       );
-      const agent =
-        options.proxy && typeof Bun === 'undefined'
-          ? yield* Effect.acquireRelease(
-              Effect.sync(() => new ProxyAgent(options.proxy!)),
-              (resource) => Effect.promise(() => resource.destroy()),
-            )
-          : undefined;
+      const proxyUrl =
+        options.proxy && typeof Bun === 'undefined' ? options.proxy : undefined;
+      const agent = proxyUrl
+        ? yield* Effect.acquireRelease(
+            Effect.sync(() => new ProxyAgent(proxyUrl)),
+            (resource) => Effect.promise(() => resource.destroy()),
+          )
+        : undefined;
       const response = yield* Effect.tryPromise({
         try: (signal) => {
           runtime.onTrafficEvent?.({
@@ -87,16 +91,23 @@ export const transportEffect = <
             ]),
             redirect: 'manual',
           };
-          return agent
-            ? (undiciFetch(url, { ...init, dispatcher: agent } as Parameters<
-                typeof undiciFetch
-              >[1]) as unknown as Promise<Response>)
-            : (options.fetcher ?? fetch)(
-                url,
-                options.proxy
-                  ? ({ ...init, proxy: options.proxy } as RequestInit)
-                  : init,
-              );
+          if (agent) {
+            // undici 与 DOM 的 RequestInit/Response 类型互不兼容（HeadersInit tuple、
+            // Response 类不同），但运行时字段同型、消费端只读 status/headers/text。
+            // 类型鸿沟边界，断言为唯一手段。
+            // oxlint-disable-next-line typescript/no-unsafe-type-assertion
+            const undiciInit = {
+              ...init,
+              dispatcher: agent,
+            } as Parameters<typeof undiciFetch>[1];
+            return undiciFetch(url, undiciInit) as unknown as Promise<Response>;
+          }
+          return (options.fetcher ?? fetch)(
+            url,
+            options.proxy
+              ? ({ ...init, proxy: options.proxy } as ProxyRequestInit)
+              : init,
+          );
         },
         catch: (error) =>
           new TransportFailed({
@@ -123,9 +134,10 @@ export const transportEffect = <
           status: 429,
         });
       }
-      const reader = response.body
+      const responseBody = response.body;
+      const reader = responseBody
         ? yield* Effect.acquireRelease(
-            Effect.sync(() => response.body!.getReader()),
+            Effect.sync(() => responseBody.getReader()),
             (resource) =>
               Effect.promise(async () => {
                 await resource.cancel().catch(() => {});
@@ -140,7 +152,9 @@ export const transportEffect = <
           if (reader) {
             while (true) {
               const chunk = await reader.read();
-              if (chunk.done) {break;}
+              if (chunk.done) {
+                break;
+              }
               chunks.push(chunk.value);
               size += chunk.value.length;
             }
@@ -176,22 +190,20 @@ export const transportEffect = <
         }),
       );
       if (headerDecision) {
-        return yield* Effect.fail(
-          new UpstreamRateLimited({
-            host,
-            identity,
-            retryAfterMs: headerDecision.retryAfterMs,
-            status: 429,
-            message: 'Upstream rate limited',
-            response:
-              Result.isSuccess(interpreted) && 'cookie' in interpreted.success
-                ? interpreted.success
-                : undefined,
-          }),
-        );
+        return yield* new UpstreamRateLimited({
+          host,
+          identity,
+          retryAfterMs: headerDecision.retryAfterMs,
+          status: 429,
+          message: 'Upstream rate limited',
+          response:
+            Result.isSuccess(interpreted) && 'cookie' in interpreted.success
+              ? interpreted.success
+              : undefined,
+        });
       }
       if (Result.isFailure(interpreted)) {
-        return yield* Effect.fail(interpreted.failure);
+        return yield* interpreted.failure;
       }
       const value = interpreted.success;
       const decision = classifyConsumedRateLimit(consumed, value, now);
@@ -203,21 +215,19 @@ export const transportEffect = <
           ...runtime.governor.snapshot,
           status: 429,
         });
-        return yield* Effect.fail(
-          new UpstreamRateLimited({
-            host,
-            identity,
-            retryAfterMs: decision.retryAfterMs,
-            status: 429,
-            message: 'Upstream rate limited',
-            response: 'cookie' in value ? value : undefined,
-          }),
-        );
+        return yield* new UpstreamRateLimited({
+          host,
+          identity,
+          retryAfterMs: decision.retryAfterMs,
+          status: 429,
+          message: 'Upstream rate limited',
+          response: 'cookie' in value ? value : undefined,
+        });
       }
       if (response.status >= 300 && response.status < 400) {
-        return yield* Effect.fail(
-          new ProtocolFailed({ message: 'Upstream redirects are not allowed' }),
-        );
+        return yield* new ProtocolFailed({
+          message: 'Upstream redirects are not allowed',
+        });
       }
       runtime.onTrafficEvent?.({
         phase: 'complete',
@@ -237,13 +247,13 @@ export const transportEffect = <
             ? new UpstreamRateLimited({
                 host,
                 identity,
-                retryAfterMs: error.retryAfterMs,
+                retryAfterMs: error.retryAfterMs ?? 1_000,
                 status: 429,
                 message: error.message,
               })
             : new AdmissionRejected({
                 message: error.message,
-                retryAfterMs: error.retryAfterMs,
+                retryAfterMs: error.retryAfterMs ?? 1_000,
               })
           : error,
       ),

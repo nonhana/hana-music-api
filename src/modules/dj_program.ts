@@ -16,11 +16,9 @@ const djProgram: ModuleEffect<ModuleInput> = (query, request) =>
       typeof query.asc !== 'number' &&
       typeof query.asc !== 'string'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({
-          message: 'asc must be a boolean, number or string',
-        }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'asc must be a boolean, number or string',
+      });
     }
     const data = {
       radioId: query.rid,

@@ -33,11 +33,9 @@ const artistList: ModuleEffect<ModuleInput> = (query, request) =>
       typeof query.initial !== 'number' &&
       typeof query.initial !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({
-          message: 'initial must be a primitive value',
-        }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'initial must be a primitive value',
+      });
     }
     const data = {
       initial: Number.isNaN(Number(query.initial))

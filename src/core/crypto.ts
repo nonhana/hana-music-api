@@ -8,6 +8,8 @@ import {
 } from 'node:crypto';
 import { gunzipSync } from 'node:zlib';
 
+import { ProtocolFailed } from './errors.ts';
+
 const IV = '0102030405060708';
 const PRESET_KEY = '0CoJUm6Qyw8W8jud';
 const LINUXAPI_KEY = 'rFgB&h#%2?^eDg:Q';
@@ -113,11 +115,9 @@ export const linuxapi = (
   object: Record<string, unknown>,
 ): {
   readonly eparams: string;
-} => {
-  return {
-    eparams: aesEncrypt(JSON.stringify(object), 'ecb', LINUXAPI_KEY, '', 'hex'),
-  };
-};
+} => ({
+  eparams: aesEncrypt(JSON.stringify(object), 'ecb', LINUXAPI_KEY, '', 'hex'),
+});
 
 export const eapi = (
   url: string,
@@ -147,8 +147,10 @@ export const eapiResDecrypt = (
 
     return parseJsonRecord(decrypted.toString('utf8'));
   } catch (error) {
-    console.error('eapiResDecrypt error:', error);
-    return null;
+    throw new ProtocolFailed({
+      message: 'eapi response decrypt failed',
+      cause: error,
+    });
   }
 };
 
@@ -180,13 +182,11 @@ export const eapiReqDecrypt = (
   };
 };
 
-export const decrypt = (cipher: string): string => {
-  return aesDecrypt(cipher, 'ecb', EAPI_KEY, '', 'hex').toString('utf8');
-};
+export const decrypt = (cipher: string): string =>
+  aesDecrypt(cipher, 'ecb', EAPI_KEY, '', 'hex').toString('utf8');
 
-const getAesAlgorithm = (mode: AesMode): 'aes-128-cbc' | 'aes-128-ecb' => {
-  return mode === 'cbc' ? 'aes-128-cbc' : 'aes-128-ecb';
-};
+const getAesAlgorithm = (mode: AesMode): 'aes-128-cbc' | 'aes-128-ecb' =>
+  mode === 'cbc' ? 'aes-128-cbc' : 'aes-128-ecb';
 
 const createCipher = (
   algorithm: 'aes-128-cbc' | 'aes-128-ecb',
@@ -226,6 +226,5 @@ const parseJsonRecord = (text: string): Record<string, unknown> => {
   throw new TypeError('Expected JSON object payload');
 };
 
-const isJsonRecord = (value: unknown): value is Record<string, unknown> => {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-};
+const isJsonRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);

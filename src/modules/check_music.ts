@@ -46,24 +46,20 @@ const checkMusic: ModuleEffect<ModuleInput> = (query, request) =>
       Array.isArray(body) ||
       typeof body.code !== 'number'
     ) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'check_music',
-          path: 'body.code',
-          expected: 'number',
-          actual: typeof body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'check_music',
+        path: 'body.code',
+        expected: 'number',
+        actual: typeof body,
+      });
     }
     if (body.data !== undefined && !Array.isArray(body.data)) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'check_music',
-          path: 'body.data',
-          expected: 'array',
-          actual: typeof body.data,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'check_music',
+        path: 'body.data',
+        expected: 'array',
+        actual: typeof body.data,
+      });
     }
     const first = body.data?.[0];
     if (
@@ -73,14 +69,12 @@ const checkMusic: ModuleEffect<ModuleInput> = (query, request) =>
         Array.isArray(first) ||
         typeof first.code !== 'number')
     ) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'check_music',
-          path: 'body.data[0].code',
-          expected: 'number',
-          actual: typeof first,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'check_music',
+        path: 'body.data[0].code',
+        expected: 'number',
+        actual: typeof first,
+      });
     }
     const playable = body.code === 200 && first?.code === 200;
     return {

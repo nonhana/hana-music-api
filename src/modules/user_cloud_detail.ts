@@ -10,9 +10,7 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 const userCloudDetail: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
     if (typeof query.id !== 'string') {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'id must be a string' }),
-      );
+      return yield* new InvalidModuleInput({ message: 'id must be a string' });
     }
     const id = query.id.replace(/\s/g, '').split(',');
     const data = {

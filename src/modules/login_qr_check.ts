@@ -29,14 +29,12 @@ const loginQrCheck: ModuleEffect<ModuleInput> = (query, request) =>
     );
     const body = result.body;
     if (body === null || typeof body !== 'object' || Array.isArray(body)) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'login_qr_check',
-          path: 'body',
-          expected: 'object',
-          actual: typeof body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'login_qr_check',
+        path: 'body',
+        expected: 'object',
+        actual: typeof body,
+      });
     }
     return toModuleResponse({
       ...result,

@@ -16,9 +16,9 @@ const songDownloadUrl: ModuleEffect<ModuleInput> = (query, request) =>
       typeof query.br !== 'number' &&
       typeof query.br !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'br must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'br must be a primitive value',
+      });
     }
     const data = {
       id: query.id,

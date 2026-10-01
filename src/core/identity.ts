@@ -1,54 +1,25 @@
-import { createHash } from 'node:crypto';
-
 import { Effect, Ref } from 'effect';
 
-import type {
-  CookieRecord,
-  IdentityPoolConfig,
-  ModuleCallConfig,
-  RuntimeState,
-} from '../types/index.ts';
-import { registerAnonymousEffect } from './anonymous.ts';
+import type { IdentityPoolConfig, ModuleCallConfig } from '../types/index.ts';
 import type { RequestError } from './errors.ts';
+import { TransportFailed } from './errors.ts';
 import { ReadStore } from './read-store.ts';
 import { ProcessServices } from './runtime.ts';
-import { resolveRequestCookie } from './utils.ts';
 
-export interface IdentitySnapshot {
-  readonly cookie: Readonly<CookieRecord>;
-  readonly state: Readonly<RuntimeState>;
-  readonly fingerprint: string;
-  readonly source:
-    | 'cookie-user'
-    | 'cookie-anonymous'
-    | 'runtime-anonymous'
-    | 'device';
+export {
+  resolveIdentitySnapshot,
+  type IdentitySnapshot,
+} from './identity-snapshot.ts';
+
+export interface AnonymousRegistration {
+  readonly anonymousToken: string;
+  readonly cnIp: string;
+  readonly deviceId: string;
 }
 
-export const resolveIdentitySnapshot = (
-  config: ModuleCallConfig,
-  state: RuntimeState,
-): IdentitySnapshot => {
-  const cookie = resolveRequestCookie(config);
-  const source = cookie.MUSIC_U
-    ? 'cookie-user'
-    : cookie.MUSIC_A
-      ? 'cookie-anonymous'
-      : state.anonymousToken
-        ? 'runtime-anonymous'
-        : 'device';
-  const value =
-    cookie.MUSIC_U || cookie.MUSIC_A || state.anonymousToken || state.deviceId;
-  if (!cookie.MUSIC_U && !cookie.MUSIC_A && state.anonymousToken) {
-    cookie.MUSIC_A = state.anonymousToken;
-  }
-  return Object.freeze({
-    cookie: Object.freeze(cookie),
-    state: Object.freeze({ ...state }),
-    fingerprint: createHash('sha256').update(String(value)).digest('hex'),
-    source,
-  });
-};
+export type RegisterAnonymous = (
+  options: ModuleCallConfig,
+) => Effect.Effect<AnonymousRegistration, RequestError, ProcessServices>;
 
 export interface IdentityPool {
   readonly next: Effect.Effect<
@@ -61,6 +32,7 @@ export interface IdentityPool {
 export const createIdentityPool = (
   config: IdentityPoolConfig,
   options: ModuleCallConfig,
+  registerAnonymous: RegisterAnonymous,
 ): IdentityPool => {
   if (!Number.isFinite(config.size) || config.size < 1) {
     throw new TypeError('identityPool.size must be positive');
@@ -80,7 +52,7 @@ export const createIdentityPool = (
             index < size;
             index += 1
           ) {
-            const registration = yield* registerAnonymousEffect({
+            const registration = yield* registerAnonymous({
               ...options,
               timeoutMs: 0,
             });
@@ -100,7 +72,15 @@ export const createIdentityPool = (
         value % size,
         value + 1,
       ]);
-      return values[index]!;
+      // 池已由上方 initialization 循环填满 size 条；越界仅发生于异常并发，取模兜底。
+      const identity = values[index] ?? values[index % size];
+      if (identity === undefined) {
+        return yield* new TransportFailed({
+          message: 'IdentityPool initialization failed',
+          cause: new Error(`pool empty at index ${index}`),
+        });
+      }
+      return identity;
     }),
   };
 };

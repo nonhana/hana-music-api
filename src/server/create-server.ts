@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 
-import { createProcessLayer, createServiceLayer } from '../core/call.ts';
+import { createServiceLayer } from '../core/call.ts';
 import type { CreateServerOptions } from '../types/index.ts';
 import { AdmissionController } from './admission.ts';
 import { registerDemoRoutes } from './demo-routes.tsx';
@@ -38,7 +38,7 @@ export const createServer = async (
     options.moduleDefinitions ??
     (await loadModuleDefinitions(modulesDirectory));
   const modules = createServiceLayer(
-    createProcessLayer(),
+    undefined,
     options.cacheEnabled === false ? null : (options.cacheTtlMs ?? 120_000),
   );
   const requestHandler = options.requestHandler;
@@ -67,13 +67,10 @@ export const createServer = async (
   return app;
 };
 
-const createCorsMiddleware = (options: CreateServerOptions) => {
-  return cors({
+const createCorsMiddleware = (options: CreateServerOptions) =>
+  cors({
     allowHeaders: ['X-Requested-With', 'Content-Type'],
     allowMethods: ['PUT', 'POST', 'GET', 'DELETE', 'OPTIONS'],
     credentials: true,
-    origin: (origin) => {
-      return options.corsAllowOrigin ?? origin ?? '*';
-    },
+    origin: (origin) => options.corsAllowOrigin ?? origin ?? '*',
   });
-};

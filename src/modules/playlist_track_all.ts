@@ -45,14 +45,12 @@ const playlistTrackAll: ModuleEffect<ModuleInput> = (query, request) =>
     );
     const body = response.body;
     if (body === null || typeof body !== 'object' || Array.isArray(body)) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'playlist_track_all',
-          path: 'body',
-          expected: 'object',
-          actual: typeof body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'playlist_track_all',
+        path: 'body',
+        expected: 'object',
+        actual: typeof body,
+      });
     }
     const playlist = body.playlist;
     if (
@@ -61,25 +59,21 @@ const playlistTrackAll: ModuleEffect<ModuleInput> = (query, request) =>
         typeof playlist !== 'object' ||
         Array.isArray(playlist))
     ) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'playlist_track_all',
-          path: 'body.playlist',
-          expected: 'object',
-          actual: typeof playlist,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'playlist_track_all',
+        path: 'body.playlist',
+        expected: 'object',
+        actual: typeof playlist,
+      });
     }
     const trackIds = playlist?.trackIds ?? [];
     if (!Array.isArray(trackIds)) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'playlist_track_all',
-          path: 'body.playlist.trackIds',
-          expected: 'array',
-          actual: typeof trackIds,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'playlist_track_all',
+        path: 'body.playlist.trackIds',
+        expected: 'array',
+        actual: typeof trackIds,
+      });
     }
     const ids: Array<number | string> = [];
     for (const track of trackIds.slice(offset, offset + limit)) {
@@ -89,14 +83,12 @@ const playlistTrackAll: ModuleEffect<ModuleInput> = (query, request) =>
         Array.isArray(track) ||
         (typeof track.id !== 'number' && typeof track.id !== 'string')
       ) {
-        return yield* Effect.fail(
-          new UnexpectedUpstreamShape({
-            module: 'playlist_track_all',
-            path: 'body.playlist.trackIds[].id',
-            expected: 'number or string',
-            actual: typeof track,
-          }),
-        );
+        return yield* new UnexpectedUpstreamShape({
+          module: 'playlist_track_all',
+          path: 'body.playlist.trackIds[].id',
+          expected: 'number or string',
+          actual: typeof track,
+        });
       }
       ids.push(track.id);
     }

@@ -15,9 +15,9 @@ const resolvePackageJsonPath = (): string => {
     const packageJsonPath = resolve(currentDirectory, 'package.json');
 
     try {
-      const packageJson = JSON.parse(
+      const packageJson: ServicePackageMetadata = JSON.parse(
         readFileSync(packageJsonPath, 'utf8'),
-      ) as ServicePackageMetadata;
+      );
 
       if (
         typeof packageJson.version === 'string' &&
@@ -38,9 +38,9 @@ const resolvePackageJsonPath = (): string => {
 const PACKAGE_JSON_PATH = resolvePackageJsonPath();
 
 const readServiceVersion = (): string => {
-  const packageJson = JSON.parse(
+  const packageJson: ServicePackageMetadata = JSON.parse(
     readFileSync(PACKAGE_JSON_PATH, 'utf8'),
-  ) as ServicePackageMetadata;
+  );
 
   if (
     typeof packageJson.version !== 'string' ||

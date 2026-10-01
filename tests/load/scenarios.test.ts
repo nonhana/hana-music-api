@@ -1,19 +1,16 @@
 import { expect, test } from 'bun:test';
 
-import { Effect, Layer, Result } from 'effect';
+import { Effect, Result } from 'effect';
 import { TestClock } from 'effect/testing';
 
-import {
-  createClientLayer,
-  createProcessLayer,
-  ProcessServices,
-  runCall,
-} from '../../src/core/call.ts';
+import { buildCallServices, runCall } from '../../src/core/call.ts';
 import { UpstreamRateLimited } from '../../src/core/errors.ts';
+import { resolveProcessServices } from '../../src/core/runtime.ts';
 import { TrafficGovernor } from '../../src/core/traffic.ts';
 import { transportEffect } from '../../src/core/transport.ts';
 import { decodeLegacyModuleInput } from '../../src/modules/_input.ts';
 import voiceUpload from '../../src/modules/voice_upload.ts';
+import { runEffect } from '../_kit/it.ts';
 import { createFakeUpstream } from '../fixtures/fake-upstream.ts';
 import { plainRequest } from '../fixtures/request-capability.ts';
 
@@ -23,7 +20,7 @@ test('raw HTTP and business 429 establish shared cooldown using the Effect clock
     const runtime = { governor: new TrafficGovernor() };
     fake.setMode(mode);
     try {
-      await Effect.runPromise(
+      await runEffect(
         Effect.gen(function* () {
           const first = yield* Effect.result(
             transportEffect('https://music.163.com/api/first', {
@@ -56,7 +53,8 @@ test('raw HTTP and business 429 establish shared cooldown using the Effect clock
             fetcher: fake.fetcher,
             identity: 'second',
           });
-        }).pipe(Effect.provide(TestClock.layer())),
+        }),
+        TestClock.layer(),
       );
       expect(fake.metrics.calls).toBe(2);
       expect(runtime.governor.snapshot.active).toBe(0);
@@ -106,10 +104,10 @@ test('a local multipart upload stops after the first cancelled part', async () =
   };
   const controller = new AbortController();
   let parts = 0;
-  const process = Layer.succeed(ProcessServices, {
-    ...Effect.runSync(Effect.provide(ProcessServices, createProcessLayer())),
+  const process = {
+    ...resolveProcessServices(runtime),
     governor: runtime.governor,
-  });
+  };
   try {
     const failure = await runCall(
       {
@@ -142,7 +140,7 @@ test('a local multipart upload stops after the first cancelled part', async () =
           },
         },
       },
-      createClientLayer(process),
+      buildCallServices(process),
       {
         identifier: 'voice_upload',
         route: '/voice/upload',

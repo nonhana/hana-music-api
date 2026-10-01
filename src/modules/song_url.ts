@@ -46,14 +46,12 @@ const songUrl: ModuleEffect<ModuleInput> = (query, request) =>
       Array.isArray(body) ||
       (body.data !== undefined && !Array.isArray(body.data))
     ) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'song_url',
-          path: 'body.data',
-          expected: 'array',
-          actual: typeof body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'song_url',
+        path: 'body.data',
+        expected: 'array',
+        actual: typeof body,
+      });
     }
     const result: Array<{ id: string | number; value: UnknownJson }> = [];
     for (const entry of body.data ?? []) {
@@ -63,14 +61,12 @@ const songUrl: ModuleEffect<ModuleInput> = (query, request) =>
         Array.isArray(entry) ||
         (typeof entry.id !== 'string' && typeof entry.id !== 'number')
       ) {
-        return yield* Effect.fail(
-          new UnexpectedUpstreamShape({
-            module: 'song_url',
-            path: 'body.data[].id',
-            expected: 'string or number',
-            actual: typeof entry,
-          }),
-        );
+        return yield* new UnexpectedUpstreamShape({
+          module: 'song_url',
+          path: 'body.data[].id',
+          expected: 'string or number',
+          actual: typeof entry,
+        });
       }
       result.push({ id: entry.id, value: entry });
     }

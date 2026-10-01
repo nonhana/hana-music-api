@@ -1,8 +1,4 @@
-import {
-  createClientLayer,
-  createProcessLayer,
-  runCall,
-} from '../core/call.ts';
+import { buildCallServices, runCall } from '../core/call.ts';
 import type {
   CreateHanaMusicApiConfig,
   ModuleCallConfig,
@@ -14,12 +10,12 @@ import type {
 } from '../types/index.ts';
 import { sdkModuleRegistry } from './generated/registry.generated.ts';
 
-export type SdkClientContext = ReturnType<typeof createClientLayer>;
+export type SdkClientContext = ReturnType<typeof buildCallServices>;
 
 let invocationServices: SdkClientContext | undefined;
 
 export const createSdkClientContext = (config: CreateHanaMusicApiConfig) =>
-  createClientLayer(createProcessLayer(), config);
+  buildCallServices(undefined, config);
 
 export const invokeModule = async <K extends ModuleIdentifier>(
   identifier: K,

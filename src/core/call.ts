@@ -1,25 +1,21 @@
 import { createHash } from 'node:crypto';
 
-import {
-  Cause,
-  Clock,
-  Context,
-  Effect,
-  Exit,
-  Layer,
-  Option,
-  Ref,
-} from 'effect';
+import type { Context } from 'effect';
+import { Cause, Clock, Effect, Exit, Layer, Option, Ref } from 'effect';
 
 import type {
   CreateHanaMusicApiConfig,
-  ModuleCallConfig,
   ModuleDefinition,
   ModuleQuery,
   NcmApiResponse,
   RequestCapability,
 } from '../types/index.ts';
-import { ensureAnonymousEffect } from './anonymous.ts';
+import {
+  ensureAnonymousEffect,
+  registerAnonymousEffect as registerAnonymous,
+} from './anonymous.ts';
+import { Call, CallServices } from './call-context.ts';
+import type { CallInput, CallShape } from './call-context.ts';
 import {
   isCacheable,
   isReadModule,
@@ -27,90 +23,74 @@ import {
 } from './endpoint-policy.ts';
 import { DeadlineExceeded, PartialUpload } from './errors.ts';
 import { createIdentityPool, resolveIdentitySnapshot } from './identity.ts';
-import type { IdentitySnapshot, IdentityPool } from './identity.ts';
 import { ReadStore } from './read-store.ts';
 import { requestEffect, withRequestDeadline } from './request.ts';
-import { ProcessServices, runPublicEffect } from './runtime.ts';
+import {
+  ProcessServices,
+  resolveProcessServices,
+  runPublicEffect,
+} from './runtime.ts';
+import type { RequestRuntime } from './runtime.ts';
+import { getDefaultTrafficGovernor } from './traffic.ts';
 import { resolveRequestCookie, stableStringify } from './utils.ts';
 
 export { ProcessServices, createProcessLayer } from './runtime.ts';
 
-export type CallConfig = Omit<ModuleCallConfig, 'signal'>;
-
-export interface CallInput {
-  readonly identifier: string;
-  readonly input: unknown;
-  readonly config: CallConfig;
-  readonly signal?: AbortSignal;
-}
-
-export interface Call {
-  readonly identifier: string;
-  readonly input: Readonly<ModuleQuery>;
-  readonly config: CallConfig;
-  readonly identity: IdentitySnapshot;
-  readonly policy: {
-    readonly read: boolean;
-    readonly upload: boolean;
-    readonly cache?: boolean;
-    readonly cacheable?: (response: NcmApiResponse) => boolean;
-    readonly stageTimeoutMs?: number;
-  };
-  readonly startedAt: number;
-  readonly deadlineAt?: number;
-}
-
-export const Call = Context.Service<Call>('hana/Call');
-
-export class CallServices extends Context.Service<
+export {
+  Call,
   CallServices,
-  {
-    readonly process: Context.Service.Shape<typeof ProcessServices>;
-    readonly reads: ReadStore<NcmApiResponse>;
-    readonly pool: IdentityPool | null;
-    readonly initializeAnonymous: boolean;
-  }
->()('hana/CallServices') {}
+  type CallConfig,
+  type CallInput,
+  type CallShape,
+} from './call-context.ts';
 
-export const createClientLayer = (
-  process: Layer.Layer<ProcessServices>,
+/** 构造 CallServices 的纯值形态：服务集无 scope 资源（ReadStore 自管理 TTL）。 */
+export const buildCallServices = (
+  runtime: RequestRuntime = { governor: getDefaultTrafficGovernor() },
   config: CreateHanaMusicApiConfig = {},
   initializeAnonymous = true,
-) => {
-  const services = Effect.runSync(Effect.provide(ProcessServices, process));
-  return Layer.succeed(CallServices, {
-    process: services,
-    reads: new ReadStore<NcmApiResponse>(
-      config.cache && config.cache.enabled !== false
-        ? (config.cache.ttlMs ?? 120_000)
-        : null,
-    ),
-    pool: config.identityPool
-      ? createIdentityPool(config.identityPool, config)
+): Context.Service.Shape<typeof CallServices> => ({
+  process: resolveProcessServices(runtime),
+  reads: new ReadStore<NcmApiResponse>(
+    config.cache && config.cache.enabled !== false
+      ? (config.cache.ttlMs ?? 120_000)
       : null,
-    initializeAnonymous,
-  });
-};
+  ),
+  pool: config.identityPool
+    ? createIdentityPool(config.identityPool, config, registerAnonymous)
+    : null,
+  initializeAnonymous,
+});
+
+export const createClientLayer = (
+  runtime: RequestRuntime = { governor: getDefaultTrafficGovernor() },
+  config: CreateHanaMusicApiConfig = {},
+  initializeAnonymous = true,
+) =>
+  Layer.succeed(
+    CallServices,
+    buildCallServices(runtime, config, initializeAnonymous),
+  );
 
 export const createServiceLayer = (
-  process: Layer.Layer<ProcessServices>,
+  runtime: RequestRuntime = { governor: getDefaultTrafficGovernor() },
   cacheTtlMs: number | null = 120_000,
-) => {
-  return createClientLayer(
-    process,
+) =>
+  buildCallServices(
+    runtime,
     { cache: cacheTtlMs === null ? { enabled: false } : { ttlMs: cacheTtlMs } },
     false,
   );
-};
 
 const effectReferences = new WeakMap<object, number>();
 let nextEffectReference = 1;
 
 export const runCall = <Input extends ModuleQuery>(
   input: CallInput,
-  services: Layer.Layer<CallServices>,
+  services: Context.Service.Shape<typeof CallServices>,
   implementation: ModuleDefinition<string, Input>,
   request: RequestCapability = requestEffect,
+  clock?: Clock.Clock,
 ): Promise<NcmApiResponse> => {
   const upload = isUploadModule(input.identifier);
   const configuredTimeout = input.config.timeoutMs;
@@ -169,7 +149,7 @@ export const runCall = <Input extends ModuleQuery>(
       scoped.process.readState(effective.state),
     );
     const read = isReadModule(input.identifier);
-    const call: Call = Object.freeze({
+    const call: CallShape = Object.freeze({
       identifier: input.identifier,
       input: Object.freeze({ ...decodedInput }),
       config: Object.freeze({
@@ -192,31 +172,37 @@ export const runCall = <Input extends ModuleQuery>(
       deadlineAt: timeoutMs > 0 ? startedAt + timeoutMs : undefined,
     });
 
-    const executionCall = call.policy.read
+    const executionCall: CallShape = call.policy.read
       ? {
-          ...call,
+          identifier: call.identifier,
+          input: call.input,
+          config: Object.freeze({
+            ...call.config,
+            timeoutMs: undefined,
+          }),
+          identity: call.identity,
+          policy: call.policy,
+          startedAt: call.startedAt,
           deadlineAt: undefined,
-          config: { ...call.config, timeoutMs: undefined },
         }
       : call;
     const capability: RequestCapability =
       request === requestEffect
         ? request
         : (intent) => withRequestDeadline(request(intent));
-    const execute = implementation
-      .execute(call.input as Input, capability)
-      .pipe(
-        Effect.onExit((exit) => {
-          const error = Exit.isFailure(exit)
-            ? Cause.squash(exit.cause)
-            : undefined;
-          return error instanceof PartialUpload
-            ? Ref.set(moduleFailure, Option.some(error))
-            : Effect.void;
-        }),
-        Effect.provideService(Call, executionCall),
-        Effect.provideService(ProcessServices, scoped.process),
-      );
+    // decodedInput 即 Input 类型；Call.input 接口上是宽类型，执行时无需断言回窄。
+    const execute = implementation.execute(decodedInput, capability).pipe(
+      Effect.onExit((exit) => {
+        const error = Exit.isFailure(exit)
+          ? Cause.squash(exit.cause)
+          : undefined;
+        return error instanceof PartialUpload
+          ? Ref.set(moduleFailure, Option.some(error))
+          : Effect.void;
+      }),
+      Effect.provideService(Call, executionCall),
+      Effect.provideService(ProcessServices, scoped.process),
+    );
     if (!call.policy.read) {
       return yield* execute;
     }
@@ -233,10 +219,13 @@ export const runCall = <Input extends ModuleQuery>(
       if (!reference) {
         return 0;
       }
-      if (!effectReferences.has(reference)) {
-        effectReferences.set(reference, nextEffectReference++);
+      const known = effectReferences.get(reference);
+      if (known !== undefined) {
+        return known;
       }
-      return effectReferences.get(reference)!;
+      const assigned = nextEffectReference++;
+      effectReferences.set(reference, assigned);
+      return assigned;
     });
     const key = createHash('sha256')
       .update(
@@ -266,7 +255,9 @@ export const runCall = <Input extends ModuleQuery>(
           }),
         )
       : work
-    ).pipe(Effect.provide(services)),
+    ).pipe(Effect.provideService(CallServices, services), (effect) =>
+      clock ? Effect.provideService(Clock.Clock, clock)(effect) : effect,
+    ),
     input.signal,
     () => Option.getOrUndefined(Effect.runSync(Ref.get(moduleFailure))),
   );

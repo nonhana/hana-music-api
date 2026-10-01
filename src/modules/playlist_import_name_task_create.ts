@@ -25,9 +25,9 @@ const playlistImportNameTaskCreate: ModuleEffect<ModuleInput> = (
       typeof query.text !== 'number' &&
       typeof query.text !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'text must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'text must be a primitive value',
+      });
     }
     let data: Record<string, unknown> = {
       importStarPlaylist: query.importStarPlaylist || false, // 导入我喜欢的音乐
@@ -37,13 +37,11 @@ const playlistImportNameTaskCreate: ModuleEffect<ModuleInput> = (
       // 元数据导入
       const local = readPlaylistImportLocalEntries(query.local);
       const multiSongs = JSON.stringify(
-        local.map((e) => {
-          return {
-            songName: e.name,
-            artistName: e.artist,
-            albumName: e.album,
-          };
-        }),
+        local.map((e) => ({
+          songName: e.name,
+          artistName: e.artist,
+          albumName: e.album,
+        })),
       );
       data = {
         ...data,
@@ -70,9 +68,11 @@ const playlistImportNameTaskCreate: ModuleEffect<ModuleInput> = (
         // 链接导入
         const link = readPlaylistImportLinks(query.link);
         songs = JSON.stringify(
-          link.map((e: string) => {
-            return { name: playlistName, type: '', url: encodeURI(e) };
-          }),
+          link.map((e: string) => ({
+            name: playlistName,
+            type: '',
+            url: encodeURI(e),
+          })),
         );
       }
       data = {
@@ -107,20 +107,17 @@ const readPlaylistImportLocalEntries = (
 
   return parsed
     .filter((entry): entry is Record<string, unknown> => isRecordLike(entry))
-    .map((entry) => {
-      return {
-        album: typeof entry.album === 'string' ? entry.album : undefined,
-        artist: typeof entry.artist === 'string' ? entry.artist : undefined,
-        name: typeof entry.name === 'string' ? entry.name : undefined,
-      };
-    });
+    .map((entry) => ({
+      album: typeof entry.album === 'string' ? entry.album : undefined,
+      artist: typeof entry.artist === 'string' ? entry.artist : undefined,
+      name: typeof entry.name === 'string' ? entry.name : undefined,
+    }));
 };
 
-const readPlaylistImportLinks = (value: unknown): Array<string> => {
-  return readJsonArray(value)
+const readPlaylistImportLinks = (value: unknown): Array<string> =>
+  readJsonArray(value)
     .filter((entry): entry is string => typeof entry === 'string')
     .map((entry) => entry);
-};
 
 const readJsonArray = (value: unknown): Array<unknown> => {
   try {
@@ -131,9 +128,8 @@ const readJsonArray = (value: unknown): Array<unknown> => {
   }
 };
 
-const isRecordLike = (value: unknown): value is Record<string, unknown> => {
-  return typeof value === 'object' && value !== null;
-};
+const isRecordLike = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null;
 
 export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts';
 

@@ -16,11 +16,9 @@ const listentogetherSyncListCommand: ModuleEffect<ModuleInput> = (
       typeof query.randomList !== 'string' ||
       typeof query.displayList !== 'string'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({
-          message: 'randomList and displayList must be strings',
-        }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'randomList and displayList must be strings',
+      });
     }
     const data = {
       roomId: query.roomId,

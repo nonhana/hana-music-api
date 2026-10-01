@@ -16,9 +16,9 @@ const banner: ModuleEffect<ModuleInput> = (query, request) =>
       typeof query.type !== 'number' &&
       typeof query.type !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'type must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'type must be a primitive value',
+      });
     }
     const clientTypeMap: Record<string, string> = {
       0: 'pc',

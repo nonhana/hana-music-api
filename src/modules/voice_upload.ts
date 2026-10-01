@@ -64,9 +64,10 @@ const voiceUpload: ModuleEffect<ModuleInput> = (input, request) =>
   uploadWork('voice_upload', request, (stage) =>
     Effect.gen(function* () {
       if (!input.songFile) {
-        return yield* Effect.fail(
-          new InvalidModuleInput({ message: '请上传音频文件', status: 500 }),
-        );
+        return yield* new InvalidModuleInput({
+          message: '请上传音频文件',
+          status: 500,
+        });
       }
       const call = yield* Call;
       const ext = input.songFile.name.includes('flac') ? 'flac' : 'mp3';
@@ -95,7 +96,7 @@ const voiceUpload: ModuleEffect<ModuleInput> = (input, request) =>
       const { result: token } = yield* Schema.decodeUnknownEffect(
         Schema.Struct({
           result: Schema.Struct({
-            docId: Schema.Union([Schema.String, Schema.Number]),
+            docId: Schema.Union([Schema.String, Schema.Finite]),
             objectKey: Schema.String,
             token: Schema.String,
           }),
@@ -199,14 +200,12 @@ const voiceUpload: ModuleEffect<ModuleInput> = (input, request) =>
         semantic: 'upload',
       });
       if (!isRecord(submitted.body)) {
-        return yield* Effect.fail(
-          new UnexpectedUpstreamShape({
-            module: 'voice_upload',
-            path: 'body',
-            expected: 'object',
-            actual: typeof submitted.body,
-          }),
-        );
+        return yield* new UnexpectedUpstreamShape({
+          module: 'voice_upload',
+          path: 'body',
+          expected: 'object',
+          actual: typeof submitted.body,
+        });
       }
       return {
         status: 200,

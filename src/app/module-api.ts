@@ -1,11 +1,7 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import {
-  createClientLayer,
-  createProcessLayer,
-  runCall,
-} from '../core/call.ts';
+import { buildCallServices, runCall } from '../core/call.ts';
 import { createOption } from '../core/options.ts';
 import { requestEffect } from '../core/request.ts';
 import { cookieToJson, isRecord } from '../core/utils.ts';
@@ -28,7 +24,7 @@ const DEFAULT_MODULES_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
   '../modules',
 );
-type ModuleServices = ReturnType<typeof createClientLayer>;
+type ModuleServices = ReturnType<typeof buildCallServices>;
 const invocationRuntimes = new WeakMap<object, ModuleServices>();
 
 type ModuleRegistry = ReadonlyMap<string, LoadedModuleDefinition>;
@@ -63,15 +59,13 @@ export async function loadProgrammaticApi(
 ): Promise<ProgrammaticApi | DynamicProgrammaticApi> {
   const registry = await loadModuleRegistry(options);
   const requestHandler = options.requestHandler ?? requestEffect;
-  const modules = createClientLayer(createProcessLayer(), {}, false);
+  const modules = buildCallServices(undefined, {}, false);
 
   return Object.fromEntries(
-    [...registry.entries()].map(([identifier, moduleDefinition]) => {
-      return [
-        identifier,
-        createModuleInvoker(moduleDefinition, requestHandler, modules),
-      ];
-    }),
+    [...registry.entries()].map(([identifier, moduleDefinition]) => [
+      identifier,
+      createModuleInvoker(moduleDefinition, requestHandler, modules),
+    ]),
   );
 }
 
@@ -87,7 +81,7 @@ export function createModuleApi(
 ): ProgrammaticApi | DynamicProgrammaticApi {
   const registryPromise = loadModuleRegistry(options);
   const requestHandler = options.requestHandler ?? requestEffect;
-  const modules = createClientLayer(createProcessLayer(), {}, false);
+  const modules = buildCallServices(undefined, {}, false);
 
   return new Proxy(
     {},
@@ -110,12 +104,8 @@ export function createModuleApi(
           )(query);
         };
       },
-      has: (_target, property) => {
-        return typeof property === 'string';
-      },
-      ownKeys: () => {
-        return [];
-      },
+      has: (_target, property) => typeof property === 'string',
+      ownKeys: () => [],
     },
   );
 }
@@ -145,18 +135,19 @@ export async function invokeModule(
   const implementation = moduleDefinition.execute;
   let modules = invocationRuntimes.get(implementation);
   if (!modules) {
-    modules = createClientLayer(createProcessLayer(), {}, false);
+    modules = buildCallServices(undefined, {}, false);
     invocationRuntimes.set(implementation, modules);
   }
   return createModuleInvoker(moduleDefinition, requestHandler, modules)(query);
 }
 
-const createModuleInvoker = (
-  moduleDefinition: LoadedModuleDefinition,
-  requestHandler: RequestCapability,
-  modules: ModuleServices,
-): ProgrammaticModuleInvoker => {
-  return async (query = {}) => {
+const createModuleInvoker =
+  (
+    moduleDefinition: LoadedModuleDefinition,
+    requestHandler: RequestCapability,
+    modules: ModuleServices,
+  ): ProgrammaticModuleInvoker =>
+  async (query = {}) => {
     if (
       !isRecord(query) ||
       (Object.getPrototypeOf(query) !== Object.prototype &&
@@ -189,7 +180,6 @@ const createModuleInvoker = (
       requestHandler,
     );
   };
-};
 
 const loadModuleRegistry = async (
   options: CreateModuleApiOptions,

@@ -32,11 +32,10 @@ export const classifyHeaderRateLimit = (
   status: number,
   headers: Headers,
   now: number,
-): RateLimitDecision | undefined => {
-  return status === 429
+): RateLimitDecision | undefined =>
+  status === 429
     ? { retryAfterMs: retryAfterMs(headers.get('retry-after'), now) }
     : undefined;
-};
 
 export const classifyConsumedRateLimit = (
   response: ConsumedResponse,
@@ -146,19 +145,16 @@ export const retryAfterMs = (value: string | null, now: number): number => {
   return Math.min(Math.max(date - now, 1_000), 300_000);
 };
 
-export const toModuleResponse = (response: UpstreamResponse) => {
-  return {
-    status: response.status,
-    cookie: [...response.cookie],
-    body: response.body,
-  };
-};
+export const toModuleResponse = (response: UpstreamResponse) => ({
+  status: response.status,
+  cookie: [...response.cookie],
+  body: response.body,
+});
 
-export const businessCode = (response: NcmApiResponse): number | undefined => {
-  return isRecord(response.body) && response.body.code !== undefined
+export const businessCode = (response: NcmApiResponse): number | undefined =>
+  isRecord(response.body) && response.body.code !== undefined
     ? Number(response.body.code)
     : undefined;
-};
 
 export const normalizeFailure = (
   error: unknown,
@@ -261,15 +257,12 @@ export const normalizeFailure = (
     },
   };
 };
-export const isNcmApiResponse = (error: unknown): error is NcmApiResponse => {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'body' in error &&
-    'cookie' in error &&
-    'status' in error
-  );
-};
+export const isNcmApiResponse = (error: unknown): error is NcmApiResponse =>
+  typeof error === 'object' &&
+  error !== null &&
+  'body' in error &&
+  'cookie' in error &&
+  'status' in error;
 
 const normalizeUpstreamBody = (value: unknown): UpstreamBody => {
   if (
@@ -282,16 +275,20 @@ const normalizeUpstreamBody = (value: unknown): UpstreamBody => {
   }
 
   if (Array.isArray(value)) {
-    return value as UpstreamBody;
+    return value.map((item) => normalizeUpstreamBody(item));
   }
 
   if (isRecord(value)) {
-    return value as UpstreamBody;
+    return Object.fromEntries(
+      Object.entries(value).map(([key, item]) => [
+        key,
+        normalizeUpstreamBody(item),
+      ]),
+    );
   }
 
   return {};
 };
 
-const stripCookieDomain = (cookie: string): string => {
-  return cookie.replace(/\s*Domain=[^(;|$)]+;*/i, '');
-};
+const stripCookieDomain = (cookie: string): string =>
+  cookie.replace(/\s*Domain=[^(;|$)]+;*/i, '');

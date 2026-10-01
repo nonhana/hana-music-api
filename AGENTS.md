@@ -7,7 +7,7 @@ Ships a Promise-based Node.js SDK (`"private": false`) and a Bun/Hono HTTP serve
 
 - Dev: `bun run dev` (bun --watch)
 - Start: `bun run start`
-- Test: `bun test` (bun:test)
+- Test: `bun test tests/unit tests/contract tests/integration` (bun:test); live suite: `bun run test:live` (gated by `LIVE_UPSTREAM`)
 - Lint: `bun run lint` (oxlint)
 - Format: `bun run fmt` (oxfmt)
 - Type check: `bun run typecheck` (tsc --noEmit)
@@ -21,7 +21,7 @@ Ships a Promise-based Node.js SDK (`"private": false`) and a Bun/Hono HTTP serve
 - Lang: **TypeScript 7** (strict: `noUncheckedIndexedAccess`, `noImplicitOverride`; ESNext target)
 - Core: **Effect 4.0.0-rc.117**, internal only; public SDK contracts remain Promise-based
 - Tooling: **oxlint** + **oxfmt** (no ESLint / Prettier)
-- Testing: **bun:test**
+- Testing: **bun:test** + `tests/_kit` (Effect-native helpers; `Effect.run*`/`provide` converge at the kit single point)
 
 ## Project Structure
 
@@ -33,7 +33,13 @@ src/core/         — Crypto (weapi/eapi/linuxapi), HTTP request, runtime state,
 src/modules/      — Netease API modules (one file per endpoint)
 src/plugins/      — Plugin capabilities (e.g. song upload)
 src/types/        — Shared TS types
-tests/            — Crypto, request, server, module integration
+tests/            — Layered test suite:
+                    tests/_kit/        — shared Effect test kit (runEffect/runExit, clientLayer, assertions)
+                    tests/contract/    — SDK/module contract tests
+                    tests/unit/        — unit tests (crypto, request, core)
+                    tests/integration/ — server & module integration tests
+                    tests/live/        — live upstream tests (gated by LIVE_UPSTREAM; not in verify, not a regression baseline)
+                    tests/load/        — load tests; tests/fixtures/ — shared fixtures
 ```
 
 ## Architecture Constraints

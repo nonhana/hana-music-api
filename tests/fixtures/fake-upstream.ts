@@ -145,8 +145,6 @@ export const createFakeUpstream = (delayMs = 50) => {
     setMode: (next: FakeMode) => {
       mode = next;
     },
-    stop: () => {
-      return server.stop(true);
-    },
+    stop: () => server.stop(true),
   };
 };

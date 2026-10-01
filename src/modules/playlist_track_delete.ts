@@ -16,17 +16,15 @@ const playlistTrackDelete: ModuleEffect<ModuleInput> = (query, request) =>
       typeof query.ids !== 'number' &&
       typeof query.ids !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'ids must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'ids must be a primitive value',
+      });
     }
     const ids = String(query.ids ?? '');
     const data = {
       id: query.id,
       tracks: JSON.stringify(
-        ids.split(',').map((item: string) => {
-          return { type: 3, id: item };
-        }),
+        ids.split(',').map((item: string) => ({ type: 3, id: item })),
       ),
     };
 

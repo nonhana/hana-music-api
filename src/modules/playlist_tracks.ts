@@ -20,9 +20,9 @@ const playlistTracks: ModuleEffect<ModuleInput> = (query, request) =>
       typeof query.tracks !== 'number' &&
       typeof query.tracks !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'tracks must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'tracks must be a primitive value',
+      });
     }
     const tracks = String(query.tracks ?? '').split(',');
     const data = {
@@ -65,7 +65,7 @@ const playlistTracks: ModuleEffect<ModuleInput> = (query, request) =>
       Effect.catchTag('UpstreamBusinessFailed', (error) =>
         Effect.gen(function* () {
           if (error.code !== 512) {
-            return yield* Effect.fail(error);
+            return yield* error;
           }
           return toModuleResponse(
             yield* request(

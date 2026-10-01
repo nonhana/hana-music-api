@@ -34,12 +34,10 @@ let runtimeState: RuntimeState = {
 
 export const getRuntimeState = (
   overrides: Partial<RuntimeState> = {},
-): RuntimeState => {
-  return {
-    ...runtimeState,
-    ...overrides,
-  };
-};
+): RuntimeState => ({
+  ...runtimeState,
+  ...overrides,
+});
 
 export const setRuntimeState = (
   nextState: Partial<RuntimeState>,
@@ -84,28 +82,35 @@ export class ProcessServices extends Context.Service<
     readonly readState: typeof getRuntimeState;
     readonly waitForRate?: boolean;
   }
->()('hana/ProcessServices') {}
+>()('hana-music-api/core/runtime/ProcessServices') {}
 
 export const createProcessLayer = (
   runtime: RequestRuntime = { governor: getDefaultTrafficGovernor() },
-) => {
-  return Layer.succeed(ProcessServices, {
-    ...runtime,
-    readState: getRuntimeState,
-  });
-};
+) => Layer.succeed(ProcessServices, resolveProcessServices(runtime));
 
-export const runPublicEffect = async <Value>(
-  work: Effect.Effect<Value, unknown>,
+/** ProcessServices 是纯值（引用集合，无 scope 资源），可直接构造，无需 Layer.build。 */
+export const resolveProcessServices = (
+  runtime: RequestRuntime = { governor: getDefaultTrafficGovernor() },
+): Context.Service.Shape<typeof ProcessServices> => ({
+  ...runtime,
+  readState: getRuntimeState,
+});
+
+export const runPublicEffect = async <Value, Failure = unknown>(
+  // SDK Promise 边界：故意接受任意失败的 Effect 并在 normalizeFailure 中归一化封口。
+  work: Effect.Effect<Value, Failure>,
   signal?: AbortSignal,
   failure?: () => unknown,
 ): Promise<Value> => {
   if (signal?.aborted) {
+    // SDK Promise 边界契约：失败以 NcmApiResponse 对象抛出（normalize 后），见 request.ts 同款注释。
+    // oxlint-disable-next-line typescript/only-throw-error
     throw normalizeFailure(signal.reason, true);
   }
   try {
     return await Effect.runPromise(work, { signal });
   } catch (error) {
+    // oxlint-disable-next-line typescript/only-throw-error
     throw normalizeFailure(
       failure?.() ?? error,
       signal?.aborted,

@@ -7,7 +7,8 @@ import type {
   RequestIntent,
 } from '../types/index.ts';
 import type { UpstreamResponse } from '../types/upstream.ts';
-import { Call } from './call.ts';
+import { Call } from './call-context.ts';
+import type { CallShape } from './call-context.ts';
 import { APP_CONF } from './config.ts';
 import { createWeapiSecretKey } from './crypto.ts';
 import {
@@ -27,11 +28,11 @@ import {
 import { resolveIdentitySnapshot } from './identity.ts';
 import type { RequestPlan } from './request-plan.ts';
 import { prepareRequest } from './request-plan.ts';
-import { interpretResponse } from './response.ts';
+import { interpretResponse, isNcmApiResponse } from './response.ts';
 import {
-  createProcessLayer,
   getRuntimeState,
   ProcessServices,
+  resolveProcessServices,
   runPublicEffect,
 } from './runtime.ts';
 import type { RequestRuntime } from './runtime.ts';
@@ -42,8 +43,8 @@ export type RequestServices = Call | ProcessServices;
 
 export const requestEffect = (
   intent: RequestIntent,
-): Effect.Effect<UpstreamResponse, RequestError, RequestServices> => {
-  return withRequestDeadline(
+): Effect.Effect<UpstreamResponse, RequestError, RequestServices> =>
+  withRequestDeadline(
     Effect.gen(function* () {
       const call = yield* Call;
       const services = yield* ProcessServices;
@@ -82,8 +83,9 @@ export const requestEffect = (
                 continue;
               }
               for (const existing of Object.keys(headers)) {
-                if (existing.toLowerCase() === name.toLowerCase())
-                  {delete headers[existing];}
+                if (existing.toLowerCase() === name.toLowerCase()) {
+                  delete headers[existing];
+                }
               }
               headers[name] = value;
             }
@@ -191,15 +193,13 @@ export const requestEffect = (
                 };
               },
             ).pipe(
-              Effect.flatMap((response) =>
-                response.status >= 200 && response.status < 300
-                  ? Effect.succeed(response)
-                  : Effect.fail(
-                      new ProtocolFailed({
-                        message: 'Upstream request failed',
-                        response,
-                      }),
-                    ),
+              Effect.filterOrFail(
+                (response) => response.status >= 200 && response.status < 300,
+                (response) =>
+                  new ProtocolFailed({
+                    message: 'Upstream request failed',
+                    response,
+                  }),
               ),
             ),
           );
@@ -236,7 +236,7 @@ export const requestEffect = (
               : { type: 'retry' as const, delayMs }),
           });
           if (delayMs === undefined) {
-            return yield* Effect.fail(error);
+            return yield* error;
           }
           yield* Effect.sleep(delayMs);
         }
@@ -244,12 +244,11 @@ export const requestEffect = (
       return yield* work;
     }),
   );
-};
 
 export const withRequestDeadline = <Value, Failure, Requirements>(
   work: Effect.Effect<Value, Failure, Requirements>,
-) => {
-  return Effect.gen(function* () {
+) =>
+  Effect.gen(function* () {
     const call = yield* Call;
     const now = yield* Clock.currentTimeMillis;
     const remaining =
@@ -259,9 +258,7 @@ export const withRequestDeadline = <Value, Failure, Requirements>(
         ? remaining
         : Math.min(remaining ?? Infinity, call.policy.stageTimeoutMs);
     if (timeout !== undefined && timeout <= 0) {
-      return yield* Effect.fail(
-        new DeadlineExceeded({ message: 'Request timed out' }),
-      );
+      return yield* new DeadlineExceeded({ message: 'Request timed out' });
     }
     return yield* timeout === undefined
       ? work
@@ -275,7 +272,6 @@ export const withRequestDeadline = <Value, Failure, Requirements>(
           }),
         );
   });
-};
 
 export const runRequestAtEdge = async (
   intent: RequestIntent,
@@ -291,7 +287,7 @@ export const runRequestAtEdge = async (
   const startedAt = Effect.runSync(Clock.currentTimeMillis);
   const timeoutMs = options.timeoutMs ?? 8_000;
   let lastEvent: RequestDebugEvent | undefined;
-  const call: Call = {
+  const call: CallShape = {
     identifier: intent.target,
     input: {},
     identity,
@@ -326,7 +322,10 @@ export const runRequestAtEdge = async (
       signal,
     );
   } catch (error) {
-    const failure = error as NcmApiResponse;
+    if (!isNcmApiResponse(error)) {
+      throw error;
+    }
+    const failure = error;
     if (lastEvent && lastEvent.type !== 'failure') {
       options.onRequestEvent?.({
         ...lastEvent,
@@ -335,6 +334,8 @@ export const runRequestAtEdge = async (
         durationMs: Effect.runSync(Clock.currentTimeMillis) - startedAt,
       });
     }
+    // SDK Promise 边界契约：失败以 NcmApiResponse 对象抛出，调用方以 isNcmApiResponse 守卫消费。
+    // oxlint-disable-next-line typescript/only-throw-error
     throw failure;
   }
 };
@@ -344,17 +345,13 @@ export const createRequest = async (
   data: Record<string, unknown>,
   options: CreateRequestOptions = {},
 ): Promise<NcmApiResponse> => {
-  const services = Effect.runSync(
-    Effect.provide(ProcessServices, createProcessLayer()),
-  );
+  const services = resolveProcessServices();
   return createRuntimeRequest(services)(uri, data, options);
 };
 
-export const createRuntimeRequest = (
-  runtime: RequestRuntime,
-  waitForRate = true,
-) => {
-  return async (
+export const createRuntimeRequest =
+  (runtime: RequestRuntime, waitForRate = true) =>
+  async (
     uri: string,
     data: Record<string, unknown>,
     options: CreateRequestOptions = {},
@@ -379,4 +376,3 @@ export const createRuntimeRequest = (
       status: response.status,
     };
   };
-};

@@ -62,8 +62,9 @@ export const findForbiddenArtifactSymbols = async (
         sourcesContent?: Array<string | null>;
       };
       for (const name of map.names ?? []) {
-        for (const match of name.matchAll(forbiddenIdentifier))
-          {symbols.add(match[0]);}
+        for (const match of name.matchAll(forbiddenIdentifier)) {
+          symbols.add(match[0]);
+        }
       }
       for (const [index, path] of (map.sources ?? []).entries()) {
         const retired = retiredPath.exec(path);

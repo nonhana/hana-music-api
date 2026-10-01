@@ -87,7 +87,9 @@ export class AdmissionController {
           previous.tokens + ((now - previous.time) * rate) / 1_000,
         );
         for (const [key, entry] of buckets) {
-          if (now - entry.time > (burst / rate) * 1_000) {buckets.delete(key);}
+          if (now - entry.time > (burst / rate) * 1_000) {
+            buckets.delete(key);
+          }
         }
         if (!buckets.has(identity) && buckets.size >= 10_000) {
           return [false, buckets];
@@ -99,9 +101,11 @@ export class AdmissionController {
         return [tokens >= 1, buckets];
       });
       if (!allowed) {
-        return yield* Effect.fail(
-          new TrafficRejectedError(429, 'Too Many Requests', 1_000),
-        );
+        return yield* new TrafficRejectedError({
+          status: 429,
+          message: 'Too Many Requests',
+          retryAfterMs: 1_000,
+        });
       }
       const counted = Effect.gen(function* () {
         yield* Ref.update(countState, (counts) => ({
@@ -121,42 +125,49 @@ export class AdmissionController {
         ? uploads
             .withPermitsIfAvailable(1)(counted)
             .pipe(
-              Effect.flatMap((result) =>
-                Option.isSome(result)
-                  ? Effect.succeed(result.value)
-                  : Effect.fail(
-                      new TrafficRejectedError(
-                        503,
-                        'Upload capacity exhausted',
-                        1_000,
-                      ),
-                    ),
+              Effect.filterOrFail(
+                Option.isSome,
+                () =>
+                  new TrafficRejectedError({
+                    status: 503,
+                    message: 'Upload capacity exhausted',
+                    retryAfterMs: 1_000,
+                  }),
               ),
+              Effect.map(Option.getOrThrow),
             )
         : counted;
       const result = yield* modules.withPermitsIfAvailable(1)(guarded);
       if (Option.isNone(result)) {
-        return yield* Effect.fail(
-          new TrafficRejectedError(503, 'Module capacity exhausted', 1_000),
-        );
+        return yield* new TrafficRejectedError({
+          status: 503,
+          message: 'Module capacity exhausted',
+          retryAfterMs: 1_000,
+        });
       }
       return result.value;
     });
   }
 }
 
-export const admissionMiddleware = (
-  controller: AdmissionController,
-  options: CreateServerOptions,
-  identifier: string,
-): MiddlewareHandler => {
-  return async (context, next) => {
+export const admissionMiddleware =
+  (
+    controller: AdmissionController,
+    options: CreateServerOptions,
+    identifier: string,
+  ): MiddlewareHandler =>
+  async (context, next) => {
     try {
       await Effect.runPromise(
         controller.run(
           resolveAdmissionIdentity(context, options),
           isUploadModule(identifier),
-          Effect.tryPromise({ try: () => next(), catch: (error) => error }),
+          Effect.tryPromise({
+            try: () => next(),
+            catch: (error) => {
+              throw error;
+            },
+          }),
         ),
         { signal: context.req.raw.signal },
       );
@@ -182,4 +193,3 @@ export const admissionMiddleware = (
       throw error;
     }
   };
-};

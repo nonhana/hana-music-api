@@ -30,14 +30,12 @@ const audioMatch: ModuleEffect<ModuleInput> = (input, request) =>
       semantic: 'read',
     });
     if (!isRecord(response.body)) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'audio_match',
-          path: 'body',
-          expected: 'object',
-          actual: typeof response.body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'audio_match',
+        path: 'body',
+        expected: 'object',
+        actual: typeof response.body,
+      });
     }
     return {
       status: 200,

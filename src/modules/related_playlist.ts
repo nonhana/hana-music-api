@@ -19,14 +19,12 @@ const relatedPlaylist: ModuleEffect<ModuleInput> = (input, request) =>
       semantic: 'read',
     });
     if (typeof response.body !== 'string') {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'related_playlist',
-          path: 'body',
-          expected: 'HTML text',
-          actual: typeof response.body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'related_playlist',
+        path: 'body',
+        expected: 'HTML text',
+        actual: typeof response.body,
+      });
     }
     const pattern =
       /<div class="cver u-cover u-cover-3">[\s\S]*?<img src="([^"]+)">[\s\S]*?<a class="sname f-fs1 s-fc0" href="([^"]+)"[^>]*>([^<]+?)<\/a>[\s\S]*?<a class="nm nm f-thide s-fc3" href="([^"]+)"[^>]*>([^<]+?)<\/a>/g;

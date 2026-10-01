@@ -35,14 +35,12 @@ const avatarUpload: ModuleEffect<ModuleInput> = (input, request) =>
         semantic: 'upload',
       });
       if (!isRecord(response.body)) {
-        return yield* Effect.fail(
-          new UnexpectedUpstreamShape({
-            module: 'avatar_upload',
-            path: 'body',
-            expected: 'object',
-            actual: typeof response.body,
-          }),
-        );
+        return yield* new UnexpectedUpstreamShape({
+          module: 'avatar_upload',
+          path: 'body',
+          expected: 'object',
+          actual: typeof response.body,
+        });
       }
       return {
         status: 200,

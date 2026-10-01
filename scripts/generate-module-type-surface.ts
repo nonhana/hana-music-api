@@ -55,11 +55,8 @@ interface GeneratedArtifacts {
 }
 
 function toCamelCase(identifier: string): string {
-  return identifier.replaceAll(
-    /[/_-]+([a-zA-Z0-9])/g,
-    (_match, char: string) => {
-      return char.toUpperCase();
-    },
+  return identifier.replaceAll(/[/_-]+([a-zA-Z0-9])/g, (_match, char: string) =>
+    char.toUpperCase(),
   );
 }
 
@@ -68,13 +65,11 @@ function buildSdkEntries(identifiers: ReadonlyArray<string>): ReadonlyArray<{
   readonly identifier: string;
   readonly importName: string;
 }> {
-  const entries = identifiers.map((identifier) => {
-    return {
-      functionName: toCamelCase(identifier),
-      identifier,
-      importName: `${toCamelCase(identifier)}Module`,
-    };
-  });
+  const entries = identifiers.map((identifier) => ({
+    functionName: toCamelCase(identifier),
+    identifier,
+    importName: `${toCamelCase(identifier)}Module`,
+  }));
   const collisions = new Map<string, string>();
 
   for (const entry of entries) {
@@ -93,15 +88,18 @@ function buildSdkEntries(identifiers: ReadonlyArray<string>): ReadonlyArray<{
 
 function buildSdkGeneratedClient(identifiers: ReadonlyArray<string>): string {
   const entries = buildSdkEntries(identifiers);
-  const methodLines = entries.map(({ functionName, identifier }) => {
-    return `  ${functionName}: SdkModuleInvoker<'${identifier}'>`;
-  });
-  const exportLines = entries.map(({ functionName, identifier }) => {
-    return `export const ${functionName} = createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier})`;
-  });
-  const clientLines = entries.map(({ functionName, identifier }) => {
-    return `    ${functionName}: createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier}, config, context),`;
-  });
+  const methodLines = entries.map(
+    ({ functionName, identifier }) =>
+      `  ${functionName}: SdkModuleInvoker<'${identifier}'>`,
+  );
+  const exportLines = entries.map(
+    ({ functionName, identifier }) =>
+      `export const ${functionName} = createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier})`,
+  );
+  const clientLines = entries.map(
+    ({ functionName, identifier }) =>
+      `    ${functionName}: createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier}, config, context),`,
+  );
 
   return `import type { CreateHanaMusicApiConfig, SdkModuleInvoker } from '../../types/index.ts'
 import { createEffectModuleInvoker, createSdkClientContext } from '../runtime.ts'
@@ -127,12 +125,14 @@ function buildSdkRegistry(
   routes: Readonly<Record<string, string>>,
 ): string {
   const entries = buildSdkEntries(identifiers);
-  const importLines = entries.map(({ identifier, importName }) => {
-    return `import ${importName}, { decodeModuleInput as ${toCamelCase(identifier)}InputDecoder } from '../../modules/${identifier}.ts'`;
-  });
-  const effectLines = entries.map(({ identifier, importName }) => {
-    return `  ${identifier}: { identifier: '${identifier}', route: '${routes[identifier]}', execute: ${importName}, decodeInput: ${toCamelCase(identifier)}InputDecoder },`;
-  });
+  const importLines = entries.map(
+    ({ identifier, importName }) =>
+      `import ${importName}, { decodeModuleInput as ${toCamelCase(identifier)}InputDecoder } from '../../modules/${identifier}.ts'`,
+  );
+  const effectLines = entries.map(
+    ({ identifier, importName }) =>
+      `  ${identifier}: { identifier: '${identifier}', route: '${routes[identifier]}', execute: ${importName}, decodeInput: ${toCamelCase(identifier)}InputDecoder },`,
+  );
 
   return `import type { SdkModuleRegistry } from '../../types/index.ts'
 ${importLines.join('\n')}
@@ -346,21 +346,22 @@ async function writeSurface(): Promise<void> {
 
 async function checkSurface(): Promise<void> {
   const { files } = await buildGeneratedArtifacts();
-  const tempFiles = files.filter((file) => file.tempPath);
-
-  for (const file of tempFiles) {
-    await mkdir(dirname(file.tempPath!), {
-      recursive: true,
-    });
-    await writeFile(file.tempPath!, file.contents);
-    formatFile(file.tempPath!);
-  }
 
   try {
     for (const file of files) {
-      const expected = file.tempPath
-        ? await readFile(file.tempPath, 'utf8')
-        : file.contents;
+      await mkdir(dirname(file.tempPath ?? file.path), {
+        recursive: true,
+      });
+      const tempPath = file.tempPath ?? `${file.path}.check-tmp.ts`;
+      await writeFile(tempPath, file.contents);
+      formatFile(tempPath);
+    }
+
+    for (const file of files) {
+      const expected = await readFile(
+        file.tempPath ?? `${file.path}.check-tmp.ts`,
+        'utf8',
+      );
       const actual = await readFile(file.path, 'utf8').catch(() => '');
 
       if (expected !== actual) {
@@ -374,8 +375,8 @@ async function checkSurface(): Promise<void> {
       `Generated module type surface is up to date -> ${OUTPUT_FILE}`,
     );
   } finally {
-    for (const file of tempFiles) {
-      await rm(file.tempPath!, {
+    for (const file of files) {
+      await rm(file.tempPath ?? `${file.path}.check-tmp.ts`, {
         force: true,
       });
     }

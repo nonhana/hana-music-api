@@ -4,19 +4,15 @@ import { runCall } from '../core/call.ts';
 import type { createServiceLayer } from '../core/call.ts';
 import { getRuntimeState } from '../core/runtime.ts';
 import { SERVICE_VERSION } from '../core/service-metadata.ts';
-import { cookieToJson } from '../core/utils.ts';
+import { cookieToJson, isCookieRecord } from '../core/utils.ts';
 import type {
-  CreateRequestOptions,
   CreateServerOptions,
   ModuleQuery,
   NcmApiResponse,
   RequestCapability,
 } from '../types/index.ts';
-import {
-  type AdmissionController,
-  admissionMiddleware,
-  resolveAdmissionIdentity,
-} from './admission.ts';
+import { admissionMiddleware, resolveAdmissionIdentity } from './admission.ts';
+import type { AdmissionController } from './admission.ts';
 import { appendResponseCookies, parseRequestCookies } from './cookies.ts';
 import { validateHttpInput } from './execution-input.ts';
 import type { LoadedModuleDefinition } from './module-loader.ts';
@@ -179,23 +175,23 @@ export const registerBaseRoutes = (
   const serviceName = options.serviceName ?? DEFAULT_SERVICE_NAME;
   const serviceVersion = options.serviceVersion ?? SERVICE_VERSION;
 
-  app.get('/', (context) => {
-    return context.html(
+  app.get('/', (context) =>
+    context.html(
       createWelcomePage({
         docsPath: '/docs',
         healthPath: '/health',
         name: serviceName,
       }),
-    );
-  });
+    ),
+  );
 
-  app.get('/health', (context) => {
-    return context.json({
+  app.get('/health', (context) =>
+    context.json({
       name: serviceName,
       ok: true,
       version: serviceVersion,
-    });
-  });
+    }),
+  );
 };
 
 interface WelcomePageOptions {
@@ -204,37 +200,37 @@ interface WelcomePageOptions {
   readonly name: string;
 }
 
-const createWelcomePage = (options: WelcomePageOptions): string => {
-  return `<!DOCTYPE html>
+const createWelcomePage = (
+  options: WelcomePageOptions,
+): string => `<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>${options.name}</title>
-    <meta
-      content="${options.name} 服务已启动，可从这里进入文档站和 Demo 调试页。"
-      name="description"
-    />
-    <style>${WELCOME_PAGE_STYLE}</style>
-  </head>
-  <body>
-    <main>
-      <section class="panel">
-        <div class="eyebrow">HANA Music API</div>
-        <h1>${options.name}</h1>
-        <p>
-          服务已经启动。可以查看接口文档，或进入 Demo 测试功能。
-        </p>
-        <div class="actions">
-          <a class="action action-primary" href="${options.docsPath}">查看文档</a>
-          <a class="action action-secondary" href="/demo">打开 Demo</a>
-        </div>
-        <p class="helper-text">服务状态检查请访问 <a href="${options.healthPath}">${options.healthPath}</a></p>
-      </section>
-    </main>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>${options.name}</title>
+  <meta
+    content="${options.name} 服务已启动，可从这里进入文档站和 Demo 调试页。"
+    name="description"
+  />
+  <style>${WELCOME_PAGE_STYLE}</style>
+</head>
+<body>
+  <main>
+    <section class="panel">
+      <div class="eyebrow">HANA Music API</div>
+      <h1>${options.name}</h1>
+      <p>
+        服务已经启动。可以查看接口文档，或进入 Demo 测试功能。
+      </p>
+      <div class="actions">
+        <a class="action action-primary" href="${options.docsPath}">查看文档</a>
+        <a class="action action-secondary" href="/demo">打开 Demo</a>
+      </div>
+      <p class="helper-text">服务状态检查请访问 <a href="${options.healthPath}">${options.healthPath}</a></p>
+    </section>
+  </main>
+</body>
 </html>`;
-};
 
 /**
  * 注册模块路由。
@@ -266,7 +262,7 @@ export const registerModuleRoutes = (
               input: query,
               signal: context.req.raw.signal,
               config: {
-                cookie: query.cookie as CreateRequestOptions['cookie'],
+                cookie: isCookieRecord(query.cookie) ? query.cookie : undefined,
                 ip: resolveClientIp(context, options.serverOptions),
                 domain: '',
                 proxy: undefined,
@@ -393,24 +389,18 @@ const normalizeErrorResponse = (error: unknown): NcmApiResponse => {
   };
 };
 
-const isNcmApiResponse = (value: unknown): value is NcmApiResponse => {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    'status' in value &&
-    'body' in value &&
-    'cookie' in value
-  );
-};
+const isNcmApiResponse = (value: unknown): value is NcmApiResponse =>
+  typeof value === 'object' &&
+  value !== null &&
+  'status' in value &&
+  'body' in value &&
+  'cookie' in value;
 
-const shouldWriteCookies = (query: ModuleQuery): boolean => {
-  return (
-    query.noCookie !== true &&
-    query.noCookie !== 1 &&
-    query.noCookie !== 'true' &&
-    query.noCookie !== '1'
-  );
-};
+const shouldWriteCookies = (query: ModuleQuery): boolean =>
+  query.noCookie !== true &&
+  query.noCookie !== 1 &&
+  query.noCookie !== 'true' &&
+  query.noCookie !== '1';
 
 const isHttpsRequest = (context: Context): boolean => {
   const forwardedProto = context.req.header('x-forwarded-proto');
@@ -441,9 +431,7 @@ export const resolveClientIp = (
   return candidate;
 };
 
-const createRequestStateFallbackIp = (): string => {
-  return getRuntimeState().cnIp;
-};
+const createRequestStateFallbackIp = (): string => getRuntimeState().cnIp;
 
 const safeDecodeURIComponent = (value: string): string => {
   try {

@@ -61,14 +61,12 @@ const login: ModuleEffect<ModuleInput> = (query, request) =>
       Array.isArray(body) ||
       typeof body.code !== 'number'
     ) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'login',
-          path: 'body.code',
-          expected: 'number',
-          actual: typeof body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'login',
+        path: 'body.code',
+        expected: 'number',
+        actual: typeof body,
+      });
     }
     if (body.code === 502) {
       return toModuleResponse({
@@ -82,14 +80,12 @@ const login: ModuleEffect<ModuleInput> = (query, request) =>
       return toModuleResponse(result);
     }
     if (!result.cookie.some((cookie) => /^MUSIC_U=[^;]+/.test(cookie))) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'login',
-          path: 'cookie.MUSIC_U',
-          expected: 'nonempty credential',
-          actual: 'missing',
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'login',
+        path: 'cookie.MUSIC_U',
+        expected: 'nonempty credential',
+        actual: 'missing',
+      });
     }
     return toModuleResponse({
       ...result,

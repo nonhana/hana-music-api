@@ -9,6 +9,5 @@ const RESOURCE_TYPE_MAP: Readonly<Record<string, string>> = {
   7: 'A_DR_14_',
 };
 
-export const resolveResourceType = (value: unknown): string => {
-  return RESOURCE_TYPE_MAP[String(Number(value ?? 0))] ?? 'R_SO_4_';
-};
+export const resolveResourceType = (value: unknown): string =>
+  RESOURCE_TYPE_MAP[String(Number(value ?? 0))] ?? 'R_SO_4_';

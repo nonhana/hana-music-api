@@ -1,4 +1,5 @@
 import type { CreateRequestOptions, ModuleQuery } from '../types/index.ts';
+import { RequestBodyError } from './parse-body.ts';
 
 const executionKeys = [
   'acceptGzip',
@@ -26,14 +27,10 @@ export const validateHttpInput = (input: ModuleQuery, debug = false): void => {
       continue;
     }
     if (Object.hasOwn(input, key)) {
-      throw {
-        status: 400,
-        cookie: [],
-        body: {
-          code: 400,
-          msg: `Execution option is not allowed over HTTP: ${key}`,
-        },
-      };
+      throw new RequestBodyError(
+        400,
+        `Execution option is not allowed over HTTP: ${key}`,
+      );
     }
   }
 };

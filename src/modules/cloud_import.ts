@@ -72,14 +72,12 @@ const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
       Array.isArray(body) ||
       !Array.isArray(body.data)
     ) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'cloud_import',
-          path: 'body.data',
-          expected: 'array',
-          actual: typeof body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'cloud_import',
+        path: 'body.data',
+        expected: 'array',
+        actual: typeof body,
+      });
     }
     const first = body.data[0];
     if (
@@ -88,14 +86,12 @@ const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
       Array.isArray(first) ||
       (typeof first.songId !== 'number' && typeof first.songId !== 'string')
     ) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'cloud_import',
-          path: 'body.data[0].songId',
-          expected: 'number or string',
-          actual: typeof first,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'cloud_import',
+        path: 'body.data[0].songId',
+        expected: 'number or string',
+        actual: typeof first,
+      });
     }
     const data = {
       uploadType: 0,

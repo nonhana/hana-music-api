@@ -1,4 +1,4 @@
-import { Clock, Effect, Exit, Ref, Scope, Semaphore } from 'effect';
+import { Clock, Data, Effect, Exit, Ref, Scope, Semaphore } from 'effect';
 
 export interface TrafficBudget {
   readonly maxInFlight: number;
@@ -20,16 +20,13 @@ export const DEFAULT_TRAFFIC_BUDGET: TrafficBudget = {
   waitMs: 2_000,
 };
 
-export class TrafficRejectedError extends Error {
-  constructor(
-    readonly status: 429 | 503,
-    message: string,
-    readonly retryAfterMs = 1_000,
-  ) {
-    super(message);
-    this.name = 'TrafficRejectedError';
-  }
-}
+export class TrafficRejectedError extends Data.TaggedError(
+  'TrafficRejectedError',
+)<{
+  readonly status: 429 | 503;
+  readonly message: string;
+  readonly retryAfterMs?: number;
+}> {}
 
 interface Bucket {
   readonly tokens: number;
@@ -60,8 +57,9 @@ export class TrafficGovernor {
 
   constructor(readonly budget: TrafficBudget = DEFAULT_TRAFFIC_BUDGET) {
     for (const value of Object.values(budget)) {
-      if (!Number.isFinite(value) || value <= 0)
-        {throw new TypeError('Traffic limits must be positive');}
+      if (!Number.isFinite(value) || value <= 0) {
+        throw new TypeError('Traffic limits must be positive');
+      }
     }
     this.semaphore = Semaphore.makeUnsafe(budget.maxInFlight);
   }
@@ -103,10 +101,12 @@ export class TrafficGovernor {
             ],
       );
       if (!admitted) {
-        yield* Effect.fail(
-          new TrafficRejectedError(503, 'Upstream traffic queue is full'),
-        );
+        return yield* new TrafficRejectedError({
+          status: 503,
+          message: 'Upstream traffic queue is full',
+        });
       }
+      return undefined;
     });
     const acquire = Effect.acquireUseRelease(
       enterQueue,
@@ -179,15 +179,14 @@ export class TrafficGovernor {
                 if (reserved === 'rate' && waitForRate) {
                   return false;
                 }
-                return yield* Effect.fail(
-                  new TrafficRejectedError(
-                    503,
+                return yield* new TrafficRejectedError({
+                  status: 503,
+                  message:
                     reserved === 'capacity'
                       ? 'Traffic identity capacity exhausted'
                       : 'Upstream rate budget is exhausted',
-                    1_000,
-                  ),
-                );
+                  retryAfterMs: 1_000,
+                });
               }
               yield* Effect.acquireRelease(
                 Ref.update(counters, (current) => ({
@@ -214,7 +213,10 @@ export class TrafficGovernor {
             duration: budget.waitMs,
             orElse: () =>
               Effect.fail(
-                new TrafficRejectedError(503, 'Upstream admission timed out'),
+                new TrafficRejectedError({
+                  status: 503,
+                  message: 'Upstream admission timed out',
+                }),
               ),
           }),
         ),
@@ -234,7 +236,9 @@ export class TrafficGovernor {
       const until = now + Math.min(Math.max(retryAfterMs, 1_000), 300_000);
       yield* Ref.update(cooldowns, (entries) => {
         for (const [key, value] of entries) {
-          if (value <= now) {entries.delete(key);}
+          if (value <= now) {
+            entries.delete(key);
+          }
         }
         for (const key of [`host:${host}`, `identity:${identity}`]) {
           entries.set(key, Math.max(entries.get(key) ?? 0, until));
@@ -258,13 +262,11 @@ export class TrafficGovernor {
           ...current,
           cooldownHits: current.cooldownHits + 1,
         }));
-        return yield* Effect.fail(
-          new TrafficRejectedError(
-            429,
-            'Upstream is cooling down',
-            until - now,
-          ),
-        );
+        return yield* new TrafficRejectedError({
+          status: 429,
+          message: 'Upstream is cooling down',
+          retryAfterMs: until - now,
+        });
       }
       return undefined;
     });
@@ -276,11 +278,10 @@ const availableTokens = (
   rate: number,
   burst: number,
   now: number,
-): number => {
-  return bucket
+): number =>
+  bucket
     ? Math.min(burst, bucket.tokens + ((now - bucket.updatedAt) * rate) / 1_000)
     : burst;
-};
 
 const pruneBuckets = (
   entries: Map<string, Bucket>,
@@ -288,14 +289,15 @@ const pruneBuckets = (
   idleMs: number,
 ): void => {
   for (const [key, value] of entries) {
-    if (now - value.updatedAt > idleMs) {entries.delete(key);}
+    if (now - value.updatedAt > idleMs) {
+      entries.delete(key);
+    }
   }
 };
 
 let defaultGovernor: TrafficGovernor | undefined;
-export const getDefaultTrafficGovernor = (): TrafficGovernor => {
-  return (defaultGovernor ??= new TrafficGovernor());
-};
+export const getDefaultTrafficGovernor = (): TrafficGovernor =>
+  (defaultGovernor ??= new TrafficGovernor());
 export const resetDefaultTrafficGovernor = (): void => {
   defaultGovernor = undefined;
 };

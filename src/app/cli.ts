@@ -22,21 +22,17 @@ const parsePort = (value: string | undefined, fallback: number): number => {
 
 const resolveAnonymousTokenFilePath = (
   options: GenerateConfigOptions,
-): string | undefined => {
-  return options.tokenFilePath ?? Bun.env.ANONYMOUS_TOKEN_FILE;
-};
+): string | undefined => options.tokenFilePath ?? Bun.env.ANONYMOUS_TOKEN_FILE;
 
 const resolveStartServerOptions = (
   options: StartServerOptions = {},
 ): Required<Pick<StartServerOptions, 'hostname' | 'port' | 'silent'>> &
-  StartServerOptions => {
-  return {
-    ...options,
-    hostname: options.hostname ?? Bun.env.HOST ?? DEFAULT_HOSTNAME,
-    port: options.port ?? parsePort(Bun.env.PORT, DEFAULT_PORT),
-    silent: options.silent ?? false,
-  };
-};
+  StartServerOptions => ({
+  ...options,
+  hostname: options.hostname ?? Bun.env.HOST ?? DEFAULT_HOSTNAME,
+  port: options.port ?? parsePort(Bun.env.PORT, DEFAULT_PORT),
+  silent: options.silent ?? false,
+});
 
 export const startServer = async (
   options: StartServerOptions = {},

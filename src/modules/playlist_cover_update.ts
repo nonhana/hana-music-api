@@ -52,14 +52,12 @@ const playlistCoverUpdate: ModuleEffect<ModuleInput> = (input, request) =>
         semantic: 'write',
       });
       if (!isRecord(response.body)) {
-        return yield* Effect.fail(
-          new UnexpectedUpstreamShape({
-            module: 'playlist_cover_update',
-            path: 'body',
-            expected: 'object',
-            actual: typeof response.body,
-          }),
-        );
+        return yield* new UnexpectedUpstreamShape({
+          module: 'playlist_cover_update',
+          path: 'body',
+          expected: 'object',
+          actual: typeof response.body,
+        });
       }
       return {
         status: 200,

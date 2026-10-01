@@ -16,9 +16,9 @@ const videoDetailInfo: ModuleEffect<ModuleInput> = (query, request) =>
       typeof query.vid !== 'number' &&
       typeof query.vid !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'vid must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'vid must be a primitive value',
+      });
     }
     const data = {
       threadid: `R_VI_62_${String(query.vid)}`,

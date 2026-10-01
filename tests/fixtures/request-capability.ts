@@ -1,12 +1,6 @@
 import { Clock, Effect } from 'effect';
 
-import {
-  Call,
-  CallServices,
-  createClientLayer,
-  createProcessLayer,
-  runCall,
-} from '../../src/core/call.ts';
+import { buildCallServices, Call, runCall } from '../../src/core/call.ts';
 import { requestSemantic } from '../../src/core/endpoint-policy.ts';
 import { ProtocolFailed } from '../../src/core/errors.ts';
 import { requestEffect, runRequestAtEdge } from '../../src/core/request.ts';
@@ -35,12 +29,11 @@ export const moduleResponse = (
   status: number;
   cookie: Array<string>;
   body: UnknownJson;
-} => {
-  return { ...response, body: response.body as UnknownJson };
-};
+} => ({ ...response, body: response.body as UnknownJson });
 
-export const mockRequest = (handler: MockRequestHandler): RequestCapability => {
-  return (intent) =>
+export const mockRequest =
+  (handler: MockRequestHandler): RequestCapability =>
+  (intent) =>
     intent.protocol === 'plain'
       ? requestEffect(intent)
       : Effect.gen(function* () {
@@ -100,15 +93,14 @@ export const mockRequest = (handler: MockRequestHandler): RequestCapability => {
             body: response.body as UnknownJson,
           };
         });
-};
 
 export const testRequest = (
   request: RequestCapability,
   uri: string,
   data: Record<string, unknown> = {},
   options: CreateRequestOptions = {},
-) => {
-  return request({
+) =>
+  request({
     target: uri,
     protocol: options.crypto || 'api',
     method: 'POST',
@@ -123,14 +115,13 @@ export const testRequest = (
       body: response.body,
     })),
   );
-};
 
 export const testPlainRequest = (
   request: RequestCapability,
   url: string,
   options: { method?: string } = {},
-) => {
-  return request({
+) =>
+  request({
     target: url,
     protocol: 'plain',
     method: options.method ?? 'GET',
@@ -138,13 +129,9 @@ export const testPlainRequest = (
     response: 'bytes',
     semantic: options.method && options.method !== 'GET' ? 'upload' : 'read',
   });
-};
 
-export const plainRequest = (
-  options: ModuleCallConfig,
-  runtime: RequestRuntime,
-) => {
-  return (url: string) =>
+export const plainRequest =
+  (options: ModuleCallConfig, runtime: RequestRuntime) => (url: string) =>
     runRequestAtEdge(
       {
         target: url,
@@ -157,18 +144,18 @@ export const plainRequest = (
       options,
       runtime,
     );
-};
 
 export const moduleRuntime = (
   ttlMs: number | null = 120_000,
   network: RequestRuntime = { governor: new TrafficGovernor() },
 ) => {
-  const services = createClientLayer(
-    createProcessLayer(network),
+  // shape 值直接持有（服务集无 scope 资源），供 runCall 与快照读取共用。
+  const scoped = buildCallServices(
+    network,
     { cache: ttlMs === null ? { enabled: false } : { ttlMs } },
     false,
   );
-  const scoped = Effect.runSync(Effect.provide(CallServices, services));
+  const services = scoped;
   return {
     network,
     get snapshot() {

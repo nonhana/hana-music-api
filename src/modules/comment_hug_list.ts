@@ -18,9 +18,9 @@ const commentHugList: ModuleEffect<ModuleInput> = (input, request) =>
       typeof query.sid !== 'number' &&
       typeof query.sid !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'sid must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'sid must be a primitive value',
+      });
     }
     const resourceType = resolveResourceType(query.type);
     const threadId = `${resourceType}${String(query.sid ?? '')}`;

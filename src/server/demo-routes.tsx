@@ -28,7 +28,8 @@ import type {
   NcmApiResponse,
   RequestCapability,
 } from '../types/index.ts';
-import { type AdmissionController, admissionMiddleware } from './admission.ts';
+import { admissionMiddleware } from './admission.ts';
+import type { AdmissionController } from './admission.ts';
 import { appendResponseCookies, parseRequestCookies } from './cookies.ts';
 import { validateHttpInput } from './execution-input.ts';
 import { parseRequestBody, RequestBodyError } from './parse-body.ts';
@@ -65,15 +66,11 @@ const audioMatchAssets = {
 
 const isClientScriptAsset = (
   asset: string,
-): asset is keyof typeof clientScripts => {
-  return asset in clientScripts;
-};
+): asset is keyof typeof clientScripts => asset in clientScripts;
 
 const isAudioMatchAsset = (
   asset: string,
-): asset is keyof typeof audioMatchAssets => {
-  return asset in audioMatchAssets;
-};
+): asset is keyof typeof audioMatchAssets => asset in audioMatchAssets;
 
 interface DemoRouteOptions {
   readonly admission: AdmissionController;
@@ -99,11 +96,11 @@ export const registerDemoRoutes = (
   app.use('/demo', renderer);
   app.use('/demo/*', renderer);
 
-  app.get('/demo/styles.css', (context) => {
-    return context.body(demoStyles, 200, {
+  app.get('/demo/styles.css', (context) =>
+    context.body(demoStyles, 200, {
       'Content-Type': 'text/css; charset=utf-8',
-    });
-  });
+    }),
+  );
 
   app.get('/demo/client/:asset', (context) => {
     const asset = context.req.param('asset');
@@ -136,13 +133,11 @@ export const registerDemoRoutes = (
     });
   });
 
-  app.get('/demo', (context) => {
-    return context.render(<DemoIndexPage groups={getGroupedDemoPages()} />);
-  });
+  app.get('/demo', (context) =>
+    context.render(<DemoIndexPage groups={getGroupedDemoPages()} />),
+  );
 
-  app.get('/demo/api-debug', (context) => {
-    return context.render(<ApiDebugPage />);
-  });
+  app.get('/demo/api-debug', (context) => context.render(<ApiDebugPage />));
 
   app.post(
     '/demo/api-debug/request',
@@ -177,21 +172,17 @@ export const registerDemoRoutes = (
     },
   );
 
-  app.get('/demo/search', (context) => {
-    return context.render(<SearchPage />);
-  });
+  app.get('/demo/search', (context) => context.render(<SearchPage />));
 
-  app.get('/demo/qr-login', (context) => {
-    return context.render(<QrLoginPage />);
-  });
+  app.get('/demo/qr-login', (context) => context.render(<QrLoginPage />));
 
-  app.get('/demo/upload/playlist-cover', (context) => {
-    return context.render(<UploadPlaylistCoverPage />);
-  });
+  app.get('/demo/upload/playlist-cover', (context) =>
+    context.render(<UploadPlaylistCoverPage />),
+  );
 
-  app.get('/demo/experiments/audio-match', (context) => {
-    return context.render(<AudioMatchPage />);
-  });
+  app.get('/demo/experiments/audio-match', (context) =>
+    context.render(<AudioMatchPage />),
+  );
 };
 
 const buildDemoRouteQuery = async (
@@ -222,9 +213,8 @@ const normalizeCookieField = (query: ModuleQuery): void => {
   }
 };
 
-const readRequestCookies = (context: Context) => {
-  return parseRequestCookies(context.req.header('cookie'));
-};
+const readRequestCookies = (context: Context) =>
+  parseRequestCookies(context.req.header('cookie'));
 
 const normalizeDemoErrorResponse = (error: unknown): NcmApiResponse => {
   if (isNcmApiResponse(error)) {
@@ -281,14 +271,11 @@ const toDemoJsonResponse = (
   });
 };
 
-const shouldWriteCookies = (query: ModuleQuery): boolean => {
-  return (
-    query.noCookie !== true &&
-    query.noCookie !== 1 &&
-    query.noCookie !== 'true' &&
-    query.noCookie !== '1'
-  );
-};
+const shouldWriteCookies = (query: ModuleQuery): boolean =>
+  query.noCookie !== true &&
+  query.noCookie !== 1 &&
+  query.noCookie !== 'true' &&
+  query.noCookie !== '1';
 
 const isHttpsRequest = (context: Context): boolean => {
   const forwardedProto = context.req.header('x-forwarded-proto');
@@ -299,15 +286,12 @@ const isHttpsRequest = (context: Context): boolean => {
   return new URL(context.req.url).protocol === 'https:';
 };
 
-const isNcmApiResponse = (value: unknown): value is NcmApiResponse => {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    'status' in value &&
-    'body' in value &&
-    'cookie' in value
-  );
-};
+const isNcmApiResponse = (value: unknown): value is NcmApiResponse =>
+  typeof value === 'object' &&
+  value !== null &&
+  'status' in value &&
+  'body' in value &&
+  'cookie' in value;
 
 const safeDecodeURIComponent = (value: string): string => {
   try {

@@ -62,10 +62,12 @@ export const parseRequestBody = async (
       contentType.includes('multipart/form-data')
     ) {
       const request = new Request(context.req.raw.url, {
-        body: body as unknown as RequestInit['body'],
+        body: new Uint8Array(body),
         headers: context.req.raw.headers,
         method: context.req.method,
       });
+      // Bun 原生实现，行为正确；上游建议的 @fastify/busboy 是新依赖，暂不引入。
+      // oxlint-disable-next-line typescript/no-deprecated
       const formData = await request.formData();
       const parsed: Record<string, string | File | Array<string | File>> = {};
       let fileBytes = 0;

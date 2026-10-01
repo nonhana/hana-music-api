@@ -10,24 +10,22 @@ interface DemoIndexPageProps {
   }>;
 }
 
-export const DemoIndexPage: FC<DemoIndexPageProps> = ({ groups }) => {
-  return (
-    <>
-      {groups.map(({ group, pages }) => (
-        <section class="group-section">
-          <div class="group-heading">
-            <h2>{group.title}</h2>
-            <p>{group.description}</p>
-          </div>
-          <div class="card-grid">
-            {pages
-              .filter((page) => page.path !== '/demo')
-              .map((page) => (
-                <DemoCard page={page} />
-              ))}
-          </div>
-        </section>
-      ))}
-    </>
-  );
-};
+export const DemoIndexPage: FC<DemoIndexPageProps> = ({ groups }) => (
+  <>
+    {groups.map(({ group, pages }) => (
+      <section class="group-section">
+        <div class="group-heading">
+          <h2>{group.title}</h2>
+          <p>{group.description}</p>
+        </div>
+        <div class="card-grid">
+          {pages
+            .filter((page) => page.path !== '/demo')
+            .map((page) => (
+              <DemoCard page={page} />
+            ))}
+        </div>
+      </section>
+    ))}
+  </>
+);

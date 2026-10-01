@@ -2,7 +2,7 @@ import { recommended, style } from '@effect/tsgo/oxlint-presets';
 import { defineConfig } from 'oxlint';
 
 export default defineConfig({
-  ignorePatterns: ['src/demo/assets/**'],
+  ignorePatterns: ['src/demo/assets/**', 'src/sdk/generated/**', '*.cjs'],
   plugins: ['import', 'node', 'typescript', 'unicorn'],
   env: {
     builtin: true,
@@ -17,8 +17,8 @@ export default defineConfig({
     style: 'off',
     nursery: 'off',
   },
+  extends: [recommended, style],
   rules: {
-    curly: 'error',
     eqeqeq: 'error',
     'no-console': 'error',
     'no-underscore-dangle': 'off',
@@ -27,6 +27,7 @@ export default defineConfig({
     'object-shorthand': 'error',
     'prefer-object-spread': 'error',
     'require-yield': 'off',
+
     // Oxfmt owns declaration ordering; Oxlint sorts named members only.
     'sort-imports': [
       'error',
@@ -51,11 +52,14 @@ export default defineConfig({
       },
     ],
     'import/no-duplicates': ['error', { preferInline: false }],
+    'import/no-unassigned-import': ['error', { allow: ['**/*.css'] }],
     'import/no-dynamic-require': 'error',
     'import/no-empty-named-blocks': 'error',
     'import/no-mutable-exports': 'error',
     'import/no-self-import': 'error',
     'import/no-webpack-loader-syntax': 'error',
+
+    // TypeScript
     'typescript/array-type': [
       'error',
       {
@@ -87,6 +91,12 @@ export default defineConfig({
     'unicorn/prefer-module': 'error',
     'unicorn/prefer-node-protocol': 'error',
     'unicorn/prefer-top-level-await': 'error',
+
+    // EffectTS
+    'effecttsgo/missing-pipeable-signature': 'off',
+    'effecttsgo/strict-boolean-expressions': 'off',
+    'effecttsgo/any-unknown-in-error-context': 'off',
+    'typescript/no-unsafe-type-assertion': 'off',
     'no-unused-vars': [
       'warn',
       {
@@ -96,8 +106,44 @@ export default defineConfig({
       },
     ],
   },
+  overrides: [
+    {
+      files: ['tests/**'],
+      rules: {
+        'no-await-in-loop': 'off',
+        'typescript/no-non-null-assertion': 'off',
+        'effecttsgo/global-error-in-effect-failure': 'off',
+        'effecttsgo/global-error-in-effect-catch': 'off',
+        'effecttsgo/abort-controller-in-effect': 'off',
+      },
+    },
+    {
+      files: ['scripts/**'],
+      rules: {
+        'no-await-in-loop': 'off',
+        'no-console': 'off',
+        'typescript/no-unsafe-type-assertion': 'off',
+        'typescript/no-non-null-assertion': 'off',
+      },
+    },
+    {
+      files: ['src/app/**, tests/fixtures/*.mjs'],
+      rules: {
+        'no-console': 'off',
+      },
+    },
+    {
+      files: [
+        'src/server/docs-routes.ts',
+        'src/server/parse-body.ts',
+        'src/core/transport.ts',
+      ],
+      rules: {
+        'no-await-in-loop': 'off',
+      },
+    },
+  ],
   options: {
     typeAware: true,
   },
-  extends: [recommended, style],
 });

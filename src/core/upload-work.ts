@@ -15,17 +15,15 @@ export const uploadWork = <Value>(
     ModuleError | ModuleInputError | RequestError,
     ModuleServices
   >,
-) => {
-  return Effect.suspend(() => {
+) =>
+  Effect.suspend(() => {
     let completedStages: ReadonlyArray<string> = [];
     const stage: RequestCapability = (intent) =>
       Effect.gen(function* () {
         const call = yield* Call;
         const now = yield* Clock.currentTimeMillis;
         if (call.deadlineAt !== undefined && now >= call.deadlineAt) {
-          return yield* Effect.fail(
-            new DeadlineExceeded({ message: 'Request timed out' }),
-          );
+          return yield* new DeadlineExceeded({ message: 'Request timed out' });
         }
         const response = yield* request(intent);
         completedStages = [...completedStages, intent.target];
@@ -33,20 +31,17 @@ export const uploadWork = <Value>(
       });
     return Effect.uninterruptibleMask((restore) =>
       restore(execute(stage)).pipe(
-        Effect.catchCause((cause) =>
-          completedStages.length === 0 || Cause.hasDies(cause)
-            ? Effect.failCause(cause)
-            : Effect.fail(
-                new PartialUpload({
-                  module,
-                  completedStages,
-                  cause: Cause.hasInterrupts(cause)
-                    ? cause
-                    : Cause.squash(cause),
-                }),
-              ),
+        Effect.catchCauseIf(
+          (cause) => completedStages.length > 0 && !Cause.hasDies(cause),
+          (cause) =>
+            Effect.fail(
+              new PartialUpload({
+                module,
+                completedStages,
+                cause: Cause.hasInterrupts(cause) ? cause : Cause.squash(cause),
+              }),
+            ),
         ),
       ),
     );
   });
-};

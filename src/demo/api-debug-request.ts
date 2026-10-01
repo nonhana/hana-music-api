@@ -1,15 +1,12 @@
 import { Effect } from 'effect';
 
-import {
-  createClientLayer,
-  createProcessLayer,
-  runCall,
-} from '../core/call.ts';
+import { buildCallServices, runCall } from '../core/call.ts';
 import { requestSemantic } from '../core/endpoint-policy.ts';
 import { createOption } from '../core/options.ts';
 import { requestEffect } from '../core/request.ts';
-import { cookieToJson, isRecord } from '../core/utils.ts';
+import { cookieToJson, isCookieRecord, isRecord } from '../core/utils.ts';
 import { decodeLegacyModuleInput } from '../modules/_input.ts';
+import { RequestBodyError } from '../server/parse-body.ts';
 import type {
   CookieRecord,
   ModuleQuery,
@@ -29,7 +26,7 @@ export const invokeApiDebugRequest = async (
   payload: ApiDebugRequestPayload,
   request: RequestCapability = requestEffect,
   fallbackCookie: CookieRecord = {},
-  services = createClientLayer(createProcessLayer(), {}, false),
+  services = buildCallServices(undefined, {}, false),
   signal?: AbortSignal,
   ip?: string,
 ): Promise<NcmApiResponse> => {
@@ -40,11 +37,7 @@ export const invokeApiDebugRequest = async (
       (typeof payload.crypto !== 'string' ||
         !['', 'api', 'eapi', 'weapi', 'linuxapi'].includes(payload.crypto)))
   ) {
-    throw {
-      status: 400,
-      cookie: [],
-      body: { code: 400, msg: 'Invalid debug URI or crypto' },
-    };
+    throw new RequestBodyError(400, 'Invalid debug URI or crypto');
   }
   const data = readDynamicJsonRecord(payload.data);
   const cookie = readEffectiveCookie(payload.cookie, data, fallbackCookie);
@@ -116,11 +109,7 @@ const normalizeCookieRecord = (value: unknown): CookieRecord | null => {
     return cookieToJson(value);
   }
 
-  if (isRecord(value)) {
-    return value as CookieRecord;
-  }
-
-  return null;
+  return isCookieRecord(value) ? value : null;
 };
 
 const readRequestCrypto = (value: unknown): RequestCrypto => {

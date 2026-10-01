@@ -13,7 +13,7 @@ import { toModuleResponse } from '../core/response.ts';
 const aidjContentRcmd: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
     const extInfo: Record<string, unknown> = {};
-    if (query.latitude != undefined) {
+    if (query.latitude !== undefined) {
       extInfo.lbsInfoList = [
         {
           lat: query.latitude,

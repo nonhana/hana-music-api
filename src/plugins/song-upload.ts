@@ -8,20 +8,17 @@ import type { LegacyUploadedFile } from '../types/module-shared.ts';
 
 export type UploadSongQuery = { songFile?: LegacyUploadedFile };
 
-export default (input: UploadSongQuery, request: RequestCapability) => {
-  return Effect.gen(function* () {
+export default (input: UploadSongQuery, request: RequestCapability) =>
+  Effect.gen(function* () {
     if (!input.songFile) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({
-          message: 'songFile is required for song upload plugin',
-          status: 502,
-        }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'songFile is required for song upload plugin',
+        status: 502,
+      });
     }
     const call = yield* Call;
-    const ext = input.songFile.name.includes('.')
-      ? input.songFile.name.split('.').pop()!
-      : 'mp3';
+    const dotIndex = input.songFile.name.lastIndexOf('.');
+    const ext = dotIndex >= 0 ? input.songFile.name.slice(dotIndex + 1) : 'mp3';
     const filename = input.songFile.name
       .replace('.' + ext, '')
       .replace(/\s/g, '')
@@ -75,14 +72,12 @@ export default (input: UploadSongQuery, request: RequestCapability) => {
         ? lookup.body.upload[0]
         : undefined;
     if (typeof uploadBase !== 'string' || !uploadBase) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: call.identifier,
-          path: 'upload[0]',
-          expected: 'upload URL',
-          actual: typeof uploadBase,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: call.identifier,
+        path: 'upload[0]',
+        expected: 'upload URL',
+        actual: typeof uploadBase,
+      });
     }
     yield* request({
       target: `${uploadBase}/${bucket}/${encodeURIComponent(token.objectKey)}?offset=0&complete=true&version=1.0`,
@@ -103,4 +98,3 @@ export default (input: UploadSongQuery, request: RequestCapability) => {
     });
     return allocation;
   });
-};

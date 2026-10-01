@@ -1,5 +1,4 @@
 import type {
-  BooleanLike,
   CookieRecord,
   CreateRequestOptions,
   ModuleQuery,
@@ -35,34 +34,38 @@ interface OptionSource {
 export const createOption = (
   query: ModuleQuery & OptionSource,
   crypto: RequestCrypto = '',
-): CreateRequestOptions => {
-  return {
-    acceptGzip:
-      query.acceptGzip === undefined || query.acceptGzip === null
-        ? undefined
-        : toBoolean(query.acceptGzip as BooleanLike) === true,
-    checkToken: query.checkToken ? toBooleanLike(query.checkToken) : false,
-    connectionStrategy: query.connectionStrategy,
-    cookie: query.cookie,
-    crypto: toRequestCrypto(query.crypto) ?? crypto,
-    domain: toOptionalString(query.domain) ?? '',
-    e_r:
-      query.e_r === undefined || query.e_r === null
-        ? undefined
-        : toBooleanLike(query.e_r),
-    fetcher: query.fetcher,
-    headers: query.headers,
-    ip: toOptionalString(query.ip),
-    onRequestEvent: query.onRequestEvent,
-    proxy: toOptionalString(query.proxy),
-    realIP: toOptionalString(query.realIP),
-    retry: query.retry,
-    signal: query.signal,
-    state: query.state,
-    timeoutMs: toOptionalNumber(query.timeoutMs),
-    ua: toOptionalString(query.ua) ?? '',
-  };
-};
+): CreateRequestOptions => ({
+  acceptGzip:
+    query.acceptGzip === undefined || query.acceptGzip === null
+      ? undefined
+      : toBoolean(
+          typeof query.acceptGzip === 'boolean' ||
+            typeof query.acceptGzip === 'number' ||
+            typeof query.acceptGzip === 'string'
+            ? query.acceptGzip
+            : undefined,
+        ) === true,
+  checkToken: query.checkToken ? toBooleanLike(query.checkToken) : false,
+  connectionStrategy: query.connectionStrategy,
+  cookie: query.cookie,
+  crypto: toRequestCrypto(query.crypto) ?? crypto,
+  domain: toOptionalString(query.domain) ?? '',
+  e_r:
+    query.e_r === undefined || query.e_r === null
+      ? undefined
+      : toBooleanLike(query.e_r),
+  fetcher: query.fetcher,
+  headers: query.headers,
+  ip: toOptionalString(query.ip),
+  onRequestEvent: query.onRequestEvent,
+  proxy: toOptionalString(query.proxy),
+  realIP: toOptionalString(query.realIP),
+  retry: query.retry,
+  signal: query.signal,
+  state: query.state,
+  timeoutMs: toOptionalNumber(query.timeoutMs),
+  ua: toOptionalString(query.ua) ?? '',
+});
 
 const toBooleanLike = (value: unknown): boolean | number | string => {
   if (

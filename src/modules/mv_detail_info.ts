@@ -16,9 +16,9 @@ const mvDetailInfo: ModuleEffect<ModuleInput> = (query, request) =>
       typeof query.mvid !== 'number' &&
       typeof query.mvid !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'mvid must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'mvid must be a primitive value',
+      });
     }
     const data = {
       threadid: `R_MV_5_${String(query.mvid)}`,

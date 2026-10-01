@@ -27,18 +27,19 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
   uploadWork('cloud', request, (stage) =>
     Effect.gen(function* () {
       if (!input.songFile) {
-        return yield* Effect.fail(
-          new InvalidModuleInput({ message: '请上传音乐文件', status: 500 }),
-        );
+        return yield* new InvalidModuleInput({
+          message: '请上传音乐文件',
+          status: 500,
+        });
       }
       const call = yield* Call;
       const bytes =
         input.songFile.data instanceof ArrayBuffer
           ? new Uint8Array(input.songFile.data)
           : input.songFile.data;
-      const ext = input.songFile.name.includes('.')
-        ? input.songFile.name.split('.').pop()!
-        : 'mp3';
+      const dotIndex = input.songFile.name.lastIndexOf('.');
+      const ext =
+        dotIndex >= 0 ? input.songFile.name.slice(dotIndex + 1) : 'mp3';
       const songFile = {
         ...input.songFile,
         name: Buffer.from(input.songFile.name, 'latin1').toString('utf-8'),
@@ -69,7 +70,7 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
       const check = yield* Schema.decodeUnknownEffect(
         Schema.Struct({
           needUpload: Schema.Boolean,
-          songId: Schema.Union([Schema.String, Schema.Number]),
+          songId: Schema.Union([Schema.String, Schema.Finite]),
         }),
       )(checked.body).pipe(
         Effect.mapError(
@@ -86,9 +87,7 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
         metadata.parseBuffer(bytes, songFile.mimetype),
       ).pipe(
         Effect.map((info) => info.common),
-        Effect.catch(() =>
-          Effect.succeed({ title: '', album: '', artist: '' }),
-        ),
+        Effect.orElseSucceed(() => ({ title: '', album: '', artist: '' })),
       );
       const allocation = yield* stage({
         target: '/api/nos/token/alloc',
@@ -110,7 +109,7 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
       const { result: token } = yield* Schema.decodeUnknownEffect(
         Schema.Struct({
           result: Schema.Struct({
-            resourceId: Schema.Union([Schema.String, Schema.Number]),
+            resourceId: Schema.Union([Schema.String, Schema.Finite]),
           }),
         }),
       )(allocation.body).pipe(
@@ -146,7 +145,7 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
         semantic: 'upload',
       });
       const info = yield* Schema.decodeUnknownEffect(
-        Schema.Struct({ songId: Schema.Union([Schema.String, Schema.Number]) }),
+        Schema.Struct({ songId: Schema.Union([Schema.String, Schema.Finite]) }),
       )(information.body).pipe(
         Effect.mapError(
           () =>
@@ -168,23 +167,26 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
         semantic: 'upload',
       });
       if (!isRecord(published.body)) {
-        return yield* Effect.fail(
-          new UnexpectedUpstreamShape({
-            module: 'cloud',
-            path: 'body',
-            expected: 'object',
-            actual: typeof published.body,
-          }),
-        );
+        return yield* new UnexpectedUpstreamShape({
+          module: 'cloud',
+          path: 'body',
+          expected: 'object',
+          actual: typeof published.body,
+        });
+      }
+      if (!isRecord(checked.body)) {
+        return yield* new UnexpectedUpstreamShape({
+          module: 'cloud',
+          path: 'body',
+          expected: 'object',
+          actual: typeof checked.body,
+        });
       }
       return {
         status: 200,
         cookie: [...checked.cookie],
         body: {
-          ...(checked.body as Record<
-            string,
-            import('../types/index.ts').UnknownJson
-          >),
+          ...checked.body,
           ...published.body,
         },
       };

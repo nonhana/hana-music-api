@@ -16,9 +16,9 @@ const summaryAnnual: ModuleEffect<ModuleInput> = (query, request) =>
       typeof query.year !== 'number' &&
       typeof query.year !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'year must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'year must be a primitive value',
+      });
     }
     const data = {};
     const key = ['2017', '2018', '2019'].includes(String(query.year))

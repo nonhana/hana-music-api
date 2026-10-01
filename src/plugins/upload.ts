@@ -5,15 +5,13 @@ import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
 import type { ModuleInput as UploadImageQuery } from '../modules/avatar_upload.ts';
 import type { RequestCapability } from '../types/index.ts';
 
-export default (input: UploadImageQuery, request: RequestCapability) => {
-  return Effect.gen(function* () {
+export default (input: UploadImageQuery, request: RequestCapability) =>
+  Effect.gen(function* () {
     if (!input.imgFile) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({
-          message: 'imgFile is required for upload plugin',
-          status: 502,
-        }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'imgFile is required for upload plugin',
+        status: 502,
+      });
     }
     const call = yield* Call;
     const allocation = yield* request({
@@ -38,7 +36,7 @@ export default (input: UploadImageQuery, request: RequestCapability) => {
         result: Schema.Struct({
           objectKey: Schema.String,
           token: Schema.String,
-          docId: Schema.Union([Schema.String, Schema.Number]),
+          docId: Schema.Union([Schema.String, Schema.Finite]),
         }),
       }),
     )(allocation.body).pipe(
@@ -69,4 +67,3 @@ export default (input: UploadImageQuery, request: RequestCapability) => {
       imgId: token.docId,
     };
   });
-};

@@ -36,8 +36,11 @@ export const discoverModuleFiles = async (
 
 export const parseModuleRoute = (identifier: string): string => {
   const normalized = identifier.replaceAll('\\', '/');
-  if (normalized in DEFAULT_SPECIAL_ROUTES) {
-    return DEFAULT_SPECIAL_ROUTES[normalized]!;
+  const specialRoute = Object.hasOwn(DEFAULT_SPECIAL_ROUTES, normalized)
+    ? DEFAULT_SPECIAL_ROUTES[normalized]
+    : undefined;
+  if (specialRoute !== undefined) {
+    return specialRoute;
   }
 
   const route = normalized
@@ -100,11 +103,8 @@ const collectModuleFiles = async (
 const hasErrorCode = (
   value: unknown,
   code: string,
-): value is NodeJS.ErrnoException => {
-  return (
-    typeof value === 'object' &&
-    value !== null &&
-    'code' in value &&
-    value.code === code
-  );
-};
+): value is NodeJS.ErrnoException =>
+  typeof value === 'object' &&
+  value !== null &&
+  'code' in value &&
+  value.code === code;

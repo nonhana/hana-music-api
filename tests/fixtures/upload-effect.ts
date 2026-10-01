@@ -2,14 +2,19 @@ import { expect } from 'bun:test';
 
 import { Effect } from 'effect';
 
-import { Call, createProcessLayer } from '../../src/core/call.ts';
+import { Call, ProcessServices } from '../../src/core/call.ts';
+import type { CallShape } from '../../src/core/call.ts';
 import { resolveIdentitySnapshot } from '../../src/core/identity.ts';
-import { getRuntimeState } from '../../src/core/runtime.ts';
+import {
+  getRuntimeState,
+  resolveProcessServices,
+} from '../../src/core/runtime.ts';
 import type {
   ModuleCallConfig,
   ModuleEffect,
   ModuleQuery,
   RequestCapability,
+  UnknownJson,
 } from '../../src/types/index.ts';
 
 export const songFile = {
@@ -32,14 +37,12 @@ export const initXml =
 export const relatedHtml =
   '<div class="cver u-cover u-cover-3"><img src="cover?param=50y50"><a class="sname f-fs1 s-fc0" href="/playlist?id=1">List</a><a class="nm nm f-thide s-fc3" href="/user/home?id=2">User</a>';
 
-export const response = (body: unknown, headers = new Headers()) => {
-  return {
-    status: 200,
-    cookie: [],
-    headers,
-    body: body as import('../../src/types/index.ts').UnknownJson,
-  };
-};
+export const response = (body: unknown, headers = new Headers()) => ({
+  status: 200,
+  cookie: [],
+  headers,
+  body: body as UnknownJson,
+});
 
 export const executeModule = (
   implementation: unknown,
@@ -57,7 +60,7 @@ export const executeModule = (
     void result.catch(() => undefined);
   }
   expect(Effect.isEffect(result)).toBe(true);
-  const call: Call = {
+  const call: CallShape = {
     identifier: 'upload-test',
     input,
     config,
@@ -66,8 +69,11 @@ export const executeModule = (
     deadlineAt,
     policy: { read: false, upload: true, stageTimeoutMs: 60_000 },
   };
+  // Pre-build the Context once and provideService it (rather than providing the layer per run):
+  // layer values are captured at build time, and a pre-built Context survives fiber scope
+  // closing between provide and run.
   return (result as ReturnType<ModuleEffect<ModuleQuery>>).pipe(
     Effect.provideService(Call, call),
-    Effect.provide(createProcessLayer()),
+    Effect.provideService(ProcessServices, resolveProcessServices()),
   );
 };

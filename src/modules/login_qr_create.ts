@@ -19,7 +19,7 @@ const inputSchema = Schema.Struct({
     Schema.Union([Schema.Literal('pc'), Schema.Literal('web'), Schema.String]),
   ),
   qrimg: Schema.optional(
-    Schema.Union([Schema.Boolean, Schema.Number, Schema.String]),
+    Schema.Union([Schema.Boolean, Schema.Finite, Schema.String]),
   ),
 });
 

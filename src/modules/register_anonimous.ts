@@ -51,27 +51,23 @@ const registerAnonymous: ModuleEffect<ModuleInput> = (query, request) =>
       Array.isArray(body) ||
       typeof body.code !== 'number'
     ) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'register_anonimous',
-          path: 'body.code',
-          expected: 'number',
-          actual: typeof body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'register_anonimous',
+        path: 'body.code',
+        expected: 'number',
+        actual: typeof body,
+      });
     }
     if (body.code !== 200) {
       return toModuleResponse(result);
     }
     if (!result.cookie.some((cookie) => /^MUSIC_A=[^;]+/.test(cookie))) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'register_anonimous',
-          path: 'cookie.MUSIC_A',
-          expected: 'nonempty credential',
-          actual: 'missing',
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'register_anonimous',
+        path: 'cookie.MUSIC_A',
+        expected: 'nonempty credential',
+        actual: 'missing',
+      });
     }
     return toModuleResponse({
       ...result,

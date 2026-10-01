@@ -17,9 +17,9 @@ const playlistUpdate: ModuleEffect<ModuleInput> = (input, request) =>
       typeof query.id !== 'number' &&
       typeof query.id !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'id must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'id must be a primitive value',
+      });
     }
     if (
       query.name !== undefined &&
@@ -28,9 +28,9 @@ const playlistUpdate: ModuleEffect<ModuleInput> = (input, request) =>
       typeof query.name !== 'number' &&
       typeof query.name !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'name must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'name must be a primitive value',
+      });
     }
     if (
       query.desc !== undefined &&
@@ -39,9 +39,9 @@ const playlistUpdate: ModuleEffect<ModuleInput> = (input, request) =>
       typeof query.desc !== 'number' &&
       typeof query.desc !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'desc must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'desc must be a primitive value',
+      });
     }
     if (
       query.tags !== undefined &&
@@ -50,9 +50,9 @@ const playlistUpdate: ModuleEffect<ModuleInput> = (input, request) =>
       typeof query.tags !== 'number' &&
       typeof query.tags !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'tags must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'tags must be a primitive value',
+      });
     }
     query.desc = query.desc || '';
     query.tags = query.tags || '';

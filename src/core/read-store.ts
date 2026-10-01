@@ -76,7 +76,10 @@ export class ReadStore<Value = unknown, Failure = unknown> {
                   options.cacheable?.(exit.value)
                 ) {
                   if (cache.size >= 10_000) {
-                    cache.delete(cache.keys().next().value!);
+                    for (const oldest of cache.keys()) {
+                      cache.delete(oldest);
+                      break;
+                    }
                   }
                   cache.set(key, {
                     expiresAt: timestamp + ttlMs,

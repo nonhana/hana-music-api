@@ -83,7 +83,9 @@ export const prepareRequest = (
   let url = '';
   let requestBody: Record<string, string>;
 
-  switch (crypto) {
+  // `''` 在 resolveCrypto 已被折叠成 'eapi'/'api'，这里显式处理以满足穷尽性检查。
+  const resolvedCrypto = resolveCrypto(crypto);
+  switch (resolvedCrypto) {
     case 'weapi': {
       headers.Referer = options.domain || APP_CONF.domain;
       headers['User-Agent'] = options.ua || chooseUserAgent('weapi', 'pc');
@@ -111,7 +113,7 @@ export const prepareRequest = (
       headers.Cookie = createHeaderCookie(header);
       headers['User-Agent'] = options.ua || chooseUserAgent('api', 'iphone');
 
-      if (crypto === 'eapi') {
+      if (resolvedCrypto === 'eapi') {
         payload.header = header;
         // 真客户端会以 x-aeapi 声明可接受 gzip 压缩响应;按需开启以省带宽。
         if (options.acceptGzip) {
@@ -127,13 +129,15 @@ export const prepareRequest = (
     }
 
     default: {
-      throw new InvalidRequest({ message: `Unknown crypto mode: ${crypto}` });
+      throw new InvalidRequest({
+        message: `Unknown crypto mode: ${String(resolvedCrypto)}`,
+      });
     }
   }
 
   return {
     url,
-    protocol: crypto,
+    protocol: resolvedCrypto,
     method: 'POST',
     encryptResponse,
     headers: {
@@ -144,7 +148,9 @@ export const prepareRequest = (
     identity: identity.fingerprint,
   };
 };
-const resolveCrypto = (crypto: RequestCrypto | undefined): RequestCrypto => {
+const resolveCrypto = (
+  crypto: RequestCrypto | undefined,
+): 'api' | 'eapi' | 'linuxapi' | 'weapi' => {
   if (crypto) {
     return crypto;
   }
@@ -197,13 +203,13 @@ const processCookieObject = (
   return processedCookie;
 };
 
-const createHeaderCookie = (header: Record<string, string>): string => {
-  return Object.entries(header)
-    .map(([key, value]) => {
-      return `${encodeURIComponent(key)}=${encodeURIComponent(value)}`;
-    })
+const createHeaderCookie = (header: Record<string, string>): string =>
+  Object.entries(header)
+    .map(
+      ([key, value]) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(value)}`,
+    )
     .join('; ');
-};
 
 const createEapiHeader = (
   cookie: CookieRecord,
@@ -240,8 +246,8 @@ const createEapiHeader = (
   return header;
 };
 
-const stringifyPayload = (payload: RequestPayload): Record<string, string> => {
-  return Object.fromEntries(
+const stringifyPayload = (payload: RequestPayload): Record<string, string> =>
+  Object.fromEntries(
     Object.entries(payload)
       .filter((entry) => entry[1] !== undefined)
       .map(([key, value]) => {
@@ -256,7 +262,6 @@ const stringifyPayload = (payload: RequestPayload): Record<string, string> => {
         return [key, JSON.stringify(value)];
       }),
   );
-};
 
 const readBooleanLike = (
   value: unknown,

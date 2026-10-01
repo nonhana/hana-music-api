@@ -108,12 +108,10 @@ export const requestSemantic = (uri: string): RequestIntent['semantic'] => {
     : 'read';
 };
 
-export const isReadModule = (identifier: string): boolean => {
-  return readModules.has(identifier);
-};
-export const isUploadModule = (identifier: string): boolean => {
-  return uploadModules.has(identifier);
-};
+export const isReadModule = (identifier: string): boolean =>
+  readModules.has(identifier);
+export const isUploadModule = (identifier: string): boolean =>
+  uploadModules.has(identifier);
 export const isCacheable = (response: NcmApiResponse): boolean => {
   const code = businessCode(response);
   return response.status === 200 && (code === undefined || code === 200);

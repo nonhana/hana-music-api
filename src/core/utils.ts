@@ -68,14 +68,24 @@ export const cookieToJson = (cookie: string | undefined): CookieRecord => {
   return result;
 };
 
-export const cookieObjToString = (cookie: CookieRecord): string => {
-  return Object.entries(cookie)
+export const cookieObjToString = (cookie: CookieRecord): string =>
+  Object.entries(cookie)
     .filter((entry): entry is [string, CookieValue] => entry[1] !== undefined)
-    .map(([key, value]) => {
-      return `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`;
-    })
+    .map(
+      ([key, value]) =>
+        `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`,
+    )
     .join('; ');
-};
+
+export const isCookieRecord = (value: unknown): value is CookieRecord =>
+  isRecord(value) &&
+  Object.values(value).every(
+    (item) =>
+      typeof item === 'boolean' ||
+      typeof item === 'number' ||
+      typeof item === 'string' ||
+      item === undefined,
+  );
 
 export const resolveRequestCookie = (
   options: Pick<CreateRequestOptions, 'cookie' | 'headers'>,
@@ -131,17 +141,13 @@ export const generateDeviceId = (): string => {
   return characters.join('');
 };
 
-export const createRandomHex = (byteLength: number): string => {
-  return randomBytes(byteLength).toString('hex');
-};
+export const createRandomHex = (byteLength: number): string =>
+  randomBytes(byteLength).toString('hex');
 
-export const isRecord = (value: unknown): value is Record<string, unknown> => {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-};
+export const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value);
 
-const generateIPSegment = (): number => {
-  return Math.floor(Math.random() * 255) + 1;
-};
+const generateIPSegment = (): number => Math.floor(Math.random() * 255) + 1;
 
 const getCookieValue = (
   cookie: CookieRecord | string | undefined,

@@ -91,22 +91,17 @@ export const demoPages = [
 
 export const getDemoPageByPath = (
   path: string,
-): DemoPageDefinition | undefined => {
-  return demoPages.find((page) => page.path === path);
-};
+): DemoPageDefinition | undefined =>
+  demoPages.find((page) => page.path === path);
 
 export const getGroupedDemoPages = (): Array<{
   readonly group: DemoGroupDefinition;
   readonly pages: Array<DemoPageDefinition>;
-}> => {
-  return demoGroups.map((group) => ({
+}> =>
+  demoGroups.map((group) => ({
     group,
     pages: demoPages.filter((page) => page.groupId === group.id),
   }));
-};
 
-export const getReadyDemoPages = (): Array<DemoPageDefinition> => {
-  return demoPages.filter(
-    (page) => page.status === 'ready' && page.path !== '/demo',
-  );
-};
+export const getReadyDemoPages = (): Array<DemoPageDefinition> =>
+  demoPages.filter((page) => page.status === 'ready' && page.path !== '/demo');

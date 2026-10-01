@@ -23,14 +23,12 @@ const loginRefresh: ModuleEffect<ModuleInput> = (query, request) =>
       Array.isArray(body) ||
       typeof body.code !== 'number'
     ) {
-      return yield* Effect.fail(
-        new UnexpectedUpstreamShape({
-          module: 'login_refresh',
-          path: 'body.code',
-          expected: 'number',
-          actual: typeof body,
-        }),
-      );
+      return yield* new UnexpectedUpstreamShape({
+        module: 'login_refresh',
+        path: 'body.code',
+        expected: 'number',
+        actual: typeof body,
+      });
     }
     return toModuleResponse(
       body.code === 200

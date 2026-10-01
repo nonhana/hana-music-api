@@ -19,9 +19,7 @@ export const registerDocsRoutes = (
   app: Hono,
   options: RegisterDocsRoutesOptions,
 ): void => {
-  app.get('/docs', async () => {
-    return createDocsResponse(options, '');
-  });
+  app.get('/docs', async () => createDocsResponse(options, ''));
 
   app.get('/docs/*', async (context) => {
     const requestedPath = context.req.path.replace(/^\/docs\/?/, '');
@@ -85,13 +83,12 @@ const createDocsResponse = async (
   });
 };
 
-const normalizeRequestedPath = (requestedPath: string): string => {
-  return requestedPath
+const normalizeRequestedPath = (requestedPath: string): string =>
+  requestedPath
     .split('/')
     .map((segment) => segment.trim())
     .filter(Boolean)
     .join('/');
-};
 
 const buildDocsCandidates = (relativePath: string): Array<string> => {
   if (!relativePath) {
@@ -105,9 +102,7 @@ const buildDocsCandidates = (relativePath: string): Array<string> => {
   return [`${relativePath}.html`, `${relativePath}/index.html`];
 };
 
-const hasExtension = (pathname: string): boolean => {
-  return extname(pathname) !== '';
-};
+const hasExtension = (pathname: string): boolean => extname(pathname) !== '';
 
 const resolveDocsFilePath = (
   docsDistDirectory: string,
@@ -129,85 +124,83 @@ const resolveDocsFilePath = (
 const createFileHeaders = (
   file: Blob & { readonly type: string },
   fallbackType?: string,
-): ResponseInit['headers'] => {
-  return {
-    'Content-Type': file.type || fallbackType || 'application/octet-stream',
-  };
-};
+): ResponseInit['headers'] => ({
+  'Content-Type': file.type || fallbackType || 'application/octet-stream',
+});
 
-const createDocsBuildRequiredPage = (serviceName: string): string => {
-  return `<!DOCTYPE html>
+const createDocsBuildRequiredPage = (
+  serviceName: string,
+): string => `<!DOCTYPE html>
 <html lang="zh-CN">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <title>${serviceName} 文档未构建</title>
-    <style>
-      :root {
-        color-scheme: light;
-        --page-background: #f6f8fb;
-        --panel-background: rgba(255, 255, 255, 0.92);
-        --panel-border: rgba(15, 23, 42, 0.08);
-        --panel-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
-        --text-strong: #0f172a;
-        --text-body: #334155;
-        --brand: #2563eb;
-        --brand-soft: rgba(37, 99, 235, 0.12);
-        font-family: "IBM Plex Sans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
-      }
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
+  <title>${serviceName} 文档未构建</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --page-background: #f6f8fb;
+      --panel-background: rgba(255, 255, 255, 0.92);
+      --panel-border: rgba(15, 23, 42, 0.08);
+      --panel-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
+      --text-strong: #0f172a;
+      --text-body: #334155;
+      --brand: #2563eb;
+      --brand-soft: rgba(37, 99, 235, 0.12);
+      font-family: "IBM Plex Sans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
+    }
 
-      body {
-        margin: 0;
-        min-height: 100vh;
-        display: grid;
-        place-items: center;
-        background:
-          radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32%),
-          linear-gradient(180deg, #ffffff 0%, var(--page-background) 55%);
-        color: var(--text-body);
-      }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32%),
+        linear-gradient(180deg, #ffffff 0%, var(--page-background) 55%);
+      color: var(--text-body);
+    }
 
-      main {
-        width: min(560px, calc(100vw - 48px));
-        padding: 32px;
-        border-radius: 24px;
-        background: var(--panel-background);
-        box-shadow: var(--panel-shadow);
-        border: 1px solid var(--panel-border);
-      }
+    main {
+      width: min(560px, calc(100vw - 48px));
+      padding: 32px;
+      border-radius: 24px;
+      background: var(--panel-background);
+      box-shadow: var(--panel-shadow);
+      border: 1px solid var(--panel-border);
+    }
 
-      h1 {
-        margin: 0 0 16px;
-        font-size: 28px;
-        color: var(--text-strong);
-      }
+    h1 {
+      margin: 0 0 16px;
+      font-size: 28px;
+      color: var(--text-strong);
+    }
 
-      p {
-        margin: 0 0 14px;
-        line-height: 1.7;
-        color: var(--text-body);
-      }
+    p {
+      margin: 0 0 14px;
+      line-height: 1.7;
+      color: var(--text-body);
+    }
 
-      code {
-        padding: 2px 8px;
-        border-radius: 999px;
-        background: var(--brand-soft);
-        font-size: 14px;
-      }
+    code {
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--brand-soft);
+      font-size: 14px;
+    }
 
-      a {
-        color: var(--brand);
-        font-weight: 600;
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>文档静态资源尚未生成</h1>
-      <p>文档页暂时不可用，请先生成静态文档。</p>
-      <p>在项目根目录执行 <code>bun run docs:build</code> 后刷新即可。</p>
-      <p>服务状态检查请访问 <a href="/health">/health</a>。</p>
-    </main>
-  </body>
+    a {
+      color: var(--brand);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>文档静态资源尚未生成</h1>
+    <p>文档页暂时不可用，请先生成静态文档。</p>
+    <p>在项目根目录执行 <code>bun run docs:build</code> 后刷新即可。</p>
+    <p>服务状态检查请访问 <a href="/health">/health</a>。</p>
+  </main>
+</body>
 </html>`;
-};

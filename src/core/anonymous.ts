@@ -3,15 +3,15 @@ import { createHash } from 'node:crypto';
 import { Clock, Effect } from 'effect';
 
 import type { ModuleCallConfig } from '../types/index.ts';
-import { Call } from './call.ts';
+import { Call } from './call-context.ts';
 import type { RequestError } from './errors.ts';
 import { DeadlineExceeded, ResponseDecodeFailed } from './errors.ts';
 import { resolveIdentitySnapshot } from './identity.ts';
 import { ReadStore } from './read-store.ts';
 import { requestEffect } from './request.ts';
 import {
-  createProcessLayer,
   ProcessServices,
+  resolveProcessServices,
   runPublicEffect,
   setRuntimeState,
 } from './runtime.ts';
@@ -52,8 +52,8 @@ export const registerAnonymousEffect = (
     readonly cnIp?: string;
     readonly deviceId?: string;
   } = {},
-): Effect.Effect<AnonymousRegistration, RequestError, ProcessServices> => {
-  return Effect.gen(function* () {
+): Effect.Effect<AnonymousRegistration, RequestError, ProcessServices> =>
+  Effect.gen(function* () {
     const deviceId = options.deviceId ?? generateDeviceId();
     const cnIp = options.cnIp ?? generateRandomChineseIP();
     const state = { anonymousToken: '', cnIp, deviceId };
@@ -81,20 +81,17 @@ export const registerAnonymousEffect = (
     );
     const cookie = cookieToJson(result.cookie.join('; '));
     if (!cookie.MUSIC_A) {
-      return yield* Effect.fail(
-        new ResponseDecodeFailed({
-          message: 'Anonymous registration did not return MUSIC_A',
-        }),
-      );
+      return yield* new ResponseDecodeFailed({
+        message: 'Anonymous registration did not return MUSIC_A',
+      });
     }
     return { anonymousToken: String(cookie.MUSIC_A), cnIp, deviceId };
   });
-};
 
 export const ensureAnonymousEffect = (
   options: ModuleCallConfig = {},
-): Effect.Effect<string, RequestError, ProcessServices> => {
-  return Effect.gen(function* () {
+): Effect.Effect<string, RequestError, ProcessServices> =>
+  Effect.gen(function* () {
     const process = yield* ProcessServices;
     const token = process.readState().anonymousToken;
     if (token) {
@@ -115,7 +112,6 @@ export const ensureAnonymousEffect = (
       ),
     );
   });
-};
 
 export const registerAnonymousToken = (
   options: ModuleCallConfig & {
@@ -123,14 +119,13 @@ export const registerAnonymousToken = (
     readonly deviceId?: string;
   } = {},
   runtime?: RequestRuntime,
-): Promise<AnonymousRegistration> => {
-  return runPublicEffect(
+): Promise<AnonymousRegistration> =>
+  runPublicEffect(
     registerAnonymousEffect(options).pipe(
-      Effect.provide(createProcessLayer(runtime)),
+      Effect.provideService(ProcessServices, resolveProcessServices(runtime)),
     ),
     options.signal,
   );
-};
 
 export const ensureRuntimeAnonymousToken = (
   options: EnsureAnonymousTokenOptions = {},
@@ -138,7 +133,7 @@ export const ensureRuntimeAnonymousToken = (
 ): Promise<string> => {
   const timeoutMs = options.timeoutMs ?? 8_000;
   const work = ensureAnonymousEffect(options).pipe(
-    Effect.provide(createProcessLayer(runtime)),
+    Effect.provideService(ProcessServices, resolveProcessServices(runtime)),
   );
   return runPublicEffect(
     timeoutMs > 0

@@ -43,6 +43,7 @@ export class ResponseDecodeFailed extends Data.TaggedError(
 
 export class ProtocolFailed extends Data.TaggedError('ProtocolFailed')<{
   readonly message: string;
+  readonly cause?: unknown;
   readonly response?: UpstreamResponse;
 }> {}
 

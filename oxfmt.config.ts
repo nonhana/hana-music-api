@@ -44,5 +44,10 @@ export default defineConfig({
   sortPackageJson: {
     sortScripts: true,
   },
-  ignorePatterns: ['dist/**', 'node_modules/**', 'src/demo/assets/**'],
+  ignorePatterns: [
+    'dist/**',
+    'node_modules/**',
+    'src/demo/assets/**',
+    '_notes/**',
+  ],
 });

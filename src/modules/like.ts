@@ -17,9 +17,9 @@ const like: ModuleEffect<ModuleInput> = (input, request) =>
       typeof query.like !== 'number' &&
       typeof query.like !== 'boolean'
     ) {
-      return yield* Effect.fail(
-        new InvalidModuleInput({ message: 'like must be a primitive value' }),
-      );
+      return yield* new InvalidModuleInput({
+        message: 'like must be a primitive value',
+      });
     }
     query.like = String(query.like ?? '') !== 'false';
     const data = {
