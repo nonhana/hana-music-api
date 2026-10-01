@@ -5,7 +5,7 @@ import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { resolve } from 'node:path';
 
-import { assertLoadReport, fingerprint } from '../../scripts/load-test.ts';
+import { assertLoadReport, fingerprint } from '../../scripts/load-test.mts';
 
 const healthy = {
   requests: 202,

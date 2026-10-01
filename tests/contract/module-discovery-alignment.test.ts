@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { buildGeneratedArtifacts } from '../../scripts/generate-module-type-surface.ts';
+import { buildGeneratedArtifacts } from '../../scripts/gen-module-types.mts';
 import { sdkModuleRegistry } from '../../src/sdk/generated/registry.generated.ts';
 import { discoverModuleFiles } from '../../src/server/module-discovery.ts';
 import { loadModuleDefinitions } from '../../src/server/module-loader.ts';

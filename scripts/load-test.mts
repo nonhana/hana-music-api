@@ -48,7 +48,7 @@ interface Acceptance {
   readonly rssGrowth: number;
 }
 
-export function assertLoadReport(report: Acceptance): void {
+export const assertLoadReport = (report: Acceptance): void => {
   if (
     Object.values(report).some((value) => !Number.isFinite(value)) ||
     report.successes === 0 ||
@@ -73,15 +73,15 @@ export function assertLoadReport(report: Acceptance): void {
   ) {
     throw new Error('Load acceptance failed');
   }
-}
+};
 
-function check(condition: boolean, message: string): void {
+const check = (condition: boolean, message: string): void => {
   if (!condition) {
     throw new Error(message);
   }
-}
+};
 
-export async function fingerprint(cwd = process.cwd()) {
+export const fingerprint = async (cwd = process.cwd()) => {
   const head = execFileSync('git', ['rev-parse', 'HEAD'], {
     cwd,
     encoding: 'utf8',
@@ -110,17 +110,14 @@ export async function fingerprint(cwd = process.cwd()) {
       .update(await readFile(resolve(cwd, path)));
   }
   return { head, diffSha256: hash.digest('hex') };
-}
+};
 
-function percentile(values: Array<number>, fraction: number): number {
-  return (
-    values.toSorted((left, right) => left - right)[
-      Math.ceil(values.length * fraction) - 1
-    ] ?? 0
-  );
-}
+const percentile = (values: Array<number>, fraction: number): number =>
+  values.toSorted((left, right) => left - right)[
+    Math.ceil(values.length * fraction) - 1
+  ] ?? 0;
 
-async function runLoad(soak: boolean) {
+const runLoad = async (soak: boolean) => {
   const revision = await fingerprint();
   const samples: Array<{
     scenario: string;
@@ -671,7 +668,7 @@ async function runLoad(soak: boolean) {
     JSON.stringify({ ...report, samples: undefined, reportPath: path }),
   );
   check(failures.length === 0, failures.join('; '));
-}
+};
 
 if (import.meta.main) {
   await runLoad(process.argv.includes('--soak'));

@@ -17,6 +17,7 @@ import type { SourceFile } from 'typescript/unstable/ast';
 import { API } from 'typescript/unstable/async';
 
 import { discoverModuleFiles } from '../src/server/module-discovery.ts';
+import type { DiscoveredModuleFile } from '../src/server/module-discovery.ts';
 
 const MODULES_DIRECTORY = resolve(import.meta.dir, '../src/modules');
 const OUTPUT_FILE = resolve(
@@ -54,17 +55,18 @@ interface GeneratedArtifacts {
   readonly moduleCount: number;
 }
 
-function toCamelCase(identifier: string): string {
-  return identifier.replaceAll(/[/_-]+([a-zA-Z0-9])/g, (_match, char: string) =>
+const toCamelCase = (identifier: string): string =>
+  identifier.replaceAll(/[/_-]+([a-zA-Z0-9])/g, (_match, char: string) =>
     char.toUpperCase(),
   );
-}
 
-function buildSdkEntries(identifiers: ReadonlyArray<string>): ReadonlyArray<{
+const buildSdkEntries = (
+  identifiers: ReadonlyArray<string>,
+): ReadonlyArray<{
   readonly functionName: string;
   readonly identifier: string;
   readonly importName: string;
-}> {
+}> => {
   const entries = identifiers.map((identifier) => ({
     functionName: toCamelCase(identifier),
     identifier,
@@ -84,9 +86,11 @@ function buildSdkEntries(identifiers: ReadonlyArray<string>): ReadonlyArray<{
   }
 
   return entries;
-}
+};
 
-function buildSdkGeneratedClient(identifiers: ReadonlyArray<string>): string {
+const buildSdkGeneratedClient = (
+  identifiers: ReadonlyArray<string>,
+): string => {
   const entries = buildSdkEntries(identifiers);
   const methodLines = entries.map(
     ({ functionName, identifier }) =>
@@ -118,12 +122,12 @@ ${clientLines.join('\n')}
   }
 }
 `;
-}
+};
 
-function buildSdkRegistry(
+const buildSdkRegistry = (
   identifiers: ReadonlyArray<string>,
   routes: Readonly<Record<string, string>>,
-): string {
+): string => {
   const entries = buildSdkEntries(identifiers);
   const importLines = entries.map(
     ({ identifier, importName }) =>
@@ -141,9 +145,9 @@ export const sdkModuleRegistry = {
 ${effectLines.join('\n')}
 } as const satisfies SdkModuleRegistry
 `;
-}
+};
 
-function readModuleContract(source: SourceFile) {
+const readModuleContract = (source: SourceFile) => {
   const exportsType = (name: string) =>
     source.statements.some(
       (statement) =>
@@ -225,45 +229,49 @@ function readModuleContract(source: SourceFile) {
     );
   }
   return { effect, decoder, body: exportsType('ModuleBody') };
-}
+};
 
-export async function buildGeneratedArtifacts(
-  modulesDirectory = MODULES_DIRECTORY,
-): Promise<GeneratedArtifacts> {
-  const discovered = await discoverModuleFiles(modulesDirectory);
-  const sorted = discovered.toSorted((left, right) =>
-    left.identifier.localeCompare(right.identifier),
-  );
-
-  const identifiers = sorted.map((moduleFile) => moduleFile.identifier);
-  const routes = sorted.map(
-    (moduleFile) => [moduleFile.identifier, moduleFile.route] as const,
-  );
+const readModuleContracts = async (
+  moduleFiles: ReadonlyArray<DiscoveredModuleFile>,
+): Promise<
+  Array<DiscoveredModuleFile & ReturnType<typeof readModuleContract>>
+> => {
   const compiler = new API();
-  const contracts = await (async () => {
+  try {
+    const snapshot = await compiler.updateSnapshot({
+      openFiles: moduleFiles.map((moduleFile) => moduleFile.filePath),
+    });
     try {
-      const snapshot = await compiler.updateSnapshot({
-        openFiles: sorted.map((moduleFile) => moduleFile.filePath),
-      });
-      try {
-        return await Promise.all(
-          sorted.map(async (moduleFile) => {
-            const project = await snapshot.getDefaultProjectForFile(
-              moduleFile.filePath,
-            );
-            const source = await project!.program.getSourceFile(
-              moduleFile.filePath,
-            );
-            return { ...moduleFile, ...readModuleContract(source!) };
-          }),
-        );
-      } finally {
-        await snapshot.dispose();
-      }
+      return await Promise.all(
+        moduleFiles.map(async (moduleFile) => {
+          const project = (await snapshot.getDefaultProjectForFile(
+            moduleFile.filePath,
+          ))!;
+          const source = (await project.program.getSourceFile(
+            moduleFile.filePath,
+          ))!;
+          return { ...moduleFile, ...readModuleContract(source) };
+        }),
+      );
     } finally {
-      await compiler.close();
+      await snapshot.dispose();
     }
-  })();
+  } finally {
+    await compiler.close();
+  }
+};
+
+const buildModuleSurface = (
+  contracts: ReadonlyArray<{
+    readonly identifier: string;
+    readonly route: string;
+    readonly body: boolean;
+  }>,
+): string => {
+  const identifiers = contracts.map(({ identifier }) => identifier);
+  const routes = contracts.map(
+    ({ identifier, route }) => [identifier, route] as const,
+  );
   const localImports = contracts.map(({ identifier, body }) => {
     const name = toCamelCase(identifier);
     return `import type { ModuleInput as ${name}Input${body ? `, ModuleBody as ${name}Body` : ''} } from '../../modules/${identifier}.ts'`;
@@ -273,7 +281,7 @@ export async function buildGeneratedArtifacts(
     return `  ${identifier}: { input: ${name}Input; query: ${name}Input; response: ModuleResponse${body ? `<${name}Body>` : ''} }`;
   });
 
-  const moduleSurfaceContents = `import type { ModuleResponse } from '../runtime.ts'
+  return `import type { ModuleResponse } from '../runtime.ts'
 ${localImports.join('\n')}
 
 export const generatedModuleIdentifiers = ${JSON.stringify(identifiers, null, 2)} as const
@@ -288,11 +296,26 @@ export interface GeneratedModuleContractMap {
 ${contractLines.join('\n')}
 }
 `;
+};
+
+export const buildGeneratedArtifacts = async (
+  modulesDirectory = MODULES_DIRECTORY,
+): Promise<GeneratedArtifacts> => {
+  const discovered = await discoverModuleFiles(modulesDirectory);
+  const sorted = discovered.toSorted((left, right) =>
+    left.identifier.localeCompare(right.identifier),
+  );
+
+  const identifiers = sorted.map((moduleFile) => moduleFile.identifier);
+  const routes = sorted.map(
+    (moduleFile) => [moduleFile.identifier, moduleFile.route] as const,
+  );
+  const contracts = await readModuleContracts(sorted);
 
   return {
     files: [
       {
-        contents: moduleSurfaceContents,
+        contents: buildModuleSurface(contracts),
         path: OUTPUT_FILE,
         tempPath: TEMP_FILE,
       },
@@ -316,9 +339,9 @@ ${contractLines.join('\n')}
     ],
     moduleCount: identifiers.length,
   };
-}
+};
 
-function formatFile(filePath: string): void {
+const formatFile = (filePath: string): void => {
   const formatResult = spawnSync('bun', ['x', 'oxfmt', filePath], {
     stdio: 'inherit',
   });
@@ -328,9 +351,9 @@ function formatFile(filePath: string): void {
       `Failed to format generated module type surface: ${filePath}`,
     );
   }
-}
+};
 
-async function writeSurface(): Promise<void> {
+const writeSurface = async (): Promise<void> => {
   const { files, moduleCount } = await buildGeneratedArtifacts();
 
   for (const file of files) {
@@ -342,9 +365,9 @@ async function writeSurface(): Promise<void> {
   }
 
   console.log(`Generated ${moduleCount} module identifiers -> ${OUTPUT_FILE}`);
-}
+};
 
-async function checkSurface(): Promise<void> {
+const checkSurface = async (): Promise<void> => {
   const { files } = await buildGeneratedArtifacts();
 
   try {
@@ -381,7 +404,7 @@ async function checkSurface(): Promise<void> {
       });
     }
   }
-}
+};
 
 if (import.meta.main) {
   if (process.argv.includes('--check')) {
