@@ -1,1 +1,1 @@
-export { ugcUserDevote } from '../generated/client.generated.ts'
+export { ugcUserDevote } from '../generated/client.generated.ts';

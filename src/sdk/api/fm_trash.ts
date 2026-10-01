@@ -1,1 +1,1 @@
-export { fmTrash } from '../generated/client.generated.ts'
+export { fmTrash } from '../generated/client.generated.ts';

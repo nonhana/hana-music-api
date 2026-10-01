@@ -1,93 +1,114 @@
 # 编程式调用
 
-如果准备在自己的项目里直接接入 `hana-music-api`，常用入口只有 3 个：`createHanaMusicApi()`、原始模块函数、`invokeModule()`。
+SDK 的常用入口有三个：创建 client、导入具名函数、按模块名调用。它们都返回 Promise，业务参数和执行配置分开传。
 
-## createHanaMusicApi
+## 连续调用多个接口
 
-适合连续调用多个接口。
+`createHanaMusicApi` 将一组默认配置绑定到 client。适合共享 Cookie、缓存或自定义 `fetcher` 的场景。
 
 ```ts
-import { createHanaMusicApi } from 'hana-music-api'
+import { createHanaMusicApi } from 'hana-music-api';
 
-export const hana = createHanaMusicApi({
+const hana = createHanaMusicApi({
   cookie: 'MUSIC_U=your-cookie',
-})
+  timeoutMs: 8000,
+});
 
-const searchResult = await hana.search({
-  keywords: '周杰伦',
-  limit: 5,
-})
+const searchResult = await hana.search({ keywords: '周杰伦', limit: 5 });
+const songResult = await hana.songUrl({ id: '347230', br: 320000 });
 
-const detailResult = await hana.songUrl({
-  id: '347230',
-  br: 320000,
-})
+console.log(searchResult.body, songResult.body);
 ```
 
-## 原始模块函数
-
-适合按需导入少量接口。
+方法的第二个参数覆盖这次调用的默认配置。覆盖按字段进行，比如传入新的 `headers` 对象会替换原来的 `headers`，不会递归合并对象里的每个字段。
 
 ```ts
-import { search, songUrl } from 'hana-music-api'
-
-const searchResult = await search(
-  {
-    keywords: '林俊杰',
-    limit: 3,
-  },
-  {
-    cookie: 'MUSIC_U=your-cookie',
-  },
-)
-
-const songUrlResult = await songUrl(
-  {
-    id: '347230',
-  },
-  {
-    cookie: 'MUSIC_U=your-cookie',
-  },
-)
+await hana.search({ keywords: '林俊杰' }, { timeoutMs: 5000 });
 ```
 
-## invokeModule
+## 只调用少量接口
 
-适合模块名来自运行时字符串的场景。
+可以直接导入具名函数。名称采用 camelCase，例如 HTTP 的 `/song/url` 对应 `songUrl`：
 
 ```ts
-import { invokeModule } from 'hana-music-api'
+import { songUrl } from 'hana-music-api';
 
-const account = await invokeModule(
+const result = await songUrl(
+  { id: '347230' },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
+
+console.log(result.body);
+```
+
+这里导入的是公开的 Promise 包装函数。仓库 `src/modules/` 里的默认导出是内部 Effect 实现，不是下游应直接导入的 SDK 函数。
+
+## 按模块名调用
+
+模块名在运行时选择时，用 `invokeModule(identifier, query, config)`。模块标识采用下划线形式，TypeScript 中用 `ModuleIdentifier` 表示受支持的名称集合。
+
+```ts
+import { invokeModule } from 'hana-music-api';
+
+const result = await invokeModule(
   'user_account',
   {},
-  {
-    cookie: 'MUSIC_U=your-cookie',
-  },
-)
+  { cookie: 'MUSIC_U=your-cookie' },
+);
+
+console.log(result.body);
 ```
 
-## 怎么传配置
+## 业务参数和执行配置
 
-业务参数和执行配置要分开：
+```mermaid
+flowchart LR
+  QUERY["query<br/>keywords、id、limit"] --> MODULE["模块整理业务参数"]
+  CONFIG["config<br/>cookie、timeoutMs、signal"] --> CALL["本次调用的执行设置"]
+  MODULE --> REQUEST["请求内核"]
+  CALL --> REQUEST
+```
 
-- `query`：接口本身的业务参数
-- `config`：`cookie`、`proxy`、`fetcher` 这类执行配置
+`query` 的类型来自模块自己的输入声明。`config` 使用 `ModuleCallConfig`，完整字段见 [配置参考](/guide/config-reference)。HTTP 能接收的字段更少，见 [调用约定](/guide/request-convention)。
 
-推荐这样写：
+## 返回值与错误
+
+SDK 返回 `{ status, body, cookie }`：
+
+| 字段     | 含义                                                       |
+| -------- | ---------------------------------------------------------- |
+| `status` | 请求层或模块整理后的状态码，不一定等于上游原始 HTTP 状态码 |
+| `body`   | 接口正文，可能包含业务 `code`，普通响应保留未知 JSON       |
+| `cookie` | 上游下发的 Cookie 字符串数组                               |
+
+执行失败时，Promise 通常会以同样的三字段对象拒绝，所以不能只读取 `error.message`。模块也可能正常返回带失败状态的结果；例如缺少文件的歌单封面上传会返回 `status: 400`。成功完成 `await` 后仍要检查状态，业务状态则按具体接口处理。
 
 ```ts
-await songUrl(
-  {
-    id: '347230',
-    br: 320000,
-  },
-  {
-    cookie: 'MUSIC_U=your-cookie',
-  },
-)
+import { search } from 'hana-music-api';
+
+try {
+  const result = await search({ keywords: '海阔天空' });
+  if (result.status !== 200) {
+    console.error(result.status, result.body);
+  } else {
+    console.log(result.body);
+  }
+} catch (error: unknown) {
+  if (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    'body' in error
+  ) {
+    console.error(error.status, error.body);
+  } else {
+    throw error;
+  }
+}
 ```
 
-## 想更进一步
+部分业务码会映射为成功状态，二维码轮询的 `800` 至 `803` 就需要继续检查 `body.code`。不要把 `status === 200` 等同于所有业务操作成功。
 
-`config` 能传的远不止 `cookie`。要完整了解请求层的控制点，包括加密模式、自定义 fetcher、重试与超时、缓存与身份池，见 [请求层架构总览](/guide/request-layer-overview) 及「请求层进阶」分组。
+普通 `body` 没有为每个端点假定完整字段。若要读取 `body.songs` 等属性，先检查正文是对象、目标字段是预期类型。模块内部对自己需要读取的字段也采用同样的原则。
+
+常见的执行失败包括参数错误 `400`、限流 `429`、取消 `499`、传输或响应处理失败 `502`、出口忙碌 `503`、超时 `504`。处理方式见 [重试、超时与连接策略](/guide/retry-timeout-resilience)。

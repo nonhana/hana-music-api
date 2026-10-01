@@ -30,13 +30,13 @@ GET /broadcast/channel/currentinfo?id=5
 ## 编程式调用
 
 ```ts
-import { broadcastChannelCurrentinfo } from 'hana-music-api'
+import { broadcastChannelCurrentinfo } from 'hana-music-api';
 
 const result = await broadcastChannelCurrentinfo({
   id: '5',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -33,14 +33,14 @@ GET /playlist/desc/update?id=24381616&desc=描述
 ## 编程式调用
 
 ```ts
-import { playlistDescUpdate } from 'hana-music-api'
+import { playlistDescUpdate } from 'hana-music-api';
 
 const result = await playlistDescUpdate({
   id: '24381616',
   desc: '描述',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

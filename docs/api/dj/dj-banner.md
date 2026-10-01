@@ -30,11 +30,11 @@ GET /dj/banner
 ## 编程式调用
 
 ```ts
-import { djBanner } from 'hana-music-api'
+import { djBanner } from 'hana-music-api';
 
-const result = await djBanner()
+const result = await djBanner();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

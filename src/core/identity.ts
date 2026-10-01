@@ -1,56 +1,86 @@
-import type { FetchLike, IdentityPoolConfig, ModuleCallConfig } from '../types/index.ts'
+import { Effect, Ref } from 'effect';
 
-import { registerAnonymousToken } from './anonymous.ts'
+import type { IdentityPoolConfig, ModuleCallConfig } from '../types/index.ts';
+import type { RequestError } from './errors.ts';
+import { TransportFailed } from './errors.ts';
+import { ReadStore } from './read-store.ts';
+import { ProcessServices } from './runtime.ts';
+
+export {
+  resolveIdentitySnapshot,
+  type IdentitySnapshot,
+} from './identity-snapshot.ts';
+
+export interface AnonymousRegistration {
+  readonly anonymousToken: string;
+  readonly cnIp: string;
+  readonly deviceId: string;
+}
+
+export type RegisterAnonymous = (
+  options: ModuleCallConfig,
+) => Effect.Effect<AnonymousRegistration, RequestError, ProcessServices>;
 
 export interface IdentityPool {
-  next: () => Promise<Partial<ModuleCallConfig>>
+  readonly next: Effect.Effect<
+    Partial<ModuleCallConfig>,
+    RequestError,
+    ProcessServices
+  >;
 }
 
-// 惰性注册 size 个匿名身份,按调用轮询。每个身份携带自己的 cnIp / deviceId / MUSIC_A。
-export function createIdentityPool(
+export const createIdentityPool = (
   config: IdentityPoolConfig,
-  fetcher: FetchLike | undefined,
-): IdentityPool {
-  const size = Math.max(1, Math.floor(config.size))
-  const identities: Array<Partial<ModuleCallConfig>> = []
-  let ready: Promise<void> | null = null
-  let cursor = 0
-
-  const register = async (): Promise<void> => {
-    identities.length = 0
-    for (let index = 0; index < size; index += 1) {
-      const registration = await registerAnonymousToken({
-        fetcher,
-      })
-      identities.push({
-        cookie: {
-          MUSIC_A: registration.anonymousToken,
-        },
-        ip: registration.cnIp,
-        state: {
-          anonymousToken: registration.anonymousToken,
-          cnIp: registration.cnIp,
-          deviceId: registration.deviceId,
-        },
-      })
-    }
+  options: ModuleCallConfig,
+  registerAnonymous: RegisterAnonymous,
+): IdentityPool => {
+  if (!Number.isFinite(config.size) || config.size < 1) {
+    throw new TypeError('identityPool.size must be positive');
   }
-
+  const size = Math.floor(config.size);
+  const cursor = Ref.makeUnsafe(0);
+  const identities = Ref.makeUnsafe<Array<Partial<ModuleCallConfig>>>([]);
+  const initialization = new ReadStore<void, RequestError>(null);
   return {
-    async next() {
-      if (!ready) {
-        // 初始化失败(瞬态网络错误)时清空 ready,允许后续调用重试,避免池永久不可用。
-        ready = register().catch((error: unknown) => {
-          ready = null
-          throw error
-        })
+    next: Effect.gen(function* () {
+      const process = yield* ProcessServices;
+      yield* initialization.run(
+        'pool',
+        Effect.gen(function* () {
+          for (
+            let index = (yield* Ref.get(identities)).length;
+            index < size;
+            index += 1
+          ) {
+            const registration = yield* registerAnonymous({
+              ...options,
+              timeoutMs: 0,
+            });
+            yield* Ref.update(identities, (values) => [
+              ...values,
+              {
+                cookie: { MUSIC_A: registration.anonymousToken },
+                ip: registration.cnIp,
+                state: registration,
+              },
+            ]);
+          }
+        }).pipe(Effect.provideService(ProcessServices, process)),
+      );
+      const values = yield* Ref.get(identities);
+      const index = yield* Ref.modify(cursor, (value) => [
+        value % size,
+        value + 1,
+      ]);
+      // 池已由上方 initialization 循环填满 size 条；越界仅发生于异常并发，取模兜底。
+      const identity = values[index] ?? values[index % size];
+      if (identity === undefined) {
+        return yield* new TransportFailed({
+          message: 'IdentityPool initialization failed',
+          cause: new Error(`pool empty at index ${index}`),
+        });
       }
-      await ready
-
-      const identity = identities[cursor % identities.length]
-      cursor += 1
-
-      return identity ?? {}
-    },
-  }
-}
+      return identity;
+    }),
+  };
+};

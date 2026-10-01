@@ -1,1 +1,1 @@
-export { topicDetailEventHot } from '../generated/client.generated.ts'
+export { topicDetailEventHot } from '../generated/client.generated.ts';

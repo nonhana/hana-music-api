@@ -19,10 +19,10 @@ description: '调用此接口，传入歌手 id, 可获取歌手粉丝数量'
 
 ## 请求参数
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                |
-| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------- |
-| `id`     | string           |  ✅  | -      | 歌手 id                                                             |
-| `limit`  | number \| string |  —   | 20     | 取出粉丝数量，默认为 20                                            |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                              |
+| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------- |
+| `id`     | string           |  ✅  | -      | 歌手 id                                                           |
+| `limit`  | number \| string |  —   | 20     | 取出粉丝数量，默认为 20                                           |
 | `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*10, 其中 10 为 limit 的值 |
 
 ## HTTP 示例
@@ -34,13 +34,13 @@ GET /artist/follow/count?id=2116
 ## 编程式调用
 
 ```ts
-import { artistFollowCount } from 'hana-music-api'
+import { artistFollowCount } from 'hana-music-api';
 
 const result = await artistFollowCount({
   id: '2116',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

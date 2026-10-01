@@ -1,1 +1,1 @@
-export { playlistDescUpdate } from '../generated/client.generated.ts'
+export { playlistDescUpdate } from '../generated/client.generated.ts';

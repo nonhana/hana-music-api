@@ -32,13 +32,13 @@ GET /user/cloud/detail?id=5374627
 ## 编程式调用
 
 ```ts
-import { userCloudDetail } from 'hana-music-api'
+import { userCloudDetail } from 'hana-music-api';
 
 const result = await userCloudDetail({
   id: '5374627',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,1 +1,1 @@
-export { eventForward } from '../generated/client.generated.ts'
+export { eventForward } from '../generated/client.generated.ts';

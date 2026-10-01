@@ -1,1 +1,1 @@
-export { hugComment } from '../generated/client.generated.ts'
+export { hugComment } from '../generated/client.generated.ts';

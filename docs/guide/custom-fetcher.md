@@ -1,108 +1,98 @@
 # 自定义 fetcher
 
-请求层最终是通过 `fetch` 函数发送请求。默认用的是运行时全局的 `fetch`，用户可以用 `fetcher` 字段更换为自己的实现。
+需要替换底层 HTTP 实现、记录网络请求或接入测试桩时，可以传 `fetcher`。普通调用直接使用默认实现即可。
 
-## `FetchLike` 长什么样
+## 最小实现
 
-`fetcher` 的类型是 `FetchLike`，签名和标准 `fetch` 一致：
+`FetchLike` 与标准 `fetch` 使用相同的签名：
 
 ```ts
-type FetchLike = (
-  input: Request | URL | string,
-  init?: RequestInit,
-) => Promise<Response>
+import { createHanaMusicApi, type FetchLike } from 'hana-music-api';
+
+const customFetcher: FetchLike = (input, init) => fetch(input, init);
+const hana = createHanaMusicApi({ fetcher: customFetcher });
+
+const result = await hana.search({ keywords: '海阔天空' });
+console.log(result.body);
 ```
 
-只要实现符合这个签名，就能传进去：
+`createHanaMusicApi`、具名函数、`invokeModule` 和 `createRequest` 都能接收这个字段。它替换的是发送请求的实现，目标检查、加密、流量控制和响应解释仍由请求内核负责。
 
-```ts
-import { createHanaMusicApi, type FetchLike } from 'hana-music-api'
-
-const myFetcher: FetchLike = (input, init) => {
-  return fetch(input, init)
-}
-
-const hana = createHanaMusicApi({ fetcher: myFetcher })
+```mermaid
+flowchart LR
+  CORE["请求内核<br/>准备协议与校验目标"] --> PERMIT["取得出口许可"]
+  PERMIT --> FETCH["自定义 fetcher<br/>返回 Response"]
+  FETCH --> BODY["内核读完正文<br/>解释响应"]
+  BODY --> RELEASE["释放许可"]
 ```
 
-`fetcher` 在所有入口都能传：`createHanaMusicApi`、模块函数、`invokeModule`、`createRequest`。
+## 取消信号要继续传下去
 
-## 场景一：注入代理 agent
+使用 `fetch(input, init)` 时，`init.signal` 会一起传入。如果在中间重新构造配置，也要保留这个信号，并让返回的正文流支持取消。
 
-`config.proxy` 能满足基础的 HTTP 代理需求，但它**不支持 PAC**，也无法做更复杂的连接控制（连接池、mTLS、SOCKS 等）。这些场景下，用自定义 fetcher 接入像 `undici` 这样的客户端：
+自定义实现返回 `Response` 时，内核还没有结束工作。响应正文读取也在总期限内。超时或取消时，库能释放自己的许可，但无法强制停止一个忽略信号、私下继续联网的第三方实现。
+
+内核传入 `redirect: 'manual'`，自定义实现也应遵守它，不要自行跟随重定向绕过目标检查。
+
+## 代理怎样配置
+
+简单 HTTP 代理直接用 `proxy`：
 
 ```ts
-import { Agent, fetch as undiciFetch } from 'undici'
-import { createHanaMusicApi, type FetchLike } from 'hana-music-api'
+import { search } from 'hana-music-api';
 
-const dispatcher = new Agent({
-  connect: { timeout: 10_000 },
-  connections: 64,
-})
-
-const pooledFetcher: FetchLike = (input, init) => {
-  return undiciFetch(input as any, { ...init, dispatcher }) as any
-}
-
-const hana = createHanaMusicApi({ fetcher: pooledFetcher })
+const result = await search(
+  { keywords: '海阔天空' },
+  { proxy: 'http://127.0.0.1:7890' },
+);
+console.log(result.body);
 ```
 
-## 场景二：请求拦截与日志
+Bun 默认传输使用原生代理支持，Node.js 使用 undici 的 `ProxyAgent`。代理不可用时不会静默改成直连。
 
-想在每个出网请求前后插一段逻辑（打日志、改头、统计耗时），包一层就行：
+`proxy` 不支持 PAC，且不能与自定义 `fetcher` 同时传入。需要 SOCKS、mTLS 或自己的连接池时，由自定义实现选择支持这些能力的网络客户端，并负责其连接资源的生命周期。仅仅包装默认 `fetch` 不会自动获得这些能力。
+
+## 记录收到响应头的时间
 
 ```ts
-import { createHanaMusicApi, type FetchLike } from 'hana-music-api'
+import { createHanaMusicApi, type FetchLike } from 'hana-music-api';
 
 const loggingFetcher: FetchLike = async (input, init) => {
-  const url = typeof input === 'string' ? input : input.toString()
-  const start = Date.now()
+  const url = new URL(input instanceof Request ? input.url : String(input));
+  const startedAt = performance.now();
+  const response = await fetch(input, init);
 
-  const res = await fetch(input, init)
+  console.log({
+    target: `${url.origin}${url.pathname}`,
+    status: response.status,
+    headersReceivedMs: performance.now() - startedAt,
+  });
+  return response;
+};
 
-  console.log(`[fetch] ${res.status} ${url} ${Date.now() - start}ms`)
-  return res
-}
-
-const hana = createHanaMusicApi({ fetcher: loggingFetcher })
+const hana = createHanaMusicApi({ fetcher: loggingFetcher });
+await hana.search({ keywords: '海阔天空' });
 ```
 
-> 如果只是想观测请求的尝试 / 重试 / 失败，不必自己包 fetcher，
-> 请求层已经内置了 `onRequestEvent` 回调，见 [调试与可观测性](/guide/observability)。
-> 两者的区别：`onRequestEvent` 是请求层的语义事件，自定义 fetcher 是更底层的原始网络层。
+这个耗时通常截止到响应头到达，不包含内核随后读取正文的时间。日志也刻意省略 query、请求头和正文。需要观察重试或统计整次调用时，见 [调试与可观测性](/guide/observability)。
 
-## 场景三：测试桩
-
-在单元测试里，通常不想真的打网易云的接口。传一个返回固定响应的 fetcher 即可：
+## 用假响应测试调用
 
 ```ts
-import { test, expect } from 'bun:test'
-import { songUrl, type FetchLike } from 'hana-music-api'
+import { expect, test } from 'bun:test';
+import { songUrl, type FetchLike } from 'hana-music-api';
 
-const stub: FetchLike = async () => {
-  return new Response(JSON.stringify({ code: 200, data: [] }), {
-    status: 200,
-    headers: { 'content-type': 'application/json' },
-  })
-}
+const stub: FetchLike = async () => Response.json({ code: 200, data: [] });
 
-test('songUrl 走桩不发真实请求', async () => {
-  const res = await songUrl({ id: '1' }, { fetcher: stub })
-  expect(res.status).toBe(200)
-})
+test('songUrl 使用假响应', async () => {
+  const result = await songUrl(
+    { id: '1' },
+    { fetcher: stub, cookie: 'MUSIC_A=test-token' },
+  );
+  expect(result.status).toBe(200);
+});
 ```
 
-因为身份相关逻辑也会走 `fetcher`，传桩之后整条链路都不会出网。
+身份注册同样经过 `fetcher`。上例显式传入测试身份，避免额外触发游客注册。如果要测试注册过程，假响应应包含有效的 `MUSIC_A` Cookie。
 
-## `fetcher` 和 `proxy` 怎么选
-
-| 需求 | 推荐 |
-| --- | --- |
-| 简单 HTTP 代理 | `config.proxy` |
-| PAC / SOCKS / 连接池 / mTLS | 自定义 `fetcher` |
-| 请求拦截、改写、日志 | 自定义 `fetcher` |
-| 测试桩 | 自定义 `fetcher` |
-
-两者可以共存。需要注意：请求层会把 `proxy` 写到传给 fetcher 的 `init.proxy` 上，
-但这是 Bun `fetch` 的扩展字段。如果自定义 fetcher 不认识 `init.proxy`（比如 `undici`），
-那 `proxy` 就不会生效，代理要在自己的 fetcher 里处理。
+假的 `Response` 也会经过正文解释，普通 JSON 的未知字段会保留。它适合验证本地请求逻辑，不能证明真实网易云接口可用。

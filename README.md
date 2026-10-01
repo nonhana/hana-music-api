@@ -1,6 +1,6 @@
 # hana-music-api
 
-`hana-music-api` 是一个第三方网易云音乐 API 库，可直接在代码里调用，也可以作为 Bun 服务自行部署。
+用 TypeScript 和 Effect 实现的第三方网易云音乐 API，提供搜索、歌曲、歌单、登录等接口。可作为 SDK 在 Node.js 中调用，也可用 Bun 启动 HTTP 服务。
 
 ## 安装
 
@@ -8,102 +8,60 @@
 npm install hana-music-api
 ```
 
-SDK 运行环境：
-
-- Node.js `>=24`
-- ESM 项目
+SDK 需要 Node.js 24 或更高版本，仅支持 ESM。
 
 ## 直接调用
 
-最省事的方式是先创建一个 client：
+创建客户端后，用 `async/await` 调用接口：
 
 ```ts
-import { createHanaMusicApi } from 'hana-music-api'
+import { createHanaMusicApi } from 'hana-music-api';
 
 const hana = createHanaMusicApi({
   cookie: 'MUSIC_U=your-cookie',
-})
+});
 
 const result = await hana.search({
   keywords: '周杰伦',
   limit: 5,
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
-如果你只想调少量接口，也可以直接导入单个函数：
+接口返回 Promise，结果包含 `status`、`body` 和 `cookie`。业务参数传给接口方法，Cookie、代理、超时等配置传给客户端，或作为方法的第二个参数。
 
-```ts
-import { songUrl } from 'hana-music-api'
-
-const result = await songUrl(
-  {
-    id: '347230',
-  },
-  {
-    cookie: 'MUSIC_U=your-cookie',
-  },
-)
-
-console.log(result.body)
-```
-
-如果模块名来自运行时字符串，可以用 `invokeModule()`：
-
-```ts
-import { invokeModule } from 'hana-music-api'
-
-const result = await invokeModule(
-  'user_account',
-  {},
-  {
-    cookie: 'MUSIC_U=your-cookie',
-  },
-)
-
-console.log(result.body)
-```
+也可单独导入 `search`、`songUrl` 等函数，或用 `invokeModule()` 按模块名调用，详见[编程式调用](docs/guide/programmatic-api.md)。账号信息、歌单管理等接口需要有效 Cookie。
 
 ## 启动 HTTP 服务
 
-如果你想自己部署服务，可以直接运行仓库里的 Bun 服务：
+安装 Bun 后，在仓库目录执行：
 
 ```bash
 bun install --frozen-lockfile
 bun start
 ```
 
-默认地址：
+默认监听 `0.0.0.0:3021`，可通过 `HOST`、`PORT` 环境变量修改。
 
 - 服务首页：`http://127.0.0.1:3021/`
-- 文档：`http://127.0.0.1:3021/docs`
 - 健康检查：`http://127.0.0.1:3021/health`
+- 文档：`http://127.0.0.1:3021/docs`，需先运行 `bun run docs:build`
 
-快速试一下：
+调用搜索接口：
 
 ```bash
-curl "http://127.0.0.1:3021/search?keywords=周杰伦&limit=5"
+curl 'http://127.0.0.1:3021/search?keywords=hello&limit=5'
 ```
 
-## 常用入口
-
-- `createHanaMusicApi()`：适合连续调用多个接口
-- camelCase 原始函数：适合按需导入少量接口
-- `invokeModule()`：适合动态模块名场景
-
-## 常见注意事项
-
-- 账号信息、歌单管理、云盘、私信、签到这类接口通常需要有效 Cookie
-- SDK 调用时，把 `cookie`、`proxy`、`fetcher` 这类执行配置放到 `config`，不要混进业务参数
-- 轮询二维码状态、刷新登录状态这类请求，建议带上时间戳，避免拿到缓存结果
-- 如果遇到区域限制或 `460` 一类问题，可以尝试 `proxy` 或 `realIP`
-- 这是第三方非官方实现，少数接口会跟着网易云上游变化
+HTTP 接口接受业务参数及 `cookie` / `noCookie`，代理、重试等执行配置只能在服务端设置。限流与缓存规则见[调用约定](docs/guide/request-convention.md)。
 
 ## 文档
 
-- 快速开始：[docs/guide/getting-started.md](docs/guide/getting-started.md)
-- 编程式调用：[docs/guide/programmatic-api.md](docs/guide/programmatic-api.md)
-- 认证机制：[docs/guide/authentication.md](docs/guide/authentication.md)
-- 调用约定：[docs/guide/request-convention.md](docs/guide/request-convention.md)
-- API 参考：[docs/api/index.md](docs/api/index.md)
+VitePress: [https://hana-music-api.netlify.app/](https://hana-music-api.netlify.app/)
+
+- [快速开始](docs/guide/getting-started.md)
+- [编程式调用](docs/guide/programmatic-api.md)
+- [认证机制](docs/guide/authentication.md)
+- [调用约定](docs/guide/request-convention.md)
+- [API 参考](docs/api/index.md)

@@ -33,14 +33,14 @@ GET /musician/play/trend?startTime=2021-05-24&endTime=2021-05-30
 ## 编程式调用
 
 ```ts
-import { musicianPlayTrend } from 'hana-music-api'
+import { musicianPlayTrend } from 'hana-music-api';
 
 const result = await musicianPlayTrend({
   startTime: '2021-05-24',
   endTime: '2021-05-30',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

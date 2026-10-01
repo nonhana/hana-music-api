@@ -1,1 +1,1 @@
-export { listentogetherRoomCheck } from '../generated/client.generated.ts'
+export { listentogetherRoomCheck } from '../generated/client.generated.ts';

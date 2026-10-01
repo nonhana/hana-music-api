@@ -1,1 +1,1 @@
-export { songRedCount } from '../generated/client.generated.ts'
+export { songRedCount } from '../generated/client.generated.ts';

@@ -34,13 +34,13 @@ GET /search/suggest?keywords=海阔天空&type=mobile
 ## 编程式调用
 
 ```ts
-import { searchSuggest } from 'hana-music-api'
+import { searchSuggest } from 'hana-music-api';
 
 const result = await searchSuggest({
   keywords: '海阔天空',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

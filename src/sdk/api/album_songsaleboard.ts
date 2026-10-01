@@ -1,1 +1,1 @@
-export { albumSongsaleboard } from '../generated/client.generated.ts'
+export { albumSongsaleboard } from '../generated/client.generated.ts';

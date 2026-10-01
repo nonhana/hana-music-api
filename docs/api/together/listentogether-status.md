@@ -31,11 +31,11 @@ GET /listentogether/status
 ## 编程式调用
 
 ```ts
-import { listentogetherStatus } from 'hana-music-api'
+import { listentogetherStatus } from 'hana-music-api';
 
-const result = await listentogetherStatus()
+const result = await listentogetherStatus();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回关注点

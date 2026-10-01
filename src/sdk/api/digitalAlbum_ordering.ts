@@ -1,1 +1,1 @@
-export { digitalAlbumOrdering } from '../generated/client.generated.ts'
+export { digitalAlbumOrdering } from '../generated/client.generated.ts';

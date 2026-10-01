@@ -34,14 +34,14 @@ GET /playlist/subscribe?t=2&id=106697785
 ## 编程式调用
 
 ```ts
-import { playlistSubscribe } from 'hana-music-api'
+import { playlistSubscribe } from 'hana-music-api';
 
 const result = await playlistSubscribe({
   t: '1',
   id: '106697785',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

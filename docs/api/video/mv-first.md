@@ -32,13 +32,13 @@ GET /mv/first?limit=10
 ## 编程式调用
 
 ```ts
-import { mvFirst } from 'hana-music-api'
+import { mvFirst } from 'hana-music-api';
 
 const result = await mvFirst({
   limit: '10',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

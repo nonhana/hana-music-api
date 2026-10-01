@@ -19,8 +19,8 @@ description: '调用此接口，可获取推荐歌单'
 
 ## 请求参数
 
-| 参数    | 类型             | 必填 | 默认值 | 说明                                 |
-| ------- | ---------------- | :--: | ------ | ------------------------------------ |
+| 参数    | 类型             | 必填 | 默认值 | 说明                                |
+| ------- | ---------------- | :--: | ------ | ----------------------------------- |
 | `limit` | number \| string |  —   | 30     | 取出数量，默认为 30 (不支持 offset) |
 
 ## HTTP 示例
@@ -32,13 +32,13 @@ GET /personalized?limit=1
 ## 编程式调用
 
 ```ts
-import { personalized } from 'hana-music-api'
+import { personalized } from 'hana-music-api';
 
 const result = await personalized({
   limit: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

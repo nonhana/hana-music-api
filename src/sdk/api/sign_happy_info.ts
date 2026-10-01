@@ -1,1 +1,1 @@
-export { signHappyInfo } from '../generated/client.generated.ts'
+export { signHappyInfo } from '../generated/client.generated.ts';

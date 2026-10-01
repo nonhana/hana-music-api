@@ -33,13 +33,13 @@ POST /listentogether/end?roomId=MzA0NjY5...
 ## 编程式调用
 
 ```ts
-import { listentogetherEnd } from 'hana-music-api'
+import { listentogetherEnd } from 'hana-music-api';
 
 const result = await listentogetherEnd({
   roomId: 'MzA0NjY5...',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回关注点

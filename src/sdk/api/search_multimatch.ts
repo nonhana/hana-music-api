@@ -1,1 +1,1 @@
-export { searchMultimatch } from '../generated/client.generated.ts'
+export { searchMultimatch } from '../generated/client.generated.ts';

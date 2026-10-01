@@ -30,11 +30,11 @@ GET /dj/recommend
 ## 编程式调用
 
 ```ts
-import { djRecommend } from 'hana-music-api'
+import { djRecommend } from 'hana-music-api';
 
-const result = await djRecommend()
+const result = await djRecommend();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -30,11 +30,11 @@ GET /musician/tasks/new
 ## 编程式调用
 
 ```ts
-import { musicianTasksNew } from 'hana-music-api'
+import { musicianTasksNew } from 'hana-music-api';
 
-const result = await musicianTasksNew()
+const result = await musicianTasksNew();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

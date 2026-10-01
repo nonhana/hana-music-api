@@ -30,11 +30,11 @@ GET /musician/data/overview
 ## 编程式调用
 
 ```ts
-import { musicianDataOverview } from 'hana-music-api'
+import { musicianDataOverview } from 'hana-music-api';
 
-const result = await musicianDataOverview()
+const result = await musicianDataOverview();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

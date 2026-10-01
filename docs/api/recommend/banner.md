@@ -33,11 +33,11 @@ GET /banner?type=2
 ## 编程式调用
 
 ```ts
-import { banner } from 'hana-music-api'
+import { banner } from 'hana-music-api';
 
-const result = await banner()
+const result = await banner();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -30,11 +30,11 @@ GET /inner/version
 ## 编程式调用
 
 ```ts
-import { innerVersion } from 'hana-music-api'
+import { innerVersion } from 'hana-music-api';
 
-const result = await innerVersion()
+const result = await innerVersion();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

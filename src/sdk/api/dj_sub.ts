@@ -1,1 +1,1 @@
-export { djSub } from '../generated/client.generated.ts'
+export { djSub } from '../generated/client.generated.ts';

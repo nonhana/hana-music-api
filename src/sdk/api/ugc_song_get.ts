@@ -1,1 +1,1 @@
-export { ugcSongGet } from '../generated/client.generated.ts'
+export { ugcSongGet } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { styleAlbum } from '../generated/client.generated.ts'
+export { styleAlbum } from '../generated/client.generated.ts';

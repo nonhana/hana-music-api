@@ -32,13 +32,13 @@ GET /video/detail/info?vid=89ADDE33C0AAE8EC14B99F6750DB954D
 ## 编程式调用
 
 ```ts
-import { videoDetailInfo } from 'hana-music-api'
+import { videoDetailInfo } from 'hana-music-api';
 
 const result = await videoDetailInfo({
   vid: '89ADDE33C0AAE8EC14B99F6750DB954D',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

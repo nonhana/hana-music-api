@@ -1,1 +1,1 @@
-export { nicknameCheck } from '../generated/client.generated.ts'
+export { nicknameCheck } from '../generated/client.generated.ts';

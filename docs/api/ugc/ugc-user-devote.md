@@ -30,11 +30,11 @@ GET /ugc/user/devote
 ## 编程式调用
 
 ```ts
-import { ugcUserDevote } from 'hana-music-api'
+import { ugcUserDevote } from 'hana-music-api';
 
-const result = await ugcUserDevote()
+const result = await ugcUserDevote();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

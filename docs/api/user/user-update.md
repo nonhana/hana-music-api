@@ -37,7 +37,7 @@ GET /user/update?gender=0&signature=测试签名&city=440300&nickname=binary&bir
 ## 编程式调用
 
 ```ts
-import { userUpdate } from 'hana-music-api'
+import { userUpdate } from 'hana-music-api';
 
 const result = await userUpdate({
   gender: '0',
@@ -46,9 +46,9 @@ const result = await userUpdate({
   nickname: 'binary',
   birthday: '1525918298004',
   province: '440000',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,24 +1,33 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { UserSummaryQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
 
-const legacyModule = (query: UserSummaryQuery, request: ModuleRequest) => {
-  const data = {}
-  return request(`/api/user/level`, data, createOption(query, 'weapi'))
-}
+export type ModuleInput = {};
+
+const inputSchema = Schema.Struct({});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
+
+const userLevel: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {};
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/user/level`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 类别热门电台
  */
-export default async function migratedUserLevel(
-  query: UserSummaryQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default userLevel;

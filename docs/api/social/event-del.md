@@ -32,13 +32,13 @@ GET /event/del?evId=6712917601
 ## 编程式调用
 
 ```ts
-import { eventDel } from 'hana-music-api'
+import { eventDel } from 'hana-music-api';
 
 const result = await eventDel({
   evId: '6712917601',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

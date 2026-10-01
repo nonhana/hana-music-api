@@ -1,1 +1,1 @@
-export { mvAll } from '../generated/client.generated.ts'
+export { mvAll } from '../generated/client.generated.ts';

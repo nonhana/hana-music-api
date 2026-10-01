@@ -30,11 +30,11 @@ GET /verify/getQr
 ## 编程式调用
 
 ```ts
-import { verifyGetQr } from 'hana-music-api'
+import { verifyGetQr } from 'hana-music-api';
 
-const result = await verifyGetQr()
+const result = await verifyGetQr();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

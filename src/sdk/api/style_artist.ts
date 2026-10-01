@@ -1,1 +1,1 @@
-export { styleArtist } from '../generated/client.generated.ts'
+export { styleArtist } from '../generated/client.generated.ts';

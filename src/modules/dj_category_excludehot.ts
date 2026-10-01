@@ -1,23 +1,29 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  return request(`/api/djradio/category/excludehot`, {}, createOption(query, 'weapi'))
-}
+const djCategoryExcludehot: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/djradio/category/excludehot`,
+          {},
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 电台非热门类型
  */
-export default async function migratedDjCategoryExcludehot(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default djCategoryExcludehot;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
+
+export type ModuleInput = LegacyModuleInput;

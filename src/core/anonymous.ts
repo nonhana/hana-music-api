@@ -1,100 +1,152 @@
-import { createHash } from 'node:crypto'
+import { createHash } from 'node:crypto';
 
-import type { FetchLike } from '../types/index.ts'
+import { Clock, Effect } from 'effect';
 
-import { createRequest } from './request.ts'
-import { getRuntimeState, setRuntimeState } from './runtime.ts'
-import { cookieToJson, generateDeviceId, generateRandomChineseIP } from './utils.ts'
+import type { ModuleCallConfig } from '../types/index.ts';
+import { Call } from './call-context.ts';
+import type { RequestError } from './errors.ts';
+import { DeadlineExceeded, ResponseDecodeFailed } from './errors.ts';
+import { resolveIdentitySnapshot } from './identity.ts';
+import { ReadStore } from './read-store.ts';
+import { requestEffect } from './request.ts';
+import {
+  ProcessServices,
+  resolveProcessServices,
+  runPublicEffect,
+  setRuntimeState,
+} from './runtime.ts';
+import type { RequestRuntime } from './runtime.ts';
+import {
+  cookieToJson,
+  generateDeviceId,
+  generateRandomChineseIP,
+} from './utils.ts';
 
-const ID_XOR_KEY = '3go8&$8*3*3h0k(2)2'
+const ID_XOR_KEY = '3go8&$8*3*3h0k(2)2';
 
 export interface AnonymousRegistration {
-  readonly anonymousToken: string
-  readonly cnIp: string
-  readonly deviceId: string
+  readonly anonymousToken: string;
+  readonly cnIp: string;
+  readonly deviceId: string;
 }
 
-export interface EnsureAnonymousTokenOptions {
-  readonly fetcher?: FetchLike
-}
+export interface EnsureAnonymousTokenOptions extends ModuleCallConfig {}
 
-let inflight: Promise<string> | null = null
+const registrations = new WeakMap<object, ReadStore<string, RequestError>>();
 
-// register/anonimous 的 username:deviceId XOR 固定 key 后 md5(base64),再与原 deviceId 拼接后整体 base64。
-function createAnonymousUsername(deviceId: string): string {
-  let xored = ''
+const createAnonymousUsername = (deviceId: string): string => {
+  let xored = '';
   for (let index = 0; index < deviceId.length; index += 1) {
     xored += String.fromCharCode(
-      deviceId.charCodeAt(index) ^ ID_XOR_KEY.charCodeAt(index % ID_XOR_KEY.length),
-    )
+      deviceId.charCodeAt(index) ^
+        ID_XOR_KEY.charCodeAt(index % ID_XOR_KEY.length),
+    );
   }
-  const digest = createHash('md5').update(xored, 'utf8').digest('base64')
+  const digest = createHash('md5').update(xored, 'utf8').digest('base64');
 
-  return Buffer.from(`${deviceId} ${digest}`, 'utf8').toString('base64')
-}
+  return Buffer.from(`${deviceId} ${digest}`, 'utf8').toString('base64');
+};
 
-export async function registerAnonymousToken(
-  options: {
-    readonly cnIp?: string
-    readonly deviceId?: string
-    readonly fetcher?: FetchLike
+export const registerAnonymousEffect = (
+  options: ModuleCallConfig & {
+    readonly cnIp?: string;
+    readonly deviceId?: string;
   } = {},
-): Promise<AnonymousRegistration> {
-  const deviceId = options.deviceId ?? generateDeviceId()
-  const cnIp = options.cnIp ?? generateRandomChineseIP()
-  const result = await createRequest(
-    '/api/register/anonimous',
-    {
-      username: createAnonymousUsername(deviceId),
-    },
-    {
-      crypto: 'weapi',
-      fetcher: options.fetcher,
-      ip: cnIp,
-      state: {
-        cnIp,
-        deviceId,
-      },
-    },
-  )
-  const cookie = cookieToJson(result.cookie.join('; '))
+): Effect.Effect<AnonymousRegistration, RequestError, ProcessServices> =>
+  Effect.gen(function* () {
+    const deviceId = options.deviceId ?? generateDeviceId();
+    const cnIp = options.cnIp ?? generateRandomChineseIP();
+    const state = { anonymousToken: '', cnIp, deviceId };
+    const config = { ...options, crypto: 'weapi' as const, ip: cnIp, state };
+    const startedAt = yield* Clock.currentTimeMillis;
+    const timeoutMs = options.timeoutMs ?? 8_000;
+    const result = yield* requestEffect({
+      target: '/api/register/anonimous',
+      protocol: 'weapi',
+      method: 'POST',
+      headers: {},
+      body: JSON.stringify({ username: createAnonymousUsername(deviceId) }),
+      response: 'json',
+      semantic: 'login',
+    }).pipe(
+      Effect.provideService(Call, {
+        identifier: 'register_anonimous',
+        input: {},
+        config,
+        identity: resolveIdentitySnapshot(config, state),
+        startedAt,
+        deadlineAt: timeoutMs > 0 ? startedAt + timeoutMs : undefined,
+        policy: { read: false, upload: false },
+      }),
+    );
+    const cookie = cookieToJson(result.cookie.join('; '));
+    if (!cookie.MUSIC_A) {
+      return yield* new ResponseDecodeFailed({
+        message: 'Anonymous registration did not return MUSIC_A',
+      });
+    }
+    return { anonymousToken: String(cookie.MUSIC_A), cnIp, deviceId };
+  });
 
-  return {
-    anonymousToken: String(cookie.MUSIC_A ?? ''),
-    cnIp,
-    deviceId,
-  }
-}
+export const ensureAnonymousEffect = (
+  options: ModuleCallConfig = {},
+): Effect.Effect<string, RequestError, ProcessServices> =>
+  Effect.gen(function* () {
+    const process = yield* ProcessServices;
+    const token = process.readState().anonymousToken;
+    if (token) {
+      return token;
+    }
+    const key = options.fetcher ?? process.governor;
+    let registration = registrations.get(key);
+    if (!registration) {
+      registration = new ReadStore<string, RequestError>(null);
+      registrations.set(key, registration);
+    }
+    return yield* registration.run(
+      'anonymous',
+      registerAnonymousEffect({ ...options, timeoutMs: 0 }).pipe(
+        Effect.tap((value) => Effect.sync(() => setRuntimeState(value))),
+        Effect.map((value) => value.anonymousToken),
+        Effect.provideService(ProcessServices, process),
+      ),
+    );
+  });
 
-export async function ensureRuntimeAnonymousToken(
+export const registerAnonymousToken = (
+  options: ModuleCallConfig & {
+    readonly cnIp?: string;
+    readonly deviceId?: string;
+  } = {},
+  runtime?: RequestRuntime,
+): Promise<AnonymousRegistration> =>
+  runPublicEffect(
+    registerAnonymousEffect(options).pipe(
+      Effect.provideService(ProcessServices, resolveProcessServices(runtime)),
+    ),
+    options.signal,
+  );
+
+export const ensureRuntimeAnonymousToken = (
   options: EnsureAnonymousTokenOptions = {},
-): Promise<string> {
-  const current = getRuntimeState().anonymousToken
-  if (current) {
-    return current
-  }
-
-  if (inflight) {
-    return inflight
-  }
-
-  inflight = registerAnonymousToken({
-    fetcher: options.fetcher,
-  })
-    .then((registration) => {
-      if (registration.anonymousToken) {
-        setRuntimeState({
-          anonymousToken: registration.anonymousToken,
-          cnIp: registration.cnIp,
-          deviceId: registration.deviceId,
-        })
-      }
-
-      return registration.anonymousToken
-    })
-    .finally(() => {
-      inflight = null
-    })
-
-  return inflight
-}
+  runtime?: RequestRuntime,
+): Promise<string> => {
+  const timeoutMs = options.timeoutMs ?? 8_000;
+  const work = ensureAnonymousEffect(options).pipe(
+    Effect.provideService(ProcessServices, resolveProcessServices(runtime)),
+  );
+  return runPublicEffect(
+    timeoutMs > 0
+      ? work.pipe(
+          Effect.timeoutOrElse({
+            duration: timeoutMs,
+            orElse: () =>
+              Effect.fail(
+                new DeadlineExceeded({ message: 'Request timed out' }),
+              ),
+          }),
+        )
+      : work,
+    options.signal,
+  );
+};

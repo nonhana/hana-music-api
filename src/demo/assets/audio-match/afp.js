@@ -126,9 +126,9 @@ function createAudioFingerprintRuntimeModule() {
     }
     var $ = 'undefined' != typeof TextDecoder ? new TextDecoder('utf8') : void 0
     function P(t, e, r) {
-      for (var n = e + r, o = e; t[o] && !(o >= n); ) ++o
+      for (var n = e + r, o = e; t[o] && !(o >= n);) ++o
       if (o - e > 16 && t.subarray && $) return $.decode(t.subarray(e, o))
-      for (var i = ''; e < o; ) {
+      for (var i = ''; e < o;) {
         var a = t[e++]
         if (128 & a) {
           var u = 63 & t[e++]
@@ -198,7 +198,7 @@ function createAudioFingerprintRuntimeModule() {
       I,
       x = 'undefined' != typeof TextDecoder ? new TextDecoder('utf-16le') : void 0
     function U(t, e) {
-      for (var r = t, n = r >> 1, o = n + e / 2; !(n >= o) && W[n]; ) ++n
+      for (var r = t, n = r >> 1, o = n + e / 2; !(n >= o) && W[n];) ++n
       if ((r = n << 1) - t > 32 && x) return x.decode(O.subarray(t, r))
       for (var i = '', a = 0; !(a >= e / 2); ++a) {
         var u = k[(t + 2 * a) >> 1]
@@ -219,7 +219,7 @@ function createAudioFingerprintRuntimeModule() {
       return 2 * t.length
     }
     function V(t, e) {
-      for (var r = 0, n = ''; !(r >= e / 4); ) {
+      for (var r = 0, n = ''; !(r >= e / 4);) {
         var o = j[(t + 4 * r) >> 2]
         if (0 == o) break
         if ((++r, o >= 65536)) {
@@ -281,7 +281,7 @@ function createAudioFingerprintRuntimeModule() {
       }
     }
     function nt(t) {
-      for (; t.length > 0; ) {
+      for (; t.length > 0;) {
         var e = t.shift()
         if ('function' != typeof e) {
           var r = e.func
@@ -364,7 +364,7 @@ function createAudioFingerprintRuntimeModule() {
     }
     var st = void 0
     function ct(t) {
-      for (var e = '', r = t; O[r]; ) e += st[O[r++]]
+      for (var e = '', r = t; O[r];) e += st[O[r++]]
       return e
     }
     var ft = {},
@@ -462,7 +462,7 @@ function createAudioFingerprintRuntimeModule() {
         e.baseClass;
       )
         ((r = e.upcast(r)), (e = e.baseClass))
-      for (; n.baseClass; ) ((o = n.upcast(o)), (n = n.baseClass))
+      for (; n.baseClass;) ((o = n.upcast(o)), (n = n.baseClass))
       return e === n && r === o
     }
     function Tt(t) {
@@ -535,7 +535,7 @@ function createAudioFingerprintRuntimeModule() {
     var Ot = void 0,
       kt = []
     function Wt() {
-      for (; kt.length; ) {
+      for (; kt.length;) {
         var t = kt.pop()
         ;((t.$$.deleteScheduled = !1), t.delete())
       }
@@ -602,7 +602,7 @@ function createAudioFingerprintRuntimeModule() {
         (this.pureVirtualFunctions = []))
     }
     function Ht(t, e, r) {
-      for (; e !== r; )
+      for (; e !== r;)
         (e.upcast ||
           vt('Expected null or instance of ' + r.name + ', got an instance of ' + e.name),
           (t = e.upcast(t)),
@@ -719,7 +719,7 @@ function createAudioFingerprintRuntimeModule() {
     function Qt(t, e) {
       return (
         (e = (function (t, e) {
-          for (void 0 === e && vt('ptr should not be undefined'); t.baseClass; )
+          for (void 0 === e && vt('ptr should not be undefined'); t.baseClass;)
             ((e = t.upcast(e)), (t = t.baseClass))
           return e
         })(t, e)),
@@ -841,7 +841,7 @@ function createAudioFingerprintRuntimeModule() {
       return r
     }
     function fe(t) {
-      for (; t.length; ) {
+      for (; t.length;) {
         var e = t.pop()
         t.pop()(e)
       }
@@ -1056,7 +1056,7 @@ function createAudioFingerprintRuntimeModule() {
     var Ae = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
       De = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
     function Fe(t, e) {
-      for (var r = new Date(t.getTime()); e > 0; ) {
+      for (var r = new Date(t.getTime()); e > 0;) {
         var n = $e(r.getFullYear()),
           o = r.getMonth(),
           i = (n ? Ae : De)[o]
@@ -1130,7 +1130,7 @@ function createAudioFingerprintRuntimeModule() {
           'December',
         ]
       function l(t, e, r) {
-        for (var n = 'number' == typeof t ? t.toString() : t || ''; n.length < e; ) n = r[0] + n
+        for (var n = 'number' == typeof t ? t.toString() : t || ''; n.length < e;) n = r[0] + n
         return n
       }
       function p(t, e) {
@@ -1906,10 +1906,7 @@ function createAudioFingerprintRuntimeModule() {
             o.onRuntimeInitialized && o.onRuntimeInitialized(),
             (function () {
               if (o.postRun)
-                for (
-                  'function' == typeof o.postRun && (o.postRun = [o.postRun]);
-                  o.postRun.length;
-                )
+                for ('function' == typeof o.postRun && (o.postRun = [o.postRun]); o.postRun.length;)
                   ((t = o.postRun.shift()), q.unshift(t))
               var t
               nt(q)
@@ -1919,7 +1916,7 @@ function createAudioFingerprintRuntimeModule() {
         J > 0 ||
           (!(function () {
             if (o.preRun)
-              for ('function' == typeof o.preRun && (o.preRun = [o.preRun]); o.preRun.length; )
+              for ('function' == typeof o.preRun && (o.preRun = [o.preRun]); o.preRun.length;)
                 ((t = o.preRun.shift()), G.unshift(t))
             var t
             nt(G)
@@ -1942,7 +1939,7 @@ function createAudioFingerprintRuntimeModule() {
       (o.run = Me),
       o.preInit)
     )
-      for ('function' == typeof o.preInit && (o.preInit = [o.preInit]); o.preInit.length > 0; )
+      for ('function' == typeof o.preInit && (o.preInit = [o.preInit]); o.preInit.length > 0;)
         o.preInit.pop()()
     ;(Me(), (t.exports = o))
   })(module, exports, require)

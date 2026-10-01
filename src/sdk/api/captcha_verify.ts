@@ -1,1 +1,1 @@
-export { captchaVerify } from '../generated/client.generated.ts'
+export { captchaVerify } from '../generated/client.generated.ts';

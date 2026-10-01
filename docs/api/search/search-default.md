@@ -30,11 +30,11 @@ GET /search/default
 ## 编程式调用
 
 ```ts
-import { searchDefault } from 'hana-music-api'
+import { searchDefault } from 'hana-music-api';
 
-const result = await searchDefault()
+const result = await searchDefault();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

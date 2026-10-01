@@ -31,11 +31,11 @@ GET /listentogether/room/create
 ## 编程式调用
 
 ```ts
-import { listentogetherRoomCreate } from 'hana-music-api'
+import { listentogetherRoomCreate } from 'hana-music-api';
 
-const result = await listentogetherRoomCreate()
+const result = await listentogetherRoomCreate();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回示例

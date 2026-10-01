@@ -30,11 +30,11 @@ GET /broadcast/category/region/get
 ## 编程式调用
 
 ```ts
-import { broadcastCategoryRegionGet } from 'hana-music-api'
+import { broadcastCategoryRegionGet } from 'hana-music-api';
 
-const result = await broadcastCategoryRegionGet()
+const result = await broadcastCategoryRegionGet();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

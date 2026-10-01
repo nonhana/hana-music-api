@@ -1,1 +1,1 @@
-export { listenDataRealtimeReport } from '../generated/client.generated.ts'
+export { listenDataRealtimeReport } from '../generated/client.generated.ts';

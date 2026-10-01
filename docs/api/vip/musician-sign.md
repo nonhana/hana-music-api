@@ -30,11 +30,11 @@ GET /musician/sign
 ## 编程式调用
 
 ```ts
-import { musicianSign } from 'hana-music-api'
+import { musicianSign } from 'hana-music-api';
 
-const result = await musicianSign()
+const result = await musicianSign();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

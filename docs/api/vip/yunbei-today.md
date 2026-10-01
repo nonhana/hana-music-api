@@ -30,11 +30,11 @@ GET /yunbei/today
 ## 编程式调用
 
 ```ts
-import { yunbeiToday } from 'hana-music-api'
+import { yunbeiToday } from 'hana-music-api';
 
-const result = await yunbeiToday()
+const result = await yunbeiToday();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

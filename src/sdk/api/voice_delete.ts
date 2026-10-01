@@ -1,1 +1,1 @@
-export { voiceDelete } from '../generated/client.generated.ts'
+export { voiceDelete } from '../generated/client.generated.ts';

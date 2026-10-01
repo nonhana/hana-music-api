@@ -30,11 +30,11 @@ GET /album/newest
 ## 编程式调用
 
 ```ts
-import { albumNewest } from 'hana-music-api'
+import { albumNewest } from 'hana-music-api';
 
-const result = await albumNewest()
+const result = await albumNewest();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,1 +1,1 @@
-export { topPlaylistHighquality } from '../generated/client.generated.ts'
+export { topPlaylistHighquality } from '../generated/client.generated.ts';

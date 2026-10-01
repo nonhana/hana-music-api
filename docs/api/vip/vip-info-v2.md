@@ -33,11 +33,11 @@ GET /vip/info/v2?uid=32953014
 ## 编程式调用
 
 ```ts
-import { vipInfoV2 } from 'hana-music-api'
+import { vipInfoV2 } from 'hana-music-api';
 
-const result = await vipInfoV2()
+const result = await vipInfoV2();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

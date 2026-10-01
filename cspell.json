@@ -1,0 +1,32 @@
+{
+  "$schema": "https://raw.githubusercontent.com/streetsidesoftware/cspell/main/cspell.schema.json",
+  "version": "0.2",
+  "useGitignore": true,
+  "ignorePaths": [
+    "node_modules/**",
+    "dist/**",
+    "out/**",
+    "coverage/**",
+    "docs/.vitepress/dist/**",
+    "docs/.vitepress/cache/**",
+    "data/runtime/**",
+    "logs/**",
+    "_notes/**",
+    ".idea/**",
+    "src/demo/assets/audio-match/afp.*",
+    "bun.lock",
+    "*.lcov",
+    ".cspellcache"
+  ],
+  "ignoreRandomStrings": true,
+  "dictionaryDefinitions": [
+    {
+      "name": "project",
+      "description": "hana-music-api project words (netease protocol, tools, fixtures)",
+      "path": "./.cspell/project-words.txt",
+      "addWords": true
+    }
+  ],
+  "dictionaries": ["project"],
+  "words": []
+}

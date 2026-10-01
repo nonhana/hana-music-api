@@ -1,1 +1,1 @@
-export { personalFm } from '../generated/client.generated.ts'
+export { personalFm } from '../generated/client.generated.ts';

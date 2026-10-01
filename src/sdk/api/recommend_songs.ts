@@ -1,1 +1,1 @@
-export { recommendSongs } from '../generated/client.generated.ts'
+export { recommendSongs } from '../generated/client.generated.ts';

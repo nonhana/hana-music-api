@@ -1,1 +1,1 @@
-export { starpickCommentsSummary } from '../generated/client.generated.ts'
+export { starpickCommentsSummary } from '../generated/client.generated.ts';

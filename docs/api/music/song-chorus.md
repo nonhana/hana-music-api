@@ -30,13 +30,13 @@ GET /song/chorus?id=2058263032
 ## 编程式调用
 
 ```ts
-import { songChorus } from 'hana-music-api'
+import { songChorus } from 'hana-music-api';
 
 const result = await songChorus({
   id: '2058263032',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

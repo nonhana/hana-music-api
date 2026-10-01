@@ -32,13 +32,13 @@ GET /top/song?type=96
 ## 编程式调用
 
 ```ts
-import { topSong } from 'hana-music-api'
+import { topSong } from 'hana-music-api';
 
 const result = await topSong({
   type: '96',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

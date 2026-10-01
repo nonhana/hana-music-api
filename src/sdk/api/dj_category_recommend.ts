@@ -1,1 +1,1 @@
-export { djCategoryRecommend } from '../generated/client.generated.ts'
+export { djCategoryRecommend } from '../generated/client.generated.ts';

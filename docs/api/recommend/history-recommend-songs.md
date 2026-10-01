@@ -30,11 +30,11 @@ GET /history/recommend/songs
 ## 编程式调用
 
 ```ts
-import { historyRecommendSongs } from 'hana-music-api'
+import { historyRecommendSongs } from 'hana-music-api';
 
-const result = await historyRecommendSongs()
+const result = await historyRecommendSongs();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

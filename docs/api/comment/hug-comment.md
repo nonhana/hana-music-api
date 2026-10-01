@@ -34,15 +34,15 @@ GET /hug/comment?uid=285516405&cid=1167145843&sid=863481066
 ## 编程式调用
 
 ```ts
-import { hugComment } from 'hana-music-api'
+import { hugComment } from 'hana-music-api';
 
 const result = await hugComment({
   uid: '285516405',
   cid: '1167145843',
   sid: '863481066',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

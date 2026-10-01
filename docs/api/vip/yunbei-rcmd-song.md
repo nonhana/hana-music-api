@@ -35,13 +35,13 @@ GET /yunbei/rcmd/song?id=65528&reason=人间好声音推荐给听
 ## 编程式调用
 
 ```ts
-import { yunbeiRcmdSong } from 'hana-music-api'
+import { yunbeiRcmdSong } from 'hana-music-api';
 
 const result = await yunbeiRcmdSong({
   id: '65528',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

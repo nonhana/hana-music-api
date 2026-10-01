@@ -1,1 +1,1 @@
-export { setting } from '../generated/client.generated.ts'
+export { setting } from '../generated/client.generated.ts';

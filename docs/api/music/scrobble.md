@@ -33,15 +33,15 @@ GET /scrobble?id=518066366&sourceid=36780169&time=291
 ## 编程式调用
 
 ```ts
-import { scrobble } from 'hana-music-api'
+import { scrobble } from 'hana-music-api';
 
 const result = await scrobble({
   id: '518066366',
   sourceid: '36780169',
   time: '291',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

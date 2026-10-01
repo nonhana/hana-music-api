@@ -1,1 +1,1 @@
-export { recordRecentVoice } from '../generated/client.generated.ts'
+export { recordRecentVoice } from '../generated/client.generated.ts';

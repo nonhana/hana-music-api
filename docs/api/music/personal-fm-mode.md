@@ -30,11 +30,11 @@ GET /personal/fm/mode
 ## 编程式调用
 
 ```ts
-import { personalFmMode } from 'hana-music-api'
+import { personalFmMode } from 'hana-music-api';
 
-const result = await personalFmMode()
+const result = await personalFmMode();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

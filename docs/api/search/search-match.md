@@ -30,7 +30,7 @@ GET /search/match?title=富士山下&album=&artist=陈奕迅&duration=259.21&md5
 ## 编程式调用
 
 ```ts
-import { searchMatch } from 'hana-music-api'
+import { searchMatch } from 'hana-music-api';
 
 const result = await searchMatch({
   title: '富士山下',
@@ -38,9 +38,9 @@ const result = await searchMatch({
   artist: '陈奕迅',
   duration: '259.21',
   md5: 'bd708d006912a09d827f02e754cf8e56',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

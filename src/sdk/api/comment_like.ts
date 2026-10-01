@@ -1,1 +1,1 @@
-export { commentLike } from '../generated/client.generated.ts'
+export { commentLike } from '../generated/client.generated.ts';

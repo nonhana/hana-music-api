@@ -1,1 +1,1 @@
-export { voicelistDetail } from '../generated/client.generated.ts'
+export { voicelistDetail } from '../generated/client.generated.ts';

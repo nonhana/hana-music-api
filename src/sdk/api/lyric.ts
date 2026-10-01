@@ -1,1 +1,1 @@
-export { lyric } from '../generated/client.generated.ts'
+export { lyric } from '../generated/client.generated.ts';

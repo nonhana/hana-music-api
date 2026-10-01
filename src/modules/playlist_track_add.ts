@@ -1,30 +1,46 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { InvalidModuleInput } from '../core/errors.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const ids = String(query.ids ?? '')
-  const data = {
-    id: query.pid,
-    tracks: JSON.stringify(
-      ids.split(',').map((item: string) => {
-        return { type: 3, id: item }
-      }),
-    ),
-  }
+const playlistTrackAdd: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    if (
+      query.ids !== undefined &&
+      query.ids !== null &&
+      typeof query.ids !== 'string' &&
+      typeof query.ids !== 'number' &&
+      typeof query.ids !== 'boolean'
+    ) {
+      return yield* new InvalidModuleInput({
+        message: 'ids must be a primitive value',
+      });
+    }
+    const ids = String(query.ids ?? '');
+    const data = {
+      id: query.pid,
+      tracks: JSON.stringify(
+        ids.split(',').map((item: string) => ({ type: 3, id: item })),
+      ),
+    };
 
-  return request(`/api/playlist/track/add`, data, createOption(query, 'weapi'))
-}
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/playlist/track/add`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
-export default async function migratedPlaylistTrackAdd(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default playlistTrackAdd;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
+
+export type ModuleInput = LegacyModuleInput;

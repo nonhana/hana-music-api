@@ -1,1 +1,1 @@
-export { mvExclusiveRcmd } from '../generated/client.generated.ts'
+export { mvExclusiveRcmd } from '../generated/client.generated.ts';

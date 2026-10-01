@@ -32,13 +32,13 @@ GET /related/playlist?id=1
 ## 编程式调用
 
 ```ts
-import { relatedPlaylist } from 'hana-music-api'
+import { relatedPlaylist } from 'hana-music-api';
 
 const result = await relatedPlaylist({
   id: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

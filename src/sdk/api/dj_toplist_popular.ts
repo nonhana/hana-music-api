@@ -1,1 +1,1 @@
-export { djToplistPopular } from '../generated/client.generated.ts'
+export { djToplistPopular } from '../generated/client.generated.ts';

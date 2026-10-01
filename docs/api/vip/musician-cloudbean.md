@@ -30,11 +30,11 @@ GET /musician/cloudbean
 ## 编程式调用
 
 ```ts
-import { musicianCloudbean } from 'hana-music-api'
+import { musicianCloudbean } from 'hana-music-api';
 
-const result = await musicianCloudbean()
+const result = await musicianCloudbean();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

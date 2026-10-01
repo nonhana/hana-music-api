@@ -1,1 +1,1 @@
-export { searchDefault } from '../generated/client.generated.ts'
+export { searchDefault } from '../generated/client.generated.ts';

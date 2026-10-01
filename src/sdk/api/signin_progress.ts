@@ -1,1 +1,1 @@
-export { signinProgress } from '../generated/client.generated.ts'
+export { signinProgress } from '../generated/client.generated.ts';

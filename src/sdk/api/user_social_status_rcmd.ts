@@ -1,1 +1,1 @@
-export { userSocialStatusRcmd } from '../generated/client.generated.ts'
+export { userSocialStatusRcmd } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { playlistTracks } from '../generated/client.generated.ts'
+export { playlistTracks } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { album } from '../generated/client.generated.ts'
+export { album } from '../generated/client.generated.ts';

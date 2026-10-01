@@ -1,1 +1,1 @@
-export { userFolloweds } from '../generated/client.generated.ts'
+export { userFolloweds } from '../generated/client.generated.ts';

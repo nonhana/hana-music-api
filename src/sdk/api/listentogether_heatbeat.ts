@@ -1,1 +1,1 @@
-export { listentogetherHeatbeat } from '../generated/client.generated.ts'
+export { listentogetherHeatbeat } from '../generated/client.generated.ts';

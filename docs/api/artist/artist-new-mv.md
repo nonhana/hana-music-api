@@ -21,7 +21,7 @@ description: '登录后调用此接口可获取关注歌手新 MV'
 
 | 参数     | 类型             | 必填 | 默认值 | 说明                                |
 | -------- | ---------------- | :--: | ------ | ----------------------------------- |
-| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20            |
+| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20             |
 | `before` | number \| string |  —   | -      | 上一页数据返回的 publishTime 的数据 |
 
 ## HTTP 示例
@@ -34,13 +34,13 @@ GET /artist/new/mv?limit=1&before=1602777625000
 ## 编程式调用
 
 ```ts
-import { artistNewMv } from 'hana-music-api'
+import { artistNewMv } from 'hana-music-api';
 
 const result = await artistNewMv({
   limit: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

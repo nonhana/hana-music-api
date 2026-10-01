@@ -1,1 +1,1 @@
-export { scrobble } from '../generated/client.generated.ts'
+export { scrobble } from '../generated/client.generated.ts';

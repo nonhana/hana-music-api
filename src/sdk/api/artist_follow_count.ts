@@ -1,1 +1,1 @@
-export { artistFollowCount } from '../generated/client.generated.ts'
+export { artistFollowCount } from '../generated/client.generated.ts';

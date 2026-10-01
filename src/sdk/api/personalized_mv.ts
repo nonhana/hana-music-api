@@ -1,1 +1,1 @@
-export { personalizedMv } from '../generated/client.generated.ts'
+export { personalizedMv } from '../generated/client.generated.ts';

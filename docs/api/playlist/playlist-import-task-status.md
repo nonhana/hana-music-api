@@ -30,13 +30,13 @@ GET /playlist/import/task/status?id=123834369
 ## 编程式调用
 
 ```ts
-import { playlistImportTaskStatus } from 'hana-music-api'
+import { playlistImportTaskStatus } from 'hana-music-api';
 
 const result = await playlistImportTaskStatus({
   id: '123834369',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

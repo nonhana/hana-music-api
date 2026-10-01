@@ -30,11 +30,11 @@ GET /ugc/detail
 ## 编程式调用
 
 ```ts
-import { ugcDetail } from 'hana-music-api'
+import { ugcDetail } from 'hana-music-api';
 
-const result = await ugcDetail()
+const result = await ugcDetail();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

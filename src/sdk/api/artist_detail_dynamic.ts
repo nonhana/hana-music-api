@@ -1,1 +1,1 @@
-export { artistDetailDynamic } from '../generated/client.generated.ts'
+export { artistDetailDynamic } from '../generated/client.generated.ts';

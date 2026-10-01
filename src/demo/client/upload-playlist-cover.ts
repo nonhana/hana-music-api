@@ -19,15 +19,15 @@ const previewImage = document.querySelector('#playlist-cover-preview')
 const feedback = document.querySelector('#playlist-feedback')
 const resultPanel = document.querySelector('#playlist-result')
 
-function readCookie() {
+const readCookie = () => {
   return cookieInput.value.trim() || getStoredCookie()
 }
 
-function readPlaylistId() {
+const readPlaylistId = () => {
   return playlistIdInput.value.trim()
 }
 
-function ensurePlaylistId() {
+const ensurePlaylistId = () => {
   const playlistId = readPlaylistId()
   if (!playlistId) {
     throw new Error('请先填写歌单 ID')
@@ -36,7 +36,7 @@ function ensurePlaylistId() {
   return playlistId
 }
 
-async function getImageSize(file) {
+const getImageSize = async (file) => {
   const bitmap = await createImageBitmap(file)
   return {
     height: bitmap.height,
@@ -44,7 +44,7 @@ async function getImageSize(file) {
   }
 }
 
-async function loadPlaylistDetail() {
+const loadPlaylistDetail = async () => {
   const playlistId = ensurePlaylistId()
   const params = new URLSearchParams({
     id: playlistId,
@@ -129,4 +129,4 @@ form?.addEventListener('submit', async (event) => {
 })
 
 syncCookieInputs()
-`
+`;

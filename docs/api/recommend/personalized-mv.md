@@ -30,11 +30,11 @@ GET /personalized/mv
 ## 编程式调用
 
 ```ts
-import { personalizedMv } from 'hana-music-api'
+import { personalizedMv } from 'hana-music-api';
 
-const result = await personalizedMv()
+const result = await personalizedMv();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

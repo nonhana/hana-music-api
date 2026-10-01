@@ -30,11 +30,11 @@ GET /yunbei
 ## 编程式调用
 
 ```ts
-import { yunbei } from 'hana-music-api'
+import { yunbei } from 'hana-music-api';
 
-const result = await yunbei()
+const result = await yunbei();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

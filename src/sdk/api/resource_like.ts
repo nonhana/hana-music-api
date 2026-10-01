@@ -1,1 +1,1 @@
-export { resourceLike } from '../generated/client.generated.ts'
+export { resourceLike } from '../generated/client.generated.ts';

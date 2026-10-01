@@ -1,26 +1,31 @@
 # 什么是 hana-music-api
 
-`hana-music-api` 是一个网易云音乐第三方 API，基于 Bun + Hono 构建，覆盖 350+ 接口。它既能作为 HTTP 服务部署，也能作为带完整类型的 SDK 直接 `import`。
+`hana-music-api` 是第三方网易云音乐 API，提供搜索、歌曲、歌单、登录、上传等 350 多个接口。它沿用 `NeteaseCloudMusicApi` 的接口习惯，用 TypeScript 实现，并用 Effect 管理内部请求流程。
 
-它是 `NeteaseCloudMusicApi` 的 TypeScript 重写版本，对齐了原项目的接口行为，同时重做了请求层：内置流量伪装、重试与超时、响应缓存和匿名身份池，并为每个接口补上了 TypeScript 类型。
+## 选择接入方式
 
-## 性能
+```mermaid
+flowchart LR
+  APP["你的应用"] --> SDK["Node.js 项目<br/>安装 SDK，直接调用函数"]
+  APP --> HTTP["前端或其他服务<br/>调用自行部署的 HTTP 服务"]
+  SDK --> CORE["同一套业务模块和请求内核"]
+  HTTP --> CORE
+```
 
-运行时用 [Bun](https://github.com/oven-sh/bun)，HTTP 框架用 [Hono](https://github.com/honojs/hono)。
+SDK 适合在自己的服务或脚本里调用，要求 Node.js 24 或更高版本和 ESM。HTTP 服务使用 Bun 和 Hono，适合让浏览器或其他语言的服务通过 URL 调用。部署时从仓库源码启动。
 
-- Bun 原生执行 TypeScript，没有额外的编译步骤，冷启动和热重载都快；原生 `fetch` 和 server API 也省掉了一层适配。
-- Hono 只负责路由和中间件，请求处理路径短，单机转发的额外开销很低。
-- 请求层默认带 8s 单次超时和连接策略，避免高并发下挂死的连接拖垮整体吞吐；可选的响应缓存配合并发去重（single-flight），还能挡掉重复请求，减少打到上游的次数。
+两种方式都由请求层处理 Cookie、协议加密、超时和流量控制。SDK 对外仍是 Promise API，不需要先学习 Effect。
 
-## 开发体验
+## 类型能帮到哪里
 
-hana-music-api 提供两种接入方式：
+每个模块都有本地输入声明，SDK 的具名函数和 client 方法由这些声明生成。已明确建模的接口能提示参数类型，尚未细化的接口仍保留宽松的旧式对象输入。
 
-- **HTTP 服务**：`bun start` 起一个接口服务，适合给前端或其它服务统一供数。
-- **SDK**：直接 `import`，适合在 Node / TypeScript 项目里嵌入调用。
+响应统一包含 `status`、`body`、`cookie`。其中普通 `body` 保留未知 JSON，不承诺所有网易云字段都有完整类型。读取某个字段前，需要按实际结构检查，见 [编程式调用](/guide/programmatic-api)。
 
-DX 的核心是类型。每个接口的业务参数和响应都附有完整 TS 类型：
+## 请求层会替你处理什么
 
-- 编辑器里直接补全参数、查看返回结构，不用翻文档对字段。
-- 类型把「业务参数 `query`」和「执行配置 `config`」分开，传错位置编译期就会报错。
-- 350+ 接口都生成了对应的 camelCase 函数和 client 方法；模块名来自运行时字符串时，还能用 `invokeModule()` 动态调用。
+普通调用默认有 8 秒总期限，包含等待、重试和读取完整响应。明确的读接口可以合并同时发生的相同请求，也可以开启短期缓存。写入、登录和上传不会因为开启读缓存而自动复用结果。
+
+这是第三方实现，接口仍可能随网易云变化。来源 IP 请求头、匿名身份和重试策略都不保证绕过上游限制。
+
+从 [快速开始](/guide/getting-started) 发出第一条请求，或阅读 [架构详解](/guide/request-layer-overview) 了解内部怎样执行。

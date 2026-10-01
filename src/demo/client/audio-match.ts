@@ -20,21 +20,21 @@ let micSourceNode
 let audioBuffer
 let bufferHealth = 0
 
-function getErrorMessage(error) {
+const getErrorMessage = (error) => {
   return error instanceof Error ? error.message : String(error)
 }
 
-function setStatus(message) {
+const setStatus = (message) => {
   statusText.textContent = message
 }
 
-function writeLog(message) {
+const writeLog = (message) => {
   const previous = logPanel.textContent?.trim()
   logPanel.textContent = previous ? previous + '\\n' + message : message
   logPanel.scrollTop = logPanel.scrollHeight
 }
 
-function setResults(content) {
+const setResults = (content) => {
   if (typeof content === 'string') {
     resultsPanel.textContent = content
     return
@@ -44,7 +44,7 @@ function setResults(content) {
   resultsPanel.append(content)
 }
 
-function handleInitializationFailure(error) {
+const handleInitializationFailure = (error) => {
   const message = getErrorMessage(error)
   runButton.disabled = true
   runButton.textContent = '开始识别'
@@ -53,7 +53,7 @@ function handleInitializationFailure(error) {
   writeLog('初始化失败: ' + message)
 }
 
-function renderMatches(matches) {
+const renderMatches = (matches) => {
   if (!Array.isArray(matches) || matches.length === 0) {
     setResults('没有命中结果')
     return
@@ -82,7 +82,7 @@ function renderMatches(matches) {
   setResults(list.childNodes.length > 0 ? list : '没有命中结果')
 }
 
-async function ensureAudioContext() {
+const ensureAudioContext = async () => {
   if (audioContext) {
     return audioContext
   }
@@ -124,7 +124,7 @@ async function ensureAudioContext() {
   return audioContext
 }
 
-async function handleRecorderFinished(recording) {
+const handleRecorderFinished = async (recording) => {
   if (typeof globalThis.GenerateFP !== 'function') {
     throw new Error('GenerateFP runtime is unavailable')
   }
@@ -156,7 +156,7 @@ async function handleRecorderFinished(recording) {
   setStatus(Array.isArray(matches) && matches.length > 0 ? '识别完成' : '识别完成，但没有命中结果')
 }
 
-function handleRecorderMessage(event) {
+const handleRecorderMessage = (event) => {
   const data = event.data
 
   switch (data.message) {
@@ -181,13 +181,13 @@ function handleRecorderMessage(event) {
   }
 }
 
-function drawWaveform() {
+const drawWaveform = () => {
   const width = waveform.clientWidth || 640
   const height = waveform.clientHeight || 200
   waveform.width = width
   waveform.height = height
   waveformContext.clearRect(0, 0, width, height)
-  waveformContext.fillStyle = 'rgba(37, 99, 235, 0.88)'
+  waveformContext.fillStyle = 'rgba(90, 113, 139, 0.88)'
 
   if (audioBuffer) {
     for (let x = 0; x < width * bufferHealth; x += 1) {
@@ -257,4 +257,4 @@ drawWaveform()
 writeLog('页面已就绪')
 setResults('还没有识别结果')
 initCopyButtons()
-`
+`;

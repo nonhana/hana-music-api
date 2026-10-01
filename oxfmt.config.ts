@@ -1,0 +1,53 @@
+import { defineConfig } from 'oxfmt';
+
+export default defineConfig({
+  arrowParens: 'always',
+  bracketSpacing: true,
+  embeddedLanguageFormatting: 'auto',
+  endOfLine: 'lf',
+  experimentalOperatorPosition: 'end',
+  insertFinalNewline: true,
+  objectWrap: 'preserve',
+  printWidth: 80,
+  proseWrap: 'preserve',
+  quoteProps: 'as-needed',
+  semi: true,
+  singleQuote: true,
+  tabWidth: 2,
+  trailingComma: 'all',
+  useTabs: false,
+  sortImports: {
+    groups: [
+      'side_effect',
+      ['type-builtin', 'value-builtin'],
+      ['type-external', 'value-external'],
+      ['type-internal', 'value-internal', 'type-subpath', 'value-subpath'],
+      [
+        'type-parent',
+        'value-parent',
+        'type-sibling',
+        'value-sibling',
+        'type-index',
+        'value-index',
+      ],
+      ['side_effect_style', 'style'],
+      'unknown',
+    ],
+    ignoreCase: true,
+    internalPattern: ['@/'],
+    newlinesBetween: true,
+    order: 'asc',
+    partitionByComment: true,
+    partitionByNewline: false,
+    sortSideEffects: false,
+  },
+  sortPackageJson: {
+    sortScripts: true,
+  },
+  ignorePatterns: [
+    'dist/**',
+    'node_modules/**',
+    'src/demo/assets/**',
+    '_notes/**',
+  ],
+});

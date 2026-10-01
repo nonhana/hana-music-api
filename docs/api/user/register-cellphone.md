@@ -36,16 +36,16 @@ GET /register/cellphone?phone=13xxx&password=xxxxx&captcha=1234&nickname=binary1
 ## 编程式调用
 
 ```ts
-import { registerCellphone } from 'hana-music-api'
+import { registerCellphone } from 'hana-music-api';
 
 const result = await registerCellphone({
   phone: '13xxx',
   password: 'xxxxx',
   captcha: '1234',
   nickname: 'binary1345',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

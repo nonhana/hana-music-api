@@ -1,1 +1,1 @@
-export { musicianTasks } from '../generated/client.generated.ts'
+export { musicianTasks } from '../generated/client.generated.ts';

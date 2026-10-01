@@ -1,1 +1,1 @@
-export { userCommentHistory } from '../generated/client.generated.ts'
+export { userCommentHistory } from '../generated/client.generated.ts';

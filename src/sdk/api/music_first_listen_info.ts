@@ -1,1 +1,1 @@
-export { musicFirstListenInfo } from '../generated/client.generated.ts'
+export { musicFirstListenInfo } from '../generated/client.generated.ts';

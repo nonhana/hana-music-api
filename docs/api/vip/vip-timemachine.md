@@ -19,10 +19,10 @@ description: '调用此接口，可获得黑胶时光机数据'
 
 ## 请求参数
 
-| 参数        | 类型             | 必填 | 默认值 | 说明                 |
-| ----------- | ---------------- | :--: | ------ | -------------------- |
-| `startTime` | string           |  —   | -      | 开始时间             |
-| `endTime`   | string           |  —   | -      | 结束时间             |
+| 参数        | 类型             | 必填 | 默认值 | 说明                |
+| ----------- | ---------------- | :--: | ------ | ------------------- |
+| `startTime` | string           |  —   | -      | 开始时间            |
+| `endTime`   | string           |  —   | -      | 结束时间            |
 | `limit`     | number \| string |  —   | 60     | 返回数量，默认为 60 |
 
 ## HTTP 示例
@@ -36,11 +36,11 @@ GET /vip/timemachine?startTime=1609430400&endTime=1640966399999&limit=60
 ## 编程式调用
 
 ```ts
-import { vipTimemachine } from 'hana-music-api'
+import { vipTimemachine } from 'hana-music-api';
 
-const result = await vipTimemachine()
+const result = await vipTimemachine();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

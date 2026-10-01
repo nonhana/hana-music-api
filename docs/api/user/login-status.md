@@ -30,11 +30,11 @@ GET /login/status
 ## 编程式调用
 
 ```ts
-import { loginStatus } from 'hana-music-api'
+import { loginStatus } from 'hana-music-api';
 
-const result = await loginStatus()
+const result = await loginStatus();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

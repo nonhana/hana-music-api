@@ -1,1 +1,1 @@
-export { topMv } from '../generated/client.generated.ts'
+export { topMv } from '../generated/client.generated.ts';

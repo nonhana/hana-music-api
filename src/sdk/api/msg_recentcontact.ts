@@ -1,1 +1,1 @@
-export { msgRecentcontact } from '../generated/client.generated.ts'
+export { msgRecentcontact } from '../generated/client.generated.ts';

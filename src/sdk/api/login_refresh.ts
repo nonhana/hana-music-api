@@ -1,1 +1,1 @@
-export { loginRefresh } from '../generated/client.generated.ts'
+export { loginRefresh } from '../generated/client.generated.ts';

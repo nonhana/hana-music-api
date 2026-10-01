@@ -19,14 +19,14 @@ const noCookieCheckbox = document.querySelector('#qr-no-cookie')
 let activeKey = ''
 let timerId = null
 
-function stopPolling() {
+const stopPolling = () => {
   if (timerId !== null) {
     window.clearInterval(timerId)
     timerId = null
   }
 }
 
-function getStatusLabel(code) {
+const getStatusLabel = (code) => {
   switch (code) {
     case 800:
       return '二维码已过期'
@@ -41,7 +41,7 @@ function getStatusLabel(code) {
   }
 }
 
-async function loadLoginStatus(cookie = getStoredCookie()) {
+const loadLoginStatus = async (cookie = getStoredCookie()) => {
   setTextContent(statusText, '读取登录态中')
   const { data } = await fetchJson('/login/status?timestamp=' + Date.now(), {
     body: JSON.stringify({
@@ -56,7 +56,7 @@ async function loadLoginStatus(cookie = getStoredCookie()) {
   setTextContent(statusText, cookie ? '已读取当前 Cookie 对应的登录态' : '当前没有可用 Cookie')
 }
 
-async function pollStatus() {
+const pollStatus = async () => {
   if (!activeKey) {
     return
   }
@@ -91,7 +91,7 @@ async function pollStatus() {
   }
 }
 
-async function refreshQrCode() {
+const refreshQrCode = async () => {
   stopPolling()
   setTextContent(statusText, '生成二维码中')
 
@@ -151,4 +151,4 @@ loadLoginStatus().catch(() => {
 refreshQrCode().catch((error) => {
   setTextContent(statusText, error instanceof Error ? error.message : String(error))
 })
-`
+`;

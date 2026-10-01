@@ -1,1 +1,1 @@
-export { msgForwards } from '../generated/client.generated.ts'
+export { msgForwards } from '../generated/client.generated.ts';

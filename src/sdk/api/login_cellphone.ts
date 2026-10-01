@@ -1,1 +1,1 @@
-export { loginCellphone } from '../generated/client.generated.ts'
+export { loginCellphone } from '../generated/client.generated.ts';

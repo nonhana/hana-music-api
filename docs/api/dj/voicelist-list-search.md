@@ -30,11 +30,11 @@ GET /voicelist/list/search
 ## 编程式调用
 
 ```ts
-import { voicelistListSearch } from 'hana-music-api'
+import { voicelistListSearch } from 'hana-music-api';
 
-const result = await voicelistListSearch()
+const result = await voicelistListSearch();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

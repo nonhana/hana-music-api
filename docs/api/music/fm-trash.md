@@ -32,13 +32,13 @@ GET /fm_trash?id=347230
 ## 编程式调用
 
 ```ts
-import { fmTrash } from 'hana-music-api'
+import { fmTrash } from 'hana-music-api';
 
 const result = await fmTrash({
   id: '347230',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

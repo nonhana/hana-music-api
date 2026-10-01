@@ -1,1 +1,1 @@
-export { countriesCodeList } from '../generated/client.generated.ts'
+export { countriesCodeList } from '../generated/client.generated.ts';

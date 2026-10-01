@@ -3,6 +3,8 @@ title: '将 mlog id 转为视频 id'
 description: '调用此接口，传入 mlog id, 可获取 video id，然后通过`video/url` 获取播放地址'
 ---
 
+<!-- cSpell:ignore OVPTWKS -->
+
 # 将 mlog id 转为视频 id
 
 > 调用此接口，传入 mlog id, 可获取 video id，然后通过`video/url` 获取播放地址
@@ -32,13 +34,13 @@ GET /mlog/to/video?id=a1qOVPTWKS1ZrK8
 ## 编程式调用
 
 ```ts
-import { mlogToVideo } from 'hana-music-api'
+import { mlogToVideo } from 'hana-music-api';
 
 const result = await mlogToVideo({
   id: 'a1qOVPTWKS1ZrK8',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

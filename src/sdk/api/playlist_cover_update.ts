@@ -1,1 +1,1 @@
-export { playlistCoverUpdate } from '../generated/client.generated.ts'
+export { playlistCoverUpdate } from '../generated/client.generated.ts';

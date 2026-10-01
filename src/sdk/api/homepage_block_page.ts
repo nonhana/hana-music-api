@@ -1,1 +1,1 @@
-export { homepageBlockPage } from '../generated/client.generated.ts'
+export { homepageBlockPage } from '../generated/client.generated.ts';

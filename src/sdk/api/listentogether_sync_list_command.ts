@@ -1,1 +1,1 @@
-export { listentogetherSyncListCommand } from '../generated/client.generated.ts'
+export { listentogetherSyncListCommand } from '../generated/client.generated.ts';

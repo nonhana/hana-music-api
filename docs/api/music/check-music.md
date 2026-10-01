@@ -32,13 +32,13 @@ GET /check/music?id=33894312
 ## 编程式调用
 
 ```ts
-import { checkMusic } from 'hana-music-api'
+import { checkMusic } from 'hana-music-api';
 
 const result = await checkMusic({
   id: '33894312',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

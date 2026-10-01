@@ -34,14 +34,14 @@ GET /song/download/url/v1?id=2155423468&level=hires
 ## 编程式调用
 
 ```ts
-import { songDownloadUrlV1 } from 'hana-music-api'
+import { songDownloadUrlV1 } from 'hana-music-api';
 
 const result = await songDownloadUrlV1({
   id: '2155423468',
   level: 'hires',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,11 +1,11 @@
 :root {
-  --vp-font-family-base: 'IBM Plex Sans', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+  --vp-font-family-base:
+    'IBM Plex Sans', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
   --vp-font-family-mono: 'IBM Plex Mono', 'SFMono-Regular', Consolas, monospace;
-  --vp-c-brand-1: #2563eb;
-  --vp-c-brand-2: #1d4ed8;
-  --vp-c-brand-3: #1e40af;
-  --vp-c-brand-soft: rgba(37, 99, 235, 0.1);
-  --vp-c-brand-hover: #1d4ed8;
+  --vp-c-brand-1: #5a718b;
+  --vp-c-brand-2: #485b70;
+  --vp-c-brand-3: #354455;
+  --vp-c-brand-soft: rgba(153, 170, 189, 0.1);
 }
 
 .logo {
@@ -20,4 +20,13 @@
 .VPFeature .icon {
   color: var(--vp-c-brand-1);
   background-color: var(--vp-c-brand-soft);
+}
+
+.vp-doc .mermaid {
+  overflow-x: auto;
+}
+
+.vp-doc .mermaid p {
+  margin: 0;
+  line-height: inherit;
 }

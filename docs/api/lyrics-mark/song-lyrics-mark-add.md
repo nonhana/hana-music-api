@@ -30,11 +30,11 @@ GET /song/lyrics/mark/add
 ## 编程式调用
 
 ```ts
-import { songLyricsMarkAdd } from 'hana-music-api'
+import { songLyricsMarkAdd } from 'hana-music-api';
 
-const result = await songLyricsMarkAdd()
+const result = await songLyricsMarkAdd();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明
@@ -57,7 +57,7 @@ let data = encodeURIComponent(
       originalLyricsText: '逃がし てくれって声を枯らした',
     },
   ]),
-)
+);
 ```
 
 若需要修改摘录信息, 则需要填入参数`markId`, 修改对应的摘录信息

@@ -1,1 +1,1 @@
-export { userMutualfollowGet } from '../generated/client.generated.ts'
+export { userMutualfollowGet } from '../generated/client.generated.ts';

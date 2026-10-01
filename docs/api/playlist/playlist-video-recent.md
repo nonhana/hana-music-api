@@ -30,11 +30,11 @@ GET /playlist/video/recent
 ## 编程式调用
 
 ```ts
-import { playlistVideoRecent } from 'hana-music-api'
+import { playlistVideoRecent } from 'hana-music-api';
 
-const result = await playlistVideoRecent()
+const result = await playlistVideoRecent();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

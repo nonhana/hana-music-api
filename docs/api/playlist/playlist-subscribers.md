@@ -19,10 +19,10 @@ description: '调用此接口，传入歌单 id 可获取歌单的所有收藏�
 
 ## 请求参数
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                |
-| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------- |
-| `id`     | string           |  ✅  | -      | 歌单 id                                                             |
-| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20                                            |
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                              |
+| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------- |
+| `id`     | string           |  ✅  | -      | 歌单 id                                                           |
+| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20                                           |
 | `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*20, 其中 20 为 limit 的值 |
 
 ## HTTP 示例
@@ -34,14 +34,14 @@ GET /playlist/subscribers?id=544215255&limit=30
 ## 编程式调用
 
 ```ts
-import { playlistSubscribers } from 'hana-music-api'
+import { playlistSubscribers } from 'hana-music-api';
 
 const result = await playlistSubscribers({
   id: '544215255',
   limit: '30',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,29 +1,35 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    pid: query.pid,
-    trackIds: query.ids,
-    op: 'update',
-  }
+const songOrderUpdate: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      pid: query.pid,
+      trackIds: query.ids,
+      op: 'update',
+    };
 
-  return request(`/api/playlist/manipulate/tracks`, data, createOption(query))
-}
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/playlist/manipulate/tracks`,
+          data,
+          createOption(query),
+        ),
+      ),
+    );
+  });
 
 /**
  * 更新歌曲顺序
  */
-export default async function migratedSongOrderUpdate(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default songOrderUpdate;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
+
+export type ModuleInput = LegacyModuleInput;

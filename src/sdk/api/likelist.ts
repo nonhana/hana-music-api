@@ -1,1 +1,1 @@
-export { likelist } from '../generated/client.generated.ts'
+export { likelist } from '../generated/client.generated.ts';

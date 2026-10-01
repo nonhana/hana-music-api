@@ -33,13 +33,13 @@ GET /cellphone/existence/check?phone=13xxx
 ## 编程式调用
 
 ```ts
-import { cellphoneExistenceCheck } from 'hana-music-api'
+import { cellphoneExistenceCheck } from 'hana-music-api';
 
 const result = await cellphoneExistenceCheck({
   phone: '13xxx',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

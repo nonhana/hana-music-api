@@ -1,87 +1,118 @@
+import { Effect } from 'effect';
+
+import { buildCallServices, runCall } from '../core/call.ts';
+import { requestSemantic } from '../core/endpoint-policy.ts';
+import { decodeLegacyModuleInput } from '../core/module-input.ts';
+import { createOption } from '../core/options.ts';
+import { requestEffect } from '../core/request.ts';
+import { cookieToJson, isCookieRecord, isRecord } from '../core/utils.ts';
+import { RequestBodyError } from '../server/parse-body.ts';
 import type {
   CookieRecord,
   ModuleQuery,
-  ModuleRequest,
   NcmApiResponse,
+  RequestCapability,
   RequestCrypto,
-} from '../types/index.ts'
-import type { DynamicJsonRecord } from '../types/upstream.ts'
-
-import { createOption } from '../core/options.ts'
-import { cookieToJson, isRecord } from '../core/utils.ts'
+} from '../types/index.ts';
+import type { DynamicJsonRecord } from '../types/upstream.ts';
 
 export interface ApiDebugRequestPayload extends ModuleQuery {
-  crypto?: unknown
-  data?: DynamicJsonRecord | string
-  uri?: unknown
+  crypto?: unknown;
+  data?: DynamicJsonRecord | string;
+  uri?: unknown;
 }
 
-export async function invokeApiDebugRequest(
+export const invokeApiDebugRequest = async (
   payload: ApiDebugRequestPayload,
-  request: ModuleRequest,
+  request: RequestCapability = requestEffect,
   fallbackCookie: CookieRecord = {},
-): Promise<NcmApiResponse> {
-  const uri = typeof payload.uri === 'string' ? payload.uri : ''
-  const data = readDynamicJsonRecord(payload.data)
-  const cookie = readEffectiveCookie(payload.cookie, data, fallbackCookie)
-  const crypto = readRequestCrypto(payload.crypto)
-
-  return request(
-    uri,
-    data,
-    createOption(
-      {
-        ...payload,
-        cookie,
-        crypto,
-      },
-      crypto,
-    ),
-  )
-}
-
-function readDynamicJsonRecord(value: unknown): DynamicJsonRecord {
-  try {
-    const parsed = typeof value === 'string' ? JSON.parse(value) : value
-    return isRecord(parsed) ? parsed : {}
-  } catch {
-    return {}
+  services = buildCallServices(undefined, {}, false),
+  signal?: AbortSignal,
+  ip?: string,
+): Promise<NcmApiResponse> => {
+  const uri = typeof payload.uri === 'string' ? payload.uri : '';
+  if (
+    !/^\/api\/[a-zA-Z0-9/_-]+$/.test(uri) ||
+    (payload.crypto !== undefined &&
+      (typeof payload.crypto !== 'string' ||
+        !['', 'api', 'eapi', 'weapi', 'linuxapi'].includes(payload.crypto)))
+  ) {
+    throw new RequestBodyError(400, 'Invalid debug URI or crypto');
   }
-}
+  const data = readDynamicJsonRecord(payload.data);
+  const cookie = readEffectiveCookie(payload.cookie, data, fallbackCookie);
+  const crypto = readRequestCrypto(payload.crypto);
 
-function readEffectiveCookie(
+  return runCall(
+    {
+      identifier: 'debug',
+      input: {},
+      config: createOption({ ...payload, cookie, crypto, ip }, crypto),
+      signal,
+    },
+    services,
+    {
+      identifier: 'debug',
+      route: '/demo/api-debug/request',
+      decodeInput: decodeLegacyModuleInput,
+      execute: (_input, capability) =>
+        capability({
+          target: uri,
+          body: JSON.stringify(data),
+          protocol: crypto || 'api',
+          method: 'POST',
+          headers: {},
+          response: 'json',
+          semantic: requestSemantic(uri),
+        }).pipe(
+          Effect.map((response) => ({
+            ...response,
+            cookie: [...response.cookie],
+          })),
+        ),
+    },
+    request,
+  );
+};
+
+const readDynamicJsonRecord = (value: unknown): DynamicJsonRecord => {
+  try {
+    const parsed = typeof value === 'string' ? JSON.parse(value) : value;
+    return isRecord(parsed) ? parsed : {};
+  } catch {
+    return {};
+  }
+};
+
+const readEffectiveCookie = (
   cookie: ModuleQuery['cookie'],
   data: DynamicJsonRecord,
   fallbackCookie: CookieRecord,
-): CookieRecord {
-  const normalizedTopLevelCookie = normalizeCookieRecord(cookie)
-  const normalizedBodyCookie = normalizeCookieRecord(data.cookie)
+): CookieRecord => {
+  const normalizedTopLevelCookie = normalizeCookieRecord(cookie);
+  const normalizedBodyCookie = normalizeCookieRecord(data.cookie);
 
   if (normalizedBodyCookie) {
-    data.cookie = normalizedBodyCookie
-    return normalizedBodyCookie
+    data.cookie = normalizedBodyCookie;
+    return normalizedBodyCookie;
   }
 
   if (normalizedTopLevelCookie) {
-    return normalizedTopLevelCookie
+    return normalizedTopLevelCookie;
   }
 
-  return fallbackCookie
-}
+  return fallbackCookie;
+};
 
-function normalizeCookieRecord(value: unknown): CookieRecord | null {
+const normalizeCookieRecord = (value: unknown): CookieRecord | null => {
   if (typeof value === 'string') {
-    return cookieToJson(value)
+    return cookieToJson(value);
   }
 
-  if (isRecord(value)) {
-    return value as CookieRecord
-  }
+  return isCookieRecord(value) ? value : null;
+};
 
-  return null
-}
-
-function readRequestCrypto(value: unknown): RequestCrypto {
+const readRequestCrypto = (value: unknown): RequestCrypto => {
   if (
     value === '' ||
     value === 'api' ||
@@ -89,8 +120,8 @@ function readRequestCrypto(value: unknown): RequestCrypto {
     value === 'linuxapi' ||
     value === 'weapi'
   ) {
-    return value
+    return value;
   }
 
-  return ''
-}
+  return '';
+};

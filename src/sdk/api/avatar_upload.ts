@@ -1,1 +1,1 @@
-export { avatarUpload } from '../generated/client.generated.ts'
+export { avatarUpload } from '../generated/client.generated.ts';

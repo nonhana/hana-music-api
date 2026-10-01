@@ -1,1 +1,1 @@
-export { registerAnonimous } from '../generated/client.generated.ts'
+export { registerAnonimous } from '../generated/client.generated.ts';

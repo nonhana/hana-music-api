@@ -1,1 +1,1 @@
-export { eventDel } from '../generated/client.generated.ts'
+export { eventDel } from '../generated/client.generated.ts';

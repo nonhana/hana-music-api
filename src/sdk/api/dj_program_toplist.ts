@@ -1,1 +1,1 @@
-export { djProgramToplist } from '../generated/client.generated.ts'
+export { djProgramToplist } from '../generated/client.generated.ts';

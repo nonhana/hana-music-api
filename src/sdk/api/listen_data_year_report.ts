@@ -1,1 +1,1 @@
-export { listenDataYearReport } from '../generated/client.generated.ts'
+export { listenDataYearReport } from '../generated/client.generated.ts';

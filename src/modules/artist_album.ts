@@ -1,28 +1,52 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { ArtistPagedQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+  QueryNumber,
+} from '../core/module-input.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type {
+  IdentifierQuery,
+  QueryNumberLike,
+} from '../types/module-shared.ts';
 
-const legacyModule = (query: ArtistPagedQuery, request: ModuleRequest) => {
-  const data = {
-    limit: query.limit || 30,
-    offset: query.offset || 0,
-    total: true,
-  }
-  return request(`/api/artist/albums/${query.id}`, data, createOption(query, 'weapi'))
-}
+export type ModuleInput = IdentifierQuery & {
+  limit?: QueryNumberLike;
+  offset?: QueryNumberLike;
+};
+
+const inputSchema = Schema.Struct({
+  id: Identifier,
+  limit: Schema.optional(QueryNumber),
+  offset: Schema.optional(QueryNumber),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const artistAlbum: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      limit: query.limit || 30,
+      offset: query.offset || 0,
+      total: true,
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/artist/albums/${query.id}`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 歌手专辑列表
  */
-export default async function migratedArtistAlbum(
-  query: ArtistPagedQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default artistAlbum;

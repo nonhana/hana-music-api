@@ -1,59 +1,79 @@
-import { createHash } from 'node:crypto'
+import { createHash } from 'node:crypto';
 
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { RegisterAnonymousQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { setRuntimeState } from '../core/runtime.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { Call } from '../core/call.ts';
+import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
 
-const ID_XOR_KEY_1 = '3go8&$8*3*3h0k(2)2'
+export type ModuleInput = {};
 
-import { createOption } from '../core/options.ts'
-import { generateDeviceId } from '../core/utils.ts'
+const inputSchema = Schema.Struct({});
 
-// function getRandomFromList(list) {
-//   return list[Math.floor(Math.random() * list.length)]
-// }
-function cloudmusic_dll_encode_id(some_id: string) {
-  let xoredString = ''
-  for (let i = 0; i < some_id.length; i++) {
-    const charCode = some_id.charCodeAt(i) ^ ID_XOR_KEY_1.charCodeAt(i % ID_XOR_KEY_1.length)
-    xoredString += String.fromCharCode(charCode)
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
+
+const ID_XOR_KEY_1 = '3go8&$8*3*3h0k(2)2';
+
+const encodeDeviceId = (deviceId: string) => {
+  let xoredString = '';
+  for (let index = 0; index < deviceId.length; index += 1) {
+    xoredString += String.fromCharCode(
+      deviceId.charCodeAt(index) ^
+        ID_XOR_KEY_1.charCodeAt(index % ID_XOR_KEY_1.length),
+    );
   }
-  return createHash('md5').update(xoredString, 'utf8').digest('base64')
-}
+  return createHash('md5').update(xoredString, 'utf8').digest('base64');
+};
 
-const legacyModule = async (query: RegisterAnonymousQuery, request: ModuleRequest) => {
-  const deviceId = generateDeviceId()
-  setRuntimeState({ deviceId })
-  const encodedId = Buffer.from(
-    `${deviceId} ${cloudmusic_dll_encode_id(deviceId)}`,
-    'utf8',
-  ).toString('base64')
-  const data = {
-    username: encodedId,
-  }
-  let result = await request(`/api/register/anonimous`, data, createOption(query, 'weapi'))
-  if (result.body.code === 200) {
-    result = {
-      status: 200,
-      body: {
-        ...result.body,
-        cookie: result.cookie.join(';'),
-      },
-      cookie: result.cookie,
+const registerAnonymous: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const deviceId = (yield* Call).identity.state.deviceId;
+    const username = Buffer.from(
+      `${deviceId} ${encodeDeviceId(deviceId)}`,
+      'utf8',
+    ).toString('base64');
+    const result = yield* request(
+      buildApiRequestIntent(
+        '/api/register/anonimous',
+        { username },
+        createOption(query, 'weapi'),
+      ),
+    );
+    const body = result.body;
+    if (
+      body === null ||
+      typeof body !== 'object' ||
+      Array.isArray(body) ||
+      typeof body.code !== 'number'
+    ) {
+      return yield* new UnexpectedUpstreamShape({
+        module: 'register_anonimous',
+        path: 'body.code',
+        expected: 'number',
+        actual: typeof body,
+      });
     }
-  }
-  return result
-}
+    if (body.code !== 200) {
+      return toModuleResponse(result);
+    }
+    if (!result.cookie.some((cookie) => /^MUSIC_A=[^;]+/.test(cookie))) {
+      return yield* new UnexpectedUpstreamShape({
+        module: 'register_anonimous',
+        path: 'cookie.MUSIC_A',
+        expected: 'nonempty credential',
+        actual: 'missing',
+      });
+    }
+    return toModuleResponse({
+      ...result,
+      status: 200,
+      body: { ...body, cookie: result.cookie.join(';') },
+    });
+  });
 
-export default async function migratedRegisterAnonimous(
-  query: RegisterAnonymousQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default registerAnonymous;

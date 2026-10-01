@@ -1,1 +1,1 @@
-export { shareResource } from '../generated/client.generated.ts'
+export { shareResource } from '../generated/client.generated.ts';

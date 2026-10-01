@@ -33,13 +33,13 @@ GET /song/detail?ids=347230,347231
 ## 编程式调用
 
 ```ts
-import { songDetail } from 'hana-music-api'
+import { songDetail } from 'hana-music-api';
 
 const result = await songDetail({
   ids: '347230',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

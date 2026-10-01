@@ -30,11 +30,11 @@ GET /mv/sublist
 ## 编程式调用
 
 ```ts
-import { mvSublist } from 'hana-music-api'
+import { mvSublist } from 'hana-music-api';
 
-const result = await mvSublist()
+const result = await mvSublist();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

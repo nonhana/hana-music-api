@@ -1,1 +1,1 @@
-export { commentVideo } from '../generated/client.generated.ts'
+export { commentVideo } from '../generated/client.generated.ts';

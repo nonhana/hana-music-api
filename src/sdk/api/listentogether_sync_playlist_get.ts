@@ -1,1 +1,1 @@
-export { listentogetherSyncPlaylistGet } from '../generated/client.generated.ts'
+export { listentogetherSyncPlaylistGet } from '../generated/client.generated.ts';

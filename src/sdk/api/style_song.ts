@@ -1,1 +1,1 @@
-export { styleSong } from '../generated/client.generated.ts'
+export { styleSong } from '../generated/client.generated.ts';

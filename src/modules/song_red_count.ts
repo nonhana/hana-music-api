@@ -1,26 +1,28 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    songId: query.id,
-  }
-  return request(`/api/song/red/count`, data, createOption(query))
-}
+const songRedCount: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      songId: query.id,
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(`/api/song/red/count`, data, createOption(query)),
+      ),
+    );
+  });
 
 /**
  * 歌曲红心数量
  */
-export default async function migratedSongRedCount(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default songRedCount;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
+
+export type ModuleInput = LegacyModuleInput;

@@ -35,13 +35,13 @@ GET /dj/subscriber?id=335425050&time=1602761825390
 ## 编程式调用
 
 ```ts
-import { djSubscriber } from 'hana-music-api'
+import { djSubscriber } from 'hana-music-api';
 
 const result = await djSubscriber({
   id: '335425050',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

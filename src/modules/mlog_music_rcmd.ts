@@ -1,30 +1,36 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    id: query.mvid || 0,
-    type: 2,
-    rcmdType: 20,
-    limit: query.limit || 10,
-    extInfo: JSON.stringify({ songId: query.songid }),
-  }
-  return request(`/api/mlog/rcmd/feed/list`, data, createOption(query))
-}
+const mlogMusicRcmd: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      id: query.mvid || 0,
+      type: 2,
+      rcmdType: 20,
+      limit: query.limit || 10,
+      extInfo: JSON.stringify({ songId: query.songid }),
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/mlog/rcmd/feed/list`,
+          data,
+          createOption(query),
+        ),
+      ),
+    );
+  });
 
 /**
  * 歌曲相关视频
  */
-export default async function migratedMlogMusicRcmd(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default mlogMusicRcmd;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
+
+export type ModuleInput = LegacyModuleInput;

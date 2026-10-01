@@ -1,1 +1,1 @@
-export { commentAlbum } from '../generated/client.generated.ts'
+export { commentAlbum } from '../generated/client.generated.ts';

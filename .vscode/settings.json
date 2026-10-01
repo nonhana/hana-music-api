@@ -2,7 +2,7 @@
   "prettier.enable": false,
   "eslint.enable": false,
   "oxc.enable": true,
-  "oxc.fmt.configPath": ".oxfmtrc.json",
+  "oxc.fmt.configPath": "oxfmt.config.ts",
   "editor.defaultFormatter": "oxc.oxc-vscode",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
@@ -23,5 +23,11 @@
   "[toml]": {
     "editor.defaultFormatter": "oxc.oxc-vscode"
   },
-  "js/ts.tsdk.path": "node_modules/typescript/lib"
+  "[markdown]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode"
+  },
+  "js/ts.tsdk.path": "node_modules/typescript/lib",
+  "js/ts.tsdk.additionalLocations": ["./node_modules/typescript/bin"],
+  "js/ts.experimental.useTsgo": true,
+  "js/ts.tsdk.promptToUseWorkspaceVersion": true
 }

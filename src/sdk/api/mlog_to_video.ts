@@ -1,1 +1,1 @@
-export { mlogToVideo } from '../generated/client.generated.ts'
+export { mlogToVideo } from '../generated/client.generated.ts';

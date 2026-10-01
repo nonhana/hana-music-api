@@ -32,13 +32,13 @@ GET /dj/difm/channel/subscribe?id=1
 ## 编程式调用
 
 ```ts
-import { djDifmChannelSubscribe } from 'hana-music-api'
+import { djDifmChannelSubscribe } from 'hana-music-api';
 
 const result = await djDifmChannelSubscribe({
   id: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

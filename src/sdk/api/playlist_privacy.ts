@@ -1,1 +1,1 @@
-export { playlistPrivacy } from '../generated/client.generated.ts'
+export { playlistPrivacy } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { personalizedNewsong } from '../generated/client.generated.ts'
+export { personalizedNewsong } from '../generated/client.generated.ts';

@@ -1,34 +1,47 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
-  let result = await request(`/api/login/token/refresh`, {}, createOption(query))
-  if (result.body.code === 200) {
-    result = {
-      status: 200,
-      body: {
-        ...result.body,
-        cookie: result.cookie.join(';'),
-      },
-      cookie: result.cookie,
+const loginRefresh: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const result = yield* request(
+      buildApiRequestIntent(
+        '/api/login/token/refresh',
+        {},
+        createOption(query),
+      ),
+    );
+    const body = result.body;
+    if (
+      body === null ||
+      typeof body !== 'object' ||
+      Array.isArray(body) ||
+      typeof body.code !== 'number'
+    ) {
+      return yield* new UnexpectedUpstreamShape({
+        module: 'login_refresh',
+        path: 'body.code',
+        expected: 'number',
+        actual: typeof body,
+      });
     }
-  }
-  return result
-}
+    return toModuleResponse(
+      body.code === 200
+        ? {
+            ...result,
+            status: 200,
+            body: { ...body, cookie: result.cookie.join(';') },
+          }
+        : result,
+    );
+  });
 
-/**
- * 登录刷新
- */
-export default async function migratedLoginRefresh(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default loginRefresh;
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
+
+export type ModuleInput = LegacyModuleInput;

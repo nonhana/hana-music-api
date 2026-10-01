@@ -1,1 +1,1 @@
-export { musicianCloudbean } from '../generated/client.generated.ts'
+export { musicianCloudbean } from '../generated/client.generated.ts';

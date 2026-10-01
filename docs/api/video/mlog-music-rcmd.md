@@ -34,13 +34,13 @@ GET /mlog/music/rcmd
 ## 编程式调用
 
 ```ts
-import { mlogMusicRcmd } from 'hana-music-api'
+import { mlogMusicRcmd } from 'hana-music-api';
 
 const result = await mlogMusicRcmd({
   songid: 'your-songid',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

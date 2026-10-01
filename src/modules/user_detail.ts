@@ -1,25 +1,40 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { UserDetailQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+} from '../core/module-input.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import { renameAvatarField } from '../core/utils.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { QueryIdentifier } from '../types/module-shared.ts';
 
-const legacyModule = async (query: UserDetailQuery, request: ModuleRequest) => {
-  const res = await request(`/api/v1/user/detail/${query.uid}`, {}, createOption(query, 'weapi'))
-  const result = JSON.stringify(res).replace(/avatarImgId_str/g, 'avatarImgIdStr')
-  return JSON.parse(result)
-}
+export type ModuleInput = {
+  uid: QueryIdentifier;
+};
 
-/**
- * 用户详情
- */
-export default async function migratedUserDetail(
-  query: UserDetailQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+const inputSchema = Schema.Struct({
+  uid: Identifier,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const userDetail: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const result = yield* request(
+      buildApiRequestIntent(
+        `/api/v1/user/detail/${query.uid}`,
+        {},
+        createOption(query, 'weapi'),
+      ),
+    );
+    return {
+      ...toModuleResponse(result),
+      body: renameAvatarField(result.body),
+    };
+  });
+
+export default userDetail;

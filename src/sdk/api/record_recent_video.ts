@@ -1,1 +1,1 @@
-export { recordRecentVideo } from '../generated/client.generated.ts'
+export { recordRecentVideo } from '../generated/client.generated.ts';

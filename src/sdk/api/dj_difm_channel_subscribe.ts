@@ -1,1 +1,1 @@
-export { djDifmChannelSubscribe } from '../generated/client.generated.ts'
+export { djDifmChannelSubscribe } from '../generated/client.generated.ts';

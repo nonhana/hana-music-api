@@ -30,11 +30,11 @@ GET /homepage/dragon/ball
 ## 编程式调用
 
 ```ts
-import { homepageDragonBall } from 'hana-music-api'
+import { homepageDragonBall } from 'hana-music-api';
 
-const result = await homepageDragonBall()
+const result = await homepageDragonBall();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

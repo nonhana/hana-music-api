@@ -35,16 +35,16 @@ GET /playlist/update?id=24381616&name=新歌单&desc=描述&tags=欧美
 ## 编程式调用
 
 ```ts
-import { playlistUpdate } from 'hana-music-api'
+import { playlistUpdate } from 'hana-music-api';
 
 const result = await playlistUpdate({
   id: '24381616',
   name: '新歌单',
   desc: '描述',
   tags: '欧美',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

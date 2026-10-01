@@ -34,13 +34,13 @@ GET /mv/url?id=10896407&r=1080
 ## 编程式调用
 
 ```ts
-import { mvUrl } from 'hana-music-api'
+import { mvUrl } from 'hana-music-api';
 
 const result = await mvUrl({
   id: '5436712',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

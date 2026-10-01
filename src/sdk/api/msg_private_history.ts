@@ -1,1 +1,1 @@
-export { msgPrivateHistory } from '../generated/client.generated.ts'
+export { msgPrivateHistory } from '../generated/client.generated.ts';

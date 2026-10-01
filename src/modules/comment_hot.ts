@@ -1,35 +1,60 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { CommentHotQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
-import { resolveResourceType } from './_module-inputs.ts'
+import { resolveResourceType } from '../core/comment-thread.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+  QueryNumber,
+} from '../core/module-input.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type {
+  IdentifierQuery,
+  QueryNumberLike,
+} from '../types/module-shared.ts';
 
-const legacyModule = (query: CommentHotQuery, request: ModuleRequest) => {
-  const resourceType = resolveResourceType(query.type)
-  const data = {
-    rid: query.id,
-    limit: query.limit || 20,
-    offset: query.offset || 0,
-    beforeTime: query.before || 0,
-  }
-  return request(
-    `/api/v1/resource/hotcomments/${resourceType}${String(query.id)}`,
-    data,
-    createOption(query, 'weapi'),
-  )
-}
+export type ModuleInput = IdentifierQuery & {
+  type: QueryNumberLike;
+
+  before?: QueryNumberLike;
+  limit?: QueryNumberLike;
+  offset?: QueryNumberLike;
+};
+
+const inputSchema = Schema.Struct({
+  id: Identifier,
+  type: QueryNumber,
+  before: Schema.optional(QueryNumber),
+  limit: Schema.optional(QueryNumber),
+  offset: Schema.optional(QueryNumber),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const commentHot: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const resourceType = resolveResourceType(query.type);
+    const data = {
+      rid: query.id,
+      limit: query.limit || 20,
+      offset: query.offset || 0,
+      beforeTime: query.before || 0,
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/v1/resource/hotcomments/${resourceType}${String(query.id)}`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 热门评论
  */
-export default async function migratedCommentHot(
-  query: CommentHotQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default commentHot;

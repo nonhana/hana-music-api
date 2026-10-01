@@ -32,13 +32,13 @@ GET /user/detail?uid=32953014
 ## 编程式调用
 
 ```ts
-import { userDetail } from 'hana-music-api'
+import { userDetail } from 'hana-music-api';
 
 const result = await userDetail({
   uid: '32953014',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

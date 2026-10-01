@@ -3,6 +3,8 @@ title: '歌单导入 - 元数据/文字/链接导入'
 description: '登录后调用此接口, 支持通过元数据/文字/链接三种方式生成歌单; 三种方式不可同时调用'
 ---
 
+<!-- cSpell:ignore ZLMS -->
+
 # 歌单导入 - 元数据/文字/链接导入
 
 > 登录后调用此接口, 支持通过元数据/文字/链接三种方式生成歌单; 三种方式不可同时调用
@@ -33,13 +35,13 @@ GET /playlist/import/name/task/create?local=${local}
 ## 编程式调用
 
 ```ts
-import { playlistImportNameTaskCreate } from 'hana-music-api'
+import { playlistImportNameTaskCreate } from 'hana-music-api';
 
 const result = await playlistImportNameTaskCreate({
   local: '${local}',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明
@@ -71,7 +73,7 @@ let local = encodeURIComponent(
       album: '未来イヴ',
     },
   ]),
-)
+);
 ```
 
 **调用例子 :** `/playlist/import/name/task/create?local=${local}`
@@ -82,7 +84,7 @@ let local = encodeURIComponent(
 
 ```javascript
 let text = encodeURIComponent(`アイニーブルー ZLMS
-ファンタズマ sasakure.UK`)
+ファンタズマ sasakure.UK`);
 ```
 
 **调用例子 :** `/playlist/import/name/task/create?text=${text}`
@@ -97,7 +99,7 @@ let link = encodeURIComponent(
     'https://i.y.qq.com/n2/m/share/details/taoge.html?id=7716341988&hosteuin=',
     'https://i.y.qq.com/n2/m/share/details/taoge.html?id=8010042041&hosteuin=',
   ]),
-)
+);
 ```
 
 歌单链接来源:

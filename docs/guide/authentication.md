@@ -1,94 +1,89 @@
 # 认证机制
 
-大多数接口既支持未登录调用，也支持携带登录态调用。涉及账户信息、歌单管理、云盘、私信、签到等接口时，通常需要 Cookie。
+搜索、歌词等接口可以用游客身份调用。账户信息、歌单管理、云盘、私信等操作通常需要有效的登录 Cookie。
 
-## 在 SDK 里怎么传认证信息
+## 选择登录方式
 
-认证信息放在 `config` 里，不放在业务参数里。常见写法有 3 种：
+| 方式       | 接口                                                   | 提供什么                                    |
+| ---------- | ------------------------------------------------------ | ------------------------------------------- |
+| 手机号登录 | `/login/cellphone`                                     | `phone`，以及密码、MD5 密码或验证码中的一种 |
+| 邮箱登录   | `/login`                                               | 邮箱与密码，或 MD5 密码                     |
+| 二维码登录 | `/login/qr/key`、`/login/qr/create`、`/login/qr/check` | 先获取 key，再生成二维码并查询扫码状态      |
+| 游客身份   | `/register/anonimous`                                  | 获取匿名 Cookie，不能代替账号登录           |
 
-- `createHanaMusicApi(config)` 适合绑定共享 Cookie
-- 原始模块函数采用 `(query, config?)`
-- `invokeModule(identifier, query, config?)` 继续支持动态调用
+这些是库支持的调用形式，实际是否能登录仍取决于网易云的验证和账号状态。不要为了每次读数据都重新登录，优先复用已有 Cookie。
 
-## 支持的登录方式
+## 二维码登录的先后顺序
 
-### 手机号登录
-
-对应接口：`/login/cellphone`
-
-适合账号密码或验证码登录场景，支持：
-
-- `phone + password`
-- `phone + md5_password`
-- `phone + captcha`
-
-### 邮箱登录
-
-对应接口：`/login`
-
-适合使用网易邮箱的账号登录，支持密码和 MD5 密码。
-
-### 二维码登录
-
-对应接口：
-
-- `/login/qr/key`
-- `/login/qr/create`
-- `/login/qr/check`
-
-推荐流程：
-
-1. 先获取二维码 key
-2. 再生成二维码内容或 base64 图片
-3. 轮询检查扫码状态
-
-> 建议轮询类请求带上时间戳，避免缓存影响状态更新。
-
-### 游客登录
-
-对应接口：`/register/anonimous`
-
-适合在未登录状态下先获得游客 Cookie，减少部分接口返回校验错误的概率。
-
-## Cookie 的使用方式
-
-登录成功后，返回体中通常会包含 `cookie` 字段。后续调用需要登录的接口时，可以通过以下方式传入：
-
-- HTTP GET 请求：把 `cookie` 放到 query 参数里
-- HTTP POST 请求：把 `cookie` 放到 body 中
-- SDK 调用：把 `cookie` 放到 `config`，而不是业务参数
-
-### SDK 调用实践
-
-```ts
-import { createHanaMusicApi } from 'hana-music-api'
-
-const hana = createHanaMusicApi({
-  cookie: 'MUSIC_U=your-cookie',
-})
-
-const detail = await hana.userAccount({})
-
-console.log(detail.body)
+```mermaid
+sequenceDiagram
+  participant App as 你的应用
+  participant API as hana-music-api
+  participant User as 用户
+  App->>API: 获取二维码 key
+  API-->>App: key
+  App->>API: 用 key 生成二维码
+  API-->>App: 二维码链接或图片
+  App->>User: 展示二维码
+  Note over User: 使用网易云客户端扫码并确认
+  loop 等待扫码与确认
+    App->>API: 用同一个 key 查询状态
+    API-->>App: 800、801、802 或 803
+  end
+  Note over App,API: 收到 803 后保存 Cookie，800 或 803 都停止轮询
 ```
 
-或者单函数调用：
+| 业务 `code` | 应用下一步做什么                     |
+| ----------- | ------------------------------------ |
+| `800`       | 二维码已过期，停止轮询并重新获取 key |
+| `801`       | 等待扫码                             |
+| `802`       | 等待用户确认                         |
+| `803`       | 登录成功，保存 Cookie 并停止轮询     |
+
+这些状态通过 `body.code` 区分，不能只看 SDK 的 `status` 或 HTTP 状态码。使用仓库服务时，可打开 `/demo/qr-login` 查看现有示例。
+
+登录和二维码轮询不走库内的读缓存，无需靠 `timestamp` 绕过它。若部署环境还有 CDN、浏览器或反向代理缓存，应单独检查那一层的缓存规则。
+
+## 登录成功后保存 Cookie
+
+SDK 响应的顶层 `cookie` 是字符串数组。部分登录模块还会在 `body.cookie` 中提供拼接后的字符串。client 不会自动把登录结果写回默认配置，需要由调用方保存并用于后续请求。
 
 ```ts
-import { userAccount } from 'hana-music-api'
+import { createHanaMusicApi, loginCellphone } from 'hana-music-api';
 
-const detail = await userAccount(
-  {},
-  {
-    cookie: 'MUSIC_U=your-cookie',
-  },
-)
+const loginResult = await loginCellphone({
+  phone: 'your-phone-number',
+  captcha: 'your-captcha',
+});
+
+const cookie = loginResult.cookie.join('; ');
+const hana = createHanaMusicApi({ cookie });
+const account = await hana.userAccount({});
+
+console.log(account.body);
 ```
 
-## 注意事项
+上例用于演示验证码登录成功后的衔接，实际应用还应处理登录失败和 Cookie 过期。保存 Cookie 后无需保留登录密码。
 
-- 不要频繁调用登录接口，登录态接口优先复用已有 Cookie，重复登录可能触发风控
-- 登录接口通常比普通接口更慢，因为会经过额外加密逻辑
-- 跨域请求务必确保携带 Cookie
-- 登录后仍遇到 `301` 或类似状态时，优先检查缓存和 Cookie 是否正确传递
-- Web 客户端优先用二维码或验证码登录，服务端或脚本调用保存登录返回的 `cookie`
+单独调用函数时，把认证信息放在第二个参数：
+
+```ts
+import { userAccount } from 'hana-music-api';
+
+const result = await userAccount({}, { cookie: 'MUSIC_U=your-cookie' });
+console.log(result.body);
+```
+
+## HTTP 怎样传 Cookie
+
+HTTP 服务支持请求头 `Cookie`，也保留 query 或 body 中的 `cookie` 字段。后者的覆盖规则见 [调用约定](/guide/request-convention)。
+
+服务会把接口返回的 Cookie 写入响应的 `Set-Cookie`。跨域浏览器调用还需要 `credentials: 'include'`，并满足浏览器的 Cookie 和 HTTPS 规则。
+
+`noCookie=true` 只阻止服务向响应写入 `Set-Cookie`，不会清空本次请求已有的登录身份，也不会关闭缓存。
+
+## 游客身份从哪里来
+
+SDK 未收到有效身份、进程中也没有可用匿名令牌时，会在首次需要时注册游客身份。提供了 `MUSIC_U`、`MUSIC_A` 或 `state.anonymousToken` 时，优先使用这份身份。
+
+游客身份不能访问需要账号权限的接口。遇到需要登录的响应时，先确认 Cookie 是否有效、是否被本次配置覆盖，再检查请求的接口要求。身份选择细节见 [运行时状态与身份](/guide/runtime-identity)。

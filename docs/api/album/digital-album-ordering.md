@@ -34,15 +34,15 @@ GET /digitalAlbum/ordering?id=86286082&payment=3&quantity=1
 ## 编程式调用
 
 ```ts
-import { digitalAlbumOrdering } from 'hana-music-api'
+import { digitalAlbumOrdering } from 'hana-music-api';
 
 const result = await digitalAlbumOrdering({
   id: '86286082',
   payment: '3',
   quantity: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

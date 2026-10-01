@@ -1,56 +1,90 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { CheckMusicQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryIdentifier as Identifier,
+  QueryNumber,
+} from '../core/module-input.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type {
+  IdentifierQuery,
+  QueryNumberLike,
+} from '../types/module-shared.ts';
 
-interface CheckMusicItem {
-  code?: number
-}
+export type ModuleInput = IdentifierQuery & {
+  br?: QueryNumberLike;
+};
 
-interface CheckMusicResponseBody {
-  code?: number
-  data?: CheckMusicItem[]
-  message?: string
-  success?: boolean
-}
+const inputSchema = Schema.Struct({
+  id: Identifier,
+  br: Schema.optional(QueryNumber),
+});
 
-const legacyModule = (query: CheckMusicQuery, request: ModuleRequest) => {
-  const data = {
-    ids: '[' + parseInt(String(query.id ?? 0), 10) + ']',
-    br: parseInt(String(query.br ?? 999000), 10),
-  }
-  return request<CheckMusicResponseBody>(
-    `/api/song/enhance/player/url`,
-    data,
-    createOption(query, 'weapi'),
-  ).then((response) => {
-    let playable = false
-    if (response.body.code === 200) {
-      if (response.body.data?.[0]?.code === 200) {
-        playable = true
-      }
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+const checkMusic: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const response = yield* request(
+      buildApiRequestIntent(
+        '/api/song/enhance/player/url',
+        {
+          ids: '[' + parseInt(String(query.id ?? 0), 10) + ']',
+          br: parseInt(String(query.br ?? 999000), 10),
+        },
+        createOption(query, 'weapi'),
+      ),
+    );
+    const body = response.body;
+    if (
+      body === null ||
+      typeof body !== 'object' ||
+      Array.isArray(body) ||
+      typeof body.code !== 'number'
+    ) {
+      return yield* new UnexpectedUpstreamShape({
+        module: 'check_music',
+        path: 'body.code',
+        expected: 'number',
+        actual: typeof body,
+      });
     }
-    if (playable) {
-      response.body = { code: 200, success: true, message: 'ok' }
-      return response
-    } else {
-      response.body = { code: 200, success: false, message: '亲爱的,暂无版权' }
-      return response
+    if (body.data !== undefined && !Array.isArray(body.data)) {
+      return yield* new UnexpectedUpstreamShape({
+        module: 'check_music',
+        path: 'body.data',
+        expected: 'array',
+        actual: typeof body.data,
+      });
     }
-  })
-}
+    const first = body.data?.[0];
+    if (
+      first !== undefined &&
+      (first === null ||
+        typeof first !== 'object' ||
+        Array.isArray(first) ||
+        typeof first.code !== 'number')
+    ) {
+      return yield* new UnexpectedUpstreamShape({
+        module: 'check_music',
+        path: 'body.data[0].code',
+        expected: 'number',
+        actual: typeof first,
+      });
+    }
+    const playable = body.code === 200 && first?.code === 200;
+    return {
+      ...toModuleResponse(response),
+      body: {
+        code: 200,
+        success: playable,
+        message: playable ? 'ok' : '亲爱的,暂无版权',
+      },
+    };
+  });
 
-/**
- * 歌曲可用性
- */
-export default async function migratedCheckMusic(
-  query: CheckMusicQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default checkMusic;

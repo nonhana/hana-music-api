@@ -1,1 +1,1 @@
-export { mvDetail } from '../generated/client.generated.ts'
+export { mvDetail } from '../generated/client.generated.ts';

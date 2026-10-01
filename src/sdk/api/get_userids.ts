@@ -1,1 +1,1 @@
-export { getUserids } from '../generated/client.generated.ts'
+export { getUserids } from '../generated/client.generated.ts';

@@ -1,1 +1,1 @@
-export { broadcastChannelCurrentinfo } from '../generated/client.generated.ts'
+export { broadcastChannelCurrentinfo } from '../generated/client.generated.ts';

@@ -30,11 +30,11 @@ GET /dj/category/excludehot
 ## 编程式调用
 
 ```ts
-import { djCategoryExcludehot } from 'hana-music-api'
+import { djCategoryExcludehot } from 'hana-music-api';
 
-const result = await djCategoryExcludehot()
+const result = await djCategoryExcludehot();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -30,11 +30,11 @@ GET /djRadio/top
 ## 编程式调用
 
 ```ts
-import { djRadioTop } from 'hana-music-api'
+import { djRadioTop } from 'hana-music-api';
 
-const result = await djRadioTop()
+const result = await djRadioTop();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

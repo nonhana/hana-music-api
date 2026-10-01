@@ -38,7 +38,7 @@ POST /listentogether/sync/list/command?roomId=MzA0NjY5...&commandType=REPLACE&us
 ## 编程式调用
 
 ```ts
-import { listentogetherSyncListCommand } from 'hana-music-api'
+import { listentogetherSyncListCommand } from 'hana-music-api';
 
 const result = await listentogetherSyncListCommand({
   roomId: 'MzA0NjY5...',
@@ -47,9 +47,9 @@ const result = await listentogetherSyncListCommand({
   version: 1,
   displayList: '1372188635,186016',
   randomList: '1372188635,186016',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回关注点

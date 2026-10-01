@@ -1,1 +1,1 @@
-export { userBinding } from '../generated/client.generated.ts'
+export { userBinding } from '../generated/client.generated.ts';

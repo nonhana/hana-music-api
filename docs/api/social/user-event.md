@@ -22,7 +22,7 @@ description: '登录后调用此接口，传入用户 id, 可以获取用户动�
 | 参数       | 类型             | 必填 | 默认值                  | 说明                                                                             |
 | ---------- | ---------------- | :--: | ----------------------- | -------------------------------------------------------------------------------- |
 | `uid`      | string           |  ✅  | -                       | 用户 id                                                                          |
-| `limit`    | number \| string |  —   | 30                      | 返回数量，默认为 30                                                             |
+| `limit`    | number \| string |  —   | 30                      | 返回数量，默认为 30                                                              |
 | `lasttime` | string           |  —   | -1,传入上一次返回结果的 | 返回数据的 `lasttime` ,默认-1,传入上一次返回结果的 lasttime,将会返回下一页的数据 |
 
 ## HTTP 示例
@@ -35,13 +35,13 @@ GET /user/event?uid=32953014&limit=1&lasttime=1558011138743
 ## 编程式调用
 
 ```ts
-import { userEvent } from 'hana-music-api'
+import { userEvent } from 'hana-music-api';
 
 const result = await userEvent({
   uid: '32953014',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

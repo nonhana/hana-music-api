@@ -30,11 +30,11 @@ GET /verify/qrcodestatus
 ## 编程式调用
 
 ```ts
-import { verifyQrcodestatus } from 'hana-music-api'
+import { verifyQrcodestatus } from 'hana-music-api';
 
-const result = await verifyQrcodestatus()
+const result = await verifyQrcodestatus();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

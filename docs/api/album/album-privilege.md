@@ -32,13 +32,13 @@ GET /album/privilege?id=168223858
 ## 编程式调用
 
 ```ts
-import { albumPrivilege } from 'hana-music-api'
+import { albumPrivilege } from 'hana-music-api';
 
 const result = await albumPrivilege({
   id: '168223858',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

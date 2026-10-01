@@ -33,14 +33,14 @@ GET /follow?id=32953014&t=1
 ## 编程式调用
 
 ```ts
-import { follow } from 'hana-music-api'
+import { follow } from 'hana-music-api';
 
 const result = await follow({
   id: '32953014',
   t: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

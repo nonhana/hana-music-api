@@ -1,1 +1,1 @@
-export { simiPlaylist } from '../generated/client.generated.ts'
+export { simiPlaylist } from '../generated/client.generated.ts';

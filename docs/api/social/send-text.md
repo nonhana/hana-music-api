@@ -34,14 +34,14 @@ GET /send/text?user_ids=32953014,475625142&msg=test
 ## 编程式调用
 
 ```ts
-import { sendText } from 'hana-music-api'
+import { sendText } from 'hana-music-api';
 
 const result = await sendText({
   user_ids: '32953014',
   msg: 'test',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

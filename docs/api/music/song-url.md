@@ -34,13 +34,13 @@ GET /song/url?id=405998841,33894312
 ## 编程式调用
 
 ```ts
-import { songUrl } from 'hana-music-api'
+import { songUrl } from 'hana-music-api';
 
 const result = await songUrl({
   id: '33894312',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

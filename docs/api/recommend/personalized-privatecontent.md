@@ -30,11 +30,11 @@ GET /personalized/privatecontent
 ## 编程式调用
 
 ```ts
-import { personalizedPrivatecontent } from 'hana-music-api'
+import { personalizedPrivatecontent } from 'hana-music-api';
 
-const result = await personalizedPrivatecontent()
+const result = await personalizedPrivatecontent();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

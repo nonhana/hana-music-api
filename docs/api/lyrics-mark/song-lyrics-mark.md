@@ -30,13 +30,13 @@ GET /song/lyrics/mark?id=2058263032
 ## 编程式调用
 
 ```ts
-import { songLyricsMark } from 'hana-music-api'
+import { songLyricsMark } from 'hana-music-api';
 
 const result = await songLyricsMark({
   id: '2058263032',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

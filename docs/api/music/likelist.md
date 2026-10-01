@@ -32,13 +32,13 @@ GET /likelist?uid=32953014
 ## 编程式调用
 
 ```ts
-import { likelist } from 'hana-music-api'
+import { likelist } from 'hana-music-api';
 
 const result = await likelist({
   uid: '32953014',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

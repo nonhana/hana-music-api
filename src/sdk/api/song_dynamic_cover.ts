@@ -1,1 +1,1 @@
-export { songDynamicCover } from '../generated/client.generated.ts'
+export { songDynamicCover } from '../generated/client.generated.ts';

@@ -34,14 +34,14 @@ GET /captcha/verify?phone=13xxx&captcha=1597
 ## 编程式调用
 
 ```ts
-import { captchaVerify } from 'hana-music-api'
+import { captchaVerify } from 'hana-music-api';
 
 const result = await captchaVerify({
   phone: '13xxx',
   captcha: '1597',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

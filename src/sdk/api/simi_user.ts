@@ -1,1 +1,1 @@
-export { simiUser } from '../generated/client.generated.ts'
+export { simiUser } from '../generated/client.generated.ts';

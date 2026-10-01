@@ -1,99 +1,67 @@
-# 直接使用请求原语
+# 直接使用底层请求
 
-如果某个上游接口还没有对应的模块，或者想完全自己掌控请求，可以直接使用请求原语：`createRequest()` 和 `createOption()`。
+某个上游接口还没有现成模块时，可以用 `createRequest` 提供上游路径和数据。它返回 Promise，并复用内部请求内核的加密、限流、期限和响应处理。
 
-## `createRequest()`
-
-这是请求层的核心函数，模块函数最终都会调用它。
+## 最小调用
 
 ```ts
-function createRequest(
-  uri: string,
-  data: Record<string, unknown>,
-  options?: CreateRequestOptions,
-): Promise<NcmApiResponse>
-```
+import { createRequest } from 'hana-music-api';
 
-- `uri`：上游接口路径，约定以 `/api/...` 开头。
-- `data`：发给上游的业务数据（加密前的明文对象）。
-- `options`：执行配置，参考 [执行配置完整参考](/guide/config-reference)。
-
-返回的是统一的 `NcmApiResponse`：
-
-```ts
-interface NcmApiResponse<TBody = unknown> {
-  body: TBody // 解密、归一化后的响应体
-  cookie: string[] // 上游下发的 Set-Cookie
-  status: number // 归一化后的状态码
-}
-```
-
-### 例子：直接调搜索接口
-
-```ts
-import { createRequest } from 'hana-music-api'
-
-// 等价于 search({ keywords: '周杰伦', limit: 5 })
-const res = await createRequest(
+const result = await createRequest(
   '/api/search/get',
-  {
-    s: '周杰伦',
-    type: 1,
-    limit: 5,
-    offset: 0,
-  },
-  {
-    crypto: 'eapi', // 不传则默认 eapi
-    cookie: 'MUSIC_U=your-cookie',
-  },
-)
+  { s: '海阔天空', type: 1, limit: 5, offset: 0 },
+  { crypto: 'eapi', cookie: 'MUSIC_A=your-anonymous-token' },
+);
 
-console.log(res.body)
+console.log(result.status, result.body, result.cookie);
 ```
 
-`uri` 会根据 `crypto` 被改写成最终 URL（比如 eapi 下 `/api/search/get` → `interface.music.163.com/eapi/search/get`）。
+| 参数      | 提供什么                                                       |
+| --------- | -------------------------------------------------------------- |
+| `uri`     | 以 `/api/` 开头的上游逻辑路径                                  |
+| `data`    | 加密前的业务数据对象，字段名应符合上游要求                     |
+| `options` | Cookie、协议、代理、期限等 [执行配置](/guide/config-reference) |
 
-### 什么时候用 `createRequest()`
+示例使用了搜索的上游参数 `s`。公开 `search` 模块则接收 `keywords`，再替你做转换。底层请求没有这一步，也不会自动执行 SDK 的游客注册或模块级缓存，因此不能把两者当成完全等价的调用。
 
-- 某个上游接口还没有现成模块，想临时调一下。
-- 在做调试、抓包对照，需要逐字段控制请求。
-- 在封装自己的模块层，想复用底层加密 / 重试 / 解密能力。
+返回值仍是 `{ status, body, cookie }`，执行失败通过 Promise 拒绝交给调用者，见 [返回值与错误](/guide/programmatic-api#返回值与错误)。
 
-日常业务调用优先用模块函数，它带类型和参数提示，也处理了各接口的参数差异。`createRequest()` 用于没有现成模块的情况，不是默认选择。
-
-## `createOption()`
-
-```ts
-function createOption(
-  query: ModuleQuery & OptionSource,
-  crypto?: RequestCrypto,
-): CreateRequestOptions
-```
-
-`createOption()` 的作用是从一个**混在一起的 query 对象**里，
-把执行配置字段（`cookie`、`proxy`、`crypto`、`retry`、`timeoutMs`……）摘出来，
-整理成 `createRequest()` 能消费的 `options`。
-
-这正是模块内部在做的事。回看 banner 模块：
-
-```ts
-// src/modules/banner.ts 的核心一行
-request('/api/v2/banner/get', { clientType: type }, createOption(query))
-```
-
-模块拿到的 `query` 里既有业务参数（`type`），也可能夹带执行配置（`cookie`、`proxy` 等）。`createOption(query)` 负责把后者提取出来。
-
-### 什么时候用 `createOption()`
-
-绝大多数情况用不到。它主要服务于模块内部，以及与旧项目“query 里混着执行参数”的兼容。只有当你也按同样的约定接收一个扁平的 query 对象、需要复用这套提取逻辑时，才会直接调它。
-
-如果是从头写调用，更推荐直接构造 `options` 对象传给 `createRequest()`，类型更清晰。
-
-## 小结
+## 它与模块请求的关系
 
 ```mermaid
-flowchart LR
-  A["模块函数<br/>(带类型，推荐)"] --> C["createRequest()"]
-  B["createOption()<br/>(提取执行配置)"] --> C
-  C --> D["上游"]
+flowchart TD
+  SDK["search 等公开函数"] --> MODULE["模块校验输入<br/>生成 RequestIntent"]
+  MODULE --> CORE["内部 requestEffect"]
+  DIRECT["createRequest<br/>提供路径、数据、配置"] --> CORE
+  CORE --> TRANSPORT["统一 transport"]
 ```
+
+模块通过 `RequestCapability` 提交请求意图，默认实现是 `requestEffect`。它们不会绕到公开的 Promise 函数 `createRequest` 再执行一次。
+
+`createRequest` 专用于这类 API 协议请求，不是任意 URL 的代理。路径和最终目标仍要通过检查，携带身份时只允许已知 HTTPS 网易云 API 域名。
+
+## createOption 做什么
+
+`createOption` 保留了从扁平对象提取执行配置的能力。它会整理 Cookie、协议、超时等已知字段，不会发送请求，也不会检查某个接口的业务参数。
+
+```ts
+import { createOption, createRequest } from 'hana-music-api';
+
+const legacyInput = {
+  keywords: '海阔天空',
+  cookie: 'MUSIC_A=your-anonymous-token',
+  timeoutMs: '5000',
+};
+
+const options = createOption(legacyInput, 'eapi');
+const result = await createRequest(
+  '/api/search/get',
+  { s: legacyInput.keywords, type: 1, limit: 5, offset: 0 },
+  options,
+);
+console.log(result.body);
+```
+
+第二个参数为协议默认值，对象里的有效 `crypto` 字段优先。仓库中部分模块也保留这个 helper 来构造协议选项，再转换成请求意图；实际执行配置仍来自本次调用的配置快照。
+
+新写的 SDK 调用直接把业务参数和配置分开即可，不必先混进一个对象再提取。`createOption` 主要用于接入已有的扁平参数约定。

@@ -35,13 +35,13 @@ GET /playlist/create?name=test&type=VIDEO
 ## 编程式调用
 
 ```ts
-import { playlistCreate } from 'hana-music-api'
+import { playlistCreate } from 'hana-music-api';
 
 const result = await playlistCreate({
   name: '测试歌单',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

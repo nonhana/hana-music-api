@@ -19,8 +19,8 @@ description: '调用此接口,可获取 24 小时节目榜'
 
 ## 请求参数
 
-| 参数    | 类型             | 必填 | 默认值 | 说明                                  |
-| ------- | ---------------- | :--: | ------ | ------------------------------------- |
+| 参数    | 类型             | 必填 | 默认值 | 说明                                 |
+| ------- | ---------------- | :--: | ------ | ------------------------------------ |
 | `limit` | number \| string |  —   | 100    | 返回数量，默认为 100 (不支持 offset) |
 
 ## HTTP 示例
@@ -32,13 +32,13 @@ GET /dj/program/toplist/hours?limit=1
 ## 编程式调用
 
 ```ts
-import { djProgramToplistHours } from 'hana-music-api'
+import { djProgramToplistHours } from 'hana-music-api';
 
 const result = await djProgramToplistHours({
   limit: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

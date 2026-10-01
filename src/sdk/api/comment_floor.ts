@@ -1,1 +1,1 @@
-export { commentFloor } from '../generated/client.generated.ts'
+export { commentFloor } from '../generated/client.generated.ts';

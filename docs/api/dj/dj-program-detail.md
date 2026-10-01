@@ -32,13 +32,13 @@ GET /dj/program/detail?id=1367665101
 ## 编程式调用
 
 ```ts
-import { djProgramDetail } from 'hana-music-api'
+import { djProgramDetail } from 'hana-music-api';
 
 const result = await djProgramDetail({
   id: '1367665101',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

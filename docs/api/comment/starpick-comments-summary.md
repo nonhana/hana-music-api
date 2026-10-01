@@ -30,11 +30,11 @@ GET /starpick/comments/summary
 ## 编程式调用
 
 ```ts
-import { starpickCommentsSummary } from 'hana-music-api'
+import { starpickCommentsSummary } from 'hana-music-api';
 
-const result = await starpickCommentsSummary()
+const result = await starpickCommentsSummary();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

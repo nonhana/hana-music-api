@@ -33,14 +33,14 @@ GET /artist/sub?id=6452&t=1
 ## 编程式调用
 
 ```ts
-import { artistSub } from 'hana-music-api'
+import { artistSub } from 'hana-music-api';
 
 const result = await artistSub({
   id: '6452',
   t: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

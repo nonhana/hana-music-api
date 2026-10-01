@@ -1,1 +1,1 @@
-export { yunbeiRcmdSong } from '../generated/client.generated.ts'
+export { yunbeiRcmdSong } from '../generated/client.generated.ts';

@@ -1,59 +1,56 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { AudioMatchQuery } from '../types/modules.ts'
+import { Effect, Schema } from 'effect';
 
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  QueryNumber,
+} from '../core/module-input.ts';
+import { isRecord } from '../core/utils.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { QueryNumberLike } from '../types/module-shared.ts';
 
-interface AudioMatchResponseBody {
-  code?: number
-  data?: Record<string, unknown>
-  message?: string
-}
+export type ModuleInput = {
+  audioFP: string;
+  duration: QueryNumberLike;
+};
 
-const legacyModule = async (query: AudioMatchQuery, _request: ModuleRequest) => {
-  const response = await fetch(
-    `https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=${
-      query.duration
-    }&rawdata=${encodeURIComponent(query.audioFP)}&times=1&decrypt=1`,
-  )
-  const res = readAudioMatchResponse(await response.json())
-  return {
-    status: 200,
-    body: {
-      code: res.code ?? 200,
-      data: res.data,
-      message: res.message,
-    },
-    cookie: [],
-  }
-}
+const inputSchema = Schema.Struct({
+  audioFP: Schema.String,
+  duration: QueryNumber,
+});
 
-export default async function migratedAudioMatch(
-  query: AudioMatchQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
-function readAudioMatchResponse(value: unknown): AudioMatchResponseBody {
-  if (!isRecordLike(value)) {
-    return {
-      code: 200,
+const audioMatch: ModuleEffect<ModuleInput> = (input, request) =>
+  Effect.gen(function* () {
+    const response = yield* request({
+      target: `https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=${input.duration}&rawdata=${encodeURIComponent(input.audioFP)}&times=1&decrypt=1`,
+      protocol: 'plain',
+      method: 'GET',
+      headers: {},
+      response: 'json',
+      semantic: 'read',
+    });
+    if (!isRecord(response.body)) {
+      return yield* new UnexpectedUpstreamShape({
+        module: 'audio_match',
+        path: 'body',
+        expected: 'object',
+        actual: typeof response.body,
+      });
     }
-  }
+    return {
+      status: 200,
+      cookie: [],
+      body: {
+        code: typeof response.body.code === 'number' ? response.body.code : 200,
+        ...('data' in response.body ? { data: response.body.data } : {}),
+        ...(typeof response.body.message === 'string'
+          ? { message: response.body.message }
+          : {}),
+      },
+    };
+  });
 
-  const code = typeof value.code === 'number' ? value.code : 200
-  const data = isRecordLike(value.data) ? value.data : undefined
-  return {
-    code,
-    data,
-    message: typeof value.message === 'string' ? value.message : undefined,
-  }
-}
-
-function isRecordLike(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null
-}
+export default audioMatch;

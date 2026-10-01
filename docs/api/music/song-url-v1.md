@@ -35,14 +35,14 @@ GET /song/url/v1?id=405998841,33894312&level=lossless
 ## 编程式调用
 
 ```ts
-import { songUrlV1 } from 'hana-music-api'
+import { songUrlV1 } from 'hana-music-api';
 
 const result = await songUrlV1({
   id: '33894312',
   level: 'exhigh',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

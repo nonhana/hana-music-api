@@ -39,7 +39,7 @@ POST /listentogether/play/command?roomId=MzA0NjY5...&commandType=PLAY&targetSong
 ## 编程式调用
 
 ```ts
-import { listentogetherPlayCommand } from 'hana-music-api'
+import { listentogetherPlayCommand } from 'hana-music-api';
 
 const result = await listentogetherPlayCommand({
   roomId: 'MzA0NjY5...',
@@ -49,9 +49,9 @@ const result = await listentogetherPlayCommand({
   clientSeq: 2,
   playStatus: 'PLAY',
   progress: 15342,
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回关注点

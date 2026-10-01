@@ -32,13 +32,13 @@ GET /user/social/status?uid=32953014
 ## 编程式调用
 
 ```ts
-import { userSocialStatus } from 'hana-music-api'
+import { userSocialStatus } from 'hana-music-api';
 
 const result = await userSocialStatus({
   uid: '32953014',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

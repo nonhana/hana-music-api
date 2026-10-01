@@ -1,28 +1,35 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  query.t = Number(query.t) === 1 ? 'sub' : 'unsub'
-  const data = {
-    mvId: query.mvid,
-    mvIds: '["' + query.mvid + '"]',
-  }
-  return request(`/api/mv/${query.t}`, data, createOption(query, 'weapi'))
-}
+const mvSub: ModuleEffect<ModuleInput> = (input, request) =>
+  Effect.gen(function* () {
+    const query = { ...input };
+    const action = Number(query.t) === 1 ? 'sub' : 'unsub';
+    const data = {
+      mvId: query.mvid,
+      mvIds: '["' + query.mvid + '"]',
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/mv/${action}`,
+          data,
+          createOption(query, 'weapi'),
+        ),
+      ),
+    );
+  });
 
 /**
  * 收藏与取消收藏MV
  */
-export default async function migratedMvSub(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default mvSub;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
+
+export type ModuleInput = LegacyModuleInput;

@@ -1,30 +1,36 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {
-    cursor: JSON.stringify({
-      offset: 0,
-      blockCodeOrderList: ['HOMEPAGE_BLOCK_NEW_HOT_COMMENT'],
-      refresh: true,
-    }),
-  }
-  return request(`/api/homepage/block/page`, data, createOption(query))
-}
+const starpickCommentsSummary: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {
+      cursor: JSON.stringify({
+        offset: 0,
+        blockCodeOrderList: ['HOMEPAGE_BLOCK_NEW_HOT_COMMENT'],
+        refresh: true,
+      }),
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/homepage/block/page`,
+          data,
+          createOption(query),
+        ),
+      ),
+    );
+  });
 
 /**
  * 云村星评馆 - 简要评论列表
  */
-export default async function migratedStarpickCommentsSummary(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default starpickCommentsSummary;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
+
+export type ModuleInput = LegacyModuleInput;

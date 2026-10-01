@@ -30,13 +30,13 @@ GET /ugc/album/get?id=168223858
 ## 编程式调用
 
 ```ts
-import { ugcAlbumGet } from 'hana-music-api'
+import { ugcAlbumGet } from 'hana-music-api';
 
 const result = await ugcAlbumGet({
   id: '168223858',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

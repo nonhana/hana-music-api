@@ -30,11 +30,11 @@ GET /vip/tasks
 ## 编程式调用
 
 ```ts
-import { vipTasks } from 'hana-music-api'
+import { vipTasks } from 'hana-music-api';
 
-const result = await vipTasks()
+const result = await vipTasks();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

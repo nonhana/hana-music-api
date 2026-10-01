@@ -32,13 +32,13 @@ GET /search/multimatch?keywords=海阔天空
 ## 编程式调用
 
 ```ts
-import { searchMultimatch } from 'hana-music-api'
+import { searchMultimatch } from 'hana-music-api';
 
 const result = await searchMultimatch({
   keywords: '海阔天空',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

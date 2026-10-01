@@ -1,45 +1,42 @@
-import type { FC, PropsWithChildren } from 'hono/jsx'
+import type { FC, PropsWithChildren } from 'hono/jsx';
 
-import type { DemoPageDefinition, DemoPageStatus } from '../registry.ts'
+import type { DemoPageDefinition, DemoPageStatus } from '../registry.ts';
 
-export const StatusBadge: FC<{ status: DemoPageStatus }> = ({ status }) => {
-  return (
-    <span class={`status-badge status-${status}`}>{status === 'ready' ? 'Ready' : 'Planned'}</span>
-  )
-}
+export const StatusBadge: FC<{ status: DemoPageStatus }> = ({ status }) => (
+  <span class={`status-badge status-${status}`}>
+    {status === 'ready' ? 'Ready' : 'Planned'}
+  </span>
+);
 
 export const PageHeader: FC<{
-  description: string
-  eyebrow?: string
-  title: string
-}> = ({ description, eyebrow, title }) => {
-  return (
-    <header class="page-header">
-      {eyebrow ? <p class="eyebrow">{eyebrow}</p> : null}
-      <h1>{title}</h1>
-      <p class="page-description">{description}</p>
-    </header>
-  )
-}
+  description: string;
+  eyebrow?: string;
+  title: string;
+}> = ({ description, eyebrow, title }) => (
+  <header class="page-header">
+    {eyebrow ? <p class="eyebrow">{eyebrow}</p> : null}
+    <h1>{title}</h1>
+    <p class="page-description">{description}</p>
+  </header>
+);
 
 export const Surface: FC<
   PropsWithChildren<{
-    className?: string
-    description?: string
-    title?: string
+    className?: string;
+    description?: string;
+    title?: string;
   }>
-> = ({ children, className, description, title }) => {
-  return (
-    <section class={className ? `surface ${className}` : 'surface'}>
-      {title ? <h2>{title}</h2> : null}
-      {description ? <p class="surface-description">{description}</p> : null}
-      {children}
-    </section>
-  )
-}
+> = ({ children, className, description, title }) => (
+  <section class={className ? `surface ${className}` : 'surface'}>
+    {title ? <h2>{title}</h2> : null}
+    {description ? <p class="surface-description">{description}</p> : null}
+    {children}
+  </section>
+);
 
 export const DemoCard: FC<{ page: DemoPageDefinition }> = ({ page }) => {
-  const linkClass = page.status === 'planned' ? 'demo-card is-planned' : 'demo-card'
+  const linkClass =
+    page.status === 'planned' ? 'demo-card is-planned' : 'demo-card';
 
   return (
     <article class={linkClass}>
@@ -59,5 +56,5 @@ export const DemoCard: FC<{ page: DemoPageDefinition }> = ({ page }) => {
         <span class="muted">后续回归</span>
       )}
     </article>
-  )
-}
+  );
+};

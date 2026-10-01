@@ -33,13 +33,13 @@ GET /vip/growthpoint/get?ids=8613118351_1,8607552957_1
 ## 编程式调用
 
 ```ts
-import { vipGrowthpointGet } from 'hana-music-api'
+import { vipGrowthpointGet } from 'hana-music-api';
 
 const result = await vipGrowthpointGet({
   ids: '7043206830_7',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

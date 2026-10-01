@@ -32,13 +32,13 @@ GET /recommend/songs/dislike?id=168091
 ## 编程式调用
 
 ```ts
-import { recommendSongsDislike } from 'hana-music-api'
+import { recommendSongsDislike } from 'hana-music-api';
 
 const result = await recommendSongsDislike({
   id: '168091',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

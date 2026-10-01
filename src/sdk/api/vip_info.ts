@@ -1,1 +1,1 @@
-export { vipInfo } from '../generated/client.generated.ts'
+export { vipInfo } from '../generated/client.generated.ts';

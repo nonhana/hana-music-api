@@ -38,7 +38,7 @@ GET /comment/hug/list?uid=285516405&cid=1167145843&sid=863481066&pageSize=2&page
 ## 编程式调用
 
 ```ts
-import { commentHugList } from 'hana-music-api'
+import { commentHugList } from 'hana-music-api';
 
 const result = await commentHugList({
   uid: '285516405',
@@ -46,9 +46,9 @@ const result = await commentHugList({
   sid: '863481066',
   pageSize: '2',
   page: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

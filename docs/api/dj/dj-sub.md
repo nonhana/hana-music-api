@@ -33,14 +33,14 @@ GET /dj/sub?rid=336355127&t=0
 ## 编程式调用
 
 ```ts
-import { djSub } from 'hana-music-api'
+import { djSub } from 'hana-music-api';
 
 const result = await djSub({
   rid: '336355127',
   t: '1',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

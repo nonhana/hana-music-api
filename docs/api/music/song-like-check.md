@@ -32,13 +32,13 @@ GET /song/like/check?ids=[2058263032,1497529942]
 ## 编程式调用
 
 ```ts
-import { songLikeCheck } from 'hana-music-api'
+import { songLikeCheck } from 'hana-music-api';
 
 const result = await songLikeCheck({
   ids: '[2058263032,1497529942]',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

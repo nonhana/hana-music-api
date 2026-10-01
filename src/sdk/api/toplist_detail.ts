@@ -1,1 +1,1 @@
-export { toplistDetail } from '../generated/client.generated.ts'
+export { toplistDetail } from '../generated/client.generated.ts';

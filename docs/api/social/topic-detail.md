@@ -30,13 +30,13 @@ GET /topic/detail?actid=111551188
 ## 编程式调用
 
 ```ts
-import { topicDetail } from 'hana-music-api'
+import { topicDetail } from 'hana-music-api';
 
 const result = await topicDetail({
   actid: '111551188',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

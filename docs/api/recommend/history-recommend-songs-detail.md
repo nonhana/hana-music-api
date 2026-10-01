@@ -32,13 +32,13 @@ GET /history/recommend/songs/detail?date=2020-06-21
 ## 编程式调用
 
 ```ts
-import { historyRecommendSongsDetail } from 'hana-music-api'
+import { historyRecommendSongsDetail } from 'hana-music-api';
 
 const result = await historyRecommendSongsDetail({
   date: '2020-06-21',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

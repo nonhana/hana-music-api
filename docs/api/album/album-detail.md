@@ -30,13 +30,13 @@ GET /album/detail?id=84547195
 ## 编程式调用
 
 ```ts
-import { albumDetail } from 'hana-music-api'
+import { albumDetail } from 'hana-music-api';
 
 const result = await albumDetail({
   id: '84547195',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

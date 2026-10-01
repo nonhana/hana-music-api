@@ -1,1 +1,1 @@
-export { loginQrCreate } from '../generated/client.generated.ts'
+export { loginQrCreate } from '../generated/client.generated.ts';

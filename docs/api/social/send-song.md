@@ -34,15 +34,15 @@ GET /send/song?user_ids=1&id=351318&msg=测试
 ## 编程式调用
 
 ```ts
-import { sendSong } from 'hana-music-api'
+import { sendSong } from 'hana-music-api';
 
 const result = await sendSong({
   user_ids: '1',
   id: '351318',
   msg: '测试',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -1,1 +1,1 @@
-export { djToplistNewcomer } from '../generated/client.generated.ts'
+export { djToplistNewcomer } from '../generated/client.generated.ts';

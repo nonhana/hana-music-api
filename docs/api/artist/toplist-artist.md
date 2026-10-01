@@ -32,11 +32,11 @@ GET /toplist/artist
 ## 编程式调用
 
 ```ts
-import { toplistArtist } from 'hana-music-api'
+import { toplistArtist } from 'hana-music-api';
 
-const result = await toplistArtist()
+const result = await toplistArtist();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

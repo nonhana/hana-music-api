@@ -33,14 +33,14 @@ GET /yunbei/task/finish?userTaskId=5146243240&depositCode=0
 ## 编程式调用
 
 ```ts
-import { yunbeiTaskFinish } from 'hana-music-api'
+import { yunbeiTaskFinish } from 'hana-music-api';
 
 const result = await yunbeiTaskFinish({
   userTaskId: '5146243240',
   depositCode: '0',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -30,11 +30,11 @@ GET /user/social/status/edit
 ## 编程式调用
 
 ```ts
-import { userSocialStatusEdit } from 'hana-music-api'
+import { userSocialStatusEdit } from 'hana-music-api';
 
-const result = await userSocialStatusEdit()
+const result = await userSocialStatusEdit();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

@@ -30,11 +30,11 @@ GET /dj/sublist
 ## 编程式调用
 
 ```ts
-import { djSublist } from 'hana-music-api'
+import { djSublist } from 'hana-music-api';
 
-const result = await djSublist()
+const result = await djSublist();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

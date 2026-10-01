@@ -32,15 +32,15 @@ GET /artist/fans?id=2116&limit=10&offset=0
 ## 编程式调用
 
 ```ts
-import { artistFans } from 'hana-music-api'
+import { artistFans } from 'hana-music-api';
 
 const result = await artistFans({
   id: '2116',
   limit: '10',
   offset: '0',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

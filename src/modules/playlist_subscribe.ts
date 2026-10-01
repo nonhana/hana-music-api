@@ -1,31 +1,33 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { APP_CONF } from '../core/config.ts'
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { APP_CONF } from '../core/config.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const shouldSubscribe = Number(query.t) === 1
-  const path = shouldSubscribe ? 'subscribe' : 'unsubscribe'
-  const data = {
-    id: query.id,
-    ...(shouldSubscribe ? { checkToken: query.checkToken || APP_CONF.checkToken } : {}),
-  }
-  query.checkToken = true // 强制开启checkToken
-  return request(`/api/playlist/${path}`, data, createOption(query, 'eapi'))
-}
+const playlistSubscribe: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const shouldSubscribe = Number(query.t) === 1;
+    const path = shouldSubscribe ? 'subscribe' : 'unsubscribe';
+    const data = {
+      id: query.id,
+      ...(shouldSubscribe
+        ? { checkToken: query.checkToken || APP_CONF.checkToken }
+        : {}),
+    };
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(`/api/playlist/${path}`, data, {
+          ...createOption(query, 'eapi'),
+          checkToken: true,
+        }),
+      ),
+    );
+  });
 
-/**
- * 收藏与取消收藏歌单
- */
-export default async function migratedPlaylistSubscribe(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default playlistSubscribe;
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
+
+export type ModuleInput = LegacyModuleInput;

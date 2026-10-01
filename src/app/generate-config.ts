@@ -1,38 +1,43 @@
-import { createHash } from 'node:crypto'
+import { createHash } from 'node:crypto';
 
-import type { GenerateConfigOptions, NcmApiResponse } from '../types/index.ts'
+import { createRequest } from '../core/request.ts';
+import { setRuntimeState, writeAnonymousToken } from '../core/runtime.ts';
+import {
+  cookieToJson,
+  generateDeviceId,
+  generateRandomChineseIP,
+  isRecord,
+} from '../core/utils.ts';
+import type { GenerateConfigOptions, NcmApiResponse } from '../types/index.ts';
 
-import { createRequest } from '../core/request.ts'
-import { setRuntimeState, writeAnonymousToken } from '../core/runtime.ts'
-import { cookieToJson, generateDeviceId, generateRandomChineseIP, isRecord } from '../core/utils.ts'
+const ID_XOR_KEY_1 = '3go8&$8*3*3h0k(2)2';
 
-const ID_XOR_KEY_1 = '3go8&$8*3*3h0k(2)2'
-
-export async function registerAnonymous(
+export const registerAnonymous = async (
   options: GenerateConfigOptions = {},
-): Promise<NcmApiResponse> {
-  const deviceId = options.state?.deviceId ?? generateDeviceId()
+): Promise<NcmApiResponse> => {
+  const deviceId = options.state?.deviceId ?? generateDeviceId();
   const state = {
     anonymousToken: options.state?.anonymousToken ?? '',
     cnIp: options.state?.cnIp ?? generateRandomChineseIP(),
     deviceId,
-  }
+  };
 
-  setRuntimeState(state)
+  setRuntimeState(state);
 
   const result = await createRequest(
     '/api/register/anonimous',
     {
-      username: Buffer.from(`${deviceId} ${cloudmusicDllEncodeId(deviceId)}`, 'utf8').toString(
-        'base64',
-      ),
+      username: Buffer.from(
+        `${deviceId} ${cloudmusicDllEncodeId(deviceId)}`,
+        'utf8',
+      ).toString('base64'),
     },
     {
       crypto: 'weapi',
       fetcher: options.fetcher,
       state,
     },
-  )
+  );
 
   if (isRecord(result.body) && result.body.code === 200) {
     return {
@@ -41,17 +46,19 @@ export async function registerAnonymous(
         ...result.body,
         cookie: result.cookie.join(';'),
       },
-    }
+    };
   }
 
-  return result
-}
+  return result;
+};
 
-export async function generateConfig(options: GenerateConfigOptions = {}): Promise<string> {
-  const cnIp = options.state?.cnIp ?? generateRandomChineseIP()
+export const generateConfig = async (
+  options: GenerateConfigOptions = {},
+): Promise<string> => {
+  const cnIp = options.state?.cnIp ?? generateRandomChineseIP();
   setRuntimeState({
     cnIp,
-  })
+  });
 
   try {
     const result = await registerAnonymous({
@@ -60,30 +67,30 @@ export async function generateConfig(options: GenerateConfigOptions = {}): Promi
         ...options.state,
         cnIp,
       },
-    })
-    const cookieSource = result.cookie.join('; ')
-    const cookie = cookieToJson(cookieSource)
-    const token = String(cookie.MUSIC_A ?? '')
+    });
+    const cookieSource = result.cookie.join('; ');
+    const cookie = cookieToJson(cookieSource);
+    const token = String(cookie.MUSIC_A ?? '');
 
     if (token) {
-      writeAnonymousToken(token, options.tokenFilePath)
+      writeAnonymousToken(token, options.tokenFilePath);
     }
 
-    return token
+    return token;
   } catch (error) {
-    console.error('[generateConfig] failed to create anonymous token', error)
-    return ''
+    console.error('[generateConfig] failed to create anonymous token', error);
+    return '';
   }
-}
+};
 
-function cloudmusicDllEncodeId(deviceId: string): string {
-  let xoredString = ''
+const cloudmusicDllEncodeId = (deviceId: string): string => {
+  let xoredString = '';
 
   for (let index = 0; index < deviceId.length; index += 1) {
-    const sourceCode = deviceId.charCodeAt(index)
-    const keyCode = ID_XOR_KEY_1.charCodeAt(index % ID_XOR_KEY_1.length)
-    xoredString += String.fromCharCode(sourceCode ^ keyCode)
+    const sourceCode = deviceId.charCodeAt(index);
+    const keyCode = ID_XOR_KEY_1.charCodeAt(index % ID_XOR_KEY_1.length);
+    xoredString += String.fromCharCode(sourceCode ^ keyCode);
   }
 
-  return createHash('md5').update(xoredString, 'utf8').digest('base64')
-}
+  return createHash('md5').update(xoredString, 'utf8').digest('base64');
+};

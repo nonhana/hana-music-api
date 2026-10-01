@@ -35,16 +35,16 @@ GET /top/album?offset=0&limit=30&year=2019&month=6
 ## 编程式调用
 
 ```ts
-import { topAlbum } from 'hana-music-api'
+import { topAlbum } from 'hana-music-api';
 
 const result = await topAlbum({
   offset: '0',
   limit: '30',
   year: '2019',
   month: '6',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

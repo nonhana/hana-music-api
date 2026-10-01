@@ -19,8 +19,8 @@ description: '调用此接口,可获取最热主播榜'
 
 ## 请求参数
 
-| 参数    | 类型             | 必填 | 默认值 | 说明                                  |
-| ------- | ---------------- | :--: | ------ | ------------------------------------- |
+| 参数    | 类型             | 必填 | 默认值 | 说明                                 |
+| ------- | ---------------- | :--: | ------ | ------------------------------------ |
 | `limit` | number \| string |  —   | 100    | 返回数量，默认为 100 (不支持 offset) |
 
 ## HTTP 示例
@@ -32,13 +32,13 @@ GET /dj/toplist/popular?limit=30
 ## 编程式调用
 
 ```ts
-import { djToplistPopular } from 'hana-music-api'
+import { djToplistPopular } from 'hana-music-api';
 
 const result = await djToplistPopular({
   limit: '30',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

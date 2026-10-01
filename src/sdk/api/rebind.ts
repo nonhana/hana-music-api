@@ -1,1 +1,1 @@
-export { rebind } from '../generated/client.generated.ts'
+export { rebind } from '../generated/client.generated.ts';

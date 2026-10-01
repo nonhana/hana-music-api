@@ -33,14 +33,14 @@ GET /playlist/track/delete?pid=5271999357&ids=186041
 ## 编程式调用
 
 ```ts
-import { playlistTrackDelete } from 'hana-music-api'
+import { playlistTrackDelete } from 'hana-music-api';
 
 const result = await playlistTrackDelete({
   pid: '5271999357',
   ids: '186041',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

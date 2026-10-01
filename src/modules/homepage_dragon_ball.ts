@@ -1,14 +1,25 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
-  const data = {}
+const homepageDragonBall: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const data = {};
 
-  return request(`/api/homepage/dragon/ball/static`, data, createOption(query))
-}
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/homepage/dragon/ball/static`,
+          data,
+          createOption(query),
+        ),
+      ),
+    );
+  });
 
 /**
  * 首页-发现 dragon ball
@@ -16,13 +27,8 @@ const legacyModule = (query: LegacyModuleQuery, request: ModuleRequest) => {
  * 数据结构可以参考 https://github.com/hcanyz/flutter-netease-music-api/blob/master/lib/src/api/uncategorized/bean.dart#L290 HomeDragonBallWrap
  * !需要登录或者游客登录，非登录返回 []
  */
-export default async function migratedHomepageDragonBall(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default homepageDragonBall;
+
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
+
+export type ModuleInput = LegacyModuleInput;

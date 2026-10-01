@@ -1,82 +1,87 @@
-import type { ModuleRequest, NcmApiResponse } from '../types/index.ts'
-import type { LegacyModuleQuery } from '../types/modules.ts'
+import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts'
-import { normalizeLegacyModuleError, normalizeLegacyModuleResponse } from './_migration.ts'
+import {
+  InvalidModuleInput,
+  ProtocolFailed,
+  UpstreamBusinessFailed,
+} from '../core/errors.ts';
+import { createOption } from '../core/options.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { toModuleResponse } from '../core/response.ts';
+import type { ModuleEffect } from '../types/index.ts';
+import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const legacyModule = async (query: LegacyModuleQuery, request: ModuleRequest) => {
-  //
-  const tracks = String(query.tracks ?? '').split(',')
-  const data = {
-    op: query.op, // del,add
-    pid: query.pid, // 歌单id
-    trackIds: JSON.stringify(tracks), // 歌曲id
-    imme: 'true',
-  }
-
-  try {
-    const res = await request(`/api/playlist/manipulate/tracks`, data, createOption(query))
-    return {
-      status: 200,
-      body: {
-        ...res,
-      },
-    }
-  } catch (error) {
+const playlistTracks: ModuleEffect<ModuleInput> = (query, request) =>
+  Effect.gen(function* () {
     if (
-      typeof error === 'object' &&
-      error !== null &&
-      'body' in error &&
-      typeof error.body === 'object' &&
-      error.body !== null &&
-      'code' in error.body &&
-      error.body.code === 512
+      query.tracks !== undefined &&
+      query.tracks !== null &&
+      typeof query.tracks !== 'string' &&
+      typeof query.tracks !== 'number' &&
+      typeof query.tracks !== 'boolean'
     ) {
-      return request(
-        `/api/playlist/manipulate/tracks`,
-        {
-          op: query.op, // del,add
-          pid: query.pid, // 歌单id
-          trackIds: JSON.stringify([...tracks, ...tracks]),
-          imme: 'true',
-        },
+      return yield* new InvalidModuleInput({
+        message: 'tracks must be a primitive value',
+      });
+    }
+    const tracks = String(query.tracks ?? '').split(',');
+    const data = {
+      op: query.op,
+      pid: query.pid,
+      trackIds: JSON.stringify(tracks),
+      imme: 'true',
+    };
+    return yield* request(
+      buildApiRequestIntent(
+        '/api/playlist/manipulate/tracks',
+        data,
         createOption(query),
-      )
-    } else {
-      return {
+      ),
+    ).pipe(
+      Effect.map((response) => ({
         status: 200,
-        body: readErrorBody(error),
-      }
-    }
-  }
-}
+        cookie: [],
+        body: { ...toModuleResponse(response) },
+      })),
+      Effect.mapError((error) => {
+        if (error instanceof ProtocolFailed && error.response) {
+          const body = error.response.body;
+          if (
+            body !== null &&
+            typeof body === 'object' &&
+            !Array.isArray(body) &&
+            typeof body.code === 'number' &&
+            Number.isFinite(body.code)
+          ) {
+            return new UpstreamBusinessFailed({
+              message: error.message,
+              code: body.code,
+              response: error.response,
+            });
+          }
+        }
+        return error;
+      }),
+      Effect.catchTag('UpstreamBusinessFailed', (error) =>
+        Effect.gen(function* () {
+          if (error.code !== 512) {
+            return yield* error;
+          }
+          return toModuleResponse(
+            yield* request(
+              buildApiRequestIntent(
+                '/api/playlist/manipulate/tracks',
+                { ...data, trackIds: JSON.stringify([...tracks, ...tracks]) },
+                createOption(query),
+              ),
+            ),
+          );
+        }),
+      ),
+    );
+  });
 
-/**
- * 收藏单曲到歌单 从歌单删除歌曲
- */
-export default async function migratedPlaylistTracks(
-  query: LegacyModuleQuery,
-  request: ModuleRequest,
-): Promise<NcmApiResponse> {
-  try {
-    return normalizeLegacyModuleResponse(await legacyModule(query, request))
-  } catch (error) {
-    throw normalizeLegacyModuleError(error)
-  }
-}
+export default playlistTracks;
+export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
 
-function readErrorBody(error: unknown): Record<string, unknown> {
-  if (
-    typeof error === 'object' &&
-    error !== null &&
-    'body' in error &&
-    typeof error.body === 'object' &&
-    error.body !== null
-  ) {
-    return {
-      ...error.body,
-    }
-  }
-
-  return { code: 500, msg: String(error) }
-}
+export type ModuleInput = LegacyModuleInput;

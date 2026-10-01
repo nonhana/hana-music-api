@@ -1,1 +1,1 @@
-export { ugcMvGet } from '../generated/client.generated.ts'
+export { ugcMvGet } from '../generated/client.generated.ts';

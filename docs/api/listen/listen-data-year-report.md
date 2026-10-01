@@ -30,11 +30,11 @@ GET /listen/data/year/report
 ## 编程式调用
 
 ```ts
-import { listenDataYearReport } from 'hana-music-api'
+import { listenDataYearReport } from 'hana-music-api';
 
-const result = await listenDataYearReport()
+const result = await listenDataYearReport();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

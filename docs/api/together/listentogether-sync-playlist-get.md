@@ -33,13 +33,13 @@ POST /listentogether/sync/playlist/get?roomId=MzA0NjY5...
 ## 编程式调用
 
 ```ts
-import { listentogetherSyncPlaylistGet } from 'hana-music-api'
+import { listentogetherSyncPlaylistGet } from 'hana-music-api';
 
 const result = await listentogetherSyncPlaylistGet({
   roomId: 'MzA0NjY5...',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 返回关注点

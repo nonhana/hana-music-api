@@ -1,1 +1,1 @@
-export { dailySignin } from '../generated/client.generated.ts'
+export { dailySignin } from '../generated/client.generated.ts';

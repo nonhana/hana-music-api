@@ -32,13 +32,13 @@ GET /simi/user?id=347230
 ## 编程式调用
 
 ```ts
-import { simiUser } from 'hana-music-api'
+import { simiUser } from 'hana-music-api';
 
 const result = await simiUser({
   id: '347230',
-})
+});
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

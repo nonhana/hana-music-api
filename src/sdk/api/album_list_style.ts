@@ -1,1 +1,1 @@
-export { albumListStyle } from '../generated/client.generated.ts'
+export { albumListStyle } from '../generated/client.generated.ts';

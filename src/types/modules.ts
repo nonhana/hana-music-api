@@ -1,2 +1,59 @@
-export type * from './module-shared.ts'
-export type * from './module-overrides.ts'
+export type * from './module-shared.ts';
+export type {
+  LegacyModulePrimitive,
+  LegacyModuleQuery,
+  LegacyModuleValue,
+} from './legacy.ts';
+export type { ModuleInput as AlbumListQuery } from '../modules/album_list.ts';
+export type { ModuleInput as AlbumListStyleQuery } from '../modules/album_list_style.ts';
+export type { ModuleInput as AlbumNewestQuery } from '../modules/album_newest.ts';
+export type { ModuleInput as AlbumQuery } from '../modules/album.ts';
+export type { ModuleInput as AlbumSongsaleboardQuery } from '../modules/album_songsaleboard.ts';
+export type { ModuleInput as AlbumSublistQuery } from '../modules/album_sublist.ts';
+export type { ModuleInput as AlbumSubQuery } from '../modules/album_sub.ts';
+export type { ModuleInput as ArtistPagedQuery } from '../modules/artist_album.ts';
+export type { ModuleInput as ArtistQuery } from '../modules/artist_desc.ts';
+export type { ModuleInput as ArtistSongsQuery } from '../modules/artist_songs.ts';
+export type { ModuleInput as ArtistSublistQuery } from '../modules/artist_sublist.ts';
+export type { ModuleInput as ArtistSubQuery } from '../modules/artist_sub.ts';
+export type { ModuleInput as AudioMatchQuery } from '../modules/audio_match.ts';
+export type { ModuleInput as BatchQuery } from '../modules/batch.ts';
+export type { ModuleInput as CheckMusicQuery } from '../modules/check_music.ts';
+export type { ModuleInput as CloudImportQuery } from '../modules/cloud_import.ts';
+export type { ModuleInput as CloudQuery } from '../modules/cloud.ts';
+export type { ModuleInput as CommentEventQuery } from '../modules/comment_event.ts';
+export type { ModuleInput as CommentFloorQuery } from '../modules/comment_floor.ts';
+export type { ModuleInput as CommentHotQuery } from '../modules/comment_hot.ts';
+export type { ModuleInput as CommentLikeQuery } from '../modules/comment_like.ts';
+export type { ModuleInput as CommentNewQuery } from '../modules/comment_new.ts';
+export type { ModuleInput as CommentQuery } from '../modules/comment.ts';
+export type { ModuleInput as CommentThreadQuery } from '../modules/comment_album.ts';
+export type { ModuleInput as LoginCellphoneQuery } from '../modules/login_cellphone.ts';
+export type { ModuleInput as LoginQrCheckQuery } from '../modules/login_qr_check.ts';
+export type { ModuleInput as LoginQrCreateQuery } from '../modules/login_qr_create.ts';
+export type { ModuleInput as LoginQuery } from '../modules/login.ts';
+export type { ModuleInput as PlaylistDetailQuery } from '../modules/playlist_detail.ts';
+export type { ModuleInput as PlaylistTrackAllQuery } from '../modules/playlist_track_all.ts';
+export type { ModuleInput as RegisterAnonymousQuery } from '../modules/register_anonimous.ts';
+export type { ModuleInput as RegisterCellphoneQuery } from '../modules/register_cellphone.ts';
+export type { ModuleInput as SearchQuery } from '../modules/search.ts';
+export type { ModuleInput as SongUrlQuery } from '../modules/song_url.ts';
+export type { ModuleInput as SongUrlV1Query } from '../modules/song_url_v1.ts';
+export type { ModuleInput as UploadImageQuery } from '../modules/avatar_upload.ts';
+export type { ModuleInput as UserAccountQuery } from '../modules/user_account.ts';
+export type { ModuleInput as UserDetailQuery } from '../modules/user_detail.ts';
+export type { ModuleInput as UserEventQuery } from '../modules/user_event.ts';
+export type { ModuleInput as UserFollowMixedQuery } from '../modules/user_follow_mixed.ts';
+export type { ModuleInput as UserRecordQuery } from '../modules/user_record.ts';
+export type { ModuleInput as UserScopedListQuery } from '../modules/user_dj.ts';
+export type { ModuleInput as UserScopedQuery } from '../modules/user_audio.ts';
+export type { ModuleInput as UserSummaryQuery } from '../modules/user_level.ts';
+export type { ModuleInput as VerifyGetQrQuery } from '../modules/verify_getQr.ts';
+export type { ModuleInput as VoiceUploadQuery } from '../modules/voice_upload.ts';
+export type { AlbumArea } from '../modules/album_list.ts';
+export type { AlbumStyleArea } from '../modules/album_list_style.ts';
+export type { AlbumSalesBoardType } from '../modules/album_songsaleboard.ts';
+export type { ArtistSongsOrder } from '../modules/artist_songs.ts';
+export type { BatchRouteKey } from '../modules/batch.ts';
+export type { BatchSubRequest } from '../modules/batch.ts';
+export type { UploadSongQuery } from '../plugins/song-upload.ts';

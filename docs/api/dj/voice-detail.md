@@ -30,11 +30,11 @@ GET /voice/detail
 ## 编程式调用
 
 ```ts
-import { voiceDetail } from 'hana-music-api'
+import { voiceDetail } from 'hana-music-api';
 
-const result = await voiceDetail()
+const result = await voiceDetail();
 
-console.log(result.body)
+console.log(result.body);
 ```
 
 ## 补充说明

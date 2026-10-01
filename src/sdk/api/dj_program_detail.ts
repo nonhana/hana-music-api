@@ -1,1 +1,1 @@
-export { djProgramDetail } from '../generated/client.generated.ts'
+export { djProgramDetail } from '../generated/client.generated.ts';

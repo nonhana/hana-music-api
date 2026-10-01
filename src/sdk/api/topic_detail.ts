@@ -1,1 +1,1 @@
-export { topicDetail } from '../generated/client.generated.ts'
+export { topicDetail } from '../generated/client.generated.ts';
