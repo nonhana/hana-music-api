@@ -145,8 +145,8 @@ const createDocsBuildRequiredPage = (
       --panel-shadow: 0 20px 50px rgba(15, 23, 42, 0.08);
       --text-strong: #0f172a;
       --text-body: #334155;
-      --brand: #2563eb;
-      --brand-soft: rgba(37, 99, 235, 0.12);
+      --brand: #5a718b;
+      --brand-soft: rgba(153, 170, 189, 0.12);
       font-family: "IBM Plex Sans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
     }
 
@@ -156,7 +156,7 @@ const createDocsBuildRequiredPage = (
       display: grid;
       place-items: center;
       background:
-        radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32%),
+        radial-gradient(circle at top left, rgba(153, 170, 189, 0.1), transparent 32%),
         linear-gradient(180deg, #ffffff 0%, var(--page-background) 55%);
       color: var(--text-body);
     }

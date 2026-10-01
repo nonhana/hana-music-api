@@ -29,9 +29,9 @@ const WELCOME_PAGE_STYLE = `
     --text-strong: #0f172a;
     --text-body: #334155;
     --text-muted: #64748b;
-    --brand: #2563eb;
-    --brand-hover: #1d4ed8;
-    --brand-soft: rgba(37, 99, 235, 0.12);
+    --brand: #5a718b;
+    --brand-hover: #485b70;
+    --brand-soft: rgba(153, 170, 189, 0.12);
     --font-sans: "IBM Plex Sans", "Noto Sans SC", "Microsoft YaHei", sans-serif;
     font-family: var(--font-sans);
   }
@@ -44,10 +44,10 @@ const WELCOME_PAGE_STYLE = `
     margin: 0;
     min-height: 100vh;
     background:
-      radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32%),
+      radial-gradient(circle at top left, rgba(153, 170, 189, 0.1), transparent 32%),
       linear-gradient(180deg, #ffffff 0%, var(--page-background) 55%);
-    color: var(--text-body);
-  }
+      color: var(--text-body);
+    }
 
   main {
     min-height: 100vh;
@@ -122,7 +122,7 @@ const WELCOME_PAGE_STYLE = `
   .action-primary {
     background: linear-gradient(135deg, var(--brand) 0%, var(--brand-hover) 100%);
     color: white;
-    box-shadow: 0 16px 32px rgba(37, 99, 235, 0.2);
+    box-shadow: 0 16px 32px rgba(90, 113, 139, 0.2);
   }
 
   .action-secondary {

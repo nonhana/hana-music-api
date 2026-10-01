@@ -187,7 +187,7 @@ const drawWaveform = () => {
   waveform.width = width
   waveform.height = height
   waveformContext.clearRect(0, 0, width, height)
-  waveformContext.fillStyle = 'rgba(37, 99, 235, 0.88)'
+  waveformContext.fillStyle = 'rgba(90, 113, 139, 0.88)'
 
   if (audioBuffer) {
     for (let x = 0; x < width * bufferHealth; x += 1) {

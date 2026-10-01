@@ -8,8 +8,8 @@ export const demoStyles = `
   --text-strong: #0f172a;
   --text-body: #334155;
   --text-muted: #64748b;
-  --brand: #2563eb;
-  --brand-soft: rgba(37, 99, 235, 0.12);
+  --brand: #5a718b;
+  --brand-soft: rgba(153, 170, 189, 0.12);
   --success-soft: rgba(22, 163, 74, 0.14);
   --warning-soft: rgba(217, 119, 6, 0.16);
   --radius-large: 28px;
@@ -35,7 +35,7 @@ body {
 
 body {
   background:
-    radial-gradient(circle at top left, rgba(37, 99, 235, 0.1), transparent 32%),
+    radial-gradient(circle at top left, rgba(153, 170, 189, 0.1), transparent 32%),
     linear-gradient(180deg, #ffffff 0%, var(--page-background) 55%);
   color: var(--text-body);
   font-family: var(--font-sans);
@@ -292,13 +292,13 @@ pre {
 }
 
 .primary-button {
-  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  background: linear-gradient(135deg, #5a718b, #485b70);
   color: #ffffff;
 }
 
 .secondary-button {
   background: transparent;
-  border-color: rgba(37, 99, 235, 0.16);
+  border-color: rgba(90, 113, 139, 0.16);
   color: var(--text-strong);
 }
 
@@ -345,8 +345,8 @@ pre {
 .field select:focus,
 .field textarea:focus {
   outline: none;
-  border-color: rgba(37, 99, 235, 0.4);
-  box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+  border-color: rgba(90, 113, 139, 0.4);
+  box-shadow: 0 0 0 4px rgba(153, 170, 189, 0.2);
 }
 
 .action-row {
@@ -391,8 +391,8 @@ pre {
 }
 
 .code-copy-button:hover {
-  border-color: rgba(37, 99, 235, 0.28);
-  background: rgba(239, 246, 255, 0.98);
+  border-color: rgba(90, 113, 139, 0.28);
+  background: rgba(233, 237, 242, 0.98);
   color: var(--text-strong);
   transform: translateY(-1px);
 }
@@ -423,7 +423,7 @@ pre {
   border-radius: var(--radius-medium);
   border: 1px solid rgba(148, 163, 184, 0.12);
   background: #0f172a;
-  color: #dbeafe;
+  color: #d4dbe2;
   padding: 18px 20px;
   white-space: pre;
   word-break: normal;
@@ -484,7 +484,7 @@ pre {
   border-radius: var(--radius-medium);
   border: 1px solid rgba(148, 163, 184, 0.2);
   background:
-    linear-gradient(180deg, rgba(37, 99, 235, 0.06), rgba(37, 99, 235, 0.02)),
+    linear-gradient(180deg, rgba(153, 170, 189, 0.08), rgba(153, 170, 189, 0.03)),
     #f8fafc;
 }
 
