@@ -61,8 +61,8 @@ jobs:
           && inputs.mode == 'publish') }}
         uses: changesets/action@v2.1.2
         with:
-          version: bun run version-packages
-          publish: bun run release
+          version-script: bun run version-packages
+          publish-script: bun run release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
