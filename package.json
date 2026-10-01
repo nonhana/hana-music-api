@@ -70,28 +70,28 @@
     "version-packages": "changeset version"
   },
   "dependencies": {
-    "effect": "4.0.0-rc.117",
-    "hono": "^4.13.11",
+    "effect": "^4.0.0",
+    "hono": "^4.13.12",
     "music-metadata": "^11.16.1",
     "qrcode": "^1.5.4",
-    "undici": "7.30.0"
+    "undici": "^8.11.2"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
     "@changesets/cli": "^3.0.3",
-    "@effect/tsgo": "0.47.1",
+    "@effect/tsgo": "^0.47.2",
     "@types/bun": "^1.4.2",
     "@types/qrcode": "^1.5.6",
-    "cspell": "10.3.4",
-    "mermaid": "11.15.0",
+    "cspell": "^10.3.6",
+    "mermaid": "^12.0.0",
     "oxfmt": "^0.71.0",
-    "oxlint": "1.86.0",
-    "oxlint-tsgolint": "7.0.2003",
+    "oxlint": "^1.86.0",
+    "oxlint-tsgolint": "^7.0.2003",
     "publint": "^0.3.24",
     "tsdown": "^0.23.0",
     "typescript": "^7.0.2",
     "vitepress": "^1.6.4",
-    "vitepress-plugin-mermaid": "2.0.17"
+    "vitepress-plugin-mermaid": "^2.0.17"
   },
   "packageManager": "bun@1.4.2"
 }

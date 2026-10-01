@@ -127,7 +127,7 @@ export default defineConfig({
       },
     },
     {
-      files: ['src/app/**, tests/fixtures/*.mjs'],
+      files: ['src/app/**', 'tests/fixtures/*.mjs'],
       rules: {
         'no-console': 'off',
       },
