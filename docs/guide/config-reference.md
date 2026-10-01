@@ -1,47 +1,66 @@
-# 执行配置完整参考
+# 执行配置参考
 
-执行配置 `config` 集中配置了请求层的所有控制点，在不同入口有不同的名字：
+业务参数决定要查什么，执行配置决定用哪个身份、等多久、怎样联网。下面这些设置用于 SDK 或底层请求，不是 HTTP query 参数。
 
-- 模块函数 / `invokeModule()` 的第二个参数：`ModuleCallConfig`
-- `createHanaMusicApi(config)` 的参数：`CreateHanaMusicApiConfig`（在 `ModuleCallConfig` 基础上多了 `cache` 和 `identityPool`）
-- `createRequest(uri, data, options)` 的第三个参数：`CreateRequestOptions`（与 `ModuleCallConfig` 同构）
+## 配置放在哪里
 
-## 字段总表
+| 入口                                                  | 配置位置                                                 |
+| ----------------------------------------------------- | -------------------------------------------------------- |
+| `createHanaMusicApi(config)`                          | client 默认配置，可额外设置 `cache` 和 `identityPool`    |
+| `hana.search(query, config)`、`search(query, config)` | 第二个参数，类型为 `ModuleCallConfig`                    |
+| `invokeModule(identifier, query, config)`             | 第三个参数，类型为 `ModuleCallConfig`                    |
+| `createRequest(uri, data, options)`                   | 第三个参数，与 `ModuleCallConfig` 使用相同的请求配置字段 |
 
-| 字段                 | 类型                                             | 默认值                           | 作用                                                                                                         | 适用加密模式     |
-| -------------------- | ------------------------------------------------ | -------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------- |
-| `cookie`             | `string \| CookieRecord`                         | `{}`                             | 登录态与身份。允许字符串和对象，请求层会自动补全设备号等字段。                                               | 全部             |
-| `crypto`             | `'' \| 'api' \| 'eapi' \| 'weapi' \| 'linuxapi'` | `eapi`（`encrypt` 关时为 `api`） | 选择上游通道与加解密方式。                                                                                   | —                |
-| `ip`                 | `string`                                         | 运行时 `cnIp`                    | 伪装来源 IP，写入 `X-Forwarded-For` / `X-Real-IP`。                                                          | 全部             |
-| `realIP`             | `string`                                         | 无                               | 同 `ip`，但**优先级更高**。两者都传时 `realIP` 生效。                                                        | 全部             |
-| `proxy`              | `string`                                         | 无                               | HTTP 代理地址。**不支持 PAC**。                                                                              | 全部             |
-| `ua`                 | `string`                                         | 按加密模式选默认 UA              | 覆盖 `User-Agent`。                                                                                          | 全部             |
-| `domain`             | `string`                                         | `APP_CONF` 默认域名              | 受信任 SDK 的目标设置；带身份时只允许已知 HTTPS 网易云 API 域名。HTTP 输入禁止覆盖。                         | 全部             |
-| `headers`            | `Record<string, string>`                         | `{}`                             | 追加自定义请求头，会与内部生成的头合并。                                                                     | 全部             |
-| `fetcher`            | `FetchLike`                                      | 全局 `fetch`                     | 替换底层 HTTP 实现，用于注入代理 agent、拦截、测试桩。                                                       | 全部             |
-| `timeoutMs`          | `number`                                         | `8000`                           | 包含排队、重试及正文消费的 API 总期限。传 `0` 或负数关闭本次 API 超时。上传阶段固定 60 秒，模块最多 5 分钟。 | 全部             |
-| `signal`             | `AbortSignal`                                    | 无                               | 取消同一执行链，释放许可、等待者与在飞条目。                                                                 | 全部             |
-| `retry`              | `RequestRetryOptions`                            | 见重试文档                       | 重试策略：次数、退避、抖动、状态码白名单等。                                                                 | 全部             |
-| `connectionStrategy` | `'default' \| 'close' \| 'fresh-on-retry'`       | `'default'`                      | 控制连接复用，应对长连接被上游悄悄断开的情况。                                                               | 全部             |
-| `e_r`                | `boolean \| number \| string`                    | `false`                          | 是否要求上游返回加密响应。                                                                                   | `eapi` / `weapi` |
-| `acceptGzip`         | `boolean`                                        | `false`                          | 声明可接受 gzip 压缩的加密响应，省带宽。                                                                     | `eapi`           |
-| `checkToken`         | `boolean \| number \| string`                    | `false`                          | 在 eapi header 注入反作弊 token。                                                                            | `eapi` / `api`   |
-| `onRequestEvent`     | `(event: RequestDebugEvent) => void`             | 无                               | 每次尝试 / 重试 / 失败的观测回调。                                                                           | 全部             |
-| `state`              | `Partial<RuntimeState>`                          | 进程运行时状态                   | 按本次调用覆盖匿名 token / 伪装 IP / 设备号。                                                                | 全部             |
+client 的默认配置与单次配置按顶层字段合并，单次配置优先。嵌套对象不会递归合并。HTTP 只接受业务参数及 `cookie`、`noCookie`，见 [调用约定](/guide/request-convention)。
 
-## 仅 `createHanaMusicApi` 支持的字段
+## 身份与请求头
 
-| 字段           | 类型                                    | 默认值 | 作用                                           |
-| -------------- | --------------------------------------- | ------ | ---------------------------------------------- |
-| `cache`        | `{ enabled?: boolean; ttlMs?: number }` | 关闭   | 开启内存响应缓存 + 并发去重（single-flight）。 |
-| `identityPool` | `{ size: number }`                      | 关闭   | 预注册多个匿名身份并按调用轮换。               |
+| 字段      | 类型                     | 未设置时                         | 作用                                             |
+| --------- | ------------------------ | -------------------------------- | ------------------------------------------------ |
+| `cookie`  | `string \| CookieRecord` | 从 Cookie 请求头或运行时身份解析 | 传递账号或游客身份                               |
+| `headers` | `Record<string, string>` | 无额外请求头                     | 与协议生成的头合并；协议所需字段可能覆盖自定义值 |
+| `state`   | `Partial<RuntimeState>`  | 使用进程状态                     | 按次覆盖匿名令牌、设备号和默认来源 IP            |
+| `ip`      | `string`                 | 使用运行时 `cnIp`                | 设置来源 IP 请求头                               |
+| `realIP`  | `string`                 | 使用 `ip` 或 `cnIp`              | 比 `ip` 优先，仍只影响请求头                     |
+| `ua`      | `string`                 | 按协议选择                       | 覆盖 `User-Agent`                                |
 
-详见 [SDK 缓存与身份池](/guide/sdk-cache-and-identity-pool)。
+显式 `cookie` 优先于 `headers` 中的 Cookie，头名不区分大小写。`ip` 和 `realIP` 不会改变实际网络出口。细节见 [运行时状态与身份](/guide/runtime-identity)。
 
-## 各字段的深入说明
+## 网络、期限和观测
 
-- `crypto` / `e_r` / `acceptGzip` → [加密模式](/guide/crypto-modes)
-- `fetcher` / `proxy` → [自定义 fetcher](/guide/custom-fetcher)
-- `timeoutMs` / `retry` / `connectionStrategy` → [重试、超时与连接策略](/guide/retry-timeout-resilience)
-- `onRequestEvent` → [调试与可观测性](/guide/observability)
-- `cookie` / `ip` / `realIP` / `state` → [运行时状态与身份伪装](/guide/runtime-identity)
+| 字段                 | 类型                                       | 默认值               | 作用                                                 |
+| -------------------- | ------------------------------------------ | -------------------- | ---------------------------------------------------- |
+| `proxy`              | `string`                                   | 无代理               | HTTP 代理地址，不支持 PAC                            |
+| `fetcher`            | `FetchLike`                                | 运行时 `fetch`       | 替换发送请求的实现，必须配合取消信号                 |
+| `timeoutMs`          | `number`                                   | 普通调用 `8000`      | 整次调用的总期限，包含准备身份、等待、重试和读取正文 |
+| `signal`             | `AbortSignal`                              | 无外部取消信号       | 取消本次调用                                         |
+| `retry`              | `RequestRetryOptions`                      | 按操作和失败类型判断 | 调整允许重试时的次数、退避和状态码                   |
+| `connectionStrategy` | `'default' \| 'close' \| 'fresh-on-retry'` | `'default'`          | 控制 `Connection: close` 的使用                      |
+| `onRequestEvent`     | `(event: RequestDebugEvent) => void`       | 无回调               | 观察尝试、重试和请求失败事件                         |
+
+`proxy` 和自定义 `fetcher` 不能同时传。`timeoutMs` 为 `0` 或负数时关闭普通调用的总超时；上传仍受阶段 60 秒、总计 5 分钟的上限约束，正数配置只能进一步缩短上传总期限。
+
+`createRequest` 不执行 SDK 游客身份初始化，其默认 8 秒用于这次底层请求。HTTP 读取客户端请求体另有超时，见 [部署 HTTP 服务](/guide/server-deployment)。
+
+详细行为见 [自定义 fetcher](/guide/custom-fetcher)、[重试与超时](/guide/retry-timeout-resilience)、[调试与可观测性](/guide/observability)。
+
+## 协议设置
+
+| 字段         | 类型                                             | 未设置时                          | 作用                                      |
+| ------------ | ------------------------------------------------ | --------------------------------- | ----------------------------------------- |
+| `crypto`     | `'' \| 'api' \| 'eapi' \| 'weapi' \| 'linuxapi'` | 模块选择协议；底层请求默认 `eapi` | 指定 API 协议，空字符串按未指定处理       |
+| `domain`     | `string`                                         | 协议对应的内置域名                | 覆盖目标域名，仍受目标策略检查            |
+| `e_r`        | `boolean \| number \| string`                    | 默认 `false`，也可来自请求数据    | 请求加密响应，`eapi` 和 `weapi` 支持解密  |
+| `acceptGzip` | `boolean`                                        | `false`                           | 声明接受 gzip 压缩的 `eapi` 响应          |
+| `checkToken` | `boolean \| number \| string`                    | `false`                           | 启用 `api` 或 `eapi` 协议中的反作弊 token |
+
+日常调用沿用模块默认协议即可。带账号或游客身份的 API 请求只允许已知 HTTPS 网易云 API 域名，`domain` 不能用来任意转发凭据。`e_r`、`acceptGzip`、`checkToken` 建议使用明确的布尔值，细节见 [加密模式](/guide/crypto-modes)。
+
+## 仅 client 支持的配置
+
+| 字段           | 类型                                    | 默认值 | 作用                                                                     |
+| -------------- | --------------------------------------- | ------ | ------------------------------------------------------------------------ |
+| `cache`        | `{ enabled?: boolean; ttlMs?: number }` | 关闭   | 保存明确读接口的成功结果；传对象后默认保存 120 秒，`enabled: false` 关闭 |
+| `identityPool` | `{ size: number }`                      | 关闭   | 首次需要时注册多套游客身份，再按调用轮换                                 |
+
+关闭缓存不会关闭正在执行的相同读取的合并。身份池也不会改变真实出口 IP。详见 [缓存与身份池](/guide/sdk-cache-and-identity-pool)。

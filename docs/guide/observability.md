@@ -1,116 +1,91 @@
 # 调试与可观测性
 
-请求层内部跑着重试、退避、连接切换这些逻辑。默认情况下这些过程不可见，可以通过 `onRequestEvent` hook 拿到每一次尝试、重试和失败。
+需要知道请求有没有重试、为什么失败时，可以传入 `onRequestEvent`。需要统计完整调用耗时，则在调用外层计时。
 
-## `onRequestEvent`
-
-在 `config` 里传一个回调，请求层会在每次尝试、重试、失败时调用它：
+## 记录请求事件
 
 ```ts
-import { createHanaMusicApi, type RequestDebugEvent } from 'hana-music-api';
+import { createHanaMusicApi } from 'hana-music-api';
 
 const hana = createHanaMusicApi({
-  onRequestEvent(event: RequestDebugEvent) {
-    console.log(event.type, event.url, event.status ?? event.error ?? '');
+  onRequestEvent(event) {
+    console.log({
+      type: event.type,
+      attempt: event.attempt,
+      status: event.status,
+      durationMs: event.durationMs,
+      delayMs: event.delayMs,
+      url: event.url,
+    });
   },
 });
+
+await hana.search({ keywords: '海阔天空' });
 ```
 
-回调应只做观测，避免抛出异常。事件 URL 去掉 query，不包含 Cookie 或 token；自定义日志也应遵循这一约束。
+回调只用于观测，应保持轻量并避免抛错。事件 URL 已移除 query，事件不提供 Cookie 字段；自定义日志也不要记录凭据或完整请求正文。
 
-## 事件结构
+| 事件      | 表示什么                                       |
+| --------- | ---------------------------------------------- |
+| `attempt` | 请求内核开始一次尝试，此时可能还在等待出口额度 |
+| `retry`   | 这次失败符合重试规则，接下来按 `delayMs` 等待  |
+| `failure` | 请求尝试遇到无法继续重试的失败                 |
 
-```ts
-interface RequestDebugEvent {
-  type: 'attempt' | 'retry' | 'failure';
-  attempt: number; // 当前是第几次尝试
-  maxAttempts: number; // 最多尝试几次
-  connectionStrategy: 'default' | 'close' | 'fresh-on-retry';
-  crypto: '' | 'api' | 'eapi' | 'weapi' | 'linuxapi';
-  url: string;
-  status?: number; // 拿到响应时的状态码
-  error?: string; // 传输错误时的错误信息
-  durationMs?: number; // 本次尝试耗时
-  delayMs?: number; // 重试前的等待时长
-}
-```
-
-## 三种事件
+`attempt` 不等于请求已经真正发出，不能直接拿它当上游实际请求数。一次最终成功的调用也可能先出现多个 `attempt` 和 `retry`。
 
 ```mermaid
 sequenceDiagram
-  participant C as 调用方
-  participant R as 请求层
-  participant U as 上游
-  R->>C: attempt (第 1 次)
-  R->>U: 发请求
-  U-->>R: 502 / 连接错误
-  R->>C: retry (带 delayMs)
-  Note over R: 等待退避时间
-  R->>C: attempt (第 2 次)
-  R->>U: 发请求
-  U-->>R: 200
-  Note over R: 成功，无 failure 事件
+  participant App as 事件回调
+  participant Core as 请求内核
+  participant Upstream as 网易云
+  Core-->>App: attempt，第一次尝试
+  Core->>Upstream: 发送请求
+  Upstream-->>Core: 符合策略的连接错误
+  Core-->>App: retry，包含等待时间
+  Note over Core: 在总期限内等待
+  Core-->>App: attempt，第二次尝试
+  Core->>Upstream: 发送请求
+  Upstream-->>Core: 成功响应
 ```
 
-- **`attempt`**：每次发起请求前触发。带 `attempt` / `maxAttempts` / `connectionStrategy` / `crypto` / `url`。
-- **`retry`**：决定要重试时触发。额外带 `delayMs`（即将等待多久），以及触发原因，即 `status`（业务状态码）或 `error`（传输错误）。
-- **`failure`**：重试用尽、最终失败时触发。带 `durationMs` 和失败原因。
+## 每个字段怎样理解
 
-成功的请求只会有 `attempt` 事件，不会有 `failure`。
+| 字段                     | 含义                                                 |
+| ------------------------ | ---------------------------------------------------- |
+| `attempt`、`maxAttempts` | 当前尝试序号和请求层记录的尝试上限；不表示必定会重试 |
+| `connectionStrategy`     | 这次尝试使用的连接策略                               |
+| `crypto`                 | API 加密模式，普通文本或字节请求使用空字符串         |
+| `url`                    | 移除 query 后的请求地址                              |
+| `status`、`error`        | 可用时提供失败状态或错误信息                         |
+| `durationMs`             | 通常为这次失败尝试的耗时，不是稳定的整次调用耗时     |
+| `delayMs`                | 下一次尝试前的等待时间                               |
 
-## 实用示例：接入耗时统计
+这些字段的公开类型是 `RequestDebugEvent`。参数检查失败、缓存命中、模块本地计算或外层取消等情况，不一定产生对应请求事件。共享读取只执行一次上游工作，也不会替每个等待者各发一套事件。
+
+因此不要依赖 `failure` 统计所有调用失败，也不要把没有 `failure` 当成调用成功的证明。直接 `createRequest` 的边界还会补充部分取消或超时失败事件，其耗时范围与普通请求尝试可能不同。
+
+## 统计完整调用耗时
 
 ```ts
-import { createHanaMusicApi, type RequestDebugEvent } from 'hana-music-api';
+import { search } from 'hana-music-api';
 
-function onRequestEvent(event: RequestDebugEvent) {
-  switch (event.type) {
-    case 'attempt':
-      // 记录开始，或上报 QPS
-      break;
-    case 'retry':
-      console.warn(
-        `[retry] ${event.url} 第 ${event.attempt}/${event.maxAttempts} 次后重试，` +
-          `原因=${event.status ?? event.error}，等待 ${event.delayMs}ms`,
-      );
-      break;
-    case 'failure':
-      console.error(
-        `[failure] ${event.url} 最终失败，耗时 ${event.durationMs}ms，` +
-          `原因=${event.status ?? event.error}`,
-      );
-      break;
-  }
+const startedAt = performance.now();
+try {
+  const result = await search({ keywords: '海阔天空' });
+  console.log(result.status, result.body);
+} catch (error: unknown) {
+  console.error(error);
+} finally {
+  console.log({ elapsedMs: performance.now() - startedAt });
 }
-
-const hana = createHanaMusicApi({ onRequestEvent });
 ```
 
-## 它和自定义 fetcher 的区别
+这样能把身份初始化、缓存等待、重试和正文读取算在同一次调用里。错误对象的处理见 [返回值与错误](/guide/programmatic-api#返回值与错误)。
 
-两者都能观测请求，但层次不同：
+## 什么时候需要自定义 fetcher
 
-|            | `onRequestEvent`                       | 自定义 `fetcher`           |
-| ---------- | -------------------------------------- | -------------------------- |
-| 层次       | 请求层的语义事件                       | 原始网络层                 |
-| 能看到     | 尝试序号、重试原因、退避时长、加密模式 | 原始的 URL、请求头、响应体 |
-| 能改请求吗 | 不能（只读观测）                       | 能（完全接管）             |
+`onRequestEvent` 观察请求内核的尝试与重试。自定义 `fetcher` 则能看到真正交给传输实现的 URL、请求头和响应，可以用于连接管理或测试。
 
-需要语义化的重试/失败洞察，用 `onRequestEvent`；需要改写请求或接管连接，用 [自定义 fetcher](/guide/custom-fetcher)。两者可以同时用。
+包装 `fetch` 后立刻返回 `Response`，测到的通常只是收到响应头之前的时间；后续读取正文仍由内核完成。自定义实现与取消要求见 [自定义 fetcher](/guide/custom-fetcher)。
 
-## 内部流量与本地压力测试
-
-内部 RequestRuntime 提供发送、冷却、完成事件和活动/等待计数，只记录 host 与状态，不记录原始身份。全路径 API、网页与 NOS 都经过同一出口许可。
-
-`bun run test:load:smoke` 执行本地场景验证和 100 用户、500 请求的真实 Bun HTTP 压测。
-`bun run test:load:soak` 执行 10 分钟负载，逐分钟交替稳定请求和 100 并发突发。
-机器可读 JSON 保存到 `_notes/load-reports/`，包括延迟、吞吐、状态分布、出口并发、队列、RSS/堆和最终许可状态。该目录受全局 Git ignore，CI 上传报告作为 artifact。
-
-smoke 覆盖同键合并、默认入口过载、读写混合、HTTP/业务 429 冷却、慢正文、客户端断连和完整图片上传。正常负载成功请求 p95 必须小于 1 秒，快速过载拒绝 p95 必须小于 250 毫秒；
-饱和出口的请求可有界等待，测量耗时上限为 2.5 秒。缺少正常成功或压力拒绝样本、资源未释放或阈值越界都会使命令失败。预期的超时与取消单独记录为 504/499，所有请求状态必须计入验收总数。
-
-soak 以 4 请求/秒与 100 并发突发交替运行；每次切入突发前等待 2 秒，让 host 令牌桶补满以验证 8 个出口许可。本地显式信任 loopback 代理，以模拟 100 个连接身份。
-报告包含 HEAD、全部未提交内容的 SHA-256 指纹和失败原因；负载期间代码变化会使验收失败。末三分钟 RSS 相对该窗口起点的最大增长不得超过 30%。
-
-假 transport 只将已校验的逻辑网易云 URL 映射至固定 loopback socket，不读取账号，不向真实上游压测。
+内部还有出口活动数和冷却事件，但不属于根 SDK 的公开配置。维护者可以继续阅读 [架构详解](/guide/request-layer-overview)，以及仓库中的 `tests/load/` 和 `agent-docs/TESTING.md`。

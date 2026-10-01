@@ -9,6 +9,10 @@ export default withMermaid({
   lang: 'zh-CN',
   title: 'hana-music-api',
   description: 'hana-music-api 接口文档与使用说明。',
+  mermaid: {
+    flowchart: { useMaxWidth: false },
+    sequence: { useMaxWidth: false },
+  },
   head: [
     [
       'link',
@@ -35,24 +39,24 @@ export default withMermaid({
     sidebar: {
       '/guide/': [
         {
-          text: '上手指南',
+          text: '开始使用',
           items: [
             {
               text: '什么是 hana-music-api',
               link: '/guide/what-is-hana-music-api',
             },
             { text: '快速开始', link: '/guide/getting-started' },
-            { text: '认证机制', link: '/guide/authentication' },
-            { text: '调用约定', link: '/guide/request-convention' },
             { text: '编程式调用', link: '/guide/programmatic-api' },
+            { text: '认证机制', link: '/guide/authentication' },
+            { text: 'HTTP 调用约定', link: '/guide/request-convention' },
+            { text: '部署 HTTP 服务', link: '/guide/server-deployment' },
             { text: 'SDK 使用边界', link: '/guide/sdk-package-contract' },
           ],
         },
         {
-          text: '请求层进阶',
+          text: '请求配置进阶',
           items: [
-            { text: '请求层架构总览', link: '/guide/request-layer-overview' },
-            { text: '执行配置完整参考', link: '/guide/config-reference' },
+            { text: '执行配置参考', link: '/guide/config-reference' },
             { text: '加密模式', link: '/guide/crypto-modes' },
             { text: '自定义 fetcher', link: '/guide/custom-fetcher' },
             {
@@ -60,14 +64,23 @@ export default withMermaid({
               link: '/guide/retry-timeout-resilience',
             },
             { text: '调试与可观测性', link: '/guide/observability' },
-            { text: '运行时状态与身份伪装', link: '/guide/runtime-identity' },
+            { text: '运行时状态与身份', link: '/guide/runtime-identity' },
             {
               text: 'SDK 缓存与身份池',
               link: '/guide/sdk-cache-and-identity-pool',
             },
             {
-              text: '直接使用请求原语',
+              text: '直接使用底层请求',
               link: '/guide/create-request-and-create-option',
+            },
+          ],
+        },
+        {
+          text: '内部架构',
+          items: [
+            {
+              text: 'hana-music-api 架构详解',
+              link: '/guide/request-layer-overview',
             },
           ],
         },
