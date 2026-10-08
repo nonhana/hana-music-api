@@ -18,7 +18,6 @@ import {
 } from './endpoint-policy.ts';
 import type { RequestError } from './errors.ts';
 import {
-  AdmissionRejected,
   DeadlineExceeded,
   InvalidRequest,
   ProtocolFailed,
@@ -29,17 +28,11 @@ import { resolveIdentitySnapshot } from './identity.ts';
 import type { RequestPlan } from './request-plan.ts';
 import { prepareRequest } from './request-plan.ts';
 import { interpretResponse, isNcmApiResponse } from './response.ts';
-import {
-  getRuntimeState,
-  ProcessServices,
-  resolveProcessServices,
-  runPublicEffect,
-} from './runtime.ts';
-import type { RequestRuntime } from './runtime.ts';
+import { getRuntimeState, runPublicEffect } from './runtime.ts';
 import { transportEffect } from './transport.ts';
 import { createRandomHex, isRecord } from './utils.ts';
 
-export type RequestServices = Call | ProcessServices;
+export type RequestServices = Call;
 
 export const requestEffect = (
   intent: RequestIntent,
@@ -47,7 +40,6 @@ export const requestEffect = (
   withRequestDeadline(
     Effect.gen(function* () {
       const call = yield* Call;
-      const services = yield* ProcessServices;
       const now = yield* Clock.currentTimeMillis;
       const options = call.config;
       const plan = yield* Effect.try({
@@ -164,11 +156,6 @@ export const requestEffect = (
                 method: plan.method,
                 proxy: options.proxy,
                 fetcher: options.fetcher,
-                runtime: {
-                  governor: services.governor,
-                  onTrafficEvent: services.onTrafficEvent,
-                },
-                waitForRate: services.waitForRate ?? true,
               },
               (response): UpstreamResponse => {
                 if (plan.protocol !== 'plain') {
@@ -221,11 +208,9 @@ export const requestEffect = (
           const status =
             error instanceof UpstreamRateLimited
               ? 429
-              : error instanceof AdmissionRejected
-                ? 503
-                : error instanceof ProtocolFailed
-                  ? error.response?.status
-                  : undefined;
+              : error instanceof ProtocolFailed
+                ? error.response?.status
+                : undefined;
           options.onRequestEvent?.({
             ...event,
             durationMs,
@@ -276,8 +261,6 @@ export const withRequestDeadline = <Value, Failure, Requirements>(
 export const runRequestAtEdge = async (
   intent: RequestIntent,
   options: CreateRequestOptions,
-  runtime: RequestRuntime,
-  waitForRate = true,
 ): Promise<UpstreamResponse> => {
   const signal = options.signal;
   const identity = resolveIdentitySnapshot(
@@ -310,15 +293,7 @@ export const runRequestAtEdge = async (
   };
   try {
     return await runPublicEffect(
-      requestEffect(intent).pipe(
-        Effect.provideService(Call, call),
-        Effect.provideService(ProcessServices, {
-          governor: runtime.governor,
-          onTrafficEvent: runtime.onTrafficEvent,
-          waitForRate,
-          readState: getRuntimeState,
-        }),
-      ),
+      requestEffect(intent).pipe(Effect.provideService(Call, call)),
       signal,
     );
   } catch (error) {
@@ -345,34 +320,21 @@ export const createRequest = async (
   data: Record<string, unknown>,
   options: CreateRequestOptions = {},
 ): Promise<NcmApiResponse> => {
-  const services = resolveProcessServices();
-  return createRuntimeRequest(services)(uri, data, options);
-};
-
-export const createRuntimeRequest =
-  (runtime: RequestRuntime, waitForRate = true) =>
-  async (
-    uri: string,
-    data: Record<string, unknown>,
-    options: CreateRequestOptions = {},
-  ): Promise<NcmApiResponse> => {
-    const response = await runRequestAtEdge(
-      {
-        target: uri,
-        protocol: options.crypto || (APP_CONF.encrypt ? 'eapi' : 'api'),
-        body: JSON.stringify(data),
-        method: 'POST',
-        headers: {},
-        response: 'json',
-        semantic: requestSemantic(uri),
-      },
-      options,
-      runtime,
-      waitForRate,
-    );
-    return {
-      body: response.body,
-      cookie: [...response.cookie],
-      status: response.status,
-    };
+  const response = await runRequestAtEdge(
+    {
+      target: uri,
+      protocol: options.crypto || (APP_CONF.encrypt ? 'eapi' : 'api'),
+      body: JSON.stringify(data),
+      method: 'POST',
+      headers: {},
+      response: 'json',
+      semantic: requestSemantic(uri),
+    },
+    options,
+  );
+  return {
+    body: response.body,
+    cookie: [...response.cookie],
+    status: response.status,
   };
+};

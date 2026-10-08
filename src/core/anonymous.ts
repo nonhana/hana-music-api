@@ -15,7 +15,6 @@ import {
   runPublicEffect,
   setRuntimeState,
 } from './runtime.ts';
-import type { RequestRuntime } from './runtime.ts';
 import {
   cookieToJson,
   generateDeviceId,
@@ -33,6 +32,7 @@ export interface AnonymousRegistration {
 export interface EnsureAnonymousTokenOptions extends ModuleCallConfig {}
 
 const registrations = new WeakMap<object, ReadStore<string, RequestError>>();
+const sharedRegistrationKey = {};
 
 const createAnonymousUsername = (deviceId: string): string => {
   let xored = '';
@@ -52,7 +52,7 @@ export const registerAnonymousEffect = (
     readonly cnIp?: string;
     readonly deviceId?: string;
   } = {},
-): Effect.Effect<AnonymousRegistration, RequestError, ProcessServices> =>
+): Effect.Effect<AnonymousRegistration, RequestError> =>
   Effect.gen(function* () {
     const deviceId = options.deviceId ?? generateDeviceId();
     const cnIp = options.cnIp ?? generateRandomChineseIP();
@@ -97,7 +97,7 @@ export const ensureAnonymousEffect = (
     if (token) {
       return token;
     }
-    const key = options.fetcher ?? process.governor;
+    const key = options.fetcher ?? sharedRegistrationKey;
     let registration = registrations.get(key);
     if (!registration) {
       registration = new ReadStore<string, RequestError>(null);
@@ -108,7 +108,6 @@ export const ensureAnonymousEffect = (
       registerAnonymousEffect({ ...options, timeoutMs: 0 }).pipe(
         Effect.tap((value) => Effect.sync(() => setRuntimeState(value))),
         Effect.map((value) => value.anonymousToken),
-        Effect.provideService(ProcessServices, process),
       ),
     );
   });
@@ -118,22 +117,15 @@ export const registerAnonymousToken = (
     readonly cnIp?: string;
     readonly deviceId?: string;
   } = {},
-  runtime?: RequestRuntime,
 ): Promise<AnonymousRegistration> =>
-  runPublicEffect(
-    registerAnonymousEffect(options).pipe(
-      Effect.provideService(ProcessServices, resolveProcessServices(runtime)),
-    ),
-    options.signal,
-  );
+  runPublicEffect(registerAnonymousEffect(options), options.signal);
 
 export const ensureRuntimeAnonymousToken = (
   options: EnsureAnonymousTokenOptions = {},
-  runtime?: RequestRuntime,
 ): Promise<string> => {
   const timeoutMs = options.timeoutMs ?? 8_000;
   const work = ensureAnonymousEffect(options).pipe(
-    Effect.provideService(ProcessServices, resolveProcessServices(runtime)),
+    Effect.provideService(ProcessServices, resolveProcessServices()),
   );
   return runPublicEffect(
     timeoutMs > 0

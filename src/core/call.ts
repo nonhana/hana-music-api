@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto';
 
 import type { Context } from 'effect';
-import { Cause, Clock, Effect, Exit, Layer, Option, Ref } from 'effect';
+import { Cause, Clock, Effect, Exit, Option, Ref } from 'effect';
 
 import type {
   CreateHanaMusicApiConfig,
@@ -30,11 +30,9 @@ import {
   resolveProcessServices,
   runPublicEffect,
 } from './runtime.ts';
-import type { RequestRuntime } from './runtime.ts';
-import { getDefaultTrafficGovernor } from './traffic.ts';
 import { resolveRequestCookie, stableStringify } from './utils.ts';
 
-export { ProcessServices, createProcessLayer } from './runtime.ts';
+export { ProcessServices } from './runtime.ts';
 
 export {
   Call,
@@ -46,11 +44,10 @@ export {
 
 /** 构造 CallServices 的纯值形态：服务集无 scope 资源（ReadStore 自管理 TTL）。 */
 export const buildCallServices = (
-  runtime: RequestRuntime = { governor: getDefaultTrafficGovernor() },
   config: CreateHanaMusicApiConfig = {},
   initializeAnonymous = true,
 ): Context.Service.Shape<typeof CallServices> => ({
-  process: resolveProcessServices(runtime),
+  process: resolveProcessServices(),
   reads: new ReadStore<NcmApiResponse>(
     config.cache && config.cache.enabled !== false
       ? (config.cache.ttlMs ?? 120_000)
@@ -62,22 +59,8 @@ export const buildCallServices = (
   initializeAnonymous,
 });
 
-export const createClientLayer = (
-  runtime: RequestRuntime = { governor: getDefaultTrafficGovernor() },
-  config: CreateHanaMusicApiConfig = {},
-  initializeAnonymous = true,
-) =>
-  Layer.succeed(
-    CallServices,
-    buildCallServices(runtime, config, initializeAnonymous),
-  );
-
-export const createServiceLayer = (
-  runtime: RequestRuntime = { governor: getDefaultTrafficGovernor() },
-  cacheTtlMs: number | null = 120_000,
-) =>
+export const createServiceLayer = (cacheTtlMs: number | null = 120_000) =>
   buildCallServices(
-    runtime,
     { cache: cacheTtlMs === null ? { enabled: false } : { ttlMs: cacheTtlMs } },
     false,
   );
@@ -127,11 +110,7 @@ export const runCall = <Input extends ModuleQuery>(
       config.cookie.MUSIC_A ||
       config.state?.anonymousToken;
     const identityConfig =
-      !explicitIdentity && scoped.pool
-        ? yield* scoped.pool.next.pipe(
-            Effect.provideService(ProcessServices, scoped.process),
-          )
-        : undefined;
+      !explicitIdentity && scoped.pool ? yield* scoped.pool.next : undefined;
     if (!explicitIdentity && !scoped.pool && scoped.initializeAnonymous) {
       yield* ensureAnonymousEffect(config).pipe(
         Effect.provideService(ProcessServices, scoped.process),
@@ -201,7 +180,6 @@ export const runCall = <Input extends ModuleQuery>(
           : Effect.void;
       }),
       Effect.provideService(Call, executionCall),
-      Effect.provideService(ProcessServices, scoped.process),
     );
     if (!call.policy.read) {
       return yield* execute;

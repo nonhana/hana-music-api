@@ -6,11 +6,10 @@ import { resolve } from 'node:path';
 import { Effect, Option } from 'effect';
 
 import { startServer } from '../src/app/cli.ts';
-import { Call, CallServices, ProcessServices } from '../src/core/call.ts';
+import { Call, CallServices } from '../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../src/core/module-input.ts';
 import type { ReadStore } from '../src/core/read-store.ts';
 import { requestEffect } from '../src/core/request.ts';
-import { TrafficGovernor } from '../src/core/traffic.ts';
 import avatarUpload, {
   decodeModuleInput as decodeAvatarInput,
 } from '../src/modules/avatar_upload.ts';
@@ -38,13 +37,10 @@ interface Acceptance {
   readonly fastRejected: number;
   readonly pressureRejected: number;
   readonly pressureMaxMs: number;
-  readonly active: number;
-  readonly waiting: number;
   readonly upstreamActive: number;
   readonly inflight: number;
   readonly peakInflight: number;
-  readonly peakActive: number;
-  readonly peakWaiting: number;
+  readonly peakUpstream: number;
   readonly rssGrowth: number;
 }
 
@@ -62,13 +58,10 @@ export const assertLoadReport = (report: Acceptance): void => {
     report.pressureMaxMs > 2_500 ||
     report.p95 >= 1_000 ||
     report.rejectedP95 >= 250 ||
-    report.active !== 0 ||
-    report.waiting !== 0 ||
     report.upstreamActive !== 0 ||
     report.inflight !== 0 ||
     report.peakInflight <= 0 ||
-    report.peakActive > 8 ||
-    report.peakWaiting > 32 ||
+    report.peakUpstream > 32 ||
     report.rssGrowth > 0.3
   ) {
     throw new Error('Load acceptance failed');
@@ -218,7 +211,6 @@ const runLoad = async (soak: boolean) => {
   ) => {
     const fake = createFakeUpstream(50);
     fake.setMode(mode);
-    const governor = new TrafficGovernor();
     const readStores = new Set<ReadStore<NcmApiResponse>>();
     let peakInflight = 0;
     const { server, url } = await startServer({
@@ -250,10 +242,6 @@ const runLoad = async (soak: boolean) => {
                 }
               },
             },
-          })),
-          Effect.updateService(ProcessServices, (services) => ({
-            ...services,
-            governor,
           })),
         ),
     });
@@ -320,8 +308,6 @@ const runLoad = async (soak: boolean) => {
       }
       check(
         fake.metrics.active === 0 &&
-          governor.snapshot.active === 0 &&
-          governor.snapshot.waiting === 0 &&
           readStores.size === 1 &&
           [...readStores].every((reads) => reads.snapshot.inflight === 0),
         `${name}: leaked activity`,
@@ -336,7 +322,6 @@ const runLoad = async (soak: boolean) => {
       scenarios.push({
         name,
         upstream: fake.metrics,
-        traffic: governor.snapshot,
         reads: {
           inflight: [...readStores].reduce(
             (sum, reads) => sum + reads.snapshot.inflight,
@@ -466,11 +451,11 @@ const runLoad = async (soak: boolean) => {
             await call(
               '/raw',
               { headers: { cookie: 'MUSIC_A=second' } },
-              [429],
+              [200],
             );
             check(
-              fake.metrics.calls === 1,
-              'Host cooldown must prevent a second socket call',
+              fake.metrics.calls === 2,
+              'An upstream 429 must not hold back the next call',
             );
           },
           mode,
@@ -532,8 +517,8 @@ const runLoad = async (soak: boolean) => {
             );
           }
           check(
-            fake.metrics.peak === 8,
-            'Pressure must exercise all eight outbound permits',
+            fake.metrics.peak === 32,
+            'Pressure must exercise all 32 HTTP module permits',
           );
         },
       );
@@ -567,9 +552,6 @@ const runLoad = async (soak: boolean) => {
   );
   const cancelled = samples.filter((sample) => sample.status === 499).length;
   const timedOut = samples.filter((sample) => sample.status === 504).length;
-  const traffic = scenarios.map(
-    (scenario) => scenario.traffic as TrafficGovernor['snapshot'],
-  );
   const reads = scenarios.map(
     (scenario) => scenario.reads as { inflight: number; peakInflight: number },
   );
@@ -590,13 +572,10 @@ const runLoad = async (soak: boolean) => {
     fastRejected: fastRejected.length,
     pressureRejected: pressureRejected.length,
     pressureMaxMs: Math.max(0, ...pressure.map((sample) => sample.durationMs)),
-    active: traffic.reduce((sum, value) => sum + value.active, 0),
-    waiting: traffic.reduce((sum, value) => sum + value.waiting, 0),
     upstreamActive: upstream.reduce((sum, value) => sum + value.active, 0),
     inflight: reads.reduce((sum, value) => sum + value.inflight, 0),
     peakInflight: Math.max(0, ...reads.map((value) => value.peakInflight)),
-    peakActive: Math.max(0, ...traffic.map((value) => value.peakActive)),
-    peakWaiting: Math.max(0, ...traffic.map((value) => value.peakWaiting)),
+    peakUpstream: Math.max(0, ...upstream.map((value) => value.peak)),
     rssGrowth: tail.length
       ? Math.max(...tail.map((value) => value.rss)) / tail[0]!.rss - 1
       : 0,
@@ -616,8 +595,8 @@ const runLoad = async (soak: boolean) => {
       'Unexpected cancellation or timeout count',
     );
     check(
-      acceptance.peakActive === 8,
-      'Run must exercise eight outbound permits',
+      acceptance.peakUpstream === 32,
+      'Run must exercise all 32 HTTP module permits',
     );
     if (soak) {
       check(
@@ -652,7 +631,6 @@ const runLoad = async (soak: boolean) => {
     ),
     retryAmplification: apiExecutions ? 1 + retries / apiExecutions : 0,
     singleFlightMergeRate: soak ? null : mergeRate,
-    cooldownHits: traffic.reduce((sum, value) => sum + value.cooldownHits, 0),
     scenarios,
     memory,
     finalMemory: process.memoryUsage(),

@@ -1,4 +1,4 @@
-import { beforeEach, expect, spyOn, test } from 'bun:test';
+import { expect, spyOn, test } from 'bun:test';
 
 import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
@@ -7,11 +7,6 @@ import { createHanaMusicApi } from '../../index.ts';
 import { invokeModule as invokeProgrammatic } from '../../src/app/module-api.ts';
 import { buildCallServices, runCall } from '../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
-import { resolveProcessServices } from '../../src/core/runtime.ts';
-import {
-  resetDefaultTrafficGovernor,
-  TrafficGovernor,
-} from '../../src/core/traffic.ts';
 import audioMatch from '../../src/modules/audio_match.ts';
 import avatarUpload from '../../src/modules/avatar_upload.ts';
 import relatedPlaylist from '../../src/modules/related_playlist.ts';
@@ -32,8 +27,6 @@ import {
   songFile,
   tokenBody,
 } from '../fixtures/upload-effect.ts';
-
-beforeEach(() => resetDefaultTrafficGovernor());
 
 const requestUrl = (input: Request | URL | string): string =>
   typeof input === 'string'
@@ -351,13 +344,8 @@ test.each([
     count: 2,
   },
 ])(
-  '$identifier holds the shared Governor until its plain response body is cancelled',
+  '$identifier cancels its plain response body when the caller aborts',
   async (scenario) => {
-    const governor = new TrafficGovernor();
-    const process = {
-      ...resolveProcessServices(),
-      governor,
-    };
     const controller = new AbortController();
     let ready!: () => void;
     const started = new Promise<void>((resolve) => {
@@ -390,7 +378,7 @@ test.each([
           },
         },
       },
-      buildCallServices(process),
+      buildCallServices(),
       {
         identifier: scenario.identifier,
         route: '/plain',
@@ -399,12 +387,9 @@ test.each([
       },
     ).catch((error: unknown) => error);
     await started;
-    expect(governor.snapshot.active).toBe(1);
     controller.abort();
     expect(await pending).toMatchObject({ status: 499 });
     expect(cancelled).toBe(true);
-    expect(governor.snapshot.active).toBe(0);
-    expect(governor.snapshot.waiting).toBe(0);
     expect(sent).toBe(scenario.count);
   },
 );

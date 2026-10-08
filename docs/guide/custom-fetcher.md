@@ -16,21 +16,19 @@ const result = await hana.search({ keywords: '海阔天空' });
 console.log(result.body);
 ```
 
-`createHanaMusicApi`、具名函数、`invokeModule` 和 `createRequest` 都能接收这个字段。它替换的是发送请求的实现，目标检查、加密、流量控制和响应解释仍由请求内核负责。
+`createHanaMusicApi`、具名函数、`invokeModule` 和 `createRequest` 都能接收这个字段。它替换的是发送请求的实现，目标检查、加密和响应解释仍由请求内核负责。
 
 ```mermaid
 flowchart LR
-  CORE["请求内核<br/>准备协议与校验目标"] --> PERMIT["取得出口许可"]
-  PERMIT --> FETCH["自定义 fetcher<br/>返回 Response"]
+  CORE["请求内核<br/>准备协议与校验目标"] --> FETCH["自定义 fetcher<br/>返回 Response"]
   FETCH --> BODY["内核读完正文<br/>解释响应"]
-  BODY --> RELEASE["释放许可"]
 ```
 
 ## 取消信号要继续传下去
 
 使用 `fetch(input, init)` 时，`init.signal` 会一起传入。如果在中间重新构造配置，也要保留这个信号，并让返回的正文流支持取消。
 
-自定义实现返回 `Response` 时，内核还没有结束工作。响应正文读取也在总期限内。超时或取消时，库能释放自己的许可，但无法强制停止一个忽略信号、私下继续联网的第三方实现。
+自定义实现返回 `Response` 时，内核还没有结束工作。响应正文读取也在总期限内。超时或取消时，库能释放自己的资源，但无法强制停止一个忽略信号、私下继续联网的第三方实现。
 
 内核传入 `redirect: 'manual'`，自定义实现也应遵守它，不要自行跟随重定向绕过目标检查。
 

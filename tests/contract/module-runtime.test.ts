@@ -5,7 +5,6 @@ import { TestClock } from 'effect/testing';
 
 import { buildCallServices, runCall } from '../../src/core/call.ts';
 import { ReadStore } from '../../src/core/read-store.ts';
-import { TrafficGovernor } from '../../src/core/traffic.ts';
 import search, {
   decodeModuleInput as decodeSearchInput,
 } from '../../src/modules/search.ts';
@@ -21,19 +20,6 @@ import {
   testRequest,
 } from '../fixtures/request-capability.ts';
 
-const runtime = () =>
-  moduleRuntime(120_000, {
-    governor: new TrafficGovernor({
-      maxInFlight: 8,
-      maxWaiting: 32,
-      waitMs: 2_000,
-      hostRate: 1_000,
-      hostBurst: 1_000,
-      identityRate: 1_000,
-      identityBurst: 1_000,
-    }),
-  });
-
 const searchImplementation = (
   _query: Record<string, unknown>,
   request: RequestCapability,
@@ -41,11 +27,7 @@ const searchImplementation = (
 
 describe('module ownership', () => {
   test('a real Effect read shares transport and isolates identity, target, and protocol', async () => {
-    const services = buildCallServices(
-      undefined,
-      { cache: { ttlMs: 120_000 } },
-      false,
-    );
+    const services = buildCallServices({ cache: { ttlMs: 120_000 } }, false);
     let calls = 0;
     const fetcher: FetchLike = async (url, init) => {
       calls += 1;
@@ -210,7 +192,7 @@ describe('module ownership', () => {
   test.each(['eapi', 'weapi'] as const)(
     '%s plaintext business 429 with e_r enabled never becomes a cached success',
     async (crypto) => {
-      const modules = runtime();
+      const modules = moduleRuntime();
       let calls = 0;
       const config = {
         crypto,
@@ -239,14 +221,13 @@ describe('module ownership', () => {
         body: { code: 429, msg: 'limited' },
       });
       expect(await invoke()).toMatchObject({ status: 429 });
-      expect(calls).toBe(1);
+      expect(calls).toBe(2);
       expect(modules.snapshot.cacheHits).toBe(0);
-      expect(modules.network.governor.snapshot.cooldownHits).toBe(1);
     },
   );
 
   test('module headers survive absent ingress headers and retain caller headers', async () => {
-    const modules = runtime();
+    const modules = moduleRuntime();
     let headers: Headers | undefined;
     const fetcher: FetchLike = async (_url, init) => {
       headers = new Headers(init?.headers);
@@ -296,7 +277,7 @@ describe('module ownership', () => {
   });
 
   test('100 identical reads share one outbound attempt; keys isolate identity and transport', async () => {
-    const modules = runtime();
+    const modules = moduleRuntime();
     let calls = 0;
     const fetcher: FetchLike = async () => {
       calls += 1;
@@ -348,7 +329,7 @@ describe('module ownership', () => {
   });
 
   test('read keys isolate explicit domains and protocols', async () => {
-    const modules = runtime();
+    const modules = moduleRuntime();
     let calls = 0;
     const fetcher: FetchLike = async (url) => {
       calls += 1;
@@ -375,7 +356,7 @@ describe('module ownership', () => {
   });
 
   test('cache keys distinguish keys containing separators', async () => {
-    const modules = runtime();
+    const modules = moduleRuntime();
     let calls = 0;
     const handler = (query: ModuleQuery) =>
       Effect.sync(() => {
@@ -388,7 +369,7 @@ describe('module ownership', () => {
   });
 
   test('one waiter can cancel; the final waiter interrupts the upstream', async () => {
-    const modules = runtime();
+    const modules = moduleRuntime();
     let aborts = 0;
     let calls = 0;
     const fetcher: FetchLike = async (_url, init) => {
@@ -427,11 +408,10 @@ describe('module ownership', () => {
     await Bun.sleep(1);
     expect(aborts).toBe(1);
     expect(modules.snapshot.inflight).toBe(0);
-    expect(modules.network.governor.snapshot.active).toBe(0);
   });
 
   test('waiter timeouts are independent while the shared upstream continues', async () => {
-    const modules = runtime();
+    const modules = moduleRuntime();
     let calls = 0;
     const implementation = () =>
       Effect.gen(function* () {
@@ -457,11 +437,10 @@ describe('module ownership', () => {
     expect((await second).status).toBe(200);
     expect(calls).toBe(1);
     expect(modules.snapshot.inflight).toBe(0);
-    expect(modules.network.governor.snapshot.active).toBe(0);
   });
 
   test('writes, polling and non-200 business codes are never cached', async () => {
-    const modules = runtime();
+    const modules = moduleRuntime();
     let calls = 0;
     const handler = () =>
       Effect.sync(() => {

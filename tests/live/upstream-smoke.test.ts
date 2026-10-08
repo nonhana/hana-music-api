@@ -11,7 +11,8 @@ import { itEffect } from '../_kit/it.ts';
  * login_status additionally requires NCM_LIVE_COOKIE.
  * Anti-rate-limit discipline: sequential (bun test default concurrency off),
  * 30s per-case timeout, fixed 6-case request set, read-only endpoints, full
- * default pipeline (TrafficGovernor quotas included) — never bypassed.
+ * default pipeline — never bypassed. The SDK applies no local quota, so this
+ * sequential pacing is the only thing keeping the suite gentle on upstream.
  */
 const LIVE = process.env.LIVE_UPSTREAM !== undefined;
 const itLive = LIVE ? itEffect : itEffect.skip;

@@ -2,13 +2,10 @@ import { expect } from 'bun:test';
 
 import { Effect } from 'effect';
 
-import { Call, ProcessServices } from '../../src/core/call.ts';
+import { Call } from '../../src/core/call.ts';
 import type { CallShape } from '../../src/core/call.ts';
 import { resolveIdentitySnapshot } from '../../src/core/identity.ts';
-import {
-  getRuntimeState,
-  resolveProcessServices,
-} from '../../src/core/runtime.ts';
+import { getRuntimeState } from '../../src/core/runtime.ts';
 import type {
   ModuleCallConfig,
   ModuleEffect,
@@ -74,6 +71,5 @@ export const executeModule = (
   // closing between provide and run.
   return (result as ReturnType<ModuleEffect<ModuleQuery>>).pipe(
     Effect.provideService(Call, call),
-    Effect.provideService(ProcessServices, resolveProcessServices()),
   );
 };

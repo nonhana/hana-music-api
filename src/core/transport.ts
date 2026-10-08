@@ -5,7 +5,6 @@ import type { FetchLike } from '../types/index.ts';
 import type { UpstreamResponse } from '../types/upstream.ts';
 import type { RequestError } from './errors.ts';
 import {
-  AdmissionRejected,
   InvalidRequest,
   ProtocolFailed,
   ResponseDecodeFailed,
@@ -17,8 +16,6 @@ import {
   classifyConsumedRateLimit,
   classifyHeaderRateLimit,
 } from './response.ts';
-import type { RequestRuntime } from './runtime.ts';
-import { TrafficRejectedError } from './traffic.ts';
 
 export interface TransportOptions {
   readonly body?: RequestInit['body'];
@@ -27,10 +24,8 @@ export interface TransportOptions {
   readonly identity?: string;
   readonly method?: string;
   readonly proxy?: string;
-  readonly runtime: RequestRuntime;
   readonly signal?: AbortSignal;
   readonly timeoutMs?: number;
-  readonly waitForRate?: boolean;
 }
 
 /** Bun.fetch 支持非标 `proxy` 选项；自定义 fetcher 也按此约定读取。 */
@@ -51,7 +46,6 @@ export const transportEffect = <
     );
   }
   const host = new URL(url).host;
-  const runtime = options.runtime;
   const identity = options.identity ?? 'anonymous';
   const attempt = Effect.scoped(
     Effect.gen(function* () {
@@ -75,11 +69,6 @@ export const transportEffect = <
         : undefined;
       const response = yield* Effect.tryPromise({
         try: (signal) => {
-          runtime.onTrafficEvent?.({
-            phase: 'send',
-            host,
-            ...runtime.governor.snapshot,
-          });
           const init: RequestInit = {
             body: options.body,
             headers: options.headers,
@@ -121,19 +110,6 @@ export const transportEffect = <
         response.headers,
         headerNow,
       );
-      if (headerDecision) {
-        yield* runtime.governor.cool(
-          host,
-          identity,
-          headerDecision.retryAfterMs,
-        );
-        runtime.onTrafficEvent?.({
-          phase: 'cooldown',
-          host,
-          ...runtime.governor.snapshot,
-          status: 429,
-        });
-      }
       const responseBody = response.body;
       const reader = responseBody
         ? yield* Effect.acquireRelease(
@@ -208,13 +184,6 @@ export const transportEffect = <
       const value = interpreted.success;
       const decision = classifyConsumedRateLimit(consumed, value, now);
       if (decision) {
-        yield* runtime.governor.cool(host, identity, decision.retryAfterMs);
-        runtime.onTrafficEvent?.({
-          phase: 'cooldown',
-          host,
-          ...runtime.governor.snapshot,
-          status: 429,
-        });
         return yield* new UpstreamRateLimited({
           host,
           identity,
@@ -229,36 +198,12 @@ export const transportEffect = <
           message: 'Upstream redirects are not allowed',
         });
       }
-      runtime.onTrafficEvent?.({
-        phase: 'complete',
-        host,
-        ...runtime.governor.snapshot,
-        status: response.status,
-      });
       return value;
     }),
   );
-  return runtime.governor
-    .withPermit(host, identity, attempt, options.waitForRate)
-    .pipe(
-      Effect.mapError((error) =>
-        error instanceof TrafficRejectedError
-          ? error.status === 429
-            ? new UpstreamRateLimited({
-                host,
-                identity,
-                retryAfterMs: error.retryAfterMs ?? 1_000,
-                status: 429,
-                message: error.message,
-              })
-            : new AdmissionRejected({
-                message: error.message,
-                retryAfterMs: error.retryAfterMs ?? 1_000,
-              })
-          : error,
-      ),
-      Effect.withSpan('upstream.send', { attributes: { host } }),
-    );
+  return attempt.pipe(
+    Effect.withSpan('upstream.send', { attributes: { host } }),
+  );
 };
 
 const getSetCookies = (headers: Headers): Array<string> => {

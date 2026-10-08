@@ -59,7 +59,7 @@ export async function loadProgrammaticApi(
 ): Promise<ProgrammaticApi | DynamicProgrammaticApi> {
   const registry = await loadModuleRegistry(options);
   const requestHandler = options.requestHandler ?? requestEffect;
-  const modules = buildCallServices(undefined, {}, false);
+  const modules = buildCallServices({}, false);
 
   return Object.fromEntries(
     [...registry.entries()].map(([identifier, moduleDefinition]) => [
@@ -81,7 +81,7 @@ export function createModuleApi(
 ): ProgrammaticApi | DynamicProgrammaticApi {
   const registryPromise = loadModuleRegistry(options);
   const requestHandler = options.requestHandler ?? requestEffect;
-  const modules = buildCallServices(undefined, {}, false);
+  const modules = buildCallServices({}, false);
 
   return new Proxy(
     {},
@@ -135,7 +135,7 @@ export async function invokeModule(
   const implementation = moduleDefinition.execute;
   let modules = invocationRuntimes.get(implementation);
   if (!modules) {
-    modules = buildCallServices(undefined, {}, false);
+    modules = buildCallServices({}, false);
     invocationRuntimes.set(implementation, modules);
   }
   return createModuleInvoker(moduleDefinition, requestHandler, modules)(query);

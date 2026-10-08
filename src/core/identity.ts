@@ -4,7 +4,6 @@ import type { IdentityPoolConfig, ModuleCallConfig } from '../types/index.ts';
 import type { RequestError } from './errors.ts';
 import { TransportFailed } from './errors.ts';
 import { ReadStore } from './read-store.ts';
-import { ProcessServices } from './runtime.ts';
 
 export {
   resolveIdentitySnapshot,
@@ -19,14 +18,10 @@ export interface AnonymousRegistration {
 
 export type RegisterAnonymous = (
   options: ModuleCallConfig,
-) => Effect.Effect<AnonymousRegistration, RequestError, ProcessServices>;
+) => Effect.Effect<AnonymousRegistration, RequestError>;
 
 export interface IdentityPool {
-  readonly next: Effect.Effect<
-    Partial<ModuleCallConfig>,
-    RequestError,
-    ProcessServices
-  >;
+  readonly next: Effect.Effect<Partial<ModuleCallConfig>, RequestError>;
 }
 
 export const createIdentityPool = (
@@ -43,7 +38,6 @@ export const createIdentityPool = (
   const initialization = new ReadStore<void, RequestError>(null);
   return {
     next: Effect.gen(function* () {
-      const process = yield* ProcessServices;
       yield* initialization.run(
         'pool',
         Effect.gen(function* () {
@@ -65,7 +59,7 @@ export const createIdentityPool = (
               },
             ]);
           }
-        }).pipe(Effect.provideService(ProcessServices, process)),
+        }),
       );
       const values = yield* Ref.get(identities);
       const index = yield* Ref.modify(cursor, (value) => [

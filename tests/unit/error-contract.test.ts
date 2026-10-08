@@ -26,11 +26,6 @@ describe('Effect core contracts', () => {
         new errors.TargetRejected({ message: 'Target denied' }),
       ],
       [
-        'AdmissionRejected',
-        'Queue full',
-        new errors.AdmissionRejected({ message: 'Queue full' }),
-      ],
-      [
         'DeadlineExceeded',
         'Deadline elapsed',
         new errors.DeadlineExceeded({ message: 'Deadline elapsed' }),
@@ -72,22 +67,6 @@ describe('Effect core contracts', () => {
       expect(error).toBeInstanceOf(Error);
       expect(error.message).toBe(message);
     }
-  });
-
-  test('rate limit errors retain the account cooldown context', () => {
-    const error = new errors.UpstreamRateLimited({
-      host: 'music.163.com',
-      identity: 'anonymous:test',
-      retryAfterMs: 1_000,
-      status: 429,
-    });
-    expect(error).toMatchObject({
-      _tag: 'UpstreamRateLimited',
-      host: 'music.163.com',
-      identity: 'anonymous:test',
-      retryAfterMs: 1_000,
-      status: 429,
-    });
   });
 
   test('shape errors describe the unexpected field without retaining a response body', () => {

@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, test } from 'bun:test';
+import { describe, expect, test } from 'bun:test';
 
 import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
@@ -6,7 +6,6 @@ import { TestClock } from 'effect/testing';
 import { createHanaMusicApi } from '../../index.ts';
 import { buildCallServices, runCall } from '../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
-import { resetDefaultTrafficGovernor } from '../../src/core/traffic.ts';
 import { uploadWork } from '../../src/core/upload-work.ts';
 import { cookieToJson } from '../../src/core/utils.ts';
 import {
@@ -77,7 +76,6 @@ describe('sdk response cache', () => {
         Effect.gen(function* () {
           const clock = yield* TestClock.make();
           const services = buildCallServices(
-            undefined,
             { cache: { ttlMs: 1_000 } },
             false,
           );
@@ -121,11 +119,7 @@ describe('sdk response cache', () => {
     'voice_upload',
     'unknown',
   ])('Call executes %s independently without caching', async (identifier) => {
-    const services = buildCallServices(
-      undefined,
-      { cache: { ttlMs: 60_000 } },
-      false,
-    );
+    const services = buildCallServices({ cache: { ttlMs: 60_000 } }, false);
     let calls = 0;
     const implementation = () =>
       Effect.gen(function* () {
@@ -209,9 +203,6 @@ describe('sdk response cache', () => {
 });
 
 describe('sdk identity pool', () => {
-  beforeEach(() => {
-    resetDefaultTrafficGovernor();
-  });
   test('an upload deadline preserves completed stages and aborts the active stage', async () => {
     let calls = 0;
     let aborted = false;

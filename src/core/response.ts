@@ -5,7 +5,6 @@ import type { UpstreamBody, UpstreamResponse } from '../types/upstream.ts';
 import { SPECIAL_STATUS_CODES } from './config.ts';
 import { eapiResDecrypt } from './crypto.ts';
 import {
-  AdmissionRejected,
   DeadlineExceeded,
   InvalidModuleInput,
   InvalidRequest,
@@ -225,14 +224,12 @@ export const normalizeFailure = (
           ? (error.status ?? 400)
           : error instanceof InvalidRequest || error instanceof TargetRejected
             ? 400
-            : error instanceof AdmissionRejected
-              ? 503
-              : typeof error === 'object' &&
-                  error !== null &&
-                  'status' in error &&
-                  typeof error.status === 'number'
-                ? error.status
-                : 502;
+            : typeof error === 'object' &&
+                error !== null &&
+                'status' in error &&
+                typeof error.status === 'number'
+              ? error.status
+              : 502;
   const retryDelayMs =
     typeof error === 'object' &&
     error !== null &&
