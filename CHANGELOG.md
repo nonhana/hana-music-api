@@ -1,5 +1,15 @@
 # hana-music-api 发布日志
 
+## 1.4.0
+
+### Minor Changes
+
+- 4264128: 封面直传：新增 `image_upload_token` 模块（SDK 为 `imageUploadToken`，HTTP 路由 `/image/upload/token`），返回浏览器直传网易云图片存储所需的上传地址 `uploadUrl`、凭证 `token`、图片编号 `imgId` 和图片地址 `url_pre`，返回体带 TypeScript 类型。`playlist_cover_update` 新增 `imgId` 参数：传入已上传图片的编号时只发一次“设为封面”的请求，不再经手图片数据，失败后重试也不必重新上传；原来传 `imgFile` 整图上传的用法不变。`imgFile` 和 `imgId` 同时传入时返回 `status: 400`，不发出任何请求。
+
+### Patch Changes
+
+- b5c6d89: 修复 HTTP 服务从不提示“需要登录”：网易云返回数字 301 时，模块路由和演示页的接口调试都会在响应的 `msg` 里写上“需要登录”。以前拿字符串 `'301'` 去比较数字返回码，永远对不上。进程内直接调用 SDK 不受影响。
+
 ## 1.3.0
 
 ### Minor Changes
