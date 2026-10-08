@@ -322,6 +322,9 @@ import hotTopicModule, {
 import hugCommentModule, {
   decodeModuleInput as hugCommentInputDecoder,
 } from '../../modules/hug_comment.ts';
+import imageUploadTokenModule, {
+  decodeModuleInput as imageUploadTokenInputDecoder,
+} from '../../modules/image_upload_token.ts';
 import innerVersionModule, {
   decodeModuleInput as innerVersionInputDecoder,
 } from '../../modules/inner_version.ts';
@@ -1701,6 +1704,12 @@ export const sdkModuleRegistry = {
     route: '/hug/comment',
     execute: hugCommentModule,
     decodeInput: hugCommentInputDecoder,
+  },
+  image_upload_token: {
+    identifier: 'image_upload_token',
+    route: '/image/upload/token',
+    execute: imageUploadTokenModule,
+    decodeInput: imageUploadTokenInputDecoder,
   },
   inner_version: {
     identifier: 'inner_version',

@@ -170,13 +170,13 @@ describe('generated module type surface', () => {
 
   test('places every identifier in the Effect registry', async () => {
     const generated = await buildGeneratedArtifacts(REAL_MODULES_DIRECTORY);
-    expect(generated.moduleCount).toBe(351);
+    expect(generated.moduleCount).toBe(352);
     const registry = generated.files.find((file) =>
       file.path.endsWith('registry.generated.ts'),
     )!;
-    expect(registry.contents.match(/decodeInput: /g)).toHaveLength(351);
+    expect(registry.contents.match(/decodeInput: /g)).toHaveLength(352);
     const effect = Object.keys(sdkModuleRegistry);
-    expect(effect).toHaveLength(351);
+    expect(effect).toHaveLength(352);
     expect(effect.toSorted((left, right) => left.localeCompare(right))).toEqual(
       [...generatedModuleIdentifiers],
     );

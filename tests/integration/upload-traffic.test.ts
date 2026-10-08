@@ -150,11 +150,11 @@ test.each([
   20_000,
 );
 
-test('generated registries expose 351 unique Effect implementations', () => {
+test('generated registries expose 352 unique Effect implementations', () => {
   expect(
     Object.keys(createHanaMusicApi({ cookie: 'MUSIC_U=registry' })),
-  ).toHaveLength(351);
-  expect(Object.keys(sdkModuleRegistry)).toHaveLength(351);
+  ).toHaveLength(352);
+  expect(Object.keys(sdkModuleRegistry)).toHaveLength(352);
 });
 
 test('the LBS host is validated before any bytes are sent outside approved NOS hosts', async () => {

@@ -10,6 +10,8 @@
 
 模块只为确实要读取的上游字段做局部检查。普通响应体保持 `UnknownJson`，未知字段继续保留；字段缺失或类型错误时返回带模块名和路径的 `UnexpectedUpstreamShape`。
 
+响应体完全由模块自己组装、每个字段都已校验时，模块可以额外导出 `ModuleBody` 并把默认导出标注为 `ModuleEffect<ModuleInput, ModuleBody>`，生成器会把它当作公开响应类型，例如 `image_upload_token`。
+
 ## SDK 与 HTTP 输入
 
 SDK 调用把接口业务参数放在 query，把 `cookie`、`proxy`、`fetcher`、`retry`、`timeoutMs` 和 `signal` 等执行配置放在 config。HTTP 只接受业务参数以及传统的 `cookie`、`noCookie`；执行配置在发送前返回 400。

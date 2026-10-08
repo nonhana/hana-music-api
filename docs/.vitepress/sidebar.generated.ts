@@ -313,6 +313,10 @@ export const apiSidebar: Array<DefaultTheme.SidebarItem> = [
         link: '/api/playlist/playlist-cover-update',
       },
       {
+        text: '申请图片上传凭证',
+        link: '/api/playlist/image-upload-token',
+      },
+      {
         text: '调整歌单顺序',
         link: '/api/playlist/playlist-order-update',
       },

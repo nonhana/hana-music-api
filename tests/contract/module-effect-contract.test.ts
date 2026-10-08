@@ -29,7 +29,7 @@ describe('complete Effect module contract', () => {
       }
     }
     expect(failures).toEqual([]);
-    expect(modules).toHaveLength(351);
+    expect(modules).toHaveLength(352);
   });
 
   test('modules cannot reintroduce Promise adapters or direct transport', async () => {
@@ -48,13 +48,13 @@ describe('complete Effect module contract', () => {
     expect(failures).toEqual([]);
   });
 
-  test('loader and SDK expose all 351 Effect implementations', async () => {
+  test('loader and SDK expose all 352 Effect implementations', async () => {
     const loaded = await loadModuleDefinitions(modulesDirectory);
     const identifiers = loaded.map((module) => module.identifier).toSorted();
     expect(loaded.every((module) => 'execute' in module)).toBe(true);
     expect(Object.keys(sdkModuleRegistry).toSorted()).toEqual(identifiers);
-    expect(Object.keys(sdkModuleRegistry)).toHaveLength(351);
-    expect(Object.keys(createHanaMusicApi())).toHaveLength(351);
+    expect(Object.keys(sdkModuleRegistry)).toHaveLength(352);
+    expect(Object.keys(createHanaMusicApi())).toHaveLength(352);
     const generatedClient = await readFile(
       resolve(import.meta.dir, '../../src/sdk/generated/client.generated.ts'),
       'utf8',
