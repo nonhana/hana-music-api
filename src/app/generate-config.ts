@@ -1,7 +1,10 @@
 import { createHash } from 'node:crypto';
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { dirname, resolve } from 'node:path';
 
 import { createRequest } from '../core/request.ts';
-import { setRuntimeState, writeAnonymousToken } from '../core/runtime.ts';
+import { setRuntimeState } from '../core/runtime.ts';
 import {
   cookieToJson,
   generateDeviceId,
@@ -11,6 +14,31 @@ import {
 import type { GenerateConfigOptions, NcmApiResponse } from '../types/index.ts';
 
 const ID_XOR_KEY_1 = '3go8&$8*3*3h0k(2)2';
+
+const DEFAULT_ANONYMOUS_TOKEN_PATH = resolve(tmpdir(), 'anonymous_token');
+
+export const readAnonymousToken = (
+  filePath = DEFAULT_ANONYMOUS_TOKEN_PATH,
+): string => {
+  try {
+    return readFileSync(filePath, 'utf8').trim();
+  } catch {
+    return '';
+  }
+};
+
+const writeAnonymousToken = (
+  token: string,
+  filePath = DEFAULT_ANONYMOUS_TOKEN_PATH,
+): void => {
+  mkdirSync(dirname(filePath), {
+    recursive: true,
+  });
+  writeFileSync(filePath, token, 'utf8');
+  setRuntimeState({
+    anonymousToken: token,
+  });
+};
 
 export const registerAnonymous = async (
   options: GenerateConfigOptions = {},

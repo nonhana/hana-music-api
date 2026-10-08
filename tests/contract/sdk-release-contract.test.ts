@@ -16,6 +16,14 @@ const PACKAGE_JSON_PATH = resolve(ROOT, 'package.json');
 const WORKFLOWS_DIRECTORY = resolve(ROOT, '.github/workflows');
 const CHANGESET_CONFIG_PATH = resolve(ROOT, '.changeset/config.json');
 const TSC_CLI_PATH = resolve(ROOT, 'node_modules/typescript/bin/tsc');
+const FS_ACCESS_RECORDER_PATH = resolve(
+  ROOT,
+  'tests/fixtures/fs-access-recorder.mjs',
+);
+const SERVERLESS_CONSUMER_PATH = resolve(
+  ROOT,
+  'tests/fixtures/serverless-consumer.mjs',
+);
 const REQUIRED_ROOT_EXPORTS = [
   'createHanaMusicApi',
   'invokeModule',
@@ -258,6 +266,46 @@ describe('sdk release contract', () => {
       }
     }
   }, 30_000);
+
+  test('should load and answer first calls from a single-file serverless bundle without touching the filesystem', async () => {
+    ensureBuiltArtifacts();
+
+    // 云函数打包会把 SDK 和依赖合成单个文件，周围既没有 package.json，也不保证能读写临时目录。
+    const functionDirectory = mkdtempSync(
+      join(tmpdir(), 'hana-music-api-serverless-'),
+    );
+
+    try {
+      const bundle = await Bun.build({
+        entrypoints: [resolve(ROOT, 'dist/index.js')],
+        format: 'esm',
+        naming: 'function.mjs',
+        outdir: functionDirectory,
+        target: 'node',
+      });
+      expect(bundle.success).toBe(true);
+
+      const coldStart = run(
+        [
+          'node',
+          '--import',
+          FS_ACCESS_RECORDER_PATH,
+          SERVERLESS_CONSUMER_PATH,
+          resolve(functionDirectory, 'function.mjs'),
+        ],
+        functionDirectory,
+      );
+      expect(coldStart.exitCode, coldStart.stderr).toBe(0);
+      expect(JSON.parse(coldStart.stdout)).toEqual({
+        anonymousRegistrations: 1,
+        fileAccesses: [],
+        searchStatus: 200,
+        version: sdkPackage.version,
+      });
+    } finally {
+      rmSync(functionDirectory, { force: true, recursive: true });
+    }
+  }, 30_000);
 });
 
 const readPackageJson = (): PackageJsonLike =>
@@ -304,4 +352,5 @@ type PackageJsonLike = {
   private?: boolean;
   sideEffects?: boolean;
   type?: string;
+  version?: string;
 };

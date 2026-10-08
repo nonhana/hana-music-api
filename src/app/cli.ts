@@ -1,11 +1,11 @@
-import { readAnonymousToken, setRuntimeState } from '../core/runtime.ts';
+import { setRuntimeState } from '../core/runtime.ts';
 import { createServer } from '../server/create-server.ts';
 import type {
   GenerateConfigOptions,
   StartedServer,
   StartServerOptions,
 } from '../types/index.ts';
-import { generateConfig } from './generate-config.ts';
+import { generateConfig, readAnonymousToken } from './generate-config.ts';
 
 const DEFAULT_PORT = 3021;
 const DEFAULT_HOSTNAME = '0.0.0.0';
