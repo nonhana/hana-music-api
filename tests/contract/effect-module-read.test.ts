@@ -273,7 +273,7 @@ describe('ordinary read Effect modules', () => {
 
   test('all generated client methods remain available from the Effect registry', () => {
     const client = createHanaMusicApi({ cookie: 'MUSIC_U=method-surface' });
-    expect(Object.keys(client)).toHaveLength(351);
+    expect(Object.keys(client)).toHaveLength(352);
     for (const name of [
       'search',
       'lyric',

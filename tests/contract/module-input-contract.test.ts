@@ -46,7 +46,7 @@ const echoRequest: RequestCapability = (intent) =>
   Effect.succeed(response(intent.body ? JSON.parse(String(intent.body)) : {}));
 
 describe('module input ownership', () => {
-  test('all 351 endpoints own inputs without importing the central public alias barrel', async () => {
+  test('all 352 endpoints own inputs without importing the central public alias barrel', async () => {
     const modules = await discoverModuleFiles(
       resolve(projectDirectory, 'src/modules'),
     );
@@ -64,19 +64,19 @@ describe('module input ownership', () => {
         legacyCount += 1;
       }
     }
-    expect(modules).toHaveLength(351);
+    expect(modules).toHaveLength(352);
     expect(centralized).toEqual([]);
     expect(legacyCount).toBe(284);
   });
 
-  test('all 351 registry entries expose their local decoder', () => {
+  test('all 352 registry entries expose their local decoder', () => {
     expect(
       Object.values(sdkModuleRegistry).filter(
         (definition) =>
           'decodeInput' in definition &&
           typeof definition.decodeInput === 'function',
       ),
-    ).toHaveLength(351);
+    ).toHaveLength(352);
   });
 
   test('shared input primitives have no execution fields or central domain maps', async () => {

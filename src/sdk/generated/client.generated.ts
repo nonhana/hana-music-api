@@ -117,6 +117,7 @@ export interface HanaMusicApiClient {
   homepageDragonBall: SdkModuleInvoker<'homepage_dragon_ball'>;
   hotTopic: SdkModuleInvoker<'hot_topic'>;
   hugComment: SdkModuleInvoker<'hug_comment'>;
+  imageUploadToken: SdkModuleInvoker<'image_upload_token'>;
   innerVersion: SdkModuleInvoker<'inner_version'>;
   like: SdkModuleInvoker<'like'>;
   likelist: SdkModuleInvoker<'likelist'>;
@@ -793,6 +794,10 @@ export const hotTopic = createEffectModuleInvoker(
 export const hugComment = createEffectModuleInvoker(
   'hug_comment',
   sdkModuleRegistry.hug_comment,
+);
+export const imageUploadToken = createEffectModuleInvoker(
+  'image_upload_token',
+  sdkModuleRegistry.image_upload_token,
 );
 export const innerVersion = createEffectModuleInvoker(
   'inner_version',
@@ -2414,6 +2419,12 @@ export const createHanaMusicApi = (
     hugComment: createEffectModuleInvoker(
       'hug_comment',
       sdkModuleRegistry.hug_comment,
+      config,
+      context,
+    ),
+    imageUploadToken: createEffectModuleInvoker(
+      'image_upload_token',
+      sdkModuleRegistry.image_upload_token,
       config,
       context,
     ),

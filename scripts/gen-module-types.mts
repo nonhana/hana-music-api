@@ -274,7 +274,7 @@ const buildModuleSurface = (
   );
   const localImports = contracts.map(({ identifier, body }) => {
     const name = toCamelCase(identifier);
-    return `import type { ModuleInput as ${name}Input${body ? `, ModuleBody as ${name}Body` : ''} } from '../../modules/${identifier}.ts'`;
+    return `import type { ${body ? `ModuleBody as ${name}Body, ` : ''}ModuleInput as ${name}Input } from '../../modules/${identifier}.ts'`;
   });
   const contractLines = contracts.map(({ identifier, body }) => {
     const name = toCamelCase(identifier);

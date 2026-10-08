@@ -106,6 +106,10 @@ import type { ModuleInput as homepageBlockPageInput } from '../../modules/homepa
 import type { ModuleInput as homepageDragonBallInput } from '../../modules/homepage_dragon_ball.ts';
 import type { ModuleInput as hotTopicInput } from '../../modules/hot_topic.ts';
 import type { ModuleInput as hugCommentInput } from '../../modules/hug_comment.ts';
+import type {
+  ModuleBody as imageUploadTokenBody,
+  ModuleInput as imageUploadTokenInput,
+} from '../../modules/image_upload_token.ts';
 import type { ModuleInput as innerVersionInput } from '../../modules/inner_version.ts';
 import type { ModuleInput as likeInput } from '../../modules/like.ts';
 import type { ModuleInput as likelistInput } from '../../modules/likelist.ts';
@@ -460,6 +464,7 @@ export const generatedModuleIdentifiers = [
   'homepage_dragon_ball',
   'hot_topic',
   'hug_comment',
+  'image_upload_token',
   'inner_version',
   'like',
   'likelist',
@@ -817,6 +822,7 @@ export const generatedModuleRoutes = {
   homepage_dragon_ball: '/homepage/dragon/ball',
   hot_topic: '/hot/topic',
   hug_comment: '/hug/comment',
+  image_upload_token: '/image/upload/token',
   inner_version: '/inner/version',
   like: '/like',
   likelist: '/likelist',
@@ -1570,6 +1576,11 @@ export interface GeneratedModuleContractMap {
     input: hugCommentInput;
     query: hugCommentInput;
     response: ModuleResponse;
+  };
+  image_upload_token: {
+    input: imageUploadTokenInput;
+    query: imageUploadTokenInput;
+    response: ModuleResponse<imageUploadTokenBody>;
   };
   inner_version: {
     input: innerVersionInput;

@@ -43,6 +43,7 @@ const contracts: Array<{
   {
     modules: [
       'album_newest',
+      'image_upload_token',
       'register_anonimous',
       'user_account',
       'user_level',
@@ -195,7 +196,7 @@ const contracts: Array<{
   { modules: ['lyric'], valid: { id: 1 }, required: [] },
   {
     modules: ['playlist_cover_update'],
-    valid: { imgFile: songFile, id: 'id' },
+    valid: { imgFile: songFile, imgId: 'img', id: 'id' },
     required: [],
   },
   { modules: ['playlist_detail'], valid: { id: 1, s: '8' }, required: ['id'] },
@@ -287,8 +288,8 @@ const definitions = sdkModuleRegistry as unknown as Record<
   ModuleDefinition
 >;
 
-test('confirmed decoder cases cover exactly the 67 confirmed modules', () => {
-  expect(new Set(cases.map(({ identifier }) => identifier)).size).toBe(67);
+test('confirmed decoder cases cover exactly the 68 confirmed modules', () => {
+  expect(new Set(cases.map(({ identifier }) => identifier)).size).toBe(68);
 });
 
 test('all 284 legacy decoders preserve unknown nested input and require plain objects', () => {

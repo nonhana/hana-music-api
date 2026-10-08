@@ -81,7 +81,7 @@ SDK 返回 `{ status, body, cookie }`：
 | `body`   | 接口正文，可能包含业务 `code`，普通响应保留未知 JSON       |
 | `cookie` | 上游下发的 Cookie 字符串数组                               |
 
-执行失败时，Promise 通常会以同样的三字段对象拒绝，所以不能只读取 `error.message`。模块也可能正常返回带失败状态的结果；例如缺少文件的歌单封面上传会返回 `status: 400`。成功完成 `await` 后仍要检查状态，业务状态则按具体接口处理。
+执行失败时，Promise 通常会以同样的三字段对象拒绝，所以不能只读取 `error.message`。模块也可能正常返回带失败状态的结果；例如既没传文件也没传图片编号的歌单封面更新会返回 `status: 400`。成功完成 `await` 后仍要检查状态，业务状态则按具体接口处理。
 
 ```ts
 import { search } from 'hana-music-api';
