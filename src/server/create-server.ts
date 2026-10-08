@@ -38,7 +38,6 @@ export const createServer = async (
     options.moduleDefinitions ??
     (await loadModuleDefinitions(modulesDirectory));
   const modules = createServiceLayer(
-    undefined,
     options.cacheEnabled === false ? null : (options.cacheTtlMs ?? 120_000),
   );
   const requestHandler = options.requestHandler;

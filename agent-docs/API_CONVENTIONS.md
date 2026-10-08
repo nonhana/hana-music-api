@@ -26,6 +26,6 @@ HTTP 路由按请求头 Cookie → query → body 的顺序合并，后者覆盖
 
 ## 错误与公开形状
 
-请求层负责目标拒绝、准入拒绝、上游限流、期限、传输和协议失败；模块层负责输入错误、上游结构错误、业务失败和上传部分完成。内部错误只在公开边界映射为既有的 `{ status, body, cookie }` Promise 响应。
+请求层负责目标拒绝、上游限流、期限、传输和协议失败；HTTP 服务层负责入口准入拒绝；模块层负责输入错误、上游结构错误、业务失败和上传部分完成。内部错误只在公开边界映射为既有的 `{ status, body, cookie }` Promise 响应。
 
 相关实现：`src/modules/`、`src/server/routes.ts`、`src/server/execution-input.ts`、`src/server/admission.ts`、`src/server/module-loader.ts`、`scripts/gen-module-types.mts`。

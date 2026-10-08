@@ -3,10 +3,10 @@ import { describe, expect, test } from 'bun:test';
 import { Effect } from 'effect';
 
 import { startServer } from '../../src/app/cli.ts';
-import { Call, ProcessServices } from '../../src/core/call.ts';
+import { Call } from '../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
-import { createRuntimeRequest, requestEffect } from '../../src/core/request.ts';
-import { TrafficGovernor } from '../../src/core/traffic.ts';
+import { createRequest, requestEffect } from '../../src/core/request.ts';
+import { setConnectionIp } from '../../src/server/admission.ts';
 import { createServer } from '../../src/server/create-server.ts';
 import type {
   ModuleDefinition,
@@ -24,7 +24,6 @@ describe('server traffic admission', () => {
     'debug classifies %s through the real request pipeline',
     async (uri) => {
       let calls = 0;
-      const governor = new TrafficGovernor();
       const app = await createServer(
         {
           hostname: '127.0.0.1',
@@ -41,10 +40,6 @@ describe('server traffic admission', () => {
                   },
                 },
               })),
-              Effect.updateService(ProcessServices, (services) => ({
-                ...services,
-                governor,
-              })),
             ),
         },
         { allowDebugApiRequests: true },
@@ -60,10 +55,8 @@ describe('server traffic admission', () => {
   );
 
   test.each([200, 429])(
-    'the first API %s response preserves Retry-After',
+    'an upstream 429 inside an HTTP %i response keeps Retry-After',
     async (status) => {
-      let calls = 0;
-      const request = createRuntimeRequest({ governor: new TrafficGovernor() });
       const app = await createServer({
         moduleDefinitions: [
           {
@@ -77,29 +70,24 @@ describe('server traffic admission', () => {
           },
         ],
         requestHandler: mockRequest((uri, data, options) =>
-          request(uri, data, {
+          createRequest(uri, data, {
             ...options,
             crypto: 'api',
-            fetcher: async () => {
-              calls += 1;
-              return Response.json(
+            fetcher: async () =>
+              Response.json(
                 { code: 429 },
                 { status, headers: { 'Retry-After': '17' } },
-              );
-            },
+              ),
           }),
         ),
       });
-      for (let index = 0; index < 2; index += 1) {
-        const response = await app.request('/probe');
-        expect(response.status).toBe(429);
-        expect(response.headers.get('retry-after')).toBe('17');
-        expect(await response.json()).toMatchObject({
-          code: 429,
-          retryAfter: 17,
-        });
-      }
-      expect(calls).toBe(1);
+      const response = await app.request('/probe');
+      expect(response.status).toBe(429);
+      expect(response.headers.get('retry-after')).toBe('17');
+      expect(await response.json()).toMatchObject({
+        code: 429,
+        retryAfter: 17,
+      });
     },
   );
 
@@ -246,6 +234,60 @@ describe('server traffic admission', () => {
         await server.stop(true);
       }
     }
+  });
+
+  test('each visiting IP keeps its own HTTP budget in front of the request pipeline', async () => {
+    let calls = 0;
+    const app = await createServer({
+      moduleDefinitions: [
+        {
+          identifier: 'probe',
+          route: '/probe',
+          decodeInput: decodeLegacyModuleInput,
+          execute: (_query: ModuleQuery, handler: RequestCapability) =>
+            testRequest(handler, '/api/test', {}).pipe(
+              Effect.map(moduleResponse),
+            ),
+        },
+      ],
+      cacheEnabled: false,
+      traffic: {
+        burst: 2,
+        requestsPerSecond: 1,
+        trustedProxyIps: ['127.0.0.1'],
+      },
+      requestHandler: (intent) =>
+        requestEffect(intent).pipe(
+          Effect.updateService(Call, (call) => ({
+            ...call,
+            config: {
+              ...call.config,
+              fetcher: async () => {
+                calls += 1;
+                return Response.json({ code: 200 });
+              },
+            },
+          })),
+        ),
+    });
+    const visit = (ip: string) => {
+      const request = new Request('http://localhost/probe', {
+        headers: { 'x-forwarded-for': ip },
+      });
+      setConnectionIp(request, '127.0.0.1');
+      return app.request(request);
+    };
+
+    const busy = [];
+    for (let index = 0; index < 3; index += 1) {
+      busy.push(await visit('10.0.0.1'));
+    }
+    const other = await visit('10.0.0.2');
+
+    expect(busy.map((response) => response.status)).toEqual([200, 200, 429]);
+    expect(busy[2]?.headers.get('retry-after')).toBe('1');
+    expect(other.status).toBe(200);
+    expect(calls).toBe(3);
   });
   test('rejects before parsing the request body', async () => {
     let invoked = 0;

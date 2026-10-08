@@ -36,7 +36,7 @@ flowchart TD
 
 内部的 `Call` 表示一次模块调用。它保存整理后的业务参数、执行配置、有效身份和截止时间。模块后续发出多次请求时，仍使用这次调用的身份，不会中途换成全局状态里刚更新的账号。
 
-普通模块默认有 8 秒总期限。准备游客身份、等待出口额度、重试和读取正文都算在这 8 秒里。两个相同的读取可以共享上游工作，但每个调用者仍有自己的期限，详见 [超时与取消](/guide/retry-timeout-resilience)。
+普通模块默认有 8 秒总期限。准备游客身份、重试和读取正文都算在这 8 秒里。两个相同的读取可以共享上游工作，但每个调用者仍有自己的期限，详见 [超时与取消](/guide/retry-timeout-resilience)。
 
 ### 检查能否复用读取结果
 
@@ -63,35 +63,31 @@ flowchart TD
 
 模块通过传入的 `RequestCapability` 提交它。这个名字表示模块拥有的请求能力，其默认实现就是 `requestEffect`。模块不直接调用 `fetch`，也不在内部启动另一套 Promise 执行器。
 
-内核根据调用快照准备 URL、Cookie、请求头和加密正文，校验最终目标，再按策略执行请求。每次真正发送前都要取得出口额度。只有允许重试的操作和失败类型才会进入下一次尝试。
+内核根据调用快照准备 URL、Cookie、请求头和加密正文，校验最终目标，再按策略执行请求。内核不在本地限制发送频率，每次尝试都直接发出；请求频率由调用方控制，见 [请求频率由调用方控制](/guide/retry-timeout-resilience#请求频率由调用方控制)。只有允许重试的操作和失败类型才会进入下一次尝试。
 
 ```mermaid
 sequenceDiagram
   participant Module as 搜索模块
   participant Core as 请求内核
-  participant Governor as 出口额度
   participant Transport as 网络传输
   participant Upstream as 网易云
   Module->>Core: 请求意图
   Core->>Core: 准备协议并校验目标
-  Core->>Governor: 申请发送许可
-  Governor-->>Core: 允许发送
   Core->>Transport: 发送请求
   Transport->>Upstream: HTTP 请求
   Upstream-->>Transport: 响应头与正文
   Transport->>Transport: 读完正文并解释响应
-  Transport->>Governor: 释放许可
   Transport-->>Core: 结果或内部错误
   Core-->>Module: 模块可用的响应
 ```
 
-响应头到了，不代表请求结束。正文读取、解密和解释也属于这次执行。遇到超时或取消，内核会中断工作并释放自己的许可；自定义 `fetcher` 仍需配合传入的取消信号。
+响应头到了，不代表请求结束。正文读取、解密和解释也属于这次执行。遇到超时或取消，内核会中断工作并释放自己的资源；自定义 `fetcher` 仍需配合传入的取消信号。
 
 ## 哪些状态共享，哪些只属于一次调用
 
 | 范围                    | 保存什么                                    | 对调用者的影响                                         |
 | ----------------------- | ------------------------------------------- | ------------------------------------------------------ |
-| 进程                    | 默认出口额度、匿名运行时状态、内部流量事件  | 创建多个 client 也不会得到多份默认出口额度             |
+| 进程                    | 匿名运行时状态                              | 多个 client 共用同一份匿名身份                         |
 | client 或 HTTP 服务实例 | 各自的 `ReadStore`；client 可选的匿名身份池 | 不同 client 的缓存独立；同一 client 的方法共用读取状态 |
 | 单次调用                | 参数、配置、身份快照、截止时间              | 单次覆盖只影响这次调用，取消也先作用于这个调用者       |
 
@@ -99,18 +95,16 @@ sequenceDiagram
 
 ```mermaid
 flowchart TD
-  PROCESS["进程服务<br/>默认出口额度、状态读取"] --> ClientOne["client A<br/>读取状态、可选身份池"]
+  PROCESS["进程服务<br/>状态读取"] --> ClientOne["client A<br/>读取状态、可选身份池"]
   PROCESS --> ClientTwo["client B<br/>独立的读取状态"]
   PROCESS --> SERVER["HTTP 服务实例<br/>读取状态"]
   ClientOne --> CallOne["调用 A：身份、期限、取消"]
   ClientOne --> CallTwo["调用 B：身份、期限、取消"]
 ```
 
-多进程之间不会自动共享内存中的额度。需要部署多个进程时，在可信反向代理层补充统一限流，见 [部署 HTTP 服务](/guide/server-deployment)。
-
 ## Effect 在这里解决什么问题
 
-一次请求可能还在排队，也可能已经拿到响应头、正在读正文。Effect 让这些步骤使用同一套取消、超时和资源清理规则，减少每个入口自己维护计时器和清理逻辑的情况。
+一次请求可能还在准备身份，也可能已经拿到响应头、正在读正文。Effect 让这些步骤使用同一套取消、超时和资源清理规则，减少每个入口自己维护计时器和清理逻辑的情况。
 
 | 名字                                       | 在项目里的用途                             |
 | ------------------------------------------ | ------------------------------------------ |
@@ -120,13 +114,13 @@ flowchart TD
 | `Fiber`                                    | 管理正在执行的共享工作，必要时中断它       |
 | `Scope`、`acquireRelease`                  | 将取得资源和退出时的释放动作放在一起       |
 
-当前 SDK 和 HTTP 主路径先构造服务值，再用 `Effect.provideService` 提供给工作。仓库也有 Layer 构造函数，但不需要把 Layer 理解成每次请求都要经过的一道步骤。
+当前 SDK 和 HTTP 主路径先构造服务值，再用 `Effect.provideService` 提供给工作，不经过 Layer。
 
 比如两个调用者等同一份歌词，一个取消时只减少一个等待者。还有人在等，共享工作就继续；最后一个等待者也离开时，才中断上游。图解见 [共享读取的取消](/guide/sdk-cache-and-identity-pool#共享读取的取消)。
 
 ## 网页与上传也使用同一个请求能力
 
-`related_playlist` 读取网页文本，再提取歌单信息。图片和声音上传则先申请上传凭据，再向网易云对象存储 NOS 发送文件，最后提交业务信息。它们用不同的协议和正文类型，但都经过相同的目标检查、出口额度和取消流程。
+`related_playlist` 读取网页文本，再提取歌单信息。图片和声音上传则先申请上传凭据，再向网易云对象存储 NOS 发送文件，最后提交业务信息。它们用不同的协议和正文类型，但都经过相同的目标检查和取消流程。
 
 ```mermaid
 flowchart LR
@@ -157,7 +151,7 @@ HTTP 服务会把 `body` 写成 JSON，把 `status` 用作 HTTP 状态码，并�
 | 请求执行与期限           | `src/core/request.ts`                                     |
 | 协议准备、目标与重试策略 | `src/core/request-plan.ts`、`src/core/endpoint-policy.ts` |
 | 网络发送与响应解释       | `src/core/transport.ts`、`src/core/response.ts`           |
-| 出口额度与 HTTP 入口额度 | `src/core/traffic.ts`、`src/server/admission.ts`          |
+| HTTP 入口额度            | `src/server/admission.ts`                                 |
 
 每个模块本地声明 `ModuleInput`、导出 `decodeModuleInput`，并用 `ModuleEffect` 实现默认导出。生成器据此维护 SDK 方法、registry 和公开输入类型。维护模块时应运行 `bun run types:modules:generate`，然后按仓库的 `agent-docs/TESTING.md` 选择检查。
 

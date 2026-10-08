@@ -25,11 +25,11 @@ await hana.search({ keywords: '海阔天空' });
 
 回调只用于观测，应保持轻量并避免抛错。事件 URL 已移除 query，事件不提供 Cookie 字段；自定义日志也不要记录凭据或完整请求正文。
 
-| 事件      | 表示什么                                       |
-| --------- | ---------------------------------------------- |
-| `attempt` | 请求内核开始一次尝试，此时可能还在等待出口额度 |
-| `retry`   | 这次失败符合重试规则，接下来按 `delayMs` 等待  |
-| `failure` | 请求尝试遇到无法继续重试的失败                 |
+| 事件      | 表示什么                                      |
+| --------- | --------------------------------------------- |
+| `attempt` | 请求内核开始一次尝试                          |
+| `retry`   | 这次失败符合重试规则，接下来按 `delayMs` 等待 |
+| `failure` | 请求尝试遇到无法继续重试的失败                |
 
 `attempt` 不等于请求已经真正发出，不能直接拿它当上游实际请求数。一次最终成功的调用也可能先出现多个 `attempt` 和 `retry`。
 
@@ -88,4 +88,4 @@ try {
 
 包装 `fetch` 后立刻返回 `Response`，测到的通常只是收到响应头之前的时间；后续读取正文仍由内核完成。自定义实现与取消要求见 [自定义 fetcher](/guide/custom-fetcher)。
 
-内部还有出口活动数和冷却事件，但不属于根 SDK 的公开配置。维护者可以继续阅读 [架构详解](/guide/request-layer-overview)，以及仓库中的 `tests/load/` 和 `agent-docs/TESTING.md`。
+维护者可以继续阅读 [架构详解](/guide/request-layer-overview)，以及仓库中的 `tests/load/` 和 `agent-docs/TESTING.md`。

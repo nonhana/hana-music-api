@@ -15,7 +15,7 @@ export type SdkClientContext = ReturnType<typeof buildCallServices>;
 let invocationServices: SdkClientContext | undefined;
 
 export const createSdkClientContext = (config: CreateHanaMusicApiConfig) =>
-  buildCallServices(undefined, config);
+  buildCallServices(config);
 
 export const invokeModule = async <K extends ModuleIdentifier>(
   identifier: K,

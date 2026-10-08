@@ -6,7 +6,6 @@ import { createHanaMusicApi } from '../../index.ts';
 import { APP_CONF } from '../../src/core/config.ts';
 import { eapiReqDecrypt } from '../../src/core/crypto.ts';
 import {
-  AdmissionRejected,
   DeadlineExceeded,
   InvalidModuleInput,
   ProtocolFailed,
@@ -39,7 +38,6 @@ import { executeModule, response } from '../fixtures/upload-effect.ts';
 const requestFailures = [
   new TransportFailed({ message: 'socket failed' }),
   new DeadlineExceeded({ message: 'deadline' }),
-  new AdmissionRejected({ message: 'queue full' }),
   new UpstreamRateLimited({
     host: 'music.163.com',
     identity: 'test',

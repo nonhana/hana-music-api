@@ -1,11 +1,6 @@
 import type { FetchLike } from '../../src/types/index.ts';
 
-export type FakeMode =
-  | 'healthy'
-  | 'http429'
-  | 'business429'
-  | 'plain429'
-  | 'slow-body';
+export type FakeMode = 'healthy' | 'http429' | 'plain429' | 'slow-body';
 
 export const createFakeUpstream = (delayMs = 50) => {
   let mode: FakeMode = 'healthy';
@@ -36,12 +31,6 @@ export const createFakeUpstream = (delayMs = 50) => {
           return Response.json(
             { code: 200 },
             { status: 429, headers: { 'Retry-After': '1' } },
-          );
-        }
-        if (selected === 'business429') {
-          return Response.json(
-            { code: 429 },
-            { headers: { 'Retry-After': '1' } },
           );
         }
         if (selected === 'plain429') {

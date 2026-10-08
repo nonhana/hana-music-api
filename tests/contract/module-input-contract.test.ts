@@ -462,11 +462,7 @@ describe('untrusted entry input', () => {
           return { status: 200, cookie: [], body: { code: 200, id: input.id } };
         }),
     } satisfies ModuleDefinition<'search', { id: string }>;
-    const context = buildCallServices(
-      undefined,
-      { cache: { ttlMs: 60_000 } },
-      false,
-    );
+    const context = buildCallServices({ cache: { ttlMs: 60_000 } }, false);
     for (const id of [12, '12']) {
       await runCall(
         { identifier: 'search', input: { id }, config: {} },

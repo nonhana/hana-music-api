@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, spyOn, test } from 'bun:test';
+import { describe, expect, spyOn, test } from 'bun:test';
 
 import { Effect } from 'effect';
 
@@ -9,7 +9,6 @@ import type { CallShape } from '../../src/core/call.ts';
 import { ProtocolFailed, TransportFailed } from '../../src/core/errors.ts';
 import { resolveIdentitySnapshot } from '../../src/core/identity.ts';
 import { getRuntimeState } from '../../src/core/runtime.ts';
-import { resetDefaultTrafficGovernor } from '../../src/core/traffic.ts';
 import lyric from '../../src/modules/lyric.ts';
 import playlistDetail from '../../src/modules/playlist_detail.ts';
 import search from '../../src/modules/search.ts';
@@ -47,8 +46,6 @@ const scenarios = [
 ] as const;
 
 describe('ordinary read Effect modules', () => {
-  beforeEach(() => resetDefaultTrafficGovernor());
-
   test.each([
     {
       module: search,

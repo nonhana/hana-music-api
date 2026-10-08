@@ -5,7 +5,6 @@ import {
   registerAnonymousToken,
 } from '../../src/core/anonymous.ts';
 import { getRuntimeState, setRuntimeState } from '../../src/core/runtime.ts';
-import { resetDefaultTrafficGovernor } from '../../src/core/traffic.ts';
 import type { FetchLike } from '../../src/types/index.ts';
 
 const anonymousFetcher = (
@@ -38,7 +37,6 @@ describe('ensureRuntimeAnonymousToken', () => {
   beforeEach(() => {
     previous = getRuntimeState();
     setRuntimeState({ anonymousToken: '' });
-    resetDefaultTrafficGovernor();
   });
   afterEach(() => setRuntimeState(previous));
 

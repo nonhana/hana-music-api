@@ -74,20 +74,19 @@ await startServer({
 
 multipart 文件总量受 `maxBodyBytes` 限制，整个请求另有 64 KiB 的表单边界和头部余量。上传较大音频时需要相应提高上限。体积过大返回 413，读取请求体超时返回 408。这与模块执行期间的 504 超时是两件事。
 
-## 入口限流和出口限流
+## 入口限流
 
 ```mermaid
 flowchart LR
   CLIENT["客户端"] --> INBOUND["入口检查<br/>IP 频率、模块与上传容量"]
   INBOUND --> BODY["读取并解析请求体"]
   BODY --> MODULE["执行模块"]
-  MODULE --> OUTBOUND["进程出口检查<br/>域名、身份、同时发送数"]
-  OUTBOUND --> NCM["网易云"]
+  MODULE --> NCM["网易云"]
 ```
 
 入口检查在读取 body 前执行。请求太频繁返回 429，模块或上传容量不足返回 503，并附带 `Retry-After`。静态资源、文档和 `/health` 不消耗模块配额。
 
-出口限流约束本进程实际发给网易云的请求，SDK 与 HTTP 默认共享它。调大 HTTP 模块容量不会自动调大出口额度。默认出口参数见 [冷却与忙碌](/guide/retry-timeout-resilience#冷却与忙碌)。
+入口限流只保护对外开放的 HTTP 服务。通过入口的请求会直接发给网易云，进程里没有第二层出口限流；在进程里直接调用 SDK 的程序完全不经过这一层，需要自己控制请求频率，见 [请求频率由调用方控制](/guide/retry-timeout-resilience#请求频率由调用方控制)。
 
 ## 放在反向代理后面
 

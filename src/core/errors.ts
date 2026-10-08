@@ -10,11 +10,6 @@ export class TargetRejected extends Data.TaggedError('TargetRejected')<{
   readonly message: string;
 }> {}
 
-export class AdmissionRejected extends Data.TaggedError('AdmissionRejected')<{
-  readonly message: string;
-  readonly retryAfterMs?: number;
-}> {}
-
 export class UpstreamRateLimited extends Data.TaggedError(
   'UpstreamRateLimited',
 )<{
@@ -84,7 +79,6 @@ export class ModuleInvariantFailed extends Data.TaggedError(
 export type RequestError =
   | InvalidRequest
   | TargetRejected
-  | AdmissionRejected
   | UpstreamRateLimited
   | DeadlineExceeded
   | TransportFailed

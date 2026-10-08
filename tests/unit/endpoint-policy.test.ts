@@ -1,8 +1,7 @@
 import { expect, test } from 'bun:test';
 
 import { isReadModule, retryDecision } from '../../src/core/endpoint-policy.ts';
-import { createRuntimeRequest } from '../../src/core/request.ts';
-import { TrafficGovernor } from '../../src/core/traffic.ts';
+import { createRequest } from '../../src/core/request.ts';
 
 const writeUris = [
   '/api/playlist/track/add',
@@ -55,20 +54,9 @@ const writeUris = [
 test.each(writeUris)(
   '%s is sent once even after a connection failure with retries enabled',
   async (uri) => {
-    const runtime = {
-      governor: new TrafficGovernor({
-        maxInFlight: 8,
-        maxWaiting: 32,
-        waitMs: 2_000,
-        hostRate: 1_000,
-        hostBurst: 1_000,
-        identityRate: 1_000,
-        identityBurst: 1_000,
-      }),
-    };
     let calls = 0;
     expect(
-      createRuntimeRequest(runtime)(
+      createRequest(
         uri,
         {},
         {

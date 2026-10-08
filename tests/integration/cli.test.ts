@@ -1,10 +1,9 @@
-import { beforeEach, describe, expect, test } from 'bun:test';
+import { describe, expect, test } from 'bun:test';
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 import { ensureAnonymousToken } from '../../src/app/cli.ts';
-import { resetDefaultTrafficGovernor } from '../../src/core/traffic.ts';
 import type { FetchLike } from '../../src/types/index.ts';
 
 const restoreAnonymousTokenFileEnv = (
@@ -19,9 +18,6 @@ const restoreAnonymousTokenFileEnv = (
 };
 
 describe('ensureAnonymousToken', () => {
-  beforeEach(() => {
-    resetDefaultTrafficGovernor();
-  });
   test('should use Bun.env.ANONYMOUS_TOKEN_FILE when tokenFilePath is omitted', async () => {
     const temporaryDirectory = mkdtempSync(join(tmpdir(), 'hana-cli-token-'));
     const tokenFilePath = join(temporaryDirectory, 'anonymous_token');

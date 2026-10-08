@@ -1,10 +1,9 @@
-import { beforeEach, describe, expect, test } from 'bun:test';
+import { describe, expect, test } from 'bun:test';
 import { createCipheriv } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 
 import { aesEncrypt } from '../../src/core/crypto.ts';
 import { createRequest } from '../../src/core/request.ts';
-import { resetDefaultTrafficGovernor } from '../../src/core/traffic.ts';
 import type { FetchLike, RequestDebugEvent } from '../../src/types/index.ts';
 
 const specialCodeFetcher: FetchLike = async () =>
@@ -52,9 +51,6 @@ describe('createRequest', () => {
     );
     expect(response.status).toBe(200);
     expect(calls).toBe(2);
-  });
-  beforeEach(() => {
-    resetDefaultTrafficGovernor();
   });
   test('should build an api request with default cookie state', async () => {
     let input: Parameters<FetchLike>[0] | undefined;

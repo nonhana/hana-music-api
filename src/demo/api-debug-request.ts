@@ -26,7 +26,7 @@ export const invokeApiDebugRequest = async (
   payload: ApiDebugRequestPayload,
   request: RequestCapability = requestEffect,
   fallbackCookie: CookieRecord = {},
-  services = buildCallServices(undefined, {}, false),
+  services = buildCallServices({}, false),
   signal?: AbortSignal,
   ip?: string,
 ): Promise<NcmApiResponse> => {

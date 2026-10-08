@@ -1,11 +1,16 @@
 import { isIP } from 'node:net';
 
-import { Clock, Effect, Option, Ref, Semaphore } from 'effect';
+import { Clock, Data, Effect, Option, Ref, Semaphore } from 'effect';
 import type { Context, MiddlewareHandler } from 'hono';
 
 import { isUploadModule } from '../core/endpoint-policy.ts';
-import { TrafficRejectedError } from '../core/traffic.ts';
 import type { CreateServerOptions, TrafficOptions } from '../types/index.ts';
+
+class TrafficRejectedError extends Data.TaggedError('TrafficRejectedError')<{
+  readonly status: 429 | 503;
+  readonly message: string;
+  readonly retryAfterMs?: number;
+}> {}
 
 const requestIps = new WeakMap<Request, string>();
 

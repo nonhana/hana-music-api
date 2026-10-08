@@ -2,28 +2,15 @@ import { describe, expect, test } from 'bun:test';
 
 import { Effect, Result } from 'effect';
 
-import { Call, ProcessServices } from '../../src/core/call.ts';
+import { Call } from '../../src/core/call.ts';
 import type { CallShape } from '../../src/core/call.ts';
 import { resolveIdentitySnapshot } from '../../src/core/identity.ts';
-import {
-  createRequest,
-  createRuntimeRequest,
-  requestEffect,
-} from '../../src/core/request.ts';
+import { createRequest, requestEffect } from '../../src/core/request.ts';
 import { getRuntimeState } from '../../src/core/runtime.ts';
-import {
-  getDefaultTrafficGovernor,
-  resetDefaultTrafficGovernor,
-  TrafficGovernor,
-} from '../../src/core/traffic.ts';
 import type { FetchLike, ModuleCallConfig } from '../../src/types/index.ts';
 import type { RequestIntent } from '../../src/types/runtime.ts';
 import { runEffect } from '../_kit/it.ts';
-import {
-  moduleRuntime,
-  plainRequest,
-  testRequest,
-} from '../fixtures/request-capability.ts';
+import { plainRequest } from '../fixtures/request-capability.ts';
 
 describe('Effect request execution', () => {
   test.each([
@@ -53,7 +40,6 @@ describe('Effect request execution', () => {
                 return Response.json({ code: 200 });
               },
             },
-            new TrafficGovernor(),
           ),
         ),
       );
@@ -99,7 +85,6 @@ describe('Effect request execution', () => {
                 return Response.json({ code: 200 });
               },
             },
-            new TrafficGovernor(),
           ),
         ),
       );
@@ -128,7 +113,6 @@ describe('Effect request execution', () => {
   ] as const)(
     '$target body consumption shares the Call deadline and releases its reader',
     async (scenario) => {
-      const governor = new TrafficGovernor();
       let cancelled = false;
       const result = await runEffect(
         Effect.result(
@@ -144,7 +128,6 @@ describe('Effect request execution', () => {
                   }),
                 ),
             },
-            governor,
             Date.now() + 30,
           ),
         ),
@@ -154,8 +137,6 @@ describe('Effect request execution', () => {
         expect(result.failure).toMatchObject({ _tag: 'DeadlineExceeded' });
       }
       expect(cancelled).toBe(true);
-      expect(governor.snapshot.active).toBe(0);
-      expect(governor.snapshot.waiting).toBe(0);
     },
   );
 
@@ -174,9 +155,8 @@ describe('Effect request execution', () => {
       response: 'bytes',
     },
   ] as const)(
-    '$target interruption cancels body consumption and releases the permit',
+    '$target interruption cancels body consumption',
     async (scenario) => {
-      const governor = new TrafficGovernor();
       const controller = new AbortController();
       let started!: () => void;
       const ready = new Promise<void>((resolve) => {
@@ -199,7 +179,6 @@ describe('Effect request execution', () => {
                 }),
               ),
           },
-          governor,
         ),
         undefined,
         { signal: controller.signal },
@@ -208,8 +187,6 @@ describe('Effect request execution', () => {
       controller.abort();
       await pending;
       expect(cancelled).toBe(true);
-      expect(governor.snapshot.active).toBe(0);
-      expect(governor.snapshot.waiting).toBe(0);
     },
   );
   test.each([
@@ -234,7 +211,6 @@ describe('Effect request execution', () => {
   ] as const)(
     'the Call kernel serves $target using its identity snapshot',
     async (scenario) => {
-      const governor = new TrafficGovernor();
       const state = getRuntimeState({ anonymousToken: 'captured-token' });
       const fetcher: FetchLike = async (_url, init) => {
         if (scenario.protocol === 'api') {
@@ -265,15 +241,7 @@ describe('Effect request execution', () => {
       };
       const result = await runEffect(
         Effect.result(
-          requestEffect(intent).pipe(
-            Effect.provideService(Call, call),
-            Effect.provideService(ProcessServices, {
-              governor,
-              readState: () => {
-                throw new Error('Identity must not be reread');
-              },
-            }),
-          ),
+          requestEffect(intent).pipe(Effect.provideService(Call, call)),
         ),
       );
       expect(Result.isSuccess(result)).toBe(true);
@@ -284,148 +252,17 @@ describe('Effect request execution', () => {
             : scenario.expected,
         );
       }
-      expect(governor.snapshot.active).toBe(0);
     },
   );
 
   test('the plain RequestIntent preserves all byte values in order', async () => {
-    const response = await plainRequest(
-      { fetcher: async () => new Response(new Uint8Array([0, 128, 255, 1])) },
-      { governor: new TrafficGovernor() },
-    )('https://ymusic.nos-hz.163yun.com/test');
+    const response = await plainRequest({
+      fetcher: async () => new Response(new Uint8Array([0, 128, 255, 1])),
+    })('https://ymusic.nos-hz.163yun.com/test');
     expect(Array.isArray(response.body)).toBe(true);
     expect(response.body).toEqual([0, 128, 255, 1]);
   });
-  test.each(['api', 'raw'] as const)(
-    'an empty MUSIC_U cannot change the account cooldown for %s requests',
-    async (path) => {
-      const runtime = { governor: new TrafficGovernor() };
-      const request = createRuntimeRequest(runtime);
-      let calls = 0;
-      const config = {
-        cookie: { MUSIC_A: 'same-account' },
-        fetcher: async () => {
-          calls += 1;
-          return Response.json({ code: calls === 1 ? 429 : 200 });
-        },
-      };
-      const first = await request(
-        '/api/test',
-        {},
-        { ...config, crypto: 'weapi' },
-      ).catch((error: unknown) => error);
-      expect(first).toMatchObject({ status: 429 });
-      const nextConfig = {
-        ...config,
-        cookie: { MUSIC_U: '', MUSIC_A: 'same-account' },
-      };
-      const next = await (
-        path === 'api'
-          ? request('/api/test', {}, { ...nextConfig, crypto: 'api' })
-          : plainRequest(
-              nextConfig,
-              runtime,
-            )('https://ymusic.nos-hz.163yun.com/test')
-      ).catch((error: unknown) => error);
-      expect(next).toMatchObject({
-        status: 429,
-        body: { msg: 'Upstream is cooling down' },
-      });
-      expect(calls).toBe(1);
-      expect(runtime.governor.snapshot.active).toBe(0);
-      expect(runtime.governor.snapshot.waiting).toBe(0);
-    },
-  );
-
-  test.each([
-    { headers: { Cookie: 'MUSIC_U=header-user' } },
-    { headers: { cookie: 'MUSIC_A=header-anonymous' } },
-    {
-      cookie: 'MUSIC_U=explicit-user',
-      headers: { Cookie: 'MUSIC_U=ignored-user' },
-    },
-    { state: { anonymousToken: 'runtime-anonymous' } },
-  ] as Array<ModuleCallConfig>)(
-    'API and NOS share the effective account cooldown for %j',
-    async (identity) => {
-      const runtime = { governor: new TrafficGovernor() };
-      let calls = 0;
-      const config = {
-        ...identity,
-        crypto: 'api' as const,
-        fetcher: async () => {
-          calls += 1;
-          return Response.json({ code: 429 }, { status: 429 });
-        },
-      };
-      const first = await createRuntimeRequest(runtime)(
-        '/api/test',
-        {},
-        config,
-      ).catch((error: unknown) => error);
-      const next = await plainRequest(
-        config,
-        runtime,
-      )('https://ymusic.nos-hz.163yun.com/test').catch(
-        (error: unknown) => error,
-      );
-
-      expect(first).toMatchObject({ status: 429 });
-      expect(next).toMatchObject({
-        status: 429,
-        body: { msg: 'Upstream is cooling down' },
-      });
-      expect(calls).toBe(1);
-      expect(runtime.governor.snapshot.active).toBe(0);
-    },
-  );
-
-  test('standard requests wait for a refill within the queue deadline', async () => {
-    const runtime = {
-      governor: new TrafficGovernor({
-        maxInFlight: 8,
-        maxWaiting: 32,
-        waitMs: 200,
-        hostRate: 20,
-        hostBurst: 1,
-        identityRate: 20,
-        identityBurst: 1,
-      }),
-    };
-    const request = createRuntimeRequest(runtime);
-    let calls = 0;
-    const options = {
-      crypto: 'api' as const,
-      cookie: 'MUSIC_A=test',
-      fetcher: async () => {
-        calls += 1;
-        return Response.json({ code: 200 });
-      },
-    };
-    expect((await request('/api/search/get', {}, options)).status).toBe(200);
-    expect((await request('/api/search/get', {}, options)).status).toBe(200);
-    const modules = moduleRuntime(null, runtime);
-    expect(
-      (
-        await modules.invoke(
-          'search',
-          (_query, capability) =>
-            testRequest(capability, '/api/search/get', {}, { crypto: 'api' }),
-          {},
-          options,
-        )
-      ).status,
-    ).toBe(200);
-    const raw = plainRequest(options, runtime);
-    expect((await raw('https://music.163.com/playlist')).status).toBe(200);
-    expect((await raw('https://music.163.com/playlist')).status).toBe(200);
-    expect(calls).toBe(5);
-    expect(runtime.governor.snapshot.waiting).toBe(0);
-  });
-
   test('a pre-cancelled write never reaches the upstream', async () => {
-    resetDefaultTrafficGovernor();
-
     const controller = new AbortController();
     controller.abort();
     let calls = 0;
@@ -444,13 +281,9 @@ describe('Effect request execution', () => {
       ),
     ).rejects.toMatchObject({ status: 499 });
     expect(calls).toBe(0);
-    expect(getDefaultTrafficGovernor().snapshot.active).toBe(0);
-    expect(getDefaultTrafficGovernor().snapshot.waiting).toBe(0);
   });
 
   test('the total deadline includes a stalled response body', async () => {
-    resetDefaultTrafficGovernor();
-
     let aborted = false;
     const fetcher: FetchLike = async (_input, init) => {
       init?.signal?.addEventListener(
@@ -472,13 +305,9 @@ describe('Effect request execution', () => {
       ),
     ).rejects.toMatchObject({ status: 504 });
     expect(aborted).toBe(true);
-    expect(getDefaultTrafficGovernor().snapshot.active).toBe(0);
-    expect(getDefaultTrafficGovernor().snapshot.waiting).toBe(0);
   });
 
-  test('cancellation releases the outbound permit', async () => {
-    resetDefaultTrafficGovernor();
-
+  test('cancelling an in-flight request rejects with 499', async () => {
     const controller = new AbortController();
     let resolveStarted!: () => void;
     const startedPromise = new Promise<void>((resolve) => {
@@ -507,14 +336,12 @@ describe('Effect request execution', () => {
     await startedPromise;
     controller.abort();
     expect(pending).rejects.toMatchObject({ status: 499 });
-    expect(getDefaultTrafficGovernor().snapshot.active).toBe(0);
   });
 });
 
 const kernelFor = (
   intent: RequestIntent,
   config: ModuleCallConfig,
-  governor: TrafficGovernor,
   deadlineAt?: number,
 ) => {
   const call: CallShape = {
@@ -529,11 +356,5 @@ const kernelFor = (
     startedAt: Date.now(),
     deadlineAt,
   };
-  return requestEffect(intent).pipe(
-    Effect.provideService(Call, call),
-    Effect.provideService(ProcessServices, {
-      governor,
-      readState: getRuntimeState,
-    }),
-  );
+  return requestEffect(intent).pipe(Effect.provideService(Call, call));
 };

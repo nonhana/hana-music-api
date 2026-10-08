@@ -33,6 +33,8 @@ console.log(result.body);
 
 也可单独导入 `search`、`songUrl` 等函数，或用 `invokeModule()` 按模块名调用，详见[编程式调用](docs/guide/programmatic-api.md)。账号信息、歌单管理等接口需要有效 Cookie。
 
+SDK 不在本地限制请求频率：每次调用都会立刻发给网易云，不排队、不限速。调用方（例如音乐爬虫）要自己控制请求频率；网易云返回 HTTP 429 或业务 `code: 429` 时，调用以状态 429 失败，`body.retryAfter` 给出建议等待的秒数，SDK 不会自动重试。详见[请求频率由调用方控制](docs/guide/retry-timeout-resilience.md#请求频率由调用方控制)。
+
 ## 启动 HTTP 服务
 
 安装 Bun 后，在仓库目录执行：

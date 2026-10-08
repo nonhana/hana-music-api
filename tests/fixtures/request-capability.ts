@@ -5,8 +5,6 @@ import { requestSemantic } from '../../src/core/endpoint-policy.ts';
 import { ProtocolFailed } from '../../src/core/errors.ts';
 import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { requestEffect, runRequestAtEdge } from '../../src/core/request.ts';
-import type { RequestRuntime } from '../../src/core/runtime.ts';
-import { TrafficGovernor } from '../../src/core/traffic.ts';
 import type {
   CreateRequestOptions,
   ModuleCallConfig,
@@ -130,34 +128,27 @@ export const testPlainRequest = (
     semantic: options.method && options.method !== 'GET' ? 'upload' : 'read',
   });
 
-export const plainRequest =
-  (options: ModuleCallConfig, runtime: RequestRuntime) => (url: string) =>
-    runRequestAtEdge(
-      {
-        target: url,
-        protocol: 'plain',
-        method: 'GET',
-        headers: {},
-        response: 'bytes',
-        semantic: 'read',
-      },
-      options,
-      runtime,
-    );
+export const plainRequest = (options: ModuleCallConfig) => (url: string) =>
+  runRequestAtEdge(
+    {
+      target: url,
+      protocol: 'plain',
+      method: 'GET',
+      headers: {},
+      response: 'bytes',
+      semantic: 'read',
+    },
+    options,
+  );
 
-export const moduleRuntime = (
-  ttlMs: number | null = 120_000,
-  network: RequestRuntime = { governor: new TrafficGovernor() },
-) => {
+export const moduleRuntime = (ttlMs: number | null = 120_000) => {
   // shape 值直接持有（服务集无 scope 资源），供 runCall 与快照读取共用。
   const scoped = buildCallServices(
-    network,
     { cache: ttlMs === null ? { enabled: false } : { ttlMs } },
     false,
   );
   const services = scoped;
   return {
-    network,
     get snapshot() {
       return scoped.reads.snapshot;
     },
