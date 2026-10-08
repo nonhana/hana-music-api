@@ -5,6 +5,7 @@ import type { Context, Hono } from 'hono';
 import { jsxRenderer } from 'hono/jsx-renderer';
 
 import type { createServiceLayer } from '../core/call.ts';
+import { businessCode } from '../core/response.ts';
 import { cookieToJson } from '../core/utils.ts';
 import { invokeApiDebugRequest } from '../demo/api-debug-request.ts';
 import { apiDebugClientScript } from '../demo/client/api-debug.ts';
@@ -252,13 +253,7 @@ const toDemoJsonResponse = (
     );
   }
 
-  if (
-    moduleResponse.status !== 200 &&
-    typeof moduleResponse.body === 'object' &&
-    moduleResponse.body !== null &&
-    'code' in moduleResponse.body &&
-    moduleResponse.body.code === '301'
-  ) {
+  if (moduleResponse.status !== 200 && businessCode(moduleResponse) === 301) {
     (moduleResponse.body as Record<string, unknown>).msg = '需要登录';
   }
 
