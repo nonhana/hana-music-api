@@ -1,7 +1,3 @@
-import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { dirname, resolve } from 'node:path';
-
 import { Context, Effect, Layer } from 'effect';
 
 import type { RuntimeState } from '../types/index.ts';
@@ -11,23 +7,9 @@ import { getDefaultTrafficGovernor } from './traffic.ts';
 import type { TrafficGovernor } from './traffic.ts';
 import { generateDeviceId, generateRandomChineseIP } from './utils.ts';
 
-export const DEFAULT_ANONYMOUS_TOKEN_PATH = resolve(
-  tmpdir(),
-  'anonymous_token',
-);
-
-export const readAnonymousToken = (
-  filePath = DEFAULT_ANONYMOUS_TOKEN_PATH,
-): string => {
-  try {
-    return readFileSync(filePath, 'utf8').trim();
-  } catch {
-    return '';
-  }
-};
-
+// 运行时状态只放内存：SDK 可能跑在随时回收的云函数里，匿名令牌由首次调用注册；需要持久化的 CLI 自行读写文件。
 let runtimeState: RuntimeState = {
-  anonymousToken: readAnonymousToken(DEFAULT_ANONYMOUS_TOKEN_PATH),
+  anonymousToken: '',
   cnIp: generateRandomChineseIP(),
   deviceId: generateDeviceId(),
 };
@@ -48,19 +30,6 @@ export const setRuntimeState = (
   };
 
   return runtimeState;
-};
-
-export const writeAnonymousToken = (
-  token: string,
-  filePath = DEFAULT_ANONYMOUS_TOKEN_PATH,
-): void => {
-  mkdirSync(dirname(filePath), {
-    recursive: true,
-  });
-  writeFileSync(filePath, token, 'utf8');
-  setRuntimeState({
-    anonymousToken: token,
-  });
 };
 
 export interface TrafficEvent {

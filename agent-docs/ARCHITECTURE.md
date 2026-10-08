@@ -25,6 +25,7 @@ Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `c
 - 每个 client、HTTP 服务实例和程序化 API 实例拥有自己的 `ReadStore`；共享读取只共享上游执行，等待者仍各自拥有取消和期限。
 - `ReadStore` 用一个原子状态决策处理缓存命中、在飞任务合并和任务清理；`TrafficGovernor` 用明确的 acquire/release 生命周期管理配额、排队、冷却和并发。
 - 多进程不会自动共享进程内配额；需要在可信反向代理层补充共享限流。
+- SDK 入口和 `src/core/` 在加载和调用时不读写本地文件，以便在 Serverless 函数里运行：版本号由构建内联 `package.json`，运行时状态只在内存；匿名令牌文件只由 `src/app/` 的 CLI 读写。`tests/contract/sdk-release-contract.test.ts` 用单文件打包产物守住这一点。
 
 ## 依赖方向
 
