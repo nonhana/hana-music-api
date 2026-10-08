@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url';
 import { Effect } from 'effect';
 
 import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
+import { createRequest } from '../../src/core/request.ts';
 import { setConnectionIp } from '../../src/server/admission.ts';
 import { createServer } from '../../src/server/create-server.ts';
 import { parseModuleRoute } from '../../src/server/module-loader.ts';
@@ -57,6 +58,14 @@ const PACKAGE_VERSION = readPackageVersion();
 
 const readJson = async (response: Response): Promise<unknown> =>
   response.json();
+
+const upstreamRequiringLogin = mockRequest((uri, data, options) =>
+  createRequest(uri, data, {
+    ...options,
+    crypto: 'api',
+    fetcher: async () => Response.json({ code: 301 }),
+  }),
+);
 
 describe('createServer', () => {
   test('separate services do not share response caches', async () => {
@@ -474,6 +483,47 @@ describe('createServer', () => {
     expect(response.headers.get('set-cookie')).toContain(
       'MUSIC_U=demo-cookie; Path=/',
     );
+  });
+
+  test('module routes tell the caller that login is required when upstream returns 301', async () => {
+    const app = await createServer({
+      moduleDefinitions: [
+        {
+          identifier: 'probe',
+          route: '/probe',
+          decodeInput: decodeLegacyModuleInput,
+          execute: (_query: ModuleQuery, handler: RequestCapability) =>
+            testRequest(handler, '/api/test', {}).pipe(
+              Effect.map(moduleResponse),
+            ),
+        },
+      ],
+      requestHandler: upstreamRequiringLogin,
+    });
+    const response = await app.request('/probe');
+
+    expect(response.status).toBe(301);
+    expect(await readJson(response)).toEqual({ code: 301, msg: '需要登录' });
+  });
+
+  test('the api debug demo tells the caller that login is required when upstream returns 301', async () => {
+    const app = await createServer(
+      {
+        debugApiRequests: true,
+        hostname: '127.0.0.1',
+        moduleDefinitions: [],
+        requestHandler: upstreamRequiringLogin,
+      },
+      { allowDebugApiRequests: true },
+    );
+    const response = await app.request('/demo/api-debug/request', {
+      body: JSON.stringify({ crypto: 'api', uri: '/api/test' }),
+      headers: { 'content-type': 'application/json' },
+      method: 'POST',
+    });
+
+    expect(response.status).toBe(301);
+    expect(await readJson(response)).toEqual({ code: 301, msg: '需要登录' });
   });
 
   test('should serve built docs assets under /docs with clean url support', async () => {
