@@ -10,6 +10,7 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
@@ -69,7 +70,33 @@ const inputSchema = Schema.Union([
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const loginCellphone: ModuleEffect<ModuleInput> = (query, request) =>
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    account: UpstreamObject({ id: Schema.Finite }),
+    profile: UpstreamObject({
+      userId: Schema.Finite,
+      nickname: Schema.String,
+      avatarUrl: Schema.String,
+    }),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+// 网易云风控拦下短信登录时的返回体（10004），SDK 原样作为失败的 body 抛出；`redirectUrl` 指向网易云的手机号复用验证页面。
+export const RiskBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(10004),
+    message: Schema.String,
+    redirectUrl: Schema.String,
+  }),
+);
+export type RiskBody = typeof RiskBody.Type;
+
+const loginCellphone: ModuleEffect<ModuleInput, ModuleBody> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       type: '1',
@@ -90,23 +117,12 @@ const loginCellphone: ModuleEffect<ModuleInput> = (query, request) =>
         createOption(query, 'weapi'),
       ),
     );
-    const body = renameAvatarField(result.body);
-    if (
-      body === null ||
-      typeof body !== 'object' ||
-      Array.isArray(body) ||
-      typeof body.code !== 'number'
-    ) {
-      return yield* new UnexpectedUpstreamShape({
-        module: 'login_cellphone',
-        path: 'body.code',
-        expected: 'number',
-        actual: typeof body,
-      });
-    }
-    if (body.code !== 200) {
-      return toModuleResponse(result);
-    }
+    const body = yield* decodeUpstreamBody(
+      'login_cellphone',
+      ModuleBody,
+      result,
+      { body: renameAvatarField(result.body) },
+    );
     if (!result.cookie.some((cookie) => /^MUSIC_U=[^;]+/.test(cookie))) {
       return yield* new UnexpectedUpstreamShape({
         module: 'login_cellphone',
@@ -115,11 +131,11 @@ const loginCellphone: ModuleEffect<ModuleInput> = (query, request) =>
         actual: 'missing',
       });
     }
-    return toModuleResponse({
-      ...result,
+    return {
+      ...toModuleResponse(result),
       status: 200,
       body: { ...body, cookie: result.cookie.join(';') },
-    });
+    };
   });
 
 export default loginCellphone;

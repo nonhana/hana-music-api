@@ -186,8 +186,12 @@ describe('phase 5 module regression suite', () => {
     const requestSpy = createRequestSpy(() => ({
       body: {
         code: 200,
+        account: { id: 1, anonimousUser: false, vipType: 0 },
         profile: {
           userId: 1,
+          nickname: 'hana',
+          avatarUrl: 'https://p1.music.126.net/a.jpg',
+          vipType: 0,
         },
       },
       cookie: ['MUSIC_U=upstream-account; Path=/'],
@@ -223,6 +227,9 @@ describe('phase 5 module regression suite', () => {
     expect(response.cookie).toEqual(['MUSIC_U=upstream-account; Path=/']);
     expect(readRecordProperty(response.body, 'profile')).toEqual({
       userId: 1,
+      nickname: 'hana',
+      avatarUrl: 'https://p1.music.126.net/a.jpg',
+      vipType: 0,
     });
   });
 
@@ -231,8 +238,11 @@ describe('phase 5 module regression suite', () => {
       body: {
         avatarImgId_str: 'avatar-id',
         code: 200,
+        account: { id: 1 },
         profile: {
+          userId: 1,
           nickname: 'hana',
+          avatarUrl: 'https://p1.music.126.net/a.jpg',
         },
       },
       cookie: ['MUSIC_U=login-cookie; Path=/', '__csrf=token; Path=/'],

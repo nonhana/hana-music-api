@@ -37,6 +37,16 @@ const result = await userAccount();
 console.log(result.body);
 ```
 
+## 返回内容
+
+| 登录状态   | `account`                        | `profile`                                  |
+| ---------- | -------------------------------- | ------------------------------------------ |
+| 已登录     | 对象，`anonimousUser` 为 `false` | 对象，带 `userId`、`nickname`、`avatarUrl` |
+| 匿名身份   | 对象，`anonimousUser` 为 `true`  | `null`                                     |
+| 登录已失效 | `null`                           | `null`                                     |
+
+三种情况网易云都回 `code: 200`，要看 `account` 和 `profile` 判断。`vipType` 为 0 表示不是会员。结构定义和类型是 `UserAccountBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口 ,可获取用户账号信息

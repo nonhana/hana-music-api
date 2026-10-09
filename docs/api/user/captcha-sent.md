@@ -42,6 +42,14 @@ const result = await captchaSent({
 console.log(result.body);
 ```
 
+## 返回内容
+
+```json
+{ "code": 200, "data": true }
+```
+
+结构定义和类型是 `CaptchaSentBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口 ,传入手机号码, 可发送验证码

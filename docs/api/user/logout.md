@@ -37,6 +37,14 @@ const result = await logout();
 console.log(result.body);
 ```
 
+## 返回内容
+
+```json
+{ "code": 200 }
+```
+
+只注销同一个设备编号（`deviceId`）上的登录，听众在其他设备上的登录不受影响。结构定义和类型是 `LogoutBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可退出登录

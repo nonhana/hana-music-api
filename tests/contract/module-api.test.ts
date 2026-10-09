@@ -465,6 +465,10 @@ describe('programmatic module api', () => {
             body: {
               code: 200,
               profile: {
+                userId: 67890,
+                nickname: 'listener',
+                avatarUrl: 'https://p1.music.126.net/avatar.jpg',
+                vipType: 0,
                 avatarImgId_str: '1',
               },
             },
@@ -484,6 +488,10 @@ describe('programmatic module api', () => {
     expect(response.body).toEqual({
       code: 200,
       profile: {
+        userId: 67890,
+        nickname: 'listener',
+        avatarUrl: 'https://p1.music.126.net/avatar.jpg',
+        vipType: 0,
         avatarImgIdStr: '1',
       },
     });

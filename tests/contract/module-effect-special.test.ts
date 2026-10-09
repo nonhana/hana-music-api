@@ -336,24 +336,31 @@ describe('special Effect module behavior', () => {
     expect(result).toMatchObject({ code: 403, response: failure.response });
   });
 
-  test.each([800, 801, 802, 803])(
-    'QR polling state %i stays a success value',
-    async (code) => {
-      const result = await runEffect(
-        executeModule(loginQrCheck, { key: 'key' }, () =>
-          Effect.succeed({
-            ...response({ code, message: 'polling' }),
-            cookie: ['MUSIC_U=qr'],
-          }),
-        ),
-      );
-      expect(result).toEqual({
-        status: 200,
-        cookie: ['MUSIC_U=qr'],
-        body: { code, message: 'polling', cookie: 'MUSIC_U=qr' },
-      });
+  // 802 带上扫码人的昵称和头像，与录到的真实返回一致。
+  test.each<Record<string, string | number>>([
+    { code: 800 },
+    { code: 801 },
+    {
+      code: 802,
+      nickname: 'listener',
+      avatarUrl: 'https://p1.music.126.net/a.jpg',
     },
-  );
+    { code: 803 },
+  ])('QR polling state $code stays a success value', async (state) => {
+    const result = await runEffect(
+      executeModule(loginQrCheck, { key: 'key' }, () =>
+        Effect.succeed({
+          ...response({ ...state, message: 'polling' }),
+          cookie: ['MUSIC_U=qr'],
+        }),
+      ),
+    );
+    expect(result).toEqual({
+      status: 200,
+      cookie: ['MUSIC_U=qr'],
+      body: { ...state, message: 'polling', cookie: 'MUSIC_U=qr' },
+    });
+  });
 
   test.each(requestFailures)(
     'QR polling propagates $._tag',
@@ -387,7 +394,13 @@ describe('special Effect module behavior', () => {
           Effect.succeed({
             ...response({
               code: 200,
-              profile: { avatarImgId_str: 'image' },
+              account: { id: 1 },
+              profile: {
+                userId: 1,
+                nickname: 'listener',
+                avatarUrl: 'https://p1.music.126.net/a.jpg',
+                avatarImgId_str: 'image',
+              },
               future: ['kept'],
             }),
             cookie: [`${credential}=token; Path=/`],

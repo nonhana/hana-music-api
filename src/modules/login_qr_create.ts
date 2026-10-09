@@ -26,7 +26,16 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const loginQrCreate: ModuleEffect<ModuleInput> = (query) =>
+// 返回体由 SDK 自己拼出，`qrimg` 只在请求了图片时才有内容，否则是空串。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  Schema.Struct({
+    code: Schema.Literal(200),
+    data: Schema.Struct({ qrurl: Schema.String, qrimg: Schema.String }),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const loginQrCreate: ModuleEffect<ModuleInput, ModuleBody> = (query) =>
   Effect.gen(function* () {
     const call = yield* Call;
     let url = `https://music.163.com/login?codekey=${query.key}`;
@@ -42,7 +51,7 @@ const loginQrCreate: ModuleEffect<ModuleInput> = (query) =>
       : '';
     return {
       status: 200,
-      body: { code: 200, data: { qrurl: url, qrimg } },
+      body: { code: 200 as const, data: { qrurl: url, qrimg } },
       cookie: [],
     };
   });

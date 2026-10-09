@@ -11,6 +11,7 @@ import {
   PartialUpload,
   ProtocolFailed,
   TargetRejected,
+  UnexpectedUpstreamShape,
   UpstreamBusinessFailed,
   UpstreamRateLimited,
 } from './errors.ts';
@@ -214,6 +215,18 @@ export const normalizeFailure = (
   }
   if (isNcmApiResponse(error)) {
     return error;
+  }
+  if (error instanceof UnexpectedUpstreamShape) {
+    const { module, path, expected, actual } = error;
+    return {
+      status: 502,
+      cookie: [],
+      body: {
+        code: 502,
+        msg: `Unexpected upstream shape in ${module} at ${path}: expected ${expected}, got ${actual}`,
+        upstreamShape: { module, path, expected, actual },
+      },
+    };
   }
   const status =
     error instanceof DeadlineExceeded

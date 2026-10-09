@@ -37,6 +37,21 @@ const result = await verifyGetQr();
 console.log(result.body);
 ```
 
+## 返回内容
+
+```json
+{
+  "code": 200,
+  "data": {
+    "qrCode": "...",
+    "qrurl": "https://st.music.163.com/encrypt-pages?qrCode=...",
+    "qrimg": "data:image/png;base64,..."
+  }
+}
+```
+
+`qrurl` 是在手机上完成行为验证的页面，`qrimg` 是它的二维码图片。结构定义和类型是 `VerifyGetQrBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 进行某些操作,如关注用户,可能会触发验证,可调用这个接口生成二维码,使用app扫码后可解除验证

@@ -1,0 +1,20 @@
+{
+  "module": "user_account",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-10T02:10:00.000Z",
+    "sdk": "hana-music-api@2.0.0",
+    "region": "local",
+    "ip": "default",
+    "viewer": "invalid-cookie",
+    "note": "Cookie 里的 MUSIC_U 是随便写的一串（不是任何账号的凭据），模拟登录已失效：网易云仍回 code 200，account 和 profile 都是 null"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "account": null,
+      "profile": null
+    }
+  }
+}

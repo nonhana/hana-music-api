@@ -7,6 +7,7 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryIdentifier } from '../types/module-shared.ts';
@@ -22,7 +23,20 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const userDetail: ModuleEffect<ModuleInput> = (query, request) =>
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    profile: UpstreamObject({
+      userId: Schema.Finite,
+      nickname: Schema.String,
+      avatarUrl: Schema.String,
+      vipType: Schema.Finite,
+    }),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const userDetail: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const result = yield* request(
       buildApiRequestIntent(
@@ -33,7 +47,9 @@ const userDetail: ModuleEffect<ModuleInput> = (query, request) =>
     );
     return {
       ...toModuleResponse(result),
-      body: renameAvatarField(result.body),
+      body: yield* decodeUpstreamBody('user_detail', ModuleBody, result, {
+        body: renameAvatarField(result.body),
+      }),
     };
   });
 
