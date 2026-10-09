@@ -2,7 +2,7 @@ import { describe, expect, test } from 'bun:test';
 
 import { Cause, Effect, Exit } from 'effect';
 
-import { createHanaMusicApi } from '../../index.ts';
+import { createHanaMusicApi, createRequest } from '../../index.ts';
 import { APP_CONF } from '../../src/core/config.ts';
 import { eapiReqDecrypt } from '../../src/core/crypto.ts';
 import {
@@ -47,30 +47,33 @@ const requestFailures = [
 ];
 
 describe('special Effect module behavior', () => {
-  test('module checkToken remains inside the encrypted eapi header', async () => {
+  test('checkToken stays inside the encrypted eapi header', async () => {
     let payload: unknown;
     let requestHeaders = new Headers();
-    const client = createHanaMusicApi({
-      cookie: 'MUSIC_U=check-token',
-      crypto: 'eapi',
-      e_r: false,
-      fetcher: async (_url, init) => {
-        requestHeaders = new Headers(init?.headers);
-        const body = init?.body;
-        if (typeof body !== 'string') {
-          throw new TypeError('Expected an encoded API body');
-        }
-        payload = eapiReqDecrypt(
-          new URLSearchParams(body).get('params') ?? '',
-        )?.data;
-        return Response.json({ code: 200 });
+    await createRequest(
+      '/api/middle/play/do/lottery',
+      { activityId: '6501202' },
+      {
+        cookie: 'MUSIC_U=check-token',
+        crypto: 'eapi',
+        e_r: false,
+        checkToken: true,
+        fetcher: async (_url, init) => {
+          requestHeaders = new Headers(init?.headers);
+          const body = init?.body;
+          if (typeof body !== 'string') {
+            throw new TypeError('Expected an encoded API body');
+          }
+          payload = eapiReqDecrypt(
+            new URLSearchParams(body).get('params') ?? '',
+          )?.data;
+          return Response.json({ code: 200 });
+        },
       },
-    });
-    await client.playlistSubscribe({ id: 1, t: 1 });
+    );
     expect(payload).toMatchObject({
-      id: 1,
+      activityId: '6501202',
       e_r: false,
-      checkToken: APP_CONF.checkToken,
       header: { 'X-antiCheatToken': APP_CONF.checkToken },
     });
     expect(requestHeaders.has('X-antiCheatToken')).toBe(false);
@@ -294,14 +297,9 @@ describe('special Effect module behavior', () => {
       headers: {
         'X-Test': 'kept',
         'User-Agent': 'test-agent',
-        'X-antiCheatToken': APP_CONF.checkToken,
         'x-aeapi': 'true',
       },
-      body: JSON.stringify({
-        id: 1,
-        checkToken: APP_CONF.checkToken,
-        e_r: false,
-      }),
+      body: JSON.stringify({ id: 1, e_r: false }),
       response: 'json',
       semantic: 'write',
     });
