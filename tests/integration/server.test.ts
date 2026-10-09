@@ -724,8 +724,10 @@ describe('createServer', () => {
       requestHandler: mockRequest(async (uri, data, options = {}) => ({
         body: {
           code: 200,
+          account: null,
+          profile: null,
           data,
-          options,
+          options: JSON.parse(JSON.stringify(options)),
           uri,
         },
         cookie: ['MUSIC_U=account-cookie; Path=/'],
@@ -748,6 +750,8 @@ describe('createServer', () => {
     );
     expect(body).toEqual({
       code: 200,
+      account: null,
+      profile: null,
       data: {},
       options: expect.objectContaining({
         cookie: {

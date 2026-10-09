@@ -39,6 +39,20 @@ const result = await loginQrCreate({
 console.log(result.body);
 ```
 
+## 返回内容
+
+```json
+{
+  "code": 200,
+  "data": {
+    "qrurl": "https://music.163.com/login?codekey=your-qr-key",
+    "qrimg": "data:image/png;base64,..."
+  }
+}
+```
+
+返回体由 SDK 自己拼出，不请求网易云。没传 `qrimg` 时 `data.qrimg` 是空串。结构定义和类型是 `LoginQrCreateBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口传入上一个接口生成的 key 可生成二维码图片的 base64 和二维码信息,可使用 base64 展示图片,或者使用二维码信息内容自行使用第三方二维码生成库渲染二维码

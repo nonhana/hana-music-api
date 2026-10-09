@@ -37,7 +37,10 @@ import type { ModuleInput as broadcastChannelCurrentinfoInput } from '../../modu
 import type { ModuleInput as broadcastChannelListInput } from '../../modules/broadcast_channel_list.ts';
 import type { ModuleInput as broadcastSubInput } from '../../modules/broadcast_sub.ts';
 import type { ModuleInput as calendarInput } from '../../modules/calendar.ts';
-import type { ModuleInput as captchaSentInput } from '../../modules/captcha_sent.ts';
+import type {
+  ModuleBody as captchaSentBody,
+  ModuleInput as captchaSentInput,
+} from '../../modules/captcha_sent.ts';
 import type { ModuleInput as captchaVerifyInput } from '../../modules/captcha_verify.ts';
 import type { ModuleInput as cellphoneExistenceCheckInput } from '../../modules/cellphone_existence_check.ts';
 import type { ModuleInput as checkMusicInput } from '../../modules/check_music.ts';
@@ -128,13 +131,34 @@ import type { ModuleInput as listentogetherStatusInput } from '../../modules/lis
 import type { ModuleInput as listentogetherSyncListCommandInput } from '../../modules/listentogether_sync_list_command.ts';
 import type { ModuleInput as listentogetherSyncPlaylistGetInput } from '../../modules/listentogether_sync_playlist_get.ts';
 import type { ModuleInput as loginInput } from '../../modules/login.ts';
-import type { ModuleInput as loginCellphoneInput } from '../../modules/login_cellphone.ts';
-import type { ModuleInput as loginQrCheckInput } from '../../modules/login_qr_check.ts';
-import type { ModuleInput as loginQrCreateInput } from '../../modules/login_qr_create.ts';
-import type { ModuleInput as loginQrKeyInput } from '../../modules/login_qr_key.ts';
-import type { ModuleInput as loginRefreshInput } from '../../modules/login_refresh.ts';
-import type { ModuleInput as loginStatusInput } from '../../modules/login_status.ts';
-import type { ModuleInput as logoutInput } from '../../modules/logout.ts';
+import type {
+  ModuleBody as loginCellphoneBody,
+  ModuleInput as loginCellphoneInput,
+} from '../../modules/login_cellphone.ts';
+import type {
+  ModuleBody as loginQrCheckBody,
+  ModuleInput as loginQrCheckInput,
+} from '../../modules/login_qr_check.ts';
+import type {
+  ModuleBody as loginQrCreateBody,
+  ModuleInput as loginQrCreateInput,
+} from '../../modules/login_qr_create.ts';
+import type {
+  ModuleBody as loginQrKeyBody,
+  ModuleInput as loginQrKeyInput,
+} from '../../modules/login_qr_key.ts';
+import type {
+  ModuleBody as loginRefreshBody,
+  ModuleInput as loginRefreshInput,
+} from '../../modules/login_refresh.ts';
+import type {
+  ModuleBody as loginStatusBody,
+  ModuleInput as loginStatusInput,
+} from '../../modules/login_status.ts';
+import type {
+  ModuleBody as logoutBody,
+  ModuleInput as logoutInput,
+} from '../../modules/logout.ts';
 import type { ModuleInput as lyricInput } from '../../modules/lyric.ts';
 import type { ModuleInput as lyricNewInput } from '../../modules/lyric_new.ts';
 import type { ModuleInput as mlogMusicRcmdInput } from '../../modules/mlog_music_rcmd.ts';
@@ -288,14 +312,20 @@ import type { ModuleInput as ugcDetailInput } from '../../modules/ugc_detail.ts'
 import type { ModuleInput as ugcMvGetInput } from '../../modules/ugc_mv_get.ts';
 import type { ModuleInput as ugcSongGetInput } from '../../modules/ugc_song_get.ts';
 import type { ModuleInput as ugcUserDevoteInput } from '../../modules/ugc_user_devote.ts';
-import type { ModuleInput as userAccountInput } from '../../modules/user_account.ts';
+import type {
+  ModuleBody as userAccountBody,
+  ModuleInput as userAccountInput,
+} from '../../modules/user_account.ts';
 import type { ModuleInput as userAudioInput } from '../../modules/user_audio.ts';
 import type { ModuleInput as userBindingInput } from '../../modules/user_binding.ts';
 import type { ModuleInput as userCloudInput } from '../../modules/user_cloud.ts';
 import type { ModuleInput as userCloudDelInput } from '../../modules/user_cloud_del.ts';
 import type { ModuleInput as userCloudDetailInput } from '../../modules/user_cloud_detail.ts';
 import type { ModuleInput as userCommentHistoryInput } from '../../modules/user_comment_history.ts';
-import type { ModuleInput as userDetailInput } from '../../modules/user_detail.ts';
+import type {
+  ModuleBody as userDetailBody,
+  ModuleInput as userDetailInput,
+} from '../../modules/user_detail.ts';
 import type { ModuleInput as userDjInput } from '../../modules/user_dj.ts';
 import type { ModuleInput as userEventInput } from '../../modules/user_event.ts';
 import type { ModuleInput as userFollowMixedInput } from '../../modules/user_follow_mixed.ts';
@@ -315,7 +345,10 @@ import type { ModuleInput as userSocialStatusRcmdInput } from '../../modules/use
 import type { ModuleInput as userSocialStatusSupportInput } from '../../modules/user_social_status_support.ts';
 import type { ModuleInput as userSubcountInput } from '../../modules/user_subcount.ts';
 import type { ModuleInput as userUpdateInput } from '../../modules/user_update.ts';
-import type { ModuleInput as verifyGetQrInput } from '../../modules/verify_getQr.ts';
+import type {
+  ModuleBody as verifyGetQrBody,
+  ModuleInput as verifyGetQrInput,
+} from '../../modules/verify_getQr.ts';
 import type { ModuleInput as verifyQrcodestatusInput } from '../../modules/verify_qrcodestatus.ts';
 import type { ModuleInput as videoCategoryListInput } from '../../modules/video_category_list.ts';
 import type { ModuleInput as videoDetailInput } from '../../modules/video_detail.ts';
@@ -1255,7 +1288,7 @@ export interface GeneratedModuleContractMap {
   captcha_sent: {
     input: captchaSentInput;
     query: captchaSentInput;
-    response: ModuleResponse;
+    response: ModuleResponse<captchaSentBody>;
   };
   captcha_verify: {
     input: captchaVerifyInput;
@@ -1667,34 +1700,38 @@ export interface GeneratedModuleContractMap {
   login_cellphone: {
     input: loginCellphoneInput;
     query: loginCellphoneInput;
-    response: ModuleResponse;
+    response: ModuleResponse<loginCellphoneBody>;
   };
   login_qr_check: {
     input: loginQrCheckInput;
     query: loginQrCheckInput;
-    response: ModuleResponse;
+    response: ModuleResponse<loginQrCheckBody>;
   };
   login_qr_create: {
     input: loginQrCreateInput;
     query: loginQrCreateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<loginQrCreateBody>;
   };
   login_qr_key: {
     input: loginQrKeyInput;
     query: loginQrKeyInput;
-    response: ModuleResponse;
+    response: ModuleResponse<loginQrKeyBody>;
   };
   login_refresh: {
     input: loginRefreshInput;
     query: loginRefreshInput;
-    response: ModuleResponse;
+    response: ModuleResponse<loginRefreshBody>;
   };
   login_status: {
     input: loginStatusInput;
     query: loginStatusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<loginStatusBody>;
   };
-  logout: { input: logoutInput; query: logoutInput; response: ModuleResponse };
+  logout: {
+    input: logoutInput;
+    query: logoutInput;
+    response: ModuleResponse<logoutBody>;
+  };
   lyric: { input: lyricInput; query: lyricInput; response: ModuleResponse };
   lyric_new: {
     input: lyricNewInput;
@@ -2431,7 +2468,7 @@ export interface GeneratedModuleContractMap {
   user_account: {
     input: userAccountInput;
     query: userAccountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userAccountBody>;
   };
   user_audio: {
     input: userAudioInput;
@@ -2466,7 +2503,7 @@ export interface GeneratedModuleContractMap {
   user_detail: {
     input: userDetailInput;
     query: userDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userDetailBody>;
   };
   user_dj: { input: userDjInput; query: userDjInput; response: ModuleResponse };
   user_event: {
@@ -2562,7 +2599,7 @@ export interface GeneratedModuleContractMap {
   verify_getQr: {
     input: verifyGetQrInput;
     query: verifyGetQrInput;
-    response: ModuleResponse;
+    response: ModuleResponse<verifyGetQrBody>;
   };
   verify_qrcodestatus: {
     input: verifyQrcodestatusInput;

@@ -41,6 +41,10 @@ const result = await userDetail({
 console.log(result.body);
 ```
 
+## 返回内容
+
+正文带 `profile` 的 `userId`、`nickname`、`avatarUrl`、`vipType`，其余字段原样保留。结构定义和类型是 `UserDetailBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入用户 id, 可以获取用户详情

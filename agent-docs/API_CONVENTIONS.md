@@ -8,9 +8,18 @@
 
 输入先经过 `src/core/module-input.ts` 的普通对象校验，再进入模块自己的 Schema。需要精确字段的模块声明本地字段、可选性和字面量；证据不足的旧式输入使用受控的 legacy 对象，不伪造完整接口模型。模块生成器会检查这三个导出合同，动态 loader 也会拒绝缺少 decoder 或不是 Effect 函数的模块。
 
-模块只为确实要读取的上游字段做局部检查。普通响应体保持 `UnknownJson`，未知字段继续保留；字段缺失或类型错误时返回带模块名和路径的 `UnexpectedUpstreamShape`。
+模块只为确实要读取的上游字段做局部检查。普通响应体保持 `UnknownJson`，未知字段继续保留；字段缺失或类型错误时返回带模块名和路径的 `UnexpectedUpstreamShape`。公开边界把它映射为 `status: 502`，`body.upstreamShape` 带上 `{ module, path, expected, actual }`。
 
-响应体完全由模块自己组装、每个字段都已校验时，模块可以额外导出 `ModuleBody` 并把默认导出标注为 `ModuleEffect<ModuleInput, ModuleBody>`，生成器会把它当作公开响应类型，例如 `image_upload_token`。
+## 收窄返回体
+
+按 ADR（campanula-music `docs/adr/0005`），被下游依赖的模块在 SDK 里收窄返回体：导出 `ModuleBody` 结构定义（`Schema.toStandardSchemaV1` 包装）和同名类型，默认导出标注为 `ModuleEffect<ModuleInput, ModuleBody>`。生成器把它们以 `<模块名 PascalCase>Body` 从根入口公开；只导出类型的模块（如 `image_upload_token`）只公开类型。
+
+- 用 `src/core/upstream-body.ts` 的 `UpstreamObject` 声明对象：只写脱敏后真实录制里确认过、且下游要用的字段，其余字段原样保留为 JSON。区分返回码时每个联合成员只认一个 `code` 字面量。
+- 用 `decodeUpstreamBody` 校验 SDK 将要返回的 body：`code` 不在已知返回码里时作为 `UpstreamBusinessFailed` 原样转交网易云的正文（`status` 取返回码），已知返回码但结构不符时报 `UnexpectedUpstreamShape`。
+- 失败正文有录制时可另外导出结构定义（如 `LoginCellphoneRiskBody`），不在运行时校验；没有录制的返回码不猜字段。
+- 录制放在 `tests/fixtures/netease/<领域>/`，契约测试用自定义 fetcher 回放，覆盖原样返回、多余字段保留和结构不符三种情况，见 `tests/contract/login-bodies.test.ts`。
+
+响应体完全由模块自己组装、每个字段都已校验时也可以导出 `ModuleBody`，例如 `image_upload_token`、`login_qr_create`。
 
 ## SDK 与 HTTP 输入
 

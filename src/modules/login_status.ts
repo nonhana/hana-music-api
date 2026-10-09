@@ -1,13 +1,20 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
-import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import { ModuleBody as AccountBody } from './user_account.ts';
 
-const loginStatus: ModuleEffect<ModuleInput> = (query, request) =>
+// 与 user_account 是同一份账号数据，外面多包一层 `data`。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  Schema.Struct({ data: AccountBody }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const loginStatus: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const result = yield* request(
       buildApiRequestIntent(
@@ -16,25 +23,10 @@ const loginStatus: ModuleEffect<ModuleInput> = (query, request) =>
         createOption(query, 'weapi'),
       ),
     );
-    const body = result.body;
-    if (
-      body === null ||
-      typeof body !== 'object' ||
-      Array.isArray(body) ||
-      typeof body.code !== 'number'
-    ) {
-      return yield* new UnexpectedUpstreamShape({
-        module: 'login_status',
-        path: 'body.code',
-        expected: 'number',
-        actual: typeof body,
-      });
-    }
-    return toModuleResponse(
-      body.code === 200
-        ? { ...result, status: 200, body: { data: body } }
-        : result,
-    );
+    const body = yield* decodeUpstreamBody('login_status', ModuleBody, result, {
+      body: { data: result.body },
+    });
+    return { ...toModuleResponse(result), status: 200, body };
   });
 
 export default loginStatus;

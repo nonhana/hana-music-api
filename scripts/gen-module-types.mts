@@ -44,6 +44,14 @@ const SDK_REGISTRY_TEMP_FILE = resolve(
   import.meta.dir,
   '../src/sdk/generated/registry.tmp.ts',
 );
+const SDK_BODIES_FILE = resolve(
+  import.meta.dir,
+  '../src/sdk/generated/bodies.generated.ts',
+);
+const SDK_BODIES_TEMP_FILE = resolve(
+  import.meta.dir,
+  '../src/sdk/generated/bodies.tmp.ts',
+);
 const SDK_API_DIRECTORY = resolve(import.meta.dir, '../src/sdk/api');
 
 interface GeneratedArtifacts {
@@ -59,6 +67,11 @@ const toCamelCase = (identifier: string): string =>
   identifier.replaceAll(/[/_-]+([a-zA-Z0-9])/g, (_match, char: string) =>
     char.toUpperCase(),
   );
+
+const toPascalCase = (identifier: string): string => {
+  const name = toCamelCase(identifier);
+  return name.charAt(0).toUpperCase() + name.slice(1);
+};
 
 const buildSdkEntries = (
   identifiers: ReadonlyArray<string>,
@@ -147,6 +160,23 @@ ${effectLines.join('\n')}
 `;
 };
 
+// 模块导出了 ModuleBody 结构定义时连同类型一起公开，只导出类型的模块（返回体由 SDK 拼出且不校验）只公开类型。
+const buildSdkBodies = (
+  contracts: ReadonlyArray<{
+    readonly identifier: string;
+    readonly body: boolean;
+    readonly bodySchema: boolean;
+  }>,
+): string =>
+  contracts
+    .filter(({ body }) => body)
+    .map(
+      ({ identifier, bodySchema }) =>
+        `export ${bodySchema ? '' : 'type '}{ ModuleBody as ${toPascalCase(identifier)}Body } from '../../modules/${identifier}.ts'`,
+    )
+    .join('\n')
+    .concat('\n');
+
 const readModuleContract = (source: SourceFile) => {
   const exportsType = (name: string) =>
     source.statements.some(
@@ -228,7 +258,17 @@ const readModuleContract = (source: SourceFile) => {
       `Module "${source.fileName}" must export decodeModuleInput`,
     );
   }
-  return { effect, decoder, body: exportsType('ModuleBody') };
+  const bodySchema = source.statements.some(
+    (statement) =>
+      isVariableStatement(statement) &&
+      statement.modifiers?.some(
+        (modifier) => modifier.kind === SyntaxKind.ExportKeyword,
+      ) &&
+      statement.declarationList.declarations.some(
+        (declaration) => declaration.name.getText(source) === 'ModuleBody',
+      ),
+  );
+  return { effect, decoder, body: exportsType('ModuleBody'), bodySchema };
 };
 
 const readModuleContracts = async (
@@ -328,6 +368,11 @@ export const buildGeneratedArtifacts = async (
         contents: buildSdkRegistry(identifiers, Object.fromEntries(routes)),
         path: SDK_REGISTRY_FILE,
         tempPath: SDK_REGISTRY_TEMP_FILE,
+      },
+      {
+        contents: buildSdkBodies(contracts),
+        path: SDK_BODIES_FILE,
+        tempPath: SDK_BODIES_TEMP_FILE,
       },
       ...identifiers.map((identifier) => {
         const sdkApiPath = resolve(SDK_API_DIRECTORY, `${identifier}.ts`);

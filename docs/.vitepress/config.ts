@@ -47,6 +47,7 @@ export default withMermaid({
             },
             { text: '快速开始', link: '/guide/getting-started' },
             { text: '编程式调用', link: '/guide/programmatic-api' },
+            { text: '返回体结构', link: '/guide/response-bodies' },
             { text: '认证机制', link: '/guide/authentication' },
             { text: 'HTTP 调用约定', link: '/guide/request-convention' },
             { text: '部署 HTTP 服务', link: '/guide/server-deployment' },

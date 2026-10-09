@@ -54,3 +54,19 @@ console.log(account.body);
 ```
 
 此例展示登录成功后的衔接。实际应用应捕获登录失败，并按返回的业务状态处理额外验证。SDK 不会自动把返回的 Cookie 写入已有 client，完整说明见 [认证机制](/guide/authentication)。
+
+## 返回内容
+
+登录成功时正文带 `account.id`、`profile` 的 `userId`、`nickname`、`avatarUrl`，以及拼接后的 `cookie`。结构定义和类型是 `LoginCellphoneBody`。
+
+网易云的风控可能拦下登录，这时 SDK 以网易云的原始正文拒绝，`status` 是 400：
+
+```json
+{
+  "code": 10004,
+  "message": "当前登录存在安全风险，请稍后再试",
+  "redirectUrl": "https://st.music.163.com/st/user-new/phoneReuse/index.html?..."
+}
+```
+
+`redirectUrl` 指向网易云的手机号复用验证页面。这种正文的结构定义和类型是 `LoginCellphoneRiskBody`，可以用它判断失败是不是风控。实测改用真实国内 IP（`realIP`）或改用扫码登录可以绕开。详见 [返回体结构](/guide/response-bodies)。

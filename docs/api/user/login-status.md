@@ -37,6 +37,10 @@ const result = await loginStatus();
 console.log(result.body);
 ```
 
+## 返回内容
+
+正文是 `{ "data": … }`，`data` 里与 [获取账号信息](/api/user/user-account) 的正文结构相同。结构定义和类型是 `LoginStatusBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取登录状态
