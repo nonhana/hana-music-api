@@ -1,0 +1,26 @@
+{
+  "module": "playlist_subscribe",
+  "query": {
+    "id": 2889745179,
+    "t": 1
+  },
+  "context": {
+    "sdk": "createRequest：eapi、iPhone 设备身份、请求体只有 id、不带 checkToken（与修复后的 playlist_subscribe 发出的请求相同）",
+    "region": "local",
+    "ip": "default",
+    "viewer": "vip-qr",
+    "recordedAt": "2026-10-09T12:16:42.140Z",
+    "note": "这个账号在北京时间 19:48–19:55 用各种写法成功收藏、取消 22 次（11 对），从 19:56 起所有收藏都回 405，包括刚成功过的这个写法；这一份录于 20:16，21:22 用修复后的模块重试仍是同样的返回。原因未确认，可能是真正的频率限制。返回体没有 retryAfter"
+  },
+  "response": {
+    "status": 405,
+    "body": {
+      "code": 405,
+      "message": "操作过于频繁，请稍后再试",
+      "debugInfo": null,
+      "data": null,
+      "failData": null,
+      "msg": "操作过于频繁，请稍后再试"
+    }
+  }
+}

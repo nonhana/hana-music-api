@@ -56,20 +56,13 @@ export const mockRequest =
                       (intent.protocol === 'plain' ? '' : intent.protocol),
                     signal,
                     timeoutMs,
-                    ...(intent.headers['X-antiCheatToken']
-                      ? { checkToken: true }
-                      : {}),
                     ...(intent.headers['x-aeapi'] ? { acceptGzip: true } : {}),
                     ...(intent.headers['User-Agent']
                       ? { ua: call.config.ua || intent.headers['User-Agent'] }
                       : {}),
                     headers: {
                       ...call.config.headers,
-                      ...Object.fromEntries(
-                        Object.entries(intent.headers).filter(
-                          ([name]) => name !== 'X-antiCheatToken',
-                        ),
-                      ),
+                      ...intent.headers,
                     },
                   },
                 ),

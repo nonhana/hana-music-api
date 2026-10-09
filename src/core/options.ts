@@ -8,7 +8,6 @@ import { toBoolean } from './utils.ts';
 
 interface OptionSource {
   readonly acceptGzip?: unknown;
-  readonly checkToken?: unknown;
   readonly connectionStrategy?: CreateRequestOptions['connectionStrategy'];
   readonly cookie?: CookieRecord | string;
   readonly crypto?: unknown;
@@ -45,7 +44,6 @@ export const createOption = (
             ? query.acceptGzip
             : undefined,
         ) === true,
-  checkToken: query.checkToken ? toBooleanLike(query.checkToken) : false,
   connectionStrategy: query.connectionStrategy,
   cookie: query.cookie,
   crypto: toRequestCrypto(query.crypto) ?? crypto,

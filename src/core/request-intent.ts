@@ -7,7 +7,7 @@ export const buildApiRequestIntent = (
   data: Record<string, unknown>,
   options: Pick<
     CreateRequestOptions,
-    'crypto' | 'e_r' | 'checkToken' | 'acceptGzip' | 'headers' | 'ua'
+    'crypto' | 'e_r' | 'acceptGzip' | 'headers' | 'ua'
   > = {},
 ): RequestIntent => ({
   target,
@@ -16,7 +16,6 @@ export const buildApiRequestIntent = (
   headers: {
     ...options.headers,
     ...(options.ua ? { 'User-Agent': options.ua } : {}),
-    ...(options.checkToken ? { 'X-antiCheatToken': APP_CONF.checkToken } : {}),
     ...(options.acceptGzip ? { 'x-aeapi': 'true' } : {}),
   },
   body: JSON.stringify({

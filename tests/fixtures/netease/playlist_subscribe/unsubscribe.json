@@ -1,0 +1,21 @@
+{
+  "module": "playlist_subscribe",
+  "query": {
+    "id": 2889745179,
+    "t": 0
+  },
+  "context": {
+    "sdk": "createRequest：eapi、iPhone 设备身份、请求体只有 id、不带 checkToken（与修复后的 playlist_subscribe 发出的请求相同）",
+    "region": "local",
+    "ip": "default",
+    "viewer": "vip-qr",
+    "recordedAt": "2026-10-09T11:55:45.273Z",
+    "note": "取消收藏刚收藏的那张歌单：成功；读歌单列表确认它消失"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200
+    }
+  }
+}

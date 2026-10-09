@@ -57,7 +57,6 @@ describe('phase 5 module regression suite', () => {
         type: 1,
       },
       options: expect.objectContaining({
-        checkToken: false,
         cookie: undefined,
         crypto: 'eapi',
         headers: {},
@@ -78,7 +77,6 @@ describe('phase 5 module regression suite', () => {
         scene: 'normal',
       },
       options: expect.objectContaining({
-        checkToken: false,
         cookie: undefined,
         crypto: 'eapi',
         headers: {},
@@ -144,7 +142,6 @@ describe('phase 5 module regression suite', () => {
         ids: '["1","2"]',
       },
       options: expect.objectContaining({
-        checkToken: false,
         cookie: undefined,
         crypto: 'eapi',
         domain: '',
@@ -163,7 +160,6 @@ describe('phase 5 module regression suite', () => {
         s: 8,
       },
       options: expect.objectContaining({
-        checkToken: false,
         cookie: undefined,
         crypto: 'eapi',
         headers: {},
@@ -210,7 +206,6 @@ describe('phase 5 module regression suite', () => {
       {
         data: {},
         options: expect.objectContaining({
-          checkToken: false,
           cookie: {
             MUSIC_U: 'phase5-cookie',
           },
@@ -264,7 +259,6 @@ describe('phase 5 module regression suite', () => {
           type: '1',
         },
         options: expect.objectContaining({
-          checkToken: false,
           cookie: undefined,
           crypto: 'weapi',
           domain: '',
@@ -333,7 +327,6 @@ describe('phase 5 module regression suite', () => {
           '/api/user/account': {},
         },
         options: expect.objectContaining({
-          checkToken: false,
           cookie: undefined,
           crypto: 'eapi',
           domain: '',
@@ -406,7 +399,6 @@ describe('phase 5 module regression suite', () => {
           type: 1,
         },
         options: expect.objectContaining({
-          checkToken: false,
           cookie: {
             MUSIC_U: 'signed-in',
           },
@@ -423,7 +415,6 @@ describe('phase 5 module regression suite', () => {
       {
         data: {},
         options: expect.objectContaining({
-          checkToken: false,
           cookie: {
             MUSIC_U: 'fm-cookie',
           },
