@@ -8,8 +8,8 @@ import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-// 2026-10-09 真账号实测（#32）：设备身份是 pc，或带上写死的反作弊 token 时，
-// 网易云对收藏、取消收藏一律回 405“操作过于频繁”；换成 iPhone 设备身份、请求体只带 id 才成功。
+// 2026-10-09 真账号实测（#32）：设备身份是 pc，或带上写死的反作弊 token 时，收藏一律回 405“操作过于频繁”；
+// 换成 iPhone 设备身份、请求体只带 id 后，收藏和取消收藏都成功，取消收藏没有在 pc 身份或带 token 时测过。
 const { appver, channel, osver } = OS_PROFILES.iphone;
 
 const playlistSubscribe: ModuleEffect<ModuleInput> = (query, request) =>

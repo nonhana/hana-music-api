@@ -7,8 +7,8 @@ import rejected from '../fixtures/netease/playlist_subscribe/rejected.json';
 import subscribed from '../fixtures/netease/playlist_subscribe/subscribe.json';
 import unsubscribed from '../fixtures/netease/playlist_subscribe/unsubscribe.json';
 
-// 2026-10-09 真账号实测：设备身份是 pc（SDK 默认）或带写死的 checkToken 时，
-// 网易云对收藏、取消收藏歌单一律回 405“操作过于频繁”；换成 iPhone 设备身份、不带 token 才成功。
+// 2026-10-09 真账号实测：设备身份是 pc（SDK 默认）或带写死的 checkToken 时，收藏一律回 405“操作过于频繁”；
+// 换成 iPhone 设备身份、不带 token 后，收藏和取消收藏都成功。
 const createClient = (
   cookie: string,
   recorded: { status: number; body: unknown } = {
