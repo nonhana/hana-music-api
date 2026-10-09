@@ -109,7 +109,7 @@ export const prepareRequest = (
 
     case 'eapi':
     case 'api': {
-      const header = createEapiHeader(cookie, csrfToken, options, entropy);
+      const header = createEapiHeader(cookie, csrfToken, entropy);
       headers.Cookie = createHeaderCookie(header);
       headers['User-Agent'] = options.ua || chooseUserAgent('api', 'iphone');
 
@@ -214,7 +214,6 @@ const createHeaderCookie = (header: Record<string, string>): string =>
 const createEapiHeader = (
   cookie: CookieRecord,
   csrfToken: string,
-  options: CreateRequestOptions,
   entropy: RequestEntropy,
 ): Record<string, string> => {
   const header: Record<string, string> = {
@@ -230,10 +229,6 @@ const createEapiHeader = (
     resolution: String(cookie.resolution ?? '1920x1080'),
     versioncode: String(cookie.versioncode ?? '140'),
   };
-
-  if (options.checkToken) {
-    header['X-antiCheatToken'] = APP_CONF.checkToken;
-  }
 
   if (cookie.MUSIC_A) {
     header.MUSIC_A = String(cookie.MUSIC_A);

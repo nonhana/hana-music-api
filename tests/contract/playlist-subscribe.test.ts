@@ -7,10 +7,9 @@ import rejected from '../fixtures/netease/playlist_subscribe/rejected.json';
 import subscribed from '../fixtures/netease/playlist_subscribe/subscribe.json';
 import unsubscribed from '../fixtures/netease/playlist_subscribe/unsubscribe.json';
 
-// 2026-10-09 真账号实测：设备身份是 pc（SDK 默认）或带写死的 checkToken 时，收藏一律回 405“操作过于频繁”；
-// 换成 iPhone 设备身份、不带 token 后，收藏和取消收藏都成功。
+// 收藏歌单固定以 iPhone 客户端身份发出，调用方传入的 os 和 User-Agent 都会被替换，见 #32、#33。
 const createClient = (
-  cookie: string,
+  config: { cookie: string; ua?: string },
   recorded: { status: number; body: unknown } = {
     status: 200,
     body: { code: 200 },
@@ -19,10 +18,11 @@ const createClient = (
   const sent: Array<{
     url: string;
     cookie: string;
+    userAgent: string;
     payload: Record<string, unknown>;
   }> = [];
   const client = createHanaMusicApi({
-    cookie,
+    ...config,
     fetcher: async (input, init) => {
       const body = init?.body;
       if (typeof body !== 'string') {
@@ -31,6 +31,7 @@ const createClient = (
       sent.push({
         url: input instanceof Request ? input.url : input.toString(),
         cookie: new Headers(init?.headers).get('cookie') ?? '',
+        userAgent: new Headers(init?.headers).get('user-agent') ?? '',
         payload:
           eapiReqDecrypt(new URLSearchParams(body).get('params') ?? '')?.data ??
           {},
@@ -45,9 +46,12 @@ test.each([
   { t: 1, path: 'subscribe' },
   { t: 0, path: 'unsubscribe' },
 ])(
-  'playlistSubscribe t=$t sends only the id as an iPhone client without an anti-cheat token',
+  'playlistSubscribe t=$t sends only the id as an iPhone client, whatever device the caller set',
   async ({ t, path }) => {
-    const { client, sent } = createClient('MUSIC_U=listener; os=pc');
+    const { client, sent } = createClient({
+      cookie: 'MUSIC_U=listener; os=pc; appver=3.1.17.204416',
+      ua: 'Mozilla/5.0 (Windows NT 10.0) NeteaseMusicDesktop/3.1.29.205117',
+    });
 
     await client.playlistSubscribe({ id: 2889745179, t });
 
@@ -65,9 +69,10 @@ test.each([
       channel: 'distribution',
       MUSIC_U: 'listener',
     });
-    expect(header).not.toHaveProperty('X-antiCheatToken');
     expect(request?.cookie).toContain('os=iphone');
-    expect(request?.cookie).not.toContain('X-antiCheatToken');
+    expect(request?.userAgent).toBe(
+      'NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)',
+    );
   },
 );
 
@@ -77,7 +82,10 @@ test.each([
 ])(
   'playlistSubscribe returns the recorded $name success unchanged',
   async ({ recording }) => {
-    const { client } = createClient('MUSIC_U=listener', recording.response);
+    const { client } = createClient(
+      { cookie: 'MUSIC_U=listener' },
+      recording.response,
+    );
 
     const result = await client.playlistSubscribe(recording.query);
 
@@ -87,7 +95,10 @@ test.each([
 );
 
 test('playlistSubscribe rejects with NetEase’s own status and message', async () => {
-  const { client } = createClient('MUSIC_U=listener', rejected.response);
+  const { client } = createClient(
+    { cookie: 'MUSIC_U=listener' },
+    rejected.response,
+  );
 
   const failure = (await client.playlistSubscribe(rejected.query).then(
     () => undefined,

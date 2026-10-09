@@ -2,9 +2,7 @@ import { describe, expect, test } from 'bun:test';
 
 import { Cause, Effect, Exit } from 'effect';
 
-import { createHanaMusicApi, createRequest } from '../../index.ts';
-import { APP_CONF } from '../../src/core/config.ts';
-import { eapiReqDecrypt } from '../../src/core/crypto.ts';
+import { createHanaMusicApi } from '../../index.ts';
 import {
   DeadlineExceeded,
   InvalidModuleInput,
@@ -47,41 +45,6 @@ const requestFailures = [
 ];
 
 describe('special Effect module behavior', () => {
-  test('checkToken stays inside the encrypted eapi header', async () => {
-    let payload: unknown;
-    let requestHeaders = new Headers();
-    await createRequest(
-      '/api/middle/play/do/lottery',
-      { activityId: '6501202' },
-      {
-        cookie: 'MUSIC_U=check-token',
-        crypto: 'eapi',
-        e_r: false,
-        checkToken: true,
-        fetcher: async (_url, init) => {
-          requestHeaders = new Headers(init?.headers);
-          const body = init?.body;
-          if (typeof body !== 'string') {
-            throw new TypeError('Expected an encoded API body');
-          }
-          payload = eapiReqDecrypt(
-            new URLSearchParams(body).get('params') ?? '',
-          )?.data;
-          return Response.json({ code: 200 });
-        },
-      },
-    );
-    expect(payload).toMatchObject({
-      activityId: '6501202',
-      e_r: false,
-      header: { 'X-antiCheatToken': APP_CONF.checkToken },
-    });
-    expect(requestHeaders.has('X-antiCheatToken')).toBe(false);
-    expect(requestHeaders.get('cookie')).toContain(
-      `X-antiCheatToken=${APP_CONF.checkToken}`,
-    );
-  });
-
   test('immutable call protocol overrides a module default protocol', async () => {
     const urls: Array<string> = [];
     const client = createHanaMusicApi({
@@ -303,7 +266,6 @@ describe('special Effect module behavior', () => {
       response: 'json',
       semantic: 'write',
     });
-    expect(input).not.toHaveProperty('checkToken');
   });
 
   test('ordinary requests preserve arrays and primitive upstream bodies', async () => {

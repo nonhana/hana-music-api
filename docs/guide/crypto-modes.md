@@ -60,8 +60,4 @@ flowchart LR
 
 这两个选项应与目标接口实际返回的格式匹配。它们不会让任意接口自动支持加密或压缩响应。普通模块调用沿用现有默认值即可。
 
-## 反作弊 token
-
-`checkToken` 用于 `api`、`eapi` 的协议头，所需 token 由内部配置提供。它是写死在 SDK 里的固定值，网易云不一定接受：例如 `playlist_subscribe` 带上它就会被拒绝，所以该模块不再启用它。不需要把该 token 手动复制到业务参数里。
-
-`crypto`、`e_r`、`acceptGzip` 和 `checkToken` 的类型见 [配置参考](/guide/config-reference)。加解密函数和协议常量属于内部实现，不应通过包内部路径导入。
+`crypto`、`e_r` 和 `acceptGzip` 的类型见 [配置参考](/guide/config-reference)。加解密函数和协议常量属于内部实现，不应通过包内部路径导入。

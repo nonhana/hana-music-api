@@ -71,9 +71,6 @@ export const requestEffect = (
             }
             const headers = { ...options.headers };
             for (const [name, value] of Object.entries(intent.headers)) {
-              if (name === 'X-antiCheatToken') {
-                continue;
-              }
               for (const existing of Object.keys(headers)) {
                 if (existing.toLowerCase() === name.toLowerCase()) {
                   delete headers[existing];
@@ -87,9 +84,6 @@ export const requestEffect = (
               {
                 ...options,
                 crypto: options.crypto || intent.protocol,
-                ...(intent.headers['X-antiCheatToken'] === undefined
-                  ? {}
-                  : { checkToken: true }),
                 ...(intent.headers['x-aeapi'] === 'true'
                   ? { acceptGzip: true }
                   : {}),
