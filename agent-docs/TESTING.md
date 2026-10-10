@@ -9,7 +9,7 @@
 - `tests/integration/`：Hono 服务、CLI 和模块路由。
 - `tests/load/` 与 `scripts/load-test.mts`：本机 loopback 流量、取消、HTTP 入口限流、资源释放和负载验收。
 - `tests/live/`：真实上游的门控测试，不属于默认回归基线。
-- `tests/_kit/`：Effect 测试的统一入口；测试中的 `Effect.run*` 和 Layer 提供应集中在 kit 内。
+- `tests/_kit/`：Effect 测试的统一入口；测试中的 `Effect.run*` 和 Layer 提供应集中在 kit 内。返回体契约测试判断“结构不符”的断言用 `assertions.ts` 的 `expectUpstreamShapeRejection`。
 
 ## 基线命令
 

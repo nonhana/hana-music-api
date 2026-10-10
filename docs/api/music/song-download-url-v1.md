@@ -44,6 +44,10 @@ const result = await songDownloadUrlV1({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.data` 是一个对象，不是数组。声明了 `id`、`url`、`code`、`level`（实际给到的音质）和 `size`（文件字节数）。无版权时 `url` 和 `level` 是 `null`，`code` 不是 200（实测是 -110）。还没有录到试听的返回，`freeTrialInfo` 没有声明，原样保留。结构定义和类型是 `SongDownloadUrlV1Body`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 使用 `/song/url/v1` 接口获取的是歌曲试听 url, 非 VIP 账号最高只能获取 `极高` 音质，但免费类型的歌曲(`fee == 0`)使用本接口可最高获取`Hi-Res`音质的url。

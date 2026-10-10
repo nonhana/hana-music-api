@@ -7,6 +7,7 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { IdentifierQuery } from '../types/module-shared.ts';
 
@@ -41,7 +42,27 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const songUrlV1: ModuleEffect<ModuleInput> = (query, request) =>
+// 无版权时 url 和 level 是 null、code 不是 200；试听时 freeTrialInfo 标出片段在整首里的起止秒数，否则是 null。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    data: Schema.Array(
+      UpstreamObject({
+        id: Schema.Finite,
+        url: Schema.NullOr(Schema.String),
+        code: Schema.Finite,
+        level: Schema.NullOr(Schema.String),
+        expi: Schema.Finite,
+        freeTrialInfo: Schema.NullOr(
+          UpstreamObject({ start: Schema.Finite, end: Schema.Finite }),
+        ),
+      }),
+    ),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const songUrlV1: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data: Record<string, unknown> = {
       ids: '[' + query.id + ']',
@@ -51,15 +72,18 @@ const songUrlV1: ModuleEffect<ModuleInput> = (query, request) =>
     if (data.level === 'sky') {
       data.immerseType = 'c51';
     }
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/song/enhance/player/url/v1`,
-          data,
-          createOption(query),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/song/enhance/player/url/v1`,
+        data,
+        createOption(query),
       ),
     );
+    const body = yield* decodeUpstreamBody('song_url_v1', ModuleBody, response);
+    return {
+      ...toModuleResponse(response),
+      body,
+    };
   });
 
 /**

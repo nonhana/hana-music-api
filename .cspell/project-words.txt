@@ -53,6 +53,7 @@ eparams
 evid
 excludehot
 exhigh
+expi
 feealbum
 followeds
 forencrypt
@@ -134,6 +135,8 @@ rawdata
 rcmd
 recentcontact
 replacephone
+romaji
+romalrc
 rtype
 rurl
 sasakure
@@ -178,6 +181,8 @@ wnmcid
 worksdata
 xored
 ymusic
+yromalrc
+ytlrc
 yunbei
 yyimgs
 pipeable
