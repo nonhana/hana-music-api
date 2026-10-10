@@ -41,6 +41,10 @@ const result = await artistTopSong({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.songs` 是歌手的热门歌曲，每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”。结构定义和类型是 `ArtistTopSongBody`。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取歌手热门 50 首歌曲

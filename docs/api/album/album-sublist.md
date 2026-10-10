@@ -40,6 +40,10 @@ const result = await albumSublist();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.data` 里每张专辑声明了 `id`、`name`、`picUrl`、`size`（歌曲数）、`artists`（每项 `id`、`name`），`hasMore` 表示后面还有没有。第一页还带收藏总数 `count`，但没有声明：同样分页的收藏歌手列表从第二页起不带它。结构定义和类型是 `AlbumSublistBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获得已收藏专辑列表

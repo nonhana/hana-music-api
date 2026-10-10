@@ -7,6 +7,8 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { IdentifierQuery } from '../types/module-shared.ts';
 
@@ -19,20 +21,32 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const artistTopSong: ModuleEffect<ModuleInput> = (query, request) =>
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    songs: Schema.Array(Song),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const artistTopSong: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       id: query.id,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/artist/top/song`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/artist/top/song`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    const body = yield* decodeUpstreamBody(
+      'artist_top_song',
+      ModuleBody,
+      response,
+    );
+    return { ...toModuleResponse(response), body };
   });
 
 /**

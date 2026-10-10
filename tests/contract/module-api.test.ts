@@ -521,6 +521,7 @@ describe('programmatic module api', () => {
           return {
             body: {
               code: 200,
+              more: false,
               playlist: [],
             },
             cookie: [],
@@ -606,6 +607,7 @@ describe('programmatic module api', () => {
             body: {
               code: 200,
               hotAlbums: [],
+              more: false,
             },
             cookie: [],
             status: 200,

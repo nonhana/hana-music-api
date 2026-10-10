@@ -7,6 +7,8 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import { Artist } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { PagedQuery } from '../types/module-shared.ts';
 
@@ -20,22 +22,46 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const albumSublist: ModuleEffect<ModuleInput> = (query, request) =>
+const SubscribedAlbum = UpstreamObject({
+  id: Schema.Finite,
+  name: Schema.String,
+  picUrl: Schema.String,
+  size: Schema.Finite,
+  artists: Schema.Array(Artist),
+});
+
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    data: Schema.Array(SubscribedAlbum),
+    hasMore: Schema.Boolean,
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const albumSublist: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 25,
       offset: query.offset || 0,
       total: true,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/album/sublist`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/album/sublist`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    const body = yield* decodeUpstreamBody(
+      'album_sublist',
+      ModuleBody,
+      response,
+    );
+    return {
+      ...toModuleResponse(response),
+      body,
+    };
   });
 
 /**

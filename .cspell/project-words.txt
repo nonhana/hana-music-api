@@ -10,7 +10,6 @@ appver
 artistid
 asid
 autorestart
-baoyue
 binaryify
 bodyless
 bufferhealth
@@ -170,7 +169,6 @@ videotimeline
 vipmall
 vipmusic
 vipnewcenter
-viptype
 vitepress
 voicelist
 weapi

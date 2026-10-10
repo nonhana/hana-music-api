@@ -92,6 +92,18 @@ describe('phase 5 module regression suite', () => {
   });
 
   test('should preserve song_url ordering and playlist_detail request shape', async () => {
+    const fakePlaylist = {
+      id: 123,
+      name: 'playlist',
+      coverImgUrl: 'https://p1.music.126.net/cover.jpg',
+      trackCount: 2,
+      trackIds: [{ id: 1 }, { id: 2 }],
+      creator: { userId: 1, nickname: 'listener' },
+      subscribed: false,
+      updateTime: 0,
+      trackUpdateTime: 0,
+      description: null,
+    };
     const requestSpy = createRequestSpy((uri) => {
       if (uri === '/api/song/enhance/player/url') {
         return {
@@ -110,10 +122,7 @@ describe('phase 5 module regression suite', () => {
       return {
         body: {
           code: 200,
-          playlist: {
-            id: 123,
-            trackCount: 2,
-          },
+          playlist: fakePlaylist,
         },
         cookie: [],
         status: 200,
@@ -176,10 +185,9 @@ describe('phase 5 module regression suite', () => {
       { id: 1, url: 'first' },
       { id: 2, url: 'second' },
     ]);
-    expect(readRecordProperty(playlistDetail.body, 'playlist')).toEqual({
-      id: 123,
-      trackCount: 2,
-    });
+    expect(readRecordProperty(playlistDetail.body, 'playlist')).toEqual(
+      fakePlaylist,
+    );
   });
 
   test('should keep user_account on weapi and retain cookie semantics', async () => {

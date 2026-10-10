@@ -12,7 +12,6 @@ import {
   UpstreamBusinessFailed,
   UpstreamRateLimited,
 } from '../../src/core/errors.ts';
-import album from '../../src/modules/album.ts';
 import batch from '../../src/modules/batch.ts';
 import checkMusic from '../../src/modules/check_music.ts';
 import cloudImport from '../../src/modules/cloud_import.ts';
@@ -25,6 +24,7 @@ import playlistTrackAll from '../../src/modules/playlist_track_all.ts';
 import playlistTracks from '../../src/modules/playlist_tracks.ts';
 import registerAnonymous from '../../src/modules/register_anonimous.ts';
 import songUrl from '../../src/modules/song_url.ts';
+import toplist from '../../src/modules/toplist.ts';
 import verifyGetQr from '../../src/modules/verify_getQr.ts';
 import type {
   RequestCapability,
@@ -53,7 +53,19 @@ describe('special Effect module behavior', () => {
       e_r: false,
       fetcher: async (url) => {
         urls.push(url instanceof Request ? url.url : url.toString());
-        return Response.json({ code: 200 });
+        return Response.json({
+          code: 200,
+          songs: [],
+          album: {
+            id: 1,
+            name: 'album',
+            picUrl: 'https://p1.music.126.net/album.jpg',
+            size: 0,
+            artist: { id: 2, name: 'artist' },
+            publishTime: 0,
+            description: '',
+          },
+        });
       },
     });
     await client.album({ id: 1 });
@@ -120,7 +132,7 @@ describe('special Effect module behavior', () => {
                       ],
                     },
                   }
-                : ['opaque'],
+                : { code: 200, songs: [] },
             ),
           );
         },
@@ -130,7 +142,7 @@ describe('special Effect module behavior', () => {
       { id: 9, n: 100000, s: 8 },
       { c: '[{"id":2},{"id":3}]' },
     ]);
-    expect(result.body).toEqual(['opaque']);
+    expect(result.body).toEqual({ code: 200, songs: [] });
   });
 
   test('cloud import carries the decoded song identifier into publication', async () => {
@@ -271,7 +283,7 @@ describe('special Effect module behavior', () => {
   test('ordinary requests preserve arrays and primitive upstream bodies', async () => {
     for (const body of [null, 'opaque', [1, { field: true }]]) {
       const result = await runEffect(
-        executeModule(album, { id: 1 }, () => Effect.succeed(response(body))),
+        executeModule(toplist, {}, () => Effect.succeed(response(body))),
       );
       expect(result.body).toEqual(body);
     }

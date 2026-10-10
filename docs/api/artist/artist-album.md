@@ -44,6 +44,10 @@ const result = await artistAlbum({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.hotAlbums` 里每张专辑声明了 `id`、`name`、`picUrl`、`size`（歌曲数）、`artist`（`id`、`name`）、`publishTime`（毫秒时间戳），`more` 表示后面还有没有。结构定义和类型是 `ArtistAlbumBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入歌手 id, 可获得歌手专辑内容

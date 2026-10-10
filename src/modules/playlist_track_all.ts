@@ -9,6 +9,8 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
   IdentifierQuery,
@@ -32,7 +34,18 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const playlistTrackAll: ModuleEffect<ModuleInput> = (query, request) =>
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    songs: Schema.Array(Song),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const playlistTrackAll: ModuleEffect<ModuleInput, ModuleBody> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const limit = parseInt(String(query.limit ?? 1000), 10) || 1000;
     const offset = parseInt(String(query.offset ?? 0), 10) || 0;
@@ -92,15 +105,19 @@ const playlistTrackAll: ModuleEffect<ModuleInput> = (query, request) =>
       }
       ids.push(track.id);
     }
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          '/api/v3/song/detail',
-          { c: '[' + ids.map((id) => '{"id":' + id + '}').join(',') + ']' },
-          createOption(query),
-        ),
+    const songDetail = yield* request(
+      buildApiRequestIntent(
+        '/api/v3/song/detail',
+        { c: '[' + ids.map((id) => '{"id":' + id + '}').join(',') + ']' },
+        createOption(query),
       ),
     );
+    const songs = yield* decodeUpstreamBody(
+      'playlist_track_all',
+      ModuleBody,
+      songDetail,
+    );
+    return { ...toModuleResponse(songDetail), body: songs };
   });
 
 export default playlistTrackAll;

@@ -1,6 +1,9 @@
 import type { ModuleInput as activateInitProfileInput } from '../../modules/activate_init_profile.ts';
 import type { ModuleInput as aidjContentRcmdInput } from '../../modules/aidj_content_rcmd.ts';
-import type { ModuleInput as albumInput } from '../../modules/album.ts';
+import type {
+  ModuleBody as albumBody,
+  ModuleInput as albumInput,
+} from '../../modules/album.ts';
 import type { ModuleInput as albumDetailInput } from '../../modules/album_detail.ts';
 import type { ModuleInput as albumDetailDynamicInput } from '../../modules/album_detail_dynamic.ts';
 import type { ModuleInput as albumListInput } from '../../modules/album_list.ts';
@@ -10,8 +13,14 @@ import type { ModuleInput as albumNewestInput } from '../../modules/album_newest
 import type { ModuleInput as albumPrivilegeInput } from '../../modules/album_privilege.ts';
 import type { ModuleInput as albumSongsaleboardInput } from '../../modules/album_songsaleboard.ts';
 import type { ModuleInput as albumSubInput } from '../../modules/album_sub.ts';
-import type { ModuleInput as albumSublistInput } from '../../modules/album_sublist.ts';
-import type { ModuleInput as artistAlbumInput } from '../../modules/artist_album.ts';
+import type {
+  ModuleBody as albumSublistBody,
+  ModuleInput as albumSublistInput,
+} from '../../modules/album_sublist.ts';
+import type {
+  ModuleBody as artistAlbumBody,
+  ModuleInput as artistAlbumInput,
+} from '../../modules/artist_album.ts';
 import type { ModuleInput as artistDescInput } from '../../modules/artist_desc.ts';
 import type { ModuleInput as artistDetailInput } from '../../modules/artist_detail.ts';
 import type { ModuleInput as artistDetailDynamicInput } from '../../modules/artist_detail_dynamic.ts';
@@ -23,8 +32,14 @@ import type { ModuleInput as artistNewMvInput } from '../../modules/artist_new_m
 import type { ModuleInput as artistNewSongInput } from '../../modules/artist_new_song.ts';
 import type { ModuleInput as artistSongsInput } from '../../modules/artist_songs.ts';
 import type { ModuleInput as artistSubInput } from '../../modules/artist_sub.ts';
-import type { ModuleInput as artistSublistInput } from '../../modules/artist_sublist.ts';
-import type { ModuleInput as artistTopSongInput } from '../../modules/artist_top_song.ts';
+import type {
+  ModuleBody as artistSublistBody,
+  ModuleInput as artistSublistInput,
+} from '../../modules/artist_sublist.ts';
+import type {
+  ModuleBody as artistTopSongBody,
+  ModuleInput as artistTopSongInput,
+} from '../../modules/artist_top_song.ts';
 import type { ModuleInput as artistVideoInput } from '../../modules/artist_video.ts';
 import type { ModuleInput as artistsInput } from '../../modules/artists.ts';
 import type { ModuleInput as audioMatchInput } from '../../modules/audio_match.ts';
@@ -115,7 +130,10 @@ import type {
 } from '../../modules/image_upload_token.ts';
 import type { ModuleInput as innerVersionInput } from '../../modules/inner_version.ts';
 import type { ModuleInput as likeInput } from '../../modules/like.ts';
-import type { ModuleInput as likelistInput } from '../../modules/likelist.ts';
+import type {
+  ModuleBody as likelistBody,
+  ModuleInput as likelistInput,
+} from '../../modules/likelist.ts';
 import type { ModuleInput as listenDataRealtimeReportInput } from '../../modules/listen_data_realtime_report.ts';
 import type { ModuleInput as listenDataReportInput } from '../../modules/listen_data_report.ts';
 import type { ModuleInput as listenDataTodaySongInput } from '../../modules/listen_data_today_song.ts';
@@ -201,7 +219,10 @@ import type { ModuleInput as playlistCoverUpdateInput } from '../../modules/play
 import type { ModuleInput as playlistCreateInput } from '../../modules/playlist_create.ts';
 import type { ModuleInput as playlistDeleteInput } from '../../modules/playlist_delete.ts';
 import type { ModuleInput as playlistDescUpdateInput } from '../../modules/playlist_desc_update.ts';
-import type { ModuleInput as playlistDetailInput } from '../../modules/playlist_detail.ts';
+import type {
+  ModuleBody as playlistDetailBody,
+  ModuleInput as playlistDetailInput,
+} from '../../modules/playlist_detail.ts';
 import type { ModuleInput as playlistDetailDynamicInput } from '../../modules/playlist_detail_dynamic.ts';
 import type { ModuleInput as playlistDetailRcmdGetInput } from '../../modules/playlist_detail_rcmd_get.ts';
 import type { ModuleInput as playlistHighqualityTagsInput } from '../../modules/playlist_highquality_tags.ts';
@@ -216,7 +237,10 @@ import type { ModuleInput as playlistSubscribeInput } from '../../modules/playli
 import type { ModuleInput as playlistSubscribersInput } from '../../modules/playlist_subscribers.ts';
 import type { ModuleInput as playlistTagsUpdateInput } from '../../modules/playlist_tags_update.ts';
 import type { ModuleInput as playlistTrackAddInput } from '../../modules/playlist_track_add.ts';
-import type { ModuleInput as playlistTrackAllInput } from '../../modules/playlist_track_all.ts';
+import type {
+  ModuleBody as playlistTrackAllBody,
+  ModuleInput as playlistTrackAllInput,
+} from '../../modules/playlist_track_all.ts';
 import type { ModuleInput as playlistTrackDeleteInput } from '../../modules/playlist_track_delete.ts';
 import type { ModuleInput as playlistTracksInput } from '../../modules/playlist_tracks.ts';
 import type { ModuleInput as playlistUpdateInput } from '../../modules/playlist_update.ts';
@@ -227,7 +251,10 @@ import type { ModuleInput as programRecommendInput } from '../../modules/program
 import type { ModuleInput as rebindInput } from '../../modules/rebind.ts';
 import type { ModuleInput as recentListenListInput } from '../../modules/recent_listen_list.ts';
 import type { ModuleInput as recommendResourceInput } from '../../modules/recommend_resource.ts';
-import type { ModuleInput as recommendSongsInput } from '../../modules/recommend_songs.ts';
+import type {
+  ModuleBody as recommendSongsBody,
+  ModuleInput as recommendSongsInput,
+} from '../../modules/recommend_songs.ts';
 import type { ModuleInput as recommendSongsDislikeInput } from '../../modules/recommend_songs_dislike.ts';
 import type { ModuleInput as recordRecentAlbumInput } from '../../modules/record_recent_album.ts';
 import type { ModuleInput as recordRecentDjInput } from '../../modules/record_recent_dj.ts';
@@ -264,7 +291,10 @@ import type { ModuleInput as simiPlaylistInput } from '../../modules/simi_playli
 import type { ModuleInput as simiSongInput } from '../../modules/simi_song.ts';
 import type { ModuleInput as simiUserInput } from '../../modules/simi_user.ts';
 import type { ModuleInput as songChorusInput } from '../../modules/song_chorus.ts';
-import type { ModuleInput as songDetailInput } from '../../modules/song_detail.ts';
+import type {
+  ModuleBody as songDetailBody,
+  ModuleInput as songDetailInput,
+} from '../../modules/song_detail.ts';
 import type { ModuleInput as songDownlistInput } from '../../modules/song_downlist.ts';
 import type { ModuleInput as songDownloadUrlInput } from '../../modules/song_download_url.ts';
 import type { ModuleInput as songDownloadUrlV1Input } from '../../modules/song_download_url_v1.ts';
@@ -334,7 +364,10 @@ import type { ModuleInput as userFollowsInput } from '../../modules/user_follows
 import type { ModuleInput as userLevelInput } from '../../modules/user_level.ts';
 import type { ModuleInput as userMedalInput } from '../../modules/user_medal.ts';
 import type { ModuleInput as userMutualfollowGetInput } from '../../modules/user_mutualfollow_get.ts';
-import type { ModuleInput as userPlaylistInput } from '../../modules/user_playlist.ts';
+import type {
+  ModuleBody as userPlaylistBody,
+  ModuleInput as userPlaylistInput,
+} from '../../modules/user_playlist.ts';
 import type { ModuleInput as userPlaylistCollectInput } from '../../modules/user_playlist_collect.ts';
 import type { ModuleInput as userPlaylistCreateInput } from '../../modules/user_playlist_create.ts';
 import type { ModuleInput as userRecordInput } from '../../modules/user_record.ts';
@@ -1112,7 +1145,11 @@ export interface GeneratedModuleContractMap {
     query: aidjContentRcmdInput;
     response: ModuleResponse;
   };
-  album: { input: albumInput; query: albumInput; response: ModuleResponse };
+  album: {
+    input: albumInput;
+    query: albumInput;
+    response: ModuleResponse<albumBody>;
+  };
   album_detail: {
     input: albumDetailInput;
     query: albumDetailInput;
@@ -1161,12 +1198,12 @@ export interface GeneratedModuleContractMap {
   album_sublist: {
     input: albumSublistInput;
     query: albumSublistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumSublistBody>;
   };
   artist_album: {
     input: artistAlbumInput;
     query: artistAlbumInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistAlbumBody>;
   };
   artist_desc: {
     input: artistDescInput;
@@ -1226,12 +1263,12 @@ export interface GeneratedModuleContractMap {
   artist_sublist: {
     input: artistSublistInput;
     query: artistSublistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistSublistBody>;
   };
   artist_top_song: {
     input: artistTopSongInput;
     query: artistTopSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistTopSongBody>;
   };
   artist_video: {
     input: artistVideoInput;
@@ -1624,7 +1661,7 @@ export interface GeneratedModuleContractMap {
   likelist: {
     input: likelistInput;
     query: likelistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<likelistBody>;
   };
   listen_data_realtime_report: {
     input: listenDataRealtimeReportInput;
@@ -1929,7 +1966,7 @@ export interface GeneratedModuleContractMap {
   playlist_detail: {
     input: playlistDetailInput;
     query: playlistDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistDetailBody>;
   };
   playlist_detail_dynamic: {
     input: playlistDetailDynamicInput;
@@ -2004,7 +2041,7 @@ export interface GeneratedModuleContractMap {
   playlist_track_all: {
     input: playlistTrackAllInput;
     query: playlistTrackAllInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistTrackAllBody>;
   };
   playlist_track_delete: {
     input: playlistTrackDeleteInput;
@@ -2055,7 +2092,7 @@ export interface GeneratedModuleContractMap {
   recommend_songs: {
     input: recommendSongsInput;
     query: recommendSongsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recommendSongsBody>;
   };
   recommend_songs_dislike: {
     input: recommendSongsDislikeInput;
@@ -2232,7 +2269,7 @@ export interface GeneratedModuleContractMap {
   song_detail: {
     input: songDetailInput;
     query: songDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songDetailBody>;
   };
   song_downlist: {
     input: songDownlistInput;
@@ -2544,7 +2581,7 @@ export interface GeneratedModuleContractMap {
   user_playlist: {
     input: userPlaylistInput;
     query: userPlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userPlaylistBody>;
   };
   user_playlist_collect: {
     input: userPlaylistCollectInput;
