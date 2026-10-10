@@ -42,6 +42,10 @@ const result = await songDetail({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.songs` 里每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”；`privileges` 原样保留，没有声明。结构定义和类型是 `SongDetailBody`。
+
 ## 补充说明
 
 说明 : 调用此接口，传入音乐 id(支持多个 id, 用 `,` 隔开), 可获得歌曲详情(dt为歌曲时长)

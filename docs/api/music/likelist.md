@@ -41,6 +41,10 @@ const result = await likelist({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.ids` 是红心歌曲的编号。结构定义和类型是 `LikelistBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入用户 id, 可获取已喜欢音乐 id 列表(id 数组)

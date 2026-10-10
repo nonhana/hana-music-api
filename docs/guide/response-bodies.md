@@ -2,7 +2,9 @@
 
 部分模块的返回体在 SDK 里做了运行时校验：SDK 在返回结果之前，先用这个模块的结构定义检查 `body`，检查不通过就不返回，而是报“上游结构变了”。这些模块的 `body` 有确定的 TypeScript 类型，可以直接读声明过的字段，不用再自己判断。
 
-目前做了校验的是登录相关的模块：
+目前做了校验的是登录和曲库两类模块。
+
+### 登录
 
 | 模块                                       | 结构定义                 | 声明的字段                                                                                                                            |
 | ------------------------------------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
@@ -19,7 +21,25 @@
 | [刷新登录](/api/user/login-refresh)        | `LoginRefreshBody`       | `code`、`cookie`                                                                                                                      |
 | [退出登录](/api/user/logout)               | `LogoutBody`             | `code`                                                                                                                                |
 
-结构定义只声明真实返回里确认过、且有人在用的字段，其余字段原样保留在 `body` 里，类型是 JSON 值。字段的取值来自脱敏后的真实返回，保存在仓库的 `tests/fixtures/netease/login/`。
+### 曲库
+
+| 模块                                             | 结构定义               | 声明的字段                                                                                                                                                                                         |
+| ------------------------------------------------ | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [用户歌单](/api/playlist/user-playlist)          | `UserPlaylistBody`     | `code`、`more`、`playlist` 的 `id`、`name`、`coverImgUrl`、`trackCount`、`updateTime`、`trackUpdateTime`、`subscribed`、`creator`（`userId`、`nickname`）、`privacy`、`specialType`                |
+| [歌单详情](/api/playlist/playlist-detail)        | `PlaylistDetailBody`   | `code`、`playlist` 的 `id`、`name`、`coverImgUrl`、`description`（可能是 `null`）、`trackCount`、`trackIds[].id`、`creator`（`userId`、`nickname`）、`subscribed`、`updateTime`、`trackUpdateTime` |
+| [歌单中的歌曲](/api/playlist/playlist-track-all) | `PlaylistTrackAllBody` | `code`、`songs`（歌曲）                                                                                                                                                                            |
+| [歌曲详情](/api/music/song-detail)               | `SongDetailBody`       | `code`、`songs`（歌曲）                                                                                                                                                                            |
+| [专辑内容](/api/album/album)                     | `AlbumBody`            | `code`、`songs`（歌曲）、`album` 的 `id`、`name`、`picUrl`、`size`、`artist`（`id`、`name`）、`publishTime`、`description`                                                                         |
+| [已收藏专辑](/api/album/album-sublist)           | `AlbumSublistBody`     | `code`、`hasMore`、`data` 的 `id`、`name`、`picUrl`、`size`、`artists`（`id`、`name`）                                                                                                             |
+| [已收藏歌手](/api/artist/artist-sublist)         | `ArtistSublistBody`    | `code`、`hasMore`、`data` 的 `id`、`name`、`picUrl`、`albumSize`                                                                                                                                   |
+| [歌手热门歌曲](/api/artist/artist-top-song)      | `ArtistTopSongBody`    | `code`、`songs`（歌曲）                                                                                                                                                                            |
+| [歌手专辑](/api/artist/artist-album)             | `ArtistAlbumBody`      | `code`、`more`、`hotAlbums` 的 `id`、`name`、`picUrl`、`size`、`artist`（`id`、`name`）、`publishTime`                                                                                             |
+| [每日推荐歌曲](/api/recommend/recommend-songs)   | `RecommendSongsBody`   | `code`、`data.dailySongs`（歌曲）                                                                                                                                                                  |
+| [喜欢音乐列表](/api/music/likelist)              | `LikelistBody`         | `code`、`ids`                                                                                                                                                                                      |
+
+表里的“歌曲”是同一种结构：`id`、`name`、`ar`（歌手的 `id`、`name`）、`al`（专辑的 `id`、`name`、`picUrl`）、`dt`（时长，毫秒）、`fee`（网易云给的付费类型，原样保留数值）。时间字段都是毫秒时间戳。
+
+结构定义只声明真实返回里确认过、且有人在用的字段，其余字段原样保留在 `body` 里，类型是 JSON 值。字段的取值来自脱敏后的真实返回，按领域保存在仓库的 `tests/fixtures/netease/` 下。
 
 ## 读取类型
 
