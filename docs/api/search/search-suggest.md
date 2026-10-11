@@ -43,6 +43,12 @@ const result = await searchSuggest({
 console.log(result.body);
 ```
 
+## 返回内容
+
+默认按类别给建议：`body.result` 里的 `songs`、`artists`、`albums` 各是一类，每项声明了 `id`、`name`。`type` 传 `mobile` 时只给关键词建议 `allMatch`，每项声明了 `keyword`。
+
+哪一类没有建议，这一类就整个缺失；完全没有建议时 `result` 是空对象 `{}`，所以这四个字段在类型里都是可选的。按类别给建议时有时还有 `playlists`（歌单），以及表示类别先后的 `order`，没有声明，原样保留。结构定义和类型是 `SearchSuggestBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入搜索关键词可获得搜索建议，搜索结果同时包含单曲，歌手，歌单信息

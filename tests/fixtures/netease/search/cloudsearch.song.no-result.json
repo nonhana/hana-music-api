@@ -1,0 +1,25 @@
+{
+  "module": "cloudsearch",
+  "query": {
+    "keywords": "zqxjvkwpqzhbvq9271834650",
+    "type": 1,
+    "limit": 5
+  },
+  "context": {
+    "recordedAt": "2026-10-11T15:55:40.758Z",
+    "sdk": "hana-music-api@2.2.0",
+    "region": "local",
+    "ip": "default",
+    "viewer": "anonymous",
+    "note": "#21 补录：关键词是随手敲的字母和数字，没有任何结果（只有字母时单曲仍会模糊匹配到歌）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "songCount": 0
+      },
+      "code": 200
+    }
+  }
+}
