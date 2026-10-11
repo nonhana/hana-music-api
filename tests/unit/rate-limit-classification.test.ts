@@ -98,6 +98,19 @@ describe('rate limit classification', () => {
       expect(classifyConsumedRateLimit(response, value, now)).toBeUndefined();
     });
 
+    test('HTTP 405 与业务 code: 405 的其他消息不识别为限频', () => {
+      const response: ConsumedResponse = {
+        status: 405,
+        headers: new Headers(),
+        setCookies: [],
+        body: encoder.encode(
+          JSON.stringify({ code: 405, msg: '请求方法不允许' }),
+        ),
+      };
+      const value = { code: 405, msg: '请求方法不允许' };
+      expect(classifyConsumedRateLimit(response, value, now)).toBeUndefined();
+    });
+
     test('普通业务错误不识别为限频', () => {
       const response: ConsumedResponse = {
         status: 200,
@@ -118,30 +131,6 @@ describe('rate limit classification', () => {
       };
       const value = { code: 200 };
       expect(classifyConsumedRateLimit(response, value, now)).toBeUndefined();
-    });
-  });
-
-  describe('playlist_subscribe 405 录制数据', () => {
-    test('真实的 405 限频返回应该被识别', () => {
-      // tests/fixtures/netease/playlist_subscribe/rejected.json
-      const response: ConsumedResponse = {
-        status: 405,
-        headers: new Headers(),
-        setCookies: [],
-        body: encoder.encode(
-          JSON.stringify({
-            code: 405,
-            message: '操作过于频繁，请稍后再试',
-            debugInfo: null,
-            data: null,
-            failData: null,
-            msg: '操作过于频繁，请稍后再试',
-          }),
-        ),
-      };
-      const value = JSON.parse(new TextDecoder().decode(response.body));
-      const decision = classifyConsumedRateLimit(response, value, now);
-      expect(decision).toEqual({ status: 405, retryAfterMs: 30_000 });
     });
   });
 });

@@ -108,6 +108,6 @@ test('playlistSubscribe rejects with NetEase own status and message plus retryAf
   expect(failure?.status).toBe(405);
   expect(failure?.body).toEqual({
     ...rejected.response.body,
-    retryAfter: 30, // SDK 补上的默认值（网易云没给）
+    retryAfter: 30,
   });
 });

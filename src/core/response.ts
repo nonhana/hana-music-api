@@ -47,11 +47,16 @@ export const classifyConsumedRateLimit = (
   now: number,
 ): RateLimitDecision | undefined => {
   const code = readBusinessCode(value) ?? readBusinessCode(response.body);
+  const message =
+    readBusinessMessage(value) ?? readBusinessMessage(response.body);
   const statusLimited = isRecord(value) && Number(value.status) === 429;
   const status =
     response.status === 429 || code === 429 || statusLimited
       ? 429
-      : response.status === 405 && code === 405
+      : response.status === 405 &&
+          code === 405 &&
+          typeof message === 'string' &&
+          /操作(?:过于)?频繁/.test(message)
         ? 405
         : undefined;
   if (status === undefined) {
@@ -64,15 +69,7 @@ export const classifyConsumedRateLimit = (
 };
 
 const readBusinessCode = (value: unknown): number | undefined => {
-  const body = isRecord(value) && 'body' in value ? value.body : value;
-  if (body instanceof Uint8Array) {
-    try {
-      const parsed: unknown = JSON.parse(new TextDecoder().decode(body));
-      return readBusinessCode(parsed);
-    } catch {
-      return undefined;
-    }
-  }
+  const body = readBody(value);
   if (isRecord(body)) {
     const code = Number(body.code);
     return Number.isFinite(code) ? code : undefined;
@@ -80,9 +77,25 @@ const readBusinessCode = (value: unknown): number | undefined => {
   return undefined;
 };
 
-export const hasBusinessRateLimit = (response: ConsumedResponse): boolean => {
-  const code = readBusinessCode(response.body);
-  return code === 429 || (response.status === 405 && code === 405);
+const readBusinessMessage = (value: unknown): string | undefined => {
+  const body = readBody(value);
+  if (!isRecord(body)) {
+    return undefined;
+  }
+  const message = body.msg ?? body.message;
+  return typeof message === 'string' ? message : undefined;
+};
+
+const readBody = (value: unknown): unknown => {
+  const body = isRecord(value) && 'body' in value ? value.body : value;
+  if (!(body instanceof Uint8Array)) {
+    return body;
+  }
+  try {
+    return JSON.parse(new TextDecoder().decode(body));
+  } catch {
+    return undefined;
+  }
 };
 
 export const interpretResponse = (
