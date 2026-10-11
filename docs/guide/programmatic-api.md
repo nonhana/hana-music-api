@@ -137,7 +137,7 @@ try {
 
 **网易云限流**：收到 HTTP 429（无论正文），正文 `code: 429`，或 HTTP 405 且正文 `code: 405`（录制消息为“操作过于频繁，请稍后再试”）时，SDK 识别为限频。调用以原始状态码（429 或 405）失败。`body.retryAfter` 给出建议等待秒数（1–300 秒，缺省或无效时为 30 秒）。SDK 不重试限流，也不影响其他调用，调用方要自己控制请求频率。详见 [重试、超时与连接策略](/guide/retry-timeout-resilience)。
 
-**返回结构不符**：做了运行时校验的模块（登录、曲库、播放）在网易云改了返回结构时，以 `status: 502` 拒绝。`body.upstreamShape` 带上 `{ module, path, expected, actual }`，指明出错位置。用 `body.upstreamShape` 判断，不要解析 `msg`。这种失败通常需要升级 SDK，重试没有用。
+**返回结构不符**：做了运行时校验的模块（见 [返回体结构](/guide/response-bodies)）在网易云改了返回结构时，以 `status: 502` 拒绝。`body.upstreamShape` 带上 `{ module, path, expected, actual }`，指明出错位置。用 `body.upstreamShape` 判断，不要解析 `msg`。这种失败通常需要升级 SDK，重试没有用。
 
 ### 业务状态码的映射
 
@@ -151,4 +151,4 @@ try {
 
 收窄了返回体的模块更严格：只有这个模块的成功码才 resolve，默认是 `[200]`；唯一的例外是 `login_qr_check`（二维码轮询），成功码是 `[800, 801, 802, 803]`，resolve 时 `status` 是 200，用 `body.code` 区分过期、等待、已扫码、已授权。详见 [返回体结构](/guide/response-bodies#成功码与失败处理)。
 
-普通 `body` 没有为每个端点假定完整字段。要读取 `body.result` 等属性时，先检查正文是对象、目标字段是预期类型。模块内部对自己需要的字段也采用同样原则。登录、曲库和播放相关的模块已经在运行时校验返回体，`body` 有确定类型，并导出了结构定义，见 [返回体结构](/guide/response-bodies)。
+普通 `body` 没有为每个端点假定完整字段。要读取 `body.result` 等属性时，先检查正文是对象、目标字段是预期类型。模块内部对自己需要的字段也采用同样原则。部分模块已经在运行时校验返回体，`body` 有确定类型，并导出了结构定义；是哪些模块见 [返回体结构](/guide/response-bodies)。

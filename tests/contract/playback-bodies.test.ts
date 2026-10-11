@@ -8,7 +8,11 @@ import {
   SongDownloadUrlV1Body,
   SongUrlV1Body,
 } from '../../index.ts';
-import type { UpstreamShape } from '../_kit/assertions.ts';
+import type {
+  Recording,
+  UpstreamShape,
+  Validator,
+} from '../_kit/assertions.ts';
 import { expectUpstreamShapeRejection } from '../_kit/assertions.ts';
 import lyricAllForms from '../fixtures/netease/playback/lyric_new.all-forms.json';
 import lyricLrcOnly from '../fixtures/netease/playback/lyric_new.lrc-only.json';
@@ -33,15 +37,6 @@ import urlJymaster from '../fixtures/netease/playback/song_url_v1.vip-jymaster.j
 import urlLossless from '../fixtures/netease/playback/song_url_v1.vip-lossless.json';
 import urlSky from '../fixtures/netease/playback/song_url_v1.vip-sky.json';
 import urlStandard from '../fixtures/netease/playback/song_url_v1.vip-standard.json';
-
-type Recording = {
-  readonly query: Record<string, unknown>;
-  readonly response: { readonly body: object };
-};
-
-type Validator = {
-  readonly '~standard': { readonly validate: (value: unknown) => unknown };
-};
 
 // 每个用例回放验证关卡①录下、脱敏后的网易云返回（nonhana/hana-music-api#20）。
 const replay = (upstream: unknown) =>

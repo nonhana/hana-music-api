@@ -4,6 +4,7 @@ export { ModuleBody as ArtistAlbumBody } from '../../modules/artist_album.ts';
 export { ModuleBody as ArtistSublistBody } from '../../modules/artist_sublist.ts';
 export { ModuleBody as ArtistTopSongBody } from '../../modules/artist_top_song.ts';
 export { ModuleBody as CaptchaSentBody } from '../../modules/captcha_sent.ts';
+export { ModuleBody as CloudsearchBody } from '../../modules/cloudsearch.ts';
 export type { ModuleBody as ImageUploadTokenBody } from '../../modules/image_upload_token.ts';
 export { ModuleBody as LikelistBody } from '../../modules/likelist.ts';
 export { ModuleBody as LoginCellphoneBody } from '../../modules/login_cellphone.ts';
@@ -18,6 +19,7 @@ export { ModuleBody as PlaylistDetailBody } from '../../modules/playlist_detail.
 export { ModuleBody as PlaylistTrackAllBody } from '../../modules/playlist_track_all.ts';
 export { ModuleBody as RecommendSongsBody } from '../../modules/recommend_songs.ts';
 export { ModuleBody as ScrobbleBody } from '../../modules/scrobble.ts';
+export { ModuleBody as SearchSuggestBody } from '../../modules/search_suggest.ts';
 export { ModuleBody as SongDetailBody } from '../../modules/song_detail.ts';
 export { ModuleBody as SongDownloadUrlV1Body } from '../../modules/song_download_url_v1.ts';
 export { ModuleBody as SongUrlV1Body } from '../../modules/song_url_v1.ts';

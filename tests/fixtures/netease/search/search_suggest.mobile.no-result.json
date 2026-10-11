@@ -1,0 +1,22 @@
+{
+  "module": "search_suggest",
+  "query": {
+    "keywords": "zqxjvkwpqzhbvq",
+    "type": "mobile"
+  },
+  "context": {
+    "recordedAt": "2026-10-11T15:51:48.369Z",
+    "sdk": "hana-music-api@2.2.0",
+    "region": "local",
+    "ip": "default",
+    "viewer": "anonymous",
+    "note": "#21 补录：关键词是随手敲的字母，没有任何结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {},
+      "code": 200
+    }
+  }
+}
