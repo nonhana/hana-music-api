@@ -94,7 +94,7 @@ test.each([
   },
 );
 
-test('playlistSubscribe rejects with NetEase’s own status and message', async () => {
+test('playlistSubscribe rejects with NetEase own status and message plus retryAfter', async () => {
   const { client } = createClient(
     { cookie: 'MUSIC_U=listener' },
     rejected.response,
@@ -106,5 +106,8 @@ test('playlistSubscribe rejects with NetEase’s own status and message', async 
   )) as NcmApiResponse | undefined;
 
   expect(failure?.status).toBe(405);
-  expect(failure?.body).toEqual(rejected.response.body);
+  expect(failure?.body).toEqual({
+    ...rejected.response.body,
+    retryAfter: 30, // SDK 补上的默认值（网易云没给）
+  });
 });

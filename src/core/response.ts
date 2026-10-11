@@ -25,6 +25,7 @@ export interface ConsumedResponse {
 }
 
 export interface RateLimitDecision {
+  readonly status: number;
   readonly retryAfterMs: number;
 }
 
@@ -34,7 +35,7 @@ export const classifyHeaderRateLimit = (
   now: number,
 ): RateLimitDecision | undefined =>
   status === 429
-    ? { retryAfterMs: retryAfterMs(headers.get('retry-after'), now) }
+    ? { status: 429, retryAfterMs: retryAfterMs(headers.get('retry-after'), now) }
     : undefined;
 
 export const classifyConsumedRateLimit = (
@@ -42,21 +43,28 @@ export const classifyConsumedRateLimit = (
   value: unknown,
   now: number,
 ): RateLimitDecision | undefined => {
-  const businessLimited = hasBusiness429(response);
+  const businessLimited = hasBusinessRateLimit(response);
   const statusLimited =
     isRecord(value) && 'status' in value && Number(value.status) === 429;
-  if (response.status !== 429 && !businessLimited && !statusLimited) {
+  if (!businessLimited && !statusLimited) {
     return undefined;
   }
+  // 优先使用业务 code（429 或 405），因为 HTTP status 可能是 200
+  const code = businessLimited && isRecord(response.body)
+    ? Number(JSON.parse(new TextDecoder().decode(response.body)).code)
+    : response.status;
   return {
+    status: code === 429 || code === 405 ? code : 429,
     retryAfterMs: retryAfterMs(response.headers.get('retry-after'), now),
   };
 };
 
-export const hasBusiness429 = (response: ConsumedResponse): boolean => {
+
+export const hasBusinessRateLimit = (response: ConsumedResponse): boolean => {
   try {
     const body: unknown = JSON.parse(new TextDecoder().decode(response.body));
-    return isRecord(body) && Number(body.code) === 429;
+    const code = isRecord(body) ? Number(body.code) : NaN;
+    return code === 429 || code === 405;
   } catch {
     return false;
   }
@@ -181,22 +189,22 @@ export const normalizeFailure = (
   }
   if (error instanceof UpstreamRateLimited && error.response) {
     return {
-      status: 429,
+      status: error.status,
       cookie: [...error.response.cookie],
       body: {
         ...(isRecord(error.response.body)
           ? error.response.body
-          : { code: 429, msg: error.message }),
+          : { code: error.status, msg: error.message }),
         retryAfter: Math.ceil(error.retryAfterMs / 1_000),
       },
     };
   }
   if (error instanceof UpstreamRateLimited) {
     return {
-      status: 429,
+      status: error.status,
       cookie: [],
       body: {
-        code: 429,
+        code: error.status,
         msg: error.message,
         retryAfter: Math.ceil(error.retryAfterMs / 1_000),
       },
