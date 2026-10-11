@@ -3,7 +3,12 @@ import type {
   NcmApiResponse,
   RequestIntent,
 } from '../types/index.ts';
-import { InvalidRequest, ProtocolFailed, TargetRejected } from './errors.ts';
+import {
+  InvalidRequest,
+  ProtocolFailed,
+  TargetRejected,
+  UpstreamRateLimited,
+} from './errors.ts';
 import type { IdentitySnapshot } from './identity.ts';
 import { businessCode } from './response.ts';
 
@@ -125,6 +130,9 @@ export const retryDecision = (
   random: number,
 ): number | undefined => {
   if (requestSemantic(uri) !== 'read') {
+    return undefined;
+  }
+  if (error instanceof UpstreamRateLimited) {
     return undefined;
   }
   const text = errorText(error).toLowerCase();

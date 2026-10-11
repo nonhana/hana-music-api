@@ -25,6 +25,7 @@ export interface ConsumedResponse {
 }
 
 export interface RateLimitDecision {
+  readonly status: number;
   readonly retryAfterMs: number;
 }
 
@@ -34,7 +35,10 @@ export const classifyHeaderRateLimit = (
   now: number,
 ): RateLimitDecision | undefined =>
   status === 429
-    ? { retryAfterMs: retryAfterMs(headers.get('retry-after'), now) }
+    ? {
+        status: 429,
+        retryAfterMs: retryAfterMs(headers.get('retry-after'), now),
+      }
     : undefined;
 
 export const classifyConsumedRateLimit = (
@@ -42,23 +46,55 @@ export const classifyConsumedRateLimit = (
   value: unknown,
   now: number,
 ): RateLimitDecision | undefined => {
-  const businessLimited = hasBusiness429(response);
-  const statusLimited =
-    isRecord(value) && 'status' in value && Number(value.status) === 429;
-  if (response.status !== 429 && !businessLimited && !statusLimited) {
+  const code = readBusinessCode(value) ?? readBusinessCode(response.body);
+  const message =
+    readBusinessMessage(value) ?? readBusinessMessage(response.body);
+  const statusLimited = isRecord(value) && Number(value.status) === 429;
+  const status =
+    response.status === 429 || code === 429 || statusLimited
+      ? 429
+      : response.status === 405 &&
+          code === 405 &&
+          typeof message === 'string' &&
+          /操作(?:过于)?频繁/.test(message)
+        ? 405
+        : undefined;
+  if (status === undefined) {
     return undefined;
   }
   return {
+    status,
     retryAfterMs: retryAfterMs(response.headers.get('retry-after'), now),
   };
 };
 
-export const hasBusiness429 = (response: ConsumedResponse): boolean => {
+const readBusinessCode = (value: unknown): number | undefined => {
+  const body = readBody(value);
+  if (isRecord(body)) {
+    const code = Number(body.code);
+    return Number.isFinite(code) ? code : undefined;
+  }
+  return undefined;
+};
+
+const readBusinessMessage = (value: unknown): string | undefined => {
+  const body = readBody(value);
+  if (!isRecord(body)) {
+    return undefined;
+  }
+  const message = body.msg ?? body.message;
+  return typeof message === 'string' ? message : undefined;
+};
+
+const readBody = (value: unknown): unknown => {
+  const body = isRecord(value) && 'body' in value ? value.body : value;
+  if (!(body instanceof Uint8Array)) {
+    return body;
+  }
   try {
-    const body: unknown = JSON.parse(new TextDecoder().decode(response.body));
-    return isRecord(body) && Number(body.code) === 429;
+    return JSON.parse(new TextDecoder().decode(body));
   } catch {
-    return false;
+    return undefined;
   }
 };
 
@@ -181,22 +217,22 @@ export const normalizeFailure = (
   }
   if (error instanceof UpstreamRateLimited && error.response) {
     return {
-      status: 429,
+      status: error.status,
       cookie: [...error.response.cookie],
       body: {
         ...(isRecord(error.response.body)
           ? error.response.body
-          : { code: 429, msg: error.message }),
+          : { code: error.status, msg: error.message }),
         retryAfter: Math.ceil(error.retryAfterMs / 1_000),
       },
     };
   }
   if (error instanceof UpstreamRateLimited) {
     return {
-      status: 429,
+      status: error.status,
       cookie: [],
       body: {
-        code: 429,
+        code: error.status,
         msg: error.message,
         retryAfter: Math.ceil(error.retryAfterMs / 1_000),
       },

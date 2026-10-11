@@ -59,4 +59,60 @@ describe('SDK outbound traffic', () => {
     expect(await limited.lyric({ id: '3' })).toMatchObject({ status: 200 });
     expect(calls).toBe(3);
   });
+
+  test('an upstream 405 rate limit is returned once with its original status', async () => {
+    let calls = 0;
+    const hana = createHanaMusicApi({
+      cookie: 'MUSIC_U=limited-listener',
+      retry: {
+        backoffMs: 0,
+        jitter: false,
+        retries: 2,
+        retryNonIdempotent: true,
+        statusCodes: [405],
+      },
+      fetcher: async () => {
+        calls += 1;
+        return Response.json(
+          { code: 405, msg: '操作过于频繁，请稍后再试' },
+          { status: 405, headers: { 'Retry-After': '4' } },
+        );
+      },
+    });
+
+    const failure = await hana
+      .lyric({ id: '1' })
+      .catch((error: unknown) => error);
+    expect(failure).toMatchObject({
+      status: 405,
+      body: {
+        code: 405,
+        retryAfter: 4,
+      },
+    });
+    expect(calls).toBe(1);
+  });
+
+  test('an HTTP 200 response with business code 405 is not a rate limit', async () => {
+    const hana = createHanaMusicApi({
+      cookie: 'MUSIC_U=ordinary-error',
+      fetcher: async () =>
+        Response.json({ code: 405, msg: '操作过于频繁，请稍后再试' }),
+    });
+
+    const failure = await hana
+      .lyric({ id: '1' })
+      .catch((error: unknown) => error);
+    expect(failure).toMatchObject({
+      status: 405,
+      body: {
+        code: 405,
+      },
+    });
+    expect(failure).not.toMatchObject({
+      body: {
+        retryAfter: expect.any(Number),
+      },
+    });
+  });
 });

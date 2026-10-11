@@ -170,7 +170,7 @@ export const transportEffect = <
           host,
           identity,
           retryAfterMs: headerDecision.retryAfterMs,
-          status: 429,
+          status: headerDecision.status,
           message: 'Upstream rate limited',
           response:
             Result.isSuccess(interpreted) && 'cookie' in interpreted.success
@@ -188,7 +188,7 @@ export const transportEffect = <
           host,
           identity,
           retryAfterMs: decision.retryAfterMs,
-          status: 429,
+          status: decision.status,
           message: 'Upstream rate limited',
           response: 'cookie' in value ? value : undefined,
         });
