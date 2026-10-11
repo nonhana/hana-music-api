@@ -19,6 +19,16 @@ export const settle = <Value>(promise: Promise<Value>) =>
     (rejected: NcmApiResponse) => ({ rejected }),
   );
 
+// 契约测试回放的录制文件：一次 SDK 调用的查询参数和网易云的原始返回，见 tests/fixtures/netease/。
+export type Recording = {
+  readonly query: Record<string, unknown>;
+  readonly response: { readonly status: number; readonly body: object };
+};
+
+export type Validator = {
+  readonly '~standard': { readonly validate: (value: unknown) => unknown };
+};
+
 export type UpstreamShape = Record<
   'module' | 'path' | 'expected' | 'actual',
   string

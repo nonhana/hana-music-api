@@ -5,7 +5,11 @@ import {
   createHanaMusicApi,
   SearchSuggestBody,
 } from '../../index.ts';
-import type { UpstreamShape } from '../_kit/assertions.ts';
+import type {
+  Recording,
+  UpstreamShape,
+  Validator,
+} from '../_kit/assertions.ts';
 import { expectUpstreamShapeRejection } from '../_kit/assertions.ts';
 import searchAlbum from '../fixtures/netease/search/cloudsearch.album.json';
 import searchAlbumNone from '../fixtures/netease/search/cloudsearch.album.no-result.json';
@@ -20,15 +24,6 @@ import suggestWeb from '../fixtures/netease/search/search_suggest.json';
 import suggestMobile from '../fixtures/netease/search/search_suggest.mobile.json';
 import suggestMobileNone from '../fixtures/netease/search/search_suggest.mobile.no-result.json';
 import suggestWebNone from '../fixtures/netease/search/search_suggest.no-result.json';
-
-type Recording = {
-  readonly query: Record<string, unknown>;
-  readonly response: { readonly body: object };
-};
-
-type Validator = {
-  readonly '~standard': { readonly validate: (value: unknown) => unknown };
-};
 
 // 每个用例回放验证关卡①录下、脱敏后的网易云返回，以及匿名补录的“没有结果”和“歌手没有头像”（nonhana/hana-music-api#21）。
 const replay = (upstream: unknown) =>
