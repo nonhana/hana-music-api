@@ -1,7 +1,8 @@
 import { expect, test } from 'bun:test';
 
-import type { NcmApiResponse } from '../../index.ts';
 import { createHanaMusicApi, LoginCellphoneRiskBody } from '../../index.ts';
+import type { UpstreamShape } from '../_kit/assertions.ts';
+import { expectUpstreamShapeRejection, settle } from '../_kit/assertions.ts';
 import captchaSent from '../fixtures/netease/login/captcha_sent.json';
 import smsLogin from '../fixtures/netease/login/login_cellphone.200.json';
 import smsRisk from '../fixtures/netease/login/login_cellphone.10004-risk.json';
@@ -37,12 +38,6 @@ const replay = (upstream: unknown, setCookie: ReadonlyArray<string> = []) => {
     fetcher: async () => Response.json(upstream, { headers }),
   });
 };
-
-const settle = <Value>(promise: Promise<Value>) =>
-  promise.then(
-    (resolved) => ({ resolved }),
-    (rejected: NcmApiResponse) => ({ rejected }),
-  );
 
 const withoutCookie = ({ cookie: _cookie, ...body }: Record<string, unknown>) =>
   body;
@@ -211,7 +206,7 @@ test('logout returns the recorded confirmation', async () => {
 test.each<{
   name: string;
   call: () => Promise<unknown>;
-  shape: Record<'module' | 'path' | 'expected' | 'actual', string>;
+  shape: UpstreamShape;
 }>([
   {
     name: 'loginQrCheck: scanned without the nickname',
@@ -349,16 +344,6 @@ test.each<{
       actual: 'null',
     },
   },
-])('$name rejects as an upstream shape change', async ({ call, shape }) => {
-  expect(await settle(call())).toEqual({
-    rejected: {
-      status: 502,
-      cookie: [],
-      body: {
-        code: 502,
-        msg: `Unexpected upstream shape in ${shape.module} at ${shape.path}: expected ${shape.expected}, got ${shape.actual}`,
-        upstreamShape: shape,
-      },
-    },
-  });
-});
+])('$name rejects as an upstream shape change', ({ call, shape }) =>
+  expectUpstreamShapeRejection(call(), shape),
+);

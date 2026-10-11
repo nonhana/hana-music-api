@@ -1,6 +1,5 @@
 import { expect, test } from 'bun:test';
 
-import type { NcmApiResponse } from '../../index.ts';
 import {
   AlbumBody,
   AlbumSublistBody,
@@ -15,6 +14,8 @@ import {
   SongDetailBody,
   UserPlaylistBody,
 } from '../../index.ts';
+import type { UpstreamShape } from '../_kit/assertions.ts';
+import { expectUpstreamShapeRejection } from '../_kit/assertions.ts';
 import album from '../fixtures/netease/library/album.json';
 import albumSublist from '../fixtures/netease/library/album_sublist.json';
 import artistAlbum from '../fixtures/netease/library/artist_album.json';
@@ -47,12 +48,6 @@ const replay = (...upstream: ReadonlyArray<unknown>) => {
     fetcher: async () => Response.json(queue.shift()),
   });
 };
-
-const settle = <Value>(promise: Promise<Value>) =>
-  promise.then(
-    (resolved) => ({ resolved }),
-    (rejected: NcmApiResponse) => ({ rejected }),
-  );
 
 test('userPlaylist returns the recorded playlists', async () => {
   const result = await replay(userPlaylist.response.body).userPlaylist(
@@ -218,7 +213,7 @@ test.each<{ name: string; schema: Validator; recording: Recording }>([
 test.each<{
   name: string;
   call: () => Promise<unknown>;
-  shape: Record<'module' | 'path' | 'expected' | 'actual', string>;
+  shape: UpstreamShape;
 }>([
   {
     name: 'userPlaylist: a playlist without its track update time',
@@ -373,16 +368,6 @@ test.each<{
       actual: 'missing',
     },
   },
-])('$name rejects as an upstream shape change', async ({ call, shape }) => {
-  expect(await settle(call())).toEqual({
-    rejected: {
-      status: 502,
-      cookie: [],
-      body: {
-        code: 502,
-        msg: `Unexpected upstream shape in ${shape.module} at ${shape.path}: expected ${shape.expected}, got ${shape.actual}`,
-        upstreamShape: shape,
-      },
-    },
-  });
-});
+])('$name rejects as an upstream shape change', ({ call, shape }) =>
+  expectUpstreamShapeRejection(call(), shape),
+);

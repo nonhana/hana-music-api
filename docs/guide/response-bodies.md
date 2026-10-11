@@ -2,7 +2,7 @@
 
 部分模块的返回体在 SDK 里做了运行时校验：SDK 在返回结果之前，先用这个模块的结构定义检查 `body`，检查不通过就不返回，而是报“上游结构变了”。这些模块的 `body` 有确定的 TypeScript 类型，可以直接读声明过的字段，不用再自己判断。
 
-目前做了校验的是登录和曲库两类模块。
+目前做了校验的是登录、曲库和播放三类模块。
 
 ### 登录
 
@@ -38,6 +38,17 @@
 | [喜欢音乐列表](/api/music/likelist)              | `LikelistBody`         | `code`、`ids`                                                                                                                                                                                      |
 
 表里的“歌曲”是同一种结构：`id`、`name`、`ar`（歌手的 `id`、`name`）、`al`（专辑的 `id`、`name`、`picUrl`）、`dt`（时长，毫秒）、`fee`（网易云给的付费类型，原样保留数值）。时间字段都是毫秒时间戳。
+
+### 播放
+
+| 模块                                                             | 结构定义                | 声明的字段                                                                                                     |
+| ---------------------------------------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------- |
+| [获取音乐 url - 新版](/api/music/song-url-v1)                    | `SongUrlV1Body`         | `code`、`data` 的 `id`、`url`、`code`、`level`、`expi`、`freeTrialInfo`（`start`、`end`）                      |
+| [获取客户端歌曲下载链接 - 新版](/api/music/song-download-url-v1) | `SongDownloadUrlV1Body` | `code`、`data`（一个对象）的 `id`、`url`、`code`、`level`、`size`                                              |
+| [获取逐字歌词](/api/music/lyric-new)                             | `LyricNewBody`          | `code`、`lrc`；可能缺失的 `tlyric`、`romalrc`、`yrc`、`ytlrc`、`yromalrc`、`pureMusic`。每种歌词只声明 `lyric` |
+| [听歌打卡](/api/music/scrobble)                                  | `ScrobbleBody`          | `code`                                                                                                         |
+
+播放地址和下载地址里，`url` 是 `null` 表示拿不到这首歌，原因看 `code`（无版权时播放地址实测是 404，下载地址是 -110）。播放地址的 `freeTrialInfo` 不是 `null` 表示只能试听，`url` 是试听片段，`start`、`end` 是片段在整首里的起止秒数；下载地址还没有录到试听的返回，这个字段没有声明。`level` 是实际给到的音质，可能比请求的低；`expi` 是播放地址有效的秒数，`size` 是文件字节数。歌词除 `lrc` 外的几种可能整个缺失，也可能在、但 `lyric` 是空串，两种都表示没有这种歌词。
 
 结构定义只声明真实返回里确认过、且有人在用的字段，其余字段原样保留在 `body` 里，类型是 JSON 值。字段的取值来自脱敏后的真实返回，按领域保存在仓库的 `tests/fixtures/netease/` 下。
 

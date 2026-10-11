@@ -41,6 +41,16 @@ const result = await lyricNew({
 console.log(result.body);
 ```
 
+## 返回内容
+
+每种歌词都是 `{ lyric }`，`lyric` 是歌词文本：
+
+- `lrc`：逐行歌词，一直都在；没有收录歌词时 `lyric` 是空串。
+- `tlyric`、`romalrc`：逐行歌词的翻译和音译。
+- `yrc`：逐字歌词；`ytlrc`、`yromalrc` 是按逐字歌词的时间对齐的翻译和音译。
+
+除 `lrc` 外的几种可能整个缺失，也可能在、但 `lyric` 是空串，两种都表示没有这种歌词。纯音乐另有 `pureMusic: true`。结构定义和类型是 `LyricNewBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 此接口的 `yrc` 字段即为逐字歌词 (可能有歌曲不包含逐字歌词)

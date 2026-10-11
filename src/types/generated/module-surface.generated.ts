@@ -178,7 +178,10 @@ import type {
   ModuleInput as logoutInput,
 } from '../../modules/logout.ts';
 import type { ModuleInput as lyricInput } from '../../modules/lyric.ts';
-import type { ModuleInput as lyricNewInput } from '../../modules/lyric_new.ts';
+import type {
+  ModuleBody as lyricNewBody,
+  ModuleInput as lyricNewInput,
+} from '../../modules/lyric_new.ts';
 import type { ModuleInput as mlogMusicRcmdInput } from '../../modules/mlog_music_rcmd.ts';
 import type { ModuleInput as mlogToVideoInput } from '../../modules/mlog_to_video.ts';
 import type { ModuleInput as mlogUrlInput } from '../../modules/mlog_url.ts';
@@ -267,7 +270,10 @@ import type { ModuleInput as registerCellphoneInput } from '../../modules/regist
 import type { ModuleInput as relatedAllvideoInput } from '../../modules/related_allvideo.ts';
 import type { ModuleInput as relatedPlaylistInput } from '../../modules/related_playlist.ts';
 import type { ModuleInput as resourceLikeInput } from '../../modules/resource_like.ts';
-import type { ModuleInput as scrobbleInput } from '../../modules/scrobble.ts';
+import type {
+  ModuleBody as scrobbleBody,
+  ModuleInput as scrobbleInput,
+} from '../../modules/scrobble.ts';
 import type { ModuleInput as searchInput } from '../../modules/search.ts';
 import type { ModuleInput as searchDefaultInput } from '../../modules/search_default.ts';
 import type { ModuleInput as searchHotInput } from '../../modules/search_hot.ts';
@@ -297,7 +303,10 @@ import type {
 } from '../../modules/song_detail.ts';
 import type { ModuleInput as songDownlistInput } from '../../modules/song_downlist.ts';
 import type { ModuleInput as songDownloadUrlInput } from '../../modules/song_download_url.ts';
-import type { ModuleInput as songDownloadUrlV1Input } from '../../modules/song_download_url_v1.ts';
+import type {
+  ModuleBody as songDownloadUrlV1Body,
+  ModuleInput as songDownloadUrlV1Input,
+} from '../../modules/song_download_url_v1.ts';
 import type { ModuleInput as songDynamicCoverInput } from '../../modules/song_dynamic_cover.ts';
 import type { ModuleInput as songLikeCheckInput } from '../../modules/song_like_check.ts';
 import type { ModuleInput as songLyricsMarkInput } from '../../modules/song_lyrics_mark.ts';
@@ -311,7 +320,10 @@ import type { ModuleInput as songPurchasedInput } from '../../modules/song_purch
 import type { ModuleInput as songRedCountInput } from '../../modules/song_red_count.ts';
 import type { ModuleInput as songSingledownlistInput } from '../../modules/song_singledownlist.ts';
 import type { ModuleInput as songUrlInput } from '../../modules/song_url.ts';
-import type { ModuleInput as songUrlV1Input } from '../../modules/song_url_v1.ts';
+import type {
+  ModuleBody as songUrlV1Body,
+  ModuleInput as songUrlV1Input,
+} from '../../modules/song_url_v1.ts';
 import type { ModuleInput as songWikiSummaryInput } from '../../modules/song_wiki_summary.ts';
 import type { ModuleInput as starpickCommentsSummaryInput } from '../../modules/starpick_comments_summary.ts';
 import type { ModuleInput as styleAlbumInput } from '../../modules/style_album.ts';
@@ -1773,7 +1785,7 @@ export interface GeneratedModuleContractMap {
   lyric_new: {
     input: lyricNewInput;
     query: lyricNewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<lyricNewBody>;
   };
   mlog_music_rcmd: {
     input: mlogMusicRcmdInput;
@@ -2157,7 +2169,7 @@ export interface GeneratedModuleContractMap {
   scrobble: {
     input: scrobbleInput;
     query: scrobbleInput;
-    response: ModuleResponse;
+    response: ModuleResponse<scrobbleBody>;
   };
   search: { input: searchInput; query: searchInput; response: ModuleResponse };
   search_default: {
@@ -2284,7 +2296,7 @@ export interface GeneratedModuleContractMap {
   song_download_url_v1: {
     input: songDownloadUrlV1Input;
     query: songDownloadUrlV1Input;
-    response: ModuleResponse;
+    response: ModuleResponse<songDownloadUrlV1Body>;
   };
   song_dynamic_cover: {
     input: songDynamicCoverInput;
@@ -2354,7 +2366,7 @@ export interface GeneratedModuleContractMap {
   song_url_v1: {
     input: songUrlV1Input;
     query: songUrlV1Input;
-    response: ModuleResponse;
+    response: ModuleResponse<songUrlV1Body>;
   };
   song_wiki_summary: {
     input: songWikiSummaryInput;

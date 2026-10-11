@@ -44,6 +44,10 @@ const result = await scrobble({
 console.log(result.body);
 ```
 
+## 返回内容
+
+只声明了 `code`。返回 200 不代表计入了听歌排行：实测这样打卡后排行没有变化，见 [#31](https://github.com/nonhana/hana-music-api/issues/31)。结构定义和类型是 `ScrobbleBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入音乐 id, 来源 id，歌曲时间 time，更新听歌排行数据
