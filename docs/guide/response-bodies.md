@@ -2,7 +2,7 @@
 
 部分模块的返回体在 SDK 里做了运行时校验：SDK 在返回结果之前，先用这个模块的结构定义检查 `body`，检查不通过就不返回，而是报“上游结构变了”。这些模块的 `body` 有确定的 TypeScript 类型，可以直接读声明过的字段，不用再自己判断。
 
-目前做了校验的是登录、曲库、播放和搜索四类模块。
+做了校验的模块按领域列在下面，以后新收窄的模块也会补进对应的表。
 
 ### 登录
 
@@ -63,7 +63,7 @@
 
 ## 导出约定
 
-收窄返回体的模块从根入口导出结构定义和同名类型，名字是模块名转成 PascalCase 再加 `Body`，例如 `user_account` → `UserAccountBody`、`login_qr_check` → `LoginQrCheckBody`。上面三张表就是目前导出的全部结构定义；另有 `ImageUploadTokenBody` 只导出类型，没有运行时值，只能用 `import type` 导入。
+收窄返回体的模块从根入口导出结构定义和同名类型，名字是模块名转成 PascalCase 再加 `Body`，例如 `user_account` → `UserAccountBody`、`login_qr_check` → `LoginQrCheckBody`。导出了哪些结构定义，以上面按领域列出的表为准；另有 `ImageUploadTokenBody` 只导出类型，没有运行时值，只能用 `import type` 导入。
 
 结构定义的值是函数，不是普通对象（`typeof UserAccountBody === 'function'`）。Standard Schema 接口在它的 `~standard` 属性上，用法见 [用结构定义校验数据](#用结构定义校验数据)。
 
