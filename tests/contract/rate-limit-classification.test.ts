@@ -57,7 +57,7 @@ describe('rate limit classification', () => {
       expect(decision).toEqual({ status: 429, retryAfterMs: 120_000 });
     });
 
-    test('认出业务 code: 405 "操作过于频繁"', () => {
+    test('认出 HTTP 405 与业务 code: 405 "操作过于频繁"', () => {
       const response: ConsumedResponse = {
         status: 405,
         headers: new Headers(),
@@ -77,6 +77,25 @@ describe('rate limit classification', () => {
       };
       const decision = classifyConsumedRateLimit(response, value, now);
       expect(decision).toEqual({ status: 405, retryAfterMs: 30_000 });
+    });
+
+    test('HTTP 200 的业务 code: 405 不识别为限频', () => {
+      const response: ConsumedResponse = {
+        status: 200,
+        headers: new Headers(),
+        setCookies: [],
+        body: encoder.encode(
+          JSON.stringify({
+            code: 405,
+            msg: '操作过于频繁，请稍后再试',
+          }),
+        ),
+      };
+      const value = {
+        code: 405,
+        msg: '操作过于频繁，请稍后再试',
+      };
+      expect(classifyConsumedRateLimit(response, value, now)).toBeUndefined();
     });
 
     test('普通业务错误不识别为限频', () => {

@@ -35,7 +35,10 @@ export const classifyHeaderRateLimit = (
   now: number,
 ): RateLimitDecision | undefined =>
   status === 429
-    ? { status: 429, retryAfterMs: retryAfterMs(headers.get('retry-after'), now) }
+    ? {
+        status: 429,
+        retryAfterMs: retryAfterMs(headers.get('retry-after'), now),
+      }
     : undefined;
 
 export const classifyConsumedRateLimit = (
@@ -43,31 +46,43 @@ export const classifyConsumedRateLimit = (
   value: unknown,
   now: number,
 ): RateLimitDecision | undefined => {
-  const businessLimited = hasBusinessRateLimit(response);
-  const statusLimited =
-    isRecord(value) && 'status' in value && Number(value.status) === 429;
-  if (!businessLimited && !statusLimited) {
+  const code = readBusinessCode(value) ?? readBusinessCode(response.body);
+  const statusLimited = isRecord(value) && Number(value.status) === 429;
+  const status =
+    response.status === 429 || code === 429 || statusLimited
+      ? 429
+      : response.status === 405 && code === 405
+        ? 405
+        : undefined;
+  if (status === undefined) {
     return undefined;
   }
-  // 优先使用业务 code（429 或 405），因为 HTTP status 可能是 200
-  const code = businessLimited && isRecord(response.body)
-    ? Number(JSON.parse(new TextDecoder().decode(response.body)).code)
-    : response.status;
   return {
-    status: code === 429 || code === 405 ? code : 429,
+    status,
     retryAfterMs: retryAfterMs(response.headers.get('retry-after'), now),
   };
 };
 
+const readBusinessCode = (value: unknown): number | undefined => {
+  const body = isRecord(value) && 'body' in value ? value.body : value;
+  if (body instanceof Uint8Array) {
+    try {
+      const parsed: unknown = JSON.parse(new TextDecoder().decode(body));
+      return readBusinessCode(parsed);
+    } catch {
+      return undefined;
+    }
+  }
+  if (isRecord(body)) {
+    const code = Number(body.code);
+    return Number.isFinite(code) ? code : undefined;
+  }
+  return undefined;
+};
 
 export const hasBusinessRateLimit = (response: ConsumedResponse): boolean => {
-  try {
-    const body: unknown = JSON.parse(new TextDecoder().decode(response.body));
-    const code = isRecord(body) ? Number(body.code) : NaN;
-    return code === 429 || code === 405;
-  } catch {
-    return false;
-  }
+  const code = readBusinessCode(response.body);
+  return code === 429 || (response.status === 405 && code === 405);
 };
 
 export const interpretResponse = (

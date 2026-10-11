@@ -11,6 +11,12 @@ const specialCodeFetcher: FetchLike = async () =>
     status: 200,
   });
 
+const rateLimited405Fetcher: FetchLike = async () =>
+  Response.json(
+    { code: 405, msg: '操作过于频繁，请稍后再试' },
+    { status: 405 },
+  );
+
 describe('createRequest', () => {
   test('typed transport failures retain nested connection causes for safe retry', async () => {
     let calls = 0;
@@ -375,6 +381,22 @@ describe('createRequest', () => {
         },
       ),
     ).rejects.toMatchObject({ status: 429, body: { code: 429 } });
+  });
+
+  test('should report a 405 rate limit with its original status in request events', async () => {
+    const events: Array<{ type: string; status?: number }> = [];
+    const failure = await createRequest(
+      '/api/search/get',
+      {},
+      {
+        crypto: 'api',
+        fetcher: rateLimited405Fetcher,
+        onRequestEvent: (event) => events.push(event),
+      },
+    ).catch((error: unknown) => error);
+
+    expect(failure).toMatchObject({ status: 405 });
+    expect(events.at(-1)).toMatchObject({ type: 'failure', status: 405 });
   });
 
   test('should request gzipped eapi responses when acceptGzip is enabled', async () => {

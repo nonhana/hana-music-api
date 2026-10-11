@@ -201,7 +201,7 @@ export const requestEffect = (
               : undefined;
           const status =
             error instanceof UpstreamRateLimited
-              ? 429
+              ? error.status
               : error instanceof ProtocolFailed
                 ? error.response?.status
                 : undefined;
