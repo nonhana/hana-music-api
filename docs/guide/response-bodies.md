@@ -52,6 +52,21 @@
 
 结构定义只声明真实返回里确认过、且有人在用的字段，其余字段原样保留在 `body` 里，类型是 JSON 值。字段的取值来自脱敏后的真实返回，按领域保存在仓库的 `tests/fixtures/netease/` 下。
 
+## 导出约定
+
+收窄返回体的模块从根入口导出结构定义和同名类型，名字是模块名转成 PascalCase 再加 `Body`，例如 `user_account` → `UserAccountBody`、`login_qr_check` → `LoginQrCheckBody`。上面三张表就是目前导出的全部结构定义；另有 `ImageUploadTokenBody` 只导出类型，没有运行时值，只能用 `import type` 导入。
+
+结构定义的值是函数，不是普通对象（`typeof UserAccountBody === 'function'`）。Standard Schema 接口在它的 `~standard` 属性上，用法见 [用结构定义校验数据](#用结构定义校验数据)。
+
+## 成功码与失败处理
+
+收窄返回体的模块只认可特定的 `body.code` 作为成功：
+
+- **默认成功码**：`[200]`，适用于大部分模块。
+- **例外**：`login_qr_check`（二维码轮询）的成功码为 `[800, 801, 802, 803]`，对应过期、等待、已扫码、已授权四种状态。
+
+`code` 不在成功码列表时，SDK 把网易云的返回体原样作为失败抛出，`status` 取业务码（101–599 外钳位到 400）。例如扫码时要求行为验证的 8821、续期时登录已失效的 301、手机登录被风控的 10004。
+
 ## 读取类型
 
 每个结构定义同名导出一个类型，是 `body` 的类型：
@@ -88,7 +103,7 @@ if (result.issues) {
 
 ## 网易云拒绝时
 
-`code` 不是这个模块认识的返回码时，SDK 把网易云的返回体原样作为失败抛出，`status` 取网易云的返回码（不在 HTTP 状态码范围内时是 400）。例如扫码时要求行为验证的 8821、续期时登录已失效的 301：
+失败正文的处理已在 [成功码与失败处理](#成功码与失败处理) 说明。部分失败场景另外导出了结构定义，可用于精确错误处理：
 
 ```ts
 import { loginCellphone, LoginCellphoneRiskBody } from 'hana-music-api';
@@ -99,10 +114,12 @@ try {
   const body = (error as { body?: unknown }).body;
   const risk = LoginCellphoneRiskBody['~standard'].validate(body);
   if (!('issues' in risk) || !risk.issues) {
-    console.log(risk.value.message, risk.value.redirectUrl);
+    console.log('被风控拦截:', risk.value.message, risk.value.redirectUrl);
   }
 }
 ```
+
+失败结构定义（如 `LoginCellphoneRiskBody` 对应手机登录的 10004 风控）不在运行时自动校验，需要调用方按需使用。
 
 ## 结构变了时
 

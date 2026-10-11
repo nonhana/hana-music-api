@@ -73,7 +73,9 @@ flowchart LR
 
 ## 返回值与错误
 
-SDK 返回 `{ status, body, cookie }`：
+### 响应形状
+
+client 的方法、具名函数、`invokeModule` 和 `createRequest` 都返回 Promise。成功和失败时拿到的都是同样的三字段对象，类型是公开导出的 `NcmApiResponse`：
 
 | 字段     | 含义                                                       |
 | -------- | ---------------------------------------------------------- |
@@ -81,34 +83,72 @@ SDK 返回 `{ status, body, cookie }`：
 | `body`   | 接口正文，可能包含业务 `code`，普通响应保留未知 JSON       |
 | `cookie` | 上游下发的 Cookie 字符串数组                               |
 
-执行失败时，Promise 通常会以同样的三字段对象拒绝，所以不能只读取 `error.message`。模块也可能正常返回带失败状态的结果；例如既没传文件也没传图片编号的歌单封面更新会返回 `status: 400`。成功完成 `await` 后仍要检查状态，业务状态则按具体接口处理。
+### 成功与失败的区分
+
+**失败时 Promise reject，成功时 resolve**，但两者都是上面的对象形状。抛出的不是 `Error` 实例（`instanceof Error` 为 `false`），不能只读 `error.message`。
+
+少数模块可能 **resolve 非 2xx 状态**。例如歌单封面更新在参数冲突或缺失时 resolve `status: 400`，榜单查询不支持特定调用方式时 resolve `status: 500`。调用方要在 `await` 后检查 `status`，不能假设 resolve 就是 200。
 
 ```ts
-import { search } from 'hana-music-api';
+import { search, type NcmApiResponse } from 'hana-music-api';
+
+// 类型守卫：检查是否为 SDK 的标准响应对象
+function isNcmApiResponse(error: unknown): error is NcmApiResponse {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'status' in error &&
+    'body' in error &&
+    'cookie' in error
+  );
+}
 
 try {
   const result = await search({ keywords: '海阔天空' });
   if (result.status !== 200) {
-    console.error(result.status, result.body);
+    console.error('调用成功但状态非 200:', result.status, result.body);
   } else {
     console.log(result.body);
   }
 } catch (error: unknown) {
-  if (
-    typeof error === 'object' &&
-    error !== null &&
-    'status' in error &&
-    'body' in error
-  ) {
-    console.error(error.status, error.body);
+  if (isNcmApiResponse(error)) {
+    console.error('调用失败:', error.status, error.body);
   } else {
+    // 不应该到这里，除非是意外的运行时错误
     throw error;
   }
 }
 ```
 
-部分业务码会映射为成功状态，二维码轮询的 `800` 至 `803` 就需要继续检查 `body.code`。不要把 `status === 200` 等同于所有业务操作成功。
+### 失败情况与状态码
 
-普通 `body` 没有为每个端点假定完整字段。若要读取 `body.result` 等属性，先检查正文是对象、目标字段是预期类型。模块内部对自己需要读取的字段也采用同样的原则。登录、曲库和播放相关的模块已经在运行时校验了返回体，`body` 有确定的类型，并导出了结构定义，见 [返回体结构](/guide/response-bodies)。
+| 情况                      | status           | body 内容                                                     |
+| ------------------------- | ---------------- | ------------------------------------------------------------- |
+| 网易云业务拒绝            | 业务 `code`*     | 网易云原样返回的正文                                          |
+| 网易云限流                | 429              | 网易云正文或 `{ code: 429, msg }`，带 `retryAfter`（秒）      |
+| 返回结构不符预期          | 502              | `{ code: 502, msg, upstreamShape: { module, path, … } }`      |
+| 参数错误                  | 400 或模块指定值 | `{ code, msg }`                                               |
+| 超时                      | 504              | `{ code: 504, msg: 'Request timed out' }`                     |
+| 调用方取消（AbortSignal） | 499              | `{ code: 499, msg: 'Request cancelled' }`                     |
+| 其他传输或协议失败        | 502              | `{ code: 502, msg }`                                          |
+| 分段上传中途失败          | 按上面规则       | 另加 `partialCompletion: true`、`completedStages`（已完成数） |
 
-常见的执行失败包括参数错误 `400`、网易云限频 `429`、取消 `499`、传输或响应处理失败 `502`、超时 `504`。做了返回体校验的模块在网易云改了返回结构时也以 `502` 拒绝，`body.upstreamShape` 写明出错的位置。SDK 不在本地限制请求频率，调用方要自己控制，处理方式见 [重试、超时与连接策略](/guide/retry-timeout-resilience)。
+\* 业务 `code` 在 101–599 时直接用作 `status`，否则钳位到 400。例如手机登录被风控返回 `code: 10004` 时，`status` 是 400。
+
+**网易云限流**：收到 HTTP 429 或正文 `code: 429` 时，SDK 以 `status: 429` 拒绝。`body.retryAfter` 给出建议等待秒数（1–300 秒，缺省或无效时为 30 秒）。SDK 不重试限流，也不影响其他调用，调用方要自己控制请求频率。详见 [重试、超时与连接策略](/guide/retry-timeout-resilience)。
+
+**返回结构不符**：做了运行时校验的模块（登录、曲库、播放）在网易云改了返回结构时，以 `status: 502` 拒绝。`body.upstreamShape` 带上 `{ module, path, expected, actual }`，指明出错位置。用 `body.upstreamShape` 判断，不要解析 `msg`。这种失败通常需要升级 SDK，重试没有用。
+
+### 业务状态码的映射
+
+没有收窄返回体的模块，由请求层看正文的 `code`（没有 `code` 时看 HTTP 状态）决定成败：
+
+- `code` 是 `201`、`302`、`400`、`502`、`800`–`803` 之一时 resolve，`status` 是 200；
+- `code` 在 200–299 之间的其他值时 resolve，`status` 等于 `code`；
+- 其余都拒绝，`status` 按上面表格的规则取。
+
+所以 resolve 了 `status: 200`，`body.code` 也可能是 `400` 或 `502`。不要把 `status === 200` 等同于业务操作成功，仍要按接口文档检查 `body.code`。
+
+收窄了返回体的模块更严格：只有这个模块的成功码才 resolve，默认是 `[200]`；唯一的例外是 `login_qr_check`（二维码轮询），成功码是 `[800, 801, 802, 803]`，resolve 时 `status` 是 200，用 `body.code` 区分过期、等待、已扫码、已授权。详见 [返回体结构](/guide/response-bodies#成功码与失败处理)。
+
+普通 `body` 没有为每个端点假定完整字段。要读取 `body.result` 等属性时，先检查正文是对象、目标字段是预期类型。模块内部对自己需要的字段也采用同样原则。登录、曲库和播放相关的模块已经在运行时校验返回体，`body` 有确定类型，并导出了结构定义，见 [返回体结构](/guide/response-bodies)。
