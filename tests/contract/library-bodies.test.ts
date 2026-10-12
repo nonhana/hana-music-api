@@ -23,7 +23,7 @@ import artistSublist from '../fixtures/netease/library/artist_sublist.json';
 import artistSublistPage2 from '../fixtures/netease/library/artist_sublist.page2.json';
 import artistTopSong from '../fixtures/netease/library/artist_top_song.json';
 import likelist from '../fixtures/netease/library/likelist.json';
-import detailAnonymousView from '../fixtures/netease/library/playlist_detail.anonymous-view.json';
+import detailInvalidCookie from '../fixtures/netease/library/playlist_detail.invalid-cookie.json';
 import detailLiked from '../fixtures/netease/library/playlist_detail.liked.json';
 import detailOwn from '../fixtures/netease/library/playlist_detail.own-small.json';
 import detailSubscribed from '../fixtures/netease/library/playlist_detail.subscribed.json';
@@ -32,7 +32,7 @@ import recommendSongs from '../fixtures/netease/library/recommend_songs.json';
 import songDetailAnonymous from '../fixtures/netease/library/song_detail.anon.json';
 import songDetailUploaded from '../fixtures/netease/library/song_detail.uploaded.json';
 import songDetailVip from '../fixtures/netease/library/song_detail.vip.json';
-import userPlaylistAnonymousView from '../fixtures/netease/library/user_playlist.anonymous-view.json';
+import userPlaylistInvalidCookie from '../fixtures/netease/library/user_playlist.invalid-cookie.json';
 import userPlaylist from '../fixtures/netease/library/user_playlist.json';
 
 type Recording = {
@@ -59,9 +59,9 @@ test.each<{
 }>([
   { name: 'signed-in', recording: userPlaylist, query: userPlaylist.query },
   {
-    name: 'anonymous-view',
-    recording: userPlaylistAnonymousView,
-    query: userPlaylistAnonymousView.query,
+    name: 'invalid-cookie',
+    recording: userPlaylistInvalidCookie,
+    query: userPlaylistInvalidCookie.query,
   },
 ])(
   'userPlaylist returns the recorded $name playlists',
@@ -81,9 +81,9 @@ test.each<{ name: string; recording: Recording; query: { id: number } }>([
     query: detailSubscribed.query,
   },
   {
-    name: 'anonymous-view',
-    recording: detailAnonymousView,
-    query: detailAnonymousView.query,
+    name: 'invalid-cookie',
+    recording: detailInvalidCookie,
+    query: detailInvalidCookie.query,
   },
 ])(
   'playlistDetail returns the recorded $name playlist',

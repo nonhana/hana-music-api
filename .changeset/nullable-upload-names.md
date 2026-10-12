@@ -1,5 +1,5 @@
 ---
-'hana-music-api': patch
+'hana-music-api': minor
 ---
 
 修复云盘上传的歌、凭据失效时的歌单让整个返回以 502 拒绝（#48）

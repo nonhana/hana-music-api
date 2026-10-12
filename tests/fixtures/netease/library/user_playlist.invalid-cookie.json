@@ -9,8 +9,8 @@
     "sdk": "hana-music-api@2.3.0",
     "region": "local",
     "ip": "default",
-    "viewer": "invalid",
-    "note": "凭据无效时的匿名视角：带一个随机编造、不属于任何账号的 MUSIC_U，不涉及真实账号；网易云原样的返回，用 fetcher 在 SDK 校验之前截下（2.3.0 因 subscribed 是 null 报 502）。查的是网易云官方账号的歌单列表，每张歌单的 subscribed 都是 null（nonhana/hana-music-api#48）",
+    "viewer": "invalid-cookie",
+    "note": "Cookie 里的 MUSIC_U 是随便写的一串（不是任何账号的凭据），模拟登录已失效：网易云仍回 code 200，给的是没有登录的视角，每张歌单的 subscribed 都是 null，2.3.0 因此报 502（nonhana/hana-music-api#48）。查的是网易云官方账号的歌单列表；网易云原样的返回，用 fetcher 在 SDK 校验之前截下",
     "truncated": [
       {
         "path": "body.playlist",
