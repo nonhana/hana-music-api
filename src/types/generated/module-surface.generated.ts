@@ -12,7 +12,10 @@ import type { ModuleInput as albumNewInput } from '../../modules/album_new.ts';
 import type { ModuleInput as albumNewestInput } from '../../modules/album_newest.ts';
 import type { ModuleInput as albumPrivilegeInput } from '../../modules/album_privilege.ts';
 import type { ModuleInput as albumSongsaleboardInput } from '../../modules/album_songsaleboard.ts';
-import type { ModuleInput as albumSubInput } from '../../modules/album_sub.ts';
+import type {
+  ModuleBody as albumSubBody,
+  ModuleInput as albumSubInput,
+} from '../../modules/album_sub.ts';
 import type {
   ModuleBody as albumSublistBody,
   ModuleInput as albumSublistInput,
@@ -31,7 +34,10 @@ import type { ModuleInput as artistMvInput } from '../../modules/artist_mv.ts';
 import type { ModuleInput as artistNewMvInput } from '../../modules/artist_new_mv.ts';
 import type { ModuleInput as artistNewSongInput } from '../../modules/artist_new_song.ts';
 import type { ModuleInput as artistSongsInput } from '../../modules/artist_songs.ts';
-import type { ModuleInput as artistSubInput } from '../../modules/artist_sub.ts';
+import type {
+  ModuleBody as artistSubBody,
+  ModuleInput as artistSubInput,
+} from '../../modules/artist_sub.ts';
 import type {
   ModuleBody as artistSublistBody,
   ModuleInput as artistSublistInput,
@@ -132,7 +138,10 @@ import type {
   ModuleInput as imageUploadTokenInput,
 } from '../../modules/image_upload_token.ts';
 import type { ModuleInput as innerVersionInput } from '../../modules/inner_version.ts';
-import type { ModuleInput as likeInput } from '../../modules/like.ts';
+import type {
+  ModuleBody as likeBody,
+  ModuleInput as likeInput,
+} from '../../modules/like.ts';
 import type {
   ModuleBody as likelistBody,
   ModuleInput as likelistInput,
@@ -220,11 +229,26 @@ import type { ModuleInput as personalizedNewsongInput } from '../../modules/pers
 import type { ModuleInput as personalizedPrivatecontentInput } from '../../modules/personalized_privatecontent.ts';
 import type { ModuleInput as personalizedPrivatecontentListInput } from '../../modules/personalized_privatecontent_list.ts';
 import type { ModuleInput as plCountInput } from '../../modules/pl_count.ts';
-import type { ModuleInput as playlistCatlistInput } from '../../modules/playlist_catlist.ts';
-import type { ModuleInput as playlistCoverUpdateInput } from '../../modules/playlist_cover_update.ts';
-import type { ModuleInput as playlistCreateInput } from '../../modules/playlist_create.ts';
-import type { ModuleInput as playlistDeleteInput } from '../../modules/playlist_delete.ts';
-import type { ModuleInput as playlistDescUpdateInput } from '../../modules/playlist_desc_update.ts';
+import type {
+  ModuleBody as playlistCatlistBody,
+  ModuleInput as playlistCatlistInput,
+} from '../../modules/playlist_catlist.ts';
+import type {
+  ModuleBody as playlistCoverUpdateBody,
+  ModuleInput as playlistCoverUpdateInput,
+} from '../../modules/playlist_cover_update.ts';
+import type {
+  ModuleBody as playlistCreateBody,
+  ModuleInput as playlistCreateInput,
+} from '../../modules/playlist_create.ts';
+import type {
+  ModuleBody as playlistDeleteBody,
+  ModuleInput as playlistDeleteInput,
+} from '../../modules/playlist_delete.ts';
+import type {
+  ModuleBody as playlistDescUpdateBody,
+  ModuleInput as playlistDescUpdateInput,
+} from '../../modules/playlist_desc_update.ts';
 import type {
   ModuleBody as playlistDetailBody,
   ModuleInput as playlistDetailInput,
@@ -236,19 +260,37 @@ import type { ModuleInput as playlistHotInput } from '../../modules/playlist_hot
 import type { ModuleInput as playlistImportNameTaskCreateInput } from '../../modules/playlist_import_name_task_create.ts';
 import type { ModuleInput as playlistImportTaskStatusInput } from '../../modules/playlist_import_task_status.ts';
 import type { ModuleInput as playlistMylikeInput } from '../../modules/playlist_mylike.ts';
-import type { ModuleInput as playlistNameUpdateInput } from '../../modules/playlist_name_update.ts';
-import type { ModuleInput as playlistOrderUpdateInput } from '../../modules/playlist_order_update.ts';
-import type { ModuleInput as playlistPrivacyInput } from '../../modules/playlist_privacy.ts';
-import type { ModuleInput as playlistSubscribeInput } from '../../modules/playlist_subscribe.ts';
+import type {
+  ModuleBody as playlistNameUpdateBody,
+  ModuleInput as playlistNameUpdateInput,
+} from '../../modules/playlist_name_update.ts';
+import type {
+  ModuleBody as playlistOrderUpdateBody,
+  ModuleInput as playlistOrderUpdateInput,
+} from '../../modules/playlist_order_update.ts';
+import type {
+  ModuleBody as playlistPrivacyBody,
+  ModuleInput as playlistPrivacyInput,
+} from '../../modules/playlist_privacy.ts';
+import type {
+  ModuleBody as playlistSubscribeBody,
+  ModuleInput as playlistSubscribeInput,
+} from '../../modules/playlist_subscribe.ts';
 import type { ModuleInput as playlistSubscribersInput } from '../../modules/playlist_subscribers.ts';
-import type { ModuleInput as playlistTagsUpdateInput } from '../../modules/playlist_tags_update.ts';
+import type {
+  ModuleBody as playlistTagsUpdateBody,
+  ModuleInput as playlistTagsUpdateInput,
+} from '../../modules/playlist_tags_update.ts';
 import type { ModuleInput as playlistTrackAddInput } from '../../modules/playlist_track_add.ts';
 import type {
   ModuleBody as playlistTrackAllBody,
   ModuleInput as playlistTrackAllInput,
 } from '../../modules/playlist_track_all.ts';
 import type { ModuleInput as playlistTrackDeleteInput } from '../../modules/playlist_track_delete.ts';
-import type { ModuleInput as playlistTracksInput } from '../../modules/playlist_tracks.ts';
+import type {
+  ModuleBody as playlistTracksBody,
+  ModuleInput as playlistTracksInput,
+} from '../../modules/playlist_tracks.ts';
 import type { ModuleInput as playlistUpdateInput } from '../../modules/playlist_update.ts';
 import type { ModuleInput as playlistUpdatePlaycountInput } from '../../modules/playlist_update_playcount.ts';
 import type { ModuleInput as playlistVideoRecentInput } from '../../modules/playlist_video_recent.ts';
@@ -321,7 +363,10 @@ import type { ModuleInput as songLyricsMarkDelInput } from '../../modules/song_l
 import type { ModuleInput as songLyricsMarkUserPageInput } from '../../modules/song_lyrics_mark_user_page.ts';
 import type { ModuleInput as songMonthdownlistInput } from '../../modules/song_monthdownlist.ts';
 import type { ModuleInput as songMusicDetailInput } from '../../modules/song_music_detail.ts';
-import type { ModuleInput as songOrderUpdateInput } from '../../modules/song_order_update.ts';
+import type {
+  ModuleBody as songOrderUpdateBody,
+  ModuleInput as songOrderUpdateInput,
+} from '../../modules/song_order_update.ts';
 import type { ModuleInput as songPurchasedInput } from '../../modules/song_purchased.ts';
 import type { ModuleInput as songRedCountInput } from '../../modules/song_red_count.ts';
 import type { ModuleInput as songSingledownlistInput } from '../../modules/song_singledownlist.ts';
@@ -1211,7 +1256,7 @@ export interface GeneratedModuleContractMap {
   album_sub: {
     input: albumSubInput;
     query: albumSubInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumSubBody>;
   };
   album_sublist: {
     input: albumSublistInput;
@@ -1276,7 +1321,7 @@ export interface GeneratedModuleContractMap {
   artist_sub: {
     input: artistSubInput;
     query: artistSubInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistSubBody>;
   };
   artist_sublist: {
     input: artistSublistInput;
@@ -1675,7 +1720,11 @@ export interface GeneratedModuleContractMap {
     query: innerVersionInput;
     response: ModuleResponse;
   };
-  like: { input: likeInput; query: likeInput; response: ModuleResponse };
+  like: {
+    input: likeInput;
+    query: likeInput;
+    response: ModuleResponse<likeBody>;
+  };
   likelist: {
     input: likelistInput;
     query: likelistInput;
@@ -1959,27 +2008,27 @@ export interface GeneratedModuleContractMap {
   playlist_catlist: {
     input: playlistCatlistInput;
     query: playlistCatlistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistCatlistBody>;
   };
   playlist_cover_update: {
     input: playlistCoverUpdateInput;
     query: playlistCoverUpdateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistCoverUpdateBody>;
   };
   playlist_create: {
     input: playlistCreateInput;
     query: playlistCreateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistCreateBody>;
   };
   playlist_delete: {
     input: playlistDeleteInput;
     query: playlistDeleteInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistDeleteBody>;
   };
   playlist_desc_update: {
     input: playlistDescUpdateInput;
     query: playlistDescUpdateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistDescUpdateBody>;
   };
   playlist_detail: {
     input: playlistDetailInput;
@@ -2024,22 +2073,22 @@ export interface GeneratedModuleContractMap {
   playlist_name_update: {
     input: playlistNameUpdateInput;
     query: playlistNameUpdateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistNameUpdateBody>;
   };
   playlist_order_update: {
     input: playlistOrderUpdateInput;
     query: playlistOrderUpdateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistOrderUpdateBody>;
   };
   playlist_privacy: {
     input: playlistPrivacyInput;
     query: playlistPrivacyInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistPrivacyBody>;
   };
   playlist_subscribe: {
     input: playlistSubscribeInput;
     query: playlistSubscribeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistSubscribeBody>;
   };
   playlist_subscribers: {
     input: playlistSubscribersInput;
@@ -2049,7 +2098,7 @@ export interface GeneratedModuleContractMap {
   playlist_tags_update: {
     input: playlistTagsUpdateInput;
     query: playlistTagsUpdateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistTagsUpdateBody>;
   };
   playlist_track_add: {
     input: playlistTrackAddInput;
@@ -2069,7 +2118,7 @@ export interface GeneratedModuleContractMap {
   playlist_tracks: {
     input: playlistTracksInput;
     query: playlistTracksInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistTracksBody>;
   };
   playlist_update: {
     input: playlistUpdateInput;
@@ -2347,7 +2396,7 @@ export interface GeneratedModuleContractMap {
   song_order_update: {
     input: songOrderUpdateInput;
     query: songOrderUpdateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songOrderUpdateBody>;
   };
   song_purchased: {
     input: songPurchasedInput;
