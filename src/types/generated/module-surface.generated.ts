@@ -62,7 +62,10 @@ import type { ModuleInput as checkMusicInput } from '../../modules/check_music.t
 import type { ModuleInput as cloudInput } from '../../modules/cloud.ts';
 import type { ModuleInput as cloudImportInput } from '../../modules/cloud_import.ts';
 import type { ModuleInput as cloudMatchInput } from '../../modules/cloud_match.ts';
-import type { ModuleInput as cloudsearchInput } from '../../modules/cloudsearch.ts';
+import type {
+  ModuleBody as cloudsearchBody,
+  ModuleInput as cloudsearchInput,
+} from '../../modules/cloudsearch.ts';
 import type { ModuleInput as commentInput } from '../../modules/comment.ts';
 import type { ModuleInput as commentAlbumInput } from '../../modules/comment_album.ts';
 import type { ModuleInput as commentDjInput } from '../../modules/comment_dj.ts';
@@ -280,7 +283,10 @@ import type { ModuleInput as searchHotInput } from '../../modules/search_hot.ts'
 import type { ModuleInput as searchHotDetailInput } from '../../modules/search_hot_detail.ts';
 import type { ModuleInput as searchMatchInput } from '../../modules/search_match.ts';
 import type { ModuleInput as searchMultimatchInput } from '../../modules/search_multimatch.ts';
-import type { ModuleInput as searchSuggestInput } from '../../modules/search_suggest.ts';
+import type {
+  ModuleBody as searchSuggestBody,
+  ModuleInput as searchSuggestInput,
+} from '../../modules/search_suggest.ts';
 import type { ModuleInput as sendAlbumInput } from '../../modules/send_album.ts';
 import type { ModuleInput as sendPlaylistInput } from '../../modules/send_playlist.ts';
 import type { ModuleInput as sendSongInput } from '../../modules/send_song.ts';
@@ -1368,7 +1374,7 @@ export interface GeneratedModuleContractMap {
   cloudsearch: {
     input: cloudsearchInput;
     query: cloudsearchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<cloudsearchBody>;
   };
   comment: {
     input: commentInput;
@@ -2200,7 +2206,7 @@ export interface GeneratedModuleContractMap {
   search_suggest: {
     input: searchSuggestInput;
     query: searchSuggestInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchSuggestBody>;
   };
   send_album: {
     input: sendAlbumInput;

@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 
 import { createHanaMusicApi, LoginCellphoneRiskBody } from '../../index.ts';
-import type { UpstreamShape } from '../_kit/assertions.ts';
+import type { Recording, UpstreamShape } from '../_kit/assertions.ts';
 import { expectUpstreamShapeRejection, settle } from '../_kit/assertions.ts';
 import captchaSent from '../fixtures/netease/login/captcha_sent.json';
 import smsLogin from '../fixtures/netease/login/login_cellphone.200.json';
@@ -21,11 +21,6 @@ import accountAnonymous from '../fixtures/netease/login/user_account.anonymous.j
 import accountInvalid from '../fixtures/netease/login/user_account.invalid-cookie.json';
 import accountVip from '../fixtures/netease/login/user_account.vip.json';
 import detailVip from '../fixtures/netease/login/user_detail.vip.json';
-
-type Recording = {
-  readonly query: Record<string, unknown>;
-  readonly response: { readonly status: number; readonly body: object };
-};
 
 // 每个用例回放一份验证关卡录下、脱敏后的网易云返回（Campanula 验证关卡①，nonhana/hana-music-api#18）。
 const replay = (upstream: unknown, setCookie: ReadonlyArray<string> = []) => {

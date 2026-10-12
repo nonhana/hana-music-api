@@ -1,0 +1,120 @@
+{
+  "module": "cloudsearch",
+  "query": {
+    "keywords": "钢琴",
+    "type": 100,
+    "limit": 5,
+    "offset": 30
+  },
+  "context": {
+    "recordedAt": "2026-10-11T16:03:15.546Z",
+    "sdk": "hana-music-api@2.2.0",
+    "region": "local",
+    "ip": "default",
+    "viewer": "anonymous",
+    "note": "#21 补录：用 createRequest 发出与 cloudsearch 相同的请求；结果里有没有头像的歌手，picUrl 是 null"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "artistCount": 502,
+        "artists": [
+          {
+            "id": 49300321,
+            "name": "罐罐钢琴",
+            "picUrl": "https://p3.music.126.net/zCXKX5B_VKZk3SlfIboo0w==/109951164182294782.jpg",
+            "alias": [],
+            "albumSize": 36,
+            "musicSize": 39,
+            "picId": 109951164182294780,
+            "fansGroup": null,
+            "recommendText": null,
+            "appendRecText": null,
+            "fansSize": null,
+            "img1v1Url": "https://p3.music.126.net/UyWT6l8wZwALRJgkeJcDuQ==/109951169887133638.jpg",
+            "accountId": 101028468,
+            "img1v1": 109951169887133630,
+            "mvSize": 0,
+            "followed": false,
+            "trans": null
+          },
+          {
+            "id": 12205279,
+            "name": "钢琴曲qing（詹嘉青）",
+            "picUrl": "https://p4.music.126.net/4ljo3A4ZqMYXMyr44zDWMA==/109951165393114911.jpg",
+            "alias": [],
+            "albumSize": 2,
+            "musicSize": 12,
+            "picId": 109951165393114910,
+            "fansGroup": null,
+            "recommendText": null,
+            "appendRecText": null,
+            "fansSize": null,
+            "img1v1Url": "https://p4.music.126.net/zswZKGb1xt4YaVTm11zvnw==/109951165393122169.jpg",
+            "img1v1": 109951165393122180,
+            "mvSize": 0,
+            "followed": false,
+            "trans": null
+          },
+          {
+            "id": 46290791,
+            "name": "Piano Mood 钢琴心情",
+            "picUrl": "https://p3.music.126.net/Yv5uKXhCt0r3_dzYHUGYvw==/109951167749010370.jpg",
+            "alias": [],
+            "albumSize": 13,
+            "musicSize": 7586,
+            "picId": 109951167749010370,
+            "fansGroup": null,
+            "recommendText": null,
+            "appendRecText": null,
+            "fansSize": null,
+            "img1v1Url": "https://p4.music.126.net/ze2roqriED4SHc5HMHSrpQ==/109951167749017154.jpg",
+            "img1v1": 109951167749017150,
+            "mvSize": 0,
+            "followed": false,
+            "trans": null
+          },
+          {
+            "id": 48428793,
+            "name": "鋼琴心情",
+            "picUrl": null,
+            "alias": [],
+            "albumSize": 4,
+            "musicSize": 79,
+            "picId": 0,
+            "fansGroup": null,
+            "recommendText": null,
+            "appendRecText": null,
+            "fansSize": null,
+            "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+            "img1v1": 0,
+            "mvSize": 0,
+            "followed": false,
+            "trans": null
+          },
+          {
+            "id": 49087004,
+            "name": "睡眠钢琴",
+            "picUrl": "https://p3.music.126.net/eRWsOluoHNpAydeY56RjdQ==/109951166396716809.jpg",
+            "alias": [],
+            "albumSize": 10,
+            "musicSize": 137,
+            "picId": 109951166396716820,
+            "fansGroup": null,
+            "recommendText": null,
+            "appendRecText": null,
+            "fansSize": null,
+            "img1v1Url": "https://p4.music.126.net/SmQYumtoQeptdWTv0HDQlA==/109951166396715415.jpg",
+            "img1v1": 109951166396715410,
+            "mvSize": 0,
+            "followed": false,
+            "trans": null
+          }
+        ],
+        "searchQcReminder": null
+      },
+      "code": 200
+    }
+  }
+}

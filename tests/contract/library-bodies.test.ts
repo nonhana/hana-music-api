@@ -14,7 +14,11 @@ import {
   SongDetailBody,
   UserPlaylistBody,
 } from '../../index.ts';
-import type { UpstreamShape } from '../_kit/assertions.ts';
+import type {
+  Recording,
+  UpstreamShape,
+  Validator,
+} from '../_kit/assertions.ts';
 import { expectUpstreamShapeRejection } from '../_kit/assertions.ts';
 import album from '../fixtures/netease/library/album.json';
 import albumSublist from '../fixtures/netease/library/album_sublist.json';
@@ -34,14 +38,6 @@ import songDetailUploaded from '../fixtures/netease/library/song_detail.uploaded
 import songDetailVip from '../fixtures/netease/library/song_detail.vip.json';
 import userPlaylistInvalidCookie from '../fixtures/netease/library/user_playlist.invalid-cookie.json';
 import userPlaylist from '../fixtures/netease/library/user_playlist.json';
-
-type Recording = {
-  readonly response: { readonly body: object };
-};
-
-type Validator = {
-  readonly '~standard': { readonly validate: (value: unknown) => unknown };
-};
 
 // 每个用例按请求顺序回放脱敏后的网易云返回：验证关卡①（nonhana/hana-music-api#19）和 #48 的录制，来源见各录制的 context。
 const replay = (...upstream: ReadonlyArray<unknown>) => {

@@ -1,12 +1,59 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import { Artist, Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const cloudsearch: ModuleEffect<ModuleInput> = (query, request) =>
+const SearchedAlbum = UpstreamObject({
+  id: Schema.Finite,
+  name: Schema.String,
+  picUrl: Schema.String,
+  artists: Schema.Array(Artist),
+  publishTime: Schema.Finite,
+});
+
+// 没有头像的歌手 picUrl 是 null。
+const SearchedArtist = UpstreamObject({
+  id: Schema.Finite,
+  name: Schema.String,
+  picUrl: Schema.NullOr(Schema.String),
+  musicSize: Schema.Finite,
+});
+
+const SearchedPlaylist = UpstreamObject({
+  id: Schema.Finite,
+  name: Schema.String,
+  coverImgUrl: Schema.String,
+  trackCount: Schema.Finite,
+  creator: UpstreamObject({
+    userId: Schema.Finite,
+    nickname: Schema.String,
+  }),
+});
+
+// 按 type 只给一类结果：单曲在 songs、专辑在 albums、歌手在 artists、歌单在 playlists，各带结果总数；没有结果时只有总数（0），列表整个缺失。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    result: UpstreamObject({
+      songs: Schema.optionalKey(Schema.Array(Song)),
+      songCount: Schema.optionalKey(Schema.Finite),
+      albums: Schema.optionalKey(Schema.Array(SearchedAlbum)),
+      albumCount: Schema.optionalKey(Schema.Finite),
+      artists: Schema.optionalKey(Schema.Array(SearchedArtist)),
+      artistCount: Schema.optionalKey(Schema.Finite),
+      playlists: Schema.optionalKey(Schema.Array(SearchedPlaylist)),
+      playlistCount: Schema.optionalKey(Schema.Finite),
+    }),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const cloudsearch: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       s: query.keywords,
@@ -15,11 +62,14 @@ const cloudsearch: ModuleEffect<ModuleInput> = (query, request) =>
       offset: query.offset || 0,
       total: true,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(`/api/cloudsearch/pc`, data, createOption(query)),
-      ),
+    const response = yield* request(
+      buildApiRequestIntent(`/api/cloudsearch/pc`, data, createOption(query)),
     );
+    const body = yield* decodeUpstreamBody('cloudsearch', ModuleBody, response);
+    return {
+      ...toModuleResponse(response),
+      body,
+    };
   });
 
 /**
