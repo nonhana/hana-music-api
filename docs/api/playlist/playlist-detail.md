@@ -44,7 +44,7 @@ console.log(result.body);
 
 ## 返回内容
 
-声明了 `body.playlist` 的 `id`、`name`、`coverImgUrl`、`description`（可能是 `null`）、`trackCount`、`trackIds`（每项声明了 `id`）、`creator`（`userId`、`nickname`）、`subscribed`、`updateTime`、`trackUpdateTime`。
+声明了 `body.playlist` 的 `id`、`name`、`coverImgUrl`、`description`（可能是 `null`）、`trackCount`、`trackIds`（每项声明了 `id`）、`creator`（`userId`、`nickname`）、`subscribed`（Cookie 里的 `MUSIC_U` 已经失效时是 `null`）、`updateTime`、`trackUpdateTime`。
 
 `trackIds` 是整张歌单的歌曲编号，`tracks` 最多只有 1,000 首。要拿全部歌曲的信息，用 [获取歌单中的歌曲](/api/playlist/playlist-track-all) 按页取。结构定义和类型是 `PlaylistDetailBody`，见 [返回体结构](/guide/response-bodies)。
 
