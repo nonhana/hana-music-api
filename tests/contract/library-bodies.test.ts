@@ -23,13 +23,16 @@ import artistSublist from '../fixtures/netease/library/artist_sublist.json';
 import artistSublistPage2 from '../fixtures/netease/library/artist_sublist.page2.json';
 import artistTopSong from '../fixtures/netease/library/artist_top_song.json';
 import likelist from '../fixtures/netease/library/likelist.json';
+import detailAnonymousView from '../fixtures/netease/library/playlist_detail.anonymous-view.json';
 import detailLiked from '../fixtures/netease/library/playlist_detail.liked.json';
 import detailOwn from '../fixtures/netease/library/playlist_detail.own-small.json';
 import detailSubscribed from '../fixtures/netease/library/playlist_detail.subscribed.json';
 import trackAll from '../fixtures/netease/library/playlist_track_all.json';
 import recommendSongs from '../fixtures/netease/library/recommend_songs.json';
 import songDetailAnonymous from '../fixtures/netease/library/song_detail.anon.json';
+import songDetailUploaded from '../fixtures/netease/library/song_detail.uploaded.json';
 import songDetailVip from '../fixtures/netease/library/song_detail.vip.json';
+import userPlaylistAnonymousView from '../fixtures/netease/library/user_playlist.anonymous-view.json';
 import userPlaylist from '../fixtures/netease/library/user_playlist.json';
 
 type Recording = {
@@ -40,7 +43,7 @@ type Validator = {
   readonly '~standard': { readonly validate: (value: unknown) => unknown };
 };
 
-// 每个用例按请求顺序回放验证关卡①录下、脱敏后的网易云返回（nonhana/hana-music-api#19）。
+// 每个用例按请求顺序回放脱敏后的网易云返回：验证关卡①（nonhana/hana-music-api#19）和 #48 的录制，来源见各录制的 context。
 const replay = (...upstream: ReadonlyArray<unknown>) => {
   const queue = [...upstream];
   return createHanaMusicApi({
@@ -49,13 +52,25 @@ const replay = (...upstream: ReadonlyArray<unknown>) => {
   });
 };
 
-test('userPlaylist returns the recorded playlists', async () => {
-  const result = await replay(userPlaylist.response.body).userPlaylist(
-    userPlaylist.query,
-  );
+test.each<{
+  name: string;
+  recording: Recording;
+  query: { limit: number; uid: number };
+}>([
+  { name: 'signed-in', recording: userPlaylist, query: userPlaylist.query },
+  {
+    name: 'anonymous-view',
+    recording: userPlaylistAnonymousView,
+    query: userPlaylistAnonymousView.query,
+  },
+])(
+  'userPlaylist returns the recorded $name playlists',
+  async ({ recording, query }) => {
+    const result = await replay(recording.response.body).userPlaylist(query);
 
-  expect(result.body as unknown).toEqual(userPlaylist.response.body);
-});
+    expect(result.body as unknown).toEqual(recording.response.body);
+  },
+);
 
 test.each<{ name: string; recording: Recording; query: { id: number } }>([
   { name: 'liked', recording: detailLiked, query: detailLiked.query },
@@ -64,6 +79,11 @@ test.each<{ name: string; recording: Recording; query: { id: number } }>([
     name: 'subscribed',
     recording: detailSubscribed,
     query: detailSubscribed.query,
+  },
+  {
+    name: 'anonymous-view',
+    recording: detailAnonymousView,
+    query: detailAnonymousView.query,
   },
 ])(
   'playlistDetail returns the recorded $name playlist',
@@ -89,6 +109,11 @@ test.each<{ name: string; recording: Recording; query: { ids: string } }>([
     name: 'anonymous',
     recording: songDetailAnonymous,
     query: songDetailAnonymous.query,
+  },
+  {
+    name: 'uploaded',
+    recording: songDetailUploaded,
+    query: songDetailUploaded.query,
   },
 ])(
   'songDetail returns the recorded $name songs',
@@ -272,6 +297,21 @@ test.each<{
       path: 'body.songs[0].ar',
       expected: 'present',
       actual: 'missing',
+    },
+  },
+  {
+    // 匿名或凭据失效时，云盘上传的歌连歌名也是 null；只有上传者本人能看到歌名（#48）。
+    name: 'songDetail: an uploaded song seen without its uploader',
+    call: () => {
+      const upstream = structuredClone(songDetailUploaded.response.body);
+      (upstream.songs[0] as { name: string | null }).name = null;
+      return replay(upstream).songDetail(songDetailUploaded.query);
+    },
+    shape: {
+      module: 'song_detail',
+      path: 'body.songs[0].name',
+      expected: 'string',
+      actual: 'null',
     },
   },
   {

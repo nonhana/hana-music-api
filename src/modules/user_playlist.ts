@@ -43,7 +43,8 @@ const Playlist = UpstreamObject({
   trackCount: Schema.Finite,
   updateTime: Schema.Finite,
   trackUpdateTime: Schema.Finite,
-  subscribed: Schema.Boolean,
+  // 凭据失效时网易云回匿名视角，subscribed 是 null，调用方靠它认出需要重新登录（#48）。
+  subscribed: Schema.NullOr(Schema.Boolean),
   creator: Creator,
   privacy: Schema.Finite,
   specialType: Schema.Finite,
