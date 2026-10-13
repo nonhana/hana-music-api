@@ -20,3 +20,9 @@ export const Song = UpstreamObject({
   dt: Schema.Finite,
   fee: Schema.Finite,
 });
+
+export const SongPrivilege = UpstreamObject({
+  id: Schema.Finite,
+  st: Schema.Finite,
+  pl: Schema.Finite,
+});

@@ -35,6 +35,7 @@ import detailSubscribed from '../fixtures/netease/library/playlist_detail.subscr
 import trackAll from '../fixtures/netease/library/playlist_track_all.json';
 import recommendSongs from '../fixtures/netease/library/recommend_songs.json';
 import songDetailAnonymous from '../fixtures/netease/library/song_detail.anon.json';
+import songDetailPrivileges from '../fixtures/netease/library/song_detail.privileges.json';
 import songDetailUploaded from '../fixtures/netease/library/song_detail.uploaded.json';
 import songDetailVip from '../fixtures/netease/library/song_detail.vip.json';
 import userPlaylistInvalidCookie from '../fixtures/netease/library/user_playlist.invalid-cookie.json';
@@ -103,6 +104,11 @@ test('playlistTrackAll returns the recorded songs of the recorded playlist', asy
 test.each<{ name: string; recording: Recording; query: { ids: string } }>([
   { name: 'member', recording: songDetailVip, query: songDetailVip.query },
   {
+    name: 'restricted',
+    recording: songDetailPrivileges,
+    query: songDetailPrivileges.query,
+  },
+  {
     name: 'anonymous',
     recording: songDetailAnonymous,
     query: songDetailAnonymous.query,
@@ -121,10 +127,81 @@ test.each<{ name: string; recording: Recording; query: { ids: string } }>([
   },
 );
 
+test('songDetail rejects missing privileges', async () => {
+  const { privileges: _privileges, ...upstream } =
+    songDetailAnonymous.response.body;
+
+  await expectUpstreamShapeRejection(
+    replay(upstream).songDetail(songDetailAnonymous.query),
+    {
+      module: 'song_detail',
+      path: 'body.privileges',
+      expected: 'present',
+      actual: 'missing',
+    },
+  );
+});
+
+test('songDetail exposes numeric privileges without changing their recorded values', async () => {
+  const { body } = await replay(songDetailPrivileges.response.body).songDetail(
+    songDetailPrivileges.query,
+  );
+
+  expect(body.privileges.map(({ id, st, pl }) => ({ id, st, pl }))).toEqual([
+    { id: 2636391253, st: 0, pl: 0 },
+    { id: 2108191414, st: -200, pl: 0 },
+  ]);
+  expectTypeOf<
+    SongDetailBody['privileges'][number]['id' | 'st' | 'pl']
+  >().toEqualTypeOf<number>();
+  expectTypeOf(body.privileges).toEqualTypeOf<SongDetailBody['privileges']>();
+});
+
+test('songDetail rejects privileges that are not an array', async () => {
+  const upstream = { ...songDetailAnonymous.response.body, privileges: {} };
+
+  expect(SongDetailBody['~standard'].validate(upstream)).toHaveProperty(
+    'issues',
+  );
+  await expectUpstreamShapeRejection(
+    replay(upstream).songDetail(songDetailAnonymous.query),
+    {
+      module: 'song_detail',
+      path: 'body.privileges',
+      expected: 'array',
+      actual: 'object',
+    },
+  );
+});
+
 test('album returns the recorded album and its songs', async () => {
   const result = await replay(album.response.body).album(album.query);
 
   expect(result.body as unknown).toEqual(album.response.body);
+  expect(result.body.songs[0]?.privilege).toMatchObject({
+    id: 1409311773,
+    st: 0,
+    pl: 0,
+  });
+  expectTypeOf<
+    AlbumBody['songs'][number]['privilege']['id' | 'st' | 'pl']
+  >().toEqualTypeOf<number>();
+});
+
+test('album rejects a song without its privilege', async () => {
+  const songs = album.response.body.songs.map(
+    ({ privilege: _privilege, ...song }) => song,
+  );
+
+  await expectUpstreamShapeRejection(
+    replay({ ...album.response.body, songs }).album(album.query),
+    {
+      module: 'album',
+      path: 'body.songs[0].privilege',
+      expected: 'present',
+      actual: 'missing',
+    },
+  );
 });
 
 test('album returns the recorded album without a description and preserves its songs', async () => {
@@ -170,7 +247,127 @@ test('artistTopSong returns the recorded songs', async () => {
   );
 
   expect(result.body as unknown).toEqual(artistTopSong.response.body);
+  expect(result.body.songs[0]?.privilege).toMatchObject({
+    id: 1472480890,
+    st: 0,
+    pl: 0,
+  });
+  expectTypeOf<
+    ArtistTopSongBody['songs'][number]['privilege']['id' | 'st' | 'pl']
+  >().toEqualTypeOf<number>();
 });
+
+test('artistTopSong rejects a song without its privilege', async () => {
+  const songs = artistTopSong.response.body.songs.map(
+    ({ privilege: _privilege, ...song }) => song,
+  );
+
+  await expectUpstreamShapeRejection(
+    replay({ ...artistTopSong.response.body, songs }).artistTopSong(
+      artistTopSong.query,
+    ),
+    {
+      module: 'artist_top_song',
+      path: 'body.songs[0].privilege',
+      expected: 'present',
+      actual: 'missing',
+    },
+  );
+});
+
+for (const { module, path, privilege, schema, withPrivilege, call } of [
+  {
+    module: 'song_detail',
+    path: 'body.privileges[0]',
+    privilege: songDetailAnonymous.response.body.privileges[0],
+    schema: SongDetailBody,
+    withPrivilege: (replacement: unknown) => ({
+      ...songDetailAnonymous.response.body,
+      privileges: [replacement],
+    }),
+    call: (body: unknown) => replay(body).songDetail(songDetailAnonymous.query),
+  },
+  {
+    module: 'album',
+    path: 'body.songs[0].privilege',
+    privilege: album.response.body.songs[0]?.privilege,
+    schema: AlbumBody,
+    withPrivilege: (replacement: unknown) => ({
+      ...album.response.body,
+      songs: [{ ...album.response.body.songs[0], privilege: replacement }],
+    }),
+    call: (body: unknown) => replay(body).album(album.query),
+  },
+  {
+    module: 'artist_top_song',
+    path: 'body.songs[0].privilege',
+    privilege: artistTopSong.response.body.songs[0]?.privilege,
+    schema: ArtistTopSongBody,
+    withPrivilege: (replacement: unknown) => ({
+      ...artistTopSong.response.body,
+      songs: [
+        { ...artistTopSong.response.body.songs[0], privilege: replacement },
+      ],
+    }),
+    call: (body: unknown) => replay(body).artistTopSong(artistTopSong.query),
+  },
+]) {
+  test(`${module} preserves undeclared privilege fields through both public boundaries`, async () => {
+    const upstream = withPrivilege({
+      ...privilege,
+      futurePrivilege: { enabled: true, levels: [null, 1, 'trial'] },
+    });
+
+    expect((await call(upstream)).body as unknown).toEqual(upstream);
+    expect(schema['~standard'].validate(upstream) as unknown).toEqual({
+      value: upstream,
+    });
+  });
+
+  test.each(['id', 'st', 'pl'])(
+    `${module} rejects a missing privilege.%s`,
+    async (field) => {
+      const incomplete: Record<string, unknown> = { ...privilege };
+      delete incomplete[field];
+      const upstream = withPrivilege(incomplete);
+
+      expect(schema['~standard'].validate(upstream)).toHaveProperty('issues');
+      await expectUpstreamShapeRejection(call(upstream), {
+        module,
+        path: `${path}.${field}`,
+        expected: 'present',
+        actual: 'missing',
+      });
+    },
+  );
+
+  test.each(['id', 'st', 'pl'])(
+    `${module} rejects a nonnumeric privilege.%s`,
+    async (field) => {
+      const upstream = withPrivilege({ ...privilege, [field]: '0' });
+
+      expect(schema['~standard'].validate(upstream)).toHaveProperty('issues');
+      await expectUpstreamShapeRejection(call(upstream), {
+        module,
+        path: `${path}.${field}`,
+        expected: 'number',
+        actual: 'string',
+      });
+    },
+  );
+
+  test(`${module} rejects a null privilege`, async () => {
+    const upstream = withPrivilege(null);
+
+    expect(schema['~standard'].validate(upstream)).toHaveProperty('issues');
+    await expectUpstreamShapeRejection(call(upstream), {
+      module,
+      path,
+      expected: 'object',
+      actual: 'null',
+    });
+  });
+}
 
 test('artistAlbum returns the recorded artist and albums with undeclared fields', async () => {
   const result = await replay(artistAlbum.response.body).artistAlbum(
@@ -258,6 +455,11 @@ test.each<{ name: string; schema: Validator; recording: Recording }>([
     recording: trackAll,
   },
   { name: 'SongDetailBody', schema: SongDetailBody, recording: songDetailVip },
+  {
+    name: 'SongDetailBody with restricted privileges',
+    schema: SongDetailBody,
+    recording: songDetailPrivileges,
+  },
   { name: 'AlbumBody', schema: AlbumBody, recording: album },
   {
     name: 'AlbumBody with no description',

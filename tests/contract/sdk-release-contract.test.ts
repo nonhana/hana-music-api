@@ -12,6 +12,8 @@ import { basename, join, resolve } from 'node:path';
 import { findForbiddenArtifactSymbols } from '../fixtures/architecture-artifacts.ts';
 import albumNoDescription from '../fixtures/netease/library/album.no-description.json';
 import artistAlbum from '../fixtures/netease/library/artist_album.json';
+import artistTopSong from '../fixtures/netease/library/artist_top_song.json';
+import songDetailPrivileges from '../fixtures/netease/library/song_detail.privileges.json';
 
 const ROOT = resolve(import.meta.dir, '../..');
 const PACKAGE_JSON_PATH = resolve(ROOT, 'package.json');
@@ -162,13 +164,17 @@ describe('sdk release contract', () => {
       writeFileSync(
         smokeScriptPath,
         [
-          "import { AlbumBody, ArtistAlbumBody, createHanaMusicApi, generateDeviceId, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody, SongDetailBody, createHanaMusicApi, generateDeviceId, invokeModule, search, songUrl } from 'hana-music-api'",
           "import { deepStrictEqual } from 'node:assert'",
           '',
           `const recordedArtistAlbum = ${JSON.stringify(artistAlbum.response.body)}`,
           "deepStrictEqual(await ArtistAlbumBody['~standard'].validate(recordedArtistAlbum), { value: recordedArtistAlbum })",
           `const recordedAlbum = ${JSON.stringify(albumNoDescription.response.body)}`,
           "deepStrictEqual(await AlbumBody['~standard'].validate(recordedAlbum), { value: recordedAlbum })",
+          `const recordedSongDetail = ${JSON.stringify(songDetailPrivileges.response.body)}`,
+          "deepStrictEqual(await SongDetailBody['~standard'].validate(recordedSongDetail), { value: recordedSongDetail })",
+          `const recordedArtistTopSong = ${JSON.stringify(artistTopSong.response.body)}`,
+          "deepStrictEqual(await ArtistTopSongBody['~standard'].validate(recordedArtistTopSong), { value: recordedArtistTopSong })",
           '',
           'const fetcher = async () => {',
           '  return new Response(JSON.stringify({ code: 200, result: { songs: [] }, data: [] }), {',
@@ -226,7 +232,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         typesFixturePath,
         [
-          "import { createHanaMusicApi, generateDeviceId, songUrl, type AlbumBody, type ArtistAlbumBody, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
+          "import { createHanaMusicApi, generateDeviceId, songUrl, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type SongDetailBody, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
           '',
           'const config: CreateHanaMusicApiConfig = {',
           "  cookie: 'MUSIC_U=consumer',",
@@ -253,6 +259,16 @@ describe('sdk release contract', () => {
           'const readDescription = (body: AlbumBody): string | null => body.album.description',
           'void descriptions',
           'void readDescription',
+          '',
+          'declare const songDetail: SongDetailBody',
+          'declare const album: AlbumBody',
+          'declare const artistTopSong: ArtistTopSongBody',
+          'const privileges: number[][] = [',
+          '  ...songDetail.privileges.map(({ id, st, pl }) => [id, st, pl]),',
+          '  ...album.songs.map(({ privilege }) => [privilege.id, privilege.st, privilege.pl]),',
+          '  ...artistTopSong.songs.map(({ privilege }) => [privilege.id, privilege.st, privilege.pl]),',
+          ']',
+          'void privileges',
         ].join('\n'),
       );
 

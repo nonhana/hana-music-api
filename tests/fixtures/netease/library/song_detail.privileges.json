@@ -1,0 +1,324 @@
+{
+  "module": "song_detail",
+  "query": {
+    "ids": "2636391253,2108191414"
+  },
+  "context": {
+    "recordedAt": "2026-10-12T02:04:43.290Z",
+    "sdk": "hana-music-api@2.3.0",
+    "region": "local",
+    "ip": "default",
+    "viewer": "vip-qr",
+    "note": "Issue #65: two unchanged songs and their matching privileges selected from nonhana/campanula-music at b00949d136e8e1735c70f1c61a933514146675f8, tests/fixtures/netease/library/song_detail.liked-page3.json.gz. Includes st=-200/pl=0 and st=0/pl=0 for the recorded VIP viewer."
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "songs": [
+        {
+          "id": 2636391253,
+          "name": "Overdose (Cover)",
+          "ar": [
+            {
+              "id": 34578386,
+              "name": "Morfonica",
+              "tns": [],
+              "alias": []
+            }
+          ],
+          "al": {
+            "id": 250650484,
+            "name": "バンドリ！ ガールズバンドパーティ！ カバーコレクションVol.9",
+            "picUrl": "https://p4.music.126.net/MZ09YHQdaDpzdb4643ksAw==/109951170043258849.jpg",
+            "tns": [],
+            "pic_str": "109951170043258849",
+            "pic": 109951170043258850
+          },
+          "dt": 194026,
+          "fee": 1,
+          "mainTitle": "Overdose ",
+          "additionalTitle": "(Cover)",
+          "pst": 0,
+          "t": 0,
+          "alia": [],
+          "pop": 25,
+          "st": 0,
+          "rt": "",
+          "v": 41,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320002,
+            "fid": 0,
+            "size": 7763636,
+            "vd": -60470,
+            "sr": 44100
+          },
+          "m": {
+            "br": 192002,
+            "fid": 0,
+            "size": 4658199,
+            "vd": -57914,
+            "sr": 44100
+          },
+          "l": {
+            "br": 128002,
+            "fid": 0,
+            "size": 3105480,
+            "vd": -56314,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1032338,
+            "fid": 0,
+            "size": 25037651,
+            "vd": -60670,
+            "sr": 44100
+          },
+          "hr": null,
+          "a": null,
+          "cd": "02",
+          "no": 4,
+          "rtUrl": null,
+          "ftype": 0,
+          "rtUrls": [],
+          "djId": 0,
+          "copyright": 1,
+          "s_id": 0,
+          "mark": 17180131328,
+          "originCoverType": 2,
+          "originSongSimpleData": null,
+          "tagPicList": null,
+          "resourceState": true,
+          "version": 7,
+          "songJumpInfo": null,
+          "entertainmentTags": null,
+          "awardTags": null,
+          "displayTags": null,
+          "artistClassics": false,
+          "markTags": [],
+          "songFeature": null,
+          "single": 0,
+          "noCopyrightRcmd": null,
+          "mv": 0,
+          "mst": 9,
+          "cp": 1416512,
+          "rtype": 0,
+          "rurl": null,
+          "publishTime": 1730217600000
+        },
+        {
+          "id": 2108191414,
+          "name": "Sea Of Tired（Slowed）",
+          "ar": [
+            {
+              "id": 54213304,
+              "name": "ZsFlovexl",
+              "tns": [],
+              "alias": []
+            }
+          ],
+          "al": {
+            "id": 181025432,
+            "name": "Sea+Of+Tired",
+            "picUrl": "https://p3.music.126.net/LvoCpO3rTPCiguf0Z4VjAg==/109951169158956515.jpg",
+            "tns": [],
+            "pic_str": "109951169158956515",
+            "pic": 109951169158956510
+          },
+          "dt": 137165,
+          "fee": 0,
+          "mainTitle": "Sea Of Tired",
+          "additionalTitle": "（Slowed）",
+          "pst": 0,
+          "t": 0,
+          "alia": [],
+          "pop": 95,
+          "st": 0,
+          "rt": "",
+          "v": 45,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 5488893,
+            "vd": -85667,
+            "sr": 44100
+          },
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 3293353,
+            "vd": -83175,
+            "sr": 44100
+          },
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 2195583,
+            "vd": -81645,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1037394,
+            "fid": 0,
+            "size": 17786805,
+            "vd": -85699,
+            "sr": 44100
+          },
+          "hr": null,
+          "a": null,
+          "cd": "01",
+          "no": 2,
+          "rtUrl": null,
+          "ftype": 0,
+          "rtUrls": [],
+          "djId": 0,
+          "copyright": 1,
+          "s_id": 0,
+          "mark": 131200,
+          "originCoverType": 0,
+          "originSongSimpleData": null,
+          "tagPicList": null,
+          "resourceState": true,
+          "version": 11,
+          "songJumpInfo": null,
+          "entertainmentTags": null,
+          "awardTags": null,
+          "displayTags": null,
+          "artistClassics": false,
+          "markTags": [],
+          "songFeature": null,
+          "single": 0,
+          "noCopyrightRcmd": {
+            "type": 2,
+            "typeDesc": "其它版本可播",
+            "songId": null,
+            "thirdPartySong": null,
+            "mvInfo": null,
+            "expInfo": null
+          },
+          "mv": 0,
+          "mst": 9,
+          "cp": 456010,
+          "rtype": 0,
+          "rurl": null,
+          "publishTime": 1702569600000
+        }
+      ],
+      "privileges": [
+        {
+          "id": 2636391253,
+          "fee": 208388608,
+          "payed": 1,
+          "st": 0,
+          "pl": 0,
+          "dl": 999000,
+          "sp": 7,
+          "cp": 1,
+          "subp": 1,
+          "cs": false,
+          "maxbr": 999000,
+          "fl": 0,
+          "toast": false,
+          "flag": 1540096,
+          "preSell": false,
+          "playMaxbr": 0,
+          "downloadMaxbr": 999000,
+          "maxBrLevel": "jymaster",
+          "playMaxBrLevel": "jymaster",
+          "downloadMaxBrLevel": "jymaster",
+          "plLevel": "none",
+          "dlLevel": "jyeffect",
+          "flLevel": "none",
+          "rscl": null,
+          "freeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "listenType": null,
+            "cannotListenReason": null,
+            "playReason": null,
+            "freeLimitTagType": null
+          },
+          "rightSource": 0,
+          "chargeInfoList": [],
+          "code": 0,
+          "message": null,
+          "plLevels": null,
+          "dlLevels": null,
+          "ignoreCache": null,
+          "bd": null
+        },
+        {
+          "id": 2108191414,
+          "fee": 0,
+          "payed": 0,
+          "st": -200,
+          "pl": 0,
+          "dl": 0,
+          "sp": 0,
+          "cp": 0,
+          "subp": 0,
+          "cs": false,
+          "maxbr": 999000,
+          "fl": 0,
+          "toast": false,
+          "flag": 1081345,
+          "preSell": false,
+          "playMaxbr": 999000,
+          "downloadMaxbr": 999000,
+          "maxBrLevel": "lossless",
+          "playMaxBrLevel": "lossless",
+          "downloadMaxBrLevel": "lossless",
+          "plLevel": "none",
+          "dlLevel": "none",
+          "flLevel": "none",
+          "rscl": null,
+          "freeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "listenType": null,
+            "cannotListenReason": null,
+            "playReason": null,
+            "freeLimitTagType": null
+          },
+          "rightSource": 0,
+          "chargeInfoList": [
+            {
+              "rate": 128000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 0
+            },
+            {
+              "rate": 192000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 0
+            },
+            {
+              "rate": 320000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 0
+            },
+            {
+              "rate": 999000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 1
+            }
+          ],
+          "code": 0,
+          "message": null,
+          "plLevels": null,
+          "dlLevels": null,
+          "ignoreCache": null,
+          "bd": null
+        }
+      ]
+    }
+  }
+}
