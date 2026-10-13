@@ -1,5 +1,11 @@
 # hana-music-api 发布日志
 
+## 2.8.0
+
+### Minor Changes
+
+- 4f396df: Declare numeric `id`, `st`, and `pl` in `SongDetailBody.privileges` and each song's `privilege` in `AlbumBody` and `ArtistTopSongBody`. Validate these fields before returning SDK responses, preserve undeclared fields, and expose the same contract through the exported TypeScript types and Standard Schema validators.
+
 ## 2.7.1
 
 ### Patch Changes
