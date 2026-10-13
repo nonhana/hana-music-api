@@ -108,4 +108,6 @@ SDK 不在本地限制请求频率：不排队，不按身份或上游域名限�
 
 网易云返回 HTTP 429（无论正文）、正文 `code: 429`，或正文 `code: 405` 且说明包含“操作频繁”或“操作过于频繁”时，SDK 识别为限频。业务码的识别不依赖 HTTP 状态：HTTP 200、业务码 405 的“操作频繁”也会以 `status: 405` 拒绝。其他 405 业务拒绝保持原样，不补 `retryAfter`。限频调用以 429 或 405 失败，不重试，也不影响其他调用。公开错误体的 `retryAfter` 给出建议等待的秒数：优先使用网易云的 `Retry-After` 响应头（支持秒数或 HTTP 日期），结果限制在 1 秒至 5 分钟，缺省或无效时为 30 秒。HTTP 服务同时写回 `Retry-After` 响应头。
 
+2026-10-13 本机真实录制：顺序读取专辑时，第 11 次 `album` 请求返回 **HTTP 200、业务 `code: 405`**，说明为“操作频繁，请稍候再试”，没有 `Retry-After` 响应头；录到后立即停止。脱敏后的 HTTP 状态、响应头和正文保存在 `tests/fixtures/netease/library/album.rate-limit.json`，契约测试回放后验证 SDK 以 `status: 405` 拒绝并补上 `retryAfter: 30`。
+
 HTTP 服务另有按来访 IP 和模块数量计算的入口限制。它保护对外开放的 HTTP 服务，不作用于在进程里直接调用 SDK 的程序，见 [部署 HTTP 服务](/guide/server-deployment)。
