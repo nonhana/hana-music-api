@@ -1,10 +1,11 @@
-import type { CreateRequestOptions, ModuleQuery } from '../types/index.ts';
+import type { ModuleCallConfig, ModuleQuery } from '../types/index.ts';
 import { RequestBodyError } from './parse-body.ts';
 
 const executionKeys = [
   'acceptGzip',
   'connectionStrategy',
   'crypto',
+  'deviceId',
   'domain',
   'e_r',
   'fetcher',
@@ -18,7 +19,7 @@ const executionKeys = [
   'state',
   'timeoutMs',
   'ua',
-] satisfies Array<Exclude<keyof CreateRequestOptions, 'cookie'>>;
+] satisfies Array<Exclude<keyof ModuleCallConfig, 'cookie'>>;
 
 export const validateHttpInput = (input: ModuleQuery, debug = false): void => {
   for (const key of [...executionKeys, 'cache', 'identityPool']) {

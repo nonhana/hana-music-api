@@ -29,6 +29,7 @@ const REQUIRED_ROOT_EXPORTS = [
   'invokeModule',
   'createRequest',
   'createOption',
+  'generateDeviceId',
 ];
 const REPRESENTATIVE_CAMEL_CASE_EXPORTS = ['search', 'songUrl'];
 const FORBIDDEN_ROOT_EXPORTS = [
@@ -159,7 +160,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         smokeScriptPath,
         [
-          "import { createHanaMusicApi, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import { createHanaMusicApi, generateDeviceId, invokeModule, search, songUrl } from 'hana-music-api'",
           '',
           'const fetcher = async () => {',
           '  return new Response(JSON.stringify({ code: 200, result: { songs: [] }, data: [] }), {',
@@ -171,7 +172,9 @@ describe('sdk release contract', () => {
           "if (typeof invokeModule !== 'function') throw new Error('missing invokeModule')",
           "if (typeof search !== 'function') throw new Error('missing root search export')",
           "if (typeof songUrl !== 'function') throw new Error('missing root songUrl export')",
-          "const config = { fetcher, cookie: { MUSIC_A: 'consumer-test-token' } }",
+          'const deviceId = generateDeviceId()',
+          "if (!/^[0-9A-F]{52}$/.test(deviceId)) throw new Error('invalid generated device ID')",
+          "const config = { deviceId, fetcher, cookie: { MUSIC_A: 'consumer-test-token' } }",
           'const client = createHanaMusicApi(config)',
           "const clientSearchResult = await client.search({ keywords: 'demo' })",
           "const rawSearchResult = await search({ keywords: 'demo' }, config)",
@@ -215,10 +218,11 @@ describe('sdk release contract', () => {
       writeFileSync(
         typesFixturePath,
         [
-          "import { createHanaMusicApi, songUrl, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
+          "import { createHanaMusicApi, generateDeviceId, songUrl, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
           '',
           'const config: CreateHanaMusicApiConfig = {',
           "  cookie: 'MUSIC_U=consumer',",
+          '  deviceId: generateDeviceId(),',
           '}',
           '',
           'const api = createHanaMusicApi(config)',

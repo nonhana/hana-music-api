@@ -1,5 +1,3 @@
-import { createHash } from 'node:crypto';
-
 import { Clock, Effect } from 'effect';
 
 import type { ModuleCallConfig } from '../types/index.ts';
@@ -17,11 +15,10 @@ import {
 } from './runtime.ts';
 import {
   cookieToJson,
+  encodeAnonymousDeviceId,
   generateDeviceId,
   generateRandomChineseIP,
 } from './utils.ts';
-
-const ID_XOR_KEY = '3go8&$8*3*3h0k(2)2';
 
 export interface AnonymousRegistration {
   readonly anonymousToken: string;
@@ -35,14 +32,7 @@ const registrations = new WeakMap<object, ReadStore<string, RequestError>>();
 const sharedRegistrationKey = {};
 
 const createAnonymousUsername = (deviceId: string): string => {
-  let xored = '';
-  for (let index = 0; index < deviceId.length; index += 1) {
-    xored += String.fromCharCode(
-      deviceId.charCodeAt(index) ^
-        ID_XOR_KEY.charCodeAt(index % ID_XOR_KEY.length),
-    );
-  }
-  const digest = createHash('md5').update(xored, 'utf8').digest('base64');
+  const digest = encodeAnonymousDeviceId(deviceId);
 
   return Buffer.from(`${deviceId} ${digest}`, 'utf8').toString('base64');
 };
@@ -50,7 +40,6 @@ const createAnonymousUsername = (deviceId: string): string => {
 export const registerAnonymousEffect = (
   options: ModuleCallConfig & {
     readonly cnIp?: string;
-    readonly deviceId?: string;
   } = {},
 ): Effect.Effect<AnonymousRegistration, RequestError> =>
   Effect.gen(function* () {
@@ -115,7 +104,6 @@ export const ensureAnonymousEffect = (
 export const registerAnonymousToken = (
   options: ModuleCallConfig & {
     readonly cnIp?: string;
-    readonly deviceId?: string;
   } = {},
 ): Promise<AnonymousRegistration> =>
   runPublicEffect(registerAnonymousEffect(options), options.signal);

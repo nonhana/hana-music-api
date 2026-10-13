@@ -1,5 +1,6 @@
 export { createOption } from './src/core/options.ts';
 export { createRequest } from './src/core/request.ts';
+export { generateDeviceId } from './src/core/utils.ts';
 export { createHanaMusicApi } from './src/sdk/generated/client.generated.ts';
 export * from './src/sdk/generated/client.generated.ts';
 export * from './src/sdk/generated/bodies.generated.ts';

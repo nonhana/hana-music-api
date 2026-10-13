@@ -6,7 +6,9 @@ import type {
 import type { CreateRequestOptions } from './request.ts';
 import type { ModuleDefinition, ModuleEffect } from './runtime.ts';
 
-export interface ModuleCallConfig extends CreateRequestOptions {}
+export interface ModuleCallConfig extends CreateRequestOptions {
+  readonly deviceId?: string;
+}
 
 export interface SdkCacheConfig {
   readonly enabled?: boolean;

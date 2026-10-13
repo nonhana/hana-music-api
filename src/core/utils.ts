@@ -1,4 +1,4 @@
-import { randomBytes } from 'node:crypto';
+import { createHash, randomBytes } from 'node:crypto';
 
 import type {
   BooleanLike,
@@ -32,6 +32,7 @@ const CHINA_IP_PREFIXES = [
 ] as const;
 
 const DEVICE_ID_CHARS = '0123456789ABCDEF';
+const ID_XOR_KEY = '3go8&$8*3*3h0k(2)2';
 
 export const toBoolean = (value: BooleanLike | undefined): '' | boolean => {
   if (typeof value === 'boolean') {
@@ -131,15 +132,31 @@ export const generateChainId = (
 };
 
 export const generateDeviceId = (): string => {
-  const characters: Array<string> = [];
+  let deviceId: string;
+  do {
+    const characters: Array<string> = [];
 
-  for (let index = 0; index < 52; index += 1) {
-    const randomIndex = Math.floor(Math.random() * DEVICE_ID_CHARS.length);
-    const character = DEVICE_ID_CHARS[randomIndex];
-    characters.push(character === undefined ? '0' : character);
+    for (let index = 0; index < 52; index += 1) {
+      const randomIndex = Math.floor(Math.random() * DEVICE_ID_CHARS.length);
+      const character = DEVICE_ID_CHARS[randomIndex];
+      characters.push(character === undefined ? '0' : character);
+    }
+
+    deviceId = characters.join('');
+  } while (/[+/]/.test(encodeAnonymousDeviceId(deviceId)));
+
+  return deviceId;
+};
+
+export const encodeAnonymousDeviceId = (deviceId: string): string => {
+  let xored = '';
+  for (let index = 0; index < deviceId.length; index += 1) {
+    xored += String.fromCharCode(
+      deviceId.charCodeAt(index) ^
+        ID_XOR_KEY.charCodeAt(index % ID_XOR_KEY.length),
+    );
   }
-
-  return characters.join('');
+  return createHash('md5').update(xored, 'utf8').digest('base64');
 };
 
 export const createRandomHex = (byteLength: number): string =>
