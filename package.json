@@ -1,6 +1,6 @@
 {
   "name": "hana-music-api",
-  "version": "2.7.1",
+  "version": "2.8.0",
   "private": false,
   "description": "Modern NCM API library for Bun & Node.js.",
   "keywords": [
