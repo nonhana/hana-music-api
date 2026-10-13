@@ -37,6 +37,7 @@ jobs:
         run: bun run verify:sdk
 
       - name: Rehearse versioning
+        if: github.head_ref != 'changeset-release/master'
         run: bun run version-packages
 
       - name: Rehearse packaging
