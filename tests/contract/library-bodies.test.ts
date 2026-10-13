@@ -1,4 +1,4 @@
-import { expect, test } from 'bun:test';
+import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
   AlbumBody,
@@ -21,6 +21,7 @@ import type {
 } from '../_kit/assertions.ts';
 import { expectUpstreamShapeRejection } from '../_kit/assertions.ts';
 import album from '../fixtures/netease/library/album.json';
+import albumNoDescription from '../fixtures/netease/library/album.no-description.json';
 import albumSublist from '../fixtures/netease/library/album_sublist.json';
 import artistAlbum from '../fixtures/netease/library/artist_album.json';
 import artistSublist from '../fixtures/netease/library/artist_sublist.json';
@@ -124,6 +125,19 @@ test('album returns the recorded album and its songs', async () => {
   const result = await replay(album.response.body).album(album.query);
 
   expect(result.body as unknown).toEqual(album.response.body);
+});
+
+test('album returns the recorded album without a description and preserves its songs', async () => {
+  const result = await replay(albumNoDescription.response.body).album(
+    albumNoDescription.query,
+  );
+
+  expect(result.body as unknown).toEqual(albumNoDescription.response.body);
+  expect(result.body.album.description).toBeNull();
+  expectTypeOf<AlbumBody['album']['description']>().toEqualTypeOf<
+    string | null
+  >();
+  expectTypeOf(result.body.album.description).toEqualTypeOf<string | null>();
 });
 
 test('albumSublist returns the recorded subscribed albums', async () => {
@@ -245,6 +259,11 @@ test.each<{ name: string; schema: Validator; recording: Recording }>([
   },
   { name: 'SongDetailBody', schema: SongDetailBody, recording: songDetailVip },
   { name: 'AlbumBody', schema: AlbumBody, recording: album },
+  {
+    name: 'AlbumBody with no description',
+    schema: AlbumBody,
+    recording: albumNoDescription,
+  },
   {
     name: 'AlbumSublistBody',
     schema: AlbumSublistBody,
@@ -368,6 +387,37 @@ test.each<{
     shape: {
       module: 'album',
       path: 'body.album',
+      expected: 'present',
+      actual: 'missing',
+    },
+  },
+  {
+    name: 'album: a numeric description',
+    call: () =>
+      replay({
+        ...albumNoDescription.response.body,
+        album: { ...albumNoDescription.response.body.album, description: 123 },
+      }).album(albumNoDescription.query),
+    shape: {
+      module: 'album',
+      path: 'body.album.description',
+      expected: 'string | null',
+      actual: 'number',
+    },
+  },
+  {
+    name: 'album: a missing description',
+    call: () => {
+      const { description: _description, ...information } =
+        albumNoDescription.response.body.album;
+      return replay({
+        ...albumNoDescription.response.body,
+        album: information,
+      }).album(albumNoDescription.query);
+    },
+    shape: {
+      module: 'album',
+      path: 'body.album.description',
       expected: 'present',
       actual: 'missing',
     },

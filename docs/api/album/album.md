@@ -43,7 +43,7 @@ console.log(result.body);
 
 ## 返回内容
 
-专辑里的歌在 `body.songs`（字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”），`body.album.songs` 是空数组。`body.album` 声明了 `id`、`name`、`picUrl`、`size`（歌曲数）、`artist`（`id`、`name`，`name` 可能是 `null`）、`publishTime`（毫秒时间戳）、`description`（简介）。结构定义和类型是 `AlbumBody`。
+专辑里的歌在 `body.songs`（字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”），`body.album.songs` 是空数组。`body.album` 声明了 `id`、`name`、`picUrl`、`size`（歌曲数）、`artist`（`id`、`name`，`name` 可能是 `null`）、`publishTime`（毫秒时间戳）、`description`（简介，没有简介时为 `null`，类型为 `string | null`）。结构定义和类型是 `AlbumBody`。
 
 ## 补充说明
 
