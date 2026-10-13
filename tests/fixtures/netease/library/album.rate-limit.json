@@ -1,0 +1,30 @@
+{
+  "module": "album",
+  "query": {
+    "id": 178581927
+  },
+  "context": {
+    "recordedAt": "2026-10-13T09:53:53.862Z",
+    "sdk": "hana-music-api@2.7.0",
+    "region": "local",
+    "ip": "default",
+    "viewer": "vip-qr",
+    "attempt": 11,
+    "note": "一次连续、只读的 album 请求批次，最多 55 次，不重试；第 11 次首次触发限流后立即停止。以下 HTTP 状态、响应头和正文由 fetch 原样记录，未记录请求头和 Cookie。真实响应为 HTTP 200、业务码 405、说明含“操作频繁”，没有 Retry-After。"
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "cache-control": "no-cache, no-store",
+      "content-encoding": "br",
+      "content-type": "application/json;charset=UTF-8",
+      "date": "Tue, 13 Oct 2026 09:53:53 GMT",
+      "server": "volc-dcdn"
+    },
+    "body": {
+      "msg": "操作频繁，请稍候再试",
+      "code": 405,
+      "message": "操作频繁，请稍候再试"
+    }
+  }
+}

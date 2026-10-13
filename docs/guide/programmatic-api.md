@@ -135,7 +135,7 @@ try {
 
 \* 业务 `code` 在 101–599 时直接用作 `status`，否则钳位到 400。例如手机登录被风控返回 `code: 10004` 时，`status` 是 400。
 
-**网易云限流**：收到 HTTP 429（无论正文），正文 `code: 429`，或 HTTP 405 且正文 `code: 405`（录制消息为“操作过于频繁，请稍后再试”）时，SDK 识别为限频。调用以原始状态码（429 或 405）失败。`body.retryAfter` 给出建议等待秒数（1–300 秒，缺省或无效时为 30 秒）。SDK 不重试限流，也不影响其他调用，调用方要自己控制请求频率。详见 [重试、超时与连接策略](/guide/retry-timeout-resilience)。
+**网易云限流**：收到 HTTP 429（无论正文），正文 `code: 429`，或正文 `code: 405` 且说明包含“操作频繁”或“操作过于频繁”时，SDK 识别为限频。业务码的识别不依赖 HTTP 状态，因此 HTTP 200 的“操作频繁”也会以 `status: 405` 拒绝。其他 405 业务拒绝保持原样，不补 `retryAfter`。`body.retryAfter` 给出建议等待秒数（1–300 秒，缺省或无效时为 30 秒）。SDK 不重试限流，也不影响其他调用，调用方要自己控制请求频率。详见 [重试、超时与连接策略](/guide/retry-timeout-resilience)。
 
 **返回结构不符**：做了运行时校验的模块（见 [返回体结构](/guide/response-bodies)）在网易云改了返回结构时，以 `status: 502` 拒绝。`body.upstreamShape` 带上 `{ module, path, expected, actual }`，指明出错位置。用 `body.upstreamShape` 判断，不要解析 `msg`。这种失败通常需要升级 SDK，重试没有用。
 

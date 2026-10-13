@@ -54,9 +54,14 @@ describe('server traffic admission', () => {
     },
   );
 
-  test.each([200, 429])(
-    'an upstream 429 inside an HTTP %i response keeps Retry-After',
-    async (status) => {
+  test.each([
+    { status: 200, code: 429, msg: 'too many requests' },
+    { status: 429, code: 429, msg: 'too many requests' },
+    { status: 200, code: 405, msg: '操作频繁，请稍候再试' },
+    { status: 405, code: 405, msg: '操作过于频繁，请稍后再试' },
+  ])(
+    'an upstream $code rate limit inside an HTTP $status response keeps Retry-After',
+    async ({ status, code, msg }) => {
       const app = await createServer({
         moduleDefinitions: [
           {
@@ -75,17 +80,18 @@ describe('server traffic admission', () => {
             crypto: 'api',
             fetcher: async () =>
               Response.json(
-                { code: 429 },
+                { code, msg },
                 { status, headers: { 'Retry-After': '17' } },
               ),
           }),
         ),
       });
       const response = await app.request('/probe');
-      expect(response.status).toBe(429);
+      expect(response.status).toBe(code);
       expect(response.headers.get('retry-after')).toBe('17');
       expect(await response.json()).toMatchObject({
-        code: 429,
+        code,
+        msg,
         retryAfter: 17,
       });
     },
