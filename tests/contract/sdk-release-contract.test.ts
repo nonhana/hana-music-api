@@ -10,6 +10,7 @@ import { tmpdir } from 'node:os';
 import { basename, join, resolve } from 'node:path';
 
 import { findForbiddenArtifactSymbols } from '../fixtures/architecture-artifacts.ts';
+import albumNoDescription from '../fixtures/netease/library/album.no-description.json';
 import artistAlbum from '../fixtures/netease/library/artist_album.json';
 
 const ROOT = resolve(import.meta.dir, '../..');
@@ -161,11 +162,13 @@ describe('sdk release contract', () => {
       writeFileSync(
         smokeScriptPath,
         [
-          "import { ArtistAlbumBody, createHanaMusicApi, generateDeviceId, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import { AlbumBody, ArtistAlbumBody, createHanaMusicApi, generateDeviceId, invokeModule, search, songUrl } from 'hana-music-api'",
           "import { deepStrictEqual } from 'node:assert'",
           '',
           `const recordedArtistAlbum = ${JSON.stringify(artistAlbum.response.body)}`,
           "deepStrictEqual(await ArtistAlbumBody['~standard'].validate(recordedArtistAlbum), { value: recordedArtistAlbum })",
+          `const recordedAlbum = ${JSON.stringify(albumNoDescription.response.body)}`,
+          "deepStrictEqual(await AlbumBody['~standard'].validate(recordedAlbum), { value: recordedAlbum })",
           '',
           'const fetcher = async () => {',
           '  return new Response(JSON.stringify({ code: 200, result: { songs: [] }, data: [] }), {',
@@ -223,7 +226,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         typesFixturePath,
         [
-          "import { createHanaMusicApi, generateDeviceId, songUrl, type ArtistAlbumBody, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
+          "import { createHanaMusicApi, generateDeviceId, songUrl, type AlbumBody, type ArtistAlbumBody, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
           '',
           'const config: CreateHanaMusicApiConfig = {',
           "  cookie: 'MUSIC_U=consumer',",
@@ -245,6 +248,11 @@ describe('sdk release contract', () => {
           '  artistAlbum.artist.albumSize,',
           ']',
           'void artistHeader',
+          '',
+          "const descriptions: AlbumBody['album']['description'][] = ['description', null]",
+          'const readDescription = (body: AlbumBody): string | null => body.album.description',
+          'void descriptions',
+          'void readDescription',
         ].join('\n'),
       );
 

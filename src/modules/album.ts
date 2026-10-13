@@ -28,7 +28,7 @@ const Album = UpstreamObject({
   size: Schema.Finite,
   artist: Artist,
   publishTime: Schema.Finite,
-  description: Schema.String,
+  description: Schema.NullOr(Schema.String),
 });
 
 export const ModuleBody = Schema.toStandardSchemaV1(

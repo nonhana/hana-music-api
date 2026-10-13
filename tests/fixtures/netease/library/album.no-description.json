@@ -1,0 +1,5341 @@
+{
+  "module": "album",
+  "query": {
+    "id": 3154337
+  },
+  "context": {
+    "recordedAt": "2026-10-13T08:53:37.784Z",
+    "sdk": "hana-music-api@2.5.0",
+    "region": "local",
+    "ip": "default",
+    "viewer": "anonymous",
+    "note": "#59 补录：匿名通过 createRequest 请求与 album 相同的端点，在模块校验前保留原始正文；专辑没有简介，description 为 null。不保存响应 Cookie。"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "resourceState": true,
+      "songs": [
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 17044,
+              "name": "美郷あき",
+              "tns": ["美乡秋"],
+              "alia": ["Aki Misato"]
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 1,
+          "fee": 0,
+          "djId": 0,
+          "mv": 5433302,
+          "cd": "1",
+          "t": 0,
+          "v": 20,
+          "dt": 214093,
+          "pst": 0,
+          "alia": ["ゲーム「月に寄りそう乙女の作法2」OPテーマ"],
+          "pop": 65,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 8566117,
+            "vd": -63976,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1091898,
+            "fid": 0,
+            "size": 29221017,
+            "vd": -63960,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3426473,
+            "vd": -59916,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 262144,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5139688,
+            "vd": -61474,
+            "sr": 44100
+          },
+          "name": "Glitter",
+          "id": 32235534,
+          "privilege": {
+            "id": 32235534,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 2,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 348160,
+          "pst": 0,
+          "alia": [],
+          "pop": 15,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 13928533,
+            "vd": -87326,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1071127,
+            "fid": 0,
+            "size": 46615461,
+            "vd": -87327,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 5571439,
+            "vd": -82962,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 8357137,
+            "vd": -84725,
+            "sr": 44100
+          },
+          "name": "歓びの詩",
+          "id": 32235535,
+          "privilege": {
+            "id": 32235535,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 3,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 18,
+          "dt": 344506,
+          "pst": 0,
+          "alia": [],
+          "pop": 20,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 13783293,
+            "vd": -78070,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 940556,
+            "fid": 0,
+            "size": 40503499,
+            "vd": -78852,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 5513343,
+            "vd": -73754,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 8269993,
+            "vd": -75470,
+            "sr": 44100
+          },
+          "name": "Moonlit glas",
+          "id": 32235536,
+          "privilege": {
+            "id": 32235536,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 4,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 301866,
+          "pst": 0,
+          "alia": [],
+          "pop": 20,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 12076974,
+            "vd": -55151,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 882804,
+            "fid": 0,
+            "size": 33311144,
+            "vd": -55150,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4830816,
+            "vd": -50745,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 7246202,
+            "vd": -52528,
+            "sr": 44100
+          },
+          "name": "九十九ﾉ日",
+          "id": 32235537,
+          "privilege": {
+            "id": 32235537,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 5,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 222133,
+          "pst": 0,
+          "alia": [],
+          "pop": 15,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 8887946,
+            "vd": -61799,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1043847,
+            "fid": 0,
+            "size": 28984170,
+            "vd": -61793,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3555204,
+            "vd": -57570,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5332785,
+            "vd": -59230,
+            "sr": 44100
+          },
+          "name": "ぐっどろもーにんぐす",
+          "id": 32235538,
+          "privilege": {
+            "id": 32235538,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 6,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 16,
+          "dt": 281466,
+          "pst": 0,
+          "alia": [],
+          "pop": 20,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 11260909,
+            "vd": -55678,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 712787,
+            "fid": 0,
+            "size": 25078240,
+            "vd": -55679,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4504390,
+            "vd": -51275,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6756563,
+            "vd": -53041,
+            "sr": 44100
+          },
+          "name": "\"Ohyayou Gozaimas\"",
+          "id": 32235539,
+          "privilege": {
+            "id": 32235539,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 7,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 307466,
+          "pst": 0,
+          "alia": [],
+          "pop": 50,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 12301627,
+            "vd": -49321,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 611064,
+            "fid": 0,
+            "size": 23485245,
+            "vd": -49322,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4920677,
+            "vd": -44910,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 7380994,
+            "vd": -46704,
+            "sr": 44100
+          },
+          "name": "Sound illumination",
+          "id": 32235540,
+          "privilege": {
+            "id": 32235540,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 8,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 18,
+          "dt": 199493,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 7982019,
+            "vd": -51781,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 950756,
+            "fid": 0,
+            "size": 23708693,
+            "vd": -51781,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3192834,
+            "vd": -47464,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 131072,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 4789229,
+            "vd": -49172,
+            "sr": 44100
+          },
+          "name": "君ね、信仰のない動物を人間と呼べますか",
+          "id": 32235541,
+          "privilege": {
+            "id": 32235541,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 9,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 250106,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10007031,
+            "vd": -34932,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 823057,
+            "fid": 0,
+            "size": 25731536,
+            "vd": -34927,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4002839,
+            "vd": -30545,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6004236,
+            "vd": -32303,
+            "sr": 44100
+          },
+          "name": "みんなの好きな朝陽が昇るよ",
+          "id": 32235542,
+          "privilege": {
+            "id": 32235542,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 10,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 272000,
+          "pst": 0,
+          "alia": [],
+          "pop": 15,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10882656,
+            "vd": -75421,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 878090,
+            "fid": 0,
+            "size": 29855062,
+            "vd": -75420,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4353088,
+            "vd": -71021,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6529611,
+            "vd": -72790,
+            "sr": 44100
+          },
+          "name": "この美しきジャパネスクを",
+          "id": 32235543,
+          "privilege": {
+            "id": 32235543,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 11,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 21,
+          "dt": 279893,
+          "pst": 0,
+          "alia": [],
+          "pop": 60,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 11198215,
+            "vd": -48741,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 592001,
+            "fid": 0,
+            "size": 20712174,
+            "vd": -48742,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4479312,
+            "vd": -44299,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6718946,
+            "vd": -46096,
+            "sr": 44100
+          },
+          "name": "天井の星を見上げて",
+          "id": 32235544,
+          "privilege": {
+            "id": 32235544,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 12,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 16,
+          "dt": 184173,
+          "pst": 0,
+          "alia": [],
+          "pop": 15,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 7369709,
+            "vd": -64358,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 753027,
+            "fid": 0,
+            "size": 17335948,
+            "vd": -64358,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 2947910,
+            "vd": -59946,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 4421843,
+            "vd": -61719,
+            "sr": 44100
+          },
+          "name": "素敵な主人育て方",
+          "id": 32235545,
+          "privilege": {
+            "id": 32235545,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 13,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 175266,
+          "pst": 0,
+          "alia": [],
+          "pop": 15,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 7013399,
+            "vd": -28086,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 724739,
+            "fid": 0,
+            "size": 15877840,
+            "vd": -28084,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 2805386,
+            "vd": -23645,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 4208057,
+            "vd": -25446,
+            "sr": 44100
+          },
+          "name": "水曜日午後の秘密のお茶会",
+          "id": 32235546,
+          "privilege": {
+            "id": 32235546,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 14,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 182333,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 7295521,
+            "vd": -38647,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 837117,
+            "fid": 0,
+            "size": 19079292,
+            "vd": -38640,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 2918235,
+            "vd": -34490,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 4377330,
+            "vd": -36072,
+            "sr": 44100
+          },
+          "name": "おなかすいちゃったウフフ",
+          "id": 32235547,
+          "privilege": {
+            "id": 32235547,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 15,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 234693,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9390542,
+            "vd": -21700,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1131583,
+            "fid": 0,
+            "size": 33196885,
+            "vd": -21700,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3756243,
+            "vd": -18700,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5634342,
+            "vd": -19600,
+            "sr": 44100
+          },
+          "name": "女装しながら助走をつけて",
+          "id": 32235548,
+          "privilege": {
+            "id": 32235548,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 16,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 255733,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10231685,
+            "vd": -27972,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 529526,
+            "fid": 0,
+            "size": 16927205,
+            "vd": -27972,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4092700,
+            "vd": -23545,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6139028,
+            "vd": -25327,
+            "sr": 44100
+          },
+          "name": "ミシンの音を響かせながら",
+          "id": 32235549,
+          "privilege": {
+            "id": 32235549,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 17,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 15,
+          "dt": 313600,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 12546133,
+            "vd": -36193,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 620261,
+            "fid": 0,
+            "size": 24314234,
+            "vd": -36193,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 5018479,
+            "vd": -31775,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 7527697,
+            "vd": -33552,
+            "sr": 44100
+          },
+          "name": "舞台の袖で立ちつくす",
+          "id": 32235550,
+          "privilege": {
+            "id": 32235550,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 16432,
+              "name": "橋本みゆき",
+              "tns": ["桥本美雪"],
+              "alia": ["はしもとみゆき"]
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 18,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 16,
+          "dt": 267160,
+          "pst": 0,
+          "alia": [],
+          "pop": 60,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10689350,
+            "vd": -56825,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1035383,
+            "fid": 0,
+            "size": 34576640,
+            "vd": -56806,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4275766,
+            "vd": -52730,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 262144,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6413627,
+            "vd": -54286,
+            "sr": 44100
+          },
+          "name": "Love Slave",
+          "id": 32235551,
+          "privilege": {
+            "id": 32235551,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 1,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 21,
+          "dt": 228893,
+          "pst": 0,
+          "alia": [],
+          "pop": 65,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9158574,
+            "vd": -48373,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 561730,
+            "fid": 0,
+            "size": 16072039,
+            "vd": -48373,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3663456,
+            "vd": -43950,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5495162,
+            "vd": -45729,
+            "sr": 44100
+          },
+          "name": "\"Piano arrange\"",
+          "id": 32235552,
+          "privilege": {
+            "id": 32235552,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 2,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 15,
+          "dt": 263200,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10530525,
+            "vd": -23978,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 891981,
+            "fid": 0,
+            "size": 29346195,
+            "vd": -23966,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4212236,
+            "vd": -19770,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6318333,
+            "vd": -21389,
+            "sr": 44100
+          },
+          "name": "Gloden Moon",
+          "id": 32235553,
+          "privilege": {
+            "id": 32235553,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 3,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 16,
+          "dt": 227773,
+          "pst": 0,
+          "alia": [],
+          "pop": 15,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9113644,
+            "vd": -39882,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1063313,
+            "fid": 0,
+            "size": 30274308,
+            "vd": -39863,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3645484,
+            "vd": -36363,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5468204,
+            "vd": -37673,
+            "sr": 44100
+          },
+          "name": "銀光赤火",
+          "id": 32235554,
+          "privilege": {
+            "id": 32235554,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 4,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 16,
+          "dt": 283493,
+          "pst": 0,
+          "alia": [],
+          "pop": 25,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 11342411,
+            "vd": -71230,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 852757,
+            "fid": 0,
+            "size": 30218895,
+            "vd": -71231,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4536991,
+            "vd": -66877,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6805464,
+            "vd": -68607,
+            "sr": 44100
+          },
+          "name": "拝啓、お父様",
+          "id": 32235555,
+          "privilege": {
+            "id": 32235555,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 5,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 15,
+          "dt": 313640,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 12548223,
+            "vd": -83824,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 975481,
+            "fid": 0,
+            "size": 38243765,
+            "vd": -83822,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 5019315,
+            "vd": -79561,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 7528951,
+            "vd": -81230,
+            "sr": 44100
+          },
+          "name": "前略、お母様",
+          "id": 32235556,
+          "privilege": {
+            "id": 32235556,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 6,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 22,
+          "dt": 161466,
+          "pst": 0,
+          "alia": [],
+          "pop": 90,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 6461693,
+            "vd": -39918,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 674973,
+            "fid": 0,
+            "size": 13623223,
+            "vd": -39919,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 2584703,
+            "vd": -35476,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 131072,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 3877033,
+            "vd": -37273,
+            "sr": 44100
+          },
+          "name": "三度日のオルゴール",
+          "id": 32235557,
+          "tns": ["三天的八音盒"],
+          "privilege": {
+            "id": 32235557,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 7,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 21,
+          "dt": 310893,
+          "pst": 0,
+          "alia": [],
+          "pop": 25,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 12438509,
+            "vd": -61929,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 691160,
+            "fid": 0,
+            "size": 26859632,
+            "vd": -61928,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4975430,
+            "vd": -57535,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 131072,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 7463123,
+            "vd": -59296,
+            "sr": 44100
+          },
+          "name": "月が綺麗ですね",
+          "id": 32235558,
+          "privilege": {
+            "id": 32235558,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 8,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 21,
+          "dt": 311266,
+          "pst": 0,
+          "alia": [],
+          "pop": 20,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 12453138,
+            "vd": -45605,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 699894,
+            "fid": 0,
+            "size": 27231729,
+            "vd": -45605,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4981281,
+            "vd": -41181,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 7471900,
+            "vd": -42965,
+            "sr": 44100
+          },
+          "name": "あの日の僕が後ろで見てる",
+          "id": 32235559,
+          "privilege": {
+            "id": 32235559,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 9,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 15,
+          "dt": 303466,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 12141758,
+            "vd": -50814,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1064184,
+            "fid": 0,
+            "size": 40368050,
+            "vd": -50730,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4856729,
+            "vd": -47628,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 7285072,
+            "vd": -48570,
+            "sr": 44100
+          },
+          "name": "C'est parti!",
+          "id": 32235560,
+          "privilege": {
+            "id": 32235560,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 10,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 15,
+          "dt": 197333,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 7896338,
+            "vd": -22200,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1075538,
+            "fid": 0,
+            "size": 26529946,
+            "vd": -22200,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3158561,
+            "vd": -18500,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 4737820,
+            "vd": -19600,
+            "sr": 44100
+          },
+          "name": "S/E Collection",
+          "id": 32235561,
+          "privilege": {
+            "id": 32235561,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 11,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 15,
+          "dt": 236773,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9473089,
+            "vd": -67412,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 972209,
+            "fid": 0,
+            "size": 28774164,
+            "vd": -67412,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3789262,
+            "vd": -63147,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5683871,
+            "vd": -64812,
+            "sr": 44100
+          },
+          "name": "【白銀の君】",
+          "id": 32235562,
+          "privilege": {
+            "id": 32235562,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 12,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 15,
+          "dt": 243200,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9730133,
+            "vd": -28599,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 528190,
+            "fid": 0,
+            "size": 16056988,
+            "vd": -28699,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3892079,
+            "vd": -24400,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5838097,
+            "vd": -26000,
+            "sr": 44100
+          },
+          "name": "ジョパン Chopin Ballard No.1,Op.23",
+          "id": 32235563,
+          "privilege": {
+            "id": 32235563,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 13,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 16,
+          "dt": 198533,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 7944403,
+            "vd": -68743,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1004763,
+            "fid": 0,
+            "size": 24934873,
+            "vd": -68738,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3177787,
+            "vd": -64435,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 4766659,
+            "vd": -66137,
+            "sr": 44100
+          },
+          "name": "踊ろ楽しいアイリッシュダンス",
+          "id": 32235564,
+          "tns": ["跳吧，欢乐的爱尔兰舞曲"],
+          "privilege": {
+            "id": 32235564,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 14,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 16,
+          "dt": 260626,
+          "pst": 0,
+          "alia": [],
+          "pop": 35,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10428125,
+            "vd": -53699,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 670131,
+            "fid": 0,
+            "size": 21831772,
+            "vd": -53700,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4171276,
+            "vd": -49252,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6256893,
+            "vd": -51055,
+            "sr": 44100
+          },
+          "name": "屋根裹部屋の子守唄",
+          "id": 32235565,
+          "privilege": {
+            "id": 32235565,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 15,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 15,
+          "dt": 228133,
+          "pst": 0,
+          "alia": [],
+          "pop": 15,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9128272,
+            "vd": -82729,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 916085,
+            "fid": 0,
+            "size": 26123692,
+            "vd": -82727,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3651335,
+            "vd": -78402,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199254872064,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5476981,
+            "vd": -80120,
+            "sr": 44100
+          },
+          "name": "【ただいま】",
+          "id": 32235566,
+          "privilege": {
+            "id": 32235566,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 17727,
+              "name": "佐咲紗花",
+              "alia": ["ささき さやか"]
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 16,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 24,
+          "dt": 259733,
+          "pst": 0,
+          "alia": [],
+          "pop": 25,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10391554,
+            "vd": -78101,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1111328,
+            "fid": 0,
+            "size": 36081137,
+            "vd": -78101,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4156648,
+            "vd": -78101,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 262144,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6234950,
+            "vd": -78101,
+            "sr": 44100
+          },
+          "name": "Moon night Destiny",
+          "id": 32235567,
+          "privilege": {
+            "id": 32235567,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 17,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 16,
+          "dt": 89773,
+          "pst": 0,
+          "alia": [],
+          "pop": 15,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 3593448,
+            "vd": -23000,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1062943,
+            "fid": 0,
+            "size": 11927999,
+            "vd": -22900,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 1437405,
+            "vd": -19000,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199255527424,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 2156086,
+            "vd": -20600,
+            "sr": 44100
+          },
+          "name": "Glitter -Instrumental-",
+          "id": 32235568,
+          "privilege": {
+            "id": 32235568,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540352,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 18,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 14,
+          "dt": 119933,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 4800305,
+            "vd": -3700,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1034317,
+            "fid": 0,
+            "size": 15506141,
+            "vd": -3800,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 1920148,
+            "vd": -2,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199255134208,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 2880200,
+            "vd": -1200,
+            "sr": 44100
+          },
+          "name": "Love Slave -Instrumental-",
+          "id": 32235569,
+          "privilege": {
+            "id": 32235569,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1278208,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 18619,
+              "name": "Arte Refact"
+            }
+          ],
+          "al": {
+            "id": 3154337,
+            "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+            "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+            "pic_str": "2921402396652922",
+            "pic": 2921402396652922,
+            "alia": ["PC游戏《近月少女的礼仪2》OST"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": null,
+          "songJumpInfo": null,
+          "no": 19,
+          "fee": 0,
+          "djId": 0,
+          "mv": 0,
+          "cd": "2",
+          "t": 0,
+          "v": 14,
+          "dt": 107173,
+          "pst": 0,
+          "alia": [],
+          "pop": 10,
+          "rt": null,
+          "mst": 9,
+          "cp": 663018,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 4289350,
+            "vd": -14299,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1065049,
+            "fid": 0,
+            "size": 14268112,
+            "vd": -14299,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 1715766,
+            "vd": -9900,
+            "sr": 44100
+          },
+          "rtUrl": null,
+          "ftype": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mark": 9007199255134208,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 2573627,
+            "vd": -11900,
+            "sr": 44100
+          },
+          "name": "Moon night Destiny -Instrumental-",
+          "id": 32235570,
+          "privilege": {
+            "id": 32235570,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1278208,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        }
+      ],
+      "code": 200,
+      "album": {
+        "songs": [],
+        "paid": false,
+        "onSale": false,
+        "mark": 0,
+        "awardTags": null,
+        "displayTags": null,
+        "briefDesc": "",
+        "publishTime": 1427212800000,
+        "company": "",
+        "copyrightId": 0,
+        "picUrl": "https://p3.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+        "commentThreadId": "R_AL_3_3154337",
+        "picId": 2921402396652922,
+        "artist": {
+          "img1v1Id": 1390882221295245,
+          "topicPerson": 0,
+          "musicSize": 264,
+          "albumSize": 20,
+          "briefDesc": "",
+          "picUrl": "https://p3.music.126.net/u7mt4tRJ5PwO7BFLYyuVRg==/109951163237854138.jpg",
+          "img1v1Url": "https://p3.music.126.net/5tkaiPzf3kyuuzyRcH5m8w==/1390882221295245.jpg",
+          "followed": false,
+          "picId": 109951163237854140,
+          "trans": "",
+          "alias": [],
+          "name": "Arte Refact",
+          "id": 18619,
+          "picId_str": "109951163237854138"
+        },
+        "artists": [
+          {
+            "img1v1Id": 18686200114669624,
+            "topicPerson": 0,
+            "musicSize": 0,
+            "albumSize": 0,
+            "briefDesc": "",
+            "picUrl": "",
+            "img1v1Url": "https://p3.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg",
+            "followed": false,
+            "picId": 0,
+            "trans": "",
+            "alias": [],
+            "name": "Arte Refact",
+            "id": 18619,
+            "img1v1Id_str": "18686200114669622"
+          }
+        ],
+        "blurPicUrl": "https://p4.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+        "companyId": 0,
+        "pic": 2921402396652922,
+        "subType": "录音室版",
+        "status": 0,
+        "description": null,
+        "tags": "",
+        "alias": ["PC游戏《近月少女的礼仪2》OST"],
+        "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+        "id": 3154337,
+        "type": "专辑",
+        "size": 37,
+        "info": {
+          "commentThread": {
+            "id": "R_AL_3_3154337",
+            "resourceInfo": {
+              "id": 3154337,
+              "userId": -1,
+              "name": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK",
+              "imgUrl": "https://p2.music.126.net/04BNO_9HnY_JewREA1KWSQ==/2921402396652922.jpg",
+              "creator": null,
+              "encodedId": null,
+              "subTitle": null,
+              "webUrl": null
+            },
+            "resourceType": 3,
+            "commentCount": 125,
+            "likedCount": 0,
+            "shareCount": 76,
+            "hotCount": 5,
+            "latestLikedUsers": null,
+            "resourceId": 3154337,
+            "resourceOwnerId": -1,
+            "resourceTitle": "月に寄りそう乙女の作法2 COMPLETE SOUNDTRACK"
+          },
+          "latestLikedUsers": null,
+          "liked": false,
+          "comments": null,
+          "resourceType": 3,
+          "resourceId": 3154337,
+          "commentCount": 125,
+          "likedCount": 0,
+          "shareCount": 76,
+          "threadId": "R_AL_3_3154337"
+        }
+      }
+    }
+  }
+}
