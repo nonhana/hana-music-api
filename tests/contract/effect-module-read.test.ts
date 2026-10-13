@@ -26,6 +26,7 @@ import { runEffect } from '../_kit/it.ts';
 const extraBody = {
   code: 200,
   songs: [],
+  privileges: [],
   playlist: {
     id: 12,
     name: 'playlist',
