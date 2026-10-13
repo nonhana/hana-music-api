@@ -8,7 +8,7 @@ import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
-import { Artist, Song } from '../core/upstream-schemas.ts';
+import { Artist, Song, SongPrivilege } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { IdentifierQuery } from '../types/module-shared.ts';
 
@@ -34,7 +34,9 @@ const Album = UpstreamObject({
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
-    songs: Schema.Array(Song),
+    songs: Schema.Array(
+      UpstreamObject({ ...Song.schema.fields, privilege: SongPrivilege }),
+    ),
     album: Album,
   }),
 );

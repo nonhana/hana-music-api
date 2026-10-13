@@ -7,7 +7,7 @@ import {
 } from '../core/module-input.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
-import { Song } from '../core/upstream-schemas.ts';
+import { Song, SongPrivilege } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryIdentifier } from '../types/module-shared.ts';
 
@@ -24,6 +24,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     songs: Schema.Array(Song),
+    privileges: Schema.Array(SongPrivilege),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

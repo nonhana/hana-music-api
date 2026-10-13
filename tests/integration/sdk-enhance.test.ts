@@ -356,7 +356,12 @@ describe('sdk identity pool', () => {
       }
 
       return new Response(
-        JSON.stringify({ code: 200, lrc: { lyric: 'demo' }, songs: [] }),
+        JSON.stringify({
+          code: 200,
+          lrc: { lyric: 'demo' },
+          songs: [],
+          privileges: [],
+        }),
         {
           status: 200,
         },
