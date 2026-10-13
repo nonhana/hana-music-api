@@ -10,6 +10,7 @@ import { tmpdir } from 'node:os';
 import { basename, join, resolve } from 'node:path';
 
 import { findForbiddenArtifactSymbols } from '../fixtures/architecture-artifacts.ts';
+import artistAlbum from '../fixtures/netease/library/artist_album.json';
 
 const ROOT = resolve(import.meta.dir, '../..');
 const PACKAGE_JSON_PATH = resolve(ROOT, 'package.json');
@@ -160,7 +161,11 @@ describe('sdk release contract', () => {
       writeFileSync(
         smokeScriptPath,
         [
-          "import { createHanaMusicApi, generateDeviceId, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import { ArtistAlbumBody, createHanaMusicApi, generateDeviceId, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import { deepStrictEqual } from 'node:assert'",
+          '',
+          `const recordedArtistAlbum = ${JSON.stringify(artistAlbum.response.body)}`,
+          "deepStrictEqual(await ArtistAlbumBody['~standard'].validate(recordedArtistAlbum), { value: recordedArtistAlbum })",
           '',
           'const fetcher = async () => {',
           '  return new Response(JSON.stringify({ code: 200, result: { songs: [] }, data: [] }), {',
@@ -218,7 +223,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         typesFixturePath,
         [
-          "import { createHanaMusicApi, generateDeviceId, songUrl, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
+          "import { createHanaMusicApi, generateDeviceId, songUrl, type ArtistAlbumBody, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
           '',
           'const config: CreateHanaMusicApiConfig = {',
           "  cookie: 'MUSIC_U=consumer',",
@@ -230,6 +235,16 @@ describe('sdk release contract', () => {
           "const rawResultPromise: Promise<ModuleResponseOf<'song_url'>> = songUrl({ id: '1,2' }, config)",
           'void resultPromise',
           'void rawResultPromise',
+          '',
+          'declare const artistAlbum: ArtistAlbumBody',
+          'const artistHeader: [number, string, string, number, number] = [',
+          '  artistAlbum.artist.id,',
+          '  artistAlbum.artist.name,',
+          '  artistAlbum.artist.img1v1Url,',
+          '  artistAlbum.artist.musicSize,',
+          '  artistAlbum.artist.albumSize,',
+          ']',
+          'void artistHeader',
         ].join('\n'),
       );
 
