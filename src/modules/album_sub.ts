@@ -7,6 +7,7 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { IdentifierActionQuery } from '../types/module-shared.ts';
 
@@ -20,21 +21,32 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const albumSub: ModuleEffect<ModuleInput> = (query, request) =>
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    time: Schema.optionalKey(Schema.Finite),
+    message: Schema.optionalKey(Schema.String),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const albumSub: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const action = Number(query.t) === 1 ? 'sub' : 'unsub';
     const data = {
       id: query.id,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/album/${action}`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/album/${action}`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    return {
+      ...toModuleResponse(response),
+      body: yield* decodeUpstreamBody('album_sub', ModuleBody, response),
+    };
   });
 
 /**

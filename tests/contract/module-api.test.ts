@@ -651,6 +651,8 @@ describe('programmatic module api', () => {
           return {
             body: {
               code: 200,
+              data: null,
+              message: 'success',
             },
             cookie: [],
             status: 200,

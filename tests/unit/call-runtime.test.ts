@@ -332,9 +332,9 @@ describe('call lifecycle', () => {
   test('external header changes cannot affect an already started call', async () => {
     const headers = { 'X-Call-Snapshot': 'original' };
     const invoke = createModuleInvoker(
-      'like',
+      'inner_version',
       {
-        identifier: 'like',
+        identifier: 'inner_version',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
@@ -470,7 +470,8 @@ describe('call lifecycle', () => {
     const input = { id: 1, like: 'false' };
     const response = await invokeModule('like', input, {
       cookie: 'MUSIC_U=user',
-      fetcher: async () => Response.json({ code: 200 }),
+      fetcher: async () =>
+        Response.json({ code: 200, playlistId: 1, songs: [] }),
     });
     expect(response.status).toBe(200);
     expect(input).toEqual({ id: 1, like: 'false' });
@@ -505,9 +506,9 @@ describe('call lifecycle', () => {
     const cookie = { MUSIC_U: 'original-user' };
     const sentCookies: Array<string> = [];
     const invoke = createModuleInvoker(
-      'like',
+      'inner_version',
       {
-        identifier: 'like',
+        identifier: 'inner_version',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
@@ -536,9 +537,9 @@ describe('call lifecycle', () => {
   test('explicit cookie overrides mixed-case Cookie header and identity pool', async () => {
     let sentCookie = '';
     const invoke = createModuleInvoker(
-      'like',
+      'inner_version',
       {
-        identifier: 'like',
+        identifier: 'inner_version',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
@@ -564,9 +565,9 @@ describe('call lifecycle', () => {
   test('caller cancellation interrupts a module even when it ignores the signal', async () => {
     const controller = new AbortController();
     const invoke = createModuleInvoker(
-      'like',
+      'inner_version',
       {
-        identifier: 'like',
+        identifier: 'inner_version',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: () =>
@@ -583,9 +584,9 @@ describe('call lifecycle', () => {
 
   test('disabled ordinary timeout still allows module completion', async () => {
     const invoke = createModuleInvoker(
-      'like',
+      'inner_version',
       {
-        identifier: 'like',
+        identifier: 'inner_version',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: () =>
@@ -645,9 +646,9 @@ describe('call lifecycle', () => {
     setRuntimeState({ anonymousToken: 'before-call' });
     try {
       const invoke = createModuleInvoker(
-        'like',
+        'inner_version',
         {
-          identifier: 'like',
+          identifier: 'inner_version',
           route: '/test',
           decodeInput: decodeLegacyModuleInput,
           execute: (_query: ModuleQuery, request: RequestCapability) =>

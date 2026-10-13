@@ -90,7 +90,7 @@ test.each([
     const result = await client.playlistSubscribe(recording.query);
 
     expect(result.status).toBe(200);
-    expect(result.body).toEqual(recording.response.body);
+    expect(result.body as unknown).toEqual(recording.response.body);
   },
 );
 

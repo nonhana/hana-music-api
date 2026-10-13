@@ -1,13 +1,23 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const like: ModuleEffect<ModuleInput> = (input, request) =>
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    playlistId: Schema.Finite,
+    songs: Schema.Array(Schema.MutableJson),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const like: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
   Effect.gen(function* () {
     const query = { ...input };
     if (
@@ -28,15 +38,17 @@ const like: ModuleEffect<ModuleInput> = (input, request) =>
       like: query.like,
       time: '3',
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/radio/like`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/radio/like`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    return {
+      ...toModuleResponse(response),
+      body: yield* decodeUpstreamBody('like', ModuleBody, response),
+    };
   });
 
 /**

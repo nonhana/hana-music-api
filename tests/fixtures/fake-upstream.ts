@@ -74,6 +74,9 @@ export const createFakeUpstream = (delayMs = 50) => {
             },
           });
         }
+        if (pathname === '/api/radio/like') {
+          return Response.json({ code: 200, playlistId: 1, songs: [] });
+        }
         return Response.json({
           code: 200,
           result: { songs: [] },

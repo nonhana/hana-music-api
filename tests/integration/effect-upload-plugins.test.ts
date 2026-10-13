@@ -40,7 +40,13 @@ test.each([
             return response(
               intent.target === '/api/nos/token/alloc'
                 ? tokenBody
-                : { code: 200, future: { preserved: true } },
+                : scenario.identifier === 'playlist_cover_update'
+                  ? {
+                      code: 200,
+                      future: { preserved: true },
+                      url: 'https://p1.music.126.net/cover.jpg',
+                    }
+                  : { code: 200, future: { preserved: true } },
             );
           }),
       ),

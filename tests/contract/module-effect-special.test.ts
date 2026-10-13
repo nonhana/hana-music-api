@@ -215,7 +215,13 @@ describe('special Effect module behavior', () => {
       });
       const result = await runEffect(
         executeModule(imported.default, input, () =>
-          Effect.succeed(response({ code: 200 })),
+          Effect.succeed(
+            response(
+              identifier === 'like'
+                ? { code: 200, playlistId: 1, songs: [] }
+                : { code: 200 },
+            ),
+          ),
         ),
       );
       expect(result.status).toBe(200);
@@ -299,7 +305,9 @@ describe('special Effect module behavior', () => {
       intents.push(intent);
       return intents.length === 1
         ? Effect.fail(failure)
-        : Effect.succeed(response({ code: 200, recovered: true }));
+        : Effect.succeed(
+            response({ code: 200, recovered: true, count: 3, cloudCount: 0 }),
+          );
     };
     const result = await runEffect(
       executeModule(
@@ -308,7 +316,12 @@ describe('special Effect module behavior', () => {
         request,
       ),
     );
-    expect(result.body).toEqual({ code: 200, recovered: true });
+    expect(result.body).toEqual({
+      code: 200,
+      recovered: true,
+      count: 3,
+      cloudCount: 0,
+    });
     expect(intents.map((intent) => JSON.parse(String(intent.body)))).toEqual([
       { op: 'add', pid: 1, trackIds: '["2","3"]', imme: 'true' },
       { op: 'add', pid: 1, trackIds: '["2","3","2","3"]', imme: 'true' },

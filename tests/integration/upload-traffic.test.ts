@@ -52,6 +52,12 @@ const fetchUpload: FetchLike = async (input) => {
   if (target.includes('/playlist?')) {
     return new Response(relatedHtml);
   }
+  if (target.includes('playlist/cover/update')) {
+    return Response.json({
+      code: 200,
+      url: 'https://p1.music.126.net/cover.jpg',
+    });
+  }
   return Response.json(
     { code: 200, data: { marker: 'kept' }, songId: 7 },
     { headers: { etag: 'etag-1' } },

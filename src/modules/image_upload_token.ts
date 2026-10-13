@@ -1,21 +1,24 @@
 import { Effect, Schema } from 'effect';
 
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
+import { UpstreamObject } from '../core/upstream-body.ts';
 import { allocateImageUpload } from '../plugins/upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { QueryIdentifier } from '../types/module-shared.ts';
 
 export type ModuleInput = {};
 
-export type ModuleBody = {
-  code: 200;
-  data: {
-    imgId: QueryIdentifier;
-    token: string;
-    uploadUrl: string;
-    url_pre: string;
-  };
-};
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    data: UpstreamObject({
+      imgId: Schema.Union([Schema.String, Schema.Finite]),
+      token: Schema.String,
+      uploadUrl: Schema.String,
+      url_pre: Schema.String,
+    }),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
 
 const inputSchema = Schema.Struct({});
 

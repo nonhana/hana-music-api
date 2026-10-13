@@ -5,6 +5,11 @@ import { songFile, tokenBody } from '../fixtures/upload-effect.ts';
 
 const ALLOC = 'https://interface.music.163.com/api/nos/token/alloc';
 const COVER = 'https://interface.music.163.com/api/playlist/cover/update';
+const coverResponse = {
+  code: 200,
+  future: { preserved: true },
+  url: 'https://p1.music.126.net/direct-upload.jpg',
+} as const;
 
 // 用 api 协议让请求体保持明文表单，测试直接读取发给网易云的字段。
 const createClient = () => {
@@ -24,7 +29,7 @@ const createClient = () => {
       });
       return url === ALLOC
         ? Response.json(tokenBody)
-        : Response.json({ code: 200, future: { preserved: true } });
+        : Response.json(coverResponse);
     },
   });
   return { client, requests };
@@ -64,7 +69,7 @@ test('playlistCoverUpdate sets an already uploaded image by imgId without upload
   expect(result.status).toBe(200);
   expect(result.body).toEqual({
     code: 200,
-    data: { code: 200, future: { preserved: true } },
+    data: coverResponse,
   });
 });
 

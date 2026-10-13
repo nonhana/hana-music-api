@@ -1,4 +1,4 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import {
   InvalidModuleInput,
@@ -8,10 +8,42 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const playlistTracks: ModuleEffect<ModuleInput> = (query, request) =>
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    count: Schema.Finite,
+    cloudCount: Schema.Finite,
+    trackIds: Schema.optionalKey(Schema.String),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const decodeResponse = (response: Parameters<typeof toModuleResponse>[0]) => {
+  const body =
+    typeof response.body === 'object' &&
+    response.body !== null &&
+    'body' in response.body &&
+    typeof response.body.body === 'object' &&
+    response.body.body !== null
+      ? response.body.body
+      : response.body;
+  const normalized = { ...response, body };
+  return decodeUpstreamBody('playlist_tracks', ModuleBody, normalized).pipe(
+    Effect.map((decoded) => ({
+      ...toModuleResponse(normalized),
+      body: decoded,
+    })),
+  );
+};
+
+const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     if (
       query.tracks !== undefined &&
@@ -38,11 +70,7 @@ const playlistTracks: ModuleEffect<ModuleInput> = (query, request) =>
         createOption(query),
       ),
     ).pipe(
-      Effect.map((response) => ({
-        status: 200,
-        cookie: [],
-        body: { ...toModuleResponse(response) },
-      })),
+      Effect.flatMap(decodeResponse),
       Effect.mapError((error) => {
         if (error instanceof ProtocolFailed && error.response) {
           const body = error.response.body;
@@ -67,15 +95,13 @@ const playlistTracks: ModuleEffect<ModuleInput> = (query, request) =>
           if (error.code !== 512) {
             return yield* error;
           }
-          return toModuleResponse(
-            yield* request(
-              buildApiRequestIntent(
-                '/api/playlist/manipulate/tracks',
-                { ...data, trackIds: JSON.stringify([...tracks, ...tracks]) },
-                createOption(query),
-              ),
+          return yield* request(
+            buildApiRequestIntent(
+              '/api/playlist/manipulate/tracks',
+              { ...data, trackIds: JSON.stringify([...tracks, ...tracks]) },
+              createOption(query),
             ),
-          );
+          ).pipe(Effect.flatMap(decodeResponse));
         }),
       ),
     );
