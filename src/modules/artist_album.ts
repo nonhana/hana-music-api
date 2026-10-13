@@ -42,6 +42,13 @@ const Album = UpstreamObject({
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
+    artist: UpstreamObject({
+      id: Schema.Finite,
+      name: Schema.String,
+      img1v1Url: Schema.String,
+      musicSize: Schema.Finite,
+      albumSize: Schema.Finite,
+    }),
     hotAlbums: Schema.Array(Album),
     more: Schema.Boolean,
   }),

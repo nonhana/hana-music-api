@@ -18,6 +18,7 @@ import type {
   ProgrammaticModuleInvoker,
   RequestCapability,
 } from '../../src/types/index.ts';
+import artistAlbum from '../fixtures/netease/library/artist_album.json';
 import {
   mockRequest,
   moduleResponse,
@@ -593,7 +594,7 @@ describe('programmatic module api', () => {
       'artist_album',
       {
         cookie: 'MUSIC_U=artist-album-cookie',
-        id: 1122,
+        id: artistAlbum.query.id,
         limit: 15,
         offset: 30,
       },
@@ -604,11 +605,7 @@ describe('programmatic module api', () => {
           captured.options = options;
 
           return {
-            body: {
-              code: 200,
-              hotAlbums: [],
-              more: false,
-            },
+            body: artistAlbum.response.body,
             cookie: [],
             status: 200,
           };
@@ -616,7 +613,7 @@ describe('programmatic module api', () => {
       },
     );
 
-    expect(captured.uri).toBe('/api/artist/albums/1122');
+    expect(captured.uri).toBe('/api/artist/albums/33927412');
     expect(captured.data).toEqual({
       limit: 15,
       offset: 30,

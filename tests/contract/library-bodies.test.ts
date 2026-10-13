@@ -158,13 +158,62 @@ test('artistTopSong returns the recorded songs', async () => {
   expect(result.body as unknown).toEqual(artistTopSong.response.body);
 });
 
-test('artistAlbum returns the recorded albums', async () => {
+test('artistAlbum returns the recorded artist and albums with undeclared fields', async () => {
   const result = await replay(artistAlbum.response.body).artistAlbum(
     artistAlbum.query,
   );
 
   expect(result.body as unknown).toEqual(artistAlbum.response.body);
+  expect(result.body.artist).toEqual(artistAlbum.response.body.artist);
 });
+
+test.each(['id', 'name', 'img1v1Url', 'musicSize', 'albumSize'])(
+  'artistAlbum rejects a missing artist.%s',
+  async (field) => {
+    const artist: Record<string, unknown> = {
+      ...artistAlbum.response.body.artist,
+    };
+    delete artist[field];
+
+    await expectUpstreamShapeRejection(
+      replay({ ...artistAlbum.response.body, artist }).artistAlbum(
+        artistAlbum.query,
+      ),
+      {
+        module: 'artist_album',
+        path: `body.artist.${field}`,
+        expected: 'present',
+        actual: 'missing',
+      },
+    );
+  },
+);
+
+test.each([
+  { field: 'id', value: '33927412', expected: 'number', actual: 'string' },
+  { field: 'name', value: null, expected: 'string', actual: 'null' },
+  { field: 'img1v1Url', value: 123, expected: 'string', actual: 'number' },
+  { field: 'musicSize', value: '148', expected: 'number', actual: 'string' },
+  { field: 'albumSize', value: '65', expected: 'number', actual: 'string' },
+])(
+  'artistAlbum rejects artist.$field with the wrong type',
+  async ({ field, value, expected, actual }) => {
+    const upstream = {
+      ...artistAlbum.response.body,
+      artist: { ...artistAlbum.response.body.artist, [field]: value },
+    };
+
+    await expectUpstreamShapeRejection(
+      replay(upstream).artistAlbum(artistAlbum.query),
+      {
+        module: 'artist_album',
+        path: `body.artist.${field}`,
+        expected,
+        actual,
+      },
+    );
+  },
+);
 
 test('recommendSongs returns the recorded daily songs', async () => {
   const result = await replay(recommendSongs.response.body).recommendSongs();
@@ -374,6 +423,19 @@ test.each<{
     shape: {
       module: 'artist_album',
       path: 'body.hotAlbums',
+      expected: 'present',
+      actual: 'missing',
+    },
+  },
+  {
+    name: 'artistAlbum: no artist',
+    call: () => {
+      const { artist: _artist, ...upstream } = artistAlbum.response.body;
+      return replay(upstream).artistAlbum(artistAlbum.query);
+    },
+    shape: {
+      module: 'artist_album',
+      path: 'body.artist',
       expected: 'present',
       actual: 'missing',
     },
