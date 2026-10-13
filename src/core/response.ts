@@ -53,8 +53,7 @@ export const classifyConsumedRateLimit = (
   const status =
     response.status === 429 || code === 429 || statusLimited
       ? 429
-      : response.status === 405 &&
-          code === 405 &&
+      : code === 405 &&
           typeof message === 'string' &&
           /操作(?:过于)?频繁/.test(message)
         ? 405

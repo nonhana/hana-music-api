@@ -1,6 +1,7 @@
 import { describe, expect, test } from 'bun:test';
 
 import { createHanaMusicApi } from '../../index.ts';
+import rateLimitRecording from '../fixtures/netease/library/album.rate-limit.json';
 
 const lyricBody = { code: 200, lrc: { lyric: '' } };
 
@@ -60,59 +61,83 @@ describe('SDK outbound traffic', () => {
     expect(calls).toBe(3);
   });
 
-  test('an upstream 405 rate limit is returned once with its original status', async () => {
+  test.each([200, 405, 500])(
+    'an HTTP %i response with business code 405 rate limiting is not retried',
+    async (status) => {
+      let calls = 0;
+      const hana = createHanaMusicApi({
+        cookie: 'MUSIC_U=limited-listener',
+        retry: {
+          backoffMs: 0,
+          jitter: false,
+          retries: 2,
+          retryNonIdempotent: true,
+          statusCodes: [405],
+        },
+        fetcher: async () => {
+          calls += 1;
+          return Response.json(
+            { code: 405, msg: '操作过于频繁，请稍后再试' },
+            { status, headers: { 'Retry-After': '4' } },
+          );
+        },
+      });
+
+      const failure = await hana
+        .lyric({ id: '1' })
+        .catch((error: unknown) => error);
+      expect(failure).toMatchObject({
+        status: 405,
+        body: {
+          code: 405,
+          retryAfter: 4,
+        },
+      });
+      expect(calls).toBe(1);
+    },
+  );
+
+  test('a recorded HTTP 200 album rate limit rejects once with the default retryAfter', async () => {
     let calls = 0;
     const hana = createHanaMusicApi({
       cookie: 'MUSIC_U=limited-listener',
-      retry: {
-        backoffMs: 0,
-        jitter: false,
-        retries: 2,
-        retryNonIdempotent: true,
-        statusCodes: [405],
-      },
       fetcher: async () => {
         calls += 1;
         return Response.json(
-          { code: 405, msg: '操作过于频繁，请稍后再试' },
-          { status: 405, headers: { 'Retry-After': '4' } },
+          rateLimitRecording.response.body,
+          rateLimitRecording.response,
         );
       },
     });
 
     const failure = await hana
-      .lyric({ id: '1' })
+      .album(rateLimitRecording.query)
       .catch((error: unknown) => error);
-    expect(failure).toMatchObject({
+    expect(failure).toEqual({
       status: 405,
-      body: {
-        code: 405,
-        retryAfter: 4,
-      },
+      cookie: [],
+      body: { ...rateLimitRecording.response.body, retryAfter: 30 },
     });
     expect(calls).toBe(1);
   });
 
-  test('an HTTP 200 response with business code 405 is not a rate limit', async () => {
-    const hana = createHanaMusicApi({
-      cookie: 'MUSIC_U=ordinary-error',
-      fetcher: async () =>
-        Response.json({ code: 405, msg: '操作过于频繁，请稍后再试' }),
-    });
+  test.each([200, 405, 500])(
+    'an HTTP %i response with an ordinary business code 405 stays unchanged',
+    async (status) => {
+      const body = { code: 405, msg: '请求方法不允许' };
+      const hana = createHanaMusicApi({
+        cookie: 'MUSIC_U=ordinary-error',
+        fetcher: async () =>
+          Response.json(body, {
+            status,
+            headers: { 'Retry-After': '4' },
+          }),
+      });
 
-    const failure = await hana
-      .lyric({ id: '1' })
-      .catch((error: unknown) => error);
-    expect(failure).toMatchObject({
-      status: 405,
-      body: {
-        code: 405,
-      },
-    });
-    expect(failure).not.toMatchObject({
-      body: {
-        retryAfter: expect.any(Number),
-      },
-    });
-  });
+      const failure = await hana
+        .album({ id: 84072830 })
+        .catch((error: unknown) => error);
+      expect(failure).toEqual({ status: 405, cookie: [], body });
+    },
+  );
 });
