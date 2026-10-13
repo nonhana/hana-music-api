@@ -1,4 +1,3 @@
-import { createHash } from 'node:crypto';
 import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, resolve } from 'node:path';
@@ -7,13 +6,12 @@ import { createRequest } from '../core/request.ts';
 import { setRuntimeState } from '../core/runtime.ts';
 import {
   cookieToJson,
+  encodeAnonymousDeviceId,
   generateDeviceId,
   generateRandomChineseIP,
   isRecord,
 } from '../core/utils.ts';
 import type { GenerateConfigOptions, NcmApiResponse } from '../types/index.ts';
-
-const ID_XOR_KEY_1 = '3go8&$8*3*3h0k(2)2';
 
 const DEFAULT_ANONYMOUS_TOKEN_PATH = resolve(tmpdir(), 'anonymous_token');
 
@@ -56,7 +54,7 @@ export const registerAnonymous = async (
     '/api/register/anonimous',
     {
       username: Buffer.from(
-        `${deviceId} ${cloudmusicDllEncodeId(deviceId)}`,
+        `${deviceId} ${encodeAnonymousDeviceId(deviceId)}`,
         'utf8',
       ).toString('base64'),
     },
@@ -109,16 +107,4 @@ export const generateConfig = async (
     console.error('[generateConfig] failed to create anonymous token', error);
     return '';
   }
-};
-
-const cloudmusicDllEncodeId = (deviceId: string): string => {
-  let xoredString = '';
-
-  for (let index = 0; index < deviceId.length; index += 1) {
-    const sourceCode = deviceId.charCodeAt(index);
-    const keyCode = ID_XOR_KEY_1.charCodeAt(index % ID_XOR_KEY_1.length);
-    xoredString += String.fromCharCode(sourceCode ^ keyCode);
-  }
-
-  return createHash('md5').update(xoredString, 'utf8').digest('base64');
 };

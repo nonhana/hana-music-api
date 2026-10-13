@@ -71,6 +71,23 @@ SDK 缺少身份时，会让并发的游客初始化共用注册工作。注册�
 
 注册请求也经过同一个请求内核。自定义 `fetcher` 会收到注册请求，测试只关注业务接口时，可提供 `MUSIC_A=test-token` 这样的测试身份。
 
+## 匿名注册的设备号
+
+```ts
+import { createHanaMusicApi, generateDeviceId } from 'hana-music-api';
+
+const deviceId = generateDeviceId();
+const hana = createHanaMusicApi({ deviceId });
+const result = await hana.loginQrKey();
+console.log(result.body);
+```
+
+`generateDeviceId(): string` 返回 52 位大写十六进制设备号，并排除会导致匿名注册返回 `code: 400` 的候选值。SDK 隐式注册、运行时默认设备号和 CLI 注册都使用同一生成规则。不传 `deviceId` 时，隐式注册自动生成；传入时保持原值，不随机替换。
+
+如果由调用方生成设备号，合格条件是：设备号与字符串 `3go8&$8*3*3h0k(2)2` 循环逐字符异或，将结果按 UTF-8 编码后计算 MD5，再转为标准 Base64；这份摘要不能包含 `+` 或 `/`。注册用户名仍为 `base64(deviceId + ' ' + digest)`，不改用 Base64URL。仅仅是十六进制字符串并不保证合格，建议直接调用公开生成器。
+
+`ModuleCallConfig.deviceId` 可用于 client 默认配置、具名函数的第二个参数和 `invokeModule` 的第三个参数。它只决定需要注册时采用的设备号；已有游客身份仍按前述流程复用，单独传它不会创建独立的游客会话。需要为听众保存设备身份时，生成一次并持久化，后续复用；已有 Cookie 的调用可配合 `state.deviceId` 设置相同设备号。
+
 ## 按次覆盖运行时状态
 
 ```ts

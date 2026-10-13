@@ -1,6 +1,12 @@
 import { afterEach, beforeEach, describe, expect, test } from 'bun:test';
 
 import {
+  createHanaMusicApi,
+  generateDeviceId,
+  invokeModule,
+  loginQrKey,
+} from '../../index.ts';
+import {
   ensureRuntimeAnonymousToken,
   registerAnonymousToken,
 } from '../../src/core/anonymous.ts';
@@ -39,6 +45,49 @@ describe('ensureRuntimeAnonymousToken', () => {
     setRuntimeState({ anonymousToken: '' });
   });
   afterEach(() => setRuntimeState(previous));
+
+  test.each(['client', 'named', 'invoke'] as const)(
+    '%s uses the configured device ID for its first anonymous call',
+    async (entry) => {
+      const deviceId = generateDeviceId();
+      const cookies: Array<string> = [];
+      const targets: Array<string> = [];
+      const fetcher: FetchLike = async (input, init) => {
+        const target =
+          typeof input === 'string'
+            ? input
+            : input instanceof URL
+              ? input.href
+              : input.url;
+        targets.push(target);
+        cookies.push(new Headers(init?.headers).get('cookie') ?? '');
+        return target.includes('/register/anonimous')
+          ? Response.json(
+              { code: 200 },
+              { headers: { 'set-cookie': 'MUSIC_A=device-token; Path=/' } },
+            )
+          : Response.json({ code: 200, unikey: 'device-key' });
+      };
+      const config = { deviceId, fetcher };
+      const response =
+        entry === 'client'
+          ? await createHanaMusicApi(config).loginQrKey()
+          : entry === 'named'
+            ? await loginQrKey({}, config)
+            : await invokeModule('login_qr_key', {}, config);
+
+      expect(response.body).toMatchObject({
+        code: 200,
+        data: { unikey: 'device-key' },
+      });
+      expect(targets).toHaveLength(2);
+      expect(targets[0]).toContain('/register/anonimous');
+      for (const cookie of cookies) {
+        expect(cookie).toContain(`deviceId=${deviceId}`);
+      }
+      expect(cookies[1]).toContain('MUSIC_A=device-token');
+    },
+  );
 
   test('a successful registration response without MUSIC_A is rejected', async () => {
     expect(

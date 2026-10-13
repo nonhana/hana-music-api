@@ -4,27 +4,30 @@
 
 ## 配置放在哪里
 
-| 入口                                                  | 配置位置                                                 |
-| ----------------------------------------------------- | -------------------------------------------------------- |
-| `createHanaMusicApi(config)`                          | client 默认配置，可额外设置 `cache` 和 `identityPool`    |
-| `hana.search(query, config)`、`search(query, config)` | 第二个参数，类型为 `ModuleCallConfig`                    |
-| `invokeModule(identifier, query, config)`             | 第三个参数，类型为 `ModuleCallConfig`                    |
-| `createRequest(uri, data, options)`                   | 第三个参数，与 `ModuleCallConfig` 使用相同的请求配置字段 |
+| 入口                                                  | 配置位置                                                |
+| ----------------------------------------------------- | ------------------------------------------------------- |
+| `createHanaMusicApi(config)`                          | client 默认配置，可额外设置 `cache` 和 `identityPool`   |
+| `hana.search(query, config)`、`search(query, config)` | 第二个参数，类型为 `ModuleCallConfig`                   |
+| `invokeModule(identifier, query, config)`             | 第三个参数，类型为 `ModuleCallConfig`                   |
+| `createRequest(uri, data, options)`                   | 第三个参数，使用请求配置字段，不含模块专用的 `deviceId` |
 
 client 的默认配置与单次配置按顶层字段合并，单次配置优先。嵌套对象不会递归合并。HTTP 只接受业务参数及 `cookie`、`noCookie`，见 [调用约定](/guide/request-convention)。
 
 ## 身份与请求头
 
-| 字段      | 类型                     | 未设置时                         | 作用                                             |
-| --------- | ------------------------ | -------------------------------- | ------------------------------------------------ |
-| `cookie`  | `string \| CookieRecord` | 从 Cookie 请求头或运行时身份解析 | 传递账号或游客身份                               |
-| `headers` | `Record<string, string>` | 无额外请求头                     | 与协议生成的头合并；协议所需字段可能覆盖自定义值 |
-| `state`   | `Partial<RuntimeState>`  | 使用进程状态                     | 按次覆盖匿名令牌、设备号和默认来源 IP            |
-| `ip`      | `string`                 | 使用运行时 `cnIp`                | 设置来源 IP 请求头                               |
-| `realIP`  | `string`                 | 使用 `ip` 或 `cnIp`              | 比 `ip` 优先，仍只影响请求头                     |
-| `ua`      | `string`                 | 按协议选择                       | 覆盖 `User-Agent`                                |
+| 字段       | 类型                     | 未设置时                         | 作用                                                           |
+| ---------- | ------------------------ | -------------------------------- | -------------------------------------------------------------- |
+| `cookie`   | `string \| CookieRecord` | 从 Cookie 请求头或运行时身份解析 | 传递账号或游客身份                                             |
+| `deviceId` | `string`                 | 自动生成合格设备号               | SDK 隐式匿名注册使用的设备号，建议用 `generateDeviceId()` 生成 |
+| `headers`  | `Record<string, string>` | 无额外请求头                     | 与协议生成的头合并；协议所需字段可能覆盖自定义值               |
+| `state`    | `Partial<RuntimeState>`  | 使用进程状态                     | 按次覆盖匿名令牌、设备号和默认来源 IP                          |
+| `ip`       | `string`                 | 使用运行时 `cnIp`                | 设置来源 IP 请求头                                             |
+| `realIP`   | `string`                 | 使用 `ip` 或 `cnIp`              | 比 `ip` 优先，仍只影响请求头                                   |
+| `ua`       | `string`                 | 按协议选择                       | 覆盖 `User-Agent`                                              |
 
 显式 `cookie` 优先于 `headers` 中的 Cookie，头名不区分大小写。`ip` 和 `realIP` 不会改变实际网络出口。细节见 [运行时状态与身份](/guide/runtime-identity)。
+
+`deviceId` 仅用于 SDK 需要发起匿名注册时；已有账号 Cookie、游客令牌或进程游客身份时不会重新注册。它不替代 `state.deviceId` 的按次覆盖能力，也不是 HTTP 参数。合格条件和保存设备号的示例见 [匿名注册的设备号](/guide/runtime-identity#匿名注册的设备号)。
 
 ## 网络、期限和观测
 

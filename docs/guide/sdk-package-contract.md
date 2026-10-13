@@ -24,12 +24,13 @@ import { createHanaMusicApi, search, invokeModule } from 'hana-music-api';
 | `search`、`songUrl` 等具名函数  | 按需调用模块                       |
 | `invokeModule`                  | 按模块标识调用                     |
 | `createRequest`、`createOption` | 底层请求与旧式配置提取             |
+| `generateDeviceId`              | 生成满足匿名注册条件的设备号       |
 | 配套公开类型                    | 声明配置、模块标识、输入和响应外壳 |
 
 `startServer`、`createServer`、模块加载器和运行时状态读写函数都属于仓库内部能力，不是 npm 包的公开导出。源码部署的用法见 [部署 HTTP 服务](/guide/server-deployment)。
 
 ## Effect 留在内部
 
-公开函数继续返回 Promise。调用 SDK 不需要自行创建 Effect 运行时或提供内部服务。
+接口调用继续返回 Promise；`generateDeviceId()` 同步返回字符串。调用 SDK 不需要自行创建 Effect 运行时或提供内部服务。
 
 参数类型由模块本地输入声明生成，普通响应正文保留未知 JSON。需要了解这条边界时，阅读 [返回值与错误](/guide/programmatic-api#返回值与错误)；维护内部模块时，阅读 [架构详解](/guide/request-layer-overview)。

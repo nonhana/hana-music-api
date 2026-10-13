@@ -3,6 +3,7 @@ import { Effect, Schema } from 'effect';
 import {
   banner,
   createHanaMusicApi,
+  generateDeviceId,
   innerVersion,
   invokeModule,
   playlistHot,
@@ -79,6 +80,7 @@ const assertPublicEntrySurface = async () => {
   });
   const config: CreateHanaMusicApiConfig = {
     cookie: 'MUSIC_U=demo-cookie',
+    deviceId: generateDeviceId(),
   };
   const api: HanaMusicApiClient = createHanaMusicApi(config);
   const topSongIdentifier: ModuleIdentifier = 'top_song';
@@ -87,6 +89,7 @@ const assertPublicEntrySurface = async () => {
   };
   const moduleCallConfig: ModuleCallConfig = {
     crypto: 'weapi' satisfies RequestCrypto,
+    deviceId: generateDeviceId(),
   };
 
   await api.topSong(fallbackQuery);

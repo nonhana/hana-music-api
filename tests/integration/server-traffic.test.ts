@@ -144,6 +144,7 @@ describe('server traffic admission', () => {
       traffic: { burst: 100 },
     });
     for (const key of [
+      'deviceId',
       'domain',
       'proxy',
       'headers',
