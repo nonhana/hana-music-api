@@ -5,7 +5,7 @@ import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 
 import { createServiceLayer } from '../core/call.ts';
-import type { CreateServerOptions } from '../types/index.ts';
+import type { CreateServerOptions } from '../types/server.ts';
 import { AdmissionController } from './admission.ts';
 import { registerDemoRoutes } from './demo-routes.tsx';
 import { registerDocsRoutes } from './docs-routes.ts';

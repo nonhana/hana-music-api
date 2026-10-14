@@ -150,7 +150,7 @@ describe('sdk release contract', () => {
       );
 
       const installResult = run(
-        ['npm', 'install', '--no-package-lock', tarballPath],
+        ['npm', 'install', '--no-package-lock', tarballPath, '@types/node@24'],
         consumerDirectory,
       );
       expect(installResult.exitCode).toBe(0);
@@ -232,7 +232,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         typesFixturePath,
         [
-          "import { createHanaMusicApi, generateDeviceId, songUrl, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type SongDetailBody, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
+          "import { createHanaMusicApi, generateDeviceId, likelist, lyricNew, songDetail as getSongDetail, songUrl, songUrlV1, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type LikelistBody, type LyricNewBody, type SongDetailBody, type SongUrlV1Body, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
           '',
           'const config: CreateHanaMusicApiConfig = {',
           "  cookie: 'MUSIC_U=consumer',",
@@ -269,6 +269,27 @@ describe('sdk release contract', () => {
           '  ...artistTopSong.songs.map(({ privilege }) => [privilege.id, privilege.st, privilege.pl]),',
           ']',
           'void privileges',
+          '',
+          'const namedBodies: [Promise<SongDetailBody>, Promise<LikelistBody>, Promise<SongUrlV1Body>, Promise<LyricNewBody>] = [',
+          "  getSongDetail({ ids: '1' }, config).then(({ body }) => body),",
+          "  likelist({ uid: '1' }, config).then(({ body }) => body),",
+          "  songUrlV1({ id: '1' }, config).then(({ body }) => body),",
+          "  lyricNew({ id: '1' }, config).then(({ body }) => body),",
+          ']',
+          'void namedBodies',
+          '',
+          'type Json = null | boolean | number | string | Json[] | { [key: string]: Json }',
+          'type Equal<Actual, Expected> = (<Value>() => Value extends Actual ? 1 : 2) extends (<Value>() => Value extends Expected ? 1 : 2) ? true : false',
+          'const fieldContracts: [',
+          "  Equal<SongDetailBody['songs'][number]['id'], number>,",
+          "  Equal<LikelistBody['ids'], readonly number[]>,",
+          "  Equal<SongUrlV1Body['data'], ReadonlyArray<SongUrlV1Body['data'][number]>>,",
+          "  Equal<SongUrlV1Body['data'][number]['url'], string | null>,",
+          "  Equal<LyricNewBody['pureMusic'], boolean | undefined>,",
+          "  Equal<SongDetailBody['unverified'], Json>,",
+          "  Equal<Awaited<ReturnType<typeof getSongDetail>>['body']['unverified'], Json>,",
+          '] = [true, true, true, true, true, true, true]',
+          'void fieldContracts',
         ].join('\n'),
       );
 
@@ -301,7 +322,27 @@ describe('sdk release contract', () => {
         ],
         consumerDirectory,
       );
-      expect(nodeOnlyTypecheckResult.exitCode).toBe(0);
+      expect(
+        nodeOnlyTypecheckResult.exitCode,
+        nodeOnlyTypecheckResult.stdout,
+      ).toBe(0);
+
+      const strictTypecheckResult = run(
+        [
+          'node',
+          TSC_CLI_PATH,
+          '--project',
+          resolve(consumerDirectory, 'tsconfig.json'),
+          '--skipLibCheck',
+          'false',
+          '--types',
+          'node',
+        ],
+        consumerDirectory,
+      );
+      expect(strictTypecheckResult.exitCode, strictTypecheckResult.stdout).toBe(
+        0,
+      );
     } finally {
       rmSync(consumerDirectory, { force: true, recursive: true });
       if (filename.length > 0) {

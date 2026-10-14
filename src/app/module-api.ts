@@ -8,7 +8,6 @@ import { cookieToJson, isRecord } from '../core/utils.ts';
 import { loadModuleDefinitions } from '../server/module-loader.ts';
 import type { LoadedModuleDefinition } from '../server/module-loader.ts';
 import type {
-  CreateModuleApiOptions,
   DynamicProgrammaticApi,
   ModuleIdentifier,
   ModuleQuery,
@@ -19,6 +18,7 @@ import type {
   ProgrammaticModuleInvoker,
   RequestCapability,
 } from '../types/index.ts';
+import type { CreateModuleApiOptions } from '../types/server.ts';
 
 const DEFAULT_MODULES_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),

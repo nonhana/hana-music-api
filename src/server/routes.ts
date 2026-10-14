@@ -7,11 +7,11 @@ import { getRuntimeState } from '../core/runtime.ts';
 import { SERVICE_VERSION } from '../core/service-metadata.ts';
 import { cookieToJson, isCookieRecord } from '../core/utils.ts';
 import type {
-  CreateServerOptions,
   ModuleQuery,
   NcmApiResponse,
   RequestCapability,
 } from '../types/index.ts';
+import type { CreateServerOptions } from '../types/server.ts';
 import { admissionMiddleware, resolveAdmissionIdentity } from './admission.ts';
 import type { AdmissionController } from './admission.ts';
 import { appendResponseCookies, parseRequestCookies } from './cookies.ts';

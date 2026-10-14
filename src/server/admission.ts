@@ -4,7 +4,7 @@ import { Clock, Data, Effect, Option, Ref, Semaphore } from 'effect';
 import type { Context, MiddlewareHandler } from 'hono';
 
 import { isUploadModule } from '../core/endpoint-policy.ts';
-import type { CreateServerOptions, TrafficOptions } from '../types/index.ts';
+import type { CreateServerOptions, TrafficOptions } from '../types/server.ts';
 
 class TrafficRejectedError extends Data.TaggedError('TrafficRejectedError')<{
   readonly status: 429 | 503;

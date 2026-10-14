@@ -10,6 +10,18 @@ SDK 包含服务端网络和加密能力。浏览器页面应调用已部署的 
 
 SDK 可以在 Vercel 等 Serverless 函数里直接调用：加载和调用时不读写本地文件，版本号在构建时写进产物，匿名令牌只放在当前进程的内存里。函数实例被回收后，新实例会在第一次需要时重新注册匿名身份。
 
+## TypeScript 类型检查
+
+SDK 的公开声明支持 `strict: true` 和 `skipLibCheck: false`。下游项目需要安装与 Node.js 运行环境匹配的 `@types/node`；例如面向 Node.js 24 的项目：
+
+```bash
+npm install -D typescript @types/node@24
+```
+
+如果 `tsconfig.json` 显式设置了 `compilerOptions.types`，需要在其中包含 `"node"`。
+
+公开上传参数 `LegacyUploadedFile.data` 保留了 `Buffer` 类型。因此，即使浏览器项目只用 `import type` 导入响应正文类型，在关闭 `skipLibCheck` 时也仍需加载 Node 类型。类型导入不会引入 SDK 的运行时代码；本次修复不改变上传参数，也不将 SDK 扩展为浏览器运行时包。
+
 ## 从根入口导入
 
 ```ts
