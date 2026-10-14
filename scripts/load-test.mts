@@ -17,11 +17,8 @@ import like from '../src/modules/like.ts';
 import search, {
   decodeModuleInput as decodeSearchInput,
 } from '../src/modules/search.ts';
-import type {
-  ModuleDefinition,
-  NcmApiResponse,
-  StartServerOptions,
-} from '../src/types/index.ts';
+import type { ModuleDefinition, NcmApiResponse } from '../src/types/index.ts';
+import type { StartServerOptions } from '../src/types/server.ts';
 import { createFakeUpstream } from '../tests/fixtures/fake-upstream.ts';
 import type { FakeMode } from '../tests/fixtures/fake-upstream.ts';
 

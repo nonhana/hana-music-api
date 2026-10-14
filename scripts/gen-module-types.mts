@@ -111,7 +111,7 @@ const buildSdkGeneratedClient = (
   );
   const exportLines = entries.map(
     ({ functionName, identifier }) =>
-      `export const ${functionName} = createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier})`,
+      `export const ${functionName}: SdkModuleInvoker<'${identifier}'> = createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier})`,
   );
   const clientLines = entries.map(
     ({ functionName, identifier }) =>

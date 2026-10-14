@@ -24,11 +24,11 @@ import { UploadPlaylistCoverPage } from '../demo/pages/upload-playlist-cover.tsx
 import { getDemoPageByPath, getGroupedDemoPages } from '../demo/registry.ts';
 import { demoStyles } from '../demo/styles/demo.css.ts';
 import type {
-  CreateServerOptions,
   ModuleQuery,
   NcmApiResponse,
   RequestCapability,
 } from '../types/index.ts';
+import type { CreateServerOptions } from '../types/server.ts';
 import { admissionMiddleware } from './admission.ts';
 import type { AdmissionController } from './admission.ts';
 import { appendResponseCookies, parseRequestCookies } from './cookies.ts';

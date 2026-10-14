@@ -43,13 +43,6 @@ export type {
   RuntimeState,
 } from './runtime.ts';
 export type {
-  CreateModuleApiOptions,
-  CreateServerOptions,
-  StartedServer,
-  StartServerOptions,
-  TrafficOptions,
-} from './server.ts';
-export type {
   DynamicJsonArray,
   DynamicJsonRecord,
   DynamicJsonValue,
