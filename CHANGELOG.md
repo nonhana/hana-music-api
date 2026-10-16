@@ -1,5 +1,12 @@
 # hana-music-api 发布日志
 
+## 2.9.0
+
+### Minor Changes
+
+- 018aea7: 声明每日推荐和单曲搜索结果中每首歌的 `privilege.id`、`privilege.st` 和 `privilege.pl`。
+- 7c68285: 声明歌单详情中的 `playlist.tags` 和 `playlist.playCount`。
+
 ## 2.8.1
 
 ### Patch Changes
