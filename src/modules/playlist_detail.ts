@@ -48,6 +48,8 @@ const Playlist = UpstreamObject({
   updateTime: Schema.Finite,
   trackUpdateTime: Schema.Finite,
   description: Schema.NullOr(Schema.String),
+  tags: Schema.Array(Schema.String),
+  playCount: Schema.Finite,
 });
 
 export const ModuleBody = Schema.toStandardSchemaV1(

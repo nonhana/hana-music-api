@@ -38,6 +38,8 @@ const extraBody = {
     updateTime: 0,
     trackUpdateTime: 0,
     description: null,
+    tags: [],
+    playCount: 0,
   },
   future: { nested: [null, 'kept', { enabled: true }] },
 };

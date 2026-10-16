@@ -103,6 +103,8 @@ describe('phase 5 module regression suite', () => {
       updateTime: 0,
       trackUpdateTime: 0,
       description: null,
+      tags: [],
+      playCount: 0,
     };
     const requestSpy = createRequestSpy((uri) => {
       if (uri === '/api/song/enhance/player/url') {
