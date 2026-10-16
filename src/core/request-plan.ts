@@ -40,6 +40,7 @@ export const prepareRequest = (
   options: CreateRequestOptions,
   identity: IdentitySnapshot,
   entropy: RequestEntropy,
+  cookieOverrides: CookieRecord = {},
 ): RequestPlan => {
   const state = identity.state;
   const headers: Record<string, string> = {};
@@ -57,7 +58,7 @@ export const prepareRequest = (
     headers['X-Real-IP'] = ip;
   }
   const cookie = processCookieObject(
-    { ...identity.cookie },
+    { ...identity.cookie, ...cookieOverrides },
     uri,
     state,
     entropy,

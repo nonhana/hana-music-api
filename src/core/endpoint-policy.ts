@@ -66,6 +66,10 @@ export const validateRequestTarget = (
   const apiHost = ['music.163.com', 'interface.music.163.com'].includes(
     target.hostname,
   );
+  const scrobbleHost =
+    intent.protocol === 'eapi' &&
+    intent.target === '/api/feedback/weblog' &&
+    target.hostname === 'clientlog.music.163.com';
   const secure =
     target.protocol === 'https:' && (!target.port || target.port === '443');
   if (
@@ -87,7 +91,7 @@ export const validateRequestTarget = (
     }
   } else if (
     (identity.cookie.MUSIC_U || identity.cookie.MUSIC_A) &&
-    (!secure || !apiHost)
+    (!secure || (!apiHost && !scrobbleHost))
   ) {
     throw new TargetRejected({
       message: 'Authenticated API target is not allowed',
