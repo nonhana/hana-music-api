@@ -34,7 +34,7 @@
 | [已收藏歌手](/api/artist/artist-sublist)         | `ArtistSublistBody`    | `code`、`hasMore`、`data` 的 `id`、`name`、`picUrl`、`albumSize`                                                                                                                                                                                       |
 | [歌手热门歌曲](/api/artist/artist-top-song)      | `ArtistTopSongBody`    | `code`、`songs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）                                                                                                                                                                                            |
 | [歌手专辑](/api/artist/artist-album)             | `ArtistAlbumBody`      | `code`、`more`、顶层 `artist`（`id`、`name`、`img1v1Url`、`musicSize`、`albumSize`，`name` 是字符串）；`hotAlbums` 的 `id`、`name`、`picUrl`、`size`、`artist`（`id`、`name`，`name` 可能是 `null`）、`publishTime`                                    |
-| [每日推荐歌曲](/api/recommend/recommend-songs)   | `RecommendSongsBody`   | `code`、`data.dailySongs`（歌曲）                                                                                                                                                                                                                      |
+| [每日推荐歌曲](/api/recommend/recommend-songs)   | `RecommendSongsBody`   | `code`、`data.dailySongs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）                                                                                                                                                                                  |
 | [喜欢音乐列表](/api/music/likelist)              | `LikelistBody`         | `code`、`ids`                                                                                                                                                                                                                                          |
 
 ### 歌单编辑与收藏
@@ -60,7 +60,7 @@
 
 表里的“歌曲”是同一种结构：`id`、`name`、`ar`（歌手的 `id`、`name`）、`al`（专辑的 `id`、`name`、`picUrl`）、`dt`（时长，毫秒）、`fee`（网易云给的付费类型，原样保留数值）。时间字段都是毫秒时间戳。
 
-歌曲权限只声明数值字段 `id`、`st`、`pl`，其余字段原样保留。`song_detail` 把权限放在顶层 `privileges`，可按 `id` 与歌曲匹配；`album`、`artist_top_song` 放在每首歌的 `privilege`。`st < 0` 表示无版权，`pl` 是当前账号可在线播放的最高码率，0 表示不能播放完整歌曲；是否实际给到试听片段仍看播放地址里的 `freeTrialInfo`。SDK 原样保留这些数值，不把 `st` 限制成固定的枚举。
+歌曲权限只声明数值字段 `id`、`st`、`pl`，其余字段原样保留。`song_detail` 把权限放在顶层 `privileges`，可按 `id` 与歌曲匹配；`album`、`artist_top_song`、`recommend_songs`、`cloudsearch` 放在每首歌的 `privilege`。`st < 0` 表示无版权，`pl` 是当前账号可在线播放的最高码率，0 表示不能播放完整歌曲；是否实际给到试听片段仍看播放地址里的 `freeTrialInfo`。SDK 原样保留这些数值，不把 `st` 限制成固定的枚举。
 
 歌手和专辑的 `name` 可能是 `null`：传到云盘、没有匹配上曲库的歌（网易云返回的 `t` 是 1），歌手和专辑的编号是 0，名字是 `null`。专辑里的 `artist`、`artists` 用的也是这种歌手结构，`name` 的类型同样是 `string | null`。这种歌只有上传者本人登录时能看到歌名；别人看、或者没有有效登录时，歌名也是 `null`，这时结构对不上，按下面的 [结构变了时](#结构变了时) 以 `status: 502` 拒绝。
 
@@ -79,10 +79,10 @@
 
 ### 搜索
 
-| 模块                                   | 结构定义            | 声明的字段                                                                                                                                                          |
-| -------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [云搜索](/api/search/cloudsearch)      | `CloudsearchBody`   | `code`、`result`；`result` 里可能缺失的 `songs`（歌曲）、`albums`、`artists`、`playlists`，以及各自的总数 `songCount`、`albumCount`、`artistCount`、`playlistCount` |
-| [搜索建议](/api/search/search-suggest) | `SearchSuggestBody` | `code`、`result`；`result` 里可能缺失的 `songs`、`artists`、`albums`（每项 `id`、`name`）和 `allMatch`（每项 `keyword`）                                            |
+| 模块                                   | 结构定义            | 声明的字段                                                                                                                                                                                              |
+| -------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [云搜索](/api/search/cloudsearch)      | `CloudsearchBody`   | `code`、`result`；`result` 里可能缺失的 `songs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）、`albums`、`artists`、`playlists`，以及各自的总数 `songCount`、`albumCount`、`artistCount`、`playlistCount` |
+| [搜索建议](/api/search/search-suggest) | `SearchSuggestBody` | `code`、`result`；`result` 里可能缺失的 `songs`、`artists`、`albums`（每项 `id`、`name`）和 `allMatch`（每项 `keyword`）                                                                                |
 
 云搜索按 `type` 只给一类结果：专辑声明了 `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`；歌手声明了 `id`、`name`、`picUrl`（没有头像时是 `null`）、`musicSize`（歌曲数）；歌单声明了 `id`、`name`、`coverImgUrl`、`trackCount`、`creator`（`userId`、`nickname`）。没有结果时只有总数（0），列表整个缺失；其他 `type`（用户、MV 等）的结果没有声明，原样保留。搜索建议默认按类别给出，`type` 为 `mobile` 时只给关键词 `allMatch`；没有建议时 `result` 是空对象。
 

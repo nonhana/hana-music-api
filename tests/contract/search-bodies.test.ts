@@ -1,4 +1,4 @@
-import { expect, test } from 'bun:test';
+import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
   CloudsearchBody,
@@ -52,6 +52,24 @@ test.each<{ name: string; recording: Recording }>([
     expect(result.body as unknown).toEqual(recording.response.body);
   },
 );
+
+test('cloudsearch exposes numeric song privileges', async () => {
+  const result = await replay(searchSong.response.body).cloudsearch(
+    searchSong.query,
+  );
+
+  expect(result.body.result.songs?.[0]?.privilege).toMatchObject({
+    id: 1409311773,
+    st: -100,
+    pl: 0,
+  });
+  expectTypeOf<
+    NonNullable<CloudsearchBody['result']['songs']>[number]['privilege'][
+      | 'id'
+      | 'st'
+      | 'pl']
+  >().toEqualTypeOf<number>();
+});
 
 test.each<{ name: string; recording: Recording }>([
   { name: 'categorized', recording: suggestWeb },
@@ -163,6 +181,20 @@ test.each<{
     },
   },
   {
+    name: 'cloudsearch: a song result without its privilege',
+    call: () => {
+      const upstream = structuredClone(searchSong.response.body);
+      delete (upstream.result.songs[0] as { privilege?: unknown }).privilege;
+      return replay(upstream).cloudsearch(searchSong.query);
+    },
+    shape: {
+      module: 'cloudsearch',
+      path: 'body.result.songs[0].privilege',
+      expected: 'present',
+      actual: 'missing',
+    },
+  },
+  {
     name: 'searchSuggest: a song suggestion without its name',
     call: () => {
       const upstream = structuredClone(suggestWeb.response.body);
@@ -203,4 +235,23 @@ test.each<{
   },
 ])('$name rejects as an upstream shape change', ({ call, shape }) =>
   expectUpstreamShapeRejection(call(), shape),
+);
+
+test.each(['id', 'st', 'pl'])(
+  'cloudsearch rejects a nonnumeric song privilege.%s',
+  async (field) => {
+    const upstream = structuredClone(searchSong.response.body);
+    (upstream.result.songs[0]!.privilege as Record<string, unknown>)[field] =
+      '0';
+
+    await expectUpstreamShapeRejection(
+      replay(upstream).cloudsearch(searchSong.query),
+      {
+        module: 'cloudsearch',
+        path: `body.result.songs[0].privilege.${field}`,
+        expected: 'number',
+        actual: 'string',
+      },
+    );
+  },
 );

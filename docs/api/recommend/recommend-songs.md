@@ -39,7 +39,7 @@ console.log(result.body);
 
 ## 返回内容
 
-每日推荐的歌在 `body.data.dailySongs`，每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”。结构定义和类型是 `RecommendSongsBody`。
+每日推荐的歌在 `body.data.dailySongs`，每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”；每首歌的 `privilege` 声明 `id`、`st`、`pl` 三个数值字段。结构定义和类型是 `RecommendSongsBody`。
 
 ## 补充说明
 
