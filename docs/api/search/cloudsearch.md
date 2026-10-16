@@ -47,12 +47,12 @@ console.log(result.body);
 
 `body.result` 里只有 `type` 对应的那一类结果，并带上结果总数：
 
-| `type`       | 结果列表    | 总数            | 每项声明的字段                                                                                |
-| ------------ | ----------- | --------------- | --------------------------------------------------------------------------------------------- |
-| 1（单曲）    | `songs`     | `songCount`     | `id`、`name`、`ar`、`al`、`dt`、`fee`，与 [返回体结构](/guide/response-bodies) 里的“歌曲”相同 |
-| 10（专辑）   | `albums`    | `albumCount`    | `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`                              |
-| 100（歌手）  | `artists`   | `artistCount`   | `id`、`name`、`picUrl`（没有头像时是 `null`）、`musicSize`（歌曲数）                          |
-| 1000（歌单） | `playlists` | `playlistCount` | `id`、`name`、`coverImgUrl`、`trackCount`、`creator`（`userId`、`nickname`）                  |
+| `type`       | 结果列表    | 总数            | 每项声明的字段                                                                                                                 |
+| ------------ | ----------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| 1（单曲）    | `songs`     | `songCount`     | `id`、`name`、`ar`、`al`、`dt`、`fee`、`privilege`（`id`、`st`、`pl`），与 [返回体结构](/guide/response-bodies) 里的“歌曲”相同 |
+| 10（专辑）   | `albums`    | `albumCount`    | `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`                                                               |
+| 100（歌手）  | `artists`   | `artistCount`   | `id`、`name`、`picUrl`（没有头像时是 `null`）、`musicSize`（歌曲数）                                                           |
+| 1000（歌单） | `playlists` | `playlistCount` | `id`、`name`、`coverImgUrl`、`trackCount`、`creator`（`userId`、`nickname`）                                                   |
 
 没有结果时只有总数（0），列表整个缺失，所以这些字段在类型里都是可选的。歌词搜索（1006）的结果也在 `songs` 里，同样按歌曲校验；其他 `type`（用户、MV 等）的结果在别的字段里，没有声明，原样保留。翻页时以第一页的总数为准：实测单曲的 `songCount` 最多是 300，`offset` 超过它以后仍会返回歌曲；歌手翻过最后一页时 `artistCount` 变成 0。结构定义和类型是 `CloudsearchBody`，见 [返回体结构](/guide/response-bodies)。
 

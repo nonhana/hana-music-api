@@ -311,6 +311,25 @@ for (const { module, path, privilege, schema, withPrivilege, call } of [
     }),
     call: (body: unknown) => replay(body).artistTopSong(artistTopSong.query),
   },
+  {
+    module: 'recommend_songs',
+    path: 'body.data.dailySongs[0].privilege',
+    privilege: recommendSongs.response.body.data.dailySongs[0]?.privilege,
+    schema: RecommendSongsBody,
+    withPrivilege: (replacement: unknown) => ({
+      ...recommendSongs.response.body,
+      data: {
+        ...recommendSongs.response.body.data,
+        dailySongs: [
+          {
+            ...recommendSongs.response.body.data.dailySongs[0],
+            privilege: replacement,
+          },
+        ],
+      },
+    }),
+    call: (body: unknown) => replay(body).recommendSongs(),
+  },
 ]) {
   test(`${module} preserves undeclared privilege fields through both public boundaries`, async () => {
     const upstream = withPrivilege({
@@ -430,6 +449,17 @@ test('recommendSongs returns the recorded daily songs', async () => {
   const result = await replay(recommendSongs.response.body).recommendSongs();
 
   expect(result.body as unknown).toEqual(recommendSongs.response.body);
+  expect(result.body.data.dailySongs[0]?.privilege).toMatchObject({
+    id: 28953086,
+    st: 0,
+    pl: 999000,
+  });
+  expectTypeOf<
+    RecommendSongsBody['data']['dailySongs'][number]['privilege'][
+      | 'id'
+      | 'st'
+      | 'pl']
+  >().toEqualTypeOf<number>();
 });
 
 test('likelist returns the recorded liked song identifiers', async () => {
