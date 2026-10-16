@@ -92,6 +92,73 @@ test.each<{ name: string; recording: Recording; query: { id: number } }>([
   },
 );
 
+test('playlistDetail exposes tags and playCount and preserves extra fields', async () => {
+  const upstream = {
+    ...detailSubscribed.response.body,
+    futureTopLevelField: { preserved: true },
+    playlist: {
+      ...detailSubscribed.response.body.playlist,
+      futurePlaylistField: ['preserved'],
+    },
+  };
+  const result = await replay(upstream).playlistDetail(detailSubscribed.query);
+
+  expect(result.body as unknown).toEqual(upstream);
+  expect(result.body.playlist.tags).toEqual(['夜晚']);
+  expect(result.body.playlist.playCount).toBe(29012708);
+  expectTypeOf<
+    PlaylistDetailBody['playlist']['tags'][number]
+  >().toEqualTypeOf<string>();
+  expectTypeOf<
+    PlaylistDetailBody['playlist']['playCount']
+  >().toEqualTypeOf<number>();
+});
+
+test.each(['tags', 'playCount'])(
+  'playlistDetail rejects missing playlist.%s',
+  async (field) => {
+    const playlist: Record<string, unknown> = {
+      ...detailOwn.response.body.playlist,
+    };
+    delete playlist[field];
+
+    await expectUpstreamShapeRejection(
+      replay({ ...detailOwn.response.body, playlist }).playlistDetail(
+        detailOwn.query,
+      ),
+      {
+        module: 'playlist_detail',
+        path: `body.playlist.${field}`,
+        expected: 'present',
+        actual: 'missing',
+      },
+    );
+  },
+);
+
+test.each([
+  { field: 'tags', value: 123, expected: 'array', actual: 'number' },
+  { field: 'playCount', value: '20', expected: 'number', actual: 'string' },
+])(
+  'playlistDetail rejects playlist.$field with the wrong type',
+  async ({ field, value, expected, actual }) => {
+    const upstream = {
+      ...detailOwn.response.body,
+      playlist: { ...detailOwn.response.body.playlist, [field]: value },
+    };
+
+    await expectUpstreamShapeRejection(
+      replay(upstream).playlistDetail(detailOwn.query),
+      {
+        module: 'playlist_detail',
+        path: `body.playlist.${field}`,
+        expected,
+        actual,
+      },
+    );
+  },
+);
+
 test('playlistTrackAll returns the recorded songs of the recorded playlist', async () => {
   const result = await replay(
     detailOwn.response.body,
