@@ -84,6 +84,7 @@ export const requestEffect = (
               {
                 ...options,
                 crypto: options.crypto || intent.protocol,
+                domain: intent.domain ?? options.domain,
                 ...(intent.headers['x-aeapi'] === 'true'
                   ? { acceptGzip: true }
                   : {}),
@@ -103,6 +104,7 @@ export const requestEffect = (
                   .padStart(4, '0')}`,
                 weapiSecret: createWeapiSecretKey(),
               },
+              intent.cookieOverrides,
             );
           }
           validateRequestTarget(intent, prepared.url, call.identity);

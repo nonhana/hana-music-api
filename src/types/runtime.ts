@@ -36,6 +36,8 @@ export interface RequestIntent {
   readonly protocol: 'api' | 'weapi' | 'eapi' | 'linuxapi' | 'plain';
   readonly method: string;
   readonly headers: Readonly<Record<string, string>>;
+  readonly domain?: string;
+  readonly cookieOverrides?: CookieRecord;
   readonly body?: Uint8Array | string;
   readonly response: 'json' | 'text' | 'bytes';
   readonly semantic: 'read' | 'write' | 'login' | 'upload';

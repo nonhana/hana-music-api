@@ -21,6 +21,7 @@ byuser
 catelist
 catlist
 ciphertext
+clientlog
 ckenh
 cloudbean
 cloudmusic
@@ -148,6 +149,7 @@ songid
 songplay
 songsaleboard
 sourceid
+startplay
 starpick
 subed
 sublist
