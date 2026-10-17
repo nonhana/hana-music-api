@@ -6,6 +6,8 @@
   },
   "context": {
     "sdk": "hana-music-api@2.9.0 source 7671080: public client.playlistSubscribe, eapi, fixed iPhone identity",
+    "profile": "legacy",
+    "protocol": "eapi",
     "region": "local",
     "ip": "default",
     "viewer": "authenticated",

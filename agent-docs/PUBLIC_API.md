@@ -4,9 +4,11 @@
 
 ## 发布边界
 
-`package.json` 的 `exports` 只开放根入口 `.`，类型和运行时代码分别指向 `dist/index.d.ts` 与 `dist/index.js`；`files` 只发布 `dist/`。下游不得依赖 `src/`、`src/server/` 或生成文件的内部路径。
+`package.json` 的 `exports` 开放根入口 `.` 和浏览器专用子路径 `./watchman`；类型和运行时代码分别指向 `dist/index.d.ts`/`dist/index.js` 与 `dist/watchman.d.ts`/`dist/watchman.js`；`files` 只发布 `dist/`。下游不得依赖 `src/`、`src/server/` 或生成文件的内部路径。
 
 根入口公开 `createHanaMusicApi`、生成的 camelCase 模块函数、`invokeModule`、`createRequest`、`createOption`、`generateDeviceId` 及其支持类型，以及收窄过返回体的模块的 `<模块名>Body` 结构定义和类型（由 `src/sdk/generated/bodies.generated.ts` 生成）。`startServer`、`createServer`、匿名配置生成和模块加载等服务内部能力不属于根 SDK 导出。
+
+`./watchman` 子路径只公开浏览器 Watchman 适配层（`createWatchman`、错误类型和相关选项），不公开内部请求或模块实现。它是浏览器专用入口，在 Node/SSR 中调用 `createWatchman` 会以明确错误拒绝。
 
 ## 调用形状
 

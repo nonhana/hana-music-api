@@ -15,9 +15,11 @@
 
 ## 模块默认值与底层默认值
 
-调用模块时，以模块选择的协议为默认值，比如手机号登录使用 `weapi`。显式 `config.crypto` 可以覆盖 API 请求协议，但换协议不保证接口仍可用。
+调用模块时，协议、客户端身份、UA 和 token 策略由模块声明的请求 profile 决定，比如手机号登录使用 `weapi`。已迁移到 profile 的模块会忽略调用方传入的 `crypto`、`ua` 和 Cookie 客户端字段，避免拼出混合身份；细节见 [请求 profile](./request-profiles.md)。
 
-直接调用 `createRequest` 时，没有模块帮你选择。不传 `crypto` 或传空字符串，当前内置配置会选择 `eapi`。内部 `APP_CONF.encrypt` 关闭时才会回退为 `api`，它不是根 SDK 提供的全局设置接口。
+新模块通过 `defineModule` 默认使用 `web` profile（`weapi` + `os=web` + 浏览器 UA）。还没有抓包证据迁移的旧模块保留自己的协议选择，在内部注册表里标为 `legacy`。
+
+显式 `config.crypto` 仍可覆盖没有 profile 的 API 请求协议，但换协议不保证接口仍可用。直接调用 `createRequest` 时，没有模块帮你选择；不传 `crypto` 或传空字符串，当前内置配置会选择 `eapi`。内部 `APP_CONF.encrypt` 关闭时才会回退为 `api`，它不是根 SDK 提供的全局设置接口。
 
 ## 路径始终传 /api/
 

@@ -47,10 +47,10 @@ const FORBIDDEN_ROOT_EXPORTS = [
   'loadProgrammaticApi',
   'NeteaseCloudMusicApi',
 ];
-const EXPECTED_EXPORT_PATHS = ['.'];
+const EXPECTED_EXPORT_PATHS = ['.', './watchman'];
 
 describe('sdk release contract', () => {
-  test('should expose only the root package entrypoint as the public ESM boundary', () => {
+  test('should expose only the approved package entrypoints as the public ESM boundary', () => {
     const exportMap = sdkPackage.exports ?? {};
 
     expect(sdkPackage.name).toBe('hana-music-api');
@@ -61,6 +61,10 @@ describe('sdk release contract', () => {
     expect(exportMap['.']).toEqual({
       types: './dist/index.d.ts',
       default: './dist/index.js',
+    });
+    expect(exportMap['./watchman']).toEqual({
+      types: './dist/watchman.d.ts',
+      default: './dist/watchman.js',
     });
   });
 
@@ -124,6 +128,8 @@ describe('sdk release contract', () => {
     expect(filename.length).toBeGreaterThan(0);
     expect(filePaths).toContain('dist/index.d.ts');
     expect(filePaths).toContain('dist/index.js');
+    expect(filePaths).toContain('dist/watchman.d.ts');
+    expect(filePaths).toContain('dist/watchman.js');
     expect(filePaths.some((file) => file.startsWith('docs/'))).toBe(false);
     expect(filePaths.some((file) => file.startsWith('src/server/'))).toBe(
       false,
@@ -165,6 +171,7 @@ describe('sdk release contract', () => {
         smokeScriptPath,
         [
           "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody, SongDetailBody, createHanaMusicApi, generateDeviceId, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import { createWatchman } from 'hana-music-api/watchman'",
           "import { deepStrictEqual } from 'node:assert'",
           '',
           `const recordedArtistAlbum = ${JSON.stringify(artistAlbum.response.body)}`,
@@ -186,6 +193,9 @@ describe('sdk release contract', () => {
           "if (typeof invokeModule !== 'function') throw new Error('missing invokeModule')",
           "if (typeof search !== 'function') throw new Error('missing root search export')",
           "if (typeof songUrl !== 'function') throw new Error('missing root songUrl export')",
+          'let watchmanRejected = false',
+          'try { await createWatchman() } catch { watchmanRejected = true }',
+          "if (!watchmanRejected) throw new Error('watchman must reject outside a browser')",
           'const deviceId = generateDeviceId()',
           "if (!/^[0-9A-F]{52}$/.test(deviceId)) throw new Error('invalid generated device ID')",
           "const config = { deviceId, fetcher, cookie: { MUSIC_A: 'consumer-test-token' } }",

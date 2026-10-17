@@ -28,18 +28,26 @@ export type {
 } from './sdk.ts';
 export type {
   BooleanLike,
+  CheckTokenPolicy,
   CookieRecord,
   CookieValue,
   FetchLike,
   ModuleDefinition,
   ModuleEffect,
+  ModuleRequestMetadata,
   ModuleServices,
   RequestCapability,
+  RequestClient,
   ModuleQuery,
   ModuleResponse,
   NcmApiResponse,
   RequestCrypto,
   RequestIntent,
+  RequestProfile,
+  RequestProfileCachePolicy,
+  RequestProfileName,
+  RequestProfileRetryPolicy,
+  RequestProtocol,
   RuntimeState,
 } from './runtime.ts';
 export type {

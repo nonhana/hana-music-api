@@ -47,6 +47,20 @@ console.log(result.body);
 
 说明 : 登录后调用此接口,可以单独更新用户歌单描述
 
+### 请求模式
+
+官方 web 更新歌单描述时会携带 `checkToken`。模块声明 `profile: 'web'`、`checkToken: 'optional'`，实际请求为 `https://music.163.com/weapi/playlist/desc/update`、Cookie `os=web`、浏览器 UA；传入 provider 时正文和 HTTP 头会携带令牌，不传时按网页回退路径发送。调用方传入的 `crypto`、`os`、`ua` 会被 profile 替换。令牌见[浏览器 Watchman](../../guide/watchman.md)。
+
+```ts
+import { createWatchman } from 'hana-music-api/watchman';
+
+const watchman = await createWatchman();
+await playlistDescUpdate(
+  { id: '24381616', desc: '描述' },
+  { checkToken: () => watchman.getToken() },
+);
+```
+
 **必选参数 :**
 
 ```text

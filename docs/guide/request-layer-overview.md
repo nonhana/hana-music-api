@@ -65,6 +65,12 @@ flowchart TD
 
 内核根据调用快照准备 URL、Cookie、请求头和加密正文，校验最终目标，再按策略执行请求。内核不在本地限制发送频率，每次尝试都直接发出；请求频率由调用方控制，见 [请求频率由调用方控制](/guide/retry-timeout-resilience#请求频率由调用方控制)。只有允许重试的操作和失败类型才会进入下一次尝试。
 
+### 请求 profile 把身份绑成整体
+
+模块用 `defineModule` 声明 `profile` 和 `checkToken` 策略。请求层按 profile 统一设置协议、UA 和 Cookie 客户端字段；需要 token 的请求由请求层调用 provider，并按 `weapi`/`eapi` 规则放到正文和请求头。模块不再用 `Effect.updateService(Call, ...)` 私自修改这些字段。
+
+已注册的 profile、token 放置规则和迁移状态见 [请求 profile](/guide/request-profiles)。浏览器端取 token 见 [浏览器 Watchman](/guide/watchman)。
+
 ```mermaid
 sequenceDiagram
   participant Module as 搜索模块

@@ -12,6 +12,37 @@ import type { LegacyResponseBody } from './upstream.ts';
 
 export type RequestCrypto = '' | 'api' | 'eapi' | 'linuxapi' | 'weapi';
 
+export type RequestProtocol = Exclude<RequestCrypto, ''>;
+
+export type RequestClient = 'web' | 'desktop' | 'iphone' | 'android';
+
+export type CheckTokenPolicy = 'none' | 'optional' | 'required';
+
+export type RequestProfileName = 'web' | 'desktop';
+
+export interface RequestProfileCachePolicy {
+  readonly reads: boolean;
+}
+
+export interface RequestProfileRetryPolicy {
+  readonly read: boolean;
+}
+
+export interface RequestProfile {
+  readonly protocol: RequestProtocol;
+  readonly client: RequestClient;
+  readonly userAgent: string;
+  readonly cookie: Readonly<CookieRecord>;
+  readonly checkToken: CheckTokenPolicy;
+  readonly cache: RequestProfileCachePolicy;
+  readonly retry: RequestProfileRetryPolicy;
+}
+
+export interface ModuleRequestMetadata {
+  readonly profile: RequestProfileName | 'legacy';
+  readonly checkToken: CheckTokenPolicy;
+}
+
 export type BooleanLike = boolean | number | string;
 
 export type CookieValue = boolean | number | string;
@@ -38,6 +69,7 @@ export interface RequestIntent {
   readonly headers: Readonly<Record<string, string>>;
   readonly domain?: string;
   readonly cookieOverrides?: CookieRecord;
+  readonly checkToken?: boolean;
   readonly body?: Uint8Array | string;
   readonly response: 'json' | 'text' | 'bytes';
   readonly semantic: 'read' | 'write' | 'login' | 'upload';
@@ -55,14 +87,16 @@ export type RequestCapability = typeof requestEffect;
 
 export type ModuleServices = RequestServices;
 
-export type ModuleEffect<Input, Body = UnknownJson> = (
+export type ModuleEffect<Input, Body = UnknownJson> = ((
   input: Input,
   request: RequestCapability,
 ) => Effect.Effect<
   ModuleResponse<Body>,
   ModuleInputError | ModuleError | RequestError,
   ModuleServices
->;
+>) & {
+  readonly request?: ModuleRequestMetadata;
+};
 
 export interface ModuleDefinition<
   Identifier extends string = string,

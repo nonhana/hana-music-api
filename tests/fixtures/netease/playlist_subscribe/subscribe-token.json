@@ -6,6 +6,8 @@
   },
   "context": {
     "sdk": "hana-music-api working tree：公开模块，weapi、os=web，正文 checkToken，HTTP 头 X-antiCheatToken，令牌由 campanula 真实 origin 的官方 Watchman 现取（170 字符）",
+    "profile": "web",
+    "protocol": "weapi",
     "region": "local",
     "ip": "default",
     "viewer": "authenticated",

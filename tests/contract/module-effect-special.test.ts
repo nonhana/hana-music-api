@@ -273,13 +273,14 @@ describe('special Effect module behavior', () => {
     expect(intents).toHaveLength(1);
     expect(intents[0]).toEqual({
       target: '/api/playlist/subscribe',
-      protocol: 'weapi',
+      protocol: 'eapi',
       method: 'POST',
       headers: {
         'X-Test': 'kept',
         'User-Agent': 'test-agent',
         'x-aeapi': 'true',
       },
+      checkToken: true,
       body: JSON.stringify({ id: 1, e_r: false }),
       response: 'json',
       semantic: 'write',

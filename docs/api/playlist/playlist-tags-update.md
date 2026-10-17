@@ -47,6 +47,8 @@ console.log(result.body);
 
 说明 : 登录后调用此接口,可以单独更新用户歌单标签
 
+模块声明 `profile: 'web'`、`checkToken: 'none'`。实际请求为 `https://music.163.com/weapi/playlist/tags/update`、Cookie `os=web`、浏览器 UA；即使调用方配置了 `checkToken`，本接口也不会取令牌或发送 `X-antiCheatToken`。调用方传入的 `crypto`、`os`、`ua` 会被 profile 替换。
+
 **必选参数 :**
 
 ```text

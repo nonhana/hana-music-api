@@ -41,6 +41,7 @@ export const requestEffect = (
     Effect.gen(function* () {
       const call = yield* Call;
       const now = yield* Clock.currentTimeMillis;
+      const checkToken = yield* resolveCheckToken(call, intent);
       const options = call.config;
       const plan = yield* Effect.try({
         try: (): RequestPlan => {
@@ -78,10 +79,18 @@ export const requestEffect = (
               }
               headers[name] = value;
             }
-            prepared = prepareRequest(
-              intent.target,
+            if (call.requestProfile) {
+              // token 只能来自请求层解析的 provider，模块或调用方传入的同名头一律丢弃。
+              for (const name of Object.keys(headers)) {
+                if (name.toLowerCase() === 'x-anticheattoken') {
+                  delete headers[name];
+                }
+              }
+            }
+            prepared = prepareRequest({
+              uri: intent.target,
               data,
-              {
+              options: {
                 ...options,
                 crypto: options.crypto || intent.protocol,
                 domain: intent.domain ?? options.domain,
@@ -93,8 +102,8 @@ export const requestEffect = (
                   : {}),
                 headers,
               },
-              call.identity,
-              {
+              identity: call.identity,
+              entropy: {
                 now,
                 nuid: createRandomHex(32),
                 nmtid: createRandomHex(16),
@@ -104,8 +113,12 @@ export const requestEffect = (
                   .padStart(4, '0')}`,
                 weapiSecret: createWeapiSecretKey(),
               },
-              intent.cookieOverrides,
-            );
+              ...(intent.cookieOverrides
+                ? { cookieOverrides: intent.cookieOverrides }
+                : {}),
+              ...(call.requestProfile ? { profile: call.requestProfile } : {}),
+              ...(checkToken === undefined ? {} : { checkToken }),
+            });
           }
           validateRequestTarget(intent, prepared.url, call.identity);
           return prepared;
@@ -192,7 +205,8 @@ export const requestEffect = (
           const error = result.failure;
           const durationMs = (yield* Clock.currentTimeMillis) - startedAt;
           const delayMs =
-            intent.semantic === 'read'
+            intent.semantic === 'read' &&
+            (call.requestProfile?.retry.read ?? true)
               ? retryDecision(
                   intent.target,
                   error,
@@ -225,6 +239,43 @@ export const requestEffect = (
       return yield* work;
     }),
   );
+
+const resolveCheckToken = (
+  call: CallShape,
+  intent: RequestIntent,
+): Effect.Effect<string | undefined, RequestError> =>
+  Effect.gen(function* () {
+    const policy = call.checkTokenPolicy ?? 'none';
+    const wanted =
+      policy === 'required' ||
+      (policy === 'optional' && intent.checkToken === true);
+    if (!wanted) {
+      return undefined;
+    }
+    const configured = call.config.checkToken;
+    if (configured === undefined) {
+      if (policy === 'required') {
+        return yield* new InvalidRequest({
+          message: 'checkToken is required',
+        });
+      }
+      return undefined;
+    }
+    const token =
+      typeof configured === 'function'
+        ? yield* Effect.tryPromise({
+            try: configured,
+            catch: () =>
+              new InvalidRequest({ message: 'checkToken provider failed' }),
+          })
+        : configured;
+    if (!token) {
+      return yield* new InvalidRequest({
+        message: 'checkToken must not be empty',
+      });
+    }
+    return token;
+  });
 
 export const withRequestDeadline = <Value, Failure, Requirements>(
   work: Effect.Effect<Value, Failure, Requirements>,
@@ -282,6 +333,7 @@ export const runRequestAtEdge = async (
         options.onRequestEvent?.(event);
       },
     },
+    checkTokenPolicy: 'none',
     policy: {
       read: intent.semantic === 'read',
       upload: intent.semantic === 'upload',

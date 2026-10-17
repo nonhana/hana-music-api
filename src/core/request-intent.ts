@@ -12,7 +12,10 @@ export const buildApiRequestIntent = (
   options: Pick<
     CreateRequestOptions,
     'crypto' | 'e_r' | 'acceptGzip' | 'headers' | 'ua' | 'domain'
-  > & { readonly cookieOverrides?: CookieRecord } = {},
+  > & {
+    readonly cookieOverrides?: CookieRecord;
+    readonly checkToken?: boolean;
+  } = {},
 ): RequestIntent => ({
   target,
   protocol: options.crypto || (APP_CONF.encrypt ? 'eapi' : 'api'),
@@ -25,6 +28,7 @@ export const buildApiRequestIntent = (
   ...(options.cookieOverrides
     ? { cookieOverrides: options.cookieOverrides }
     : {}),
+  ...(options.checkToken ? { checkToken: true } : {}),
   ...(options.domain ? { domain: options.domain } : {}),
   body: JSON.stringify({
     ...data,

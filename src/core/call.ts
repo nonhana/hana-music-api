@@ -23,7 +23,9 @@ import {
 } from './endpoint-policy.ts';
 import { DeadlineExceeded, PartialUpload } from './errors.ts';
 import { createIdentityPool, resolveIdentitySnapshot } from './identity.ts';
+import { LEGACY_MODULE_REQUEST_METADATA } from './module-metadata.ts';
 import { ReadStore } from './read-store.ts';
+import { REQUEST_PROFILES } from './request-profile.ts';
 import { requestEffect, withRequestDeadline } from './request.ts';
 import {
   ProcessServices,
@@ -127,7 +129,14 @@ export const runCall = <Input extends ModuleQuery>(
       effective,
       scoped.process.readState(effective.state),
     );
-    const read = isReadModule(input.identifier);
+    const requestMetadata =
+      implementation.execute.request ?? LEGACY_MODULE_REQUEST_METADATA;
+    const requestProfile =
+      requestMetadata.profile === 'legacy'
+        ? undefined
+        : REQUEST_PROFILES[requestMetadata.profile];
+    const read =
+      isReadModule(input.identifier) && (requestProfile?.cache.reads ?? true);
     const call: CallShape = Object.freeze({
       identifier: input.identifier,
       input: Object.freeze({ ...decodedInput }),
@@ -140,6 +149,8 @@ export const runCall = <Input extends ModuleQuery>(
             : undefined,
       }),
       identity,
+      requestProfile,
+      checkTokenPolicy: requestMetadata.checkToken,
       policy: Object.freeze({
         read,
         upload,
@@ -160,6 +171,8 @@ export const runCall = <Input extends ModuleQuery>(
             timeoutMs: undefined,
           }),
           identity: call.identity,
+          requestProfile: call.requestProfile,
+          checkTokenPolicy: call.checkTokenPolicy,
           policy: call.policy,
           startedAt: call.startedAt,
           deadlineAt: undefined,

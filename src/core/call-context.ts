@@ -1,9 +1,11 @@
 import { Context } from 'effect';
 
 import type {
+  CheckTokenPolicy,
   ModuleCallConfig,
   ModuleQuery,
   NcmApiResponse,
+  RequestProfile,
 } from '../types/index.ts';
 import type { IdentitySnapshot } from './identity-snapshot.ts';
 import type { IdentityPool } from './identity.ts';
@@ -24,6 +26,8 @@ export interface CallShape {
   readonly input: Readonly<ModuleQuery>;
   readonly config: CallConfig;
   readonly identity: IdentitySnapshot;
+  readonly requestProfile?: RequestProfile;
+  readonly checkTokenPolicy?: CheckTokenPolicy;
   readonly policy: {
     readonly read: boolean;
     readonly upload: boolean;

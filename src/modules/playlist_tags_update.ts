@@ -1,5 +1,6 @@
 import { Effect, Schema } from 'effect';
 
+import { defineModule } from '../core/module-metadata.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -14,31 +15,31 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistTagsUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
-  Effect.gen(function* () {
-    const data = {
-      id: query.id,
-      tags: query.tags,
-    };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/tags/update`,
-        data,
-        createOption(query),
-      ),
-    );
-    return {
-      ...toModuleResponse(response),
-      body: yield* decodeUpstreamBody(
-        'playlist_tags_update',
-        ModuleBody,
-        response,
-      ),
-    };
-  });
+const playlistTagsUpdate: ModuleEffect<ModuleInput, ModuleBody> = defineModule(
+  { profile: 'web', checkToken: 'none' },
+  (query, request) =>
+    Effect.gen(function* () {
+      const data = {
+        id: query.id,
+        tags: query.tags,
+      };
+      const response = yield* request(
+        buildApiRequestIntent(
+          `/api/playlist/tags/update`,
+          data,
+          createOption(query),
+        ),
+      );
+      return {
+        ...toModuleResponse(response),
+        body: yield* decodeUpstreamBody(
+          'playlist_tags_update',
+          ModuleBody,
+          response,
+        ),
+      };
+    }),
+);
 
 /**
  * 更新歌单标签
