@@ -8,6 +8,8 @@ import type { ModuleDefinition, ModuleEffect } from './runtime.ts';
 
 export interface ModuleCallConfig extends CreateRequestOptions {
   readonly deviceId?: string;
+  // 易盾保护写操作所需的 checkToken；传函数时每次订阅前调用，以取得新鲜令牌。
+  readonly checkToken?: string | (() => Promise<string>);
 }
 
 export interface SdkCacheConfig {

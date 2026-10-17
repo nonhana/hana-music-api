@@ -6,12 +6,15 @@ import { settle } from '../_kit/assertions.ts';
 import ownPlaylist from '../fixtures/netease/playlist_subscribe/own.json';
 import rejectedHttp200 from '../fixtures/netease/playlist_subscribe/rejected-http-200.json';
 import rejected from '../fixtures/netease/playlist_subscribe/rejected.json';
+import tokenSubscribed from '../fixtures/netease/playlist_subscribe/subscribe-token.json';
 import subscribed from '../fixtures/netease/playlist_subscribe/subscribe.json';
 import unsubscribed from '../fixtures/netease/playlist_subscribe/unsubscribe.json';
 
-// 收藏歌单固定以官网 weapi 网页身份发出，调用方传入的 crypto、os 和 User-Agent 都会被替换，见 #32、#77。
 const createClient = (
-  config: Pick<ModuleCallConfig, 'cookie' | 'ua' | 'retry' | 'crypto'>,
+  config: Pick<
+    ModuleCallConfig,
+    'checkToken' | 'cookie' | 'ua' | 'retry' | 'crypto'
+  >,
   recorded: { status: number; body: unknown } = {
     status: 200,
     body: { code: 200 },
@@ -22,6 +25,7 @@ const createClient = (
     cookie: string;
     userAgent: string;
     headers: Headers;
+    body: string;
     bodyKeys: Array<string>;
   }> = [];
   const client = createHanaMusicApi({
@@ -34,6 +38,7 @@ const createClient = (
         cookie: headers.get('cookie') ?? '',
         userAgent: headers.get('user-agent') ?? '',
         headers,
+        body,
         bodyKeys: [...new URLSearchParams(body).keys()],
       });
       return Response.json(recorded.body, { status: recorded.status });
@@ -76,6 +81,98 @@ test.each([
     expect(request?.bodyKeys.toSorted()).toEqual(['encSecKey', 'params']);
   },
 );
+
+test('playlistSubscribe uses weapi with a configured checkToken', async () => {
+  const token = 'fresh-check-token';
+  const { client, sent } = createClient(
+    {
+      cookie: 'MUSIC_U=listener; os=iphone; appver=9.0.90',
+      checkToken: token,
+    },
+    tokenSubscribed.response,
+  );
+
+  const result = await client.playlistSubscribe({ id: 2889745179, t: 1 });
+
+  expect(result.status).toBe(200);
+  expect(sent).toHaveLength(1);
+  const [request] = sent;
+  expect(request?.url).toBe('https://music.163.com/weapi/playlist/subscribe');
+  expect(request?.headers.get('x-anticheattoken')).toBe(token);
+  expect(request?.bodyKeys.toSorted()).toEqual(['encSecKey', 'params']);
+  const cookie = new Map(
+    request?.cookie.split('; ').map((pair) => {
+      const [name = '', value = ''] = pair.split('=');
+      return [name, value];
+    }),
+  );
+  expect(cookie.get('os')).toBe('web');
+  expect(cookie.get('MUSIC_U')).toBe('listener');
+  expect(request?.userAgent).not.toContain('NeteaseMusicDesktop');
+});
+
+test('playlistSubscribe calls the checkToken provider for each subscribe only', async () => {
+  let calls = 0;
+  const { client, sent } = createClient({
+    cookie: 'MUSIC_U=listener',
+    checkToken: async () => `token-${(calls += 1)}`,
+  });
+
+  await client.playlistSubscribe({ id: 1, t: 1 });
+  await client.playlistSubscribe({ id: 2, t: 1 });
+  await client.playlistSubscribe({ id: 1, t: 0 });
+
+  expect(calls).toBe(2);
+  expect(sent).toHaveLength(3);
+  expect(sent[0]?.url).toBe('https://music.163.com/weapi/playlist/subscribe');
+  expect(sent[1]?.url).toBe('https://music.163.com/weapi/playlist/subscribe');
+  expect(sent[0]?.headers.get('x-anticheattoken')).toBe('token-1');
+  expect(sent[1]?.headers.get('x-anticheattoken')).toBe('token-2');
+  expect(sent[2]?.url).toBe('https://music.163.com/weapi/playlist/unsubscribe');
+  expect(sent[2]?.headers.has('x-anticheattoken')).toBe(false);
+  expect(sent[2]?.bodyKeys.toSorted()).toEqual(['encSecKey', 'params']);
+  const cookie = new Map(
+    sent[2]?.cookie.split('; ').map((pair) => {
+      const [name = '', value = ''] = pair.split('=');
+      return [name, value];
+    }),
+  );
+  expect(cookie.get('os')).toBe('web');
+});
+
+test('playlistSubscribe rejects when the checkToken provider fails', async () => {
+  const { client, sent } = createClient({
+    cookie: 'MUSIC_U=listener',
+    checkToken: async () => {
+      throw new Error('token unavailable');
+    },
+  });
+
+  expect(await settle(client.playlistSubscribe({ id: 1, t: 1 }))).toEqual({
+    rejected: {
+      status: 400,
+      body: { code: 400, msg: 'checkToken provider failed' },
+      cookie: [],
+    },
+  });
+  expect(sent).toHaveLength(0);
+});
+
+test('playlistSubscribe rejects an empty checkToken before sending', async () => {
+  const { client, sent } = createClient({
+    cookie: 'MUSIC_U=listener',
+    checkToken: '',
+  });
+
+  expect(await settle(client.playlistSubscribe({ id: 1, t: 1 }))).toEqual({
+    rejected: {
+      status: 400,
+      body: { code: 400, msg: 'checkToken must not be empty' },
+      cookie: [],
+    },
+  });
+  expect(sent).toHaveLength(0);
+});
 
 test.each([
   { name: 'subscribe', recording: subscribed },

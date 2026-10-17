@@ -3,6 +3,7 @@ import { RequestBodyError } from './parse-body.ts';
 
 const executionKeys = [
   'acceptGzip',
+  'checkToken',
   'connectionStrategy',
   'crypto',
   'deviceId',

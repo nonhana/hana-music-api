@@ -48,17 +48,37 @@ console.log(result.body);
 
 说明 : 调用此接口，传入类型和歌单 id 可收藏歌单或者取消收藏歌单
 
-请求按官网网页的写法发出：weapi，地址 `https://music.163.com/weapi/playlist/{subscribe,unsubscribe}`，Cookie 中 `os=web`，User-Agent 使用内置的浏览器模板，业务请求体只带歌单 `id`。调用方传入的 `crypto`、`os`、`ua` 对这个接口不起作用。SDK 不发送任何反作弊令牌。
+### 请求模式
 
-这样选择的原因是有对照证据：同一会话、相近时间里，自称 `os=pc` 或 `os=iphone` 客户端但缺少客户端特征的请求会被单独拒绝，而官网的网页请求可以通过。2026-10-17 官方 Mac 客户端抓包显示，客户端每次收藏都会在 0.1 秒内向网易易盾申请一次性令牌，并放在请求体、加密头和 HTTP 头中；SDK 没有正当途径生成同样的令牌，因此这个接口存在无法由请求写法消除的上游限制。
+| 请求                                      | 实际请求                                                                                                                                | 适用场景                                          |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------- |
+| 收藏 `t=1`，未传 `checkToken`             | weapi，`https://music.163.com/weapi/playlist/subscribe`，Cookie `os=web`，浏览器 UA，正文只带 `id`                                      | 低频调用；连续操作仍可能被上游 405 拒绝           |
+| 收藏 `t=1`，传入 `checkToken`             | weapi，`https://music.163.com/weapi/playlist/subscribe`，Cookie `os=web`，浏览器 UA，正文 `id`/`checkToken`，HTTP 头 `X-antiCheatToken` | 需要稳定高频收藏；令牌必须由调用方从稳定设备现取  |
+| 取消收藏 `t=0`，无论是否配置 `checkToken` | weapi，`https://music.163.com/weapi/playlist/unsubscribe`，Cookie `os=web`，浏览器 UA，正文只带 `id`                                    | 实测可用的取消路径；不取令牌、不发送 `checkToken` |
 
-::: warning 已知限制
-收藏歌单受网易易盾反作弊与频率控制保护。没有一次性令牌的请求在连续操作后会进入数小时的拒绝窗口；10-09 和 10-17 都观察到整个网页/API 路径被冻结而手机 App 正常的时段。此时 `405` 与请求写法无关，等待时间也不由 SDK 决定。SDK 原样保留上游状态码和说明，不对写操作自动重试；`retryAfter`（默认 30 秒）只是退避建议，不是网易云承诺的恢复时间。2026-10-17 23:08 在全新会话、从未操作过的目标上仍返回 405，因此本接口的稳定性验证尚未完成。
+```ts
+const checkToken = await getFreshCheckToken(); // 170 字符，易盾 Watchman 现取
+await playlistSubscribe({ t: '1', id: '106697785' }, { checkToken });
+```
+
+`checkToken` 只影响收藏（`t=1`）。传函数时，SDK 在每次收藏前调用一次；取消收藏始终走 weapi 网页写法，不取令牌，也不发送 `checkToken`。收藏时 SDK 使用 weapi `os=web`，调用方传入的 `crypto`、`os`、`ua` 会被替换。SDK 不生成、不缓存、不重放令牌。
+
+::: warning 令牌与设备
+令牌必须来自**稳定的设备/会话**。2026-10-18 02:05（CST）抓取官方现代 web player：`/weapi/playlist/subscribe` 返回 200，HTTP 头 `X-antiCheatToken` 为 170 字符；`/weapi/playlist/unsubscribe` 返回 200 且不带该头。它的 JS 用 `initWatchman({ productNumber: 'YD00000558929251' })` 初始化，每次收藏前调用 `window.WM.getToken`，把 `checkToken` 放进正文并加 `X-antiCheatToken`。
+
+02:08 在真实客户端 origin `https://campanula-test.caelum.moe/` 里用官方 Watchman 现取令牌，公开 SDK 的 weapi 收藏成功（HTTP 200 / `{ code: 200 }`，列表 54 → 55），取消后恢复 54/36；02:09 用同一个 Watchman 实例连续 3 轮、轮间隔 5 秒，收藏/取消全部 200，每轮恢复 54/36。此前用新的无头设备取令牌会连续 405，因此不要每次新建设备。
+
+不要写死令牌、复用到多个请求，或每次新建设备；这些做法会被上游拒绝。`checkToken` 只用于 SDK/程序化调用；HTTP 服务会拒绝这个执行配置。
 :::
 
-2026-10-17 14:49 公开模块曾成功收藏、取消各一次；返回 `{ code: 200 }`，列表 35 → 36 → 35。同日 15:35 起出现 405 重复性失败，16:43–17:09 的调查确认 `os=iphone` 可以单独触发拒绝，17:50 起网页路径也进入长时间拒绝。23:00 的接续调查、官方客户端对照和剩余限制见[深入调查](../../guide/playlist-subscription-research.md#2300-接续新会话官方-mac-客户端抓包与两条拒绝规则)。收藏自己的歌单会收到 HTTP 200／`{ code: 401, message: '歌单创建者已设置隐私' }`，SDK 保留原正文。
+### 已知限制
 
-网易云拒绝时，SDK 保留业务返回码和说明，不将其他错误改写成“操作过于频繁”。
+- 不传 `checkToken` 时，网页/API 路径在连续操作后会进入数小时拒绝窗口；此时 405 与请求写法无关，等待时间不由 SDK 决定。SDK 原样保留上游状态码和说明，不对写操作自动重试；`retryAfter`（默认 30 秒）只是退避建议，不是网易云承诺的恢复时间。
+- 传 `checkToken` 时，稳定性取决于调用方提供的令牌是否来自稳定设备；SDK 不对令牌有效性作保证，也不尝试绕过上游反作弊。
+- 收藏和取消都走 weapi；如果网页路径也被上游限频，仍可能返回 405。取消不带 token 是官方现代 web player 的行为。
+- 收藏自己的歌单会收到 HTTP 200 / `{ code: 401, message: '歌单创建者已设置隐私' }`，SDK 保留原正文；不把其他错误改写成“操作过于频繁”。
+
+调查过程和原始对照见[深入调查](../../guide/playlist-subscription-research.md#check-token-continuation)。
 
 **必选参数 :**
 
