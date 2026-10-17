@@ -273,7 +273,7 @@ describe('special Effect module behavior', () => {
     expect(intents).toHaveLength(1);
     expect(intents[0]).toEqual({
       target: '/api/playlist/subscribe',
-      protocol: 'eapi',
+      protocol: 'weapi',
       method: 'POST',
       headers: {
         'X-Test': 'kept',

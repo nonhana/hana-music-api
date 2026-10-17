@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
 import { Call } from '../core/call.ts';
-import { OS_PROFILES, USER_AGENT_MAP } from '../core/config.ts';
+import { USER_AGENT_MAP } from '../core/config.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -14,9 +14,8 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-// 固定使用有真账号成功记录的 iPhone 身份；重复验证仍返回 405，原因未确定（#77）。
-const { appver, channel, osver } = OS_PROFILES.iphone;
-const iphoneUserAgent = USER_AGENT_MAP.api.iphone;
+// 固定用官网的 weapi 网页身份：自称 pc/iphone 客户端会被单独拒绝，SDK 也无法提供收藏所需的一次性反作弊令牌（#32、#77）。
+const webUserAgent = USER_AGENT_MAP.weapi.pc;
 
 const playlistSubscribe: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
@@ -28,21 +27,15 @@ const playlistSubscribe: ModuleEffect<ModuleInput, ModuleBody> = (
       buildApiRequestIntent(
         `/api/playlist/${path}`,
         { id: query.id },
-        createOption(query, 'eapi'),
+        createOption(query, 'weapi'),
       ),
     ).pipe(
       Effect.updateService(Call, (call) => ({
         ...call,
-        config: { ...call.config, ua: iphoneUserAgent },
+        config: { ...call.config, crypto: 'weapi' as const, ua: webUserAgent },
         identity: {
           ...call.identity,
-          cookie: {
-            ...call.identity.cookie,
-            os: 'iphone',
-            appver,
-            channel,
-            osver,
-          },
+          cookie: { ...call.identity.cookie, os: 'web' },
         },
       })),
     );
