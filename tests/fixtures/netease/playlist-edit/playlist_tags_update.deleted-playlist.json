@@ -7,6 +7,8 @@
   "context": {
     "recordedAt": "2026-10-08T16:57:59.709Z",
     "sdk": "hana-music-api@1.4.0",
+    "profile": "legacy",
+    "protocol": "eapi",
     "region": "hkg1",
     "ip": "default",
     "viewer": "vip-qr",

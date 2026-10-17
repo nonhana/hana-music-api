@@ -30,6 +30,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./watchman": {
+      "types": "./dist/watchman.d.ts",
+      "default": "./dist/watchman.js"
     }
   },
   "publishConfig": {

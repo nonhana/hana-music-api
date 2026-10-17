@@ -12,6 +12,7 @@ const apiEntries = Object.fromEntries(
 export default defineConfig({
   entry: {
     index: './index.ts',
+    watchman: './watchman.ts',
     ...apiEntries,
   },
   format: ['esm'],

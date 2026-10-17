@@ -48,6 +48,25 @@ console.log(result.body);
 
 说明 : 调用此接口，传入歌单名字可新建歌单
 
+### 请求模式
+
+| 请求              | 实际请求                                                                         | 适用场景                                         |
+| ----------------- | -------------------------------------------------------------------------------- | ------------------------------------------------ |
+| 未传 `checkToken` | weapi，`https://music.163.com/weapi/playlist/create`，Cookie `os=web`，浏览器 UA | 低频调用；连续操作仍可能被上游限频               |
+| 传入 `checkToken` | weapi，同一地址，正文 `checkToken`，HTTP 头 `X-antiCheatToken`                   | 需要稳定高频创建；令牌必须由调用方从稳定设备现取 |
+
+```ts
+import { createWatchman } from 'hana-music-api/watchman';
+
+const watchman = await createWatchman();
+await playlistCreate(
+  { name: '测试歌单' },
+  { checkToken: () => watchman.getToken() },
+);
+```
+
+官方 web 新建歌单时会携带 `checkToken`。模块声明 `profile: 'web'`、`checkToken: 'optional'`，调用方传入的 `crypto`、`os`、`ua` 会被 profile 替换；没有 provider 时按网页回退路径发送。令牌的获取与设备稳定性见[浏览器 Watchman](../../guide/watchman.md)。
+
 **必选参数 :** `name` : 歌单名
 
 **可选参数 :**

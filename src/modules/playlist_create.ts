@@ -1,5 +1,6 @@
 import { Effect, Schema } from 'effect';
 
+import { defineModule } from '../core/module-metadata.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -21,28 +22,31 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistCreate: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
-  Effect.gen(function* () {
-    const data = {
-      name: query.name,
-      privacy: query.privacy || '0', // 0 普通歌单, 10 隐私歌单
-      type: query.type || 'NORMAL', // 默认 NORMAL, VIDEO 视频歌单, SHARED 共享歌单
-    };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/create`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
-    return {
-      ...toModuleResponse(response),
-      body: yield* decodeUpstreamBody('playlist_create', ModuleBody, response),
-    };
-  });
+const playlistCreate: ModuleEffect<ModuleInput, ModuleBody> = defineModule(
+  { profile: 'web', checkToken: 'optional' },
+  (query, request) =>
+    Effect.gen(function* () {
+      const data = {
+        name: query.name,
+        privacy: query.privacy || '0', // 0 普通歌单, 10 隐私歌单
+        type: query.type || 'NORMAL', // 默认 NORMAL, VIDEO 视频歌单, SHARED 共享歌单
+      };
+      const response = yield* request(
+        buildApiRequestIntent(`/api/playlist/create`, data, {
+          ...createOption(query),
+          checkToken: true,
+        }),
+      );
+      return {
+        ...toModuleResponse(response),
+        body: yield* decodeUpstreamBody(
+          'playlist_create',
+          ModuleBody,
+          response,
+        ),
+      };
+    }),
+);
 
 /**
  * 创建歌单

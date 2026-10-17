@@ -11,7 +11,7 @@ description: '登录后调用此接口,可以单独更新用户歌单名'
 
 | 项目     | 值                      |
 | -------- | ----------------------- |
-| 接口地址 | `/playlist/name/update` |
+| 接口地址 | `/playlist/update/name` |
 | 请求方式 | `GET` / `POST`          |
 | 需要登录 | 是                      |
 | 对应模块 | `playlist_name_update`  |
@@ -47,6 +47,8 @@ console.log(result.body);
 
 说明 : 登录后调用此接口,可以单独更新用户歌单名
 
+模块声明 `profile: 'web'`、`checkToken: 'none'`。实际请求为 `https://music.163.com/weapi/playlist/update/name`、Cookie `os=web`、浏览器 UA；即使调用方配置了 `checkToken`，本接口也不会取令牌或发送 `X-antiCheatToken`。调用方传入的 `crypto`、`os`、`ua` 会被 profile 替换。
+
 **必选参数 :**
 
 ```text
@@ -56,6 +58,6 @@ name: 歌单名
 
 ```
 
-**接口地址 :** `/playlist/name/update`
+**接口地址 :** `/playlist/update/name`
 
-**调用例子 :** `/playlist/name/update?id=24381616&name=歌单名`
+**调用例子 :** `/playlist/update/name?id=24381616&name=歌单名`

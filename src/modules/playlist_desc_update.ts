@@ -1,5 +1,6 @@
 import { Effect, Schema } from 'effect';
 
+import { defineModule } from '../core/module-metadata.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -12,31 +13,30 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistDescUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
-  Effect.gen(function* () {
-    const data = {
-      id: query.id,
-      desc: query.desc,
-    };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/desc/update`,
-        data,
-        createOption(query),
-      ),
-    );
-    return {
-      ...toModuleResponse(response),
-      body: yield* decodeUpstreamBody(
-        'playlist_desc_update',
-        ModuleBody,
-        response,
-      ),
-    };
-  });
+const playlistDescUpdate: ModuleEffect<ModuleInput, ModuleBody> = defineModule(
+  { profile: 'web', checkToken: 'optional' },
+  (query, request) =>
+    Effect.gen(function* () {
+      const data = {
+        id: query.id,
+        desc: query.desc,
+      };
+      const response = yield* request(
+        buildApiRequestIntent(`/api/playlist/desc/update`, data, {
+          ...createOption(query),
+          checkToken: true,
+        }),
+      );
+      return {
+        ...toModuleResponse(response),
+        body: yield* decodeUpstreamBody(
+          'playlist_desc_update',
+          ModuleBody,
+          response,
+        ),
+      };
+    }),
+);
 
 /**
  * 更新歌单描述

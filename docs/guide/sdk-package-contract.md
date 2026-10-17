@@ -28,7 +28,7 @@ npm install -D typescript @types/node@24
 import { createHanaMusicApi, search, invokeModule } from 'hana-music-api';
 ```
 
-发布包只开放 `hana-music-api` 根入口。不要依赖 `hana-music-api/src/...` 或 `hana-music-api/dist/...` 这样的内部路径，即使本地文件系统里能找到它们。
+发布包开放 `hana-music-api` 根入口和浏览器专用的 `hana-music-api/watchman` 子路径。不要依赖 `hana-music-api/src/...` 或 `hana-music-api/dist/...` 这样的内部路径，即使本地文件系统里能找到它们。
 
 | 公开能力                        | 用途                               |
 | ------------------------------- | ---------------------------------- |
@@ -37,6 +37,7 @@ import { createHanaMusicApi, search, invokeModule } from 'hana-music-api';
 | `invokeModule`                  | 按模块标识调用                     |
 | `createRequest`、`createOption` | 底层请求与旧式配置提取             |
 | `generateDeviceId`              | 生成满足匿名注册条件的设备号       |
+| `hana-music-api/watchman`       | 浏览器专用 Watchman token 适配层   |
 | 配套公开类型                    | 声明配置、模块标识、输入和响应外壳 |
 
 `startServer`、`createServer`、模块加载器和运行时状态读写函数都属于仓库内部能力，不是 npm 包的公开导出。源码部署的用法见 [部署 HTTP 服务](/guide/server-deployment)。

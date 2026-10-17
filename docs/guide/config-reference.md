@@ -30,7 +30,7 @@ client 的默认配置与单次配置按顶层字段合并，单次配置优先�
 
 `deviceId` 仅用于 SDK 需要发起匿名注册时；已有账号 Cookie、游客令牌或进程游客身份时不会重新注册。它不替代 `state.deviceId` 的按次覆盖能力，也不是 HTTP 参数。合格条件和保存设备号的示例见 [匿名注册的设备号](/guide/runtime-identity#匿名注册的设备号)。
 
-`checkToken` 目前只被 `playlist_subscribe` 使用：收藏（`t=1`）时该模块使用 weapi `os=web`，在正文和 HTTP 头携带同一个令牌；传函数时每次收藏前调用一次。取消收藏（`t=0`）走 weapi 网页写法，不取令牌。令牌必须由调用方从稳定设备/会话现取，SDK 不生成、不缓存、不重放；HTTP 服务会拒绝这个配置。详见 [收藏/取消收藏歌单](/api/playlist/playlist-subscribe)。
+`checkToken` 目前被 `playlist_subscribe`、`playlist_create` 和 `playlist_desc_update` 使用：传字符串或每次请求前调用的 provider 时，请求层按模块 profile 把令牌放进正文和 HTTP 头；模块不会自己拼 token 位置。`playlist_name_update`、`playlist_tags_update` 等声明 `checkToken: 'none'` 的写接口不会取令牌。令牌必须由调用方从稳定设备/会话现取，SDK 不生成、不缓存、不重放；HTTP 服务会拒绝这个配置。浏览器里可以用 [`hana-music-api/watchman`](./watchman.md) 现取，详见 [请求 profile](./request-profiles.md)。
 
 ## 网络、期限和观测
 

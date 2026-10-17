@@ -6,6 +6,8 @@
   },
   "context": {
     "sdk": "hana-music-api@2.9.0 源码 590bd18：公开 SDK client.playlistSubscribe，eapi、固定 iPhone 身份、业务请求体只有 id",
+    "profile": "legacy",
+    "protocol": "eapi",
     "region": "local",
     "ip": "default",
     "viewer": "authenticated",

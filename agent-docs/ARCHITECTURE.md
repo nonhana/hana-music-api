@@ -11,11 +11,14 @@
 - `src/modules/`：每个网易云端点一个模块，负责业务输入和请求意图。
 - `src/sdk/`：Promise SDK runtime，以及由模块生成的 client、registry 和具名 API 文件。
 - `src/plugins/`：上传等可组合能力；`src/types/`：共享公开类型和内部合同。
+- `src/watchman/`：浏览器专用 Watchman 适配层，经 `hana-music-api/watchman` 子路径发布。
 - `tests/`：分层测试；`docs/`：面向使用者的 VitePress 文档；`_notes/`：历史报告和验收证据。
 
 ## 唯一执行链路
 
 公开入口先解码业务输入并建立不可变 `Call`，冻结配置、Cookie、身份指纹和总期限。模块将输入编译为 `RequestIntent`，再通过 `RequestCapability` 进入唯一的 `RequestEffect`；目标检查、协议准备、重试、期限、transport、完整正文消费和响应解释都在这条链路中完成。
+
+模块用 `defineModule` 声明请求 profile（协议、客户端身份、UA、Cookie 和 token 策略）。请求层按 profile 统一覆盖模块/调用方的协议与身份字段，并在需要时解析 `checkToken`、按协议放到正文和请求头；模块不得用 `Effect.updateService(Call, ...)` 私自修改这些字段。已注册 profile 见 `src/core/request-profile.ts`，模块元数据见 `src/core/module-metadata.ts`，可枚举的模块迁移状态见 `src/sdk/module-profiles.ts`，使用说明见 `docs/guide/request-profiles.md`。
 
 Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `createRequest` 仍返回 Promise；内部组合和 transport 不自行调用 `Effect.runPromise`。公开边界统一由 `src/core/runtime.ts` 负责执行和错误映射。
 

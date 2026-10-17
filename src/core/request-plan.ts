@@ -1,8 +1,11 @@
 import type {
   CookieRecord,
   CreateRequestOptions,
+  RequestClient,
   RequestCrypto,
   RequestIntent,
+  RequestProfile,
+  RequestProtocol,
   RuntimeState,
 } from '../types/index.ts';
 import { APP_CONF, OS_PROFILES, USER_AGENT_MAP } from './config.ts';
@@ -34,14 +37,27 @@ export interface RequestPlan {
   readonly encryptResponse: boolean;
 }
 
-export const prepareRequest = (
-  uri: string,
-  data: RequestPayload,
-  options: CreateRequestOptions,
-  identity: IdentitySnapshot,
-  entropy: RequestEntropy,
-  cookieOverrides: CookieRecord = {},
-): RequestPlan => {
+export interface PrepareRequestInput {
+  readonly uri: string;
+  readonly data: RequestPayload;
+  readonly options: CreateRequestOptions;
+  readonly identity: IdentitySnapshot;
+  readonly entropy: RequestEntropy;
+  readonly cookieOverrides?: CookieRecord;
+  readonly profile?: RequestProfile;
+  readonly checkToken?: string;
+}
+
+export const prepareRequest = ({
+  uri,
+  data,
+  options,
+  identity,
+  entropy,
+  cookieOverrides = {},
+  profile,
+  checkToken,
+}: PrepareRequestInput): RequestPlan => {
   const state = identity.state;
   const headers: Record<string, string> = {};
   for (const [name, value] of Object.entries(options.headers ?? {})) {
@@ -58,15 +74,17 @@ export const prepareRequest = (
     headers['X-Real-IP'] = ip;
   }
   const cookie = processCookieObject(
-    { ...identity.cookie, ...cookieOverrides },
+    { ...identity.cookie, ...cookieOverrides, ...profile?.cookie },
     uri,
     state,
     entropy,
+    profile?.client,
   );
   headers.Cookie = cookieObjToString(cookie);
 
   const csrfToken = String(cookie['__csrf'] ?? '');
-  const crypto = resolveCrypto(options.crypto);
+  const crypto = profile?.protocol ?? resolveCrypto(options.crypto);
+  const userAgent = profile?.userAgent ?? options.ua;
   const payload = {
     ...data,
   };
@@ -89,16 +107,20 @@ export const prepareRequest = (
   switch (resolvedCrypto) {
     case 'weapi': {
       headers.Referer = options.domain || APP_CONF.domain;
-      headers['User-Agent'] = options.ua || chooseUserAgent('weapi', 'pc');
+      headers['User-Agent'] = userAgent || chooseUserAgent('weapi', 'pc');
       payload.csrf_token = csrfToken;
+      if (checkToken) {
+        payload.checkToken = checkToken;
+        headers['X-antiCheatToken'] = checkToken;
+      }
       requestBody = weapi(payload, entropy.weapiSecret);
       url = `${options.domain || APP_CONF.domain}/weapi/${uri.slice(5)}`;
       break;
     }
 
     case 'linuxapi': {
-      headers['User-Agent'] =
-        options.ua || chooseUserAgent('linuxapi', 'linux');
+      rejectUnsupportedToken(resolvedCrypto, checkToken);
+      headers['User-Agent'] = userAgent || chooseUserAgent('linuxapi', 'linux');
       requestBody = linuxapi({
         method: 'POST',
         params: payload,
@@ -110,12 +132,19 @@ export const prepareRequest = (
 
     case 'eapi':
     case 'api': {
-      const header = createEapiHeader(cookie, csrfToken, entropy);
+      if (resolvedCrypto === 'api') {
+        rejectUnsupportedToken(resolvedCrypto, checkToken);
+      }
+      const header = createEapiHeader(cookie, csrfToken, entropy, checkToken);
       headers.Cookie = createHeaderCookie(header);
-      headers['User-Agent'] = options.ua || chooseUserAgent('api', 'iphone');
+      headers['User-Agent'] = userAgent || chooseUserAgent('api', 'iphone');
 
       if (resolvedCrypto === 'eapi') {
         payload.header = header;
+        if (checkToken) {
+          payload.checkToken = checkToken;
+          headers['x-anticheattoken'] = checkToken;
+        }
         // 真客户端会以 x-aeapi 声明可接受 gzip 压缩响应;按需开启以省带宽。
         if (options.acceptGzip) {
           headers['x-aeapi'] = 'true';
@@ -149,6 +178,18 @@ export const prepareRequest = (
     identity: identity.fingerprint,
   };
 };
+
+const rejectUnsupportedToken = (
+  protocol: RequestProtocol,
+  checkToken: string | undefined,
+): void => {
+  if (checkToken) {
+    throw new InvalidRequest({
+      message: `checkToken is not supported by ${protocol}`,
+    });
+  }
+};
+
 const resolveCrypto = (
   crypto: RequestCrypto | undefined,
 ): 'api' | 'eapi' | 'linuxapi' | 'weapi' => {
@@ -178,10 +219,12 @@ const processCookieObject = (
   uri: string,
   state: RuntimeState,
   entropy: RequestEntropy,
+  client: RequestClient | undefined,
 ): CookieRecord => {
   const randomNuid = entropy.nuid;
   const osKey = getOsProfileKey(cookie.os);
   const osProfile = OS_PROFILES[osKey];
+  const webProfile = client === 'web';
   const processedCookie: CookieRecord = {
     ...cookie,
     __remember_me: 'true',
@@ -189,13 +232,27 @@ const processCookieObject = (
     _ntes_nuid: String(cookie['_ntes_nuid'] ?? randomNuid),
     WEVNSM: String(cookie.WEVNSM ?? '1.0.0'),
     WNMCID: String(cookie.WNMCID ?? entropy.wnmcid),
-    appver: String(cookie.appver ?? osProfile.appver),
-    channel: String(cookie.channel ?? osProfile.channel),
-    deviceId: String(cookie.deviceId ?? state.deviceId),
     ntes_kaola_ad: '1',
-    os: String(cookie.os ?? osProfile.os),
-    osver: String(cookie.osver ?? osProfile.osver),
   };
+
+  if (webProfile) {
+    // 官方网页只声明 os=web，不携带 eapi 客户端的版本与设备字段。
+    processedCookie.os = 'web';
+    delete processedCookie.appver;
+    delete processedCookie.buildver;
+    delete processedCookie.channel;
+    delete processedCookie.deviceId;
+    delete processedCookie.mobilename;
+    delete processedCookie.osver;
+    delete processedCookie.resolution;
+    delete processedCookie.versioncode;
+  } else {
+    processedCookie.appver = String(cookie.appver ?? osProfile.appver);
+    processedCookie.channel = String(cookie.channel ?? osProfile.channel);
+    processedCookie.deviceId = String(cookie.deviceId ?? state.deviceId);
+    processedCookie.os = String(cookie.os ?? osProfile.os);
+    processedCookie.osver = String(cookie.osver ?? osProfile.osver);
+  }
 
   if (!uri.includes('login')) {
     processedCookie.NMTID = entropy.nmtid;
@@ -216,6 +273,7 @@ const createEapiHeader = (
   cookie: CookieRecord,
   csrfToken: string,
   entropy: RequestEntropy,
+  checkToken: string | undefined,
 ): Record<string, string> => {
   const header: Record<string, string> = {
     __csrf: csrfToken,
@@ -237,6 +295,10 @@ const createEapiHeader = (
 
   if (cookie.MUSIC_U) {
     header.MUSIC_U = String(cookie.MUSIC_U);
+  }
+
+  if (checkToken) {
+    header['X-antiCheatToken'] = checkToken;
   }
 
   return header;

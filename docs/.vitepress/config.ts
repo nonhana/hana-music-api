@@ -58,7 +58,9 @@ export default withMermaid({
           text: '请求配置进阶',
           items: [
             { text: '执行配置参考', link: '/guide/config-reference' },
+            { text: '请求 profile', link: '/guide/request-profiles' },
             { text: '加密模式', link: '/guide/crypto-modes' },
+            { text: '浏览器 Watchman', link: '/guide/watchman' },
             { text: '自定义 fetcher', link: '/guide/custom-fetcher' },
             {
               text: '重试、超时与连接策略',
