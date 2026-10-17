@@ -1,0 +1,26 @@
+{
+  "module": "playlist_subscribe",
+  "query": {
+    "id": 2889745179,
+    "t": 1
+  },
+  "context": {
+    "sdk": "hana-music-api@2.9.0 source 7671080: public client.playlistSubscribe, eapi, fixed iPhone identity",
+    "region": "local",
+    "ip": "default",
+    "viewer": "authenticated",
+    "recordedAt": "2026-10-17T08:09:13.737Z",
+    "note": "Issue #77: official web subscribe and unsubscribe succeeded using the same supplied session shortly before this SDK request. The SDK made one write attempt with retries and cache disabled; failure stopped the group. The complete playlist ID/subscription-state snapshot was unchanged. Login method and upstream rejection cause remain unknown. HTTP status is 200; business status is 405. No credentials."
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 405,
+      "message": "操作过于频繁，请稍后再试",
+      "debugInfo": null,
+      "data": null,
+      "failData": null,
+      "msg": "操作过于频繁，请稍后再试"
+    }
+  }
+}

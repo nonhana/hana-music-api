@@ -14,7 +14,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-// 固定使用有真账号成功记录的 iPhone 身份；重复验证仍返回 405，原因未确定（#33）。
+// 固定使用有真账号成功记录的 iPhone 身份；重复验证仍返回 405，原因未确定（#77）。
 const { appver, channel, osver } = OS_PROFILES.iphone;
 const iphoneUserAgent = USER_AGENT_MAP.api.iphone;
 

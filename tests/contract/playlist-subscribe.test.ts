@@ -1,17 +1,18 @@
 import { expect, test } from 'bun:test';
 
-import type { NcmApiResponse } from '../../index.ts';
+import type { ModuleCallConfig, NcmApiResponse } from '../../index.ts';
 import { createHanaMusicApi } from '../../index.ts';
 import { eapiReqDecrypt } from '../../src/core/crypto.ts';
 import { settle } from '../_kit/assertions.ts';
 import ownPlaylist from '../fixtures/netease/playlist_subscribe/own.json';
+import rejectedHttp200 from '../fixtures/netease/playlist_subscribe/rejected-http-200.json';
 import rejected from '../fixtures/netease/playlist_subscribe/rejected.json';
 import subscribed from '../fixtures/netease/playlist_subscribe/subscribe.json';
 import unsubscribed from '../fixtures/netease/playlist_subscribe/unsubscribe.json';
 
 // 收藏歌单固定以 iPhone 客户端身份发出，调用方传入的 os 和 User-Agent 都会被替换，见 #32、#33。
 const createClient = (
-  config: { cookie: string; ua?: string },
+  config: Pick<ModuleCallConfig, 'cookie' | 'ua' | 'retry'>,
   recorded: { status: number; body: unknown } = {
     status: 200,
     body: { code: 200 },
@@ -127,5 +128,23 @@ test('playlistSubscribe preserves the recorded own-playlist rejection without tu
       cookie: [],
     },
   });
+  expect(sent).toHaveLength(1);
+});
+
+test('playlistSubscribe rejects an HTTP 200 business 405 without replaying the write', async () => {
+  const { client, sent } = createClient(
+    { cookie: 'MUSIC_U=listener', retry: { retries: 2 } },
+    rejectedHttp200.response,
+  );
+
+  expect(await settle(client.playlistSubscribe(rejectedHttp200.query))).toEqual(
+    {
+      rejected: {
+        status: 405,
+        body: { ...rejectedHttp200.response.body, retryAfter: 30 },
+        cookie: [],
+      },
+    },
+  );
   expect(sent).toHaveLength(1);
 });
