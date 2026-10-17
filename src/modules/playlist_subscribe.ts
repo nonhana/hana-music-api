@@ -14,10 +14,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-// 局限（#32 落地、#33 跟进）：网易云拒绝以 pc 设备身份或带写死的反作弊 token 发出的收藏，一律回 405“操作过于频繁”，
-// 所以这里不论调用方配置如何，都固定用 iPhone 客户端的 os、appver、osver、channel 和 User-Agent，请求体只带 id。
-// 这套写法 2026-10-09 只成功过一次收藏和一次取消，之后同一账号所有收藏都回 405、原因未查清；
-// 取消收藏没有在 pc 身份下测过，收藏自己的歌单时网易云的说明也没有录到。
+// 固定使用已通过真账号收藏及取消验证的 iPhone 身份；PC UA + os=pc 对照仍返回 405（#33）。
 const { appver, channel, osver } = OS_PROFILES.iphone;
 const iphoneUserAgent = USER_AGENT_MAP.api.iphone;
 

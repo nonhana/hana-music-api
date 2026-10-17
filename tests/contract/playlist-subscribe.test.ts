@@ -3,6 +3,8 @@ import { expect, test } from 'bun:test';
 import type { NcmApiResponse } from '../../index.ts';
 import { createHanaMusicApi } from '../../index.ts';
 import { eapiReqDecrypt } from '../../src/core/crypto.ts';
+import { settle } from '../_kit/assertions.ts';
+import ownPlaylist from '../fixtures/netease/playlist_subscribe/own.json';
 import rejected from '../fixtures/netease/playlist_subscribe/rejected.json';
 import subscribed from '../fixtures/netease/playlist_subscribe/subscribe.json';
 import unsubscribed from '../fixtures/netease/playlist_subscribe/unsubscribe.json';
@@ -110,4 +112,20 @@ test('playlistSubscribe rejects with NetEase own status and message plus retryAf
     ...rejected.response.body,
     retryAfter: 30,
   });
+});
+
+test('playlistSubscribe preserves the recorded own-playlist rejection without turning it into a rate limit', async () => {
+  const { client, sent } = createClient(
+    { cookie: 'MUSIC_U=listener' },
+    ownPlaylist.response,
+  );
+
+  expect(await settle(client.playlistSubscribe(ownPlaylist.query))).toEqual({
+    rejected: {
+      status: 401,
+      body: ownPlaylist.response.body,
+      cookie: [],
+    },
+  });
+  expect(sent).toHaveLength(1);
 });
