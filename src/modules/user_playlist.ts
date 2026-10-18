@@ -9,6 +9,7 @@ import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import { PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
   QueryIdentifier,
@@ -31,30 +32,11 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const Creator = UpstreamObject({
-  userId: Schema.Finite,
-  nickname: Schema.String,
-});
-
-const Playlist = UpstreamObject({
-  id: Schema.Finite,
-  name: Schema.String,
-  coverImgUrl: Schema.String,
-  trackCount: Schema.Finite,
-  updateTime: Schema.Finite,
-  trackUpdateTime: Schema.Finite,
-  // 凭据失效时网易云回匿名视角，subscribed 是 null，调用方靠它认出需要重新登录（#48）。
-  subscribed: Schema.NullOr(Schema.Boolean),
-  creator: Creator,
-  privacy: Schema.Finite,
-  specialType: Schema.Finite,
-});
-
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     more: Schema.Boolean,
-    playlist: Schema.Array(Playlist),
+    playlist: Schema.Array(PlaylistSummary),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
