@@ -108,6 +108,7 @@ test('desktop profile places token in eapi body, encrypted header and HTTP heade
     'https://interface.music.163.com/eapi/playlist/subscribe',
   );
   expect(plan.headers['x-anticheattoken']).toBe('desktop-token');
+  expect(plan.headers.Cookie).not.toContain('desktop-token');
   const params = new URLSearchParams(String(plan.body)).get('params');
   expect(params).toBeTruthy();
   const decoded = eapiReqDecrypt(params ?? '');

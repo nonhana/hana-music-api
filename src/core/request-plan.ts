@@ -135,12 +135,14 @@ export const prepareRequest = ({
       if (resolvedCrypto === 'api') {
         rejectUnsupportedToken(resolvedCrypto, checkToken);
       }
-      const header = createEapiHeader(cookie, csrfToken, entropy, checkToken);
+      const header = createEapiHeader(cookie, csrfToken, entropy);
       headers.Cookie = createHeaderCookie(header);
       headers['User-Agent'] = userAgent || chooseUserAgent('api', 'iphone');
 
       if (resolvedCrypto === 'eapi') {
-        payload.header = header;
+        payload.header = checkToken
+          ? { ...header, 'X-antiCheatToken': checkToken }
+          : header;
         if (checkToken) {
           payload.checkToken = checkToken;
           headers['x-anticheattoken'] = checkToken;
@@ -273,7 +275,6 @@ const createEapiHeader = (
   cookie: CookieRecord,
   csrfToken: string,
   entropy: RequestEntropy,
-  checkToken: string | undefined,
 ): Record<string, string> => {
   const header: Record<string, string> = {
     __csrf: csrfToken,
@@ -295,10 +296,6 @@ const createEapiHeader = (
 
   if (cookie.MUSIC_U) {
     header.MUSIC_U = String(cookie.MUSIC_U);
-  }
-
-  if (checkToken) {
-    header['X-antiCheatToken'] = checkToken;
   }
 
   return header;

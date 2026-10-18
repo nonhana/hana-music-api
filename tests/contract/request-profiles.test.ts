@@ -219,6 +219,36 @@ test('modules cannot privately override crypto, UA, cookie or token headers', as
   expect(failures).toEqual([]);
 });
 
+test('web profile modules do not override protocol or client identity in source', async () => {
+  const modulesDirectory = resolve(import.meta.dir, '../../src/modules');
+  const files = new Map(
+    (await discoverModuleFiles(modulesDirectory)).map((module) => [
+      module.identifier,
+      module.filePath,
+    ]),
+  );
+  const failures: Array<string> = [];
+  for (const [identifier, metadata] of Object.entries(moduleRequestProfiles)) {
+    if (metadata.profile !== 'web') {
+      continue;
+    }
+    const filePath = files.get(identifier);
+    if (!filePath) {
+      failures.push(`${identifier}:missing-file`);
+      continue;
+    }
+    const source = await readFile(filePath, 'utf8');
+    if (
+      /crypto:\s*'(?:eapi|api|linuxapi)'/.test(source) ||
+      /cookieOverrides\s*:/.test(source) ||
+      /os:\s*'(?:pc|iphone|android)'/.test(source)
+    ) {
+      failures.push(identifier);
+    }
+  }
+  expect(failures).toEqual([]);
+});
+
 test('migrated module fixtures declare profile and protocol', async () => {
   const files = [
     'playlist_subscribe/own.json',
