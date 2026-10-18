@@ -1,5 +1,11 @@
 # hana-music-api 发布日志
 
+## 2.11.0
+
+### Minor Changes
+
+- d0f4b87: 声明并校验 `PlaylistDetailBody.playlist.status` 数字字段，让调用方能识别仍返回成功正文的已删除歌单（状态为 10），同时保留未声明的上游字段。
+
 ## 2.10.0
 
 ### Minor Changes
