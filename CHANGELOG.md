@@ -1,5 +1,11 @@
 # hana-music-api 发布日志
 
+## 2.10.0
+
+### Minor Changes
+
+- 54c17e1: Declare optional playlist suggestions with numeric IDs and names in `SearchSuggestBody`, and numeric playlist play counts in `CloudsearchBody`, preserving undeclared upstream fields.
+
 ## 2.9.1
 
 ### Patch Changes
