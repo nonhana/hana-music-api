@@ -1,5 +1,11 @@
 # hana-music-api 发布日志
 
+## 2.12.0
+
+### Minor Changes
+
+- 88c7803: Unify user playlist and playlist detail responses with shared PlaylistSummary and PlaylistUser types. Declare descriptions, tags, play counts, status, privacy, and additional optional playlist and user fields while preserving undeclared JSON fields.
+
 ## 2.11.0
 
 ### Minor Changes
