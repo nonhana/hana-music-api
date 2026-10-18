@@ -12,7 +12,7 @@ const Suggestion = UpstreamObject({
   name: Schema.String,
 });
 
-// 默认按类别给 songs、artists、albums，type 为 mobile 时只给关键词 allMatch；哪一类没有建议就整个缺失，都没有时 result 是空对象。
+// 默认按类别给 songs、artists、albums、playlists，type 为 mobile 时只给关键词 allMatch；哪一类没有建议就整个缺失，都没有时 result 是空对象。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
@@ -20,6 +20,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
       songs: Schema.optionalKey(Schema.Array(Suggestion)),
       artists: Schema.optionalKey(Schema.Array(Suggestion)),
       albums: Schema.optionalKey(Schema.Array(Suggestion)),
+      playlists: Schema.optionalKey(Schema.Array(Suggestion)),
       allMatch: Schema.optionalKey(
         Schema.Array(UpstreamObject({ keyword: Schema.String })),
       ),
