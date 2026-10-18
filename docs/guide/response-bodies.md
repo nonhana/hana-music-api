@@ -23,19 +23,46 @@
 
 ### 曲库
 
-| 模块                                             | 结构定义               | 声明的字段                                                                                                                                                                                                                                                                                      |
-| ------------------------------------------------ | ---------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [用户歌单](/api/playlist/user-playlist)          | `UserPlaylistBody`     | `code`、`more`、`playlist` 的 `id`、`name`、`coverImgUrl`、`trackCount`、`updateTime`、`trackUpdateTime`、`subscribed`（可能是 `null`）、`creator`（`userId`、`nickname`）、`privacy`、`specialType`                                                                                            |
-| [歌单详情](/api/playlist/playlist-detail)        | `PlaylistDetailBody`   | `code`、`playlist` 的 `id`、`name`、`coverImgUrl`、`description`（可能是 `null`）、`tags`（字符串数组）、`playCount`、`status`（数字，正常为 0，已删除为 10）、`trackCount`、`trackIds[].id`、`creator`（`userId`、`nickname`）、`subscribed`（可能是 `null`）、`updateTime`、`trackUpdateTime` |
-| [歌单中的歌曲](/api/playlist/playlist-track-all) | `PlaylistTrackAllBody` | `code`、`songs`（歌曲）                                                                                                                                                                                                                                                                         |
-| [歌曲详情](/api/music/song-detail)               | `SongDetailBody`       | `code`、`songs`（歌曲）、`privileges` 的 `id`、`st`、`pl`                                                                                                                                                                                                                                       |
-| [专辑内容](/api/album/album)                     | `AlbumBody`            | `code`、`songs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）、`album` 的 `id`、`name`、`picUrl`、`size`、`artist`（`id`、`name`，`name` 可能是 `null`）、`publishTime`、`description`（没有简介时为 `null`）                                                                                     |
-| [已收藏专辑](/api/album/album-sublist)           | `AlbumSublistBody`     | `code`、`hasMore`、`data` 的 `id`、`name`、`picUrl`、`size`、`artists`（`id`、`name`，`name` 可能是 `null`）                                                                                                                                                                                    |
-| [已收藏歌手](/api/artist/artist-sublist)         | `ArtistSublistBody`    | `code`、`hasMore`、`data` 的 `id`、`name`、`picUrl`、`albumSize`                                                                                                                                                                                                                                |
-| [歌手热门歌曲](/api/artist/artist-top-song)      | `ArtistTopSongBody`    | `code`、`songs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）                                                                                                                                                                                                                                     |
-| [歌手专辑](/api/artist/artist-album)             | `ArtistAlbumBody`      | `code`、`more`、顶层 `artist`（`id`、`name`、`img1v1Url`、`musicSize`、`albumSize`，`name` 是字符串）；`hotAlbums` 的 `id`、`name`、`picUrl`、`size`、`artist`（`id`、`name`，`name` 可能是 `null`）、`publishTime`                                                                             |
-| [每日推荐歌曲](/api/recommend/recommend-songs)   | `RecommendSongsBody`   | `code`、`data.dailySongs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）                                                                                                                                                                                                                           |
-| [喜欢音乐列表](/api/music/likelist)              | `LikelistBody`         | `code`、`ids`                                                                                                                                                                                                                                                                                   |
+| 模块                                             | 结构定义               | 声明的字段                                                                                                                                                                                                          |
+| ------------------------------------------------ | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [用户歌单](/api/playlist/user-playlist)          | `UserPlaylistBody`     | `code`、`more`、`playlist`（`PlaylistSummary[]`，共用歌单类型，见下文）                                                                                                                                             |
+| [歌单详情](/api/playlist/playlist-detail)        | `PlaylistDetailBody`   | `code`、`playlist`（`PlaylistSummary` 加 `trackIds[].id`）                                                                                                                                                          |
+| [歌单中的歌曲](/api/playlist/playlist-track-all) | `PlaylistTrackAllBody` | `code`、`songs`（歌曲）                                                                                                                                                                                             |
+| [歌曲详情](/api/music/song-detail)               | `SongDetailBody`       | `code`、`songs`（歌曲）、`privileges` 的 `id`、`st`、`pl`                                                                                                                                                           |
+| [专辑内容](/api/album/album)                     | `AlbumBody`            | `code`、`songs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）、`album` 的 `id`、`name`、`picUrl`、`size`、`artist`（`id`、`name`，`name` 可能是 `null`）、`publishTime`、`description`（没有简介时为 `null`）         |
+| [已收藏专辑](/api/album/album-sublist)           | `AlbumSublistBody`     | `code`、`hasMore`、`data` 的 `id`、`name`、`picUrl`、`size`、`artists`（`id`、`name`，`name` 可能是 `null`）                                                                                                        |
+| [已收藏歌手](/api/artist/artist-sublist)         | `ArtistSublistBody`    | `code`、`hasMore`、`data` 的 `id`、`name`、`picUrl`、`albumSize`                                                                                                                                                    |
+| [歌手热门歌曲](/api/artist/artist-top-song)      | `ArtistTopSongBody`    | `code`、`songs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）                                                                                                                                                         |
+| [歌手专辑](/api/artist/artist-album)             | `ArtistAlbumBody`      | `code`、`more`、顶层 `artist`（`id`、`name`、`img1v1Url`、`musicSize`、`albumSize`，`name` 是字符串）；`hotAlbums` 的 `id`、`name`、`picUrl`、`size`、`artist`（`id`、`name`，`name` 可能是 `null`）、`publishTime` |
+| [每日推荐歌曲](/api/recommend/recommend-songs)   | `RecommendSongsBody`   | `code`、`data.dailySongs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）                                                                                                                                               |
+| [喜欢音乐列表](/api/music/likelist)              | `LikelistBody`         | `code`、`ids`                                                                                                                                                                                                       |
+
+两个接口共用 `PlaylistSummary`，其中 `creator` 和可选的 `subscribers[]` 共用 `PlaylistUser`。这两个 TypeScript 类型都可以从 `hana-music-api` 根入口直接导入。
+
+`PlaylistSummary` 必须包含：数字字段 `id`、`trackCount`、`updateTime`、`trackUpdateTime`、`playCount`、`privacy`、`specialType`、`status`；字符串 `name`、`coverImgUrl`；`description`（字符串或 `null`）；`tags`（字符串数组）；`subscribed`（布尔值或 `null`）；`creator`（用户）。`status` 正常为 0，已删除为 10，其他数值也原样保留。
+
+以下字段可以缺失；存在时仍会检查类型：
+
+| 类型           | `PlaylistSummary` 的可选字段                                                                                                                     |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| number         | `adType`、`backgroundCoverId`、`cloudTrackCount`、`coverImgId`、`createTime`、`subscribedCount`、`titleImage`、`trackNumberUpdateTime`、`userId` |
+| string         | `commentThreadId`                                                                                                                                |
+| string 或 null | `backgroundCoverUrl`、`coverImgId_str`、`englishTitle`、`titleImageUrl`、`updateFrequency`                                                       |
+| boolean        | `copied`、`highQuality`、`mix`、`newImported`、`opRecommend`、`ordered`                                                                          |
+| 用户数组       | `subscribers`                                                                                                                                    |
+
+`PlaylistUser` 必须包含数字 `userId` 和字符串 `nickname`，其余声明的字段均可缺失：
+
+| 类型              | `PlaylistUser` 的可选字段                                                                                                                                                        |
+| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| number            | `accountStatus`、`authStatus`、`authenticationTypes`、`authority`、`avatarImgId`、`backgroundImgId`、`birthday`、`city`、`djStatus`、`gender`、`province`、`userType`、`vipType` |
+| string            | `avatarImgIdStr`、`avatarImgId_str`、`avatarUrl`、`description`、`detailDescription`、`signature`、`backgroundImgIdStr`                                                          |
+| string 或 null    | `backgroundUrl`                                                                                                                                                                  |
+| boolean           | `anchor`、`defaultAvatar`、`followed`、`mutual`                                                                                                                                  |
+| 字符串数组或 null | `expertTags`                                                                                                                                                                     |
+| 对象或 null       | `avatarDetail`、`experts`，对象内部的字段保持为 JSON                                                                                                                             |
+
+歌单和用户都原样保留未声明字段。`sharedUsers`、`tracks`、`remarkName` 未作具体类型声明，仍为 JSON 值。必填字段缺失或已声明字段类型错误时，SDK 以 `UnexpectedUpstreamShape`（502）拒绝。
 
 ### 歌单编辑与收藏
 
@@ -86,7 +113,7 @@
 
 云搜索按 `type` 只给一类结果：专辑声明了 `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`；歌手声明了 `id`、`name`、`picUrl`（没有头像时是 `null`）、`musicSize`（歌曲数）；歌单声明了 `id`、`name`、`coverImgUrl`、`trackCount`、`playCount`（播放次数，数字）、`creator`（`userId`、`nickname`）。没有结果时只有总数（0），列表整个缺失；其他 `type`（用户、MV 等）的结果没有声明，原样保留。搜索建议默认按类别给出，某一类没有建议时对应列表整个缺失（包括 `playlists`）；`type` 为 `mobile` 时只给关键词 `allMatch`；没有建议时 `result` 是空对象。
 
-结构定义只声明真实返回里确认过、且有人在用的字段，其余字段原样保留在 `body` 里，类型是 JSON 值。字段的取值来自脱敏后的真实返回，按领域保存在仓库的 `tests/fixtures/netease/` 下。
+结构定义只声明真实返回里确认过的字段；共用歌单和用户类型还声明了上表列出的可选字段，其余字段原样保留在 `body` 里，类型是 JSON 值。字段的取值来自脱敏后的真实返回，按领域保存在仓库的 `tests/fixtures/netease/` 下。
 
 ## 导出约定
 

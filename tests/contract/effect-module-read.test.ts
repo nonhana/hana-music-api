@@ -41,6 +41,8 @@ const extraBody = {
     tags: [],
     playCount: 0,
     status: 0,
+    privacy: 0,
+    specialType: 0,
   },
   future: { nested: [null, 'kept', { enabled: true }] },
 };

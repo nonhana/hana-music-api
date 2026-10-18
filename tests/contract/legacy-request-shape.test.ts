@@ -106,6 +106,8 @@ describe('phase 5 module regression suite', () => {
       tags: [],
       playCount: 0,
       status: 0,
+      privacy: 0,
+      specialType: 0,
     };
     const requestSpy = createRequestSpy((uri) => {
       if (uri === '/api/song/enhance/player/url') {
