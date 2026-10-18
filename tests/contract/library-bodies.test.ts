@@ -40,8 +40,9 @@ import songDetailUploaded from '../fixtures/netease/library/song_detail.uploaded
 import songDetailVip from '../fixtures/netease/library/song_detail.vip.json';
 import userPlaylistInvalidCookie from '../fixtures/netease/library/user_playlist.invalid-cookie.json';
 import userPlaylist from '../fixtures/netease/library/user_playlist.json';
+import detailDeleted from '../fixtures/netease/playlist-edit/playlist_detail.deleted.json';
 
-// 每个用例按请求顺序回放脱敏后的网易云返回：验证关卡①（nonhana/hana-music-api#19）和 #48 的录制，来源见各录制的 context。
+// 每个用例按请求顺序回放脱敏后的网易云返回：验证关卡①②和 #48 的录制，来源见各录制的 context。
 const replay = (...upstream: ReadonlyArray<unknown>) => {
   const queue = [...upstream];
   return createHanaMusicApi({
@@ -70,29 +71,55 @@ test.each<{
   },
 );
 
-test.each<{ name: string; recording: Recording; query: { id: number } }>([
-  { name: 'liked', recording: detailLiked, query: detailLiked.query },
-  { name: 'own', recording: detailOwn, query: detailOwn.query },
+test.each<{
+  name: string;
+  recording: Recording;
+  query: { id: number };
+  status: number;
+}>([
+  {
+    name: 'liked',
+    recording: detailLiked,
+    query: detailLiked.query,
+    status: 0,
+  },
+  { name: 'own', recording: detailOwn, query: detailOwn.query, status: 0 },
   {
     name: 'subscribed',
     recording: detailSubscribed,
     query: detailSubscribed.query,
+    status: 0,
   },
   {
     name: 'invalid-cookie',
     recording: detailInvalidCookie,
     query: detailInvalidCookie.query,
+    status: 0,
+  },
+  {
+    name: 'deleted',
+    recording: detailDeleted,
+    query: detailDeleted.query,
+    status: 10,
   },
 ])(
   'playlistDetail returns the recorded $name playlist',
-  async ({ recording, query }) => {
+  async ({ recording, query, status }) => {
     const result = await replay(recording.response.body).playlistDetail(query);
 
+    expect(result.status).toBe(200);
     expect(result.body as unknown).toEqual(recording.response.body);
+    expect(result.body.playlist.status).toBe(status);
+    expectTypeOf(result.body.playlist.status).toEqualTypeOf<number>();
+    expect(
+      PlaylistDetailBody['~standard'].validate(
+        recording.response.body,
+      ) as unknown,
+    ).toEqual({ value: recording.response.body });
   },
 );
 
-test('playlistDetail exposes tags and playCount and preserves extra fields', async () => {
+test('playlistDetail exposes tags, playCount and status and preserves extra fields', async () => {
   const upstream = {
     ...detailSubscribed.response.body,
     futureTopLevelField: { preserved: true },
@@ -104,17 +131,26 @@ test('playlistDetail exposes tags and playCount and preserves extra fields', asy
   const result = await replay(upstream).playlistDetail(detailSubscribed.query);
 
   expect(result.body as unknown).toEqual(upstream);
+  expect(PlaylistDetailBody['~standard'].validate(upstream) as unknown).toEqual(
+    {
+      value: upstream,
+    },
+  );
   expect(result.body.playlist.tags).toEqual(['夜晚']);
   expect(result.body.playlist.playCount).toBe(29012708);
+  expect(result.body.playlist.status).toBe(0);
   expectTypeOf<
     PlaylistDetailBody['playlist']['tags'][number]
   >().toEqualTypeOf<string>();
   expectTypeOf<
     PlaylistDetailBody['playlist']['playCount']
   >().toEqualTypeOf<number>();
+  expectTypeOf<
+    PlaylistDetailBody['playlist']['status']
+  >().toEqualTypeOf<number>();
 });
 
-test.each(['tags', 'playCount'])(
+test.each(['tags', 'playCount', 'status'])(
   'playlistDetail rejects missing playlist.%s',
   async (field) => {
     const playlist: Record<string, unknown> = {
@@ -139,6 +175,8 @@ test.each(['tags', 'playCount'])(
 test.each([
   { field: 'tags', value: 123, expected: 'array', actual: 'number' },
   { field: 'playCount', value: '20', expected: 'number', actual: 'string' },
+  { field: 'status', value: '10', expected: 'number', actual: 'string' },
+  { field: 'status', value: null, expected: 'number', actual: 'null' },
 ])(
   'playlistDetail rejects playlist.$field with the wrong type',
   async ({ field, value, expected, actual }) => {
