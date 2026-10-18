@@ -29,6 +29,7 @@ const SearchedPlaylist = UpstreamObject({
   name: Schema.String,
   coverImgUrl: Schema.String,
   trackCount: Schema.Finite,
+  playCount: Schema.Finite,
   creator: UpstreamObject({
     userId: Schema.Finite,
     nickname: Schema.String,

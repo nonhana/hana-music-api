@@ -20,23 +20,57 @@ import searchPlaylist from '../fixtures/netease/search/cloudsearch.playlist.json
 import searchPlaylistNone from '../fixtures/netease/search/cloudsearch.playlist.no-result.json';
 import searchSong from '../fixtures/netease/search/cloudsearch.song.json';
 import searchSongNone from '../fixtures/netease/search/cloudsearch.song.no-result.json';
+import suggestPlaylists from '../fixtures/netease/search/kinds/001-search_suggest.json';
+import suggestAllCategories from '../fixtures/netease/search/kinds/002-search_suggest.json';
+import searchPlayCounts from '../fixtures/netease/search/kinds/004-cloudsearch.json';
 import suggestWeb from '../fixtures/netease/search/search_suggest.json';
 import suggestMobile from '../fixtures/netease/search/search_suggest.mobile.json';
 import suggestMobileNone from '../fixtures/netease/search/search_suggest.mobile.no-result.json';
 import suggestWebNone from '../fixtures/netease/search/search_suggest.no-result.json';
 
-// 每个用例回放验证关卡①录下、脱敏后的网易云返回，以及匿名补录的“没有结果”和“歌手没有头像”（nonhana/hana-music-api#21）。
+// 回放验证关卡①、#21 匿名补录和 #82 搜索歌单的脱敏录制。
 const replay = (upstream: unknown) =>
   createHanaMusicApi({
     cookie: 'MUSIC_U=listener',
     fetcher: async () => Response.json(upstream),
   });
 
+test('searchSuggest rejects a playlist suggestion whose id is text', async () => {
+  const upstream = structuredClone(suggestPlaylists.response.body);
+  (upstream.result.playlists[0] as { id: unknown }).id = '3172143658';
+
+  await expectUpstreamShapeRejection(
+    replay(upstream).searchSuggest(suggestPlaylists.query),
+    {
+      module: 'search_suggest',
+      path: 'body.result.playlists[0].id',
+      expected: 'number',
+      actual: 'string',
+    },
+  );
+});
+
+test('cloudsearch rejects a playlist result whose play count is text', async () => {
+  const upstream = structuredClone(searchPlayCounts.response.body);
+  (upstream.result.playlists[0] as { playCount: unknown }).playCount = '912088';
+
+  await expectUpstreamShapeRejection(
+    replay(upstream).cloudsearch(searchPlayCounts.query),
+    {
+      module: 'cloudsearch',
+      path: 'body.result.playlists[0].playCount',
+      expected: 'number',
+      actual: 'string',
+    },
+  );
+});
+
 test.each<{ name: string; recording: Recording }>([
   { name: 'song', recording: searchSong },
   { name: 'album', recording: searchAlbum },
   { name: 'artist', recording: searchArtist },
   { name: 'playlist', recording: searchPlaylist },
+  { name: 'playlist with play counts', recording: searchPlayCounts },
   { name: 'avatar-less artist', recording: searchArtistNoAvatar },
   { name: 'empty song', recording: searchSongNone },
   { name: 'empty album', recording: searchAlbumNone },
@@ -71,8 +105,41 @@ test('cloudsearch exposes numeric song privileges', async () => {
   >().toEqualTypeOf<number>();
 });
 
+test('cloudsearch exposes numeric playlist play counts', async () => {
+  const result = await replay(searchPlayCounts.response.body).cloudsearch(
+    searchPlayCounts.query,
+  );
+
+  expect(result.body.result.playlists?.[0]?.playCount).toBe(912088);
+  expectTypeOf<
+    NonNullable<CloudsearchBody['result']['playlists']>[number]['playCount']
+  >().toEqualTypeOf<number>();
+});
+
+test('searchSuggest exposes playlist ids and names', async () => {
+  const result = await replay(suggestPlaylists.response.body).searchSuggest(
+    suggestPlaylists.query,
+  );
+
+  expect(result.body.result.playlists?.[0]).toMatchObject({
+    id: 3172143658,
+    name: 'ずっと真夜中でいいのに。歌曲合辑',
+  });
+  expectTypeOf<
+    NonNullable<SearchSuggestBody['result']['playlists']>[number]['id']
+  >().toEqualTypeOf<number>();
+  expectTypeOf<
+    NonNullable<SearchSuggestBody['result']['playlists']>[number]['name']
+  >().toEqualTypeOf<string>();
+});
+
 test.each<{ name: string; recording: Recording }>([
   { name: 'categorized', recording: suggestWeb },
+  {
+    name: 'categorized with playlists but no artists',
+    recording: suggestPlaylists,
+  },
+  { name: 'all four categories', recording: suggestAllCategories },
   { name: 'keyword', recording: suggestMobile },
   { name: 'empty categorized', recording: suggestWebNone },
   { name: 'empty keyword', recording: suggestMobileNone },
@@ -89,6 +156,21 @@ test.each<{ name: string; recording: Recording }>([
 
 test.each<{ name: string; schema: Validator; recording: Recording }>([
   { name: 'CloudsearchBody', schema: CloudsearchBody, recording: searchSong },
+  {
+    name: 'CloudsearchBody with play counts',
+    schema: CloudsearchBody,
+    recording: searchPlayCounts,
+  },
+  {
+    name: 'SearchSuggestBody with playlists',
+    schema: SearchSuggestBody,
+    recording: suggestPlaylists,
+  },
+  {
+    name: 'SearchSuggestBody with all categories',
+    schema: SearchSuggestBody,
+    recording: suggestAllCategories,
+  },
   {
     name: 'SearchSuggestBody',
     schema: SearchSuggestBody,
@@ -181,6 +263,20 @@ test.each<{
     },
   },
   {
+    name: 'cloudsearch: a playlist result without its play count',
+    call: () => {
+      const upstream = structuredClone(searchPlayCounts.response.body);
+      delete (upstream.result.playlists[0] as { playCount?: number }).playCount;
+      return replay(upstream).cloudsearch(searchPlayCounts.query);
+    },
+    shape: {
+      module: 'cloudsearch',
+      path: 'body.result.playlists[0].playCount',
+      expected: 'present',
+      actual: 'missing',
+    },
+  },
+  {
     name: 'cloudsearch: a song result without its privilege',
     call: () => {
       const upstream = structuredClone(searchSong.response.body);
@@ -220,6 +316,62 @@ test.each<{
       path: 'body.result.allMatch[0].keyword',
       expected: 'present',
       actual: 'missing',
+    },
+  },
+  {
+    name: 'searchSuggest: a playlist suggestion whose name is numeric',
+    call: () => {
+      const upstream = structuredClone(suggestPlaylists.response.body);
+      (upstream.result.playlists[0] as { name: unknown }).name = 123;
+      return replay(upstream).searchSuggest(suggestPlaylists.query);
+    },
+    shape: {
+      module: 'search_suggest',
+      path: 'body.result.playlists[0].name',
+      expected: 'string',
+      actual: 'number',
+    },
+  },
+  {
+    name: 'searchSuggest: a playlist suggestion without its id',
+    call: () => {
+      const upstream = structuredClone(suggestPlaylists.response.body);
+      delete (upstream.result.playlists[0] as { id?: number }).id;
+      return replay(upstream).searchSuggest(suggestPlaylists.query);
+    },
+    shape: {
+      module: 'search_suggest',
+      path: 'body.result.playlists[0].id',
+      expected: 'present',
+      actual: 'missing',
+    },
+  },
+  {
+    name: 'searchSuggest: a playlist suggestion without its name',
+    call: () => {
+      const upstream = structuredClone(suggestPlaylists.response.body);
+      delete (upstream.result.playlists[0] as { name?: string }).name;
+      return replay(upstream).searchSuggest(suggestPlaylists.query);
+    },
+    shape: {
+      module: 'search_suggest',
+      path: 'body.result.playlists[0].name',
+      expected: 'present',
+      actual: 'missing',
+    },
+  },
+  {
+    name: 'searchSuggest: playlist suggestions that are null',
+    call: () => {
+      const upstream = structuredClone(suggestPlaylists.response.body);
+      (upstream.result as { playlists: unknown }).playlists = null;
+      return replay(upstream).searchSuggest(suggestPlaylists.query);
+    },
+    shape: {
+      module: 'search_suggest',
+      path: 'body.result.playlists',
+      expected: 'array',
+      actual: 'null',
     },
   },
   {

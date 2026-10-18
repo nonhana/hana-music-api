@@ -1,0 +1,372 @@
+{
+  "module": "search_suggest",
+  "query": {
+    "keywords": "真夜中"
+  },
+  "context": {
+    "recordedAt": "2026-10-17T18:46:21.770Z",
+    "sdk": "hana-music-api@2.9.0",
+    "region": "local",
+    "ip": "default",
+    "viewer": "vip-qr"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "result": {
+        "songs": [
+          {
+            "id": 1317285056,
+            "name": "真夜中のドア〜stay with me (シングルver.)",
+            "artists": [
+              {
+                "id": 160053,
+                "name": "松原みき",
+                "picUrl": null,
+                "alias": [],
+                "albumSize": 0,
+                "musicSize": 0,
+                "picId": 0,
+                "fansGroup": null,
+                "recommendText": null,
+                "appendRecText": null,
+                "fansSize": null,
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "img1v1": 0,
+                "trans": null
+              }
+            ],
+            "album": {
+              "id": 73881727,
+              "name": "Light Mellow 松原みき",
+              "artist": {
+                "id": 0,
+                "name": "",
+                "picUrl": null,
+                "alias": [],
+                "albumSize": 0,
+                "musicSize": 0,
+                "picId": 0,
+                "fansGroup": null,
+                "recommendText": null,
+                "appendRecText": null,
+                "fansSize": null,
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "img1v1": 0,
+                "trans": null
+              },
+              "publishTime": 1410883200000,
+              "size": 19,
+              "copyrightId": 4585645,
+              "status": 1,
+              "transNames": ["Light Mellow Miki Matsubara"],
+              "picId": 109951172387752500,
+              "mark": 0
+            },
+            "duration": 274400,
+            "copyrightId": 4585645,
+            "status": 0,
+            "alias": [],
+            "rtype": 0,
+            "ftype": 0,
+            "transNames": [
+              "午夜之门/留在我身边",
+              "Mayonaka no Door~stay with me (Single ver.)"
+            ],
+            "mvid": 0,
+            "fee": 1,
+            "rUrl": null,
+            "mark": 17180139520
+          },
+          {
+            "id": 2063473897,
+            "name": "真夜中のドア～stay with me",
+            "artists": [
+              {
+                "id": 160053,
+                "name": "松原みき",
+                "picUrl": null,
+                "alias": [],
+                "albumSize": 0,
+                "musicSize": 0,
+                "picId": 0,
+                "fansGroup": null,
+                "recommendText": null,
+                "appendRecText": null,
+                "fansSize": null,
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "img1v1": 0,
+                "trans": null
+              }
+            ],
+            "album": {
+              "id": 169511094,
+              "name": "潮風ドライヴ～CITYPOP DRIVE～",
+              "artist": {
+                "id": 0,
+                "name": "",
+                "picUrl": null,
+                "alias": [],
+                "albumSize": 0,
+                "musicSize": 0,
+                "picId": 0,
+                "fansGroup": null,
+                "recommendText": null,
+                "appendRecText": null,
+                "fansSize": null,
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "img1v1": 0,
+                "trans": null
+              },
+              "publishTime": 1690300800000,
+              "size": 16,
+              "copyrightId": 2709832,
+              "status": 1,
+              "transNames": ["Sea Bleeze Drive -Citypop Drive-"],
+              "picId": 109951168735350900,
+              "mark": 0
+            },
+            "duration": 311933,
+            "copyrightId": 2709832,
+            "status": 0,
+            "alias": [],
+            "rtype": 0,
+            "ftype": 0,
+            "transNames": ["午夜之门～留在我身边"],
+            "mvid": 0,
+            "fee": 1,
+            "rUrl": null,
+            "mark": 17180139520
+          },
+          {
+            "id": 1982975742,
+            "name": "真夜中のドア〜stay with me",
+            "artists": [
+              {
+                "id": 160053,
+                "name": "松原みき",
+                "picUrl": null,
+                "alias": [],
+                "albumSize": 0,
+                "musicSize": 0,
+                "picId": 0,
+                "fansGroup": null,
+                "recommendText": null,
+                "appendRecText": null,
+                "fansSize": null,
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "img1v1": 0,
+                "trans": null
+              }
+            ],
+            "album": {
+              "id": 151901121,
+              "name": "松原みき ベスト・コレクション",
+              "artist": {
+                "id": 0,
+                "name": "",
+                "picUrl": null,
+                "alias": [],
+                "albumSize": 0,
+                "musicSize": 0,
+                "picId": 0,
+                "fansGroup": null,
+                "recommendText": null,
+                "appendRecText": null,
+                "fansSize": null,
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "img1v1": 0,
+                "trans": null
+              },
+              "publishTime": 1216137600000,
+              "size": 17,
+              "copyrightId": 4585645,
+              "status": -1,
+              "transNames": ["Miki Matsubara Best Collection"],
+              "picId": 109951172387753400,
+              "mark": 0
+            },
+            "duration": 312320,
+            "copyrightId": 4585645,
+            "status": 0,
+            "alias": ["Mayonaka no Door / Stay With Me"],
+            "rtype": 0,
+            "ftype": 0,
+            "transNames": [
+              "深夜之门～和我在一起",
+              "Mayonaka no Door~stay with me"
+            ],
+            "mvid": 0,
+            "fee": 8,
+            "rUrl": null,
+            "mark": 17180139520
+          },
+          {
+            "id": 2639615614,
+            "name": "真夜中のドア〜stay with me 2024",
+            "artists": [
+              {
+                "id": 160053,
+                "name": "松原みき",
+                "picUrl": null,
+                "alias": [],
+                "albumSize": 0,
+                "musicSize": 0,
+                "picId": 0,
+                "fansGroup": null,
+                "recommendText": null,
+                "appendRecText": null,
+                "fansSize": null,
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "img1v1": 0,
+                "trans": null
+              }
+            ],
+            "album": {
+              "id": 251727242,
+              "name": "真夜中のドア〜stay with me 2024",
+              "artist": {
+                "id": 0,
+                "name": "",
+                "picUrl": null,
+                "alias": [],
+                "albumSize": 0,
+                "musicSize": 0,
+                "picId": 0,
+                "fansGroup": null,
+                "recommendText": null,
+                "appendRecText": null,
+                "fansSize": null,
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "img1v1": 0,
+                "trans": null
+              },
+              "publishTime": 1730736000000,
+              "size": 1,
+              "copyrightId": 4585645,
+              "status": 1,
+              "transNames": ["Mayonaka no Door~stay with me 2024"],
+              "picId": 109951172617260420,
+              "mark": 0
+            },
+            "duration": 292666,
+            "copyrightId": 4585645,
+            "status": 0,
+            "alias": [],
+            "rtype": 0,
+            "ftype": 0,
+            "transNames": ["Mayonaka no Door~stay with me 2024"],
+            "mvid": 0,
+            "fee": 8,
+            "rUrl": null,
+            "mark": 17180139520
+          }
+        ],
+        "albums": [
+          {
+            "id": 251727242,
+            "name": "真夜中のドア〜stay with me 2024",
+            "artist": {
+              "id": 160053,
+              "name": "松原みき",
+              "picUrl": "https://p4.music.126.net/MCqKReQVdFa_TxakxPH2qQ==/109951170165374541.jpg",
+              "alias": [],
+              "albumSize": 27,
+              "musicSize": 218,
+              "picId": 109951170165374540,
+              "fansGroup": null,
+              "recommendText": null,
+              "appendRecText": null,
+              "fansSize": null,
+              "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              "img1v1": 0,
+              "transNames": ["松原美纪"],
+              "trans": "松原美纪"
+            },
+            "publishTime": 1730736000000,
+            "size": 1,
+            "copyrightId": 4585645,
+            "status": 1,
+            "transNames": ["Mayonaka no Door~stay with me 2024"],
+            "picId": 109951172617260420,
+            "mark": 0
+          },
+          {
+            "id": 2379020,
+            "name": "真夜中は純潔",
+            "artist": {
+              "id": 17635,
+              "name": "椎名林檎",
+              "picUrl": "https://p3.music.126.net/jp4JnP6p-rMh23Mi6RLNbQ==/109951169501974874.jpg",
+              "alias": ["しいな りんご", "シイナ·リンゴ", "苹果女王"],
+              "albumSize": 89,
+              "musicSize": 825,
+              "picId": 109951169501974880,
+              "fansGroup": null,
+              "recommendText": null,
+              "appendRecText": null,
+              "fansSize": null,
+              "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              "img1v1": 0,
+              "transNames": ["Ringo Sheena"],
+              "alia": ["しいな りんご", "シイナ·リンゴ", "苹果女王"],
+              "trans": "Ringo Sheena"
+            },
+            "publishTime": 985708800000,
+            "size": 3,
+            "copyrightId": 7003,
+            "status": 1,
+            "picId": 109951163318832530,
+            "mark": 0
+          }
+        ],
+        "playlists": [
+          {
+            "id": 3172143658,
+            "name": "ずっと真夜中でいいのに。歌曲合辑",
+            "coverImgUrl": "http://p1.music.126.net/rZ5QwDyxxQw8UzuexTd6Aw==/109951164990417468.jpg",
+            "creator": null,
+            "subscribed": false,
+            "trackCount": 81,
+            "userId": 10000328,
+            "playCount": 2430786,
+            "bookCount": 40471,
+            "specialType": 0,
+            "officialTags": null,
+            "action": null,
+            "actionType": null,
+            "recommendText": null,
+            "score": null,
+            "officialPlaylistTitle": null,
+            "playlistType": "UGC",
+            "description": "★收录ずっと真夜中でいいのに。（永远是深夜有多好｡）和主唱ACAね发布的所有歌曲（目前46首）\n★不同专辑歌曲按专辑发布时间顺序排列\n★同专辑歌曲按专辑内部顺序排列\n★无重复收录；不包括伴奏\n★持续更新\n◎介绍：\n◆ずっと真夜中でいいのに。通称为“ずとまよ”，中文译名为“永远是深夜有多好｡”，是一支于2018年首次亮相并异军突起的日本音乐团队，出道作品为2018年6月发布于YouTube的《秒針を噛む》MV，目前乐队已发布45首歌曲与22支歌曲MV。\n◆其压倒性的歌声与世界观，靠着网络上口耳相传的扩散力，在日本短时间内迅速爆红。该乐队天生神秘，从未发布过完整的成员名单，每次都将音乐、编曲和音乐视频制作归功于不同的人，唯一经常出现的成员是女性主唱：ACAね。目前发布的所有歌曲均由主唱ACAね作词、作曲（个别曲目的作曲与他人共同创作）。\n▲专辑信息：\n1. 2018年11月14日发布第一张迷你专辑（EP）《正しい偽りからの起床》，最高名次为Oricon专辑周榜第8名（2018年11月26日付）\n2. 2019年6月12日发布第二张迷你专辑（EP）《今は今で誓いは笑みで》，最高名次为Oricon专辑周榜冠军（2019年06月24日付）\n3. 2019年10月30日发布第一张正式专辑（full album）《潜潜話》，最高名次为Oricon专辑周榜第5名（2019年11月11日付）\n4. 2020年8月5日发布第三张迷你专辑（EP）《朗らかな皮膚とて不服》，最高名次为Oricon专辑周榜第2名（2020年8月17日付）\n5. 2021年2月10日发布第二张正式专辑（full album）《ぐされ》，最高名次为Oricon专辑周榜第2名（2021年2月22日付）\n6.2022年2月16日发布第四张迷你专辑（EP）《伸び仕草懲りて暇乞い》，最高名次为Oricon专辑周榜第1名（2022年2月28日付）\n备注：封面源自《お勉強しといてよ》MV",
+            "highQuality": false
+          },
+          {
+            "id": 2887236905,
+            "name": "ずっと真夜中でいいのに。",
+            "coverImgUrl": "http://p1.music.126.net/vWFG-mdcIK_LTvWsFY8QNg==/109951165044714207.jpg",
+            "creator": null,
+            "subscribed": false,
+            "trackCount": 78,
+            "userId": 10000329,
+            "playCount": 392795,
+            "bookCount": 5924,
+            "specialType": 0,
+            "officialTags": null,
+            "action": null,
+            "actionType": null,
+            "recommendText": null,
+            "score": null,
+            "officialPlaylistTitle": null,
+            "playlistType": "UGC",
+            "description": "永远是深夜有多好。",
+            "highQuality": false
+          }
+        ],
+        "order": ["songs", "albums", "playlists"]
+      }
+    }
+  }
+}

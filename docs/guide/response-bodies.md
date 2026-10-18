@@ -82,9 +82,9 @@
 | 模块                                   | 结构定义            | 声明的字段                                                                                                                                                                                              |
 | -------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [云搜索](/api/search/cloudsearch)      | `CloudsearchBody`   | `code`、`result`；`result` 里可能缺失的 `songs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）、`albums`、`artists`、`playlists`，以及各自的总数 `songCount`、`albumCount`、`artistCount`、`playlistCount` |
-| [搜索建议](/api/search/search-suggest) | `SearchSuggestBody` | `code`、`result`；`result` 里可能缺失的 `songs`、`artists`、`albums`（每项 `id`、`name`）和 `allMatch`（每项 `keyword`）                                                                                |
+| [搜索建议](/api/search/search-suggest) | `SearchSuggestBody` | `code`、`result`；`result` 里可能缺失的 `songs`、`artists`、`albums`、`playlists`（每项 `id`、`name`）和 `allMatch`（每项 `keyword`）                                                                   |
 
-云搜索按 `type` 只给一类结果：专辑声明了 `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`；歌手声明了 `id`、`name`、`picUrl`（没有头像时是 `null`）、`musicSize`（歌曲数）；歌单声明了 `id`、`name`、`coverImgUrl`、`trackCount`、`creator`（`userId`、`nickname`）。没有结果时只有总数（0），列表整个缺失；其他 `type`（用户、MV 等）的结果没有声明，原样保留。搜索建议默认按类别给出，`type` 为 `mobile` 时只给关键词 `allMatch`；没有建议时 `result` 是空对象。
+云搜索按 `type` 只给一类结果：专辑声明了 `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`；歌手声明了 `id`、`name`、`picUrl`（没有头像时是 `null`）、`musicSize`（歌曲数）；歌单声明了 `id`、`name`、`coverImgUrl`、`trackCount`、`playCount`（播放次数，数字）、`creator`（`userId`、`nickname`）。没有结果时只有总数（0），列表整个缺失；其他 `type`（用户、MV 等）的结果没有声明，原样保留。搜索建议默认按类别给出，某一类没有建议时对应列表整个缺失（包括 `playlists`）；`type` 为 `mobile` 时只给关键词 `allMatch`；没有建议时 `result` 是空对象。
 
 结构定义只声明真实返回里确认过、且有人在用的字段，其余字段原样保留在 `body` 里，类型是 JSON 值。字段的取值来自脱敏后的真实返回，按领域保存在仓库的 `tests/fixtures/netease/` 下。
 
