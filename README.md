@@ -31,9 +31,9 @@ console.log(result.body);
 
 接口返回 Promise，结果包含 `status`、`body` 和 `cookie`。业务参数传给接口方法，Cookie、代理、超时等配置传给客户端，或作为方法的第二个参数。
 
-也可单独导入 `search`、`songUrl` 等函数，或用 `invokeModule()` 按模块名调用，详见[编程式调用](docs/guide/programmatic-api.md)。账号信息、歌单管理等接口需要有效 Cookie。
+也可单独导入 `search`、`songUrl` 等函数，或用 `invokeModule()` 按模块名调用，详见[编程式调用](website/guide/programmatic-api.md)。账号信息、歌单管理等接口需要有效 Cookie。
 
-SDK 不在本地限制请求频率：每次调用都会立刻发给网易云，不排队、不限速。调用方（例如音乐爬虫）要自己控制请求频率；网易云返回 HTTP 429 或业务 `code: 429` 时，调用以状态 429 失败，`body.retryAfter` 给出建议等待的秒数，SDK 不会自动重试。详见[请求频率由调用方控制](docs/guide/retry-timeout-resilience.md#请求频率由调用方控制)。
+SDK 不在本地限制请求频率：每次调用都会立刻发给网易云，不排队、不限速。调用方（例如音乐爬虫）要自己控制请求频率；网易云返回 HTTP 429 或业务 `code: 429` 时，调用以状态 429 失败，`body.retryAfter` 给出建议等待的秒数，SDK 不会自动重试。详见[请求频率由调用方控制](website/guide/retry-timeout-resilience.md#请求频率由调用方控制)。
 
 ## 启动 HTTP 服务
 
@@ -56,14 +56,14 @@ bun start
 curl 'http://127.0.0.1:3021/search?keywords=hello&limit=5'
 ```
 
-HTTP 接口接受业务参数及 `cookie` / `noCookie`，代理、重试等执行配置只能在服务端设置。限流与缓存规则见[调用约定](docs/guide/request-convention.md)。
+HTTP 接口接受业务参数及 `cookie` / `noCookie`，代理、重试等执行配置只能在服务端设置。限流与缓存规则见[调用约定](website/guide/request-convention.md)。
 
 ## 文档
 
 VitePress: [https://hana-music-api.netlify.app/](https://hana-music-api.netlify.app/)
 
-- [快速开始](docs/guide/getting-started.md)
-- [编程式调用](docs/guide/programmatic-api.md)
-- [认证机制](docs/guide/authentication.md)
-- [调用约定](docs/guide/request-convention.md)
-- [API 参考](docs/api/index.md)
+- [快速开始](website/guide/getting-started.md)
+- [编程式调用](website/guide/programmatic-api.md)
+- [认证机制](website/guide/authentication.md)
+- [调用约定](website/guide/request-convention.md)
+- [API 参考](website/api/index.md)

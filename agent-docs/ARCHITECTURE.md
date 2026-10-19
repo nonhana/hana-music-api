@@ -11,7 +11,7 @@
 - `src/modules/`：每个网易云端点一个模块，负责业务输入和请求意图。
 - `src/sdk/`：Promise SDK runtime，以及由模块生成的 client、registry 和具名 API 文件。
 - `src/plugins/`：上传等可组合能力；`src/types/`：共享公开类型和内部合同。
-- `tests/`：分层测试；`docs/`：面向使用者的 VitePress 文档；`_notes/`：历史报告和验收证据。
+- `tests/`：分层测试；`website/`：面向使用者的 VitePress 文档；`docs/`：agent 与 domain 文档；`_notes/`：历史报告和验收证据。
 
 ## 唯一执行链路
 
@@ -33,4 +33,4 @@ Hono 只属于 `src/server/`。`src/core/` 必须能够脱离 Hono 测试；模�
 
 上传按阶段执行；已经完成的上游写入不能回滚，失败时由模块报告部分完成阶段。自定义 fetcher 必须遵守传入的 `AbortSignal`，库只能保证自身资源会释放。
 
-重构背景与验收证据见 `_notes/effect-refactor/final-report.md` 和 `docs/guide/request-layer-overview.md`。
+重构背景与验收证据见 `_notes/effect-refactor/final-report.md` 和 `website/guide/request-layer-overview.md`。
