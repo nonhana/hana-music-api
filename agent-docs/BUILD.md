@@ -28,7 +28,7 @@
 
 `src/app/cli.ts` 从环境变量读取 `HOST`、`PORT` 和 `ANONYMOUS_TOKEN_FILE`；默认监听 `0.0.0.0:3021`，匿名令牌缺省写入系统临时目录。`NODE_ENV=production` 只用于生产启动配置。
 
-PM2 使用 `ecosystem.config.cjs`，默认写入 `logs/`，并将匿名令牌保存到 `data/runtime/anonymous_token`。Netlify 使用 `netlify.toml` 中的 `DOCS_BASE=/ bun run docs:build`，发布 `docs/.vitepress/dist`。
+PM2 使用 `ecosystem.config.cjs`，默认写入 `logs/`，并将匿名令牌保存到 `data/runtime/anonymous_token`。Netlify 使用 `netlify.toml` 中的 `DOCS_BASE=/ bun run docs:build`，发布 `website/.vitepress/dist`。
 
 ## 发布
 

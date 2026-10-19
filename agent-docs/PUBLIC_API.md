@@ -26,4 +26,4 @@ query 只承载端点业务输入，config 承载 Cookie、代理、fetcher、�
 - 公开包的 ESM 根入口、Promise 返回形式、`status/body/cookie` 响应外壳和 legacy Cookie 行为属于兼容性合同。
 - 修改公开导出后，必须通过 `bun run test:sdk-contract`、`bun run verify:sdk` 和 `bun run build:check`。
 
-使用说明见 `docs/guide/programmatic-api.md`、`docs/guide/create-request-and-create-option.md` 和 `docs/guide/sdk-package-contract.md`。
+使用说明见 `website/guide/programmatic-api.md`、`website/guide/create-request-and-create-option.md` 和 `website/guide/sdk-package-contract.md`。

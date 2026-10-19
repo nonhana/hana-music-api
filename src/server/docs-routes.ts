@@ -5,7 +5,7 @@ import type { Hono } from 'hono';
 
 const DEFAULT_DOCS_DIST_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
-  '../../docs/.vitepress/dist',
+  '../../website/.vitepress/dist',
 );
 
 const TEXT_HTML = 'text/html; charset=utf-8';
