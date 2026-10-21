@@ -46,7 +46,21 @@ console.log(result.body);
 
 ## 返回内容
 
-`body.data` 是一个对象，不是数组。声明了 `id`、`url`、`code`、`level`（实际给到的音质）和 `size`（文件字节数）。无版权时 `url` 和 `level` 是 `null`，`code` 不是 200（实测是 -110）。还没有录到试听的返回，`freeTrialInfo` 没有声明，原样保留。结构定义和类型是 `SongDownloadUrlV1Body`，见 [返回体结构](/guide/response-bodies)。
+`body.data` 是一个对象，不是数组。声明了 `id`、`url`、`code`、`level`（实际给到的音质）和 `size`（文件字节数）。结构定义和类型是 `SongDownloadUrlV1Body`。
+
+匿名请求会员歌 `1409311773` 的真实国内 IP 录制中，`standard`、`higher`、`exhigh` 均返回 `data.code: -105`、`url: null`、`level: null`、`size: 0`，表示当前身份没有下载权限；同一游客身份可以通过播放接口试听，但下载接口没有返回试听文件。无版权的下载录制为 `data.code: -110`，同样没有地址。顶层 `body.code` 和 HTTP 状态仍是 200，SDK 会正常返回这个正文，不会因条目里的负数返回码而拒绝 Promise。
+
+下载前检查已声明的字段，不要用播放接口的试听地址代替下载失败的歌曲：
+
+```ts
+const { code, url, size } = result.body.data;
+if (code !== 200 || url === null || size <= 0) {
+  throw new Error(`无法下载歌曲，下载返回码：${code}`);
+}
+// 使用 url 下载，并按 size 核对文件字节数。
+```
+
+尚未录到下载接口返回试听片段，`freeTrialInfo` 不作类型声明，原样保留；也未录到下载接口的 404 或会员到期场景。完整的录制边界见 [返回体结构](/guide/response-bodies#播放)。
 
 ## 补充说明
 
