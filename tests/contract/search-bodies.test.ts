@@ -19,6 +19,8 @@ import searchArtistNone from '../fixtures/netease/search/cloudsearch.artist.no-r
 import searchPlaylist from '../fixtures/netease/search/cloudsearch.playlist.json';
 import searchPlaylistNone from '../fixtures/netease/search/cloudsearch.playlist.no-result.json';
 import searchSong from '../fixtures/netease/search/cloudsearch.song.json';
+import searchSongMissingAlbumHieroglyphs from '../fixtures/netease/search/cloudsearch.song.missing-album-name.hieroglyphs.json';
+import searchSongMissingAlbumSymbols from '../fixtures/netease/search/cloudsearch.song.missing-album-name.symbols.json';
 import searchSongNone from '../fixtures/netease/search/cloudsearch.song.no-result.json';
 import suggestPlaylists from '../fixtures/netease/search/kinds/001-search_suggest.json';
 import suggestAllCategories from '../fixtures/netease/search/kinds/002-search_suggest.json';
@@ -67,6 +69,14 @@ test('cloudsearch rejects a playlist result whose play count is text', async () 
 
 test.each<{ name: string; recording: Recording }>([
   { name: 'song', recording: searchSong },
+  {
+    name: 'song with missing album name for symbols',
+    recording: searchSongMissingAlbumSymbols,
+  },
+  {
+    name: 'song with missing album name for hieroglyphs',
+    recording: searchSongMissingAlbumHieroglyphs,
+  },
   { name: 'album', recording: searchAlbum },
   { name: 'artist', recording: searchArtist },
   { name: 'playlist', recording: searchPlaylist },
@@ -86,6 +96,33 @@ test.each<{ name: string; recording: Recording }>([
     expect(result.body as unknown).toEqual(recording.response.body);
   },
 );
+
+test('cloudsearch preserves null album names', async () => {
+  const upstream = structuredClone(searchSong.response.body);
+  (upstream.result.songs[0]!.al as { name: unknown }).name = null;
+
+  const result = await replay(upstream).cloudsearch(searchSong.query);
+
+  expect(result.body as unknown).toEqual(upstream);
+  expectTypeOf<
+    NonNullable<CloudsearchBody['result']['songs']>[number]['al']['name']
+  >().toEqualTypeOf<string | null | undefined>();
+});
+
+test('cloudsearch rejects numeric album names', async () => {
+  const upstream = structuredClone(searchSong.response.body);
+  (upstream.result.songs[0]!.al as { name: unknown }).name = 123;
+
+  await expectUpstreamShapeRejection(
+    replay(upstream).cloudsearch(searchSong.query),
+    {
+      module: 'cloudsearch',
+      path: 'body.result.songs[0].al.name',
+      expected: 'string | null',
+      actual: 'number',
+    },
+  );
+});
 
 test('cloudsearch exposes numeric song privileges', async () => {
   const result = await replay(searchSong.response.body).cloudsearch(
@@ -156,6 +193,16 @@ test.each<{ name: string; recording: Recording }>([
 
 test.each<{ name: string; schema: Validator; recording: Recording }>([
   { name: 'CloudsearchBody', schema: CloudsearchBody, recording: searchSong },
+  {
+    name: 'CloudsearchBody with missing album name for symbols',
+    schema: CloudsearchBody,
+    recording: searchSongMissingAlbumSymbols,
+  },
+  {
+    name: 'CloudsearchBody with missing album name for hieroglyphs',
+    schema: CloudsearchBody,
+    recording: searchSongMissingAlbumHieroglyphs,
+  },
   {
     name: 'CloudsearchBody with play counts',
     schema: CloudsearchBody,
