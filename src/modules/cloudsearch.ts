@@ -43,7 +43,15 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     result: UpstreamObject({
       songs: Schema.optionalKey(
         Schema.Array(
-          UpstreamObject({ ...Song.schema.fields, privilege: SongPrivilege }),
+          UpstreamObject({
+            ...Song.schema.fields,
+            al: UpstreamObject({
+              ...Song.schema.fields.al.schema.fields,
+              // 搜索结果中的专辑名可能整个缺失，其他歌曲接口仍使用共用约束（#79）。
+              name: Schema.optionalKey(Schema.NullOr(Schema.String)),
+            }),
+            privilege: SongPrivilege,
+          }),
         ),
       ),
       songCount: Schema.optionalKey(Schema.Finite),

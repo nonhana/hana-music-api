@@ -85,7 +85,7 @@
 | [歌曲排序](/api/music/song-order-update)               | `SongOrderUpdateBody`     | `code`；大批量调整可能回 `-1`，但网易云可能已经完成排序，SDK 仍按失败返回     |
 | [申请图片上传凭证](/api/playlist/image-upload-token)   | `ImageUploadTokenBody`    | `code`、`data.imgId`、`data.token`、`data.uploadUrl`、`data.url_pre`          |
 
-表里的“歌曲”是同一种结构：`id`、`name`、`ar`（歌手的 `id`、`name`）、`al`（专辑的 `id`、`name`、`picUrl`）、`dt`（时长，毫秒）、`fee`（网易云给的付费类型，原样保留数值）。时间字段都是毫秒时间戳。
+表里的“歌曲”共用这些字段：`id`、`name`、`ar`（歌手的 `id`、`name`）、`al`（专辑的 `id`、`name`、`picUrl`）、`dt`（时长，毫秒）、`fee`（网易云给的付费类型，原样保留数值）。云搜索的专辑名另允许缺失，见下文“搜索”。时间字段都是毫秒时间戳。
 
 歌曲权限只声明数值字段 `id`、`st`、`pl`，其余字段原样保留。`song_detail` 把权限放在顶层 `privileges`，可按 `id` 与歌曲匹配；`album`、`artist_top_song`、`recommend_songs`、`cloudsearch` 放在每首歌的 `privilege`。`st < 0` 表示无版权，`pl` 是当前账号可在线播放的最高码率，0 表示不能播放完整歌曲；是否实际给到试听片段仍看播放地址里的 `freeTrialInfo`。SDK 原样保留这些数值，不把 `st` 限制成固定的枚举。
 
@@ -118,6 +118,8 @@
 | [搜索建议](/api/search/search-suggest) | `SearchSuggestBody` | `code`、`result`；`result` 里可能缺失的 `songs`、`artists`、`albums`、`playlists`（每项 `id`、`name`）和 `allMatch`（每项 `keyword`）                                                                   |
 
 云搜索按 `type` 只给一类结果：专辑声明了 `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`；歌手声明了 `id`、`name`、`picUrl`（没有头像时是 `null`）、`musicSize`（歌曲数）；歌单声明了 `id`、`name`、`coverImgUrl`、`trackCount`、`playCount`（播放次数，数字）、`creator`（`userId`、`nickname`）。没有结果时只有总数（0），列表整个缺失；其他 `type`（用户、MV 等）的结果没有声明，原样保留。搜索建议默认按类别给出，某一类没有建议时对应列表整个缺失（包括 `playlists`）；`type` 为 `mobile` 时只给关键词 `allMatch`；没有建议时 `result` 是空对象。
+
+云搜索的 `result.songs[].al.name` 可以缺失，也可以是字符串或 `null`；读取时类型为 `string | null | undefined`，调用方显示专辑名之前需要处理这两种空值。SDK 保留缺失状态，不补空字符串、不丢弃歌曲。`al` 本身及其 `id`、`picUrl` 仍是必填，`al.name` 为数字等错误类型仍以 `UnexpectedUpstreamShape`（502）拒绝；这项放宽不改变歌曲详情等其他接口的共用歌曲结构。
 
 结构定义只声明真实返回里确认过的字段；共用歌单和用户类型还声明了上表列出的可选字段，其余字段原样保留在 `body` 里，类型是 JSON 值。字段的取值来自脱敏后的真实返回，按领域保存在仓库的 `tests/fixtures/netease/` 下。
 

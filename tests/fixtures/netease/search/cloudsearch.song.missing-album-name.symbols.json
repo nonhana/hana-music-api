@@ -1,0 +1,6309 @@
+{
+  "module": "cloudsearch",
+  "query": {
+    "keywords": "⌘⌥⇧⌃⎋⏏",
+    "type": 1,
+    "limit": 100
+  },
+  "context": {
+    "recordedAt": "2026-10-21T11:49:46.760Z",
+    "sdk": "hana-music-api@2.12.0",
+    "region": "local",
+    "ip": "default",
+    "viewer": "authenticated",
+    "note": "#79: raw upstream response captured before SDK validation; request cookies and response headers are not recorded."
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "songs": [
+          {
+            "no": 5,
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 401249910,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 217756,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 401249910,
+            "sq": {
+              "br": 1625186,
+              "fid": 0,
+              "size": 44236921,
+              "vd": -41954,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "1",
+            "publishTime": 1453996800007,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 8712403,
+              "vd": -41923,
+              "sr": 44100
+            },
+            "mv": 5349011,
+            "al": {
+              "picUrl": "http://p4.music.126.net/LWwUPfPdsKgFss-QMGvnxw==/109951169407176829.jpg",
+              "name": "Nine Track Mind",
+              "tns": [],
+              "pic_str": "109951169407176829",
+              "id": 3270972,
+              "pic": 109951169407176830
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3484987,
+              "vd": -37640,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5227459,
+              "vd": -39344,
+              "sr": 44100
+            },
+            "version": 446,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Charlie Puth",
+                "tns": ["查理·普斯"],
+                "alias": ["断眉"],
+                "id": 90331,
+                "alia": ["断眉"]
+              },
+              {
+                "name": "Selena Gomez",
+                "tns": ["赛琳娜·戈麦斯"],
+                "alias": [],
+                "id": 140196
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 480,
+            "name": "We Don't Talk Anymore",
+            "mark": 17180139520
+          },
+          {
+            "no": 7,
+            "rt": "",
+            "copyright": 1,
+            "fee": 8,
+            "hr": {
+              "br": 1741153,
+              "fid": 0,
+              "size": 27383699,
+              "vd": -53296,
+              "sr": 48000
+            },
+            "privilege": {
+              "flag": 1544196,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 3445099129,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 125807,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 3445099129,
+            "sq": {
+              "br": 971190,
+              "fid": 0,
+              "size": 15275273,
+              "vd": -53296,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1791648000000,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 5034285,
+              "vd": -53294,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/yIco-8o-eq6P5CQ7ybIv-Q==/109951174087306724.jpg",
+              "name": "UDG FRESHMAN 2026 SHOW",
+              "tns": [],
+              "pic_str": "109951174087306724",
+              "id": 402563803,
+              "pic": 109951174087306720
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 2013741,
+              "vd": -49238,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 3020589,
+              "vd": -50722,
+              "sr": 48000
+            },
+            "version": 4,
+            "cp": 1416336,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "UDG Records",
+                "tns": [],
+                "alias": [],
+                "id": 94851099
+              },
+              {
+                "name": "DD Ma Shawty",
+                "tns": [],
+                "alias": ["天选之人"],
+                "id": 94753015,
+                "alia": ["天选之人"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 38,
+            "name": "伥",
+            "mark": 17716748288
+          },
+          {
+            "no": 2,
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 473817398,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 208786,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 473817398,
+            "sq": {
+              "br": 962680,
+              "fid": 0,
+              "size": 25124359,
+              "vd": -66929,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "1",
+            "publishTime": 1525968000000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 8354003,
+              "vd": -66896,
+              "sr": 44100
+            },
+            "mv": 5499051,
+            "al": {
+              "picUrl": "http://p4.music.126.net/RNl__JslenVhRoOvGmdZAg==/109951165991701088.jpg",
+              "name": "Voicenotes",
+              "tns": [],
+              "pic_str": "109951165991701088",
+              "id": 38530129,
+              "pic": 109951165991701090
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3341627,
+              "vd": -62774,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5012419,
+              "vd": -64358,
+              "sr": 44100
+            },
+            "version": 313,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Charlie Puth",
+                "tns": ["查理·普斯"],
+                "alias": ["断眉"],
+                "id": 90331,
+                "alia": ["断眉"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 347,
+            "name": "Attention",
+            "mark": 17180139520
+          },
+          {
+            "no": 1,
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 420478436,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 254400,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 420478436,
+            "sq": {
+              "br": 1001017,
+              "fid": 0,
+              "size": 31832364,
+              "vd": -78854,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "1",
+            "publishTime": 1467907200007,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 10178395,
+              "vd": -78806,
+              "sr": 44100
+            },
+            "mv": 5383265,
+            "al": {
+              "picUrl": "http://p4.music.126.net/ZnSOe-J4MEfPj1J5ocEtwQ==/109951163983943030.jpg",
+              "name": "We Don't Talk Anymore (Mr. Collipark Remix)",
+              "tns": [],
+              "pic_str": "109951163983943030",
+              "id": 34766248,
+              "pic": 109951163983943020
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 4071384,
+              "vd": -74581,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 6107054,
+              "vd": -76270,
+              "sr": 44100
+            },
+            "version": 15,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Charlie Puth",
+                "tns": ["查理·普斯"],
+                "alias": ["断眉"],
+                "id": 90331,
+                "alia": ["断眉"]
+              },
+              {
+                "name": "Selena Gomez",
+                "tns": ["赛琳娜·戈麦斯"],
+                "alias": [],
+                "id": 140196
+              },
+              {
+                "name": "Mr. Collipark",
+                "tns": [],
+                "alias": [],
+                "id": 310181
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 49,
+            "name": "We Don't Talk Anymore (Mr. Collipark Remix)",
+            "mark": 17180139520
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540102,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1462707541,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 157999,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1462707541,
+            "sq": {
+              "br": 1550190,
+              "fid": 0,
+              "size": 30616251,
+              "vd": -39398,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1594656000000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320002,
+              "fid": 0,
+              "size": 6322605,
+              "vd": -39407,
+              "sr": 48000
+            },
+            "mv": 14541972,
+            "al": {
+              "picUrl": "http://p4.music.126.net/NYyqYZbI8s1SWpiRGtZ3ow==/109951173999051648.jpg",
+              "name": "唉",
+              "tns": [],
+              "pic_str": "109951173999051648",
+              "id": 92336286,
+              "pic": 109951173999051650
+            },
+            "l": {
+              "br": 128002,
+              "fid": 0,
+              "size": 2529069,
+              "vd": -35207,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192002,
+              "fid": 0,
+              "size": 3793581,
+              "vd": -36805,
+              "sr": 48000
+            },
+            "version": 22,
+            "cp": 0,
+            "alia": ["说我的眼泪比别人珍贵"],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "张方钊",
+                "tns": [],
+                "alias": ["河南说唱之神"],
+                "id": 15194340,
+                "alia": ["河南说唱之神"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 56,
+            "name": "唉",
+            "tns": ["u say"],
+            "mark": 8256
+          },
+          {
+            "no": 5,
+            "rt": "",
+            "copyright": 1,
+            "fee": 1,
+            "hr": {
+              "br": 1788051,
+              "fid": 0,
+              "size": 48116989,
+              "vd": -59840,
+              "sr": 48000
+            },
+            "privilege": {
+              "flag": 1544196,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2633740189,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 215264,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2633740189,
+            "sq": {
+              "br": 1017773,
+              "fid": 0,
+              "size": 27390277,
+              "vd": -59840,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "1 钱",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 8613165,
+              "vd": -59847,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/qHTjyT3VTl0tZyWnq9VaSA==/109951173955320630.jpg",
+              "name": "钱专",
+              "tns": [],
+              "pic_str": "109951173955320630",
+              "id": 283080124,
+              "pic": 109951173955320620
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3445293,
+              "vd": -55761,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5167917,
+              "vd": -57257,
+              "sr": 48000
+            },
+            "version": 36,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "张方钊",
+                "tns": [],
+                "alias": ["河南说唱之神"],
+                "id": 15194340,
+                "alia": ["河南说唱之神"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 70,
+            "name": "唉 (pt.7)",
+            "mark": 17716748288
+          },
+          {
+            "no": 4,
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 509728806,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 200853,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 509728806,
+            "sq": {
+              "br": 978154,
+              "fid": 0,
+              "size": 24558187,
+              "vd": -54650,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "1",
+            "publishTime": 1525968000000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 8036354,
+              "vd": -54671,
+              "sr": 44100
+            },
+            "mv": 5687017,
+            "al": {
+              "picUrl": "http://p4.music.126.net/RNl__JslenVhRoOvGmdZAg==/109951165991701088.jpg",
+              "name": "Voicenotes",
+              "tns": [],
+              "pic_str": "109951165991701088",
+              "id": 38530129,
+              "pic": 109951165991701090
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3214568,
+              "vd": -50630,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4821830,
+              "vd": -52141,
+              "sr": 44100
+            },
+            "version": 397,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Charlie Puth",
+                "tns": ["查理·普斯"],
+                "alias": ["断眉"],
+                "id": 90331,
+                "alia": ["断眉"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 431,
+            "name": "How Long",
+            "mark": 17180139520
+          },
+          {
+            "no": 2,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "hr": {
+              "br": 1682048,
+              "fid": 0,
+              "size": 21344302,
+              "vd": -31781,
+              "sr": 48000
+            },
+            "privilege": {
+              "flag": 1544193,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 3379225181,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 101506,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 3379225181,
+            "sq": {
+              "br": 913590,
+              "fid": 0,
+              "size": 11593857,
+              "vd": -31781,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 4062765,
+              "vd": -31783,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/pipNrXPuNxFQRDdbyti21Q==/109951173020564128.jpg",
+              "name": "唉",
+              "tns": [],
+              "pic_str": "109951173020564128",
+              "id": 370071180,
+              "pic": 109951173020564130
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1625133,
+              "vd": -27494,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 2437677,
+              "vd": -29167,
+              "sr": 48000
+            },
+            "version": 10,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "刺痛思念",
+                "tns": [],
+                "alias": [],
+                "id": 99731217
+              },
+              {
+                "name": "泪誓.",
+                "tns": [],
+                "alias": [],
+                "id": 123859350
+              },
+              {
+                "name": "痛定思痛.",
+                "tns": [],
+                "alias": [],
+                "id": 97701312
+              },
+              {
+                "name": "秋刀鱼",
+                "tns": [],
+                "alias": [],
+                "id": 99731673
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 44,
+            "name": "怪我天真",
+            "mark": 537002112
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540358,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1476554602,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 166956,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1476554602,
+            "sq": {
+              "br": 1661515,
+              "fid": 0,
+              "size": 34675110,
+              "vd": -29497,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 6680685,
+              "vd": -29505,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/Ri8MYa1KMdzEt8qPuclzJw==/109951165294261317.jpg",
+              "name": "唉 (pt.2)",
+              "tns": [],
+              "pic_str": "109951165294261317",
+              "id": 94834446,
+              "pic": 109951165294261310
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 2672301,
+              "vd": -25354,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4008429,
+              "vd": -26919,
+              "sr": 48000
+            },
+            "version": 18,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "张方钊",
+                "tns": [],
+                "alias": ["河南说唱之神"],
+                "id": 15194340,
+                "alia": ["河南说唱之神"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 52,
+            "name": "唉 (pt.2)",
+            "mark": 17179877440
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 0,
+            "privilege": {
+              "flag": 1540099,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 0,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1492114515,
+              "sp": 7,
+              "payed": 0,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 213913,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1492114515,
+            "sq": {
+              "br": 1572611,
+              "fid": 0,
+              "size": 42050256,
+              "vd": -41379,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 8559405,
+              "vd": -41381,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/QxdJkW5m8AAfrUe-D7HrOw==/109951165432831254.jpg",
+              "name": "唉 (pt.3)",
+              "tns": [],
+              "pic_str": "109951165432831254",
+              "id": 97609710,
+              "pic": 109951165432831250
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3423789,
+              "vd": -37054,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5135661,
+              "vd": -38767,
+              "sr": 48000
+            },
+            "version": 19,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "张方钊",
+                "tns": [],
+                "alias": ["河南说唱之神"],
+                "id": 15194340,
+                "alia": ["河南说唱之神"]
+              },
+              {
+                "name": "大D(DLyn)",
+                "tns": [],
+                "alias": ["林慧东"],
+                "id": 12114249,
+                "alia": ["林慧东"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 53,
+            "name": "唉 (pt.3)",
+            "mark": 17179869376
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1478264137,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 180989,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1478264137,
+            "sq": {
+              "br": 1451997,
+              "fid": 0,
+              "size": 32849588,
+              "vd": -16708,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1599753600000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320002,
+              "fid": 0,
+              "size": 7242231,
+              "vd": -16712,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/pGXhgWIHEKfAOWhDrdnZAA==/109951170436263564.jpg",
+              "name": "พูดจริง",
+              "tns": [],
+              "pic_str": "109951170436263564",
+              "id": 95236788,
+              "pic": 109951170436263570
+            },
+            "l": {
+              "br": 128002,
+              "fid": 0,
+              "size": 2896919,
+              "vd": -12395,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192002,
+              "fid": 0,
+              "size": 4345356,
+              "vd": -14085,
+              "sr": 44100
+            },
+            "version": 11,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "MEYOU",
+                "tns": [],
+                "alias": ["มิว ชิษณุชา", "มียู"],
+                "id": 13644125,
+                "alia": ["มิว ชิษณุชา", "มียู"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 45,
+            "name": "พูดจริง",
+            "tns": ["说真的"],
+            "mark": 17180139520
+          },
+          {
+            "no": 9,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1343492,
+              "code": 0,
+              "dlLevel": "exhigh",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 320000,
+              "plLevel": "exhigh",
+              "maxBrLevel": "sky",
+              "rightSource": 0,
+              "maxbr": 320000,
+              "id": 2660305578,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 320000,
+              "downloadMaxBrLevel": "sky",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "sky",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 320000,
+              "flLevel": "exhigh",
+              "pl": 320000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 239016,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2660305578,
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 9561645,
+              "vd": -37597,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/6JGyAAo-hklJAmFpyIUdGA==/109951170313465501.jpg",
+              "name": "枯萎的花",
+              "tns": [],
+              "pic_str": "109951170313465501",
+              "id": 242122729,
+              "pic": 109951170313465500
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3824685,
+              "vd": -33181,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5737005,
+              "vd": -34962,
+              "sr": 48000
+            },
+            "version": 7,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "ㅤ",
+                "tns": [],
+                "alias": [],
+                "id": 58237765
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 41,
+            "name": "miss you",
+            "mark": 17180008448
+          },
+          {
+            "no": 18,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1343492,
+              "code": 0,
+              "dlLevel": "exhigh",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 320000,
+              "plLevel": "exhigh",
+              "maxBrLevel": "sky",
+              "rightSource": 0,
+              "maxbr": 320000,
+              "id": 2622667547,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 320000,
+              "downloadMaxBrLevel": "sky",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "sky",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 320000,
+              "flLevel": "exhigh",
+              "pl": 320000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 180192,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2622667547,
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 7208795,
+              "vd": -36482,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/uG0v8cpzeclvYUEjBfjvaA==/109951169920193428.jpg",
+              "name": "House",
+              "tns": [],
+              "pic_str": "109951169920193428",
+              "id": 246507485,
+              "pic": 109951169920193420
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 2883544,
+              "vd": -32236,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4325294,
+              "vd": -33879,
+              "sr": 44100
+            },
+            "version": 4,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "ㅤ",
+                "tns": [],
+                "alias": [],
+                "id": 59970487
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 38,
+            "name": "脆弱的善良",
+            "mark": 17180008448
+          },
+          {
+            "no": 1,
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 34072434,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 194453,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 34072434,
+            "sq": {
+              "br": 887348,
+              "fid": 0,
+              "size": 21568483,
+              "vd": -45928,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "1",
+            "publishTime": 1453996800000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 7780354,
+              "vd": -45928,
+              "sr": 44100
+            },
+            "mv": 477481,
+            "al": {
+              "picUrl": "http://p4.music.126.net/LWwUPfPdsKgFss-QMGvnxw==/109951169407176829.jpg",
+              "name": "Nine Track Mind",
+              "tns": [],
+              "pic_str": "109951169407176829",
+              "id": 3270972,
+              "pic": 109951169407176830
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3112168,
+              "vd": -41587,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4668230,
+              "vd": -43313,
+              "sr": 44100
+            },
+            "version": 55,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Charlie Puth",
+                "tns": ["查理·普斯"],
+                "alias": ["断眉"],
+                "id": 90331,
+                "alia": ["断眉"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 89,
+            "name": "One Call Away",
+            "mark": 17180139520
+          },
+          {
+            "no": 4,
+            "rt": "",
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1817971996,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 227583,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1817971996,
+            "sq": {
+              "br": 896378,
+              "fid": 0,
+              "size": 25504290,
+              "vd": -53105,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1612454400000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 9106329,
+              "vd": -53113,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/EW1mBqZgqmK29Gwdnp-I8w==/109951170676688154.jpg",
+              "name": "烻",
+              "tns": [],
+              "pic_str": "109951170676688154",
+              "id": 122619417,
+              "pic": 109951170676688160
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3642558,
+              "vd": -48910,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5463815,
+              "vd": -50535,
+              "sr": 44100
+            },
+            "version": 23,
+            "cp": 1416336,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "GAI周延",
+                "tns": [],
+                "alias": [],
+                "id": 1211046
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 57,
+            "name": "兰花草",
+            "mark": 17179942912
+          },
+          {
+            "no": 5,
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 440317247,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 217756,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 440317247,
+            "sq": {
+              "br": 1625186,
+              "fid": 0,
+              "size": 44236921,
+              "vd": -42136,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "1",
+            "publishTime": 1478793600000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 8712403,
+              "vd": -41923,
+              "sr": 44100
+            },
+            "mv": 5349011,
+            "al": {
+              "picUrl": "http://p4.music.126.net/k4SnYDQZ1_51grM1QDkX-w==/109951165338538266.jpg",
+              "name": "Nine Track Mind (Deluxe Edition)",
+              "tns": [],
+              "pic_str": "109951165338538266",
+              "id": 34971711,
+              "pic": 109951165338538270
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3484987,
+              "vd": -37640,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5227459,
+              "vd": -39344,
+              "sr": 44100
+            },
+            "version": 177,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Charlie Puth",
+                "tns": ["查理·普斯"],
+                "alias": ["断眉"],
+                "id": 90331,
+                "alia": ["断眉"]
+              },
+              {
+                "name": "Selena Gomez",
+                "tns": ["赛琳娜·戈麦斯"],
+                "alias": [],
+                "id": 140196
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 211,
+            "name": "We Don't Talk Anymore",
+            "mark": 17180139520
+          },
+          {
+            "no": 1,
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 483061711,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 206702,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 483061711,
+            "sq": {
+              "br": 977079,
+              "fid": 0,
+              "size": 25245559,
+              "vd": -64908,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "1",
+            "publishTime": 1496937600007,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 8270411,
+              "vd": -64908,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/gmi0t7jxB3q92tI0Gh94Kg==/109951166562832308.jpg",
+              "name": "Attention (Acoustic)",
+              "tns": [],
+              "pic_str": "109951166562832308",
+              "id": 35585314,
+              "pic": 109951166562832300
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3308191,
+              "vd": -60715,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4962264,
+              "vd": -62351,
+              "sr": 44100
+            },
+            "version": 14,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Charlie Puth",
+                "tns": ["查理·普斯"],
+                "alias": ["断眉"],
+                "id": 90331,
+                "alia": ["断眉"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 48,
+            "name": "Attention (Acoustic)",
+            "mark": 17180139520
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540102,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2038516837,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 95,
+            "dt": 116355,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2038516837,
+            "sq": {
+              "br": 692784,
+              "fid": 0,
+              "size": 10076141,
+              "vd": 52849,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 4657154,
+              "vd": 52845,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/ZSeY83QBIZ0GNfY_eCAzcg==/109951168540094458.jpg",
+              "name": "相信爱情",
+              "tns": [],
+              "pic_str": "109951168540094458",
+              "id": 163508013,
+              "pic": 109951168540094460
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1862888,
+              "vd": 57215,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 2794310,
+              "vd": 55457,
+              "sr": 44100
+            },
+            "version": 9,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "cx330",
+                "tns": [],
+                "alias": ["木木"],
+                "id": 56022616,
+                "alia": ["木木"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 43,
+            "name": "⩯",
+            "mark": 17179877440
+          },
+          {
+            "no": 2,
+            "rt": "",
+            "copyright": 0,
+            "fee": 1,
+            "hr": {
+              "br": 3079540,
+              "fid": 0,
+              "size": 69133875,
+              "vd": -80634,
+              "sr": 96000
+            },
+            "privilege": {
+              "flag": 1560580,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 3341444739,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 179586,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 3341444739,
+            "sq": {
+              "br": 1107380,
+              "fid": 0,
+              "size": 24862156,
+              "vd": -80629,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1769356800000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 7185645,
+              "vd": -80654,
+              "sr": 48000
+            },
+            "mv": 34725621,
+            "al": {
+              "picUrl": "http://p4.music.126.net/4_hCwxnx5mC0yeb--0fQgw==/109951172622623026.jpg",
+              "name": "Delulu Pack",
+              "tns": [],
+              "pic_str": "109951172622623026",
+              "id": 359110666,
+              "pic": 109951172622623020
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 2874285,
+              "vd": -76575,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4311405,
+              "vd": -78150,
+              "sr": 48000
+            },
+            "version": 6,
+            "cp": 4586638,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "KiiiKiii",
+                "tns": [],
+                "alias": ["키키"],
+                "id": 97197815,
+                "alia": ["키키"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 40,
+            "name": "404 (New Era)",
+            "mark": 17717010432
+          },
+          {
+            "no": 8,
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 526977266,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 225880,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 526977266,
+            "sq": {
+              "br": 901952,
+              "fid": 0,
+              "size": 25470773,
+              "vd": -43263,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "1",
+            "publishTime": 1217260800000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 9037366,
+              "vd": -43267,
+              "sr": 44100
+            },
+            "mv": 14539125,
+            "al": {
+              "picUrl": "http://p4.music.126.net/k9u59LVAPy7BsDQxIHnW9A==/109951173249167000.jpg",
+              "name": "WOMEN SERIES",
+              "tns": [],
+              "pic_str": "109951173249167000",
+              "id": 37110684,
+              "pic": 109951173249167000
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3614973,
+              "vd": -38945,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5422437,
+              "vd": -40632,
+              "sr": 44100
+            },
+            "version": 30,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Nan Vatiya",
+                "tns": [],
+                "alias": ["แนน วาทิยา"],
+                "id": 11971047,
+                "alia": ["แนน วาทิยา"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 64,
+            "name": "อาจจะมีสักวัน (เพลงประกอบละคร \"ทะเลริษยา\")",
+            "tns": ["也许有一天", "如果有一天（泰剧《妒海》OST）"],
+            "mark": 17180139520
+          },
+          {
+            "no": 1,
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540358,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 521935820,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 135653,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 521935820,
+            "sq": {
+              "br": 1402031,
+              "fid": 0,
+              "size": 23773879,
+              "vd": 31279,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1511798400000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 5428289,
+              "vd": 31396,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/ZvYHj8W72RwrnOJiOGaL9g==/109951163074555333.jpg",
+              "name": "❀",
+              "tns": [],
+              "pic_str": "109951163074555333",
+              "id": 36877580,
+              "pic": 109951163074555330
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 2171342,
+              "vd": 35827,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 3256991,
+              "vd": 34036,
+              "sr": 44100
+            },
+            "version": 37,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "nevva",
+                "tns": [],
+                "alias": [],
+                "id": 12271128
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 71,
+            "name": "❀",
+            "mark": 17180008512
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 1,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1828521764,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 144000,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1828521764,
+            "sq": {
+              "br": 1583702,
+              "fid": 0,
+              "size": 28506636,
+              "vd": -71633,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1529596800000,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320003,
+              "fid": 0,
+              "size": 5762656,
+              "vd": -71637,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/ZOByVjW2dzmliV34XcKv3A==/109951165803698838.jpg",
+              "name": "pink lemonade",
+              "tns": [],
+              "pic_str": "109951165803698838",
+              "id": 124423741,
+              "pic": 109951165803698830
+            },
+            "l": {
+              "br": 128003,
+              "fid": 0,
+              "size": 2305088,
+              "vd": -67418,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192003,
+              "fid": 0,
+              "size": 3457611,
+              "vd": -69038,
+              "sr": 44100
+            },
+            "version": 6,
+            "cp": 1416692,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "maxtaylor♚",
+                "tns": [],
+                "alias": [],
+                "id": 35709468
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 40,
+            "name": "pink lemonade",
+            "mark": 17181188096
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 497572729,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 353676,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 497572729,
+            "sq": {
+              "br": 1411000,
+              "fid": 0,
+              "size": 42951382,
+              "vd": -64491,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1502452431422,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 14150052,
+              "vd": -64504,
+              "sr": 44100
+            },
+            "mv": 14479928,
+            "al": {
+              "picUrl": "http://p4.music.126.net/a-4-aPqSD5SA0gL8EXQeZA==/109951164563801943.jpg",
+              "name": "砳",
+              "tns": [],
+              "pic_str": "109951164563801943",
+              "id": 84153693,
+              "pic": 109951164563801940
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 5660047,
+              "vd": -60308,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 8490049,
+              "vd": -61948,
+              "sr": 44100
+            },
+            "version": 48,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "夏日入侵企画",
+                "tns": [],
+                "alias": [],
+                "id": 12383009
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 82,
+            "name": "人生浪费指南",
+            "mark": 17179877376
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 0,
+            "privilege": {
+              "flag": 1540097,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 0,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2756464063,
+              "sp": 7,
+              "payed": 0,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 109155,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2756464063,
+            "sq": {
+              "br": 464636,
+              "fid": 0,
+              "size": 6341772,
+              "vd": 6244,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 4368762,
+              "vd": 6245,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/CVagbkqJSUVRX45LVHTSQg==/109951172162800180.jpg",
+              "name": "￴￴￴",
+              "tns": [],
+              "pic_str": "109951172162800180",
+              "id": 288737847,
+              "pic": 109951172162800180
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1747531,
+              "vd": 10682,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 2621275,
+              "vd": 8889,
+              "sr": 44100
+            },
+            "version": 15,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "spiahsjgsmgz ￴￴￴",
+                "tns": [],
+                "alias": [],
+                "id": 96964777
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 49,
+            "name": "Zyre",
+            "mark": 131200
+          },
+          {
+            "no": 36,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2644908287,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 116678,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2644908287,
+            "sq": {
+              "br": 555274,
+              "fid": 0,
+              "size": 8098596,
+              "vd": -6989,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 4669693,
+              "vd": -7007,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/VaZDA7-3ZVVTD6NK2t4Kkg==/109951170131153550.jpg",
+              "name": "我懂你的苦衷",
+              "tns": [],
+              "pic_str": "109951170131153550",
+              "id": 253246679,
+              "pic": 109951170131153550
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1867903,
+              "vd": -2366,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 2801833,
+              "vd": -4371,
+              "sr": 44100
+            },
+            "version": 12,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "ㅤㅤ",
+                "tns": [],
+                "alias": [],
+                "id": 95825342
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 46,
+            "name": "想念拟人化",
+            "mark": 17180008448
+          },
+          {
+            "no": 12,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2645292642,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 102359,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2645292642,
+            "sq": {
+              "br": 1014964,
+              "fid": 0,
+              "size": 12986363,
+              "vd": -70231,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 4097089,
+              "vd": -70227,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/a08fV37VA9-yroWcYqb42Q==/109951170139743907.jpg",
+              "name": "Love you",
+              "tns": [],
+              "pic_str": "109951170139743907",
+              "id": 253333074,
+              "pic": 109951170139743900
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1638862,
+              "vd": -66021,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 2458271,
+              "vd": -67638,
+              "sr": 44100
+            },
+            "version": 6,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "ㅤㅤ",
+                "tns": [],
+                "alias": [],
+                "id": 95825342
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 40,
+            "name": "我渐渐学会了向前看",
+            "mark": 17180008448
+          },
+          {
+            "no": 4,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2645829465,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 119684,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2645829465,
+            "sq": {
+              "br": 1045426,
+              "fid": 0,
+              "size": 15640112,
+              "vd": -68646,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 4789856,
+              "vd": -68651,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/Ktxh0fn0tDNLo8qeyTtPAg==/109951170144978646.jpg",
+              "name": "想幸福先好好爱自己",
+              "tns": [],
+              "pic_str": "109951170144978646",
+              "id": 253497529,
+              "pic": 109951170144978640
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1915968,
+              "vd": -64575,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 2873931,
+              "vd": -66079,
+              "sr": 44100
+            },
+            "version": 6,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "ㅤㅤ",
+                "tns": [],
+                "alias": [],
+                "id": 95825342
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 40,
+            "name": "后来我们都没有打扰对方",
+            "mark": 17180008448
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2608143525,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 79872,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2608143525,
+            "sq": {
+              "br": 752244,
+              "fid": 0,
+              "size": 7511931,
+              "vd": -46410,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 3196845,
+              "vd": -46410,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/CrVO_ZxXGTTwf05N6kX67w==/109951172876948225.jpg",
+              "name": "Song for My Baby",
+              "tns": [],
+              "pic_str": "109951172876948225",
+              "id": 242123640,
+              "pic": 109951172876948220
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1278765,
+              "vd": -41981,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 1918125,
+              "vd": -43777,
+              "sr": 48000
+            },
+            "version": 47,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "❀",
+                "tns": [],
+                "alias": [],
+                "id": 36775632
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 81,
+            "name": "Song for My Baby",
+            "mark": 17180008448
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 1,
+            "fee": 8,
+            "hr": {
+              "br": 1684779,
+              "fid": 0,
+              "size": 51143524,
+              "vd": -48071,
+              "sr": 48000
+            },
+            "privilege": {
+              "flag": 1544452,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 3427741075,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 242828,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 3427741075,
+            "sq": {
+              "br": 925142,
+              "fid": 0,
+              "size": 28085823,
+              "vd": -48071,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1788624000000,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 9715245,
+              "vd": -48076,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/XpBwlNhlQdvNxU3YvcsfSg==/109951173848512449.jpg",
+              "name": "แล้วเราจะได้รักกันไหม (From \"Pls Love รักได้ไหม\")",
+              "tns": [],
+              "pic_str": "109951173848512449",
+              "id": 395262482,
+              "pic": 109951173848512450
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3886125,
+              "vd": -43790,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5829165,
+              "vd": -45472,
+              "sr": 48000
+            },
+            "version": 4,
+            "cp": 1416618,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Lena Lalina",
+                "tns": [],
+                "alias": [],
+                "id": 100299365
+              },
+              {
+                "name": "Miu Natsha",
+                "tns": [],
+                "alias": [],
+                "id": 100288883
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 38,
+            "name": "แล้วเราจะได้รักกันไหม (From \"Pls Love รักได้ไหม\")",
+            "mark": 17717010432
+          },
+          {
+            "no": 2,
+            "rt": "",
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1975860927,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 208421,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1975860927,
+            "sq": {
+              "br": 957297,
+              "fid": 0,
+              "size": 24940122,
+              "vd": -67575,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1660665600000,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 8339374,
+              "vd": -67570,
+              "sr": 44100
+            },
+            "mv": 14625840,
+            "al": {
+              "picUrl": "http://p4.music.126.net/NHx_RYPbB9CmkCI4qkbIVA==/109951167819908930.jpg",
+              "name": "เศร้าศาสตร์",
+              "tns": [],
+              "pic_str": "109951167819908930",
+              "id": 150446213,
+              "pic": 109951167819908930
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3335776,
+              "vd": -63338,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5003642,
+              "vd": -64973,
+              "sr": 44100
+            },
+            "version": 15,
+            "cp": 1416618,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "bamm",
+                "tns": [],
+                "alias": [],
+                "id": 31265448
+              },
+              {
+                "name": "Pimma PiXXiE",
+                "tns": [],
+                "alias": [],
+                "id": 53837610
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 49,
+            "name": "ปล่อยจอย",
+            "tns": ["释放欢乐"],
+            "mark": 17180139520
+          },
+          {
+            "no": 3,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1343492,
+              "code": 0,
+              "dlLevel": "exhigh",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 320000,
+              "plLevel": "exhigh",
+              "maxBrLevel": "sky",
+              "rightSource": 0,
+              "maxbr": 320000,
+              "id": 2106847935,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 320000,
+              "downloadMaxBrLevel": "sky",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "sky",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 320000,
+              "flLevel": "exhigh",
+              "pl": 320000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 70,
+            "dt": 121368,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2106847935,
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 3,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 4855725,
+              "vd": 5237,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/0RY4snaErLgGpDaTeiGikg==/109951170711310015.jpg",
+              "name": "ㅤㅤㅤ",
+              "tns": [],
+              "pic_str": "109951170711310015",
+              "id": 180613720,
+              "pic": 109951170711310020
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1942317,
+              "vd": 9690,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 2913453,
+              "vd": 7882,
+              "sr": 48000
+            },
+            "version": 13,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "isssisis",
+                "tns": [],
+                "alias": [],
+                "id": 52354057
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 47,
+            "name": "t1七彩阳光",
+            "mark": 17179877376
+          },
+          {
+            "no": 5,
+            "rt": "",
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2166151146,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 217706,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2166151146,
+            "sq": {
+              "br": 932399,
+              "fid": 0,
+              "size": 25373700,
+              "vd": -43057,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1446652800000,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 8711358,
+              "vd": -42090,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/AwXjw_qzI2m4siyO8_m7Ag==/109951169682634390.jpg",
+              "name": "Nine Track Mind (Special Edition)",
+              "tns": [],
+              "pic_str": "109951169682634390",
+              "id": 199248823,
+              "pic": 109951169682634380
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3484569,
+              "vd": -37792,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5226832,
+              "vd": -39494,
+              "sr": 44100
+            },
+            "version": 4,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Charlie Puth",
+                "tns": ["查理·普斯"],
+                "alias": ["断眉"],
+                "id": 90331,
+                "alia": ["断眉"]
+              },
+              {
+                "name": "Selena Gomez",
+                "tns": ["赛琳娜·戈麦斯"],
+                "alias": [],
+                "id": 140196
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 38,
+            "name": "We Don't Talk Anymore (feat. Selena Gomez)",
+            "mark": 17180139520
+          },
+          {
+            "no": 8,
+            "rt": "",
+            "copyright": 2,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540357,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 22738903,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 95,
+            "dt": 217000,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 22738903,
+            "sq": {
+              "br": 826608,
+              "fid": 0,
+              "size": 22421767,
+              "vd": -25641,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "1",
+            "publishTime": 1135094400000,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320002,
+              "fid": 0,
+              "size": 8683146,
+              "vd": -26077,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/4A-D98TeFDFAfPJg8iC-NQ==/109951165259329390.jpg",
+              "name": "Glitter",
+              "tns": [],
+              "pic_str": "109951165259329390",
+              "id": 2087951,
+              "pic": 109951165259329390
+            },
+            "l": {
+              "br": 128002,
+              "fid": 0,
+              "size": 3473284,
+              "vd": -21679,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192002,
+              "fid": 0,
+              "size": 5209905,
+              "vd": -23446,
+              "sr": 44100
+            },
+            "version": 26,
+            "cp": 743010,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Pasteboard",
+                "tns": [],
+                "alias": [],
+                "id": 21000
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 60,
+            "name": "Squall",
+            "tns": ["飑"],
+            "mark": 9007216434880640
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540102,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2023623717,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 95,
+            "dt": 165197,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2023623717,
+            "sq": {
+              "br": 445507,
+              "fid": 0,
+              "size": 9199611,
+              "vd": 62790,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 6610068,
+              "vd": 76360,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/3fTx5JDsl-hYMRwPI-gSJA==/109951168260167226.jpg",
+              "name": "☔",
+              "tns": [],
+              "pic_str": "109951168260167226",
+              "id": 158828196,
+              "pic": 109951168260167230
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 2644053,
+              "vd": 80791,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 3966058,
+              "vd": 79003,
+              "sr": 44100
+            },
+            "version": 14,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "off",
+                "tns": [],
+                "alias": [],
+                "id": 53409241
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 48,
+            "name": "Stay With Me",
+            "mark": 17180008512
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 1,
+            "hr": {
+              "br": 1774086,
+              "fid": 0,
+              "size": 35481725,
+              "vd": -37379,
+              "sr": 48000
+            },
+            "privilege": {
+              "flag": 1544196,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1965671755,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 160000,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1965671755,
+            "sq": {
+              "br": 1003558,
+              "fid": 0,
+              "size": 20071172,
+              "vd": -37379,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1658332800000,
+            "cf": "",
+            "originCoverType": 2,
+            "h": {
+              "br": 320002,
+              "fid": 0,
+              "size": 6402285,
+              "vd": -37389,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/NLIMaAbS4VAuyKK699_87A==/109951167705664282.jpg",
+              "name": "爱立刻有",
+              "tns": [],
+              "pic_str": "109951167705664282",
+              "id": 148410997,
+              "pic": 109951167705664290
+            },
+            "originSongSimpleData": {
+              "artists": [
+                {
+                  "name": "Ptrp Studio",
+                  "id": 37168813
+                }
+              ],
+              "name": "ชอบเธออะ",
+              "songId": 1963039966,
+              "albumMeta": {
+                "name": "ชอบเธออะ",
+                "id": 147933073
+              }
+            },
+            "l": {
+              "br": 128002,
+              "fid": 0,
+              "size": 2560941,
+              "vd": -33212,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192002,
+              "fid": 0,
+              "size": 3841389,
+              "vd": -34833,
+              "sr": 48000
+            },
+            "version": 32,
+            "cp": 0,
+            "alia": ["ชอบเธออะ (I Like You)女生版"],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Bell玲惠",
+                "tns": [],
+                "alias": [],
+                "id": 37616858
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 66,
+            "name": "爱立刻有",
+            "mark": 17716748288
+          },
+          {
+            "no": 2,
+            "copyright": 1,
+            "fee": 1,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 440317244,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 199133,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 440317244,
+            "sq": {
+              "br": 925028,
+              "fid": 0,
+              "size": 23025513,
+              "vd": -36864,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "1",
+            "publishTime": 1478793600000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320002,
+              "fid": 0,
+              "size": 7968436,
+              "vd": -36875,
+              "sr": 44100
+            },
+            "mv": 5386016,
+            "al": {
+              "picUrl": "http://p3.music.126.net/k4SnYDQZ1_51grM1QDkX-w==/109951165338538266.jpg",
+              "name": "Nine Track Mind (Deluxe Edition)",
+              "tns": [],
+              "pic_str": "109951165338538266",
+              "id": 34971711,
+              "pic": 109951165338538270
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3187400,
+              "vd": -32709,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192002,
+              "fid": 0,
+              "size": 4781079,
+              "vd": -34296,
+              "sr": 44100
+            },
+            "version": 176,
+            "cp": 7002,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Charlie Puth",
+                "tns": ["查理·普斯"],
+                "alias": ["断眉"],
+                "id": 90331,
+                "alia": ["断眉"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 210,
+            "name": "Dangerously",
+            "mark": 17180139520
+          },
+          {
+            "no": 7,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1967086957,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 194666,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1967086957,
+            "sq": {
+              "br": 1630174,
+              "fid": 0,
+              "size": 39667590,
+              "vd": -61585,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 7789758,
+              "vd": -61594,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/dVY8mlFzPJMApmPz5lkXcw==/109951167716166723.jpg",
+              "name": "骜",
+              "tns": [],
+              "pic_str": "109951167716166723",
+              "id": 148680311,
+              "pic": 109951167716166720
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3115929,
+              "vd": -57339,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4673872,
+              "vd": -59002,
+              "sr": 44100
+            },
+            "version": 11,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "XMASwu(吴骜)",
+                "tns": [],
+                "alias": [],
+                "id": 31309410
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 45,
+            "name": "叶",
+            "mark": 17179877376
+          },
+          {
+            "no": 6,
+            "rt": "",
+            "copyright": 0,
+            "fee": 0,
+            "privilege": {
+              "flag": 1343616,
+              "code": 0,
+              "dlLevel": "exhigh",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 0,
+              "dl": 320000,
+              "plLevel": "exhigh",
+              "maxBrLevel": "sky",
+              "rightSource": 0,
+              "maxbr": 320000,
+              "id": 1417063744,
+              "sp": 7,
+              "payed": 0,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 320000,
+              "downloadMaxBrLevel": "sky",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "sky",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 320000,
+              "flLevel": "exhigh",
+              "pl": 320000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 90,
+            "dt": 255085,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1417063744,
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 10204517,
+              "vd": -47192,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/sCdz6Npr5bTtdBr_4MubRA==/109951164630653523.jpg",
+              "name": "❤",
+              "tns": [],
+              "pic_str": "109951164630653523",
+              "id": 85021882,
+              "pic": 109951164630653520
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 4081833,
+              "vd": -42808,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 6122728,
+              "vd": -44584,
+              "sr": 44100
+            },
+            "version": 5,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Devon Hendryx",
+                "tns": [],
+                "alias": [],
+                "id": 33602194
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 39,
+            "name": "****ing Your Girl",
+            "mark": 262144
+          },
+          {
+            "no": 2,
+            "rt": "",
+            "copyright": 0,
+            "fee": 1,
+            "hr": {
+              "br": 1731753,
+              "fid": 0,
+              "size": 50853462,
+              "vd": -55157,
+              "sr": 48000
+            },
+            "privilege": {
+              "flag": 1544196,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2158207761,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 95,
+            "dt": 234922,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2158207761,
+            "sq": {
+              "br": 964901,
+              "fid": 0,
+              "size": 28334617,
+              "vd": -55992,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1716480000000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 9399405,
+              "vd": -55163,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/tnwx8Q3XByY6CS4icqG20A==/109951170312319209.jpg",
+              "name": "亠",
+              "tns": [],
+              "pic_str": "109951170312319209",
+              "id": 257974809,
+              "pic": 109951170312319220
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3759789,
+              "vd": -50950,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5639661,
+              "vd": -52576,
+              "sr": 48000
+            },
+            "version": 6,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "蒋敦豪",
+                "tns": [],
+                "alias": [],
+                "id": 1038352
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 40,
+            "name": "赫马佛洛狄忒斯",
+            "mark": 17716748288
+          },
+          {
+            "no": 8,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1343489,
+              "code": 0,
+              "dlLevel": "exhigh",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 320000,
+              "plLevel": "exhigh",
+              "maxBrLevel": "sky",
+              "rightSource": 0,
+              "maxbr": 320000,
+              "id": 3380200166,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 320000,
+              "downloadMaxBrLevel": "sky",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "sky",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 320000,
+              "flLevel": "exhigh",
+              "pl": 320000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 285309,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 3380200166,
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 11413464,
+              "vd": 14051,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/9aXmMvWqDUEgN7q62IHo9w==/109951173988444691.jpg",
+              "name": "ㅤ",
+              "tns": [],
+              "pic_str": "109951173988444691",
+              "id": 131605010,
+              "pic": 109951173988444690
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 4565412,
+              "vd": 18053,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 6848096,
+              "vd": 16579,
+              "sr": 44100
+            },
+            "version": 11,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "7ㅤ",
+                "tns": [],
+                "alias": [],
+                "id": 49040333
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 45,
+            "name": "小柒",
+            "mark": 128
+          },
+          {
+            "no": 2,
+            "rt": "",
+            "copyright": 1,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2012222429,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 90,
+            "dt": 119302,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2012222429,
+            "sq": {
+              "br": 1661388,
+              "fid": 0,
+              "size": 24775946,
+              "vd": -91653,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1672588800000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 4775227,
+              "vd": -91660,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/At5OQSUXiVjxeDFZzu78nA==/109951168211636492.jpg",
+              "name": "▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░▓░",
+              "tns": [],
+              "pic_str": "109951168211636492",
+              "id": 157717362,
+              "pic": 109951168211636500
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1910117,
+              "vd": -87466,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 2865154,
+              "vd": -89080,
+              "sr": 44100
+            },
+            "version": 8,
+            "cp": 1416692,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Iwakura",
+                "tns": [],
+                "alias": [],
+                "id": 47878391
+              },
+              {
+                "name": "Mikura",
+                "tns": [],
+                "alias": [],
+                "id": 35612923
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 42,
+            "name": "≽≼⍫⍰⍫⍬⍰⍫≽≼▓▓░⍰▓⍫▓⍫⍫▓⍫v⍬≽≼≽⍬≼⍬⍫⍰⍬⍫⍬⍰⍫≽≼▓▓░⍰▓⍫⍫≽≼≽≼⍫⍰⍫⍬⍰⍫≽≼▓▓░⍰▓⍫⍫≽≼≽≼⍫⍰⍫⍰▓⍫⍫⍬⍰▓⍫⍬⍰⍫≽⍰⍫⍬⍰≼▓⍰⍫⍬⍰▓░⍰▓⍫⍫≽≼≽≼⍫⍰⍫⍬⍰⍫≽≼▓▓░⍰▓⍫⍫≽≼",
+            "mark": 17180008448
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1362791788,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 90,
+            "dt": 77538,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1362791788,
+            "sq": {
+              "br": 547104,
+              "fid": 0,
+              "size": 5302701,
+              "vd": 15504,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 3104436,
+              "vd": 15516,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/4HMEnGV-6iL0M1kGnb71Nw==/109951164044568409.jpg",
+              "name": "‭‭ ‭‭",
+              "tns": [],
+              "pic_str": "109951164044568409",
+              "id": 78858088,
+              "pic": 109951164044568420
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1241800,
+              "vd": 19990,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 1862679,
+              "vd": 18149,
+              "sr": 44100
+            },
+            "version": 14,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "CMJ",
+                "tns": [],
+                "alias": [],
+                "id": 12157336
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 48,
+            "name": "☾",
+            "mark": 17180008448
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1343492,
+              "code": 0,
+              "dlLevel": "exhigh",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 320000,
+              "plLevel": "exhigh",
+              "maxBrLevel": "sky",
+              "rightSource": 0,
+              "maxbr": 320000,
+              "id": 2754619312,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 320000,
+              "downloadMaxBrLevel": "sky",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "sky",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 320000,
+              "flLevel": "exhigh",
+              "pl": 320000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 95,
+            "dt": 91611,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2754619312,
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 3665546,
+              "vd": -35824,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/cUt99T7S2R4WJmEjUBEvlA==/109951172138303618.jpg",
+              "name": "FELL DOWN (FUNK)",
+              "tns": [],
+              "pic_str": "109951172138303618",
+              "id": 288085970,
+              "pic": 109951172138303620
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1466244,
+              "vd": -31406,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 2199345,
+              "vd": -33179,
+              "sr": 44100
+            },
+            "version": 9,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "ㅤㅤㅤㅤ",
+                "tns": [],
+                "alias": [],
+                "id": 98761969
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 43,
+            "name": "FELL DOWN (FUNK)",
+            "mark": 17180008448
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "hr": {
+              "br": 1754718,
+              "fid": 0,
+              "size": 43602094,
+              "vd": -46888,
+              "sr": 48000
+            },
+            "privilege": {
+              "flag": 1544196,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2148733913,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 80,
+            "dt": 198787,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2148733913,
+            "sq": {
+              "br": 984527,
+              "fid": 0,
+              "size": 24464027,
+              "vd": -46973,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 7953645,
+              "vd": -46934,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/-n8bVJn4VT7fctHy0lfqsA==/109951169524927015.jpg",
+              "name": "最喜欢你了",
+              "tns": [],
+              "pic_str": "109951169524927015",
+              "id": 193276689,
+              "pic": 109951169524927000
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3181485,
+              "vd": -42827,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4772205,
+              "vd": -44387,
+              "sr": 48000
+            },
+            "version": 4,
+            "cp": 0,
+            "alia": ["《พี่ชอบหนูที่สุดเลย》官方中文版"],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "刀酱",
+                "tns": [],
+                "alias": [],
+                "id": 56895942
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 38,
+            "name": "最喜欢你了",
+            "mark": 17716748288
+          },
+          {
+            "no": 3,
+            "rt": "",
+            "copyright": 1,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540100,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 2611095926,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 90,
+            "dt": 160287,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 2611095926,
+            "sq": {
+              "br": 860454,
+              "fid": 0,
+              "size": 17240015,
+              "vd": -48890,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1722096000000,
+            "cf": "",
+            "originCoverType": 1,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 6414672,
+              "vd": -48947,
+              "sr": 44100
+            },
+            "mv": 22604714,
+            "al": {
+              "picUrl": "http://p4.music.126.net/-EPNGhXZGLIFapU1X9kHiQ==/109951169813802830.jpg",
+              "name": "古拉德苏",
+              "tns": [],
+              "pic_str": "109951169813802830",
+              "id": 243090368,
+              "pic": 109951169813802830
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 2565895,
+              "vd": -44790,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 3848821,
+              "vd": -46362,
+              "sr": 44100
+            },
+            "version": 4,
+            "cp": 7003,
+            "alia": ["ꀊꏂꃀ"],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "Moseee",
+                "tns": [],
+                "alias": [],
+                "id": 12536560
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 38,
+            "name": "阿诗玛",
+            "mark": 17179877376
+          },
+          {
+            "no": 1,
+            "copyright": 0,
+            "fee": 0,
+            "privilege": {
+              "flag": 1343616,
+              "code": 0,
+              "dlLevel": "standard",
+              "subp": 1,
+              "fl": 128000,
+              "fee": 0,
+              "dl": 128000,
+              "plLevel": "standard",
+              "maxBrLevel": "sky",
+              "rightSource": 0,
+              "maxbr": 128000,
+              "id": 1308819113,
+              "sp": 7,
+              "payed": 0,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 128000,
+              "downloadMaxBrLevel": "sky",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "sky",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 128000,
+              "flLevel": "standard",
+              "pl": 128000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 65,
+            "dt": 162768,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1308819113,
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1495382400007,
+            "cf": "",
+            "originCoverType": 0,
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/kRxNfeNzb5BX147jdlGV_Q==/109951163544724308.jpg",
+              "tns": [],
+              "pic_str": "109951163544724308",
+              "id": 72797942,
+              "pic": 109951163544724300
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 2604765,
+              "vd": -37355,
+              "sr": 44100
+            },
+            "version": 7,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "February",
+                "tns": [],
+                "alias": [],
+                "id": 57822
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 41,
+            "name": "ㅤ",
+            "mark": 262144
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "hr": {
+              "br": 1632195,
+              "fid": 0,
+              "size": 49072295,
+              "vd": -10463,
+              "sr": 48000
+            },
+            "privilege": {
+              "flag": 1544196,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 3378746046,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 90,
+            "dt": 240500,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 3378746046,
+            "sq": {
+              "br": 870799,
+              "fid": 0,
+              "size": 26182823,
+              "vd": -10463,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1777996800000,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 9622125,
+              "vd": -10467,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/X-8mlS2HVdS5WFC_CbRGHw==/109951173178901606.jpg",
+              "name": "睡",
+              "tns": [],
+              "pic_str": "109951173178901606",
+              "id": 374757111,
+              "pic": 109951173178901600
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3848877,
+              "vd": -6203,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5773293,
+              "vd": -7864,
+              "sr": 48000
+            },
+            "version": 5,
+            "cp": 0,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "韦大鱼",
+                "tns": [],
+                "alias": ["Dante"],
+                "id": 59019507,
+                "alia": ["Dante"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 39,
+            "name": "睡",
+            "mark": 17716748288
+          },
+          {
+            "no": 1,
+            "rt": "",
+            "copyright": 0,
+            "fee": 8,
+            "privilege": {
+              "flag": 1540096,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 3414450208,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 95,
+            "dt": 186116,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 3414450208,
+            "sq": {
+              "br": 1746792,
+              "fid": 0,
+              "size": 40641884,
+              "vd": -48341,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 0,
+            "cf": "",
+            "originCoverType": 2,
+            "h": {
+              "br": 320002,
+              "fid": 0,
+              "size": 7447031,
+              "vd": -48365,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/tUDNELR1-XRs9XCfltypjw==/109951173671295913.jpg",
+              "name": "像我这样的坏小子",
+              "tns": [],
+              "pic_str": "109951173671295913",
+              "id": 390089850,
+              "pic": 109951173671295920
+            },
+            "l": {
+              "br": 128002,
+              "fid": 0,
+              "size": 2978839,
+              "vd": -44501,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192002,
+              "fid": 0,
+              "size": 4468236,
+              "vd": -45860,
+              "sr": 44100
+            },
+            "version": 5,
+            "cp": 0,
+            "alia": ["บัnnนชั่ว"],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "凌晨四点半",
+                "tns": [],
+                "alias": [],
+                "id": 122611470
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 39,
+            "name": "像我这样的坏小子",
+            "mark": 17180131328
+          },
+          {
+            "no": 2,
+            "rt": "",
+            "copyright": 1,
+            "fee": 1,
+            "hr": {
+              "br": 1470048,
+              "fid": 0,
+              "size": 46232755,
+              "vd": -21505,
+              "sr": 48000
+            },
+            "privilege": {
+              "flag": 1544452,
+              "code": 0,
+              "dlLevel": "jyeffect",
+              "subp": 1,
+              "fl": 0,
+              "fee": 1,
+              "dl": 999000,
+              "plLevel": "jyeffect",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 1319634836,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "none",
+              "pl": 999000
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 70,
+            "dt": 251598,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "resourceState": true,
+            "id": 1319634836,
+            "sq": {
+              "br": 708645,
+              "fid": 0,
+              "size": 22286777,
+              "vd": -21501,
+              "sr": 48000
+            },
+            "st": 0,
+            "cd": "01",
+            "publishTime": 1540137600000,
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 10066605,
+              "vd": -21503,
+              "sr": 48000
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/dwHy8IsFtT6bvQ71IOXtdQ==/109951168182310790.jpg",
+              "name": "于是跟深爱的打了一场架",
+              "tns": [],
+              "pic_str": "109951168182310790",
+              "id": 74025192,
+              "pic": 109951168182310780
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 4026669,
+              "vd": -17113,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 6039981,
+              "vd": -18869,
+              "sr": 48000
+            },
+            "version": 28,
+            "cp": 14028,
+            "alia": [],
+            "djId": 0,
+            "single": 0,
+            "ar": [
+              {
+                "name": "莉莉周她说 Lily Chou-Chou Lied",
+                "tns": [],
+                "alias": ["Lily Chou-Chou Lied"],
+                "id": 30444944,
+                "alia": ["Lily Chou-Chou Lied"]
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 62,
+            "name": "睡",
+            "mark": 17716748288
+          }
+        ],
+        "songCount": 49
+      },
+      "code": 200,
+      "trp": {
+        "rules": [
+          "search_tab_song::2012222429::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2645829465::searchAlg$isGlobalQuality$1",
+          "search_tab_song::509728806::searchAlg$isGlobalQuality$1",
+          "search_tab_song::3379225181::searchAlg$isGlobalQuality$1",
+          "search_tab_song::473817398::searchAlg$isGlobalQuality$1",
+          "search_tab_song::3341444739::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2158207761::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2023623717::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2038516837::searchAlg$isGlobalQuality$1",
+          "search_tab_song::440317244::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2633740189::searchAlg$isGlobalQuality$1",
+          "search_tab_song::401249910::searchAlg$isGlobalQuality$1",
+          "search_tab_song::521935820::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1967086957::searchAlg$isGlobalQuality$1",
+          "search_tab_song::440317247::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1965671755::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1462707541::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2644908287::searchAlg$isGlobalQuality$1",
+          "search_tab_song::3445099129::searchAlg$isGlobalQuality$1",
+          "search_tab_song::3380200166::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2645292642::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1476554602::searchAlg$isGlobalQuality$1",
+          "search_tab_song::420478436::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1478264137::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2611095926::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2106847935::searchAlg$isGlobalQuality$1",
+          "search_tab_song::483061711::searchAlg$isGlobalQuality$1",
+          "search_tab_song::3427741075::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1828521764::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1817971996::searchAlg$isGlobalQuality$1",
+          "search_tab_song::3378746046::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1417063744::searchAlg$isGlobalQuality$1",
+          "search_tab_song::497572729::searchAlg$isGlobalQuality$1",
+          "search_tab_song::22738903::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2622667547::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1362791788::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2166151146::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1975860927::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2756464063::searchAlg$isGlobalQuality$1",
+          "search_tab_song::526977266::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2660305578::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2148733913::searchAlg$isGlobalQuality$1",
+          "search_tab_song::3414450208::searchAlg$isGlobalQuality$1",
+          "search_tab_song::34072434::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1319634836::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1492114515::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2754619312::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2608143525::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1308819113::searchAlg$isGlobalQuality$1"
+        ]
+      }
+    }
+  }
+}
