@@ -1,0 +1,81 @@
+{
+  "module": "song_url_v1",
+  "query": {
+    "id": 1409311773,
+    "level": "exhigh"
+  },
+  "context": {
+    "recordedAt": "2026-10-21T06:59:39.506Z",
+    "sdk": "hana-music-api@2.12.0",
+    "region": "local",
+    "ip": "real",
+    "viewer": "anonymous",
+    "note": "Issue #71: real Beijing China Unicom egress checked with myip.ipip.net and the anonymous registration response; realIP set to that address. SDK-generated MUSIC_A only, no account MUSIC_U. Download and player requests use the default eapi protocol. Audio URL replaced to remove its signed path and query; other response fields unchanged."
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": 1409311773,
+          "url": "http://audio.example.test/trial.mp3",
+          "br": 128010,
+          "size": 560945,
+          "md5": "22709c98918296ad0af7e89587e8c3ea",
+          "code": 200,
+          "expi": 1200,
+          "type": "MP3",
+          "gain": 2,
+          "peak": 0,
+          "closedGain": -6,
+          "closedPeak": 1,
+          "fee": 1,
+          "uf": null,
+          "payed": 0,
+          "flag": 1541124,
+          "canExtend": false,
+          "freeTrialInfo": {
+            "fragmentType": 1003,
+            "start": 0,
+            "end": 35,
+            "algData": {
+              "fragSource": "alg",
+              "audioEffect": -1
+            }
+          },
+          "level": "standard",
+          "encodeType": "mp3",
+          "channelLayout": null,
+          "freeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "listenType": 0,
+            "cannotListenReason": 1,
+            "playReason": null,
+            "freeLimitTagType": null
+          },
+          "freeTimeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "type": 0,
+            "remainTime": 0
+          },
+          "urlSource": 0,
+          "rightSource": 0,
+          "podcastCtrp": null,
+          "effectTypes": null,
+          "time": 35030,
+          "message": null,
+          "levelConfuse": null,
+          "musicId": "11262998930",
+          "accompany": null,
+          "sr": 44100,
+          "auEff": 1001,
+          "immerseType": null,
+          "beatType": 0
+        }
+      ],
+      "code": 200
+    }
+  }
+}

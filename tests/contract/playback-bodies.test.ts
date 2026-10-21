@@ -22,11 +22,15 @@ import lyricTranslation from '../fixtures/netease/playback/lyric_new.translation
 import lyricUncollected from '../fixtures/netease/playback/lyric_new.uncollected.json';
 import lyricYrc from '../fixtures/netease/playback/lyric_new.yrc.json';
 import scrobbleRecording from '../fixtures/netease/playback/scrobble.json';
+import downloadAnonExhigh from '../fixtures/netease/playback/song_download_url_v1.anon-vip-exhigh.json';
+import downloadAnonHigher from '../fixtures/netease/playback/song_download_url_v1.anon-vip-higher.json';
+import downloadAnonStandard from '../fixtures/netease/playback/song_download_url_v1.anon-vip-standard.json';
 import downloadNoCopyright from '../fixtures/netease/playback/song_download_url_v1.no-copyright.json';
 import downloadExhigh from '../fixtures/netease/playback/song_download_url_v1.vip-exhigh.json';
 import downloadHires from '../fixtures/netease/playback/song_download_url_v1.vip-hires.json';
 import downloadLossless from '../fixtures/netease/playback/song_download_url_v1.vip-lossless.json';
 import urlAnonFree from '../fixtures/netease/playback/song_url_v1.anon-free.json';
+import urlAnonDownloadControl from '../fixtures/netease/playback/song_url_v1.anon-trial-download-control.json';
 import urlAnonTrial from '../fixtures/netease/playback/song_url_v1.anon-trial.json';
 import urlNoCopyright from '../fixtures/netease/playback/song_url_v1.no-copyright.json';
 import urlExhigh from '../fixtures/netease/playback/song_url_v1.vip-exhigh.json';
@@ -38,7 +42,7 @@ import urlLossless from '../fixtures/netease/playback/song_url_v1.vip-lossless.j
 import urlSky from '../fixtures/netease/playback/song_url_v1.vip-sky.json';
 import urlStandard from '../fixtures/netease/playback/song_url_v1.vip-standard.json';
 
-// 每个用例回放验证关卡①录下、脱敏后的网易云返回（nonhana/hana-music-api#20）。
+// 回放 #20 的验证关卡录制及 #71 的匿名下载对照，返回体保留脱敏后的上游字段。
 const replay = (upstream: unknown) =>
   createHanaMusicApi({
     cookie: 'MUSIC_U=listener',
@@ -48,6 +52,10 @@ const replay = (upstream: unknown) =>
 test.each<{ name: string; recording: Recording }>([
   { name: 'anonymous free', recording: urlAnonFree },
   { name: 'anonymous trial', recording: urlAnonTrial },
+  {
+    name: 'anonymous trial while downloading is denied',
+    recording: urlAnonDownloadControl,
+  },
   { name: 'no-copyright', recording: urlNoCopyright },
   { name: 'member standard', recording: urlStandard },
   { name: 'member higher', recording: urlHigher },
@@ -80,6 +88,34 @@ test.each<{ name: string; recording: Recording }>([
       recording.query,
     );
 
+    expect(result.body as unknown).toEqual(recording.response.body);
+  },
+);
+
+test.each<{ name: string; recording: Recording }>([
+  { name: 'standard', recording: downloadAnonStandard },
+  { name: 'higher', recording: downloadAnonHigher },
+  { name: 'exhigh', recording: downloadAnonExhigh },
+])(
+  'songDownloadUrlV1 resolves anonymous member-only $name with a download denial, not a trial URL',
+  async ({ recording }) => {
+    const result = await replay(recording.response.body).songDownloadUrlV1(
+      recording.query,
+    );
+
+    expect(result).toMatchObject({
+      status: 200,
+      body: {
+        code: 200,
+        data: {
+          id: 1409311773,
+          code: -105,
+          url: null,
+          level: null,
+          size: 0,
+        },
+      },
+    });
     expect(result.body as unknown).toEqual(recording.response.body);
   },
 );

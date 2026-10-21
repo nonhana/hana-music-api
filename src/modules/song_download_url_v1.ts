@@ -7,7 +7,7 @@ import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-// 无版权时 url 和 level 是 null、code 不是 200（录制里是 -110）；录制里没有试听的返回，freeTrialInfo 不声明。
+// 匿名下载会员歌录到 -105，无版权录到 -110，均无地址；未录到下载试听片段，freeTrialInfo 不声明。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

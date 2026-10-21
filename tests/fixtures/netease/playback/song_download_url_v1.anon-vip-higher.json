@@ -1,0 +1,71 @@
+{
+  "module": "song_download_url_v1",
+  "query": {
+    "id": 1409311773,
+    "level": "higher"
+  },
+  "context": {
+    "recordedAt": "2026-10-21T07:00:31.068Z",
+    "sdk": "hana-music-api@2.12.0",
+    "region": "local",
+    "ip": "real",
+    "viewer": "anonymous",
+    "note": "Issue #71: real Beijing China Unicom egress checked with myip.ipip.net and the anonymous registration response; realIP set to that address. SDK-generated MUSIC_A only, no account MUSIC_U. Download and player requests use the default eapi protocol."
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "id": 1409311773,
+        "url": null,
+        "br": 0,
+        "size": 0,
+        "md5": null,
+        "code": -105,
+        "expi": 1200,
+        "type": null,
+        "gain": 0,
+        "peak": null,
+        "closedGain": 0,
+        "closedPeak": 0,
+        "fee": 1,
+        "uf": null,
+        "payed": 0,
+        "flag": 1541124,
+        "canExtend": false,
+        "freeTrialInfo": null,
+        "level": null,
+        "encodeType": null,
+        "channelLayout": null,
+        "freeTrialPrivilege": {
+          "resConsumable": false,
+          "userConsumable": false,
+          "listenType": 0,
+          "cannotListenReason": 1,
+          "playReason": null,
+          "freeLimitTagType": null
+        },
+        "freeTimeTrialPrivilege": {
+          "resConsumable": false,
+          "userConsumable": false,
+          "type": 0,
+          "remainTime": 0
+        },
+        "urlSource": 0,
+        "rightSource": 0,
+        "podcastCtrp": null,
+        "effectTypes": null,
+        "time": 0,
+        "message": null,
+        "levelConfuse": null,
+        "musicId": null,
+        "accompany": null,
+        "sr": 0,
+        "auEff": null,
+        "immerseType": null,
+        "beatType": 0
+      },
+      "code": 200
+    }
+  }
+}
