@@ -41,6 +41,10 @@ const result = await artistDetail({
 console.log(result.body);
 ```
 
+## 返回内容
+
+正文带 `code`、`message` 和歌手详情的 `data`。只有 `code`、`data`、`data.artist`、`data.artist.id` 收紧；`message` 和 `data` 里的其他字段宽松，`data.artist` 里除编号外的字段也宽松。结构定义和类型是 `ArtistDetailBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入歌手 id, 可获得获取歌手详情

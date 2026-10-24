@@ -40,6 +40,10 @@ const result = await vipInfoV2();
 console.log(result.body);
 ```
 
+## 返回内容
+
+正文带 `code`、`data` 和 `message`。只有 `code`、`data` 收紧；`data` 里的会员权益对象（如 `associator`、`musicPackage`、`redplus`）和 `message` 都是宽松字段。结构定义和类型是 `VipInfoV2Body`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 登录后调用此接口，可获取当前 VIP 信息。

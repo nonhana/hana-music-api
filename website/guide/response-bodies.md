@@ -96,6 +96,18 @@
 
 歌单分类没有编号，靠名字来认，所以 `all.name`、`sub[].name` 收紧；分类的其他字段宽松。
 
+## 歌手、听歌排行与会员
+
+| 模块                                  | 结构定义           | 收紧的字段                                                     |
+| ------------------------------------- | ------------------ | -------------------------------------------------------------- |
+| [歌手详情](/api/artist/artist-detail) | `ArtistDetailBody` | `code`、`data`、`data.artist`、`data.artist.id`                |
+| [歌手单曲](/api/artist/artists)       | `ArtistsBody`      | `code`、`hotSongs`、`hotSongs[].id`                            |
+| [听歌排行](/api/listen/user-record)   | `UserRecordBody`   | `code`；`allData` / `weekData` 可以没有，出现时 `[].song` 收紧 |
+| [VIP 信息](/api/vip/vip-info)         | `VipInfoBody`      | `code`、`data`                                                 |
+| [VIP 信息 v2](/api/vip/vip-info-v2)   | `VipInfoV2Body`    | `code`、`data`                                                 |
+
+`data.artist.id`、`hotSongs[].id` 是记录自己的编号，所以收紧；歌曲里套着的 `song.id` 和会员权益对象是附带信息，字段宽松。听歌排行里 `allData` 和 `weekData` 按 `type` 二选一，两个都可以缺失或为 `null`。
+
 ## 播放
 
 | 模块                                                             | 结构定义                | 收紧的字段                                                                                      |

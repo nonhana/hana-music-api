@@ -43,6 +43,10 @@ const result = await userRecord({
 console.log(result.body);
 ```
 
+## 返回内容
+
+正文带 `code`，以及 `type` 对应的 `allData` 或 `weekData`。两个列表都是“可以没有”的路径：缺失或 `null` 时照常返回；出现时每一项按 `playCount`、`score`、`song` 校验，缺 `song` 会报 502。`song` 是记录里套着的歌曲，`song.id` 宽松。结构定义和类型是 `UserRecordBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入用户 id, 可获取用户播放记录

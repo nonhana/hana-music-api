@@ -25,7 +25,10 @@ import type {
   ModuleInput as artistAlbumInput,
 } from '../../modules/artist_album.ts';
 import type { ModuleInput as artistDescInput } from '../../modules/artist_desc.ts';
-import type { ModuleInput as artistDetailInput } from '../../modules/artist_detail.ts';
+import type {
+  ModuleBody as artistDetailBody,
+  ModuleInput as artistDetailInput,
+} from '../../modules/artist_detail.ts';
 import type { ModuleInput as artistDetailDynamicInput } from '../../modules/artist_detail_dynamic.ts';
 import type { ModuleInput as artistFansInput } from '../../modules/artist_fans.ts';
 import type { ModuleInput as artistFollowCountInput } from '../../modules/artist_follow_count.ts';
@@ -47,7 +50,10 @@ import type {
   ModuleInput as artistTopSongInput,
 } from '../../modules/artist_top_song.ts';
 import type { ModuleInput as artistVideoInput } from '../../modules/artist_video.ts';
-import type { ModuleInput as artistsInput } from '../../modules/artists.ts';
+import type {
+  ModuleBody as artistsBody,
+  ModuleInput as artistsInput,
+} from '../../modules/artists.ts';
 import type { ModuleInput as audioMatchInput } from '../../modules/audio_match.ts';
 import type { ModuleInput as avatarUploadInput } from '../../modules/avatar_upload.ts';
 import type { ModuleInput as bannerInput } from '../../modules/banner.ts';
@@ -433,7 +439,10 @@ import type {
 } from '../../modules/user_playlist.ts';
 import type { ModuleInput as userPlaylistCollectInput } from '../../modules/user_playlist_collect.ts';
 import type { ModuleInput as userPlaylistCreateInput } from '../../modules/user_playlist_create.ts';
-import type { ModuleInput as userRecordInput } from '../../modules/user_record.ts';
+import type {
+  ModuleBody as userRecordBody,
+  ModuleInput as userRecordInput,
+} from '../../modules/user_record.ts';
 import type { ModuleInput as userReplacephoneInput } from '../../modules/user_replacephone.ts';
 import type { ModuleInput as userSocialStatusInput } from '../../modules/user_social_status.ts';
 import type { ModuleInput as userSocialStatusEditInput } from '../../modules/user_social_status_edit.ts';
@@ -458,8 +467,14 @@ import type { ModuleInput as videoUrlInput } from '../../modules/video_url.ts';
 import type { ModuleInput as vipGrowthpointInput } from '../../modules/vip_growthpoint.ts';
 import type { ModuleInput as vipGrowthpointDetailsInput } from '../../modules/vip_growthpoint_details.ts';
 import type { ModuleInput as vipGrowthpointGetInput } from '../../modules/vip_growthpoint_get.ts';
-import type { ModuleInput as vipInfoInput } from '../../modules/vip_info.ts';
-import type { ModuleInput as vipInfoV2Input } from '../../modules/vip_info_v2.ts';
+import type {
+  ModuleBody as vipInfoBody,
+  ModuleInput as vipInfoInput,
+} from '../../modules/vip_info.ts';
+import type {
+  ModuleBody as vipInfoV2Body,
+  ModuleInput as vipInfoV2Input,
+} from '../../modules/vip_info_v2.ts';
 import type { ModuleInput as vipTasksInput } from '../../modules/vip_tasks.ts';
 import type { ModuleInput as vipTimemachineInput } from '../../modules/vip_timemachine.ts';
 import type { ModuleInput as voiceDeleteInput } from '../../modules/voice_delete.ts';
@@ -1276,7 +1291,7 @@ export interface GeneratedModuleContractMap {
   artist_detail: {
     input: artistDetailInput;
     query: artistDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistDetailBody>;
   };
   artist_detail_dynamic: {
     input: artistDetailDynamicInput;
@@ -1341,7 +1356,7 @@ export interface GeneratedModuleContractMap {
   artists: {
     input: artistsInput;
     query: artistsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistsBody>;
   };
   audio_match: {
     input: audioMatchInput;
@@ -2663,7 +2678,7 @@ export interface GeneratedModuleContractMap {
   user_record: {
     input: userRecordInput;
     query: userRecordInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userRecordBody>;
   };
   user_replacephone: {
     input: userReplacephoneInput;
@@ -2773,12 +2788,12 @@ export interface GeneratedModuleContractMap {
   vip_info: {
     input: vipInfoInput;
     query: vipInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<vipInfoBody>;
   };
   vip_info_v2: {
     input: vipInfoV2Input;
     query: vipInfoV2Input;
-    response: ModuleResponse;
+    response: ModuleResponse<vipInfoV2Body>;
   };
   vip_tasks: {
     input: vipTasksInput;
