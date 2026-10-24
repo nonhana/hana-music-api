@@ -43,9 +43,7 @@ const SearchedPlaylist = UpstreamObject({
   userId: Loose(Schema.Finite),
 });
 
-// 通到 `result` 的路径、每种结果的编号收紧；结果列表可以没有，其余字段宽松。
-// 按 type 只给一类结果：单曲在 songs、专辑在 albums、歌手在 artists、歌单在 playlists，各带结果总数；没有结果时只有总数（0），列表整个缺失或是 null。
-// 列表是可以没有的路径：出现了就按记录收紧校验，坏一条报错，不会整列消失。
+// 按 type 只给一类结果（songs/albums/artists/playlists，各带总数；没有结果时列表缺失或是 null），这些列表可以没有，出现了就按记录编号收紧校验，其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

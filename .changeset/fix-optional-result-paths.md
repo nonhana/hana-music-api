@@ -17,5 +17,6 @@
 - 以前遇到搜索结果里一条记录编号不对，会拿到一个没有该列表的 200 响应；现在会以 `UnexpectedUpstreamShape`（502）拒绝。需要容错时，调用方应自己决定是否重试或降级。
 - `playlist.tracks[].id`、`privileges[].id` 读取类型多了 `null | undefined`。
 - 被删除声明的字段仍是未声明字段，继续原样保留，读取类型仍是 JSON 值；没有新增收紧字段。
+- `experts`、`authType.tags`、登录 `bindings`、搜索建议 `order` 的读取类型分别收窄为字符串记录、字符串数组、对象数组、字符串数组；它们仍都是宽松字段。
 
 详见公开指南的[返回体结构](/guide/response-bodies)和仓库的 [`agent-docs/API_CONVENTIONS.md`](https://github.com/nonhana/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)。

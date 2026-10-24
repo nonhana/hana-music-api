@@ -15,7 +15,7 @@ import {
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
-import { Account, UserProfile } from '../core/upstream-schemas.ts';
+import { Account, Binding, UserProfile } from '../core/upstream-schemas.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
@@ -76,18 +76,6 @@ export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
 // 返回码、账号和用户资料的路径及编号收紧；其余字段宽松。
-const Binding = UpstreamObject({
-  bindingTime: Loose(Schema.Finite),
-  expired: Loose(Schema.Boolean),
-  expiresIn: Loose(Schema.Finite),
-  id: Loose(Schema.Finite),
-  refreshTime: Loose(Schema.Finite),
-  tokenJsonStr: Loose(Schema.String),
-  type: Loose(Schema.Finite),
-  url: Loose(Schema.String),
-  userId: Loose(Schema.Finite),
-});
-
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

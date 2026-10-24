@@ -1,6 +1,7 @@
-import { expect, test } from 'bun:test';
+import { expect, expectTypeOf, test } from 'bun:test';
 
 import { CloudsearchBody, createHanaMusicApi } from '../../index.ts';
+import type { SearchSuggestBody } from '../../index.ts';
 import type { Recording } from '../_kit/assertions.ts';
 import { expectUpstreamShapeRejection } from '../_kit/assertions.ts';
 import searchAlbum from '../fixtures/netease/search/cloudsearch.album.json';
@@ -168,6 +169,19 @@ test.each(cases)(
 );
 
 test('optional result list types include null and undefined', () => {
+  expectTypeOf<CloudsearchBody['result']['songs']>().toEqualTypeOf<
+    | ReadonlyArray<NonNullable<CloudsearchBody['result']['songs']>[number]>
+    | null
+    | undefined
+  >();
+  expectTypeOf<SearchSuggestBody['result']['allMatch']>().toEqualTypeOf<
+    | ReadonlyArray<
+        NonNullable<SearchSuggestBody['result']['allMatch']>[number]
+      >
+    | null
+    | undefined
+  >();
+
   const result = CloudsearchBody['~standard'].validate({
     code: 200,
     result: {},

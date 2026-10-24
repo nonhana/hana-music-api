@@ -73,7 +73,6 @@ const PcInfo = UpstreamObject({
   ar: Loose(Schema.String),
   br: Loose(Schema.Finite),
   cid: Loose(Schema.String),
-  cover: Loose(Schema.Finite),
   fn: Loose(Schema.String),
   nickname: Loose(Schema.String),
   privateCloud: Loose(PrivateCloud),
@@ -168,6 +167,11 @@ export const LooseSongPrivilege = UpstreamObject({
   id: Loose(Schema.Finite),
 });
 
+const SongMarkTag = UpstreamObject({
+  tagKey: Loose(Schema.String),
+  tagValue: Loose(Schema.String),
+});
+
 export const Song = UpstreamObject({
   id: Schema.Finite,
   name: Loose(Schema.String),
@@ -203,6 +207,7 @@ export const Song = UpstreamObject({
   m: Loose(Quality),
   mainTitle: Loose(Schema.String),
   mark: Loose(Schema.Finite),
+  markTags: Loose(Schema.Array(SongMarkTag)),
   mst: Loose(Schema.Finite),
   mv: Loose(Schema.Finite),
   mvid: Loose(Schema.Finite),
@@ -305,6 +310,18 @@ export const PlaylistUser = UpstreamObject({
   experts: Loose(Schema.Record(Schema.String, Schema.String)),
 });
 export type PlaylistUser = typeof PlaylistUser.Type;
+
+export const Binding = UpstreamObject({
+  bindingTime: Loose(Schema.Finite),
+  expired: Loose(Schema.Boolean),
+  expiresIn: Loose(Schema.Finite),
+  id: Loose(Schema.Finite),
+  refreshTime: Loose(Schema.Finite),
+  tokenJsonStr: Loose(Schema.String),
+  type: Loose(Schema.Finite),
+  url: Loose(Schema.String),
+  userId: Loose(Schema.Finite),
+});
 
 export const Account = UpstreamObject({
   id: Schema.Finite,

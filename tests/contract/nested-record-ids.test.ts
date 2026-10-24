@@ -7,10 +7,7 @@ import {
   UserPlaylistBody,
 } from '../../index.ts';
 import type { SongDetailBody } from '../../index.ts';
-
-type Validator = {
-  readonly '~standard': { readonly validate: (input: unknown) => unknown };
-};
+import type { Validator } from '../_kit/assertions.ts';
 
 const validate = (schema: Validator, input: unknown) => {
   const result = schema['~standard'].validate(input);

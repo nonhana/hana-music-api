@@ -157,6 +157,26 @@ test('newly declared playlist and account fields are loose', () => {
   ).not.toHaveProperty('createTime');
 });
 
+test('declared song mark tags keep their object shape', () => {
+  const upstream = clone(songDetail.response.body);
+  const song = upstream.songs[0] as Record<string, unknown>;
+  song.markTags = [{ tagKey: 'MusicianUserAiMark', tagValue: '含AI生成' }];
+
+  const result = validate(SongDetailBody, upstream);
+
+  if (result instanceof Promise) {
+    throw new Error('Standard Schema validation must be synchronous');
+  }
+  expect(result.issues).toBeUndefined();
+  expect(
+    (
+      result.value as {
+        songs: Array<{ markTags?: Array<{ tagKey?: string }> }>;
+      }
+    ).songs[0]?.markTags?.[0]?.tagKey,
+  ).toBe('MusicianUserAiMark');
+});
+
 test('undeclared fields are preserved at every level', () => {
   const upstream = {
     ...clone(album.response.body),

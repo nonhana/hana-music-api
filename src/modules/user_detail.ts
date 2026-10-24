@@ -12,7 +12,7 @@ import {
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
-import { UserProfile } from '../core/upstream-schemas.ts';
+import { Binding, UserProfile } from '../core/upstream-schemas.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryIdentifier } from '../types/module-shared.ts';
@@ -31,18 +31,6 @@ export const decodeModuleInput = (input: unknown) =>
 const ExpertRole = UpstreamObject({
   roleId: Loose(Schema.Finite),
   roleName: Loose(Schema.String),
-});
-
-const Binding = UpstreamObject({
-  bindingTime: Loose(Schema.Finite),
-  expired: Loose(Schema.Boolean),
-  expiresIn: Loose(Schema.Finite),
-  id: Loose(Schema.Finite),
-  refreshTime: Loose(Schema.Finite),
-  tokenJsonStr: Loose(Schema.String),
-  type: Loose(Schema.Finite),
-  url: Loose(Schema.String),
-  userId: Loose(Schema.Finite),
 });
 
 const UserProduct = UpstreamObject({
