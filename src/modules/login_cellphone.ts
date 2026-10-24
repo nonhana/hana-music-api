@@ -75,7 +75,6 @@ const inputSchema = Schema.Union([
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-// 返回码、账号和用户资料的路径及编号收紧；其余字段宽松。
 const Binding = UpstreamObject({
   bindingTime: Loose(Schema.Finite),
   expired: Loose(Schema.Boolean),
@@ -88,6 +87,7 @@ const Binding = UpstreamObject({
   userId: Loose(Schema.Finite),
 });
 
+// 返回码、账号和用户资料的路径及编号收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

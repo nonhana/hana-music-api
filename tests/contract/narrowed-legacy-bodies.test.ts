@@ -8,7 +8,7 @@ import {
   VipInfoBody,
   VipInfoV2Body,
 } from '../../index.ts';
-import type { Recording } from '../_kit/assertions.ts';
+import type { Recording, Validator } from '../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,
   validateSync,
@@ -29,9 +29,7 @@ const replay = (upstream: unknown) =>
 type Case = {
   readonly name: string;
   readonly recording: Recording;
-  readonly bodySchema: {
-    '~standard': { validate: (input: unknown) => unknown };
-  };
+  readonly bodySchema: Validator;
   readonly call: (upstream: unknown) => Promise<{ body: unknown }>;
 };
 
@@ -103,7 +101,7 @@ test('new bodies tighten the identifiers the interfaces return', () => {
   expectTypeOf<ArtistsBody['hotSongs'][number]['id']>().toEqualTypeOf<number>();
   expectTypeOf<
     NonNullable<UserRecordBody['allData']>[number]['song']['id']
-  >().toEqualTypeOf<number | null | undefined>();
+  >().toEqualTypeOf<number>();
 });
 
 test('artist_detail rejects a missing returned artist id', async () => {
@@ -150,6 +148,24 @@ test('user_record rejects a play record without a song', async () => {
       path: 'body.allData[0].song',
       expected: 'present',
       actual: 'missing',
+    },
+  );
+});
+
+test('user_record rejects a play record with a nonnumeric song id', async () => {
+  const upstream = structuredClone(userRecordAll.response.body);
+  (upstream.allData[0]!.song as { id: unknown }).id = '535517304';
+
+  await expectUpstreamShapeRejection(
+    replay(upstream).userRecord({
+      uid: userRecordAll.query.uid,
+      type: userRecordAll.query.type as 0 | 1,
+    }),
+    {
+      module: 'user_record',
+      path: 'body.allData[0].song.id',
+      expected: 'number',
+      actual: 'string',
     },
   );
 });

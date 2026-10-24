@@ -13,9 +13,7 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 通到 VIP 信息的路径 `data` 收紧；会员权益对象是附带信息，字段全部宽松。
 const VipRight = UpstreamObject({
-  dynamicIconUrl: Loose(Schema.String),
   expireTime: Loose(Schema.Finite),
-  iconUrl: Loose(Schema.String),
   isSign: Loose(Schema.Boolean),
   isSignDeduct: Loose(Schema.Boolean),
   isSignIap: Loose(Schema.Boolean),

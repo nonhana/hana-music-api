@@ -31,16 +31,11 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-// `type` 决定返回 `allData` 还是 `weekData`，两个列表都可以没有；列表存在时按记录结构校验。
-const RecordSong = UpstreamObject({
-  ...Song.schema.fields,
-  id: Loose(Schema.Finite),
-});
-
+// 接口就是为了拿播放记录里的 `song`；`type` 决定返回 `allData` 还是 `weekData`，两个列表都可以没有，出现时歌曲编号收紧。
 const PlayRecord = UpstreamObject({
   playCount: Loose(Schema.Finite),
   score: Loose(Schema.Finite),
-  song: RecordSong,
+  song: Song,
 });
 
 export const ModuleBody = Schema.toStandardSchemaV1(
