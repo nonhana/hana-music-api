@@ -51,7 +51,7 @@ console.log(result.body);
 }
 ```
 
-返回体由 SDK 自己拼出，不请求网易云。没传 `qrimg` 时 `data.qrimg` 是空串。结构定义和类型是 `LoginQrCreateBody`，见 [返回体结构](/guide/response-bodies)。
+返回体由 SDK 自己拼出，不请求网易云。没传 `qrimg` 时 `data.qrimg` 是空串。`code`、`data`、`data.qrurl`、`data.qrimg` 全部收紧。结构定义和类型是 `LoginQrCreateBody`，见 [返回体结构](/guide/response-bodies)。
 
 ## 补充说明
 

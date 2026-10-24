@@ -10,6 +10,7 @@ import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleCallConfig, ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
+// 接口只返回返回码，收紧的是返回码；`checkToken` 等失败正文按业务拒绝原样转交。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({ code: Schema.Literal(200) }),
 );

@@ -172,26 +172,45 @@ test.each<{ name: string; schema: Validator; recording: Recording }>([
   },
 );
 
+test('songUrlV1 treats a trial clip without its end as absent', async () => {
+  const upstream = structuredClone(urlAnonTrial.response.body);
+  delete (upstream.data[0] as { freeTrialInfo: { end?: number } }).freeTrialInfo
+    .end;
+
+  const result = await replay(upstream).songUrlV1({ id: 1409311773 });
+
+  expect(result.status).toBe(200);
+  expect(result.body.data[0]?.freeTrialInfo as unknown).not.toHaveProperty(
+    'end',
+  );
+});
+
+test('songDownloadUrlV1 treats a download address without its size as absent', async () => {
+  const upstream = structuredClone(downloadExhigh.response.body);
+  delete (upstream.data as { size?: number }).size;
+
+  const result = await replay(upstream).songDownloadUrlV1(downloadExhigh.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body.data as unknown).not.toHaveProperty('size');
+});
+
+test('lyricNew treats a word-by-word lyric without its text as present but empty', async () => {
+  const upstream = structuredClone(lyricYrc.response.body);
+  delete (upstream.yrc as { lyric?: string }).lyric;
+
+  const result = await replay(upstream).lyricNew(lyricYrc.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body.yrc as unknown).not.toHaveProperty('lyric');
+  expect(result.body.yrc).toEqual({ version: 24 });
+});
+
 test.each<{
   name: string;
   call: () => Promise<unknown>;
   shape: UpstreamShape;
 }>([
-  {
-    name: 'songUrlV1: a trial clip without its end',
-    call: () => {
-      const upstream = structuredClone(urlAnonTrial.response.body);
-      delete (upstream.data[0] as { freeTrialInfo: { end?: number } })
-        .freeTrialInfo.end;
-      return replay(upstream).songUrlV1({ id: 1409311773 });
-    },
-    shape: {
-      module: 'song_url_v1',
-      path: 'body.data[0].freeTrialInfo.end',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
   {
     name: 'songUrlV1: an address entry without the address',
     call: () => {
@@ -207,20 +226,6 @@ test.each<{
     },
   },
   {
-    name: 'songDownloadUrlV1: a download address without its size',
-    call: () => {
-      const upstream = structuredClone(downloadExhigh.response.body);
-      delete (upstream.data as { size?: number }).size;
-      return replay(upstream).songDownloadUrlV1(downloadExhigh.query);
-    },
-    shape: {
-      module: 'song_download_url_v1',
-      path: 'body.data.size',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
     name: 'lyricNew: the line-by-line lyric without its text',
     call: () => {
       const upstream = structuredClone(lyricPureMusic.response.body);
@@ -230,20 +235,6 @@ test.each<{
     shape: {
       module: 'lyric_new',
       path: 'body.lrc.lyric',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'lyricNew: a word-by-word lyric without its text',
-    call: () => {
-      const upstream = structuredClone(lyricYrc.response.body);
-      delete (upstream.yrc as { lyric?: string }).lyric;
-      return replay(upstream).lyricNew(lyricYrc.query);
-    },
-    shape: {
-      module: 'lyric_new',
-      path: 'body.yrc.lyric',
       expected: 'present',
       actual: 'missing',
     },

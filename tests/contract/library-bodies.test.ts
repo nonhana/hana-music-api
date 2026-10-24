@@ -110,7 +110,9 @@ test.each<{
     expect(result.status).toBe(200);
     expect(result.body as unknown).toEqual(recording.response.body);
     expect(result.body.playlist.status).toBe(status);
-    expectTypeOf(result.body.playlist.status).toEqualTypeOf<number>();
+    expectTypeOf(result.body.playlist.status).toEqualTypeOf<
+      number | null | undefined
+    >();
     expect(
       PlaylistDetailBody['~standard'].validate(
         recording.response.body,
@@ -139,61 +141,66 @@ test('playlistDetail exposes tags, playCount and status and preserves extra fiel
   expect(result.body.playlist.tags).toEqual(['夜晚']);
   expect(result.body.playlist.playCount).toBe(29012708);
   expect(result.body.playlist.status).toBe(0);
-  expectTypeOf<
-    PlaylistDetailBody['playlist']['tags'][number]
-  >().toEqualTypeOf<string>();
-  expectTypeOf<
-    PlaylistDetailBody['playlist']['playCount']
-  >().toEqualTypeOf<number>();
-  expectTypeOf<
-    PlaylistDetailBody['playlist']['status']
-  >().toEqualTypeOf<number>();
+  expectTypeOf<PlaylistDetailBody['playlist']['tags']>().toEqualTypeOf<
+    ReadonlyArray<string> | null | undefined
+  >();
+  expectTypeOf<PlaylistDetailBody['playlist']['playCount']>().toEqualTypeOf<
+    number | null | undefined
+  >();
+  expectTypeOf<PlaylistDetailBody['playlist']['status']>().toEqualTypeOf<
+    number | null | undefined
+  >();
 });
 
 test.each(['tags', 'playCount', 'status'])(
-  'playlistDetail rejects missing playlist.%s',
+  'playlistDetail treats a missing playlist.%s as absent',
   async (field) => {
     const playlist: Record<string, unknown> = {
       ...detailOwn.response.body.playlist,
     };
     delete playlist[field];
 
-    await expectUpstreamShapeRejection(
-      replay({ ...detailOwn.response.body, playlist }).playlistDetail(
-        detailOwn.query,
-      ),
-      {
-        module: 'playlist_detail',
-        path: `body.playlist.${field}`,
-        expected: 'present',
-        actual: 'missing',
-      },
-    );
+    const result = await replay({
+      ...detailOwn.response.body,
+      playlist,
+    }).playlistDetail(detailOwn.query);
+
+    expect(result.status).toBe(200);
+    expect(result.body.playlist as unknown).not.toHaveProperty(field);
   },
 );
 
 test.each([
-  { field: 'tags', value: 123, expected: 'array', actual: 'number' },
-  { field: 'playCount', value: '20', expected: 'number', actual: 'string' },
-  { field: 'status', value: '10', expected: 'number', actual: 'string' },
-  { field: 'status', value: null, expected: 'number', actual: 'null' },
+  { field: 'tags', value: 123 },
+  { field: 'playCount', value: '20' },
+  { field: 'status', value: '10' },
 ])(
-  'playlistDetail rejects playlist.$field with the wrong type',
-  async ({ field, value, expected, actual }) => {
+  'playlistDetail treats playlist.$field with the wrong type as absent',
+  async ({ field, value }) => {
     const upstream = {
       ...detailOwn.response.body,
       playlist: { ...detailOwn.response.body.playlist, [field]: value },
     };
 
-    await expectUpstreamShapeRejection(
-      replay(upstream).playlistDetail(detailOwn.query),
-      {
-        module: 'playlist_detail',
-        path: `body.playlist.${field}`,
-        expected,
-        actual,
-      },
-    );
+    const result = await replay(upstream).playlistDetail(detailOwn.query);
+
+    expect(result.status).toBe(200);
+    expect(result.body.playlist as unknown).not.toHaveProperty(field);
+  },
+);
+
+test.each(['tags', 'playCount', 'status'])(
+  'playlistDetail keeps a null playlist.%s',
+  async (field) => {
+    const upstream = {
+      ...detailOwn.response.body,
+      playlist: { ...detailOwn.response.body.playlist, [field]: null },
+    };
+
+    const result = await replay(upstream).playlistDetail(detailOwn.query);
+
+    expect(result.status).toBe(200);
+    expect(result.body.playlist[field]).toBeNull();
   },
 );
 
@@ -257,8 +264,14 @@ test('songDetail exposes numeric privileges without changing their recorded valu
     { id: 2108191414, st: -200, pl: 0 },
   ]);
   expectTypeOf<
-    SongDetailBody['privileges'][number]['id' | 'st' | 'pl']
+    SongDetailBody['privileges'][number]['id']
   >().toEqualTypeOf<number>();
+  expectTypeOf<SongDetailBody['privileges'][number]['st']>().toEqualTypeOf<
+    number | null | undefined
+  >();
+  expectTypeOf<SongDetailBody['privileges'][number]['pl']>().toEqualTypeOf<
+    number | null | undefined
+  >();
   expectTypeOf(body.privileges).toEqualTypeOf<SongDetailBody['privileges']>();
 });
 
@@ -289,24 +302,24 @@ test('album returns the recorded album and its songs', async () => {
     pl: 0,
   });
   expectTypeOf<
-    AlbumBody['songs'][number]['privilege']['id' | 'st' | 'pl']
-  >().toEqualTypeOf<number>();
+    NonNullable<AlbumBody['songs'][number]['privilege']>['id']
+  >().toEqualTypeOf<number | null | undefined>();
+  expectTypeOf<
+    NonNullable<AlbumBody['songs'][number]['privilege']>['st']
+  >().toEqualTypeOf<number | null | undefined>();
 });
 
-test('album rejects a song without its privilege', async () => {
+test('album treats a song without its privilege as absent', async () => {
   const songs = album.response.body.songs.map(
     ({ privilege: _privilege, ...song }) => song,
   );
 
-  await expectUpstreamShapeRejection(
-    replay({ ...album.response.body, songs }).album(album.query),
-    {
-      module: 'album',
-      path: 'body.songs[0].privilege',
-      expected: 'present',
-      actual: 'missing',
-    },
+  const result = await replay({ ...album.response.body, songs }).album(
+    album.query,
   );
+
+  expect(result.status).toBe(200);
+  expect(result.body.songs[0] as unknown).not.toHaveProperty('privilege');
 });
 
 test('album returns the recorded album without a description and preserves its songs', async () => {
@@ -317,9 +330,11 @@ test('album returns the recorded album without a description and preserves its s
   expect(result.body as unknown).toEqual(albumNoDescription.response.body);
   expect(result.body.album.description).toBeNull();
   expectTypeOf<AlbumBody['album']['description']>().toEqualTypeOf<
-    string | null
+    string | null | undefined
   >();
-  expectTypeOf(result.body.album.description).toEqualTypeOf<string | null>();
+  expectTypeOf(result.body.album.description).toEqualTypeOf<
+    string | null | undefined
+  >();
 });
 
 test('albumSublist returns the recorded subscribed albums', async () => {
@@ -358,29 +373,36 @@ test('artistTopSong returns the recorded songs', async () => {
     pl: 0,
   });
   expectTypeOf<
-    ArtistTopSongBody['songs'][number]['privilege']['id' | 'st' | 'pl']
-  >().toEqualTypeOf<number>();
+    NonNullable<ArtistTopSongBody['songs'][number]['privilege']>['id']
+  >().toEqualTypeOf<number | null | undefined>();
+  expectTypeOf<
+    NonNullable<ArtistTopSongBody['songs'][number]['privilege']>['st']
+  >().toEqualTypeOf<number | null | undefined>();
 });
 
-test('artistTopSong rejects a song without its privilege', async () => {
+test('artistTopSong treats a song without its privilege as absent', async () => {
   const songs = artistTopSong.response.body.songs.map(
     ({ privilege: _privilege, ...song }) => song,
   );
 
-  await expectUpstreamShapeRejection(
-    replay({ ...artistTopSong.response.body, songs }).artistTopSong(
-      artistTopSong.query,
-    ),
-    {
-      module: 'artist_top_song',
-      path: 'body.songs[0].privilege',
-      expected: 'present',
-      actual: 'missing',
-    },
-  );
+  const result = await replay({
+    ...artistTopSong.response.body,
+    songs,
+  }).artistTopSong(artistTopSong.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body.songs[0] as unknown).not.toHaveProperty('privilege');
 });
 
-for (const { module, path, privilege, schema, withPrivilege, call } of [
+for (const {
+  module,
+  path,
+  privilege,
+  schema,
+  withPrivilege,
+  readPrivilege,
+  call,
+} of [
   {
     module: 'song_detail',
     path: 'body.privileges[0]',
@@ -390,6 +412,8 @@ for (const { module, path, privilege, schema, withPrivilege, call } of [
       ...songDetailAnonymous.response.body,
       privileges: [replacement],
     }),
+    readPrivilege: (body: { privileges: Array<Record<string, unknown>> }) =>
+      body.privileges[0],
     call: (body: unknown) => replay(body).songDetail(songDetailAnonymous.query),
   },
   {
@@ -401,6 +425,9 @@ for (const { module, path, privilege, schema, withPrivilege, call } of [
       ...album.response.body,
       songs: [{ ...album.response.body.songs[0], privilege: replacement }],
     }),
+    readPrivilege: (body: {
+      songs: Array<{ privilege: Record<string, unknown> }>;
+    }) => body.songs[0]?.privilege,
     call: (body: unknown) => replay(body).album(album.query),
   },
   {
@@ -414,6 +441,9 @@ for (const { module, path, privilege, schema, withPrivilege, call } of [
         { ...artistTopSong.response.body.songs[0], privilege: replacement },
       ],
     }),
+    readPrivilege: (body: {
+      songs: Array<{ privilege: Record<string, unknown> }>;
+    }) => body.songs[0]?.privilege,
     call: (body: unknown) => replay(body).artistTopSong(artistTopSong.query),
   },
   {
@@ -434,8 +464,13 @@ for (const { module, path, privilege, schema, withPrivilege, call } of [
       },
     }),
     call: (body: unknown) => replay(body).recommendSongs(),
+    readPrivilege: (body: {
+      data: { dailySongs: Array<{ privilege: Record<string, unknown> }> };
+    }) => body.data.dailySongs[0]?.privilege,
   },
 ]) {
+  const privilegeIsLoose = !path.startsWith('body.privileges');
+
   test(`${module} preserves undeclared privilege fields through both public boundaries`, async () => {
     const upstream = withPrivilege({
       ...privilege,
@@ -448,40 +483,100 @@ for (const { module, path, privilege, schema, withPrivilege, call } of [
     });
   });
 
-  test.each(['id', 'st', 'pl'])(
-    `${module} rejects a missing privilege.%s`,
+  test(`${module} handles a missing privilege.id`, async () => {
+    const incomplete: Record<string, unknown> = { ...privilege };
+    delete incomplete.id;
+    const upstream = withPrivilege(incomplete);
+
+    if (privilegeIsLoose) {
+      const result = await call(upstream);
+      const embedded = readPrivilege(
+        (result as { body: unknown }).body as never,
+      );
+      expect(embedded).toBeDefined();
+      expect(embedded).not.toHaveProperty('id');
+      return;
+    }
+
+    expect(schema['~standard'].validate(upstream)).toHaveProperty('issues');
+    await expectUpstreamShapeRejection(call(upstream), {
+      module,
+      path: `${path}.id`,
+      expected: 'present',
+      actual: 'missing',
+    });
+  });
+
+  test.each(['st', 'pl'])(
+    `${module} treats a missing privilege.%s as absent`,
     async (field) => {
       const incomplete: Record<string, unknown> = { ...privilege };
       delete incomplete[field];
       const upstream = withPrivilege(incomplete);
 
-      expect(schema['~standard'].validate(upstream)).toHaveProperty('issues');
-      await expectUpstreamShapeRejection(call(upstream), {
-        module,
-        path: `${path}.${field}`,
-        expected: 'present',
-        actual: 'missing',
-      });
+      const result = await call(upstream);
+      expect(
+        readPrivilege((result as { body: unknown }).body as never),
+      ).not.toHaveProperty(field);
     },
   );
 
-  test.each(['id', 'st', 'pl'])(
-    `${module} rejects a nonnumeric privilege.%s`,
+  test(`${module} handles a nonnumeric privilege.id`, async () => {
+    const upstream = withPrivilege({ ...privilege, id: '0' });
+
+    if (privilegeIsLoose) {
+      const result = await call(upstream);
+      const embedded = readPrivilege(
+        (result as { body: unknown }).body as never,
+      );
+      expect(embedded).toBeDefined();
+      expect(embedded).not.toHaveProperty('id');
+      return;
+    }
+
+    expect(schema['~standard'].validate(upstream)).toHaveProperty('issues');
+    await expectUpstreamShapeRejection(call(upstream), {
+      module,
+      path: `${path}.id`,
+      expected: 'number',
+      actual: 'string',
+    });
+  });
+
+  test.each(['st', 'pl'])(
+    `${module} treats a nonnumeric privilege.%s as absent`,
     async (field) => {
       const upstream = withPrivilege({ ...privilege, [field]: '0' });
 
-      expect(schema['~standard'].validate(upstream)).toHaveProperty('issues');
-      await expectUpstreamShapeRejection(call(upstream), {
-        module,
-        path: `${path}.${field}`,
-        expected: 'number',
-        actual: 'string',
-      });
+      const result = await call(upstream);
+      expect(
+        readPrivilege((result as { body: unknown }).body as never),
+      ).not.toHaveProperty(field);
     },
   );
 
-  test(`${module} rejects a null privilege`, async () => {
+  test.each(['st', 'pl'])(
+    `${module} keeps a null privilege.%s`,
+    async (field) => {
+      const upstream = withPrivilege({ ...privilege, [field]: null });
+
+      const result = await call(upstream);
+      expect(
+        readPrivilege((result as { body: unknown }).body as never)?.[field],
+      ).toBeNull();
+    },
+  );
+
+  test(`${module} handles a null privilege`, async () => {
     const upstream = withPrivilege(null);
+
+    if (privilegeIsLoose) {
+      const result = await call(upstream);
+      expect(
+        readPrivilege((result as { body: unknown }).body as never),
+      ).toBeNull();
+      return;
+    }
 
     expect(schema['~standard'].validate(upstream)).toHaveProperty('issues');
     await expectUpstreamShapeRejection(call(upstream), {
@@ -503,50 +598,45 @@ test('artistAlbum returns the recorded artist and albums with undeclared fields'
 });
 
 test.each(['id', 'name', 'img1v1Url', 'musicSize', 'albumSize'])(
-  'artistAlbum rejects a missing artist.%s',
+  'artistAlbum treats a missing artist.%s as absent',
   async (field) => {
     const artist: Record<string, unknown> = {
       ...artistAlbum.response.body.artist,
     };
     delete artist[field];
 
-    await expectUpstreamShapeRejection(
-      replay({ ...artistAlbum.response.body, artist }).artistAlbum(
-        artistAlbum.query,
-      ),
-      {
-        module: 'artist_album',
-        path: `body.artist.${field}`,
-        expected: 'present',
-        actual: 'missing',
-      },
-    );
+    const result = await replay({
+      ...artistAlbum.response.body,
+      artist,
+    }).artistAlbum(artistAlbum.query);
+
+    expect(result.status).toBe(200);
+    expect(result.body.artist as unknown).not.toHaveProperty(field);
   },
 );
 
 test.each([
-  { field: 'id', value: '33927412', expected: 'number', actual: 'string' },
-  { field: 'name', value: null, expected: 'string', actual: 'null' },
-  { field: 'img1v1Url', value: 123, expected: 'string', actual: 'number' },
-  { field: 'musicSize', value: '148', expected: 'number', actual: 'string' },
-  { field: 'albumSize', value: '65', expected: 'number', actual: 'string' },
+  { field: 'id', value: '33927412' },
+  { field: 'name', value: null },
+  { field: 'img1v1Url', value: 123 },
+  { field: 'musicSize', value: '148' },
+  { field: 'albumSize', value: '65' },
 ])(
-  'artistAlbum rejects artist.$field with the wrong type',
-  async ({ field, value, expected, actual }) => {
+  'artistAlbum treats artist.$field with an unusable value as absent',
+  async ({ field, value }) => {
     const upstream = {
       ...artistAlbum.response.body,
       artist: { ...artistAlbum.response.body.artist, [field]: value },
     };
 
-    await expectUpstreamShapeRejection(
-      replay(upstream).artistAlbum(artistAlbum.query),
-      {
-        module: 'artist_album',
-        path: `body.artist.${field}`,
-        expected,
-        actual,
-      },
-    );
+    const result = await replay(upstream).artistAlbum(artistAlbum.query);
+
+    expect(result.status).toBe(200);
+    if (value === null) {
+      expect((result.body.artist as Record<string, unknown>)[field]).toBeNull();
+    } else {
+      expect(result.body.artist as unknown).not.toHaveProperty(field);
+    }
   },
 );
 
@@ -560,11 +650,15 @@ test('recommendSongs returns the recorded daily songs', async () => {
     pl: 999000,
   });
   expectTypeOf<
-    RecommendSongsBody['data']['dailySongs'][number]['privilege'][
-      | 'id'
-      | 'st'
-      | 'pl']
-  >().toEqualTypeOf<number>();
+    NonNullable<
+      RecommendSongsBody['data']['dailySongs'][number]['privilege']
+    >['id']
+  >().toEqualTypeOf<number | null | undefined>();
+  expectTypeOf<
+    NonNullable<
+      RecommendSongsBody['data']['dailySongs'][number]['privilege']
+    >['st']
+  >().toEqualTypeOf<number | null | undefined>();
 });
 
 test('likelist returns the recorded liked song identifiers', async () => {
@@ -642,21 +736,6 @@ test.each<{
   shape: UpstreamShape;
 }>([
   {
-    name: 'userPlaylist: a playlist without its track update time',
-    call: () => {
-      const upstream = structuredClone(userPlaylist.response.body);
-      delete (upstream.playlist[0] as { trackUpdateTime?: number })
-        .trackUpdateTime;
-      return replay(upstream).userPlaylist(userPlaylist.query);
-    },
-    shape: {
-      module: 'user_playlist',
-      path: 'body.playlist[0].trackUpdateTime',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
     name: 'playlistDetail: no track identifiers',
     call: () => {
       const upstream = structuredClone(detailOwn.response.body);
@@ -668,51 +747,6 @@ test.each<{
       path: 'body.playlist.trackIds',
       expected: 'present',
       actual: 'missing',
-    },
-  },
-  {
-    name: 'playlistTrackAll: a song without its album',
-    call: () => {
-      const songs = structuredClone(trackAll.response.body);
-      delete (songs.songs[0] as { al?: unknown }).al;
-      return replay(detailOwn.response.body, songs).playlistTrackAll(
-        trackAll.query,
-      );
-    },
-    shape: {
-      module: 'playlist_track_all',
-      path: 'body.songs[0].al',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'songDetail: a song without its artists',
-    call: () => {
-      const upstream = structuredClone(songDetailAnonymous.response.body);
-      delete (upstream.songs[0] as { ar?: unknown }).ar;
-      return replay(upstream).songDetail(songDetailAnonymous.query);
-    },
-    shape: {
-      module: 'song_detail',
-      path: 'body.songs[0].ar',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    // 匿名或凭据失效时，云盘上传的歌连歌名也是 null；只有上传者本人能看到歌名（#48）。
-    name: 'songDetail: an uploaded song seen without its uploader',
-    call: () => {
-      const upstream = structuredClone(songDetailUploaded.response.body);
-      (upstream.songs[0] as { name: string | null }).name = null;
-      return replay(upstream).songDetail(songDetailUploaded.query);
-    },
-    shape: {
-      module: 'song_detail',
-      path: 'body.songs[0].name',
-      expected: 'string',
-      actual: 'null',
     },
   },
   {
@@ -729,79 +763,6 @@ test.each<{
     },
   },
   {
-    name: 'album: a numeric description',
-    call: () =>
-      replay({
-        ...albumNoDescription.response.body,
-        album: { ...albumNoDescription.response.body.album, description: 123 },
-      }).album(albumNoDescription.query),
-    shape: {
-      module: 'album',
-      path: 'body.album.description',
-      expected: 'string | null',
-      actual: 'number',
-    },
-  },
-  {
-    name: 'album: a missing description',
-    call: () => {
-      const { description: _description, ...information } =
-        albumNoDescription.response.body.album;
-      return replay({
-        ...albumNoDescription.response.body,
-        album: information,
-      }).album(albumNoDescription.query);
-    },
-    shape: {
-      module: 'album',
-      path: 'body.album.description',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'albumSublist: an album without its cover',
-    call: () => {
-      const upstream = structuredClone(albumSublist.response.body);
-      delete (upstream.data[0] as { picUrl?: string }).picUrl;
-      return replay(upstream).albumSublist(albumSublist.query);
-    },
-    shape: {
-      module: 'album_sublist',
-      path: 'body.data[0].picUrl',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'artistSublist: an artist without its name',
-    call: () => {
-      const upstream = structuredClone(artistSublist.response.body);
-      delete (upstream.data[0] as { name?: string }).name;
-      return replay(upstream).artistSublist(artistSublist.query);
-    },
-    shape: {
-      module: 'artist_sublist',
-      path: 'body.data[0].name',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'artistTopSong: a song without its duration',
-    call: () => {
-      const upstream = structuredClone(artistTopSong.response.body);
-      delete (upstream.songs[0] as { dt?: number }).dt;
-      return replay(upstream).artistTopSong(artistTopSong.query);
-    },
-    shape: {
-      module: 'artist_top_song',
-      path: 'body.songs[0].dt',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
     name: 'artistAlbum: no albums',
     call: () => {
       const { hotAlbums: _hotAlbums, ...upstream } = artistAlbum.response.body;
@@ -810,19 +771,6 @@ test.each<{
     shape: {
       module: 'artist_album',
       path: 'body.hotAlbums',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'artistAlbum: no artist',
-    call: () => {
-      const { artist: _artist, ...upstream } = artistAlbum.response.body;
-      return replay(upstream).artistAlbum(artistAlbum.query);
-    },
-    shape: {
-      module: 'artist_album',
-      path: 'body.artist',
       expected: 'present',
       actual: 'missing',
     },

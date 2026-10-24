@@ -9,8 +9,12 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
-import { Song } from '../core/upstream-schemas.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { Song, SongPrivilege } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
   IdentifierQuery,
@@ -34,10 +38,12 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
+// 通到歌曲列表的路径、每首歌的编号收紧；其余字段宽松（共用 `Song`）。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     songs: Schema.Array(Song),
+    privileges: Loose(Schema.Array(SongPrivilege)),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

@@ -6,18 +6,15 @@ import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import { SongUrlData } from './song_url_v1.ts';
 
-// 匿名下载会员歌录到 -105，无版权录到 -110，均无地址；未录到下载试听片段，freeTrialInfo 不声明。
+// 通到下载地址的路径、`id` / `url` / `code` 收紧；其余字段宽松。
+// 匿名下载会员歌录到 -105，无版权录到 -110，均无地址；下载录制里 freeTrialInfo 都是 null，按宽松字段声明
+// （与播放地址共用结构），不据此假定下载接口会给试听片段。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
-    data: UpstreamObject({
-      id: Schema.Finite,
-      url: Schema.NullOr(Schema.String),
-      code: Schema.Finite,
-      level: Schema.NullOr(Schema.String),
-      size: Schema.Finite,
-    }),
+    data: SongUrlData,
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

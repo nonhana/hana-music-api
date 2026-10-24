@@ -7,7 +7,11 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { IdentifierActionQuery } from '../types/module-shared.ts';
 
@@ -21,11 +25,12 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
+// 返回码收紧；其余字段宽松（录到的 `data` 一直是 null）。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
-    data: Schema.Null,
-    message: Schema.String,
+    data: Loose(Schema.Null),
+    message: Loose(Schema.String),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

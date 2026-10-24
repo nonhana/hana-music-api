@@ -3,27 +3,80 @@ import { Effect, Schema } from 'effect';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { AlbumSummary, Artist, SimpleAlbum } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const Suggestion = UpstreamObject({
+const SuggestedSong = UpstreamObject({
   id: Schema.Finite,
-  name: Schema.String,
+  name: Loose(Schema.String),
+  album: Loose(SimpleAlbum),
+  alias: Loose(Schema.Array(Schema.String)),
+  artists: Loose(Schema.Array(Artist)),
+  copyrightId: Loose(Schema.Finite),
+  duration: Loose(Schema.Finite),
+  fee: Loose(Schema.Finite),
+  ftype: Loose(Schema.Finite),
+  mark: Loose(Schema.Finite),
+  mvid: Loose(Schema.Finite),
+  rUrl: Loose(Schema.String),
+  rtype: Loose(Schema.Finite),
+  status: Loose(Schema.Finite),
+  transNames: Loose(Schema.Array(Schema.String)),
 });
 
+const SuggestedArtist = UpstreamObject({
+  ...Artist.schema.fields,
+  id: Schema.Finite,
+});
+
+const SuggestedPlaylist = UpstreamObject({
+  id: Schema.Finite,
+  name: Loose(Schema.String),
+  coverImgUrl: Loose(Schema.String),
+  creator: Loose(
+    UpstreamObject({
+      userId: Loose(Schema.Finite),
+      nickname: Loose(Schema.String),
+    }),
+  ),
+  bookCount: Loose(Schema.Finite),
+  description: Loose(Schema.String),
+  highQuality: Loose(Schema.Boolean),
+  officialPlaylistTitle: Loose(Schema.String),
+  playCount: Loose(Schema.Finite),
+  playlistType: Loose(Schema.String),
+  specialType: Loose(Schema.Finite),
+  subscribed: Loose(Schema.Boolean),
+  trackCount: Loose(Schema.Finite),
+  userId: Loose(Schema.Finite),
+});
+
+const AllMatch = UpstreamObject({
+  keyword: Schema.String,
+  alg: Loose(Schema.String),
+  feature: Loose(Schema.String),
+  lastKeyword: Loose(Schema.String),
+  type: Loose(Schema.Finite),
+});
+
+// 通到 `result` 的路径、每条建议的编号和关键词收紧；其余字段宽松。
 // 默认按类别给 songs、artists、albums、playlists，type 为 mobile 时只给关键词 allMatch；哪一类没有建议就整个缺失，都没有时 result 是空对象。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     result: UpstreamObject({
-      songs: Schema.optionalKey(Schema.Array(Suggestion)),
-      artists: Schema.optionalKey(Schema.Array(Suggestion)),
-      albums: Schema.optionalKey(Schema.Array(Suggestion)),
-      playlists: Schema.optionalKey(Schema.Array(Suggestion)),
-      allMatch: Schema.optionalKey(
-        Schema.Array(UpstreamObject({ keyword: Schema.String })),
-      ),
+      songs: Loose(Schema.Array(SuggestedSong)),
+      artists: Loose(Schema.Array(SuggestedArtist)),
+      albums: Loose(Schema.Array(AlbumSummary)),
+      playlists: Loose(Schema.Array(SuggestedPlaylist)),
+      allMatch: Loose(Schema.Array(AllMatch)),
+      order: Loose(Schema.Array(Schema.MutableJson)),
     }),
   }),
 );

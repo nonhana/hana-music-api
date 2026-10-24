@@ -8,6 +8,7 @@ import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 只注销同一个设备编号上的登录，其他设备上的登录不受影响。
+// 接口只返回返回码，收紧的是返回码。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({ code: Schema.Literal(200) }),
 );

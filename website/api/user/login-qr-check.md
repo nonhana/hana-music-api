@@ -36,7 +36,7 @@ HTTP JSON 中直接读取 `code`，SDK 则读取 `result.body` 中的 `code`。�
 
 网易云返回其他业务码时（例如要求行为验证的 `8821`），SDK 以网易云的原始正文拒绝。8821 还没录到真实返回，SDK 不声明它的字段；正文里带有 [行为验证二维码](/api/other/verify-get-qr) 需要的参数。
 
-结构定义和类型是 `LoginQrCheckBody`，按 `code` 判断后可以直接读 802 的 `nickname`，见 [返回体结构](/guide/response-bodies)。
+结构定义和类型是 `LoginQrCheckBody`，按 `code` 判断后可以直接读 802 的 `nickname`。返回码是收紧字段；802 的 `nickname`、`avatarUrl` 是宽松字段，读取类型为 `string | null | undefined`，见 [返回体结构](/guide/response-bodies)。
 
 ## HTTP 示例
 

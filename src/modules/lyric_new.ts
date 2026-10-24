@@ -3,23 +3,40 @@ import { Effect, Schema } from 'effect';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { LyricUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const Lyric = UpstreamObject({ lyric: Schema.String });
+const Lyric = UpstreamObject({
+  lyric: Loose(Schema.String),
+  version: Loose(Schema.Finite),
+});
 
-// 逐行歌词 lrc 一直在，没收录时 lyric 是空串；其余形式可能整个缺失，也可能在、但 lyric 是空串。
+// 逐行歌词 lrc 收紧，没收录时 lyric 是空串；其余形式可能整个缺失，也可能在、但 lyric 是空串。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
-    lrc: Lyric,
-    tlyric: Schema.optionalKey(Lyric),
-    romalrc: Schema.optionalKey(Lyric),
-    yrc: Schema.optionalKey(Lyric),
-    ytlrc: Schema.optionalKey(Lyric),
-    yromalrc: Schema.optionalKey(Lyric),
-    pureMusic: Schema.optionalKey(Schema.Boolean),
+    lrc: UpstreamObject({ lyric: Schema.String }),
+    tlyric: Loose(Lyric),
+    romalrc: Loose(Lyric),
+    yrc: Loose(Lyric),
+    ytlrc: Loose(Lyric),
+    yromalrc: Loose(Lyric),
+    klyric: Loose(Lyric),
+    lyricUser: Loose(LyricUser),
+    transUser: Loose(LyricUser),
+    pureMusic: Loose(Schema.Boolean),
+    needDesc: Loose(Schema.Boolean),
+    qfy: Loose(Schema.Boolean),
+    sfy: Loose(Schema.Boolean),
+    sgc: Loose(Schema.Boolean),
+    uncollected: Loose(Schema.Boolean),
+    briefDesc: Loose(Schema.MutableJson),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

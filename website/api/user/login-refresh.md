@@ -47,7 +47,7 @@ console.log(result.cookie);
 }
 ```
 
-新的 Cookie 在顶层 `result.cookie` 数组里，正文的 `cookie` 是拼接后的字符串。续期后旧 Cookie 不会马上失效，所以多个地方同时续期不需要加锁。
+新的 Cookie 在顶层 `result.cookie` 数组里，正文的 `cookie` 是拼接后的字符串。`code` 和 `cookie` 都是收紧字段。续期后旧 Cookie 不会马上失效，所以多个地方同时续期不需要加锁。
 
 登录已失效时网易云回 `301`，SDK 以网易云的原始正文拒绝，`status` 是 301，这时需要重新登录。结构定义和类型是 `LoginRefreshBody`，见 [返回体结构](/guide/response-bodies)。
 

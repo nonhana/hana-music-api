@@ -31,6 +31,7 @@ const upstreamSchema = UpstreamObject({
   data: UpstreamObject({ qrCode: Schema.String }),
 });
 
+// 返回码、验证数据路径和二维码字段都是接口要拿的那一项，全部收紧。
 // 返回体由 SDK 自己拼出：`qrurl` 是手机上完成行为验证的页面，`qrimg` 是它的二维码图片（data URL）。
 export const ModuleBody = Schema.toStandardSchemaV1(
   Schema.Struct({

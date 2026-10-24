@@ -43,7 +43,7 @@ console.log(result.body);
 
 ## 返回内容
 
-`body.songs` 是歌手的热门歌曲，每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”。结构定义和类型是 `ArtistTopSongBody`。
+`body.songs` 是歌手的热门歌曲，每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”；正文还声明了宽松的 `more`。只有 `code`、`songs`、`songs[].id` 收紧，其余字段宽松。结构定义和类型是 `ArtistTopSongBody`。
 
 ## 补充说明
 

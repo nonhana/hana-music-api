@@ -7,6 +7,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export type ModuleInput = {};
 
+// 返回码、上传凭证路径和凭证字段都是接口要拿的那一项，全部收紧。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

@@ -3,7 +3,11 @@ import { Effect, Schema } from 'effect';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
@@ -16,9 +20,12 @@ const SCROBBLE_COOKIE_OVERRIDES = {
 };
 
 // 返回 200 不代表计入了听歌排行（验证关卡①实测没有计入，见 nonhana/hana-music-api#31）。
+// 接口只返回返回码，收紧的是返回码。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
+    data: Loose(Schema.String),
+    message: Loose(Schema.String),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

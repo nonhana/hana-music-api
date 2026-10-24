@@ -8,7 +8,7 @@ import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 import { ModuleBody as AccountBody } from './user_account.ts';
 
-// 与 user_account 是同一份账号数据，外面多包一层 `data`。
+// 与 user_account 是同一份账号数据，外面多包一层 `data`；`data` 的路径和编号收紧，其余字段沿用宽松写法。
 export const ModuleBody = Schema.toStandardSchemaV1(
   Schema.Struct({ data: AccountBody }),
 );

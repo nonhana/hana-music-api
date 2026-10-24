@@ -43,7 +43,7 @@ console.log(result.body);
 { "code": 200 }
 ```
 
-只注销同一个设备编号（`deviceId`）上的登录，听众在其他设备上的登录不受影响。结构定义和类型是 `LogoutBody`，见 [返回体结构](/guide/response-bodies)。
+只注销同一个设备编号（`deviceId`）上的登录，听众在其他设备上的登录不受影响。`code` 是唯一的收紧字段。结构定义和类型是 `LogoutBody`，见 [返回体结构](/guide/response-bodies)。
 
 ## 补充说明
 

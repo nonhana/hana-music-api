@@ -46,7 +46,7 @@ console.log(result.body);
 
 ## 返回内容
 
-`body.data` 是一个对象，不是数组。声明了 `id`、`url`、`code`、`level`（实际给到的音质）和 `size`（文件字节数）。结构定义和类型是 `SongDownloadUrlV1Body`。
+`body.data` 是一个对象，不是数组。声明了 `id`、`url`、`code`、`level`（实际给到的音质）、`size`（文件字节数），以及录制里出现的其他地址字段（码率、编码、md5、试听信息等）；只有 `id`、`url`、`code` 收紧，其余宽松。结构定义和类型是 `SongDownloadUrlV1Body`，与播放地址共用 `SongUrlData` 结构。
 
 匿名请求会员歌 `1409311773` 的真实国内 IP 录制中，`standard`、`higher`、`exhigh` 均返回 `data.code: -105`、`url: null`、`level: null`、`size: 0`，表示当前身份没有下载权限；同一游客身份可以通过播放接口试听，但下载接口没有返回试听文件。无版权的下载录制为 `data.code: -110`，同样没有地址。顶层 `body.code` 和 HTTP 状态仍是 200，SDK 会正常返回这个正文，不会因条目里的负数返回码而拒绝 Promise。
 

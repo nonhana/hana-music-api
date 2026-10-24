@@ -8,8 +8,12 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
-import { PlaylistSummary } from '../core/upstream-schemas.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { PlaylistSummary, SongPrivilege } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
   IdentifierQuery,
@@ -37,10 +41,19 @@ const Playlist = UpstreamObject({
   ),
 });
 
+// 通到歌单的路径、歌单自身的编号和曲目编号收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     playlist: Playlist,
+    fromUserCount: Loose(Schema.Finite),
+    privileges: Loose(Schema.Array(SongPrivilege)),
+    fromUsers: Loose(Schema.MutableJson),
+    relatedVideos: Loose(Schema.MutableJson),
+    resEntrance: Loose(Schema.MutableJson),
+    sharedPrivilege: Loose(Schema.MutableJson),
+    songFromUsers: Loose(Schema.MutableJson),
+    urls: Loose(Schema.MutableJson),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

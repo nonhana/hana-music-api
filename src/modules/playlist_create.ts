@@ -4,19 +4,16 @@ import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import { PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const Playlist = UpstreamObject({
-  id: Schema.Finite,
-  name: Schema.String,
-});
-
+// 返回码、新歌单的路径和编号收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     id: Schema.Finite,
-    playlist: Playlist,
+    playlist: PlaylistSummary,
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

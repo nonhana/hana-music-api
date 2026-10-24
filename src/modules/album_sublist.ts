@@ -7,7 +7,11 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import { Artist } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { PagedQuery } from '../types/module-shared.ts';
@@ -24,17 +28,25 @@ export const decodeModuleInput = (input: unknown) =>
 
 const SubscribedAlbum = UpstreamObject({
   id: Schema.Finite,
-  name: Schema.String,
-  picUrl: Schema.String,
-  size: Schema.Finite,
-  artists: Schema.Array(Artist),
+  name: Loose(Schema.String),
+  picUrl: Loose(Schema.String),
+  size: Loose(Schema.Finite),
+  artists: Loose(Schema.Array(Artist)),
+  alias: Loose(Schema.Array(Schema.String)),
+  msg: Loose(Schema.Array(Schema.MutableJson)),
+  picId: Loose(Schema.Finite),
+  subTime: Loose(Schema.Finite),
+  transNames: Loose(Schema.Array(Schema.String)),
 });
 
+// 通到收藏列表的路径、每张唱片的编号收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Schema.Array(SubscribedAlbum),
-    hasMore: Schema.Boolean,
+    hasMore: Loose(Schema.Boolean),
+    count: Loose(Schema.Finite),
+    paidCount: Loose(Schema.Finite),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

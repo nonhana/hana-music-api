@@ -4,15 +4,20 @@ import { InvalidModuleInput } from '../core/errors.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
+// 返回码收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
-    playlistId: Schema.Finite,
-    songs: Schema.Array(Schema.MutableJson),
+    playlistId: Loose(Schema.Finite),
+    songs: Loose(Schema.Array(Schema.MutableJson)),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

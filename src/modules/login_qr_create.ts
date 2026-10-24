@@ -26,6 +26,7 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
+// 返回码、二维码数据路径和二维码字段都是接口要拿的那一项，全部收紧。
 // 返回体由 SDK 自己拼出，`qrimg` 只在请求了图片时才有内容，否则是空串。
 export const ModuleBody = Schema.toStandardSchemaV1(
   Schema.Struct({

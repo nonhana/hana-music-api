@@ -12,6 +12,15 @@ export const UpstreamObject = <const Fields extends Schema.Struct.Fields>(
     Schema.Record(Schema.String, Schema.MutableJson),
   ]).annotate({ expected: 'object' });
 
+/**
+ * 宽松字段：可能缺失，也可能是 `null`；有值但类型不对时当成缺失。
+ * 收紧字段照常用必填写法；声明处一眼能分出两种字段。
+ */
+export const Loose = <S extends Schema.Decoder<unknown>>(schema: S) =>
+  Schema.optionalKey(
+    Schema.NullOr(schema).pipe(Schema.catchDecoding(() => Effect.succeedNone)),
+  );
+
 const formatIssue = SchemaIssue.makeFormatterStandardSchemaV1();
 
 const kindOf = (value: unknown) =>

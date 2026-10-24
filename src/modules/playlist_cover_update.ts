@@ -7,7 +7,11 @@ import {
   UploadedFile,
 } from '../core/module-input.ts';
 import { uploadWork } from '../core/upload-work.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import uploadPlugin from '../plugins/upload.ts';
 import type { ModuleEffect, ModuleResponse } from '../types/index.ts';
 import type {
@@ -33,14 +37,15 @@ export const decodeModuleInput = (input: unknown) =>
 
 const UpstreamBody = UpstreamObject({
   code: Schema.Literal(200),
-  url: Schema.String,
+  url: Loose(Schema.String),
 });
 
 const InvalidInputBody = UpstreamObject({
   code: Schema.Literal(400),
-  msg: Schema.String,
+  msg: Loose(Schema.String),
 });
 
+// 返回码和上传结果的路径收紧；封面地址与错误说明宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   Schema.Union([
     UpstreamObject({

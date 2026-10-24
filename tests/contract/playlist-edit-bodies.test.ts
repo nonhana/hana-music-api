@@ -290,28 +290,36 @@ test('songOrderUpdate maps the recorded -1 response to a rejected call', async (
   });
 });
 
+test('like treats a missing playlist id as absent', async () => {
+  const upstream = structuredClone(like.response.body) as Record<
+    string,
+    unknown
+  >;
+  delete upstream.playlistId;
+
+  const result = await replay(upstream).like(like.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body as unknown).not.toHaveProperty('playlistId');
+});
+
+test('playlistTracks treats a missing count as absent', async () => {
+  const upstream = structuredClone(deleteTracks.response.body) as {
+    body: Record<string, unknown>;
+  };
+  delete upstream.body.count;
+
+  const result = await replay(upstream).playlistTracks(deleteTracks.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body as unknown).not.toHaveProperty('count');
+});
+
 test.each<{
   name: string;
   call: () => Promise<unknown>;
   shape: UpstreamShape;
 }>([
-  {
-    name: 'like without playlist id',
-    call: () => {
-      const upstream = structuredClone(like.response.body) as Record<
-        string,
-        unknown
-      >;
-      delete upstream.playlistId;
-      return replay(upstream).like(like.query);
-    },
-    shape: {
-      module: 'like',
-      path: 'body.playlistId',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
   {
     name: 'playlist catlist without a category name',
     call: () => {
@@ -340,22 +348,6 @@ test.each<{
     shape: {
       module: 'playlist_create',
       path: 'body.playlist.id',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'playlist track delete without count',
-    call: () => {
-      const upstream = structuredClone(deleteTracks.response.body) as {
-        body: Record<string, unknown>;
-      };
-      delete upstream.body.count;
-      return replay(upstream).playlistTracks(deleteTracks.query);
-    },
-    shape: {
-      module: 'playlist_tracks',
-      path: 'body.count',
       expected: 'present',
       actual: 'missing',
     },
