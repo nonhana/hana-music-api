@@ -44,6 +44,10 @@ const result = await playlistCreate({
 console.log(result.body);
 ```
 
+## 返回内容
+
+正文带 `code`、新歌单的 `id` 和 `playlist`。只有 `code`、`id`、`playlist`、`playlist.id` 收紧；`playlist` 里的其他字段宽松。歌单里套着的 `playlist.tracks[].id` 也宽松，缺失或类型不对只丢这个编号。结构定义和类型是 `PlaylistCreateBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入歌单名字可新建歌单

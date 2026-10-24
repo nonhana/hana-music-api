@@ -54,9 +54,9 @@ console.log(result.body);
 | 100（歌手）  | `artists`   | `artistCount`   | `id`、`name`、`picUrl`、`musicSize`（歌曲数）                                             |
 | 1000（歌单） | `playlists` | `playlistCount` | `id`、`name`、`coverImgUrl`、`trackCount`、`playCount`、`creator`（`userId`、`nickname`） |
 
-只有 `code`、`result` 和每类结果的 `id` 收紧；结果列表、各总数和每项的其他字段全是宽松字段，正文的 `trp` 也宽松。没有结果时只有总数（0），列表整个缺失；类型里这些字段因此都是可选的。歌词搜索（1006）的结果也在 `songs` 里，同样按歌曲校验；其他 `type`（用户、MV 等）的结果在别的字段里，没有声明，原样保留。翻页时以第一页的总数为准：实测单曲的 `songCount` 最多是 300，`offset` 超过它以后仍会返回歌曲；歌手翻过最后一页时 `artistCount` 变成 0。结构定义和类型是 `CloudsearchBody`，见 [返回体结构](/guide/response-bodies)。
+只有 `code`、`result` 收紧；结果列表是可以没有的路径：缺失或为 `null` 时照常返回，出现了就按每类结果的 `id` 收紧校验，坏一条记录会报 `UnexpectedUpstreamShape`，不会整列消失。各总数和每项的其他字段是宽松字段，正文的 `trp` 也宽松。没有结果时只有总数（0），列表整个缺失或是 `null`；类型里这些字段因此都是可选的。歌词搜索（1006）的结果也在 `songs` 里，同样按歌曲校验；其他 `type`（用户、MV 等）的结果在别的字段里，没有声明，原样保留。翻页时以第一页的总数为准：实测单曲的 `songCount` 最多是 300，`offset` 超过它以后仍会返回歌曲；歌手翻过最后一页时 `artistCount` 变成 0。结构定义和类型是 `CloudsearchBody`，见 [返回体结构](/guide/response-bodies)。
 
-单曲结果的专辑名 `al.name` 和其他声明字段一样是宽松字段：可能是字符串、`null`，也可能整个缺失，读取类型为 `string | null | undefined`。SDK 不替调用方补值；类型不对时把这一项当成缺失，不会因此丢弃歌曲或拒绝整页。3.0.0 起不再需要 `cloudsearch` 单独放宽 `al.name`，共用歌曲结构本来就是宽松的。
+单曲结果的专辑名 `al.name` 和其他声明字段一样是宽松字段：可能是字符串、`null`，也可能整个缺失，读取类型为 `string | null | undefined`。SDK 不替调用方补值；类型不对时把这一项当成缺失。3.0.0 起不再需要 `cloudsearch` 单独放宽 `al.name`，共用歌曲结构本来就是宽松的。3.0.1 起结果列表出现了但某条记录编号不对时整次调用报 502，不再让列表整个消失。
 
 ## 补充说明
 

@@ -1,0 +1,380 @@
+{
+  "module": "song_detail",
+  "query": {
+    "ids": "3367973704,3316094497"
+  },
+  "context": {
+    "recordedAt": "2026-10-12T12:50:26.746Z",
+    "sdk": "hana-music-api@2.4.0",
+    "region": "local",
+    "ip": "default",
+    "viewer": "vip-qr",
+    "note": "含非空 markTags（MusicianUserAiMark）的歌曲。取自 nonhana/campanula-music tests/fixtures/netease/library/sync/before/036-song_detail.json.gz（网易云原样的返回，用 fetcher 在 SDK 校验之前截下），只留这两首歌和它们的 privileges（nonhana/hana-music-api#99）",
+    "truncated": [
+      {
+        "path": "body.songs",
+        "length": 2
+      },
+      {
+        "path": "body.privileges",
+        "length": 2
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "songs": [
+        {
+          "id": 3367973704,
+          "name": "傀儡のうつつ（傀儡的现世）(feat. 天馬司&鳳えむ&草薙寧々&神代類&MEIKO)",
+          "ar": [
+            {
+              "id": 98638658,
+              "name": "ProSEAKIプロセカ",
+              "tns": [],
+              "alias": []
+            },
+            {
+              "id": 0,
+              "name": "ワンダーランズ×ショウタイム",
+              "tns": [],
+              "alias": []
+            },
+            {
+              "id": 0,
+              "name": "天馬司",
+              "tns": [],
+              "alias": []
+            },
+            {
+              "id": 0,
+              "name": "鳳えむ",
+              "tns": [],
+              "alias": []
+            },
+            {
+              "id": 0,
+              "name": "草薙寧々",
+              "tns": [],
+              "alias": []
+            },
+            {
+              "id": 0,
+              "name": "神代類",
+              "tns": [],
+              "alias": []
+            }
+          ],
+          "al": {
+            "id": 369959225,
+            "name": "傀儡のうつつ（傀儡的现世）(feat. 天馬司&鳳えむ&草薙寧々&神代類&MEIKO)",
+            "picUrl": "https://p4.music.126.net/plW7clmNDW2FtBT4PckodQ==/109951173017241439.jpg",
+            "tns": [],
+            "pic_str": "109951173017241439",
+            "pic": 109951173017241440
+          },
+          "dt": 178390,
+          "fee": 0,
+          "mainTitle": "傀儡のうつつ",
+          "additionalTitle": "（傀儡的现世）(feat. 天馬司&鳳えむ&草薙寧々&神代類&MEIKO)",
+          "pst": 0,
+          "t": 0,
+          "alia": [],
+          "pop": 85,
+          "st": 0,
+          "rt": "",
+          "v": 37,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 7136697,
+            "vd": -38126,
+            "sr": 44100
+          },
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 4282035,
+            "vd": -35342,
+            "sr": 44100
+          },
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 2854705,
+            "vd": -33228,
+            "sr": 44100
+          },
+          "sq": null,
+          "hr": null,
+          "a": null,
+          "cd": "01",
+          "no": 1,
+          "rtUrl": null,
+          "ftype": 0,
+          "rtUrls": [],
+          "djId": 0,
+          "copyright": 0,
+          "s_id": 0,
+          "mark": 128,
+          "originCoverType": 2,
+          "originSongSimpleData": null,
+          "tagPicList": null,
+          "resourceState": true,
+          "version": 3,
+          "songJumpInfo": null,
+          "entertainmentTags": null,
+          "awardTags": null,
+          "displayTags": [],
+          "artistClassics": false,
+          "markTags": [
+            {
+              "tagKey": "MusicianUserAiMark",
+              "tagValue": "含AI生成"
+            }
+          ],
+          "songFeature": null,
+          "single": 0,
+          "noCopyrightRcmd": null,
+          "mv": 0,
+          "rtype": 0,
+          "rurl": null,
+          "mst": 9,
+          "cp": 0,
+          "publishTime": 0
+        },
+        {
+          "id": 3316094497,
+          "name": "その絵の名前は（其绘名为） (feat. 宵崎奏&朝比奈まふゆ&東雲絵名&暁山瑞希&初音ミク)",
+          "ar": [
+            {
+              "id": 98638658,
+              "name": "ProSEAKIプロセカ",
+              "tns": [],
+              "alias": []
+            }
+          ],
+          "al": {
+            "id": 349766537,
+            "name": "その絵の名前は（其绘名为） (feat. 宵崎奏&朝比奈まふゆ&東雲絵名&暁山瑞希&初音ミク)",
+            "picUrl": "https://p3.music.126.net/PWjUVN8UA_vWyNvVNLc4jw==/109951172256770207.jpg",
+            "tns": [],
+            "pic_str": "109951172256770207",
+            "pic": 109951172256770200
+          },
+          "dt": 265273,
+          "fee": 0,
+          "mainTitle": "その絵の名前は",
+          "additionalTitle": "（其绘名为） (feat. 宵崎奏&朝比奈まふゆ&東雲絵名&暁山瑞希&初音ミク)",
+          "pst": 0,
+          "t": 0,
+          "alia": [],
+          "pop": 95,
+          "st": 0,
+          "rt": "",
+          "v": 41,
+          "crbt": null,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10612027,
+            "vd": -64188,
+            "sr": 44100
+          },
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6367234,
+            "vd": -61614,
+            "sr": 44100
+          },
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4244837,
+            "vd": -60120,
+            "sr": 44100
+          },
+          "sq": null,
+          "hr": null,
+          "a": null,
+          "cd": "01",
+          "no": 1,
+          "rtUrl": null,
+          "ftype": 0,
+          "rtUrls": [],
+          "djId": 0,
+          "copyright": 0,
+          "s_id": 0,
+          "mark": 262144,
+          "originCoverType": 0,
+          "originSongSimpleData": null,
+          "tagPicList": null,
+          "resourceState": true,
+          "version": 7,
+          "songJumpInfo": null,
+          "entertainmentTags": null,
+          "awardTags": null,
+          "displayTags": [],
+          "artistClassics": false,
+          "markTags": [
+            {
+              "tagKey": "MusicianUserAiMark",
+              "tagValue": "含AI生成"
+            }
+          ],
+          "songFeature": null,
+          "single": 0,
+          "noCopyrightRcmd": null,
+          "mv": 34704252,
+          "rtype": 0,
+          "rurl": null,
+          "mst": 9,
+          "cp": 0,
+          "publishTime": 0
+        }
+      ],
+      "privileges": [
+        {
+          "id": 3367973704,
+          "fee": 0,
+          "payed": 0,
+          "st": 0,
+          "pl": 320000,
+          "dl": 320000,
+          "sp": 7,
+          "cp": 1,
+          "subp": 1,
+          "cs": false,
+          "maxbr": 320000,
+          "fl": 320000,
+          "toast": false,
+          "flag": 1343617,
+          "preSell": false,
+          "playMaxbr": 320000,
+          "downloadMaxbr": 320000,
+          "maxBrLevel": "sky",
+          "playMaxBrLevel": "sky",
+          "downloadMaxBrLevel": "sky",
+          "plLevel": "exhigh",
+          "dlLevel": "exhigh",
+          "flLevel": "exhigh",
+          "rscl": null,
+          "freeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "listenType": null,
+            "cannotListenReason": null,
+            "playReason": null,
+            "freeLimitTagType": null
+          },
+          "rightSource": 0,
+          "chargeInfoList": [
+            {
+              "rate": 128000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 0
+            },
+            {
+              "rate": 192000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 0
+            },
+            {
+              "rate": 320000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 0
+            },
+            {
+              "rate": 999000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 1
+            }
+          ],
+          "code": 0,
+          "message": null,
+          "plLevels": null,
+          "dlLevels": null,
+          "ignoreCache": null,
+          "bd": null
+        },
+        {
+          "id": 3316094497,
+          "fee": 0,
+          "payed": 0,
+          "st": 0,
+          "pl": 320000,
+          "dl": 320000,
+          "sp": 7,
+          "cp": 1,
+          "subp": 1,
+          "cs": false,
+          "maxbr": 320000,
+          "fl": 320000,
+          "toast": false,
+          "flag": 1343488,
+          "preSell": false,
+          "playMaxbr": 320000,
+          "downloadMaxbr": 320000,
+          "maxBrLevel": "sky",
+          "playMaxBrLevel": "sky",
+          "downloadMaxBrLevel": "sky",
+          "plLevel": "exhigh",
+          "dlLevel": "exhigh",
+          "flLevel": "exhigh",
+          "rscl": null,
+          "freeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "listenType": null,
+            "cannotListenReason": null,
+            "playReason": null,
+            "freeLimitTagType": null
+          },
+          "rightSource": 0,
+          "chargeInfoList": [
+            {
+              "rate": 128000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 0
+            },
+            {
+              "rate": 192000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 0
+            },
+            {
+              "rate": 320000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 0
+            },
+            {
+              "rate": 999000,
+              "chargeUrl": null,
+              "chargeMessage": null,
+              "chargeType": 1
+            }
+          ],
+          "code": 0,
+          "message": null,
+          "plLevels": null,
+          "dlLevels": null,
+          "ignoreCache": null,
+          "bd": null
+        }
+      ]
+    }
+  }
+}

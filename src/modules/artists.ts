@@ -7,6 +7,12 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { Artist, Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { IdentifierQuery } from '../types/module-shared.ts';
 
@@ -19,17 +25,33 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const artists: ModuleEffect<ModuleInput> = (query, request) =>
+// 通到热门歌曲列表的路径和每首歌的编号收紧；歌手是附带信息，其余字段宽松。
+const ArtistSummary = UpstreamObject({
+  ...Artist.schema.fields,
+  publishTime: Loose(Schema.Finite),
+});
+
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    artist: Loose(ArtistSummary),
+    hotSongs: Schema.Array(Song),
+    more: Loose(Schema.Boolean),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const artists: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/v1/artist/${query.id}`,
-          {},
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/v1/artist/${query.id}`,
+        {},
+        createOption(query, 'weapi'),
       ),
     );
+    const body = yield* decodeUpstreamBody('artists', ModuleBody, response);
+    return { ...toModuleResponse(response), body };
   });
 
 /**

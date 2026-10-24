@@ -7,6 +7,7 @@ import {
   SongDetailBody,
   UserAccountBody,
 } from '../../index.ts';
+import { validateSync } from '../_kit/assertions.ts';
 import album from '../fixtures/netease/library/album.json';
 import detail from '../fixtures/netease/library/playlist_detail.own-small.json';
 import songDetail from '../fixtures/netease/library/song_detail.vip.json';
@@ -15,24 +16,12 @@ import searchSong from '../fixtures/netease/search/cloudsearch.song.json';
 
 const clone = <T>(value: T): T => structuredClone(value);
 
-const validate = (
-  schema: { '~standard': { validate: (input: unknown) => unknown } },
-  input: unknown,
-) =>
-  schema['~standard'].validate(input) as
-    | { value?: unknown; issues?: ReadonlyArray<unknown> }
-    | Promise<unknown>;
-
 test('loose fields accept a missing value and leave it missing', () => {
   const upstream = clone(album.response.body);
   delete (upstream.songs[0] as { dt?: number }).dt;
 
-  const result = validate(AlbumBody, upstream);
+  const result = validateSync(AlbumBody, upstream);
 
-  expect(result).not.toBeInstanceOf(Promise);
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
   expect(result.issues).toBeUndefined();
   expect((result.value as typeof upstream).songs[0]).not.toHaveProperty('dt');
 });
@@ -41,11 +30,8 @@ test('loose fields keep null', () => {
   const upstream = clone(album.response.body);
   (upstream.songs[0] as { dt: number | null }).dt = null;
 
-  const result = validate(AlbumBody, upstream);
+  const result = validateSync(AlbumBody, upstream);
 
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
   expect(result.issues).toBeUndefined();
   expect((result.value as typeof upstream).songs[0]?.dt).toBeNull();
 });
@@ -56,11 +42,8 @@ test('loose fields treat a value of the wrong type as missing', () => {
   (upstream.songs[0]!.al as { name: unknown }).name = 123;
   (upstream.album as { description: unknown }).description = ['text'];
 
-  const result = validate(AlbumBody, upstream);
+  const result = validateSync(AlbumBody, upstream);
 
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
   expect(result.issues).toBeUndefined();
   const value = result.value as typeof upstream;
   expect(value.songs[0]).not.toHaveProperty('dt');
@@ -68,28 +51,21 @@ test('loose fields treat a value of the wrong type as missing', () => {
   expect(value.album).not.toHaveProperty('description');
 });
 
-test('loose list fields treat an invalid strict element as a missing list', () => {
+test('lists that may be missing still reject an invalid record when present', () => {
   const upstream = clone(searchSong.response.body);
   (upstream.result.songs[0] as { id: unknown }).id = '1409311773';
 
-  const result = validate(CloudsearchBody, upstream);
+  const result = validateSync(CloudsearchBody, upstream);
 
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
-  expect(result.issues).toBeUndefined();
-  expect((result.value as typeof upstream).result).not.toHaveProperty('songs');
+  expect(result.issues).toHaveLength(1);
 });
 
 test('strict fields reject a missing value', () => {
   const upstream = clone(album.response.body);
   delete (upstream.album as { id?: number }).id;
 
-  const result = validate(AlbumBody, upstream);
+  const result = validateSync(AlbumBody, upstream);
 
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
   expect(result.issues).toHaveLength(1);
 });
 
@@ -97,11 +73,8 @@ test('strict fields reject a value of the wrong type', () => {
   const upstream = clone(songDetail.response.body);
   (upstream.songs[0] as { id: unknown }).id = '2636391253';
 
-  const result = validate(SongDetailBody, upstream);
+  const result = validateSync(SongDetailBody, upstream);
 
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
   expect(result.issues).toHaveLength(1);
 });
 
@@ -112,11 +85,8 @@ test('newly declared song and album fields are loose', () => {
   song.alia = 'alias';
   (upstream.album as { company: unknown }).company = 42;
 
-  const result = validate(AlbumBody, upstream);
+  const result = validateSync(AlbumBody, upstream);
 
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
   expect(result.issues).toBeUndefined();
   const value = result.value as typeof upstream;
   expect(value.songs[0]).not.toHaveProperty('no');
@@ -132,26 +102,20 @@ test('newly declared playlist and account fields are loose', () => {
       shareCount: 'many',
     },
   };
-  const result = validate(PlaylistDetailBody, upstream);
+  const result = validateSync(PlaylistDetailBody, upstream);
 
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
   expect(result.issues).toBeUndefined();
   expect((result.value as typeof upstream).playlist).not.toHaveProperty(
     'shareCount',
   );
 
-  const accountResult = validate(UserAccountBody, {
+  const accountResult = validateSync(UserAccountBody, {
     ...clone(account.response.body),
     account: {
       ...clone(account.response.body.account),
       createTime: 'yesterday',
     },
   });
-  if (accountResult instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
   expect(accountResult.issues).toBeUndefined();
   expect(
     (accountResult.value as typeof account.response.body).account,
@@ -174,10 +138,7 @@ test('undeclared fields are preserved at every level', () => {
     ],
   };
 
-  const result = validate(AlbumBody, upstream);
+  const result = validateSync(AlbumBody, upstream);
 
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
   expect(result.value).toEqual(upstream);
 });

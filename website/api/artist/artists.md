@@ -41,6 +41,10 @@ const result = await artists({
 console.log(result.body);
 ```
 
+## 返回内容
+
+正文带 `code`、附带信息 `artist`、热门歌曲 `hotSongs` 和 `more`。只有 `code`、`hotSongs`、`hotSongs[].id` 收紧；`artist`、`more` 和歌曲里的其他字段宽松。结构定义和类型是 `ArtistsBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入歌手 id, 可获得歌手部分信息和热门歌曲

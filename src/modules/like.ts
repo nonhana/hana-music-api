@@ -17,7 +17,6 @@ export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     playlistId: Loose(Schema.Finite),
-    songs: Loose(Schema.Array(Schema.MutableJson)),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

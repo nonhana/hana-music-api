@@ -7,6 +7,13 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  Optional,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryIdentifier } from '../types/module-shared.ts';
 
@@ -24,21 +31,37 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const userRecord: ModuleEffect<ModuleInput> = (query, request) =>
+// 接口就是为了拿播放记录里的 `song`；`type` 决定返回 `allData` 还是 `weekData`，两个列表都可以没有，出现时歌曲编号收紧。
+const PlayRecord = UpstreamObject({
+  playCount: Loose(Schema.Finite),
+  score: Loose(Schema.Finite),
+  song: Song,
+});
+
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    allData: Optional(Schema.Array(PlayRecord)),
+    weekData: Optional(Schema.Array(PlayRecord)),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const userRecord: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       uid: query.uid,
       type: query.type || 0, // 1: 最近一周, 0: 所有时间
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/v1/play/record`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/v1/play/record`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    const body = yield* decodeUpstreamBody('user_record', ModuleBody, response);
+    return { ...toModuleResponse(response), body };
   });
 
 /**

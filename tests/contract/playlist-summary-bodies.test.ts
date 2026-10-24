@@ -309,7 +309,8 @@ for (const endpoint of endpoints) {
         remarkName: { future: true },
         futureUserField: ['preserved'],
         avatarDetail: { future: { nested: [1, null, true] } },
-        experts: { future: ['preserved'] },
+        experts: { 1: '专家' },
+        futureExperts: { future: ['preserved'] },
       };
       const body = {
         ...endpoint.wrap({

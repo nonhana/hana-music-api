@@ -75,13 +75,25 @@ const inputSchema = Schema.Union([
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
+const Binding = UpstreamObject({
+  bindingTime: Loose(Schema.Finite),
+  expired: Loose(Schema.Boolean),
+  expiresIn: Loose(Schema.Finite),
+  id: Loose(Schema.Finite),
+  refreshTime: Loose(Schema.Finite),
+  tokenJsonStr: Loose(Schema.String),
+  type: Loose(Schema.Finite),
+  url: Loose(Schema.String),
+  userId: Loose(Schema.Finite),
+});
+
 // 返回码、账号和用户资料的路径及编号收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     account: Account,
     profile: UserProfile,
-    bindings: Loose(Schema.Array(Schema.MutableJson)),
+    bindings: Loose(Schema.Array(Binding)),
     hitType: Loose(Schema.Finite),
     loginType: Loose(Schema.Finite),
     token: Loose(Schema.String),

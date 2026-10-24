@@ -5,9 +5,13 @@
 - **收紧字段**：缺了这次调用就等于没成功。缺失或类型不对时，SDK 报“上游结构变了”（`status: 502`）。
 - **宽松字段**：缺了只是少一项信息。可能缺失，也可能是 `null`；有值但类型不对时当成缺失，不报错。
 
-判断标准和写法的完整说明见 [`agent-docs/API_CONVENTIONS.md` 的“收紧与宽松”](https://github.com/nonhana/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)。下面按领域列出每个模块的**收紧字段**；其余已声明字段都是宽松字段，未声明的字段原样保留在 `body` 里，类型是 JSON 值。
+还有一类**可以没有**的路径：正常情况下就可能整个缺失或为 `null`（例如搜索没有结果时的结果列表）。缺失或 `null` 时照常返回；出现了就按里面记录的收紧字段校验，坏一条记录会报 502，不会整列消失。
 
-宽松容器里的收紧字段（例如宽松列表里的记录编号）校验失败时，整个宽松字段当成缺失，不会 502；只有不在宽松容器里的收紧字段才会报 `UnexpectedUpstreamShape`。例如 `song_detail.privileges[].id` 在必填的 `privileges` 数组里，缺失会 502；歌曲里可选的 `privilege` 对象里的 `id` 只会在 `privilege` 出现时校验，类型不对就让整个 `privilege` 当成缺失。
+判断标准和写法的完整说明见 [`agent-docs/API_CONVENTIONS.md` 的“收紧与宽松”](https://github.com/nonhana/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)。下面按领域列出每个模块的**收紧字段**和**可以没有**的路径；其余已声明字段都是宽松字段，未声明的字段原样保留在 `body` 里，类型是 JSON 值。
+
+宽松字段里套着的记录（例如歌单的 `tracks[]`、`privileges[]`）不按“记录自己的编号”收紧：这些编号也宽松，类型不对只让这一项或整个宽松字段缺失，不会 502。只有不在宽松容器里的收紧字段才会报 `UnexpectedUpstreamShape`。例如 `song_detail.privileges[].id` 在必填的 `privileges` 数组里，缺失会 502；歌曲里可选的 `privilege` 对象里的 `id` 只会在 `privilege` 出现时校验，类型不对就让整个 `privilege` 当成缺失。
+
+“可以没有”的路径不是宽松字段：它缺失或为 `null` 时照常返回；一旦出现，里面的记录仍按收紧字段校验。例如云搜索的 `result.songs`，没有结果时可以整个缺失，但出现了却有一首歌缺 `id`，会报 502。
 
 ## 登录
 
@@ -55,15 +59,17 @@
 
 专辑记录（`album`、`hotAlbums`、云搜索的 `albums`）另外声明了宽松字段 `company`（唱片公司，没写时是空串）；`album_sublist` 的录制里没有这个字段，因此没有声明。
 
+只出现过 `null`、没录到非 `null` 值的字段（如 `crbt`、`rtUrl`、`songJumpInfo`、`songFeature`）没有声明，仍会作为未声明字段原样保留在返回体里；只出现过空数组、元素类型猜不出的字段（如 `rtUrls`、`displayTags`）也一样。
+
 歌手和专辑的编号和名字都可能缺失或为 `null`：传到云盘、没有匹配上曲库的歌（网易云返回的 `t` 是 1），歌手和专辑的编号是 0，名字是 `null`。这种歌只有上传者本人登录时能看到歌名；别人看、或者没有有效登录时，歌名也可能是 `null`。这些字段宽松后都不会再让整页 502。
 
 ### 歌单与用户
 
 [用户歌单](/api/playlist/user-playlist)和[歌单详情](/api/playlist/playlist-detail)共用 `PlaylistSummary`，其中 `creator` 和可选的 `subscribers[]` 共用 `PlaylistUser`。这两个 TypeScript 类型都可以从 `hana-music-api` 根入口直接导入。
 
-`PlaylistSummary` 只收紧 `id`。其余声明字段都是宽松字段，包括歌单名称、封面、`trackCount`、`updateTime`、`trackUpdateTime`、`playCount`、`privacy`、`specialType`、`status`、`description`、`tags`、`subscribed`、`creator`、`subscribers`、`tracks`，以及播放量、收藏数、分享数和各种审核/展示状态。`status` 正常为 0，已删除为 10，其他数值也原样保留。
+`PlaylistSummary` 只收紧 `id`。其余声明字段都是宽松字段，包括歌单名称、封面、`trackCount`、`updateTime`、`trackUpdateTime`、`playCount`、`privacy`、`specialType`、`status`、`description`、`tags`、`subscribed`、`creator`、`subscribers`、`tracks`，以及播放量、收藏数、分享数和各种审核/展示状态。`status` 正常为 0，已删除为 10，其他数值也原样保留。歌单里套着的 `tracks[].id` 和歌单详情/歌单中的歌曲的 `privileges[].id` 也宽松，类型不对只会丢掉这个编号，不会让整张歌单或整列消失。
 
-`PlaylistUser` 的字段全部宽松：`userId`、`nickname` 也不例外。其余声明字段有 `accountStatus`、`authStatus`、`authenticationTypes`、`authority`、`avatarImgId`、`backgroundImgId`、`birthday`、`city`、`djStatus`、`gender`、`province`、`userType`、`vipType`、`avatarImgIdStr`、`avatarImgId_str`、`avatarUrl`、`description`、`detailDescription`、`signature`、`backgroundImgIdStr`、`backgroundUrl`、`anchor`、`defaultAvatar`、`followed`、`mutual`、`expertTags`、`avatarDetail`、`experts`；对象字段内部保持为 JSON。
+`PlaylistUser` 的字段全部宽松：`userId`、`nickname` 也不例外。其余声明字段有 `accountStatus`、`authStatus`、`authenticationTypes`、`authority`、`avatarImgId`、`backgroundImgId`、`birthday`、`city`、`djStatus`、`gender`、`province`、`userType`、`vipType`、`avatarImgIdStr`、`avatarImgId_str`、`avatarUrl`、`description`、`detailDescription`、`signature`、`backgroundImgIdStr`、`backgroundUrl`、`anchor`、`defaultAvatar`、`followed`、`mutual`、`expertTags`、`avatarDetail`、`experts`；`experts` 是字符串到字符串的对象。
 
 `subscribed` 是 `null` 表示网易云给的是没有登录的视角：Cookie 里的 `MUSIC_U` 已经失效时，用户歌单和歌单详情都是 `null`；完全不带 Cookie 时，用户歌单是 `null`，歌单详情是 `false`。
 
@@ -71,11 +77,11 @@
 
 | 模块                                                   | 结构定义                  | 收紧的字段                                                                   |
 | ------------------------------------------------------ | ------------------------- | ---------------------------------------------------------------------------- |
-| [红心](/api/music/like)                                | `LikeBody`                | `code`；`playlistId`、`songs` 宽松                                           |
+| [红心](/api/music/like)                                | `LikeBody`                | `code`；`playlistId` 宽松，`songs` 没有声明                                  |
 | [收藏专辑](/api/album/album-sub)                       | `AlbumSubBody`            | `code`；`time`、`message` 宽松                                               |
 | [收藏歌手](/api/artist/artist-sub)                     | `ArtistSubBody`           | `code`；`data`、`message` 宽松                                               |
 | [歌单分类](/api/playlist/playlist-catlist)             | `PlaylistCatlistBody`     | `code`、`all`、`all.name`、`categories`、`sub`、`sub[].name`                 |
-| [新建歌单](/api/playlist/playlist-create)              | `PlaylistCreateBody`      | `code`、`id`、`playlist`、`playlist.id`                                      |
+| [新建歌单](/api/playlist/playlist-create)              | `PlaylistCreateBody`      | `code`、`id`、`playlist`、`playlist.id`；`playlist.tracks[].id` 宽松         |
 | [删除歌单](/api/playlist/playlist-delete)              | `PlaylistDeleteBody`      | `code`                                                                       |
 | [修改歌单简介](/api/playlist/playlist-desc-update)     | `PlaylistDescUpdateBody`  | `code`                                                                       |
 | [修改歌单名称](/api/playlist/playlist-name-update)     | `PlaylistNameUpdateBody`  | `code`                                                                       |
@@ -89,6 +95,18 @@
 | [申请图片上传凭证](/api/playlist/image-upload-token)   | `ImageUploadTokenBody`    | `code`、`data`、`data.imgId`、`data.token`、`data.uploadUrl`、`data.url_pre` |
 
 歌单分类没有编号，靠名字来认，所以 `all.name`、`sub[].name` 收紧；分类的其他字段宽松。
+
+## 歌手、听歌排行与会员
+
+| 模块                                  | 结构定义           | 收紧的字段                                                     |
+| ------------------------------------- | ------------------ | -------------------------------------------------------------- |
+| [歌手详情](/api/artist/artist-detail) | `ArtistDetailBody` | `code`、`data`、`data.artist`、`data.artist.id`                |
+| [歌手单曲](/api/artist/artists)       | `ArtistsBody`      | `code`、`hotSongs`、`hotSongs[].id`                            |
+| [听歌排行](/api/listen/user-record)   | `UserRecordBody`   | `code`；`allData` / `weekData` 可以没有，出现时 `[].song` 收紧 |
+| [VIP 信息](/api/vip/vip-info)         | `VipInfoBody`      | `code`、`data`                                                 |
+| [VIP 信息 v2](/api/vip/vip-info-v2)   | `VipInfoV2Body`    | `code`、`data`                                                 |
+
+`data.artist.id`、`hotSongs[].id` 是记录自己的编号，所以收紧；歌曲里套着的 `song.id` 和会员权益对象是附带信息，字段宽松。听歌排行里 `allData` 和 `weekData` 按 `type` 二选一，两个都可以缺失或为 `null`。
 
 ## 播放
 
@@ -109,14 +127,14 @@
 
 ## 搜索
 
-| 模块                                   | 结构定义            | 收紧的字段                                                                                                                               |
-| -------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| [云搜索](/api/search/cloudsearch)      | `CloudsearchBody`   | `code`、`result`、`result.songs[].id`、`result.albums[].id`、`result.artists[].id`、`result.playlists[].id`                              |
-| [搜索建议](/api/search/search-suggest) | `SearchSuggestBody` | `code`、`result`、`result.songs[].id`、`result.artists[].id`、`result.albums[].id`、`result.playlists[].id`、`result.allMatch[].keyword` |
+| 模块                                   | 结构定义            | 收紧的字段                                                                                                                                                 |
+| -------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [云搜索](/api/search/cloudsearch)      | `CloudsearchBody`   | `code`、`result`；`result.songs`、`result.albums`、`result.artists`、`result.playlists` 可以没有，出现了则 `[].id` 收紧                                    |
+| [搜索建议](/api/search/search-suggest) | `SearchSuggestBody` | `code`、`result`；`result.songs`、`result.artists`、`result.albums`、`result.playlists`、`result.allMatch` 可以没有，出现了则 `[].id` 或 `[].keyword` 收紧 |
 
-云搜索按 `type` 只给一类结果。结果列表（`songs`、`albums`、`artists`、`playlists`）和各总数（`songCount`、`albumCount`、`artistCount`、`playlistCount`）都是宽松字段：没有结果时只有总数（0），列表整个缺失。专辑的其他声明字段是 `name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`、`company`；歌手的其他声明字段是 `name`、`picUrl`、`musicSize`（歌曲数）；歌单的其他声明字段是 `name`、`coverImgUrl`、`trackCount`、`playCount`、`creator`（`userId`、`nickname`）。这些全部宽松，包括云搜索里的 `al.name`；共用歌曲的 `al.name` 本来就是宽松字段，不再需要单独放宽。
+云搜索按 `type` 只给一类结果。结果列表（`songs`、`albums`、`artists`、`playlists`）是可以没有的路径：没有结果时只有总数（0），列表整个缺失或是 `null`；出现了就按每项记录的编号（`[].id`）收紧校验，坏一条记录会报 502，不会整列消失。各总数（`songCount`、`albumCount`、`artistCount`、`playlistCount`）是宽松字段。专辑的其他声明字段是 `name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`、`company`；歌手的其他声明字段是 `name`、`picUrl`、`musicSize`（歌曲数）；歌单的其他声明字段是 `name`、`coverImgUrl`、`trackCount`、`playCount`、`creator`（`userId`、`nickname`）。这些全部宽松，包括云搜索里的 `al.name`；共用歌曲的 `al.name` 本来就是宽松字段，不再需要单独放宽。
 
-搜索建议默认按类别给出，某一类没有建议时对应列表整个缺失（包括 `playlists`）；`type` 为 `mobile` 时只给关键词 `allMatch`；没有建议时 `result` 是空对象。每项建议的 `name` 都是宽松字段。
+搜索建议默认按类别给出，某一类没有建议时对应列表整个缺失或是 `null`（包括 `playlists`），出现了就按每项建议的编号（`allMatch` 是 `keyword`）收紧校验；`type` 为 `mobile` 时只给关键词 `allMatch`，没有建议时 `result` 是空对象。每项建议的 `name` 都是宽松字段。
 
 ## 导出约定
 
@@ -206,4 +224,4 @@ try {
 
 用 `body.upstreamShape` 判断是不是这种失败，不要解析 `msg`。`path` 指向 SDK 返回的 `body` 里的位置；`expected` 为 `present` 表示字段缺失，其余是期望的类型或取值。这种失败说明网易云改了返回结构，需要升级 SDK 或报告问题，重试通常没有用。
 
-宽松字段缺失、是 `null` 或类型不对都不会来到这里：SDK 把类型不对的值当成缺失，缺失和 `null` 都原样返回。宽松字段整个值校验失败时也当成缺失，包括数组元素里的问题。
+宽松字段缺失、是 `null` 或类型不对都不会来到这里：SDK 把类型不对的值当成缺失，缺失和 `null` 都原样返回。宽松字段整个值校验失败时也当成缺失，包括数组元素里的问题。“可以没有”的路径缺失或为 `null` 也不会来到这里；但路径出现、里面一条记录不合收紧字段校验时，仍会报这里说的 502。

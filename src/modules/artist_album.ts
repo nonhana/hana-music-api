@@ -46,7 +46,6 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     artist: Loose(Artist),
     hotAlbums: Schema.Array(Album),
     more: Loose(Schema.Boolean),
-    kindTabs: Loose(Schema.MutableJson),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

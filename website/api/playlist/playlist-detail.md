@@ -46,7 +46,7 @@ console.log(result.body);
 
 声明了 `body.playlist` 的 `id`、`name`、`coverImgUrl`、`description`、`trackCount`、`trackIds`（每项声明了 `id`）、`creator`（`userId`、`nickname`）、`subscribed`（Cookie 里的 `MUSIC_U` 已经失效时是 `null`）、`updateTime`、`trackUpdateTime`，以及 `PlaylistSummary` 的其余宽松字段。
 
-只有 `code`、`playlist`、`playlist.id`、`playlist.trackIds`、`playlist.trackIds[].id` 收紧；其余字段宽松，`creator`、`subscribers` 里的用户字段也全部宽松。正文另外声明了宽松的 `fromUserCount`、`privileges`。`trackIds` 是整张歌单的歌曲编号，`tracks` 最多只有 1,000 首。要拿全部歌曲的信息，用 [获取歌单中的歌曲](/api/playlist/playlist-track-all) 按页取。结构定义和类型是 `PlaylistDetailBody`，见 [返回体结构](/guide/response-bodies)。
+只有 `code`、`playlist`、`playlist.id`、`playlist.trackIds`、`playlist.trackIds[].id` 收紧；其余字段宽松，`creator`、`subscribers` 里的用户字段也全部宽松。`tracks` 是歌单里套着的歌曲，`tracks[].id` 和正文 `privileges[].id` 同样是宽松字段，类型不对只丢这个编号。正文另外声明了宽松的 `fromUserCount`、`privileges`。`trackIds` 是整张歌单的歌曲编号，`tracks` 最多只有 1,000 首。要拿全部歌曲的信息，用 [获取歌单中的歌曲](/api/playlist/playlist-track-all) 按页取。结构定义和类型是 `PlaylistDetailBody`，见 [返回体结构](/guide/response-bodies)。
 
 ## 补充说明
 

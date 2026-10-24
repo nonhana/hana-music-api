@@ -8,7 +8,7 @@ import { PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-// 返回码、新歌单的路径和编号收紧；其余字段宽松。
+// 返回码、新歌单的路径和编号收紧；`playlist.tracks[].id` 是记录里套着的编号，宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

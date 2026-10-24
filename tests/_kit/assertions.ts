@@ -29,6 +29,15 @@ export type Validator = {
   readonly '~standard': { readonly validate: (value: unknown) => unknown };
 };
 
+export const validateSync = (schema: Validator, input: unknown) => {
+  const result = schema['~standard'].validate(input);
+  expect(result).not.toBeInstanceOf(Promise);
+  if (result instanceof Promise) {
+    throw new Error('Standard Schema validation must be synchronous');
+  }
+  return result as { value?: unknown; issues?: ReadonlyArray<unknown> };
+};
+
 export type UpstreamShape = Record<
   'module' | 'path' | 'expected' | 'actual',
   string

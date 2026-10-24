@@ -35,6 +35,7 @@ import detailSubscribed from '../fixtures/netease/library/playlist_detail.subscr
 import trackAll from '../fixtures/netease/library/playlist_track_all.json';
 import recommendSongs from '../fixtures/netease/library/recommend_songs.json';
 import songDetailAnonymous from '../fixtures/netease/library/song_detail.anon.json';
+import songDetailMarkTags from '../fixtures/netease/library/song_detail.mark-tags.json';
 import songDetailPrivileges from '../fixtures/netease/library/song_detail.privileges.json';
 import songDetailUploaded from '../fixtures/netease/library/song_detail.uploaded.json';
 import songDetailVip from '../fixtures/netease/library/song_detail.vip.json';
@@ -230,6 +231,11 @@ test.each<{ name: string; recording: Recording; query: { ids: string } }>([
     recording: songDetailUploaded,
     query: songDetailUploaded.query,
   },
+  {
+    name: 'mark tags',
+    recording: songDetailMarkTags,
+    query: songDetailMarkTags.query,
+  },
 ])(
   'songDetail returns the recorded $name songs',
   async ({ recording, query }) => {
@@ -238,6 +244,22 @@ test.each<{ name: string; recording: Recording; query: { ids: string } }>([
     expect(result.body as unknown).toEqual(recording.response.body);
   },
 );
+
+test('songDetail keeps the recorded mark tags', async () => {
+  const result = await replay(songDetailMarkTags.response.body).songDetail(
+    songDetailMarkTags.query,
+  );
+
+  expect(
+    result.body.songs.flatMap((song) => song.markTags ?? []),
+  ).toContainEqual({
+    tagKey: 'MusicianUserAiMark',
+    tagValue: '含AI生成',
+  });
+  expectTypeOf<
+    NonNullable<SongDetailBody['songs'][number]['markTags']>[number]['tagKey']
+  >().toEqualTypeOf<string | null | undefined>();
+});
 
 test('songDetail rejects missing privileges', async () => {
   const { privileges: _privileges, ...upstream } =

@@ -56,7 +56,7 @@ console.log(result.body);
 | `privacy`                                 | 隐私设置，原样保留网易云的数值                                   |
 | `updateTime`、`trackUpdateTime`           | 网易云给的两个更新时间（毫秒时间戳），可用来判断歌单变没变       |
 
-只有 `code`、`playlist`、`playlist[].id` 收紧；表格里的其余字段和 `PlaylistSummary`、`PlaylistUser` 的其他声明字段都宽松。结构定义和类型是 `UserPlaylistBody`，见 [返回体结构](/guide/response-bodies)。
+只有 `code`、`playlist`、`playlist[].id` 收紧；表格里的其余字段和 `PlaylistSummary`、`PlaylistUser` 的其他声明字段都宽松。每张歌单里的 `tracks[].id` 也宽松，因为它是歌单记录里套着的歌曲。结构定义和类型是 `UserPlaylistBody`，见 [返回体结构](/guide/response-bodies)。
 
 ## 补充说明
 

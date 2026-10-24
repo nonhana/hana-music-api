@@ -36,7 +36,7 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-// 通到歌单列表的路径、每个歌单的编号收紧；其余字段宽松（共用 `PlaylistSummary`）。
+// 通到歌单列表的路径、每个歌单的编号收紧；其余字段宽松（共用 `PlaylistSummary`），`tracks[].id` 也宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

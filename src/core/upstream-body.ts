@@ -21,6 +21,13 @@ export const Loose = <S extends Schema.Decoder<unknown>>(schema: S) =>
     Schema.NullOr(schema).pipe(Schema.catchDecoding(() => Effect.succeedNone)),
   );
 
+/**
+ * 可以没有的路径：缺失或是 `null` 时照常返回；出现了就按 `schema` 收紧校验，坏一条记录也报错。
+ * 不要把宽松字段套在这里：宽松字段整个值校验失败时应该当成缺失。
+ */
+export const Optional = <S extends Schema.Decoder<unknown>>(schema: S) =>
+  Schema.optionalKey(Schema.NullOr(schema));
+
 const formatIssue = SchemaIssue.makeFormatterStandardSchemaV1();
 
 const kindOf = (value: unknown) =>
