@@ -7,8 +7,12 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
-import { Artist, Song, SongPrivilege } from '../core/upstream-schemas.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { AlbumSummary, Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { IdentifierQuery } from '../types/module-shared.ts';
 
@@ -21,23 +25,13 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const Album = UpstreamObject({
-  id: Schema.Finite,
-  name: Schema.String,
-  picUrl: Schema.String,
-  size: Schema.Finite,
-  artist: Artist,
-  publishTime: Schema.Finite,
-  description: Schema.NullOr(Schema.String),
-});
-
+// 通到歌曲列表和专辑的路径、唱片自身的编号收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
-    songs: Schema.Array(
-      UpstreamObject({ ...Song.schema.fields, privilege: SongPrivilege }),
-    ),
-    album: Album,
+    songs: Schema.Array(Song),
+    album: AlbumSummary,
+    resourceState: Loose(Schema.Boolean),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

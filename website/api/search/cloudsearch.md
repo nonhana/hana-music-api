@@ -47,16 +47,16 @@ console.log(result.body);
 
 `body.result` 里只有 `type` 对应的那一类结果，并带上结果总数：
 
-| `type`       | 结果列表    | 总数            | 每项声明的字段                                                                                                                                       |
-| ------------ | ----------- | --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1（单曲）    | `songs`     | `songCount`     | `id`、`name`、`ar`、`al`、`dt`、`fee`、`privilege`（`id`、`st`、`pl`）；与 [返回体结构](/guide/response-bodies) 里的“歌曲”相比，`al.name` 还允许缺失 |
-| 10（专辑）   | `albums`    | `albumCount`    | `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`                                                                                     |
-| 100（歌手）  | `artists`   | `artistCount`   | `id`、`name`、`picUrl`（没有头像时是 `null`）、`musicSize`（歌曲数）                                                                                 |
-| 1000（歌单） | `playlists` | `playlistCount` | `id`、`name`、`coverImgUrl`、`trackCount`、`creator`（`userId`、`nickname`）                                                                         |
+| `type`       | 结果列表    | 总数            | 每项声明的字段                                                                            |
+| ------------ | ----------- | --------------- | ----------------------------------------------------------------------------------------- |
+| 1（单曲）    | `songs`     | `songCount`     | `id`、`name`、`ar`、`al`、`dt`、`fee`、`privilege`（`id`、`st`、`pl`）；字段说明同“歌曲”  |
+| 10（专辑）   | `albums`    | `albumCount`    | `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`                          |
+| 100（歌手）  | `artists`   | `artistCount`   | `id`、`name`、`picUrl`、`musicSize`（歌曲数）                                             |
+| 1000（歌单） | `playlists` | `playlistCount` | `id`、`name`、`coverImgUrl`、`trackCount`、`playCount`、`creator`（`userId`、`nickname`） |
 
-没有结果时只有总数（0），列表整个缺失，所以这些字段在类型里都是可选的。歌词搜索（1006）的结果也在 `songs` 里，同样按歌曲校验；其他 `type`（用户、MV 等）的结果在别的字段里，没有声明，原样保留。翻页时以第一页的总数为准：实测单曲的 `songCount` 最多是 300，`offset` 超过它以后仍会返回歌曲；歌手翻过最后一页时 `artistCount` 变成 0。结构定义和类型是 `CloudsearchBody`，见 [返回体结构](/guide/response-bodies)。
+只有 `code`、`result` 和每类结果的 `id` 收紧；结果列表、各总数和每项的其他字段全是宽松字段，正文的 `trp` 也宽松。没有结果时只有总数（0），列表整个缺失；类型里这些字段因此都是可选的。歌词搜索（1006）的结果也在 `songs` 里，同样按歌曲校验；其他 `type`（用户、MV 等）的结果在别的字段里，没有声明，原样保留。翻页时以第一页的总数为准：实测单曲的 `songCount` 最多是 300，`offset` 超过它以后仍会返回歌曲；歌手翻过最后一页时 `artistCount` 变成 0。结构定义和类型是 `CloudsearchBody`，见 [返回体结构](/guide/response-bodies)。
 
-单曲结果的专辑名 `al.name` 可能是字符串、`null`，也可能整个缺失，读取类型为 `string | null | undefined`。显示时可用 `song.al.name ?? ''` 留空；SDK 不替调用方补值，也不会因为没有专辑名而丢弃这首歌。专辑对象 `al`、其中的 `id` 和 `picUrl` 仍然必填；专辑名为数字等错误类型时仍按结构不符拒绝。
+单曲结果的专辑名 `al.name` 和其他声明字段一样是宽松字段：可能是字符串、`null`，也可能整个缺失，读取类型为 `string | null | undefined`。SDK 不替调用方补值；类型不对时把这一项当成缺失，不会因此丢弃歌曲或拒绝整页。3.0.0 起不再需要 `cloudsearch` 单独放宽 `al.name`，共用歌曲结构本来就是宽松的。
 
 ## 补充说明
 

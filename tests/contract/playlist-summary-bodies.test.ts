@@ -32,6 +32,8 @@ const endpoints = [
     }),
     call: (body: unknown) => replay(body).userPlaylist(userPlaylist.query),
     validator: UserPlaylistBody,
+    readPlaylist: (body: unknown) =>
+      (body as { playlist: [Record<string, unknown>] }).playlist[0],
   },
   {
     module: 'playlist_detail',
@@ -40,11 +42,12 @@ const endpoints = [
     wrap: (playlist: object) => ({ code: 200, playlist }),
     call: (body: unknown) => replay(body).playlistDetail(detailOwn.query),
     validator: PlaylistDetailBody,
+    readPlaylist: (body: unknown) =>
+      (body as { playlist: Record<string, unknown> }).playlist,
   },
 ];
 
-const requiredPlaylistFields = [
-  'id',
+const playlistNumberFields = [
   'trackCount',
   'updateTime',
   'trackUpdateTime',
@@ -52,14 +55,6 @@ const requiredPlaylistFields = [
   'privacy',
   'specialType',
   'status',
-  'name',
-  'coverImgUrl',
-  'description',
-  'tags',
-  'subscribed',
-  'creator',
-];
-const playlistNumbers = [
   'adType',
   'backgroundCoverId',
   'cloudTrackCount',
@@ -70,14 +65,19 @@ const playlistNumbers = [
   'trackNumberUpdateTime',
   'userId',
 ];
-const playlistNullableStrings = [
+const playlistStringFields = [
+  'name',
+  'coverImgUrl',
+  'commentThreadId',
+  'description',
   'backgroundCoverUrl',
   'coverImgId_str',
   'englishTitle',
   'titleImageUrl',
   'updateFrequency',
 ];
-const playlistBooleans = [
+const playlistBooleanFields = [
+  'subscribed',
   'copied',
   'highQuality',
   'mix',
@@ -85,7 +85,17 @@ const playlistBooleans = [
   'opRecommend',
   'ordered',
 ];
-const userNumbers = [
+const loosePlaylistFields = [
+  ...playlistNumberFields,
+  ...playlistStringFields,
+  ...playlistBooleanFields,
+  'tags',
+  'creator',
+  'subscribers',
+];
+
+const userNumberFields = [
+  'userId',
   'accountStatus',
   'authStatus',
   'authenticationTypes',
@@ -100,7 +110,8 @@ const userNumbers = [
   'userType',
   'vipType',
 ];
-const userStrings = [
+const userStringFields = [
+  'nickname',
   'avatarImgIdStr',
   'avatarImgId_str',
   'avatarUrl',
@@ -108,143 +119,117 @@ const userStrings = [
   'detailDescription',
   'signature',
   'backgroundImgIdStr',
+  'backgroundUrl',
 ];
-const userBooleans = ['anchor', 'defaultAvatar', 'followed', 'mutual'];
+const userBooleanFields = ['anchor', 'defaultAvatar', 'followed', 'mutual'];
+const userFields = [
+  ...userNumberFields,
+  ...userStringFields,
+  ...userBooleanFields,
+  'expertTags',
+  'avatarDetail',
+  'experts',
+];
+
+const wrongPlaylistValue = (field: string) =>
+  field === 'creator'
+    ? []
+    : field === 'subscribers' || field === 'tags'
+      ? {}
+      : playlistNumberFields.includes(field)
+        ? '1'
+        : playlistStringFields.includes(field)
+          ? false
+          : 1;
+
+const wrongUserValue = (field: string) =>
+  userNumberFields.includes(field)
+    ? '1'
+    : userStringFields.includes(field)
+      ? false
+      : userBooleanFields.includes(field)
+        ? 1
+        : field === 'expertTags'
+          ? false
+          : [];
+
+const without = (object: object, field: string) => {
+  const copy: Record<string, unknown> = { ...object };
+  delete copy[field];
+  return copy;
+};
 
 for (const endpoint of endpoints) {
   describe(endpoint.module, () => {
-    test.each(requiredPlaylistFields)(
-      'rejects missing playlist.%s',
-      async (field) => {
-        const playlist: Record<string, unknown> = { ...endpoint.playlist };
-        delete playlist[field];
+    test('rejects a missing playlist id', async () => {
+      await expectUpstreamShapeRejection(
+        endpoint.call(endpoint.wrap(without(endpoint.playlist, 'id'))),
+        {
+          module: endpoint.module,
+          path: `${endpoint.path}.id`,
+          expected: 'present',
+          actual: 'missing',
+        },
+      );
+    });
+
+    test.each([
+      { value: '1', expected: 'number', actual: 'string' },
+      { value: null, expected: 'number', actual: 'null' },
+    ])(
+      'rejects playlist.id with an unusable value: $value',
+      async ({ value, expected, actual }) => {
         await expectUpstreamShapeRejection(
-          endpoint.call(endpoint.wrap(playlist)),
+          endpoint.call(endpoint.wrap({ ...endpoint.playlist, id: value })),
           {
             module: endpoint.module,
-            path: `${endpoint.path}.${field}`,
-            expected: 'present',
-            actual: 'missing',
+            path: `${endpoint.path}.id`,
+            expected,
+            actual,
           },
         );
       },
     );
 
-    test.each([
-      ...[
-        'id',
-        'trackCount',
-        'updateTime',
-        'trackUpdateTime',
-        'playCount',
-        'privacy',
-        'specialType',
-        'status',
-        ...playlistNumbers,
-      ].map((field) => ({
-        field,
-        value: '1',
-        expected: 'number',
-        actual: 'string',
-      })),
-      ...['name', 'coverImgUrl', 'commentThreadId'].map((field) => ({
-        field,
-        value: false,
-        expected: 'string',
-        actual: 'boolean',
-      })),
-      ...['description', ...playlistNullableStrings].map((field) => ({
-        field,
-        value: 1,
-        expected: 'string | null',
-        actual: 'number',
-      })),
-      ...playlistBooleans.map((field) => ({
-        field,
-        value: 1,
-        expected: 'boolean',
-        actual: 'number',
-      })),
-      {
-        field: 'subscribed',
-        value: 1,
-        expected: 'boolean | null',
-        actual: 'number',
-      },
-      { field: 'creator', value: [], expected: 'object', actual: 'array' },
-      { field: 'tags', value: null, expected: 'array', actual: 'null' },
-      { field: 'subscribers', value: null, expected: 'array', actual: 'null' },
-    ])(
-      'rejects invalid playlist.$field',
-      async ({ field, value, expected, actual }) => {
-        const body = endpoint.wrap({ ...endpoint.playlist, [field]: value });
-        await expectUpstreamShapeRejection(endpoint.call(body), {
-          module: endpoint.module,
-          path: `${endpoint.path}.${field}`,
-          expected,
-          actual,
-        });
+    test.each(loosePlaylistFields)(
+      'treats a missing playlist.%s as absent',
+      async (field) => {
+        const result = await endpoint.call(
+          endpoint.wrap(without(endpoint.playlist, field)),
+        );
+        expect(endpoint.readPlaylist(result.body)).not.toHaveProperty(field);
       },
     );
 
-    test('rejects tags with non-string elements', async () => {
-      await expectUpstreamShapeRejection(
-        endpoint.call(
+    test.each(loosePlaylistFields)(
+      'treats playlist.%s with the wrong type as absent',
+      async (field) => {
+        const result = await endpoint.call(
           endpoint.wrap({
             ...endpoint.playlist,
-            tags: ['valid', 1],
+            [field]: wrongPlaylistValue(field),
           }),
-        ),
-        {
-          module: endpoint.module,
-          path: `${endpoint.path}.tags[1]`,
-          expected: 'string',
-          actual: 'number',
-        },
-      );
-    });
-
-    test('accepts absent optional fields in playlists and users', async () => {
-      const playlist = {
-        ...Object.fromEntries(
-          requiredPlaylistFields.map((field) => [
-            field,
-            (endpoint.playlist as Record<string, unknown>)[field],
-          ]),
-        ),
-        creator: { userId: 1, nickname: 'listener' },
-        ...(endpoint.module === 'playlist_detail' ? { trackIds: [] } : {}),
-      };
-      const body = endpoint.wrap(playlist);
-      expect((await endpoint.call(body)).body as unknown).toEqual(body);
-      expect(endpoint.validator['~standard'].validate(body) as unknown).toEqual(
-        { value: body },
-      );
-      const withSubscribers = endpoint.wrap({
-        ...playlist,
-        subscribers: [{ userId: 2, nickname: 'subscriber' }],
-      });
-      expect((await endpoint.call(withSubscribers)).body as unknown).toEqual(
-        withSubscribers,
-      );
-    });
-
-    test.each([null, 'present'])(
-      'accepts nullable playlist strings: %s',
-      async (value) => {
-        const body = endpoint.wrap({
-          ...endpoint.playlist,
-          ...Object.fromEntries(
-            ['description', ...playlistNullableStrings].map((field) => [
-              field,
-              value,
-            ]),
-          ),
-          subscribed: null,
-        });
-        expect((await endpoint.call(body)).body as unknown).toEqual(body);
+        );
+        expect(endpoint.readPlaylist(result.body)).not.toHaveProperty(field);
       },
     );
+
+    test.each(loosePlaylistFields)(
+      'keeps a null playlist.%s',
+      async (field) => {
+        const result = await endpoint.call(
+          endpoint.wrap({ ...endpoint.playlist, [field]: null }),
+        );
+        expect(endpoint.readPlaylist(result.body)[field]).toBeNull();
+      },
+    );
+
+    test('drops tags containing a non-string element', async () => {
+      const result = await endpoint.call(
+        endpoint.wrap({ ...endpoint.playlist, tags: ['valid', 1] }),
+      );
+      expect(endpoint.readPlaylist(result.body)).not.toHaveProperty('tags');
+    });
 
     for (const location of ['creator', 'subscribers'] as const) {
       const withUser = (user: unknown) =>
@@ -252,127 +237,70 @@ for (const endpoint of endpoints) {
           ...endpoint.playlist,
           [location]: location === 'creator' ? user : [user],
         });
-      const path = `${endpoint.path}.${location === 'creator' ? location : 'subscribers[0]'}`;
+      const readUser = (body: unknown) => {
+        const playlist = endpoint.readPlaylist(body);
+        return location === 'creator'
+          ? (playlist.creator as Record<string, unknown>)
+          : (playlist.subscribers as Array<Record<string, unknown>>)[0]!;
+      };
 
-      test.each(['userId', 'nickname'])(
-        `rejects missing ${location}.%s`,
-        async (field) => {
-          const user: Record<string, unknown> = {
-            ...endpoint.playlist.creator,
-          };
-          delete user[field];
-          await expectUpstreamShapeRejection(endpoint.call(withUser(user)), {
-            module: endpoint.module,
-            path: `${path}.${field}`,
-            expected: 'present',
-            actual: 'missing',
-          });
-        },
-      );
-
-      test.each([
-        ...['userId', ...userNumbers].map((field) => ({
-          field,
-          value: '1',
-          expected: 'number',
-          actual: 'string',
-        })),
-        ...['nickname', ...userStrings].map((field) => ({
-          field,
-          value: false,
-          expected: 'string',
-          actual: 'boolean',
-        })),
-        ...userBooleans.map((field) => ({
-          field,
-          value: 1,
-          expected: 'boolean',
-          actual: 'number',
-        })),
-        {
-          field: 'backgroundUrl',
-          value: 1,
-          expected: 'string | null',
-          actual: 'number',
-        },
-        {
-          field: 'expertTags',
-          value: false,
-          expected: 'array | null',
-          actual: 'boolean',
-        },
-        {
-          field: 'avatarDetail',
-          value: [],
-          expected: 'object | null',
-          actual: 'array',
-        },
-        {
-          field: 'experts',
-          value: [],
-          expected: 'object | null',
-          actual: 'array',
-        },
-      ])(
-        `rejects invalid ${location}.$field`,
-        async ({ field, value, expected, actual }) => {
-          await expectUpstreamShapeRejection(
-            endpoint.call(
-              withUser({
-                ...endpoint.playlist.creator,
-                [field]: value,
-              }),
-            ),
-            {
-              module: endpoint.module,
-              path: `${path}.${field}`,
-              expected,
-              actual,
-            },
+      test(`handles a null ${location} user`, async () => {
+        const result = await endpoint.call(withUser(null));
+        if (location === 'creator') {
+          expect(endpoint.readPlaylist(result.body)[location]).toBeNull();
+        } else {
+          expect(endpoint.readPlaylist(result.body)).not.toHaveProperty(
+            location,
           );
-        },
-      );
-
-      test(`rejects a null ${location} user`, async () => {
-        await expectUpstreamShapeRejection(endpoint.call(withUser(null)), {
-          module: endpoint.module,
-          path,
-          expected: 'object',
-          actual: 'null',
-        });
+        }
       });
 
-      test(`rejects a non-string ${location}.expertTags element`, async () => {
-        await expectUpstreamShapeRejection(
-          endpoint.call(
+      test(`treats a ${location} user of the wrong type as absent`, async () => {
+        const result = await endpoint.call(withUser([]));
+        expect(endpoint.readPlaylist(result.body)).not.toHaveProperty(location);
+      });
+
+      test.each(userFields)(
+        `treats a missing ${location}.%s as absent`,
+        async (field) => {
+          const result = await endpoint.call(
+            withUser(without(endpoint.playlist.creator, field)),
+          );
+          expect(readUser(result.body)).not.toHaveProperty(field);
+        },
+      );
+
+      test.each(userFields)(
+        `treats ${location}.%s with the wrong type as absent`,
+        async (field) => {
+          const result = await endpoint.call(
             withUser({
               ...endpoint.playlist.creator,
-              expertTags: ['valid', 1],
+              [field]: wrongUserValue(field),
             }),
-          ),
-          {
-            module: endpoint.module,
-            path: `${path}.expertTags[1]`,
-            expected: 'string',
-            actual: 'number',
-          },
-        );
-      });
-
-      test.each([null, 'present'])(
-        `accepts nullable ${location} fields: %s`,
-        async (value) => {
-          const body = withUser({
-            ...endpoint.playlist.creator,
-            backgroundUrl: value,
-            expertTags: value === null ? null : [value],
-            avatarDetail:
-              value === null ? null : { nested: { future: [1, null, true] } },
-            experts: value === null ? null : { category: 'music' },
-          });
-          expect((await endpoint.call(body)).body as unknown).toEqual(body);
+          );
+          expect(readUser(result.body)).not.toHaveProperty(field);
         },
       );
+
+      test.each(userFields)(`keeps a null ${location}.%s`, async (field) => {
+        const result = await endpoint.call(
+          withUser({ ...endpoint.playlist.creator, [field]: null }),
+        );
+        const user = readUser(result.body);
+        expect(user).not.toBeNull();
+        expect(user[field]).toBeNull();
+      });
+
+      test(`drops a ${location}.expertTags list with a non-string element`, async () => {
+        const result = await endpoint.call(
+          withUser({
+            ...endpoint.playlist.creator,
+            expertTags: ['valid', 1],
+          }),
+        );
+        expect(readUser(result.body)).not.toHaveProperty('expertTags');
+      });
     }
 
     test('preserves undeclared fields at every object boundary', async () => {
@@ -388,7 +316,9 @@ for (const endpoint of endpoints) {
           ...endpoint.playlist,
           sharedUsers: { future: true },
           tracks:
-            endpoint.module === 'user_playlist' ? null : [{ future: true }],
+            endpoint.module === 'user_playlist'
+              ? null
+              : [{ id: 1, future: true }],
           futurePlaylistField: ['preserved'],
           creator: user,
           subscribers: [user],
@@ -405,6 +335,50 @@ for (const endpoint of endpoints) {
     });
   });
 }
+
+const trackIdsWrap = (playlist: object) => ({ code: 200, playlist });
+const trackIdsCall = (body: unknown) =>
+  replay(body).playlistDetail(detailOwn.query);
+
+describe('playlist_detail track ids', () => {
+  const playlist = detailOwn.response.body.playlist;
+
+  test('rejects missing track ids', async () => {
+    await expectUpstreamShapeRejection(
+      trackIdsCall(trackIdsWrap(without(playlist, 'trackIds'))),
+      {
+        module: 'playlist_detail',
+        path: 'body.playlist.trackIds',
+        expected: 'present',
+        actual: 'missing',
+      },
+    );
+  });
+
+  test('rejects track ids that are not an array', async () => {
+    await expectUpstreamShapeRejection(
+      trackIdsCall(trackIdsWrap({ ...playlist, trackIds: {} })),
+      {
+        module: 'playlist_detail',
+        path: 'body.playlist.trackIds',
+        expected: 'array',
+        actual: 'object',
+      },
+    );
+  });
+
+  test('rejects a track id with the wrong type', async () => {
+    await expectUpstreamShapeRejection(
+      trackIdsCall(trackIdsWrap({ ...playlist, trackIds: [{ id: '1' }] })),
+      {
+        module: 'playlist_detail',
+        path: 'body.playlist.trackIds[0].id',
+        expected: 'number',
+        actual: 'string',
+      },
+    );
+  });
+});
 
 const fixtureRoot = join(
   import.meta.dir,
@@ -465,13 +439,15 @@ test('exports the common playlist and user types from the package root', () => {
     UserPlaylistBody['playlist'][number]
   >().toEqualTypeOf<PlaylistSummary>();
   expectTypeOf<PlaylistDetailBody['playlist']>().toExtend<PlaylistSummary>();
-  expectTypeOf<PlaylistSummary['creator']>().toEqualTypeOf<PlaylistUser>();
+  expectTypeOf<PlaylistSummary['creator']>().toEqualTypeOf<
+    PlaylistUser | null | undefined
+  >();
   expectTypeOf<
     NonNullable<PlaylistSummary['subscribers']>[number]
   >().toEqualTypeOf<PlaylistUser>();
-  expectTypeOf<
-    PlaylistDetailBody['playlist']['creator']
-  >().toEqualTypeOf<PlaylistUser>();
+  expectTypeOf<PlaylistDetailBody['playlist']['creator']>().toEqualTypeOf<
+    PlaylistUser | null | undefined
+  >();
   expectTypeOf<
     NonNullable<PlaylistDetailBody['playlist']['subscribers']>[number]
   >().toEqualTypeOf<PlaylistUser>();

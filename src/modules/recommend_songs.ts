@@ -3,18 +3,35 @@ import { Effect, Schema } from 'effect';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
-import { Song, SongPrivilege } from '../core/upstream-schemas.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
+const RecommendReason = UpstreamObject({
+  reason: Loose(Schema.String),
+  reasonId: Loose(Schema.String),
+  songId: Loose(Schema.Finite),
+  targetUrl: Loose(Schema.String),
+});
+
+// 通到每日歌曲列表的路径、每首歌的编号收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
-      dailySongs: Schema.Array(
-        UpstreamObject({ ...Song.schema.fields, privilege: SongPrivilege }),
-      ),
+      dailySongs: Schema.Array(Song),
+      algReturnDemote: Loose(Schema.Boolean),
+      demote: Loose(Schema.Boolean),
+      fromCache: Loose(Schema.Boolean),
+      orderSongs: Loose(Schema.Array(Schema.MutableJson)),
+      recommendReasons: Loose(Schema.Array(RecommendReason)),
+      dailyRecommendInfo: Loose(Schema.MutableJson),
+      mvResourceInfos: Loose(Schema.MutableJson),
     }),
   }),
 );

@@ -49,7 +49,7 @@ console.log(result.body);
 
 ## 返回内容
 
-只声明了 `code`。调用会向 `clientlog.music.163.com` 发送 `startplay` 和 `play` 两条 eapi 上报；返回 200 仍不等于网易云已经计入排行。结构定义和类型是 `ScrobbleBody`，见 [返回体结构](/guide/response-bodies)。
+声明了 `code`、`data`、`message`，只有 `code` 收紧。调用会向 `clientlog.music.163.com` 发送 `startplay` 和 `play` 两条 eapi 上报；返回 200 仍不等于网易云已经计入排行。结构定义和类型是 `ScrobbleBody`，见 [返回体结构](/guide/response-bodies)。
 
 ## 播放来源
 

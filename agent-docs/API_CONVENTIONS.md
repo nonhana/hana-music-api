@@ -8,14 +8,14 @@
 
 输入先经过 `src/core/module-input.ts` 的普通对象校验，再进入模块自己的 Schema。需要精确字段的模块声明本地字段、可选性和字面量；证据不足的旧式输入使用受控的 legacy 对象，不伪造完整接口模型。模块生成器会检查这三个导出合同，动态 loader 也会拒绝缺少 decoder 或不是 Effect 函数的模块。
 
-模块只为确实要读取的上游字段做局部检查。普通响应体保持 `UnknownJson`，未知字段继续保留；字段缺失或类型错误时返回带模块名和路径的 `UnexpectedUpstreamShape`。公开边界把它映射为 `status: 502`，`body.upstreamShape` 带上 `{ module, path, expected, actual }`。
+模块只为确实要读取的上游字段做局部检查。普通响应体保持 `UnknownJson`，未知字段继续保留；收紧的字段（见[收紧与宽松](#收紧与宽松)）缺失或类型错误时返回带模块名和路径的 `UnexpectedUpstreamShape`。公开边界把它映射为 `status: 502`，`body.upstreamShape` 带上 `{ module, path, expected, actual }`。
 
 ## 收窄返回体
 
 按 ADR（campanula-music `docs/adr/0005`），被下游依赖的模块在 SDK 里收窄返回体：导出 `ModuleBody` 结构定义（`Schema.toStandardSchemaV1` 包装）和同名类型，默认导出标注为 `ModuleEffect<ModuleInput, ModuleBody>`。生成器把它们以 `<模块名 PascalCase>Body` 从根入口公开；只导出类型的模块（如 `image_upload_token`）只公开类型。
 
-- 用 `src/core/upstream-body.ts` 的 `UpstreamObject` 声明对象：只写脱敏后真实录制里确认过、且下游要用的字段，其余字段原样保留为 JSON。区分返回码时每个联合成员只认一个 `code` 字面量。以后加字段不破坏兼容，删字段会，所以拿不准有没有人用、或者只在部分录制里出现（如分页列表只有第一页带的 `count`）的字段先不声明。下游要用、但按内容本来就可能没有的字段（如歌词的翻译、逐字）用 `Schema.optionalKey` 声明，录制里要有出现和缺失两种情况。
-- 同一个模块按查询参数返回不同形状、正文里又没有区分字段时（如 `cloudsearch` 的 `type`、`search_suggest` 的 `type=mobile`），把各形状的字段都用 `optionalKey` 声明在同一个对象里，不用联合：没声明的形状（如 MV 搜索）原样通过，出现了的字段照样校验。
+- 用 `src/core/upstream-body.ts` 的 `UpstreamObject` 声明对象，每个字段按下面的[收紧与宽松](#收紧与宽松)写，未声明的字段原样保留为 JSON。宽松字段用同文件的 `Loose(schema)`，收紧字段照常写。区分返回码时每个联合成员只认一个 `code` 字面量。
+- 同一个模块按查询参数返回不同形状、正文里又没有区分字段时（如 `cloudsearch` 的 `type`、`search_suggest` 的 `type=mobile`），把各形状的字段都声明成可以缺失，放在同一个对象里，不用联合：没声明的形状（如 MV 搜索）原样通过，出现了的字段照样校验。
 - 多个模块共用的上游结构（歌曲 `Song`、歌手 `Artist`）放在 `src/core/upstream-schemas.ts`，只收至少三个模块都用到、且字段完全相同的结构；各接口字段不同的实体（如三种专辑列表）留在模块里。
 - 用 `decodeUpstreamBody` 校验 SDK 将要返回的 body：`code` 不在已知返回码里时作为 `UpstreamBusinessFailed` 原样转交网易云的正文（`status` 取返回码），已知返回码但结构不符时报 `UnexpectedUpstreamShape`。
 - 失败正文有录制时可另外导出结构定义（如 `LoginCellphoneRiskBody`），不在运行时校验；没有录制的返回码不猜字段。
@@ -23,6 +23,28 @@
 - 验证关卡没录到、但决定字段能不能缺失或是 `null` 的情况（如搜索没有结果、歌手没有头像），可以匿名调用真实网易云补录，`context` 写明 `region: local` 和补录原因；补录只用来放宽已声明的字段，不用来新增声明的字段。
 
 响应体完全由模块自己组装、每个字段都已校验时也可以导出 `ModuleBody`，例如 `image_upload_token`、`login_qr_create`。
+
+### 收紧与宽松
+
+声明的字段只有收紧和宽松两种写法，按这一句判断：**这个字段缺了，这次调用是不是就等于没成功？是就收紧；缺了只是少一项信息，就宽松。** 判断只看接口是干什么的、录制里出现过什么，不看谁在用、以后会不会用。
+
+收紧的字段不能缺失，类型不对就报 `UnexpectedUpstreamShape`。只有四类：
+
+- 返回码：`code`，包括区分几种返回的字面量（如扫码登录的 800–803）。
+- 通到接口要返回的东西的路径：如 `body.songs`、`body.playlist`、`body.data.dailySongs`。
+- 这条记录自己的编号：如每首歌的 `id`、每个歌单的 `id`、用户的 `userId`。只算接口要返回的那种记录；记录里套着的对象（歌曲里的专辑和歌手、歌单的创建者）不算，它们的编号也宽松。
+- 接口就是为了拿它的那一项：如上传凭证、二维码、刷新后的 Cookie、播放和下载地址及其返回码、账号是不是匿名。
+
+收紧的字段只在录制证明 `null` 是正常状态时才允许 `null`，如没登录时的 `account`、拿不到地址时的 `url`。
+
+其余字段都宽松：可能缺失，也可能是 `null`；有值但类型不对时当成缺失，不报错。缺了怎么办由使用者决定。宽松字段整个值校验失败时都当成缺失，包括数组元素里的问题。
+
+录制只能让字段变宽松，不能让字段变收紧：
+
+- 收紧的路径如果有录制证明正常情况下也会整个缺失（如搜索没有结果时的 `result.songs`），改成宽松。列表类接口要有空结果的录制。
+- 录制里每次都出现，不是收紧的理由。#48、#59、#79 出事之前，出事的字段在录制里都一直在。
+
+录制里出现过非 `null` 值的字段都声明；从没见过非 `null` 值的字段猜不出类型，不声明。每个模块的路径和“接口就是为了拿它的那一项”在加模块时定一次，在模块文件里用一句注释写明。
 
 ## SDK 与 HTTP 输入
 

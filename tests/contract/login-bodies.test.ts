@@ -198,26 +198,53 @@ test('logout returns the recorded confirmation', async () => {
   expect(result.body as unknown).toEqual(loggedOut.response.body);
 });
 
+test('loginQrCheck treats a missing scanned nickname as absent', async () => {
+  const { nickname: _nickname, ...upstream } = withoutCookie(
+    scanned.response.body,
+  );
+
+  const result = await replay(upstream).loginQrCheck(scanned.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body as unknown).not.toHaveProperty('nickname');
+});
+
+test('captchaSent treats a non-boolean data as absent', async () => {
+  const result = await replay({ code: 200, data: 'yes' }).captchaSent(
+    captchaSent.query,
+  );
+
+  expect(result.status).toBe(200);
+  expect(result.body as unknown).not.toHaveProperty('data');
+});
+
+test('userAccount treats a nonnumeric vipType as absent', async () => {
+  const result = await replay({
+    ...accountVip.response.body,
+    account: { ...accountVip.response.body.account, vipType: '11' },
+  }).userAccount();
+
+  expect(result.status).toBe(200);
+  expect(result.body.account as unknown).not.toHaveProperty('vipType');
+});
+
+test('userDetail treats a missing nickname as absent', async () => {
+  const { nickname: _nickname, ...profile } = detailVip.response.body.profile;
+
+  const result = await replay({
+    ...detailVip.response.body,
+    profile,
+  }).userDetail(detailVip.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body.profile as unknown).not.toHaveProperty('nickname');
+});
+
 test.each<{
   name: string;
   call: () => Promise<unknown>;
   shape: UpstreamShape;
 }>([
-  {
-    name: 'loginQrCheck: scanned without the nickname',
-    call: () => {
-      const { nickname: _nickname, ...upstream } = withoutCookie(
-        scanned.response.body,
-      );
-      return replay(upstream).loginQrCheck(scanned.query);
-    },
-    shape: {
-      module: 'login_qr_check',
-      path: 'body.nickname',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
   {
     name: 'loginQrCheck: a non-object body',
     call: () => replay('busy').loginQrCheck({ key: 'k' }),
@@ -250,17 +277,6 @@ test.each<{
     },
   },
   {
-    name: 'captchaSent: data is not a boolean',
-    call: () =>
-      replay({ code: 200, data: 'yes' }).captchaSent(captchaSent.query),
-    shape: {
-      module: 'captcha_sent',
-      path: 'body.data',
-      expected: 'boolean',
-      actual: 'string',
-    },
-  },
-  {
     name: 'loginCellphone: success without a profile',
     call: () => {
       const { profile: _profile, ...upstream } = withoutCookie(
@@ -279,20 +295,6 @@ test.each<{
     },
   },
   {
-    name: 'userAccount: vipType is not a number',
-    call: () =>
-      replay({
-        ...accountVip.response.body,
-        account: { ...accountVip.response.body.account, vipType: '11' },
-      }).userAccount(),
-    shape: {
-      module: 'user_account',
-      path: 'body.account.vipType',
-      expected: 'number',
-      actual: 'string',
-    },
-  },
-  {
     name: 'loginStatus: profile is neither an object nor null',
     call: () =>
       replay({ ...statusVip.response.body.data, profile: [] }).loginStatus(),
@@ -301,22 +303,6 @@ test.each<{
       path: 'body.data.profile',
       expected: 'object | null',
       actual: 'array',
-    },
-  },
-  {
-    name: 'userDetail: profile without a nickname',
-    call: () => {
-      const { nickname: _nickname, ...profile } =
-        detailVip.response.body.profile;
-      return replay({ ...detailVip.response.body, profile }).userDetail(
-        detailVip.query,
-      );
-    },
-    shape: {
-      module: 'user_detail',
-      path: 'body.profile.nickname',
-      expected: 'present',
-      actual: 'missing',
     },
   },
   {

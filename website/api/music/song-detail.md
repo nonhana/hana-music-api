@@ -44,7 +44,7 @@ console.log(result.body);
 
 ## 返回内容
 
-`body.songs` 里每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”；`privileges` 原样保留，没有声明。结构定义和类型是 `SongDetailBody`。
+`body.songs` 里每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”；`privileges` 每项声明录制里出现的权限字段（`id`、`st`、`pl`、`code`、`fee`、各档码率等），只有 `id` 收紧。只有 `code`、`songs`、`songs[].id`、`privileges`、`privileges[].id` 收紧；`st`、`pl` 和歌曲的其他字段宽松。结构定义和类型是 `SongDetailBody`。
 
 ## 补充说明
 

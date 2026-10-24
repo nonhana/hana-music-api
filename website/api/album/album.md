@@ -43,7 +43,9 @@ console.log(result.body);
 
 ## 返回内容
 
-专辑里的歌在 `body.songs`（字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”），`body.album.songs` 是空数组。`body.album` 声明了 `id`、`name`、`picUrl`、`size`（歌曲数）、`artist`（`id`、`name`，`name` 可能是 `null`）、`publishTime`（毫秒时间戳）、`description`（简介，没有简介时为 `null`，类型为 `string | null`）。结构定义和类型是 `AlbumBody`。
+专辑里的歌在 `body.songs`（字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”），`body.album.songs` 是空数组。`body.album` 声明了 `id`、`name`、`picUrl`、`size`（歌曲数）、`artist`（`id`、`name`）、`publishTime`（毫秒时间戳）、`description`（简介）、`company`（唱片公司，没写时是空串）。
+
+只有 `code`、`songs`、`songs[].id`、`album`、`album.id` 收紧；`album` 的其余字段、正文的 `resourceState` 和歌曲的其他字段都是宽松字段，可能缺失或是 `null`，类型不对时当成缺失。结构定义和类型是 `AlbumBody`。3.0.0 起 `album.description` 的类型是 `string | null | undefined`。
 
 ## 补充说明
 

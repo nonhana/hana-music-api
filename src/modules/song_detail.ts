@@ -20,6 +20,7 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
+// 通到歌曲和权限列表的路径、每首歌和每条权限的编号收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

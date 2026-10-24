@@ -42,7 +42,7 @@ console.log(result.body);
 
 ## 返回内容
 
-`body.data` 里每位歌手声明了 `id`、`name`、`picUrl`、`albumSize`（专辑数），`hasMore` 表示后面还有没有。第一页还带收藏总数 `count`，第二页起没有，所以没有声明。结构定义和类型是 `ArtistSublistBody`，见 [返回体结构](/guide/response-bodies)。
+`body.data` 里每位歌手声明了 `id`、`name`、`picUrl`、`albumSize`（专辑数）、`alias`、`img1v1Url`、`info`、`mvSize`、`picId`、`trans`，`hasMore` 表示后面还有没有。只有 `code`、`data`、`data[].id` 收紧；其余字段宽松。第一页还带收藏总数 `count`，现已声明为宽松字段；第二页起不带。结构定义和类型是 `ArtistSublistBody`，见 [返回体结构](/guide/response-bodies)。
 
 ## 补充说明
 

@@ -43,7 +43,7 @@ console.log(result.body);
 
 ## 返回内容
 
-`body.ids` 是红心歌曲的编号。结构定义和类型是 `LikelistBody`，见 [返回体结构](/guide/response-bodies)。
+`body.ids` 是红心歌曲的编号，`checkPoint` 是宽松的分页检查点。`code` 和 `ids` 都收紧。结构定义和类型是 `LikelistBody`，见 [返回体结构](/guide/response-bodies)。
 
 ## 补充说明
 

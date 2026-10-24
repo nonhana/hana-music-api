@@ -50,7 +50,7 @@ console.log(result.body);
 }
 ```
 
-`qrurl` 是在手机上完成行为验证的页面，`qrimg` 是它的二维码图片。结构定义和类型是 `VerifyGetQrBody`，见 [返回体结构](/guide/response-bodies)。
+`qrurl` 是在手机上完成行为验证的页面，`qrimg` 是它的二维码图片。返回码、`data` 和三个二维码字段都是收紧字段。结构定义和类型是 `VerifyGetQrBody`，见 [返回体结构](/guide/response-bodies)。
 
 ## 补充说明
 

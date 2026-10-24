@@ -43,7 +43,7 @@ console.log(result.body);
 
 ## 返回内容
 
-正文带 `profile` 的 `userId`、`nickname`、`avatarUrl`、`vipType`，其余字段原样保留。结构定义和类型是 `UserDetailBody`，见 [返回体结构](/guide/response-bodies)。
+正文带 `profile` 的 `userId`、`nickname`、`avatarUrl`、`vipType` 等字段，其余字段原样保留。只有 `code`、`profile`、`profile.userId` 收紧；正文另外声明了宽松的 `level`、`listenSongs`、`bindings`、`createTime`、`createDays`、`identify`、`userPoint` 等字段。结构定义和类型是 `UserDetailBody`，见 [返回体结构](/guide/response-bodies)。
 
 ## 补充说明
 

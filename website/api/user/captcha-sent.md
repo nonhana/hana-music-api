@@ -48,7 +48,7 @@ console.log(result.body);
 { "code": 200, "data": true }
 ```
 
-结构定义和类型是 `CaptchaSentBody`，见 [返回体结构](/guide/response-bodies)。
+`code` 是收紧字段，`data` 是宽松字段（可能缺失或是 `null`）。结构定义和类型是 `CaptchaSentBody`，见 [返回体结构](/guide/response-bodies)。
 
 ## 补充说明
 

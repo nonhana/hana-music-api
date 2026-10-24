@@ -47,12 +47,12 @@ console.log(result.body);
 
 ## 返回内容
 
-`body.data` 里每项是一首歌的播放地址，声明了 `id`、`url`、`code`、`level`（实际给到的音质，可能比请求的低）、`expi`（地址有效的秒数，实测是 1200）和 `freeTrialInfo`：
+`body.data` 里每项是一首歌的播放地址，声明了 `id`、`url`、`code`、`level`（实际给到的音质，可能比请求的低）、`expi`（地址有效的秒数，实测是 1200）、`freeTrialInfo`，以及录制里出现的码率、编码、md5、试听权限等字段：
 
 - 无版权：`url` 和 `level` 是 `null`，`code` 不是 200（实测是 404）。
 - 只能试听：`freeTrialInfo` 是 `{ start, end }`，即试听片段在整首里的起止秒数，`url` 是这段片段的地址；能听完整首时是 `null`。
 
-结构定义和类型是 `SongUrlV1Body`，见 [返回体结构](/guide/response-bodies)。
+只有 `code`、`data`、`data[].id`、`data[].url`、`data[].code` 收紧；`level`、`expi`、`freeTrialInfo` 及其 `start`、`end` 都是宽松字段。结构定义和类型是 `SongUrlV1Body`，见 [返回体结构](/guide/response-bodies)。
 
 ## 补充说明
 

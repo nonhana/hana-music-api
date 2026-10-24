@@ -1,127 +1,122 @@
 # 返回体结构
 
-部分模块的返回体在 SDK 里做了运行时校验：SDK 在返回结果之前，先用这个模块的结构定义检查 `body`，检查不通过就不返回，而是报“上游结构变了”。这些模块的 `body` 有确定的 TypeScript 类型，可以直接读声明过的字段，不用再自己判断。
+部分模块的返回体在 SDK 里做了运行时校验：SDK 在返回结果之前，先用这个模块的结构定义检查 `body`。声明的字段分两类：
 
-做了校验的模块按领域列在下面，以后新收窄的模块也会补进对应的表。
+- **收紧字段**：缺了这次调用就等于没成功。缺失或类型不对时，SDK 报“上游结构变了”（`status: 502`）。
+- **宽松字段**：缺了只是少一项信息。可能缺失，也可能是 `null`；有值但类型不对时当成缺失，不报错。
 
-### 登录
+判断标准和写法的完整说明见 [`agent-docs/API_CONVENTIONS.md` 的“收紧与宽松”](https://github.com/nonhana/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)。下面按领域列出每个模块的**收紧字段**；其余已声明字段都是宽松字段，未声明的字段原样保留在 `body` 里，类型是 JSON 值。
 
-| 模块                                       | 结构定义                 | 声明的字段                                                                                                                            |
-| ------------------------------------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
-| [获取二维码 key](/api/user/login-qr-key)   | `LoginQrKeyBody`         | `code`、`data.unikey`                                                                                                                 |
-| [生成二维码](/api/user/login-qr-create)    | `LoginQrCreateBody`      | `code`、`data.qrurl`、`data.qrimg`                                                                                                    |
-| [查询扫码状态](/api/user/login-qr-check)   | `LoginQrCheckBody`       | `code`（800–803）、`cookie`；802 另有 `nickname`、`avatarUrl`                                                                         |
-| [行为验证二维码](/api/other/verify-get-qr) | `VerifyGetQrBody`        | `code`、`data.qrCode`、`data.qrurl`、`data.qrimg`                                                                                     |
-| [发送验证码](/api/user/captcha-sent)       | `CaptchaSentBody`        | `code`、`data`                                                                                                                        |
-| [手机号登录](/api/user/login-cellphone)    | `LoginCellphoneBody`     | `code`、`cookie`、`account.id`、`profile` 的 `userId`、`nickname`、`avatarUrl`                                                        |
-| 手机号登录被风控拦下                       | `LoginCellphoneRiskBody` | `code`（10004）、`message`、`redirectUrl`                                                                                             |
-| [账号信息](/api/user/user-account)         | `UserAccountBody`        | `code`、`account`（`id`、`anonimousUser`、`vipType`）、`profile`（`userId`、`nickname`、`avatarUrl`、`vipType`），两者都可能是 `null` |
-| [登录状态](/api/user/login-status)         | `LoginStatusBody`        | `data` 里是与账号信息相同的结构                                                                                                       |
-| [用户详情](/api/user/user-detail)          | `UserDetailBody`         | `code`、`profile` 的 `userId`、`nickname`、`avatarUrl`、`vipType`                                                                     |
-| [刷新登录](/api/user/login-refresh)        | `LoginRefreshBody`       | `code`、`cookie`                                                                                                                      |
-| [退出登录](/api/user/logout)               | `LogoutBody`             | `code`                                                                                                                                |
+宽松容器里的收紧字段（例如宽松列表里的记录编号）校验失败时，整个宽松字段当成缺失，不会 502；只有不在宽松容器里的收紧字段才会报 `UnexpectedUpstreamShape`。例如 `song_detail.privileges[].id` 在必填的 `privileges` 数组里，缺失会 502；歌曲里可选的 `privilege` 对象里的 `id` 只会在 `privilege` 出现时校验，类型不对就让整个 `privilege` 当成缺失。
 
-### 曲库
+## 登录
 
-| 模块                                             | 结构定义               | 声明的字段                                                                                                                                                                                                          |
-| ------------------------------------------------ | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [用户歌单](/api/playlist/user-playlist)          | `UserPlaylistBody`     | `code`、`more`、`playlist`（`PlaylistSummary[]`，共用歌单类型，见下文）                                                                                                                                             |
-| [歌单详情](/api/playlist/playlist-detail)        | `PlaylistDetailBody`   | `code`、`playlist`（`PlaylistSummary` 加 `trackIds[].id`）                                                                                                                                                          |
-| [歌单中的歌曲](/api/playlist/playlist-track-all) | `PlaylistTrackAllBody` | `code`、`songs`（歌曲）                                                                                                                                                                                             |
-| [歌曲详情](/api/music/song-detail)               | `SongDetailBody`       | `code`、`songs`（歌曲）、`privileges` 的 `id`、`st`、`pl`                                                                                                                                                           |
-| [专辑内容](/api/album/album)                     | `AlbumBody`            | `code`、`songs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）、`album` 的 `id`、`name`、`picUrl`、`size`、`artist`（`id`、`name`，`name` 可能是 `null`）、`publishTime`、`description`（没有简介时为 `null`）         |
-| [已收藏专辑](/api/album/album-sublist)           | `AlbumSublistBody`     | `code`、`hasMore`、`data` 的 `id`、`name`、`picUrl`、`size`、`artists`（`id`、`name`，`name` 可能是 `null`）                                                                                                        |
-| [已收藏歌手](/api/artist/artist-sublist)         | `ArtistSublistBody`    | `code`、`hasMore`、`data` 的 `id`、`name`、`picUrl`、`albumSize`                                                                                                                                                    |
-| [歌手热门歌曲](/api/artist/artist-top-song)      | `ArtistTopSongBody`    | `code`、`songs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）                                                                                                                                                         |
-| [歌手专辑](/api/artist/artist-album)             | `ArtistAlbumBody`      | `code`、`more`、顶层 `artist`（`id`、`name`、`img1v1Url`、`musicSize`、`albumSize`，`name` 是字符串）；`hotAlbums` 的 `id`、`name`、`picUrl`、`size`、`artist`（`id`、`name`，`name` 可能是 `null`）、`publishTime` |
-| [每日推荐歌曲](/api/recommend/recommend-songs)   | `RecommendSongsBody`   | `code`、`data.dailySongs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）                                                                                                                                               |
-| [喜欢音乐列表](/api/music/likelist)              | `LikelistBody`         | `code`、`ids`                                                                                                                                                                                                       |
+| 模块                                       | 结构定义                 | 收紧的字段                                                                                                                  |
+| ------------------------------------------ | ------------------------ | --------------------------------------------------------------------------------------------------------------------------- |
+| [获取二维码 key](/api/user/login-qr-key)   | `LoginQrKeyBody`         | `code`、`data`、`data.unikey`                                                                                               |
+| [生成二维码](/api/user/login-qr-create)    | `LoginQrCreateBody`      | `code`、`data`、`data.qrurl`、`data.qrimg`                                                                                  |
+| [查询扫码状态](/api/user/login-qr-check)   | `LoginQrCheckBody`       | `code`（800–803）；802 的 `nickname`、`avatarUrl` 是宽松字段                                                                |
+| [行为验证二维码](/api/other/verify-get-qr) | `VerifyGetQrBody`        | `code`、`data`、`data.qrCode`、`data.qrurl`、`data.qrimg`                                                                   |
+| [发送验证码](/api/user/captcha-sent)       | `CaptchaSentBody`        | `code`；`data` 宽松                                                                                                         |
+| [手机号登录](/api/user/login-cellphone)    | `LoginCellphoneBody`     | `code`、`cookie`、`account`、`account.id`、`profile`、`profile.userId`                                                      |
+| 手机号登录被风控拦下                       | `LoginCellphoneRiskBody` | `code`（10004）、`message`、`redirectUrl`                                                                                   |
+| [账号信息](/api/user/user-account)         | `UserAccountBody`        | `code`、`account`、`account.id`、`account.anonimousUser`、`profile`、`profile.userId`                                       |
+| [登录状态](/api/user/login-status)         | `LoginStatusBody`        | `data`、`data.code`、`data.account`、`data.account.id`、`data.account.anonimousUser`、`data.profile`、`data.profile.userId` |
+| [用户详情](/api/user/user-detail)          | `UserDetailBody`         | `code`、`profile`、`profile.userId`                                                                                         |
+| [刷新登录](/api/user/login-refresh)        | `LoginRefreshBody`       | `code`、`cookie`                                                                                                            |
+| [退出登录](/api/user/logout)               | `LogoutBody`             | `code`                                                                                                                      |
 
-两个接口共用 `PlaylistSummary`，其中 `creator` 和可选的 `subscribers[]` 共用 `PlaylistUser`。这两个 TypeScript 类型都可以从 `hana-music-api` 根入口直接导入。
+`account` 和 `profile` 在收紧的同时允许 `null`：没登录、登录失效时两者都是 `null`；匿名账号只有 `account`（`anonimousUser: true`），`profile` 是 `null`。`vipType`、`nickname`、`avatarUrl` 等其余账号字段宽松。
 
-`PlaylistSummary` 必须包含：数字字段 `id`、`trackCount`、`updateTime`、`trackUpdateTime`、`playCount`、`privacy`、`specialType`、`status`；字符串 `name`、`coverImgUrl`；`description`（字符串或 `null`）；`tags`（字符串数组）；`subscribed`（布尔值或 `null`）；`creator`（用户）。`status` 正常为 0，已删除为 10，其他数值也原样保留。
+## 曲库
 
-以下字段可以缺失；存在时仍会检查类型：
+| 模块                                             | 结构定义               | 收紧的字段                                                                                  |
+| ------------------------------------------------ | ---------------------- | ------------------------------------------------------------------------------------------- |
+| [用户歌单](/api/playlist/user-playlist)          | `UserPlaylistBody`     | `code`、`playlist`、`playlist[].id`                                                         |
+| [歌单详情](/api/playlist/playlist-detail)        | `PlaylistDetailBody`   | `code`、`playlist`、`playlist.id`、`playlist.trackIds`、`playlist.trackIds[].id`            |
+| [歌单中的歌曲](/api/playlist/playlist-track-all) | `PlaylistTrackAllBody` | `code`、`songs`、`songs[].id`                                                               |
+| [歌曲详情](/api/music/song-detail)               | `SongDetailBody`       | `code`、`songs`、`songs[].id`、`privileges`、`privileges[].id`                              |
+| [专辑内容](/api/album/album)                     | `AlbumBody`            | `code`、`songs`、`songs[].id`、`songs[].privilege.id`、`album`、`album.id`                  |
+| [已收藏专辑](/api/album/album-sublist)           | `AlbumSublistBody`     | `code`、`data`、`data[].id`                                                                 |
+| [已收藏歌手](/api/artist/artist-sublist)         | `ArtistSublistBody`    | `code`、`data`、`data[].id`                                                                 |
+| [歌手热门歌曲](/api/artist/artist-top-song)      | `ArtistTopSongBody`    | `code`、`songs`、`songs[].id`、`songs[].privilege.id`                                       |
+| [歌手专辑](/api/artist/artist-album)             | `ArtistAlbumBody`      | `code`、`hotAlbums`、`hotAlbums[].id`                                                       |
+| [每日推荐歌曲](/api/recommend/recommend-songs)   | `RecommendSongsBody`   | `code`、`data`、`data.dailySongs`、`data.dailySongs[].id`、`data.dailySongs[].privilege.id` |
+| [喜欢音乐列表](/api/music/likelist)              | `LikelistBody`         | `code`、`ids`                                                                               |
 
-| 类型           | `PlaylistSummary` 的可选字段                                                                                                                     |
-| -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| number         | `adType`、`backgroundCoverId`、`cloudTrackCount`、`coverImgId`、`createTime`、`subscribedCount`、`titleImage`、`trackNumberUpdateTime`、`userId` |
-| string         | `commentThreadId`                                                                                                                                |
-| string 或 null | `backgroundCoverUrl`、`coverImgId_str`、`englishTitle`、`titleImageUrl`、`updateFrequency`                                                       |
-| boolean        | `copied`、`highQuality`、`mix`、`newImported`、`opRecommend`、`ordered`                                                                          |
-| 用户数组       | `subscribers`                                                                                                                                    |
+### 歌曲
 
-`PlaylistUser` 必须包含数字 `userId` 和字符串 `nickname`，其余声明的字段均可缺失：
+各个接口里的歌曲共用同一份声明：
 
-| 类型              | `PlaylistUser` 的可选字段                                                                                                                                                        |
-| ----------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| number            | `accountStatus`、`authStatus`、`authenticationTypes`、`authority`、`avatarImgId`、`backgroundImgId`、`birthday`、`city`、`djStatus`、`gender`、`province`、`userType`、`vipType` |
-| string            | `avatarImgIdStr`、`avatarImgId_str`、`avatarUrl`、`description`、`detailDescription`、`signature`、`backgroundImgIdStr`                                                          |
-| string 或 null    | `backgroundUrl`                                                                                                                                                                  |
-| boolean           | `anchor`、`defaultAvatar`、`followed`、`mutual`                                                                                                                                  |
-| 字符串数组或 null | `expertTags`                                                                                                                                                                     |
-| 对象或 null       | `avatarDetail`、`experts`，对象内部的字段保持为 JSON                                                                                                                             |
+- 收紧：`id`。
+- 宽松：其余声明字段，包括 `name`、`ar`（歌手的 `id`、`name`）、`al`（专辑的 `id`、`name`、`picUrl`）、`dt`（时长，毫秒）、`fee`（网易云给的付费类型，原样保留数值）、`no`、`cd`、`alia`、`tns`、`publishTime`，以及音质、权限、版权、封面和搜索用的简化字段。
 
-歌单和用户都原样保留未声明字段。`sharedUsers`、`tracks`、`remarkName` 未作具体类型声明，仍为 JSON 值。必填字段缺失或已声明字段类型错误时，SDK 以 `UnexpectedUpstreamShape`（502）拒绝。
+`no` 是歌曲在 CD 里的序号，`0` 表示没有；`cd` 是自由文本（如 `"1"`、`"01"`、`"1/2"`、`"A"`、`"无"`），云盘上传、没匹配上曲库的歌是 `null`，SDK 不把它解析成数字；`alia`、`tns` 是字符串数组；`publishTime` 是毫秒时间戳，`0` 表示没有，专辑接口里的歌可能没有这个字段。
 
-### 歌单编辑与收藏
+专辑记录（`album`、`hotAlbums`、云搜索的 `albums`）另外声明了宽松字段 `company`（唱片公司，没写时是空串）；`album_sublist` 的录制里没有这个字段，因此没有声明。
 
-| 模块                                                   | 结构定义                  | 声明的字段                                                                    |
-| ------------------------------------------------------ | ------------------------- | ----------------------------------------------------------------------------- |
-| [红心](/api/music/like)                                | `LikeBody`                | `code`、`playlistId`、`songs`                                                 |
-| [收藏专辑](/api/album/album-sub)                       | `AlbumSubBody`            | `code`、`time` 或 `message`                                                   |
-| [收藏歌手](/api/artist/artist-sub)                     | `ArtistSubBody`           | `code`、`data`、`message`                                                     |
-| [歌单分类](/api/playlist/playlist-catlist)             | `PlaylistCatlistBody`     | `code`、`all`、`categories`、`sub`                                            |
-| [新建歌单](/api/playlist/playlist-create)              | `PlaylistCreateBody`      | `code`、`id`、`playlist.id`、`playlist.name`                                  |
-| [删除歌单](/api/playlist/playlist-delete)              | `PlaylistDeleteBody`      | `code`                                                                        |
-| [修改歌单简介](/api/playlist/playlist-desc-update)     | `PlaylistDescUpdateBody`  | `code`                                                                        |
-| [修改歌单名称](/api/playlist/playlist-name-update)     | `PlaylistNameUpdateBody`  | `code`                                                                        |
-| [调整歌单顺序](/api/playlist/playlist-order-update)    | `PlaylistOrderUpdateBody` | `code`                                                                        |
-| [公开隐私歌单](/api/playlist/playlist-privacy)         | `PlaylistPrivacyBody`     | `code`                                                                        |
-| [设置歌单标签](/api/playlist/playlist-tags-update)     | `PlaylistTagsUpdateBody`  | `code`                                                                        |
-| [往歌单加歌或删歌](/api/playlist/playlist-tracks)      | `PlaylistTracksBody`      | `code`、`count`、`cloudCount`、可能有 `trackIds`；SDK 去掉 200 响应的额外包装 |
-| [收藏或取消收藏歌单](/api/playlist/playlist-subscribe) | `PlaylistSubscribeBody`   | `code`                                                                        |
-| [设置歌单封面](/api/playlist/playlist-cover-update)    | `PlaylistCoverUpdateBody` | `code`、`data.code`、`data.url`                                               |
-| [歌曲排序](/api/music/song-order-update)               | `SongOrderUpdateBody`     | `code`；大批量调整可能回 `-1`，但网易云可能已经完成排序，SDK 仍按失败返回     |
-| [申请图片上传凭证](/api/playlist/image-upload-token)   | `ImageUploadTokenBody`    | `code`、`data.imgId`、`data.token`、`data.uploadUrl`、`data.url_pre`          |
+歌手和专辑的编号和名字都可能缺失或为 `null`：传到云盘、没有匹配上曲库的歌（网易云返回的 `t` 是 1），歌手和专辑的编号是 0，名字是 `null`。这种歌只有上传者本人登录时能看到歌名；别人看、或者没有有效登录时，歌名也可能是 `null`。这些字段宽松后都不会再让整页 502。
 
-表里的“歌曲”共用这些字段：`id`、`name`、`ar`（歌手的 `id`、`name`）、`al`（专辑的 `id`、`name`、`picUrl`）、`dt`（时长，毫秒）、`fee`（网易云给的付费类型，原样保留数值）。云搜索的专辑名另允许缺失，见下文“搜索”。时间字段都是毫秒时间戳。
+### 歌单与用户
 
-歌曲权限只声明数值字段 `id`、`st`、`pl`，其余字段原样保留。`song_detail` 把权限放在顶层 `privileges`，可按 `id` 与歌曲匹配；`album`、`artist_top_song`、`recommend_songs`、`cloudsearch` 放在每首歌的 `privilege`。`st < 0` 表示无版权，`pl` 是当前账号可在线播放的最高码率，0 表示不能播放完整歌曲；是否实际给到试听片段仍看播放地址里的 `freeTrialInfo`。SDK 原样保留这些数值，不把 `st` 限制成固定的枚举。
+[用户歌单](/api/playlist/user-playlist)和[歌单详情](/api/playlist/playlist-detail)共用 `PlaylistSummary`，其中 `creator` 和可选的 `subscribers[]` 共用 `PlaylistUser`。这两个 TypeScript 类型都可以从 `hana-music-api` 根入口直接导入。
 
-歌手和专辑的 `name` 可能是 `null`：传到云盘、没有匹配上曲库的歌（网易云返回的 `t` 是 1），歌手和专辑的编号是 0，名字是 `null`。专辑里的 `artist`、`artists` 用的也是这种歌手结构，`name` 的类型同样是 `string | null`。这种歌只有上传者本人登录时能看到歌名；别人看、或者没有有效登录时，歌名也是 `null`，这时结构对不上，按下面的 [结构变了时](#结构变了时) 以 `status: 502` 拒绝。
+`PlaylistSummary` 只收紧 `id`。其余声明字段都是宽松字段，包括歌单名称、封面、`trackCount`、`updateTime`、`trackUpdateTime`、`playCount`、`privacy`、`specialType`、`status`、`description`、`tags`、`subscribed`、`creator`、`subscribers`、`tracks`，以及播放量、收藏数、分享数和各种审核/展示状态。`status` 正常为 0，已删除为 10，其他数值也原样保留。
+
+`PlaylistUser` 的字段全部宽松：`userId`、`nickname` 也不例外。其余声明字段有 `accountStatus`、`authStatus`、`authenticationTypes`、`authority`、`avatarImgId`、`backgroundImgId`、`birthday`、`city`、`djStatus`、`gender`、`province`、`userType`、`vipType`、`avatarImgIdStr`、`avatarImgId_str`、`avatarUrl`、`description`、`detailDescription`、`signature`、`backgroundImgIdStr`、`backgroundUrl`、`anchor`、`defaultAvatar`、`followed`、`mutual`、`expertTags`、`avatarDetail`、`experts`；对象字段内部保持为 JSON。
 
 `subscribed` 是 `null` 表示网易云给的是没有登录的视角：Cookie 里的 `MUSIC_U` 已经失效时，用户歌单和歌单详情都是 `null`；完全不带 Cookie 时，用户歌单是 `null`，歌单详情是 `false`。
 
-### 播放
+### 歌单编辑与收藏
 
-| 模块                                                             | 结构定义                | 声明的字段                                                                                                     |
-| ---------------------------------------------------------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------- |
-| [获取音乐 url - 新版](/api/music/song-url-v1)                    | `SongUrlV1Body`         | `code`、`data` 的 `id`、`url`、`code`、`level`、`expi`、`freeTrialInfo`（`start`、`end`）                      |
-| [获取客户端歌曲下载链接 - 新版](/api/music/song-download-url-v1) | `SongDownloadUrlV1Body` | `code`、`data`（一个对象）的 `id`、`url`、`code`、`level`、`size`                                              |
-| [获取逐字歌词](/api/music/lyric-new)                             | `LyricNewBody`          | `code`、`lrc`；可能缺失的 `tlyric`、`romalrc`、`yrc`、`ytlrc`、`yromalrc`、`pureMusic`。每种歌词只声明 `lyric` |
-| [听歌打卡](/api/music/scrobble)                                  | `ScrobbleBody`          | `code`                                                                                                         |
+| 模块                                                   | 结构定义                  | 收紧的字段                                                                   |
+| ------------------------------------------------------ | ------------------------- | ---------------------------------------------------------------------------- |
+| [红心](/api/music/like)                                | `LikeBody`                | `code`；`playlistId`、`songs` 宽松                                           |
+| [收藏专辑](/api/album/album-sub)                       | `AlbumSubBody`            | `code`；`time`、`message` 宽松                                               |
+| [收藏歌手](/api/artist/artist-sub)                     | `ArtistSubBody`           | `code`；`data`、`message` 宽松                                               |
+| [歌单分类](/api/playlist/playlist-catlist)             | `PlaylistCatlistBody`     | `code`、`all`、`all.name`、`categories`、`sub`、`sub[].name`                 |
+| [新建歌单](/api/playlist/playlist-create)              | `PlaylistCreateBody`      | `code`、`id`、`playlist`、`playlist.id`                                      |
+| [删除歌单](/api/playlist/playlist-delete)              | `PlaylistDeleteBody`      | `code`                                                                       |
+| [修改歌单简介](/api/playlist/playlist-desc-update)     | `PlaylistDescUpdateBody`  | `code`                                                                       |
+| [修改歌单名称](/api/playlist/playlist-name-update)     | `PlaylistNameUpdateBody`  | `code`                                                                       |
+| [调整歌单顺序](/api/playlist/playlist-order-update)    | `PlaylistOrderUpdateBody` | `code`                                                                       |
+| [公开隐私歌单](/api/playlist/playlist-privacy)         | `PlaylistPrivacyBody`     | `code`                                                                       |
+| [设置歌单标签](/api/playlist/playlist-tags-update)     | `PlaylistTagsUpdateBody`  | `code`                                                                       |
+| [往歌单加歌或删歌](/api/playlist/playlist-tracks)      | `PlaylistTracksBody`      | `code`；`count`、`cloudCount`、`trackIds` 宽松；SDK 去掉 200 响应的额外包装  |
+| [收藏或取消收藏歌单](/api/playlist/playlist-subscribe) | `PlaylistSubscribeBody`   | `code`                                                                       |
+| [设置歌单封面](/api/playlist/playlist-cover-update)    | `PlaylistCoverUpdateBody` | `code`、`data`、`data.code`；`data.url`、`msg` 宽松                          |
+| [歌曲排序](/api/music/song-order-update)               | `SongOrderUpdateBody`     | `code`；大批量调整可能回 `-1`，但网易云可能已经完成排序，SDK 仍按失败返回    |
+| [申请图片上传凭证](/api/playlist/image-upload-token)   | `ImageUploadTokenBody`    | `code`、`data`、`data.imgId`、`data.token`、`data.uploadUrl`、`data.url_pre` |
 
-播放地址和下载地址里，`url` 是 `null` 表示拿不到地址，原因看条目里的 `code`，不能只检查顶层 `body.code` 或 HTTP 状态。播放地址的 `freeTrialInfo` 不是 `null` 表示只能试听，`url` 是试听片段，`start`、`end` 是片段在整首里的起止秒数，不应假定固定为 30 秒。
+歌单分类没有编号，靠名字来认，所以 `all.name`、`sub[].name` 收紧；分类的其他字段宽松。
+
+## 播放
+
+| 模块                                                             | 结构定义                | 收紧的字段                                                                                      |
+| ---------------------------------------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------- |
+| [获取音乐 url - 新版](/api/music/song-url-v1)                    | `SongUrlV1Body`         | `code`、`data`、`data[].id`、`data[].url`、`data[].code`；`level`、`expi`、`freeTrialInfo` 宽松 |
+| [获取客户端歌曲下载链接 - 新版](/api/music/song-download-url-v1) | `SongDownloadUrlV1Body` | `code`、`data`、`data.id`、`data.url`、`data.code`；`level`、`size` 宽松                        |
+| [获取逐字歌词](/api/music/lyric-new)                             | `LyricNewBody`          | `code`、`lrc`、`lrc.lyric`；其余歌词形式和 `pureMusic` 宽松                                     |
+| [听歌打卡](/api/music/scrobble)                                  | `ScrobbleBody`          | `code`                                                                                          |
+
+播放地址和下载地址里，`url` 是 `null` 表示拿不到地址，原因看条目里的 `code`，不能只检查顶层 `body.code` 或 HTTP 状态。播放地址的 `freeTrialInfo` 不是 `null` 表示只能试听，`url` 是试听片段，`start`、`end` 是片段在整首里的起止秒数，不应假定固定为 30 秒；这两个字段本身是宽松字段。
 
 下载地址的 `data` 是一个对象，不是数组。2026-10-21 使用真实国内 IP、不带账号 Cookie 请求会员歌 `1409311773`，`standard`、`higher`、`exhigh` 三档都返回顶层 `code: 200`，但 `data.code: -105`、`url: null`、`level: null`、`size: 0`；同一游客身份的播放接口仍返回试听片段。因此，这个只能试听的场景在下载接口中通过已声明的数值字段 `data.code` 识别，本次录制的值为 `-105`，表示当前身份没有下载权限，而不是拿到了可下载的试听文件。无版权的下载录制则是 `data.code: -110`（播放地址的无版权录制是 404）。这些是已录到的场景，不把 `-105` 解释为所有账号、所有歌曲都只能试听的通用结论，也没有录到会员到期的情况。
 
-下载前同时检查 `data.code === 200`、`data.url !== null`、`data.size > 0`；不满足时标记下载失败，保留返回码说明原因，不要改用播放接口的试听地址补位。下载录制中的 `freeTrialInfo` 均为 `null`，没有下载试听片段的证据，因此仍不声明这个字段。本次没有录到下载接口的 `code: 404`，不据此推断它的含义。
+下载前同时检查 `data.code === 200`、`data.url !== null`、`data.size > 0`；不满足时标记下载失败，保留返回码说明原因，不要改用播放接口的试听地址补位。`size` 是宽松字段，缺失时无法核对文件字节数。下载录制中的 `freeTrialInfo` 均为 `null`，没有下载试听片段的证据；它按宽松字段声明，调用方不要假定下载接口一定会给试听片段。本次没有录到下载接口的 `code: 404`，不据此推断它的含义。
 
-`level` 是实际给到的音质，可能比请求的低；`expi` 是播放地址有效的秒数，`size` 是文件字节数。歌词除 `lrc` 外的几种可能整个缺失，也可能在、但 `lyric` 是空串，两种都表示没有这种歌词。
+`level` 是实际给到的音质，可能比请求的低；`expi` 是播放地址有效的秒数。歌词除 `lrc` 外的几种可能整个缺失，也可能在、但 `lyric` 是空串，两种都表示没有这种歌词。
 
-### 搜索
+## 搜索
 
-| 模块                                   | 结构定义            | 声明的字段                                                                                                                                                                                              |
-| -------------------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [云搜索](/api/search/cloudsearch)      | `CloudsearchBody`   | `code`、`result`；`result` 里可能缺失的 `songs`（歌曲，含 `privilege` 的 `id`、`st`、`pl`）、`albums`、`artists`、`playlists`，以及各自的总数 `songCount`、`albumCount`、`artistCount`、`playlistCount` |
-| [搜索建议](/api/search/search-suggest) | `SearchSuggestBody` | `code`、`result`；`result` 里可能缺失的 `songs`、`artists`、`albums`、`playlists`（每项 `id`、`name`）和 `allMatch`（每项 `keyword`）                                                                   |
+| 模块                                   | 结构定义            | 收紧的字段                                                                                                                               |
+| -------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| [云搜索](/api/search/cloudsearch)      | `CloudsearchBody`   | `code`、`result`、`result.songs[].id`、`result.albums[].id`、`result.artists[].id`、`result.playlists[].id`                              |
+| [搜索建议](/api/search/search-suggest) | `SearchSuggestBody` | `code`、`result`、`result.songs[].id`、`result.artists[].id`、`result.albums[].id`、`result.playlists[].id`、`result.allMatch[].keyword` |
 
-云搜索按 `type` 只给一类结果：专辑声明了 `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`；歌手声明了 `id`、`name`、`picUrl`（没有头像时是 `null`）、`musicSize`（歌曲数）；歌单声明了 `id`、`name`、`coverImgUrl`、`trackCount`、`playCount`（播放次数，数字）、`creator`（`userId`、`nickname`）。没有结果时只有总数（0），列表整个缺失；其他 `type`（用户、MV 等）的结果没有声明，原样保留。搜索建议默认按类别给出，某一类没有建议时对应列表整个缺失（包括 `playlists`）；`type` 为 `mobile` 时只给关键词 `allMatch`；没有建议时 `result` 是空对象。
+云搜索按 `type` 只给一类结果。结果列表（`songs`、`albums`、`artists`、`playlists`）和各总数（`songCount`、`albumCount`、`artistCount`、`playlistCount`）都是宽松字段：没有结果时只有总数（0），列表整个缺失。专辑的其他声明字段是 `name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`、`company`；歌手的其他声明字段是 `name`、`picUrl`、`musicSize`（歌曲数）；歌单的其他声明字段是 `name`、`coverImgUrl`、`trackCount`、`playCount`、`creator`（`userId`、`nickname`）。这些全部宽松，包括云搜索里的 `al.name`；共用歌曲的 `al.name` 本来就是宽松字段，不再需要单独放宽。
 
-云搜索的 `result.songs[].al.name` 可以缺失，也可以是字符串或 `null`；读取时类型为 `string | null | undefined`，调用方显示专辑名之前需要处理这两种空值。SDK 保留缺失状态，不补空字符串、不丢弃歌曲。`al` 本身及其 `id`、`picUrl` 仍是必填，`al.name` 为数字等错误类型仍以 `UnexpectedUpstreamShape`（502）拒绝；这项放宽不改变歌曲详情等其他接口的共用歌曲结构。
-
-结构定义只声明真实返回里确认过的字段；共用歌单和用户类型还声明了上表列出的可选字段，其余字段原样保留在 `body` 里，类型是 JSON 值。字段的取值来自脱敏后的真实返回，按领域保存在仓库的 `tests/fixtures/netease/` 下。
+搜索建议默认按类别给出，某一类没有建议时对应列表整个缺失（包括 `playlists`）；`type` 为 `mobile` 时只给关键词 `allMatch`；没有建议时 `result` 是空对象。每项建议的 `name` 都是宽松字段。
 
 ## 导出约定
 
@@ -146,12 +141,12 @@
 import type { LoginQrCheckBody, UserAccountBody } from 'hana-music-api';
 
 const describe = (body: LoginQrCheckBody) =>
-  body.code === 802 ? `${body.nickname} 已扫码，等待确认` : body.code;
+  body.code === 802 ? `${body.nickname ?? '有人'} 已扫码，等待确认` : body.code;
 
 const isMember = (body: UserAccountBody) => (body.account?.vipType ?? 0) > 0;
 ```
 
-`code` 是字面量，按 `code` 判断后 TypeScript 会收窄到对应的分支。只用类型时写 `import type`，不会把 SDK 打包进浏览器端。
+`code` 是字面量，按 `code` 判断后 TypeScript 会收窄到对应的分支。宽松字段读出来的类型是 `T | null | undefined`，使用前要处理缺失和 `null`。只用类型时写 `import type`，不会把 SDK 打包进浏览器端。
 
 ## 用结构定义校验数据
 
@@ -168,7 +163,7 @@ if (result.issues) {
 }
 ```
 
-`validate` 是同步的。适合在测试里检查自己的假数据是否和 SDK 认可的结构一致。
+`validate` 是同步的，不需要 Effect 运行时。适合在测试里检查自己的假数据是否和 SDK 认可的结构一致。
 
 对外只承诺 Standard Schema 接口和导出的类型。这些对象同时也是 Effect Schema，熟悉 Effect 的使用者可以照常组合使用，但这部分不在兼容承诺之内，Effect 升级大版本时可能变化。
 
@@ -194,15 +189,15 @@ try {
 
 ## 结构变了时
 
-返回码认识、但字段缺失或类型不对时，Promise 以 `status: 502` 拒绝，`body` 带上出错的位置：
+返回码认识、但**收紧字段**缺失或类型不对时，Promise 以 `status: 502` 拒绝，`body` 带上出错的位置：
 
 ```json
 {
   "code": 502,
-  "msg": "Unexpected upstream shape in login_qr_check at body.nickname: expected present, got missing",
+  "msg": "Unexpected upstream shape in album at body.album.id: expected present, got missing",
   "upstreamShape": {
-    "module": "login_qr_check",
-    "path": "body.nickname",
+    "module": "album",
+    "path": "body.album.id",
     "expected": "present",
     "actual": "missing"
   }
@@ -210,3 +205,5 @@ try {
 ```
 
 用 `body.upstreamShape` 判断是不是这种失败，不要解析 `msg`。`path` 指向 SDK 返回的 `body` 里的位置；`expected` 为 `present` 表示字段缺失，其余是期望的类型或取值。这种失败说明网易云改了返回结构，需要升级 SDK 或报告问题，重试通常没有用。
+
+宽松字段缺失、是 `null` 或类型不对都不会来到这里：SDK 把类型不对的值当成缺失，缺失和 `null` 都原样返回。宽松字段整个值校验失败时也当成缺失，包括数组元素里的问题。

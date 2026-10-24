@@ -37,33 +37,25 @@ const replay = (upstream: unknown) =>
     fetcher: async () => Response.json(upstream),
   });
 
-test('searchSuggest rejects a playlist suggestion whose id is text', async () => {
+test('searchSuggest treats a playlist suggestion whose id is text as absent', async () => {
   const upstream = structuredClone(suggestPlaylists.response.body);
   (upstream.result.playlists[0] as { id: unknown }).id = '3172143658';
 
-  await expectUpstreamShapeRejection(
-    replay(upstream).searchSuggest(suggestPlaylists.query),
-    {
-      module: 'search_suggest',
-      path: 'body.result.playlists[0].id',
-      expected: 'number',
-      actual: 'string',
-    },
-  );
+  const result = await replay(upstream).searchSuggest(suggestPlaylists.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body.result as unknown).not.toHaveProperty('playlists');
 });
 
-test('cloudsearch rejects a playlist result whose play count is text', async () => {
+test('cloudsearch treats a playlist result whose play count is text as absent', async () => {
   const upstream = structuredClone(searchPlayCounts.response.body);
   (upstream.result.playlists[0] as { playCount: unknown }).playCount = '912088';
 
-  await expectUpstreamShapeRejection(
-    replay(upstream).cloudsearch(searchPlayCounts.query),
-    {
-      module: 'cloudsearch',
-      path: 'body.result.playlists[0].playCount',
-      expected: 'number',
-      actual: 'string',
-    },
+  const result = await replay(upstream).cloudsearch(searchPlayCounts.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body.result.playlists?.[0] as unknown).not.toHaveProperty(
+    'playCount',
   );
 });
 
@@ -105,22 +97,21 @@ test('cloudsearch preserves null album names', async () => {
 
   expect(result.body as unknown).toEqual(upstream);
   expectTypeOf<
-    NonNullable<CloudsearchBody['result']['songs']>[number]['al']['name']
+    NonNullable<
+      NonNullable<CloudsearchBody['result']['songs']>[number]['al']
+    >['name']
   >().toEqualTypeOf<string | null | undefined>();
 });
 
-test('cloudsearch rejects numeric album names', async () => {
+test('cloudsearch treats a numeric album name as absent', async () => {
   const upstream = structuredClone(searchSong.response.body);
   (upstream.result.songs[0]!.al as { name: unknown }).name = 123;
 
-  await expectUpstreamShapeRejection(
-    replay(upstream).cloudsearch(searchSong.query),
-    {
-      module: 'cloudsearch',
-      path: 'body.result.songs[0].al.name',
-      expected: 'string | null',
-      actual: 'number',
-    },
+  const result = await replay(upstream).cloudsearch(searchSong.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body.result.songs?.[0]?.al as unknown).not.toHaveProperty(
+    'name',
   );
 });
 
@@ -135,11 +126,25 @@ test('cloudsearch exposes numeric song privileges', async () => {
     pl: 0,
   });
   expectTypeOf<
-    NonNullable<CloudsearchBody['result']['songs']>[number]['privilege'][
-      | 'id'
-      | 'st'
-      | 'pl']
-  >().toEqualTypeOf<number>();
+    NonNullable<
+      NonNullable<CloudsearchBody['result']['songs']>[number]['privilege']
+    >['id']
+  >().toEqualTypeOf<number | null | undefined>();
+  expectTypeOf<
+    NonNullable<
+      NonNullable<CloudsearchBody['result']['songs']>[number]['privilege']
+    >['st']
+  >().toEqualTypeOf<number | null | undefined>();
+});
+
+test('cloudsearch treats an artist with a nonnumeric id as an unusable result', async () => {
+  const upstream = structuredClone(searchArtist.response.body);
+  (upstream.result.artists[0] as { id: unknown }).id = '37063847';
+
+  const result = await replay(upstream).cloudsearch(searchArtist.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body.result as unknown).not.toHaveProperty('artists');
 });
 
 test('cloudsearch exposes numeric playlist play counts', async () => {
@@ -150,7 +155,7 @@ test('cloudsearch exposes numeric playlist play counts', async () => {
   expect(result.body.result.playlists?.[0]?.playCount).toBe(912088);
   expectTypeOf<
     NonNullable<CloudsearchBody['result']['playlists']>[number]['playCount']
-  >().toEqualTypeOf<number>();
+  >().toEqualTypeOf<number | null | undefined>();
 });
 
 test('searchSuggest exposes playlist ids and names', async () => {
@@ -167,7 +172,19 @@ test('searchSuggest exposes playlist ids and names', async () => {
   >().toEqualTypeOf<number>();
   expectTypeOf<
     NonNullable<SearchSuggestBody['result']['playlists']>[number]['name']
-  >().toEqualTypeOf<string>();
+  >().toEqualTypeOf<string | null | undefined>();
+});
+
+test('searchSuggest treats an artist whose id is text as an unusable category', async () => {
+  const upstream = structuredClone(suggestAllCategories.response.body);
+  (upstream.result.artists[0] as { id: unknown }).id = '37063847';
+
+  const result = await replay(upstream).searchSuggest(
+    suggestAllCategories.query,
+  );
+
+  expect(result.status).toBe(200);
+  expect(result.body.result as unknown).not.toHaveProperty('artists');
 });
 
 test.each<{ name: string; recording: Recording }>([
@@ -238,190 +255,6 @@ test.each<{
   shape: UpstreamShape;
 }>([
   {
-    name: 'cloudsearch: a song result without its album',
-    call: () => {
-      const upstream = structuredClone(searchSong.response.body);
-      delete (upstream.result.songs[0] as { al?: unknown }).al;
-      return replay(upstream).cloudsearch(searchSong.query);
-    },
-    shape: {
-      module: 'cloudsearch',
-      path: 'body.result.songs[0].al',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'cloudsearch: an album result without its cover',
-    call: () => {
-      const upstream = structuredClone(searchAlbum.response.body);
-      delete (upstream.result.albums[1] as { picUrl?: string }).picUrl;
-      return replay(upstream).cloudsearch(searchAlbum.query);
-    },
-    shape: {
-      module: 'cloudsearch',
-      path: 'body.result.albums[1].picUrl',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'cloudsearch: an artist result whose song count is text',
-    call: () => {
-      const upstream = structuredClone(searchArtist.response.body);
-      (upstream.result.artists[2] as { musicSize: unknown }).musicSize = '148';
-      return replay(upstream).cloudsearch(searchArtist.query);
-    },
-    shape: {
-      module: 'cloudsearch',
-      path: 'body.result.artists[2].musicSize',
-      expected: 'number',
-      actual: 'string',
-    },
-  },
-  {
-    name: "cloudsearch: a playlist result without its creator's nickname",
-    call: () => {
-      const upstream = structuredClone(searchPlaylist.response.body);
-      delete (
-        upstream.result.playlists[4] as { creator: { nickname?: string } }
-      ).creator.nickname;
-      return replay(upstream).cloudsearch(searchPlaylist.query);
-    },
-    shape: {
-      module: 'cloudsearch',
-      path: 'body.result.playlists[4].creator.nickname',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'cloudsearch: a total that is text',
-    call: () => {
-      const upstream = structuredClone(searchSong.response.body);
-      (upstream.result as { songCount: unknown }).songCount = '300';
-      return replay(upstream).cloudsearch(searchSong.query);
-    },
-    shape: {
-      module: 'cloudsearch',
-      path: 'body.result.songCount',
-      expected: 'number',
-      actual: 'string',
-    },
-  },
-  {
-    name: 'cloudsearch: a playlist result without its play count',
-    call: () => {
-      const upstream = structuredClone(searchPlayCounts.response.body);
-      delete (upstream.result.playlists[0] as { playCount?: number }).playCount;
-      return replay(upstream).cloudsearch(searchPlayCounts.query);
-    },
-    shape: {
-      module: 'cloudsearch',
-      path: 'body.result.playlists[0].playCount',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'cloudsearch: a song result without its privilege',
-    call: () => {
-      const upstream = structuredClone(searchSong.response.body);
-      delete (upstream.result.songs[0] as { privilege?: unknown }).privilege;
-      return replay(upstream).cloudsearch(searchSong.query);
-    },
-    shape: {
-      module: 'cloudsearch',
-      path: 'body.result.songs[0].privilege',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'searchSuggest: a song suggestion without its name',
-    call: () => {
-      const upstream = structuredClone(suggestWeb.response.body);
-      delete (upstream.result.songs[2] as { name?: string }).name;
-      return replay(upstream).searchSuggest(suggestWeb.query);
-    },
-    shape: {
-      module: 'search_suggest',
-      path: 'body.result.songs[2].name',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'searchSuggest: a keyword suggestion without the keyword',
-    call: () => {
-      const upstream = structuredClone(suggestMobile.response.body);
-      delete (upstream.result.allMatch[0] as { keyword?: string }).keyword;
-      return replay(upstream).searchSuggest(suggestMobile.query);
-    },
-    shape: {
-      module: 'search_suggest',
-      path: 'body.result.allMatch[0].keyword',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'searchSuggest: a playlist suggestion whose name is numeric',
-    call: () => {
-      const upstream = structuredClone(suggestPlaylists.response.body);
-      (upstream.result.playlists[0] as { name: unknown }).name = 123;
-      return replay(upstream).searchSuggest(suggestPlaylists.query);
-    },
-    shape: {
-      module: 'search_suggest',
-      path: 'body.result.playlists[0].name',
-      expected: 'string',
-      actual: 'number',
-    },
-  },
-  {
-    name: 'searchSuggest: a playlist suggestion without its id',
-    call: () => {
-      const upstream = structuredClone(suggestPlaylists.response.body);
-      delete (upstream.result.playlists[0] as { id?: number }).id;
-      return replay(upstream).searchSuggest(suggestPlaylists.query);
-    },
-    shape: {
-      module: 'search_suggest',
-      path: 'body.result.playlists[0].id',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'searchSuggest: a playlist suggestion without its name',
-    call: () => {
-      const upstream = structuredClone(suggestPlaylists.response.body);
-      delete (upstream.result.playlists[0] as { name?: string }).name;
-      return replay(upstream).searchSuggest(suggestPlaylists.query);
-    },
-    shape: {
-      module: 'search_suggest',
-      path: 'body.result.playlists[0].name',
-      expected: 'present',
-      actual: 'missing',
-    },
-  },
-  {
-    name: 'searchSuggest: playlist suggestions that are null',
-    call: () => {
-      const upstream = structuredClone(suggestPlaylists.response.body);
-      (upstream.result as { playlists: unknown }).playlists = null;
-      return replay(upstream).searchSuggest(suggestPlaylists.query);
-    },
-    shape: {
-      module: 'search_suggest',
-      path: 'body.result.playlists',
-      expected: 'array',
-      actual: 'null',
-    },
-  },
-  {
     name: 'searchSuggest: suggestions that are null',
     call: () =>
       replay({ code: 200, result: null }).searchSuggest(suggestWeb.query),
@@ -436,21 +269,31 @@ test.each<{
   expectUpstreamShapeRejection(call(), shape),
 );
 
-test.each(['id', 'st', 'pl'])(
-  'cloudsearch rejects a nonnumeric song privilege.%s',
+test('cloudsearch treats a song with a nonnumeric privilege id as absent id', async () => {
+  const upstream = structuredClone(searchSong.response.body);
+  (upstream.result.songs[0]!.privilege as Record<string, unknown>).id = '0';
+
+  const result = await replay(upstream).cloudsearch(searchSong.query);
+
+  expect(result.status).toBe(200);
+  expect(result.body.result.songs?.[0]?.privilege as unknown).toBeDefined();
+  expect(
+    result.body.result.songs?.[0]?.privilege as unknown,
+  ).not.toHaveProperty('id');
+});
+
+test.each(['st', 'pl'])(
+  'cloudsearch treats a nonnumeric song privilege.%s as absent',
   async (field) => {
     const upstream = structuredClone(searchSong.response.body);
     (upstream.result.songs[0]!.privilege as Record<string, unknown>)[field] =
       '0';
 
-    await expectUpstreamShapeRejection(
-      replay(upstream).cloudsearch(searchSong.query),
-      {
-        module: 'cloudsearch',
-        path: `body.result.songs[0].privilege.${field}`,
-        expected: 'number',
-        actual: 'string',
-      },
-    );
+    const result = await replay(upstream).cloudsearch(searchSong.query);
+
+    expect(result.status).toBe(200);
+    expect(
+      result.body.result.songs?.[0]?.privilege as unknown,
+    ).not.toHaveProperty(field);
   },
 );

@@ -7,6 +7,7 @@ import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
+// 返回码和二维码 key 收紧。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

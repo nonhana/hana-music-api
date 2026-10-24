@@ -57,7 +57,7 @@ console.log(account.body);
 
 ## 返回内容
 
-登录成功时正文带 `account.id`、`profile` 的 `userId`、`nickname`、`avatarUrl`，以及拼接后的 `cookie`。结构定义和类型是 `LoginCellphoneBody`。
+登录成功时正文带 `account.id`、`profile` 的 `userId`、`nickname`、`avatarUrl`，以及拼接后的 `cookie`。`code`、`cookie`、`account`、`account.id`、`profile`、`profile.userId` 是收紧字段；`nickname`、`avatarUrl`、`bindings`、`hitType`、`loginType`、`token` 等宽松。结构定义和类型是 `LoginCellphoneBody`。
 
 网易云的风控可能拦下登录，这时 SDK 以网易云的原始正文拒绝，`status` 是 400：
 

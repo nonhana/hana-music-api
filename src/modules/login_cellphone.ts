@@ -10,7 +10,12 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { Account, UserProfile } from '../core/upstream-schemas.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
@@ -70,15 +75,16 @@ const inputSchema = Schema.Union([
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
+// 返回码、账号和用户资料的路径及编号收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
-    account: UpstreamObject({ id: Schema.Finite }),
-    profile: UpstreamObject({
-      userId: Schema.Finite,
-      nickname: Schema.String,
-      avatarUrl: Schema.String,
-    }),
+    account: Account,
+    profile: UserProfile,
+    bindings: Loose(Schema.Array(Schema.MutableJson)),
+    hitType: Loose(Schema.Finite),
+    loginType: Loose(Schema.Finite),
+    token: Loose(Schema.String),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
@@ -131,10 +137,14 @@ const loginCellphone: ModuleEffect<ModuleInput, ModuleBody> = (
         actual: 'missing',
       });
     }
+    const responseBody = {
+      ...body,
+      cookie: result.cookie.join(';'),
+    } as ModuleBody;
     return {
       ...toModuleResponse(result),
       status: 200,
-      body: { ...body, cookie: result.cookie.join(';') },
+      body: responseBody,
     };
   });
 

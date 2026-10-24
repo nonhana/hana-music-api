@@ -3,14 +3,20 @@ import { Effect, Schema } from 'effect';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
+// 返回码和喜欢列表收紧。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     ids: Schema.Array(Schema.Finite),
+    checkPoint: Loose(Schema.Finite),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
