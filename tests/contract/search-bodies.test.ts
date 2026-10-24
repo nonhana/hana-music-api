@@ -37,14 +37,19 @@ const replay = (upstream: unknown) =>
     fetcher: async () => Response.json(upstream),
   });
 
-test('searchSuggest treats a playlist suggestion whose id is text as absent', async () => {
+test('searchSuggest rejects a playlist suggestion whose id is text', async () => {
   const upstream = structuredClone(suggestPlaylists.response.body);
   (upstream.result.playlists[0] as { id: unknown }).id = '3172143658';
 
-  const result = await replay(upstream).searchSuggest(suggestPlaylists.query);
-
-  expect(result.status).toBe(200);
-  expect(result.body.result as unknown).not.toHaveProperty('playlists');
+  await expectUpstreamShapeRejection(
+    replay(upstream).searchSuggest(suggestPlaylists.query),
+    {
+      module: 'search_suggest',
+      path: 'body.result.playlists[0].id',
+      expected: 'number',
+      actual: 'string',
+    },
+  );
 });
 
 test('cloudsearch treats a playlist result whose play count is text as absent', async () => {
@@ -137,14 +142,19 @@ test('cloudsearch exposes numeric song privileges', async () => {
   >().toEqualTypeOf<number | null | undefined>();
 });
 
-test('cloudsearch treats an artist with a nonnumeric id as an unusable result', async () => {
+test('cloudsearch rejects an artist whose id is text', async () => {
   const upstream = structuredClone(searchArtist.response.body);
   (upstream.result.artists[0] as { id: unknown }).id = '37063847';
 
-  const result = await replay(upstream).cloudsearch(searchArtist.query);
-
-  expect(result.status).toBe(200);
-  expect(result.body.result as unknown).not.toHaveProperty('artists');
+  await expectUpstreamShapeRejection(
+    replay(upstream).cloudsearch(searchArtist.query),
+    {
+      module: 'cloudsearch',
+      path: 'body.result.artists[0].id',
+      expected: 'number',
+      actual: 'string',
+    },
+  );
 });
 
 test('cloudsearch exposes numeric playlist play counts', async () => {
@@ -175,16 +185,19 @@ test('searchSuggest exposes playlist ids and names', async () => {
   >().toEqualTypeOf<string | null | undefined>();
 });
 
-test('searchSuggest treats an artist whose id is text as an unusable category', async () => {
+test('searchSuggest rejects an artist whose id is text', async () => {
   const upstream = structuredClone(suggestAllCategories.response.body);
   (upstream.result.artists[0] as { id: unknown }).id = '37063847';
 
-  const result = await replay(upstream).searchSuggest(
-    suggestAllCategories.query,
+  await expectUpstreamShapeRejection(
+    replay(upstream).searchSuggest(suggestAllCategories.query),
+    {
+      module: 'search_suggest',
+      path: 'body.result.artists[0].id',
+      expected: 'number',
+      actual: 'string',
+    },
   );
-
-  expect(result.status).toBe(200);
-  expect(result.body.result as unknown).not.toHaveProperty('artists');
 });
 
 test.each<{ name: string; recording: Recording }>([

@@ -36,7 +36,6 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     sfy: Loose(Schema.Boolean),
     sgc: Loose(Schema.Boolean),
     uncollected: Loose(Schema.Boolean),
-    briefDesc: Loose(Schema.MutableJson),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

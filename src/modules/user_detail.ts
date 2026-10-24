@@ -29,7 +29,6 @@ export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
 const ExpertRole = UpstreamObject({
-  level: Loose(Schema.MutableJson),
   roleId: Loose(Schema.Finite),
   roleName: Loose(Schema.String),
 });
@@ -70,11 +69,9 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     createDays: Loose(Schema.Finite),
     createTime: Loose(Schema.Finite),
     currentExpert: Loose(ExpertRole),
-    currentProduct: Loose(Schema.MutableJson),
     expertArray: Loose(Schema.Array(ExpertRole)),
     identify: Loose(
       UpstreamObject({
-        actionUrl: Loose(Schema.MutableJson),
         imageDesc: Loose(Schema.String),
         imageUrl: Loose(Schema.String),
       }),
@@ -88,7 +85,6 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     products: Loose(Schema.Array(UserProduct)),
     profileVillageInfo: Loose(
       UpstreamObject({
-        imageUrl: Loose(Schema.MutableJson),
         targetUrl: Loose(Schema.String),
         title: Loose(Schema.String),
       }),

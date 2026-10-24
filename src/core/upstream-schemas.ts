@@ -25,10 +25,6 @@ export const Artist = UpstreamObject({
   topicPerson: Loose(Schema.Finite),
   trans: Loose(Schema.String),
   transNames: Loose(Schema.Array(Schema.String)),
-  appendRecText: Loose(Schema.MutableJson),
-  fansGroup: Loose(Schema.MutableJson),
-  fansSize: Loose(Schema.MutableJson),
-  recommendText: Loose(Schema.MutableJson),
 });
 
 const Quality = UpstreamObject({
@@ -77,7 +73,7 @@ const PcInfo = UpstreamObject({
   ar: Loose(Schema.String),
   br: Loose(Schema.Finite),
   cid: Loose(Schema.String),
-  cover: Loose(Schema.MutableJson),
+  cover: Loose(Schema.Finite),
   fn: Loose(Schema.String),
   nickname: Loose(Schema.String),
   privateCloud: Loose(PrivateCloud),
@@ -92,7 +88,6 @@ export const SimpleAlbum = UpstreamObject({
   artist: Loose(Artist),
   artists: Loose(Schema.Array(Artist)),
   alias: Loose(Schema.Array(Schema.String)),
-  awardTags: Loose(Schema.MutableJson),
   blurPicUrl: Loose(Schema.String),
   briefDesc: Loose(Schema.String),
   commentThreadId: Loose(Schema.String),
@@ -100,7 +95,6 @@ export const SimpleAlbum = UpstreamObject({
   companyId: Loose(Schema.Finite),
   copyrightId: Loose(Schema.Finite),
   description: Loose(Schema.String),
-  displayTags: Loose(Schema.MutableJson),
   gapless: Loose(Schema.Finite),
   idStr: Loose(Schema.String),
   info: Loose(UpstreamObject({})),
@@ -114,7 +108,6 @@ export const SimpleAlbum = UpstreamObject({
   picUrl: Loose(Schema.String),
   publishTime: Loose(Schema.Finite),
   size: Loose(Schema.Finite),
-  songs: Loose(Schema.Array(Schema.MutableJson)),
   status: Loose(Schema.Finite),
   subType: Loose(Schema.String),
   tags: Loose(Schema.String),
@@ -129,9 +122,7 @@ export const SongPrivilege = UpstreamObject({
   chargeInfoList: Loose(
     Schema.Array(
       UpstreamObject({
-        chargeMessage: Loose(Schema.MutableJson),
         chargeType: Loose(Schema.Finite),
-        chargeUrl: Loose(Schema.MutableJson),
         rate: Loose(Schema.Finite),
       }),
     ),
@@ -169,16 +160,10 @@ export const SongPrivilege = UpstreamObject({
   sp: Loose(Schema.Finite),
   subp: Loose(Schema.Finite),
   toast: Loose(Schema.Boolean),
-  bd: Loose(Schema.MutableJson),
-  dlLevels: Loose(Schema.MutableJson),
-  ignoreCache: Loose(Schema.MutableJson),
-  message: Loose(Schema.MutableJson),
-  pc: Loose(Schema.MutableJson),
-  plLevels: Loose(Schema.MutableJson),
 });
 
-// 歌曲里嵌的权限：清单要求 privilege 本身和它里面的 st/pl 都宽松，但 privileges 列表里的 id 仍收紧。
-const EmbeddedSongPrivilege = UpstreamObject({
+// 宽松容器里嵌着的权限：记录编号也宽松。
+export const LooseSongPrivilege = UpstreamObject({
   ...SongPrivilege.schema.fields,
   id: Loose(Schema.Finite),
 });
@@ -210,7 +195,6 @@ export const Song = UpstreamObject({
   cp: Loose(Schema.Finite),
   djId: Loose(Schema.Finite),
   displayReason: Loose(Schema.String),
-  displayTags: Loose(Schema.Array(Schema.MutableJson)),
   duration: Loose(Schema.Finite),
   ftype: Loose(Schema.Finite),
   h: Loose(Quality),
@@ -219,7 +203,6 @@ export const Song = UpstreamObject({
   m: Loose(Quality),
   mainTitle: Loose(Schema.String),
   mark: Loose(Schema.Finite),
-  markTags: Loose(Schema.Array(Schema.MutableJson)),
   mst: Loose(Schema.Finite),
   mv: Loose(Schema.Finite),
   mvid: Loose(Schema.Finite),
@@ -245,13 +228,12 @@ export const Song = UpstreamObject({
   ),
   pc: Loose(PcInfo),
   pop: Loose(Schema.Finite),
-  privilege: Loose(EmbeddedSongPrivilege),
+  privilege: Loose(LooseSongPrivilege),
   pst: Loose(Schema.Finite),
   reason: Loose(Schema.String),
   recommendReason: Loose(Schema.String),
   resourceState: Loose(Schema.Boolean),
   rt: Loose(Schema.String),
-  rtUrls: Loose(Schema.Array(Schema.MutableJson)),
   rtype: Loose(Schema.Finite),
   s_id: Loose(Schema.Finite),
   single: Loose(Schema.Finite),
@@ -262,21 +244,17 @@ export const Song = UpstreamObject({
   transNames: Loose(Schema.Array(Schema.String)),
   v: Loose(Schema.Finite),
   version: Loose(Schema.Finite),
-  a: Loose(Schema.MutableJson),
-  awardTags: Loose(Schema.MutableJson),
-  crbt: Loose(Schema.MutableJson),
-  entertainmentTags: Loose(Schema.MutableJson),
-  rUrl: Loose(Schema.MutableJson),
-  rtUrl: Loose(Schema.MutableJson),
-  rurl: Loose(Schema.MutableJson),
-  songFeature: Loose(Schema.MutableJson),
-  songJumpInfo: Loose(Schema.MutableJson),
-  tagPicList: Loose(Schema.MutableJson),
+});
+
+// 歌单里嵌着的歌曲：宽松容器里的记录，编号也宽松。
+const PlaylistTrack = UpstreamObject({
+  ...Song.schema.fields,
+  id: Loose(Schema.Finite),
 });
 
 const AuthType = UpstreamObject({
   desc: Loose(Schema.String),
-  tags: Loose(Schema.Array(Schema.MutableJson)),
+  tags: Loose(Schema.Array(Schema.String)),
   type: Loose(Schema.Finite),
 });
 
@@ -324,7 +302,7 @@ export const PlaylistUser = UpstreamObject({
   mutual: Loose(Schema.Boolean),
   expertTags: Loose(Schema.Array(Schema.String)),
   avatarDetail: Loose(AvatarDetail),
-  experts: Loose(Schema.Record(Schema.String, Schema.MutableJson)),
+  experts: Loose(Schema.Record(Schema.String, Schema.String)),
 });
 export type PlaylistUser = typeof PlaylistUser.Type;
 
@@ -380,7 +358,7 @@ export const UserProfile = UpstreamObject({
   detailDescription: Loose(Schema.String),
   djStatus: Loose(Schema.Finite),
   eventCount: Loose(Schema.Finite),
-  experts: Loose(Schema.Record(Schema.String, Schema.MutableJson)),
+  experts: Loose(Schema.Record(Schema.String, Schema.String)),
   followMe: Loose(Schema.Boolean),
   followed: Loose(Schema.Boolean),
   followeds: Loose(Schema.Finite),
@@ -456,7 +434,6 @@ export const PlaylistSummary = UpstreamObject({
   coverStatus: Loose(Schema.Finite),
   detailPageTitle: Loose(Schema.String),
   displayUserInfoAsTagOnly: Loose(Schema.Boolean),
-  distributeTags: Loose(Schema.Array(Schema.MutableJson)),
   gradeStatus: Loose(Schema.String),
   mixPodcastPlaylist: Loose(Schema.Boolean),
   officialPlaylistType: Loose(Schema.String),
@@ -469,28 +446,23 @@ export const PlaylistSummary = UpstreamObject({
   shareStatus: Loose(Schema.Finite),
   top: Loose(Schema.Boolean),
   totalDuration: Loose(Schema.Finite),
-  tracks: Loose(Schema.Array(Song)),
+  tracks: Loose(Schema.Array(PlaylistTrack)),
   trialMode: Loose(Schema.Finite),
   uiPlaylistType: Loose(Schema.String),
 });
 export type PlaylistSummary = typeof PlaylistSummary.Type;
 
 const CommentThreadResourceInfo = UpstreamObject({
-  creator: Loose(Schema.MutableJson),
-  encodedId: Loose(Schema.MutableJson),
   id: Loose(Schema.Finite),
   imgUrl: Loose(Schema.String),
   name: Loose(Schema.String),
-  subTitle: Loose(Schema.MutableJson),
   userId: Loose(Schema.Finite),
-  webUrl: Loose(Schema.MutableJson),
 });
 
 const CommentThread = UpstreamObject({
   commentCount: Loose(Schema.Finite),
   hotCount: Loose(Schema.Finite),
   id: Loose(Schema.String),
-  latestLikedUsers: Loose(Schema.MutableJson),
   likedCount: Loose(Schema.Finite),
   resourceId: Loose(Schema.Finite),
   resourceInfo: Loose(CommentThreadResourceInfo),
@@ -503,8 +475,6 @@ const CommentThread = UpstreamObject({
 export const AlbumInfo = UpstreamObject({
   commentCount: Loose(Schema.Finite),
   commentThread: Loose(CommentThread),
-  comments: Loose(Schema.MutableJson),
-  latestLikedUsers: Loose(Schema.MutableJson),
   liked: Loose(Schema.Boolean),
   likedCount: Loose(Schema.Finite),
   resourceId: Loose(Schema.Finite),

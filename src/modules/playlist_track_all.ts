@@ -14,7 +14,7 @@ import {
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
-import { Song, SongPrivilege } from '../core/upstream-schemas.ts';
+import { LooseSongPrivilege, Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
   IdentifierQuery,
@@ -38,12 +38,12 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-// 通到歌曲列表的路径、每首歌的编号收紧；其余字段宽松（共用 `Song`）。
+// 通到歌曲列表的路径、每首歌的编号收紧；其余字段宽松（共用 `Song`），`privileges` 里的编号也宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     songs: Schema.Array(Song),
-    privileges: Loose(Schema.Array(SongPrivilege)),
+    privileges: Loose(Schema.Array(LooseSongPrivilege)),
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;

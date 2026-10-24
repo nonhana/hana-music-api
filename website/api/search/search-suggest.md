@@ -47,7 +47,7 @@ console.log(result.body);
 
 默认按类别给建议：`body.result` 里的 `songs`、`artists`、`albums` 各是一类，每项声明了 `id`、`name`。`type` 传 `mobile` 时只给关键词建议 `allMatch`，每项声明了 `keyword`。
 
-只有 `code`、`result`、每项建议的 `id` 和 `allMatch[].keyword` 收紧；建议的 `name`、各列表和 `result.order` 都是宽松字段。哪一类没有建议，这一类就整个缺失；完全没有建议时 `result` 是空对象 `{}`，所以这些字段在类型里都是可选的。按类别给建议时有时还有 `playlists`（歌单），以及表示类别先后的 `order`，都已按宽松字段声明。
+只有 `code`、`result` 收紧；建议列表是可以没有的路径：缺失或为 `null` 时照常返回，出现了就按每项建议的 `id`（`allMatch` 是 `keyword`）收紧校验，坏一条记录会报 502，不会整列消失。建议的 `name` 和 `result.order` 是宽松字段；各列表可以缺失或为 `null`，出现了就按记录收紧。哪一类没有建议，这一类就整个缺失或为 `null`；完全没有建议时 `result` 是空对象 `{}`，所以这些字段在类型里都是可选的。按类别给建议时有时还有 `playlists`（歌单），以及表示类别先后的 `order`，都已按宽松字段声明。
 
 ## 补充说明
 

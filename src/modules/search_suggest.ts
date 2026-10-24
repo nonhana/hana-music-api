@@ -6,6 +6,7 @@ import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
   Loose,
+  Optional,
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import { AlbumSummary, Artist, SimpleAlbum } from '../core/upstream-schemas.ts';
@@ -66,17 +67,18 @@ const AllMatch = UpstreamObject({
 });
 
 // 通到 `result` 的路径、每条建议的编号和关键词收紧；其余字段宽松。
-// 默认按类别给 songs、artists、albums、playlists，type 为 mobile 时只给关键词 allMatch；哪一类没有建议就整个缺失，都没有时 result 是空对象。
+// 默认按类别给 songs、artists、albums、playlists，type 为 mobile 时只给关键词 allMatch；哪一类没有建议就整个缺失或是 null，都没有时 result 是空对象。
+// 这些列表是可以没有的路径：出现了就按每条建议的编号或关键词收紧校验，坏一条报错，不会整列消失。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
     result: UpstreamObject({
-      songs: Loose(Schema.Array(SuggestedSong)),
-      artists: Loose(Schema.Array(SuggestedArtist)),
-      albums: Loose(Schema.Array(AlbumSummary)),
-      playlists: Loose(Schema.Array(SuggestedPlaylist)),
-      allMatch: Loose(Schema.Array(AllMatch)),
-      order: Loose(Schema.Array(Schema.MutableJson)),
+      songs: Optional(Schema.Array(SuggestedSong)),
+      artists: Optional(Schema.Array(SuggestedArtist)),
+      albums: Optional(Schema.Array(AlbumSummary)),
+      playlists: Optional(Schema.Array(SuggestedPlaylist)),
+      allMatch: Optional(Schema.Array(AllMatch)),
+      order: Loose(Schema.Array(Schema.String)),
     }),
   }),
 );

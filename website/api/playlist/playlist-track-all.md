@@ -56,6 +56,6 @@ console.log(result.body);
 
 ## 返回内容
 
-`body` 是第二次读取（歌曲详情）的返回，声明了 `code`、`songs` 和宽松的 `privileges`，每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”。只有 `code`、`songs`、`songs[].id` 收紧。结构定义和类型是 `PlaylistTrackAllBody`。
+`body` 是第二次读取（歌曲详情）的返回，声明了 `code`、`songs` 和宽松的 `privileges`，每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”。只有 `code`、`songs`、`songs[].id` 收紧；`privileges` 是宽松字段，里面每项权限的 `id` 也宽松。结构定义和类型是 `PlaylistTrackAllBody`。
 
 第一次读取的歌单详情里，`trackIds` 不是数组、或者本页要用的某一项没有编号时，同样以 `status: 502` 拒绝，不会发出第二次读取。

@@ -33,7 +33,6 @@ const SubscribedAlbum = UpstreamObject({
   size: Loose(Schema.Finite),
   artists: Loose(Schema.Array(Artist)),
   alias: Loose(Schema.Array(Schema.String)),
-  msg: Loose(Schema.Array(Schema.MutableJson)),
   picId: Loose(Schema.Finite),
   subTime: Loose(Schema.Finite),
   transNames: Loose(Schema.Array(Schema.String)),

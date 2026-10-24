@@ -103,14 +103,6 @@ export const SongUrlData = UpstreamObject({
   time: Loose(Schema.Finite),
   type: Loose(Schema.String),
   urlSource: Loose(Schema.Finite),
-  accompany: Loose(Schema.MutableJson),
-  channelLayout: Loose(Schema.MutableJson),
-  effectTypes: Loose(Schema.MutableJson),
-  immerseType: Loose(Schema.MutableJson),
-  levelConfuse: Loose(Schema.MutableJson),
-  message: Loose(Schema.MutableJson),
-  podcastCtrp: Loose(Schema.MutableJson),
-  uf: Loose(Schema.MutableJson),
 });
 
 export const ModuleBody = Schema.toStandardSchemaV1(

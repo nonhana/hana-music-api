@@ -68,7 +68,7 @@ test('loose fields treat a value of the wrong type as missing', () => {
   expect(value.album).not.toHaveProperty('description');
 });
 
-test('loose list fields treat an invalid strict element as a missing list', () => {
+test('lists that may be missing still reject an invalid record when present', () => {
   const upstream = clone(searchSong.response.body);
   (upstream.result.songs[0] as { id: unknown }).id = '1409311773';
 
@@ -77,8 +77,7 @@ test('loose list fields treat an invalid strict element as a missing list', () =
   if (result instanceof Promise) {
     throw new Error('Standard Schema validation must be synchronous');
   }
-  expect(result.issues).toBeUndefined();
-  expect((result.value as typeof upstream).result).not.toHaveProperty('songs');
+  expect(result.issues).toHaveLength(1);
 });
 
 test('strict fields reject a missing value', () => {

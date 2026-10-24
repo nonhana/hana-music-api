@@ -28,10 +28,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
       algReturnDemote: Loose(Schema.Boolean),
       demote: Loose(Schema.Boolean),
       fromCache: Loose(Schema.Boolean),
-      orderSongs: Loose(Schema.Array(Schema.MutableJson)),
       recommendReasons: Loose(Schema.Array(RecommendReason)),
-      dailyRecommendInfo: Loose(Schema.MutableJson),
-      mvResourceInfos: Loose(Schema.MutableJson),
     }),
   }),
 );
