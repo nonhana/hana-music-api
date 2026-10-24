@@ -8,15 +8,7 @@ import {
 } from '../../index.ts';
 import type { SongDetailBody } from '../../index.ts';
 import type { Validator } from '../_kit/assertions.ts';
-
-const validate = (schema: Validator, input: unknown) => {
-  const result = schema['~standard'].validate(input);
-  expect(result).not.toBeInstanceOf(Promise);
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
-  return result as { value?: unknown; issues?: ReadonlyArray<unknown> };
-};
+import { validateSync } from '../_kit/assertions.ts';
 
 type NestedCase = {
   readonly name: string;
@@ -85,7 +77,7 @@ for (const { name, schema, body, records } of cases) {
     const upstream = body();
     delete records(upstream)[0]!.id;
 
-    const result = validate(schema, upstream);
+    const result = validateSync(schema, upstream);
 
     expect(result.issues).toBeUndefined();
     const [record] = records(result.value);
@@ -97,7 +89,7 @@ for (const { name, schema, body, records } of cases) {
     const upstream = body();
     records(upstream)[0]!.id = '2';
 
-    const result = validate(schema, upstream);
+    const result = validateSync(schema, upstream);
 
     expect(result.issues).toBeUndefined();
     const [record] = records(result.value);
@@ -109,7 +101,7 @@ for (const { name, schema, body, records } of cases) {
     const upstream = body();
     records(upstream)[0]!.id = null;
 
-    const result = validate(schema, upstream);
+    const result = validateSync(schema, upstream);
 
     expect(result.issues).toBeUndefined();
     expect(records(result.value)[0]?.id).toBeNull();

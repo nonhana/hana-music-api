@@ -8,7 +8,7 @@
 
 - **搜索结果的列表改成“可以没有”**：云搜索的 `result.songs`、`result.albums`、`result.artists`、`result.playlists`，以及搜索建议的 `result.songs`、`result.artists`、`result.albums`、`result.playlists`、`result.allMatch`，缺失或为 `null` 时照常返回；出现了仍按每条记录的编号（`allMatch` 是 `keyword`）收紧校验。坏一条记录时返回 `UnexpectedUpstreamShape`（`status: 502`），不再让整列消失。这些列表的类型变为 `ReadonlyArray<T> | null | undefined`。
 - **记录里套着的编号也宽松**：`playlist_create`、`playlist_detail`、`user_playlist` 的 `playlist.tracks[].id`，以及 `playlist_detail`、`playlist_track_all` 的 `privileges[].id`，类型从 `number` 变成 `number | null | undefined`。编号缺失或类型不对时只丢这个编号，不影响外层歌单或权限项。
-- 删除只见过 `null`、猜不出类型的字段声明（`crbt`、`rtUrl`、`songJumpInfo`、`songFeature`、`fansGroup` 等 51 个字段名），它们继续作为未声明字段原样保留。没有字段再声明成 `Schema.MutableJson`。
+- 删除只见过 `null`、猜不出类型的字段声明（`crbt`、`rtUrl`、`songJumpInfo`、`songFeature`、`fansGroup`、`sharedUsers`、`shareStatus` 等字段），以及只见过空数组、元素类型猜不出的字段声明（`rtUrls`、`displayTags`、`orderSongs`、`distributeTags`、`msg` 等）。它们继续作为未声明字段原样保留。没有字段再声明成 `Schema.MutableJson`。
 - `experts`、`authType.tags`、登录 `bindings`、搜索建议 `order` 等字段按录制里实际出现的值声明为字符串、字符串数组或对象数组。
 
 ### 迁移

@@ -311,18 +311,6 @@ export const PlaylistUser = UpstreamObject({
 });
 export type PlaylistUser = typeof PlaylistUser.Type;
 
-export const Binding = UpstreamObject({
-  bindingTime: Loose(Schema.Finite),
-  expired: Loose(Schema.Boolean),
-  expiresIn: Loose(Schema.Finite),
-  id: Loose(Schema.Finite),
-  refreshTime: Loose(Schema.Finite),
-  tokenJsonStr: Loose(Schema.String),
-  type: Loose(Schema.Finite),
-  url: Loose(Schema.String),
-  userId: Loose(Schema.Finite),
-});
-
 export const Account = UpstreamObject({
   id: Schema.Finite,
   anonimousUser: Loose(Schema.Boolean),
@@ -459,8 +447,6 @@ export const PlaylistSummary = UpstreamObject({
   recommendInfo: Loose(UpstreamObject({})),
   relateResType: Loose(Schema.String),
   shareCount: Loose(Schema.Finite),
-  sharedUsers: Loose(UpstreamObject({})),
-  shareStatus: Loose(Schema.Finite),
   top: Loose(Schema.Boolean),
   totalDuration: Loose(Schema.Finite),
   tracks: Loose(Schema.Array(PlaylistTrack)),

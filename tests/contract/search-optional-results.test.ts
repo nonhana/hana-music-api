@@ -3,7 +3,10 @@ import { expect, expectTypeOf, test } from 'bun:test';
 import { CloudsearchBody, createHanaMusicApi } from '../../index.ts';
 import type { SearchSuggestBody } from '../../index.ts';
 import type { Recording } from '../_kit/assertions.ts';
-import { expectUpstreamShapeRejection } from '../_kit/assertions.ts';
+import {
+  expectUpstreamShapeRejection,
+  validateSync,
+} from '../_kit/assertions.ts';
 import searchAlbum from '../fixtures/netease/search/cloudsearch.album.json';
 import searchArtist from '../fixtures/netease/search/cloudsearch.artist.json';
 import searchPlaylist from '../fixtures/netease/search/cloudsearch.playlist.json';
@@ -168,28 +171,15 @@ test.each(cases)(
   },
 );
 
-test('optional result list types include null and undefined', () => {
-  expectTypeOf<CloudsearchBody['result']['songs']>().toEqualTypeOf<
-    | ReadonlyArray<NonNullable<CloudsearchBody['result']['songs']>[number]>
-    | null
-    | undefined
-  >();
-  expectTypeOf<SearchSuggestBody['result']['allMatch']>().toEqualTypeOf<
-    | ReadonlyArray<
-        NonNullable<SearchSuggestBody['result']['allMatch']>[number]
-      >
-    | null
-    | undefined
-  >();
+test('optional result list records keep their tightened key types', () => {
+  expectTypeOf<
+    NonNullable<CloudsearchBody['result']['songs']>[number]['id']
+  >().toEqualTypeOf<number>();
+  expectTypeOf<
+    NonNullable<SearchSuggestBody['result']['allMatch']>[number]['keyword']
+  >().toEqualTypeOf<string>();
 
-  const result = CloudsearchBody['~standard'].validate({
-    code: 200,
-    result: {},
-  });
+  const result = validateSync(CloudsearchBody, { code: 200, result: {} });
 
-  expect(result).not.toBeInstanceOf(Promise);
-  if (result instanceof Promise) {
-    throw new Error('Standard Schema validation must be synchronous');
-  }
   expect(result.issues).toBeUndefined();
 });

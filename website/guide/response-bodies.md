@@ -59,7 +59,7 @@
 
 专辑记录（`album`、`hotAlbums`、云搜索的 `albums`）另外声明了宽松字段 `company`（唱片公司，没写时是空串）；`album_sublist` 的录制里没有这个字段，因此没有声明。
 
-只出现过 `null`、没录到非 `null` 值的字段（如 `crbt`、`rtUrl`、`songJumpInfo`、`songFeature`）没有声明，仍会作为未声明字段原样保留在返回体里。
+只出现过 `null`、没录到非 `null` 值的字段（如 `crbt`、`rtUrl`、`songJumpInfo`、`songFeature`）没有声明，仍会作为未声明字段原样保留在返回体里；只出现过空数组、元素类型猜不出的字段（如 `rtUrls`、`displayTags`）也一样。
 
 歌手和专辑的编号和名字都可能缺失或为 `null`：传到云盘、没有匹配上曲库的歌（网易云返回的 `t` 是 1），歌手和专辑的编号是 0，名字是 `null`。这种歌只有上传者本人登录时能看到歌名；别人看、或者没有有效登录时，歌名也可能是 `null`。这些字段宽松后都不会再让整页 502。
 

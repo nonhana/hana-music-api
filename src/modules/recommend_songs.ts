@@ -16,7 +16,6 @@ const RecommendReason = UpstreamObject({
   reason: Loose(Schema.String),
   reasonId: Loose(Schema.String),
   songId: Loose(Schema.Finite),
-  targetUrl: Loose(Schema.String),
 });
 
 // 通到每日歌曲列表的路径、每首歌的编号收紧；其余字段宽松。

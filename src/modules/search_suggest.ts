@@ -25,7 +25,6 @@ const SuggestedSong = UpstreamObject({
   ftype: Loose(Schema.Finite),
   mark: Loose(Schema.Finite),
   mvid: Loose(Schema.Finite),
-  rUrl: Loose(Schema.String),
   rtype: Loose(Schema.Finite),
   status: Loose(Schema.Finite),
   transNames: Loose(Schema.Array(Schema.String)),

@@ -16,7 +16,6 @@ const Category = UpstreamObject({
   category: Loose(Schema.Finite),
   hot: Loose(Schema.Boolean),
   imgId: Loose(Schema.Finite),
-  imgUrl: Loose(Schema.String),
   name: Schema.String,
   resourceCount: Loose(Schema.Finite),
   resourceType: Loose(Schema.Finite),
