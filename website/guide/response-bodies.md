@@ -130,6 +130,7 @@
 | [获取点赞过的视频](/api/playlist/playlist-mylike)           | `PlaylistMylikeBody`          | `code`、`data`；`feeds` 只见过空数组，元素类型猜不出，没有声明                            |
 | [歌单收藏者](/api/playlist/playlist-subscribers)            | `PlaylistSubscribersBody`     | `code`、`subscribers`、`subscribers[].userId`                                             |
 | [最近播放的视频](/api/playlist/playlist-video-recent)       | `PlaylistVideoRecentBody`     | `code`、`data`、`data.videos`、`data.videos[].mlogBaseData.id`                            |
+| [歌单 (网友精选碟)](/api/playlist/top-playlist)             | `TopPlaylistBody`             | `code`、`playlists`、`playlists[].id`                                                     |
 
 `playlist_detail_dynamic` 只有返回码收紧，正文是扁平的计数和状态：`bookedCount`、`commentCount`、`followed`、`gradeStatus`、`playCount`、`shareCount`、`subscribed` 都是宽松字段；`remarkName`、`remixVideo` 只见过 `null`，没有声明。正文没有列表，本批录制与探测未发现可达的空结果。非 null 路径与类型相同；登录探测只在宽松字段上出现不同值（`subscribed` 从 `false` 变成 `true`），登录对照录制已删除。
 
@@ -142,6 +143,8 @@
 `playlist_subscribers` 的 `subscribers` 和每个收藏者自己的编号 `subscribers[].userId` 收紧，其余收藏者字段沿用 `PlaylistUser` 的宽松写法（`avatarDetail`、`experts` 在收藏者录制里只见过 `null`，仍保留在共享结构里），`subscribeTime` 是模块内补的宽松字段；`total`、`more`、`reason` 是分页和降级提示，宽松。匿名视角的 `total` 上限是 30：`offset=0` 返回 20 条（`more: true`），`offset=20` 仍返回 10 条，但带 `reason: needLogin`、`more: false`；`offset=40/60/100` 返回空数组、`total: 0` 和 `reason: needLogin`。登录后 `total` 是完整数量（同歌单 2000，录制 `playlist_subscribers.authenticated-page-one.json`）；登录 `offset=100000` 返回空数组和 `total: 0`（`playlist_subscribers.empty.json`）。非 null 路径与类型相同；登录只在宽松字段上多出现 null 或不同值（`total` 等）。
 
 `playlist_video_recent` 需要登录：匿名调用返回 `code: 200`、`data.videos: []`（`playlist_video_recent.anonymous.json`），所以元素字段的证据只来自登录录制。`data.videos` 和每段视频自己的编号 `mlogBaseData.id`（字符串）收紧；`mlogExtVO`、`mlogBaseData` 的其余字段和 `mlogBaseData.videos[]` 里的码流全部宽松；`userProfile`、`relatedPubUsers`、`mlogPlaylists`、`source`、`audio`、`coverDetail` 等只见过 `null`，没有声明。非空录制非连续保留 5 段视频（索引 0/1/20/21/26，原始 31 段，见 `context.truncated`）。
+
+`top_playlist` 的 `playlists` 和每个歌单自己的编号 `playlists[].id` 收紧，歌单摘要共用 `PlaylistSummary`，并在模块内补了宽松的 `alg`、`backgroundImageId`、`originalCoverId`、`tsSongCount`；`total`、`more`、回显的 `cat` 宽松。模块只在成功返回体里把 `avatarImgId_str`（`creator`、`subscribers[]`）改写成 `avatarImgIdStr`，`TopPlaylistBody` 描述的是改写后的最终体，录制保存上游原文，契约测试用显式转换比较；业务拒绝的正文原样透传。`order=new` 返回真实空结果：`playlists: []`、`total: 0`、`more: false`（`top_playlist.empty.json`）。`order=hot` 下 `offset=680` 是真实尾页（6 条，含 `14089582600`，`more: false`，`top_playlist.last-page.json`）；`offset>=686` 返回本批录制里的另一份固定 6 条兜底列表（`18271967084` 等，与尾页不同，`limit` 不生效，`more: true`，`top_playlist.beyond-last-page.json`、`top_playlist.fallback-ignores-limit.json`）。`limit`/`offset` 等非数字参数时上游回 HTTP 400 和空字符串正文，网易云把它归一成 `status: 200`、`body: ''`，作为独立分支保留，不报 502（`top_playlist.invalid-limit.json`）。登录与匿名返回相同顶层键，条目顺序和值因个性化不同；登录录制里出现 `subscribed: true`，`creator.experts` 的键 `1`、`2` 都出现过，匿名只有键 `2`（`top_playlist.anonymous.json`）。
 
 ### 歌单编辑与收藏
 

@@ -791,7 +791,10 @@ import type {
   ModuleBody as topMvBody,
   ModuleInput as topMvInput,
 } from '../../modules/top_mv.ts';
-import type { ModuleInput as topPlaylistInput } from '../../modules/top_playlist.ts';
+import type {
+  ModuleBody as topPlaylistBody,
+  ModuleInput as topPlaylistInput,
+} from '../../modules/top_playlist.ts';
 import type {
   ModuleBody as topPlaylistHighqualityBody,
   ModuleInput as topPlaylistHighqualityInput,
@@ -3050,7 +3053,7 @@ export interface GeneratedModuleContractMap {
   top_playlist: {
     input: topPlaylistInput;
     query: topPlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topPlaylistBody>;
   };
   top_playlist_highquality: {
     input: topPlaylistHighqualityInput;

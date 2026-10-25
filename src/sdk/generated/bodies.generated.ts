@@ -172,6 +172,7 @@ export { ModuleBody as TopAlbumBody } from '../../modules/top_album.ts';
 export { ModuleBody as TopArtistsBody } from '../../modules/top_artists.ts';
 export { ModuleBody as TopListBody } from '../../modules/top_list.ts';
 export { ModuleBody as TopMvBody } from '../../modules/top_mv.ts';
+export { ModuleBody as TopPlaylistBody } from '../../modules/top_playlist.ts';
 export { ModuleBody as TopPlaylistHighqualityBody } from '../../modules/top_playlist_highquality.ts';
 export { ModuleBody as TopSongBody } from '../../modules/top_song.ts';
 export { ModuleBody as TopicDetailBody } from '../../modules/topic_detail.ts';
