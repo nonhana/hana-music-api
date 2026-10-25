@@ -1,0 +1,24 @@
+{
+  "module": "dj_program",
+  "query": {
+    "rid": 792544462,
+    "limit": 10,
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:27:43.088Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B12：电台节目列表越界分页的空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "count": 0,
+      "programs": [],
+      "more": false
+    }
+  }
+}

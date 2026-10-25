@@ -45,6 +45,10 @@ const result = await djProgram({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到节目列表的 `body.programs` 和每个节目自己的编号 `programs[].id` 收紧。节目记录共用 `DjProgram`，已声明字段宽松，未声明字段原样保留（JSON）：`mainSong`（旧版歌曲，含 `album`、`artists` 和 `bMusic`/`lMusic`/`mMusic`/`hMusic` 四个音质档）、`dj` 主播、参与主播 `participateAnchors`（元素只声明 `userId`、`type`、`anchorInfo`）和 `radio` 电台摘要。`programDesc` 是简介图文列表，和电台摘要的 `descPicList` 共用同一份条目声明（`timeStamp` 只见过 `null`）；`specialTags` 是字符串数组。`icon` 是对象但子字段只见过 `null`，`songTimeStamps`、`titbits`、`videoInfo`、`adIconInfo`、`programGuests` 只见过 `null`，`songs` 只见过空数组，都没有声明。`count`、`more` 宽松。越界分页返回 `programs: []`（录制 `dj_program.empty.json`），数组本身允许为空；缺少 `rid` 时上游返回 HTTP 200、正文 `code: 400`（录制 `dj_program.missing-rid.json`），SDK 按业务拒绝转交 `status: 400`，正文仍是网易云原文。录制按字段覆盖保留非连续子集（索引 22/0/29，原始 30 条），见 `context.truncated`。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入`rid`, 可查看对应电台的电台节目以及对应的 id, 需要

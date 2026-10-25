@@ -1,0 +1,132 @@
+{
+  "module": "dj_difm_all_style_channel",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T15:27:53.463Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B12：DI.FM 分类频道；保留覆盖各字段的 style 子集（索引 1），channels 未截取",
+    "truncated": [
+      {
+        "path": "body.data[].styles",
+        "length": 15
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [
+        {
+          "source": 0,
+          "styles": [
+            {
+              "id": 1015,
+              "name": "Ambient",
+              "source": 0,
+              "chineseName": "氛围",
+              "show": 2,
+              "description": "Ambient 氛围电子乐，源于70年代艺术家们的一种实验性的电子合成音乐，是一种拥有开阔空间让创作者自由发挥的电子音乐，尤其关注声音材质、相对无规律，无歌词或谱曲。氛围音乐包含的元素有Electronic(基础电子)、Easy Listening(经典轻音乐)、Minimal Music(极简音乐)、Experimental Music(实验音乐)、Dub（回响）以及Rock（摇滚）式的稀疏沉重鼓点。这类音乐侧重音调的平稳性以及环境的渲染，节奏极其舒缓；同时一个明显的特征是习惯采样各种天然的音色，听感或飘渺空旷或幽暗神秘，因此我们称其为“氛围音乐”，由于以早期电子音色为根基，从而被视为电音中一个代表性流派。尤其重要的是，它对后来 Ambient House、Ambient Techno、Chill-out、Downtempo、Trance 等主流曲风的形成有着奠基级别的意义。\n代表人物有 Deuter、Fripp & Eno、Northcape、Lustmord等。",
+              "radar": [],
+              "channels": [
+                {
+                  "id": 1012,
+                  "name": "Ambient",
+                  "cover": "https://p1.music.126.net/2E8I_HGSNXPGJ7NVIh7r5w==/109951163622753609.jpg",
+                  "blurCover": "https://music.163.com/api/dj/img/blur/109951163622753609",
+                  "chineseName": "氛围音乐",
+                  "description": "源于70年代艺术家们的一种实验性的电子合成音乐，是一种拥有开阔空间让创作者自由发挥的电子音乐，尤其关注声音材质、相对无规律，无歌词或谱曲。氛围音乐包含的元素有Electronic(基础电子)、Easy Listening(经典轻音乐)、Minimal Music(极简音乐)、Experimental Music(实验音乐)、Dub（回响）以及Rock（摇滚）式的稀疏沉重鼓点。这类音乐侧重音调的平稳性以及环境的渲染，节奏极其舒缓；同时一个明显的特征是习惯采样各种天然的音色，听感或飘渺空旷或幽暗神秘，因此我们称其为“氛围音乐”，由于以早期电子音色为根基，从而被视为电音中一个代表性流派。尤其重要的是，它对后来 Ambient House、Ambient Techno、Chill-out、Downtempo、Trance 等主流曲风的形成有着奠基级别的意义。\n代表性制作人： Deuter、Fripp & Eno、Northcape、Lustmord等。",
+                  "source": 0,
+                  "radar": [3, 1, 5, 2, 1]
+                },
+                {
+                  "id": 1064,
+                  "name": "Space Dreams",
+                  "cover": "https://p1.music.126.net/QhSrFYSLR1SBJ2HUr3mR9g==/109951163622745825.jpg",
+                  "blurCover": "https://music.163.com/api/dj/img/blur/109951163622745825",
+                  "chineseName": "宇宙梦幻",
+                  "description": "在 Ambient富有感染力的基础上，增加充满未来感的旋律。",
+                  "source": 0,
+                  "radar": [4, 2, 5, 3, 2]
+                },
+                {
+                  "id": 10285,
+                  "name": "Psybient",
+                  "cover": "https://p1.music.126.net/FYPqsBJ19DcBmt8kGpKmqg==/109951163622748269.jpg",
+                  "blurCover": "https://music.163.com/api/dj/img/blur/109951163622748269",
+                  "chineseName": "迷幻氛围音乐",
+                  "description": "在 Ambient平稳音调和舒缓节奏中重点表现迷幻特点的音乐。",
+                  "source": 0,
+                  "radar": [2, 1, 5, 2, 2]
+                },
+                {
+                  "id": 1067,
+                  "name": "PsyChill",
+                  "cover": "https://p1.music.126.net/upZSVtEmxe_E7bpZr2cF_A==/109951163622746800.jpg",
+                  "blurCover": "https://music.163.com/api/dj/img/blur/109951163622746800",
+                  "chineseName": "迷幻驰放",
+                  "description": "一种低速Psytrance流派，沿袭其致幻的回响节奏，极大程度融合了Chillout、Ambient元素。",
+                  "source": 0,
+                  "radar": [3, 1, 5, 2, 2]
+                },
+                {
+                  "id": 10280,
+                  "name": "Electronic Pioneers",
+                  "cover": "https://p1.music.126.net/Bp879t3HqhuqA85JspzenA==/109951163622747290.jpg",
+                  "blurCover": "https://music.163.com/api/dj/img/blur/109951163622747290",
+                  "chineseName": "电子先驱",
+                  "description": "电音领域的早期开拓性和实验音乐的精选合集。",
+                  "source": 0,
+                  "radar": [1, 2, 4, 1, 2]
+                },
+                {
+                  "id": 10509,
+                  "name": "PsyDub",
+                  "cover": "https://p1.music.126.net/8X4AB_OpB3HxkgutiY3PDw==/109951164812021692.jpg",
+                  "blurCover": "https://music.163.com/api/dj/img/blur/109951164812021692",
+                  "chineseName": "",
+                  "description": null,
+                  "source": 0,
+                  "radar": null
+                },
+                {
+                  "id": 10292,
+                  "name": "Future Garage",
+                  "cover": "https://p1.music.126.net/yVJMVHwICOsN5n-8VPmgmw==/109951163622750216.jpg",
+                  "blurCover": "https://music.163.com/api/dj/img/blur/109951163622750216",
+                  "chineseName": "未来车库",
+                  "description": "在 UK Garage 的基础上加入了 2-Step Garage 的柔和，并加入了一些比如DarkSwing、Grime、PostDubstep、IDM、Ambient、Chillout、Drumstep、Trip Hop、Dub Techno 等元素之后发展为现在的样子。",
+                  "source": 0,
+                  "radar": [3, 2, 5, 2, 2]
+                },
+                {
+                  "id": 1068,
+                  "name": "Chillout Dreams",
+                  "cover": "https://p1.music.126.net/munocVwnhqGTRrNM3eWW2A==/109951163622743930.jpg",
+                  "blurCover": "https://music.163.com/api/dj/img/blur/109951163622743930",
+                  "chineseName": "入梦驰放",
+                  "description": "轻松、缓慢、令人放松的Chillout的基础上，点缀各种如催眠般的恍惚、朦胧声效。",
+                  "source": 0,
+                  "radar": [4, 1, 5, 3, 2]
+                },
+                {
+                  "id": 103,
+                  "name": "Chillout",
+                  "cover": "https://p1.music.126.net/krQltsoJSsHUiRB59uRI7w==/109951163622742975.jpg",
+                  "blurCover": "https://music.163.com/api/dj/img/blur/109951163622742975",
+                  "chineseName": "驰放音乐",
+                  "description": "广义上讲，Chillout 驰放音乐主要是指一些电子化的轻音乐，舒缓、优美、闲适，注重情绪和意境，适宜于平日里聆听，也适合轻松的休闲场景。\nChill-out 音乐是20世纪90年代起源于欧陆的电子音乐重要流派。这种曲风以 Ambient（氛围乐）和 Classical Music（古典乐）为基础，融入一定的电子音色后形成，比 Ambient 更注重旋律。因其轻柔和舒缓的特点，富有意境，代入感强，Chill-out也自然成为了“轻（松）音乐”的代名词，钢琴、吉他、提琴等原声乐器的音色是其惯用的元素。",
+                  "source": 0,
+                  "radar": [4, 1, 5, 3, 1]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "message": ""
+    }
+  }
+}

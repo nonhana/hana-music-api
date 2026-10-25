@@ -41,6 +41,10 @@ const result = await djDifmSubscribeChannelsGet({
 console.log(result.body);
 ```
 
+## 返回内容
+
+只收紧 `body.code`，`message` 宽松。`data` 在匿名、登录和 `sources` 的 `[0]`/`[1]` 探测里都是空数组（这个账号没有收藏 DI.FM 频道），元素类型没有证据，未声明并原样保留；录制 `dj_difm_subscribe_channels_get.empty.json` 是空收藏的正常结果，不代表频道记录的形状。
+
 ## 补充说明
 
 说明: 调用此接口, 获取DIFM电台收藏列表

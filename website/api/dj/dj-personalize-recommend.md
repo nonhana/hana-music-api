@@ -41,6 +41,10 @@ const result = await djPersonalizeRecommend({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到个性推荐电台的 `body.data` 和每个电台自己的编号 `data[].id` 收紧；主播复用 `ProgramDj`（`PlaylistUser` 加 `brand`），`descPicList`、`discountPrice`、`icon`、`immersionAnimation`、`immersionCover`、`liveInfo`、`manualTagsDTO`、`replaceResource`、`scoreInfoDTO`、`shortName`、`videos` 在本批录制里只见过 `null`，`participateUidList` 只见过空数组，都没有声明。`limit` 由 SDK 默认 `6` 后再请求（`limit=0` 也走默认），本批录制与探测未发现可达的空结果，`data` 数组本身允许为空。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取电台个性推荐列表

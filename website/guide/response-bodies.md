@@ -241,18 +241,29 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 ## 电台
 
-| 模块                                             | 结构定义                   | 收紧的字段                                                                 |
-| ------------------------------------------------ | -------------------------- | -------------------------------------------------------------------------- |
-| [电台 banner](/api/dj/dj-banner)                 | `DjBannerBody`             | `code`、`data`                                                             |
-| [电台分类](/api/dj/dj-catelist)                  | `DjCatelistBody`           | `code`、`categories`、`categories[].id`                                    |
-| [非热门电台分类](/api/dj/dj-category-excludehot) | `DjCategoryExcludehotBody` | `code`、`data`、`data[].id`                                                |
-| [推荐电台分类](/api/dj/dj-category-recommend)    | `DjCategoryRecommendBody`  | `code`、`data`、`data[].categoryId`、`data[].radios`、`data[].radios[].id` |
-| [电台详情](/api/dj/dj-detail)                    | `DjDetailBody`             | `code`、`data`、`data.id`                                                  |
-| [热门电台](/api/dj/dj-hot)                       | `DjHotBody`                | `code`、`djRadios`、`djRadios[].id`                                        |
-| [类别热门电台](/api/dj/dj-radio-hot)             | `DjRadioHotBody`           | `code`、`djRadios`、`djRadios[].id`                                        |
-| [推荐电台](/api/dj/dj-recommend)                 | `DjRecommendBody`          | `code`、`djRadios`、`djRadios[].id`                                        |
-| [分类推荐电台](/api/dj/dj-recommend-type)        | `DjRecommendTypeBody`      | `code`、`djRadios`、`djRadios[].id`                                        |
-| [付费精选电台](/api/dj/dj-paygift)               | `DjPaygiftBody`            | `code`、`data`、`data.list`、`data.list[].id`                              |
+| 模块                                                    | 结构定义                         | 收紧的字段                                                                                   |
+| ------------------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------- |
+| [电台 banner](/api/dj/dj-banner)                        | `DjBannerBody`                   | `code`、`data`                                                                               |
+| [电台分类](/api/dj/dj-catelist)                         | `DjCatelistBody`                 | `code`、`categories`、`categories[].id`                                                      |
+| [非热门电台分类](/api/dj/dj-category-excludehot)        | `DjCategoryExcludehotBody`       | `code`、`data`、`data[].id`                                                                  |
+| [推荐电台分类](/api/dj/dj-category-recommend)           | `DjCategoryRecommendBody`        | `code`、`data`、`data[].categoryId`、`data[].radios`、`data[].radios[].id`                   |
+| [电台详情](/api/dj/dj-detail)                           | `DjDetailBody`                   | `code`、`data`、`data.id`                                                                    |
+| [热门电台](/api/dj/dj-hot)                              | `DjHotBody`                      | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [类别热门电台](/api/dj/dj-radio-hot)                    | `DjRadioHotBody`                 | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [推荐电台](/api/dj/dj-recommend)                        | `DjRecommendBody`                | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [分类推荐电台](/api/dj/dj-recommend-type)               | `DjRecommendTypeBody`            | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [付费精选电台](/api/dj/dj-paygift)                      | `DjPaygiftBody`                  | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [电台节目](/api/dj/dj-program)                          | `DjProgramBody`                  | `code`、`programs`、`programs[].id`                                                          |
+| [节目详情](/api/dj/dj-program-detail)                   | `DjProgramDetailBody`            | `code`、`program`、`program.id`                                                              |
+| [电台节目榜](/api/dj/dj-program-toplist)                | `DjProgramToplistBody`           | `code`、`toplist`、`toplist[].program.id`                                                    |
+| [电台24小时节目榜](/api/dj/dj-program-toplist-hours)    | `DjProgramToplistHoursBody`      | `code`、`data`、`data.list`、`data.list[].program.id`                                        |
+| [推荐节目](/api/recommend/program-recommend)            | `ProgramRecommendBody`           | `code`、`programs`、`programs[].id`                                                          |
+| [电台个性推荐](/api/dj/dj-personalize-recommend)        | `DjPersonalizeRecommendBody`     | `code`、`data`、`data[].id`                                                                  |
+| [推荐电台](/api/recommend/personalized-djprogram)       | `PersonalizedDjprogramBody`      | `code`、`result`、`result[].id`                                                              |
+| [电台今日优选](/api/dj/dj-today-perfered)               | `DjTodayPerferedBody`            | `code`                                                                                       |
+| [DIFM 分类频道](/api/dj/dj-difm-all-style-channel)      | `DjDifmAllStyleChannelBody`      | `code`、`data`、`data[].styles`、`data[].styles[].channels`、`data[].styles[].channels[].id` |
+| [DIFM 播放列表](/api/dj/dj-difm-playing-tracks-list)    | `DjDifmPlayingTracksListBody`    | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [DIFM 收藏列表](/api/dj/dj-difm-subscribe-channels-get) | `DjDifmSubscribeChannelsGetBody` | `code`                                                                                       |
 
 这几个接口返回的电台记录不是同一份结构，各自在模块里声明：`dj_hot`、`dj_recommend` 的 `Radio` 16 个字段完全相同，但只有两个消费方，各自留在模块里；`dj_radio_hot`、`dj_recommend_type` 的 `Radio` 只差 `lastUpdateProgramName` 和 `DescPic` 的 `height`/`width`（这两项只在 `dj_recommend_type` 有数值证据），同样留在局部；`dj_category_recommend`、`dj_paygift` 的短推荐记录与上面两套都不同。`dj_radio_hot` 的 `operateUidList`、`participateUidList` 有非空数字数组证据，声明为宽松的数字数组。`dj` 主播统一复用宽松的 `PlaylistUser`，其中 `remarkName` 没有声明，原样保留。只有 `dj_radio_hot` 和 `dj_recommend_type` 的 `descPicList[]` 出现非 `null` 的图文结构，声明为 `type`、`id`、`content` 和 `nestedData.textList[].text` 宽松字段；`height`、`width` 只在 `dj_recommend_type` 声明，`dj_radio_hot` 里只见过 `null`，没有声明。
 
@@ -282,6 +293,14 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 所有带 `tagId` 的曲风接口缺参时，上游返回 HTTP 200、正文 `code: 400`、`msg: 参数错误`（录制 `style_detail.missing-tag.json`、`style_artist.missing-tag.json`、`style_album.missing-tag.json`、`style_playlist.missing-tag.json`、`style_song.missing-tag.json`）。结构定义只接受 `code: 200`，这些路径从原样返回 `status: 200`、正文非 200 业务码，变成 `status: 400` 的业务拒绝，正文仍是网易云原文。`style_detail` 的 `data` 是可以没有的路径：未知曲风 id 返回 `code: 200`、`data: null`（录制 `style_detail.unknown-tag.json`）；出现时 `data.tagId` 仍收紧。四个带分页的曲风列表模块的未知曲风 id 都返回空数组（录制 `*.unknown-tag.json`）。`style_list` 没有参数，本批录制与探测未发现可达的空结果，`data` 本身允许为空数组。
 
 登录对照只保留了 `style_detail` 和 `style_song`：`style_detail` 匿名时 `professionalReviews`、`favouriteSong`、`tagPortrait` 都是 `null`，登录后才有内容；`style_song` 的声明字段在匿名和登录录制里相同，差异只在宽松字段的值（`privilege.freeTrialPrivilege` 的 `listenType`、`cannotListenReason` 匿名时是数字、登录时是 `null`，同一首歌的封面 CDN 主机在 `p3.music.126.net` 和 `p4.music.126.net` 之间变化，以及音质和实时计数）。其余四个模块没有保留登录对照。本批结论只覆盖这 6 个接口在录制和探测中出现的字段，不据此推断所有账号、地区和上游版本下字段集合一致。
+
+节目记录（`DjProgram`）在 `dj_program`、`dj_program_detail`、`dj_program_toplist`、`dj_program_toplist_hours`、`program_recommend` 之间声明结构相同（各录制里的宽松字段可有差异，例如 `reason` 只在 `program_recommend` 有非 `null` 值），提升到 `src/core/upstream-schemas.ts`：只收紧节目自己的 `id`，`mainSong`（旧版歌曲，`album` 复用 `SimpleAlbum`、`artists` 复用 `Artist`，四个音质档共用一份声明）、`dj` 主播（`ProgramDj` = `PlaylistUser` 加 `brand`）、参与主播 `participateAnchors`（元素只声明 `userId`、`type`、`anchorInfo`）和 `radio` 电台摘要（简介图文的 `timeStamp` 只见过 `null`，未声明）全部宽松；`programDesc`（简介图文，与电台摘要的 `descPicList` 同结构）和 `specialTags` 也有非空证据，声明为宽松字段。节目里 `icon` 是对象但子字段只见过 `null`，`songs`、`programGuests` 在本批录制与探测的节目中未发现非空，均未声明、原样保留。`personalized_djprogram` 的节目是另一种结构（多 `publish`、`subscribed`、`userId`、`adjustedPlayCount`，`songs`、`titbits` 只见过 `null`，电台摘要多 `whiteList`、`hightQuality`），在模块里单独声明，只复用 `ProgramMainSong` 和 `ProgramDj`；`dj_personalize_recommend` 的电台记录与前面的电台列表记录字段不同，也留在模块里。
+
+`dj_program`、`program_recommend` 的越界分页返回空数组（录制 `dj_program.empty.json`、`program_recommend.empty.json`）；`dj_difm_all_style_channel` 的 `sources: '[]'` 返回空 `data`（`dj_difm_all_style_channel.empty.json`），`dj_difm_playing_tracks_list` 的未知 `channelId` 返回空 `data.list` 和 `total: 0`（`dj_difm_playing_tracks_list.unknown.json`）。`dj_program_toplist` 和 `dj_program_toplist_hours` 的榜单条目还声明了宽松的 `programFeeType`（录制里是非 `null` 数值）。`dj_program_toplist`（`limit` 由 SDK 默认 `100` 后再请求，上游忽略 `offset`）、`dj_program_toplist_hours`（SDK 默认 `100`，没有 `offset`）、`dj_personalize_recommend`（SDK 默认 `6`）、`personalized_djprogram`（没有分页参数）在本批录制与探测里未发现可达的空结果，数组本身允许为空。`dj_today_perfered` 和 `dj_difm_subscribe_channels_get` 只收紧 `code`（后者 `message` 宽松）：`data` 在匿名、登录和不同参数的探测里都是空数组，元素类型没有证据，未声明并原样保留。
+
+`dj_program` 缺少 `rid` 返回 `code: 400`（录制 `dj_program.missing-rid.json`），`dj_program_detail` 的未知节目 id 返回 `code: 404`（录制 `dj_program_detail.unknown.json`），SDK 按业务拒绝转交对应 `status`，正文仍是网易云原文。
+
+登录对照先用 `login_status` 确认 `account.anonimousUser: false`。11 个模块都带 Cookie 重录过：登录录制能通过同一结构校验，宽松字段的值与覆盖有差异（`aiGenerated` 的 `null`/`boolean`、`radio.descPicList` 的 `null`/数组、`mainSong.mMusic`/`hMusic` 的 `null`/对象、`dj.experts` 的键集合）；没有保留登录对照，不对公开结构作相同性断言。`dj_program`、`program_recommend`、`personalized_djprogram`、`dj_program_toplist` 的录制按字段覆盖保留非连续子集，`dj_difm_all_style_channel` 保留 1/15 个风格，`dj_difm_playing_tracks_list` 把每条 `wave` 截到 32 个点，原始数量和索引写在 `context.truncated` 与 `context.note`。DI.FM 频道订阅/取消订阅（`dj_difm_channel_subscribe`、`dj_difm_channel_unsubscribe`）是写操作，留给写操作批次，本批没有收窄返回体。
 
 ## 播放
 

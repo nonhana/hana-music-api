@@ -1,0 +1,123 @@
+{
+  "module": "dj_difm_playing_tracks_list",
+  "query": {
+    "channelId": 10505,
+    "source": 0,
+    "limit": 5
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:27:52.370Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B12：DI.FM 频道播放列表；wave 数组截取前 32 个点，列表本身未截取",
+    "truncated": [
+      {
+        "path": "body.data.list[].wave",
+        "length": 2001
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "total": 5,
+        "list": [
+          {
+            "id": 204073615,
+            "name": "Personal Space",
+            "cover": "https://p3.music.126.net/_nmbG7VXahw9vQNOWMcQMw==/109951164813431569.jpg",
+            "artist": "Yotto",
+            "blurCover": "",
+            "audio": "http://m8.music.126.net/20261026012752/508b28e11bea423a4a4ecbc2f7725291/ymusic/560e/555b/0e53/ad4b417718b131e2c95c99235bef40fc.mp3?vuutv=z3sN7toswcTXNaKNORHqDL6YGhtnhYmqs8BgsgDaa8Dg31CqXE5R+k4N6chSfBYqVTzdA06EUCoHiBOUrv5CBGOcIyp5/PkYGE12lH7zqDY=",
+            "duration": 409,
+            "offset": 0,
+            "wave": [
+              0.2146, 0.3702, 0.0915, 0.4204, 0.194, 0.3081, 0.3174, 0.0481,
+              0.4242, 0.1079, 0.3943, 0.1873, 0.221, 0.3666, 0.1966, 0.4219,
+              0.1099, 0.3171, 0.2993, 0.0859, 0.4198, 0.0997, 0.4024, 0.2119,
+              0.2513, 0.3671, 0.0886, 0.4229, 0.1033, 0.3332, 0.2851, 0.1315
+            ],
+            "channelId": 10505,
+            "source": 0
+          },
+          {
+            "id": 204060787,
+            "name": "Fingerprint",
+            "cover": "https://p4.music.126.net/OZ5L8iT3aLwxJ-Wiusp8Cg==/109951164812887195.jpg",
+            "artist": "Lane 8",
+            "blurCover": "",
+            "audio": "http://m7.music.126.net/20261026012752/813ede80cf05d56ebe04cba76b8cf9b7/ymusic/0008/545d/0259/7b4cca86bcc7a06f9e405314dc75639b.mp3?vuutv=r9mDt350THVXEyW9hGAC3uosyotPf1jJ2Bo5FBi6upemaMGZpV3+lMDDw+Uv0xic0bmYrEtP66Cmu/bSkL5Q+gMC2RZQPlP7WJQ0pJRajAY=",
+            "duration": 403,
+            "offset": 0,
+            "wave": [
+              0.0398, 0.0505, 0.0464, 0.0436, 0.0534, 0.0198, 0.0508, 0.0436,
+              0.0479, 0.0493, 0.0373, 0.0577, 0.0147, 0.0509, 0.0458, 0.0446,
+              0.0525, 0.0245, 0.0491, 0.0433, 0.0484, 0.0487, 0.0388, 0.057,
+              0.0139, 0.0512, 0.0454, 0.0453, 0.0519, 0.0281, 0.0475, 0.0428
+            ],
+            "channelId": 10505,
+            "source": 0
+          },
+          {
+            "id": 204086170,
+            "name": "Universal (Extended Mix)",
+            "cover": "https://p4.music.126.net/6s6EWBOb4xP-ThMem0tJeA==/109951164813376156.jpg",
+            "artist": "Matt Fax",
+            "blurCover": "",
+            "audio": "http://m7.music.126.net/20261026012752/483de7d457fb41f8d3bd7a75df9b6a40/ymusic/070c/070c/015d/0f312d9ccb0f49b72cca6725b8b7f277.mp3?vuutv=TQeMXbpNkPW62Sx5YPebswIwO+cJ7eiK6SfPdQG0SKLWTDG2rkG5ZKsEbQ+zWeyypJaOZgyz92i1kK16wwFEJbbRTlKlDUzK1twzrS5Dnp0=",
+            "duration": 463,
+            "offset": 0,
+            "wave": [
+              0, 0.0941, 0.0491, 0.0937, 0.0193, 0.0942, 0.0488, 0.0938, 0.0188,
+              0.0942, 0.0477, 0.0942, 0.0201, 0.0942, 0.0209, 0.1043, 0.0188,
+              0.0941, 0.0197, 0.1044, 0.0201, 0.0946, 0.0202, 0.1045, 0.0191,
+              0.0945, 0.0172, 0.1029, 0.0251, 0.0206, 0.0944, 0.0495
+            ],
+            "channelId": 10505,
+            "source": 0
+          },
+          {
+            "id": 204097302,
+            "name": "Voile (Original Mix)",
+            "cover": "https://p3.music.126.net/3oJvgS8BqvztC-4e1CZgWA==/109951164817788154.jpg",
+            "artist": "Avoure",
+            "blurCover": "",
+            "audio": "http://m7.music.126.net/20261026012752/7ed94fbf40eab806b630d610c8676d06/ymusic/0758/525a/0052/020190227be0bf8c8d4d788f321ed4d7.mp3?vuutv=yFPC0BKxd6TRZu8zmPhAZVRyItiqEVFFYxhx1ooCko8RxGEDwiEF8u8NWLB2xJalle4rpCkK0cKV1+DRVdPib6uFZRVaqLgBeynPIrP33Tg=",
+            "duration": 471,
+            "offset": 0,
+            "wave": [
+              0.3348, 0.0579, 0.3305, 0.0354, 0.3357, 0.0295, 0.3328, 0.0408,
+              0.3385, 0.0551, 0.3292, 0.0481, 0.3315, 0.0564, 0.3262, 0.0721,
+              0.3306, 0.0971, 0.3108, 0.117, 0.3108, 0.1304, 0.2952, 0.1535,
+              0.2923, 0.1792, 0.2589, 0.2087, 0.2287, 0.2472, 0.1896, 0.2741
+            ],
+            "channelId": 10505,
+            "source": 0
+          },
+          {
+            "id": 204109334,
+            "name": "Personal Space",
+            "cover": "https://p4.music.126.net/_nmbG7VXahw9vQNOWMcQMw==/109951164813431569.jpg",
+            "artist": "Yotto",
+            "blurCover": "",
+            "audio": "http://m8.music.126.net/20261026012752/508b28e11bea423a4a4ecbc2f7725291/ymusic/560e/555b/0e53/ad4b417718b131e2c95c99235bef40fc.mp3?vuutv=K1HCIXgteD/TYG+Obbpk6heI0P5pqH6212dW7PJAybyYvXMUMP7+AeLKDCpnIUbLz5+VH/zwrJysUoS5cVo6Qe/8eDJzSruboe0lW8H7lkE=",
+            "duration": 409,
+            "offset": 0,
+            "wave": [
+              0.2146, 0.3702, 0.0915, 0.4204, 0.194, 0.3081, 0.3174, 0.0481,
+              0.4242, 0.1079, 0.3943, 0.1873, 0.221, 0.3666, 0.1966, 0.4219,
+              0.1099, 0.3171, 0.2993, 0.0859, 0.4198, 0.0997, 0.4024, 0.2119,
+              0.2513, 0.3671, 0.0886, 0.4229, 0.1033, 0.3332, 0.2851, 0.1315
+            ],
+            "channelId": 10505,
+            "source": 0
+          }
+        ]
+      },
+      "message": ""
+    }
+  }
+}

@@ -186,11 +186,20 @@ import type {
   ModuleBody as djDetailBody,
   ModuleInput as djDetailInput,
 } from '../../modules/dj_detail.ts';
-import type { ModuleInput as djDifmAllStyleChannelInput } from '../../modules/dj_difm_all_style_channel.ts';
+import type {
+  ModuleBody as djDifmAllStyleChannelBody,
+  ModuleInput as djDifmAllStyleChannelInput,
+} from '../../modules/dj_difm_all_style_channel.ts';
 import type { ModuleInput as djDifmChannelSubscribeInput } from '../../modules/dj_difm_channel_subscribe.ts';
 import type { ModuleInput as djDifmChannelUnsubscribeInput } from '../../modules/dj_difm_channel_unsubscribe.ts';
-import type { ModuleInput as djDifmPlayingTracksListInput } from '../../modules/dj_difm_playing_tracks_list.ts';
-import type { ModuleInput as djDifmSubscribeChannelsGetInput } from '../../modules/dj_difm_subscribe_channels_get.ts';
+import type {
+  ModuleBody as djDifmPlayingTracksListBody,
+  ModuleInput as djDifmPlayingTracksListInput,
+} from '../../modules/dj_difm_playing_tracks_list.ts';
+import type {
+  ModuleBody as djDifmSubscribeChannelsGetBody,
+  ModuleInput as djDifmSubscribeChannelsGetInput,
+} from '../../modules/dj_difm_subscribe_channels_get.ts';
 import type {
   ModuleBody as djHotBody,
   ModuleInput as djHotInput,
@@ -199,11 +208,26 @@ import type {
   ModuleBody as djPaygiftBody,
   ModuleInput as djPaygiftInput,
 } from '../../modules/dj_paygift.ts';
-import type { ModuleInput as djPersonalizeRecommendInput } from '../../modules/dj_personalize_recommend.ts';
-import type { ModuleInput as djProgramInput } from '../../modules/dj_program.ts';
-import type { ModuleInput as djProgramDetailInput } from '../../modules/dj_program_detail.ts';
-import type { ModuleInput as djProgramToplistInput } from '../../modules/dj_program_toplist.ts';
-import type { ModuleInput as djProgramToplistHoursInput } from '../../modules/dj_program_toplist_hours.ts';
+import type {
+  ModuleBody as djPersonalizeRecommendBody,
+  ModuleInput as djPersonalizeRecommendInput,
+} from '../../modules/dj_personalize_recommend.ts';
+import type {
+  ModuleBody as djProgramBody,
+  ModuleInput as djProgramInput,
+} from '../../modules/dj_program.ts';
+import type {
+  ModuleBody as djProgramDetailBody,
+  ModuleInput as djProgramDetailInput,
+} from '../../modules/dj_program_detail.ts';
+import type {
+  ModuleBody as djProgramToplistBody,
+  ModuleInput as djProgramToplistInput,
+} from '../../modules/dj_program_toplist.ts';
+import type {
+  ModuleBody as djProgramToplistHoursBody,
+  ModuleInput as djProgramToplistHoursInput,
+} from '../../modules/dj_program_toplist_hours.ts';
 import type {
   ModuleBody as djRadioHotBody,
   ModuleInput as djRadioHotInput,
@@ -219,7 +243,10 @@ import type {
 import type { ModuleInput as djSubInput } from '../../modules/dj_sub.ts';
 import type { ModuleInput as djSublistInput } from '../../modules/dj_sublist.ts';
 import type { ModuleInput as djSubscriberInput } from '../../modules/dj_subscriber.ts';
-import type { ModuleInput as djTodayPerferedInput } from '../../modules/dj_today_perfered.ts';
+import type {
+  ModuleBody as djTodayPerferedBody,
+  ModuleInput as djTodayPerferedInput,
+} from '../../modules/dj_today_perfered.ts';
 import type { ModuleInput as djToplistInput } from '../../modules/dj_toplist.ts';
 import type { ModuleInput as djToplistHoursInput } from '../../modules/dj_toplist_hours.ts';
 import type { ModuleInput as djToplistNewcomerInput } from '../../modules/dj_toplist_newcomer.ts';
@@ -352,7 +379,10 @@ import type { ModuleInput as nicknameCheckInput } from '../../modules/nickname_c
 import type { ModuleInput as personalFmInput } from '../../modules/personal_fm.ts';
 import type { ModuleInput as personalFmModeInput } from '../../modules/personal_fm_mode.ts';
 import type { ModuleInput as personalizedInput } from '../../modules/personalized.ts';
-import type { ModuleInput as personalizedDjprogramInput } from '../../modules/personalized_djprogram.ts';
+import type {
+  ModuleBody as personalizedDjprogramBody,
+  ModuleInput as personalizedDjprogramInput,
+} from '../../modules/personalized_djprogram.ts';
 import type { ModuleInput as personalizedMvInput } from '../../modules/personalized_mv.ts';
 import type { ModuleInput as personalizedNewsongInput } from '../../modules/personalized_newsong.ts';
 import type { ModuleInput as personalizedPrivatecontentInput } from '../../modules/personalized_privatecontent.ts';
@@ -445,7 +475,10 @@ import type {
   ModuleInput as playlistVideoRecentInput,
 } from '../../modules/playlist_video_recent.ts';
 import type { ModuleInput as playmodeIntelligenceListInput } from '../../modules/playmode_intelligence_list.ts';
-import type { ModuleInput as programRecommendInput } from '../../modules/program_recommend.ts';
+import type {
+  ModuleBody as programRecommendBody,
+  ModuleInput as programRecommendInput,
+} from '../../modules/program_recommend.ts';
 import type { ModuleInput as rebindInput } from '../../modules/rebind.ts';
 import type { ModuleInput as recentListenListInput } from '../../modules/recent_listen_list.ts';
 import type { ModuleInput as recommendResourceInput } from '../../modules/recommend_resource.ts';
@@ -1814,7 +1847,7 @@ export interface GeneratedModuleContractMap {
   dj_difm_all_style_channel: {
     input: djDifmAllStyleChannelInput;
     query: djDifmAllStyleChannelInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDifmAllStyleChannelBody>;
   };
   dj_difm_channel_subscribe: {
     input: djDifmChannelSubscribeInput;
@@ -1829,12 +1862,12 @@ export interface GeneratedModuleContractMap {
   dj_difm_playing_tracks_list: {
     input: djDifmPlayingTracksListInput;
     query: djDifmPlayingTracksListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDifmPlayingTracksListBody>;
   };
   dj_difm_subscribe_channels_get: {
     input: djDifmSubscribeChannelsGetInput;
     query: djDifmSubscribeChannelsGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDifmSubscribeChannelsGetBody>;
   };
   dj_hot: {
     input: djHotInput;
@@ -1849,27 +1882,27 @@ export interface GeneratedModuleContractMap {
   dj_personalize_recommend: {
     input: djPersonalizeRecommendInput;
     query: djPersonalizeRecommendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djPersonalizeRecommendBody>;
   };
   dj_program: {
     input: djProgramInput;
     query: djProgramInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djProgramBody>;
   };
   dj_program_detail: {
     input: djProgramDetailInput;
     query: djProgramDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djProgramDetailBody>;
   };
   dj_program_toplist: {
     input: djProgramToplistInput;
     query: djProgramToplistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djProgramToplistBody>;
   };
   dj_program_toplist_hours: {
     input: djProgramToplistHoursInput;
     query: djProgramToplistHoursInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djProgramToplistHoursBody>;
   };
   dj_radio_hot: {
     input: djRadioHotInput;
@@ -1900,7 +1933,7 @@ export interface GeneratedModuleContractMap {
   dj_today_perfered: {
     input: djTodayPerferedInput;
     query: djTodayPerferedInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djTodayPerferedBody>;
   };
   dj_toplist: {
     input: djToplistInput;
@@ -2264,7 +2297,7 @@ export interface GeneratedModuleContractMap {
   personalized_djprogram: {
     input: personalizedDjprogramInput;
     query: personalizedDjprogramInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedDjprogramBody>;
   };
   personalized_mv: {
     input: personalizedMvInput;
@@ -2429,7 +2462,7 @@ export interface GeneratedModuleContractMap {
   program_recommend: {
     input: programRecommendInput;
     query: programRecommendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<programRecommendBody>;
   };
   rebind: { input: rebindInput; query: rebindInput; response: ModuleResponse };
   recent_listen_list: {

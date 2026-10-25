@@ -94,6 +94,7 @@ export const SimpleAlbum = UpstreamObject({
   companyId: Loose(Schema.Finite),
   copyrightId: Loose(Schema.Finite),
   description: Loose(Schema.String),
+  dolbyMark: Loose(Schema.Finite),
   gapless: Loose(Schema.Finite),
   idStr: Loose(Schema.String),
   info: Loose(UpstreamObject({})),
@@ -691,4 +692,186 @@ export const StylePage = UpstreamObject({
   more: Loose(Schema.Boolean),
   size: Loose(Schema.Finite),
   total: Loose(Schema.Finite),
+});
+
+// 电台节目记录里嵌着的旧版音质：`bMusic`、`hMusic`、`lMusic`、`mMusic` 字段相同，全部宽松；
+// `name` 只在录制里见过 null，未声明。
+const ProgramQuality = UpstreamObject({
+  bitrate: Loose(Schema.Finite),
+  dfsId: Loose(Schema.Finite),
+  extension: Loose(Schema.String),
+  id: Loose(Schema.Finite),
+  playTime: Loose(Schema.Finite),
+  size: Loose(Schema.Finite),
+  sr: Loose(Schema.Finite),
+  volumeDelta: Loose(Schema.Finite),
+});
+
+// 节目里的 `mainSong` 是旧版歌曲结构（`album`/`artists`/四个音质档），dj_program、dj_program_detail、
+// dj_program_toplist、dj_program_toplist_hours、program_recommend、personalized_djprogram 的字段相同。
+export const ProgramMainSong = UpstreamObject({
+  album: Loose(SimpleAlbum),
+  artists: Loose(Schema.Array(Artist)),
+  bMusic: Loose(ProgramQuality),
+  commentThreadId: Loose(Schema.String),
+  copyFrom: Loose(Schema.String),
+  copyright: Loose(Schema.Finite),
+  copyrightId: Loose(Schema.Finite),
+  dayPlays: Loose(Schema.Finite),
+  disc: Loose(Schema.String),
+  duration: Loose(Schema.Finite),
+  fee: Loose(Schema.Finite),
+  ftype: Loose(Schema.Finite),
+  hMusic: Loose(ProgramQuality),
+  hearTime: Loose(Schema.Finite),
+  id: Loose(Schema.Finite),
+  lMusic: Loose(ProgramQuality),
+  mark: Loose(Schema.Finite),
+  mMusic: Loose(ProgramQuality),
+  mvid: Loose(Schema.Finite),
+  name: Loose(Schema.String),
+  no: Loose(Schema.Finite),
+  originCoverType: Loose(Schema.Finite),
+  playedNum: Loose(Schema.Finite),
+  popularity: Loose(Schema.Finite),
+  position: Loose(Schema.Finite),
+  publishTime: Loose(Schema.Finite),
+  ringtone: Loose(Schema.String),
+  rtype: Loose(Schema.Finite),
+  score: Loose(Schema.Finite),
+  single: Loose(Schema.Finite),
+  starred: Loose(Schema.Boolean),
+  starredNum: Loose(Schema.Finite),
+  status: Loose(Schema.Finite),
+});
+
+// 节目与电台记录里的主播：`PlaylistUser` 之外还有品牌名。
+export const ProgramDj = UpstreamObject({
+  ...PlaylistUser.schema.fields,
+  brand: Loose(Schema.String),
+});
+
+const ProgramDescText = UpstreamObject({
+  attributes: Loose(
+    UpstreamObject({
+      bold: Loose(Schema.Boolean),
+    }),
+  ),
+  text: Loose(Schema.String),
+});
+
+const ProgramDescNestedData = UpstreamObject({
+  textList: Loose(Schema.Array(ProgramDescText)),
+});
+
+// 节目记录里的电台简介图文；`timeStamp` 只见过 null，未声明。
+const ProgramDescPic = UpstreamObject({
+  content: Loose(Schema.String),
+  height: Loose(Schema.Finite),
+  id: Loose(Schema.Finite),
+  nestedData: Loose(ProgramDescNestedData),
+  type: Loose(Schema.Finite),
+  width: Loose(Schema.Finite),
+});
+
+// 节目记录里嵌着的电台摘要；它是节目里的附带对象，编号也宽松。
+const ProgramRadio = UpstreamObject({
+  buyed: Loose(Schema.Boolean),
+  category: Loose(Schema.String),
+  categoryId: Loose(Schema.Finite),
+  createTime: Loose(Schema.Finite),
+  desc: Loose(Schema.String),
+  descPicList: Loose(Schema.Array(ProgramDescPic)),
+  dynamic: Loose(Schema.Boolean),
+  feeScope: Loose(Schema.Finite),
+  finished: Loose(Schema.Boolean),
+  id: Loose(Schema.Finite),
+  intervenePicId: Loose(Schema.Finite),
+  intervenePicUrl: Loose(Schema.String),
+  lastProgramCreateTime: Loose(Schema.Finite),
+  lastProgramId: Loose(Schema.Finite),
+  name: Loose(Schema.String),
+  operateUidList: Loose(Schema.Array(Schema.Finite)),
+  originalPrice: Loose(Schema.Finite),
+  participateUidList: Loose(Schema.Array(Schema.Finite)),
+  picId: Loose(Schema.Finite),
+  picUrl: Loose(Schema.String),
+  playCount: Loose(Schema.Finite),
+  price: Loose(Schema.Finite),
+  privacy: Loose(Schema.Boolean),
+  programCount: Loose(Schema.Finite),
+  purchaseCount: Loose(Schema.Finite),
+  radioFeeType: Loose(Schema.Finite),
+  replaceRadioId: Loose(Schema.Finite),
+  secondCategory: Loose(Schema.String),
+  subCount: Loose(Schema.Finite),
+  subed: Loose(Schema.Boolean),
+  taskId: Loose(Schema.Finite),
+  underShelf: Loose(Schema.Boolean),
+});
+
+// 节目记录里的参与主播：`role`、`basicDivide`、`personalBuyLink`、`personalDivide` 只在录制里见过 null，未声明。
+const ParticipateAnchor = UpstreamObject({
+  anchorInfo: Loose(PlaylistUser),
+  type: Loose(Schema.Finite),
+  userId: Loose(Schema.Finite),
+});
+
+// dj_program、dj_program_detail、dj_program_toplist、dj_program_toplist_hours、program_recommend 的节目记录
+// 声明结构相同（各录制里的宽松字段可有差异）；只收紧节目自己的编号，其余字段（主播、参与主播、电台摘要、
+// 旧版歌曲）宽松。
+export const DjProgram = UpstreamObject({
+  id: Schema.Finite,
+  aiGenerated: Loose(Schema.Boolean),
+  alg: Loose(Schema.String),
+  auditStatus: Loose(Schema.Finite),
+  auditDisPlayStatus: Loose(Schema.Finite),
+  bdAuditStatus: Loose(Schema.Finite),
+  blurCoverUrl: Loose(Schema.String),
+  buyed: Loose(Schema.Boolean),
+  buyedNew: Loose(Schema.Boolean),
+  canReward: Loose(Schema.Boolean),
+  categoryId: Loose(Schema.Finite),
+  categoryName: Loose(Schema.String),
+  channels: Loose(Schema.Array(Schema.String)),
+  code: Loose(Schema.Finite),
+  commentCount: Loose(Schema.Finite),
+  commentThreadId: Loose(Schema.String),
+  coverId: Loose(Schema.Finite),
+  coverUrl: Loose(Schema.String),
+  createEventId: Loose(Schema.Finite),
+  createTime: Loose(Schema.Finite),
+  description: Loose(Schema.String),
+  dj: Loose(ProgramDj),
+  duration: Loose(Schema.Finite),
+  existLyric: Loose(Schema.Boolean),
+  feeScope: Loose(Schema.Finite),
+  isPublish: Loose(Schema.Boolean),
+  likedCount: Loose(Schema.Finite),
+  listenerCount: Loose(Schema.Finite),
+  mainSong: Loose(ProgramMainSong),
+  mainTrackId: Loose(Schema.Finite),
+  name: Loose(Schema.String),
+  participateAnchors: Loose(Schema.Array(ParticipateAnchor)),
+  privacy: Loose(Schema.Boolean),
+  programDesc: Loose(Schema.Array(ProgramDescPic)),
+  programFeeType: Loose(Schema.Finite),
+  pubStatus: Loose(Schema.Finite),
+  radio: Loose(ProgramRadio),
+  reason: Loose(Schema.String),
+  recommended: Loose(Schema.Boolean),
+  replaceVoiceId: Loose(Schema.Finite),
+  reward: Loose(Schema.Boolean),
+  scheduledPublishTime: Loose(Schema.Finite),
+  score: Loose(Schema.Finite),
+  secondCategoryId: Loose(Schema.Finite),
+  secondCategoryName: Loose(Schema.String),
+  serialNum: Loose(Schema.Finite),
+  shareCount: Loose(Schema.Finite),
+  smallLanguageAuditStatus: Loose(Schema.Finite),
+  specialTags: Loose(Schema.Array(Schema.String)),
+  specialType: Loose(Schema.Finite),
+  subscribed: Loose(Schema.Boolean),
+  subscribedCount: Loose(Schema.Finite),
+  trackCount: Loose(Schema.Finite),
 });

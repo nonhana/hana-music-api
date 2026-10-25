@@ -232,3 +232,4 @@ buyed
 rcmdtext
 undershelf
 favourite
+danmaku

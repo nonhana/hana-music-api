@@ -37,11 +37,20 @@ export { ModuleBody as DjCategoryExcludehotBody } from '../../modules/dj_categor
 export { ModuleBody as DjCategoryRecommendBody } from '../../modules/dj_category_recommend.ts';
 export { ModuleBody as DjCatelistBody } from '../../modules/dj_catelist.ts';
 export { ModuleBody as DjDetailBody } from '../../modules/dj_detail.ts';
+export { ModuleBody as DjDifmAllStyleChannelBody } from '../../modules/dj_difm_all_style_channel.ts';
+export { ModuleBody as DjDifmPlayingTracksListBody } from '../../modules/dj_difm_playing_tracks_list.ts';
+export { ModuleBody as DjDifmSubscribeChannelsGetBody } from '../../modules/dj_difm_subscribe_channels_get.ts';
 export { ModuleBody as DjHotBody } from '../../modules/dj_hot.ts';
 export { ModuleBody as DjPaygiftBody } from '../../modules/dj_paygift.ts';
+export { ModuleBody as DjPersonalizeRecommendBody } from '../../modules/dj_personalize_recommend.ts';
+export { ModuleBody as DjProgramBody } from '../../modules/dj_program.ts';
+export { ModuleBody as DjProgramDetailBody } from '../../modules/dj_program_detail.ts';
+export { ModuleBody as DjProgramToplistBody } from '../../modules/dj_program_toplist.ts';
+export { ModuleBody as DjProgramToplistHoursBody } from '../../modules/dj_program_toplist_hours.ts';
 export { ModuleBody as DjRadioHotBody } from '../../modules/dj_radio_hot.ts';
 export { ModuleBody as DjRecommendBody } from '../../modules/dj_recommend.ts';
 export { ModuleBody as DjRecommendTypeBody } from '../../modules/dj_recommend_type.ts';
+export { ModuleBody as DjTodayPerferedBody } from '../../modules/dj_today_perfered.ts';
 export { ModuleBody as ImageUploadTokenBody } from '../../modules/image_upload_token.ts';
 export { ModuleBody as LikeBody } from '../../modules/like.ts';
 export { ModuleBody as LikelistBody } from '../../modules/likelist.ts';
@@ -61,6 +70,7 @@ export { ModuleBody as MvExclusiveRcmdBody } from '../../modules/mv_exclusive_rc
 export { ModuleBody as MvFirstBody } from '../../modules/mv_first.ts';
 export { ModuleBody as MvSublistBody } from '../../modules/mv_sublist.ts';
 export { ModuleBody as MvUrlBody } from '../../modules/mv_url.ts';
+export { ModuleBody as PersonalizedDjprogramBody } from '../../modules/personalized_djprogram.ts';
 export { ModuleBody as PlaylistCatlistBody } from '../../modules/playlist_catlist.ts';
 export { ModuleBody as PlaylistCoverUpdateBody } from '../../modules/playlist_cover_update.ts';
 export { ModuleBody as PlaylistCreateBody } from '../../modules/playlist_create.ts';
@@ -81,6 +91,7 @@ export { ModuleBody as PlaylistTagsUpdateBody } from '../../modules/playlist_tag
 export { ModuleBody as PlaylistTrackAllBody } from '../../modules/playlist_track_all.ts';
 export { ModuleBody as PlaylistTracksBody } from '../../modules/playlist_tracks.ts';
 export { ModuleBody as PlaylistVideoRecentBody } from '../../modules/playlist_video_recent.ts';
+export { ModuleBody as ProgramRecommendBody } from '../../modules/program_recommend.ts';
 export { ModuleBody as RecommendSongsBody } from '../../modules/recommend_songs.ts';
 export { ModuleBody as RelatedAllvideoBody } from '../../modules/related_allvideo.ts';
 export { ModuleBody as ScrobbleBody } from '../../modules/scrobble.ts';
