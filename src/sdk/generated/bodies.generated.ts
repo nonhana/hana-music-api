@@ -102,6 +102,12 @@ export { ModuleBody as SongOrderUpdateBody } from '../../modules/song_order_upda
 export { ModuleBody as SongUrlBody } from '../../modules/song_url.ts';
 export { ModuleBody as SongUrlV1Body } from '../../modules/song_url_v1.ts';
 export { ModuleBody as SongWikiSummaryBody } from '../../modules/song_wiki_summary.ts';
+export { ModuleBody as StyleAlbumBody } from '../../modules/style_album.ts';
+export { ModuleBody as StyleArtistBody } from '../../modules/style_artist.ts';
+export { ModuleBody as StyleDetailBody } from '../../modules/style_detail.ts';
+export { ModuleBody as StyleListBody } from '../../modules/style_list.ts';
+export { ModuleBody as StylePlaylistBody } from '../../modules/style_playlist.ts';
+export { ModuleBody as StyleSongBody } from '../../modules/style_song.ts';
 export { ModuleBody as TopAlbumBody } from '../../modules/top_album.ts';
 export { ModuleBody as TopArtistsBody } from '../../modules/top_artists.ts';
 export { ModuleBody as TopListBody } from '../../modules/top_list.ts';

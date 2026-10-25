@@ -1,0 +1,28 @@
+{
+  "module": "style_song",
+  "query": {
+    "tagId": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:21:47.106Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B29：style_song 未知曲风 id 的空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "page": {
+          "cursor": 0,
+          "size": 20,
+          "total": 0,
+          "more": false
+        },
+        "songs": []
+      },
+      "code": 200
+    }
+  }
+}

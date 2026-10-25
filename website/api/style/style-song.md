@@ -45,6 +45,10 @@ const result = await styleSong({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data.songs` 和每首歌自己的编号 `data.songs[].id` 收紧：`data.songs` 是通到曲风歌曲的路径。歌曲复用共享的 `Song`，其中只有 `id` 收紧，其余声明字段宽松。`body.data.page` 是分页提示，全部宽松。未知曲风 id 返回空数组（录制 `style_song.unknown-tag.json`）。
+
 ## 补充说明
 
 说明: 调用此接口可以获取该曲风对应的歌曲

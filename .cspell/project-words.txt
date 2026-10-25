@@ -231,3 +231,4 @@ hasmore
 buyed
 rcmdtext
 undershelf
+favourite

@@ -1,0 +1,39 @@
+{
+  "module": "style_detail",
+  "query": {
+    "tagId": 1000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:22:12.663Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B29：style_detail 匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "tagId": 1000,
+        "name": "流行",
+        "level": 1,
+        "parentNames": "",
+        "enName": "Pop",
+        "desc": "解锁你的最佳流行推荐聚集地！流⾏⾳乐，是指那些结构短⼩、内容通俗、形式活泼、情感真挚，并被⼴⼤群众所喜爱，⼴泛传唱，流⾏⼀时甚⾄流传后世的歌曲。这些歌曲植根于⼤众⽣活的丰厚壤之中。因此又有“⼤众⾳乐”之称。",
+        "cover": [
+          "http://p5.music.126.net/VcsE6_F3cqMm3D9SWyIR5A==/109951165924166690"
+        ],
+        "colorDeep": "23303B",
+        "colorShallow": "E5EBF0",
+        "songNum": "999999+",
+        "artistNum": "1000+",
+        "playRate": null,
+        "professionalReviews": null,
+        "favouriteSong": null,
+        "tagPortrait": null,
+        "tabs": ["song"]
+      },
+      "code": 200
+    }
+  }
+}

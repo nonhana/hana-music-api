@@ -9,7 +9,7 @@
 
 判断标准和写法的完整说明见 [`agent-docs/API_CONVENTIONS.md` 的“收紧与宽松”](https://github.com/nonhana/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)。下面按领域列出每个模块的**收紧字段**和**可以没有**的路径；其余已声明字段都是宽松字段，未声明的字段原样保留在 `body` 里，类型是 JSON 值。
 
-宽松字段里套着的记录（例如歌单的 `tracks[]`、`privileges[]`）不按“记录自己的编号”收紧：这些编号也宽松，类型不对只让这一项或整个宽松字段缺失，不会 502。只有不在宽松容器里的收紧字段才会报 `UnexpectedUpstreamShape`。例如 `song_detail.privileges[].id` 在必填的 `privileges` 数组里，缺失会 502；歌曲里可选的 `privilege` 对象里的 `id` 只会在 `privilege` 出现时校验，类型不对就让整个 `privilege` 当成缺失。
+宽松字段里套着的记录（例如歌单的 `tracks[]`、`privileges[]`）不按“记录自己的编号”收紧：这些编号也宽松，类型不对只让这一项或整个宽松字段缺失，不会 502。只有不在宽松容器里的收紧字段才会报 `UnexpectedUpstreamShape`。例如 `song_detail.privileges[].id` 在必填的 `privileges` 数组里，缺失会 502；歌曲里可选的 `privilege` 对象用的是宽松的 `LooseSongPrivilege`，里面的 `id` 也是宽松字段，类型不对只丢这一个 `id`，`privilege` 的其余字段仍在。
 
 “可以没有”的路径不是宽松字段：它缺失或为 `null` 时照常返回；一旦出现，里面的记录仍按收紧字段校验。例如云搜索的 `result.songs`，没有结果时可以整个缺失，但出现了却有一首歌缺 `id`，会报 502。
 
@@ -265,6 +265,23 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 `dj_detail`、`dj_radio_hot`、`dj_recommend_type` 缺少必选参数时上游返回 HTTP 200、正文 `code: 400`、`msg: 参数错误`（录制 `*.missing-param.json`）；`dj_detail` 的未知 `rid` 返回 `code: 404`、`msg: radio not exist`（录制 `dj_detail.unknown-rid.json`），`dj_hot`、`dj_radio_hot`、`dj_paygift` 的非数字 `limit` 也返回 `code: 400`（录制 `*.invalid-limit.json`）。结构定义只接受 `code: 200`，所以这些路径从“原样返回 `status: 200`、正文非 200 业务码”变成 `status` 等于业务码的业务拒绝，正文仍是网易云原文；批量收窄返回体的模块都按这个规则处理。
 
 登录对照在本地用登录 Cookie 重放 `login_status` 确认过 `account.anonimousUser: false`，但本批未保留登录对照录制，不对公开结构作相同性断言。本批结论只覆盖这 10 个接口的匿名录制与探测，不据此推断字段集合在所有账号、地区和上游版本下一致。
+
+## 曲风
+
+| 模块                                   | 结构定义            | 收紧的字段                                                                   |
+| -------------------------------------- | ------------------- | ---------------------------------------------------------------------------- |
+| [曲风列表](/api/style/style-list)      | `StyleListBody`     | `code`、`data`、`data[].tagId`                                               |
+| [曲风详情](/api/style/style-detail)    | `StyleDetailBody`   | `code`；`data` 可以没有（未知曲风 id 时是 `null`），出现时 `data.tagId` 收紧 |
+| [曲风-歌手](/api/style/style-artist)   | `StyleArtistBody`   | `code`、`data.artists`、`data.artists[].id`                                  |
+| [曲风-专辑](/api/style/style-album)    | `StyleAlbumBody`    | `code`、`data.albums`、`data.albums[].id`                                    |
+| [曲风-歌单](/api/style/style-playlist) | `StylePlaylistBody` | `code`、`data.playlist`、`data.playlist[].id`                                |
+| [曲风-歌曲](/api/style/style-song)     | `StyleSongBody`     | `code`、`data.songs`、`data.songs[].id`                                      |
+
+四个带分页的曲风列表模块（`style_artist`、`style_album`、`style_playlist`、`style_song`）的 `data.page`（`cursor`、`size`、`more`、`total`）字段完全相同，共用 `StylePage`，作为分页提示全部宽松。`style_list` 的曲风记录有三层嵌套，只有顶层记录的 `tagId` 收紧；`childrenTags` 嵌在宽松字段里，子曲风的 `tagId` 也宽松，第三层的 `childrenTags` 只见过 `null`，没有声明。`style_artist` 复用 `Artist`、`style_album` 复用 `SimpleAlbum`、`style_song` 复用 `Song`，各自只把记录自己的 `id` 收紧；`style_playlist` 的记录很短，创建者的 `userId` 不算歌单自己的编号，宽松。
+
+所有带 `tagId` 的曲风接口缺参时，上游返回 HTTP 200、正文 `code: 400`、`msg: 参数错误`（录制 `style_detail.missing-tag.json`、`style_artist.missing-tag.json`、`style_album.missing-tag.json`、`style_playlist.missing-tag.json`、`style_song.missing-tag.json`）。结构定义只接受 `code: 200`，这些路径从原样返回 `status: 200`、正文非 200 业务码，变成 `status: 400` 的业务拒绝，正文仍是网易云原文。`style_detail` 的 `data` 是可以没有的路径：未知曲风 id 返回 `code: 200`、`data: null`（录制 `style_detail.unknown-tag.json`）；出现时 `data.tagId` 仍收紧。四个带分页的曲风列表模块的未知曲风 id 都返回空数组（录制 `*.unknown-tag.json`）。`style_list` 没有参数，本批录制与探测未发现可达的空结果，`data` 本身允许为空数组。
+
+登录对照只保留了 `style_detail` 和 `style_song`：`style_detail` 匿名时 `professionalReviews`、`favouriteSong`、`tagPortrait` 都是 `null`，登录后才有内容；`style_song` 的声明字段在匿名和登录录制里相同，差异只在宽松字段的值（`privilege.freeTrialPrivilege` 的 `listenType`、`cannotListenReason` 匿名时是数字、登录时是 `null`，同一首歌的封面 CDN 主机在 `p3.music.126.net` 和 `p4.music.126.net` 之间变化，以及音质和实时计数）。其余四个模块没有保留登录对照。本批结论只覆盖这 6 个接口在录制和探测中出现的字段，不据此推断所有账号、地区和上游版本下字段集合一致。
 
 ## 播放
 

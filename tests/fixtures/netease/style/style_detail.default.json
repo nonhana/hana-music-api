@@ -1,0 +1,562 @@
+{
+  "module": "style_detail",
+  "query": {
+    "tagId": 1000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:20:51.278Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B29：style_detail 正常详情"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "tagId": 1000,
+        "name": "流行",
+        "level": 1,
+        "parentNames": "",
+        "enName": "Pop",
+        "desc": "解锁你的最佳流行推荐聚集地！流⾏⾳乐，是指那些结构短⼩、内容通俗、形式活泼、情感真挚，并被⼴⼤群众所喜爱，⼴泛传唱，流⾏⼀时甚⾄流传后世的歌曲。这些歌曲植根于⼤众⽣活的丰厚壤之中。因此又有“⼤众⾳乐”之称。",
+        "cover": [
+          "http://p5.music.126.net/VcsE6_F3cqMm3D9SWyIR5A==/109951165924166690"
+        ],
+        "colorDeep": "23303B",
+        "colorShallow": "E5EBF0",
+        "songNum": "999999+",
+        "artistNum": "1000+",
+        "playRate": null,
+        "professionalReviews": {
+          "templateContent": "过去一个月，你的${tagName}曲风偏好占比为${tagPercent}，高于${userPercent}的用户，其中${popTagName}曲风最能俘获你的心，真是把音乐流行趋势狠狠拿捏住了呢！",
+          "pattern": {
+            "userPercent": {
+              "text": "76.0%",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "tagPercent": {
+              "text": "12.2%",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "popTagName": {
+              "text": "日本流行",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "tagName": {
+              "text": "流行",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            }
+          }
+        },
+        "favouriteSong": {
+          "favouriteSong": {
+            "name": "What Are Words",
+            "mainTitle": null,
+            "additionalTitle": null,
+            "id": 1210461,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 30899,
+                "name": "Chris Medina",
+                "tns": [],
+                "alias": []
+              }
+            ],
+            "alia": [],
+            "pop": 100,
+            "st": 0,
+            "rt": "",
+            "fee": 1,
+            "v": 64,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 125359,
+              "name": "What Are Words",
+              "picUrl": "https://p4.music.126.net/pjXv_3WbDn1RpNvewmegDA==/823534209247481.jpg",
+              "tns": [],
+              "pic": 823534209247481
+            },
+            "dt": 187477,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 7501366,
+              "vd": -34437,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4500837,
+              "vd": -31843,
+              "sr": 44100
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3000573,
+              "vd": -30072,
+              "sr": 44100
+            },
+            "sq": {
+              "br": 923696,
+              "fid": 0,
+              "size": 21646589,
+              "vd": -34428,
+              "sr": 44100
+            },
+            "hr": null,
+            "a": null,
+            "cd": "1",
+            "no": 4,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "djId": 0,
+            "copyright": 1,
+            "s_id": 0,
+            "mark": 17180139520,
+            "originCoverType": 1,
+            "originSongSimpleData": null,
+            "tagPicList": null,
+            "resourceState": true,
+            "version": 30,
+            "songJumpInfo": null,
+            "entertainmentTags": null,
+            "awardTags": null,
+            "displayTags": null,
+            "artistClassics": false,
+            "markTags": [],
+            "songFeature": null,
+            "single": 0,
+            "noCopyrightRcmd": null,
+            "mv": 326201,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 7003,
+            "publishTime": 1322409600000,
+            "privilege": {
+              "id": 1210461,
+              "fee": 1,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 0,
+              "toast": false,
+              "flag": 1540100,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "none",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null,
+                "freeLimitTagType": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ],
+              "code": 0,
+              "message": null,
+              "plLevels": null,
+              "dlLevels": null,
+              "ignoreCache": null,
+              "bd": null
+            }
+          },
+          "markHeart": 1
+        },
+        "tagPortrait": {
+          "templateContent": "你已涉猎${tagNum}个主流曲风~\n其中你对${tagName}音乐最为钟爱，偏好高达${tagPercent}呢！\n此外，你还挖掘到了${minorityTag0}、${minorityTag1}、${minorityTag2}、${minorityTag3}、${minorityTag4}、${minorityTag5}、${minorityTag6}、${minorityTag7}、${minorityTag8}、${minorityTag9}、${minorityTag10}、${minorityTag11}、${minorityTag12}、${minorityTag13}、${minorityTag14}、${minorityTag15}、${minorityTag16}、${minorityTag17}、${minorityTag18}、${minorityTag19}、${minorityTag20}、${minorityTag21}、${minorityTag22}、${minorityTag23}、${minorityTag24}、${minorityTag25}、${minorityTag26}、${minorityTag27}、${minorityTag28}、${minorityTag29}、${minorityTag30}、${minorityTag31}、${minorityTag32}、${minorityTag33}、${minorityTag34}、${minorityTag35}、${minorityTag36}、${minorityTag37}、${minorityTag38}、${minorityTag39}、${minorityTag40}、${minorityTag41}、${minorityTag42}、${minorityTag43}、${minorityTag44}、${minorityTag45}、${minorityTag46}、${minorityTag47}、${minorityTag48}、${minorityTag49}、${minorityTag50}、${minorityTag51}这些小众曲风。",
+          "pattern": {
+            "minorityTag41": {
+              "text": "古典跨界",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag42": {
+              "text": "新古典主义音乐",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag40": {
+              "text": "氛围电子",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag34": {
+              "text": "炸房浩室",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag35": {
+              "text": "科技舞曲",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag32": {
+              "text": "另类金属",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag33": {
+              "text": "乡村说唱",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag38": {
+              "text": "未来弹跳",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag39": {
+              "text": "后摇",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag36": {
+              "text": "当代古典音乐",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag37": {
+              "text": "前卫金属",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag30": {
+              "text": "史诗音乐",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag31": {
+              "text": "交响金属",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag23": {
+              "text": "浪漫主义时期",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag24": {
+              "text": "墨尔本弹跳",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag21": {
+              "text": "东岸说唱",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag22": {
+              "text": "电子摇滚",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag27": {
+              "text": "器乐摇滚",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag28": {
+              "text": "硬核说唱",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag25": {
+              "text": "电气浩室舞曲",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag26": {
+              "text": "渐进浩室",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag29": {
+              "text": "弛放浩室",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "tagPercent": {
+              "text": "47.7%",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag20": {
+              "text": "简约科技舞曲",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag12": {
+              "text": "中西部说唱",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag13": {
+              "text": "冷潮",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag10": {
+              "text": "哥特金属",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag11": {
+              "text": "西岸说唱",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag16": {
+              "text": "Trance",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag17": {
+              "text": "后朋克",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag14": {
+              "text": "拉丁爵士",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag15": {
+              "text": "硬核",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag18": {
+              "text": "硬性迷幻舞曲",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag19": {
+              "text": "意识说唱",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "tagName": {
+              "text": "二次元",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag0": {
+              "text": "神游舞曲",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag50": {
+              "text": "弛放嘻哈",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag51": {
+              "text": "爵士嘻哈",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag3": {
+              "text": "匪帮说唱",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag45": {
+              "text": "深浩室舞曲",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag4": {
+              "text": "新金属",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag46": {
+              "text": "Electronica",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag1": {
+              "text": "民谣摇滚",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag43": {
+              "text": "自然新世纪",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag2": {
+              "text": "凯尔特民谣",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag44": {
+              "text": "民谣金属",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag7": {
+              "text": "灵魂乐",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag49": {
+              "text": "缓拍",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "tagNum": {
+              "text": "25",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag8": {
+              "text": "法国流行",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag5": {
+              "text": "摇摆乐",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag47": {
+              "text": "地域说唱",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag6": {
+              "text": "放克",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag48": {
+              "text": "热带浩室舞曲",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            },
+            "minorityTag9": {
+              "text": "说唱摇滚",
+              "textType": 2,
+              "targetUrl": null,
+              "coverType": 0
+            }
+          },
+          "dataTip": "根据你近30天的听歌记录生成，每日更新"
+        },
+        "tabs": ["song"]
+      },
+      "code": 200
+    }
+  }
+}

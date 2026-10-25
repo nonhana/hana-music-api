@@ -569,13 +569,31 @@ import type {
   ModuleInput as songWikiSummaryInput,
 } from '../../modules/song_wiki_summary.ts';
 import type { ModuleInput as starpickCommentsSummaryInput } from '../../modules/starpick_comments_summary.ts';
-import type { ModuleInput as styleAlbumInput } from '../../modules/style_album.ts';
-import type { ModuleInput as styleArtistInput } from '../../modules/style_artist.ts';
-import type { ModuleInput as styleDetailInput } from '../../modules/style_detail.ts';
-import type { ModuleInput as styleListInput } from '../../modules/style_list.ts';
-import type { ModuleInput as stylePlaylistInput } from '../../modules/style_playlist.ts';
+import type {
+  ModuleBody as styleAlbumBody,
+  ModuleInput as styleAlbumInput,
+} from '../../modules/style_album.ts';
+import type {
+  ModuleBody as styleArtistBody,
+  ModuleInput as styleArtistInput,
+} from '../../modules/style_artist.ts';
+import type {
+  ModuleBody as styleDetailBody,
+  ModuleInput as styleDetailInput,
+} from '../../modules/style_detail.ts';
+import type {
+  ModuleBody as styleListBody,
+  ModuleInput as styleListInput,
+} from '../../modules/style_list.ts';
+import type {
+  ModuleBody as stylePlaylistBody,
+  ModuleInput as stylePlaylistInput,
+} from '../../modules/style_playlist.ts';
 import type { ModuleInput as stylePreferenceInput } from '../../modules/style_preference.ts';
-import type { ModuleInput as styleSongInput } from '../../modules/style_song.ts';
+import type {
+  ModuleBody as styleSongBody,
+  ModuleInput as styleSongInput,
+} from '../../modules/style_song.ts';
 import type { ModuleInput as summaryAnnualInput } from '../../modules/summary_annual.ts';
 import type {
   ModuleBody as topAlbumBody,
@@ -2708,27 +2726,27 @@ export interface GeneratedModuleContractMap {
   style_album: {
     input: styleAlbumInput;
     query: styleAlbumInput;
-    response: ModuleResponse;
+    response: ModuleResponse<styleAlbumBody>;
   };
   style_artist: {
     input: styleArtistInput;
     query: styleArtistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<styleArtistBody>;
   };
   style_detail: {
     input: styleDetailInput;
     query: styleDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<styleDetailBody>;
   };
   style_list: {
     input: styleListInput;
     query: styleListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<styleListBody>;
   };
   style_playlist: {
     input: stylePlaylistInput;
     query: stylePlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<stylePlaylistBody>;
   };
   style_preference: {
     input: stylePreferenceInput;
@@ -2738,7 +2756,7 @@ export interface GeneratedModuleContractMap {
   style_song: {
     input: styleSongInput;
     query: styleSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<styleSongBody>;
   };
   summary_annual: {
     input: summaryAnnualInput;

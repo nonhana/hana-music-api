@@ -684,3 +684,11 @@ export const SongUrlData = UpstreamObject({
   type: Loose(Schema.String),
   urlSource: Loose(Schema.Finite),
 });
+
+// style_artist、style_album、style_playlist、style_song 共用的分页信息，字段一致；分页提示不是接口要拿的东西，全部宽松。
+export const StylePage = UpstreamObject({
+  cursor: Loose(Schema.Finite),
+  more: Loose(Schema.Boolean),
+  size: Loose(Schema.Finite),
+  total: Loose(Schema.Finite),
+});

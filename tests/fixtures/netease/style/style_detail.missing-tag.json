@@ -1,0 +1,18 @@
+{
+  "module": "style_detail",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T15:27:00.288Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B29：style_detail 缺少 tagId 探测"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": "参数错误",
+      "code": 400
+    }
+  }
+}

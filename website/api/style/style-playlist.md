@@ -43,6 +43,10 @@ const result = await stylePlaylist({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data.playlist` 和每个歌单自己的编号 `data.playlist[].id` 收紧：`data.playlist` 是通到曲风歌单的路径。歌单摘要里的 `name`、`cover`、`songCount`、`playCount` 宽松；创建者的 `userId`、`userName` 也宽松，创建者编号不算歌单自己的编号。`body.data.page` 是分页提示，全部宽松。未知曲风 id 返回空数组（录制 `style_playlist.unknown-tag.json`）。
+
 ## 补充说明
 
 说明: 调用此接口可以获取该曲风对应的歌单
