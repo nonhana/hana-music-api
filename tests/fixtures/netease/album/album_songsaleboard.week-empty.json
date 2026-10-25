@@ -1,0 +1,21 @@
+{
+  "module": "album_songsaleboard",
+  "query": {
+    "type": "week",
+    "albumType": 99
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:51:57.376Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B1：album_songsaleboard week 空榜单（products 为空且无 hasMore）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "products": [],
+      "code": 200
+    }
+  }
+}

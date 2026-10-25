@@ -1,0 +1,23 @@
+{
+  "module": "album_songsaleboard",
+  "query": {
+    "type": "year",
+    "albumType": 0,
+    "year": 2030
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:18:19.062Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B1：album_songsaleboard 未来年份空榜单"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "products": [],
+      "hasMore": false,
+      "code": 200
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "module": "album_detail_dynamic",
+  "query": {
+    "id": 84072830
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:17:58.615Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B1：album_detail_dynamic 普通专辑非空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "onSale": false,
+      "albumNearbyProduct": {
+        "url": "https://music.163.com/store/product/column?id=4203218",
+        "title": "实体专辑",
+        "subTitle": "立即支持"
+      },
+      "commentCount": 180,
+      "likedCount": 0,
+      "shareCount": 119,
+      "isSub": false,
+      "subTime": 0,
+      "subCount": 3354,
+      "code": 200
+    }
+  }
+}

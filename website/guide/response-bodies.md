@@ -63,6 +63,27 @@
 
 歌手和专辑的编号和名字都可能缺失或为 `null`：传到云盘、没有匹配上曲库的歌（网易云返回的 `t` 是 1），歌手和专辑的编号是 0，名字是 `null`。这种歌只有上传者本人登录时能看到歌名；别人看、或者没有有效登录时，歌名也可能是 `null`。这些字段宽松后都不会再让整页 502。
 
+### 专辑列表与数字专辑
+
+| 模块                                                     | 结构定义                 | 收紧的字段                                         |
+| -------------------------------------------------------- | ------------------------ | -------------------------------------------------- |
+| [数字专辑详情](/api/album/album-detail)                  | `AlbumDetailBody`        | `code`、`album`、`album.albumId`、`product`        |
+| [专辑动态信息](/api/album/album-detail-dynamic)          | `AlbumDetailDynamicBody` | `code`                                             |
+| [数字专辑-新碟上架](/api/album/album-list)               | `AlbumListBody`          | `code`、`products`、`products[].albumId`           |
+| [数字专辑-语种风格馆](/api/album/album-list-style)       | `AlbumListStyleBody`     | `code`、`albumProducts`、`albumProducts[].albumId` |
+| [全部新碟](/api/album/album-new)                         | `AlbumNewBody`           | `code`、`albums`、`albums[].id`                    |
+| [最新专辑](/api/album/album-newest)                      | `AlbumNewestBody`        | `code`、`albums`、`albums[].id`                    |
+| [获取专辑歌曲的音质](/api/album/album-privilege)         | `AlbumPrivilegeBody`     | `code`、`data`、`data[].id`                        |
+| [数字专辑&数字单曲-榜单](/api/album/album-songsaleboard) | `AlbumSongsaleboardBody` | `code`、`products`、`products[].albumId`           |
+
+`album_detail` 是数字专辑商品详情，`album` 记录用 `albumId`、`albumName`、`artistName`，没有 `AlbumSummary` 的 `id`、`songs`；`product` 里的价格、售卖数量、简介和 `extInfo` 全部宽松，`board` 与购买状态字段也宽松。非数字专辑（录制 `album_detail.non-digital.json`）或未知 id 返回 `code: 404`（`无专辑商品`），SDK 按业务拒绝原样转交，不会报 502；本批录制与探测未发现可达的空结果。`album_detail_dynamic` 只有 `code` 收紧，普通专辑和数字专辑的字段不同（数字专辑多 `paid`、`sales`、`displayType`），写进同一个结构。
+
+`album_new` 和 `album_newest` 的 `albums[]` 共用 `AlbumSummary`，只收紧 `id`；专辑里的 `songs` 只见过空数组或 `null`，没有声明。`album_new` 的 `offset` 越过总数时返回 `albums: []`（录制 `album_new.empty.json`），`total` 仍是 500；`album_newest` 没有分页，本批录制与探测未发现可达的空结果，数组本身允许为空。`album_list` 的上游忽略 `offset`：`album_list.offset-100000.json` 里 `offset=100000` 仍返回与第一页相同的 10 个 `albumId`。`album_list_style` 的越界分页返回 `code: 404`（`没有数据`）。这两个列表本批录制与探测未发现可达的空结果；数组本身允许为空。
+
+`album_privilege` 的 `data[]` 共用 `SongPrivilege`，只收紧歌曲 `id`；登录后 `dl`、`pl`、`payed` 和 `freeTrialPrivilege.listenType` 会变化，登录对照录制保留为 `album_privilege.album-vip.json`。未知专辑 id 返回 `code: 404`；本批录制与探测未发现可达的空结果，数组本身允许为空。`album_songsaleboard` 的 `daily`/`week` 不带 `hasMore`（`album_songsaleboard.week.json`），`year`/`total` 才带，声明为宽松字段；未来年份（`year=2030`，录制 `album_songsaleboard.year-empty.json`）返回 `products: []`、`hasMore: false`，`albumType=99` 的周榜（录制 `album_songsaleboard.week-empty.json`）返回 `products: []` 且没有 `hasMore`，都是真实空结果。
+
+登录对照只保留了 `album_detail` 和 `album_privilege`：其余六个模块的字段集合与类型相同；值差异来自封面 CDN、实时计数和榜单/新碟列表的实时更新，登录录制已删除。
+
 ### 歌单与用户
 
 [用户歌单](/api/playlist/user-playlist)和[歌单详情](/api/playlist/playlist-detail)共用 `PlaylistSummary`，其中 `creator` 和可选的 `subscribers[]` 共用 `PlaylistUser`。这两个 TypeScript 类型都可以从 `hana-music-api` 根入口直接导入。

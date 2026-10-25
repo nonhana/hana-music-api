@@ -1,0 +1,23 @@
+{
+  "module": "album_new",
+  "query": {
+    "limit": 10,
+    "offset": 100000,
+    "area": "ALL"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:18:08.502Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B1：album_new 越界分页空结果（albums 为空）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "total": 500,
+      "albums": [],
+      "code": 200
+    }
+  }
+}

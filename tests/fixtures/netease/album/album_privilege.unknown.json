@@ -1,0 +1,19 @@
+{
+  "module": "album_privilege",
+  "query": {
+    "id": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:18:17.033Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B1：album_privilege 未知 id 返回 code 404，空列表不可达"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 404
+    }
+  }
+}

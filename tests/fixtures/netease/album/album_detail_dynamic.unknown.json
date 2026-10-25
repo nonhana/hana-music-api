@@ -1,0 +1,26 @@
+{
+  "module": "album_detail_dynamic",
+  "query": {
+    "id": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:17:59.785Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B1：album_detail_dynamic 未知 id 返回全 0 的动态信息"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "onSale": false,
+      "commentCount": 0,
+      "likedCount": 0,
+      "shareCount": 0,
+      "isSub": false,
+      "subTime": 0,
+      "subCount": 0,
+      "code": 200
+    }
+  }
+}

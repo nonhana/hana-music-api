@@ -1,4 +1,12 @@
 export { ModuleBody as AlbumBody } from '../../modules/album.ts';
+export { ModuleBody as AlbumDetailBody } from '../../modules/album_detail.ts';
+export { ModuleBody as AlbumDetailDynamicBody } from '../../modules/album_detail_dynamic.ts';
+export { ModuleBody as AlbumListBody } from '../../modules/album_list.ts';
+export { ModuleBody as AlbumListStyleBody } from '../../modules/album_list_style.ts';
+export { ModuleBody as AlbumNewBody } from '../../modules/album_new.ts';
+export { ModuleBody as AlbumNewestBody } from '../../modules/album_newest.ts';
+export { ModuleBody as AlbumPrivilegeBody } from '../../modules/album_privilege.ts';
+export { ModuleBody as AlbumSongsaleboardBody } from '../../modules/album_songsaleboard.ts';
 export { ModuleBody as AlbumSubBody } from '../../modules/album_sub.ts';
 export { ModuleBody as AlbumSublistBody } from '../../modules/album_sublist.ts';
 export { ModuleBody as ArtistAlbumBody } from '../../modules/artist_album.ts';

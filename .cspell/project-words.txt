@@ -205,3 +205,8 @@ podcastCtrp
 Identiy
 redplus
 upate
+Descr
+albumfee
+buynotes
+buysingle
+descr

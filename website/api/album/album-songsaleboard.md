@@ -47,7 +47,6 @@ const result = await albumSongsaleboard({
 console.log(result.body);
 ```
 
-## 返回关注点
+## 返回内容
 
-- `code`: 请求是否成功。
-- `data`: 榜单主体数据。
+`body.code`、`body.products` 和每条记录的 `products[].albumId` 收紧；`albumName`、`saleNum`、`rank`、`rankIncr`、`salesCertificationSystemLevelCode` 等其余字段宽松，`hasMore` 只有 `year`/`total` 榜单才有，同样是宽松字段。未来年份（如 `year=2030`）是真实空榜：`products: []`、`hasMore: false`；`albumType=99` 的周榜也是空榜，但连 `hasMore` 都没有。`daily`/`week` 不带 `hasMore`（`album_songsaleboard.week.json`），两种形态写进同一个结构。结构定义和类型是 `AlbumSongsaleboardBody`，见 [返回体结构](/guide/response-bodies)。

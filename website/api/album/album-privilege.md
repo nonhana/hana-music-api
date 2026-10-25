@@ -41,6 +41,10 @@ const result = await albumPrivilege({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data` 和每首歌的 `data[].id` 收紧，记录共用 `SongPrivilege`；权限里的 `dl`、`pl`、`payed`、`freeTrialPrivilege` 等其余字段宽松。登录后播放/下载权限和 `freeTrialPrivilege.listenType` 会变化，登录对照录制保留在 `album_privilege.album-vip.json`。未知专辑 id 返回 `code: 404`；本批录制与探测未发现可达的空结果，`data` 数组本身允许为空。结构定义和类型是 `AlbumPrivilegeBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用后可获取专辑歌曲的音质

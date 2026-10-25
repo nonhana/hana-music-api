@@ -44,6 +44,10 @@ const result = await albumListStyle({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.albumProducts` 和每张专辑的 `albumProducts[].albumId` 收紧；`albumName`、`artistNames`、`price`、`sales`、`bought`、`saleDisplayType` 与 `hasNextPage` 都是宽松字段。越界分页（`offset=100000`）返回 `code: 404`（`没有数据`），SDK 按业务拒绝转交。本批录制与探测未发现可达的空结果；`albumProducts` 数组本身允许为空。结构定义和类型是 `AlbumListStyleBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口 ,可获取语种风格馆数字专辑列表

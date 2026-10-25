@@ -4,14 +4,38 @@ import type {
   ModuleBody as albumBody,
   ModuleInput as albumInput,
 } from '../../modules/album.ts';
-import type { ModuleInput as albumDetailInput } from '../../modules/album_detail.ts';
-import type { ModuleInput as albumDetailDynamicInput } from '../../modules/album_detail_dynamic.ts';
-import type { ModuleInput as albumListInput } from '../../modules/album_list.ts';
-import type { ModuleInput as albumListStyleInput } from '../../modules/album_list_style.ts';
-import type { ModuleInput as albumNewInput } from '../../modules/album_new.ts';
-import type { ModuleInput as albumNewestInput } from '../../modules/album_newest.ts';
-import type { ModuleInput as albumPrivilegeInput } from '../../modules/album_privilege.ts';
-import type { ModuleInput as albumSongsaleboardInput } from '../../modules/album_songsaleboard.ts';
+import type {
+  ModuleBody as albumDetailBody,
+  ModuleInput as albumDetailInput,
+} from '../../modules/album_detail.ts';
+import type {
+  ModuleBody as albumDetailDynamicBody,
+  ModuleInput as albumDetailDynamicInput,
+} from '../../modules/album_detail_dynamic.ts';
+import type {
+  ModuleBody as albumListBody,
+  ModuleInput as albumListInput,
+} from '../../modules/album_list.ts';
+import type {
+  ModuleBody as albumListStyleBody,
+  ModuleInput as albumListStyleInput,
+} from '../../modules/album_list_style.ts';
+import type {
+  ModuleBody as albumNewBody,
+  ModuleInput as albumNewInput,
+} from '../../modules/album_new.ts';
+import type {
+  ModuleBody as albumNewestBody,
+  ModuleInput as albumNewestInput,
+} from '../../modules/album_newest.ts';
+import type {
+  ModuleBody as albumPrivilegeBody,
+  ModuleInput as albumPrivilegeInput,
+} from '../../modules/album_privilege.ts';
+import type {
+  ModuleBody as albumSongsaleboardBody,
+  ModuleInput as albumSongsaleboardInput,
+} from '../../modules/album_songsaleboard.ts';
 import type {
   ModuleBody as albumSubBody,
   ModuleInput as albumSubInput,
@@ -1255,42 +1279,42 @@ export interface GeneratedModuleContractMap {
   album_detail: {
     input: albumDetailInput;
     query: albumDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumDetailBody>;
   };
   album_detail_dynamic: {
     input: albumDetailDynamicInput;
     query: albumDetailDynamicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumDetailDynamicBody>;
   };
   album_list: {
     input: albumListInput;
     query: albumListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumListBody>;
   };
   album_list_style: {
     input: albumListStyleInput;
     query: albumListStyleInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumListStyleBody>;
   };
   album_new: {
     input: albumNewInput;
     query: albumNewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumNewBody>;
   };
   album_newest: {
     input: albumNewestInput;
     query: albumNewestInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumNewestBody>;
   };
   album_privilege: {
     input: albumPrivilegeInput;
     query: albumPrivilegeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumPrivilegeBody>;
   };
   album_songsaleboard: {
     input: albumSongsaleboardInput;
     query: albumSongsaleboardInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumSongsaleboardBody>;
   };
   album_sub: {
     input: albumSubInput;

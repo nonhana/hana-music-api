@@ -44,6 +44,10 @@ const result = await albumNew({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.albums` 和每张专辑的 `albums[].id` 收紧；专辑记录共用 `AlbumSummary`，`total` 是宽松字段。`offset=100000`（录制 `album_new.empty.json`）会返回 `albums: []`（`total` 仍是 500），空结果可以正常返回；专辑里的 `songs` 只见过空数组，没有声明，原样保留。结构定义和类型是 `AlbumNewBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口 ,可获取全部新碟
