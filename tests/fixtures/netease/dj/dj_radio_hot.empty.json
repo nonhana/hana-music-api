@@ -1,0 +1,23 @@
+{
+  "module": "dj_radio_hot",
+  "query": {
+    "cateId": 3,
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T14:21:08.925Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B11：情感分类热门电台翻页越界，空列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "djRadios": [],
+      "hasMore": false,
+      "count": 1000,
+      "code": 200
+    }
+  }
+}

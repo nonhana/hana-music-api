@@ -228,3 +228,6 @@ upban
 weekplays
 datas
 hasmore
+buyed
+rcmdtext
+undershelf

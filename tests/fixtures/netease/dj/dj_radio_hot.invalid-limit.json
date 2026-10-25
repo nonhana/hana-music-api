@@ -1,0 +1,22 @@
+{
+  "module": "dj_radio_hot",
+  "query": {
+    "cateId": 3,
+    "limit": "abc"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:16:52.425Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B11：非数字 limit 时的上游 400 业务码"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "msg": "参数错误",
+      "data": null
+    }
+  }
+}

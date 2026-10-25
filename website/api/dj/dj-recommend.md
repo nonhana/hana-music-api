@@ -37,6 +37,10 @@ const result = await djRecommend();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到精选电台列表的 `body.djRadios` 和每个电台的编号 `djRadios[].id` 收紧；`name`、电台名称、封面、分类、计数、`copywriter`、`buyed` 和 `dj` 主播（复用宽松的 `PlaylistUser`）都是宽松字段。这个接口没有分页，本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `DjRecommendBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可获得推荐电台

@@ -1,0 +1,21 @@
+{
+  "module": "dj_hot",
+  "query": {
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T14:21:08.465Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B11：热门电台翻页越界，空列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "djRadios": [],
+      "hasMore": false,
+      "code": 200
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "module": "dj_detail",
+  "query": {
+    "rid": 99999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T14:36:19.318Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B11：未知 rid 时的上游 404 业务码"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 404,
+      "msg": "radio not exist",
+      "data": null
+    }
+  }
+}

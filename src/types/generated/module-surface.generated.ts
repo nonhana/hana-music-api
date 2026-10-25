@@ -166,26 +166,56 @@ import type { ModuleInput as digitalAlbumDetailInput } from '../../modules/digit
 import type { ModuleInput as digitalAlbumOrderingInput } from '../../modules/digitalAlbum_ordering.ts';
 import type { ModuleInput as digitalAlbumPurchasedInput } from '../../modules/digitalAlbum_purchased.ts';
 import type { ModuleInput as digitalAlbumSalesInput } from '../../modules/digitalAlbum_sales.ts';
-import type { ModuleInput as djBannerInput } from '../../modules/dj_banner.ts';
-import type { ModuleInput as djCategoryExcludehotInput } from '../../modules/dj_category_excludehot.ts';
-import type { ModuleInput as djCategoryRecommendInput } from '../../modules/dj_category_recommend.ts';
-import type { ModuleInput as djCatelistInput } from '../../modules/dj_catelist.ts';
-import type { ModuleInput as djDetailInput } from '../../modules/dj_detail.ts';
+import type {
+  ModuleBody as djBannerBody,
+  ModuleInput as djBannerInput,
+} from '../../modules/dj_banner.ts';
+import type {
+  ModuleBody as djCategoryExcludehotBody,
+  ModuleInput as djCategoryExcludehotInput,
+} from '../../modules/dj_category_excludehot.ts';
+import type {
+  ModuleBody as djCategoryRecommendBody,
+  ModuleInput as djCategoryRecommendInput,
+} from '../../modules/dj_category_recommend.ts';
+import type {
+  ModuleBody as djCatelistBody,
+  ModuleInput as djCatelistInput,
+} from '../../modules/dj_catelist.ts';
+import type {
+  ModuleBody as djDetailBody,
+  ModuleInput as djDetailInput,
+} from '../../modules/dj_detail.ts';
 import type { ModuleInput as djDifmAllStyleChannelInput } from '../../modules/dj_difm_all_style_channel.ts';
 import type { ModuleInput as djDifmChannelSubscribeInput } from '../../modules/dj_difm_channel_subscribe.ts';
 import type { ModuleInput as djDifmChannelUnsubscribeInput } from '../../modules/dj_difm_channel_unsubscribe.ts';
 import type { ModuleInput as djDifmPlayingTracksListInput } from '../../modules/dj_difm_playing_tracks_list.ts';
 import type { ModuleInput as djDifmSubscribeChannelsGetInput } from '../../modules/dj_difm_subscribe_channels_get.ts';
-import type { ModuleInput as djHotInput } from '../../modules/dj_hot.ts';
-import type { ModuleInput as djPaygiftInput } from '../../modules/dj_paygift.ts';
+import type {
+  ModuleBody as djHotBody,
+  ModuleInput as djHotInput,
+} from '../../modules/dj_hot.ts';
+import type {
+  ModuleBody as djPaygiftBody,
+  ModuleInput as djPaygiftInput,
+} from '../../modules/dj_paygift.ts';
 import type { ModuleInput as djPersonalizeRecommendInput } from '../../modules/dj_personalize_recommend.ts';
 import type { ModuleInput as djProgramInput } from '../../modules/dj_program.ts';
 import type { ModuleInput as djProgramDetailInput } from '../../modules/dj_program_detail.ts';
 import type { ModuleInput as djProgramToplistInput } from '../../modules/dj_program_toplist.ts';
 import type { ModuleInput as djProgramToplistHoursInput } from '../../modules/dj_program_toplist_hours.ts';
-import type { ModuleInput as djRadioHotInput } from '../../modules/dj_radio_hot.ts';
-import type { ModuleInput as djRecommendInput } from '../../modules/dj_recommend.ts';
-import type { ModuleInput as djRecommendTypeInput } from '../../modules/dj_recommend_type.ts';
+import type {
+  ModuleBody as djRadioHotBody,
+  ModuleInput as djRadioHotInput,
+} from '../../modules/dj_radio_hot.ts';
+import type {
+  ModuleBody as djRecommendBody,
+  ModuleInput as djRecommendInput,
+} from '../../modules/dj_recommend.ts';
+import type {
+  ModuleBody as djRecommendTypeBody,
+  ModuleInput as djRecommendTypeInput,
+} from '../../modules/dj_recommend_type.ts';
 import type { ModuleInput as djSubInput } from '../../modules/dj_sub.ts';
 import type { ModuleInput as djSublistInput } from '../../modules/dj_sublist.ts';
 import type { ModuleInput as djSubscriberInput } from '../../modules/dj_subscriber.ts';
@@ -1717,27 +1747,27 @@ export interface GeneratedModuleContractMap {
   dj_banner: {
     input: djBannerInput;
     query: djBannerInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djBannerBody>;
   };
   dj_category_excludehot: {
     input: djCategoryExcludehotInput;
     query: djCategoryExcludehotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djCategoryExcludehotBody>;
   };
   dj_category_recommend: {
     input: djCategoryRecommendInput;
     query: djCategoryRecommendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djCategoryRecommendBody>;
   };
   dj_catelist: {
     input: djCatelistInput;
     query: djCatelistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djCatelistBody>;
   };
   dj_detail: {
     input: djDetailInput;
     query: djDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDetailBody>;
   };
   dj_difm_all_style_channel: {
     input: djDifmAllStyleChannelInput;
@@ -1764,11 +1794,15 @@ export interface GeneratedModuleContractMap {
     query: djDifmSubscribeChannelsGetInput;
     response: ModuleResponse;
   };
-  dj_hot: { input: djHotInput; query: djHotInput; response: ModuleResponse };
+  dj_hot: {
+    input: djHotInput;
+    query: djHotInput;
+    response: ModuleResponse<djHotBody>;
+  };
   dj_paygift: {
     input: djPaygiftInput;
     query: djPaygiftInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djPaygiftBody>;
   };
   dj_personalize_recommend: {
     input: djPersonalizeRecommendInput;
@@ -1798,17 +1832,17 @@ export interface GeneratedModuleContractMap {
   dj_radio_hot: {
     input: djRadioHotInput;
     query: djRadioHotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djRadioHotBody>;
   };
   dj_recommend: {
     input: djRecommendInput;
     query: djRecommendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djRecommendBody>;
   };
   dj_recommend_type: {
     input: djRecommendTypeInput;
     query: djRecommendTypeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djRecommendTypeBody>;
   };
   dj_sub: { input: djSubInput; query: djSubInput; response: ModuleResponse };
   dj_sublist: {

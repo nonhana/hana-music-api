@@ -239,6 +239,33 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`video_timeline_all`、`video_timeline_recommend` 的登录录制差异只在宽松字段（`relateSong` 出现歌曲记录、`markTypes` 出现值；`creator.experts` 的键集合差异只在 `video_timeline_all`，匿名录制多出 `experts.2`，`video_timeline_recommend` 两边都只有 `{1}` 或 `null`），这两份登录录制保留为元素字段证据；其余 7 个模块只保留匿名录制，未保留登录对照，不对公开结构作相同性断言。收藏/取消收藏视频（`video_sub`）是写操作，移到后续写操作批次（B22 关注/收藏/点赞），本批没有收窄返回体。
 
+## 电台
+
+| 模块                                             | 结构定义                   | 收紧的字段                                                                 |
+| ------------------------------------------------ | -------------------------- | -------------------------------------------------------------------------- |
+| [电台 banner](/api/dj/dj-banner)                 | `DjBannerBody`             | `code`、`data`                                                             |
+| [电台分类](/api/dj/dj-catelist)                  | `DjCatelistBody`           | `code`、`categories`、`categories[].id`                                    |
+| [非热门电台分类](/api/dj/dj-category-excludehot) | `DjCategoryExcludehotBody` | `code`、`data`、`data[].id`                                                |
+| [推荐电台分类](/api/dj/dj-category-recommend)    | `DjCategoryRecommendBody`  | `code`、`data`、`data[].categoryId`、`data[].radios`、`data[].radios[].id` |
+| [电台详情](/api/dj/dj-detail)                    | `DjDetailBody`             | `code`、`data`、`data.id`                                                  |
+| [热门电台](/api/dj/dj-hot)                       | `DjHotBody`                | `code`、`djRadios`、`djRadios[].id`                                        |
+| [类别热门电台](/api/dj/dj-radio-hot)             | `DjRadioHotBody`           | `code`、`djRadios`、`djRadios[].id`                                        |
+| [推荐电台](/api/dj/dj-recommend)                 | `DjRecommendBody`          | `code`、`djRadios`、`djRadios[].id`                                        |
+| [分类推荐电台](/api/dj/dj-recommend-type)        | `DjRecommendTypeBody`      | `code`、`djRadios`、`djRadios[].id`                                        |
+| [付费精选电台](/api/dj/dj-paygift)               | `DjPaygiftBody`            | `code`、`data`、`data.list`、`data.list[].id`                              |
+
+这几个接口返回的电台记录不是同一份结构，各自在模块里声明：`dj_hot`、`dj_recommend` 的 `Radio` 16 个字段完全相同，但只有两个消费方，各自留在模块里；`dj_radio_hot`、`dj_recommend_type` 的 `Radio` 只差 `lastUpdateProgramName` 和 `DescPic` 的 `height`/`width`（这两项只在 `dj_recommend_type` 有数值证据），同样留在局部；`dj_category_recommend`、`dj_paygift` 的短推荐记录与上面两套都不同。`dj_radio_hot` 的 `operateUidList`、`participateUidList` 有非空数字数组证据，声明为宽松的数字数组。`dj` 主播统一复用宽松的 `PlaylistUser`，其中 `remarkName` 没有声明，原样保留。只有 `dj_radio_hot` 和 `dj_recommend_type` 的 `descPicList[]` 出现非 `null` 的图文结构，声明为 `type`、`id`、`content` 和 `nestedData.textList[].text` 宽松字段；`height`、`width` 只在 `dj_recommend_type` 声明，`dj_radio_hot` 里只见过 `null`，没有声明。
+
+`dj_banner` 的 `data` 是通到 banner 列表的路径，banner 自己的 `targetId` 是它指向的目标编号，不算记录编号，宽松；本批录制与探测未发现可达的空结果，数组本身允许为空。`dj_catelist` 和 `dj_category_excludehot` 的分类记录字段完全相同，但只有两个模块使用，按“三个模块才进共享结构”的规则各自留在模块里；两个接口都只收紧分类自己的 `id`，封面和展示字段宽松，本批录制与探测未发现可达的空结果。
+
+`dj_category_recommend` 的 `data` 是通到推荐分类的路径，`categoryId` 是分类自己的编号，`radios` 是分类下的电台列表，电台条目只收紧自己的 `id`；`icon` 在部分条目里是 `{ type, value, color }`，`textColor`、`borderColor`、`realBizType` 只见过 `null`，没有声明。`dj_detail` 的 `data` 是通到电台详情的路径，`data.id` 是电台自己的编号；主播、`commentDatas[]` 和展示字段宽松，`commentDatas[].userProfile` 复用 `PlaylistUser`，`unlockInfo`、`activityInfo`、`toplistInfo`、`labelDto`、`labels`、`toast`、`limitFreeToast`、`msg` 在本批录制里只见过 `null`，没有声明。付费电台录制 `dj_detail.paid` 覆盖 `feeInfo`：`slogan`、`buyed`、`finished`、`undershelf`、`purchaseCount`、`price`、`originalPrice` 和 `modules[]`（含 `modules[].data[]` 节目记录、旧版 `mainSong` 及其 `album`/`artists`）宽松声明；`feeInfo.discountPrice` 只见过 `null`，没有声明；`feeInfo.videos` 只见过空对象，声明为空对象。
+
+`dj_hot`、`dj_radio_hot`、`dj_recommend_type`、`dj_paygift` 都有真实空结果录制：`offset=100000` 的越界分页返回空数组（录制 `dj_hot.empty.json`、`dj_radio_hot.empty.json`、`dj_paygift.empty.json`），未知分类 `type=999999` 返回空数组（录制 `dj_recommend_type.empty.json`），`dj_radio_hot` 的未知分类 `cateId=999999` 返回空数组和 `count: 0`（录制 `dj_radio_hot.empty-cate.json`）；`dj_recommend` 没有分页，本批录制与探测未发现可达的空结果。`dj_radio_hot` 的非空录制按字段覆盖保留非连续子集（索引 7/8/19/23，原始 31 条，见 `context.truncated`），其余模块保留完整列表。
+
+`dj_detail`、`dj_radio_hot`、`dj_recommend_type` 缺少必选参数时上游返回 HTTP 200、正文 `code: 400`、`msg: 参数错误`（录制 `*.missing-param.json`）；`dj_detail` 的未知 `rid` 返回 `code: 404`、`msg: radio not exist`（录制 `dj_detail.unknown-rid.json`），`dj_hot`、`dj_radio_hot`、`dj_paygift` 的非数字 `limit` 也返回 `code: 400`（录制 `*.invalid-limit.json`）。结构定义只接受 `code: 200`，所以这些路径从“原样返回 `status: 200`、正文非 200 业务码”变成 `status` 等于业务码的业务拒绝，正文仍是网易云原文；批量收窄返回体的模块都按这个规则处理。
+
+登录对照在本地用登录 Cookie 重放 `login_status` 确认过 `account.anonimousUser: false`，但本批未保留登录对照录制，不对公开结构作相同性断言。本批结论只覆盖这 10 个接口的匿名录制与探测，不据此推断字段集合在所有账号、地区和上游版本下一致。
+
 ## 播放
 
 | 模块                                                             | 结构定义                | 收紧的字段                                                                                      |

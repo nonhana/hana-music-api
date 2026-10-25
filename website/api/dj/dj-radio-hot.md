@@ -44,6 +44,10 @@ const result = await djRadioHot({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到分类热门电台列表的 `body.djRadios` 和每个电台的编号 `djRadios[].id` 收紧；`count`、`hasMore`、电台名称、封面、分类、价格、计数、`descPicList` 图文、`operateUidList`/`participateUidList` 和 `dj` 主播（复用宽松的 `PlaylistUser`）都是宽松字段；`shortName` 只见过 `null`，没有声明。`offset=100000` 越界分页返回空数组（录制 `dj_radio_hot.empty.json`），未知分类 `cateId=999999` 返回空数组、`count: 0`（录制 `dj_radio_hot.empty-cate.json`）。非空录制按字段覆盖保留非连续子集（索引 7/8/19/23，原始 31 条，见 `context.truncated`），其中 `djRadios[2].participateUidList`、`djRadios[3].operateUidList` 是非空数字数组。缺少 `cateId` 或传非数字 `limit` 时上游返回 HTTP 200、正文 `code: 400`，SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `DjRadioHotBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 **可选参数 :**

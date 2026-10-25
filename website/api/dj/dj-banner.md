@@ -37,6 +37,10 @@ const result = await djBanner();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和通到 banner 列表的 `body.data` 收紧；banner 指向的目标编号 `targetId` 和 `targetType`、`pic`、`url`、`typeTitle`、`exclusive` 都是宽松字段。本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `DjBannerBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取电台 banner
