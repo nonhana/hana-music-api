@@ -624,3 +624,63 @@ export const VideoGroupRef = UpstreamObject({
   id: Loose(Schema.Finite),
   name: Loose(Schema.String),
 });
+
+// song_url_v1、song_download_url、song_download_url_v1 共用的内部播放/下载地址条目，字段一致；
+// `id` / `url` / `code` 收紧，其余字段宽松。
+// 无版权时 url 和 level 是 null、code 不是 200；试听时 freeTrialInfo 标出片段在整首里的起止秒数，否则是 null。
+export const SongUrlData = UpstreamObject({
+  id: Schema.Finite,
+  url: Schema.NullOr(Schema.String),
+  code: Schema.Finite,
+  level: Loose(Schema.String),
+  expi: Loose(Schema.Finite),
+  freeTrialInfo: Loose(
+    UpstreamObject({
+      start: Loose(Schema.Finite),
+      end: Loose(Schema.Finite),
+      fragmentType: Loose(Schema.Finite),
+      algData: Loose(
+        UpstreamObject({
+          audioEffect: Loose(Schema.Finite),
+          fragSource: Loose(Schema.String),
+        }),
+      ),
+    }),
+  ),
+  auEff: Loose(Schema.Finite),
+  beatType: Loose(Schema.Finite),
+  br: Loose(Schema.Finite),
+  canExtend: Loose(Schema.Boolean),
+  closedGain: Loose(Schema.Finite),
+  closedPeak: Loose(Schema.Finite),
+  encodeType: Loose(Schema.String),
+  fee: Loose(Schema.Finite),
+  flag: Loose(Schema.Finite),
+  freeTimeTrialPrivilege: Loose(
+    UpstreamObject({
+      remainTime: Loose(Schema.Finite),
+      resConsumable: Loose(Schema.Boolean),
+      type: Loose(Schema.Finite),
+      userConsumable: Loose(Schema.Boolean),
+    }),
+  ),
+  freeTrialPrivilege: Loose(
+    UpstreamObject({
+      cannotListenReason: Loose(Schema.Finite),
+      listenType: Loose(Schema.Finite),
+      resConsumable: Loose(Schema.Boolean),
+      userConsumable: Loose(Schema.Boolean),
+    }),
+  ),
+  gain: Loose(Schema.Finite),
+  md5: Loose(Schema.String),
+  musicId: Loose(Schema.String),
+  payed: Loose(Schema.Finite),
+  peak: Loose(Schema.Finite),
+  rightSource: Loose(Schema.Finite),
+  size: Loose(Schema.Finite),
+  sr: Loose(Schema.Finite),
+  time: Loose(Schema.Finite),
+  type: Loose(Schema.String),
+  urlSource: Loose(Schema.Finite),
+});

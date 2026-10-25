@@ -93,11 +93,13 @@ export { ModuleBody as SearchMultimatchBody } from '../../modules/search_multima
 export { ModuleBody as SearchSuggestBody } from '../../modules/search_suggest.ts';
 export { ModuleBody as SongChorusBody } from '../../modules/song_chorus.ts';
 export { ModuleBody as SongDetailBody } from '../../modules/song_detail.ts';
+export { ModuleBody as SongDownloadUrlBody } from '../../modules/song_download_url.ts';
 export { ModuleBody as SongDownloadUrlV1Body } from '../../modules/song_download_url_v1.ts';
 export { ModuleBody as SongLyricsMarkBody } from '../../modules/song_lyrics_mark.ts';
 export { ModuleBody as SongLyricsMarkUserPageBody } from '../../modules/song_lyrics_mark_user_page.ts';
 export { ModuleBody as SongMusicDetailBody } from '../../modules/song_music_detail.ts';
 export { ModuleBody as SongOrderUpdateBody } from '../../modules/song_order_update.ts';
+export { ModuleBody as SongUrlBody } from '../../modules/song_url.ts';
 export { ModuleBody as SongUrlV1Body } from '../../modules/song_url_v1.ts';
 export { ModuleBody as SongWikiSummaryBody } from '../../modules/song_wiki_summary.ts';
 export { ModuleBody as TopAlbumBody } from '../../modules/top_album.ts';

@@ -270,16 +270,22 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 | 模块                                                             | 结构定义                | 收紧的字段                                                                                      |
 | ---------------------------------------------------------------- | ----------------------- | ----------------------------------------------------------------------------------------------- |
+| [获取音乐 url](/api/music/song-url)                              | `SongUrlBody`           | 最终体的 `code`、`data`、`data[].id`、`data[].url`、`data[].code`；其余字段宽松                 |
+| [获取客户端歌曲下载链接](/api/music/song-download-url)           | `SongDownloadUrlBody`   | `code`、`data`、`data.id`、`data.url`、`data.code`；`level`、`size` 宽松                        |
 | [获取音乐 url - 新版](/api/music/song-url-v1)                    | `SongUrlV1Body`         | `code`、`data`、`data[].id`、`data[].url`、`data[].code`；`level`、`expi`、`freeTrialInfo` 宽松 |
 | [获取客户端歌曲下载链接 - 新版](/api/music/song-download-url-v1) | `SongDownloadUrlV1Body` | `code`、`data`、`data.id`、`data.url`、`data.code`；`level`、`size` 宽松                        |
 | [获取逐字歌词](/api/music/lyric-new)                             | `LyricNewBody`          | `code`、`lrc`、`lrc.lyric`；其余歌词形式和 `pureMusic` 宽松                                     |
 | [听歌打卡](/api/music/scrobble)                                  | `ScrobbleBody`          | `code`                                                                                          |
 
-播放地址和下载地址里，`url` 是 `null` 表示拿不到地址，原因看条目里的 `code`，不能只检查顶层 `body.code` 或 HTTP 状态。播放地址的 `freeTrialInfo` 不是 `null` 表示只能试听，`url` 是试听片段，`start`、`end` 是片段在整首里的起止秒数，不应假定固定为 30 秒；这两个字段本身是宽松字段。
+`song_url` 的 `ModuleBody` 描述的是 SDK 最终体，不是网易云原文：上游顶层 `code` 被模块忽略并合成 `code: 200`（301 等非特殊状态码仍会先被请求层拒绝），上游 `data[]` 按请求 `id` 的顺序重排，顶层重建为 `{ code: 200, data }`，上游其他顶层字段不会保留；`data` 缺失时最终体是空数组。条目里的 `url` 不替换；`freeTrialInfo` 不合并片段，内部坏字段按宽松字段丢弃。`song_download_url` 正常录制与上游逐字段一致；宽松字段类型不对时只丢该项。`song_download_url` 的 `data` 是对象，不是数组；`auEff` 等字段来自播放地址的共享内部结构，下载录制里只见过 `null`，仍按宽松字段处理。
 
-下载地址的 `data` 是一个对象，不是数组。2026-10-21 使用真实国内 IP、不带账号 Cookie 请求会员歌 `1409311773`，`standard`、`higher`、`exhigh` 三档都返回顶层 `code: 200`，但 `data.code: -105`、`url: null`、`level: null`、`size: 0`；同一游客身份的播放接口仍返回试听片段。因此，这个只能试听的场景在下载接口中通过已声明的数值字段 `data.code` 识别，本次录制的值为 `-105`，表示当前身份没有下载权限，而不是拿到了可下载的试听文件。无版权的下载录制则是 `data.code: -110`（播放地址的无版权录制是 404）。这些是已录到的场景，不把 `-105` 解释为所有账号、所有歌曲都只能试听的通用结论，也没有录到会员到期的情况。
+播放和下载的上游码语义不稳定：同一请求在本次探测/重录中会从 200 翻转为 404（播放）或从 200 翻转为 `-110`（下载）。本批保留的 `song_url.transient-404.json`（与 `song_url.anon-trial.json` 同 query，`404`/`url: null`）和 `song_download_url.transient-110.json`（与 `song_download_url.free.json` 同 query，`-110`/`url: null`）就是翻转后的快照。因此 `url: null` 时不能凭一次 `code` 判定无版权/无权限，先重试或交叉验证；本批无版权录制里播放是 `404`、下载是 `-110`，但这些码也会出现在可播放/免费歌曲上，本次快照不代表稳定映射。
 
-下载前同时检查 `data.code === 200`、`data.url !== null`、`data.size > 0`；不满足时标记下载失败，保留返回码说明原因，不要改用播放接口的试听地址补位。`size` 是宽松字段，缺失时无法核对文件字节数。下载录制中的 `freeTrialInfo` 均为 `null`，没有下载试听片段的证据；它按宽松字段声明，调用方不要假定下载接口一定会给试听片段。本次没有录到下载接口的 `code: 404`，不据此推断它的含义。
+播放地址的 `freeTrialInfo` 不是 `null` 表示这次返回的是试听片段，`url` 是试听地址，`start`、`end` 是片段在整首里的起止秒数，不应假定固定为 30 秒；这些字段本身是宽松字段。下载地址的 `-105` 在本批会员歌录制里表示当前身份没有下载权限，但同样不能当作稳定映射。
+
+下载前先重试一次；仍不满足 `data.code === 200`、`data.url !== null`、`data.size > 0` 时再标记下载失败，保留 `data.code` 说明原因，不要用播放接口的试听地址补位。`size` 是宽松字段，缺失时无法核对文件字节数。下载录制中的 `freeTrialInfo` 均为 `null`，没有下载试听片段的证据；它按宽松字段声明，调用方不要假定下载接口一定会给试听片段。
+
+本批只保留匿名和失效 Cookie 录制；失效 Cookie 不是登录证据，没有登录对照，不对登录后的 `freeTrialInfo`、`payed` 等字段作相同性断言。
 
 `level` 是实际给到的音质，可能比请求的低；`expi` 是播放地址有效的秒数。歌词除 `lrc` 外的几种可能整个缺失，也可能在、但 `lyric` 是空串，两种都表示没有这种歌词。
 

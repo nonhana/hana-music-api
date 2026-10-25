@@ -4,9 +4,9 @@ import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import { SongUrlData } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
-import { SongUrlData } from './song_url_v1.ts';
 
 // 通到下载地址的路径、`id` / `url` / `code` 收紧；其余字段宽松。
 // 匿名下载会员歌录到 -105，无版权录到 -110，均无地址；下载录制里 freeTrialInfo 都是 null，按宽松字段声明

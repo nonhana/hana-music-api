@@ -7,11 +7,8 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
-import {
-  decodeUpstreamBody,
-  Loose,
-  UpstreamObject,
-} from '../core/upstream-body.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import { SongUrlData } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { IdentifierQuery } from '../types/module-shared.ts';
 
@@ -45,65 +42,6 @@ const inputSchema = Schema.Struct({
 
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
-
-// 通到播放地址的路径、`id` / `url` / `code` 收紧；其余字段宽松。
-// 无版权时 url 和 level 是 null、code 不是 200；试听时 freeTrialInfo 标出片段在整首里的起止秒数，否则是 null。
-export const SongUrlData = UpstreamObject({
-  id: Schema.Finite,
-  url: Schema.NullOr(Schema.String),
-  code: Schema.Finite,
-  level: Loose(Schema.String),
-  expi: Loose(Schema.Finite),
-  freeTrialInfo: Loose(
-    UpstreamObject({
-      start: Loose(Schema.Finite),
-      end: Loose(Schema.Finite),
-      fragmentType: Loose(Schema.Finite),
-      algData: Loose(
-        UpstreamObject({
-          audioEffect: Loose(Schema.Finite),
-          fragSource: Loose(Schema.String),
-        }),
-      ),
-    }),
-  ),
-  auEff: Loose(Schema.Finite),
-  beatType: Loose(Schema.Finite),
-  br: Loose(Schema.Finite),
-  canExtend: Loose(Schema.Boolean),
-  closedGain: Loose(Schema.Finite),
-  closedPeak: Loose(Schema.Finite),
-  encodeType: Loose(Schema.String),
-  fee: Loose(Schema.Finite),
-  flag: Loose(Schema.Finite),
-  freeTimeTrialPrivilege: Loose(
-    UpstreamObject({
-      remainTime: Loose(Schema.Finite),
-      resConsumable: Loose(Schema.Boolean),
-      type: Loose(Schema.Finite),
-      userConsumable: Loose(Schema.Boolean),
-    }),
-  ),
-  freeTrialPrivilege: Loose(
-    UpstreamObject({
-      cannotListenReason: Loose(Schema.Finite),
-      listenType: Loose(Schema.Finite),
-      resConsumable: Loose(Schema.Boolean),
-      userConsumable: Loose(Schema.Boolean),
-    }),
-  ),
-  gain: Loose(Schema.Finite),
-  md5: Loose(Schema.String),
-  musicId: Loose(Schema.String),
-  payed: Loose(Schema.Finite),
-  peak: Loose(Schema.Finite),
-  rightSource: Loose(Schema.Finite),
-  size: Loose(Schema.Finite),
-  sr: Loose(Schema.Finite),
-  time: Loose(Schema.Finite),
-  type: Loose(Schema.String),
-  urlSource: Loose(Schema.Finite),
-});
 
 // 通到播放地址的路径，以及 `id` / `url` / `code` 收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(

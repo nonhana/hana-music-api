@@ -524,7 +524,10 @@ import type {
   ModuleInput as songDetailInput,
 } from '../../modules/song_detail.ts';
 import type { ModuleInput as songDownlistInput } from '../../modules/song_downlist.ts';
-import type { ModuleInput as songDownloadUrlInput } from '../../modules/song_download_url.ts';
+import type {
+  ModuleBody as songDownloadUrlBody,
+  ModuleInput as songDownloadUrlInput,
+} from '../../modules/song_download_url.ts';
 import type {
   ModuleBody as songDownloadUrlV1Body,
   ModuleInput as songDownloadUrlV1Input,
@@ -553,7 +556,10 @@ import type {
 import type { ModuleInput as songPurchasedInput } from '../../modules/song_purchased.ts';
 import type { ModuleInput as songRedCountInput } from '../../modules/song_red_count.ts';
 import type { ModuleInput as songSingledownlistInput } from '../../modules/song_singledownlist.ts';
-import type { ModuleInput as songUrlInput } from '../../modules/song_url.ts';
+import type {
+  ModuleBody as songUrlBody,
+  ModuleInput as songUrlInput,
+} from '../../modules/song_url.ts';
 import type {
   ModuleBody as songUrlV1Body,
   ModuleInput as songUrlV1Input,
@@ -2612,7 +2618,7 @@ export interface GeneratedModuleContractMap {
   song_download_url: {
     input: songDownloadUrlInput;
     query: songDownloadUrlInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songDownloadUrlBody>;
   };
   song_download_url_v1: {
     input: songDownloadUrlV1Input;
@@ -2682,7 +2688,7 @@ export interface GeneratedModuleContractMap {
   song_url: {
     input: songUrlInput;
     query: songUrlInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songUrlBody>;
   };
   song_url_v1: {
     input: songUrlV1Input;

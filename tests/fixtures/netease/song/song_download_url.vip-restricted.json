@@ -1,0 +1,70 @@
+{
+  "module": "song_download_url",
+  "query": {
+    "id": 1409311773,
+    "br": 128000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:02:27.648Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B3：song_download_url 会员歌曲匿名不可下载"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "id": 1409311773,
+        "url": null,
+        "br": 0,
+        "size": 0,
+        "md5": null,
+        "code": -105,
+        "expi": 1200,
+        "type": null,
+        "gain": 0,
+        "peak": null,
+        "closedGain": 0,
+        "closedPeak": 0,
+        "fee": 1,
+        "uf": null,
+        "payed": 0,
+        "flag": 1541124,
+        "canExtend": false,
+        "freeTrialInfo": null,
+        "level": null,
+        "encodeType": null,
+        "channelLayout": null,
+        "freeTrialPrivilege": {
+          "resConsumable": false,
+          "userConsumable": false,
+          "listenType": 0,
+          "cannotListenReason": 1,
+          "playReason": null,
+          "freeLimitTagType": null
+        },
+        "freeTimeTrialPrivilege": {
+          "resConsumable": false,
+          "userConsumable": false,
+          "type": 0,
+          "remainTime": 0
+        },
+        "urlSource": 0,
+        "rightSource": 0,
+        "podcastCtrp": null,
+        "effectTypes": null,
+        "time": 0,
+        "message": null,
+        "levelConfuse": null,
+        "musicId": null,
+        "accompany": null,
+        "sr": 0,
+        "auEff": null,
+        "immerseType": null,
+        "beatType": 0
+      },
+      "code": 200
+    }
+  }
+}
