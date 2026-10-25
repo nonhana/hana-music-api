@@ -37,6 +37,10 @@ const result = await mvSublist();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、收藏列表 `body.data` 和每条视频的编号 `data[].vid`（字符串）收紧；`count`、`hasMore`、`title`、`durationms`、`creator`、`playTime`、`coverUrl`、`aliaName`、`transName`、`markTypes` 是宽松字段。未登录时 `data` 是空数组（录制 `mv_sublist.anonymous.json`）；登录录制有 20 条。结构定义和类型是 `MvSublistBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取收藏的 MV 列表

@@ -166,9 +166,30 @@
 
 歌手全部歌曲的记录复用共享的 `Song`，另在模块内补了宽松的 `eq`，并把 `noCopyrightRcmd` 扩展成含 `expInfo`、`mvInfo` 的宽松结构。`artist_songs.default.json` 截取保留 30 首，`noCopyrightRcmd` 的嵌套证据在分页录制 `artist_songs.no-copyright.json`（`offset=70`，原始第 82 首；第 73 首在补录时已是 null）里。
 
-MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`artistName`、`duration`、`imgurl`、`imgurl16v9`、`name`、`playCount`、`publishTime`（`YYYY-MM-DD` 字符串）、`status`、`subed` 和 `artist`（复用宽松的 `Artist`）都是宽松字段。B9 的 MV 模块可以按三模块规则评估是否把它提升为共享结构。
+MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`artistName`、`duration`、`imgurl`、`imgurl16v9`、`name`、`playCount`、`publishTime`（`YYYY-MM-DD` 字符串）、`status`、`subed` 和 `artist`（复用宽松的 `Artist`）都是宽松字段。B9 已评估：MV 列表记录的字段集不同（`desc` 未声明、`alias`/`transNames` 只部分接口有），`artist_mv` 的局部 `Mv` 保留在模块内。
 
 登录对照：这 8 个匿名接口在带 Cookie 重录时声明类型相同，值差异只来自关注状态（`followed`、`follow`、`followDay`）和实时计数/CDN 地址，登录录制已删除；个别声明字段的值可能为 `null` 或非 `null`（如 `artist_fans` 的 `vipRights`），属于记录数据本身的差异。
+
+## MV
+
+| 模块                                           | 结构定义              | 收紧的字段                                         |
+| ---------------------------------------------- | --------------------- | -------------------------------------------------- |
+| [全部 mv](/api/video/mv-all)                   | `MvAllBody`           | `code`、`data`、`data[].id`                        |
+| [最新 mv](/api/video/mv-first)                 | `MvFirstBody`         | `code`、`data`、`data[].id`                        |
+| [网易出品 mv](/api/video/mv-exclusive-rcmd)    | `MvExclusiveRcmdBody` | `code`、`data`、`data[].id`                        |
+| [mv 排行](/api/toplist/top-mv)                 | `TopMvBody`           | `code`、`data`、`data[].id`                        |
+| [获取 mv 数据](/api/video/mv-detail)           | `MvDetailBody`        | `code`、`data`、`data.id`                          |
+| [mv 点赞转发评论数](/api/video/mv-detail-info) | `MvDetailInfoBody`    | `code`、`commentCount`、`shareCount`、`likedCount` |
+| [mv 地址](/api/video/mv-url)                   | `MvUrlBody`           | `code`、`data`、`data.id`、`data.url`、`data.code` |
+| [收藏的 MV 列表](/api/video/mv-sublist)        | `MvSublistBody`       | `code`、`data`、`data[].vid`                       |
+
+`mv_all`、`mv_first`、`mv_exclusive_rcmd`、`top_mv` 的列表记录共用 `MvSummary`（`top_mv` 在模块内再补上榜字段）：只收紧记录自己的 `id`；`cover`、`name`、`playCount`、`briefDesc`、`artistId`、`artistName`、`duration`、`mark`、`subed`、`artists`（复用宽松的 `Artist`）、`alias`、`transNames` 全部宽松。`desc` 在四份列表录制里都只见过 `null`，没有声明，原样保留。`top_mv` 的 `lastRank`、`score`、`updateTime`、`hasMore` 和嵌套的 `mv`（含 `videos[].tagSign`）都宽松；录制 `top_mv.default.json` 原始 30 条，截取前 10 条（见 `context.truncated`）。`mv_all` 的 `count` 只在第一页出现，非零 `offset` 的录制（`mv_all.page-two.json`）里整个缺失，所以是宽松字段。`mv_first`、`mv_exclusive_rcmd` 分别用无效地区筛选和越界 `offset` 录到空 `data`（`mv_first.empty-area.json`、`mv_exclusive_rcmd.no-result.json`）；`mv_all` 和 `top_mv` 本批录制与探测未发现可达的空结果。
+
+`mv_detail` 返回的不是列表记录，结构单独声明：`code`、`data`、`data.id` 收紧；`mp`、`loadingPic`、`bufferPic`、`subed` 和详情里的封面、计数、时长、发布时间、`brs[]`、`artists`、`desc` 都宽松。`data.price` 在录制里只见过 `null`、`videoGroup` 只见过空数组，都没有声明。
+
+`mv_detail_info` 里接口要的 `commentCount`、`shareCount`、`likedCount` 收紧，`liked`（当前账号的点赞状态）宽松。`mv_url` 的 `data` 是对象：`data.id`、`data.url`（拿不到地址时是 `null`，原因看 `data.code`）、`data.code` 收紧，`r`、`size`、`md5`、`expi`、`msg` 等宽松；录制覆盖默认 1080p（`mv_url.default.json`）、720p（`mv_url.720p.json`）和上游间歇返回 `-125` 的不可用场景（`mv_url.unavailable.json`）。
+
+`mv_sublist` 返回的是云视频收藏记录：`data[].vid` 是记录自己的编号，按字符串收紧；`title`、`durationms`、`creator`、`playTime`、`coverUrl`、`aliaName`、`transName`、`markTypes` 宽松，`alg` 只见过 `null` 没有声明。登录录制有 20 条，匿名录制（`mv_sublist.anonymous.json`）是空数组。其余列表模块的匿名与登录重录逐字段 diff 没有结构差异，登录对照录制已删除；`mv_sublist` 只对比到顶层字段（匿名时 `data` 是空数组），非空登录录制保留作为元素字段证据。收藏/取消收藏 MV（`mv_sub`）是写操作，本批没有收窄返回体。
 
 ## 播放
 

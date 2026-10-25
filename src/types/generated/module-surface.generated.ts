@@ -286,14 +286,35 @@ import type { ModuleInput as musicianPlayTrendInput } from '../../modules/musici
 import type { ModuleInput as musicianSignInput } from '../../modules/musician_sign.ts';
 import type { ModuleInput as musicianTasksInput } from '../../modules/musician_tasks.ts';
 import type { ModuleInput as musicianTasksNewInput } from '../../modules/musician_tasks_new.ts';
-import type { ModuleInput as mvAllInput } from '../../modules/mv_all.ts';
-import type { ModuleInput as mvDetailInput } from '../../modules/mv_detail.ts';
-import type { ModuleInput as mvDetailInfoInput } from '../../modules/mv_detail_info.ts';
-import type { ModuleInput as mvExclusiveRcmdInput } from '../../modules/mv_exclusive_rcmd.ts';
-import type { ModuleInput as mvFirstInput } from '../../modules/mv_first.ts';
+import type {
+  ModuleBody as mvAllBody,
+  ModuleInput as mvAllInput,
+} from '../../modules/mv_all.ts';
+import type {
+  ModuleBody as mvDetailBody,
+  ModuleInput as mvDetailInput,
+} from '../../modules/mv_detail.ts';
+import type {
+  ModuleBody as mvDetailInfoBody,
+  ModuleInput as mvDetailInfoInput,
+} from '../../modules/mv_detail_info.ts';
+import type {
+  ModuleBody as mvExclusiveRcmdBody,
+  ModuleInput as mvExclusiveRcmdInput,
+} from '../../modules/mv_exclusive_rcmd.ts';
+import type {
+  ModuleBody as mvFirstBody,
+  ModuleInput as mvFirstInput,
+} from '../../modules/mv_first.ts';
 import type { ModuleInput as mvSubInput } from '../../modules/mv_sub.ts';
-import type { ModuleInput as mvSublistInput } from '../../modules/mv_sublist.ts';
-import type { ModuleInput as mvUrlInput } from '../../modules/mv_url.ts';
+import type {
+  ModuleBody as mvSublistBody,
+  ModuleInput as mvSublistInput,
+} from '../../modules/mv_sublist.ts';
+import type {
+  ModuleBody as mvUrlBody,
+  ModuleInput as mvUrlInput,
+} from '../../modules/mv_url.ts';
 import type { ModuleInput as nicknameCheckInput } from '../../modules/nickname_check.ts';
 import type { ModuleInput as personalFmInput } from '../../modules/personal_fm.ts';
 import type { ModuleInput as personalFmModeInput } from '../../modules/personal_fm_mode.ts';
@@ -490,7 +511,10 @@ import type {
   ModuleBody as topListBody,
   ModuleInput as topListInput,
 } from '../../modules/top_list.ts';
-import type { ModuleInput as topMvInput } from '../../modules/top_mv.ts';
+import type {
+  ModuleBody as topMvBody,
+  ModuleInput as topMvInput,
+} from '../../modules/top_mv.ts';
 import type { ModuleInput as topPlaylistInput } from '../../modules/top_playlist.ts';
 import type {
   ModuleBody as topPlaylistHighqualityBody,
@@ -2053,34 +2077,42 @@ export interface GeneratedModuleContractMap {
     query: musicianTasksNewInput;
     response: ModuleResponse;
   };
-  mv_all: { input: mvAllInput; query: mvAllInput; response: ModuleResponse };
+  mv_all: {
+    input: mvAllInput;
+    query: mvAllInput;
+    response: ModuleResponse<mvAllBody>;
+  };
   mv_detail: {
     input: mvDetailInput;
     query: mvDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mvDetailBody>;
   };
   mv_detail_info: {
     input: mvDetailInfoInput;
     query: mvDetailInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mvDetailInfoBody>;
   };
   mv_exclusive_rcmd: {
     input: mvExclusiveRcmdInput;
     query: mvExclusiveRcmdInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mvExclusiveRcmdBody>;
   };
   mv_first: {
     input: mvFirstInput;
     query: mvFirstInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mvFirstBody>;
   };
   mv_sub: { input: mvSubInput; query: mvSubInput; response: ModuleResponse };
   mv_sublist: {
     input: mvSublistInput;
     query: mvSublistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mvSublistBody>;
   };
-  mv_url: { input: mvUrlInput; query: mvUrlInput; response: ModuleResponse };
+  mv_url: {
+    input: mvUrlInput;
+    query: mvUrlInput;
+    response: ModuleResponse<mvUrlBody>;
+  };
   nickname_check: {
     input: nicknameCheckInput;
     query: nicknameCheckInput;
@@ -2618,7 +2650,11 @@ export interface GeneratedModuleContractMap {
     query: topListInput;
     response: ModuleResponse<topListBody>;
   };
-  top_mv: { input: topMvInput; query: topMvInput; response: ModuleResponse };
+  top_mv: {
+    input: topMvInput;
+    query: topMvInput;
+    response: ModuleResponse<topMvBody>;
+  };
   top_playlist: {
     input: topPlaylistInput;
     query: topPlaylistInput;

@@ -580,3 +580,20 @@ export const AlbumSummary = UpstreamObject({
   id: Schema.Finite,
   info: Loose(AlbumInfo),
 });
+
+// mv_all、mv_first、mv_exclusive_rcmd、top_mv 共用的 MV 列表记录，字段一致；`desc` 在各录制里只见过 null，未声明，`alias`/`transNames` 只在部分接口出现、声明为宽松字段。
+export const MvSummary = UpstreamObject({
+  id: Schema.Finite,
+  alias: Loose(Schema.Array(Schema.String)),
+  artistId: Loose(Schema.Finite),
+  artistName: Loose(Schema.String),
+  artists: Loose(Schema.Array(Artist)),
+  briefDesc: Loose(Schema.String),
+  cover: Loose(Schema.String),
+  duration: Loose(Schema.Finite),
+  mark: Loose(Schema.Finite),
+  name: Loose(Schema.String),
+  playCount: Loose(Schema.Finite),
+  subed: Loose(Schema.Boolean),
+  transNames: Loose(Schema.Array(Schema.String)),
+});

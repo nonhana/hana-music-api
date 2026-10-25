@@ -1,0 +1,23 @@
+{
+  "module": "mv_detail_info",
+  "query": {
+    "mvid": 22769012
+  },
+  "context": {
+    "recordedAt": "2026-10-25T11:26:13.266Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：mv_detail_info 评论线程计数（有评论）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "likedCount": 4635,
+      "shareCount": 695,
+      "commentCount": 544,
+      "liked": false,
+      "code": 200
+    }
+  }
+}

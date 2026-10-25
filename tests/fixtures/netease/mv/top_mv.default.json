@@ -1,0 +1,2133 @@
+{
+  "module": "top_mv",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T11:26:05.605Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：top_mv MV排行榜（原始 30 条，截取前 10 条；transNames 只在 mv_all/mv_first 的录制里出现，本截取样本没有）",
+    "truncated": [
+      {
+        "path": "body.data",
+        "length": 30
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [
+        {
+          "id": 34810579,
+          "cover": "http://p4.music.126.net/fqi6nqeI00_eGPk5uZSY2w==/109951174144804614.jpg",
+          "name": "一张相片",
+          "playCount": 59912,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "连麻Swimming",
+          "artistId": 12064019,
+          "duration": 0,
+          "mark": 0,
+          "mv": {
+            "authId": 7396311,
+            "status": 0,
+            "id": 34810579,
+            "title": "一张相片",
+            "subTitle": "",
+            "appTitle": "",
+            "aliaName": "",
+            "transName": "",
+            "pic4v3": 109951174144804130,
+            "pic16v9": 109951174144804600,
+            "caption": 0,
+            "captionLanguage": "其它",
+            "style": null,
+            "mottos": "",
+            "oneword": null,
+            "appword": "",
+            "stars": null,
+            "desc": "",
+            "area": "大陆",
+            "type": "官方版",
+            "subType": "完整版",
+            "neteaseonly": 0,
+            "upban": 1,
+            "topWeeks": "",
+            "publishTime": "2026-10-24",
+            "online": 1792771200576,
+            "score": 0,
+            "plays": 0,
+            "monthplays": 0,
+            "weekplays": 0,
+            "dayplays": 0,
+            "fee": 0,
+            "valid": 99,
+            "artists": [
+              {
+                "id": 12064019,
+                "name": "连麻Swimming"
+              }
+            ],
+            "videos": [
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "TS",
+                  "tagSign": "TS_240P",
+                  "resolution": 240,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_240P",
+                "url": "cloudmusic/obj/core/83767630424/cb569fadc972a621856a594d6c02d0c9.m3u8",
+                "duration": 224000,
+                "size": 15859745,
+                "width": 336,
+                "height": 240,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "MP4",
+                  "tagSign": "MP4_240P",
+                  "resolution": 240,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_240P",
+                "url": "cloudmusic/obj/core/83767630424/cb569fadc972a621856a594d6c02d0c9.mp4",
+                "duration": 224000,
+                "size": 14747168,
+                "width": 336,
+                "height": 240,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "TS",
+                  "tagSign": "TS_480P",
+                  "resolution": 480,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_480P",
+                "url": "cloudmusic/obj/core/83767630424/36c3097bc7c005e5c3e22edc5739aa83.m3u8",
+                "duration": 224000,
+                "size": 24714169,
+                "width": 672,
+                "height": 480,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "MP4",
+                  "tagSign": "MP4_480P",
+                  "resolution": 480,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_480P",
+                "url": "cloudmusic/obj/core/83767630424/36c3097bc7c005e5c3e22edc5739aa83.mp4",
+                "duration": 224000,
+                "size": 23420806,
+                "width": 672,
+                "height": 480,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "TS",
+                  "tagSign": "TS_720P",
+                  "resolution": 720,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_720P",
+                "url": "cloudmusic/obj/core/83767630424/78fa2389211385d5497cbdd83a67aaac.m3u8",
+                "duration": 224000,
+                "size": 37983397,
+                "width": 1008,
+                "height": 720,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "MP4",
+                  "tagSign": "MP4_720P",
+                  "resolution": 720,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_720P",
+                "url": "cloudmusic/obj/core/83767630424/78fa2389211385d5497cbdd83a67aaac.mp4",
+                "duration": 224000,
+                "size": 36408780,
+                "width": 1008,
+                "height": 720,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "TS",
+                  "tagSign": "TS_1080P",
+                  "resolution": 1080,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_1080P",
+                "url": "cloudmusic/obj/core/83767630424/d7f7a1dced6945f82d40ecf353d5a730.m3u8",
+                "duration": 224000,
+                "size": 85192829,
+                "width": 1512,
+                "height": 1080,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "MP4",
+                  "tagSign": "MP4_1080P",
+                  "resolution": 1080,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_1080P",
+                "url": "cloudmusic/obj/core/83767630424/d7f7a1dced6945f82d40ecf353d5a730.mp4",
+                "duration": 224000,
+                "size": 82618860,
+                "width": 1512,
+                "height": 1080,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              }
+            ]
+          },
+          "lastRank": -1,
+          "score": 260,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12064019,
+              "name": "连麻Swimming"
+            }
+          ]
+        },
+        {
+          "id": 34809678,
+          "cover": "http://p3.music.126.net/QOMN7hzXyA_VWRNBRXajOQ==/109951174144800680.jpg",
+          "name": "Fxxk The World",
+          "playCount": 11041,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "连麻Swimming",
+          "artistId": 12064019,
+          "duration": 0,
+          "mark": 0,
+          "mv": {
+            "authId": 7396311,
+            "status": 0,
+            "id": 34809678,
+            "title": "Fxxk The World",
+            "subTitle": "",
+            "appTitle": "",
+            "aliaName": "",
+            "transName": "",
+            "pic4v3": 109951174144802180,
+            "pic16v9": 109951174144800670,
+            "caption": 0,
+            "captionLanguage": "其它",
+            "style": null,
+            "mottos": "",
+            "oneword": null,
+            "appword": "",
+            "stars": null,
+            "desc": "",
+            "area": "大陆",
+            "type": "官方版",
+            "subType": "完整版",
+            "neteaseonly": 0,
+            "upban": 1,
+            "topWeeks": "",
+            "publishTime": "2026-10-24",
+            "online": 1792771203537,
+            "score": 0,
+            "plays": 0,
+            "monthplays": 0,
+            "weekplays": 0,
+            "dayplays": 0,
+            "fee": 0,
+            "valid": 99,
+            "artists": [
+              {
+                "id": 12064019,
+                "name": "连麻Swimming"
+              }
+            ],
+            "videos": [
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "TS",
+                  "tagSign": "TS_240P",
+                  "resolution": 240,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_240P",
+                "url": "cloudmusic/obj/core/83767636381/212b1fc58b68ca343254e124cf062e13.m3u8",
+                "duration": 181000,
+                "size": 13004304,
+                "width": 426,
+                "height": 240,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "MP4",
+                  "tagSign": "MP4_240P",
+                  "resolution": 240,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_240P",
+                "url": "cloudmusic/obj/core/83767636381/212b1fc58b68ca343254e124cf062e13.mp4",
+                "duration": 181000,
+                "size": 12110788,
+                "width": 426,
+                "height": 240,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "TS",
+                  "tagSign": "TS_480P",
+                  "resolution": 480,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_480P",
+                "url": "cloudmusic/obj/core/83767636381/f9275981f868432d9d6a865cd9476f55.m3u8",
+                "duration": 181000,
+                "size": 20440830,
+                "width": 854,
+                "height": 480,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "MP4",
+                  "tagSign": "MP4_480P",
+                  "resolution": 480,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_480P",
+                "url": "cloudmusic/obj/core/83767636381/f9275981f868432d9d6a865cd9476f55.mp4",
+                "duration": 181000,
+                "size": 19396466,
+                "width": 854,
+                "height": 480,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "TS",
+                  "tagSign": "TS_720P",
+                  "resolution": 720,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_720P",
+                "url": "cloudmusic/obj/core/83767636381/6542036b7969d79ea8a0608f308f3526.m3u8",
+                "duration": 181000,
+                "size": 31681541,
+                "width": 1280,
+                "height": 720,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "MP4",
+                  "tagSign": "MP4_720P",
+                  "resolution": 720,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_720P",
+                "url": "cloudmusic/obj/core/83767636381/6542036b7969d79ea8a0608f308f3526.mp4",
+                "duration": 181000,
+                "size": 30412096,
+                "width": 1280,
+                "height": 720,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "TS",
+                  "tagSign": "TS_1080P",
+                  "resolution": 1080,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_1080P",
+                "url": "cloudmusic/obj/core/83767636381/405997d648574e8486b3223f89c1652e.m3u8",
+                "duration": 181000,
+                "size": 127986420,
+                "width": 1920,
+                "height": 1080,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "MP4",
+                  "tagSign": "MP4_1080P",
+                  "resolution": 1080,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_1080P",
+                "url": "cloudmusic/obj/core/83767636381/405997d648574e8486b3223f89c1652e.mp4",
+                "duration": 181000,
+                "size": 124667183,
+                "width": 1920,
+                "height": 1080,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              }
+            ]
+          },
+          "lastRank": -1,
+          "score": 76,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12064019,
+              "name": "连麻Swimming"
+            }
+          ]
+        },
+        {
+          "id": 34796477,
+          "cover": "http://p3.music.126.net/dncn4SnUw2YFB917eiNqLw==/109951173919953021.jpg",
+          "name": "时光洪流",
+          "playCount": 52182,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "程响",
+          "artistId": 7424,
+          "duration": 0,
+          "mark": 0,
+          "mv": {
+            "authId": 0,
+            "status": 0,
+            "id": 34796477,
+            "title": "时光洪流",
+            "subTitle": "",
+            "appTitle": "",
+            "aliaName": "",
+            "transName": "",
+            "pic4v3": 109951173919941360,
+            "pic16v9": 109951173919953020,
+            "caption": 0,
+            "captionLanguage": "其它",
+            "style": null,
+            "mottos": "",
+            "oneword": null,
+            "appword": "",
+            "stars": null,
+            "desc": "",
+            "area": "华语",
+            "type": "官方版",
+            "subType": "完整版",
+            "neteaseonly": 0,
+            "upban": 1,
+            "topWeeks": "",
+            "publishTime": "2026-09-10",
+            "online": 1789036396632,
+            "score": 0,
+            "plays": 0,
+            "monthplays": 0,
+            "weekplays": 0,
+            "dayplays": 0,
+            "fee": 0,
+            "valid": 99,
+            "artists": [
+              {
+                "id": 7424,
+                "name": "程响"
+              }
+            ],
+            "videos": [
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "TS",
+                  "tagSign": "TS_240P",
+                  "resolution": 240,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_240P",
+                "url": "cloudmusic/obj/core/82855779265/637c873a036bb782b966ef0aed2abd77.m3u8",
+                "duration": 274000,
+                "size": 19485792,
+                "width": 426,
+                "height": 240,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "MP4",
+                  "tagSign": "MP4_240P",
+                  "resolution": 240,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_240P",
+                "url": "cloudmusic/obj/core/82855779265/637c873a036bb782b966ef0aed2abd77.mp4",
+                "duration": 274000,
+                "size": 18145635,
+                "width": 426,
+                "height": 240,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "TS",
+                  "tagSign": "TS_480P",
+                  "resolution": 480,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_480P",
+                "url": "cloudmusic/obj/core/82855779265/f424f509903ecdf81e674404faae19a0.m3u8",
+                "duration": 274000,
+                "size": 30592082,
+                "width": 854,
+                "height": 480,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "MP4",
+                  "tagSign": "MP4_480P",
+                  "resolution": 480,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_480P",
+                "url": "cloudmusic/obj/core/82855779265/f424f509903ecdf81e674404faae19a0.mp4",
+                "duration": 274000,
+                "size": 29024467,
+                "width": 854,
+                "height": 480,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "TS",
+                  "tagSign": "TS_720P",
+                  "resolution": 720,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_720P",
+                "url": "cloudmusic/obj/core/82855779265/e8d068781ca02f936366ff73ed62e47e.m3u8",
+                "duration": 274000,
+                "size": 47425412,
+                "width": 1280,
+                "height": 720,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "MP4",
+                  "tagSign": "MP4_720P",
+                  "resolution": 720,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_720P",
+                "url": "cloudmusic/obj/core/82855779265/e8d068781ca02f936366ff73ed62e47e.mp4",
+                "duration": 274000,
+                "size": 45507981,
+                "width": 1280,
+                "height": 720,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "TS",
+                  "tagSign": "TS_1080P",
+                  "resolution": 1080,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_1080P",
+                "url": "cloudmusic/obj/core/82855779265/46b494a4574893e385280795cc69c791.m3u8",
+                "duration": 274000,
+                "size": 119981886,
+                "width": 1920,
+                "height": 1080,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "MP4",
+                  "tagSign": "MP4_1080P",
+                  "resolution": 1080,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_1080P",
+                "url": "cloudmusic/obj/core/82855779265/46b494a4574893e385280795cc69c791.mp4",
+                "duration": 274000,
+                "size": 116522263,
+                "width": 1920,
+                "height": 1080,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              }
+            ]
+          },
+          "lastRank": 1,
+          "score": 14,
+          "subed": false,
+          "artists": [
+            {
+              "id": 7424,
+              "name": "程响"
+            }
+          ]
+        },
+        {
+          "id": 34812185,
+          "cover": "http://p3.music.126.net/o2ceQdJFKfSn1K-pySrb4Q==/109951174155493544.jpg",
+          "name": "光落（《时光代理人 第三季》Part2片头曲）",
+          "playCount": 3313,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "吴垚滔",
+          "artistId": 36562889,
+          "duration": 0,
+          "mark": 0,
+          "mv": {
+            "authId": 22036,
+            "status": 0,
+            "id": 34812185,
+            "title": "光落（《时光代理人 第三季》Part2片头曲）",
+            "subTitle": "",
+            "appTitle": "",
+            "aliaName": "《时光代理人 第三季》Part2片头曲",
+            "transName": "",
+            "pic4v3": 109951174155493540,
+            "pic16v9": 109951174155493540,
+            "caption": 0,
+            "captionLanguage": "其它",
+            "style": null,
+            "mottos": "",
+            "oneword": null,
+            "appword": "",
+            "stars": null,
+            "desc": null,
+            "area": "大陆",
+            "type": "官方版",
+            "subType": "完整版",
+            "neteaseonly": 0,
+            "upban": 1,
+            "topWeeks": "",
+            "publishTime": "2026-10-23",
+            "online": 1792741896754,
+            "score": 0,
+            "plays": 0,
+            "monthplays": 0,
+            "weekplays": 0,
+            "dayplays": 0,
+            "fee": 0,
+            "valid": 99,
+            "artists": [
+              {
+                "id": 36562889,
+                "name": "吴垚滔"
+              }
+            ],
+            "videos": [
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "TS",
+                  "tagSign": "TS_240P",
+                  "resolution": 240,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_240P",
+                "url": "cloudmusic/af06/core/0467/1104f048633be90784023411d8d552f5.m3u8",
+                "duration": 223000,
+                "size": 15893020,
+                "width": 426,
+                "height": 240,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "MP4",
+                  "tagSign": "MP4_240P",
+                  "resolution": 240,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_240P",
+                "url": "cloudmusic/af06/core/0467/1104f048633be90784023411d8d552f5.mp4",
+                "duration": 223000,
+                "size": 14803612,
+                "width": 426,
+                "height": 240,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "TS",
+                  "tagSign": "TS_480P",
+                  "resolution": 480,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_480P",
+                "url": "cloudmusic/af06/core/0467/901b1384a23ce8680e3190fe63adae27.m3u8",
+                "duration": 223000,
+                "size": 24780532,
+                "width": 854,
+                "height": 480,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "MP4",
+                  "tagSign": "MP4_480P",
+                  "resolution": 480,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_480P",
+                "url": "cloudmusic/af06/core/0467/901b1384a23ce8680e3190fe63adae27.mp4",
+                "duration": 223000,
+                "size": 23518276,
+                "width": 854,
+                "height": 480,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "TS",
+                  "tagSign": "TS_720P",
+                  "resolution": 720,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_720P",
+                "url": "cloudmusic/af06/core/0467/6ecf923bd0478113ca64efc7c54a5f82.m3u8",
+                "duration": 223000,
+                "size": 38014792,
+                "width": 1280,
+                "height": 720,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "MP4",
+                  "tagSign": "MP4_720P",
+                  "resolution": 720,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_720P",
+                "url": "cloudmusic/af06/core/0467/6ecf923bd0478113ca64efc7c54a5f82.mp4",
+                "duration": 223000,
+                "size": 36459101,
+                "width": 1280,
+                "height": 720,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "TS",
+                  "tagSign": "TS_1080P",
+                  "resolution": 1080,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_1080P",
+                "url": "cloudmusic/af06/core/0467/035167988ce4a8017fdae0048495a32b.m3u8",
+                "duration": 223000,
+                "size": 129764807,
+                "width": 1920,
+                "height": 1080,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "MP4",
+                  "tagSign": "MP4_1080P",
+                  "resolution": 1080,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_1080P",
+                "url": "cloudmusic/af06/core/0467/035167988ce4a8017fdae0048495a32b.mp4",
+                "duration": 223000,
+                "size": 126229573,
+                "width": 1920,
+                "height": 1080,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              }
+            ]
+          },
+          "lastRank": 2,
+          "score": 14,
+          "subed": false,
+          "artists": [
+            {
+              "id": 36562889,
+              "name": "吴垚滔"
+            }
+          ],
+          "alias": ["《时光代理人 第三季》Part2片头曲"]
+        },
+        {
+          "id": 34801736,
+          "cover": "http://p3.music.126.net/mxAw8OvI5sKuMA5MP4W89A==/109951174027632785.jpg",
+          "name": "蝶（Vlinder）（《三角洲行动》蝶-群星计划主题曲）",
+          "playCount": 27573,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "三角洲行动",
+          "artistId": 95426965,
+          "duration": 0,
+          "mark": 0,
+          "mv": {
+            "authId": 1416488,
+            "status": 0,
+            "id": 34801736,
+            "title": "蝶（Vlinder）（《三角洲行动》蝶-群星计划主题曲）",
+            "subTitle": "",
+            "appTitle": "",
+            "aliaName": "Vlinder/《三角洲行动》蝶-群星计划主题曲",
+            "transName": "",
+            "pic4v3": 109951174027626460,
+            "pic16v9": 109951174027632780,
+            "caption": 0,
+            "captionLanguage": "其它",
+            "style": null,
+            "mottos": "",
+            "oneword": null,
+            "appword": "",
+            "stars": null,
+            "desc": "",
+            "area": "大陆",
+            "type": "官方版",
+            "subType": "完整版",
+            "neteaseonly": 0,
+            "upban": 1,
+            "topWeeks": "",
+            "publishTime": "2026-09-30",
+            "online": 1790753879323,
+            "score": 0,
+            "plays": 0,
+            "monthplays": 0,
+            "weekplays": 0,
+            "dayplays": 0,
+            "fee": 0,
+            "valid": 99,
+            "artists": [
+              {
+                "id": 95426965,
+                "name": "三角洲行动"
+              },
+              {
+                "id": 33125645,
+                "name": "酷奇"
+              }
+            ],
+            "videos": [
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "TS",
+                  "tagSign": "TS_240P",
+                  "resolution": 240,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_240P",
+                "url": "cloudmusic/obj/core/83302304469/861111087a17fe28a90f2e1d45a34720.m3u8",
+                "duration": 244000,
+                "size": 17029346,
+                "width": 564,
+                "height": 240,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "MP4",
+                  "tagSign": "MP4_240P",
+                  "resolution": 240,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_240P",
+                "url": "cloudmusic/obj/core/83302304469/861111087a17fe28a90f2e1d45a34720.mp4",
+                "duration": 244000,
+                "size": 15844484,
+                "width": 564,
+                "height": 240,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "TS",
+                  "tagSign": "TS_480P",
+                  "resolution": 480,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_480P",
+                "url": "cloudmusic/obj/core/83302304469/2a98d68dcca896970a07bcd1b7b72dbb.m3u8",
+                "duration": 244000,
+                "size": 26570970,
+                "width": 1128,
+                "height": 480,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "MP4",
+                  "tagSign": "MP4_480P",
+                  "resolution": 480,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_480P",
+                "url": "cloudmusic/obj/core/83302304469/2a98d68dcca896970a07bcd1b7b72dbb.mp4",
+                "duration": 244000,
+                "size": 25183283,
+                "width": 1128,
+                "height": 480,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "TS",
+                  "tagSign": "TS_720P",
+                  "resolution": 720,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_720P",
+                "url": "cloudmusic/obj/core/83302304469/2cc71ec19db998b04f011d6a10a66f02.m3u8",
+                "duration": 244000,
+                "size": 40814355,
+                "width": 1692,
+                "height": 720,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "MP4",
+                  "tagSign": "MP4_720P",
+                  "resolution": 720,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_720P",
+                "url": "cloudmusic/obj/core/83302304469/2cc71ec19db998b04f011d6a10a66f02.mp4",
+                "duration": 244000,
+                "size": 39117194,
+                "width": 1692,
+                "height": 720,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "TS",
+                  "tagSign": "TS_1080P",
+                  "resolution": 1080,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_1080P",
+                "url": "cloudmusic/obj/core/83302304469/e7ab098d6fc4ee78e88b239063eb5756.m3u8",
+                "duration": 244000,
+                "size": 160758166,
+                "width": 2538,
+                "height": 1080,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "MP4",
+                  "tagSign": "MP4_1080P",
+                  "resolution": 1080,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_1080P",
+                "url": "cloudmusic/obj/core/83302304469/e7ab098d6fc4ee78e88b239063eb5756.mp4",
+                "duration": 244000,
+                "size": 156526126,
+                "width": 2538,
+                "height": 1080,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              }
+            ]
+          },
+          "lastRank": 5,
+          "score": 12,
+          "subed": false,
+          "artists": [
+            {
+              "id": 95426965,
+              "name": "三角洲行动"
+            },
+            {
+              "id": 33125645,
+              "name": "酷奇"
+            }
+          ],
+          "alias": ["Vlinder/《三角洲行动》蝶-群星计划主题曲"]
+        },
+        {
+          "id": 34787197,
+          "cover": "http://p4.music.126.net/Ybd44ji92hIMIIaqxxPwnw==/109951173768959640.jpg",
+          "name": "中国人会飞",
+          "playCount": 119237,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Chalky Wong",
+          "artistId": 12704500,
+          "duration": 0,
+          "mark": 0,
+          "mv": {
+            "authId": 4584648,
+            "status": 0,
+            "id": 34787197,
+            "title": "中国人会飞",
+            "subTitle": "",
+            "appTitle": "",
+            "aliaName": "",
+            "transName": "",
+            "pic4v3": 109951173768947920,
+            "pic16v9": 109951173768959650,
+            "caption": 0,
+            "captionLanguage": "其它",
+            "style": null,
+            "mottos": "",
+            "oneword": null,
+            "appword": "",
+            "stars": null,
+            "desc": "",
+            "area": "大陆",
+            "type": "官方版",
+            "subType": "完整版",
+            "neteaseonly": 0,
+            "upban": 1,
+            "topWeeks": "",
+            "publishTime": "2026-08-07",
+            "online": 1786940128399,
+            "score": 0,
+            "plays": 0,
+            "monthplays": 0,
+            "weekplays": 0,
+            "dayplays": 0,
+            "fee": 0,
+            "valid": 99,
+            "artists": [
+              {
+                "id": 12704500,
+                "name": "Chalky Wong"
+              },
+              {
+                "id": 31055231,
+                "name": "揽佬SKAI ISYOURGOD"
+              }
+            ],
+            "videos": [
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "TS",
+                  "tagSign": "TS_240P",
+                  "resolution": 240,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_240P",
+                "url": "cloudmusic/d6a2/core/7958/a29d5991b05218225a8d03e6a7f59a0b.m3u8",
+                "duration": 123000,
+                "size": 8883005,
+                "width": 426,
+                "height": 240,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "MP4",
+                  "tagSign": "MP4_240P",
+                  "resolution": 240,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_240P",
+                "url": "cloudmusic/d6a2/core/7958/a29d5991b05218225a8d03e6a7f59a0b.mp4",
+                "duration": 123000,
+                "size": 8276800,
+                "width": 426,
+                "height": 240,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "TS",
+                  "tagSign": "TS_480P",
+                  "resolution": 480,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_480P",
+                "url": "cloudmusic/d6a2/core/7958/3593246a85758b96546b0b30ea6b90f6.m3u8",
+                "duration": 123000,
+                "size": 13960509,
+                "width": 854,
+                "height": 480,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "MP4",
+                  "tagSign": "MP4_480P",
+                  "resolution": 480,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_480P",
+                "url": "cloudmusic/d6a2/core/7958/3593246a85758b96546b0b30ea6b90f6.mp4",
+                "duration": 123000,
+                "size": 13248372,
+                "width": 854,
+                "height": 480,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "TS",
+                  "tagSign": "TS_720P",
+                  "resolution": 720,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_720P",
+                "url": "cloudmusic/d6a2/core/7958/724fe9c3553afb44b07d3a220dc29355.m3u8",
+                "duration": 123000,
+                "size": 21466409,
+                "width": 1280,
+                "height": 720,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "MP4",
+                  "tagSign": "MP4_720P",
+                  "resolution": 720,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_720P",
+                "url": "cloudmusic/d6a2/core/7958/724fe9c3553afb44b07d3a220dc29355.mp4",
+                "duration": 123000,
+                "size": 20621001,
+                "width": 1280,
+                "height": 720,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "TS",
+                  "tagSign": "TS_1080P",
+                  "resolution": 1080,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_1080P",
+                "url": "cloudmusic/d6a2/core/7958/0976e8c9786bb9361439e42770bbb94d.m3u8",
+                "duration": 123000,
+                "size": 101112233,
+                "width": 1920,
+                "height": 1080,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "MP4",
+                  "tagSign": "MP4_1080P",
+                  "resolution": 1080,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_1080P",
+                "url": "cloudmusic/d6a2/core/7958/0976e8c9786bb9361439e42770bbb94d.mp4",
+                "duration": 123000,
+                "size": 98539068,
+                "width": 1920,
+                "height": 1080,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              }
+            ]
+          },
+          "lastRank": 4,
+          "score": 9,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12704500,
+              "name": "Chalky Wong"
+            },
+            {
+              "id": 31055231,
+              "name": "揽佬SKAI ISYOURGOD"
+            }
+          ]
+        },
+        {
+          "id": 34801749,
+          "cover": "http://p3.music.126.net/_I35iDSxQGv0svBmLoKwPw==/109951174027805222.jpg",
+          "name": "汪洋与浩渺",
+          "playCount": 20242,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "三角洲行动",
+          "artistId": 95426965,
+          "duration": 0,
+          "mark": 0,
+          "mv": {
+            "authId": 1416488,
+            "status": 0,
+            "id": 34801749,
+            "title": "汪洋与浩渺",
+            "subTitle": "",
+            "appTitle": "",
+            "aliaName": "",
+            "transName": "",
+            "pic4v3": 109951174027802320,
+            "pic16v9": 109951174027805220,
+            "caption": 0,
+            "captionLanguage": "其它",
+            "style": null,
+            "mottos": "",
+            "oneword": null,
+            "appword": "",
+            "stars": null,
+            "desc": "",
+            "area": "大陆",
+            "type": "官方版",
+            "subType": "完整版",
+            "neteaseonly": 0,
+            "upban": 1,
+            "topWeeks": "",
+            "publishTime": "2026-09-30",
+            "online": 1790757155497,
+            "score": 0,
+            "plays": 0,
+            "monthplays": 0,
+            "weekplays": 0,
+            "dayplays": 0,
+            "fee": 0,
+            "valid": 99,
+            "artists": [
+              {
+                "id": 95426965,
+                "name": "三角洲行动"
+              },
+              {
+                "id": 53755180,
+                "name": "周菲戈"
+              }
+            ],
+            "videos": [
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "TS",
+                  "tagSign": "TS_240P",
+                  "resolution": 240,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_240P",
+                "url": "cloudmusic/obj/core/83303435614/0fc0bbf42712e10507ad636234cef33a.m3u8",
+                "duration": 158000,
+                "size": 11309370,
+                "width": 426,
+                "height": 240,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "MP4",
+                  "tagSign": "MP4_240P",
+                  "resolution": 240,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_240P",
+                "url": "cloudmusic/obj/core/83303435614/0fc0bbf42712e10507ad636234cef33a.mp4",
+                "duration": 158000,
+                "size": 10538748,
+                "width": 426,
+                "height": 240,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "TS",
+                  "tagSign": "TS_480P",
+                  "resolution": 480,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_480P",
+                "url": "cloudmusic/obj/core/83303435614/38ecf52e21dcd3b2c4eccb53e9a940b0.m3u8",
+                "duration": 158000,
+                "size": 17539505,
+                "width": 854,
+                "height": 480,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "MP4",
+                  "tagSign": "MP4_480P",
+                  "resolution": 480,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_480P",
+                "url": "cloudmusic/obj/core/83303435614/38ecf52e21dcd3b2c4eccb53e9a940b0.mp4",
+                "duration": 158000,
+                "size": 16638140,
+                "width": 854,
+                "height": 480,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "TS",
+                  "tagSign": "TS_720P",
+                  "resolution": 720,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_720P",
+                "url": "cloudmusic/obj/core/83303435614/b6f660aefe01a9a43d13063c8f1f8fb2.m3u8",
+                "duration": 158000,
+                "size": 26984624,
+                "width": 1280,
+                "height": 720,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "MP4",
+                  "tagSign": "MP4_720P",
+                  "resolution": 720,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_720P",
+                "url": "cloudmusic/obj/core/83303435614/b6f660aefe01a9a43d13063c8f1f8fb2.mp4",
+                "duration": 158000,
+                "size": 25885272,
+                "width": 1280,
+                "height": 720,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "TS",
+                  "tagSign": "TS_1080P",
+                  "resolution": 1080,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_1080P",
+                "url": "cloudmusic/obj/core/83303435614/6a7fef9d1edb16837142c2cf7998067c.m3u8",
+                "duration": 158000,
+                "size": 62995083,
+                "width": 1920,
+                "height": 1080,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "MP4",
+                  "tagSign": "MP4_1080P",
+                  "resolution": 1080,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_1080P",
+                "url": "cloudmusic/obj/core/83303435614/6a7fef9d1edb16837142c2cf7998067c.mp4",
+                "duration": 158000,
+                "size": 61125595,
+                "width": 1920,
+                "height": 1080,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              }
+            ]
+          },
+          "lastRank": 7,
+          "score": 5,
+          "subed": false,
+          "artists": [
+            {
+              "id": 95426965,
+              "name": "三角洲行动"
+            },
+            {
+              "id": 53755180,
+              "name": "周菲戈"
+            }
+          ]
+        },
+        {
+          "id": 34803531,
+          "cover": "http://p3.music.126.net/e4b60zuVWb5rO4IIAWQxNQ==/109951174056903341.jpg",
+          "name": "异想天开",
+          "playCount": 59893,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "肖战",
+          "artistId": 13972109,
+          "duration": 0,
+          "mark": 0,
+          "mv": {
+            "authId": 7396408,
+            "status": 0,
+            "id": 34803531,
+            "title": "异想天开",
+            "subTitle": "",
+            "appTitle": "",
+            "aliaName": "",
+            "transName": "",
+            "pic4v3": 109951174056903340,
+            "pic16v9": 109951174056903340,
+            "caption": 0,
+            "captionLanguage": "其它",
+            "style": null,
+            "mottos": "",
+            "oneword": null,
+            "appword": "",
+            "stars": null,
+            "desc": "",
+            "area": "大陆",
+            "type": "官方版",
+            "subType": "完整版",
+            "neteaseonly": 0,
+            "upban": 1,
+            "topWeeks": "",
+            "publishTime": "2026-10-05",
+            "online": 1791165900133,
+            "score": 0,
+            "plays": 0,
+            "monthplays": 0,
+            "weekplays": 0,
+            "dayplays": 0,
+            "fee": 0,
+            "valid": 99,
+            "artists": [
+              {
+                "id": 13972109,
+                "name": "肖战"
+              }
+            ],
+            "videos": [
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "TS",
+                  "tagSign": "TS_240P",
+                  "resolution": 240,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_240P",
+                "url": "cloudmusic/obj/core/83405758910/5259e28cc7e314d9d8c7f74cc0b18291.m3u8",
+                "duration": 261000,
+                "size": 17931298,
+                "width": 320,
+                "height": 240,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "MP4",
+                  "tagSign": "MP4_240P",
+                  "resolution": 240,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_240P",
+                "url": "cloudmusic/obj/core/83405758910/5259e28cc7e314d9d8c7f74cc0b18291.mp4",
+                "duration": 261000,
+                "size": 16668990,
+                "width": 320,
+                "height": 240,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "TS",
+                  "tagSign": "TS_480P",
+                  "resolution": 480,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_480P",
+                "url": "cloudmusic/obj/core/83405758910/43b38eb1350153a3b889e16ba801418a.m3u8",
+                "duration": 261000,
+                "size": 27986103,
+                "width": 638,
+                "height": 480,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "MP4",
+                  "tagSign": "MP4_480P",
+                  "resolution": 480,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_480P",
+                "url": "cloudmusic/obj/core/83405758910/43b38eb1350153a3b889e16ba801418a.mp4",
+                "duration": 261000,
+                "size": 26519855,
+                "width": 638,
+                "height": 480,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "TS",
+                  "tagSign": "TS_720P",
+                  "resolution": 720,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_720P",
+                "url": "cloudmusic/obj/core/83405758910/d98444b8f680a2a38a3747cc34a919c6.m3u8",
+                "duration": 261000,
+                "size": 43035315,
+                "width": 958,
+                "height": 720,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "MP4",
+                  "tagSign": "MP4_720P",
+                  "resolution": 720,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_720P",
+                "url": "cloudmusic/obj/core/83405758910/d98444b8f680a2a38a3747cc34a919c6.mp4",
+                "duration": 261000,
+                "size": 41235935,
+                "width": 958,
+                "height": 720,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "TS",
+                  "tagSign": "TS_1080P",
+                  "resolution": 1080,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_1080P",
+                "url": "cloudmusic/obj/core/83405758910/e4dcfd99a2efb2fd2f167efb9392d58a.m3u8",
+                "duration": 261000,
+                "size": 90028547,
+                "width": 1438,
+                "height": 1080,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "MP4",
+                  "tagSign": "MP4_1080P",
+                  "resolution": 1080,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_1080P",
+                "url": "cloudmusic/obj/core/83405758910/e4dcfd99a2efb2fd2f167efb9392d58a.mp4",
+                "duration": 261000,
+                "size": 87256391,
+                "width": 1438,
+                "height": 1080,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              }
+            ]
+          },
+          "lastRank": 8,
+          "score": 3,
+          "subed": false,
+          "artists": [
+            {
+              "id": 13972109,
+              "name": "肖战"
+            }
+          ]
+        },
+        {
+          "id": 34801321,
+          "cover": "http://p3.music.126.net/3ut9Y_p5DTMFD0Li22r4Yw==/109951174017250989.jpg",
+          "name": "少管我",
+          "playCount": 26923,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "周深",
+          "artistId": 1030001,
+          "duration": 0,
+          "mark": 0,
+          "mv": {
+            "authId": 7002,
+            "status": 0,
+            "id": 34801321,
+            "title": "少管我",
+            "subTitle": "",
+            "appTitle": "",
+            "aliaName": "",
+            "transName": "",
+            "pic4v3": 109951174017256740,
+            "pic16v9": 109951174017250990,
+            "caption": 0,
+            "captionLanguage": "其它",
+            "style": null,
+            "mottos": "",
+            "oneword": null,
+            "appword": "",
+            "stars": null,
+            "desc": "",
+            "area": "大陆",
+            "type": "官方版",
+            "subType": "完整版",
+            "neteaseonly": 0,
+            "upban": 1,
+            "topWeeks": "",
+            "publishTime": "2026-09-29",
+            "online": 1790647200110,
+            "score": 0,
+            "plays": 0,
+            "monthplays": 0,
+            "weekplays": 0,
+            "dayplays": 0,
+            "fee": 0,
+            "valid": 99,
+            "artists": [
+              {
+                "id": 1030001,
+                "name": "周深"
+              }
+            ],
+            "videos": [
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "TS",
+                  "tagSign": "TS_240P",
+                  "resolution": 240,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_240P",
+                "url": "cloudmusic/obj/core/83257789208/c5f63faf2b10fcf4370b4801476630a6.m3u8",
+                "duration": 239000,
+                "size": 16879888,
+                "width": 540,
+                "height": 240,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "MP4",
+                  "tagSign": "MP4_240P",
+                  "resolution": 240,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_240P",
+                "url": "cloudmusic/obj/core/83257789208/c5f63faf2b10fcf4370b4801476630a6.mp4",
+                "duration": 239000,
+                "size": 15711275,
+                "width": 540,
+                "height": 240,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "TS",
+                  "tagSign": "TS_480P",
+                  "resolution": 480,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_480P",
+                "url": "cloudmusic/obj/core/83257789208/4b60e3641f803515f0014f3f20e183c9.m3u8",
+                "duration": 239000,
+                "size": 26407727,
+                "width": 1080,
+                "height": 480,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "MP4",
+                  "tagSign": "MP4_480P",
+                  "resolution": 480,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_480P",
+                "url": "cloudmusic/obj/core/83257789208/4b60e3641f803515f0014f3f20e183c9.mp4",
+                "duration": 239000,
+                "size": 25039893,
+                "width": 1080,
+                "height": 480,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "TS",
+                  "tagSign": "TS_720P",
+                  "resolution": 720,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_720P",
+                "url": "cloudmusic/obj/core/83257789208/73a592712b0036ddf80ccd5f21c8d7a2.m3u8",
+                "duration": 239000,
+                "size": 40708887,
+                "width": 1620,
+                "height": 720,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "MP4",
+                  "tagSign": "MP4_720P",
+                  "resolution": 720,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_720P",
+                "url": "cloudmusic/obj/core/83257789208/73a592712b0036ddf80ccd5f21c8d7a2.mp4",
+                "duration": 239000,
+                "size": 39034874,
+                "width": 1620,
+                "height": 720,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "TS",
+                  "tagSign": "TS_1080P",
+                  "resolution": 1080,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_1080P",
+                "url": "cloudmusic/obj/core/83257789208/133a0b600a40d974367d8f0586532f98.m3u8",
+                "duration": 239000,
+                "size": 112007324,
+                "width": 2430,
+                "height": 1080,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "MP4",
+                  "tagSign": "MP4_1080P",
+                  "resolution": 1080,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_1080P",
+                "url": "cloudmusic/obj/core/83257789208/133a0b600a40d974367d8f0586532f98.mp4",
+                "duration": 239000,
+                "size": 108717619,
+                "width": 2430,
+                "height": 1080,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              }
+            ]
+          },
+          "lastRank": 10,
+          "score": 3,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1030001,
+              "name": "周深"
+            }
+          ]
+        },
+        {
+          "id": 34798320,
+          "cover": "http://p3.music.126.net/NVcrJJ8N4PZ5xxmGuVbyhQ==/109951173950764632.jpg",
+          "name": "礼拜四",
+          "playCount": 6591,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "HENDERY(黄冠亨)",
+          "artistId": 35473480,
+          "duration": 0,
+          "mark": 0,
+          "mv": {
+            "authId": 7394431,
+            "status": 0,
+            "id": 34798320,
+            "title": "礼拜四",
+            "subTitle": "",
+            "appTitle": "",
+            "aliaName": "",
+            "transName": "",
+            "pic4v3": 109951173950764640,
+            "pic16v9": 109951173950764640,
+            "caption": 0,
+            "captionLanguage": "其它",
+            "style": null,
+            "mottos": "",
+            "oneword": null,
+            "appword": "",
+            "stars": null,
+            "desc": "",
+            "area": "大陆",
+            "type": "官方版",
+            "subType": "完整版",
+            "neteaseonly": 0,
+            "upban": 1,
+            "topWeeks": "",
+            "publishTime": "2026-09-17",
+            "online": 1789617600256,
+            "score": 0,
+            "plays": 0,
+            "monthplays": 0,
+            "weekplays": 0,
+            "dayplays": 0,
+            "fee": 0,
+            "valid": 99,
+            "artists": [
+              {
+                "id": 35473480,
+                "name": "HENDERY(黄冠亨)"
+              }
+            ],
+            "videos": [
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "TS",
+                  "tagSign": "TS_240P",
+                  "resolution": 240,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_240P",
+                "url": "cloudmusic/5d33/core/584c/054aa4c727ca8f7ce2478daf872fe777.m3u8",
+                "duration": 228000,
+                "size": 15959758,
+                "width": 384,
+                "height": 240,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 240,
+                  "type": "MP4",
+                  "tagSign": "MP4_240P",
+                  "resolution": 240,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_240P",
+                "url": "cloudmusic/5d33/core/584c/054aa4c727ca8f7ce2478daf872fe777.mp4",
+                "duration": 228000,
+                "size": 14877187,
+                "width": 384,
+                "height": 240,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "TS",
+                  "tagSign": "TS_480P",
+                  "resolution": 480,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_480P",
+                "url": "cloudmusic/5d33/core/584c/7f28653182bccdee7020f9c3ed572454.m3u8",
+                "duration": 228000,
+                "size": 24956875,
+                "width": 768,
+                "height": 480,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 480,
+                  "type": "MP4",
+                  "tagSign": "MP4_480P",
+                  "resolution": 480,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_480P",
+                "url": "cloudmusic/5d33/core/584c/7f28653182bccdee7020f9c3ed572454.mp4",
+                "duration": 228000,
+                "size": 23682512,
+                "width": 768,
+                "height": 480,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "TS",
+                  "tagSign": "TS_720P",
+                  "resolution": 720,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_720P",
+                "url": "cloudmusic/5d33/core/584c/28fd5ec6ab82cf728bbd83a6037bfd85.m3u8",
+                "duration": 228000,
+                "size": 38445688,
+                "width": 1152,
+                "height": 720,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 720,
+                  "type": "MP4",
+                  "tagSign": "MP4_720P",
+                  "resolution": 720,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_720P",
+                "url": "cloudmusic/5d33/core/584c/28fd5ec6ab82cf728bbd83a6037bfd85.mp4",
+                "duration": 228000,
+                "size": 36896391,
+                "width": 1152,
+                "height": 720,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "TS",
+                  "tagSign": "TS_1080P",
+                  "resolution": 1080,
+                  "mvtype": "TS"
+                },
+                "tag": "TS_1080P",
+                "url": "cloudmusic/5d33/core/584c/fb7d79c132754694b43a72ccad1f3c69.m3u8",
+                "duration": 228000,
+                "size": 129706528,
+                "width": 1728,
+                "height": 1080,
+                "container": "m3u8",
+                "md5": "",
+                "check": false
+              },
+              {
+                "tagSign": {
+                  "br": 1080,
+                  "type": "MP4",
+                  "tagSign": "MP4_1080P",
+                  "resolution": 1080,
+                  "mvtype": "MP4"
+                },
+                "tag": "MP4_1080P",
+                "url": "cloudmusic/5d33/core/584c/fb7d79c132754694b43a72ccad1f3c69.mp4",
+                "duration": 228000,
+                "size": 126246701,
+                "width": 1728,
+                "height": 1080,
+                "container": "mp4",
+                "md5": "",
+                "check": false
+              }
+            ]
+          },
+          "lastRank": 3,
+          "score": 3,
+          "subed": false,
+          "artists": [
+            {
+              "id": 35473480,
+              "name": "HENDERY(黄冠亨)"
+            }
+          ]
+        }
+      ],
+      "hasMore": true,
+      "updateTime": 1792927565560
+    }
+  }
+}

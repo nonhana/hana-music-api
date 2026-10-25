@@ -1,0 +1,20 @@
+{
+  "module": "mv_first",
+  "query": {
+    "area": "不存在的地区"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T11:26:06.461Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：mv_first 空结果探测（无效地区）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [],
+      "code": 200
+    }
+  }
+}

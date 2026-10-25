@@ -45,6 +45,10 @@ const result = await mvAll({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、MV 列表 `body.data` 和每个 MV 的编号 `data[].id` 收紧（共用 `MvSummary`）；`count`、`hasMore` 以及记录里的封面、简介、播放数、时长、收藏状态、`artists`、`alias`、`transNames` 都是宽松字段。`count` 只在第一页出现，非零 `offset` 时可能整个缺失（录制 `mv_all.page-two.json`）。本批录制与探测未发现可达的空结果。结构定义和类型是 `MvAllBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取全部 mv

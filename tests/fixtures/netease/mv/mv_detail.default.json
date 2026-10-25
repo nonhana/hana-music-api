@@ -1,0 +1,89 @@
+{
+  "module": "mv_detail",
+  "query": {
+    "mvid": 14634962
+  },
+  "context": {
+    "recordedAt": "2026-10-25T11:27:44.679Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：mv_detail MV详情（desc 为空串）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "loadingPic": "",
+      "bufferPic": "",
+      "loadingPicFS": "",
+      "bufferPicFS": "",
+      "subed": false,
+      "mp": {
+        "id": 14634962,
+        "fee": 0,
+        "mvFee": 0,
+        "payed": 0,
+        "pl": 1080,
+        "dl": 1080,
+        "cp": 1,
+        "sid": 0,
+        "st": 0,
+        "normal": false,
+        "unauthorized": false,
+        "msg": null
+      },
+      "data": {
+        "id": 14634962,
+        "name": "如果我还剩一件事情可以做",
+        "artistId": 3684,
+        "artistName": "林俊杰",
+        "briefDesc": "",
+        "desc": "",
+        "cover": "http://p3.music.126.net/pVcxQm8xd2VewoqpxVJTAA==/109951168687425951.jpg",
+        "coverId_str": "109951168687425951",
+        "coverId": 109951168687425950,
+        "playCount": 334677,
+        "subCount": 866,
+        "shareCount": 1336,
+        "commentCount": 453,
+        "duration": 374000,
+        "nType": 0,
+        "publishTime": "2023-06-19",
+        "price": null,
+        "brs": [
+          {
+            "size": 24426864,
+            "br": 240,
+            "point": 0
+          },
+          {
+            "size": 39043968,
+            "br": 480,
+            "point": 0
+          },
+          {
+            "size": 61095468,
+            "br": 720,
+            "point": 0
+          },
+          {
+            "size": 65772824,
+            "br": 1080,
+            "point": 0
+          }
+        ],
+        "artists": [
+          {
+            "id": 3684,
+            "name": "林俊杰",
+            "img1v1Url": "http://p3.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+            "followed": false
+          }
+        ],
+        "commentThreadId": "R_MV_5_14634962",
+        "videoGroup": []
+      },
+      "code": 200
+    }
+  }
+}

@@ -1,0 +1,739 @@
+{
+  "module": "mv_all",
+  "query": {
+    "offset": 30
+  },
+  "context": {
+    "recordedAt": "2026-10-25T11:26:05.112Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：mv_all 第二页，count 在非零 offset 时缺失"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "hasMore": true,
+      "data": [
+        {
+          "id": 5341309,
+          "cover": "http://p4.music.126.net/6PKdjxPWKZLmJ4kenB3YEA==/3252355405741910.jpg",
+          "name": "펑펑울었어(Crying)",
+          "playCount": 1536310,
+          "briefDesc": "Stellar夏日回归,展清新魅力",
+          "desc": null,
+          "artistName": "Stellar",
+          "artistId": 127714,
+          "duration": 209560,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 127714,
+              "name": "Stellar",
+              "alias": ["스텔라", "Stellar"],
+              "transNames": ["스텔라"]
+            }
+          ]
+        },
+        {
+          "id": 5324479,
+          "cover": "http://p4.music.126.net/0WG0Hq53gAxD8JJm4U7CAQ==/1415071473990842.jpg",
+          "name": "Find The Pieces",
+          "playCount": 595859,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "TryHardNinja",
+          "artistId": 12024128,
+          "duration": 336630,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12024128,
+              "name": "TryHardNinja",
+              "alias": [],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 10898169,
+          "cover": "http://p4.music.126.net/bMhNSsQHx4mqpu8GG88gvQ==/109951164446342663.jpg",
+          "name": "呃",
+          "playCount": 96863,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "袁娅维TIA RAY",
+          "artistId": 10473,
+          "duration": 190000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 10473,
+              "name": "袁娅维TIA RAY",
+              "alias": ["Tia", "Tia Ray 袁娅维", "袁娅维"],
+              "transNames": null
+            },
+            {
+              "id": 12914544,
+              "name": "马伯骞Victor Ma",
+              "alias": ["马伯骞Victor", "马伯骞"],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 1257,
+          "cover": "http://p3.music.126.net/3eGXRfvOHfDHL-DlOPYNmA==/6620159511429412.jpg",
+          "name": "Flashback",
+          "playCount": 710110,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "After School",
+          "artistId": 126236,
+          "duration": 209000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 126236,
+              "name": "After School",
+              "alias": ["애프터 스쿨", "アフタースクール", "放学团"],
+              "transNames": ["애프터 스쿨"]
+            }
+          ]
+        },
+        {
+          "id": 5619286,
+          "cover": "http://p3.music.126.net/cjv5TegH3z2J0xnvP2nVrg==/109951163012659620.jpg",
+          "name": "独家专访 李现：是鲜肉还是大叔，从来不重要",
+          "playCount": 844743,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "李现",
+          "artistId": 12602151,
+          "duration": 437340,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12602151,
+              "name": "李现",
+              "alias": [],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 10917368,
+          "cover": "http://p4.music.126.net/eK0nynA3kl-FlheCAfN5Nw==/109951164743762283.jpg",
+          "name": "一起giao",
+          "playCount": 395814,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "拼音师",
+          "artistId": 12038065,
+          "duration": 227000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12038065,
+              "name": "拼音师",
+              "alias": null,
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 423087,
+          "cover": "http://p3.music.126.net/efg8e481HmUKWDlfjY4a6w==/2915904839195610.jpg",
+          "name": "蜚蜚",
+          "playCount": 973397,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "陈僖仪",
+          "artistId": 7486,
+          "duration": 216540,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 7486,
+              "name": "陈僖仪",
+              "alias": ["Sita Chan", "陈皓仪"],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 10880035,
+          "cover": "http://p3.music.126.net/O8qVNjGaDid5mFgHJ9HKag==/109951164222782990.jpg",
+          "name": "无愧  (电影《上海堡垒》片尾主题曲)",
+          "playCount": 498343,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "R1SE",
+          "artistId": 32508014,
+          "duration": 257000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 32508014,
+              "name": "R1SE",
+              "alias": ["壶", "十一怒汉", "RISE", "阿万艾斯亿"],
+              "transNames": null
+            }
+          ],
+          "alias": ["电影《上海堡垒》片尾主题曲"]
+        },
+        {
+          "id": 5404470,
+          "cover": "http://p4.music.126.net/blspeO_BHDg1tysGe2Ph3A==/18613632348284165.jpg",
+          "name": "凄美地",
+          "playCount": 6278263,
+          "briefDesc": "郭顶强势新单，一起走向未知的目的地",
+          "desc": null,
+          "artistName": "郭顶",
+          "artistId": 2843,
+          "duration": 269500,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 2843,
+              "name": "郭顶",
+              "alias": [],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 5666106,
+          "cover": "http://p3.music.126.net/54N9cSQgHLplGkYFG98Uow==/109951163027804631.jpg",
+          "name": "Rainbow",
+          "playCount": 951913,
+          "briefDesc": "Sia献唱《小马宝莉大电影》主题曲",
+          "desc": null,
+          "artistName": "Sia",
+          "artistId": 74625,
+          "duration": 203800,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 74625,
+              "name": "Sia",
+              "alias": [
+                "希雅·富勒",
+                "Sia Kate Isobelle Furler",
+                "洗牙姐",
+                "JENNY",
+                "Sia Furler"
+              ],
+              "transNames": ["希雅·富勒"]
+            }
+          ]
+        },
+        {
+          "id": 5306223,
+          "cover": "http://p4.music.126.net/HyQQqglK9xUZPGYsjgg2-A==/1375489050150955.jpg",
+          "name": "我要便便啦(贝瓦故事)",
+          "playCount": 1286903,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "群星",
+          "artistId": 122455,
+          "duration": 143010,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 122455,
+              "name": "群星",
+              "alias": ["原声带", "Various Artists", "华语群星"],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 5902381,
+          "cover": "http://p4.music.126.net/_z2cvXmlyvf8GXstv0_G6A==/109951163289783356.jpg",
+          "name": "Pop Profiles Series 4 -Selena Gomez 流行档案 4-赛琳娜戈梅兹",
+          "playCount": 896227,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Selena Gomez & The Scene",
+          "artistId": 100213,
+          "duration": 1376000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 100213,
+              "name": "Selena Gomez & The Scene",
+              "alias": [],
+              "transNames": ["赛琳娜.戈麦斯"]
+            },
+            {
+              "id": 14101060,
+              "name": "Pop Profiles",
+              "alias": [],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 5381077,
+          "cover": "http://p4.music.126.net/aVprpbKGDtcBWeaXSOSFZQ==/1421668551532726.jpg",
+          "name": "All I Wanna Do (K) 舞蹈版",
+          "playCount": 1724899,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "朴宰范",
+          "artistId": 124542,
+          "duration": 233240,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 124542,
+              "name": "朴宰范",
+              "alias": ["박재범", "Jay Park", "Jae bum"],
+              "transNames": ["박재범"]
+            }
+          ]
+        },
+        {
+          "id": 10861746,
+          "cover": "http://p3.music.126.net/TMjMrR7A7Er9Yq0EDYUGhQ==/109951163977835490.jpg",
+          "name": "Here With Me",
+          "playCount": 737699,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Marshmello",
+          "artistId": 1060019,
+          "duration": 165000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1060019,
+              "name": "Marshmello",
+              "alias": ["棉花糖", "Dotcom"],
+              "transNames": ["棉花糖"]
+            },
+            {
+              "id": 694027,
+              "name": "CHVRCHES",
+              "alias": [],
+              "transNames": ["Chvrches"]
+            }
+          ]
+        },
+        {
+          "id": 10922966,
+          "cover": "http://p4.music.126.net/XO3IL6hBWSkcWQaDWbcM4A==/109951164841387606.jpg",
+          "name": "WANNABE | M COUNTDOWN 20/03/26 现场版",
+          "playCount": 30400,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "ITZY",
+          "artistId": 31155319,
+          "duration": 209000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 31155319,
+              "name": "ITZY",
+              "alias": ["ITZY", "있지", "一击", "劲舞团", "击", "女梯", "梯"],
+              "transNames": ["있지"]
+            }
+          ]
+        },
+        {
+          "id": 271006,
+          "cover": "http://p4.music.126.net/GDGNND_u2UaybwUWqt_Avg==/2269392099731322.jpg",
+          "name": "风的季节",
+          "playCount": 6751170,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Soler",
+          "artistId": 12721,
+          "duration": 247000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12721,
+              "name": "Soler",
+              "alias": [],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 10785447,
+          "cover": "http://p3.music.126.net/hRM4fHouE0pKifnNnYz6Fw==/109951163724864022.jpg",
+          "name": "Different World (竖版)",
+          "playCount": 819309,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Alan Walker",
+          "artistId": 1045123,
+          "duration": 221000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1045123,
+              "name": "Alan Walker",
+              "alias": ["艾伦·沃克", "艾兰·沃克"],
+              "transNames": ["艾兰·沃克"]
+            },
+            {
+              "id": 1049937,
+              "name": "K-391",
+              "alias": ["k391", "k391"],
+              "transNames": ["Kenneth Nilsen"]
+            },
+            {
+              "id": 28083351,
+              "name": "CORSAK胡梦周",
+              "alias": [],
+              "transNames": null
+            },
+            {
+              "id": 12024488,
+              "name": "Sofia Carson",
+              "alias": [],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 5900063,
+          "cover": "http://p4.music.126.net/iTZ8PZ-4UUz3uVx9R5IDXQ==/109951163266894637.jpg",
+          "name": "In My Blood",
+          "playCount": 1538943,
+          "briefDesc": "萌德Shawn Mendes新单MV释出！",
+          "desc": null,
+          "artistName": "Shawn Mendes",
+          "artistId": 956238,
+          "duration": 217000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 956238,
+              "name": "Shawn Mendes",
+              "alias": ["萌德", "肖恩·蒙德兹"],
+              "transNames": ["肖恩·蒙德兹"]
+            }
+          ]
+        },
+        {
+          "id": 10925080,
+          "cover": "http://p3.music.126.net/ur7Nm13wdHN9kMcJCLZKFA==/109951164859721509.jpg",
+          "name": "내 사랑 내 곁에 (原曲：金贤植) cover",
+          "playCount": 50247,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "SUGA",
+          "artistId": 1088131,
+          "duration": 109000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1088131,
+              "name": "SUGA",
+              "alias": [
+                "슈가",
+                "闵玧其",
+                "민윤기",
+                "슈가 Of 防弹少年团",
+                "Agust D",
+                "闵SUGA",
+                "其其猫"
+              ],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 5330462,
+          "cover": "http://p4.music.126.net/TpTPByuTwGsrpcBMco9AvQ==/1399678314049056.jpg",
+          "name": "爱转角",
+          "playCount": 1805233,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "罗志祥",
+          "artistId": 3694,
+          "duration": 291810,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 3694,
+              "name": "罗志祥",
+              "alias": ["Show", "Show Lo"],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 372565,
+          "cover": "http://p4.music.126.net/aj2-rLUktCE9xXuRy9LB4Q==/6645448279548505.jpg",
+          "name": "Night Time",
+          "playCount": 901747,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "The fin.",
+          "artistId": 942028,
+          "duration": 239120,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 942028,
+              "name": "The fin.",
+              "alias": ["the fin"],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 5307389,
+          "cover": "http://p3.music.126.net/aLox0aM_YLSGq_PC7iRwSg==/1424967073421258.jpg",
+          "name": "陪我到以后",
+          "playCount": 231409,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "王心凌",
+          "artistId": 9606,
+          "duration": 241020,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 9606,
+              "name": "王心凌",
+              "alias": ["Cyndi Wang", "丸心妮"],
+              "transNames": null
+            },
+            {
+              "id": 3694,
+              "name": "罗志祥",
+              "alias": ["Show", "Show Lo"],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 480325,
+          "cover": "http://p4.music.126.net/0BqSthJg3egy3B1fpOyjjA==/7958265164561533.jpg",
+          "name": "あの頃~ジンジンバオヂュオニー~",
+          "playCount": 1201268,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "whiteeeen",
+          "artistId": 1051003,
+          "duration": 150000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1051003,
+              "name": "whiteeeen",
+              "alias": [],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 1101,
+          "cover": "http://p3.music.126.net/-rHnCzsJNRg6b63MtAchoQ==/6051711999279137.jpg",
+          "name": "寻水的鱼",
+          "playCount": 1208143,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "许飞",
+          "artistId": 9941,
+          "duration": 272400,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 9941,
+              "name": "许飞",
+              "alias": [],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 5364054,
+          "cover": "http://p3.music.126.net/6h2zWbLZdsPja8jEubV2Uw==/1417270504129998.jpg",
+          "name": " 等到那一天",
+          "playCount": 80772,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "苏有朋",
+          "artistId": 4940,
+          "duration": 262970,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 4940,
+              "name": "苏有朋",
+              "alias": ["Alec Su"],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 5570130,
+          "cover": "http://p4.music.126.net/LPuw9S23ZC-7sLowIGJ9EA==/18991864346806763.jpg",
+          "name": "《我想和你唱》第二季7月15日看点：李宇春王俊凯燃爆收官",
+          "playCount": 530382,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "李宇春",
+          "artistId": 8327,
+          "duration": 17990,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 8327,
+              "name": "李宇春",
+              "alias": ["Chris Lee", "春春", "小宇", "小葱"],
+              "transNames": null
+            },
+            {
+              "id": 999220,
+              "name": "王俊凯",
+              "alias": [
+                "Karry",
+                "小凯",
+                "凯爷",
+                "凯宝",
+                "karry wang",
+                "俊俊",
+                "凯凯"
+              ],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 10905775,
+          "cover": "http://p4.music.126.net/5ZPDJlPvXkubU13h24TM8Q==/109951164540987598.jpg",
+          "name": "《明日方舟》EP – Zone 10⁻⁸",
+          "playCount": 199296,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "塞壬唱片-MSR",
+          "artistId": 32540734,
+          "duration": 244000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 32540734,
+              "name": "塞壬唱片-MSR",
+              "alias": [
+                "HyperGryph",
+                "鹰角网络",
+                "明日方舟",
+                "Arknights",
+                "MONSTER SIREN",
+                "アークナイツ",
+                "铁痕电台",
+                "塞壬唱片",
+                "明日方舟终末地"
+              ],
+              "transNames": null
+            },
+            {
+              "id": 32021728,
+              "name": "Steven Grove",
+              "alias": [],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 10911996,
+          "cover": "http://p3.music.126.net/fVegfbOYQe8BLvAlOrnqiQ==/109951164638400867.jpg",
+          "name": "이루리 (As You Wish) @ Power of K Lab7",
+          "playCount": 31464,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "宇宙少女",
+          "artistId": 1193531,
+          "duration": 214000,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1193531,
+              "name": "宇宙少女",
+              "alias": ["우주소녀", "WJSN", "COSMIC GIRLS", "宇少"],
+              "transNames": ["우주소녀"]
+            }
+          ]
+        },
+        {
+          "id": 5337581,
+          "cover": "http://p4.music.126.net/IpzkmT0o_ByBO7nTOIcRAw==/1421668547679353.jpg",
+          "name": "Minecraft's End",
+          "playCount": 443905,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Eric Fullerton",
+          "artistId": 1091031,
+          "duration": 190130,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1091031,
+              "name": "Eric Fullerton",
+              "alias": ["埃里克·富勒顿"],
+              "transNames": null
+            }
+          ]
+        },
+        {
+          "id": 5353081,
+          "cover": "http://p4.music.126.net/artiDVY9jnwJqT8wD9toGg==/3416182638493661.jpg",
+          "name": "Without You",
+          "playCount": 392226,
+          "briefDesc": "Avilake - Without You",
+          "desc": null,
+          "artistName": "Avicii",
+          "artistId": 0,
+          "duration": 344680,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 0,
+              "name": "Avicii",
+              "alias": [],
+              "transNames": []
+            }
+          ]
+        }
+      ],
+      "code": 200
+    }
+  }
+}

@@ -218,3 +218,11 @@ imgurl
 recmd
 recomd
 artis
+appword
+dayplays
+durationms
+monthplays
+mvtype
+neteaseonly
+upban
+weekplays

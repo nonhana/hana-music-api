@@ -42,6 +42,10 @@ const result = await mvExclusiveRcmd({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、网易出品 MV 列表 `body.data` 和每个 MV 的编号 `data[].id` 收紧（共用 `MvSummary`）；`more` 和记录里的封面、简介、播放数、时长、收藏状态、`artists` 都是宽松字段。`offset` 越过总数时返回空数组（录制 `mv_exclusive_rcmd.no-result.json`）。结构定义和类型是 `MvExclusiveRcmdBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取网易出品 mv
