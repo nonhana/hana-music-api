@@ -40,6 +40,12 @@ const result = await songLyricsMarkUserPage();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`data` 是我的歌词本：`offset` 是返回的偏移量，`hasMore` 表示还有没有下一页，`markVOList` 是摘录列表。`code`、`data` 是收紧字段，`offset`、`hasMore` 是宽松字段；`markVOList` 在本次录制账号上是空数组，元素类型没有证据，没有声明，原样保留。`message` 是宽松字段。
+
+匿名和登录调用在本次录制里返回相同的空列表。结构定义和类型是 `SongLyricsMarkUserPageBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 登录后调用此接口, 获取我的歌词本

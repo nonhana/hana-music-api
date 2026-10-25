@@ -283,6 +283,29 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 `level` 是实际给到的音质，可能比请求的低；`expi` 是播放地址有效的秒数。歌词除 `lrc` 外的几种可能整个缺失，也可能在、但 `lyric` 是空串，两种都表示没有这种歌词。
 
+## 歌词与歌曲附属
+
+| 模块                                                                 | 结构定义                     | 收紧的字段                                                    |
+| -------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------- |
+| [获取歌词](/api/music/lyric)                                         | `LyricBody`                  | `code`、`lrc`、`lrc.lyric`；其余歌词形式、贡献者和标记宽松    |
+| [副歌时间](/api/music/song-chorus)                                   | `SongChorusBody`             | `code`、`chorus`、`chorus[].id`、`data`、`data[].id`          |
+| [歌曲音质详情](/api/music/song-music-detail)                         | `SongMusicDetailBody`        | `code`、`data`、`data.songId`；各档音质、`sks` 和状态字段宽松 |
+| [音乐百科基础信息](/api/music/song-wiki-summary)                     | `SongWikiSummaryBody`        | `code`、`data`、`data.blocks`、`data.blocks[].id`             |
+| [歌词摘录 - 歌词摘录信息](/api/lyrics-mark/song-lyrics-mark)         | `SongLyricsMarkBody`         | `code`、`data`                                                |
+| [歌词摘录 - 我的歌词本](/api/lyrics-mark/song-lyrics-mark-user-page) | `SongLyricsMarkUserPageBody` | `code`、`data`；`data.offset`、`data.hasMore` 宽松            |
+
+老版歌词（`lyric`）的 `lrc` 一直都在：没收录时 `lyric` 是“暂无歌词”，纯音乐也会带一行说明，所以 `lrc`、`lrc.lyric` 按收紧字段处理。`tlyric`、`romalrc`、`klyric` 可能整个缺失，也可能在、但 `lyric` 是空串；它们和 `lyricUser`、`transUser`（复用 `LyricUser`）、`pureMusic`、`needDesc`、`uncollected` 都是宽松字段。`briefDesc` 只见过 `null`，没有声明。
+
+副歌时间的 `chorus` 和 `data` 是同一组记录（`id`、`startTime`、`endTime`、`ugcLocked`），每条记录的 `id` 收紧，其余字段宽松。未知歌曲返回两个空数组（录制 `song_chorus.empty.json`），空数组是正常结果。
+
+歌曲音质详情的 `data` 和歌曲自己的编号 `data.songId` 收紧；`h`、`m`、`l`、`sq`、`vi`、`sk`、`jm`、`je` 各档音质和 `sks` 数组宽松，其中 `hr`、`db` 在录制里只见过 `null`，没有声明。未知歌曲是上游 HTTP 200、正文 `{ data: null, code: 400, message: '参数异常', success: false, error: true }`；SDK 以前 resolve `status: 200`，现在以 `status: 400` reject，调用方需要 `try/catch` 接住 `NcmApiResponse`，不能只检查 resolve 后的 `status`。这个响应的 `code` 不是 200，不进入结构校验。
+
+音乐百科基础信息返回的是按 `showType` 组装的 UI 区块：`data`、`data.blocks` 和每个区块自己的字符串编号 `id` 收紧，区块里的 `showType`、`code`、`position`、`creatives[].resources[]`、`uiElement`（标题、图片、按钮、描述、链接）等按普通 UI 字段全部宽松；只见过 `null` 的字段（如 `adInfo`、`blockConfig`、`md5`、`colorList`）没有声明。未知歌曲仍返回 `code: 200`，只剩“相关歌单”一个区块（录制 `song_wiki_summary.unknown.json`），本批未发现可达的空 `blocks`。`cursor` 是 JSON 字符串，原样保留。
+
+两个歌词摘录接口在本次录制账号上都没有摘录内容：`song_lyrics_mark` 的 `data.markVOList`、`data.markCountList` 和 `song_lyrics_mark_user_page` 的 `data.markVOList` 都是空数组，匿名和登录调用结果相同。空数组给不出元素类型，这些数组没有声明，原样保留；登录后出现摘录记录的形状要等补录（写入操作 `song_lyrics_mark_add`、`song_lyrics_mark_del` 在后续写操作批次处理，本批没有收窄它们的返回体）。
+
+登录对照先用 `login_status` 确认 `account.anonimousUser: false`。本次登录对照未发现结构差异；登录录制没有保留，不对公开结构作相同性断言。两个歌词摘录接口的匿名和登录都返回空列表。
+
 ## 搜索
 
 | 模块                                            | 结构定义               | 收紧的字段                                                                                                                                                                      |

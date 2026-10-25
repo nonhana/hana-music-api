@@ -1,0 +1,21 @@
+{
+  "module": "song_chorus",
+  "query": {
+    "id": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T14:17:53.935Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B4：song_chorus 未知歌曲返回空数组"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "chorus": [],
+      "data": []
+    }
+  }
+}

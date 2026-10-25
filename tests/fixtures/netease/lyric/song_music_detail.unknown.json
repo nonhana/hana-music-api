@@ -1,0 +1,23 @@
+{
+  "module": "song_music_detail",
+  "query": {
+    "id": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T14:18:01.047Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B4：song_music_detail 未知歌曲 code 400 参数异常"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": null,
+      "code": 400,
+      "message": "参数异常",
+      "success": false,
+      "error": true
+    }
+  }
+}

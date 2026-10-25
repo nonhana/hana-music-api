@@ -39,6 +39,12 @@ const result = await songChorus({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`chorus` 和 `data` 是同一组副歌记录，每条有 `id`、`startTime`、`endTime`（毫秒）和 `ugcLocked`。`code`、`chorus`、`chorus[].id`、`data`、`data[].id` 是收紧字段，其余字段宽松。
+
+未知歌曲返回两个空数组（录制 `song_chorus.empty.json`），空数组是正常结果，不是错误。结构定义和类型是 `SongChorusBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口, 传入歌曲id, 获取副歌时间

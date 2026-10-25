@@ -294,7 +294,10 @@ import type {
   ModuleBody as logoutBody,
   ModuleInput as logoutInput,
 } from '../../modules/logout.ts';
-import type { ModuleInput as lyricInput } from '../../modules/lyric.ts';
+import type {
+  ModuleBody as lyricBody,
+  ModuleInput as lyricInput,
+} from '../../modules/lyric.ts';
 import type {
   ModuleBody as lyricNewBody,
   ModuleInput as lyricNewInput,
@@ -512,7 +515,10 @@ import type { ModuleInput as simiMvInput } from '../../modules/simi_mv.ts';
 import type { ModuleInput as simiPlaylistInput } from '../../modules/simi_playlist.ts';
 import type { ModuleInput as simiSongInput } from '../../modules/simi_song.ts';
 import type { ModuleInput as simiUserInput } from '../../modules/simi_user.ts';
-import type { ModuleInput as songChorusInput } from '../../modules/song_chorus.ts';
+import type {
+  ModuleBody as songChorusBody,
+  ModuleInput as songChorusInput,
+} from '../../modules/song_chorus.ts';
 import type {
   ModuleBody as songDetailBody,
   ModuleInput as songDetailInput,
@@ -525,12 +531,21 @@ import type {
 } from '../../modules/song_download_url_v1.ts';
 import type { ModuleInput as songDynamicCoverInput } from '../../modules/song_dynamic_cover.ts';
 import type { ModuleInput as songLikeCheckInput } from '../../modules/song_like_check.ts';
-import type { ModuleInput as songLyricsMarkInput } from '../../modules/song_lyrics_mark.ts';
+import type {
+  ModuleBody as songLyricsMarkBody,
+  ModuleInput as songLyricsMarkInput,
+} from '../../modules/song_lyrics_mark.ts';
 import type { ModuleInput as songLyricsMarkAddInput } from '../../modules/song_lyrics_mark_add.ts';
 import type { ModuleInput as songLyricsMarkDelInput } from '../../modules/song_lyrics_mark_del.ts';
-import type { ModuleInput as songLyricsMarkUserPageInput } from '../../modules/song_lyrics_mark_user_page.ts';
+import type {
+  ModuleBody as songLyricsMarkUserPageBody,
+  ModuleInput as songLyricsMarkUserPageInput,
+} from '../../modules/song_lyrics_mark_user_page.ts';
 import type { ModuleInput as songMonthdownlistInput } from '../../modules/song_monthdownlist.ts';
-import type { ModuleInput as songMusicDetailInput } from '../../modules/song_music_detail.ts';
+import type {
+  ModuleBody as songMusicDetailBody,
+  ModuleInput as songMusicDetailInput,
+} from '../../modules/song_music_detail.ts';
 import type {
   ModuleBody as songOrderUpdateBody,
   ModuleInput as songOrderUpdateInput,
@@ -543,7 +558,10 @@ import type {
   ModuleBody as songUrlV1Body,
   ModuleInput as songUrlV1Input,
 } from '../../modules/song_url_v1.ts';
-import type { ModuleInput as songWikiSummaryInput } from '../../modules/song_wiki_summary.ts';
+import type {
+  ModuleBody as songWikiSummaryBody,
+  ModuleInput as songWikiSummaryInput,
+} from '../../modules/song_wiki_summary.ts';
 import type { ModuleInput as starpickCommentsSummaryInput } from '../../modules/starpick_comments_summary.ts';
 import type { ModuleInput as styleAlbumInput } from '../../modules/style_album.ts';
 import type { ModuleInput as styleArtistInput } from '../../modules/style_artist.ts';
@@ -2068,7 +2086,11 @@ export interface GeneratedModuleContractMap {
     query: logoutInput;
     response: ModuleResponse<logoutBody>;
   };
-  lyric: { input: lyricInput; query: lyricInput; response: ModuleResponse };
+  lyric: {
+    input: lyricInput;
+    query: lyricInput;
+    response: ModuleResponse<lyricBody>;
+  };
   lyric_new: {
     input: lyricNewInput;
     query: lyricNewInput;
@@ -2575,7 +2597,7 @@ export interface GeneratedModuleContractMap {
   song_chorus: {
     input: songChorusInput;
     query: songChorusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songChorusBody>;
   };
   song_detail: {
     input: songDetailInput;
@@ -2610,7 +2632,7 @@ export interface GeneratedModuleContractMap {
   song_lyrics_mark: {
     input: songLyricsMarkInput;
     query: songLyricsMarkInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songLyricsMarkBody>;
   };
   song_lyrics_mark_add: {
     input: songLyricsMarkAddInput;
@@ -2625,7 +2647,7 @@ export interface GeneratedModuleContractMap {
   song_lyrics_mark_user_page: {
     input: songLyricsMarkUserPageInput;
     query: songLyricsMarkUserPageInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songLyricsMarkUserPageBody>;
   };
   song_monthdownlist: {
     input: songMonthdownlistInput;
@@ -2635,7 +2657,7 @@ export interface GeneratedModuleContractMap {
   song_music_detail: {
     input: songMusicDetailInput;
     query: songMusicDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songMusicDetailBody>;
   };
   song_order_update: {
     input: songOrderUpdateInput;
@@ -2670,7 +2692,7 @@ export interface GeneratedModuleContractMap {
   song_wiki_summary: {
     input: songWikiSummaryInput;
     query: songWikiSummaryInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songWikiSummaryBody>;
   };
   starpick_comments_summary: {
     input: starpickCommentsSummaryInput;
