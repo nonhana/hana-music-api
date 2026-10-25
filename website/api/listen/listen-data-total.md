@@ -37,6 +37,10 @@ const result = await listenDataTotal();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和 `body.data.totalDuration` 收紧（总收听时长就是接口要返回的那一项）；`message` 宽松。本页录制来自登录账号（`context.viewer` 是 `authenticated`）；未登录时上游返回 `code: 302`（`listen_data_total.anonymous.json`），SDK 以 `status: 302` 转交原文。本批没有零数据账号，空账号下 `data` 的实际表现未验证。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 获取总收听时长; 相关接口可能需要vip权限

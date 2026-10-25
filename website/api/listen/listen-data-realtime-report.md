@@ -41,6 +41,10 @@ const result = await listenDataRealtimeReport({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和通到返回物的 `body.data` 收紧（`data` 是返回对象，不是某个时长字段）；`data` 下的时长分布块、周维度的今日/好友块都是宽松字段，整块缺失或为 `null` 时原样返回。`listenTimeDistributionBlock.durationDetails`、月维度的 `sleepTdBlock.sleepDurationDetails` 等嵌套字段也全部宽松。录制覆盖 `type=week` 和 `type=month`，来自登录账号（`context.viewer` 是 `authenticated`）；未登录时上游返回 `code: 302`（`listen_data_realtime_report.anonymous.json`）。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 获取本周/本月收听时长

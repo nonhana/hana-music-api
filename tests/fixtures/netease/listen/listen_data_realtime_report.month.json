@@ -1,0 +1,411 @@
+{
+  "module": "listen_data_realtime_report",
+  "query": {
+    "type": "month"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:47:39.427Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B33：listen_data_realtime_report 月维度"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "type": "month",
+        "startTime": 1790784000000,
+        "endTime": 1792964859400,
+        "listenTimeDistributionBlock": {
+          "listenDataHelper": null,
+          "achievementTitleGeneratorClient": null,
+          "playDuration": 2249,
+          "achievementTitle": null,
+          "listenDays": 24,
+          "durationDetails": [
+            {
+              "period": "2026-10-01",
+              "duration": 171,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-02",
+              "duration": 124,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-03",
+              "duration": 66,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-04",
+              "duration": 24,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-05",
+              "duration": 102,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-06",
+              "duration": 67,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-07",
+              "duration": 13,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-08",
+              "duration": 35,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-09",
+              "duration": 103,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-10",
+              "duration": 134,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-11",
+              "duration": 4,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-12",
+              "duration": 130,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-13",
+              "duration": 110,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-14",
+              "duration": 67,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-15",
+              "duration": 153,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-16",
+              "duration": 143,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-17",
+              "duration": 37,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-18",
+              "duration": 45,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-19",
+              "duration": 41,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-20",
+              "duration": 121,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-21",
+              "duration": 184,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-22",
+              "duration": 103,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-23",
+              "duration": 107,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-24",
+              "duration": 0,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-25",
+              "duration": 165,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-26",
+              "duration": 0,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            }
+          ],
+          "sections": null,
+          "sleepTdBlock": {
+            "sleepDurationDetails": [
+              {
+                "period": "2026-10-01",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-02",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-03",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-04",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-05",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-06",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-07",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-08",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-09",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-10",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-11",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-12",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-13",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-14",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-15",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-16",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-17",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-18",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-19",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-20",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-21",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-22",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-23",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-24",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-25",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              },
+              {
+                "period": "2026-10-26",
+                "duration": 0,
+                "podcastDuration": 0,
+                "audiobookDuration": 0,
+                "reachLimit": false
+              }
+            ],
+            "sleepPlayDuration": 0,
+            "sleepListenDays": 0,
+            "sleepScene": null,
+            "maxDayPlayDuration": null,
+            "avgDayPlayDuration": 0,
+            "maxDayPlayDurationPeriod": null
+          },
+          "blockType": "LISTEN_TIME_DISTRIBUTION_BLOCK"
+        },
+        "userNickName": null
+      },
+      "message": ""
+    }
+  }
+}

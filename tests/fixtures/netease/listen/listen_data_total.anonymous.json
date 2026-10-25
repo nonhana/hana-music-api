@@ -1,0 +1,21 @@
+{
+  "module": "listen_data_total",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T21:48:02.663Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B33：listen_data_total 未登录对照（code 302）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 302,
+      "message": "系统错误",
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

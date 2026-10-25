@@ -260,6 +260,22 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 `simi_artist` 的 `artists[]` 复用 `Artist` 的字段声明，只把记录自己的 `id` 收紧；相似歌手记录多出的 `alg`、`fansCount` 另声明为宽松字段，只见过 `null` 的 `identifyTag`、`isSubed`、`publishTime`、`showPrivateMsg` 没有声明，`mvSize` 按 `Artist` 的宽松声明处理。未知歌手 id 返回空数组（`simi_artist.unknown.json`）；本批录制来自登录账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `anonimousUser: false`），没有保留匿名对照录制。
 
+## 听歌足迹
+
+| 模块                                                         | 结构定义                       | 收紧的字段                                        |
+| ------------------------------------------------------------ | ------------------------------ | ------------------------------------------------- |
+| [总收听时长](/api/listen/listen-data-total)                  | `ListenDataTotalBody`          | `code`、`data.totalDuration`                      |
+| [今日收听](/api/listen/listen-data-today-song)               | `ListenDataTodaySongBody`      | `code`、`data.songDTOs`、`data.songDTOs[].songId` |
+| [年度听歌足迹](/api/listen/listen-data-year-report)          | `ListenDataYearReportBody`     | `code`、`data.yearItems`、`data.yearItems[].year` |
+| [本周/本月收听时长](/api/listen/listen-data-realtime-report) | `ListenDataRealtimeReportBody` | `code`、`data`                                    |
+| [周/月/年收听报告](/api/listen/listen-data-report)           | `ListenDataReportBody`         | `code`、`data`                                    |
+
+`listen_data_total` 的 `data` 和 `totalDuration`、`listen_data_today_song` 的 `data.songDTOs` 与每首歌的 `songId`、`listen_data_year_report` 的 `data.yearItems` 与每年的 `year` 都是接口要返回的东西，所以收紧；`message`、`songName`、`aliasName`、`artists`（含 `artistId`）、`displayYear`、`playNum`、`playDuration` 等宽松。今日收听和年度足迹的列表允许为空数组，`[]` 是构造边界；本批只有一个有数据的登录账号，空账号下 `data`/列表的实际表现未验证，`listen_data_total` 的零数据账号表现同样未验证。
+
+`listen_data_realtime_report` 和 `listen_data_report` 只收紧 `code` 和通到返回物的 `data`（`data` 是返回对象，不是某个时长字段；`listenTimeDistributionBlock` 等块内全部宽松）。两块统计内容都是展示用途，整块缺失或为 `null` 时原样保留：时长分布、今日/好友块、`topSongBlock`、`topArtistBlock`、`topStyleBlock`、`topAgeBlock`、`topLanguageBlock`、`vipBlock`、`wallpaperBlock` 内部的字段全部宽松，宽松容器里的 `songId`、`userId` 等编号也宽松。月报的好友块名是 `friendsListenMonthBlock` / `friendsKeyWordMonthBlock`，周报是 `friendsListenWeekBlock` / `friendsKeywordWeekBlock`；年报只返回时间范围和 `listenTimeBlock: null`（`listen_data_report.year.json`），没有收听记录的周所有块都是 `null`（`listen_data_report.empty.json`）。月维度实时报告另有 `listenTimeDistributionBlock.sleepTdBlock.sleepDurationDetails`，同样宽松；只见过 `null` 的 `userNickName`、`achievementTitle`、`sleepScene` 等字段没有声明，原样保留。
+
+这 5 个接口都要求登录。录制来自 `authenticated` 账号（`context.viewer`，录制前经 `login_status` 确认 `account.anonimousUser: false`（未落盘））；5 个接口的匿名调用都返回 HTTP 200 + `code: 302`（各模块的 `.anonymous.json`），不保留为成功正文。
+
 ## MV
 
 | 模块                                           | 结构定义              | 收紧的字段                                         |
@@ -576,6 +592,8 @@ B6 的歌单写操作同样受影响：`playlist_track_add` 缺 `pid`（`playlis
 B31 的播客/电台读取同样受影响：`broadcast_channel_currentinfo` 的已下架/无当前信息频道（录制 `broadcast_channel_currentinfo.delisted.json`）和 `voice_lyric` 的无播放权限声音（录制 `voice_lyric.unavailable.json`）都是上游 HTTP 200、正文 `code: 400`；改造前模块把这两种响应当成功放行 `status: 200`，现在 Body 校验按业务码拒绝为 `status: 400`，`body` 保留网易云原文。
 
 B30 的相似内容接口：`simi_artist` 缺 `id`（`simi_artist.missing-id.json`）和 `simi_song` 缺 `id`（`simi_song.missing-id.json`）的上游是 HTTP 200 + `code: 400`，改造前按 `status: 200` 放行，现在 reject `status: 400` 并保留原文，两个模块的错误正文键不同（`message` / `msg`）。`simi_playlist`、`simi_user` 缺 `id` 时上游是 HTTP 400 空正文（`simi_playlist.missing-id.json`、`simi_user.missing-id.json`），归一成 `status: 200` 和空字符串；空字符串作为结构定义的独立分支原样返回，不报 502。
+
+B33 的 5 个听歌足迹接口同理：未登录调用上游返回 HTTP 200 + `code: 302`（5 个模块各有一份 `.anonymous.json`），改造前模块按 `status: 200` 放行，现在按业务码拒绝为 `status: 302`，`body` 保留原文。本批没有录到其他非 200 业务码。
 
 ## 消息
 

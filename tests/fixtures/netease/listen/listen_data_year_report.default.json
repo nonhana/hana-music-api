@@ -1,0 +1,68 @@
+{
+  "module": "listen_data_year_report",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T21:47:19.741Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B33：listen_data_year_report 正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "displayYear": 2025,
+        "yearItems": [
+          {
+            "year": 2025,
+            "playNum": 4385,
+            "playDuration": 3442187
+          },
+          {
+            "year": 2024,
+            "playNum": 3514,
+            "playDuration": 3777150
+          },
+          {
+            "year": 2023,
+            "playNum": 2712,
+            "playDuration": 3142176
+          },
+          {
+            "year": 2022,
+            "playNum": 2051,
+            "playDuration": 3073507
+          },
+          {
+            "year": 2021,
+            "playNum": 1514,
+            "playDuration": 1480162
+          },
+          {
+            "year": 2020,
+            "playNum": 1094,
+            "playDuration": 741022
+          },
+          {
+            "year": 2019,
+            "playNum": 4172,
+            "playDuration": 680795
+          },
+          {
+            "year": 2018,
+            "playNum": 646,
+            "playDuration": 781053
+          },
+          {
+            "year": 2017,
+            "playNum": 130,
+            "playDuration": 98741
+          }
+        ]
+      },
+      "message": ""
+    }
+  }
+}

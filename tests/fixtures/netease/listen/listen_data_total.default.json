@@ -1,0 +1,21 @@
+{
+  "module": "listen_data_total",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T21:47:10.767Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B33：listen_data_total 正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "totalDuration": 20165563
+      },
+      "message": ""
+    }
+  }
+}

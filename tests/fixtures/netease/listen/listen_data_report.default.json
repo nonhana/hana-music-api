@@ -1,0 +1,712 @@
+{
+  "module": "listen_data_report",
+  "query": {
+    "type": "week"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:47:43.972Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B33：listen_data_report 周报"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "type": "week",
+        "startTime": 1792252800000,
+        "endTime": 1792771200000,
+        "listenTimeBlock": {
+          "listenDataHelper": null,
+          "playDuration": 605,
+          "playDurationText": "超过了85%的村民",
+          "circleTimePeriodDurations": [
+            {
+              "period": "early_morning",
+              "duration": 0
+            },
+            {
+              "period": "deep_night",
+              "duration": 0
+            },
+            {
+              "period": "night",
+              "duration": 4
+            },
+            {
+              "period": "morning",
+              "duration": 87
+            },
+            {
+              "period": "noon",
+              "duration": 188
+            },
+            {
+              "period": "afternoon",
+              "duration": 326
+            }
+          ],
+          "sections": [
+            {
+              "type": "maxPlayWeek",
+              "field": "听歌最久",
+              "valueA": "1792512000000",
+              "textB": "共收听185分钟"
+            },
+            {
+              "type": "totalPlayWeek",
+              "field": "本周共听",
+              "valueA": "6",
+              "textB": "云村首席听众"
+            },
+            {
+              "type": "earlySleep",
+              "field": "最早听歌",
+              "valueA": "1792461734000",
+              "textB": "活力满满的周二"
+            }
+          ],
+          "blockType": "LISTEN_TIME_BLOCK"
+        },
+        "listenTimeDistributionBlock": {
+          "listenDataHelper": null,
+          "achievementTitleGeneratorClient": null,
+          "playDuration": 605,
+          "achievementTitle": {
+            "mainTitle": "云村发烧友",
+            "subTitle": "本周听歌时长超90%村民"
+          },
+          "listenDays": 6,
+          "durationDetails": [
+            {
+              "period": "2026-10-18",
+              "duration": 45,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-19",
+              "duration": 41,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-20",
+              "duration": 121,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-21",
+              "duration": 188,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-22",
+              "duration": 103,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-23",
+              "duration": 107,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-24",
+              "duration": 0,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            }
+          ],
+          "sections": [
+            {
+              "type": "earlySleep",
+              "value": "1792461734000"
+            },
+            {
+              "type": "durationDiffNegative",
+              "value": "2598"
+            }
+          ],
+          "sleepTdBlock": null,
+          "blockType": "LISTEN_TIME_DISTRIBUTION_BLOCK"
+        },
+        "wallpaperBlock": {
+          "songCount": 154,
+          "items": [
+            {
+              "songId": 3367586149,
+              "songName": "うたかたの栞",
+              "artists": [
+                {
+                  "artistId": 15164,
+                  "artistName": "Otokaze"
+                }
+              ],
+              "picId": 109951173012649950,
+              "picUrl": "http://p3.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg"
+            },
+            {
+              "songId": 22765947,
+              "songName": "車椅子の未来宇宙",
+              "artists": [
+                {
+                  "artistId": 15345,
+                  "artistName": "上海アリス幻樂団"
+                }
+              ],
+              "picId": 109951173924916660,
+              "picUrl": "http://p4.music.126.net/tCCxnCb20hS4ZSP846q1Rw==/109951173924916651.jpg"
+            },
+            {
+              "songId": 3446748352,
+              "songName": "在梦里",
+              "artists": [
+                {
+                  "artistId": 97589116,
+                  "artistName": "在虚无中永存"
+                }
+              ],
+              "picId": 109951174093628580,
+              "picUrl": "http://p4.music.126.net/l0NphsqQGwTLYWVKrjeyXQ==/109951174093628577.jpg"
+            },
+            {
+              "songId": 3445671834,
+              "songName": "how should i gaze the sky",
+              "artists": [
+                {
+                  "artistId": 51535561,
+                  "artistName": "待夕归明"
+                }
+              ],
+              "picId": 109951168894598910,
+              "picUrl": "http://p4.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg"
+            },
+            {
+              "songId": 2696472780,
+              "songName": "memories are still echoing.",
+              "artists": [
+                {
+                  "artistId": 51535561,
+                  "artistName": "待夕归明"
+                }
+              ],
+              "picId": 109951168894598910,
+              "picUrl": "http://p4.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg"
+            },
+            {
+              "songId": 1936622715,
+              "songName": "夕落",
+              "artists": [
+                {
+                  "artistId": 51535561,
+                  "artistName": "待夕归明"
+                }
+              ],
+              "picId": 109951167354674130,
+              "picUrl": "http://p3.music.126.net/ugoE8EreqJPueKMiwSVArw==/109951167354674123.jpg"
+            },
+            {
+              "songId": 3446719895,
+              "songName": "where is my flower",
+              "artists": [
+                {
+                  "artistId": 51535561,
+                  "artistName": "待夕归明"
+                }
+              ],
+              "picId": 109951168894598910,
+              "picUrl": "http://p4.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg"
+            },
+            {
+              "songId": 471403436,
+              "songName": "After the festival",
+              "artists": [
+                {
+                  "artistId": 19774,
+                  "artistName": "はちみつれもん"
+                }
+              ],
+              "picId": 109951173518531500,
+              "picUrl": "http://p3.music.126.net/rvOCXIkA-4Vo3yo_SUE9qQ==/109951173518531501.jpg"
+            },
+            {
+              "songId": 3406080568,
+              "songName": "farwell.",
+              "artists": [
+                {
+                  "artistId": 12495253,
+                  "artistName": "THT"
+                }
+              ],
+              "picId": 109951173551267650,
+              "picUrl": "http://p4.music.126.net/SJ56Cg5xj9iYaI5JxchPnw==/109951173551267652.jpg"
+            },
+            {
+              "songId": 535056564,
+              "songName": "海の形",
+              "artists": [
+                {
+                  "artistId": 13148274,
+                  "artistName": "昙轩"
+                }
+              ],
+              "picId": 109951163768131380,
+              "picUrl": "http://p3.music.126.net/tBHOY6ZMq6grfs3GcvJWbg==/109951163768131371.jpg"
+            },
+            {
+              "songId": 29544534,
+              "songName": "The Last String",
+              "artists": [
+                {
+                  "artistId": 347497,
+                  "artistName": "Jacoo"
+                },
+                {
+                  "artistId": 499256,
+                  "artistName": "Oneira"
+                }
+              ],
+              "picId": 109951172810496350,
+              "picUrl": "http://p3.music.126.net/tZEh-PSd8EMAtJfDRfTQmQ==/109951172810496346.jpg"
+            },
+            {
+              "songId": 3446717512,
+              "songName": "beyond the blue, beyond the sky.",
+              "artists": [
+                {
+                  "artistId": 51535561,
+                  "artistName": "待夕归明"
+                }
+              ],
+              "picId": 109951168894598910,
+              "picUrl": "http://p3.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg"
+            },
+            {
+              "songId": 492833245,
+              "songName": "Bittersweet Chocolate",
+              "artists": [
+                {
+                  "artistId": 12311148,
+                  "artistName": "mr. hong"
+                }
+              ],
+              "picId": 109951166434152800,
+              "picUrl": "http://p3.music.126.net/-BWqi3b163mqbAuWFUaYgw==/109951166434152800.jpg"
+            },
+            {
+              "songId": 1313341319,
+              "songName": "Perfect Blue",
+              "artists": [
+                {
+                  "artistId": 13950,
+                  "artistName": "DJ OKAWARI"
+                }
+              ],
+              "picId": 109951168475732290,
+              "picUrl": "http://p4.music.126.net/CmHfDz5trhim-O4zaPg_YA==/109951168475732280.jpg"
+            },
+            {
+              "songId": 555760597,
+              "songName": "Auksia",
+              "artists": [
+                {
+                  "artistId": 12083147,
+                  "artistName": "Saiakoup"
+                }
+              ],
+              "picId": 109951163268547040,
+              "picUrl": "http://p4.music.126.net/PR513iTyDk3kLRcuy1i8LA==/109951163268547032.jpg"
+            },
+            {
+              "songId": 343054,
+              "songName": "天涯",
+              "artists": [
+                {
+                  "artistId": 10998,
+                  "artistName": "爱乐团"
+                }
+              ],
+              "picId": 109951168750455280,
+              "picUrl": "http://p4.music.126.net/8Y1Tq2LpNufnbG6MJeWHww==/109951168750455280.jpg"
+            },
+            {
+              "songId": 421807898,
+              "songName": "unomi",
+              "artists": [
+                {
+                  "artistId": 12073848,
+                  "artistName": "別野加奈"
+                }
+              ],
+              "picId": 109951170095565150,
+              "picUrl": "http://p3.music.126.net/HJ8OjahBfjqOiYFw_2eyPg==/109951170095565151.jpg"
+            },
+            {
+              "songId": 477417503,
+              "songName": "最初",
+              "artists": [
+                {
+                  "artistId": 12128251,
+                  "artistName": "逆时针向"
+                }
+              ],
+              "picId": 109951164447902620,
+              "picUrl": "http://p4.music.126.net/qE3YVvbcUg3VCtoIP7dwMQ==/109951164447902620.jpg"
+            },
+            {
+              "songId": 2075594038,
+              "songName": "IN THE NAME OF LOVE",
+              "artists": [
+                {
+                  "artistId": 22298,
+                  "artistName": "world's end girlfriend"
+                }
+              ],
+              "picId": 109951168860377490,
+              "picUrl": "http://p4.music.126.net/1C8fqjI-tEEOTF-lQUHkBA==/109951168860377487.jpg"
+            },
+            {
+              "songId": 3445419179,
+              "songName": "あかねさす頃",
+              "artists": [
+                {
+                  "artistId": 15021101,
+                  "artistName": "ずっと真夜中でいいのに。"
+                }
+              ],
+              "picId": 109951174077481120,
+              "picUrl": "http://p4.music.126.net/ZI_saDvp5XFnpwPg1C_TNA==/109951174077481119.jpg"
+            }
+          ],
+          "picUrls": [
+            "http://p3.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg",
+            "http://p4.music.126.net/tCCxnCb20hS4ZSP846q1Rw==/109951173924916651.jpg",
+            "http://p4.music.126.net/l0NphsqQGwTLYWVKrjeyXQ==/109951174093628577.jpg",
+            "http://p4.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg",
+            "http://p3.music.126.net/ugoE8EreqJPueKMiwSVArw==/109951167354674123.jpg",
+            "http://p3.music.126.net/rvOCXIkA-4Vo3yo_SUE9qQ==/109951173518531501.jpg",
+            "http://p4.music.126.net/SJ56Cg5xj9iYaI5JxchPnw==/109951173551267652.jpg",
+            "http://p3.music.126.net/tBHOY6ZMq6grfs3GcvJWbg==/109951163768131371.jpg",
+            "http://p3.music.126.net/tZEh-PSd8EMAtJfDRfTQmQ==/109951172810496346.jpg",
+            "http://p3.music.126.net/-BWqi3b163mqbAuWFUaYgw==/109951166434152800.jpg",
+            "http://p4.music.126.net/CmHfDz5trhim-O4zaPg_YA==/109951168475732280.jpg",
+            "http://p4.music.126.net/PR513iTyDk3kLRcuy1i8LA==/109951163268547032.jpg",
+            "http://p4.music.126.net/8Y1Tq2LpNufnbG6MJeWHww==/109951168750455280.jpg",
+            "http://p3.music.126.net/HJ8OjahBfjqOiYFw_2eyPg==/109951170095565151.jpg",
+            "http://p4.music.126.net/qE3YVvbcUg3VCtoIP7dwMQ==/109951164447902620.jpg",
+            "http://p4.music.126.net/1C8fqjI-tEEOTF-lQUHkBA==/109951168860377487.jpg",
+            "http://p4.music.126.net/ZI_saDvp5XFnpwPg1C_TNA==/109951174077481119.jpg",
+            "http://p4.music.126.net/ctQQ0fJHVgne3UExv5Lkmg==/1424967073285263.jpg",
+            "http://p4.music.126.net/gBACxrlipa2JoYydGL5lmA==/109951173516210024.jpg",
+            "http://p4.music.126.net/YZrSqnhAO6ewiq_uAMiN9w==/109951173518237791.jpg"
+          ],
+          "blockType": "WALLPAPER_BLOCK"
+        },
+        "topSongBlock": {
+          "listenDataConfigHolder": null,
+          "sections": [
+            {
+              "type": "favoriteSong",
+              "field": "最多收听",
+              "songId": 3367586149,
+              "picUrl": "http://p3.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg",
+              "songName": "うたかたの栞",
+              "text": "6次"
+            },
+            {
+              "type": "firstLike",
+              "field": "本周首个收藏",
+              "songId": 3447749509,
+              "picUrl": "http://p3.music.126.net/rlyd27VK7UH1lnzV9K_GXA==/109951174106176775.jpg",
+              "songName": "雲を抜け風下へ私だけ",
+              "text": "1st红心"
+            },
+            {
+              "type": "leastCollect",
+              "field": "宝藏挖掘",
+              "songId": 3446325913,
+              "picUrl": "http://p3.music.126.net/mi07joS_YYwTpxLAmrMhUQ==/109951174087136217.jpg",
+              "songName": "谁杀了我",
+              "text": "1%人喜欢"
+            }
+          ],
+          "blockType": "TOP_SONG_BLOCK"
+        },
+        "topArtistBlock": {
+          "sections": [
+            {
+              "type": "mostPlay",
+              "field": "最多收听的人",
+              "artistId": 51535561,
+              "artistName": "待夕归明",
+              "picUrl": "http://p4.music.126.net/rgMCAoSxs172BuF6ytKyBA==/109951167056218263.jpg",
+              "text": "17次"
+            },
+            {
+              "type": "firstLike",
+              "field": "红心了TA",
+              "artistId": 12390232,
+              "artistName": "ヨルシカ",
+              "picUrl": "http://p4.music.126.net/xZaCfseWjHuaN3B-SRnytw==/18876415625868480.jpg",
+              "text": "10月19日"
+            },
+            {
+              "type": "newArtist",
+              "field": "小众发现",
+              "artistId": 1188021,
+              "artistName": "緋月ノ雫",
+              "picUrl": "http://p4.music.126.net/WhkEG1j6R9tQjT1fM7ORiQ==/3397490932848098.jpg",
+              "text": "1%人关注"
+            }
+          ],
+          "listenDataConfigHolder": null,
+          "blockType": "TOP_ARTIST_BLOCK"
+        },
+        "topStyleBlock": {
+          "genreId": 1252,
+          "genreName": "二次元",
+          "genreEnglishName": "ACG",
+          "songId": 22765947,
+          "songName": "車椅子の未来宇宙",
+          "picUrl": "http://p4.music.126.net/tCCxnCb20hS4ZSP846q1Rw==/109951173924916651.jpg",
+          "sections": [
+            {
+              "genreId": 1252,
+              "genreName": "二次元",
+              "percent": "50"
+            },
+            {
+              "genreId": 1017,
+              "genreName": "嘻哈说唱",
+              "percent": "14"
+            },
+            {
+              "genreId": 1000,
+              "genreName": "流行",
+              "percent": "11"
+            },
+            {
+              "genreId": 1015,
+              "genreName": "电子",
+              "percent": "8"
+            },
+            {
+              "genreId": 1006,
+              "genreName": "轻音乐",
+              "percent": "7"
+            }
+          ],
+          "blockType": "TOP_STYLE_BLOCK"
+        },
+        "topAgeBlock": {
+          "sections": [
+            {
+              "age": "2010",
+              "playSongNum": 76
+            },
+            {
+              "age": "2000",
+              "playSongNum": 23
+            },
+            {
+              "age": "2020",
+              "playSongNum": 20
+            }
+          ],
+          "songItems": [
+            {
+              "songId": 471403436,
+              "songName": "After the festival",
+              "picUrl": "http://p4.music.126.net/rvOCXIkA-4Vo3yo_SUE9qQ==/109951173518531501.jpg",
+              "text": "2016年发行"
+            },
+            {
+              "songId": 22765947,
+              "songName": "車椅子の未来宇宙",
+              "picUrl": "http://p4.music.126.net/tCCxnCb20hS4ZSP846q1Rw==/109951173924916651.jpg",
+              "text": "2006年发行"
+            },
+            {
+              "songId": 3367586149,
+              "songName": "うたかたの栞",
+              "picUrl": "http://p4.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg",
+              "text": "2026年发行"
+            }
+          ],
+          "blockType": "TOP_AGE_BLOCK"
+        },
+        "topLanguageBlock": {
+          "sections": [
+            {
+              "language": "日语",
+              "percent": "18",
+              "playSongNum": 29,
+              "songName": "unomi"
+            },
+            {
+              "language": "英语",
+              "percent": "11",
+              "playSongNum": 17,
+              "songName": "The Last String"
+            },
+            {
+              "language": "华语",
+              "percent": "5",
+              "playSongNum": 8,
+              "songName": "在梦里"
+            }
+          ],
+          "songItems": [
+            {
+              "songId": 421807898,
+              "songName": "unomi",
+              "picUrl": "http://p3.music.126.net/HJ8OjahBfjqOiYFw_2eyPg==/109951170095565151.jpg",
+              "text": "日语最爱"
+            },
+            {
+              "songId": 29544534,
+              "songName": "The Last String",
+              "picUrl": "http://p3.music.126.net/tZEh-PSd8EMAtJfDRfTQmQ==/109951172810496346.jpg",
+              "text": "英语最爱"
+            },
+            {
+              "songId": 3446748352,
+              "songName": "在梦里",
+              "picUrl": "http://p3.music.126.net/l0NphsqQGwTLYWVKrjeyXQ==/109951174093628577.jpg",
+              "text": "华语最爱"
+            }
+          ],
+          "blockType": "TOP_LANGUAGE_BLOCK"
+        },
+        "topEmotionBlock": null,
+        "vipBlock": {
+          "sections": [
+            {
+              "type": "vipSongCount",
+              "field": "畅听",
+              "mainText": "27首",
+              "subText": "会员专属歌曲"
+            },
+            {
+              "type": "vipSongDuration",
+              "field": "累计享受",
+              "mainText": "106分钟",
+              "subText": "专享听歌时间"
+            },
+            {
+              "type": "saveMoney",
+              "field": "共计省下",
+              "mainText": "54元",
+              "subText": "省钱小能手"
+            }
+          ],
+          "blockType": "VIP_BLOCK"
+        },
+        "djListenDataBlock": null,
+        "friendsListenWeekBlock": {
+          "items": [
+            {
+              "userId": 1399025329,
+              "username": "Brunlce",
+              "userAvatar": "http://p4.music.126.net/veZkBgQ79qMH_6p9Ysi9jw==/109951166667654271.jpg",
+              "songId": 2712734991,
+              "songName": "夏风去过的地方",
+              "songPicUrl": "http://p3.music.126.net/FsNNbmQuJULkQSN9JJqvLg==/109951171270136075.jpg",
+              "artistId": null,
+              "artistName": null,
+              "artistPicUrl": null,
+              "playCount": 9,
+              "collect": true
+            },
+            {
+              "userId": 1621293368,
+              "username": "艾是美食每克",
+              "userAvatar": "http://p3.music.126.net/rD-67yHem16Au1ksM3Zn-A==/109951173030985546.jpg",
+              "songId": 2640293650,
+              "songName": "Dilemma",
+              "songPicUrl": "http://p3.music.126.net/T08YPEjZAh-NzBC04P2qUA==/109951170075660960.jpg",
+              "artistId": null,
+              "artistName": null,
+              "artistPicUrl": null,
+              "playCount": 4,
+              "collect": false
+            },
+            {
+              "userId": 4876595845,
+              "username": "wawawa-_-",
+              "userAvatar": "http://p4.music.126.net/3TLaWqQWCx5fG2rgl6itnQ==/109951168262388543.jpg",
+              "songId": 2712101157,
+              "songName": "WE YOUNG",
+              "songPicUrl": "http://p4.music.126.net/3XOHxvw5nKEoKUFnlbkrcA==/109951171262402051.jpg",
+              "artistId": null,
+              "artistName": null,
+              "artistPicUrl": null,
+              "playCount": 4,
+              "collect": false
+            }
+          ],
+          "musicRepSongServiceAdapter": null,
+          "playlistAdapter": null,
+          "configHolder": null,
+          "blockType": "FRIENDS_LISTEN_BLOCK"
+        },
+        "friendsKeywordWeekBlock": {
+          "items": [
+            {
+              "friendsKeywordEnum": "TIME2",
+              "title": "深夜音乐狂",
+              "subTitle": "喜欢在深夜听歌",
+              "enumCode": "TIME2",
+              "friendList": [
+                {
+                  "userId": 4876595845,
+                  "username": "wawawa-_-",
+                  "userAvatar": "http://p4.music.126.net/3TLaWqQWCx5fG2rgl6itnQ==/109951168262388543.jpg"
+                }
+              ]
+            },
+            {
+              "friendsKeywordEnum": "HOBBIT2",
+              "title": "歌单大爆炸",
+              "subTitle": "收听曲数超大多用户",
+              "enumCode": "HOBBIT2",
+              "friendList": [
+                {
+                  "userId": 4876595845,
+                  "username": "wawawa-_-",
+                  "userAvatar": "http://p4.music.126.net/3TLaWqQWCx5fG2rgl6itnQ==/109951168262388543.jpg"
+                },
+                {
+                  "userId": 1399025329,
+                  "username": "Brunlce",
+                  "userAvatar": "http://p4.music.126.net/veZkBgQ79qMH_6p9Ysi9jw==/109951166667654271.jpg"
+                },
+                {
+                  "userId": 1621293368,
+                  "username": "艾是美食每克",
+                  "userAvatar": "http://p3.music.126.net/rD-67yHem16Au1ksM3Zn-A==/109951173030985546.jpg"
+                }
+              ]
+            }
+          ],
+          "configHolder": null,
+          "blockType": "FRIENDS_KEYWORD_BLOCK"
+        }
+      },
+      "message": ""
+    }
+  }
+}

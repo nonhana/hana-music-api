@@ -1,0 +1,39 @@
+{
+  "module": "listen_data_report",
+  "query": {
+    "type": "week",
+    "endTime": 1262275200000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:47:57.065Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B33：listen_data_report 无收听记录的周（2010-01-01 前）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "type": "week",
+        "startTime": 1261843200000,
+        "endTime": 1262275200000,
+        "listenTimeBlock": null,
+        "listenTimeDistributionBlock": null,
+        "wallpaperBlock": null,
+        "topSongBlock": null,
+        "topArtistBlock": null,
+        "topStyleBlock": null,
+        "topAgeBlock": null,
+        "topLanguageBlock": null,
+        "topEmotionBlock": null,
+        "vipBlock": null,
+        "djListenDataBlock": null,
+        "friendsListenWeekBlock": null,
+        "friendsKeywordWeekBlock": null
+      },
+      "message": ""
+    }
+  }
+}

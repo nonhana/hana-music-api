@@ -1,0 +1,90 @@
+{
+  "module": "listen_data_realtime_report",
+  "query": {
+    "type": "week"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:47:24.249Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B33：listen_data_realtime_report 正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "type": "week",
+        "startTime": 1792857600000,
+        "endTime": 1792964844187,
+        "listenTimeDistributionBlock": {
+          "listenDataHelper": null,
+          "achievementTitleGeneratorClient": null,
+          "playDuration": 165,
+          "achievementTitle": null,
+          "listenDays": 1,
+          "durationDetails": [
+            {
+              "period": "2026-10-25",
+              "duration": 165,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-10-26",
+              "duration": 0,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            }
+          ],
+          "sections": null,
+          "sleepTdBlock": null,
+          "blockType": "LISTEN_TIME_DISTRIBUTION_BLOCK"
+        },
+        "userNickName": null,
+        "weekTodayListenBlock": {
+          "songCount": 2,
+          "redCount": 0,
+          "coverUrls": [
+            "http://p4.music.126.net/31d6zue2HeT38iR5xX2h6w==/109951172230598778.jpg",
+            "http://p3.music.126.net/WgKXTAusuaRDQ49FyAehjw==/109951166108180854.jpg"
+          ]
+        },
+        "weekFriendsListenBlock": {
+          "friendListenRecords": [
+            {
+              "userId": 1621293368,
+              "username": "艾是美食每克",
+              "userAvatar": "http://p3.music.126.net/rD-67yHem16Au1ksM3Zn-A==/109951173030985546.jpg",
+              "songId": 1467976888,
+              "songName": "Don't Waste My Time",
+              "songPicUrl": "http://p4.music.126.net/Imdhm9ghBr0nNdDkNc2VEQ==/109951165761232224.jpg",
+              "artistId": 839378,
+              "artistName": "Dayon",
+              "artistPicUrl": "http://p3.music.126.net/m1NjUfphcnkG2RpGUI-AWQ==/109951165065140325.jpg",
+              "latestListenTime": 1792936559000,
+              "collect": false
+            },
+            {
+              "userId": 4876595845,
+              "username": "wawawa-_-",
+              "userAvatar": "http://p4.music.126.net/3TLaWqQWCx5fG2rgl6itnQ==/109951168262388543.jpg",
+              "songId": 191316,
+              "songName": "我爱你",
+              "songPicUrl": "http://p4.music.126.net/kQgYR6s-lDEUFPC09Nux3A==/109951166118021561.jpg",
+              "artistId": 6475,
+              "artistName": "张亚东",
+              "artistPicUrl": "http://p3.music.126.net/Kg1UI5gt5ITP12rPEBZjKQ==/240793046499909.jpg",
+              "latestListenTime": 1792907489000,
+              "collect": false
+            }
+          ]
+        }
+      },
+      "message": ""
+    }
+  }
+}

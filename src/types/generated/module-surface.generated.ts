@@ -356,11 +356,26 @@ import type {
   ModuleBody as likelistBody,
   ModuleInput as likelistInput,
 } from '../../modules/likelist.ts';
-import type { ModuleInput as listenDataRealtimeReportInput } from '../../modules/listen_data_realtime_report.ts';
-import type { ModuleInput as listenDataReportInput } from '../../modules/listen_data_report.ts';
-import type { ModuleInput as listenDataTodaySongInput } from '../../modules/listen_data_today_song.ts';
-import type { ModuleInput as listenDataTotalInput } from '../../modules/listen_data_total.ts';
-import type { ModuleInput as listenDataYearReportInput } from '../../modules/listen_data_year_report.ts';
+import type {
+  ModuleBody as listenDataRealtimeReportBody,
+  ModuleInput as listenDataRealtimeReportInput,
+} from '../../modules/listen_data_realtime_report.ts';
+import type {
+  ModuleBody as listenDataReportBody,
+  ModuleInput as listenDataReportInput,
+} from '../../modules/listen_data_report.ts';
+import type {
+  ModuleBody as listenDataTodaySongBody,
+  ModuleInput as listenDataTodaySongInput,
+} from '../../modules/listen_data_today_song.ts';
+import type {
+  ModuleBody as listenDataTotalBody,
+  ModuleInput as listenDataTotalInput,
+} from '../../modules/listen_data_total.ts';
+import type {
+  ModuleBody as listenDataYearReportBody,
+  ModuleInput as listenDataYearReportInput,
+} from '../../modules/listen_data_year_report.ts';
 import type { ModuleInput as listentogetherAcceptInput } from '../../modules/listentogether_accept.ts';
 import type { ModuleInput as listentogetherEndInput } from '../../modules/listentogether_end.ts';
 import type { ModuleInput as listentogetherHeatbeatInput } from '../../modules/listentogether_heatbeat.ts';
@@ -2270,27 +2285,27 @@ export interface GeneratedModuleContractMap {
   listen_data_realtime_report: {
     input: listenDataRealtimeReportInput;
     query: listenDataRealtimeReportInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listenDataRealtimeReportBody>;
   };
   listen_data_report: {
     input: listenDataReportInput;
     query: listenDataReportInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listenDataReportBody>;
   };
   listen_data_today_song: {
     input: listenDataTodaySongInput;
     query: listenDataTodaySongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listenDataTodaySongBody>;
   };
   listen_data_total: {
     input: listenDataTotalInput;
     query: listenDataTotalInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listenDataTotalBody>;
   };
   listen_data_year_report: {
     input: listenDataYearReportInput;
     query: listenDataYearReportInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listenDataYearReportBody>;
   };
   listentogether_accept: {
     input: listentogetherAcceptInput;
