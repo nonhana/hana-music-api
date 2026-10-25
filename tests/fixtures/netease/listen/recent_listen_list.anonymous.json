@@ -1,0 +1,22 @@
+{
+  "module": "recent_listen_list",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T21:47:55.696Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B32：最近常听匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "title": null,
+        "resources": null
+      },
+      "message": ""
+    }
+  }
+}

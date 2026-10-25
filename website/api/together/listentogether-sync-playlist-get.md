@@ -42,6 +42,10 @@ const result = await listentogetherSyncPlaylistGet({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和通到当前列表的 `body.data` 收紧；没有房间或房间已失效时 `data` 是空对象，列表字段没有证据，未声明并原样保留。结构定义和类型是 `ListentogetherSyncPlaylistGetBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 返回关注点
 
 - `data.playlist`: 房间当前同步的歌单快照。

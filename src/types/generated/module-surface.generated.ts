@@ -380,11 +380,20 @@ import type { ModuleInput as listentogetherAcceptInput } from '../../modules/lis
 import type { ModuleInput as listentogetherEndInput } from '../../modules/listentogether_end.ts';
 import type { ModuleInput as listentogetherHeatbeatInput } from '../../modules/listentogether_heatbeat.ts';
 import type { ModuleInput as listentogetherPlayCommandInput } from '../../modules/listentogether_play_command.ts';
-import type { ModuleInput as listentogetherRoomCheckInput } from '../../modules/listentogether_room_check.ts';
+import type {
+  ModuleBody as listentogetherRoomCheckBody,
+  ModuleInput as listentogetherRoomCheckInput,
+} from '../../modules/listentogether_room_check.ts';
 import type { ModuleInput as listentogetherRoomCreateInput } from '../../modules/listentogether_room_create.ts';
-import type { ModuleInput as listentogetherStatusInput } from '../../modules/listentogether_status.ts';
+import type {
+  ModuleBody as listentogetherStatusBody,
+  ModuleInput as listentogetherStatusInput,
+} from '../../modules/listentogether_status.ts';
 import type { ModuleInput as listentogetherSyncListCommandInput } from '../../modules/listentogether_sync_list_command.ts';
-import type { ModuleInput as listentogetherSyncPlaylistGetInput } from '../../modules/listentogether_sync_playlist_get.ts';
+import type {
+  ModuleBody as listentogetherSyncPlaylistGetBody,
+  ModuleInput as listentogetherSyncPlaylistGetInput,
+} from '../../modules/listentogether_sync_playlist_get.ts';
 import type { ModuleInput as loginInput } from '../../modules/login.ts';
 import type {
   ModuleBody as loginCellphoneBody,
@@ -624,7 +633,10 @@ import type {
   ModuleInput as programRecommendInput,
 } from '../../modules/program_recommend.ts';
 import type { ModuleInput as rebindInput } from '../../modules/rebind.ts';
-import type { ModuleInput as recentListenListInput } from '../../modules/recent_listen_list.ts';
+import type {
+  ModuleBody as recentListenListBody,
+  ModuleInput as recentListenListInput,
+} from '../../modules/recent_listen_list.ts';
 import type {
   ModuleBody as recommendResourceBody,
   ModuleInput as recommendResourceInput,
@@ -2330,7 +2342,7 @@ export interface GeneratedModuleContractMap {
   listentogether_room_check: {
     input: listentogetherRoomCheckInput;
     query: listentogetherRoomCheckInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherRoomCheckBody>;
   };
   listentogether_room_create: {
     input: listentogetherRoomCreateInput;
@@ -2340,7 +2352,7 @@ export interface GeneratedModuleContractMap {
   listentogether_status: {
     input: listentogetherStatusInput;
     query: listentogetherStatusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherStatusBody>;
   };
   listentogether_sync_list_command: {
     input: listentogetherSyncListCommandInput;
@@ -2350,7 +2362,7 @@ export interface GeneratedModuleContractMap {
   listentogether_sync_playlist_get: {
     input: listentogetherSyncPlaylistGetInput;
     query: listentogetherSyncPlaylistGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherSyncPlaylistGetBody>;
   };
   login: { input: loginInput; query: loginInput; response: ModuleResponse };
   login_cellphone: {
@@ -2713,7 +2725,7 @@ export interface GeneratedModuleContractMap {
   recent_listen_list: {
     input: recentListenListInput;
     query: recentListenListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recentListenListBody>;
   };
   recommend_resource: {
     input: recommendResourceInput;

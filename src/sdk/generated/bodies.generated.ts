@@ -85,6 +85,9 @@ export { ModuleBody as ListenDataReportBody } from '../../modules/listen_data_re
 export { ModuleBody as ListenDataTodaySongBody } from '../../modules/listen_data_today_song.ts';
 export { ModuleBody as ListenDataTotalBody } from '../../modules/listen_data_total.ts';
 export { ModuleBody as ListenDataYearReportBody } from '../../modules/listen_data_year_report.ts';
+export { ModuleBody as ListentogetherRoomCheckBody } from '../../modules/listentogether_room_check.ts';
+export { ModuleBody as ListentogetherStatusBody } from '../../modules/listentogether_status.ts';
+export { ModuleBody as ListentogetherSyncPlaylistGetBody } from '../../modules/listentogether_sync_playlist_get.ts';
 export { ModuleBody as LoginCellphoneBody } from '../../modules/login_cellphone.ts';
 export { ModuleBody as LoginQrCheckBody } from '../../modules/login_qr_check.ts';
 export { ModuleBody as LoginQrCreateBody } from '../../modules/login_qr_create.ts';
@@ -140,6 +143,7 @@ export { ModuleBody as PlaylistUpdateBody } from '../../modules/playlist_update.
 export { ModuleBody as PlaylistUpdatePlaycountBody } from '../../modules/playlist_update_playcount.ts';
 export { ModuleBody as PlaylistVideoRecentBody } from '../../modules/playlist_video_recent.ts';
 export { ModuleBody as ProgramRecommendBody } from '../../modules/program_recommend.ts';
+export { ModuleBody as RecentListenListBody } from '../../modules/recent_listen_list.ts';
 export { ModuleBody as RecommendResourceBody } from '../../modules/recommend_resource.ts';
 export { ModuleBody as RecommendSongsBody } from '../../modules/recommend_songs.ts';
 export { ModuleBody as RelatedAllvideoBody } from '../../modules/related_allvideo.ts';

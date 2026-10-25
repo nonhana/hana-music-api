@@ -1,0 +1,26 @@
+{
+  "module": "listentogether_room_check",
+  "query": {
+    "roomId": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:47:52.977Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B32：已失效房间状态匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "joinable": false,
+        "type": null,
+        "copywriting": "一起听已失效，可邀请好友进入新的一起听",
+        "status": "EXPIRED"
+      },
+      "message": ""
+    }
+  }
+}

@@ -407,6 +407,25 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 
 `broadcast_channel_collect_list` 只收紧 `code`。`data` 在登录和匿名录制里都是空数组（登录账号没有收藏，匿名调用同样为空），元素类型没有证据，未声明并原样保留。登录对照用 `login_status` 确认 `account.anonimousUser: false`：`broadcast_category_region_get` 只有地区列表顺序不同，`broadcast_channel_list` 只有 11 处 `coverUrl` 的 CDN 主机（p3/p4）不同（`subed` 全 `false`、`total` 都是 `843`），`broadcast_channel_currentinfo` 只有 `currentTime` 不同，`broadcast_channel_collect_list` 逐字段相同；`voicelist_search`、`voicelist_list_search`、`voice_lyric` 也逐字段相同。
 
+## 一起听与最近常听
+
+| 模块                                                              | 结构定义                            | 收紧的字段                                                                           |
+| ----------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------ |
+| [一起听状态](/api/together/listentogether-status)                 | `ListentogetherStatusBody`          | `code`、`data`、`data.inRoom`                                                        |
+| [一起听-同步歌单](/api/together/listentogether-sync-playlist-get) | `ListentogetherSyncPlaylistGetBody` | `code`、`data`                                                                       |
+| [一起听-房间检查](/api/together/listentogether-room-check)        | `ListentogetherRoomCheckBody`       | `code`、`data`、`data.joinable`、`data.status`                                       |
+| [最近听歌列表](/api/listen/recent-listen-list)                    | `RecentListenListBody`              | `code`、`data`；`data.resources` 可以没有，出现时 `data.resources[].resourceId` 收紧 |
+
+`listentogether_status` 的 `data` 是通到房间状态的路径，接口就是为了拿 `data.inRoom`，两项收紧；`anotherFollowStatus` 宽松，`roomInfo`、`anotherDeviceInfo` 和 `data.status` 在登录与匿名录制里都只见过 `null`，未声明并原样保留。本批只录到未加入房间的状态：`inRoom` 是 `false`，`roomInfo`、`anotherDeviceInfo`、`data.status` 都是 `null`，没有 `joinable`/`copywriting` 字段，也没有房间内的成功正文。
+
+`listentogether_sync_playlist_get` 的 `data` 是通到当前列表的路径，按对象收紧；没有房间或房间已失效时 `data` 是空对象。本批探测 `roomId=0`、`1`、`9999999999` 都返回 `data: {}`，列表字段没有证据，未声明并原样保留。
+
+`listentogether_room_check` 的 `data`、`data.joinable`、`data.status` 收紧；`copywriting` 是展示文案，宽松；`type` 只见过 `null`，未声明。本批探测 `roomId=0`、`1`、`9999999999` 都返回已失效房间：`status` 是 `"EXPIRED"`、`joinable` 是 `false`、`copywriting` 是失效提示文案，`type` 是 `null`；没有录到可加入或房间内的状态。
+
+`recent_listen_list` 的 `data` 是通到最近常听列表的路径，`data.resources` 在各条记录自己的 `resourceId` 上收紧；匿名调用返回 `title: null`、`resources: null`（录制 `recent_listen_list.anonymous.json`），所以 `resources` 按可以没有处理，出现坏记录仍报错。登录录制有 12 条资源（11 个歌单、1 张专辑）；`resourceCode`、`similarFmType`、`dateNum`、`coverExt`、`songIdList`、`playIndex` 只见过 `null`，未声明。
+
+登录对照先用 `login_status` 确认 `account.anonimousUser: false`；3 个一起听接口都保留了登录和匿名录制，正文逐字段相同；`recent_listen_list` 的匿名正文是 `resources: null`。本批结论只覆盖这些录制与探测，不据此推断所有账号、地区和上游版本一致。
+
 ## 曲风
 
 | 模块                                   | 结构定义            | 收紧的字段                                                                   |
