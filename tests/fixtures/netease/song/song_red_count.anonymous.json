@@ -1,0 +1,23 @@
+{
+  "module": "song_red_count",
+  "query": {
+    "id": 2092595510
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:33:13.148Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B38：song_red_count 匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "count": 315386,
+        "countDesc": "31w+"
+      }
+    }
+  }
+}

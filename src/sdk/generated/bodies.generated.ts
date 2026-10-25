@@ -25,6 +25,7 @@ export { ModuleBody as ArtistSublistBody } from '../../modules/artist_sublist.ts
 export { ModuleBody as ArtistTopSongBody } from '../../modules/artist_top_song.ts';
 export { ModuleBody as ArtistVideoBody } from '../../modules/artist_video.ts';
 export { ModuleBody as ArtistsBody } from '../../modules/artists.ts';
+export { ModuleBody as AudioMatchBody } from '../../modules/audio_match.ts';
 export { ModuleBody as BannerBody } from '../../modules/banner.ts';
 export { ModuleBody as BroadcastCategoryRegionGetBody } from '../../modules/broadcast_category_region_get.ts';
 export { ModuleBody as BroadcastChannelCollectListBody } from '../../modules/broadcast_channel_collect_list.ts';
@@ -32,6 +33,7 @@ export { ModuleBody as BroadcastChannelCurrentinfoBody } from '../../modules/bro
 export { ModuleBody as BroadcastChannelListBody } from '../../modules/broadcast_channel_list.ts';
 export { ModuleBody as CaptchaSentBody } from '../../modules/captcha_sent.ts';
 export { ModuleBody as CellphoneExistenceCheckBody } from '../../modules/cellphone_existence_check.ts';
+export { ModuleBody as CheckMusicBody } from '../../modules/check_music.ts';
 export { ModuleBody as CloudsearchBody } from '../../modules/cloudsearch.ts';
 export { ModuleBody as CommentAlbumBody } from '../../modules/comment_album.ts';
 export { ModuleBody as CommentDjBody } from '../../modules/comment_dj.ts';
@@ -174,6 +176,7 @@ export { ModuleBody as SearchHotDetailBody } from '../../modules/search_hot_deta
 export { ModuleBody as SearchMatchBody } from '../../modules/search_match.ts';
 export { ModuleBody as SearchMultimatchBody } from '../../modules/search_multimatch.ts';
 export { ModuleBody as SearchSuggestBody } from '../../modules/search_suggest.ts';
+export { ModuleBody as SettingBody } from '../../modules/setting.ts';
 export { ModuleBody as SignHappyInfoBody } from '../../modules/sign_happy_info.ts';
 export { ModuleBody as SigninProgressBody } from '../../modules/signin_progress.ts';
 export { ModuleBody as SimiArtistBody } from '../../modules/simi_artist.ts';
@@ -185,10 +188,13 @@ export { ModuleBody as SongChorusBody } from '../../modules/song_chorus.ts';
 export { ModuleBody as SongDetailBody } from '../../modules/song_detail.ts';
 export { ModuleBody as SongDownloadUrlBody } from '../../modules/song_download_url.ts';
 export { ModuleBody as SongDownloadUrlV1Body } from '../../modules/song_download_url_v1.ts';
+export { ModuleBody as SongDynamicCoverBody } from '../../modules/song_dynamic_cover.ts';
+export { ModuleBody as SongLikeCheckBody } from '../../modules/song_like_check.ts';
 export { ModuleBody as SongLyricsMarkBody } from '../../modules/song_lyrics_mark.ts';
 export { ModuleBody as SongLyricsMarkUserPageBody } from '../../modules/song_lyrics_mark_user_page.ts';
 export { ModuleBody as SongMusicDetailBody } from '../../modules/song_music_detail.ts';
 export { ModuleBody as SongOrderUpdateBody } from '../../modules/song_order_update.ts';
+export { ModuleBody as SongRedCountBody } from '../../modules/song_red_count.ts';
 export { ModuleBody as SongUrlBody } from '../../modules/song_url.ts';
 export { ModuleBody as SongUrlV1Body } from '../../modules/song_url_v1.ts';
 export { ModuleBody as SongWikiSummaryBody } from '../../modules/song_wiki_summary.ts';

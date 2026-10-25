@@ -20,8 +20,10 @@ export const settle = <Value>(promise: Promise<Value>) =>
   );
 
 // 契约测试回放的录制文件：一次 SDK 调用的查询参数和网易云的原始返回，见 tests/fixtures/netease/。
+// `context.expect` 只在公开体由 SDK 合成、与上游原文不同时出现，是这次调用的最终体。
 export type Recording = {
   readonly query: Record<string, unknown>;
+  readonly context?: { readonly expect?: unknown } & Record<string, unknown>;
   readonly response: { readonly status: number; readonly body: object };
 };
 

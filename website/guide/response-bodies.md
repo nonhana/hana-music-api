@@ -43,6 +43,7 @@
 | [用户徽章](/api/user/user-medal)             | `UserMedalBody`        | `code`、`data`、`data.obtainMedals`、`data.obtainMedals[].medalCode`、`data.categoryMedalBlockVos`、`data.categoryMedalBlockVos[].medalVOS`、`data.categoryMedalBlockVos[].subGroups[].medals` |
 | [云盘数据](/api/cloud/user-cloud)            | `UserCloudBody`        | `code`、`data`、`data[].songId`                                                                                                                                                                |
 | [云盘数据详情](/api/cloud/user-cloud-detail) | `UserCloudDetailBody`  | `code`、`data`、`data[].songId`                                                                                                                                                                |
+| [设置](/api/user/setting)                    | `SettingBody`          | `code`、`setting`、`setting.userId`                                                                                                                                                            |
 
 这批接口都用登录账号录制（`viewer: authenticated`，先经 `login_status` 确认 `anonimousUser: false`）：`user_level`、`user_subcount`、`user_binding`、`user_medal`、`user_social_status` 和两个云盘接口返回当前登录账号自己的数据。`user_account` 的匿名对照仍在登录一节；`user_detail` 没有匿名录制，本批未改其声明。
 
@@ -51,6 +52,8 @@
 `user_cloud` 的 `data` 是云盘记录列表，每条记录自己的 `songId` 收紧；`privateCloud` 和 `simpleSong` 是记录里套着的对象，字段全部宽松，`simpleSong` 复用 core 的 `LooseSong`（`Song` 字段 + 宽松 `id`）。录制从 25 条截到 3 条；`offset` 越过末尾时 `data` 是空数组（`user_cloud.past-end.json`）。`user_cloud_detail` 按歌曲 id 批量查云盘记录，传入不在云盘的 id 时 `data` 是空数组（`user_cloud_detail.empty.json`）。`user_cloud` 的 `cursor`、`message`、`idVersions` 只见过 `null`，没有声明。
 
 `user_binding` 在不存在的 uid 下返回 `bindings: []`（`user_binding.no-bindings.json`）；录制里的绑定 id 和账号编号已换成合成值，`tokenJsonStr` 按凭据规则替换成 `<redacted>`。`user_social_status` 的 `data` 在录制里是空对象，内部字段没有声明，仍原样保留。
+
+`setting` 的 `setting` 和 `setting.userId` 收紧，其余设置项全部宽松；匿名调用也会返回一份设置，`userId` 是匿名账号的编号。只见过 `null` 的 `newSongDiskSetting` 没有声明，仍原样保留。
 
 ## 账号校验与基础查询
 
@@ -92,6 +95,11 @@
 | [歌手专辑](/api/artist/artist-album)             | `ArtistAlbumBody`      | `code`、`hotAlbums`、`hotAlbums[].id`                                                       |
 | [每日推荐歌曲](/api/recommend/recommend-songs)   | `RecommendSongsBody`   | `code`、`data`、`data.dailySongs`、`data.dailySongs[].id`、`data.dailySongs[].privilege.id` |
 | [喜欢音乐列表](/api/music/likelist)              | `LikelistBody`         | `code`、`ids`                                                                               |
+| [歌曲是否喜爱](/api/music/song-like-check)       | `SongLikeCheckBody`    | `code`、`ids`                                                                               |
+| [歌曲红心数量](/api/music/song-red-count)        | `SongRedCountBody`     | `code`、`data`、`data.count`                                                                |
+| [歌曲动态封面](/api/music/song-dynamic-cover)    | `SongDynamicCoverBody` | `code`、`data`；`data.videoPlayUrl` 可以没有                                                |
+
+`song_like_check` 的 `ids` 是这个账号已喜爱的歌曲编号，没喜欢过任何一首时是空数组；匿名调用返回空数组。空 `ids` 请求会被上游以 `{ code: 400 }` 拒绝，仍按业务拒绝原样转交。`song_red_count` 的 `data.count` 收紧，不存在的歌曲返回 `count: 0`；`countDesc` 只是展示文案，宽松。`song_dynamic_cover` 的 `data` 在歌曲没有动态封面时是空对象，`data.videoPlayUrl` 按可以没有处理：缺失或 `null` 照常返回，出现但类型不对报 502；URL 带 `wsSecret`/`wsTime` 签名参数，会随时间变化，不要缓存或逐字比较。`height`、`weight`、`needTransition` 宽松。三个接口都匿名可用，登录和匿名的结构相同，值差异来自账号数据、实时计数和签名/动态值。
 
 ### 歌曲
 
@@ -533,6 +541,8 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 | [获取客户端歌曲下载链接 - 新版](/api/music/song-download-url-v1) | `SongDownloadUrlV1Body` | `code`、`data`、`data.id`、`data.url`、`data.code`；`level`、`size` 宽松                        |
 | [获取逐字歌词](/api/music/lyric-new)                             | `LyricNewBody`          | `code`、`lrc`、`lrc.lyric`；其余歌词形式和 `pureMusic` 宽松                                     |
 | [听歌打卡](/api/music/scrobble)                                  | `ScrobbleBody`          | `code`                                                                                          |
+| [音乐是否可用](/api/music/check-music)                           | `CheckMusicBody`        | 最终体的 `code`、`success`、`message`；上游 `code`、`data`、`data[].code`                       |
+| [听歌识曲](/api/music/audio-match)                               | `AudioMatchBody`        | `code`、`data`；`data.result` 可以没有，出现时 `data.result[].song.id` 收紧                     |
 
 `song_url` 的 `ModuleBody` 描述的是 SDK 最终体，不是网易云原文：上游顶层 `code` 被模块忽略并合成 `code: 200`（301 等非特殊状态码仍会先被请求层拒绝），上游 `data[]` 按请求 `id` 的顺序重排，顶层重建为 `{ code: 200, data }`，上游其他顶层字段不会保留；`data` 缺失时最终体是空数组。条目里的 `url` 不替换；`freeTrialInfo` 不合并片段，内部坏字段按宽松字段丢弃。`song_download_url` 正常录制与上游逐字段一致；宽松字段类型不对时只丢该项。`song_download_url` 的 `data` 是对象，不是数组；`auEff` 等字段来自播放地址的共享内部结构，下载录制里只见过 `null`，仍按宽松字段处理。
 
@@ -545,6 +555,10 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 本批只保留匿名和失效 Cookie 录制；失效 Cookie 不是登录证据，没有登录对照，不对登录后的 `freeTrialInfo`、`payed` 等字段作相同性断言。
 
 `level` 是实际给到的音质，可能比请求的低；`expi` 是播放地址有效的秒数。歌词除 `lrc` 外的几种可能整个缺失，也可能在、但 `lyric` 是空串，两种都表示没有这种歌词。
+
+`check_music` 的 `ModuleBody` 也描述 SDK 最终体，不是网易云原文：模块只读取上游顶层 `code` 和 `data[0].code`，合成 `{ code: 200, success, message }`，上游 `data` 数组不会保留。上游返回码是 200 且 `data[0].code` 是 200 时 `success` 是 `true`、`message` 是 `"ok"`；否则 `success` 是 `false`、`message` 是 `"亲爱的,暂无版权"`。旧实现已经会拒绝：正文不是对象（旧路径 `body.code`）、`data` 不是数组或 `null`、`data[0]` 不是对象、`data[0].code` 缺失或不是数字；相对基线新增的是 `data` 缺失（旧实现返回 `success: false`），`data[0]` 非对象现在报 `body.data[0]`、缺 `code` 的 `actual` 是 `missing`。`data[1..]` 不校验，空数组按不可播放返回 `success: false`。上游顶层返回码不是 200 时按业务拒绝原样转交，`status` 取上游返回码。录制保存上游原文，最终体写在 `context.expect`。`check_music` 匿名可用；本次快照里匿名录制的条目 `code` 是 404、登录录制是 200（与 `song_url` 的上游码翻转一致），结构相同，不对两种视角的可播放结果作相同性断言。
+
+`audio_match` 是普通 GET，需要真实音频指纹：`data.result` 有命中时是匹配列表，没有命中时是 `null`，同时 `data.noMatchReason` 给出原因（本次无命中录制是 10）。`data.result[].song` 复用歌曲声明，`song.id` 收紧；`queryId`、`type`、`moduleList`、`noMatchReason`、`startTime` 和 `message` 宽松。未声明的顶层字段原样保留。有命中指纹来自真实歌曲片段（《平凡之路》 id 28815250，源 FLAC 从登录态播放地址取得；播放地址 FLAC 前段转 8 kHz 单声道，偏移 1 秒取 3 秒），可用 `bun scripts/audio-fingerprint.mts <音频文件> --offset 1` 复现；匿名播放地址是 30 秒试听 MP3，未用于该指纹。`no-match` 用 440 Hz 合成音频，`bun scripts/audio-fingerprint.mts --tone 440` 可复现。登录和匿名录制的字段集合相同，`queryId` 等动态值不同。
 
 ## 歌词与歌曲附属
 
@@ -675,6 +689,8 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 - `topic_detail_event_hot`：缺失 `actid`（`topic_detail_event_hot.missing-actid.json`）
 
 `SPECIAL_STATUS_CODES` 里的其他码同样会在 Body 校验时拒绝：201/302/502 以原码拒绝，800–803 因超出 100–599 钳位为 400。不在该表里的码（如 404）原样转交，公开 `status` 仍是 404，不会变成 502。契约测试对以上 5 份 400 录制和 2 份 404 录制都断言状态码和原文。
+
+B38 的 `song_like_check` 空 `ids` 请求（`song_like_check.empty-ids.json`）同样是上游 HTTP 200 + `code: 400`，Body 校验后公开为 `status: 400`、正文保留原文。B38 其他模块没有录到顶层非 200 返回：`check_music` 的 `{ code: 400 }` 只在探测里以非 JSON 原文出现，不能作为业务拒绝证据；`audio_match`、`song_red_count`、`song_dynamic_cover`、`setting` 的非 200 分支只按通用拒绝路径测试。
 
 推荐批次的 `personalized`、`personalized_newsong`、`personalized_privatecontent_list` 同理：`code: 400` 的录制（`personalized.invalid-limit.json`、`personalized_newsong.invalid-limit.json`、`personalized_privatecontent_list.invalid-offset.json`）改造前按 200 放行，现在是 reject `status: 400`；`personalized_privatecontent_list` 的越界 `offset=100000`（`personalized_privatecontent_list.offset-out-of-range.json`）是 `code: 404`，改造前是 resolve `status: 404`，现在是 reject `status: 404`。两者都保留上游原文，不报 502。
 

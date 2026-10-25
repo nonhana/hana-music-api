@@ -108,7 +108,10 @@ import type {
   ModuleBody as artistsBody,
   ModuleInput as artistsInput,
 } from '../../modules/artists.ts';
-import type { ModuleInput as audioMatchInput } from '../../modules/audio_match.ts';
+import type {
+  ModuleBody as audioMatchBody,
+  ModuleInput as audioMatchInput,
+} from '../../modules/audio_match.ts';
 import type { ModuleInput as avatarUploadInput } from '../../modules/avatar_upload.ts';
 import type {
   ModuleBody as bannerBody,
@@ -142,7 +145,10 @@ import type {
   ModuleBody as cellphoneExistenceCheckBody,
   ModuleInput as cellphoneExistenceCheckInput,
 } from '../../modules/cellphone_existence_check.ts';
-import type { ModuleInput as checkMusicInput } from '../../modules/check_music.ts';
+import type {
+  ModuleBody as checkMusicBody,
+  ModuleInput as checkMusicInput,
+} from '../../modules/check_music.ts';
 import type { ModuleInput as cloudInput } from '../../modules/cloud.ts';
 import type { ModuleInput as cloudImportInput } from '../../modules/cloud_import.ts';
 import type { ModuleInput as cloudMatchInput } from '../../modules/cloud_match.ts';
@@ -753,7 +759,10 @@ import type { ModuleInput as sendAlbumInput } from '../../modules/send_album.ts'
 import type { ModuleInput as sendPlaylistInput } from '../../modules/send_playlist.ts';
 import type { ModuleInput as sendSongInput } from '../../modules/send_song.ts';
 import type { ModuleInput as sendTextInput } from '../../modules/send_text.ts';
-import type { ModuleInput as settingInput } from '../../modules/setting.ts';
+import type {
+  ModuleBody as settingBody,
+  ModuleInput as settingInput,
+} from '../../modules/setting.ts';
 import type { ModuleInput as shareResourceInput } from '../../modules/share_resource.ts';
 import type { ModuleInput as sheetListInput } from '../../modules/sheet_list.ts';
 import type { ModuleInput as sheetPreviewInput } from '../../modules/sheet_preview.ts';
@@ -802,8 +811,14 @@ import type {
   ModuleBody as songDownloadUrlV1Body,
   ModuleInput as songDownloadUrlV1Input,
 } from '../../modules/song_download_url_v1.ts';
-import type { ModuleInput as songDynamicCoverInput } from '../../modules/song_dynamic_cover.ts';
-import type { ModuleInput as songLikeCheckInput } from '../../modules/song_like_check.ts';
+import type {
+  ModuleBody as songDynamicCoverBody,
+  ModuleInput as songDynamicCoverInput,
+} from '../../modules/song_dynamic_cover.ts';
+import type {
+  ModuleBody as songLikeCheckBody,
+  ModuleInput as songLikeCheckInput,
+} from '../../modules/song_like_check.ts';
 import type {
   ModuleBody as songLyricsMarkBody,
   ModuleInput as songLyricsMarkInput,
@@ -824,7 +839,10 @@ import type {
   ModuleInput as songOrderUpdateInput,
 } from '../../modules/song_order_update.ts';
 import type { ModuleInput as songPurchasedInput } from '../../modules/song_purchased.ts';
-import type { ModuleInput as songRedCountInput } from '../../modules/song_red_count.ts';
+import type {
+  ModuleBody as songRedCountBody,
+  ModuleInput as songRedCountInput,
+} from '../../modules/song_red_count.ts';
 import type { ModuleInput as songSingledownlistInput } from '../../modules/song_singledownlist.ts';
 import type {
   ModuleBody as songUrlBody,
@@ -1982,7 +2000,7 @@ export interface GeneratedModuleContractMap {
   audio_match: {
     input: audioMatchInput;
     query: audioMatchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<audioMatchBody>;
   };
   avatar_upload: {
     input: avatarUploadInput;
@@ -2043,7 +2061,7 @@ export interface GeneratedModuleContractMap {
   check_music: {
     input: checkMusicInput;
     query: checkMusicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<checkMusicBody>;
   };
   cloud: { input: cloudInput; query: cloudInput; response: ModuleResponse };
   cloud_import: {
@@ -2944,7 +2962,7 @@ export interface GeneratedModuleContractMap {
   setting: {
     input: settingInput;
     query: settingInput;
-    response: ModuleResponse;
+    response: ModuleResponse<settingBody>;
   };
   share_resource: {
     input: shareResourceInput;
@@ -3024,12 +3042,12 @@ export interface GeneratedModuleContractMap {
   song_dynamic_cover: {
     input: songDynamicCoverInput;
     query: songDynamicCoverInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songDynamicCoverBody>;
   };
   song_like_check: {
     input: songLikeCheckInput;
     query: songLikeCheckInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songLikeCheckBody>;
   };
   song_lyrics_mark: {
     input: songLyricsMarkInput;
@@ -3074,7 +3092,7 @@ export interface GeneratedModuleContractMap {
   song_red_count: {
     input: songRedCountInput;
     query: songRedCountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songRedCountBody>;
   };
   song_singledownlist: {
     input: songSingledownlistInput;

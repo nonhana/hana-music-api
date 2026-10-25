@@ -312,3 +312,28 @@ test('audit derives final parts from index recordings and validates only final',
     await rm(root, { force: true, recursive: true });
   }
 });
+
+test('audit validates context.expect instead of the raw response body', async () => {
+  const root = await mkdtemp(join(tmpdir(), 'hana-schema-audit-expect-'));
+  try {
+    await writeJson(
+      join(root, 'login/expect.json'),
+      recording('login_qr_check', { code: 200, message: 'raw' }, 200, {
+        expect: { code: 800, message: 'expected' },
+      }),
+    );
+
+    const result = audit('recordings', root);
+    expect(result.code).toBe(0);
+    expect(result.stdout).toContain('  validated: 1\n');
+    expect(result.stdout).toContain('  failures: 0\n');
+
+    const matrix = audit('module', 'login_qr_check', '--recordings', root);
+    expect(matrix.code).toBe(0);
+    expect(matrix.stdout).toContain('code\tnumber\t1\t800\n');
+    expect(matrix.stdout).toContain('message\tstring\t1\t"expected"\n');
+    expect(matrix.stdout).not.toContain('"raw"');
+  } finally {
+    await rm(root, { force: true, recursive: true });
+  }
+});

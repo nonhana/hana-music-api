@@ -1,0 +1,29 @@
+{
+  "module": "audio_match",
+  "query": {
+    "audioFP": "uLsYcabnjbmgFsxqyv/mkZoFEdC1Xl9UO2/XY36UegtKgC8LmDsuItXH8n7MMquabPAc1oMd6H5+A9uLmfB93GHUy8BazPaKR4MRbyrVNNZBfvm2spgJd6vEAFoCnsS7d8YP1eybNE1h8NgDesWR2fvAU1MJee8V1pr3LaLYYF4FG1wQKstZmReR7ZfDH0RB",
+    "duration": 3
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:33:05.311Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B38：audio_match 无命中结果；440 Hz 合成音频、3 秒窗口；指纹用 bun scripts/audio-fingerprint.mts --tone 440 生成"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "type": 0,
+        "queryId": "31a72dce-b083-4f08-aa1a-8c99f895a069",
+        "result": null,
+        "mv": null,
+        "moduleList": null,
+        "noMatchReason": 10
+      },
+      "code": 200,
+      "message": ""
+    }
+  }
+}

@@ -74,6 +74,7 @@ bun run schema:audit module <module>
 
 - `context.redacted`：被替换的凭据路径，相对录制文件；根为 `query` / `body`，嵌套用 `.`，数组下标用 `[n]`（如 `body.list[0].token`），与 `context.truncated` 的写法一致。
 - `context.part`：只有多请求录制才有，形如 `{ index, of, final, gaps? }`；`index` 从 1 开始按尝试序号编号，`of` 是尝试次数（含失败），`gaps` 是中间没有响应的尝试序号，`final` 仅在最后一份正常返回（或显式 `--outcome ok`）时为 `true`。单请求不写这个字段。
+- `context.expect`：公开体由 SDK 拼出、与 `response.body` 不同时，这次调用的最终公开体写在这里；`schema:audit` 优先用它校验 `ModuleBody`，`response.body` 仍是上游证据，`context.outcome` 仍按上游原文分类。`fixtures:record --force` 会覆盖整个文件，重新录制后要补回 `context.expect`。
 
 矩阵必须覆盖顶层和嵌套：字段路径、来源、出现过的类型、非 `null` 样例、数组元素样例、正常是否可能缺失/`null`。数组要看元素；空数组只说明它是数组，不说明元素类型。
 

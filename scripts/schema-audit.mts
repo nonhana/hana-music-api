@@ -121,17 +121,25 @@ const bodyFromRecording = (recording: unknown): unknown => {
     : body;
 };
 
+/** 公开体由 SDK 合成、与上游原文不同时，最终体写在 `context.expect`，审计把它当作 ModuleBody 的校验对象。 */
+const expectFromRecording = (recording: unknown): unknown => {
+  if (!isRecord(recording) || !isRecord(recording.context)) return undefined;
+  return 'expect' in recording.context ? recording.context.expect : undefined;
+};
+
 /** index 模式在读取 part 时已解析过同一文件，这里复用，避免再整读一遍。 */
 const bodyOfEntry = (
   entry: IndexEntry,
   recordingsRoot: string,
   path: string,
-): unknown =>
-  bodyFromRecording(
+): unknown => {
+  const recording =
     entry.recording === undefined
       ? readJson(resolve(recordingsRoot, path))
-      : entry.recording,
-  );
+      : entry.recording;
+  const expected = expectFromRecording(recording);
+  return expected === undefined ? bodyFromRecording(recording) : expected;
+};
 
 const recordingFiles = (root: string): ReadonlyArray<string> => {
   const files: Array<string> = [];

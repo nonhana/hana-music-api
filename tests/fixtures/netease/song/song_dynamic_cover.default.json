@@ -1,0 +1,26 @@
+{
+  "module": "song_dynamic_cover",
+  "query": {
+    "id": 2101179024
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:33:12.468Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B38：song_dynamic_cover 有动态封面"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "height": 0,
+        "weight": 0,
+        "needTransition": true,
+        "videoPlayUrl": "http://dcover.music.126.net/4e94/a0a4/86a0/4f8994c7397cce4306fa3d40474863da.mp4?wsSecret=ed78edd36c5ceadb7278688a1790b8f3&wsTime=1792972692"
+      },
+      "message": ""
+    }
+  }
+}

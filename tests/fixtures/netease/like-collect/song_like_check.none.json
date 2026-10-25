@@ -1,0 +1,20 @@
+{
+  "module": "song_like_check",
+  "query": {
+    "ids": [2092595510]
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:33:12.903Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B38：song_like_check 没有已喜爱的歌"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "ids": [],
+      "code": 200
+    }
+  }
+}

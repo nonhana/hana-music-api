@@ -41,6 +41,12 @@ const result = await songLikeCheck({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body` 是网易云原文；`code` 和喜欢列表 `ids` 收紧。`ids` 是这个账号已喜爱的歌曲编号；传入的歌都没喜欢过时是空数组，匿名调用也返回空数组。`ids` 缺失或元素不是数字会报 502。
+
+空 `ids` 请求会被上游以 `{ code: 400 }` 拒绝，SDK 按业务拒绝原样转交（`status: 400`）。登录对照未发现结构差异，`song_like_check.anonymous.json` 是匿名录制。结构定义和类型是 `SongLikeCheckBody`，见 [返回体结构](/guide/response-bodies#曲库)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 传入歌曲id, 可判断歌曲是否被喜爱;

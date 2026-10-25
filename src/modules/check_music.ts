@@ -9,6 +9,12 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import {
+  decodeUpstreamBody,
+  kindOf,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { isRecord } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
   IdentifierQuery,
@@ -27,7 +33,24 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const checkMusic: ModuleEffect<ModuleInput> = (query, request) =>
+// 上游只读取 `data[0].code` 判断能否播放；`data[1..]` 和条目里的其他字段不校验、不参与公开体。
+const upstreamSchema = UpstreamObject({
+  code: Schema.Literal(200),
+  data: Schema.Array(Schema.Unknown),
+});
+
+// 返回码和是否可播放 `success` 收紧：`success` 由上游 `data[0].code` 是否 200 得出，是接口要拿的那一项；
+// 返回体由 SDK 拼出，`message` 是固定文案。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  Schema.Struct({
+    code: Schema.Literal(200),
+    success: Schema.Boolean,
+    message: Schema.String,
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const checkMusic: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const response = yield* request(
       buildApiRequestIntent(
@@ -39,48 +62,41 @@ const checkMusic: ModuleEffect<ModuleInput> = (query, request) =>
         createOption(query, 'weapi'),
       ),
     );
-    const body = response.body;
-    if (
-      body === null ||
-      typeof body !== 'object' ||
-      Array.isArray(body) ||
-      typeof body.code !== 'number'
-    ) {
+    const upstream = yield* decodeUpstreamBody(
+      'check_music',
+      upstreamSchema,
+      response,
+    );
+    const [first] = upstream.data;
+    if (first !== undefined && !isRecord(first)) {
       return yield* new UnexpectedUpstreamShape({
         module: 'check_music',
-        path: 'body.code',
-        expected: 'number',
-        actual: typeof body,
+        path: 'body.data[0]',
+        expected: 'object',
+        actual: kindOf(first),
       });
     }
-    if (body.data !== undefined && !Array.isArray(body.data)) {
+    if (first !== undefined && !('code' in first)) {
       return yield* new UnexpectedUpstreamShape({
         module: 'check_music',
-        path: 'body.data',
-        expected: 'array',
-        actual: typeof body.data,
+        path: 'body.data[0].code',
+        expected: 'present',
+        actual: 'missing',
       });
     }
-    const first = body.data?.[0];
-    if (
-      first !== undefined &&
-      (first === null ||
-        typeof first !== 'object' ||
-        Array.isArray(first) ||
-        typeof first.code !== 'number')
-    ) {
+    if (first !== undefined && typeof first.code !== 'number') {
       return yield* new UnexpectedUpstreamShape({
         module: 'check_music',
         path: 'body.data[0].code',
         expected: 'number',
-        actual: typeof first,
+        actual: kindOf(first.code),
       });
     }
-    const playable = body.code === 200 && first?.code === 200;
+    const playable = first !== undefined && first.code === 200;
     return {
       ...toModuleResponse(response),
       body: {
-        code: 200,
+        code: 200 as const,
         success: playable,
         message: playable ? 'ok' : '亲爱的,暂无版权',
       },
