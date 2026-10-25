@@ -1,0 +1,21 @@
+{
+  "module": "digitalAlbum_purchased",
+  "query": {
+    "limit": 10
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:24:46.431Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B23：digitalAlbum_purchased 匿名对照，列表为空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "total": 0,
+      "paidAlbums": [],
+      "code": 200
+    }
+  }
+}

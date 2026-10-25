@@ -42,6 +42,10 @@ const result = await vipGrowthpointDetails({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、记录页 `body.data` 和记录列表 `body.data.details` 收紧；记录里的 `resourceId`、`descript`、`growthPoint`、`time` 都是宽松字段。`offset=100000` 越过列表返回空数组（录制 `vip/vip_growthpoint_details.offset-100000.json`），匿名调用也没有记录（`vip/vip_growthpoint_details.anonymous.json`）。结构定义和类型是 `VipGrowthpointDetailsBody`，见[返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 :登录后调用此接口可获取会员成长值领取记录

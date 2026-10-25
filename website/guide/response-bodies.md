@@ -85,18 +85,23 @@
 
 ### 专辑列表与数字专辑
 
-| 模块                                                     | 结构定义                 | 收紧的字段                                         |
-| -------------------------------------------------------- | ------------------------ | -------------------------------------------------- |
-| [数字专辑详情](/api/album/album-detail)                  | `AlbumDetailBody`        | `code`、`album`、`album.albumId`、`product`        |
-| [专辑动态信息](/api/album/album-detail-dynamic)          | `AlbumDetailDynamicBody` | `code`                                             |
-| [数字专辑-新碟上架](/api/album/album-list)               | `AlbumListBody`          | `code`、`products`、`products[].albumId`           |
-| [数字专辑-语种风格馆](/api/album/album-list-style)       | `AlbumListStyleBody`     | `code`、`albumProducts`、`albumProducts[].albumId` |
-| [全部新碟](/api/album/album-new)                         | `AlbumNewBody`           | `code`、`albums`、`albums[].id`                    |
-| [最新专辑](/api/album/album-newest)                      | `AlbumNewestBody`        | `code`、`albums`、`albums[].id`                    |
-| [获取专辑歌曲的音质](/api/album/album-privilege)         | `AlbumPrivilegeBody`     | `code`、`data`、`data[].id`                        |
-| [数字专辑&数字单曲-榜单](/api/album/album-songsaleboard) | `AlbumSongsaleboardBody` | `code`、`products`、`products[].albumId`           |
+| 模块                                                      | 结构定义                    | 收紧的字段                                         |
+| --------------------------------------------------------- | --------------------------- | -------------------------------------------------- |
+| [数字专辑详情](/api/album/album-detail)                   | `AlbumDetailBody`           | `code`、`album`、`album.albumId`、`product`        |
+| [数字专辑详情（购买页）](/api/album/digital-album-detail) | `DigitalAlbumDetailBody`    | `code`、`album`、`album.albumId`、`product`        |
+| [数字专辑销量](/api/album/digital-album-sales)            | `DigitalAlbumSalesBody`     | `code`、`data`                                     |
+| [我的数字专辑](/api/album/digital-album-purchased)        | `DigitalAlbumPurchasedBody` | `code`                                             |
+| [专辑动态信息](/api/album/album-detail-dynamic)           | `AlbumDetailDynamicBody`    | `code`                                             |
+| [数字专辑-新碟上架](/api/album/album-list)                | `AlbumListBody`             | `code`、`products`、`products[].albumId`           |
+| [数字专辑-语种风格馆](/api/album/album-list-style)        | `AlbumListStyleBody`        | `code`、`albumProducts`、`albumProducts[].albumId` |
+| [全部新碟](/api/album/album-new)                          | `AlbumNewBody`              | `code`、`albums`、`albums[].id`                    |
+| [最新专辑](/api/album/album-newest)                       | `AlbumNewestBody`           | `code`、`albums`、`albums[].id`                    |
+| [获取专辑歌曲的音质](/api/album/album-privilege)          | `AlbumPrivilegeBody`        | `code`、`data`、`data[].id`                        |
+| [数字专辑&数字单曲-榜单](/api/album/album-songsaleboard)  | `AlbumSongsaleboardBody`    | `code`、`products`、`products[].albumId`           |
 
 `album_detail` 是数字专辑商品详情，`album` 记录用 `albumId`、`albumName`、`artistName`，没有 `AlbumSummary` 的 `id`、`songs`；`product` 里的价格、售卖数量、简介和 `extInfo` 全部宽松，`board` 与购买状态字段也宽松。非数字专辑（录制 `album_detail.non-digital.json`）或未知 id 返回 `code: 404`（`无专辑商品`），SDK 按业务拒绝原样转交，不会报 502；本批录制与探测未发现可达的空结果。`album_detail_dynamic` 只有 `code` 收紧，普通专辑和数字专辑的字段不同（数字专辑多 `paid`、`sales`、`displayType`），写进同一个结构。
+
+`digitalAlbum_detail` 与 `album_detail` 共用同一个上游详情接口，结构定义同样复用 `AlbumDetailBody`，登录对照未保留录制；`digitalAlbum_sales` 收紧 `code` 和 `data`，`data` 是以专辑 id 为键、销量为值的映射。`digitalAlbum_purchased` 收紧 `code`；录制账号没有购买记录，`paidAlbums` 只有空数组证据、元素类型未知，未声明并由 `UpstreamObject` 原样保留；`total` 宽松。没有另一个已购买账号可补录非空 `paidAlbums`。匿名和登录调用都返回空的 `paidAlbums`，列表为空时 `offset=100000` 仍为空（`digital-album/digitalAlbum_purchased.offset-100000.json`）。数字专辑的写操作（下单/购买，`digitalAlbum_ordering`）不在本批范围。
 
 `album_new` 和 `album_newest` 的 `albums[]` 共用 `AlbumSummary`，只收紧 `id`；专辑里的 `songs` 只见过空数组或 `null`，没有声明。`album_new` 的 `offset` 越过总数时返回 `albums: []`（录制 `album_new.empty.json`），`total` 仍是 500；`album_newest` 没有分页，本批录制与探测未发现可达的空结果，数组本身允许为空。`album_list` 的上游忽略 `offset`：`album_list.offset-100000.json` 里 `offset=100000` 仍返回与第一页相同的 10 个 `albumId`。`album_list_style` 的越界分页返回 `code: 404`（`没有数据`）。这两个列表本批录制与探测未发现可达的空结果；数组本身允许为空。
 
@@ -184,23 +189,27 @@
 
 ## 歌手、听歌排行与会员
 
-| 模块                                              | 结构定义                  | 收紧的字段                                                                      |
-| ------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------- |
-| [歌手详情](/api/artist/artist-detail)             | `ArtistDetailBody`        | `code`、`data`、`data.artist`、`data.artist.id`                                 |
-| [获取歌手描述](/api/artist/artist-desc)           | `ArtistDescBody`          | `code`、`introduction`                                                          |
-| [歌手详情动态](/api/artist/artist-detail-dynamic) | `ArtistDetailDynamicBody` | `code`                                                                          |
-| [歌手粉丝](/api/artist/artist-fans)               | `ArtistFansBody`          | `code`；`data` 可以没有，出现时 `data[].userProfile`、`userProfile.userId` 收紧 |
-| [歌手粉丝数量](/api/artist/artist-follow-count)   | `ArtistFollowCountBody`   | `code`、`data`                                                                  |
-| [歌手分类列表](/api/artist/artist-list)           | `ArtistListBody`          | `code`、`artists`、`artists[].id`                                               |
-| [获取歌手 mv](/api/artist/artist-mv)              | `ArtistMvBody`            | `code`、`mvs`、`mvs[].id`                                                       |
-| [关注歌手新 MV](/api/artist/artist-new-mv)        | `ArtistNewMvBody`         | `code`、`data`、`data.newWorks`、`data.newWorks[].mvId`                         |
-| [关注歌手新歌](/api/artist/artist-new-song)       | `ArtistNewSongBody`       | `code`、`data`、`data.newWorks`、`data.newWorks[].songLists[].id`               |
-| [歌手全部歌曲](/api/artist/artist-songs)          | `ArtistSongsBody`         | `code`、`songs`、`songs[].id`                                                   |
-| [获取歌手视频](/api/artist/artist-video)          | `ArtistVideoBody`         | `code`、`data`、`data.records`、`data.records[].id`                             |
-| [歌手单曲](/api/artist/artists)                   | `ArtistsBody`             | `code`、`hotSongs`、`hotSongs[].id`                                             |
-| [听歌排行](/api/listen/user-record)               | `UserRecordBody`          | `code`；`allData` / `weekData` 可以没有，出现时 `[].song` 收紧                  |
-| [VIP 信息](/api/vip/vip-info)                     | `VipInfoBody`             | `code`、`data`                                                                  |
-| [VIP 信息 v2](/api/vip/vip-info-v2)               | `VipInfoV2Body`           | `code`、`data`                                                                  |
+| 模块                                                   | 结构定义                    | 收紧的字段                                                                                                                      |
+| ------------------------------------------------------ | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| [歌手详情](/api/artist/artist-detail)                  | `ArtistDetailBody`          | `code`、`data`、`data.artist`、`data.artist.id`                                                                                 |
+| [获取歌手描述](/api/artist/artist-desc)                | `ArtistDescBody`            | `code`、`introduction`                                                                                                          |
+| [歌手详情动态](/api/artist/artist-detail-dynamic)      | `ArtistDetailDynamicBody`   | `code`                                                                                                                          |
+| [歌手粉丝](/api/artist/artist-fans)                    | `ArtistFansBody`            | `code`；`data` 可以没有，出现时 `data[].userProfile`、`userProfile.userId` 收紧                                                 |
+| [歌手粉丝数量](/api/artist/artist-follow-count)        | `ArtistFollowCountBody`     | `code`、`data`                                                                                                                  |
+| [歌手分类列表](/api/artist/artist-list)                | `ArtistListBody`            | `code`、`artists`、`artists[].id`                                                                                               |
+| [获取歌手 mv](/api/artist/artist-mv)                   | `ArtistMvBody`              | `code`、`mvs`、`mvs[].id`                                                                                                       |
+| [关注歌手新 MV](/api/artist/artist-new-mv)             | `ArtistNewMvBody`           | `code`、`data`、`data.newWorks`、`data.newWorks[].mvId`                                                                         |
+| [关注歌手新歌](/api/artist/artist-new-song)            | `ArtistNewSongBody`         | `code`、`data`、`data.newWorks`、`data.newWorks[].songLists[].id`                                                               |
+| [歌手全部歌曲](/api/artist/artist-songs)               | `ArtistSongsBody`           | `code`、`songs`、`songs[].id`                                                                                                   |
+| [获取歌手视频](/api/artist/artist-video)               | `ArtistVideoBody`           | `code`、`data`、`data.records`、`data.records[].id`                                                                             |
+| [歌手单曲](/api/artist/artists)                        | `ArtistsBody`               | `code`、`hotSongs`、`hotSongs[].id`                                                                                             |
+| [听歌排行](/api/listen/user-record)                    | `UserRecordBody`            | `code`；`allData` / `weekData` 可以没有，出现时 `[].song` 收紧                                                                  |
+| [VIP 信息](/api/vip/vip-info)                          | `VipInfoBody`               | `code`、`data`                                                                                                                  |
+| [VIP 信息 v2](/api/vip/vip-info-v2)                    | `VipInfoV2Body`             | `code`、`data`                                                                                                                  |
+| [黑胶时光机](/api/vip/vip-timemachine)                 | `VipTimemachineBody`        | `code`、`data`；`data.detail` 可以没有，出现时 `data.detail[].rowKey` 收紧；`data.detail[].data` 必填（缺失/null/非对象 → 502） |
+| [会员成长值](/api/vip/vip-growthpoint)                 | `VipGrowthpointBody`        | `code`、`data`、`data.userLevel`、`data.userLevel.userId`、`data.userLevel.growthPoint`                                         |
+| [会员成长值领取记录](/api/vip/vip-growthpoint-details) | `VipGrowthpointDetailsBody` | `code`、`data`、`data.details`                                                                                                  |
+| [会员任务](/api/vip/vip-tasks)                         | `VipTasksBody`              | `code`、`data`、`data.taskList`、`data.taskList[].taskItems`、`data.taskList[].taskItems[].taskId`                              |
 
 `data.artist.id`、`hotSongs[].id`、`data.records[].id` 是记录自己的编号，所以收紧；歌曲里套着的 `song.id`、MV 记录里的 `artist`、视频记录里的 `resource` 和会员权益对象是附带信息，字段宽松。听歌排行里 `allData` 和 `weekData` 按 `type` 二选一，两个都可以缺失或为 `null`。
 
@@ -213,6 +222,8 @@
 MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`artistName`、`duration`、`imgurl`、`imgurl16v9`、`name`、`playCount`、`publishTime`（`YYYY-MM-DD` 字符串）、`status`、`subed` 和 `artist`（复用宽松的 `Artist`）都是宽松字段。B9 已评估：MV 列表记录的字段集不同（`desc` 未声明、`alias`/`transNames` 只部分接口有），`artist_mv` 的局部 `Mv` 保留在模块内。
 
 登录对照：这 8 个匿名接口在带 Cookie 重录时声明类型相同，值差异只来自关注状态（`followed`、`follow`、`followDay`）和实时计数/CDN 地址，登录录制已删除；个别声明字段的值可能为 `null` 或非 `null`（如 `artist_fans` 的 `vipRights`），属于记录数据本身的差异。
+
+`vip_timemachine` 的周报列表 `data.detail` 是可以没有的路径：没有记录的周区间返回 `null`（录制 `vip/vip_timemachine.empty.json`），缺失或 `null` 都照常返回；出现时每份周报的 `rowKey` 收紧，报告体 `data.detail[].data` 必填（缺失、`null` 或非对象报 502），四种 `type` 的报告内容共用一个宽松结构。`vip_growthpoint` 收紧成长值记录 `data.userLevel` 及其 `userId`、`growthPoint`，等级卡 `levelCard` 是附带展示信息，字段全部宽松。`vip_growthpoint_details` 的记录列表 `data.details` 收紧，记录里的 `resourceId`、`descript`、`growthPoint`、`time` 都是宽松字段；`offset=100000` 越过列表返回空数组（`vip/vip_growthpoint_details.offset-100000.json`）。`vip_tasks` 收紧任务分组 `data.taskList`、组内任务 `data.taskList[].taskItems` 和任务的 `taskId`；本批只录到一条任务，`taskId` 为字符串；本批录制（匿名与登录）没有出现可达的空任务列表。登录对照先确认 `login_status` 的 `account.anonimousUser` 为 `false`；匿名对照录制保留为 `vip/vip_growthpoint.anonymous.json`、`vip/vip_growthpoint_details.anonymous.json`、`vip/vip_tasks.anonymous.json` 和 `digital-album/digitalAlbum_purchased.anonymous.json`，不对匿名与登录的公开结构作相同性断言。
 
 ## MV
 

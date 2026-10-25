@@ -1,0 +1,22 @@
+{
+  "module": "digitalAlbum_sales",
+  "query": {
+    "ids": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:44:54.720Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B23：digitalAlbum_sales 未知专辑销量为 0"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "1": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "module": "vip_tasks",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T18:46:01.571Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B23：vip_tasks 登录会员任务"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": {
+        "taskList": [
+          {
+            "seq": 3,
+            "seqName": "个性化任务",
+            "taskItems": [
+              {
+                "missionId": 0,
+                "userMissionId": null,
+                "type": 200,
+                "typeCode": null,
+                "seqTag": 3,
+                "action": "浏览黑胶时光机",
+                "description": "成长值+3",
+                "growthPoint": 3,
+                "status": 0,
+                "basicTaskId": 0,
+                "taskId": "null_7",
+                "taskTag": "",
+                "tagId": 181,
+                "url": "https://music.163.com/prime/m/viptimemachine?nm_style=sbt&view_task=1",
+                "iconUrl": "http://nos.netease.com/yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/30465432706/f870/5334/fd0f/943918d8923214d69cf2fef0a291b3d9.png",
+                "sortValue": 101,
+                "totalUngetScore": 0,
+                "unGetIds": null,
+                "ruleId": 0,
+                "actionType": 824,
+                "progressType": 0,
+                "targetWorth": 0,
+                "period": 0,
+                "currentProgress": 0,
+                "showProgress": true,
+                "needReceive": false,
+                "updateTime": 0,
+                "businessIdent": null,
+                "targets": null,
+                "name": ""
+              }
+            ],
+            "taskType": 0
+          }
+        ],
+        "taskScore": 0
+      }
+    }
+  }
+}

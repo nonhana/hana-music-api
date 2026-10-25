@@ -1,0 +1,24 @@
+{
+  "module": "vip_growthpoint_details",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T19:24:55.452Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B23：vip_growthpoint_details 匿名对照，列表为空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": {
+        "hasMore": false,
+        "details": [],
+        "maxTaskScore": 300,
+        "scoreDuration": 30
+      }
+    }
+  }
+}

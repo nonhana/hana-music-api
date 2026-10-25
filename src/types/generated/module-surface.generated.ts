@@ -180,10 +180,19 @@ import type {
 } from '../../modules/comment_video.ts';
 import type { ModuleInput as countriesCodeListInput } from '../../modules/countries_code_list.ts';
 import type { ModuleInput as dailySigninInput } from '../../modules/daily_signin.ts';
-import type { ModuleInput as digitalAlbumDetailInput } from '../../modules/digitalAlbum_detail.ts';
+import type {
+  ModuleBody as digitalAlbumDetailBody,
+  ModuleInput as digitalAlbumDetailInput,
+} from '../../modules/digitalAlbum_detail.ts';
 import type { ModuleInput as digitalAlbumOrderingInput } from '../../modules/digitalAlbum_ordering.ts';
-import type { ModuleInput as digitalAlbumPurchasedInput } from '../../modules/digitalAlbum_purchased.ts';
-import type { ModuleInput as digitalAlbumSalesInput } from '../../modules/digitalAlbum_sales.ts';
+import type {
+  ModuleBody as digitalAlbumPurchasedBody,
+  ModuleInput as digitalAlbumPurchasedInput,
+} from '../../modules/digitalAlbum_purchased.ts';
+import type {
+  ModuleBody as digitalAlbumSalesBody,
+  ModuleInput as digitalAlbumSalesInput,
+} from '../../modules/digitalAlbum_sales.ts';
 import type {
   ModuleBody as djBannerBody,
   ModuleInput as djBannerInput,
@@ -869,8 +878,14 @@ import type {
   ModuleBody as videoUrlBody,
   ModuleInput as videoUrlInput,
 } from '../../modules/video_url.ts';
-import type { ModuleInput as vipGrowthpointInput } from '../../modules/vip_growthpoint.ts';
-import type { ModuleInput as vipGrowthpointDetailsInput } from '../../modules/vip_growthpoint_details.ts';
+import type {
+  ModuleBody as vipGrowthpointBody,
+  ModuleInput as vipGrowthpointInput,
+} from '../../modules/vip_growthpoint.ts';
+import type {
+  ModuleBody as vipGrowthpointDetailsBody,
+  ModuleInput as vipGrowthpointDetailsInput,
+} from '../../modules/vip_growthpoint_details.ts';
 import type { ModuleInput as vipGrowthpointGetInput } from '../../modules/vip_growthpoint_get.ts';
 import type {
   ModuleBody as vipInfoBody,
@@ -880,8 +895,14 @@ import type {
   ModuleBody as vipInfoV2Body,
   ModuleInput as vipInfoV2Input,
 } from '../../modules/vip_info_v2.ts';
-import type { ModuleInput as vipTasksInput } from '../../modules/vip_tasks.ts';
-import type { ModuleInput as vipTimemachineInput } from '../../modules/vip_timemachine.ts';
+import type {
+  ModuleBody as vipTasksBody,
+  ModuleInput as vipTasksInput,
+} from '../../modules/vip_tasks.ts';
+import type {
+  ModuleBody as vipTimemachineBody,
+  ModuleInput as vipTimemachineInput,
+} from '../../modules/vip_timemachine.ts';
 import type { ModuleInput as voiceDeleteInput } from '../../modules/voice_delete.ts';
 import type { ModuleInput as voiceDetailInput } from '../../modules/voice_detail.ts';
 import type { ModuleInput as voiceLyricInput } from '../../modules/voice_lyric.ts';
@@ -1919,7 +1940,7 @@ export interface GeneratedModuleContractMap {
   digitalAlbum_detail: {
     input: digitalAlbumDetailInput;
     query: digitalAlbumDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<digitalAlbumDetailBody>;
   };
   digitalAlbum_ordering: {
     input: digitalAlbumOrderingInput;
@@ -1929,12 +1950,12 @@ export interface GeneratedModuleContractMap {
   digitalAlbum_purchased: {
     input: digitalAlbumPurchasedInput;
     query: digitalAlbumPurchasedInput;
-    response: ModuleResponse;
+    response: ModuleResponse<digitalAlbumPurchasedBody>;
   };
   digitalAlbum_sales: {
     input: digitalAlbumSalesInput;
     query: digitalAlbumSalesInput;
-    response: ModuleResponse;
+    response: ModuleResponse<digitalAlbumSalesBody>;
   };
   dj_banner: {
     input: djBannerInput;
@@ -3210,12 +3231,12 @@ export interface GeneratedModuleContractMap {
   vip_growthpoint: {
     input: vipGrowthpointInput;
     query: vipGrowthpointInput;
-    response: ModuleResponse;
+    response: ModuleResponse<vipGrowthpointBody>;
   };
   vip_growthpoint_details: {
     input: vipGrowthpointDetailsInput;
     query: vipGrowthpointDetailsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<vipGrowthpointDetailsBody>;
   };
   vip_growthpoint_get: {
     input: vipGrowthpointGetInput;
@@ -3235,12 +3256,12 @@ export interface GeneratedModuleContractMap {
   vip_tasks: {
     input: vipTasksInput;
     query: vipTasksInput;
-    response: ModuleResponse;
+    response: ModuleResponse<vipTasksBody>;
   };
   vip_timemachine: {
     input: vipTimemachineInput;
     query: vipTimemachineInput;
-    response: ModuleResponse;
+    response: ModuleResponse<vipTimemachineBody>;
   };
   voice_delete: {
     input: voiceDeleteInput;

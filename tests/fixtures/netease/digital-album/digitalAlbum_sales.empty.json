@@ -1,0 +1,21 @@
+{
+  "module": "digitalAlbum_sales",
+  "query": {
+    "ids": ""
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:46:49.507Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B23：digitalAlbum_sales 空 ids 返回 code 500",
+    "outcome": "rejected"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 500,
+      "message": "销量查询失败"
+    }
+  }
+}

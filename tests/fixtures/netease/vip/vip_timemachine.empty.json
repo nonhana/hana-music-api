@@ -1,0 +1,29 @@
+{
+  "module": "vip_timemachine",
+  "query": {
+    "startTime": 1,
+    "endTime": 2
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:46:42.623Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B23：vip_timemachine 无记录的周区间，detail 为 null"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "notVipLimitNum": 3,
+        "recordTime": 0,
+        "showcashier": true,
+        "hasnext": false,
+        "detail": null,
+        "beta": false
+      },
+      "code": 200,
+      "message": ""
+    }
+  }
+}

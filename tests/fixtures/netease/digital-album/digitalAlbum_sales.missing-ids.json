@@ -1,0 +1,20 @@
+{
+  "module": "digitalAlbum_sales",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T19:25:04.478Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B23：digitalAlbum_sales 缺 ids 返回 code 400",
+    "outcome": "rejected"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": "参数错误",
+      "code": 400,
+      "massage": "参数错误"
+    }
+  }
+}

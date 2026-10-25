@@ -42,6 +42,10 @@ const result = await digitalAlbumSales({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和销量映射 `body.data` 收紧；`data` 的键是专辑 id，值是数字销量。未知专辑 id 仍返回 `code: 200`，映射里对应值是 `0`（录制 `digital-album/digitalAlbum_sales.unknown.json`）；缺 `ids` 返回 `code: 400`（`msg`/`massage` 都是 `参数错误`，录制 `digital-album/digitalAlbum_sales.missing-ids.json`），空 `ids` 返回 `code: 500`（`销量查询失败`，录制 `digital-album/digitalAlbum_sales.empty.json`），SDK 都按业务拒绝原样转交。结构定义和类型是 `DigitalAlbumSalesBody`，见[返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入专辑 id, 可获取数字专辑销量
