@@ -40,6 +40,10 @@ const result = await broadcastChannelList();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到电台列表的 `body.data.list` 和每个电台的编号 `data.list[].id` 收紧；封面、名称、地区、来源、分数、订阅状态、房间号和分页计数宽松。未知地区 `regionId=999999` 返回空列表和 `total: 0`（录制 `broadcast_channel_list.empty.json`）；按分类筛选的录制保留 5 条。结构定义和类型是 `BroadcastChannelListBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口, 获取广播电台 - 全部电台

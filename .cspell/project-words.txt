@@ -247,3 +247,4 @@ Stype
 intervel
 ctrp
 abtest
+delisted

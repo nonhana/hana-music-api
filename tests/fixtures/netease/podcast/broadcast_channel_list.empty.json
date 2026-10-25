@@ -1,0 +1,25 @@
+{
+  "module": "broadcast_channel_list",
+  "query": {
+    "regionId": 999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:00:03.053Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B31：广播电台列表未知地区，空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "hasMore": false,
+        "list": [],
+        "total": 0
+      },
+      "message": ""
+    }
+  }
+}

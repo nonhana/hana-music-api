@@ -1,0 +1,24 @@
+{
+  "module": "voice_lyric",
+  "query": {
+    "id": 3064901323
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:00:22.569Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B31：声音歌词，有歌词地址"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": null,
+      "data": {
+        "lyricUrl": "http://d1.music.126.net/dmusic/1753632942615aa1209ac-4919-4f38-8abe-865a0f4e13c3.json",
+        "source": null
+      }
+    }
+  }
+}

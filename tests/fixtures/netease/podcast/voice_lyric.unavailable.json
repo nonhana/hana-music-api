@@ -1,0 +1,21 @@
+{
+  "module": "voice_lyric",
+  "query": {
+    "id": 3064901324
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:07:10.716Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B31：声音歌词，无播放权限的声音"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "msg": "未获取到资源播放权限",
+      "data": null
+    }
+  }
+}

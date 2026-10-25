@@ -1,12 +1,27 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const broadcastChannelCollectList: ModuleEffect<ModuleInput> = (
+// 只收紧返回码。`data` 在登录和匿名录制里都是空数组，元素类型没有证据，未声明并原样保留；
+// 账号没有收藏频道是正常结果。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    message: Loose(Schema.String),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const broadcastChannelCollectList: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
 ) =>
@@ -17,15 +32,19 @@ const broadcastChannelCollectList: ModuleEffect<ModuleInput> = (
       timeReverseOrder: 'true',
       startDate: '4762584922000',
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/content/channel/collect/list`,
-          data,
-          createOption(query),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/content/channel/collect/list`,
+        data,
+        createOption(query),
       ),
     );
+    const body = yield* decodeUpstreamBody(
+      'broadcast_channel_collect_list',
+      ModuleBody,
+      response,
+    );
+    return { ...toModuleResponse(response), body };
   });
 
 /**

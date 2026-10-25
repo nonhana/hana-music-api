@@ -1,0 +1,76 @@
+{
+  "module": "broadcast_channel_list",
+  "query": {
+    "categoryId": 12
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:00:02.538Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B31：广播电台列表按分类筛选"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "hasMore": false,
+        "list": [
+          {
+            "id": 1069201,
+            "regionName": "网络台",
+            "name": "24小时资讯热点",
+            "coverUrl": "http://p4.music.126.net/vfVO-5sN8mM_eg_LOeXf3w==/109951168492183651.jpg",
+            "subed": false,
+            "score": 1000000,
+            "source": "RADIO_GPT",
+            "roomId": 7001
+          },
+          {
+            "id": 165,
+            "regionName": "陕西",
+            "name": "陕西戏曲广播",
+            "coverUrl": "http://p4.music.126.net/Nh4q4ZJq0DayJq0Voc5sjg==/109951165549817686.jpg",
+            "subed": false,
+            "score": 1173,
+            "source": "QT",
+            "roomId": 0
+          },
+          {
+            "id": 4,
+            "regionName": "上海",
+            "name": "上海戏曲广播",
+            "coverUrl": "http://p4.music.126.net/EIdabLd7YpwY6C3eSWoSaQ==/109951165549811752.jpg",
+            "subed": false,
+            "score": 1163,
+            "source": "QT",
+            "roomId": 0
+          },
+          {
+            "id": 256,
+            "regionName": "内蒙古",
+            "name": "内蒙古评书曲艺广播",
+            "coverUrl": "http://p3.music.126.net/8CgwJwBRmvAynTjpw0nhdw==/109951165549823046.jpg",
+            "subed": false,
+            "score": 1054,
+            "source": "QT",
+            "roomId": 0
+          },
+          {
+            "id": 295,
+            "regionName": "安徽",
+            "name": "安徽戏曲广播",
+            "coverUrl": "http://p3.music.126.net/fMBf_H0ni59d89QGF3Y7hA==/109951165549816679.jpg",
+            "subed": false,
+            "score": 1052,
+            "source": "QT",
+            "roomId": 0
+          }
+        ],
+        "total": 5
+      },
+      "message": ""
+    }
+  }
+}

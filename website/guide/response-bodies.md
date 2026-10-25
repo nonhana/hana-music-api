@@ -354,6 +354,31 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_popular` 的主播条目字段完全相同，提升到 `src/core/upstream-schemas.ts` 的 `DjAnchorRank`，只收紧主播自己的 `id`，头像、认证、直播状态和排名宽松；`avatarDetail` 复用既有 `AvatarDetail`。三个主播榜的 envelope（`code`、`data.total`、`data.updateTime`、`data.list`）也相同，本批作为模块公开合同暂留，后续统一榜单结构时再抽 core。`dj_toplist` 和 `dj_sublist` 的电台记录字段集合不同（榜单单条更短、订阅列表是完整电台记录），按“三个模块才进共享结构”的规则各自留在模块里；订阅列表的简介图文复用 `ProgramDescPic`，主播复用 `PlaylistUser`。`dj_toplist`、`dj_sublist`（匿名）、`dj_subscriber`（`time=1` 游标越界）都有真实空结果录制；`dj_toplist_hours`、`dj_toplist_pay`、`dj_toplist_popular` 没有 `offset`，`dj_toplist_newcomer` 的 `offset` 被上游忽略，`limit=0` 会被 SDK 的 `limit || 100` 替换成默认 `100`，本批录制和探测里没有可达的空结果。`djRadio_top` 在本账号的一次登录录制里 `data` 是空数组，元素类型无法确认，`data` 未声明并原样透传；匿名调用返回 `code: 302`（录制 `djRadio_top.anonymous.json`）。`dj_sublist` 必须登录才能看到订阅，匿名返回空 `djRadios`；五个榜单和 `dj_subscriber` 的登录与匿名录制字段集合相同，差异只在宽松字段的实时值。非数字 `limit`（五个榜单和 `dj_sublist`）返回正文 `code: 400`；大于 `100` 的 `limit` 只有 `dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_pay`、`dj_toplist_popular` 返回 `code: 400`，`dj_toplist`、`dj_sublist`、`dj_subscriber` 的 `limit=101` 在本批匿名探测里仍返回 200。SDK 按业务码拒绝转交 `status: 400`；`djRadio_top` 的非数字 `djRadioId` 返回 HTTP 400 空正文，网易云把 400 归一成 `status: 200`，结构定义允许空字符串分支。
 
+### 播客与声音
+
+| 模块                                          | 结构定义                  | 收紧的字段                                                                        |
+| --------------------------------------------- | ------------------------- | --------------------------------------------------------------------------------- |
+| [播客列表](/api/dj/voicelist-search)          | `VoicelistSearchBody`     | `code`、`data`；`data.total`、`data.hasMore` 宽松；列表元素未声明，原样保留       |
+| [播客声音搜索](/api/dj/voicelist-list-search) | `VoicelistListSearchBody` | `code`、`data`；`data.total`、`data.hasMore` 宽松；列表元素未声明，原样保留       |
+| [获取声音歌词](/api/dj/voice-lyric)           | `VoiceLyricBody`          | `code`、`data`；`data` 可以没有（无歌词时是 `null`），出现时 `data.lyricUrl` 收紧 |
+
+`voicelist_search`、`voicelist_list_search` 的 `data` 是通到播客/声音列表的路径，`data.total`、`data.hasMore` 是宽松的分页提示；登录账号没有播客/声音，匿名调用同样为空，两种录制都是 `data.list: []`，列表元素类型没有证据，未声明并原样保留。`voice_lyric` 的 `data` 是没有歌词时可以没有的路径（录制 `voice_lyric.without-lyric.json` 里是 `null`），出现时 `data.lyricUrl` 收紧；`data.source` 和 `message` 只见过 `null`，未声明。`voicelist_list`、`voicelist_detail`、`voicelist_trans` 和 `voice_detail` 是创作者工作台接口，只允许操作自己的播客/声音；本机账号没有播客，工作台接口对非所有者返回 `code: 400`，`voice_detail` 访问他人声音返回 `code: 401`，个别不存在的 id 返回 HTTP 200、正文 `code: 200`、`data: null`。这些路径都没有带字段的成功正文可录，未声明结构。
+
+## 广播电台
+
+| 模块                                                      | 结构定义                          | 收紧的字段                                                                                               |
+| --------------------------------------------------------- | --------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| [分类/地区信息](/api/other/broadcast-category-region-get) | `BroadcastCategoryRegionGetBody`  | `code`、`data`、`data.categoryList`、`data.categoryList[].id`、`data.regionList`、`data.regionList[].id` |
+| [全部电台](/api/other/broadcast-channel-list)             | `BroadcastChannelListBody`        | `code`、`data`、`data.list`、`data.list[].id`                                                            |
+| [电台信息](/api/other/broadcast-channel-currentinfo)      | `BroadcastChannelCurrentinfoBody` | `code`、`data`、`data.id`、`data.playUrl`                                                                |
+| [我的收藏](/api/other/broadcast-channel-collect-list)     | `BroadcastChannelCollectListBody` | `code`                                                                                                   |
+
+`broadcast_category_region_get` 的 `data.categoryList`、`data.regionList` 是分类和地区列表，每条记录只收紧自己的 `id`，名称宽松；这是静态目录，本批录制与探测未发现可达的空结果，数组本身允许为空。`broadcast_channel_list` 的 `data.list` 是电台列表，每条记录只收紧自己的 `id`，封面、名称、地区、来源、分数、订阅状态和房间号宽松；`data.total`、`data.hasMore` 是宽松的分页提示，未知地区 `regionId=999999` 返回空列表和 `total: 0`（录制 `broadcast_channel_list.empty.json`），按分类筛选的录制保留 5 条。
+
+`broadcast_channel_currentinfo` 的 `data` 是频道当前信息，`data.id` 是频道自己的编号，`data.playUrl` 是直播播放地址，三项收紧；`programId`、`programName`、`startTime`、`endTime`、`duration`、`currentTime`、`thirdChannelId`、`thirdProgramId` 和展示字段宽松。空闲频道（录制 `broadcast_channel_currentinfo.default.json`）的 `programId`/`startTime`/`endTime`/`duration` 是 `0`，`programName`、`thirdProgramId` 是 `null`；正在播出节目的频道（录制 `broadcast_channel_currentinfo.program.json`）有节目编号和起止时间，`broadcaster` 是空数组。`broadcaster` 只在录制里见过 `null` 和空数组，元素类型没有证据，未声明。已下架/无当前信息的频道返回 HTTP 200、正文 `code: 400`（录制 `broadcast_channel_currentinfo.delisted.json`），SDK 按业务拒绝转交 `status: 400`。
+
+`broadcast_channel_collect_list` 只收紧 `code`。`data` 在登录和匿名录制里都是空数组（登录账号没有收藏，匿名调用同样为空），元素类型没有证据，未声明并原样保留。登录对照用 `login_status` 确认 `account.anonimousUser: false`：`broadcast_category_region_get` 只有地区列表顺序不同，`broadcast_channel_list` 只有 11 处 `coverUrl` 的 CDN 主机（p3/p4）不同（`subed` 全 `false`、`total` 都是 `843`），`broadcast_channel_currentinfo` 只有 `currentTime` 不同，`broadcast_channel_collect_list` 逐字段相同；`voicelist_search`、`voicelist_list_search`、`voice_lyric` 也逐字段相同。
+
 ## 曲风
 
 | 模块                                   | 结构定义            | 收紧的字段                                                                   |
@@ -535,6 +560,8 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 推荐批次的 `personalized`、`personalized_newsong`、`personalized_privatecontent_list` 同理：`code: 400` 的录制（`personalized.invalid-limit.json`、`personalized_newsong.invalid-limit.json`、`personalized_privatecontent_list.invalid-offset.json`）改造前按 200 放行，现在是 reject `status: 400`；`personalized_privatecontent_list` 的越界 `offset=100000`（`personalized_privatecontent_list.offset-out-of-range.json`）是 `code: 404`，改造前是 resolve `status: 404`，现在是 reject `status: 404`。两者都保留上游原文，不报 502。
 
 B6 的歌单写操作同样受影响：`playlist_track_add` 缺 `pid`（`playlist_track_add.missing-pid.json`）、`playlist_track_delete` 缺 `id`（`playlist_track_delete.missing-id.json`）、`playlist_import_name_task_create` 缺 `text`（`playlist_import_name_task_create.missing-text.json`）的上游 `code: 400` 从 `status: 200` 放行变成 `status: 400` 拒绝，`body` 保留原文。`playlist_track_add`/`playlist_track_delete` 的 401 和 404、`playlist_import_task_status` 的 500 不在 `SPECIAL_STATUS_CODES` 里，改造前就按 `ProtocolFailed` 拒绝，状态不变。`playlist_update_playcount` 缺 `id` 的空正文是 HTTP 400、没有 `code`，仍归一成 `status: 200` 和空字符串，空字符串作为结构定义的独立分支保留。
+
+B31 的播客/电台读取同样受影响：`broadcast_channel_currentinfo` 的已下架/无当前信息频道（录制 `broadcast_channel_currentinfo.delisted.json`）和 `voice_lyric` 的无播放权限声音（录制 `voice_lyric.unavailable.json`）都是上游 HTTP 200、正文 `code: 400`；改造前模块把这两种响应当成功放行 `status: 200`，现在 Body 校验按业务码拒绝为 `status: 400`，`body` 保留网易云原文。
 
 ## 消息
 

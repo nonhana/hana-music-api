@@ -1,0 +1,19 @@
+{
+  "module": "broadcast_channel_collect_list",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T21:00:16.602Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B31：广播电台收藏列表，匿名调用同样为空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [],
+      "message": ""
+    }
+  }
+}

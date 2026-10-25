@@ -115,10 +115,22 @@ import type {
   ModuleInput as bannerInput,
 } from '../../modules/banner.ts';
 import type { ModuleInput as batchInput } from '../../modules/batch.ts';
-import type { ModuleInput as broadcastCategoryRegionGetInput } from '../../modules/broadcast_category_region_get.ts';
-import type { ModuleInput as broadcastChannelCollectListInput } from '../../modules/broadcast_channel_collect_list.ts';
-import type { ModuleInput as broadcastChannelCurrentinfoInput } from '../../modules/broadcast_channel_currentinfo.ts';
-import type { ModuleInput as broadcastChannelListInput } from '../../modules/broadcast_channel_list.ts';
+import type {
+  ModuleBody as broadcastCategoryRegionGetBody,
+  ModuleInput as broadcastCategoryRegionGetInput,
+} from '../../modules/broadcast_category_region_get.ts';
+import type {
+  ModuleBody as broadcastChannelCollectListBody,
+  ModuleInput as broadcastChannelCollectListInput,
+} from '../../modules/broadcast_channel_collect_list.ts';
+import type {
+  ModuleBody as broadcastChannelCurrentinfoBody,
+  ModuleInput as broadcastChannelCurrentinfoInput,
+} from '../../modules/broadcast_channel_currentinfo.ts';
+import type {
+  ModuleBody as broadcastChannelListBody,
+  ModuleInput as broadcastChannelListInput,
+} from '../../modules/broadcast_channel_list.ts';
 import type { ModuleInput as broadcastSubInput } from '../../modules/broadcast_sub.ts';
 import type { ModuleInput as calendarInput } from '../../modules/calendar.ts';
 import type {
@@ -950,12 +962,21 @@ import type {
 } from '../../modules/vip_timemachine.ts';
 import type { ModuleInput as voiceDeleteInput } from '../../modules/voice_delete.ts';
 import type { ModuleInput as voiceDetailInput } from '../../modules/voice_detail.ts';
-import type { ModuleInput as voiceLyricInput } from '../../modules/voice_lyric.ts';
+import type {
+  ModuleBody as voiceLyricBody,
+  ModuleInput as voiceLyricInput,
+} from '../../modules/voice_lyric.ts';
 import type { ModuleInput as voiceUploadInput } from '../../modules/voice_upload.ts';
 import type { ModuleInput as voicelistDetailInput } from '../../modules/voicelist_detail.ts';
 import type { ModuleInput as voicelistListInput } from '../../modules/voicelist_list.ts';
-import type { ModuleInput as voicelistListSearchInput } from '../../modules/voicelist_list_search.ts';
-import type { ModuleInput as voicelistSearchInput } from '../../modules/voicelist_search.ts';
+import type {
+  ModuleBody as voicelistListSearchBody,
+  ModuleInput as voicelistListSearchInput,
+} from '../../modules/voicelist_list_search.ts';
+import type {
+  ModuleBody as voicelistSearchBody,
+  ModuleInput as voicelistSearchInput,
+} from '../../modules/voicelist_search.ts';
 import type { ModuleInput as voicelistTransInput } from '../../modules/voicelist_trans.ts';
 import type { ModuleInput as yunbeiInput } from '../../modules/yunbei.ts';
 import type { ModuleInput as yunbeiExpenseInput } from '../../modules/yunbei_expense.ts';
@@ -1848,22 +1869,22 @@ export interface GeneratedModuleContractMap {
   broadcast_category_region_get: {
     input: broadcastCategoryRegionGetInput;
     query: broadcastCategoryRegionGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<broadcastCategoryRegionGetBody>;
   };
   broadcast_channel_collect_list: {
     input: broadcastChannelCollectListInput;
     query: broadcastChannelCollectListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<broadcastChannelCollectListBody>;
   };
   broadcast_channel_currentinfo: {
     input: broadcastChannelCurrentinfoInput;
     query: broadcastChannelCurrentinfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<broadcastChannelCurrentinfoBody>;
   };
   broadcast_channel_list: {
     input: broadcastChannelListInput;
     query: broadcastChannelListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<broadcastChannelListBody>;
   };
   broadcast_sub: {
     input: broadcastSubInput;
@@ -3325,7 +3346,7 @@ export interface GeneratedModuleContractMap {
   voice_lyric: {
     input: voiceLyricInput;
     query: voiceLyricInput;
-    response: ModuleResponse;
+    response: ModuleResponse<voiceLyricBody>;
   };
   voice_upload: {
     input: voiceUploadInput;
@@ -3345,12 +3366,12 @@ export interface GeneratedModuleContractMap {
   voicelist_list_search: {
     input: voicelistListSearchInput;
     query: voicelistListSearchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<voicelistListSearchBody>;
   };
   voicelist_search: {
     input: voicelistSearchInput;
     query: voicelistSearchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<voicelistSearchBody>;
   };
   voicelist_trans: {
     input: voicelistTransInput;

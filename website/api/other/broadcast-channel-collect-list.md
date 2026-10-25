@@ -39,6 +39,10 @@ const result = await broadcastChannelCollectList();
 console.log(result.body);
 ```
 
+## 返回内容
+
+只收紧 `body.code`。`data` 在登录和匿名录制里都是空数组（账号没有收藏电台），元素类型没有证据，未声明并原样保留。结构定义和类型是 `BroadcastChannelCollectListBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口, 获取广播电台 - 我的收藏

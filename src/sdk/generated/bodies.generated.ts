@@ -26,6 +26,10 @@ export { ModuleBody as ArtistTopSongBody } from '../../modules/artist_top_song.t
 export { ModuleBody as ArtistVideoBody } from '../../modules/artist_video.ts';
 export { ModuleBody as ArtistsBody } from '../../modules/artists.ts';
 export { ModuleBody as BannerBody } from '../../modules/banner.ts';
+export { ModuleBody as BroadcastCategoryRegionGetBody } from '../../modules/broadcast_category_region_get.ts';
+export { ModuleBody as BroadcastChannelCollectListBody } from '../../modules/broadcast_channel_collect_list.ts';
+export { ModuleBody as BroadcastChannelCurrentinfoBody } from '../../modules/broadcast_channel_currentinfo.ts';
+export { ModuleBody as BroadcastChannelListBody } from '../../modules/broadcast_channel_list.ts';
 export { ModuleBody as CaptchaSentBody } from '../../modules/captcha_sent.ts';
 export { ModuleBody as CloudsearchBody } from '../../modules/cloudsearch.ts';
 export { ModuleBody as CommentAlbumBody } from '../../modules/comment_album.ts';
@@ -204,3 +208,6 @@ export { ModuleBody as VipInfoBody } from '../../modules/vip_info.ts';
 export { ModuleBody as VipInfoV2Body } from '../../modules/vip_info_v2.ts';
 export { ModuleBody as VipTasksBody } from '../../modules/vip_tasks.ts';
 export { ModuleBody as VipTimemachineBody } from '../../modules/vip_timemachine.ts';
+export { ModuleBody as VoiceLyricBody } from '../../modules/voice_lyric.ts';
+export { ModuleBody as VoicelistListSearchBody } from '../../modules/voicelist_list_search.ts';
+export { ModuleBody as VoicelistSearchBody } from '../../modules/voicelist_search.ts';

@@ -37,6 +37,10 @@ const result = await broadcastCategoryRegionGet();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到分类和地区列表的 `body.data.categoryList`、`body.data.regionList` 以及每条分类/地区自己的编号收紧；名称宽松。这是静态目录，本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `BroadcastCategoryRegionGetBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口, 获取广播电台 - 分类/地区信息
