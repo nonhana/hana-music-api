@@ -391,19 +391,43 @@ import type { ModuleInput as stylePlaylistInput } from '../../modules/style_play
 import type { ModuleInput as stylePreferenceInput } from '../../modules/style_preference.ts';
 import type { ModuleInput as styleSongInput } from '../../modules/style_song.ts';
 import type { ModuleInput as summaryAnnualInput } from '../../modules/summary_annual.ts';
-import type { ModuleInput as topAlbumInput } from '../../modules/top_album.ts';
-import type { ModuleInput as topArtistsInput } from '../../modules/top_artists.ts';
-import type { ModuleInput as topListInput } from '../../modules/top_list.ts';
+import type {
+  ModuleBody as topAlbumBody,
+  ModuleInput as topAlbumInput,
+} from '../../modules/top_album.ts';
+import type {
+  ModuleBody as topArtistsBody,
+  ModuleInput as topArtistsInput,
+} from '../../modules/top_artists.ts';
+import type {
+  ModuleBody as topListBody,
+  ModuleInput as topListInput,
+} from '../../modules/top_list.ts';
 import type { ModuleInput as topMvInput } from '../../modules/top_mv.ts';
 import type { ModuleInput as topPlaylistInput } from '../../modules/top_playlist.ts';
-import type { ModuleInput as topPlaylistHighqualityInput } from '../../modules/top_playlist_highquality.ts';
-import type { ModuleInput as topSongInput } from '../../modules/top_song.ts';
+import type {
+  ModuleBody as topPlaylistHighqualityBody,
+  ModuleInput as topPlaylistHighqualityInput,
+} from '../../modules/top_playlist_highquality.ts';
+import type {
+  ModuleBody as topSongBody,
+  ModuleInput as topSongInput,
+} from '../../modules/top_song.ts';
 import type { ModuleInput as topicDetailInput } from '../../modules/topic_detail.ts';
 import type { ModuleInput as topicDetailEventHotInput } from '../../modules/topic_detail_event_hot.ts';
 import type { ModuleInput as topicSublistInput } from '../../modules/topic_sublist.ts';
-import type { ModuleInput as toplistInput } from '../../modules/toplist.ts';
-import type { ModuleInput as toplistArtistInput } from '../../modules/toplist_artist.ts';
-import type { ModuleInput as toplistDetailInput } from '../../modules/toplist_detail.ts';
+import type {
+  ModuleBody as toplistBody,
+  ModuleInput as toplistInput,
+} from '../../modules/toplist.ts';
+import type {
+  ModuleBody as toplistArtistBody,
+  ModuleInput as toplistArtistInput,
+} from '../../modules/toplist_artist.ts';
+import type {
+  ModuleBody as toplistDetailBody,
+  ModuleInput as toplistDetailInput,
+} from '../../modules/toplist_detail.ts';
 import type { ModuleInput as ugcAlbumGetInput } from '../../modules/ugc_album_get.ts';
 import type { ModuleInput as ugcArtistGetInput } from '../../modules/ugc_artist_get.ts';
 import type { ModuleInput as ugcArtistSearchInput } from '../../modules/ugc_artist_search.ts';
@@ -2491,17 +2515,17 @@ export interface GeneratedModuleContractMap {
   top_album: {
     input: topAlbumInput;
     query: topAlbumInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topAlbumBody>;
   };
   top_artists: {
     input: topArtistsInput;
     query: topArtistsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topArtistsBody>;
   };
   top_list: {
     input: topListInput;
     query: topListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topListBody>;
   };
   top_mv: { input: topMvInput; query: topMvInput; response: ModuleResponse };
   top_playlist: {
@@ -2512,12 +2536,12 @@ export interface GeneratedModuleContractMap {
   top_playlist_highquality: {
     input: topPlaylistHighqualityInput;
     query: topPlaylistHighqualityInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topPlaylistHighqualityBody>;
   };
   top_song: {
     input: topSongInput;
     query: topSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topSongBody>;
   };
   topic_detail: {
     input: topicDetailInput;
@@ -2537,17 +2561,17 @@ export interface GeneratedModuleContractMap {
   toplist: {
     input: toplistInput;
     query: toplistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<toplistBody>;
   };
   toplist_artist: {
     input: toplistArtistInput;
     query: toplistArtistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<toplistArtistBody>;
   };
   toplist_detail: {
     input: toplistDetailInput;
     query: toplistDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<toplistDetailBody>;
   };
   ugc_album_get: {
     input: ugcAlbumGetInput;

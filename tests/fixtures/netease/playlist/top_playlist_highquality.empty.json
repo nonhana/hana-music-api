@@ -1,0 +1,23 @@
+{
+  "module": "top_playlist_highquality",
+  "query": {
+    "limit": 50,
+    "before": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T07:52:49.930Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B15：游标早于全部 updateTime 的精品歌单空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "playlists": [],
+      "more": false,
+      "msg": "没有获取数据"
+    }
+  }
+}

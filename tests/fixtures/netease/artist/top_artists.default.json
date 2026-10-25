@@ -1,0 +1,107 @@
+{
+  "module": "top_artists",
+  "query": {
+    "limit": 50,
+    "offset": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-25T07:51:30.775Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B15：热门歌手匿名主形态",
+    "truncated": [
+      {
+        "path": "body.artists",
+        "length": 50
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "more": true,
+      "artists": [
+        {
+          "name": "林俊杰",
+          "id": 3684,
+          "picId": 109951168529051970,
+          "img1v1Id": 109951168529049970,
+          "briefDesc": "",
+          "picUrl": "http://p4.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+          "img1v1Url": "http://p3.music.126.net/r6W-zCnV-aduVn_PLZYuYg==/109951168529049969.jpg",
+          "albumSize": 74,
+          "alias": ["JJ Lin", "Wayne Lim"],
+          "trans": "",
+          "musicSize": 599,
+          "topicPerson": 0,
+          "showPrivateMsg": null,
+          "isSubed": null,
+          "accountId": null,
+          "picId_str": "109951168529051968",
+          "img1v1Id_str": "109951168529049969",
+          "transNames": null,
+          "followed": false,
+          "mvSize": null,
+          "publishTime": null,
+          "identifyTag": null,
+          "alg": null,
+          "fansCount": 16842739
+        },
+        {
+          "name": "陈粒",
+          "id": 1007170,
+          "picId": 6641050233030995,
+          "img1v1Id": 6628955605123612,
+          "briefDesc": "",
+          "picUrl": "http://p3.music.126.net/3WhzK6ozFXUsNutDU566ZA==/6641050233030995.jpg",
+          "img1v1Url": "http://p3.music.126.net/Q92YwJrk2f2tsK-7B0VIhQ==/6628955605123612.jpg",
+          "albumSize": 63,
+          "alias": [],
+          "trans": "",
+          "musicSize": 262,
+          "topicPerson": 0,
+          "showPrivateMsg": null,
+          "isSubed": null,
+          "accountId": 37179178,
+          "picId_str": null,
+          "img1v1Id_str": null,
+          "transNames": null,
+          "followed": false,
+          "mvSize": null,
+          "publishTime": null,
+          "identifyTag": null,
+          "alg": null,
+          "fansCount": 7509551
+        },
+        {
+          "name": "初音ミク",
+          "id": 159692,
+          "picId": 109951172350537730,
+          "img1v1Id": 109951172350533950,
+          "briefDesc": "",
+          "picUrl": "http://p4.music.126.net/4JX_c-M61K0MTn4K2DT4Sg==/109951172350537735.jpg",
+          "img1v1Url": "http://p3.music.126.net/9vDGt6BedyJz8KMV7GDwlw==/109951172350533947.jpg",
+          "albumSize": 997,
+          "alias": ["Hatsune Miku"],
+          "trans": "初音未来",
+          "musicSize": 44843,
+          "topicPerson": 0,
+          "showPrivateMsg": null,
+          "isSubed": null,
+          "accountId": 17094508133,
+          "picId_str": "109951172350537735",
+          "img1v1Id_str": "109951172350533947",
+          "transNames": ["初音未来"],
+          "followed": false,
+          "mvSize": null,
+          "publishTime": null,
+          "identifyTag": null,
+          "alg": null,
+          "fansCount": 3346659
+        }
+      ]
+    }
+  }
+}

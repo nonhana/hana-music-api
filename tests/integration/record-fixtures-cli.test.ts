@@ -214,7 +214,7 @@ describe('record-fixtures CLI', () => {
     const workspace = await createWorkspace({ code: 200 });
     try {
       const result = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -242,7 +242,7 @@ describe('record-fixtures CLI', () => {
 
       expect(result.code).toBe(0);
       const recording = await readRecording(
-        join(workspace.out, 'toplist.default.json'),
+        join(workspace.out, 'batch.default.json'),
       );
       expect(recording.query).toEqual({
         a: [
@@ -281,7 +281,7 @@ describe('record-fixtures CLI', () => {
         'MUSIC_U=INPUT_COOKIE_SECRET',
       );
       const result = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--cookie-file',
         cookie,
         '--out',
@@ -308,7 +308,7 @@ describe('record-fixtures CLI', () => {
 
       expect(result.code).toBe(0);
       expect(result.stdout).toContain('警告：已隐去凭据字段：');
-      const path = join(workspace.out, 'toplist.default.json');
+      const path = join(workspace.out, 'batch.default.json');
       const text = await readFile(path, 'utf8');
       for (const secret of [
         'COOKIE_SESSION_SECRET',
@@ -390,14 +390,14 @@ describe('record-fixtures CLI', () => {
     });
     try {
       const result = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
       ]);
       expect(result.code).toBe(0);
       const recording = await readRecording(
-        join(workspace.out, 'toplist.default.json'),
+        join(workspace.out, 'batch.default.json'),
       );
       expect(recording.context.redacted).toBeUndefined();
       expect(recording.response.body).toEqual({
@@ -423,11 +423,11 @@ describe('record-fixtures CLI', () => {
     );
     try {
       await mkdir(workspace.out, { recursive: true });
-      const stale = join(workspace.out, 'toplist.default.json');
+      const stale = join(workspace.out, 'batch.default.json');
       await writeFile(stale, '{"stale":true}', 'utf8');
 
       const result = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -439,7 +439,7 @@ describe('record-fixtures CLI', () => {
       expect(result.code).toBe(1);
       expect(result.stderr).toContain('敏感字段没有隐去');
       expect(await readFile(stale, 'utf8')).toBe('{"stale":true}');
-      expect(await readdir(workspace.out)).toEqual(['toplist.default.json']);
+      expect(await readdir(workspace.out)).toEqual(['batch.default.json']);
     } finally {
       await rm(workspace.root, { force: true, recursive: true });
     }
@@ -449,31 +449,31 @@ describe('record-fixtures CLI', () => {
     const workspace = await createWorkspace({ code: 200 });
     try {
       await mkdir(workspace.out, { recursive: true });
-      const stale = join(workspace.out, 'toplist.default.json');
+      const stale = join(workspace.out, 'batch.default.json');
       await writeFile(stale, '{"stale":true}', 'utf8');
       await writeFile(
-        join(workspace.out, 'toplist.default.2.json'),
+        join(workspace.out, 'batch.default.2.json'),
         '{"stale":true}',
         'utf8',
       );
       await writeFile(
-        join(workspace.out, 'toplist.default.json.gz'),
+        join(workspace.out, 'batch.default.json.gz'),
         gzipSync(JSON.stringify({ stale: true })),
       );
       await writeFile(
-        join(workspace.out, 'toplist.default.3.json'),
+        join(workspace.out, 'batch.default.3.json'),
         '{"stale":true}',
         'utf8',
       );
       await writeFile(
-        join(workspace.out, 'toplist.default.2.json.gz'),
+        join(workspace.out, 'batch.default.2.json.gz'),
         gzipSync(JSON.stringify({ stale: true })),
       );
-      const otherLabel = join(workspace.out, 'toplist.rate-limit.json');
+      const otherLabel = join(workspace.out, 'batch.rate-limit.json');
       await writeFile(otherLabel, '{"keep":true}', 'utf8');
 
       const refused = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -483,7 +483,7 @@ describe('record-fixtures CLI', () => {
       expect(await readFile(stale, 'utf8')).toBe('{"stale":true}');
 
       const forced = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -491,8 +491,8 @@ describe('record-fixtures CLI', () => {
       ]);
       expect(forced.code).toBe(0);
       expect((await readdir(workspace.out)).toSorted()).toEqual([
-        'toplist.default.json',
-        'toplist.rate-limit.json',
+        'batch.default.json',
+        'batch.rate-limit.json',
       ]);
       const recording = await readRecording(stale);
       expect(recording.response.body).toEqual({ code: 200 });
@@ -510,7 +510,7 @@ describe('record-fixtures CLI', () => {
         'os=pc; appver=9.0.0',
       );
       const rejected = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--cookie-file',
         missing,
         '--out',
@@ -518,9 +518,7 @@ describe('record-fixtures CLI', () => {
       ]);
       expect(rejected.code).toBe(1);
       expect(rejected.stderr).toContain('MUSIC_U/MUSIC_A');
-      expect(existsSync(join(workspace.out, 'toplist.default.json'))).toBe(
-        false,
-      );
+      expect(existsSync(join(workspace.out, 'batch.default.json'))).toBe(false);
 
       const anonymousCookie = await writeCookie(
         workspace.root,
@@ -528,7 +526,7 @@ describe('record-fixtures CLI', () => {
         'MUSIC_A=anon-token',
       );
       const anonymous = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--cookie-file',
         anonymousCookie,
         '--out',
@@ -538,7 +536,7 @@ describe('record-fixtures CLI', () => {
       ]);
       expect(anonymous.code).toBe(0);
       const anonymousRecording = await readRecording(
-        join(workspace.out, 'toplist.anonymous.json'),
+        join(workspace.out, 'batch.anonymous.json'),
       );
       expect(anonymousRecording.context.viewer).toBe('anonymous');
 
@@ -548,7 +546,7 @@ describe('record-fixtures CLI', () => {
         'Cookie: music_u=user-token; os=pc',
       );
       const authenticated = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--cookie-file',
         userCookie,
         '--out',
@@ -558,7 +556,7 @@ describe('record-fixtures CLI', () => {
       ]);
       expect(authenticated.code).toBe(0);
       const userRecording = await readRecording(
-        join(workspace.out, 'toplist.user.json'),
+        join(workspace.out, 'batch.user.json'),
       );
       expect(userRecording.context.viewer).toBe('authenticated');
       const userRequests = await readRequests(workspace);
@@ -574,7 +572,7 @@ describe('record-fixtures CLI', () => {
       ).toBe(false);
 
       const overridden = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--cookie-file',
         anonymousCookie,
         '--out',
@@ -586,7 +584,7 @@ describe('record-fixtures CLI', () => {
       ]);
       expect(overridden.code).toBe(0);
       const vipRecording = await readRecording(
-        join(workspace.out, 'toplist.vip.json'),
+        join(workspace.out, 'batch.vip.json'),
       );
       expect(vipRecording.context.viewer).toBe('vip');
     } finally {
@@ -953,7 +951,7 @@ describe('record-fixtures CLI', () => {
     });
     try {
       const result = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -962,7 +960,7 @@ describe('record-fixtures CLI', () => {
       expect(result.stdout).toContain('body.code: 200');
       expect(result.stdout).not.toContain('不是正常返回');
       const recording = await readRecording(
-        join(workspace.out, 'toplist.default.json'),
+        join(workspace.out, 'batch.default.json'),
       );
       expect(recording.response.body).toEqual({
         body: { code: 200 },
@@ -977,7 +975,7 @@ describe('record-fixtures CLI', () => {
     const workspace = await createWorkspace({ code: 803, message: 'ok' });
     try {
       const result = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -988,20 +986,18 @@ describe('record-fixtures CLI', () => {
       expect(result.stdout).toContain('不是正常返回');
 
       const recording = await readRecording(
-        join(workspace.out, 'toplist.default.json'),
+        join(workspace.out, 'batch.default.json'),
       );
       expect(recording.context.outcome).toBe('ok');
 
       const audit = runAudit(workspace, [
         'module',
-        'toplist',
+        'batch',
         '--recordings',
         workspace.out,
       ]);
       expect(audit.code).toBe(0);
-      expect(audit.stdout).toContain(
-        'module: toplist\nrecordings: 1\n  ok: 1\n',
-      );
+      expect(audit.stdout).toContain('module: batch\nrecordings: 1\n  ok: 1\n');
     } finally {
       await rm(workspace.root, { force: true, recursive: true });
     }
@@ -1020,7 +1016,7 @@ describe('record-fixtures CLI', () => {
         'MUSIC_A=anon-token',
       );
       const codeResult = runRecord(codeWorkspace, [
-        'toplist',
+        'batch',
         '--cookie-file',
         cookie,
         '--out',
@@ -1030,7 +1026,7 @@ describe('record-fixtures CLI', () => {
       expect(codeResult.stdout).toContain('不是正常返回');
       expect(codeResult.stdout).toContain('code 300');
       const codeRecording = await readRecording(
-        join(codeWorkspace.out, 'toplist.default.json'),
+        join(codeWorkspace.out, 'batch.default.json'),
       );
       expect(codeRecording.response.body).toEqual({ code: 300 });
 
@@ -1040,7 +1036,7 @@ describe('record-fixtures CLI', () => {
         'MUSIC_A=anon-token',
       );
       const statusResult = runRecord(statusWorkspace, [
-        'toplist',
+        'batch',
         '--cookie-file',
         statusCookie,
         '--out',
@@ -1049,7 +1045,7 @@ describe('record-fixtures CLI', () => {
       expect(statusResult.code).toBe(1);
       expect(statusResult.stdout).toContain('status 500');
       const statusRecording = await readRecording(
-        join(statusWorkspace.out, 'toplist.default.json'),
+        join(statusWorkspace.out, 'batch.default.json'),
       );
       expect(statusRecording.response.status).toBe(500);
     } finally {
@@ -1062,7 +1058,7 @@ describe('record-fixtures CLI', () => {
     const workspace = await createWorkspace({ items: [], ok: true });
     try {
       const result = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -1071,13 +1067,13 @@ describe('record-fixtures CLI', () => {
       expect(result.stdout).toContain('不是正常返回');
       expect(result.stdout).toContain('code undefined');
       const recording = await readRecording(
-        join(workspace.out, 'toplist.default.json'),
+        join(workspace.out, 'batch.default.json'),
       );
       expect(recording.response.body).toEqual({ items: [], ok: true });
 
       const audit = runAudit(workspace, [
         'module',
-        'toplist',
+        'batch',
         '--recordings',
         workspace.out,
       ]);
@@ -1109,7 +1105,7 @@ describe('record-fixtures CLI', () => {
     const workspace = await createWorkspace({ code: 500 }, { status: 500 });
     try {
       const result = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -1129,7 +1125,7 @@ describe('record-fixtures CLI', () => {
       for (const value of ['', 'relative/fixtures']) {
         const result = runRecord(
           workspace,
-          ['toplist', '--anonymous', '--dir', 'some-domain'],
+          ['batch', '--anonymous', '--dir', 'some-domain'],
           { HANA_TEST_FIXTURES_ROOT: value },
         );
         expect(result.code).toBe(1);
@@ -1146,7 +1142,7 @@ describe('record-fixtures CLI', () => {
     const workspace = await createWorkspace({ code: 200 });
     try {
       const badJson = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -1158,7 +1154,7 @@ describe('record-fixtures CLI', () => {
       expect(badJson.stderr).not.toContain('bad-secret');
 
       const badPair = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -1168,9 +1164,7 @@ describe('record-fixtures CLI', () => {
       expect(badPair.code).toBe(1);
       expect(badPair.stderr).toContain('需要 k=v 形式');
       expect(badPair.stderr).not.toContain('hunter2');
-      expect(existsSync(join(workspace.out, 'toplist.default.json'))).toBe(
-        false,
-      );
+      expect(existsSync(join(workspace.out, 'batch.default.json'))).toBe(false);
     } finally {
       await rm(workspace.root, { force: true, recursive: true });
     }
@@ -1182,7 +1176,7 @@ describe('record-fixtures CLI', () => {
       const cases = ['', '.', '../escape', join(workspace.root, 'absolute')];
       for (const dir of cases) {
         const result = runRecord(workspace, [
-          'toplist',
+          'batch',
           '--anonymous',
           '--dir',
           dir,
@@ -1191,7 +1185,7 @@ describe('record-fixtures CLI', () => {
         expect(result.stderr).toContain('--dir');
       }
       const numberedLabel = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--out',
         workspace.out,
@@ -1201,9 +1195,7 @@ describe('record-fixtures CLI', () => {
       expect(numberedLabel.code).toBe(1);
       expect(numberedLabel.stderr).toContain('.数字');
       expect(
-        existsSync(
-          join(repoRoot, 'tests/fixtures/netease/toplist.default.json'),
-        ),
+        existsSync(join(repoRoot, 'tests/fixtures/netease/batch.default.json')),
       ).toBe(false);
     } finally {
       await rm(workspace.root, { force: true, recursive: true });
@@ -1216,16 +1208,14 @@ describe('record-fixtures CLI', () => {
     const target = join(workspace.root, 'fixtures', dir);
     try {
       const result = runRecord(workspace, [
-        'toplist',
+        'batch',
         '--anonymous',
         '--dir',
         dir,
       ]);
       expect(result.code).toBe(0);
-      const recording = await readRecording(
-        join(target, 'toplist.default.json'),
-      );
-      expect(recording.module).toBe('toplist');
+      const recording = await readRecording(join(target, 'batch.default.json'));
+      expect(recording.module).toBe('batch');
       expect(recording.response.body).toEqual({ code: 200 });
     } finally {
       await rm(target, { force: true, recursive: true });

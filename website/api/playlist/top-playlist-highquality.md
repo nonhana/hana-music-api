@@ -44,6 +44,10 @@ const result = await topPlaylistHighquality({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.playlists` 和每个歌单的 `id` 收紧；歌单摘要共用 `PlaylistSummary`，并局部声明了宽松的 `copywriter`、`tag`。`total`、`lasttime`、`more` 是分页提示，`msg` 是状态信息，全部宽松。游标 `before` 早于所有歌单的 `updateTime` 时返回真实的空结果：`playlists: []`、`more: false`，并带 `msg: "没有获取数据"`；空结果没有 `lasttime`。`recommendInfo` 由 `PlaylistSummary` 声明为宽松字段；只出现过 `null` 的 `recommendText`、`socialPlaylistCover` 等没有声明，原样保留。结构定义和类型是 `TopPlaylistHighqualityBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取精品歌单

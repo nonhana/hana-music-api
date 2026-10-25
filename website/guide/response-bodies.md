@@ -96,6 +96,27 @@
 
 歌单分类没有编号，靠名字来认，所以 `all.name`、`sub[].name` 收紧；分类的其他字段宽松。
 
+## 榜单、新碟与新歌
+
+| 模块                                               | 结构定义                     | 收紧的字段                                                                              |
+| -------------------------------------------------- | ---------------------------- | --------------------------------------------------------------------------------------- |
+| [所有榜单](/api/toplist/toplist)                   | `ToplistBody`                | `code`、`list`、`list[].id`；`artistToplist` 宽松                                       |
+| [新碟上架](/api/album/top-album)                   | `TopAlbumBody`               | `code`、`monthData`、`monthData[].id`；`weekData` 可以没有，出现时 `weekData[].id` 收紧 |
+| [热门歌手](/api/artist/top-artists)                | `TopArtistsBody`             | `code`、`artists`、`artists[].id`                                                       |
+| [排行榜详情](/api/toplist/top-list)                | `TopListBody`                | `code`、`playlist`、`playlist.id`、`playlist.trackIds`、`playlist.trackIds[].id`        |
+| [精品歌单](/api/playlist/top-playlist-highquality) | `TopPlaylistHighqualityBody` | `code`、`playlists`、`playlists[].id`                                                   |
+| [新歌速递](/api/toplist/top-song)                  | `TopSongBody`                | `code`、`data`、`data[].id`                                                             |
+| [歌手榜](/api/artist/toplist-artist)               | `ToplistArtistBody`          | `code`、`list`、`list.artists`、`list.artists[].id`                                     |
+| [所有榜单内容摘要](/api/toplist/toplist-detail)    | `ToplistDetailBody`          | `code`、`list`、`list[].id`；`artistToplist`、`rewardToplist` 宽松                      |
+
+榜单摘要（`toplist.list`、`toplist_detail.list`、`top_list.playlist`、`top_playlist_highquality.playlists`）共用 `PlaylistSummary`，只收紧 `id`；`tracks[]`、`creator`、`subscribers[]` 里的编号仍然宽松。`toplist` 和 `toplist_detail` 在模块内补了宽松的 `tsSongCount`、`originalCoverId`；这两个摘要接口的 `list[].trackIds` 在录制里缺失，没有声明。`top_list` 的 `playlist.trackIds` 是调用方要用的 track 引用，声明为收紧。歌手榜和热门歌手返回的歌手列表是记录本身，`id` 收紧：这两个模块在模块内局部覆盖了 `Artist.id`，没有改动共享的 `Artist`。
+
+`top_album` 的 `monthData` 是当月的全部新碟，`weekData` 是本周新增；日本区当月录制只有 `monthData`、没有 `weekData`，所以 `weekData` 声明成可以没有的路径。新碟记录在 `AlbumSummary` 之外声明了宽松的 `areaId`、`exclusive`。`top_artists` 在 `offset` 越过总数时返回空数组和 `more: false`；`top_playlist_highquality` 在 `before` 早于全部歌单的 `updateTime` 时返回空列表和 `msg`，它的 `total` 也是宽松字段。`top_song` 的 `type=999` 返回 `data: []`；`top_album` 用未来月份（`year=2030&month=1`）录到 `monthData: []`。`toplist`、`toplist_detail`、`toplist_artist` 没有真实空结果路径，`top_list` 用不存在的 id 会得到上游错误而不是空榜单。
+
+新歌记录在 `Song` 之外声明了旧式字段 `popularity`、`starred`、`score`、`position`、`exclusive`、`playedNum`、`dayPlays`、`hearTime`、`starredNum`，全部宽松；`bMusic`、`lMusic`、`hMusic`、`mMusic`、`sqMusic`、`mp3Url` 等没有声明，原样保留。
+
+`top_list` 的 `idx` 参数不请求上游，直接在本地返回 `status: 500` 和 `{ code: 500, msg }`；这个拒绝分支和成功正文一起写进了 `TopListBody` 的联合，`code` 收紧、`msg` 宽松。
+
 ## 歌手、听歌排行与会员
 
 | 模块                                  | 结构定义           | 收紧的字段                                                     |
