@@ -46,6 +46,10 @@ const result = await commentHot({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.hotComments`、`body.hotComments[].commentId` 收紧；每条热门评论复用 `CommentRecord`。`hasMore`、`total` 宽松；`topComments` 只见过空数组，没有声明，原样保留。无评论资源（录制 `comment_hot.empty.json`，云盘歌曲 1984488794；私有云盘上传，匿名不可见，`total: 0` 可能来自匿名不可访问）返回 `hotComments: []`、`total: 0`；非空录制 `comment_hot.default.json`（歌曲 2092595510）保留覆盖各字段的非连续 6 条（原 20 条，`context.truncated.length` 记原长度）。登录对照先用 `login_status` 确认 `account.anonimousUser: false`，只抽查了本批匿名录制中非 `null` 的路径与类型；登录录制未保留；不对公开结构作相同性断言。
+
 ## 补充说明
 
 说明 : 调用此接口，传入 type, 资源 id 可获得对应资源热门评论 ( 不需要登录 )

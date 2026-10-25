@@ -233,7 +233,9 @@ describe('special Effect module behavior', () => {
             response(
               identifier === 'like'
                 ? { code: 200, playlistId: 1, songs: [] }
-                : { code: 200 },
+                : identifier === 'comment_hug_list'
+                  ? { code: 200, data: { hugComments: [] } }
+                  : { code: 200 },
             ),
           ),
         ),

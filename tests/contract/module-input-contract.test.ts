@@ -244,7 +244,8 @@ describe('module-local input decoding', () => {
     { value: '1', expected: true },
     { value: 'true', expected: true },
   ])('normalizes comment showInner=$value', async ({ value, expected }) => {
-    const result = await runEffect(
+    let requestBody: unknown;
+    await runEffect(
       decodeCommentInput({
         id: '12',
         type: '0',
@@ -253,11 +254,16 @@ describe('module-local input decoding', () => {
         showInner: value,
       }).pipe(
         Effect.flatMap((input) =>
-          executeModule(commentNew, input, echoRequest),
+          executeModule(commentNew, input, (intent) => {
+            requestBody = intent.body ? JSON.parse(String(intent.body)) : {};
+            return Effect.succeed(
+              response({ code: 200, data: { comments: [] } }),
+            );
+          }),
         ),
       ),
     );
-    expect(result.body).toEqual({
+    expect(requestBody).toEqual({
       threadId: 'R_SO_4_12',
       pageNo: 2,
       showInner: expected,
@@ -270,10 +276,16 @@ describe('module-local input decoding', () => {
   test.each([0, '0', 99, '99'])(
     'preserves comment resource fallback for type=%s',
     async (type) => {
-      const result = await runEffect(
-        executeModule(commentNew, { id: 12, type }, echoRequest),
+      let requestBody: Record<string, unknown> = {};
+      await runEffect(
+        executeModule(commentNew, { id: 12, type }, (intent) => {
+          requestBody = intent.body ? JSON.parse(String(intent.body)) : {};
+          return Effect.succeed(
+            response({ code: 200, data: { comments: [] } }),
+          );
+        }),
       );
-      expect(result.body).toMatchObject({
+      expect(requestBody).toMatchObject({
         threadId: 'R_SO_4_12',
         showInner: true,
       });

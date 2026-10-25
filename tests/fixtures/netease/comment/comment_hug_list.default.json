@@ -1,0 +1,234 @@
+{
+  "module": "comment_hug_list",
+  "query": {
+    "uid": 3343838635,
+    "cid": 7431461934,
+    "sid": 2092595510
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:43:07.164Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B8：comment_hug_list 抱一抱列表非空（歌曲 2092595510 评论 7431461934，3 条 hugComments）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "currentComment": {
+          "user": {
+            "avatarDetail": null,
+            "commonIdentity": null,
+            "locationInfo": null,
+            "liveInfo": null,
+            "followed": false,
+            "vipRights": {
+              "associator": null,
+              "musicPackage": null,
+              "redplus": null,
+              "redVipAnnualCount": -1,
+              "redVipLevel": 0,
+              "relationType": 0,
+              "memberLogo": null,
+              "extInfo": {}
+            },
+            "relationTag": null,
+            "anonym": 0,
+            "encryptUserId": "01017086530900783CA8D49EFA21689677AC",
+            "userId": 3343838635,
+            "userType": 0,
+            "nickname": "巳風_can",
+            "avatarUrl": "http://p3.music.126.net/LUKNV5iHxX68a0WYrjhz2w==/109951173185072534.jpg",
+            "authStatus": 0,
+            "expertTags": null,
+            "experts": null,
+            "vipType": 0,
+            "remarkName": null,
+            "isHug": false,
+            "socialUserId": null,
+            "target": null
+          },
+          "beReplied": null,
+          "commentId": 7431461934,
+          "threadId": "R_SO_4_2092595510",
+          "content": "因为原版要会员才来这的集合！",
+          "richContent": null,
+          "status": 0,
+          "time": 1727949563871,
+          "timeStr": "2024-10-03",
+          "needDisplayTime": true,
+          "likedCount": 695,
+          "replyCount": 49,
+          "liked": false,
+          "favorited": false,
+          "expressionUrl": null,
+          "contentStickerExt": null,
+          "parentCommentId": 0,
+          "repliedMark": false,
+          "pendantData": null,
+          "pickInfo": null,
+          "showFloorComment": {
+            "replyCount": 49,
+            "comments": null,
+            "showReplyCount": true,
+            "topCommentIds": null,
+            "target": null
+          },
+          "decoration": {
+            "repliedByAuthorCount": 0
+          },
+          "commentLocationType": 0,
+          "musicianSayAirborne": null,
+          "args": null,
+          "tag": {
+            "datas": null,
+            "extDatas": [],
+            "contentDatas": null,
+            "contentPicDatas": null,
+            "relatedCommentIds": null
+          },
+          "source": null,
+          "resourceSpecialType": null,
+          "extInfo": {
+            "forwardEvent": 0,
+            "statistics": {
+              "status_60": 1
+            }
+          },
+          "commentVideoVO": {
+            "showCreationEntrance": false,
+            "allowCreation": false,
+            "creationOrpheusUrl": null,
+            "playOrpheusUrl": null,
+            "videoCount": 0,
+            "forbidCreationText": "作者未开放制作权限"
+          },
+          "contentResource": null,
+          "contentPicNosKey": null,
+          "contentPicExt": null,
+          "contentPicUrl": null,
+          "voiceNosKey": null,
+          "voiceWhaleId": null,
+          "voiceDurationMillSecond": 0,
+          "voiceExt": null,
+          "grade": null,
+          "userBizLevels": null,
+          "userNameplates": null,
+          "ipLocation": {
+            "ip": null,
+            "location": "黑龙江",
+            "userId": 3343838635
+          },
+          "aiCommentLabel": null,
+          "owner": false,
+          "tail": null,
+          "hideSerialComments": null,
+          "hideSerialTips": null,
+          "topicList": null,
+          "privacy": 2,
+          "medal": null,
+          "outShowComments": [],
+          "likeAnimationMap": {},
+          "bottomTags": [],
+          "airborneAction": null,
+          "reward": null,
+          "lotteryInfo": null,
+          "userTop": false,
+          "highlight": false,
+          "highlightDurationSeconds": null,
+          "desc": null,
+          "wordMatchList": null,
+          "songCommentAnchor": null,
+          "track": null
+        },
+        "hugComments": [
+          {
+            "user": {
+              "avatarDetail": null,
+              "commonIdentity": null,
+              "locationInfo": null,
+              "liveInfo": null,
+              "followed": false,
+              "vipRights": null,
+              "relationTag": null,
+              "anonym": null,
+              "encryptUserId": "01014E50AAF58F20578D941F566B2A0D246B",
+              "userId": 1372876633,
+              "userType": 0,
+              "nickname": "伊斯特-莫斯坦",
+              "avatarUrl": "http://p3.music.126.net/WoivDHntBlsjSjZa66xACA==/109951172779580806.jpg",
+              "authStatus": 0,
+              "expertTags": null,
+              "experts": null,
+              "vipType": 0,
+              "remarkName": null,
+              "isHug": true,
+              "socialUserId": null,
+              "target": null
+            },
+            "hugContent": "给了 巳風_can 一个抱抱"
+          },
+          {
+            "user": {
+              "avatarDetail": null,
+              "commonIdentity": null,
+              "locationInfo": null,
+              "liveInfo": null,
+              "followed": false,
+              "vipRights": null,
+              "relationTag": null,
+              "anonym": null,
+              "encryptUserId": "010054DF66F9333853FC33573CCECC317871",
+              "userId": 6371537331,
+              "userType": 0,
+              "nickname": "哈夫克_总指挥官",
+              "avatarUrl": "http://p4.music.126.net/NKn3PSOrqg43Cew53M3COQ==/109951173947177953.jpg",
+              "authStatus": 0,
+              "expertTags": null,
+              "experts": null,
+              "vipType": 11,
+              "remarkName": null,
+              "isHug": true,
+              "socialUserId": null,
+              "target": null
+            },
+            "hugContent": "给了 巳風_can 一个抱抱"
+          },
+          {
+            "user": {
+              "avatarDetail": null,
+              "commonIdentity": null,
+              "locationInfo": null,
+              "liveInfo": null,
+              "followed": false,
+              "vipRights": null,
+              "relationTag": null,
+              "anonym": null,
+              "encryptUserId": "0101081FCE7460FC0951CF4CFF459F158994",
+              "userId": 12424349689,
+              "userType": 0,
+              "nickname": "坤坤爱吃鸡脚",
+              "avatarUrl": "http://p4.music.126.net/ir4oWTN08Hrd4QnGwIDVbg==/109951170622449506.jpg",
+              "authStatus": 0,
+              "expertTags": null,
+              "experts": null,
+              "vipType": 0,
+              "remarkName": null,
+              "isHug": true,
+              "socialUserId": null,
+              "target": null
+            },
+            "hugContent": "给了 巳風_can 一个抱抱"
+          }
+        ],
+        "hasMore": false,
+        "cursor": "09-十二月-2024 19:58:35:000",
+        "idCursor": 5267588281,
+        "hugTotalCounts": 6
+      },
+      "message": ""
+    }
+  }
+}

@@ -137,11 +137,26 @@ import type {
   ModuleBody as commentAlbumBody,
   ModuleInput as commentAlbumInput,
 } from '../../modules/comment_album.ts';
-import type { ModuleInput as commentDjInput } from '../../modules/comment_dj.ts';
-import type { ModuleInput as commentEventInput } from '../../modules/comment_event.ts';
-import type { ModuleInput as commentFloorInput } from '../../modules/comment_floor.ts';
-import type { ModuleInput as commentHotInput } from '../../modules/comment_hot.ts';
-import type { ModuleInput as commentHugListInput } from '../../modules/comment_hug_list.ts';
+import type {
+  ModuleBody as commentDjBody,
+  ModuleInput as commentDjInput,
+} from '../../modules/comment_dj.ts';
+import type {
+  ModuleBody as commentEventBody,
+  ModuleInput as commentEventInput,
+} from '../../modules/comment_event.ts';
+import type {
+  ModuleBody as commentFloorBody,
+  ModuleInput as commentFloorInput,
+} from '../../modules/comment_floor.ts';
+import type {
+  ModuleBody as commentHotBody,
+  ModuleInput as commentHotInput,
+} from '../../modules/comment_hot.ts';
+import type {
+  ModuleBody as commentHugListBody,
+  ModuleInput as commentHugListInput,
+} from '../../modules/comment_hug_list.ts';
 import type { ModuleInput as commentLikeInput } from '../../modules/comment_like.ts';
 import type {
   ModuleBody as commentMusicBody,
@@ -151,7 +166,10 @@ import type {
   ModuleBody as commentMvBody,
   ModuleInput as commentMvInput,
 } from '../../modules/comment_mv.ts';
-import type { ModuleInput as commentNewInput } from '../../modules/comment_new.ts';
+import type {
+  ModuleBody as commentNewBody,
+  ModuleInput as commentNewInput,
+} from '../../modules/comment_new.ts';
 import type {
   ModuleBody as commentPlaylistBody,
   ModuleInput as commentPlaylistInput,
@@ -1737,27 +1755,27 @@ export interface GeneratedModuleContractMap {
   comment_dj: {
     input: commentDjInput;
     query: commentDjInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentDjBody>;
   };
   comment_event: {
     input: commentEventInput;
     query: commentEventInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentEventBody>;
   };
   comment_floor: {
     input: commentFloorInput;
     query: commentFloorInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentFloorBody>;
   };
   comment_hot: {
     input: commentHotInput;
     query: commentHotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentHotBody>;
   };
   comment_hug_list: {
     input: commentHugListInput;
     query: commentHugListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentHugListBody>;
   };
   comment_like: {
     input: commentLikeInput;
@@ -1777,7 +1795,7 @@ export interface GeneratedModuleContractMap {
   comment_new: {
     input: commentNewInput;
     query: commentNewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentNewBody>;
   };
   comment_playlist: {
     input: commentPlaylistInput;

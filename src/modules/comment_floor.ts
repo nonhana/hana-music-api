@@ -9,6 +9,12 @@ import {
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { CommentRecord } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
   IdentifierQuery,
@@ -35,7 +41,29 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const commentFloor: ModuleEffect<ModuleInput> = (query, request) =>
+// 父评论在 `ownerComment` 里是附带信息，编号也放开。
+const LooseCommentRecord = UpstreamObject({
+  ...CommentRecord.schema.fields,
+  commentId: Loose(Schema.Finite),
+});
+
+// 通到楼层回复列表的路径 `data.comments` 和每条回复的编号 `data.comments[].commentId` 收紧；没有楼层时 `data.comments` 是空数组，其余字段宽松。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    message: Loose(Schema.String),
+    data: UpstreamObject({
+      comments: Schema.Array(CommentRecord),
+      ownerComment: Loose(LooseCommentRecord),
+      hasMore: Loose(Schema.Boolean),
+      totalCount: Loose(Schema.Finite),
+      time: Loose(Schema.Finite),
+    }),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const commentFloor: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const resourceType = resolveResourceType(query.type);
     const data = {
@@ -44,15 +72,19 @@ const commentFloor: ModuleEffect<ModuleInput> = (query, request) =>
       time: query.time || -1,
       limit: query.limit || 20,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/resource/comment/floor/get`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/resource/comment/floor/get`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    const body = yield* decodeUpstreamBody(
+      'comment_floor',
+      ModuleBody,
+      response,
+    );
+    return { ...toModuleResponse(response), body };
   });
 
 export default commentFloor;

@@ -548,7 +548,7 @@ const CommentPendant = UpstreamObject({
   imageUrl: Loose(Schema.String),
 });
 
-// 五个固定资源评论列表共用的评论记录：`commentId` 是记录自己的编号，其余字段宽松。
+// 评论列表共用的评论记录：`commentId` 是记录自己的编号，其余字段宽松。
 export const CommentRecord = UpstreamObject({
   beReplied: Loose(Schema.Array(CommentReply)),
   commentId: Schema.Finite,

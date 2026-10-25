@@ -375,13 +375,19 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 ## 评论
 
-| 模块                                      | 结构定义              | 收紧的字段                                                                                                |
-| ----------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------- |
-| [歌曲评论](/api/comment/comment-music)    | `CommentMusicBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [专辑评论](/api/comment/comment-album)    | `CommentAlbumBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [歌单评论](/api/comment/comment-playlist) | `CommentPlaylistBody` | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [MV 评论](/api/comment/comment-mv)        | `CommentMvBody`       | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [视频评论](/api/comment/comment-video)    | `CommentVideoBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| 模块                                            | 结构定义              | 收紧的字段                                                                                                |
+| ----------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------- |
+| [歌曲评论](/api/comment/comment-music)          | `CommentMusicBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [专辑评论](/api/comment/comment-album)          | `CommentAlbumBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [歌单评论](/api/comment/comment-playlist)       | `CommentPlaylistBody` | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [MV 评论](/api/comment/comment-mv)              | `CommentMvBody`       | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [视频评论](/api/comment/comment-video)          | `CommentVideoBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [电台节目评论](/api/comment/comment-dj)         | `CommentDjBody`       | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [动态评论](/api/comment/comment-event)          | `CommentEventBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [楼层评论](/api/comment/comment-floor)          | `CommentFloorBody`    | `code`、`data.comments`、`data.comments[].commentId`                                                      |
+| [热门评论](/api/comment/comment-hot)            | `CommentHotBody`      | `code`、`hotComments`、`hotComments[].commentId`                                                          |
+| [评论抱一抱列表](/api/comment/comment-hug-list) | `CommentHugListBody`  | `code`、`data.hugComments`                                                                                |
+| [评论](/api/comment/comment-new)                | `CommentNewBody`      | `code`、`data.comments`、`data.comments[].commentId`                                                      |
 
 这五个固定资源评论列表共用 `src/core/upstream-schemas.ts` 里的 `CommentRecord`、`CommentReply` 和 `CommentUser`：本批录制里 5 个模块的评论记录字段和类型完全一致。`commentId` 是每条评论自己的编号，所以收紧；`user` 和 `beReplied` 是评论里套着的记录，字段全部宽松，包括 `beReplied[].beRepliedCommentId`。`likedCount`、`liked`、`favorited`、`time`、`timeStr`、`status`、`parentCommentId`、`commentLocationType`、`decoration`、`ipLocation`、`pendantData` 也是宽松字段。
 
@@ -390,6 +396,18 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 5 份非空录制保留的是覆盖各字段的非连续子集，原条数与保留条数为：`comment_music` 20/15 → 5/5，`comment_album` 20/9 → 5/4，`comment_playlist` 20/15 → 5/4，`comment_mv` 20/15 → 6/4，`comment_video` 20/15 → 6/4（`comments`/`hotComments`）；`context.truncated.length` 记的是原数组长度。
 
 `total`、`more`、`moreHot`、`cnum`、`isMusician`、`userId` 是宽松字段；`userId` 是查看者自己的编号，匿名时也存在。登录对照先用 `login_status` 确认 `account.anonimousUser: false`，再逐模块抽查：五个模块的非 `null` 路径与类型相同，登录响应只会在宽松字段上多出现值为 `null` 的路径（如 `comments[].user.vipRights`、`beReplied[].content`/`richContent`、`beReplied[].ipLocation.userId`、`beReplied[].user.avatarDetail`），这些字段本来就是宽松字段，登录录制未保留。`/api/resource/comments/${action}` 的 `comment` 模块是评论增删回复的写操作，无法在不产生真实副作用的前提下录全各 action，本批没有给它加结构定义。
+
+评论扩展的 6 个只读模块中，`comment_dj` 和 `comment_event` 的返回体与上面五个固定资源评论列表一致：`comments` 是通到评论列表的路径，`hotComments` 可以没有——越界分页时网易云整个不返回它（录制 `comment_dj.out-of-range.json`、`comment_event.out-of-range.json`），缺失或 `null` 都照常返回，出现时按 `commentId` 收紧。两者的空结果是真实的：零评论电台（`comment_dj.empty.json`，电台 1230174483）和零评论动态（`comment_event.empty.json`，`A_EV_2_38014023821_17062533682`）都返回空的 `comments`、`hotComments`。评论记录继续复用 `CommentRecord`。
+
+`comment_hot` 的 `hotComments` 是接口要返回的热门评论列表，收紧；空资源录制 `comment_hot.empty.json`（云盘歌曲 1984488794；私有云盘上传，匿名不可见，`total: 0` 可能来自匿名不可访问）返回 `hotComments: []`、`total: 0`。`hasMore`、`total` 宽松；`topComments` 只见过空数组，没有声明。
+
+`comment_floor` 的 `data.comments` 是通到楼层回复列表的路径，每条回复复用 `CommentRecord`，`commentId` 收紧；`data.ownerComment` 是父评论的附带信息，用编号也宽松的 `LooseCommentRecord` 声明。没有楼层时 `data.comments` 是空数组（录制 `comment_floor.empty.json`，父评论 9673055460），`ownerComment` 仍然存在；有回复的录制 `comment_floor.default.json` 保留 6 条楼层回复（原 20 条）。`message`、`hasMore`、`totalCount`、`time` 宽松；`bestComments` 只见过空数组、`currentComment` 只见过 `null`，没有声明。
+
+`comment_hug_list` 的 `data.hugComments` 是抱一抱列表，收紧；元素只有 `hugContent` 和 `user`，都宽松。`data.currentComment` 是被抱评论的附带信息，编号一并放开，v2 多出的 `threadId`、`replyCount`、`showFloorComment`、`extInfo`、`commentVideoVO` 等按宽松记录声明。空列表录制 `comment_hug_list.empty.json`（评论 9673055460）返回 `hugComments: []`、`hugTotalCounts: 0` 并保留 `currentComment`；非空录制 `comment_hug_list.default.json` 有 3 条抱一抱。`hasMore`、`cursor`、`idCursor`、`hugTotalCounts` 宽松。
+
+`comment_new` 的 `data.comments` 是 v2 评论列表，收紧，每条评论的 `commentId` 也收紧。v2 评论复用 `CommentRecord` 后额外声明 `args`、`threadId`、`track`、`replyCount`、`privacy`、`repliedMark`、`highlight`、`userTop`、`voiceDurationMillSecond`、`showFloorComment`、`extInfo`、`commentVideoVO`，用户额外声明 `encryptUserId`、`isHug` 和会员角标 `vipRights.extInfo.logo`。空资源录制 `comment_new.empty.json`（云盘歌曲 1984488794；私有云盘上传，匿名不可见，`total: 0` 可能来自匿名不可访问）返回 `comments: []`、`totalCount: 0`；非空录制 `comment_new.default.json`（歌曲 2092595510）保留 6 条评论（原 27 条）。`data` 里的标题、游标、排序和计数宽松；`tag`、`likeAnimationMap`、`outShowComments` 只见过空容器，没有声明，原样保留。
+
+`comment_dj`、`comment_event`、`comment_floor`、`comment_hot`、`comment_hug_list`、`comment_new` 的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`，只抽查了本批匿名录制中非 `null` 的路径与类型；登录录制未保留；不对公开结构作相同性断言。大录制保留覆盖各字段的非连续子集并记录原始条数：`comment_floor` 20 → 6、`comment_hot` 20 → 6、`comment_new` 27 → 6（`context.truncated.length` 记原数组长度）。
 
 ## 导出约定
 

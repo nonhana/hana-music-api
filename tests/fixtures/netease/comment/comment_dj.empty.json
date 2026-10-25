@@ -1,0 +1,29 @@
+{
+  "module": "comment_dj",
+  "query": {
+    "id": 1230174483
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:41:20.204Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B8：comment_dj 电台（1230174483）零评论，comments 与 hotComments 都是空数组"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "isMusician": false,
+      "cnum": 0,
+      "userId": 18071504580,
+      "topComments": [],
+      "moreHot": false,
+      "hotComments": [],
+      "commentBanner": null,
+      "code": 200,
+      "comments": [],
+      "total": 0,
+      "more": false
+    }
+  }
+}
