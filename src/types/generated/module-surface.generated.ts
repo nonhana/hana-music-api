@@ -726,19 +726,40 @@ import type { ModuleInput as userBindingInput } from '../../modules/user_binding
 import type { ModuleInput as userCloudInput } from '../../modules/user_cloud.ts';
 import type { ModuleInput as userCloudDelInput } from '../../modules/user_cloud_del.ts';
 import type { ModuleInput as userCloudDetailInput } from '../../modules/user_cloud_detail.ts';
-import type { ModuleInput as userCommentHistoryInput } from '../../modules/user_comment_history.ts';
+import type {
+  ModuleBody as userCommentHistoryBody,
+  ModuleInput as userCommentHistoryInput,
+} from '../../modules/user_comment_history.ts';
 import type {
   ModuleBody as userDetailBody,
   ModuleInput as userDetailInput,
 } from '../../modules/user_detail.ts';
-import type { ModuleInput as userDjInput } from '../../modules/user_dj.ts';
-import type { ModuleInput as userEventInput } from '../../modules/user_event.ts';
-import type { ModuleInput as userFollowMixedInput } from '../../modules/user_follow_mixed.ts';
-import type { ModuleInput as userFollowedsInput } from '../../modules/user_followeds.ts';
-import type { ModuleInput as userFollowsInput } from '../../modules/user_follows.ts';
+import type {
+  ModuleBody as userDjBody,
+  ModuleInput as userDjInput,
+} from '../../modules/user_dj.ts';
+import type {
+  ModuleBody as userEventBody,
+  ModuleInput as userEventInput,
+} from '../../modules/user_event.ts';
+import type {
+  ModuleBody as userFollowMixedBody,
+  ModuleInput as userFollowMixedInput,
+} from '../../modules/user_follow_mixed.ts';
+import type {
+  ModuleBody as userFollowedsBody,
+  ModuleInput as userFollowedsInput,
+} from '../../modules/user_followeds.ts';
+import type {
+  ModuleBody as userFollowsBody,
+  ModuleInput as userFollowsInput,
+} from '../../modules/user_follows.ts';
 import type { ModuleInput as userLevelInput } from '../../modules/user_level.ts';
 import type { ModuleInput as userMedalInput } from '../../modules/user_medal.ts';
-import type { ModuleInput as userMutualfollowGetInput } from '../../modules/user_mutualfollow_get.ts';
+import type {
+  ModuleBody as userMutualfollowGetBody,
+  ModuleInput as userMutualfollowGetInput,
+} from '../../modules/user_mutualfollow_get.ts';
 import type {
   ModuleBody as userPlaylistBody,
   ModuleInput as userPlaylistInput,
@@ -2971,33 +2992,37 @@ export interface GeneratedModuleContractMap {
   user_comment_history: {
     input: userCommentHistoryInput;
     query: userCommentHistoryInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userCommentHistoryBody>;
   };
   user_detail: {
     input: userDetailInput;
     query: userDetailInput;
     response: ModuleResponse<userDetailBody>;
   };
-  user_dj: { input: userDjInput; query: userDjInput; response: ModuleResponse };
+  user_dj: {
+    input: userDjInput;
+    query: userDjInput;
+    response: ModuleResponse<userDjBody>;
+  };
   user_event: {
     input: userEventInput;
     query: userEventInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userEventBody>;
   };
   user_follow_mixed: {
     input: userFollowMixedInput;
     query: userFollowMixedInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userFollowMixedBody>;
   };
   user_followeds: {
     input: userFollowedsInput;
     query: userFollowedsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userFollowedsBody>;
   };
   user_follows: {
     input: userFollowsInput;
     query: userFollowsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userFollowsBody>;
   };
   user_level: {
     input: userLevelInput;
@@ -3012,7 +3037,7 @@ export interface GeneratedModuleContractMap {
   user_mutualfollow_get: {
     input: userMutualfollowGetInput;
     query: userMutualfollowGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userMutualfollowGetBody>;
   };
   user_playlist: {
     input: userPlaylistInput;

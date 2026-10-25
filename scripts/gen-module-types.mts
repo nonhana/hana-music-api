@@ -151,12 +151,14 @@ const buildSdkRegistry = (
       `  ${identifier}: { identifier: '${identifier}', route: '${routes[identifier]}', execute: ${importName}, decodeInput: ${toCamelCase(identifier)}InputDecoder },`,
   );
 
+  // 显式标注 SdkModuleRegistry：352 条目的 `as const` 字面量让 declaration emit 序列化超过 1M，
+  // `bun run build` 会报 TS7056（`tsc --noEmit` 不报）；标注后运行时值与生成输出不变。
   return `import type { SdkModuleRegistry } from '../../types/index.ts'
 ${importLines.join('\n')}
 
-export const sdkModuleRegistry = {
+export const sdkModuleRegistry: SdkModuleRegistry = {
 ${effectLines.join('\n')}
-} as const satisfies SdkModuleRegistry
+}
 `;
 };
 

@@ -1,0 +1,748 @@
+{
+  "module": "user_follow_mixed",
+  "query": {
+    "size": 10
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:56:25.691Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B17：user_follow_mixed 当前账号关注的歌手与用户（正常列表）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "records": [
+          {
+            "type": 2,
+            "followId": 22298,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": null,
+            "showContent": null,
+            "artistInfo": {
+              "id": 22298,
+              "name": "world's end girlfriend",
+              "trans": "世界末日女朋友",
+              "alias": ["ワールズ・エンド・ガールフレンド", "前田勝彦", "WEG"],
+              "albumSize": 49,
+              "mvSize": null,
+              "musicSize": 352,
+              "picId": 785051302254286,
+              "picUrl": "http://p4.music.126.net/-a9nInqAVsv3VQQefV-tuw==/785051302254286.jpg",
+              "img1v1Url": "http://p4.music.126.net/XHee86i0wEHO7QFjWMvXcw==/109951163214181883.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1787332306434,
+            "mutualFollowTime": null,
+            "followDay": "65天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": {
+              "level": "1",
+              "segment": "乐迷",
+              "fansGroupIdStr": "1567119890335694877",
+              "fansGroupInnerPageUrl": "orpheus://rnpage?component=rn-fansgroup&isTheme=true&immersiveMode=1&split=home&route=home&groupId=1567119890335694877&inviteCode=&scene=",
+              "showUpgrade": false
+            }
+          },
+          {
+            "type": 3,
+            "followId": 592368368,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": {
+              "defaultAvatar": false,
+              "province": 310000,
+              "authStatus": 1,
+              "followed": true,
+              "avatarUrl": "http://p4.music.126.net/2dJ9Fo7HfkRExyICXG_t3g==/109951167677450486.jpg",
+              "accountStatus": 0,
+              "gender": 2,
+              "city": 310101,
+              "birthday": 1342022400000,
+              "userId": 592368368,
+              "userType": 2,
+              "nickname": "洛天依",
+              "signature": "洛天依，隶属于上海禾念信息科技有限公司Vsinger旗下虚拟歌手，世界首位V家中文虚拟歌手。代表作：《普通DISCO》、《权御天下》、《追光使者》等。",
+              "description": "Vsinger世界首位V家中文虚拟歌手",
+              "detailDescription": "Vsinger世界首位V家中文虚拟歌手",
+              "avatarImgId": 109951167677450480,
+              "backgroundImgId": 109951167656800510,
+              "backgroundUrl": "http://p1.music.126.net/cfZZc70yXNMnWQZ1OUSEjA==/109951167656800517.jpg",
+              "authority": 0,
+              "mutual": false,
+              "expertTags": null,
+              "experts": null,
+              "djStatus": 10,
+              "vipType": 0,
+              "remarkName": null,
+              "vipRights": {
+                "associator": null,
+                "musicPackage": null,
+                "redplus": null,
+                "redVipAnnualCount": -1,
+                "redVipLevel": 0,
+                "relationType": 0,
+                "memberLogo": null,
+                "extInfo": {}
+              },
+              "urlAnalyze": false,
+              "avatarImgId_str": null,
+              "followeds": 0,
+              "avatarDetail": {
+                "userType": 2,
+                "identityLevel": 1,
+                "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png"
+              },
+              "authenticationTypes": 10
+            },
+            "showContent": {
+              "message": "2天前，发布了专辑",
+              "time": 1792771200000,
+              "active": true,
+              "boxContent": {
+                "title": "Is It the farewell letter? (Piano Version)",
+                "resource": {
+                  "resourceType": 3,
+                  "subType": null,
+                  "resourceId": "405324542",
+                  "coverUrl": "http://p3.music.126.net/6cgA58vg00Nm02hSyBzU5A==/109951174148568573.jpg",
+                  "orpheusUrl": "orpheus://album/405324542",
+                  "picCount": null
+                }
+              },
+              "fansActivityEntrance": null,
+              "consumeParam": "eyJ2IjoxLCJmIjo1OTIzNjgzNjgsInJ0IjozLCJyaWQiOiI0MDUzMjQ1NDIiLCJ0IjoxNzkyNzcxMjAwMDAwLCJpZFR5cGUiOiJ1IiwiYXJ0aXN0SWQiOjkwNjExOH0"
+            },
+            "artistInfo": {
+              "id": 906118,
+              "name": "洛天依Official",
+              "trans": "",
+              "alias": [],
+              "albumSize": 806,
+              "mvSize": null,
+              "musicSize": 4887,
+              "picId": 109951167656800510,
+              "picUrl": "http://p4.music.126.net/cfZZc70yXNMnWQZ1OUSEjA==/109951167656800517.jpg",
+              "img1v1Url": "http://p3.music.126.net/2dJ9Fo7HfkRExyICXG_t3g==/109951167677450486.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1787162816810,
+            "mutualFollowTime": null,
+            "followDay": "67天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": {
+              "level": "2",
+              "segment": "乐迷",
+              "fansGroupIdStr": "1567121500910354513",
+              "fansGroupInnerPageUrl": "orpheus://rnpage?component=rn-fansgroup&isTheme=true&immersiveMode=1&split=home&route=home&groupId=1567121500910354513&inviteCode=&scene=",
+              "showUpgrade": true
+            }
+          },
+          {
+            "type": 3,
+            "followId": 79276274,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": {
+              "defaultAvatar": false,
+              "province": 230000,
+              "authStatus": 1,
+              "followed": true,
+              "avatarUrl": "http://p4.music.126.net/TySrZ-0l20UJ7ifhgh9Q7w==/109951169230880371.jpg",
+              "accountStatus": 0,
+              "gender": 1,
+              "city": 230100,
+              "birthday": 747590400000,
+              "userId": 79276274,
+              "userType": 4,
+              "nickname": "ilemonyk",
+              "signature": "网易云真香",
+              "description": "",
+              "detailDescription": "",
+              "avatarImgId": 109951169230880370,
+              "backgroundImgId": 3264450031728207,
+              "backgroundUrl": "http://p1.music.126.net/vF2q6kh3ioPQGorEdhnwnQ==/3264450031728207.jpg",
+              "authority": 0,
+              "mutual": false,
+              "expertTags": null,
+              "experts": null,
+              "djStatus": 10,
+              "vipType": 10,
+              "remarkName": null,
+              "vipRights": {
+                "associator": null,
+                "musicPackage": {
+                  "vipCode": 220,
+                  "rights": true,
+                  "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+                },
+                "redplus": null,
+                "redVipAnnualCount": -1,
+                "redVipLevel": 5,
+                "relationType": 0,
+                "memberLogo": null,
+                "extInfo": {
+                  "logo": {
+                    "vipType": 220,
+                    "logoDto": {
+                      "logoType": 1,
+                      "interestId": -200,
+                      "url": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png",
+                      "width": 48,
+                      "height": 48,
+                      "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                    }
+                  }
+                }
+              },
+              "urlAnalyze": false,
+              "avatarImgId_str": null,
+              "followeds": 0,
+              "avatarDetail": {
+                "userType": 4,
+                "identityLevel": 1,
+                "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png"
+              },
+              "authenticationTypes": 8
+            },
+            "showContent": {
+              "message": "昵称：ilemonyk",
+              "time": null,
+              "active": false,
+              "boxContent": null,
+              "fansActivityEntrance": null
+            },
+            "artistInfo": {
+              "id": 11975111,
+              "name": "ilem",
+              "trans": "",
+              "alias": [],
+              "albumSize": 17,
+              "mvSize": null,
+              "musicSize": 100,
+              "picId": 3264450031728207,
+              "picUrl": "http://p3.music.126.net/vF2q6kh3ioPQGorEdhnwnQ==/3264450031728207.jpg",
+              "img1v1Url": "http://p3.music.126.net/TySrZ-0l20UJ7ifhgh9Q7w==/109951169230880371.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1787162813224,
+            "mutualFollowTime": null,
+            "followDay": "67天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": {
+              "level": "1",
+              "segment": "乐迷",
+              "fansGroupIdStr": "1567122811618164807",
+              "fansGroupInnerPageUrl": "orpheus://rnpage?component=rn-fansgroup&isTheme=true&immersiveMode=1&split=home&route=home&groupId=1567122811618164807&inviteCode=&scene=",
+              "showUpgrade": false
+            }
+          },
+          {
+            "type": 3,
+            "followId": 427203703,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": {
+              "defaultAvatar": false,
+              "province": 330000,
+              "authStatus": 1,
+              "followed": true,
+              "avatarUrl": "http://p4.music.126.net/Tl1B0JTm0aweCqG_k9Umeg==/109951173556578880.jpg",
+              "accountStatus": 0,
+              "gender": 1,
+              "city": 330900,
+              "birthday": 1064419200000,
+              "userId": 427203703,
+              "userType": 4,
+              "nickname": "THT天梦",
+              "signature": "A pure harmonic bird\n➕Yizeyu1108（非本人，备注来意）",
+              "description": "",
+              "detailDescription": "",
+              "avatarImgId": 109951173556578880,
+              "backgroundImgId": 109951166458065710,
+              "backgroundUrl": "http://p1.music.126.net/f5GjZIhwoq957sdpe2T6jA==/109951166458065718.jpg",
+              "authority": 0,
+              "mutual": false,
+              "expertTags": null,
+              "experts": null,
+              "djStatus": 10,
+              "vipType": 0,
+              "remarkName": null,
+              "vipRights": {
+                "associator": null,
+                "musicPackage": null,
+                "redplus": null,
+                "redVipAnnualCount": -1,
+                "redVipLevel": 0,
+                "relationType": 0,
+                "memberLogo": null,
+                "extInfo": {}
+              },
+              "urlAnalyze": false,
+              "avatarImgId_str": null,
+              "followeds": 0,
+              "avatarDetail": {
+                "userType": 4,
+                "identityLevel": 1,
+                "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png"
+              },
+              "authenticationTypes": 524296
+            },
+            "showContent": {
+              "message": "昵称：THT天梦",
+              "time": null,
+              "active": false,
+              "boxContent": null,
+              "fansActivityEntrance": null
+            },
+            "artistInfo": {
+              "id": 12495253,
+              "name": "THT",
+              "trans": "",
+              "alias": ["THT天梦"],
+              "albumSize": 14,
+              "mvSize": null,
+              "musicSize": 45,
+              "picId": 109951165321774080,
+              "picUrl": "http://p4.music.126.net/mdkHo11JkTVM3PKSI19wNg==/109951165321774085.jpg",
+              "img1v1Url": "http://p3.music.126.net/Tl1B0JTm0aweCqG_k9Umeg==/109951173556578880.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1785224676155,
+            "mutualFollowTime": null,
+            "followDay": "90天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": {
+              "level": "2",
+              "segment": "乐迷",
+              "fansGroupIdStr": "1567125097891053650",
+              "fansGroupInnerPageUrl": "orpheus://rnpage?component=rn-fansgroup&isTheme=true&immersiveMode=1&split=home&route=home&groupId=1567125097891053650&inviteCode=&scene=",
+              "showUpgrade": true
+            }
+          },
+          {
+            "type": 2,
+            "followId": 1193377,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": null,
+            "showContent": null,
+            "artistInfo": {
+              "id": 1193377,
+              "name": "Toby Fox",
+              "trans": "托比·福克斯",
+              "alias": ["Radiation"],
+              "albumSize": 24,
+              "mvSize": null,
+              "musicSize": 598,
+              "picId": 109951167080686260,
+              "picUrl": "http://p3.music.126.net/7p6UA-LncJ3SdHuP1WNmVA==/109951167080686249.jpg",
+              "img1v1Url": "http://p4.music.126.net/1v0s2Vra64EGvHEPfcdj4w==/109951167080689608.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1784786647829,
+            "mutualFollowTime": null,
+            "followDay": "95天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": {
+              "level": "1",
+              "segment": "乐迷",
+              "fansGroupIdStr": "1567049869794705413",
+              "fansGroupInnerPageUrl": "orpheus://rnpage?component=rn-fansgroup&isTheme=true&immersiveMode=1&split=home&route=home&groupId=1567049869794705413&inviteCode=&scene=",
+              "showUpgrade": false
+            }
+          },
+          {
+            "type": 2,
+            "followId": 49665604,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": null,
+            "showContent": null,
+            "artistInfo": {
+              "id": 49665604,
+              "name": "アリレム",
+              "trans": "",
+              "alias": [],
+              "albumSize": 5,
+              "mvSize": null,
+              "musicSize": 9,
+              "picId": 5639395138885805,
+              "picUrl": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              "img1v1Url": "http://p3.music.126.net/VnZiScyynLG7atLIZ2YPkw==/18686200114669622.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1784413664017,
+            "mutualFollowTime": null,
+            "followDay": "99天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": null
+          },
+          {
+            "type": 2,
+            "followId": 14610,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": null,
+            "showContent": null,
+            "artistInfo": {
+              "id": 14610,
+              "name": "黒うさP",
+              "trans": "",
+              "alias": ["whiteflame"],
+              "albumSize": 10,
+              "mvSize": null,
+              "musicSize": 142,
+              "picId": 109951165547308200,
+              "picUrl": "http://p3.music.126.net/L12yd0wCfgphTS0DZ8Llpw==/109951165547308196.jpg",
+              "img1v1Url": "http://p3.music.126.net/dcfUkbEBDEFSA09T6a1STw==/109951165547310068.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1783185121637,
+            "mutualFollowTime": null,
+            "followDay": "113天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": {
+              "level": "1",
+              "segment": "乐迷",
+              "fansGroupIdStr": "1567049850023280708",
+              "fansGroupInnerPageUrl": "orpheus://rnpage?component=rn-fansgroup&isTheme=true&immersiveMode=1&split=home&route=home&groupId=1567049850023280708&inviteCode=&scene=",
+              "showUpgrade": false
+            }
+          },
+          {
+            "type": 2,
+            "followId": 1137226,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": null,
+            "showContent": null,
+            "artistInfo": {
+              "id": 1137226,
+              "name": "gnash",
+              "trans": "",
+              "alias": ["Garrett Nash"],
+              "albumSize": 72,
+              "mvSize": null,
+              "musicSize": 255,
+              "picId": 3315027561960249,
+              "picUrl": "http://p4.music.126.net/SW4fyoFviFkvp2F0MkO6Rg==/3315027561960249.jpg",
+              "img1v1Url": "http://p3.music.126.net/NNnQ-hUhlfPr0k74QHDyNw==/3313928050145987.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1782231108799,
+            "mutualFollowTime": null,
+            "followDay": "125天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": {
+              "level": "1",
+              "segment": "乐迷",
+              "fansGroupIdStr": "1567049846944137219",
+              "fansGroupInnerPageUrl": "orpheus://rnpage?component=rn-fansgroup&isTheme=true&immersiveMode=1&split=home&route=home&groupId=1567049846944137219&inviteCode=&scene=",
+              "showUpgrade": false
+            }
+          },
+          {
+            "type": 2,
+            "followId": 14825,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": null,
+            "showContent": null,
+            "artistInfo": {
+              "id": 14825,
+              "name": "田熊理秀",
+              "trans": "",
+              "alias": ["m-taku"],
+              "albumSize": 1,
+              "mvSize": null,
+              "musicSize": 23,
+              "picId": 109951170334193310,
+              "picUrl": "http://p4.music.126.net/ZXBPI2Xpsg9lDBczctTGuA==/109951170334193315.jpg",
+              "img1v1Url": "http://p4.music.126.net/Nv2yXC1xnVhv7OHxqgEDsw==/109951170334197139.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1780910937805,
+            "mutualFollowTime": null,
+            "followDay": "140天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": {
+              "level": "2",
+              "segment": "乐迷",
+              "fansGroupIdStr": "1567128504613044243",
+              "fansGroupInnerPageUrl": "orpheus://rnpage?component=rn-fansgroup&isTheme=true&immersiveMode=1&split=home&route=home&groupId=1567128504613044243&inviteCode=&scene=",
+              "showUpgrade": false
+            }
+          },
+          {
+            "type": 3,
+            "followId": 6399646544,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": {
+              "defaultAvatar": false,
+              "province": 440000,
+              "authStatus": 1,
+              "followed": true,
+              "avatarUrl": "http://p4.music.126.net/m1IQ9BD_MSlEPOhS8wVIcg==/109951173697025119.jpg",
+              "accountStatus": 0,
+              "gender": 1,
+              "city": 440800,
+              "birthday": 1267793622740,
+              "userId": 6399646544,
+              "userType": 4,
+              "nickname": "zl_lann",
+              "signature": "K-ON",
+              "description": "",
+              "detailDescription": "",
+              "avatarImgId": 109951173697025120,
+              "backgroundImgId": 109951162868126480,
+              "backgroundUrl": "http://p1.music.126.net/_f8R60U9mZ42sSNvdPn2sQ==/109951162868126486.jpg",
+              "authority": 0,
+              "mutual": false,
+              "expertTags": null,
+              "experts": null,
+              "djStatus": 10,
+              "vipType": 11,
+              "remarkName": null,
+              "vipRights": {
+                "associator": {
+                  "vipCode": 100,
+                  "rights": true,
+                  "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582188099/3419/2b65/d241/bd664461c263a2dfdbf631bb9848ee3e.png"
+                },
+                "musicPackage": {
+                  "vipCode": 220,
+                  "rights": true,
+                  "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+                },
+                "redplus": null,
+                "redVipAnnualCount": -1,
+                "redVipLevel": 3,
+                "relationType": 0,
+                "memberLogo": null,
+                "extInfo": {
+                  "logo": {
+                    "vipType": 100,
+                    "logoDto": {
+                      "logoType": 2,
+                      "interestId": -100,
+                      "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582188099/3419/2b65/d241/bd664461c263a2dfdbf631bb9848ee3e.png",
+                      "width": 144,
+                      "height": 48,
+                      "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                    }
+                  }
+                }
+              },
+              "urlAnalyze": false,
+              "avatarImgId_str": null,
+              "followeds": 0,
+              "avatarDetail": {
+                "userType": 4,
+                "identityLevel": 1,
+                "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png"
+              },
+              "authenticationTypes": 4104
+            },
+            "showContent": {
+              "message": "最近，发布了新笔记",
+              "time": 1792649764548,
+              "active": true,
+              "boxContent": {
+                "title": "明日だ。",
+                "resource": {
+                  "resourceType": 2,
+                  "subType": null,
+                  "resourceId": "38005670808",
+                  "coverUrl": "http://p2.music.126.net/B2Qcr7GhtH5m4uM9bhDY6Q==/109951174102365777.jpg",
+                  "orpheusUrl": "orpheus://event?id=38005670808&userId=6399646544&useCurrentTab=true",
+                  "picCount": null
+                }
+              },
+              "fansActivityEntrance": null,
+              "consumeParam": "eyJ2IjoxLCJmIjo2Mzk5NjQ2NTQ0LCJydCI6MiwicmlkIjoiMzgwMDU2NzA4MDgiLCJ0IjoxNzkyNjQ5NzY0NTQ4LCJpZFR5cGUiOiJ1IiwiYXJ0aXN0SWQiOjU4OTA4NzA1fQ"
+            },
+            "artistInfo": {
+              "id": 58908705,
+              "name": "zl_lan",
+              "trans": "",
+              "alias": ["汉岚帝", "Z湛岚L"],
+              "albumSize": 32,
+              "mvSize": null,
+              "musicSize": 117,
+              "picId": 109951170141928100,
+              "picUrl": "http://p4.music.126.net/qiGfXJOLvH0h_642aTNCZg==/109951170141928093.jpg",
+              "img1v1Url": "http://p4.music.126.net/m1IQ9BD_MSlEPOhS8wVIcg==/109951173697025119.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1779690435093,
+            "mutualFollowTime": null,
+            "followDay": "154天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": {
+              "level": "1",
+              "segment": "乐迷",
+              "fansGroupIdStr": "1786731124392345632",
+              "fansGroupInnerPageUrl": "orpheus://rnpage?component=rn-fansgroup&isTheme=true&immersiveMode=1&split=home&route=home&groupId=1786731124392345632&inviteCode=&scene=",
+              "showUpgrade": false
+            }
+          },
+          {
+            "type": 3,
+            "followId": 3237814456,
+            "orpheus": null,
+            "dynamicUrl": null,
+            "logInfo": null,
+            "userProfile": {
+              "defaultAvatar": false,
+              "province": 320000,
+              "authStatus": 1,
+              "followed": true,
+              "avatarUrl": "http://p3.music.126.net/kw5Kneqoy1WcAOUZkOltfg==/109951173785186813.jpg",
+              "accountStatus": 0,
+              "gender": 1,
+              "city": 320100,
+              "birthday": 1156176000000,
+              "userId": 3237814456,
+              "userType": 4,
+              "nickname": "Yukono",
+              "signature": "如果木讷的那些也能带给我幸福",
+              "description": "",
+              "detailDescription": "",
+              "avatarImgId": 109951173785186820,
+              "backgroundImgId": 109951166440194430,
+              "backgroundUrl": "http://p1.music.126.net/E5sox3BnPXTbWW0_2SYDQg==/109951166440194426.jpg",
+              "authority": 0,
+              "mutual": false,
+              "expertTags": null,
+              "experts": null,
+              "djStatus": 10,
+              "vipType": 11,
+              "remarkName": null,
+              "vipRights": {
+                "associator": {
+                  "vipCode": 100,
+                  "rights": true,
+                  "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"
+                },
+                "musicPackage": {
+                  "vipCode": 220,
+                  "rights": true,
+                  "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+                },
+                "redplus": {
+                  "vipCode": 300,
+                  "rights": true,
+                  "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png"
+                },
+                "redVipAnnualCount": 2,
+                "redVipLevel": 7,
+                "relationType": 0,
+                "memberLogo": null,
+                "extInfo": {
+                  "logo": {
+                    "vipType": 300,
+                    "logoDto": {
+                      "logoType": 3,
+                      "interestId": -300,
+                      "url": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png",
+                      "width": 156,
+                      "height": 48,
+                      "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                    }
+                  }
+                }
+              },
+              "urlAnalyze": false,
+              "avatarImgId_str": null,
+              "followeds": 0,
+              "avatarDetail": {
+                "userType": 4,
+                "identityLevel": 1,
+                "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png"
+              },
+              "authenticationTypes": 4168
+            },
+            "showContent": {
+              "message": "2天前，发布了新笔记",
+              "time": 1792755772217,
+              "active": true,
+              "boxContent": {
+                "title": "新歌 《Tear》上线\n最后 所有的幸福与悲痛都汇为眼泪\n评论区抽两个52\n祝大家周末愉快 ₍˄ ₗ   ̫ ₗ ˄₎◞ ̑̑\n#我在笔记听新歌# #新歌养成计划# ",
+                "resource": {
+                  "resourceType": 2,
+                  "subType": null,
+                  "resourceId": "38008031831",
+                  "coverUrl": "http://p4.music.126.net/RqvI-SXsiBOxaba2fQaZlg==/109951174156162946.jpg",
+                  "orpheusUrl": "orpheus://event?id=38008031831&userId=3237814456&useCurrentTab=true",
+                  "picCount": 1
+                }
+              },
+              "fansActivityEntrance": null,
+              "consumeParam": "eyJ2IjoxLCJmIjozMjM3ODE0NDU2LCJydCI6MiwicmlkIjoiMzgwMDgwMzE4MzEiLCJ0IjoxNzkyNzU1NzcyMjE3LCJpZFR5cGUiOiJ1IiwiYXJ0aXN0SWQiOjQ4NTc2NjI1fQ"
+            },
+            "artistInfo": {
+              "id": 48576625,
+              "name": "雾江月",
+              "trans": "",
+              "alias": [],
+              "albumSize": 106,
+              "mvSize": null,
+              "musicSize": 105,
+              "picId": 109951168351659620,
+              "picUrl": "http://p3.music.126.net/ah-wmekdVJMVUc63KIIhbQ==/109951168351659623.jpg",
+              "img1v1Url": "http://p3.music.126.net/kw5Kneqoy1WcAOUZkOltfg==/109951173785186813.jpg"
+            },
+            "liveInfo": null,
+            "followTime": 1778318341692,
+            "mutualFollowTime": null,
+            "followDay": "170天",
+            "mutualFollowDay": null,
+            "snsName": null,
+            "fansGroupInfo": {
+              "level": "2",
+              "segment": "乐迷",
+              "fansGroupIdStr": "1567128903490207821",
+              "fansGroupInnerPageUrl": "orpheus://rnpage?component=rn-fansgroup&isTheme=true&immersiveMode=1&split=home&route=home&groupId=1567128903490207821&inviteCode=&scene=",
+              "showUpgrade": false
+            }
+          }
+        ],
+        "extData": {
+          "visualStyle": "new"
+        },
+        "page": {
+          "size": 11,
+          "cursor": "11",
+          "more": true
+        }
+      },
+      "message": ""
+    }
+  }
+}

@@ -44,6 +44,10 @@ const result = await userEvent({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.events` 和每条动态的 `body.events[].id` 收紧；没有动态时 `events` 是空数组（录制 `user_event.empty.json`）。`json` 是动态正文的 JSON 字符串，`info` 是评论信息；作者 `events[].user`、图片 `pics`、`ipLocation` 和计数/展示字段都是宽松字段。`info.commentThread` 和 `events[].user` 是附带对象，编号不收紧；`commentThread.latestLikedUsers[]` 的 `s`、`t` 声明为宽松数字字段。`lasttime`、`more`、`size` 宽松。已知例外：`adInfo`、`anonymityInfo`、`bottomActivityInfos`、`extJsonInfo`、`likeAnimationMap`、`pointTopicInfo`、`privacySettingInfo`、`pubSource`、`topActivityInfos`、`topEvent`、`xInfo` 等扩展块未声明，字段原样保留（JSON）；`ipLocation.ip`、`commentThread.resourceInfo.imgUrl`、`vipRights.memberLogo` 等只见过 `null` 的子字段也未声明。结构定义和类型是 `UserEventBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入用户 id, 可以获取用户动态

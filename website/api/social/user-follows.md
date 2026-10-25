@@ -43,6 +43,10 @@ const result = await userFollows({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.follow` 和每条关注记录的 `body.follow[].userId` 收紧；没有更多关注时 `follow` 是空数组（录制 `user_follows.empty.json`，`offset=100000`）。关注记录复用 `UserProfile` 的宽松字段，并补上 `py`、`time`、`vipRights`、`expertTags`；`vipRights` 复用共享的 `VipRights`，其中 `relationType`、`extInfo` 已声明为宽松字段，`memberLogo` 只见过 `null`、未声明。`remarkName` 在本批录制里只见过 `null`，没有声明。`more`、`touchCount` 是宽松字段。结构定义和类型是 `UserFollowsBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入用户 id, 可以获取用户关注列表

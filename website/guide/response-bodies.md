@@ -253,6 +253,7 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 | [推荐电台](/api/dj/dj-recommend)                        | `DjRecommendBody`                | `code`、`djRadios`、`djRadios[].id`                                                          |
 | [分类推荐电台](/api/dj/dj-recommend-type)               | `DjRecommendTypeBody`            | `code`、`djRadios`、`djRadios[].id`                                                          |
 | [付费精选电台](/api/dj/dj-paygift)                      | `DjPaygiftBody`                  | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [用户电台节目](/api/dj/user-dj)                         | `UserDjBody`                     | `code`、`programs`、`programs[].id`                                                          |
 | [电台节目](/api/dj/dj-program)                          | `DjProgramBody`                  | `code`、`programs`、`programs[].id`                                                          |
 | [节目详情](/api/dj/dj-program-detail)                   | `DjProgramDetailBody`            | `code`、`program`、`program.id`                                                              |
 | [电台节目榜](/api/dj/dj-program-toplist)                | `DjProgramToplistBody`           | `code`、`toplist`、`toplist[].program.id`                                                    |
@@ -418,6 +419,29 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 `comment_new` 的 `data.comments` 是 v2 评论列表，收紧，每条评论的 `commentId` 也收紧。v2 评论复用 `CommentRecord` 后额外声明 `args`、`threadId`、`track`、`replyCount`、`privacy`、`repliedMark`、`highlight`、`userTop`、`voiceDurationMillSecond`、`showFloorComment`、`extInfo`、`commentVideoVO`，用户额外声明 `encryptUserId`、`isHug` 和会员角标 `vipRights.extInfo.logo`。空资源录制 `comment_new.empty.json`（云盘歌曲 1984488794；私有云盘上传，匿名不可见，`total: 0` 可能来自匿名不可访问）返回 `comments: []`、`totalCount: 0`；非空录制 `comment_new.default.json`（歌曲 2092595510）保留 6 条评论（原 27 条）。`data` 里的标题、游标、排序和计数宽松；`tag`、`likeAnimationMap`、`outShowComments` 只见过空容器，没有声明，原样保留。
 
 `comment_dj`、`comment_event`、`comment_floor`、`comment_hot`、`comment_hug_list`、`comment_new` 的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`，只抽查了本批匿名录制中非 `null` 的路径与类型；登录录制未保留；不对公开结构作相同性断言。大录制保留覆盖各字段的非连续子集并记录原始条数：`comment_floor` 20 → 6、`comment_hot` 20 → 6、`comment_new` 27 → 6（`context.truncated.length` 记原数组长度）。
+
+## 社交与用户列表
+
+| 模块                                              | 结构定义                  | 收紧的字段                                                                                         |
+| ------------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------- |
+| [关注列表](/api/social/user-follows)              | `UserFollowsBody`         | `code`、`follow`、`follow[].userId`                                                                |
+| [粉丝列表](/api/social/user-followeds)            | `UserFollowedsBody`       | `code`、`followeds`、`followeds[].userId`                                                          |
+| [关注混合列表](/api/social/user-follow-mixed)     | `UserFollowMixedBody`     | `code`、`data`、`data.records`、`data.records[].followId`                                          |
+| [是否互相关注](/api/social/user-mutualfollow-get) | `UserMutualfollowGetBody` | `code`、`data`                                                                                     |
+| [用户动态](/api/social/user-event)                | `UserEventBody`           | `code`、`events`、`events[].id`                                                                    |
+| [用户历史评论](/api/comment/user-comment-history) | `UserCommentHistoryBody`  | `code`；`data.comments` 可以没有，出现时 `data.comments[].commentId` 收紧；`data.hotComments` 同样 |
+
+`user_follows` 和 `user_followeds` 的关注/粉丝记录都复用 `UserProfile` 的宽松字段，再补上列表特有的 `py`、`time`、`vipRights`（`user_follows` 还补 `expertTags`）：只有记录自己的 `userId` 收紧，`vipRights` 复用 core 的 `VipRights`（`artist_fans`、`user_follow_mixed`、`user_event` 也用同一份），其中 `relationType`、`extInfo` 已声明为宽松字段，`memberLogo` 只见过 `null`、未声明。`remarkName` 在三份录制里只见过 `null`，也没有声明。`more`、`touchCount`、`newCount`、`size` 都是宽松字段；`newCount` 只在部分粉丝列表响应里出现。空列表分别是真实可达的：账号 13595690613 没有粉丝（`user_followeds.empty.json`），`offset=100000` 的越界分页返回空关注（`user_follows.empty.json`）。
+
+`user_follow_mixed` 的 `data.records` 是通到关注混合列表的路径，每条记录只收紧自己的 `followId`；`type` 区分艺术家（`type: 2`，此时 `userProfile` 为 `null`）和用户（`type: 3`）。`userProfile` 是可以没有的路径：艺术家记录里是 `null`，出现用户资料时按对象校验，里面的 `userId` 是附带对象的编号、保持宽松；`artistInfo`、`fansGroupInfo`、`showContent`、`page`、`extData` 都是宽松字段。越界 `cursor` 返回 `records: []`（`user_follow_mixed.empty.json`）；未登录调用上游返回 HTTP 200、`code: 400`、`message: "not login"`（`user_follow_mixed.anonymous.json`），SDK 按业务拒绝原样转交。
+
+`user_mutualfollow_get` 的 `data` 就是接口要拿的布尔结果，收紧为 `boolean`；互相关注（`user_mutualfollow_get.mutual.json`）和不互相关注（`user_mutualfollow_get.not-mutual.json`）都有录制，未登录时上游同样返回 `200` 和 `data: false`（`user_mutualfollow_get.anonymous.json`）。
+
+`user_comment_history` 的 `data.comments`、`data.hotComments` 是可以没有的路径：没有历史评论或未登录时上游返回 `null`（`user_comment_history.empty.json`、`user_comment_history.anonymous.json`），缺失或 `null` 都照常返回，出现时每条评论复用 `CommentRecord` 的字段并补上 `beRepliedContent`、`beRepliedUser`（宽松），`commentId` 收紧。`commentCount`、`hasMore`、`reminder` 宽松。
+
+`user_event` 的事件记录只收紧自己的 `id`；`json` 是动态正文的 JSON 字符串，`info` 是评论信息，`user`、`pics`、`ipLocation` 和计数/展示字段都宽松。`info.commentThread` 是评论串（`latestLikedUsers[]` 的 `s`、`t` 是宽松数字字段），`events[].user` 复用 `UserProfile` 的宽松字段，都是附带对象，编号不收紧。没有动态的账号返回空数组（`user_event.empty.json`）。`lasttime`、`more`、`size` 宽松。已知例外：`adInfo`、`anonymityInfo`、`bottomActivityInfos`、`extJsonInfo`、`likeAnimationMap`、`pointTopicInfo`、`privacySettingInfo`、`pubSource`、`topActivityInfos`、`topEvent`、`xInfo` 等扩展块未声明，字段原样保留（JSON）；`ipLocation.ip`、`commentThread.resourceInfo.imgUrl`、`vipRights.memberLogo` 等只见过 `null` 的子字段也未声明。
+
+本批 7 个模块的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`：`user_follow_mixed` 未登录被上游拒绝，`user_comment_history` 未登录看不到历史评论，`user_mutualfollow_get` 未登录对同一 uid 返回 `false`；其余模块本批未保留未登录录制，不对公开结构作相同性断言。录制只覆盖账号 599663130 与录制里出现的其他账号，不据此推断字段集合在所有账号、地区和上游版本下一致。
 
 ## 导出约定
 

@@ -26,7 +26,7 @@ export const invokeModule = async <K extends ModuleIdentifier>(
   return runCall(
     { identifier, input: query, config: callConfig, signal },
     (invocationServices ??= createSdkClientContext({})),
-    sdkModuleRegistry[identifier] as SdkModuleRegistry[K],
+    sdkModuleRegistry[identifier],
   ) as Promise<ModuleResponseOf<K>>;
 };
 

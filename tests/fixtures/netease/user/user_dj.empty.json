@@ -1,0 +1,23 @@
+{
+  "module": "user_dj",
+  "query": {
+    "uid": 599663130,
+    "limit": 5
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:56:30.446Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B17：user_dj 账号 599663130 的空节目列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "count": 0,
+      "programs": [],
+      "more": false
+    }
+  }
+}

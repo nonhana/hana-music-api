@@ -1056,7 +1056,7 @@ import yunbeiTodayModule, {
 } from '../../modules/yunbei_today.ts';
 import type { SdkModuleRegistry } from '../../types/index.ts';
 
-export const sdkModuleRegistry = {
+export const sdkModuleRegistry: SdkModuleRegistry = {
   activate_init_profile: {
     identifier: 'activate_init_profile',
     route: '/activate/init/profile',
@@ -3169,4 +3169,4 @@ export const sdkModuleRegistry = {
     execute: yunbeiTodayModule,
     decodeInput: yunbeiTodayInputDecoder,
   },
-} as const satisfies SdkModuleRegistry;
+};

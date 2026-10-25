@@ -9,23 +9,9 @@ import {
   Optional,
   UpstreamObject,
 } from '../core/upstream-body.ts';
-import { UserProfile } from '../core/upstream-schemas.ts';
+import { UserProfile, VipRights } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
-
-const VipRightEntry = UpstreamObject({
-  iconUrl: Loose(Schema.String),
-  rights: Loose(Schema.Boolean),
-  vipCode: Loose(Schema.Finite),
-});
-
-const VipRights = UpstreamObject({
-  associator: Loose(VipRightEntry),
-  musicPackage: Loose(VipRightEntry),
-  redplus: Loose(VipRightEntry),
-  redVipAnnualCount: Loose(Schema.Finite),
-  redVipLevel: Loose(Schema.Finite),
-});
 
 const Fan = UpstreamObject({
   userProfile: UserProfile,

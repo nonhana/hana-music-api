@@ -1,0 +1,1305 @@
+{
+  "module": "user_followeds",
+  "query": {
+    "uid": 599663130,
+    "limit": 10
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:56:26.838Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B17：user_followeds 账号 599663130 的粉丝列表（正常）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "newCount": 0,
+      "code": 200,
+      "more": true,
+      "followeds": [
+        {
+          "py": "486sy",
+          "time": 1782788080361,
+          "signature": null,
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "486三元",
+          "avatarUrl": "http://p4.music.126.net/VpVyNh_TEEVKhW_y3Li1vQ==/109951173232927078.jpg",
+          "follows": 15,
+          "followeds": 0,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 0,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 13595690613,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": null,
+            "musicPackage": null,
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 0,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {}
+          },
+          "eventCount": 0,
+          "playlistCount": 2
+        },
+        {
+          "py": "xxqmdk",
+          "time": 1782172003411,
+          "signature": "",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "小心前面滴坑",
+          "avatarUrl": "http://p3.music.126.net/rKIjAdlE7c4edBRw8c3nTw==/109951168811359919.jpg",
+          "follows": 24,
+          "followeds": 8,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 1322202046,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": null,
+          "eventCount": 1,
+          "playlistCount": 9
+        },
+        {
+          "py": "skewre",
+          "time": 1760103215596,
+          "signature": "该用户的介绍涉及违规内容，经举报已被屏蔽",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "素kewre",
+          "avatarUrl": "http://p4.music.126.net/GUpUVPrcodHsRnHTWSV5pg==/109951172134056088.jpg",
+          "follows": 865,
+          "followeds": 50,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 2,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 14144280597,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": null,
+          "eventCount": 0,
+          "playlistCount": 1
+        },
+        {
+          "py": "safsd",
+          "time": 1759922103427,
+          "signature": "",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "岁按fsd",
+          "avatarUrl": "http://p3.music.126.net/KpDDN1Al8HNLhC_tEkAA9g==/109951172125412850.jpg",
+          "follows": 1399,
+          "followeds": 63,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 2,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 14136085339,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": null,
+          "eventCount": 1,
+          "playlistCount": 1
+        },
+        {
+          "py": "ssfer",
+          "time": 1759904388466,
+          "signature": "",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "酥酥fer",
+          "avatarUrl": "http://p3.music.126.net/YJ7ypjbddXnL51M0H5-pKA==/109951172124360819.jpg",
+          "follows": 1486,
+          "followeds": 62,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 2,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 14135103550,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": null,
+          "eventCount": 1,
+          "playlistCount": 1
+        },
+        {
+          "py": "sxert",
+          "time": 1759750197678,
+          "signature": "",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "酥香ert",
+          "avatarUrl": "http://p4.music.126.net/T2XtjLmC9HilTv2CXFixJQ==/109951172115946973.jpg",
+          "follows": 1365,
+          "followeds": 59,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 2,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 14127982514,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": null,
+          "eventCount": 1,
+          "playlistCount": 1
+        },
+        {
+          "py": "xmgabd",
+          "time": 1758772944471,
+          "signature": "哎，开学了，你们还好吗…好想你们",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "小蘑菇爱布丁",
+          "avatarUrl": "http://p3.music.126.net/uqAxmyHcUvpCXv0F0b-wSg==/109951173747363320.jpg",
+          "follows": 70,
+          "followeds": 16,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 2,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 4017382314,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 7,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 100,
+                "logoDto": {
+                  "logoType": 2,
+                  "interestId": -100,
+                  "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png",
+                  "width": 144,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 19,
+          "playlistCount": 3
+        },
+        {
+          "py": "sayoriqwq",
+          "time": 1755847282081,
+          "signature": "苦乐参半",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "sayoriqwq",
+          "avatarUrl": "http://p4.music.126.net/vBkEMtLnu6RBHoYD2DqVDw==/109951168320633269.jpg",
+          "follows": 111,
+          "followeds": 11,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 134010429,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 7,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 100,
+                "logoDto": {
+                  "logoType": 2,
+                  "interestId": -100,
+                  "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png",
+                  "width": 144,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 21,
+          "playlistCount": 16
+        },
+        {
+          "py": "Zvuve",
+          "time": 1745419091318,
+          "signature": ".",
+          "mutual": true,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "Zvuve",
+          "avatarUrl": "http://p3.music.126.net/0y5K-vjtfcKk0W8ncQb8gw==/109951172979653240.jpg",
+          "follows": 14,
+          "followeds": 8,
+          "accountStatus": 0,
+          "authStatus": 1,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": true,
+          "userId": 1875497391,
+          "avatarDetail": {
+            "userType": 4,
+            "identityLevel": 1,
+            "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png"
+          },
+          "userType": 4,
+          "vipRights": {
+            "associator": null,
+            "musicPackage": null,
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 0,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {}
+          },
+          "eventCount": 4,
+          "playlistCount": 11
+        },
+        {
+          "py": "Brunlce",
+          "time": 1738255428363,
+          "signature": null,
+          "mutual": true,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "Brunlce",
+          "avatarUrl": "http://p4.music.126.net/veZkBgQ79qMH_6p9Ysi9jw==/109951166667654271.jpg",
+          "follows": 37,
+          "followeds": 26,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": true,
+          "userId": 1399025329,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582188100/ca7f/f3f7/f591/a142a567c050a4a860ee77765270db57.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 5,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 100,
+                "logoDto": {
+                  "logoType": 2,
+                  "interestId": -100,
+                  "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582188100/ca7f/f3f7/f591/a142a567c050a4a860ee77765270db57.png",
+                  "width": 144,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 6,
+          "playlistCount": 11
+        },
+        {
+          "py": "qrj",
+          "time": 1736074257280,
+          "signature": "除非安宁能及于他人，否则安宁也不能独施于我。",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "奇锐骏",
+          "avatarUrl": "http://p4.music.126.net/MFr7noaHOHF_vzcpdp2Rkg==/109951170406668409.jpg",
+          "follows": 160,
+          "followeds": 39,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 0,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 515522946,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": null,
+            "redVipAnnualCount": 1,
+            "redVipLevel": 7,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 100,
+                "logoDto": {
+                  "logoType": 2,
+                  "interestId": -100,
+                  "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png",
+                  "width": 144,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 27,
+          "playlistCount": 30
+        },
+        {
+          "py": "hhhhaaaaaaaa",
+          "time": 1733584149669,
+          "signature": "曼波",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "哼哼哼哼啊啊啊啊啊啊啊啊",
+          "avatarUrl": "http://p3.music.126.net/t50y0tb1Rb7qj-DCLNUylA==/109951171536838385.jpg",
+          "follows": 42,
+          "followeds": 7,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 1824305840,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 1,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 100,
+                "logoDto": {
+                  "logoType": 2,
+                  "interestId": -100,
+                  "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png",
+                  "width": 144,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 3,
+          "playlistCount": 11
+        },
+        {
+          "py": "kfbz-_-114514",
+          "time": 1733013327469,
+          "signature": "(´-ω-`)",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "咖啡杯子-_-114514",
+          "avatarUrl": "http://p3.music.126.net/iiBRzJJNq2Dd9jMJ7_qBQg==/109951168965026361.jpg",
+          "follows": 26,
+          "followeds": 21,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 1724962009,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": null,
+            "musicPackage": null,
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 0,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {}
+          },
+          "eventCount": 14,
+          "playlistCount": 5
+        },
+        {
+          "py": "yGamedh",
+          "time": 1728197772050,
+          "signature": "音game大好",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "音Game大好",
+          "avatarUrl": "http://p4.music.126.net/WqfkLJT_yJMxi2sEAfiQlg==/109951171554428456.jpg",
+          "follows": 122,
+          "followeds": 5,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 0,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 12310626701,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 1,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 100,
+                "logoDto": {
+                  "logoType": 2,
+                  "interestId": -100,
+                  "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582186486/9f31/5cfe/207c/2846c11ce0bd05aae1754aed7e63ca58.png",
+                  "width": 144,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 1,
+          "playlistCount": 11
+        },
+        {
+          "py": "m-fl",
+          "time": 1727703186022,
+          "signature": "bulabula～",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "夢-楓戀",
+          "avatarUrl": "http://p3.music.126.net/CmVX3mMh9i-Oc7UZNVvBvw==/109951166545576752.jpg",
+          "follows": 869,
+          "followeds": 335,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 2,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 606493254,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582188099/3419/2b65/d241/bd664461c263a2dfdbf631bb9848ee3e.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": {
+              "vipCode": 300,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582303786/0ba4/ba3f/118b/7d96166139da74ba6f02e7eaf911f3e1.png"
+            },
+            "redVipAnnualCount": -1,
+            "redVipLevel": 3,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 300,
+                "logoDto": {
+                  "logoType": 3,
+                  "interestId": -300,
+                  "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582303786/0ba4/ba3f/118b/7d96166139da74ba6f02e7eaf911f3e1.png",
+                  "width": 156,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 95,
+          "playlistCount": 77
+        },
+        {
+          "py": "hw_y",
+          "time": 1726330718723,
+          "signature": "",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "忽晚_已",
+          "avatarUrl": "http://p3.music.126.net/KgXLJ1g6z1SsL8SFcK_L1g==/109951173423749744.jpg",
+          "follows": 37,
+          "followeds": 6,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 2,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 9323684603,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": null,
+            "musicPackage": null,
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 0,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {}
+          },
+          "eventCount": 16,
+          "playlistCount": 5
+        },
+        {
+          "py": "hjfz-ymlh",
+          "time": 1713538948005,
+          "signature": "“你只是念旧，不是要往回走”.",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "皇家方舟-云墨留痕",
+          "avatarUrl": "http://p4.music.126.net/0uh7Czwo2AUMNHZUyplB2Q==/109951170433929104.jpg",
+          "follows": 225,
+          "followeds": 12,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 2,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 552637765,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": null,
+          "eventCount": 6,
+          "playlistCount": 11
+        },
+        {
+          "py": "bsyl",
+          "time": 1696126025659,
+          "signature": "",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "半死由梨",
+          "avatarUrl": "http://p4.music.126.net/_kRwOw59f0KUzK5IpR66oQ==/109951168904048941.jpg",
+          "follows": 13,
+          "followeds": 0,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 8334372682,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": null,
+            "musicPackage": null,
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 0,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {}
+          },
+          "eventCount": 0,
+          "playlistCount": 5
+        },
+        {
+          "py": "mxx",
+          "time": 1674515316095,
+          "signature": "指尖下的琴键\n琴键内的旋律\n旋律藏的故事",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "鸣汐薰",
+          "avatarUrl": "http://p3.music.126.net/h53Vn922DF4uhBqgBedNmQ==/109951165302898066.jpg",
+          "follows": 206,
+          "followeds": 210,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 334581468,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": {
+              "vipCode": 300,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png"
+            },
+            "redVipAnnualCount": 1,
+            "redVipLevel": 7,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 300,
+                "logoDto": {
+                  "logoType": 3,
+                  "interestId": -300,
+                  "url": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png",
+                  "width": 156,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 19,
+          "playlistCount": 14
+        },
+        {
+          "py": "qym-xm",
+          "time": 1672278399556,
+          "signature": "归去，花满，梦太晚。但馀岩下多情水",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "清月寞-星梦",
+          "avatarUrl": "http://p3.music.126.net/m6JgTylcQbRVpLRBCEyELA==/109951168446471839.jpg",
+          "follows": 22,
+          "followeds": 9,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 4029901939,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582187196/ecde/1b79/d752/ec1b8f20854d06bba52ed022d28871d6.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": {
+              "vipCode": 300,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582302730/ad61/5fd7/b07e/256f9d72ab3372c84f89cbe19b5d4762.png"
+            },
+            "redVipAnnualCount": -1,
+            "redVipLevel": 6,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 300,
+                "logoDto": {
+                  "logoType": 3,
+                  "interestId": -300,
+                  "url": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582302730/ad61/5fd7/b07e/256f9d72ab3372c84f89cbe19b5d4762.png",
+                  "width": 156,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 2,
+          "playlistCount": 4
+        },
+        {
+          "py": "xxqPeter",
+          "time": 1667443658767,
+          "signature": "星夕晴Peter",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "星夕晴Peter",
+          "avatarUrl": "http://p3.music.126.net/H_HA0kF9FbuJWqN_LpMdAw==/109951169852705622.jpg",
+          "follows": 238,
+          "followeds": 53,
+          "accountStatus": 0,
+          "authStatus": 1,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 1783812596,
+          "avatarDetail": {
+            "userType": 4,
+            "identityLevel": 1,
+            "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png"
+          },
+          "userType": 4,
+          "vipRights": {
+            "associator": null,
+            "musicPackage": null,
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 0,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {}
+          },
+          "eventCount": 44,
+          "playlistCount": 58
+        },
+        {
+          "py": "ylzzrY",
+          "time": 1663518800290,
+          "signature": "",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "音乐制作人Y",
+          "avatarUrl": "http://p4.music.126.net/Cg9zIPm9jmHtDxK_D4Tvow==/109951167773597390.jpg",
+          "follows": 261,
+          "followeds": 77,
+          "accountStatus": 0,
+          "authStatus": 1,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 1719042850,
+          "avatarDetail": {
+            "userType": 4,
+            "identityLevel": 1,
+            "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png"
+          },
+          "userType": 4,
+          "vipRights": {
+            "associator": null,
+            "musicPackage": null,
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 0,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {}
+          },
+          "eventCount": 121,
+          "playlistCount": 3
+        },
+        {
+          "py": "mydnmd",
+          "time": 1661420791605,
+          "signature": "人生到处知何似，应似飞鸿踏雪泥。",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "漫游到尼莫点",
+          "avatarUrl": "http://p4.music.126.net/dioFRCw6N-YbZgbhMekw6A==/109951174124862841.jpg",
+          "follows": 158,
+          "followeds": 25,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 5197147537,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": {
+              "vipCode": 300,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png"
+            },
+            "redVipAnnualCount": 1,
+            "redVipLevel": 7,
+            "relationType": 4,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 300,
+                "logoDto": {
+                  "logoType": 3,
+                  "interestId": -300,
+                  "url": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png",
+                  "width": 156,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 8,
+          "playlistCount": 16
+        },
+        {
+          "py": "fxrhl",
+          "time": 1659702635134,
+          "signature": "狂风与落叶奏响秋日最后的乐章，深夜，大雪落下，只有矗立着的树木才会见证消亡与新生",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "飞雪如花落",
+          "avatarUrl": "http://p4.music.126.net/ZciRfeLWEVkiKXlgq3mKZg==/109951170042944184.jpg",
+          "follows": 140,
+          "followeds": 61,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 2056939945,
+          "avatarDetail": {
+            "userType": 310,
+            "identityLevel": 1,
+            "identityIconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/11231824940/04ea/70e2/d8d6/c6266e898b0c546a477e978c1bd9fdb2.png"
+          },
+          "userType": 310,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582188100/ca7f/f3f7/f591/a142a567c050a4a860ee77765270db57.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 5,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 100,
+                "logoDto": {
+                  "logoType": 2,
+                  "interestId": -100,
+                  "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582188100/ca7f/f3f7/f591/a142a567c050a4a860ee77765270db57.png",
+                  "width": 144,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 7,
+          "playlistCount": 14
+        },
+        {
+          "py": "mslddag",
+          "time": 1659074578830,
+          "signature": "愛是一封长久信 你我同是书写者",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "没实力的德奥哥",
+          "avatarUrl": "http://p4.music.126.net/vTxwToSfvOVC9UggVcF5lw==/109951170996517362.jpg",
+          "follows": 255,
+          "followeds": 8,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 3685181421,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": null,
+            "redVipAnnualCount": 1,
+            "redVipLevel": 7,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 100,
+                "logoDto": {
+                  "logoType": 2,
+                  "interestId": -100,
+                  "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png",
+                  "width": 144,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 1,
+          "playlistCount": 6
+        },
+        {
+          "py": "abcdfg_H4DR",
+          "time": 1658909218212,
+          "signature": "只是喜欢音乐罢了",
+          "mutual": false,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "abc的风格_H4DR",
+          "avatarUrl": "http://p3.music.126.net/kkgN5CBb8IhmNNoLteou3g==/109951174132726340.jpg",
+          "follows": 1998,
+          "followeds": 250,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 3581468842,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": {
+              "vipCode": 300,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png"
+            },
+            "redVipAnnualCount": 1,
+            "redVipLevel": 7,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 300,
+                "logoDto": {
+                  "logoType": 3,
+                  "interestId": -300,
+                  "url": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png",
+                  "width": 156,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 190,
+          "playlistCount": 39
+        },
+        {
+          "py": "_Yellowgreen",
+          "time": 1658816418956,
+          "signature": "被时光吹散的记忆碎片，铭刻着定格的无数瞬间。",
+          "mutual": true,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "_Yellowgreen",
+          "avatarUrl": "http://p3.music.126.net/c38fEug1b8vEDkzVX51T7A==/109951167682783328.jpg",
+          "follows": 17,
+          "followeds": 7,
+          "accountStatus": 0,
+          "authStatus": 1,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": true,
+          "userId": 1524210243,
+          "avatarDetail": {
+            "userType": 4,
+            "identityLevel": 1,
+            "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png"
+          },
+          "userType": 4,
+          "vipRights": {
+            "associator": null,
+            "musicPackage": null,
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 0,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {}
+          },
+          "eventCount": 2,
+          "playlistCount": 7
+        },
+        {
+          "py": "spiritvacuum",
+          "time": 1657612562200,
+          "signature": "Ha det bra",
+          "mutual": false,
+          "vipType": 0,
+          "remarkName": null,
+          "nickname": "spiritvacuum",
+          "avatarUrl": "http://p3.music.126.net/5mujMwCi7eWr8q8P7LmZSw==/109951171354574723.jpg",
+          "follows": 107,
+          "followeds": 15,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": false,
+          "userId": 3625606170,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": null,
+            "musicPackage": null,
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 0,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {}
+          },
+          "eventCount": 2,
+          "playlistCount": 3
+        },
+        {
+          "py": "zzdbxsb",
+          "time": 1650377897942,
+          "signature": null,
+          "mutual": true,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "庄子的病隙碎笔",
+          "avatarUrl": "http://p3.music.126.net/8S_L6tv4zxbt6-JK_S7Mow==/109951169456255926.jpg",
+          "follows": 36,
+          "followeds": 4,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 0,
+          "expertTags": null,
+          "experts": null,
+          "followed": true,
+          "userId": 1600559670,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582188100/ca7f/f3f7/f591/a142a567c050a4a860ee77765270db57.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": null,
+            "redVipAnnualCount": -1,
+            "redVipLevel": 5,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 100,
+                "logoDto": {
+                  "logoType": 2,
+                  "interestId": -100,
+                  "url": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582188100/ca7f/f3f7/f591/a142a567c050a4a860ee77765270db57.png",
+                  "width": 144,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 2,
+          "playlistCount": 8
+        },
+        {
+          "py": "wawawa-_-",
+          "time": 1649944787292,
+          "signature": "",
+          "mutual": true,
+          "vipType": 11,
+          "remarkName": null,
+          "nickname": "wawawa-_-",
+          "avatarUrl": "http://p4.music.126.net/3TLaWqQWCx5fG2rgl6itnQ==/109951168262388543.jpg",
+          "follows": 25,
+          "followeds": 6,
+          "accountStatus": 0,
+          "authStatus": 0,
+          "gender": 1,
+          "expertTags": null,
+          "experts": null,
+          "followed": true,
+          "userId": 4876595845,
+          "avatarDetail": null,
+          "userType": 0,
+          "vipRights": {
+            "associator": {
+              "vipCode": 100,
+              "rights": true,
+              "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582185437/838c/3e35/26c7/1483dd70f2bbbf601f095dff56c603b8.png"
+            },
+            "musicPackage": {
+              "vipCode": 220,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/21892874340/50e6/e81d/5292/2d693cbb98954e28d4d9fdb11be99a8b.png"
+            },
+            "redplus": {
+              "vipCode": 300,
+              "rights": true,
+              "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png"
+            },
+            "redVipAnnualCount": -1,
+            "redVipLevel": 7,
+            "relationType": 0,
+            "memberLogo": null,
+            "extInfo": {
+              "logo": {
+                "vipType": 300,
+                "logoDto": {
+                  "logoType": 3,
+                  "interestId": -300,
+                  "url": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/32582305307/8bab/f0f1/ba3f/3f574fb88acef4c7e5bc441d2f12fd5b.png",
+                  "width": 156,
+                  "height": 48,
+                  "actionUrl": "orpheus://rnpage?component=rn-vip-center&mainProcessCompat=1"
+                }
+              }
+            }
+          },
+          "eventCount": 0,
+          "playlistCount": 83
+        }
+      ],
+      "size": 31
+    }
+  }
+}

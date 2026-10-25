@@ -1,0 +1,23 @@
+{
+  "module": "user_event",
+  "query": {
+    "uid": 13595690613,
+    "limit": 5
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:56:31.723Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B17：user_event 无动态账号的空列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "more": false,
+      "size": 0,
+      "events": [],
+      "code": 200
+    }
+  }
+}

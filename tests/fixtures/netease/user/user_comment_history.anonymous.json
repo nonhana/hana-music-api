@@ -1,0 +1,27 @@
+{
+  "module": "user_comment_history",
+  "query": {
+    "uid": 599663130,
+    "limit": 5
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:57:07.214Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B17：user_comment_history 未登录看不到历史评论（登录对照）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "reminder": false,
+        "commentCount": 0,
+        "hasMore": false,
+        "comments": null,
+        "hotComments": null
+      }
+    }
+  }
+}

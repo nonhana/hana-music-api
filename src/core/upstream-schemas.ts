@@ -293,6 +293,43 @@ const PrivacyItemUnlimit = UpstreamObject({
   villageAge: Loose(Schema.Boolean),
 });
 
+const VipRightEntry = UpstreamObject({
+  iconUrl: Loose(Schema.String),
+  rights: Loose(Schema.Boolean),
+  vipCode: Loose(Schema.Finite),
+});
+
+const VipRightsLogoDto = UpstreamObject({
+  actionUrl: Loose(Schema.String),
+  height: Loose(Schema.Finite),
+  interestId: Loose(Schema.Finite),
+  logoType: Loose(Schema.Finite),
+  url: Loose(Schema.String),
+  width: Loose(Schema.Finite),
+});
+
+const VipRightsLogo = UpstreamObject({
+  logoDto: Loose(VipRightsLogoDto),
+  vipType: Loose(Schema.Finite),
+});
+
+const VipRightsExtInfo = UpstreamObject({
+  logo: Loose(VipRightsLogo),
+});
+
+// artist_fans、user_follows、user_followeds、user_follow_mixed、user_event 共用的 VIP 权益记录；
+// `memberLogo` 只见过 null 未声明，`relationType`、`extInfo` 已补。
+export const VipRights = UpstreamObject({
+  associator: Loose(VipRightEntry),
+  musicPackage: Loose(VipRightEntry),
+  redplus: Loose(VipRightEntry),
+  extInfo: Loose(VipRightsExtInfo),
+  redVipAnnualCount: Loose(Schema.Finite),
+  redVipLevel: Loose(Schema.Finite),
+  relationType: Loose(Schema.Finite),
+});
+export type VipRights = typeof VipRights.Type;
+
 export const PlaylistUser = UpstreamObject({
   userId: Loose(Schema.Finite),
   nickname: Loose(Schema.String),

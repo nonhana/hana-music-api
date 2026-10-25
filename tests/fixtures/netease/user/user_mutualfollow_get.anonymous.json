@@ -1,0 +1,20 @@
+{
+  "module": "user_mutualfollow_get",
+  "query": {
+    "uid": 1600559670
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:57:07.849Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B17：user_mutualfollow_get 未登录时 data 为 false（登录对照）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": false
+    }
+  }
+}
