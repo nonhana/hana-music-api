@@ -9,7 +9,7 @@ import {
   Optional,
   UpstreamObject,
 } from '../core/upstream-body.ts';
-import { Song } from '../core/upstream-schemas.ts';
+import { LooseSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
@@ -29,13 +29,6 @@ const TagPortrait = UpstreamObject({
   dataTip: Loose(Schema.String),
   pattern: Loose(Schema.Record(Schema.String, ReviewEntry)),
   templateContent: Loose(Schema.String),
-});
-
-// 宽松容器里嵌着的歌曲：记录编号也宽松。`Song` 目前只有 `id` 收紧、已在下面覆盖；
-// `Song` 新增收紧字段时这里要同步覆盖，否则整首歌会因为该字段被丢。
-const LooseSong = UpstreamObject({
-  ...Song.schema.fields,
-  id: Loose(Schema.Finite),
 });
 
 const FavouriteSong = UpstreamObject({

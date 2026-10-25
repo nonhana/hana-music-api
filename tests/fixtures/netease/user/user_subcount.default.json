@@ -1,0 +1,25 @@
+{
+  "module": "user_subcount",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T16:54:24.543Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B16：user_subcount 登录账号收藏计数"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "programCount": 0,
+      "djRadioCount": 1,
+      "mvCount": 19,
+      "artistCount": 236,
+      "newProgramCount": 169,
+      "createDjRadioCount": 0,
+      "createdPlaylistCount": 19,
+      "subPlaylistCount": 38,
+      "code": 200
+    }
+  }
+}

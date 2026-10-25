@@ -1,0 +1,29 @@
+{
+  "module": "user_cloud",
+  "query": {
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:54:58.266Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B16：user_cloud 云盘列表 offset 越过末尾的空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [],
+      "count": 25,
+      "size": 567440094,
+      "cursor": null,
+      "maxSize": 64424509440,
+      "upgradeSign": 0,
+      "hasMore": false,
+      "code": 200,
+      "message": null,
+      "idVersions": null,
+      "updateTime": 0
+    }
+  }
+}

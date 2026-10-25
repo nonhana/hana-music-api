@@ -37,6 +37,10 @@ const result = await userLevel();
 console.log(result.body);
 ```
 
+## 返回内容
+
+等级信息在 `data`，`data.level` 是当前等级、`data.userId` 是账号自己的编号；`code`、`data`、`data.userId`、`data.level` 收紧。`info`、`progress`、`nowPlayCount`、`nowLoginCount`、`nextPlayCount`、`nextLoginCount` 和顶层的 `full` 宽松。结构定义和类型是 `UserLevelBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可以获取用户等级信息,包含当前登录天数,听歌次数,下一等级需要的登录天数和听歌次数,当前等级进度,对应 <https://music.163.com/#/user/level>

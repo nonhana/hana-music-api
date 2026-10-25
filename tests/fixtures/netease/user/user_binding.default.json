@@ -1,0 +1,47 @@
+{
+  "module": "user_binding",
+  "query": {
+    "uid": 10000001
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:54:26.982Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B16：user_binding 登录账号绑定查询；绑定 id 与账号编号已换成合成值",
+    "redacted": [
+      "body.bindings[0].tokenJsonStr",
+      "body.bindings[1].tokenJsonStr"
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "bindings": [
+        {
+          "bindingTime": 1623586014001,
+          "refreshTime": 1623586014,
+          "tokenJsonStr": "<redacted>",
+          "expiresIn": 2147483647,
+          "url": "",
+          "expired": false,
+          "userId": 10000001,
+          "id": 10000000001,
+          "type": 1
+        },
+        {
+          "bindingTime": 1506167426412,
+          "refreshTime": 1756778615,
+          "tokenJsonStr": "<redacted>",
+          "expiresIn": 5184000,
+          "url": "",
+          "expired": true,
+          "userId": 10000001,
+          "id": 10000000002,
+          "type": 5
+        }
+      ]
+    }
+  }
+}

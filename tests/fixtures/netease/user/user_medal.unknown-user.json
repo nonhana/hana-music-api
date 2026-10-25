@@ -1,0 +1,23 @@
+{
+  "module": "user_medal",
+  "query": {
+    "uid": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:57:48.771Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B16：user_medal 不存在 uid 的失败返回（code 499）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 499,
+      "message": "用户信息获取失败",
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

@@ -37,6 +37,10 @@ const result = await userSubcount();
 console.log(result.body);
 ```
 
+## 返回内容
+
+正文是各项收藏计数（`programCount`、`djRadioCount`、`mvCount`、`artistCount`、`newProgramCount`、`createDjRadioCount`、`createdPlaylistCount`、`subPlaylistCount`）。只有 `code` 收紧，计数全部宽松：缺一项只是少一项信息，不会 502。结构定义和类型是 `UserSubcountBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可以获取用户信息

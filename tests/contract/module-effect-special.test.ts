@@ -247,6 +247,7 @@ describe('special Effect module behavior', () => {
 
   test.each([
     { identifier: 'playlist_tracks', input: { tracks: {} } },
+    { identifier: 'user_binding', input: { uid: {} } },
     { identifier: 'user_cloud_detail', input: { id: [] } },
     {
       identifier: 'listentogether_sync_list_command',

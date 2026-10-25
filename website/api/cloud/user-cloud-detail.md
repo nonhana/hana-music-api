@@ -41,6 +41,10 @@ const result = await userCloudDetail({
 console.log(result.body);
 ```
 
+## 返回内容
+
+云盘歌曲在 `data`，每条记录自己的 `songId` 收紧；`simpleSong` 是记录里套着的歌曲对象，复用 core 的 `LooseSong`，字段宽松，`id` 也宽松。传入不在云盘的歌曲 id 时 `data` 是空数组（录制 `user_cloud_detail.empty.json`）。结构定义和类型是 `UserCloudDetailBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入云盘歌曲 id，可获取云盘数据详情

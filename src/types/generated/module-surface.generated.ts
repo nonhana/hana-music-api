@@ -722,10 +722,19 @@ import type {
   ModuleInput as userAccountInput,
 } from '../../modules/user_account.ts';
 import type { ModuleInput as userAudioInput } from '../../modules/user_audio.ts';
-import type { ModuleInput as userBindingInput } from '../../modules/user_binding.ts';
-import type { ModuleInput as userCloudInput } from '../../modules/user_cloud.ts';
+import type {
+  ModuleBody as userBindingBody,
+  ModuleInput as userBindingInput,
+} from '../../modules/user_binding.ts';
+import type {
+  ModuleBody as userCloudBody,
+  ModuleInput as userCloudInput,
+} from '../../modules/user_cloud.ts';
 import type { ModuleInput as userCloudDelInput } from '../../modules/user_cloud_del.ts';
-import type { ModuleInput as userCloudDetailInput } from '../../modules/user_cloud_detail.ts';
+import type {
+  ModuleBody as userCloudDetailBody,
+  ModuleInput as userCloudDetailInput,
+} from '../../modules/user_cloud_detail.ts';
 import type {
   ModuleBody as userCommentHistoryBody,
   ModuleInput as userCommentHistoryInput,
@@ -754,8 +763,14 @@ import type {
   ModuleBody as userFollowsBody,
   ModuleInput as userFollowsInput,
 } from '../../modules/user_follows.ts';
-import type { ModuleInput as userLevelInput } from '../../modules/user_level.ts';
-import type { ModuleInput as userMedalInput } from '../../modules/user_medal.ts';
+import type {
+  ModuleBody as userLevelBody,
+  ModuleInput as userLevelInput,
+} from '../../modules/user_level.ts';
+import type {
+  ModuleBody as userMedalBody,
+  ModuleInput as userMedalInput,
+} from '../../modules/user_medal.ts';
 import type {
   ModuleBody as userMutualfollowGetBody,
   ModuleInput as userMutualfollowGetInput,
@@ -771,11 +786,17 @@ import type {
   ModuleInput as userRecordInput,
 } from '../../modules/user_record.ts';
 import type { ModuleInput as userReplacephoneInput } from '../../modules/user_replacephone.ts';
-import type { ModuleInput as userSocialStatusInput } from '../../modules/user_social_status.ts';
+import type {
+  ModuleBody as userSocialStatusBody,
+  ModuleInput as userSocialStatusInput,
+} from '../../modules/user_social_status.ts';
 import type { ModuleInput as userSocialStatusEditInput } from '../../modules/user_social_status_edit.ts';
 import type { ModuleInput as userSocialStatusRcmdInput } from '../../modules/user_social_status_rcmd.ts';
 import type { ModuleInput as userSocialStatusSupportInput } from '../../modules/user_social_status_support.ts';
-import type { ModuleInput as userSubcountInput } from '../../modules/user_subcount.ts';
+import type {
+  ModuleBody as userSubcountBody,
+  ModuleInput as userSubcountInput,
+} from '../../modules/user_subcount.ts';
 import type { ModuleInput as userUpdateInput } from '../../modules/user_update.ts';
 import type {
   ModuleBody as verifyGetQrBody,
@@ -2972,12 +2993,12 @@ export interface GeneratedModuleContractMap {
   user_binding: {
     input: userBindingInput;
     query: userBindingInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userBindingBody>;
   };
   user_cloud: {
     input: userCloudInput;
     query: userCloudInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userCloudBody>;
   };
   user_cloud_del: {
     input: userCloudDelInput;
@@ -2987,7 +3008,7 @@ export interface GeneratedModuleContractMap {
   user_cloud_detail: {
     input: userCloudDetailInput;
     query: userCloudDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userCloudDetailBody>;
   };
   user_comment_history: {
     input: userCommentHistoryInput;
@@ -3027,12 +3048,12 @@ export interface GeneratedModuleContractMap {
   user_level: {
     input: userLevelInput;
     query: userLevelInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userLevelBody>;
   };
   user_medal: {
     input: userMedalInput;
     query: userMedalInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userMedalBody>;
   };
   user_mutualfollow_get: {
     input: userMutualfollowGetInput;
@@ -3067,7 +3088,7 @@ export interface GeneratedModuleContractMap {
   user_social_status: {
     input: userSocialStatusInput;
     query: userSocialStatusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userSocialStatusBody>;
   };
   user_social_status_edit: {
     input: userSocialStatusEditInput;
@@ -3087,7 +3108,7 @@ export interface GeneratedModuleContractMap {
   user_subcount: {
     input: userSubcountInput;
     query: userSubcountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userSubcountBody>;
   };
   user_update: {
     input: userUpdateInput;

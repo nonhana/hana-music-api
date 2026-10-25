@@ -1,0 +1,21 @@
+{
+  "module": "user_social_status",
+  "query": {
+    "uid": 10000001
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:54:53.222Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B16：user_social_status 登录账号社交状态；账号编号已换成合成值（10000001），原始 uid 不再可复现"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {},
+      "message": ""
+    }
+  }
+}

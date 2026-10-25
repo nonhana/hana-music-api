@@ -45,7 +45,7 @@ const SongAlbum = UpstreamObject({
   tns: Loose(Schema.Array(Schema.String)),
 });
 
-const PrivateCloud = UpstreamObject({
+export const PrivateCloud = UpstreamObject({
   addTime: Loose(Schema.Finite),
   album: Loose(Schema.String),
   artist: Loose(Schema.String),
@@ -267,8 +267,8 @@ export const MlogSong = UpstreamObject({
   artists: Loose(Schema.Array(MlogSongArtist)),
 });
 
-// 歌单里嵌着的歌曲：宽松容器里的记录，编号也宽松。
-const PlaylistTrack = UpstreamObject({
+// 歌单、云盘里嵌着的歌曲：宽松容器里的记录，编号也宽松。
+export const LooseSong = UpstreamObject({
   ...Song.schema.fields,
   id: Loose(Schema.Finite),
 });
@@ -502,7 +502,7 @@ export const PlaylistSummary = UpstreamObject({
   shareCount: Loose(Schema.Finite),
   top: Loose(Schema.Boolean),
   totalDuration: Loose(Schema.Finite),
-  tracks: Loose(Schema.Array(PlaylistTrack)),
+  tracks: Loose(Schema.Array(LooseSong)),
   trialMode: Loose(Schema.Finite),
   uiPlaylistType: Loose(Schema.String),
 });

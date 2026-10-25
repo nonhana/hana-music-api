@@ -32,6 +32,26 @@
 
 `account` 和 `profile` 在收紧的同时允许 `null`：没登录、登录失效时两者都是 `null`；匿名账号只有 `account`（`anonimousUser: true`），`profile` 是 `null`。`vipType`、`nickname`、`avatarUrl` 等其余账号字段宽松。
 
+## 用户资料
+
+| 模块                                         | 结构定义               | 收紧的字段                                                                                                                                                                                     |
+| -------------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [账号等级](/api/user/user-level)             | `UserLevelBody`        | `code`、`data`、`data.userId`、`data.level`                                                                                                                                                    |
+| [收藏计数](/api/user/user-subcount)          | `UserSubcountBody`     | `code`                                                                                                                                                                                         |
+| [登录绑定](/api/user/user-binding)           | `UserBindingBody`      | `code`、`bindings`、`bindings[].id`                                                                                                                                                            |
+| [用户状态](/api/user/user-social-status)     | `UserSocialStatusBody` | `code`；`data` 只见过空对象，宽松                                                                                                                                                              |
+| [用户徽章](/api/user/user-medal)             | `UserMedalBody`        | `code`、`data`、`data.obtainMedals`、`data.obtainMedals[].medalCode`、`data.categoryMedalBlockVos`、`data.categoryMedalBlockVos[].medalVOS`、`data.categoryMedalBlockVos[].subGroups[].medals` |
+| [云盘数据](/api/cloud/user-cloud)            | `UserCloudBody`        | `code`、`data`、`data[].songId`                                                                                                                                                                |
+| [云盘数据详情](/api/cloud/user-cloud-detail) | `UserCloudDetailBody`  | `code`、`data`、`data[].songId`                                                                                                                                                                |
+
+这批接口都用登录账号录制（`viewer: authenticated`，先经 `login_status` 确认 `anonimousUser: false`）：`user_level`、`user_subcount`、`user_binding`、`user_medal`、`user_social_status` 和两个云盘接口返回当前登录账号自己的数据。`user_account` 的匿名对照仍在登录一节；`user_detail` 没有匿名录制，本批未改其声明。
+
+`user_medal` 的徽章页在 `data`，`data.obtainMedals`、`data.categoryMedalBlockVos`、分类块的 `medalVOS` 和分组里的 `subGroups[].medals` 都是必填数组，收紧；`obtainMedals[].medalCode` 是记录自己的编号，也收紧，`medalVOS` 和 `subGroups[].medals` 里套着的徽章是嵌套记录，编号宽松。`subGroups` 在分类块里可以为 `null`（录制里“即将获得”块是 `null`），按“可以没有”处理：缺失或 `null` 照常返回，出现时里面的 `medals` 仍按记录校验，坏一条报 502；`subGroups` 里的 `hasMore`、`total`、`obtainedTotal`、`nextPage` 宽松。`medalTabs`、`musicMedalOperationVO`、`levelMedalPicUrl`、`userObtainProportion`、`detailPage`、`scene` 只见过 `null`，没有声明。不存在的 uid 返回 `code: 499`（`用户信息获取失败`），SDK 按业务拒绝原样转交。本批录制与探测未发现可达的空结果；数组本身允许为空（`user_medal.unknown-user.json` 是 code 499，不是空结果）。录制从 493 条已获得徽章截到 5 条、5 个分类块截到 3 个（见 `context.truncated`）；已获得徽章按字段覆盖抽样，保留原下标 0/1/18/259/289，分类块为 0/1/2；`sideBarGuideText` 的空串样例来自完整录制。
+
+`user_cloud` 的 `data` 是云盘记录列表，每条记录自己的 `songId` 收紧；`privateCloud` 和 `simpleSong` 是记录里套着的对象，字段全部宽松，`simpleSong` 复用 core 的 `LooseSong`（`Song` 字段 + 宽松 `id`）。录制从 25 条截到 3 条；`offset` 越过末尾时 `data` 是空数组（`user_cloud.past-end.json`）。`user_cloud_detail` 按歌曲 id 批量查云盘记录，传入不在云盘的 id 时 `data` 是空数组（`user_cloud_detail.empty.json`）。`user_cloud` 的 `cursor`、`message`、`idVersions` 只见过 `null`，没有声明。
+
+`user_binding` 在不存在的 uid 下返回 `bindings: []`（`user_binding.no-bindings.json`）；录制里的绑定 id 和账号编号已换成合成值，`tokenJsonStr` 按凭据规则替换成 `<redacted>`。`user_social_status` 的 `data` 在录制里是空对象，内部字段没有声明，仍原样保留。
+
 ## 曲库
 
 | 模块                                             | 结构定义               | 收紧的字段                                                                                  |
