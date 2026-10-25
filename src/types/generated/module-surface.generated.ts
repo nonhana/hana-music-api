@@ -328,8 +328,14 @@ import type { ModuleInput as eventForwardInput } from '../../modules/event_forwa
 import type { ModuleInput as fmTrashInput } from '../../modules/fm_trash.ts';
 import type { ModuleInput as followInput } from '../../modules/follow.ts';
 import type { ModuleInput as getUseridsInput } from '../../modules/get_userids.ts';
-import type { ModuleInput as historyRecommendSongsInput } from '../../modules/history_recommend_songs.ts';
-import type { ModuleInput as historyRecommendSongsDetailInput } from '../../modules/history_recommend_songs_detail.ts';
+import type {
+  ModuleBody as historyRecommendSongsBody,
+  ModuleInput as historyRecommendSongsInput,
+} from '../../modules/history_recommend_songs.ts';
+import type {
+  ModuleBody as historyRecommendSongsDetailBody,
+  ModuleInput as historyRecommendSongsDetailInput,
+} from '../../modules/history_recommend_songs_detail.ts';
 import type {
   ModuleBody as homepageBlockPageBody,
   ModuleInput as homepageBlockPageInput,
@@ -458,7 +464,10 @@ import type {
   ModuleBody as msgRecentcontactBody,
   ModuleInput as msgRecentcontactInput,
 } from '../../modules/msg_recentcontact.ts';
-import type { ModuleInput as musicFirstListenInfoInput } from '../../modules/music_first_listen_info.ts';
+import type {
+  ModuleBody as musicFirstListenInfoBody,
+  ModuleInput as musicFirstListenInfoInput,
+} from '../../modules/music_first_listen_info.ts';
 import type {
   ModuleBody as musicianCloudbeanBody,
   ModuleInput as musicianCloudbeanInput,
@@ -661,12 +670,30 @@ import type {
   ModuleInput as recommendSongsInput,
 } from '../../modules/recommend_songs.ts';
 import type { ModuleInput as recommendSongsDislikeInput } from '../../modules/recommend_songs_dislike.ts';
-import type { ModuleInput as recordRecentAlbumInput } from '../../modules/record_recent_album.ts';
-import type { ModuleInput as recordRecentDjInput } from '../../modules/record_recent_dj.ts';
-import type { ModuleInput as recordRecentPlaylistInput } from '../../modules/record_recent_playlist.ts';
-import type { ModuleInput as recordRecentSongInput } from '../../modules/record_recent_song.ts';
-import type { ModuleInput as recordRecentVideoInput } from '../../modules/record_recent_video.ts';
-import type { ModuleInput as recordRecentVoiceInput } from '../../modules/record_recent_voice.ts';
+import type {
+  ModuleBody as recordRecentAlbumBody,
+  ModuleInput as recordRecentAlbumInput,
+} from '../../modules/record_recent_album.ts';
+import type {
+  ModuleBody as recordRecentDjBody,
+  ModuleInput as recordRecentDjInput,
+} from '../../modules/record_recent_dj.ts';
+import type {
+  ModuleBody as recordRecentPlaylistBody,
+  ModuleInput as recordRecentPlaylistInput,
+} from '../../modules/record_recent_playlist.ts';
+import type {
+  ModuleBody as recordRecentSongBody,
+  ModuleInput as recordRecentSongInput,
+} from '../../modules/record_recent_song.ts';
+import type {
+  ModuleBody as recordRecentVideoBody,
+  ModuleInput as recordRecentVideoInput,
+} from '../../modules/record_recent_video.ts';
+import type {
+  ModuleBody as recordRecentVoiceBody,
+  ModuleInput as recordRecentVoiceInput,
+} from '../../modules/record_recent_voice.ts';
 import type { ModuleInput as registerAnonimousInput } from '../../modules/register_anonimous.ts';
 import type { ModuleInput as registerCellphoneInput } from '../../modules/register_cellphone.ts';
 import type {
@@ -2286,12 +2313,12 @@ export interface GeneratedModuleContractMap {
   history_recommend_songs: {
     input: historyRecommendSongsInput;
     query: historyRecommendSongsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<historyRecommendSongsBody>;
   };
   history_recommend_songs_detail: {
     input: historyRecommendSongsDetailInput;
     query: historyRecommendSongsDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<historyRecommendSongsDetailBody>;
   };
   homepage_block_page: {
     input: homepageBlockPageInput;
@@ -2497,7 +2524,7 @@ export interface GeneratedModuleContractMap {
   music_first_listen_info: {
     input: musicFirstListenInfoInput;
     query: musicFirstListenInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicFirstListenInfoBody>;
   };
   musician_cloudbean: {
     input: musicianCloudbeanInput;
@@ -2784,32 +2811,32 @@ export interface GeneratedModuleContractMap {
   record_recent_album: {
     input: recordRecentAlbumInput;
     query: recordRecentAlbumInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentAlbumBody>;
   };
   record_recent_dj: {
     input: recordRecentDjInput;
     query: recordRecentDjInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentDjBody>;
   };
   record_recent_playlist: {
     input: recordRecentPlaylistInput;
     query: recordRecentPlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentPlaylistBody>;
   };
   record_recent_song: {
     input: recordRecentSongInput;
     query: recordRecentSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentSongBody>;
   };
   record_recent_video: {
     input: recordRecentVideoInput;
     query: recordRecentVideoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentVideoBody>;
   };
   record_recent_voice: {
     input: recordRecentVoiceInput;
     query: recordRecentVoiceInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentVoiceBody>;
   };
   register_anonimous: {
     input: registerAnonimousInput;

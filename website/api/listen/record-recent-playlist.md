@@ -41,6 +41,10 @@ const result = await recordRecentPlaylist({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data`、`body.data.list` 和每条记录的 `resourceId`（字符串）、歌单 `data.id` 收紧；歌单摘要复用 `PlaylistSummary`，`lastSong`、`playTime`、`resourceType`、`total`、`message` 和其余展示字段宽松。`limit` 非数字时上游 HTTP 400 空正文被归一成 `status: 200`、`body: ''`，结构定义保留这个空字符串分支。结构定义和类型是 `RecordRecentPlaylistBody`，见 [返回体结构](/guide/response-bodies)。匿名调用返回 `total: 0`、`list: []`（录制 `record_recent_playlist.anonymous.json`），作为真实空结果；登录录制见 `record_recent_playlist.default.json`。
+
 ## 补充说明
 
 说明 : 调用此接口，可获得最近播放-歌单

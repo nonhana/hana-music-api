@@ -1,0 +1,22 @@
+{
+  "module": "record_recent_album",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:42:17.838Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B34：record_recent_album 匿名调用空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "total": 0,
+        "list": []
+      },
+      "message": ""
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "module": "history_recommend_songs",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:42:37.772Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B34：history_recommend_songs 匿名探测"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "dates": [],
+        "purchaseUrl": "https://music.163.com/prime/m/purchase?luxury=1&situation=dailyHistory",
+        "description": "您已尊享查看60天内近5次历史日推的特权",
+        "noHistoryMessage": "黑胶VIP可查看近期5次历史记录，明天再来就会有哦",
+        "songs": null
+      }
+    }
+  }
+}

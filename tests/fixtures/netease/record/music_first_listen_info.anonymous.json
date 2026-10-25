@@ -1,0 +1,21 @@
+{
+  "module": "music_first_listen_info",
+  "query": {
+    "id": 1896365460
+  },
+  "context": {
+    "recordedAt": "2026-10-25T22:42:44.848Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B34：music_first_listen_info 匿名探测"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {},
+      "message": ""
+    }
+  }
+}

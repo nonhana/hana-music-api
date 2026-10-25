@@ -37,6 +37,10 @@ const result = await musicFirstListenInfo();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data`、`data.songInfoDto.songId` 和 `data.musicFirstListenDto.date` 收紧；`songInfoDto`、`musicFirstListenDto`、`musicTotalPlayDto`、`musicLikeSongDto` 按可以没有处理：匿名调用 `data` 是空对象，出现时里面的收紧字段仍会校验。`title`、`musicPlayMostDto`、`musicMinoritySongDto`、`musicCommentDto`、`musicFrequentListenDto` 只见过 `null`，未声明并原样保留。缺少歌曲 `id` 时上游 HTTP 400 空正文被归一成 `status: 200`、`body: ''`，结构定义保留这个空字符串分支。结构定义和类型是 `MusicFirstListenInfoBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 可以获取当前歌曲的回忆坐标信息 (见手机 APP 百科页的回忆坐标功能)

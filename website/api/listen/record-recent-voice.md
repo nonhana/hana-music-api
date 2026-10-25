@@ -41,6 +41,10 @@ const result = await recordRecentVoice({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data`、`body.data.list` 和每条记录的 `resourceId`（字符串）、节目 `data.pubDJProgramData.id` 收紧；`pubDJProgramData` 复用 `DjProgram` 并补上最近播放列表额外返回的统计和分类字段，其余节目字段、`commentCount`、`playTime`、`resourceType`、`total`、`message` 宽松。`limit` 非数字时上游 HTTP 400 空正文被归一成 `status: 200`、`body: ''`，结构定义保留这个空字符串分支。结构定义和类型是 `RecordRecentVoiceBody`，见 [返回体结构](/guide/response-bodies)。匿名调用返回 `total: 0`、`list: []`（录制 `record_recent_voice.anonymous.json`），作为真实空结果；登录录制见 `record_recent_voice.default.json`。
+
 ## 补充说明
 
 说明 : 调用此接口，可获得最近播放-声音

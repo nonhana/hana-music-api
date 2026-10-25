@@ -25,6 +25,12 @@ export type Recording = {
   readonly response: { readonly status: number; readonly body: object };
 };
 
+// 非 JSON 正文（如空字符串）的录制：body 是原始字节解码后的值，不保证是对象。
+export type RawRecording = {
+  readonly query: Record<string, unknown>;
+  readonly response: { readonly status: number; readonly body: unknown };
+};
+
 export type Validator = {
   readonly '~standard': { readonly validate: (value: unknown) => unknown };
 };

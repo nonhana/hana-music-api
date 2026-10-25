@@ -252,6 +252,13 @@ export const Song = UpstreamObject({
   version: Loose(Schema.Finite),
 });
 
+// 六个播放记录列表共用的播放终端信息，字段一致；终端名称和图标只用于展示，全部宽松。
+export const MultiTerminalInfo = UpstreamObject({
+  icon: Loose(Schema.String),
+  os: Loose(Schema.String),
+  osText: Loose(Schema.String),
+});
+
 // mlog 记录里嵌着的歌曲：`artist_video`、`search_multimatch`、`playlist_video_recent` 字段完全相同，全部宽松。
 export const MlogSongArtist = UpstreamObject({
   artistId: Loose(Schema.Finite),

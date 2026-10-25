@@ -451,6 +451,28 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`；3 个一起听接口都保留了登录和匿名录制，正文逐字段相同；`recent_listen_list` 的匿名正文是 `resources: null`。本批结论只覆盖这些录制与探测，不据此推断所有账号、地区和上游版本一致。
 
+## 播放记录
+
+| 模块                                                                  | 结构定义                          | 收紧的字段                                                                                                            |
+| --------------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [最近播放-歌曲](/api/listen/record-recent-song)                       | `RecordRecentSongBody`            | `code`、`data`、`data.list`、`data.list[].resourceId`、`data.list[].data.id`；`limit` 非数字时空正文作为独立分支      |
+| [最近播放-歌单](/api/listen/record-recent-playlist)                   | `RecordRecentPlaylistBody`        | `code`、`data`、`data.list`、`data.list[].resourceId`、`data.list[].data.id`；`limit` 非数字时空正文作为独立分支      |
+| [最近播放-专辑](/api/listen/record-recent-album)                      | `RecordRecentAlbumBody`           | `code`、`data`、`data.list`、`data.list[].resourceId`、`data.list[].data.id`；`limit` 非数字时空正文作为独立分支      |
+| [最近播放-视频](/api/listen/record-recent-video)                      | `RecordRecentVideoBody`           | `code`、`data`、`data.list`、`data.list[].resourceId`、`data.list[].data.id`（字符串或数字）；`limit` 非数字时空正文  |
+| [最近播放-电台](/api/listen/record-recent-dj)                         | `RecordRecentDjBody`              | `code`、`data`、`data.list`、`data.list[].resourceId`、`data.list[].data.id`；`limit` 非数字时空正文作为独立分支      |
+| [最近播放-声音](/api/listen/record-recent-voice)                      | `RecordRecentVoiceBody`           | `code`、`data`、`data.list`、`data.list[].resourceId`、`data.list[].data.pubDJProgramData.id`；`limit` 非数字时空正文 |
+| [获取历史日推可用日期列表](/api/recommend/history-recommend-songs)    | `HistoryRecommendSongsBody`       | `code`、`data`、`data.dates`；`data.dates[]` 是日期字符串                                                             |
+| [获取历史日推详情数据](/api/recommend/history-recommend-songs-detail) | `HistoryRecommendSongsDetailBody` | `code`、`data`、`data.songs`、`data.songs[].id`                                                                       |
+| [回忆坐标](/api/other/music-first-listen-info)                        | `MusicFirstListenInfoBody`        | `code`、`data`、`data.songInfoDto.songId`、`data.musicFirstListenDto.date`；缺少 `id` 时空正文作为独立分支            |
+
+六个最近播放模块的 `data.list` 和每条记录的 `resourceId`（字符串）收紧；记录里的资源编号也收紧：歌曲、歌单、专辑复用共享结构，电台用模块内的 `RecentRadio`，视频/MLOG 的 `data.id` 是字符串或数字，声音用 `data.pubDJProgramData.id`。`playTime`、`resourceType`、`os`（歌曲录制里没有）、`multiTerminalInfo`、`total`、`message` 和资源展示字段宽松。录制里的 `record_recent_album` 记录还带 `songs`（专辑的完整歌曲数组，录制里长度等于 `size`）和 `lastSong`，都是宽松字段；`transName` 在模块内补成宽松字段（`transNames` 已由 `AlbumSummary` 声明）。`record_recent_video` 同一次返回混有 MLOG 和 MV：MLOG 的 `id` 是字符串、带 `title`/`creator`，MV 的 `id` 是数字、带 `name`/`artists`，没有统一的区分字段，所以两边的字段都声明成宽松、可以没有。`record_recent_voice` 的 `pubDJProgramData` 复用 `DjProgram` 并补上最近播放列表额外返回的统计和分类字段。
+
+登录对照先用 `login_status` 确认 `account.anonimousUser: false`。六个最近播放接口匿名调用返回 `total: 0`、`list: []`，作为各自列表的真实空结果；`history_recommend_songs` 登录和匿名录制的 `data.songs` 都是 `null`（没有非 null 证据，未声明），匿名录制的 `data.dates` 是空数组；`history_recommend_songs_detail` 匿名返回 `songs: []`，`data.dates` 和 `data.description` 在录制里只见过空数组/`null`，未声明；`music_first_listen_info` 匿名返回 `data: {}`，各信息块按可以没有处理，出现时仍按里面的收紧字段校验。
+
+六个最近播放接口的 `limit` 传入非数字（如 `limit=abc`）时上游回 HTTP 400 空正文，SDK 按既有行为归一成 `status: 200`、`body: ''`；结构定义用联合保留这个空字符串分支，避免误报 502。`music_first_listen_info` 缺少歌曲 `id` 时同样返回空字符串分支。`history_recommend_songs_detail` 的日期格式不合法时上游返回 `code: 400` 的业务拒绝，SDK 原样转交。
+
+录制从登录账号补录：`record_recent_song` 300→40 条、`record_recent_playlist` 30→15 条、`record_recent_album` 54→8 条、`record_recent_voice` 100→10 条、`history_recommend_songs_detail` 33→20 首，截断记录写在 `context.truncated`。本批结论只覆盖这些录制与探测，不据此推断所有账号、地区和上游版本一致。本批 9 个模块都是只读接口，没有写操作。
+
 ## 曲风
 
 | 模块                                   | 结构定义            | 收紧的字段                                                                   |
