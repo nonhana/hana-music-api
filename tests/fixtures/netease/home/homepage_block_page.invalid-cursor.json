@@ -1,0 +1,25 @@
+{
+  "module": "homepage_block_page",
+  "query": {
+    "cursor": {
+      "offset": 999
+    }
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:47:49.222Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B27：homepage_block_page 非法 cursor 返回 code 50002"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 50002,
+      "message": null,
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

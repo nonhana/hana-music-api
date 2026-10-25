@@ -110,7 +110,10 @@ import type {
 } from '../../modules/artists.ts';
 import type { ModuleInput as audioMatchInput } from '../../modules/audio_match.ts';
 import type { ModuleInput as avatarUploadInput } from '../../modules/avatar_upload.ts';
-import type { ModuleInput as bannerInput } from '../../modules/banner.ts';
+import type {
+  ModuleBody as bannerBody,
+  ModuleInput as bannerInput,
+} from '../../modules/banner.ts';
 import type { ModuleInput as batchInput } from '../../modules/batch.ts';
 import type { ModuleInput as broadcastCategoryRegionGetInput } from '../../modules/broadcast_category_region_get.ts';
 import type { ModuleInput as broadcastChannelCollectListInput } from '../../modules/broadcast_channel_collect_list.ts';
@@ -315,8 +318,14 @@ import type { ModuleInput as followInput } from '../../modules/follow.ts';
 import type { ModuleInput as getUseridsInput } from '../../modules/get_userids.ts';
 import type { ModuleInput as historyRecommendSongsInput } from '../../modules/history_recommend_songs.ts';
 import type { ModuleInput as historyRecommendSongsDetailInput } from '../../modules/history_recommend_songs_detail.ts';
-import type { ModuleInput as homepageBlockPageInput } from '../../modules/homepage_block_page.ts';
-import type { ModuleInput as homepageDragonBallInput } from '../../modules/homepage_dragon_ball.ts';
+import type {
+  ModuleBody as homepageBlockPageBody,
+  ModuleInput as homepageBlockPageInput,
+} from '../../modules/homepage_block_page.ts';
+import type {
+  ModuleBody as homepageDragonBallBody,
+  ModuleInput as homepageDragonBallInput,
+} from '../../modules/homepage_dragon_ball.ts';
 import type {
   ModuleBody as hotTopicBody,
   ModuleInput as hotTopicInput,
@@ -1830,7 +1839,11 @@ export interface GeneratedModuleContractMap {
     query: avatarUploadInput;
     response: ModuleResponse;
   };
-  banner: { input: bannerInput; query: bannerInput; response: ModuleResponse };
+  banner: {
+    input: bannerInput;
+    query: bannerInput;
+    response: ModuleResponse<bannerBody>;
+  };
   batch: { input: batchInput; query: batchInput; response: ModuleResponse };
   broadcast_category_region_get: {
     input: broadcastCategoryRegionGetInput;
@@ -2178,12 +2191,12 @@ export interface GeneratedModuleContractMap {
   homepage_block_page: {
     input: homepageBlockPageInput;
     query: homepageBlockPageInput;
-    response: ModuleResponse;
+    response: ModuleResponse<homepageBlockPageBody>;
   };
   homepage_dragon_ball: {
     input: homepageDragonBallInput;
     query: homepageDragonBallInput;
-    response: ModuleResponse;
+    response: ModuleResponse<homepageDragonBallBody>;
   };
   hot_topic: {
     input: hotTopicInput;

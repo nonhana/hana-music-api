@@ -293,6 +293,18 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`video_timeline_all`、`video_timeline_recommend` 的登录录制差异只在宽松字段（`relateSong` 出现歌曲记录、`markTypes` 出现值；`creator.experts` 的键集合差异只在 `video_timeline_all`，匿名录制多出 `experts.2`，`video_timeline_recommend` 两边都只有 `{1}` 或 `null`），这两份登录录制保留为元素字段证据；其余 7 个模块只保留匿名录制，未保留登录对照，不对公开结构作相同性断言。收藏/取消收藏视频（`video_sub`）是写操作，移到后续写操作批次（B22 关注/收藏/点赞），本批没有收窄返回体。
 
+## 首页与推荐位
+
+| 模块                                                    | 结构定义                 | 收紧的字段                                                                                           |
+| ------------------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------- |
+| [首页轮播图](/api/recommend/banner)                     | `BannerBody`             | `code`、`banners`                                                                                    |
+| [首页 block page](/api/recommend/homepage-block-page)   | `HomepageBlockPageBody`  | `code`、`data`、`data.blocks`、`data.blocks[].blockCode`；`data.blocks[].creatives` 是可以没有的路径 |
+| [首页 dragon ball](/api/recommend/homepage-dragon-ball) | `HomepageDragonBallBody` | `code`                                                                                               |
+
+这批 default 录制都用登录账号（先经 `login_status` 确认 `account.anonimousUser: false`）；`banner` 另有独立匿名录制（PC 视角，2 条 banner），`homepage_block_page` 另有失效凭据回匿名视角的录制（viewer 为 invalid-cookie）。两份录制都能通过同一结构校验；差异在宽松字段、`creatives` 是否出现（default 的 5 个 block 都有，invalid-cookie 的 banner block 没有）和 block 集合/顺序；不对所有账号/地区/版本作相同性断言。`banner` 的 `type` 0 是 PC、1–3 是移动端，两种形状的字段不同，按同一个对象声明为宽松字段；`song` 复用宽松的 `LooseSong`。`homepage_block_page` 的 `data.blocks` 是 block 列表，每个 block 的 `blockCode` 收紧；例如 banner 这类 block 用 `extInfo` 承载内容、没有 `creatives`，所以 `creatives` 是可以没有的路径，出现时里面的坏元素报 502；creative 的 `resources` 是宽松数组，整列校验失败时丢弃。block 的 `uiElement`、creative、resource 和 `resourceExtInfo` 都是随 `showType`/`resourceType` 变化的展示数据，按出现过的键声明成宽松字段，旧版歌曲复用 `ProgramMainSong`，新歌复用 `LooseSong`，权限复用 `LooseSongPrivilege`，主播复用 `ProgramDj`，创建者和话题用户复用 `PlaylistUser`，嵌着的电台节目复用 `DjProgram` 字段。
+
+`homepage_dragon_ball` 在登录和匿名录制里 `data` 都是空数组，入口元素类型没有证据，`data` 未声明并原样保留。本批录入的录制与探测没有找到可达的空结果：`banner` 在 `type` 0–3 下都返回非空数组，`homepage_block_page` 在登录和失效凭据回匿名视角下都返回非空 `blocks`；非法 `cursor` 返回 `code: 50002`（录制 `homepage_block_page.invalid-cursor.json`，映射为 `status: 400`），数组本身允许为空。`event_del`、`event_forward` 是写操作，移到后续写操作批次；`event`、`hot_topic` 和 `calendar` 不在本批清单里，本批没有改它们的声明。
+
 ## 电台
 
 | 模块                                                    | 结构定义                         | 收紧的字段                                                                                   |

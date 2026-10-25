@@ -25,6 +25,7 @@ export { ModuleBody as ArtistSublistBody } from '../../modules/artist_sublist.ts
 export { ModuleBody as ArtistTopSongBody } from '../../modules/artist_top_song.ts';
 export { ModuleBody as ArtistVideoBody } from '../../modules/artist_video.ts';
 export { ModuleBody as ArtistsBody } from '../../modules/artists.ts';
+export { ModuleBody as BannerBody } from '../../modules/banner.ts';
 export { ModuleBody as CaptchaSentBody } from '../../modules/captcha_sent.ts';
 export { ModuleBody as CloudsearchBody } from '../../modules/cloudsearch.ts';
 export { ModuleBody as CommentAlbumBody } from '../../modules/comment_album.ts';
@@ -69,6 +70,8 @@ export { ModuleBody as DjToplistPayBody } from '../../modules/dj_toplist_pay.ts'
 export { ModuleBody as DjToplistPopularBody } from '../../modules/dj_toplist_popular.ts';
 export { ModuleBody as DjRadioTopBody } from '../../modules/djRadio_top.ts';
 export { ModuleBody as EventBody } from '../../modules/event.ts';
+export { ModuleBody as HomepageBlockPageBody } from '../../modules/homepage_block_page.ts';
+export { ModuleBody as HomepageDragonBallBody } from '../../modules/homepage_dragon_ball.ts';
 export { ModuleBody as HotTopicBody } from '../../modules/hot_topic.ts';
 export { ModuleBody as ImageUploadTokenBody } from '../../modules/image_upload_token.ts';
 export { ModuleBody as LikeBody } from '../../modules/like.ts';
