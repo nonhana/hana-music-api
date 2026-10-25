@@ -349,13 +349,28 @@ import type {
   ModuleBody as playlistDetailBody,
   ModuleInput as playlistDetailInput,
 } from '../../modules/playlist_detail.ts';
-import type { ModuleInput as playlistDetailDynamicInput } from '../../modules/playlist_detail_dynamic.ts';
-import type { ModuleInput as playlistDetailRcmdGetInput } from '../../modules/playlist_detail_rcmd_get.ts';
-import type { ModuleInput as playlistHighqualityTagsInput } from '../../modules/playlist_highquality_tags.ts';
-import type { ModuleInput as playlistHotInput } from '../../modules/playlist_hot.ts';
+import type {
+  ModuleBody as playlistDetailDynamicBody,
+  ModuleInput as playlistDetailDynamicInput,
+} from '../../modules/playlist_detail_dynamic.ts';
+import type {
+  ModuleBody as playlistDetailRcmdGetBody,
+  ModuleInput as playlistDetailRcmdGetInput,
+} from '../../modules/playlist_detail_rcmd_get.ts';
+import type {
+  ModuleBody as playlistHighqualityTagsBody,
+  ModuleInput as playlistHighqualityTagsInput,
+} from '../../modules/playlist_highquality_tags.ts';
+import type {
+  ModuleBody as playlistHotBody,
+  ModuleInput as playlistHotInput,
+} from '../../modules/playlist_hot.ts';
 import type { ModuleInput as playlistImportNameTaskCreateInput } from '../../modules/playlist_import_name_task_create.ts';
 import type { ModuleInput as playlistImportTaskStatusInput } from '../../modules/playlist_import_task_status.ts';
-import type { ModuleInput as playlistMylikeInput } from '../../modules/playlist_mylike.ts';
+import type {
+  ModuleBody as playlistMylikeBody,
+  ModuleInput as playlistMylikeInput,
+} from '../../modules/playlist_mylike.ts';
 import type {
   ModuleBody as playlistNameUpdateBody,
   ModuleInput as playlistNameUpdateInput,
@@ -372,7 +387,10 @@ import type {
   ModuleBody as playlistSubscribeBody,
   ModuleInput as playlistSubscribeInput,
 } from '../../modules/playlist_subscribe.ts';
-import type { ModuleInput as playlistSubscribersInput } from '../../modules/playlist_subscribers.ts';
+import type {
+  ModuleBody as playlistSubscribersBody,
+  ModuleInput as playlistSubscribersInput,
+} from '../../modules/playlist_subscribers.ts';
 import type {
   ModuleBody as playlistTagsUpdateBody,
   ModuleInput as playlistTagsUpdateInput,
@@ -389,7 +407,10 @@ import type {
 } from '../../modules/playlist_tracks.ts';
 import type { ModuleInput as playlistUpdateInput } from '../../modules/playlist_update.ts';
 import type { ModuleInput as playlistUpdatePlaycountInput } from '../../modules/playlist_update_playcount.ts';
-import type { ModuleInput as playlistVideoRecentInput } from '../../modules/playlist_video_recent.ts';
+import type {
+  ModuleBody as playlistVideoRecentBody,
+  ModuleInput as playlistVideoRecentInput,
+} from '../../modules/playlist_video_recent.ts';
 import type { ModuleInput as playmodeIntelligenceListInput } from '../../modules/playmode_intelligence_list.ts';
 import type { ModuleInput as programRecommendInput } from '../../modules/program_recommend.ts';
 import type { ModuleInput as rebindInput } from '../../modules/rebind.ts';
@@ -2223,22 +2244,22 @@ export interface GeneratedModuleContractMap {
   playlist_detail_dynamic: {
     input: playlistDetailDynamicInput;
     query: playlistDetailDynamicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistDetailDynamicBody>;
   };
   playlist_detail_rcmd_get: {
     input: playlistDetailRcmdGetInput;
     query: playlistDetailRcmdGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistDetailRcmdGetBody>;
   };
   playlist_highquality_tags: {
     input: playlistHighqualityTagsInput;
     query: playlistHighqualityTagsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistHighqualityTagsBody>;
   };
   playlist_hot: {
     input: playlistHotInput;
     query: playlistHotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistHotBody>;
   };
   playlist_import_name_task_create: {
     input: playlistImportNameTaskCreateInput;
@@ -2253,7 +2274,7 @@ export interface GeneratedModuleContractMap {
   playlist_mylike: {
     input: playlistMylikeInput;
     query: playlistMylikeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistMylikeBody>;
   };
   playlist_name_update: {
     input: playlistNameUpdateInput;
@@ -2278,7 +2299,7 @@ export interface GeneratedModuleContractMap {
   playlist_subscribers: {
     input: playlistSubscribersInput;
     query: playlistSubscribersInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistSubscribersBody>;
   };
   playlist_tags_update: {
     input: playlistTagsUpdateInput;
@@ -2318,7 +2339,7 @@ export interface GeneratedModuleContractMap {
   playlist_video_recent: {
     input: playlistVideoRecentInput;
     query: playlistVideoRecentInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistVideoRecentBody>;
   };
   playmode_intelligence_list: {
     input: playmodeIntelligenceListInput;

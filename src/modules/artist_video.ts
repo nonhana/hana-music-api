@@ -8,6 +8,7 @@ import {
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
+import { MlogSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
@@ -31,20 +32,6 @@ const MlogArtist = UpstreamObject({
   id: Loose(Schema.Finite),
   img1v1Url: Loose(Schema.String),
   mlogUser: Loose(MlogUser),
-  name: Loose(Schema.String),
-});
-
-const MlogSongArtist = UpstreamObject({
-  artistId: Loose(Schema.Finite),
-  artistName: Loose(Schema.String),
-});
-
-const MlogSong = UpstreamObject({
-  albumName: Loose(Schema.String),
-  artists: Loose(Schema.Array(MlogSongArtist)),
-  coverUrl: Loose(Schema.String),
-  duration: Loose(Schema.Finite),
-  id: Loose(Schema.Finite),
   name: Loose(Schema.String),
 });
 

@@ -1,0 +1,29 @@
+{
+  "module": "playlist_detail_dynamic",
+  "query": {
+    "id": 5132919456,
+    "s": 8
+  },
+  "context": {
+    "recordedAt": "2026-10-25T13:43:39.077Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B5：playlist_detail_dynamic 账号收藏的歌单（匿名视角，subscribed:false）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "commentCount": 23,
+      "shareCount": 63,
+      "playCount": 161673,
+      "bookedCount": 2479,
+      "subscribed": false,
+      "remarkName": null,
+      "followed": false,
+      "gradeStatus": "NONE",
+      "remixVideo": null,
+      "code": 200
+    }
+  }
+}

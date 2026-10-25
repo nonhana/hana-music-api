@@ -251,6 +251,21 @@ export const Song = UpstreamObject({
   version: Loose(Schema.Finite),
 });
 
+// mlog 记录里嵌着的歌曲：`artist_video`、`search_multimatch`、`playlist_video_recent` 字段完全相同，全部宽松。
+export const MlogSongArtist = UpstreamObject({
+  artistId: Loose(Schema.Finite),
+  artistName: Loose(Schema.String),
+});
+
+export const MlogSong = UpstreamObject({
+  id: Loose(Schema.Finite),
+  name: Loose(Schema.String),
+  albumName: Loose(Schema.String),
+  coverUrl: Loose(Schema.String),
+  duration: Loose(Schema.Finite),
+  artists: Loose(Schema.Array(MlogSongArtist)),
+});
+
 // 歌单里嵌着的歌曲：宽松容器里的记录，编号也宽松。
 const PlaylistTrack = UpstreamObject({
   ...Song.schema.fields,

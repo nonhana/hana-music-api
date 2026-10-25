@@ -9,7 +9,7 @@ import {
   Optional,
   UpstreamObject,
 } from '../core/upstream-body.ts';
-import { Artist, PlaylistSummary } from '../core/upstream-schemas.ts';
+import { Artist, MlogSong, PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
@@ -29,20 +29,6 @@ const SuggestedPlaylist = UpstreamObject({
   backgroundImageId: Loose(Schema.Finite),
   originalCoverId: Loose(Schema.Finite),
   tsSongCount: Loose(Schema.Finite),
-});
-
-const MlogSongArtist = UpstreamObject({
-  artistId: Loose(Schema.Finite),
-  artistName: Loose(Schema.String),
-});
-
-const MlogSong = UpstreamObject({
-  id: Loose(Schema.Finite),
-  name: Loose(Schema.String),
-  albumName: Loose(Schema.String),
-  coverUrl: Loose(Schema.String),
-  duration: Loose(Schema.Finite),
-  artists: Loose(Schema.Array(MlogSongArtist)),
 });
 
 const MlogArtist = UpstreamObject({

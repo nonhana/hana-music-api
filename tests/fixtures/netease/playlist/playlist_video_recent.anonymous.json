@@ -1,0 +1,21 @@
+{
+  "module": "playlist_video_recent",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T12:32:37.278Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B5：playlist_video_recent 匿名，videos 是空数组"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "videos": []
+      },
+      "message": ""
+    }
+  }
+}

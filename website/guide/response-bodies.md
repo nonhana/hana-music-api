@@ -94,6 +94,30 @@
 
 `subscribed` 是 `null` 表示网易云给的是没有登录的视角：Cookie 里的 `MUSIC_U` 已经失效时，用户歌单和歌单详情都是 `null`；完全不带 Cookie 时，用户歌单是 `null`，歌单详情是 `false`。
 
+### 歌单读取
+
+| 模块                                                        | 结构定义                      | 收紧的字段                                                                                |
+| ----------------------------------------------------------- | ----------------------------- | ----------------------------------------------------------------------------------------- |
+| [歌单详情动态](/api/playlist/playlist-detail-dynamic)       | `PlaylistDetailDynamicBody`   | `code`                                                                                    |
+| [相关歌单推荐](/api/playlist/playlist-detail-rcmd-get)      | `PlaylistDetailRcmdGetBody`   | `code`；`data` 可以没有，出现时 `data.recPlaylist`、`data.recPlaylist[].playlist.id` 收紧 |
+| [精品歌单标签列表](/api/playlist/playlist-highquality-tags) | `PlaylistHighqualityTagsBody` | `code`、`tags`、`tags[].id`                                                               |
+| [热门歌单分类](/api/playlist/playlist-hot)                  | `PlaylistHotBody`             | `code`、`tags`、`tags[].id`                                                               |
+| [获取点赞过的视频](/api/playlist/playlist-mylike)           | `PlaylistMylikeBody`          | `code`、`data`；`feeds` 只见过空数组，元素类型猜不出，没有声明                            |
+| [歌单收藏者](/api/playlist/playlist-subscribers)            | `PlaylistSubscribersBody`     | `code`、`subscribers`、`subscribers[].userId`                                             |
+| [最近播放的视频](/api/playlist/playlist-video-recent)       | `PlaylistVideoRecentBody`     | `code`、`data`、`data.videos`、`data.videos[].mlogBaseData.id`                            |
+
+`playlist_detail_dynamic` 只有返回码收紧，正文是扁平的计数和状态：`bookedCount`、`commentCount`、`followed`、`gradeStatus`、`playCount`、`shareCount`、`subscribed` 都是宽松字段；`remarkName`、`remixVideo` 只见过 `null`，没有声明。正文没有列表，本批录制与探测未发现可达的空结果。非 null 路径与类型相同；登录探测只在宽松字段上出现不同值（`subscribed` 从 `false` 变成 `true`），登录对照录制已删除。
+
+`playlist_detail_rcmd_get` 的 `data` 是可以没有的路径：没有相关推荐时是 `null`（录制 `playlist_detail_rcmd_get.empty.json`），出现时 `data.recPlaylist` 和每个推荐歌单的编号 `data.recPlaylist[].playlist.id` 收紧，`rcmdTitle`、`jumpUrl`、`alg` 和歌单的其余字段宽松。非 null 路径与类型相同；登录只在宽松字段上多出现 null 或不同值，登录对照录制已删除。
+
+`playlist_highquality_tags` 和 `playlist_hot` 都返回 `tags`，只收紧每个标签的 `id`；`playlist_hot` 嵌套的 `playlistTag` 是宽松字段，其中的 `id` 也宽松。这两个模块本批录制与探测未发现可达的空结果，数组本身允许为空。非 null 路径与类型相同；登录只在宽松字段上多出现 null 或不同值，登录对照录制已删除。
+
+`playlist_mylike` 需要登录：匿名调用会以 `status: 302` 拒绝（录制 `playlist_mylike.anonymous.json`，正文是 `{ code: 302, message: null }`）；结构定义只接受 `code: 200`，没有为 302 写联合。`data.feeds` 在登录录制里只见过空数组（当前账号没有点赞过的视频），元素类型猜不出，没有声明，原样保留；`data.more`、`data.time`、`message` 宽松。本批录制到的是空结果（`playlist_mylike.empty.json`），没有发现非空 `feeds` 的可达录制。
+
+`playlist_subscribers` 的 `subscribers` 和每个收藏者自己的编号 `subscribers[].userId` 收紧，其余收藏者字段沿用 `PlaylistUser` 的宽松写法（`avatarDetail`、`experts` 在收藏者录制里只见过 `null`，仍保留在共享结构里），`subscribeTime` 是模块内补的宽松字段；`total`、`more`、`reason` 是分页和降级提示，宽松。匿名视角的 `total` 上限是 30：`offset=0` 返回 20 条（`more: true`），`offset=20` 仍返回 10 条，但带 `reason: needLogin`、`more: false`；`offset=40/60/100` 返回空数组、`total: 0` 和 `reason: needLogin`。登录后 `total` 是完整数量（同歌单 2000，录制 `playlist_subscribers.authenticated-page-one.json`）；登录 `offset=100000` 返回空数组和 `total: 0`（`playlist_subscribers.empty.json`）。非 null 路径与类型相同；登录只在宽松字段上多出现 null 或不同值（`total` 等）。
+
+`playlist_video_recent` 需要登录：匿名调用返回 `code: 200`、`data.videos: []`（`playlist_video_recent.anonymous.json`），所以元素字段的证据只来自登录录制。`data.videos` 和每段视频自己的编号 `mlogBaseData.id`（字符串）收紧；`mlogExtVO`、`mlogBaseData` 的其余字段和 `mlogBaseData.videos[]` 里的码流全部宽松；`userProfile`、`relatedPubUsers`、`mlogPlaylists`、`source`、`audio`、`coverDetail` 等只见过 `null`，没有声明。非空录制非连续保留 5 段视频（索引 0/1/20/21/26，原始 31 段，见 `context.truncated`）。
+
 ### 歌单编辑与收藏
 
 | 模块                                                   | 结构定义                  | 收紧的字段                                                                   |
