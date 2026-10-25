@@ -675,11 +675,26 @@ import type { ModuleInput as sheetListInput } from '../../modules/sheet_list.ts'
 import type { ModuleInput as sheetPreviewInput } from '../../modules/sheet_preview.ts';
 import type { ModuleInput as signHappyInfoInput } from '../../modules/sign_happy_info.ts';
 import type { ModuleInput as signinProgressInput } from '../../modules/signin_progress.ts';
-import type { ModuleInput as simiArtistInput } from '../../modules/simi_artist.ts';
-import type { ModuleInput as simiMvInput } from '../../modules/simi_mv.ts';
-import type { ModuleInput as simiPlaylistInput } from '../../modules/simi_playlist.ts';
-import type { ModuleInput as simiSongInput } from '../../modules/simi_song.ts';
-import type { ModuleInput as simiUserInput } from '../../modules/simi_user.ts';
+import type {
+  ModuleBody as simiArtistBody,
+  ModuleInput as simiArtistInput,
+} from '../../modules/simi_artist.ts';
+import type {
+  ModuleBody as simiMvBody,
+  ModuleInput as simiMvInput,
+} from '../../modules/simi_mv.ts';
+import type {
+  ModuleBody as simiPlaylistBody,
+  ModuleInput as simiPlaylistInput,
+} from '../../modules/simi_playlist.ts';
+import type {
+  ModuleBody as simiSongBody,
+  ModuleInput as simiSongInput,
+} from '../../modules/simi_song.ts';
+import type {
+  ModuleBody as simiUserBody,
+  ModuleInput as simiUserInput,
+} from '../../modules/simi_user.ts';
 import type {
   ModuleBody as songChorusBody,
   ModuleInput as songChorusInput,
@@ -2845,23 +2860,27 @@ export interface GeneratedModuleContractMap {
   simi_artist: {
     input: simiArtistInput;
     query: simiArtistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<simiArtistBody>;
   };
-  simi_mv: { input: simiMvInput; query: simiMvInput; response: ModuleResponse };
+  simi_mv: {
+    input: simiMvInput;
+    query: simiMvInput;
+    response: ModuleResponse<simiMvBody>;
+  };
   simi_playlist: {
     input: simiPlaylistInput;
     query: simiPlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<simiPlaylistBody>;
   };
   simi_song: {
     input: simiSongInput;
     query: simiSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<simiSongBody>;
   };
   simi_user: {
     input: simiUserInput;
     query: simiUserInput;
-    response: ModuleResponse;
+    response: ModuleResponse<simiUserBody>;
   };
   song_chorus: {
     input: songChorusInput;

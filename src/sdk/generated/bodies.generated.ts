@@ -146,6 +146,11 @@ export { ModuleBody as SearchHotDetailBody } from '../../modules/search_hot_deta
 export { ModuleBody as SearchMatchBody } from '../../modules/search_match.ts';
 export { ModuleBody as SearchMultimatchBody } from '../../modules/search_multimatch.ts';
 export { ModuleBody as SearchSuggestBody } from '../../modules/search_suggest.ts';
+export { ModuleBody as SimiArtistBody } from '../../modules/simi_artist.ts';
+export { ModuleBody as SimiMvBody } from '../../modules/simi_mv.ts';
+export { ModuleBody as SimiPlaylistBody } from '../../modules/simi_playlist.ts';
+export { ModuleBody as SimiSongBody } from '../../modules/simi_song.ts';
+export { ModuleBody as SimiUserBody } from '../../modules/simi_user.ts';
 export { ModuleBody as SongChorusBody } from '../../modules/song_chorus.ts';
 export { ModuleBody as SongDetailBody } from '../../modules/song_detail.ts';
 export { ModuleBody as SongDownloadUrlBody } from '../../modules/song_download_url.ts';

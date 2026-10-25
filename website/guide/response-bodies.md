@@ -205,10 +205,16 @@
 | [推荐新歌](/api/recommend/personalized-newsong)                 | `PersonalizedNewsongBody`            | `code`、`result`、`result[].id`       |
 | [独家放送](/api/recommend/personalized-privatecontent)          | `PersonalizedPrivatecontentBody`     | `code`、`result`、`result[].id`       |
 | [独家放送列表](/api/recommend/personalized-privatecontent-list) | `PersonalizedPrivatecontentListBody` | `code`、`result`、`result[].id`       |
+| [获取相似歌单](/api/recommend/simi-playlist)                    | `SimiPlaylistBody`                   | `code`、`playlists`、`playlists[].id` |
+| [获取相似音乐](/api/recommend/simi-song)                        | `SimiSongBody`                       | `code`、`songs`、`songs[].id`         |
+| [相似 mv](/api/recommend/simi-mv)                               | `SimiMvBody`                         | `code`、`mvs`、`mvs[].id`             |
+| [获取最近 5 个听了这首歌的用户](/api/recommend/simi-user)       | `SimiUserBody`                       | `code`；`userprofiles` 只见过空数组   |
 
 每日推荐歌单和推荐歌单的卡片复用 `PlaylistSummary`，只收紧卡片自己的 `id`；`highQuality`、`trackNumberUpdateTime`、`playCount` 由 `PlaylistSummary` 声明，每日推荐歌单的小写 `playcount`、推荐歌单的 `canDislike`、`copywriter` 等卡片字段在模块内补成宽松字段。推荐 MV 复用 `MvSummary`，另补 `picUrl`、`canDislike`、`copywriter`、`type`、`alg`；`trackNumberUpdateTime` 在录制里只见过 `null`，没有声明。推荐新歌的 `song` 是旧版歌曲结构，复用节目记录的 `ProgramMainSong`（`album` 复用 `SimpleAlbum`、`artists` 复用 `Artist`），另补宽松的 `alias`、`exclusive`、`sqMusic`、`hrMusic`、`privilege`（`LooseSongPrivilege`）和 `transName`/`transNames`；`rtUrls`、`album.songs` 只见过空数组，`mp3Url`、`noCopyrightRcmd`、`rtUrl`、`sign` 等只见过 `null`，都没有声明。独家放送和独家放送列表的条目形状不同（后者多 `time`、少 `alg`），分别在各自模块里声明。
 
 六个模块都补了匿名和登录两份录制，登录侧先经 `login_status` 确认 `anonimousUser: false`。`personalized`、`personalized_mv`、`personalized_privatecontent`、`personalized_privatecontent_list` 两边的字段路径和类型相同；`recommend_resource` 的 `creator.expertTags` 匿名 6/6 是 `null`，登录 19 条中 14 条仍是 `null`、5 条是非空数组；`personalized_newsong` 的匿名录制（查询参数不同，3 首）多出若干只见过 `null` 的字段和 `exclusive: false`，登录录制多出 `transName`/`transNames`、`trp` 的非空值，都落在同一份宽松声明里。差异只在条数、实时计数、CDN 地址和这些宽松字段的值。本批录制和探测没有找到可达的空结果：`personalized` 的 `limit=0` 会回落到默认 30，`personalized_newsong` 的 `limit=0` 回落到默认 10，`personalized_mv`、`personalized_privatecontent`、`recommend_resource` 没有分页参数，`personalized_privatecontent_list` 的越界 `offset=100000` 返回 `code: 404` 而不是空列表；数组本身仍然允许为空，契约测试用手写空数组覆盖。`personalized`、`personalized_newsong`、`personalized_privatecontent_list` 的非法数字参数（如 `limit=abc`）返回 `code: 400`：改造前 `code: 400` 经 `SPECIAL_STATUS_CODES` 映射为 resolve `status: 200`，现在被 Body 校验按业务拒绝为 reject `status: 400`、`body` 保留上游原文；`personalized_privatecontent_list` 的越界 `offset=100000`（`code: 404`）改造前是 resolve `status: 404`，现在是 reject `status: 404`。两者都不报 502。
+
+`simi_song` 复用节目记录的 `ProgramMainSong`（旧版歌曲结构），`simi_playlist` 复用 `PlaylistSummary`，`simi_mv` 复用 `MvSummary`：只收紧列表本身和记录自己的 `id`，其余声明字段宽松。`simi_song` 另补录制里非 `null` 的 `alg`、`alias`、`mp3Url`、`privilege`、`recommendReason`、`sqMusic`、`transNames`；`simi_mv` 的 `desc`、`simi_song` 的 `rtUrl`、`crbt` 等只见过 `null`，没有声明。`simi_user` 的 `userprofiles` 只有空数组证据、元素类型未知，没有声明，由 `UpstreamObject` 原样保留；登录账号用 15 首歌曲探测都是空数组。`simi_artist.unknown.json`、`simi_playlist.unknown.json`、`simi_song.unknown.json` 是未知 id 的空数组；`simi_mv` 传入未知 `mvid` 仍返回默认 5 条（`simi_mv.unknown-mvid.json`），本批录制与探测未发现可达的空结果。这 5 个模块都用登录账号录制（`context.viewer` 是 `authenticated`），录制前经 `login_status` 确认 `anonimousUser: false`；本批未保留匿名对照录制。
 
 ## 歌手、听歌排行与会员
 
@@ -226,6 +232,7 @@
 | [歌手全部歌曲](/api/artist/artist-songs)               | `ArtistSongsBody`           | `code`、`songs`、`songs[].id`                                                                                                   |
 | [获取歌手视频](/api/artist/artist-video)               | `ArtistVideoBody`           | `code`、`data`、`data.records`、`data.records[].id`                                                                             |
 | [歌手单曲](/api/artist/artists)                        | `ArtistsBody`               | `code`、`hotSongs`、`hotSongs[].id`                                                                                             |
+| [获取相似歌手](/api/artist/simi-artist)                | `SimiArtistBody`            | `code`、`artists`、`artists[].id`                                                                                               |
 | [听歌排行](/api/listen/user-record)                    | `UserRecordBody`            | `code`；`allData` / `weekData` 可以没有，出现时 `[].song` 收紧                                                                  |
 | [VIP 信息](/api/vip/vip-info)                          | `VipInfoBody`               | `code`、`data`                                                                                                                  |
 | [VIP 信息 v2](/api/vip/vip-info-v2)                    | `VipInfoV2Body`             | `code`、`data`                                                                                                                  |
@@ -247,6 +254,8 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 登录对照：这 8 个匿名接口在带 Cookie 重录时声明类型相同，值差异只来自关注状态（`followed`、`follow`、`followDay`）和实时计数/CDN 地址，登录录制已删除；个别声明字段的值可能为 `null` 或非 `null`（如 `artist_fans` 的 `vipRights`），属于记录数据本身的差异。
 
 `vip_timemachine` 的周报列表 `data.detail` 是可以没有的路径：没有记录的周区间返回 `null`（录制 `vip/vip_timemachine.empty.json`），缺失或 `null` 都照常返回；出现时每份周报的 `rowKey` 收紧，报告体 `data.detail[].data` 必填（缺失、`null` 或非对象报 502），四种 `type` 的报告内容共用一个宽松结构。`vip_growthpoint` 收紧成长值记录 `data.userLevel` 及其 `userId`、`growthPoint`，等级卡 `levelCard` 是附带展示信息，字段全部宽松。`vip_growthpoint_details` 的记录列表 `data.details` 收紧，记录里的 `resourceId`、`descript`、`growthPoint`、`time` 都是宽松字段；`offset=100000` 越过列表返回空数组（`vip/vip_growthpoint_details.offset-100000.json`）。`vip_tasks` 收紧任务分组 `data.taskList`、组内任务 `data.taskList[].taskItems` 和任务的 `taskId`；本批只录到一条任务，`taskId` 为字符串；本批录制（匿名与登录）没有出现可达的空任务列表。登录对照先确认 `login_status` 的 `account.anonimousUser` 为 `false`；匿名对照录制保留为 `vip/vip_growthpoint.anonymous.json`、`vip/vip_growthpoint_details.anonymous.json`、`vip/vip_tasks.anonymous.json` 和 `digital-album/digitalAlbum_purchased.anonymous.json`，不对匿名与登录的公开结构作相同性断言。
+
+`simi_artist` 的 `artists[]` 复用 `Artist` 的字段声明，只把记录自己的 `id` 收紧；相似歌手记录多出的 `alg`、`fansCount` 另声明为宽松字段，只见过 `null` 的 `identifyTag`、`isSubed`、`publishTime`、`showPrivateMsg` 没有声明，`mvSize` 按 `Artist` 的宽松声明处理。未知歌手 id 返回空数组（`simi_artist.unknown.json`）；本批录制来自登录账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `anonimousUser: false`），没有保留匿名对照录制。
 
 ## MV
 
@@ -562,6 +571,8 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 B6 的歌单写操作同样受影响：`playlist_track_add` 缺 `pid`（`playlist_track_add.missing-pid.json`）、`playlist_track_delete` 缺 `id`（`playlist_track_delete.missing-id.json`）、`playlist_import_name_task_create` 缺 `text`（`playlist_import_name_task_create.missing-text.json`）的上游 `code: 400` 从 `status: 200` 放行变成 `status: 400` 拒绝，`body` 保留原文。`playlist_track_add`/`playlist_track_delete` 的 401 和 404、`playlist_import_task_status` 的 500 不在 `SPECIAL_STATUS_CODES` 里，改造前就按 `ProtocolFailed` 拒绝，状态不变。`playlist_update_playcount` 缺 `id` 的空正文是 HTTP 400、没有 `code`，仍归一成 `status: 200` 和空字符串，空字符串作为结构定义的独立分支保留。
 
 B31 的播客/电台读取同样受影响：`broadcast_channel_currentinfo` 的已下架/无当前信息频道（录制 `broadcast_channel_currentinfo.delisted.json`）和 `voice_lyric` 的无播放权限声音（录制 `voice_lyric.unavailable.json`）都是上游 HTTP 200、正文 `code: 400`；改造前模块把这两种响应当成功放行 `status: 200`，现在 Body 校验按业务码拒绝为 `status: 400`，`body` 保留网易云原文。
+
+B30 的相似内容接口：`simi_artist` 缺 `id`（`simi_artist.missing-id.json`）和 `simi_song` 缺 `id`（`simi_song.missing-id.json`）的上游是 HTTP 200 + `code: 400`，改造前按 `status: 200` 放行，现在 reject `status: 400` 并保留原文，两个模块的错误正文键不同（`message` / `msg`）。`simi_playlist`、`simi_user` 缺 `id` 时上游是 HTTP 400 空正文（`simi_playlist.missing-id.json`、`simi_user.missing-id.json`），归一成 `status: 200` 和空字符串；空字符串作为结构定义的独立分支原样返回，不报 502。
 
 ## 消息
 

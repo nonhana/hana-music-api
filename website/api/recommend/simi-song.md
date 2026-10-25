@@ -41,6 +41,10 @@ const result = await simiSong({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.songs` 和每首歌的 `body.songs[].id` 收紧（旧版歌曲记录复用 `ProgramMainSong`）；`name`、`album`、`artists`、`duration`、`fee` 等声明字段宽松，`alg`、`alias`、`mp3Url`、`privilege`、`recommendReason`、`sqMusic`、`transNames` 另声明为宽松字段，只见过 `null` 或空数组的字段未声明、原样保留。未知歌曲 id 返回空数组（`simi_song.unknown.json`）；缺少 `id` 时上游是 HTTP 200 + `code: 400`（`msg`），SDK 以 `status: 400` 转交原文。本页录制来自登录账号（`context.viewer` 是 `authenticated`），没有保留匿名对照录制。
+
 ## 补充说明
 
 说明 : 调用此接口，传入歌曲 id, 可获得相似歌曲

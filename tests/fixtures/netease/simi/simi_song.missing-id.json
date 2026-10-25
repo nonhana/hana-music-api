@@ -1,0 +1,18 @@
+{
+  "module": "simi_song",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T20:58:33.107Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B30：simi_song 缺少 id 的业务错误（HTTP 200，code 400）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": "参数错误",
+      "code": 400
+    }
+  }
+}

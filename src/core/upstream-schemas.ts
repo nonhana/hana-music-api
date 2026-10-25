@@ -814,12 +814,14 @@ export const StylePage = UpstreamObject({
 });
 
 // 旧版音质档：`bMusic`、`hMusic`、`lMusic`、`mMusic` 字段相同，全部宽松；
-// `personalized_newsong` 的 `sqMusic`/`hrMusic` 也用同一份。`name` 只在录制里见过 null，未声明。
+// `personalized_newsong` 的 `sqMusic`/`hrMusic` 和 `simi_song` 的 `sqMusic` 也用同一份。
+// `name` 在相似歌曲的 `sqMusic` 里是空串，声明为宽松字段。
 export const ProgramQuality = UpstreamObject({
   bitrate: Loose(Schema.Finite),
   dfsId: Loose(Schema.Finite),
   extension: Loose(Schema.String),
   id: Loose(Schema.Finite),
+  name: Loose(Schema.String),
   playTime: Loose(Schema.Finite),
   size: Loose(Schema.Finite),
   sr: Loose(Schema.Finite),

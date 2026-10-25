@@ -41,6 +41,10 @@ const result = await simiUser({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 收紧；相似用户列表 `body.userprofiles` 只有空数组证据、元素类型未知，没有声明，仍作为未声明字段原样保留。登录账号用 15 首歌曲（含 `108485`）探测都是空数组，只保留 `108485` 的录制（`simi_user.empty.json`），没有找到非空结果；缺少 `id` 时上游是 HTTP 400 空正文，SDK 归一成 `status: 200`、`body` 为空字符串原样返回，不报 502。本页录制来自登录账号（`context.viewer` 是 `authenticated`），没有保留匿名对照录制。
+
 ## 补充说明
 
 说明 : 调用此接口，传入歌曲 id, 最近 5 个听了这首歌的用户
