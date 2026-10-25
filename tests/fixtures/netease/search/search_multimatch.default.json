@@ -1,0 +1,210 @@
+{
+  "module": "search_multimatch",
+  "query": {
+    "keywords": "晴天",
+    "type": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:36:36.792Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "new_mlog": [
+          {
+            "resourceId": "14514682",
+            "resourceType": "new_mlog",
+            "internalType": null,
+            "resourceName": "视频",
+            "baseInfo": {
+              "id": "14514682",
+              "type": 1,
+              "mlogBaseDataType": 3,
+              "position": null,
+              "resource": {
+                "mlogBaseData": {
+                  "id": "14514682",
+                  "type": 3,
+                  "text": "晴天",
+                  "interveneText": null,
+                  "pubTime": 1648431913633,
+                  "coverUrl": "http://p4.music.126.net/1SrMH32dXr_4yp7bvx85ig==/109951167194918217.jpg",
+                  "coverHeight": 240,
+                  "coverWidth": 344,
+                  "coverColor": -1118482,
+                  "coverPicKey": "109951167194918217",
+                  "coverDynamicUrl": null,
+                  "audio": null,
+                  "threadId": "R_MV_5_14514682",
+                  "duration": 192000
+                },
+                "mlogExtVO": {
+                  "likedCount": 4542,
+                  "commentCount": 145,
+                  "playCount": 1121643,
+                  "song": {
+                    "id": 1931428675,
+                    "name": "晴天",
+                    "coverUrl": "http://p4.music.126.net/eSbUg0Kg1rEH4mvpxdjdcw==/109951167195204747.jpg",
+                    "duration": 190800,
+                    "artists": [
+                      {
+                        "artistId": 33612502,
+                        "artistName": "高伟"
+                      }
+                    ],
+                    "privilege": null,
+                    "albumName": "和光",
+                    "startTime": null,
+                    "endTime": null
+                  },
+                  "canCollect": true,
+                  "artistName": "高伟",
+                  "rcmdInfo": null,
+                  "strongPushMark": null,
+                  "strongPushIcon": null,
+                  "specialTag": null,
+                  "channelTag": null,
+                  "artists": [
+                    {
+                      "id": 33612502,
+                      "name": "高伟",
+                      "img1v1Url": "http://p3.music.126.net/xZJHmScfuBWN7WIpvtOVLw==/109951167644615151.jpg"
+                    }
+                  ]
+                },
+                "userProfile": null,
+                "status": 1,
+                "shareUrl": "https://music.163.com/mv/14514682/?userid=18070340095"
+              },
+              "alg": null,
+              "reason": null,
+              "matchField": 0,
+              "matchFieldContent": null,
+              "sameCity": false
+            },
+            "alg": "alg_search_precision_bestmatch_normal_song_suggest_{\"fea\":\"227630;6887;2597#2564;62;30#1848;648;372#40425;612;304#241;4;2#0;0;0\",\"cvrUv\":0.377087,\"impressUv30d\":227630.0,\"ctrUv\":0.030255,\"strategy\":\"normal\"}"
+          }
+        ],
+        "playlist": [
+          {
+            "name": "经典老歌 | 90后青春回忆杀 岁月留声",
+            "id": 9699117352,
+            "trackNumberUpdateTime": 1751163260744,
+            "status": 0,
+            "userId": 290894929,
+            "createTime": 1712449353223,
+            "updateTime": 1751163260744,
+            "subscribedCount": 5194,
+            "trackCount": 497,
+            "cloudTrackCount": 0,
+            "coverImgUrl": "http://p4.music.126.net/tcok0IWLSK_1vYy-KO-Crg==/109951171375402948.jpg",
+            "iconImgUrl": null,
+            "coverImgId": 109951171375402940,
+            "description": "你会在这里听到熟悉的旋律想起那曾经的故事。\n精选华语乐坛经典老歌，是情感的寄托，是时代的见证。它们以音乐为媒介，用歌词为载体，传递着各种各样的信息和情感。有时候，一首老歌会让我们想起曾经的恋人，有时候又会让我们想起曾经的朋友。它们让我们感受到快乐、悲伤、思念和失落，让我们在歌曲中找到自己的存在感和共鸣。",
+            "tags": ["90后", "华语", "经典"],
+            "playCount": 1637392,
+            "trackUpdateTime": 1792736364001,
+            "specialType": 0,
+            "totalDuration": 0,
+            "creator": {
+              "defaultAvatar": false,
+              "province": 1000000,
+              "authStatus": 1,
+              "followed": false,
+              "avatarUrl": "http://p1.music.126.net/HD5ratSMCm5YQB7MmrQaTg==/109951167793405452.jpg",
+              "accountStatus": 0,
+              "gender": 1,
+              "city": 1004200,
+              "birthday": 851616000000,
+              "userId": 290894929,
+              "userType": 4,
+              "nickname": "诗藏旧梦深",
+              "signature": "仗剑天涯，找回有血有肉的自己。",
+              "description": "",
+              "detailDescription": "",
+              "avatarImgId": 109951167793405460,
+              "backgroundImgId": 109951165395722990,
+              "backgroundUrl": "http://p1.music.126.net/LulOmlCSpzNQKI9xmJYIcg==/109951165395722990.jpg",
+              "authority": 0,
+              "mutual": false,
+              "expertTags": null,
+              "experts": null,
+              "djStatus": 10,
+              "vipType": 11,
+              "remarkName": null,
+              "authenticationTypes": 528392,
+              "avatarDetail": null,
+              "avatarImgIdStr": "109951167793405452",
+              "backgroundImgIdStr": "109951165395722990",
+              "anchor": true,
+              "avatarImgId_str": "109951167793405452"
+            },
+            "tracks": null,
+            "subscribers": [],
+            "subscribed": false,
+            "commentThreadId": "A_PL_0_9699117352",
+            "newImported": false,
+            "adType": 0,
+            "highQuality": false,
+            "privacy": 0,
+            "ordered": true,
+            "anonimous": false,
+            "coverStatus": 3,
+            "recommendInfo": null,
+            "socialPlaylistCover": null,
+            "recommendText": null,
+            "coverText": null,
+            "relateResType": null,
+            "relateResId": null,
+            "tsSongCount": 0,
+            "algType": null,
+            "playlistType": "UGC",
+            "uiPlaylistType": "UGC",
+            "originalCoverId": 0,
+            "backgroundImageId": 0,
+            "backgroundImageUrl": null,
+            "topTrackIds": null,
+            "title": null,
+            "subTitle": null,
+            "backgroundText": null,
+            "coverImgId_str": "109951171375402948",
+            "alg": "alg_search_precision_bestmatch_normal_song_suggest_{\"fea\":\"109000;5647;940#137805;2779;424#4391;126;26#40289;1047;170#8065;68;11#283;2;0\",\"cvrUv\":0.16646,\"impressUv30d\":109000.0,\"ctrUv\":0.051807,\"strategy\":\"normal\"}"
+          }
+        ],
+        "artist": [
+          {
+            "name": "周杰伦",
+            "id": 6452,
+            "picId": 109951169164936450,
+            "img1v1Id": 109951169164936940,
+            "briefDesc": "",
+            "picUrl": "https://p3.music.126.net/NWv6PtSBkyWZzqbJVzBr7g==/109951169164936450.jpg",
+            "img1v1Url": "https://p4.music.126.net/_ECPuM0s0qtWhkpQOSTZUg==/109951169164936940.jpg",
+            "albumSize": 45,
+            "alias": ["Jay Chou", "周董"],
+            "trans": "",
+            "musicSize": 582,
+            "picId_str": "109951169164936450",
+            "img1v1Id_str": "109951169164936940",
+            "transNames": null,
+            "mvSize": 9,
+            "alg": "alg_search_precision_bestmatch_normal_song_suggest_{\"fea\":\"309062;46576;30853#8527;825;402#1822;874;538#39735;2261;71#707;21;2#205;31;2\",\"cvrUv\":0.662423,\"impressUv30d\":309062.0,\"ctrUv\":0.150701,\"strategy\":\"normal\"}",
+            "fansSize": 19136024,
+            "videoSize": 0,
+            "officialTags": [],
+            "searchCircle": null,
+            "occupation": "歌手"
+          }
+        ],
+        "orders": ["artist", "new_mlog", "playlist"]
+      },
+      "code": 200
+    }
+  }
+}

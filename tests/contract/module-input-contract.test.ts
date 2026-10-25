@@ -35,6 +35,7 @@ import type {
   ModuleDefinition,
   ModuleQuery,
   RequestCapability,
+  RequestIntent,
   UnknownJson,
 } from '../../src/types/index.ts';
 import { runEffect } from '../_kit/it.ts';
@@ -185,19 +186,27 @@ describe('module-local input decoding', () => {
   );
 
   test('search accepts numeric strings without changing its existing wire representation', async () => {
+    let requestBody: RequestIntent['body'];
+    const request: RequestCapability = (intent) => {
+      requestBody = intent.body;
+      return Effect.succeed(response({ code: 200 }));
+    };
     const result = await runEffect(
       executeModule(
         search,
         { keywords: 'voice', type: '2000', limit: '5', offset: '2' },
-        echoRequest,
+        request,
       ),
     );
-    expect(result.body).toEqual({
-      keyword: 'voice',
-      scene: 'normal',
-      limit: '5',
-      offset: '2',
-    });
+    expect(requestBody).toBe(
+      JSON.stringify({
+        keyword: 'voice',
+        scene: 'normal',
+        limit: '5',
+        offset: '2',
+      }),
+    );
+    expect(result.body).toEqual({ code: 200 });
   });
 
   test('audio matching accepts a numeric-string duration', async () => {

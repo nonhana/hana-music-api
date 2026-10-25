@@ -41,6 +41,10 @@ const result = await searchMultimatch({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.result` 收紧；`result.orders` 是宽松字段（缺失或元素类型不对时整项丢弃，`null` 时保留 `null`）；`result.artist`、`result.new_mlog`、`result.playlist` 是可以没有的路径：无结果录制 `search_multimatch.no-result.json` 里只有 `orders: []`，缺失或为 `null` 时照常返回，出现了就按每项记录的 `id`（`new_mlog` 是 `resourceId`）收紧，坏一条记录会报 502。其余嵌套字段宽松。结构定义和类型是 `SearchMultimatchBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入搜索关键词可获得搜索结果

@@ -134,6 +134,7 @@ qrurl
 ralplan
 rawdata
 rcmd
+realkeyword
 recentcontact
 replacephone
 romaji

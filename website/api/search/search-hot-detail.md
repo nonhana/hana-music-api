@@ -37,6 +37,10 @@ const result = await searchHotDetail();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data` 和每条热搜的 `searchWord` 收紧；`score`、`content`、`source`、`iconType`、`iconUrl`、`url`、`alg`、`message` 是宽松字段，`trp` 整体宽松（`rules` 是宽松字符串数组，`trp` 也可能是 `null`）。`alg` 在 `search_hot_detail.default.json` 里是 `null`，在 `search_hot_detail.second.json` 里有值；`trp` 只在后者出现。本批录制（`search_hot_detail.default.json`、`search_hot_detail.second.json`，另有一次登录对照探测，未保留录制）没有发现可达的空结果，`data` 在这些录制里都是 20 条。结构定义和类型是 `SearchHotDetailBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取热门搜索列表

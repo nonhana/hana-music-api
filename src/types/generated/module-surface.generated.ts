@@ -379,12 +379,30 @@ import type {
   ModuleBody as scrobbleBody,
   ModuleInput as scrobbleInput,
 } from '../../modules/scrobble.ts';
-import type { ModuleInput as searchInput } from '../../modules/search.ts';
-import type { ModuleInput as searchDefaultInput } from '../../modules/search_default.ts';
-import type { ModuleInput as searchHotInput } from '../../modules/search_hot.ts';
-import type { ModuleInput as searchHotDetailInput } from '../../modules/search_hot_detail.ts';
-import type { ModuleInput as searchMatchInput } from '../../modules/search_match.ts';
-import type { ModuleInput as searchMultimatchInput } from '../../modules/search_multimatch.ts';
+import type {
+  ModuleBody as searchBody,
+  ModuleInput as searchInput,
+} from '../../modules/search.ts';
+import type {
+  ModuleBody as searchDefaultBody,
+  ModuleInput as searchDefaultInput,
+} from '../../modules/search_default.ts';
+import type {
+  ModuleBody as searchHotBody,
+  ModuleInput as searchHotInput,
+} from '../../modules/search_hot.ts';
+import type {
+  ModuleBody as searchHotDetailBody,
+  ModuleInput as searchHotDetailInput,
+} from '../../modules/search_hot_detail.ts';
+import type {
+  ModuleBody as searchMatchBody,
+  ModuleInput as searchMatchInput,
+} from '../../modules/search_match.ts';
+import type {
+  ModuleBody as searchMultimatchBody,
+  ModuleInput as searchMultimatchInput,
+} from '../../modules/search_multimatch.ts';
 import type {
   ModuleBody as searchSuggestBody,
   ModuleInput as searchSuggestInput,
@@ -2319,31 +2337,35 @@ export interface GeneratedModuleContractMap {
     query: scrobbleInput;
     response: ModuleResponse<scrobbleBody>;
   };
-  search: { input: searchInput; query: searchInput; response: ModuleResponse };
+  search: {
+    input: searchInput;
+    query: searchInput;
+    response: ModuleResponse<searchBody>;
+  };
   search_default: {
     input: searchDefaultInput;
     query: searchDefaultInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchDefaultBody>;
   };
   search_hot: {
     input: searchHotInput;
     query: searchHotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchHotBody>;
   };
   search_hot_detail: {
     input: searchHotDetailInput;
     query: searchHotDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchHotDetailBody>;
   };
   search_match: {
     input: searchMatchInput;
     query: searchMatchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchMatchBody>;
   };
   search_multimatch: {
     input: searchMultimatchInput;
     query: searchMultimatchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchMultimatchBody>;
   };
   search_suggest: {
     input: searchSuggestInput;

@@ -1,0 +1,99 @@
+{
+  "module": "search",
+  "query": {
+    "keywords": "晴天",
+    "type": 1004,
+    "limit": 3
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:36:27.773Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "hlWords": null,
+        "mvCount": 225,
+        "mvs": [
+          {
+            "id": 14514682,
+            "cover": "http://p3.music.126.net/1SrMH32dXr_4yp7bvx85ig==/109951167194918217.jpg",
+            "name": "晴天",
+            "playCount": 1121643,
+            "briefDesc": null,
+            "desc": null,
+            "artistName": "高伟",
+            "artistId": 33612502,
+            "duration": 192000,
+            "mark": 0,
+            "arTransName": "",
+            "artists": [
+              {
+                "id": 33612502,
+                "name": "高伟",
+                "alias": null,
+                "transNames": null
+              }
+            ],
+            "transNames": null,
+            "alias": null,
+            "alg": "alg_search_precision_mv_tab_basic"
+          },
+          {
+            "id": 14538111,
+            "cover": "http://p4.music.126.net/rwZrAzWie2f2VMY7C6-C1w==/109951167577969558.jpg",
+            "name": "晴天",
+            "playCount": 74316,
+            "briefDesc": null,
+            "desc": null,
+            "artistName": "邓天晴",
+            "artistId": 790038,
+            "duration": 244000,
+            "mark": 0,
+            "arTransName": "",
+            "artists": [
+              {
+                "id": 790038,
+                "name": "邓天晴",
+                "alias": [],
+                "transNames": null
+              }
+            ],
+            "transNames": null,
+            "alias": null,
+            "alg": "alg_search_precision_mv_tab_basic"
+          },
+          {
+            "id": 14512810,
+            "cover": "http://p4.music.126.net/aEhlH2F33ofigTztDOSopg==/109951167179176582.jpg",
+            "name": "晴天",
+            "playCount": 15133,
+            "briefDesc": null,
+            "desc": null,
+            "artistName": "高伟",
+            "artistId": 33612502,
+            "duration": 192000,
+            "mark": 0,
+            "arTransName": "",
+            "artists": [
+              {
+                "id": 33612502,
+                "name": "高伟",
+                "alias": null,
+                "transNames": null
+              }
+            ],
+            "transNames": null,
+            "alias": null,
+            "alg": "alg_search_precision_mv_tab_basic"
+          }
+        ]
+      },
+      "code": 200
+    }
+  }
+}

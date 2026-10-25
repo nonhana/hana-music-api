@@ -602,7 +602,8 @@ describe('createServer', () => {
           body: {
             code: 200,
             data,
-            options: responseOptions,
+            // mock 要像真实上游一样只回 JSON：未声明字段里的非 JSON 值会让 Body 校验 502。
+            options: JSON.parse(JSON.stringify(responseOptions)),
             uri,
           },
           cookie: [],

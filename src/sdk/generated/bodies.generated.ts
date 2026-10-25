@@ -53,6 +53,12 @@ export { ModuleBody as PlaylistTrackAllBody } from '../../modules/playlist_track
 export { ModuleBody as PlaylistTracksBody } from '../../modules/playlist_tracks.ts';
 export { ModuleBody as RecommendSongsBody } from '../../modules/recommend_songs.ts';
 export { ModuleBody as ScrobbleBody } from '../../modules/scrobble.ts';
+export { ModuleBody as SearchBody } from '../../modules/search.ts';
+export { ModuleBody as SearchDefaultBody } from '../../modules/search_default.ts';
+export { ModuleBody as SearchHotBody } from '../../modules/search_hot.ts';
+export { ModuleBody as SearchHotDetailBody } from '../../modules/search_hot_detail.ts';
+export { ModuleBody as SearchMatchBody } from '../../modules/search_match.ts';
+export { ModuleBody as SearchMultimatchBody } from '../../modules/search_multimatch.ts';
 export { ModuleBody as SearchSuggestBody } from '../../modules/search_suggest.ts';
 export { ModuleBody as SongDetailBody } from '../../modules/song_detail.ts';
 export { ModuleBody as SongDownloadUrlV1Body } from '../../modules/song_download_url_v1.ts';

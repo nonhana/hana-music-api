@@ -1,0 +1,260 @@
+{
+  "module": "search",
+  "query": {
+    "keywords": "qingtian",
+    "type": 1,
+    "limit": 5
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:36:27.757Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "songs": [
+          {
+            "album": {
+              "publishTime": 1738684800000,
+              "size": 1,
+              "artist": {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 679014,
+              "name": "晴天",
+              "id": 260499608,
+              "picId": 109951170413587090,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 8,
+            "duration": 270738,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "RyaVocal",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 679014,
+            "mvid": 0,
+            "name": "晴天 (原唱 周杰伦)",
+            "alias": [],
+            "id": 2668397359,
+            "mark": 17716748288,
+            "status": 0
+          },
+          {
+            "album": {
+              "publishTime": 1789920000000,
+              "size": 1,
+              "artist": {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 1416692,
+              "name": "晴天（史詩版）",
+              "id": 399808326,
+              "picId": 109951173980171520,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 8,
+            "duration": 237600,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "EPX Music 4 Life",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 1416692,
+            "mvid": 0,
+            "name": "晴天（史詩版）",
+            "alias": [],
+            "id": 3439604863,
+            "mark": 17179877376,
+            "status": 0
+          },
+          {
+            "album": {
+              "publishTime": 1733068800000,
+              "size": 1,
+              "artist": {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 743010,
+              "name": "晴天(深情版)",
+              "id": 255723258,
+              "picId": 109951173569626660,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 8,
+            "duration": 278961,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "Lucky小爱",
+                "alias": [],
+                "id": 96154669,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 743010,
+            "mvid": 0,
+            "name": "晴天(深情版)",
+            "alias": [],
+            "id": 2652820720,
+            "mark": 17179877504,
+            "status": 0
+          },
+          {
+            "album": {
+              "publishTime": 1652198400000,
+              "size": 20,
+              "artist": {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 14028,
+              "name": "钢琴放松轻听 流行轻音乐 华语经典",
+              "id": 144681328,
+              "picId": 109951167394412300,
+              "mark": 0,
+              "status": -1
+            },
+            "fee": 1,
+            "duration": 238098,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "纪钧瀚 (Bryan Chi)",
+                "alias": [],
+                "id": 52587505,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 14028,
+            "mvid": 0,
+            "name": "晴天 (钢琴版) [原唱: 周杰伦]",
+            "alias": [],
+            "id": 1945894789,
+            "mark": 17716879360,
+            "status": 0
+          },
+          {
+            "album": {
+              "publishTime": 1790179200000,
+              "size": 1,
+              "artist": {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 0,
+              "name": "晴天",
+              "id": 400164559,
+              "picId": 109951172952456020,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 8,
+            "duration": 112373,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "Jay",
+                "alias": [],
+                "id": 122200643,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 0,
+            "mvid": 0,
+            "name": "晴天",
+            "alias": [],
+            "id": 3440441479,
+            "mark": 536879232,
+            "status": 0
+          }
+        ],
+        "hasMore": true,
+        "songCount": 377
+      },
+      "code": 200,
+      "trp": {
+        "rules": [
+          "search_tab_song::1945894789::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2652820720::searchAlg$isGlobalQuality$1",
+          "search_tab_song::2668397359::searchAlg$isGlobalQuality$1",
+          "search_tab_song::3439604863::searchAlg$isGlobalQuality$1"
+        ]
+      }
+    }
+  }
+}

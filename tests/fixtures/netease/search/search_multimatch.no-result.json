@@ -1,0 +1,23 @@
+{
+  "module": "search_multimatch",
+  "query": {
+    "keywords": "qwrtpsdfghjklzxcvbnm",
+    "type": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:36:37.333Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "orders": []
+      },
+      "code": 200
+    }
+  }
+}

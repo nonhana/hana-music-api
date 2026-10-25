@@ -1,0 +1,36 @@
+{
+  "module": "search_default",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T09:36:37.331Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": null,
+      "data": {
+        "showKeyword": "🔥大家都在搜 特别的人",
+        "styleKeyword": {
+          "keyWord": "🔥大家都在搜 特别的人",
+          "descWord": null
+        },
+        "realkeyword": "特别的人",
+        "searchType": 1,
+        "action": 0,
+        "alg": "dq_0_0_T3_R12_5605d9f147fd972dd7020301e389218a_S0:3.0463_M1_H0_A0#",
+        "gap": 0,
+        "source": null,
+        "bizQueryInfo": "{\"showQuery\":\"🔥大家都在搜 特别的人\",\"source\":\"default_search\",\"intentStrategy\":\"R12\",\"bizIntentList\":[{\"searchQuery\":\"特别的人\",\"queryTemplateType\":\"UNKNOWN\",\"itemID\":\"0\",\"itemType\":\"query\",\"level\":1,\"dist\":null,\"tagTriggerSId\":null,\"tagTriggerSName\":null,\"tagTriggerAId\":null,\"tagTriggerAName\":null,\"triggerSRecText\":null,\"bestMatch\":true}],\"songRecIntent\":false,\"mixRecIntent\":null,\"newTotal\":true}",
+        "logInfo": null,
+        "imageUrl": null,
+        "trp_type": null,
+        "trp_id": null
+      }
+    }
+  }
+}

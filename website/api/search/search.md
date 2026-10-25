@@ -59,4 +59,8 @@ console.log(result.body);
 
 本接口属于明确读接口，可使用 [缓存与同时请求合并](/guide/sdk-cache-and-identity-pool)。未声明字段会在输入解码时移除，添加 `timestamp` 不能强制刷新本地缓存。
 
+## 返回内容
+
+`body.code` 收紧；`body.result` 是通到搜索结果的路径，按 `type` 只给一类列表（`songs`、`albums`、`artists`、`playlists`、`mvs`）。没有结果时只有总数（如 `songCount: 0`），列表可能是空数组（`albums`、`artists`、`playlists`）、`null`（`type=1004` 的 `mvs`）或整个缺失（`songs`）；列表出现时每项记录的 `id` 收紧，坏一条记录会报 502。空结果由 `search.no-result.json`、`search.empty-albums.json`、`search.empty-artists.json`、`search.empty-playlists.json`、`search.empty-mvs.json` 覆盖。`body.result` 本身可以没有：`type=2000` 的语音搜索走另一条上游接口，返回 `data` 形状，这批没有收窄它，`data` 作为未声明字段原样返回。歌曲共用 `Song`，专辑共用 `AlbumSummary` 并局部补了宽松的 `alg`、`containedSong`，歌手、歌单和 MV 在模块内声明；各总数、`hasMore`、`hlWords`、`trp` 是宽松字段；歌单的 `score` 只见过 `null`，没有声明，原样保留。结构定义和类型是 `SearchBody`，见 [返回体结构](/guide/response-bodies)。
+
 也可以使用 [云搜索](/api/search/cloudsearch)。拿到歌曲 ID 后，通过 [歌曲播放地址](/api/music/song-url) 获取播放链接。

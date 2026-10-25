@@ -24,7 +24,7 @@ import { runEffect } from '../_kit/it.ts';
 
 // song_detail 和 playlist_detail 会校验返回体，共用的假返回体带上它们声明的字段。
 const extraBody = {
-  code: 200,
+  code: 200 as const,
   songs: [],
   privileges: [],
   playlist: {

@@ -4,6 +4,7 @@ import { Cause, Effect, Exit } from 'effect';
 import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi } from '../../index.ts';
+import type { SearchBody } from '../../index.ts';
 import { Call, runCall } from '../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { getRuntimeState, setRuntimeState } from '../../src/core/runtime.ts';
@@ -393,7 +394,7 @@ describe('call lifecycle', () => {
                 {},
                 { crypto: 'api' },
               );
-            }).pipe(Effect.map(moduleResponse)),
+            }).pipe(Effect.map(moduleResponse<SearchBody>)),
         },
         {
           cookie: 'MUSIC_U=retry-snapshot',
@@ -488,7 +489,7 @@ describe('call lifecycle', () => {
             status: 200,
             cookie: [],
             body: { code: 200, keys: Object.keys(query) },
-          })).pipe(Effect.map(moduleResponse)),
+          })).pipe(Effect.map(moduleResponse<SearchBody>)),
       },
       {
         cookie: 'MUSIC_U=private',
@@ -611,7 +612,7 @@ describe('call lifecycle', () => {
         decodeInput: decodeSearchInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
           testRequest(request, '/api/search/get', {}, { crypto: 'api' }).pipe(
-            Effect.map(moduleResponse),
+            Effect.map(moduleResponse<SearchBody>),
           ),
       },
       {

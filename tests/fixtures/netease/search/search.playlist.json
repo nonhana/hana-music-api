@@ -1,0 +1,119 @@
+{
+  "module": "search",
+  "query": {
+    "keywords": "晴天",
+    "type": 1000,
+    "limit": 3
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:36:27.078Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "playlists": [
+          {
+            "id": 6792103822,
+            "name": "周杰伦-Jay 『网易云精选』",
+            "coverImgUrl": "http://p1.music.126.net/WFQ4EKF5QabD33U3NUOPWQ==/109951169535051638.jpg",
+            "creator": {
+              "nickname": "Buradarrr",
+              "userId": 361038766,
+              "userType": 200,
+              "avatarUrl": "http://p4.music.126.net/iHz7idWQSUF0fcSihn48_g==/109951169650255065.jpg",
+              "authStatus": 0,
+              "expertTags": null,
+              "experts": null
+            },
+            "subscribed": false,
+            "trackCount": 144,
+            "userId": 361038766,
+            "playCount": 34139088,
+            "bookCount": 145509,
+            "specialType": 0,
+            "officialTags": ["超过56%人点击", "本周热门评论"],
+            "action": "orpheus://nm/playlist/detail?id=6792103822&autoplay=&referLog=&anchoredSongID=2652820720",
+            "actionType": "orpheus",
+            "recommendText": "包含《晴天》",
+            "score": null,
+            "officialPlaylistTitle": null,
+            "playlistType": "UGC",
+            "description": "【持续更新】欢迎投稿，每一首歌曲都是大海捞针找的希望喜欢，不喜勿喷！每一首都有独特的情绪和故事铺陈，聆听这段时光音景——如同你内心最真实的回响独白。\n\n封面：周杰伦\n\n感谢网易云，感谢官方。",
+            "highQuality": false,
+            "alg": "alg_search_rec_playlist_tab_basic_rewrite_{\"hit\":\"SongIdList\",\"id\":\"2652820720\",\"type\":\"idConsume\"}"
+          },
+          {
+            "id": 17745261207,
+            "name": "周杰伦歌单",
+            "coverImgUrl": "http://p1.music.126.net/-79-XFhWolhMzGESC8ifkg==/109951170218252280.jpg",
+            "creator": {
+              "nickname": "双鱼不困",
+              "userId": 17165106366,
+              "userType": 0,
+              "avatarUrl": "http://p4.music.126.net/wZm-ryFZf-dtzn73iimN_w==/109951172720602241.jpg",
+              "authStatus": 0,
+              "expertTags": null,
+              "experts": null
+            },
+            "subscribed": false,
+            "trackCount": 29,
+            "userId": 17165106366,
+            "playCount": 516098,
+            "bookCount": 1302,
+            "specialType": 0,
+            "officialTags": null,
+            "action": "orpheus://nm/playlist/detail?id=17745261207&autoplay=&referLog=&anchoredSongID=2652820720",
+            "actionType": "orpheus",
+            "recommendText": "包含《晴天》",
+            "score": null,
+            "officialPlaylistTitle": null,
+            "playlistType": "UGC",
+            "description": "雨声钢琴前奏响起，青春回忆随旋律翻涌，那个为你撑伞的人是否还在？让《晴天》陪你重温青涩时光...",
+            "highQuality": false,
+            "alg": "alg_search_rec_playlist_tab_basic_rewrite_{\"hit\":\"SongIdList\",\"id\":\"2652820720\",\"type\":\"idConsume\"}"
+          },
+          {
+            "id": 9699117352,
+            "name": "经典老歌 | 90后青春回忆杀 岁月留声",
+            "coverImgUrl": "http://p1.music.126.net/tcok0IWLSK_1vYy-KO-Crg==/109951171375402948.jpg",
+            "creator": {
+              "nickname": "诗藏旧梦深",
+              "userId": 290894929,
+              "userType": 4,
+              "avatarUrl": "http://p4.music.126.net/HD5ratSMCm5YQB7MmrQaTg==/109951167793405452.jpg",
+              "authStatus": 1,
+              "expertTags": null,
+              "experts": null
+            },
+            "subscribed": false,
+            "trackCount": 497,
+            "userId": 290894929,
+            "playCount": 1637392,
+            "bookCount": 5194,
+            "specialType": 0,
+            "officialTags": null,
+            "action": "orpheus://nm/playlist/detail?id=9699117352&autoplay=&referLog=&anchoredSongID=2652820720",
+            "actionType": "orpheus",
+            "recommendText": "包含《晴天》",
+            "score": null,
+            "officialPlaylistTitle": null,
+            "playlistType": "UGC",
+            "description": "你会在这里听到熟悉的旋律想起那曾经的故事。\n精选华语乐坛经典老歌，是情感的寄托，是时代的见证。它们以音乐为媒介，用歌词为载体，传递着各种各样的信息和情感。有时候，一首老歌会让我们想起曾经的恋人，有时候又会让我们想起曾经的朋友。它们让我们感受到快乐、悲伤、思念和失落，让我们在歌曲中找到自己的存在感和共鸣。",
+            "highQuality": false,
+            "alg": "alg_search_rec_playlist_tab_basic_rewrite_{\"hit\":\"SongIdList\",\"id\":\"2652820720\",\"type\":\"idConsume\"}"
+          }
+        ],
+        "hasMore": true,
+        "hlWords": ["晴天"],
+        "playlistCount": 297,
+        "searchQcReminder": null
+      },
+      "code": 200
+    }
+  }
+}

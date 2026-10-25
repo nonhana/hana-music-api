@@ -1,0 +1,220 @@
+{
+  "module": "search_hot_detail",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T09:36:38.509Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [
+        {
+          "searchWord": "天龙八部之宿敌",
+          "score": 83071,
+          "content": "",
+          "source": 0,
+          "iconType": 4,
+          "iconUrl": "https://p1.music.126.net/IBKnY_RCYTUAALcqWhAT6g==/109951163967994693.png",
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "第五人格",
+          "score": 51471,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "季候风",
+          "score": 72339,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "我不难过",
+          "score": 64555,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "不死鸟",
+          "score": 44288,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "The Weeknd",
+          "score": 60933,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "99",
+          "score": 47130,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "甲乙丙丁",
+          "score": 33635,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "雨爱",
+          "score": 40721,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "琵琶曲",
+          "score": 37851,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "我爱你",
+          "score": 31303,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "HongKong",
+          "score": 35549,
+          "content": "",
+          "source": 0,
+          "iconType": 5,
+          "iconUrl": "https://p1.music.126.net/PtgUJbcvDAY0HKWpmOB2HA==/109951163967988470.png",
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "许嵩",
+          "score": 23070,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "罗生门",
+          "score": 23604,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "失眠",
+          "score": 20890,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "特别的人",
+          "score": 22968,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "我怀念的",
+          "score": 18838,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "幻听",
+          "score": 26388,
+          "content": "",
+          "source": 0,
+          "iconType": 5,
+          "iconUrl": "https://p1.music.126.net/PtgUJbcvDAY0HKWpmOB2HA==/109951163967988470.png",
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "海屿你",
+          "score": 26232,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        },
+        {
+          "searchWord": "一半一半",
+          "score": 20321,
+          "content": "",
+          "source": 0,
+          "iconType": 0,
+          "iconUrl": null,
+          "url": "",
+          "alg": null
+        }
+      ],
+      "message": "success"
+    }
+  }
+}

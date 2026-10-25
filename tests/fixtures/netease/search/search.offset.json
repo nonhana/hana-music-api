@@ -1,0 +1,124 @@
+{
+  "module": "search",
+  "query": {
+    "keywords": "晴天",
+    "type": 1,
+    "limit": 2,
+    "offset": 2
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:36:35.691Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "songs": [
+          {
+            "album": {
+              "publishTime": 1733328000000,
+              "size": 1,
+              "artist": {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 743010,
+              "name": "晴天 (女声版)",
+              "id": 256036533,
+              "picId": 109951173212027330,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 8,
+            "duration": 268750,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "GYBeat",
+                "alias": [],
+                "id": 50759987,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 743010,
+            "mvid": 0,
+            "name": "晴天 (女声版))",
+            "alias": [],
+            "id": 2653714443,
+            "mark": 17179877504,
+            "status": 0
+          },
+          {
+            "album": {
+              "publishTime": 1789920000000,
+              "size": 1,
+              "artist": {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 1416692,
+              "name": "晴天（史詩版）",
+              "id": 399808326,
+              "picId": 109951173980171520,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 8,
+            "duration": 237600,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "EPX Music 4 Life",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 1416692,
+            "mvid": 0,
+            "name": "晴天（史詩版）",
+            "alias": [],
+            "id": 3439604863,
+            "mark": 17179877376,
+            "status": 0
+          }
+        ],
+        "hasMore": true,
+        "songCount": 330
+      },
+      "code": 200,
+      "trp": {
+        "rules": [
+          "search_tab_song::2653714443::searchAlg$isGlobalQuality$1",
+          "search_tab_song::3439604863::searchAlg$isGlobalQuality$1"
+        ]
+      }
+    }
+  }
+}

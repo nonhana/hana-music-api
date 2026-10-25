@@ -189,14 +189,28 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 ## 搜索
 
-| 模块                                   | 结构定义            | 收紧的字段                                                                                                                                                 |
-| -------------------------------------- | ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [云搜索](/api/search/cloudsearch)      | `CloudsearchBody`   | `code`、`result`；`result.songs`、`result.albums`、`result.artists`、`result.playlists` 可以没有，出现了则 `[].id` 收紧                                    |
-| [搜索建议](/api/search/search-suggest) | `SearchSuggestBody` | `code`、`result`；`result.songs`、`result.artists`、`result.albums`、`result.playlists`、`result.allMatch` 可以没有，出现了则 `[].id` 或 `[].keyword` 收紧 |
+| 模块                                            | 结构定义               | 收紧的字段                                                                                                                                                                      |
+| ----------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [云搜索](/api/search/cloudsearch)               | `CloudsearchBody`      | `code`、`result`；`result.songs`、`result.albums`、`result.artists`、`result.playlists` 可以没有，出现了则 `[].id` 收紧                                                         |
+| [搜索](/api/search/search)                      | `SearchBody`           | `code`；`result` 可以没有（`type=2000` 走语音搜索），出现时 `result.songs`、`result.albums`、`result.artists`、`result.playlists`、`result.mvs` 可以没有，出现了则 `[].id` 收紧 |
+| [搜索建议](/api/search/search-suggest)          | `SearchSuggestBody`    | `code`、`result`；`result.songs`、`result.artists`、`result.albums`、`result.playlists`、`result.allMatch` 可以没有，出现了则 `[].id` 或 `[].keyword` 收紧                      |
+| [默认搜索关键词](/api/search/search-default)    | `SearchDefaultBody`    | `code`、`data`、`data.showKeyword`、`data.realkeyword`                                                                                                                          |
+| [热门搜索](/api/search/search-hot)              | `SearchHotBody`        | `code`、`result`、`result.hots`、`result.hots[].first`                                                                                                                          |
+| [热搜列表(详细)](/api/search/search-hot-detail) | `SearchHotDetailBody`  | `code`、`data`、`data[].searchWord`                                                                                                                                             |
+| [本地歌曲匹配](/api/search/search-match)        | `SearchMatchBody`      | `code`、`result`、`result.songs`、`result.songs[].id`、`result.ids`                                                                                                             |
+| [多类型搜索](/api/search/search-multimatch)     | `SearchMultimatchBody` | `code`、`result`；`result.orders` 宽松；`result.artist`、`result.new_mlog`、`result.playlist` 可以没有，出现了则 `[].id` / `[].resourceId` 收紧                                 |
 
 云搜索按 `type` 只给一类结果。结果列表（`songs`、`albums`、`artists`、`playlists`）是可以没有的路径：没有结果时只有总数（0），列表整个缺失或是 `null`；出现了就按每项记录的编号（`[].id`）收紧校验，坏一条记录会报 502，不会整列消失。各总数（`songCount`、`albumCount`、`artistCount`、`playlistCount`）是宽松字段。专辑的其他声明字段是 `name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`、`company`；歌手的其他声明字段是 `name`、`picUrl`、`musicSize`（歌曲数）；歌单的其他声明字段是 `name`、`coverImgUrl`、`trackCount`、`playCount`、`creator`（`userId`、`nickname`）。这些全部宽松，包括云搜索里的 `al.name`；共用歌曲的 `al.name` 本来就是宽松字段，不再需要单独放宽。
 
 搜索建议默认按类别给出，某一类没有建议时对应列表整个缺失或是 `null`（包括 `playlists`），出现了就按每项建议的编号（`allMatch` 是 `keyword`）收紧校验；`type` 为 `mobile` 时只给关键词 `allMatch`，没有建议时 `result` 是空对象。每项建议的 `name` 都是宽松字段。
+
+搜索（`/search`）的 `result` 是通到搜索结果的路径，按 `type` 只给一类列表；没有结果时只有总数（`songCount: 0`），列表可能是空数组（`albums`、`artists`、`playlists`）、`null`（`type=1004` 的 `mvs`）或整个缺失（`songs`），出现了就按每项记录的 `id` 收紧。空结果由 `search.no-result.json`、`search.empty-albums.json`、`search.empty-artists.json`、`search.empty-playlists.json`、`search.empty-mvs.json` 覆盖。`result` 本身可以没有，因为 `type=2000` 的语音搜索走另一条上游接口，返回 `data` 形状；这批没有收窄语音搜索的 `data`，它作为未声明字段原样返回。歌曲共用 `Song`，专辑共用 `AlbumSummary` 并局部补了宽松的 `alg`、`containedSong`，歌手、歌单和 MV 在模块内声明并把记录 `id` 收紧；各总数、`hasMore`、`hlWords`、`trp` 是宽松字段；歌单的 `score` 只见过 `null`，没有声明。
+
+默认搜索关键词的 `data` 是通到关键词的路径，`data.showKeyword`（展示词）和 `data.realkeyword`（实际搜索词）是接口要返回的那一项，所以收紧；`styleKeyword`、`action`、`alg`、`bizQueryInfo`、`gap`、`searchType` 宽松。只见过 `null` 的 `imageUrl`、`logInfo`、`source`、`trp_id`、`trp_type`、`styleKeyword.descWord` 和 `message` 没有声明，原样保留。本批录制（`search_default.default.json`，另有一次登录对照探测，未保留录制）没有发现可达的空结果，`data` 在这些录制里都存在。
+
+热门搜索的 `result.hots` 是通到热搜词的路径，每条记录的 `first` 是热搜词本身，收紧；`second`、`iconType` 宽松，只见过 `null` 的 `third` 没有声明。本批录制（`search_hot.default.json`，另有一次匿名复现和一次登录对照探测，后两者未保留录制）没有发现可达的空结果，`result.hots` 都是 10 条。热搜列表（详细）的 `data` 是通到列表的路径，每条记录的 `searchWord` 收紧；`score`、`content`、`source`、`iconType`、`iconUrl`、`url`、`alg`、`message` 宽松，`trp` 整体宽松（`rules` 是宽松字符串数组，`trp` 也可能是 `null`）。`alg` 在 `search_hot_detail.default.json` 里是 `null`、在 `search_hot_detail.second.json` 里有值，`trp` 只在后者出现；这两份录制和一次登录对照探测（未保留录制）都没有发现可达的空结果，`data` 都是 20 条。
+
+本地歌曲匹配的 `result`、`result.songs` 和 `result.ids` 收紧，每首匹配歌曲的 `id` 和 `ids`（接口要返回的本地文件映射项）收紧；旧式歌曲字段（`popularity`、`score`、`hMusic` 等）宽松。空结果录制 `search_match.no-result.json` 是 `songs: []`、`ids: []`。多类型搜索的 `result` 收紧，`orders` 是宽松的类别顺序；`artist`、`new_mlog`、`playlist` 是可以没有的路径（无结果录制 `search_multimatch.no-result.json` 里只有 `orders: []`），出现了就按记录 `id` / `resourceId` 收紧；其余嵌套字段宽松。
 
 ## 导出约定
 
