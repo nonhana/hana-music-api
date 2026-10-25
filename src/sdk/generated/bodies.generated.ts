@@ -95,7 +95,12 @@ export { ModuleBody as MvExclusiveRcmdBody } from '../../modules/mv_exclusive_rc
 export { ModuleBody as MvFirstBody } from '../../modules/mv_first.ts';
 export { ModuleBody as MvSublistBody } from '../../modules/mv_sublist.ts';
 export { ModuleBody as MvUrlBody } from '../../modules/mv_url.ts';
+export { ModuleBody as PersonalizedBody } from '../../modules/personalized.ts';
 export { ModuleBody as PersonalizedDjprogramBody } from '../../modules/personalized_djprogram.ts';
+export { ModuleBody as PersonalizedMvBody } from '../../modules/personalized_mv.ts';
+export { ModuleBody as PersonalizedNewsongBody } from '../../modules/personalized_newsong.ts';
+export { ModuleBody as PersonalizedPrivatecontentBody } from '../../modules/personalized_privatecontent.ts';
+export { ModuleBody as PersonalizedPrivatecontentListBody } from '../../modules/personalized_privatecontent_list.ts';
 export { ModuleBody as PlaylistCatlistBody } from '../../modules/playlist_catlist.ts';
 export { ModuleBody as PlaylistCoverUpdateBody } from '../../modules/playlist_cover_update.ts';
 export { ModuleBody as PlaylistCreateBody } from '../../modules/playlist_create.ts';
@@ -117,6 +122,7 @@ export { ModuleBody as PlaylistTrackAllBody } from '../../modules/playlist_track
 export { ModuleBody as PlaylistTracksBody } from '../../modules/playlist_tracks.ts';
 export { ModuleBody as PlaylistVideoRecentBody } from '../../modules/playlist_video_recent.ts';
 export { ModuleBody as ProgramRecommendBody } from '../../modules/program_recommend.ts';
+export { ModuleBody as RecommendResourceBody } from '../../modules/recommend_resource.ts';
 export { ModuleBody as RecommendSongsBody } from '../../modules/recommend_songs.ts';
 export { ModuleBody as RelatedAllvideoBody } from '../../modules/related_allvideo.ts';
 export { ModuleBody as ScrobbleBody } from '../../modules/scrobble.ts';

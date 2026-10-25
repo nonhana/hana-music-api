@@ -813,9 +813,9 @@ export const StylePage = UpstreamObject({
   total: Loose(Schema.Finite),
 });
 
-// 电台节目记录里嵌着的旧版音质：`bMusic`、`hMusic`、`lMusic`、`mMusic` 字段相同，全部宽松；
-// `name` 只在录制里见过 null，未声明。
-const ProgramQuality = UpstreamObject({
+// 旧版音质档：`bMusic`、`hMusic`、`lMusic`、`mMusic` 字段相同，全部宽松；
+// `personalized_newsong` 的 `sqMusic`/`hrMusic` 也用同一份。`name` 只在录制里见过 null，未声明。
+export const ProgramQuality = UpstreamObject({
   bitrate: Loose(Schema.Finite),
   dfsId: Loose(Schema.Finite),
   extension: Loose(Schema.String),
@@ -827,7 +827,9 @@ const ProgramQuality = UpstreamObject({
 });
 
 // 节目里的 `mainSong` 是旧版歌曲结构（`album`/`artists`/四个音质档），dj_program、dj_program_detail、
-// dj_program_toplist、dj_program_toplist_hours、program_recommend、personalized_djprogram 的字段相同。
+// dj_program_toplist、dj_program_toplist_hours、program_recommend、personalized_djprogram 的字段相同；
+// `personalized_newsong` 是第 7 个消费者，模块内另补 `alias`、`exclusive`、`sqMusic`/`hrMusic`、`privilege`、
+// `transName`/`transNames`，并给 `album` 加单数 `transName`。
 export const ProgramMainSong = UpstreamObject({
   album: Loose(SimpleAlbum),
   artists: Loose(Schema.Array(Artist)),

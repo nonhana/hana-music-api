@@ -453,15 +453,30 @@ import type {
 import type { ModuleInput as nicknameCheckInput } from '../../modules/nickname_check.ts';
 import type { ModuleInput as personalFmInput } from '../../modules/personal_fm.ts';
 import type { ModuleInput as personalFmModeInput } from '../../modules/personal_fm_mode.ts';
-import type { ModuleInput as personalizedInput } from '../../modules/personalized.ts';
+import type {
+  ModuleBody as personalizedBody,
+  ModuleInput as personalizedInput,
+} from '../../modules/personalized.ts';
 import type {
   ModuleBody as personalizedDjprogramBody,
   ModuleInput as personalizedDjprogramInput,
 } from '../../modules/personalized_djprogram.ts';
-import type { ModuleInput as personalizedMvInput } from '../../modules/personalized_mv.ts';
-import type { ModuleInput as personalizedNewsongInput } from '../../modules/personalized_newsong.ts';
-import type { ModuleInput as personalizedPrivatecontentInput } from '../../modules/personalized_privatecontent.ts';
-import type { ModuleInput as personalizedPrivatecontentListInput } from '../../modules/personalized_privatecontent_list.ts';
+import type {
+  ModuleBody as personalizedMvBody,
+  ModuleInput as personalizedMvInput,
+} from '../../modules/personalized_mv.ts';
+import type {
+  ModuleBody as personalizedNewsongBody,
+  ModuleInput as personalizedNewsongInput,
+} from '../../modules/personalized_newsong.ts';
+import type {
+  ModuleBody as personalizedPrivatecontentBody,
+  ModuleInput as personalizedPrivatecontentInput,
+} from '../../modules/personalized_privatecontent.ts';
+import type {
+  ModuleBody as personalizedPrivatecontentListBody,
+  ModuleInput as personalizedPrivatecontentListInput,
+} from '../../modules/personalized_privatecontent_list.ts';
 import type { ModuleInput as plCountInput } from '../../modules/pl_count.ts';
 import type {
   ModuleBody as playlistCatlistBody,
@@ -556,7 +571,10 @@ import type {
 } from '../../modules/program_recommend.ts';
 import type { ModuleInput as rebindInput } from '../../modules/rebind.ts';
 import type { ModuleInput as recentListenListInput } from '../../modules/recent_listen_list.ts';
-import type { ModuleInput as recommendResourceInput } from '../../modules/recommend_resource.ts';
+import type {
+  ModuleBody as recommendResourceBody,
+  ModuleInput as recommendResourceInput,
+} from '../../modules/recommend_resource.ts';
 import type {
   ModuleBody as recommendSongsBody,
   ModuleInput as recommendSongsInput,
@@ -2434,7 +2452,7 @@ export interface GeneratedModuleContractMap {
   personalized: {
     input: personalizedInput;
     query: personalizedInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedBody>;
   };
   personalized_djprogram: {
     input: personalizedDjprogramInput;
@@ -2444,22 +2462,22 @@ export interface GeneratedModuleContractMap {
   personalized_mv: {
     input: personalizedMvInput;
     query: personalizedMvInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedMvBody>;
   };
   personalized_newsong: {
     input: personalizedNewsongInput;
     query: personalizedNewsongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedNewsongBody>;
   };
   personalized_privatecontent: {
     input: personalizedPrivatecontentInput;
     query: personalizedPrivatecontentInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedPrivatecontentBody>;
   };
   personalized_privatecontent_list: {
     input: personalizedPrivatecontentListInput;
     query: personalizedPrivatecontentListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedPrivatecontentListBody>;
   };
   pl_count: {
     input: plCountInput;
@@ -2615,7 +2633,7 @@ export interface GeneratedModuleContractMap {
   recommend_resource: {
     input: recommendResourceInput;
     query: recommendResourceInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recommendResourceBody>;
   };
   recommend_songs: {
     input: recommendSongsInput;

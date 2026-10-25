@@ -41,6 +41,14 @@ const result = await personalized({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、推荐歌单列表 `body.result` 和每个歌单自己的编号 `result[].id` 收紧；卡片复用 `PlaylistSummary`，`category`、`hasTaste`、`copywriter`、`canDislike`、`highQuality` 等宽松。匿名和登录录制各 30 条，字段集相同；`limit=0` 会回落到默认 30，没有可达的空结果，数组本身允许为空。`limit=abc` 返回 `code: 400`，SDK 按业务拒绝原样转交，不会报 502。
+
+## 非 200 业务码的状态码变化
+
+本模块的 `code:400` 录制见 `personalized.invalid-limit.json`；通用规则见[返回体结构](/guide/response-bodies#非-200-业务码的状态码变化)。改造前 `code:400` 经 `SPECIAL_STATUS_CODES` 映射为 resolve `status:200`，现在按业务拒绝为 reject `status:400`、`body` 保留上游原文。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取推荐歌单

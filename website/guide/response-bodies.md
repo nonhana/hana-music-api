@@ -187,6 +187,21 @@
 
 `top_list` 的 `idx` 参数不请求上游，直接在本地返回 `status: 500` 和 `{ code: 500, msg }`；这个拒绝分支和成功正文一起写进了 `TopListBody` 的联合，`code` 收紧、`msg` 宽松。
 
+## 推荐
+
+| 模块                                                            | 结构定义                             | 收紧的字段                            |
+| --------------------------------------------------------------- | ------------------------------------ | ------------------------------------- |
+| [获取每日推荐歌单](/api/recommend/recommend-resource)           | `RecommendResourceBody`              | `code`、`recommend`、`recommend[].id` |
+| [推荐歌单](/api/recommend/personalized)                         | `PersonalizedBody`                   | `code`、`result`、`result[].id`       |
+| [推荐 MV](/api/recommend/personalized-mv)                       | `PersonalizedMvBody`                 | `code`、`result`、`result[].id`       |
+| [推荐新歌](/api/recommend/personalized-newsong)                 | `PersonalizedNewsongBody`            | `code`、`result`、`result[].id`       |
+| [独家放送](/api/recommend/personalized-privatecontent)          | `PersonalizedPrivatecontentBody`     | `code`、`result`、`result[].id`       |
+| [独家放送列表](/api/recommend/personalized-privatecontent-list) | `PersonalizedPrivatecontentListBody` | `code`、`result`、`result[].id`       |
+
+每日推荐歌单和推荐歌单的卡片复用 `PlaylistSummary`，只收紧卡片自己的 `id`；`highQuality`、`trackNumberUpdateTime`、`playCount` 由 `PlaylistSummary` 声明，每日推荐歌单的小写 `playcount`、推荐歌单的 `canDislike`、`copywriter` 等卡片字段在模块内补成宽松字段。推荐 MV 复用 `MvSummary`，另补 `picUrl`、`canDislike`、`copywriter`、`type`、`alg`；`trackNumberUpdateTime` 在录制里只见过 `null`，没有声明。推荐新歌的 `song` 是旧版歌曲结构，复用节目记录的 `ProgramMainSong`（`album` 复用 `SimpleAlbum`、`artists` 复用 `Artist`），另补宽松的 `alias`、`exclusive`、`sqMusic`、`hrMusic`、`privilege`（`LooseSongPrivilege`）和 `transName`/`transNames`；`rtUrls`、`album.songs` 只见过空数组，`mp3Url`、`noCopyrightRcmd`、`rtUrl`、`sign` 等只见过 `null`，都没有声明。独家放送和独家放送列表的条目形状不同（后者多 `time`、少 `alg`），分别在各自模块里声明。
+
+六个模块都补了匿名和登录两份录制，登录侧先经 `login_status` 确认 `anonimousUser: false`。`personalized`、`personalized_mv`、`personalized_privatecontent`、`personalized_privatecontent_list` 两边的字段路径和类型相同；`recommend_resource` 的 `creator.expertTags` 匿名 6/6 是 `null`，登录 19 条中 14 条仍是 `null`、5 条是非空数组；`personalized_newsong` 的匿名录制（查询参数不同，3 首）多出若干只见过 `null` 的字段和 `exclusive: false`，登录录制多出 `transName`/`transNames`、`trp` 的非空值，都落在同一份宽松声明里。差异只在条数、实时计数、CDN 地址和这些宽松字段的值。本批录制和探测没有找到可达的空结果：`personalized` 的 `limit=0` 会回落到默认 30，`personalized_newsong` 的 `limit=0` 回落到默认 10，`personalized_mv`、`personalized_privatecontent`、`recommend_resource` 没有分页参数，`personalized_privatecontent_list` 的越界 `offset=100000` 返回 `code: 404` 而不是空列表；数组本身仍然允许为空，契约测试用手写空数组覆盖。`personalized`、`personalized_newsong`、`personalized_privatecontent_list` 的非法数字参数（如 `limit=abc`）返回 `code: 400`：改造前 `code: 400` 经 `SPECIAL_STATUS_CODES` 映射为 resolve `status: 200`，现在被 Body 校验按业务拒绝为 reject `status: 400`、`body` 保留上游原文；`personalized_privatecontent_list` 的越界 `offset=100000`（`code: 404`）改造前是 resolve `status: 404`，现在是 reject `status: 404`。两者都不报 502。
+
 ## 歌手、听歌排行与会员
 
 | 模块                                                   | 结构定义                    | 收紧的字段                                                                                                                      |
@@ -496,6 +511,8 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 - `topic_detail_event_hot`：缺失 `actid`（`topic_detail_event_hot.missing-actid.json`）
 
 `SPECIAL_STATUS_CODES` 里的其他码同样会在 Body 校验时拒绝：201/302/502 以原码拒绝，800–803 因超出 100–599 钳位为 400。不在该表里的码（如 404）原样转交，公开 `status` 仍是 404，不会变成 502。契约测试对以上 5 份 400 录制和 2 份 404 录制都断言状态码和原文。
+
+推荐批次的 `personalized`、`personalized_newsong`、`personalized_privatecontent_list` 同理：`code: 400` 的录制（`personalized.invalid-limit.json`、`personalized_newsong.invalid-limit.json`、`personalized_privatecontent_list.invalid-offset.json`）改造前按 200 放行，现在是 reject `status: 400`；`personalized_privatecontent_list` 的越界 `offset=100000`（`personalized_privatecontent_list.offset-out-of-range.json`）是 `code: 404`，改造前是 resolve `status: 404`，现在是 reject `status: 404`。两者都保留上游原文，不报 502。
 
 ## 消息
 

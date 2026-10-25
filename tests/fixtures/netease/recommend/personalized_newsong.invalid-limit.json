@@ -1,0 +1,20 @@
+{
+  "module": "personalized_newsong",
+  "query": {
+    "limit": "abc"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:48:25.163Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B26：推荐新歌 非法 limit"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": "参数错误",
+      "code": 400
+    }
+  }
+}
