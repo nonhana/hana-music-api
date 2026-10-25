@@ -9,6 +9,7 @@
     "region": "hkg1",
     "ip": "real",
     "viewer": "anonymous",
+    "outcome": "ok",
     "note": "扫码成功；Set-Cookie 不收录，各条 Cookie 的有效期见 #14 留言"
   },
   "response": {

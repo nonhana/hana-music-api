@@ -44,6 +44,7 @@
     "docs:build": "vitepress build website",
     "docs:dev": "vitepress dev website",
     "docs:preview": "vitepress preview website",
+    "fixtures:record": "bun scripts/record-fixtures.mts",
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt . --check",
     "lint": "oxlint . --deny-warnings",

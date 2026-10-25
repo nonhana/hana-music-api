@@ -10,7 +10,7 @@
  *   bun run schema:audit check
  */
 
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { isDeepStrictEqual } from 'node:util';
@@ -38,14 +38,34 @@ type ValidationResult = {
   readonly value?: unknown;
 };
 
+type RecordingPart = {
+  readonly index?: number;
+  readonly of?: number;
+  readonly final: boolean;
+};
+
 type IndexEntry = {
   readonly module?: unknown;
   readonly path?: unknown;
   readonly outcome?: unknown;
+  readonly part?: RecordingPart;
+  readonly recording?: unknown;
 };
 
 type RecordingIndex = {
   readonly entries?: unknown;
+};
+
+type IndexStats = {
+  readonly noModule: number;
+  readonly outcomes: ReadonlyMap<string, number>;
+  readonly scanned: number;
+  readonly scannedUnit: 'entries' | 'files';
+};
+
+type IndexEntries = {
+  readonly entries: ReadonlyArray<IndexEntry>;
+  readonly stats: IndexStats;
 };
 
 type FieldCell = {
@@ -91,20 +111,6 @@ const readJson = (file: string): unknown => {
   return JSON.parse(text);
 };
 
-const readIndex = (root: string): ReadonlyArray<IndexEntry> => {
-  const file = join(root, 'index.json');
-  if (!existsSync(file)) {
-    throw new Error(
-      `找不到录制索引 ${file}。请用 --recordings <root> 指向带 index.json 的录制根目录。`,
-    );
-  }
-  const parsed = readJson(file) as RecordingIndex;
-  if (!Array.isArray(parsed.entries)) {
-    throw new Error(`${file} 的 entries 不是数组`);
-  }
-  return parsed.entries.filter(isRecord);
-};
-
 const bodyFromRecording = (recording: unknown): unknown => {
   if (!isRecord(recording) || !isRecord(recording.response)) {
     throw new Error('录制没有 response 对象');
@@ -113,6 +119,197 @@ const bodyFromRecording = (recording: unknown): unknown => {
   return isRecord(body) && !('code' in body) && isRecord(body.body)
     ? body.body
     : body;
+};
+
+/** index 模式在读取 part 时已解析过同一文件，这里复用，避免再整读一遍。 */
+const bodyOfEntry = (
+  entry: IndexEntry,
+  recordingsRoot: string,
+  path: string,
+): unknown =>
+  bodyFromRecording(
+    entry.recording === undefined
+      ? readJson(resolve(recordingsRoot, path))
+      : entry.recording,
+  );
+
+const recordingFiles = (root: string): ReadonlyArray<string> => {
+  const files: Array<string> = [];
+  const walk = (directory: string, prefix: string) => {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const relativePath =
+        prefix.length === 0 ? entry.name : `${prefix}/${entry.name}`;
+      if (entry.isDirectory()) {
+        walk(join(directory, entry.name), relativePath);
+        continue;
+      }
+      if (
+        entry.isFile() &&
+        (entry.name.endsWith('.json') || entry.name.endsWith('.json.gz')) &&
+        entry.name !== 'index.json' &&
+        entry.name !== 'index.json.gz'
+      ) {
+        files.push(relativePath);
+      }
+    }
+  };
+  walk(root, '');
+  return files;
+};
+
+/**
+ * 录制自报的 `context.outcome` 优先：`ok` 即成功，其他原值都算非 ok。
+ * 没写 outcome 时只看 response.status 和顶层数字 code；data.code 是业务状态
+ * （如下载单曲的 -105/-110），不代表接口失败，不参与分类。
+ */
+const outcomeFromRecording = (recording: unknown): string => {
+  if (!isRecord(recording)) {
+    return 'rejected';
+  }
+  const context = recording.context;
+  if (isRecord(context)) {
+    const declared = context.outcome;
+    if (typeof declared === 'string' && declared.trim() !== '') {
+      return declared;
+    }
+  }
+  if (!isRecord(recording.response)) {
+    return 'rejected';
+  }
+  const response = recording.response;
+  if (response.status !== 200) {
+    return 'rejected';
+  }
+  let body: unknown;
+  try {
+    body = bodyFromRecording(recording);
+  } catch {
+    return 'rejected';
+  }
+  const code = isRecord(body) ? body.code : undefined;
+  if (typeof code === 'number' && code !== 200) {
+    return 'rejected';
+  }
+  return 'ok';
+};
+
+/**
+ * 多请求录制用 `context.part = { index, of, final }` 标记；没有 part 的老录制视为单请求 final。
+ * `final: false` 的中间/不完整证据不进入 ModuleBody 校验。
+ */
+const partOfRecording = (recording: unknown): RecordingPart | undefined => {
+  if (!isRecord(recording) || !isRecord(recording.context)) return undefined;
+  const part = recording.context.part;
+  if (!isRecord(part)) return undefined;
+  return {
+    index: typeof part.index === 'number' ? part.index : undefined,
+    of: typeof part.of === 'number' ? part.of : undefined,
+    final: part.final === true,
+  };
+};
+
+const isExcludedPart = (entry: IndexEntry) => entry.part?.final === false;
+
+/** index 条目没有 outcome 时按非 ok 处理，保持旧计数保守。 */
+const entryOutcome = (entry: IndexEntry): string =>
+  typeof entry.outcome === 'string' && entry.outcome.trim() !== ''
+    ? entry.outcome
+    : 'rejected';
+
+const readIndex = (root: string, moduleFilter?: string): IndexEntries => {
+  const file = join(root, 'index.json');
+  if (existsSync(file)) {
+    const parsed = readJson(file) as RecordingIndex;
+    if (!Array.isArray(parsed.entries)) {
+      throw new Error(`${file} 的 entries 不是数组`);
+    }
+    // index 本身不带 part；从录制文件推导，老录制没有 part 就当单请求 final。
+    const entries = parsed.entries.filter(isRecord).map((entry) => {
+      if (
+        typeof entry.module !== 'string' ||
+        typeof entry.path !== 'string' ||
+        (moduleFilter !== undefined && entry.module !== moduleFilter)
+      ) {
+        return entry;
+      }
+      const recordingFile = resolve(root, entry.path);
+      if (!existsSync(recordingFile)) {
+        throw new Error(`读取索引录制 ${entry.path} 失败：文件不存在`);
+      }
+      let recording: unknown;
+      try {
+        recording = readJson(recordingFile);
+      } catch (error) {
+        throw new Error(
+          `读取索引录制 ${entry.path} 失败：${error instanceof Error ? error.message : String(error)}`,
+          { cause: error },
+        );
+      }
+      return {
+        ...entry,
+        part: partOfRecording(recording),
+        recording,
+      };
+    });
+    const outcomes = new Map<string, number>();
+    let noModule = 0;
+    for (const entry of entries) {
+      if (typeof entry.module !== 'string') {
+        noModule += 1;
+        continue;
+      }
+      const outcome = entryOutcome(entry);
+      outcomes.set(outcome, (outcomes.get(outcome) ?? 0) + 1);
+    }
+    return {
+      entries,
+      stats: {
+        scanned: entries.length,
+        scannedUnit: 'entries',
+        outcomes,
+        noModule,
+      },
+    };
+  }
+  if (!existsSync(root) || !statSync(root).isDirectory()) {
+    throw new Error(
+      `找不到录制根目录 ${root}；用 --recordings <root> 指向 index.json 或 SDK 的 tests/fixtures/netease。`,
+    );
+  }
+
+  const files = recordingFiles(root);
+  const entries: Array<IndexEntry> = [];
+  const outcomes = new Map<string, number>();
+  let noModule = 0;
+  for (const relativePath of files) {
+    let recording: unknown;
+    try {
+      recording = readJson(join(root, relativePath));
+    } catch (error: unknown) {
+      throw new Error(
+        `读取录制 ${relativePath} 失败：${error instanceof Error ? error.message : String(error)}`,
+        { cause: error },
+      );
+    }
+    if (!isRecord(recording) || typeof recording.module !== 'string') {
+      noModule += 1;
+      continue;
+    }
+    const outcome = outcomeFromRecording(recording);
+    outcomes.set(outcome, (outcomes.get(outcome) ?? 0) + 1);
+    entries.push({
+      module: recording.module,
+      path: relativePath,
+      outcome,
+      part: partOfRecording(recording),
+    });
+  }
+  return {
+    entries: entries.toSorted((left, right) =>
+      String(left.path).localeCompare(String(right.path)),
+    ),
+    stats: { scanned: files.length, scannedUnit: 'files', outcomes, noModule },
+  };
 };
 
 const schemaCache = new Map<string, StandardSchema | null>();
@@ -277,27 +474,56 @@ const checkCommand = () => {
   process.exitCode = 1;
 };
 
+const outcomeOrder = (name: string) =>
+  name === 'rejected' ? 0 : name === 'rateLimited' ? 1 : 3;
+
+/** 按 outcome 分组输出；ok 固定第一行，其余先 rejected/rateLimited 再按名称排序。 */
+const printOutcomeCounts = (outcomes: ReadonlyMap<string, number>) => {
+  out(`  ok: ${outcomes.get('ok') ?? 0}`);
+  const rest = [...outcomes.entries()]
+    .filter(([name]) => name !== 'ok')
+    .toSorted(
+      ([left], [right]) =>
+        outcomeOrder(left) - outcomeOrder(right) || left.localeCompare(right),
+    );
+  for (const [name, count] of rest) out(`  ${name}: ${count}`);
+};
+
 const moduleCommand = (moduleName: string, recordingsRoot: string) => {
-  const entries = readIndex(recordingsRoot).filter(
-    (entry) => entry.outcome === 'ok' && entry.module === moduleName,
+  const moduleEntries = readIndex(recordingsRoot, moduleName).entries.filter(
+    (entry) => entry.module === moduleName,
   );
+  const outcomes = new Map<string, number>();
+  for (const entry of moduleEntries) {
+    const outcome = entryOutcome(entry);
+    outcomes.set(outcome, (outcomes.get(outcome) ?? 0) + 1);
+  }
+  const multiPartCount = moduleEntries.filter(isExcludedPart).length;
+  // 只有 final:true 的录制对应 ModuleBody；中间/不完整证据不进入字段矩阵。
+  const entries = moduleEntries.filter(
+    (entry) => entryOutcome(entry) === 'ok' && !isExcludedPart(entry),
+  );
+
+  out(`module: ${moduleName}`);
+  out(`recordings: ${moduleEntries.length}`);
+  printOutcomeCounts(outcomes);
+  if (multiPartCount > 0) {
+    out(`  multi-part: ${multiPartCount} (excluded)`);
+  }
+
   if (entries.length === 0) {
     throw new Error(
-      `${moduleName} 在 ${recordingsRoot} 里没有成功录制；先用 --recordings 指定录制根目录。`,
+      `${moduleName} 在 ${recordingsRoot} 里没有 final:true 的成功录制（共 ${moduleEntries.length} 份，其中 multi-part ${multiPartCount} 份）。`,
     );
   }
 
   const cells = new Map<string, FieldCell>();
   for (const entry of entries) {
     if (typeof entry.path !== 'string') continue;
-    const body = bodyFromRecording(
-      readJson(resolve(recordingsRoot, entry.path)),
-    );
+    const body = bodyOfEntry(entry, recordingsRoot, entry.path);
     collectFields(body, '', cells);
   }
 
-  out(`module: ${moduleName}`);
-  out(`recordings: ${entries.length}`);
   out('path\ttypes\tcount\tsamples');
   for (const [path, cell] of [...cells.entries()].toSorted(([a], [b]) =>
     a.localeCompare(b),
@@ -309,8 +535,17 @@ const moduleCommand = (moduleName: string, recordingsRoot: string) => {
 };
 
 const recordingsCommand = async (recordingsRoot: string, list: boolean) => {
-  const entries = readIndex(recordingsRoot).filter(
-    (entry) => entry.outcome === 'ok',
+  const { entries: allEntries, stats } = readIndex(recordingsRoot);
+  // final:false 的中间/不完整证据只计数，不做 ModuleBody 校验。
+  const multiPartEntries = allEntries.filter(
+    (entry) => typeof entry.module === 'string' && isExcludedPart(entry),
+  );
+  // 没有 module 的条目只进 no-module 计数，不当作可校验录制。
+  const entries = allEntries.filter(
+    (entry) =>
+      typeof entry.module === 'string' &&
+      entryOutcome(entry) === 'ok' &&
+      !isExcludedPart(entry),
   );
   const skipped = new Map<string, number>();
   const failures: Array<{ path: string; reason: string }> = [];
@@ -343,9 +578,7 @@ const recordingsCommand = async (recordingsRoot: string, list: boolean) => {
     }
 
     try {
-      const body = bodyFromRecording(
-        readJson(resolve(recordingsRoot, recordingPath)),
-      );
+      const body = bodyOfEntry(entry, recordingsRoot, recordingPath);
       const result = validate(schema, body);
       if (result.issues && result.issues.length > 0) {
         failures.push({
@@ -370,7 +603,22 @@ const recordingsCommand = async (recordingsRoot: string, list: boolean) => {
 
   const bodyModules = modulesWithBody();
   const noRecording = bodyModules.filter((name) => !seenModules.has(name));
-  out(`recordings: ${entries.length} ok entries`);
+  const okCount = stats.outcomes.get('ok') ?? 0;
+  const excludedOk = multiPartEntries.filter(
+    (entry) => entryOutcome(entry) === 'ok',
+  ).length;
+  out(
+    excludedOk > 0
+      ? `recordings: ${okCount} ok entries (${okCount - excludedOk} eligible, ${excludedOk} multi-part excluded)`
+      : `recordings: ${okCount} ok entries`,
+  );
+  // index 模式按 entries 计，直接扫描目录按文件计；两个数字来源不同，不能混用。
+  out(`  scanned: ${stats.scanned} ${stats.scannedUnit}`);
+  printOutcomeCounts(stats.outcomes);
+  if (multiPartEntries.length > 0) {
+    out(`  multi-part: ${multiPartEntries.length} (excluded)`);
+  }
+  out(`  no-module: ${stats.noModule}`);
   out(`  validated: ${validated}`);
   out(
     `  skipped (no ModuleBody): ${[...skipped.values()].reduce((a, b) => a + b, 0)}`,
@@ -384,7 +632,7 @@ const recordingsCommand = async (recordingsRoot: string, list: boolean) => {
     out(`    … ${failures.length - 20} more`);
   }
   if (list) {
-    out(`  body modules without recordings: ${noRecording.length}`);
+    out(`  body modules without auditable recordings: ${noRecording.length}`);
     for (const name of noRecording) out(`    ${name}`);
   }
   if (failures.length > 0) process.exitCode = 1;
