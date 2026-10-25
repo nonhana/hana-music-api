@@ -1,0 +1,29 @@
+{
+  "module": "musician_data_overview",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:34:56.020Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B36：musician_data_overview 音乐人账号数据概况正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": {
+        "availableExtractIncomeTotal": "0",
+        "productionTotal": 12,
+        "followerCountIncrement": null,
+        "musicianLevelScore": 0,
+        "playCount": null,
+        "fansPlayCount": null,
+        "fansPlayRatio": null,
+        "totalPlayCount": null,
+        "totalFansCount": 31
+      }
+    }
+  }
+}

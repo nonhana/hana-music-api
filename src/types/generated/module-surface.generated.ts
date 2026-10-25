@@ -459,13 +459,28 @@ import type {
   ModuleInput as msgRecentcontactInput,
 } from '../../modules/msg_recentcontact.ts';
 import type { ModuleInput as musicFirstListenInfoInput } from '../../modules/music_first_listen_info.ts';
-import type { ModuleInput as musicianCloudbeanInput } from '../../modules/musician_cloudbean.ts';
+import type {
+  ModuleBody as musicianCloudbeanBody,
+  ModuleInput as musicianCloudbeanInput,
+} from '../../modules/musician_cloudbean.ts';
 import type { ModuleInput as musicianCloudbeanObtainInput } from '../../modules/musician_cloudbean_obtain.ts';
-import type { ModuleInput as musicianDataOverviewInput } from '../../modules/musician_data_overview.ts';
-import type { ModuleInput as musicianPlayTrendInput } from '../../modules/musician_play_trend.ts';
+import type {
+  ModuleBody as musicianDataOverviewBody,
+  ModuleInput as musicianDataOverviewInput,
+} from '../../modules/musician_data_overview.ts';
+import type {
+  ModuleBody as musicianPlayTrendBody,
+  ModuleInput as musicianPlayTrendInput,
+} from '../../modules/musician_play_trend.ts';
 import type { ModuleInput as musicianSignInput } from '../../modules/musician_sign.ts';
-import type { ModuleInput as musicianTasksInput } from '../../modules/musician_tasks.ts';
-import type { ModuleInput as musicianTasksNewInput } from '../../modules/musician_tasks_new.ts';
+import type {
+  ModuleBody as musicianTasksBody,
+  ModuleInput as musicianTasksInput,
+} from '../../modules/musician_tasks.ts';
+import type {
+  ModuleBody as musicianTasksNewBody,
+  ModuleInput as musicianTasksNewInput,
+} from '../../modules/musician_tasks_new.ts';
 import type {
   ModuleBody as mvAllBody,
   ModuleInput as mvAllInput,
@@ -2463,7 +2478,7 @@ export interface GeneratedModuleContractMap {
   musician_cloudbean: {
     input: musicianCloudbeanInput;
     query: musicianCloudbeanInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicianCloudbeanBody>;
   };
   musician_cloudbean_obtain: {
     input: musicianCloudbeanObtainInput;
@@ -2473,12 +2488,12 @@ export interface GeneratedModuleContractMap {
   musician_data_overview: {
     input: musicianDataOverviewInput;
     query: musicianDataOverviewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicianDataOverviewBody>;
   };
   musician_play_trend: {
     input: musicianPlayTrendInput;
     query: musicianPlayTrendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicianPlayTrendBody>;
   };
   musician_sign: {
     input: musicianSignInput;
@@ -2488,12 +2503,12 @@ export interface GeneratedModuleContractMap {
   musician_tasks: {
     input: musicianTasksInput;
     query: musicianTasksInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicianTasksBody>;
   };
   musician_tasks_new: {
     input: musicianTasksNewInput;
     query: musicianTasksNewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicianTasksNewBody>;
   };
   mv_all: {
     input: mvAllInput;

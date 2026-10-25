@@ -37,6 +37,10 @@ const result = await musicianTasksNew();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、任务列表 `body.data.list` 和每个任务的编号 `body.data.list[].missionId` 收紧；其余任务字段宽松，`extendInfo` 是 JSON 字符串。阶段目标 `body.data.list[].userStageTargetList` 是任务里套着的展示数据，整列宽松，坏一条只丢这一列。录制来自音乐人账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `anonimousUser: false`（未落盘）），有 5 条任务；本批没有录到任务列表为空的账号，`data.list` 在空账号下的实际表现未验证。匿名调用返回 `code: 301`（`musician_tasks_new.anonymous.json`），SDK 以 `status: 301` 转交原文。结构定义和类型是 `MusicianTasksNewBody`，见[返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 音乐人登录后调用此接口，可获取音乐人任务。返回的数据中`status`字段为任务状态，0 表示任务未开始，10 表示任务正在进行中，20 表示任务完成，但未领取云豆，100 表示任务完成，并且已经领取了相应的云豆

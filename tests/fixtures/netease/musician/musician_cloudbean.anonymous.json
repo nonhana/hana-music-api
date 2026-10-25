@@ -1,0 +1,19 @@
+{
+  "module": "musician_cloudbean",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:36:27.575Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B36：musician_cloudbean 匿名返回业务拒绝（code 600）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 600,
+      "message": "用户不是音乐人!",
+      "data": null
+    }
+  }
+}

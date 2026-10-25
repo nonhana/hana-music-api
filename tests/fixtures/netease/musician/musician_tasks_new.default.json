@@ -1,0 +1,212 @@
+{
+  "module": "musician_tasks_new",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:35:18.070Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B36：musician_tasks_new 音乐人任务阶段列表正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": {
+        "list": [
+          {
+            "business": "musician",
+            "missionId": 6605451,
+            "userId": 599663130,
+            "missionEntityId": 8096345,
+            "rewardId": 0,
+            "progressRate": 0,
+            "description": "新年换新装排行榜",
+            "type": 300,
+            "tag": 302,
+            "actionType": 106008,
+            "platform": 100,
+            "status": 0,
+            "button": "去使用",
+            "sortValue": 1310,
+            "startTime": 1792944000000,
+            "endTime": 1793030399000,
+            "extendInfo": "{\"stageType\":\"1\",\"crowd\":1,\"webDetailUrl\":null,\"webLeadsUrl\":null,\"mobileIcon\":null,\"webIcon\":null,\"androidDetailUrl\":null,\"sumTarget\":\"5\",\"mobileLeadsUrl\":null,\"button\":\"去使用\",\"mobileActionType\":\"href\",\"toastInfo\":null,\"sniperId\":\"\",\"subTitle\":null,\"mobileDetailUrl\":null,\"leadsText\":null,\"webActionType\":\"href\",\"taskTitle\":\"新年换新装排行榜\",\"sniperTime\":\"2025-01-16\"}",
+            "updateTime": 1792965601000,
+            "period": 1,
+            "needToReceive": 0,
+            "subAction": "",
+            "userStageTargetList": [
+              {
+                "sortValue": 0,
+                "stageType": 2,
+                "times": 5,
+                "value": 1,
+                "progressRate": 0,
+                "sumTarget": 5,
+                "rewardId": 2334100,
+                "rewardType": 2400,
+                "worth": 10,
+                "status": 0
+              }
+            ],
+            "hasSendWorth": 0
+          },
+          {
+            "business": "musician",
+            "missionId": 10765686,
+            "userId": 599663130,
+            "missionEntityId": 8096355,
+            "rewardId": 0,
+            "progressRate": 0,
+            "description": "发布一条歌曲MV",
+            "type": 300,
+            "tag": 303,
+            "actionType": 305,
+            "platform": 100,
+            "status": 0,
+            "button": "去完成",
+            "sortValue": 500,
+            "startTime": 1792944000000,
+            "endTime": 1793548799000,
+            "extendInfo": "{\"stageType\":\"1\",\"crowd\":1,\"webDetailUrl\":\"https://music.163.com/st/ncreator/upload?userType=1\",\"webLeadsUrl\":null,\"mobileIcon\":{\"resourceId\":80174830407,\"nosPath\":\"yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/80174830407/4d13/f338/9056/33493715f083ee9fa16a92fe7b465844.png\",\"url\":\"http://nos.netease.com/yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/80174830407/4d13/f338/9056/33493715f083ee9fa16a92fe7b465844.png\"},\"webIcon\":{\"resourceId\":80174830407,\"nosPath\":\"yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/80174830407/4d13/f338/9056/33493715f083ee9fa16a92fe7b465844.png\",\"url\":\"http://nos.netease.com/yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/80174830407/4d13/f338/9056/33493715f083ee9fa16a92fe7b465844.png\"},\"androidDetailUrl\":null,\"sumTarget\":\"2\",\"mobileLeadsUrl\":null,\"button\":\"去完成\",\"mobileActionType\":\"href\",\"toastInfo\":null,\"sniperId\":\"\",\"subTitle\":\"每周可完成2次任务并领取云豆~\",\"mobileDetailUrl\":\"https://y.music.163.com/g/yida/38361827f2ce41bfbd75fdd212287d50\",\"leadsText\":null,\"webActionType\":\"href\",\"taskTitle\":\"发布一条歌曲MV\",\"sniperTime\":\"2026-05-13\"}",
+            "updateTime": 1792965601000,
+            "period": 7,
+            "needToReceive": 0,
+            "subAction": "",
+            "userStageTargetList": [
+              {
+                "sortValue": 0,
+                "stageType": 2,
+                "times": 2,
+                "value": 1,
+                "progressRate": 0,
+                "sumTarget": 2,
+                "rewardId": 100003,
+                "rewardType": 100,
+                "worth": 5,
+                "status": 0
+              }
+            ],
+            "hasSendWorth": 0
+          },
+          {
+            "business": "musician",
+            "missionId": 10716677,
+            "userId": 599663130,
+            "missionEntityId": 8096352,
+            "rewardId": 0,
+            "progressRate": 0,
+            "description": "AI创作，写歌利器",
+            "type": 300,
+            "tag": 303,
+            "actionType": 316,
+            "platform": 300,
+            "status": 0,
+            "button": "使用",
+            "sortValue": 200,
+            "startTime": 1792944000000,
+            "endTime": 1793548799000,
+            "extendInfo": "{\"stageType\":\"1\",\"crowd\":1,\"webDetailUrl\":\"https://music.163.com/musician/artist/aicreation/song-generate-home\",\"webLeadsUrl\":\"\",\"mobileIcon\":{\"resourceId\":29920535375,\"nosPath\":\"yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/29920535375/65ca/880e/e6c2/7b1670c8b684e5dd99328d53398f7133.png\",\"url\":\"http://nos.netease.com/yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/29920535375/65ca/880e/e6c2/7b1670c8b684e5dd99328d53398f7133.png\"},\"webIcon\":{\"resourceId\":29920532707,\"nosPath\":\"yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/29920532707/2678/4935/697b/1cf1a871565cdca9b1a9ce490dc8d3a7.png\",\"url\":\"http://nos.netease.com/yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/29920532707/2678/4935/697b/1cf1a871565cdca9b1a9ce490dc8d3a7.png\"},\"androidDetailUrl\":null,\"sumTarget\":\"1\",\"mobileLeadsUrl\":\"\",\"button\":\"使用\",\"mobileActionType\":\"href\",\"toastInfo\":null,\"sniperId\":\"\",\"subTitle\":\"使用AI写歌工具，创作更高产\",\"mobileDetailUrl\":\"orpheus://nm/mainTab/select?tab=main&exploreTabCode=ai-generate-song\",\"leadsText\":\"\",\"webActionType\":\"href\",\"taskTitle\":\"AI创作，写歌利器\",\"sniperTime\":\"2023-08-14\"}",
+            "updateTime": 1792965601000,
+            "period": 7,
+            "needToReceive": 0,
+            "subAction": "http://163cn.tv/AEI3Gig",
+            "userStageTargetList": [
+              {
+                "sortValue": 0,
+                "stageType": 1,
+                "times": 1,
+                "value": 0,
+                "progressRate": 0,
+                "sumTarget": 1,
+                "rewardId": 100000,
+                "rewardType": 100,
+                "worth": 1,
+                "status": 0
+              }
+            ],
+            "hasSendWorth": 0
+          },
+          {
+            "business": "musician",
+            "missionId": 10725677,
+            "userId": 599663130,
+            "missionEntityId": 8096347,
+            "rewardId": 0,
+            "progressRate": 0,
+            "description": "邀请他人入驻",
+            "type": 300,
+            "tag": 303,
+            "actionType": 103,
+            "platform": 100,
+            "status": 0,
+            "button": "邀请",
+            "sortValue": 60,
+            "startTime": 1792944000000,
+            "endTime": 1793548799000,
+            "extendInfo": "{\"stageType\":\"1\",\"crowd\":1,\"webDetailUrl\":\"/nmusician/web/invite/index?showinvite\",\"webLeadsUrl\":null,\"mobileIcon\":{\"resourceId\":24655306963,\"nosPath\":\"yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/24655306963/5b82/13e1/d6a3/24571087210abfdac11a62a212b0fa0c.png\",\"url\":\"http://nos.netease.com/yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/24655306963/5b82/13e1/d6a3/24571087210abfdac11a62a212b0fa0c.png\"},\"webIcon\":{\"resourceId\":13927478139,\"nosPath\":\"yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/13927478139/9c4a/a005/4c1f/74b3d745b820d24a515a31f48b222cd7.png\",\"url\":\"http://nos.netease.com/yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/13927478139/9c4a/a005/4c1f/74b3d745b820d24a515a31f48b222cd7.png\"},\"androidDetailUrl\":null,\"sumTarget\":\"1\",\"mobileLeadsUrl\":null,\"button\":\"邀请\",\"mobileActionType\":\"href\",\"toastInfo\":null,\"sniperId\":\"\",\"subTitle\":\"每周可邀请两位音乐人朋友哦~\",\"mobileDetailUrl\":\"https://music.163.com/st/musician/m/invite?ignoreBackHome=true\",\"leadsText\":null,\"webActionType\":\"href\",\"taskTitle\":\"邀请他人入驻\",\"sniperTime\":\"2023-02-07\"}",
+            "updateTime": 1792965601000,
+            "period": 7,
+            "needToReceive": 0,
+            "subAction": "",
+            "userStageTargetList": [
+              {
+                "sortValue": 0,
+                "stageType": 2,
+                "times": 1,
+                "value": 1,
+                "progressRate": 0,
+                "sumTarget": 1,
+                "rewardId": 100000,
+                "rewardType": 100,
+                "worth": 1,
+                "status": 0
+              }
+            ],
+            "hasSendWorth": 0
+          },
+          {
+            "business": "musician",
+            "missionId": 1231009,
+            "userId": 599663130,
+            "missionEntityId": 780198,
+            "rewardId": 0,
+            "progressRate": 0,
+            "description": "学习创作指南",
+            "type": 300,
+            "tag": 303,
+            "actionType": 316,
+            "platform": 300,
+            "status": 0,
+            "button": "学习",
+            "sortValue": 55,
+            "startTime": 1656864000000,
+            "endTime": 2635171200000,
+            "extendInfo": "{\"stageType\":\"1\",\"crowd\":1,\"webDetailUrl\":null,\"webLeadsUrl\":null,\"mobileIcon\":{\"resourceId\":24655312568,\"nosPath\":\"yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/24655312568/775d/dfce/9173/164877baf38bd4d724871cf4ad3502fa.png\",\"url\":\"http://nos.netease.com/yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/24655312568/775d/dfce/9173/164877baf38bd4d724871cf4ad3502fa.png\"},\"webIcon\":{\"resourceId\":15384668972,\"nosPath\":\"yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/15384668972/366f/8d72/8a81/f007ce9751ed3fb3f3cf0b7f0e40b54f.png\",\"url\":\"http://nos.netease.com/yyimgs/obj/wo7DlsKTwrbDjjjDjsOk/15384668972/366f/8d72/8a81/f007ce9751ed3fb3f3cf0b7f0e40b54f.png\"},\"androidDetailUrl\":null,\"sumTarget\":\"1\",\"mobileLeadsUrl\":null,\"button\":\"学习\",\"mobileActionType\":\"href\",\"toastInfo\":null,\"sniperId\":\"\",\"subTitle\":\"一次深度探索音乐创作的秘密\",\"mobileDetailUrl\":\"http://163cn.tv/ISAvy1?ignoreBackHome=true\",\"leadsText\":null,\"webActionType\":\"href\",\"taskTitle\":\"学习创作指南\",\"sniperTime\":\"2022-12-13\"}",
+            "updateTime": 1792965601000,
+            "period": 0,
+            "needToReceive": 0,
+            "subAction": "http://163cn.tv/ISAvy1?ignoreBackHome=true",
+            "userStageTargetList": [
+              {
+                "sortValue": 0,
+                "stageType": 1,
+                "times": 1,
+                "value": 0,
+                "progressRate": 0,
+                "sumTarget": 1,
+                "rewardId": 100000,
+                "rewardType": 100,
+                "worth": 1,
+                "status": 0
+              }
+            ],
+            "hasSendWorth": 0
+          }
+        ]
+      }
+    }
+  }
+}

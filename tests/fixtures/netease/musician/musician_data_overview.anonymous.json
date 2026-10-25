@@ -1,0 +1,19 @@
+{
+  "module": "musician_data_overview",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:36:33.095Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B36：musician_data_overview 匿名返回业务拒绝（code 10000）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 10000,
+      "message": "不是音乐人",
+      "data": null
+    }
+  }
+}

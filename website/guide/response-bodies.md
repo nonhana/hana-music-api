@@ -243,6 +243,11 @@
 | [会员成长值](/api/vip/vip-growthpoint)                 | `VipGrowthpointBody`        | `code`、`data`、`data.userLevel`、`data.userLevel.userId`、`data.userLevel.growthPoint`                                         |
 | [会员成长值领取记录](/api/vip/vip-growthpoint-details) | `VipGrowthpointDetailsBody` | `code`、`data`、`data.details`                                                                                                  |
 | [会员任务](/api/vip/vip-tasks)                         | `VipTasksBody`              | `code`、`data`、`data.taskList`、`data.taskList[].taskItems`、`data.taskList[].taskItems[].taskId`                              |
+| [账号云豆数](/api/vip/musician-cloudbean)              | `MusicianCloudbeanBody`     | `code`、`data`、`data.artistId`、`data.cloudBean`                                                                               |
+| [音乐人数据概况](/api/vip/musician-data-overview)      | `MusicianDataOverviewBody`  | `code`、`data`                                                                                                                  |
+| [音乐人播放趋势](/api/vip/musician-play-trend)         | `MusicianPlayTrendBody`     | `code`、`data`、`data[].dateTime`、`data[].dataValue`                                                                           |
+| [音乐人任务](/api/vip/musician-tasks)                  | `MusicianTasksBody`         | `code`、`data.list`、`data.list[].missionId`                                                                                    |
+| [音乐人任务(新)](/api/vip/musician-tasks-new)          | `MusicianTasksNewBody`      | `code`、`data.list`、`data.list[].missionId`                                                                                    |
 
 `data.artist.id`、`hotSongs[].id`、`data.records[].id` 是记录自己的编号，所以收紧；歌曲里套着的 `song.id`、MV 记录里的 `artist`、视频记录里的 `resource` 和会员权益对象是附带信息，字段宽松。听歌排行里 `allData` 和 `weekData` 按 `type` 二选一，两个都可以缺失或为 `null`。
 
@@ -259,6 +264,14 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 `vip_timemachine` 的周报列表 `data.detail` 是可以没有的路径：没有记录的周区间返回 `null`（录制 `vip/vip_timemachine.empty.json`），缺失或 `null` 都照常返回；出现时每份周报的 `rowKey` 收紧，报告体 `data.detail[].data` 必填（缺失、`null` 或非对象报 502），四种 `type` 的报告内容共用一个宽松结构。`vip_growthpoint` 收紧成长值记录 `data.userLevel` 及其 `userId`、`growthPoint`，等级卡 `levelCard` 是附带展示信息，字段全部宽松。`vip_growthpoint_details` 的记录列表 `data.details` 收紧，记录里的 `resourceId`、`descript`、`growthPoint`、`time` 都是宽松字段；`offset=100000` 越过列表返回空数组（`vip/vip_growthpoint_details.offset-100000.json`）。`vip_tasks` 收紧任务分组 `data.taskList`、组内任务 `data.taskList[].taskItems` 和任务的 `taskId`；本批只录到一条任务，`taskId` 为字符串；本批录制（匿名与登录）没有出现可达的空任务列表。登录对照先确认 `login_status` 的 `account.anonimousUser` 为 `false`；匿名对照录制保留为 `vip/vip_growthpoint.anonymous.json`、`vip/vip_growthpoint_details.anonymous.json`、`vip/vip_tasks.anonymous.json` 和 `digital-album/digitalAlbum_purchased.anonymous.json`，不对匿名与登录的公开结构作相同性断言。
 
 `simi_artist` 的 `artists[]` 复用 `Artist` 的字段声明，只把记录自己的 `id` 收紧；相似歌手记录多出的 `alg`、`fansCount` 另声明为宽松字段，只见过 `null` 的 `identifyTag`、`isSubed`、`publishTime`、`showPrivateMsg` 没有声明，`mvSize` 按 `Artist` 的宽松声明处理。未知歌手 id 返回空数组（`simi_artist.unknown.json`）；本批录制来自登录账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `anonimousUser: false`），没有保留匿名对照录制。
+
+`musician_cloudbean` 的 `data` 是当前音乐人账号的云豆对象，`data.artistId` 是记录自己的编号、`data.cloudBean` 是接口要拿的云豆数；`maxCloudBean`、`needPop`、`signed` 宽松，`musicianLevel`、`flowStage`、`dynamicNews` 只见过 `null`，没有声明。`musician_data_overview` 只收紧通到概况对象的 `data`，各项统计（`availableExtractIncomeTotal`、`productionTotal`、`musicianLevelScore`、`totalFansCount`）宽松，`playCount`、`totalPlayCount`、`fansPlayCount`、`fansPlayRatio`、`followerCountIncrement` 只见过 `null`，没有声明。
+
+`musician_play_trend` 的 `data` 是日趋势数组，`data[].dateTime` 是日期键、`data[].dataValue` 是这一天的播放数（字符串，`"0"` 也正常），三项收紧。`startTime`/`endTime` 要传 `YYYY-MM-DD` 字符串；毫秒数、秒数或缺少参数会返回 `code: 400`（`musician_play_trend.ms-params.json`、`musician_play_trend.s-params.json`、`musician_play_trend.no-params.json`）。没有播放记录的区间返回 `data: []`（`musician_play_trend.empty.json`），匿名调用也返回空趋势（`musician_play_trend.anonymous-empty.json`）。
+
+`musician_tasks` 和 `musician_tasks_new` 的 `data.list` 是必填任务数组，每个任务的 `missionId` 收紧；其余任务字段宽松，`extendInfo` 是 JSON 字符串。`musician_tasks_new` 的阶段目标 `data.list[].userStageTargetList` 是任务记录里套着的展示数据，整列宽松，坏一条只丢这一列。登录录制分别有 7 条和 5 条任务；本批没有录到任务列表为空的音乐人账号，`data.list` 在空账号下的实际表现未验证。
+
+这 5 个模块都用音乐人账号录制（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `account.anonimousUser: false`（未落盘））。未登录（匿名）时 `musician_cloudbean`、`musician_data_overview`、`musician_tasks`、`musician_tasks_new` 分别返回 `code: 600`、`10000`、`301`、`301`，SDK 按请求层既有规则转交（`status` 分别为 `400`、`400`、`301`、`301`）；登录的非音乐人账号未录到，返回码与成功正文未验证。本次录到的 600/10000/301 在改造前就由请求层拒绝，行为不变。特殊码（201、302、400、502、800–803）改造前会被归一成 `status: 200` 进入模块，本批开始校验后按业务码拒绝：201、302、400、502 转成同名 `status`，800–803 这类不在 100–599 的码映射为 `status: 400`；`musician_play_trend` 录到的 `code: 400` 属于这一类。
 
 ## 听歌足迹
 
