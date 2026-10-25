@@ -41,6 +41,10 @@ const result = await artistDetailDynamic({
 console.log(result.body);
 ```
 
+## 返回内容
+
+只有 `body.code` 收紧；`followed`（是否关注）、`concert`（演出）、`videoNum`（视频数）和 `rcmdResource`（推荐资源）都是宽松字段。录制里 `concert.simpleConcert`、`rcmdResource.picUrl`、`rcmdResource.resId` 只出现过 `null`，没有声明，继续原样保留。结构定义和类型是 `ArtistDetailDynamicBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用后可获取歌手详情动态部分,如是否关注,视频数

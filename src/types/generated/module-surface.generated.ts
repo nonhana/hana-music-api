@@ -48,19 +48,46 @@ import type {
   ModuleBody as artistAlbumBody,
   ModuleInput as artistAlbumInput,
 } from '../../modules/artist_album.ts';
-import type { ModuleInput as artistDescInput } from '../../modules/artist_desc.ts';
+import type {
+  ModuleBody as artistDescBody,
+  ModuleInput as artistDescInput,
+} from '../../modules/artist_desc.ts';
 import type {
   ModuleBody as artistDetailBody,
   ModuleInput as artistDetailInput,
 } from '../../modules/artist_detail.ts';
-import type { ModuleInput as artistDetailDynamicInput } from '../../modules/artist_detail_dynamic.ts';
-import type { ModuleInput as artistFansInput } from '../../modules/artist_fans.ts';
-import type { ModuleInput as artistFollowCountInput } from '../../modules/artist_follow_count.ts';
-import type { ModuleInput as artistListInput } from '../../modules/artist_list.ts';
-import type { ModuleInput as artistMvInput } from '../../modules/artist_mv.ts';
-import type { ModuleInput as artistNewMvInput } from '../../modules/artist_new_mv.ts';
-import type { ModuleInput as artistNewSongInput } from '../../modules/artist_new_song.ts';
-import type { ModuleInput as artistSongsInput } from '../../modules/artist_songs.ts';
+import type {
+  ModuleBody as artistDetailDynamicBody,
+  ModuleInput as artistDetailDynamicInput,
+} from '../../modules/artist_detail_dynamic.ts';
+import type {
+  ModuleBody as artistFansBody,
+  ModuleInput as artistFansInput,
+} from '../../modules/artist_fans.ts';
+import type {
+  ModuleBody as artistFollowCountBody,
+  ModuleInput as artistFollowCountInput,
+} from '../../modules/artist_follow_count.ts';
+import type {
+  ModuleBody as artistListBody,
+  ModuleInput as artistListInput,
+} from '../../modules/artist_list.ts';
+import type {
+  ModuleBody as artistMvBody,
+  ModuleInput as artistMvInput,
+} from '../../modules/artist_mv.ts';
+import type {
+  ModuleBody as artistNewMvBody,
+  ModuleInput as artistNewMvInput,
+} from '../../modules/artist_new_mv.ts';
+import type {
+  ModuleBody as artistNewSongBody,
+  ModuleInput as artistNewSongInput,
+} from '../../modules/artist_new_song.ts';
+import type {
+  ModuleBody as artistSongsBody,
+  ModuleInput as artistSongsInput,
+} from '../../modules/artist_songs.ts';
 import type {
   ModuleBody as artistSubBody,
   ModuleInput as artistSubInput,
@@ -73,7 +100,10 @@ import type {
   ModuleBody as artistTopSongBody,
   ModuleInput as artistTopSongInput,
 } from '../../modules/artist_top_song.ts';
-import type { ModuleInput as artistVideoInput } from '../../modules/artist_video.ts';
+import type {
+  ModuleBody as artistVideoBody,
+  ModuleInput as artistVideoInput,
+} from '../../modules/artist_video.ts';
 import type {
   ModuleBody as artistsBody,
   ModuleInput as artistsInput,
@@ -1334,7 +1364,7 @@ export interface GeneratedModuleContractMap {
   artist_desc: {
     input: artistDescInput;
     query: artistDescInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistDescBody>;
   };
   artist_detail: {
     input: artistDetailInput;
@@ -1344,42 +1374,42 @@ export interface GeneratedModuleContractMap {
   artist_detail_dynamic: {
     input: artistDetailDynamicInput;
     query: artistDetailDynamicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistDetailDynamicBody>;
   };
   artist_fans: {
     input: artistFansInput;
     query: artistFansInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistFansBody>;
   };
   artist_follow_count: {
     input: artistFollowCountInput;
     query: artistFollowCountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistFollowCountBody>;
   };
   artist_list: {
     input: artistListInput;
     query: artistListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistListBody>;
   };
   artist_mv: {
     input: artistMvInput;
     query: artistMvInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistMvBody>;
   };
   artist_new_mv: {
     input: artistNewMvInput;
     query: artistNewMvInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistNewMvBody>;
   };
   artist_new_song: {
     input: artistNewSongInput;
     query: artistNewSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistNewSongBody>;
   };
   artist_songs: {
     input: artistSongsInput;
     query: artistSongsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistSongsBody>;
   };
   artist_sub: {
     input: artistSubInput;
@@ -1399,7 +1429,7 @@ export interface GeneratedModuleContractMap {
   artist_video: {
     input: artistVideoInput;
     query: artistVideoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistVideoBody>;
   };
   artists: {
     input: artistsInput;

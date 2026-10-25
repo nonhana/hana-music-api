@@ -44,6 +44,10 @@ const result = await artistSongs({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、歌曲列表 `body.songs` 和每首歌的编号 `songs[].id` 收紧；`more`、`total` 是分页信息，宽松。歌曲记录复用共享的 `Song`，另补了宽松字段 `eq`，并把 `noCopyrightRcmd` 扩展成含 `expInfo`、`mvInfo`（`videos[]`）的宽松结构。`offset` 越过总数时返回空 `songs`（录制 `artist_songs.empty.json`）。`artist_songs.default.json` 截取保留 30 首；`noCopyrightRcmd` 的 `expInfo`、`mvInfo`、`videos[]` 非空证据在分页录制 `artist_songs.no-copyright.json`（`offset=70`，原始第 82 首；第 73 首在补录时已是 null）。结构定义和类型是 `ArtistSongsBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取歌手全部歌曲

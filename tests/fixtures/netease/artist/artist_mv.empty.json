@@ -1,0 +1,23 @@
+{
+  "module": "artist_mv",
+  "query": {
+    "id": 3684,
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T10:06:26.006Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B2：artist_mv 越界分页返回空 mvs"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "mvs": [],
+      "time": 9223372036854776000,
+      "hasMore": false,
+      "code": 200
+    }
+  }
+}

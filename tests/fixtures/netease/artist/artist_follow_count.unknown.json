@@ -1,0 +1,21 @@
+{
+  "module": "artist_follow_count",
+  "query": {
+    "id": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T10:06:15.149Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B2：body code 404（HTTP 200）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 404,
+      "message": "资源未找到",
+      "data": null
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "module": "artist_fans",
+  "query": {
+    "id": 3684,
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T10:06:07.684Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B2：artist_fans 越界分页返回 data:null"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": null
+    }
+  }
+}

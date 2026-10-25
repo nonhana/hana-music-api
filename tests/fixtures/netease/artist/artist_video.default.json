@@ -1,0 +1,2291 @@
+{
+  "module": "artist_video",
+  "query": {
+    "id": 3684
+  },
+  "context": {
+    "recordedAt": "2026-10-25T10:06:32.700Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B2：artist_video 歌手视频非空（林俊杰 3684）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "ok",
+      "data": {
+        "records": [
+          {
+            "id": "34734028",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "34734028",
+                "userId": null,
+                "type": 3,
+                "originalTitle": null,
+                "text": "我对缘分小心翼翼 (影视剧《逐玉》主題曲)",
+                "desc": "",
+                "interveneText": null,
+                "pubTime": 1772245132238,
+                "coverUrl": "http://p4.music.126.net/cWWvSjq2HIj2CgiEJsqo2g==/109951172814173868.jpg",
+                "coverDetail": null,
+                "greatCover": true,
+                "coverPicKey": "109951172814173868",
+                "coverHeight": 240,
+                "coverWidth": 426,
+                "coverColor": -1118482,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MV_5_34734028",
+                "duration": 272000,
+                "video": null,
+                "videos": [
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "TS",
+                      "tagSign": "TS_240P"
+                    },
+                    "tag": "TS_240P",
+                    "url": "cloudmusic/obj/core/78671245102/b96bd38422be9b50844175efb609a2d1.m3u8",
+                    "duration": 272000,
+                    "size": 20063141,
+                    "width": 426,
+                    "height": 240,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "MP4",
+                      "tagSign": "MP4_240P"
+                    },
+                    "tag": "MP4_240P",
+                    "url": "cloudmusic/obj/core/78671245102/b96bd38422be9b50844175efb609a2d1.mp4",
+                    "duration": 272000,
+                    "size": 18745611,
+                    "width": 426,
+                    "height": 240,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "TS",
+                      "tagSign": "TS_480P"
+                    },
+                    "tag": "TS_480P",
+                    "url": "cloudmusic/obj/core/78671245102/35e1894b57d476db0fc9d16aeacfb757.m3u8",
+                    "duration": 272000,
+                    "size": 31488598,
+                    "width": 854,
+                    "height": 480,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "MP4",
+                      "tagSign": "MP4_480P"
+                    },
+                    "tag": "MP4_480P",
+                    "url": "cloudmusic/obj/core/78671245102/35e1894b57d476db0fc9d16aeacfb757.mp4",
+                    "duration": 272000,
+                    "size": 29943481,
+                    "width": 854,
+                    "height": 480,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "TS",
+                      "tagSign": "TS_720P"
+                    },
+                    "tag": "TS_720P",
+                    "url": "cloudmusic/obj/core/78671245102/32a334f362b968f85d2034c5efcd1f16.m3u8",
+                    "duration": 272000,
+                    "size": 48522151,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "MP4",
+                      "tagSign": "MP4_720P"
+                    },
+                    "tag": "MP4_720P",
+                    "url": "cloudmusic/obj/core/78671245102/32a334f362b968f85d2034c5efcd1f16.mp4",
+                    "duration": 272000,
+                    "size": 46594932,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "TS",
+                      "tagSign": "TS_1080P"
+                    },
+                    "tag": "TS_1080P",
+                    "url": "cloudmusic/obj/core/78671245102/3b4c8ffbe18563a21bbe579ecef90218.m3u8",
+                    "duration": 272000,
+                    "size": 84445755,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "MP4",
+                      "tagSign": "MP4_1080P"
+                    },
+                    "tag": "MP4_1080P",
+                    "url": "cloudmusic/obj/core/78671245102/3b4c8ffbe18563a21bbe579ecef90218.mp4",
+                    "duration": 272000,
+                    "size": 81613892,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  }
+                ],
+                "graphic": null,
+                "relatedPubUsers": null,
+                "mixInfo": null
+              },
+              "mlogExtVO": {
+                "likedCount": 22579,
+                "commentCount": 998,
+                "playCount": 611050,
+                "shareCount": 4479,
+                "liked": false,
+                "song": {
+                  "id": 3353437817,
+                  "name": "我对缘分小心翼翼",
+                  "coverUrl": "http://p3.music.126.net/qrw2ir64tJM5T7Vq-Q-hsA==/109951172802179555.jpg",
+                  "duration": 282320,
+                  "artists": [
+                    {
+                      "artistId": 3684,
+                      "artistName": "林俊杰"
+                    }
+                  ],
+                  "privilege": null,
+                  "albumName": "我对缘分小心翼翼",
+                  "startTime": null,
+                  "endTime": null,
+                  "isLiked": null,
+                  "playedNum": null
+                },
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": true,
+                "collectReason": null,
+                "artistName": "林俊杰",
+                "artists": [
+                  {
+                    "id": 3684,
+                    "name": "林俊杰",
+                    "img1v1Url": "http://p3.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  }
+                ],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": null,
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://music.163.com/mv/34734028/?userid=18070458027",
+              "source": null,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          },
+          {
+            "id": "22781808",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "22781808",
+                "userId": null,
+                "type": 3,
+                "originalTitle": null,
+                "text": "Skibidi",
+                "desc": "",
+                "interveneText": null,
+                "pubTime": 1757001600494,
+                "coverUrl": "http://p3.music.126.net/BXsECmZvGYr6kGwyAOfMgQ==/109951171967525249.jpg",
+                "coverDetail": null,
+                "greatCover": true,
+                "coverPicKey": "109951171967525249",
+                "coverHeight": 240,
+                "coverWidth": 426,
+                "coverColor": -1118482,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MV_5_22781808",
+                "duration": 204000,
+                "video": null,
+                "videos": [
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "TS",
+                      "tagSign": "TS_240P"
+                    },
+                    "tag": "TS_240P",
+                    "url": "cloudmusic/obj/core/62316170071/23d6ae7356c9f01391f1e781f004efb0.m3u8",
+                    "duration": 204000,
+                    "size": 14409399,
+                    "width": 426,
+                    "height": 240,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "MP4",
+                      "tagSign": "MP4_240P"
+                    },
+                    "tag": "MP4_240P",
+                    "url": "cloudmusic/obj/core/62316170071/23d6ae7356c9f01391f1e781f004efb0.mp4",
+                    "duration": 204000,
+                    "size": 13444062,
+                    "width": 426,
+                    "height": 240,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "TS",
+                      "tagSign": "TS_480P"
+                    },
+                    "tag": "TS_480P",
+                    "url": "cloudmusic/obj/core/62316170071/22c8d23d50c5699d32100f22c18e79da.m3u8",
+                    "duration": 204000,
+                    "size": 22658462,
+                    "width": 854,
+                    "height": 480,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "MP4",
+                      "tagSign": "MP4_480P"
+                    },
+                    "tag": "MP4_480P",
+                    "url": "cloudmusic/obj/core/62316170071/22c8d23d50c5699d32100f22c18e79da.mp4",
+                    "duration": 204000,
+                    "size": 21542266,
+                    "width": 854,
+                    "height": 480,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "TS",
+                      "tagSign": "TS_720P"
+                    },
+                    "tag": "TS_720P",
+                    "url": "cloudmusic/obj/core/62316170071/c5c3cc44a8919f2bf8b50d580fa6efd8.m3u8",
+                    "duration": 204000,
+                    "size": 35064017,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "MP4",
+                      "tagSign": "MP4_720P"
+                    },
+                    "tag": "MP4_720P",
+                    "url": "cloudmusic/obj/core/62316170071/c5c3cc44a8919f2bf8b50d580fa6efd8.mp4",
+                    "duration": 204000,
+                    "size": 33660618,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "TS",
+                      "tagSign": "TS_1080P"
+                    },
+                    "tag": "TS_1080P",
+                    "url": "cloudmusic/obj/core/62316170071/91e5f30065d338920f1c987a777e7eac.m3u8",
+                    "duration": 204000,
+                    "size": 90746798,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "MP4",
+                      "tagSign": "MP4_1080P"
+                    },
+                    "tag": "MP4_1080P",
+                    "url": "cloudmusic/obj/core/62316170071/91e5f30065d338920f1c987a777e7eac.mp4",
+                    "duration": 204000,
+                    "size": 88215018,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  }
+                ],
+                "graphic": null,
+                "relatedPubUsers": null,
+                "mixInfo": null
+              },
+              "mlogExtVO": {
+                "likedCount": 2501,
+                "commentCount": 366,
+                "playCount": 65912,
+                "shareCount": 473,
+                "liked": false,
+                "song": {
+                  "id": 2742735105,
+                  "name": "Skibidi",
+                  "coverUrl": "http://p3.music.126.net/zNb5JYDOOgBQn2J932RTeA==/109951171967420790.jpg",
+                  "duration": 197046,
+                  "artists": [
+                    {
+                      "artistId": 3684,
+                      "artistName": "林俊杰"
+                    },
+                    {
+                      "artistId": 2118,
+                      "artistName": "成龙"
+                    }
+                  ],
+                  "privilege": null,
+                  "albumName": "Skibidi",
+                  "startTime": null,
+                  "endTime": null,
+                  "isLiked": null,
+                  "playedNum": null
+                },
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": true,
+                "collectReason": null,
+                "artistName": "林俊杰",
+                "artists": [
+                  {
+                    "id": 3684,
+                    "name": "林俊杰",
+                    "img1v1Url": "http://p4.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  },
+                  {
+                    "id": 2118,
+                    "name": "成龙",
+                    "img1v1Url": "http://p3.music.126.net/ds1f2X6PZsn8lfdNJNuCww==/688294279012490.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  }
+                ],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": null,
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://music.163.com/mv/22781808/?userid=18070458027",
+              "source": null,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          },
+          {
+            "id": "22769012",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "22769012",
+                "userId": null,
+                "type": 3,
+                "originalTitle": null,
+                "text": "在月蚀里抱紧我",
+                "desc": "JJ林俊杰 & A-Lin  \n携手穿越月蚀  \n织成一首爱的史诗 \n2025年爱情钜献  \n\n\nJJ 林俊杰 & A-Lin 《在月蚀里抱紧我 》 官方MV \n词 ： 姚若龙 \n曲 ：JJ 林俊杰 \n导演 ：黄中平 ",
+                "interveneText": null,
+                "pubTime": 1752336000184,
+                "coverUrl": "http://p4.music.126.net/RSRhlL6_DoOJCrgf-NniqA==/109951171444033635.jpg",
+                "coverDetail": null,
+                "greatCover": true,
+                "coverPicKey": "109951171444033635",
+                "coverHeight": 240,
+                "coverWidth": 426,
+                "coverColor": -1118482,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MV_5_22769012",
+                "duration": 262000,
+                "video": null,
+                "videos": [
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "TS",
+                      "tagSign": "TS_240P"
+                    },
+                    "tag": "TS_240P",
+                    "url": "cloudmusic/0c96/core/dbbf/d109b5e54f6b19ddca1fe0653ef81ef6.m3u8",
+                    "duration": 262000,
+                    "size": 18274584,
+                    "width": 426,
+                    "height": 240,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "MP4",
+                      "tagSign": "MP4_240P"
+                    },
+                    "tag": "MP4_240P",
+                    "url": "cloudmusic/0c96/core/dbbf/d109b5e54f6b19ddca1fe0653ef81ef6.mp4",
+                    "duration": 262000,
+                    "size": 17023104,
+                    "width": 426,
+                    "height": 240,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "TS",
+                      "tagSign": "TS_480P"
+                    },
+                    "tag": "TS_480P",
+                    "url": "cloudmusic/0c96/core/dbbf/1da5cd4de1cb923f6760da6acb8a8be8.m3u8",
+                    "duration": 262000,
+                    "size": 28592024,
+                    "width": 854,
+                    "height": 480,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "MP4",
+                      "tagSign": "MP4_480P"
+                    },
+                    "tag": "MP4_480P",
+                    "url": "cloudmusic/0c96/core/dbbf/1da5cd4de1cb923f6760da6acb8a8be8.mp4",
+                    "duration": 262000,
+                    "size": 27135189,
+                    "width": 854,
+                    "height": 480,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "TS",
+                      "tagSign": "TS_720P"
+                    },
+                    "tag": "TS_720P",
+                    "url": "cloudmusic/0c96/core/dbbf/e9d4552591c155fabf3f3a61da42658a.m3u8",
+                    "duration": 262000,
+                    "size": 44148837,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "MP4",
+                      "tagSign": "MP4_720P"
+                    },
+                    "tag": "MP4_720P",
+                    "url": "cloudmusic/0c96/core/dbbf/e9d4552591c155fabf3f3a61da42658a.mp4",
+                    "duration": 262000,
+                    "size": 42356131,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "TS",
+                      "tagSign": "TS_1080P"
+                    },
+                    "tag": "TS_1080P",
+                    "url": "cloudmusic/0c96/core/dbbf/5e5c8188e27ca3314eb0ff87f9ec1569.m3u8",
+                    "duration": 262000,
+                    "size": 64243405,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "MP4",
+                      "tagSign": "MP4_1080P"
+                    },
+                    "tag": "MP4_1080P",
+                    "url": "cloudmusic/0c96/core/dbbf/5e5c8188e27ca3314eb0ff87f9ec1569.mp4",
+                    "duration": 262000,
+                    "size": 61929520,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  }
+                ],
+                "graphic": null,
+                "relatedPubUsers": null,
+                "mixInfo": null
+              },
+              "mlogExtVO": {
+                "likedCount": 4635,
+                "commentCount": 544,
+                "playCount": 102869,
+                "shareCount": 695,
+                "liked": false,
+                "song": {
+                  "id": 2724706478,
+                  "name": "在月蚀里抱紧我",
+                  "coverUrl": "http://p4.music.126.net/dB751hQMy3szBqlCjKK3JA==/109951171443934686.jpg",
+                  "duration": 256352,
+                  "artists": [
+                    {
+                      "artistId": 3684,
+                      "artistName": "林俊杰"
+                    },
+                    {
+                      "artistId": 7063,
+                      "artistName": "黄丽玲"
+                    }
+                  ],
+                  "privilege": null,
+                  "albumName": "在月蚀里抱紧我",
+                  "startTime": null,
+                  "endTime": null,
+                  "isLiked": null,
+                  "playedNum": null
+                },
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": true,
+                "collectReason": null,
+                "artistName": "林俊杰",
+                "artists": [
+                  {
+                    "id": 3684,
+                    "name": "林俊杰",
+                    "img1v1Url": "http://p3.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  },
+                  {
+                    "id": 7063,
+                    "name": "黄丽玲",
+                    "img1v1Url": "http://p4.music.126.net/bxxC8Nb86jc0XjZE3gl_YA==/109951169891913162.jpg",
+                    "followed": false,
+                    "mlogUser": {
+                      "userId": 3251792543,
+                      "nickname": "A-Lin黄丽玲",
+                      "avatarUrl": "http://p3.music.126.net/Y8SPEIcojs3qUizUZ2oWlQ==/109951173099199733.jpg",
+                      "followed": false,
+                      "userType": 2,
+                      "avatarDetail": {
+                        "userType": 2,
+                        "identityLevel": 1,
+                        "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png"
+                      }
+                    }
+                  }
+                ],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": null,
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://music.163.com/mv/22769012/?userid=18070458027",
+              "source": null,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          },
+          {
+            "id": "22672930",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "22672930",
+                "userId": null,
+                "type": 3,
+                "originalTitle": null,
+                "text": "来自林俊杰的2025新年祝福已送达",
+                "desc": "",
+                "interveneText": null,
+                "pubTime": 1737993601152,
+                "coverUrl": "http://p3.music.126.net/bIgY4TkePg3axwAwRXo_vQ==/109951170406647897.jpg",
+                "coverDetail": null,
+                "greatCover": false,
+                "coverPicKey": "109951170406647897",
+                "coverHeight": 240,
+                "coverWidth": 426,
+                "coverColor": -1118482,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MV_5_22672930",
+                "duration": 14000,
+                "video": null,
+                "videos": [
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "TS",
+                      "tagSign": "TS_240P"
+                    },
+                    "tag": "TS_240P",
+                    "url": "cloudmusic/4f4f/core/762b/b9b97f638831830be0c248ed1a781c07.m3u8",
+                    "duration": 14000,
+                    "size": 1004496,
+                    "width": 426,
+                    "height": 240,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "MP4",
+                      "tagSign": "MP4_240P"
+                    },
+                    "tag": "MP4_240P",
+                    "url": "cloudmusic/4f4f/core/762b/b9b97f638831830be0c248ed1a781c07.mp4",
+                    "duration": 14000,
+                    "size": 935999,
+                    "width": 426,
+                    "height": 240,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "TS",
+                      "tagSign": "TS_480P"
+                    },
+                    "tag": "TS_480P",
+                    "url": "cloudmusic/4f4f/core/762b/89744c84dd17007599c5a4f997d43cff.m3u8",
+                    "duration": 14000,
+                    "size": 1586544,
+                    "width": 854,
+                    "height": 480,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "MP4",
+                      "tagSign": "MP4_480P"
+                    },
+                    "tag": "MP4_480P",
+                    "url": "cloudmusic/4f4f/core/762b/89744c84dd17007599c5a4f997d43cff.mp4",
+                    "duration": 14000,
+                    "size": 1505138,
+                    "width": 854,
+                    "height": 480,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "TS",
+                      "tagSign": "TS_720P"
+                    },
+                    "tag": "TS_720P",
+                    "url": "cloudmusic/4f4f/core/762b/3c24c2374c256ef54ab626cc09a8b37a.m3u8",
+                    "duration": 14000,
+                    "size": 2479920,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "MP4",
+                      "tagSign": "MP4_720P"
+                    },
+                    "tag": "MP4_720P",
+                    "url": "cloudmusic/4f4f/core/762b/3c24c2374c256ef54ab626cc09a8b37a.mp4",
+                    "duration": 14000,
+                    "size": 2379924,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "TS",
+                      "tagSign": "TS_1080P"
+                    },
+                    "tag": "TS_1080P",
+                    "url": "cloudmusic/4f4f/core/762b/5d588b77731699726a067c3ac14ef1ed.m3u8",
+                    "duration": 14000,
+                    "size": 5189940,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "MP4",
+                      "tagSign": "MP4_1080P"
+                    },
+                    "tag": "MP4_1080P",
+                    "url": "cloudmusic/4f4f/core/762b/5d588b77731699726a067c3ac14ef1ed.mp4",
+                    "duration": 14000,
+                    "size": 5029966,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  }
+                ],
+                "graphic": null,
+                "relatedPubUsers": null,
+                "mixInfo": null
+              },
+              "mlogExtVO": {
+                "likedCount": 2236,
+                "commentCount": 306,
+                "playCount": 61191,
+                "shareCount": 196,
+                "liked": false,
+                "song": null,
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": false,
+                "collectReason": "该视频没有配乐，不可添加到视频歌单",
+                "artistName": "林俊杰",
+                "artists": [
+                  {
+                    "id": 3684,
+                    "name": "林俊杰",
+                    "img1v1Url": "http://p3.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  }
+                ],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": null,
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://music.163.com/mv/22672930/?userid=18070458027",
+              "source": null,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          },
+          {
+            "id": "22604119",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "22604119",
+                "userId": null,
+                "type": 3,
+                "originalTitle": null,
+                "text": "绝不绝 (无畏契约一周年瓦友节献礼曲)",
+                "desc": "",
+                "interveneText": null,
+                "pubTime": 1721460600358,
+                "coverUrl": "http://p3.music.126.net/L0NWta-V7LzJMF59e7p3tg==/109951169798118915.jpg",
+                "coverDetail": null,
+                "greatCover": true,
+                "coverPicKey": "109951169798118915",
+                "coverHeight": 240,
+                "coverWidth": 426,
+                "coverColor": -1118482,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MV_5_22604119",
+                "duration": 230000,
+                "video": null,
+                "videos": [
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "TS",
+                      "tagSign": "TS_240P"
+                    },
+                    "tag": "TS_240P",
+                    "url": "cloudmusic/obj/core/44668589116/0357b7eee46bc298956dab41b1259cb0.m3u8",
+                    "duration": 230000,
+                    "size": 16226772,
+                    "width": 426,
+                    "height": 240,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "MP4",
+                      "tagSign": "MP4_240P"
+                    },
+                    "tag": "MP4_240P",
+                    "url": "cloudmusic/obj/core/44668589116/0357b7eee46bc298956dab41b1259cb0.mp4",
+                    "duration": 230000,
+                    "size": 15075692,
+                    "width": 426,
+                    "height": 240,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "TS",
+                      "tagSign": "TS_480P"
+                    },
+                    "tag": "TS_480P",
+                    "url": "cloudmusic/obj/core/44668589116/e898e4f9b8dd68150423c059b83df007.m3u8",
+                    "duration": 230000,
+                    "size": 25317458,
+                    "width": 854,
+                    "height": 480,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "MP4",
+                      "tagSign": "MP4_480P"
+                    },
+                    "tag": "MP4_480P",
+                    "url": "cloudmusic/obj/core/44668589116/e898e4f9b8dd68150423c059b83df007.mp4",
+                    "duration": 230000,
+                    "size": 24004703,
+                    "width": 854,
+                    "height": 480,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "TS",
+                      "tagSign": "TS_720P"
+                    },
+                    "tag": "TS_720P",
+                    "url": "cloudmusic/obj/core/44668589116/8fd0c6237f759016fcef7d77f64c0b2c.m3u8",
+                    "duration": 230000,
+                    "size": 38981674,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "MP4",
+                      "tagSign": "MP4_720P"
+                    },
+                    "tag": "MP4_720P",
+                    "url": "cloudmusic/obj/core/44668589116/8fd0c6237f759016fcef7d77f64c0b2c.mp4",
+                    "duration": 230000,
+                    "size": 37397434,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "TS",
+                      "tagSign": "TS_1080P"
+                    },
+                    "tag": "TS_1080P",
+                    "url": "cloudmusic/obj/core/44668589116/970102b2edb0f5d9a9e39c3cb93e76ec.m3u8",
+                    "duration": 230000,
+                    "size": 132887861,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "MP4",
+                      "tagSign": "MP4_1080P"
+                    },
+                    "tag": "MP4_1080P",
+                    "url": "cloudmusic/obj/core/44668589116/970102b2edb0f5d9a9e39c3cb93e76ec.mp4",
+                    "duration": 230000,
+                    "size": 129293646,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  }
+                ],
+                "graphic": null,
+                "relatedPubUsers": null,
+                "mixInfo": null
+              },
+              "mlogExtVO": {
+                "likedCount": 4384,
+                "commentCount": 514,
+                "playCount": 143844,
+                "shareCount": 784,
+                "liked": false,
+                "song": {
+                  "id": 2608116711,
+                  "name": "绝不绝",
+                  "coverUrl": "http://p4.music.126.net/P6Z62G77ptCTh4UR62y-0A==/109951169783570219.jpg",
+                  "duration": 226000,
+                  "artists": [
+                    {
+                      "artistId": 3684,
+                      "artistName": "林俊杰"
+                    },
+                    {
+                      "artistId": 50633355,
+                      "artistName": "VALORANT"
+                    }
+                  ],
+                  "privilege": null,
+                  "albumName": "绝不绝",
+                  "startTime": null,
+                  "endTime": null,
+                  "isLiked": null,
+                  "playedNum": null
+                },
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": true,
+                "collectReason": null,
+                "artistName": "林俊杰",
+                "artists": [
+                  {
+                    "id": 3684,
+                    "name": "林俊杰",
+                    "img1v1Url": "http://p4.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  },
+                  {
+                    "id": 50633355,
+                    "name": "VALORANT",
+                    "img1v1Url": "http://p4.music.126.net/up6kD5H28EaDiLM7kb3ekQ==/109951167808342344.jpg",
+                    "followed": false,
+                    "mlogUser": {
+                      "userId": 9989063945,
+                      "nickname": "无畏契约VALORANT",
+                      "avatarUrl": "http://p3.music.126.net/Fb99fDb_WAwebUGJRmdtKQ==/109951169731170187.jpg",
+                      "followed": false,
+                      "userType": 2,
+                      "avatarDetail": {
+                        "userType": 2,
+                        "identityLevel": 1,
+                        "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png"
+                      }
+                    }
+                  }
+                ],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": null,
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://music.163.com/mv/22604119/?userid=18070458027",
+              "source": null,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          },
+          {
+            "id": "14689187",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "14689187",
+                "userId": null,
+                "type": 3,
+                "originalTitle": null,
+                "text": "The Show (Steve Aoki & Lucas & Steve Remix)",
+                "desc": "",
+                "interveneText": null,
+                "pubTime": 1705035600762,
+                "coverUrl": "http://p4.music.126.net/cEIxnGlEQG4rSkwjvFtguA==/109951169251303332.jpg",
+                "coverDetail": null,
+                "greatCover": true,
+                "coverPicKey": "109951169251303332",
+                "coverHeight": 240,
+                "coverWidth": 426,
+                "coverColor": -1118482,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MV_5_14689187",
+                "duration": 225000,
+                "video": null,
+                "videos": [
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "TS",
+                      "tagSign": "TS_240P"
+                    },
+                    "tag": "TS_240P",
+                    "url": "cloudmusic/47c7/core/46f7/a93fe0714df6a1687175d734501e1bde.m3u8",
+                    "duration": 225000,
+                    "size": 16170883,
+                    "width": 426,
+                    "height": 240,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "MP4",
+                      "tagSign": "MP4_240P"
+                    },
+                    "tag": "MP4_240P",
+                    "url": "cloudmusic/47c7/core/46f7/a93fe0714df6a1687175d734501e1bde.mp4",
+                    "duration": 225000,
+                    "size": 15054078,
+                    "width": 426,
+                    "height": 240,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "TS",
+                      "tagSign": "TS_480P"
+                    },
+                    "tag": "TS_480P",
+                    "url": "cloudmusic/47c7/core/46f7/d43c58d2bad8ee230567768362e25611.m3u8",
+                    "duration": 225000,
+                    "size": 25096184,
+                    "width": 854,
+                    "height": 480,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "MP4",
+                      "tagSign": "MP4_480P"
+                    },
+                    "tag": "MP4_480P",
+                    "url": "cloudmusic/47c7/core/46f7/d43c58d2bad8ee230567768362e25611.mp4",
+                    "duration": 225000,
+                    "size": 23787173,
+                    "width": 854,
+                    "height": 480,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "TS",
+                      "tagSign": "TS_720P"
+                    },
+                    "tag": "TS_720P",
+                    "url": "cloudmusic/47c7/core/46f7/58e1867d4acd096998a7135ff34e83da.m3u8",
+                    "duration": 225000,
+                    "size": 38521641,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "MP4",
+                      "tagSign": "MP4_720P"
+                    },
+                    "tag": "MP4_720P",
+                    "url": "cloudmusic/47c7/core/46f7/58e1867d4acd096998a7135ff34e83da.mp4",
+                    "duration": 225000,
+                    "size": 36931355,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "TS",
+                      "tagSign": "TS_1080P"
+                    },
+                    "tag": "TS_1080P",
+                    "url": "cloudmusic/47c7/core/46f7/4b79f344ba961c9c68ec9785c5cad3b6.m3u8",
+                    "duration": 225000,
+                    "size": 225538401,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "MP4",
+                      "tagSign": "MP4_1080P"
+                    },
+                    "tag": "MP4_1080P",
+                    "url": "cloudmusic/47c7/core/46f7/4b79f344ba961c9c68ec9785c5cad3b6.mp4",
+                    "duration": 225000,
+                    "size": 219953182,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  }
+                ],
+                "graphic": null,
+                "relatedPubUsers": null,
+                "mixInfo": null
+              },
+              "mlogExtVO": {
+                "likedCount": 1953,
+                "commentCount": 323,
+                "playCount": 182490,
+                "shareCount": 265,
+                "liked": false,
+                "song": {
+                  "id": 2112776910,
+                  "name": "The Show (Steve Aoki & Lucas & Steve Remix)",
+                  "coverUrl": "http://p4.music.126.net/o5kawI9DvwFyh7AUDPtc_w==/109951172377503116.jpg",
+                  "duration": 168774,
+                  "artists": [
+                    {
+                      "artistId": 43608,
+                      "artistName": "Steve Aoki"
+                    },
+                    {
+                      "artistId": 3684,
+                      "artistName": "林俊杰"
+                    },
+                    {
+                      "artistId": 1039527,
+                      "artistName": "Lucas & Steve"
+                    }
+                  ],
+                  "privilege": null,
+                  "albumName": "The Show (Steve Aoki & Lucas & Steve Remix)",
+                  "startTime": null,
+                  "endTime": null,
+                  "isLiked": null,
+                  "playedNum": null
+                },
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": true,
+                "collectReason": null,
+                "artistName": "Steve Aoki",
+                "artists": [
+                  {
+                    "id": 43608,
+                    "name": "Steve Aoki",
+                    "img1v1Url": "http://p4.music.126.net/_clKtkEyzbECO53SvURtLw==/109951169721793640.jpg",
+                    "followed": false,
+                    "mlogUser": {
+                      "userId": 358801724,
+                      "nickname": "SteveAokiOfficial",
+                      "avatarUrl": "http://p3.music.126.net/Tqdt3MVMYg2NZ1a1KYq00g==/109951171170921852.jpg",
+                      "followed": false,
+                      "userType": 2,
+                      "avatarDetail": {
+                        "userType": 2,
+                        "identityLevel": 1,
+                        "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png"
+                      }
+                    }
+                  },
+                  {
+                    "id": 3684,
+                    "name": "林俊杰",
+                    "img1v1Url": "http://p4.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  }
+                ],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": null,
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://music.163.com/mv/14689187/?userid=18070458027",
+              "source": null,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          },
+          {
+            "id": "14634962",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "14634962",
+                "userId": null,
+                "type": 3,
+                "originalTitle": null,
+                "text": "如果我还剩一件事情可以做",
+                "desc": "",
+                "interveneText": null,
+                "pubTime": 1687166482994,
+                "coverUrl": "http://p4.music.126.net/pVcxQm8xd2VewoqpxVJTAA==/109951168687425951.jpg",
+                "coverDetail": null,
+                "greatCover": true,
+                "coverPicKey": "109951168687425951",
+                "coverHeight": 240,
+                "coverWidth": 426,
+                "coverColor": -1118482,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MV_5_14634962",
+                "duration": 374000,
+                "video": null,
+                "videos": [
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "TS",
+                      "tagSign": "TS_240P"
+                    },
+                    "tag": "TS_240P",
+                    "url": "cloudmusic/f278/core/e01e/fbacb0127072c55d3f57955a18776c5c.m3u8",
+                    "duration": 374000,
+                    "size": 26208992,
+                    "width": 426,
+                    "height": 240,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "MP4",
+                      "tagSign": "MP4_240P"
+                    },
+                    "tag": "MP4_240P",
+                    "url": "cloudmusic/f278/core/e01e/fbacb0127072c55d3f57955a18776c5c.mp4",
+                    "duration": 374000,
+                    "size": 24426864,
+                    "width": 426,
+                    "height": 240,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "TS",
+                      "tagSign": "TS_480P"
+                    },
+                    "tag": "TS_480P",
+                    "url": "cloudmusic/f278/core/e01e/2257755a1ee63cecb9a9a8bab1b94243.m3u8",
+                    "duration": 374000,
+                    "size": 41138824,
+                    "width": 854,
+                    "height": 480,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "MP4",
+                      "tagSign": "MP4_480P"
+                    },
+                    "tag": "MP4_480P",
+                    "url": "cloudmusic/f278/core/e01e/2257755a1ee63cecb9a9a8bab1b94243.mp4",
+                    "duration": 374000,
+                    "size": 39043969,
+                    "width": 854,
+                    "height": 480,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "TS",
+                      "tagSign": "TS_720P"
+                    },
+                    "tag": "TS_720P",
+                    "url": "cloudmusic/f278/core/e01e/96fd4aee07fe05c9f525bfc292c59020.m3u8",
+                    "duration": 374000,
+                    "size": 63658595,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "MP4",
+                      "tagSign": "MP4_720P"
+                    },
+                    "tag": "MP4_720P",
+                    "url": "cloudmusic/f278/core/e01e/96fd4aee07fe05c9f525bfc292c59020.mp4",
+                    "duration": 374000,
+                    "size": 61095468,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "TS",
+                      "tagSign": "TS_1080P"
+                    },
+                    "tag": "TS_1080P",
+                    "url": "cloudmusic/f278/core/e01e/ce6fa307e4bddd7e358eba254fde915d.m3u8",
+                    "duration": 374000,
+                    "size": 68419692,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "MP4",
+                      "tagSign": "MP4_1080P"
+                    },
+                    "tag": "MP4_1080P",
+                    "url": "cloudmusic/f278/core/e01e/ce6fa307e4bddd7e358eba254fde915d.mp4",
+                    "duration": 374000,
+                    "size": 65772823,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  }
+                ],
+                "graphic": null,
+                "relatedPubUsers": null,
+                "mixInfo": null
+              },
+              "mlogExtVO": {
+                "likedCount": 6714,
+                "commentCount": 453,
+                "playCount": 334677,
+                "shareCount": 1336,
+                "liked": false,
+                "song": {
+                  "id": 2039156338,
+                  "name": "如果我还剩一件事情可以做",
+                  "coverUrl": "http://p3.music.126.net/KoBXh31YzOk_cEhAlBm_BQ==/109951168573329172.jpg",
+                  "duration": 249417,
+                  "artists": [
+                    {
+                      "artistId": 3684,
+                      "artistName": "林俊杰"
+                    }
+                  ],
+                  "privilege": null,
+                  "albumName": "重拾_快乐",
+                  "startTime": null,
+                  "endTime": null,
+                  "isLiked": null,
+                  "playedNum": null
+                },
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": true,
+                "collectReason": null,
+                "artistName": "林俊杰",
+                "artists": [
+                  {
+                    "id": 3684,
+                    "name": "林俊杰",
+                    "img1v1Url": "http://p4.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  }
+                ],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": null,
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://music.163.com/mv/14634962/?userid=18070458027",
+              "source": null,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          },
+          {
+            "id": "14629024",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "14629024",
+                "userId": null,
+                "type": 3,
+                "originalTitle": null,
+                "text": "The Show",
+                "desc": "",
+                "interveneText": null,
+                "pubTime": 1685073600484,
+                "coverUrl": "http://p3.music.126.net/zZIvSOixih3nqsSpDmYX0A==/109951168638209348.jpg",
+                "coverDetail": null,
+                "greatCover": true,
+                "coverPicKey": "109951168638209348",
+                "coverHeight": 240,
+                "coverWidth": 426,
+                "coverColor": -1118482,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MV_5_14629024",
+                "duration": 204000,
+                "video": null,
+                "videos": [
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "TS",
+                      "tagSign": "TS_240P"
+                    },
+                    "tag": "TS_240P",
+                    "url": "cloudmusic/obj/core/28122103394/c62798964b12b0b646b326e59fd915e9.m3u8",
+                    "duration": 204000,
+                    "size": 15188094,
+                    "width": 426,
+                    "height": 240,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "MP4",
+                      "tagSign": "MP4_240P"
+                    },
+                    "tag": "MP4_240P",
+                    "url": "cloudmusic/obj/core/28122103394/c62798964b12b0b646b326e59fd915e9.mp4",
+                    "duration": 204000,
+                    "size": 14192464,
+                    "width": 426,
+                    "height": 240,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "TS",
+                      "tagSign": "TS_480P"
+                    },
+                    "tag": "TS_480P",
+                    "url": "cloudmusic/obj/core/28122103394/1dd6f45fc6506715d5e0643386e914d1.m3u8",
+                    "duration": 204000,
+                    "size": 23893997,
+                    "width": 854,
+                    "height": 480,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "MP4",
+                      "tagSign": "MP4_480P"
+                    },
+                    "tag": "MP4_480P",
+                    "url": "cloudmusic/obj/core/28122103394/1dd6f45fc6506715d5e0643386e914d1.mp4",
+                    "duration": 204000,
+                    "size": 22716707,
+                    "width": 854,
+                    "height": 480,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "TS",
+                      "tagSign": "TS_720P"
+                    },
+                    "tag": "TS_720P",
+                    "url": "cloudmusic/obj/core/28122103394/94b82c02432a53817326fa4b2d0104a7.m3u8",
+                    "duration": 204000,
+                    "size": 36903033,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "MP4",
+                      "tagSign": "MP4_720P"
+                    },
+                    "tag": "MP4_720P",
+                    "url": "cloudmusic/obj/core/28122103394/94b82c02432a53817326fa4b2d0104a7.mp4",
+                    "duration": 204000,
+                    "size": 35450742,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "TS",
+                      "tagSign": "TS_1080P"
+                    },
+                    "tag": "TS_1080P",
+                    "url": "cloudmusic/obj/core/28122103394/54f9cce240ebd504e2776c4e79e07b3c.m3u8",
+                    "duration": 204000,
+                    "size": 160774353,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "MP4",
+                      "tagSign": "MP4_1080P"
+                    },
+                    "tag": "MP4_1080P",
+                    "url": "cloudmusic/obj/core/28122103394/54f9cce240ebd504e2776c4e79e07b3c.mp4",
+                    "duration": 204000,
+                    "size": 156686339,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  }
+                ],
+                "graphic": null,
+                "relatedPubUsers": null,
+                "mixInfo": null
+              },
+              "mlogExtVO": {
+                "likedCount": 2779,
+                "commentCount": 296,
+                "playCount": 180645,
+                "shareCount": 307,
+                "liked": false,
+                "song": {
+                  "id": 2046796566,
+                  "name": "The Show",
+                  "coverUrl": "http://p4.music.126.net/SXCsRuvj9Qb5CoT3qzQ2ZA==/109951168607042577.jpg",
+                  "duration": 207550,
+                  "artists": [
+                    {
+                      "artistId": 43608,
+                      "artistName": "Steve Aoki"
+                    },
+                    {
+                      "artistId": 3684,
+                      "artistName": "林俊杰"
+                    }
+                  ],
+                  "privilege": null,
+                  "albumName": "The Show",
+                  "startTime": null,
+                  "endTime": null,
+                  "isLiked": null,
+                  "playedNum": null
+                },
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": true,
+                "collectReason": null,
+                "artistName": "Steve Aoki",
+                "artists": [
+                  {
+                    "id": 43608,
+                    "name": "Steve Aoki",
+                    "img1v1Url": "http://p4.music.126.net/_clKtkEyzbECO53SvURtLw==/109951169721793640.jpg",
+                    "followed": false,
+                    "mlogUser": {
+                      "userId": 358801724,
+                      "nickname": "SteveAokiOfficial",
+                      "avatarUrl": "http://p3.music.126.net/Tqdt3MVMYg2NZ1a1KYq00g==/109951171170921852.jpg",
+                      "followed": false,
+                      "userType": 2,
+                      "avatarDetail": {
+                        "userType": 2,
+                        "identityLevel": 1,
+                        "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png"
+                      }
+                    }
+                  },
+                  {
+                    "id": 3684,
+                    "name": "林俊杰",
+                    "img1v1Url": "http://p4.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  }
+                ],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": null,
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://music.163.com/mv/14629024/?userid=18070458027",
+              "source": null,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          },
+          {
+            "id": "14623402",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "14623402",
+                "userId": null,
+                "type": 3,
+                "originalTitle": null,
+                "text": "林俊杰携新单《愿与愁》问候云村歌迷",
+                "desc": "",
+                "interveneText": null,
+                "pubTime": 1682685159067,
+                "coverUrl": "http://p4.music.126.net/htcgxtMmPdlJRUS4uEtY3Q==/109951168576238650.jpg",
+                "coverDetail": null,
+                "greatCover": false,
+                "coverPicKey": "109951168576238650",
+                "coverHeight": 240,
+                "coverWidth": 426,
+                "coverColor": -1118482,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MV_5_14623402",
+                "duration": 13000,
+                "video": null,
+                "videos": [
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "TS",
+                      "tagSign": "TS_240P"
+                    },
+                    "tag": "TS_240P",
+                    "url": "cloudmusic/obj/core/27238373086/9c12055ea9e5cfcfa8b52ad32a225d5a.m3u8",
+                    "duration": 13000,
+                    "size": 916700,
+                    "width": 426,
+                    "height": 240,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "MP4",
+                      "tagSign": "MP4_240P"
+                    },
+                    "tag": "MP4_240P",
+                    "url": "cloudmusic/obj/core/27238373086/9c12055ea9e5cfcfa8b52ad32a225d5a.mp4",
+                    "duration": 13000,
+                    "size": 854366,
+                    "width": 426,
+                    "height": 240,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "TS",
+                      "tagSign": "TS_480P"
+                    },
+                    "tag": "TS_480P",
+                    "url": "cloudmusic/obj/core/27238373086/003bc89a8243cc7db057b8d57c4065ed.m3u8",
+                    "duration": 13000,
+                    "size": 1451748,
+                    "width": 854,
+                    "height": 480,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "MP4",
+                      "tagSign": "MP4_480P"
+                    },
+                    "tag": "MP4_480P",
+                    "url": "cloudmusic/obj/core/27238373086/003bc89a8243cc7db057b8d57c4065ed.mp4",
+                    "duration": 13000,
+                    "size": 1377021,
+                    "width": 854,
+                    "height": 480,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "TS",
+                      "tagSign": "TS_720P"
+                    },
+                    "tag": "TS_720P",
+                    "url": "cloudmusic/obj/core/27238373086/0e27732d9313e3d360b34f106847425d.m3u8",
+                    "duration": 13000,
+                    "size": 2255824,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "MP4",
+                      "tagSign": "MP4_720P"
+                    },
+                    "tag": "MP4_720P",
+                    "url": "cloudmusic/obj/core/27238373086/0e27732d9313e3d360b34f106847425d.mp4",
+                    "duration": 13000,
+                    "size": 2164556,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "TS",
+                      "tagSign": "TS_1080P"
+                    },
+                    "tag": "TS_1080P",
+                    "url": "cloudmusic/obj/core/27238373086/fba0ebeb0038c5e2d20055d332c92c53.m3u8",
+                    "duration": 13000,
+                    "size": 2488756,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "MP4",
+                      "tagSign": "MP4_1080P"
+                    },
+                    "tag": "MP4_1080P",
+                    "url": "cloudmusic/obj/core/27238373086/fba0ebeb0038c5e2d20055d332c92c53.mp4",
+                    "duration": 13000,
+                    "size": 2392102,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  }
+                ],
+                "graphic": null,
+                "relatedPubUsers": null,
+                "mixInfo": null
+              },
+              "mlogExtVO": {
+                "likedCount": 994,
+                "commentCount": 158,
+                "playCount": 58004,
+                "shareCount": 11,
+                "liked": false,
+                "song": null,
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": false,
+                "collectReason": "该视频没有配乐，不可添加到视频歌单",
+                "artistName": "林俊杰",
+                "artists": [
+                  {
+                    "id": 3684,
+                    "name": "林俊杰",
+                    "img1v1Url": "http://p3.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  }
+                ],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": null,
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://music.163.com/mv/14623402/?userid=18070458027",
+              "source": null,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          },
+          {
+            "id": "14622594",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "14622594",
+                "userId": null,
+                "type": 3,
+                "originalTitle": null,
+                "text": "林俊杰携新专《重拾_快乐》问候云村歌迷",
+                "desc": "",
+                "interveneText": null,
+                "pubTime": 1682685451185,
+                "coverUrl": "http://p3.music.126.net/V9ocaUDNCztw751xElp94w==/109951168576242356.jpg",
+                "coverDetail": null,
+                "greatCover": false,
+                "coverPicKey": "109951168576242356",
+                "coverHeight": 240,
+                "coverWidth": 426,
+                "coverColor": -1118482,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MV_5_14622594",
+                "duration": 14000,
+                "video": null,
+                "videos": [
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "TS",
+                      "tagSign": "TS_240P"
+                    },
+                    "tag": "TS_240P",
+                    "url": "cloudmusic/obj/core/27238512644/c849c50e23fe0c9a9ce29690b2e28049.m3u8",
+                    "duration": 14000,
+                    "size": 1021792,
+                    "width": 426,
+                    "height": 240,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 240,
+                      "type": "MP4",
+                      "tagSign": "MP4_240P"
+                    },
+                    "tag": "MP4_240P",
+                    "url": "cloudmusic/obj/core/27238512644/c849c50e23fe0c9a9ce29690b2e28049.mp4",
+                    "duration": 14000,
+                    "size": 953913,
+                    "width": 426,
+                    "height": 240,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "TS",
+                      "tagSign": "TS_480P"
+                    },
+                    "tag": "TS_480P",
+                    "url": "cloudmusic/obj/core/27238512644/73ab6db1d9c65ef1799967f027a93639.m3u8",
+                    "duration": 14000,
+                    "size": 1605908,
+                    "width": 854,
+                    "height": 480,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 480,
+                      "type": "MP4",
+                      "tagSign": "MP4_480P"
+                    },
+                    "tag": "MP4_480P",
+                    "url": "cloudmusic/obj/core/27238512644/73ab6db1d9c65ef1799967f027a93639.mp4",
+                    "duration": 14000,
+                    "size": 1526828,
+                    "width": 854,
+                    "height": 480,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "TS",
+                      "tagSign": "TS_720P"
+                    },
+                    "tag": "TS_720P",
+                    "url": "cloudmusic/obj/core/27238512644/3a33074a10aaeb8b2dcf434d88726169.m3u8",
+                    "duration": 14000,
+                    "size": 2491576,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 720,
+                      "type": "MP4",
+                      "tagSign": "MP4_720P"
+                    },
+                    "tag": "MP4_720P",
+                    "url": "cloudmusic/obj/core/27238512644/3a33074a10aaeb8b2dcf434d88726169.mp4",
+                    "duration": 14000,
+                    "size": 2392423,
+                    "width": 1280,
+                    "height": 720,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "TS",
+                      "tagSign": "TS_1080P"
+                    },
+                    "tag": "TS_1080P",
+                    "url": "cloudmusic/obj/core/27238512644/87e5b0f2d5603963f59618918acc0e16.m3u8",
+                    "duration": 14000,
+                    "size": 2950296,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "m3u8",
+                    "md5": "",
+                    "check": false
+                  },
+                  {
+                    "tagSign": {
+                      "br": 1080,
+                      "type": "MP4",
+                      "tagSign": "MP4_1080P"
+                    },
+                    "tag": "MP4_1080P",
+                    "url": "cloudmusic/obj/core/27238512644/87e5b0f2d5603963f59618918acc0e16.mp4",
+                    "duration": 14000,
+                    "size": 2841108,
+                    "width": 1920,
+                    "height": 1080,
+                    "container": "mp4",
+                    "md5": "",
+                    "check": false
+                  }
+                ],
+                "graphic": null,
+                "relatedPubUsers": null,
+                "mixInfo": null
+              },
+              "mlogExtVO": {
+                "likedCount": 1557,
+                "commentCount": 246,
+                "playCount": 151239,
+                "shareCount": 31,
+                "liked": false,
+                "song": null,
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": false,
+                "collectReason": null,
+                "artistName": "林俊杰",
+                "artists": [
+                  {
+                    "id": 3684,
+                    "name": "林俊杰",
+                    "img1v1Url": "http://p4.music.126.net/78q0jUUJ0h08GxAs2G-tCA==/109951168529051968.jpg",
+                    "followed": false,
+                    "mlogUser": null
+                  }
+                ],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": null,
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://music.163.com/mv/14622594/?userid=18070458027",
+              "source": null,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          }
+        ],
+        "page": {
+          "size": 10,
+          "cursor": "10",
+          "more": true
+        }
+      }
+    }
+  }
+}

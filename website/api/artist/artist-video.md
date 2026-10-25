@@ -44,6 +44,10 @@ const result = await artistVideo({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data`、视频列表 `data.records` 和每条记录的编号 `data.records[].id` 收紧；分页对象 `data.page`（`cursor`、`more`、`size`）和记录里的 `resource`（视频、歌曲、作者等嵌套数据）都是宽松字段。越界 `cursor` 返回空 `records`（录制 `artist_video.empty.json`）。录制里只出现过 `null` 的字段（如 `resource.userProfile`、`mlogBaseData.userId`）没有声明，原样保留。结构定义和类型是 `ArtistVideoBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入歌手 id, 可获得歌手视频

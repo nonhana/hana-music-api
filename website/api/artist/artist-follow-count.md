@@ -43,6 +43,10 @@ const result = await artistFollowCount({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和计数对象 `body.data` 收紧；`isFollow`、`follow`、`fansCnt`、`followCnt`、`followDay`、`followDayCnt` 都是宽松字段。未知歌手 id 返回 `code: 404` 和 `data: null`（录制 `artist_follow_count.unknown.json`，`资源未找到`），SDK 按业务拒绝原样转交，不会报 502。结构定义和类型是 `ArtistFollowCountBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入歌手 id, 可获取歌手粉丝数量

@@ -1,0 +1,23 @@
+{
+  "module": "artist_list",
+  "query": {
+    "type": 1,
+    "area": 7,
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T10:06:18.501Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B2：artist_list 越界分页返回空 artists"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "artists": [],
+      "more": false,
+      "code": 200
+    }
+  }
+}
