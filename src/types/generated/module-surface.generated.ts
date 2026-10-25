@@ -518,8 +518,14 @@ import type {
   ModuleBody as playlistHotBody,
   ModuleInput as playlistHotInput,
 } from '../../modules/playlist_hot.ts';
-import type { ModuleInput as playlistImportNameTaskCreateInput } from '../../modules/playlist_import_name_task_create.ts';
-import type { ModuleInput as playlistImportTaskStatusInput } from '../../modules/playlist_import_task_status.ts';
+import type {
+  ModuleBody as playlistImportNameTaskCreateBody,
+  ModuleInput as playlistImportNameTaskCreateInput,
+} from '../../modules/playlist_import_name_task_create.ts';
+import type {
+  ModuleBody as playlistImportTaskStatusBody,
+  ModuleInput as playlistImportTaskStatusInput,
+} from '../../modules/playlist_import_task_status.ts';
 import type {
   ModuleBody as playlistMylikeBody,
   ModuleInput as playlistMylikeInput,
@@ -548,18 +554,30 @@ import type {
   ModuleBody as playlistTagsUpdateBody,
   ModuleInput as playlistTagsUpdateInput,
 } from '../../modules/playlist_tags_update.ts';
-import type { ModuleInput as playlistTrackAddInput } from '../../modules/playlist_track_add.ts';
+import type {
+  ModuleBody as playlistTrackAddBody,
+  ModuleInput as playlistTrackAddInput,
+} from '../../modules/playlist_track_add.ts';
 import type {
   ModuleBody as playlistTrackAllBody,
   ModuleInput as playlistTrackAllInput,
 } from '../../modules/playlist_track_all.ts';
-import type { ModuleInput as playlistTrackDeleteInput } from '../../modules/playlist_track_delete.ts';
+import type {
+  ModuleBody as playlistTrackDeleteBody,
+  ModuleInput as playlistTrackDeleteInput,
+} from '../../modules/playlist_track_delete.ts';
 import type {
   ModuleBody as playlistTracksBody,
   ModuleInput as playlistTracksInput,
 } from '../../modules/playlist_tracks.ts';
-import type { ModuleInput as playlistUpdateInput } from '../../modules/playlist_update.ts';
-import type { ModuleInput as playlistUpdatePlaycountInput } from '../../modules/playlist_update_playcount.ts';
+import type {
+  ModuleBody as playlistUpdateBody,
+  ModuleInput as playlistUpdateInput,
+} from '../../modules/playlist_update.ts';
+import type {
+  ModuleBody as playlistUpdatePlaycountBody,
+  ModuleInput as playlistUpdatePlaycountInput,
+} from '../../modules/playlist_update_playcount.ts';
 import type {
   ModuleBody as playlistVideoRecentBody,
   ModuleInput as playlistVideoRecentInput,
@@ -2537,12 +2555,12 @@ export interface GeneratedModuleContractMap {
   playlist_import_name_task_create: {
     input: playlistImportNameTaskCreateInput;
     query: playlistImportNameTaskCreateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistImportNameTaskCreateBody>;
   };
   playlist_import_task_status: {
     input: playlistImportTaskStatusInput;
     query: playlistImportTaskStatusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistImportTaskStatusBody>;
   };
   playlist_mylike: {
     input: playlistMylikeInput;
@@ -2582,7 +2600,7 @@ export interface GeneratedModuleContractMap {
   playlist_track_add: {
     input: playlistTrackAddInput;
     query: playlistTrackAddInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistTrackAddBody>;
   };
   playlist_track_all: {
     input: playlistTrackAllInput;
@@ -2592,7 +2610,7 @@ export interface GeneratedModuleContractMap {
   playlist_track_delete: {
     input: playlistTrackDeleteInput;
     query: playlistTrackDeleteInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistTrackDeleteBody>;
   };
   playlist_tracks: {
     input: playlistTracksInput;
@@ -2602,12 +2620,12 @@ export interface GeneratedModuleContractMap {
   playlist_update: {
     input: playlistUpdateInput;
     query: playlistUpdateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistUpdateBody>;
   };
   playlist_update_playcount: {
     input: playlistUpdatePlaycountInput;
     query: playlistUpdatePlaycountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistUpdatePlaycountBody>;
   };
   playlist_video_recent: {
     input: playlistVideoRecentInput;

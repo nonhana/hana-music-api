@@ -39,6 +39,10 @@ const result = await playlistImportTaskStatus({
 console.log(result.body);
 ```
 
+## 返回内容
+
+只读轮询，没有副作用。正文的 `data.tasks` 是任务列表，每个任务的 `id` 和 `status` 收紧；`parentId`、`playlistId`、`createTime`、`msg`、`succCount`、`playlistStatus`、`playlistPrivacy`、`type` 宽松，`taskProcess` 宽松。缺少 `id` 时上游回 `code: 500`（系统异常），按业务拒绝转交 `status: 500`，状态与改造前一致。未知任务 id 回 `code: 200` 和空 `tasks`；`imgUrl`、`playlistName` 只见过 `null`，没有声明。结构定义和类型是 `PlaylistImportTaskStatusBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口, 传入导入歌单任务id, 获取任务状态

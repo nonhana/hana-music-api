@@ -111,6 +111,8 @@ export { ModuleBody as PlaylistDetailDynamicBody } from '../../modules/playlist_
 export { ModuleBody as PlaylistDetailRcmdGetBody } from '../../modules/playlist_detail_rcmd_get.ts';
 export { ModuleBody as PlaylistHighqualityTagsBody } from '../../modules/playlist_highquality_tags.ts';
 export { ModuleBody as PlaylistHotBody } from '../../modules/playlist_hot.ts';
+export { ModuleBody as PlaylistImportNameTaskCreateBody } from '../../modules/playlist_import_name_task_create.ts';
+export { ModuleBody as PlaylistImportTaskStatusBody } from '../../modules/playlist_import_task_status.ts';
 export { ModuleBody as PlaylistMylikeBody } from '../../modules/playlist_mylike.ts';
 export { ModuleBody as PlaylistNameUpdateBody } from '../../modules/playlist_name_update.ts';
 export { ModuleBody as PlaylistOrderUpdateBody } from '../../modules/playlist_order_update.ts';
@@ -118,8 +120,12 @@ export { ModuleBody as PlaylistPrivacyBody } from '../../modules/playlist_privac
 export { ModuleBody as PlaylistSubscribeBody } from '../../modules/playlist_subscribe.ts';
 export { ModuleBody as PlaylistSubscribersBody } from '../../modules/playlist_subscribers.ts';
 export { ModuleBody as PlaylistTagsUpdateBody } from '../../modules/playlist_tags_update.ts';
+export { ModuleBody as PlaylistTrackAddBody } from '../../modules/playlist_track_add.ts';
 export { ModuleBody as PlaylistTrackAllBody } from '../../modules/playlist_track_all.ts';
+export { ModuleBody as PlaylistTrackDeleteBody } from '../../modules/playlist_track_delete.ts';
 export { ModuleBody as PlaylistTracksBody } from '../../modules/playlist_tracks.ts';
+export { ModuleBody as PlaylistUpdateBody } from '../../modules/playlist_update.ts';
+export { ModuleBody as PlaylistUpdatePlaycountBody } from '../../modules/playlist_update_playcount.ts';
 export { ModuleBody as PlaylistVideoRecentBody } from '../../modules/playlist_video_recent.ts';
 export { ModuleBody as ProgramRecommendBody } from '../../modules/program_recommend.ts';
 export { ModuleBody as RecommendResourceBody } from '../../modules/recommend_resource.ts';

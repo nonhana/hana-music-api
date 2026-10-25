@@ -44,6 +44,10 @@ const result = await playlistImportNameTaskCreate({
 console.log(result.body);
 ```
 
+## 返回内容
+
+写操作：创建一个导入任务，文字导入和链接导入成功后网易云会按任务结果新建歌单。正文的 `code` 收紧；`data`、`data.taskId`、`msg`、`message` 宽松（`local`/`link` 分支没有录制，不收紧 `data.taskId`），拿到任务编号后用 [歌单导入任务状态](/api/playlist/playlist-import-task-status) 轮询。缺少 `text` 时上游回 `code: 400`（格式错误或暂不支持该类型音乐导入）；这个 400 以前归一成 `status: 200` 放行，现在按业务拒绝转交 `status: 400`。即使没有匹配到歌曲也会建任务并回 `code: 200`，任务失败信息在状态接口里。结构定义和类型是 `PlaylistImportNameTaskCreateBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 支持通过元数据/文字/链接三种方式生成歌单; 三种方式不可同时调用

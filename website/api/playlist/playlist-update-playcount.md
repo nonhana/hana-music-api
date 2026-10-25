@@ -41,6 +41,10 @@ const result = await playlistUpdatePlaycount({
 console.log(result.body);
 ```
 
+## 返回内容
+
+写操作：给 `id` 指定的歌单增加播放计数。接口只返回返回码，收紧的是 `code`；歌单不存在时也回 `code: 200` 并接受计数写入，删除只把歌单移出用户歌单列表，元数据并未抹除。缺少 `id` 时上游回 HTTP 400 空正文，SDK 归一成 `status: 200` 和空字符串，结构定义把空字符串作为独立分支保留。结构定义和类型是 `PlaylistUpdatePlaycountBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用后可更新歌单播放量

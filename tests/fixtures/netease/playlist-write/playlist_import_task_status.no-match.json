@@ -1,0 +1,40 @@
+{
+  "module": "playlist_import_task_status",
+  "query": {
+    "id": 202306216
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:53:45.194Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B6：playlist_import_task_status 无匹配任务的结果（未创建歌单）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "msg": "",
+      "data": {
+        "tasks": [
+          {
+            "id": 202306216,
+            "parentId": 0,
+            "playlistId": 0,
+            "status": "NOT_SONG_MATCH",
+            "createTime": 1792958018000,
+            "msg": "未匹配到歌曲",
+            "succCount": 0,
+            "playlistStatus": 0,
+            "imgUrl": null,
+            "playlistName": null,
+            "playlistPrivacy": 0,
+            "type": "LINK_CRAWL_SERVER"
+          }
+        ],
+        "taskProcess": "1个歌单导入失败"
+      },
+      "message": ""
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "module": "playlist_import_task_status",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T19:54:00.028Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B6：playlist_import_task_status 缺少 id 的 500（未创建歌单）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": "系统异常，请稍后重试",
+      "code": 500
+    }
+  }
+}

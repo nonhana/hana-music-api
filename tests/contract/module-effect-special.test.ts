@@ -235,7 +235,14 @@ describe('special Effect module behavior', () => {
                 ? { code: 200, playlistId: 1, songs: [] }
                 : identifier === 'comment_hug_list'
                   ? { code: 200, data: { hugComments: [] } }
-                  : { code: 200 },
+                  : identifier === 'playlist_update'
+                    ? {
+                        code: 200,
+                        '/api/playlist/desc/update': { code: 200 },
+                        '/api/playlist/tags/update': { code: 200 },
+                        '/api/playlist/update/name': { code: 200 },
+                      }
+                    : { code: 200 },
             ),
           ),
         ),

@@ -47,6 +47,10 @@ const result = await playlistUpdate({
 console.log(result.body);
 ```
 
+## 返回内容
+
+写操作：同时更新歌单的简介、标签和名称。正文是 `/api/batch` 的多响应对象：顶层 `code` 和 `/api/playlist/desc/update`、`/api/playlist/tags/update`、`/api/playlist/update/name` 三条子路由的 `code` 收紧，子路由的结果键必须出现，`message` 宽松。子路由 `code` 可能不是 200：标签超限时 `/api/playlist/tags/update` 回 `400`，其余两条仍是 `200`，顶层 200 不代表三条都成功。已删除的歌单（`playlist.status: 10`）仍回 `200` 和三条子路由的成功码，并且仍接受名字/简介/标签写入；删除只把歌单移出用户歌单列表，元数据并未抹除，调用方不要用返回码判断歌单是否还存在。结构定义和类型是 `PlaylistUpdateBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口,可以更新用户歌单

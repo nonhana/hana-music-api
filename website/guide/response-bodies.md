@@ -145,24 +145,32 @@
 
 ### 歌单编辑与收藏
 
-| 模块                                                   | 结构定义                  | 收紧的字段                                                                   |
-| ------------------------------------------------------ | ------------------------- | ---------------------------------------------------------------------------- |
-| [红心](/api/music/like)                                | `LikeBody`                | `code`；`playlistId` 宽松，`songs` 没有声明                                  |
-| [收藏专辑](/api/album/album-sub)                       | `AlbumSubBody`            | `code`；`time`、`message` 宽松                                               |
-| [收藏歌手](/api/artist/artist-sub)                     | `ArtistSubBody`           | `code`；`data`、`message` 宽松                                               |
-| [歌单分类](/api/playlist/playlist-catlist)             | `PlaylistCatlistBody`     | `code`、`all`、`all.name`、`categories`、`sub`、`sub[].name`                 |
-| [新建歌单](/api/playlist/playlist-create)              | `PlaylistCreateBody`      | `code`、`id`、`playlist`、`playlist.id`；`playlist.tracks[].id` 宽松         |
-| [删除歌单](/api/playlist/playlist-delete)              | `PlaylistDeleteBody`      | `code`                                                                       |
-| [修改歌单简介](/api/playlist/playlist-desc-update)     | `PlaylistDescUpdateBody`  | `code`                                                                       |
-| [修改歌单名称](/api/playlist/playlist-name-update)     | `PlaylistNameUpdateBody`  | `code`                                                                       |
-| [调整歌单顺序](/api/playlist/playlist-order-update)    | `PlaylistOrderUpdateBody` | `code`                                                                       |
-| [公开隐私歌单](/api/playlist/playlist-privacy)         | `PlaylistPrivacyBody`     | `code`                                                                       |
-| [设置歌单标签](/api/playlist/playlist-tags-update)     | `PlaylistTagsUpdateBody`  | `code`                                                                       |
-| [往歌单加歌或删歌](/api/playlist/playlist-tracks)      | `PlaylistTracksBody`      | `code`；`count`、`cloudCount`、`trackIds` 宽松；SDK 去掉 200 响应的额外包装  |
-| [收藏或取消收藏歌单](/api/playlist/playlist-subscribe) | `PlaylistSubscribeBody`   | `code`                                                                       |
-| [设置歌单封面](/api/playlist/playlist-cover-update)    | `PlaylistCoverUpdateBody` | `code`、`data`、`data.code`；`data.url`、`msg` 宽松                          |
-| [歌曲排序](/api/music/song-order-update)               | `SongOrderUpdateBody`     | `code`；大批量调整可能回 `-1`，但网易云可能已经完成排序，SDK 仍按失败返回    |
-| [申请图片上传凭证](/api/playlist/image-upload-token)   | `ImageUploadTokenBody`    | `code`、`data`、`data.imgId`、`data.token`、`data.uploadUrl`、`data.url_pre` |
+| 模块                                                               | 结构定义                           | 收紧的字段                                                                               |
+| ------------------------------------------------------------------ | ---------------------------------- | ---------------------------------------------------------------------------------------- |
+| [红心](/api/music/like)                                            | `LikeBody`                         | `code`；`playlistId` 宽松，`songs` 没有声明                                              |
+| [收藏专辑](/api/album/album-sub)                                   | `AlbumSubBody`                     | `code`；`time`、`message` 宽松                                                           |
+| [收藏歌手](/api/artist/artist-sub)                                 | `ArtistSubBody`                    | `code`；`data`、`message` 宽松                                                           |
+| [歌单分类](/api/playlist/playlist-catlist)                         | `PlaylistCatlistBody`              | `code`、`all`、`all.name`、`categories`、`sub`、`sub[].name`                             |
+| [新建歌单](/api/playlist/playlist-create)                          | `PlaylistCreateBody`               | `code`、`id`、`playlist`、`playlist.id`；`playlist.tracks[].id` 宽松                     |
+| [删除歌单](/api/playlist/playlist-delete)                          | `PlaylistDeleteBody`               | `code`                                                                                   |
+| [修改歌单简介](/api/playlist/playlist-desc-update)                 | `PlaylistDescUpdateBody`           | `code`                                                                                   |
+| [修改歌单名称](/api/playlist/playlist-name-update)                 | `PlaylistNameUpdateBody`           | `code`                                                                                   |
+| [调整歌单顺序](/api/playlist/playlist-order-update)                | `PlaylistOrderUpdateBody`          | `code`                                                                                   |
+| [公开隐私歌单](/api/playlist/playlist-privacy)                     | `PlaylistPrivacyBody`              | `code`                                                                                   |
+| [设置歌单标签](/api/playlist/playlist-tags-update)                 | `PlaylistTagsUpdateBody`           | `code`                                                                                   |
+| [往歌单加歌](/api/playlist/playlist-track-add)                     | `PlaylistTrackAddBody`             | `code`；成功正文没有录到；缺参 400 改为 reject 400；401/404 原样转交                     |
+| [从歌单删歌](/api/playlist/playlist-track-delete)                  | `PlaylistTrackDeleteBody`          | `code`；成功正文没有录到；缺参 400 改为 reject 400；401/404 原样转交                     |
+| [往歌单加歌或删歌](/api/playlist/playlist-tracks)                  | `PlaylistTracksBody`               | `code`；`count`、`cloudCount`、`trackIds` 宽松；SDK 去掉 200 响应的额外包装              |
+| [更新歌单](/api/playlist/playlist-update)                          | `PlaylistUpdateBody`               | `code`；三条子路由的结果键和子路由 `code` 收紧，`message` 宽松                           |
+| [歌单打卡](/api/playlist/playlist-update-playcount)                | `PlaylistUpdatePlaycountBody`      | `code`；缺少 `id` 时的空字符串正文作为独立分支保留                                       |
+| [收藏或取消收藏歌单](/api/playlist/playlist-subscribe)             | `PlaylistSubscribeBody`            | `code`                                                                                   |
+| [设置歌单封面](/api/playlist/playlist-cover-update)                | `PlaylistCoverUpdateBody`          | `code`、`data`、`data.code`；`data.url`、`msg` 宽松                                      |
+| [歌曲排序](/api/music/song-order-update)                           | `SongOrderUpdateBody`              | `code`；大批量调整可能回 `-1`，但网易云可能已经完成排序，SDK 仍按失败返回                |
+| [申请图片上传凭证](/api/playlist/image-upload-token)               | `ImageUploadTokenBody`             | `code`、`data`、`data.imgId`、`data.token`、`data.uploadUrl`、`data.url_pre`             |
+| [歌单导入任务创建](/api/playlist/playlist-import-name-task-create) | `PlaylistImportNameTaskCreateBody` | `code`；`data`、`data.taskId`、`msg`、`message` 宽松（`local`/`link` 分支未录制）        |
+| [歌单导入任务状态](/api/playlist/playlist-import-task-status)      | `PlaylistImportTaskStatusBody`     | `code`、`data`、`data.tasks`、`data.tasks[].id`、`data.tasks[].status`；其余任务字段宽松 |
+
+歌单类写操作的录制都在一个临时歌单上完成，删除后 `playlist_detail` 仍回 `playlist.status: 10`；删除只是把歌单移出用户歌单列表，元数据并未抹除，已删除歌单仍接受 `playlist_update` 的名字/简介/标签和 `playlist_update_playcount` 的计数写入。导入任务不是歌单操作，只在无匹配文本时建了任务，没有生成歌单。`playlist_track_add`、`playlist_track_delete` 对自有歌单也回 401 无权限操作歌单，没有成功的字段证据，结构定义只收紧返回码，其余字段原样保留；这两个模块没有 `final: true` 的成功录制，`schema:audit module` 对它们返回 exit 1。
 
 歌单分类没有编号，靠名字来认，所以 `all.name`、`sub[].name` 收紧；分类的其他字段宽松。
 
@@ -513,6 +521,8 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 `SPECIAL_STATUS_CODES` 里的其他码同样会在 Body 校验时拒绝：201/302/502 以原码拒绝，800–803 因超出 100–599 钳位为 400。不在该表里的码（如 404）原样转交，公开 `status` 仍是 404，不会变成 502。契约测试对以上 5 份 400 录制和 2 份 404 录制都断言状态码和原文。
 
 推荐批次的 `personalized`、`personalized_newsong`、`personalized_privatecontent_list` 同理：`code: 400` 的录制（`personalized.invalid-limit.json`、`personalized_newsong.invalid-limit.json`、`personalized_privatecontent_list.invalid-offset.json`）改造前按 200 放行，现在是 reject `status: 400`；`personalized_privatecontent_list` 的越界 `offset=100000`（`personalized_privatecontent_list.offset-out-of-range.json`）是 `code: 404`，改造前是 resolve `status: 404`，现在是 reject `status: 404`。两者都保留上游原文，不报 502。
+
+B6 的歌单写操作同样受影响：`playlist_track_add` 缺 `pid`（`playlist_track_add.missing-pid.json`）、`playlist_track_delete` 缺 `id`（`playlist_track_delete.missing-id.json`）、`playlist_import_name_task_create` 缺 `text`（`playlist_import_name_task_create.missing-text.json`）的上游 `code: 400` 从 `status: 200` 放行变成 `status: 400` 拒绝，`body` 保留原文。`playlist_track_add`/`playlist_track_delete` 的 401 和 404、`playlist_import_task_status` 的 500 不在 `SPECIAL_STATUS_CODES` 里，改造前就按 `ProtocolFailed` 拒绝，状态不变。`playlist_update_playcount` 缺 `id` 的空正文是 HTTP 400、没有 `code`，仍归一成 `status: 200` 和空字符串，空字符串作为结构定义的独立分支保留。
 
 ## 消息
 
