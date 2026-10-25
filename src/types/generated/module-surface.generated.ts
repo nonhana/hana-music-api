@@ -408,7 +408,10 @@ import type { ModuleInput as recordRecentVideoInput } from '../../modules/record
 import type { ModuleInput as recordRecentVoiceInput } from '../../modules/record_recent_voice.ts';
 import type { ModuleInput as registerAnonimousInput } from '../../modules/register_anonimous.ts';
 import type { ModuleInput as registerCellphoneInput } from '../../modules/register_cellphone.ts';
-import type { ModuleInput as relatedAllvideoInput } from '../../modules/related_allvideo.ts';
+import type {
+  ModuleBody as relatedAllvideoBody,
+  ModuleInput as relatedAllvideoInput,
+} from '../../modules/related_allvideo.ts';
 import type { ModuleInput as relatedPlaylistInput } from '../../modules/related_playlist.ts';
 import type { ModuleInput as resourceLikeInput } from '../../modules/resource_like.ts';
 import type {
@@ -590,15 +593,39 @@ import type {
   ModuleInput as verifyGetQrInput,
 } from '../../modules/verify_getQr.ts';
 import type { ModuleInput as verifyQrcodestatusInput } from '../../modules/verify_qrcodestatus.ts';
-import type { ModuleInput as videoCategoryListInput } from '../../modules/video_category_list.ts';
-import type { ModuleInput as videoDetailInput } from '../../modules/video_detail.ts';
-import type { ModuleInput as videoDetailInfoInput } from '../../modules/video_detail_info.ts';
-import type { ModuleInput as videoGroupInput } from '../../modules/video_group.ts';
-import type { ModuleInput as videoGroupListInput } from '../../modules/video_group_list.ts';
+import type {
+  ModuleBody as videoCategoryListBody,
+  ModuleInput as videoCategoryListInput,
+} from '../../modules/video_category_list.ts';
+import type {
+  ModuleBody as videoDetailBody,
+  ModuleInput as videoDetailInput,
+} from '../../modules/video_detail.ts';
+import type {
+  ModuleBody as videoDetailInfoBody,
+  ModuleInput as videoDetailInfoInput,
+} from '../../modules/video_detail_info.ts';
+import type {
+  ModuleBody as videoGroupBody,
+  ModuleInput as videoGroupInput,
+} from '../../modules/video_group.ts';
+import type {
+  ModuleBody as videoGroupListBody,
+  ModuleInput as videoGroupListInput,
+} from '../../modules/video_group_list.ts';
 import type { ModuleInput as videoSubInput } from '../../modules/video_sub.ts';
-import type { ModuleInput as videoTimelineAllInput } from '../../modules/video_timeline_all.ts';
-import type { ModuleInput as videoTimelineRecommendInput } from '../../modules/video_timeline_recommend.ts';
-import type { ModuleInput as videoUrlInput } from '../../modules/video_url.ts';
+import type {
+  ModuleBody as videoTimelineAllBody,
+  ModuleInput as videoTimelineAllInput,
+} from '../../modules/video_timeline_all.ts';
+import type {
+  ModuleBody as videoTimelineRecommendBody,
+  ModuleInput as videoTimelineRecommendInput,
+} from '../../modules/video_timeline_recommend.ts';
+import type {
+  ModuleBody as videoUrlBody,
+  ModuleInput as videoUrlInput,
+} from '../../modules/video_url.ts';
 import type { ModuleInput as vipGrowthpointInput } from '../../modules/vip_growthpoint.ts';
 import type { ModuleInput as vipGrowthpointDetailsInput } from '../../modules/vip_growthpoint_details.ts';
 import type { ModuleInput as vipGrowthpointGetInput } from '../../modules/vip_growthpoint_get.ts';
@@ -2367,7 +2394,7 @@ export interface GeneratedModuleContractMap {
   related_allvideo: {
     input: relatedAllvideoInput;
     query: relatedAllvideoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<relatedAllvideoBody>;
   };
   related_playlist: {
     input: relatedPlaylistInput;
@@ -2879,27 +2906,27 @@ export interface GeneratedModuleContractMap {
   video_category_list: {
     input: videoCategoryListInput;
     query: videoCategoryListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoCategoryListBody>;
   };
   video_detail: {
     input: videoDetailInput;
     query: videoDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoDetailBody>;
   };
   video_detail_info: {
     input: videoDetailInfoInput;
     query: videoDetailInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoDetailInfoBody>;
   };
   video_group: {
     input: videoGroupInput;
     query: videoGroupInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoGroupBody>;
   };
   video_group_list: {
     input: videoGroupListInput;
     query: videoGroupListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoGroupListBody>;
   };
   video_sub: {
     input: videoSubInput;
@@ -2909,17 +2936,17 @@ export interface GeneratedModuleContractMap {
   video_timeline_all: {
     input: videoTimelineAllInput;
     query: videoTimelineAllInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoTimelineAllBody>;
   };
   video_timeline_recommend: {
     input: videoTimelineRecommendInput;
     query: videoTimelineRecommendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoTimelineRecommendBody>;
   };
   video_url: {
     input: videoUrlInput;
     query: videoUrlInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoUrlBody>;
   };
   vip_growthpoint: {
     input: vipGrowthpointInput;

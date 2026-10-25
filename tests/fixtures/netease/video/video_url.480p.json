@@ -1,0 +1,31 @@
+{
+  "module": "video_url",
+  "query": {
+    "id": "BFB0ABD6F5B0F069D3AC90021A1E680E",
+    "res": 480
+  },
+  "context": {
+    "recordedAt": "2026-10-25T12:33:39.156Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B10：video_url 480p 地址"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "urls": [
+        {
+          "id": "BFB0ABD6F5B0F069D3AC90021A1E680E",
+          "url": "http://vodkgeyttp9.vod.126.net/vodkgeyttp8/tMWIH0dw_2220069395_hd.mp4?ts=1792935219&rid=DFB52272E008DF60182C7C57E4CF2BCCED7C0F06E2ABC17D3AE841FFF3AEBAE2&rl=3&rs=TZyvfkLmSkhPNAFmeHjZNykAkGUyCnhN&sign=4f0e1bb221a98a091617c257d4d0e391&ext=wTorhW0kbGv4MCu42IRfAMd%2F7fJsjeQONOPqKbkVtx%2FtZDG%2B3kUxukDdiQ24Zjsk5Uw8YosQZHPyCeug2rIcu6yRFK%2BFTUOuIou3XMT51YLdPKSe6m%2B0QU7%2BMo9fRieShAU6EahhkTG29MkV237rgKOTNAU33BcOavy%2FzathKG1zw5BVG7IctMkCumUNtQxAEa1y5BM3T6n6onMP33YDiBf1hc2SMaFKLw9bXC5WUVgp5NF8NG%2FdITvBaERkXAbJrq2ZwR3PiwhRwtewGMzJRzwo9Ilon6vsnXEcMV6SxNU0veTkVb9wedLOl6GyD%2BS%2FspbTS9N9vYbuQBegMHkhzQ%3D%3D",
+          "size": 52799476,
+          "validityTime": 1200,
+          "needPay": false,
+          "payInfo": null,
+          "r": 480
+        }
+      ],
+      "code": 200
+    }
+  }
+}

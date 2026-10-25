@@ -191,6 +191,30 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 `mv_sublist` 返回的是云视频收藏记录：`data[].vid` 是记录自己的编号，按字符串收紧；`title`、`durationms`、`creator`、`playTime`、`coverUrl`、`aliaName`、`transName`、`markTypes` 宽松，`alg` 只见过 `null` 没有声明。登录录制有 20 条，匿名录制（`mv_sublist.anonymous.json`）是空数组。其余列表模块的匿名与登录重录逐字段 diff 没有结构差异，登录对照录制已删除；`mv_sublist` 只对比到顶层字段（匿名时 `data` 是空数组），非空登录录制保留作为元素字段证据。收藏/取消收藏 MV（`mv_sub`）是写操作，本批没有收窄返回体。
 
+## 视频
+
+| 模块                                               | 结构定义                     | 收紧的字段                                         |
+| -------------------------------------------------- | ---------------------------- | -------------------------------------------------- |
+| [获取视频分类列表](/api/video/video-category-list) | `VideoCategoryListBody`      | `code`、`data`、`data[].id`                        |
+| [视频详情](/api/video/video-detail)                | `VideoDetailBody`            | `code`、`data`、`data.vid`                         |
+| [视频点赞转发评论数](/api/video/video-detail-info) | `VideoDetailInfoBody`        | `code`、`commentCount`、`shareCount`、`likedCount` |
+| [视频标签/分类下的视频](/api/video/video-group)    | `VideoGroupBody`             | `code`；`datas` 只见过 `null`，未声明              |
+| [视频标签列表](/api/video/video-group-list)        | `VideoGroupListBody`         | `code`、`data`、`data[].id`                        |
+| [全部视频列表](/api/video/video-timeline-all)      | `VideoTimelineAllBody`       | `code`、`datas`、`datas[].data.vid`                |
+| [推荐视频](/api/video/video-timeline-recommend)    | `VideoTimelineRecommendBody` | `code`、`datas`、`datas[].data.vid`                |
+| [视频链接](/api/video/video-url)                   | `VideoUrlBody`               | `code`、`urls`、`urls[].id`、`urls[].url`          |
+| [相关视频](/api/video/related-allvideo)            | `RelatedAllvideoBody`        | `code`                                             |
+
+`video_category_list` 和 `video_group_list` 的 `data` 是通到分类/标签列表的路径，每条记录的 `id` 是记录自己的编号，收紧；`name`、`url`、`selectTab` 宽松。`video_category_list` 的 `relatedVideoType` 有字符串证据，声明为宽松字段；`video_group_list` 的 `relatedVideoType`、两个接口的 `abExtInfo` 都只见过 `null`，没有声明。当前上游忽略 `offset`，越界 `offset` 仍返回同样的分类，本批录制/探测未发现可达的空结果。
+
+`video_detail` 的 `data` 和视频自己的编号 `data.vid` 收紧；`creator` 复用宽松的 `PlaylistUser`，封面、标题、描述、计数、时长、发布时间、`resolutions[]`、`videoGroup[]` 等其余字段宽松。`markTypes` 在详情录制里只见过空数组、`videoUserLiveInfo` 只见过 `null`，都没有声明，原样保留。`video_detail_info` 只收紧评论线程的 `commentCount`、`shareCount`、`likedCount`，`liked` 是当前账号状态，宽松。
+
+`video_timeline_all` 和 `video_timeline_recommend` 的 `datas` 是通到视频列表的路径，每条视频的 `data.vid` 是记录自己的编号，按字符串收紧；`creator` 复用宽松的 `PlaylistUser`，`resolutions[]`、`videoGroup[]`、`markTypes` 宽松，`relateSong[]` 是宽松字段里套着的歌曲记录（编号也宽松，复用 `Song` 的字段并把 `id` 放宽）。`previewUrl` 只在 `video_timeline_all` 有非 `null` 证据，`urlInfo`（含地址、大小、有效期）只在 `video_timeline_recommend` 有非 `null` 证据；`extAlg`、`relatedInfo`、`videoUserLiveInfo` 只见过 `null`，没有声明。`video_timeline_all` 的 `offset=7` 越界页返回 `datas: []`、`hasmore: false`（录制 `video_timeline_all.empty.json`），`video_timeline_recommend` 的 `offset=100` 越界页返回 `datas: []`、`msg: "暂无推荐视频，请稍后再试"`、`hasmore: false`（录制 `video_timeline_recommend.empty.json`），空数组是正常结果。两个模块的 `resolutions[]` 和 `videoGroup[]` 复用 core 的 `VideoResolutionEntry`、`VideoGroupRef`。
+
+`video_url` 的 `urls` 是通到播放地址的路径，条目里的 `id` 和 `url` 收紧；`r`、`size`、`validityTime`、`needPay` 宽松，`payInfo` 只见过 `null` 没有声明。录制覆盖请求 1080 实际给到 720（`video_url.default.json`）、480p（`video_url.480p.json`）、240p（`video_url.240p.json`）；未知视频返回 `urls: []`（`video_url.empty.json`），本批未探测到 `url` 为 `null`。`video_group` 的 `datas` 在本批录制和对全部标签 id 的探测里没有出现过非 `null` 值，元素类型无法确定，未声明并原样保留；`related_allvideo` 的 `data` 在十六进制视频 id（`type: 1`）和数字 id（`type: 0`）两种请求下都是空数组，同样未声明。
+
+登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`video_timeline_all`、`video_timeline_recommend` 的登录录制差异只在宽松字段（`relateSong` 出现歌曲记录、`markTypes` 出现值；`creator.experts` 的键集合差异只在 `video_timeline_all`，匿名录制多出 `experts.2`，`video_timeline_recommend` 两边都只有 `{1}` 或 `null`），这两份登录录制保留为元素字段证据；其余 7 个模块只保留匿名录制，未保留登录对照，不对公开结构作相同性断言。收藏/取消收藏视频（`video_sub`）是写操作，移到后续写操作批次（B22 关注/收藏/点赞），本批没有收窄返回体。
+
 ## 播放
 
 | 模块                                                             | 结构定义                | 收紧的字段                                                                                      |

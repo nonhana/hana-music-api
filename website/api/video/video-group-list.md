@@ -37,6 +37,10 @@ const result = await videoGroupList();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、标签列表 `body.data` 和每条标签自己的编号 `data[].id` 收紧；`name`、`url`、`selectTab` 宽松，`relatedVideoType`、`abExtInfo` 只见过 `null`，没有声明，原样保留。结构定义和类型是 `VideoGroupListBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取视频标签列表

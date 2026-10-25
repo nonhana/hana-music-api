@@ -1,0 +1,23 @@
+{
+  "module": "video_timeline_all",
+  "query": {
+    "offset": 7
+  },
+  "context": {
+    "recordedAt": "2026-10-25T12:33:02.756Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B10：video_timeline_all 越界页空列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "datas": [],
+      "msg": "暂无推荐视频，请稍后再试",
+      "hasmore": false,
+      "rcmdLimit": 48,
+      "code": 200
+    }
+  }
+}

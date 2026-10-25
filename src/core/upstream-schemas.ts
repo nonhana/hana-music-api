@@ -597,3 +597,15 @@ export const MvSummary = UpstreamObject({
   subed: Loose(Schema.Boolean),
   transNames: Loose(Schema.Array(Schema.String)),
 });
+
+// video_detail、video_timeline_all、video_timeline_recommend 共用的视频清晰度条目，字段一致。
+export const VideoResolutionEntry = UpstreamObject({
+  resolution: Loose(Schema.Finite),
+  size: Loose(Schema.Finite),
+});
+
+// 三个视频模块共用的视频标签引用；标签编号是附带信息，宽松。
+export const VideoGroupRef = UpstreamObject({
+  id: Loose(Schema.Finite),
+  name: Loose(Schema.String),
+});

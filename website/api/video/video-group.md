@@ -42,6 +42,10 @@ const result = await videoGroup({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 收紧；`hasmore`、`rcmdLimit` 宽松。分组视频列表 `datas` 在本批录制和对全部标签 id 的探测里没有出现过非 `null` 值，元素类型无法确定，没有声明，原样保留；`msg` 只见过 `null`，也未声明，原样保留。结构定义和类型是 `VideoGroupBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入标签/分类`id`,可获取到相关的视频,分页参数只能传入 offset
