@@ -56,7 +56,15 @@ export { ModuleBody as DjProgramToplistHoursBody } from '../../modules/dj_progra
 export { ModuleBody as DjRadioHotBody } from '../../modules/dj_radio_hot.ts';
 export { ModuleBody as DjRecommendBody } from '../../modules/dj_recommend.ts';
 export { ModuleBody as DjRecommendTypeBody } from '../../modules/dj_recommend_type.ts';
+export { ModuleBody as DjSublistBody } from '../../modules/dj_sublist.ts';
+export { ModuleBody as DjSubscriberBody } from '../../modules/dj_subscriber.ts';
 export { ModuleBody as DjTodayPerferedBody } from '../../modules/dj_today_perfered.ts';
+export { ModuleBody as DjToplistBody } from '../../modules/dj_toplist.ts';
+export { ModuleBody as DjToplistHoursBody } from '../../modules/dj_toplist_hours.ts';
+export { ModuleBody as DjToplistNewcomerBody } from '../../modules/dj_toplist_newcomer.ts';
+export { ModuleBody as DjToplistPayBody } from '../../modules/dj_toplist_pay.ts';
+export { ModuleBody as DjToplistPopularBody } from '../../modules/dj_toplist_popular.ts';
+export { ModuleBody as DjRadioTopBody } from '../../modules/djRadio_top.ts';
 export { ModuleBody as ImageUploadTokenBody } from '../../modules/image_upload_token.ts';
 export { ModuleBody as LikeBody } from '../../modules/like.ts';
 export { ModuleBody as LikelistBody } from '../../modules/likelist.ts';

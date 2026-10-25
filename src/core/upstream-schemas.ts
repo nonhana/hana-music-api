@@ -279,7 +279,7 @@ const AuthType = UpstreamObject({
   type: Loose(Schema.Finite),
 });
 
-const AvatarDetail = UpstreamObject({
+export const AvatarDetail = UpstreamObject({
   identityIconUrl: Loose(Schema.String),
   identityLevel: Loose(Schema.Finite),
   userType: Loose(Schema.Finite),
@@ -764,8 +764,8 @@ const ProgramDescNestedData = UpstreamObject({
   textList: Loose(Schema.Array(ProgramDescText)),
 });
 
-// 节目记录里的电台简介图文；`timeStamp` 只见过 null，未声明。
-const ProgramDescPic = UpstreamObject({
+// 节目记录和订阅电台列表里的简介图文；`timeStamp` 只见过 null，未声明。
+export const ProgramDescPic = UpstreamObject({
   content: Loose(Schema.String),
   height: Loose(Schema.Finite),
   id: Loose(Schema.Finite),
@@ -874,4 +874,23 @@ export const DjProgram = UpstreamObject({
   subscribed: Loose(Schema.Boolean),
   subscribedCount: Loose(Schema.Finite),
   trackCount: Loose(Schema.Finite),
+});
+
+// dj_toplist_hours、dj_toplist_newcomer、dj_toplist_popular 的主播榜条目：只收紧主播自己的 `id`，
+// 排名、分数、头像、认证和直播状态宽松；`avatarDetail` 在部分条目里是 null，出现时按宽松结构声明。
+export const DjAnchorRank = UpstreamObject({
+  id: Schema.Finite,
+  avatarDetail: Loose(AvatarDetail),
+  avatarUrl: Loose(Schema.String),
+  lastRank: Loose(Schema.Finite),
+  liveId: Loose(Schema.Finite),
+  liveStatus: Loose(Schema.Finite),
+  liveType: Loose(Schema.Finite),
+  mainAuthDesc: Loose(Schema.String),
+  nickName: Loose(Schema.String),
+  rank: Loose(Schema.Finite),
+  roomNo: Loose(Schema.Finite),
+  score: Loose(Schema.Finite),
+  userFollowedCount: Loose(Schema.Finite),
+  userType: Loose(Schema.Finite),
 });

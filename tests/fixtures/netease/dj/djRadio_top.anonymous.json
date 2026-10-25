@@ -1,0 +1,23 @@
+{
+  "module": "djRadio_top",
+  "query": {
+    "djRadioId": 792544462
+  },
+  "context": {
+    "recordedAt": "2026-10-25T17:50:00.185Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B13: djRadio_top 匿名对照（与登录录制同 id，302 系统错误）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 302,
+      "message": "系统错误",
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

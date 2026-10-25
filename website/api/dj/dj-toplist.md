@@ -44,6 +44,10 @@ const result = await djToplist({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到榜单的 `body.toplist` 和榜上电台自己的编号 `toplist[].id` 收紧；`updateTime`、排名、分数、分类、封面、计数和 `dj` 主播（复用宽松的 `PlaylistUser`）都是宽松字段。`offset=99999` 越界分页返回空数组（录制 `dj_toplist.empty.json`）；非数字 `limit` 返回正文 `code: 400`，SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `DjToplistBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可获得新晋电台榜/热门电台榜

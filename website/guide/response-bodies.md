@@ -261,6 +261,14 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 | [电台个性推荐](/api/dj/dj-personalize-recommend)        | `DjPersonalizeRecommendBody`     | `code`、`data`、`data[].id`                                                                  |
 | [推荐电台](/api/recommend/personalized-djprogram)       | `PersonalizedDjprogramBody`      | `code`、`result`、`result[].id`                                                              |
 | [电台今日优选](/api/dj/dj-today-perfered)               | `DjTodayPerferedBody`            | `code`                                                                                       |
+| [电台排行榜获取](/api/dj/dj-radio-top)                  | `DjRadioTopBody`                 | `code`                                                                                       |
+| [电台的订阅列表](/api/dj/dj-sublist)                    | `DjSublistBody`                  | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [电台订阅者列表](/api/dj/dj-subscriber)                 | `DjSubscriberBody`               | `code`、`subscribers`、`subscribers[].userId`                                                |
+| [电台 - 新晋电台榜/热门电台榜](/api/dj/dj-toplist)      | `DjToplistBody`                  | `code`、`toplist`、`toplist[].id`                                                            |
+| [电台 - 24 小时主播榜](/api/dj/dj-toplist-hours)        | `DjToplistHoursBody`             | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [电台 - 主播新人榜](/api/dj/dj-toplist-newcomer)        | `DjToplistNewcomerBody`          | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [电台 - 付费精品](/api/dj/dj-toplist-pay)               | `DjToplistPayBody`               | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [电台 - 最热主播榜](/api/dj/dj-toplist-popular)         | `DjToplistPopularBody`           | `code`、`data`、`data.list`、`data.list[].id`                                                |
 | [DIFM 分类频道](/api/dj/dj-difm-all-style-channel)      | `DjDifmAllStyleChannelBody`      | `code`、`data`、`data[].styles`、`data[].styles[].channels`、`data[].styles[].channels[].id` |
 | [DIFM 播放列表](/api/dj/dj-difm-playing-tracks-list)    | `DjDifmPlayingTracksListBody`    | `code`、`data`、`data.list`、`data.list[].id`                                                |
 | [DIFM 收藏列表](/api/dj/dj-difm-subscribe-channels-get) | `DjDifmSubscribeChannelsGetBody` | `code`                                                                                       |
@@ -276,6 +284,8 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 `dj_detail`、`dj_radio_hot`、`dj_recommend_type` 缺少必选参数时上游返回 HTTP 200、正文 `code: 400`、`msg: 参数错误`（录制 `*.missing-param.json`）；`dj_detail` 的未知 `rid` 返回 `code: 404`、`msg: radio not exist`（录制 `dj_detail.unknown-rid.json`），`dj_hot`、`dj_radio_hot`、`dj_paygift` 的非数字 `limit` 也返回 `code: 400`（录制 `*.invalid-limit.json`）。结构定义只接受 `code: 200`，所以这些路径从“原样返回 `status: 200`、正文非 200 业务码”变成 `status` 等于业务码的业务拒绝，正文仍是网易云原文；批量收窄返回体的模块都按这个规则处理。
 
 登录对照在本地用登录 Cookie 重放 `login_status` 确认过 `account.anonimousUser: false`，但本批未保留登录对照录制，不对公开结构作相同性断言。本批结论只覆盖这 10 个接口的匿名录制与探测，不据此推断字段集合在所有账号、地区和上游版本下一致。
+
+B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_popular` 的主播条目字段完全相同，提升到 `src/core/upstream-schemas.ts` 的 `DjAnchorRank`，只收紧主播自己的 `id`，头像、认证、直播状态和排名宽松；`avatarDetail` 复用既有 `AvatarDetail`。三个主播榜的 envelope（`code`、`data.total`、`data.updateTime`、`data.list`）也相同，本批作为模块公开合同暂留，后续统一榜单结构时再抽 core。`dj_toplist` 和 `dj_sublist` 的电台记录字段集合不同（榜单单条更短、订阅列表是完整电台记录），按“三个模块才进共享结构”的规则各自留在模块里；订阅列表的简介图文复用 `ProgramDescPic`，主播复用 `PlaylistUser`。`dj_toplist`、`dj_sublist`（匿名）、`dj_subscriber`（`time=1` 游标越界）都有真实空结果录制；`dj_toplist_hours`、`dj_toplist_pay`、`dj_toplist_popular` 没有 `offset`，`dj_toplist_newcomer` 的 `offset` 被上游忽略，`limit=0` 会被 SDK 的 `limit || 100` 替换成默认 `100`，本批录制和探测里没有可达的空结果。`djRadio_top` 在本账号的一次登录录制里 `data` 是空数组，元素类型无法确认，`data` 未声明并原样透传；匿名调用返回 `code: 302`（录制 `djRadio_top.anonymous.json`）。`dj_sublist` 必须登录才能看到订阅，匿名返回空 `djRadios`；五个榜单和 `dj_subscriber` 的登录与匿名录制字段集合相同，差异只在宽松字段的实时值。非数字 `limit`（五个榜单和 `dj_sublist`）返回正文 `code: 400`；大于 `100` 的 `limit` 只有 `dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_pay`、`dj_toplist_popular` 返回 `code: 400`，`dj_toplist`、`dj_sublist`、`dj_subscriber` 的 `limit=101` 在本批匿名探测里仍返回 200。SDK 按业务码拒绝转交 `status: 400`；`djRadio_top` 的非数字 `djRadioId` 返回 HTTP 400 空正文，网易云把 400 归一成 `status: 200`，结构定义允许空字符串分支。
 
 ## 曲风
 

@@ -259,18 +259,42 @@ import type {
   ModuleInput as djRecommendTypeInput,
 } from '../../modules/dj_recommend_type.ts';
 import type { ModuleInput as djSubInput } from '../../modules/dj_sub.ts';
-import type { ModuleInput as djSublistInput } from '../../modules/dj_sublist.ts';
-import type { ModuleInput as djSubscriberInput } from '../../modules/dj_subscriber.ts';
+import type {
+  ModuleBody as djSublistBody,
+  ModuleInput as djSublistInput,
+} from '../../modules/dj_sublist.ts';
+import type {
+  ModuleBody as djSubscriberBody,
+  ModuleInput as djSubscriberInput,
+} from '../../modules/dj_subscriber.ts';
 import type {
   ModuleBody as djTodayPerferedBody,
   ModuleInput as djTodayPerferedInput,
 } from '../../modules/dj_today_perfered.ts';
-import type { ModuleInput as djToplistInput } from '../../modules/dj_toplist.ts';
-import type { ModuleInput as djToplistHoursInput } from '../../modules/dj_toplist_hours.ts';
-import type { ModuleInput as djToplistNewcomerInput } from '../../modules/dj_toplist_newcomer.ts';
-import type { ModuleInput as djToplistPayInput } from '../../modules/dj_toplist_pay.ts';
-import type { ModuleInput as djToplistPopularInput } from '../../modules/dj_toplist_popular.ts';
-import type { ModuleInput as djRadioTopInput } from '../../modules/djRadio_top.ts';
+import type {
+  ModuleBody as djToplistBody,
+  ModuleInput as djToplistInput,
+} from '../../modules/dj_toplist.ts';
+import type {
+  ModuleBody as djToplistHoursBody,
+  ModuleInput as djToplistHoursInput,
+} from '../../modules/dj_toplist_hours.ts';
+import type {
+  ModuleBody as djToplistNewcomerBody,
+  ModuleInput as djToplistNewcomerInput,
+} from '../../modules/dj_toplist_newcomer.ts';
+import type {
+  ModuleBody as djToplistPayBody,
+  ModuleInput as djToplistPayInput,
+} from '../../modules/dj_toplist_pay.ts';
+import type {
+  ModuleBody as djToplistPopularBody,
+  ModuleInput as djToplistPopularInput,
+} from '../../modules/dj_toplist_popular.ts';
+import type {
+  ModuleBody as djRadioTopBody,
+  ModuleInput as djRadioTopInput,
+} from '../../modules/djRadio_top.ts';
 import type { ModuleInput as eventInput } from '../../modules/event.ts';
 import type { ModuleInput as eventDelInput } from '../../modules/event_del.ts';
 import type { ModuleInput as eventForwardInput } from '../../modules/event_forward.ts';
@@ -1941,12 +1965,12 @@ export interface GeneratedModuleContractMap {
   dj_sublist: {
     input: djSublistInput;
     query: djSublistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djSublistBody>;
   };
   dj_subscriber: {
     input: djSubscriberInput;
     query: djSubscriberInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djSubscriberBody>;
   };
   dj_today_perfered: {
     input: djTodayPerferedInput;
@@ -1956,32 +1980,32 @@ export interface GeneratedModuleContractMap {
   dj_toplist: {
     input: djToplistInput;
     query: djToplistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djToplistBody>;
   };
   dj_toplist_hours: {
     input: djToplistHoursInput;
     query: djToplistHoursInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djToplistHoursBody>;
   };
   dj_toplist_newcomer: {
     input: djToplistNewcomerInput;
     query: djToplistNewcomerInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djToplistNewcomerBody>;
   };
   dj_toplist_pay: {
     input: djToplistPayInput;
     query: djToplistPayInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djToplistPayBody>;
   };
   dj_toplist_popular: {
     input: djToplistPopularInput;
     query: djToplistPopularInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djToplistPopularBody>;
   };
   djRadio_top: {
     input: djRadioTopInput;
     query: djRadioTopInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djRadioTopBody>;
   };
   event: { input: eventInput; query: eventInput; response: ModuleResponse };
   event_del: {

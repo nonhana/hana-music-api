@@ -1,0 +1,17 @@
+{
+  "module": "djRadio_top",
+  "query": {
+    "djRadioId": "abc"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:57:21.369Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B13: djRadio_top 非法 djRadioId HTTP 400 空正文"
+  },
+  "response": {
+    "status": 400,
+    "body": ""
+  }
+}

@@ -43,8 +43,6 @@ import { moduleResponse } from '../fixtures/request-capability.ts';
 import { executeModule, response } from '../fixtures/upload-effect.ts';
 
 const projectDirectory = resolve(import.meta.dir, '../..');
-const echoRequest: RequestCapability = (intent) =>
-  Effect.succeed(response(intent.body ? JSON.parse(String(intent.body)) : {}));
 
 describe('module input ownership', () => {
   test('all 352 endpoints own inputs without importing the central public alias barrel', async () => {
@@ -298,10 +296,14 @@ describe('module-local input decoding', () => {
     { type: 'unknown', expected: 0 },
     { type: undefined, expected: 0 },
   ])('preserves DJ toplist fallback for $type', async ({ type, expected }) => {
-    const result = await runEffect(
-      executeModule(djToplist, { type }, echoRequest),
+    let requestBody: Record<string, unknown> = {};
+    await runEffect(
+      executeModule(djToplist, { type }, (intent) => {
+        requestBody = intent.body ? JSON.parse(String(intent.body)) : {};
+        return Effect.succeed(response({ code: 200, toplist: [] }));
+      }),
     );
-    expect(result.body).toEqual({ limit: 100, offset: 0, type: expected });
+    expect(requestBody).toEqual({ limit: 100, offset: 0, type: expected });
   });
 });
 
