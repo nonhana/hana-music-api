@@ -212,6 +212,24 @@ MV 记录（`artist_mv` 的 `mvs[]`）本批在模块内声明：`id` 收紧，`
 
 本地歌曲匹配的 `result`、`result.songs` 和 `result.ids` 收紧，每首匹配歌曲的 `id` 和 `ids`（接口要返回的本地文件映射项）收紧；旧式歌曲字段（`popularity`、`score`、`hMusic` 等）宽松。空结果录制 `search_match.no-result.json` 是 `songs: []`、`ids: []`。多类型搜索的 `result` 收紧，`orders` 是宽松的类别顺序；`artist`、`new_mlog`、`playlist` 是可以没有的路径（无结果录制 `search_multimatch.no-result.json` 里只有 `orders: []`），出现了就按记录 `id` / `resourceId` 收紧；其余嵌套字段宽松。
 
+## 评论
+
+| 模块                                      | 结构定义              | 收紧的字段                                                                                                |
+| ----------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------- |
+| [歌曲评论](/api/comment/comment-music)    | `CommentMusicBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [专辑评论](/api/comment/comment-album)    | `CommentAlbumBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [歌单评论](/api/comment/comment-playlist) | `CommentPlaylistBody` | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [MV 评论](/api/comment/comment-mv)        | `CommentMvBody`       | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [视频评论](/api/comment/comment-video)    | `CommentVideoBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+
+这五个固定资源评论列表共用 `src/core/upstream-schemas.ts` 里的 `CommentRecord`、`CommentReply` 和 `CommentUser`：本批录制里 5 个模块的评论记录字段和类型完全一致。`commentId` 是每条评论自己的编号，所以收紧；`user` 和 `beReplied` 是评论里套着的记录，字段全部宽松，包括 `beReplied[].beRepliedCommentId`。`likedCount`、`liked`、`favorited`、`time`、`timeStr`、`status`、`parentCommentId`、`commentLocationType`、`decoration`、`ipLocation`、`pendantData` 也是宽松字段。
+
+`comments` 是通到评论列表的路径，缺失、`null` 或不是数组都报 502；空结果是真实可达的：无评论资源返回 `comments: []`（录制 `comment_music.empty.json`、`comment_album.empty.json`、`comment_playlist.empty.json`），越界分页返回 `comments: []`、`total` 保持原值。`hotComments` 是可以没有的路径：`offset` 越过总数时网易云整个不返回 `hotComments`（录制 `comment_music.out-of-range.json` 等），缺失或 `null` 都照常返回；出现时按 `commentId` 收紧校验，坏一条报 502。`topComments` 在录制里只见过空数组，元素类型猜不出，没有声明；`commentBanner` 只见过 `null`，也没有声明。两者和评论里的 `aiCommentLabel`、`showFloorComment`、`repliedMark`、`userBizLevels`、`medal`、`grade`、`likeAnimationMap` 等未声明字段一样原样保留。
+
+5 份非空录制保留的是覆盖各字段的非连续子集，原条数与保留条数为：`comment_music` 20/15 → 5/5，`comment_album` 20/9 → 5/4，`comment_playlist` 20/15 → 5/4，`comment_mv` 20/15 → 6/4，`comment_video` 20/15 → 6/4（`comments`/`hotComments`）；`context.truncated.length` 记的是原数组长度。
+
+`total`、`more`、`moreHot`、`cnum`、`isMusician`、`userId` 是宽松字段；`userId` 是查看者自己的编号，匿名时也存在。登录对照先用 `login_status` 确认 `account.anonimousUser: false`，再逐模块抽查：五个模块的非 `null` 路径与类型相同，登录响应只会在宽松字段上多出现值为 `null` 的路径（如 `comments[].user.vipRights`、`beReplied[].content`/`richContent`、`beReplied[].ipLocation.userId`、`beReplied[].user.avatarDetail`），这些字段本来就是宽松字段，登录录制未保留。`/api/resource/comments/${action}` 的 `comment` 模块是评论增删回复的写操作，无法在不产生真实副作用的前提下录全各 action，本批没有给它加结构定义。
+
 ## 导出约定
 
 收窄返回体的模块从根入口导出结构定义和同名类型，名字是模块名转成 PascalCase 再加 `Body`，例如 `user_account` → `UserAccountBody`、`login_qr_check` → `LoginQrCheckBody`。导出了哪些结构定义，以上面按领域列出的表为准。

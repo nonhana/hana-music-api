@@ -133,18 +133,33 @@ import type {
   ModuleInput as cloudsearchInput,
 } from '../../modules/cloudsearch.ts';
 import type { ModuleInput as commentInput } from '../../modules/comment.ts';
-import type { ModuleInput as commentAlbumInput } from '../../modules/comment_album.ts';
+import type {
+  ModuleBody as commentAlbumBody,
+  ModuleInput as commentAlbumInput,
+} from '../../modules/comment_album.ts';
 import type { ModuleInput as commentDjInput } from '../../modules/comment_dj.ts';
 import type { ModuleInput as commentEventInput } from '../../modules/comment_event.ts';
 import type { ModuleInput as commentFloorInput } from '../../modules/comment_floor.ts';
 import type { ModuleInput as commentHotInput } from '../../modules/comment_hot.ts';
 import type { ModuleInput as commentHugListInput } from '../../modules/comment_hug_list.ts';
 import type { ModuleInput as commentLikeInput } from '../../modules/comment_like.ts';
-import type { ModuleInput as commentMusicInput } from '../../modules/comment_music.ts';
-import type { ModuleInput as commentMvInput } from '../../modules/comment_mv.ts';
+import type {
+  ModuleBody as commentMusicBody,
+  ModuleInput as commentMusicInput,
+} from '../../modules/comment_music.ts';
+import type {
+  ModuleBody as commentMvBody,
+  ModuleInput as commentMvInput,
+} from '../../modules/comment_mv.ts';
 import type { ModuleInput as commentNewInput } from '../../modules/comment_new.ts';
-import type { ModuleInput as commentPlaylistInput } from '../../modules/comment_playlist.ts';
-import type { ModuleInput as commentVideoInput } from '../../modules/comment_video.ts';
+import type {
+  ModuleBody as commentPlaylistBody,
+  ModuleInput as commentPlaylistInput,
+} from '../../modules/comment_playlist.ts';
+import type {
+  ModuleBody as commentVideoBody,
+  ModuleInput as commentVideoInput,
+} from '../../modules/comment_video.ts';
 import type { ModuleInput as countriesCodeListInput } from '../../modules/countries_code_list.ts';
 import type { ModuleInput as dailySigninInput } from '../../modules/daily_signin.ts';
 import type { ModuleInput as digitalAlbumDetailInput } from '../../modules/digitalAlbum_detail.ts';
@@ -1540,7 +1555,7 @@ export interface GeneratedModuleContractMap {
   comment_album: {
     input: commentAlbumInput;
     query: commentAlbumInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentAlbumBody>;
   };
   comment_dj: {
     input: commentDjInput;
@@ -1575,12 +1590,12 @@ export interface GeneratedModuleContractMap {
   comment_music: {
     input: commentMusicInput;
     query: commentMusicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentMusicBody>;
   };
   comment_mv: {
     input: commentMvInput;
     query: commentMvInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentMvBody>;
   };
   comment_new: {
     input: commentNewInput;
@@ -1590,12 +1605,12 @@ export interface GeneratedModuleContractMap {
   comment_playlist: {
     input: commentPlaylistInput;
     query: commentPlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentPlaylistBody>;
   };
   comment_video: {
     input: commentVideoInput;
     query: commentVideoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentVideoBody>;
   };
   countries_code_list: {
     input: countriesCodeListInput;

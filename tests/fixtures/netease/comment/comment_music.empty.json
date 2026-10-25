@@ -1,0 +1,30 @@
+{
+  "module": "comment_music",
+  "query": {
+    "id": 1984488794,
+    "limit": 20
+  },
+  "context": {
+    "recordedAt": "2026-10-25T11:29:38.939Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B7：comment_music 无评论资源（云盘歌曲 1984488794）；资源是匿名不可见的私有云盘上传，total: 0 可能来自不可访问；公开资源零评论已由专辑 405204773 / 歌单 900000015 证明"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "isMusician": false,
+      "cnum": 0,
+      "userId": 18070782992,
+      "topComments": [],
+      "moreHot": false,
+      "hotComments": [],
+      "commentBanner": null,
+      "code": 200,
+      "comments": [],
+      "total": 0,
+      "more": false
+    }
+  }
+}

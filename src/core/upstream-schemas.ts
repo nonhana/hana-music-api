@@ -475,6 +475,86 @@ const CommentThread = UpstreamObject({
   shareCount: Loose(Schema.Finite),
 });
 
+const CommentVipRight = UpstreamObject({
+  iconUrl: Loose(Schema.String),
+  rights: Loose(Schema.Boolean),
+  vipCode: Loose(Schema.Finite),
+});
+
+const CommentVipRights = UpstreamObject({
+  associator: Loose(CommentVipRight),
+  musicPackage: Loose(CommentVipRight),
+  redplus: Loose(CommentVipRight),
+  redVipAnnualCount: Loose(Schema.Finite),
+  redVipLevel: Loose(Schema.Finite),
+  relationType: Loose(Schema.Finite),
+});
+
+// 评论里的用户是附带信息，字段全部宽松；五个固定资源评论列表的用户结构一致。
+export const CommentUser = UpstreamObject({
+  anonym: Loose(Schema.Finite),
+  authStatus: Loose(Schema.Finite),
+  avatarDetail: Loose(AvatarDetail),
+  avatarUrl: Loose(Schema.String),
+  followed: Loose(Schema.Boolean),
+  highlight: Loose(Schema.Boolean),
+  mutual: Loose(Schema.Boolean),
+  nickname: Loose(Schema.String),
+  userId: Loose(Schema.Finite),
+  userType: Loose(Schema.Finite),
+  vipRights: Loose(CommentVipRights),
+  vipType: Loose(Schema.Finite),
+});
+export type CommentUser = typeof CommentUser.Type;
+
+const CommentIpLocation = UpstreamObject({
+  location: Loose(Schema.String),
+  userId: Loose(Schema.Finite),
+});
+
+// 主评论里的回复是嵌套记录，编号 `beRepliedCommentId` 和字段都宽松。
+export const CommentReply = UpstreamObject({
+  beRepliedCommentId: Loose(Schema.Finite),
+  content: Loose(Schema.String),
+  ipLocation: Loose(CommentIpLocation),
+  richContent: Loose(Schema.String),
+  status: Loose(Schema.Finite),
+  user: Loose(CommentUser),
+});
+export type CommentReply = typeof CommentReply.Type;
+
+const CommentDecoration = UpstreamObject({
+  repliedByAuthorCount: Loose(Schema.Finite),
+});
+
+const CommentPendant = UpstreamObject({
+  id: Loose(Schema.Finite),
+  imageUrl: Loose(Schema.String),
+});
+
+// 五个固定资源评论列表共用的评论记录：`commentId` 是记录自己的编号，其余字段宽松。
+export const CommentRecord = UpstreamObject({
+  beReplied: Loose(Schema.Array(CommentReply)),
+  commentId: Schema.Finite,
+  commentLocationType: Loose(Schema.Finite),
+  content: Loose(Schema.String),
+  decoration: Loose(CommentDecoration),
+  favorited: Loose(Schema.Boolean),
+  ipLocation: Loose(CommentIpLocation),
+  liked: Loose(Schema.Boolean),
+  likedCount: Loose(Schema.Finite),
+  needDisplayTime: Loose(Schema.Boolean),
+  owner: Loose(Schema.Boolean),
+  parentCommentId: Loose(Schema.Finite),
+  pendantData: Loose(CommentPendant),
+  richContent: Loose(Schema.String),
+  status: Loose(Schema.Finite),
+  time: Loose(Schema.Finite),
+  timeStr: Loose(Schema.String),
+  user: Loose(CommentUser),
+});
+export type CommentRecord = typeof CommentRecord.Type;
+
 export const AlbumInfo = UpstreamObject({
   commentCount: Loose(Schema.Finite),
   commentThread: Loose(CommentThread),

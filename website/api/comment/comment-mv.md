@@ -44,6 +44,10 @@ const result = await commentMv({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.comments`、`body.comments[].commentId` 收紧；`body.hotComments` 是可以没有的路径：越界分页时整个缺失，出现时 `hotComments[].commentId` 收紧。评论记录共用 `CommentRecord`，`user`、`beReplied`、`likedCount`、`time`、`decoration`、`ipLocation`、`pendantData` 等其余声明字段都宽松；`beReplied[]` 是评论里套着的回复记录，编号也宽松。`total`、`more`、`moreHot`、`cnum`、`isMusician`、`userId` 宽松。越界分页（录制 `comment_mv.out-of-range.json`，`offset=100000`）返回 `comments: []` 且没有 `hotComments`；本批录制与探测未发现可达的无评论 MV。`topComments`（只见过空数组）和 `commentBanner`（只见过 `null`）没有声明，原样保留。非空录制（`comment_mv.default.json`）从原 20 条 `comments`/15 条 `hotComments` 中保留覆盖各字段的非连续 6/4 条。登录对照先用 `login_status` 确认 `account.anonimousUser: false` 后抽查：非 `null` 路径与类型相同，登录响应只会在宽松字段上多出现值为 `null` 的路径（如 `comments[].user.vipRights`、`beReplied[].content`/`richContent`、`beReplied[].ipLocation.userId`），登录录制未保留。
+
 ## 补充说明
 
 说明 : 调用此接口，传入音乐 id 和 limit 参数，可获得该 mv 的所有评论 ( 不需要
