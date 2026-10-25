@@ -160,6 +160,8 @@ export { ModuleBody as SearchHotDetailBody } from '../../modules/search_hot_deta
 export { ModuleBody as SearchMatchBody } from '../../modules/search_match.ts';
 export { ModuleBody as SearchMultimatchBody } from '../../modules/search_multimatch.ts';
 export { ModuleBody as SearchSuggestBody } from '../../modules/search_suggest.ts';
+export { ModuleBody as SignHappyInfoBody } from '../../modules/sign_happy_info.ts';
+export { ModuleBody as SigninProgressBody } from '../../modules/signin_progress.ts';
 export { ModuleBody as SimiArtistBody } from '../../modules/simi_artist.ts';
 export { ModuleBody as SimiMvBody } from '../../modules/simi_mv.ts';
 export { ModuleBody as SimiPlaylistBody } from '../../modules/simi_playlist.ts';
@@ -231,3 +233,9 @@ export { ModuleBody as VipTimemachineBody } from '../../modules/vip_timemachine.
 export { ModuleBody as VoiceLyricBody } from '../../modules/voice_lyric.ts';
 export { ModuleBody as VoicelistListSearchBody } from '../../modules/voicelist_list_search.ts';
 export { ModuleBody as VoicelistSearchBody } from '../../modules/voicelist_search.ts';
+export { ModuleBody as YunbeiBody } from '../../modules/yunbei.ts';
+export { ModuleBody as YunbeiInfoBody } from '../../modules/yunbei_info.ts';
+export { ModuleBody as YunbeiRcmdSongHistoryBody } from '../../modules/yunbei_rcmd_song_history.ts';
+export { ModuleBody as YunbeiTasksBody } from '../../modules/yunbei_tasks.ts';
+export { ModuleBody as YunbeiTasksTodoBody } from '../../modules/yunbei_tasks_todo.ts';
+export { ModuleBody as YunbeiTodayBody } from '../../modules/yunbei_today.ts';

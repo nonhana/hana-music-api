@@ -1,0 +1,21 @@
+{
+  "module": "signin_progress",
+  "query": {
+    "moduleId": "unknown-module"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T22:37:07.503Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B37：signin_progress 非法 moduleId"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "签到模块不存在",
+      "exception": "com.netease.music.common.core.exception.IgnoredException"
+    }
+  }
+}

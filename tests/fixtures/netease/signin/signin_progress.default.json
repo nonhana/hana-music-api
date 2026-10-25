@@ -1,0 +1,887 @@
+{
+  "module": "signin_progress",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:36:40.237Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B37：signin_progress 签到进度（本账号录制时未签到）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "today": {
+          "todaySignedIn": false,
+          "todayStats": [
+            {
+              "id": 6001,
+              "description": "累计签到（不循环）",
+              "repeatType": "NEVER",
+              "calcType": "ACCUMULATE",
+              "startTime": 1638806400000,
+              "endTime": 4100342399000,
+              "currentProgress": 27,
+              "currentSignDesc": null,
+              "maxProgressReached": 27,
+              "maxProgressReachDay": "2026-10-26",
+              "startDay": "2021-12-18",
+              "prizes": []
+            },
+            {
+              "id": 4001,
+              "description": "每周签到",
+              "repeatType": "FOUR_WEEKS",
+              "calcType": "CURRENT_INDEX",
+              "startTime": 1638806400000,
+              "endTime": 4100342399000,
+              "currentProgress": 0,
+              "currentSignDesc": null,
+              "maxProgressReached": 0,
+              "maxProgressReachDay": "",
+              "startDay": "2026-10-26",
+              "prizes": []
+            },
+            {
+              "id": 5001,
+              "description": "连续签到（28天循环）",
+              "repeatType": "FOUR_WEEKS",
+              "calcType": "CONTINUOUS",
+              "startTime": 1638806400000,
+              "endTime": 4100342399000,
+              "currentProgress": 0,
+              "currentSignDesc": null,
+              "maxProgressReached": 0,
+              "maxProgressReachDay": "",
+              "startDay": "2026-10-26",
+              "prizes": []
+            }
+          ]
+        },
+        "records": [
+          {
+            "day": "2026-10-26",
+            "signed": false
+          },
+          {
+            "day": "2026-10-25",
+            "signed": false
+          },
+          {
+            "day": "2026-10-24",
+            "signed": false
+          },
+          {
+            "day": "2026-10-23",
+            "signed": false
+          },
+          {
+            "day": "2026-10-22",
+            "signed": false
+          },
+          {
+            "day": "2026-10-21",
+            "signed": false
+          },
+          {
+            "day": "2026-10-20",
+            "signed": false
+          },
+          {
+            "day": "2026-10-19",
+            "signed": false
+          },
+          {
+            "day": "2026-10-18",
+            "signed": false
+          },
+          {
+            "day": "2026-10-17",
+            "signed": false
+          },
+          {
+            "day": "2026-10-16",
+            "signed": false
+          },
+          {
+            "day": "2026-10-15",
+            "signed": false
+          },
+          {
+            "day": "2026-10-14",
+            "signed": false
+          },
+          {
+            "day": "2026-10-13",
+            "signed": false
+          },
+          {
+            "day": "2026-10-12",
+            "signed": false
+          },
+          {
+            "day": "2026-10-11",
+            "signed": false
+          },
+          {
+            "day": "2026-10-10",
+            "signed": false
+          },
+          {
+            "day": "2026-10-09",
+            "signed": false
+          },
+          {
+            "day": "2026-10-08",
+            "signed": false
+          },
+          {
+            "day": "2026-10-07",
+            "signed": false
+          },
+          {
+            "day": "2026-10-06",
+            "signed": false
+          },
+          {
+            "day": "2026-10-05",
+            "signed": false
+          },
+          {
+            "day": "2026-10-04",
+            "signed": false
+          },
+          {
+            "day": "2026-10-03",
+            "signed": false
+          },
+          {
+            "day": "2026-10-02",
+            "signed": false
+          },
+          {
+            "day": "2026-10-01",
+            "signed": false
+          },
+          {
+            "day": "2026-09-30",
+            "signed": false
+          },
+          {
+            "day": "2026-09-29",
+            "signed": false
+          },
+          {
+            "day": "2026-09-28",
+            "signed": false
+          },
+          {
+            "day": "2026-09-27",
+            "signed": false
+          }
+        ],
+        "stats": [
+          {
+            "id": 6001,
+            "description": "累计签到（不循环）",
+            "repeatType": "NEVER",
+            "calcType": "ACCUMULATE",
+            "startTime": 1638806400000,
+            "endTime": 4100342399000,
+            "currentProgress": 27,
+            "currentSignDesc": null,
+            "maxProgressReached": 27,
+            "maxProgressReachDay": "2026-10-26",
+            "startDay": "2021-12-18",
+            "prizes": [
+              {
+                "progress": 5,
+                "obtained": true,
+                "type": "YUNBEI",
+                "amount": 5,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到5天",
+                "description": "连续5天"
+              },
+              {
+                "progress": 10,
+                "obtained": true,
+                "type": "YUNBEI",
+                "amount": 10,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到10天",
+                "description": "连续10天"
+              },
+              {
+                "progress": 20,
+                "obtained": true,
+                "type": "YUNBEI",
+                "amount": 20,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到20天",
+                "description": "连续20天"
+              },
+              {
+                "progress": 30,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 30,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到30天",
+                "description": "连续30天"
+              },
+              {
+                "progress": 50,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 50,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到50天",
+                "description": "连续50天"
+              },
+              {
+                "progress": 60,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 60,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到60天",
+                "description": "连续60天"
+              },
+              {
+                "progress": 80,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 80,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到80天",
+                "description": "连续80天"
+              },
+              {
+                "progress": 100,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 100,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到100天",
+                "description": "连续100天"
+              },
+              {
+                "progress": 150,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 150,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到150天",
+                "description": "累计签到150天"
+              },
+              {
+                "progress": 200,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 200,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到200天",
+                "description": "累计签到200天"
+              },
+              {
+                "progress": 250,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 250,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到250天",
+                "description": "累计签到250天"
+              },
+              {
+                "progress": 300,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 300,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到300天",
+                "description": "累计签到300天"
+              },
+              {
+                "progress": 330,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 330,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到330天",
+                "description": "累计签到330天"
+              },
+              {
+                "progress": 365,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 365,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到365天",
+                "description": "累计签到365天"
+              },
+              {
+                "progress": 400,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 400,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到400天",
+                "description": "累计签到400天"
+              },
+              {
+                "progress": 420,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 420,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到420天",
+                "description": "累计签到420天"
+              },
+              {
+                "progress": 450,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 450,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到450天",
+                "description": "累计签到450天"
+              },
+              {
+                "progress": 500,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 500,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到500天",
+                "description": "累计签到500天"
+              },
+              {
+                "progress": 550,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 550,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到550天",
+                "description": "累计签到550天"
+              },
+              {
+                "progress": 600,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 600,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到600天",
+                "description": "累计签到600天"
+              },
+              {
+                "progress": 700,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 700,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到700天",
+                "description": "累计签到700天"
+              },
+              {
+                "progress": 800,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 800,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到800天",
+                "description": "累计签到800天"
+              },
+              {
+                "progress": 900,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 900,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到900天",
+                "description": "累计签到900天"
+              },
+              {
+                "progress": 999,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 999,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "累计签到999天",
+                "description": "累计签到999天"
+              }
+            ]
+          },
+          {
+            "id": 4001,
+            "description": "每周签到",
+            "repeatType": "FOUR_WEEKS",
+            "calcType": "CURRENT_INDEX",
+            "startTime": 1638806400000,
+            "endTime": 4100342399000,
+            "currentProgress": 0,
+            "currentSignDesc": null,
+            "maxProgressReached": 0,
+            "maxProgressReachDay": "",
+            "startDay": "2026-10-26",
+            "prizes": [
+              {
+                "progress": 1,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 5,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第1周周1",
+                "description": "第1周周1"
+              },
+              {
+                "progress": 2,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第1周周2",
+                "description": "第1周周2"
+              },
+              {
+                "progress": 3,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第1周周3",
+                "description": "第1周周3"
+              },
+              {
+                "progress": 4,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第1周周4",
+                "description": "第1周周4"
+              },
+              {
+                "progress": 5,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第1周周5",
+                "description": "第1周周5"
+              },
+              {
+                "progress": 6,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第1周周6",
+                "description": "第1周周6"
+              },
+              {
+                "progress": 7,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 8,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第1周周日",
+                "description": "第1周周日"
+              },
+              {
+                "progress": 8,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 5,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第2周周1",
+                "description": "第2周周1"
+              },
+              {
+                "progress": 9,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第2周周2",
+                "description": "第2周周2"
+              },
+              {
+                "progress": 10,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第2周周3",
+                "description": "第2周周3"
+              },
+              {
+                "progress": 11,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第2周周4",
+                "description": "第2周周4"
+              },
+              {
+                "progress": 12,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第2周周5",
+                "description": "第2周周5"
+              },
+              {
+                "progress": 13,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第2周周6",
+                "description": "第2周周6"
+              },
+              {
+                "progress": 14,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 8,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第2周周日",
+                "description": "第2周周日"
+              },
+              {
+                "progress": 15,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 5,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第3周周1",
+                "description": "第3周周1"
+              },
+              {
+                "progress": 16,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第3周周2",
+                "description": "第3周周2"
+              },
+              {
+                "progress": 17,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第3周周3",
+                "description": "第3周周3"
+              },
+              {
+                "progress": 18,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第3周周4",
+                "description": "第3周周4"
+              },
+              {
+                "progress": 19,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第3周周5",
+                "description": "第3周周5"
+              },
+              {
+                "progress": 20,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第3周周6",
+                "description": "第3周周6"
+              },
+              {
+                "progress": 21,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 8,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第3周周日",
+                "description": "第3周周日"
+              },
+              {
+                "progress": 22,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 5,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第4周周1",
+                "description": "第4周周1"
+              },
+              {
+                "progress": 23,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第4周周2",
+                "description": "第4周周2"
+              },
+              {
+                "progress": 24,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第4周周3",
+                "description": "第4周周3"
+              },
+              {
+                "progress": 25,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第4周周4",
+                "description": "第4周周4"
+              },
+              {
+                "progress": 26,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第4周周5",
+                "description": "第4周周5"
+              },
+              {
+                "progress": 27,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 2,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第4周周6",
+                "description": "第4周周6"
+              },
+              {
+                "progress": 28,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 8,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "第4周周日",
+                "description": "第4周周日"
+              }
+            ]
+          },
+          {
+            "id": 5001,
+            "description": "连续签到（28天循环）",
+            "repeatType": "FOUR_WEEKS",
+            "calcType": "CONTINUOUS",
+            "startTime": 1638806400000,
+            "endTime": 4100342399000,
+            "currentProgress": 0,
+            "currentSignDesc": null,
+            "maxProgressReached": 0,
+            "maxProgressReachDay": "",
+            "startDay": "2026-10-26",
+            "prizes": [
+              {
+                "progress": 3,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 5,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "连续3天",
+                "description": "连续3天"
+              },
+              {
+                "progress": 7,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 10,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "连续7天",
+                "description": "连续7天"
+              },
+              {
+                "progress": 14,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 30,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "连续14天",
+                "description": "连续14天"
+              },
+              {
+                "progress": 18,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 30,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "连续18天",
+                "description": "连续18天"
+              },
+              {
+                "progress": 21,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 50,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "连续21天",
+                "description": "连续21天"
+              },
+              {
+                "progress": 24,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 50,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "连续24天",
+                "description": "连续24天"
+              },
+              {
+                "progress": 28,
+                "obtained": false,
+                "type": "YUNBEI",
+                "amount": 80,
+                "prizeImageUrl": "",
+                "obtainedImageUrl": "",
+                "url": "",
+                "name": "连续28天",
+                "description": "连续28天"
+              }
+            ]
+          }
+        ],
+        "startTime": 1638806400000,
+        "endTime": 4102415999000
+      },
+      "message": ""
+    }
+  }
+}

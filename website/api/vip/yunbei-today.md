@@ -37,6 +37,12 @@ const result = await yunbeiToday();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、今日云贝路径 `body.data` 及当天获得的云贝 `data.shells` 收紧；本账号录制时是 0。结构定义和类型是 `YunbeiTodayBody`，见[返回体结构](/guide/response-bodies)。
+
+匿名调用返回 `body.code: 302`，SDK 按业务失败转交为 HTTP 302；匿名对照录制是 `vip/yunbei_today.anonymous.json`。
+
 ## 补充说明
 
 说明 : 登录后调用此接口可获取云贝今日签到信息(今日签到获取的云贝数)

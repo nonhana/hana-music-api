@@ -1,0 +1,50 @@
+{
+  "module": "yunbei_tasks_todo",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T23:04:16.288Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B37：yunbei_tasks_todo 匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "SUCCESS",
+      "data": [
+        {
+          "userTaskId": 0,
+          "taskName": "分享歌曲",
+          "taskPoint": 100,
+          "completed": false,
+          "link": "https://sg.music.163.com/st/vipsharesong?full_screen=true&nm_style=sbt&market=yunbei",
+          "depositCode": 0,
+          "period": 1,
+          "expireTime": 0
+        },
+        {
+          "userTaskId": 0,
+          "taskName": "听音乐30分钟",
+          "taskPoint": 300,
+          "completed": false,
+          "link": "orpheus://songrcmd",
+          "depositCode": 0,
+          "period": 1,
+          "expireTime": 0
+        },
+        {
+          "userTaskId": 0,
+          "taskName": "探索小众歌曲",
+          "taskPoint": 150,
+          "completed": false,
+          "link": "https://st.music.163.com/yunbei-listen",
+          "depositCode": 0,
+          "period": 1,
+          "expireTime": 0
+        }
+      ]
+    }
+  }
+}

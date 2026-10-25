@@ -1,0 +1,85 @@
+{
+  "module": "sign_happy_info",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:36:43.642Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B37：sign_happy_info 签到活动信息"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "获取成功",
+      "data": {
+        "info": {
+          "id": 76001,
+          "type": 1,
+          "startTime": 1574129285859,
+          "endTime": 1574734085859,
+          "picUrl": "http://p1.music.126.net/ACtNk3Avya3pqXKzgOdcgQ==/109951163365071851.jpg",
+          "newPicUrl": "http://p1.music.126.net/mullq8J6yc5aorJr6p423A==/109951163365077194.jpg",
+          "backColor": "A82E27",
+          "jumpText": null,
+          "jumpUrl": "",
+          "mainText": "嗨，很高兴认识你~",
+          "author": "网易云音乐",
+          "specialJumpUrl": null,
+          "resourceType": 1,
+          "resourceId": 1383011509,
+          "videoStrId": null,
+          "resourceName": "我要的",
+          "resourceAuthor": "C404/阿达娃/苏靖凯",
+          "resourceUrl": "http://music.163.com/song?id=1383011509",
+          "resourceCover": "http://p3.music.126.net/CyqwMIOhD_DnBqPF1tGFhw==/109951164276956232.jpg",
+          "videoWidth": 0,
+          "videoHeight": 0,
+          "qrCodeUrl": "http://p1.music.126.net/zpJ8XbP5Vov4iFks8RxIyQ==/109951170261802673.jpg",
+          "qrCodeWithLogoUrl": "http://p1.music.126.net/pEv0CRB0WhL7Wm7x7KiaGw==/109951170261802674.jpg",
+          "btnPicUrl": null,
+          "sharePicUrl": "http://p1.music.126.net/Yh1lnX5TfkSw0NnTMdw6og==/109951170260432759.jpg",
+          "currentUserName": "云易销",
+          "newSharePicUrl": "http://p1.music.126.net/Yh1lnX5TfkSw0NnTMdw6og==/109951170260432759.jpg",
+          "status": 0,
+          "operator": null,
+          "hotComments": [
+            {
+              "content": "嗨，很高兴认识你~",
+              "authorName": "网易云音乐"
+            },
+            {
+              "content": "我要的音乐放肆听听听！！！",
+              "authorName": "苏靖凯凯凯"
+            },
+            {
+              "content": "网易云怎么那么酷啊啊啊啊啊啊啊！？？？[惊恐]",
+              "authorName": "行走在路上的公驴"
+            },
+            {
+              "content": "网易大大的品牌歌紧跟现在说唱和戏腔风的流行，将欧美风的旋律和中国独有的古风融为一体，真的很体现现在村民的听歌的风格。在云村听歌就要放肆听啊",
+              "authorName": "荼茶茶茶茶荼"
+            },
+            {
+              "content": "听我最爱的歌    走遍自己的快乐❤️",
+              "authorName": "盼你三秋"
+            },
+            {
+              "content": "我要的音乐会放肆听！我要爱的人会放弃爱！❤️",
+              "authorName": "飞行棋的猫mor"
+            },
+            {
+              "content": "可能对于有些人来说，音乐仅仅是一种娱乐媒体，但是，对于我，对于我们，音乐像是从骨子里刻下的痕迹，难以抹去，也不愿抹去。它让我从深渊捞回自己，也让我甘愿坠入另一个深渊，在那里，一个耳机就是一个世界。",
+              "authorName": "小新骑上小摩托"
+            },
+            {
+              "content": "从一开始的说唱再到歌唱和戏腔，真的是爱了爱了，音乐放肆听，用一辈子的网易云！",
+              "authorName": "血洗幼稚园o"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

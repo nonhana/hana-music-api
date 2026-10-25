@@ -13,7 +13,7 @@ description: '调用此接口, 可获取乐签信息'
 | -------- | ------------------ |
 | 接口地址 | `/sign/happy/info` |
 | 请求方式 | `GET` / `POST`     |
-| 需要登录 | 否                 |
+| 需要登录 | 是                 |
 | 对应模块 | `sign_happy_info`  |
 | 文档分类 | 会员与云贝         |
 
@@ -36,6 +36,12 @@ const result = await signHappyInfo();
 
 console.log(result.body);
 ```
+
+## 返回内容
+
+`body.code`、活动信息路径 `body.data`、`body.data.info` 及活动记录的 `id` 收紧；活动文案、资源链接、图片和热评字段宽松，只见过 `null` 的 `jumpText`、`specialJumpUrl`、`btnPicUrl`、`operator`、`videoStrId` 未声明、原样保留。结构定义和类型是 `SignHappyInfoBody`，见[返回体结构](/guide/response-bodies)。
+
+匿名调用返回 `body.code: 302`，SDK 按业务失败转交为 HTTP 302；匿名对照录制是 `signin/sign_happy_info.anonymous.json`。
 
 ## 补充说明
 

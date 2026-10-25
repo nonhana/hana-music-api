@@ -1,0 +1,21 @@
+{
+  "module": "yunbei",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:36:47.003Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B37：yunbei 云贝签到状态"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "days": 0,
+        "shells": 1
+      },
+      "code": 200
+    }
+  }
+}

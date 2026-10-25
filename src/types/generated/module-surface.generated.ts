@@ -715,8 +715,14 @@ import type { ModuleInput as settingInput } from '../../modules/setting.ts';
 import type { ModuleInput as shareResourceInput } from '../../modules/share_resource.ts';
 import type { ModuleInput as sheetListInput } from '../../modules/sheet_list.ts';
 import type { ModuleInput as sheetPreviewInput } from '../../modules/sheet_preview.ts';
-import type { ModuleInput as signHappyInfoInput } from '../../modules/sign_happy_info.ts';
-import type { ModuleInput as signinProgressInput } from '../../modules/signin_progress.ts';
+import type {
+  ModuleBody as signHappyInfoBody,
+  ModuleInput as signHappyInfoInput,
+} from '../../modules/sign_happy_info.ts';
+import type {
+  ModuleBody as signinProgressBody,
+  ModuleInput as signinProgressInput,
+} from '../../modules/signin_progress.ts';
 import type {
   ModuleBody as simiArtistBody,
   ModuleInput as simiArtistInput,
@@ -1038,17 +1044,35 @@ import type {
   ModuleInput as voicelistSearchInput,
 } from '../../modules/voicelist_search.ts';
 import type { ModuleInput as voicelistTransInput } from '../../modules/voicelist_trans.ts';
-import type { ModuleInput as yunbeiInput } from '../../modules/yunbei.ts';
+import type {
+  ModuleBody as yunbeiBody,
+  ModuleInput as yunbeiInput,
+} from '../../modules/yunbei.ts';
 import type { ModuleInput as yunbeiExpenseInput } from '../../modules/yunbei_expense.ts';
-import type { ModuleInput as yunbeiInfoInput } from '../../modules/yunbei_info.ts';
+import type {
+  ModuleBody as yunbeiInfoBody,
+  ModuleInput as yunbeiInfoInput,
+} from '../../modules/yunbei_info.ts';
 import type { ModuleInput as yunbeiRcmdSongInput } from '../../modules/yunbei_rcmd_song.ts';
-import type { ModuleInput as yunbeiRcmdSongHistoryInput } from '../../modules/yunbei_rcmd_song_history.ts';
+import type {
+  ModuleBody as yunbeiRcmdSongHistoryBody,
+  ModuleInput as yunbeiRcmdSongHistoryInput,
+} from '../../modules/yunbei_rcmd_song_history.ts';
 import type { ModuleInput as yunbeiReceiptInput } from '../../modules/yunbei_receipt.ts';
 import type { ModuleInput as yunbeiSignInput } from '../../modules/yunbei_sign.ts';
 import type { ModuleInput as yunbeiTaskFinishInput } from '../../modules/yunbei_task_finish.ts';
-import type { ModuleInput as yunbeiTasksInput } from '../../modules/yunbei_tasks.ts';
-import type { ModuleInput as yunbeiTasksTodoInput } from '../../modules/yunbei_tasks_todo.ts';
-import type { ModuleInput as yunbeiTodayInput } from '../../modules/yunbei_today.ts';
+import type {
+  ModuleBody as yunbeiTasksBody,
+  ModuleInput as yunbeiTasksInput,
+} from '../../modules/yunbei_tasks.ts';
+import type {
+  ModuleBody as yunbeiTasksTodoBody,
+  ModuleInput as yunbeiTasksTodoInput,
+} from '../../modules/yunbei_tasks_todo.ts';
+import type {
+  ModuleBody as yunbeiTodayBody,
+  ModuleInput as yunbeiTodayInput,
+} from '../../modules/yunbei_today.ts';
 import type { ModuleResponse } from '../runtime.ts';
 
 export const generatedModuleIdentifiers = [
@@ -2895,12 +2919,12 @@ export interface GeneratedModuleContractMap {
   sign_happy_info: {
     input: signHappyInfoInput;
     query: signHappyInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<signHappyInfoBody>;
   };
   signin_progress: {
     input: signinProgressInput;
     query: signinProgressInput;
-    response: ModuleResponse;
+    response: ModuleResponse<signinProgressBody>;
   };
   simi_artist: {
     input: simiArtistInput;
@@ -3442,7 +3466,11 @@ export interface GeneratedModuleContractMap {
     query: voicelistTransInput;
     response: ModuleResponse;
   };
-  yunbei: { input: yunbeiInput; query: yunbeiInput; response: ModuleResponse };
+  yunbei: {
+    input: yunbeiInput;
+    query: yunbeiInput;
+    response: ModuleResponse<yunbeiBody>;
+  };
   yunbei_expense: {
     input: yunbeiExpenseInput;
     query: yunbeiExpenseInput;
@@ -3451,7 +3479,7 @@ export interface GeneratedModuleContractMap {
   yunbei_info: {
     input: yunbeiInfoInput;
     query: yunbeiInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<yunbeiInfoBody>;
   };
   yunbei_rcmd_song: {
     input: yunbeiRcmdSongInput;
@@ -3461,7 +3489,7 @@ export interface GeneratedModuleContractMap {
   yunbei_rcmd_song_history: {
     input: yunbeiRcmdSongHistoryInput;
     query: yunbeiRcmdSongHistoryInput;
-    response: ModuleResponse;
+    response: ModuleResponse<yunbeiRcmdSongHistoryBody>;
   };
   yunbei_receipt: {
     input: yunbeiReceiptInput;
@@ -3481,16 +3509,16 @@ export interface GeneratedModuleContractMap {
   yunbei_tasks: {
     input: yunbeiTasksInput;
     query: yunbeiTasksInput;
-    response: ModuleResponse;
+    response: ModuleResponse<yunbeiTasksBody>;
   };
   yunbei_tasks_todo: {
     input: yunbeiTasksTodoInput;
     query: yunbeiTasksTodoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<yunbeiTasksTodoBody>;
   };
   yunbei_today: {
     input: yunbeiTodayInput;
     query: yunbeiTodayInput;
-    response: ModuleResponse;
+    response: ModuleResponse<yunbeiTodayBody>;
   };
 }

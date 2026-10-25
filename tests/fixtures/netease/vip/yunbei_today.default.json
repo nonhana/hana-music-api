@@ -1,0 +1,20 @@
+{
+  "module": "yunbei_today",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:36:53.825Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B37：yunbei_today 今日云贝（零值）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "shells": 0
+      },
+      "code": 200
+    }
+  }
+}
