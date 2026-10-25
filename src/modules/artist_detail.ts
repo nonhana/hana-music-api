@@ -25,7 +25,6 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-// 通到歌手详情的路径 `data.artist` 和歌手自己的编号收紧；其余字段宽松。
 const Identify = UpstreamObject({
   imageUrl: Loose(Schema.String),
   imageDesc: Loose(Schema.String),
@@ -88,6 +87,7 @@ const ArtistUser = UpstreamObject({
   createTime: Loose(Schema.Finite),
 });
 
+// 通到歌手详情的路径 `data.artist` 和歌手自己的编号收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

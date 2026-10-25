@@ -25,12 +25,12 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-// 通到热门歌曲列表的路径和每首歌的编号收紧；歌手是附带信息，其余字段宽松。
 const ArtistSummary = UpstreamObject({
   ...Artist.schema.fields,
   publishTime: Loose(Schema.Finite),
 });
 
+// 通到热门歌曲列表的路径和每首歌的编号收紧；歌手是附带信息，其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),

@@ -105,6 +105,7 @@ export const SongUrlData = UpstreamObject({
   urlSource: Loose(Schema.Finite),
 });
 
+// 通到播放地址的路径，以及 `id` / `url` / `code` 收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({
     code: Schema.Literal(200),
