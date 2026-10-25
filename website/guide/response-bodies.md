@@ -442,14 +442,19 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 
 ## 社交与用户列表
 
-| 模块                                              | 结构定义                  | 收紧的字段                                                                                         |
-| ------------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------- |
-| [关注列表](/api/social/user-follows)              | `UserFollowsBody`         | `code`、`follow`、`follow[].userId`                                                                |
-| [粉丝列表](/api/social/user-followeds)            | `UserFollowedsBody`       | `code`、`followeds`、`followeds[].userId`                                                          |
-| [关注混合列表](/api/social/user-follow-mixed)     | `UserFollowMixedBody`     | `code`、`data`、`data.records`、`data.records[].followId`                                          |
-| [是否互相关注](/api/social/user-mutualfollow-get) | `UserMutualfollowGetBody` | `code`、`data`                                                                                     |
-| [用户动态](/api/social/user-event)                | `UserEventBody`           | `code`、`events`、`events[].id`                                                                    |
-| [用户历史评论](/api/comment/user-comment-history) | `UserCommentHistoryBody`  | `code`；`data.comments` 可以没有，出现时 `data.comments[].commentId` 收紧；`data.hotComments` 同样 |
+| 模块                                               | 结构定义                  | 收紧的字段                                                                                         |
+| -------------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------- |
+| [关注列表](/api/social/user-follows)               | `UserFollowsBody`         | `code`、`follow`、`follow[].userId`                                                                |
+| [粉丝列表](/api/social/user-followeds)             | `UserFollowedsBody`       | `code`、`followeds`、`followeds[].userId`                                                          |
+| [关注混合列表](/api/social/user-follow-mixed)      | `UserFollowMixedBody`     | `code`、`data`、`data.records`、`data.records[].followId`                                          |
+| [是否互相关注](/api/social/user-mutualfollow-get)  | `UserMutualfollowGetBody` | `code`、`data`                                                                                     |
+| [用户动态](/api/social/user-event)                 | `UserEventBody`           | `code`、`events`、`events[].id`                                                                    |
+| [获取动态列表](/api/social/event)                  | `EventBody`               | `code`、`event`、`event[].id`                                                                      |
+| [热门话题](/api/social/hot-topic)                  | `HotTopicBody`            | `code`、`hot`、`hot[].actId`                                                                       |
+| [收藏的专栏](/api/social/topic-sublist)            | `TopicSublistBody`        | `code`、`data`、`data[].id`                                                                        |
+| [话题详情](/api/social/topic-detail)               | `TopicDetailBody`         | `code`、`act`、`act.actId`                                                                         |
+| [话题热门动态](/api/social/topic-detail-event-hot) | `TopicDetailEventHotBody` | `code`、`events`、`events[].id`                                                                    |
+| [用户历史评论](/api/comment/user-comment-history)  | `UserCommentHistoryBody`  | `code`；`data.comments` 可以没有，出现时 `data.comments[].commentId` 收紧；`data.hotComments` 同样 |
 
 `user_follows` 和 `user_followeds` 的关注/粉丝记录都复用 `UserProfile` 的宽松字段，再补上列表特有的 `py`、`time`、`vipRights`（`user_follows` 还补 `expertTags`）：只有记录自己的 `userId` 收紧，`vipRights` 复用 core 的 `VipRights`（`artist_fans`、`user_follow_mixed`、`user_event` 也用同一份），其中 `relationType`、`extInfo` 已声明为宽松字段，`memberLogo` 只见过 `null`、未声明。`remarkName` 在三份录制里只见过 `null`，也没有声明。`more`、`touchCount`、`newCount`、`size` 都是宽松字段；`newCount` 只在部分粉丝列表响应里出现。空列表分别是真实可达的：账号 13595690613 没有粉丝（`user_followeds.empty.json`），`offset=100000` 的越界分页返回空关注（`user_follows.empty.json`）。
 
@@ -459,9 +464,27 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 
 `user_comment_history` 的 `data.comments`、`data.hotComments` 是可以没有的路径：没有历史评论或未登录时上游返回 `null`（`user_comment_history.empty.json`、`user_comment_history.anonymous.json`），缺失或 `null` 都照常返回，出现时每条评论复用 `CommentRecord` 的字段并补上 `beRepliedContent`、`beRepliedUser`（宽松），`commentId` 收紧。`commentCount`、`hasMore`、`reminder` 宽松。
 
-`user_event` 的事件记录只收紧自己的 `id`；`json` 是动态正文的 JSON 字符串，`info` 是评论信息，`user`、`pics`、`ipLocation` 和计数/展示字段都宽松。`info.commentThread` 是评论串（`latestLikedUsers[]` 的 `s`、`t` 是宽松数字字段），`events[].user` 复用 `UserProfile` 的宽松字段，都是附带对象，编号不收紧。没有动态的账号返回空数组（`user_event.empty.json`）。`lasttime`、`more`、`size` 宽松。已知例外：`adInfo`、`anonymityInfo`、`bottomActivityInfos`、`extJsonInfo`、`likeAnimationMap`、`pointTopicInfo`、`privacySettingInfo`、`pubSource`、`topActivityInfos`、`topEvent`、`xInfo` 等扩展块未声明，字段原样保留（JSON）；`ipLocation.ip`、`commentThread.resourceInfo.imgUrl`、`vipRights.memberLogo` 等只见过 `null` 的子字段也未声明。
+`user_event` 的事件记录只收紧自己的 `id`；`json` 是动态正文的 JSON 字符串，`info` 是评论信息，`user`、`pics`、`ipLocation` 和计数/展示字段都宽松。`info.commentThread` 是评论串（`latestLikedUsers[]` 的 `s`、`t` 是宽松数字字段），`events[].user` 复用 core 的 `EventUser`（`UserProfile` 的宽松字段加 `urlAnalyze`、`vipRights`），都是附带对象，编号不收紧。没有动态的账号返回空数组（`user_event.empty.json`）。`pics[]` 复用 core 的 `EventPic`（本批含 `pcRectangleIdStr`、`pcSquareIdStr`、`rectangleIdStr`、`squareIdStr` 四个宽松字段）；`commentThread.resourceInfo.resourceType` 已按 `user_event` 录制里的非 null 数字恢复声明，返回体值不变；类型仍是 `number | null`。`lasttime`、`more`、`size` 宽松。已知例外：`adInfo`、`anonymityInfo`、`bottomActivityInfos`、`extJsonInfo`、`likeAnimationMap`、`pointTopicInfo`、`privacySettingInfo`、`pubSource`、`topActivityInfos`、`topEvent`、`xInfo` 等扩展块未声明，字段原样保留（JSON）；`ipLocation.ip`、`commentThread.resourceInfo.imgUrl`、`vipRights.memberLogo` 等只见过 `null` 的子字段也未声明。
+
+`event` 的动态记录与 `user_event` 使用 core 里同一组事件附带结构（`EventUser`、`EventIpLocation`、`EventPic`、`EventResourceInfo`、`EventLikedUser`、`EventCommentThread`、`EventInfo`）；事件记录本身字段不同，留在模块内声明：只收紧动态自己的 `id`，`json`、`info`、`user`、`pics`、`ipLocation`、`topEvent` 和计数/展示字段宽松；`privacySetting`、`uuid` 也按宽松字段声明；`contentDeclaration`、`repostSource` 按事件列表里的空串证据声明为宽松字符串，`resourceUniqueId` 的宽松字符串类型证据来自 `user_event` 录制。`event` 是通到动态列表的路径；登录账号用 `lasttime=1` 取到空结果（`event.empty.json`），返回 `event: []`、`more: false`，此时没有 `lasttime`。已知例外：非 null 扩展对象 `adInfo`、`anonymityInfo`、`bottomActivityInfos`、`extJsonInfo`、`pointTopicInfo`、`privacySettingInfo`、`pubSource`、`xInfo` 未声明；`likeAnimationMap` 只见过空对象、`topActivityInfos` 只见过空数组；`tailMark` 在本批事件列表录制里只有 `null`。非空录制原 20 条保留 3 条（索引 0/4/9，id 37982331004、37819249612、37812157222）。`event` 和 `topic_detail_event_hot` 的事件记录各声明 37 个字段，`user_event` 是 32 个；`user_event` 的 B17 声明未加 `contentDeclaration`、`repostSource`、`privacySetting`、`topEvent`、`uuid`（37/37/32）。
+
+`hot_topic` 的 `hot` 是通到热门话题列表的路径，每条话题自己的编号 `hot[].actId` 收紧；`title`、`text`、`participateCount`、`sharePicUrl`、`reason`、`isDefaultImg`、`alg` 宽松，只见过 `null` 的 `iconUrl`、`readCnt`、`topicDisplayType`、`bizId`、`bizType`、`memberCount`、`onlineNum` 没有声明。`topic_sublist` 的 `data` 是通到收藏专栏列表的路径，`data[].id` 收紧；越界分页（`topic_sublist.out-of-range.json`，`offset=100000`）返回 `data: []`，`count` 保持原值。`topic_detail` 的 `act` 是通到话题详情的路径，`act.actId` 收紧；未知话题返回 `code: 404`（`topic_detail.unknown.json`），按业务拒绝原样转交。`topic_detail_event_hot` 的 `events` 是通到话题热门动态列表的路径，`events[].id` 收紧；动态记录与 `event` 一样从 core 复用事件附带结构，`topEvent` 是宽松布尔字段，`contentDeclaration`、`repostSource`、`resourceUniqueId` 按共享记录一并声明为宽松字符串（类型证据来自 `event` 录制）；扩展块例外与 `event` 相同（`adInfo`、`pubSource` 在本录制里只有 `null`，`tailMark` 有非 null 对象）。未知话题同样返回 `code: 404`（`topic_detail_event_hot.unknown.json`）。本批没有找到 `hot_topic` 可达的空列表，`hot: []` 由契约测试构造覆盖；`hot_topic` 的 `offset=100000` 与默认调用返回同一份内容。`topic_detail_event_hot` 的话题 47972517 没有热门动态，返回 `events: []`（`topic_detail_event_hot.empty.json`）；非空录制原 5 条保留 2 条（索引 0/4）。
+
+本批 5 个模块的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`（账号 599663130）：`event` 的匿名调用返回与登录空结果相同的 `event: []`、`more: false`；`hot_topic`、`topic_detail` 的匿名响应与登录响应字段集合一致，CDN 主机可能不同（本次对照只有 `topic_detail` 的 p3/p4 差异）；匿名录制未提交，也不对公开结构作相同性断言。
 
 本批 7 个模块的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`：`user_follow_mixed` 未登录被上游拒绝，`user_comment_history` 未登录看不到历史评论，`user_mutualfollow_get` 未登录对同一 uid 返回 `false`；其余模块本批未保留未登录录制，不对公开结构作相同性断言。录制只覆盖账号 599663130 与录制里出现的其他账号，不据此推断字段集合在所有账号、地区和上游版本下一致。
+
+## 非 200 业务码的状态码变化
+
+本批 5 个动态与话题模块开始做 Body 校验后，上游 HTTP 200 + `code: 400` 的响应会在 `decodeUpstreamBody` 里先按业务码拒绝（解码 Body 之前），公开结果为 `status: 400`、`body` 保留上游原文。请求层原有的 `SPECIAL_STATUS_CODES` 会把 `code: 400` 先映射成 200；这个映射只在没有 Body 校验时决定公开状态，Body 校验在返回前执行，所以最终看到的是 400。改造前同样是这些参数错误，模块会按 200 放行。
+
+- `event`：`pagesize=abc`（`event.invalid-pagesize.json`）
+- `hot_topic`：`limit=abc`（`hot_topic.invalid-limit.json`）
+- `topic_sublist`：`offset=abc`（`topic_sublist.invalid-offset.json`）
+- `topic_detail`：缺失 `actid`（`topic_detail.missing-actid.json`）
+- `topic_detail_event_hot`：缺失 `actid`（`topic_detail_event_hot.missing-actid.json`）
+
+`SPECIAL_STATUS_CODES` 里的其他码同样会在 Body 校验时拒绝：201/302/502 以原码拒绝，800–803 因超出 100–599 钳位为 400。不在该表里的码（如 404）原样转交，公开 `status` 仍是 404，不会变成 502。契约测试对以上 5 份 400 录制和 2 份 404 录制都断言状态码和原文。
 
 ## 消息
 

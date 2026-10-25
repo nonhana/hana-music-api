@@ -65,6 +65,8 @@ export { ModuleBody as DjToplistNewcomerBody } from '../../modules/dj_toplist_ne
 export { ModuleBody as DjToplistPayBody } from '../../modules/dj_toplist_pay.ts';
 export { ModuleBody as DjToplistPopularBody } from '../../modules/dj_toplist_popular.ts';
 export { ModuleBody as DjRadioTopBody } from '../../modules/djRadio_top.ts';
+export { ModuleBody as EventBody } from '../../modules/event.ts';
+export { ModuleBody as HotTopicBody } from '../../modules/hot_topic.ts';
 export { ModuleBody as ImageUploadTokenBody } from '../../modules/image_upload_token.ts';
 export { ModuleBody as LikeBody } from '../../modules/like.ts';
 export { ModuleBody as LikelistBody } from '../../modules/likelist.ts';
@@ -145,6 +147,9 @@ export { ModuleBody as TopListBody } from '../../modules/top_list.ts';
 export { ModuleBody as TopMvBody } from '../../modules/top_mv.ts';
 export { ModuleBody as TopPlaylistHighqualityBody } from '../../modules/top_playlist_highquality.ts';
 export { ModuleBody as TopSongBody } from '../../modules/top_song.ts';
+export { ModuleBody as TopicDetailBody } from '../../modules/topic_detail.ts';
+export { ModuleBody as TopicDetailEventHotBody } from '../../modules/topic_detail_event_hot.ts';
+export { ModuleBody as TopicSublistBody } from '../../modules/topic_sublist.ts';
 export { ModuleBody as ToplistBody } from '../../modules/toplist.ts';
 export { ModuleBody as ToplistArtistBody } from '../../modules/toplist_artist.ts';
 export { ModuleBody as ToplistDetailBody } from '../../modules/toplist_detail.ts';

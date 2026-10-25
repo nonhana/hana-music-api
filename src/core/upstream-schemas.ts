@@ -445,6 +445,88 @@ export const UserProfile = UpstreamObject({
 });
 export type UserProfile = typeof UserProfile.Type;
 
+// user_event、event、topic_detail_event_hot 共用的事件附带结构；事件记录本身的字段三份不同，留在各模块。
+// 动态里的用户是附带对象，`userId` 宽松；`urlAnalyze`、`vipRights` 是 `UserProfile` 之外的字段。
+export const EventUser = UpstreamObject({
+  ...UserProfile.schema.fields,
+  userId: Loose(Schema.Finite),
+  urlAnalyze: Loose(Schema.Boolean),
+  vipRights: Loose(VipRights),
+});
+export type EventUser = typeof EventUser.Type;
+
+export const EventIpLocation = UpstreamObject({
+  location: Loose(Schema.String),
+});
+export type EventIpLocation = typeof EventIpLocation.Type;
+
+export const EventPic = UpstreamObject({
+  format: Loose(Schema.String),
+  height: Loose(Schema.Finite),
+  width: Loose(Schema.Finite),
+  mute: Loose(Schema.Boolean),
+  originUrl: Loose(Schema.String),
+  originIdStr: Loose(Schema.String),
+  originJpgIdStr: Loose(Schema.String),
+  pcRectangleIdStr: Loose(Schema.String),
+  pcRectangleUrl: Loose(Schema.String),
+  pcSquareIdStr: Loose(Schema.String),
+  pcSquareUrl: Loose(Schema.String),
+  rectangleIdStr: Loose(Schema.String),
+  rectangleUrl: Loose(Schema.String),
+  squareIdStr: Loose(Schema.String),
+  squareUrl: Loose(Schema.String),
+  videoDurationMs: Loose(Schema.Finite),
+});
+export type EventPic = typeof EventPic.Type;
+
+export const EventResourceInfo = UpstreamObject({
+  id: Loose(Schema.Finite),
+  userId: Loose(Schema.Finite),
+  name: Loose(Schema.String),
+  resourceType: Loose(Schema.Finite),
+  eventType: Loose(Schema.Finite),
+  artistId: Loose(Schema.Finite),
+  artistAreaCode: Loose(Schema.Finite),
+});
+export type EventResourceInfo = typeof EventResourceInfo.Type;
+
+// `s` 是点赞用户编号，`t` 是点赞时间（上游字段名就是缩写）。
+export const EventLikedUser = UpstreamObject({
+  s: Loose(Schema.Finite),
+  t: Loose(Schema.Finite),
+});
+export type EventLikedUser = typeof EventLikedUser.Type;
+
+export const EventCommentThread = UpstreamObject({
+  id: Loose(Schema.String),
+  resourceId: Loose(Schema.Finite),
+  resourceInfo: Loose(EventResourceInfo),
+  resourceOwnerId: Loose(Schema.Finite),
+  resourceTitle: Loose(Schema.String),
+  resourceType: Loose(Schema.Finite),
+  commentCount: Loose(Schema.Finite),
+  floorCommentCount: Loose(Schema.Finite),
+  likedCount: Loose(Schema.Finite),
+  latestLikedUsers: Loose(Schema.Array(EventLikedUser)),
+  shareCount: Loose(Schema.Finite),
+  hotCount: Loose(Schema.Finite),
+});
+export type EventCommentThread = typeof EventCommentThread.Type;
+
+// 动态的评论信息：`commentThread` 指向这条动态的评论串；动态正文在记录的 `json` 字符串里。
+export const EventInfo = UpstreamObject({
+  commentThread: Loose(EventCommentThread),
+  commentCount: Loose(Schema.Finite),
+  likedCount: Loose(Schema.Finite),
+  shareCount: Loose(Schema.Finite),
+  liked: Loose(Schema.Boolean),
+  resourceId: Loose(Schema.Finite),
+  resourceType: Loose(Schema.Finite),
+  threadId: Loose(Schema.String),
+});
+export type EventInfo = typeof EventInfo.Type;
+
 export const PlaylistSummary = UpstreamObject({
   id: Schema.Finite,
   name: Loose(Schema.String),

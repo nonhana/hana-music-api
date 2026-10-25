@@ -295,7 +295,10 @@ import type {
   ModuleBody as djRadioTopBody,
   ModuleInput as djRadioTopInput,
 } from '../../modules/djRadio_top.ts';
-import type { ModuleInput as eventInput } from '../../modules/event.ts';
+import type {
+  ModuleBody as eventBody,
+  ModuleInput as eventInput,
+} from '../../modules/event.ts';
 import type { ModuleInput as eventDelInput } from '../../modules/event_del.ts';
 import type { ModuleInput as eventForwardInput } from '../../modules/event_forward.ts';
 import type { ModuleInput as fmTrashInput } from '../../modules/fm_trash.ts';
@@ -305,7 +308,10 @@ import type { ModuleInput as historyRecommendSongsInput } from '../../modules/hi
 import type { ModuleInput as historyRecommendSongsDetailInput } from '../../modules/history_recommend_songs_detail.ts';
 import type { ModuleInput as homepageBlockPageInput } from '../../modules/homepage_block_page.ts';
 import type { ModuleInput as homepageDragonBallInput } from '../../modules/homepage_dragon_ball.ts';
-import type { ModuleInput as hotTopicInput } from '../../modules/hot_topic.ts';
+import type {
+  ModuleBody as hotTopicBody,
+  ModuleInput as hotTopicInput,
+} from '../../modules/hot_topic.ts';
 import type { ModuleInput as hugCommentInput } from '../../modules/hug_comment.ts';
 import type {
   ModuleBody as imageUploadTokenBody,
@@ -713,9 +719,18 @@ import type {
   ModuleBody as topSongBody,
   ModuleInput as topSongInput,
 } from '../../modules/top_song.ts';
-import type { ModuleInput as topicDetailInput } from '../../modules/topic_detail.ts';
-import type { ModuleInput as topicDetailEventHotInput } from '../../modules/topic_detail_event_hot.ts';
-import type { ModuleInput as topicSublistInput } from '../../modules/topic_sublist.ts';
+import type {
+  ModuleBody as topicDetailBody,
+  ModuleInput as topicDetailInput,
+} from '../../modules/topic_detail.ts';
+import type {
+  ModuleBody as topicDetailEventHotBody,
+  ModuleInput as topicDetailEventHotInput,
+} from '../../modules/topic_detail_event_hot.ts';
+import type {
+  ModuleBody as topicSublistBody,
+  ModuleInput as topicSublistInput,
+} from '../../modules/topic_sublist.ts';
 import type {
   ModuleBody as toplistBody,
   ModuleInput as toplistInput,
@@ -2067,7 +2082,11 @@ export interface GeneratedModuleContractMap {
     query: djRadioTopInput;
     response: ModuleResponse<djRadioTopBody>;
   };
-  event: { input: eventInput; query: eventInput; response: ModuleResponse };
+  event: {
+    input: eventInput;
+    query: eventInput;
+    response: ModuleResponse<eventBody>;
+  };
   event_del: {
     input: eventDelInput;
     query: eventDelInput;
@@ -2112,7 +2131,7 @@ export interface GeneratedModuleContractMap {
   hot_topic: {
     input: hotTopicInput;
     query: hotTopicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<hotTopicBody>;
   };
   hug_comment: {
     input: hugCommentInput;
@@ -2936,17 +2955,17 @@ export interface GeneratedModuleContractMap {
   topic_detail: {
     input: topicDetailInput;
     query: topicDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topicDetailBody>;
   };
   topic_detail_event_hot: {
     input: topicDetailEventHotInput;
     query: topicDetailEventHotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topicDetailEventHotBody>;
   };
   topic_sublist: {
     input: topicSublistInput;
     query: topicSublistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topicSublistBody>;
   };
   toplist: {
     input: toplistInput;

@@ -1,0 +1,36 @@
+{
+  "module": "hot_topic",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T18:27:36.161Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B19：热门话题 登录账号"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "hot": [
+        {
+          "actId": 115842105,
+          "title": "最后的水族馆",
+          "text": ["欢迎来到水族馆，进入无边界海域的听觉之旅"],
+          "participateCount": 8218,
+          "iconUrl": null,
+          "readCnt": null,
+          "topicDisplayType": null,
+          "bizId": null,
+          "bizType": null,
+          "memberCount": null,
+          "onlineNum": null,
+          "sharePicUrl": "https://p3.music.126.net/wdKjMvO2A7XTbti5wDqtpg==/109951166784247177.jpg",
+          "reason": "",
+          "isDefaultImg": false,
+          "alg": "featured"
+        }
+      ]
+    }
+  }
+}

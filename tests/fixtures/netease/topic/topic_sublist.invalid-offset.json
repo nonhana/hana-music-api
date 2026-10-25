@@ -1,0 +1,20 @@
+{
+  "module": "topic_sublist",
+  "query": {
+    "offset": "abc"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:05:56.691Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B19：非法 offset 的 400 拒绝（匿名）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": "参数错误",
+      "code": 400
+    }
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "module": "topic_detail",
+  "query": {
+    "actid": 115842105
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:27:54.000Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B19：话题详情 登录账号"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "act": {
+        "actId": 115842105,
+        "title": "最后的水族馆",
+        "coverId": 109951166784272210,
+        "coverPCId": 109951166784278060,
+        "coverPCIdLong": 1405175863432181,
+        "coverPCIdList": 1405175863432180,
+        "displayType": 0,
+        "sharePicId": 109951166784247180,
+        "text": ["欢迎来到水族馆，进入无边界海域的听觉之旅"],
+        "startTime": 1639479124955,
+        "endTime": 1650717190796,
+        "participateCount": 131201,
+        "resourceType": 4,
+        "resourceJson": "{\"name\":\"浓缩蓝鲸\",\"id\":1864619253,\"position\":0,\"alias\":[],\"status\":0,\"fee\":8,\"copyrightId\":0,\"disc\":\"01\",\"no\":2,\"artists\":[{\"name\":\"裘德\",\"id\":12038239,\"picId\":0,\"img1v1Id\":0,\"briefDesc\":\"\",\"picUrl\":\"\",\"img1v1Url\":\"http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg\",\"albumSize\":0,\"alias\":[],\"trans\":\"\",\"musicSize\":0,\"topicPerson\":0,\"extProperties\":null,\"xInfo\":null}],\"album\":{\"name\":\"最后的水族馆\",\"id\":137919451,\"type\":\"专辑\",\"size\":21,\"picId\":109951166783174480,\"blurPicUrl\":\"http://p4.music.126.net/5BODaqPmyNJYQaBIoV82HQ==/109951166783174480.jpg\",\"companyId\":0,\"pic\":109951166783174480,\"picUrl\":\"http://p4.music.126.net/5BODaqPmyNJYQaBIoV82HQ==/109951166783174480.jpg\",\"publishTime\":1640275200000,\"description\":\"\",\"tags\":\"\",\"company\":\"网易音乐人\",\"briefDesc\":\"\",\"artist\":{\"name\":\"\",\"id\":0,\"picId\":0,\"img1v1Id\":0,\"briefDesc\":\"\",\"picUrl\":\"\",\"img1v1Url\":\"http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg\",\"albumSize\":0,\"alias\":[],\"trans\":\"\",\"musicSize\":0,\"topicPerson\":0,\"extProperties\":null,\"xInfo\":null},\"songs\":[],\"alias\":[],\"status\":1,\"copyrightId\":-1,\"commentThreadId\":\"R_AL_3_137919451\",\"artists\":[{\"name\":\"裘德\",\"id\":12038239,\"picId\":0,\"img1v1Id\":0,\"briefDesc\":\"\",\"picUrl\":\"\",\"img1v1Url\":\"http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg\",\"albumSize\":0,\"alias\":[],\"trans\":\"\",\"musicSize\":0,\"topicPerson\":0,\"extProperties\":null,\"xInfo\":null}],\"subType\":\"录音室版\",\"transName\":null,\"onSale\":false,\"mark\":0,\"gapless\":0,\"dolbyMark\":0,\"extProperties\":{\"picId_str\":\"109951166783174480\"},\"xInfo\":{\"picId_str\":\"109951166783174480\"}},\"starred\":false,\"popularity\":100.0,\"score\":100,\"starredNum\":0,\"duration\":276791,\"playedNum\":0,\"dayPlays\":0,\"hearTime\":0,\"sqMusic\":{\"name\":null,\"id\":7015732757,\"size\":53034123,\"extension\":\"flac\",\"sr\":44100,\"dfsId\":0,\"bitrate\":1532824,\"playTime\":276791,\"volumeDelta\":-41403.0,\"extProperties\":null,\"xInfo\":null},\"hrMusic\":null,\"ringtone\":\"\",\"crbt\":null,\"audition\":null,\"copyFrom\":\"\",\"commentThreadId\":\"R_SO_4_1864619253\",\"rtUrl\":null,\"ftype\":0,\"rtUrls\":[],\"copyright\":0,\"transName\":null,\"sign\":null,\"mark\":0,\"originCoverType\":1,\"originSongSimpleData\":null,\"single\":0,\"noCopyrightRcmd\":null,\"hMusic\":{\"name\":null,\"id\":7015732758,\"size\":11073872,\"extension\":\"mp3\",\"sr\":44100,\"dfsId\":0,\"bitrate\":320000,\"playTime\":276791,\"volumeDelta\":-41410.0,\"extProperties\":null,\"xInfo\":null},\"mMusic\":{\"name\":null,\"id\":7015732760,\"size\":6644341,\"extension\":\"mp3\",\"sr\":44100,\"dfsId\":0,\"bitrate\":192000,\"playTime\":276791,\"volumeDelta\":-38806.0,\"extProperties\":null,\"xInfo\":null},\"lMusic\":{\"name\":null,\"id\":7015732762,\"size\":4429575,\"extension\":\"mp3\",\"sr\":44100,\"dfsId\":0,\"bitrate\":128000,\"playTime\":276791,\"volumeDelta\":-37114.0,\"extProperties\":null,\"xInfo\":null},\"bMusic\":{\"name\":null,\"id\":7015732762,\"size\":4429575,\"extension\":\"mp3\",\"sr\":44100,\"dfsId\":0,\"bitrate\":128000,\"playTime\":276791,\"volumeDelta\":-37114.0,\"extProperties\":null,\"xInfo\":null},\"rtype\":0,\"rurl\":null,\"mvid\":0,\"mp3Url\":null,\"extProperties\":{\"publishTime\":1640275200000},\"xInfo\":{\"publishTime\":1640275200000}}",
+        "enableResourcePublish": true,
+        "videoType": 0,
+        "commodityInfo": null,
+        "publishTip": "",
+        "topicType": 0,
+        "meetingBeginTime": 1640575440000,
+        "meetingEndTime": 1482809040000,
+        "coverPCLongUrl": "http://p4.music.126.net/2Hk_gMXpqDuBIM5PkoK1aw==/1405175863432181.jpg",
+        "sharePicUrl": "http://p4.music.126.net/wdKjMvO2A7XTbti5wDqtpg==/109951166784247177.jpg",
+        "isDefaultImg": false,
+        "coverPCUrl": "http://p3.music.126.net/q0PKzGa3AarOxTS6cy0y9g==/109951166784278071.jpg",
+        "coverMobileUrl": "http://p4.music.126.net/FGgzjdvl7QratARcglVqiA==/109951166784272206.jpg",
+        "coverPCListUrl": "http://p4.music.126.net/1EXHYguy_aeMrTKkH3imBg==/1405175863432180.jpg"
+      },
+      "needBeginNotify": false,
+      "code": 200
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "module": "event",
+  "query": {
+    "pagesize": "abc"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:05:47.518Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B19：非法 pagesize 的 400 拒绝（匿名）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": "参数错误",
+      "code": 400
+    }
+  }
+}
