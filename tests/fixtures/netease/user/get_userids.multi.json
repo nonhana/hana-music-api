@@ -1,0 +1,22 @@
+{
+  "module": "get_userids",
+  "query": {
+    "nicknames": "non_h;b39_no_such_nick_zz9"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:59:54.353Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B39：get_userids 存在的昵称与不存在的昵称混合"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "nicknames": {
+        "non_h": 599663130
+      },
+      "code": 200
+    }
+  }
+}

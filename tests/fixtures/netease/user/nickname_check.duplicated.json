@@ -1,0 +1,33 @@
+{
+  "module": "nickname_check",
+  "query": {
+    "nickname": "binaryify"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:29:31.399Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B39：nickname_check 重复昵称与备用昵称"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "nickname": "binaryify",
+      "candidateNicknames": [
+        "binaryify_1fIG",
+        "binaryify_fS66",
+        "binaryify_Qe4f",
+        "binaryify_Kfhf",
+        "binaryify_nUXc",
+        "binaryify_mR2v",
+        "binaryify_ztV1",
+        "binaryify_Vlxv",
+        "binaryify_d7Ol",
+        "binaryify_kr9F"
+      ],
+      "duplicated": true,
+      "code": 200
+    }
+  }
+}

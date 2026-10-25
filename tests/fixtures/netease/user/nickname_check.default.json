@@ -1,0 +1,21 @@
+{
+  "module": "nickname_check",
+  "query": {
+    "nickname": "non_h"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:29:30.958Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B39：nickname_check 可用昵称"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "nickname": "non_h",
+      "duplicated": false,
+      "code": 200
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "module": "verify_qrcodestatus",
+  "query": {
+    "qr": ""
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:59:58.886Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B39：verify_qrcodestatus 空二维码的错误返回",
+    "outcome": "rejected"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": "400",
+      "message": "qrcode is null",
+      "data": null
+    }
+  }
+}

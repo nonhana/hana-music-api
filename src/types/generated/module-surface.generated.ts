@@ -138,7 +138,10 @@ import type {
   ModuleInput as captchaSentInput,
 } from '../../modules/captcha_sent.ts';
 import type { ModuleInput as captchaVerifyInput } from '../../modules/captcha_verify.ts';
-import type { ModuleInput as cellphoneExistenceCheckInput } from '../../modules/cellphone_existence_check.ts';
+import type {
+  ModuleBody as cellphoneExistenceCheckBody,
+  ModuleInput as cellphoneExistenceCheckInput,
+} from '../../modules/cellphone_existence_check.ts';
 import type { ModuleInput as checkMusicInput } from '../../modules/check_music.ts';
 import type { ModuleInput as cloudInput } from '../../modules/cloud.ts';
 import type { ModuleInput as cloudImportInput } from '../../modules/cloud_import.ts';
@@ -193,7 +196,10 @@ import type {
   ModuleBody as commentVideoBody,
   ModuleInput as commentVideoInput,
 } from '../../modules/comment_video.ts';
-import type { ModuleInput as countriesCodeListInput } from '../../modules/countries_code_list.ts';
+import type {
+  ModuleBody as countriesCodeListBody,
+  ModuleInput as countriesCodeListInput,
+} from '../../modules/countries_code_list.ts';
 import type { ModuleInput as dailySigninInput } from '../../modules/daily_signin.ts';
 import type {
   ModuleBody as digitalAlbumDetailBody,
@@ -327,7 +333,10 @@ import type { ModuleInput as eventDelInput } from '../../modules/event_del.ts';
 import type { ModuleInput as eventForwardInput } from '../../modules/event_forward.ts';
 import type { ModuleInput as fmTrashInput } from '../../modules/fm_trash.ts';
 import type { ModuleInput as followInput } from '../../modules/follow.ts';
-import type { ModuleInput as getUseridsInput } from '../../modules/get_userids.ts';
+import type {
+  ModuleBody as getUseridsBody,
+  ModuleInput as getUseridsInput,
+} from '../../modules/get_userids.ts';
 import type {
   ModuleBody as historyRecommendSongsBody,
   ModuleInput as historyRecommendSongsInput,
@@ -519,7 +528,10 @@ import type {
   ModuleBody as mvUrlBody,
   ModuleInput as mvUrlInput,
 } from '../../modules/mv_url.ts';
-import type { ModuleInput as nicknameCheckInput } from '../../modules/nickname_check.ts';
+import type {
+  ModuleBody as nicknameCheckBody,
+  ModuleInput as nicknameCheckInput,
+} from '../../modules/nickname_check.ts';
 import type { ModuleInput as personalFmInput } from '../../modules/personal_fm.ts';
 import type { ModuleInput as personalFmModeInput } from '../../modules/personal_fm_mode.ts';
 import type {
@@ -546,7 +558,10 @@ import type {
   ModuleBody as personalizedPrivatecontentListBody,
   ModuleInput as personalizedPrivatecontentListInput,
 } from '../../modules/personalized_privatecontent_list.ts';
-import type { ModuleInput as plCountInput } from '../../modules/pl_count.ts';
+import type {
+  ModuleBody as plCountBody,
+  ModuleInput as plCountInput,
+} from '../../modules/pl_count.ts';
 import type {
   ModuleBody as playlistCatlistBody,
   ModuleInput as playlistCatlistInput,
@@ -994,7 +1009,10 @@ import type {
   ModuleBody as verifyGetQrBody,
   ModuleInput as verifyGetQrInput,
 } from '../../modules/verify_getQr.ts';
-import type { ModuleInput as verifyQrcodestatusInput } from '../../modules/verify_qrcodestatus.ts';
+import type {
+  ModuleBody as verifyQrcodestatusBody,
+  ModuleInput as verifyQrcodestatusInput,
+} from '../../modules/verify_qrcodestatus.ts';
 import type {
   ModuleBody as videoCategoryListBody,
   ModuleInput as videoCategoryListInput,
@@ -2020,7 +2038,7 @@ export interface GeneratedModuleContractMap {
   cellphone_existence_check: {
     input: cellphoneExistenceCheckInput;
     query: cellphoneExistenceCheckInput;
-    response: ModuleResponse;
+    response: ModuleResponse<cellphoneExistenceCheckBody>;
   };
   check_music: {
     input: checkMusicInput;
@@ -2111,7 +2129,7 @@ export interface GeneratedModuleContractMap {
   countries_code_list: {
     input: countriesCodeListInput;
     query: countriesCodeListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<countriesCodeListBody>;
   };
   daily_signin: {
     input: dailySigninInput;
@@ -2308,7 +2326,7 @@ export interface GeneratedModuleContractMap {
   get_userids: {
     input: getUseridsInput;
     query: getUseridsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<getUseridsBody>;
   };
   history_recommend_songs: {
     input: historyRecommendSongsInput;
@@ -2600,7 +2618,7 @@ export interface GeneratedModuleContractMap {
   nickname_check: {
     input: nicknameCheckInput;
     query: nicknameCheckInput;
-    response: ModuleResponse;
+    response: ModuleResponse<nicknameCheckBody>;
   };
   personal_fm: {
     input: personalFmInput;
@@ -2645,7 +2663,7 @@ export interface GeneratedModuleContractMap {
   pl_count: {
     input: plCountInput;
     query: plCountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<plCountBody>;
   };
   playlist_catlist: {
     input: playlistCatlistInput;
@@ -3366,7 +3384,7 @@ export interface GeneratedModuleContractMap {
   verify_qrcodestatus: {
     input: verifyQrcodestatusInput;
     query: verifyQrcodestatusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<verifyQrcodestatusBody>;
   };
   video_category_list: {
     input: videoCategoryListInput;

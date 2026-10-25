@@ -40,6 +40,10 @@ const result = await getUserids({
 console.log(result.body);
 ```
 
+## 返回内容
+
+昵称到 user id 的映射在 `nicknames`，没有匹配的昵称时是空对象，不存在的昵称不会出现在映射里。`code` 和 `nicknames` 收紧，映射值必须是数字。结构定义和类型是 `GetUseridsBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 使用此接口,传入用户昵称,可获取对应的用户id,支持批量获取,多个昵称用`分号(;)`隔开

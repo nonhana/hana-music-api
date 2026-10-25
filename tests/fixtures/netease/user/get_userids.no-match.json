@@ -1,0 +1,20 @@
+{
+  "module": "get_userids",
+  "query": {
+    "nicknames": "b39_no_such_nick_zz9"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:29:31.465Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B39：get_userids 不存在的昵称"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "nicknames": {},
+      "code": 200
+    }
+  }
+}

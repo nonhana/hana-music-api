@@ -252,3 +252,4 @@ delisted
 
 expiretime
 pubwords
+Binded

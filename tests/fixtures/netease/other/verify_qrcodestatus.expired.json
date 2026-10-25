@@ -1,0 +1,25 @@
+{
+  "module": "verify_qrcodestatus",
+  "query": {
+    "qr": "b39notaqrcode"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:29:35.240Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B39：verify_qrcodestatus 已失效二维码（无有效会话，未扫/已扫/已确认无法构造）",
+    "outcome": "ok"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": "200",
+      "message": "获取二维码状态成功",
+      "data": {
+        "qrCodeStatus": 21,
+        "detailReason": 0
+      }
+    }
+  }
+}

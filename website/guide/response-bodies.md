@@ -52,6 +52,31 @@
 
 `user_binding` 在不存在的 uid 下返回 `bindings: []`（`user_binding.no-bindings.json`）；录制里的绑定 id 和账号编号已换成合成值，`tokenJsonStr` 按凭据规则替换成 `<redacted>`。`user_social_status` 的 `data` 在录制里是空对象，内部字段没有声明，仍原样保留。
 
+## 账号校验与基础查询
+
+| 模块                                                          | 结构定义                      | 收紧的字段                                                        |
+| ------------------------------------------------------------- | ----------------------------- | ----------------------------------------------------------------- |
+| [检测手机号码是否已注册](/api/user/cellphone-existence-check) | `CellphoneExistenceCheckBody` | `code`、`exist`                                                   |
+| [重复昵称检测](/api/user/nickname-check)                      | `NicknameCheckBody`           | `code`、`duplicated`；`candidateNicknames` 可以没有               |
+| [根据昵称获取 userid](/api/user/get-userids)                  | `GetUseridsBody`              | `code`、`nicknames`                                               |
+| [国家编码列表](/api/other/countries-code-list)                | `CountriesCodeListBody`       | `code`、`data`、`data[].countryList`、`data[].countryList[].code` |
+| [验证接口 - 二维码检测](/api/other/verify-qrcodestatus)       | `VerifyQrcodestatusBody`      | `code`、`data`、`data.qrCodeStatus`                               |
+| [私信和通知接口](/api/other/pl-count)                         | `PlCountBody`                 | `code`                                                            |
+
+`cellphone_existence_check` 的 `exist` 是接口要拿的注册状态（`1` 已注册、`-1` 未注册），和 `code` 一起收紧；回显的手机号、`nickname`、`avatarUrl`、`hasPassword`、`hasSnsBinded`、`countryCode` 宽松。已注册和未注册各一份录制（`cellphone_existence_check.default.json`、`cellphone_existence_check.unregistered.json`），手机号回显按凭据规则替换成 `<redacted>`。
+
+`nickname_check` 收紧 `code` 和 `duplicated`；`candidateNicknames` 在昵称可用时缺失，按“可以没有”处理，出现但有一条不是字符串仍报 502；`nickname` 是回显的查询昵称，宽松。可用和重复昵称各一份录制（`nickname_check.default.json`、`nickname_check.duplicated.json`）。
+
+`get_userids` 的 `nicknames` 是昵称到 user id 的映射，收紧为字符串到数字；不存在的昵称不出现在映射里。只查询不存在的昵称时映射是空对象（`get_userids.no-match.json`）；存在与不存在的昵称混合查询时只返回存在的键（`get_userids.multi.json`）。
+
+`countries_code_list` 的 `data` 是国家分组数组，每组 `countryList` 里的国家记录只收紧自己的 `code`（国际区号）；`label`、`zh`、`en`、`locale` 和 `message` 宽松。接口没有分页或其他输入，本批用默认参数探测返回 22 组、189 个国家，未发现可达的空结果，数组本身允许为空。
+
+`verify_qrcodestatus` 的 `code`、`data` 和 `data.qrCodeStatus` 收紧；`data.detailReason` 与 `message` 宽松，缺失或 `null` 照常返回；有值但类型不对时丢这一项。上游成功码是字符串 `"200"`，请求层会归一成数字 200，结构定义同时接受录制里的原始字符串和归一后的数字。本批没有可构造的扫码会话，只录到已失效二维码（`verify_qrcodestatus.expired.json`，`qrCodeStatus: 21`）；未扫（`0`）、已扫（`10`）、已确认（`20`）三态没有录制，未声明额外字段。接口需要登录：未登录（`verify_qrcodestatus.anonymous.json`，`code: 301`）和空 `qr`（`verify_qrcodestatus.empty.json`，`code: 400`）按业务拒绝原样转交。
+
+`pl_count` 只有 `code` 收紧；私信、通知、关注等计数和 `friend`、`eventUser`、`sceneComments`、`battle` 里的字段全部宽松。匿名录制（`pl_count.anonymous.json`）里 `pushMsg` 是 `null`、`eventUser` 整个缺失。
+
+这批 6 个模块的登录对照先用 `login_status` 确认 `account.anonimousUser: false`（账号 599663130）；`cellphone_existence_check`、`nickname_check`、`get_userids`、`countries_code_list` 本批未保留匿名对照，不对公开结构作相同性断言。`verify_qrcodestatus` 需要登录，`pl_count` 未登录时仍返回计数结构。
+
 ## 曲库
 
 | 模块                                             | 结构定义               | 收紧的字段                                                                                  |
@@ -660,6 +685,8 @@ B31 的播客/电台读取同样受影响：`broadcast_channel_currentinfo` 的�
 B30 的相似内容接口：`simi_artist` 缺 `id`（`simi_artist.missing-id.json`）和 `simi_song` 缺 `id`（`simi_song.missing-id.json`）的上游是 HTTP 200 + `code: 400`，改造前按 `status: 200` 放行，现在 reject `status: 400` 并保留原文，两个模块的错误正文键不同（`message` / `msg`）。`simi_playlist`、`simi_user` 缺 `id` 时上游是 HTTP 400 空正文（`simi_playlist.missing-id.json`、`simi_user.missing-id.json`），归一成 `status: 200` 和空字符串；空字符串作为结构定义的独立分支原样返回，不报 502。
 
 B33 的 5 个听歌足迹接口同理：未登录调用上游返回 HTTP 200 + `code: 302`（5 个模块各有一份 `.anonymous.json`），改造前模块按 `status: 200` 放行，现在按业务码拒绝为 `status: 302`，`body` 保留原文。本批没有录到其他非 200 业务码。
+
+B39 的账号校验与基础查询开始运行时校验后，畸形成功返回从原样放行变成 502；其中 `verify_qrcodestatus` 的空 `qr`（`verify_qrcodestatus.empty.json`，`code: 400`）原本被 `SPECIAL_STATUS_CODES` 映射成 `status: 200` 放行，现在按业务码拒绝为 `status: 400`；未登录（`verify_qrcodestatus.anonymous.json`，`code: 301`）的公开状态原本就是 `301`，改造前是 resolve，现在是 reject，`body` 都保留原文（`code` 已由请求层归一成数字）。其余 5 个模块本批没有保留非 200 业务码录制。
 
 ## 消息
 

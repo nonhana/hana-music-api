@@ -37,6 +37,10 @@ const result = await countriesCodeList();
 console.log(result.body);
 ```
 
+## 返回内容
+
+国家分组在 `data`，每组有 `label` 和 `countryList`，每个国家记录用 `code`（国际区号）、`zh`、`en`、`locale`。`code`、`data`、`data[].countryList` 和 `countryList[].code` 收紧；分组名和语言名宽松。国家列表是固定数据，本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `CountriesCodeListBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取国家编码列表

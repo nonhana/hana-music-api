@@ -42,6 +42,10 @@ const result = await cellphoneExistenceCheck({
 console.log(result.body);
 ```
 
+## 返回内容
+
+手机号是否已注册在 `exist`：`1` 表示已注册，`-1` 表示未注册。`code` 和 `exist` 收紧；`nickname`、`avatarUrl`、`hasPassword`、`hasSnsBinded`、`countryCode` 和回显的 `cellphone` 宽松，未注册号码的 `nickname`、`hasSnsBinded` 可以是 `null`。结构定义和类型是 `CellphoneExistenceCheckBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口 ,可检测手机号码是否已注册  

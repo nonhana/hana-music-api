@@ -1,0 +1,54 @@
+{
+  "module": "pl_count",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T23:29:35.748Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B39：pl_count 登录账号私信与通知计数"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "notice": 0,
+      "follow": 0,
+      "forward": 0,
+      "msg": 4,
+      "comment": 0,
+      "sceneComments": {
+        "musician_comments": 0,
+        "social_comments": 0
+      },
+      "totalComment": 0,
+      "pushMsg": "你收到了4条消息：4条私信",
+      "lastPrivateMsg": null,
+      "friend": {
+        "snsCount": 0,
+        "count": 0,
+        "celebrityCount": 0
+      },
+      "event": 0,
+      "eventUser": {
+        "userId": 133146731,
+        "userAvatar": "http://p1.music.126.net/zNaNqAjK37HsYWw7ZLmq6A==/109951173206832289.jpg",
+        "eventId": 38004495192,
+        "style": 3,
+        "source": 5
+      },
+      "newProgramCount": 169,
+      "createDJRadioCount": 0,
+      "newTheme": false,
+      "battle": {
+        "showQuizIcon": false,
+        "startTime": 0,
+        "endTime": 0,
+        "nonStartIcon": null,
+        "startIcon": null
+      },
+      "ydAntiUrlConfigVersion": 1,
+      "invitationVersion": 0
+    }
+  }
+}

@@ -37,6 +37,10 @@ const result = await plCount();
 console.log(result.body);
 ```
 
+## 返回内容
+
+正文是私信、通知、关注等计数（`msg`、`notice`、`follow`、`forward`、`comment`、`totalComment`、`newProgramCount` 等）。只有 `code` 收紧，计数以及 `friend`、`eventUser`、`sceneComments`、`battle` 里的字段全部宽松；未登录时 `pushMsg` 是 `null`、`eventUser` 整个缺失。结构定义和类型是 `PlCountBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口,可获取私信和通知数量信息
