@@ -43,6 +43,10 @@ const result = await msgPrivateHistory({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.msgs` 是私信消息列表，每条私信只收紧自己的 `id`；`msg` 是消息正文的 JSON 字符串，`fromUser`、`toUser` 与私信会话列表一样按宽松资料处理，`time`、`batchId` 宽松；`isArtist`、`isSubed`、`hint`、`more` 也宽松。`before` 早于会话开始时间时返回空数组；未登录时上游返回 `code: 200` 和空消息列表（`isSubed: false`）。结构定义和类型是 `MsgPrivateHistoryBody`。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可获取私信内容

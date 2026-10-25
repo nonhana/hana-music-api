@@ -42,6 +42,10 @@ const result = await msgNotices({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.notices` 是通知列表，每条通知只收紧自己的 `id`；`notice` 是通知正文的 JSON 字符串，`time`、`type`、`userId`、`queued`、`lastTime`、`more` 都宽松。`lasttime` 传早于账号创建的游标时返回空数组。未登录时上游返回 `code: 301`，SDK 按业务拒绝原样转交。结构定义和类型是 `MsgNoticesBody`。
+
 ## 补充说明
 
 说明 : 登录后调用此接口 ,可获取通知

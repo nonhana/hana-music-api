@@ -1,0 +1,22 @@
+{
+  "module": "msg_notices",
+  "query": {
+    "lasttime": 1506167426404
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:29:54.729Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B20：通知（早于账号创建的游标空结果）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "notices": [],
+      "more": false,
+      "lastTime": 0,
+      "code": 200
+    }
+  }
+}

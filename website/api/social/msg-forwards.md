@@ -42,6 +42,10 @@ const result = await msgForwards({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.forwards` 是 @我 列表，每条转发只收紧自己的 `id`；正文 `json`、`time`、`type`、`userId`、`resourceExist` 和来源对象 `uf` 宽松，`uf.id` 在宽松对象里也宽松。`newCount`、`lasttime`、`more` 宽松；`offset` 越界时返回空数组。未登录时上游返回 `code: 301`，SDK 按业务拒绝原样转交。结构定义和类型是 `MsgForwardsBody`。
+
 ## 补充说明
 
 说明 : 登录后调用此接口 ,可获取@我数据

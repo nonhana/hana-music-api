@@ -463,6 +463,31 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 
 本批 7 个模块的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`：`user_follow_mixed` 未登录被上游拒绝，`user_comment_history` 未登录看不到历史评论，`user_mutualfollow_get` 未登录对同一 uid 返回 `false`；其余模块本批未保留未登录录制，不对公开结构作相同性断言。录制只覆盖账号 599663130 与录制里出现的其他账号，不据此推断字段集合在所有账号、地区和上游版本下一致。
 
+## 消息
+
+| 模块                                        | 结构定义                | 收紧的字段                                            |
+| ------------------------------------------- | ----------------------- | ----------------------------------------------------- |
+| [通知 - 评论](/api/social/msg-comments)     | `MsgCommentsBody`       | `code`、`comments`、`comments[].commentId`            |
+| [通知 - @我](/api/social/msg-forwards)      | `MsgForwardsBody`       | `code`、`forwards`、`forwards[].id`                   |
+| [通知 - 通知](/api/social/msg-notices)      | `MsgNoticesBody`        | `code`、`notices`、`notices[].id`                     |
+| [通知 - 私信](/api/social/msg-private)      | `MsgPrivateBody`        | `code`、`msgs`、`msgs[].user.id`                      |
+| [私信内容](/api/social/msg-private-history) | `MsgPrivateHistoryBody` | `code`、`msgs`、`msgs[].id`                           |
+| [最近联系人](/api/social/msg-recentcontact) | `MsgRecentcontactBody`  | `code`、`data`、`data.follow`、`data.follow[].userId` |
+
+`msg_comments` 的 `comments` 是收到的评论列表，每条评论复用 `CommentRecord` 的字段，再补上 `beRepliedContent`、`beRepliedUser`、`combindId`、`commentExist`、`commentStatus`、`resourceJson`、`resourceType`、`subCommentExist`、`threadId` 这些宽松字段；只有 `code`、`comments`、`comments[].commentId` 收紧，`total`、`more` 和评论的其他字段宽松。`before` 取一个早于全部评论的时间（`before=1`）时返回 `comments: []`（`msg_comments.empty.json`）。
+
+`msg_forwards` 的 `forwards` 是 @我 列表，每条转发只收紧自己的 `id`；正文 `json`、`time`、`type`、`userId`、`resourceExist` 和来源对象 `uf` 宽松（`uf.id` 在宽松对象里，也宽松）。`newCount`、`lasttime`、`more` 宽松；`offset=100000` 越界时返回空数组（`msg_forwards.empty.json`）。
+
+`msg_notices` 的 `notices` 每条只收紧自己的 `id`；`notice` 是通知正文的 JSON 字符串，`time`、`type`、`userId`、`queued` 和游标 `lastTime`、`more` 都宽松。`lasttime` 传早于账号创建的游标时返回 `notices: []`（`msg_notices.empty.json`）。
+
+`msg_private` 的 `msgs` 是会话列表，每个会话只收紧自己的编号 `msgs[].user.id`；会话双方 `fromUser`、`toUser` 是附带资料，复用 `UserProfile` 的字段但把 `userId` 放宽，另补 `expertTags` 宽松字段，整个对象用宽松字段声明；`lastMsg` 是最后一条消息的 JSON 字符串，`lastMsgId`、`lastMsgTime`、`msgSenderType`、`newMsgCount`、`noticeAccountFlag`、`more` 都宽松。`offset=100000` 越界时返回 `msgs: []`（`msg_private.empty.json`）。
+
+`msg_private_history` 的 `msgs` 每条私信只收紧自己的 `id`；`msg` 是消息正文的 JSON 字符串，双方资料与 `msg_private` 一样宽松，`time`、`batchId` 宽松；`isArtist`、`isSubed`、`hint`、`more` 也宽松。`before` 早于会话开始时间时返回 `msgs: []`、`more: false`（`msg_private_history.empty.json`）。
+
+`msg_recentcontact` 的 `data.follow` 是最近联系人列表，每条记录复用 `UserProfile`（`userId` 收紧），再补 `py`、`onlined`、`expertTags` 宽松字段；`data` 里只声明 `follow`。账号 599663130 登录时有最近联系人，本批没有登录态的空结果；未登录时上游返回 `code: 200`、`data.follow: []`（`msg_recentcontact.anonymous.json`）。
+
+这 6 个读取模块都需要登录，写操作不在本批范围。登录对照先用 `login_status` 确认 `account.anonimousUser: false`：`msg_comments`、`msg_forwards`、`msg_notices` 未登录时上游返回 `code: 301`，SDK 按业务拒绝原样转交；`msg_private`、`msg_private_history`、`msg_recentcontact` 未登录时返回 `code: 200` 和空列表，其中 `msg_private_history` 的 `isSubed` 为 `false`。录制只覆盖账号 599663130 与录制里出现的其他账号，不据此推断字段集合在所有账号、地区和上游版本下一致。
+
 ## 导出约定
 
 收窄返回体的模块从根入口导出结构定义和同名类型，名字是模块名转成 PascalCase 再加 `Body`，例如 `user_account` → `UserAccountBody`、`login_qr_check` → `LoginQrCheckBody`。导出了哪些结构定义，以上面按领域列出的表为准。

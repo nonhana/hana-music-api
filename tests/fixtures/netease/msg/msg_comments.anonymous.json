@@ -1,0 +1,21 @@
+{
+  "module": "msg_comments",
+  "query": {
+    "uid": 599663130,
+    "limit": 5
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:30:14.535Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B20：未登录对照，上游 code 301"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": null,
+      "code": 301
+    }
+  }
+}

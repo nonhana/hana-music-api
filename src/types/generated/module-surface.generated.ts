@@ -374,12 +374,30 @@ import type {
 import type { ModuleInput as mlogMusicRcmdInput } from '../../modules/mlog_music_rcmd.ts';
 import type { ModuleInput as mlogToVideoInput } from '../../modules/mlog_to_video.ts';
 import type { ModuleInput as mlogUrlInput } from '../../modules/mlog_url.ts';
-import type { ModuleInput as msgCommentsInput } from '../../modules/msg_comments.ts';
-import type { ModuleInput as msgForwardsInput } from '../../modules/msg_forwards.ts';
-import type { ModuleInput as msgNoticesInput } from '../../modules/msg_notices.ts';
-import type { ModuleInput as msgPrivateInput } from '../../modules/msg_private.ts';
-import type { ModuleInput as msgPrivateHistoryInput } from '../../modules/msg_private_history.ts';
-import type { ModuleInput as msgRecentcontactInput } from '../../modules/msg_recentcontact.ts';
+import type {
+  ModuleBody as msgCommentsBody,
+  ModuleInput as msgCommentsInput,
+} from '../../modules/msg_comments.ts';
+import type {
+  ModuleBody as msgForwardsBody,
+  ModuleInput as msgForwardsInput,
+} from '../../modules/msg_forwards.ts';
+import type {
+  ModuleBody as msgNoticesBody,
+  ModuleInput as msgNoticesInput,
+} from '../../modules/msg_notices.ts';
+import type {
+  ModuleBody as msgPrivateBody,
+  ModuleInput as msgPrivateInput,
+} from '../../modules/msg_private.ts';
+import type {
+  ModuleBody as msgPrivateHistoryBody,
+  ModuleInput as msgPrivateHistoryInput,
+} from '../../modules/msg_private_history.ts';
+import type {
+  ModuleBody as msgRecentcontactBody,
+  ModuleInput as msgRecentcontactInput,
+} from '../../modules/msg_recentcontact.ts';
 import type { ModuleInput as musicFirstListenInfoInput } from '../../modules/music_first_listen_info.ts';
 import type { ModuleInput as musicianCloudbeanInput } from '../../modules/musician_cloudbean.ts';
 import type { ModuleInput as musicianCloudbeanObtainInput } from '../../modules/musician_cloudbean_obtain.ts';
@@ -2255,32 +2273,32 @@ export interface GeneratedModuleContractMap {
   msg_comments: {
     input: msgCommentsInput;
     query: msgCommentsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgCommentsBody>;
   };
   msg_forwards: {
     input: msgForwardsInput;
     query: msgForwardsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgForwardsBody>;
   };
   msg_notices: {
     input: msgNoticesInput;
     query: msgNoticesInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgNoticesBody>;
   };
   msg_private: {
     input: msgPrivateInput;
     query: msgPrivateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgPrivateBody>;
   };
   msg_private_history: {
     input: msgPrivateHistoryInput;
     query: msgPrivateHistoryInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgPrivateHistoryBody>;
   };
   msg_recentcontact: {
     input: msgRecentcontactInput;
     query: msgRecentcontactInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgRecentcontactBody>;
   };
   music_first_listen_info: {
     input: musicFirstListenInfoInput;

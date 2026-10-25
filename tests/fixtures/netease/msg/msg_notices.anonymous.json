@@ -1,0 +1,18 @@
+{
+  "module": "msg_notices",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T18:30:23.633Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B20：未登录对照，上游 code 301"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": "system error!",
+      "code": 301
+    }
+  }
+}

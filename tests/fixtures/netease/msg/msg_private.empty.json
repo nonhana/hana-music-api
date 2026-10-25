@@ -1,0 +1,22 @@
+{
+  "module": "msg_private",
+  "query": {
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:29:59.185Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B20：私信会话（越界 offset 空结果）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msgs": [],
+      "code": 200,
+      "more": false,
+      "newMsgCount": 3
+    }
+  }
+}

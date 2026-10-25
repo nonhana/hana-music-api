@@ -1,0 +1,20 @@
+{
+  "module": "msg_private",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T18:30:28.165Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B20：未登录对照，上游返回空会话"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msgs": [],
+      "code": 200,
+      "more": false,
+      "newMsgCount": 0
+    }
+  }
+}
