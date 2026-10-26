@@ -23,7 +23,7 @@
 
 ### 证据与缺口
 
-- 录制来自 issue #102 B42，落在 `tests/fixtures/netease/ugc/`。登录对照先用 `login_status` 确认 `account.anonimousUser: false`；`ugc_detail` 和 `ugc_user_devote` 保留了匿名对照，未发现字段类型差异，其余五个模块只保留登录录制，不对匿名结构作相同性断言。
+- 录制来自 issue #102，落在 `tests/fixtures/netease/ugc/`。登录对照先用 `login_status` 确认 `account.anonimousUser: false`；`ugc_detail` 和 `ugc_user_devote` 保留了匿名对照，未发现字段类型差异，其余五个模块只保留登录录制，不对匿名结构作相同性断言。
 - `ugc_detail` 的当前账号没有贡献，登录和匿名都只有空列表，非空 `wikiDetailResultVoList` 的元素形状没有证据，是缺口；需要有效贡献账号补录后再收紧。
 - `ugc_user_devote` 的两份录制里 `ugcCount`、`integration`、`cloudShell` 都是 0，非零计数没有证据；三个字段按宽松计数声明，缺了或类型不对只丢这一项。
 - 录制里的账号编号已换成合成值（`10000001` / `10000002`），响应侧 `data.userId` 不是原始 uid。

@@ -27,6 +27,6 @@
 - 这 6 个模块的 `body` 类型从原始的 JSON 值变成了收窄后的结构；未声明字段仍在，但读取时是 JSON 值，要按需自行校验。
 - 需要处理新的 502：用 `body.upstreamShape` 判断上游结构变化，不要解析 `msg`。
 - `song_wiki_summary` 的 `data.blocks` 和 `data.blocks[].id` 不再需要自己判空；区块内容（`creatives`、`uiElement`）仍是宽松字段，使用前按宽松字段处理。
-- 两个歌词摘录接口目前只承诺 `data` 是对象，`markVOList` 里的记录形状没有声明；使用前自行校验。写入操作 `song_lyrics_mark_add`、`song_lyrics_mark_del` 不在本批，返回体没有变化。
+- 两个歌词摘录接口目前只承诺 `data` 是对象，`markVOList` 里的记录形状没有声明；使用前自行校验。写入操作 `song_lyrics_mark_add`、`song_lyrics_mark_del` 已由本 release 的写操作批次补上 Body。
 
 详见公开指南的[返回体结构](/guide/response-bodies)。

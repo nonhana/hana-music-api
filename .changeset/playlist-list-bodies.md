@@ -42,6 +42,5 @@
 - 需要处理新的 502：用 `body.upstreamShape` 判断上游结构变化，不要解析 `msg`。
 - 成功分支的 `playlists[].id` 是 `number`；`creator`、`subscribers[]` 的编号和其余字段仍宽松，读取时类型带 `null | undefined`。
 - 既有调用方拿到的字段名本来就是 `avatarImgIdStr`（不是录制原文里的 `avatarImgId_str`），不要按上游原文修正。
-- 后续清理：`tsSongCount`、`originalCoverId` 目前在 `toplist`、`toplist_detail`、`top_playlist` 三处模块内声明，本批不提升到 core。
 
 详见公开指南的[返回体结构](/guide/response-bodies)。

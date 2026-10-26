@@ -23,6 +23,10 @@
 
 `verify`、`verify:sdk` 和 `build:check` 都会写入或读取构建输出；需要串行运行，上一条通过后再运行下一条。
 
+## CI
+
+`.github/workflows/verify.yml` 在 PR 和 master push 上依次运行 `bun run verify:sdk`、`bun run verify:fixtures` 和 `bun run test:load:smoke`。fixtures 门槛与本地相同：只读本仓库 `tests/fixtures/netease` 的录制，不访问真实上游。
+
 ## 请求与流量变更
 
 - 请求、取消、重试、缓存或流量控制变更至少运行 `bun run test:load:smoke`。

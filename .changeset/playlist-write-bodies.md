@@ -28,7 +28,7 @@
 - 删除后做错误路径探测时发现，已删除歌单仍接受 `playlist_update` 的名字/简介/标签和 `playlist_update_playcount` 的计数写入，两份 fixture 的 `context.note` 已写明。
 - `playlist_import_name_task_create` 的无匹配文本只建了任务（`playlistId: 0`、`status: NOT_SONG_MATCH`），没有生成歌单。
 - 录制在 `tests/fixtures/netease/playlist-write/`。成功响应里的歌单 id、任务 id、`createTime` 和 `context.recordedAt` 是随机值，不能复现；失败录制的 `code`、`message` 是稳定的。
-- 证据缺口（列为缺口，不宣称成功证据）：`playlist_track_add`/`playlist_track_delete` 只有 `code: 401`（无权限操作歌单）和 `code: 404`（歌单已删除/不存在）的拒绝录制；自建歌单的隐私和公开、weapi/eapi/api、PC UA、重复添加、删除已在歌单里的歌都回 401，没有 `final: true` 的成功录制。这两份结构定义只收紧 `code`，成功边界只能用手写 body 做结构测试，不能当作上游成功正文的证据；`schema:audit module` 对这两个模块因无成功录制返回 exit 1，不能把本批描述成审计全绿。`playlist_import_name_task_create` 的 `local`/`link` 分支没有录制，`data.taskId` 因此不收紧。`playlist_update` 缺 `id` 时的 400 空正文没有录制，不猜它的形状。
+- 无成功录制的证据缺口（仍有 Body，不计入 37 行例外，不宣称成功证据）：`playlist_track_add`/`playlist_track_delete` 只有 `code: 401`（无权限操作歌单）和 `code: 404`（歌单已删除/不存在）的拒绝录制；自建歌单的隐私和公开、weapi/eapi/api、PC UA、重复添加、删除已在歌单里的歌都回 401，没有 `final: true` 的成功录制。这两份结构定义只收紧 `code`，成功边界只能用手写 body 做结构测试，不能当作上游成功正文的证据；`schema:audit module` 对这两个模块因无成功录制返回 exit 1，不能把它描述成审计全绿。`playlist_import_name_task_create` 的 `local`/`link` 分支没有录制，`data.taskId` 因此不收紧。`playlist_update` 缺 `id` 时的 400 空正文没有录制，不猜它的形状。
 
 ### 迁移
 

@@ -2,7 +2,7 @@
 'hana-music-api': minor
 ---
 
-给 MV 领域的 8 个只读模块补上结构定义（`ModuleBody`），并在运行时校验返回体。收藏/取消收藏 MV（`mv_sub`）是写操作，本批没有收窄，留在后续写操作批次。
+给 MV 领域的 8 个只读模块补上结构定义（`ModuleBody`），并在运行时校验返回体。`mv_sub` 已由本 release 的写操作批次补上 `MvSubBody`。
 
 ### 新增公开结构定义
 

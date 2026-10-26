@@ -2,7 +2,7 @@
 'hana-music-api': minor
 ---
 
-给视频领域的 9 个只读模块补上结构定义（`ModuleBody`），并在运行时校验返回体。收藏/取消收藏视频（`video_sub`）是写操作，移到后续写操作批次（B22 关注/收藏/点赞），本批没有收窄。
+给视频领域的 9 个只读模块补上结构定义（`ModuleBody`），并在运行时校验返回体。`video_sub` 已由本 release 的写操作批次补上 `VideoSubBody`。
 
 ### 新增公开结构定义
 

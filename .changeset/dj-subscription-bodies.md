@@ -2,7 +2,7 @@
 'hana-music-api': minor
 ---
 
-给 8 个电台榜单与订阅读取模块补上结构定义（`ModuleBody`），并在运行时校验返回体。订阅/取消订阅电台（`dj_sub`）和 DI.FM 频道订阅/取消订阅（`dj_difm_channel_subscribe`、`dj_difm_channel_unsubscribe`）是写操作，留给写操作批次，本批没有收窄返回体。
+给 8 个电台榜单与订阅读取模块补上结构定义（`ModuleBody`），并在运行时校验返回体。`dj_sub` 和两个 DI.FM 频道模块（`dj_difm_channel_subscribe`、`dj_difm_channel_unsubscribe`）已由本 release 的写操作批次补上 Body。
 
 ### 新增公开结构定义
 
@@ -17,7 +17,7 @@
 
 ### 共享结构
 
-新增 core 导出 `DjAnchorRank`：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_popular` 的主播榜条目字段完全相同，按“三个模块声明结构相同才进 core”的门槛提升，只收紧主播自己的 `id`，`avatarDetail` 复用既有 `AvatarDetail`。同时导出既有 `AvatarDetail` 供 `DjAnchorRank` 复用，导出既有 core 结构 `ProgramDescPic` 供 `dj_sublist` 复用订阅列表里的简介图文；`PlaylistUser` 继续作为主播/订阅者记录的基座。`dj_toplist` 和 `dj_sublist` 的电台记录字段集合不同，各自留在模块里。三个主播榜的 envelope（`code`、`data.total`、`data.updateTime`、`data.list`）也相同，本批作为模块公开合同暂留，后续统一榜单结构时再抽 core（后续清理项）。
+新增 core 导出 `DjAnchorRank`：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_popular` 的主播榜条目字段完全相同，按“三个模块声明结构相同才进 core”的门槛提升，只收紧主播自己的 `id`，`avatarDetail` 复用既有 `AvatarDetail`。同时导出既有 `AvatarDetail` 供 `DjAnchorRank` 复用，导出既有 core 结构 `ProgramDescPic` 供 `dj_sublist` 复用订阅列表里的简介图文；`PlaylistUser` 继续作为主播/订阅者记录的基座。`dj_toplist` 和 `dj_sublist` 的电台记录字段集合不同，各自留在模块里。三个主播榜的 envelope（`code`、`data.total`、`data.updateTime`、`data.list`）也相同，作为模块公开合同暂留，统一榜单结构时再抽 core。
 
 ### 行为变化
 

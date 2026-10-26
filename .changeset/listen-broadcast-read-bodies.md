@@ -25,11 +25,11 @@
 
 `voice_detail`、`voicelist_detail`、`voicelist_list` 是创作者工作台接口，只允许操作自己的播客/声音；本机账号没有播客，`voicelist_detail`/`voicelist_list` 返回 `code: 400`（`只允许操作自己的播客`），`voice_detail` 访问他人声音返回 `code: 401`（`不允许操作他人的声音`）。这些路径没有带字段的成功正文可录，不猜结构、不加 `ModuleBody`。
 
-写操作 `broadcast_sub`、`listentogether_accept`、`listentogether_end`、`listentogether_heatbeat`、`listentogether_play_command`、`listentogether_room_create`、`listentogether_sync_list_command`、`voice_delete`、`voicelist_trans` 不在本批范围。`record_recent_voice` 是只读列表，由 B34 交付。
+写操作 `broadcast_sub`、`listentogether_accept`、`listentogether_end`、`listentogether_heatbeat`、`listentogether_play_command`、`listentogether_room_create`、`listentogether_sync_list_command`、`voice_delete`、`voicelist_trans` 不在本节范围。`record_recent_voice` 是只读列表，由播放记录模块（`record-read-bodies`）交付。
 
-### 只读但由 B33 交付
+### 只读但由听歌足迹模块交付
 
-`listen_data_today_song`、`listen_data_total`、`listen_data_year_report`、`listen_data_report`、`listen_data_realtime_report` 由 B33 交付，本批不重复实现、不保留录制。
+`listen_data_today_song`、`listen_data_total`、`listen_data_year_report`、`listen_data_report`、`listen_data_realtime_report` 由听歌足迹模块（`listen-stats-read-bodies`）交付，不重复实现、不保留录制。
 
 ### 迁移
 

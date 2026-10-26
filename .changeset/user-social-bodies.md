@@ -18,8 +18,6 @@
 
 `artist_fans`、`user_follows`、`user_followeds`、`user_follow_mixed`、`user_event` 的用户记录里 VIP 权益字段一致，抽出 `src/core/upstream-schemas.ts` 的 `VipRights`，并声明 `relationType` 与 `extInfo.logo.logoDto` 的宽松字段（`memberLogo` 只见过 `null`，未声明）。`user_follows`、`user_followeds` 的关注/粉丝记录复用 `UserProfile` 的宽松字段，再补上 `py`、`time`、`vipRights`，`user_follows` 还补 `expertTags`；`remarkName` 只见过 `null`，没有声明。`user_event` 的动态作者也复用 `UserProfile`，评论串里补 `latestLikedUsers[]` 的 `s`、`t` 宽松字段；`user_comment_history` 的评论复用 `CommentRecord` 并补 `beRepliedContent`、`beRepliedUser`、`resourceInfo`、`resourceType`、`threadId`。
 
-`VipRights` 与评论模块已有的 `CommentVipRights` 字段接近但不完全一致，本批不合并，后续清理时可以评估共用。
-
 ### 行为变化
 
 - 这 7 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在上述收紧路径缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。

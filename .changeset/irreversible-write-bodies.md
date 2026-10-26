@@ -19,7 +19,7 @@
 
 以下 5 项只录到上游拒绝或缺参，均未声明 Body，返回体继续按原始 JSON 放行：
 
-- `comment` 新增（`comment_add`）：歌曲 `1394617453`、`type: 0`、`t: 1`，内容带 `B49` 前缀，被上游风控拒绝 `code: 250`（`comment/comment.add-rejected.json`）；换短内容、自然内容、其他歌曲和歌单评论同样 250。没有成功正文和评论 id，`t: 0` 的删除没有调用，避免误删历史评论。
+- `comment` 新增（`comment_add`）：歌曲 `1394617453`、`type: 0`、`t: 1`，内容带测试标记前缀，被上游风控拒绝 `code: 250`（`comment/comment.add-rejected.json`）；换短内容、自然内容、其他歌曲和歌单评论同样 250。没有成功正文和评论 id，`t: 0` 的删除没有调用，避免误删历史评论。
 - `comment` 删除（`comment_delete`）：没有刚发布、属于自己且可以安全删除的评论 id，列为缺口。
 - `send_text`：发给自己（`user_ids` 的账号编号已换成合成值）被上游以 `code: 2201`（发送过于频繁）拒绝（`msg/send_text.rejected.json`），换自然内容重试同样被拒；发给自己可能本身不允许，无法区分频率限制与不允许发给自己。
 - `send_song`：发给自己歌曲 `1394617453` 被上游以 `code: 2201`（发送过于频繁）拒绝（`msg/send_song.rejected.json`）；同样无法区分频率限制与不允许发给自己。

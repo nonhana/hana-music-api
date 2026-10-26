@@ -2,7 +2,7 @@
 'hana-music-api': minor
 ---
 
-给 11 个电台节目与 DI.FM 读取模块补上结构定义（`ModuleBody`），并在运行时校验返回体。DI.FM 频道订阅/取消订阅（`dj_difm_channel_subscribe`、`dj_difm_channel_unsubscribe`）是写操作，留给写操作批次，本批没有收窄返回体。
+给 11 个电台节目与 DI.FM 读取模块补上结构定义（`ModuleBody`），并在运行时校验返回体。两个 DI.FM 频道模块（`dj_difm_channel_subscribe`、`dj_difm_channel_unsubscribe`）已由本 release 的写操作批次补上 Body。
 
 ### 新增公开结构定义
 
