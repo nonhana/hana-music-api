@@ -15,7 +15,9 @@
 
 ## 覆盖与例外
 
-352 个模块中 315 个已声明 `ModuleBody`；剩余 37 个（33 个普通 raw、`batch`、3 个上传工作流）因为只录到拒绝、需要专用账号或资源、操作不可逆，或属于上传/批量工作流，暂不声明结构定义，正文按未校验的 JSON 值放行。逐项证据和补录条件见[返回体缺口与补录条件](/guide/response-body-gaps)。
+352 个模块中 315 个已声明 `ModuleBody`；剩余 37 个（33 个普通 raw、`batch`、3 个上传工作流）因为只录到拒绝、需要专用账号/状态、需要专用资源或第二账号、操作不可逆、属于上传/批量工作流，或抓取源不可用，暂不声明结构定义，正文按未校验的 JSON 值放行。逐项证据和补录条件见[返回体缺口与补录条件](/guide/response-body-gaps)。
+
+`bun run schema:audit check` 检查结构定义写法；`bun run schema:audit recordings --recordings tests/fixtures/netease` 用本仓库的录制确认返回体都能通过校验。`schema:audit` 的默认录制根是 Campanula 仓库的 `../campanula-svelte-main/tests/fixtures/netease`，不是本仓库，所以在 SDK 仓库里运行必须显式传 `--recordings tests/fixtures/netease`。
 
 ## 登录
 
@@ -126,7 +128,7 @@
 | [歌曲红心数量](/api/music/song-red-count)         | `SongRedCountBody`        | `code`、`data`、`data.count`                                                                |
 | [歌曲动态封面](/api/music/song-dynamic-cover)     | `SongDynamicCoverBody`    | `code`、`data`；`data.videoPlayUrl` 可以没有                                                |
 
-`song_like_check` 的 `ids` 是这个账号已喜爱的歌曲编号，没喜欢过任何一首时是空数组；匿名调用返回空数组。空 `ids` 请求会被上游以 `{ code: 400 }` 拒绝，仍按业务拒绝原样转交。`song_red_count` 的 `data.count` 收紧，不存在的歌曲返回 `count: 0`；`countDesc` 只是展示文案，宽松。`song_dynamic_cover` 的 `data` 在歌曲没有动态封面时是空对象，`data.videoPlayUrl` 按可以没有处理：缺失或 `null` 照常返回，出现但类型不对报 502；URL 带 `wsSecret`/`wsTime` 签名参数，会随时间变化，不要缓存或逐字比较。`height`、`weight`、`needTransition` 宽松。三个接口都匿名可用，登录和匿名的结构相同，值差异来自账号数据、实时计数和签名/动态值。
+`song_like_check` 的 `ids` 是这个账号已喜爱的歌曲编号，没喜欢过任何一首时是空数组；匿名调用返回空数组。空 `ids` 请求会被上游以 `{ code: 400 }` 拒绝；400 是特殊码，以前被归一成 resolve `status: 200`，现在按业务码 reject `status: 400`，正文保留原文。`song_red_count` 的 `data.count` 收紧，不存在的歌曲返回 `count: 0`；`countDesc` 只是展示文案，宽松。`song_dynamic_cover` 的 `data` 在歌曲没有动态封面时是空对象，`data.videoPlayUrl` 按可以没有处理：缺失或 `null` 照常返回，出现但类型不对报 502；URL 带 `wsSecret`/`wsTime` 签名参数，会随时间变化，不要缓存或逐字比较。`height`、`weight`、`needTransition` 宽松。三个接口都匿名可用，登录和匿名的结构相同，值差异来自账号数据、实时计数和签名/动态值。
 
 ### 歌曲
 
@@ -235,7 +237,7 @@
 | [歌单导入任务创建](/api/playlist/playlist-import-name-task-create) | `PlaylistImportNameTaskCreateBody` | `code`；`data`、`data.taskId`、`msg`、`message` 宽松（`local`/`link` 分支未录制）        |
 | [歌单导入任务状态](/api/playlist/playlist-import-task-status)      | `PlaylistImportTaskStatusBody`     | `code`、`data`、`data.tasks`、`data.tasks[].id`、`data.tasks[].status`；其余任务字段宽松 |
 
-歌单类写操作的录制都在一个临时歌单上完成，删除后 `playlist_detail` 仍回 `playlist.status: 10`；删除只是把歌单移出用户歌单列表，元数据并未抹除，已删除歌单仍接受 `playlist_update` 的名字/简介/标签和 `playlist_update_playcount` 的计数写入。导入任务不是歌单操作，只在无匹配文本时建了任务，没有生成歌单。`playlist_track_add`、`playlist_track_delete` 对自有歌单也回 401 无权限操作歌单，没有成功的字段证据，结构定义只收紧返回码，其余字段原样保留；这两个模块没有 `final: true` 的成功录制，`schema:audit module` 对它们返回 exit 1。
+歌单类写操作的录制都在一个临时歌单上完成，删除后 `playlist_detail` 仍回 `playlist.status: 10`；删除只是把歌单移出用户歌单列表，元数据并未抹除，已删除歌单仍接受 `playlist_update` 的名字/简介/标签和 `playlist_update_playcount` 的计数写入。导入任务不是歌单操作，只在无匹配文本时建了任务，没有生成歌单。`playlist_track_add`、`playlist_track_delete` 对自有歌单也回 401 无权限操作歌单，只有 401/404 拒绝证据，没有成功的字段证据，结构定义只收紧返回码，其余字段原样保留；这两个模块没有 `final: true` 的成功录制，`bun run schema:audit module playlist_track_add --recordings tests/fixtures/netease` 对它们返回 exit 1，属于已知缺口，不能当作成功正文证据。
 
 歌单分类没有编号，靠名字来认，所以 `all.name`、`sub[].name` 收紧；分类的其他字段宽松。
 
@@ -519,7 +521,7 @@ DIFM 频道的收藏与取消收藏（`dj_difm_channel_subscribe`、`dj_difm_cha
 | [播客声音搜索](/api/dj/voicelist-list-search) | `VoicelistListSearchBody` | `code`、`data`；`data.total`、`data.hasMore` 宽松；列表元素未声明，原样保留       |
 | [获取声音歌词](/api/dj/voice-lyric)           | `VoiceLyricBody`          | `code`、`data`；`data` 可以没有（无歌词时是 `null`），出现时 `data.lyricUrl` 收紧 |
 
-`voicelist_search`、`voicelist_list_search` 的 `data` 是通到播客/声音列表的路径，`data.total`、`data.hasMore` 是宽松的分页提示；登录账号没有播客/声音，匿名调用同样为空，两种录制都是 `data.list: []`，列表元素类型没有证据，未声明并原样保留。`voice_lyric` 的 `data` 是没有歌词时可以没有的路径（录制 `voice_lyric.without-lyric.json` 里是 `null`），出现时 `data.lyricUrl` 收紧；`data.source` 和 `message` 只见过 `null`，未声明。`voicelist_list`、`voicelist_detail`、`voicelist_trans` 和 `voice_detail` 是创作者工作台接口，只允许操作自己的播客/声音；本机账号没有播客，工作台接口对非所有者返回 `code: 400`，`voice_detail` 访问他人声音返回 `code: 401`，个别不存在的 id 返回 HTTP 200、正文 `code: 200`、`data: null`。B43 补录了六条拒绝和一条空成功：`voice_detail.other-voice.json`（`code: 401`，不允许操作他人的声音）、`voice_detail.unknown.json`（未知 id，`code: 200` + `data: null` 的空成功）、`voicelist_detail.missing.json`（`code: 400`，播客不存在）、`voicelist_detail.other.json`（`code: 400`，只允许操作自己的播客）、`voicelist_list.missing.json`（缺 `voiceListId`，`code: 400`，参数错误）、`voicelist_list.other.json`（`code: 400`，只允许操作自己的播客）、`voicelist_list.unknown.json`（不存在的 id，`code: 400`，播客不存在）。这些路径都没有带字段的成功正文可录，未声明结构。
+`voicelist_search`、`voicelist_list_search` 的 `data` 是通到播客/声音列表的路径，`data.total`、`data.hasMore` 是宽松的分页提示；登录账号没有播客/声音，匿名调用同样为空，两种录制都是 `data.list: []`，列表元素类型没有证据，未声明并原样保留。`voice_lyric` 的 `data` 是没有歌词时可以没有的路径（录制 `voice_lyric.without-lyric.json` 里是 `null`），出现时 `data.lyricUrl` 收紧；`data.source` 和 `message` 只见过 `null`，未声明。`voicelist_list`、`voicelist_detail`、`voicelist_trans` 和 `voice_detail` 是创作者工作台接口，只允许操作自己的播客/声音；本机账号没有播客，工作台接口对非所有者返回 `code: 400`，`voice_detail` 访问他人声音返回 `code: 401`，个别不存在的 id 返回 HTTP 200、正文 `code: 200`、`data: null`。B43 补录了六条拒绝和一条空成功：`voice_detail.other-voice.json`（`code: 401`，不允许操作他人的声音）、`voice_detail.unknown.json`（未知 id，`code: 200` + `data: null` 的空成功）、`voicelist_detail.missing.json`（`code: 400`，播客不存在）、`voicelist_detail.other.json`（`code: 400`，只允许操作自己的播客）、`voicelist_list.missing.json`（缺 `voiceListId`，`code: 400`，参数错误）、`voicelist_list.other.json`（`code: 400`，只允许操作自己的播客）、`voicelist_list.unknown.json`（不存在的 id，`code: 400`，播客不存在）。这些路径都没有带字段的成功正文可录：`voice_detail` 的 `code: 200` + `data: null` 是空成功，不足以声明字段，故没有 `ModuleBody`；与 `playlist_track_add`/`playlist_track_delete` 只拿到 401/404 拒绝证据时只收紧 `code` 的口径一致，空成功和拒绝录制都不当作字段声明证据。
 
 ## 广播电台
 
@@ -838,39 +840,46 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 
 ## 非 200 业务码的状态码变化
 
-本批 5 个动态与话题模块开始做 Body 校验后，上游 HTTP 200 + `code: 400` 的响应会在 `decodeUpstreamBody` 里先按业务码拒绝（解码 Body 之前），公开结果为 `status: 400`、`body` 保留上游原文。请求层原有的 `SPECIAL_STATUS_CODES` 会把 `code: 400` 先映射成 200；这个映射只在没有 Body 校验时决定公开状态，Body 校验在返回前执行，所以最终看到的是 400。改造前同样是这些参数错误，模块会按 200 放行。
+模块开始做 Body 校验后，`decodeUpstreamBody` 只把 `body.code: 200` 当成功；其余业务码会在解码 Body 之前拒绝，`body`/`cookie` 保留网易云原文。改造前后的公开结果分四类：
 
-- `event`：`pagesize=abc`（`event.invalid-pagesize.json`）
-- `hot_topic`：`limit=abc`（`hot_topic.invalid-limit.json`）
-- `topic_sublist`：`offset=abc`（`topic_sublist.invalid-offset.json`）
-- `topic_detail`：缺失 `actid`（`topic_detail.missing-actid.json`）
-- `topic_detail_event_hot`：缺失 `actid`（`topic_detail_event_hot.missing-actid.json`）
+- `code` 在 2xx 但不是 200（如 `250`、`488`）：以前 resolve、`status` 等于业务码；现在 reject 同一状态。
+- `SPECIAL_STATUS_CODES`（`201`、`302`、`400`、`502`、`800`–`803`）：以前被请求层归一成 resolve `status: 200`；现在按业务码 reject，`201`/`302`/`400`/`502` 取原码，`800`–`803` 因超出 100–599 钳位为 `400`。
+- 其他业务码：`100`–`599` 的（如 `301`、`401`、`404`、`408`、`499`、`500`）以前请求层就按非 2xx reject 原码（`ProtocolFailed`），现在 reject 相同状态（`UpstreamBusinessFailed`），公开 `status` 和正文不变；超出 `100`–`599` 的（如 `50002`）两边都钳位成 reject `status: 400`。
+- 没有业务 `code` 的 HTTP 400 空正文：仍按请求层旧规则归一成 `status: 200`、`body: ''`，再交给 Body 校验；本批这些模块的 `ModuleBody` 都有空字符串分支，所以继续 resolve `status: 200` 和空字符串。
 
-`SPECIAL_STATUS_CODES` 里的其他码同样会在 Body 校验时拒绝：201/302/502 以原码拒绝，800–803 因超出 100–599 钳位为 400。不在该表里的码（如 404）原样转交，公开 `status` 仍是 404，不会变成 502。契约测试对以上 5 份 400 录制和 2 份 404 录制都断言状态码和原文。
+下面只列录到或探测到公开状态变化（resolve→reject）的批次；`404`、`408`、`500` 等非特殊码的状态不变，不重复计入。录制路径相对 `tests/fixtures/netease/`。
 
-B38 的 `song_like_check` 空 `ids` 请求（`song_like_check.empty-ids.json`）同样是上游 HTTP 200 + `code: 400`，Body 校验后公开为 `status: 400`、正文保留原文。B38 其他模块没有录到顶层非 200 返回：`check_music` 的 `{ code: 400 }` 只在探测里以非 JSON 原文出现，不能作为业务拒绝证据；`audio_match`、`song_red_count`、`song_dynamic_cover`、`setting` 的非 200 分支只按通用拒绝路径测试。
+- **动态与话题**（`dynamic-topic-bodies`）：`event`、`hot_topic`、`topic_sublist`、`topic_detail`、`topic_detail_event_hot` 的 `code: 400`（`event/event.invalid-pagesize.json`、`topic/hot_topic.invalid-limit.json`、`topic/topic_sublist.invalid-offset.json`、`topic/topic_detail.missing-actid.json`、`topic/topic_detail_event_hot.missing-actid.json`）→ 旧 resolve `200`，新 reject `400`。未知话题的 `code: 404` 改造前后都 reject `404`。
+- **B38 播放可用性**（`playability-setting-bodies`）：`song_like_check` 空 `ids` 的 `code: 400`（`like-collect/song_like_check.empty-ids.json`）→ 旧 resolve `200`，新 reject `400`。其余模块没有保留顶层非 200 录制。
+- **推荐批次**（`recommend-read-bodies`）：`personalized`、`personalized_newsong` 的非法 `limit` 和 `personalized_privatecontent_list` 的非法 `offset` 都是 `code: 400`（3 份 `.invalid-*` 录制）→ 旧 resolve `200`，新 reject `400`；`personalized_privatecontent_list` 的越界 `offset=100000` 是 `code: 404`，改造前后都 reject `404`。
+- **B6 歌单写操作**（`playlist-write-bodies`）：`playlist_track_add` 缺 `pid`、`playlist_track_delete` 缺 `id`、`playlist_import_name_task_create` 缺 `text` 的 `code: 400` → 旧 resolve `200`，新 reject `400`；`401`/`404`/`500` 改造前后都 reject 原码，`playlist_update_playcount` 的 HTTP 400 空正文仍 resolve `200` 和空字符串。
+- **B31 播客/电台读取**（`podcast-read-bodies`）：`broadcast_channel_currentinfo` 的已下架频道（`podcast/broadcast_channel_currentinfo.delisted.json`）和 `voice_lyric` 的无播放权限声音（`podcast/voice_lyric.unavailable.json`）都是 `code: 400` → 旧 resolve `200`，新 reject `400`。
+- **B30 相似内容**（`simi-read-bodies`）：`simi_artist`、`simi_song` 缺 `id` 的 `code: 400`（`simi/simi_artist.missing-id.json`、`simi/simi_song.missing-id.json`）→ 旧 resolve `200`，新 reject `400`；`simi_playlist`、`simi_user` 的 HTTP 400 空正文仍 resolve `200` 和空字符串。
+- **B46 社交状态**（`misc-read-bodies`）：`user_social_status_rcmd`、`user_social_status_support` 匿名调用的 `code: 302`（两份 `.anonymous.json`）→ 旧 resolve `200`，新 reject `302`。
+- **B33 听歌足迹**（`listen-stats-read-bodies`）：`listen_data_realtime_report`、`listen_data_report`、`listen_data_today_song`、`listen_data_total`、`listen_data_year_report` 匿名调用的 `code: 302`（5 份 `.anonymous.json`）→ 旧 resolve `200`，新 reject `302`。
+- **B39 账号校验**（`account-check-bodies`）：`verify_qrcodestatus` 空 `qr` 的 `code: 400`（`other/verify_qrcodestatus.empty.json`）→ 旧 resolve `200`，新 reject `400`；匿名调用的 `code: 301` 改造前后都 reject `301`。
+- **B43 声音与 mlog**（`voice-mlog-bodies`）：`mlog_url`、`mlog_to_video` 的非法 mlog id 都是 `code: 400`（`voice/mlog_url.invalid.json`、`voice/mlog_to_video.no-video.json`）→ 旧 resolve `200`，新 reject `400`。
+- **B45 写操作**（`write-action-bodies`）：`follow`、`resource_like`、`comment_like` 的风控/点赞拒绝是 `code: 250`（`like-collect/follow.rejected.json`、`like-collect/resource_like.like.json`、`like-collect/comment_like.like.json`）→ 旧 resolve `250`，新 reject `250`；`video_sub` 重复收藏的 `code: 408` 改造前后都 reject `408`。本批没有特殊码录制。
+- **B47 订阅与资料写操作**（`reversible-write-bodies`）：`cloud_match` 的无效纠错目标 `code: 400`（`user/cloud_match.invalid-asid.json`）→ 旧 resolve `200`，新 reject `400`；`user_social_status_edit` 的 `code: 500` 改造前后都 reject `500`。
+- **B48 一起听与动态写操作**（`listen-together-write-bodies`）：`listentogether_accept` 接受已结束房间的 `code: 488`（`listen/listentogether_accept.expired-room.json`）→ 旧 resolve `488`，新 reject `488`；`share_resource`、`event_forward` 没有 Body，`code: 250` 仍按旧行为 resolve `250`。
+- **电台节目与 DI.FM**（`dj-program-bodies`）：`dj_program` 缺 `rid` 的 `code: 400`（`dj/dj_program.missing-rid.json`）→ 旧 resolve `200`，新 reject `400`；`dj_program_detail` 未知节目 id 的 `code: 404` 改造前后都 reject `404`。
+- **电台读取**（`dj-read-bodies`）：`dj_detail`、`dj_radio_hot`、`dj_recommend_type` 缺参和 `dj_hot`、`dj_radio_hot`、`dj_paygift` 非法 `limit` 的 `code: 400`（`dj/*.missing-param.json`、`dj/*.invalid-limit.json`）→ 旧 resolve `200`，新 reject `400`；`dj_detail` 未知 `rid` 的 `code: 404` 改造前后都 reject `404`。
+- **电台榜单与订阅**（`dj-subscription-bodies`）：五个榜单和 `dj_sublist` 的非法 `limit`、四个榜单的超限 `limit`、`dj_subscriber` 缺 `id` 都是 `code: 400`（`dj/*.invalid-limit.json`、`dj/dj_subscriber.missing-id.json`）→ 旧 resolve `200`，新 reject `400`；`djRadio_top` 匿名的 `code: 302` → 旧 resolve `200`，新 reject `302`；非数字 `djRadioId` 的 HTTP 400 空正文仍 resolve `200` 和空字符串。
+- **数字专辑与会员**（`digital-album-bodies`）：`digitalAlbum_sales` 缺 `ids` 的 `code: 400`（`digital-album/digitalAlbum_sales.missing-ids.json`）→ 旧 resolve `200`，新 reject `400`；`digitalAlbum_detail` 的 `code: 404` 和空 `ids` 的 `code: 500` 改造前后都 reject 原码。
+- **用户歌单与已购资产**（`library-collection-bodies`）：`user_playlist_collect` 非数字 `uid`、`song_downlist` 非数字 `limit` 的 `code: 400`（`library/user_playlist_collect.rejected.json`、`library/song_downlist.rejected.json`）→ 旧 resolve `200`，新 reject `400`。
+- **歌曲附属与歌词**（`lyric-attachment-bodies`）：`song_music_detail` 未知歌曲的 `code: 400`（`lyric/song_music_detail.unknown.json`）→ 旧 resolve `200`，新 reject `400`。
+- **音乐人**（`musician-read-bodies`）：`musician_play_trend` 缺参/时间格式错误的 `code: 400`（`musician/musician_play_trend.ms-params.json`、`musician/musician_play_trend.s-params.json`、`musician/musician_play_trend.no-params.json`）→ 旧 resolve `200`，新 reject `400`；`code: 600`、`10000` 钳位成 reject `400`，`code: 301` reject `301`，改造前后都不变。
+- **私人 FM 与智能播放**（`personal-fm-bodies`）：`playmode_intelligence_list` 缺 `pid` 探测到的 `code: 400`（`recommend/playmode_intelligence_list.unsupported-playlist.json`）→ 旧 resolve `200`，新 reject `400`；同一个探测里的 `code: 500` 改造前后都 reject `500`。
+- **歌单读取**（`playlist-read-bodies`）：`playlist_mylike` 匿名调用的 `code: 302`（`playlist/playlist_mylike.anonymous.json`）→ 旧 resolve `200`，新 reject `302`。
+- **播放记录**（`record-read-bodies`）：`history_recommend_songs_detail` 日期格式不合法的 `code: 400`（`record/history_recommend_songs_detail.invalid-date.json`）→ 旧 resolve `200`，新 reject `400`；六个最近播放接口和 `music_first_listen_info` 的 HTTP 400 空正文仍 resolve `200` 和空字符串。
+- **曲风**（`style-read-bodies`）：`style_detail`、`style_artist`、`style_album`、`style_playlist`、`style_song` 缺 `tagId` 的 `code: 400`（`style/style_detail.missing-tag.json`、`style/style_artist.missing-tag.json`、`style/style_album.missing-tag.json`、`style/style_playlist.missing-tag.json`、`style/style_song.missing-tag.json`）→ 旧 resolve `200`，新 reject `400`。
+- **用户社交列表**（`user-social-bodies`）：`user_follow_mixed` 未登录的 `code: 400`（`user/user_follow_mixed.anonymous.json`）→ 旧 resolve `200`，新 reject `400`。
+- **VIP 与签到**（`vip-status-bodies`）：`signin_progress` 非法 `moduleId`、`yunbei_rcmd_song_history` 负 `size` 的 `code: 400`（`signin/signin_progress.invalid-module.json`、`vip/yunbei_rcmd_song_history.invalid-size.json`）→ 旧 resolve `200`，新 reject `400`；`yunbei`、`yunbei_today`、`sign_happy_info` 匿名的 `code: 302`（`vip/yunbei.anonymous.json`、`vip/yunbei_today.anonymous.json`、`signin/sign_happy_info.anonymous.json`）→ 旧 resolve `200`，新 reject `302`；`signin_progress` 匿名的 `code: 301` 改造前后都 reject `301`。
+- **视频读取**（`video-read-bodies`）：`video_detail` 对数字视频 id 返回的 `code: 400`（探测，未保留录制）→ 旧 resolve `200`，新 reject `400`；`video_detail_info` 的本地输入拒绝仍在请求前返回 400，不受影响。
+- **歌曲链接**（`song-url-bodies`）：`song_download_url` 的特殊码 `400`、`302`、`803`（探测，未保留录制）→ 旧 resolve `200`，新分别 reject `400`、`302`、`400`；顶层 `code: 404` 改造前后都 reject `404`。
+- **匿名注册**（`irreversible-write-bodies`）：`register_anonimous` 现在只接受 `code: 200`，其余返回码一律 reject：特殊码（如 `400`）旧 resolve `200` → 新 reject `400`，2xx 非 200（如 `250`）旧 resolve `250` → 新 reject `250`，非特殊非 2xx 旧 reject 原码 → 新 reject 同状态（未保留非 200 录制）。
 
-推荐批次的 `personalized`、`personalized_newsong`、`personalized_privatecontent_list` 同理：`code: 400` 的录制（`personalized.invalid-limit.json`、`personalized_newsong.invalid-limit.json`、`personalized_privatecontent_list.invalid-offset.json`）改造前按 200 放行，现在是 reject `status: 400`；`personalized_privatecontent_list` 的越界 `offset=100000`（`personalized_privatecontent_list.offset-out-of-range.json`）是 `code: 404`，改造前是 resolve `status: 404`，现在是 reject `status: 404`。两者都保留上游原文，不报 502。
-
-B6 的歌单写操作同样受影响：`playlist_track_add` 缺 `pid`（`playlist_track_add.missing-pid.json`）、`playlist_track_delete` 缺 `id`（`playlist_track_delete.missing-id.json`）、`playlist_import_name_task_create` 缺 `text`（`playlist_import_name_task_create.missing-text.json`）的上游 `code: 400` 从 `status: 200` 放行变成 `status: 400` 拒绝，`body` 保留原文。`playlist_track_add`/`playlist_track_delete` 的 401 和 404、`playlist_import_task_status` 的 500 不在 `SPECIAL_STATUS_CODES` 里，改造前就按 `ProtocolFailed` 拒绝，状态不变。`playlist_update_playcount` 缺 `id` 的空正文是 HTTP 400、没有 `code`，仍归一成 `status: 200` 和空字符串，空字符串作为结构定义的独立分支保留。
-
-B31 的播客/电台读取同样受影响：`broadcast_channel_currentinfo` 的已下架/无当前信息频道（录制 `broadcast_channel_currentinfo.delisted.json`）和 `voice_lyric` 的无播放权限声音（录制 `voice_lyric.unavailable.json`）都是上游 HTTP 200、正文 `code: 400`；改造前模块把这两种响应当成功放行 `status: 200`，现在 Body 校验按业务码拒绝为 `status: 400`，`body` 保留网易云原文。
-
-B30 的相似内容接口：`simi_artist` 缺 `id`（`simi_artist.missing-id.json`）和 `simi_song` 缺 `id`（`simi_song.missing-id.json`）的上游是 HTTP 200 + `code: 400`，改造前按 `status: 200` 放行，现在 reject `status: 400` 并保留原文，两个模块的错误正文键不同（`message` / `msg`）。`simi_playlist`、`simi_user` 缺 `id` 时上游是 HTTP 400 空正文（`simi_playlist.missing-id.json`、`simi_user.missing-id.json`），归一成 `status: 200` 和空字符串；空字符串作为结构定义的独立分支原样返回，不报 502。
-
-B46 的两个社交状态读取模块（`user_social_status_rcmd`、`user_social_status_support`）未登录时上游返回 HTTP 200 + `code: 302`（录制 `user_social_status_rcmd.anonymous.json`、`user_social_status_support.anonymous.json`）；302 落在 `SPECIAL_STATUS_CODES` 里，改造前会被归一成 resolve `status: 200`，现在按业务码拒绝为 reject `status: 302`，`body`/`cookie` 保留原文。`calendar` 匿名可读（`calendar.anonymous.json` 是 `code: 200`），不存在这条状态码变化。
-
-B33 的 5 个听歌足迹接口同理：未登录调用上游返回 HTTP 200 + `code: 302`（5 个模块各有一份 `.anonymous.json`），改造前模块按 `status: 200` 放行，现在按业务码拒绝为 `status: 302`，`body` 保留原文。本批没有录到其他非 200 业务码。
-
-B39 的账号校验与基础查询开始运行时校验后，畸形成功返回从原样放行变成 502；其中 `verify_qrcodestatus` 的空 `qr`（`verify_qrcodestatus.empty.json`，`code: 400`）原本被 `SPECIAL_STATUS_CODES` 映射成 `status: 200` 放行，现在按业务码拒绝为 `status: 400`；未登录（`verify_qrcodestatus.anonymous.json`，`code: 301`）的公开状态原本就是 `301`，改造前是 resolve，现在是 reject，`body` 都保留原文（`code` 已由请求层归一成数字）。其余 5 个模块本批没有保留非 200 业务码录制。
-
-B43 的 `mlog_url`、`mlog_to_video` 同样受影响：非法 mlog id 的上游是 HTTP 200 + 正文 `code: 400`（`mlog_url.invalid.json`；`mlog_to_video.no-video.json`，`msg: mlog无对应video`）。改造前模块按 `status: 200` 放行，现在 Body 校验按业务码拒绝为 `status: 400`，`body` 保留网易云原文。两个模块的契约测试都断言状态码和原文。
-
-B45 的 7 个写操作开始做 Body 校验后，`follow`、`resource_like`、`comment_like` 的风控/点赞拒绝（`code: 250`，录制 `follow.rejected.json`、`resource_like.like.json`、`comment_like.like.json`）落在 2xx、不在 `SPECIAL_STATUS_CODES` 里：改造前 resolve `status: 250`，现在按业务码 reject `status: 250`，`body`/`cookie` 不变，调用方需要 try/catch。`video_sub` 重复收藏（`video_sub.subscribe-again.json`）的 `code: 408` 不在 2xx，改造前后都是 `ProtocolFailed` reject `status: 408`、`body`/`cookie` 不变。本批录制里没有出现 201/302/400/502/800–803 这些会被归一成 `status: 200` 的特殊码。
-
-B47 的 8 个写操作开始做 Body 校验后，非 200 业务码的公开状态也跟着变：`cloud_match` 的无效纠错目标（`cloud_match.invalid-asid.json`，`code: 400`）在 `SPECIAL_STATUS_CODES` 里，改造前被归一成 `status: 200` 放行，现在 Body 校验在解码前按业务码拒绝为 `status: 400`，`body` 保留原文。`user_social_status_edit` 的全空字段（`user_social_status_edit.clear-rejected.json`，`code: 500`）不在特殊码表里，改造前就是 reject `status: 500`，现在同样 reject `status: 500`、正文不变。本批其余写模块的成功正文都是 `code: 200`；`user_update` 没有 Body 校验，`code: 250` 仍按 `status: 250` resolve（250 在 2xx，不走 `SPECIAL_STATUS_CODES`）。其余已收窄的 Body 模块遇到 2xx 的业务码（如 250）同样会从 resolve 变成按业务码 reject，本批没有保留这类录制。
-
-B48 的一起听与动态写操作里，只有 `listentogether_accept` 录到顶层非 200：接受已结束房间返回 HTTP 200 + `code: 488`（`listentogether_accept.expired-room.json`）。488 不在 `SPECIAL_STATUS_CODES` 里，改造前模块直接 `toModuleResponse`，公开结果是 resolve `status: 488`；现在 `decodeUpstreamBody` 先按业务码拒绝，公开结果为 reject `status: 488`、`body`/`cookie` 保留原文。B48 的 7 个有 Body 模块遇到顶层非 200 都会按业务码 reject（本批只有 488 有录制）；收紧字段缺失或类型不对的成功正文按 502 处理。`share_resource`、`event_forward` 没有声明 Body，`code: 250` 仍按既有行为 resolve `status: 250`，与 B45 有 Body 的 250 是 reject 不同。
+`404`、`408`、`500`、`301`、`499` 等非特殊码的公开状态不变，只是拒绝类型从 `ProtocolFailed` 变成 `UpstreamBusinessFailed`；没有 Body 的模块（如 `user_update`、`share_resource`、`event_forward`）遇到 2xx 业务码（如 `250`）仍按旧行为 resolve。契约测试对上述有录制的 `400`、`302`、`488`、`250` 路径断言状态码和原文。
 
 ## 消息
 

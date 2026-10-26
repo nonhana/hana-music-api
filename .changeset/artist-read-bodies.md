@@ -20,7 +20,7 @@
 ### 行为变化
 
 - 这 10 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
-- 非 200 返回码继续按业务拒绝原样转交：未知歌手 id 的 `artist_follow_count` 是 `{ code: 404, message: '资源未找到', data: null }`，`artist_desc` 的未知 id 是 `{ code: 404 }`。
+- 这两个 404 都不在 `SPECIAL_STATUS_CODES` 里，改造前请求层就 reject `status: 404`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`），公开状态和正文不变：未知歌手 id 的 `artist_follow_count` 是 `{ code: 404, message: '资源未找到', data: null }`，`artist_desc` 的未知 id 是 `{ code: 404 }`。
 - 空结果：`artist_fans` 的越界分页返回 `data: null`；`artist_mv`、`artist_songs`、`artist_list` 的越界分页返回空数组和各自的 `hasMore`/`more`；`artist_video` 的越界 `cursor` 返回空 `records`；`artist_desc` 的歌手没有介绍条目时 `introduction` 是空数组。
 - `artist_new_mv`、`artist_new_song` 的非空录制来自本机已登录账号：MV 17 个作品，新歌原 20 个 block/62 首歌（截取保留 2 个 block、5 首歌，`context.truncated` 记录原始数量）。匿名录制是空 `newWorks`（正常结果），两个接口的 `newWorks` 都是收紧数组，缺失、`null` 或坏记录都报 502；B9 的 MV 结构可以拿 `artist_new_mv.default.json` 和 `artist_mv.default.json` 对比后再决定是否提升为共享结构。
 - 登录对照：8 个匿名可用的接口带 Cookie 重录后字段集合和类型相同，值差异只来自关注状态、实时计数和 CDN 地址，登录录制已删除；`artist_new_mv`、`artist_new_song` 的非空录制只能带登录身份取得，匿名录制另存为 `anonymous-empty`。

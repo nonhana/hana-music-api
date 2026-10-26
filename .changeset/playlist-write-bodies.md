@@ -16,7 +16,7 @@
 ### 行为变化
 
 - 这 6 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
-- **非 200 业务码的状态码变化**：`playlist_track_add` 缺 `pid`、`playlist_track_delete` 缺 `id`、`playlist_import_name_task_create` 缺 `text` 的上游 `code: 400` 改造前被 `SPECIAL_STATUS_CODES` 归一成 `status: 200` 放行，现在按业务拒绝返回 `status: 400`，`body` 是上游原文。401（无权限操作歌单）、404（歌单已删除/不存在）、500（系统异常）在改造前就按 `ProtocolFailed` 拒绝，状态不变。
+- **非 200 业务码的状态码变化**：`playlist_track_add` 缺 `pid`、`playlist_track_delete` 缺 `id`、`playlist_import_name_task_create` 缺 `text` 的上游 `code: 400` 改造前被 `SPECIAL_STATUS_CODES` 归一成 `status: 200` 放行，现在按业务拒绝返回 `status: 400`，`body` 是上游原文。401（无权限操作歌单）、404（歌单已删除/不存在）、500（系统异常）不在特殊码表里，改造前就是 reject `status: 401`/`404`/`500`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`），公开状态和正文都不变。
 - `playlist_update` 的顶层 `code: 200` 不代表每条子路由都成功：标签超限时 `/api/playlist/tags/update` 回 `code: 400`，其余两条仍是 `200`。子路由的 `code` 是收紧字段，缺失或类型不对报 502。
 - 已删除歌单的 tombstone 仍会接受写入：`playlist_update` 对 `playlist.status: 10` 的歌单回 `200` 并改掉名字/简介/标签，`playlist_update_playcount` 同样回 `200` 并接受播放计数。清理的含义是歌单不再出现在用户歌单列表，元数据并未抹除；调用方不要用返回码判断歌单是否还存在。
 - `playlist_import_task_status` 的未知任务 id 回 `code: 200`、`data.tasks: []`、`data.taskProcess: null`；没有匹配到歌曲的任务是 `data.tasks[0].status: 'NOT_SONG_MATCH'`、`playlistId: 0`。
@@ -28,7 +28,7 @@
 - 删除后做错误路径探测时发现，已删除歌单仍接受 `playlist_update` 的名字/简介/标签和 `playlist_update_playcount` 的计数写入，两份 fixture 的 `context.note` 已写明。
 - `playlist_import_name_task_create` 的无匹配文本只建了任务（`playlistId: 0`、`status: NOT_SONG_MATCH`），没有生成歌单。
 - 录制在 `tests/fixtures/netease/playlist-write/`。成功响应里的歌单 id、任务 id、`createTime` 和 `context.recordedAt` 是随机值，不能复现；失败录制的 `code`、`message` 是稳定的。
-- 证据缺口：`playlist_track_add`/`playlist_track_delete` 没有 `final: true` 的成功录制（自建歌单的隐私和公开、weapi/eapi/api、PC UA、重复添加、删除已在歌单里的歌都回 401），这两份结构定义只收紧 `code`，成功边界用手写 body 测；`schema:audit module` 对这两个模块因无成功录制返回 exit 1，不能把本批描述成审计全绿。`playlist_import_name_task_create` 的 `local`/`link` 分支没有录制，`data.taskId` 因此不收紧。`playlist_update` 缺 `id` 时的 400 空正文没有录制，不猜它的形状。
+- 证据缺口（列为缺口，不宣称成功证据）：`playlist_track_add`/`playlist_track_delete` 只有 `code: 401`（无权限操作歌单）和 `code: 404`（歌单已删除/不存在）的拒绝录制；自建歌单的隐私和公开、weapi/eapi/api、PC UA、重复添加、删除已在歌单里的歌都回 401，没有 `final: true` 的成功录制。这两份结构定义只收紧 `code`，成功边界只能用手写 body 做结构测试，不能当作上游成功正文的证据；`schema:audit module` 对这两个模块因无成功录制返回 exit 1，不能把本批描述成审计全绿。`playlist_import_name_task_create` 的 `local`/`link` 分支没有录制，`data.taskId` 因此不收紧。`playlist_update` 缺 `id` 时的 400 空正文没有录制，不猜它的形状。
 
 ### 迁移
 

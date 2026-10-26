@@ -17,7 +17,7 @@
 ### 行为变化
 
 - 这 7 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
-- 非 200 返回码继续按业务拒绝原样转交，不报 502：`user_medal` 查不存在的 uid 返回 `{ code: 499, message: '用户信息获取失败' }`。
+- `user_medal` 查不存在的 uid 返回 `{ code: 499, message: '用户信息获取失败' }`。499 不在特殊码表里，改造前请求层就 reject `status: 499`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`），公开状态和正文不变，不报 502。
 - 空结果：`user_binding` 在不存在的 uid 下返回 `bindings: []`；`user_cloud` 的 `offset` 越过末尾返回 `data: []`；`user_cloud_detail` 传入不在云盘的歌曲 id 返回 `data: []`。这些数组本身允许为空。`user_medal` 本批录制与探测未发现可达的空结果；数组本身允许为空（`user_medal.unknown-user.json` 是 code 499，不是空结果）。
 - `user_cloud` 的 25 条云盘记录截到 3 条，`user_medal` 的 493 条已获得徽章截到 5 条、5 个分类块截到 3 个（按字段覆盖抽样，已获得徽章保留原下标 0/1/18/259/289，分类块为 0/1/2；`sideBarGuideText` 空串样例来自完整录制），截断长度写在对应录制的 `context.truncated`。
 - 只见过 `null` 的字段（如 `user_medal` 的 `medalTabs`、`musicMedalOperationVO`、`levelMedalPicUrl`、`userObtainProportion`、`detailPage`，`user_cloud` 的 `cursor`、`message`、`idVersions`）没有声明，继续作为未声明字段原样保留。

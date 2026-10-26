@@ -260,7 +260,7 @@ export const MultiTerminalInfo = UpstreamObject({
 });
 
 // mlog 记录里嵌着的歌曲：`artist_video`、`search_multimatch`、`playlist_video_recent` 字段完全相同，全部宽松。
-export const MlogSongArtist = UpstreamObject({
+const MlogSongArtist = UpstreamObject({
   artistId: Loose(Schema.Finite),
   artistName: Loose(Schema.String),
 });
@@ -487,7 +487,7 @@ export const EventPic = UpstreamObject({
 });
 export type EventPic = typeof EventPic.Type;
 
-export const EventResourceInfo = UpstreamObject({
+const EventResourceInfo = UpstreamObject({
   id: Loose(Schema.Finite),
   userId: Loose(Schema.Finite),
   name: Loose(Schema.String),
@@ -496,16 +496,16 @@ export const EventResourceInfo = UpstreamObject({
   artistId: Loose(Schema.Finite),
   artistAreaCode: Loose(Schema.Finite),
 });
-export type EventResourceInfo = typeof EventResourceInfo.Type;
+type EventResourceInfo = typeof EventResourceInfo.Type;
 
 // `s` 是点赞用户编号，`t` 是点赞时间（上游字段名就是缩写）。
-export const EventLikedUser = UpstreamObject({
+const EventLikedUser = UpstreamObject({
   s: Loose(Schema.Finite),
   t: Loose(Schema.Finite),
 });
-export type EventLikedUser = typeof EventLikedUser.Type;
+type EventLikedUser = typeof EventLikedUser.Type;
 
-export const EventCommentThread = UpstreamObject({
+const EventCommentThread = UpstreamObject({
   id: Loose(Schema.String),
   resourceId: Loose(Schema.Finite),
   resourceInfo: Loose(EventResourceInfo),
@@ -519,7 +519,7 @@ export const EventCommentThread = UpstreamObject({
   shareCount: Loose(Schema.Finite),
   hotCount: Loose(Schema.Finite),
 });
-export type EventCommentThread = typeof EventCommentThread.Type;
+type EventCommentThread = typeof EventCommentThread.Type;
 
 // 动态的评论信息：`commentThread` 指向这条动态的评论串；动态正文在记录的 `json` 字符串里。
 export const EventInfo = UpstreamObject({

@@ -7,13 +7,13 @@
 ### 新增公开结构定义
 
 - `top_playlist` → `TopPlaylistBody`：收紧 `code`、`playlists` 和每个歌单自己的编号 `playlists[].id`；歌单摘要共用 `PlaylistSummary`，并在模块内补了宽松的 `alg`、`backgroundImageId`、`originalCoverId`、`tsSongCount`，`total`、`more`、回显的 `cat` 宽松。
-- 模块既有的 `avatarImgId_str` → `avatarImgIdStr` 改写保留，但只作用于成功返回体：`TopPlaylistBody` 描述改写后的最终体，录制保存上游原文；契约测试用测试内显式写出的转换与最终体逐字段比较。`code: 404` 等业务拒绝的正文原样透传，不做改写。
+- 模块既有的 `avatarImgId_str` → `avatarImgIdStr` 改写保留，但只作用于成功返回体：`TopPlaylistBody` 描述改写后的最终体，录制保存上游原文；契约测试用测试内显式写出的转换与最终体逐字段比较。`code: 404` 等非 200 业务码不在特殊码表里，改造前请求层就 reject `status: 404`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`），正文原样透传，不做改写。
 - `limit`/`offset` 等非数字参数时上游回 HTTP 400 空正文，网易云把它归一成 `status: 200`、`body: ''`；空字符串作为 `TopPlaylistBody` 的独立分支保留，不报 502。
 
 ### 行为变化
 
 - `top_playlist` 开始做运行时结构校验：以前畸形返回原样放行，现在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段缺失、`null` 或类型不对只丢这一项。
-- 非 200 业务 `code` 仍按业务拒绝原样转交，不做字段改写。
+- 非 200 业务 `code` 不在特殊码表里，改造前就是 reject 原状态（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`），正文原样透传、不做字段改写；空正文仍归一成 resolve `status: 200` + `body: ''`。
 - 空结果：`order=new` 返回真实空结果 `playlists: []`、`total: 0`、`more: false`（录制 `playlist/top_playlist.empty.json`）。
 - 分页兜底：`order=hot` 下 `offset=680` 是真实尾页（6 条，含 `14089582600`，`more: false`，`playlist/top_playlist.last-page.json`）；`offset>=686` 返回本批录制里的另一份固定 6 条兜底列表（`18271967084` 等，与尾页不同，`limit` 不生效，`more: true`，`playlist/top_playlist.beyond-last-page.json`、`playlist/top_playlist.fallback-ignores-limit.json`）。
 - 登录与匿名返回相同顶层键，条目顺序和值因个性化不同；登录录制里出现 `subscribed: true`，`creator.experts` 的键 `1`、`2` 都出现过；匿名只有键 `2`（`playlist/top_playlist.anonymous.json`）。

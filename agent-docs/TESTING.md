@@ -9,14 +9,16 @@
 - `tests/integration/`：Hono 服务、CLI 和模块路由。
 - `tests/load/` 与 `scripts/load-test.mts`：本机 loopback 流量、取消、HTTP 入口限流、资源释放和负载验收。
 - `tests/live/`：真实上游的门控测试，不属于默认回归基线。
-- `tests/_kit/`：Effect 测试的统一入口；测试中的 `Effect.run*` 和 Layer 提供应集中在 kit 内。返回体契约测试判断“结构不符”的断言用 `assertions.ts` 的 `expectUpstreamShapeRejection`，录制文件和导出结构定义的类型用同一文件的 `Recording`、`Validator`。
+- `tests/_kit/`：Effect 测试的统一入口；测试中的 `Effect.run*` 和 Layer 提供应集中在 kit 内。返回体契约测试判断“结构不符”的断言用 `assertions.ts` 的 `expectUpstreamShapeRejection`，录制文件和导出结构定义的类型用同一文件的 `Recording`、`Validator`；回放录制用 `replay.ts` 的 `replay`/`replayRaw`。
 
 ## 基线命令
 
 - 默认回归：`bun test tests/unit tests/contract tests/integration` 或 `bun run test`。
 - 模块生成检查：`bun run types:modules:check`。
+- 结构定义与录制审计：`bun run schema:audit check` 检查结构定义写法，`bun run schema:audit recordings --recordings tests/fixtures/netease` 用本仓库录制回放校验。`schema:audit` 的默认录制根是 Campanula 仓库的 `../campanula-svelte-main/tests/fixtures/netease`，在 SDK 仓库里运行必须显式传 `--recordings tests/fixtures/netease`。
+- Fixtures 门槛：`bun run verify:fixtures`（`bun run schema:audit check && bun run schema:audit recordings --recordings tests/fixtures/netease`），只依赖本仓库 fixtures。
 - 类型、静态检查和格式：`bun run typecheck`、`bun run lint`、`bun run spell`、`bun run fmt:check`。
-- 完整仓库验证：`bun run verify`。
+- 完整仓库验证：`bun run verify`（含 `bun run schema:audit check`）。
 - SDK 与发布验证：`bun run verify:sdk`、`bun run test:sdk-contract`、`bun run build:check`。
 
 `verify`、`verify:sdk` 和 `build:check` 都会写入或读取构建输出；需要串行运行，上一条通过后再运行下一条。

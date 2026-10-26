@@ -15,7 +15,7 @@
 ### 行为变化
 
 - 这 5 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段缺失、`null` 或类型不对只丢这一项。
-- `playmode_intelligence_list` 缺少 `pid` 时上游返回 `code: 500`，探测到的另一个歌单返回 `code: 400`；两者仍按业务拒绝原样转交，不报 502。
+- `playmode_intelligence_list` 缺少 `pid` 时上游返回 `code: 500`，探测到的另一个歌单返回 `code: 400`。500 不在特殊码表里，改造前就是 reject `status: 500`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`）；400 是特殊码，改造前被归一成 resolve `status: 200`，现在 reject `status: 400`。两条路径的 `body` 都保留网易云原文，不报 502。
 - `tests/integration/server.test.ts` 的 fake upstream 为 `personal_fm` 返回合法的空 `data`（请求 payload 改放在 `requestData` 继续断言），并把 `options` 先序列化掉 `AbortSignal`。
 
 ### 空结果与登录

@@ -20,7 +20,7 @@
 ### 行为变化
 
 - 这 6 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在上述收紧路径缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
-- `msg_comments`、`msg_forwards`、`msg_notices` 未登录时上游返回 `code: 301`：以前 SDK 返回 `status: 200` 和原始正文，现在按业务拒绝原样转交（`status: 301`，正文为网易云原文）。`msg_private`、`msg_private_history`、`msg_recentcontact` 未登录时上游返回 `code: 200` 和空列表，行为不变。
+- `msg_comments`、`msg_forwards`、`msg_notices` 未登录时上游返回 `code: 301`。301 不在 `SPECIAL_STATUS_CODES` 里，改造前请求层就按非 2xx reject `status: 301`（`ProtocolFailed`）；现在 Body 校验按业务码 reject 相同状态（`UpstreamBusinessFailed`），公开 `status` 和正文不变，只是失败类型变化，不会 resolve `status: 200`。`msg_private`、`msg_private_history`、`msg_recentcontact` 未登录时上游返回 `code: 200` 和空列表，行为不变。
 - 空结果：`before=1` 的评论（`msg_comments.empty.json`）、越界 `offset` 的 @我 和私信会话（`msg_forwards.empty.json`、`msg_private.empty.json`）、早于账号创建的通知游标（`msg_notices.empty.json`）、早于会话历史的私信游标（`msg_private_history.empty.json`）都返回空数组。账号 599663130 登录时有最近联系人，本批没有登录态的空结果；未登录录制 `msg_recentcontact.anonymous.json` 返回 `data.follow: []`。
 - 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。录制只覆盖账号 599663130 与录制里出现的其他账号，不对所有账号、地区和上游版本作相同性断言。
 - 私信录制里有手机号和邮箱的公开签名已按 `<redacted>` 替换，路径记在 `context.redacted`，录制 note 也写明了脱敏。
@@ -28,7 +28,7 @@
 ### 迁移
 
 - 这 6 个模块的 `body` 类型从原始 JSON 值变成收窄后的结构；未声明字段仍在，但读取时是 JSON 值，要按需自行校验。
-- `msg_comments`、`msg_forwards`、`msg_notices` 的匿名调用以前 resolve `status: 200` + 正文 `code: 301`，现在 reject `status: 301` + 网易云原文。调用方需要先登录，或把 301 当作未登录处理。
+- `msg_comments`、`msg_forwards`、`msg_notices` 的匿名调用以前就是 reject `status: 301`（不是 resolve `status: 200`），现在仍 reject `status: 301`，正文为网易云原文；公开状态不变，已按 301 处理未登录的调用方不需要改动。
 - 需要处理新的 502：用 `body.upstreamShape` 判断上游结构变化，不要解析 `msg`。
 - 读 `comments[].commentId`、`forwards[].id`、`notices[].id`、`msgs[].user.id`、`msgs[].id`、`data.follow[].userId` 时不再需要自己判空；`lastMsg`、`notice`、`msg` 仍是 JSON 字符串，需要调用方自行解析。
 

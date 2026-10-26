@@ -14,7 +14,7 @@
 ### 行为变化
 
 - 这 4 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
-- `summary_annual` 在没有报告的年份（2025）上游返回 HTTP 200 + `code: 404`，改造前 resolve 为 `status: 200`，现在按业务码拒绝为 `status: 404`，`body` 保留原文（`record/summary_annual.no-report.json`）。
+- `summary_annual` 在没有报告的年份（2025）上游返回 HTTP 200 + `code: 404`。404 不在特殊码表里，改造前请求层就 reject `status: 404`（`ProtocolFailed`），并没有 resolve `status: 200`；现在 Body 校验按业务码 reject 相同状态（`UpstreamBusinessFailed`），公开 `status` 和 `body` 不变，只是失败类型变化（`record/summary_annual.no-report.json`）。
 - 空结果：`sheet_list` 对没有乐谱的歌曲返回 `musicSheetSimpleInfoVOS: null`（歌曲 7238118806）；`sheet_preview` 对不存在的乐谱返回 `data: []`（id=1）。`starpick_comments_summary` 没有可达的空 block 结果，数组本身允许为空。
 - 登录对照先用 `login_status` 确认 `account.anonimousUser: false`；`sheet_preview` 另保留匿名录制（同样 6 页），其余模块的录制都来自登录账号，除 `sheet_preview` 外未保留匿名对照，不对公开结构作相同性断言。`summary_annual.2018`/2019 的 `data.ouid`、`data.nkn` 和加密 uid，2019 的 `data.uun` 与 `data.aul`、2018 的 `data.aul`，以及 2022/2023 的加密用户 id 已换成合成值。
 - `starpick_comments_summary` 的录制保留 banner、歌单推荐和星评评论三个 block（原 15 个），有 creative 的 block 保留两条 creative、每条 creative 保留一条 resource；`context.truncated.length` 记原数组长度。
@@ -23,7 +23,7 @@
 ### 迁移
 
 - 这 4 个模块的 `body` 类型从原始 JSON 值变成收窄后的结构；未声明字段仍在，但读取时是 JSON 值，要按需自行校验。
-- `summary_annual` 在没有报告的年份（2025）从 resolve `status: 200` 变成 reject `status: 404`，调用方需要 `try/catch` 并检查 `status`。
+- `summary_annual` 在没有报告的年份（2025）以前就是 reject `status: 404`（不是 resolve `status: 200`），现在仍 reject `status: 404`，调用方已按 404 处理的不需要改动。
 - 需要处理新的 502：用 `body.upstreamShape` 判断上游结构变化，不要解析 `msg`。
 - `sheet_list` 的 `musicSheetSimpleInfoVOS` 和 `sheetInstrumentTypeVOList` 类型带 `null | undefined`，读取前要判空；`summary_annual` 的报告正文仍按年份自行收窄，SDK 只保证 `data` 是对象。
 

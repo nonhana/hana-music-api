@@ -13,7 +13,7 @@
 
 - `register_anonimous` 开始做运行时结构校验：收紧字段缺失或类型不对时报 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）；返回体没有非空 `MUSIC_A` 时仍按 `cookie.MUSIC_A` 报 502。
 - **请求层旧行为**分两档：2xx 业务码原样 resolve（状态取业务码）；`201`、`302`、`400`、`502`、`800–803` 在 `SPECIAL_STATUS_CODES` 里，归一成 `status: 200` resolve。其余业务码按状态码 reject（`100–599` 取原值，其余 `400`），正文保留网易云原文。
-- `register_anonimous` 以前在 `code !== 200` 时把请求层归一后的响应原样返回，2xx 业务码和特殊码都会 resolve；现在 `decodeUpstreamBody` 只把 `200` 当成功，其他返回码全部 reject，`status` 按上一档规则（例如 `code: 400` 以前归一成 `status: 200` resolve，现在仍 reject `status: 400`）。成功返回缺少 `userId` 或匿名凭据时现在会 502；`cookie` 现在是必填项，调用方如果自己构造过该返回，需要补上 `userId` 和 `cookie`。
+- `register_anonimous` 以前在 `code !== 200` 时把请求层归一后的响应原样返回，2xx 业务码和特殊码都会 resolve；现在 `decodeUpstreamBody` 只把 `200` 当成功，其他返回码全部 reject，`status` 按上一档规则（例如 `code: 400` 以前归一成 `status: 200` resolve，现在 reject `status: 400`）。成功返回缺少 `userId` 或匿名凭据时现在会 502；`cookie` 现在是必填项，调用方如果自己构造过该返回，需要补上 `userId` 和 `cookie`。
 
 ### 录制缺口（成功正文未验证）
 

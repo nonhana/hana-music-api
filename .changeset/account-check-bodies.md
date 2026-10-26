@@ -16,7 +16,7 @@
 ### 行为变化
 
 - 这 6 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
-- `verify_qrcodestatus` 的空 `qr`（`code: 400`，`qrcode is null`）以前被 `SPECIAL_STATUS_CODES` 映射成 `status: 200` 放行，现在按业务码拒绝为 `status: 400`；未登录（`code: 301`，`un login`）的公开状态原本就是 `301`，改造前 resolve、现在 reject。两者的 `body` 都保留原文，`code` 由请求层归一成数字。
+- `verify_qrcodestatus` 的空 `qr`（`code: 400`，`qrcode is null`）以前被 `SPECIAL_STATUS_CODES` 映射成 `status: 200` 放行，现在按业务码拒绝为 `status: 400`；未登录（`code: 301`，`un login`）不在特殊码表里，改造前请求层就 reject `status: 301`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`），公开状态和正文不变。两者的 `body` 都保留原文，`code` 由请求层归一成数字。
 - 空结果：`get_userids` 只查不存在的昵称时返回 `nicknames: {}`（`get_userids.no-match.json`），存在与不存在的昵称混合查询只返回存在的键（`get_userids.multi.json`）；`nickname_check` 昵称可用时没有 `candidateNicknames`。`countries_code_list` 没有分页或其他输入，默认参数探测返回 22 组、189 个国家（`bun run fixtures:record countries_code_list --out /tmp/b39-countries-probe`），未发现可达的空结果，数组本身允许为空。
 - 登录对照先用 `login_status` 确认 `account.anonimousUser: false`（账号 599663130）；`cellphone_existence_check`、`nickname_check`、`get_userids`、`countries_code_list` 本批未保留匿名对照，不对公开结构作相同性断言。`pl_count` 保留匿名录制，`pushMsg` 是 `null`、`eventUser` 缺失；`verify_qrcodestatus` 需要登录。
 - `verify_qrcodestatus` 没有可构造的扫码会话，只录到已失效二维码（`qrCodeStatus: 21`）；未扫（`0`）、已扫（`10`）、已确认（`20`）三态没有录制，未声明额外字段。

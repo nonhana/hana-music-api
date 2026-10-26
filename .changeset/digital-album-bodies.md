@@ -21,8 +21,8 @@
 
 ### 非 200 业务码的状态变化
 
-- `digitalAlbum_detail` 未知 id 返回 `{ code: 404, message: '无专辑商品' }`，`digitalAlbum_sales` 缺 `ids` 返回 `{ code: 400, msg: '参数错误', massage: '参数错误' }`、空 `ids` 返回 `{ code: 500, message: '销量查询失败' }`。以前这些响应会以 `status: 200` resolve 并把正文原样返回；现在按业务拒绝 reject，`status` 取正文 `code`（404/400/500），`body` 仍是网易云原文。
-- 迁移：如果调用方依赖 `status === 200` 判断成功，需要加 `try/catch` 并检查失败响应的 `code`；不要依赖错误文案（400 用 `msg`/`massage`，404/500 用 `message`），只看 `code`。
+- `digitalAlbum_detail` 未知 id 返回 `{ code: 404, message: '无专辑商品' }`，`digitalAlbum_sales` 缺 `ids` 返回 `{ code: 400, msg: '参数错误', massage: '参数错误' }`、空 `ids` 返回 `{ code: 500, message: '销量查询失败' }`。其中 `code: 400` 是特殊码，改造前被 `SPECIAL_STATUS_CODES` 归一成 resolve `status: 200`，现在按业务拒绝 reject `status: 400`；`code: 404` 和 `code: 500` 不在特殊码表里，改造前就是 reject `status: 404`/`500`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`）。三种路径的 `body` 都是网易云原文。
+- 迁移：`digitalAlbum_sales` 缺 `ids` 的 `code: 400` 从 resolve `status: 200` 变成 reject `status: 400`，依赖它返回正文的调用方需要 `try/catch`；`digitalAlbum_detail` 的 404 和空 `ids` 的 500 改造前就 reject，公开状态不变。不要依赖错误文案（400 用 `msg`/`massage`，404/500 用 `message`），只看 `code`。
 
 ### 空结果
 

@@ -20,7 +20,7 @@
 
 - 这 9 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段缺失或类型不对只丢这一项；宽松字段的 `null` 原样保留。
 - 六个最近播放接口和 `music_first_listen_info` 的结构定义用 `object | ''` 联合：`limit` 非数字（或回忆坐标缺少 `id`）时上游 HTTP 400 空正文被既有逻辑归一成 `status: 200`、`body: ''`，现在仍原样返回空字符串，不会误报 502。
-- `history_recommend_songs_detail` 的日期格式不合法时上游返回 `code: 400`，SDK 继续按业务拒绝原样转交（`status: 400`），不报 502。
+- `history_recommend_songs_detail` 的日期格式不合法时上游返回 `code: 400`。400 是特殊码，改造前被 `SPECIAL_STATUS_CODES` 归一成 resolve `status: 200`，现在按业务码 reject `status: 400`，`body` 保留原文，不报 502。
 
 ### 空结果与登录
 

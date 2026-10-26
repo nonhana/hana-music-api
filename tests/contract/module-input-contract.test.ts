@@ -43,12 +43,10 @@ import { runEffect } from '../_kit/it.ts';
 import { moduleResponse } from '../fixtures/request-capability.ts';
 import { executeModule, response } from '../fixtures/upload-effect.ts';
 
-const projectDirectory = projectRoot;
-
 describe('module input ownership', () => {
   test('all 352 endpoints own inputs without importing the central public alias barrel', async () => {
     const modules = await discoverModuleFiles(
-      resolve(projectDirectory, 'src/modules'),
+      resolve(projectRoot, 'src/modules'),
     );
     const centralized: Array<string> = [];
     let legacyCount = 0;
@@ -81,7 +79,7 @@ describe('module input ownership', () => {
 
   test('shared input primitives have no execution fields or central domain maps', async () => {
     const shared = await readFile(
-      resolve(projectDirectory, 'src/types/module-shared.ts'),
+      resolve(projectRoot, 'src/types/module-shared.ts'),
       'utf8',
     );
     expect(shared).not.toMatch(
@@ -91,19 +89,19 @@ describe('module input ownership', () => {
       /OptionCompatibleQuery|AlbumQuery|ArtistQuery|UserDetailQuery/,
     );
     expect(
-      existsSync(resolve(projectDirectory, 'src/types/module-overrides.ts')),
+      existsSync(resolve(projectRoot, 'src/types/module-overrides.ts')),
     ).toBe(false);
     expect(
-      existsSync(resolve(projectDirectory, 'src/modules/_module-inputs.ts')),
+      existsSync(resolve(projectRoot, 'src/modules/_module-inputs.ts')),
     ).toBe(false);
     expect(
       await readFile(
-        resolve(projectDirectory, 'src/types/module-contracts.ts'),
+        resolve(projectRoot, 'src/types/module-contracts.ts'),
         'utf8',
       ),
     ).not.toContain('ModuleInputMigrationMap');
     expect(
-      await readFile(resolve(projectDirectory, 'src/core/config.ts'), 'utf8'),
+      await readFile(resolve(projectRoot, 'src/core/config.ts'), 'utf8'),
     ).not.toContain('RESOURCE_TYPE_MAP');
   });
 });

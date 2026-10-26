@@ -17,7 +17,7 @@
 ### 行为变化
 
 - 这 7 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
-- 非 200 返回码继续按业务拒绝原样转交：`broadcast_channel_currentinfo` 的已下架/无当前信息频道是 HTTP 200、正文 `code: 400`（录制 `broadcast_channel_currentinfo.delisted.json`），`voice_lyric` 的无播放权限声音也是 `code: 400`（录制 `voice_lyric.unavailable.json`），SDK 分别转交 `status: 400`。
+- `code: 400` 是特殊码，改造前被 `SPECIAL_STATUS_CODES` 归一成 resolve `status: 200`，现在按业务码 reject `status: 400`：`broadcast_channel_currentinfo` 的已下架/无当前信息频道是 HTTP 200、正文 `code: 400`（录制 `broadcast_channel_currentinfo.delisted.json`），`voice_lyric` 的无播放权限声音也是 `code: 400`（录制 `voice_lyric.unavailable.json`）；`body` 保留网易云原文。
 - 空结果：`broadcast_channel_list` 的未知地区返回空列表和 `total: 0`（`broadcast_channel_list.empty.json`）；`broadcast_channel_collect_list`、`voicelist_search`、`voicelist_list_search` 的登录账号没有收藏/播客/声音，匿名调用同样为空；`voice_lyric` 的无歌词声音返回 `data: null`（`voice_lyric.without-lyric.json`）。`broadcast_category_region_get` 是静态目录，本批录制与探测未发现可达的空结果，数组本身允许为空。
 - 登录对照先用 `login_status` 确认 `account.anonimousUser: false`；7 个接口都保留了登录和匿名录制。`broadcast_category_region_get` 只有地区列表顺序不同，`broadcast_channel_list` 只有 11 处 `coverUrl` 的 CDN 主机（p3/p4）不同（`subed` 全 `false`、`total` 都是 `843`），`broadcast_channel_currentinfo` 只有 `currentTime` 不同；`broadcast_channel_collect_list`、`voicelist_search`、`voicelist_list_search`、`voice_lyric` 逐字段相同。
 

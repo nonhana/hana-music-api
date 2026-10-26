@@ -17,7 +17,7 @@
 ### 行为变化
 
 - 这 3 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在上述收紧路径缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
-- `homepage_block_page` 的非法 `cursor` 上游返回 `code: 50002`，以前包在 `status: 200` 里，现在按业务拒绝原样转交（映射为 `status: 400`，见 `homepage_block_page.invalid-cursor.json`）。`banner` 和 `homepage_dragon_ball` 本批没有可复现的非 200 路径。
+- `homepage_block_page` 的非法 `cursor` 上游返回 `code: 50002`。50002 超出 100–599，请求层会钳位成 400 并按非 2xx 拒绝，所以改造前就是 reject `status: 400`（`ProtocolFailed`，见 `homepage_block_page.invalid-cursor.json`），现在 Body 校验仍 reject 相同状态（`UpstreamBusinessFailed`），公开状态和正文都不变，并没有 resolve 过 `status: 200`。`banner` 和 `homepage_dragon_ball` 本批没有可复现的非 200 路径。
 - 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。default 录制是登录状态；`banner` 另有独立匿名录制（PC 视角），`homepage_block_page` 另有失效凭据回匿名视角的录制（viewer 为 invalid-cookie）。两份录制都能通过同一结构校验；差异在宽松字段、`creatives` 是否出现（default 的 5 个 block 都有，invalid-cookie 的 banner block 没有）和 block 集合/顺序；不对所有账号、地区和上游版本作相同性断言。
 - `banner` 和 `homepage_block_page` 本批录入的录制与探测没有找到可达的空结果：`banner` 在 `type` 0–3 下都返回非空数组，`homepage_block_page` 在登录和失效凭据回匿名视角下都返回非空 `blocks`；数组本身允许为空。
 - `homepage_dragon_ball` 的 `data` 在登录与匿名录制里都是空数组，元素类型没有证据，未声明并原样保留。
@@ -26,7 +26,7 @@
 ### 迁移
 
 - 这 3 个模块的 `body` 类型从原始 JSON 值变成收窄后的结构；未声明字段仍在，但读取时是 JSON 值，要按需自行校验。
-- `homepage_block_page` 的非法 `cursor` 调用以前 resolve `status: 200` + 正文 `code: 50002`，现在 reject `status: 400` + 网易云原文。调用方需要处理这个状态码。
+- `homepage_block_page` 的非法 `cursor` 调用以前就是 reject `status: 400`（`code: 50002` 被钳位，不是 resolve `status: 200`），现在仍 reject `status: 400` + 网易云原文。公开状态不变，失败类型从 `ProtocolFailed` 变为 `UpstreamBusinessFailed`。
 - 需要处理新的 502：用 `body.upstreamShape` 判断上游结构变化，不要解析 `code`。
 - 读 `data.blocks[].blockCode` 时不再需要自己判空；`banners[].targetId` 仍是宽松字段（`number | null | undefined`），block 的扩展键（`extInfo`、`crossPlatformConfig`）、`resourceExtInfo` 的未声明键和 `homepage_dragon_ball` 的 `data` 仍是 JSON 值。
 

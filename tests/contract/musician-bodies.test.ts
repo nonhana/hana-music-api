@@ -1,7 +1,6 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
-  createHanaMusicApi,
   MusicianCloudbeanBody,
   MusicianDataOverviewBody,
   MusicianPlayTrendBody,
@@ -14,6 +13,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import musicianCloudbeanAnonymous from '../fixtures/netease/musician/musician_cloudbean.anonymous.json';
 import musicianCloudbean from '../fixtures/netease/musician/musician_cloudbean.default.json';
 import musicianDataOverviewAnonymous from '../fixtures/netease/musician/musician_data_overview.anonymous.json';
@@ -31,11 +31,6 @@ import musicianTasksNew from '../fixtures/netease/musician/musician_tasks_new.de
 
 // issue #102 B36 的音乐人账号录制；录制前经 login_status 确认 account.anonimousUser: false（未落盘）。
 // 匿名只用于业务拒绝路径（musician_play_trend 匿名仍成功但趋势为空）。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=musician',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
 
 type Case = {
   readonly name: string;

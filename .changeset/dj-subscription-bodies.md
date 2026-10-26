@@ -6,7 +6,7 @@
 
 ### 新增公开结构定义
 
-- `djRadio_top` → `DjRadioTopBody`：成功对象只收紧 `code`，`message` 宽松；另有空字符串分支。`data` 在本账号的一次登录录制里是空数组，元素类型无法确认，未声明并原样透传；非法 `djRadioId` 返回 HTTP 400 空正文，网易云把 400 归一成 `status: 200`，SDK 返回 `""`。匿名调用返回 `code: 302`（录制 `djRadio_top.anonymous.json`），SDK 按业务拒绝转交 `status: 302`；本接口需要登录。
+- `djRadio_top` → `DjRadioTopBody`：成功对象只收紧 `code`，`message` 宽松；另有空字符串分支。`data` 在本账号的一次登录录制里是空数组，元素类型无法确认，未声明并原样透传；非法 `djRadioId` 返回 HTTP 400 空正文，网易云把 400 归一成 `status: 200`，SDK 返回 `""`。匿名调用返回 `code: 302`（录制 `djRadio_top.anonymous.json`），302 是特殊码，改造前归一成 resolve `status: 200`，现在按业务码 reject `status: 302`；本接口需要登录。
 - `dj_sublist` → `DjSublistBody`：收紧 `code`、`djRadios`、`djRadios[].id`；`count`、`time`、`hasMore`、电台展示字段、简介图文（复用 `ProgramDescPic`）和主播（复用 `PlaylistUser`）宽松。`rcmdtext`、`icon`、`liveInfo`、`manualTagsDTO` 等只见过 `null`，`participateUidList` 只见过空数组，均未声明。
 - `dj_subscriber` → `DjSubscriberBody`：收紧 `code`、`subscribers`、`subscribers[].userId`；`time`、`hasMore`、昵称、头像、认证、关注状态和 `subscribeTime` 宽松。
 - `dj_toplist` → `DjToplistBody`：收紧 `code`、`toplist`、`toplist[].id`；`updateTime`、排名、分数、分类、封面、计数和主播（复用 `PlaylistUser`）宽松。
@@ -23,7 +23,7 @@
 
 - 这 8 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
 - **非 200 业务码的状态码变化**：成功对象只接受 `code: 200`，以前 HTTP 200 + 非 200 业务码会原样返回 `status: 200`，现在按业务码拒绝，`status` 等于正文里的 `code`、正文仍是网易云原文。本批探测到的路径：五个榜单和 `dj_sublist` 的非数字 `limit` 返回 `code: 400`（录制 `*.invalid-limit.json`）；大于 `100` 的 `limit` 只有 `dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_pay`、`dj_toplist_popular` 返回 `code: 400`，`dj_toplist`、`dj_sublist`、`dj_subscriber` 的 `limit=101` 在本批匿名探测里仍返回 200；`dj_subscriber` 缺少 `id` 返回 `code: 400`（录制 `dj_subscriber.missing-id.json`）。
-- `djRadio_top` 匿名调用返回 `code: 302`（录制 `djRadio_top.anonymous.json`），SDK 按业务码拒绝转交 `status: 302`；本接口需要登录。
+- `djRadio_top` 匿名调用返回 `code: 302`（录制 `djRadio_top.anonymous.json`）。302 落在 `SPECIAL_STATUS_CODES` 里，改造前被归一成 resolve `status: 200`，现在按业务码 reject `status: 302`，`body` 保留原文；本接口需要登录。
 - `djRadio_top` 的非数字 `djRadioId` 是 HTTP 400、空正文，网易云把 400 归一成 `status: 200`，所以这条路径仍 resolve `status: 200`、`body` 是空字符串。`DjRadioTopBody` 的成功对象和 `''` 是联合类型，空正文不会报 502。
 - 空结果可以正常返回：`dj_toplist` 的 `offset=99999` 越界分页返回空 `toplist`（`dj_toplist.empty.json`）；`dj_sublist` 匿名返回空 `djRadios`、`count: 0`（`dj_sublist.anonymous.json`）；`dj_subscriber` 的 `time=1` 时间游标越界返回空 `subscribers`（`dj_subscriber.empty.json`）。`dj_toplist_hours`、`dj_toplist_pay`、`dj_toplist_popular` 没有 `offset`，`dj_toplist_newcomer` 的 `offset` 被上游忽略，`limit=0` 会被 SDK 的 `limit || 100` 替换成默认 `100` 再发送；本批录制和探测里没有可达的空结果，数组本身允许为空。
 - 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。榜单和 `dj_subscriber` 都保留同一请求的匿名对照：字段集合相同，差异只在宽松字段的实时值；`dj_sublist` 必须登录才能看到订阅，匿名录制是真实的空列表。所有录制保留完整列表，没有截取。

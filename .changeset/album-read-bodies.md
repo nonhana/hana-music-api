@@ -18,7 +18,7 @@
 ### 行为变化
 
 - 这 8 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
-- 非 200 返回码继续按业务拒绝原样转交，不报 502：`album_detail` 的非数字专辑/未知 id 是 `{ code: 404, message: '无专辑商品' }`，`album_list_style` 的越界分页是 `{ code: 404, message: '没有数据' }`，`album_privilege` 的未知专辑是 `{ code: 404 }`。
+- 这些 404 都不在 `SPECIAL_STATUS_CODES` 里，改造前请求层就 reject `status: 404`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`），公开状态和正文不变，不报 502：`album_detail` 的非数字专辑/未知 id 是 `{ code: 404, message: '无专辑商品' }`，`album_list_style` 的越界分页是 `{ code: 404, message: '没有数据' }`，`album_privilege` 的未知专辑是 `{ code: 404 }`。
 - 空结果：`album_new` 的越界分页返回 `albums: []`；`album_songsaleboard` 的未来年份返回 `products: []`、`hasMore: false`，`albumType=99` 的周榜返回空 `products` 且没有 `hasMore`。`album_list`（上游忽略 `offset`，录制 `offset=100000` 仍返回第一页）和 `album_newest`（没有分页）在本批录制与探测里未发现可达的空结果，`products`/`albums` 数组本身允许为空。两个详情接口 `album_detail`/`album_detail_dynamic` 没有记录列表，空结果不适用。
 - `album_detail_dynamic` 的普通专辑和数字专辑形态不同（数字专辑多 `paid`、`sales`、`displayType`），两个形状都写进同一个对象，缺失的字段不会报错。
 - 只出现在录制里的 `null` 字段（如 `album_detail` 的 `album.artist`、`album.artistInfoList`、`product.extInfo.grade`，`album_list` 的 `customPriceConfig`、`topfans`，`album_newest` 的 `songs`）没有声明，继续作为未声明字段原样保留。

@@ -18,7 +18,8 @@
 ### 行为变化
 
 - 这 8 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段缺失或类型不对时丢这一项，`null` 原样保留。
-- 非 200 业务码的状态变化：`signin_progress` 的非法 `moduleId` 与 `yunbei_rcmd_song_history` 的负 `size` 都返回 HTTP 200 + `code: 400`。以前以 `status: 200` resolve 并原样返回正文；现在按业务拒绝 reject，`status` 取 400，`body` 仍是网易云原文。没有录到 HTTP 400 空正文，`ModuleBody` 不包含空字符串分支。
+- 非 200 业务码的状态变化：`signin_progress` 的非法 `moduleId` 与 `yunbei_rcmd_song_history` 的负 `size` 都返回 HTTP 200 + `code: 400`。400 在 `SPECIAL_STATUS_CODES` 里，以前被归一成 resolve `status: 200` 并原样返回正文；现在按业务拒绝 reject `status: 400`，`body` 仍是网易云原文。
+- 匿名调用同样有特殊码变化：`yunbei`、`yunbei_today`、`sign_happy_info` 返回 `code: 302`（各模块的 `.anonymous.json`），302 以前被归一成 resolve `status: 200`，现在按业务码 reject `status: 302`，`body` 保留原文；`signin_progress` 匿名的 `code: 301` 不在特殊码表里，改造前就是 reject `status: 301`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`），公开状态和正文不变。没有录到 HTTP 400 空正文，`ModuleBody` 不包含空字符串分支。
 - 写操作不在本批范围：`daily_signin`、`vip_growthpoint_get`、`yunbei_sign`、`yunbei_task_finish`、`yunbei_rcmd_song` 没有改动。
 
 ### 空结果与未覆盖路径

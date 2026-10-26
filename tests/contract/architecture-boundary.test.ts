@@ -10,8 +10,6 @@ import { sdkModuleRegistry } from '../../src/sdk/generated/registry.generated.ts
 import { projectRoot } from '../_kit/assertions.ts';
 import { findForbiddenArtifactSymbols } from '../fixtures/architecture-artifacts.ts';
 
-const root = projectRoot;
-
 const jsDocCases = [
   {
     name: 'type contract',
@@ -299,7 +297,7 @@ test.each([
 });
 
 test('built JavaScript, declarations and source maps contain no retired contracts', async () => {
-  const directory = resolve(root, 'dist');
+  const directory = resolve(projectRoot, 'dist');
   expect(existsSync(resolve(directory, 'index.js'))).toBe(true);
   expect(existsSync(resolve(directory, 'index.d.ts'))).toBe(true);
   expect(await findForbiddenArtifactSymbols(directory)).toEqual([]);
@@ -356,12 +354,12 @@ test('product source and generated artifacts expose one Effect execution path', 
   const mappingOwners: Array<string> = [];
   const files = [
     'index.ts',
-    ...(await readdir(resolve(root, 'src'), { recursive: true })).map(
+    ...(await readdir(resolve(projectRoot, 'src'), { recursive: true })).map(
       (file) => `src/${file}`,
     ),
   ];
   for (const file of files.filter((path) => /\.tsx?$/.test(path))) {
-    const source = await readFile(resolve(root, file), 'utf8');
+    const source = await readFile(resolve(projectRoot, file), 'utf8');
     if (forbidden.test(source)) {
       failures.push(file);
     }
@@ -391,12 +389,12 @@ test('product source and generated artifacts expose one Effect execution path', 
     'cache',
     'module-runtime',
   ]) {
-    if (existsSync(resolve(root, `src/core/${file}.ts`))) {
+    if (existsSync(resolve(projectRoot, `src/core/${file}.ts`))) {
       failures.push(`src/core/${file}.ts: retired path`);
     }
   }
   for (const file of ['_migration', '_module-inputs', '_voice-upload-xml']) {
-    if (existsSync(resolve(root, `src/modules/${file}.ts`))) {
+    if (existsSync(resolve(projectRoot, `src/modules/${file}.ts`))) {
       failures.push(`src/modules/${file}.ts: retired path`);
     }
   }

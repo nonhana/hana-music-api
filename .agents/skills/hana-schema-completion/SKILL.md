@@ -18,9 +18,11 @@ description: 'Use when adding or repairing hana-music-api return-body schemas (M
 ```bash
 bun run schema:audit status
 bun run schema:audit module <module>
-bun run schema:audit recordings
+bun run schema:audit recordings --recordings tests/fixtures/netease
 bun run schema:audit check
 ```
+
+`recordings` 的默认根是 Campanula 仓库的 `../campanula-svelte-main/tests/fixtures/netease`；在 SDK 仓库里必须传 `--recordings tests/fixtures/netease`。
 
 ## 0. 预检：范围、版本、覆盖面
 
@@ -88,7 +90,7 @@ bun run schema:audit module <module>
 额外规则：
 
 - 别处（Campanula、线上抓包）见到的值，先补录到 SDK 的 `tests/fixtures/netease/`，再声明。
-- 共享结构只收 **至少三个模块都用到且字段完全相同** 的结构；两个模块的 `Binding` 这类留在各自模块里。
+- 共享结构只收 **至少三个模块都用到且字段完全相同** 的结构；三个模块的 `Binding` 这类留在各自模块里。
 - 宽松容器里不要有收紧字段；嵌套记录的编号用 `Loose`。
 - 不声明 `Schema.MutableJson` 字段。
 - 每个 `ModuleBody` 正上方写一句注释，写明通到返回物的路径和“接口就是为了拿它的那一项”。
@@ -137,7 +139,7 @@ bun run schema:audit module <module>
 
 ```bash
 bun run schema:audit check
-bun run schema:audit recordings
+bun run schema:audit recordings --recordings tests/fixtures/netease
 bun run types:modules:check
 bun test tests/contract
 bun run typecheck

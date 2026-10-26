@@ -24,7 +24,7 @@
 - 上游 HTTP 200 + `code: 400` 的参数错误，改造前按 200 resolve；这 5 个模块开始做 Body 校验后，`decodeUpstreamBody` 会在解码 Body 之前先按业务码拒绝，公开结果为 `status: 400`、`body` 保留上游原文。请求层原有的 `SPECIAL_STATUS_CODES` 会把 `code: 400` 映射成 200，但 Body 校验发生在公开响应之前，最终状态是 400。
 - 已录入 5 份匿名 400 录制：`event.invalid-pagesize.json`（`pagesize=abc`）、`hot_topic.invalid-limit.json`（`limit=abc`）、`topic_sublist.invalid-offset.json`（`offset=abc`）、`topic_detail.missing-actid.json`（缺失 `actid`）、`topic_detail_event_hot.missing-actid.json`（缺失 `actid`）。
 - `SPECIAL_STATUS_CODES` 里的其他码同样会在 Body 校验时拒绝：201/302/502 以原码拒绝，800–803 因超出 100–599 钳位为 400。
-- `code: 404` 不在 `SPECIAL_STATUS_CODES` 里，仍按业务拒绝原样转交：未知话题的 `topic_detail`、`topic_detail_event_hot` 返回 HTTP 200 和 `{ code: 404 }`，SDK 以 `status: 404` 原样转交，不报 502。
+- `code: 404` 不在 `SPECIAL_STATUS_CODES` 里，改造前请求层就 reject `status: 404`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`），不报 502：未知话题的 `topic_detail`、`topic_detail_event_hot` 返回 HTTP 200 和 `{ code: 404 }`，公开 `status` 和正文不变。
 
 ### 行为变化
 

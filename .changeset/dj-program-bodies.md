@@ -25,7 +25,7 @@
 ### 行为变化
 
 - 这 11 个模块开始做运行时结构校验：以前畸形返回原样放行，现在会在收紧字段缺失或类型不对时以 `UnexpectedUpstreamShape`（`status: 502`，`body.upstreamShape` 带模块名和路径）拒绝。宽松字段仍然缺失、`null` 或类型不对都只丢这一项。
-- **非 200 业务码的状态码变化**：结构定义只接受 `code: 200`，以前 HTTP 200 + 非 200 业务码会原样返回 `status: 200`，现在按业务码拒绝，`status` 等于正文里的 `code`、正文仍是网易云原文。本批录到的路径：`dj_program` 缺少 `rid` 返回 `code: 400`（录制 `dj_program.missing-rid.json`），`dj_program_detail` 的未知节目 id 返回 `code: 404`（录制 `dj_program_detail.unknown.json`）。
+- **非 200 业务码的状态码变化**：结构定义只接受 `code: 200`。`dj_program` 缺少 `rid` 的 `code: 400` 是特殊码，以前被归一成 resolve `status: 200`，现在按业务码 reject `status: 400`；`dj_program_detail` 未知节目 id 的 `code: 404` 不在特殊码表里，改造前请求层就 reject `status: 404`（`ProtocolFailed`），现在仍 reject 相同状态（`UpstreamBusinessFailed`）。正文都是网易云原文（录制 `dj_program.missing-rid.json`、`dj_program_detail.unknown.json`）。
 - 空结果可以正常返回：`dj_program`、`program_recommend` 的越界分页返回空数组（`*.empty.json`）；`dj_difm_all_style_channel` 的 `sources: '[]'` 返回空 `data`；`dj_difm_playing_tracks_list` 的未知 `channelId` 返回空 `data.list`、`total: 0`。`dj_program_toplist`（`limit` 由 SDK 默认 `100` 后再请求，上游忽略 `offset`）、`dj_program_toplist_hours`（SDK 默认 `100`，没有 `offset`）、`dj_personalize_recommend`（SDK 默认 `6`）、`personalized_djprogram`（没有分页参数）本批录制与探测未发现可达的空结果，数组本身允许为空。
 - `dj_today_perfered` 和 `dj_difm_subscribe_channels_get` 的 `data` 在匿名、登录和不同参数的探测里都是空数组，元素类型没有证据，未声明并原样保留。
 - 录制截取：`dj_program`（3/30）、`dj_program_toplist`（2/5）、`program_recommend`（3/5）、`personalized_djprogram`（4/6）按字段覆盖保留非连续子集，`dj_difm_all_style_channel` 保留 1/15 个风格（`channels` 未截取），`dj_difm_playing_tracks_list` 把每条 `wave` 截到 32/2001 个点；原始数量写在 `context.truncated`，索引写在 `context.note`。
@@ -36,7 +36,7 @@
 
 - 这 11 个模块的 `body` 类型从原始的 JSON 值变成了收窄后的结构；未声明字段仍在，但读取时是 JSON 值，要按需自行校验。
 - 需要处理新的 502：用 `body.upstreamShape` 判断上游结构变化，不要解析 `msg`。
-- **调用方要处理按业务码拒绝的 400/404**：`dj_program` 未传 `rid`、`dj_program_detail` 传未知节目 id 时，以前 resolve HTTP 200 + 正文业务码，现在以 `status: 400/404` 拒绝；先补齐参数，或按 `status`/`code` 处理。
+- **调用方要处理按业务码拒绝的 400**：`dj_program` 未传 `rid` 时，以前 resolve HTTP 200 + 正文 `code: 400`，现在以 `status: 400` 拒绝；`dj_program_detail` 未知节目 id 的 404 改造前就 reject `status: 404`，公开状态不变。先补齐参数，或按 `status`/`code` 处理。
 - 节目里的 `programs[].id`、`program.id`、`toplist[].program.id`、`data.list[].program.id` 是收紧的 `number`，不再需要判空；`mainSong`、`dj`、`participateAnchors`、`radio` 和其余已声明字段是宽松字段，类型带 `null | undefined`，未声明字段（如 `icon`、`songs`）是原始 JSON。
 - `dj_today_perfered`、`dj_difm_subscribe_channels_get` 的 `body` 只保证 `code`（后者不保证 `message`），`data` 仍是原始 JSON 数组，读元素前要自行校验。
 - 列表接口的数组本身允许为空；分页不要假定一定有结果。
