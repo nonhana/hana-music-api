@@ -39,6 +39,10 @@ const result = await songLyricsMarkDel({
 console.log(result.body);
 ```
 
+## 返回内容
+
+返回码 `body.code` 收紧为 `200`，删除结果 `body.data` 和 `data.success` 收紧；`message` 宽松。删除已不存在的摘录时返回码仍是 `200`，只有 `success` 变成 `false`（录制 `song_lyrics_mark_del.del-again.json`），调用方要按 `success` 判断有没有删到。结构定义和类型是 `SongLyricsMarkDelBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 登录后调用此接口, 传入摘录歌词id, 删除摘录歌词

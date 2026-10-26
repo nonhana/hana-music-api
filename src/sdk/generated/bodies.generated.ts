@@ -37,6 +37,7 @@ export { ModuleBody as CalendarBody } from '../../modules/calendar.ts';
 export { ModuleBody as CaptchaSentBody } from '../../modules/captcha_sent.ts';
 export { ModuleBody as CellphoneExistenceCheckBody } from '../../modules/cellphone_existence_check.ts';
 export { ModuleBody as CheckMusicBody } from '../../modules/check_music.ts';
+export { ModuleBody as CloudMatchBody } from '../../modules/cloud_match.ts';
 export { ModuleBody as CloudsearchBody } from '../../modules/cloudsearch.ts';
 export { ModuleBody as CommentAlbumBody } from '../../modules/comment_album.ts';
 export { ModuleBody as CommentDjBody } from '../../modules/comment_dj.ts';
@@ -60,6 +61,8 @@ export { ModuleBody as DjCategoryRecommendBody } from '../../modules/dj_category
 export { ModuleBody as DjCatelistBody } from '../../modules/dj_catelist.ts';
 export { ModuleBody as DjDetailBody } from '../../modules/dj_detail.ts';
 export { ModuleBody as DjDifmAllStyleChannelBody } from '../../modules/dj_difm_all_style_channel.ts';
+export { ModuleBody as DjDifmChannelSubscribeBody } from '../../modules/dj_difm_channel_subscribe.ts';
+export { ModuleBody as DjDifmChannelUnsubscribeBody } from '../../modules/dj_difm_channel_unsubscribe.ts';
 export { ModuleBody as DjDifmPlayingTracksListBody } from '../../modules/dj_difm_playing_tracks_list.ts';
 export { ModuleBody as DjDifmSubscribeChannelsGetBody } from '../../modules/dj_difm_subscribe_channels_get.ts';
 export { ModuleBody as DjHotBody } from '../../modules/dj_hot.ts';
@@ -83,6 +86,7 @@ export { ModuleBody as DjToplistPayBody } from '../../modules/dj_toplist_pay.ts'
 export { ModuleBody as DjToplistPopularBody } from '../../modules/dj_toplist_popular.ts';
 export { ModuleBody as DjRadioTopBody } from '../../modules/djRadio_top.ts';
 export { ModuleBody as EventBody } from '../../modules/event.ts';
+export { ModuleBody as FmTrashBody } from '../../modules/fm_trash.ts';
 export { ModuleBody as FollowBody } from '../../modules/follow.ts';
 export { ModuleBody as GetUseridsBody } from '../../modules/get_userids.ts';
 export { ModuleBody as HistoryRecommendSongsBody } from '../../modules/history_recommend_songs.ts';
@@ -175,6 +179,7 @@ export { ModuleBody as ProgramRecommendBody } from '../../modules/program_recomm
 export { ModuleBody as RecentListenListBody } from '../../modules/recent_listen_list.ts';
 export { ModuleBody as RecommendResourceBody } from '../../modules/recommend_resource.ts';
 export { ModuleBody as RecommendSongsBody } from '../../modules/recommend_songs.ts';
+export { ModuleBody as RecommendSongsDislikeBody } from '../../modules/recommend_songs_dislike.ts';
 export { ModuleBody as RecordRecentAlbumBody } from '../../modules/record_recent_album.ts';
 export { ModuleBody as RecordRecentDjBody } from '../../modules/record_recent_dj.ts';
 export { ModuleBody as RecordRecentPlaylistBody } from '../../modules/record_recent_playlist.ts';
@@ -209,6 +214,8 @@ export { ModuleBody as SongDownloadUrlV1Body } from '../../modules/song_download
 export { ModuleBody as SongDynamicCoverBody } from '../../modules/song_dynamic_cover.ts';
 export { ModuleBody as SongLikeCheckBody } from '../../modules/song_like_check.ts';
 export { ModuleBody as SongLyricsMarkBody } from '../../modules/song_lyrics_mark.ts';
+export { ModuleBody as SongLyricsMarkAddBody } from '../../modules/song_lyrics_mark_add.ts';
+export { ModuleBody as SongLyricsMarkDelBody } from '../../modules/song_lyrics_mark_del.ts';
 export { ModuleBody as SongLyricsMarkUserPageBody } from '../../modules/song_lyrics_mark_user_page.ts';
 export { ModuleBody as SongMonthdownlistBody } from '../../modules/song_monthdownlist.ts';
 export { ModuleBody as SongMusicDetailBody } from '../../modules/song_music_detail.ts';
@@ -268,6 +275,7 @@ export { ModuleBody as UserPlaylistCollectBody } from '../../modules/user_playli
 export { ModuleBody as UserPlaylistCreateBody } from '../../modules/user_playlist_create.ts';
 export { ModuleBody as UserRecordBody } from '../../modules/user_record.ts';
 export { ModuleBody as UserSocialStatusBody } from '../../modules/user_social_status.ts';
+export { ModuleBody as UserSocialStatusEditBody } from '../../modules/user_social_status_edit.ts';
 export { ModuleBody as UserSocialStatusRcmdBody } from '../../modules/user_social_status_rcmd.ts';
 export { ModuleBody as UserSocialStatusSupportBody } from '../../modules/user_social_status_support.ts';
 export { ModuleBody as UserSubcountBody } from '../../modules/user_subcount.ts';

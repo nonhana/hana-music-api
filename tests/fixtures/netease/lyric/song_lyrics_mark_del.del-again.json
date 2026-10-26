@@ -1,0 +1,23 @@
+{
+  "module": "song_lyrics_mark_del",
+  "query": {
+    "id": 32538120
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:02:01.575Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：song_lyrics_mark_del 反向（删除已不存在的摘录 32538120）；返回码仍 200 但 data.success 为 false，回读前后都为空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "success": false
+      },
+      "message": ""
+    }
+  }
+}

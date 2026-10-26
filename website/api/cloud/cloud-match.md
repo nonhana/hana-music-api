@@ -46,6 +46,10 @@ const result = await cloudMatch({
 console.log(result.body);
 ```
 
+## 返回内容
+
+返回码 `body.code` 收紧为 `200`；匹配后的云盘记录 `body.matchData` 和这条记录自己的 `matchData.songId` 收紧（匹配后 `songId` 变成纠错目标），`matchData` 的其余字段宽松，内嵌歌曲复用 `LooseSong`；`message` 在成功正文里是数字 `200`，`data` 是布尔成功标记，都宽松。`asid` 不是有效曲库歌曲时上游返回 `code: 400` 且没有 `matchData`（录制 `cloud_match.invalid-asid.json`）：改造前是 resolve `status: 200`、正文 `code: 400`，现在按业务拒绝 reject `status: 400`、`body` 保留原文。结构定义和类型是 `CloudMatchBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口,可对云盘歌曲信息匹配纠正,如需取消匹配,asid 需要传 0

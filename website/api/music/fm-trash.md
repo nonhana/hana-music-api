@@ -41,6 +41,10 @@ const result = await fmTrash({
 console.log(result.body);
 ```
 
+## 返回内容
+
+返回码 `body.code` 收紧为 `200`；`count` 是附带计数，宽松；`songs` 在录制里只出现过空数组，元素类型没有证据，未声明并原样保留。这个写入把歌曲移入私人 FM 的垃圾桶，接口没有撤销调用（录制 `fm_trash.trash.json`）。结构定义和类型是 `FmTrashBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入音乐 id, 可把该音乐从私人 FM 中移除至垃圾桶

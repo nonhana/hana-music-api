@@ -160,7 +160,10 @@ import type {
 } from '../../modules/check_music.ts';
 import type { ModuleInput as cloudInput } from '../../modules/cloud.ts';
 import type { ModuleInput as cloudImportInput } from '../../modules/cloud_import.ts';
-import type { ModuleInput as cloudMatchInput } from '../../modules/cloud_match.ts';
+import type {
+  ModuleBody as cloudMatchBody,
+  ModuleInput as cloudMatchInput,
+} from '../../modules/cloud_match.ts';
 import type {
   ModuleBody as cloudsearchBody,
   ModuleInput as cloudsearchInput,
@@ -256,8 +259,14 @@ import type {
   ModuleBody as djDifmAllStyleChannelBody,
   ModuleInput as djDifmAllStyleChannelInput,
 } from '../../modules/dj_difm_all_style_channel.ts';
-import type { ModuleInput as djDifmChannelSubscribeInput } from '../../modules/dj_difm_channel_subscribe.ts';
-import type { ModuleInput as djDifmChannelUnsubscribeInput } from '../../modules/dj_difm_channel_unsubscribe.ts';
+import type {
+  ModuleBody as djDifmChannelSubscribeBody,
+  ModuleInput as djDifmChannelSubscribeInput,
+} from '../../modules/dj_difm_channel_subscribe.ts';
+import type {
+  ModuleBody as djDifmChannelUnsubscribeBody,
+  ModuleInput as djDifmChannelUnsubscribeInput,
+} from '../../modules/dj_difm_channel_unsubscribe.ts';
 import type {
   ModuleBody as djDifmPlayingTracksListBody,
   ModuleInput as djDifmPlayingTracksListInput,
@@ -352,7 +361,10 @@ import type {
 } from '../../modules/event.ts';
 import type { ModuleInput as eventDelInput } from '../../modules/event_del.ts';
 import type { ModuleInput as eventForwardInput } from '../../modules/event_forward.ts';
-import type { ModuleInput as fmTrashInput } from '../../modules/fm_trash.ts';
+import type {
+  ModuleBody as fmTrashBody,
+  ModuleInput as fmTrashInput,
+} from '../../modules/fm_trash.ts';
 import type {
   ModuleBody as followBody,
   ModuleInput as followInput,
@@ -732,7 +744,10 @@ import type {
   ModuleBody as recommendSongsBody,
   ModuleInput as recommendSongsInput,
 } from '../../modules/recommend_songs.ts';
-import type { ModuleInput as recommendSongsDislikeInput } from '../../modules/recommend_songs_dislike.ts';
+import type {
+  ModuleBody as recommendSongsDislikeBody,
+  ModuleInput as recommendSongsDislikeInput,
+} from '../../modules/recommend_songs_dislike.ts';
 import type {
   ModuleBody as recordRecentAlbumBody,
   ModuleInput as recordRecentAlbumInput,
@@ -877,8 +892,14 @@ import type {
   ModuleBody as songLyricsMarkBody,
   ModuleInput as songLyricsMarkInput,
 } from '../../modules/song_lyrics_mark.ts';
-import type { ModuleInput as songLyricsMarkAddInput } from '../../modules/song_lyrics_mark_add.ts';
-import type { ModuleInput as songLyricsMarkDelInput } from '../../modules/song_lyrics_mark_del.ts';
+import type {
+  ModuleBody as songLyricsMarkAddBody,
+  ModuleInput as songLyricsMarkAddInput,
+} from '../../modules/song_lyrics_mark_add.ts';
+import type {
+  ModuleBody as songLyricsMarkDelBody,
+  ModuleInput as songLyricsMarkDelInput,
+} from '../../modules/song_lyrics_mark_del.ts';
 import type {
   ModuleBody as songLyricsMarkUserPageBody,
   ModuleInput as songLyricsMarkUserPageInput,
@@ -1117,7 +1138,10 @@ import type {
   ModuleBody as userSocialStatusBody,
   ModuleInput as userSocialStatusInput,
 } from '../../modules/user_social_status.ts';
-import type { ModuleInput as userSocialStatusEditInput } from '../../modules/user_social_status_edit.ts';
+import type {
+  ModuleBody as userSocialStatusEditBody,
+  ModuleInput as userSocialStatusEditInput,
+} from '../../modules/user_social_status_edit.ts';
 import type {
   ModuleBody as userSocialStatusRcmdBody,
   ModuleInput as userSocialStatusRcmdInput,
@@ -2183,7 +2207,7 @@ export interface GeneratedModuleContractMap {
   cloud_match: {
     input: cloudMatchInput;
     query: cloudMatchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<cloudMatchBody>;
   };
   cloudsearch: {
     input: cloudsearchInput;
@@ -2318,12 +2342,12 @@ export interface GeneratedModuleContractMap {
   dj_difm_channel_subscribe: {
     input: djDifmChannelSubscribeInput;
     query: djDifmChannelSubscribeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDifmChannelSubscribeBody>;
   };
   dj_difm_channel_unsubscribe: {
     input: djDifmChannelUnsubscribeInput;
     query: djDifmChannelUnsubscribeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDifmChannelUnsubscribeBody>;
   };
   dj_difm_playing_tracks_list: {
     input: djDifmPlayingTracksListInput;
@@ -2453,7 +2477,7 @@ export interface GeneratedModuleContractMap {
   fm_trash: {
     input: fmTrashInput;
     query: fmTrashInput;
-    response: ModuleResponse;
+    response: ModuleResponse<fmTrashBody>;
   };
   follow: {
     input: followInput;
@@ -2965,7 +2989,7 @@ export interface GeneratedModuleContractMap {
   recommend_songs_dislike: {
     input: recommendSongsDislikeInput;
     query: recommendSongsDislikeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recommendSongsDislikeBody>;
   };
   record_recent_album: {
     input: recordRecentAlbumInput;
@@ -3180,12 +3204,12 @@ export interface GeneratedModuleContractMap {
   song_lyrics_mark_add: {
     input: songLyricsMarkAddInput;
     query: songLyricsMarkAddInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songLyricsMarkAddBody>;
   };
   song_lyrics_mark_del: {
     input: songLyricsMarkDelInput;
     query: songLyricsMarkDelInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songLyricsMarkDelBody>;
   };
   song_lyrics_mark_user_page: {
     input: songLyricsMarkUserPageInput;
@@ -3495,7 +3519,7 @@ export interface GeneratedModuleContractMap {
   user_social_status_edit: {
     input: userSocialStatusEditInput;
     query: userSocialStatusEditInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userSocialStatusEditBody>;
   };
   user_social_status_rcmd: {
     input: userSocialStatusRcmdInput;

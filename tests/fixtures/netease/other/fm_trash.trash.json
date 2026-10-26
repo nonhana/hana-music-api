@@ -1,0 +1,21 @@
+{
+  "module": "fm_trash",
+  "query": {
+    "id": 347230
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:07:59.937Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：fm_trash（歌曲 347230）；单次写入，本接口没有撤销调用，垃圾桶记录会保留"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "songs": [],
+      "count": 0,
+      "code": 200
+    }
+  }
+}

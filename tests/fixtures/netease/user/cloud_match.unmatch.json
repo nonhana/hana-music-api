@@ -1,0 +1,110 @@
+{
+  "module": "cloud_match",
+  "query": {
+    "uid": 10000001,
+    "sid": 347230,
+    "asid": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:08:40.545Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：cloud_match 还原（把 347230 的匹配取消，asid=0）；写前 user_cloud_detail 按 347230 回读为 matched，写后回读 2706240277 恢复 unmatched；`query.uid` 按 B16 做法换成合成值 10000001，原始 uid 不写入录制、无法从录制复现"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": 200,
+      "data": true,
+      "matchData": {
+        "simpleSong": {
+          "name": "为霜",
+          "mainTitle": null,
+          "additionalTitle": null,
+          "id": 2706240277,
+          "pst": 0,
+          "t": 1,
+          "ar": [
+            {
+              "id": 0,
+              "name": null,
+              "tns": [],
+              "alias": []
+            }
+          ],
+          "alia": [],
+          "pop": 0,
+          "st": 0,
+          "rt": null,
+          "fee": 0,
+          "v": 38,
+          "crbt": null,
+          "cf": null,
+          "al": {
+            "id": 0,
+            "name": null,
+            "picUrl": "http://p4.music.126.net/C6Vro2l0BH59Wka9gOaC6w==/109951171180358170.jpg",
+            "tns": [],
+            "pic": 0
+          },
+          "dt": 259144,
+          "h": null,
+          "m": null,
+          "l": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10368566,
+            "vd": 31,
+            "sr": 44100
+          },
+          "sq": null,
+          "hr": null,
+          "a": null,
+          "cd": null,
+          "no": 0,
+          "rtUrl": null,
+          "ftype": 0,
+          "rtUrls": [],
+          "djId": 0,
+          "copyright": 0,
+          "s_id": 2706240277,
+          "mark": 0,
+          "originCoverType": 0,
+          "originSongSimpleData": null,
+          "tagPicList": null,
+          "resourceState": true,
+          "version": 3,
+          "songJumpInfo": null,
+          "entertainmentTags": null,
+          "awardTags": null,
+          "displayTags": null,
+          "markTags": [],
+          "single": 0,
+          "noCopyrightRcmd": null,
+          "rtype": 0,
+          "rurl": null,
+          "mst": 9,
+          "cp": 0,
+          "mv": 0,
+          "publishTime": 0
+        },
+        "bitrate": 2823,
+        "album": "",
+        "artist": "",
+        "songId": 2706240277,
+        "pcId": 525393264375,
+        "songName": "为霜",
+        "addTime": 1747625012174,
+        "cover": 0,
+        "coverId": "0",
+        "lyricId": "0",
+        "matchType": "unmatched",
+        "version": 39,
+        "fileSize": 91426270,
+        "fileName": "为霜.wav"
+      }
+    }
+  }
+}

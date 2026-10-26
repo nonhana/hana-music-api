@@ -1,0 +1,23 @@
+{
+  "module": "cloud_match",
+  "query": {
+    "uid": 10000001,
+    "sid": 2706240277,
+    "asid": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:12:18.170Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：cloud_match 无效纠错目标（asid 999999999）；上游返回 code 400 且没有 matchData，云盘记录保持 unmatched；`query.uid` 按 B16 做法换成合成值 10000001，原始 uid 不写入录制、无法从录制复现"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "纠错目标不是有效的曲库歌曲",
+      "data": false
+    }
+  }
+}

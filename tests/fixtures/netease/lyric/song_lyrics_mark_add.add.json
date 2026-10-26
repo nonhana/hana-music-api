@@ -1,0 +1,27 @@
+{
+  "module": "song_lyrics_mark_add",
+  "query": {
+    "id": 1394617453,
+    "markId": "",
+    "data": "[{\"translateType\":1,\"startTimeStamp\":1000,\"translateLyricsText\":\"测试摘录一\",\"originalLyricsText\":\"テスト抜粋一\"},{\"translateType\":1,\"startTimeStamp\":5000,\"translateLyricsText\":\"测试摘录二\",\"originalLyricsText\":\"テスト抜粋二\"}]"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:01:30.365Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：song_lyrics_mark_add 正向（歌曲 1394617453 新建摘录）；写前 song_lyrics_mark 的 markVOList 为空，写后回读含新 markId"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "markId": 32538120,
+        "updateTime": 1792987290337,
+        "success": true
+      },
+      "message": ""
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "module": "user_social_status_edit",
+  "query": {
+    "type": "EMOJI_TEXT_19",
+    "iconUrl": "https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/12636512787/c34f/5242/8e46/9ab780c83343a72cb9dc1459a85f0bc1.png",
+    "content": "加油"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:05:00.338Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：user_social_status_edit 正向（设置状态 EMOJI_TEXT_19 加油）；写前 user_social_status 的 data 为空对象，写后回读为该状态"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": "将展示7天",
+      "message": ""
+    }
+  }
+}

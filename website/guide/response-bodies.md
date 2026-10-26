@@ -34,20 +34,22 @@
 
 ## 用户资料
 
-| 模块                                                     | 结构定义                 | 收紧的字段                                                                                                                                                                                     |
-| -------------------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [账号等级](/api/user/user-level)                         | `UserLevelBody`          | `code`、`data`、`data.userId`、`data.level`                                                                                                                                                    |
-| [收藏计数](/api/user/user-subcount)                      | `UserSubcountBody`       | `code`                                                                                                                                                                                         |
-| [登录绑定](/api/user/user-binding)                       | `UserBindingBody`        | `code`、`bindings`、`bindings[].id`                                                                                                                                                            |
-| [用户状态](/api/user/user-social-status)                 | `UserSocialStatusBody`   | `code`；`data` 只见过空对象，宽松                                                                                                                                                              |
-| [用户徽章](/api/user/user-medal)                         | `UserMedalBody`          | `code`、`data`、`data.obtainMedals`、`data.obtainMedals[].medalCode`、`data.categoryMedalBlockVos`、`data.categoryMedalBlockVos[].medalVOS`、`data.categoryMedalBlockVos[].subGroups[].medals` |
-| [云盘数据](/api/cloud/user-cloud)                        | `UserCloudBody`          | `code`、`data`、`data[].songId`                                                                                                                                                                |
-| [云盘数据详情](/api/cloud/user-cloud-detail)             | `UserCloudDetailBody`    | `code`、`data`、`data[].songId`                                                                                                                                                                |
-| [设置](/api/user/setting)                                | `SettingBody`            | `code`、`setting`、`setting.userId`                                                                                                                                                            |
-| [会员下载歌曲记录](/api/music/song-downlist)             | `SongDownlistBody`       | `code`、`info`、`info[].id`                                                                                                                                                                    |
-| [会员本月下载歌曲记录](/api/music/song-monthdownlist)    | `SongMonthdownlistBody`  | `code`、`info`、`info[].id`                                                                                                                                                                    |
-| [已购买单曲（下载记录）](/api/music/song-singledownlist) | `SongSingledownlistBody` | `code`                                                                                                                                                                                         |
-| [已购单曲](/api/music/song-purchased)                    | `SongPurchasedBody`      | `code`、`data`                                                                                                                                                                                 |
+| 模块                                                     | 结构定义                   | 收紧的字段                                                                                                                                                                                     |
+| -------------------------------------------------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [账号等级](/api/user/user-level)                         | `UserLevelBody`            | `code`、`data`、`data.userId`、`data.level`                                                                                                                                                    |
+| [收藏计数](/api/user/user-subcount)                      | `UserSubcountBody`         | `code`                                                                                                                                                                                         |
+| [登录绑定](/api/user/user-binding)                       | `UserBindingBody`          | `code`、`bindings`、`bindings[].id`                                                                                                                                                            |
+| [用户状态](/api/user/user-social-status)                 | `UserSocialStatusBody`     | `code`；`data` 只见过空对象，宽松                                                                                                                                                              |
+| [用户状态 - 编辑](/api/user/user-social-status-edit)     | `UserSocialStatusEditBody` | `code`；`data` 是展示提示，宽松                                                                                                                                                                |
+| [用户徽章](/api/user/user-medal)                         | `UserMedalBody`            | `code`、`data`、`data.obtainMedals`、`data.obtainMedals[].medalCode`、`data.categoryMedalBlockVos`、`data.categoryMedalBlockVos[].medalVOS`、`data.categoryMedalBlockVos[].subGroups[].medals` |
+| [云盘数据](/api/cloud/user-cloud)                        | `UserCloudBody`            | `code`、`data`、`data[].songId`                                                                                                                                                                |
+| [云盘数据详情](/api/cloud/user-cloud-detail)             | `UserCloudDetailBody`      | `code`、`data`、`data[].songId`                                                                                                                                                                |
+| [云盘歌曲信息匹配纠正](/api/cloud/cloud-match)           | `CloudMatchBody`           | `code`、`matchData`、`matchData.songId`                                                                                                                                                        |
+| [设置](/api/user/setting)                                | `SettingBody`              | `code`、`setting`、`setting.userId`                                                                                                                                                            |
+| [会员下载歌曲记录](/api/music/song-downlist)             | `SongDownlistBody`         | `code`、`info`、`info[].id`                                                                                                                                                                    |
+| [会员本月下载歌曲记录](/api/music/song-monthdownlist)    | `SongMonthdownlistBody`    | `code`、`info`、`info[].id`                                                                                                                                                                    |
+| [已购买单曲（下载记录）](/api/music/song-singledownlist) | `SongSingledownlistBody`   | `code`                                                                                                                                                                                         |
+| [已购单曲](/api/music/song-purchased)                    | `SongPurchasedBody`        | `code`、`data`                                                                                                                                                                                 |
 
 这批接口都用登录账号录制（`viewer: authenticated`，先经 `login_status` 确认 `anonimousUser: false`）：`user_level`、`user_subcount`、`user_binding`、`user_medal`、`user_social_status` 和两个云盘接口返回当前登录账号自己的数据。`user_account` 的匿名对照仍在登录一节；`user_detail` 没有匿名录制，本批未改其声明。
 
@@ -64,6 +66,12 @@
 `song_singledownlist` 只有 `code` 收紧：录制账号没有已购买单曲，`info` 只有空数组证据、元素类型未知，未声明并由 `UpstreamObject` 原样保留（`song_singledownlist.empty.json`）。`song_purchased` 收紧 `code` 和 `data`，`data.count`、`data.hasMore`、`message` 宽松；`data.list` 同样只有空数组证据（`song_purchased.empty.json`），未声明、原样保留。两个接口都没有另一个已购账号可补录非空列表。
 
 这四个下载/已购模块的录制先用 `login_status` 确认 `account.anonimousUser: false`；`user_playlist_collect`、`user_playlist_create` 同样如此。两个歌单列表用公开账号 32953014 录制，`query.uid` 与正文一致、正文未改写；其中的第三方账号是歌单创建者，属于公开数据。
+
+`cloud_match` 是 B47 补上的可逆写操作：匹配后的云盘记录 `matchData` 和这条记录自己的 `matchData.songId` 收紧（匹配后 `songId` 变成纠错目标，录制 `cloud_match.match.json`、`cloud_match.unmatch.json`），`matchData` 的其余字段宽松，内嵌歌曲复用 `LooseSong`；`message` 在成功正文里是数字 `200`，`data` 是布尔成功标记，都宽松。`asid` 不是有效曲库歌曲时上游返回 `code: 400` 且没有 `matchData`（录制 `cloud_match.invalid-asid.json`），SDK 按业务拒绝原样转交。
+
+`user_social_status_edit` 只收紧返回码 `code`（`200`）；`data` 是设置成功后的展示提示（录制里是「将展示7天」），`message` 是附带提示，都宽松。该模块只能设置状态：四个字段全空的调用被上游以 `code: 500` 拒绝（录制 `user_social_status_edit.clear-rejected.json`），模块内没有清空调用；录制结束后用模块外 `content` 为空的原始请求清空，再用 `user_social_status` 回读确认 `data` 为空对象。
+
+`user_update` 本批尝试补录成功正文，但录制账号调用时上游返回 `code: 250`「用户资料初始化或修改失败」，尝试前后用 `user_detail` 回读的资料没有变化；没有成功正文证据，返回体仍未收窄，`body` 原样返回。
 
 ## 账号校验与基础查询
 
@@ -258,6 +266,7 @@
 | [获取相似歌单](/api/recommend/simi-playlist)                    | `SimiPlaylistBody`                   | `code`、`playlists`、`playlists[].id`                             |
 | [获取相似音乐](/api/recommend/simi-song)                        | `SimiSongBody`                       | `code`、`songs`、`songs[].id`                                     |
 | [相似 mv](/api/recommend/simi-mv)                               | `SimiMvBody`                         | `code`、`mvs`、`mvs[].id`                                         |
+| [每日推荐歌曲-不感兴趣](/api/recommend/recommend-songs-dislike) | `RecommendSongsDislikeBody`          | `code`、`data`、`data.id`                                         |
 | [获取最近 5 个听了这首歌的用户](/api/recommend/simi-user)       | `SimiUserBody`                       | `code`；`userprofiles` 只见过空数组                               |
 | [私人 FM](/api/music/personal-fm)                               | `PersonalFmBody`                     | `code`、`data`、`data[].id`                                       |
 | [私人 FM 模式选择](/api/music/personal-fm-mode)                 | `PersonalFmModeBody`                 | `code`、`data`、`data[].id`                                       |
@@ -278,6 +287,8 @@
 `aidj_content_rcmd` 的 `data.aiDjResources` 收紧，每条资源的 `type` 和 `value` 宽松；`value` 里声明录制有证据的 `songId`（字符串）、`includeVoice`、`songData`、`songPrivilege`、`audioList`（音频编号、地址、时长等），全部宽松；`songData` 用模块内的 `AiDjSong`（复用 `ProgramMainSong`，补 `alias`/`transName`/`transNames`，歌曲编号也宽松）。`tagName`、`message`、`trp.rules` 宽松；声明了这些字段，其余原样保留（`songData` 里只见过 `null` 或空数组的字段也未声明）。宽松字段可能缺席，例如 `with-location` 录制里的 song 资源没有 `audioList`。没有找到可达的空资源列表，数组本身允许为空。
 
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`personal_fm`、`personal_fm_mode` 和 `aidj_content_rcmd` 另保留匿名录制；声明过的字段及其允许类型一致，差异只在宽松/未声明字段的出现与值（如 `reason`/`fmRecReason`/`extTransMap` 是否出现，`rscl`/`cannotListenReason` 的取值），不对所有账号、地区和版本作相同性断言。
+
+`recommend_songs_dislike` 在 B47 补上返回体：`code` 收紧为 `200`；接口在标记不感兴趣的同时返回一首替换的推荐歌曲，`data` 和歌曲自己的 `data.id` 收紧，歌曲其余字段宽松（录制 `recommend_songs_dislike.dislike.json`）。这个写入没有撤销调用，标记后的歌曲会从日推里移除。
 
 音乐日历（`calendar`）的 `data.calendarEvents` 是通到日历事件列表的路径，每条事件自己的编号 `id` 收紧；`data.calendarConfig` 的按钮、事件的标题、封面、提醒和计数等展示字段宽松。录制覆盖 2025-10-01 至 2025-10-26（18 条）、零长度区间无事件（`calendar.empty.json`，`calendarEvents: []`）和匿名零长度区间（`calendar.anonymous.json`，同样空），三种都通过同一结构；匿名也能返回正常正文，接口不需要登录。
 
@@ -438,40 +449,42 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 
 ## 电台
 
-| 模块                                                    | 结构定义                         | 收紧的字段                                                                                   |
-| ------------------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------- |
-| [电台 banner](/api/dj/dj-banner)                        | `DjBannerBody`                   | `code`、`data`                                                                               |
-| [电台分类](/api/dj/dj-catelist)                         | `DjCatelistBody`                 | `code`、`categories`、`categories[].id`                                                      |
-| [非热门电台分类](/api/dj/dj-category-excludehot)        | `DjCategoryExcludehotBody`       | `code`、`data`、`data[].id`                                                                  |
-| [推荐电台分类](/api/dj/dj-category-recommend)           | `DjCategoryRecommendBody`        | `code`、`data`、`data[].categoryId`、`data[].radios`、`data[].radios[].id`                   |
-| [电台详情](/api/dj/dj-detail)                           | `DjDetailBody`                   | `code`、`data`、`data.id`                                                                    |
-| [热门电台](/api/dj/dj-hot)                              | `DjHotBody`                      | `code`、`djRadios`、`djRadios[].id`                                                          |
-| [类别热门电台](/api/dj/dj-radio-hot)                    | `DjRadioHotBody`                 | `code`、`djRadios`、`djRadios[].id`                                                          |
-| [推荐电台](/api/dj/dj-recommend)                        | `DjRecommendBody`                | `code`、`djRadios`、`djRadios[].id`                                                          |
-| [分类推荐电台](/api/dj/dj-recommend-type)               | `DjRecommendTypeBody`            | `code`、`djRadios`、`djRadios[].id`                                                          |
-| [付费精选电台](/api/dj/dj-paygift)                      | `DjPaygiftBody`                  | `code`、`data`、`data.list`、`data.list[].id`                                                |
-| [用户电台节目](/api/dj/user-dj)                         | `UserDjBody`                     | `code`、`programs`、`programs[].id`                                                          |
-| [用户创建的电台](/api/dj/user-audio)                    | `UserAudioBody`                  | `code`、`djRadios`、`djRadios[].id`                                                          |
-| [电台节目](/api/dj/dj-program)                          | `DjProgramBody`                  | `code`、`programs`、`programs[].id`                                                          |
-| [节目详情](/api/dj/dj-program-detail)                   | `DjProgramDetailBody`            | `code`、`program`、`program.id`                                                              |
-| [电台节目榜](/api/dj/dj-program-toplist)                | `DjProgramToplistBody`           | `code`、`toplist`、`toplist[].program.id`                                                    |
-| [电台24小时节目榜](/api/dj/dj-program-toplist-hours)    | `DjProgramToplistHoursBody`      | `code`、`data`、`data.list`、`data.list[].program.id`                                        |
-| [推荐节目](/api/recommend/program-recommend)            | `ProgramRecommendBody`           | `code`、`programs`、`programs[].id`                                                          |
-| [电台个性推荐](/api/dj/dj-personalize-recommend)        | `DjPersonalizeRecommendBody`     | `code`、`data`、`data[].id`                                                                  |
-| [推荐电台](/api/recommend/personalized-djprogram)       | `PersonalizedDjprogramBody`      | `code`、`result`、`result[].id`                                                              |
-| [电台今日优选](/api/dj/dj-today-perfered)               | `DjTodayPerferedBody`            | `code`                                                                                       |
-| [电台排行榜获取](/api/dj/dj-radio-top)                  | `DjRadioTopBody`                 | `code`                                                                                       |
-| [电台的订阅列表](/api/dj/dj-sublist)                    | `DjSublistBody`                  | `code`、`djRadios`、`djRadios[].id`                                                          |
-| [订阅与取消电台](/api/dj/dj-sub)                        | `DjSubBody`                      | `code`（正文没有其他有证据的字段）                                                           |
-| [电台订阅者列表](/api/dj/dj-subscriber)                 | `DjSubscriberBody`               | `code`、`subscribers`、`subscribers[].userId`                                                |
-| [电台 - 新晋电台榜/热门电台榜](/api/dj/dj-toplist)      | `DjToplistBody`                  | `code`、`toplist`、`toplist[].id`                                                            |
-| [电台 - 24 小时主播榜](/api/dj/dj-toplist-hours)        | `DjToplistHoursBody`             | `code`、`data`、`data.list`、`data.list[].id`                                                |
-| [电台 - 主播新人榜](/api/dj/dj-toplist-newcomer)        | `DjToplistNewcomerBody`          | `code`、`data`、`data.list`、`data.list[].id`                                                |
-| [电台 - 付费精品](/api/dj/dj-toplist-pay)               | `DjToplistPayBody`               | `code`、`data`、`data.list`、`data.list[].id`                                                |
-| [电台 - 最热主播榜](/api/dj/dj-toplist-popular)         | `DjToplistPopularBody`           | `code`、`data`、`data.list`、`data.list[].id`                                                |
-| [DIFM 分类频道](/api/dj/dj-difm-all-style-channel)      | `DjDifmAllStyleChannelBody`      | `code`、`data`、`data[].styles`、`data[].styles[].channels`、`data[].styles[].channels[].id` |
-| [DIFM 播放列表](/api/dj/dj-difm-playing-tracks-list)    | `DjDifmPlayingTracksListBody`    | `code`、`data`、`data.list`、`data.list[].id`                                                |
-| [DIFM 收藏列表](/api/dj/dj-difm-subscribe-channels-get) | `DjDifmSubscribeChannelsGetBody` | `code`                                                                                       |
+| 模块                                                     | 结构定义                         | 收紧的字段                                                                                   |
+| -------------------------------------------------------- | -------------------------------- | -------------------------------------------------------------------------------------------- |
+| [电台 banner](/api/dj/dj-banner)                         | `DjBannerBody`                   | `code`、`data`                                                                               |
+| [电台分类](/api/dj/dj-catelist)                          | `DjCatelistBody`                 | `code`、`categories`、`categories[].id`                                                      |
+| [非热门电台分类](/api/dj/dj-category-excludehot)         | `DjCategoryExcludehotBody`       | `code`、`data`、`data[].id`                                                                  |
+| [推荐电台分类](/api/dj/dj-category-recommend)            | `DjCategoryRecommendBody`        | `code`、`data`、`data[].categoryId`、`data[].radios`、`data[].radios[].id`                   |
+| [电台详情](/api/dj/dj-detail)                            | `DjDetailBody`                   | `code`、`data`、`data.id`                                                                    |
+| [热门电台](/api/dj/dj-hot)                               | `DjHotBody`                      | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [类别热门电台](/api/dj/dj-radio-hot)                     | `DjRadioHotBody`                 | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [推荐电台](/api/dj/dj-recommend)                         | `DjRecommendBody`                | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [分类推荐电台](/api/dj/dj-recommend-type)                | `DjRecommendTypeBody`            | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [付费精选电台](/api/dj/dj-paygift)                       | `DjPaygiftBody`                  | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [用户电台节目](/api/dj/user-dj)                          | `UserDjBody`                     | `code`、`programs`、`programs[].id`                                                          |
+| [用户创建的电台](/api/dj/user-audio)                     | `UserAudioBody`                  | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [电台节目](/api/dj/dj-program)                           | `DjProgramBody`                  | `code`、`programs`、`programs[].id`                                                          |
+| [节目详情](/api/dj/dj-program-detail)                    | `DjProgramDetailBody`            | `code`、`program`、`program.id`                                                              |
+| [电台节目榜](/api/dj/dj-program-toplist)                 | `DjProgramToplistBody`           | `code`、`toplist`、`toplist[].program.id`                                                    |
+| [电台24小时节目榜](/api/dj/dj-program-toplist-hours)     | `DjProgramToplistHoursBody`      | `code`、`data`、`data.list`、`data.list[].program.id`                                        |
+| [推荐节目](/api/recommend/program-recommend)             | `ProgramRecommendBody`           | `code`、`programs`、`programs[].id`                                                          |
+| [电台个性推荐](/api/dj/dj-personalize-recommend)         | `DjPersonalizeRecommendBody`     | `code`、`data`、`data[].id`                                                                  |
+| [推荐电台](/api/recommend/personalized-djprogram)        | `PersonalizedDjprogramBody`      | `code`、`result`、`result[].id`                                                              |
+| [电台今日优选](/api/dj/dj-today-perfered)                | `DjTodayPerferedBody`            | `code`                                                                                       |
+| [电台排行榜获取](/api/dj/dj-radio-top)                   | `DjRadioTopBody`                 | `code`                                                                                       |
+| [电台的订阅列表](/api/dj/dj-sublist)                     | `DjSublistBody`                  | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [订阅与取消电台](/api/dj/dj-sub)                         | `DjSubBody`                      | `code`（正文没有其他有证据的字段）                                                           |
+| [电台订阅者列表](/api/dj/dj-subscriber)                  | `DjSubscriberBody`               | `code`、`subscribers`、`subscribers[].userId`                                                |
+| [电台 - 新晋电台榜/热门电台榜](/api/dj/dj-toplist)       | `DjToplistBody`                  | `code`、`toplist`、`toplist[].id`                                                            |
+| [电台 - 24 小时主播榜](/api/dj/dj-toplist-hours)         | `DjToplistHoursBody`             | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [电台 - 主播新人榜](/api/dj/dj-toplist-newcomer)         | `DjToplistNewcomerBody`          | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [电台 - 付费精品](/api/dj/dj-toplist-pay)                | `DjToplistPayBody`               | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [电台 - 最热主播榜](/api/dj/dj-toplist-popular)          | `DjToplistPopularBody`           | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [DIFM 分类频道](/api/dj/dj-difm-all-style-channel)       | `DjDifmAllStyleChannelBody`      | `code`、`data`、`data[].styles`、`data[].styles[].channels`、`data[].styles[].channels[].id` |
+| [DIFM 播放列表](/api/dj/dj-difm-playing-tracks-list)     | `DjDifmPlayingTracksListBody`    | `code`、`data`、`data.list`、`data.list[].id`                                                |
+| [DIFM 收藏列表](/api/dj/dj-difm-subscribe-channels-get)  | `DjDifmSubscribeChannelsGetBody` | `code`                                                                                       |
+| [DIFM 收藏频道](/api/dj/dj-difm-channel-subscribe)       | `DjDifmChannelSubscribeBody`     | `code`                                                                                       |
+| [DIFM 取消收藏频道](/api/dj/dj-difm-channel-unsubscribe) | `DjDifmChannelUnsubscribeBody`   | `code`                                                                                       |
 
 这几个接口返回的电台记录不是同一份结构，各自在模块里声明：`dj_hot`、`dj_recommend` 的 `Radio` 16 个字段完全相同，但只有两个消费方，各自留在模块里；`dj_radio_hot`、`dj_recommend_type` 的 `Radio` 只差 `lastUpdateProgramName` 和 `DescPic` 的 `height`/`width`（这两项只在 `dj_recommend_type` 有数值证据），同样留在局部；`dj_category_recommend`、`dj_paygift` 的短推荐记录与上面两套都不同。`dj_radio_hot` 的 `operateUidList`、`participateUidList` 有非空数字数组证据，声明为宽松的数字数组。`dj` 主播统一复用宽松的 `PlaylistUser`，其中 `remarkName` 没有声明，原样保留。只有 `dj_radio_hot` 和 `dj_recommend_type` 的 `descPicList[]` 出现非 `null` 的图文结构，声明为 `type`、`id`、`content` 和 `nestedData.textList[].text` 宽松字段；`height`、`width` 只在 `dj_recommend_type` 声明，`dj_radio_hot` 里只见过 `null`，没有声明。
 
@@ -488,6 +501,8 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_popular` 的主播条目字段完全相同，提升到 `src/core/upstream-schemas.ts` 的 `DjAnchorRank`，只收紧主播自己的 `id`，头像、认证、直播状态和排名宽松；`avatarDetail` 复用既有 `AvatarDetail`。三个主播榜的 envelope（`code`、`data.total`、`data.updateTime`、`data.list`）也相同，本批作为模块公开合同暂留，后续统一榜单结构时再抽 core。`dj_toplist` 和 `dj_sublist` 的电台记录字段集合不同（榜单单条更短、订阅列表是完整电台记录），按“三个模块才进共享结构”的规则各自留在模块里；订阅列表的简介图文复用 `ProgramDescPic`，主播复用 `PlaylistUser`。`dj_toplist`、`dj_sublist`（匿名）、`dj_subscriber`（`time=1` 游标越界）都有真实空结果录制；`dj_toplist_hours`、`dj_toplist_pay`、`dj_toplist_popular` 没有 `offset`，`dj_toplist_newcomer` 的 `offset` 被上游忽略，`limit=0` 会被 SDK 的 `limit || 100` 替换成默认 `100`，本批录制和探测里没有可达的空结果。`djRadio_top` 在本账号的一次登录录制里 `data` 是空数组，元素类型无法确认，`data` 未声明并原样透传；匿名调用返回 `code: 302`（录制 `djRadio_top.anonymous.json`）。`dj_sublist` 必须登录才能看到订阅，匿名返回空 `djRadios`；五个榜单和 `dj_subscriber` 的登录与匿名录制字段集合相同，差异只在宽松字段的实时值。非数字 `limit`（五个榜单和 `dj_sublist`）返回正文 `code: 400`；大于 `100` 的 `limit` 只有 `dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_pay`、`dj_toplist_popular` 返回 `code: 400`，`dj_toplist`、`dj_sublist`、`dj_subscriber` 的 `limit=101` 在本批匿名探测里仍返回 200。SDK 按业务码拒绝转交 `status: 400`；`djRadio_top` 的非数字 `djRadioId` 返回 HTTP 400 空正文，网易云把 400 归一成 `status: 200`，结构定义允许空字符串分支。
 
 订阅与取消电台（`dj_sub`）在 B45 补上返回体：正文只带返回码 `code`，收紧为 `200`；订阅、已订阅再订阅和取消订阅都回 `{ code: 200 }`（录制 `dj_sub.subscribe.json`、`dj_sub.subscribe-again.json`、`dj_sub.unsubscribe.json`），账号状态用 `dj_sublist` 回读确认已恢复。
+
+DIFM 频道的收藏与取消收藏（`dj_difm_channel_subscribe`、`dj_difm_channel_unsubscribe`）在 B47 补上返回体，同样只收紧 `code`；`message` 是附带提示，宽松，`data` 在订阅与取消的录制里都只有空对象，未声明并原样保留。时间线：04:00:22Z 订阅后回读含 10505 → 04:00:35Z 取消后回读为空 → 04:00:43Z 未订阅时重复取消仍 `code: 200` → 05:00:10Z 清空后重新订阅，写前回读 `data` 为空数组、写后回读含 10505（录制 `dj_difm_channel_subscribe.subscribe.json`、`dj_difm_channel_subscribe.subscribe-again.json`、`dj_difm_channel_unsubscribe.unsubscribe.json`、`dj_difm_channel_unsubscribe.unsubscribe-again.json`、`dj_difm_channel_unsubscribe.unsubscribe-final.json`）→ 05:00:16Z 最终取消，写后回读 `data: []`。已订阅时重复订阅的幂等分支未录制。B47 结束时频道 10505 未订阅，以最终取消录制的写后回读为准。
 
 ### 播客与声音
 
@@ -596,6 +611,7 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 | [获取客户端歌曲下载链接 - 新版](/api/music/song-download-url-v1) | `SongDownloadUrlV1Body` | `code`、`data`、`data.id`、`data.url`、`data.code`；`level`、`size` 宽松                        |
 | [获取逐字歌词](/api/music/lyric-new)                             | `LyricNewBody`          | `code`、`lrc`、`lrc.lyric`；其余歌词形式和 `pureMusic` 宽松                                     |
 | [听歌打卡](/api/music/scrobble)                                  | `ScrobbleBody`          | `code`                                                                                          |
+| [垃圾桶](/api/music/fm-trash)                                    | `FmTrashBody`           | `code`；`count` 宽松                                                                            |
 | [音乐是否可用](/api/music/check-music)                           | `CheckMusicBody`        | 最终体的 `code`、`success`、`message`；上游 `code`、`data`、`data[].code`                       |
 | [听歌识曲](/api/music/audio-match)                               | `AudioMatchBody`        | `code`、`data`；`data.result` 可以没有，出现时 `data.result[].song.id` 收紧                     |
 
@@ -615,16 +631,20 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 
 `audio_match` 是普通 GET，需要真实音频指纹：`data.result` 有命中时是匹配列表，没有命中时是 `null`，同时 `data.noMatchReason` 给出原因（本次无命中录制是 10）。`data.result[].song` 复用歌曲声明，`song.id` 收紧；`queryId`、`type`、`moduleList`、`noMatchReason`、`startTime` 和 `message` 宽松。未声明的顶层字段原样保留。有命中指纹来自真实歌曲片段（《平凡之路》 id 28815250，源 FLAC 从登录态播放地址取得；播放地址 FLAC 前段转 8 kHz 单声道，偏移 1 秒取 3 秒），可用 `bun scripts/audio-fingerprint.mts <音频文件> --offset 1` 复现；匿名播放地址是 30 秒试听 MP3，未用于该指纹。`no-match` 用 440 Hz 合成音频，`bun scripts/audio-fingerprint.mts --tone 440` 可复现。登录和匿名录制的字段集合相同，`queryId` 等动态值不同。
 
+`fm_trash` 在 B47 补上返回体：只收紧返回码 `code`；`count` 是附带计数，宽松，`songs` 在录制里只出现过空数组，元素类型没有证据，未声明并原样保留。这个写入把歌曲移入私人 FM 的垃圾桶，接口没有撤销调用（录制 `fm_trash.trash.json`）。
+
 ## 歌词与歌曲附属
 
-| 模块                                                                 | 结构定义                     | 收紧的字段                                                    |
-| -------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------- |
-| [获取歌词](/api/music/lyric)                                         | `LyricBody`                  | `code`、`lrc`、`lrc.lyric`；其余歌词形式、贡献者和标记宽松    |
-| [副歌时间](/api/music/song-chorus)                                   | `SongChorusBody`             | `code`、`chorus`、`chorus[].id`、`data`、`data[].id`          |
-| [歌曲音质详情](/api/music/song-music-detail)                         | `SongMusicDetailBody`        | `code`、`data`、`data.songId`；各档音质、`sks` 和状态字段宽松 |
-| [音乐百科基础信息](/api/music/song-wiki-summary)                     | `SongWikiSummaryBody`        | `code`、`data`、`data.blocks`、`data.blocks[].id`             |
-| [歌词摘录 - 歌词摘录信息](/api/lyrics-mark/song-lyrics-mark)         | `SongLyricsMarkBody`         | `code`、`data`                                                |
-| [歌词摘录 - 我的歌词本](/api/lyrics-mark/song-lyrics-mark-user-page) | `SongLyricsMarkUserPageBody` | `code`、`data`；`data.offset`、`data.hasMore` 宽松            |
+| 模块                                                                  | 结构定义                     | 收紧的字段                                                    |
+| --------------------------------------------------------------------- | ---------------------------- | ------------------------------------------------------------- |
+| [获取歌词](/api/music/lyric)                                          | `LyricBody`                  | `code`、`lrc`、`lrc.lyric`；其余歌词形式、贡献者和标记宽松    |
+| [副歌时间](/api/music/song-chorus)                                    | `SongChorusBody`             | `code`、`chorus`、`chorus[].id`、`data`、`data[].id`          |
+| [歌曲音质详情](/api/music/song-music-detail)                          | `SongMusicDetailBody`        | `code`、`data`、`data.songId`；各档音质、`sks` 和状态字段宽松 |
+| [音乐百科基础信息](/api/music/song-wiki-summary)                      | `SongWikiSummaryBody`        | `code`、`data`、`data.blocks`、`data.blocks[].id`             |
+| [歌词摘录 - 歌词摘录信息](/api/lyrics-mark/song-lyrics-mark)          | `SongLyricsMarkBody`         | `code`、`data`                                                |
+| [歌词摘录 - 我的歌词本](/api/lyrics-mark/song-lyrics-mark-user-page)  | `SongLyricsMarkUserPageBody` | `code`、`data`；`data.offset`、`data.hasMore` 宽松            |
+| [歌词摘录 - 添加/修改摘录歌词](/api/lyrics-mark/song-lyrics-mark-add) | `SongLyricsMarkAddBody`      | `code`、`data`、`data.markId`                                 |
+| [歌词摘录 - 删除摘录歌词](/api/lyrics-mark/song-lyrics-mark-del)      | `SongLyricsMarkDelBody`      | `code`、`data`、`data.success`                                |
 
 老版歌词（`lyric`）的 `lrc` 一直都在：没收录时 `lyric` 是“暂无歌词”，纯音乐也会带一行说明，所以 `lrc`、`lrc.lyric` 按收紧字段处理。`tlyric`、`romalrc`、`klyric` 可能整个缺失，也可能在、但 `lyric` 是空串；它们和 `lyricUser`、`transUser`（复用 `LyricUser`）、`pureMusic`、`needDesc`、`uncollected` 都是宽松字段。`briefDesc` 只见过 `null`，没有声明。
 
@@ -634,7 +654,9 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 
 音乐百科基础信息返回的是按 `showType` 组装的 UI 区块：`data`、`data.blocks` 和每个区块自己的字符串编号 `id` 收紧，区块里的 `showType`、`code`、`position`、`creatives[].resources[]`、`uiElement`（标题、图片、按钮、描述、链接）等按普通 UI 字段全部宽松；只见过 `null` 的字段（如 `adInfo`、`blockConfig`、`md5`、`colorList`）没有声明。未知歌曲仍返回 `code: 200`，只剩“相关歌单”一个区块（录制 `song_wiki_summary.unknown.json`），本批未发现可达的空 `blocks`。`cursor` 是 JSON 字符串，原样保留。
 
-两个歌词摘录接口在本次录制账号上都没有摘录内容：`song_lyrics_mark` 的 `data.markVOList`、`data.markCountList` 和 `song_lyrics_mark_user_page` 的 `data.markVOList` 都是空数组，匿名和登录调用结果相同。空数组给不出元素类型，这些数组没有声明，原样保留；登录后出现摘录记录的形状要等补录（写入操作 `song_lyrics_mark_add`、`song_lyrics_mark_del` 在后续写操作批次处理，本批没有收窄它们的返回体）。
+两个歌词摘录接口在本次录制账号上都没有摘录内容：`song_lyrics_mark` 的 `data.markVOList`、`data.markCountList` 和 `song_lyrics_mark_user_page` 的 `data.markVOList` 都是空数组，匿名和登录调用结果相同。空数组给不出元素类型，这些数组没有声明，原样保留。
+
+B47 补上两个写入模块的返回体：`song_lyrics_mark_add` 收紧 `code`、摘录结果 `data` 和这条摘录自己的 `data.markId`（`markId` 为空串时新建、带已有 `markId` 时修改同一条，两种调用结构相同，录制 `song_lyrics_mark_add.add.json`、`song_lyrics_mark_add.add-update.json`），`data.success`、`data.updateTime` 和 `message` 宽松；`song_lyrics_mark_del` 收紧 `code`、`data` 和 `data.success`，删除已不存在的摘录时返回码仍是 `200`、`success` 是 `false`（录制 `song_lyrics_mark_del.del.json`、`song_lyrics_mark_del.del-again.json`），只有这个字段能区分有没有删到。两次写入都用 `song_lyrics_mark` 回读确认状态已恢复为空。
 
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。本次登录对照未发现结构差异；登录录制没有保留，不对公开结构作相同性断言。两个歌词摘录接口的匿名和登录都返回空列表。
 
@@ -827,6 +849,8 @@ B39 的账号校验与基础查询开始运行时校验后，畸形成功返回�
 B43 的 `mlog_url`、`mlog_to_video` 同样受影响：非法 mlog id 的上游是 HTTP 200 + 正文 `code: 400`（`mlog_url.invalid.json`；`mlog_to_video.no-video.json`，`msg: mlog无对应video`）。改造前模块按 `status: 200` 放行，现在 Body 校验按业务码拒绝为 `status: 400`，`body` 保留网易云原文。两个模块的契约测试都断言状态码和原文。
 
 B45 的 7 个写操作开始做 Body 校验后，`follow`、`resource_like`、`comment_like` 的风控/点赞拒绝（`code: 250`，录制 `follow.rejected.json`、`resource_like.like.json`、`comment_like.like.json`）落在 2xx、不在 `SPECIAL_STATUS_CODES` 里：改造前 resolve `status: 250`，现在按业务码 reject `status: 250`，`body`/`cookie` 不变，调用方需要 try/catch。`video_sub` 重复收藏（`video_sub.subscribe-again.json`）的 `code: 408` 不在 2xx，改造前后都是 `ProtocolFailed` reject `status: 408`、`body`/`cookie` 不变。本批录制里没有出现 201/302/400/502/800–803 这些会被归一成 `status: 200` 的特殊码。
+
+B47 的 8 个写操作开始做 Body 校验后，非 200 业务码的公开状态也跟着变：`cloud_match` 的无效纠错目标（`cloud_match.invalid-asid.json`，`code: 400`）在 `SPECIAL_STATUS_CODES` 里，改造前被归一成 `status: 200` 放行，现在 Body 校验在解码前按业务码拒绝为 `status: 400`，`body` 保留原文。`user_social_status_edit` 的全空字段（`user_social_status_edit.clear-rejected.json`，`code: 500`）不在特殊码表里，改造前就是 reject `status: 500`，现在同样 reject `status: 500`、正文不变。本批其余写模块的成功正文都是 `code: 200`；`user_update` 没有 Body 校验，`code: 250` 仍按 `status: 250` resolve（250 在 2xx，不走 `SPECIAL_STATUS_CODES`）。其余已收窄的 Body 模块遇到 2xx 的业务码（如 250）同样会从 resolve 变成按业务码 reject，本批没有保留这类录制。
 
 ## 消息
 

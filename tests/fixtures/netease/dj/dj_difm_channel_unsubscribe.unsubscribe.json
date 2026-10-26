@@ -1,0 +1,21 @@
+{
+  "module": "dj_difm_channel_unsubscribe",
+  "query": {
+    "id": 10505
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:00:35.276Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：dj_difm_channel_unsubscribe 正向（取消订阅频道 10505，中间一次取消）；写前回读含 10505，写后回读为空；B47 最终取消见 dj_difm_channel_unsubscribe.unsubscribe-final"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {},
+      "message": ""
+    }
+  }
+}

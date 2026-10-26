@@ -41,6 +41,10 @@ const result = await djDifmChannelSubscribe({
 console.log(result.body);
 ```
 
+## 返回内容
+
+返回码 `body.code` 收紧为 `200`；`message` 是附带的提示，宽松。`data` 在订阅与取消的录制里都只有空对象，内部字段没有证据，未声明并原样保留。录制覆盖清空后重新订阅（`dj_difm_channel_subscribe.subscribe-again.json`，写前回读为空数组、写后回读含 10505）；已订阅时重复订阅的幂等分支未录制。结构定义和类型是 `DjDifmChannelSubscribeBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口, 可收藏DIFM频道

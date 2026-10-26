@@ -1,0 +1,21 @@
+{
+  "module": "dj_difm_channel_subscribe",
+  "query": {
+    "id": 10505
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:00:10.324Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：dj_difm_channel_subscribe 清空后重新订阅（写前回读的 data 为空数组、写后回读含 10505）；已订阅时重复订阅的幂等分支未录制"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {},
+      "message": ""
+    }
+  }
+}
