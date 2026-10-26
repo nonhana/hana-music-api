@@ -1,0 +1,656 @@
+{
+  "module": "song_downlist",
+  "query": {
+    "limit": 5,
+    "offset": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:23:56.131Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B41：song_downlist 会员下载记录（登录）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "info": [
+        {
+          "id": 46144770257,
+          "type": 0,
+          "firstTime": 1792590609878,
+          "song": {
+            "name": "Theme Of Laura II",
+            "id": 2662577181,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 15871,
+                "name": "山岡晃"
+              }
+            ],
+            "alia": [],
+            "pop": 95,
+            "st": 0,
+            "rt": "",
+            "fee": 8,
+            "v": 21,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 258628082,
+              "name": "SILENT HILL 2 ORIGINAL SOUNDTRACK -2024-",
+              "cover": "http://p3.music.126.net/BjWtcZ0-oJwJ7HV1iFqkZA==/109951173658091459.jpg",
+              "pic_str": "109951173658091459",
+              "pic": 109951173658091460
+            },
+            "dt": 240413,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 9619374,
+              "vd": -66898,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 5771642,
+              "vd": -64349,
+              "sr": 44100
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3847776,
+              "vd": -62704,
+              "sr": 44100
+            },
+            "a": null,
+            "cd": "01",
+            "no": 1,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "mv": 0,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 1416512,
+            "privilege": {
+              "id": 2662577181,
+              "fee": 8,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 320000,
+              "toast": false,
+              "flag": 1540101,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "exhigh",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 46144768391,
+          "type": 0,
+          "firstTime": 1792590609787,
+          "song": {
+            "name": "夏に溶ける (feat. 鏡音リン)",
+            "id": 3433267939,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 32752029,
+                "name": "ごめんなさいが言えなくて"
+              },
+              {
+                "id": 160154,
+                "name": "鏡音リン"
+              }
+            ],
+            "alia": [],
+            "pop": 100,
+            "st": 0,
+            "rt": "",
+            "fee": 8,
+            "v": 15,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 397174419,
+              "name": "夏に溶ける",
+              "cover": "http://p3.music.126.net/Lw6wl5jXi7R7Bi5KI0-Tdg==/109951173904017056.jpg",
+              "pic_str": "109951173904017056",
+              "pic": 109951173904017060
+            },
+            "dt": 192648,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 7708256,
+              "vd": -54060,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4624971,
+              "vd": -51591,
+              "sr": 44100
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3083328,
+              "vd": -50162,
+              "sr": 44100
+            },
+            "a": null,
+            "cd": "01",
+            "no": 1,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "mv": 0,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 743010,
+            "privilege": {
+              "id": 3433267939,
+              "fee": 8,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 320000,
+              "toast": false,
+              "flag": 1540357,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "exhigh",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 46122195136,
+          "type": 0,
+          "firstTime": 1792208315345,
+          "song": {
+            "name": "うたかたの栞",
+            "id": 3367586149,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 15164,
+                "name": "Otokaze"
+              }
+            ],
+            "alia": [],
+            "pop": 70,
+            "st": 0,
+            "rt": "",
+            "fee": 8,
+            "v": 16,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 369773136,
+              "name": "うたかたの栞",
+              "cover": "http://p3.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg",
+              "pic_str": "109951173012649947",
+              "pic": 109951173012649950
+            },
+            "dt": 249015,
+            "h": {
+              "br": 320001,
+              "fid": 0,
+              "size": 9963146,
+              "vd": -40094,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192001,
+              "fid": 0,
+              "size": 5977905,
+              "vd": -37512,
+              "sr": 44100
+            },
+            "l": {
+              "br": 128001,
+              "fid": 0,
+              "size": 3985284,
+              "vd": -35938,
+              "sr": 44100
+            },
+            "a": null,
+            "cd": "01",
+            "no": 1,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "mv": 0,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 1418220,
+            "privilege": {
+              "id": 3367586149,
+              "fee": 8,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 320000,
+              "toast": false,
+              "flag": 1540356,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "exhigh",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 46064133552,
+          "type": 0,
+          "firstTime": 1791170375644,
+          "song": {
+            "name": "Vitamins",
+            "id": 554245891,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 339594,
+                "name": "Mili"
+              },
+              {
+                "id": 22298,
+                "name": "world's end girlfriend"
+              }
+            ],
+            "alia": [],
+            "pop": 95,
+            "st": 0,
+            "rt": null,
+            "fee": 8,
+            "v": 23,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 38430249,
+              "name": "Millennium Mother",
+              "cover": "http://p4.music.126.net/ww7gcJ_erzPa8jgZesmTOA==/109951163271403502.jpg",
+              "pic_str": "109951163271403502",
+              "pic": 109951163271403500
+            },
+            "dt": 302386,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 12097872,
+              "vd": -53219,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 7258741,
+              "vd": -50639,
+              "sr": 44100
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 4839175,
+              "vd": -48958,
+              "sr": 44100
+            },
+            "a": null,
+            "cd": "1",
+            "no": 4,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "mv": 0,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 663018,
+            "privilege": {
+              "id": 554245891,
+              "fee": 8,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 320000,
+              "toast": false,
+              "flag": 1540100,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "exhigh",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 46047594679,
+          "type": 0,
+          "firstTime": 1790920937983,
+          "song": {
+            "name": "雨待ち傘",
+            "id": 29850087,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 19481,
+                "name": "Foxtail-Grass Studio"
+              }
+            ],
+            "alia": ["原曲：緑眼のジェラシー"],
+            "pop": 85,
+            "st": 0,
+            "rt": null,
+            "fee": 8,
+            "v": 35,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 3086351,
+              "name": "ほしくずアテリア",
+              "cover": "http://p3.music.126.net/2jwPMAp3l2CkZtzIcvwqMQ==/109951173516018493.jpg",
+              "pic_str": "109951173516018493",
+              "pic": 109951173516018500
+            },
+            "dt": 195466,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 7821105,
+              "vd": -45338,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4692680,
+              "vd": -42730,
+              "sr": 44100
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3128468,
+              "vd": -40943,
+              "sr": 44100
+            },
+            "a": null,
+            "cd": "1",
+            "no": 3,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "mv": 0,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 743010,
+            "tns": ["等雨的伞"],
+            "privilege": {
+              "id": 29850087,
+              "fee": 8,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 320000,
+              "toast": false,
+              "flag": 1540356,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "exhigh",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "code": 200
+    }
+  }
+}

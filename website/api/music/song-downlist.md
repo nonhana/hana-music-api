@@ -40,6 +40,12 @@ const result = await songDownlist();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.info` 是下载记录列表，每条记录只收紧自己的编号 `info[].id`（以及 `code`、`info`）；内嵌歌曲 `song` 用宽松的 `LooseSong`（歌曲 `id` 也宽松），`firstTime`、`type` 宽松。
+
+`offset` 越过末尾时 `info` 是空数组（录制 `song_downlist.empty.json`）；匿名调用同样是空 `info`，下载记录只在登录后出现。结构定义和类型是 `SongDownlistBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口, 可获得当前账号会员下载歌曲记录

@@ -1,0 +1,20 @@
+{
+  "module": "song_downlist",
+  "query": {
+    "limit": "abc"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:23:59.808Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B41：song_downlist 非数字 limit 的业务拒绝"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "参数错误"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "module": "user_playlist_collect",
+  "query": {
+    "uid": "abc",
+    "limit": 10
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:23:59.299Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B41：user_playlist_collect 非数字 uid 的业务拒绝"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "请求参数错误",
+      "debugInfo": null,
+      "data": null,
+      "failData": null,
+      "msg": "请求参数错误"
+    }
+  }
+}

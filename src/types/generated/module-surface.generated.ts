@@ -817,7 +817,10 @@ import type {
   ModuleBody as songDetailBody,
   ModuleInput as songDetailInput,
 } from '../../modules/song_detail.ts';
-import type { ModuleInput as songDownlistInput } from '../../modules/song_downlist.ts';
+import type {
+  ModuleBody as songDownlistBody,
+  ModuleInput as songDownlistInput,
+} from '../../modules/song_downlist.ts';
 import type {
   ModuleBody as songDownloadUrlBody,
   ModuleInput as songDownloadUrlInput,
@@ -844,7 +847,10 @@ import type {
   ModuleBody as songLyricsMarkUserPageBody,
   ModuleInput as songLyricsMarkUserPageInput,
 } from '../../modules/song_lyrics_mark_user_page.ts';
-import type { ModuleInput as songMonthdownlistInput } from '../../modules/song_monthdownlist.ts';
+import type {
+  ModuleBody as songMonthdownlistBody,
+  ModuleInput as songMonthdownlistInput,
+} from '../../modules/song_monthdownlist.ts';
 import type {
   ModuleBody as songMusicDetailBody,
   ModuleInput as songMusicDetailInput,
@@ -853,12 +859,18 @@ import type {
   ModuleBody as songOrderUpdateBody,
   ModuleInput as songOrderUpdateInput,
 } from '../../modules/song_order_update.ts';
-import type { ModuleInput as songPurchasedInput } from '../../modules/song_purchased.ts';
+import type {
+  ModuleBody as songPurchasedBody,
+  ModuleInput as songPurchasedInput,
+} from '../../modules/song_purchased.ts';
 import type {
   ModuleBody as songRedCountBody,
   ModuleInput as songRedCountInput,
 } from '../../modules/song_red_count.ts';
-import type { ModuleInput as songSingledownlistInput } from '../../modules/song_singledownlist.ts';
+import type {
+  ModuleBody as songSingledownlistBody,
+  ModuleInput as songSingledownlistInput,
+} from '../../modules/song_singledownlist.ts';
 import type {
   ModuleBody as songUrlBody,
   ModuleInput as songUrlInput,
@@ -1040,8 +1052,14 @@ import type {
   ModuleBody as userPlaylistBody,
   ModuleInput as userPlaylistInput,
 } from '../../modules/user_playlist.ts';
-import type { ModuleInput as userPlaylistCollectInput } from '../../modules/user_playlist_collect.ts';
-import type { ModuleInput as userPlaylistCreateInput } from '../../modules/user_playlist_create.ts';
+import type {
+  ModuleBody as userPlaylistCollectBody,
+  ModuleInput as userPlaylistCollectInput,
+} from '../../modules/user_playlist_collect.ts';
+import type {
+  ModuleBody as userPlaylistCreateBody,
+  ModuleInput as userPlaylistCreateInput,
+} from '../../modules/user_playlist_create.ts';
 import type {
   ModuleBody as userRecordBody,
   ModuleInput as userRecordInput,
@@ -3063,7 +3081,7 @@ export interface GeneratedModuleContractMap {
   song_downlist: {
     input: songDownlistInput;
     query: songDownlistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songDownlistBody>;
   };
   song_download_url: {
     input: songDownloadUrlInput;
@@ -3108,7 +3126,7 @@ export interface GeneratedModuleContractMap {
   song_monthdownlist: {
     input: songMonthdownlistInput;
     query: songMonthdownlistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songMonthdownlistBody>;
   };
   song_music_detail: {
     input: songMusicDetailInput;
@@ -3123,7 +3141,7 @@ export interface GeneratedModuleContractMap {
   song_purchased: {
     input: songPurchasedInput;
     query: songPurchasedInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songPurchasedBody>;
   };
   song_red_count: {
     input: songRedCountInput;
@@ -3133,7 +3151,7 @@ export interface GeneratedModuleContractMap {
   song_singledownlist: {
     input: songSingledownlistInput;
     query: songSingledownlistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songSingledownlistBody>;
   };
   song_url: {
     input: songUrlInput;
@@ -3383,12 +3401,12 @@ export interface GeneratedModuleContractMap {
   user_playlist_collect: {
     input: userPlaylistCollectInput;
     query: userPlaylistCollectInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userPlaylistCollectBody>;
   };
   user_playlist_create: {
     input: userPlaylistCreateInput;
     query: userPlaylistCreateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userPlaylistCreateBody>;
   };
   user_record: {
     input: userRecordInput;

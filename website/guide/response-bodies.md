@@ -34,16 +34,20 @@
 
 ## 用户资料
 
-| 模块                                         | 结构定义               | 收紧的字段                                                                                                                                                                                     |
-| -------------------------------------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [账号等级](/api/user/user-level)             | `UserLevelBody`        | `code`、`data`、`data.userId`、`data.level`                                                                                                                                                    |
-| [收藏计数](/api/user/user-subcount)          | `UserSubcountBody`     | `code`                                                                                                                                                                                         |
-| [登录绑定](/api/user/user-binding)           | `UserBindingBody`      | `code`、`bindings`、`bindings[].id`                                                                                                                                                            |
-| [用户状态](/api/user/user-social-status)     | `UserSocialStatusBody` | `code`；`data` 只见过空对象，宽松                                                                                                                                                              |
-| [用户徽章](/api/user/user-medal)             | `UserMedalBody`        | `code`、`data`、`data.obtainMedals`、`data.obtainMedals[].medalCode`、`data.categoryMedalBlockVos`、`data.categoryMedalBlockVos[].medalVOS`、`data.categoryMedalBlockVos[].subGroups[].medals` |
-| [云盘数据](/api/cloud/user-cloud)            | `UserCloudBody`        | `code`、`data`、`data[].songId`                                                                                                                                                                |
-| [云盘数据详情](/api/cloud/user-cloud-detail) | `UserCloudDetailBody`  | `code`、`data`、`data[].songId`                                                                                                                                                                |
-| [设置](/api/user/setting)                    | `SettingBody`          | `code`、`setting`、`setting.userId`                                                                                                                                                            |
+| 模块                                                     | 结构定义                 | 收紧的字段                                                                                                                                                                                     |
+| -------------------------------------------------------- | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [账号等级](/api/user/user-level)                         | `UserLevelBody`          | `code`、`data`、`data.userId`、`data.level`                                                                                                                                                    |
+| [收藏计数](/api/user/user-subcount)                      | `UserSubcountBody`       | `code`                                                                                                                                                                                         |
+| [登录绑定](/api/user/user-binding)                       | `UserBindingBody`        | `code`、`bindings`、`bindings[].id`                                                                                                                                                            |
+| [用户状态](/api/user/user-social-status)                 | `UserSocialStatusBody`   | `code`；`data` 只见过空对象，宽松                                                                                                                                                              |
+| [用户徽章](/api/user/user-medal)                         | `UserMedalBody`          | `code`、`data`、`data.obtainMedals`、`data.obtainMedals[].medalCode`、`data.categoryMedalBlockVos`、`data.categoryMedalBlockVos[].medalVOS`、`data.categoryMedalBlockVos[].subGroups[].medals` |
+| [云盘数据](/api/cloud/user-cloud)                        | `UserCloudBody`          | `code`、`data`、`data[].songId`                                                                                                                                                                |
+| [云盘数据详情](/api/cloud/user-cloud-detail)             | `UserCloudDetailBody`    | `code`、`data`、`data[].songId`                                                                                                                                                                |
+| [设置](/api/user/setting)                                | `SettingBody`            | `code`、`setting`、`setting.userId`                                                                                                                                                            |
+| [会员下载歌曲记录](/api/music/song-downlist)             | `SongDownlistBody`       | `code`、`info`、`info[].id`                                                                                                                                                                    |
+| [会员本月下载歌曲记录](/api/music/song-monthdownlist)    | `SongMonthdownlistBody`  | `code`、`info`、`info[].id`                                                                                                                                                                    |
+| [已购买单曲（下载记录）](/api/music/song-singledownlist) | `SongSingledownlistBody` | `code`                                                                                                                                                                                         |
+| [已购单曲](/api/music/song-purchased)                    | `SongPurchasedBody`      | `code`、`data`                                                                                                                                                                                 |
 
 这批接口都用登录账号录制（`viewer: authenticated`，先经 `login_status` 确认 `anonimousUser: false`）：`user_level`、`user_subcount`、`user_binding`、`user_medal`、`user_social_status` 和两个云盘接口返回当前登录账号自己的数据。`user_account` 的匿名对照仍在登录一节；`user_detail` 没有匿名录制，本批未改其声明。
 
@@ -54,6 +58,12 @@
 `user_binding` 在不存在的 uid 下返回 `bindings: []`（`user_binding.no-bindings.json`）；录制里的绑定 id 和账号编号已换成合成值，`tokenJsonStr` 按凭据规则替换成 `<redacted>`。`user_social_status` 的 `data` 在录制里是空对象，内部字段没有声明，仍原样保留。
 
 `setting` 的 `setting` 和 `setting.userId` 收紧，其余设置项全部宽松；匿名调用也会返回一份设置，`userId` 是匿名账号的编号。只见过 `null` 的 `newSongDiskSetting` 没有声明，仍原样保留。
+
+`song_downlist` 和 `song_monthdownlist` 的 `info` 是下载记录列表，每条记录只收紧自己的编号 `info[].id`；内嵌歌曲 `song` 复用宽松的 `LooseSong`（歌曲 `id` 也宽松），`firstTime`、`type` 宽松。`offset` 越过末尾时 `info` 是空数组（`song_downlist.empty.json`、`song_monthdownlist.empty.json`）；匿名调用同样是空 `info`，下载记录只在登录后出现。
+
+`song_singledownlist` 只有 `code` 收紧：录制账号没有已购买单曲，`info` 只有空数组证据、元素类型未知，未声明并由 `UpstreamObject` 原样保留（`song_singledownlist.empty.json`）。`song_purchased` 收紧 `code` 和 `data`，`data.count`、`data.hasMore`、`message` 宽松；`data.list` 同样只有空数组证据（`song_purchased.empty.json`），未声明、原样保留。两个接口都没有另一个已购账号可补录非空列表。
+
+这四个下载/已购模块的录制先用 `login_status` 确认 `account.anonimousUser: false`；`user_playlist_collect`、`user_playlist_create` 同样如此。两个歌单列表用公开账号 32953014 录制，`query.uid` 与正文一致、正文未改写；其中的第三方账号是歌单创建者，属于公开数据。
 
 ## 账号校验与基础查询
 
@@ -82,22 +92,24 @@
 
 ## 曲库
 
-| 模块                                             | 结构定义               | 收紧的字段                                                                                  |
-| ------------------------------------------------ | ---------------------- | ------------------------------------------------------------------------------------------- |
-| [用户歌单](/api/playlist/user-playlist)          | `UserPlaylistBody`     | `code`、`playlist`、`playlist[].id`                                                         |
-| [歌单详情](/api/playlist/playlist-detail)        | `PlaylistDetailBody`   | `code`、`playlist`、`playlist.id`、`playlist.trackIds`、`playlist.trackIds[].id`            |
-| [歌单中的歌曲](/api/playlist/playlist-track-all) | `PlaylistTrackAllBody` | `code`、`songs`、`songs[].id`                                                               |
-| [歌曲详情](/api/music/song-detail)               | `SongDetailBody`       | `code`、`songs`、`songs[].id`、`privileges`、`privileges[].id`                              |
-| [专辑内容](/api/album/album)                     | `AlbumBody`            | `code`、`songs`、`songs[].id`、`songs[].privilege.id`、`album`、`album.id`                  |
-| [已收藏专辑](/api/album/album-sublist)           | `AlbumSublistBody`     | `code`、`data`、`data[].id`                                                                 |
-| [已收藏歌手](/api/artist/artist-sublist)         | `ArtistSublistBody`    | `code`、`data`、`data[].id`                                                                 |
-| [歌手热门歌曲](/api/artist/artist-top-song)      | `ArtistTopSongBody`    | `code`、`songs`、`songs[].id`、`songs[].privilege.id`                                       |
-| [歌手专辑](/api/artist/artist-album)             | `ArtistAlbumBody`      | `code`、`hotAlbums`、`hotAlbums[].id`                                                       |
-| [每日推荐歌曲](/api/recommend/recommend-songs)   | `RecommendSongsBody`   | `code`、`data`、`data.dailySongs`、`data.dailySongs[].id`、`data.dailySongs[].privilege.id` |
-| [喜欢音乐列表](/api/music/likelist)              | `LikelistBody`         | `code`、`ids`                                                                               |
-| [歌曲是否喜爱](/api/music/song-like-check)       | `SongLikeCheckBody`    | `code`、`ids`                                                                               |
-| [歌曲红心数量](/api/music/song-red-count)        | `SongRedCountBody`     | `code`、`data`、`data.count`                                                                |
-| [歌曲动态封面](/api/music/song-dynamic-cover)    | `SongDynamicCoverBody` | `code`、`data`；`data.videoPlayUrl` 可以没有                                                |
+| 模块                                              | 结构定义                  | 收紧的字段                                                                                  |
+| ------------------------------------------------- | ------------------------- | ------------------------------------------------------------------------------------------- |
+| [用户歌单](/api/playlist/user-playlist)           | `UserPlaylistBody`        | `code`、`playlist`、`playlist[].id`                                                         |
+| [收藏的歌单](/api/playlist/user-playlist-collect) | `UserPlaylistCollectBody` | `code`、`data`、`data.playlist`、`data.playlist[].id`                                       |
+| [创建的歌单](/api/playlist/user-playlist-create)  | `UserPlaylistCreateBody`  | `code`、`data`、`data.playlist`、`data.playlist[].id`                                       |
+| [歌单详情](/api/playlist/playlist-detail)         | `PlaylistDetailBody`      | `code`、`playlist`、`playlist.id`、`playlist.trackIds`、`playlist.trackIds[].id`            |
+| [歌单中的歌曲](/api/playlist/playlist-track-all)  | `PlaylistTrackAllBody`    | `code`、`songs`、`songs[].id`                                                               |
+| [歌曲详情](/api/music/song-detail)                | `SongDetailBody`          | `code`、`songs`、`songs[].id`、`privileges`、`privileges[].id`                              |
+| [专辑内容](/api/album/album)                      | `AlbumBody`               | `code`、`songs`、`songs[].id`、`songs[].privilege.id`、`album`、`album.id`                  |
+| [已收藏专辑](/api/album/album-sublist)            | `AlbumSublistBody`        | `code`、`data`、`data[].id`                                                                 |
+| [已收藏歌手](/api/artist/artist-sublist)          | `ArtistSublistBody`       | `code`、`data`、`data[].id`                                                                 |
+| [歌手热门歌曲](/api/artist/artist-top-song)       | `ArtistTopSongBody`       | `code`、`songs`、`songs[].id`、`songs[].privilege.id`                                       |
+| [歌手专辑](/api/artist/artist-album)              | `ArtistAlbumBody`         | `code`、`hotAlbums`、`hotAlbums[].id`                                                       |
+| [每日推荐歌曲](/api/recommend/recommend-songs)    | `RecommendSongsBody`      | `code`、`data`、`data.dailySongs`、`data.dailySongs[].id`、`data.dailySongs[].privilege.id` |
+| [喜欢音乐列表](/api/music/likelist)               | `LikelistBody`            | `code`、`ids`                                                                               |
+| [歌曲是否喜爱](/api/music/song-like-check)        | `SongLikeCheckBody`       | `code`、`ids`                                                                               |
+| [歌曲红心数量](/api/music/song-red-count)         | `SongRedCountBody`        | `code`、`data`、`data.count`                                                                |
+| [歌曲动态封面](/api/music/song-dynamic-cover)     | `SongDynamicCoverBody`    | `code`、`data`；`data.videoPlayUrl` 可以没有                                                |
 
 `song_like_check` 的 `ids` 是这个账号已喜爱的歌曲编号，没喜欢过任何一首时是空数组；匿名调用返回空数组。空 `ids` 请求会被上游以 `{ code: 400 }` 拒绝，仍按业务拒绝原样转交。`song_red_count` 的 `data.count` 收紧，不存在的歌曲返回 `count: 0`；`countDesc` 只是展示文案，宽松。`song_dynamic_cover` 的 `data` 在歌曲没有动态封面时是空对象，`data.videoPlayUrl` 按可以没有处理：缺失或 `null` 照常返回，出现但类型不对报 502；URL 带 `wsSecret`/`wsTime` 签名参数，会随时间变化，不要缓存或逐字比较。`height`、`weight`、`needTransition` 宽松。三个接口都匿名可用，登录和匿名的结构相同，值差异来自账号数据、实时计数和签名/动态值。
 
@@ -151,6 +163,8 @@
 `PlaylistUser` 的字段全部宽松：`userId`、`nickname` 也不例外。其余声明字段有 `accountStatus`、`authStatus`、`authenticationTypes`、`authority`、`avatarImgId`、`backgroundImgId`、`birthday`、`city`、`djStatus`、`gender`、`province`、`userType`、`vipType`、`avatarImgIdStr`、`avatarImgId_str`、`avatarUrl`、`description`、`detailDescription`、`signature`、`backgroundImgIdStr`、`backgroundUrl`、`anchor`、`defaultAvatar`、`followed`、`mutual`、`expertTags`、`avatarDetail`、`experts`；`experts` 是字符串到字符串的对象。
 
 `subscribed` 是 `null` 表示网易云给的是没有登录的视角：Cookie 里的 `MUSIC_U` 已经失效时，用户歌单和歌单详情都是 `null`；完全不带 Cookie 时，用户歌单是 `null`，歌单详情是 `false`。
+
+`user_playlist_collect` 和 `user_playlist_create` 分别返回用户的收藏歌单和创建歌单：`data.playlist` 是通到歌单列表的路径，每张歌单复用 `PlaylistSummary`，只收紧每张歌单自己的编号 `id`；`data.count`、`data.more`、`data.subCount` 宽松，其中 `subCount` 的真实含义未从录制确认。`offset` 越过总数时 `data.playlist` 是空数组（`user_playlist_collect.empty.json`、`user_playlist_create.empty.json`）。匿名调用仍返回列表（仅登录可见的私密歌单不出现），`subscribed` 是 `null`（`user_playlist_collect.anonymous.json`、`user_playlist_create.anonymous.json`）。
 
 ### 歌单读取
 

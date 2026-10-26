@@ -1,0 +1,27 @@
+{
+  "module": "user_playlist_create",
+  "query": {
+    "uid": 32953014,
+    "limit": 100,
+    "offset": 1000
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:55:22.078Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B41：user_playlist_create 公开账号 32953014 越界偏移的空页（原文未改写）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "subCount": 11,
+        "playlist": [],
+        "more": false,
+        "count": 21
+      },
+      "code": 200
+    }
+  }
+}

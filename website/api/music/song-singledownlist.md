@@ -40,6 +40,10 @@ const result = await songSingledownlist();
 console.log(result.body);
 ```
 
+## 返回内容
+
+只收紧 `code`。`body.info` 是已购买单曲列表；录制账号没有已购买单曲，`info` 只有空数组证据、元素类型未知，未声明并由 `UpstreamObject` 原样保留（录制 `song_singledownlist.empty.json`）。结构定义和类型是 `SongSingledownlistBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口, 可获得当前账号已购买单曲
