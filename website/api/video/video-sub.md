@@ -43,6 +43,10 @@ const result = await videoSub({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 是接口要拿的操作结果，收紧为 `200`；`message` 是附带的提示，宽松，`data`、`debugInfo`、`failData` 只见过 `null` 未声明。重复收藏返回 `code: 408`「已经收藏过该视频」，SDK 按业务拒绝原样转交，`status` 为 408。结构定义和类型是 `VideoSubBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可收藏视频

@@ -43,6 +43,10 @@ const result = await djSub({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 是接口要拿的操作结果，收紧为 `200`；正文没有其他有证据的字段，其余原样保留。订阅、已订阅再订阅和取消订阅都回 `{ code: 200 }`。结构定义和类型是 `DjSubBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入`rid`, 可订阅 dj,dj 的 `rid` 可通过搜索指定

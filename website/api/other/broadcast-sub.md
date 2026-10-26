@@ -44,7 +44,6 @@ const result = await broadcastSub({
 console.log(result.body);
 ```
 
-## 返回关注点
+## 返回内容
 
-- `code`: 请求是否成功。
-- `message`: 失败时的错误原因。
+`body.code` 是接口要拿的操作结果，收紧为 `200`；`data` 是操作结果标志、`message` 是提示，宽松。收藏、已收藏再收藏和取消收藏都回 `{ code: 200, data: true, message: "" }`。结构定义和类型是 `BroadcastSubBody`，见 [返回体结构](/guide/response-bodies)。

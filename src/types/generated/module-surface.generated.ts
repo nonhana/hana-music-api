@@ -137,7 +137,10 @@ import type {
   ModuleBody as broadcastChannelListBody,
   ModuleInput as broadcastChannelListInput,
 } from '../../modules/broadcast_channel_list.ts';
-import type { ModuleInput as broadcastSubInput } from '../../modules/broadcast_sub.ts';
+import type {
+  ModuleBody as broadcastSubBody,
+  ModuleInput as broadcastSubInput,
+} from '../../modules/broadcast_sub.ts';
 import type { ModuleInput as calendarInput } from '../../modules/calendar.ts';
 import type {
   ModuleBody as captchaSentBody,
@@ -184,7 +187,10 @@ import type {
   ModuleBody as commentHugListBody,
   ModuleInput as commentHugListInput,
 } from '../../modules/comment_hug_list.ts';
-import type { ModuleInput as commentLikeInput } from '../../modules/comment_like.ts';
+import type {
+  ModuleBody as commentLikeBody,
+  ModuleInput as commentLikeInput,
+} from '../../modules/comment_like.ts';
 import type {
   ModuleBody as commentMusicBody,
   ModuleInput as commentMusicInput,
@@ -297,7 +303,10 @@ import type {
   ModuleBody as djRecommendTypeBody,
   ModuleInput as djRecommendTypeInput,
 } from '../../modules/dj_recommend_type.ts';
-import type { ModuleInput as djSubInput } from '../../modules/dj_sub.ts';
+import type {
+  ModuleBody as djSubBody,
+  ModuleInput as djSubInput,
+} from '../../modules/dj_sub.ts';
 import type {
   ModuleBody as djSublistBody,
   ModuleInput as djSublistInput,
@@ -341,7 +350,10 @@ import type {
 import type { ModuleInput as eventDelInput } from '../../modules/event_del.ts';
 import type { ModuleInput as eventForwardInput } from '../../modules/event_forward.ts';
 import type { ModuleInput as fmTrashInput } from '../../modules/fm_trash.ts';
-import type { ModuleInput as followInput } from '../../modules/follow.ts';
+import type {
+  ModuleBody as followBody,
+  ModuleInput as followInput,
+} from '../../modules/follow.ts';
 import type {
   ModuleBody as getUseridsBody,
   ModuleInput as getUseridsInput,
@@ -537,7 +549,10 @@ import type {
   ModuleBody as mvFirstBody,
   ModuleInput as mvFirstInput,
 } from '../../modules/mv_first.ts';
-import type { ModuleInput as mvSubInput } from '../../modules/mv_sub.ts';
+import type {
+  ModuleBody as mvSubBody,
+  ModuleInput as mvSubInput,
+} from '../../modules/mv_sub.ts';
 import type {
   ModuleBody as mvSublistBody,
   ModuleInput as mvSublistInput,
@@ -743,7 +758,10 @@ import type {
   ModuleInput as relatedAllvideoInput,
 } from '../../modules/related_allvideo.ts';
 import type { ModuleInput as relatedPlaylistInput } from '../../modules/related_playlist.ts';
-import type { ModuleInput as resourceLikeInput } from '../../modules/resource_like.ts';
+import type {
+  ModuleBody as resourceLikeBody,
+  ModuleInput as resourceLikeInput,
+} from '../../modules/resource_like.ts';
 import type {
   ModuleBody as scrobbleBody,
   ModuleInput as scrobbleInput,
@@ -1114,7 +1132,10 @@ import type {
   ModuleBody as videoGroupListBody,
   ModuleInput as videoGroupListInput,
 } from '../../modules/video_group_list.ts';
-import type { ModuleInput as videoSubInput } from '../../modules/video_sub.ts';
+import type {
+  ModuleBody as videoSubBody,
+  ModuleInput as videoSubInput,
+} from '../../modules/video_sub.ts';
 import type {
   ModuleBody as videoTimelineAllBody,
   ModuleInput as videoTimelineAllInput,
@@ -2099,7 +2120,7 @@ export interface GeneratedModuleContractMap {
   broadcast_sub: {
     input: broadcastSubInput;
     query: broadcastSubInput;
-    response: ModuleResponse;
+    response: ModuleResponse<broadcastSubBody>;
   };
   calendar: {
     input: calendarInput;
@@ -2180,7 +2201,7 @@ export interface GeneratedModuleContractMap {
   comment_like: {
     input: commentLikeInput;
     query: commentLikeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentLikeBody>;
   };
   comment_music: {
     input: commentMusicInput;
@@ -2337,7 +2358,11 @@ export interface GeneratedModuleContractMap {
     query: djRecommendTypeInput;
     response: ModuleResponse<djRecommendTypeBody>;
   };
-  dj_sub: { input: djSubInput; query: djSubInput; response: ModuleResponse };
+  dj_sub: {
+    input: djSubInput;
+    query: djSubInput;
+    response: ModuleResponse<djSubBody>;
+  };
   dj_sublist: {
     input: djSublistInput;
     query: djSublistInput;
@@ -2403,7 +2428,11 @@ export interface GeneratedModuleContractMap {
     query: fmTrashInput;
     response: ModuleResponse;
   };
-  follow: { input: followInput; query: followInput; response: ModuleResponse };
+  follow: {
+    input: followInput;
+    query: followInput;
+    response: ModuleResponse<followBody>;
+  };
   get_userids: {
     input: getUseridsInput;
     query: getUseridsInput;
@@ -2685,7 +2714,11 @@ export interface GeneratedModuleContractMap {
     query: mvFirstInput;
     response: ModuleResponse<mvFirstBody>;
   };
-  mv_sub: { input: mvSubInput; query: mvSubInput; response: ModuleResponse };
+  mv_sub: {
+    input: mvSubInput;
+    query: mvSubInput;
+    response: ModuleResponse<mvSubBody>;
+  };
   mv_sublist: {
     input: mvSublistInput;
     query: mvSublistInput;
@@ -2960,7 +2993,7 @@ export interface GeneratedModuleContractMap {
   resource_like: {
     input: resourceLikeInput;
     query: resourceLikeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<resourceLikeBody>;
   };
   scrobble: {
     input: scrobbleInput;
@@ -3495,7 +3528,7 @@ export interface GeneratedModuleContractMap {
   video_sub: {
     input: videoSubInput;
     query: videoSubInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoSubBody>;
   };
   video_timeline_all: {
     input: videoTimelineAllInput;

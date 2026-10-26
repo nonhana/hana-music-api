@@ -362,16 +362,17 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 
 ## MV
 
-| 模块                                           | 结构定义              | 收紧的字段                                         |
-| ---------------------------------------------- | --------------------- | -------------------------------------------------- |
-| [全部 mv](/api/video/mv-all)                   | `MvAllBody`           | `code`、`data`、`data[].id`                        |
-| [最新 mv](/api/video/mv-first)                 | `MvFirstBody`         | `code`、`data`、`data[].id`                        |
-| [网易出品 mv](/api/video/mv-exclusive-rcmd)    | `MvExclusiveRcmdBody` | `code`、`data`、`data[].id`                        |
-| [mv 排行](/api/toplist/top-mv)                 | `TopMvBody`           | `code`、`data`、`data[].id`                        |
-| [获取 mv 数据](/api/video/mv-detail)           | `MvDetailBody`        | `code`、`data`、`data.id`                          |
-| [mv 点赞转发评论数](/api/video/mv-detail-info) | `MvDetailInfoBody`    | `code`、`commentCount`、`shareCount`、`likedCount` |
-| [mv 地址](/api/video/mv-url)                   | `MvUrlBody`           | `code`、`data`、`data.id`、`data.url`、`data.code` |
-| [收藏的 MV 列表](/api/video/mv-sublist)        | `MvSublistBody`       | `code`、`data`、`data[].vid`                       |
+| 模块                                           | 结构定义              | 收紧的字段                                             |
+| ---------------------------------------------- | --------------------- | ------------------------------------------------------ |
+| [全部 mv](/api/video/mv-all)                   | `MvAllBody`           | `code`、`data`、`data[].id`                            |
+| [最新 mv](/api/video/mv-first)                 | `MvFirstBody`         | `code`、`data`、`data[].id`                            |
+| [网易出品 mv](/api/video/mv-exclusive-rcmd)    | `MvExclusiveRcmdBody` | `code`、`data`、`data[].id`                            |
+| [mv 排行](/api/toplist/top-mv)                 | `TopMvBody`           | `code`、`data`、`data[].id`                            |
+| [获取 mv 数据](/api/video/mv-detail)           | `MvDetailBody`        | `code`、`data`、`data.id`                              |
+| [mv 点赞转发评论数](/api/video/mv-detail-info) | `MvDetailInfoBody`    | `code`、`commentCount`、`shareCount`、`likedCount`     |
+| [mv 地址](/api/video/mv-url)                   | `MvUrlBody`           | `code`、`data`、`data.id`、`data.url`、`data.code`     |
+| [收藏的 MV 列表](/api/video/mv-sublist)        | `MvSublistBody`       | `code`、`data`、`data[].vid`                           |
+| [收藏/取消收藏 MV](/api/video/mv-sub)          | `MvSubBody`           | `code`；`message` 宽松（`data` 只见过 `null`，未声明） |
 
 `mv_all`、`mv_first`、`mv_exclusive_rcmd`、`top_mv` 的列表记录共用 `MvSummary`（`top_mv` 在模块内再补上榜字段）：只收紧记录自己的 `id`；`cover`、`name`、`playCount`、`briefDesc`、`artistId`、`artistName`、`duration`、`mark`、`subed`、`artists`（复用宽松的 `Artist`）、`alias`、`transNames` 全部宽松。`desc` 在四份列表录制里都只见过 `null`，没有声明，原样保留。`top_mv` 的 `lastRank`、`score`、`updateTime`、`hasMore` 和嵌套的 `mv`（含 `videos[].tagSign`）都宽松；录制 `top_mv.default.json` 原始 30 条，截取前 10 条（见 `context.truncated`）。`mv_all` 的 `count` 只在第一页出现，非零 `offset` 的录制（`mv_all.page-two.json`）里整个缺失，所以是宽松字段。`mv_first`、`mv_exclusive_rcmd` 分别用无效地区筛选和越界 `offset` 录到空 `data`（`mv_first.empty-area.json`、`mv_exclusive_rcmd.no-result.json`）；`mv_all` 和 `top_mv` 本批录制与探测未发现可达的空结果。
 
@@ -379,7 +380,7 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 
 `mv_detail_info` 里接口要的 `commentCount`、`shareCount`、`likedCount` 收紧，`liked`（当前账号的点赞状态）宽松。`mv_url` 的 `data` 是对象：`data.id`、`data.url`（拿不到地址时是 `null`，原因看 `data.code`）、`data.code` 收紧，`r`、`size`、`md5`、`expi`、`msg` 等宽松；录制覆盖默认 1080p（`mv_url.default.json`）、720p（`mv_url.720p.json`）和上游间歇返回 `-125` 的不可用场景（`mv_url.unavailable.json`）。
 
-`mv_sublist` 返回的是云视频收藏记录：`data[].vid` 是记录自己的编号，按字符串收紧；`title`、`durationms`、`creator`、`playTime`、`coverUrl`、`aliaName`、`transName`、`markTypes` 宽松，`alg` 只见过 `null` 没有声明。登录录制有 20 条，匿名录制（`mv_sublist.anonymous.json`）是空数组。其余列表模块的匿名与登录重录逐字段 diff 没有结构差异，登录对照录制已删除；`mv_sublist` 只对比到顶层字段（匿名时 `data` 是空数组），非空登录录制保留作为元素字段证据。收藏/取消收藏 MV（`mv_sub`）是写操作，本批没有收窄返回体。
+`mv_sublist` 返回的是云视频收藏记录：`data[].vid` 是记录自己的编号，按字符串收紧；`title`、`durationms`、`creator`、`playTime`、`coverUrl`、`aliaName`、`transName`、`markTypes` 宽松，`alg` 只见过 `null` 没有声明。登录录制有 20 条，匿名录制（`mv_sublist.anonymous.json`）是空数组。其余列表模块的匿名与登录重录逐字段 diff 没有结构差异，登录对照录制已删除；`mv_sublist` 只对比到顶层字段（匿名时 `data` 是空数组），非空登录录制保留作为元素字段证据。收藏/取消收藏 MV（`mv_sub`）在 B45 补上返回体：正文只有返回码 `code`（收紧为 `200`）、`message`（宽松，录制里是「收藏成功」「取消收藏成功」）和只见过 `null` 的 `data`（未声明）；已收藏时再收藏仍回 `code: 200`（录制 `mv_sub.subscribe-again.json`）。一次收藏/取消都紧跟 `mv_sublist` 回读确认账号状态已恢复。
 
 ## 视频
 
@@ -394,6 +395,7 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 | [推荐视频](/api/video/video-timeline-recommend)    | `VideoTimelineRecommendBody` | `code`、`datas`、`datas[].data.vid`                                                                                                                                                                      |
 | [视频链接](/api/video/video-url)                   | `VideoUrlBody`               | `code`、`urls`、`urls[].id`、`urls[].url`                                                                                                                                                                |
 | [相关视频](/api/video/related-allvideo)            | `RelatedAllvideoBody`        | `code`                                                                                                                                                                                                   |
+| [收藏/取消收藏视频](/api/video/video-sub)          | `VideoSubBody`               | `code`；`message` 宽松（`data`、`debugInfo`、`failData` 只见过 `null`，未声明）                                                                                                                          |
 | [歌曲相关视频](/api/video/mlog-music-rcmd)         | `MlogMusicRcmdBody`          | `code`、`data.feeds`、`data.feeds[].id`                                                                                                                                                                  |
 | [获取 mlog 播放地址](/api/video/mlog-url)          | `MlogUrlBody`                | `code`、`data`、`data.id`、`data.resource`、`data.resource.id`、`data.resource.content`、`data.resource.content.video`、`data.resource.content.video.urlInfo`、`data.resource.content.video.urlInfo.url` |
 | [将 mlog id 转为视频 id](/api/video/mlog-to-video) | `MlogToVideoBody`            | `code`、`data`                                                                                                                                                                                           |
@@ -406,7 +408,7 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 
 `video_url` 的 `urls` 是通到播放地址的路径，条目里的 `id` 和 `url` 收紧；`r`、`size`、`validityTime`、`needPay` 宽松，`payInfo` 只见过 `null` 没有声明。录制覆盖请求 1080 实际给到 720（`video_url.default.json`）、480p（`video_url.480p.json`）、240p（`video_url.240p.json`）；未知视频返回 `urls: []`（`video_url.empty.json`），本批未探测到 `url` 为 `null`。`video_group` 的 `datas` 在本批录制和对全部标签 id 的探测里没有出现过非 `null` 值，元素类型无法确定，未声明并原样保留；`related_allvideo` 的 `data` 在十六进制视频 id（`type: 1`）和数字 id（`type: 0`）两种请求下都是空数组，同样未声明。
 
-登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`video_timeline_all`、`video_timeline_recommend` 的登录录制差异只在宽松字段（`relateSong` 出现歌曲记录、`markTypes` 出现值；`creator.experts` 的键集合差异只在 `video_timeline_all`，匿名录制多出 `experts.2`，`video_timeline_recommend` 两边都只有 `{1}` 或 `null`），这两份登录录制保留为元素字段证据；其余 7 个模块只保留匿名录制，未保留登录对照，不对公开结构作相同性断言。收藏/取消收藏视频（`video_sub`）是写操作，移到后续写操作批次（B22 关注/收藏/点赞），本批没有收窄返回体。
+登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`video_timeline_all`、`video_timeline_recommend` 的登录录制差异只在宽松字段（`relateSong` 出现歌曲记录、`markTypes` 出现值；`creator.experts` 的键集合差异只在 `video_timeline_all`，匿名录制多出 `experts.2`，`video_timeline_recommend` 两边都只有 `{1}` 或 `null`），这两份登录录制保留为元素字段证据；其余 7 个模块只保留匿名录制，未保留登录对照，不对公开结构作相同性断言。收藏/取消收藏视频（`video_sub`）在 B45 补上返回体：正文只有返回码 `code`（收紧为 `200`）和 `message`（宽松）；重复收藏返回 `code: 408`「已经收藏过该视频」（录制 `video_sub.subscribe-again.json`），按业务拒绝原样转交、`status` 为 408。收藏和取消都用 `mv_sublist` 回读确认账号状态已恢复：云视频收藏记录在 `mv_sublist` 里是 `type: 1`、`vid` 为视频 id 的条目。
 
 `mlog_music_rcmd` 的 `data.feeds` 是歌曲相关视频列表，每条记录自己的 `id` 按字符串收紧；`resource` 是附带的 mlog 记录，整体宽松（嵌套歌曲复用 `MlogSong`），声明 `mlogBaseData.userId`/`coverDetail`/`video`/`mixInfo.status`、`userProfile` 的昵称/编号/头像和 `source` 等有证据的字段；`video` 里声明 `urlInfo`/`rcmdUrlInfo`/`urlInfos`（`id`、`r`、`size`、`validityTime`、`resolution`）；`matchField`、`sameCity`、`type`、`more` 和 `message` 宽松，`data.msg` 只见过 `null`，未声明。声明了这些字段，其余原样保留（如 `urlInfo.url`、`relatedPubUsers`、`mlogPlaylists`）。录制覆盖有相关视频（歌曲 `1330348068`，1 条）和没有相关视频（歌曲 `347230`，`feeds: []`，`mlog_music_rcmd.empty.json`）两种情况，空数组和非空数组都通过同一结构。
 
@@ -452,6 +454,7 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 | [电台今日优选](/api/dj/dj-today-perfered)               | `DjTodayPerferedBody`            | `code`                                                                                       |
 | [电台排行榜获取](/api/dj/dj-radio-top)                  | `DjRadioTopBody`                 | `code`                                                                                       |
 | [电台的订阅列表](/api/dj/dj-sublist)                    | `DjSublistBody`                  | `code`、`djRadios`、`djRadios[].id`                                                          |
+| [订阅与取消电台](/api/dj/dj-sub)                        | `DjSubBody`                      | `code`（正文没有其他有证据的字段）                                                           |
 | [电台订阅者列表](/api/dj/dj-subscriber)                 | `DjSubscriberBody`               | `code`、`subscribers`、`subscribers[].userId`                                                |
 | [电台 - 新晋电台榜/热门电台榜](/api/dj/dj-toplist)      | `DjToplistBody`                  | `code`、`toplist`、`toplist[].id`                                                            |
 | [电台 - 24 小时主播榜](/api/dj/dj-toplist-hours)        | `DjToplistHoursBody`             | `code`、`data`、`data.list`、`data.list[].id`                                                |
@@ -476,6 +479,8 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 
 B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_popular` 的主播条目字段完全相同，提升到 `src/core/upstream-schemas.ts` 的 `DjAnchorRank`，只收紧主播自己的 `id`，头像、认证、直播状态和排名宽松；`avatarDetail` 复用既有 `AvatarDetail`。三个主播榜的 envelope（`code`、`data.total`、`data.updateTime`、`data.list`）也相同，本批作为模块公开合同暂留，后续统一榜单结构时再抽 core。`dj_toplist` 和 `dj_sublist` 的电台记录字段集合不同（榜单单条更短、订阅列表是完整电台记录），按“三个模块才进共享结构”的规则各自留在模块里；订阅列表的简介图文复用 `ProgramDescPic`，主播复用 `PlaylistUser`。`dj_toplist`、`dj_sublist`（匿名）、`dj_subscriber`（`time=1` 游标越界）都有真实空结果录制；`dj_toplist_hours`、`dj_toplist_pay`、`dj_toplist_popular` 没有 `offset`，`dj_toplist_newcomer` 的 `offset` 被上游忽略，`limit=0` 会被 SDK 的 `limit || 100` 替换成默认 `100`，本批录制和探测里没有可达的空结果。`djRadio_top` 在本账号的一次登录录制里 `data` 是空数组，元素类型无法确认，`data` 未声明并原样透传；匿名调用返回 `code: 302`（录制 `djRadio_top.anonymous.json`）。`dj_sublist` 必须登录才能看到订阅，匿名返回空 `djRadios`；五个榜单和 `dj_subscriber` 的登录与匿名录制字段集合相同，差异只在宽松字段的实时值。非数字 `limit`（五个榜单和 `dj_sublist`）返回正文 `code: 400`；大于 `100` 的 `limit` 只有 `dj_toplist_hours`、`dj_toplist_newcomer`、`dj_toplist_pay`、`dj_toplist_popular` 返回 `code: 400`，`dj_toplist`、`dj_sublist`、`dj_subscriber` 的 `limit=101` 在本批匿名探测里仍返回 200。SDK 按业务码拒绝转交 `status: 400`；`djRadio_top` 的非数字 `djRadioId` 返回 HTTP 400 空正文，网易云把 400 归一成 `status: 200`，结构定义允许空字符串分支。
 
+订阅与取消电台（`dj_sub`）在 B45 补上返回体：正文只带返回码 `code`，收紧为 `200`；订阅、已订阅再订阅和取消订阅都回 `{ code: 200 }`（录制 `dj_sub.subscribe.json`、`dj_sub.subscribe-again.json`、`dj_sub.unsubscribe.json`），账号状态用 `dj_sublist` 回读确认已恢复。
+
 ### 播客与声音
 
 | 模块                                          | 结构定义                  | 收紧的字段                                                                        |
@@ -494,12 +499,13 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 | [全部电台](/api/other/broadcast-channel-list)             | `BroadcastChannelListBody`        | `code`、`data`、`data.list`、`data.list[].id`                                                            |
 | [电台信息](/api/other/broadcast-channel-currentinfo)      | `BroadcastChannelCurrentinfoBody` | `code`、`data`、`data.id`、`data.playUrl`                                                                |
 | [我的收藏](/api/other/broadcast-channel-collect-list)     | `BroadcastChannelCollectListBody` | `code`                                                                                                   |
+| [收藏/取消收藏广播电台](/api/other/broadcast-sub)         | `BroadcastSubBody`                | `code`；`data`、`message` 宽松                                                                           |
 
 `broadcast_category_region_get` 的 `data.categoryList`、`data.regionList` 是分类和地区列表，每条记录只收紧自己的 `id`，名称宽松；这是静态目录，本批录制与探测未发现可达的空结果，数组本身允许为空。`broadcast_channel_list` 的 `data.list` 是电台列表，每条记录只收紧自己的 `id`，封面、名称、地区、来源、分数、订阅状态和房间号宽松；`data.total`、`data.hasMore` 是宽松的分页提示，未知地区 `regionId=999999` 返回空列表和 `total: 0`（录制 `broadcast_channel_list.empty.json`），按分类筛选的录制保留 5 条。
 
 `broadcast_channel_currentinfo` 的 `data` 是频道当前信息，`data.id` 是频道自己的编号，`data.playUrl` 是直播播放地址，三项收紧；`programId`、`programName`、`startTime`、`endTime`、`duration`、`currentTime`、`thirdChannelId`、`thirdProgramId` 和展示字段宽松。空闲频道（录制 `broadcast_channel_currentinfo.default.json`）的 `programId`/`startTime`/`endTime`/`duration` 是 `0`，`programName`、`thirdProgramId` 是 `null`；正在播出节目的频道（录制 `broadcast_channel_currentinfo.program.json`）有节目编号和起止时间，`broadcaster` 是空数组。`broadcaster` 只在录制里见过 `null` 和空数组，元素类型没有证据，未声明。已下架/无当前信息的频道返回 HTTP 200、正文 `code: 400`（录制 `broadcast_channel_currentinfo.delisted.json`），SDK 按业务拒绝转交 `status: 400`。
 
-`broadcast_channel_collect_list` 只收紧 `code`。`data` 在登录和匿名录制里都是空数组（登录账号没有收藏，匿名调用同样为空），元素类型没有证据，未声明并原样保留。登录对照用 `login_status` 确认 `account.anonimousUser: false`：`broadcast_category_region_get` 只有地区列表顺序不同，`broadcast_channel_list` 只有 11 处 `coverUrl` 的 CDN 主机（p3/p4）不同（`subed` 全 `false`、`total` 都是 `843`），`broadcast_channel_currentinfo` 只有 `currentTime` 不同，`broadcast_channel_collect_list` 逐字段相同；`voicelist_search`、`voicelist_list_search`、`voice_lyric` 也逐字段相同。
+`broadcast_channel_collect_list` 只收紧 `code`。`data` 在登录和匿名录制里都是空数组（登录账号没有收藏，匿名调用同样为空），元素类型没有证据，未声明并原样保留。收藏/取消收藏广播电台（`broadcast_sub`）在 B45 补上返回体：`code` 收紧为 `200`，`data`（操作结果标志）和 `message` 宽松；收藏、已收藏再收藏和取消收藏都回 `{ code: 200, data: true, message: "" }`（录制 `broadcast_sub.subscribe.json`、`broadcast_sub.subscribe-again.json`、`broadcast_sub.unsubscribe.json`），账号状态用 `broadcast_channel_collect_list` 回读确认已恢复。登录对照用 `login_status` 确认 `account.anonimousUser: false`：`broadcast_category_region_get` 只有地区列表顺序不同，`broadcast_channel_list` 只有 11 处 `coverUrl` 的 CDN 主机（p3/p4）不同（`subed` 全 `false`、`total` 都是 `843`），`broadcast_channel_currentinfo` 只有 `currentTime` 不同，`broadcast_channel_collect_list` 逐字段相同；`voicelist_search`、`voicelist_list_search`、`voice_lyric` 也逐字段相同。
 
 ## 一起听与最近常听
 
@@ -689,6 +695,7 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 | [热门评论](/api/comment/comment-hot)            | `CommentHotBody`      | `code`、`hotComments`、`hotComments[].commentId`                                                          |
 | [评论抱一抱列表](/api/comment/comment-hug-list) | `CommentHugListBody`  | `code`、`data.hugComments`                                                                                |
 | [评论](/api/comment/comment-new)                | `CommentNewBody`      | `code`、`data.comments`、`data.comments[].commentId`                                                      |
+| [点赞/取消点赞评论](/api/comment/comment-like)  | `CommentLikeBody`     | `code`                                                                                                    |
 
 这五个固定资源评论列表共用 `src/core/upstream-schemas.ts` 里的 `CommentRecord`、`CommentReply` 和 `CommentUser`：本批录制里 5 个模块的评论记录字段和类型完全一致。`commentId` 是每条评论自己的编号，所以收紧；`user` 和 `beReplied` 是评论里套着的记录，字段全部宽松，包括 `beReplied[].beRepliedCommentId`。`likedCount`、`liked`、`favorited`、`time`、`timeStr`、`status`、`parentCommentId`、`commentLocationType`、`decoration`、`ipLocation`、`pendantData` 也是宽松字段。
 
@@ -710,6 +717,8 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 
 `comment_dj`、`comment_event`、`comment_floor`、`comment_hot`、`comment_hug_list`、`comment_new` 的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`，只抽查了本批匿名录制中非 `null` 的路径与类型；登录录制未保留；不对公开结构作相同性断言。大录制保留覆盖各字段的非连续子集并记录原始条数：`comment_floor` 20 → 6、`comment_hot` 20 → 6、`comment_new` 27 → 6（`context.truncated.length` 记原数组长度）。
 
+点赞/取消点赞评论（`comment_like`）在 B45 补上返回体：正文只带返回码 `code`，收紧为 `200`。点赞方向被上游拒绝（`code: 250`、`msg: 点赞异常，请稍后再试！`、`data.dialog: null`，不是设备风险提示；录制 `comment_like.like.json`），SDK 按业务拒绝原样转交、`status` 为 250；成功正文只有取消点赞（`comment_like.unlike.json`）的证据。点赞状态用 `comment_music` 回读 `hotComments[].liked`，确认这次被拒的点赞没有改变状态（仍为 `false`、计数 `695`）；回读结论记在录制文件的 `context.note`，没有单独保留状态读出文件。
+
 ## 社交与用户列表
 
 | 模块                                               | 结构定义                  | 收紧的字段                                                                                         |
@@ -725,6 +734,8 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 | [话题详情](/api/social/topic-detail)               | `TopicDetailBody`         | `code`、`act`、`act.actId`                                                                         |
 | [话题热门动态](/api/social/topic-detail-event-hot) | `TopicDetailEventHotBody` | `code`、`events`、`events[].id`                                                                    |
 | [用户历史评论](/api/comment/user-comment-history)  | `UserCommentHistoryBody`  | `code`；`data.comments` 可以没有，出现时 `data.comments[].commentId` 收紧；`data.hotComments` 同样 |
+| [关注/取关用户](/api/social/follow)                | `FollowBody`              | `code`；`msg` 宽松                                                                                 |
+| [点赞/取消点赞资源](/api/social/resource-like)     | `ResourceLikeBody`        | `code`                                                                                             |
 
 `user_follows` 和 `user_followeds` 的关注/粉丝记录都复用 `UserProfile` 的宽松字段，再补上列表特有的 `py`、`time`、`vipRights`（`user_follows` 还补 `expertTags`）：只有记录自己的 `userId` 收紧，`vipRights` 复用 core 的 `VipRights`（`artist_fans`、`user_follow_mixed`、`user_event` 也用同一份），其中 `relationType`、`extInfo` 已声明为宽松字段，`memberLogo` 只见过 `null`、未声明。`remarkName` 在三份录制里只见过 `null`，也没有声明。`more`、`touchCount`、`newCount`、`size` 都是宽松字段；`newCount` 只在部分粉丝列表响应里出现。空列表分别是真实可达的：账号 13595690613 没有粉丝（`user_followeds.empty.json`），`offset=100000` 的越界分页返回空关注（`user_follows.empty.json`）。
 
@@ -743,6 +754,8 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 本批 5 个模块的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`（账号 599663130）：`event` 的匿名调用返回与登录空结果相同的 `event: []`、`more: false`；`hot_topic`、`topic_detail` 的匿名响应与登录响应字段集合一致，CDN 主机可能不同（本次对照只有 `topic_detail` 的 p3/p4 差异）；匿名录制未提交，也不对公开结构作相同性断言。
 
 本批 7 个模块的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`：`user_follow_mixed` 未登录被上游拒绝，`user_comment_history` 未登录看不到历史评论，`user_mutualfollow_get` 未登录对同一 uid 返回 `false`；其余模块本批未保留未登录录制，不对公开结构作相同性断言。录制只覆盖账号 599663130 与录制里出现的其他账号，不据此推断字段集合在所有账号、地区和上游版本下一致。
+
+本节的两个社交写操作（B45 的一部分）补上了返回体。关注/取关用户（`follow`）的正文是返回码 `code`（收紧为 `200`）加附带的 `msg`（宽松，取关成功录制里是「已不关注」，`follow.unfollow.json`）；关注方向在录制设备上被上游风控拒绝（`code: 250`、`message: 关注异常` 加风险提示 `dialog`，录制 `follow.rejected.json`），SDK 按业务拒绝原样转交、`status` 为 250，成功正文只有取关的证据。点赞/取消点赞资源（`resource_like`）的正文只带返回码 `code`（收紧为 `200`）；点赞方向同样被风控拒绝（`code: 250`、`msg` 是设备风险提示、`data.dialog` 是提示对象，录制 `resource_like.like.json`），成功正文只有取消点赞（`resource_like.unlike.json`）的证据。两个模块的写前写后都用读取接口回读（`follow` 用 `user_follows`，`resource_like` 用 `likelist`），确认这次被拒的操作没有改变账号状态；回读结论写在各录制文件的 `context.note`，没有单独保留状态读出文件。
 
 ## 非 200 业务码的状态码变化
 
@@ -771,6 +784,8 @@ B33 的 5 个听歌足迹接口同理：未登录调用上游返回 HTTP 200 + `
 B39 的账号校验与基础查询开始运行时校验后，畸形成功返回从原样放行变成 502；其中 `verify_qrcodestatus` 的空 `qr`（`verify_qrcodestatus.empty.json`，`code: 400`）原本被 `SPECIAL_STATUS_CODES` 映射成 `status: 200` 放行，现在按业务码拒绝为 `status: 400`；未登录（`verify_qrcodestatus.anonymous.json`，`code: 301`）的公开状态原本就是 `301`，改造前是 resolve，现在是 reject，`body` 都保留原文（`code` 已由请求层归一成数字）。其余 5 个模块本批没有保留非 200 业务码录制。
 
 B43 的 `mlog_url`、`mlog_to_video` 同样受影响：非法 mlog id 的上游是 HTTP 200 + 正文 `code: 400`（`mlog_url.invalid.json`；`mlog_to_video.no-video.json`，`msg: mlog无对应video`）。改造前模块按 `status: 200` 放行，现在 Body 校验按业务码拒绝为 `status: 400`，`body` 保留网易云原文。两个模块的契约测试都断言状态码和原文。
+
+B45 的 7 个写操作开始做 Body 校验后，`follow`、`resource_like`、`comment_like` 的风控/点赞拒绝（`code: 250`，录制 `follow.rejected.json`、`resource_like.like.json`、`comment_like.like.json`）落在 2xx、不在 `SPECIAL_STATUS_CODES` 里：改造前 resolve `status: 250`，现在按业务码 reject `status: 250`，`body`/`cookie` 不变，调用方需要 try/catch。`video_sub` 重复收藏（`video_sub.subscribe-again.json`）的 `code: 408` 不在 2xx，改造前后都是 `ProtocolFailed` reject `status: 408`、`body`/`cookie` 不变。本批录制里没有出现 201/302/400/502/800–803 这些会被归一成 `status: 200` 的特殊码。
 
 ## 消息
 

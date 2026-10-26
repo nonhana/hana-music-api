@@ -1,0 +1,30 @@
+{
+  "module": "resource_like",
+  "query": {
+    "id": 2092595510,
+    "type": 0,
+    "t": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:29:45.322Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：resource_like 正向尝试（点赞歌曲 2092595510）被上游设备风控拒绝，code 250；回读 likelist 5038 条不变"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 250,
+      "msg": "系统检测到您的设备存在安全风险，请更换设备后再尝试操作哦",
+      "data": {
+        "dialog": {
+          "title": "风险提示",
+          "subtitle": "系统检测到您的设备存在安全风险，请更换设备后再尝试操作哦",
+          "buttonMsg": "查看详情",
+          "buttonUrl": "https://163cn.tv/0SE6v7r"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "module": "dj_sub",
+  "query": {
+    "rid": 792544462,
+    "t": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:29:08.191Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：dj_sub 正向（订阅电台 792544462）；写前 dj_sublist 1 个电台，订阅后回读 2 个（新增 792544462）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200
+    }
+  }
+}

@@ -46,6 +46,10 @@ const result = await resourceLike({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 是接口要拿的操作结果，收紧为 `200`，其余字段原样保留。点赞方向在录制设备上被上游风控拒绝（正文 `code: 250`、`msg` 是设备风险提示），SDK 按业务拒绝原样转交，`status` 为 250；成功正文只有取消点赞的证据。结构定义和类型是 `ResourceLikeBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可对 MV,电台,视频点赞

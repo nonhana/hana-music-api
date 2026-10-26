@@ -43,6 +43,10 @@ const result = await mvSub({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 是接口要拿的操作结果，收紧为 `200`；`message` 是附带的提示，宽松，`data` 只见过 `null` 未声明。已收藏时再收藏仍回 `code: 200`。结构定义和类型是 `MvSubBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可收藏/取消收藏 MV

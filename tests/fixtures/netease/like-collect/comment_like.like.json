@@ -1,0 +1,26 @@
+{
+  "module": "comment_like",
+  "query": {
+    "id": 2092595510,
+    "type": 0,
+    "cid": 7431461934,
+    "t": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:30:37.778Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：comment_like 正向尝试（点赞评论 7431461934）被上游拒绝，code 250、msg 点赞异常；回读 hotComments 该评论 liked=false、likedCount 695"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 250,
+      "msg": "点赞异常，请稍后再试！",
+      "data": {
+        "dialog": null
+      }
+    }
+  }
+}
