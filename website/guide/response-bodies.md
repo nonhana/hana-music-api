@@ -598,6 +598,34 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。本次登录对照未发现结构差异；登录录制没有保留，不对公开结构作相同性断言。两个歌词摘录接口的匿名和登录都返回空列表。
 
+## 百科与用户贡献
+
+| 模块                                                     | 结构定义              | 收紧的字段                                          |
+| -------------------------------------------------------- | --------------------- | --------------------------------------------------- |
+| [专辑简要百科信息](/api/ugc/ugc-album-get)               | `UgcAlbumGetBody`     | `code`、`data`（可以没有）、`data.albumId`          |
+| [歌手简要百科信息](/api/ugc/ugc-artist-get)              | `UgcArtistGetBody`    | `code`、`data`（可以没有）、`data.artistId`         |
+| [搜索歌手](/api/ugc/ugc-artist-search)                   | `UgcArtistSearchBody` | `code`、`data`、`data.list`、`data.list[].artistId` |
+| [MV 简要百科信息](/api/ugc/ugc-mv-get)                   | `UgcMvGetBody`        | `code`、`data`、`data.mvId`                         |
+| [歌曲简要百科信息](/api/ugc/ugc-song-get)                | `UgcSongGetBody`      | `code`、`data`（可以没有）、`data.songId`           |
+| [用户贡献内容](/api/ugc/ugc-detail)                      | `UgcDetailBody`       | `code`、`data`                                      |
+| [用户贡献条目、积分、云贝数量](/api/ugc/ugc-user-devote) | `UgcUserDevoteBody`   | `code`、`data`、`data.userId`                       |
+
+专辑、歌手和歌曲的百科记录在未知 id 时返回 `code: 200` 但没有 `data`（录制 `ugc_album_get.missing.json` 等），所以 `data` 写成“可以没有”：缺失或 `null` 时照常返回，出现却没有自己的编号仍报 502。未知 MV 是另一个形状：`code: 404`、正文只有 `message`，SDK 按业务拒绝原样转交（`status: 404`），不进入结构校验。
+
+专辑的 `data.albumId` 是专辑自己的编号；专辑名、封面、公司、发行时间、简介、语言、类型和标签全部宽松。随行的歌手（`artistRepVos`）和歌曲（`songRepVos`）是宽松字段，里面的编号也宽松，坏一条只丢整个列表。`songRepVos` 里的 `albumRepVo`、歌词、播放地址等字段在录制里只见过 `null`，没有声明，原样保留。
+
+歌手记录的 `data.artistId` 收紧；`artistName`、`alias`、`headPicUrl`、`avatarPicUrl`、`area`、`type`、`desc` 和 `production` 宽松，`transName` 只见过 `null`。
+
+搜索歌手的 `data.list` 是数组：关键字、歌手 id 和无结果三种录制里都存在，无结果时是空数组（`ugc_artist_search.empty.json`）。每条结果的 `artistId` 收紧，`artistName`、`artistAvatarPicUrl` 宽松；`totalCount` 和 `msg` 宽松，`extraCount` 只见过空对象，没有声明。
+
+MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松，`desc` 可以是空串。随行的歌手和关联歌曲记录宽松，`albumRepVo` 里只声明见过值的 `albumId`、`albumName`。
+
+歌曲记录的 `data.songId` 收紧；歌曲名、歌手、专辑引用、语言、歌词正文和翻译、播放地址、锁状态和时长宽松。录制里 `no`、`mvIds`、`songTags`、`originalSong`、`roleArtists` 只见过 `null`，`arrangeArtists` 只见过空数组，这些字段没有声明，原样保留。`playUrl` 是带时效的地址，宽松处理。
+
+用户贡献内容在当前录制账号上没有内容：登录和匿名都返回 `data.total: 0` 和空数组 `data.wikiDetailResultVoList`。空数组给不出元素类型，列表没有声明，非空贡献记录的形状是缺口。用户贡献计数的 `data.userId` 是记录自己的编号，收紧；`ugcCount`、`integration`、`cloudShell` 是附带计数，全部宽松。登录和匿名录制里三个计数都是 0，非零计数没有证据，字段缺失或类型不对只丢这一项。
+
+登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`ugc_detail` 和 `ugc_user_devote` 保留了匿名对照，未发现字段类型差异；其余五个模块只保留登录录制，不对匿名结构作相同性断言。
+
 ## 搜索
 
 | 模块                                            | 结构定义               | 收紧的字段                                                                                                                                                                      |

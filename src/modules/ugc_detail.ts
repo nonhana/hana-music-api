@@ -1,12 +1,29 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const ugcDetail: ModuleEffect<ModuleInput> = (query, request) =>
+// 返回码和贡献内容的路径 `data` 收紧；总条数 `data.total` 宽松；当前账号没有贡献，`data.wikiDetailResultVoList` 只见过空数组，元素类型未知，不声明，原样保留。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    data: UpstreamObject({
+      total: Loose(Schema.Finite),
+    }),
+    message: Loose(Schema.String),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const ugcDetail: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       auditStatus: query.auditStatus || '',
@@ -20,15 +37,15 @@ const ugcDetail: ModuleEffect<ModuleInput> = (query, request) =>
       //曲库纠错 ARTIST:1 ALBUM:2 SONG:3 MV:4 LYRIC:5 TLYRIC:6
       //曲库补充 ALBUM:101 MV:103
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/rep/ugc/detail`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/rep/ugc/detail`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    const body = yield* decodeUpstreamBody('ugc_detail', ModuleBody, response);
+    return { ...toModuleResponse(response), body };
   });
 
 /**

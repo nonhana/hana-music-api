@@ -1,0 +1,125 @@
+{
+  "module": "ugc_mv_get",
+  "query": {
+    "id": 14572641
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:36:03.941Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B42：ugc_mv_get MV 简要百科信息（MV 14572641）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "message": "提交成功",
+      "data": {
+        "mvId": 14572641,
+        "mvName": "ÅMARA (大未来電脳)",
+        "artistRepVos": [
+          {
+            "artistId": 15396,
+            "artistName": "sasakure.UK",
+            "alias": null,
+            "headPicUrl": null,
+            "area": null,
+            "type": null,
+            "desc": null,
+            "production": null,
+            "avatarPicUrl": null,
+            "transName": null
+          },
+          {
+            "artistId": 159692,
+            "artistName": "初音ミク",
+            "alias": null,
+            "headPicUrl": null,
+            "area": null,
+            "type": null,
+            "desc": null,
+            "production": null,
+            "avatarPicUrl": null,
+            "transName": null
+          },
+          {
+            "artistId": 12095248,
+            "artistName": "KAITO",
+            "alias": null,
+            "headPicUrl": null,
+            "area": null,
+            "type": null,
+            "desc": null,
+            "production": null,
+            "avatarPicUrl": null,
+            "transName": null
+          }
+        ],
+        "pic4v3Url": "http://p1.music.126.net/kD4-gVsBrPESvLD3MPxY9Q==/109951167979895498.jpg",
+        "pic16v9Url": "http://p1.music.126.net/QOAW2I2yPgXx-tYIsY7YRA==/109951167979908082.jpg",
+        "mvSongVos": [
+          {
+            "songId": 1989326301,
+            "songName": "ÅMARA (大未来電脳)",
+            "albumRepVo": {
+              "albumId": 153200833,
+              "albumName": "ÅMARA (大未来電脳)",
+              "artistRepVos": null,
+              "albumPicUrl": null,
+              "albumSubTitle": null,
+              "company": null,
+              "publishTime": null,
+              "songRepVos": null,
+              "songTags": null,
+              "production": null,
+              "language": null,
+              "type": null,
+              "transName": null
+            },
+            "artistRepVos": [
+              {
+                "artistId": 15396,
+                "artistName": "sasakure.UK",
+                "alias": null,
+                "headPicUrl": null,
+                "area": null,
+                "type": null,
+                "desc": null,
+                "production": null,
+                "avatarPicUrl": null,
+                "transName": null
+              },
+              {
+                "artistId": 159692,
+                "artistName": "初音ミク",
+                "alias": null,
+                "headPicUrl": null,
+                "area": null,
+                "type": null,
+                "desc": null,
+                "production": null,
+                "avatarPicUrl": null,
+                "transName": null
+              },
+              {
+                "artistId": 12095248,
+                "artistName": "KAITO",
+                "alias": null,
+                "headPicUrl": null,
+                "area": null,
+                "type": null,
+                "desc": null,
+                "production": null,
+                "avatarPicUrl": null,
+                "transName": null
+              }
+            ]
+          }
+        ],
+        "publishTime": 1665417600000,
+        "desc": ""
+      },
+      "code": 200
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "module": "ugc_user_devote",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T00:36:12.765Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B42：ugc_user_devote 匿名对照，返回匿名账号的计数（响应侧 data.userId 已换成合成值 10000002，不是原始匿名 uid）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "message": "查询成功",
+      "data": {
+        "userId": 10000002,
+        "ugcCount": 0,
+        "cloudShell": 0,
+        "integration": 0
+      },
+      "code": 200
+    }
+  }
+}

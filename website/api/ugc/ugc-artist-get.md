@@ -39,6 +39,10 @@ const result = await ugcArtistGet({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、歌手百科记录的路径 `body.data` 和歌手自己的编号 `body.data.artistId` 收紧。未知歌手返回 `code: 200` 但没有 `data`，`data` 缺失或为 `null` 都照常返回；出现却没有 `artistId` 仍报 502。`artistName`、`alias`、头像、地区、类型、简介和 `production` 都是宽松字段，`transName` 在录制里只见过 `null`，没有声明。输入仍是 legacy，不做 id 本地校验。结构定义和类型是 `UgcArtistGetBody`，见[返回体结构](/guide/response-bodies#百科与用户贡献)。
+
 ## 补充说明
 
 说明: 登录后调用此接口,使用此接口,传入歌手id,可获取对应的歌手简要百科信息

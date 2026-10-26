@@ -1006,6 +1006,14 @@ export const DjProgram = UpstreamObject({
   trackCount: Loose(Schema.Finite),
 });
 
+// ugc_album_get、ugc_mv_get、ugc_song_get 的 `artistRepVos`，以及 ugc_song_get 的 `lyricArtists`、
+// `composeArtists`，都是同一结构，字段完全相同：只有编号和名字出现过值，其余资料在嵌套记录里都是
+// null，不声明；嵌套记录的编号也宽松。与 mlog 的 `MlogSongArtist` 同形但属于不同上游实体，保持独立声明。
+export const UgcArtistRef = UpstreamObject({
+  artistId: Loose(Schema.Finite),
+  artistName: Loose(Schema.String),
+});
+
 // dj_toplist_hours、dj_toplist_newcomer、dj_toplist_popular 的主播榜条目：只收紧主播自己的 `id`，
 // 排名、分数、头像、认证和直播状态宽松；`avatarDetail` 在部分条目里是 null，出现时按宽松结构声明。
 export const DjAnchorRank = UpstreamObject({

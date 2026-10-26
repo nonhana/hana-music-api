@@ -1,0 +1,21 @@
+{
+  "module": "ugc_mv_get",
+  "query": {
+    "id": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:36:04.453Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B42：ugc_mv_get 未知 MV，code 404、正文没有 data（用 --outcome rejected 标注业务拒绝）",
+    "outcome": "rejected"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "message": "mv未查到",
+      "code": 404
+    }
+  }
+}

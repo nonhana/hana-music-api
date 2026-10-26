@@ -950,13 +950,34 @@ import type {
   ModuleBody as toplistDetailBody,
   ModuleInput as toplistDetailInput,
 } from '../../modules/toplist_detail.ts';
-import type { ModuleInput as ugcAlbumGetInput } from '../../modules/ugc_album_get.ts';
-import type { ModuleInput as ugcArtistGetInput } from '../../modules/ugc_artist_get.ts';
-import type { ModuleInput as ugcArtistSearchInput } from '../../modules/ugc_artist_search.ts';
-import type { ModuleInput as ugcDetailInput } from '../../modules/ugc_detail.ts';
-import type { ModuleInput as ugcMvGetInput } from '../../modules/ugc_mv_get.ts';
-import type { ModuleInput as ugcSongGetInput } from '../../modules/ugc_song_get.ts';
-import type { ModuleInput as ugcUserDevoteInput } from '../../modules/ugc_user_devote.ts';
+import type {
+  ModuleBody as ugcAlbumGetBody,
+  ModuleInput as ugcAlbumGetInput,
+} from '../../modules/ugc_album_get.ts';
+import type {
+  ModuleBody as ugcArtistGetBody,
+  ModuleInput as ugcArtistGetInput,
+} from '../../modules/ugc_artist_get.ts';
+import type {
+  ModuleBody as ugcArtistSearchBody,
+  ModuleInput as ugcArtistSearchInput,
+} from '../../modules/ugc_artist_search.ts';
+import type {
+  ModuleBody as ugcDetailBody,
+  ModuleInput as ugcDetailInput,
+} from '../../modules/ugc_detail.ts';
+import type {
+  ModuleBody as ugcMvGetBody,
+  ModuleInput as ugcMvGetInput,
+} from '../../modules/ugc_mv_get.ts';
+import type {
+  ModuleBody as ugcSongGetBody,
+  ModuleInput as ugcSongGetInput,
+} from '../../modules/ugc_song_get.ts';
+import type {
+  ModuleBody as ugcUserDevoteBody,
+  ModuleInput as ugcUserDevoteInput,
+} from '../../modules/ugc_user_devote.ts';
 import type {
   ModuleBody as userAccountBody,
   ModuleInput as userAccountInput,
@@ -3242,37 +3263,37 @@ export interface GeneratedModuleContractMap {
   ugc_album_get: {
     input: ugcAlbumGetInput;
     query: ugcAlbumGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcAlbumGetBody>;
   };
   ugc_artist_get: {
     input: ugcArtistGetInput;
     query: ugcArtistGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcArtistGetBody>;
   };
   ugc_artist_search: {
     input: ugcArtistSearchInput;
     query: ugcArtistSearchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcArtistSearchBody>;
   };
   ugc_detail: {
     input: ugcDetailInput;
     query: ugcDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcDetailBody>;
   };
   ugc_mv_get: {
     input: ugcMvGetInput;
     query: ugcMvGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcMvGetBody>;
   };
   ugc_song_get: {
     input: ugcSongGetInput;
     query: ugcSongGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcSongGetBody>;
   };
   ugc_user_devote: {
     input: ugcUserDevoteInput;
     query: ugcUserDevoteInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcUserDevoteBody>;
   };
   user_account: {
     input: userAccountInput;

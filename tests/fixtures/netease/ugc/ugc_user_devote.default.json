@@ -1,0 +1,24 @@
+{
+  "module": "ugc_user_devote",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T00:36:11.322Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B42：ugc_user_devote 登录态贡献条目、积分、云贝数量（响应侧 data.userId 已换成合成值 10000001，不是原始 uid）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "message": "查询成功",
+      "data": {
+        "userId": 10000001,
+        "ugcCount": 0,
+        "cloudShell": 0,
+        "integration": 0
+      },
+      "code": 200
+    }
+  }
+}
