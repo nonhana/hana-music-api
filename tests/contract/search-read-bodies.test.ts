@@ -14,6 +14,7 @@ import {
   expectUpstreamShapeRejection,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import searchAlbum from '../fixtures/netease/search/search.album.json';
 import searchArtist from '../fixtures/netease/search/search.artist.json';
 import searchCn from '../fixtures/netease/search/search.cn.json';
@@ -37,12 +38,6 @@ import searchMultimatch from '../fixtures/netease/search/search_multimatch.defau
 import searchMultimatchNone from '../fixtures/netease/search/search_multimatch.no-result.json';
 
 // issue #102 B14 的匿名录制：中文、英文、拼音、无结果、分页和五种 type。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 const replayRecording = (recording: Recording) =>
   replay(recording.response.body, recording.response.status);
 

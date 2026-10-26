@@ -19,6 +19,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import artistDesc from '../fixtures/netease/artist/artist_desc.default.json';
 import artistDescEmpty from '../fixtures/netease/artist/artist_desc.empty.json';
 import artistDescUnknown from '../fixtures/netease/artist/artist_desc.unknown.json';
@@ -43,12 +44,6 @@ import artistVideoEmpty from '../fixtures/netease/artist/artist_video.empty.json
 
 // issue #102 B2 的匿名录制；artist_new_mv、artist_new_song 的非空录制来自本机已登录账号，context.viewer 是 authenticated，
 // 匿名录制（anonymous-empty）只用于空列表证据。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

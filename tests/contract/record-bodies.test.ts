@@ -22,6 +22,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay, replayRaw } from '../_kit/replay.ts';
 import historyRecommendSongsAnonymous from '../fixtures/netease/record/history_recommend_songs.anonymous.json';
 import historyRecommendSongs from '../fixtures/netease/record/history_recommend_songs.default.json';
 import historyRecommendSongsDetailAnonymous from '../fixtures/netease/record/history_recommend_songs_detail.anonymous.json';
@@ -52,18 +53,6 @@ import recordRecentVoiceInvalid from '../fixtures/netease/record/record_recent_v
 // issue #102 B34 的播放记录读取录制：9 个模块，18 份成功录制（正常 + 空结果/匿名），
 // 6 份非法 `limit` 的 HTTP 400 空正文、1 份缺少 id 的空正文和 1 份非法 `date` 的业务拒绝。
 // 录制前用 login_status 确认 account.anonimousUser: false；匿名录制只用来证明空列表和缺席路径。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
-const replayRaw = (body: string, status: number) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => new Response(body, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: RawRecording;

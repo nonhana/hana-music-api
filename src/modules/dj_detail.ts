@@ -8,7 +8,12 @@ import {
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
-import { Artist, PlaylistUser, SimpleAlbum } from '../core/upstream-schemas.ts';
+import {
+  Artist,
+  PlaylistUser,
+  ProgramDj,
+  SimpleAlbum,
+} from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
@@ -31,12 +36,6 @@ const CommentData = UpstreamObject({
   programId: Loose(Schema.Finite),
   programName: Loose(Schema.String),
   userProfile: Loose(PlaylistUser),
-});
-
-// 付费电台详情里的节目记录：`mainSong` 是旧版歌曲结构，歌手和专辑复用 core 的宽松声明。
-const ProgramDj = UpstreamObject({
-  ...PlaylistUser.schema.fields,
-  brand: Loose(Schema.String),
 });
 
 const LegacyQuality = UpstreamObject({

@@ -9,13 +9,14 @@ import {
 import { tmpdir } from 'node:os';
 import { basename, join, resolve } from 'node:path';
 
+import { projectRoot } from '../_kit/assertions.ts';
 import { findForbiddenArtifactSymbols } from '../fixtures/architecture-artifacts.ts';
 import albumNoDescription from '../fixtures/netease/library/album.no-description.json';
 import artistAlbum from '../fixtures/netease/library/artist_album.json';
 import artistTopSong from '../fixtures/netease/library/artist_top_song.json';
 import songDetailPrivileges from '../fixtures/netease/library/song_detail.privileges.json';
 
-const ROOT = resolve(import.meta.dir, '../..');
+const ROOT = projectRoot;
 const PACKAGE_JSON_PATH = resolve(ROOT, 'package.json');
 const WORKFLOWS_DIRECTORY = resolve(ROOT, '.github/workflows');
 const CHANGESET_CONFIG_PATH = resolve(ROOT, '.changeset/config.json');

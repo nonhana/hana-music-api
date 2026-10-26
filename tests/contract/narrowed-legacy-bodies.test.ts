@@ -3,7 +3,6 @@ import { expect, expectTypeOf, test } from 'bun:test';
 import {
   ArtistDetailBody,
   ArtistsBody,
-  createHanaMusicApi,
   UserRecordBody,
   VipInfoBody,
   VipInfoV2Body,
@@ -13,18 +12,13 @@ import {
   expectUpstreamShapeRejection,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import artistDetail from '../fixtures/netease/library/artist_detail.json';
 import artists from '../fixtures/netease/library/artists.json';
 import userRecordAll from '../fixtures/netease/library/user_record.all.json';
 import userRecordWeek from '../fixtures/netease/library/user_record.week.json';
 import vipInfo from '../fixtures/netease/login/vip_info.vip.json';
 import vipInfoV2 from '../fixtures/netease/login/vip_info_v2.vip.json';
-
-const replay = (upstream: unknown) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream),
-  });
 
 type Case = {
   readonly name: string;

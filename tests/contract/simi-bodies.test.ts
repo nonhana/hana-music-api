@@ -14,6 +14,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay, replayRaw } from '../_kit/replay.ts';
 import simiArtist from '../fixtures/netease/simi/simi_artist.default.json';
 import simiArtistMissingId from '../fixtures/netease/simi/simi_artist.missing-id.json';
 import simiArtistUnknown from '../fixtures/netease/simi/simi_artist.unknown.json';
@@ -31,18 +32,6 @@ import simiUserMissingId from '../fixtures/netease/simi/simi_user.missing-id.jso
 // issue #102 B30 的录制来自本机登录账号（context.viewer 是 authenticated），
 // 录制前用 login_status 确认 anonimousUser: false。五个模块的列表在所有成功录制里都出现，
 // 空结果是空数组，没有“可以没有”的路径。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
-const replayRaw = (body: string, status: number) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => new Response(body, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

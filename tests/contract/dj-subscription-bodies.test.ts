@@ -1,7 +1,6 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
-  createHanaMusicApi,
   DjRadioTopBody,
   DjSublistBody,
   DjSubscriberBody,
@@ -17,6 +16,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay, replayRaw } from '../_kit/replay.ts';
 import djSublistAnonymous from '../fixtures/netease/dj/dj_sublist.anonymous.json';
 import djSublist from '../fixtures/netease/dj/dj_sublist.default.json';
 import djSublistInvalidLimit from '../fixtures/netease/dj/dj_sublist.invalid-limit.json';
@@ -49,19 +49,8 @@ import djRadioTopInvalidParam from '../fixtures/netease/dj/djRadio_top.invalid-p
 // 带 Cookie 录制，并保留同一请求的匿名对照；订阅列表必须登录才能看到订阅，匿名返回空列表。所有录制都
 // 保留完整列表，没有截取。djRadio_top 在本账号的一次登录录制里只返回空 `data`，没有非空元素证据；
 // 匿名返回 `code: 302`。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
 
 // 上游对 djRadio_top 的非法参数返回 HTTP 400 和空正文，不能用 Response.json 回放。
-const replayText = (body: string, status: number) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => new Response(body, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;
@@ -300,7 +289,7 @@ test.each<{
 test('djRadio_top returns the empty body for a non-numeric id', async () => {
   // 网易云把 HTTP 400 归一成 status 200，正文是空字符串；这是空字符串分支，模块原样返回。
   const result = await settle<unknown>(
-    replayText(
+    replayRaw(
       djRadioTopInvalidParam.response.body,
       djRadioTopInvalidParam.response.status,
     ).djRadioTop(djRadioTopInvalidParam.query),

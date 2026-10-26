@@ -9,19 +9,13 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import {
+  LooseSong,
   PlaylistUser,
-  Song,
   VideoGroupRef,
   VideoResolutionEntry,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
-
-// 视频记录里的关联歌曲是宽松字段里套着的记录，编号也宽松。
-const RelatedSong = UpstreamObject({
-  ...Song.schema.fields,
-  id: Loose(Schema.Finite),
-});
 
 const TimelineVideo = UpstreamObject({
   vid: Schema.String,
@@ -39,7 +33,7 @@ const TimelineVideo = UpstreamObject({
   praisedCount: Loose(Schema.Finite),
   previewDurationms: Loose(Schema.Finite),
   previewUrl: Loose(Schema.String),
-  relateSong: Loose(Schema.Array(RelatedSong)),
+  relateSong: Loose(Schema.Array(LooseSong)),
   resolutions: Loose(Schema.Array(VideoResolutionEntry)),
   scm: Loose(Schema.String),
   shareCount: Loose(Schema.Finite),

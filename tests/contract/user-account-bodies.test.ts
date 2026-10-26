@@ -1,7 +1,6 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
-  createHanaMusicApi,
   UserBindingBody,
   UserCloudBody,
   UserCloudDetailBody,
@@ -16,6 +15,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import userBinding from '../fixtures/netease/user/user_binding.default.json';
 import userBindingEmpty from '../fixtures/netease/user/user_binding.no-bindings.json';
 import userCloud from '../fixtures/netease/user/user_cloud.default.json';
@@ -29,12 +29,6 @@ import userSocialStatus from '../fixtures/netease/user/user_social_status.defaul
 import userSubcount from '../fixtures/netease/user/user_subcount.default.json';
 
 // issue #102 B16 的登录录制；user_medal.unknown-user 是同一账号视角下不存在的 uid。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type JsonObject = Record<string, unknown>;
 
 const objectAt = (value: unknown) => value as JsonObject;

@@ -18,6 +18,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import relatedAllvideo from '../fixtures/netease/video/related_allvideo.default.json';
 import relatedAllvideoNumeric from '../fixtures/netease/video/related_allvideo.numeric-id.json';
 import videoCategoryList from '../fixtures/netease/video/video_category_list.default.json';
@@ -39,12 +40,6 @@ import videoUrlEmpty from '../fixtures/netease/video/video_url.empty.json';
 // issue #102 B10 的匿名录制；两条 timeline 登录对照录制的结构差异只在宽松字段（relateSong 出现歌曲记录、
 // markTypes 出现值；creator.experts 的键集合差异只在 video_timeline_all，匿名多 experts.2），context.viewer
 // 是 authenticated。其余 7 个模块只保留匿名录制，未保留登录对照，不对公开结构作相同性断言。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

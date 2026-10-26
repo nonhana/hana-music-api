@@ -16,6 +16,7 @@ import {
   expectUpstreamShapeRejection,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import topAlbumAll from '../fixtures/netease/album/top_album.area-all.json';
 import topAlbumJp from '../fixtures/netease/album/top_album.area-jp.json';
 import topAlbumEmpty from '../fixtures/netease/album/top_album.empty.json';
@@ -35,12 +36,6 @@ import toplistArtistType2 from '../fixtures/netease/toplist/toplist_artist.type-
 import toplistDetailDefault from '../fixtures/netease/toplist/toplist_detail.default.json';
 
 // issue #102 B15 的匿名录制，以及 top_artists 关注字段、top_song 付费字段的登录对照。
-const replay = (upstream: unknown) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream),
-  });
-
 type TopListSuccess = Extract<TopListBody, { code: 200 }>;
 
 type Case = {

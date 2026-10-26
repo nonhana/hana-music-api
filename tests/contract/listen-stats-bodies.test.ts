@@ -14,6 +14,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import listenDataRealtimeReportAnonymous from '../fixtures/netease/listen/listen_data_realtime_report.anonymous.json';
 import listenDataRealtimeReport from '../fixtures/netease/listen/listen_data_realtime_report.default.json';
 import listenDataRealtimeReportMonth from '../fixtures/netease/listen/listen_data_realtime_report.month.json';
@@ -31,12 +32,6 @@ import listenDataYearReport from '../fixtures/netease/listen/listen_data_year_re
 
 // issue #102 B33 的录制来自本机登录账号（context.viewer 是 authenticated），
 // 本次会话用 login_status 确认 account.anonimousUser: false（未落盘）；5 个模块的未登录调用都会被上游以 code 302 拒绝（各模块的 .anonymous.json）。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

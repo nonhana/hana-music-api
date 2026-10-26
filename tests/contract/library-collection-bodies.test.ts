@@ -15,6 +15,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import songDownlist from '../fixtures/netease/library/song_downlist.default.json';
 import songDownlistEmpty from '../fixtures/netease/library/song_downlist.empty.json';
 import songDownlistRejected from '../fixtures/netease/library/song_downlist.rejected.json';
@@ -36,12 +37,6 @@ import userPlaylistCreateEmpty from '../fixtures/netease/library/user_playlist_c
 // 数据。空结果用越界偏移录制；`song_singledownlist` 和 `song_purchased` 的录制账号没有已购买/
 // 已购单曲，两份录制是真实空结果，元素类型没有证据。匿名对照只保留两个歌单列表
 // （`subscribed` 为 `null`）；下载列表匿名时同样是空 `info`，不单独保留录制。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

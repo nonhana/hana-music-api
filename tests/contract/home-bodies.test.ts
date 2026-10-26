@@ -12,6 +12,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import bannerAnonymous from '../fixtures/netease/home/banner.anonymous.json';
 import banner from '../fixtures/netease/home/banner.default.json';
 import bannerAndroid from '../fixtures/netease/home/banner.type-android.json';
@@ -25,12 +26,6 @@ import homepageDragonBall from '../fixtures/netease/home/homepage_dragon_ball.de
 
 // issue #102 B27：default 录制是登录状态（先经 login_status 确认 anonimousUser: false）；
 // anonymous 是未登录对照，viewer 为 invalid-cookie 的录制是探测用无效值回匿名视角。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

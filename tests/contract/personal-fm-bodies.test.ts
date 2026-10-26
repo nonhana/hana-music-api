@@ -14,6 +14,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import aidjContentRcmdAnonymous from '../fixtures/netease/recommend/aidj_content_rcmd.anonymous.json';
 import aidjContentRcmd from '../fixtures/netease/recommend/aidj_content_rcmd.default.json';
 import aidjContentRcmdLocation from '../fixtures/netease/recommend/aidj_content_rcmd.with-location.json';
@@ -37,12 +38,6 @@ import playmodeIntelligenceListUnsupported from '../fixtures/netease/recommend/p
 // account.anonimousUser 为 false；personal_fm、personal_fm_mode 和 aidj_content_rcmd
 // 另保留匿名录制。列表类接口中只有 mlog_music_rcmd 录到可达空结果；另有缺口见
 // website/guide/response-bodies.md。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

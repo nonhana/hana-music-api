@@ -15,6 +15,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import msgCommentsAnonymous from '../fixtures/netease/msg/msg_comments.anonymous.json';
 import msgComments from '../fixtures/netease/msg/msg_comments.default.json';
 import msgCommentsEmpty from '../fixtures/netease/msg/msg_comments.empty.json';
@@ -34,12 +35,6 @@ import msgRecentcontactAnonymous from '../fixtures/netease/msg/msg_recentcontact
 import msgRecentcontact from '../fixtures/netease/msg/msg_recentcontact.default.json';
 
 // issue #102 B20 的登录录制；通知和私信需要登录，未登录时上游返回 code 301 或空列表。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

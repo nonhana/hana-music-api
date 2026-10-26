@@ -17,6 +17,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import mvAll from '../fixtures/netease/mv/mv_all.default.json';
 import mvAllPageTwo from '../fixtures/netease/mv/mv_all.page-two.json';
 import mvDetail from '../fixtures/netease/mv/mv_detail.default.json';
@@ -35,12 +36,6 @@ import topMv from '../fixtures/netease/mv/top_mv.default.json';
 
 // issue #102 B9 的匿名录制；mv_sublist 的非空录制来自本机已登录账号（context.viewer 是 authenticated），
 // anonymous 录制只用于空列表证据。匿名与登录逐字段 diff 无结构差异。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

@@ -20,6 +20,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import djDifmAllStyleChannel from '../fixtures/netease/dj/dj_difm_all_style_channel.default.json';
 import djDifmAllStyleChannelEmpty from '../fixtures/netease/dj/dj_difm_all_style_channel.empty.json';
 import djDifmPlayingTracksList from '../fixtures/netease/dj/dj_difm_playing_tracks_list.default.json';
@@ -43,12 +44,6 @@ import programRecommendEmpty from '../fixtures/netease/dj/program_recommend.empt
 // 有差异（如 aiGenerated 的 null/boolean、descPicList 的 null/数组、mMusic 的 null/对象），因此没有保留
 // 登录对照，也不对公开结构作相同性断言。dj_program、program_recommend、personalized_djprogram、
 // dj_program_toplist 的录制是按字段覆盖截取的非连续子集。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

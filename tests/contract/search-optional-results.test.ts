@@ -1,24 +1,19 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
-import { CloudsearchBody, createHanaMusicApi } from '../../index.ts';
+import { CloudsearchBody } from '../../index.ts';
 import type { SearchSuggestBody } from '../../index.ts';
 import type { Recording } from '../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import searchAlbum from '../fixtures/netease/search/cloudsearch.album.json';
 import searchArtist from '../fixtures/netease/search/cloudsearch.artist.json';
 import searchPlaylist from '../fixtures/netease/search/cloudsearch.playlist.json';
 import searchSong from '../fixtures/netease/search/cloudsearch.song.json';
 import suggestAllCategories from '../fixtures/netease/search/kinds/002-search_suggest.json';
 import suggestMobile from '../fixtures/netease/search/search_suggest.mobile.json';
-
-const replay = (upstream: unknown) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream),
-  });
 
 type SearchCase = {
   readonly name: string;

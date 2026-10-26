@@ -1,12 +1,13 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
-import { createHanaMusicApi, TopPlaylistBody } from '../../index.ts';
+import { TopPlaylistBody } from '../../index.ts';
 import type { Recording, Validator } from '../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay, replayRaw } from '../_kit/replay.ts';
 import topPlaylistAnonymous from '../fixtures/netease/playlist/top_playlist.anonymous.json';
 import topPlaylistBeyondLastPage from '../fixtures/netease/playlist/top_playlist.beyond-last-page.json';
 import topPlaylistDefault from '../fixtures/netease/playlist/top_playlist.default.json';
@@ -27,18 +28,6 @@ type TopPlaylistSuccess = Extract<TopPlaylistBody, { code: 200 }>;
 
 // issue #102 B28 的登录主形态、匿名对照、真实空结果、真实尾页和 order=hot 兜底录制；
 // 顶层视图见各录制的 context。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
-const replayRaw = (body: string, status: number) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => new Response(body, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

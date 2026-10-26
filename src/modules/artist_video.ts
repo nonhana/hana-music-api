@@ -8,18 +8,12 @@ import {
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
-import { MlogSong } from '../core/upstream-schemas.ts';
+import { AvatarDetail, MlogSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const MlogAvatarDetail = UpstreamObject({
-  identityIconUrl: Loose(Schema.String),
-  identityLevel: Loose(Schema.Finite),
-  userType: Loose(Schema.Finite),
-});
-
 const MlogUser = UpstreamObject({
-  avatarDetail: Loose(MlogAvatarDetail),
+  avatarDetail: Loose(AvatarDetail),
   avatarUrl: Loose(Schema.String),
   followed: Loose(Schema.Boolean),
   nickname: Loose(Schema.String),

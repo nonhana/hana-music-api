@@ -2,7 +2,6 @@ import { expect, test } from 'bun:test';
 
 import type { ModuleInputOf } from '../../index.ts';
 import {
-  createHanaMusicApi,
   LyricNewBody,
   ScrobbleBody,
   SongDownloadUrlV1Body,
@@ -14,6 +13,7 @@ import type {
   Validator,
 } from '../_kit/assertions.ts';
 import { expectUpstreamShapeRejection } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import lyricAllForms from '../fixtures/netease/playback/lyric_new.all-forms.json';
 import lyricLrcOnly from '../fixtures/netease/playback/lyric_new.lrc-only.json';
 import lyricPureMusic from '../fixtures/netease/playback/lyric_new.pure-music.json';
@@ -43,12 +43,6 @@ import urlSky from '../fixtures/netease/playback/song_url_v1.vip-sky.json';
 import urlStandard from '../fixtures/netease/playback/song_url_v1.vip-standard.json';
 
 // 回放 #20 的验证关卡录制及 #71 的匿名下载对照，返回体保留脱敏后的上游字段。
-const replay = (upstream: unknown) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream),
-  });
-
 test.each<{ name: string; recording: Recording }>([
   { name: 'anonymous free', recording: urlAnonFree },
   { name: 'anonymous trial', recording: urlAnonTrial },

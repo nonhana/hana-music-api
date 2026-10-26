@@ -15,6 +15,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import countriesCodeList from '../fixtures/netease/other/countries_code_list.default.json';
 import plCountAnonymous from '../fixtures/netease/other/pl_count.anonymous.json';
 import plCount from '../fixtures/netease/other/pl_count.default.json';
@@ -32,12 +33,6 @@ import nicknameCheckDuplicated from '../fixtures/netease/user/nickname_check.dup
 // issue #102 B39 的录制：账号校验与基础查询。登录对照先确认 login_status 的
 // account.anonimousUser 为 false；verify_qrcodestatus 没有可构造的扫码会话，只录到已失效
 // 二维码（qrCodeStatus 21），未扫/已扫/已确认三态没有证据。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

@@ -15,6 +15,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import calendarAnonymous from '../fixtures/netease/recommend/calendar.anonymous.json';
 import calendar from '../fixtures/netease/recommend/calendar.default.json';
 import calendarEmpty from '../fixtures/netease/recommend/calendar.empty.json';
@@ -30,12 +31,6 @@ import userSocialStatusSupport from '../fixtures/netease/user/user_social_status
 // 确认 account.anonimousUser 为 false；style_preference 的匿名录制只作空结果证据。
 // user_social_status_rcmd 先录无状态空结果，再用 user_social_status_edit 设置 LISTENING；
 // event_del 删同一状态 id 未生效，实际用 status/edit 的外层空 content 清空并回读确认。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

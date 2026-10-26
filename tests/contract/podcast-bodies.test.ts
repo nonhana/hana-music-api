@@ -16,6 +16,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import broadcastCategoryRegionGetAnonymous from '../fixtures/netease/podcast/broadcast_category_region_get.anonymous.json';
 import broadcastCategoryRegionGet from '../fixtures/netease/podcast/broadcast_category_region_get.default.json';
 import broadcastChannelCollectListAnonymous from '../fixtures/netease/podcast/broadcast_channel_collect_list.anonymous.json';
@@ -40,12 +41,6 @@ import voicelistSearch from '../fixtures/netease/podcast/voicelist_search.defaul
 // issue #102 B31 的播客/电台读取录制：7 个模块，18 份登录/匿名成功录制和 2 份业务拒绝。
 // 播客工作台的 voicelist_list/detail/trans 与 voice_detail 只对播客所有者开放，本机账号没有播客，
 // 本批没有成功正文可录，未声明结构。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

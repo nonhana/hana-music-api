@@ -25,6 +25,7 @@ import {
   validateSync,
 } from '../_kit/assertions.ts';
 import { runExit } from '../_kit/it.ts';
+import { replay } from '../_kit/replay.ts';
 import personalizedAuthenticated from '../fixtures/netease/recommend/personalized.authenticated.json';
 import personalizedDefault from '../fixtures/netease/recommend/personalized.default.json';
 import personalizedInvalidLimit from '../fixtures/netease/recommend/personalized.invalid-limit.json';
@@ -43,12 +44,6 @@ import recommendResourceAuthenticated from '../fixtures/netease/recommend/recomm
 import recommendResourceDefault from '../fixtures/netease/recommend/recommend_resource.default.json';
 
 // issue #102 B26 的推荐补充读取录制：`default` 是匿名视角，`authenticated` 是登录视角（先经 login_status 确认 anonimousUser: false）。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

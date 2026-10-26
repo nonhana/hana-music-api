@@ -15,6 +15,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import songLikeCheckAnonymous from '../fixtures/netease/like-collect/song_like_check.anonymous.json';
 import songLikeCheckEmptyIds from '../fixtures/netease/like-collect/song_like_check.empty-ids.json';
 import songLikeCheckMixed from '../fixtures/netease/like-collect/song_like_check.mixed.json';
@@ -39,12 +40,6 @@ import settingDefault from '../fixtures/netease/user/setting.default.json';
 // account.anonimousUser 为 false；audio_match 的 match 录制只能靠真实歌曲指纹取得，no-match 用
 // 合成的 440Hz 音频指纹，`data.result` 是 `null`。check_music 的公开返回体由 SDK 合成，
 // 录制保存的是上游原文，最终体写在 `context.expect`；回放按录制原文断言最终体。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 test.each<{
   name: string;
   recording: Recording;

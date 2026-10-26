@@ -9,7 +9,6 @@ import {
   AlbumNewestBody,
   AlbumPrivilegeBody,
   AlbumSongsaleboardBody,
-  createHanaMusicApi,
 } from '../../index.ts';
 import type { Recording, Validator } from '../_kit/assertions.ts';
 import {
@@ -17,6 +16,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import albumDetailVip from '../fixtures/netease/album/album_detail.default-vip.json';
 import albumDetail from '../fixtures/netease/album/album_detail.default.json';
 import albumDetailNonDigital from '../fixtures/netease/album/album_detail.non-digital.json';
@@ -43,12 +43,6 @@ import albumSongsaleboardYearEmpty from '../fixtures/netease/album/album_songsal
 import albumSongsaleboardYear from '../fixtures/netease/album/album_songsaleboard.year.json';
 
 // issue #102 B1 的匿名录制；album_detail、album_privilege 另有登录对照，差异见各录制的 context。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

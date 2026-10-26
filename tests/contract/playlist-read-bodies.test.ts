@@ -1,7 +1,6 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
-  createHanaMusicApi,
   PlaylistDetailDynamicBody,
   PlaylistDetailRcmdGetBody,
   PlaylistHighqualityTagsBody,
@@ -16,6 +15,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import playlistDetailDynamicCollected from '../fixtures/netease/playlist/playlist_detail_dynamic.collected.json';
 import playlistDetailDynamic from '../fixtures/netease/playlist/playlist_detail_dynamic.default.json';
 import playlistDetailRcmdGet from '../fixtures/netease/playlist/playlist_detail_rcmd_get.default.json';
@@ -33,12 +33,6 @@ import playlistVideoRecent from '../fixtures/netease/playlist/playlist_video_rec
 
 // issue #102 B5 的录制。playlist_mylike 的录制来自本机登录账号（context.viewer 是 authenticated），
 // playlist_video_recent 的非空录制同样登录录制，anonymous 录制只用于空列表证据。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

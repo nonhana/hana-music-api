@@ -1,9 +1,12 @@
 import { expect } from 'bun:test';
+import { resolve } from 'node:path';
 
 import { Exit } from 'effect';
 
 import { normalizeFailure } from '../../src/core/response.ts';
 import type { NcmApiResponse } from '../../src/types/index.ts';
+
+export const projectRoot = resolve(import.meta.dir, '../..');
 
 export const expectFailure = (exit: Exit.Exit<unknown, unknown>) => {
   expect(Exit.isFailure(exit)).toBe(true);

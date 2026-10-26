@@ -38,11 +38,12 @@ import type {
   RequestIntent,
   UnknownJson,
 } from '../../src/types/index.ts';
+import { projectRoot } from '../_kit/assertions.ts';
 import { runEffect } from '../_kit/it.ts';
 import { moduleResponse } from '../fixtures/request-capability.ts';
 import { executeModule, response } from '../fixtures/upload-effect.ts';
 
-const projectDirectory = resolve(import.meta.dir, '../..');
+const projectDirectory = projectRoot;
 
 describe('module input ownership', () => {
   test('all 352 endpoints own inputs without importing the central public alias barrel', async () => {

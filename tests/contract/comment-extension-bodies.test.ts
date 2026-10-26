@@ -15,6 +15,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import commentDjDefault from '../fixtures/netease/comment/comment_dj.default.json';
 import commentDjEmpty from '../fixtures/netease/comment/comment_dj.empty.json';
 import commentDjOutOfRange from '../fixtures/netease/comment/comment_dj.out-of-range.json';
@@ -33,12 +34,6 @@ import commentNewEmpty from '../fixtures/netease/comment/comment_new.empty.json'
 // issue #102 B8 的录制。六个模块都用登录 Cookie 做过登录对照：先确认 login_status 的
 // account.anonimousUser 为 false；只抽查了本批匿名录制中非 null 的路径与类型，登录录制
 // 未保留，不对公开结构作相同性断言。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

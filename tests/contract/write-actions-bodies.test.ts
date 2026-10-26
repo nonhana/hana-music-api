@@ -16,6 +16,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import broadcastSubSubscribeAgain from '../fixtures/netease/like-collect/broadcast_sub.subscribe-again.json';
 import broadcastSubSubscribe from '../fixtures/netease/like-collect/broadcast_sub.subscribe.json';
 import broadcastSubUnsubscribe from '../fixtures/netease/like-collect/broadcast_sub.unsubscribe.json';
@@ -40,12 +41,6 @@ import videoSubUnsubscribe from '../fixtures/netease/like-collect/video_sub.unsu
 // 结论记在各录制文件的 context.note。follow、resource_like、comment_like 的正方向（关注/点赞）
 // 在录制设备上被上游拒绝（code 250），成功正文只有反向操作的证据，回读只用于确认本次没有改变
 // 状态，没有保留独立的状态读出文件；video_sub 重复收藏返回 code 408。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

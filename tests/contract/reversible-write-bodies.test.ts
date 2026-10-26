@@ -17,6 +17,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import djDifmChannelSubscribeAgain from '../fixtures/netease/dj/dj_difm_channel_subscribe.subscribe-again.json';
 import djDifmChannelSubscribe from '../fixtures/netease/dj/dj_difm_channel_subscribe.subscribe.json';
 import djDifmChannelUnsubscribeAgain from '../fixtures/netease/dj/dj_difm_channel_unsubscribe.unsubscribe-again.json';
@@ -41,12 +42,6 @@ import userSocialStatusEditSet from '../fixtures/netease/user/user_social_status
 // user_social_status_edit 只有设置成功的正文，清空字段的调用被上游拒绝（code 500），状态用
 // 接口之外的原始请求恢复为空；recommend_songs_dislike 与 fm_trash 是单次写入，没有撤销调用。
 // 各录制的写前/写后状态记在文件的 context.note。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

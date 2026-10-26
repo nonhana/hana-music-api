@@ -1,7 +1,6 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
-  createHanaMusicApi,
   LyricBody,
   SongChorusBody,
   SongLyricsMarkBody,
@@ -15,6 +14,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import lyricAllForms from '../fixtures/netease/lyric/lyric.all-forms.json';
 import lyricCn from '../fixtures/netease/lyric/lyric.cn.json';
 import lyricLyricUser from '../fixtures/netease/lyric/lyric.lyric-user.json';
@@ -31,12 +31,6 @@ import songWikiSummaryDefault from '../fixtures/netease/lyric/song_wiki_summary.
 import songWikiSummaryUnknown from '../fixtures/netease/lyric/song_wiki_summary.unknown.json';
 
 // issue #102 B4 的匿名录制；本次登录对照未发现结构差异，登录录制没有保留。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

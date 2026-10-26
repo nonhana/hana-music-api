@@ -16,6 +16,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import eventDelMissingId from '../fixtures/netease/event/event_del.missing-id.json';
 import eventForwardRejected from '../fixtures/netease/event/event_forward.default.json';
 import shareResourceRejected from '../fixtures/netease/event/share_resource.default.json';
@@ -36,12 +37,6 @@ import listenTogetherSyncListCommand from '../fixtures/netease/listen/listentoge
 // 被上游风控拒绝（code 250），没有创建出测试动态，user_event 探测（未保留录制）没有新条目，
 // 因此这两个模块只有拒绝录制、没有声明 ModuleBody。event_del 删的是不存在的合成 id，正文只
 // 证明返回码，没有删除任何真实动态。录制里的账号编号已换成合成值 900000001。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

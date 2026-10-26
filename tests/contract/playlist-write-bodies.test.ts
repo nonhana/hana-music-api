@@ -15,6 +15,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay, replayRaw } from '../_kit/replay.ts';
 import importCreateMissingText from '../fixtures/netease/playlist-write/playlist_import_name_task_create.missing-text.json';
 import importCreate from '../fixtures/netease/playlist-write/playlist_import_name_task_create.no-match.json';
 import importStatusMissingId from '../fixtures/netease/playlist-write/playlist_import_task_status.missing-id.json';
@@ -36,18 +37,6 @@ import playcount from '../fixtures/netease/playlist-write/playlist_update_playco
 // issue #102 B6 的录制来自本机登录账号（context.viewer 是 authenticated），
 // 歌单类写操作都写在一个临时歌单上，录完已删除；导入任务只建任务，不建歌单。
 // track_add/track_delete 的成功路径上游拒绝，只有失败录制。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
-const replayRaw = (body: string, status: number) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => new Response(body, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

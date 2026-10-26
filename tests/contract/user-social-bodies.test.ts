@@ -16,6 +16,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import userCommentHistoryAnonymous from '../fixtures/netease/user/user_comment_history.anonymous.json';
 import userCommentHistory from '../fixtures/netease/user/user_comment_history.default.json';
 import userCommentHistoryEmpty from '../fixtures/netease/user/user_comment_history.empty.json';
@@ -37,12 +38,6 @@ import userMutualfollowNotMutual from '../fixtures/netease/user/user_mutualfollo
 // issue #102 B17 的登录录制：关注/粉丝/评论历史/互关用账号 599663130 与他人 uid 对照，
 // 未登录录制（user_follow_mixed.anonymous、user_comment_history.anonymous、
 // user_mutualfollow_get.anonymous）只用于登录对照和错误路径。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

@@ -7,9 +7,10 @@ import { resolve } from 'node:path';
 import { Effect } from 'effect';
 
 import { sdkModuleRegistry } from '../../src/sdk/generated/registry.generated.ts';
+import { projectRoot } from '../_kit/assertions.ts';
 import { findForbiddenArtifactSymbols } from '../fixtures/architecture-artifacts.ts';
 
-const root = resolve(import.meta.dir, '../..');
+const root = projectRoot;
 
 const jsDocCases = [
   {

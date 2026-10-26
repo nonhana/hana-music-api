@@ -16,6 +16,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import ugcAlbumGet from '../fixtures/netease/ugc/ugc_album_get.default.json';
 import ugcAlbumGetMissing from '../fixtures/netease/ugc/ugc_album_get.missing.json';
 import ugcArtistGet from '../fixtures/netease/ugc/ugc_artist_get.default.json';
@@ -35,12 +36,6 @@ import ugcUserDevote from '../fixtures/netease/ugc/ugc_user_devote.default.json'
 // issue #102 B42 的录制：UGC 百科只读接口。登录对照先确认 login_status 的
 // account.anonimousUser 为 false；未知专辑、歌手、歌曲返回 code 200 但没有 data，
 // 未知 MV 是 code 404 的业务拒绝。ugc_detail 的当前账号没有贡献，列表只见过空数组。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

@@ -14,6 +14,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import event from '../fixtures/netease/event/event.default.json';
 import eventEmpty from '../fixtures/netease/event/event.empty.json';
 import eventInvalidPagesize from '../fixtures/netease/event/event.invalid-pagesize.json';
@@ -33,12 +34,6 @@ import topicSublistOutOfRange from '../fixtures/netease/topic/topic_sublist.out-
 // issue #102 B19 的登录录制：账号 599663130（event.default.json 的 `event[].user.userId`；
 // 登录态由本次会话 `login_status` 现场确认，未提交）。
 // 匿名对照只在本次录制中用于确认字段集合一致，没有提交成 fixture。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

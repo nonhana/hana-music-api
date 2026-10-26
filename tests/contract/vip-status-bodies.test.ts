@@ -17,6 +17,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import signHappyInfoAnonymous from '../fixtures/netease/signin/sign_happy_info.anonymous.json';
 import signHappyInfo from '../fixtures/netease/signin/sign_happy_info.default.json';
 import signinProgressAnonymous from '../fixtures/netease/signin/signin_progress.anonymous.json';
@@ -39,12 +40,6 @@ import yunbeiToday from '../fixtures/netease/vip/yunbei_today.default.json';
 // issue #102 B37 的录制：签到与云贝状态接口。录制前用同一 Cookie 调用 login_status，
 // account.anonimousUser 为 false；本账号录制时 signin_progress 尚未签到、yunbei_today 为
 // 0 云贝、推歌历史为空，这几份录制同时是零值证据。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

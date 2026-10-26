@@ -13,6 +13,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import listentogetherRoomCheckAnonymous from '../fixtures/netease/listen/listentogether_room_check.anonymous.json';
 import listentogetherRoomCheck from '../fixtures/netease/listen/listentogether_room_check.expired-room.json';
 import listentogetherStatusAnonymous from '../fixtures/netease/listen/listentogether_status.anonymous.json';
@@ -25,12 +26,6 @@ import recentListenList from '../fixtures/netease/listen/recent_listen_list.defa
 // issue #102 B32 的一起听状态与最近常听读取录制：4 个模块，8 份成功录制。
 // 一起听房间/列表只录到未加入或已失效状态；播客工作台的 voicelist_list/detail 与 voice_detail
 // 只对播客所有者开放，本机账号没有播客，本批没有成功正文可录，未声明结构。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

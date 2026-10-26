@@ -1,7 +1,6 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
-  createHanaMusicApi,
   StyleAlbumBody,
   StyleArtistBody,
   StyleDetailBody,
@@ -15,6 +14,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import styleAlbum from '../fixtures/netease/style/style_album.default.json';
 import styleAlbumMissingTag from '../fixtures/netease/style/style_album.missing-tag.json';
 import styleAlbumEmpty from '../fixtures/netease/style/style_album.unknown-tag.json';
@@ -35,12 +35,6 @@ import styleSongMissingTag from '../fixtures/netease/style/style_song.missing-ta
 import styleSongEmpty from '../fixtures/netease/style/style_song.unknown-tag.json';
 
 // issue #102 B29 的登录、匿名与未知曲风 id 录制；差异见各录制的 context。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

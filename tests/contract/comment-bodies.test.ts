@@ -6,13 +6,13 @@ import {
   CommentMvBody,
   CommentPlaylistBody,
   CommentVideoBody,
-  createHanaMusicApi,
 } from '../../index.ts';
 import type { Recording, Validator } from '../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import commentAlbumDefault from '../fixtures/netease/comment/comment_album.default.json';
 import commentAlbumEmpty from '../fixtures/netease/comment/comment_album.empty.json';
 import commentAlbumOutOfRange from '../fixtures/netease/comment/comment_album.out-of-range.json';
@@ -28,12 +28,6 @@ import commentVideoDefault from '../fixtures/netease/comment/comment_video.defau
 import commentVideoOutOfRange from '../fixtures/netease/comment/comment_video.out-of-range.json';
 
 // issue #102 B7 的匿名录制；登录对照里非 null 路径与类型相同，登录响应只会在宽松字段上多出现 null，登录录制未保留。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

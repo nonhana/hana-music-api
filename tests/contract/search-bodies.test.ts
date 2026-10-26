@@ -1,16 +1,13 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
-import {
-  CloudsearchBody,
-  createHanaMusicApi,
-  SearchSuggestBody,
-} from '../../index.ts';
+import { CloudsearchBody, SearchSuggestBody } from '../../index.ts';
 import type {
   Recording,
   UpstreamShape,
   Validator,
 } from '../_kit/assertions.ts';
 import { expectUpstreamShapeRejection } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import searchAlbum from '../fixtures/netease/search/cloudsearch.album.json';
 import searchAlbumNone from '../fixtures/netease/search/cloudsearch.album.no-result.json';
 import searchArtist from '../fixtures/netease/search/cloudsearch.artist.json';
@@ -31,12 +28,6 @@ import suggestMobileNone from '../fixtures/netease/search/search_suggest.mobile.
 import suggestWebNone from '../fixtures/netease/search/search_suggest.no-result.json';
 
 // 回放验证关卡①、#21 匿名补录和 #82 搜索歌单的脱敏录制。
-const replay = (upstream: unknown) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream),
-  });
-
 test('searchSuggest rejects a playlist suggestion whose id is text', async () => {
   const upstream = structuredClone(suggestPlaylists.response.body);
   (upstream.result.playlists[0] as { id: unknown }).id = '3172143658';

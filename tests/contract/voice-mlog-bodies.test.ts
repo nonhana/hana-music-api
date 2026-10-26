@@ -12,6 +12,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import mlogToVideo from '../fixtures/netease/voice/mlog_to_video.default.json';
 import mlogToVideoNoVideo from '../fixtures/netease/voice/mlog_to_video.no-video.json';
 import mlogToVideoSongShare from '../fixtures/netease/voice/mlog_to_video.song-share.json';
@@ -30,12 +31,6 @@ import userAudioEmpty from '../fixtures/netease/voice/user_audio.empty.json';
 // 录到“不允许操作他人的声音”“播客不存在”“只允许操作自己的播客”“参数错误”四类拒绝消息，以及
 // voice_detail 未知 id 的 `code: 200` + `data: null` 空成功，没有带字段的成功正文，因此本批不为
 // 它们声明 ModuleBody，缺口见七份录制（6 拒绝 + 1 空成功）。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

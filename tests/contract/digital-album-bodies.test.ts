@@ -16,6 +16,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import digitalAlbumDetail from '../fixtures/netease/digital-album/digitalAlbum_detail.default.json';
 import digitalAlbumDetailUnknown from '../fixtures/netease/digital-album/digitalAlbum_detail.unknown.json';
 import digitalAlbumPurchasedAnonymous from '../fixtures/netease/digital-album/digitalAlbum_purchased.anonymous.json';
@@ -40,12 +41,6 @@ import vipTimemachineEmpty from '../fixtures/netease/vip/vip_timemachine.empty.j
 // 上出现值差异，登录对照未保留录制。vip_growthpoint、vip_growthpoint_details、
 // vip_tasks 和 digitalAlbum_purchased 另保留匿名录制，vip_timemachine 匿名时 detail 为
 // null；不对匿名与登录的公开结构作相同性断言。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

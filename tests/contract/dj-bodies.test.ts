@@ -1,7 +1,6 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
-  createHanaMusicApi,
   DjBannerBody,
   DjCategoryExcludehotBody,
   DjCategoryRecommendBody,
@@ -19,6 +18,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import djBanner from '../fixtures/netease/dj/dj_banner.default.json';
 import djCategoryExcludehot from '../fixtures/netease/dj/dj_category_excludehot.default.json';
 import djCategoryRecommend from '../fixtures/netease/dj/dj_category_recommend.default.json';
@@ -46,12 +46,6 @@ import djRecommendTypeMissingParam from '../fixtures/netease/dj/dj_recommend_typ
 
 // issue #102 B11 的匿名录制：10 个模块，17 份正常/空结果录制和 7 份异常路径录制。本批未保留
 // 登录对照，不对公开结构作相同性断言。dj_radio_hot 的录制是按字段覆盖截取的非连续子集。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 type Case = {
   readonly name: string;
   readonly recording: Recording;

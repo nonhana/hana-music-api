@@ -14,6 +14,7 @@ import {
   settle,
   validateSync,
 } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import starpickCommentsSummary from '../fixtures/netease/comment/starpick_comments_summary.default.json';
 import sheetList from '../fixtures/netease/other/sheet_list.default.json';
 import sheetListEmpty from '../fixtures/netease/other/sheet_list.empty.json';
@@ -30,12 +31,6 @@ import summaryAnnualNoReport from '../fixtures/netease/record/summary_annual.no-
 // account.anonimousUser 为 false；年度报告录了 2018/2019（`userdata` 短键，2018 的
 // `data.mlc` 是字符串）和 2022/2023（`data` 长键），无报告的 2025 只录业务拒绝；
 // `sheet_preview` 另保留无 cookie 的匿名录制（6 页）。
-const replay = (upstream: unknown, status = 200) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(upstream, { status }),
-  });
-
 const replayAnonymous = (upstream: unknown, status = 200) =>
   createHanaMusicApi({
     fetcher: async (input) => {
