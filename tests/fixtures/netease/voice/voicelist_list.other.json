@@ -1,0 +1,21 @@
+{
+  "module": "voicelist_list",
+  "query": {
+    "voiceListId": 792544462
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:53:53.797Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B43：voicelist_list 只能读取自己的播客，账号没有播客，成功体缺口"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "只允许操作自己的播客",
+      "data": null
+    }
+  }
+}

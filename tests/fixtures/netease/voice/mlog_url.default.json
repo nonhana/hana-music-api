@@ -1,0 +1,519 @@
+{
+  "module": "mlog_url",
+  "query": {
+    "id": "a1PvyoDUbEJmk0"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:05:18.656Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B43：mlog_url 视频 mlog 播放信息；匿名调用有时不返回 song（showCollect 可能 true/false）；用登录录制拿 isLiked/privilege 等登录态证据；shareUrl 账号编号已换成合成值 10000001"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "ok",
+      "data": {
+        "id": "a1PvyoDUbEJmk0",
+        "type": "1",
+        "squareFeedType": 0,
+        "recmdType": -1,
+        "resource": {
+          "threadId": "R_MLOG_1001_a1PvyoDUbEJmk0",
+          "commentCount": 55,
+          "likedCount": 1435,
+          "shareCount": 58,
+          "liked": false,
+          "maxCommentShowNum": 5,
+          "comments": null,
+          "ipLocation": {
+            "ip": null,
+            "location": ""
+          },
+          "id": "a1PvyoDUbEJmk0",
+          "userId": 17680337,
+          "type": 2,
+          "content": {
+            "title": "20211128《起风了》live现场",
+            "text": "首巡《与我有关》深圳场《起风了》大合唱片段",
+            "interveneText": null,
+            "topics": null,
+            "actList": [],
+            "coverColor": -7435654,
+            "image": [],
+            "albumExt": null,
+            "video": {
+              "videoKey": "12804843560",
+              "nosKey": "cloudmusic/obj/w5zDkcKQw6LDiWzDgcK2/12804843560/ec1c/9f8c/c53b/7cd92b2c1ae121c0638fd47479d93198.data",
+              "duration": 30080,
+              "size": 8118944,
+              "r": 2,
+              "coverUrl": "http://p6.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/12804842849/a59a/1eef/5ae1/5e1df6fd47d9f5db0403f14b3ae4810e.data",
+              "frameUrl": "http://p6.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/12804842928/52ee/c721/0610/MUSIC8621488641836b15de661d36a2bcb918.jpg",
+              "frameImage": {
+                "picKey": "12804842928",
+                "nosKey": null,
+                "imageUrl": "http://p6.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/12804842928/52ee/c721/0610/MUSIC8621488641836b15de661d36a2bcb918.jpg",
+                "width": 960,
+                "height": 540
+              },
+              "width": 960,
+              "height": 540,
+              "urlInfo": {
+                "id": "12804843560",
+                "url": "http://vodkgeyttp9.vod.126.net/cloudmusic/obj/wovChMODwrLCnGzCncOh/12804846205/c3b2/e7f2/dc29/278768b093d9a25a29eb90f4dc012802.mp4?wsSecret=8aec9d31d931ad74889dc31aad4618fe&wsTime=1792982118",
+                "size": 8118944,
+                "r": 2,
+                "validityTime": 1800,
+                "resolution": null
+              },
+              "urlInfos": [
+                {
+                  "id": "12804843560",
+                  "url": "http://vodkgeyttp9.vod.126.net/cloudmusic/obj/wovChMODwrLCnGzCncOh/12804846205/c3b2/e7f2/dc29/278768b093d9a25a29eb90f4dc012802.mp4?wsSecret=8aec9d31d931ad74889dc31aad4618fe&wsTime=1792982118",
+                  "size": 8118944,
+                  "r": 360,
+                  "validityTime": 1800,
+                  "resolution": 360
+                }
+              ],
+              "rcmdUrlInfo": {
+                "id": "12804843560",
+                "url": "http://vodkgeyttp9.vod.126.net/cloudmusic/obj/wovChMODwrLCnGzCncOh/12804846205/c3b2/e7f2/dc29/278768b093d9a25a29eb90f4dc012802.mp4?wsSecret=8aec9d31d931ad74889dc31aad4618fe&wsTime=1792982118",
+                "size": 8118944,
+                "r": 2,
+                "validityTime": 1800,
+                "resolution": null
+              },
+              "playCount": 179478,
+              "coverDetail": {
+                "verticalCoverImage": {
+                  "picKey": "109951166966778538",
+                  "nosKey": null,
+                  "imageUrl": "http://p6.music.126.net/8XeSqeuokIaq_NEigc0Mbw==/109951166966778538",
+                  "width": null,
+                  "height": null
+                },
+                "horizontalCoverImage": {
+                  "picKey": "109951166966770608",
+                  "nosKey": null,
+                  "imageUrl": "http://p6.music.126.net/HFcZfBzUy5hzqciZctJQUQ==/109951166966770608",
+                  "width": null,
+                  "height": null
+                }
+              },
+              "videoAreaInfo": null,
+              "coverImage": {
+                "picKey": "12804842849",
+                "nosKey": "yyimgs/obj/w5nDkMOCwrDCmDDDi8Om/12804842849/a59a/1eef/5ae1/5e1df6fd47d9f5db0403f14b3ae4810e.data",
+                "imageUrl": null,
+                "width": 960,
+                "height": 540
+              },
+              "coverImageTime": 0
+            },
+            "videoId": "c6be666a48924b9b8b9f56be74f50633",
+            "audio": null,
+            "song": {
+              "id": 1330348068,
+              "name": "起风了",
+              "coverUrl": "http://p3.music.126.net/diGAyEmpymX8G7JcnElncQ==/109951163699673355.jpg",
+              "duration": 325868,
+              "artists": [
+                {
+                  "artistId": 12085562,
+                  "artistName": "冯沁苑(买辣椒也用券)"
+                }
+              ],
+              "privilege": {
+                "id": 1330348068,
+                "fee": 8,
+                "payed": 1,
+                "realPayed": 0,
+                "st": 0,
+                "pl": 999000,
+                "dl": 999000,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 320000,
+                "pc": null,
+                "toast": false,
+                "flag": 1544192,
+                "paidBigBang": false,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "rscl": null,
+                "freeTrialPrivilege": {
+                  "resConsumable": false,
+                  "userConsumable": false
+                },
+                "chargeInfoList": [
+                  {
+                    "rate": 128000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 192000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 320000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 999000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 1
+                  },
+                  {
+                    "rate": 1999000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 1
+                  }
+                ]
+              },
+              "albumName": "起风了",
+              "startTime": 0,
+              "endTime": 0,
+              "isLiked": true,
+              "playedNum": null
+            },
+            "songs": [
+              {
+                "id": 1844532739,
+                "name": "买辣椒也用券",
+                "coverUrl": "http://p4.music.126.net/0B3aHzcEoXV1gwxJ1OVg9A==/109951165973732884.jpg",
+                "duration": 323546,
+                "artists": [
+                  {
+                    "artistId": 1154070,
+                    "artistName": "虞姬"
+                  },
+                  {
+                    "artistId": 33412088,
+                    "artistName": "圈妹"
+                  },
+                  {
+                    "artistId": 33412734,
+                    "artistName": "ai 小可"
+                  }
+                ],
+                "privilege": {
+                  "id": 1844532739,
+                  "fee": 0,
+                  "payed": 0,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 999000,
+                  "dl": 999000,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 999000,
+                  "fl": 320000,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1540352,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 999000,
+                  "downloadMaxbr": 999000,
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false
+                  },
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ]
+                },
+                "albumName": "我还是很想你但我不爱你了",
+                "startTime": 0,
+                "endTime": 0,
+                "isLiked": false,
+                "playedNum": null
+              }
+            ],
+            "randomSong": null,
+            "relateSongs": [
+              {
+                "id": 1330348068,
+                "name": "起风了",
+                "coverUrl": "http://p3.music.126.net/diGAyEmpymX8G7JcnElncQ==/109951163699673355.jpg",
+                "duration": 325868,
+                "artists": [
+                  {
+                    "artistId": 12085562,
+                    "artistName": "冯沁苑(买辣椒也用券)"
+                  }
+                ],
+                "privilege": {
+                  "id": 1330348068,
+                  "fee": 8,
+                  "payed": 1,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 999000,
+                  "dl": 999000,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 999000,
+                  "fl": 320000,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1544192,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 999000,
+                  "downloadMaxbr": 999000,
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false
+                  },
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    },
+                    {
+                      "rate": 1999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ]
+                },
+                "albumName": "起风了",
+                "startTime": 0,
+                "endTime": 0,
+                "isLiked": true,
+                "playedNum": null
+              }
+            ],
+            "realateSongs": [
+              {
+                "id": 1330348068,
+                "name": "起风了",
+                "coverUrl": "http://p3.music.126.net/diGAyEmpymX8G7JcnElncQ==/109951163699673355.jpg",
+                "duration": 325868,
+                "artists": [
+                  {
+                    "artistId": 12085562,
+                    "artistName": "冯沁苑(买辣椒也用券)"
+                  }
+                ],
+                "privilege": {
+                  "id": 1330348068,
+                  "fee": 8,
+                  "payed": 1,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 999000,
+                  "dl": 999000,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 999000,
+                  "fl": 320000,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1544192,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 999000,
+                  "downloadMaxbr": 999000,
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false
+                  },
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    },
+                    {
+                      "rate": 1999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ]
+                },
+                "albumName": "起风了",
+                "startTime": 0,
+                "endTime": 0,
+                "isLiked": true,
+                "playedNum": null
+              }
+            ],
+            "templateId": null,
+            "creation": null,
+            "coverExt": "{\"coverText\":\"\",\"sdkTextTemplateId\":\"\",\"textTemplateId\":\"\",\"isLocalPic\":false}",
+            "creationUrl": null,
+            "imageCreationUrl": null,
+            "accompanyInfo": {
+              "accompanyId": null,
+              "accompanyType": null,
+              "ugcAccompanyId": null
+            },
+            "creationTagType": -1,
+            "creationProtocolInfos": [],
+            "resourceIdStr": null,
+            "resourceType": null,
+            "djProgramIds": null,
+            "djProgramDataList": null,
+            "playlistDataVO": null,
+            "eventId": 20751093836,
+            "privacySetting": 0,
+            "eventPinned": false,
+            "creationEntranceDesc": "",
+            "riskControlComplaintVO": null,
+            "produceType": null,
+            "isrc": null,
+            "relatedArtistIds": null,
+            "containAiContent": false,
+            "contentDeclaration": null,
+            "repostSource": null
+          },
+          "talk": null,
+          "profile": {
+            "userId": 17680337,
+            "nickname": "买辣椒也用券",
+            "avatarUrl": "http://p3.music.126.net/o_IrNP7JnUeuMAXAa9Sbcg==/109951173438974262.jpg",
+            "followed": false,
+            "userType": 2,
+            "isAnchor": true,
+            "avatarDetail": {
+              "userType": 2,
+              "identityLevel": 1,
+              "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png"
+            }
+          },
+          "relatedPubUsers": [],
+          "pubTime": 1642848064968,
+          "status": 1,
+          "audioStatus": 0,
+          "alg": null,
+          "reason": null,
+          "reasonType": null,
+          "priorShowLive": true,
+          "live": null,
+          "shareUrl": "https://fn.music.163.com/g/mlog/mlog-mobile/landing/mlog?id=a1PvyoDUbEJmk0&type=2&userid=10000001&songId=1330348068&startTime=0&eventId=20751093836",
+          "canShare": true,
+          "tailMark": null,
+          "subed": false,
+          "mixInfo": null,
+          "relatedActivity": null,
+          "source": "1",
+          "extSourceInfo": null,
+          "srcId": null,
+          "circleVO": null,
+          "mlogPlaylists": null,
+          "followedShowReason": null
+        },
+        "likeGuide": {
+          "hasGuide": false,
+          "afterViewSeconds": 0
+        },
+        "promotion": null,
+        "operate": {
+          "hasBiubiuComments": false,
+          "showMvTag": false,
+          "showCollect": true,
+          "disShowCollectReason": "关联了音乐的Mlog才能被加入歌单哦",
+          "playMode": 1
+        },
+        "relatedActivity": null,
+        "showExtInfo": null,
+        "otherData": null,
+        "nextModule": null,
+        "srcId": null,
+        "businessEntrance": null,
+        "logInfo": null
+      }
+    }
+  }
+}

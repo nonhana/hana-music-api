@@ -383,18 +383,20 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 
 ## 视频
 
-| 模块                                               | 结构定义                     | 收紧的字段                                         |
-| -------------------------------------------------- | ---------------------------- | -------------------------------------------------- |
-| [获取视频分类列表](/api/video/video-category-list) | `VideoCategoryListBody`      | `code`、`data`、`data[].id`                        |
-| [视频详情](/api/video/video-detail)                | `VideoDetailBody`            | `code`、`data`、`data.vid`                         |
-| [视频点赞转发评论数](/api/video/video-detail-info) | `VideoDetailInfoBody`        | `code`、`commentCount`、`shareCount`、`likedCount` |
-| [视频标签/分类下的视频](/api/video/video-group)    | `VideoGroupBody`             | `code`；`datas` 只见过 `null`，未声明              |
-| [视频标签列表](/api/video/video-group-list)        | `VideoGroupListBody`         | `code`、`data`、`data[].id`                        |
-| [全部视频列表](/api/video/video-timeline-all)      | `VideoTimelineAllBody`       | `code`、`datas`、`datas[].data.vid`                |
-| [推荐视频](/api/video/video-timeline-recommend)    | `VideoTimelineRecommendBody` | `code`、`datas`、`datas[].data.vid`                |
-| [视频链接](/api/video/video-url)                   | `VideoUrlBody`               | `code`、`urls`、`urls[].id`、`urls[].url`          |
-| [相关视频](/api/video/related-allvideo)            | `RelatedAllvideoBody`        | `code`                                             |
-| [歌曲相关视频](/api/video/mlog-music-rcmd)         | `MlogMusicRcmdBody`          | `code`、`data.feeds`、`data.feeds[].id`            |
+| 模块                                               | 结构定义                     | 收紧的字段                                                                                                                                                                                               |
+| -------------------------------------------------- | ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [获取视频分类列表](/api/video/video-category-list) | `VideoCategoryListBody`      | `code`、`data`、`data[].id`                                                                                                                                                                              |
+| [视频详情](/api/video/video-detail)                | `VideoDetailBody`            | `code`、`data`、`data.vid`                                                                                                                                                                               |
+| [视频点赞转发评论数](/api/video/video-detail-info) | `VideoDetailInfoBody`        | `code`、`commentCount`、`shareCount`、`likedCount`                                                                                                                                                       |
+| [视频标签/分类下的视频](/api/video/video-group)    | `VideoGroupBody`             | `code`；`datas` 只见过 `null`，未声明                                                                                                                                                                    |
+| [视频标签列表](/api/video/video-group-list)        | `VideoGroupListBody`         | `code`、`data`、`data[].id`                                                                                                                                                                              |
+| [全部视频列表](/api/video/video-timeline-all)      | `VideoTimelineAllBody`       | `code`、`datas`、`datas[].data.vid`                                                                                                                                                                      |
+| [推荐视频](/api/video/video-timeline-recommend)    | `VideoTimelineRecommendBody` | `code`、`datas`、`datas[].data.vid`                                                                                                                                                                      |
+| [视频链接](/api/video/video-url)                   | `VideoUrlBody`               | `code`、`urls`、`urls[].id`、`urls[].url`                                                                                                                                                                |
+| [相关视频](/api/video/related-allvideo)            | `RelatedAllvideoBody`        | `code`                                                                                                                                                                                                   |
+| [歌曲相关视频](/api/video/mlog-music-rcmd)         | `MlogMusicRcmdBody`          | `code`、`data.feeds`、`data.feeds[].id`                                                                                                                                                                  |
+| [获取 mlog 播放地址](/api/video/mlog-url)          | `MlogUrlBody`                | `code`、`data`、`data.id`、`data.resource`、`data.resource.id`、`data.resource.content`、`data.resource.content.video`、`data.resource.content.video.urlInfo`、`data.resource.content.video.urlInfo.url` |
+| [将 mlog id 转为视频 id](/api/video/mlog-to-video) | `MlogToVideoBody`            | `code`、`data`                                                                                                                                                                                           |
 
 `video_category_list` 和 `video_group_list` 的 `data` 是通到分类/标签列表的路径，每条记录的 `id` 是记录自己的编号，收紧；`name`、`url`、`selectTab` 宽松。`video_category_list` 的 `relatedVideoType` 有字符串证据，声明为宽松字段；`video_group_list` 的 `relatedVideoType`、两个接口的 `abExtInfo` 都只见过 `null`，没有声明。当前上游忽略 `offset`，越界 `offset` 仍返回同样的分类，本批录制/探测未发现可达的空结果。
 
@@ -407,6 +409,10 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`video_timeline_all`、`video_timeline_recommend` 的登录录制差异只在宽松字段（`relateSong` 出现歌曲记录、`markTypes` 出现值；`creator.experts` 的键集合差异只在 `video_timeline_all`，匿名录制多出 `experts.2`，`video_timeline_recommend` 两边都只有 `{1}` 或 `null`），这两份登录录制保留为元素字段证据；其余 7 个模块只保留匿名录制，未保留登录对照，不对公开结构作相同性断言。收藏/取消收藏视频（`video_sub`）是写操作，移到后续写操作批次（B22 关注/收藏/点赞），本批没有收窄返回体。
 
 `mlog_music_rcmd` 的 `data.feeds` 是歌曲相关视频列表，每条记录自己的 `id` 按字符串收紧；`resource` 是附带的 mlog 记录，整体宽松（嵌套歌曲复用 `MlogSong`），声明 `mlogBaseData.userId`/`coverDetail`/`video`/`mixInfo.status`、`userProfile` 的昵称/编号/头像和 `source` 等有证据的字段；`video` 里声明 `urlInfo`/`rcmdUrlInfo`/`urlInfos`（`id`、`r`、`size`、`validityTime`、`resolution`）；`matchField`、`sameCity`、`type`、`more` 和 `message` 宽松，`data.msg` 只见过 `null`，未声明。声明了这些字段，其余原样保留（如 `urlInfo.url`、`relatedPubUsers`、`mlogPlaylists`）。录制覆盖有相关视频（歌曲 `1330348068`，1 条）和没有相关视频（歌曲 `347230`，`feeds: []`，`mlog_music_rcmd.empty.json`）两种情况，空数组和非空数组都通过同一结构。
+
+`mlog_url` 的 `data` 是通到 mlog 记录的路径，`data.id` 和 `data.resource.id` 是这条 mlog 自己的编号（字符串），`data.resource.content`、`...content.video`、`...video.urlInfo` 是通到播放地址的必填链路，缺一段就报 502；`data.resource.content.video.urlInfo.url` 是接口要拿的播放地址，一起收紧。mlog 正文里的 `content`、`video` 其余字段、歌曲记录（复用 `MlogSong` 的字段并补 `startTime`、`endTime`、`isLiked`、宽松 `privilege`）、作者和展示字段宽松。视频地址签名会过期，`urlInfos[]` 是同一视频的其他清晰度，只有 `urlInfo`（当前 `res` 选中的那一个）收紧。两条成功录制覆盖视频 mlog（`mlog_url.default.json`）和分享歌曲的 mlog（`mlog_url.song-share.json`）；非法 id 返回 `code: 400`（`mlog_url.invalid.json`）。本批没有录到无视频 mlog 的成功体，`content.video` 只能按“接口要拿播放地址”收紧，这类 mlog 若返回成功体会报 502。`data.businessEntrance`、`promotion`、`relatedActivity`、`showExtInfo`、`otherData`、`nextModule`、`srcId`、`logInfo` 和资源里的若干 `null` 字段只见过 `null`，没有声明，原样保留。`mlog_url.default.json` 是登录录制（匿名调用有时不返回 `song`），`shareUrl` 里的账号编号已换成合成值 `10000001`。
+
+`mlog_to_video` 的 `data` 是接口要拿的视频 id（32 位十六进制字符串），和 `code` 一起收紧；`message` 宽松。视频 mlog 和分享歌曲的 mlog 都能转换（`mlog_to_video.default.json`、`mlog_to_video.song-share.json`），非法 id 返回 `code: 400`、`msg: mlog无对应video`（`mlog_to_video.no-video.json`）。
 
 ## 首页与推荐位
 
@@ -435,6 +441,7 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 | [分类推荐电台](/api/dj/dj-recommend-type)               | `DjRecommendTypeBody`            | `code`、`djRadios`、`djRadios[].id`                                                          |
 | [付费精选电台](/api/dj/dj-paygift)                      | `DjPaygiftBody`                  | `code`、`data`、`data.list`、`data.list[].id`                                                |
 | [用户电台节目](/api/dj/user-dj)                         | `UserDjBody`                     | `code`、`programs`、`programs[].id`                                                          |
+| [用户创建的电台](/api/dj/user-audio)                    | `UserAudioBody`                  | `code`、`djRadios`、`djRadios[].id`                                                          |
 | [电台节目](/api/dj/dj-program)                          | `DjProgramBody`                  | `code`、`programs`、`programs[].id`                                                          |
 | [节目详情](/api/dj/dj-program-detail)                   | `DjProgramDetailBody`            | `code`、`program`、`program.id`                                                              |
 | [电台节目榜](/api/dj/dj-program-toplist)                | `DjProgramToplistBody`           | `code`、`toplist`、`toplist[].program.id`                                                    |
@@ -477,7 +484,7 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 | [播客声音搜索](/api/dj/voicelist-list-search) | `VoicelistListSearchBody` | `code`、`data`；`data.total`、`data.hasMore` 宽松；列表元素未声明，原样保留       |
 | [获取声音歌词](/api/dj/voice-lyric)           | `VoiceLyricBody`          | `code`、`data`；`data` 可以没有（无歌词时是 `null`），出现时 `data.lyricUrl` 收紧 |
 
-`voicelist_search`、`voicelist_list_search` 的 `data` 是通到播客/声音列表的路径，`data.total`、`data.hasMore` 是宽松的分页提示；登录账号没有播客/声音，匿名调用同样为空，两种录制都是 `data.list: []`，列表元素类型没有证据，未声明并原样保留。`voice_lyric` 的 `data` 是没有歌词时可以没有的路径（录制 `voice_lyric.without-lyric.json` 里是 `null`），出现时 `data.lyricUrl` 收紧；`data.source` 和 `message` 只见过 `null`，未声明。`voicelist_list`、`voicelist_detail`、`voicelist_trans` 和 `voice_detail` 是创作者工作台接口，只允许操作自己的播客/声音；本机账号没有播客，工作台接口对非所有者返回 `code: 400`，`voice_detail` 访问他人声音返回 `code: 401`，个别不存在的 id 返回 HTTP 200、正文 `code: 200`、`data: null`。这些路径都没有带字段的成功正文可录，未声明结构。
+`voicelist_search`、`voicelist_list_search` 的 `data` 是通到播客/声音列表的路径，`data.total`、`data.hasMore` 是宽松的分页提示；登录账号没有播客/声音，匿名调用同样为空，两种录制都是 `data.list: []`，列表元素类型没有证据，未声明并原样保留。`voice_lyric` 的 `data` 是没有歌词时可以没有的路径（录制 `voice_lyric.without-lyric.json` 里是 `null`），出现时 `data.lyricUrl` 收紧；`data.source` 和 `message` 只见过 `null`，未声明。`voicelist_list`、`voicelist_detail`、`voicelist_trans` 和 `voice_detail` 是创作者工作台接口，只允许操作自己的播客/声音；本机账号没有播客，工作台接口对非所有者返回 `code: 400`，`voice_detail` 访问他人声音返回 `code: 401`，个别不存在的 id 返回 HTTP 200、正文 `code: 200`、`data: null`。B43 补录了六条拒绝和一条空成功：`voice_detail.other-voice.json`（`code: 401`，不允许操作他人的声音）、`voice_detail.unknown.json`（未知 id，`code: 200` + `data: null` 的空成功）、`voicelist_detail.missing.json`（`code: 400`，播客不存在）、`voicelist_detail.other.json`（`code: 400`，只允许操作自己的播客）、`voicelist_list.missing.json`（缺 `voiceListId`，`code: 400`，参数错误）、`voicelist_list.other.json`（`code: 400`，只允许操作自己的播客）、`voicelist_list.unknown.json`（不存在的 id，`code: 400`，播客不存在）。这些路径都没有带字段的成功正文可录，未声明结构。
 
 ## 广播电台
 
@@ -559,6 +566,8 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 `dj_program` 缺少 `rid` 返回 `code: 400`（录制 `dj_program.missing-rid.json`），`dj_program_detail` 的未知节目 id 返回 `code: 404`（录制 `dj_program_detail.unknown.json`），SDK 按业务拒绝转交对应 `status`，正文仍是网易云原文。
 
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。11 个模块都带 Cookie 重录过：登录录制能通过同一结构校验，宽松字段的值与覆盖有差异（`aiGenerated` 的 `null`/`boolean`、`radio.descPicList` 的 `null`/数组、`mainSong.mMusic`/`hMusic` 的 `null`/对象、`dj.experts` 的键集合）；没有保留登录对照，不对公开结构作相同性断言。`dj_program`、`program_recommend`、`personalized_djprogram`、`dj_program_toplist` 的录制按字段覆盖保留非连续子集，`dj_difm_all_style_channel` 保留 1/15 个风格，`dj_difm_playing_tracks_list` 把每条 `wave` 截到 32 个点，原始数量和索引写在 `context.truncated` 与 `context.note`。DI.FM 频道订阅/取消订阅（`dj_difm_channel_subscribe`、`dj_difm_channel_unsubscribe`）是写操作，留给写操作批次，本批没有收窄返回体。
+
+`user_audio` 的 `djRadios` 是用户创建的电台列表，每条电台自己的 `id` 收紧；`dj` 主播复用宽松的 `PlaylistUser`，电台的简介、封面、分类、价格、计数、`lastProgram*`、`rcmdtext`、`privacy`、`underShelf` 等展示字段宽松，`descPicList`、`discountPrice`、`icon`、`liveInfo`、`manualTagsDTO`、`replaceRadio`、`shortName`、`videos` 只见过 `null`，没有声明。`count`、`subCount`、`hasMore` 是宽松的计数与分页提示。录制覆盖有创建电台的用户（`user_audio.default.json`）和没有创建电台的用户（`user_audio.empty.json`，`djRadios: []`，用户编号换成合成值），两种都通过同一结构。
 
 ## 播放
 
@@ -760,6 +769,8 @@ B30 的相似内容接口：`simi_artist` 缺 `id`（`simi_artist.missing-id.jso
 B33 的 5 个听歌足迹接口同理：未登录调用上游返回 HTTP 200 + `code: 302`（5 个模块各有一份 `.anonymous.json`），改造前模块按 `status: 200` 放行，现在按业务码拒绝为 `status: 302`，`body` 保留原文。本批没有录到其他非 200 业务码。
 
 B39 的账号校验与基础查询开始运行时校验后，畸形成功返回从原样放行变成 502；其中 `verify_qrcodestatus` 的空 `qr`（`verify_qrcodestatus.empty.json`，`code: 400`）原本被 `SPECIAL_STATUS_CODES` 映射成 `status: 200` 放行，现在按业务码拒绝为 `status: 400`；未登录（`verify_qrcodestatus.anonymous.json`，`code: 301`）的公开状态原本就是 `301`，改造前是 resolve，现在是 reject，`body` 都保留原文（`code` 已由请求层归一成数字）。其余 5 个模块本批没有保留非 200 业务码录制。
+
+B43 的 `mlog_url`、`mlog_to_video` 同样受影响：非法 mlog id 的上游是 HTTP 200 + 正文 `code: 400`（`mlog_url.invalid.json`；`mlog_to_video.no-video.json`，`msg: mlog无对应video`）。改造前模块按 `status: 200` 放行，现在 Body 校验按业务码拒绝为 `status: 400`，`body` 保留网易云原文。两个模块的契约测试都断言状态码和原文。
 
 ## 消息
 

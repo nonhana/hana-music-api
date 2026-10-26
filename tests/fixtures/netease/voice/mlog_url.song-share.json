@@ -1,0 +1,572 @@
+{
+  "module": "mlog_url",
+  "query": {
+    "id": "a1qOVPTWKS1ZrK8"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:53:40.729Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B43：mlog_url 分享歌曲的 mlog 播放信息"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "ok",
+      "data": {
+        "id": "a1qOVPTWKS1ZrK8",
+        "type": "1",
+        "squareFeedType": 0,
+        "recmdType": -1,
+        "resource": {
+          "threadId": "R_MLOG_1001_a1qOVPTWKS1ZrK8",
+          "commentCount": 566,
+          "likedCount": 18371,
+          "shareCount": 11330,
+          "liked": false,
+          "maxCommentShowNum": 5,
+          "comments": null,
+          "ipLocation": {
+            "ip": null,
+            "location": ""
+          },
+          "id": "a1qOVPTWKS1ZrK8",
+          "userId": 1477030197,
+          "type": 2,
+          "content": {
+            "title": "笑看风云（汪小敏）",
+            "text": "笑看风云（汪小敏）",
+            "interveneText": "",
+            "topics": null,
+            "actList": [],
+            "coverColor": -4673593,
+            "image": [],
+            "albumExt": null,
+            "video": {
+              "videoKey": "4384868131",
+              "nosKey": "vodkgeyttp8/MTQ3NzAzMDE5Nw==_12d86613edd71c7e779f0baa2485b186.flv",
+              "duration": 217808,
+              "size": 92928930,
+              "r": 0,
+              "coverUrl": "http://p5.music.126.net/hpbUZWVJID1Qna86NpB_Gg==/109951163745400865",
+              "frameUrl": "http://p5.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/4384868425/1e95/33bd/108f/MUSICff08d92b5cabd8636734000c4f8480f6.jpg",
+              "frameImage": {
+                "picKey": "4384868425",
+                "nosKey": null,
+                "imageUrl": "http://p5.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/4384868425/1e95/33bd/108f/MUSICff08d92b5cabd8636734000c4f8480f6.jpg",
+                "width": 1920,
+                "height": 1080
+              },
+              "width": 1920,
+              "height": 1080,
+              "urlInfo": {
+                "id": "4384868131",
+                "url": "http://vodkgeyttp8.vod.126.net/vodkgeyttp8/COXG4HrS_3157463419_shd.mp4?wsSecret=1da33dbd21a6060bfe06d5e271f11255&wsTime=1792977820",
+                "size": 92928930,
+                "r": 0,
+                "validityTime": 1800,
+                "resolution": null
+              },
+              "urlInfos": [
+                {
+                  "id": "4384868131",
+                  "url": "http://vodkgeyttp8.vod.126.net/vodkgeyttp8/COXG4HrS_3157463419_shd.mp4?wsSecret=1da33dbd21a6060bfe06d5e271f11255&wsTime=1792977820",
+                  "size": 92928930,
+                  "r": 720,
+                  "validityTime": 1800,
+                  "resolution": 720
+                },
+                {
+                  "id": "4384868131",
+                  "url": "http://vodkgeyttp8.vod.126.net/vodkgeyttp8/9xTEBxNl_3157463419_sd.mp4?wsSecret=e6c2f30edb3f14cc4751470dc2c9479b&wsTime=1792977820",
+                  "size": 92928930,
+                  "r": 360,
+                  "validityTime": 1800,
+                  "resolution": 360
+                }
+              ],
+              "rcmdUrlInfo": {
+                "id": "4384868131",
+                "url": "http://vodkgeyttp8.vod.126.net/vodkgeyttp8/COXG4HrS_3157463419_shd.mp4?wsSecret=1da33dbd21a6060bfe06d5e271f11255&wsTime=1792977820",
+                "size": 92928930,
+                "r": 0,
+                "validityTime": 1800,
+                "resolution": null
+              },
+              "playCount": 1632874,
+              "coverDetail": {
+                "verticalCoverImage": {
+                  "picKey": "109951168242440070",
+                  "nosKey": null,
+                  "imageUrl": "http://p5.music.126.net/cS7mN3ubkZpAIqJMABbKjw==/109951168242440070",
+                  "width": null,
+                  "height": null
+                },
+                "horizontalCoverImage": {
+                  "picKey": "4384868133",
+                  "nosKey": null,
+                  "imageUrl": "http://p5.music.126.net/hpbUZWVJID1Qna86NpB_Gg==/109951163745400865",
+                  "width": 1920,
+                  "height": 1080
+                }
+              },
+              "videoAreaInfo": {
+                "leftTopX": 0.004,
+                "leftTopY": 0.029,
+                "rightBottomX": 0.995,
+                "rightBottomY": 0.963
+              },
+              "coverImage": {
+                "picKey": "4384868133",
+                "nosKey": "yyimgs/hpbUZWVJID1Qna86NpB_Gg==/109951163745400865",
+                "imageUrl": null,
+                "width": 1920,
+                "height": 1080
+              },
+              "coverImageTime": null
+            },
+            "videoId": "323f32c72e9a4eba90ba294944d15c01",
+            "audio": null,
+            "song": {
+              "id": 194405,
+              "name": "笑看风云",
+              "coverUrl": "http://p3.music.126.net/lHubU4xbDzxeCc6eApquCQ==/109951172323257436.jpg",
+              "duration": 265279,
+              "artists": [
+                {
+                  "artistId": 6498,
+                  "artistName": "郑少秋"
+                }
+              ],
+              "privilege": {
+                "id": 194405,
+                "fee": 1,
+                "payed": 0,
+                "realPayed": 0,
+                "st": 0,
+                "pl": 0,
+                "dl": 0,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 0,
+                "pc": null,
+                "toast": false,
+                "flag": 1541124,
+                "paidBigBang": false,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "rscl": null,
+                "freeTrialPrivilege": {
+                  "resConsumable": false,
+                  "userConsumable": false
+                },
+                "chargeInfoList": [
+                  {
+                    "rate": 128000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 1
+                  },
+                  {
+                    "rate": 192000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 1
+                  },
+                  {
+                    "rate": 320000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 1
+                  },
+                  {
+                    "rate": 999000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 1
+                  }
+                ]
+              },
+              "albumName": "笑看风云",
+              "startTime": 0,
+              "endTime": 0,
+              "isLiked": false,
+              "playedNum": null
+            },
+            "songs": [
+              {
+                "id": 1859480539,
+                "name": "一介俗人（翻自 曲九）",
+                "coverUrl": "http://p4.music.126.net/hecYRxPLTBcv9a4FfDa6fA==/109951166157475223.jpg",
+                "duration": 217835,
+                "artists": [
+                  {
+                    "artistId": 48772840,
+                    "artistName": "曲九"
+                  }
+                ],
+                "privilege": {
+                  "id": 1859480539,
+                  "fee": 0,
+                  "payed": 0,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 320000,
+                  "dl": 320000,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 320000,
+                  "fl": 320000,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1343744,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 320000,
+                  "downloadMaxbr": 320000,
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false
+                  },
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ]
+                },
+                "albumName": "一介俗人",
+                "startTime": 0,
+                "endTime": 0,
+                "isLiked": false,
+                "playedNum": null
+              },
+              {
+                "id": 1918956782,
+                "name": "笑看风云（remix）",
+                "coverUrl": "http://p4.music.126.net/idz0KpjgiCSDk5bYpR6hHA==/109951166992431054.jpg",
+                "duration": 217835,
+                "artists": [
+                  {
+                    "artistId": 51337588,
+                    "artistName": "邶安然"
+                  }
+                ],
+                "privilege": {
+                  "id": 1918956782,
+                  "fee": 0,
+                  "payed": 0,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 320000,
+                  "dl": 320000,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 320000,
+                  "fl": 320000,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1343744,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 320000,
+                  "downloadMaxbr": 320000,
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false
+                  },
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ]
+                },
+                "albumName": "TO CHILL AND STAY AWAKE",
+                "startTime": 0,
+                "endTime": 0,
+                "isLiked": false,
+                "playedNum": null
+              }
+            ],
+            "randomSong": null,
+            "relateSongs": [
+              {
+                "id": 194405,
+                "name": "笑看风云",
+                "coverUrl": "http://p3.music.126.net/lHubU4xbDzxeCc6eApquCQ==/109951172323257436.jpg",
+                "duration": 265279,
+                "artists": [
+                  {
+                    "artistId": 6498,
+                    "artistName": "郑少秋"
+                  }
+                ],
+                "privilege": {
+                  "id": 194405,
+                  "fee": 1,
+                  "payed": 0,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 0,
+                  "dl": 0,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 999000,
+                  "fl": 0,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1541124,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 999000,
+                  "downloadMaxbr": 999000,
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false
+                  },
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ]
+                },
+                "albumName": "笑看风云",
+                "startTime": 0,
+                "endTime": 0,
+                "isLiked": false,
+                "playedNum": null
+              }
+            ],
+            "realateSongs": [
+              {
+                "id": 194405,
+                "name": "笑看风云",
+                "coverUrl": "http://p3.music.126.net/lHubU4xbDzxeCc6eApquCQ==/109951172323257436.jpg",
+                "duration": 265279,
+                "artists": [
+                  {
+                    "artistId": 6498,
+                    "artistName": "郑少秋"
+                  }
+                ],
+                "privilege": {
+                  "id": 194405,
+                  "fee": 1,
+                  "payed": 0,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 0,
+                  "dl": 0,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 999000,
+                  "fl": 0,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1541124,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 999000,
+                  "downloadMaxbr": 999000,
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false
+                  },
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ]
+                },
+                "albumName": "笑看风云",
+                "startTime": 0,
+                "endTime": 0,
+                "isLiked": false,
+                "playedNum": null
+              }
+            ],
+            "templateId": null,
+            "creation": null,
+            "coverExt": null,
+            "creationUrl": null,
+            "imageCreationUrl": null,
+            "accompanyInfo": {
+              "accompanyId": null,
+              "accompanyType": null,
+              "ugcAccompanyId": null
+            },
+            "creationTagType": -1,
+            "creationProtocolInfos": [],
+            "resourceIdStr": null,
+            "resourceType": null,
+            "djProgramIds": null,
+            "djProgramDataList": null,
+            "playlistDataVO": null,
+            "eventId": 6143984209,
+            "privacySetting": 0,
+            "eventPinned": false,
+            "creationEntranceDesc": null,
+            "riskControlComplaintVO": null,
+            "produceType": null,
+            "isrc": null,
+            "relatedArtistIds": null,
+            "containAiContent": false,
+            "contentDeclaration": null,
+            "repostSource": null
+          },
+          "talk": null,
+          "profile": {
+            "userId": 1477030197,
+            "nickname": "第二次回眸s",
+            "avatarUrl": "http://p4.music.126.net/RfWVSVNi-zb3Gt1hUlvpBg==/109951163331847182.jpg",
+            "followed": false,
+            "userType": 0,
+            "isAnchor": true,
+            "avatarDetail": null
+          },
+          "relatedPubUsers": [],
+          "pubTime": 1545566846000,
+          "status": 1,
+          "audioStatus": 0,
+          "alg": null,
+          "reason": null,
+          "reasonType": null,
+          "priorShowLive": true,
+          "live": null,
+          "shareUrl": "https://fn.music.163.com/g/mlog/mlog-mobile/landing/mlog?id=a1qOVPTWKS1ZrK8&type=2&userid=18072010799&songId=194405&startTime=0&eventId=6143984209",
+          "canShare": true,
+          "tailMark": null,
+          "subed": false,
+          "mixInfo": null,
+          "relatedActivity": null,
+          "source": "7",
+          "extSourceInfo": null,
+          "srcId": null,
+          "circleVO": null,
+          "mlogPlaylists": null,
+          "followedShowReason": null
+        },
+        "likeGuide": {
+          "hasGuide": false,
+          "afterViewSeconds": 0
+        },
+        "promotion": null,
+        "operate": {
+          "hasBiubiuComments": false,
+          "showMvTag": false,
+          "showCollect": true,
+          "disShowCollectReason": "关联了音乐的Mlog才能被加入歌单哦",
+          "playMode": 1
+        },
+        "relatedActivity": null,
+        "showExtInfo": null,
+        "otherData": null,
+        "nextModule": null,
+        "srcId": null,
+        "businessEntrance": null,
+        "logInfo": null
+      }
+    }
+  }
+}

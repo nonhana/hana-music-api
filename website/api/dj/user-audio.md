@@ -41,6 +41,10 @@ const result = await userAudio({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到用户创建电台列表的 `body.djRadios` 和每条电台自己的编号 `djRadios[].id` 收紧；`dj` 主播复用宽松的 `PlaylistUser`，电台的简介、封面、分类、价格、计数、`lastProgram*`、`rcmdtext`、`privacy`、`underShelf` 等展示字段宽松，`descPicList`、`discountPrice`、`icon`、`liveInfo`、`manualTagsDTO`、`replaceRadio`、`shortName`、`videos` 只见过 `null`，没有声明。`count`、`subCount`、`hasMore` 是宽松的计数与分页提示。用户没有创建电台时 `djRadios` 是空数组。结构定义和类型是 `UserAudioBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口, 传入用户 id 可获取用户创建的电台

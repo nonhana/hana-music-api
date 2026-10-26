@@ -44,6 +44,10 @@ const result = await mlogUrl({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到 mlog 记录的 `body.data`、mlog 自己的编号 `data.id`/`data.resource.id`、通到播放地址的必填链路 `data.resource.content`、`...content.video`、`...video.urlInfo` 和播放地址 `data.resource.content.video.urlInfo.url` 收紧；`content`、`video`、`urlInfo` 缺任意一段都会报 502（无视频 mlog 没有成功体证据）。`content`、`video` 的其余展示字段、歌曲记录（复用 `MlogSong` 的字段并补 `startTime`、`endTime`、`isLiked`、宽松 `privilege`）和作者宽松。播放地址带 `wsSecret`/`wsTime` 签名，会随时间变化，不要缓存或逐字比较；`urlInfos[]` 是同一视频的其他清晰度，只有当前 `res` 选中的 `urlInfo` 收紧。`businessEntrance`、`promotion`、`relatedActivity`、`showExtInfo`、`otherData`、`nextModule`、`srcId`、`logInfo` 只见过 `null`，没有声明，仍原样保留。结构定义和类型是 `MlogUrlBody`，见 [返回体结构](/guide/response-bodies)。录制覆盖视频 mlog 和分享歌曲的 mlog；非法 id 返回 `code: 400`。
+
 ## 补充说明
 
 说明 : 调用此接口，传入 mlog id, 可获取 mlog 播放地址

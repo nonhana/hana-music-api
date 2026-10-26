@@ -1,0 +1,23 @@
+{
+  "module": "user_audio",
+  "query": {
+    "uid": 900000002
+  },
+  "context": {
+    "recordedAt": "2026-10-26T01:58:17.937Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B43：user_audio 没有创建电台的用户（空结果）；uid 900000002 是合成值，匿名调用原样可复现"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "djRadios": [],
+      "hasMore": false,
+      "count": 0,
+      "subCount": 0,
+      "code": 200
+    }
+  }
+}

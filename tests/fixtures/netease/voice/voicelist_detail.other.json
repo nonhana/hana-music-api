@@ -1,0 +1,21 @@
+{
+  "module": "voicelist_detail",
+  "query": {
+    "id": 792544462
+  },
+  "context": {
+    "recordedAt": "2026-10-26T01:58:17.434Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B43：voicelist_detail 读取他人的公开播客，只允许操作自己的播客"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "只允许操作自己的播客",
+      "data": null
+    }
+  }
+}

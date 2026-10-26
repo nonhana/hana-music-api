@@ -1,0 +1,21 @@
+{
+  "module": "voice_detail",
+  "query": {
+    "id": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-26T01:58:16.924Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B43：voice_detail 未知 id 的空成功，code 200、data null；任意不存在的数字 id 可复现"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": null,
+      "data": null
+    }
+  }
+}

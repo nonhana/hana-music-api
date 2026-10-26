@@ -459,8 +459,14 @@ import type {
   ModuleBody as mlogMusicRcmdBody,
   ModuleInput as mlogMusicRcmdInput,
 } from '../../modules/mlog_music_rcmd.ts';
-import type { ModuleInput as mlogToVideoInput } from '../../modules/mlog_to_video.ts';
-import type { ModuleInput as mlogUrlInput } from '../../modules/mlog_url.ts';
+import type {
+  ModuleBody as mlogToVideoBody,
+  ModuleInput as mlogToVideoInput,
+} from '../../modules/mlog_to_video.ts';
+import type {
+  ModuleBody as mlogUrlBody,
+  ModuleInput as mlogUrlInput,
+} from '../../modules/mlog_url.ts';
 import type {
   ModuleBody as msgCommentsBody,
   ModuleInput as msgCommentsInput,
@@ -994,7 +1000,10 @@ import type {
   ModuleBody as userAccountBody,
   ModuleInput as userAccountInput,
 } from '../../modules/user_account.ts';
-import type { ModuleInput as userAudioInput } from '../../modules/user_audio.ts';
+import type {
+  ModuleBody as userAudioBody,
+  ModuleInput as userAudioInput,
+} from '../../modules/user_audio.ts';
 import type {
   ModuleBody as userBindingBody,
   ModuleInput as userBindingInput,
@@ -2574,12 +2583,12 @@ export interface GeneratedModuleContractMap {
   mlog_to_video: {
     input: mlogToVideoInput;
     query: mlogToVideoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mlogToVideoBody>;
   };
   mlog_url: {
     input: mlogUrlInput;
     query: mlogUrlInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mlogUrlBody>;
   };
   msg_comments: {
     input: msgCommentsInput;
@@ -3321,7 +3330,7 @@ export interface GeneratedModuleContractMap {
   user_audio: {
     input: userAudioInput;
     query: userAudioInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userAudioBody>;
   };
   user_binding: {
     input: userBindingInput;

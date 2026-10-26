@@ -1,0 +1,21 @@
+{
+  "module": "voice_detail",
+  "query": {
+    "id": 2487367164
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:53:52.687Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B43：voice_detail 只能读取自己的声音，账号没有声音，记录他人的声音被拒绝"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 401,
+      "message": "不允许操作他人的声音",
+      "data": null
+    }
+  }
+}
