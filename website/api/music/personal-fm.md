@@ -37,6 +37,10 @@ const result = await personalFm();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.data` 是私人 FM 歌曲列表，歌曲用模块内的 `FmSong`（复用 `ProgramMainSong`，补 `alg`、`alias`、`fmRecReason`、`privilege`、`reason`、`reasonId`、`transName`、`transNames` 等旧版字段），只收紧 `code`、`data` 和每首歌自己的 `id`；`extTransMap` 是以歌曲编号为键的推荐理由映射，`popAdjust` 宽松，`tag` 只见过 `null`，没有声明。`audition`、`crbt`、`mp3Url`、`rtUrl`、`rtUrls`、`rurl`、`sign` 等只见过 `null` 或空数组的字段也未声明，仍原样保留。结构定义和类型是 `PersonalFmBody`，见 [返回体结构](/guide/response-bodies)。登录录制 3 首、匿名录制 1 首，声明过的字段及其允许类型一致；本批没有找到可达的空结果。
+
 ## 补充说明
 
 说明 : 私人 FM( 需要登录 )

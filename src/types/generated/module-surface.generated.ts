@@ -1,5 +1,8 @@
 import type { ModuleInput as activateInitProfileInput } from '../../modules/activate_init_profile.ts';
-import type { ModuleInput as aidjContentRcmdInput } from '../../modules/aidj_content_rcmd.ts';
+import type {
+  ModuleBody as aidjContentRcmdBody,
+  ModuleInput as aidjContentRcmdInput,
+} from '../../modules/aidj_content_rcmd.ts';
 import type {
   ModuleBody as albumBody,
   ModuleInput as albumInput,
@@ -452,7 +455,10 @@ import type {
   ModuleBody as lyricNewBody,
   ModuleInput as lyricNewInput,
 } from '../../modules/lyric_new.ts';
-import type { ModuleInput as mlogMusicRcmdInput } from '../../modules/mlog_music_rcmd.ts';
+import type {
+  ModuleBody as mlogMusicRcmdBody,
+  ModuleInput as mlogMusicRcmdInput,
+} from '../../modules/mlog_music_rcmd.ts';
 import type { ModuleInput as mlogToVideoInput } from '../../modules/mlog_to_video.ts';
 import type { ModuleInput as mlogUrlInput } from '../../modules/mlog_url.ts';
 import type {
@@ -538,8 +544,14 @@ import type {
   ModuleBody as nicknameCheckBody,
   ModuleInput as nicknameCheckInput,
 } from '../../modules/nickname_check.ts';
-import type { ModuleInput as personalFmInput } from '../../modules/personal_fm.ts';
-import type { ModuleInput as personalFmModeInput } from '../../modules/personal_fm_mode.ts';
+import type {
+  ModuleBody as personalFmBody,
+  ModuleInput as personalFmInput,
+} from '../../modules/personal_fm.ts';
+import type {
+  ModuleBody as personalFmModeBody,
+  ModuleInput as personalFmModeInput,
+} from '../../modules/personal_fm_mode.ts';
 import type {
   ModuleBody as personalizedBody,
   ModuleInput as personalizedInput,
@@ -672,7 +684,10 @@ import type {
   ModuleBody as playlistVideoRecentBody,
   ModuleInput as playlistVideoRecentInput,
 } from '../../modules/playlist_video_recent.ts';
-import type { ModuleInput as playmodeIntelligenceListInput } from '../../modules/playmode_intelligence_list.ts';
+import type {
+  ModuleBody as playmodeIntelligenceListBody,
+  ModuleInput as playmodeIntelligenceListInput,
+} from '../../modules/playmode_intelligence_list.ts';
 import type {
   ModuleBody as programRecommendBody,
   ModuleInput as programRecommendInput,
@@ -1860,7 +1875,7 @@ export interface GeneratedModuleContractMap {
   aidj_content_rcmd: {
     input: aidjContentRcmdInput;
     query: aidjContentRcmdInput;
-    response: ModuleResponse;
+    response: ModuleResponse<aidjContentRcmdBody>;
   };
   album: {
     input: albumInput;
@@ -2515,7 +2530,7 @@ export interface GeneratedModuleContractMap {
   mlog_music_rcmd: {
     input: mlogMusicRcmdInput;
     query: mlogMusicRcmdInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mlogMusicRcmdBody>;
   };
   mlog_to_video: {
     input: mlogToVideoInput;
@@ -2641,12 +2656,12 @@ export interface GeneratedModuleContractMap {
   personal_fm: {
     input: personalFmInput;
     query: personalFmInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalFmBody>;
   };
   personal_fm_mode: {
     input: personalFmModeInput;
     query: personalFmModeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalFmModeBody>;
   };
   personalized: {
     input: personalizedInput;
@@ -2816,7 +2831,7 @@ export interface GeneratedModuleContractMap {
   playmode_intelligence_list: {
     input: playmodeIntelligenceListInput;
     query: playmodeIntelligenceListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playmodeIntelligenceListBody>;
   };
   program_recommend: {
     input: programRecommendInput;

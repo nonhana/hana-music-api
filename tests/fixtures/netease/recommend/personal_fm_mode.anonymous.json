@@ -1,0 +1,248 @@
+{
+  "module": "personal_fm_mode",
+  "query": {
+    "mode": "DEFAULT",
+    "limit": 3
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:54:08.580Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B40：personal_fm_mode 匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "popAdjust": false,
+      "data": [
+        {
+          "name": "Patient Zero",
+          "id": 3449111055,
+          "position": 0,
+          "alias": [],
+          "status": 0,
+          "fee": 1,
+          "copyrightId": 7003,
+          "disc": "01",
+          "no": 1,
+          "artists": [
+            {
+              "name": "Taylor Swift",
+              "id": 44266,
+              "picId": 0,
+              "img1v1Id": 0,
+              "briefDesc": "",
+              "picUrl": "",
+              "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              "albumSize": 0,
+              "alias": [],
+              "trans": "",
+              "musicSize": 0
+            }
+          ],
+          "album": {
+            "name": "Patient Zero",
+            "id": 404253792,
+            "type": "Single",
+            "size": 3,
+            "picId": 109951174117256780,
+            "blurPicUrl": "http://p4.music.126.net/zSGqjtlVfj359Cwd5R4E3A==/109951174117256781.jpg",
+            "companyId": 0,
+            "pic": 109951174117256780,
+            "picUrl": "http://p3.music.126.net/zSGqjtlVfj359Cwd5R4E3A==/109951174117256781.jpg",
+            "publishTime": 1792080000000,
+            "description": "",
+            "tags": "",
+            "company": "Taylor Swift",
+            "briefDesc": "",
+            "artist": {
+              "name": "",
+              "id": 0,
+              "picId": 0,
+              "img1v1Id": 0,
+              "briefDesc": "",
+              "picUrl": "",
+              "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              "albumSize": 0,
+              "alias": [],
+              "trans": "",
+              "musicSize": 0
+            },
+            "songs": [],
+            "alias": [],
+            "status": 1,
+            "copyrightId": 7003,
+            "commentThreadId": "R_AL_3_404253792",
+            "artists": [
+              {
+                "name": "Taylor Swift",
+                "id": 44266,
+                "picId": 0,
+                "img1v1Id": 0,
+                "briefDesc": "",
+                "picUrl": "",
+                "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "albumSize": 0,
+                "alias": [],
+                "trans": "",
+                "musicSize": 0
+              }
+            ],
+            "subType": "录音室版",
+            "transName": null,
+            "picId_str": "109951174117256781"
+          },
+          "starred": false,
+          "popularity": 100,
+          "score": 100,
+          "starredNum": 0,
+          "duration": 225868,
+          "playedNum": 0,
+          "dayPlays": 0,
+          "hearTime": 0,
+          "ringtone": "",
+          "crbt": null,
+          "audition": null,
+          "copyFrom": "",
+          "commentThreadId": "R_SO_4_3449111055",
+          "rtUrl": null,
+          "ftype": 0,
+          "rtUrls": [],
+          "copyright": 1,
+          "transName": null,
+          "sign": null,
+          "rtype": 0,
+          "rurl": null,
+          "mvid": 0,
+          "hMusic": {
+            "name": null,
+            "id": 17402809470,
+            "size": 9037485,
+            "extension": "mp3",
+            "sr": 48000,
+            "dfsId": 0,
+            "bitrate": 320000,
+            "playTime": 225868,
+            "volumeDelta": -58410
+          },
+          "mMusic": {
+            "name": null,
+            "id": 17402809474,
+            "size": 5422509,
+            "extension": "mp3",
+            "sr": 48000,
+            "dfsId": 0,
+            "bitrate": 192000,
+            "playTime": 225868,
+            "volumeDelta": -55848
+          },
+          "lMusic": {
+            "name": null,
+            "id": 17402809469,
+            "size": 3615021,
+            "extension": "mp3",
+            "sr": 48000,
+            "dfsId": 0,
+            "bitrate": 128000,
+            "playTime": 225868,
+            "volumeDelta": -54257
+          },
+          "bMusic": {
+            "name": null,
+            "id": 17402809469,
+            "size": 3615021,
+            "extension": "mp3",
+            "sr": 48000,
+            "dfsId": 0,
+            "bitrate": 128000,
+            "playTime": 225868,
+            "volumeDelta": -54257
+          },
+          "mp3Url": null,
+          "publishTime": 1792080000000,
+          "privilege": {
+            "id": 3449111055,
+            "fee": 0,
+            "payed": 0,
+            "realPayed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "pc": null,
+            "toast": false,
+            "flag": 1560580,
+            "paidBigBang": false,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 1999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "alg": "random"
+        }
+      ],
+      "tag": null,
+      "extTransMap": null,
+      "code": 200
+    }
+  }
+}

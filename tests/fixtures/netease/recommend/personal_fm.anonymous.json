@@ -1,0 +1,245 @@
+{
+  "module": "personal_fm",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T23:53:57.651Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B40：personal_fm 匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "popAdjust": false,
+      "data": [
+        {
+          "name": "我还在树下等一个人",
+          "id": 3450465096,
+          "position": 0,
+          "alias": [],
+          "status": 0,
+          "fee": 0,
+          "copyrightId": 0,
+          "disc": "01",
+          "no": 1,
+          "artists": [
+            {
+              "name": "陆虎",
+              "id": 3793,
+              "picId": 0,
+              "img1v1Id": 0,
+              "briefDesc": "",
+              "picUrl": "",
+              "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              "albumSize": 0,
+              "alias": [],
+              "trans": "",
+              "musicSize": 0
+            }
+          ],
+          "album": {
+            "name": "我还在树下等一个人",
+            "id": 404641541,
+            "type": "Single",
+            "size": 1,
+            "picId": 109951174130664880,
+            "blurPicUrl": "http://p3.music.126.net/ZKxuI7YWk9A9Kg0pd8DEEw==/109951174130664879.jpg",
+            "companyId": 0,
+            "pic": 109951174130664880,
+            "picUrl": "http://p4.music.126.net/ZKxuI7YWk9A9Kg0pd8DEEw==/109951174130664879.jpg",
+            "publishTime": 1792512000000,
+            "description": "",
+            "tags": "",
+            "company": "星奥潮音",
+            "briefDesc": "",
+            "artist": {
+              "name": "",
+              "id": 0,
+              "picId": 0,
+              "img1v1Id": 0,
+              "briefDesc": "",
+              "picUrl": "",
+              "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              "albumSize": 0,
+              "alias": [],
+              "trans": "",
+              "musicSize": 0
+            },
+            "songs": [],
+            "alias": [],
+            "status": 1,
+            "copyrightId": 0,
+            "commentThreadId": "R_AL_3_404641541",
+            "artists": [
+              {
+                "name": "陆虎",
+                "id": 3793,
+                "picId": 0,
+                "img1v1Id": 0,
+                "briefDesc": "",
+                "picUrl": "",
+                "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "albumSize": 0,
+                "alias": [],
+                "trans": "",
+                "musicSize": 0
+              }
+            ],
+            "subType": "录音室版",
+            "transName": null,
+            "picId_str": "109951174130664879"
+          },
+          "starred": false,
+          "popularity": 100,
+          "score": 100,
+          "starredNum": 0,
+          "duration": 224761,
+          "playedNum": 0,
+          "dayPlays": 0,
+          "hearTime": 0,
+          "ringtone": "",
+          "crbt": null,
+          "audition": null,
+          "copyFrom": "",
+          "commentThreadId": "R_SO_4_3450465096",
+          "rtUrl": null,
+          "ftype": 0,
+          "rtUrls": [],
+          "copyright": 0,
+          "transName": null,
+          "sign": null,
+          "rtype": 0,
+          "rurl": null,
+          "mvid": 0,
+          "hMusic": {
+            "name": null,
+            "id": 17416006320,
+            "size": 8993325,
+            "extension": "mp3",
+            "sr": 48000,
+            "dfsId": 0,
+            "bitrate": 320000,
+            "playTime": 224761,
+            "volumeDelta": -48400
+          },
+          "mMusic": {
+            "name": null,
+            "id": 17416006322,
+            "size": 5396013,
+            "extension": "mp3",
+            "sr": 48000,
+            "dfsId": 0,
+            "bitrate": 192000,
+            "playTime": 224761,
+            "volumeDelta": -45782
+          },
+          "lMusic": {
+            "name": null,
+            "id": 17416006327,
+            "size": 3597357,
+            "extension": "mp3",
+            "sr": 48000,
+            "dfsId": 0,
+            "bitrate": 128000,
+            "playTime": 224761,
+            "volumeDelta": -44087
+          },
+          "bMusic": {
+            "name": null,
+            "id": 17416006327,
+            "size": 3597357,
+            "extension": "mp3",
+            "sr": 48000,
+            "dfsId": 0,
+            "bitrate": 128000,
+            "playTime": 224761,
+            "volumeDelta": -44087
+          },
+          "mp3Url": null,
+          "publishTime": 1792252800000,
+          "privilege": {
+            "id": 3450465096,
+            "fee": 0,
+            "payed": 0,
+            "realPayed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 1,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "pc": null,
+            "toast": false,
+            "flag": 1413121,
+            "paidBigBang": false,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 1999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "alg": "random"
+        }
+      ],
+      "tag": null,
+      "extTransMap": null,
+      "code": 200
+    }
+  }
+}

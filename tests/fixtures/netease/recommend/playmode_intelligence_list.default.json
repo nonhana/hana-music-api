@@ -1,0 +1,446 @@
+{
+  "module": "playmode_intelligence_list",
+  "query": {
+    "id": 1318115725,
+    "pid": 930180433,
+    "count": 3
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:54:08.657Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B40：playmode_intelligence_list 心动模式，含歌单 pid",
+    "truncated": [
+      {
+        "path": "body.data",
+        "length": 149
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "SUCCESS",
+      "data": [
+        {
+          "id": 190381,
+          "alg": "Alg_AI_One_1318115725:-1alg-music-rec-unite-smart-vec-muti_interest_embedding_mm_mt2",
+          "recommended": true,
+          "songInfo": {
+            "no": 1,
+            "copyright": 1,
+            "rt": "600902000000149517",
+            "fee": 1,
+            "rurl": null,
+            "privilege": {
+              "id": 190381,
+              "fee": 1,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 0,
+              "toast": false,
+              "flag": 1540100,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "none",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null,
+                "freeLimitTagType": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ],
+              "code": 0,
+              "message": null,
+              "plLevels": null,
+              "dlLevels": null,
+              "ignoreCache": null,
+              "bd": null
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 297893,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "id": 190381,
+            "st": 0,
+            "a": null,
+            "cd": "1",
+            "publishTime": 703699200000,
+            "cf": "",
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 11918150,
+              "vd": 720,
+              "sr": 44100
+            },
+            "mv": 5308228,
+            "al": {
+              "picUrl": "http://p3.music.126.net/PwTxaxmsUZTjwOGbxcOfow==/109951168694933635.jpg",
+              "name": "私房歌",
+              "tns": [],
+              "pic_str": "109951168694933635",
+              "id": 19238,
+              "pic": 109951168694933630
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 4767286,
+              "vd": 5008,
+              "sr": 44100
+            },
+            "cp": 7002,
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 7150907,
+              "vd": 3314,
+              "sr": 44100
+            },
+            "djId": 0,
+            "alia": ["电视剧《十七岁不哭》插曲"],
+            "crbt": null,
+            "rtUrl": null,
+            "ar": [
+              {
+                "name": "郑智化",
+                "tns": [],
+                "alias": [],
+                "id": 6468
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 80,
+            "name": "水手"
+          }
+        },
+        {
+          "id": 3429984635,
+          "alg": "Alg_AI_One_1318115725:-1alg-music-rec-unite-smart-vec-muti_interest_embedding_mm_mt2",
+          "recommended": true,
+          "songInfo": {
+            "no": 1,
+            "copyright": 1,
+            "rt": "",
+            "fee": 8,
+            "rurl": null,
+            "privilege": {
+              "id": 3429984635,
+              "fee": 8,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 320000,
+              "toast": false,
+              "flag": 1540100,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "exhigh",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null,
+                "freeLimitTagType": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ],
+              "code": 0,
+              "message": null,
+              "plLevels": null,
+              "dlLevels": null,
+              "ignoreCache": null,
+              "bd": null
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 110172,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "id": 3429984635,
+            "st": 0,
+            "a": null,
+            "cd": "01",
+            "publishTime": 1788883200000,
+            "cf": "",
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 4409513,
+              "vd": -49618,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/zIHah_MnSJEmWIyDGVVTiw==/109951173884055758.jpg",
+              "name": "Rip Out Your Eyes",
+              "tns": [],
+              "pic_str": "109951173884055758",
+              "id": 396001699,
+              "pic": 109951173884055760
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 1763831,
+              "vd": -45334,
+              "sr": 44100
+            },
+            "cp": 1415954,
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 2645725,
+              "vd": -47016,
+              "sr": 44100
+            },
+            "djId": 0,
+            "alia": [],
+            "crbt": null,
+            "rtUrl": null,
+            "ar": [
+              {
+                "name": "Marino",
+                "tns": [],
+                "alias": [],
+                "id": 127194829
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 38,
+            "name": "Rip Out Your Eyes"
+          }
+        },
+        {
+          "id": 4346235,
+          "alg": "Alg_AI_One_1318115725:-1alg-music-rec-unite-smart-vec-muti_interest_embedding_mm_mt2",
+          "recommended": true,
+          "songInfo": {
+            "no": 8,
+            "copyright": 2,
+            "rt": "",
+            "fee": 8,
+            "rurl": null,
+            "privilege": {
+              "id": 4346235,
+              "fee": 8,
+              "payed": 1,
+              "st": 0,
+              "pl": 320000,
+              "dl": 320000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 320000,
+              "fl": 320000,
+              "toast": false,
+              "flag": 1343492,
+              "preSell": false,
+              "playMaxbr": 320000,
+              "downloadMaxbr": 320000,
+              "maxBrLevel": "sky",
+              "playMaxBrLevel": "sky",
+              "downloadMaxBrLevel": "sky",
+              "plLevel": "exhigh",
+              "dlLevel": "exhigh",
+              "flLevel": "exhigh",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null,
+                "freeLimitTagType": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ],
+              "code": 0,
+              "message": null,
+              "plLevels": null,
+              "dlLevels": null,
+              "ignoreCache": null,
+              "bd": null
+            },
+            "mst": 9,
+            "pst": 0,
+            "pop": 100,
+            "dt": 180845,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "id": 4346235,
+            "st": 0,
+            "a": null,
+            "cd": "1",
+            "publishTime": 1242576000000,
+            "cf": "",
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 7233872,
+              "vd": 3823,
+              "sr": 44100
+            },
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p4.music.126.net/PHUbxy53vtWvIApxVV1pWw==/2946691184922936.jpg",
+              "name": "melody/summer",
+              "tns": [],
+              "id": 438785,
+              "pic": 2946691184922936
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 2893575,
+              "vd": 8258,
+              "sr": 44100
+            },
+            "cp": 0,
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4340341,
+              "vd": 6469,
+              "sr": 44100
+            },
+            "djId": 0,
+            "alia": [],
+            "crbt": null,
+            "rtUrl": null,
+            "ar": [
+              {
+                "name": "the tumbled sea",
+                "tns": [],
+                "alias": [],
+                "id": 102076
+              }
+            ],
+            "ftype": 0,
+            "t": 0,
+            "v": 59,
+            "name": "Ø"
+          }
+        }
+      ]
+    }
+  }
+}

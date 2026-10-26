@@ -245,12 +245,24 @@
 | [获取相似音乐](/api/recommend/simi-song)                        | `SimiSongBody`                       | `code`、`songs`、`songs[].id`         |
 | [相似 mv](/api/recommend/simi-mv)                               | `SimiMvBody`                         | `code`、`mvs`、`mvs[].id`             |
 | [获取最近 5 个听了这首歌的用户](/api/recommend/simi-user)       | `SimiUserBody`                       | `code`；`userprofiles` 只见过空数组   |
+| [私人 FM](/api/music/personal-fm)                               | `PersonalFmBody`                     | `code`、`data`、`data[].id`           |
+| [私人 FM 模式选择](/api/music/personal-fm-mode)                 | `PersonalFmModeBody`                 | `code`、`data`、`data[].id`           |
+| [心动模式/智能播放](/api/recommend/playmode-intelligence-list)  | `PlaymodeIntelligenceListBody`       | `code`、`data`、`data[].id`           |
+| [私人 DJ](/api/recommend/aidj-content-rcmd)                     | `AidjContentRcmdBody`                | `code`、`data`、`data.aiDjResources`  |
 
 每日推荐歌单和推荐歌单的卡片复用 `PlaylistSummary`，只收紧卡片自己的 `id`；`highQuality`、`trackNumberUpdateTime`、`playCount` 由 `PlaylistSummary` 声明，每日推荐歌单的小写 `playcount`、推荐歌单的 `canDislike`、`copywriter` 等卡片字段在模块内补成宽松字段。推荐 MV 复用 `MvSummary`，另补 `picUrl`、`canDislike`、`copywriter`、`type`、`alg`；`trackNumberUpdateTime` 在录制里只见过 `null`，没有声明。推荐新歌的 `song` 是旧版歌曲结构，复用节目记录的 `ProgramMainSong`（`album` 复用 `SimpleAlbum`、`artists` 复用 `Artist`），另补宽松的 `alias`、`exclusive`、`sqMusic`、`hrMusic`、`privilege`（`LooseSongPrivilege`）和 `transName`/`transNames`；`rtUrls`、`album.songs` 只见过空数组，`mp3Url`、`noCopyrightRcmd`、`rtUrl`、`sign` 等只见过 `null`，都没有声明。独家放送和独家放送列表的条目形状不同（后者多 `time`、少 `alg`），分别在各自模块里声明。
 
 六个模块都补了匿名和登录两份录制，登录侧先经 `login_status` 确认 `anonimousUser: false`。`personalized`、`personalized_mv`、`personalized_privatecontent`、`personalized_privatecontent_list` 两边的字段路径和类型相同；`recommend_resource` 的 `creator.expertTags` 匿名 6/6 是 `null`，登录 19 条中 14 条仍是 `null`、5 条是非空数组；`personalized_newsong` 的匿名录制（查询参数不同，3 首）多出若干只见过 `null` 的字段和 `exclusive: false`，登录录制多出 `transName`/`transNames`、`trp` 的非空值，都落在同一份宽松声明里。差异只在条数、实时计数、CDN 地址和这些宽松字段的值。本批录制和探测没有找到可达的空结果：`personalized` 的 `limit=0` 会回落到默认 30，`personalized_newsong` 的 `limit=0` 回落到默认 10，`personalized_mv`、`personalized_privatecontent`、`recommend_resource` 没有分页参数，`personalized_privatecontent_list` 的越界 `offset=100000` 返回 `code: 404` 而不是空列表；数组本身仍然允许为空，契约测试用手写空数组覆盖。`personalized`、`personalized_newsong`、`personalized_privatecontent_list` 的非法数字参数（如 `limit=abc`）返回 `code: 400`：改造前 `code: 400` 经 `SPECIAL_STATUS_CODES` 映射为 resolve `status: 200`，现在被 Body 校验按业务拒绝为 reject `status: 400`、`body` 保留上游原文；`personalized_privatecontent_list` 的越界 `offset=100000`（`code: 404`）改造前是 resolve `status: 404`，现在是 reject `status: 404`。两者都不报 502。
 
 `simi_song` 复用节目记录的 `ProgramMainSong`（旧版歌曲结构），`simi_playlist` 复用 `PlaylistSummary`，`simi_mv` 复用 `MvSummary`：只收紧列表本身和记录自己的 `id`，其余声明字段宽松。`simi_song` 另补录制里非 `null` 的 `alg`、`alias`、`mp3Url`、`privilege`、`recommendReason`、`sqMusic`、`transNames`；`simi_mv` 的 `desc`、`simi_song` 的 `rtUrl`、`crbt` 等只见过 `null`，没有声明。`simi_user` 的 `userprofiles` 只有空数组证据、元素类型未知，没有声明，由 `UpstreamObject` 原样保留；登录账号用 15 首歌曲探测都是空数组。`simi_artist.unknown.json`、`simi_playlist.unknown.json`、`simi_song.unknown.json` 是未知 id 的空数组；`simi_mv` 传入未知 `mvid` 仍返回默认 5 条（`simi_mv.unknown-mvid.json`），本批录制与探测未发现可达的空结果。这 5 个模块都用登录账号录制（`context.viewer` 是 `authenticated`），录制前经 `login_status` 确认 `anonimousUser: false`；本批未保留匿名对照录制。
+
+`personal_fm` 和 `personal_fm_mode` 都返回 `data` 歌曲列表，歌曲用模块内的 `FmSong`（复用 `ProgramMainSong`，补 `alg`、`alias`、`fmRecReason`、`privilege`、`reason`、`reasonId`、`transName`、`transNames` 等录制里出现的旧版字段），只收紧每首歌自己的 `id`；`extTransMap` 是以歌曲编号为键、`fmRecReason` 为值的宽松映射（`personal_fm` 录制里是空对象或 `null`，`personal_fm_mode` 里出现非空值），`popAdjust` 宽松，`tag` 只见过 `null`，未声明并原样保留。`personal_fm_mode` 的 `mode`/`submode` 只改请求参数，响应与 `personal_fm` 同构；录制覆盖 `DEFAULT`、`FAMILIAR`、`EXPLORE`、`aidj` 和 `SCENE_RCMD` 的 `FOCUS`/`EXERCISE`/`NIGHT_EMO` 分支。旧版歌曲里的 `audition`、`crbt`、`mp3Url`、`rtUrl`、`rtUrls`、`rurl`、`sign` 只见过 `null` 或空数组，没有声明，仍原样保留。这两个接口在录制和探测里都没有找到可达的空结果（登录 3 首、匿名 1 首，非法 mode 仍返回 3 首），数组本身允许为空。
+
+`playmode_intelligence_list` 的 `data[]` 每条记录自己的 `id` 收紧，`songInfo` 是宽松字段并复用 `LooseSong`（嵌套歌曲编号也宽松，坏 `id` 只丢编号，不会让整条 `songInfo` 消失）；`alg`、`recommended`、`message` 宽松。录制从原始 149 条截到 3 条，`context.truncated` 记录原始长度 149。录制账号用“我喜欢的音乐”歌单能成功，探测到的另一个歌单返回 `code: 400`（`不支持该歌单类型`，录制 `playmode_intelligence_list.unsupported-playlist.json`），缺少 `pid` 时上游返回 `code: 500`，都按业务拒绝转交，不报 502。本批录制和探测没有找到可达的空 `data`，数组本身允许为空。
+
+`aidj_content_rcmd` 的 `data.aiDjResources` 收紧，每条资源的 `type` 和 `value` 宽松；`value` 里声明录制有证据的 `songId`（字符串）、`includeVoice`、`songData`、`songPrivilege`、`audioList`（音频编号、地址、时长等），全部宽松；`songData` 用模块内的 `AiDjSong`（复用 `ProgramMainSong`，补 `alias`/`transName`/`transNames`，歌曲编号也宽松）。`tagName`、`message`、`trp.rules` 宽松；声明了这些字段，其余原样保留（`songData` 里只见过 `null` 或空数组的字段也未声明）。宽松字段可能缺席，例如 `with-location` 录制里的 song 资源没有 `audioList`。没有找到可达的空资源列表，数组本身允许为空。
+
+登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`personal_fm`、`personal_fm_mode` 和 `aidj_content_rcmd` 另保留匿名录制；声明过的字段及其允许类型一致，差异只在宽松/未声明字段的出现与值（如 `reason`/`fmRecReason`/`extTransMap` 是否出现，`rscl`/`cannotListenReason` 的取值），不对所有账号、地区和版本作相同性断言。
 
 ## 歌手、听歌排行与会员
 
@@ -368,6 +380,7 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 | [推荐视频](/api/video/video-timeline-recommend)    | `VideoTimelineRecommendBody` | `code`、`datas`、`datas[].data.vid`                |
 | [视频链接](/api/video/video-url)                   | `VideoUrlBody`               | `code`、`urls`、`urls[].id`、`urls[].url`          |
 | [相关视频](/api/video/related-allvideo)            | `RelatedAllvideoBody`        | `code`                                             |
+| [歌曲相关视频](/api/video/mlog-music-rcmd)         | `MlogMusicRcmdBody`          | `code`、`data.feeds`、`data.feeds[].id`            |
 
 `video_category_list` 和 `video_group_list` 的 `data` 是通到分类/标签列表的路径，每条记录的 `id` 是记录自己的编号，收紧；`name`、`url`、`selectTab` 宽松。`video_category_list` 的 `relatedVideoType` 有字符串证据，声明为宽松字段；`video_group_list` 的 `relatedVideoType`、两个接口的 `abExtInfo` 都只见过 `null`，没有声明。当前上游忽略 `offset`，越界 `offset` 仍返回同样的分类，本批录制/探测未发现可达的空结果。
 
@@ -378,6 +391,8 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 `video_url` 的 `urls` 是通到播放地址的路径，条目里的 `id` 和 `url` 收紧；`r`、`size`、`validityTime`、`needPay` 宽松，`payInfo` 只见过 `null` 没有声明。录制覆盖请求 1080 实际给到 720（`video_url.default.json`）、480p（`video_url.480p.json`）、240p（`video_url.240p.json`）；未知视频返回 `urls: []`（`video_url.empty.json`），本批未探测到 `url` 为 `null`。`video_group` 的 `datas` 在本批录制和对全部标签 id 的探测里没有出现过非 `null` 值，元素类型无法确定，未声明并原样保留；`related_allvideo` 的 `data` 在十六进制视频 id（`type: 1`）和数字 id（`type: 0`）两种请求下都是空数组，同样未声明。
 
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`video_timeline_all`、`video_timeline_recommend` 的登录录制差异只在宽松字段（`relateSong` 出现歌曲记录、`markTypes` 出现值；`creator.experts` 的键集合差异只在 `video_timeline_all`，匿名录制多出 `experts.2`，`video_timeline_recommend` 两边都只有 `{1}` 或 `null`），这两份登录录制保留为元素字段证据；其余 7 个模块只保留匿名录制，未保留登录对照，不对公开结构作相同性断言。收藏/取消收藏视频（`video_sub`）是写操作，移到后续写操作批次（B22 关注/收藏/点赞），本批没有收窄返回体。
+
+`mlog_music_rcmd` 的 `data.feeds` 是歌曲相关视频列表，每条记录自己的 `id` 按字符串收紧；`resource` 是附带的 mlog 记录，整体宽松（嵌套歌曲复用 `MlogSong`），声明 `mlogBaseData.userId`/`coverDetail`/`video`/`mixInfo.status`、`userProfile` 的昵称/编号/头像和 `source` 等有证据的字段；`video` 里声明 `urlInfo`/`rcmdUrlInfo`/`urlInfos`（`id`、`r`、`size`、`validityTime`、`resolution`）；`matchField`、`sameCity`、`type`、`more` 和 `message` 宽松，`data.msg` 只见过 `null`，未声明。声明了这些字段，其余原样保留（如 `urlInfo.url`、`relatedPubUsers`、`mlogPlaylists`）。录制覆盖有相关视频（歌曲 `1330348068`，1 条）和没有相关视频（歌曲 `347230`，`feeds: []`，`mlog_music_rcmd.empty.json`）两种情况，空数组和非空数组都通过同一结构。
 
 ## 首页与推荐位
 

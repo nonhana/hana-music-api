@@ -1,0 +1,191 @@
+{
+  "module": "mlog_music_rcmd",
+  "query": {
+    "songid": 1330348068,
+    "limit": 10
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:54:24.863Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B40：mlog_music_rcmd 歌曲相关视频"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "ok",
+      "data": {
+        "feeds": [
+          {
+            "id": "a1PvyoDUbEJmk0",
+            "type": 1,
+            "position": null,
+            "resource": {
+              "mlogBaseData": {
+                "id": "a1PvyoDUbEJmk0",
+                "userId": 17680337,
+                "type": 2,
+                "originalTitle": "20211128《起风了》live现场",
+                "text": "20211128《起风了》live现场",
+                "desc": "首巡《与我有关》深圳场《起风了》大合唱片段",
+                "interveneText": null,
+                "pubTime": 1642848064968,
+                "coverUrl": "http://p5.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/12804842849/a59a/1eef/5ae1/5e1df6fd47d9f5db0403f14b3ae4810e.data",
+                "coverDetail": {
+                  "verticalCoverImage": {
+                    "width": null,
+                    "height": null,
+                    "imageUrl": "http://p5.music.126.net/8XeSqeuokIaq_NEigc0Mbw==/109951166966778538"
+                  },
+                  "horizontalCoverImage": {
+                    "width": null,
+                    "height": null,
+                    "imageUrl": "http://p5.music.126.net/HFcZfBzUy5hzqciZctJQUQ==/109951166966770608"
+                  }
+                },
+                "greatCover": false,
+                "coverPicKey": "12804842849",
+                "coverHeight": 540,
+                "coverWidth": 960,
+                "coverColor": -7435654,
+                "coverDynamicUrl": null,
+                "audioDTO": null,
+                "talk": null,
+                "threadId": "R_MLOG_1001_a1PvyoDUbEJmk0",
+                "duration": 30080,
+                "video": {
+                  "videoKey": "12804843560",
+                  "duration": 30080,
+                  "coverUrl": "http://p5.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/12804842849/a59a/1eef/5ae1/5e1df6fd47d9f5db0403f14b3ae4810e.data",
+                  "frameUrl": "http://p5.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/12804842928/52ee/c721/0610/MUSIC8621488641836b15de661d36a2bcb918.jpg",
+                  "frameImage": {
+                    "picKey": "12804842928",
+                    "imageUrl": "http://p5.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/12804842928/52ee/c721/0610/MUSIC8621488641836b15de661d36a2bcb918.jpg",
+                    "width": 960,
+                    "height": 540
+                  },
+                  "width": 960,
+                  "height": 540,
+                  "urlInfo": {
+                    "id": "12804843560",
+                    "url": null,
+                    "size": 8118944,
+                    "r": 2,
+                    "validityTime": 1800,
+                    "resolution": null
+                  },
+                  "urlInfos": [
+                    {
+                      "id": "12804843560",
+                      "url": null,
+                      "size": 8118944,
+                      "r": 2,
+                      "validityTime": 1800,
+                      "resolution": 0
+                    }
+                  ],
+                  "rcmdUrlInfo": {
+                    "id": "12804843560",
+                    "url": null,
+                    "size": 8118944,
+                    "r": 2,
+                    "validityTime": 1800,
+                    "resolution": null
+                  },
+                  "playCount": null,
+                  "coverDetail": {
+                    "verticalCoverImage": {
+                      "picKey": "109951166966778538",
+                      "imageUrl": "http://p5.music.126.net/8XeSqeuokIaq_NEigc0Mbw==/109951166966778538",
+                      "width": null,
+                      "height": null
+                    },
+                    "horizontalCoverImage": {
+                      "picKey": "109951166966770608",
+                      "imageUrl": "http://p5.music.126.net/HFcZfBzUy5hzqciZctJQUQ==/109951166966770608",
+                      "width": null,
+                      "height": null
+                    }
+                  }
+                },
+                "videos": null,
+                "graphic": null,
+                "relatedPubUsers": [],
+                "mixInfo": {
+                  "sourceResId": null,
+                  "status": 0
+                }
+              },
+              "mlogExtVO": {
+                "likedCount": 1435,
+                "commentCount": 55,
+                "playCount": 179478,
+                "shareCount": 58,
+                "liked": false,
+                "song": {
+                  "id": 1330348068,
+                  "name": "起风了",
+                  "coverUrl": "http://p3.music.126.net/diGAyEmpymX8G7JcnElncQ==/109951163699673355.jpg",
+                  "duration": 325868,
+                  "artists": [
+                    {
+                      "artistId": 12085562,
+                      "artistName": "冯沁苑(买辣椒也用券)"
+                    }
+                  ],
+                  "privilege": null,
+                  "albumName": "起风了",
+                  "startTime": null,
+                  "endTime": null,
+                  "isLiked": null,
+                  "playedNum": null
+                },
+                "algSong": null,
+                "videoStartPlayTime": null,
+                "canCollect": true,
+                "collectReason": null,
+                "artistName": null,
+                "artists": [],
+                "specialTag": null,
+                "channelTag": null
+              },
+              "userProfile": {
+                "userId": 17680337,
+                "nickname": "买辣椒也用券",
+                "avatarUrl": "http://p4.music.126.net/o_IrNP7JnUeuMAXAa9Sbcg==/109951173438974262.jpg",
+                "followed": false,
+                "userType": 2,
+                "isAnchor": true,
+                "avatarDetail": {
+                  "userType": 2,
+                  "identityLevel": 1,
+                  "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4788940880/1a1f/68f5/b59a/b444b81b88567108ba88194fa29144f5.png"
+                }
+              },
+              "relatedPubUsers": null,
+              "status": 1,
+              "shareUrl": "https://st.music.163.com/mlog/mlog.html?id=a1PvyoDUbEJmk0&type=2&userid=17680337&songId=null&startTime=null",
+              "source": 1,
+              "mlogPlaylists": null
+            },
+            "alg": null,
+            "logInfo": null,
+            "reason": null,
+            "reasonType": null,
+            "priorShowLive": null,
+            "actionTime": null,
+            "matchField": 0,
+            "matchFieldContent": null,
+            "srcId": null,
+            "sameCity": false,
+            "followedShowReason": null
+          }
+        ],
+        "more": true,
+        "msg": null
+      }
+    }
+  }
+}
