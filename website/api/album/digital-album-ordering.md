@@ -45,6 +45,10 @@ const result = await digitalAlbumOrdering({
 console.log(result.body);
 ```
 
+## 返回内容
+
+本批没有给 `digitalAlbum_ordering` 声明结构定义，也没有实际下单或支付：缺 `id`/`payment` 参数时上游返回 HTTP 400 空正文（`digital-album/digitalAlbum_ordering.missing-params.json`），SDK 把 400 归入已知状态码后按 200 原样放行空正文。成功正文未验证，补录条件：在确认不会触发真实订单和支付的环境里补录。返回体继续按原始 JSON 放行。
+
 ## 补充说明
 
 说明 : 登录后调用此接口 ,可获取购买数字专辑的地址,把地址生成二维码后,可扫描购买专辑

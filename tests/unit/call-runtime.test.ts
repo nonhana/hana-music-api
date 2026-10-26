@@ -737,7 +737,7 @@ describe('call lifecycle', () => {
                 global: getRuntimeState(),
               });
               return Response.json(
-                { code: 200 },
+                { code: 200, userId: 1 },
                 { headers: { 'set-cookie': 'MUSIC_A=registered; Path=/' } },
               );
             },

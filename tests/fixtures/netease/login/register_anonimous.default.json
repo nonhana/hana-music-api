@@ -1,0 +1,25 @@
+{
+  "module": "register_anonimous",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T05:57:37.320Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B49：register_anonimous 匿名注册成功正文；账号编号已换成合成值 10000001。公开体的匿名凭据由 Set-Cookie 拼出，这里只在 context.expect 保留脱敏占位值，真实令牌不落盘",
+    "expect": {
+      "code": 200,
+      "userId": 10000001,
+      "cookie": "<redacted>",
+      "createTime": 1792994257121
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "userId": 10000001,
+      "createTime": 1792994257121
+    }
+  }
+}

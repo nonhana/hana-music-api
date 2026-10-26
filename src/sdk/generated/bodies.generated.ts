@@ -193,6 +193,7 @@ export { ModuleBody as RecordRecentPlaylistBody } from '../../modules/record_rec
 export { ModuleBody as RecordRecentSongBody } from '../../modules/record_recent_song.ts';
 export { ModuleBody as RecordRecentVideoBody } from '../../modules/record_recent_video.ts';
 export { ModuleBody as RecordRecentVoiceBody } from '../../modules/record_recent_voice.ts';
+export { ModuleBody as RegisterAnonimousBody } from '../../modules/register_anonimous.ts';
 export { ModuleBody as RelatedAllvideoBody } from '../../modules/related_allvideo.ts';
 export { ModuleBody as ResourceLikeBody } from '../../modules/resource_like.ts';
 export { ModuleBody as ScrobbleBody } from '../../modules/scrobble.ts';

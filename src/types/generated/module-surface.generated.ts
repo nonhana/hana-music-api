@@ -793,7 +793,10 @@ import type {
   ModuleBody as recordRecentVoiceBody,
   ModuleInput as recordRecentVoiceInput,
 } from '../../modules/record_recent_voice.ts';
-import type { ModuleInput as registerAnonimousInput } from '../../modules/register_anonimous.ts';
+import type {
+  ModuleBody as registerAnonimousBody,
+  ModuleInput as registerAnonimousInput,
+} from '../../modules/register_anonimous.ts';
 import type { ModuleInput as registerCellphoneInput } from '../../modules/register_cellphone.ts';
 import type {
   ModuleBody as relatedAllvideoBody,
@@ -3045,7 +3048,7 @@ export interface GeneratedModuleContractMap {
   register_anonimous: {
     input: registerAnonimousInput;
     query: registerAnonimousInput;
-    response: ModuleResponse;
+    response: ModuleResponse<registerAnonimousBody>;
   };
   register_cellphone: {
     input: registerCellphoneInput;

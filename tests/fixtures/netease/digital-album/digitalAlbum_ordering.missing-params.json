@@ -1,0 +1,15 @@
+{
+  "module": "digitalAlbum_ordering",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T05:55:53.206Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B49：digitalAlbum_ordering 缺 id/payment 参数时上游返回 HTTP 400 空正文；未实际下单、未支付，成功正文未验证"
+  },
+  "response": {
+    "status": 400,
+    "body": ""
+  }
+}

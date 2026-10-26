@@ -443,6 +443,7 @@ describe('special Effect module behavior', () => {
           Effect.succeed({
             ...response({
               code: 200,
+              userId: 1,
               account: { id: 1 },
               profile: {
                 userId: 1,
@@ -465,13 +466,20 @@ describe('special Effect module behavior', () => {
     },
   );
 
-  test.each([login, loginCellphone, registerAnonymous])(
+  test.each([
+    { module: login, body: { code: 200 } },
+    {
+      module: loginCellphone,
+      body: { code: 200, account: { id: 1 }, profile: { userId: 1 } },
+    },
+    { module: registerAnonymous, body: { code: 200, userId: 1 } },
+  ])(
     'missing credentials fail through a verified decoder',
-    async (module) => {
+    async ({ module, body }) => {
       const result = await runEffect(
-        executeModule(module, {}, () =>
-          Effect.succeed(response({ code: 200 })),
-        ).pipe(Effect.flip),
+        executeModule(module, {}, () => Effect.succeed(response(body))).pipe(
+          Effect.flip,
+        ),
       );
       expect(result).toBeInstanceOf(UnexpectedUpstreamShape);
     },

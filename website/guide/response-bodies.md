@@ -28,9 +28,12 @@
 | [登录状态](/api/user/login-status)         | `LoginStatusBody`        | `data`、`data.code`、`data.account`、`data.account.id`、`data.account.anonimousUser`、`data.profile`、`data.profile.userId` |
 | [用户详情](/api/user/user-detail)          | `UserDetailBody`         | `code`、`profile`、`profile.userId`                                                                                         |
 | [刷新登录](/api/user/login-refresh)        | `LoginRefreshBody`       | `code`、`cookie`                                                                                                            |
+| [游客登录](/api/user/register-anonimous)   | `RegisterAnonimousBody`  | `code`、`userId`、`cookie`；`createTime` 宽松                                                                               |
 | [退出登录](/api/user/logout)               | `LogoutBody`             | `code`                                                                                                                      |
 
 `account` 和 `profile` 在收紧的同时允许 `null`：没登录、登录失效时两者都是 `null`；匿名账号只有 `account`（`anonimousUser: true`），`profile` 是 `null`。`vipType`、`nickname`、`avatarUrl` 等其余账号字段宽松。
+
+`register_anonimous` 的公开体还会带上 `MUSIC_A` 匿名凭据 `body.cookie`，它由 Set-Cookie 拼出并参与结构校验；录制只保留 `code`、`userId`、`createTime`，公开体的凭据在 `context.expect` 里是脱敏占位值，账号编号已换成合成值，真实令牌不落盘（`register_anonimous.default.json`）。
 
 ## 用户资料
 
@@ -154,7 +157,7 @@
 
 `album_detail` 是数字专辑商品详情，`album` 记录用 `albumId`、`albumName`、`artistName`，没有 `AlbumSummary` 的 `id`、`songs`；`product` 里的价格、售卖数量、简介和 `extInfo` 全部宽松，`board` 与购买状态字段也宽松。非数字专辑（录制 `album_detail.non-digital.json`）或未知 id 返回 `code: 404`（`无专辑商品`），SDK 按业务拒绝原样转交，不会报 502；本批录制与探测未发现可达的空结果。`album_detail_dynamic` 只有 `code` 收紧，普通专辑和数字专辑的字段不同（数字专辑多 `paid`、`sales`、`displayType`），写进同一个结构。
 
-`digitalAlbum_detail` 与 `album_detail` 共用同一个上游详情接口，结构定义同样复用 `AlbumDetailBody`，登录对照未保留录制；`digitalAlbum_sales` 收紧 `code` 和 `data`，`data` 是以专辑 id 为键、销量为值的映射。`digitalAlbum_purchased` 收紧 `code`；录制账号没有购买记录，`paidAlbums` 只有空数组证据、元素类型未知，未声明并由 `UpstreamObject` 原样保留；`total` 宽松。没有另一个已购买账号可补录非空 `paidAlbums`。匿名和登录调用都返回空的 `paidAlbums`，列表为空时 `offset=100000` 仍为空（`digital-album/digitalAlbum_purchased.offset-100000.json`）。数字专辑的写操作（下单/购买，`digitalAlbum_ordering`）不在本批范围。
+`digitalAlbum_detail` 与 `album_detail` 共用同一个上游详情接口，结构定义同样复用 `AlbumDetailBody`，登录对照未保留录制；`digitalAlbum_sales` 收紧 `code` 和 `data`，`data` 是以专辑 id 为键、销量为值的映射。`digitalAlbum_purchased` 收紧 `code`；录制账号没有购买记录，`paidAlbums` 只有空数组证据、元素类型未知，未声明并由 `UpstreamObject` 原样保留；`total` 宽松。没有另一个已购买账号可补录非空 `paidAlbums`。匿名和登录调用都返回空的 `paidAlbums`，列表为空时 `offset=100000` 仍为空（`digital-album/digitalAlbum_purchased.offset-100000.json`）。数字专辑的写操作（下单/购买，`digitalAlbum_ordering`）没有结构定义：本批只录到缺参时的 HTTP 400 空正文（`digital-album/digitalAlbum_ordering.missing-params.json`），没有实际下单或支付；成功正文未验证，补录条件：在确认不会触发真实订单和支付的环境里补录。
 
 `album_new` 和 `album_newest` 的 `albums[]` 共用 `AlbumSummary`，只收紧 `id`；专辑里的 `songs` 只见过空数组或 `null`，没有声明。`album_new` 的 `offset` 越过总数时返回 `albums: []`（录制 `album_new.empty.json`），`total` 仍是 500；`album_newest` 没有分页，本批录制与探测未发现可达的空结果，数组本身允许为空。`album_list` 的上游忽略 `offset`：`album_list.offset-100000.json` 里 `offset=100000` 仍返回与第一页相同的 10 个 `albumId`。`album_list_style` 的越界分页返回 `code: 404`（`没有数据`）。这两个列表本批录制与探测未发现可达的空结果；数组本身允许为空。
 
@@ -758,7 +761,7 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 
 5 份非空录制保留的是覆盖各字段的非连续子集，原条数与保留条数为：`comment_music` 20/15 → 5/5，`comment_album` 20/9 → 5/4，`comment_playlist` 20/15 → 5/4，`comment_mv` 20/15 → 6/4，`comment_video` 20/15 → 6/4（`comments`/`hotComments`）；`context.truncated.length` 记的是原数组长度。
 
-`total`、`more`、`moreHot`、`cnum`、`isMusician`、`userId` 是宽松字段；`userId` 是查看者自己的编号，匿名时也存在。登录对照先用 `login_status` 确认 `account.anonimousUser: false`，再逐模块抽查：五个模块的非 `null` 路径与类型相同，登录响应只会在宽松字段上多出现值为 `null` 的路径（如 `comments[].user.vipRights`、`beReplied[].content`/`richContent`、`beReplied[].ipLocation.userId`、`beReplied[].user.avatarDetail`），这些字段本来就是宽松字段，登录录制未保留。`/api/resource/comments/${action}` 的 `comment` 模块是评论增删回复的写操作，无法在不产生真实副作用的前提下录全各 action，本批没有给它加结构定义。
+`total`、`more`、`moreHot`、`cnum`、`isMusician`、`userId` 是宽松字段；`userId` 是查看者自己的编号，匿名时也存在。登录对照先用 `login_status` 确认 `account.anonimousUser: false`，再逐模块抽查：五个模块的非 `null` 路径与类型相同，登录响应只会在宽松字段上多出现值为 `null` 的路径（如 `comments[].user.vipRights`、`beReplied[].content`/`richContent`、`beReplied[].ipLocation.userId`、`beReplied[].user.avatarDetail`），这些字段本来就是宽松字段，登录录制未保留。`/api/resource/comments/${action}` 的 `comment` 模块是评论增删回复的写操作，本批没有给它加结构定义：新增评论（`t=1`）在录制账号上被上游风控拒绝（`code: 250`，`comment/comment.add-rejected.json`），换内容、歌曲和歌单评论同样被拒；没有成功正文和评论 id，删除（`t=0`）也没有调用，避免误删历史评论。成功正文未验证，补录条件：风控解除后先重录新增成功体，再用自己的评论 id 录删除并回读确认消失。
 
 评论扩展的 6 个只读模块中，`comment_dj` 和 `comment_event` 的返回体与上面五个固定资源评论列表一致：`comments` 是通到评论列表的路径，`hotComments` 可以没有——越界分页时网易云整个不返回它（录制 `comment_dj.out-of-range.json`、`comment_event.out-of-range.json`），缺失或 `null` 都照常返回，出现时按 `commentId` 收紧。两者的空结果是真实的：零评论电台（`comment_dj.empty.json`，电台 1230174483）和零评论动态（`comment_event.empty.json`，`A_EV_2_38014023821_17062533682`）都返回空的 `comments`、`hotComments`。评论记录继续复用 `CommentRecord`。
 
@@ -888,7 +891,9 @@ B48 的一起听与动态写操作里，只有 `listentogether_accept` 录到顶
 
 `msg_recentcontact` 的 `data.follow` 是最近联系人列表，每条记录复用 `UserProfile`（`userId` 收紧），再补 `py`、`onlined`、`expertTags` 宽松字段；`data` 里只声明 `follow`。账号 599663130 登录时有最近联系人，本批没有登录态的空结果；未登录时上游返回 `code: 200`、`data.follow: []`（`msg_recentcontact.anonymous.json`）。
 
-这 6 个读取模块都需要登录，写操作不在本批范围。登录对照先用 `login_status` 确认 `account.anonimousUser: false`：`msg_comments`、`msg_forwards`、`msg_notices` 未登录时上游返回 `code: 301`，SDK 按业务拒绝原样转交；`msg_private`、`msg_private_history`、`msg_recentcontact` 未登录时返回 `code: 200` 和空列表，其中 `msg_private_history` 的 `isSubed` 为 `false`。录制只覆盖账号 599663130 与录制里出现的其他账号，不据此推断字段集合在所有账号、地区和上游版本下一致。
+`send_text` 和 `send_song` 本批没有结构定义：发给自己被上游以 `code: 2201`（发送过于频繁）拒绝（`msg/send_text.rejected.json`、`msg/send_song.rejected.json`），换自然内容重试同样被拒；发给自己可能本身不允许，无法区分频率限制与不允许发给自己。成功正文未验证（需要第二账号），补录条件：用第二个账号重录成功体。
+
+这 6 个读取模块都需要登录，写操作见上一段的录制缺口。登录对照先用 `login_status` 确认 `account.anonimousUser: false`：`msg_comments`、`msg_forwards`、`msg_notices` 未登录时上游返回 `code: 301`，SDK 按业务拒绝原样转交；`msg_private`、`msg_private_history`、`msg_recentcontact` 未登录时返回 `code: 200` 和空列表，其中 `msg_private_history` 的 `isSubed` 为 `false`。录制只覆盖账号 599663130 与录制里出现的其他账号，不据此推断字段集合在所有账号、地区和上游版本下一致。
 
 ## 导出约定
 

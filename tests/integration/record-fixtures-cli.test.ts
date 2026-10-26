@@ -593,7 +593,7 @@ describe('record-fixtures CLI', () => {
   });
 
   test('records the register_anonimous module request instead of filtering it', async () => {
-    const workspace = await createWorkspace({ code: 200 });
+    const workspace = await createWorkspace({ code: 200, userId: 1 });
     try {
       const result = runRecord(workspace, [
         'register_anonimous',
@@ -609,7 +609,7 @@ describe('record-fixtures CLI', () => {
         join(workspace.out, 'register_anonimous.default.json'),
       );
       expect(recording.module).toBe('register_anonimous');
-      expect(recording.response.body).toEqual({ code: 200 });
+      expect(recording.response.body).toEqual({ code: 200, userId: 1 });
 
       const requests = await readRequests(workspace);
       expect(requests.length).toBe(2);

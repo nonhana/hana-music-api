@@ -1,0 +1,32 @@
+{
+  "module": "comment",
+  "query": {
+    "id": 1394617453,
+    "type": 0,
+    "t": 1,
+    "content": "B49 评论写操作探针"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:53:30.365Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B49：comment 新增（歌曲 1394617453，type 0，t 1，内容带 B49 前缀）被上游风控拒绝（code 250 风险提示）；换短内容、自然内容、其他歌曲和歌单评论同样 250，成功正文未验证，没有评论 id 可删除"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 250,
+      "msg": "抱歉，评论发布失败，请稍后重试",
+      "message": "抱歉，评论发布失败，请稍后重试",
+      "data": {
+        "dialog": {
+          "title": "风险提示",
+          "subtitle": "抱歉，评论发布失败，请稍后重试",
+          "buttonMsg": "查看详情",
+          "buttonUrl": "http://163.lu/EmUzy2"
+        }
+      }
+    }
+  }
+}
