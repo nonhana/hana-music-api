@@ -803,8 +803,14 @@ import type {
   ModuleInput as settingInput,
 } from '../../modules/setting.ts';
 import type { ModuleInput as shareResourceInput } from '../../modules/share_resource.ts';
-import type { ModuleInput as sheetListInput } from '../../modules/sheet_list.ts';
-import type { ModuleInput as sheetPreviewInput } from '../../modules/sheet_preview.ts';
+import type {
+  ModuleBody as sheetListBody,
+  ModuleInput as sheetListInput,
+} from '../../modules/sheet_list.ts';
+import type {
+  ModuleBody as sheetPreviewBody,
+  ModuleInput as sheetPreviewInput,
+} from '../../modules/sheet_preview.ts';
 import type {
   ModuleBody as signHappyInfoBody,
   ModuleInput as signHappyInfoInput,
@@ -907,7 +913,10 @@ import type {
   ModuleBody as songWikiSummaryBody,
   ModuleInput as songWikiSummaryInput,
 } from '../../modules/song_wiki_summary.ts';
-import type { ModuleInput as starpickCommentsSummaryInput } from '../../modules/starpick_comments_summary.ts';
+import type {
+  ModuleBody as starpickCommentsSummaryBody,
+  ModuleInput as starpickCommentsSummaryInput,
+} from '../../modules/starpick_comments_summary.ts';
 import type {
   ModuleBody as styleAlbumBody,
   ModuleInput as styleAlbumInput,
@@ -933,7 +942,10 @@ import type {
   ModuleBody as styleSongBody,
   ModuleInput as styleSongInput,
 } from '../../modules/style_song.ts';
-import type { ModuleInput as summaryAnnualInput } from '../../modules/summary_annual.ts';
+import type {
+  ModuleBody as summaryAnnualBody,
+  ModuleInput as summaryAnnualInput,
+} from '../../modules/summary_annual.ts';
 import type {
   ModuleBody as topAlbumBody,
   ModuleInput as topAlbumInput,
@@ -3068,12 +3080,12 @@ export interface GeneratedModuleContractMap {
   sheet_list: {
     input: sheetListInput;
     query: sheetListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<sheetListBody>;
   };
   sheet_preview: {
     input: sheetPreviewInput;
     query: sheetPreviewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<sheetPreviewBody>;
   };
   sign_happy_info: {
     input: signHappyInfoInput;
@@ -3213,7 +3225,7 @@ export interface GeneratedModuleContractMap {
   starpick_comments_summary: {
     input: starpickCommentsSummaryInput;
     query: starpickCommentsSummaryInput;
-    response: ModuleResponse;
+    response: ModuleResponse<starpickCommentsSummaryBody>;
   };
   style_album: {
     input: styleAlbumInput;
@@ -3253,7 +3265,7 @@ export interface GeneratedModuleContractMap {
   summary_annual: {
     input: summaryAnnualInput;
     query: summaryAnnualInput;
-    response: ModuleResponse;
+    response: ModuleResponse<summaryAnnualBody>;
   };
   top_album: {
     input: topAlbumInput;

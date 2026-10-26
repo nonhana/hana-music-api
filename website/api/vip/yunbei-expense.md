@@ -45,6 +45,10 @@ const result = await yunbeiExpense({
 console.log(result.body);
 ```
 
+## 返回内容
+
+本接口尚未补 `ModuleBody`：2026-10-26 用登录账号探测（先经 `login_status` 确认 `account.anonimousUser: false`）仍返回 `code: 404`、消息“接口未找到”，没有成功返回体证据。SDK 不校验返回体，`body` 原样转交；出现成功返回后再按“收紧与宽松”补录并声明。
+
 ## 返回关注点
 
 - `code`: 请求是否成功。

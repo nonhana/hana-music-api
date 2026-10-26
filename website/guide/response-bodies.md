@@ -344,6 +344,8 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 
 这 5 个模块都用音乐人账号录制（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `account.anonimousUser: false`（未落盘））。未登录（匿名）时 `musician_cloudbean`、`musician_data_overview`、`musician_tasks`、`musician_tasks_new` 分别返回 `code: 600`、`10000`、`301`、`301`，SDK 按请求层既有规则转交（`status` 分别为 `400`、`400`、`301`、`301`）；登录的非音乐人账号未录到，返回码与成功正文未验证。本次录到的 600/10000/301 在改造前就由请求层拒绝，行为不变。特殊码（201、302、400、502、800–803）改造前会被归一成 `status: 200` 进入模块，本批开始校验后按业务码拒绝：201、302、400、502 转成同名 `status`，800–803 这类不在 100–599 的码映射为 `status: 400`；`musician_play_trend` 录到的 `code: 400` 属于这一类。
 
+`yunbei_expense` 和 `yunbei_receipt` 本批没有补结构定义：2026-10-26 用登录账号探测（先经 `login_status` 确认 `account.anonimousUser: false`）两个上游路径仍返回 `code: 404`、消息“接口未找到”，没有成功返回体证据，SDK 继续原样转交正文。出现成功返回后再补录并声明。
+
 ## 听歌足迹
 
 | 模块                                                         | 结构定义                       | 收紧的字段                                        |
@@ -353,12 +355,15 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 | [年度听歌足迹](/api/listen/listen-data-year-report)          | `ListenDataYearReportBody`     | `code`、`data.yearItems`、`data.yearItems[].year` |
 | [本周/本月收听时长](/api/listen/listen-data-realtime-report) | `ListenDataRealtimeReportBody` | `code`、`data`                                    |
 | [周/月/年收听报告](/api/listen/listen-data-report)           | `ListenDataReportBody`         | `code`、`data`                                    |
+| [年度听歌报告](/api/listen/summary-annual)                   | `SummaryAnnualBody`            | `code`、`data`                                    |
 
 `listen_data_total` 的 `data` 和 `totalDuration`、`listen_data_today_song` 的 `data.songDTOs` 与每首歌的 `songId`、`listen_data_year_report` 的 `data.yearItems` 与每年的 `year` 都是接口要返回的东西，所以收紧；`message`、`songName`、`aliasName`、`artists`（含 `artistId`）、`displayYear`、`playNum`、`playDuration` 等宽松。今日收听和年度足迹的列表允许为空数组，`[]` 是构造边界；本批只有一个有数据的登录账号，空账号下 `data`/列表的实际表现未验证，`listen_data_total` 的零数据账号表现同样未验证。
 
 `listen_data_realtime_report` 和 `listen_data_report` 只收紧 `code` 和通到返回物的 `data`（`data` 是返回对象，不是某个时长字段；`listenTimeDistributionBlock` 等块内全部宽松）。两块统计内容都是展示用途，整块缺失或为 `null` 时原样保留：时长分布、今日/好友块、`topSongBlock`、`topArtistBlock`、`topStyleBlock`、`topAgeBlock`、`topLanguageBlock`、`vipBlock`、`wallpaperBlock` 内部的字段全部宽松，宽松容器里的 `songId`、`userId` 等编号也宽松。月报的好友块名是 `friendsListenMonthBlock` / `friendsKeyWordMonthBlock`，周报是 `friendsListenWeekBlock` / `friendsKeywordWeekBlock`；年报只返回时间范围和 `listenTimeBlock: null`（`listen_data_report.year.json`），没有收听记录的周所有块都是 `null`（`listen_data_report.empty.json`）。月维度实时报告另有 `listenTimeDistributionBlock.sleepTdBlock.sleepDurationDetails`，同样宽松；只见过 `null` 的 `userNickName`、`achievementTitle`、`sleepScene` 等字段没有声明，原样保留。
 
 这 5 个接口都要求登录。录制来自 `authenticated` 账号（`context.viewer`，录制前经 `login_status` 确认 `account.anonimousUser: false`（未落盘））；5 个接口的匿名调用都返回 HTTP 200 + `code: 302`（各模块的 `.anonymous.json`），不保留为成功正文。
+
+`summary_annual` 只收紧 `code` 和通到年度报告的 `data`。报告正文按年份整体变化：2020 年起是长键（`listenOverview`、`yearOverview`、`annualSong`、`commentBizPage` 等），2017–2019 年走 `userdata` 短键（`uid`、`ouid`、`stl`、`sil` 等），已声明字段全部宽松，未声明字段原样保留。本批保留 2018、2019（`userdata` 短键）和 2022、2023（`data` 长键）的录制，其他年份未验证；2018 的评论正文 `data.mlc` 是字符串，按 `number | string` 的宽松字段声明。没有报告的 2025 返回 `code: 404`、消息“接口未找到”，按业务拒绝原样转交（`record/summary_annual.no-report.json`），不产出成功结构。四份录制都来自登录账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `account.anonimousUser: false`）；2018/2019 的 `data.ouid`、`data.nkn` 和加密 uid，2019 的 `data.uun` 与 `data.aul`、2018 的 `data.aul`，以及 2022/2023 的加密用户 id 都换成了合成值。
 
 ## MV
 
@@ -627,6 +632,19 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。本次登录对照未发现结构差异；登录录制没有保留，不对公开结构作相同性断言。两个歌词摘录接口的匿名和登录都返回空列表。
 
+## 乐谱
+
+| 模块                                 | 结构定义           | 收紧的字段                                                                         |
+| ------------------------------------ | ------------------ | ---------------------------------------------------------------------------------- |
+| [乐谱列表](/api/other/sheet-list)    | `SheetListBody`    | `code`、`data.musicSheetSimpleInfoVOS`（可以没有）、`musicSheetSimpleInfoVOS[].id` |
+| [乐谱内容](/api/other/sheet-preview) | `SheetPreviewBody` | `code`、`data`、`data[].id`、`data[].url`                                          |
+
+`sheet_list` 的乐谱列表 `data.musicSheetSimpleInfoVOS` 是可以没有的路径：没有乐谱的歌曲把它返回成 `null`（录制 `other/sheet_list.empty.json`，歌曲 7238118806），缺失或 `null` 都照常返回；出现时每份乐谱自己的编号 `id` 收紧，坏一条报 502。乐器筛选项 `data.sheetInstrumentTypeVOList` 同样可以为 `null`；`findSheet`、`uploadSheet`、`errorCode` 和乐谱的展示字段（名称、封面、难度、调性、版本、BPM、`type` 里的乐器）全部宽松。`errorCode` 正常是 `null`，没有乐谱时是 `404`；只见过 `null` 的 `sourceIcon` 没有声明。
+
+`sheet_preview` 的 `data` 是乐谱页数组，每页自己的 `id` 和取图地址 `url` 收紧；`sheetId`、`md5`、`pageNumber`、`size` 宽松。不存在的乐谱返回空数组（录制 `other/sheet_preview.empty.json`，id=1），数组本身允许为空。
+
+`sheet_list`、`sheet_preview` 的 default 录制都来自登录账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `account.anonimousUser: false`）；`sheet_preview` 另保留匿名录制 `other/sheet_preview.anonymous.json`（同样 6 页），`sheet_list` 匿名也可调用，本批没有为它保留匿名对照。
+
 ## 百科与用户贡献
 
 | 模块                                                     | 结构定义              | 收紧的字段                                          |
@@ -682,20 +700,21 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 
 ## 评论
 
-| 模块                                            | 结构定义              | 收紧的字段                                                                                                |
-| ----------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------- |
-| [歌曲评论](/api/comment/comment-music)          | `CommentMusicBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [专辑评论](/api/comment/comment-album)          | `CommentAlbumBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [歌单评论](/api/comment/comment-playlist)       | `CommentPlaylistBody` | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [MV 评论](/api/comment/comment-mv)              | `CommentMvBody`       | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [视频评论](/api/comment/comment-video)          | `CommentVideoBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [电台节目评论](/api/comment/comment-dj)         | `CommentDjBody`       | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [动态评论](/api/comment/comment-event)          | `CommentEventBody`    | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
-| [楼层评论](/api/comment/comment-floor)          | `CommentFloorBody`    | `code`、`data.comments`、`data.comments[].commentId`                                                      |
-| [热门评论](/api/comment/comment-hot)            | `CommentHotBody`      | `code`、`hotComments`、`hotComments[].commentId`                                                          |
-| [评论抱一抱列表](/api/comment/comment-hug-list) | `CommentHugListBody`  | `code`、`data.hugComments`                                                                                |
-| [评论](/api/comment/comment-new)                | `CommentNewBody`      | `code`、`data.comments`、`data.comments[].commentId`                                                      |
-| [点赞/取消点赞评论](/api/comment/comment-like)  | `CommentLikeBody`     | `code`                                                                                                    |
+| 模块                                                            | 结构定义                      | 收紧的字段                                                                                                |
+| --------------------------------------------------------------- | ----------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [歌曲评论](/api/comment/comment-music)                          | `CommentMusicBody`            | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [专辑评论](/api/comment/comment-album)                          | `CommentAlbumBody`            | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [歌单评论](/api/comment/comment-playlist)                       | `CommentPlaylistBody`         | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [MV 评论](/api/comment/comment-mv)                              | `CommentMvBody`               | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [视频评论](/api/comment/comment-video)                          | `CommentVideoBody`            | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [电台节目评论](/api/comment/comment-dj)                         | `CommentDjBody`               | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [动态评论](/api/comment/comment-event)                          | `CommentEventBody`            | `code`、`comments`、`comments[].commentId`；`hotComments` 可以没有，出现时 `hotComments[].commentId` 收紧 |
+| [楼层评论](/api/comment/comment-floor)                          | `CommentFloorBody`            | `code`、`data.comments`、`data.comments[].commentId`                                                      |
+| [热门评论](/api/comment/comment-hot)                            | `CommentHotBody`              | `code`、`hotComments`、`hotComments[].commentId`                                                          |
+| [评论抱一抱列表](/api/comment/comment-hug-list)                 | `CommentHugListBody`          | `code`、`data.hugComments`                                                                                |
+| [评论](/api/comment/comment-new)                                | `CommentNewBody`              | `code`、`data.comments`、`data.comments[].commentId`                                                      |
+| [点赞/取消点赞评论](/api/comment/comment-like)                  | `CommentLikeBody`             | `code`                                                                                                    |
+| [云村星评馆 - 简要评论](/api/comment/starpick-comments-summary) | `StarpickCommentsSummaryBody` | `code`、`data.blocks`、`data.blocks[].blockCode`；`creatives` 是可以没有的路径                            |
 
 这五个固定资源评论列表共用 `src/core/upstream-schemas.ts` 里的 `CommentRecord`、`CommentReply` 和 `CommentUser`：本批录制里 5 个模块的评论记录字段和类型完全一致。`commentId` 是每条评论自己的编号，所以收紧；`user` 和 `beReplied` 是评论里套着的记录，字段全部宽松，包括 `beReplied[].beRepliedCommentId`。`likedCount`、`liked`、`favorited`、`time`、`timeStr`、`status`、`parentCommentId`、`commentLocationType`、`decoration`、`ipLocation`、`pendantData` 也是宽松字段。
 
@@ -718,6 +737,8 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 `comment_dj`、`comment_event`、`comment_floor`、`comment_hot`、`comment_hug_list`、`comment_new` 的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`，只抽查了本批匿名录制中非 `null` 的路径与类型；登录录制未保留；不对公开结构作相同性断言。大录制保留覆盖各字段的非连续子集并记录原始条数：`comment_floor` 20 → 6、`comment_hot` 20 → 6、`comment_new` 27 → 6（`context.truncated.length` 记原数组长度）。
 
 点赞/取消点赞评论（`comment_like`）在 B45 补上返回体：正文只带返回码 `code`，收紧为 `200`。点赞方向被上游拒绝（`code: 250`、`msg: 点赞异常，请稍后再试！`、`data.dialog: null`，不是设备风险提示；录制 `comment_like.like.json`），SDK 按业务拒绝原样转交、`status` 为 250；成功正文只有取消点赞（`comment_like.unlike.json`）的证据。点赞状态用 `comment_music` 回读 `hotComments[].liked`，确认这次被拒的点赞没有改变状态（仍为 `false`、计数 `695`）；回读结论记在录制文件的 `context.note`，没有单独保留状态读出文件。
+
+`starpick_comments_summary` 实际请求的是首页 block 页；`data.blocks` 是通到 block 列表的路径，每个 block 自己的编号 `blockCode` 收紧。星评评论在 `HOMEPAGE_BLOCK_NEW_HOT_COMMENT` block 的 `creatives[].resources[]` 里，`creatives` 是可以没有的路径：banner 这类 block 没有 `creatives`，缺失或 `null` 照常返回，出现时按里面的记录校验，坏一条报 502。`resources` 和每个 creative 的 `uiElement` 是宽松字段，坏值只丢该项；block 的 `extInfo` 未声明、原样保留，其余展示字段宽松。录制保留 banner、歌单推荐和星评评论三个 block（原 15 个），有 creative 的 block 保留两条 creative、每条 creative 保留一条 resource，`context.truncated.length` 记原数组长度；没有可达的空 block 结果。录制来自登录账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `account.anonimousUser: false`）。
 
 ## 社交与用户列表
 

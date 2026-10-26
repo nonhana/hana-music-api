@@ -1,0 +1,194 @@
+{
+  "module": "summary_annual",
+  "query": {
+    "year": 2019
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:31:48.523Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B44：2019 年度听歌报告（userdata key）；data.ouid/data.nkn、加密 uid、data.uun 和头像地址已换成合成值"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "ouid": 10000001,
+        "uid": "ABCDEF0123456789ABCDEF0123456789",
+        "nkn": "tester",
+        "aul": "http://example.com/avatar.jpg",
+        "rt": 1506167390,
+        "fsn": "Rainbow's Dream",
+        "fan": "LeeAlive",
+        "stc": 4172,
+        "sth": 680795,
+        "ycc": 11,
+        "tod": "晚上",
+        "ysc": 19,
+        "stl": [
+          {
+            "tn": "电子",
+            "tv": 1198
+          },
+          {
+            "tn": "流行",
+            "tv": 950
+          },
+          {
+            "tn": "轻音乐",
+            "tv": 504
+          },
+          {
+            "tn": "嘻哈说唱",
+            "tv": 262
+          },
+          {
+            "tn": "华语",
+            "tv": 138
+          },
+          {
+            "tn": "摇滚",
+            "tv": 98
+          }
+        ],
+        "rsc": 48,
+        "rst": 1547049600,
+        "rsn": "夏に花が散る",
+        "ran": "羽肿",
+        "mst": 1552766330,
+        "msn": "mede:mede",
+        "man": "Reol",
+        "yap": "http://p3.music.126.net/W1P9f2XA0RgEuYU_wrfGjQ==/109951162878075722.jpg",
+        "yan": "羽肿",
+        "ypc": 107,
+        "yal": [
+          {
+            "sn": "夏に花が散る",
+            "pc": 71
+          },
+          {
+            "sn": "Seaside",
+            "pc": 10
+          },
+          {
+            "sn": "Windy Hill",
+            "pc": 6
+          },
+          {
+            "sn": "花火が瞬く夜に",
+            "pc": 6
+          },
+          {
+            "sn": "Somnambulating",
+            "pc": 5
+          }
+        ],
+        "ost": 0,
+        "osn": null,
+        "mian": null,
+        "misn": null,
+        "mitc": 0,
+        "frn": null,
+        "frth": 0,
+        "frsh": 0,
+        "vt": 0,
+        "vsc": 0,
+        "vct": null,
+        "cct": null,
+        "bydu": 0,
+        "ccl": null,
+        "cc": 0,
+        "lc": 0,
+        "hcc": 0,
+        "lsn": null,
+        "slc": 0,
+        "cmt": null,
+        "plc": 4,
+        "plpc": 18,
+        "plbc": 0,
+        "mlc": 0,
+        "mlpc": 0,
+        "mlbc": 0,
+        "scc": 0,
+        "spc": 0,
+        "sbc": 0,
+        "rcc": 0,
+        "rpc": 0,
+        "rbc": 0,
+        "lcc": 0,
+        "lfc": 0,
+        "lgv": null,
+        "ufcc": 0,
+        "uun": "ExampleArtist",
+        "uft": 1509701292,
+        "ufc": 3,
+        "uvc": 33,
+        "sil": [
+          {
+            "sid": 490687121,
+            "sn": "夏に花が散る",
+            "an": "羽肿",
+            "ap": "http://p3.music.126.net/sTAnmzTuh0ulGgG5ZltyKQ==/109951162975022170.jpg"
+          },
+          {
+            "sid": 448741213,
+            "sn": "░░_Ｓｐｒｉｎｇｔｉｍｅ  Ｓｔｒｏｌｌ_Westminster Quarters =Ⓣɪᴍᴇ ➋ Ⓜᴇᴇᴛ",
+            "an": "secret crates",
+            "ap": "http://p3.music.126.net/O2yjjpxL9Ns3EUSYTidkIA==/18569651883165873.jpg"
+          },
+          {
+            "sid": 440411022,
+            "sn": "水星",
+            "an": "ラブリーサマーちゃん",
+            "ap": "http://p3.music.126.net/PMY1dzZrwJWO__vPicesqQ==/18730180580264067.jpg"
+          },
+          {
+            "sid": 34183387,
+            "sn": "Anonymous",
+            "an": "Noicybino",
+            "ap": "http://p3.music.126.net/vlzoqJCwXGIqtZTD0uDRhQ==/17885755649212522.jpg"
+          },
+          {
+            "sid": 504264247,
+            "sn": "nagashi",
+            "an": "idealism",
+            "ap": "http://p3.music.126.net/3usilbwJidSGAhqDkmH8qA==/109951163463118302.jpg"
+          },
+          {
+            "sid": 28996630,
+            "sn": "Tomorrow With You",
+            "an": "Senpai/Kondor",
+            "ap": "http://p3.music.126.net/asmEcYqB2te2igIlUP_Leg==/6646547789962071.jpg"
+          },
+          {
+            "sid": 459733590,
+            "sn": "Time",
+            "an": "Cat naps",
+            "ap": "http://p3.music.126.net/9DmApLeDwutb4HpuhD_E-Q==/18624627464667106.jpg"
+          },
+          {
+            "sid": 509098557,
+            "sn": "so far away",
+            "an": "elijah who",
+            "ap": "http://p4.music.126.net/poEp9Tz1oq7gV2lIc8WBbw==/109951163031647349.jpg"
+          },
+          {
+            "sid": 1323377000,
+            "sn": ":(",
+            "an": "Mei",
+            "ap": "http://p3.music.126.net/PLxKEIZoM1ijhywjc9xWPw==/109951163650257067.jpg"
+          },
+          {
+            "sid": 522041157,
+            "sn": "Autumn （秋）",
+            "an": "LJY",
+            "ap": "http://p3.music.126.net/424YvrS09TbKssyazUy8Og==/109951163074952773.jpg"
+          }
+        ]
+      },
+      "message": ""
+    }
+  }
+}

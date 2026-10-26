@@ -1,0 +1,268 @@
+{
+  "module": "summary_annual",
+  "query": {
+    "year": 2018
+  },
+  "context": {
+    "recordedAt": "2026-10-26T03:12:20.272Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B44：2018 年度听歌报告（userdata key）；data.ouid/data.nkn、加密 uid 和头像地址已换成合成值"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "ouid": 10000001,
+        "uid": "ABCDEF0123456789ABCDEF0123456789",
+        "nkn": "tester",
+        "aul": "http://example.com/avatar.jpg",
+        "ha": true,
+        "lyr": [
+          {
+            "sid": 28823239,
+            "sn": "Rage Your Dream",
+            "an": "m.o.v.e",
+            "lyc": "燃烧你的梦 仅仅只是等待",
+            "w": "等待"
+          },
+          {
+            "sid": 509750823,
+            "sn": "我不害怕",
+            "an": "接个吻，开一枪,小猪迷糊糊",
+            "lyc": "等待让爱失去期待, 好想遇见你是意外",
+            "w": "等待"
+          },
+          {
+            "sid": 1318611237,
+            "sn": "Waiting For Tomorrow",
+            "an": "Martin Garrix,Pierce Fulton,Mike Shinoda",
+            "lyc": "这便是我唯一期冀等待着的一切",
+            "w": "等待"
+          },
+          {
+            "sid": 31356499,
+            "sn": "Waiting For Love",
+            "an": "Avicii,Martin Garrix",
+            "lyc": "星期四等待爱，等待爱的到来",
+            "w": "等待"
+          },
+          {
+            "sid": 32196550,
+            "sn": "Waiting for Love",
+            "an": "Avicii,Martin Garrix",
+            "lyc": "星期四等待爱，等待爱的到来",
+            "w": "等待"
+          }
+        ],
+        "kwc": 639,
+        "kw": "等待",
+        "psc": 646,
+        "psto": "日间",
+        "cc": 11,
+        "clc": 777,
+        "st": "unknown",
+        "le": "6",
+        "rsid": 403711524,
+        "rc": 52,
+        "rsn": "The #1cePack Rises",
+        "rsd": "20180421",
+        "ran": "EnV",
+        "msid": 424264294,
+        "msn": "Sing Me to Sleep (Marshmello Remix)",
+        "mpt": 1520089708,
+        "man": "Alan Walker/Marshmello",
+        "msu": 403143,
+        "mdc": 0,
+        "mrsid": 862308276,
+        "mrsn": "宵雨",
+        "mrspc": 69,
+        "mran": "Ame",
+        "mrsu": 64,
+        "mdsid": 34040716,
+        "mdsn": "Visions",
+        "mdspc": 35,
+        "mdsu": 40045,
+        "mdan": "Acreix",
+        "osid": 2536540,
+        "osn": "Sweet Dreams (Are Made of This)",
+        "ospb": 669225600000,
+        "osan": "Eurythmics/Annie Lennox/Dave Stewart",
+        "fsid": 466327445,
+        "fsn": "China-O",
+        "fsan": "徐梦圆",
+        "lsc": 463,
+        "rlc": 5,
+        "cpc": 3,
+        "cppc": 34,
+        "cpsc": 0,
+        "cprc": 0,
+        "cprpc": 0,
+        "cprsc": 0,
+        "arid": 1142042,
+        "aan": "徐梦圆",
+        "arul": "http://p4.music.126.net/QC-3mPpg7B3dU_13nkYbrA==/109951162862731136.jpg",
+        "arpc": 392,
+        "arstp": [
+          {
+            "sid": 41500546,
+            "sn": "China-X",
+            "an": "徐梦圆",
+            "pc": 52
+          },
+          {
+            "sid": 454129387,
+            "sn": "PDD",
+            "an": "徐梦圆",
+            "pc": 52
+          },
+          {
+            "sid": 466327445,
+            "sn": "China-O",
+            "an": "徐梦圆",
+            "pc": 29
+          },
+          {
+            "sid": 427017128,
+            "sn": "Water",
+            "an": "徐梦圆",
+            "pc": 26
+          },
+          {
+            "sid": 405987145,
+            "sn": "China-P",
+            "an": "徐梦圆",
+            "pc": 26
+          },
+          {
+            "sid": 423104116,
+            "sn": "China-PiPa",
+            "an": "徐梦圆",
+            "pc": 25
+          },
+          {
+            "sid": 534540498,
+            "sn": "藏",
+            "an": "徐梦圆,双笙",
+            "pc": 24
+          },
+          {
+            "sid": 534245148,
+            "sn": "鹿鸣",
+            "an": "徐梦圆",
+            "pc": 24
+          },
+          {
+            "sid": 534540013,
+            "sn": "乐游记",
+            "an": "银临,徐梦圆",
+            "pc": 16
+          },
+          {
+            "sid": 34380473,
+            "sn": "color-X 3D",
+            "an": "徐梦圆",
+            "pc": 14
+          }
+        ],
+        "pst": 781053000,
+        "stp": [
+          {
+            "sid": 27853410,
+            "sn": "妄想税",
+            "an": "DECO*27/初音ミク",
+            "pc": 55
+          },
+          {
+            "sid": 29771146,
+            "sn": "The Nights (Original Mix)",
+            "an": "Avicii/Nicholas Furlong",
+            "pc": 59
+          },
+          {
+            "sid": 32196550,
+            "sn": "Waiting for Love",
+            "an": "Avicii/Martin Garrix/Simon Aldred",
+            "pc": 99
+          },
+          {
+            "sid": 34040716,
+            "sn": "Visions",
+            "an": "Acreix",
+            "pc": 48
+          },
+          {
+            "sid": 41500546,
+            "sn": "China-X",
+            "an": "徐梦圆",
+            "pc": 52
+          },
+          {
+            "sid": 453843751,
+            "sn": "Where are you",
+            "an": "AniFace",
+            "pc": 53
+          },
+          {
+            "sid": 454129387,
+            "sn": "PDD",
+            "an": "徐梦圆",
+            "pc": 52
+          },
+          {
+            "sid": 461347998,
+            "sn": "Something Just Like This",
+            "an": "The Chainsmokers/Coldplay",
+            "pc": 61
+          },
+          {
+            "sid": 503699834,
+            "sn": "Dream",
+            "an": "Dio Deer/Evanti3s",
+            "pc": 50
+          },
+          {
+            "sid": 862308276,
+            "sn": "宵雨",
+            "an": "Ame",
+            "pc": 69
+          }
+        ],
+        "tosid": 32196550,
+        "tosn": "Waiting for Love",
+        "tossu": 9477,
+        "ratpc": 0,
+        "raid": 0,
+        "rann": null,
+        "rapc": 0,
+        "vpt": "1",
+        "vpc": 7,
+        "vd": "20181031",
+        "vsac": null,
+        "vaid": 0,
+        "vabd": null,
+        "van": null,
+        "vaan": null,
+        "vsid": 0,
+        "vsbd": null,
+        "vsn": null,
+        "vsan": null,
+        "vrc": null,
+        "vraid": 0,
+        "vrabd": null,
+        "vran": null,
+        "vraan": null,
+        "crlc": 19,
+        "hcc": 1,
+        "jcz": 12,
+        "mlid": 35919060,
+        "mln": "AVĪCI (01)",
+        "typ": "album",
+        "mlc": "谁还记得a神第一支levelmv中男主口吐的白莲花吗。"
+      },
+      "message": ""
+    }
+  }
+}

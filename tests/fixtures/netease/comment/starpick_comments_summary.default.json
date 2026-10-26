@@ -1,0 +1,853 @@
+{
+  "module": "starpick_comments_summary",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T02:25:42.343Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B44：云村星评馆简要评论；保留 banner/歌单推荐/星评评论三个 block，有 creative 的 block 保留两条 creative，每条 creative 保留一条 resource",
+    "truncated": [
+      {
+        "path": "body.data.blocks",
+        "length": 15
+      },
+      {
+        "path": "body.data.blocks[1].creatives",
+        "length": 6
+      },
+      {
+        "path": "body.data.blocks[1].creatives[0].resources",
+        "length": 3
+      },
+      {
+        "path": "body.data.blocks[2].creatives",
+        "length": 6
+      },
+      {
+        "path": "body.data.blocks[2].creatives[0].resources",
+        "length": 2
+      },
+      {
+        "path": "body.data.blocks[0].extInfo.banners",
+        "length": 8
+      },
+      {
+        "path": "body.data.pageConfig.abtest",
+        "length": 108
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "cursor": null,
+        "blocks": [
+          {
+            "blockCode": "HOMEPAGE_BANNER",
+            "showType": "BANNER",
+            "dislikeShowType": 0,
+            "extInfo": {
+              "banners": [
+                {
+                  "pic": "http://p1.music.126.net/oRND1RziUgkrYBuSFgz5yQ==/109951169664471894.jpg",
+                  "targetId": 2859214503,
+                  "mainTitle": null,
+                  "adid": null,
+                  "targetType": 1000,
+                  "titleColor": "red",
+                  "typeTitle": "歌单",
+                  "url": null,
+                  "adurlV2": null,
+                  "exclusive": false,
+                  "monitorImpress": null,
+                  "monitorClick": null,
+                  "monitorType": null,
+                  "monitorImpressList": [],
+                  "monitorClickList": [],
+                  "monitorBlackList": null,
+                  "extMonitor": null,
+                  "extMonitorInfo": null,
+                  "adSource": null,
+                  "adLocation": null,
+                  "encodeId": "2859214503",
+                  "program": null,
+                  "event": null,
+                  "video": null,
+                  "dynamicVideoData": null,
+                  "song": null,
+                  "bannerId": "1717750712447791",
+                  "alg": "banner-feature-1717750712447791",
+                  "scm": "1.music-homepage-home.homepage_banner_force.banner.9432967.1124859998.null",
+                  "requestId": "",
+                  "showAdTag": true,
+                  "pid": null,
+                  "showContext": null,
+                  "adDispatchJson": null,
+                  "s_ctrp": "syspf_resourceType_1000-syspf_resourceId_2859214503",
+                  "logContext": null,
+                  "bannerBizType": "force_banner"
+                }
+              ]
+            },
+            "canClose": false,
+            "blockStyle": 0,
+            "canFeedback": false,
+            "blockDemote": false,
+            "sort": 0
+          },
+          {
+            "blockCode": "HOMEPAGE_BLOCK_PLAYLIST_RCMD",
+            "showType": "HOMEPAGE_SLIDE_PLAYLIST",
+            "dislikeShowType": 0,
+            "action": "orpheus://playlistCollection?referLog=HOMEPAGE_BLOCK_PLAYLIST_RCMD",
+            "actionType": "orpheus",
+            "extInfo": {},
+            "uiElement": {
+              "subTitle": {
+                "title": "推荐歌单",
+                "canShowTitleLogo": false
+              },
+              "button": {
+                "action": "orpheus://playlistCollection?referLog=HOMEPAGE_BLOCK_PLAYLIST_RCMD",
+                "actionType": "orpheus",
+                "text": "更多",
+                "iconUrl": null,
+                "biData": null
+              },
+              "rcmdShowType": "DEFAULT"
+            },
+            "creatives": [
+              {
+                "creativeType": "scroll_playlist",
+                "creativeId": "14060279469",
+                "action": "orpheus://nm/playlist/flow?source=HOMEPAGE_BLOCK_PLAYLIST_RCMD&bizData=[{\"resourceId\":\"14060279469\",\"alg\":\"bysong_profile_ol\",\"reason\":null},{\"resourceId\":\"10163309149\",\"alg\":\"bysong_profile_ol\",\"reason\":null},{\"resourceId\":\"17994049368\",\"alg\":\"bysong_profile_ol\",\"reason\":null}]&snap=true&referLog=HOMEPAGE_BLOCK_PLAYLIST_RCMD",
+                "actionType": "orpheus",
+                "uiElement": {
+                  "mainTitle": {
+                    "title": "Kanye West坎耶韦斯特歌曲全收录",
+                    "canShowTitleLogo": false
+                  },
+                  "subTitle": {
+                    "title": "",
+                    "canShowTitleLogo": false
+                  },
+                  "image": {
+                    "imageUrl": "http://p2.music.126.net/fua7NpT9Cfz-qo_s9-DtrQ==/109951171972176163.jpg",
+                    "purePicture": false
+                  },
+                  "labelTexts": ["欧美", "说唱"],
+                  "rcmdShowType": "DEFAULT"
+                },
+                "resources": [
+                  {
+                    "uiElement": {
+                      "mainTitle": {
+                        "title": "Kanye West坎耶韦斯特歌曲全收录",
+                        "canShowTitleLogo": false
+                      },
+                      "subTitle": {
+                        "title": "",
+                        "canShowTitleLogo": false
+                      },
+                      "image": {
+                        "imageUrl": "http://p2.music.126.net/fua7NpT9Cfz-qo_s9-DtrQ==/109951171972176163.jpg",
+                        "purePicture": false
+                      },
+                      "labelTexts": ["欧美", "说唱"],
+                      "rcmdShowType": "DEFAULT"
+                    },
+                    "resourceType": "list",
+                    "resourceState": null,
+                    "resourceId": "14060279469",
+                    "name": null,
+                    "resourceUrl": null,
+                    "resourceExtInfo": {
+                      "playCount": 61738,
+                      "highQuality": false,
+                      "hasListened": false,
+                      "specialType": 0
+                    },
+                    "action": "orpheus://nm/playlist/flow?source=HOMEPAGE_BLOCK_PLAYLIST_RCMD&bizData=[{\"resourceId\":\"14060279469\",\"alg\":\"bysong_profile_ol\",\"reason\":null},{\"resourceId\":\"10163309149\",\"alg\":\"bysong_profile_ol\",\"reason\":null},{\"resourceId\":\"17994049368\",\"alg\":\"bysong_profile_ol\",\"reason\":null}]&snap=true&referLog=HOMEPAGE_BLOCK_PLAYLIST_RCMD",
+                    "actionType": "orpheus",
+                    "valid": true,
+                    "alg": "bysong_profile_ol",
+                    "logInfo": "{\"deepScore\":\"0.0\",\"cartScore\":\"0.0\",\"src\":\"3364284329\",\"clickScore\":\"0.0\",\"pScore\":\"0.0\",\"srcType\":\"bysong\"}",
+                    "ctrp": null,
+                    "likedCount": null,
+                    "replyCount": null,
+                    "resourceContentList": null,
+                    "position": null,
+                    "playParams": null
+                  }
+                ],
+                "alg": "bysong_profile_ol",
+                "logInfo": "{\"deepScore\":\"0.0\",\"cartScore\":\"0.0\",\"src\":\"3364284329\",\"clickScore\":\"0.0\",\"pScore\":\"0.0\",\"srcType\":\"bysong\"}",
+                "position": 0
+              },
+              {
+                "creativeType": "list",
+                "creativeId": "3136952023",
+                "action": "orpheus://playlist/3136952023?autoplay=0&referLog=HOMEPAGE_BLOCK_PLAYLIST_RCMD",
+                "actionType": "orpheus",
+                "uiElement": {
+                  "mainTitle": {
+                    "title": "今天从《The Kids Are All Dying》听起|私人雷达",
+                    "canShowTitleLogo": false
+                  },
+                  "subTitle": {
+                    "title": "",
+                    "canShowTitleLogo": false
+                  },
+                  "image": {
+                    "imageUrl": "http://p2.music.126.net/nvp30LYhp87pjCFv8676rQ==/109951170916201685.jpg",
+                    "purePicture": false
+                  },
+                  "labelTexts": [],
+                  "rcmdShowType": "DEFAULT"
+                },
+                "resources": [
+                  {
+                    "uiElement": {
+                      "mainTitle": {
+                        "title": "今天从《The Kids Are All Dying》听起|私人雷达",
+                        "canShowTitleLogo": false
+                      },
+                      "subTitle": {
+                        "title": "",
+                        "canShowTitleLogo": false
+                      },
+                      "image": {
+                        "imageUrl": "http://p2.music.126.net/nvp30LYhp87pjCFv8676rQ==/109951170916201685.jpg",
+                        "purePicture": false
+                      },
+                      "labelTexts": [],
+                      "rcmdShowType": "DEFAULT"
+                    },
+                    "resourceType": "list",
+                    "resourceState": null,
+                    "resourceId": "3136952023",
+                    "name": null,
+                    "resourceUrl": null,
+                    "resourceExtInfo": {
+                      "playCount": 25360484352,
+                      "highQuality": false,
+                      "hasListened": false,
+                      "specialType": 100
+                    },
+                    "action": "orpheus://playlist/3136952023?autoplay=0&referLog=HOMEPAGE_BLOCK_PLAYLIST_RCMD",
+                    "actionType": "orpheus",
+                    "valid": true,
+                    "alg": "official_image_artist_sub_1887216745",
+                    "logInfo": "{\"mgc_type\":\"private_radar\",\"relatedType\":\"ARTIST_LOGO\",\"relatedSong\":\"1887216745\",\"relatedArtist\":\"\",\"title\":\"今天从《The Kids Are All Dying》听起|私人雷达\",\"relatedId\":\"12676847\"}",
+                    "ctrp": null,
+                    "likedCount": null,
+                    "replyCount": null,
+                    "resourceContentList": null,
+                    "position": null,
+                    "playParams": null
+                  }
+                ],
+                "alg": "official_image_artist_sub_1887216745",
+                "logInfo": "{\"mgc_type\":\"private_radar\",\"relatedType\":\"ARTIST_LOGO\",\"relatedSong\":\"1887216745\",\"relatedArtist\":\"\",\"title\":\"今天从《The Kids Are All Dying》听起|私人雷达\",\"relatedId\":\"12676847\"}",
+                "position": 0
+              }
+            ],
+            "canClose": false,
+            "blockStyle": 0,
+            "canFeedback": false,
+            "blockDemote": false,
+            "sort": 0
+          },
+          {
+            "blockCode": "HOMEPAGE_BLOCK_NEW_HOT_COMMENT",
+            "showType": "NEW_HOT_COMMENT_WHITE_SKIN",
+            "dislikeShowType": 0,
+            "uiElement": {
+              "subTitle": {
+                "title": "热评歌曲",
+                "canShowTitleLogo": false
+              },
+              "rcmdShowType": "DEFAULT"
+            },
+            "creatives": [
+              {
+                "creativeType": "COMMENT_DETAIL",
+                "creativeId": "5250521968",
+                "actionType": "orpheus",
+                "uiElement": {
+                  "mainTitle": {
+                    "serialNum": "1",
+                    "title": "",
+                    "canShowTitleLogo": false,
+                    "titleDesc": "“漫天星光沿途散播，长路尽头总有灯火。”"
+                  },
+                  "rcmdShowType": "DEFAULT"
+                },
+                "resources": [
+                  {
+                    "uiElement": {
+                      "mainTitle": {
+                        "serialNum": "1",
+                        "title": "",
+                        "canShowTitleLogo": false,
+                        "titleDesc": "\n“睡眠才是人类真正的活动形态，清醒的时候只是在收集做梦素材。”"
+                      },
+                      "rcmdShowType": "DEFAULT"
+                    },
+                    "resourceType": "orpheus",
+                    "resourceState": null,
+                    "resourceId": "5160339844",
+                    "name": null,
+                    "resourceUrl": null,
+                    "resourceExtInfo": {
+                      "users": [
+                        {
+                          "defaultAvatar": false,
+                          "province": 0,
+                          "authStatus": 0,
+                          "followed": false,
+                          "avatarUrl": null,
+                          "accountStatus": 0,
+                          "gender": 0,
+                          "city": 0,
+                          "birthday": 0,
+                          "userId": 65408052,
+                          "userType": 0,
+                          "nickname": "SPANCER995",
+                          "signature": null,
+                          "description": null,
+                          "detailDescription": null,
+                          "avatarImgId": 0,
+                          "backgroundImgId": 0,
+                          "backgroundUrl": null,
+                          "authority": 0,
+                          "mutual": false,
+                          "expertTags": null,
+                          "experts": null,
+                          "djStatus": 0,
+                          "vipType": 0,
+                          "remarkName": null,
+                          "authenticationTypes": 0,
+                          "avatarDetail": null,
+                          "avatarImgIdStr": "0",
+                          "backgroundImgIdStr": "0",
+                          "anchor": false
+                        }
+                      ],
+                      "songData": {
+                        "name": "茫",
+                        "id": 1495058484,
+                        "position": 0,
+                        "alias": [],
+                        "status": 0,
+                        "fee": 1,
+                        "copyrightId": 729013,
+                        "disc": "01",
+                        "no": 0,
+                        "artists": [
+                          {
+                            "name": "李润祺",
+                            "id": 12929031,
+                            "picId": 0,
+                            "img1v1Id": 0,
+                            "briefDesc": "",
+                            "picUrl": "",
+                            "img1v1Url": "http://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                            "albumSize": 0,
+                            "alias": [],
+                            "trans": "",
+                            "musicSize": 0,
+                            "topicPerson": 0
+                          }
+                        ],
+                        "album": {
+                          "name": "茫",
+                          "id": 98268708,
+                          "type": "Single",
+                          "size": 1,
+                          "picId": 109951165563657440,
+                          "blurPicUrl": "http://p2.music.126.net/ok5Z4QtDLW9MfadKSGOldQ==/109951165563657438.jpg",
+                          "companyId": 0,
+                          "pic": 109951165563657440,
+                          "picUrl": "http://p2.music.126.net/ok5Z4QtDLW9MfadKSGOldQ==/109951165563657438.jpg",
+                          "publishTime": 1605369600000,
+                          "description": "",
+                          "tags": "",
+                          "company": "大象无形",
+                          "briefDesc": "",
+                          "artist": {
+                            "name": "",
+                            "id": 0,
+                            "picId": 0,
+                            "img1v1Id": 0,
+                            "briefDesc": "",
+                            "picUrl": "",
+                            "img1v1Url": "http://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                            "albumSize": 0,
+                            "alias": [],
+                            "trans": "",
+                            "musicSize": 0,
+                            "topicPerson": 0
+                          },
+                          "songs": [],
+                          "alias": [],
+                          "status": 0,
+                          "copyrightId": 729013,
+                          "commentThreadId": "R_AL_3_98268708",
+                          "artists": [
+                            {
+                              "name": "李润祺",
+                              "id": 12929031,
+                              "picId": 0,
+                              "img1v1Id": 0,
+                              "briefDesc": "",
+                              "picUrl": "",
+                              "img1v1Url": "http://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                              "albumSize": 0,
+                              "alias": [],
+                              "trans": "",
+                              "musicSize": 0,
+                              "topicPerson": 0
+                            }
+                          ],
+                          "subType": "录音室版",
+                          "transName": null,
+                          "onSale": false,
+                          "mark": 0,
+                          "gapless": 0,
+                          "dolbyMark": 0,
+                          "picId_str": "109951165563657438"
+                        },
+                        "starred": false,
+                        "popularity": 100,
+                        "score": 100,
+                        "starredNum": 0,
+                        "duration": 227213,
+                        "playedNum": 0,
+                        "dayPlays": 0,
+                        "hearTime": 0,
+                        "sqMusic": {
+                          "name": null,
+                          "id": 8175308115,
+                          "size": 22874739,
+                          "extension": "flac",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 805401,
+                          "playTime": 227213,
+                          "volumeDelta": -44960
+                        },
+                        "hrMusic": {
+                          "name": null,
+                          "id": 8175308111,
+                          "size": 44576336,
+                          "extension": "flac",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 1569497,
+                          "playTime": 227213,
+                          "volumeDelta": -44949
+                        },
+                        "ringtone": "",
+                        "crbt": null,
+                        "audition": null,
+                        "copyFrom": "",
+                        "commentThreadId": "R_SO_4_1495058484",
+                        "rtUrl": null,
+                        "ftype": 0,
+                        "rtUrls": [],
+                        "copyright": 0,
+                        "transName": null,
+                        "sign": null,
+                        "mark": 0,
+                        "originCoverType": 1,
+                        "originSongSimpleData": null,
+                        "single": 0,
+                        "noCopyrightRcmd": null,
+                        "mvid": 0,
+                        "rtype": 0,
+                        "rurl": null,
+                        "hMusic": {
+                          "name": null,
+                          "id": 8175308112,
+                          "size": 9091245,
+                          "extension": "mp3",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 320000,
+                          "playTime": 227213,
+                          "volumeDelta": -45064
+                        },
+                        "mMusic": {
+                          "name": null,
+                          "id": 8175308113,
+                          "size": 5454765,
+                          "extension": "mp3",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 192000,
+                          "playTime": 227213,
+                          "volumeDelta": -42516
+                        },
+                        "lMusic": {
+                          "name": null,
+                          "id": 8175308107,
+                          "size": 3636525,
+                          "extension": "mp3",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 128000,
+                          "playTime": 227213,
+                          "volumeDelta": -40954
+                        },
+                        "bMusic": {
+                          "name": null,
+                          "id": 8175308107,
+                          "size": 3636525,
+                          "extension": "mp3",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 128000,
+                          "playTime": 227213,
+                          "volumeDelta": -40954
+                        },
+                        "mp3Url": null,
+                        "publishTime": 0
+                      },
+                      "hasListened": false,
+                      "threadId": "R_SO_4_1495058484"
+                    },
+                    "action": null,
+                    "actionType": "orpheus",
+                    "valid": true,
+                    "alg": "{\"recallType\":\"HOT_RECALL\",\"traceId\":\"000001a17513e7cb11a00a32b5b10006\"}",
+                    "logInfo": null,
+                    "ctrp": null,
+                    "likedCount": 5542,
+                    "replyCount": 37,
+                    "resourceContentList": null,
+                    "position": null,
+                    "playParams": null
+                  }
+                ],
+                "alg": "{\"recallType\":\"HOT_RECALL\",\"traceId\":\"000001a17513e7cb11a00a32b5b10006\"}",
+                "position": 1,
+                "algReason": "超10万人评论"
+              },
+              {
+                "creativeType": "COMMENT_DETAIL",
+                "creativeId": "5583026425",
+                "actionType": "orpheus",
+                "uiElement": {
+                  "mainTitle": {
+                    "serialNum": "2",
+                    "title": "",
+                    "canShowTitleLogo": false,
+                    "titleDesc": "让你失望的人 绝对不会只让你失望一回"
+                  },
+                  "rcmdShowType": "DEFAULT"
+                },
+                "resources": [
+                  {
+                    "uiElement": {
+                      "mainTitle": {
+                        "serialNum": "1",
+                        "title": "",
+                        "canShowTitleLogo": false,
+                        "titleDesc": "让你失望的人 绝对不会只让你失望一回"
+                      },
+                      "rcmdShowType": "DEFAULT"
+                    },
+                    "resourceType": "orpheus",
+                    "resourceState": null,
+                    "resourceId": "5583026425",
+                    "name": null,
+                    "resourceUrl": null,
+                    "resourceExtInfo": {
+                      "users": [
+                        {
+                          "defaultAvatar": false,
+                          "province": 0,
+                          "authStatus": 0,
+                          "followed": false,
+                          "avatarUrl": null,
+                          "accountStatus": 0,
+                          "gender": 0,
+                          "city": 0,
+                          "birthday": 0,
+                          "userId": 272111512,
+                          "userType": 0,
+                          "nickname": "Karen3n",
+                          "signature": null,
+                          "description": null,
+                          "detailDescription": null,
+                          "avatarImgId": 0,
+                          "backgroundImgId": 0,
+                          "backgroundUrl": null,
+                          "authority": 0,
+                          "mutual": false,
+                          "expertTags": null,
+                          "experts": null,
+                          "djStatus": 0,
+                          "vipType": 0,
+                          "remarkName": null,
+                          "authenticationTypes": 0,
+                          "avatarDetail": null,
+                          "avatarImgIdStr": "0",
+                          "backgroundImgIdStr": "0",
+                          "anchor": false
+                        }
+                      ],
+                      "songData": {
+                        "name": "别为我好",
+                        "id": 1436056215,
+                        "position": 0,
+                        "alias": [],
+                        "status": 0,
+                        "fee": 1,
+                        "copyrightId": 2706568,
+                        "disc": "01",
+                        "no": 1,
+                        "artists": [
+                          {
+                            "name": "许靖韵",
+                            "id": 792806,
+                            "picId": 0,
+                            "img1v1Id": 0,
+                            "briefDesc": "",
+                            "picUrl": "",
+                            "img1v1Url": "http://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                            "albumSize": 0,
+                            "alias": [],
+                            "trans": "",
+                            "musicSize": 0,
+                            "topicPerson": 0
+                          }
+                        ],
+                        "album": {
+                          "name": "别为我好",
+                          "id": 87177234,
+                          "type": "Single",
+                          "size": 1,
+                          "picId": 109951166656544350,
+                          "blurPicUrl": "http://p2.music.126.net/zl6jiVqz_nqdm2PYZVeFVA==/109951166656544346.jpg",
+                          "companyId": 0,
+                          "pic": 109951166656544350,
+                          "picUrl": "http://p2.music.126.net/zl6jiVqz_nqdm2PYZVeFVA==/109951166656544346.jpg",
+                          "publishTime": 1585584000000,
+                          "description": "",
+                          "tags": "",
+                          "company": "EEG Music",
+                          "briefDesc": "",
+                          "artist": {
+                            "name": "",
+                            "id": 0,
+                            "picId": 0,
+                            "img1v1Id": 0,
+                            "briefDesc": "",
+                            "picUrl": "",
+                            "img1v1Url": "http://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                            "albumSize": 0,
+                            "alias": [],
+                            "trans": "",
+                            "musicSize": 0,
+                            "topicPerson": 0
+                          },
+                          "songs": [],
+                          "alias": [],
+                          "status": -1,
+                          "copyrightId": 2706568,
+                          "commentThreadId": "R_AL_3_87177234",
+                          "artists": [
+                            {
+                              "name": "许靖韵",
+                              "id": 792806,
+                              "picId": 0,
+                              "img1v1Id": 0,
+                              "briefDesc": "",
+                              "picUrl": "",
+                              "img1v1Url": "http://p2.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                              "albumSize": 0,
+                              "alias": [],
+                              "trans": "",
+                              "musicSize": 0,
+                              "topicPerson": 0
+                            }
+                          ],
+                          "subType": "录音室版",
+                          "transName": null,
+                          "onSale": false,
+                          "mark": 0,
+                          "gapless": 0,
+                          "dolbyMark": 0,
+                          "picId_str": "109951166656544346"
+                        },
+                        "starred": false,
+                        "popularity": 95,
+                        "score": 95,
+                        "starredNum": 0,
+                        "duration": 207620,
+                        "playedNum": 0,
+                        "dayPlays": 0,
+                        "hearTime": 0,
+                        "sqMusic": {
+                          "name": null,
+                          "id": 4734378799,
+                          "size": 20896878,
+                          "extension": "flac",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 1118000,
+                          "playTime": 207620,
+                          "volumeDelta": -23581
+                        },
+                        "hrMusic": null,
+                        "ringtone": "",
+                        "crbt": null,
+                        "audition": null,
+                        "copyFrom": "",
+                        "commentThreadId": "R_SO_4_1436056215",
+                        "rtUrl": null,
+                        "ftype": 0,
+                        "rtUrls": [],
+                        "copyright": 0,
+                        "transName": null,
+                        "sign": null,
+                        "mark": 0,
+                        "originCoverType": 1,
+                        "originSongSimpleData": null,
+                        "single": 0,
+                        "noCopyrightRcmd": null,
+                        "mvid": 14298937,
+                        "rtype": 0,
+                        "rurl": null,
+                        "hMusic": {
+                          "name": null,
+                          "id": 4734378795,
+                          "size": 8306925,
+                          "extension": "mp3",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 320000,
+                          "playTime": 207620,
+                          "volumeDelta": -23588
+                        },
+                        "mMusic": {
+                          "name": null,
+                          "id": 4734378796,
+                          "size": 4984173,
+                          "extension": "mp3",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 192000,
+                          "playTime": 207620,
+                          "volumeDelta": -21014
+                        },
+                        "lMusic": {
+                          "name": null,
+                          "id": 4734378797,
+                          "size": 3322797,
+                          "extension": "mp3",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 128000,
+                          "playTime": 207620,
+                          "volumeDelta": -19329
+                        },
+                        "bMusic": {
+                          "name": null,
+                          "id": 4734378797,
+                          "size": 3322797,
+                          "extension": "mp3",
+                          "sr": 48000,
+                          "dfsId": 0,
+                          "bitrate": 128000,
+                          "playTime": 207620,
+                          "volumeDelta": -19329
+                        },
+                        "mp3Url": null,
+                        "publishTime": 0
+                      },
+                      "hasListened": false,
+                      "threadId": "R_SO_4_1436056215"
+                    },
+                    "action": null,
+                    "actionType": "orpheus",
+                    "valid": true,
+                    "alg": "{\"recallType\":\"HOT_RECALL\",\"traceId\":\"000001a17513e7cb11a00a32b5b10006\"}",
+                    "logInfo": null,
+                    "ctrp": null,
+                    "likedCount": 2579,
+                    "replyCount": 36,
+                    "resourceContentList": null,
+                    "position": null,
+                    "playParams": null
+                  }
+                ],
+                "alg": "{\"recallType\":\"HOT_RECALL\",\"traceId\":\"000001a17513e7cb11a00a32b5b10006\"}",
+                "position": 2
+              }
+            ],
+            "canClose": false,
+            "crossPlatformConfig": {
+              "containerType": "rn",
+              "rnContent": {
+                "engineId": "",
+                "moduleName": "rn-homepage-modules",
+                "component": "rn-homepage-modules_hotComment",
+                "params": {},
+                "estimatedRatio": "",
+                "estimatedHeight": 248
+              }
+            },
+            "blockStyle": 0,
+            "canFeedback": false,
+            "blockDemote": false,
+            "sort": 0
+          }
+        ],
+        "hasMore": false,
+        "blockUUIDs": null,
+        "pageConfig": {
+          "refreshToast": "",
+          "nodataToast": "到底啦~",
+          "refreshInterval": 600000,
+          "title": null,
+          "fullscreen": false,
+          "abtest": [
+            "homepage-v7.3",
+            "homepage-v7.4",
+            "hp-list2-v2",
+            "sunny-vip-rpc2",
+            "list-reason-new"
+          ],
+          "songLabelMarkPriority": [
+            "vip",
+            "trial",
+            "exclusive",
+            "sq",
+            "dolby",
+            "pre_sale"
+          ],
+          "songLabelMarkLimit": 1,
+          "homepageMode": "PLAYLIST_MODE",
+          "showModeEntry": true,
+          "orderInfo": "PLAYLIST_MODE_bea493bd-1a5e-4ff8-b682-068901a66bd1"
+        },
+        "guideToast": {
+          "hasGuideToast": false,
+          "toastList": []
+        },
+        "internalTest": null,
+        "titles": [],
+        "blockCodeOrderList": null,
+        "exposedResource": "{\"song\":[\"569200212\",\"167655\",\"347241\",\"1500569811\",\"417250673\",\"1366216050\",\"366577\",\"1363948882\",\"458238990\",\"4878593\",\"1815725297\",\"1331819951\"],\"playlist\":[]}",
+        "demote": false
+      },
+      "message": ""
+    }
+  }
+}
