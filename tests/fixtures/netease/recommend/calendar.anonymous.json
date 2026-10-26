@@ -1,0 +1,31 @@
+{
+  "module": "calendar",
+  "query": {
+    "startTime": 1761436800000,
+    "endTime": 1761436800000
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:27:39.185Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B46：calendar 匿名零长度区间（startTime=endTime）返回空 calendarEvents，确认接口不需要登录"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "abtest": null,
+        "calendarEvents": [],
+        "calendarConfig": {
+          "button": {
+            "text": "每日运势",
+            "targetUrl": "orpheus://miniProgram?appId=5fe1d3b78581f79050924831&pageId=index&dev=false&query=market%3Drecommend"
+          }
+        }
+      },
+      "message": ""
+    }
+  }
+}

@@ -247,22 +247,23 @@
 
 ## 推荐
 
-| 模块                                                            | 结构定义                             | 收紧的字段                            |
-| --------------------------------------------------------------- | ------------------------------------ | ------------------------------------- |
-| [获取每日推荐歌单](/api/recommend/recommend-resource)           | `RecommendResourceBody`              | `code`、`recommend`、`recommend[].id` |
-| [推荐歌单](/api/recommend/personalized)                         | `PersonalizedBody`                   | `code`、`result`、`result[].id`       |
-| [推荐 MV](/api/recommend/personalized-mv)                       | `PersonalizedMvBody`                 | `code`、`result`、`result[].id`       |
-| [推荐新歌](/api/recommend/personalized-newsong)                 | `PersonalizedNewsongBody`            | `code`、`result`、`result[].id`       |
-| [独家放送](/api/recommend/personalized-privatecontent)          | `PersonalizedPrivatecontentBody`     | `code`、`result`、`result[].id`       |
-| [独家放送列表](/api/recommend/personalized-privatecontent-list) | `PersonalizedPrivatecontentListBody` | `code`、`result`、`result[].id`       |
-| [获取相似歌单](/api/recommend/simi-playlist)                    | `SimiPlaylistBody`                   | `code`、`playlists`、`playlists[].id` |
-| [获取相似音乐](/api/recommend/simi-song)                        | `SimiSongBody`                       | `code`、`songs`、`songs[].id`         |
-| [相似 mv](/api/recommend/simi-mv)                               | `SimiMvBody`                         | `code`、`mvs`、`mvs[].id`             |
-| [获取最近 5 个听了这首歌的用户](/api/recommend/simi-user)       | `SimiUserBody`                       | `code`；`userprofiles` 只见过空数组   |
-| [私人 FM](/api/music/personal-fm)                               | `PersonalFmBody`                     | `code`、`data`、`data[].id`           |
-| [私人 FM 模式选择](/api/music/personal-fm-mode)                 | `PersonalFmModeBody`                 | `code`、`data`、`data[].id`           |
-| [心动模式/智能播放](/api/recommend/playmode-intelligence-list)  | `PlaymodeIntelligenceListBody`       | `code`、`data`、`data[].id`           |
-| [私人 DJ](/api/recommend/aidj-content-rcmd)                     | `AidjContentRcmdBody`                | `code`、`data`、`data.aiDjResources`  |
+| 模块                                                            | 结构定义                             | 收紧的字段                                                        |
+| --------------------------------------------------------------- | ------------------------------------ | ----------------------------------------------------------------- |
+| [获取每日推荐歌单](/api/recommend/recommend-resource)           | `RecommendResourceBody`              | `code`、`recommend`、`recommend[].id`                             |
+| [推荐歌单](/api/recommend/personalized)                         | `PersonalizedBody`                   | `code`、`result`、`result[].id`                                   |
+| [推荐 MV](/api/recommend/personalized-mv)                       | `PersonalizedMvBody`                 | `code`、`result`、`result[].id`                                   |
+| [推荐新歌](/api/recommend/personalized-newsong)                 | `PersonalizedNewsongBody`            | `code`、`result`、`result[].id`                                   |
+| [独家放送](/api/recommend/personalized-privatecontent)          | `PersonalizedPrivatecontentBody`     | `code`、`result`、`result[].id`                                   |
+| [独家放送列表](/api/recommend/personalized-privatecontent-list) | `PersonalizedPrivatecontentListBody` | `code`、`result`、`result[].id`                                   |
+| [获取相似歌单](/api/recommend/simi-playlist)                    | `SimiPlaylistBody`                   | `code`、`playlists`、`playlists[].id`                             |
+| [获取相似音乐](/api/recommend/simi-song)                        | `SimiSongBody`                       | `code`、`songs`、`songs[].id`                                     |
+| [相似 mv](/api/recommend/simi-mv)                               | `SimiMvBody`                         | `code`、`mvs`、`mvs[].id`                                         |
+| [获取最近 5 个听了这首歌的用户](/api/recommend/simi-user)       | `SimiUserBody`                       | `code`；`userprofiles` 只见过空数组                               |
+| [私人 FM](/api/music/personal-fm)                               | `PersonalFmBody`                     | `code`、`data`、`data[].id`                                       |
+| [私人 FM 模式选择](/api/music/personal-fm-mode)                 | `PersonalFmModeBody`                 | `code`、`data`、`data[].id`                                       |
+| [心动模式/智能播放](/api/recommend/playmode-intelligence-list)  | `PlaymodeIntelligenceListBody`       | `code`、`data`、`data[].id`                                       |
+| [私人 DJ](/api/recommend/aidj-content-rcmd)                     | `AidjContentRcmdBody`                | `code`、`data`、`data.aiDjResources`                              |
+| [音乐日历](/api/recommend/calendar)                             | `CalendarBody`                       | `code`、`data`、`data.calendarEvents`、`data.calendarEvents[].id` |
 
 每日推荐歌单和推荐歌单的卡片复用 `PlaylistSummary`，只收紧卡片自己的 `id`；`highQuality`、`trackNumberUpdateTime`、`playCount` 由 `PlaylistSummary` 声明，每日推荐歌单的小写 `playcount`、推荐歌单的 `canDislike`、`copywriter` 等卡片字段在模块内补成宽松字段。推荐 MV 复用 `MvSummary`，另补 `picUrl`、`canDislike`、`copywriter`、`type`、`alg`；`trackNumberUpdateTime` 在录制里只见过 `null`，没有声明。推荐新歌的 `song` 是旧版歌曲结构，复用节目记录的 `ProgramMainSong`（`album` 复用 `SimpleAlbum`、`artists` 复用 `Artist`），另补宽松的 `alias`、`exclusive`、`sqMusic`、`hrMusic`、`privilege`（`LooseSongPrivilege`）和 `transName`/`transNames`；`rtUrls`、`album.songs` 只见过空数组，`mp3Url`、`noCopyrightRcmd`、`rtUrl`、`sign` 等只见过 `null`，都没有声明。独家放送和独家放送列表的条目形状不同（后者多 `time`、少 `alg`），分别在各自模块里声明。
 
@@ -277,6 +278,8 @@
 `aidj_content_rcmd` 的 `data.aiDjResources` 收紧，每条资源的 `type` 和 `value` 宽松；`value` 里声明录制有证据的 `songId`（字符串）、`includeVoice`、`songData`、`songPrivilege`、`audioList`（音频编号、地址、时长等），全部宽松；`songData` 用模块内的 `AiDjSong`（复用 `ProgramMainSong`，补 `alias`/`transName`/`transNames`，歌曲编号也宽松）。`tagName`、`message`、`trp.rules` 宽松；声明了这些字段，其余原样保留（`songData` 里只见过 `null` 或空数组的字段也未声明）。宽松字段可能缺席，例如 `with-location` 录制里的 song 资源没有 `audioList`。没有找到可达的空资源列表，数组本身允许为空。
 
 登录对照先用 `login_status` 确认 `account.anonimousUser: false`。`personal_fm`、`personal_fm_mode` 和 `aidj_content_rcmd` 另保留匿名录制；声明过的字段及其允许类型一致，差异只在宽松/未声明字段的出现与值（如 `reason`/`fmRecReason`/`extTransMap` 是否出现，`rscl`/`cannotListenReason` 的取值），不对所有账号、地区和版本作相同性断言。
+
+音乐日历（`calendar`）的 `data.calendarEvents` 是通到日历事件列表的路径，每条事件自己的编号 `id` 收紧；`data.calendarConfig` 的按钮、事件的标题、封面、提醒和计数等展示字段宽松。录制覆盖 2025-10-01 至 2025-10-26（18 条）、零长度区间无事件（`calendar.empty.json`，`calendarEvents: []`）和匿名零长度区间（`calendar.anonymous.json`，同样空），三种都通过同一结构；匿名也能返回正常正文，接口不需要登录。
 
 ## 歌手、听歌排行与会员
 
@@ -555,20 +558,23 @@ B13 的电台榜单与订阅：`dj_toplist_hours`、`dj_toplist_newcomer`、`dj_
 
 ## 曲风
 
-| 模块                                   | 结构定义            | 收紧的字段                                                                   |
-| -------------------------------------- | ------------------- | ---------------------------------------------------------------------------- |
-| [曲风列表](/api/style/style-list)      | `StyleListBody`     | `code`、`data`、`data[].tagId`                                               |
-| [曲风详情](/api/style/style-detail)    | `StyleDetailBody`   | `code`；`data` 可以没有（未知曲风 id 时是 `null`），出现时 `data.tagId` 收紧 |
-| [曲风-歌手](/api/style/style-artist)   | `StyleArtistBody`   | `code`、`data.artists`、`data.artists[].id`                                  |
-| [曲风-专辑](/api/style/style-album)    | `StyleAlbumBody`    | `code`、`data.albums`、`data.albums[].id`                                    |
-| [曲风-歌单](/api/style/style-playlist) | `StylePlaylistBody` | `code`、`data.playlist`、`data.playlist[].id`                                |
-| [曲风-歌曲](/api/style/style-song)     | `StyleSongBody`     | `code`、`data.songs`、`data.songs[].id`                                      |
+| 模块                                    | 结构定义              | 收紧的字段                                                                   |
+| --------------------------------------- | --------------------- | ---------------------------------------------------------------------------- |
+| [曲风列表](/api/style/style-list)       | `StyleListBody`       | `code`、`data`、`data[].tagId`                                               |
+| [曲风详情](/api/style/style-detail)     | `StyleDetailBody`     | `code`；`data` 可以没有（未知曲风 id 时是 `null`），出现时 `data.tagId` 收紧 |
+| [曲风-歌手](/api/style/style-artist)    | `StyleArtistBody`     | `code`、`data.artists`、`data.artists[].id`                                  |
+| [曲风-专辑](/api/style/style-album)     | `StyleAlbumBody`      | `code`、`data.albums`、`data.albums[].id`                                    |
+| [曲风-歌单](/api/style/style-playlist)  | `StylePlaylistBody`   | `code`、`data.playlist`、`data.playlist[].id`                                |
+| [曲风-歌曲](/api/style/style-song)      | `StyleSongBody`       | `code`、`data.songs`、`data.songs[].id`                                      |
+| [曲风偏好](/api/style/style-preference) | `StylePreferenceBody` | `code`、`data`、`data.tagPreferenceVos`、`data.tagPreferenceVos[].tagId`     |
 
 四个带分页的曲风列表模块（`style_artist`、`style_album`、`style_playlist`、`style_song`）的 `data.page`（`cursor`、`size`、`more`、`total`）字段完全相同，共用 `StylePage`，作为分页提示全部宽松。`style_list` 的曲风记录有三层嵌套，只有顶层记录的 `tagId` 收紧；`childrenTags` 嵌在宽松字段里，子曲风的 `tagId` 也宽松，第三层的 `childrenTags` 只见过 `null`，没有声明。`style_artist` 复用 `Artist`、`style_album` 复用 `SimpleAlbum`、`style_song` 复用 `Song`，各自只把记录自己的 `id` 收紧；`style_playlist` 的记录很短，创建者的 `userId` 不算歌单自己的编号，宽松。
 
 所有带 `tagId` 的曲风接口缺参时，上游返回 HTTP 200、正文 `code: 400`、`msg: 参数错误`（录制 `style_detail.missing-tag.json`、`style_artist.missing-tag.json`、`style_album.missing-tag.json`、`style_playlist.missing-tag.json`、`style_song.missing-tag.json`）。结构定义只接受 `code: 200`，这些路径从原样返回 `status: 200`、正文非 200 业务码，变成 `status: 400` 的业务拒绝，正文仍是网易云原文。`style_detail` 的 `data` 是可以没有的路径：未知曲风 id 返回 `code: 200`、`data: null`（录制 `style_detail.unknown-tag.json`）；出现时 `data.tagId` 仍收紧。四个带分页的曲风列表模块的未知曲风 id 都返回空数组（录制 `*.unknown-tag.json`）。`style_list` 没有参数，本批录制与探测未发现可达的空结果，`data` 本身允许为空数组。
 
 登录对照只保留了 `style_detail` 和 `style_song`：`style_detail` 匿名时 `professionalReviews`、`favouriteSong`、`tagPortrait` 都是 `null`，登录后才有内容；`style_song` 的声明字段在匿名和登录录制里相同，差异只在宽松字段的值（`privilege.freeTrialPrivilege` 的 `listenType`、`cannotListenReason` 匿名时是数字、登录时是 `null`，同一首歌的封面 CDN 主机在 `p3.music.126.net` 和 `p4.music.126.net` 之间变化，以及音质和实时计数）。其余四个模块没有保留登录对照。本批结论只覆盖这 6 个接口在录制和探测中出现的字段，不据此推断所有账号、地区和上游版本下字段集合一致。
+
+曲风偏好（`style_preference`）的 `data.tagPreferenceVos` 是接口要返回的偏好列表，每条偏好的 `tagId` 收紧；`data.tags` 的三层曲风树、`ratio`、封面和链接等展示字段宽松。登录录制有 5 条偏好和完整曲风树；匿名调用返回 `tagPreferenceVos: []`、`tags: []`（`style_preference.anonymous.json`），作为空结果证据。
 
 节目记录（`DjProgram`）在 `dj_program`、`dj_program_detail`、`dj_program_toplist`、`dj_program_toplist_hours`、`program_recommend` 之间声明结构相同（各录制里的宽松字段可有差异，例如 `reason` 只在 `program_recommend` 有非 `null` 值），提升到 `src/core/upstream-schemas.ts`：只收紧节目自己的 `id`，`mainSong`（旧版歌曲，`album` 复用 `SimpleAlbum`、`artists` 复用 `Artist`，四个音质档共用一份声明）、`dj` 主播（`ProgramDj` = `PlaylistUser` 加 `brand`）、参与主播 `participateAnchors`（元素只声明 `userId`、`type`、`anchorInfo`）和 `radio` 电台摘要（简介图文的 `timeStamp` 只见过 `null`，未声明）全部宽松；`programDesc`（简介图文，与电台摘要的 `descPicList` 同结构）和 `specialTags` 也有非空证据，声明为宽松字段。节目里 `icon` 是对象但子字段只见过 `null`，`songs`、`programGuests` 在本批录制与探测的节目中未发现非空，均未声明、原样保留。`personalized_djprogram` 的节目是另一种结构（多 `publish`、`subscribed`、`userId`、`adjustedPlayCount`，`songs`、`titbits` 只见过 `null`，电台摘要多 `whiteList`、`hightQuality`），在模块里单独声明，只复用 `ProgramMainSong` 和 `ProgramDj`；`dj_personalize_recommend` 的电台记录与前面的电台列表记录字段不同，也留在模块里。
 
@@ -742,21 +748,23 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 
 ## 社交与用户列表
 
-| 模块                                               | 结构定义                  | 收紧的字段                                                                                         |
-| -------------------------------------------------- | ------------------------- | -------------------------------------------------------------------------------------------------- |
-| [关注列表](/api/social/user-follows)               | `UserFollowsBody`         | `code`、`follow`、`follow[].userId`                                                                |
-| [粉丝列表](/api/social/user-followeds)             | `UserFollowedsBody`       | `code`、`followeds`、`followeds[].userId`                                                          |
-| [关注混合列表](/api/social/user-follow-mixed)      | `UserFollowMixedBody`     | `code`、`data`、`data.records`、`data.records[].followId`                                          |
-| [是否互相关注](/api/social/user-mutualfollow-get)  | `UserMutualfollowGetBody` | `code`、`data`                                                                                     |
-| [用户动态](/api/social/user-event)                 | `UserEventBody`           | `code`、`events`、`events[].id`                                                                    |
-| [获取动态列表](/api/social/event)                  | `EventBody`               | `code`、`event`、`event[].id`                                                                      |
-| [热门话题](/api/social/hot-topic)                  | `HotTopicBody`            | `code`、`hot`、`hot[].actId`                                                                       |
-| [收藏的专栏](/api/social/topic-sublist)            | `TopicSublistBody`        | `code`、`data`、`data[].id`                                                                        |
-| [话题详情](/api/social/topic-detail)               | `TopicDetailBody`         | `code`、`act`、`act.actId`                                                                         |
-| [话题热门动态](/api/social/topic-detail-event-hot) | `TopicDetailEventHotBody` | `code`、`events`、`events[].id`                                                                    |
-| [用户历史评论](/api/comment/user-comment-history)  | `UserCommentHistoryBody`  | `code`；`data.comments` 可以没有，出现时 `data.comments[].commentId` 收紧；`data.hotComments` 同样 |
-| [关注/取关用户](/api/social/follow)                | `FollowBody`              | `code`；`msg` 宽松                                                                                 |
-| [点赞/取消点赞资源](/api/social/resource-like)     | `ResourceLikeBody`        | `code`                                                                                             |
+| 模块                                                   | 结构定义                      | 收紧的字段                                                                                         |
+| ------------------------------------------------------ | ----------------------------- | -------------------------------------------------------------------------------------------------- |
+| [关注列表](/api/social/user-follows)                   | `UserFollowsBody`             | `code`、`follow`、`follow[].userId`                                                                |
+| [粉丝列表](/api/social/user-followeds)                 | `UserFollowedsBody`           | `code`、`followeds`、`followeds[].userId`                                                          |
+| [关注混合列表](/api/social/user-follow-mixed)          | `UserFollowMixedBody`         | `code`、`data`、`data.records`、`data.records[].followId`                                          |
+| [是否互相关注](/api/social/user-mutualfollow-get)      | `UserMutualfollowGetBody`     | `code`、`data`                                                                                     |
+| [用户动态](/api/social/user-event)                     | `UserEventBody`               | `code`、`events`、`events[].id`                                                                    |
+| [获取动态列表](/api/social/event)                      | `EventBody`                   | `code`、`event`、`event[].id`                                                                      |
+| [热门话题](/api/social/hot-topic)                      | `HotTopicBody`                | `code`、`hot`、`hot[].actId`                                                                       |
+| [收藏的专栏](/api/social/topic-sublist)                | `TopicSublistBody`            | `code`、`data`、`data[].id`                                                                        |
+| [话题详情](/api/social/topic-detail)                   | `TopicDetailBody`             | `code`、`act`、`act.actId`                                                                         |
+| [话题热门动态](/api/social/topic-detail-event-hot)     | `TopicDetailEventHotBody`     | `code`、`events`、`events[].id`                                                                    |
+| [用户历史评论](/api/comment/user-comment-history)      | `UserCommentHistoryBody`      | `code`；`data.comments` 可以没有，出现时 `data.comments[].commentId` 收紧；`data.hotComments` 同样 |
+| [关注/取关用户](/api/social/follow)                    | `FollowBody`                  | `code`；`msg` 宽松                                                                                 |
+| [点赞/取消点赞资源](/api/social/resource-like)         | `ResourceLikeBody`            | `code`                                                                                             |
+| [相同状态的用户](/api/user/user-social-status-rcmd)    | `UserSocialStatusRcmdBody`    | `code`、`data`；`data.userRcmdInfoVOList` 可以没有，出现时 `data.userRcmdInfoVOList[].userId` 收紧 |
+| [支持设置的状态](/api/user/user-social-status-support) | `UserSocialStatusSupportBody` | `code`、`data`、`data[].type`                                                                      |
 
 `user_follows` 和 `user_followeds` 的关注/粉丝记录都复用 `UserProfile` 的宽松字段，再补上列表特有的 `py`、`time`、`vipRights`（`user_follows` 还补 `expertTags`）：只有记录自己的 `userId` 收紧，`vipRights` 复用 core 的 `VipRights`（`artist_fans`、`user_follow_mixed`、`user_event` 也用同一份），其中 `relationType`、`extInfo` 已声明为宽松字段，`memberLogo` 只见过 `null`、未声明。`remarkName` 在三份录制里只见过 `null`，也没有声明。`more`、`touchCount`、`newCount`、`size` 都是宽松字段；`newCount` 只在部分粉丝列表响应里出现。空列表分别是真实可达的：账号 13595690613 没有粉丝（`user_followeds.empty.json`），`offset=100000` 的越界分页返回空关注（`user_follows.empty.json`）。
 
@@ -777,6 +785,16 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 本批 7 个模块的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`：`user_follow_mixed` 未登录被上游拒绝，`user_comment_history` 未登录看不到历史评论，`user_mutualfollow_get` 未登录对同一 uid 返回 `false`；其余模块本批未保留未登录录制，不对公开结构作相同性断言。录制只覆盖账号 599663130 与录制里出现的其他账号，不据此推断字段集合在所有账号、地区和上游版本下一致。
 
 本节的两个社交写操作（B45 的一部分）补上了返回体。关注/取关用户（`follow`）的正文是返回码 `code`（收紧为 `200`）加附带的 `msg`（宽松，取关成功录制里是「已不关注」，`follow.unfollow.json`）；关注方向在录制设备上被上游风控拒绝（`code: 250`、`message: 关注异常` 加风险提示 `dialog`，录制 `follow.rejected.json`），SDK 按业务拒绝原样转交、`status` 为 250，成功正文只有取关的证据。点赞/取消点赞资源（`resource_like`）的正文只带返回码 `code`（收紧为 `200`）；点赞方向同样被风控拒绝（`code: 250`、`msg` 是设备风险提示、`data.dialog` 是提示对象，录制 `resource_like.like.json`），成功正文只有取消点赞（`resource_like.unlike.json`）的证据。两个模块的写前写后都用读取接口回读（`follow` 用 `user_follows`，`resource_like` 用 `likelist`），确认这次被拒的操作没有改变账号状态；回读结论写在各录制文件的 `context.note`，没有单独保留状态读出文件。
+
+用户状态的两份读取也补上了返回体（B46）。相同状态的用户（`user_social_status_rcmd`）的 `data.userRcmdInfoVOList` 是通到用户列表的路径，每条记录的 `userId` 收紧；没有设置状态时上游返回 `data: {}`，列表整个缺失，按“可以没有”处理（`user_social_status_rcmd.empty.json`）。用 `user_social_status_edit` 设置 LISTENING 后录制了 18 条记录（`user_social_status_rcmd.default.json`）；`event_del` 删除同一状态 id 返回 `code: 200` 但状态仍在，实际用 `createRequest` 向 `/api/social/user/status/edit` 发送外层 `content: ''` 清空，回读 `data: {}` 确认恢复。支持设置的状态（`user_social_status_support`）的 `data` 是状态列表，每条状态的 `type` 收紧；匿名调用返回 `code: 302`，只有登录录制，没有找到可达的空状态列表，数组本身允许为空。两模块的图标、文案和跳转地址宽松；`user_social_status_rcmd` 的 `rcmdWords` 只见过 `null`，未声明，原样保留。
+
+## 其他
+
+| 模块                                     | 结构定义           | 收紧的字段                     |
+| ---------------------------------------- | ------------------ | ------------------------------ |
+| [内部版本接口](/api/other/inner-version) | `InnerVersionBody` | `code`、`data`、`data.version` |
+
+内部版本接口（`inner_version`）不请求上游，`data.version` 是构建时内联的 `package.json` 版本号，和 `code` 一起收紧；没有录制，用构造测试校验。
 
 ## 非 200 业务码的状态码变化
 
@@ -799,6 +817,8 @@ B6 的歌单写操作同样受影响：`playlist_track_add` 缺 `pid`（`playlis
 B31 的播客/电台读取同样受影响：`broadcast_channel_currentinfo` 的已下架/无当前信息频道（录制 `broadcast_channel_currentinfo.delisted.json`）和 `voice_lyric` 的无播放权限声音（录制 `voice_lyric.unavailable.json`）都是上游 HTTP 200、正文 `code: 400`；改造前模块把这两种响应当成功放行 `status: 200`，现在 Body 校验按业务码拒绝为 `status: 400`，`body` 保留网易云原文。
 
 B30 的相似内容接口：`simi_artist` 缺 `id`（`simi_artist.missing-id.json`）和 `simi_song` 缺 `id`（`simi_song.missing-id.json`）的上游是 HTTP 200 + `code: 400`，改造前按 `status: 200` 放行，现在 reject `status: 400` 并保留原文，两个模块的错误正文键不同（`message` / `msg`）。`simi_playlist`、`simi_user` 缺 `id` 时上游是 HTTP 400 空正文（`simi_playlist.missing-id.json`、`simi_user.missing-id.json`），归一成 `status: 200` 和空字符串；空字符串作为结构定义的独立分支原样返回，不报 502。
+
+B46 的两个社交状态读取模块（`user_social_status_rcmd`、`user_social_status_support`）未登录时上游返回 HTTP 200 + `code: 302`（录制 `user_social_status_rcmd.anonymous.json`、`user_social_status_support.anonymous.json`）；302 落在 `SPECIAL_STATUS_CODES` 里，改造前会被归一成 resolve `status: 200`，现在按业务码拒绝为 reject `status: 302`，`body`/`cookie` 保留原文。`calendar` 匿名可读（`calendar.anonymous.json` 是 `code: 200`），不存在这条状态码变化。
 
 B33 的 5 个听歌足迹接口同理：未登录调用上游返回 HTTP 200 + `code: 302`（5 个模块各有一份 `.anonymous.json`），改造前模块按 `status: 200` 放行，现在按业务码拒绝为 `status: 302`，`body` 保留原文。本批没有录到其他非 200 业务码。
 

@@ -33,6 +33,7 @@ export { ModuleBody as BroadcastChannelCollectListBody } from '../../modules/bro
 export { ModuleBody as BroadcastChannelCurrentinfoBody } from '../../modules/broadcast_channel_currentinfo.ts';
 export { ModuleBody as BroadcastChannelListBody } from '../../modules/broadcast_channel_list.ts';
 export { ModuleBody as BroadcastSubBody } from '../../modules/broadcast_sub.ts';
+export { ModuleBody as CalendarBody } from '../../modules/calendar.ts';
 export { ModuleBody as CaptchaSentBody } from '../../modules/captcha_sent.ts';
 export { ModuleBody as CellphoneExistenceCheckBody } from '../../modules/cellphone_existence_check.ts';
 export { ModuleBody as CheckMusicBody } from '../../modules/check_music.ts';
@@ -90,6 +91,7 @@ export { ModuleBody as HomepageBlockPageBody } from '../../modules/homepage_bloc
 export { ModuleBody as HomepageDragonBallBody } from '../../modules/homepage_dragon_ball.ts';
 export { ModuleBody as HotTopicBody } from '../../modules/hot_topic.ts';
 export { ModuleBody as ImageUploadTokenBody } from '../../modules/image_upload_token.ts';
+export { ModuleBody as InnerVersionBody } from '../../modules/inner_version.ts';
 export { ModuleBody as LikeBody } from '../../modules/like.ts';
 export { ModuleBody as LikelistBody } from '../../modules/likelist.ts';
 export { ModuleBody as ListenDataRealtimeReportBody } from '../../modules/listen_data_realtime_report.ts';
@@ -223,6 +225,7 @@ export { ModuleBody as StyleArtistBody } from '../../modules/style_artist.ts';
 export { ModuleBody as StyleDetailBody } from '../../modules/style_detail.ts';
 export { ModuleBody as StyleListBody } from '../../modules/style_list.ts';
 export { ModuleBody as StylePlaylistBody } from '../../modules/style_playlist.ts';
+export { ModuleBody as StylePreferenceBody } from '../../modules/style_preference.ts';
 export { ModuleBody as StyleSongBody } from '../../modules/style_song.ts';
 export { ModuleBody as SummaryAnnualBody } from '../../modules/summary_annual.ts';
 export { ModuleBody as TopAlbumBody } from '../../modules/top_album.ts';
@@ -265,6 +268,8 @@ export { ModuleBody as UserPlaylistCollectBody } from '../../modules/user_playli
 export { ModuleBody as UserPlaylistCreateBody } from '../../modules/user_playlist_create.ts';
 export { ModuleBody as UserRecordBody } from '../../modules/user_record.ts';
 export { ModuleBody as UserSocialStatusBody } from '../../modules/user_social_status.ts';
+export { ModuleBody as UserSocialStatusRcmdBody } from '../../modules/user_social_status_rcmd.ts';
+export { ModuleBody as UserSocialStatusSupportBody } from '../../modules/user_social_status_support.ts';
 export { ModuleBody as UserSubcountBody } from '../../modules/user_subcount.ts';
 export { ModuleBody as VerifyGetQrBody } from '../../modules/verify_getQr.ts';
 export { ModuleBody as VerifyQrcodestatusBody } from '../../modules/verify_qrcodestatus.ts';

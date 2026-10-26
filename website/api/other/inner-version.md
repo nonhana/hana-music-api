@@ -37,6 +37,10 @@ const result = await innerVersion();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`data.version` 是构建时内联的包版本号，和 `code` 一起收紧；接口不请求上游。结构定义和类型是 `InnerVersionBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获得内部版本号(从package.json读取)

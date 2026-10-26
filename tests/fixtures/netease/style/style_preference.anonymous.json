@@ -1,0 +1,21 @@
+{
+  "module": "style_preference",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T03:47:51.930Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B46：style_preference 匿名视角返回空 tagPreferenceVos 与空 tags，用作空结果证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "tagPreferenceVos": [],
+        "tags": []
+      },
+      "code": 200
+    }
+  }
+}

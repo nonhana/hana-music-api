@@ -37,6 +37,10 @@ const result = await userSocialStatusSupport();
 console.log(result.body);
 ```
 
+## 返回内容
+
+可设置状态列表在 `data`，每条状态的 `type` 收紧；图标、文案和跳转地址宽松。结构定义和类型是 `UserSocialStatusSupportBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 获取支持设置的状态

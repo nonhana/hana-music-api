@@ -141,7 +141,10 @@ import type {
   ModuleBody as broadcastSubBody,
   ModuleInput as broadcastSubInput,
 } from '../../modules/broadcast_sub.ts';
-import type { ModuleInput as calendarInput } from '../../modules/calendar.ts';
+import type {
+  ModuleBody as calendarBody,
+  ModuleInput as calendarInput,
+} from '../../modules/calendar.ts';
 import type {
   ModuleBody as captchaSentBody,
   ModuleInput as captchaSentInput,
@@ -383,7 +386,10 @@ import type {
   ModuleBody as imageUploadTokenBody,
   ModuleInput as imageUploadTokenInput,
 } from '../../modules/image_upload_token.ts';
-import type { ModuleInput as innerVersionInput } from '../../modules/inner_version.ts';
+import type {
+  ModuleBody as innerVersionBody,
+  ModuleInput as innerVersionInput,
+} from '../../modules/inner_version.ts';
 import type {
   ModuleBody as likeBody,
   ModuleInput as likeInput,
@@ -937,7 +943,10 @@ import type {
   ModuleBody as stylePlaylistBody,
   ModuleInput as stylePlaylistInput,
 } from '../../modules/style_playlist.ts';
-import type { ModuleInput as stylePreferenceInput } from '../../modules/style_preference.ts';
+import type {
+  ModuleBody as stylePreferenceBody,
+  ModuleInput as stylePreferenceInput,
+} from '../../modules/style_preference.ts';
 import type {
   ModuleBody as styleSongBody,
   ModuleInput as styleSongInput,
@@ -1109,8 +1118,14 @@ import type {
   ModuleInput as userSocialStatusInput,
 } from '../../modules/user_social_status.ts';
 import type { ModuleInput as userSocialStatusEditInput } from '../../modules/user_social_status_edit.ts';
-import type { ModuleInput as userSocialStatusRcmdInput } from '../../modules/user_social_status_rcmd.ts';
-import type { ModuleInput as userSocialStatusSupportInput } from '../../modules/user_social_status_support.ts';
+import type {
+  ModuleBody as userSocialStatusRcmdBody,
+  ModuleInput as userSocialStatusRcmdInput,
+} from '../../modules/user_social_status_rcmd.ts';
+import type {
+  ModuleBody as userSocialStatusSupportBody,
+  ModuleInput as userSocialStatusSupportInput,
+} from '../../modules/user_social_status_support.ts';
 import type {
   ModuleBody as userSubcountBody,
   ModuleInput as userSubcountInput,
@@ -2137,7 +2152,7 @@ export interface GeneratedModuleContractMap {
   calendar: {
     input: calendarInput;
     query: calendarInput;
-    response: ModuleResponse;
+    response: ModuleResponse<calendarBody>;
   };
   captcha_sent: {
     input: captchaSentInput;
@@ -2488,7 +2503,7 @@ export interface GeneratedModuleContractMap {
   inner_version: {
     input: innerVersionInput;
     query: innerVersionInput;
-    response: ModuleResponse;
+    response: ModuleResponse<innerVersionBody>;
   };
   like: {
     input: likeInput;
@@ -3255,7 +3270,7 @@ export interface GeneratedModuleContractMap {
   style_preference: {
     input: stylePreferenceInput;
     query: stylePreferenceInput;
-    response: ModuleResponse;
+    response: ModuleResponse<stylePreferenceBody>;
   };
   style_song: {
     input: styleSongInput;
@@ -3485,12 +3500,12 @@ export interface GeneratedModuleContractMap {
   user_social_status_rcmd: {
     input: userSocialStatusRcmdInput;
     query: userSocialStatusRcmdInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userSocialStatusRcmdBody>;
   };
   user_social_status_support: {
     input: userSocialStatusSupportInput;
     query: userSocialStatusSupportInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userSocialStatusSupportBody>;
   };
   user_subcount: {
     input: userSubcountInput;
