@@ -1,0 +1,63 @@
+{
+  "module": "listentogether_room_create",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T05:08:23.754Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：一起听创建房间，用于确认 room_create 返回体；本次创建的 roomId 见下游录制，录制后立即 end"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "type": "NEW_ROOM",
+        "roomInfo": {
+          "creatorId": 900000001,
+          "roomId": "e0902e73ecee9403a8d393247d6857d2_1792991303",
+          "effectiveDurationMs": 1800000,
+          "waitMs": 120000,
+          "roomCreateTime": 1792991303639,
+          "chatRoomId": "244813314",
+          "agoraChannelId": "847461235616591872",
+          "roomUsers": [
+            {
+              "outerId": null,
+              "userId": 900000001,
+              "nickname": "non_h",
+              "avatarUrl": "http://p4.music.126.net/_AbZ5hCpblxh6So-HdkBfw==/109951171909219410.jpg",
+              "identityIcon": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png",
+              "identityName": "网易音乐人",
+              "identityTag": null,
+              "pendantData": null
+            }
+          ],
+          "roomRTCType": null,
+          "roomType": "FRIEND",
+          "matchedReason": null,
+          "alg": null,
+          "unlockIdentityNeededMs": null,
+          "unlockedIdentity": null,
+          "newUnmaskFlag": null,
+          "unlockTextChatNeededMs": null,
+          "unlockChatNeededMs": null,
+          "ltType": 1,
+          "openHeartRcmd": false,
+          "roomVipAbGroup": {
+            "huiyuan_ListenTogether_TSpop": "c"
+          },
+          "listeningRefer": null,
+          "matchPlayType": null,
+          "matchPlayInfo": null
+        },
+        "inviteUserInfo": null,
+        "hintText": null,
+        "toastText": null,
+        "avatarPendantShow": true
+      },
+      "message": ""
+    }
+  }
+}

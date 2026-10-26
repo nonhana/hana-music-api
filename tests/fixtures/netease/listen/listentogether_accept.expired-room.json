@@ -1,0 +1,25 @@
+{
+  "module": "listentogether_accept",
+  "query": {
+    "roomId": "e0902e73ecee9403a8d393247d6857d2_1792991303",
+    "inviterId": 900000001
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:13:09.288Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：接受已结束房间的邀请被拒（code 488 一起听已失效）；没有第二账号的真实邀请，成功路径只有自己房间的 ALREADY_IN_ROOM 证据",
+    "outcome": "rejected"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 488,
+      "message": "一起听已失效，可邀请好友进入新的一起听",
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

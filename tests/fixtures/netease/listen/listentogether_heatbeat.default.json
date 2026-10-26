@@ -1,0 +1,29 @@
+{
+  "module": "listentogether_heatbeat",
+  "query": {
+    "roomId": "e0902e73ecee9403a8d393247d6857d2_1792991303",
+    "songId": 1394617453,
+    "playStatus": "PLAY",
+    "progress": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:08:50.380Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：一起听心跳；房间由本批 room_create 创建，录完立即 end"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "result": true,
+        "message": null,
+        "timeSpan": 30,
+        "time": 1792991330352
+      },
+      "message": ""
+    }
+  }
+}

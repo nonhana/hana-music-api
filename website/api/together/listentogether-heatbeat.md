@@ -53,6 +53,10 @@ console.log(result.body);
 - `code`: 是否上报成功。
 - `message`: 心跳失败时的错误原因。
 
+## 返回内容
+
+`body.code` 收紧为 `200`；`data.result`、`data.time`、`data.timeSpan` 和 `message` 是宽松字段，`data.message` 只见过 `null`，未声明。录制只覆盖成功心跳，顶层 `message` 是空串。
+
 ## 相关接口
 
 - [`/listentogether/play/command`](/api/together/listentogether-play-command)

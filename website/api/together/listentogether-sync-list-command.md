@@ -57,6 +57,10 @@ console.log(result.body);
 - `code`: 是否同步成功。
 - `message`: 失败时的错误信息。
 
+## 返回内容
+
+`body.code` 收紧为 `200`；`data.result`、`data.message` 和 `message` 是宽松字段。`randomList`、`displayList` 不是字符串时在本地返回 `400`，不会请求上游。
+
 ## 补充说明
 
 - 当前模块会把 `randomList` 和 `displayList` 先按逗号拆成数组，再拼进上游需要的 `playlistParam` JSON 字符串。

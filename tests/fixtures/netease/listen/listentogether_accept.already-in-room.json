@@ -1,0 +1,66 @@
+{
+  "module": "listentogether_accept",
+  "query": {
+    "roomId": "173c2b24bbfbd4f61546d31e0af852ed_1792991389",
+    "inviterId": 900000001
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:12:40.306Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：没有第二账号的真实邀请，只能接受本批自己创建的房间；返回 ALREADY_IN_ROOM（房主本来就在房间里），不是新加入成员的路径。录后立即 end 清理由本批创建的房间"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "type": "ALREADY_IN_ROOM",
+        "roomInfo": {
+          "creatorId": 900000001,
+          "roomId": "173c2b24bbfbd4f61546d31e0af852ed_1792991389",
+          "effectiveDurationMs": 1800000,
+          "waitMs": 120000,
+          "roomCreateTime": 1792991389614,
+          "chatRoomId": "244813314",
+          "agoraChannelId": "847461596220432384",
+          "roomUsers": [
+            {
+              "outerId": null,
+              "userId": 900000001,
+              "nickname": "non_h",
+              "avatarUrl": "http://p4.music.126.net/_AbZ5hCpblxh6So-HdkBfw==/109951171909219410.jpg",
+              "identityIcon": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png",
+              "identityName": "网易音乐人",
+              "identityTag": null,
+              "pendantData": null
+            }
+          ],
+          "roomRTCType": null,
+          "roomType": "FRIEND",
+          "matchedReason": null,
+          "alg": null,
+          "unlockIdentityNeededMs": null,
+          "unlockedIdentity": null,
+          "newUnmaskFlag": null,
+          "unlockTextChatNeededMs": null,
+          "unlockChatNeededMs": null,
+          "ltType": 1,
+          "openHeartRcmd": false,
+          "roomVipAbGroup": {
+            "huiyuan_ListenTogether_TSpop": "c"
+          },
+          "listeningRefer": null,
+          "matchPlayType": null,
+          "matchPlayInfo": null
+        },
+        "inviteUserInfo": null,
+        "hintText": "当前正在一起听",
+        "toastText": null,
+        "avatarPendantShow": null
+      },
+      "message": ""
+    }
+  }
+}

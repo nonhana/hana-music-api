@@ -52,6 +52,10 @@ console.log(result.body);
 - `message`: 失败时的错误信息。
 - 实际接入时通常在成功后立刻补调其他接口拉取房间和歌单状态。
 
+## 返回内容
+
+`body.code` 收紧为 `200`；`data`（含 `data.roomInfo`）和 `message` 整体宽松。没有第二账号的真实邀请，成功路径只录到接受自己房间时的 `ALREADY_IN_ROOM`，新加入成员的正文没有证据；接受已结束房间返回 `code: 488`，按业务拒绝原样转交。
+
 ## 调用顺序
 
 1. 从分享链接中拿到 `roomId` 和 `inviterId`。

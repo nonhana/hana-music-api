@@ -359,7 +359,10 @@ import type {
   ModuleBody as eventBody,
   ModuleInput as eventInput,
 } from '../../modules/event.ts';
-import type { ModuleInput as eventDelInput } from '../../modules/event_del.ts';
+import type {
+  ModuleBody as eventDelBody,
+  ModuleInput as eventDelInput,
+} from '../../modules/event_del.ts';
 import type { ModuleInput as eventForwardInput } from '../../modules/event_forward.ts';
 import type {
   ModuleBody as fmTrashBody,
@@ -430,20 +433,38 @@ import type {
   ModuleBody as listenDataYearReportBody,
   ModuleInput as listenDataYearReportInput,
 } from '../../modules/listen_data_year_report.ts';
-import type { ModuleInput as listentogetherAcceptInput } from '../../modules/listentogether_accept.ts';
-import type { ModuleInput as listentogetherEndInput } from '../../modules/listentogether_end.ts';
-import type { ModuleInput as listentogetherHeatbeatInput } from '../../modules/listentogether_heatbeat.ts';
-import type { ModuleInput as listentogetherPlayCommandInput } from '../../modules/listentogether_play_command.ts';
+import type {
+  ModuleBody as listentogetherAcceptBody,
+  ModuleInput as listentogetherAcceptInput,
+} from '../../modules/listentogether_accept.ts';
+import type {
+  ModuleBody as listentogetherEndBody,
+  ModuleInput as listentogetherEndInput,
+} from '../../modules/listentogether_end.ts';
+import type {
+  ModuleBody as listentogetherHeatbeatBody,
+  ModuleInput as listentogetherHeatbeatInput,
+} from '../../modules/listentogether_heatbeat.ts';
+import type {
+  ModuleBody as listentogetherPlayCommandBody,
+  ModuleInput as listentogetherPlayCommandInput,
+} from '../../modules/listentogether_play_command.ts';
 import type {
   ModuleBody as listentogetherRoomCheckBody,
   ModuleInput as listentogetherRoomCheckInput,
 } from '../../modules/listentogether_room_check.ts';
-import type { ModuleInput as listentogetherRoomCreateInput } from '../../modules/listentogether_room_create.ts';
+import type {
+  ModuleBody as listentogetherRoomCreateBody,
+  ModuleInput as listentogetherRoomCreateInput,
+} from '../../modules/listentogether_room_create.ts';
 import type {
   ModuleBody as listentogetherStatusBody,
   ModuleInput as listentogetherStatusInput,
 } from '../../modules/listentogether_status.ts';
-import type { ModuleInput as listentogetherSyncListCommandInput } from '../../modules/listentogether_sync_list_command.ts';
+import type {
+  ModuleBody as listentogetherSyncListCommandBody,
+  ModuleInput as listentogetherSyncListCommandInput,
+} from '../../modules/listentogether_sync_list_command.ts';
 import type {
   ModuleBody as listentogetherSyncPlaylistGetBody,
   ModuleInput as listentogetherSyncPlaylistGetInput,
@@ -2467,7 +2488,7 @@ export interface GeneratedModuleContractMap {
   event_del: {
     input: eventDelInput;
     query: eventDelInput;
-    response: ModuleResponse;
+    response: ModuleResponse<eventDelBody>;
   };
   event_forward: {
     input: eventForwardInput;
@@ -2567,22 +2588,22 @@ export interface GeneratedModuleContractMap {
   listentogether_accept: {
     input: listentogetherAcceptInput;
     query: listentogetherAcceptInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherAcceptBody>;
   };
   listentogether_end: {
     input: listentogetherEndInput;
     query: listentogetherEndInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherEndBody>;
   };
   listentogether_heatbeat: {
     input: listentogetherHeatbeatInput;
     query: listentogetherHeatbeatInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherHeatbeatBody>;
   };
   listentogether_play_command: {
     input: listentogetherPlayCommandInput;
     query: listentogetherPlayCommandInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherPlayCommandBody>;
   };
   listentogether_room_check: {
     input: listentogetherRoomCheckInput;
@@ -2592,7 +2613,7 @@ export interface GeneratedModuleContractMap {
   listentogether_room_create: {
     input: listentogetherRoomCreateInput;
     query: listentogetherRoomCreateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherRoomCreateBody>;
   };
   listentogether_status: {
     input: listentogetherStatusInput;
@@ -2602,7 +2623,7 @@ export interface GeneratedModuleContractMap {
   listentogether_sync_list_command: {
     input: listentogetherSyncListCommandInput;
     query: listentogetherSyncListCommandInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherSyncListCommandBody>;
   };
   listentogether_sync_playlist_get: {
     input: listentogetherSyncPlaylistGetInput;

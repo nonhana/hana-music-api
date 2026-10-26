@@ -445,7 +445,7 @@ B23 已补写（不属于 B37）：`vip_tasks` 收紧任务分组 `data.taskList
 
 这批 default 录制都用登录账号（先经 `login_status` 确认 `account.anonimousUser: false`）；`banner` 另有独立匿名录制（PC 视角，2 条 banner），`homepage_block_page` 另有失效凭据回匿名视角的录制（viewer 为 invalid-cookie）。两份录制都能通过同一结构校验；差异在宽松字段、`creatives` 是否出现（default 的 5 个 block 都有，invalid-cookie 的 banner block 没有）和 block 集合/顺序；不对所有账号/地区/版本作相同性断言。`banner` 的 `type` 0 是 PC、1–3 是移动端，两种形状的字段不同，按同一个对象声明为宽松字段；`song` 复用宽松的 `LooseSong`。`homepage_block_page` 的 `data.blocks` 是 block 列表，每个 block 的 `blockCode` 收紧；例如 banner 这类 block 用 `extInfo` 承载内容、没有 `creatives`，所以 `creatives` 是可以没有的路径，出现时里面的坏元素报 502；creative 的 `resources` 是宽松数组，整列校验失败时丢弃。block 的 `uiElement`、creative、resource 和 `resourceExtInfo` 都是随 `showType`/`resourceType` 变化的展示数据，按出现过的键声明成宽松字段，旧版歌曲复用 `ProgramMainSong`，新歌复用 `LooseSong`，权限复用 `LooseSongPrivilege`，主播复用 `ProgramDj`，创建者和话题用户复用 `PlaylistUser`，嵌着的电台节目复用 `DjProgram` 字段。
 
-`homepage_dragon_ball` 在登录和匿名录制里 `data` 都是空数组，入口元素类型没有证据，`data` 未声明并原样保留。本批录入的录制与探测没有找到可达的空结果：`banner` 在 `type` 0–3 下都返回非空数组，`homepage_block_page` 在登录和失效凭据回匿名视角下都返回非空 `blocks`；非法 `cursor` 返回 `code: 50002`（录制 `homepage_block_page.invalid-cursor.json`，映射为 `status: 400`），数组本身允许为空。`event_del`、`event_forward` 是写操作，移到后续写操作批次；`event`、`hot_topic` 和 `calendar` 不在本批清单里，本批没有改它们的声明。
+`homepage_dragon_ball` 在登录和匿名录制里 `data` 都是空数组，入口元素类型没有证据，`data` 未声明并原样保留。本批录入的录制与探测没有找到可达的空结果：`banner` 在 `type` 0–3 下都返回非空数组，`homepage_block_page` 在登录和失效凭据回匿名视角下都返回非空 `blocks`；非法 `cursor` 返回 `code: 50002`（录制 `homepage_block_page.invalid-cursor.json`，映射为 `status: 400`），数组本身允许为空。`event_del`、`event_forward` 是写操作，见[社交与用户列表](#社交与用户列表)一节的 B48 说明；`event`、`hot_topic` 和 `calendar` 不在本批清单里，本批没有改它们的声明。
 
 ## 电台
 
@@ -532,12 +532,18 @@ DIFM 频道的收藏与取消收藏（`dj_difm_channel_subscribe`、`dj_difm_cha
 
 ## 一起听与最近常听
 
-| 模块                                                              | 结构定义                            | 收紧的字段                                                                           |
-| ----------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------ |
-| [一起听状态](/api/together/listentogether-status)                 | `ListentogetherStatusBody`          | `code`、`data`、`data.inRoom`                                                        |
-| [一起听-同步歌单](/api/together/listentogether-sync-playlist-get) | `ListentogetherSyncPlaylistGetBody` | `code`、`data`                                                                       |
-| [一起听-房间检查](/api/together/listentogether-room-check)        | `ListentogetherRoomCheckBody`       | `code`、`data`、`data.joinable`、`data.status`                                       |
-| [最近听歌列表](/api/listen/recent-listen-list)                    | `RecentListenListBody`              | `code`、`data`；`data.resources` 可以没有，出现时 `data.resources[].resourceId` 收紧 |
+| 模块                                                                  | 结构定义                            | 收紧的字段                                                                           |
+| --------------------------------------------------------------------- | ----------------------------------- | ------------------------------------------------------------------------------------ |
+| [一起听状态](/api/together/listentogether-status)                     | `ListentogetherStatusBody`          | `code`、`data`、`data.inRoom`                                                        |
+| [一起听-同步歌单](/api/together/listentogether-sync-playlist-get)     | `ListentogetherSyncPlaylistGetBody` | `code`、`data`                                                                       |
+| [一起听-房间检查](/api/together/listentogether-room-check)            | `ListentogetherRoomCheckBody`       | `code`、`data`、`data.joinable`、`data.status`                                       |
+| [一起听-创建房间](/api/together/listentogether-room-create)           | `ListentogetherRoomCreateBody`      | `code`、`data`、`data.roomInfo`、`data.roomInfo.roomId`                              |
+| [一起听-心跳](/api/together/listentogether-heatbeat)                  | `ListentogetherHeatbeatBody`        | `code`；`data`、`message` 宽松                                                       |
+| [一起听-播放指令](/api/together/listentogether-play-command)          | `ListentogetherPlayCommandBody`     | `code`；`data`、`message` 宽松                                                       |
+| [一起听-同步播放列表](/api/together/listentogether-sync-list-command) | `ListentogetherSyncListCommandBody` | `code`；`data`、`message` 宽松                                                       |
+| [一起听-结束房间](/api/together/listentogether-end)                   | `ListentogetherEndBody`             | `code`；`data`、`message` 宽松                                                       |
+| [一起听-接受邀请](/api/together/listentogether-accept)                | `ListentogetherAcceptBody`          | `code`；`data`、`message` 宽松                                                       |
+| [最近听歌列表](/api/listen/recent-listen-list)                        | `RecentListenListBody`              | `code`、`data`；`data.resources` 可以没有，出现时 `data.resources[].resourceId` 收紧 |
 
 `listentogether_status` 的 `data` 是通到房间状态的路径，接口就是为了拿 `data.inRoom`，两项收紧；`anotherFollowStatus` 宽松，`roomInfo`、`anotherDeviceInfo` 和 `data.status` 在登录与匿名录制里都只见过 `null`，未声明并原样保留。本批只录到未加入房间的状态：`inRoom` 是 `false`，`roomInfo`、`anotherDeviceInfo`、`data.status` 都是 `null`，没有 `joinable`/`copywriting` 字段，也没有房间内的成功正文。
 
@@ -545,9 +551,11 @@ DIFM 频道的收藏与取消收藏（`dj_difm_channel_subscribe`、`dj_difm_cha
 
 `listentogether_room_check` 的 `data`、`data.joinable`、`data.status` 收紧；`copywriting` 是展示文案，宽松；`type` 只见过 `null`，未声明。本批探测 `roomId=0`、`1`、`9999999999` 都返回已失效房间：`status` 是 `"EXPIRED"`、`joinable` 是 `false`、`copywriting` 是失效提示文案，`type` 是 `null`；没有录到可加入或房间内的状态。
 
+B48 补齐了一起听写操作的返回体。`room_create` 的 `data`、`data.roomInfo` 和接口就是为了拿的 `data.roomInfo.roomId` 收紧；`creatorId` 是房主编号、`roomUsers[]` 是房间成员，都是附带记录，宽松。`heatbeat`、`play_command`、`sync_list_command`、`end` 都只收紧返回码 `code`（`200`），操作结果标志、提示和房间类型等 `data` 字段与 `message` 宽松；`end` 的 `data.success` 按附带信息处理，不参与 502 判定。`accept` 只收紧 `code`；没有第二账号的真实邀请，只录到接受自己房间时的 `ALREADY_IN_ROOM`（`listentogether_accept.already-in-room.json`），新加入成员的路径没有证据，`data` 及房间信息整体宽松，接受已结束房间返回 `code: 488`（`listentogether_accept.expired-room.json`），按业务拒绝原样转交。B48 在录制设备上创建并结束了两个房间（`e0902e73ecee9403a8d393247d6857d2_1792991303`、`173c2b24bbfbd4f61546d31e0af852ed_1792991389`），end 后的 `listentogether_status` 回读 `data.inRoom: false`（`listentogether_status.after-cleanup.json`）；录制里的账号编号已换成合成值。
+
 `recent_listen_list` 的 `data` 是通到最近常听列表的路径，`data.resources` 在各条记录自己的 `resourceId` 上收紧；匿名调用返回 `title: null`、`resources: null`（录制 `recent_listen_list.anonymous.json`），所以 `resources` 按可以没有处理，出现坏记录仍报错。登录录制有 12 条资源（11 个歌单、1 张专辑）；`resourceCode`、`similarFmType`、`dateNum`、`coverExt`、`songIdList`、`playIndex` 只见过 `null`，未声明。
 
-登录对照先用 `login_status` 确认 `account.anonimousUser: false`；3 个一起听接口都保留了登录和匿名录制，正文逐字段相同；`recent_listen_list` 的匿名正文是 `resources: null`。本批结论只覆盖这些录制与探测，不据此推断所有账号、地区和上游版本一致。
+登录对照先用 `login_status` 确认 `account.anonimousUser: false`；B32 的 3 个一起听读取接口都保留了登录和匿名录制，正文逐字段相同；`recent_listen_list` 的匿名正文是 `resources: null`。本批结论只覆盖这些录制与探测，不据此推断所有账号、地区和上游版本一致。
 
 ## 播放记录
 
@@ -778,6 +786,7 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 | [是否互相关注](/api/social/user-mutualfollow-get)      | `UserMutualfollowGetBody`     | `code`、`data`                                                                                     |
 | [用户动态](/api/social/user-event)                     | `UserEventBody`               | `code`、`events`、`events[].id`                                                                    |
 | [获取动态列表](/api/social/event)                      | `EventBody`                   | `code`、`event`、`event[].id`                                                                      |
+| [删除用户动态](/api/social/event-del)                  | `EventDelBody`                | `code`                                                                                             |
 | [热门话题](/api/social/hot-topic)                      | `HotTopicBody`                | `code`、`hot`、`hot[].actId`                                                                       |
 | [收藏的专栏](/api/social/topic-sublist)                | `TopicSublistBody`            | `code`、`data`、`data[].id`                                                                        |
 | [话题详情](/api/social/topic-detail)                   | `TopicDetailBody`             | `code`、`act`、`act.actId`                                                                         |
@@ -807,6 +816,8 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 本批 7 个模块的登录对照都先用 `login_status` 确认 `account.anonimousUser: false`：`user_follow_mixed` 未登录被上游拒绝，`user_comment_history` 未登录看不到历史评论，`user_mutualfollow_get` 未登录对同一 uid 返回 `false`；其余模块本批未保留未登录录制，不对公开结构作相同性断言。录制只覆盖账号 599663130 与录制里出现的其他账号，不据此推断字段集合在所有账号、地区和上游版本下一致。
 
 本节的两个社交写操作（B45 的一部分）补上了返回体。关注/取关用户（`follow`）的正文是返回码 `code`（收紧为 `200`）加附带的 `msg`（宽松，取关成功录制里是「已不关注」，`follow.unfollow.json`）；关注方向在录制设备上被上游风控拒绝（`code: 250`、`message: 关注异常` 加风险提示 `dialog`，录制 `follow.rejected.json`），SDK 按业务拒绝原样转交、`status` 为 250，成功正文只有取关的证据。点赞/取消点赞资源（`resource_like`）的正文只带返回码 `code`（收紧为 `200`）；点赞方向同样被风控拒绝（`code: 250`、`msg` 是设备风险提示、`data.dialog` 是提示对象，录制 `resource_like.like.json`），成功正文只有取消点赞（`resource_like.unlike.json`）的证据。两个模块的写前写后都用读取接口回读（`follow` 用 `user_follows`，`resource_like` 用 `likelist`），确认这次被拒的操作没有改变账号状态；回读结论写在各录制文件的 `context.note`，没有单独保留状态读出文件。
+
+动态写操作在 B48 补了一部分。删除用户动态（`event_del`）的正文只带返回码，收紧 `code`（`200`）。`share_resource` 和 `event_forward` 被录制设备上的上游风控拒绝（`code: 250`，录制 `share_resource.default.json`、`event_forward.default.json`；前者是「安全验证分享异常」，后者是「分享异常」）；另用探测确认 song/album/playlist/noresource 分享和对另一条自己动态的转发同样返回 250（探测未保留录制），没有创建出测试动态，因此没有成功正文的证据，两个模块没有声明 `ModuleBody`，正文原样转交、仍是 resolve `status: 250`（与 B45 有 Body 的 250 reject 不同）。`user_event` 在 2026-10-26T05:13:15Z 用 `limit=5` 回读 `size: 22`、最新四条 id 与创建尝试前一致，没有新增条目（探测未保留录制）；`event_del` 的录制是删除合成 id `900000000001` 的返回体（`event_del.missing-id.json`），只证明成功返回码，没有删除任何真实动态。
 
 用户状态的两份读取也补上了返回体（B46）。相同状态的用户（`user_social_status_rcmd`）的 `data.userRcmdInfoVOList` 是通到用户列表的路径，每条记录的 `userId` 收紧；没有设置状态时上游返回 `data: {}`，列表整个缺失，按“可以没有”处理（`user_social_status_rcmd.empty.json`）。用 `user_social_status_edit` 设置 LISTENING 后录制了 18 条记录（`user_social_status_rcmd.default.json`）；`event_del` 删除同一状态 id 返回 `code: 200` 但状态仍在，实际用 `createRequest` 向 `/api/social/user/status/edit` 发送外层 `content: ''` 清空，回读 `data: {}` 确认恢复。支持设置的状态（`user_social_status_support`）的 `data` 是状态列表，每条状态的 `type` 收紧；匿名调用返回 `code: 302`，只有登录录制，没有找到可达的空状态列表，数组本身允许为空。两模块的图标、文案和跳转地址宽松；`user_social_status_rcmd` 的 `rcmdWords` 只见过 `null`，未声明，原样保留。
 
@@ -851,6 +862,8 @@ B43 的 `mlog_url`、`mlog_to_video` 同样受影响：非法 mlog id 的上游�
 B45 的 7 个写操作开始做 Body 校验后，`follow`、`resource_like`、`comment_like` 的风控/点赞拒绝（`code: 250`，录制 `follow.rejected.json`、`resource_like.like.json`、`comment_like.like.json`）落在 2xx、不在 `SPECIAL_STATUS_CODES` 里：改造前 resolve `status: 250`，现在按业务码 reject `status: 250`，`body`/`cookie` 不变，调用方需要 try/catch。`video_sub` 重复收藏（`video_sub.subscribe-again.json`）的 `code: 408` 不在 2xx，改造前后都是 `ProtocolFailed` reject `status: 408`、`body`/`cookie` 不变。本批录制里没有出现 201/302/400/502/800–803 这些会被归一成 `status: 200` 的特殊码。
 
 B47 的 8 个写操作开始做 Body 校验后，非 200 业务码的公开状态也跟着变：`cloud_match` 的无效纠错目标（`cloud_match.invalid-asid.json`，`code: 400`）在 `SPECIAL_STATUS_CODES` 里，改造前被归一成 `status: 200` 放行，现在 Body 校验在解码前按业务码拒绝为 `status: 400`，`body` 保留原文。`user_social_status_edit` 的全空字段（`user_social_status_edit.clear-rejected.json`，`code: 500`）不在特殊码表里，改造前就是 reject `status: 500`，现在同样 reject `status: 500`、正文不变。本批其余写模块的成功正文都是 `code: 200`；`user_update` 没有 Body 校验，`code: 250` 仍按 `status: 250` resolve（250 在 2xx，不走 `SPECIAL_STATUS_CODES`）。其余已收窄的 Body 模块遇到 2xx 的业务码（如 250）同样会从 resolve 变成按业务码 reject，本批没有保留这类录制。
+
+B48 的一起听与动态写操作里，只有 `listentogether_accept` 录到顶层非 200：接受已结束房间返回 HTTP 200 + `code: 488`（`listentogether_accept.expired-room.json`）。488 不在 `SPECIAL_STATUS_CODES` 里，改造前模块直接 `toModuleResponse`，公开结果是 resolve `status: 488`；现在 `decodeUpstreamBody` 先按业务码拒绝，公开结果为 reject `status: 488`、`body`/`cookie` 保留原文。B48 的 7 个有 Body 模块遇到顶层非 200 都会按业务码 reject（本批只有 488 有录制）；收紧字段缺失或类型不对的成功正文按 502 处理。`share_resource`、`event_forward` 没有声明 Body，`code: 250` 仍按既有行为 resolve `status: 250`，与 B45 有 Body 的 250 是 reject 不同。
 
 ## 消息
 

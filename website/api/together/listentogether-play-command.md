@@ -59,6 +59,10 @@ console.log(result.body);
 - `code`: 是否上报成功。
 - `message`: 失败时的错误信息。
 
+## 返回内容
+
+`body.code` 收紧为 `200`；`data.result` 和 `message` 是宽松字段，`data.message` 只见过 `null`，未声明。
+
 ## 补充说明
 
 - 播放指令通常和 [`/listentogether/heatbeat`](/api/together/listentogether-heatbeat) 配合使用：前者表示动作，后者维持当前播放态。

@@ -47,6 +47,10 @@ const result = await shareResource({
 console.log(result.body);
 ```
 
+## 返回内容
+
+本批没有声明结构：分享请求被上游风控拒绝（`code: 250`，消息「安全验证分享异常」），没有成功正文的证据，`body` 原样转交、仍是 resolve `status: 250`。另用探测确认 `song`、`album`、`playlist`、`noresource` 同样返回 `250`（探测未保留录制）。
+
 ## 补充说明
 
 说明 : 登录后调用此接口 ,可以分享文本、歌曲、歌单、mv、电台、电台节目,专辑到动态

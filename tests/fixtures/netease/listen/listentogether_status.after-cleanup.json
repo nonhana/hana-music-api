@@ -1,0 +1,25 @@
+{
+  "module": "listentogether_status",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T05:40:54.784Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：两个房间（e0902e73ecee9403a8d393247d6857d2_1792991303、173c2b24bbfbd4f61546d31e0af852ed_1792991389）end 之后的回读，data.inRoom 为 false"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "inRoom": false,
+        "roomInfo": null,
+        "anotherDeviceInfo": null,
+        "anotherFollowStatus": false,
+        "status": null
+      },
+      "message": ""
+    }
+  }
+}

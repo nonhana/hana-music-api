@@ -86,6 +86,7 @@ export { ModuleBody as DjToplistPayBody } from '../../modules/dj_toplist_pay.ts'
 export { ModuleBody as DjToplistPopularBody } from '../../modules/dj_toplist_popular.ts';
 export { ModuleBody as DjRadioTopBody } from '../../modules/djRadio_top.ts';
 export { ModuleBody as EventBody } from '../../modules/event.ts';
+export { ModuleBody as EventDelBody } from '../../modules/event_del.ts';
 export { ModuleBody as FmTrashBody } from '../../modules/fm_trash.ts';
 export { ModuleBody as FollowBody } from '../../modules/follow.ts';
 export { ModuleBody as GetUseridsBody } from '../../modules/get_userids.ts';
@@ -103,8 +104,14 @@ export { ModuleBody as ListenDataReportBody } from '../../modules/listen_data_re
 export { ModuleBody as ListenDataTodaySongBody } from '../../modules/listen_data_today_song.ts';
 export { ModuleBody as ListenDataTotalBody } from '../../modules/listen_data_total.ts';
 export { ModuleBody as ListenDataYearReportBody } from '../../modules/listen_data_year_report.ts';
+export { ModuleBody as ListentogetherAcceptBody } from '../../modules/listentogether_accept.ts';
+export { ModuleBody as ListentogetherEndBody } from '../../modules/listentogether_end.ts';
+export { ModuleBody as ListentogetherHeatbeatBody } from '../../modules/listentogether_heatbeat.ts';
+export { ModuleBody as ListentogetherPlayCommandBody } from '../../modules/listentogether_play_command.ts';
 export { ModuleBody as ListentogetherRoomCheckBody } from '../../modules/listentogether_room_check.ts';
+export { ModuleBody as ListentogetherRoomCreateBody } from '../../modules/listentogether_room_create.ts';
 export { ModuleBody as ListentogetherStatusBody } from '../../modules/listentogether_status.ts';
+export { ModuleBody as ListentogetherSyncListCommandBody } from '../../modules/listentogether_sync_list_command.ts';
 export { ModuleBody as ListentogetherSyncPlaylistGetBody } from '../../modules/listentogether_sync_playlist_get.ts';
 export { ModuleBody as LoginCellphoneBody } from '../../modules/login_cellphone.ts';
 export { ModuleBody as LoginQrCheckBody } from '../../modules/login_qr_check.ts';

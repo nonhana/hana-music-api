@@ -1,0 +1,30 @@
+{
+  "module": "listentogether_play_command",
+  "query": {
+    "roomId": "e0902e73ecee9403a8d393247d6857d2_1792991303",
+    "commandType": "PLAY",
+    "targetSongId": 1394617453,
+    "formerSongId": -1,
+    "clientSeq": 1,
+    "playStatus": "PLAY",
+    "progress": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:08:54.478Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：一起听播放指令；房间由本批 room_create 创建，录完立即 end"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "result": true,
+        "message": null
+      },
+      "message": ""
+    }
+  }
+}
