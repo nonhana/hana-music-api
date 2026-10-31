@@ -52,7 +52,7 @@
     "prepare": "effect-tsgo patch --typescript --oxlint",
     "release": "changeset publish",
     "schema:audit": "bun scripts/schema-audit.mts",
-    "spell": "cspell --no-progress .",
+    "spell": "cspell --no-progress . .changeset",
     "start": "bun src/app/cli.ts",
     "start:prod": "NODE_ENV=production bun src/app/cli.ts",
     "test": "bun test tests/unit tests/contract tests/integration",
