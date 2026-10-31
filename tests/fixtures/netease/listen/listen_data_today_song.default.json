@@ -1,0 +1,60 @@
+{
+  "module": "listen_data_today_song",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T21:47:15.252Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B33：listen_data_today_song 正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "songDTOs": [
+          {
+            "songId": 1896365460,
+            "songName": "水無月の通り雨",
+            "aliasName": "",
+            "picId": 109951172230598780,
+            "picUrl": "http://p3.music.126.net/31d6zue2HeT38iR5xX2h6w==/109951172230598778.jpg",
+            "artists": [
+              {
+                "artistId": 36798311,
+                "artistName": "ゐろは苹果"
+              }
+            ],
+            "redStar": true,
+            "lastPlayTime": 1792944698
+          },
+          {
+            "songId": 1855089388,
+            "songName": "トンデモワンダーズ",
+            "aliasName": "手游《世界计划 多彩舞台》曲目",
+            "picId": 109951166108180850,
+            "picUrl": "http://p3.music.126.net/WgKXTAusuaRDQ49FyAehjw==/109951166108180854.jpg",
+            "artists": [
+              {
+                "artistId": 15396,
+                "artistName": "sasakure.UK"
+              },
+              {
+                "artistId": 159692,
+                "artistName": "初音ミク"
+              },
+              {
+                "artistId": 12095248,
+                "artistName": "KAITO"
+              }
+            ],
+            "redStar": true,
+            "lastPlayTime": 1792944698
+          }
+        ]
+      },
+      "message": ""
+    }
+  }
+}

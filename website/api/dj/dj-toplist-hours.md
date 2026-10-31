@@ -41,6 +41,10 @@ const result = await djToplistHours({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到主播榜的 `body.data`、`data.list` 和榜上主播自己的编号 `data.list[].id` 收紧；`data.total`、`data.updateTime`、排名、分数、头像、认证和直播状态都是宽松字段。`msg` 在成功录制里只见过 `null`，未声明。接口不支持 `offset`，SDK 的 `limit || 100` 会把 `limit=0` 当默认 `100` 发送；本批录制和探测里没有可达的空结果。非数字或超出 `[1, 100]` 的 `limit` 返回正文 `code: 400`，SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `DjToplistHoursBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取 24 小时主播榜

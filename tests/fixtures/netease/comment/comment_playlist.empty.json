@@ -1,0 +1,30 @@
+{
+  "module": "comment_playlist",
+  "query": {
+    "id": 900000015,
+    "limit": 20
+  },
+  "context": {
+    "recordedAt": "2026-10-25T11:29:56.445Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B7：comment_playlist 无评论歌单（900000015，comments 与 hotComments 均为空数组）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "isMusician": false,
+      "cnum": 0,
+      "userId": 18070730511,
+      "topComments": [],
+      "moreHot": false,
+      "hotComments": [],
+      "commentBanner": null,
+      "code": 200,
+      "comments": [],
+      "total": 0,
+      "more": false
+    }
+  }
+}

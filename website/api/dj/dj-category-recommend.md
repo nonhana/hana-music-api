@@ -37,6 +37,10 @@ const result = await djCategoryRecommend();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到推荐分类的 `body.data`、分类自己的编号 `data[].categoryId` 和分类下的电台列表 `data[].radios` 收紧，每个电台只收紧自己的 `id`；`categoryName`、`radios[]` 里的名称、封面、计数和价格字段是宽松字段，`icon` 出现时按 `type`、`value`、`color` 宽松校验。`msg` 只见过 `null`，没有声明。本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `DjCategoryRecommendBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 可获得电台推荐类型

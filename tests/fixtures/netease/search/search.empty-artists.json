@@ -1,0 +1,27 @@
+{
+  "module": "search",
+  "query": {
+    "keywords": "qwrtpsdfghjklzxcvbnm",
+    "type": 100
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:56:34.707Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：空结果探测"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "hasMore": false,
+        "artistCount": 0,
+        "hlWords": null,
+        "artists": [],
+        "searchQcReminder": null
+      },
+      "code": 200
+    }
+  }
+}

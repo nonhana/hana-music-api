@@ -43,6 +43,10 @@ const result = await msgComments({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.comments` 是收到的评论列表，每条评论复用 `CommentRecord` 的字段，并补上 `beRepliedContent`、`beRepliedUser`、`combindId`、`commentExist`、`commentStatus`、`resourceJson`、`resourceType`、`subCommentExist`、`threadId` 等宽松字段。只有 `code`、`comments`、`comments[].commentId` 收紧；`total`、`more` 和评论的其他字段宽松。没有收到的评论或 `before` 越界时返回空数组。未登录时上游返回 `code: 301`，SDK 按业务拒绝原样转交。结构定义和类型是 `MsgCommentsBody`。
+
 ## 补充说明
 
 说明 : 登录后调用此接口 ,可获取评论

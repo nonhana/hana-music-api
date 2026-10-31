@@ -1,0 +1,24 @@
+{
+  "module": "top_playlist",
+  "query": {
+    "order": "new",
+    "limit": 50
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:38:27.220Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B28：order=new 真实空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "playlists": [],
+      "total": 0,
+      "code": 200,
+      "more": false,
+      "cat": "全部"
+    }
+  }
+}

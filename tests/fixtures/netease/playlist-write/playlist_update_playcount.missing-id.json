@@ -1,0 +1,15 @@
+{
+  "module": "playlist_update_playcount",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T19:54:00.488Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B6：playlist_update_playcount 缺少 id 的 HTTP 400 空正文（临时歌单已删除）"
+  },
+  "response": {
+    "status": 400,
+    "body": ""
+  }
+}

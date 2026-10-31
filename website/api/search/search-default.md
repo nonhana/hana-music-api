@@ -37,6 +37,10 @@ const result = await searchDefault();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data` 和 `data.showKeyword`（展示词）、`data.realkeyword`（实际搜索词）收紧；`data.styleKeyword`、`data.action`、`data.alg`、`data.bizQueryInfo`、`data.gap`、`data.searchType` 是宽松字段。只见过 `null` 的 `data.imageUrl`、`data.logInfo`、`data.source`、`data.trp_id`、`data.trp_type`、`data.styleKeyword.descWord` 和 `body.message` 没有声明，原样保留。本批录制（`search_default.default.json`，另有一次登录对照探测，未保留录制）没有发现可达的空结果，`data` 在这些录制里都存在。结构定义和类型是 `SearchDefaultBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取默认搜索关键词

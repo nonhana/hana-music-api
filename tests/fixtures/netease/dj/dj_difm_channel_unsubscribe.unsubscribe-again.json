@@ -1,0 +1,21 @@
+{
+  "module": "dj_difm_channel_unsubscribe",
+  "query": {
+    "id": 10505
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:00:43.568Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：dj_difm_channel_unsubscribe 反向（未订阅时再次取消 10505）；回读前后都为空，幂等成功"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {},
+      "message": ""
+    }
+  }
+}

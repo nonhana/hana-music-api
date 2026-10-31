@@ -1,0 +1,20 @@
+{
+  "module": "simi_user",
+  "query": {
+    "id": 108485
+  },
+  "context": {
+    "recordedAt": "2026-10-25T20:58:29.601Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B30：simi_user 登录视角空结果（歌曲 108485，多首歌曲探测均为空）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "userprofiles": [],
+      "code": 200
+    }
+  }
+}

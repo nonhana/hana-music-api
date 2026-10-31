@@ -1,0 +1,23 @@
+{
+  "module": "voicelist_search",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T21:00:20.321Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B31：播客列表，登录账号没有播客"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": null,
+      "data": {
+        "total": 0,
+        "list": [],
+        "hasMore": false
+      }
+    }
+  }
+}

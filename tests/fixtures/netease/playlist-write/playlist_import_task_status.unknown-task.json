@@ -1,0 +1,25 @@
+{
+  "module": "playlist_import_task_status",
+  "query": {
+    "id": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:54:36.554Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B6：playlist_import_task_status 未知任务 id 的空结果（未创建歌单）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "msg": "",
+      "data": {
+        "tasks": [],
+        "taskProcess": null
+      },
+      "message": ""
+    }
+  }
+}

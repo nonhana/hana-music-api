@@ -41,6 +41,10 @@ const result = await djDifmAllStyleChannel({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到频道列表的 `body.data`、`data[].styles`、`data[].styles[].channels` 和每个频道自己的编号 `data[].styles[].channels[].id` 收紧；`message`、`source`、风格的名称/描述、频道的封面/中文名/简介/`radar` 宽松，风格的 `radar` 只见过空数组，没有声明。`sources: '[]'` 返回空 `data`（录制 `dj_difm_all_style_channel.empty.json`）。录制按风格保留覆盖各字段的子集（索引 1，原始 15 个风格），`channels` 未截取，见 `context.truncated`。
+
 ## 补充说明
 
 说明: 调用此接口, 获取DIFM电台分类

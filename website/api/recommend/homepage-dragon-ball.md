@@ -37,6 +37,10 @@ const result = await homepageDragonBall();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 收紧；`message` 宽松。登录和匿名录制里 `data` 都是空数组，入口元素类型没有证据，未声明并原样保留。结构定义和类型是 `HomepageDragonBallBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取 APP 首页圆形图标入口列表

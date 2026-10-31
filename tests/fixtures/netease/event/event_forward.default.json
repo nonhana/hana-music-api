@@ -1,0 +1,23 @@
+{
+  "module": "event_forward",
+  "query": {
+    "evId": 37982331004,
+    "uid": 900000001,
+    "forwards": "测试转发，稍后删除"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:12:32.764Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：转发自己的动态被风控拒绝（code 250 分享异常），对另一条自己的动态重试结果相同（探测未保留录制）；没有创建转发动态，因此没有成功正文的证据",
+    "outcome": "rejected"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 250,
+      "message": "分享异常"
+    }
+  }
+}

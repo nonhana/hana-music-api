@@ -1,0 +1,28 @@
+{
+  "module": "listentogether_end",
+  "query": {
+    "roomId": "173c2b24bbfbd4f61546d31e0af852ed_1792991389"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:12:47.359Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：结束 accept 录制用的自己创建房间 173c2b24bbfbd4f61546d31e0af852ed_1792991389（清理）；本批共创建两个房间，均已 end，之后 listentogether_status 回读 data.inRoom=false（listen/listentogether_status.after-cleanup.json，2026-10-26T05:40:54Z）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "success": true,
+        "shareInfo": null,
+        "roomType": "FRIEND",
+        "newUnmaskFlag": null,
+        "matchPlayType": null,
+        "matchPlayInfo": null
+      },
+      "message": ""
+    }
+  }
+}

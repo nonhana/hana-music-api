@@ -1,0 +1,21 @@
+{
+  "module": "playlist_import_name_task_create",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T19:53:59.544Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B6：playlist_import_name_task_create 缺少 text 的 400（未创建歌单）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "格式错误或暂不支持该类型音乐导入",
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

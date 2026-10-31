@@ -44,6 +44,10 @@ const result = await djDifmPlayingTracksList({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到频道播放列表的 `body.data`、`data.list` 和每个曲目自己的编号 `data.list[].id` 收紧；`total`、`message`、`artist`、`audio`、封面、时长和波形 `wave` 宽松。未知频道返回 `data.list: []`、`data.total: 0`（录制 `dj_difm_playing_tracks_list.unknown.json`）。录制把每条 `wave` 截取前 32 个点（原始 2001 个），曲目列表未截取，见 `context.truncated`。
+
 ## 补充说明
 
 说明: 调用此接口, 获取DIFM播放列表

@@ -1,0 +1,22 @@
+{
+  "module": "musician_play_trend",
+  "query": {
+    "startTime": "2020-01-01",
+    "endTime": "2020-01-08"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T22:36:07.718Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B36：musician_play_trend 无播放记录区间返回空数组"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": []
+    }
+  }
+}

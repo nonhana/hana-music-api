@@ -41,6 +41,10 @@ const result = await recommendSongsDislike({
 console.log(result.body);
 ```
 
+## 返回内容
+
+返回码 `body.code` 收紧为 `200`；接口在标记不感兴趣的同时返回一首替换的推荐歌曲，`body.data` 和歌曲自己的 `data.id` 收紧，歌曲其余字段宽松（录制 `recommend_songs_dislike.dislike.json`）。这个写入没有撤销调用，标记后的歌曲会从日推里移除。结构定义和类型是 `RecommendSongsDislikeBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 日推歌曲标记为不感兴趣( 同时会返回一个新推荐歌曲, 需要登录 )

@@ -1,3 +1,5 @@
+import { expectTypeOf } from 'bun:test';
+
 import { Effect, Schema } from 'effect';
 
 import {
@@ -14,9 +16,7 @@ import type {
   CreateHanaMusicApiConfig,
   HanaMusicApiClient,
   ModuleCallConfig,
-  ModuleIdentifier,
   ModuleInputOf,
-  ModuleQueryOf,
   ModuleResponseOf,
   NcmApiResponse,
   RequestCrypto,
@@ -83,16 +83,11 @@ const assertPublicEntrySurface = async () => {
     deviceId: generateDeviceId(),
   };
   const api: HanaMusicApiClient = createHanaMusicApi(config);
-  const topSongIdentifier: ModuleIdentifier = 'top_song';
-  const fallbackQuery: ModuleQueryOf<'top_song'> = {
-    type: 96,
-  };
   const moduleCallConfig: ModuleCallConfig = {
     crypto: 'weapi' satisfies RequestCrypto,
     deviceId: generateDeviceId(),
   };
 
-  await api.topSong(fallbackQuery);
   await api.login({ email: 'demo@example.com', password: 'password' });
   await api.login({ email: 'demo@example.com', md5_password: 'digest' });
   // @ts-expect-error login requires one credential branch
@@ -130,19 +125,35 @@ const assertPublicEntrySurface = async () => {
     proxy: 'http://localhost:8080',
   });
 
-  const fallbackResponse: ModuleResponseOf<'top_song'> = await invokeModule(
-    topSongIdentifier,
-    {
-      type: 16,
-    },
-    moduleCallConfig,
-  );
+  // 局部定义没有 ModuleBody 的模块，避免依赖某个真实模块还没收窄。
+  const unverifiedDefinition: ModuleDefinition<'unverified'> = {
+    identifier: 'unverified',
+    route: '/unverified',
+    decodeInput: (input) => decodeModuleInput(Schema.Struct({}), input),
+    execute: (input) =>
+      Effect.succeed({ status: 200, cookie: [], body: input as UnknownJson }),
+  };
+  type UnverifiedResponse = Effect.Success<
+    ReturnType<typeof unverifiedDefinition.execute>
+  >;
+  const fallbackResponse = {} as UnverifiedResponse;
   const conservativeResponse: NcmApiResponse = fallbackResponse;
   const jsonBody: UnknownJson = fallbackResponse.body;
   // @ts-expect-error unverified responses cannot expose fields without narrowing
   void fallbackResponse.body.songs;
   void jsonBody;
   void conservativeResponse;
+  void unverifiedDefinition;
+
+  // 公开类型表里仍未收窄的 batch：body 必须仍是 UnknownJson，不能直接取字段。
+  expectTypeOf<
+    ModuleResponseOf<'batch'>['body']
+  >().toEqualTypeOf<UnknownJson>();
+  const publicFallbackResponse = {} as ModuleResponseOf<'batch'>;
+  const publicFallbackBody: UnknownJson = publicFallbackResponse.body;
+  // @ts-expect-error unverified module responses cannot expose fields without narrowing
+  void publicFallbackResponse.body.songs;
+  void publicFallbackBody;
 
   // @ts-expect-error unknown module identifier must not compile
   await invokeModule('not_a_real_module', {}, moduleCallConfig);

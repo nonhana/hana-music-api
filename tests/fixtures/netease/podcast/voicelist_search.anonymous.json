@@ -1,0 +1,23 @@
+{
+  "module": "voicelist_search",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T21:00:20.947Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B31：播客列表，匿名调用同样为空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": null,
+      "data": {
+        "total": 0,
+        "list": [],
+        "hasMore": false
+      }
+    }
+  }
+}

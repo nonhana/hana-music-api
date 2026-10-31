@@ -37,6 +37,10 @@ const result = await recentListenList();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和通到最近常听列表的 `body.data` 收紧；`data.resources` 在匿名调用里是 `null`，按可以没有处理，出现时各条记录自己的 `resourceId` 收紧；标题、封面、落地链接和展示字段宽松。结构定义和类型是 `RecentListenListBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用后可获取最近听歌列表

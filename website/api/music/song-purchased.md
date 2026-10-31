@@ -42,6 +42,10 @@ const result = await songPurchased({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`code` 和已购单曲列表的路径 `data` 收紧；`data.count`、`data.hasMore` 和 `message` 宽松。`data.list` 是已购单曲列表，录制账号没有已购单曲，只有空数组证据、元素类型未知，未声明并由 `UpstreamObject` 原样保留（录制 `song_purchased.empty.json`）。结构定义和类型是 `SongPurchasedBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 :登录后调用此接口可获取已购买的单曲

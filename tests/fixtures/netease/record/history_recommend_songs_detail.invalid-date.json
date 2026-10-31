@@ -1,0 +1,20 @@
+{
+  "module": "history_recommend_songs_detail",
+  "query": {
+    "date": "bad"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T22:44:30.354Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B34：history_recommend_songs_detail 非法 date 探测"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": "无效的日期格式",
+      "code": 400
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "module": "song_wiki_summary",
+  "query": {
+    "id": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T14:20:30.906Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B4：song_wiki_summary 未知歌曲只剩相关歌单区块"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "cursor": "{\"SONG_PLAY_ABOUT_TAB_SIM_CHANNEL\":\"{\\\"blockCodes\\\":[\\\"SONG_PLAY_ABOUT_MUSIC_SONG_GRADE\\\",\\\"SONG_PLAY_ABOUT_MUSIC_MEMORY\\\",\\\"SONG_PLAY_ABOUT_SIMILAR_SONG\\\",\\\"SONG_PLAY_ABOUT_RELATED_PLAYLIST\\\"],\\\"offset\\\":4}\",\"SONG_PLAY_ABOUT_TAB_BASIC_CHANNEL\":\"{\\\"blockCodes\\\":[\\\"SONG_PLAY_ABOUT_SONG_BASIC\\\"],\\\"offset\\\":1}\"}",
+        "blocks": [
+          {
+            "showType": "PLAYLIST_MULTI_THREE_GRID",
+            "alg": "",
+            "scm": "",
+            "id": "380eec5a36e64ac29d3b84ab11f7ea9b",
+            "adInfo": null,
+            "extInfo": null,
+            "position": "30",
+            "md5": null,
+            "channel": "SONG_PLAY_ABOUT_TAB_SIM_CHANNEL",
+            "uiElement": {
+              "mainTitle": {
+                "title": "相关歌单",
+                "titleImgId": null,
+                "titleImgUrl": null,
+                "action": null
+              },
+              "subTitles": null,
+              "images": null,
+              "labels": null,
+              "textLinks": null,
+              "descriptions": null,
+              "icons": null,
+              "buttons": null,
+              "videos": null,
+              "superscript": null,
+              "type": null,
+              "coverTagVO": null,
+              "colorList": null
+            },
+            "code": "SONG_PLAY_ABOUT_RELATED_PLAYLIST",
+            "creatives": [],
+            "canRefresh": false,
+            "visibleStatus": null,
+            "blockConfig": null,
+            "blockCursor": null,
+            "hasMore": false,
+            "blockParam": null,
+            "crossPlatformConfig": null,
+            "hideTitle": false,
+            "opRcmd": 0
+          }
+        ],
+        "hasMore": false,
+        "pageConfig": null,
+        "pageCodeContext": null
+      },
+      "message": ""
+    }
+  }
+}

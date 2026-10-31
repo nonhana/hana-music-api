@@ -1,0 +1,449 @@
+{
+  "module": "mv_sublist",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T11:26:13.766Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B9：mv_sublist 已收藏MV（登录，20 条）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [
+        {
+          "type": 0,
+          "title": "Reality",
+          "durationms": 171830,
+          "creator": [
+            {
+              "userId": 1039114,
+              "userName": "Lost Frequencies"
+            }
+          ],
+          "playTime": 4040516,
+          "coverUrl": "http://p4.music.126.net/hujk13GbVdTrbO2Kok2gKg==/7828522790653045.jpg",
+          "vid": "419296",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Are You With Me",
+          "durationms": 141240,
+          "creator": [
+            {
+              "userId": 1039114,
+              "userName": "Lost Frequencies"
+            }
+          ],
+          "playTime": 2929351,
+          "coverUrl": "http://p3.music.126.net/U-IvRRUYX4bhV_wsZNkvUg==/6658642418093771.jpg",
+          "vid": "334275",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "How Long",
+          "durationms": 210020,
+          "creator": [
+            {
+              "userId": 90331,
+              "userName": "Charlie Puth"
+            }
+          ],
+          "playTime": 8379665,
+          "coverUrl": "http://p3.music.126.net/VUwL5vvgpGo6y1PB4iyZeg==/109951163046440817.jpg",
+          "vid": "5687017",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Lean On",
+          "durationms": 178920,
+          "creator": [
+            {
+              "userId": 96309,
+              "userName": "Major Lazer"
+            },
+            {
+              "userId": 296416,
+              "userName": "DJ Snake"
+            },
+            {
+              "userId": 783150,
+              "userName": "MØ"
+            }
+          ],
+          "playTime": 5586991,
+          "coverUrl": "http://p3.music.126.net/70yVICw2mhWqo1u8ranptw==/7776845743808407.jpg",
+          "vid": "389201",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Diamond Heart",
+          "durationms": 218000,
+          "creator": [
+            {
+              "userId": 77713,
+              "userName": "Sophia Somajo"
+            },
+            {
+              "userId": 1045123,
+              "userName": "Alan Walker"
+            }
+          ],
+          "playTime": 1500710,
+          "coverUrl": "http://p3.music.126.net/AuvvxOjuQ_b3xA5Gndt_JQ==/109951163573541594.jpg",
+          "vid": "10798525",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Sing Me to Sleep",
+          "durationms": 191540,
+          "creator": [
+            {
+              "userId": 1045123,
+              "userName": "Alan Walker"
+            }
+          ],
+          "playTime": 8910716,
+          "coverUrl": "http://p3.music.126.net/3sj6kGYQcuq930rNdzYDLA==/1391981732024952.jpg",
+          "vid": "5328167",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Rich Love",
+          "durationms": 203360,
+          "creator": [
+            {
+              "userId": 98105,
+              "userName": "OneRepublic"
+            },
+            {
+              "userId": 1182169,
+              "userName": "SeeB"
+            }
+          ],
+          "playTime": 1275928,
+          "coverUrl": "http://p3.music.126.net/0jnqmmQFbZXeqqsJIiAWxw==/109951163033640631.jpg",
+          "vid": "5673096",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Scared To Be Lonely",
+          "durationms": 230270,
+          "creator": [
+            {
+              "userId": 780003,
+              "userName": "Martin Garrix"
+            },
+            {
+              "userId": 1135086,
+              "userName": "Dua Lipa"
+            }
+          ],
+          "playTime": 2565375,
+          "coverUrl": "http://p3.music.126.net/nMsrgw_omyEF_9vLfZ0Q7A==/18817041999517570.jpg",
+          "vid": "5439013",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "So Far Away",
+          "durationms": 183000,
+          "creator": [
+            {
+              "userId": 31211,
+              "userName": "David Guetta"
+            },
+            {
+              "userId": 141813,
+              "userName": "Jamie Scott"
+            },
+            {
+              "userId": 780003,
+              "userName": "Martin Garrix"
+            },
+            {
+              "userId": 12900365,
+              "userName": "Romy Dya"
+            }
+          ],
+          "playTime": 6252768,
+          "coverUrl": "http://p4.music.126.net/Gv-U3StEHVBD1C070Ru0aA==/109951163073865398.jpg",
+          "vid": "5756048",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Forever",
+          "durationms": 218520,
+          "creator": [
+            {
+              "userId": 780003,
+              "userName": "Martin Garrix"
+            },
+            {
+              "userId": 947054,
+              "userName": "Matisse & Sadko"
+            }
+          ],
+          "playTime": 1665769,
+          "coverUrl": "http://p3.music.126.net/PR9npZDWviue4_4WqJa_zA==/109951163046703549.jpg",
+          "vid": "5690021",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Burn Out",
+          "durationms": 217000,
+          "creator": [
+            {
+              "userId": 780003,
+              "userName": "Martin Garrix"
+            },
+            {
+              "userId": 12082294,
+              "userName": "Justin Mylo"
+            },
+            {
+              "userId": 14043443,
+              "userName": "Dewain Whitmore"
+            }
+          ],
+          "playTime": 345772,
+          "coverUrl": "http://p4.music.126.net/2fPVIxRt-xVSeShGUH5gIw==/109951163549164267.jpg",
+          "vid": "10780351",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Pizza",
+          "durationms": 256740,
+          "creator": [
+            {
+              "userId": 780003,
+              "userName": "Martin Garrix"
+            }
+          ],
+          "playTime": 1013150,
+          "coverUrl": "http://p4.music.126.net/8t3kWQtpmy0YOrP0EHVqrA==/109951163011198590.jpg",
+          "vid": "5646208",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "There For You",
+          "durationms": 220140,
+          "creator": [
+            {
+              "userId": 45129,
+              "userName": "Troye Sivan"
+            },
+            {
+              "userId": 780003,
+              "userName": "Martin Garrix"
+            }
+          ],
+          "playTime": 17346739,
+          "coverUrl": "http://p3.music.126.net/n7CZnrnL5mBu5_qwTVamOg==/18932490718824496.jpg",
+          "vid": "5547010",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Don't",
+          "durationms": 291250,
+          "creator": [
+            {
+              "userId": 33184,
+              "userName": "Ed Sheeran"
+            }
+          ],
+          "playTime": 1487384,
+          "coverUrl": "http://p4.music.126.net/Z_q4eEPWXETqDPJ8jX7MWQ==/5984641790585477.jpg",
+          "vid": "305024",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Stay",
+          "durationms": 213180,
+          "creator": [
+            {
+              "userId": 46376,
+              "userName": "Zedd"
+            },
+            {
+              "userId": 1074089,
+              "userName": "Alessia Cara"
+            }
+          ],
+          "playTime": 4588270,
+          "coverUrl": "http://p4.music.126.net/faOQgPCHd5RoBld5aAMXaw==/19133701346642562.jpg",
+          "vid": "5488026",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "LOSER",
+          "durationms": 242420,
+          "creator": [
+            {
+              "userId": 159300,
+              "userName": "米津玄師"
+            }
+          ],
+          "playTime": 12831320,
+          "coverUrl": "http://p4.music.126.net/UNpmqoN723PlbdrEjow4cA==/18694996207334638.jpg",
+          "vid": "5359554",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 1,
+          "title": "网易云热评，每个人的裂痕，最后都会变成故事的花纹！",
+          "durationms": 217000,
+          "creator": [
+            {
+              "userId": 492960529,
+              "userName": "音乐热评吧"
+            }
+          ],
+          "playTime": 301630,
+          "coverUrl": "http://p3.music.126.net/lqvr5Jq49UekfaJvvs8_Ag==/109951163574030557.jpg",
+          "vid": "0672D3D7AD72311E3367A43794F31E40",
+          "aliaName": null,
+          "transName": null,
+          "alg": null,
+          "markTypes": [109]
+        },
+        {
+          "type": 0,
+          "title": "Seve (网友舞蹈表演)",
+          "durationms": 209790,
+          "creator": [
+            {
+              "userId": 104700,
+              "userName": "Various Artists"
+            }
+          ],
+          "playTime": 8099806,
+          "coverUrl": "http://p3.music.126.net/JWrPnB2Iay4gF8f97feCrw==/7721870163140810.jpg",
+          "vid": "477166",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Freal Luv",
+          "durationms": 211090,
+          "creator": [
+            {
+              "userId": 45221,
+              "userName": "Tinashe"
+            },
+            {
+              "userId": 92526,
+              "userName": "Far East Movement"
+            },
+            {
+              "userId": 1011017,
+              "userName": "灿烈"
+            },
+            {
+              "userId": 1060019,
+              "userName": "Marshmello"
+            }
+          ],
+          "playTime": 879490,
+          "coverUrl": "http://p4.music.126.net/tWKkJ0jizkMD7vev7QVGMg==/18647717207672946.jpg",
+          "vid": "5371053",
+          "aliaName": "",
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        },
+        {
+          "type": 0,
+          "title": "Nevada",
+          "durationms": 208580,
+          "creator": [
+            {
+              "userId": 747030,
+              "userName": "Vicetone"
+            },
+            {
+              "userId": 1097153,
+              "userName": "Cozi Zuehlsdorff"
+            }
+          ],
+          "playTime": 14885693,
+          "coverUrl": "http://p3.music.126.net/lWvORGOuxxFPjeqGasqEfw==/3252355404968793.jpg",
+          "vid": "5343058",
+          "aliaName": null,
+          "transName": "",
+          "alg": null,
+          "markTypes": null
+        }
+      ],
+      "hasMore": false,
+      "count": 20
+    }
+  }
+}

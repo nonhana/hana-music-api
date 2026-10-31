@@ -1,0 +1,20 @@
+{
+  "module": "user_mutualfollow_get",
+  "query": {
+    "uid": 13595690613
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:56:32.825Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B17：user_mutualfollow_get 未互相关注时为 false"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": false
+    }
+  }
+}

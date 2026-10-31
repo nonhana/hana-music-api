@@ -1,0 +1,23 @@
+{
+  "module": "dj_subscriber",
+  "query": {
+    "id": 792544462,
+    "time": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:55:02.557Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B13: dj_subscriber 时间游标越界空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "subscribers": [],
+      "time": 0,
+      "hasMore": false,
+      "code": 200
+    }
+  }
+}

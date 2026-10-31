@@ -1,0 +1,21 @@
+{
+  "module": "related_allvideo",
+  "query": {
+    "id": "BFB0ABD6F5B0F069D3AC90021A1E680E"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T12:33:56.119Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B10：related_allvideo 十六进制视频 id，返回空列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": []
+    }
+  }
+}

@@ -38,6 +38,10 @@ const result = await listentogetherStatus();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到状态的 `body.data` 和接口就是为了拿的 `body.data.inRoom` 收紧；`data.anotherFollowStatus` 宽松；`data.roomInfo`、`data.anotherDeviceInfo` 和 `data.status` 在录制里只见过 `null`，未声明并原样保留。结构定义和类型是 `ListentogetherStatusBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 返回关注点
 
 - `data.inRoom`: 当前账号是否在一起听房间中。

@@ -41,6 +41,10 @@ const result = await relatedAllvideo({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 收紧；`message` 宽松。相关视频列表 `data` 在本批录制（十六进制视频 id 的 `type: 1` 和数字 id 的 `type: 0`）里都是空数组，元素类型无法确定，没有声明，原样保留。结构定义和类型是 `RelatedAllvideoBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取相关视频

@@ -1,0 +1,17 @@
+{
+  "module": "topic_detail",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T19:06:01.190Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B19：缺失 actid 的 400 拒绝（匿名）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400
+    }
+  }
+}

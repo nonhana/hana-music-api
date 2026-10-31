@@ -1,0 +1,19 @@
+{
+  "module": "voicelist_list",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T02:05:30.608Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B43：voicelist_list 缺少 voiceListId 的业务拒绝"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "msg": "参数错误",
+      "data": null
+    }
+  }
+}

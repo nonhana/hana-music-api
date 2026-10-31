@@ -43,6 +43,14 @@ const result = await topicSublist({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data` 和每条专栏自己的编号 `body.data[].id` 收紧。`author`、`title`、`resUrl`、`rectanglePicUrl`、`picId`、`readCount`、`subTime` 是宽松字段；`userId` 是作者附带编号，也宽松。越界分页（录制 `topic_sublist.out-of-range.json`，`offset=100000`）返回 `data: []`，`count` 保持原值、`hasMore: false`；`count`、`hasMore` 本身也是宽松字段。
+
+## 非 200 业务码的状态码变化
+
+本模块的 `code:400` 录制见 `topic_sublist.invalid-offset.json`；通用规则见[返回体结构](/guide/response-bodies#非-200-业务码的状态码变化)。`SPECIAL_STATUS_CODES` 里的其他码（201/302/502 以原码拒绝，800–803 钳位为 400）同样以 `status=业务码` 拒绝；不在该表里的码（如 404）原样转交。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取收藏的专栏

@@ -1,9 +1,14 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
@@ -13,7 +18,18 @@ interface PlaylistImportLocalEntry {
   name?: string;
 }
 
-const playlistImportNameTaskCreate: ModuleEffect<ModuleInput> = (
+// 返回码收紧；导入任务的 `data`、`taskId` 和说明文字宽松，`local`/`link` 分支没有录制，不收紧。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    data: Loose(UpstreamObject({ taskId: Loose(Schema.Finite) })),
+    msg: Loose(Schema.String),
+    message: Loose(Schema.String),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const playlistImportNameTaskCreate: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
 ) =>
@@ -84,15 +100,21 @@ const playlistImportNameTaskCreate: ModuleEffect<ModuleInput> = (
         songs,
       };
     }
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/playlist/import/name/task/create`,
-          data,
-          createOption(query),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/playlist/import/name/task/create`,
+        data,
+        createOption(query),
       ),
     );
+    return {
+      ...toModuleResponse(response),
+      body: yield* decodeUpstreamBody(
+        'playlist_import_name_task_create',
+        ModuleBody,
+        response,
+      ),
+    };
   });
 
 /**

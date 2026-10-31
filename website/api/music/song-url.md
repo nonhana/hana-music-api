@@ -43,6 +43,22 @@ const result = await songUrl({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body` 是 SDK 重排后的最终体，不是网易云原文：上游顶层 `code` 被模块忽略并合成 `code: 200`（301 等非特殊状态码仍会先被请求层拒绝），`data` 数组按请求里 `id` 的顺序排列，顶层重建为 `{ code: 200, data }`，网易云原文的其他顶层字段不会保留；`data` 缺失时最终体是空数组。
+
+`body.data` 里每项是一首歌的播放地址。只有 `code`、`data`、`data[].id`、`data[].url`、`data[].code` 收紧；`id` 兼容字符串和数字编号，其余字段宽松。`url` 不替换；`freeTrialInfo` 不合并片段，内部坏字段按宽松字段丢弃：
+
+- 本批无版权录制：`url` 和 `level` 是 `null`，条目 `code` 是 404。
+- 只能试听：`freeTrialInfo` 是 `{ start, end }`，表示试听片段在整首里的起止秒数（本批匿名录制 35 秒，携带失效 Cookie 时 30 秒）；`url` 是这段试听片段的地址。
+- 可完整播放：`freeTrialInfo` 是 `null`，`url` 是完整歌曲的地址。
+
+上游码语义不稳定：同一请求在本次探测/重录中会从 200 翻转为 404。`song_url.transient-404.json` 与 `song_url.anon-trial.json` 是同一 query，仓库里前者是 404、后者是 200。`url: null` 时不能凭一次 `code` 判定无版权，先重试或交叉验证。
+
+本批只保留匿名和失效 Cookie 录制；失效 Cookie 不是登录证据，没有登录对照，不对登录后的 `freeTrialInfo` 等字段作相同性断言。
+
+结构定义和类型是 `SongUrlBody`，见 [返回体结构](/guide/response-bodies#播放)。
+
 ## 补充说明
 
 说明 : 使用歌单详情接口后，能得到的音乐的 id, 但不能得到的音乐 url, 调用此接口, 传入的音乐 id( 可多个，用逗号隔开 ), 可以获取对应的音乐的 url,未登录状态或者非会员返回试听片段(返回字段包含被截取的正常歌曲的开始时间和结束时间)

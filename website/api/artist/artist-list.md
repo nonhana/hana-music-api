@@ -48,6 +48,10 @@ const result = await artistList({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、歌手列表 `body.artists` 和每个歌手的编号 `artists[].id` 收紧；`more` 是分页标记，宽松。`offset` 越过总数时返回空 `artists`（录制 `artist_list.empty.json`），数组本身允许为空。歌手记录的其余字段（`name`、`alias`、`fansCount`、`picUrl` 等）都是宽松字段。结构定义和类型是 `ArtistListBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取歌手分类列表

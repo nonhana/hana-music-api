@@ -1,0 +1,177 @@
+{
+  "module": "record_recent_video",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:40:17.834Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B34：record_recent_video 正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "total": 4,
+        "list": [
+          {
+            "resourceId": "a1evZ7wUgCmYgQl0",
+            "playTime": 1791181934173,
+            "resourceType": "MLOG",
+            "data": {
+              "id": "a1evZ7wUgCmYgQl0",
+              "title": "《Loveless》- 山下智久｜琴弦间流淌的未说出口的温柔",
+              "coverUrl": "http://p5.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/77169854070/d898/ab0e/c6fb/18E16EE3ECDC60624D43188806599CC4.jpg",
+              "duration": 238265,
+              "creator": {
+                "extProperties": {
+                  "avatarImgId_str": "18768663487625409"
+                },
+                "defaultAvatar": false,
+                "province": 510000,
+                "authStatus": 0,
+                "followed": false,
+                "avatarUrl": "http://p4.music.126.net/HlTL9UQ_XWusztKAUJZnSw==/18768663487625409.jpg",
+                "accountStatus": 0,
+                "gender": 2,
+                "city": 510100,
+                "birthday": 458636717433,
+                "userId": 1441159895,
+                "userType": 0,
+                "nickname": "神奇的魔法交易",
+                "signature": "",
+                "description": "",
+                "detailDescription": "",
+                "avatarImgId": 18768663487625410,
+                "backgroundImgId": 109951162868126480,
+                "backgroundUrl": "http://p4.music.126.net/_f8R60U9mZ42sSNvdPn2sQ==/109951162868126486.jpg",
+                "authority": 0,
+                "mutual": false,
+                "expertTags": null,
+                "experts": null,
+                "djStatus": 0,
+                "vipType": 0,
+                "remarkName": null,
+                "avatarImgIdStr": "18768663487625409",
+                "backgroundImgIdStr": "109951162868126486",
+                "xInfo": {
+                  "avatarImgId_str": "18768663487625409"
+                }
+              }
+            },
+            "os": "android",
+            "multiTerminalInfo": {
+              "icon": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266366095/5341/a415/1103/fac10cdcd9740b97c5233f3457aa0ee4.png",
+              "osText": "移动端",
+              "os": "android"
+            }
+          },
+          {
+            "resourceId": "a11lvgUGVcrOqpO3",
+            "playTime": 1775093278632,
+            "resourceType": "MLOG",
+            "data": {
+              "id": "a11lvgUGVcrOqpO3",
+              "title": "《Memories Gone By》- Park Bird｜时光碎片在琴键上轻轻飘落",
+              "coverUrl": "http://p5.music.126.net/obj/w5nDkMOCwrDCmDDDi8Om/77170058411/1361/d186/53b6/91BBE98F3959E4C28E49046F1A04D9AE.jpg",
+              "duration": 173799,
+              "creator": {
+                "extProperties": {
+                  "avatarImgId_str": "109951163254865372"
+                },
+                "defaultAvatar": false,
+                "province": 410000,
+                "authStatus": 0,
+                "followed": false,
+                "avatarUrl": "http://p4.music.126.net/cfvPhC9vPH-7OsKqQYGDfw==/109951163254865372.jpg",
+                "accountStatus": 0,
+                "gender": 1,
+                "city": 411500,
+                "birthday": 934444177624,
+                "userId": 1441142181,
+                "userType": 0,
+                "nickname": "神寂克罗诺斯",
+                "signature": "妹子   有？",
+                "description": "",
+                "detailDescription": "",
+                "avatarImgId": 109951163254865380,
+                "backgroundImgId": 109951162868128400,
+                "backgroundUrl": "http://p3.music.126.net/2zSNIqTcpHL2jIvU6hG0EA==/109951162868128395.jpg",
+                "authority": 0,
+                "mutual": false,
+                "expertTags": null,
+                "experts": null,
+                "djStatus": 0,
+                "vipType": 0,
+                "remarkName": null,
+                "avatarImgIdStr": "109951163254865372",
+                "backgroundImgIdStr": "109951162868128395",
+                "xInfo": {
+                  "avatarImgId_str": "109951163254865372"
+                }
+              }
+            },
+            "os": "android",
+            "multiTerminalInfo": {
+              "icon": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266366095/5341/a415/1103/fac10cdcd9740b97c5233f3457aa0ee4.png",
+              "osText": "移动端",
+              "os": "android"
+            }
+          },
+          {
+            "resourceId": "5840191",
+            "playTime": 1677162341972,
+            "resourceType": "MV",
+            "data": {
+              "id": 5840191,
+              "name": "ロキ",
+              "coverUrl": "http://p4.music.126.net/UTDMQy5I-UBpOc0QPzZpZw==/109951163166497411.jpg",
+              "duration": 230000,
+              "artists": [
+                {
+                  "id": 160154,
+                  "name": "鏡音リン"
+                },
+                {
+                  "id": 160275,
+                  "name": "みきとP"
+                }
+              ]
+            },
+            "os": "pc",
+            "multiTerminalInfo": {
+              "icon": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266364630/cef0/cc7b/8a64/cdfe6c6231d20fb6666563450581183c.png",
+              "osText": "未知",
+              "os": "pc"
+            }
+          },
+          {
+            "resourceId": "14224142",
+            "playTime": 1673254632608,
+            "resourceType": "MV",
+            "data": {
+              "id": 14224142,
+              "name": "春泥棒",
+              "coverUrl": "http://p3.music.126.net/Z3_ohc-Dz3i3-l3w0msp6A==/109951166064998816.jpg",
+              "duration": 297000,
+              "artists": [
+                {
+                  "id": 12390232,
+                  "name": "ヨルシカ"
+                }
+              ]
+            },
+            "os": "pc",
+            "multiTerminalInfo": {
+              "icon": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266364630/cef0/cc7b/8a64/cdfe6c6231d20fb6666563450581183c.png",
+              "osText": "未知",
+              "os": "pc"
+            }
+          }
+        ]
+      },
+      "message": ""
+    }
+  }
+}

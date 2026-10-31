@@ -1,0 +1,22 @@
+{
+  "module": "mv_sub",
+  "query": {
+    "mvid": 14634962,
+    "t": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:28:24.757Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：mv_sub 正向（收藏 MV 14634962）；写前 mv_sublist 20 条，收藏后回读 21 条（新增 vid 14634962）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "收藏成功",
+      "data": null
+    }
+  }
+}

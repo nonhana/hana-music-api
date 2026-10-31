@@ -1,0 +1,2488 @@
+{
+  "module": "vip_timemachine",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T18:45:51.286Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B23：vip_timemachine 登录周报；保留覆盖 type 1/2/3/4 的索引 0/1/2/4，不是前 4 条",
+    "truncated": [
+      {
+        "path": "body.data.detail",
+        "length": 8
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "notVipLimitNum": 3,
+        "recordTime": 1788537600000,
+        "showcashier": true,
+        "hasnext": true,
+        "detail": [
+          {
+            "type": 3,
+            "data": {
+              "keyword": "重拾Saiakoup",
+              "subTitle": "你听了##113首##1Saiakoup的歌曲，Ta的##1「Auksia」##1让你着迷",
+              "player": {
+                "id": 12083147,
+                "artistName": "Saiakoup",
+                "aliasName": "",
+                "cover": "http://p3.music.126.net/wHnlIqVaREv-kCQY1WTPPg==/109951162817344236.jpg",
+                "hasRelation": true,
+                "fansCount": 0,
+                "fansShow": "4.5万",
+                "userId": 305013746,
+                "tag": null
+              },
+              "listenPlayerSong": 13,
+              "totalSong": 95,
+              "totalAlbum": 32,
+              "listenAlbum": 12,
+              "favoriteSongs": [],
+              "recommendPlayers": [
+                {
+                  "id": 12020036,
+                  "artistName": "Hea2t",
+                  "aliasName": "",
+                  "cover": "http://p3.music.126.net/AT6hdMvqW7vdec4-Mzq7nw==/109951164797689848.jpg",
+                  "hasRelation": false,
+                  "fansCount": 0,
+                  "fansShow": "13.5万",
+                  "userId": 86774392,
+                  "tag": null
+                },
+                {
+                  "id": 12094429,
+                  "artistName": "ChakYoun9",
+                  "aliasName": "",
+                  "cover": "http://p3.music.126.net/0OkO0W-2gsaayeYsfFrl5w==/18504780695774233.jpg",
+                  "hasRelation": false,
+                  "fansCount": 0,
+                  "fansShow": "2.8万",
+                  "userId": 317562960,
+                  "tag": null
+                },
+                {
+                  "id": 12563879,
+                  "artistName": "Mr Chip",
+                  "aliasName": "",
+                  "cover": "http://p4.music.126.net/rtmGbc9xxJfmSZvMLH77dQ==/109951164956639791.jpg",
+                  "hasRelation": false,
+                  "fansCount": 0,
+                  "fansShow": "3.2万",
+                  "userId": 564899071,
+                  "tag": null
+                }
+              ],
+              "newSongs": [],
+              "listenWeekTime": 36280,
+              "listenSongs": 154,
+              "songInfos": [
+                {
+                  "songId": 3447749509,
+                  "songName": "雲を抜け風下へ私だけ",
+                  "count": 0,
+                  "mainArtistName": "ヨルシカ",
+                  "artistNames": "ヨルシカ",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/rlyd27VK7UH1lnzV9K_GXA==/109951174106176775.jpg",
+                  "artistMap": {
+                    "12390232": "ヨルシカ"
+                  },
+                  "albumName": "雲を抜け風下へ私だけ",
+                  "tag": null
+                },
+                {
+                  "songId": 3424312075,
+                  "songName": "我想呼风唤雨",
+                  "count": 0,
+                  "mainArtistName": "法老",
+                  "artistNames": "法老/泠风/杨秋儒/喉结蜥蜴/杨迪",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/Emi_hIcTfGeZVcrBd1DQOg==/109951173799701999.jpg",
+                  "artistMap": {
+                    "865007": "法老",
+                    "12541056": "泠风",
+                    "30395569": "杨秋儒",
+                    "30747362": "喉结蜥蜴"
+                  },
+                  "albumName": "我想呼风唤雨",
+                  "tag": null
+                },
+                {
+                  "songId": 29544534,
+                  "songName": "The Last String",
+                  "count": 0,
+                  "mainArtistName": "Jacoo",
+                  "artistNames": "Jacoo/Oneira",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/tZEh-PSd8EMAtJfDRfTQmQ==/109951172810496346.jpg",
+                  "artistMap": {
+                    "347497": "Jacoo",
+                    "499256": "Oneira"
+                  },
+                  "albumName": "Hurt",
+                  "tag": null
+                },
+                {
+                  "songId": 22765947,
+                  "songName": "車椅子の未来宇宙",
+                  "count": 0,
+                  "mainArtistName": "上海アリス幻樂団",
+                  "artistNames": "上海アリス幻樂団",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/tCCxnCb20hS4ZSP846q1Rw==/109951173924916651.jpg",
+                  "artistMap": {
+                    "15345": "上海アリス幻樂団"
+                  },
+                  "albumName": "大空魔術 ～ Magical Astronomy",
+                  "tag": null
+                },
+                {
+                  "songId": 415593062,
+                  "songName": "For The Love",
+                  "count": 0,
+                  "mainArtistName": "Nieve",
+                  "artistNames": "Nieve/SoulChef/Ine",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/qz6sinqIrN7DVNcCEclMgA==/109951168489508687.jpg",
+                  "artistMap": {
+                    "43904": "SoulChef",
+                    "476742": "Ine",
+                    "36396613": "Nieve"
+                  },
+                  "albumName": "Sunflower in the Sunlight",
+                  "tag": null
+                },
+                {
+                  "songId": 3424555552,
+                  "songName": "FUNK MANDALA",
+                  "count": 0,
+                  "mainArtistName": "dj Samir",
+                  "artistNames": "dj Samir/Zericxxn/Nulteex",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/JwjsLM6NTTlRZzXqHEDGow==/109951173804195294.jpg",
+                  "artistMap": {
+                    "48541565": "Nulteex",
+                    "100095181": "Zericxxn"
+                  },
+                  "albumName": "FUNK MANDALA",
+                  "tag": null
+                },
+                {
+                  "songId": 3367586149,
+                  "songName": "うたかたの栞",
+                  "count": 0,
+                  "mainArtistName": "Otokaze",
+                  "artistNames": "Otokaze",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg",
+                  "artistMap": {
+                    "15164": "Otokaze"
+                  },
+                  "albumName": "うたかたの栞",
+                  "tag": null
+                },
+                {
+                  "songId": 17858810,
+                  "songName": "Lemon Tree",
+                  "count": 0,
+                  "mainArtistName": "Fool's Garden",
+                  "artistNames": "Fool's Garden",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/XAmYUhjbG3pIqNnzziN1cw==/109951167834178761.jpg",
+                  "artistMap": {
+                    "92442": "Fool's Garden"
+                  },
+                  "albumName": "Dish of the Day",
+                  "tag": null
+                }
+              ],
+              "newPlayer": null,
+              "listenWeekCount": 177,
+              "listenCommonStyle": {
+                "styleDetailList": [
+                  {
+                    "styleName": "轻音乐",
+                    "percent": "0.8888888888888888"
+                  },
+                  {
+                    "styleName": "纯演奏音乐",
+                    "percent": "0.1111111111111111"
+                  }
+                ]
+              },
+              "musicEmotion": {
+                "subTitle": ["戏剧化", "专注深情"],
+                "emotions": [
+                  {
+                    "type": 1,
+                    "detail": [
+                      {
+                        "day": 1792252800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792339200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792425600000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792512000000,
+                        "percent": "0.02040816"
+                      },
+                      {
+                        "day": 1792598400000,
+                        "percent": "0.02631579"
+                      },
+                      {
+                        "day": 1792684800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792771200000,
+                        "percent": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": 2,
+                    "detail": [
+                      {
+                        "day": 1792252800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792339200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792425600000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792512000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792598400000,
+                        "percent": "0.02631579"
+                      },
+                      {
+                        "day": 1792684800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792771200000,
+                        "percent": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": 3,
+                    "detail": [
+                      {
+                        "day": 1792252800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792339200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792425600000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792512000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792598400000,
+                        "percent": "0.02631579"
+                      },
+                      {
+                        "day": 1792684800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792771200000,
+                        "percent": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": 4,
+                    "detail": [
+                      {
+                        "day": 1792252800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792339200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792425600000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792512000000,
+                        "percent": "0.02040816"
+                      },
+                      {
+                        "day": 1792598400000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792684800000,
+                        "percent": "0.03030303"
+                      },
+                      {
+                        "day": 1792771200000,
+                        "percent": "0"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "musicYear": {
+                "total": 79,
+                "year": 2010,
+                "percent": "0.47290640",
+                "yearPercents": [
+                  {
+                    "startYear": 2010,
+                    "endYear": 2020,
+                    "percent": "0.47290640"
+                  },
+                  {
+                    "startYear": 2020,
+                    "endYear": 2030,
+                    "percent": "0.39901478"
+                  },
+                  {
+                    "startYear": 2000,
+                    "endYear": 2010,
+                    "percent": "0.12315271"
+                  },
+                  {
+                    "startYear": 1990,
+                    "endYear": 2000,
+                    "percent": "0.00492611"
+                  }
+                ],
+                "yearSingles": [
+                  {
+                    "songId": 3447749509,
+                    "songName": "雲を抜け風下へ私だけ",
+                    "count": 0,
+                    "mainArtistName": "ヨルシカ",
+                    "artistNames": "ヨルシカ",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/rlyd27VK7UH1lnzV9K_GXA==/109951174106176775.jpg",
+                    "artistMap": {
+                      "12390232": "ヨルシカ"
+                    },
+                    "albumName": "雲を抜け風下へ私だけ",
+                    "tag": "最新发行"
+                  },
+                  {
+                    "songId": 17858810,
+                    "songName": "Lemon Tree",
+                    "count": 0,
+                    "mainArtistName": "Fool's Garden",
+                    "artistNames": "Fool's Garden",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/XAmYUhjbG3pIqNnzziN1cw==/109951167834178761.jpg",
+                    "artistMap": {
+                      "92442": "Fool's Garden"
+                    },
+                    "albumName": "Dish of the Day",
+                    "tag": "年代最久远"
+                  }
+                ]
+              },
+              "listenSingle": {
+                "singles": [
+                  {
+                    "songId": 3367586149,
+                    "songName": "うたかたの栞",
+                    "count": 0,
+                    "mainArtistName": "Otokaze",
+                    "artistNames": "Otokaze",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p4.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg",
+                    "artistMap": {
+                      "15164": "Otokaze"
+                    },
+                    "albumName": "うたかたの栞",
+                    "tag": "最爱单曲"
+                  },
+                  {
+                    "songId": 3424312075,
+                    "songName": "我想呼风唤雨",
+                    "count": 0,
+                    "mainArtistName": "法老",
+                    "artistNames": "法老/泠风/杨秋儒/喉结蜥蜴/杨迪",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p4.music.126.net/Emi_hIcTfGeZVcrBd1DQOg==/109951173799701999.jpg",
+                    "artistMap": {
+                      "865007": "法老",
+                      "12541056": "泠风",
+                      "30395569": "杨秋儒",
+                      "30747362": "喉结蜥蜴"
+                    },
+                    "albumName": "我想呼风唤雨",
+                    "tag": "新听单曲"
+                  },
+                  {
+                    "songId": 29544534,
+                    "songName": "The Last String",
+                    "count": 0,
+                    "mainArtistName": "Jacoo",
+                    "artistNames": "Jacoo/Oneira",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/tZEh-PSd8EMAtJfDRfTQmQ==/109951172810496346.jpg",
+                    "artistMap": {
+                      "347497": "Jacoo",
+                      "499256": "Oneira"
+                    },
+                    "albumName": "Hurt",
+                    "tag": "听了又听"
+                  }
+                ],
+                "count": 154
+              },
+              "listenAlbumInfo": {
+                "count": 146,
+                "details": [
+                  {
+                    "albumName": "一些随弹",
+                    "albumId": 174003615,
+                    "playerId": 51535561,
+                    "playerName": "待夕归明",
+                    "tag": "最爱专辑",
+                    "coverUrl": "http://p3.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg",
+                    "online": true
+                  },
+                  {
+                    "albumName": "うたかたの栞",
+                    "albumId": 369773136,
+                    "playerId": 15164,
+                    "playerName": "Otokaze",
+                    "tag": "新听专辑",
+                    "coverUrl": "http://p3.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg",
+                    "online": true
+                  },
+                  {
+                    "albumName": "我想呼风唤雨",
+                    "albumId": 393954766,
+                    "playerId": 865007,
+                    "playerName": "法老",
+                    "tag": "听了又听",
+                    "coverUrl": "http://p3.music.126.net/Emi_hIcTfGeZVcrBd1DQOg==/109951173799701999.jpg",
+                    "online": true
+                  }
+                ]
+              },
+              "listenPlayer": {
+                "players": [
+                  {
+                    "id": 51535561,
+                    "artistName": "待夕归明",
+                    "aliasName": "",
+                    "cover": "http://p3.music.126.net/rgMCAoSxs172BuF6ytKyBA==/109951167056218263.jpg",
+                    "hasRelation": false,
+                    "fansCount": 0,
+                    "fansShow": "31",
+                    "userId": 599663130,
+                    "tag": "最爱艺人"
+                  },
+                  {
+                    "id": 12083147,
+                    "artistName": "Saiakoup",
+                    "aliasName": "",
+                    "cover": "http://p4.music.126.net/wHnlIqVaREv-kCQY1WTPPg==/109951162817344236.jpg",
+                    "hasRelation": true,
+                    "fansCount": 0,
+                    "fansShow": "4.5万",
+                    "userId": 305013746,
+                    "tag": "新听艺人"
+                  },
+                  {
+                    "id": 15164,
+                    "artistName": "Otokaze",
+                    "aliasName": "Taka a.k.a otokaze",
+                    "cover": "http://p3.music.126.net/vg6Q4CpoJoH-Y143FVyk9A==/6663040465647665.jpg",
+                    "hasRelation": true,
+                    "fansCount": 0,
+                    "fansShow": "14.2万",
+                    "userId": 0,
+                    "tag": "听了又听"
+                  }
+                ],
+                "count": 134
+              },
+              "version": 3,
+              "tsNum": 0
+            },
+            "userId": 599663130,
+            "dayTime": 1792771200000,
+            "rowKey": "b874a8923387793aaf7ae0725ddb5281_1792771200000",
+            "srcType": null,
+            "weekStartTime": 1792252800000,
+            "weekEndTime": 1792771200000,
+            "prev": 0,
+            "prevRowKey": null,
+            "preVersion": 0,
+            "nextVersion": 0,
+            "next": 0,
+            "nextRowKey": null,
+            "showFree": false,
+            "musicQuotientWeekData": null
+          },
+          {
+            "type": 2,
+            "data": {
+              "keyword": "午间爱听二次元",
+              "subTitle": "你喜欢在##1午间##1听歌，##1二次元##1是你最爱听的风格",
+              "intervelType": 6,
+              "intervelCount": 6,
+              "intervelDurationDataList": [
+                {
+                  "intervel": 0,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 1,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 2,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 3,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 4,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 5,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 6,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 7,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 8,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 9,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 10,
+                  "duration": 1044,
+                  "count": 7,
+                  "intervelType": 5,
+                  "playCntRate": "0.0374331550802139"
+                },
+                {
+                  "intervel": 11,
+                  "duration": 3451,
+                  "count": 19,
+                  "intervelType": 6,
+                  "playCntRate": "0.10160427807486631"
+                },
+                {
+                  "intervel": 12,
+                  "duration": 634,
+                  "count": 3,
+                  "intervelType": 6,
+                  "playCntRate": "0.016042780748663103"
+                },
+                {
+                  "intervel": 13,
+                  "duration": 10518,
+                  "count": 46,
+                  "intervelType": 6,
+                  "playCntRate": "0.24598930481283424"
+                },
+                {
+                  "intervel": 14,
+                  "duration": 7883,
+                  "count": 36,
+                  "intervelType": 7,
+                  "playCntRate": "0.1925133689839572"
+                },
+                {
+                  "intervel": 15,
+                  "duration": 1303,
+                  "count": 6,
+                  "intervelType": 7,
+                  "playCntRate": "0.03208556149732621"
+                },
+                {
+                  "intervel": 16,
+                  "duration": 4238,
+                  "count": 21,
+                  "intervelType": 7,
+                  "playCntRate": "0.11229946524064172"
+                },
+                {
+                  "intervel": 17,
+                  "duration": 9358,
+                  "count": 46,
+                  "intervelType": 8,
+                  "playCntRate": "0.24598930481283424"
+                },
+                {
+                  "intervel": 18,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 19,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 20,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 21,
+                  "duration": 0,
+                  "count": 0,
+                  "intervelType": 0,
+                  "playCntRate": "0"
+                },
+                {
+                  "intervel": 22,
+                  "duration": 205,
+                  "count": 1,
+                  "intervelType": 9,
+                  "playCntRate": "0.0053475935828877"
+                },
+                {
+                  "intervel": 23,
+                  "duration": 244,
+                  "count": 2,
+                  "intervelType": 10,
+                  "playCntRate": "0.0106951871657754"
+                }
+              ],
+              "listenTime": 0,
+              "listenSong": null,
+              "favoriteSongs": [],
+              "recommendPlayList": [
+                {
+                  "id": 2353225698,
+                  "count": 0,
+                  "playCountShow": "46.7万",
+                  "name": "午睡音药 | 与暖阳一同服用效果更佳",
+                  "cover": "http://p4.music.126.net/t_-IfZDq1hrXOEIRgv5mRg==/109951166102443712.jpg"
+                },
+                {
+                  "id": 2351829270,
+                  "count": 0,
+                  "playCountShow": "779.1万",
+                  "name": "纯音乐 | 前奏秒杀 一见倾心的欢喜",
+                  "cover": "http://p4.music.126.net/N1qt2A1cIuQEBqg8wxChYQ==/109951166101906728.jpg"
+                },
+                {
+                  "id": 2997901501,
+                  "count": 0,
+                  "playCountShow": "9159",
+                  "name": "饿货慎点|我想吃水煮肉片炸鸡小龙虾…...",
+                  "cover": "http://p4.music.126.net/wfXXk4vgrfKZ1n9HevD7aw==/109951166102367968.jpg"
+                }
+              ],
+              "newSongs": [],
+              "listenWeekTime": 38878,
+              "listenSongs": 162,
+              "songInfos": [
+                {
+                  "songId": 515453363,
+                  "songName": "All Falls Down",
+                  "count": 0,
+                  "mainArtistName": "Alan Walker",
+                  "artistNames": "Alan Walker/Noah Cyrus/Digital Farm Animals/Juliander",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/LSNp2g4GIUaQBT1yvOq6XQ==/109951165983599325.jpg",
+                  "artistMap": {
+                    "840929": "Digital Farm Animals",
+                    "1045123": "Alan Walker",
+                    "12175271": "Noah Cyrus",
+                    "12647253": "Juliander"
+                  },
+                  "albumName": "All Falls Down",
+                  "tag": null
+                },
+                {
+                  "songId": 3442131349,
+                  "songName": "Rendezvous",
+                  "count": 0,
+                  "mainArtistName": "Mili",
+                  "artistNames": "Mili",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/7kaZumjeo8LjULsgyb0UJw==/109951174021104763.jpg",
+                  "artistMap": {
+                    "339594": "Mili"
+                  },
+                  "albumName": "Rendezvous",
+                  "tag": null
+                },
+                {
+                  "songId": 3362570924,
+                  "songName": "間人間",
+                  "count": 0,
+                  "mainArtistName": "ずっと真夜中でいいのに。",
+                  "artistNames": "ずっと真夜中でいいのに。",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/IeAdg6O6aJN6nGc6aEhX-w==/109951172937804770.jpg",
+                  "artistMap": {
+                    "15021101": "ずっと真夜中でいいのに。"
+                  },
+                  "albumName": "形藻土",
+                  "tag": null
+                },
+                {
+                  "songId": 3367586149,
+                  "songName": "うたかたの栞",
+                  "count": 0,
+                  "mainArtistName": "Otokaze",
+                  "artistNames": "Otokaze",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg",
+                  "artistMap": {
+                    "15164": "Otokaze"
+                  },
+                  "albumName": "うたかたの栞",
+                  "tag": null
+                },
+                {
+                  "songId": 4909229,
+                  "songName": "四季ノ唄",
+                  "count": 0,
+                  "mainArtistName": "Nujabes",
+                  "artistNames": "MINMI旻觅",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/_BSGBUrL6fHJTa8HmYbo3g==/109951170423365264.jpg",
+                  "artistMap": {
+                    "17071": "MINMI旻觅"
+                  },
+                  "albumName": "samurai champloo music record departure",
+                  "tag": null
+                },
+                {
+                  "songId": 3446719895,
+                  "songName": "where is my flower",
+                  "count": 0,
+                  "mainArtistName": "待夕归明",
+                  "artistNames": "待夕归明",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg",
+                  "artistMap": {
+                    "51535561": "待夕归明"
+                  },
+                  "albumName": "一些随弹",
+                  "tag": null
+                },
+                {
+                  "songId": 406497,
+                  "songName": "Brazilian Rhyme (Almost There)",
+                  "count": 0,
+                  "mainArtistName": "DJ SLY",
+                  "artistNames": "KAORU/DJ SLY/D.O",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/r6Py-RuYmTAYf89U-_X7zQ==/901599534819469.jpg",
+                  "artistMap": {
+                    "13954": "DJ SLY",
+                    "63564": "KAORU",
+                    "190508": "D.O"
+                  },
+                  "albumName": "Beyond It",
+                  "tag": null
+                },
+                {
+                  "songId": 425684779,
+                  "songName": "Yunomi--インドア系ならトラックメイカー (Fdby Remix)",
+                  "count": 0,
+                  "mainArtistName": "Fdby",
+                  "artistNames": "Yunomi/nicamoq/Fdby",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/Ez-_OKKKzKsSXzDY15hwTw==/3394192418636766.jpg",
+                  "artistMap": {
+                    "1025016": "Yunomi",
+                    "12095302": "Fdby",
+                    "12605718": "nicamoq"
+                  },
+                  "albumName": "インドア系ならトラックメイカー (Fdby Remix)",
+                  "tag": null
+                }
+              ],
+              "listenWeekCount": 187,
+              "listenCommonStyle": {
+                "styleDetailList": [
+                  {
+                    "styleName": "电子",
+                    "percent": "0.20202020"
+                  },
+                  {
+                    "styleName": "嘻哈说唱",
+                    "percent": "0.17171717"
+                  },
+                  {
+                    "styleName": "轻音乐",
+                    "percent": "0.15151515"
+                  },
+                  {
+                    "styleName": "日本流行",
+                    "percent": "0.12626263"
+                  },
+                  {
+                    "styleName": "二次元",
+                    "percent": "0.11616162"
+                  }
+                ]
+              },
+              "musicEmotion": {
+                "subTitle": ["富有激情", "心甜意洽"],
+                "emotions": [
+                  {
+                    "type": 1,
+                    "detail": [
+                      {
+                        "day": 1791648000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791734400000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791820800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791907200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791993600000,
+                        "percent": "0.02439024"
+                      },
+                      {
+                        "day": 1792080000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792166400000,
+                        "percent": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": 2,
+                    "detail": [
+                      {
+                        "day": 1791648000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791734400000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791820800000,
+                        "percent": "0.02857143"
+                      },
+                      {
+                        "day": 1791907200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791993600000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792080000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792166400000,
+                        "percent": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": 3,
+                    "detail": [
+                      {
+                        "day": 1791648000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791734400000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791820800000,
+                        "percent": "0.02857143"
+                      },
+                      {
+                        "day": 1791907200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791993600000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792080000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792166400000,
+                        "percent": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": 4,
+                    "detail": [
+                      {
+                        "day": 1791648000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791734400000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791820800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791907200000,
+                        "percent": "0.05263158"
+                      },
+                      {
+                        "day": 1791993600000,
+                        "percent": "0.04878049"
+                      },
+                      {
+                        "day": 1792080000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1792166400000,
+                        "percent": "0"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "musicYear": {
+                "total": 77,
+                "year": 2020,
+                "percent": "0.50442478",
+                "yearPercents": [
+                  {
+                    "startYear": 2020,
+                    "endYear": 2030,
+                    "percent": "0.50442478"
+                  },
+                  {
+                    "startYear": 2010,
+                    "endYear": 2020,
+                    "percent": "0.45575221"
+                  },
+                  {
+                    "startYear": 2000,
+                    "endYear": 2010,
+                    "percent": "0.03982301"
+                  }
+                ],
+                "yearSingles": [
+                  {
+                    "songId": 4909229,
+                    "songName": "四季ノ唄",
+                    "count": 0,
+                    "mainArtistName": "Nujabes",
+                    "artistNames": "MINMI旻觅",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p4.music.126.net/_BSGBUrL6fHJTa8HmYbo3g==/109951170423365264.jpg",
+                    "artistMap": {
+                      "17071": "MINMI旻觅"
+                    },
+                    "albumName": "samurai champloo music record departure",
+                    "tag": "年代最久远"
+                  },
+                  {
+                    "songId": 3442131349,
+                    "songName": "Rendezvous",
+                    "count": 0,
+                    "mainArtistName": "Mili",
+                    "artistNames": "Mili",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p4.music.126.net/7kaZumjeo8LjULsgyb0UJw==/109951174021104763.jpg",
+                    "artistMap": {
+                      "339594": "Mili"
+                    },
+                    "albumName": "Rendezvous",
+                    "tag": "最新发行"
+                  }
+                ]
+              },
+              "listenAlbumInfo": {
+                "count": 153,
+                "details": [
+                  {
+                    "albumName": "一些随弹",
+                    "albumId": 174003615,
+                    "playerId": 51535561,
+                    "playerName": "待夕归明",
+                    "tag": "最爱专辑",
+                    "coverUrl": "http://p4.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg",
+                    "online": true
+                  },
+                  {
+                    "albumName": "うたかたの栞",
+                    "albumId": 369773136,
+                    "playerId": 15164,
+                    "playerName": "Otokaze",
+                    "tag": "新听专辑",
+                    "coverUrl": "http://p4.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg",
+                    "online": true
+                  },
+                  {
+                    "albumName": "形藻土",
+                    "albumId": 367623972,
+                    "playerId": 15021101,
+                    "playerName": "ずっと真夜中でいいのに。",
+                    "tag": "听了又听",
+                    "coverUrl": "http://p4.music.126.net/IeAdg6O6aJN6nGc6aEhX-w==/109951172937804770.jpg",
+                    "online": true
+                  }
+                ]
+              },
+              "listenPlayer": {
+                "players": [
+                  {
+                    "id": 15021101,
+                    "artistName": "ずっと真夜中でいいのに。",
+                    "aliasName": "ZUTOMAYO;ZTMY;ずとまよ",
+                    "cover": "http://p4.music.126.net/it3tUtCfcRLZTxNhkjplRA==/109951165115946920.jpg",
+                    "hasRelation": true,
+                    "fansCount": 0,
+                    "fansShow": "79.3万",
+                    "userId": 1831725944,
+                    "tag": "最爱艺人"
+                  },
+                  {
+                    "id": 51535561,
+                    "artistName": "待夕归明",
+                    "aliasName": "",
+                    "cover": "http://p3.music.126.net/rgMCAoSxs172BuF6ytKyBA==/109951167056218263.jpg",
+                    "hasRelation": false,
+                    "fansCount": 0,
+                    "fansShow": "31",
+                    "userId": 599663130,
+                    "tag": "新听艺人"
+                  },
+                  {
+                    "id": 15164,
+                    "artistName": "Otokaze",
+                    "aliasName": "Taka a.k.a otokaze",
+                    "cover": "http://p3.music.126.net/vg6Q4CpoJoH-Y143FVyk9A==/6663040465647665.jpg",
+                    "hasRelation": true,
+                    "fansCount": 0,
+                    "fansShow": "14.2万",
+                    "userId": 0,
+                    "tag": "听了又听"
+                  }
+                ],
+                "count": 150
+              },
+              "appDurationDataList": [
+                {
+                  "intervel": 0,
+                  "duration": 62803468019,
+                  "count": 328627853,
+                  "intervelType": 0,
+                  "playCntRate": "0.030734304026989116"
+                },
+                {
+                  "intervel": 1,
+                  "duration": 53378108510,
+                  "count": 275223166,
+                  "intervelType": 0,
+                  "playCntRate": "0.02573973076808707"
+                },
+                {
+                  "intervel": 2,
+                  "duration": 46103105144,
+                  "count": 235737543,
+                  "intervelType": 0,
+                  "playCntRate": "0.022046911882229958"
+                },
+                {
+                  "intervel": 3,
+                  "duration": 40693231112,
+                  "count": 206980149,
+                  "intervelType": 0,
+                  "playCntRate": "0.019357430506407827"
+                },
+                {
+                  "intervel": 4,
+                  "duration": 36875698637,
+                  "count": 187091335,
+                  "intervelType": 0,
+                  "playCntRate": "0.01749736645330933"
+                },
+                {
+                  "intervel": 5,
+                  "duration": 34679801237,
+                  "count": 176112302,
+                  "intervelType": 0,
+                  "playCntRate": "0.01647057296923923"
+                },
+                {
+                  "intervel": 6,
+                  "duration": 39121268155,
+                  "count": 202588278,
+                  "intervelType": 0,
+                  "playCntRate": "0.018946689002517964"
+                },
+                {
+                  "intervel": 7,
+                  "duration": 66068784863,
+                  "count": 345832961,
+                  "intervelType": 0,
+                  "playCntRate": "0.03234337950632526"
+                },
+                {
+                  "intervel": 8,
+                  "duration": 85554294108,
+                  "count": 442028031,
+                  "intervelType": 0,
+                  "playCntRate": "0.0413398431361975"
+                },
+                {
+                  "intervel": 9,
+                  "duration": 88991908576,
+                  "count": 457567576,
+                  "intervelType": 0,
+                  "playCntRate": "0.0427931499576101"
+                },
+                {
+                  "intervel": 10,
+                  "duration": 98614949419,
+                  "count": 503440110,
+                  "intervelType": 0,
+                  "playCntRate": "0.04708329272418928"
+                },
+                {
+                  "intervel": 11,
+                  "duration": 100730484177,
+                  "count": 514707569,
+                  "intervelType": 0,
+                  "playCntRate": "0.04813706070933214"
+                },
+                {
+                  "intervel": 12,
+                  "duration": 92838845760,
+                  "count": 481477060,
+                  "intervelType": 0,
+                  "playCntRate": "0.04502923963679025"
+                },
+                {
+                  "intervel": 13,
+                  "duration": 104258957917,
+                  "count": 536254565,
+                  "intervelType": 0,
+                  "playCntRate": "0.050152203126162885"
+                },
+                {
+                  "intervel": 14,
+                  "duration": 112696533293,
+                  "count": 572624680,
+                  "intervelType": 0,
+                  "playCntRate": "0.05355364996550476"
+                },
+                {
+                  "intervel": 15,
+                  "duration": 118165384418,
+                  "count": 599394662,
+                  "intervelType": 0,
+                  "playCntRate": "0.05605726235889805"
+                },
+                {
+                  "intervel": 16,
+                  "duration": 122789634140,
+                  "count": 624039624,
+                  "intervelType": 0,
+                  "playCntRate": "0.0583621362395718"
+                },
+                {
+                  "intervel": 17,
+                  "duration": 130964861018,
+                  "count": 671333409,
+                  "intervelType": 0,
+                  "playCntRate": "0.06278519884217189"
+                },
+                {
+                  "intervel": 18,
+                  "duration": 125028246076,
+                  "count": 649620661,
+                  "intervelType": 0,
+                  "playCntRate": "0.06075455478019884"
+                },
+                {
+                  "intervel": 19,
+                  "duration": 116314605435,
+                  "count": 611951332,
+                  "intervelType": 0,
+                  "playCntRate": "0.05723160138653541"
+                },
+                {
+                  "intervel": 20,
+                  "duration": 114162127296,
+                  "count": 604957761,
+                  "intervelType": 0,
+                  "playCntRate": "0.05657754076633492"
+                },
+                {
+                  "intervel": 21,
+                  "duration": 105940837637,
+                  "count": 566581946,
+                  "intervelType": 0,
+                  "playCntRate": "0.05298851459364015"
+                },
+                {
+                  "intervel": 22,
+                  "duration": 91975255244,
+                  "count": 493043633,
+                  "intervelType": 0,
+                  "playCntRate": "0.04611098169817408"
+                },
+                {
+                  "intervel": 23,
+                  "duration": 76178662391,
+                  "count": 405326326,
+                  "intervelType": 0,
+                  "playCntRate": "0.0379073849635822"
+                }
+              ],
+              "version": 3,
+              "tsNum": 0,
+              "listenSingle": {
+                "singles": [
+                  {
+                    "songId": 3367586149,
+                    "songName": "うたかたの栞",
+                    "count": 0,
+                    "mainArtistName": "Otokaze",
+                    "artistNames": "Otokaze",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p4.music.126.net/WaAbH96irAxme7DDwROp0A==/109951173012649947.jpg",
+                    "artistMap": {
+                      "15164": "Otokaze"
+                    },
+                    "albumName": "うたかたの栞",
+                    "tag": "最爱单曲"
+                  },
+                  {
+                    "songId": 3446719895,
+                    "songName": "where is my flower",
+                    "count": 0,
+                    "mainArtistName": "待夕归明",
+                    "artistNames": "待夕归明",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p4.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg",
+                    "artistMap": {
+                      "51535561": "待夕归明"
+                    },
+                    "albumName": "一些随弹",
+                    "tag": "新听单曲"
+                  },
+                  {
+                    "songId": 3362570924,
+                    "songName": "間人間",
+                    "count": 0,
+                    "mainArtistName": "ずっと真夜中でいいのに。",
+                    "artistNames": "ずっと真夜中でいいのに。",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/IeAdg6O6aJN6nGc6aEhX-w==/109951172937804770.jpg",
+                    "artistMap": {
+                      "15021101": "ずっと真夜中でいいのに。"
+                    },
+                    "albumName": "形藻土",
+                    "tag": "听了又听"
+                  }
+                ],
+                "count": 162
+              }
+            },
+            "userId": 599663130,
+            "dayTime": 1792166400000,
+            "rowKey": "b874a8923387793aaf7ae0725ddb5281_1792166400000",
+            "srcType": null,
+            "weekStartTime": 1791648000000,
+            "weekEndTime": 1792166400000,
+            "prev": 0,
+            "prevRowKey": null,
+            "preVersion": 0,
+            "nextVersion": 0,
+            "next": 0,
+            "nextRowKey": null,
+            "showFree": false,
+            "musicQuotientWeekData": null
+          },
+          {
+            "type": 4,
+            "data": {
+              "keyword": "二次元永不毕业",
+              "subTitle": "你听了##132首##1「二次元」歌曲,占了大部分听歌时间",
+              "listenSongs": 115,
+              "styleName": "二次元",
+              "styleId": 1252,
+              "secondStyleDataList": [
+                {
+                  "name": "同人作品",
+                  "secondStyleId": 1320,
+                  "song": {
+                    "songId": 803557,
+                    "songName": "夏阳炎(inst.ver)",
+                    "count": 0,
+                    "mainArtistName": "QLOCKS",
+                    "artistNames": "QLOCKS",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p4.music.126.net/G1GBlIJoACSlJfbKIsisoQ==/4432131371567353.jpg",
+                    "artistMap": {
+                      "21121": "QLOCKS"
+                    },
+                    "albumName": "天威梦方",
+                    "tag": null
+                  }
+                }
+              ],
+              "favoritePlayers": [],
+              "recommendSongs": [
+                {
+                  "songId": 1381723556,
+                  "songName": "Call your name <Gv>",
+                  "count": 0,
+                  "mainArtistName": "澤野弘之",
+                  "artistNames": "澤野弘之/R!N/Gemie",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/tUVBHTRiO2fSvvgIcMhuGA==/109951164317563085.jpg",
+                  "artistMap": {
+                    "15290": "澤野弘之",
+                    "12531080": "R!N/Gemie"
+                  },
+                  "albumName": "「進撃の巨人」Season3 オリジナルサウンドトラック",
+                  "tag": null
+                }
+              ],
+              "newSongs": [],
+              "listenWeekTime": 28851,
+              "songInfos": [
+                {
+                  "songId": 28242594,
+                  "songName": "canta per me",
+                  "count": 0,
+                  "mainArtistName": "梶浦由記",
+                  "artistNames": "貝田由里子",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/kohuUQ1pxhUyDNDjwZoXZg==/109951170423394895.jpg",
+                  "artistMap": {
+                    "162111": "貝田由里子"
+                  },
+                  "albumName": "ＮＯＩＲ ORIGINAL SOUNDTRACK I",
+                  "tag": null
+                },
+                {
+                  "songId": 1314777725,
+                  "songName": "Out of Time (feat. Eric Lumiere) [Sagan Remix]",
+                  "count": 0,
+                  "mainArtistName": "Shane 54",
+                  "artistNames": "Shane 54/Cubicore/Eric Lumiere/Sagan",
+                  "online": true,
+                  "songStype": ["Dance"],
+                  "coverUrl": "http://p3.music.126.net/-8Uvrn6ufG8Y-l96bOpy3A==/109951168301520764.jpg",
+                  "artistMap": {
+                    "77502": "Sagan",
+                    "158539": "Shane 54",
+                    "537263": "Eric Lumiere",
+                    "28408444": "Cubicore"
+                  },
+                  "albumName": "Out of Time (feat. Eric Lumiere) [Sagan Remix]",
+                  "tag": null
+                },
+                {
+                  "songId": 3444195966,
+                  "songName": "你死后 世界开始爱你",
+                  "count": 0,
+                  "mainArtistName": "Seto",
+                  "artistNames": "Seto",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/rDElMiAm4dzJ2kN4J6pTOQ==/109951174056963594.jpg",
+                  "artistMap": {
+                    "30950035": "Seto"
+                  },
+                  "albumName": "你死后 世界开始爱你",
+                  "tag": null
+                },
+                {
+                  "songId": 34144434,
+                  "songName": "Where Is The Love? (Soule Rework)",
+                  "count": 0,
+                  "mainArtistName": "Clément Bcx",
+                  "artistNames": "Clément Bcx/Black Eyed Peas/Ellena Soule/Soule",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/knXuA0rAKFg9eViip-NaGQ==/7783442814172824.jpg",
+                  "artistMap": {
+                    "88146": "Black Eyed Peas",
+                    "1078228": "Clément Bcx",
+                    "1081902": "Ellena Soule",
+                    "32964452": "Soule"
+                  },
+                  "albumName": "Where Is The Love",
+                  "tag": null
+                },
+                {
+                  "songId": 2076092269,
+                  "songName": "『また月夜に』",
+                  "count": 0,
+                  "mainArtistName": "凋叶棕",
+                  "artistNames": "めらみぽっぷ",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/KIW05GHWJmSkTCgIdvoQPw==/109951173518199389.jpg",
+                  "artistMap": {
+                    "17207": "めらみぽっぷ"
+                  },
+                  "albumName": "慄 (配信版)",
+                  "tag": null
+                },
+                {
+                  "songId": 521416693,
+                  "songName": "So Far Away",
+                  "count": 0,
+                  "mainArtistName": "Martin Garrix",
+                  "artistNames": "Martin Garrix/David Guetta/Jamie Scott/Romy Dya",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/bDdwz0zd-BGYpel1QEU2RA==/109951165983886039.jpg",
+                  "artistMap": {
+                    "31211": "David Guetta",
+                    "141813": "Jamie Scott",
+                    "780003": "Martin Garrix",
+                    "12900365": "Romy Dya"
+                  },
+                  "albumName": "So Far Away",
+                  "tag": null
+                },
+                {
+                  "songId": 803557,
+                  "songName": "夏阳炎(inst.ver)",
+                  "count": 0,
+                  "mainArtistName": "QLOCKS",
+                  "artistNames": "QLOCKS",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/G1GBlIJoACSlJfbKIsisoQ==/4432131371567353.jpg",
+                  "artistMap": {
+                    "21121": "QLOCKS"
+                  },
+                  "albumName": "天威梦方",
+                  "tag": null
+                },
+                {
+                  "songId": 3445671834,
+                  "songName": "how should i gaze the sky",
+                  "count": 0,
+                  "mainArtistName": "待夕归明",
+                  "artistNames": "待夕归明",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg",
+                  "artistMap": {
+                    "51535561": "待夕归明"
+                  },
+                  "albumName": "一些随弹",
+                  "tag": null
+                },
+                {
+                  "songId": 1381723556,
+                  "songName": "Call your name <Gv>",
+                  "count": 0,
+                  "mainArtistName": "澤野弘之",
+                  "artistNames": "澤野弘之/R!N/Gemie",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/tUVBHTRiO2fSvvgIcMhuGA==/109951164317563085.jpg",
+                  "artistMap": {
+                    "15290": "澤野弘之",
+                    "12531080": "R!N/Gemie"
+                  },
+                  "albumName": "「進撃の巨人」Season3 オリジナルサウンドトラック",
+                  "tag": null
+                }
+              ],
+              "listenStyleSongs": 32,
+              "newStyleName": "",
+              "listenWeekCount": 138,
+              "listenCommonStyle": {
+                "styleDetailList": [
+                  {
+                    "styleName": "二次元",
+                    "percent": "0.33566434"
+                  },
+                  {
+                    "styleName": "电子",
+                    "percent": "0.23776224"
+                  },
+                  {
+                    "styleName": "轻音乐",
+                    "percent": "0.10489510"
+                  },
+                  {
+                    "styleName": "日本流行",
+                    "percent": "0.06293706"
+                  },
+                  {
+                    "styleName": "纯演奏音乐",
+                    "percent": "0.05594406"
+                  }
+                ]
+              },
+              "musicEmotion": {
+                "subTitle": ["专注深情", "充满张力"],
+                "emotions": [
+                  {
+                    "type": 1,
+                    "detail": [
+                      {
+                        "day": 1791043200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791129600000,
+                        "percent": "0.03030303"
+                      },
+                      {
+                        "day": 1791216000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791302400000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791388800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791475200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791561600000,
+                        "percent": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": 4,
+                    "detail": [
+                      {
+                        "day": 1791043200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791129600000,
+                        "percent": "0.06060606"
+                      },
+                      {
+                        "day": 1791216000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791302400000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791388800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791475200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1791561600000,
+                        "percent": "0"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "musicYear": {
+                "total": 70,
+                "year": 2010,
+                "percent": "0.60843373",
+                "yearPercents": [
+                  {
+                    "startYear": 2010,
+                    "endYear": 2020,
+                    "percent": "0.60843373"
+                  },
+                  {
+                    "startYear": 2020,
+                    "endYear": 2030,
+                    "percent": "0.28313253"
+                  },
+                  {
+                    "startYear": 2000,
+                    "endYear": 2010,
+                    "percent": "0.10843373"
+                  }
+                ],
+                "yearSingles": [
+                  {
+                    "songId": 3444195966,
+                    "songName": "你死后 世界开始爱你",
+                    "count": 0,
+                    "mainArtistName": "Seto",
+                    "artistNames": "Seto",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p4.music.126.net/rDElMiAm4dzJ2kN4J6pTOQ==/109951174056963594.jpg",
+                    "artistMap": {
+                      "30950035": "Seto"
+                    },
+                    "albumName": "你死后 世界开始爱你",
+                    "tag": "最新发行"
+                  },
+                  {
+                    "songId": 28242594,
+                    "songName": "canta per me",
+                    "count": 0,
+                    "mainArtistName": "梶浦由記",
+                    "artistNames": "貝田由里子",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p4.music.126.net/kohuUQ1pxhUyDNDjwZoXZg==/109951170423394895.jpg",
+                    "artistMap": {
+                      "162111": "貝田由里子"
+                    },
+                    "albumName": "ＮＯＩＲ ORIGINAL SOUNDTRACK I",
+                    "tag": "年代最久远"
+                  }
+                ]
+              },
+              "listenSingle": {
+                "singles": [
+                  {
+                    "songId": 803557,
+                    "songName": "夏阳炎(inst.ver)",
+                    "count": 0,
+                    "mainArtistName": "QLOCKS",
+                    "artistNames": "QLOCKS",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/G1GBlIJoACSlJfbKIsisoQ==/4432131371567353.jpg",
+                    "artistMap": {
+                      "21121": "QLOCKS"
+                    },
+                    "albumName": "天威梦方",
+                    "tag": "最爱单曲"
+                  },
+                  {
+                    "songId": 34144434,
+                    "songName": "Where Is The Love? (Soule Rework)",
+                    "count": 0,
+                    "mainArtistName": "Clément Bcx",
+                    "artistNames": "Clément Bcx/Black Eyed Peas/Ellena Soule/Soule",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/knXuA0rAKFg9eViip-NaGQ==/7783442814172824.jpg",
+                    "artistMap": {
+                      "88146": "Black Eyed Peas",
+                      "1078228": "Clément Bcx",
+                      "1081902": "Ellena Soule",
+                      "32964452": "Soule"
+                    },
+                    "albumName": "Where Is The Love",
+                    "tag": "新听单曲"
+                  },
+                  {
+                    "songId": 521416693,
+                    "songName": "So Far Away",
+                    "count": 0,
+                    "mainArtistName": "Martin Garrix",
+                    "artistNames": "Martin Garrix/David Guetta/Jamie Scott/Romy Dya",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p4.music.126.net/bDdwz0zd-BGYpel1QEU2RA==/109951165983886039.jpg",
+                    "artistMap": {
+                      "31211": "David Guetta",
+                      "141813": "Jamie Scott",
+                      "780003": "Martin Garrix",
+                      "12900365": "Romy Dya"
+                    },
+                    "albumName": "So Far Away",
+                    "tag": "听了又听"
+                  }
+                ],
+                "count": 115
+              },
+              "listenAlbumInfo": {
+                "count": 113,
+                "details": [
+                  {
+                    "albumName": "天威梦方",
+                    "albumId": 79733,
+                    "playerId": 21121,
+                    "playerName": "QLOCKS",
+                    "tag": "最爱专辑",
+                    "coverUrl": "http://p4.music.126.net/G1GBlIJoACSlJfbKIsisoQ==/4432131371567353.jpg",
+                    "online": true
+                  },
+                  {
+                    "albumName": "一些随弹",
+                    "albumId": 174003615,
+                    "playerId": 51535561,
+                    "playerName": "待夕归明",
+                    "tag": "新听专辑",
+                    "coverUrl": "http://p3.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg",
+                    "online": true
+                  },
+                  {
+                    "albumName": "Where Is The Love",
+                    "albumId": 3271445,
+                    "playerId": 1078228,
+                    "playerName": "Clément Bcx",
+                    "tag": "听了又听",
+                    "coverUrl": "http://p4.music.126.net/knXuA0rAKFg9eViip-NaGQ==/7783442814172824.jpg",
+                    "online": true
+                  }
+                ]
+              },
+              "listenPlayer": {
+                "players": [
+                  {
+                    "id": 17207,
+                    "artistName": "めらみぽっぷ",
+                    "aliasName": "",
+                    "cover": "http://p4.music.126.net/Pq4qwsEX4ksH1F3k_N9Dtw==/109951163549002753.jpg",
+                    "hasRelation": false,
+                    "fansCount": 0,
+                    "fansShow": "7.7万",
+                    "userId": 0,
+                    "tag": "最爱艺人"
+                  },
+                  {
+                    "id": 21121,
+                    "artistName": "QLOCKS",
+                    "aliasName": "久遠",
+                    "cover": "http://p3.music.126.net/eWyYS33R9Vd5FTLfs9Df4Q==/938982930145429.jpg",
+                    "hasRelation": false,
+                    "fansCount": 0,
+                    "fansShow": "1.2万",
+                    "userId": 0,
+                    "tag": "新听艺人"
+                  },
+                  {
+                    "id": 51535561,
+                    "artistName": "待夕归明",
+                    "aliasName": "",
+                    "cover": "http://p3.music.126.net/rgMCAoSxs172BuF6ytKyBA==/109951167056218263.jpg",
+                    "hasRelation": false,
+                    "fansCount": 0,
+                    "fansShow": "31",
+                    "userId": 599663130,
+                    "tag": "听了又听"
+                  }
+                ],
+                "count": 130
+              },
+              "version": 3,
+              "tsNum": 0
+            },
+            "userId": 599663130,
+            "dayTime": 1791561600000,
+            "rowKey": "b874a8923387793aaf7ae0725ddb5281_1791561600000",
+            "srcType": null,
+            "weekStartTime": 1791043200000,
+            "weekEndTime": 1791561600000,
+            "prev": 0,
+            "prevRowKey": null,
+            "preVersion": 0,
+            "nextVersion": 0,
+            "next": 0,
+            "nextRowKey": null,
+            "showFree": false,
+            "musicQuotientWeekData": null
+          },
+          {
+            "type": 1,
+            "data": {
+              "keyword": "音乐如同氧气",
+              "subTitle": "你已连续##14周##1听歌超过14小时",
+              "listenWeekTime": 51255,
+              "percent": "0.90",
+              "details": [
+                {
+                  "duration": 8840,
+                  "day": 1789833600000
+                },
+                {
+                  "duration": 10887,
+                  "day": 1789920000000
+                },
+                {
+                  "duration": 2554,
+                  "day": 1790006400000
+                },
+                {
+                  "duration": 7900,
+                  "day": 1790092800000
+                },
+                {
+                  "duration": 2161,
+                  "day": 1790179200000
+                },
+                {
+                  "duration": 11679,
+                  "day": 1790265600000
+                },
+                {
+                  "duration": 7234,
+                  "day": 1790352000000
+                }
+              ],
+              "startTime": 1789869538000,
+              "startSong": {
+                "songId": 453268366,
+                "songName": "our love",
+                "count": 0,
+                "mainArtistName": "西原健一郎",
+                "artistNames": "西原健一郎/Mabanua",
+                "online": true,
+                "songStype": [],
+                "coverUrl": "http://p3.music.126.net/SZ7jsRY5BtXHi2G_WnJPsw==/109951171891583875.jpg",
+                "artistMap": {
+                  "14527": "西原健一郎",
+                  "14748": "Mabanua"
+                },
+                "albumName": "Sincerely...",
+                "tag": null
+              },
+              "endTime": 1790271364000,
+              "endSong": {
+                "songId": 108810,
+                "songName": "不死之身",
+                "count": 0,
+                "mainArtistName": "林俊杰",
+                "artistNames": "林俊杰",
+                "online": true,
+                "songStype": [],
+                "coverUrl": "http://p4.music.126.net/kSyujmjRn_9adgb4Wg5R-g==/109951171415593434.jpg",
+                "artistMap": {
+                  "3684": "林俊杰"
+                },
+                "albumName": "曹操",
+                "tag": null
+              },
+              "favoriteSongs": null,
+              "favoritePlayers": [],
+              "newSongs": null,
+              "listenSongs": 222,
+              "songInfos": [
+                {
+                  "songId": 2731366989,
+                  "songName": "墟",
+                  "count": 0,
+                  "mainArtistName": "塞壬唱片-MSR",
+                  "artistNames": "塞壬唱片-MSR/Substantial/Erik Castro",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/xWHWPfL_4xkzLeC3lwUM7g==/109951171543275179.jpg",
+                  "artistMap": {
+                    "76807": "Substantial",
+                    "15141522": "Erik Castro",
+                    "32540734": "塞壬唱片-MSR"
+                  },
+                  "albumName": "墟OST",
+                  "tag": null
+                },
+                {
+                  "songId": 445063,
+                  "songName": "めぐる季節",
+                  "count": 0,
+                  "mainArtistName": "久石譲",
+                  "artistNames": "井上あずみ",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/UymFzAGfG4Y5RG7jtF9TBQ==/109951164728000124.jpg",
+                  "artistMap": {
+                    "16297": "井上あずみ"
+                  },
+                  "albumName": "魔女の宅急便 ヴォーカル・アルバム",
+                  "tag": null
+                },
+                {
+                  "songId": 453268366,
+                  "songName": "our love",
+                  "count": 0,
+                  "mainArtistName": "西原健一郎",
+                  "artistNames": "西原健一郎/Mabanua",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/SZ7jsRY5BtXHi2G_WnJPsw==/109951171891583875.jpg",
+                  "artistMap": {
+                    "14527": "西原健一郎",
+                    "14748": "Mabanua"
+                  },
+                  "albumName": "Sincerely...",
+                  "tag": null
+                },
+                {
+                  "songId": 108810,
+                  "songName": "不死之身",
+                  "count": 0,
+                  "mainArtistName": "林俊杰",
+                  "artistNames": "林俊杰",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/kSyujmjRn_9adgb4Wg5R-g==/109951171415593434.jpg",
+                  "artistMap": {
+                    "3684": "林俊杰"
+                  },
+                  "albumName": "曹操",
+                  "tag": null
+                },
+                {
+                  "songId": 3439796497,
+                  "songName": "假城堡",
+                  "count": 0,
+                  "mainArtistName": "在虚无中永存",
+                  "artistNames": "在虚无中永存",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/bVZ8Px2qeIX5SA8-yynZ_A==/109951173982169925.jpg",
+                  "artistMap": {
+                    "97589116": "在虚无中永存"
+                  },
+                  "albumName": "假城堡",
+                  "tag": null
+                },
+                {
+                  "songId": 2675501152,
+                  "songName": "scarlet",
+                  "count": 0,
+                  "mainArtistName": "L1VET..",
+                  "artistNames": "L1VET..",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/jTcKApVU9D8nCIsHxxhe_g==/109951170487563148.jpg",
+                  "artistMap": {
+                    "34150014": "L1VET.."
+                  },
+                  "albumName": "scarlet",
+                  "tag": null
+                },
+                {
+                  "songId": 1849256862,
+                  "songName": "Azure Skies",
+                  "count": 0,
+                  "mainArtistName": "trxxshed",
+                  "artistNames": "trxxshed/Philichordia/a l e x",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/3k-YIbYjjwWhpVp4cjI8rQ==/109951170635894876.jpg",
+                  "artistMap": {
+                    "12154333": "a l e x",
+                    "13589939": "Philichordia",
+                    "34386622": "trxxshed"
+                  },
+                  "albumName": "Azure Skies",
+                  "tag": null
+                },
+                {
+                  "songId": 22712179,
+                  "songName": "Starlight Feat.Nieve",
+                  "count": 0,
+                  "mainArtistName": "阿南亮子",
+                  "artistNames": "阿南亮子/Nieve",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p3.music.126.net/L9-d4kf-D27DkJ_0Uw6rAA==/109951166455944113.jpg",
+                  "artistMap": {
+                    "16069": "阿南亮子",
+                    "36396613": "Nieve"
+                  },
+                  "albumName": "Eternal Light",
+                  "tag": null
+                },
+                {
+                  "songId": 1294951288,
+                  "songName": "溯 (Reverse)",
+                  "count": 0,
+                  "mainArtistName": "CORSAK胡梦周",
+                  "artistNames": "CORSAK胡梦周/马吟吟",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/JwbX37b8n6mZTtHMO84ZQA==/109951173628284613.jpg",
+                  "artistMap": {
+                    "8982": "马吟吟",
+                    "28083351": "CORSAK胡梦周"
+                  },
+                  "albumName": "溯 (Reverse)",
+                  "tag": null
+                },
+                {
+                  "songId": 26310271,
+                  "songName": "九龍イドラ",
+                  "count": 0,
+                  "mainArtistName": "トーマ",
+                  "artistNames": "トーマ/GUMI",
+                  "online": true,
+                  "songStype": [],
+                  "coverUrl": "http://p4.music.126.net/7dkEW80_gBGmIGe3ROXMFQ==/2524478697429863.jpg",
+                  "artistMap": {
+                    "161660": "トーマ",
+                    "188274": "GUMI"
+                  },
+                  "albumName": "アザレアの心臓",
+                  "tag": null
+                }
+              ],
+              "listenWeekCount": 251,
+              "listenCommonStyle": {
+                "styleDetailList": [
+                  {
+                    "styleName": "嘻哈说唱",
+                    "percent": "0.28214286"
+                  },
+                  {
+                    "styleName": "电子",
+                    "percent": "0.16428571"
+                  },
+                  {
+                    "styleName": "二次元",
+                    "percent": "0.16428571"
+                  },
+                  {
+                    "styleName": "轻音乐",
+                    "percent": "0.07857143"
+                  },
+                  {
+                    "styleName": "纯演奏音乐",
+                    "percent": "0.06785714"
+                  }
+                ]
+              },
+              "musicEmotion": {
+                "subTitle": ["专注深情", "爱意炙热"],
+                "emotions": [
+                  {
+                    "type": 1,
+                    "detail": [
+                      {
+                        "day": 1789833600000,
+                        "percent": "0.08695652"
+                      },
+                      {
+                        "day": 1789920000000,
+                        "percent": "0.05000000"
+                      },
+                      {
+                        "day": 1790006400000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790092800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790179200000,
+                        "percent": "0.08333333"
+                      },
+                      {
+                        "day": 1790265600000,
+                        "percent": "0.06000000"
+                      },
+                      {
+                        "day": 1790352000000,
+                        "percent": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": 3,
+                    "detail": [
+                      {
+                        "day": 1789833600000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1789920000000,
+                        "percent": "0.01666667"
+                      },
+                      {
+                        "day": 1790006400000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790092800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790179200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790265600000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790352000000,
+                        "percent": "0"
+                      }
+                    ]
+                  },
+                  {
+                    "type": 4,
+                    "detail": [
+                      {
+                        "day": 1789833600000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1789920000000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790006400000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790092800000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790179200000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790265600000,
+                        "percent": "0"
+                      },
+                      {
+                        "day": 1790352000000,
+                        "percent": "0.02941176"
+                      }
+                    ]
+                  }
+                ]
+              },
+              "musicYear": {
+                "total": 125,
+                "year": 2010,
+                "percent": "0.57621951",
+                "yearPercents": [
+                  {
+                    "startYear": 2010,
+                    "endYear": 2020,
+                    "percent": "0.57621951"
+                  },
+                  {
+                    "startYear": 2020,
+                    "endYear": 2030,
+                    "percent": "0.36280488"
+                  },
+                  {
+                    "startYear": 2000,
+                    "endYear": 2010,
+                    "percent": "0.05487805"
+                  },
+                  {
+                    "startYear": 1990,
+                    "endYear": 2000,
+                    "percent": "0.00304878"
+                  }
+                ],
+                "yearSingles": [
+                  {
+                    "songId": 445063,
+                    "songName": "めぐる季節",
+                    "count": 0,
+                    "mainArtistName": "久石譲",
+                    "artistNames": "井上あずみ",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/UymFzAGfG4Y5RG7jtF9TBQ==/109951164728000124.jpg",
+                    "artistMap": {
+                      "16297": "井上あずみ"
+                    },
+                    "albumName": "魔女の宅急便 ヴォーカル・アルバム",
+                    "tag": "年代最久远"
+                  },
+                  {
+                    "songId": 3439796497,
+                    "songName": "假城堡",
+                    "count": 0,
+                    "mainArtistName": "在虚无中永存",
+                    "artistNames": "在虚无中永存",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/bVZ8Px2qeIX5SA8-yynZ_A==/109951173982169925.jpg",
+                    "artistMap": {
+                      "97589116": "在虚无中永存"
+                    },
+                    "albumName": "假城堡",
+                    "tag": "最新发行"
+                  }
+                ]
+              },
+              "listenSingle": {
+                "singles": [
+                  {
+                    "songId": 22712179,
+                    "songName": "Starlight Feat.Nieve",
+                    "count": 0,
+                    "mainArtistName": "阿南亮子",
+                    "artistNames": "阿南亮子/Nieve",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/L9-d4kf-D27DkJ_0Uw6rAA==/109951166455944113.jpg",
+                    "artistMap": {
+                      "16069": "阿南亮子",
+                      "36396613": "Nieve"
+                    },
+                    "albumName": "Eternal Light",
+                    "tag": "最爱单曲"
+                  },
+                  {
+                    "songId": 26310271,
+                    "songName": "九龍イドラ",
+                    "count": 0,
+                    "mainArtistName": "トーマ",
+                    "artistNames": "トーマ/GUMI",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/7dkEW80_gBGmIGe3ROXMFQ==/2524478697429863.jpg",
+                    "artistMap": {
+                      "161660": "トーマ",
+                      "188274": "GUMI"
+                    },
+                    "albumName": "アザレアの心臓",
+                    "tag": "新听单曲"
+                  },
+                  {
+                    "songId": 1294951288,
+                    "songName": "溯 (Reverse)",
+                    "count": 0,
+                    "mainArtistName": "CORSAK胡梦周",
+                    "artistNames": "CORSAK胡梦周/马吟吟",
+                    "online": true,
+                    "songStype": [],
+                    "coverUrl": "http://p3.music.126.net/JwbX37b8n6mZTtHMO84ZQA==/109951173628284613.jpg",
+                    "artistMap": {
+                      "8982": "马吟吟",
+                      "28083351": "CORSAK胡梦周"
+                    },
+                    "albumName": "溯 (Reverse)",
+                    "tag": "听了又听"
+                  }
+                ],
+                "count": 222
+              },
+              "listenAlbumInfo": {
+                "count": 215,
+                "details": [
+                  {
+                    "albumName": "Eternal Light",
+                    "albumId": 2084576,
+                    "playerId": 16069,
+                    "playerName": "阿南亮子",
+                    "tag": "最爱专辑",
+                    "coverUrl": "http://p3.music.126.net/L9-d4kf-D27DkJ_0Uw6rAA==/109951166455944113.jpg",
+                    "online": true
+                  },
+                  {
+                    "albumName": "アザレアの心臓",
+                    "albumId": 2448840,
+                    "playerId": 161660,
+                    "playerName": "トーマ",
+                    "tag": "新听专辑",
+                    "coverUrl": "http://p4.music.126.net/7dkEW80_gBGmIGe3ROXMFQ==/2524478697429863.jpg",
+                    "online": true
+                  },
+                  {
+                    "albumName": "墟OST",
+                    "albumId": 280032806,
+                    "playerId": 32540734,
+                    "playerName": "塞壬唱片-MSR",
+                    "tag": "听了又听",
+                    "coverUrl": "http://p3.music.126.net/xWHWPfL_4xkzLeC3lwUM7g==/109951171543275179.jpg",
+                    "online": true
+                  }
+                ]
+              },
+              "listenPlayer": {
+                "players": [
+                  {
+                    "id": 12094419,
+                    "artistName": "羽肿",
+                    "aliasName": "",
+                    "cover": "http://p3.music.126.net/W1P9f2XA0RgEuYU_wrfGjQ==/109951162878075722.jpg",
+                    "hasRelation": true,
+                    "fansCount": 0,
+                    "fansShow": "76.6万",
+                    "userId": 295138964,
+                    "tag": "最爱艺人"
+                  },
+                  {
+                    "id": 34150014,
+                    "artistName": "L1VET..",
+                    "aliasName": "李维特",
+                    "cover": "http://p3.music.126.net/ka1-O4T8uunWC2uBG3yGCA==/109951165337587977.jpg",
+                    "hasRelation": false,
+                    "fansCount": 0,
+                    "fansShow": "4.9万",
+                    "userId": 117906300,
+                    "tag": "新听艺人"
+                  },
+                  {
+                    "id": 16069,
+                    "artistName": "阿南亮子",
+                    "aliasName": "Anan Ryoko",
+                    "cover": "http://p3.music.126.net/c_eojivhszSH1aEj2q3p_w==/109951163028859256.jpg",
+                    "hasRelation": false,
+                    "fansCount": 0,
+                    "fansShow": "8.5万",
+                    "userId": 0,
+                    "tag": "听了又听"
+                  }
+                ],
+                "count": 233
+              },
+              "version": 3,
+              "tsNum": 0
+            },
+            "userId": 599663130,
+            "dayTime": 1790352000000,
+            "rowKey": "b874a8923387793aaf7ae0725ddb5281_1790352000000",
+            "srcType": null,
+            "weekStartTime": 1789833600000,
+            "weekEndTime": 1790352000000,
+            "prev": 0,
+            "prevRowKey": null,
+            "preVersion": 0,
+            "nextVersion": 0,
+            "next": 0,
+            "nextRowKey": null,
+            "showFree": false,
+            "musicQuotientWeekData": null
+          }
+        ],
+        "beta": false
+      },
+      "code": 200,
+      "message": ""
+    }
+  }
+}

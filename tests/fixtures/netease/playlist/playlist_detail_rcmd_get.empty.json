@@ -1,0 +1,22 @@
+{
+  "module": "playlist_detail_rcmd_get",
+  "query": {
+    "id": 930180433
+  },
+  "context": {
+    "recordedAt": "2026-10-25T12:32:17.399Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B5：playlist_detail_rcmd_get 没有相关推荐，data 是 null"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": null,
+      "doesNotCache": true
+    }
+  }
+}

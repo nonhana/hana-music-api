@@ -1,0 +1,32 @@
+{
+  "module": "playlist_update",
+  "query": {
+    "id": 18526771500,
+    "name": "hana-api-schema-temp-102-step2",
+    "desc": "issue-102-b6-temp",
+    "tags": "华语;流行;夜晚;怀旧"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:51:01.331Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B6：playlist_update 标签超限时 batch 子响应 400（临时歌单，已删除）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "/api/playlist/tags/update": {
+        "code": 400,
+        "message": "标签数据非法"
+      },
+      "/api/playlist/desc/update": {
+        "code": 200
+      },
+      "/api/playlist/update/name": {
+        "code": 200
+      },
+      "code": 200
+    }
+  }
+}

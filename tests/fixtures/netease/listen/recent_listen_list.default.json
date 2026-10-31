@@ -1,0 +1,275 @@
+{
+  "module": "recent_listen_list",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T21:47:54.997Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B32：最近常听"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "title": "最近常听",
+        "resources": [
+          {
+            "resourceId": 7699853347,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "1896365460",
+            "title": "术力口",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p1.music.126.net/rAc1QVyFxLQICHl54KKNfw==/109951170622457061.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/7699853347",
+            "update": false,
+            "playOrUpdateTime": 1792937331000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 7602176379,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "515647297",
+            "title": "memories are still echoing.",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p1.music.126.net/2eNioVy3Sh23OLJVAL9yMg==/109951167838992459.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/7602176379",
+            "update": false,
+            "playOrUpdateTime": 1792937323000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 930180433,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "1369209477",
+            "title": "红心歌单",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p3.music.126.net/Zl5QI-Mc4A6_UhSXjKO7kw==/109951165984876088.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/930180433",
+            "update": false,
+            "playOrUpdateTime": 1792925792000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": true,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 6819787243,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "33469232",
+            "title": "u re a long story.",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p1.music.126.net/EYqCX6tr_7Yqj5rNOp27Sg==/109951170622514029.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/6819787243",
+            "update": false,
+            "playOrUpdateTime": 1792921582000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 13200382930,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "453268366",
+            "title": "jazz hiphop",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p1.music.126.net/XvbR8b3cgE3yeZpooE3KdA==/109951170026985083.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/13200382930",
+            "update": false,
+            "playOrUpdateTime": 1792827947000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 2084576,
+            "resourceCode": null,
+            "resourceType": "album",
+            "subResourceId": "22712182",
+            "title": "Eternal Light",
+            "tag": "专辑",
+            "coverUrlList": [
+              "http://p3.music.126.net/L9-d4kf-D27DkJ_0Uw6rAA==/109951166455944113.jpg"
+            ],
+            "landingUrl": "orpheus://album/2084576",
+            "update": false,
+            "playOrUpdateTime": 1792687795000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 13973088174,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "2677927298",
+            "title": "Bang Dream",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p1.music.126.net/g6qkHGnySMsMgiYnZzwNdQ==/109951171454738886.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/13973088174",
+            "update": false,
+            "playOrUpdateTime": 1792687779000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 17607053428,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "1967698910",
+            "title": "non_h的2025年度歌单",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p1.music.126.net/AYUIngFniHE0GExrSfkzVQ==/2270491511406026.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/17607053428",
+            "update": false,
+            "playOrUpdateTime": 1792605646000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 18503796269,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "343054",
+            "title": "poems.",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p1.music.126.net/YU9H5-T_VHYg80Ok9sj-WA==/109951174136264027.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/18503796269",
+            "update": false,
+            "playOrUpdateTime": 1792426826000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 4860094685,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "405485944",
+            "title": "向日葵武士的JazzHipHop",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p1.music.126.net/qZx_ZFeYIBDuntvMfeLwcw==/109951166626443251.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/4860094685",
+            "update": false,
+            "playOrUpdateTime": 1792419815000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 3172143658,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "1399788807",
+            "title": "ずっと真夜中でいいのに。歌曲合辑",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p1.music.126.net/rZ5QwDyxxQw8UzuexTd6Aw==/109951164990417468.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/3172143658",
+            "update": false,
+            "playOrUpdateTime": 1792419814000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          },
+          {
+            "resourceId": 13007515444,
+            "resourceCode": null,
+            "resourceType": "list",
+            "subResourceId": "473817398",
+            "title": "欧美流行",
+            "tag": "歌单",
+            "coverUrlList": [
+              "http://p1.music.126.net/vrJzlA1RIiwaPHlXzZy90g==/3263350514797284.jpg"
+            ],
+            "landingUrl": "orpheus://playlist/13007515444",
+            "update": false,
+            "playOrUpdateTime": 1792419799000,
+            "similarFmType": null,
+            "dateNum": null,
+            "star": false,
+            "coverCenter": false,
+            "coverExt": null,
+            "songIdList": null,
+            "playIndex": null
+          }
+        ]
+      },
+      "message": ""
+    }
+  }
+}

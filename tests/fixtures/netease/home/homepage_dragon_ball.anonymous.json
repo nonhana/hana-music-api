@@ -1,0 +1,19 @@
+{
+  "module": "homepage_dragon_ball",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T19:44:44.473Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B27：homepage_dragon_ball 匿名对照，data 仍为空数组"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [],
+      "message": ""
+    }
+  }
+}

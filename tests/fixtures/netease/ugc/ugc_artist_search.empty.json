@@ -1,0 +1,25 @@
+{
+  "module": "ugc_artist_search",
+  "query": {
+    "keyword": "zzqqxxnonexistent"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:35:56.283Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B42：ugc_artist_search 无结果，list 是空数组"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": "success",
+      "code": 200,
+      "data": {
+        "totalCount": 0,
+        "list": [],
+        "extraCount": {}
+      }
+    }
+  }
+}

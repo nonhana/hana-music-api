@@ -1,0 +1,636 @@
+{
+  "module": "mv_first",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T11:26:05.763Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：mv_first 最新MV（30 条）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": 14689667,
+          "cover": "http://p3.music.126.net/7pJxsnM-xATVHRSalY3hXw==/109951169258577336.jpg",
+          "name": "早发白帝城",
+          "playCount": 2757049,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "许嵩",
+          "artistId": 5771,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 5771,
+              "name": "许嵩"
+            }
+          ],
+          "alias": ["诗画中国 第2季 第1期"]
+        },
+        {
+          "id": 14690387,
+          "cover": "http://p3.music.126.net/41rUC-vnEqB2fPvyPrAasw==/109951169253967038.jpg",
+          "name": "你走你的路",
+          "playCount": 575139,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "汪峰",
+          "artistId": 5347,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 5347,
+              "name": "汪峰"
+            }
+          ]
+        },
+        {
+          "id": 14690391,
+          "cover": "http://p4.music.126.net/Ok8MD44fSzEsXzTsPq1V4Q==/109951169254199600.jpg",
+          "name": "Dusk Till Dawn",
+          "playCount": 454704,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "刘逸云 Amber Liu",
+          "artistId": 1011016,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1011016,
+              "name": "刘逸云 Amber Liu"
+            }
+          ]
+        },
+        {
+          "id": 14689234,
+          "cover": "http://p4.music.126.net/XaeGydx5Yo4sr-i9arSkGA==/109951169246213818.jpg",
+          "name": "24 (Official Lyric Video)",
+          "playCount": 421039,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "NIKI",
+          "artistId": 473353,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 473353,
+              "name": "NIKI"
+            }
+          ]
+        },
+        {
+          "id": 14690268,
+          "cover": "http://p4.music.126.net/_s8GusXg0uQtP-BsihQBKQ==/109951169251580915.jpg",
+          "name": "LiGhT rAiLs *ੈ✩‧₊˚",
+          "playCount": 403808,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "1999 WRITE THE FUTURE",
+          "artistId": 58711580,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 58711580,
+              "name": "1999 WRITE THE FUTURE"
+            },
+            {
+              "id": 41989,
+              "name": "Rick Ross"
+            },
+            {
+              "id": 12024301,
+              "name": "Rich Brian"
+            }
+          ]
+        },
+        {
+          "id": 14689187,
+          "cover": "http://p3.music.126.net/cEIxnGlEQG4rSkwjvFtguA==/109951169251303332.jpg",
+          "name": "The Show (Steve Aoki & Lucas & Steve Remix)",
+          "playCount": 182490,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Steve Aoki",
+          "artistId": 43608,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 43608,
+              "name": "Steve Aoki"
+            },
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ]
+        },
+        {
+          "id": 14689188,
+          "cover": "http://p3.music.126.net/8_Y5A8lqt_QAVhmxcd8YNQ==/109951169249251089.jpg",
+          "name": "VILLAIN 反派角色 (Visualizer)",
+          "playCount": 34417,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "朱婧汐Akini Jing",
+          "artistId": 10582,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 10582,
+              "name": "朱婧汐Akini Jing"
+            },
+            {
+              "id": 33555263,
+              "name": "TeeZandos"
+            }
+          ]
+        },
+        {
+          "id": 14687815,
+          "cover": "http://p4.music.126.net/VwMfFmQaAHx38_V-1HGGNA==/109951169235152407.jpg",
+          "name": "Like Father Like Daughter",
+          "playCount": 29515,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "MC HotDog 热狗",
+          "artistId": 4479,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 4479,
+              "name": "MC HotDog 热狗"
+            }
+          ]
+        },
+        {
+          "id": 14687142,
+          "cover": "http://p4.music.126.net/FfHEynu4oMXZVJX1kN75lQ==/109951169213052320.jpg",
+          "name": "Floatin'",
+          "playCount": 23950,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Nulbarich",
+          "artistId": 12197210,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12197210,
+              "name": "Nulbarich"
+            }
+          ],
+          "transNames": ["Floatin'"]
+        },
+        {
+          "id": 14685069,
+          "cover": "http://p4.music.126.net/8Z7z7yiAZ91974U36BSwPw==/109951169161538861.jpg",
+          "name": "约翰屈伏塔",
+          "playCount": 85894,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "MC HotDog 热狗",
+          "artistId": 4479,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 4479,
+              "name": "MC HotDog 热狗"
+            }
+          ]
+        },
+        {
+          "id": 14686110,
+          "cover": "http://p4.music.126.net/VrEIay-E6p8ylOES5oDnPg==/109951169200121093.jpg",
+          "name": "不想醒来",
+          "playCount": 35277,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "小春Kenzy",
+          "artistId": 33630934,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 33630934,
+              "name": "小春Kenzy"
+            }
+          ]
+        },
+        {
+          "id": 14682000,
+          "cover": "http://p4.music.126.net/Of0f3no_6EoU4SuUNXgP_A==/109951169143490113.jpg",
+          "name": "楼上的房东",
+          "playCount": 83933,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "MC HotDog 热狗",
+          "artistId": 4479,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 4479,
+              "name": "MC HotDog 热狗"
+            }
+          ]
+        },
+        {
+          "id": 14682299,
+          "cover": "http://p3.music.126.net/OV-miI7tzhxKVMkBxq6UFg==/109951169122770499.jpg",
+          "name": "谦卑高调",
+          "playCount": 93390,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "PSY.P",
+          "artistId": 29303235,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 29303235,
+              "name": "PSY.P"
+            }
+          ]
+        },
+        {
+          "id": 14682482,
+          "cover": "http://p4.music.126.net/cPRxFeEnojtxJvFnz0riNQ==/109951169134937464.jpg",
+          "name": "雕花楼",
+          "playCount": 27630,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "戴荃",
+          "artistId": 791534,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 791534,
+              "name": "戴荃"
+            }
+          ]
+        },
+        {
+          "id": 14679724,
+          "cover": "http://p3.music.126.net/0VPUWClyBlSo8z-noIraJQ==/109951169101321786.jpg",
+          "name": "无答案",
+          "playCount": 76472,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "尹毓恪",
+          "artistId": 12487045,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12487045,
+              "name": "尹毓恪"
+            }
+          ]
+        },
+        {
+          "id": 14680143,
+          "cover": "http://p3.music.126.net/GKlmmAgf7WwOLMSZ61Rv3A==/109951169116051024.jpg",
+          "name": "追梦绿",
+          "playCount": 26534,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "MC HotDog 热狗",
+          "artistId": 4479,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 4479,
+              "name": "MC HotDog 热狗"
+            }
+          ]
+        },
+        {
+          "id": 14679185,
+          "cover": "http://p4.music.126.net/y5z471jCYHQSCqwDCyvVMA==/109951169072365788.jpg",
+          "name": "中坚联合 2023 Cypher",
+          "playCount": 133204,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "贰万",
+          "artistId": 47607639,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 47607639,
+              "name": "贰万"
+            },
+            {
+              "id": 12140048,
+              "name": "Saber梁维嘉"
+            },
+            {
+              "id": 1209050,
+              "name": "Lil Howcy"
+            },
+            {
+              "id": 12264643,
+              "name": "泥鳅Zinco"
+            },
+            {
+              "id": 12092433,
+              "name": "JarStick"
+            },
+            {
+              "id": 12114249,
+              "name": "大D(DLyn)"
+            }
+          ]
+        },
+        {
+          "id": 14678841,
+          "cover": "http://p3.music.126.net/4T7EAvY25X2vB0sp7rmALA==/109951169067366074.jpg",
+          "name": "delulu",
+          "playCount": 45679,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "刘柏辛Lexie",
+          "artistId": 1124151,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1124151,
+              "name": "刘柏辛Lexie"
+            }
+          ]
+        },
+        {
+          "id": 14679419,
+          "cover": "http://p3.music.126.net/D3Au-YGyRPzAoGC3thp5cw==/109951169078307890.jpg",
+          "name": "狂爱",
+          "playCount": 20927,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "潘玮柏",
+          "artistId": 4723,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 4723,
+              "name": "潘玮柏"
+            }
+          ]
+        },
+        {
+          "id": 14679397,
+          "cover": "http://p3.music.126.net/eVlou0NVoRSlEB1nLF0a9A==/109951169073782816.jpg",
+          "name": "许愿星之歌《I'm A Star》",
+          "playCount": 197334,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "周深",
+          "artistId": 1030001,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1030001,
+              "name": "周深"
+            }
+          ]
+        },
+        {
+          "id": 14677178,
+          "cover": "http://p4.music.126.net/JIbTWfUtEY0R9zkLR_db5Q==/109951169060588036.jpg",
+          "name": "Maybe a Live 第八期：干诱因 & 本能实业",
+          "playCount": 18692,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "干诱因",
+          "artistId": 56961101,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 56961101,
+              "name": "干诱因"
+            },
+            {
+              "id": 50264901,
+              "name": "本能實業"
+            }
+          ]
+        },
+        {
+          "id": 14677231,
+          "cover": "http://p4.music.126.net/POIPr1Vwz1f31nXk3pU0Tw==/109951169056559684.jpg",
+          "name": "Don’t Mind Me feat. Crispy脆乐团",
+          "playCount": 8298,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "杨乃文",
+          "artistId": 10198,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 10198,
+              "name": "杨乃文"
+            }
+          ]
+        },
+        {
+          "id": 14675624,
+          "cover": "http://p3.music.126.net/ztkbULSdTHZV0UTP317iRQ==/109951169049573197.jpg",
+          "name": "ランダムウォーク",
+          "playCount": 18284,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "伊東歌詞太郎",
+          "artistId": 908227,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 908227,
+              "name": "伊東歌詞太郎"
+            }
+          ],
+          "transNames": ["RANDOM WALK"]
+        },
+        {
+          "id": 14675857,
+          "cover": "http://p3.music.126.net/yE0ZYXTTvOeeSChzkSH7Kw==/109951169051967572.jpg",
+          "name": "她的眼光",
+          "playCount": 40021,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "MC HotDog 热狗",
+          "artistId": 4479,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 4479,
+              "name": "MC HotDog 热狗"
+            }
+          ]
+        },
+        {
+          "id": 14676725,
+          "cover": "http://p3.music.126.net/klAS9_Dpg2OcAaIAoDEWow==/109951169051960947.jpg",
+          "name": "不喜欢没有你的地方",
+          "playCount": 25239,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "周兴哲",
+          "artistId": 980025,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 980025,
+              "name": "周兴哲"
+            }
+          ]
+        },
+        {
+          "id": 14675605,
+          "cover": "http://p3.music.126.net/lFJHtGM6g6YA_PXN7tmfbA==/109951169045215480.jpg",
+          "name": "3U白日梦",
+          "playCount": 12940,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "施鑫文月",
+          "artistId": 12565467,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12565467,
+              "name": "施鑫文月"
+            }
+          ]
+        },
+        {
+          "id": 14662560,
+          "cover": "http://p3.music.126.net/hCD2foPpXi9Gx9a00eC1hQ==/109951168914392092.jpg",
+          "name": "SOS (Feat.bbno$)",
+          "playCount": 47519,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "KnowKnow",
+          "artistId": 27868624,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 27868624,
+              "name": "KnowKnow"
+            },
+            {
+              "id": 12054171,
+              "name": "bbno$"
+            }
+          ]
+        },
+        {
+          "id": 14673755,
+          "cover": "http://p3.music.126.net/4d5NOXEaJINCmx2cJHwu6w==/109951169033721923.jpg",
+          "name": "社交恐惧癌",
+          "playCount": 100884,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "陈奕迅",
+          "artistId": 2116,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 2116,
+              "name": "陈奕迅"
+            }
+          ]
+        },
+        {
+          "id": 14672044,
+          "cover": "http://p3.music.126.net/_8ydq_CX76S0vj2EEis0PQ==/109951169021858280.jpg",
+          "name": "青衫磊落",
+          "playCount": 18668,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "戴荃",
+          "artistId": 791534,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 791534,
+              "name": "戴荃"
+            }
+          ]
+        },
+        {
+          "id": 14672120,
+          "cover": "http://p4.music.126.net/mDQb-Ium9vsgw6vud0a1dQ==/109951169022150297.jpg",
+          "name": "怪物",
+          "playCount": 26811,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "MC HotDog 热狗",
+          "artistId": 4479,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 4479,
+              "name": "MC HotDog 热狗"
+            }
+          ]
+        }
+      ],
+      "code": 200
+    }
+  }
+}

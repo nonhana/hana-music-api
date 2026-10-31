@@ -566,7 +566,11 @@ describe('programmatic module api', () => {
           return {
             body: {
               code: 200,
-              level: 10,
+              data: {
+                userId: 599663130,
+                level: 10,
+              },
+              full: false,
             },
             cookie: [],
             status: 200,

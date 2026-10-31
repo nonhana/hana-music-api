@@ -1,0 +1,21 @@
+{
+  "module": "dj_difm_all_style_channel",
+  "query": {
+    "sources": []
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:27:54.085Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B12：DI.FM 分类频道空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [],
+      "message": ""
+    }
+  }
+}

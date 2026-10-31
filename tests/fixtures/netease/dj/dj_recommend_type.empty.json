@@ -1,0 +1,21 @@
+{
+  "module": "dj_recommend_type",
+  "query": {
+    "type": 999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T14:21:09.552Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B11：未知分类，空列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "djRadios": [],
+      "hasMore": false,
+      "code": 200
+    }
+  }
+}

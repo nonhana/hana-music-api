@@ -37,6 +37,10 @@ const result = await listenDataYearReport();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到年度听歌足迹列表的 `body.data.yearItems` 和每年的 `body.data.yearItems[].year` 收紧；`displayYear`、`playNum`、`playDuration` 宽松。列表本身允许为空数组，`[]` 是构造边界；本批只有一个有数据的登录账号，空账号下 `data`/列表的实际表现未验证。本页录制来自登录账号（`context.viewer` 是 `authenticated`）；未登录时上游返回 `code: 302`（`listen_data_year_report.anonymous.json`）。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 获取年度听歌足迹

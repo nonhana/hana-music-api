@@ -1,0 +1,151 @@
+{
+  "module": "vip_growthpoint_details",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T18:45:58.163Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B23：vip_growthpoint_details 登录领取记录"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": {
+        "hasMore": true,
+        "details": [
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792871539414,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792790606684,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792728738112,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792629578660,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792532879993,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792482784429,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792378218569,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792266807574,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792224404414,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792089490407,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1792036596297,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1791925717940,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1791841140751,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1791765893753,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1791701228151,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1791578940349,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1791518941296,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1791426478647,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1791311888866,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1791265706168,
+            "resourceId": 5330407344
+          },
+          {
+            "descript": "黑胶VIP每日发放",
+            "growthPoint": 10,
+            "time": 1791169777604,
+            "resourceId": 5330407344
+          }
+        ],
+        "maxTaskScore": 300,
+        "scoreDuration": 30
+      }
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "module": "album_detail",
+  "query": {
+    "id": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:17:58.005Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B1：album_detail 未知 id 返回 code 404，空结果不可达"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 404,
+      "message": "无专辑商品"
+    }
+  }
+}

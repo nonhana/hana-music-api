@@ -1,0 +1,23 @@
+{
+  "module": "user_followeds",
+  "query": {
+    "uid": 13595690613,
+    "limit": 10
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:56:27.345Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B17：user_followeds 无粉丝账号的空列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "more": false,
+      "followeds": [],
+      "size": 0
+    }
+  }
+}

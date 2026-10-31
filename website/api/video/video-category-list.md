@@ -37,6 +37,10 @@ const result = await videoCategoryList();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、分类列表 `body.data` 和每条分类自己的编号 `data[].id` 收紧；`name`、`url`、`relatedVideoType`、`selectTab` 宽松，`abExtInfo` 只见过 `null` 没有声明，原样保留。本批录制与探测没有发现可达的空结果（`offset` 越界仍返回同样的分类）。结构定义和类型是 `VideoCategoryListBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取视频分类列表

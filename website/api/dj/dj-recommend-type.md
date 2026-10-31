@@ -43,6 +43,10 @@ const result = await djRecommendType({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到分类精选电台列表的 `body.djRadios` 和每个电台的编号 `djRadios[].id` 收紧；`hasMore`、电台名称、封面、分类、价格、计数、`descPicList` 图文和 `dj` 主播（复用宽松的 `PlaylistUser`）都是宽松字段，`lastUpdateProgramName` 只在这个接口有非 `null` 证据。未知分类（`type=999999`）返回空数组（录制 `dj_recommend_type.empty.json`）。缺少 `type` 时上游返回 HTTP 200、正文 `code: 400`，SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `DjRecommendTypeBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入分类,可获得对应类型电台列表

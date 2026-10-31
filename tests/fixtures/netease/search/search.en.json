@@ -1,0 +1,273 @@
+{
+  "module": "search",
+  "query": {
+    "keywords": "Love Story",
+    "type": 1,
+    "limit": 5
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:36:26.784Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "songs": [
+          {
+            "album": {
+              "publishTime": 1226332800000,
+              "size": 13,
+              "artist": {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 7003,
+              "name": "Fearless",
+              "id": 1770438,
+              "picId": 109951169217536850,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 1,
+            "duration": 236266,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "Taylor Swift",
+                "alias": [],
+                "id": 44266,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 7003,
+            "mvid": 0,
+            "name": "Love Story",
+            "alias": [],
+            "id": 19292984,
+            "mark": 17180139520,
+            "status": 0
+          },
+          {
+            "album": {
+              "publishTime": 1422201600007,
+              "size": 23,
+              "artist": {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 679014,
+              "name": "Taylor Swift Tribute Album: Greatest Hits Streamed",
+              "id": 39403808,
+              "picId": 109951163318762740,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 8,
+            "duration": 234066,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "T-Swizzle",
+                "alias": [],
+                "id": 13473249,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 679014,
+            "mvid": 0,
+            "name": "Love Story",
+            "alias": [],
+            "id": 568389828,
+            "mark": 17180139520,
+            "status": 0
+          },
+          {
+            "album": {
+              "publishTime": 1646668800000,
+              "size": 65,
+              "artist": {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 7003,
+              "name": "100% Women : French vibes",
+              "id": 141485055,
+              "picId": 109951167128106820,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 8,
+            "duration": 316280,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "Indila",
+                "alias": [],
+                "id": 199144,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 7003,
+            "transNames": ["爱情故事"],
+            "mvid": 0,
+            "name": "Love Story",
+            "alias": [],
+            "id": 1926497964,
+            "mark": 270336,
+            "status": 0
+          },
+          {
+            "album": {
+              "publishTime": 1388505600000,
+              "size": 10,
+              "artist": {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 7003,
+              "name": "Mini World",
+              "id": 2768367,
+              "picId": 109951172956502340,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 1,
+            "duration": 316280,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "Indila",
+                "alias": [],
+                "id": 199144,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 7003,
+            "transNames": ["爱情故事"],
+            "mvid": 365402,
+            "name": "Love Story",
+            "alias": [],
+            "id": 28279677,
+            "mark": 17180139520,
+            "status": 0
+          },
+          {
+            "album": {
+              "publishTime": 1654790400000,
+              "size": 1,
+              "artist": {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "",
+                "alias": [],
+                "id": 0,
+                "picId": 0
+              },
+              "copyrightId": 743010,
+              "name": "Love Story",
+              "id": 144912637,
+              "picId": 109951168786125780,
+              "mark": 0,
+              "status": 1
+            },
+            "fee": 8,
+            "duration": 224000,
+            "rtype": 0,
+            "ftype": 0,
+            "artists": [
+              {
+                "img1v1Url": "https://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "EBEN",
+                "alias": [],
+                "id": 12356550,
+                "picId": 0
+              },
+              {
+                "img1v1Url": "https://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "musicSize": 0,
+                "albumSize": 0,
+                "img1v1": 0,
+                "name": "Zack Gray",
+                "alias": [],
+                "id": 15206414,
+                "picId": 0
+              }
+            ],
+            "copyrightId": 743010,
+            "mvid": 0,
+            "name": "Love Story",
+            "alias": [],
+            "id": 1947055030,
+            "mark": 270464,
+            "status": 0
+          }
+        ],
+        "hasMore": true,
+        "songCount": 337
+      },
+      "code": 200,
+      "trp": {
+        "rules": [
+          "search_tab_song::1947055030::searchAlg$isQuality$2$isGlobalQuality$2",
+          "search_tab_song::28279677::searchAlg$isGlobalQuality$1",
+          "search_tab_song::19292984::searchAlg$isGlobalQuality$1",
+          "search_tab_song::1926497964::searchAlg$isGlobalQuality$1",
+          "search_tab_song::568389828::searchAlg$isGlobalQuality$1"
+        ]
+      }
+    }
+  }
+}

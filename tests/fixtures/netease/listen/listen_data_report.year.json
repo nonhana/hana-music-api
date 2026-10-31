@@ -1,0 +1,26 @@
+{
+  "module": "listen_data_report",
+  "query": {
+    "type": "year"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:47:53.083Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B33：listen_data_report 年报"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "type": "year",
+        "startTime": 1735660800000,
+        "endTime": 1767110400000,
+        "listenTimeBlock": null
+      },
+      "message": ""
+    }
+  }
+}

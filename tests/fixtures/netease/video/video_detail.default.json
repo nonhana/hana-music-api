@@ -1,0 +1,117 @@
+{
+  "module": "video_detail",
+  "query": {
+    "id": "BFB0ABD6F5B0F069D3AC90021A1E680E"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T12:33:37.469Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B10：video_detail 视频详情"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "vid": "BFB0ABD6F5B0F069D3AC90021A1E680E",
+        "creator": {
+          "authStatus": 0,
+          "followed": false,
+          "accountStatus": 0,
+          "userId": 320880971,
+          "userType": 207,
+          "nickname": "音乐热点通",
+          "avatarUrl": "http://p3.music.126.net/4jCjuy8MzsU5x9chEj6WzQ==/109951163536519595.jpg",
+          "expertTags": null,
+          "experts": {
+            "1": "视频达人(华语、音乐现场)",
+            "2": "音乐|生活图文达人"
+          },
+          "avatarDetail": {
+            "userType": 207,
+            "identityLevel": 2,
+            "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4761340159/e2c1/6fb5/f49b/353e6d1857f7c5f46426beb533427e53.png"
+          }
+        },
+        "coverUrl": "http://p3.music.126.net/t004tKlLLd3IAivvTFhTng==/109951163755298292.jpg",
+        "title": "TFBOYS劲歌热舞，一首《喜欢你》很棒的现场",
+        "description": "TFBOYS劲歌热舞，一首《喜欢你》很棒的现场",
+        "durationms": 205601,
+        "threadId": "R_VI_62_BFB0ABD6F5B0F069D3AC90021A1E680E",
+        "playTime": 2066291,
+        "praisedCount": 17569,
+        "commentCount": 854,
+        "shareCount": 1243,
+        "subscribeCount": 7658,
+        "publishTime": 1546066550000,
+        "avatarUrl": "http://p3.music.126.net/4jCjuy8MzsU5x9chEj6WzQ==/109951163536519595.jpg",
+        "width": 1280,
+        "height": 720,
+        "resolutions": [
+          {
+            "size": 31157601,
+            "resolution": 240
+          },
+          {
+            "size": 52799476,
+            "resolution": 480
+          },
+          {
+            "size": 58098827,
+            "resolution": 720
+          }
+        ],
+        "videoGroup": [
+          {
+            "id": 58100,
+            "name": "现场",
+            "alg": null
+          },
+          {
+            "id": 59101,
+            "name": "华语现场",
+            "alg": null
+          },
+          {
+            "id": 57108,
+            "name": "流行现场",
+            "alg": null
+          },
+          {
+            "id": 57110,
+            "name": "饭拍现场",
+            "alg": null
+          },
+          {
+            "id": 11137,
+            "name": "TFBOYS",
+            "alg": null
+          },
+          {
+            "id": 1100,
+            "name": "音乐现场",
+            "alg": null
+          },
+          {
+            "id": 5100,
+            "name": "音乐",
+            "alg": null
+          },
+          {
+            "id": 23116,
+            "name": "音乐推荐",
+            "alg": null
+          }
+        ],
+        "hasRelatedGameAd": false,
+        "advertisement": false,
+        "authType": 1,
+        "markTypes": [],
+        "videoUserLiveInfo": null
+      },
+      "message": "success"
+    }
+  }
+}

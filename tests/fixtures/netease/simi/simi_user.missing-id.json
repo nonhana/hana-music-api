@@ -1,0 +1,15 @@
+{
+  "module": "simi_user",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T20:58:36.410Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B30：simi_user 缺少 id 的上游 HTTP 400 空正文"
+  },
+  "response": {
+    "status": 400,
+    "body": ""
+  }
+}

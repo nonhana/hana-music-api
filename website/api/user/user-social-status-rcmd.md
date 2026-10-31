@@ -37,6 +37,10 @@ const result = await userSocialStatusRcmd();
 console.log(result.body);
 ```
 
+## 返回内容
+
+相同状态的用户列表在 `data.userRcmdInfoVOList`，每条记录的 `userId` 收紧；没有设置状态时上游返回 `data: {}`，列表整个缺失，按“可以没有”处理。`rcmdTitle`、当前状态和身份信息宽松；`rcmdWords` 只见过 `null`，未声明，原样保留。结构定义和类型是 `UserSocialStatusRcmdBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 获取相同状态的用户

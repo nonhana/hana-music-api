@@ -1,0 +1,36 @@
+{
+  "module": "broadcast_channel_currentinfo",
+  "query": {
+    "id": 129
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:00:15.037Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B31：广播电台当前信息，正在播出节目"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "id": 129,
+        "regionName": "广东",
+        "channelName": "珠海电台先锋951",
+        "channelCoverUrl": "http://p1.music.126.net/rNmT7bHX88mKQkahagH84A==/109951165549806917.jpg",
+        "programId": 1174042,
+        "programName": "纷纷飘落的音符",
+        "broadcaster": [],
+        "startTime": 1792944000000,
+        "endTime": 1792967400000,
+        "duration": 23400000,
+        "playUrl": "https://ls-open.qingting.fm/live/1274/64k.m3u8?deviceid=00000000-0000-0000-0000-000000000000",
+        "currentTime": 1792962015015,
+        "thirdChannelId": "1274",
+        "thirdProgramId": "15027696"
+      },
+      "message": ""
+    }
+  }
+}

@@ -44,6 +44,10 @@ const result = await djSubscriber({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到订阅者列表的 `body.subscribers` 和每个订阅者自己的编号 `subscribers[].userId` 收紧；`time`、`hasMore`、昵称、头像、认证、关注状态和 `subscribeTime` 都是宽松字段。`time=1` 的时间游标越界返回空 `subscribers`（录制 `dj_subscriber.empty.json`）；缺少 `id` 返回正文 `code: 400`，SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `DjSubscriberBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取电台订阅者列表

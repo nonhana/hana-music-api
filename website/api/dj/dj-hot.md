@@ -40,6 +40,10 @@ const result = await djHot();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到热门电台列表的 `body.djRadios` 和每个电台的编号 `djRadios[].id` 收紧；`hasMore`、电台名称、封面、分类、计数、`copywriter`、`buyed` 和 `dj` 主播（复用宽松的 `PlaylistUser`）都是宽松字段。`offset=100000` 越界分页返回空数组、`hasMore: false`（录制 `dj_hot.empty.json`）；非数字 `limit` 返回 HTTP 200、正文 `code: 400`，SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `DjHotBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取热门电台

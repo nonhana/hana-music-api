@@ -1,0 +1,19 @@
+{
+  "module": "dj_program_detail",
+  "query": {
+    "id": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:27:44.104Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B12：未知节目 id 的业务拒绝"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 404
+    }
+  }
+}

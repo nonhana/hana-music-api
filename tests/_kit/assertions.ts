@@ -1,9 +1,12 @@
 import { expect } from 'bun:test';
+import { resolve } from 'node:path';
 
 import { Exit } from 'effect';
 
 import { normalizeFailure } from '../../src/core/response.ts';
 import type { NcmApiResponse } from '../../src/types/index.ts';
+
+export const projectRoot = resolve(import.meta.dir, '../..');
 
 export const expectFailure = (exit: Exit.Exit<unknown, unknown>) => {
   expect(Exit.isFailure(exit)).toBe(true);
@@ -20,9 +23,17 @@ export const settle = <Value>(promise: Promise<Value>) =>
   );
 
 // 契约测试回放的录制文件：一次 SDK 调用的查询参数和网易云的原始返回，见 tests/fixtures/netease/。
+// `context.expect` 只在公开体由 SDK 合成、与上游原文不同时出现，是这次调用的最终体。
 export type Recording = {
   readonly query: Record<string, unknown>;
+  readonly context?: { readonly expect?: unknown } & Record<string, unknown>;
   readonly response: { readonly status: number; readonly body: object };
+};
+
+// 非 JSON 正文（如空字符串）的录制：body 是原始字节解码后的值，不保证是对象。
+export type RawRecording = {
+  readonly query: Record<string, unknown>;
+  readonly response: { readonly status: number; readonly body: unknown };
 };
 
 export type Validator = {

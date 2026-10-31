@@ -1,0 +1,374 @@
+{
+  "module": "style_preference",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T03:47:29.271Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B46：style_preference 登录曲风偏好；tagPreferenceVos 5 项、tags 三层标签树"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "tagPreferenceVos": [
+          {
+            "tagId": 1252,
+            "tagName": "二次元",
+            "ratio": "25",
+            "picUrl": "http://p6.music.126.net/2gCjzR1gJwAuJO-18bVqcg==/109951165924158226"
+          },
+          {
+            "tagId": 1000,
+            "tagName": "流行",
+            "ratio": "24",
+            "picUrl": "http://p6.music.126.net/VcsE6_F3cqMm3D9SWyIR5A==/109951165924166690"
+          },
+          {
+            "tagId": 1017,
+            "tagName": "嘻哈说唱",
+            "ratio": "19",
+            "picUrl": "http://p6.music.126.net/QC34R2x3r1ABs0m1xvXMwg==/109951171288237422"
+          },
+          {
+            "tagId": 1006,
+            "tagName": "轻音乐",
+            "ratio": "18",
+            "picUrl": "http://p6.music.126.net/_Ss4W-6eqBMVJP6Ype-zCw==/109951165924170090"
+          },
+          {
+            "tagId": 1015,
+            "tagName": "电子",
+            "ratio": "14",
+            "picUrl": "http://p6.music.126.net/uPReBIbKUiFNZxdGyokPTA==/109951171268231639"
+          }
+        ],
+        "tags": [
+          {
+            "tagId": 1252,
+            "tagName": "二次元",
+            "enName": "ACG",
+            "level": 1,
+            "childrenTags": [
+              {
+                "tagId": 1320,
+                "tagName": "同人作品",
+                "enName": "Doujin",
+                "level": 2,
+                "childrenTags": [
+                  {
+                    "tagId": 1319,
+                    "tagName": "同人原创",
+                    "enName": "Original Works",
+                    "level": 3,
+                    "childrenTags": null,
+                    "picUrl": "yyimgs/Z9M_KBizjYcRI9JYKX7Fvg==/109951167815677754",
+                    "colorDeep": "",
+                    "colorShallow": "",
+                    "link": "",
+                    "showText": "",
+                    "tabs": ["song"]
+                  },
+                  {
+                    "tagId": 7089,
+                    "tagName": "東方Project",
+                    "enName": "TouHou Project",
+                    "level": 3,
+                    "childrenTags": null,
+                    "picUrl": "yyimgs/zNrAn9oXRE2DGb7f_Z4_yA==/109951167815683595",
+                    "colorDeep": "",
+                    "colorShallow": "",
+                    "link": "",
+                    "showText": "",
+                    "tabs": ["song"]
+                  }
+                ],
+                "picUrl": "yyimgs/PCXiiCrG-qdiF_GdNrpivA==/109951167815678770",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "",
+                "showText": "",
+                "tabs": ["song"]
+              },
+              {
+                "tagId": 1316,
+                "tagName": "歌声合成",
+                "enName": "Voice Synthesizer",
+                "level": 2,
+                "childrenTags": null,
+                "picUrl": "yyimgs/oOPXrOxdnK8C6SQ4RTAv5w==/109951167815677485",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "",
+                "showText": "",
+                "tabs": ["song"]
+              },
+              {
+                "tagId": 1315,
+                "tagName": "动漫原声",
+                "enName": "Anisong",
+                "level": 2,
+                "childrenTags": [
+                  {
+                    "tagId": 4085,
+                    "tagName": "动漫主题曲",
+                    "enName": "Anime Theme Song",
+                    "level": 3,
+                    "childrenTags": null,
+                    "picUrl": "yyimgs/KChKjaNmF3Ddpjdr_Bbkbg==/109951167815681802",
+                    "colorDeep": "",
+                    "colorShallow": "",
+                    "link": "",
+                    "showText": "",
+                    "tabs": ["song"]
+                  }
+                ],
+                "picUrl": "yyimgs/PrzbxCPrN1IbmdPy038ZsQ==/109951167815684641",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "",
+                "showText": "",
+                "tabs": ["song"]
+              }
+            ],
+            "picUrl": "http://p6.music.126.net/2gCjzR1gJwAuJO-18bVqcg==/109951165924158226",
+            "colorDeep": "EA647B",
+            "colorShallow": "FFE7EB",
+            "link": "orpheus://rnpage?component=cube-renderer-rn&mainProcessCompat=1&isTheme=true&page=1c67ef48645f48098a4196efd27f8b7f",
+            "showText": "ACG专区",
+            "tabs": ["song"]
+          },
+          {
+            "tagId": 1015,
+            "tagName": "电子",
+            "enName": "Electronic",
+            "level": 1,
+            "childrenTags": [
+              {
+                "tagId": 1047,
+                "tagName": "浩室舞曲",
+                "enName": "House",
+                "level": 2,
+                "childrenTags": [
+                  {
+                    "tagId": 235126,
+                    "tagName": "前卫浩室",
+                    "enName": "EDM Progressive House",
+                    "level": 3,
+                    "childrenTags": null,
+                    "picUrl": "",
+                    "colorDeep": "",
+                    "colorShallow": "",
+                    "link": "",
+                    "showText": "",
+                    "tabs": ["song"]
+                  },
+                  {
+                    "tagId": 1498,
+                    "tagName": "热带浩室舞曲",
+                    "enName": "Tropical House",
+                    "level": 3,
+                    "childrenTags": null,
+                    "picUrl": "yyimgs/ObbAegV1ihFq_Sb7jFqEYw==/109951167794573912",
+                    "colorDeep": "",
+                    "colorShallow": "",
+                    "link": "",
+                    "showText": "",
+                    "tabs": ["song"]
+                  },
+                  {
+                    "tagId": 5102,
+                    "tagName": "弛放浩室",
+                    "enName": "Chill House",
+                    "level": 3,
+                    "childrenTags": null,
+                    "picUrl": "yyimgs/6VxvTMgjQ011ZlX-beHgXg==/109951167794571221",
+                    "colorDeep": "",
+                    "colorShallow": "",
+                    "link": "",
+                    "showText": "",
+                    "tabs": ["song"]
+                  }
+                ],
+                "picUrl": "yyimgs/t038hOZKeidVxuWsZOmh6g==/109951167794547289",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "",
+                "showText": "",
+                "tabs": ["song"]
+              },
+              {
+                "tagId": 1060,
+                "tagName": "回响贝斯",
+                "enName": "Dubstep",
+                "level": 2,
+                "childrenTags": [
+                  {
+                    "tagId": 1499,
+                    "tagName": "弛放低音",
+                    "enName": "Chillstep",
+                    "level": 3,
+                    "childrenTags": null,
+                    "picUrl": "yyimgs/2BQqJJ1lvuBmdQBqVJWOLA==/109951167794645687",
+                    "colorDeep": "",
+                    "colorShallow": "",
+                    "link": "",
+                    "showText": "",
+                    "tabs": ["song"]
+                  },
+                  {
+                    "tagId": 65101,
+                    "tagName": "旋律回响贝斯",
+                    "enName": "Melodic Dubstep",
+                    "level": 3,
+                    "childrenTags": null,
+                    "picUrl": "yyimgs/dbiV5zUQNwOtWVMJaehMDw==/109951167794642163",
+                    "colorDeep": "",
+                    "colorShallow": "",
+                    "link": "",
+                    "showText": "",
+                    "tabs": ["song"]
+                  }
+                ],
+                "picUrl": "yyimgs/s9G891fMITR78O9WWqwunw==/109951167794548770",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "",
+                "showText": "",
+                "tabs": ["song"]
+              }
+            ],
+            "picUrl": "http://p6.music.126.net/uPReBIbKUiFNZxdGyokPTA==/109951171268231639",
+            "colorDeep": "46094A",
+            "colorShallow": "F7EBF7",
+            "link": "orpheus://rnpage?component=cube-renderer-rn&mainProcessCompat=1&isTheme=true&page=a8326242dc154483a08c2ace94ede68a",
+            "showText": "进入电音专区",
+            "tabs": ["song"]
+          },
+          {
+            "tagId": 1006,
+            "tagName": "轻音乐",
+            "enName": "Easy Listening",
+            "level": 1,
+            "childrenTags": [
+              {
+                "tagId": 1298,
+                "tagName": "流行轻音乐",
+                "enName": "Pop Easy Listening",
+                "level": 2,
+                "childrenTags": null,
+                "picUrl": "yyimgs/4E5-eA18F8zzZjFA0mgKWw==/109951167806266345",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "",
+                "showText": "",
+                "tabs": ["song"]
+              }
+            ],
+            "picUrl": "http://p6.music.126.net/_Ss4W-6eqBMVJP6Ype-zCw==/109951165924170090",
+            "colorDeep": "243320",
+            "colorShallow": "EBF1E9",
+            "link": "orpheus://rnpage?component=cube-renderer-rn&mainProcessCompat=1&isTheme=true&page=3c34c311acaf421d9226e5bda64f8c2a",
+            "showText": "轻音乐专区",
+            "tabs": ["song"]
+          },
+          {
+            "tagId": 1017,
+            "tagName": "嘻哈说唱",
+            "enName": "Hip Hop/Rap",
+            "level": 1,
+            "childrenTags": [
+              {
+                "tagId": 8114,
+                "tagName": "低保真嘻哈",
+                "enName": "Lofi Hip Hop",
+                "level": 2,
+                "childrenTags": null,
+                "picUrl": "yyimgs/bM_CwHFyNyUf1iO_C1PgJw==/109951167797041920",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "",
+                "showText": "",
+                "tabs": ["song"]
+              },
+              {
+                "tagId": 1167,
+                "tagName": "爵士嘻哈",
+                "enName": "Jazz Hip Hop",
+                "level": 2,
+                "childrenTags": null,
+                "picUrl": "yyimgs/2xyXPhZkX1zbno0ZnByxWg==/109951167797051642",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "",
+                "showText": "",
+                "tabs": ["song"]
+              },
+              {
+                "tagId": 8112,
+                "tagName": "弛放嘻哈",
+                "enName": "ChillHop",
+                "level": 2,
+                "childrenTags": null,
+                "picUrl": "yyimgs/RRDdk3UbCdryZa4O1whF5w==/109951167797040963",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "",
+                "showText": "",
+                "tabs": ["song"]
+              }
+            ],
+            "picUrl": "http://p5.music.126.net/QC34R2x3r1ABs0m1xvXMwg==/109951171288237422",
+            "colorDeep": "012C8C",
+            "colorShallow": "E6EDFF",
+            "link": "orpheus://rnpage?component=cube-renderer-rn&mainProcessCompat=1&isTheme=true&page=9de64ec2167e4ad1bb39b44f922e8c33",
+            "showText": "进入说唱专区",
+            "tabs": ["song"]
+          },
+          {
+            "tagId": 1000,
+            "tagName": "流行",
+            "enName": "Pop",
+            "level": 1,
+            "childrenTags": [
+              {
+                "tagId": 1034,
+                "tagName": "日本流行",
+                "enName": "J-Pop",
+                "level": 2,
+                "childrenTags": null,
+                "picUrl": "yyimgs/zy_oKvicpHLpokOdBrA-yw==/109951169246721855",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "",
+                "showText": "",
+                "tabs": ["song"]
+              },
+              {
+                "tagId": 1032,
+                "tagName": "欧美流行",
+                "enName": "Western Pop",
+                "level": 2,
+                "childrenTags": null,
+                "picUrl": "yyimgs/J9EoeE9XdNjf5uAJnC14lg==/109951169238187071",
+                "colorDeep": "",
+                "colorShallow": "",
+                "link": "orpheus://rnpage?component=cube-renderer-rn&mainProcessCompat=1&isTheme=true&page=5d5ef0d2314043bf860a6d2e03309057",
+                "showText": "进入欧美专区",
+                "tabs": ["song"]
+              }
+            ],
+            "picUrl": "http://p5.music.126.net/VcsE6_F3cqMm3D9SWyIR5A==/109951165924166690",
+            "colorDeep": "23303B",
+            "colorShallow": "E5EBF0",
+            "link": "",
+            "showText": "",
+            "tabs": ["song"]
+          }
+        ]
+      },
+      "code": 200
+    }
+  }
+}

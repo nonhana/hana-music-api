@@ -1,0 +1,26 @@
+{
+  "module": "song_dynamic_cover",
+  "query": {
+    "id": 2101179024
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:33:13.570Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B38：song_dynamic_cover 匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "height": 0,
+        "weight": 0,
+        "needTransition": true,
+        "videoPlayUrl": "http://dcover.music.126.net/4e94/a0a4/86a0/4f8994c7397cce4306fa3d40474863da.mp4?wsSecret=ebbaa244f55130443345da69535bc546&wsTime=1792972693"
+      },
+      "message": ""
+    }
+  }
+}

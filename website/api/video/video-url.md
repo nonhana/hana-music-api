@@ -41,6 +41,10 @@ const result = await videoUrl({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、地址列表 `body.urls`、条目里的视频编号 `urls[].id` 和地址 `urls[].url` 收紧；`r`、`size`、`validityTime`、`needPay` 宽松，`payInfo` 只见过 `null` 没有声明。录制覆盖请求 1080 实际给到 720（`video_url.default.json`）、480p（`video_url.480p.json`）和 240p（`video_url.240p.json`）；未知视频返回 `urls: []`（`video_url.empty.json`），本批未探测到 `url` 为 `null`。付费/会员视频的 `urls[].url` 未覆盖；若上游给 `null`，会以 `UnexpectedUpstreamShape`（`status: 502`）拒绝。结构定义和类型是 `VideoUrlBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入视频 id,可获取视频播放地址

@@ -37,6 +37,10 @@ const result = await voiceLyric();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和通到歌词的 `body.data` 收紧；没有歌词的声音 `data` 是 `null`（录制 `voice_lyric.without-lyric.json`），按可以没有处理，出现时 `data.lyricUrl` 仍收紧。`data.source` 和 `message` 只见过 `null`，未声明并原样保留。无播放权限的声音返回 HTTP 200、正文 `code: 400`（录制 `voice_lyric.unavailable.json`），SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `VoiceLyricBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口可以获取声音歌词

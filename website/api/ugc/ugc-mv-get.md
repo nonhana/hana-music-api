@@ -39,6 +39,10 @@ const result = await ugcMvGet({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、MV 百科记录的路径 `body.data` 和 MV 自己的编号 `body.data.mvId` 收紧。未知 MV 返回 `code: 404`、正文只有 `message`，SDK 按业务拒绝原样转交（`status: 404`），不会报 502。MV 名、封面、发行时间、简介，以及随行的歌手和关联歌曲记录全部宽松；`albumRepVo` 里只声明见过值的 `albumId`、`albumName`。输入仍是 legacy，不做 id 本地校验。结构定义和类型是 `UgcMvGetBody`，见[返回体结构](/guide/response-bodies#百科与用户贡献)。
+
 ## 补充说明
 
 说明: 登录后调用此接口,使用此接口,传入mv id,可获取对应的mv简要百科信息

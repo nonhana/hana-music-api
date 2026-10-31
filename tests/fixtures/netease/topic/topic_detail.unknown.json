@@ -1,0 +1,19 @@
+{
+  "module": "topic_detail",
+  "query": {
+    "actid": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:28:16.118Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B19：未知话题，上游返回 code 404"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 404
+    }
+  }
+}

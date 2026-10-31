@@ -1,0 +1,786 @@
+{
+  "module": "summary_annual",
+  "query": {
+    "year": 2023
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:31:45.581Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B44：2023 年度听歌报告（data key）；加密用户 id 已换合成值"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "encUserId": "0123456789ABCDEF0123456789ABCDEF",
+        "musician": true,
+        "listenOverview": {
+          "regTime": 1506096000000
+        },
+        "yearOverview": {
+          "playCount": 2712,
+          "playTime": 52370,
+          "maxPlayedSong": {
+            "songName": "为霜",
+            "songId": 535517304,
+            "songCoverUrl": "http://p1.music.126.net/678XIIRmFk1IGuv9RB43HQ==/109951163131639447.jpg",
+            "artistName": "羽肿"
+          }
+        },
+        "genrePlayRank": {
+          "genreRank": [
+            {
+              "oneGenreTagName": "二次元",
+              "genreTagName": "二次元",
+              "rank": 1,
+              "percent": 32
+            },
+            {
+              "oneGenreTagName": "轻音乐",
+              "genreTagName": "轻音乐",
+              "rank": 2,
+              "percent": 21
+            },
+            {
+              "oneGenreTagName": "流行",
+              "genreTagName": "日本流行",
+              "rank": 3,
+              "percent": 18
+            },
+            {
+              "oneGenreTagName": "电子",
+              "genreTagName": "浩室舞曲",
+              "rank": 4,
+              "percent": 16
+            },
+            {
+              "oneGenreTagName": "说唱",
+              "genreTagName": "说唱",
+              "rank": 5,
+              "percent": 13
+            }
+          ],
+          "specialGenreRank": ["游戏原声", "日系摇滚"]
+        },
+        "dopamineColor": {
+          "playDuration": 3142176000,
+          "dopamine": 7630,
+          "rainbowText": ["相当于谈了26场", "高质量的恋爱"],
+          "type": "D1",
+          "group": "N"
+        },
+        "seasonsListen": {
+          "spring": {
+            "seasonIndex": 0,
+            "songId": 865998111,
+            "songName": "アンノウン・マザーグース",
+            "artistId": "784134",
+            "artistName": "ヒトリエ",
+            "playNum": 89,
+            "picId": "109951165946333452",
+            "picUrl": "http://p1.music.126.net/80u-dhdqxBIl5_gPXf-oqw==/109951165946333452.jpg"
+          },
+          "summer": {
+            "seasonIndex": 0,
+            "songId": 2005961793,
+            "songName": "Mannenzakura",
+            "artistId": "12903205",
+            "artistName": "Xomu",
+            "playNum": 65,
+            "picId": "109951168138788104",
+            "picUrl": "http://p1.music.126.net/ReyakGazUm_zQKYiXhZHDw==/109951168138788104.jpg"
+          },
+          "autumn": {
+            "seasonIndex": 0,
+            "songId": 1900172235,
+            "songName": "フォニイ",
+            "artistId": "47893107/13645301",
+            "artistName": "可不/ツミキ",
+            "playNum": 51,
+            "picId": "109951168567590905",
+            "picUrl": "http://p1.music.126.net/ssdvPWYfmjFPFceeDd4X7w==/109951168567590905.jpg"
+          },
+          "winter": {
+            "seasonIndex": 0,
+            "songId": 518546461,
+            "songName": "恋雪",
+            "artistId": "12085627",
+            "artistName": "Delos",
+            "playNum": 39,
+            "picId": "109951163061561174",
+            "picUrl": "http://p1.music.126.net/y-pwgEIwsKNXnIvwe6xKDw==/109951163061561174.jpg"
+          }
+        },
+        "keyWord": {
+          "keyword": "等待",
+          "lyricCnt": 252,
+          "lyricList": [
+            {
+              "songId": 1850977722,
+              "songName": "又三郎",
+              "artistId": "12390232",
+              "artistName": "ヨルシカ",
+              "lyric": "我一直等待着风暴降临\n",
+              "playCnt": 67
+            },
+            {
+              "songId": 1357953768,
+              "songName": "だから僕は音楽を辞めた",
+              "artistId": "12390232",
+              "artistName": "ヨルシカ",
+              "lyric": "在蔚蓝的天空下等待着你\n",
+              "playCnt": 67
+            },
+            {
+              "songId": 1972171149,
+              "songName": "Night of Bloom",
+              "artistId": "35079062/12903205/30226109",
+              "artistName": "LCwwww,Xomu,Kirara Magic",
+              "lyric": "在往常的地方等待吧\n",
+              "playCnt": 55
+            },
+            {
+              "songId": 1815109509,
+              "songName": "嘘月",
+              "artistId": "12390232",
+              "artistName": "ヨルシカ",
+              "lyric": "也不再等待你\n",
+              "playCnt": 43
+            },
+            {
+              "songId": 30854130,
+              "songName": "Lean On",
+              "artistId": "96309/783150/296416",
+              "artistName": "Major Lazer,MØ,DJ Snake",
+              "lyric": "一直等待你回家\n",
+              "playCnt": 25
+            }
+          ]
+        },
+        "listenTimePeriod": {
+          "maxTimePeriod": "AFTERNOON",
+          "totalMaxPlayCount": 14,
+          "distributions": [
+            {
+              "month": 1,
+              "hour": 13,
+              "peak": 10
+            },
+            {
+              "month": 2,
+              "hour": 13,
+              "peak": 11
+            },
+            {
+              "month": 3,
+              "hour": 14,
+              "peak": 10
+            },
+            {
+              "month": 4,
+              "hour": 14,
+              "peak": 10
+            },
+            {
+              "month": 5,
+              "hour": 14,
+              "peak": 10
+            },
+            {
+              "month": 6,
+              "hour": 14,
+              "peak": 10
+            },
+            {
+              "month": 7,
+              "hour": 22,
+              "peak": 14
+            },
+            {
+              "month": 8,
+              "hour": 9,
+              "peak": 12
+            },
+            {
+              "month": 9,
+              "hour": 19,
+              "peak": 12
+            },
+            {
+              "month": 10,
+              "hour": 13,
+              "peak": 11
+            },
+            {
+              "month": 11,
+              "hour": 15,
+              "peak": 11
+            },
+            {
+              "month": 12,
+              "hour": 19,
+              "peak": 14
+            }
+          ]
+        },
+        "latePlayDTO": {
+          "datetime": 1673032692000,
+          "songId": 502455381,
+          "songName": "アンノウン・マザーグース",
+          "artistId": null,
+          "artistName": "wowaka,初音ミク",
+          "songPicId": "109951163014923061",
+          "songPicUrl": "http://p1.music.126.net/Wgi0eBdLS0m5910SuAeqkg==/109951163014923061.jpg",
+          "year": null
+        },
+        "loopSongDTO": {
+          "playDate": 1681660800000,
+          "singerId": "12277201",
+          "singerName": "蓝云木",
+          "playCount": 9,
+          "songPicUrl": "http://p1.music.126.net/Bb8q0nck4UY3bFDmepeQ4g==/109951166520395841.jpg",
+          "songId": "1887140296",
+          "songName": "柠檬味的阳光"
+        },
+        "minoritySong": {
+          "minoritySongId": "1942010710",
+          "minoritySongName": "暮秋的遐思",
+          "minoritySingerId": "51535561",
+          "minoritySingerName": "待夕归明",
+          "minoritySongFirstDate": 1672502400000,
+          "minoritySongPlayCount": 142,
+          "minoritySongPlayUnt": 12
+        },
+        "specialDay": {
+          "specialDay": "国庆假期",
+          "specialDayDate": 1696262400,
+          "songArtistDTO": {
+            "songId": 16139381,
+            "songName": "3055",
+            "artistId": null,
+            "artistName": "Ólafur Arnalds",
+            "playCount": 5
+          }
+        },
+        "specialMemory": {
+          "datetime": 1690128000000,
+          "song": {
+            "songId": 2037085150,
+            "songName": "ザムザ",
+            "artistId": null,
+            "artistName": "てにをは/初音ミク",
+            "playCount": 54
+          },
+          "relateIPName": "初音未来"
+        },
+        "forgottenSong": {
+          "datetime": 1667491200000,
+          "songArtistDTO": {
+            "songId": 30854833,
+            "songName": "River (Original Mix)",
+            "artistId": null,
+            "artistName": "Axero",
+            "playCount": 14
+          }
+        },
+        "commentBizPage": {
+          "commentPublish": {
+            "count": 39,
+            "bePraisedCount": 47,
+            "maxPraisedCountComment": {
+              "name": "Azure",
+              "detail": "为什么把之前的封面给换掉了？",
+              "count": 5
+            }
+          },
+          "commentSocial": {
+            "praiseCommentCount": 165,
+            "maxPraiseComment": {
+              "name": "恋愛サーキュレーション",
+              "detail": "演唱会全部都是汉子们雄浑的声音[大哭]",
+              "count": 316794
+            }
+          }
+        },
+        "playlistBizPage": null,
+        "musicianBizPage": {
+          "musicianName": "待夕归明",
+          "musicianAvatarUrl": "http://p1.music.126.net/MpfQHXQMTQd8Lb9v6k_j3g==/109951167271455528.jpg",
+          "createCount": 2,
+          "bePlayedCount": 238,
+          "beSubscribedCount": 0
+        },
+        "consumeBizPage": null,
+        "vipBizPage": {
+          "svipFirstTime": null,
+          "vipFirstTime": 1655568000000,
+          "freeVipDayNum": 0,
+          "playerModelUseNum": 0,
+          "appIconUseNum": 0,
+          "pendantUseNum": 0,
+          "vipPlaySongNum": 413,
+          "hqPlayDuration": 10580,
+          "svip": false,
+          "vip": true
+        },
+        "voicePlayBizPage": {
+          "activateDays": 13,
+          "playDuration": 18194,
+          "overUserPercent": 23,
+          "top1AudioId": null,
+          "top1AudioName": null,
+          "top1AudioPlayDuration": 0,
+          "top1RadioId": null,
+          "top1RadioName": null,
+          "top1RadioPlayDuration": 0
+        },
+        "voiceCreatorBizPage": null,
+        "listenTogetherBizPage": null,
+        "cloudEditorBizPage": null,
+        "terminalCarBizPage": null,
+        "terminalHomeBizPage": null,
+        "annualSong": {
+          "songName": "为霜",
+          "songId": 535517304,
+          "artistNameList": "羽肿",
+          "firstDate": 1672848000000,
+          "songPicId": "109951163131639447",
+          "songPicUrl": "http://p1.music.126.net/678XIIRmFk1IGuv9RB43HQ==/109951163131639447.jpg",
+          "playCnt": 151,
+          "playDays": 126,
+          "userCountOfThisAnnualSong": 3056,
+          "playUrl": {
+            "songId": 535517304,
+            "chorusStart": 0,
+            "chorusEnd": 0
+          }
+        },
+        "annualPlaylist": {
+          "playUrl": null,
+          "items": [
+            {
+              "songId": 535517304,
+              "songName": "为霜",
+              "playCount": 151,
+              "index": 1,
+              "artistId": "12094419",
+              "artistName": "羽肿",
+              "picid": "109951163131639447",
+              "picUrl": "http://p1.music.126.net/678XIIRmFk1IGuv9RB43HQ==/109951163131639447.jpg",
+              "chorusSegmentStartPosition": 0,
+              "chorusSegmentEndPosition": 0
+            },
+            {
+              "songId": 1942010710,
+              "songName": "暮秋的遐思",
+              "playCount": 142,
+              "index": 2,
+              "artistId": "51535561",
+              "artistName": "待夕归明",
+              "picid": "109951167346606545",
+              "picUrl": "http://p1.music.126.net/KPKzKkCRm4YO9FP27KdkiA==/109951167346606545.jpg",
+              "chorusSegmentStartPosition": 25000,
+              "chorusSegmentEndPosition": 49000
+            },
+            {
+              "songId": 2057667249,
+              "songName": "Grey Flowers",
+              "playCount": 124,
+              "index": 3,
+              "artistId": "51535561",
+              "artistName": "待夕归明",
+              "picid": "109951168691656312",
+              "picUrl": "http://p1.music.126.net/RuuLmlFpA5G_VRP8PAYJmQ==/109951168691656312.jpg",
+              "chorusSegmentStartPosition": 52500,
+              "chorusSegmentEndPosition": 105000
+            },
+            {
+              "songId": 2079592030,
+              "songName": "I'll send some notes for your poems,",
+              "playCount": 111,
+              "index": 4,
+              "artistId": "51535561",
+              "artistName": "待夕归明",
+              "picid": "109951168894598908",
+              "picUrl": "http://p1.music.126.net/6NuOQJXeBrZgDEk2QVlKIg==/109951168894598908.jpg",
+              "chorusSegmentStartPosition": 32500,
+              "chorusSegmentEndPosition": 54500
+            },
+            {
+              "songId": 1921835598,
+              "songName": "为霜(Piano Solo)",
+              "playCount": 110,
+              "index": 5,
+              "artistId": "51535561",
+              "artistName": "待夕归明",
+              "picid": "109951167069957628",
+              "picUrl": "http://p1.music.126.net/aNPMPT7cjI8u3bC7Gc4kvA==/109951167069957628.jpg",
+              "chorusSegmentStartPosition": 35500,
+              "chorusSegmentEndPosition": 47000
+            },
+            {
+              "songId": 1967698910,
+              "songName": "夏の夕焼け",
+              "playCount": 96,
+              "index": 6,
+              "artistId": "51535561",
+              "artistName": "待夕归明",
+              "picid": "109951167723718937",
+              "picUrl": "http://p1.music.126.net/oJ1xsWhjMF4HFUJzLcGxYQ==/109951167723718937.jpg",
+              "chorusSegmentStartPosition": 38500,
+              "chorusSegmentEndPosition": 74500
+            },
+            {
+              "songId": 865998111,
+              "songName": "アンノウン・マザーグース",
+              "playCount": 89,
+              "index": 7,
+              "artistId": "784134",
+              "artistName": "ヒトリエ",
+              "picid": "109951165946333452",
+              "picUrl": "http://p1.music.126.net/80u-dhdqxBIl5_gPXf-oqw==/109951165946333452.jpg",
+              "chorusSegmentStartPosition": 87405,
+              "chorusSegmentEndPosition": 122788
+            },
+            {
+              "songId": 555760597,
+              "songName": "Auksia",
+              "playCount": 85,
+              "index": 8,
+              "artistId": "12083147",
+              "artistName": "Saiakoup",
+              "picid": "109951163268547032",
+              "picUrl": "http://p1.music.126.net/PR513iTyDk3kLRcuy1i8LA==/109951163268547032.jpg",
+              "chorusSegmentStartPosition": 0,
+              "chorusSegmentEndPosition": 0
+            },
+            {
+              "songId": 434902428,
+              "songName": "花火が瞬く夜に",
+              "playCount": 81,
+              "index": 9,
+              "artistId": "12094419",
+              "artistName": "羽肿",
+              "picid": "736672800839982",
+              "picUrl": "http://p1.music.126.net/f7Nd9FSzVZMkTPWDW_rnOg==/736672800839982.jpg",
+              "chorusSegmentStartPosition": 0,
+              "chorusSegmentEndPosition": 0
+            },
+            {
+              "songId": 1298135870,
+              "songName": "Atolón",
+              "playCount": 80,
+              "index": 10,
+              "artistId": "1074042",
+              "artistName": "Noicybino",
+              "picid": "109951163436673353",
+              "picUrl": "http://p1.music.126.net/ID9frVgi-6h0-o9immuB0A==/109951163436673353.jpg",
+              "chorusSegmentStartPosition": 0,
+              "chorusSegmentEndPosition": 0
+            }
+          ],
+          "pureItems": [
+            {
+              "songId": 865998111,
+              "songName": "アンノウン・マザーグース",
+              "playCount": 89,
+              "index": 1,
+              "artistId": "784134",
+              "artistName": "ヒトリエ",
+              "picid": "109951165946333452",
+              "picUrl": "http://p1.music.126.net/80u-dhdqxBIl5_gPXf-oqw==/109951165946333452.jpg",
+              "chorusSegmentStartPosition": 87405,
+              "chorusSegmentEndPosition": 122788
+            },
+            {
+              "songId": 1357953768,
+              "songName": "だから僕は音楽を辞めた",
+              "playCount": 67,
+              "index": 2,
+              "artistId": "12390232",
+              "artistName": "ヨルシカ",
+              "picid": "109951163986681435",
+              "picUrl": "http://p1.music.126.net/ks136mj7FcZXgZ8IF-cpSA==/109951163986681435.jpg",
+              "chorusSegmentStartPosition": 62091,
+              "chorusSegmentEndPosition": 91489
+            },
+            {
+              "songId": 1850977722,
+              "songName": "又三郎",
+              "playCount": 67,
+              "index": 3,
+              "artistId": "12390232",
+              "artistName": "ヨルシカ",
+              "picid": "109951166074391935",
+              "picUrl": "http://p1.music.126.net/b2M2BZbgwsk1n_UUAxxfSg==/109951166074391935.jpg",
+              "chorusSegmentStartPosition": 58439,
+              "chorusSegmentEndPosition": 78220
+            },
+            {
+              "songId": 2052933626,
+              "songName": "花一匁",
+              "playCount": 67,
+              "index": 4,
+              "artistId": "15021101",
+              "artistName": "ずっと真夜中でいいのに。",
+              "picid": "109951168657437538",
+              "picUrl": "http://p1.music.126.net/bmjKC1odG-1spq20rjjebg==/109951168657437538.jpg",
+              "chorusSegmentStartPosition": 52518,
+              "chorusSegmentEndPosition": 83871
+            },
+            {
+              "songId": 1874162498,
+              "songName": "BiBiC HEART",
+              "playCount": 62,
+              "index": 5,
+              "artistId": "30206492",
+              "artistName": "MYUKKE.",
+              "picid": "109951166339020379",
+              "picUrl": "http://p1.music.126.net/eUx3ZA2ww-oz8fVTpRgBGQ==/109951166339020379.jpg",
+              "chorusSegmentStartPosition": 38361,
+              "chorusSegmentEndPosition": 60254
+            },
+            {
+              "songId": 1972171149,
+              "songName": "Night of Bloom",
+              "playCount": 55,
+              "index": 6,
+              "artistId": "35079062/12903205/30226109",
+              "artistName": "LCwwww,Xomu,Kirara Magic",
+              "picid": "109951167797009237",
+              "picUrl": "http://p1.music.126.net/m365O_KcEnHXbXxE8Qgoxw==/109951167797009237.jpg",
+              "chorusSegmentStartPosition": 0,
+              "chorusSegmentEndPosition": 0
+            },
+            {
+              "songId": 2037085150,
+              "songName": "ザムザ",
+              "playCount": 54,
+              "index": 7,
+              "artistId": "1086095/159692",
+              "artistName": "てにをは,初音ミク",
+              "picid": "109951168528925758",
+              "picUrl": "http://p1.music.126.net/ePJqJd5wJRpKjECKXyKVoA==/109951168528925758.jpg",
+              "chorusSegmentStartPosition": 0,
+              "chorusSegmentEndPosition": 0
+            },
+            {
+              "songId": 1950028990,
+              "songName": "CH4NGE (feat. 可不)",
+              "playCount": 53,
+              "index": 8,
+              "artistId": "804355/47893107",
+              "artistName": "ギガP,可不",
+              "picid": "109951167467033473",
+              "picUrl": "http://p1.music.126.net/Zm8n9zfmNfnRvwb1a01HkQ==/109951167467033473.jpg",
+              "chorusSegmentStartPosition": 0,
+              "chorusSegmentEndPosition": 0
+            },
+            {
+              "songId": 579954,
+              "songName": "恋愛サーキュレーション",
+              "playCount": 53,
+              "index": 9,
+              "artistId": "16456",
+              "artistName": "花澤香菜",
+              "picid": "109951165561008752",
+              "picUrl": "http://p1.music.126.net/wImDxYDsJcWDIH9znDhEPA==/109951165561008752.jpg",
+              "chorusSegmentStartPosition": 57510,
+              "chorusSegmentEndPosition": 89020
+            },
+            {
+              "songId": 1365873163,
+              "songName": "タイムパラドックス",
+              "playCount": 52,
+              "index": 10,
+              "artistId": "29500370/19795",
+              "artistName": "あよ,森羅万象",
+              "picid": "109951164079708306",
+              "picUrl": "http://p1.music.126.net/Rois3Sl0SabUuDQ5Az2X9w==/109951164079708306.jpg",
+              "chorusSegmentStartPosition": 0,
+              "chorusSegmentEndPosition": 0
+            }
+          ]
+        },
+        "annualPlaylistAlbum": {
+          "favoriteAlbum": {
+            "songId": 1942010710,
+            "songName": "暮秋的遐思",
+            "playUrl": {
+              "songId": 1942010710,
+              "chorusStart": 25000,
+              "chorusEnd": 49000
+            },
+            "albumId": "144081896",
+            "albumName": "last autumn.",
+            "artistName": "待夕归明",
+            "albumPicId": "109951167346606545",
+            "albumPicUrl": "http://p1.music.126.net/KPKzKkCRm4YO9FP27KdkiA==/109951167346606545.jpg",
+            "playDays": 104,
+            "playCount": 142,
+            "playDuration": 535
+          }
+        },
+        "annualSinger": {
+          "artistId": "51535561",
+          "singerName": "待夕归明",
+          "singerPicId": "109951167271455528",
+          "singerPicUrl": "http://p1.music.126.net/MpfQHXQMTQd8Lb9v6k_j3g==/109951167271455528.jpg",
+          "playCount": 716,
+          "top5Songs": [
+            {
+              "songId": 1942010710,
+              "name": "暮秋的遐思",
+              "playCount": 142,
+              "index": 1
+            },
+            {
+              "songId": 2057667249,
+              "name": "Grey Flowers",
+              "playCount": 124,
+              "index": 2
+            },
+            {
+              "songId": 2079592030,
+              "name": "I'll send some notes for your poems,",
+              "playCount": 111,
+              "index": 3
+            },
+            {
+              "songId": 1921835598,
+              "name": "为霜(Piano Solo)",
+              "playCount": 110,
+              "index": 4
+            },
+            {
+              "songId": 1967698910,
+              "name": "夏の夕焼け",
+              "playCount": 96,
+              "index": 5
+            }
+          ],
+          "letters": null,
+          "follow": true,
+          "singerPlayDays": 192,
+          "playUrl": {
+            "songId": 2057667249,
+            "chorusStart": 52500,
+            "chorusEnd": 105000
+          }
+        },
+        "annualSingerComparePage": {
+          "singers": [
+            {
+              "year": 2023,
+              "singerId": "51535561",
+              "singerName": "待夕归明",
+              "singerPicid": "109951167271455528",
+              "singerPicUrl": "http://p1.music.126.net/MpfQHXQMTQd8Lb9v6k_j3g==/109951167271455528.jpg"
+            },
+            {
+              "year": 2022,
+              "singerId": "32540734",
+              "singerName": "塞壬唱片-MSR",
+              "singerPicid": "109951164481886292",
+              "singerPicUrl": "http://p1.music.126.net/J8mrQPu9oKSva8ziYrGmJQ==/109951164481886292.jpg"
+            },
+            {
+              "year": 2021,
+              "singerId": "15021101",
+              "singerName": "ずっと真夜中でいいのに。",
+              "singerPicid": "109951164990345551",
+              "singerPicUrl": "http://p1.music.126.net/KG36FXPZGot9nRkM77TghA==/109951164990345551.jpg"
+            },
+            {
+              "year": 2020,
+              "singerId": "12094419",
+              "singerName": "羽肿",
+              "singerPicid": "109951162878075722",
+              "singerPicUrl": "http://p1.music.126.net/W1P9f2XA0RgEuYU_wrfGjQ==/109951162878075722.jpg"
+            },
+            {
+              "year": 2019,
+              "singerId": null,
+              "singerName": "羽肿",
+              "singerPicid": "109951162878075722",
+              "singerPicUrl": "http://p1.music.126.net/W1P9f2XA0RgEuYU_wrfGjQ==/109951162878075722.jpg"
+            }
+          ]
+        },
+        "summaryPage": {
+          "colorCode": "D1",
+          "colorText": "纯真向上的",
+          "title": "网易音乐人"
+        },
+        "yuncunFootprintPage": {
+          "footprintItems": [
+            {
+              "year": 2017,
+              "song": {
+                "songName": "Seve",
+                "songId": 30394891,
+                "songCoverUrl": "http://p1.music.126.net/bv58miRmMR0JL4lHy5rTTg==/7853811557348624.jpg",
+                "artistName": "Tez Cadey"
+              },
+              "publishYear": "2015"
+            },
+            {
+              "year": 2018,
+              "song": {
+                "songName": "The #IcePack Rises (Original Mix)",
+                "songId": 403711524,
+                "songCoverUrl": "http://p1.music.126.net/CAiMAZkHhuAL2Y3PsJOgyg==/109951164394580443.jpg",
+                "artistName": "EnV"
+              },
+              "publishYear": "2016"
+            },
+            {
+              "year": 2019,
+              "song": {
+                "songName": "░░_Ｓｐｒｉｎｇｔｉｍｅ  Ｓｔｒｏｌｌ_Westminster Quarters =Ⓣɪᴍᴇ ➋ Ⓜᴇᴇᴛ",
+                "songId": 448741213,
+                "songCoverUrl": "http://p1.music.126.net/O2yjjpxL9Ns3EUSYTidkIA==/18569651883165873.jpg",
+                "artistName": "secret crates"
+              },
+              "publishYear": "2015"
+            },
+            {
+              "year": 2020,
+              "song": {
+                "songName": "Windy Hill",
+                "songId": 427606780,
+                "songCoverUrl": "http://p1.music.126.net/dAJR6IWlKitcNVlfQwtgfA==/18241997416865263.jpg",
+                "artistName": "羽肿"
+              },
+              "publishYear": "2016"
+            },
+            {
+              "year": 2021,
+              "song": {
+                "songName": "为霜",
+                "songId": 535517304,
+                "songCoverUrl": "http://p1.music.126.net/678XIIRmFk1IGuv9RB43HQ==/109951163131639447.jpg",
+                "artistName": "羽肿"
+              },
+              "publishYear": "2018"
+            },
+            {
+              "year": 2022,
+              "song": {
+                "songName": "为霜",
+                "songId": 535517304,
+                "songCoverUrl": "http://p1.music.126.net/678XIIRmFk1IGuv9RB43HQ==/109951163131639447.jpg",
+                "artistName": "羽肿"
+              },
+              "publishYear": "2018"
+            }
+          ]
+        }
+      },
+      "message": ""
+    }
+  }
+}

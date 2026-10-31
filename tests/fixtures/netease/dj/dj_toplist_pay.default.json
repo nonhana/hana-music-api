@@ -1,0 +1,924 @@
+{
+  "module": "dj_toplist_pay",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T16:54:29.282Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B13: dj_toplist_pay 付费精品"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "msg": null,
+      "data": {
+        "total": 100,
+        "updateTime": 1792947020865,
+        "list": [
+          {
+            "id": 988499285,
+            "rank": 1,
+            "lastRank": 1,
+            "score": 18741192,
+            "name": "猫小九历险记 | 大型奇幻冒险剧",
+            "picUrl": "http://p2.music.126.net/2KSJp7HiDk6QxlK6SNlSQw==/109951173848182608.jpg",
+            "creatorName": "奇喵君故事"
+          },
+          {
+            "id": 988499286,
+            "rank": 2,
+            "lastRank": 2,
+            "score": 7461930,
+            "name": "猫七夜之御龙少年丨亲子共享故事丨奇喵宇宙",
+            "picUrl": "http://p2.music.126.net/qPEoSH3XgjO2ERkavxlsbQ==/109951173848190576.jpg",
+            "creatorName": "奇喵君故事"
+          },
+          {
+            "id": 1493860980,
+            "rank": 3,
+            "lastRank": 4,
+            "score": 5790690,
+            "name": "奶龙唱经典儿歌",
+            "picUrl": "http://p2.music.126.net/AZPFCKUSJnYMdLnG_APm5A==/109951173444060122.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 1490425014,
+            "rank": 4,
+            "lastRank": 3,
+            "score": 4613779,
+            "name": "猫平安逆袭传奇",
+            "picUrl": "http://p2.music.126.net/1MWpSltvOmn2JhLtHCzVng==/109951173692301307.jpg",
+            "creatorName": "小盟盟听书"
+          },
+          {
+            "id": 1494900987,
+            "rank": 5,
+            "lastRank": 6,
+            "score": 4530372,
+            "name": "奶龙诗词大冒险",
+            "picUrl": "http://p2.music.126.net/OlqCw3e0fhxSNq49uz3wGA==/109951173486520202.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 1498819981,
+            "rank": 6,
+            "lastRank": 9,
+            "score": 3919969,
+            "name": "哆啦A梦 第四季|官方动画原声音频",
+            "picUrl": "http://p2.music.126.net/w7RlU5Y5WRe-5hK_KNLswQ==/109951173972288600.jpg",
+            "creatorName": "杰外动漫"
+          },
+          {
+            "id": 997227319,
+            "rank": 7,
+            "lastRank": 7,
+            "score": 3835705,
+            "name": "神奇背包 | 我的世界益智故事·北少侠",
+            "picUrl": "http://p2.music.126.net/IdOthTOEb1n0qTX_l28WQA==/109951169102800415.jpg",
+            "creatorName": "六云文化"
+          },
+          {
+            "id": 988499290,
+            "rank": 8,
+            "lastRank": 5,
+            "score": 3661468,
+            "name": "猫四月与精灵传说丨少女魔法之路丨奇喵宇宙",
+            "picUrl": "http://p2.music.126.net/lha-yyFUN2fBBdMINGmPjw==/109951173848185447.jpg",
+            "creatorName": "奇喵君故事"
+          },
+          {
+            "id": 1217168509,
+            "rank": 9,
+            "lastRank": 10,
+            "score": 3223653,
+            "name": "米小圈上学记一二三年级",
+            "picUrl": "http://p2.music.126.net/aOWe7VDXVQ-n6lS3__f0TQ==/109951171012328019.jpg",
+            "creatorName": "米小圈频道"
+          },
+          {
+            "id": 988499287,
+            "rank": 10,
+            "lastRank": 8,
+            "score": 2986356,
+            "name": "猫天一的英雄之路丨少年成长历程丨奇喵宇宙",
+            "picUrl": "http://p2.music.126.net/MzHep8rYbkwiJfefgovLIQ==/109951173848180134.jpg",
+            "creatorName": "奇喵君故事"
+          },
+          {
+            "id": 997227318,
+            "rank": 11,
+            "lastRank": 13,
+            "score": 1837213,
+            "name": "北极星奇遇记 | 我的世界励志故事·北少侠",
+            "picUrl": "http://p2.music.126.net/VMcMP8rzeirqJ5Lgnt0gAg==/109951169102806670.jpg",
+            "creatorName": "六云文化"
+          },
+          {
+            "id": 1487874006,
+            "rank": 12,
+            "lastRank": 11,
+            "score": 1731529,
+            "name": "毛选中的顶级思维智慧",
+            "picUrl": "http://p2.music.126.net/fHsF10FskvDBtARRGZxW2g==/109951172899635759.jpg",
+            "creatorName": "鹤乡文化书场"
+          },
+          {
+            "id": 1498523994,
+            "rank": 13,
+            "lastRank": 20,
+            "score": 1696935,
+            "name": "手表里的超级坦克第二季",
+            "picUrl": "http://p2.music.126.net/VOgzXRLQeS8w5dcwc74RRA==/109951173918769082.jpg",
+            "creatorName": "萌芽故事"
+          },
+          {
+            "id": 1223298547,
+            "rank": 14,
+            "lastRank": 16,
+            "score": 1694944,
+            "name": "哪吒爆笑上学记｜爆笑神话少儿冒险丨十三妖",
+            "picUrl": "http://p2.music.126.net/21GUY-QNmNOIhMm1rbTd8w==/109951170728554168.jpg",
+            "creatorName": "广东畅读"
+          },
+          {
+            "id": 1214395511,
+            "rank": 15,
+            "lastRank": 12,
+            "score": 1593442,
+            "name": "中国通史：一听就上瘾的上下五千年历史",
+            "picUrl": "http://p2.music.126.net/aTRgSz8ilQ4GgxpiA9IjGA==/109951170035415351.jpg",
+            "creatorName": "有声红豆荚"
+          },
+          {
+            "id": 1490425018,
+            "rank": 16,
+            "lastRank": 15,
+            "score": 1555360,
+            "name": "哪吒：这个学校有妖气",
+            "picUrl": "http://p2.music.126.net/EfImFZeT189aOPRRCmEhjA==/109951173113316218.jpg",
+            "creatorName": "小盟盟听书"
+          },
+          {
+            "id": 990022511,
+            "rank": 17,
+            "lastRank": 18,
+            "score": 1464753,
+            "name": "我的世界之头号玩家·三季全 北少侠",
+            "picUrl": "http://p2.music.126.net/eekLvU44Uqv7CywLQ0JluQ==/109951168645432718.jpg",
+            "creatorName": "六云文化"
+          },
+          {
+            "id": 1497986057,
+            "rank": 18,
+            "lastRank": 14,
+            "score": 1455253,
+            "name": "奶龙上学记一年级",
+            "picUrl": "http://p2.music.126.net/dC4xDv13BU4DGPe0nP7KRQ==/109951173904749676.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 997227317,
+            "rank": 19,
+            "lastRank": 21,
+            "score": 1366357,
+            "name": "玄小北历险记 | 我的世界财商故事·北少侠",
+            "picUrl": "http://p2.music.126.net/6spDEfzgiCs8uDcrarZIHQ==/109951169102809129.jpg",
+            "creatorName": "六云文化"
+          },
+          {
+            "id": 1495267030,
+            "rank": 20,
+            "lastRank": 17,
+            "score": 1345903,
+            "name": "神探奶龙",
+            "picUrl": "http://p2.music.126.net/J8pi34z7XgyWYGSAba7aIw==/109951173553823739.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 1227596520,
+            "rank": 21,
+            "lastRank": 23,
+            "score": 1298671,
+            "name": "奶龙儿童睡前故事",
+            "picUrl": "http://p2.music.126.net/hTbGCkLdsnxxsDxXWv-vRg==/109951171462237583.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 1484768086,
+            "rank": 22,
+            "lastRank": 19,
+            "score": 1214707,
+            "name": "北少侠之城堡继承者 | 想象力创造力·北少侠",
+            "picUrl": "http://p2.music.126.net/PXhyzDCfg-f9tuvACB76kQ==/109951172581160952.jpg",
+            "creatorName": "六云文化"
+          },
+          {
+            "id": 987175242,
+            "rank": 23,
+            "lastRank": 24,
+            "score": 985219,
+            "name": "贝乐虎儿歌",
+            "picUrl": "http://p2.music.126.net/yYKAmRkAmEm5QoCdRbKP3Q==/109951168492119720.jpg",
+            "creatorName": "贝乐虎"
+          },
+          {
+            "id": 988499289,
+            "rank": 24,
+            "lastRank": 25,
+            "score": 974635,
+            "name": "猫六川的错乱时空丨励志成长故事丨奇喵宇宙",
+            "picUrl": "http://p2.music.126.net/gvBNZkfTQRz5lLt5cGZhOA==/109951173848182919.jpg",
+            "creatorName": "奇喵君故事"
+          },
+          {
+            "id": 982583969,
+            "rank": 25,
+            "lastRank": 26,
+            "score": 872679,
+            "name": "西游记·少儿趣听版｜中国神话｜睡前故事",
+            "picUrl": "http://p2.music.126.net/slleu-4QxWrGB0eY_ss7JA==/109951169634886670.jpg",
+            "creatorName": "西红柿有声"
+          },
+          {
+            "id": 1213987498,
+            "rank": 26,
+            "lastRank": 27,
+            "score": 827622,
+            "name": "隋唐演义·狮子老爸|乱世英雄的逆袭之路",
+            "picUrl": "http://p2.music.126.net/CaAiscLG6otKRHbKvfc7ug==/109951169991999174.jpg",
+            "creatorName": "狮子老爸讲故事"
+          },
+          {
+            "id": 997227320,
+            "rank": 27,
+            "lastRank": 28,
+            "score": 777273,
+            "name": "龙弟东之精灵日记|神奇宝贝宝可梦口袋妖怪",
+            "picUrl": "http://p2.music.126.net/d8kWWsatBXsr8FvAd5w3-g==/109951169102799923.jpg",
+            "creatorName": "六云文化"
+          },
+          {
+            "id": 992352285,
+            "rank": 28,
+            "lastRank": 30,
+            "score": 733384,
+            "name": "方块世界之头号玩家·少儿沙盘游戏 北少侠",
+            "picUrl": "http://p2.music.126.net/NNrStFw9XFDJI69LsmsYhQ==/109951168730414440.jpg",
+            "creatorName": "六云文化"
+          },
+          {
+            "id": 1218127756,
+            "rank": 29,
+            "lastRank": 34,
+            "score": 717004,
+            "name": "我的世界之孤岛求生|蔬菜警长异人众故事",
+            "picUrl": "http://p2.music.126.net/d10xNUkW1ldeoXd2luzjGw==/109951170334191929.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 1213148704,
+            "rank": 30,
+            "lastRank": 22,
+            "score": 703477,
+            "name": "二战史话",
+            "picUrl": "http://p2.music.126.net/RAfVW4UKauN2Wt72flC_dA==/109951169956879218.jpg",
+            "creatorName": "边江文化"
+          },
+          {
+            "id": 1221999541,
+            "rank": 31,
+            "lastRank": 43,
+            "score": 689284,
+            "name": "人鱼陷落丨金弦&倔强的小红丨双男主年下强强丨多人有声剧",
+            "picUrl": "http://p2.music.126.net/g1IVrEW9RKJHt9SW05A8Vw==/109951170630037027.jpg",
+            "creatorName": "磨铁数盟"
+          },
+          {
+            "id": 1222749535,
+            "rank": 32,
+            "lastRank": 37,
+            "score": 665389,
+            "name": "欲言难止丨顺子X倒霉死勒丨校园暗恋&破镜重圆丨多人有声剧",
+            "picUrl": "http://p2.music.126.net/EptD-PonTOsUYGgg-at4nA==/109951170662164558.jpg",
+            "creatorName": "磨铁数盟"
+          },
+          {
+            "id": 1208215545,
+            "rank": 33,
+            "lastRank": 35,
+            "score": 602023,
+            "name": "西游记|狮子老爸",
+            "picUrl": "http://p2.music.126.net/NMGBOnuBRuIPefHER6wc3Q==/109951169726952867.jpg",
+            "creatorName": "狮子老爸讲故事"
+          },
+          {
+            "id": 988499288,
+            "rank": 34,
+            "lastRank": 36,
+            "score": 576355,
+            "name": "机甲少年金小鳞丨校园热血故事丨奇喵宇宙",
+            "picUrl": "http://p2.music.126.net/FxxR0IAd28TRw7ILfHEdnw==/109951173848195504.jpg",
+            "creatorName": "奇喵君故事"
+          },
+          {
+            "id": 979216262,
+            "rank": 35,
+            "lastRank": 33,
+            "score": 574686,
+            "name": "爆笑历史剧《趣说明朝那些事儿》全集",
+            "picUrl": "http://p2.music.126.net/T8CneKfK--VV8uYgFGh9qQ==/109951168208209324.jpg",
+            "creatorName": "路上读书App"
+          },
+          {
+            "id": 1217939675,
+            "rank": 36,
+            "lastRank": 41,
+            "score": 527020,
+            "name": "变身警长喵莱特|儿童侦探推理故事|科普百科",
+            "picUrl": "http://p2.music.126.net/rQ8VGHu7P5OsRPqWI7ToPQ==/109951170566963589.jpg",
+            "creatorName": "贝乐虎"
+          },
+          {
+            "id": 1214484762,
+            "rank": 37,
+            "lastRank": 32,
+            "score": 513346,
+            "name": "二哈和他的白猫师尊｜谷江山vs三石|肉包不吃肉原著｜官方正版",
+            "picUrl": "http://p2.music.126.net/WMnMGllaEd1rmzyIfgMTSg==/109951170061823269.jpg",
+            "creatorName": "打谷机_"
+          },
+          {
+            "id": 1220450558,
+            "rank": 38,
+            "lastRank": 44,
+            "score": 508944,
+            "name": "爆笑父与子：今天我当家 | 大有叔叔",
+            "picUrl": "http://p2.music.126.net/fTfHiCvcVpbQJBghq_SkrQ==/109951170500800066.jpg",
+            "creatorName": "大有叔叔文化"
+          },
+          {
+            "id": 1218127757,
+            "rank": 39,
+            "lastRank": 48,
+            "score": 503962,
+            "name": "我的世界之异界传奇|蔬菜警长千面世界",
+            "picUrl": "http://p2.music.126.net/rgRqFkaRymovU0NVzQEmWA==/109951170363761818.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 1218127758,
+            "rank": 40,
+            "lastRank": 45,
+            "score": 503818,
+            "name": "我的世界之凋零骷髅历险记|小北历险记",
+            "picUrl": "http://p2.music.126.net/JbLzrk8UtM_EcD7KrzOSOw==/109951171663817435.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 527639718,
+            "rank": 41,
+            "lastRank": 59,
+            "score": 493506,
+            "name": "三国演义",
+            "picUrl": "http://p2.music.126.net/HhNqYQEPrt-UhYTb-Argtg==/109951167986008163.jpg",
+            "creatorName": "华音传媒"
+          },
+          {
+            "id": 1222871608,
+            "rank": 42,
+            "lastRank": 31,
+            "score": 491533,
+            "name": "我的世界·史蒂夫大冒险 | 儿童益智冒险故事",
+            "picUrl": "http://p2.music.126.net/1efJy649SGV3oKJFwSOltg==/109951170923887814.jpg",
+            "creatorName": "西红柿有声"
+          },
+          {
+            "id": 1494565990,
+            "rank": 43,
+            "lastRank": 50,
+            "score": 488793,
+            "name": "奶龙第二季丨我是奶龙动画原声",
+            "picUrl": "http://p2.music.126.net/-2Kz2wTIhkVbs7g-mGAECQ==/109951173482207343.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 1207797574,
+            "rank": 44,
+            "lastRank": 46,
+            "score": 470745,
+            "name": "小番茄和朋友们2|蔬菜警长儿童故事",
+            "picUrl": "http://p2.music.126.net/o46e7-Hlex2LM3jpC9SmsA==/109951169700571632.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 1222915604,
+            "rank": 45,
+            "lastRank": 51,
+            "score": 470397,
+            "name": "你却爱着一个他丨水千丞188系丨顺子&吕书君丨多人精品有声剧",
+            "picUrl": "http://p2.music.126.net/YFRp-fBF8Gyz6LGgDexOSw==/109951170680325840.jpg",
+            "creatorName": "磨铁数盟"
+          },
+          {
+            "id": 1208215546,
+            "rank": 46,
+            "lastRank": 39,
+            "score": 464829,
+            "name": "三国演义|狮子老爸讲故事",
+            "picUrl": "http://p2.music.126.net/CwurZpQTaboeXpSLX-B5xw==/109951169726961150.jpg",
+            "creatorName": "狮子老爸讲故事"
+          },
+          {
+            "id": 1484938094,
+            "rank": 47,
+            "lastRank": 29,
+            "score": 447513,
+            "name": "蛤蟆先生去看心理医生",
+            "picUrl": "http://p2.music.126.net/x32cV3Y9mmfI8LxR-4An0A==/109951172581119137.jpg",
+            "creatorName": "果麦有声"
+          },
+          {
+            "id": 1224198767,
+            "rank": 48,
+            "lastRank": 38,
+            "score": 430668,
+            "name": "哆啦A梦 全集|官方动画原声音频",
+            "picUrl": "http://p2.music.126.net/PmoYHRc0Pe-NEf2P3lgWug==/109951171000353258.jpg",
+            "creatorName": "杰外动漫"
+          },
+          {
+            "id": 1001332317,
+            "rank": 49,
+            "lastRank": 91,
+            "score": 427230,
+            "name": "三字经 | 哄睡诵读 | 国学启蒙 | 磨耳朵",
+            "picUrl": "http://p2.music.126.net/8sDFs6YwIEB0UAn4BSJGMg==/109951169374617285.jpg",
+            "creatorName": "晚安宝贝-甜梦安安"
+          },
+          {
+            "id": 1223381603,
+            "rank": 50,
+            "lastRank": 63,
+            "score": 420747,
+            "name": "超能职业者猫小闹|神奇手表与超能空间",
+            "picUrl": "http://p2.music.126.net/a4YVH_IimsoEd1QufzOQNA==/109951171663712548.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 1001332323,
+            "rank": 51,
+            "lastRank": 42,
+            "score": 412302,
+            "name": "三只小猪 | 睡前故事 | 寓言故事",
+            "picUrl": "http://p2.music.126.net/8qInrUKsHivPF8kBADjuCw==/109951170611261771.jpg",
+            "creatorName": "晚安宝贝-甜梦安安"
+          },
+          {
+            "id": 987290315,
+            "rank": 52,
+            "lastRank": 57,
+            "score": 398137,
+            "name": "一听就上瘾的历史冷知识",
+            "picUrl": "http://p2.music.126.net/2x1WEfGlCpouI5dZrB6FGg==/109951168502934022.jpg",
+            "creatorName": "三幕式文化"
+          },
+          {
+            "id": 1005135406,
+            "rank": 53,
+            "lastRank": 49,
+            "score": 382174,
+            "name": "牛奶神探|蔬菜警长睡前故事猴子警长",
+            "picUrl": "http://p2.music.126.net/paiT6F0CjW5uXP_0r-RPoA==/109951169608267610.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 1227596523,
+            "rank": 54,
+            "lastRank": 54,
+            "score": 379585,
+            "name": "奶龙奇幻历险记",
+            "picUrl": "http://p2.music.126.net/lDUOQoWVIdGmm6CdD70aoA==/109951172303722890.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 1489474000,
+            "rank": 55,
+            "lastRank": 56,
+            "score": 359547,
+            "name": "爆笑父与子：我是孩子王2",
+            "picUrl": "http://p2.music.126.net/CWcWafFnzZeK83s6X8F3UQ==/109951173021586423.jpg",
+            "creatorName": "大有叔叔文化"
+          },
+          {
+            "id": 1221407618,
+            "rank": 56,
+            "lastRank": 53,
+            "score": 349080,
+            "name": "全民转职：开局唯一隐藏职业|异人众",
+            "picUrl": "http://p2.music.126.net/lbBluNsLKzHyqznVKZRGvQ==/109951172735983478.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 1221407616,
+            "rank": 57,
+            "lastRank": 52,
+            "score": 347307,
+            "name": "海洋求生记|戚宝乐海洋求生冒险|蔬菜警长",
+            "picUrl": "http://p2.music.126.net/RkUEjqopolrJq-8bI2hitw==/109951170566518130.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 527436589,
+            "rank": 58,
+            "lastRank": 47,
+            "score": 343963,
+            "name": "死亡万花筒 第一季",
+            "picUrl": "http://p2.music.126.net/uH8yii2fArIuQAmzHYs_0w==/109951163428172414.jpg",
+            "creatorName": "边江工作室"
+          },
+          {
+            "id": 1001332322,
+            "rank": 59,
+            "lastRank": 40,
+            "score": 335688,
+            "name": "格林童话丨安徒生童话丨儿童睡前故事",
+            "picUrl": "http://p2.music.126.net/KWJrpazBkKgFj_dKMfGlyg==/109951170611262492.jpg",
+            "creatorName": "晚安宝贝-甜梦安安"
+          },
+          {
+            "id": 1211827533,
+            "rank": 60,
+            "lastRank": 78,
+            "score": 329422,
+            "name": "大侦探福尔摩斯·第一季",
+            "picUrl": "http://p2.music.126.net/-674M3MPrJqviHUtyTGjHA==/109951169877493341.jpg",
+            "creatorName": "狮子老爸讲故事"
+          },
+          {
+            "id": 1227596521,
+            "rank": 61,
+            "lastRank": 62,
+            "score": 325719,
+            "name": "奶龙365夜睡前故事",
+            "picUrl": "http://p2.music.126.net/61kYFW3O3ZDgXnHXXLvFsA==/109951172303725086.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 1217168510,
+            "rank": 62,
+            "lastRank": 58,
+            "score": 314977,
+            "name": "米小圈晚安故事会",
+            "picUrl": "http://p2.music.126.net/N7gvAVSkVKSsn_Q6AMzwWQ==/109951171012318419.jpg",
+            "creatorName": "米小圈频道"
+          },
+          {
+            "id": 1494548997,
+            "rank": 63,
+            "lastRank": 69,
+            "score": 314529,
+            "name": "奶龙第三季丨我是奶龙动画原声",
+            "picUrl": "http://p2.music.126.net/49qvFZUi2nMX76yGppGldQ==/109951173482218727.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 996425253,
+            "rank": 64,
+            "lastRank": 86,
+            "score": 306373,
+            "name": "炫卡斗士1",
+            "picUrl": "http://p2.music.126.net/j5p0a6BpyPoryzW4QolUeQ==/109951169029355059.jpg",
+            "creatorName": "腾远少儿"
+          },
+          {
+            "id": 1496932057,
+            "rank": 65,
+            "lastRank": 60,
+            "score": 302092,
+            "name": "神话穿越 I 猪八戒爆笑日记畅听合集",
+            "picUrl": "http://p2.music.126.net/d2kZouLjphQDw2czftMhzA==/109951173739071753.jpg",
+            "creatorName": "星星帮成长大百科"
+          },
+          {
+            "id": 1225342494,
+            "rank": 66,
+            "lastRank": 80,
+            "score": 290517,
+            "name": "巴布得:位面穿梭超市求生记",
+            "picUrl": "http://p2.music.126.net/aPCDfhUL8OvjO7lzvKo_6Q==/109951171283731899.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 1496997143,
+            "rank": 67,
+            "lastRank": 75,
+            "score": 289927,
+            "name": "手表里的超级坦克",
+            "picUrl": "http://p2.music.126.net/Ot3pS6KhRDCcComw5C4iEA==/109951173769788206.jpg",
+            "creatorName": "萌芽故事"
+          },
+          {
+            "id": 1218127759,
+            "rank": 68,
+            "lastRank": 55,
+            "score": 289473,
+            "name": "木屋求生之无限升级|异人众",
+            "picUrl": "http://p2.music.126.net/quzG_tveRU8bsWLyl5a3wQ==/109951170356700784.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 968897072,
+            "rank": 69,
+            "lastRank": 79,
+            "score": 284317,
+            "name": "大凯夜话丨发生在身边的诡异经历",
+            "picUrl": "http://p2.music.126.net/8V8Q48xlMesphwcVtIOdJQ==/109951166623262160.jpg",
+            "creatorName": "大凯说"
+          },
+          {
+            "id": 1496969143,
+            "rank": 70,
+            "lastRank": 72,
+            "score": 282271,
+            "name": "胜莉侦探团畅听合集I爆笑校园探案普法故事",
+            "picUrl": "http://p2.music.126.net/miwgHx2_iiDJM1LF8I344A==/109951173775306529.jpg",
+            "creatorName": "星星帮成长大百科"
+          },
+          {
+            "id": 1221407617,
+            "rank": 71,
+            "lastRank": 73,
+            "score": 280467,
+            "name": "森林求生记|戚宝乐御兽萌宠团战|蔬菜警长",
+            "picUrl": "http://p2.music.126.net/7egjrP4ePV3-CY7Bv8iiBQ==/109951170566524043.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 976455430,
+            "rank": 72,
+            "lastRank": 84,
+            "score": 269427,
+            "name": "资治通鉴",
+            "picUrl": "http://p2.music.126.net/dtOrGpcm2KfvDleFnJyutw==/109951167434131027.jpg",
+            "creatorName": "卡尔博学"
+          },
+          {
+            "id": 987164256,
+            "rank": 73,
+            "lastRank": 92,
+            "score": 268195,
+            "name": "助眠竖琴：一听就困 不再失眠",
+            "picUrl": "http://p2.music.126.net/kqjk7_PA5dNcfDBulX8Oug==/109951168491994858.jpg",
+            "creatorName": "一间茶水铺"
+          },
+          {
+            "id": 1222938495,
+            "rank": 74,
+            "lastRank": -1,
+            "score": 259438,
+            "name": "晚安宝贝英语启蒙儿歌|幼儿园早教|磨耳朵",
+            "picUrl": "http://p2.music.126.net/dOLwHbwWzGhwpT29HLsrjA==/109951173339569717.jpg",
+            "creatorName": "晚安宝贝-甜梦安安"
+          },
+          {
+            "id": 1223356484,
+            "rank": 75,
+            "lastRank": 70,
+            "score": 248038,
+            "name": "哪吒前传之封神传说丨少儿神话爆笑丨十三妖",
+            "picUrl": "http://p2.music.126.net/RyepierxBjzIQjlnuFJSvA==/109951171892167415.jpg",
+            "creatorName": "广东畅读"
+          },
+          {
+            "id": 1494943998,
+            "rank": 76,
+            "lastRank": 76,
+            "score": 247818,
+            "name": "奶龙成语奇遇记 | 国学启蒙",
+            "picUrl": "http://p2.music.126.net/lW1A0_NKwbArRj5o0XdDiw==/109951173492271754.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 1497001129,
+            "rank": 77,
+            "lastRank": 101,
+            "score": 241281,
+            "name": "猪八戒爆笑成语日记畅听合集",
+            "picUrl": "http://p2.music.126.net/Pyd2h6jfccYE_sPqyGLj7w==/109951173774429526.jpg",
+            "creatorName": "星星帮成长大百科"
+          },
+          {
+            "id": 1005978306,
+            "rank": 78,
+            "lastRank": 64,
+            "score": 238821,
+            "name": "贝乐虎英文儿歌大全|英语磨耳朵|早教启蒙儿歌",
+            "picUrl": "http://p2.music.126.net/Myho9KoYQA4_vLFTZdWFgA==/109951169682765532.jpg",
+            "creatorName": "贝乐虎"
+          },
+          {
+            "id": 1231384612,
+            "rank": 79,
+            "lastRank": 81,
+            "score": 235801,
+            "name": "格林童话，儿童睡前故事",
+            "picUrl": "http://p2.music.126.net/qazgAC3HJ2sOZitvPJvceQ==/109951172085684200.jpg",
+            "creatorName": "咕哩学堂"
+          },
+          {
+            "id": 1216669584,
+            "rank": 80,
+            "lastRank": 90,
+            "score": 226816,
+            "name": "神奇双猫3|蔬菜警长儿童睡前故事",
+            "picUrl": "http://p2.music.126.net/mG0BayJFbJIvLJ7Wk4YHWg==/109951170191485341.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 1220450554,
+            "rank": 81,
+            "lastRank": 96,
+            "score": 225762,
+            "name": "父与子新编3：暑期旅游季 | 大有叔叔",
+            "picUrl": "http://p2.music.126.net/-ZD93dofZHvYLFMZKyTpbw==/109951170500791822.jpg",
+            "creatorName": "大有叔叔文化"
+          },
+          {
+            "id": 1494926001,
+            "rank": 82,
+            "lastRank": 136,
+            "score": 223842,
+            "name": "我的世界之魔界大战2 | 侦探冒险故事",
+            "picUrl": "http://p2.music.126.net/IW0bcQu9IX6oHewTpUsDpA==/109951173493315566.jpg",
+            "creatorName": "西红柿有声"
+          },
+          {
+            "id": 1494944984,
+            "rank": 83,
+            "lastRank": 89,
+            "score": 221916,
+            "name": "奶龙揭秘大百科",
+            "picUrl": "http://p2.music.126.net/5rZ_mmffuS_gg2NG06AhPA==/109951173486407789.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 1228019634,
+            "rank": 84,
+            "lastRank": 111,
+            "score": 220216,
+            "name": "戚丝妮·我在魔法世界开荒种田|爆笑校园日常",
+            "picUrl": "http://p2.music.126.net/tWtsxCXe9xLbxb2GQ5fV1A==/109951171684838133.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 1217168511,
+            "rank": 85,
+            "lastRank": 95,
+            "score": 219976,
+            "name": "米小圈快乐成语",
+            "picUrl": "http://p2.music.126.net/iKpVfxl3j_vlu5mhMjjFFA==/109951171012318492.jpg",
+            "creatorName": "米小圈频道"
+          },
+          {
+            "id": 1489450013,
+            "rank": 86,
+            "lastRank": 99,
+            "score": 214468,
+            "name": "爆笑父与子：安全大作战",
+            "picUrl": "http://p2.music.126.net/RPhOwBzwy-0jxB2bf1RAZA==/109951173022657511.jpg",
+            "creatorName": "大有叔叔文化"
+          },
+          {
+            "id": 1207797570,
+            "rank": 87,
+            "lastRank": 93,
+            "score": 212157,
+            "name": "美食大冒险3|蔬菜警长儿童故事",
+            "picUrl": "http://p2.music.126.net/Duj-_BzZmsFvUkY2KiSn7Q==/109951169700576499.jpg",
+            "creatorName": "小番茄故事王国"
+          },
+          {
+            "id": 1211756872,
+            "rank": 88,
+            "lastRank": -1,
+            "score": 210981,
+            "name": "蜡笔小新 第一季|官方动画原声音频",
+            "picUrl": "http://p2.music.126.net/E8MpF4uCsc9MFPBJQKHB4w==/109951169889500739.jpg",
+            "creatorName": "杰外动漫"
+          },
+          {
+            "id": 1212095488,
+            "rank": 89,
+            "lastRank": 61,
+            "score": 208000,
+            "name": "停止内耗：过一个不累的人生",
+            "picUrl": "http://p2.music.126.net/cD1JReGFUkCc3O0tDacwzA==/109951169905923887.jpg",
+            "creatorName": "旭思读书君"
+          },
+          {
+            "id": 1223307536,
+            "rank": 90,
+            "lastRank": 112,
+            "score": 202378,
+            "name": "爆笑西游客栈丨少儿爆笑西游记后传丨十三妖",
+            "picUrl": "http://p2.music.126.net/m3ASKtmp6Jv88ISzglxLRw==/109951170735601429.jpg",
+            "creatorName": "广东畅读"
+          },
+          {
+            "id": 1006127471,
+            "rank": 91,
+            "lastRank": 66,
+            "score": 200823,
+            "name": "广播剧《恶人想要抢救一下》第一季",
+            "picUrl": "http://p2.music.126.net/0wCXs1SC49bk0_8mwI5pfQ==/109951169703134188.jpg",
+            "creatorName": "创造者计划"
+          },
+          {
+            "id": 1497109014,
+            "rank": 92,
+            "lastRank": 113,
+            "score": 199102,
+            "name": "神话穿越|猪八戒爆笑日记6 财神当自强",
+            "picUrl": "http://p2.music.126.net/wDJndur2-v4MHqzMuY9XSw==/109951173771419791.jpg",
+            "creatorName": "星星帮成长大百科"
+          },
+          {
+            "id": 1496908132,
+            "rank": 93,
+            "lastRank": 137,
+            "score": 198757,
+            "name": "胜莉侦探团 I 福尔摩斯笔记",
+            "picUrl": "http://p2.music.126.net/nfmwsid_c5zJdVvtdFfAcg==/109951173775066197.jpg",
+            "creatorName": "星星帮成长大百科"
+          },
+          {
+            "id": 1223618544,
+            "rank": 94,
+            "lastRank": 94,
+            "score": 197749,
+            "name": "西游记（少儿版）|经典名著|儿童睡前故事",
+            "picUrl": "http://p2.music.126.net/qegEPlWR7gA9keSbV11jCQ==/109951170828044412.jpg",
+            "creatorName": "小耳朵亲子故事"
+          },
+          {
+            "id": 979216268,
+            "rank": 95,
+            "lastRank": 87,
+            "score": 197499,
+            "name": "水浒传 · 经典评书升级版 | 全本无删减道尽人间百态",
+            "picUrl": "http://p1.music.126.net/C6PvjYij-ABvgdYHLNjTUw==/109951167717465923.jpg",
+            "creatorName": "路上读书App"
+          },
+          {
+            "id": 1223160543,
+            "rank": 96,
+            "lastRank": 116,
+            "score": 192015,
+            "name": "谁把谁当真丨瀚墨&彭尧丨水千丞188系列丨多人有声剧",
+            "picUrl": "http://p1.music.126.net/rFJ7yIhmUJzBFxJdJu0x8A==/109951170712395317.jpg",
+            "creatorName": "磨铁数盟"
+          },
+          {
+            "id": 1492862005,
+            "rank": 97,
+            "lastRank": 125,
+            "score": 190741,
+            "name": "我的同学是美人鱼丨魔法故事",
+            "picUrl": "http://p1.music.126.net/kqGOn93tqxhA34HpE6QF3Q==/109951173362420664.jpg",
+            "creatorName": "咿牛儿童故事乐园"
+          },
+          {
+            "id": 1494955000,
+            "rank": 98,
+            "lastRank": 148,
+            "score": 189135,
+            "name": "奶龙爆笑百宝箱 丨爆笑反转",
+            "picUrl": "http://p1.music.126.net/G_oQM-rb_dRfenbMlEHyGg==/109951173492217564.jpg",
+            "creatorName": "奶龙-官方账号"
+          },
+          {
+            "id": 1003217414,
+            "rank": 99,
+            "lastRank": 135,
+            "score": 187536,
+            "name": "曲小奇·爆笑校园1 生活有个囧",
+            "picUrl": "http://p1.music.126.net/9CRktNR3JCa3PE8W6u_H1w==/109951169487573037.jpg",
+            "creatorName": "曲小奇官方"
+          },
+          {
+            "id": 977027262,
+            "rank": 100,
+            "lastRank": 83,
+            "score": 186141,
+            "name": "社会心理学",
+            "picUrl": "http://p1.music.126.net/AbwOR4xtkdYVrIVSJSuCbg==/109951167522356206.jpg",
+            "creatorName": "寒川文化"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -37,6 +37,10 @@ const result = await searchHot();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.result`、`body.result.hots` 和每条热搜的 `first`（热搜词本身）收紧；`second`、`iconType` 是宽松字段。只见过 `null` 的 `third` 没有声明，原样保留。本批录制（`search_hot.default.json`，另有一次匿名复现和一次登录对照探测，后两者未保留录制）没有发现可达的空结果，`result.hots` 在这些录制里都是 10 条。结构定义和类型是 `SearchHotBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取热门搜索列表

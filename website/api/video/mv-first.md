@@ -41,6 +41,10 @@ const result = await mvFirst({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、MV 列表 `body.data` 和每个 MV 的编号 `data[].id` 收紧（共用 `MvSummary`）；记录里的封面、简介、播放数、时长、收藏状态、`artists`、`alias`、`transNames` 都是宽松字段。筛选不到 MV 时 `data` 是空数组（录制 `mv_first.empty-area.json`）。结构定义和类型是 `MvFirstBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取最新 mv

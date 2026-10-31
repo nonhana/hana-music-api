@@ -41,6 +41,10 @@ const result = await djDifmChannelUnsubscribe({
 console.log(result.body);
 ```
 
+## 返回内容
+
+返回码 `body.code` 收紧为 `200`；`message` 是附带的提示，宽松。`data` 在已收藏和重复取消的录制里都只有空对象，内部字段没有证据，未声明并原样保留。未收藏时再次取消仍返回 `code: 200`（录制 `dj_difm_channel_unsubscribe.unsubscribe-again.json`）。结构定义和类型是 `DjDifmChannelUnsubscribeBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口, 可取消收藏DIFM频道

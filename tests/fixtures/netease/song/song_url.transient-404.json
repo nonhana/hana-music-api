@@ -1,0 +1,72 @@
+{
+  "module": "song_url",
+  "query": {
+    "id": 1409311773,
+    "br": 999000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:53:21.355Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B3：song_url 同一请求在本次探测/重录中从 200 翻转为 404，用于证明上游不稳定"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": 1409311773,
+          "url": null,
+          "br": 0,
+          "size": 0,
+          "md5": null,
+          "code": 404,
+          "expi": 1200,
+          "type": null,
+          "gain": 0,
+          "peak": null,
+          "closedGain": 0,
+          "closedPeak": 0,
+          "fee": 0,
+          "uf": null,
+          "payed": 0,
+          "flag": 1540100,
+          "canExtend": false,
+          "freeTrialInfo": null,
+          "level": null,
+          "encodeType": null,
+          "channelLayout": null,
+          "freeTrialPrivilege": {
+            "resConsumable": true,
+            "userConsumable": false,
+            "listenType": null,
+            "cannotListenReason": 1,
+            "playReason": null,
+            "freeLimitTagType": null
+          },
+          "freeTimeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "type": 0,
+            "remainTime": 0
+          },
+          "urlSource": 0,
+          "rightSource": 0,
+          "podcastCtrp": null,
+          "effectTypes": null,
+          "time": 0,
+          "message": null,
+          "levelConfuse": null,
+          "musicId": null,
+          "accompany": null,
+          "sr": 0,
+          "auEff": null,
+          "immerseType": null,
+          "beatType": 0
+        }
+      ],
+      "code": 200
+    }
+  }
+}

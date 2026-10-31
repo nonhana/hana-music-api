@@ -1,0 +1,24 @@
+{
+  "module": "dj_paygift",
+  "query": {
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T14:21:10.085Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B11：付费电台翻页越界，空列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "msg": null,
+      "data": {
+        "hasMore": false,
+        "list": []
+      }
+    }
+  }
+}

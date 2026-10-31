@@ -1,0 +1,81 @@
+{
+  "module": "record_recent_dj",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:40:21.239Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B34：record_recent_dj 正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "total": 1,
+        "list": [
+          {
+            "resourceId": "977654404",
+            "playTime": 1728444538573,
+            "resourceType": "DJ_RADIO",
+            "data": {
+              "id": 977654404,
+              "name": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST",
+              "picUrl": "http://p3.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+              "dj": {
+                "extProperties": {
+                  "avatarImgId_str": "109951167672132926"
+                },
+                "defaultAvatar": false,
+                "province": 440000,
+                "authStatus": 0,
+                "followed": false,
+                "avatarUrl": "http://p3.music.126.net/iU7QGCMy8DIN5c22Sk1-FQ==/109951167672132926.jpg",
+                "accountStatus": 0,
+                "gender": 1,
+                "city": 440100,
+                "birthday": 1138780727807,
+                "userId": 1737370053,
+                "userType": 0,
+                "nickname": "Kar98kurz",
+                "signature": "嗦面中…",
+                "description": "",
+                "detailDescription": "",
+                "avatarImgId": 109951167672132930,
+                "backgroundImgId": 109951164504008030,
+                "backgroundUrl": "http://p4.music.126.net/W990omii1QQDj7v5SVlhEQ==/109951164504008032.jpg",
+                "authority": 0,
+                "mutual": false,
+                "expertTags": null,
+                "experts": null,
+                "djStatus": 10,
+                "vipType": 11,
+                "remarkName": null,
+                "avatarImgIdStr": "109951167672132926",
+                "backgroundImgIdStr": "109951164504008032",
+                "xInfo": {
+                  "avatarImgId_str": "109951167672132926"
+                }
+              },
+              "lastProgramId": 3061261022,
+              "programCount": 747,
+              "playCount": 175352133,
+              "replaceName": null,
+              "icon": null,
+              "programData": null,
+              "categoryId": 3001
+            },
+            "os": "android",
+            "multiTerminalInfo": {
+              "icon": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266366095/5341/a415/1103/fac10cdcd9740b97c5233f3457aa0ee4.png",
+              "osText": "移动端",
+              "os": "android"
+            }
+          }
+        ]
+      },
+      "message": ""
+    }
+  }
+}

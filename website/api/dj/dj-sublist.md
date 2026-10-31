@@ -37,6 +37,10 @@ const result = await djSublist();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到订阅列表的 `body.djRadios` 和每个电台的编号 `djRadios[].id` 收紧；`count`、`time`、`hasMore`、电台名称、封面、简介、计数、`descPicList`（复用 `ProgramDescPic`）和 `dj` 主播（复用宽松的 `PlaylistUser`）都是宽松字段。匿名访问返回空的 `djRadios` 和 `count: 0`（录制 `dj_sublist.anonymous.json`）；非数字 `limit` 返回正文 `code: 400`，SDK 按业务拒绝转交 `status: 400`。`rcmdtext`、`icon`、`liveInfo`、`manualTagsDTO` 等只见过 `null` 或空数组的字段没有声明。结构定义和类型是 `DjSublistBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可获取订阅的电台列表

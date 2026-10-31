@@ -1,0 +1,21 @@
+{
+  "module": "song_downlist",
+  "query": {
+    "limit": 20,
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:23:56.773Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B41：song_downlist 越界偏移的空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "info": [],
+      "code": 200
+    }
+  }
+}

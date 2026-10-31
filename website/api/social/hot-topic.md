@@ -43,6 +43,14 @@ const result = await hotTopic({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.hot` 和每条话题自己的编号 `body.hot[].actId` 收紧。`title`、`text`、`participateCount`、`sharePicUrl`、`reason`、`isDefaultImg`、`alg` 是宽松字段；只见过 `null` 的 `iconUrl`、`readCnt`、`topicDisplayType`、`bizId`、`bizType`、`memberCount`、`onlineNum` 没有声明，原样保留。本批登录录制只返回 1 条推荐话题；`offset=100000` 和匿名调用返回同一份内容，未找到可达的空结果，`hot: []` 由契约测试构造验证。
+
+## 非 200 业务码的状态码变化
+
+本模块的 `code:400` 录制见 `hot_topic.invalid-limit.json`；通用规则见[返回体结构](/guide/response-bodies#非-200-业务码的状态码变化)。`SPECIAL_STATUS_CODES` 里的其他码（201/302/502 以原码拒绝，800–803 钳位为 400）同样以 `status=业务码` 拒绝；不在该表里的码（如 404）原样转交。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取热门话题

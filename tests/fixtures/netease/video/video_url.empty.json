@@ -1,0 +1,20 @@
+{
+  "module": "video_url",
+  "query": {
+    "id": "00000000000000000000000000000000"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T12:33:40.396Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B10：video_url 未知视频返回空地址列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "urls": [],
+      "code": 200
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "module": "user_social_status_rcmd",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T04:27:39.245Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B46：user_social_status_rcmd 匿名调用返回 code 302，未登录不可读"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 302,
+      "message": "系统错误",
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "module": "dj_difm_channel_subscribe",
+  "query": {
+    "id": 10505
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:00:22.031Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：dj_difm_channel_subscribe 正向（订阅频道 10505）；写前 dj_difm_subscribe_channels_get 为空，写后回读含 10505"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {},
+      "message": ""
+    }
+  }
+}

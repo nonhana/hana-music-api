@@ -602,7 +602,8 @@ describe('createServer', () => {
           body: {
             code: 200,
             data,
-            options: responseOptions,
+            // mock 要像真实上游一样只回 JSON：未声明字段里的非 JSON 值会让 Body 校验 502。
+            options: JSON.parse(JSON.stringify(responseOptions)),
             uri,
           },
           cookie: [],
@@ -659,12 +660,18 @@ describe('createServer', () => {
       cacheEnabled: false,
       modulesDirectory: REAL_MODULES_DIRECTORY,
       requestHandler: mockRequest(async (uri, data, options = {}) => ({
-        body: {
-          code: 200,
-          data,
-          options,
-          uri,
-        },
+        // personal_fm 现在校验 data 为歌曲数组；请求 payload 放进 requestData 继续断言，
+        // options 先序列化掉 AbortSignal，避免未声明字段的 JSON 校验失败。
+        body:
+          uri === '/api/v1/radio/get'
+            ? {
+                code: 200,
+                data: [],
+                options: JSON.parse(JSON.stringify(options)),
+                uri,
+                requestData: data,
+              }
+            : { code: 200, data, options, uri },
         cookie: ['MUSIC_U=server-cookie; Path=/'],
         status: 200,
       })),
@@ -685,7 +692,7 @@ describe('createServer', () => {
     );
     expect(personalFmBody).toEqual({
       code: 200,
-      data: {},
+      data: [],
       options: expect.objectContaining({
         cookie: {
           MUSIC_U: 'fm-cookie',
@@ -695,6 +702,7 @@ describe('createServer', () => {
         ip: expect.any(String),
         signal: {},
       }),
+      requestData: {},
       uri: '/api/v1/radio/get',
     });
     expect(dailySignin.status).toBe(200);

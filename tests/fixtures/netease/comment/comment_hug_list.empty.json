@@ -1,0 +1,189 @@
+{
+  "module": "comment_hug_list",
+  "query": {
+    "uid": 17062533682,
+    "cid": 9673055460,
+    "sid": 2092595510
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:41:12.958Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B8：comment_hug_list 零抱一抱（评论 9673055460），hugComments 为空数组"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "currentComment": {
+          "user": {
+            "avatarDetail": null,
+            "commonIdentity": null,
+            "locationInfo": null,
+            "liveInfo": null,
+            "followed": false,
+            "vipRights": null,
+            "relationTag": null,
+            "anonym": 0,
+            "encryptUserId": "0101AD9AB48088D459B38D6B838C21C5DFB9",
+            "userId": 17062533682,
+            "userType": 0,
+            "nickname": "巅峰极速AE86",
+            "avatarUrl": "http://p3.music.126.net/j2u9ma1XqLLl257oosyNKg==/109951174041342108.jpg",
+            "authStatus": 0,
+            "expertTags": null,
+            "experts": null,
+            "vipType": 0,
+            "remarkName": null,
+            "isHug": false,
+            "socialUserId": null,
+            "target": null
+          },
+          "beReplied": [
+            {
+              "user": {
+                "avatarDetail": null,
+                "commonIdentity": null,
+                "locationInfo": null,
+                "liveInfo": null,
+                "followed": false,
+                "vipRights": null,
+                "relationTag": null,
+                "anonym": 0,
+                "encryptUserId": "01008E6963AEEE9B22DE695F7D614AA10E41",
+                "userId": 14050661232,
+                "userType": 0,
+                "nickname": "Ch琳轩",
+                "avatarUrl": "http://p3.music.126.net/2Yqw13EJTUDC3V1orGB6vg==/109951174066875595.jpg",
+                "authStatus": 0,
+                "expertTags": null,
+                "experts": null,
+                "vipType": 11,
+                "remarkName": null,
+                "isHug": false,
+                "socialUserId": null,
+                "target": null
+              },
+              "beRepliedCommentId": 9566348630,
+              "commentId": 9566348630,
+              "content": "日本人囗1.26亿人，一瓶水按200毫升算，8瓶水就是1600毫升，即1.6千克。日本核污水总储量137万吨，算下来日本人每天喝八杯核查污水，大约7天就可以把核污水喝完，请把这句话传遍全网络。（我是复制的）",
+              "richContent": "日本人囗1.26亿人，一瓶水按200毫升算，8瓶水就是1600毫升，即1.6千克。日本核污水总储量137万吨，算下来日本人每天喝八杯核查污水，大约7天就可以把核污水喝完，请把这句话传遍全网络。（我是复制的）",
+              "status": 0,
+              "expressionUrl": null,
+              "contentStickerExt": null,
+              "contentResource": null,
+              "contentPicNosKey": null,
+              "contentPicUrl": null,
+              "voiceNosKey": null,
+              "voiceWhaleId": null,
+              "voiceDurationMillSecond": 0,
+              "voiceExt": null,
+              "ipLocation": {
+                "ip": null,
+                "location": "江西",
+                "userId": 14050661232
+              },
+              "owner": false
+            }
+          ],
+          "commentId": 9673055460,
+          "threadId": "R_SO_4_2092595510",
+          "content": "日本人囗1.26亿人，一瓶水按200毫升算，8瓶水就是1600毫升，即1.6千克。日本核污水总储量137万吨，算下来日本人每天喝八杯核查污水，大约7天就可以把核污水喝完，请把这句话传遍全网络。（我是复制的）",
+          "richContent": "日本人囗1.26亿人，一瓶水按200毫升算，8瓶水就是1600毫升，即1.6千克。日本核污水总储量137万吨，算下来日本人每天喝八杯核查污水，大约7天就可以把核污水喝完，请把这句话传遍全网络。（我是复制的）",
+          "status": 0,
+          "time": 1792887871602,
+          "timeStr": "08:24",
+          "needDisplayTime": true,
+          "likedCount": 0,
+          "replyCount": 0,
+          "liked": false,
+          "favorited": false,
+          "expressionUrl": null,
+          "contentStickerExt": null,
+          "parentCommentId": 9566348630,
+          "repliedMark": false,
+          "pendantData": null,
+          "pickInfo": null,
+          "showFloorComment": {
+            "replyCount": 0,
+            "comments": null,
+            "showReplyCount": false,
+            "topCommentIds": null,
+            "target": null
+          },
+          "decoration": {
+            "repliedByAuthorCount": 0
+          },
+          "commentLocationType": 0,
+          "musicianSayAirborne": null,
+          "args": null,
+          "tag": {
+            "datas": null,
+            "extDatas": [],
+            "contentDatas": null,
+            "contentPicDatas": null,
+            "relatedCommentIds": null
+          },
+          "source": null,
+          "resourceSpecialType": null,
+          "extInfo": {
+            "forwardEvent": 0
+          },
+          "commentVideoVO": {
+            "showCreationEntrance": false,
+            "allowCreation": false,
+            "creationOrpheusUrl": null,
+            "playOrpheusUrl": null,
+            "videoCount": 0,
+            "forbidCreationText": "作者未开放制作权限"
+          },
+          "contentResource": null,
+          "contentPicNosKey": null,
+          "contentPicExt": null,
+          "contentPicUrl": null,
+          "voiceNosKey": null,
+          "voiceWhaleId": null,
+          "voiceDurationMillSecond": 0,
+          "voiceExt": null,
+          "grade": null,
+          "userBizLevels": null,
+          "userNameplates": null,
+          "ipLocation": {
+            "ip": null,
+            "location": "陕西",
+            "userId": 17062533682
+          },
+          "aiCommentLabel": null,
+          "owner": false,
+          "tail": null,
+          "hideSerialComments": null,
+          "hideSerialTips": null,
+          "topicList": null,
+          "privacy": 2,
+          "medal": null,
+          "outShowComments": [],
+          "likeAnimationMap": {},
+          "bottomTags": [],
+          "airborneAction": null,
+          "reward": null,
+          "lotteryInfo": null,
+          "userTop": false,
+          "highlight": false,
+          "highlightDurationSeconds": null,
+          "desc": null,
+          "wordMatchList": null,
+          "songCommentAnchor": null,
+          "track": null
+        },
+        "hugComments": [],
+        "hasMore": false,
+        "cursor": null,
+        "idCursor": null,
+        "hugTotalCounts": 0
+      },
+      "message": ""
+    }
+  }
+}

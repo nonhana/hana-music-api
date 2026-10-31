@@ -37,6 +37,10 @@ const result = await ugcDetail();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和贡献内容的路径 `body.data` 收紧，`body.data.total` 宽松。当前录制账号没有贡献，登录和匿名调用都返回 `data.total: 0` 和空数组 `data.wikiDetailResultVoList`；空数组给不出元素类型，这个列表没有声明，原样保留，非空贡献记录的形状是缺口。分页、排序和审核状态仍是 legacy 输入，不做本地校验。结构定义和类型是 `UgcDetailBody`，见[返回体结构](/guide/response-bodies#百科与用户贡献)。
+
 ## 补充说明
 
 说明: 登录后调用此接口,使用此接口,可获取当前登录用户贡献内容

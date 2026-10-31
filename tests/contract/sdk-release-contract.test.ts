@@ -9,23 +9,23 @@ import {
 import { tmpdir } from 'node:os';
 import { basename, join, resolve } from 'node:path';
 
+import { projectRoot } from '../_kit/assertions.ts';
 import { findForbiddenArtifactSymbols } from '../fixtures/architecture-artifacts.ts';
 import albumNoDescription from '../fixtures/netease/library/album.no-description.json';
 import artistAlbum from '../fixtures/netease/library/artist_album.json';
 import artistTopSong from '../fixtures/netease/library/artist_top_song.json';
 import songDetailPrivileges from '../fixtures/netease/library/song_detail.privileges.json';
 
-const ROOT = resolve(import.meta.dir, '../..');
-const PACKAGE_JSON_PATH = resolve(ROOT, 'package.json');
-const WORKFLOWS_DIRECTORY = resolve(ROOT, '.github/workflows');
-const CHANGESET_CONFIG_PATH = resolve(ROOT, '.changeset/config.json');
-const TSC_CLI_PATH = resolve(ROOT, 'node_modules/typescript/bin/tsc');
+const PACKAGE_JSON_PATH = resolve(projectRoot, 'package.json');
+const WORKFLOWS_DIRECTORY = resolve(projectRoot, '.github/workflows');
+const CHANGESET_CONFIG_PATH = resolve(projectRoot, '.changeset/config.json');
+const TSC_CLI_PATH = resolve(projectRoot, 'node_modules/typescript/bin/tsc');
 const FS_ACCESS_RECORDER_PATH = resolve(
-  ROOT,
+  projectRoot,
   'tests/fixtures/fs-access-recorder.mjs',
 );
 const SERVERLESS_CONSUMER_PATH = resolve(
-  ROOT,
+  projectRoot,
   'tests/fixtures/serverless-consumer.mjs',
 );
 const REQUIRED_ROOT_EXPORTS = [
@@ -107,7 +107,7 @@ describe('sdk release contract', () => {
   test('should pack a consumer-safe tarball and allow only approved runtime imports', async () => {
     ensureBuiltArtifacts();
 
-    const packResult = run(['npm', 'pack', '--json'], ROOT);
+    const packResult = run(['npm', 'pack', '--json'], projectRoot);
     expect(packResult.exitCode).toBe(0);
 
     // npm < 12 返回数组；npm >= 12 返回按包名键控的对象。
@@ -133,7 +133,7 @@ describe('sdk release contract', () => {
     const consumerDirectory = mkdtempSync(
       join(tmpdir(), 'hana-music-api-sdk-consumer-'),
     );
-    const tarballPath = resolve(ROOT, filename);
+    const tarballPath = resolve(projectRoot, filename);
 
     try {
       writeFileSync(
@@ -367,7 +367,7 @@ describe('sdk release contract', () => {
     } finally {
       rmSync(consumerDirectory, { force: true, recursive: true });
       if (filename.length > 0) {
-        rmSync(resolve(ROOT, basename(filename)), { force: true });
+        rmSync(resolve(projectRoot, basename(filename)), { force: true });
       }
     }
   }, 30_000);
@@ -382,7 +382,7 @@ describe('sdk release contract', () => {
 
     try {
       const bundle = await Bun.build({
-        entrypoints: [resolve(ROOT, 'dist/index.js')],
+        entrypoints: [resolve(projectRoot, 'dist/index.js')],
         format: 'esm',
         naming: 'function.mjs',
         outdir: functionDirectory,
@@ -419,14 +419,14 @@ const readPackageJson = (): PackageJsonLike =>
 const sdkPackage = readPackageJson();
 
 const ensureBuiltArtifacts = (): void => {
-  const buildOutputPath = resolve(ROOT, 'dist/index.js');
+  const buildOutputPath = resolve(projectRoot, 'dist/index.js');
 
   try {
     readFileSync(buildOutputPath, 'utf8');
     return;
   } catch {}
 
-  const buildResult = run(['bun', 'run', 'build'], ROOT);
+  const buildResult = run(['bun', 'run', 'build'], projectRoot);
   expect(buildResult.exitCode).toBe(0);
 };
 

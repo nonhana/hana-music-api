@@ -37,6 +37,10 @@ const result = await songLyricsMarkAdd();
 console.log(result.body);
 ```
 
+## 返回内容
+
+返回码 `body.code` 收紧为 `200`，摘录结果 `body.data` 和这条摘录自己的 `data.markId` 收紧；`data.success`、`data.updateTime` 和 `message` 宽松。`markId` 为空串时新建摘录，带已有 `markId` 时修改同一条，两种调用返回同一结构（录制 `song_lyrics_mark_add.add.json`、`song_lyrics_mark_add.add-update.json`），写入结果用 [歌词摘录信息](/api/lyrics-mark/song-lyrics-mark) 回读确认。结构定义和类型是 `SongLyricsMarkAddBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 登录后调用此接口, 传入歌曲id, 可以添加/修改摘录歌词

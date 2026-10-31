@@ -1,0 +1,22 @@
+{
+  "module": "dj_radio_hot",
+  "query": {
+    "cateId": 999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:12:56.188Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B11：未知分类，空列表且 count 为 0"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "djRadios": [],
+      "hasMore": false,
+      "count": 0,
+      "code": 200
+    }
+  }
+}

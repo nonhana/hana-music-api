@@ -1,0 +1,21 @@
+{
+  "module": "voicelist_list",
+  "query": {
+    "voiceListId": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:05:31.323Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B43：voicelist_list 不存在的播客 id 的业务拒绝"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "播客不存在",
+      "data": null
+    }
+  }
+}

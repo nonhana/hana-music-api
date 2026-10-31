@@ -1,0 +1,19 @@
+{
+  "module": "user_social_status_rcmd",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T03:47:51.927Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B46：user_social_status_rcmd 未设置状态时 data 为空对象，userRcmdInfoVOList 缺失"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {},
+      "message": ""
+    }
+  }
+}

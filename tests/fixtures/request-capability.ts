@@ -21,13 +21,15 @@ export type MockRequestHandler = (
   options?: CreateRequestOptions,
 ) => Promise<NcmApiResponse> | NcmApiResponse;
 
-export const moduleResponse = (
+// 模块返回体的类型由调用点决定：mock 本体是 legacy 响应，测试里要断言成具体 Body。
+// oxlint-disable-next-line typescript/no-unnecessary-type-parameters
+export const moduleResponse = <Body = UnknownJson>(
   response: NcmApiResponse,
 ): {
   status: number;
   cookie: Array<string>;
-  body: UnknownJson;
-} => ({ ...response, body: response.body as UnknownJson });
+  body: Body;
+} => ({ ...response, body: response.body as Body });
 
 export const mockRequest =
   (handler: MockRequestHandler): RequestCapability =>

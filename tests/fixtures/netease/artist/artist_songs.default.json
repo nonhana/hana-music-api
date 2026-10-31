@@ -1,0 +1,4316 @@
+{
+  "module": "artist_songs",
+  "query": {
+    "id": 3684
+  },
+  "context": {
+    "recordedAt": "2026-10-25T10:06:28.881Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B2：artist_songs 歌手单曲热门前 100 非空（林俊杰 3684），截取保留前 30 首",
+    "truncated": [
+      {
+        "path": "body.songs",
+        "length": 100
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "songs": [
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10770,
+            "name": "JJ陆",
+            "picUrl": "https://p3.music.126.net/zjSzQ70gDJrneldAwvLBOg==/109951173971284858.jpg",
+            "pic_str": "109951173971284858",
+            "pic": 109951173971284860
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 5305267,
+          "djId": 0,
+          "no": 7,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 89,
+          "dt": 225013,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320002,
+            "fid": 0,
+            "size": 9002885,
+            "vd": -50777,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 899061,
+            "fid": 0,
+            "size": 25291762,
+            "vd": -50769,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128002,
+            "fid": 0,
+            "size": 3601180,
+            "vd": -46516,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [" 《Cries In A Distance》国语版"],
+          "pop": 100,
+          "rt": "600902000001816622",
+          "a": null,
+          "m": {
+            "br": 192002,
+            "fid": 0,
+            "size": 5401748,
+            "vd": -48157,
+            "sr": 44100
+          },
+          "mark": 8192,
+          "name": "Always Online",
+          "id": 108485,
+          "privilege": {
+            "id": 108485,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1474564,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "sky",
+            "playMaxBrLevel": "sky",
+            "downloadMaxBrLevel": "sky",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 164109253,
+            "name": "愿与愁",
+            "picUrl": "https://p3.music.126.net/vtnI8JpimWnZSzkXdmIB3w==/109951168558210782.jpg",
+            "pic_str": "109951168558210782",
+            "pic": 109951168558210780
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 14621336,
+          "djId": 0,
+          "no": 1,
+          "fee": 0,
+          "cd": "01",
+          "t": 0,
+          "v": 9,
+          "dt": 231586,
+          "mst": 9,
+          "cp": 2710492,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9265965,
+            "vd": -44797,
+            "sr": 48000
+          },
+          "sq": {
+            "br": 824706,
+            "fid": 0,
+            "size": 23873888,
+            "vd": -42009,
+            "sr": 48000
+          },
+          "hr": {
+            "br": 1587035,
+            "fid": 0,
+            "size": 45942024,
+            "vd": -44638,
+            "sr": 48000
+          },
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3706413,
+            "vd": -40487,
+            "sr": 48000
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5559597,
+            "vd": -42171,
+            "sr": 48000
+          },
+          "mark": 17716748288,
+          "name": "愿与愁",
+          "id": 2041026502,
+          "privilege": {
+            "id": 2041026502,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1544452,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 1999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10804,
+            "name": "第二天堂",
+            "picUrl": "https://p3.music.126.net/Gk4t93WwafRZtt9nTS77Iw==/109951171891430447.jpg",
+            "pic_str": "109951171891430447",
+            "pic": 109951171891430450,
+            "alia": ["江南"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 522362,
+          "djId": 0,
+          "no": 6,
+          "fee": 0,
+          "cd": "01",
+          "t": 0,
+          "v": 140,
+          "dt": 267946,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10720697,
+            "vd": -27755,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 944860,
+            "fid": 0,
+            "size": 31646511,
+            "vd": -27717,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4288305,
+            "vd": -23765,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000009222907",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6432435,
+            "vd": -25325,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "江南",
+          "id": 108914,
+          "tns": ["River South"],
+          "privilege": {
+            "id": 108914,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10804,
+            "name": "第二天堂",
+            "picUrl": "https://p3.music.126.net/Gk4t93WwafRZtt9nTS77Iw==/109951171891430447.jpg",
+            "pic_str": "109951171891430447",
+            "pic": 109951171891430450,
+            "alia": ["江南"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 522365,
+          "djId": 0,
+          "no": 12,
+          "fee": 0,
+          "cd": "01",
+          "t": 0,
+          "v": 138,
+          "dt": 254040,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320001,
+            "fid": 0,
+            "size": 10162721,
+            "vd": -44566,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1693095,
+            "fid": 0,
+            "size": 53755771,
+            "vd": -44550,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128001,
+            "fid": 0,
+            "size": 4065115,
+            "vd": -40318,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000007915989",
+          "a": null,
+          "m": {
+            "br": 192001,
+            "fid": 0,
+            "size": 6097650,
+            "vd": -42026,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "美人鱼",
+          "id": 108931,
+          "tns": ["Mermaid"],
+          "privilege": {
+            "id": 108931,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10808,
+            "name": "乐行者",
+            "picUrl": "https://p4.music.126.net/BU26yl8XSsV4g1_eYYTCWg==/109951172002804127.jpg",
+            "pic_str": "109951172002804127",
+            "pic": 109951172002804130
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 5327527,
+          "djId": 0,
+          "no": 5,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 61,
+          "dt": 289093,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320001,
+            "fid": 0,
+            "size": 11566019,
+            "vd": -48573,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 908163,
+            "fid": 0,
+            "size": 32817993,
+            "vd": -48978,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128001,
+            "fid": 0,
+            "size": 4626434,
+            "vd": -44355,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000005510828",
+          "a": null,
+          "m": {
+            "br": 192001,
+            "fid": 0,
+            "size": 6939629,
+            "vd": -45988,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "冻结",
+          "id": 108965,
+          "tns": ["Freeze"],
+          "privilege": {
+            "id": 108965,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 3056951,
+            "name": "新地球 - 人 (Special Edition)",
+            "picUrl": "https://p4.music.126.net/2e__sKuIQsTSVVGr5Hk1FA==/109951170313536564.jpg",
+            "pic_str": "109951170313536564",
+            "pic": 109951170313536560
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 375130,
+          "djId": 0,
+          "no": 7,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 122,
+          "dt": 298293,
+          "mst": 9,
+          "cp": 7002,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 11934868,
+            "vd": -65791,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 919162,
+            "fid": 0,
+            "size": 34272489,
+            "vd": -65786,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4773973,
+            "vd": -61430,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": ["If Only…"],
+          "pop": 100,
+          "rt": null,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 7160938,
+            "vd": -63185,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "可惜没如果",
+          "id": 29814898,
+          "privilege": {
+            "id": 29814898,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10750,
+            "name": "学不会",
+            "picUrl": "https://p3.music.126.net/Z5lg-iA7pGbquJvMoY8tbg==/109951168271379420.jpg",
+            "tns": ["Lost N Found"],
+            "pic_str": "109951168271379420",
+            "pic": 109951168271379420
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 28222,
+          "djId": 0,
+          "no": 4,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 141,
+          "dt": 244470,
+          "mst": 9,
+          "cp": 7002,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9781333,
+            "vd": -57642,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 901530,
+            "fid": 0,
+            "size": 27549677,
+            "vd": -57632,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3912559,
+            "vd": -53236,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000009090355",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5868817,
+            "vd": -55017,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "那些你很冒险的梦",
+          "id": 108138,
+          "tns": ["Those Were The Days"],
+          "privilege": {
+            "id": 108138,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 2301158,
+            "name": "因你而在",
+            "picUrl": "https://p4.music.126.net/D_hiKMwrdQlqD36LoKLO2w==/109951163187408030.jpg",
+            "pic_str": "109951163187408030",
+            "pic": 109951163187408030,
+            "alia": ["Stories Untold"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 125,
+          "djId": 0,
+          "no": 4,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 86,
+          "dt": 287000,
+          "mst": 9,
+          "cp": 2710492,
+          "cf": "",
+          "h": {
+            "br": 320001,
+            "fid": 0,
+            "size": 11482427,
+            "vd": -67729,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 931539,
+            "fid": 0,
+            "size": 33418990,
+            "vd": -67726,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128001,
+            "fid": 0,
+            "size": 4592997,
+            "vd": -63388,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000009582017",
+          "a": null,
+          "m": {
+            "br": 192001,
+            "fid": 0,
+            "size": 6889474,
+            "vd": -65118,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "修炼爱情",
+          "id": 25727803,
+          "tns": ["Practice Love"],
+          "privilege": {
+            "id": 25727803,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10755,
+            "name": "她说 概念自选辑",
+            "picUrl": "https://p4.music.126.net/LI3duoHIZyyLawRJLY51kA==/109951172024569374.jpg",
+            "pic_str": "109951172024569374",
+            "pic": 109951172024569380
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 0,
+          "djId": 0,
+          "no": 8,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 131,
+          "dt": 225645,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9026917,
+            "vd": -41030,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1602717,
+            "fid": 0,
+            "size": 45199308,
+            "vd": -41005,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3610793,
+            "vd": -36728,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000008745958",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5416168,
+            "vd": -38459,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "心墙",
+          "id": 108263,
+          "tns": ["Wall"],
+          "privilege": {
+            "id": 108263,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10770,
+            "name": "JJ陆",
+            "picUrl": "https://p4.music.126.net/zjSzQ70gDJrneldAwvLBOg==/109951173971284858.jpg",
+            "pic_str": "109951173971284858",
+            "pic": 109951173971284860
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 522351,
+          "djId": 0,
+          "no": 10,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 82,
+          "dt": 247507,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9902542,
+            "vd": -59909,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1006902,
+            "fid": 0,
+            "size": 31156515,
+            "vd": -60076,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3961043,
+            "vd": -54999,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000004468108",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5941542,
+            "vd": -57177,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "我还想她",
+          "id": 108493,
+          "tns": ["I Still Miss Her"],
+          "privilege": {
+            "id": 108493,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 3056951,
+            "name": "新地球 - 人 (Special Edition)",
+            "picUrl": "https://p4.music.126.net/2e__sKuIQsTSVVGr5Hk1FA==/109951170313536564.jpg",
+            "pic_str": "109951170313536564",
+            "pic": 109951170313536560
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 372296,
+          "djId": 0,
+          "no": 2,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 80,
+          "dt": 277413,
+          "mst": 9,
+          "cp": 7002,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 11098950,
+            "vd": -58479,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 982062,
+            "fid": 0,
+            "size": 34054638,
+            "vd": -58483,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4439606,
+            "vd": -54230,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": ["Brave New World"],
+          "pop": 100,
+          "rt": null,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6659387,
+            "vd": -55903,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "新地球",
+          "id": 29774171,
+          "privilege": {
+            "id": 29774171,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10755,
+            "name": "她说 概念自选辑",
+            "picUrl": "https://p4.music.126.net/LI3duoHIZyyLawRJLY51kA==/109951172024569374.jpg",
+            "pic_str": "109951172024569374",
+            "pic": 109951172024569380
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 0,
+          "djId": 0,
+          "no": 4,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 82,
+          "dt": 251324,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10054052,
+            "vd": -41604,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1610040,
+            "fid": 0,
+            "size": 50574057,
+            "vd": -41699,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4021647,
+            "vd": -37411,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000008745974",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6032449,
+            "vd": -39025,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "当你",
+          "id": 108251,
+          "tns": ["When you"],
+          "privilege": {
+            "id": 108251,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 2448339,
+            "name": "他是…JJ林俊杰",
+            "picUrl": "https://p4.music.126.net/Pz4sEpA7nsiyIdIrswTx9A==/109951167894836691.jpg",
+            "pic_str": "109951167894836691",
+            "pic": 109951167894836690
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 0,
+          "djId": 0,
+          "no": 14,
+          "fee": 0,
+          "cd": "01",
+          "t": 0,
+          "v": 60,
+          "dt": 236893,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9478313,
+            "vd": -61581,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 920594,
+            "fid": 0,
+            "size": 27260334,
+            "vd": -61570,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3791351,
+            "vd": -57389,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5687005,
+            "vd": -59013,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "背对背拥抱",
+          "id": 26305547,
+          "tns": ["Back to Back"],
+          "privilege": {
+            "id": 26305547,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10770,
+            "name": "JJ陆",
+            "picUrl": "https://p4.music.126.net/zjSzQ70gDJrneldAwvLBOg==/109951173971284858.jpg",
+            "pic_str": "109951173971284858",
+            "pic": 109951173971284860
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 522348,
+          "djId": 0,
+          "no": 2,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 84,
+          "dt": 233506,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9342476,
+            "vd": -64110,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 967655,
+            "fid": 0,
+            "size": 28248533,
+            "vd": -64101,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3737017,
+            "vd": -59859,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000001816624",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5605503,
+            "vd": -61530,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "不潮不用花钱",
+          "id": 108463,
+          "tns": ["High Fashion"],
+          "privilege": {
+            "id": 108463,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 81704189,
+            "name": "将故事写成我们",
+            "picUrl": "https://p4.music.126.net/4cZOZSbVNGTh5k0QP_eLnA==/109951168195232181.jpg",
+            "pic_str": "109951168195232181",
+            "pic": 109951168195232180
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 10908736,
+          "djId": 0,
+          "no": 1,
+          "fee": 0,
+          "cd": "01",
+          "t": 0,
+          "v": 30,
+          "dt": 335480,
+          "mst": 9,
+          "cp": 7002,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 13421758,
+            "vd": -71597,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1686046,
+            "fid": 0,
+            "size": 70704349,
+            "vd": -71571,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 5368729,
+            "vd": -67428,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 8053072,
+            "vd": -69040,
+            "sr": 44100
+          },
+          "mark": 17196654592,
+          "name": "将故事写成我们",
+          "id": 1391477429,
+          "tns": ["The Story Of Us"],
+          "privilege": {
+            "id": 1391477429,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 79214796,
+            "name": "新地球",
+            "picUrl": "https://p4.music.126.net/xH5uX9f5ymnPgPD5E25myA==/109951164081863001.jpg",
+            "pic_str": "109951164081863001",
+            "pic": 109951164081863000
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 0,
+          "djId": 0,
+          "no": 10,
+          "fee": 0,
+          "cd": "01",
+          "t": 0,
+          "v": 8,
+          "dt": 256546,
+          "mst": 9,
+          "cp": 7002,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10264076,
+            "vd": -59759,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 877852,
+            "fid": 0,
+            "size": 28151261,
+            "vd": -59756,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4105657,
+            "vd": -55455,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6158463,
+            "vd": -57149,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "茉莉雨",
+          "id": 1366053680,
+          "privilege": {
+            "id": 1366053680,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10755,
+            "name": "她说 概念自选辑",
+            "picUrl": "https://p4.music.126.net/LI3duoHIZyyLawRJLY51kA==/109951172024569374.jpg",
+            "pic_str": "109951172024569374",
+            "pic": 109951172024569380
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 28219,
+          "djId": 0,
+          "no": 1,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 159,
+          "dt": 320533,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 12824076,
+            "vd": -52090,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 779506,
+            "fid": 0,
+            "size": 31232236,
+            "vd": -52088,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 5129657,
+            "vd": -47667,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000008745942",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 7694463,
+            "vd": -49453,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "她说",
+          "id": 108242,
+          "tns": ["She Says"],
+          "privilege": {
+            "id": 108242,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10750,
+            "name": "学不会",
+            "picUrl": "https://p3.music.126.net/Z5lg-iA7pGbquJvMoY8tbg==/109951168271379420.jpg",
+            "tns": ["Lost N Found"],
+            "pic_str": "109951168271379420",
+            "pic": 109951168271379420
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 300033,
+          "djId": 0,
+          "no": 2,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 65,
+          "dt": 229500,
+          "mst": 9,
+          "cp": 7002,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9182607,
+            "vd": -69824,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 931526,
+            "fid": 0,
+            "size": 26723167,
+            "vd": -69821,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3673069,
+            "vd": -65496,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000009059276",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5509582,
+            "vd": -67221,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "学不会",
+          "id": 108134,
+          "tns": ["Lost N Found"],
+          "privilege": {
+            "id": 108134,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 159400773,
+            "name": "JJ的咖啡调调, Vol. 2",
+            "picUrl": "https://p4.music.126.net/ssPAqFStzmN4KKsHQGrfbg==/109951169493493172.jpg",
+            "pic_str": "109951169493493172",
+            "pic": 109951169493493170
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 0,
+          "djId": 0,
+          "no": 6,
+          "fee": 0,
+          "cd": "01",
+          "t": 0,
+          "v": 11,
+          "dt": 246023,
+          "mst": 9,
+          "cp": 7001,
+          "cf": "",
+          "h": {
+            "br": 320001,
+            "fid": 0,
+            "size": 9842925,
+            "vd": -59058,
+            "sr": 48000
+          },
+          "sq": {
+            "br": 971911,
+            "fid": 0,
+            "size": 29889106,
+            "vd": -59002,
+            "sr": 48000
+          },
+          "hr": {
+            "br": 1741200,
+            "fid": 0,
+            "size": 53546964,
+            "vd": -59071,
+            "sr": 48000
+          },
+          "l": {
+            "br": 128001,
+            "fid": 0,
+            "size": 3937197,
+            "vd": -54783,
+            "sr": 48000
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "",
+          "a": null,
+          "m": {
+            "br": 192001,
+            "fid": 0,
+            "size": 5905773,
+            "vd": -56463,
+            "sr": 48000
+          },
+          "mark": 17716748288,
+          "name": "达尔文",
+          "id": 2019573476,
+          "privilege": {
+            "id": 2019573476,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1544196,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 1999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10792,
+            "name": "曹操",
+            "picUrl": "https://p4.music.126.net/kSyujmjRn_9adgb4Wg5R-g==/109951171415593434.jpg",
+            "pic_str": "109951171415593434",
+            "pic": 109951171415593440
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 5327522,
+          "djId": 0,
+          "no": 6,
+          "fee": 0,
+          "cd": "01",
+          "t": 0,
+          "v": 60,
+          "dt": 227000,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320002,
+            "fid": 0,
+            "size": 9082297,
+            "vd": -57990,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 901393,
+            "fid": 0,
+            "size": 25577044,
+            "vd": -58270,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128002,
+            "fid": 0,
+            "size": 3632945,
+            "vd": -53716,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": ["电视剧《极道学园》插曲"],
+          "pop": 100,
+          "rt": "600902000005510572",
+          "a": null,
+          "m": {
+            "br": 192002,
+            "fid": 0,
+            "size": 5449395,
+            "vd": -55403,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "不死之身",
+          "id": 108810,
+          "tns": ["Eternal Life"],
+          "privilege": {
+            "id": 108810,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 2301158,
+            "name": "因你而在",
+            "picUrl": "https://p4.music.126.net/D_hiKMwrdQlqD36LoKLO2w==/109951163187408030.jpg",
+            "pic_str": "109951163187408030",
+            "pic": 109951163187408030,
+            "alia": ["Stories Untold"]
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 14019,
+          "djId": 0,
+          "no": 8,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 75,
+          "dt": 228600,
+          "mst": 9,
+          "cp": 2710492,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9147080,
+            "vd": -59320,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 945902,
+            "fid": 0,
+            "size": 27029157,
+            "vd": -59353,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3658858,
+            "vd": -54842,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000007910173",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5488266,
+            "vd": -56677,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "裂缝中的阳光",
+          "id": 25794009,
+          "tns": ["Before Sunrise"],
+          "privilege": {
+            "id": 25794009,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 3056951,
+            "name": "新地球 - 人 (Special Edition)",
+            "picUrl": "https://p4.music.126.net/2e__sKuIQsTSVVGr5Hk1FA==/109951170313536564.jpg",
+            "pic_str": "109951170313536564",
+            "pic": 109951170313536560
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 378279,
+          "djId": 0,
+          "no": 4,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 79,
+          "dt": 272529,
+          "mst": 9,
+          "cp": 7002,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10903554,
+            "vd": -73140,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 945778,
+            "fid": 0,
+            "size": 32219078,
+            "vd": -73135,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4361448,
+            "vd": -68867,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": null,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6542150,
+            "vd": -70546,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "浪漫血液",
+          "id": 29850683,
+          "tns": ["The Romantic"],
+          "privilege": {
+            "id": 29850683,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 93427116,
+            "name": "上一首情歌 (国语精选)",
+            "picUrl": "https://p3.music.126.net/o0VyGUABowZl5BGWf8nBYg==/109951172341406695.jpg",
+            "pic_str": "109951172341406695",
+            "pic": 109951172341406690
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 5327505,
+          "djId": 0,
+          "no": 30,
+          "fee": 0,
+          "cd": "01",
+          "t": 0,
+          "v": 22,
+          "dt": 265800,
+          "mst": 9,
+          "cp": 7002,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10635015,
+            "vd": -60741,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 953784,
+            "fid": 0,
+            "size": 31689489,
+            "vd": -60735,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4254032,
+            "vd": -56430,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6381026,
+            "vd": -58134,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "不为谁而作的歌",
+          "id": 1468115100,
+          "tns": ["Twilight"],
+          "privilege": {
+            "id": 1468115100,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10770,
+            "name": "JJ陆",
+            "picUrl": "https://p3.music.126.net/zjSzQ70gDJrneldAwvLBOg==/109951173971284858.jpg",
+            "pic_str": "109951173971284858",
+            "pic": 109951173971284860
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 0,
+          "djId": 0,
+          "no": 8,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 75,
+          "dt": 242186,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 9690427,
+            "vd": -56828,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1027797,
+            "fid": 0,
+            "size": 31119298,
+            "vd": -57069,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3876197,
+            "vd": -52755,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000001816626",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5814274,
+            "vd": -54283,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "街道",
+          "id": 108487,
+          "tns": ["The Streets"],
+          "privilege": {
+            "id": 108487,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            },
+            {
+              "id": 7763,
+              "name": "G.E.M.邓紫棋"
+            }
+          ],
+          "al": {
+            "id": 3056951,
+            "name": "新地球 - 人 (Special Edition)",
+            "picUrl": "https://p4.music.126.net/2e__sKuIQsTSVVGr5Hk1FA==/109951170313536564.jpg",
+            "pic_str": "109951170313536564",
+            "pic": 109951170313536560
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 384452,
+          "djId": 0,
+          "no": 6,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 80,
+          "dt": 280053,
+          "mst": 9,
+          "cp": 7002,
+          "cf": "",
+          "h": {
+            "br": 320001,
+            "fid": 0,
+            "size": 11204485,
+            "vd": -59768,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 940202,
+            "fid": 0,
+            "size": 32913340,
+            "vd": -59767,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128001,
+            "fid": 0,
+            "size": 4481820,
+            "vd": -55474,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": ["Beautiful"],
+          "pop": 100,
+          "rt": null,
+          "a": null,
+          "m": {
+            "br": 192001,
+            "fid": 0,
+            "size": 6722708,
+            "vd": -57153,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "手心的蔷薇",
+          "id": 29848657,
+          "privilege": {
+            "id": 29848657,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            },
+            {
+              "id": 27819680,
+              "name": "张梦羽"
+            },
+            {
+              "id": 27819681,
+              "name": "曹悦琪"
+            }
+          ],
+          "al": {
+            "id": 34567170,
+            "name": "谁是大歌神 第3期",
+            "picUrl": "https://p4.music.126.net/i-lgh8BSl4toui3kY8-pgw==/3295236360075629.jpg",
+            "pic_str": "3295236360075629",
+            "pic": 3295236360075629
+          },
+          "st": -1,
+          "noCopyrightRcmd": {
+            "type": 2,
+            "typeDesc": "其它版本可播",
+            "songId": null,
+            "thirdPartySong": null,
+            "mvInfo": null,
+            "expInfo": null
+          },
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 0,
+          "djId": 0,
+          "no": 7,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 32,
+          "dt": 251151,
+          "mst": 9,
+          "cp": 21001,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10048826,
+            "vd": -23178,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 755266,
+            "fid": 0,
+            "size": 23710735,
+            "vd": -23174,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4019556,
+            "vd": -18894,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": null,
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6029313,
+            "vd": -20572,
+            "sr": 44100
+          },
+          "mark": 17179869184,
+          "name": "修炼爱情",
+          "id": 407007744,
+          "privilege": {
+            "id": 407007744,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 0,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1081600,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "lossless",
+            "playMaxBrLevel": "lossless",
+            "downloadMaxBrLevel": "lossless",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": false,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          }
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10792,
+            "name": "曹操",
+            "picUrl": "https://p4.music.126.net/kSyujmjRn_9adgb4Wg5R-g==/109951171415593434.jpg",
+            "pic_str": "109951171415593434",
+            "pic": 109951171415593440
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 522361,
+          "djId": 0,
+          "no": 2,
+          "fee": 0,
+          "cd": "01",
+          "t": 0,
+          "v": 77,
+          "dt": 242000,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320002,
+            "fid": 0,
+            "size": 9683113,
+            "vd": -68903,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 978226,
+            "fid": 0,
+            "size": 29591350,
+            "vd": -68853,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128001,
+            "fid": 0,
+            "size": 3873271,
+            "vd": -64732,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000007391360",
+          "a": null,
+          "m": {
+            "br": 192001,
+            "fid": 0,
+            "size": 5809885,
+            "vd": -66315,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "曹操",
+          "id": 108795,
+          "privilege": {
+            "id": 108795,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10755,
+            "name": "她说 概念自选辑",
+            "picUrl": "https://p3.music.126.net/LI3duoHIZyyLawRJLY51kA==/109951172024569374.jpg",
+            "pic_str": "109951172024569374",
+            "pic": 109951172024569380
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": true,
+          "songJumpInfo": null,
+          "mv": 522364,
+          "djId": 0,
+          "no": 2,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 75,
+          "dt": 253622,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10146003,
+            "vd": -38869,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1511890,
+            "fid": 0,
+            "size": 47921881,
+            "vd": -38864,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4058427,
+            "vd": -34602,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": [],
+          "pop": 100,
+          "rt": "600902000008745982",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6087619,
+            "vd": -36268,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "爱笑的眼睛",
+          "id": 108245,
+          "tns": ["Smiling Eyes"],
+          "privilege": {
+            "id": 108245,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540356,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10755,
+            "name": "她说 概念自选辑",
+            "picUrl": "https://p4.music.126.net/LI3duoHIZyyLawRJLY51kA==/109951172024569374.jpg",
+            "pic_str": "109951172024569374",
+            "pic": 109951172024569380
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 0,
+          "djId": 0,
+          "no": 10,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 64,
+          "dt": 213760,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 8551489,
+            "vd": -49619,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1140000,
+            "fid": 0,
+            "size": 23966289,
+            "vd": -49611,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 3420622,
+            "vd": -45321,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": ["电视剧《爱情睡醒了》插曲"],
+          "pop": 100,
+          "rt": "",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 5130911,
+            "vd": -47018,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "一生的爱",
+          "id": 108267,
+          "tns": ["Eternal Love"],
+          "privilege": {
+            "id": 108267,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        },
+        {
+          "rtUrls": [],
+          "ar": [
+            {
+              "id": 3684,
+              "name": "林俊杰"
+            }
+          ],
+          "al": {
+            "id": 10755,
+            "name": "她说 概念自选辑",
+            "picUrl": "https://p4.music.126.net/LI3duoHIZyyLawRJLY51kA==/109951172024569374.jpg",
+            "pic_str": "109951172024569374",
+            "pic": 109951172024569380
+          },
+          "st": -1,
+          "noCopyrightRcmd": null,
+          "artistClassics": false,
+          "songJumpInfo": null,
+          "mv": 0,
+          "djId": 0,
+          "no": 5,
+          "fee": 0,
+          "cd": "1",
+          "t": 0,
+          "v": 67,
+          "dt": 258115,
+          "mst": 9,
+          "cp": 22036,
+          "cf": "",
+          "h": {
+            "br": 320000,
+            "fid": 0,
+            "size": 10325725,
+            "vd": -53130,
+            "sr": 44100
+          },
+          "sq": {
+            "br": 1174000,
+            "fid": 0,
+            "size": 30311997,
+            "vd": -53126,
+            "sr": 44100
+          },
+          "hr": null,
+          "l": {
+            "br": 128000,
+            "fid": 0,
+            "size": 4130316,
+            "vd": -48782,
+            "sr": 44100
+          },
+          "rtype": 0,
+          "rurl": null,
+          "crbt": null,
+          "rtUrl": null,
+          "ftype": 0,
+          "pst": 0,
+          "alia": ["电视剧《爱情睡醒了》原声带"],
+          "pop": 100,
+          "rt": "600902000008745970",
+          "a": null,
+          "m": {
+            "br": 192000,
+            "fid": 0,
+            "size": 6195453,
+            "vd": -50537,
+            "sr": 44100
+          },
+          "mark": 17179877376,
+          "name": "一眼万年",
+          "id": 108254,
+          "tns": ["Forever"],
+          "privilege": {
+            "id": 108254,
+            "fee": 0,
+            "payed": 0,
+            "st": -100,
+            "pl": 0,
+            "dl": 0,
+            "sp": 7,
+            "cp": 0,
+            "subp": 1,
+            "cs": false,
+            "maxbr": 999000,
+            "fl": 0,
+            "toast": false,
+            "flag": 1540100,
+            "preSell": false,
+            "playMaxbr": 999000,
+            "downloadMaxbr": 999000,
+            "maxBrLevel": "jymaster",
+            "playMaxBrLevel": "jymaster",
+            "downloadMaxBrLevel": "jymaster",
+            "plLevel": "none",
+            "dlLevel": "none",
+            "flLevel": "none",
+            "rscl": 0,
+            "freeTrialPrivilege": {
+              "resConsumable": true,
+              "userConsumable": false,
+              "listenType": null,
+              "cannotListenReason": 1,
+              "playReason": null,
+              "freeLimitTagType": null
+            },
+            "rightSource": 0,
+            "chargeInfoList": [
+              {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              },
+              {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+              }
+            ],
+            "code": 0,
+            "message": null,
+            "plLevels": null,
+            "dlLevels": null,
+            "ignoreCache": null,
+            "bd": null
+          },
+          "eq": "pop"
+        }
+      ],
+      "more": true,
+      "total": 596,
+      "code": 200
+    }
+  }
+}

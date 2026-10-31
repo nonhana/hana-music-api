@@ -4,6 +4,7 @@ import { Cause, Effect, Exit } from 'effect';
 import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi } from '../../index.ts';
+import type { SearchBody } from '../../index.ts';
 import { Call, runCall } from '../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import { getRuntimeState, setRuntimeState } from '../../src/core/runtime.ts';
@@ -331,10 +332,11 @@ describe('call lifecycle', () => {
 
   test('external header changes cannot affect an already started call', async () => {
     const headers = { 'X-Call-Snapshot': 'original' };
+    // inner_version 已带收窄 Body；这里改用无 Body 的模块标识占位，fake execute 才能返回任意正文。
     const invoke = createModuleInvoker(
-      'inner_version',
+      'captcha_verify',
       {
-        identifier: 'inner_version',
+        identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
@@ -393,7 +395,7 @@ describe('call lifecycle', () => {
                 {},
                 { crypto: 'api' },
               );
-            }).pipe(Effect.map(moduleResponse)),
+            }).pipe(Effect.map(moduleResponse<SearchBody>)),
         },
         {
           cookie: 'MUSIC_U=retry-snapshot',
@@ -488,7 +490,7 @@ describe('call lifecycle', () => {
             status: 200,
             cookie: [],
             body: { code: 200, keys: Object.keys(query) },
-          })).pipe(Effect.map(moduleResponse)),
+          })).pipe(Effect.map(moduleResponse<SearchBody>)),
       },
       {
         cookie: 'MUSIC_U=private',
@@ -506,9 +508,9 @@ describe('call lifecycle', () => {
     const cookie = { MUSIC_U: 'original-user' };
     const sentCookies: Array<string> = [];
     const invoke = createModuleInvoker(
-      'inner_version',
+      'captcha_verify',
       {
-        identifier: 'inner_version',
+        identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
@@ -537,9 +539,9 @@ describe('call lifecycle', () => {
   test('explicit cookie overrides mixed-case Cookie header and identity pool', async () => {
     let sentCookie = '';
     const invoke = createModuleInvoker(
-      'inner_version',
+      'captcha_verify',
       {
-        identifier: 'inner_version',
+        identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
@@ -565,9 +567,9 @@ describe('call lifecycle', () => {
   test('caller cancellation interrupts a module even when it ignores the signal', async () => {
     const controller = new AbortController();
     const invoke = createModuleInvoker(
-      'inner_version',
+      'captcha_verify',
       {
-        identifier: 'inner_version',
+        identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: () =>
@@ -584,9 +586,9 @@ describe('call lifecycle', () => {
 
   test('disabled ordinary timeout still allows module completion', async () => {
     const invoke = createModuleInvoker(
-      'inner_version',
+      'captcha_verify',
       {
-        identifier: 'inner_version',
+        identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: () =>
@@ -611,7 +613,7 @@ describe('call lifecycle', () => {
         decodeInput: decodeSearchInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
           testRequest(request, '/api/search/get', {}, { crypto: 'api' }).pipe(
-            Effect.map(moduleResponse),
+            Effect.map(moduleResponse<SearchBody>),
           ),
       },
       {
@@ -646,9 +648,9 @@ describe('call lifecycle', () => {
     setRuntimeState({ anonymousToken: 'before-call' });
     try {
       const invoke = createModuleInvoker(
-        'inner_version',
+        'captcha_verify',
         {
-          identifier: 'inner_version',
+          identifier: 'captcha_verify',
           route: '/test',
           decodeInput: decodeLegacyModuleInput,
           execute: (_query: ModuleQuery, request: RequestCapability) =>
@@ -735,7 +737,7 @@ describe('call lifecycle', () => {
                 global: getRuntimeState(),
               });
               return Response.json(
-                { code: 200 },
+                { code: 200, userId: 1 },
                 { headers: { 'set-cookie': 'MUSIC_A=registered; Path=/' } },
               );
             },

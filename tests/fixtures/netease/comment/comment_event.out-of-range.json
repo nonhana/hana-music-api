@@ -1,0 +1,27 @@
+{
+  "module": "comment_event",
+  "query": {
+    "threadId": "A_EV_2_37730695660_17062533682",
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:46:13.502Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B8：comment_event 越界分页（offset=100000，hotComments 整个缺失）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "isMusician": false,
+      "cnum": 0,
+      "userId": 18071497762,
+      "topComments": [],
+      "code": 200,
+      "comments": [],
+      "total": 2,
+      "more": false
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "module": "cellphone_existence_check",
+  "query": {
+    "phone": "<redacted>",
+    "countrycode": 86
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:29:31.578Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B39：cellphone_existence_check 未注册手机号",
+    "redacted": ["query.phone", "body.cellphone"]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "exist": -1,
+      "nickname": null,
+      "hasPassword": false,
+      "avatarUrl": "http://p1.music.126.net/SUeqMM8HOIpHv9Nhl9qt9w==/109951165647004069.jpg",
+      "hasSnsBinded": null,
+      "countryCode": "86",
+      "cellphone": "<redacted>",
+      "code": 200
+    }
+  }
+}

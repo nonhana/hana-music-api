@@ -1,0 +1,20 @@
+{
+  "module": "topic_detail_event_hot",
+  "query": {
+    "actid": 47972517
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:37:29.376Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B19：话题 47972517 没有热门动态，空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "events": [],
+      "code": 200
+    }
+  }
+}

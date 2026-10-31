@@ -1,0 +1,67 @@
+{
+  "module": "toplist_artist",
+  "query": {
+    "type": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T08:47:28.320Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B15：歌手榜华语区匿名主形态（含 lastRank 缺省记录）",
+    "truncated": [
+      {
+        "path": "body.list.artists",
+        "length": 100
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "list": {
+        "artists": [
+          {
+            "name": "第五人格",
+            "id": 32125711,
+            "picId": 109951166159265280,
+            "img1v1Id": 109951172982468860,
+            "briefDesc": "",
+            "picUrl": "http://p1.music.126.net/9xR1vNzAmg3ZLyAb_kGW3g==/109951166159265281.jpg",
+            "img1v1Url": "http://p1.music.126.net/_PvnAF6fy4TQetlFQlM0zg==/109951172982468857.jpg",
+            "albumSize": 104,
+            "alias": [],
+            "trans": "",
+            "musicSize": 333,
+            "topicPerson": 42081,
+            "score": 49712198,
+            "picId_str": "109951166159265281",
+            "img1v1Id_str": "109951172982468857"
+          },
+          {
+            "name": "AGA",
+            "id": 768208,
+            "picId": 109951170197649890,
+            "img1v1Id": 109951170197658130,
+            "briefDesc": "",
+            "picUrl": "http://p1.music.126.net/0dE-Nr8v86PtSa1PO36GxA==/109951170197649896.jpg",
+            "img1v1Url": "http://p1.music.126.net/tl7BV9P7hzVlvyAIysmsKg==/109951170197658135.jpg",
+            "albumSize": 57,
+            "alias": ["Agatha Kong"],
+            "trans": "江海迦",
+            "musicSize": 457,
+            "topicPerson": 262,
+            "lastRank": 91,
+            "score": 48825692,
+            "picId_str": "109951170197649896",
+            "transNames": ["江海迦"],
+            "img1v1Id_str": "109951170197658135"
+          }
+        ],
+        "updateTime": 1792897206142,
+        "type": 1
+      },
+      "code": 200
+    }
+  }
+}

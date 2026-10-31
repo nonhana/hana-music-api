@@ -43,6 +43,10 @@ const result = await artistNewSong({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data` 和每首歌的编号 `data.newWorks[].songLists[].id` 收紧；`data.hasMore`、`data.newSongCount`、`message` 宽松。`data.newWorks` 是收紧的数组：匿名访问返回空数组（录制 `artist_new_song.anonymous-empty.json`），这是正常结果；缺失、`null` 或 `songLists` 里有坏记录都报 502。登录录制（`artist_new_song.default.json`）原 `newSongCount` 是 2213、20 个 block/62 首歌，仓库里截取保留 2 个 block、5 首歌，原始数量写在 `context.truncated`。block 的 `blockTitle`、`blockType`、`publishTime`、`albumId`、`albumSongCount`、`accompanimentIds` 都是宽松字段。结构定义和类型是 `ArtistNewSongBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 :登录后调用此接口可获取关注歌手新歌

@@ -1,0 +1,668 @@
+{
+  "module": "song_monthdownlist",
+  "query": {
+    "limit": 5,
+    "offset": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:23:57.335Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B41：song_monthdownlist 本月下载记录（登录）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "info": [
+        {
+          "id": 46166454105,
+          "type": 0,
+          "firstTime": 1792926430471,
+          "song": {
+            "name": "Lemon Tree",
+            "id": 17858810,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 92442,
+                "name": "Fool's Garden"
+              }
+            ],
+            "alia": [],
+            "pop": 100,
+            "st": 0,
+            "rt": "600902000002329923",
+            "fee": 1,
+            "v": 137,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 1644205,
+              "name": "Dish of the Day",
+              "cover": "http://p4.music.126.net/XAmYUhjbG3pIqNnzziN1cw==/109951167834178761.jpg",
+              "pic_str": "109951167834178761",
+              "pic": 109951167834178770
+            },
+            "dt": 191026,
+            "h": {
+              "br": 320002,
+              "fid": 0,
+              "size": 7643472,
+              "vd": -33707,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192002,
+              "fid": 0,
+              "size": 4586101,
+              "vd": -31124,
+              "sr": 44100
+            },
+            "l": {
+              "br": 128002,
+              "fid": 0,
+              "size": 3057415,
+              "vd": -29449,
+              "sr": 44100
+            },
+            "a": null,
+            "cd": "1",
+            "no": 3,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "mv": 37243,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 1416763,
+            "tns": ["柠檬树"],
+            "privilege": {
+              "id": 17858810,
+              "fee": 1,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 0,
+              "toast": false,
+              "flag": 1556740,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "none",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 46166452901,
+          "type": 0,
+          "firstTime": 1792926358063,
+          "song": {
+            "name": "Red Wine",
+            "id": 1318115725,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 783150,
+                "name": "MØ"
+              },
+              {
+                "id": 1070074,
+                "name": "Empress Of"
+              }
+            ],
+            "alia": [],
+            "pop": 90,
+            "st": 0,
+            "rt": null,
+            "fee": 1,
+            "v": 25,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 73931721,
+              "name": "Forever Neverland",
+              "cover": "http://p3.music.126.net/Zl5QI-Mc4A6_UhSXjKO7kw==/109951165984876088.jpg",
+              "pic_str": "109951165984876088",
+              "pic": 109951165984876100
+            },
+            "dt": 202338,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 8095913,
+              "vd": -57601,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4857565,
+              "vd": -55098,
+              "sr": 44100
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3238391,
+              "vd": -53697,
+              "sr": 44100
+            },
+            "a": null,
+            "cd": "01",
+            "no": 11,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "mv": 14403533,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 7001,
+            "privilege": {
+              "id": 1318115725,
+              "fee": 1,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 0,
+              "toast": false,
+              "flag": 1540100,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "none",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 46166379048,
+          "type": 0,
+          "firstTime": 1792925537701,
+          "song": {
+            "name": "Reflection",
+            "id": 1369209477,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 30129562,
+                "name": "Xwirok"
+              }
+            ],
+            "alia": [],
+            "pop": 50,
+            "st": 0,
+            "rt": "",
+            "fee": 8,
+            "v": 25,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 79499790,
+              "name": "Reflection",
+              "cover": "http://p4.music.126.net/4NulhCQIqyXkrEVk3YVMYg==/109951164117323683.jpg",
+              "pic_str": "109951164117323683",
+              "pic": 109951164117323680
+            },
+            "dt": 306599,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 12265965,
+              "vd": -35223,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 7359597,
+              "vd": -32603,
+              "sr": 48000
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 4906413,
+              "vd": -30857,
+              "sr": 48000
+            },
+            "a": null,
+            "cd": "01",
+            "no": 1,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "mv": 0,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 0,
+            "privilege": {
+              "id": 1369209477,
+              "fee": 8,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 320000,
+              "toast": false,
+              "flag": 1540102,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "exhigh",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 46164955304,
+          "type": 0,
+          "firstTime": 1792912739858,
+          "song": {
+            "name": "トンデモワンダーズ",
+            "id": 1855089388,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 15396,
+                "name": "sasakure.UK"
+              },
+              {
+                "id": 159692,
+                "name": "初音ミク"
+              },
+              {
+                "id": 12095248,
+                "name": "KAITO"
+              }
+            ],
+            "alia": ["手游《世界计划 多彩舞台》曲目"],
+            "pop": 95,
+            "st": 0,
+            "rt": "",
+            "fee": 8,
+            "v": 27,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 129315205,
+              "name": "トンデモワンダーズ",
+              "cover": "http://p3.music.126.net/WgKXTAusuaRDQ49FyAehjw==/109951166108180854.jpg",
+              "pic_str": "109951166108180854",
+              "pic": 109951166108180850
+            },
+            "dt": 195822,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 7835565,
+              "vd": -58960,
+              "sr": 48000
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 4701357,
+              "vd": -56413,
+              "sr": 48000
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 3134253,
+              "vd": -54808,
+              "sr": 48000
+            },
+            "a": null,
+            "cd": "01",
+            "no": 1,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "mv": 14482768,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 1418220,
+            "tns": ["不可思议的wonders"],
+            "privilege": {
+              "id": 1855089388,
+              "fee": 8,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 320000,
+              "toast": false,
+              "flag": 1544452,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "exhigh",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                },
+                {
+                  "rate": 1999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ]
+            }
+          }
+        },
+        {
+          "id": 46164935318,
+          "type": 0,
+          "firstTime": 1792912616536,
+          "song": {
+            "name": "水無月の通り雨",
+            "id": 1896365460,
+            "pst": 0,
+            "t": 0,
+            "ar": [
+              {
+                "id": 36798311,
+                "name": "ゐろは苹果"
+              }
+            ],
+            "alia": [],
+            "pop": 90,
+            "st": 0,
+            "rt": "",
+            "fee": 8,
+            "v": 24,
+            "crbt": null,
+            "cf": "",
+            "al": {
+              "id": 136356280,
+              "name": "APPLE\"表\"",
+              "cover": "http://p3.music.126.net/31d6zue2HeT38iR5xX2h6w==/109951172230598778.jpg",
+              "pic_str": "109951172230598778",
+              "pic": 109951172230598780
+            },
+            "dt": 252500,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 10103162,
+              "vd": -59548,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 6061915,
+              "vd": -57117,
+              "sr": 44100
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 4041291,
+              "vd": -55777,
+              "sr": 44100
+            },
+            "a": null,
+            "cd": "01",
+            "no": 2,
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "mv": 0,
+            "rtype": 0,
+            "rurl": null,
+            "mst": 9,
+            "cp": 1418220,
+            "tns": ["水无月的街道雨"],
+            "privilege": {
+              "id": 1896365460,
+              "fee": 8,
+              "payed": 1,
+              "st": 0,
+              "pl": 999000,
+              "dl": 999000,
+              "sp": 7,
+              "cp": 1,
+              "subp": 1,
+              "cs": false,
+              "maxbr": 999000,
+              "fl": 320000,
+              "toast": false,
+              "flag": 1540356,
+              "preSell": false,
+              "playMaxbr": 999000,
+              "downloadMaxbr": 999000,
+              "maxBrLevel": "jymaster",
+              "playMaxBrLevel": "jymaster",
+              "downloadMaxBrLevel": "jymaster",
+              "plLevel": "jyeffect",
+              "dlLevel": "jyeffect",
+              "flLevel": "exhigh",
+              "rscl": null,
+              "freeTrialPrivilege": {
+                "resConsumable": false,
+                "userConsumable": false,
+                "listenType": null,
+                "cannotListenReason": null,
+                "playReason": null
+              },
+              "rightSource": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeUrl": null,
+                  "chargeMessage": null,
+                  "chargeType": 1
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "code": 200
+    }
+  }
+}

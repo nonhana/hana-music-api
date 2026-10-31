@@ -1,0 +1,33 @@
+{
+  "module": "mv_url",
+  "query": {
+    "id": 14634962
+  },
+  "context": {
+    "recordedAt": "2026-10-25T11:27:44.657Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：mv_url 默认 1080p 可播放"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "id": 14634962,
+        "url": "http://vodkgeyttp8.vod.126.net/cloudmusic/f278/core/e01e/ce6fa307e4bddd7e358eba254fde915d.mp4?wsSecret=e112ba0a254181ef84ff49bab22e3adb&wsTime=1792927664",
+        "r": 1080,
+        "size": 65772823,
+        "md5": "",
+        "code": 200,
+        "expi": 3600,
+        "fee": 0,
+        "mvFee": 0,
+        "st": 0,
+        "promotionVo": null,
+        "msg": ""
+      }
+    }
+  }
+}

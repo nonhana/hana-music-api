@@ -43,6 +43,10 @@ const result = await vipTimemachine();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、时光机页 `body.data`、周报列表 `body.data.detail`、每份周报自己的 `body.data.detail[].rowKey` 和报告体 `body.data.detail[].data` 收紧。`data.detail` 可以没有：没有记录的周区间返回 `null`（录制 `vip/vip_timemachine.empty.json`），缺失或 `null` 都照常返回。每份周报的报告体必填：`data` 缺失、`null` 或非对象报 502。四种周报类型（`type` 1–4）的报告内容写进同一个宽松结构；`hasnext`、`recordTime`、`notVipLimitNum`、`showcashier`、`beta` 宽松。结构定义和类型是 `VipTimemachineBody`，见[返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获得黑胶时光机数据

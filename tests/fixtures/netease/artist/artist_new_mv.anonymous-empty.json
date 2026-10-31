@@ -1,0 +1,24 @@
+{
+  "module": "artist_new_mv",
+  "query": {
+    "limit": 20
+  },
+  "context": {
+    "recordedAt": "2026-10-25T10:44:29.099Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B2：artist_new_mv 匿名访问返回空 newWorks"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "hasMore": false,
+        "newWorks": []
+      },
+      "message": ""
+    }
+  }
+}

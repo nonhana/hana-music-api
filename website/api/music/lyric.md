@@ -41,6 +41,12 @@ const result = await lyric({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`lrc` 是逐行歌词，一直都在；没收录时 `lyric` 是“暂无歌词”，纯音乐也会带一行说明。`code`、`lrc`、`lrc.lyric` 是收紧字段。
+
+`tlyric`、`romalrc`、`klyric` 是翻译、音译和 K 歌词，可能整个缺失，也可能在、但 `lyric` 是空串；`lyricUser`、`transUser` 是作词和翻译贡献者，字段与 `lyric_new` 相同。它们和 `pureMusic`、`needDesc`、`uncollected`、`sgc`、`sfy`、`qfy` 一样是宽松字段。`briefDesc` 在录制里只见过 `null`，没有声明。结构定义和类型是 `LyricBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入音乐 id 可获得对应音乐的歌词 ( 不需要登录 )

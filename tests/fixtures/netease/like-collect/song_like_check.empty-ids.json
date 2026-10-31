@@ -1,0 +1,19 @@
+{
+  "module": "song_like_check",
+  "query": {
+    "ids": []
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:36:38.734Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B38：song_like_check 空 id 列表被上游拒绝"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400
+    }
+  }
+}

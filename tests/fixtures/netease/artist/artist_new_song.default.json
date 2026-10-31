@@ -1,0 +1,855 @@
+{
+  "module": "artist_new_song",
+  "query": {
+    "limit": 20
+  },
+  "context": {
+    "recordedAt": "2026-10-25T10:44:43.215Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B2：artist_new_song 本机已登录账号关注歌手新单曲非空（2026-10-25T10:45Z 录制，newSongCount=2213，原 20 个 block/62 首；截取保留第 1 个 block（原 11 首→3 首）与第 18 个 block（原 2 首全保留），最大单 block 原歌曲数 11）",
+    "truncated": [
+      {
+        "path": "body.data.newWorks",
+        "length": 20
+      },
+      {
+        "path": "body.data.newWorks[0].songLists",
+        "length": 11
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "hasMore": true,
+        "newSongCount": 2213,
+        "newWorks": [
+          {
+            "blockTitle": {
+              "artistName": "t+pazolite",
+              "artistId": 847174,
+              "artistUserId": 0,
+              "imgUrl": "http://p4.music.126.net/kr3O1Fct76H8GuCtHqfhng==/109951173057474453.jpg",
+              "resourceId": 404054156,
+              "resourceName": "REIMEI My WORLD",
+              "resourcePicUrl": "http://p4.music.126.net/bK_r5bSEMN3__VQHREA5_w==/109951174111297517.jpg",
+              "publishTime": 1792857607000,
+              "publishDate": "2026-10-25 00:00:07",
+              "artisAlias": "",
+              "artisTransName": "浜田知幸",
+              "userArtistTag": null
+            },
+            "blockType": "album",
+            "songLists": [
+              {
+                "name": "intro - pinch my memories",
+                "id": 3448557434,
+                "pst": 0,
+                "t": 0,
+                "ar": [
+                  {
+                    "id": 847174,
+                    "name": "t+pazolite",
+                    "tns": [],
+                    "alias": []
+                  }
+                ],
+                "alia": [],
+                "pop": 5,
+                "st": 0,
+                "rt": "",
+                "fee": 8,
+                "v": 37,
+                "crbt": null,
+                "cf": "",
+                "al": {
+                  "id": 404054156,
+                  "name": "REIMEI My WORLD",
+                  "picUrl": "http://p4.music.126.net/bK_r5bSEMN3__VQHREA5_w==/109951174111297517.jpg",
+                  "tns": [],
+                  "pic_str": "109951174111297517",
+                  "pic": 109951174111297520
+                },
+                "dt": 73000,
+                "h": {
+                  "br": 320005,
+                  "fid": 0,
+                  "size": 2922623,
+                  "vd": -75531
+                },
+                "m": {
+                  "br": 192005,
+                  "fid": 0,
+                  "size": 1753591,
+                  "vd": -73011
+                },
+                "l": {
+                  "br": 128005,
+                  "fid": 0,
+                  "size": 1169075,
+                  "vd": -71356
+                },
+                "a": null,
+                "cd": "01",
+                "no": 1,
+                "rtUrl": null,
+                "ftype": 0,
+                "rtUrls": [],
+                "djId": 0,
+                "copyright": 1,
+                "s_id": 0,
+                "mark": 270336,
+                "originCoverType": 0,
+                "originSongSimpleData": null,
+                "tagPicList": null,
+                "resourceState": true,
+                "version": 3,
+                "songJumpInfo": null,
+                "entertainmentTags": null,
+                "newSongTags": null,
+                "single": 0,
+                "noCopyrightRcmd": null,
+                "mst": 9,
+                "rtype": 0,
+                "rurl": null,
+                "cp": 1418220,
+                "mv": 0,
+                "publishTime": 1792857600000,
+                "privilege": {
+                  "id": 3448557434,
+                  "fee": 8,
+                  "payed": 1,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 999000,
+                  "dl": 999000,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 999000,
+                  "fl": 320000,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1081604,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 999000,
+                  "downloadMaxbr": 999000,
+                  "maxBrLevel": "lossless",
+                  "playMaxBrLevel": "lossless",
+                  "downloadMaxBrLevel": "lossless",
+                  "plLevel": "lossless",
+                  "dlLevel": "lossless",
+                  "flLevel": "exhigh",
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                  },
+                  "rightSource": 0,
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ],
+                  "code": 0,
+                  "message": null,
+                  "plLevels": null,
+                  "dlLevels": null,
+                  "ignoreCache": null,
+                  "bd": null
+                }
+              },
+              {
+                "name": "ディア・レイメイ・マイワールド (feat. 長瀬有花)",
+                "id": 3448557435,
+                "pst": 0,
+                "t": 0,
+                "ar": [
+                  {
+                    "id": 847174,
+                    "name": "t+pazolite",
+                    "tns": [],
+                    "alias": []
+                  },
+                  {
+                    "id": 47048984,
+                    "name": "フロクロ",
+                    "tns": [],
+                    "alias": []
+                  },
+                  {
+                    "id": 51263802,
+                    "name": "長瀬有花",
+                    "tns": [],
+                    "alias": []
+                  }
+                ],
+                "alia": [],
+                "pop": 5,
+                "st": 0,
+                "rt": "",
+                "fee": 8,
+                "v": 37,
+                "crbt": null,
+                "cf": "",
+                "al": {
+                  "id": 404054156,
+                  "name": "REIMEI My WORLD",
+                  "picUrl": "http://p4.music.126.net/bK_r5bSEMN3__VQHREA5_w==/109951174111297517.jpg",
+                  "tns": [],
+                  "pic_str": "109951174111297517",
+                  "pic": 109951174111297520
+                },
+                "dt": 168817,
+                "h": {
+                  "br": 320000,
+                  "fid": 0,
+                  "size": 6755309,
+                  "vd": -82255
+                },
+                "m": {
+                  "br": 192000,
+                  "fid": 0,
+                  "size": 4053203,
+                  "vd": -79772
+                },
+                "l": {
+                  "br": 128000,
+                  "fid": 0,
+                  "size": 2702150,
+                  "vd": -78245
+                },
+                "a": null,
+                "cd": "01",
+                "no": 2,
+                "rtUrl": null,
+                "ftype": 0,
+                "rtUrls": [],
+                "djId": 0,
+                "copyright": 1,
+                "s_id": 0,
+                "mark": 270336,
+                "originCoverType": 0,
+                "originSongSimpleData": null,
+                "tagPicList": null,
+                "resourceState": true,
+                "version": 3,
+                "songJumpInfo": null,
+                "entertainmentTags": null,
+                "newSongTags": null,
+                "single": 0,
+                "noCopyrightRcmd": null,
+                "mst": 9,
+                "rtype": 0,
+                "rurl": null,
+                "cp": 1418220,
+                "mv": 0,
+                "publishTime": 1792857600000,
+                "privilege": {
+                  "id": 3448557435,
+                  "fee": 8,
+                  "payed": 1,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 999000,
+                  "dl": 999000,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 999000,
+                  "fl": 320000,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1081604,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 999000,
+                  "downloadMaxbr": 999000,
+                  "maxBrLevel": "lossless",
+                  "playMaxBrLevel": "lossless",
+                  "downloadMaxBrLevel": "lossless",
+                  "plLevel": "lossless",
+                  "dlLevel": "lossless",
+                  "flLevel": "exhigh",
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                  },
+                  "rightSource": 0,
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ],
+                  "code": 0,
+                  "message": null,
+                  "plLevels": null,
+                  "dlLevels": null,
+                  "ignoreCache": null,
+                  "bd": null
+                }
+              },
+              {
+                "name": "Paranoid Arc (ver. RMW)",
+                "id": 3448556750,
+                "pst": 0,
+                "t": 0,
+                "ar": [
+                  {
+                    "id": 847174,
+                    "name": "t+pazolite",
+                    "tns": [],
+                    "alias": []
+                  }
+                ],
+                "alia": [],
+                "pop": 5,
+                "st": 0,
+                "rt": "",
+                "fee": 8,
+                "v": 37,
+                "crbt": null,
+                "cf": "",
+                "al": {
+                  "id": 404054156,
+                  "name": "REIMEI My WORLD",
+                  "picUrl": "http://p4.music.126.net/bK_r5bSEMN3__VQHREA5_w==/109951174111297517.jpg",
+                  "tns": [],
+                  "pic_str": "109951174111297517",
+                  "pic": 109951174111297520
+                },
+                "dt": 202667,
+                "h": {
+                  "br": 320000,
+                  "fid": 0,
+                  "size": 8109497,
+                  "vd": -84305
+                },
+                "m": {
+                  "br": 192000,
+                  "fid": 0,
+                  "size": 4865715,
+                  "vd": -81911
+                },
+                "l": {
+                  "br": 128000,
+                  "fid": 0,
+                  "size": 3243825,
+                  "vd": -80606
+                },
+                "a": null,
+                "cd": "01",
+                "no": 3,
+                "rtUrl": null,
+                "ftype": 0,
+                "rtUrls": [],
+                "djId": 0,
+                "copyright": 1,
+                "s_id": 0,
+                "mark": 270336,
+                "originCoverType": 0,
+                "originSongSimpleData": null,
+                "tagPicList": null,
+                "resourceState": true,
+                "version": 3,
+                "songJumpInfo": null,
+                "entertainmentTags": null,
+                "newSongTags": null,
+                "single": 0,
+                "noCopyrightRcmd": null,
+                "mst": 9,
+                "rtype": 0,
+                "rurl": null,
+                "cp": 1418220,
+                "mv": 0,
+                "publishTime": 1792857600000,
+                "privilege": {
+                  "id": 3448556750,
+                  "fee": 8,
+                  "payed": 1,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 999000,
+                  "dl": 999000,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 999000,
+                  "fl": 320000,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1081604,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 999000,
+                  "downloadMaxbr": 999000,
+                  "maxBrLevel": "lossless",
+                  "playMaxBrLevel": "lossless",
+                  "downloadMaxBrLevel": "lossless",
+                  "plLevel": "lossless",
+                  "dlLevel": "lossless",
+                  "flLevel": "exhigh",
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                  },
+                  "rightSource": 0,
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ],
+                  "code": 0,
+                  "message": null,
+                  "plLevels": null,
+                  "dlLevels": null,
+                  "ignoreCache": null,
+                  "bd": null
+                }
+              }
+            ],
+            "accompanimentIds": null,
+            "publishTime": 1792857607000,
+            "albumSongCount": 11,
+            "albumId": 404054156
+          },
+          {
+            "blockTitle": {
+              "artistName": "洛天依Official",
+              "artistId": 906118,
+              "artistUserId": 0,
+              "imgUrl": "http://p3.music.126.net/cfZZc70yXNMnWQZ1OUSEjA==/109951167656800517.jpg",
+              "resourceId": 3451363782,
+              "resourceName": "予你浅浅的微笑",
+              "resourcePicUrl": null,
+              "publishTime": 1792713810000,
+              "publishDate": "2026-10-23 08:03:30",
+              "artisAlias": "",
+              "artisTransName": null,
+              "userArtistTag": null
+            },
+            "blockType": "song",
+            "songLists": [
+              {
+                "name": "予你浅浅的微笑",
+                "id": 3451363782,
+                "pst": 0,
+                "t": 0,
+                "ar": [
+                  {
+                    "id": 127319949,
+                    "name": "鱼大仙不是咸鱼",
+                    "tns": [],
+                    "alias": []
+                  },
+                  {
+                    "id": 906118,
+                    "name": "洛天依Official",
+                    "tns": [],
+                    "alias": []
+                  },
+                  {
+                    "id": 96964317,
+                    "name": "Slider_滑片P",
+                    "tns": [],
+                    "alias": []
+                  }
+                ],
+                "alia": [],
+                "pop": 40,
+                "st": 0,
+                "rt": "",
+                "fee": 8,
+                "v": 37,
+                "crbt": null,
+                "cf": "",
+                "al": {
+                  "id": 404913830,
+                  "name": "予·浅 (精选集)",
+                  "picUrl": "http://p3.music.126.net/4-x1mKZJ98Yz3SkpKvZH4g==/109951174138718124.jpg",
+                  "tns": [],
+                  "pic_str": "109951174138718124",
+                  "pic": 109951174138718130
+                },
+                "dt": 233249,
+                "h": {
+                  "br": 320000,
+                  "fid": 0,
+                  "size": 9332205,
+                  "vd": -37200
+                },
+                "m": {
+                  "br": 192000,
+                  "fid": 0,
+                  "size": 5599341,
+                  "vd": -34579
+                },
+                "l": {
+                  "br": 128000,
+                  "fid": 0,
+                  "size": 3732909,
+                  "vd": -32812
+                },
+                "a": null,
+                "cd": "01",
+                "no": 1,
+                "rtUrl": null,
+                "ftype": 0,
+                "rtUrls": [],
+                "djId": 0,
+                "copyright": 1,
+                "s_id": 0,
+                "mark": 536879104,
+                "originCoverType": 0,
+                "originSongSimpleData": null,
+                "tagPicList": null,
+                "resourceState": true,
+                "version": 3,
+                "songJumpInfo": null,
+                "entertainmentTags": null,
+                "newSongTags": null,
+                "single": 0,
+                "noCopyrightRcmd": null,
+                "mst": 9,
+                "rtype": 0,
+                "rurl": null,
+                "cp": 22036,
+                "mv": 0,
+                "publishTime": 1792684800000,
+                "privilege": {
+                  "id": 3451363782,
+                  "fee": 8,
+                  "payed": 1,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 999000,
+                  "dl": 999000,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 999000,
+                  "fl": 320000,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1413124,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 999000,
+                  "downloadMaxbr": 999000,
+                  "maxBrLevel": "jymaster",
+                  "playMaxBrLevel": "jymaster",
+                  "downloadMaxBrLevel": "jymaster",
+                  "plLevel": "hires",
+                  "dlLevel": "hires",
+                  "flLevel": "exhigh",
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                  },
+                  "rightSource": 0,
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    },
+                    {
+                      "rate": 1999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ],
+                  "code": 0,
+                  "message": null,
+                  "plLevels": null,
+                  "dlLevels": null,
+                  "ignoreCache": null,
+                  "bd": null
+                }
+              },
+              {
+                "name": "予你浅浅的微笑(.inst) (伴奏)",
+                "id": 3451364416,
+                "pst": 0,
+                "t": 0,
+                "ar": [
+                  {
+                    "id": 96964317,
+                    "name": "Slider_滑片P",
+                    "tns": [],
+                    "alias": []
+                  },
+                  {
+                    "id": 906118,
+                    "name": "洛天依Official",
+                    "tns": [],
+                    "alias": []
+                  },
+                  {
+                    "id": 127319949,
+                    "name": "鱼大仙不是咸鱼",
+                    "tns": [],
+                    "alias": []
+                  }
+                ],
+                "alia": [],
+                "pop": 20,
+                "st": 0,
+                "rt": "",
+                "fee": 8,
+                "v": 37,
+                "crbt": null,
+                "cf": "",
+                "al": {
+                  "id": 404913830,
+                  "name": "予·浅 (精选集)",
+                  "picUrl": "http://p4.music.126.net/4-x1mKZJ98Yz3SkpKvZH4g==/109951174138718124.jpg",
+                  "tns": [],
+                  "pic_str": "109951174138718124",
+                  "pic": 109951174138718130
+                },
+                "dt": 233249,
+                "h": {
+                  "br": 320000,
+                  "fid": 0,
+                  "size": 9332205,
+                  "vd": -26479
+                },
+                "m": {
+                  "br": 192000,
+                  "fid": 0,
+                  "size": 5599341,
+                  "vd": -23846
+                },
+                "l": {
+                  "br": 128000,
+                  "fid": 0,
+                  "size": 3732909,
+                  "vd": -22093
+                },
+                "a": null,
+                "cd": "01",
+                "no": 2,
+                "rtUrl": null,
+                "ftype": 0,
+                "rtUrls": [],
+                "djId": 0,
+                "copyright": 1,
+                "s_id": 0,
+                "mark": 536879104,
+                "originCoverType": 0,
+                "originSongSimpleData": null,
+                "tagPicList": null,
+                "resourceState": true,
+                "version": 3,
+                "songJumpInfo": null,
+                "entertainmentTags": null,
+                "newSongTags": null,
+                "single": 0,
+                "noCopyrightRcmd": null,
+                "mst": 9,
+                "rtype": 0,
+                "rurl": null,
+                "cp": 22036,
+                "mv": 0,
+                "publishTime": 1792684800000,
+                "privilege": {
+                  "id": 3451364416,
+                  "fee": 8,
+                  "payed": 1,
+                  "realPayed": 0,
+                  "st": 0,
+                  "pl": 999000,
+                  "dl": 999000,
+                  "sp": 7,
+                  "cp": 1,
+                  "subp": 1,
+                  "cs": false,
+                  "maxbr": 999000,
+                  "fl": 320000,
+                  "pc": null,
+                  "toast": false,
+                  "flag": 1413124,
+                  "paidBigBang": false,
+                  "preSell": false,
+                  "playMaxbr": 999000,
+                  "downloadMaxbr": 999000,
+                  "maxBrLevel": "jymaster",
+                  "playMaxBrLevel": "jymaster",
+                  "downloadMaxBrLevel": "jymaster",
+                  "plLevel": "hires",
+                  "dlLevel": "hires",
+                  "flLevel": "exhigh",
+                  "rscl": null,
+                  "freeTrialPrivilege": {
+                    "resConsumable": false,
+                    "userConsumable": false,
+                    "listenType": null,
+                    "cannotListenReason": null,
+                    "playReason": null,
+                    "freeLimitTagType": null
+                  },
+                  "rightSource": 0,
+                  "chargeInfoList": [
+                    {
+                      "rate": 128000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 192000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 320000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 0
+                    },
+                    {
+                      "rate": 999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    },
+                    {
+                      "rate": 1999000,
+                      "chargeUrl": null,
+                      "chargeMessage": null,
+                      "chargeType": 1
+                    }
+                  ],
+                  "code": 0,
+                  "message": null,
+                  "plLevels": null,
+                  "dlLevels": null,
+                  "ignoreCache": null,
+                  "bd": null
+                }
+              }
+            ],
+            "accompanimentIds": [3451364416],
+            "publishTime": 1792713810000,
+            "albumSongCount": 2,
+            "albumId": 404913830
+          }
+        ]
+      },
+      "message": ""
+    }
+  }
+}

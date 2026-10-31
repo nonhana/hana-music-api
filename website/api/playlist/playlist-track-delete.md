@@ -43,6 +43,10 @@ const result = await playlistTrackDelete({
 console.log(result.body);
 ```
 
+## 返回内容
+
+写操作：从 `id` 指定的歌单里删除 `ids` 对应的歌曲，成功会改变这个歌单的曲目。正文只承诺返回码，结构定义只收紧 `code`；成功正文没有录到，其余字段原样保留。缺少 `id` 时上游回 `code: 400`（请求参数错误）；这个 400 以前被归一成 `status: 200` 放行，现在按业务拒绝转交 `status: 400` 和原始正文。上游对自有的临时歌单也可能回 `code: 401`（无权限操作歌单），对已删除的歌单回 `404`，这两个状态不变。结构定义和类型是 `PlaylistTrackDeleteBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可删除视频歌单里的视频 ( 需要登录 )

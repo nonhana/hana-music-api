@@ -30,7 +30,7 @@ export const Optional = <S extends Schema.Decoder<unknown>>(schema: S) =>
 
 const formatIssue = SchemaIssue.makeFormatterStandardSchemaV1();
 
-const kindOf = (value: unknown) =>
+export const kindOf = (value: unknown) =>
   value === null ? 'null' : Array.isArray(value) ? 'array' : typeof value;
 
 const toShapeError = (

@@ -1,0 +1,209 @@
+{
+  "module": "style_playlist",
+  "query": {
+    "tagId": 1000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:21:23.393Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B29：style_playlist 正常列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "playlist": [
+          {
+            "id": 6845868899,
+            "name": "全网流行热歌 | 孙燕姿,马也_Crabbit,郑润泽和百首网络热门单曲",
+            "cover": "http://p1.music.126.net/pYbvgBMc5DItWwXLlQpKbw==/109951174140087998.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 200,
+            "userName": "云音乐经典专区",
+            "userId": 5077557753,
+            "playCount": 10091008
+          },
+          {
+            "id": 6686195311,
+            "name": "云村流行热播 | 梁静茹情歌 和300首品质好歌",
+            "cover": "http://p1.music.126.net/jWjlVghaPBypiyxHyEDzsQ==/109951173027679010.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 302,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 16211403
+          },
+          {
+            "id": 8278937351,
+            "name": "华语流行趋势 | 周深,邓紫棋,张杰引领本周华语新歌指标",
+            "cover": "http://p1.music.126.net/tevISZDKnjWuse2oRMDhLg==/109951173977276130.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 102,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 40903436
+          },
+          {
+            "id": 8159674692,
+            "name": "全球流行趋势 | 肖战,keshi,汪苏泷和更多好歌",
+            "cover": "http://p1.music.126.net/K6ZDJz4XeUxT6btB5kXqaQ==/109951174134240259.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 62,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 8326011
+          },
+          {
+            "id": 5395389058,
+            "name": "宝岛华语流行 | 许哲珮,曾沛慈 领衔近期宝岛热歌",
+            "cover": "http://p1.music.126.net/5mWWgC75MWxBrkViJ981cQ==/109951174118900391.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 148,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 7173074
+          },
+          {
+            "id": 8597662201,
+            "name": "粤语流行趋势 | 韦礼安,卫兰,王菀之衔带来近期粤语热歌",
+            "cover": "http://p1.music.126.net/aKPohBDcaQs6ByTHWN_vqw==/109951174155568321.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 200,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 11463679
+          },
+          {
+            "id": 8163014104,
+            "name": "欧美流行新歌 | 塔妹,JORDANN,keshi引领本周欧美新歌",
+            "cover": "http://p1.music.126.net/9aFoAfDMAOyIBZ24ugH9Qg==/109951174154695683.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 200,
+            "userName": "云音乐欧美星球",
+            "userId": 9195422918,
+            "playCount": 19288934
+          },
+          {
+            "id": 6845896399,
+            "name": "一人一首成名曲 | 把回忆唱给你听",
+            "cover": "http://p1.music.126.net/HDu4O6npTV38OWa-CzL6kA==/109951171535039566.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3c1bkRrTUtRd3JMRGpEekNtOE9tLzc2NTUxMzc3OTE0L2VjZmIvMjAyNTEwMTcxODUxNDMveDUwMTE3NjMzNzY3MDMwNjgucG5n&dx=0&dy=0%7Cwatermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 80,
+            "userName": "云音乐经典专区",
+            "userId": 5077557753,
+            "playCount": 4850769
+          },
+          {
+            "id": 8276806301,
+            "name": "全球KPop趋势 | IVE,G-DRAGON,IU引领最强韩风",
+            "cover": "http://p1.music.126.net/xVMlDpiWQ9eykhnHtgLQgg==/109951174150168632.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 100,
+            "userName": "云音乐KPOP星球",
+            "userId": 8375377475,
+            "playCount": 18097866
+          },
+          {
+            "id": 8163364398,
+            "name": "全球英文热歌 | 娅娅,霉霉,A妹领衔潮流热歌指标",
+            "cover": "http://p1.music.126.net/Am8dTOkrGx__eCvB-Y3Zlg==/109951174134276704.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 100,
+            "userName": "云音乐欧美星球",
+            "userId": 9195422918,
+            "playCount": 9534315
+          },
+          {
+            "id": 4991155974,
+            "name": "音综流行热歌 | 小沈阳,唐九洲,颜安和300首精选音综现场",
+            "cover": "http://p1.music.126.net/kHXUvKmPioK3J0lMGISdVQ==/109951174128966708.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 374,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 28436246
+          },
+          {
+            "id": 9797794200,
+            "name": "日语流行趋势 | milet,夜鹿,Mili等时下热歌等你来听",
+            "cover": "http://p1.music.126.net/VKoXnVbXOefWu2gU5HE03w==/109951174155638872.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 200,
+            "userName": "云音乐日音星球",
+            "userId": 12663033561,
+            "playCount": 3370114
+          },
+          {
+            "id": 2859299499,
+            "name": "泰语新歌到 | Little john,BUS领衔带来近期泰语新歌",
+            "cover": "http://p1.music.126.net/AXf-yS3tdM6cwz2B46ZC5g==/109951172929290470.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 100,
+            "userName": "云音乐全球热歌",
+            "userId": 9657467415,
+            "playCount": 3313367
+          },
+          {
+            "id": 5172410111,
+            "name": "流行点唱机 | 2010年代华语热播 每日30首",
+            "cover": "http://p1.music.126.net/nhi6dU3yJAHFKhek6-Fpjg==/109951170141164407.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3c1bkRrTUtRd3JMRGpEekNtOE9tLzU2NTA3NDAyMjUyL2U1NTMvMjAyNDEwMTUxNzQ5MzYveDEwMDE3MzE2NjQxNzY1MjUucG5n&dx=0&dy=0%7Cwatermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 30,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 74597248
+          },
+          {
+            "id": 5199155506,
+            "name": "怀旧点唱机 | 珍藏和聆听 属于记忆里的70.80年代",
+            "cover": "http://p1.music.126.net/TPSTmfalV7T__fm3wtSNMA==/109951170141162382.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3c1bkRrTUtRd3JMRGpEekNtOE9tLzU2NTA3NDA0OTE1LzQ1ZmYvMjAyNDEwMTUxNzQ5NTgveDMzNTE3MzE2NjQxOTgyNzgucG5n&dx=0&dy=0%7Cwatermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 30,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 19598122
+          },
+          {
+            "id": 2945028696,
+            "name": "时光点唱机 | 重温90年代经典金曲 每日40首",
+            "cover": "http://p1.music.126.net/7RdvZJTDo-dgc_hMz1nhCg==/109951170155163448.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3c1bkRrTUtRd3JMRGpEekNtOE9tLzU2NTA0NjQ4MzMyL2EwMWIvMjAyNDEwMTUxNDUzOS94NDE4MTczMTY1MzU4OTg0Ni5wbmc=&dx=0&dy=0%7Cwatermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 40,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 53606240
+          },
+          {
+            "id": 2968527373,
+            "name": "青春点唱机 | 你的2000年代MP3 每日40首",
+            "cover": "http://p1.music.126.net/3lhdwKz7jHhoc3wl2WevEw==/109951170141161987.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3c1bkRrTUtRd3JMRGpEekNtOE9tLzU2NTA0NjYzMzIwLzdkYmMvMjAyNDEwMTUxNDU0MTcveDQ2MDE3MzE2NTM2NTc4NTMucG5n&dx=0&dy=0%7Cwatermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 40,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 48000080
+          },
+          {
+            "id": 5212729721,
+            "name": "欧美点唱机 | 重温热播欧美流行单曲 每日30首",
+            "cover": "http://p1.music.126.net/TnUbPEcBcZPkx-sfYAgv_w==/109951170026380622.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3c1bkRrTUtRd3JMRGpEekNtOE9tLzU2NTA3NDE1NjUwL2JmNzMvMjAyNDEwMTUxNzUwMzQveDE5ODE3MzE2NjQyMzQ2MDgucG5n&dx=0&dy=0%7Cwatermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 30,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 31873746
+          },
+          {
+            "id": 9493371200,
+            "name": "80年代经典流行 | 让蔡琴带你再次回味80年代的经典旋律",
+            "cover": "http://p1.music.126.net/jzAHfPrYGGAN29gPH4PhGw==/109951172878134291.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 149,
+            "userName": "云音乐经典专区",
+            "userId": 5077557753,
+            "playCount": 568504
+          },
+          {
+            "id": 8597656205,
+            "name": "粤语经典老歌 | 那些好听惊艳的广东歌",
+            "cover": "http://p1.music.126.net/rigw8jiqikbixD2hf6yAFg==/109951174102284921.jpg?imageView=1&thumbnail=800y800&enlarge=1%7CimageView=1&watermark&type=1&image=b2JqL3c1bkRrTUtRd3JMRGpEekNtOE9tLzgzNTkzMDM2MjU2Lzg3OTIvMjAyNjkxMzE1MzA0MC94MzMxMTc5MTg3NjY0MDkyMC5wbmc=&dx=0&dy=0%7Cwatermark&type=1&image=b2JqL3dvbkRsc0tVd3JMQ2xHakNtOEt4LzI3MTM3NDIzNTQ3LzVjMGQvZDA1Ny9jNDYyL2I0NTRiZDc0NzQxNzYzYmNiNjRiZGU1OTYwZGY0MDQ2LnBuZw==&dx=0&dy=0%7CimageView=1",
+            "songCount": 82,
+            "userName": "云音乐官方歌单",
+            "userId": 1463586082,
+            "playCount": 2161325
+          }
+        ],
+        "page": {
+          "cursor": 0,
+          "size": 20,
+          "more": true,
+          "total": 37
+        }
+      },
+      "code": 200
+    }
+  }
+}

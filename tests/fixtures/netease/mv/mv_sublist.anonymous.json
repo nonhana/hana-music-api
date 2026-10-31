@@ -1,0 +1,20 @@
+{
+  "module": "mv_sublist",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T11:26:14.300Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：mv_sublist 匿名时空列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [],
+      "hasMore": false,
+      "count": 0
+    }
+  }
+}

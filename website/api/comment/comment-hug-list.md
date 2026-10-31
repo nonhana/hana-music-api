@@ -51,6 +51,10 @@ const result = await commentHugList({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data.hugComments` 收紧；每条抱一抱记录的 `hugContent`、`user` 宽松。`data.currentComment` 是被抱评论的附带信息，`commentId` 等编号一并放开，v2 多出的 `threadId`、`replyCount`、`showFloorComment`、`extInfo`、`commentVideoVO` 等按宽松记录声明。没有抱一抱时 `data.hugComments` 是空数组：录制 `comment_hug_list.empty.json`（评论 9673055460）返回 `hugComments: []`、`hugTotalCounts: 0` 并保留 `currentComment`；非空录制 `comment_hug_list.default.json`（歌曲 2092595510 评论 7431461934）保留 3 条抱一抱记录。`hasMore`、`cursor`、`idCursor`、`hugTotalCounts` 宽松；`currentComment.tag`、`bottomTags` 等只见过空容器或 `null` 的字段没有声明，原样保留。登录对照先用 `login_status` 确认 `account.anonimousUser: false`，只抽查了本批匿名录制中非 `null` 的路径与类型；登录录制未保留；不对公开结构作相同性断言。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取评论抱一抱列表

@@ -1,0 +1,17 @@
+{
+  "module": "top_playlist",
+  "query": {
+    "limit": "abc"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:11:21.321Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B28：limit 非数字时上游回 HTTP 400 空正文（非 200 路径取证）"
+  },
+  "response": {
+    "status": 400,
+    "body": ""
+  }
+}

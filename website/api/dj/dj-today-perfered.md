@@ -37,6 +37,10 @@ const result = await djTodayPerfered();
 console.log(result.body);
 ```
 
+## 返回内容
+
+只收紧 `body.code`。`data` 在匿名、登录和 `page` 0/1/99 的探测里都是空数组，元素类型没有证据，未声明并原样保留；`msg` 只见过 `null`，同样没有声明。`data` 为空是这个账号在本批探测（含登录）里的正常结果（录制 `dj_today_perfered.empty.json`）；登录后可能返回内容，本账号/地区为空，不代表所有账号都有内容。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 可获得电台今日优选

@@ -1,0 +1,27 @@
+{
+  "module": "search_match",
+  "query": {
+    "title": "晴天",
+    "artist": "周杰伦",
+    "album": "叶惠美",
+    "duration": 269000,
+    "md5": "abc123"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:36:36.217Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "songs": [],
+        "ids": []
+      },
+      "code": 200
+    }
+  }
+}

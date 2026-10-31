@@ -41,6 +41,10 @@ const result = await sheetList({
 console.log(result.body);
 ```
 
+## 返回内容
+
+歌曲的乐谱列表在 `data.musicSheetSimpleInfoVOS`，每份乐谱用 `id`、名称、乐器分类 `type`、封面、难度、调性、版本、BPM 等字段描述。`body.code`、`data.musicSheetSimpleInfoVOS`（可以没有）和每份乐谱自己的编号 `id` 收紧；没有乐谱时网易云把 `musicSheetSimpleInfoVOS` 和 `sheetInstrumentTypeVOList` 都返回 `null`（录制 `sheet_list.empty.json`），缺失或 `null` 照常返回。乐器筛选项 `sheetInstrumentTypeVOList`（可以没有）、`findSheet`、`uploadSheet`、`errorCode` 和乐谱的展示字段全部宽松，出现但坏一条乐谱记录仍会报 502。结构定义和类型是 `SheetListBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口可以获取歌曲的乐谱列表

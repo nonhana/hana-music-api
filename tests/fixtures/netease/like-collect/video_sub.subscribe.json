@@ -1,0 +1,22 @@
+{
+  "module": "video_sub",
+  "query": {
+    "id": "BFB0ABD6F5B0F069D3AC90021A1E680E",
+    "t": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:28:43.784Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：video_sub 正向（收藏视频 BFB0ABD6F5B0F069D3AC90021A1E680E）；写前 mv_sublist 20 条，收藏后回读 21 条（type 1，vid 是视频 id）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "收藏成功",
+      "data": null
+    }
+  }
+}

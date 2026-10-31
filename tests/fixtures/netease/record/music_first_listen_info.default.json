@@ -1,0 +1,67 @@
+{
+  "module": "music_first_listen_info",
+  "query": {
+    "id": 1896365460
+  },
+  "context": {
+    "recordedAt": "2026-10-25T22:41:15.838Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B34：music_first_listen_info 正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "title": null,
+        "songInfoDto": {
+          "songId": 1896365460,
+          "songName": "水無月の通り雨",
+          "singer": "ゐろは苹果",
+          "pubTime": 0,
+          "coverUrl": "http://p1.music.126.net/31d6zue2HeT38iR5xX2h6w==/109951172230598778.jpg",
+          "type": 0
+        },
+        "musicFirstListenDto": {
+          "date": "2026-05-11 13:52:22",
+          "season": "暮春",
+          "period": "中午",
+          "time": "13:52",
+          "mainTitle": null,
+          "subTitle": null,
+          "desc": null,
+          "meetDuration": "167",
+          "meetDurationDesc": "喜欢的歌就要听到天荒地老",
+          "listenTime": 1778478742648
+        },
+        "musicTotalPlayDto": {
+          "playCount": 5,
+          "duration": 1,
+          "text": "如同雪花飘落45米",
+          "mainTitle": null,
+          "subTitle": null,
+          "desc": null,
+          "maxPlayTimes": []
+        },
+        "musicPlayMostDto": null,
+        "musicMinoritySongDto": null,
+        "musicLikeSongDto": {
+          "text": "2026年05月11日 你红心了这首歌",
+          "like": true,
+          "collect": false,
+          "mainTitle": null,
+          "subTitle": null,
+          "desc": null,
+          "redTime": "2026.05.11",
+          "redDesc": "我们的故事从这里开始",
+          "redTimeStamp": 1778478742648
+        },
+        "musicCommentDto": null,
+        "musicFrequentListenDto": null
+      },
+      "message": ""
+    }
+  }
+}

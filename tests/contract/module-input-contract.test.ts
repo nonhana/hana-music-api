@@ -35,20 +35,18 @@ import type {
   ModuleDefinition,
   ModuleQuery,
   RequestCapability,
+  RequestIntent,
   UnknownJson,
 } from '../../src/types/index.ts';
+import { projectRoot } from '../_kit/assertions.ts';
 import { runEffect } from '../_kit/it.ts';
 import { moduleResponse } from '../fixtures/request-capability.ts';
 import { executeModule, response } from '../fixtures/upload-effect.ts';
 
-const projectDirectory = resolve(import.meta.dir, '../..');
-const echoRequest: RequestCapability = (intent) =>
-  Effect.succeed(response(intent.body ? JSON.parse(String(intent.body)) : {}));
-
 describe('module input ownership', () => {
   test('all 352 endpoints own inputs without importing the central public alias barrel', async () => {
     const modules = await discoverModuleFiles(
-      resolve(projectDirectory, 'src/modules'),
+      resolve(projectRoot, 'src/modules'),
     );
     const centralized: Array<string> = [];
     let legacyCount = 0;
@@ -81,7 +79,7 @@ describe('module input ownership', () => {
 
   test('shared input primitives have no execution fields or central domain maps', async () => {
     const shared = await readFile(
-      resolve(projectDirectory, 'src/types/module-shared.ts'),
+      resolve(projectRoot, 'src/types/module-shared.ts'),
       'utf8',
     );
     expect(shared).not.toMatch(
@@ -91,19 +89,19 @@ describe('module input ownership', () => {
       /OptionCompatibleQuery|AlbumQuery|ArtistQuery|UserDetailQuery/,
     );
     expect(
-      existsSync(resolve(projectDirectory, 'src/types/module-overrides.ts')),
+      existsSync(resolve(projectRoot, 'src/types/module-overrides.ts')),
     ).toBe(false);
     expect(
-      existsSync(resolve(projectDirectory, 'src/modules/_module-inputs.ts')),
+      existsSync(resolve(projectRoot, 'src/modules/_module-inputs.ts')),
     ).toBe(false);
     expect(
       await readFile(
-        resolve(projectDirectory, 'src/types/module-contracts.ts'),
+        resolve(projectRoot, 'src/types/module-contracts.ts'),
         'utf8',
       ),
     ).not.toContain('ModuleInputMigrationMap');
     expect(
-      await readFile(resolve(projectDirectory, 'src/core/config.ts'), 'utf8'),
+      await readFile(resolve(projectRoot, 'src/core/config.ts'), 'utf8'),
     ).not.toContain('RESOURCE_TYPE_MAP');
   });
 });
@@ -185,19 +183,27 @@ describe('module-local input decoding', () => {
   );
 
   test('search accepts numeric strings without changing its existing wire representation', async () => {
+    let requestBody: RequestIntent['body'];
+    const request: RequestCapability = (intent) => {
+      requestBody = intent.body;
+      return Effect.succeed(response({ code: 200 }));
+    };
     const result = await runEffect(
       executeModule(
         search,
         { keywords: 'voice', type: '2000', limit: '5', offset: '2' },
-        echoRequest,
+        request,
       ),
     );
-    expect(result.body).toEqual({
-      keyword: 'voice',
-      scene: 'normal',
-      limit: '5',
-      offset: '2',
-    });
+    expect(requestBody).toBe(
+      JSON.stringify({
+        keyword: 'voice',
+        scene: 'normal',
+        limit: '5',
+        offset: '2',
+      }),
+    );
+    expect(result.body).toEqual({ code: 200 });
   });
 
   test('audio matching accepts a numeric-string duration', async () => {
@@ -235,7 +241,8 @@ describe('module-local input decoding', () => {
     { value: '1', expected: true },
     { value: 'true', expected: true },
   ])('normalizes comment showInner=$value', async ({ value, expected }) => {
-    const result = await runEffect(
+    let requestBody: unknown;
+    await runEffect(
       decodeCommentInput({
         id: '12',
         type: '0',
@@ -244,11 +251,16 @@ describe('module-local input decoding', () => {
         showInner: value,
       }).pipe(
         Effect.flatMap((input) =>
-          executeModule(commentNew, input, echoRequest),
+          executeModule(commentNew, input, (intent) => {
+            requestBody = intent.body ? JSON.parse(String(intent.body)) : {};
+            return Effect.succeed(
+              response({ code: 200, data: { comments: [] } }),
+            );
+          }),
         ),
       ),
     );
-    expect(result.body).toEqual({
+    expect(requestBody).toEqual({
       threadId: 'R_SO_4_12',
       pageNo: 2,
       showInner: expected,
@@ -261,10 +273,16 @@ describe('module-local input decoding', () => {
   test.each([0, '0', 99, '99'])(
     'preserves comment resource fallback for type=%s',
     async (type) => {
-      const result = await runEffect(
-        executeModule(commentNew, { id: 12, type }, echoRequest),
+      let requestBody: Record<string, unknown> = {};
+      await runEffect(
+        executeModule(commentNew, { id: 12, type }, (intent) => {
+          requestBody = intent.body ? JSON.parse(String(intent.body)) : {};
+          return Effect.succeed(
+            response({ code: 200, data: { comments: [] } }),
+          );
+        }),
       );
-      expect(result.body).toMatchObject({
+      expect(requestBody).toMatchObject({
         threadId: 'R_SO_4_12',
         showInner: true,
       });
@@ -277,10 +295,14 @@ describe('module-local input decoding', () => {
     { type: 'unknown', expected: 0 },
     { type: undefined, expected: 0 },
   ])('preserves DJ toplist fallback for $type', async ({ type, expected }) => {
-    const result = await runEffect(
-      executeModule(djToplist, { type }, echoRequest),
+    let requestBody: Record<string, unknown> = {};
+    await runEffect(
+      executeModule(djToplist, { type }, (intent) => {
+        requestBody = intent.body ? JSON.parse(String(intent.body)) : {};
+        return Effect.succeed(response({ code: 200, toplist: [] }));
+      }),
     );
-    expect(result.body).toEqual({ limit: 100, offset: 0, type: expected });
+    expect(requestBody).toEqual({ limit: 100, offset: 0, type: expected });
   });
 });
 

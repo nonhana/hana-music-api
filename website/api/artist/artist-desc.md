@@ -41,6 +41,10 @@ const result = await artistDesc({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和歌手介绍条目 `body.introduction` 收紧；`briefDesc` 是摘要、`count` 是计数（`empty` 录制里是 7 而 `introduction` 是空数组）、`topicData` 是相关专栏，都是宽松字段。`topicData` 里的专栏、专栏正文和创建者编号不收紧，原样保留。歌手没有介绍条目时 `introduction` 是空数组（录制 `artist_desc.empty.json`）。结构定义和类型是 `ArtistDescBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入歌手 id, 可获得歌手描述

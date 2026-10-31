@@ -1,0 +1,25 @@
+{
+  "module": "playlist_track_add",
+  "query": {
+    "pid": 18526771500,
+    "ids": 1840309229
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:55:25.537Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B6：playlist_track_add 对已删除歌单的 404（临时歌单，已删除）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 404,
+      "message": "歌单已删除",
+      "debugInfo": null,
+      "data": null,
+      "failData": null,
+      "msg": "歌单已删除"
+    }
+  }
+}

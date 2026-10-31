@@ -1,0 +1,36 @@
+{
+  "module": "broadcast_channel_currentinfo",
+  "query": {
+    "id": 131
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:00:14.565Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B31：广播电台当前信息，空闲频道"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "id": 131,
+        "regionName": "广东",
+        "channelName": "东莞综合广播",
+        "channelCoverUrl": "http://p4.music.126.net/LmrMoLVL_bsFH4aFb8Zkpw==/109951165549814308.jpg",
+        "programId": 0,
+        "programName": null,
+        "broadcaster": null,
+        "startTime": 0,
+        "endTime": 0,
+        "duration": 0,
+        "playUrl": "https://ls-open.qingting.fm/live/1276/64k.m3u8?deviceid=00000000-0000-0000-0000-000000000000",
+        "currentTime": 1792962014538,
+        "thirdChannelId": "1276",
+        "thirdProgramId": null
+      },
+      "message": ""
+    }
+  }
+}

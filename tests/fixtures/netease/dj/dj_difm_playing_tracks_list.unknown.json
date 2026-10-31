@@ -1,0 +1,26 @@
+{
+  "module": "dj_difm_playing_tracks_list",
+  "query": {
+    "channelId": 999999999,
+    "source": 0,
+    "limit": 5
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:27:52.973Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B12：DI.FM 未知频道的空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "total": 0,
+        "list": []
+      },
+      "message": ""
+    }
+  }
+}

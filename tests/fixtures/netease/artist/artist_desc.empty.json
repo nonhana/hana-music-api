@@ -1,0 +1,1663 @@
+{
+  "module": "artist_desc",
+  "query": {
+    "id": 1007170
+  },
+  "context": {
+    "recordedAt": "2026-10-25T10:13:31.496Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B2：artist_desc 歌手没有介绍条目时 introduction 是空数组（初音ミク 1007170）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "introduction": [],
+      "briefDesc": "ok…………………………\n",
+      "count": 7,
+      "topicData": [
+        {
+          "topic": {
+            "id": 13918050,
+            "addTime": 1469503146793,
+            "mainTitle": "陈粒：大梦一场，小半已成，生日快乐",
+            "title": "陈粒：大梦一场，小半已成，生日快乐",
+            "content": [
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>作者：易小婉（微信：yixiaowan1124）</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>来源：民谣与诗（ID：glimmers-）</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>1990年7月26日出生的陈粒，在生日这天的凌晨，发表了她的新专辑。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>今天陈粒26岁了，《小梦大半》可以看作是她给自己的一份礼物。陈粒包办了整张专辑的作曲，编曲由陈粒以及金曲奖最佳制作人荒井十一团队并肩磨合。专辑主打的概念是“梦境”，这和陈粒的风格与气质非常契合。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 2,
+                "id": 3426078250539191,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>我相信有很多人是像我一样，昨晚守在电脑前等粒粒的新专辑上线，然后毫不犹豫地购买了她的电子专辑。而陈粒果真也没让我们失望。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>专辑在制作方面专业、成熟很多，不再像第一张专辑明显作坊式制作。编曲更加细腻，更加用心了。陈粒的花腔少了，嗓音也更接近真实自然。我个人最喜欢的是《怪不得》这首歌，开场的吉他响起来，好听，入耳。不过整张专辑听下来民谣性不强，个人感觉偏独立流行。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>一年前，25岁的陈粒带着《如也》这张专辑横空出世，霹雳无敌，独立音乐圈还没有哪一个女孩像她那样唱歌。第一次出唱片就获得豆瓣2015年度最受关注专辑，而在这张专辑之前，她的单曲就已经在网络上获得了超高的点击量，几乎首首好评。所有人都惊讶，那么年轻的灵魂里是怎样藏下了那么大的爆发力。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><br /></p>"
+              },
+              {
+                "type": 2,
+                "id": 3250156383948428,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>我从来没见过哪个民谣歌手，有这么丰富而鲜明的色彩，你很难简单的用民谣或者摇滚来定义她。陈粒是百变的，是复杂的，是难以捉摸的。《奇妙能力歌》里的她清新干净，《易燃易爆炸》里的她生猛暴烈，《如也》里的她慵懒飘忽，《祝星》里的她浪漫悠远，《性空山》里的她古风凛冽……</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>陈粒就像一颗钻石一样，有很多面，而且每一面都如此闪光，如此耀眼。一首歌似乎就是陈粒的一个切割面，当你把她的歌全部听完，你才能说你看到了一个接近完整的陈粒。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 2,
+                "id": 1385384664476330,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>陈粒是那种身体里潜藏着能量、并且会不断带给你惊喜的灵气女生。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>就拿《如也》这张专辑来说，里面几乎每一首歌都有让你惊喜的部分，《不灭》间奏部分的键盘，让你听到一种黑暗流动的表达意念；《光》里那段哼唱，让你看到陈粒嗓音里的空灵开阔；《绝对占有相对自由》里的歌词，有一种哲学意味；《脱缰》里用鼓和琴营造的节奏，以及后半部分反复吟唱的英文歌词，词曲和声音的配合度极高。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>第一张专辑中我最喜欢《易燃易爆炸》这首歌。用一个词来形容我听到这首歌的感受，那就是惊艳。你很难想象，这是一个90后新人写出来的歌曲。哥特式的编曲，律动的旋律，陈粒的灵气、仙气、霸气、巫气统统都在这首歌里了。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><br /></p>"
+              },
+              {
+                "type": 2,
+                "id": 3413983622731245,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>陈粒是天才一般的歌手，依靠想象和架构，就能凭空建造起一座宫殿。她的歌词迷离且充满意象；她的唱腔灵活多变，清新有时摇滚有时；她的现场自由随性，极具感染力。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>我觉得陈粒就像武侠小说中那些无根无基、无门无派、亦侠亦盗、亦正亦邪的传奇女子，凭着天赋、灵气和无畏，一匹马，一把剑，闯江湖。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>陈粒的嗓音略带沙哑，略有鼻音，她的唱法懒散，随意，漫不经心。她的歌曲有一种暗黑的气质，诱导你进入，吞噬掉你的意识，然后你就开始跟随着她清醒地梦游。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>“在坦荡中富含一种暗黑气质，在不羁中只遵循自我规律，不用媚俗就赢得了粉丝。”这是乐评人内陆飞鱼对陈粒的评价。这个用短短一两年的时间就收获一大批听众，并被粉丝唤作“老公”的姑娘，无论作品还是其人，都散发出独特的气质。她张扬而不张狂，叛逆却也如此赤诚，性感却不风尘，还同时有一种天真、出世的状态。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 2,
+                "id": 1375489059855482,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>看得出来，陈粒是一个开始与结束都自我选择，并且无畏而果敢的女子。她自然得像植物，天真得像动物。无论是创作还是爱情，她都是那么的成熟、有主见。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>陈粒身上兼具了陈绮贞的小清新、张悬的独立、王菲的凛冽。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>与陈绮贞相比，陈粒的民谣多了一点点辛辣的态度；与张悬相比，陈粒的摇滚里没有知识分子的沉重和严肃；与王菲相比，陈粒很少唱孤独悲伤的都市情歌。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 2,
+                "id": 1377688082991003,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><br /><span style=\"font-size: 0px; line-height: 1.6; background-color: initial;\">﻿</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>而陈粒的声音，确实会让人想起王菲。尤其是新专辑里《怪不得》这首歌，有人说仿佛听到了全盛时期的王菲。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>关于对王菲的模仿，乐评人大地是这么形容的：“如果王菲是飞机，陈粒先得把自己二手车的发动机装上。”虽然有点毒舌，不过也必须承认，陈粒和王菲确实有差距。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>王菲是在工业化标准里打磨多年后才找准那个范儿，且撞对了时机。她有伯乐戴思聪，在一起玩的人后来基本都是华语音乐的中坚力量，张亚东是制作人，窦唯还拿来做过老公，环境得天独厚。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>而陈粒更像是野路子，靠着自己的思考、摸索、感受、体悟一步一步走过来。她有自己想法和创意，她变幻无方，空灵飘渺，音乐很抓人，唯独少了一点能让你细细品味的东西。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>我觉得对于一个创作者的前两部作品来说，有一些模仿的痕迹，或者作品不纯熟的地方也很正常。重要的是能不能从中看到她的可能性，可能性很重要。而陈粒的灵气和才气，能让你看到她的可能。</p>"
+              },
+              {
+                "type": 2,
+                "id": 3443670425437413,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>我想，当时间慢慢沉淀掉那些褒奖或者批评，当十年二十年甚至更久的时光过去，&nbsp;我相信我们一定会看到一个更加明确更加深刻的陈粒。她不是任何人，她只是自己。找到自己之后，一切都是自然而然的发生。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>愿我们都能活出自己想要的样子，这是平凡生活里的最后一点英勇。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><br /></p>"
+              }
+            ],
+            "userId": 51880417,
+            "cover": 1375489059855501,
+            "headPic": 0,
+            "shareContent": "",
+            "wxTitle": "",
+            "showComment": true,
+            "status": 1,
+            "seriesId": 912050,
+            "pubTime": 1469503204250,
+            "readCount": 305266,
+            "tags": [],
+            "pubImmidiatly": true,
+            "auditor": "",
+            "auditTime": 0,
+            "auditStatus": 0,
+            "startText": "作者：易小婉（微信：yixiaowan1124）来源：民谣与诗（ID：glimmers-）1990年7月26日出生的陈粒，在生日这天的凌晨，发表了她的新专辑。今天陈粒26岁了，《小梦大半》可以看作是她",
+            "delReason": "",
+            "showRelated": true,
+            "fromBackend": false,
+            "rectanglePic": 2946691199714386,
+            "updateTime": 1469513736124,
+            "reward": false,
+            "summary": "作者：易小婉（微信：yixiaowan1124）来源：民谣与诗（ID：glimm",
+            "memo": "",
+            "adInfo": "",
+            "categoryId": 99,
+            "hotScore": 0,
+            "recomdTitle": "",
+            "recomdContent": "",
+            "number": 4
+          },
+          "creator": {
+            "userId": 51880417,
+            "userType": 0,
+            "nickname": "易小婉",
+            "avatarImgId": 109951164737728370,
+            "avatarUrl": "http://p4.music.126.net/jO7TRM12TaSuyj73hLitEQ==/109951164737728371.jpg",
+            "backgroundImgId": 109951163083248220,
+            "backgroundUrl": "http://p1.music.126.net/jeFRIZALeLQM20Rro0di5Q==/109951163083248227.jpg",
+            "signature": "诚实地面对自己。",
+            "createTime": 1422589832953,
+            "userName": "",
+            "accountType": 1,
+            "shortUserName": "",
+            "birthday": 631814400000,
+            "authority": 0,
+            "gender": 2,
+            "accountStatus": 0,
+            "province": 330000,
+            "city": 330100,
+            "authStatus": 0,
+            "description": null,
+            "detailDescription": null,
+            "defaultAvatar": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "locationStatus": 30,
+            "vipType": 11,
+            "followed": false,
+            "mutual": false,
+            "authenticated": false,
+            "lastLoginTime": 1792910213818,
+            "lastLoginIP": "183.208.58.18",
+            "remarkName": null,
+            "viptypeVersion": 1790462070377,
+            "authenticationTypes": 0,
+            "avatarDetail": null,
+            "anchor": false
+          },
+          "shareCount": 382,
+          "commentCount": 674,
+          "likedCount": 3654,
+          "liked": false,
+          "rewardCount": 0,
+          "rewardMoney": 0,
+          "relatedResource": null,
+          "rectanglePicUrl": "http://p3.music.126.net/iCKLt7ZELgH-mpAt1b2cfA==/2946691199714386.jpg",
+          "coverUrl": "http://p3.music.126.net/SZYHYEwCub2X-MoVbzVcAg==/1375489059855501.jpg",
+          "categoryId": 99,
+          "categoryName": "其他",
+          "commentThreadId": "A_TO_6_13918050",
+          "mainTitle": "陈粒：大梦一场，小半已成，生日快乐",
+          "readCount": 305266,
+          "reward": false,
+          "shareContent": "",
+          "wxTitle": "陈粒：大梦一场，小半已成，生日快乐",
+          "addTime": 1469503204250,
+          "seriesId": 912050,
+          "showComment": true,
+          "showRelated": true,
+          "memo": "",
+          "summary": "作者：易小婉（微信：yixiaowan1124）来源：民谣与诗（ID：glimm",
+          "recmdTitle": "陈粒：大梦一场，小半已成，生日快乐",
+          "recmdContent": "作者：易小婉（微信：yixiaowan1124）来源：民谣与诗（ID：glimm",
+          "url": "/m/topic/13918050",
+          "title": "陈粒：大梦一场，小半已成，生日快乐",
+          "tags": [],
+          "id": 13918050,
+          "number": 4
+        },
+        {
+          "topic": {
+            "id": 13649051,
+            "addTime": 1467788382118,
+            "mainTitle": "民谣|陈粒｜不必人尽皆知，只求格格不入",
+            "title": "民谣|陈粒｜不必人尽皆知，只求格格不入",
+            "content": [
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">﻿</span><span style=\"font-size: 14px;\"><u>音乐和其他艺术作品无异，也是一个太过显山露水的东西。</u></span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\"><u>你的爱恨情仇、前尘往事、晦涩艰辛，全被浓缩在其中。当然，你下了几注苦心，也是人尽皆知的。</u></span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: right;\"><span style=\"font-size: 14px;\"><u>前言</u></span></p>"
+              },
+              {
+                "type": 2,
+                "id": 3441471400484497,
+                "content": null
+              },
+              {
+                "type": 7,
+                "id": 0,
+                "content": "陈粒|不必人尽皆知 只求格格不入"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 14px;\">作者｜Vera</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 14px;\">图片来源｜LOFTER</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 14px;\">文章来源｜微信公众号：hyydnsz</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 14px;\"><br /></span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">这是在赵雷和尧十三之后，我写的第三个独立音乐人。</span><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">我听陈粒的时候，她还只被极少数一部分人所知道。那时候她还没有被称为“炒作婊”，她的微博里十条还有八条是关于祝星的，另外两条关于专辑和音乐。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">陈南西说，陈粒之所以分手后被骂的眼泪流，都是当年秀恩爱时脑子进的水。陈粒给祝星写了很多情话，下笔成歌，冠之汝名。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">她说，我终于写出了一首接近自己喜欢的歌，我要请你吃宵夜，送你，回家。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">她说，字字温柔字字坚决唱你。</span><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">她说，有了祝星我不光能写现在的歌，我还能把未来的歌都写了。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">她还说，但我现在眼里只有祝星，她开阔，我这儿就敞亮，她低落，我眼前就暗阖，她是我，我不是我。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">字里行间的喜欢汹涌澎湃到恨不能生生世世化骨成灰。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">大家骂的，不过是寄托在别人身上的梦想终究未成真啊。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">我不太确定自己写下这篇东西时候的状态，对于她们，我想说的不过也就那一句：不要去欺负一个爱你的人。</span></p>"
+              },
+              {
+                "type": 3,
+                "id": 29431066,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<strong><strong><span style=\"font-size: 12px;\">我拒绝更好更圆的月亮</span></strong><strong><strong><span style=\"font-size: 12px;\">拒绝未知的疯狂</span></strong></strong></strong>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">拒绝声色的张扬</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">不拒绝你</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">《奇妙能力歌》</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 12px;\">▼</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">陈粒进入大众的视野大概是因为一首《奇妙能力歌》她温柔浅唱，像清泉，像空境里的回音。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">这歌儿多浪漫呀，沙漠里下着暴雨，大海和鲨鱼拥吻，黄昏与黎明相互追逐，一切美丽到极致的东西都想拿来换这个独一无二的你了。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">我听的第一首是《历历万乡》的DEMO，最爱的两首是《贪得》和《七楼》，然后慢慢到后来的每一首，我在播放器里建了一个关于她的歌单。我开始关注不谬，关注陈南西，关注她背后的那些民间野词人。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">她在《贪得》里说</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">明天没着落</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">和我一起斟酌</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">孤独没着落</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你给我点个火</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">恨世界叵测</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">世界叵测你抱紧我</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">《贪得》</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\">▼</p>"
+              },
+              {
+                "type": 3,
+                "id": 29431065,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">在《七楼》里说</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">让我干一杯叫臆想的毒酒</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">让我耽溺早有预谋的邂逅</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">让我一败涂地在美景里扮丑</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">被拱手再奢求</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">《七楼》</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 12px;\">▼</span></p>"
+              },
+              {
+                "type": 3,
+                "id": 30431373,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">对于陈粒，众说纷纭。大家说她像张悬，像陈绮贞，像王菲。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">不置可否。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">记得一个朋友说只听陈粒的两首歌，一首《光》，一首《远辰》。那个朋友的喜好不难判断，她是追随王菲多年的忠实歌迷。找来细细一听，确实有些王菲的影子，声音飘飘渺渺又有几分空灵，词浓烈而极端，炽热得能把人心化作灰烬。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你低头不说一句</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你朝着灰色走去</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你住进混沌深海</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你开始无望等待都清醒</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">都独立妄想都没痕迹</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">我们一声不吭慢慢窒息</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">《光》</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\"><br /></span></strong></p>"
+              },
+              {
+                "type": 3,
+                "id": 30431364,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">在无处落脚的人海里</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你的停靠成为岛屿</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">成为陆地成为具体</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">《远辰》</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 12px;\">▼</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 12px;\"><br /></span></p>"
+              },
+              {
+                "type": 3,
+                "id": 33525647,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: left;\"><span style=\"line-height: 1.6; font-size: 14px; background-color: initial;\">在去年双十一那天，陈粒发布了一首单曲《爱若》。大家开始议论纷纷，甚至大肆叫嚣他们老公的风格变了，其实不然，我记得在去年冬天时候也做过一篇关于陈粒的推送，分享过一条关于她的微博，其内容就是《爱若》的歌词，这歌想必在当时就已经在筹备和制作当中了。所以在当天，这首歌还是成为了我的唯一购物。一元钱，若总分10分，我给及格分数6。</span><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">音乐和其他艺术作品无异，也是一个太过显山露水的东西。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">你的爱恨情仇、前尘往事、晦涩艰辛，全被浓缩在其中。当然，你下了几注苦心，也是人尽皆知的。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 12px;\">▼</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<strong><span style=\"font-size: 12px;\">爱若是绝望 以洒脱心体验刹那戏台</span></strong>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<strong><strong><span style=\"font-size: 12px;\">爱若是邪心 与其谈心与其俱飞起来</span></strong></strong>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">爱若灌我醉 我定踏入极地而不知还</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">爱若清我醒 何时渡过欲流到达彼岸</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">《爱若》</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 12px;\">▼</span></p>"
+              },
+              {
+                "type": 3,
+                "id": 36308884,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">陈粒和马頔还是有共通之处的，虽然两人实在没有放在一起的必要。但是在表达情情爱爱这一块儿，两人的确都是不可多得的高手。泡在糖罐子里的温柔，总是会有人买账的。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">无一例外。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">她在《脱缰》里说</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">为你追风逐浪</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">为你再次疯狂</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">为你永存想象</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">为你逃过死亡</span></strong></p>"
+              },
+              {
+                "type": 3,
+                "id": 30431369,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">在《祝星》里说</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你打开了我的躯壳</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你唤醒了我的耳朵</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你掐断了我的时间</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你放空了我的无解</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">带走我</span></strong></p>"
+              },
+              {
+                "type": 3,
+                "id": 29753832,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">在《种种》里说</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你是我三十九度的风</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">风一样的梦</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">汇集 失散</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">感受在消融</span></strong></p>"
+              },
+              {
+                "type": 3,
+                "id": 31152310,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">在《五言》里说</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你笑就沉沦</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">你低语呻吟</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">想要你的吻</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">做你爱的人</span></strong></p>"
+              },
+              {
+                "type": 3,
+                "id": 30431372,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">她唱这些的时候是性感的，赤裸的，像歌里说的那样踏入极地而不知还。且不管她只唱给一人，还是其他23456，这等调情SKILL，有人在底下高呼“老公”大概也是情理之中的吧。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">城市慷慨亮整夜光</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">如同少年不惧岁月长</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">她想要的不多</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">只是和别人的不一样</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong><span style=\"font-size: 12px;\">《历历万乡》</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"font-size: 14px;\">&nbsp;</span><span style=\"line-height: 1.6; font-size: 14px; background-color: initial;\">▼</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"line-height: 1.6; font-size: 14px; background-color: initial;\"><br /></span></p>"
+              },
+              {
+                "type": 3,
+                "id": 29535531,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">迄今为止我仍觉得陈粒是一个风格化挺浓的歌者。我不关心她和祝星，对于陈陈陈的长相也着实没有兴趣。像以前说过的那样，我极少去关注个人，见作品即见人。对于看不看现场我也没有太多的感受，倘若真近距离接触了，我应该也很难狂热起来。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">对我而言，那些情感上的共鸣，心灵上的某处相通是细小微妙的。见一面既不会把这些东西置换掉，更不会更进一层。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">何况这个世界上的许多东西，都比较适合处于“看上去很美”的状态呢。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">能否见面全凭缘分，但依旧很开心可以听到你的歌声。</span></p>"
+              },
+              {
+                "type": 2,
+                "id": 3393092896947786,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">多谢你，</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">成全了我在王菲那里所缺失的大概百分之二的狠劲和执迷。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: right;\"><span style=\"font-size: 14px;\"><u><br /></u></span></p>"
+              }
+            ],
+            "userId": 50796720,
+            "cover": 1415071469151918,
+            "headPic": 0,
+            "shareContent": "",
+            "wxTitle": "",
+            "showComment": true,
+            "status": 1,
+            "seriesId": 865050,
+            "pubTime": 1467788408680,
+            "readCount": 215254,
+            "tags": ["陈粒", "民谣", "祝星", "奇妙能力歌"],
+            "pubImmidiatly": true,
+            "auditor": "",
+            "auditTime": 0,
+            "auditStatus": 0,
+            "startText": "﻿<u>音乐和其他艺术作品无异，也是一个太过显山露水的东西。</u><u>你的爱恨情仇、前尘往事、晦涩艰辛，全被浓缩在其中。当然，你下了几注苦心，也是人尽皆知的。</u><u>前言</u>作者｜Ver",
+            "delReason": "",
+            "showRelated": true,
+            "fromBackend": false,
+            "rectanglePic": 3300733909252159,
+            "updateTime": 0,
+            "reward": false,
+            "summary": "﻿<u>音乐和其他艺术作品无异，也是一个太过显山露水的东西。</u><u>你的爱",
+            "memo": "",
+            "adInfo": "",
+            "categoryId": 3,
+            "hotScore": 0,
+            "recomdTitle": "",
+            "recomdContent": "",
+            "number": 6
+          },
+          "creator": {
+            "userId": 50796720,
+            "userType": 207,
+            "nickname": "秋璎啊",
+            "avatarImgId": 109951166725151740,
+            "avatarUrl": "http://p3.music.126.net/ndiixyglTNQitrdeNd7xmQ==/109951166725151739.jpg",
+            "backgroundImgId": 109951165424649820,
+            "backgroundUrl": "http://p1.music.126.net/PHPJLipW-QACxLrAbaGlcw==/109951165424649829.jpg",
+            "signature": "青年写作者",
+            "createTime": 1421729194099,
+            "userName": "",
+            "accountType": 1,
+            "shortUserName": "",
+            "birthday": 761634000000,
+            "authority": 0,
+            "gender": 2,
+            "accountStatus": 0,
+            "province": 430000,
+            "city": 430100,
+            "authStatus": 0,
+            "description": null,
+            "detailDescription": null,
+            "defaultAvatar": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "locationStatus": 30,
+            "vipType": 11,
+            "followed": false,
+            "mutual": false,
+            "authenticated": false,
+            "lastLoginTime": 1792912477088,
+            "lastLoginIP": "106.37.125.14",
+            "remarkName": null,
+            "viptypeVersion": 1790575325552,
+            "authenticationTypes": 0,
+            "avatarDetail": null,
+            "anchor": false
+          },
+          "shareCount": 1050,
+          "commentCount": 584,
+          "likedCount": 4110,
+          "liked": false,
+          "rewardCount": 0,
+          "rewardMoney": 0,
+          "relatedResource": null,
+          "rectanglePicUrl": "http://p4.music.126.net/buDDlTjvOO04xd2qnxxfRQ==/3300733909252159.jpg",
+          "coverUrl": "http://p3.music.126.net/h3U-TiUABi7_JFXP-3v_zg==/1415071469151918.jpg",
+          "categoryId": 3,
+          "categoryName": "幕后故事",
+          "commentThreadId": "A_TO_6_13649051",
+          "mainTitle": "民谣|陈粒｜不必人尽皆知，只求格格不入",
+          "readCount": 215254,
+          "reward": false,
+          "shareContent": "",
+          "wxTitle": "民谣|陈粒｜不必人尽皆知，只求格格不入",
+          "addTime": 1467788408680,
+          "seriesId": 865050,
+          "showComment": true,
+          "showRelated": true,
+          "memo": "",
+          "summary": "﻿<u>音乐和其他艺术作品无异，也是一个太过显山露水的东西。</u><u>你的爱",
+          "recmdTitle": "民谣|陈粒｜不必人尽皆知，只求格格不入",
+          "recmdContent": "﻿<u>音乐和其他艺术作品无异，也是一个太过显山露水的东西。</u><u>你的爱",
+          "url": "/m/topic/13649051",
+          "title": "民谣|陈粒｜不必人尽皆知，只求格格不入",
+          "tags": ["陈粒", "民谣", "祝星", "奇妙能力歌"],
+          "id": 13649051,
+          "number": 6
+        },
+        {
+          "topic": {
+            "id": 15367050,
+            "addTime": 1479986341538,
+            "mainTitle": "陈粒：民谣界唯一老公",
+            "title": "陈粒：民谣界唯一老公",
+            "content": [
+              {
+                "type": 5,
+                "id": 902806500,
+                "content": "{\"id\":\"902806500\"}"
+              },
+              {
+                "type": 7,
+                "id": 0,
+                "content": "01﻿"
+              },
+              {
+                "type": 2,
+                "id": 2946691248190165,
+                "content": "{\"url\":\"http://p1.music.126.net/-Cjscc3QxgJyKbU34hoxug==/2946691248190165.jpg\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: left;\"><span style=\"background-color: initial;\">“我看过沙漠下暴雨，看过大海亲吻鲨鱼，看过黄昏追逐黎明”。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><span style=\"background-color: initial;\">2014年一首《奇妙能力歌》横空出世，这个叫陈粒的姑娘就一个人一把琴，单枪匹马地杀进了音乐圈，竟然还上了豆瓣的音乐榜。</span></p>"
+              },
+              {
+                "type": 3,
+                "id": 29431066,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>于是，她还跑去问别人，你们是不是花钱给我买榜了。她打心里看不上那些花钱买榜的行为。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>“怎么会有这种事，不花钱也能上榜”，然后就真的火了。</p>"
+              },
+              {
+                "type": 2,
+                "id": 18664209882820076,
+                "content": "{\"url\":\"http://p1.music.126.net/1GxYdbtxf69GbAgOSpmLTQ==/18664209882820077.jpg\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>她把豆瓣榜单截图放在微博上，写叫叔叔，粉丝在下面评论“老公”，于是她又截图，发“叫老公”，于是粉丝们都喊她老公。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>粉丝做了长条幅去livehouse看老公的演出，条幅上写得是“老公，我下面给你吃”。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>有时候她装帅耍酷，享受着粉丝齐声叫她“老公”，签名也是签老公，真像一个专业撩妹的帅T，有时候她会忍不住话唠地和5米之内台下的人群絮絮叨叨个没停。总之她身上好像有一种雌雄同体的感觉，英气逼人，颠倒众生。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><b>不负春光，野蛮生长。陈粒很容易让人想到这句话。</b></p>"
+              },
+              {
+                "type": 2,
+                "id": 2946691248191710,
+                "content": "{\"url\":\"http://p1.music.126.net/ZvRQfsmgVoy-6wEhh31jdQ==/2946691248191710.jpg\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>她的很多作品，一开腔就有一股大口喝酒大口吃肉的江湖气，歌声能钻进每个渴望自由的人心里。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>她从来没有上过一天班也不签经纪约，不签唱片约。哪怕最艰难的时候她的卡里只剩下200块钱。网传她也被邀请参加过音乐节目，但是一听到导演让她凹成小清新，还要带一个大草帽，“不行，我接受不了这样”，于是在录制的前一天晚上匆匆退出。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>她说她想要的不多，只是和别人的不一样。“城市慷慨亮整夜光，如同少年不惧岁月长”，她把一个“敢”字扛在肩上，走得落花流水，潇洒无边。</p>"
+              },
+              {
+                "type": 2,
+                "id": 1410673419668158,
+                "content": "{\"url\":\"http://p1.music.126.net/j5rHYvOY4HRTg__J8yvhsQ==/1410673419668158.jpg\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>嘿，这姑娘的歌里，简直有一整个江湖。</p>"
+              },
+              {
+                "type": 7,
+                "id": 0,
+                "content": "&nbsp;02"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>2015年年底陈粒出了新歌《爱若》，在网易云音乐上首发，售价一块，我花钱买了，但听了听，不像之前熟悉的陈粒。再看了看评论，多数歌迷是说“这是我第一次付费买春，哦不，买歌。</p>"
+              },
+              {
+                "type": 2,
+                "id": 3295236355179819,
+                "content": "{\"url\":\"http://p1.music.126.net/4zbGGnBJpatjbJidKTux-Q==/3295236355179819.jpg\"}"
+              },
+              {
+                "type": 3,
+                "id": 36308884,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>没有了空灵，没有了小清新，爱若和奇妙能力歌，简直隔了一个银河系的距离。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>但奇妙能力歌不是陈粒，陈粒也不止有奇妙能力歌。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>她不会安分地在歌里述说，诸如《历历万乡》，《易燃易爆炸》，《绝对占有相对自由》，充斥着江湖气息，透露着怪异奔放的野性，可歌词里字字透露着古典韵味。</p>"
+              },
+              {
+                "type": 3,
+                "id": 30431376,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>从“我知道美丽会老去/生命之外还有生命”的小清新到“想把你收集/泡你在福尔马林盯着你意淫”的重口味；</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>从“过了很久我愿终于抬头看/你就在对岸等我勇敢”的柔情到“她住在七月的洪流上/天台倾倒理想一万丈”的大气磅礴；</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>再从“你是我房间的月亮/无聊时候找我借光芒”的轻快欢喜到“花枝还招酒一盏/祝你娇妻佳婿配良缘”的古韵。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>多风格，大反差，你想要的不想要的，她统统给你，像一杯明晃晃的妖娆毒酒，就算你最初是皱眉咽下去的，但很快就会沉醉，不由自主问她要更多。</p>"
+              },
+              {
+                "type": 2,
+                "id": 18704891813117936,
+                "content": "{\"url\":\"http://p1.music.126.net/rD_oPeBwTZN8dEdmNJjO7g==/18704891813117934.jpg\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>就像我刚听完《奇妙能力歌》后去听《性空山》，直觉出来一句：“我艹，这是什么鬼”，但是听着听着，就爱上了这种磅礴的“祝你娇妻佳婿配良缘”。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>陈粒的曲风成了一种无法归类的存在，很多人觉得陈粒属于民谣，但是她在虾米音乐分类中给自己写了个Anti–folk(反民谣)，给自己报幕，笑嘻嘻说“下面有请女生独唱”。<span style=\"background-color: initial;\">&nbsp;</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>可能再仔细想想，不管是《如也》，《爱若》还是新出的《幻期颐》，她们都只有一种分类标签，叫做陈粒。</p>"
+              },
+              {
+                "type": 3,
+                "id": 30431364,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>她如江湖一阵风，任自己天马行空，意识到姿态让人心驰神往，也没打算停留。</p>"
+              },
+              {
+                "type": 2,
+                "id": 18753270324743524,
+                "content": "{\"url\":\"http://p1.music.126.net/KFtPzne-IPPSmaKhe72kLA==/18753270324743524.jpg\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>想了想，这女人终究是属于江湖的，不在此处停留，而在彼处生长。初识时青葱玲珑，但终究是江湖英气，敢闯，闯得纵横捭阖，敢唱，也唱得淋漓尽致。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><b>她不必得到所有人的喜爱，她已是风华绝代。</b></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp;<span style=\"background-color: initial;\">歌连着爱情都成了民谣界的传奇。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>只不过这段传奇，要加上“曾经”二字了。</p>"
+              },
+              {
+                "type": 7,
+                "id": 0,
+                "content": "03"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>祝星终究是陈粒绕不过去的故事。《祝星》不过是一首歌，却因我爱你成为传奇。</p>"
+              },
+              {
+                "type": 3,
+                "id": 29753832,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>2014年陈粒在微博公开宣布出柜，大方承认自己是同性恋，女友是祝星。两个人在网上相识，性情相投就出双入对了。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>她说字字温柔字字坚决唱你，她说有了祝星，我不仅能写现在的歌，以后的歌我都能写了。她还说：我现在眼里就只有祝星，她开阔，我这儿就敞亮，她低落，我眼前就暗阖，她是我，我不是我。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>而陈粒和祝星，不过是一场爱情。“她曾是快完成的家 温暖的火把，还以为世人都离散 也与我们无关。”是爱吧！爱浓得化不开，落笔成歌，是谓汝名。</p>"
+              },
+              {
+                "type": 2,
+                "id": 18533367998849060,
+                "content": "{\"url\":\"http://p1.music.126.net/SarkebfIbfYi3HlQlIWkZg==/18533367998849059.jpg\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>《脱缰》给出了一份教会我们将感情热度永恒维持的六字箴言。“永不恶言相向，永不暗自考量，永不放任乖张，永不停止成长。为你追风逐浪，为你再次疯狂，为你永存想像，为你逃过死亡。”</p>"
+              },
+              {
+                "type": 3,
+                "id": 30431369,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>凭陈粒的性格，也没有半点遮掩。爱上了男生，而且是劈腿。统统说了出来。然后行色慌张的，删掉了秀恩爱的微博。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>于是花开两朵，天各一方，爱是爱过的，不爱，也真的是不爱了。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>比起14年在微博公开出柜，宣告自己的拉拉身份，再次公开承认劈腿喜欢上男生，对陈粒来说是更为艰难的事，意味着她曾建立的认知体系被自我打破，也意味着她的人格将放在大众视线里被评论，质疑，甚至颠覆。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>“爱情有多美好就有多糟糕，它没来的时候我们以为自己跟他们不一样，其实寂寞的时候大家都一样。从此陈粒有她的鲜衣怒马，祝星有她的风和日丽。路过的人请不要介意，不过是一场爱情”有人评价的中肯，爱过就好。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>她的粉丝们也在微博下评论，你爱女人也好，你爱男人也罢，祝你手边多银财，方寸用不乱。</p>"
+              },
+              {
+                "type": 2,
+                "id": 1397479286823794,
+                "content": "{\"url\":\"http://p1.music.126.net/IgLQDdFHd_Ic7urraLsqtQ==/1397479286823794.jpg\"}"
+              },
+              {
+                "type": 7,
+                "id": 0,
+                "content": "04"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOkJDQzA1MTVGNkE2MjExRTRBRjEzODVCM0Q0NEVFMjFBIiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOkJDQzA1MTYwNkE2MjExRTRBRjEzODVCM0Q0NEVFMjFBIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QkNDMDUxNUQ2QTYyMTFFNEFGMTM4NUIzRDQ0RUUyMUEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QkNDMDUxNUU2QTYyMTFFNEFGMTM4NUIzRDQ0RUUyMUEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6p+a6fAAAAD0lEQVR42mJ89/Y1QIABAAWXAsgVS/hWAAAAAElFTkSuQmCC\" /><span style=\"background-color: initial;\">陈粒以粒粒的名义出了一首新歌，叫《幻期颐》。正如简短文案“簌簌一梦”给人的感觉，这首歌曲略带迷幻後摇色彩，节奏舒缓摇晃，描绘想像中百岁时的场景。歌词写得简洁：</span><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>&nbsp; &nbsp; &nbsp; &nbsp;你看天地时辰</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>　　有时爱 有时恨</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>　　你看世人嘴唇</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>　　有时渴 有时润</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>陈粒说“粒粒是自己的分身”，从现在开始每三个月，粒粒都会发布一首自己的新歌。也就是说，下一张粒粒的单曲实体，要三个月后见了。“那个时候粒粒是不是还活着，没有人知道”，陈粒在接受采访时说。</p>"
+              },
+              {
+                "type": 3,
+                "id": 30431367,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>但是在陈粒和她的分身中，我才能看到：人并不是生下来就硬着头皮为生活所困的。</p>"
+              },
+              {
+                "type": 2,
+                "id": 18664209882820116,
+                "content": "{\"url\":\"http://p1.music.126.net/AbhwhQDnshg49QJ7GqPbgA==/18664209882820115.jpg\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>昨天，陈粒发布了最新单曲《当我在这里》，不到一天评论数量已达近万次。</p>"
+              },
+              {
+                "type": 3,
+                "id": 442315773,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>粒粒和她的歌，比起风情万种让我无数次想泡在福尔马林里意淫的陈粒，还有一段路要走。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>但是她就是她，不管陈粒还是粒粒，就是不管是王思聪还是聪聪，都是老公。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>恩，只有她，才是民谣界唯一老公。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><strong>▏<strong>▏</strong></strong>作者简介：七天路过，想做帝都邱淑贞，目前还是朝阳孔连顺，持续进阶中。微博：@七天_路过 。公众号：七天路过（ID：qitianluguo）</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>想听更多内容请戳：</p>"
+              },
+              {
+                "type": 5,
+                "id": 794476073,
+                "content": "{\"id\":\"794476073\"}"
+              },
+              {
+                "type": 5,
+                "id": 798418014,
+                "content": "{\"id\":\"798418014\"}"
+              },
+              {
+                "type": 4,
+                "id": 518508697,
+                "content": null
+              }
+            ],
+            "userId": 253262059,
+            "cover": 18569651883463440,
+            "headPic": 0,
+            "shareContent": "",
+            "wxTitle": "",
+            "showComment": true,
+            "status": 1,
+            "seriesId": 1348050,
+            "pubTime": 1479987126774,
+            "readCount": 332321,
+            "tags": ["陈粒", "民谣"],
+            "pubImmidiatly": true,
+            "auditor": "",
+            "auditTime": 0,
+            "auditStatus": 0,
+            "startText": "“我看过沙漠下暴雨，看过大海亲吻鲨鱼，看过黄昏追逐黎明”。 2014年一首《奇妙能力歌》横空出世，这个叫陈粒的姑娘就一个人一把琴，单枪匹马地杀进了音乐圈，竟然还上了豆瓣的音乐榜。 于是，她还跑去问别人",
+            "delReason": "",
+            "showRelated": true,
+            "fromBackend": false,
+            "rectanglePic": 3440371898587197,
+            "updateTime": 1498569522643,
+            "reward": false,
+            "summary": "不负春光，野蛮生长。陈粒很容易让人想到这句话。",
+            "memo": null,
+            "adInfo": "",
+            "categoryId": 0,
+            "hotScore": 0,
+            "recomdTitle": "",
+            "recomdContent": "",
+            "number": 29
+          },
+          "creator": {
+            "userId": 253262059,
+            "userType": 200,
+            "nickname": "淘漉音乐",
+            "avatarImgId": 1387583683435379,
+            "avatarUrl": "http://p4.music.126.net/nhUWUBvsnRyqSubXwTuScg==/1387583683435379.jpg",
+            "backgroundImgId": 2002210674180204,
+            "backgroundUrl": "http://p1.music.126.net/5L9yqWa_UnlHtlp7li5PAg==/2002210674180204.jpg",
+            "signature": "淘漉音乐专注输出优质的内容，经典音乐，音乐故事，还有包罗万象的歌单，应有尽有，成全所有热爱音乐和电影的人心中向往的诗和远方。我们为音乐聚集在一起，遇见相似的灵魂。有趣，有料，有故事，就等你了。",
+            "createTime": 1461113651008,
+            "userName": "",
+            "accountType": 1,
+            "shortUserName": "",
+            "birthday": -2209017600000,
+            "authority": 0,
+            "gender": 2,
+            "accountStatus": 0,
+            "province": 110000,
+            "city": 110101,
+            "authStatus": 0,
+            "description": null,
+            "detailDescription": null,
+            "defaultAvatar": false,
+            "expertTags": ["流行"],
+            "experts": {
+              "1": "音乐视频达人"
+            },
+            "djStatus": 10,
+            "locationStatus": 30,
+            "vipType": 0,
+            "followed": false,
+            "mutual": false,
+            "authenticated": false,
+            "lastLoginTime": 1725018938836,
+            "lastLoginIP": "2408:844b:1280:2bb3:a9fa:94cf:f303:609d",
+            "remarkName": null,
+            "viptypeVersion": 1675961001609,
+            "authenticationTypes": 0,
+            "avatarDetail": null,
+            "anchor": false
+          },
+          "shareCount": 1098,
+          "commentCount": 209,
+          "likedCount": 5504,
+          "liked": false,
+          "rewardCount": 0,
+          "rewardMoney": 0,
+          "relatedResource": null,
+          "rectanglePicUrl": "http://p3.music.126.net/-jO_71ijLxt4yVEbHhRz4A==/3440371898587197.jpg",
+          "coverUrl": "http://p4.music.126.net/UuMVdQx3PJKJ8UUyhFXIqQ==/18569651883463440.jpg",
+          "categoryId": 0,
+          "categoryName": "",
+          "commentThreadId": "A_TO_6_15367050",
+          "mainTitle": "陈粒：民谣界唯一老公",
+          "readCount": 332321,
+          "reward": false,
+          "shareContent": "",
+          "wxTitle": "陈粒：民谣界唯一老公",
+          "addTime": 1479987126774,
+          "seriesId": 1348050,
+          "showComment": true,
+          "showRelated": true,
+          "memo": null,
+          "summary": "不负春光，野蛮生长。陈粒很容易让人想到这句话。",
+          "recmdTitle": "陈粒：民谣界唯一老公",
+          "recmdContent": "不负春光，野蛮生长。陈粒很容易让人想到这句话。",
+          "url": "/m/topic/15367050",
+          "title": "陈粒：民谣界唯一老公",
+          "tags": ["陈粒", "民谣"],
+          "id": 15367050,
+          "number": 29
+        }
+      ],
+      "code": 200
+    }
+  }
+}

@@ -1,0 +1,662 @@
+{
+  "module": "mv_exclusive_rcmd",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T11:26:04.359Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：mv_exclusive_rcmd 网易出品MV（30 条）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": 10989376,
+          "cover": "http://p3.music.126.net/kvCVQfyswsw51dym8qbD9A==/109951165531487225.jpg",
+          "name": "超级面对面 第230期  辣目洋子：我为什么要撕掉网红标签？",
+          "playCount": 1598579,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "辣目洋子",
+          "artistId": 37639787,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 37639787,
+              "name": "辣目洋子"
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面"
+            }
+          ]
+        },
+        {
+          "id": 10973136,
+          "cover": "http://p3.music.126.net/zHicnFVX7oFNr3D_EbEDlg==/109951165497956751.jpg",
+          "name": "超级面对面 第229期 陈奕迅：我是树上一只懒懒的豹",
+          "playCount": 1826262,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "陈奕迅",
+          "artistId": 2116,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 2116,
+              "name": "陈奕迅"
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面"
+            }
+          ]
+        },
+        {
+          "id": 10968259,
+          "cover": "http://p3.music.126.net/iGl7ScpU8B_gbo_stO_E-A==/109951165441745952.jpg",
+          "name": "音乐好朋友3 EP06沈以诚&刘瑞琦:“深夜食堂”限时营业，解馋解忧！",
+          "playCount": 534594,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "沈以诚",
+          "artistId": 12002248,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12002248,
+              "name": "沈以诚"
+            },
+            {
+              "id": 840134,
+              "name": "刘瑞琦"
+            },
+            {
+              "id": 37547047,
+              "name": "音乐好朋友"
+            }
+          ]
+        },
+        {
+          "id": 10967950,
+          "cover": "http://p4.music.126.net/ZvW6BtOdjrDwa2ef7zvSig==/109951165461993138.jpg",
+          "name": "超级面对面 第228期 孟美岐：少女有铠甲",
+          "playCount": 915074,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "孟美岐",
+          "artistId": 12098023,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12098023,
+              "name": "孟美岐"
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面"
+            }
+          ]
+        },
+        {
+          "id": 10966288,
+          "cover": "http://p3.music.126.net/7q3CaEZllABoXTevh6pduA==/109951165424682437.jpg",
+          "name": "超级面对面 第227期 GALI：无腔调，不Rapper",
+          "playCount": 666531,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "GALI",
+          "artistId": 12127362,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12127362,
+              "name": "GALI"
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面"
+            }
+          ]
+        },
+        {
+          "id": 10965426,
+          "cover": "http://p4.music.126.net/vDi3YP5WgmPEOjtR988XFg==/109951165425255522.jpg",
+          "name": "音乐好朋友3 EP05刘瑞琦&韦礼安:所有的丧，都会被“喵”治愈！",
+          "playCount": 1297913,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "刘瑞琦",
+          "artistId": 840134,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 840134,
+              "name": "刘瑞琦"
+            },
+            {
+              "id": 5379,
+              "name": "韦礼安"
+            },
+            {
+              "id": 37547047,
+              "name": "音乐好朋友"
+            }
+          ]
+        },
+        {
+          "id": 10966289,
+          "cover": "http://p4.music.126.net/RBVDDleDkMpIzEP8JCSr8w==/109951165424696677.jpg",
+          "name": "超级面对面 第226期 李佳隆：一个Rapper的夺冠之路",
+          "playCount": 537308,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "李佳隆",
+          "artistId": 12079219,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12079219,
+              "name": "李佳隆"
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面"
+            }
+          ]
+        },
+        {
+          "id": 10965374,
+          "cover": "http://p4.music.126.net/-53CNUor3FTBFSoItf5N6g==/109951165424665565.jpg",
+          "name": "独家专访Troye Sivan：中国歌迷竟然如此宠我！",
+          "playCount": 580432,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Troye Sivan",
+          "artistId": 45129,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 45129,
+              "name": "Troye Sivan"
+            }
+          ]
+        },
+        {
+          "id": 10964896,
+          "cover": "http://p3.music.126.net/U4FavzinWQjwDOMeDXbqoQ==/109951165416594482.jpg",
+          "name": "音乐好朋友3 EP04韦礼安&陈雪凝:关于前任，你真的放下了吗？",
+          "playCount": 601044,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "韦礼安",
+          "artistId": 5379,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 5379,
+              "name": "韦礼安"
+            },
+            {
+              "id": 37547047,
+              "name": "音乐好朋友"
+            }
+          ]
+        },
+        {
+          "id": 10961581,
+          "cover": "http://p4.music.126.net/xJr6_rcWcgQoCk6Ji4R3Ng==/109951165381636183.jpg",
+          "name": "音乐好朋友3 EP02宫阁&马頔:每个人都独特，每份爱都珍贵！",
+          "playCount": 761633,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "宫阁",
+          "artistId": 12023517,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12023517,
+              "name": "宫阁"
+            },
+            {
+              "id": 4592,
+              "name": "马頔"
+            },
+            {
+              "id": 37547047,
+              "name": "音乐好朋友"
+            }
+          ]
+        },
+        {
+          "id": 10961910,
+          "cover": "http://p4.music.126.net/ytruFPEvO1HiXeHbkFw0tw==/109951165389754464.jpg",
+          "name": "超级面对面 第225期 尤长靖：要成为闪闪发光的大人呀",
+          "playCount": 623564,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "尤长靖",
+          "artistId": 13058503,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 13058503,
+              "name": "尤长靖"
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面"
+            }
+          ]
+        },
+        {
+          "id": 10960970,
+          "cover": "http://p3.music.126.net/c3-uBKtDrF_G-JIxSLcd3g==/109951165348212513.jpg",
+          "name": "乘风飞翔EP8: 张紫宁朗读沃尔特·德拉梅尔《银色》",
+          "playCount": 495456,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "张紫宁",
+          "artistId": 15022168,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 15022168,
+              "name": "张紫宁"
+            }
+          ]
+        },
+        {
+          "id": 10960869,
+          "cover": "http://p4.music.126.net/YUP9iTPVrKFVu_9hyT6dzA==/109951165347602804.jpg",
+          "name": "不曾遗忘的符号EP03 Tizzy T：好耐冇见啦",
+          "playCount": 3523456,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Tizzy T",
+          "artistId": 1204010,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 1204010,
+              "name": "Tizzy T"
+            },
+            {
+              "id": 31274598,
+              "name": "曾小敏"
+            },
+            {
+              "id": 37577224,
+              "name": "不曾遗忘的符号"
+            }
+          ]
+        },
+        {
+          "id": 10959710,
+          "cover": "http://p4.music.126.net/qX_HT1frHN66p2YvZIcThQ==/109951165340775721.jpg",
+          "name": "超级面对面 第224期 南派三叔（下集）：我要大闹一场，然后扬长而去",
+          "playCount": 371685,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "南派三叔",
+          "artistId": 12098066,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12098066,
+              "name": "南派三叔"
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面"
+            }
+          ]
+        },
+        {
+          "id": 10960620,
+          "cover": "http://p4.music.126.net/Aro3Mc8buci4hv4ZkmmCCA==/109951165338963174.jpg",
+          "name": "超级面对面 第223期 南派三叔（上集）：欢迎来到叔的盗墓宇宙",
+          "playCount": 351126,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "南派三叔",
+          "artistId": 12098066,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12098066,
+              "name": "南派三叔"
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面"
+            }
+          ]
+        },
+        {
+          "id": 10958212,
+          "cover": "http://p4.music.126.net/K-YwUgI0yR_pbPN-Fu7ofg==/109951165323506038.jpg",
+          "name": "乘风飞翔EP7: 钱正昊朗读莎士比亚《我怎么能够把你来比作夏天？》",
+          "playCount": 148453,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "钱正昊",
+          "artistId": 12118230,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12118230,
+              "name": "钱正昊"
+            }
+          ]
+        },
+        {
+          "id": 10955576,
+          "cover": "http://p4.music.126.net/03hf_kWKxOi-zxDznEd8ug==/109951165291219389.jpg",
+          "name": "独家专访毛晓彤：“挖土少年”的华丽冒险",
+          "playCount": 323545,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "毛晓彤",
+          "artistId": 12634082,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12634082,
+              "name": "毛晓彤"
+            }
+          ]
+        },
+        {
+          "id": 10956272,
+          "cover": "http://p3.music.126.net/UVZPgDdD-yaA-gsat3WG4A==/109951165293230474.jpg",
+          "name": "乘风飞翔EP6: 刘畅朗读威廉·巴特勒·叶芝《当你老了》",
+          "playCount": 394398,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "刘畅",
+          "artistId": 36026361,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 36026361,
+              "name": "刘畅"
+            }
+          ]
+        },
+        {
+          "id": 10955095,
+          "cover": "http://p3.music.126.net/o-akR1LdqfJmlGQxmyQUxA==/109951165274203952.jpg",
+          "name": "乘风飞翔EP5: 郎朗吉娜朗读罗伯特·瓦尔泽《夏天》",
+          "playCount": 588957,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "郎朗",
+          "artistId": 3707,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 3707,
+              "name": "郎朗"
+            },
+            {
+              "id": 33714452,
+              "name": "吉娜·爱丽丝"
+            }
+          ]
+        },
+        {
+          "id": 10955117,
+          "cover": "http://p4.music.126.net/YoDNrMICeUewzTGMsYNwNw==/109951165274580043.jpg",
+          "name": "速来围观Gracie Abrams的神仙颜值绝美现场",
+          "playCount": 311183,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Gracie Abrams",
+          "artistId": 33515545,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 33515545,
+              "name": "Gracie Abrams"
+            }
+          ]
+        },
+        {
+          "id": 10955097,
+          "cover": "http://p3.music.126.net/fJk3vC7nFHQ3apjkDgsN9Q==/109951165274310338.jpg",
+          "name": "异 Live版",
+          "playCount": 169533,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "上官喜爱",
+          "artistId": 34796352,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 34796352,
+              "name": "上官喜爱"
+            }
+          ]
+        },
+        {
+          "id": 10953427,
+          "cover": "http://p4.music.126.net/gFH9iJgLN7RGSTWpexuNMQ==/109951165249874946.jpg",
+          "name": "我行我素我爱你 Live版",
+          "playCount": 170790,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "郁可唯",
+          "artistId": 10200,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 10200,
+              "name": "郁可唯"
+            }
+          ]
+        },
+        {
+          "id": 10953050,
+          "cover": "http://p4.music.126.net/j4aHlCX8yLqeGguDJhTlQg==/109951165234483881.jpg",
+          "name": "乘风飞翔EP3: 凯蒂.佩芮《雏菊》暖心朗读版",
+          "playCount": 285907,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Katy Perry",
+          "artistId": 62888,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 62888,
+              "name": "Katy Perry"
+            }
+          ]
+        },
+        {
+          "id": 10951818,
+          "cover": "http://p4.music.126.net/XPrOrC7KFlo2j3FPXSuprQ==/109951165227667297.jpg",
+          "name": "《今日营业中》周刊少女：00后少女元气出击",
+          "playCount": 354055,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Weeekly",
+          "artistId": 35429418,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 35429418,
+              "name": "Weeekly"
+            }
+          ]
+        },
+        {
+          "id": 10952181,
+          "cover": "http://p4.music.126.net/2xwc-64LuC_k9AMNItAjzw==/109951165220727393.jpg",
+          "name": "乘风飞翔EP2:于文文朗读罗伯特·弗罗斯特《未选择的路》",
+          "playCount": 168472,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "于文文",
+          "artistId": 816248,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 816248,
+              "name": "于文文"
+            }
+          ]
+        },
+        {
+          "id": 10950526,
+          "cover": "http://p3.music.126.net/72f_qIHXedH6YignG1rEgQ==/109951165197210434.jpg",
+          "name": "乘风飞翔EP1:李玟朗读塞西尔·戴·刘易斯《她就像一株白玫瑰》",
+          "playCount": 260242,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "李玟",
+          "artistId": 8331,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 8331,
+              "name": "李玟"
+            }
+          ]
+        },
+        {
+          "id": 10948623,
+          "cover": "http://p3.music.126.net/grxJ6D5uB_rMwixuRef-0g==/109951165161911165.jpg",
+          "name": "《今日营业中》太撩了！燥热夏天Golden Child带来清凉性感",
+          "playCount": 425076,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Golden Child",
+          "artistId": 12440190,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12440190,
+              "name": "Golden Child"
+            }
+          ]
+        },
+        {
+          "id": 10947726,
+          "cover": "http://p4.music.126.net/53xKnsi7RPYvu9YZRLAU0g==/109951165147831839.jpg",
+          "name": "一周热门速报 EP20 快来体验“异地恋神器”",
+          "playCount": 336302,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "一周热门速报",
+          "artistId": 35166909,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 35166909,
+              "name": "一周热门速报"
+            }
+          ]
+        },
+        {
+          "id": 10947666,
+          "cover": "http://p3.music.126.net/HUu3vbmB9tnd1RQ8Ct5_Lg==/109951165153291440.jpg",
+          "name": "《今日营业中》Click#15:中文放克道阻且长",
+          "playCount": 268330,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "Click#15",
+          "artistId": 12083546,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 12083546,
+              "name": "Click#15"
+            }
+          ]
+        },
+        {
+          "id": 10945501,
+          "cover": "http://p4.music.126.net/gIXEKP5F4cEVeS97UzxqCQ==/109951165107435916.jpg",
+          "name": "一周热门速报 EP18 高考来了！飞翔吧，少年！",
+          "playCount": 166421,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "一周热门速报",
+          "artistId": 35166909,
+          "duration": 0,
+          "mark": 0,
+          "subed": false,
+          "artists": [
+            {
+              "id": 35166909,
+              "name": "一周热门速报"
+            }
+          ]
+        }
+      ],
+      "more": true,
+      "code": 200
+    }
+  }
+}

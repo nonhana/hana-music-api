@@ -1,0 +1,79 @@
+{
+  "module": "song_url",
+  "query": {
+    "id": 1409311773,
+    "br": 999000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:00:52.514Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "invalid-cookie",
+    "note": "issue #102 B3：song_url 携带失效 Cookie 的会员歌曲试听"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": 1409311773,
+          "url": "http://m802.music.126.net/20261026002552/ee6aa05503862811f59d80be6d4c4993/jd-musicrep-ts/4897/4aa1/0510/3190fe1403ae217c49d55afd450e7b18.mp3?vuutv=bXmS3wHMtEgKTYBN69JqEB467qQ+/ppRj1FvGA+Ru8kjUMwuwo5HTp1hbj1XJy7ewBpyhrlQATkEXiNot9mf2UErPqBPbsOXGHB71bhgXXDAolN8DE9wbf7T1XvqjUcsxuQNqbkpmHE1+xhpelIYkAHWRK3Y/HPBD5ACxKu90mY=",
+          "br": 128012,
+          "size": 481115,
+          "md5": "3190fe1403ae217c49d55afd450e7b18",
+          "code": 200,
+          "expi": 1200,
+          "type": "mp3",
+          "gain": 1.9992,
+          "peak": 0,
+          "closedGain": -6,
+          "closedPeak": 1,
+          "fee": 1,
+          "uf": null,
+          "payed": 0,
+          "flag": 1541124,
+          "canExtend": false,
+          "freeTrialInfo": {
+            "fragmentType": -1,
+            "start": 0,
+            "end": 30,
+            "algData": {
+              "fragSource": "default"
+            }
+          },
+          "level": "standard",
+          "encodeType": "mp3",
+          "channelLayout": null,
+          "freeTrialPrivilege": {
+            "resConsumable": true,
+            "userConsumable": false,
+            "listenType": null,
+            "cannotListenReason": null,
+            "playReason": null,
+            "freeLimitTagType": null
+          },
+          "freeTimeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "type": 0,
+            "remainTime": 0
+          },
+          "urlSource": 0,
+          "rightSource": 0,
+          "podcastCtrp": null,
+          "effectTypes": null,
+          "time": 30040,
+          "message": null,
+          "levelConfuse": null,
+          "musicId": "7988168689",
+          "accompany": null,
+          "sr": 44100,
+          "auEff": 1001,
+          "immerseType": null,
+          "beatType": 0
+        }
+      ],
+      "code": 200
+    }
+  }
+}

@@ -39,6 +39,10 @@ const result = await videoTimelineAll();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、视频列表 `body.datas` 和每条视频的编号 `datas[].data.vid` 收紧；`creator` 复用宽松的 `PlaylistUser`，`resolutions[]`、`videoGroup[]`、`markTypes`、`relateSong[]`（宽松字段里套着的歌曲记录）和其他详情字段宽松。`extAlg`、`relatedInfo`、`urlInfo`、`videoUserLiveInfo` 只见过 `null`，没有声明。越界 `offset` 返回 `datas: []`、`hasmore: false`（录制 `video_timeline_all.empty.json`），空数组是正常结果。登录录制（`video_timeline_all.authenticated.json`）的差异只在宽松字段：`relateSong` 出现歌曲记录、`markTypes` 从 `null` 变成 `[110]`；`creator.experts` 的键集合差异也只在这个模块出现——匿名录制里有 `{1,2}`，登录只有 `{1}` 或 `null`。结构定义和类型是 `VideoTimelineAllBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口,可获取视频分类列表,分页参数只能传入 offset

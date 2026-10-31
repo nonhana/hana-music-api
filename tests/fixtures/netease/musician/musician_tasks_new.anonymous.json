@@ -1,0 +1,19 @@
+{
+  "module": "musician_tasks_new",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:36:44.195Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B36：musician_tasks_new 匿名返回业务拒绝（code 301）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 301,
+      "message": "用户未登陆",
+      "data": null
+    }
+  }
+}

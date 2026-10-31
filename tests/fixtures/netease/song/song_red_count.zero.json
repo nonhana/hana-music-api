@@ -1,0 +1,23 @@
+{
+  "module": "song_red_count",
+  "query": {
+    "id": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:33:13.623Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B38：song_red_count 不存在/无红心的歌"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "count": 0,
+        "countDesc": "0"
+      }
+    }
+  }
+}

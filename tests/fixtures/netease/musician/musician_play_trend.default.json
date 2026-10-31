@@ -1,0 +1,47 @@
+{
+  "module": "musician_play_trend",
+  "query": {
+    "startTime": "2026-10-19",
+    "endTime": "2026-10-26"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T22:35:50.443Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B36：musician_play_trend 日范围播放趋势正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": [
+        {
+          "dateTime": "2026-10-19",
+          "dataValue": "1"
+        },
+        {
+          "dateTime": "2026-10-20",
+          "dataValue": "0"
+        },
+        {
+          "dateTime": "2026-10-21",
+          "dataValue": "1"
+        },
+        {
+          "dateTime": "2026-10-22",
+          "dataValue": "0"
+        },
+        {
+          "dateTime": "2026-10-23",
+          "dataValue": "15"
+        },
+        {
+          "dateTime": "2026-10-24",
+          "dataValue": "0"
+        }
+      ]
+    }
+  }
+}

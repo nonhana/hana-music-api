@@ -1,0 +1,29 @@
+{
+  "module": "listentogether_sync_list_command",
+  "query": {
+    "roomId": "e0902e73ecee9403a8d393247d6857d2_1792991303",
+    "commandType": "REPLACE",
+    "userId": 900000001,
+    "version": 1,
+    "displayList": "1394617453",
+    "randomList": "1394617453"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:09:04.190Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：一起听同步播放列表；房间由本批 room_create 创建，录完立即 end"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "result": true,
+        "message": ""
+      },
+      "message": ""
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "module": "playlist_update_playcount",
+  "query": {
+    "id": 18526771500
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:53:37.504Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B6：playlist_update_playcount 打卡（临时歌单，已删除）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200
+    }
+  }
+}

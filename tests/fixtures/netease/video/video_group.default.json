@@ -1,0 +1,23 @@
+{
+  "module": "video_group",
+  "query": {
+    "id": 58100
+  },
+  "context": {
+    "recordedAt": "2026-10-25T12:33:55.595Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B10：video_group 分组视频（上游返回 datas: null）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "msg": null,
+      "code": 200,
+      "hasmore": false,
+      "datas": null,
+      "rcmdLimit": 48
+    }
+  }
+}

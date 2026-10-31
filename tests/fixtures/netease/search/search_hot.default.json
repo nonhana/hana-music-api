@@ -1,0 +1,81 @@
+{
+  "module": "search_hot",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T09:36:37.971Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "result": {
+        "hots": [
+          {
+            "first": "季候风",
+            "second": 1,
+            "third": null,
+            "iconType": 1
+          },
+          {
+            "first": "天龙八部之宿敌",
+            "second": 1,
+            "third": null,
+            "iconType": 1
+          },
+          {
+            "first": "The Weeknd",
+            "second": 1,
+            "third": null,
+            "iconType": 1
+          },
+          {
+            "first": "我不难过",
+            "second": 1,
+            "third": null,
+            "iconType": 1
+          },
+          {
+            "first": "第五人格",
+            "second": 1,
+            "third": null,
+            "iconType": 1
+          },
+          {
+            "first": "99",
+            "second": 1,
+            "third": null,
+            "iconType": 1
+          },
+          {
+            "first": "不死鸟",
+            "second": 1,
+            "third": null,
+            "iconType": 1
+          },
+          {
+            "first": "雨爱",
+            "second": 1,
+            "third": null,
+            "iconType": 1
+          },
+          {
+            "first": "琵琶曲",
+            "second": 1,
+            "third": null,
+            "iconType": 1
+          },
+          {
+            "first": "HongKong",
+            "second": 1,
+            "third": null,
+            "iconType": 1
+          }
+        ]
+      }
+    }
+  }
+}

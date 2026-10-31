@@ -1,0 +1,182 @@
+{
+  "module": "user_social_status_support",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T03:47:29.835Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B46：user_social_status_support 登录可设置状态列表；匿名调用返回 code 302，未保留"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [
+        {
+          "type": "LISTENING",
+          "iconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/11399985289/69a6/da34/93a3/ed7abfe26cd6481d43d99fde73091cef.png",
+          "content": "最近在听歌",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "GONGYI",
+          "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/62773927859/bedf/a784/5051/4c37b63cf1a008c05b5b4a016f5c6b07.png",
+          "content": "做公益",
+          "actionUrl": "orpheus://rnpage?component=rn-cloudshell-center",
+          "vistorUrl": "orpheus://rnpage?component=rn-cloudshell-center",
+          "canEdit": false,
+          "desc": "参与公益点亮状态"
+        },
+        {
+          "type": "EMOJI_TEXT_32",
+          "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/63713987226/e923/fc07/3226/04a3f91b50fc4b4c77dc07d4c4364f34.png",
+          "content": "找人一起听",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_19",
+          "iconUrl": "https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/12636512787/c34f/5242/8e46/9ab780c83343a72cb9dc1459a85f0bc1.png",
+          "content": "加油",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_15",
+          "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/12020914951/8137/620d/b2fc/b7f0189889945b8f77275e57891197da.png",
+          "content": "emo",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_29",
+          "iconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/13724202709/d1f9/e7b9/18f0/49bfb2d90bc4d737302caeaae5c302a3.png",
+          "content": "等春天",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_30",
+          "iconUrl": "https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/13724203403/0089/c037/4bf8/9a70702094a0b5e5c9f6ecfc33795b32.png",
+          "content": "超开心",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_13",
+          "iconUrl": "https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/11301097573/8433/390f/bb15/66028c8667f08411f863450c44806b81.png",
+          "content": "恋爱中",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_2",
+          "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/12020909971/66d1/972c/9d0b/301a5ee12e585107b867181862a58be3.png",
+          "content": "想恋爱",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_11",
+          "iconUrl": "https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/11301098022/7ef0/aa3f/ac8e/3d1fa17ab6ac05609e9a43655e0c5eeb.png",
+          "content": "求推歌",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_4",
+          "iconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/11301096685/f41a/d39c/fde4/cce470ce5ddeaf01bb375f20457fa779.png",
+          "content": "许个愿",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_5",
+          "iconUrl": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/12020913874/c312/3011/5563/e20f94ca65bdcf7e86ff71a181522d5c.png",
+          "content": "准备考试",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_18",
+          "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/12020914678/d6cd/1a1d/16d2/00e3c66ad34256eb29ff0bc4246d1432.png",
+          "content": "等待中",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_12",
+          "iconUrl": "https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/11301096683/3eff/29bb/47fe/bc97d26e62acef0adb9354f7d1df8f42.png",
+          "content": "头秃",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_8",
+          "iconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/11428607925/b122/d142/13aa/99dc0b172a892e019e1fae7591c9daea.png",
+          "content": "失眠",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_14",
+          "iconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/11301097575/cde3/81d0/9e3b/03f31a2111c100d5395e41809d6fc268.png",
+          "content": "爱学习",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_17",
+          "iconUrl": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/12020914377/ca05/a2a7/b692/0070b9f70e09ca4c99bcd61a2e131634.png",
+          "content": "睡觉中",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        {
+          "type": "EMOJI_TEXT_1",
+          "iconUrl": "https://p6.music.126.net/obj/wo3DlcOGw6DClTvDisK1/11301098020/1180/7998/6d21/e879e872d597c9ed886b0cb3833270c7.png",
+          "content": "互粉必关",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        }
+      ],
+      "message": ""
+    }
+  }
+}

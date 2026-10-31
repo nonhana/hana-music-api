@@ -1,0 +1,25 @@
+{
+  "module": "user_social_status_edit",
+  "query": {
+    "type": "",
+    "iconUrl": "",
+    "content": ""
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:09:37.889Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：user_social_status_edit 清空尝试（四个字段全空）；上游返回 code 500 设置状态失败，状态未改变；该模块不能清空状态，状态在模块外用 content 为空的原始请求恢复，恢复后回读 user_social_status 的 data 为空对象"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 500,
+      "message": "设置状态失败",
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

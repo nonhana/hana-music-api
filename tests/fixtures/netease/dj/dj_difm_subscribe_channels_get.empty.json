@@ -1,0 +1,19 @@
+{
+  "module": "dj_difm_subscribe_channels_get",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T15:27:54.157Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B12：DI.FM 已收藏频道；匿名/登录与 sources [0]/[1] 都是空 data"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [],
+      "message": ""
+    }
+  }
+}

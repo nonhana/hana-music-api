@@ -1,0 +1,23 @@
+{
+  "module": "msg_forwards",
+  "query": {
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:29:50.016Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B20：@我（越界 offset 空结果）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "newCount": 0,
+      "lasttime": 0,
+      "more": false,
+      "forwards": [],
+      "code": 200
+    }
+  }
+}

@@ -49,6 +49,10 @@ const result = await commentNew({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data.comments`、`body.data.comments[].commentId` 收紧；每条 v2 评论复用 `CommentRecord` 后额外声明 `args`、`threadId`、`track`、`replyCount`、`privacy`、`repliedMark`、`highlight`、`userTop`、`voiceDurationMillSecond`、`showFloorComment`、`extInfo`、`commentVideoVO`，用户额外声明 `encryptUserId`、`isHug` 和会员角标 `vipRights.extInfo.logo`。`data` 里的 `commentsTitle`、`currentCommentTitle`、`cursor`、`expandCount`、`hasMore`、`likeAnimation`、`newReplyExpGroupName`、`sortType`、`sortTypeList`、`style`、`totalCount` 宽松；`tag`、`likeAnimationMap`、`outShowComments` 只见过空容器或 `null`，没有声明，原样保留。无评论资源（录制 `comment_new.empty.json`，云盘歌曲 1984488794；私有云盘上传，匿名不可见，`total: 0` 可能来自匿名不可访问）返回 `comments: []`、`totalCount: 0`；非空录制 `comment_new.default.json`（歌曲 2092595510）保留覆盖各字段的非连续 6 条（原 27 条，`context.truncated.length` 记原长度）。登录对照先用 `login_status` 确认 `account.anonimousUser: false`，只抽查了本批匿名录制中非 `null` 的路径与类型；登录录制未保留；不对公开结构作相同性断言。
+
 ## 补充说明
 
 说明 : 调用此接口，传入资源类型和资源 id,以及排序方式,可获取对应资源的评论

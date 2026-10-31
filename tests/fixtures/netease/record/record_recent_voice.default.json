@@ -1,0 +1,4307 @@
+{
+  "module": "record_recent_voice",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:40:24.943Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B34：record_recent_voice 正常返回；body.data.list 100→10 条",
+    "truncated": [
+      {
+        "path": "body.data.list",
+        "length": 100
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "total": 100,
+        "list": [
+          {
+            "resourceId": "3064901323",
+            "playTime": 1779170341126,
+            "resourceType": "VOICE",
+            "data": {
+              "pubDJProgramData": {
+                "extProperties": null,
+                "mainSong": {
+                  "name": "蒋雪儿&等什么君-莫问归期+辞九门0.9xdj阿玄",
+                  "id": 2640545375,
+                  "position": 0,
+                  "alias": [],
+                  "status": 0,
+                  "fee": 0,
+                  "copyrightId": 0,
+                  "disc": "",
+                  "no": 0,
+                  "artists": [
+                    {
+                      "name": "--小雷同志",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    }
+                  ],
+                  "album": {
+                    "name": "[DJ节目]--小雷同志的DJ节目 第5期",
+                    "id": 0,
+                    "type": null,
+                    "size": 0,
+                    "picId": 109951170033185800,
+                    "blurPicUrl": "http://p4.music.126.net/vHV2f_ekuAToWLwIC7d0fg==/109951170033185794.jpg",
+                    "companyId": 0,
+                    "pic": 109951170033185800,
+                    "picUrl": "http://p4.music.126.net/vHV2f_ekuAToWLwIC7d0fg==/109951170033185794.jpg",
+                    "publishTime": 0,
+                    "description": "",
+                    "tags": "",
+                    "company": null,
+                    "briefDesc": "",
+                    "artist": {
+                      "name": "--小雷同志",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    },
+                    "songs": [],
+                    "alias": [],
+                    "status": 0,
+                    "copyrightId": 0,
+                    "commentThreadId": "R_AL_3_0",
+                    "artists": [
+                      {
+                        "name": "--小雷同志",
+                        "id": 0,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "",
+                        "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0,
+                        "topicPerson": 0
+                      }
+                    ],
+                    "subType": null,
+                    "transName": null,
+                    "onSale": false,
+                    "mark": 0,
+                    "gapless": 0,
+                    "dolbyMark": 0,
+                    "picId_str": "109951170033185794"
+                  },
+                  "starred": false,
+                  "popularity": 5,
+                  "score": 5,
+                  "starredNum": 0,
+                  "duration": 238942,
+                  "playedNum": 0,
+                  "dayPlays": 0,
+                  "hearTime": 0,
+                  "sqMusic": null,
+                  "hrMusic": null,
+                  "ringtone": null,
+                  "crbt": null,
+                  "audition": null,
+                  "copyFrom": "",
+                  "commentThreadId": "R_SO_4_2640545375",
+                  "rtUrl": null,
+                  "ftype": 0,
+                  "rtUrls": [],
+                  "copyright": 1,
+                  "transName": null,
+                  "sign": null,
+                  "mark": 0,
+                  "originCoverType": 0,
+                  "originSongSimpleData": null,
+                  "single": 0,
+                  "noCopyrightRcmd": null,
+                  "rtype": 0,
+                  "rurl": null,
+                  "hMusic": null,
+                  "mMusic": {
+                    "name": null,
+                    "id": 11629289735,
+                    "size": 7645655,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 255000,
+                    "playTime": 238942,
+                    "volumeDelta": 0
+                  },
+                  "lMusic": {
+                    "name": null,
+                    "id": 11629289735,
+                    "size": 7645655,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 255000,
+                    "playTime": 238942,
+                    "volumeDelta": 0
+                  },
+                  "bMusic": {
+                    "name": null,
+                    "id": 11629289735,
+                    "size": 7645655,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 255000,
+                    "playTime": 238942,
+                    "volumeDelta": 0
+                  },
+                  "mp3Url": null,
+                  "mvid": 0,
+                  "publishTime": 1730006641639
+                },
+                "songs": null,
+                "dj": {
+                  "extProperties": {
+                    "avatarImgId_str": "109951170337007235",
+                    "brand": "小雷同志的精选歌曲"
+                  },
+                  "defaultAvatar": false,
+                  "province": 430000,
+                  "authStatus": 0,
+                  "followed": false,
+                  "avatarUrl": "http://p3.music.126.net/Tcy4wMnKcsXwwFQb-EYteA==/109951170337007235.jpg",
+                  "accountStatus": 0,
+                  "gender": 1,
+                  "city": 430100,
+                  "birthday": 990197745000,
+                  "userId": 3725552429,
+                  "userType": 0,
+                  "nickname": "--小雷同志",
+                  "signature": "",
+                  "description": "",
+                  "detailDescription": "",
+                  "avatarImgId": 109951170337007230,
+                  "backgroundImgId": 109951165222556980,
+                  "backgroundUrl": "http://p3.music.126.net/4womIa1SBHCiZlEA4vfjIA==/109951165222556978.jpg",
+                  "authority": 0,
+                  "mutual": false,
+                  "expertTags": null,
+                  "experts": null,
+                  "djStatus": 10,
+                  "vipType": 0,
+                  "remarkName": null,
+                  "backgroundImgIdStr": "109951165222556978",
+                  "avatarImgIdStr": "109951170337007235",
+                  "xInfo": {
+                    "avatarImgId_str": "109951170337007235",
+                    "brand": "小雷同志的精选歌曲"
+                  }
+                },
+                "blurCoverUrl": null,
+                "radio": {
+                  "extProperties": {
+                    "subed": false
+                  },
+                  "id": 1214338656,
+                  "dj": null,
+                  "name": "小雷同志的精选歌曲",
+                  "picUrl": "http://p4.music.126.net/inLFIUgdbZ3wlWdpP_WtSg==/109951170337003400.jpg",
+                  "desc": "幸好思念无声 否则震耳欲聋",
+                  "subCount": 13310,
+                  "programCount": 42,
+                  "createTime": 1728574175582,
+                  "categoryId": 2001,
+                  "category": "创作翻唱",
+                  "secondCategoryId": 6175,
+                  "secondCategory": "歌曲翻唱",
+                  "radioFeeType": 0,
+                  "feeScope": 0,
+                  "buyed": false,
+                  "videos": null,
+                  "finished": false,
+                  "underShelf": false,
+                  "purchaseCount": 0,
+                  "price": 0,
+                  "originalPrice": 0,
+                  "discountPrice": null,
+                  "lastProgramCreateTime": 1792918277948,
+                  "lastProgramName": null,
+                  "lastProgramId": 3731186448,
+                  "picId": 109951170337003400,
+                  "rcmdText": null,
+                  "hightQuality": false,
+                  "whiteList": false,
+                  "liveInfo": null,
+                  "playCount": 0,
+                  "icon": null,
+                  "privacy": false,
+                  "intervenePicUrl": "http://p3.music.126.net/inLFIUgdbZ3wlWdpP_WtSg==/109951170337003400.jpg",
+                  "intervenePicId": 109951170337003400,
+                  "dynamic": false,
+                  "shortName": null,
+                  "taskId": 0,
+                  "manualTagsDTO": null,
+                  "scoreInfoDTO": null,
+                  "descPicList": null,
+                  "subed": false,
+                  "original": "ORIGINAL",
+                  "replaceResource": null,
+                  "immersionCover": null,
+                  "immersionAnimation": null,
+                  "danmakuCount": 0,
+                  "composeVideo": false,
+                  "xInfo": {
+                    "subed": false
+                  }
+                },
+                "subscribedCount": 0,
+                "reward": false,
+                "mainTrackId": 2640545375,
+                "serialNum": 1730006641676,
+                "listenerCount": 994445,
+                "name": "蒋雪儿&等什么君-莫问归期+辞九门0.9xdj阿玄",
+                "id": 3064901323,
+                "createTime": 1730006641681,
+                "description": "谁诀别相思成疾莫问天涯，也莫问归期。",
+                "userId": 3725552429,
+                "coverUrl": "http://p4.music.126.net/vHV2f_ekuAToWLwIC7d0fg==/109951170033185794.jpg",
+                "commentThreadId": "A_DJ_1_3064901323",
+                "channels": ["音乐故事"],
+                "titbits": null,
+                "titbitImages": null,
+                "pubStatus": 1,
+                "trackCount": 1,
+                "bdAuditStatus": 2,
+                "programFeeType": 0,
+                "buyed": false,
+                "programDesc": null,
+                "h5Links": [],
+                "coverId": 109951170033185800,
+                "adjustedPlayCount": 994445,
+                "canReward": false,
+                "auditStatus": 10,
+                "updateTime": 1730007026953,
+                "categoryId": 2001,
+                "category": "创作翻唱",
+                "secondCategoryId": 6175,
+                "secondCategory": "歌曲翻唱",
+                "scheduledPublishTime": 1730006641681,
+                "privacy": false,
+                "disPlayStatus": "NORMAL",
+                "createEventId": 0,
+                "djPlayRecordVo": null,
+                "shortName": null,
+                "price": null,
+                "latestFreeTryStartPoint": null,
+                "latestFreeTryEndPoint": null,
+                "algReason": null,
+                "showAlgReason": null,
+                "icon": null,
+                "replaceResource": null,
+                "songTimeStamps": null,
+                "classicRelationSong": null,
+                "specialTags": null,
+                "duration": 238942,
+                "publish": true,
+                "xInfo": null
+              },
+              "commentCount": 32,
+              "replaceName": null,
+              "icon": null
+            },
+            "os": "osx",
+            "multiTerminalInfo": {
+              "icon": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266364630/cef0/cc7b/8a64/cdfe6c6231d20fb6666563450581183c.png",
+              "osText": "未知",
+              "os": "osx"
+            }
+          },
+          {
+            "resourceId": "3080255180",
+            "playTime": 1768661133595,
+            "resourceType": "VOICE",
+            "data": {
+              "pubDJProgramData": {
+                "extProperties": null,
+                "mainSong": {
+                  "name": "零距离的思念（DJ阿智Remix）",
+                  "id": 2721828501,
+                  "position": 0,
+                  "alias": [],
+                  "status": 0,
+                  "fee": 0,
+                  "copyrightId": 0,
+                  "disc": "",
+                  "no": 0,
+                  "artists": [
+                    {
+                      "name": "DJ阿智",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    }
+                  ],
+                  "album": {
+                    "name": "[DJ节目]DJ阿智的DJ节目 第372期",
+                    "id": 0,
+                    "type": null,
+                    "size": 0,
+                    "picId": 109951167732163760,
+                    "blurPicUrl": "http://p4.music.126.net/TUvepwNDA8YVNo-V_ro8Zw==/109951167732163761.jpg",
+                    "companyId": 0,
+                    "pic": 109951167732163760,
+                    "picUrl": "http://p4.music.126.net/TUvepwNDA8YVNo-V_ro8Zw==/109951167732163761.jpg",
+                    "publishTime": 0,
+                    "description": "",
+                    "tags": "",
+                    "company": null,
+                    "briefDesc": "",
+                    "artist": {
+                      "name": "DJ阿智",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    },
+                    "songs": [],
+                    "alias": [],
+                    "status": 0,
+                    "copyrightId": 0,
+                    "commentThreadId": "R_AL_3_0",
+                    "artists": [
+                      {
+                        "name": "DJ阿智",
+                        "id": 0,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "",
+                        "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0,
+                        "topicPerson": 0
+                      }
+                    ],
+                    "subType": null,
+                    "transName": null,
+                    "onSale": false,
+                    "mark": 0,
+                    "gapless": 0,
+                    "dolbyMark": 0,
+                    "picId_str": "109951167732163761"
+                  },
+                  "starred": false,
+                  "popularity": 5,
+                  "score": 5,
+                  "starredNum": 0,
+                  "duration": 178081,
+                  "playedNum": 0,
+                  "dayPlays": 0,
+                  "hearTime": 0,
+                  "sqMusic": null,
+                  "hrMusic": null,
+                  "ringtone": null,
+                  "crbt": null,
+                  "audition": null,
+                  "copyFrom": "",
+                  "commentThreadId": "R_SO_4_2721828501",
+                  "rtUrl": null,
+                  "ftype": 0,
+                  "rtUrls": [],
+                  "copyright": 1,
+                  "transName": null,
+                  "sign": null,
+                  "mark": 0,
+                  "originCoverType": 0,
+                  "originSongSimpleData": null,
+                  "single": 0,
+                  "noCopyrightRcmd": null,
+                  "rtype": 0,
+                  "rurl": null,
+                  "hMusic": {
+                    "name": null,
+                    "id": 12550133898,
+                    "size": 31413684,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 1411000,
+                    "playTime": 178081,
+                    "volumeDelta": 0
+                  },
+                  "mMusic": null,
+                  "lMusic": {
+                    "name": null,
+                    "id": 12550133898,
+                    "size": 31413684,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 1411000,
+                    "playTime": 178081,
+                    "volumeDelta": 0
+                  },
+                  "bMusic": {
+                    "name": null,
+                    "id": 12550133898,
+                    "size": 31413684,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 1411000,
+                    "playTime": 178081,
+                    "volumeDelta": 0
+                  },
+                  "mp3Url": null,
+                  "mvid": 0,
+                  "publishTime": 1751461108803
+                },
+                "songs": null,
+                "dj": {
+                  "extProperties": {
+                    "avatarImgId_str": "109951168832363658",
+                    "brand": "DJ阿智Remix（单曲集合）"
+                  },
+                  "defaultAvatar": false,
+                  "province": 450000,
+                  "authStatus": 0,
+                  "followed": false,
+                  "avatarUrl": "http://p4.music.126.net/XqQtw4TO-LM2CbBaAyykZg==/109951168832363658.jpg",
+                  "accountStatus": 0,
+                  "gender": 1,
+                  "city": 450800,
+                  "birthday": 1116172800000,
+                  "userId": 5209695636,
+                  "userType": 205,
+                  "nickname": "DJ阿智",
+                  "signature": "本账号(小号）只玩播客\nU盘、订制串烧:DJAZ3333",
+                  "description": "",
+                  "detailDescription": "",
+                  "avatarImgId": 109951168832363660,
+                  "backgroundImgId": 109951168519426560,
+                  "backgroundUrl": "http://p3.music.126.net/AB7SL6fxjBb-Rjq_8dyNHw==/109951168519426557.jpg",
+                  "authority": 0,
+                  "mutual": false,
+                  "expertTags": null,
+                  "experts": null,
+                  "djStatus": 10,
+                  "vipType": 11,
+                  "remarkName": null,
+                  "backgroundImgIdStr": "109951168519426557",
+                  "avatarImgIdStr": "109951168832363658",
+                  "xInfo": {
+                    "avatarImgId_str": "109951168832363658",
+                    "brand": "DJ阿智Remix（单曲集合）"
+                  }
+                },
+                "blurCoverUrl": null,
+                "radio": {
+                  "extProperties": {
+                    "subed": false
+                  },
+                  "id": 979457519,
+                  "dj": null,
+                  "name": "DJ阿智Remix（单曲集合）",
+                  "picUrl": "http://p4.music.126.net/TUvepwNDA8YVNo-V_ro8Zw==/109951167732163761.jpg",
+                  "desc": "欢迎收听",
+                  "subCount": 1852620,
+                  "programCount": 437,
+                  "createTime": 1659193751220,
+                  "categoryId": 10002,
+                  "category": "电音",
+                  "secondCategoryId": 450058,
+                  "secondCategory": "remix",
+                  "radioFeeType": 0,
+                  "feeScope": 0,
+                  "buyed": false,
+                  "videos": null,
+                  "finished": false,
+                  "underShelf": false,
+                  "purchaseCount": 0,
+                  "price": 0,
+                  "originalPrice": 0,
+                  "discountPrice": null,
+                  "lastProgramCreateTime": 1792514099681,
+                  "lastProgramName": null,
+                  "lastProgramId": 3730727162,
+                  "picId": 109951167732163760,
+                  "rcmdText": null,
+                  "hightQuality": false,
+                  "whiteList": false,
+                  "liveInfo": null,
+                  "playCount": 0,
+                  "icon": null,
+                  "privacy": false,
+                  "intervenePicUrl": "http://p4.music.126.net/TUvepwNDA8YVNo-V_ro8Zw==/109951167732163761.jpg",
+                  "intervenePicId": 109951167732163760,
+                  "dynamic": false,
+                  "shortName": null,
+                  "taskId": 0,
+                  "manualTagsDTO": null,
+                  "scoreInfoDTO": null,
+                  "descPicList": [
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "欢迎收听",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    }
+                  ],
+                  "subed": false,
+                  "original": "ORIGINAL",
+                  "replaceResource": null,
+                  "immersionCover": null,
+                  "immersionAnimation": null,
+                  "danmakuCount": 0,
+                  "composeVideo": false,
+                  "xInfo": {
+                    "subed": false
+                  }
+                },
+                "subscribedCount": 0,
+                "reward": false,
+                "mainTrackId": 2721828501,
+                "serialNum": 1751461108185,
+                "listenerCount": 38389672,
+                "name": "零距离的思念（DJ阿智Remix）",
+                "id": 3080255180,
+                "createTime": 1751461108193,
+                "description": "欢迎收听",
+                "userId": 5209695636,
+                "coverUrl": "http://p3.music.126.net/TUvepwNDA8YVNo-V_ro8Zw==/109951167732163761.jpg",
+                "commentThreadId": "A_DJ_1_3080255180",
+                "channels": [],
+                "titbits": null,
+                "titbitImages": null,
+                "pubStatus": 1,
+                "trackCount": 0,
+                "bdAuditStatus": 2,
+                "programFeeType": 0,
+                "buyed": false,
+                "programDesc": null,
+                "h5Links": [],
+                "coverId": 109951167732163760,
+                "adjustedPlayCount": 38389672,
+                "canReward": false,
+                "auditStatus": 10,
+                "updateTime": 1751461115746,
+                "categoryId": 10002,
+                "category": "电音",
+                "secondCategoryId": 450058,
+                "secondCategory": "remix",
+                "scheduledPublishTime": 1751461108193,
+                "privacy": false,
+                "disPlayStatus": "NORMAL",
+                "createEventId": 0,
+                "djPlayRecordVo": null,
+                "shortName": null,
+                "price": null,
+                "latestFreeTryStartPoint": null,
+                "latestFreeTryEndPoint": null,
+                "algReason": null,
+                "showAlgReason": null,
+                "icon": null,
+                "replaceResource": null,
+                "songTimeStamps": null,
+                "classicRelationSong": null,
+                "specialTags": null,
+                "duration": 178081,
+                "publish": true,
+                "xInfo": null
+              },
+              "commentCount": 447,
+              "replaceName": null,
+              "icon": null
+            },
+            "os": "pc",
+            "multiTerminalInfo": {
+              "icon": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266364630/cef0/cc7b/8a64/cdfe6c6231d20fb6666563450581183c.png",
+              "osText": "未知",
+              "os": "pc"
+            }
+          },
+          {
+            "resourceId": "3711822207",
+            "playTime": 1768566453934,
+            "resourceType": "VOICE",
+            "data": {
+              "pubDJProgramData": {
+                "extProperties": null,
+                "mainSong": {
+                  "name": "[无割舍者] SAIKAI",
+                  "id": 3339445467,
+                  "position": 0,
+                  "alias": [],
+                  "status": 0,
+                  "fee": 0,
+                  "copyrightId": 0,
+                  "disc": "",
+                  "no": 0,
+                  "artists": [
+                    {
+                      "name": "Setrailiess",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    }
+                  ],
+                  "album": {
+                    "name": null,
+                    "id": 0,
+                    "type": null,
+                    "size": 0,
+                    "picId": 0,
+                    "blurPicUrl": null,
+                    "companyId": 0,
+                    "pic": 0,
+                    "picUrl": "http://p4.music.126.net/0ju8ET1ApZSXfWacc4w49w==/109951169484091680.jpg",
+                    "publishTime": 0,
+                    "description": "",
+                    "tags": "",
+                    "company": null,
+                    "briefDesc": "",
+                    "artist": {
+                      "name": "",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    },
+                    "songs": [],
+                    "alias": [],
+                    "status": 0,
+                    "copyrightId": 0,
+                    "commentThreadId": "R_AL_3_0",
+                    "artists": [
+                      {
+                        "name": "",
+                        "id": 0,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "",
+                        "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0,
+                        "topicPerson": 0
+                      }
+                    ],
+                    "subType": null,
+                    "transName": null,
+                    "onSale": false,
+                    "mark": 0,
+                    "gapless": 0,
+                    "dolbyMark": 0
+                  },
+                  "starred": false,
+                  "popularity": 5,
+                  "score": 5,
+                  "starredNum": 0,
+                  "duration": 323946,
+                  "playedNum": 0,
+                  "dayPlays": 0,
+                  "hearTime": 0,
+                  "sqMusic": null,
+                  "hrMusic": null,
+                  "ringtone": null,
+                  "crbt": null,
+                  "audition": null,
+                  "copyFrom": "",
+                  "commentThreadId": "R_SO_4_3339445467",
+                  "rtUrl": null,
+                  "ftype": 0,
+                  "rtUrls": [],
+                  "copyright": 1,
+                  "transName": null,
+                  "sign": null,
+                  "mark": 0,
+                  "originCoverType": 0,
+                  "originSongSimpleData": null,
+                  "single": 0,
+                  "noCopyrightRcmd": null,
+                  "rtype": 0,
+                  "rurl": null,
+                  "hMusic": {
+                    "name": null,
+                    "id": 16018189148,
+                    "size": 62197804,
+                    "extension": "mp3",
+                    "sr": 48000,
+                    "dfsId": 0,
+                    "bitrate": 1536000,
+                    "playTime": 323946,
+                    "volumeDelta": 0
+                  },
+                  "mMusic": null,
+                  "lMusic": {
+                    "name": null,
+                    "id": 16018189148,
+                    "size": 62197804,
+                    "extension": "mp3",
+                    "sr": 48000,
+                    "dfsId": 0,
+                    "bitrate": 1536000,
+                    "playTime": 323946,
+                    "volumeDelta": 0
+                  },
+                  "bMusic": {
+                    "name": null,
+                    "id": 16018189148,
+                    "size": 62197804,
+                    "extension": "mp3",
+                    "sr": 48000,
+                    "dfsId": 0,
+                    "bitrate": 1536000,
+                    "playTime": 323946,
+                    "volumeDelta": 0
+                  },
+                  "mp3Url": null,
+                  "mvid": 0,
+                  "publishTime": 1768452406656
+                },
+                "songs": null,
+                "dj": {
+                  "extProperties": {
+                    "avatarImgId_str": "109951168255421777",
+                    "brand": "《边狱公司》游戏原声OST全收录"
+                  },
+                  "defaultAvatar": false,
+                  "province": 310000,
+                  "authStatus": 0,
+                  "followed": false,
+                  "avatarUrl": "http://p3.music.126.net/-PQnsxRWqbi3OjQddG-LRw==/109951168255421777.jpg",
+                  "accountStatus": 0,
+                  "gender": 1,
+                  "city": 310101,
+                  "birthday": 1070787930763,
+                  "userId": 377904956,
+                  "userType": 207,
+                  "nickname": "Setrailiess",
+                  "signature": "You know the rules",
+                  "description": "",
+                  "detailDescription": "",
+                  "avatarImgId": 109951168255421780,
+                  "backgroundImgId": 109951165177160670,
+                  "backgroundUrl": "http://p3.music.126.net/XleaNWWnhdWtXShS3jRyKw==/109951165177160665.jpg",
+                  "authority": 0,
+                  "mutual": false,
+                  "expertTags": null,
+                  "experts": null,
+                  "djStatus": 10,
+                  "vipType": 11,
+                  "remarkName": null,
+                  "backgroundImgIdStr": "109951165177160665",
+                  "avatarImgIdStr": "109951168255421777",
+                  "xInfo": {
+                    "avatarImgId_str": "109951168255421777",
+                    "brand": "《边狱公司》游戏原声OST全收录"
+                  }
+                },
+                "blurCoverUrl": null,
+                "radio": {
+                  "extProperties": {
+                    "subed": false
+                  },
+                  "id": 986691390,
+                  "dj": null,
+                  "name": "《边狱公司》游戏原声OST全收录",
+                  "picUrl": "http://p4.music.126.net/VgpUTn6XG25rH6JZ0vpW6A==/109951173575563731.jpg",
+                  "desc": "【直面罪孽，存续自我】【催更群562708395】本播客收录《边狱公司（Limbus Company）》原声OST（曲目按章节发布时间排序）。持续更新中，关注、收藏、进入催更群即可获取第一手更新消息。定制化内容可加入催更群催更。B站搜索都市零协会汉化组获取第一手月计官方保障的汉化补丁与月计公告消息。解包由hxd阿沐支持。若有遗漏的BGM，可以私信我。谢谢各位经理的支持。",
+                  "subCount": 36930,
+                  "programCount": 496,
+                  "createTime": 1679109414511,
+                  "categoryId": 3001,
+                  "category": "二次元",
+                  "secondCategoryId": 3085096,
+                  "secondCategory": "游戏",
+                  "radioFeeType": 0,
+                  "feeScope": 0,
+                  "buyed": false,
+                  "videos": null,
+                  "finished": false,
+                  "underShelf": false,
+                  "purchaseCount": 0,
+                  "price": 0,
+                  "originalPrice": 0,
+                  "discountPrice": null,
+                  "lastProgramCreateTime": 1790829785922,
+                  "lastProgramName": null,
+                  "lastProgramId": 3729457981,
+                  "picId": 109951173575563730,
+                  "rcmdText": null,
+                  "hightQuality": false,
+                  "whiteList": false,
+                  "liveInfo": null,
+                  "playCount": 0,
+                  "icon": null,
+                  "privacy": false,
+                  "intervenePicUrl": "http://p4.music.126.net/VgpUTn6XG25rH6JZ0vpW6A==/109951173575563731.jpg",
+                  "intervenePicId": 109951173575563730,
+                  "dynamic": false,
+                  "shortName": null,
+                  "taskId": 0,
+                  "manualTagsDTO": null,
+                  "scoreInfoDTO": null,
+                  "descPicList": [
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "【直面罪孽，存续自我】【催更群562708395】本播客收录《边狱公司（Limbus Company）》原声OST（曲目按章节发布时间排序）。持续更新中，关注、收藏、进入催更群即可获取第一手更新消息。定制化内容可加入催更群催更。B站搜索都市零协会汉化组获取第一手月计官方保障的汉化补丁与月计公告消息。解包由hxd阿沐支持。若有遗漏的BGM，可以私信我。谢谢各位经理的支持。",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    }
+                  ],
+                  "subed": false,
+                  "original": "ORIGINAL",
+                  "replaceResource": null,
+                  "immersionCover": null,
+                  "immersionAnimation": null,
+                  "danmakuCount": 0,
+                  "composeVideo": false,
+                  "xInfo": {
+                    "subed": false
+                  }
+                },
+                "subscribedCount": 0,
+                "reward": false,
+                "mainTrackId": 3339445467,
+                "serialNum": 1768452405608,
+                "listenerCount": 945939,
+                "name": "[无割舍者] SAIKAI",
+                "id": 3711822207,
+                "createTime": 1768452405613,
+                "description": "Battle_Cp9_Boss_10_AR",
+                "userId": 377904956,
+                "coverUrl": "http://p4.music.126.net/XahBU1mn9VmLtbf3LCH_jw==/109951172590901032.jpg",
+                "commentThreadId": "A_DJ_1_3711822207",
+                "channels": [],
+                "titbits": null,
+                "titbitImages": null,
+                "pubStatus": 5,
+                "trackCount": 0,
+                "bdAuditStatus": 2,
+                "programFeeType": 0,
+                "buyed": false,
+                "programDesc": null,
+                "h5Links": [],
+                "coverId": 109951172590901020,
+                "adjustedPlayCount": 945939,
+                "canReward": false,
+                "auditStatus": 10,
+                "updateTime": 1768453382240,
+                "categoryId": 3001,
+                "category": "二次元",
+                "secondCategoryId": 3085096,
+                "secondCategory": "游戏",
+                "scheduledPublishTime": 1768452405613,
+                "privacy": false,
+                "disPlayStatus": "NORMAL",
+                "createEventId": 0,
+                "djPlayRecordVo": null,
+                "shortName": null,
+                "price": null,
+                "latestFreeTryStartPoint": null,
+                "latestFreeTryEndPoint": null,
+                "algReason": null,
+                "showAlgReason": null,
+                "icon": null,
+                "replaceResource": null,
+                "songTimeStamps": null,
+                "classicRelationSong": null,
+                "specialTags": null,
+                "duration": 323946,
+                "publish": true,
+                "xInfo": null
+              },
+              "commentCount": 166,
+              "replaceName": null,
+              "icon": null
+            },
+            "os": "osx",
+            "multiTerminalInfo": {
+              "icon": "https://p6.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266364630/cef0/cc7b/8a64/cdfe6c6231d20fb6666563450581183c.png",
+              "osText": "未知",
+              "os": "osx"
+            }
+          },
+          {
+            "resourceId": "2064556849",
+            "playTime": 1731261325523,
+            "resourceType": "VOICE",
+            "data": {
+              "pubDJProgramData": {
+                "extProperties": null,
+                "mainSong": {
+                  "name": "277身无分文的乐天派",
+                  "id": 1409633332,
+                  "position": 0,
+                  "alias": [],
+                  "status": 0,
+                  "fee": 0,
+                  "copyrightId": 0,
+                  "disc": "",
+                  "no": 0,
+                  "artists": [
+                    {
+                      "name": "王东",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    }
+                  ],
+                  "album": {
+                    "name": null,
+                    "id": 0,
+                    "type": null,
+                    "size": 0,
+                    "picId": 0,
+                    "blurPicUrl": null,
+                    "companyId": 0,
+                    "pic": 0,
+                    "picUrl": "http://p4.music.126.net/0ju8ET1ApZSXfWacc4w49w==/109951169484091680.jpg",
+                    "publishTime": 0,
+                    "description": "",
+                    "tags": "",
+                    "company": null,
+                    "briefDesc": "",
+                    "artist": {
+                      "name": "",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    },
+                    "songs": [],
+                    "alias": [],
+                    "status": 0,
+                    "copyrightId": 0,
+                    "commentThreadId": "R_AL_3_0",
+                    "artists": [
+                      {
+                        "name": "",
+                        "id": 0,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "",
+                        "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0,
+                        "topicPerson": 0
+                      }
+                    ],
+                    "subType": null,
+                    "transName": null,
+                    "onSale": false,
+                    "mark": 0,
+                    "gapless": 0,
+                    "dolbyMark": 0
+                  },
+                  "starred": false,
+                  "popularity": 5,
+                  "score": 5,
+                  "starredNum": 0,
+                  "duration": 1778076,
+                  "playedNum": 0,
+                  "dayPlays": 0,
+                  "hearTime": 0,
+                  "sqMusic": null,
+                  "hrMusic": null,
+                  "ringtone": null,
+                  "crbt": null,
+                  "audition": null,
+                  "copyFrom": "",
+                  "commentThreadId": "R_SO_4_1409633332",
+                  "rtUrl": null,
+                  "ftype": 0,
+                  "rtUrls": [],
+                  "copyright": 1,
+                  "transName": null,
+                  "sign": null,
+                  "mark": 0,
+                  "originCoverType": 0,
+                  "originSongSimpleData": null,
+                  "single": 0,
+                  "noCopyrightRcmd": null,
+                  "rtype": 0,
+                  "rurl": null,
+                  "hMusic": {
+                    "name": null,
+                    "id": 4250864333,
+                    "size": 71127165,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 320000,
+                    "playTime": 1778076,
+                    "volumeDelta": 0
+                  },
+                  "mMusic": null,
+                  "lMusic": {
+                    "name": null,
+                    "id": 4250864333,
+                    "size": 71127165,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 320000,
+                    "playTime": 1778076,
+                    "volumeDelta": 0
+                  },
+                  "bMusic": {
+                    "name": null,
+                    "id": 4250864333,
+                    "size": 71127165,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 320000,
+                    "playTime": 1778076,
+                    "volumeDelta": 0
+                  },
+                  "mp3Url": null,
+                  "mvid": 0,
+                  "publishTime": 1576333592077
+                },
+                "songs": null,
+                "dj": {
+                  "extProperties": {
+                    "avatarImgId_str": "109951165712073465",
+                    "brand": "王东电台"
+                  },
+                  "defaultAvatar": false,
+                  "province": 110000,
+                  "authStatus": 1,
+                  "followed": false,
+                  "avatarUrl": "http://p4.music.126.net/Zhtu28KaH8PASOMtymlBdA==/109951165712073465.jpg",
+                  "accountStatus": 0,
+                  "gender": 1,
+                  "city": 110101,
+                  "birthday": 1198906812000,
+                  "userId": 21002,
+                  "userType": 1,
+                  "nickname": "王东",
+                  "signature": "著名节目主持人、中国最具影响力电台DJ，流行音乐专家，超女快男等节目金牌评委。\n短视频平台-dou🎵、🍠、视*号：东叔慢生活",
+                  "description": "著名主持人，电台DJ，选秀评委",
+                  "detailDescription": "资深DJ，爱音乐爱广播的人都会听过他的节目。",
+                  "avatarImgId": 109951165712073470,
+                  "backgroundImgId": 3263350522566501,
+                  "backgroundUrl": "http://p4.music.126.net/nctJdOuUgOkNE735xM0woQ==/3263350522566501.jpg",
+                  "authority": 3,
+                  "mutual": false,
+                  "expertTags": null,
+                  "experts": null,
+                  "djStatus": 10,
+                  "vipType": 11,
+                  "remarkName": null,
+                  "backgroundImgIdStr": "3263350522566501",
+                  "avatarImgIdStr": "109951165712073465",
+                  "xInfo": {
+                    "avatarImgId_str": "109951165712073465",
+                    "brand": "王东电台"
+                  }
+                },
+                "blurCoverUrl": null,
+                "radio": {
+                  "extProperties": {
+                    "subed": false
+                  },
+                  "id": 12,
+                  "dj": null,
+                  "name": "王东电台",
+                  "picUrl": "http://p4.music.126.net/KKrba-weqXO8IM7BNQgQFg==/109951169144288504.jpg",
+                  "desc": "原#王东电台#节目。带给你最有品质的音乐！",
+                  "subCount": 197627,
+                  "programCount": 539,
+                  "createTime": 1359010170582,
+                  "categoryId": 2,
+                  "category": "音乐播客",
+                  "secondCategoryId": 466052,
+                  "secondCategory": "音乐故事",
+                  "radioFeeType": 0,
+                  "feeScope": 0,
+                  "buyed": false,
+                  "videos": null,
+                  "finished": false,
+                  "underShelf": false,
+                  "purchaseCount": 0,
+                  "price": 0,
+                  "originalPrice": 0,
+                  "discountPrice": null,
+                  "lastProgramCreateTime": 1743946001026,
+                  "lastProgramName": null,
+                  "lastProgramId": 3075166448,
+                  "picId": 109951169144288510,
+                  "rcmdText": "【独家】DJ王东带给你最有品质的音乐",
+                  "hightQuality": false,
+                  "whiteList": true,
+                  "liveInfo": null,
+                  "playCount": 0,
+                  "icon": null,
+                  "privacy": false,
+                  "intervenePicUrl": "http://p4.music.126.net/KKrba-weqXO8IM7BNQgQFg==/109951169144288504.jpg",
+                  "intervenePicId": 109951169144288510,
+                  "dynamic": false,
+                  "shortName": null,
+                  "taskId": 0,
+                  "manualTagsDTO": null,
+                  "scoreInfoDTO": null,
+                  "descPicList": [
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "原#王东电台#节目。带给你最有品质的音乐！",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    }
+                  ],
+                  "subed": false,
+                  "original": "ORIGINAL",
+                  "replaceResource": null,
+                  "immersionCover": null,
+                  "immersionAnimation": null,
+                  "danmakuCount": 0,
+                  "composeVideo": false,
+                  "xInfo": {
+                    "subed": false
+                  }
+                },
+                "subscribedCount": 0,
+                "reward": false,
+                "mainTrackId": 1409633332,
+                "serialNum": 1576333910551,
+                "listenerCount": 170186,
+                "name": "277身无分文的乐天派",
+                "id": 2064556849,
+                "createTime": 1576333910551,
+                "description": "什么时候最不担心钱财，应该是年轻的时候，因为年轻便是资本，是财富。所以，即使没有钱，也不会太过慌乱，仿佛总有一道门为他打开。欢迎收听#王东电台#——身无分文的乐天派。是的，即使身无分文，也要安土乐天。\n\n欢迎关注微信公众号：王东电台 音乐东馆\n欢迎订阅另两档节目——《音乐三人行》和《进化生活》\n\n支持#王东电台#就将节目转发到你的朋友圈和微博！诚挚感谢！",
+                "userId": 21002,
+                "coverUrl": "http://p4.music.126.net/2cnp6S801nDVwdTimfnVFA==/109951164549519856.jpg",
+                "commentThreadId": "A_DJ_1_2064556849",
+                "channels": ["音乐故事"],
+                "titbits": null,
+                "titbitImages": null,
+                "pubStatus": 1,
+                "trackCount": 8,
+                "bdAuditStatus": -1,
+                "programFeeType": 0,
+                "buyed": false,
+                "programDesc": null,
+                "h5Links": [],
+                "coverId": 109951164549519860,
+                "adjustedPlayCount": 170186,
+                "canReward": false,
+                "auditStatus": 10,
+                "updateTime": 1576333910554,
+                "categoryId": 2,
+                "category": "音乐播客",
+                "secondCategoryId": 466052,
+                "secondCategory": "音乐故事",
+                "scheduledPublishTime": 1576333910551,
+                "privacy": false,
+                "disPlayStatus": "NORMAL",
+                "createEventId": 0,
+                "djPlayRecordVo": null,
+                "shortName": "张震岳《两手空空》，身无分文的乐天派",
+                "price": null,
+                "latestFreeTryStartPoint": null,
+                "latestFreeTryEndPoint": null,
+                "algReason": null,
+                "showAlgReason": null,
+                "icon": null,
+                "replaceResource": null,
+                "songTimeStamps": null,
+                "classicRelationSong": null,
+                "specialTags": ["XIAYI"],
+                "duration": 1778076,
+                "publish": true,
+                "xInfo": null
+              },
+              "commentCount": 67,
+              "replaceName": null,
+              "icon": null
+            },
+            "os": "android",
+            "multiTerminalInfo": {
+              "icon": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266366095/5341/a415/1103/fac10cdcd9740b97c5233f3457aa0ee4.png",
+              "osText": "移动端",
+              "os": "android"
+            }
+          },
+          {
+            "resourceId": "3061261022",
+            "playTime": 1728444538573,
+            "resourceType": "VOICE",
+            "data": {
+              "pubDJProgramData": {
+                "extProperties": null,
+                "mainSong": {
+                  "name": "JUMP！BEAT！PLAY！",
+                  "id": 2621796700,
+                  "position": 0,
+                  "alias": [],
+                  "status": 0,
+                  "fee": 0,
+                  "copyrightId": 0,
+                  "disc": "",
+                  "no": 0,
+                  "artists": [
+                    {
+                      "name": "Kar98kurz",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    }
+                  ],
+                  "album": {
+                    "name": null,
+                    "id": 0,
+                    "type": null,
+                    "size": 0,
+                    "picId": 0,
+                    "blurPicUrl": null,
+                    "companyId": 0,
+                    "pic": 0,
+                    "picUrl": "http://p3.music.126.net/0ju8ET1ApZSXfWacc4w49w==/109951169484091680.jpg",
+                    "publishTime": 0,
+                    "description": "",
+                    "tags": "",
+                    "company": null,
+                    "briefDesc": "",
+                    "artist": {
+                      "name": "",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    },
+                    "songs": [],
+                    "alias": [],
+                    "status": 0,
+                    "copyrightId": 0,
+                    "commentThreadId": "R_AL_3_0",
+                    "artists": [
+                      {
+                        "name": "",
+                        "id": 0,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "",
+                        "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0,
+                        "topicPerson": 0
+                      }
+                    ],
+                    "subType": null,
+                    "transName": null,
+                    "onSale": false,
+                    "mark": 0,
+                    "gapless": 0,
+                    "dolbyMark": 0
+                  },
+                  "starred": false,
+                  "popularity": 5,
+                  "score": 5,
+                  "starredNum": 0,
+                  "duration": 132960,
+                  "playedNum": 0,
+                  "dayPlays": 0,
+                  "hearTime": 0,
+                  "sqMusic": null,
+                  "hrMusic": null,
+                  "ringtone": null,
+                  "crbt": null,
+                  "audition": null,
+                  "copyFrom": "",
+                  "commentThreadId": "R_SO_4_2621796700",
+                  "rtUrl": null,
+                  "ftype": 0,
+                  "rtUrls": [],
+                  "copyright": 1,
+                  "transName": null,
+                  "sign": null,
+                  "mark": 0,
+                  "originCoverType": 0,
+                  "originSongSimpleData": null,
+                  "single": 0,
+                  "noCopyrightRcmd": null,
+                  "rtype": 0,
+                  "rurl": null,
+                  "hMusic": {
+                    "name": null,
+                    "id": 11385994060,
+                    "size": 5428658,
+                    "extension": "mp3",
+                    "sr": 48000,
+                    "dfsId": 0,
+                    "bitrate": 320000,
+                    "playTime": 132960,
+                    "volumeDelta": 0
+                  },
+                  "mMusic": null,
+                  "lMusic": {
+                    "name": null,
+                    "id": 11385994060,
+                    "size": 5428658,
+                    "extension": "mp3",
+                    "sr": 48000,
+                    "dfsId": 0,
+                    "bitrate": 320000,
+                    "playTime": 132960,
+                    "volumeDelta": 0
+                  },
+                  "bMusic": {
+                    "name": null,
+                    "id": 11385994060,
+                    "size": 5428658,
+                    "extension": "mp3",
+                    "sr": 48000,
+                    "dfsId": 0,
+                    "bitrate": 320000,
+                    "playTime": 132960,
+                    "volumeDelta": 0
+                  },
+                  "mp3Url": null,
+                  "mvid": 0,
+                  "publishTime": 1724862753278
+                },
+                "songs": null,
+                "dj": {
+                  "extProperties": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  },
+                  "defaultAvatar": false,
+                  "province": 440000,
+                  "authStatus": 0,
+                  "followed": false,
+                  "avatarUrl": "http://p3.music.126.net/iU7QGCMy8DIN5c22Sk1-FQ==/109951167672132926.jpg",
+                  "accountStatus": 0,
+                  "gender": 1,
+                  "city": 440100,
+                  "birthday": 1138780727807,
+                  "userId": 1737370053,
+                  "userType": 0,
+                  "nickname": "Kar98kurz",
+                  "signature": "嗦面中…",
+                  "description": "",
+                  "detailDescription": "",
+                  "avatarImgId": 109951167672132930,
+                  "backgroundImgId": 109951164504008030,
+                  "backgroundUrl": "http://p3.music.126.net/W990omii1QQDj7v5SVlhEQ==/109951164504008032.jpg",
+                  "authority": 0,
+                  "mutual": false,
+                  "expertTags": null,
+                  "experts": null,
+                  "djStatus": 10,
+                  "vipType": 11,
+                  "remarkName": null,
+                  "backgroundImgIdStr": "109951164504008032",
+                  "avatarImgIdStr": "109951167672132926",
+                  "xInfo": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  }
+                },
+                "blurCoverUrl": null,
+                "radio": {
+                  "extProperties": {
+                    "subed": true
+                  },
+                  "id": 977654404,
+                  "dj": null,
+                  "name": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST",
+                  "picUrl": "http://p4.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "desc": "此播客仅作为对原OST的补档，祝各位收听愉快！学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中） 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客Telegram频道：@BlueArchiveMusicChannelThanks 5b25,Eren38324感谢以下人员对本电台的支持：楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）[与你在一起的日常，皆为奇迹！]",
+                  "subCount": 66433,
+                  "programCount": 747,
+                  "createTime": 1655865894651,
+                  "categoryId": 3001,
+                  "category": "二次元",
+                  "secondCategoryId": 3085096,
+                  "secondCategory": "游戏",
+                  "radioFeeType": 0,
+                  "feeScope": 0,
+                  "buyed": false,
+                  "videos": null,
+                  "finished": false,
+                  "underShelf": false,
+                  "purchaseCount": 0,
+                  "price": 0,
+                  "originalPrice": 0,
+                  "discountPrice": null,
+                  "lastProgramCreateTime": 1792634790124,
+                  "lastProgramName": null,
+                  "lastProgramId": 3730865255,
+                  "picId": 109951173110615020,
+                  "rcmdText": null,
+                  "hightQuality": false,
+                  "whiteList": false,
+                  "liveInfo": null,
+                  "playCount": 0,
+                  "icon": null,
+                  "privacy": false,
+                  "intervenePicUrl": "http://p4.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "intervenePicId": 109951173110615020,
+                  "dynamic": false,
+                  "shortName": null,
+                  "taskId": 0,
+                  "manualTagsDTO": null,
+                  "scoreInfoDTO": null,
+                  "descPicList": [
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "此播客仅作为对原OST的补档，祝各位收听愉快！",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Telegram频道：@BlueArchiveMusicChannel",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Thanks 5b25,Eren38324",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "感谢以下人员对本电台的支持：",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "[与你在一起的日常，皆为奇迹！]",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    }
+                  ],
+                  "subed": true,
+                  "original": "ORIGINAL",
+                  "replaceResource": null,
+                  "immersionCover": null,
+                  "immersionAnimation": null,
+                  "danmakuCount": 0,
+                  "composeVideo": false,
+                  "xInfo": {
+                    "subed": true
+                  }
+                },
+                "subscribedCount": 0,
+                "reward": false,
+                "mainTrackId": 2621796700,
+                "serialNum": 1724862345718,
+                "listenerCount": 62183,
+                "name": "JUMP！BEAT！PLAY！",
+                "id": 3061261022,
+                "createTime": 1724862345723,
+                "description": "《蔚蓝档案》游戏开发部主题曲【JUMP！BEAT！PLAY！】\n音乐制作Music Production：DashSound\n\n演唱Vocals：\n花冈柚子（CV:宅在家里什么都不会）\n才羽桃（CV:苏枕袖）\n才羽绿（CV:阎么么）\n天童爱丽丝（CV:四白）\n\n制作人Producer：S9ryne\n执行策划Executive Producer：Vision Zhang\n作词Lyrics：MUE\n作曲Composer：S9ryne/VeetaCrush/Nevia\n编曲Arranger：S9ryne/VeetaCrush/Nevia\n录音棚Recording Studio：烁Blaze-Sparkle\n录音师Recording Engineer：JINX\n录音监制Recording Producer：绯川蛋\n人声修对Editing Engineer：HJLL/VeetaCrush\n混音Mixing Engineer：VeetaCrush\n母带制作Mastering Studio：Dash Sound\n游戏部的学员们不小心掉入了音游的世界，需要他们齐心协力打出一个又一个perfect！伴随音符的跳跃，创造五彩斑斓的奇迹！游戏部主题曲正式上线！戴上耳机和小桃，小绿，爱丽丝，柚子一起闯关吧！",
+                "userId": 1737370053,
+                "coverUrl": "http://p4.music.126.net/akKFtPMbgH_DRK_R7vho1Q==/109951169912681660.jpg",
+                "commentThreadId": "A_DJ_1_3061261022",
+                "channels": [],
+                "titbits": null,
+                "titbitImages": null,
+                "pubStatus": 1,
+                "trackCount": 1,
+                "bdAuditStatus": 2,
+                "programFeeType": 0,
+                "buyed": false,
+                "programDesc": null,
+                "h5Links": [],
+                "coverId": 109951169912681660,
+                "adjustedPlayCount": 62183,
+                "canReward": false,
+                "auditStatus": 10,
+                "updateTime": 1724862783417,
+                "categoryId": 3001,
+                "category": "二次元",
+                "secondCategoryId": 3085096,
+                "secondCategory": "游戏",
+                "scheduledPublishTime": 1724862345723,
+                "privacy": false,
+                "disPlayStatus": "NORMAL",
+                "createEventId": 0,
+                "djPlayRecordVo": null,
+                "shortName": null,
+                "price": null,
+                "latestFreeTryStartPoint": null,
+                "latestFreeTryEndPoint": null,
+                "algReason": null,
+                "showAlgReason": null,
+                "icon": null,
+                "replaceResource": null,
+                "songTimeStamps": null,
+                "classicRelationSong": null,
+                "specialTags": null,
+                "duration": 132960,
+                "publish": true,
+                "xInfo": null
+              },
+              "commentCount": 17,
+              "replaceName": null,
+              "icon": null
+            },
+            "os": "android",
+            "multiTerminalInfo": {
+              "icon": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266366095/5341/a415/1103/fac10cdcd9740b97c5233f3457aa0ee4.png",
+              "osText": "移动端",
+              "os": "android"
+            }
+          },
+          {
+            "resourceId": "3061149096",
+            "playTime": 1728442120954,
+            "resourceType": "VOICE",
+            "data": {
+              "pubDJProgramData": {
+                "extProperties": null,
+                "mainSong": {
+                  "name": "JUMP！BEAT！PLAY！(Instrumental Ver)",
+                  "id": 2621794903,
+                  "position": 0,
+                  "alias": [],
+                  "status": 0,
+                  "fee": 0,
+                  "copyrightId": 0,
+                  "disc": "",
+                  "no": 0,
+                  "artists": [
+                    {
+                      "name": "Kar98kurz",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    }
+                  ],
+                  "album": {
+                    "name": null,
+                    "id": 0,
+                    "type": null,
+                    "size": 0,
+                    "picId": 0,
+                    "blurPicUrl": null,
+                    "companyId": 0,
+                    "pic": 0,
+                    "picUrl": "http://p4.music.126.net/0ju8ET1ApZSXfWacc4w49w==/109951169484091680.jpg",
+                    "publishTime": 0,
+                    "description": "",
+                    "tags": "",
+                    "company": null,
+                    "briefDesc": "",
+                    "artist": {
+                      "name": "",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    },
+                    "songs": [],
+                    "alias": [],
+                    "status": 0,
+                    "copyrightId": 0,
+                    "commentThreadId": "R_AL_3_0",
+                    "artists": [
+                      {
+                        "name": "",
+                        "id": 0,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "",
+                        "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0,
+                        "topicPerson": 0
+                      }
+                    ],
+                    "subType": null,
+                    "transName": null,
+                    "onSale": false,
+                    "mark": 0,
+                    "gapless": 0,
+                    "dolbyMark": 0
+                  },
+                  "starred": false,
+                  "popularity": 5,
+                  "score": 5,
+                  "starredNum": 0,
+                  "duration": 132960,
+                  "playedNum": 0,
+                  "dayPlays": 0,
+                  "hearTime": 0,
+                  "sqMusic": null,
+                  "hrMusic": null,
+                  "ringtone": null,
+                  "crbt": null,
+                  "audition": null,
+                  "copyFrom": "",
+                  "commentThreadId": "R_SO_4_2621794903",
+                  "rtUrl": null,
+                  "ftype": 0,
+                  "rtUrls": [],
+                  "copyright": 1,
+                  "transName": null,
+                  "sign": null,
+                  "mark": 0,
+                  "originCoverType": 0,
+                  "originSongSimpleData": null,
+                  "single": 0,
+                  "noCopyrightRcmd": null,
+                  "rtype": 0,
+                  "rurl": null,
+                  "hMusic": {
+                    "name": null,
+                    "id": 11385970263,
+                    "size": 5425132,
+                    "extension": "mp3",
+                    "sr": 48000,
+                    "dfsId": 0,
+                    "bitrate": 320000,
+                    "playTime": 132960,
+                    "volumeDelta": 0
+                  },
+                  "mMusic": null,
+                  "lMusic": {
+                    "name": null,
+                    "id": 11385970263,
+                    "size": 5425132,
+                    "extension": "mp3",
+                    "sr": 48000,
+                    "dfsId": 0,
+                    "bitrate": 320000,
+                    "playTime": 132960,
+                    "volumeDelta": 0
+                  },
+                  "bMusic": {
+                    "name": null,
+                    "id": 11385970263,
+                    "size": 5425132,
+                    "extension": "mp3",
+                    "sr": 48000,
+                    "dfsId": 0,
+                    "bitrate": 320000,
+                    "playTime": 132960,
+                    "volumeDelta": 0
+                  },
+                  "mp3Url": null,
+                  "mvid": 0,
+                  "publishTime": 1724862778973
+                },
+                "songs": null,
+                "dj": {
+                  "extProperties": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  },
+                  "defaultAvatar": false,
+                  "province": 440000,
+                  "authStatus": 0,
+                  "followed": false,
+                  "avatarUrl": "http://p3.music.126.net/iU7QGCMy8DIN5c22Sk1-FQ==/109951167672132926.jpg",
+                  "accountStatus": 0,
+                  "gender": 1,
+                  "city": 440100,
+                  "birthday": 1138780727807,
+                  "userId": 1737370053,
+                  "userType": 0,
+                  "nickname": "Kar98kurz",
+                  "signature": "嗦面中…",
+                  "description": "",
+                  "detailDescription": "",
+                  "avatarImgId": 109951167672132930,
+                  "backgroundImgId": 109951164504008030,
+                  "backgroundUrl": "http://p3.music.126.net/W990omii1QQDj7v5SVlhEQ==/109951164504008032.jpg",
+                  "authority": 0,
+                  "mutual": false,
+                  "expertTags": null,
+                  "experts": null,
+                  "djStatus": 10,
+                  "vipType": 11,
+                  "remarkName": null,
+                  "backgroundImgIdStr": "109951164504008032",
+                  "avatarImgIdStr": "109951167672132926",
+                  "xInfo": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  }
+                },
+                "blurCoverUrl": null,
+                "radio": {
+                  "extProperties": {
+                    "subed": true
+                  },
+                  "id": 977654404,
+                  "dj": null,
+                  "name": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST",
+                  "picUrl": "http://p4.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "desc": "此播客仅作为对原OST的补档，祝各位收听愉快！学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中） 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客Telegram频道：@BlueArchiveMusicChannelThanks 5b25,Eren38324感谢以下人员对本电台的支持：楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）[与你在一起的日常，皆为奇迹！]",
+                  "subCount": 66433,
+                  "programCount": 747,
+                  "createTime": 1655865894651,
+                  "categoryId": 3001,
+                  "category": "二次元",
+                  "secondCategoryId": 3085096,
+                  "secondCategory": "游戏",
+                  "radioFeeType": 0,
+                  "feeScope": 0,
+                  "buyed": false,
+                  "videos": null,
+                  "finished": false,
+                  "underShelf": false,
+                  "purchaseCount": 0,
+                  "price": 0,
+                  "originalPrice": 0,
+                  "discountPrice": null,
+                  "lastProgramCreateTime": 1792634790124,
+                  "lastProgramName": null,
+                  "lastProgramId": 3730865255,
+                  "picId": 109951173110615020,
+                  "rcmdText": null,
+                  "hightQuality": false,
+                  "whiteList": false,
+                  "liveInfo": null,
+                  "playCount": 0,
+                  "icon": null,
+                  "privacy": false,
+                  "intervenePicUrl": "http://p3.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "intervenePicId": 109951173110615020,
+                  "dynamic": false,
+                  "shortName": null,
+                  "taskId": 0,
+                  "manualTagsDTO": null,
+                  "scoreInfoDTO": null,
+                  "descPicList": [
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "此播客仅作为对原OST的补档，祝各位收听愉快！",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Telegram频道：@BlueArchiveMusicChannel",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Thanks 5b25,Eren38324",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "感谢以下人员对本电台的支持：",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "[与你在一起的日常，皆为奇迹！]",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    }
+                  ],
+                  "subed": true,
+                  "original": "ORIGINAL",
+                  "replaceResource": null,
+                  "immersionCover": null,
+                  "immersionAnimation": null,
+                  "danmakuCount": 0,
+                  "composeVideo": false,
+                  "xInfo": {
+                    "subed": true
+                  }
+                },
+                "subscribedCount": 0,
+                "reward": false,
+                "mainTrackId": 2621794903,
+                "serialNum": 1724862402062,
+                "listenerCount": 45753,
+                "name": "JUMP！BEAT！PLAY！(Instrumental Ver)",
+                "id": 3061149096,
+                "createTime": 1724862402068,
+                "description": "《蔚蓝档案》游戏开发部主题曲【JUMP！BEAT！PLAY！】\n音乐制作Music Production：DashSound\n\n\n制作人Producer：S9ryne\n执行策划Executive Producer：Vision Zhang\n作词Lyrics：MUE\n作曲Composer：S9ryne/VeetaCrush/Nevia\n编曲Arranger：S9ryne/VeetaCrush/Nevia\n录音棚Recording Studio：烁Blaze-Sparkle\n录音师Recording Engineer：JINX\n录音监制Recording Producer：绯川蛋\n人声修对Editing Engineer：HJLL/VeetaCrush\n混音Mixing Engineer：VeetaCrush\n母带制作Mastering Studio：Dash Sound\n游戏部的学员们不小心掉入了音游的世界，需要他们齐心协力打出一个又一个perfect！伴随音符的跳跃，创造五彩斑斓的奇迹！游戏部主题曲正式上线！戴上耳机和小桃，小绿，爱丽丝，柚子一起闯关吧！",
+                "userId": 1737370053,
+                "coverUrl": "http://p3.music.126.net/D9-13OFD1CWAh-VH3KnYaw==/109951169912675963.jpg",
+                "commentThreadId": "A_DJ_1_3061149096",
+                "channels": [],
+                "titbits": null,
+                "titbitImages": null,
+                "pubStatus": 1,
+                "trackCount": 1,
+                "bdAuditStatus": 2,
+                "programFeeType": 0,
+                "buyed": false,
+                "programDesc": null,
+                "h5Links": [],
+                "coverId": 109951169912675970,
+                "adjustedPlayCount": 45753,
+                "canReward": false,
+                "auditStatus": 10,
+                "updateTime": 1724862809672,
+                "categoryId": 3001,
+                "category": "二次元",
+                "secondCategoryId": 3085096,
+                "secondCategory": "游戏",
+                "scheduledPublishTime": 1724862402068,
+                "privacy": false,
+                "disPlayStatus": "NORMAL",
+                "createEventId": 0,
+                "djPlayRecordVo": null,
+                "shortName": null,
+                "price": null,
+                "latestFreeTryStartPoint": null,
+                "latestFreeTryEndPoint": null,
+                "algReason": null,
+                "showAlgReason": null,
+                "icon": null,
+                "replaceResource": null,
+                "songTimeStamps": null,
+                "classicRelationSong": null,
+                "specialTags": null,
+                "duration": 132960,
+                "publish": true,
+                "xInfo": null
+              },
+              "commentCount": 4,
+              "replaceName": null,
+              "icon": null
+            },
+            "os": "android",
+            "multiTerminalInfo": {
+              "icon": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266366095/5341/a415/1103/fac10cdcd9740b97c5233f3457aa0ee4.png",
+              "osText": "移动端",
+              "os": "android"
+            }
+          },
+          {
+            "resourceId": "3061336277",
+            "playTime": 1728441968490,
+            "resourceType": "VOICE",
+            "data": {
+              "pubDJProgramData": {
+                "extProperties": null,
+                "mainSong": {
+                  "name": "Scarlet Chrysanthemum",
+                  "id": 2622407290,
+                  "position": 0,
+                  "alias": [],
+                  "status": 0,
+                  "fee": 0,
+                  "copyrightId": 0,
+                  "disc": "",
+                  "no": 0,
+                  "artists": [
+                    {
+                      "name": "Kar98kurz",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    }
+                  ],
+                  "album": {
+                    "name": "[DJ节目]GF-Kar98k的DJ节目 第399期",
+                    "id": 0,
+                    "type": null,
+                    "size": 0,
+                    "picId": 109951169917512960,
+                    "blurPicUrl": "http://p4.music.126.net/Siv6Rxniz6bUB4OvaeiJ0g==/109951169917512961.jpg",
+                    "companyId": 0,
+                    "pic": 109951169917512960,
+                    "picUrl": "http://p3.music.126.net/Siv6Rxniz6bUB4OvaeiJ0g==/109951169917512961.jpg",
+                    "publishTime": 0,
+                    "description": "",
+                    "tags": "",
+                    "company": null,
+                    "briefDesc": "",
+                    "artist": {
+                      "name": "GF-Kar98k",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    },
+                    "songs": [],
+                    "alias": [],
+                    "status": 0,
+                    "copyrightId": 0,
+                    "commentThreadId": "R_AL_3_0",
+                    "artists": [
+                      {
+                        "name": "GF-Kar98k",
+                        "id": 0,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "",
+                        "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0,
+                        "topicPerson": 0
+                      }
+                    ],
+                    "subType": null,
+                    "transName": null,
+                    "onSale": false,
+                    "mark": 0,
+                    "gapless": 0,
+                    "dolbyMark": 0,
+                    "picId_str": "109951169917512961"
+                  },
+                  "starred": false,
+                  "popularity": 5,
+                  "score": 5,
+                  "starredNum": 0,
+                  "duration": 150595,
+                  "playedNum": 0,
+                  "dayPlays": 0,
+                  "hearTime": 0,
+                  "sqMusic": null,
+                  "hrMusic": null,
+                  "ringtone": null,
+                  "crbt": null,
+                  "audition": null,
+                  "copyFrom": "",
+                  "commentThreadId": "R_SO_4_2622407290",
+                  "rtUrl": null,
+                  "ftype": 0,
+                  "rtUrls": [],
+                  "copyright": 1,
+                  "transName": null,
+                  "sign": null,
+                  "mark": 0,
+                  "originCoverType": 0,
+                  "originSongSimpleData": null,
+                  "single": 0,
+                  "noCopyrightRcmd": null,
+                  "rtype": 0,
+                  "rurl": null,
+                  "hMusic": null,
+                  "mMusic": {
+                    "name": null,
+                    "id": 11394289651,
+                    "size": 4821144,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 150595,
+                    "volumeDelta": 0
+                  },
+                  "lMusic": {
+                    "name": null,
+                    "id": 11394289651,
+                    "size": 4821144,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 150595,
+                    "volumeDelta": 0
+                  },
+                  "bMusic": {
+                    "name": null,
+                    "id": 11394289651,
+                    "size": 4821144,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 150595,
+                    "volumeDelta": 0
+                  },
+                  "mp3Url": null,
+                  "mvid": 0,
+                  "publishTime": 1725011397478
+                },
+                "songs": null,
+                "dj": {
+                  "extProperties": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  },
+                  "defaultAvatar": false,
+                  "province": 440000,
+                  "authStatus": 0,
+                  "followed": false,
+                  "avatarUrl": "http://p3.music.126.net/iU7QGCMy8DIN5c22Sk1-FQ==/109951167672132926.jpg",
+                  "accountStatus": 0,
+                  "gender": 1,
+                  "city": 440100,
+                  "birthday": 1138780727807,
+                  "userId": 1737370053,
+                  "userType": 0,
+                  "nickname": "Kar98kurz",
+                  "signature": "嗦面中…",
+                  "description": "",
+                  "detailDescription": "",
+                  "avatarImgId": 109951167672132930,
+                  "backgroundImgId": 109951164504008030,
+                  "backgroundUrl": "http://p3.music.126.net/W990omii1QQDj7v5SVlhEQ==/109951164504008032.jpg",
+                  "authority": 0,
+                  "mutual": false,
+                  "expertTags": null,
+                  "experts": null,
+                  "djStatus": 10,
+                  "vipType": 11,
+                  "remarkName": null,
+                  "backgroundImgIdStr": "109951164504008032",
+                  "avatarImgIdStr": "109951167672132926",
+                  "xInfo": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  }
+                },
+                "blurCoverUrl": null,
+                "radio": {
+                  "extProperties": {
+                    "subed": true
+                  },
+                  "id": 977654404,
+                  "dj": null,
+                  "name": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST",
+                  "picUrl": "http://p3.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "desc": "此播客仅作为对原OST的补档，祝各位收听愉快！学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中） 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客Telegram频道：@BlueArchiveMusicChannelThanks 5b25,Eren38324感谢以下人员对本电台的支持：楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）[与你在一起的日常，皆为奇迹！]",
+                  "subCount": 66433,
+                  "programCount": 747,
+                  "createTime": 1655865894651,
+                  "categoryId": 3001,
+                  "category": "二次元",
+                  "secondCategoryId": 3085096,
+                  "secondCategory": "游戏",
+                  "radioFeeType": 0,
+                  "feeScope": 0,
+                  "buyed": false,
+                  "videos": null,
+                  "finished": false,
+                  "underShelf": false,
+                  "purchaseCount": 0,
+                  "price": 0,
+                  "originalPrice": 0,
+                  "discountPrice": null,
+                  "lastProgramCreateTime": 1792634790124,
+                  "lastProgramName": null,
+                  "lastProgramId": 3730865255,
+                  "picId": 109951173110615020,
+                  "rcmdText": null,
+                  "hightQuality": false,
+                  "whiteList": false,
+                  "liveInfo": null,
+                  "playCount": 0,
+                  "icon": null,
+                  "privacy": false,
+                  "intervenePicUrl": "http://p4.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "intervenePicId": 109951173110615020,
+                  "dynamic": false,
+                  "shortName": null,
+                  "taskId": 0,
+                  "manualTagsDTO": null,
+                  "scoreInfoDTO": null,
+                  "descPicList": [
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "此播客仅作为对原OST的补档，祝各位收听愉快！",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Telegram频道：@BlueArchiveMusicChannel",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Thanks 5b25,Eren38324",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "感谢以下人员对本电台的支持：",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "[与你在一起的日常，皆为奇迹！]",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    }
+                  ],
+                  "subed": true,
+                  "original": "ORIGINAL",
+                  "replaceResource": null,
+                  "immersionCover": null,
+                  "immersionAnimation": null,
+                  "danmakuCount": 0,
+                  "composeVideo": false,
+                  "xInfo": {
+                    "subed": true
+                  }
+                },
+                "subscribedCount": 0,
+                "reward": false,
+                "mainTrackId": 2622407290,
+                "serialNum": 1725011396684,
+                "listenerCount": 65241,
+                "name": "Scarlet Chrysanthemum",
+                "id": 3061336277,
+                "createTime": 1725011396690,
+                "description": "Scarlet Chrysanthemum\n「月華夢騷」Theme 1\nTheme 223\nComposer:Airuei",
+                "userId": 1737370053,
+                "coverUrl": "http://p4.music.126.net/Siv6Rxniz6bUB4OvaeiJ0g==/109951169917512961.jpg",
+                "commentThreadId": "A_DJ_1_3061336277",
+                "channels": [],
+                "titbits": null,
+                "titbitImages": null,
+                "pubStatus": 5,
+                "trackCount": 1,
+                "bdAuditStatus": 2,
+                "programFeeType": 0,
+                "buyed": false,
+                "programDesc": null,
+                "h5Links": [],
+                "coverId": 109951169917512960,
+                "adjustedPlayCount": 65241,
+                "canReward": false,
+                "auditStatus": 10,
+                "updateTime": 1740028979395,
+                "categoryId": 3001,
+                "category": "二次元",
+                "secondCategoryId": 3085096,
+                "secondCategory": "游戏",
+                "scheduledPublishTime": 1725011396690,
+                "privacy": false,
+                "disPlayStatus": "NORMAL",
+                "createEventId": 0,
+                "djPlayRecordVo": null,
+                "shortName": null,
+                "price": null,
+                "latestFreeTryStartPoint": null,
+                "latestFreeTryEndPoint": null,
+                "algReason": null,
+                "showAlgReason": null,
+                "icon": null,
+                "replaceResource": null,
+                "songTimeStamps": null,
+                "classicRelationSong": null,
+                "specialTags": null,
+                "duration": 150595,
+                "publish": true,
+                "xInfo": null
+              },
+              "commentCount": 15,
+              "replaceName": null,
+              "icon": null
+            },
+            "os": "android",
+            "multiTerminalInfo": {
+              "icon": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266366095/5341/a415/1103/fac10cdcd9740b97c5233f3457aa0ee4.png",
+              "osText": "移动端",
+              "os": "android"
+            }
+          },
+          {
+            "resourceId": "3061293320",
+            "playTime": 1728441890189,
+            "resourceType": "VOICE",
+            "data": {
+              "pubDJProgramData": {
+                "extProperties": null,
+                "mainSong": {
+                  "name": "SHANHAIJING Tragicomedy",
+                  "id": 2622403563,
+                  "position": 0,
+                  "alias": [],
+                  "status": 0,
+                  "fee": 0,
+                  "copyrightId": 0,
+                  "disc": "",
+                  "no": 0,
+                  "artists": [
+                    {
+                      "name": "Kar98kurz",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    }
+                  ],
+                  "album": {
+                    "name": null,
+                    "id": 0,
+                    "type": null,
+                    "size": 0,
+                    "picId": 0,
+                    "blurPicUrl": null,
+                    "companyId": 0,
+                    "pic": 0,
+                    "picUrl": "http://p4.music.126.net/0ju8ET1ApZSXfWacc4w49w==/109951169484091680.jpg",
+                    "publishTime": 0,
+                    "description": "",
+                    "tags": "",
+                    "company": null,
+                    "briefDesc": "",
+                    "artist": {
+                      "name": "",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    },
+                    "songs": [],
+                    "alias": [],
+                    "status": 0,
+                    "copyrightId": 0,
+                    "commentThreadId": "R_AL_3_0",
+                    "artists": [
+                      {
+                        "name": "",
+                        "id": 0,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "",
+                        "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0,
+                        "topicPerson": 0
+                      }
+                    ],
+                    "subType": null,
+                    "transName": null,
+                    "onSale": false,
+                    "mark": 0,
+                    "gapless": 0,
+                    "dolbyMark": 0
+                  },
+                  "starred": false,
+                  "popularity": 5,
+                  "score": 5,
+                  "starredNum": 0,
+                  "duration": 78706,
+                  "playedNum": 0,
+                  "dayPlays": 0,
+                  "hearTime": 0,
+                  "sqMusic": null,
+                  "hrMusic": null,
+                  "ringtone": null,
+                  "crbt": null,
+                  "audition": null,
+                  "copyFrom": "",
+                  "commentThreadId": "R_SO_4_2622403563",
+                  "rtUrl": null,
+                  "ftype": 0,
+                  "rtUrls": [],
+                  "copyright": 1,
+                  "transName": null,
+                  "sign": null,
+                  "mark": 0,
+                  "originCoverType": 0,
+                  "originSongSimpleData": null,
+                  "single": 0,
+                  "noCopyrightRcmd": null,
+                  "rtype": 0,
+                  "rurl": null,
+                  "hMusic": null,
+                  "mMusic": {
+                    "name": null,
+                    "id": 11394223923,
+                    "size": 2520697,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 78706,
+                    "volumeDelta": 0
+                  },
+                  "lMusic": {
+                    "name": null,
+                    "id": 11394223923,
+                    "size": 2520697,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 78706,
+                    "volumeDelta": 0
+                  },
+                  "bMusic": {
+                    "name": null,
+                    "id": 11394223923,
+                    "size": 2520697,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 78706,
+                    "volumeDelta": 0
+                  },
+                  "mp3Url": null,
+                  "mvid": 0,
+                  "publishTime": 1725011460665
+                },
+                "songs": null,
+                "dj": {
+                  "extProperties": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  },
+                  "defaultAvatar": false,
+                  "province": 440000,
+                  "authStatus": 0,
+                  "followed": false,
+                  "avatarUrl": "http://p3.music.126.net/iU7QGCMy8DIN5c22Sk1-FQ==/109951167672132926.jpg",
+                  "accountStatus": 0,
+                  "gender": 1,
+                  "city": 440100,
+                  "birthday": 1138780727807,
+                  "userId": 1737370053,
+                  "userType": 0,
+                  "nickname": "Kar98kurz",
+                  "signature": "嗦面中…",
+                  "description": "",
+                  "detailDescription": "",
+                  "avatarImgId": 109951167672132930,
+                  "backgroundImgId": 109951164504008030,
+                  "backgroundUrl": "http://p3.music.126.net/W990omii1QQDj7v5SVlhEQ==/109951164504008032.jpg",
+                  "authority": 0,
+                  "mutual": false,
+                  "expertTags": null,
+                  "experts": null,
+                  "djStatus": 10,
+                  "vipType": 11,
+                  "remarkName": null,
+                  "backgroundImgIdStr": "109951164504008032",
+                  "avatarImgIdStr": "109951167672132926",
+                  "xInfo": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  }
+                },
+                "blurCoverUrl": null,
+                "radio": {
+                  "extProperties": {
+                    "subed": true
+                  },
+                  "id": 977654404,
+                  "dj": null,
+                  "name": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST",
+                  "picUrl": "http://p3.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "desc": "此播客仅作为对原OST的补档，祝各位收听愉快！学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中） 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客Telegram频道：@BlueArchiveMusicChannelThanks 5b25,Eren38324感谢以下人员对本电台的支持：楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）[与你在一起的日常，皆为奇迹！]",
+                  "subCount": 66433,
+                  "programCount": 747,
+                  "createTime": 1655865894651,
+                  "categoryId": 3001,
+                  "category": "二次元",
+                  "secondCategoryId": 3085096,
+                  "secondCategory": "游戏",
+                  "radioFeeType": 0,
+                  "feeScope": 0,
+                  "buyed": false,
+                  "videos": null,
+                  "finished": false,
+                  "underShelf": false,
+                  "purchaseCount": 0,
+                  "price": 0,
+                  "originalPrice": 0,
+                  "discountPrice": null,
+                  "lastProgramCreateTime": 1792634790124,
+                  "lastProgramName": null,
+                  "lastProgramId": 3730865255,
+                  "picId": 109951173110615020,
+                  "rcmdText": null,
+                  "hightQuality": false,
+                  "whiteList": false,
+                  "liveInfo": null,
+                  "playCount": 0,
+                  "icon": null,
+                  "privacy": false,
+                  "intervenePicUrl": "http://p3.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "intervenePicId": 109951173110615020,
+                  "dynamic": false,
+                  "shortName": null,
+                  "taskId": 0,
+                  "manualTagsDTO": null,
+                  "scoreInfoDTO": null,
+                  "descPicList": [
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "此播客仅作为对原OST的补档，祝各位收听愉快！",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Telegram频道：@BlueArchiveMusicChannel",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Thanks 5b25,Eren38324",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "感谢以下人员对本电台的支持：",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "[与你在一起的日常，皆为奇迹！]",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    }
+                  ],
+                  "subed": true,
+                  "original": "ORIGINAL",
+                  "replaceResource": null,
+                  "immersionCover": null,
+                  "immersionAnimation": null,
+                  "danmakuCount": 0,
+                  "composeVideo": false,
+                  "xInfo": {
+                    "subed": true
+                  }
+                },
+                "subscribedCount": 0,
+                "reward": false,
+                "mainTrackId": 2622403563,
+                "serialNum": 1725011460253,
+                "listenerCount": 55451,
+                "name": "SHANHAIJING Tragicomedy",
+                "id": 3061293320,
+                "createTime": 1725011460259,
+                "description": "SHANHAIJING Tragicomedy\n「月華夢騷」Theme 2\nTheme 197\nComposer:KARUT",
+                "userId": 1737370053,
+                "coverUrl": "http://p3.music.126.net/qUbKWcDGjmGBIrwSLplIVg==/109951169917521454.jpg",
+                "commentThreadId": "A_DJ_1_3061293320",
+                "channels": [],
+                "titbits": null,
+                "titbitImages": null,
+                "pubStatus": 1,
+                "trackCount": 0,
+                "bdAuditStatus": 2,
+                "programFeeType": 0,
+                "buyed": false,
+                "programDesc": null,
+                "h5Links": [],
+                "coverId": 109951169917521460,
+                "adjustedPlayCount": 55451,
+                "canReward": false,
+                "auditStatus": 10,
+                "updateTime": 1740028754357,
+                "categoryId": 3001,
+                "category": "二次元",
+                "secondCategoryId": 3085096,
+                "secondCategory": "游戏",
+                "scheduledPublishTime": 1725011460259,
+                "privacy": false,
+                "disPlayStatus": "NORMAL",
+                "createEventId": 0,
+                "djPlayRecordVo": null,
+                "shortName": null,
+                "price": null,
+                "latestFreeTryStartPoint": null,
+                "latestFreeTryEndPoint": null,
+                "algReason": null,
+                "showAlgReason": null,
+                "icon": null,
+                "replaceResource": null,
+                "songTimeStamps": null,
+                "classicRelationSong": null,
+                "specialTags": null,
+                "duration": 78706,
+                "publish": true,
+                "xInfo": null
+              },
+              "commentCount": 5,
+              "replaceName": null,
+              "icon": null
+            },
+            "os": "android",
+            "multiTerminalInfo": {
+              "icon": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266366095/5341/a415/1103/fac10cdcd9740b97c5233f3457aa0ee4.png",
+              "osText": "移动端",
+              "os": "android"
+            }
+          },
+          {
+            "resourceId": "3061305275",
+            "playTime": 1728441822665,
+            "resourceType": "VOICE",
+            "data": {
+              "pubDJProgramData": {
+                "extProperties": null,
+                "mainSong": {
+                  "name": "「月華夢騷」Theme 3",
+                  "id": 2622396848,
+                  "position": 0,
+                  "alias": [],
+                  "status": 0,
+                  "fee": 0,
+                  "copyrightId": 0,
+                  "disc": "",
+                  "no": 0,
+                  "artists": [
+                    {
+                      "name": "Kar98kurz",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    }
+                  ],
+                  "album": {
+                    "name": "[DJ节目]GF-Kar98k的DJ节目 第401期",
+                    "id": 0,
+                    "type": null,
+                    "size": 0,
+                    "picId": 109951169917521980,
+                    "blurPicUrl": "http://p3.music.126.net/6YacHCmo_p71xKpv2pX6Rg==/109951169917521978.jpg",
+                    "companyId": 0,
+                    "pic": 109951169917521980,
+                    "picUrl": "http://p4.music.126.net/6YacHCmo_p71xKpv2pX6Rg==/109951169917521978.jpg",
+                    "publishTime": 0,
+                    "description": "",
+                    "tags": "",
+                    "company": null,
+                    "briefDesc": "",
+                    "artist": {
+                      "name": "GF-Kar98k",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    },
+                    "songs": [],
+                    "alias": [],
+                    "status": 0,
+                    "copyrightId": 0,
+                    "commentThreadId": "R_AL_3_0",
+                    "artists": [
+                      {
+                        "name": "GF-Kar98k",
+                        "id": 0,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "",
+                        "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0,
+                        "topicPerson": 0
+                      }
+                    ],
+                    "subType": null,
+                    "transName": null,
+                    "onSale": false,
+                    "mark": 0,
+                    "gapless": 0,
+                    "dolbyMark": 0,
+                    "picId_str": "109951169917521978"
+                  },
+                  "starred": false,
+                  "popularity": 5,
+                  "score": 5,
+                  "starredNum": 0,
+                  "duration": 65175,
+                  "playedNum": 0,
+                  "dayPlays": 0,
+                  "hearTime": 0,
+                  "sqMusic": null,
+                  "hrMusic": null,
+                  "ringtone": null,
+                  "crbt": null,
+                  "audition": null,
+                  "copyFrom": "",
+                  "commentThreadId": "R_SO_4_2622396848",
+                  "rtUrl": null,
+                  "ftype": 0,
+                  "rtUrls": [],
+                  "copyright": 1,
+                  "transName": null,
+                  "sign": null,
+                  "mark": 0,
+                  "originCoverType": 0,
+                  "originSongSimpleData": null,
+                  "single": 0,
+                  "noCopyrightRcmd": null,
+                  "rtype": 0,
+                  "rurl": null,
+                  "hMusic": null,
+                  "mMusic": {
+                    "name": null,
+                    "id": 11394144208,
+                    "size": 2087691,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 65175,
+                    "volumeDelta": 0
+                  },
+                  "lMusic": {
+                    "name": null,
+                    "id": 11394144208,
+                    "size": 2087691,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 65175,
+                    "volumeDelta": 0
+                  },
+                  "bMusic": {
+                    "name": null,
+                    "id": 11394144208,
+                    "size": 2087691,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 65175,
+                    "volumeDelta": 0
+                  },
+                  "mp3Url": null,
+                  "mvid": 0,
+                  "publishTime": 1725011494580
+                },
+                "songs": null,
+                "dj": {
+                  "extProperties": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  },
+                  "defaultAvatar": false,
+                  "province": 440000,
+                  "authStatus": 0,
+                  "followed": false,
+                  "avatarUrl": "http://p3.music.126.net/iU7QGCMy8DIN5c22Sk1-FQ==/109951167672132926.jpg",
+                  "accountStatus": 0,
+                  "gender": 1,
+                  "city": 440100,
+                  "birthday": 1138780727807,
+                  "userId": 1737370053,
+                  "userType": 0,
+                  "nickname": "Kar98kurz",
+                  "signature": "嗦面中…",
+                  "description": "",
+                  "detailDescription": "",
+                  "avatarImgId": 109951167672132930,
+                  "backgroundImgId": 109951164504008030,
+                  "backgroundUrl": "http://p3.music.126.net/W990omii1QQDj7v5SVlhEQ==/109951164504008032.jpg",
+                  "authority": 0,
+                  "mutual": false,
+                  "expertTags": null,
+                  "experts": null,
+                  "djStatus": 10,
+                  "vipType": 11,
+                  "remarkName": null,
+                  "backgroundImgIdStr": "109951164504008032",
+                  "avatarImgIdStr": "109951167672132926",
+                  "xInfo": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  }
+                },
+                "blurCoverUrl": null,
+                "radio": {
+                  "extProperties": {
+                    "subed": true
+                  },
+                  "id": 977654404,
+                  "dj": null,
+                  "name": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST",
+                  "picUrl": "http://p3.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "desc": "此播客仅作为对原OST的补档，祝各位收听愉快！学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中） 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客Telegram频道：@BlueArchiveMusicChannelThanks 5b25,Eren38324感谢以下人员对本电台的支持：楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）[与你在一起的日常，皆为奇迹！]",
+                  "subCount": 66433,
+                  "programCount": 747,
+                  "createTime": 1655865894651,
+                  "categoryId": 3001,
+                  "category": "二次元",
+                  "secondCategoryId": 3085096,
+                  "secondCategory": "游戏",
+                  "radioFeeType": 0,
+                  "feeScope": 0,
+                  "buyed": false,
+                  "videos": null,
+                  "finished": false,
+                  "underShelf": false,
+                  "purchaseCount": 0,
+                  "price": 0,
+                  "originalPrice": 0,
+                  "discountPrice": null,
+                  "lastProgramCreateTime": 1792634790124,
+                  "lastProgramName": null,
+                  "lastProgramId": 3730865255,
+                  "picId": 109951173110615020,
+                  "rcmdText": null,
+                  "hightQuality": false,
+                  "whiteList": false,
+                  "liveInfo": null,
+                  "playCount": 0,
+                  "icon": null,
+                  "privacy": false,
+                  "intervenePicUrl": "http://p3.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "intervenePicId": 109951173110615020,
+                  "dynamic": false,
+                  "shortName": null,
+                  "taskId": 0,
+                  "manualTagsDTO": null,
+                  "scoreInfoDTO": null,
+                  "descPicList": [
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "此播客仅作为对原OST的补档，祝各位收听愉快！",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Telegram频道：@BlueArchiveMusicChannel",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Thanks 5b25,Eren38324",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "感谢以下人员对本电台的支持：",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "[与你在一起的日常，皆为奇迹！]",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    }
+                  ],
+                  "subed": true,
+                  "original": "ORIGINAL",
+                  "replaceResource": null,
+                  "immersionCover": null,
+                  "immersionAnimation": null,
+                  "danmakuCount": 0,
+                  "composeVideo": false,
+                  "xInfo": {
+                    "subed": true
+                  }
+                },
+                "subscribedCount": 0,
+                "reward": false,
+                "mainTrackId": 2622396848,
+                "serialNum": 1725011494027,
+                "listenerCount": 61663,
+                "name": "「月華夢騷」Theme 3",
+                "id": 3061305275,
+                "createTime": 1725011494036,
+                "description": "「月華夢騷」Theme 3\nTheme 233\nComposer:KARUT",
+                "userId": 1737370053,
+                "coverUrl": "http://p3.music.126.net/6YacHCmo_p71xKpv2pX6Rg==/109951169917521978.jpg",
+                "commentThreadId": "A_DJ_1_3061305275",
+                "channels": [],
+                "titbits": null,
+                "titbitImages": null,
+                "pubStatus": 1,
+                "trackCount": 0,
+                "bdAuditStatus": 2,
+                "programFeeType": 0,
+                "buyed": false,
+                "programDesc": null,
+                "h5Links": [],
+                "coverId": 109951169917521980,
+                "adjustedPlayCount": 61663,
+                "canReward": false,
+                "auditStatus": 10,
+                "updateTime": 1725011512298,
+                "categoryId": 3001,
+                "category": "二次元",
+                "secondCategoryId": 3085096,
+                "secondCategory": "游戏",
+                "scheduledPublishTime": 1725011494036,
+                "privacy": false,
+                "disPlayStatus": "NORMAL",
+                "createEventId": 0,
+                "djPlayRecordVo": null,
+                "shortName": null,
+                "price": null,
+                "latestFreeTryStartPoint": null,
+                "latestFreeTryEndPoint": null,
+                "algReason": null,
+                "showAlgReason": null,
+                "icon": null,
+                "replaceResource": null,
+                "songTimeStamps": null,
+                "classicRelationSong": null,
+                "specialTags": null,
+                "duration": 65175,
+                "publish": true,
+                "xInfo": null
+              },
+              "commentCount": 3,
+              "replaceName": null,
+              "icon": null
+            },
+            "os": "android",
+            "multiTerminalInfo": {
+              "icon": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266366095/5341/a415/1103/fac10cdcd9740b97c5233f3457aa0ee4.png",
+              "osText": "移动端",
+              "os": "android"
+            }
+          },
+          {
+            "resourceId": "3063567005",
+            "playTime": 1728441702046,
+            "resourceType": "VOICE",
+            "data": {
+              "pubDJProgramData": {
+                "extProperties": null,
+                "mainSong": {
+                  "name": "Flip Flap Festival!",
+                  "id": 2631356773,
+                  "position": 0,
+                  "alias": [],
+                  "status": 0,
+                  "fee": 0,
+                  "copyrightId": 0,
+                  "disc": "",
+                  "no": 0,
+                  "artists": [
+                    {
+                      "name": "Kar98kurz",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    }
+                  ],
+                  "album": {
+                    "name": "[DJ节目]GF-Kar98k的DJ节目 第402期",
+                    "id": 0,
+                    "type": null,
+                    "size": 0,
+                    "picId": 109951169995820420,
+                    "blurPicUrl": "http://p4.music.126.net/TI0aWWMm-jVKABAmWQ9Brw==/109951169995820410.jpg",
+                    "companyId": 0,
+                    "pic": 109951169995820420,
+                    "picUrl": "http://p4.music.126.net/TI0aWWMm-jVKABAmWQ9Brw==/109951169995820410.jpg",
+                    "publishTime": 0,
+                    "description": "",
+                    "tags": "",
+                    "company": null,
+                    "briefDesc": "",
+                    "artist": {
+                      "name": "GF-Kar98k",
+                      "id": 0,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0,
+                      "topicPerson": 0
+                    },
+                    "songs": [],
+                    "alias": [],
+                    "status": 0,
+                    "copyrightId": 0,
+                    "commentThreadId": "R_AL_3_0",
+                    "artists": [
+                      {
+                        "name": "GF-Kar98k",
+                        "id": 0,
+                        "picId": 0,
+                        "img1v1Id": 0,
+                        "briefDesc": "",
+                        "picUrl": "",
+                        "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                        "albumSize": 0,
+                        "alias": [],
+                        "trans": "",
+                        "musicSize": 0,
+                        "topicPerson": 0
+                      }
+                    ],
+                    "subType": null,
+                    "transName": null,
+                    "onSale": false,
+                    "mark": 0,
+                    "gapless": 0,
+                    "dolbyMark": 0,
+                    "picId_str": "109951169995820410"
+                  },
+                  "starred": false,
+                  "popularity": 5,
+                  "score": 5,
+                  "starredNum": 0,
+                  "duration": 124813,
+                  "playedNum": 0,
+                  "dayPlays": 0,
+                  "hearTime": 0,
+                  "sqMusic": null,
+                  "hrMusic": null,
+                  "ringtone": null,
+                  "crbt": null,
+                  "audition": null,
+                  "copyFrom": "",
+                  "commentThreadId": "R_SO_4_2631356773",
+                  "rtUrl": null,
+                  "ftype": 0,
+                  "rtUrls": [],
+                  "copyright": 1,
+                  "transName": null,
+                  "sign": null,
+                  "mark": 0,
+                  "originCoverType": 0,
+                  "originSongSimpleData": null,
+                  "single": 0,
+                  "noCopyrightRcmd": null,
+                  "rtype": 0,
+                  "rurl": null,
+                  "hMusic": null,
+                  "mMusic": {
+                    "name": null,
+                    "id": 11514881140,
+                    "size": 4796686,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 124813,
+                    "volumeDelta": 0
+                  },
+                  "lMusic": {
+                    "name": null,
+                    "id": 11514881140,
+                    "size": 4796686,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 124813,
+                    "volumeDelta": 0
+                  },
+                  "bMusic": {
+                    "name": null,
+                    "id": 11514881140,
+                    "size": 4796686,
+                    "extension": "mp3",
+                    "sr": 44100,
+                    "dfsId": 0,
+                    "bitrate": 256000,
+                    "playTime": 124813,
+                    "volumeDelta": 0
+                  },
+                  "mp3Url": null,
+                  "mvid": 0,
+                  "publishTime": 1727447598184
+                },
+                "songs": null,
+                "dj": {
+                  "extProperties": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  },
+                  "defaultAvatar": false,
+                  "province": 440000,
+                  "authStatus": 0,
+                  "followed": false,
+                  "avatarUrl": "http://p3.music.126.net/iU7QGCMy8DIN5c22Sk1-FQ==/109951167672132926.jpg",
+                  "accountStatus": 0,
+                  "gender": 1,
+                  "city": 440100,
+                  "birthday": 1138780727807,
+                  "userId": 1737370053,
+                  "userType": 0,
+                  "nickname": "Kar98kurz",
+                  "signature": "嗦面中…",
+                  "description": "",
+                  "detailDescription": "",
+                  "avatarImgId": 109951167672132930,
+                  "backgroundImgId": 109951164504008030,
+                  "backgroundUrl": "http://p3.music.126.net/W990omii1QQDj7v5SVlhEQ==/109951164504008032.jpg",
+                  "authority": 0,
+                  "mutual": false,
+                  "expertTags": null,
+                  "experts": null,
+                  "djStatus": 10,
+                  "vipType": 11,
+                  "remarkName": null,
+                  "backgroundImgIdStr": "109951164504008032",
+                  "avatarImgIdStr": "109951167672132926",
+                  "xInfo": {
+                    "avatarImgId_str": "109951167672132926",
+                    "brand": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST"
+                  }
+                },
+                "blurCoverUrl": null,
+                "radio": {
+                  "extProperties": {
+                    "subed": true
+                  },
+                  "id": 977654404,
+                  "dj": null,
+                  "name": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST",
+                  "picUrl": "http://p4.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "desc": "此播客仅作为对原OST的补档，祝各位收听愉快！学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中） 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客Telegram频道：@BlueArchiveMusicChannelThanks 5b25,Eren38324感谢以下人员对本电台的支持：楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）[与你在一起的日常，皆为奇迹！]",
+                  "subCount": 66433,
+                  "programCount": 747,
+                  "createTime": 1655865894651,
+                  "categoryId": 3001,
+                  "category": "二次元",
+                  "secondCategoryId": 3085096,
+                  "secondCategory": "游戏",
+                  "radioFeeType": 0,
+                  "feeScope": 0,
+                  "buyed": false,
+                  "videos": null,
+                  "finished": false,
+                  "underShelf": false,
+                  "purchaseCount": 0,
+                  "price": 0,
+                  "originalPrice": 0,
+                  "discountPrice": null,
+                  "lastProgramCreateTime": 1792634790124,
+                  "lastProgramName": null,
+                  "lastProgramId": 3730865255,
+                  "picId": 109951173110615020,
+                  "rcmdText": null,
+                  "hightQuality": false,
+                  "whiteList": false,
+                  "liveInfo": null,
+                  "playCount": 0,
+                  "icon": null,
+                  "privacy": false,
+                  "intervenePicUrl": "http://p4.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+                  "intervenePicId": 109951173110615020,
+                  "dynamic": false,
+                  "shortName": null,
+                  "taskId": 0,
+                  "manualTagsDTO": null,
+                  "scoreInfoDTO": null,
+                  "descPicList": [
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "此播客仅作为对原OST的补档，祝各位收听愉快！",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": " 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Telegram频道：@BlueArchiveMusicChannel",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "Thanks 5b25,Eren38324",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "感谢以下人员对本电台的支持：",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    },
+                    {
+                      "type": 1,
+                      "id": 0,
+                      "content": "",
+                      "height": null,
+                      "width": null,
+                      "timeStamp": null,
+                      "nestedData": {
+                        "textList": [
+                          {
+                            "text": "[与你在一起的日常，皆为奇迹！]",
+                            "attributes": null
+                          }
+                        ],
+                        "attributes": null
+                      },
+                      "imageContentURLInvalid": false
+                    }
+                  ],
+                  "subed": true,
+                  "original": "ORIGINAL",
+                  "replaceResource": null,
+                  "immersionCover": null,
+                  "immersionAnimation": null,
+                  "danmakuCount": 0,
+                  "composeVideo": false,
+                  "xInfo": {
+                    "subed": true
+                  }
+                },
+                "subscribedCount": 0,
+                "reward": false,
+                "mainTrackId": 2631356773,
+                "serialNum": 1727447598221,
+                "listenerCount": 155743,
+                "name": "Flip Flap Festival!",
+                "id": 3063567005,
+                "createTime": 1727447598231,
+                "description": "Flip Flap Festival!\n「五塵来降」Theme\nComposer:Synthion\nTheme_224",
+                "userId": 1737370053,
+                "coverUrl": "http://p3.music.126.net/TI0aWWMm-jVKABAmWQ9Brw==/109951169995820410.jpg",
+                "commentThreadId": "A_DJ_1_3063567005",
+                "channels": [],
+                "titbits": null,
+                "titbitImages": null,
+                "pubStatus": 5,
+                "trackCount": 0,
+                "bdAuditStatus": 2,
+                "programFeeType": 0,
+                "buyed": false,
+                "programDesc": null,
+                "h5Links": [],
+                "coverId": 109951169995820420,
+                "adjustedPlayCount": 155743,
+                "canReward": false,
+                "auditStatus": 10,
+                "updateTime": 1729504137430,
+                "categoryId": 3001,
+                "category": "二次元",
+                "secondCategoryId": 3085096,
+                "secondCategory": "游戏",
+                "scheduledPublishTime": 1727447598231,
+                "privacy": false,
+                "disPlayStatus": "NORMAL",
+                "createEventId": 0,
+                "djPlayRecordVo": null,
+                "shortName": null,
+                "price": null,
+                "latestFreeTryStartPoint": null,
+                "latestFreeTryEndPoint": null,
+                "algReason": null,
+                "showAlgReason": null,
+                "icon": null,
+                "replaceResource": null,
+                "songTimeStamps": null,
+                "classicRelationSong": null,
+                "specialTags": null,
+                "duration": 124813,
+                "publish": true,
+                "xInfo": null
+              },
+              "commentCount": 27,
+              "replaceName": null,
+              "icon": null
+            },
+            "os": "android",
+            "multiTerminalInfo": {
+              "icon": "https://p5.music.126.net/obj/wonDlsKUwrLClGjCm8Kx/44266366095/5341/a415/1103/fac10cdcd9740b97c5233f3457aa0ee4.png",
+              "osText": "移动端",
+              "os": "android"
+            }
+          }
+        ]
+      },
+      "message": ""
+    }
+  }
+}

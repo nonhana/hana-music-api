@@ -1,0 +1,23 @@
+{
+  "module": "song_lyrics_mark_del",
+  "query": {
+    "id": 32538120
+  },
+  "context": {
+    "recordedAt": "2026-10-26T04:01:51.052Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：song_lyrics_mark_del 正向（删除摘录 32538120）；写前回读含该 markId，写后回读为空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "success": true
+      },
+      "message": ""
+    }
+  }
+}

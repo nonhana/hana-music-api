@@ -42,6 +42,10 @@ const result = await listenDataReport({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和通到报告的 `body.data` 收紧；周/月/年报的统计块（`listenTimeBlock`、`listenTimeDistributionBlock`、`topSongBlock`、`topArtistBlock`、`topStyleBlock`、`topAgeBlock`、`topLanguageBlock`、`vipBlock`、`wallpaperBlock`、好友块等）都是宽松字段，整块缺失或为 `null` 时原样保留，块内字段也全部宽松。月报的好友块是 `friendsListenMonthBlock` / `friendsKeyWordMonthBlock`，年报只有时间范围和 `listenTimeBlock: null`；没有收听记录的周（`listen_data_report.empty.json`）所有块都是 `null`。录制覆盖 `type=week`、`month`、`year` 和无数据周，来自登录账号（`context.viewer` 是 `authenticated`）；未登录时上游返回 `code: 302`（`listen_data_report.anonymous.json`）。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 获取周/月/年收听报告

@@ -115,8 +115,8 @@ describe('phase 5 module regression suite', () => {
           body: {
             code: 200,
             data: [
-              { id: 2, url: 'second' },
-              { id: 1, url: 'first' },
+              { id: 2, url: 'second', code: 200 },
+              { id: 1, url: 'first', code: 200 },
             ],
           },
           cookie: [],
@@ -187,8 +187,8 @@ describe('phase 5 module regression suite', () => {
       uri: '/api/v6/playlist/detail',
     });
     expect(readArrayProperty(songUrl.body, 'data')).toEqual([
-      { id: 1, url: 'first' },
-      { id: 2, url: 'second' },
+      { id: 1, url: 'first', code: 200 },
+      { id: 2, url: 'second', code: 200 },
     ]);
     expect(readRecordProperty(playlistDetail.body, 'playlist')).toEqual(
       fakePlaylist,

@@ -1,13 +1,23 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const playlistTrackAdd: ModuleEffect<ModuleInput> = (query, request) =>
+// 成功返回只承诺返回码，收紧的是返回码；401/404 业务拒绝原样转交。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({ code: Schema.Literal(200) }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const playlistTrackAdd: ModuleEffect<ModuleInput, ModuleBody> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     if (
       query.ids !== undefined &&
@@ -28,15 +38,21 @@ const playlistTrackAdd: ModuleEffect<ModuleInput> = (query, request) =>
       ),
     };
 
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/playlist/track/add`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/playlist/track/add`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    return {
+      ...toModuleResponse(response),
+      body: yield* decodeUpstreamBody(
+        'playlist_track_add',
+        ModuleBody,
+        response,
+      ),
+    };
   });
 
 export default playlistTrackAdd;

@@ -1,0 +1,21 @@
+{
+  "module": "dj_toplist_pay",
+  "query": {
+    "limit": "abc"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:57:04.937Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B13: dj_toplist_pay 非法 limit 业务 400"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "msg": "参数错误",
+      "data": null
+    }
+  }
+}

@@ -1,0 +1,1008 @@
+{
+  "module": "listen_data_report",
+  "query": {
+    "type": "month"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:47:48.594Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B33：listen_data_report 月报"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "type": "month",
+        "startTime": 1788192000000,
+        "endTime": 1790697600000,
+        "listenTimeBlock": {
+          "listenDataHelper": null,
+          "playDuration": 3795,
+          "playDurationText": "超过了95%的村民",
+          "circleTimePeriodDurations": [
+            {
+              "period": "early_morning",
+              "duration": 0
+            },
+            {
+              "period": "morning",
+              "duration": 300
+            },
+            {
+              "period": "night",
+              "duration": 339
+            },
+            {
+              "period": "noon",
+              "duration": 606
+            },
+            {
+              "period": "deep_night",
+              "duration": 1044
+            },
+            {
+              "period": "afternoon",
+              "duration": 1506
+            }
+          ],
+          "sections": [
+            {
+              "type": "totalPlayMonth",
+              "field": "本月共听",
+              "valueA": "30",
+              "textB": "每天都能见到你"
+            },
+            {
+              "type": "maxPlayMonth",
+              "field": "听歌最久",
+              "valueA": "1788796800000",
+              "textB": "听了214分"
+            },
+            {
+              "type": "maxPlayChannel",
+              "field": "红心收听",
+              "valueA": "112997",
+              "textB": "占总时长50%"
+            }
+          ],
+          "blockType": "LISTEN_TIME_MONTH_BLOCK"
+        },
+        "listenTimeDistributionBlock": {
+          "listenDataHelper": null,
+          "achievementTitleGeneratorClient": null,
+          "playDuration": 3795,
+          "achievementTitle": {
+            "mainTitle": "听歌全勤奖",
+            "subTitle": "本月听歌天数达30天!"
+          },
+          "listenDays": 30,
+          "durationDetails": [
+            {
+              "period": "2026-09-01",
+              "duration": 127,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-02",
+              "duration": 92,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-03",
+              "duration": 186,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-04",
+              "duration": 206,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-05",
+              "duration": 115,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-06",
+              "duration": 120,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-07",
+              "duration": 120,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-08",
+              "duration": 229,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-09",
+              "duration": 129,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-10",
+              "duration": 127,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-11",
+              "duration": 127,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-12",
+              "duration": 26,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-13",
+              "duration": 111,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-14",
+              "duration": 29,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-15",
+              "duration": 149,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-16",
+              "duration": 177,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-17",
+              "duration": 175,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-18",
+              "duration": 87,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-19",
+              "duration": 145,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-20",
+              "duration": 147,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-21",
+              "duration": 181,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-22",
+              "duration": 42,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-23",
+              "duration": 131,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-24",
+              "duration": 36,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-25",
+              "duration": 194,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-26",
+              "duration": 120,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-27",
+              "duration": 121,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-28",
+              "duration": 171,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-29",
+              "duration": 86,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            },
+            {
+              "period": "2026-09-30",
+              "duration": 89,
+              "podcastDuration": 0,
+              "audiobookDuration": 0,
+              "reachLimit": false
+            }
+          ],
+          "sections": [
+            {
+              "type": "lateSleep",
+              "value": "1790447818000"
+            },
+            {
+              "type": "durationDiffPositive",
+              "value": "15944"
+            }
+          ],
+          "sleepTdBlock": {
+            "sleepDurationDetails": null,
+            "sleepPlayDuration": null,
+            "sleepListenDays": null,
+            "sleepScene": null,
+            "maxDayPlayDuration": null,
+            "avgDayPlayDuration": null,
+            "maxDayPlayDurationPeriod": null
+          },
+          "blockType": "LISTEN_TIME_DISTRIBUTION_MONTH_BLOCK"
+        },
+        "vipInviteMonthBlock": null,
+        "wallpaperBlock": {
+          "songCount": 845,
+          "items": [
+            {
+              "songId": 22703974,
+              "songName": "All I Want In This World (Feat. CL Smooth)",
+              "artists": [
+                {
+                  "artistId": 18931,
+                  "artistName": "Cradle Orchestra"
+                }
+              ],
+              "picId": 770757651093282,
+              "picUrl": "http://p4.music.126.net/ukEd3BNM0X6skwLxUygjfg==/770757651093282.jpg"
+            },
+            {
+              "songId": 22712179,
+              "songName": "Starlight Feat.Nieve",
+              "artists": [
+                {
+                  "artistId": 16069,
+                  "artistName": "阿南亮子"
+                },
+                {
+                  "artistId": 36396613,
+                  "artistName": "Nieve"
+                }
+              ],
+              "picId": 109951166455944110,
+              "picUrl": "http://p4.music.126.net/L9-d4kf-D27DkJ_0Uw6rAA==/109951166455944113.jpg"
+            },
+            {
+              "songId": 108810,
+              "songName": "不死之身",
+              "artists": [
+                {
+                  "artistId": 3684,
+                  "artistName": "林俊杰"
+                }
+              ],
+              "picId": 109951171415593440,
+              "picUrl": "http://p4.music.126.net/kSyujmjRn_9adgb4Wg5R-g==/109951171415593434.jpg"
+            },
+            {
+              "songId": 490687121,
+              "songName": "夏に花が散る",
+              "artists": [
+                {
+                  "artistId": 12094419,
+                  "artistName": "羽肿"
+                }
+              ],
+              "picId": 109951169500060860,
+              "picUrl": "http://p3.music.126.net/saXNx3aWMTFX77b9KQpXwg==/109951169500060865.jpg"
+            },
+            {
+              "songId": 524681,
+              "songName": "An Avenue",
+              "artists": [
+                {
+                  "artistId": 15567,
+                  "artistName": "tsunenori a.k.a Marukabis"
+                }
+              ],
+              "picId": 2270491511406026,
+              "picUrl": "http://p4.music.126.net/AYUIngFniHE0GExrSfkzVQ==/2270491511406026.jpg"
+            },
+            {
+              "songId": 2675501152,
+              "songName": "scarlet",
+              "artists": [
+                {
+                  "artistId": 34150014,
+                  "artistName": "L1VET.."
+                }
+              ],
+              "picId": 109951170487563150,
+              "picUrl": "http://p3.music.126.net/jTcKApVU9D8nCIsHxxhe_g==/109951170487563148.jpg"
+            },
+            {
+              "songId": 427606780,
+              "songName": "Windy Hill",
+              "artists": [
+                {
+                  "artistId": 12094419,
+                  "artistName": "羽肿"
+                }
+              ],
+              "picId": 109951169463411520,
+              "picUrl": "http://p3.music.126.net/R5wdneWJADdilEDtqBev-w==/109951169463411528.jpg"
+            },
+            {
+              "songId": 550059604,
+              "songName": "绝体绝命",
+              "artists": [
+                {
+                  "artistId": 964311,
+                  "artistName": "阿良良木健"
+                },
+                {
+                  "artistId": 906118,
+                  "artistName": "洛天依Official"
+                }
+              ],
+              "picId": 109951163696193010,
+              "picUrl": "http://p3.music.126.net/Csw9Gl-c5YDFLJggK-gpyw==/109951163696193010.jpg"
+            },
+            {
+              "songId": 1381723556,
+              "songName": "Call your name <Gv>",
+              "artists": [
+                {
+                  "artistId": 15290,
+                  "artistName": "澤野弘之"
+                },
+                {
+                  "artistId": 12531080,
+                  "artistName": "R!N/Gemie"
+                }
+              ],
+              "picId": 109951164317563090,
+              "picUrl": "http://p3.music.126.net/tUVBHTRiO2fSvvgIcMhuGA==/109951164317563085.jpg"
+            },
+            {
+              "songId": 471374188,
+              "songName": "i wouldn't mind dying with you (feat. Bonjr)",
+              "artists": [
+                {
+                  "artistId": 12121171,
+                  "artistName": "longlost"
+                },
+                {
+                  "artistId": 12203563,
+                  "artistName": "bonjr"
+                }
+              ],
+              "picId": 109951166556307470,
+              "picUrl": "http://p3.music.126.net/q7aNy0O0fPgflHt8d7H-KQ==/109951166556307474.jpg"
+            },
+            {
+              "songId": 813621,
+              "songName": "Another You",
+              "artists": [
+                {
+                  "artistId": 21223,
+                  "artistName": "ROMANTIC PRODUCTION"
+                }
+              ],
+              "picId": 109951168746951600,
+              "picUrl": "http://p4.music.126.net/ro6YReApxNI3k4ukyJw_ZA==/109951168746951606.jpg"
+            },
+            {
+              "songId": 526468203,
+              "songName": "winter coat",
+              "artists": [
+                {
+                  "artistId": 49346265,
+                  "artistName": "Elijah Who"
+                }
+              ],
+              "picId": 109951170705207500,
+              "picUrl": "http://p4.music.126.net/9GTmMUk8y8e2dGra2-D6Gg==/109951170705207499.jpg"
+            },
+            {
+              "songId": 92283,
+              "songName": "过桥",
+              "artists": [
+                {
+                  "artistId": 3058,
+                  "artistName": "后弦"
+                }
+              ],
+              "picId": 54975581389580,
+              "picUrl": "http://p4.music.126.net/3mnH7ecpWcjd9jN5OKjVwA==/54975581389580.jpg"
+            },
+            {
+              "songId": 737955,
+              "songName": "Thank you for dears.",
+              "artists": [
+                {
+                  "artistId": 19621,
+                  "artistName": "GET IN THE RING"
+                }
+              ],
+              "picId": 920291232448746,
+              "picUrl": "http://p3.music.126.net/NFPqcHhAuqf99whTDCLJdw==/920291232448746.jpg"
+            },
+            {
+              "songId": 430685732,
+              "songName": "Rain after Summer",
+              "artists": [
+                {
+                  "artistId": 12094419,
+                  "artistName": "羽肿"
+                }
+              ],
+              "picId": 109951169500066560,
+              "picUrl": "http://p4.music.126.net/YBl1n_Rg5vzDpiw0HUvlqA==/109951169500066565.jpg"
+            },
+            {
+              "songId": 499818,
+              "songName": "cocoon",
+              "artists": [
+                {
+                  "artistId": 14202,
+                  "artistName": "林ゆうき"
+                }
+              ],
+              "picId": 109951172020513340,
+              "picUrl": "http://p3.music.126.net/Ykk4pOTRAd_WgloHp4L31Q==/109951172020513337.jpg"
+            },
+            {
+              "songId": 535517304,
+              "songName": "为霜",
+              "artists": [
+                {
+                  "artistId": 12094419,
+                  "artistName": "羽肿"
+                }
+              ],
+              "picId": 109951169500070130,
+              "picUrl": "http://p3.music.126.net/mi_gtiAay-phig2bC1wwYQ==/109951169500070127.jpg"
+            },
+            {
+              "songId": 434902428,
+              "songName": "花火が瞬く夜に",
+              "artists": [
+                {
+                  "artistId": 12094419,
+                  "artistName": "羽肿"
+                }
+              ],
+              "picId": 109951169500060290,
+              "picUrl": "http://p3.music.126.net/m_hW-M2jlDM9HaevdDq90g==/109951169500060294.jpg"
+            },
+            {
+              "songId": 26310271,
+              "songName": "九龍イドラ",
+              "artists": [
+                {
+                  "artistId": 161660,
+                  "artistName": "トーマ"
+                },
+                {
+                  "artistId": 188274,
+                  "artistName": "GUMI"
+                }
+              ],
+              "picId": 2524478697429863,
+              "picUrl": "http://p3.music.126.net/7dkEW80_gBGmIGe3ROXMFQ==/2524478697429863.jpg"
+            },
+            {
+              "songId": 453268366,
+              "songName": "our love",
+              "artists": [
+                {
+                  "artistId": 14527,
+                  "artistName": "西原健一郎"
+                },
+                {
+                  "artistId": 14748,
+                  "artistName": "Mabanua"
+                }
+              ],
+              "picId": 109951171891583870,
+              "picUrl": "http://p3.music.126.net/SZ7jsRY5BtXHi2G_WnJPsw==/109951171891583875.jpg"
+            }
+          ],
+          "picUrls": [
+            "http://p4.music.126.net/ukEd3BNM0X6skwLxUygjfg==/770757651093282.jpg",
+            "http://p4.music.126.net/L9-d4kf-D27DkJ_0Uw6rAA==/109951166455944113.jpg",
+            "http://p4.music.126.net/kSyujmjRn_9adgb4Wg5R-g==/109951171415593434.jpg",
+            "http://p3.music.126.net/saXNx3aWMTFX77b9KQpXwg==/109951169500060865.jpg",
+            "http://p4.music.126.net/AYUIngFniHE0GExrSfkzVQ==/2270491511406026.jpg",
+            "http://p3.music.126.net/jTcKApVU9D8nCIsHxxhe_g==/109951170487563148.jpg",
+            "http://p3.music.126.net/R5wdneWJADdilEDtqBev-w==/109951169463411528.jpg",
+            "http://p3.music.126.net/Csw9Gl-c5YDFLJggK-gpyw==/109951163696193010.jpg",
+            "http://p3.music.126.net/tUVBHTRiO2fSvvgIcMhuGA==/109951164317563085.jpg",
+            "http://p3.music.126.net/q7aNy0O0fPgflHt8d7H-KQ==/109951166556307474.jpg",
+            "http://p4.music.126.net/ro6YReApxNI3k4ukyJw_ZA==/109951168746951606.jpg",
+            "http://p4.music.126.net/9GTmMUk8y8e2dGra2-D6Gg==/109951170705207499.jpg",
+            "http://p4.music.126.net/3mnH7ecpWcjd9jN5OKjVwA==/54975581389580.jpg",
+            "http://p3.music.126.net/NFPqcHhAuqf99whTDCLJdw==/920291232448746.jpg",
+            "http://p4.music.126.net/YBl1n_Rg5vzDpiw0HUvlqA==/109951169500066565.jpg",
+            "http://p3.music.126.net/Ykk4pOTRAd_WgloHp4L31Q==/109951172020513337.jpg",
+            "http://p3.music.126.net/mi_gtiAay-phig2bC1wwYQ==/109951169500070127.jpg",
+            "http://p3.music.126.net/m_hW-M2jlDM9HaevdDq90g==/109951169500060294.jpg",
+            "http://p3.music.126.net/7dkEW80_gBGmIGe3ROXMFQ==/2524478697429863.jpg",
+            "http://p3.music.126.net/SZ7jsRY5BtXHi2G_WnJPsw==/109951171891583875.jpg"
+          ],
+          "blockType": "WALLPAPER_BLOCK"
+        },
+        "topSongBlock": {
+          "listenDataConfigHolder": null,
+          "sections": [
+            {
+              "type": "top2",
+              "field": "收听TOP2",
+              "songId": 22712179,
+              "picUrl": "http://p4.music.126.net/L9-d4kf-D27DkJ_0Uw6rAA==/109951166455944113.jpg",
+              "songName": "Starlight Feat.Nieve",
+              "text": "7次收听"
+            },
+            {
+              "type": "top3",
+              "field": "收听TOP3",
+              "songId": 108810,
+              "picUrl": "http://p4.music.126.net/kSyujmjRn_9adgb4Wg5R-g==/109951171415593434.jpg",
+              "songName": "不死之身",
+              "text": "7次收听"
+            },
+            {
+              "type": "top4",
+              "field": "收听TOP4",
+              "songId": 490687121,
+              "picUrl": "http://p4.music.126.net/saXNx3aWMTFX77b9KQpXwg==/109951169500060865.jpg",
+              "songName": "夏に花が散る",
+              "text": "6次收听"
+            }
+          ],
+          "firstListenService": null,
+          "songId": 22703974,
+          "songName": "All I Want In This World (Feat. CL Smooth)",
+          "artists": [
+            {
+              "artistId": 18931,
+              "artistName": "Cradle Orchestra"
+            }
+          ],
+          "picUrl": "http://p4.music.126.net/ukEd3BNM0X6skwLxUygjfg==/770757651093282.jpg",
+          "items": [
+            {
+              "type": "playCount",
+              "field": "收听次数",
+              "mainText": "8次",
+              "subText": "累计播放36分"
+            },
+            {
+              "type": "playDays",
+              "field": "收听天数",
+              "mainText": "7天",
+              "subText": "超过92%的粉丝"
+            },
+            {
+              "type": "firstPlay",
+              "field": "第一次听",
+              "mainText": "2025.07.22",
+              "subText": "仲夏的晚上"
+            }
+          ],
+          "playCount": 8,
+          "blockType": "TOP_SONG_MONTH_BLOCK"
+        },
+        "topArtistBlock": {
+          "sections": [
+            {
+              "type": "firstLikeMonth",
+              "field": "最近心动",
+              "artistId": 12052064,
+              "artistName": "Snigellin",
+              "picUrl": "http://p3.music.126.net/B_YXE775ycNYI1JDf5uL4A==/109951165538627813.jpg",
+              "text": "9月1日红心了TA"
+            },
+            {
+              "type": "continueLove",
+              "field": "持续热爱",
+              "artistId": 896913,
+              "artistName": "まふまふ",
+              "picUrl": "http://p4.music.126.net/kKzoviH0H_z01mkf8MMh8A==/109951169421879875.jpg",
+              "text": "10+月连续听TA的歌"
+            },
+            {
+              "type": "newArtist",
+              "field": "小众发现",
+              "artistId": 94515850,
+              "artistName": "ReStudio",
+              "picUrl": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              "text": "1%人关注了TA"
+            }
+          ],
+          "listenDataConfigHolder": null,
+          "artisId": 12094419,
+          "artistName": "羽肿",
+          "avatarUrl": "http://p3.music.126.net/W1P9f2XA0RgEuYU_wrfGjQ==/109951162878075722.jpg",
+          "items": [
+            {
+              "type": "totalPlay",
+              "field": "本月共收听",
+              "resourceId": null,
+              "mainText": "9首",
+              "subText": "累计播放28次"
+            },
+            {
+              "type": "totalPlayDuration",
+              "field": "本月累计收听",
+              "resourceId": null,
+              "mainText": "134分钟",
+              "subText": "就是离不开TA"
+            },
+            {
+              "type": "favoriteArtist",
+              "field": "最喜欢TA的",
+              "resourceId": "490687121",
+              "mainText": "夏に花が散る",
+              "subText": "反复收听6次"
+            }
+          ],
+          "playCount": 28,
+          "blockType": "TOP_ARTIST_MONTH_BLOCK"
+        },
+        "topStyleBlock": {
+          "genreId": 1252,
+          "genreName": "二次元",
+          "genreEnglishName": "ACG",
+          "songId": 1381723556,
+          "songName": "Call your name <Gv>",
+          "picUrl": "http://p4.music.126.net/tUVBHTRiO2fSvvgIcMhuGA==/109951164317563085.jpg",
+          "sections": [
+            {
+              "genreId": 1252,
+              "genreName": "二次元",
+              "percent": "26"
+            },
+            {
+              "genreId": 1000,
+              "genreName": "流行",
+              "percent": "17"
+            },
+            {
+              "genreId": 1017,
+              "genreName": "嘻哈说唱",
+              "percent": "15"
+            }
+          ],
+          "tagResourceRelation4ReadRpcServiceAdapter": null,
+          "playlistAdapter": null,
+          "secondGenreId": 1315,
+          "secondGenreName": "动漫原声",
+          "secondGenreEnglishName": "ACG",
+          "items": [
+            {
+              "type": "represent",
+              "field": "本月代表歌曲",
+              "resourceId": "1381723556",
+              "mainText": "Call your name <Gv>",
+              "subText": "反复收听5遍"
+            },
+            {
+              "type": "recommend",
+              "field": "推荐收听歌单",
+              "resourceId": "6686195533",
+              "mainText": "音随漫动 | 穿越次元的心动",
+              "subText": "6355人已收藏"
+            }
+          ],
+          "blockType": "TOP_STYLE_MONTH_BLOCK"
+        },
+        "topAgeBlock": {
+          "sections": [
+            {
+              "age": "2010",
+              "playSongNum": 451
+            },
+            {
+              "age": "2020",
+              "playSongNum": 168
+            },
+            {
+              "age": "2000",
+              "playSongNum": 64
+            }
+          ],
+          "songItems": [
+            {
+              "songId": 22712179,
+              "songName": "Starlight Feat.Nieve",
+              "picUrl": "http://p3.music.126.net/L9-d4kf-D27DkJ_0Uw6rAA==/109951166455944113.jpg",
+              "text": "2011年发行"
+            },
+            {
+              "songId": 485612576,
+              "songName": "Creep",
+              "picUrl": "http://p4.music.126.net/G2fqygyRReJPU8ZeSNohVA==/109951168011394730.jpg",
+              "text": "2022年发行"
+            },
+            {
+              "songId": 22703974,
+              "songName": "All I Want In This World (Feat. CL Smooth)",
+              "picUrl": "http://p4.music.126.net/ukEd3BNM0X6skwLxUygjfg==/770757651093282.jpg",
+              "text": "2009年发行"
+            }
+          ],
+          "songId": 1443232027,
+          "songName": "I Don't Want to Play Around",
+          "picUrl": "http://p4.music.126.net/TCJ2zg_Golv1Eo1If0UsBQ==/109951164936292748.jpg",
+          "age": "1974",
+          "text": "本月收听最久远的歌",
+          "blockType": "TOP_AGE_MONTH_BLOCK"
+        },
+        "topLanguageBlock": {
+          "sections": [
+            {
+              "language": "英语",
+              "percent": "55",
+              "playSongNum": 253,
+              "songName": "All I Want In This World (Feat. CL Smooth)"
+            },
+            {
+              "language": "日语",
+              "percent": "34",
+              "playSongNum": 158,
+              "songName": "Thank you for dears."
+            },
+            {
+              "language": "华语",
+              "percent": "9",
+              "playSongNum": 44,
+              "songName": "不死之身"
+            }
+          ],
+          "songItems": [
+            {
+              "songId": 22703974,
+              "songName": "All I Want In This World (Feat. CL Smooth)",
+              "picUrl": "http://p3.music.126.net/ukEd3BNM0X6skwLxUygjfg==/770757651093282.jpg",
+              "text": "英语最爱"
+            },
+            {
+              "songId": 737955,
+              "songName": "Thank you for dears.",
+              "picUrl": "http://p4.music.126.net/NFPqcHhAuqf99whTDCLJdw==/920291232448746.jpg",
+              "text": "日语最爱"
+            },
+            {
+              "songId": 108810,
+              "songName": "不死之身",
+              "picUrl": "http://p3.music.126.net/kSyujmjRn_9adgb4Wg5R-g==/109951171415593434.jpg",
+              "text": "华语最爱"
+            }
+          ],
+          "songId": 22703974,
+          "songName": "All I Want In This World (Feat. CL Smooth)",
+          "picUrl": "http://p4.music.126.net/ukEd3BNM0X6skwLxUygjfg==/770757651093282.jpg",
+          "blockType": "TOP_LANGUAGE_MONTH_BLOCK"
+        },
+        "topEmotionBlock": null,
+        "vipBlock": {
+          "sections": [
+            {
+              "type": "vipSongCount",
+              "field": "畅听",
+              "mainText": "307首",
+              "subText": "会员专属歌曲"
+            },
+            {
+              "type": "vipSongDuration",
+              "field": "累计享受",
+              "mainText": "1445分钟",
+              "subText": "专享听歌时间"
+            },
+            {
+              "type": "saveMoney",
+              "field": "共计省下",
+              "mainText": "614元",
+              "subText": "省钱小能手"
+            }
+          ],
+          "songId": 22712179,
+          "songName": "Starlight Feat.Nieve",
+          "picUrl": "http://p4.music.126.net/L9-d4kf-D27DkJ_0Uw6rAA==/109951166455944113.jpg",
+          "blockType": "VIP_MONTH_BLOCK"
+        },
+        "djListenDataBlock": null,
+        "friendsListenMonthBlock": {
+          "items": [
+            {
+              "userId": 1621293368,
+              "username": "艾是美食每克",
+              "userAvatar": "http://p4.music.126.net/rD-67yHem16Au1ksM3Zn-A==/109951173030985546.jpg",
+              "songId": 3935191,
+              "songName": "Sail",
+              "songPicUrl": "http://p3.music.126.net/KS-8PzwycCbEObP3kS1rNQ==/1784507371887683.jpg",
+              "artistId": null,
+              "artistName": null,
+              "artistPicUrl": null,
+              "playCount": 279,
+              "collect": false
+            },
+            {
+              "userId": 1399025329,
+              "username": "Brunlce",
+              "userAvatar": "http://p4.music.126.net/veZkBgQ79qMH_6p9Ysi9jw==/109951166667654271.jpg",
+              "songId": 1469825684,
+              "songName": "燕无歇",
+              "songPicUrl": "http://p4.music.126.net/Fa6AWEnh6fK1mSnlqmL74Q==/109951168772584141.jpg",
+              "artistId": null,
+              "artistName": null,
+              "artistPicUrl": null,
+              "playCount": 24,
+              "collect": true
+            },
+            {
+              "userId": 4876595845,
+              "username": "wawawa-_-",
+              "userAvatar": "http://p4.music.126.net/3TLaWqQWCx5fG2rgl6itnQ==/109951168262388543.jpg",
+              "songId": 1892552475,
+              "songName": "此类生物",
+              "songPicUrl": "http://p3.music.126.net/lMlrJEMY231HkuPFCG0gLA==/109951166589583807.jpg",
+              "artistId": null,
+              "artistName": null,
+              "artistPicUrl": null,
+              "playCount": 10,
+              "collect": false
+            }
+          ],
+          "musicRepSongServiceAdapter": null,
+          "playlistAdapter": null,
+          "configHolder": null,
+          "blockType": "FRIENDS_LISTEN_MONTH_BLOCK"
+        },
+        "friendsKeyWordMonthBlock": {
+          "items": [
+            {
+              "friendsKeywordEnum": "DURATION3",
+              "title": "音乐卷王",
+              "subTitle": "本月听歌22天以上",
+              "enumCode": "DURATION3",
+              "friendList": [
+                {
+                  "userId": 1399025329,
+                  "username": "Brunlce",
+                  "userAvatar": "http://p4.music.126.net/veZkBgQ79qMH_6p9Ysi9jw==/109951166667654271.jpg"
+                },
+                {
+                  "userId": 1621293368,
+                  "username": "艾是美食每克",
+                  "userAvatar": "http://p4.music.126.net/rD-67yHem16Au1ksM3Zn-A==/109951173030985546.jpg"
+                },
+                {
+                  "userId": 4876595845,
+                  "username": "wawawa-_-",
+                  "userAvatar": "http://p4.music.126.net/3TLaWqQWCx5fG2rgl6itnQ==/109951168262388543.jpg"
+                }
+              ]
+            },
+            {
+              "friendsKeywordEnum": "EMOTION1",
+              "title": "可能EMO了",
+              "subTitle": "常听伤感歌曲",
+              "enumCode": "EMOTION1",
+              "friendList": [
+                {
+                  "userId": 4876595845,
+                  "username": "wawawa-_-",
+                  "userAvatar": "http://p4.music.126.net/3TLaWqQWCx5fG2rgl6itnQ==/109951168262388543.jpg"
+                }
+              ]
+            },
+            {
+              "friendsKeywordEnum": "TIME2",
+              "title": "深夜音乐狂",
+              "subTitle": "喜欢在深夜听歌",
+              "enumCode": "TIME2",
+              "friendList": [
+                {
+                  "userId": 4876595845,
+                  "username": "wawawa-_-",
+                  "userAvatar": "http://p4.music.126.net/3TLaWqQWCx5fG2rgl6itnQ==/109951168262388543.jpg"
+                }
+              ]
+            },
+            {
+              "friendsKeywordEnum": "HOBBIT3",
+              "title": "单曲中毒",
+              "subTitle": "单曲循环超过20遍",
+              "enumCode": "HOBBIT3",
+              "friendList": [
+                {
+                  "userId": 1621293368,
+                  "username": "艾是美食每克",
+                  "userAvatar": "http://p4.music.126.net/rD-67yHem16Au1ksM3Zn-A==/109951173030985546.jpg"
+                }
+              ]
+            }
+          ],
+          "configHolder": null,
+          "blockType": "FRIENDS_KEYWORD_MONTH_BLOCK"
+        }
+      },
+      "message": ""
+    }
+  }
+}

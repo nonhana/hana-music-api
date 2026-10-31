@@ -37,6 +37,10 @@ const result = await historyRecommendSongs();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data`、`data.dates` 收紧，`data.dates[]` 是日期字符串；`purchaseUrl`、`description`、`noHistoryMessage` 宽松；`message` 未声明，原样保留。`data.songs` 在登录和匿名录制里都是 `null`，没有非 null 证据，未声明并原样保留。结构定义和类型是 `HistoryRecommendSongsBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获得历史日推可用日期列表

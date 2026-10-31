@@ -1,0 +1,19 @@
+{
+  "module": "signin_progress",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T23:03:55.031Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B37：signin_progress 匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 301,
+      "message": "用户未登录",
+      "exception": "com.netease.music.common.core.exception.IgnoredException"
+    }
+  }
+}

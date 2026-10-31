@@ -1,0 +1,22 @@
+{
+  "module": "topic_sublist",
+  "query": {
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:27:46.773Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B19：话题收藏列表 登录账号，越界分页的空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [],
+      "count": 1,
+      "hasMore": false,
+      "code": 200
+    }
+  }
+}

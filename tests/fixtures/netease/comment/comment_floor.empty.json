@@ -1,0 +1,123 @@
+{
+  "module": "comment_floor",
+  "query": {
+    "id": 2092595510,
+    "type": 0,
+    "parentCommentId": 9673055460
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:41:09.245Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B8：comment_floor 无楼层回复（父评论 9673055460，ownerComment 带一条 beReplied）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "获取成功",
+      "data": {
+        "ownerComment": {
+          "user": {
+            "locationInfo": null,
+            "liveInfo": null,
+            "anonym": 0,
+            "highlight": false,
+            "thanked": null,
+            "avatarDetail": null,
+            "userType": 0,
+            "avatarUrl": "http://p3.music.126.net/j2u9ma1XqLLl257oosyNKg==/109951174041342108.jpg",
+            "followed": false,
+            "mutual": false,
+            "remarkName": null,
+            "socialUserId": null,
+            "vipRights": null,
+            "nickname": "巅峰极速AE86",
+            "authStatus": 0,
+            "expertTags": null,
+            "experts": null,
+            "vipType": 0,
+            "commonIdentity": null,
+            "userId": 17062533682,
+            "target": null
+          },
+          "beReplied": [
+            {
+              "user": {
+                "locationInfo": null,
+                "liveInfo": null,
+                "anonym": 0,
+                "highlight": false,
+                "thanked": null,
+                "avatarDetail": null,
+                "userType": 0,
+                "avatarUrl": "http://p4.music.126.net/2Yqw13EJTUDC3V1orGB6vg==/109951174066875595.jpg",
+                "followed": false,
+                "mutual": false,
+                "remarkName": null,
+                "socialUserId": null,
+                "vipRights": null,
+                "nickname": "Ch琳轩",
+                "authStatus": 0,
+                "expertTags": null,
+                "experts": null,
+                "vipType": 11,
+                "commonIdentity": null,
+                "userId": 14050661232,
+                "target": null
+              },
+              "beRepliedCommentId": 9566348630,
+              "content": "日本人囗1.26亿人，一瓶水按200毫升算，8瓶水就是1600毫升，即1.6千克。日本核污水总储量137万吨，算下来日本人每天喝八杯核查污水，大约7天就可以把核污水喝完，请把这句话传遍全网络。（我是复制的）",
+              "richContent": "日本人囗1.26亿人，一瓶水按200毫升算，8瓶水就是1600毫升，即1.6千克。日本核污水总储量137万吨，算下来日本人每天喝八杯核查污水，大约7天就可以把核污水喝完，请把这句话传遍全网络。（我是复制的）",
+              "status": 0,
+              "expressionUrl": null,
+              "contentStickerExt": null,
+              "ipLocation": {
+                "ip": null,
+                "location": "江西",
+                "userId": 14050661232
+              }
+            }
+          ],
+          "pendantData": null,
+          "showFloorComment": null,
+          "status": 0,
+          "commentId": 9673055460,
+          "content": "日本人囗1.26亿人，一瓶水按200毫升算，8瓶水就是1600毫升，即1.6千克。日本核污水总储量137万吨，算下来日本人每天喝八杯核查污水，大约7天就可以把核污水喝完，请把这句话传遍全网络。（我是复制的）",
+          "richContent": "日本人囗1.26亿人，一瓶水按200毫升算，8瓶水就是1600毫升，即1.6千克。日本核污水总储量137万吨，算下来日本人每天喝八杯核查污水，大约7天就可以把核污水喝完，请把这句话传遍全网络。（我是复制的）",
+          "contentResource": null,
+          "time": 1792887871602,
+          "timeStr": "08:24",
+          "needDisplayTime": true,
+          "likedCount": 0,
+          "expressionUrl": null,
+          "contentStickerExt": null,
+          "commentLocationType": 0,
+          "parentCommentId": 9566348630,
+          "decoration": {},
+          "repliedMark": null,
+          "grade": null,
+          "userBizLevels": null,
+          "ipLocation": {
+            "ip": null,
+            "location": "陕西",
+            "userId": 17062533682
+          },
+          "owner": false,
+          "medal": null,
+          "likeAnimationMap": null,
+          "favorited": false,
+          "aiCommentLabel": null,
+          "liked": false
+        },
+        "currentComment": null,
+        "comments": [],
+        "hasMore": false,
+        "totalCount": 0,
+        "time": 0,
+        "bestComments": []
+      }
+    }
+  }
+}

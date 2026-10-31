@@ -1,0 +1,154 @@
+{
+  "module": "album_list_style",
+  "query": {
+    "limit": 10,
+    "offset": 0,
+    "area": "Z_H"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:18:07.011Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B1：album_list_style 语种风格馆非空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "hasNextPage": true,
+      "albumProducts": [
+        {
+          "albumId": 404060139,
+          "albumName": "Rise Without A Sound",
+          "artistName": "林俊杰",
+          "artistNames": ["林俊杰"],
+          "price": 4,
+          "customPriceConfig": null,
+          "coverUrl": "https://p3.music.126.net/_jktwb0bnnR_OdXAXPcVzQ==/109951174111387616.jpg",
+          "sales": 22410,
+          "type": 1,
+          "bought": false,
+          "saleDisplayType": 0
+        },
+        {
+          "albumId": 401127889,
+          "albumName": "IF:我们共同折叠的宇宙",
+          "artistName": "周诗雨",
+          "artistNames": ["周诗雨"],
+          "price": 15,
+          "customPriceConfig": null,
+          "coverUrl": "https://p4.music.126.net/pmzpbs5IBp0gPybeETLJLQ==/109951174026784233.jpg",
+          "sales": 6385,
+          "type": 0,
+          "bought": false,
+          "saleDisplayType": 0
+        },
+        {
+          "albumId": 393247458,
+          "albumName": "郊居赋",
+          "artistName": "窦唯",
+          "artistNames": ["窦唯", "朝简"],
+          "price": 100,
+          "customPriceConfig": null,
+          "coverUrl": "https://p3.music.126.net/TYB8JxkEazCr1DVuc7-mJw==/109951173774381861.jpg",
+          "sales": 70,
+          "type": 0,
+          "bought": false,
+          "saleDisplayType": 0
+        },
+        {
+          "albumId": 392206159,
+          "albumName": "600声心灵之愈",
+          "artistName": "上海音乐出版社有限公司",
+          "artistNames": ["上海音乐出版社有限公司"],
+          "price": 50,
+          "customPriceConfig": null,
+          "coverUrl": "https://p3.music.126.net/fpmsUnRjLdcNtWQbfSyDzw==/109951173740458228.jpg",
+          "sales": 2,
+          "type": 0,
+          "bought": false,
+          "saleDisplayType": 10
+        },
+        {
+          "albumId": 391082181,
+          "albumName": "高唐赋并序",
+          "artistName": "窦唯",
+          "artistNames": ["窦唯", "朝简"],
+          "price": 100,
+          "customPriceConfig": null,
+          "coverUrl": "https://p4.music.126.net/uoR98wpSlE7ub7A8fkD88w==/109951173703382147.jpg",
+          "sales": 62,
+          "type": 0,
+          "bought": false,
+          "saleDisplayType": 0
+        },
+        {
+          "albumId": 387975057,
+          "albumName": "光与盐 (下)",
+          "artistName": "周峻炜",
+          "artistNames": ["周峻炜"],
+          "price": 20,
+          "customPriceConfig": null,
+          "coverUrl": "https://p3.music.126.net/5uRvQ8NIMDgIEygBKnZBEQ==/109951173596931236.jpg",
+          "sales": 5241,
+          "type": 0,
+          "bought": false,
+          "saleDisplayType": 0
+        },
+        {
+          "albumId": 387017486,
+          "albumName": "小小的我",
+          "artistName": "罗云熙",
+          "artistNames": ["罗云熙"],
+          "price": 40,
+          "customPriceConfig": null,
+          "coverUrl": "https://p3.music.126.net/RvS-fcJ3Kq5IlZ0gtPXyvA==/109951173558628333.jpg",
+          "sales": 5045,
+          "type": 0,
+          "bought": false,
+          "saleDisplayType": 0
+        },
+        {
+          "albumId": 387169747,
+          "albumName": "小海子村儿",
+          "artistName": "窦唯",
+          "artistNames": ["窦唯", "朝简"],
+          "price": 100,
+          "customPriceConfig": null,
+          "coverUrl": "https://p3.music.126.net/ZGespswWqIlDQGrjvSr3Yg==/109951173563447584.jpg",
+          "sales": 113,
+          "type": 1,
+          "bought": false,
+          "saleDisplayType": 0
+        },
+        {
+          "albumId": 385703181,
+          "albumName": "Falling 4 U",
+          "artistName": "Mr.岑",
+          "artistNames": ["Mr.岑"],
+          "price": 20,
+          "customPriceConfig": null,
+          "coverUrl": "https://p4.music.126.net/eRu-JVcSoQcqWGR7F3rdug==/109951173519884753.jpg",
+          "sales": 7320,
+          "type": 0,
+          "bought": false,
+          "saleDisplayType": 0
+        },
+        {
+          "albumId": 385696494,
+          "albumName": "四重奏",
+          "artistName": "洛天依Official",
+          "artistNames": ["洛天依Official"],
+          "price": 20,
+          "customPriceConfig": null,
+          "coverUrl": "https://p3.music.126.net/RJgpOGa6inOecPXRSQi-lA==/109951173519594458.jpg",
+          "sales": 26886,
+          "type": 0,
+          "bought": false,
+          "saleDisplayType": 0
+        }
+      ]
+    }
+  }
+}

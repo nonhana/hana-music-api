@@ -1,0 +1,156 @@
+{
+  "module": "simi_mv",
+  "query": {
+    "mvid": 99999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T20:58:29.180Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B30：simi_mv 未知 mvid 仍返回默认 5 条，未找到可达的空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "mvs": [
+        {
+          "id": 142002,
+          "cover": "http://p3.music.126.net/_lF0atFA17veynfMTl3_Lw==/363938348829213.jpg",
+          "name": "超级面对面 第29期 陶喆：温情的我依然有姿态",
+          "playCount": 515507,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "陶喆",
+          "artistId": 5196,
+          "duration": 539000,
+          "mark": 0,
+          "artists": [
+            {
+              "id": 5196,
+              "name": "陶喆",
+              "alias": ["David Tao", "陶绪忠"],
+              "transNames": null
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面",
+              "alias": [],
+              "transNames": null
+            }
+          ],
+          "alg": "rt"
+        },
+        {
+          "id": 144001,
+          "cover": "http://p4.music.126.net/EqlFbFzCanjWBrZJEREYQQ==/6037418348118157.jpg",
+          "name": "超级面对面 第30期 曾轶可：我真的是颗辣糖 来尝尝",
+          "playCount": 422967,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "曾轶可",
+          "artistId": 10750,
+          "duration": 518000,
+          "mark": 0,
+          "artists": [
+            {
+              "id": 10750,
+              "name": "曾轶可",
+              "alias": ["绵羊天使", "羊"],
+              "transNames": null
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面",
+              "alias": [],
+              "transNames": null
+            }
+          ],
+          "alg": "rt"
+        },
+        {
+          "id": 146006,
+          "cover": "http://p3.music.126.net/rNIP2AgnPWhwSreHwFFDlw==/864216149432854.jpg",
+          "name": "超级面对面 第31期 蔡健雅：再拿金曲奖别向我扔石头",
+          "playCount": 445678,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "蔡健雅",
+          "artistId": 7214,
+          "duration": 531000,
+          "mark": 0,
+          "artists": [
+            {
+              "id": 7214,
+              "name": "蔡健雅",
+              "alias": ["Tanya Chua"],
+              "transNames": null
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面",
+              "alias": [],
+              "transNames": null
+            }
+          ],
+          "alg": "rt"
+        },
+        {
+          "id": 157008,
+          "cover": "http://p4.music.126.net/CfruUvDhdMt0Cb5aosAIrw==/5927467185406180.jpg",
+          "name": "超级面对面 第32期 陈楚生：对“快男”仍心怀感激",
+          "playCount": 258012,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "陈楚生",
+          "artistId": 2124,
+          "duration": 545000,
+          "mark": 0,
+          "artists": [
+            {
+              "id": 2124,
+              "name": "陈楚生",
+              "alias": ["Chen Chu Sheng"],
+              "transNames": null
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面",
+              "alias": [],
+              "transNames": null
+            }
+          ],
+          "alg": "rt"
+        },
+        {
+          "id": 167012,
+          "cover": "http://p3.music.126.net/FDub7rZVsWBy4eU3bJh_tQ==/5817516022736148.jpg",
+          "name": "超级面对面 第33期 戴佩妮：大家笑我太疯癫",
+          "playCount": 161644,
+          "briefDesc": null,
+          "desc": null,
+          "artistName": "戴佩妮",
+          "artistId": 7535,
+          "duration": 521000,
+          "mark": 0,
+          "artists": [
+            {
+              "id": 7535,
+              "name": "戴佩妮",
+              "alias": ["Penny"],
+              "transNames": null
+            },
+            {
+              "id": 37576510,
+              "name": "超级面对面",
+              "alias": [],
+              "transNames": null
+            }
+          ],
+          "alg": "rt"
+        }
+      ],
+      "code": 200
+    }
+  }
+}

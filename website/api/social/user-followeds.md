@@ -45,6 +45,10 @@ const result = await userFolloweds({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.followeds` 和每条粉丝记录的 `body.followeds[].userId` 收紧；没有粉丝时 `followeds` 是空数组（录制 `user_followeds.empty.json`，账号 13595690613）。粉丝记录复用 `UserProfile` 的宽松字段，并补上 `py`、`time`、`vipRights`；`vipRights` 可能为 `null`，声明为宽松字段。`remarkName` 在本批录制里只见过 `null`，没有声明。`more`、`newCount`、`size` 是宽松字段，`newCount` 只在部分响应里出现。结构定义和类型是 `UserFollowedsBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入用户 id, 可以获取用户粉丝列表

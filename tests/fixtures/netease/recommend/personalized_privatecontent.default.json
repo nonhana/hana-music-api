@@ -1,0 +1,50 @@
+{
+  "module": "personalized_privatecontent",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T19:48:08.556Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B26：独家放送 匿名视角"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "name": "独家放送",
+      "result": [
+        {
+          "id": 14514232,
+          "url": "",
+          "picUrl": "https://p3.music.126.net/ZfQoqzo0rTqe3sFKkDnGuw==/109951167211930348.jpg",
+          "sPicUrl": "https://p3.music.126.net/xLa1qgy1Mu3wRXFZ3GNLiA==/109951167211942016.jpg",
+          "type": 5,
+          "copywriter": "《超级面对面》第254期 keshi：我的音乐永远新鲜",
+          "name": "《超级面对面》第254期 keshi：我的音乐永远新鲜",
+          "alg": "featured"
+        },
+        {
+          "id": 14502289,
+          "url": "",
+          "picUrl": "https://p4.music.126.net/11GImNvQQkOYFeQsReyyMQ==/109951167063057575.jpg",
+          "sPicUrl": "https://p3.music.126.net/72JkTBTmLllSenSlQYaO7Q==/109951167063050731.jpg",
+          "type": 5,
+          "copywriter": "《超级面对面》第253期 Charlie Puth：灵感就在开关之间",
+          "name": "《超级面对面》第253期 Charlie Puth：灵感就在开关之间",
+          "alg": "featured"
+        },
+        {
+          "id": 14498287,
+          "url": "",
+          "picUrl": "https://p3.music.126.net/bXBBCrVEKtMZCnAwA8bnXQ==/109951166995281428.jpg",
+          "sPicUrl": "https://p3.music.126.net/z_XrKvWDuk2Na6LniN3hGA==/109951166995281863.jpg",
+          "type": 5,
+          "copywriter": "惊喜呈现| 姜贞羽：热爱舞台上的每一个瞬间",
+          "name": "惊喜呈现| 姜贞羽：热爱舞台上的每一个瞬间",
+          "alg": "featured"
+        }
+      ]
+    }
+  }
+}

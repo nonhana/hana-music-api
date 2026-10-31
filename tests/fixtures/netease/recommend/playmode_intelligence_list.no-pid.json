@@ -1,0 +1,27 @@
+{
+  "module": "playmode_intelligence_list",
+  "query": {
+    "id": 1318115725,
+    "count": 3
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:54:08.203Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B40：playmode_intelligence_list 缺少歌单 pid 的上游失败返回",
+    "outcome": "rejected"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "success": false,
+      "code": "500",
+      "message": "",
+      "data": null,
+      "ignore": false,
+      "empty": false,
+      "present": false
+    }
+  }
+}

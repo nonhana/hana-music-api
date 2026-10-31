@@ -1,0 +1,22 @@
+{
+  "module": "album_list_style",
+  "query": {
+    "limit": 10,
+    "offset": 100000,
+    "area": "Z_H"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:18:07.520Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B1：album_list_style 越界分页返回 code 404，空列表不可达"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 404,
+      "message": "没有数据"
+    }
+  }
+}

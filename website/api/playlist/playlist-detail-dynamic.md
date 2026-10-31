@@ -41,6 +41,10 @@ const result = await playlistDetailDynamic({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 收紧；`bookedCount`、`commentCount`、`followed`、`gradeStatus`、`playCount`、`shareCount`、`subscribed` 是宽松字段，`remarkName`、`remixVideo` 在录制里只见过 `null`，没有声明，原样保留。正文没有列表，本批录制与探测未发现可达的空结果；非 null 路径与类型相同；登录探测只在宽松字段上出现不同值（`subscribed` 从 `false` 变成 `true`），登录对照录制已删除。结构定义和类型是 `PlaylistDetailDynamicBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用后可获取歌单详情动态部分,如评论数,是否收藏,播放数

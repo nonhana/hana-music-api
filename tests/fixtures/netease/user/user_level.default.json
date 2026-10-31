@@ -1,0 +1,28 @@
+{
+  "module": "user_level",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T16:54:22.084Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B16：user_level 登录账号等级；账号编号已换成合成值（10000001），原始 uid 不再可复现"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "full": false,
+      "data": {
+        "userId": 10000001,
+        "info": "60G音乐网盘免费容量$黑名单上限120$云音乐商城满100减12元优惠券$价值1200云贝",
+        "progress": 0.24483333333333332,
+        "nextPlayCount": 12000,
+        "nextLoginCount": 350,
+        "nowPlayCount": 2938,
+        "nowLoginCount": 350,
+        "level": 9
+      },
+      "code": 200
+    }
+  }
+}

@@ -1,0 +1,69 @@
+{
+  "module": "toplist_artist",
+  "query": {
+    "type": 2
+  },
+  "context": {
+    "recordedAt": "2026-10-25T08:48:10.116Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B15：歌手榜欧美区，确认结构不随 type 变化",
+    "truncated": [
+      {
+        "path": "body.list.artists",
+        "length": 100
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "list": {
+        "artists": [
+          {
+            "name": "Justin Bieber",
+            "id": 35531,
+            "picId": 109951171976086670,
+            "img1v1Id": 109951171976088110,
+            "briefDesc": "",
+            "picUrl": "http://p1.music.126.net/E7H85N1ChCxVMwJz-IHIXw==/109951171976086666.jpg",
+            "img1v1Url": "http://p1.music.126.net/xFbZw1KLzMm1Lg1XM32Xjg==/109951171976088115.jpg",
+            "albumSize": 101,
+            "alias": [],
+            "trans": "贾斯汀·比伯",
+            "musicSize": 3022,
+            "topicPerson": 53886,
+            "lastRank": 0,
+            "score": 57561716,
+            "picId_str": "109951171976086666",
+            "transNames": ["贾斯汀·比伯"],
+            "img1v1Id_str": "109951171976088115"
+          },
+          {
+            "name": "Charlie Puth",
+            "id": 90331,
+            "picId": 109951167257756930,
+            "img1v1Id": 109951173206832290,
+            "briefDesc": "",
+            "picUrl": "http://p1.music.126.net/y4BW_MFIZrx4BWd6TsbNCw==/109951167257756923.jpg",
+            "img1v1Url": "http://p1.music.126.net/zNaNqAjK37HsYWw7ZLmq6A==/109951173206832289.jpg",
+            "albumSize": 109,
+            "alias": ["断眉"],
+            "trans": "查理·普斯",
+            "musicSize": 423,
+            "topicPerson": 61289,
+            "lastRank": 4,
+            "score": 53360696,
+            "picId_str": "109951167257756923",
+            "transNames": ["查理·普斯"],
+            "img1v1Id_str": "109951173206832289"
+          }
+        ],
+        "updateTime": 1792897206238,
+        "type": 2
+      },
+      "code": 200
+    }
+  }
+}

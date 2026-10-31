@@ -43,6 +43,10 @@ const result = await djPaygift({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到付费电台列表的 `body.data.list` 和每个电台的编号 `data.list[].id` 收紧；`data.hasMore`、电台名称、封面、`rcmdText`、`alg`、`lastProgramName`、`originalPrice`、`discountPrice`、计数和 `subed` 都是宽松字段。`msg`、`icon`、`traceId`、`playCount` 在本批录制里只见过 `null`，没有声明。`offset=100000` 越界分页返回空数组、`hasMore: false`（录制 `dj_paygift.empty.json`）；非数字 `limit` 返回 HTTP 200、正文 `code: 400`，SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `DjPaygiftBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 可以获取付费精选的电台列表，传入 `limit` 和 `offset` 可以进行分页

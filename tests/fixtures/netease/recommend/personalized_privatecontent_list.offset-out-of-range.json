@@ -1,0 +1,20 @@
+{
+  "module": "personalized_privatecontent_list",
+  "query": {
+    "offset": 100000,
+    "limit": 6
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:48:31.924Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B26：独家放送列表 越界 offset"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 404
+    }
+  }
+}

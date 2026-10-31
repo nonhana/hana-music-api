@@ -1,0 +1,1269 @@
+{
+  "module": "dj_recommend_type",
+  "query": {
+    "type": 3
+  },
+  "context": {
+    "recordedAt": "2026-10-25T14:20:59.412Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B11：情感分类精选电台"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "djRadios": [
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 110000,
+            "authStatus": 0,
+            "followed": false,
+            "avatarUrl": "http://p4.music.126.net/nwdM__XBDa9XzmQMd93QYQ==/109951164031342187.jpg",
+            "accountStatus": 0,
+            "gender": 0,
+            "city": 110101,
+            "birthday": -2209017600000,
+            "userId": 1836745349,
+            "userType": 205,
+            "nickname": "理想国之声",
+            "signature": "理想国是近年中国最具影响力和前瞻性的文化品牌之一。它一直保持着对一个理想社会的期待，并用开放的眼睛，看待世界的丰富性与复杂性，想象另一种可能的存在。",
+            "description": "",
+            "detailDescription": "",
+            "avatarImgId": 109951164031342190,
+            "backgroundImgId": 109951162868128400,
+            "backgroundUrl": "http://p3.music.126.net/2zSNIqTcpHL2jIvU6hG0EA==/109951162868128395.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 0,
+            "remarkName": null,
+            "authenticationTypes": 16384,
+            "avatarDetail": null,
+            "avatarImgIdStr": "109951164031342187",
+            "backgroundImgIdStr": "109951162868128395",
+            "anchor": false,
+            "avatarImgId_str": "109951164031342187"
+          },
+          "category": "情感",
+          "secondCategory": "情感故事",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "1. 陈冲：关于记忆里的生与死、爱与失去",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": [
+            {
+              "type": 3,
+              "id": 0,
+              "content": "http://p1.music.126.net/DZC1zc726Ls5TuhBlLdLWg==/109951172405710433.jpg",
+              "height": 10836,
+              "width": 1085,
+              "timeStamp": null,
+              "nestedData": null
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "节目每周三更新，与陈冲一起，寻回记忆中的爱与失去",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            }
+          ],
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "dynamic": false,
+          "lastProgramId": 3709410194,
+          "feeScope": 0,
+          "shortName": null,
+          "lastProgramCreateTime": 1765335600000,
+          "picUrl": "https://p4.music.126.net/OHc0nhYNcan4mvKR6eKCGw==/109951172405710733.jpg",
+          "picId": 109951172405710740,
+          "categoryId": 3,
+          "taskId": 0,
+          "subCount": 253,
+          "programCount": 5,
+          "participateUidList": [],
+          "operateUidList": [],
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p3.music.126.net/OHc0nhYNcan4mvKR6eKCGw==/109951172405710733.jpg",
+          "intervenePicId": 109951172405710740,
+          "desc": "节目每周三更新，与陈冲一起，寻回记忆中的爱与失去",
+          "createTime": 1765252179784,
+          "name": "陈冲口述：猫鱼，记忆中的爱与失去",
+          "id": 1483302986,
+          "rcmdtext": "陈冲个人播客",
+          "subed": false,
+          "lastUpdateProgramName": "1. 陈冲：关于记忆里的生与死、爱与失去"
+        },
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 110000,
+            "authStatus": 1,
+            "followed": false,
+            "avatarUrl": "http://p4.music.126.net/Vi2rmfpV4daxUEMZppwFWQ==/109951171968522367.jpg",
+            "accountStatus": 0,
+            "gender": 0,
+            "city": 110101,
+            "birthday": -2209017600000,
+            "userId": 13994083929,
+            "userType": 2,
+            "nickname": "李静-LIJING",
+            "signature": "",
+            "description": "主持人 东方风行传媒创始人",
+            "detailDescription": "主持人 东方风行传媒创始人",
+            "avatarImgId": 109951171968522370,
+            "backgroundImgId": 109951162868126480,
+            "backgroundUrl": "http://p4.music.126.net/_f8R60U9mZ42sSNvdPn2sQ==/109951162868126486.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 0,
+            "remarkName": null,
+            "authenticationTypes": 20482,
+            "avatarDetail": null,
+            "avatarImgIdStr": "109951171968522367",
+            "backgroundImgIdStr": "109951162868126486",
+            "anchor": true,
+            "avatarImgId_str": "109951171968522367"
+          },
+          "category": "情感",
+          "secondCategory": "成长励志",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "老友对谈vol.43 庾澄庆：人到中年，学会“不在意”，松弛过人生。",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": null,
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "dynamic": false,
+          "lastProgramId": 3730786196,
+          "feeScope": 0,
+          "shortName": null,
+          "lastProgramCreateTime": 1792598744636,
+          "picUrl": "https://p3.music.126.net/5ksbx7AU5M_2XyseTKCGmg==/109951171968500466.jpg",
+          "picId": 109951171968500460,
+          "categoryId": 3,
+          "taskId": 0,
+          "subCount": 12000,
+          "programCount": 75,
+          "participateUidList": [],
+          "operateUidList": [],
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p4.music.126.net/5ksbx7AU5M_2XyseTKCGmg==/109951171968500466.jpg",
+          "intervenePicId": 109951171968500460,
+          "desc": "Hi 大家好，我是主持人李静，欢迎订阅我的播客《你，静不下来》\n这档节目是我送给所有「脑内住着永动机」的朋友的声波礼物，在当下浮躁的社会中，我们每个人的脑海里都充斥着各种想法和灵感，很难享受片刻的宁静。\n当焦虑开始超速时，让真诚的对谈成为喧嚣的刹车片，也许我们不必强行静下来，只要在喧闹中确认彼此「在场」的安心。\n我会邀请我的各路好友，一起在播客里和大家分享生活中的趣事和思考，真心愿这档节目有机会成为那个陪你等待焦虑退潮的礁石。\n\n[关于听友群]\n想加入听友群的听友们，可以搜索 ni_jingbuxialai 添加小助理，邀请大家加入听友群。",
+          "createTime": 1756895475866,
+          "name": "你，静不下来",
+          "id": 1230174483,
+          "rcmdtext": "李静的播客",
+          "subed": false,
+          "lastUpdateProgramName": "老友对谈vol.43 庾澄庆：人到中年，学会“不在意”，松弛过人生。"
+        },
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 310000,
+            "authStatus": 0,
+            "followed": false,
+            "avatarUrl": "http://p4.music.126.net/MGamaHYc0Ju9ftUwmsSyyQ==/109951171288455229.jpg",
+            "accountStatus": 0,
+            "gender": 0,
+            "city": 310101,
+            "birthday": 625075200000,
+            "userId": 1530995472,
+            "userType": 0,
+            "nickname": "能大宇",
+            "signature": "小红书/b站/抖音/微博搜索：能大宇",
+            "description": "",
+            "detailDescription": "",
+            "avatarImgId": 109951171288455230,
+            "backgroundImgId": 109951162868128400,
+            "backgroundUrl": "http://p4.music.126.net/2zSNIqTcpHL2jIvU6hG0EA==/109951162868128395.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 0,
+            "remarkName": null,
+            "authenticationTypes": 0,
+            "avatarDetail": null,
+            "avatarImgIdStr": "109951171288455229",
+            "backgroundImgIdStr": "109951162868128395",
+            "anchor": false,
+            "avatarImgId_str": "109951171288455229"
+          },
+          "category": "情感",
+          "secondCategory": "情感故事",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "EP010死亡不会把我们分开",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": [
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "每个人都是一个宇宙",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "这里是大宇的小宇宙",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            }
+          ],
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "dynamic": false,
+          "lastProgramId": 3086279614,
+          "feeScope": 0,
+          "shortName": null,
+          "lastProgramCreateTime": 1760280003024,
+          "picUrl": "https://p4.music.126.net/9_sOtuKBFMxz9GR6g8l7Nw==/109951171288477162.jpg",
+          "picId": 109951171288477170,
+          "categoryId": 3,
+          "taskId": 0,
+          "subCount": 293,
+          "programCount": 10,
+          "participateUidList": [],
+          "operateUidList": [],
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p3.music.126.net/9_sOtuKBFMxz9GR6g8l7Nw==/109951171288477162.jpg",
+          "intervenePicId": 109951171288477170,
+          "desc": "每个人都是一个宇宙这里是大宇的小宇宙",
+          "createTime": 1749550504390,
+          "name": "大宇的小宇宙",
+          "id": 1225293528,
+          "rcmdtext": "没有华丽剧本，只有真诚唠嗑",
+          "subed": false,
+          "lastUpdateProgramName": "EP010死亡不会把我们分开"
+        },
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 440000,
+            "authStatus": 0,
+            "followed": false,
+            "avatarUrl": "http://p3.music.126.net/49zQiauRMqdaoOObxSAFEQ==/109951169566175345.jpg",
+            "accountStatus": 0,
+            "gender": 2,
+            "city": 440300,
+            "birthday": -2209017600000,
+            "userId": 9234264065,
+            "userType": 205,
+            "nickname": "寻欢作乐playpraylove",
+            "signature": "",
+            "description": "",
+            "detailDescription": "",
+            "avatarImgId": 109951169566175340,
+            "backgroundImgId": 109951162868128400,
+            "backgroundUrl": "http://p4.music.126.net/2zSNIqTcpHL2jIvU6hG0EA==/109951162868128395.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 0,
+            "remarkName": null,
+            "authenticationTypes": 16384,
+            "avatarDetail": null,
+            "avatarImgIdStr": "109951169566175345",
+            "backgroundImgIdStr": "109951162868128395",
+            "anchor": false,
+            "avatarImgId_str": "109951169566175345"
+          },
+          "category": "知识",
+          "secondCategory": "个人提升",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "053. 掌握身体节奏，轻松升级人生",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": [
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "每周五00:01更新",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "两个时髦女人，追逐爱与美的生活。享受物质也要心灵成长，精致漂亮也要肌肉力量，热爱闲聊也探寻更深的真相。太喜欢说话了，一起聊聊天吧。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "让我们在得到与失去之间，寻欢作乐。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "Yoyo：单亲妈妈，艺术品藏家，自媒体博主，公众/微博：Yo总监",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "guan：艺术从业者，消费品投资人，入世修行者，目前最大的愿望是网球大满贯，小红书：guanguanguan_",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            }
+          ],
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "dynamic": false,
+          "lastProgramId": 3726489274,
+          "feeScope": 0,
+          "shortName": null,
+          "lastProgramCreateTime": 1786032383675,
+          "picUrl": "https://p4.music.126.net/XIe4ufr8VMNfO7SQx6j4bw==/109951169566201078.jpg",
+          "picId": 109951169566201070,
+          "categoryId": 11,
+          "taskId": 0,
+          "subCount": 3263,
+          "programCount": 53,
+          "participateUidList": [],
+          "operateUidList": [],
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p3.music.126.net/XIe4ufr8VMNfO7SQx6j4bw==/109951169566201078.jpg",
+          "intervenePicId": 109951169566201070,
+          "desc": "每周五00:01更新两个时髦女人，追逐爱与美的生活。享受物质也要心灵成长，精致漂亮也要肌肉力量，热爱闲聊也探寻更深的真相。太喜欢说话了，一起聊聊天吧。让我们在得到与失去之间，寻欢作乐。Yoyo：单亲妈妈，艺术品藏家，自媒体博主，公众/微博：Yo总监guan：艺术从业者，消费品投资人，入世修行者，目前最大的愿望是网球大满贯，小红书：guanguanguan_",
+          "createTime": 1714964257889,
+          "name": "寻欢作乐 playpraylove",
+          "id": 1004170133,
+          "rcmdtext": "跟两位时髦女性一起轻松聊天",
+          "subed": false,
+          "lastUpdateProgramName": "053. 掌握身体节奏，轻松升级人生"
+        },
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 440000,
+            "authStatus": 0,
+            "followed": false,
+            "avatarUrl": "http://p4.music.126.net/7k8PYTtBOZ1Uhe50sTCgSw==/109951163270333407.jpg",
+            "accountStatus": 0,
+            "gender": 0,
+            "city": 440100,
+            "birthday": -2209017600000,
+            "userId": 52791613,
+            "userType": 0,
+            "nickname": "carriepeng",
+            "signature": "",
+            "description": "",
+            "detailDescription": "",
+            "avatarImgId": 109951163270333400,
+            "backgroundImgId": 2002210674180198,
+            "backgroundUrl": "http://p3.music.126.net/i0qi6mibX8gq2SaLF1bYbA==/2002210674180198.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 11,
+            "remarkName": null,
+            "authenticationTypes": 0,
+            "avatarDetail": null,
+            "avatarImgIdStr": "109951163270333407",
+            "backgroundImgIdStr": "2002210674180198",
+            "anchor": false,
+            "avatarImgId_str": "109951163270333407"
+          },
+          "category": "情感",
+          "secondCategory": "成长励志",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "大厂叙事的一些真心话：安逸和燥动交织的大厂人内心，其实天人交战",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": [
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "- 一个超酷的姐姐和朋友们关于职业，成长，年轻态的讨论。ENTP，欢迎来贴贴。目前还在宇宙厂搬砖，如果对宇宙厂感兴趣，也可以提报选题。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": null,
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "- 这是一档互联网老少女畅谈的节目，关于她们理性的和非理性的观点，希望可以陪伴你在无论快乐还是失落的日子里。随时欢迎投稿，或者加好友来嘻笑主播。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": null,
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "- 节目在小宇宙首发，在apple podcasts、喜马拉雅、网易云音乐都可以收听。计划开通文字频道，海外计划在substack平台订阅我的文字，国内用户查看小报童、即刻平台。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": null,
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "你可以在微信找到我：carrieV5",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": null,
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "也可以在小红书里找到我：凯瑞 | 漫游纪，搜carriev5_2023",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            }
+          ],
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "dynamic": false,
+          "lastProgramId": 3056255956,
+          "feeScope": 0,
+          "shortName": null,
+          "lastProgramCreateTime": 1719208202070,
+          "picUrl": "https://p4.music.126.net/6r4Hn3AFjUWyNFc8NFUJJg==/109951169657736005.jpg",
+          "picId": 109951169657736000,
+          "categoryId": 3,
+          "taskId": 0,
+          "subCount": 279,
+          "programCount": 21,
+          "participateUidList": [],
+          "operateUidList": [],
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p3.music.126.net/6r4Hn3AFjUWyNFc8NFUJJg==/109951169657736005.jpg",
+          "intervenePicId": 109951169657736000,
+          "desc": "- 一个超酷的姐姐和朋友们关于职业，成长，年轻态的讨论。ENTP，欢迎来贴贴。目前还在宇宙厂搬砖，如果对宇宙厂感兴趣，也可以提报选题。\n\n- 这是一档互联网老少女畅谈的节目，关于她们理性的和非理性的观点，希望可以陪伴你在无论快乐还是失落的日子里。随时欢迎投稿，或者加好友来嘻笑主播。\n\n- 节目在小宇宙首发，在apple podcasts、喜马拉雅、网易云音乐都可以收听。计划开通文字频道，海外计划在substack平台订阅我的文字，国内用户查看小报童、即刻平台。\n\n你可以在微信找到我：carrieV5\n\n也可以在小红书里找到我：凯瑞 | 漫游纪，搜carriev5_2023",
+          "createTime": 1676861105402,
+          "name": "非典型sisters| 大厂不卷指南",
+          "id": 985922490,
+          "rcmdtext": "超酷的姐姐和她的朋友关于职场，自我成长的探索",
+          "subed": false,
+          "lastUpdateProgramName": "大厂叙事的一些真心话：安逸和燥动交织的大厂人内心，其实天人交战"
+        },
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 440000,
+            "authStatus": 0,
+            "followed": false,
+            "avatarUrl": "http://p3.music.126.net/nlMoN8gS7HwEe-QxFxTGYA==/109951173032140581.jpg",
+            "accountStatus": 0,
+            "gender": 2,
+            "city": 440100,
+            "birthday": 881984682000,
+            "userId": 552826049,
+            "userType": 205,
+            "nickname": "瓜瓜聊天室",
+            "signature": "实践派情感博主，用星盘、心理、哲学理解人生意义。看朋友圈or咨询：guaguasis",
+            "description": "",
+            "detailDescription": "",
+            "avatarImgId": 109951173032140580,
+            "backgroundImgId": 109951171142962500,
+            "backgroundUrl": "http://p4.music.126.net/gCgwxR-WCF-zoZ5q6zXaVg==/109951171142962497.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 0,
+            "remarkName": null,
+            "authenticationTypes": 20480,
+            "avatarDetail": null,
+            "avatarImgIdStr": "109951173032140581",
+            "backgroundImgIdStr": "109951171142962497",
+            "anchor": true,
+            "avatarImgId_str": "109951173032140581"
+          },
+          "category": "情感",
+          "secondCategory": "恋爱婚姻",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "有勇气跳出业力的人，才会开启新的剧本",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": [
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "用星盘、心理、哲学理解人生意义和人类情感。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "捉住瓜瓜（看朋友圈or咨询): guaguasis",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            }
+          ],
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "dynamic": false,
+          "lastProgramId": 3730339436,
+          "feeScope": 0,
+          "shortName": null,
+          "lastProgramCreateTime": 1792060598139,
+          "picUrl": "https://p4.music.126.net/r1e4SvUsJsOA8CETtAa79g==/109951170356626379.jpg",
+          "picId": 109951170356626380,
+          "categoryId": 3,
+          "taskId": 0,
+          "subCount": 2842,
+          "programCount": 272,
+          "participateUidList": [],
+          "operateUidList": [],
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p4.music.126.net/r1e4SvUsJsOA8CETtAa79g==/109951170356626379.jpg",
+          "intervenePicId": 109951170356626380,
+          "desc": "用星盘、心理、哲学理解人生意义和人类情感。捉住瓜瓜（看朋友圈or咨询): guaguasis",
+          "createTime": 1713756355970,
+          "name": "爱的表达式",
+          "id": 1003727393,
+          "rcmdtext": "和你一起面对情感、成长等人生每一个命题",
+          "subed": false,
+          "lastUpdateProgramName": "有勇气跳出业力的人，才会开启新的剧本"
+        },
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 310000,
+            "authStatus": 1,
+            "followed": false,
+            "avatarUrl": "http://p3.music.126.net/J_FrOnoX_3vapo5UQxmn7w==/109951171830941288.jpg",
+            "accountStatus": 0,
+            "gender": 2,
+            "city": 310101,
+            "birthday": 1754718688446,
+            "userId": 5128097070,
+            "userType": 101,
+            "nickname": "严肃喧哗音乐花园",
+            "signature": "来自播客《严肃喧哗》，欢迎小宇宙订阅收听",
+            "description": "",
+            "detailDescription": "",
+            "avatarImgId": 109951171830941280,
+            "backgroundImgId": 109951162868126480,
+            "backgroundUrl": "http://p4.music.126.net/_f8R60U9mZ42sSNvdPn2sQ==/109951162868126486.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 0,
+            "remarkName": null,
+            "authenticationTypes": 8404992,
+            "avatarDetail": null,
+            "avatarImgIdStr": "109951171830941288",
+            "backgroundImgIdStr": "109951162868126486",
+            "anchor": false,
+            "avatarImgId_str": "109951171830941288"
+          },
+          "category": "情感",
+          "secondCategory": "成长励志",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "Ep.25 调情是恋爱的必修课吗？",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": [
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "波伏娃说：女性不是天生的，女性是被造就的。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "上野千鹤子说：女性主义是追求弱者也能得到尊重的思想。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "戴锦华说：女性主义的力量，在于我们经由‘她们’，看向世界，看向那些同样曾经被指认为他者、被边缘化的、弱小的人群。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "过期少女第一次集结，我们三个拥有不同的背景和经历，出于对女性主义的关注，开办这档播客，希望从无数概念中的“女性”走出来，到一个个真实的“女性”个体中去。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "既不强调对立，也不想讨伐男性。温和地和这个世界聊聊，何为女性？女性主义起点又是什么？把自己作为方法论，构建更大的对话场域，与更多的姐妹们一起探讨这些话题。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "我们致力于打造，年轻女孩儿们第一本女性主义电子读物。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            }
+          ],
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "dynamic": false,
+          "lastProgramId": 3074656992,
+          "feeScope": 0,
+          "shortName": null,
+          "lastProgramCreateTime": 1742897145212,
+          "picUrl": "https://p3.music.126.net/11XzUHqzrnjAZyl1nzgmqg==/109951169661673404.jpg",
+          "picId": 109951169661673400,
+          "categoryId": 3,
+          "taskId": 0,
+          "subCount": 602,
+          "programCount": 26,
+          "participateUidList": [],
+          "operateUidList": [],
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p4.music.126.net/11XzUHqzrnjAZyl1nzgmqg==/109951169661673404.jpg",
+          "intervenePicId": 109951169661673400,
+          "desc": "波伏娃说：女性不是天生的，女性是被造就的。\n上野千鹤子说：女性主义是追求弱者也能得到尊重的思想。\n戴锦华说：女性主义的力量，在于我们经由‘她们’，看向世界，看向那些同样曾经被指认为他者、被边缘化的、弱小的人群。\n过期少女第一次集结，我们三个拥有不同的背景和经历，出于对女性主义的关注，开办这档播客，希望从无数概念中的“女性”走出来，到一个个真实的“女性”个体中去。\n既不强调对立，也不想讨伐男性。温和地和这个世界聊聊，何为女性？女性主义起点又是什么？把自己作为方法论，构建更大的对话场域，与更多的姐妹们一起探讨这些话题。\n我们致力于打造，年轻女孩儿们第一本女性主义电子读物。",
+          "createTime": 1713532562032,
+          "name": "过期少女研学社|年轻女孩女性主义电子读物",
+          "id": 1003559248,
+          "rcmdtext": "年轻女孩的女性主义读物",
+          "subed": false,
+          "lastUpdateProgramName": "Ep.25 调情是恋爱的必修课吗？"
+        },
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 110000,
+            "authStatus": 0,
+            "followed": false,
+            "avatarUrl": "http://p4.music.126.net/fp4pvGhnv6Y1BAGEk_KEGA==/109951165067689476.jpg",
+            "accountStatus": 0,
+            "gender": 2,
+            "city": 110101,
+            "birthday": 629894145000,
+            "userId": 118601540,
+            "userType": 205,
+            "nickname": "白元婴",
+            "signature": "白元婴",
+            "description": "",
+            "detailDescription": "",
+            "avatarImgId": 109951165067689470,
+            "backgroundImgId": 3287539773918359,
+            "backgroundUrl": "http://p4.music.126.net/exGedmietrzxxjac70wMHA==/3287539773918359.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 11,
+            "remarkName": null,
+            "authenticationTypes": 16384,
+            "avatarDetail": null,
+            "avatarImgIdStr": "109951165067689476",
+            "backgroundImgIdStr": "3287539773918359",
+            "anchor": false,
+            "avatarImgId_str": "109951165067689476"
+          },
+          "category": "知识",
+          "secondCategory": "心理健康",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "面由心生·心不受力｜（2）懒人也能坚持的健脾心法与手法",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": [
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "这里没有鸡汤只有药汤。推心置腹是一档中医科普节目，自由不是随心所欲，而是自我主宰。我们养生的目标是：无惧慢性病，优雅从容地老去。",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 3,
+              "id": 0,
+              "content": "http://p1.music.126.net/iITa9X6Q4BKKYyumDDklPQ==/109951170278651875.jpg",
+              "height": 2000,
+              "width": 800,
+              "timeStamp": null,
+              "nestedData": null
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": null,
+                "attributes": null
+              }
+            }
+          ],
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "dynamic": false,
+          "lastProgramId": 3730953130,
+          "feeScope": 0,
+          "shortName": null,
+          "lastProgramCreateTime": 1792587921947,
+          "picUrl": "https://p3.music.126.net/hvaAWly_X83YvCRrb1GE9g==/109951169501876329.jpg",
+          "picId": 109951169501876340,
+          "categoryId": 11,
+          "taskId": 0,
+          "subCount": 13535,
+          "programCount": 225,
+          "participateUidList": [],
+          "operateUidList": [],
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p3.music.126.net/hvaAWly_X83YvCRrb1GE9g==/109951169501876329.jpg",
+          "intervenePicId": 109951169501876340,
+          "desc": "这里没有鸡汤只有药汤。推心置腹是一档中医科普节目，自由不是随心所欲，而是自我主宰。我们养生的目标是：无惧慢性病，优雅从容地老去。",
+          "createTime": 1618998117137,
+          "name": "推心置腹",
+          "id": 960974735,
+          "rcmdtext": "将心理学和生活猛猛结合的安慰处方",
+          "subed": false,
+          "lastUpdateProgramName": "面由心生·心不受力｜（2）懒人也能坚持的健脾心法与手法"
+        },
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 610000,
+            "authStatus": 1,
+            "followed": false,
+            "avatarUrl": "http://p3.music.126.net/5i6bc1Q7LjDr5nLlcKI1Pw==/109951166293077690.jpg",
+            "accountStatus": 0,
+            "gender": 1,
+            "city": 610100,
+            "birthday": 668966400000,
+            "userId": 2037539,
+            "userType": 10,
+            "nickname": "高嘉程Russell",
+            "signature": "就这样吧。",
+            "description": "作家、奇葩说辩手",
+            "detailDescription": "作家、奇葩说辩手",
+            "avatarImgId": 109951166293077700,
+            "backgroundImgId": 109951163909072060,
+            "backgroundUrl": "http://p3.music.126.net/uC-4erxUxMCSLqR8dVMC6A==/109951163909072063.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 11,
+            "remarkName": null,
+            "authenticationTypes": 22528,
+            "avatarDetail": null,
+            "avatarImgIdStr": "109951166293077690",
+            "backgroundImgIdStr": "109951163909072063",
+            "anchor": true,
+            "avatarImgId_str": "109951166293077690"
+          },
+          "category": "情感",
+          "secondCategory": "情感故事",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "35岁的我，终于确信了自己的好运",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": null,
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "dynamic": false,
+          "lastProgramId": 3729904401,
+          "feeScope": 0,
+          "shortName": null,
+          "lastProgramCreateTime": 1791597984284,
+          "picUrl": "https://p3.music.126.net/VvXXcbBccyBBArXjbyew6w==/109951169230751591.jpg",
+          "picId": 109951169230751580,
+          "categoryId": 3,
+          "taskId": 0,
+          "subCount": 639,
+          "programCount": 192,
+          "participateUidList": [],
+          "operateUidList": [],
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p4.music.126.net/VvXXcbBccyBBArXjbyew6w==/109951169230751591.jpg",
+          "intervenePicId": 109951169230751580,
+          "desc": "\n            欢迎你来小高的岛，是岛，不是鸟。\n  \n在这里，我们每期都会邀请一位有个性有故事的朋友上岛。把他们从自家沙发上移过来，拘束客气与战战兢兢全部不存在。\n \n我是高嘉程，\n在这个岛上，我们什么都聊。\n《小高的岛》由 有文化电台 出品\n        ",
+          "createTime": 1704181739378,
+          "name": "小高的岛",
+          "id": 998653311,
+          "rcmdtext": "和高嘉程一起掏心窝，享受一场真诚酣畅的对话",
+          "subed": false,
+          "lastUpdateProgramName": "35岁的我，终于确信了自己的好运"
+        },
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 110000,
+            "authStatus": 0,
+            "followed": false,
+            "avatarUrl": "http://p4.music.126.net/keX3CiMciYp-VAiU4Q2rFg==/109951165574317479.jpg",
+            "accountStatus": 0,
+            "gender": 2,
+            "city": 110101,
+            "birthday": 816760383376,
+            "userId": 295933322,
+            "userType": 205,
+            "nickname": "你说你想做走路带风的女孩儿",
+            "signature": "那些抓也抓不住的都是真的",
+            "description": "",
+            "detailDescription": "",
+            "avatarImgId": 109951165574317470,
+            "backgroundImgId": 109951163873381120,
+            "backgroundUrl": "http://p3.music.126.net/95zFIp_wsxiQojhaw4U5kQ==/109951163873381122.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 11,
+            "remarkName": null,
+            "authenticationTypes": 16384,
+            "avatarDetail": null,
+            "avatarImgIdStr": "109951165574317479",
+            "backgroundImgIdStr": "109951163873381122",
+            "anchor": false,
+            "avatarImgId_str": "109951165574317479"
+          },
+          "category": "情感",
+          "secondCategory": "成长励志",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "VoL.41 除了追赶目标式地活着，人还可以怎么活？",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": [
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "《哇噻女孩》是一档虽面向女性但所有性别都能听的女性陪伴成长型播客，会分享一些很哇噻的女性故事和她们很哇噻的想法。人生是旷野，不是轨道，希望每个女孩都能活出洒脱人生！\n1、主播简介\n索菲亚，一位不分前后鼻音的95后新疆女孩、一位醉心于用策略撬动广告的大厂产品经理、一位致力于用一生追逐自由和热爱的酷飒女孩儿、一位同时拥有女性思维和男性思维的双面女王，主打“走所有人的路，让别人无路可走”！\n2、加入听友群\n添加主播微信 myy_sophia，备注『网易云听友群』，欢迎所有喜欢自我探索的伙伴加入\n3、公众号：哇噻女孩\n4、合作: sophiabupt@foxmail.com\n",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            }
+          ],
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "dynamic": false,
+          "lastProgramId": 3730185060,
+          "feeScope": 0,
+          "shortName": null,
+          "lastProgramCreateTime": 1792454648287,
+          "picUrl": "https://p4.music.126.net/GGy3f0nLWUvVWZuIWIXg3Q==/109951169214769646.jpg",
+          "picId": 109951169214769650,
+          "categoryId": 3,
+          "taskId": 0,
+          "subCount": 3913,
+          "programCount": 41,
+          "participateUidList": [],
+          "operateUidList": [],
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p4.music.126.net/GGy3f0nLWUvVWZuIWIXg3Q==/109951169214769646.jpg",
+          "intervenePicId": 109951169214769650,
+          "desc": "《哇噻女孩》是一档虽面向女性但所有性别都能听的女性陪伴成长型播客，会分享一些很哇噻的女性故事和她们很哇噻的想法。人生是旷野，不是轨道，希望每个女孩都能活出洒脱人生！\n1、主播简介\n索菲亚，一位不分前后鼻音的95后新疆女孩、一位醉心于用策略撬动广告的大厂产品经理、一位致力于用一生追逐自由和热爱的酷飒女孩儿、一位同时拥有女性思维和男性思维的双面女王，主打“走所有人的路，让别人无路可走”！\n2、加入听友群\n添加主播微信 myy_sophia，备注『网易云听友群』，欢迎所有喜欢自我探索的伙伴加入\n3、公众号：哇噻女孩\n4、合作: sophiabupt@foxmail.com\n",
+          "createTime": 1703647365446,
+          "name": "哇噻女孩",
+          "id": 998317285,
+          "rcmdtext": "让你获得好故事与收获的女性成长播客",
+          "subed": false,
+          "lastUpdateProgramName": "VoL.41 除了追赶目标式地活着，人还可以怎么活？"
+        }
+      ],
+      "hasMore": true,
+      "code": 200
+    }
+  }
+}

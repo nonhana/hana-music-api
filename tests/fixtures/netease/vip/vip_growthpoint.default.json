@@ -1,0 +1,66 @@
+{
+  "module": "vip_growthpoint",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T18:45:54.723Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B23：vip_growthpoint 登录成长值"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": {
+        "userLevel": {
+          "userId": 599663130,
+          "level": 7,
+          "growthPoint": 27073,
+          "levelName": "黑胶·柒",
+          "yesterdayPoint": 0,
+          "vipType": 100,
+          "extJson": "{\"yearMonth\":\"202610\",\"lastDay\":\"20261024\",\"lastDayScore\":10,\"todayScore\":10,\"currentDay\":\"20261025\",\"totalScore\":0,\"monthTaskTotalScore\":0}",
+          "expireTime": 1793203199000,
+          "avatarUrl": null,
+          "latestVipType": 100,
+          "latestVipStatus": 1,
+          "maxLevel": true,
+          "normal": true
+        },
+        "levelCard": {
+          "rightId": 0,
+          "level": 7,
+          "privilegeName": "V7等级标识",
+          "privilegeSubTitle": "V7尊享",
+          "privilegeIconUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/17762945985/187f/3ff6/86fd/4af0a7c9b158893836085ad72064f5b3.png",
+          "privilegePlusIconUrl": null,
+          "resourceId": 0,
+          "obtainLimitType": 0,
+          "levelBackgroundCardImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/4428473803/cc06/3899/a7a1/7fcb068eb3a95ada739fd23a0af6ba43.jpg",
+          "levelBackgroundCardExpireImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/4428488047/ad3b/57a0/3b89/2637982ee9423af22543c478cf8530dc.jpg",
+          "levelName": "黑胶·柒",
+          "levelMarkImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/4428565408/e4f6/72c3/56fe/ebf573f1c8dd3d972a45d7ed90153d8c.jpg",
+          "levelMarkExpireImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/4189753366/67a0/88c0/98e4/38c93431c138399f8aef062b685d3f7c.png",
+          "backgroundImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/4189770722/4ac6/bbb9/075b/09c96d3a5e9eabe2c129338950ef5af8.png",
+          "upgradeFireworksImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/4440850063/2d63/06ff/4464/54e7ebe1be59c3f4d9a1b58b816914d1.png",
+          "newUpgradeFireworksImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/24975128651/651a/eb68/024c/12f611400b3e5467aacdf948fa1de13d.webp",
+          "blurryBackgroundImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/4189783490/7e76/e947/87e4/f6119fcebcc38c7cbf451075f12aedb0.png",
+          "redVipImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/32121018061/57bc/ff99/18e6/19875c21f82a1f7856e6dc91fb61c931.png",
+          "redVipExpireImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/32121018505/047a/b3e5/aca7/d9b76f8c6a1b7d6449f1190dbf197daa.png",
+          "redVipWholeImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/32121018061/57bc/ff99/18e6/19875c21f82a1f7856e6dc91fb61c931.png",
+          "redVipExpireWholeImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/32121018505/047a/b3e5/aca7/d9b76f8c6a1b7d6449f1190dbf197daa.png",
+          "redVipBuckleImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/4442449115/d699/2f2b/39d9/d7b5cb70f618a2d5a92bd2ff348c76a1.png",
+          "redVipExpireBuckleImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/4442449878/71ea/5f0d/e185/d302127cbfab300a7c27500020658066.png",
+          "vipGiftRightBarImageUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/4428554039/cc35/df37/2658/ef6cf8458fc77fb9c1c1c9292447c0b7.jpg",
+          "vipGiftExpireRightBarImageUrl": null,
+          "vipLevelPageCardImgUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/20257850018/7660/a996/f8c1/d05148082fded25ca7a64c825e3b4f12.png",
+          "vipLevelPageExpireCardImgUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/17762890250/d63a/b14c/2ca0/973a6107575b974a42255726e196b37e.png",
+          "accountPageIconImgUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/18222990212/539b/ab34/9d16/03046937de50cd01cd2775c328c04008.png",
+          "flashIconImgUrl": "http://p5.music.126.net/obj/wovDmcKXw6PCn2_CmsOk/32121008790/47d0/55b7/3956/28b51067d8957729408336109ec37220.png"
+        }
+      }
+    }
+  }
+}

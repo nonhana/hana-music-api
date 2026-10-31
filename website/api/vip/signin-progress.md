@@ -13,7 +13,7 @@ description: '调用此接口，可获得签到进度'
 | -------- | ------------------ |
 | 接口地址 | `/signin/progress` |
 | 请求方式 | `GET` / `POST`     |
-| 需要登录 | 否                 |
+| 需要登录 | 是                 |
 | 对应模块 | `signin_progress`  |
 | 文档分类 | 会员与云贝         |
 
@@ -40,6 +40,12 @@ const result = await signinProgress({
 
 console.log(result.body);
 ```
+
+## 返回内容
+
+`body.code`、签到页 `body.data`、今日签到状态 `body.data.today.todaySignedIn`、签到记录 `body.data.records` 及每条记录的日期 `day`、签到统计 `body.data.stats` 与 `body.data.today.todayStats` 及统计的 `id` 收紧；记录的 `signed`、统计描述、进度和奖品字段宽松。结构定义和类型是 `SigninProgressBody`，见[返回体结构](/guide/response-bodies)。
+
+本账号录制时未签到（`records[].signed` 全为 `false`）；30 天记录、3 条统计和今日统计都是非空数组，空窗口没有录到。非法 `moduleId` 返回 `body.code: 400`，SDK 按业务失败转交为 HTTP 400。匿名调用返回 `body.code: 301`（用户未登录），SDK 转交为 HTTP 301；匿名对照录制是 `signin/signin_progress.anonymous.json`。
 
 ## 补充说明
 

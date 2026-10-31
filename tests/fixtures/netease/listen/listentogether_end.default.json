@@ -1,0 +1,28 @@
+{
+  "module": "listentogether_end",
+  "query": {
+    "roomId": "e0902e73ecee9403a8d393247d6857d2_1792991303"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:09:11.774Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：结束本批创建的一起听房间 e0902e73ecee9403a8d393247d6857d2_1792991303，录制本次清理；end 后用 listentogether_status 回读 data.inRoom=false（listen/listentogether_status.after-cleanup.json，2026-10-26T05:40:54Z）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "success": true,
+        "shareInfo": null,
+        "roomType": "FRIEND",
+        "newUnmaskFlag": null,
+        "matchPlayType": null,
+        "matchPlayInfo": null
+      },
+      "message": ""
+    }
+  }
+}

@@ -43,6 +43,10 @@ const result = await userFollowMixed({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data`、`body.data.records` 和每条记录的 `body.data.records[].followId` 收紧；越界 `cursor` 返回空数组（录制 `user_follow_mixed.empty.json`）。`type` 为 2 的艺术家记录里 `userProfile` 是 `null`，所以 `userProfile` 是可以没有的路径；出现时按用户对象校验，里面的 `userId` 是附带对象的编号、保持宽松。`artistInfo`、`fansGroupInfo`、`showContent`、`page`、`extData` 宽松。未登录调用上游返回 HTTP 200、`code: 400`、`message: "not login"`（录制 `user_follow_mixed.anonymous.json`），SDK 按业务拒绝原样转交。结构定义和类型是 `UserFollowMixedBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口, 可获得当前账号关注的用户/歌手

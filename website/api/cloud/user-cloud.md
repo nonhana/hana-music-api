@@ -40,6 +40,10 @@ const result = await userCloud();
 console.log(result.body);
 ```
 
+## 返回内容
+
+云盘列表在 `data`，每条云盘记录自己的 `songId` 收紧；`privateCloud` 和 `simpleSong` 是记录里套着的对象，字段全部宽松，`simpleSong` 复用 core 的 `LooseSong`（`Song` 字段 + 宽松 `id`）。`count`、`size`、`maxSize`、`hasMore`、`upgradeSign`、`updateTime` 宽松；`cursor`、`message`、`idVersions` 只见过 `null`，没有声明。`offset` 越过末尾时 `data` 是空数组（录制 `user_cloud.past-end.json`）。录制从 25 条截到 3 条（见 `context.truncated`）。结构定义和类型是 `UserCloudBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可获取云盘数据，获取的数据没有对应 url, 需要再调用一

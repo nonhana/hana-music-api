@@ -37,6 +37,10 @@ const result = await voicelistListSearch();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和通到声音列表的 `body.data` 收紧；`data.total`、`data.hasMore` 是宽松的分页提示。本批登录和匿名录制都是空列表（账号没有声音），`data.list` 的元素类型没有证据，未声明并原样保留。结构定义和类型是 `VoicelistListSearchBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 可以搜索播客里的声音

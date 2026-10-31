@@ -37,6 +37,10 @@ const result = await personalizedMv();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、推荐 MV 列表 `body.result` 和每个 MV 自己的编号 `result[].id` 收紧；记录复用 `MvSummary`，`category`、`picUrl`、`canDislike`、`copywriter`、`alg`、`type` 宽松。`trackNumberUpdateTime` 在录制里只见过 `null`，没有声明。匿名和登录录制都是 2 条且字段集相同；没有可达的空结果，数组本身允许为空。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取推荐 mv

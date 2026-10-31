@@ -43,6 +43,10 @@ const result = await styleArtist({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data.artists` 和每个歌手自己的编号 `data.artists[].id` 收紧：`data.artists` 是通到曲风歌手的路径。歌手记录复用宽松的 `Artist`，额外声明宽松的 `fansCount`；`awardTags` 在录制里只见过 `null`，没有声明。`body.data.page` 是分页提示（`cursor`、`size`、`more`、`total`），全部宽松。未知曲风 id 返回空数组（录制 `style_artist.unknown-tag.json`）。
+
 ## 补充说明
 
 说明: 调用此接口可以获取该曲风对应的歌手

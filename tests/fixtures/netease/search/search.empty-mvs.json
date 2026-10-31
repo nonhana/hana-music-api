@@ -1,0 +1,25 @@
+{
+  "module": "search",
+  "query": {
+    "keywords": "qwrtpsdfghjklzxcvbnm",
+    "type": 1004
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:56:36.106Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：空结果探测"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "hlWords": null,
+        "mvCount": 0,
+        "mvs": null
+      },
+      "code": 200
+    }
+  }
+}

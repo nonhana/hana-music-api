@@ -1,0 +1,192 @@
+{
+  "module": "banner",
+  "query": {
+    "type": 3
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:47:23.012Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B27：banner type=3 iPad 轮播图，含嵌入歌曲"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "trp": {
+        "rules": [
+          "BANNER_IPAD_HD::schedule_ipad_hd_banner_op_channel_2::linkPlatform$cc$schedule_ipad_hd_banner_op_channel$bpo$rt$song$pc$0$pid$BANNER_IPAD_HD$fgid$4581655$rid$4513169$$1513009$pgid$3453167075$cid",
+          "BANNER_IPAD_HD::schedule_ipad_hd_banner_op_channel_1::linkPlatform$cc$schedule_ipad_hd_banner_op_channel$bpo$rt$0$pid$digitalAlbum$pc$4579615$rid$387017486$cid$BANNER_IPAD_HD$fgid$4511078$$1513009$pgid"
+        ]
+      },
+      "banners": [
+        {
+          "bannerId": "5060067",
+          "pic": "https://p1.music.126.net/_v7UqteEqccPIBVNakJgZg==/109951174155471551.jpg",
+          "titleColor": "blue",
+          "requestId": "",
+          "exclusive": false,
+          "bannerBizType": "force_banner",
+          "scm": "1.music-homepage.homepage_banner_force.banner.5060067.1399874271.null",
+          "alg": "banner-feature-5060067",
+          "s_ctrp": "linkPlatform$cc$schedule_ipad_hd_banner_op_channel$bpo$$rt$digitalAlbum$pc$BANNER_IPAD_HD$fgid$1513009$pgid$0$pid$4579615$rid$387017486$cid$4511078$traceid$000001a1749a78ae003f0a7b81e30007$st$1792957642942$bcc$schedule_ipad_hd_banner_op_channel$spc$BANNER_IPAD_HD-2$fromId$116797_111452_starlink_revenue_DIGITAL_ALBUM_PROMOTION$score$0.0$fromType$starLink$bpc$BANNER_IPAD_HD",
+          "targetId": 0,
+          "showAdTag": true,
+          "targetType": 3000,
+          "typeTitle": "数字专辑",
+          "url": "https://music.163.com/#/album?id=387017486",
+          "encodeId": "0",
+          "monitorImpressList": [],
+          "monitorClickList": []
+        },
+        {
+          "bannerId": "5058132",
+          "pic": "https://p1.music.126.net/AiVuZkMgbPF3ASknFcFwnw==/109951174155456946.jpg",
+          "titleColor": "blue",
+          "requestId": "",
+          "exclusive": false,
+          "bannerBizType": "force_banner",
+          "scm": "1.music-homepage.homepage_banner_force.banner.5058132.1399663840.null",
+          "alg": "banner-feature-5058132",
+          "s_ctrp": "linkPlatform$cc$schedule_ipad_hd_banner_op_channel$bpo$$rt$song$pc$BANNER_IPAD_HD$fgid$1513009$pgid$0$pid$4581655$rid$3453167075$cid$4513169$traceid$000001a1749a78ae003f0a7b81e30007$st$1792957642942$bcc$schedule_ipad_hd_banner_op_channel$spc$BANNER_IPAD_HD-5$fromId$116892_111454_starlink_music_NEW_SONG_PROMOTION$score$0.0$fromType$starLink$bpc$BANNER_IPAD_HD",
+          "song": {
+            "copyright": 1,
+            "fee": 8,
+            "mst": 9,
+            "dt": 286805,
+            "resourceState": true,
+            "id": 3453167075,
+            "alg": "banner-feature-5058132",
+            "publishTime": 1792771200000,
+            "mv": 0,
+            "al": {
+              "picUrl": "http://p3.music.126.net/yXEd14fyOpVRJaOQVIk2mQ==/109951174163297334.jpg",
+              "name": "患者A",
+              "tns": [],
+              "pic_str": "109951174163297334",
+              "id": 405756876,
+              "pic": 109951174163297330
+            },
+            "version": 6,
+            "alia": [],
+            "ar": [
+              {
+                "name": "Ado",
+                "tns": [],
+                "alias": [],
+                "id": 37231059
+              }
+            ],
+            "markTags": [],
+            "name": "患者A",
+            "no": 1,
+            "rt": "",
+            "artistClassics": false,
+            "privilege": {
+              "flag": 1409028,
+              "code": 0,
+              "dlLevel": "lossless",
+              "subp": 1,
+              "fl": 320000,
+              "fee": 8,
+              "dl": 999000,
+              "plLevel": "lossless",
+              "maxBrLevel": "jymaster",
+              "rightSource": 0,
+              "maxbr": 999000,
+              "id": 3453167075,
+              "sp": 7,
+              "payed": 1,
+              "st": 0,
+              "chargeInfoList": [
+                {
+                  "rate": 128000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 192000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 320000,
+                  "chargeType": 0
+                },
+                {
+                  "rate": 999000,
+                  "chargeType": 1
+                }
+              ],
+              "freeTrialPrivilege": {
+                "userConsumable": false,
+                "resConsumable": false
+              },
+              "downloadMaxbr": 999000,
+              "downloadMaxBrLevel": "jymaster",
+              "cp": 1,
+              "preSell": false,
+              "playMaxBrLevel": "jymaster",
+              "cs": false,
+              "toast": false,
+              "playMaxbr": 999000,
+              "flLevel": "exhigh",
+              "pl": 999000
+            },
+            "pst": 0,
+            "pop": 85,
+            "rtype": 0,
+            "s_id": 0,
+            "rtUrls": [],
+            "sq": {
+              "br": 1057912,
+              "fid": 0,
+              "size": 37932153,
+              "vd": -84279,
+              "sr": 44100
+            },
+            "st": 0,
+            "cd": "01",
+            "cf": "",
+            "originCoverType": 0,
+            "h": {
+              "br": 320000,
+              "fid": 0,
+              "size": 11475113,
+              "vd": -84291,
+              "sr": 44100
+            },
+            "l": {
+              "br": 128000,
+              "fid": 0,
+              "size": 4590071,
+              "vd": -80173,
+              "sr": 44100
+            },
+            "m": {
+              "br": 192000,
+              "fid": 0,
+              "size": 6885085,
+              "vd": -81740,
+              "sr": 44100
+            },
+            "cp": 7003,
+            "djId": 0,
+            "single": 0,
+            "ftype": 0,
+            "t": 0,
+            "v": 40,
+            "mark": 17180139520
+          },
+          "targetId": 3453167075,
+          "showAdTag": true,
+          "targetType": 1,
+          "typeTitle": "新歌首发",
+          "url": "orpheus://song/3453167075",
+          "encodeId": "3453167075",
+          "monitorImpressList": [],
+          "monitorClickList": []
+        }
+      ]
+    }
+  }
+}

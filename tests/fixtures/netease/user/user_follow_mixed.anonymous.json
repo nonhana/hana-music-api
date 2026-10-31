@@ -1,0 +1,23 @@
+{
+  "module": "user_follow_mixed",
+  "query": {
+    "size": 10
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:57:06.634Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B17：user_follow_mixed 未登录返回 code 400 not login（登录对照）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "not login",
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

@@ -1,0 +1,769 @@
+{
+  "module": "dj_program_detail",
+  "query": {
+    "id": 3729504614
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:18:25.099Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B12：节目详情的参与主播（participateAnchors 非空证据）；本录制同时是 `programDesc`（28 条）与 `specialTags`（[\"XIAYI\"]）的唯一非空证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "program": {
+        "mainSong": {
+          "name": "对话 谢天笑&张彧：《火烧云》这张专辑，我等了20 年。// 对话音乐人 · 礼崩乐好#225",
+          "id": 3441717342,
+          "position": 0,
+          "alias": [],
+          "status": 0,
+          "fee": 0,
+          "copyrightId": 0,
+          "disc": "",
+          "no": 0,
+          "artists": [
+            {
+              "name": "礼崩乐好",
+              "id": 0,
+              "picId": 0,
+              "img1v1Id": 0,
+              "briefDesc": "",
+              "picUrl": "",
+              "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              "albumSize": 0,
+              "alias": [],
+              "trans": "",
+              "musicSize": 0,
+              "topicPerson": 0
+            }
+          ],
+          "album": {
+            "name": null,
+            "id": 0,
+            "type": null,
+            "size": 0,
+            "picId": 0,
+            "blurPicUrl": null,
+            "companyId": 0,
+            "pic": 0,
+            "picUrl": "http://p3.music.126.net/0ju8ET1ApZSXfWacc4w49w==/109951169484091680.jpg",
+            "publishTime": 0,
+            "description": "",
+            "tags": "",
+            "company": null,
+            "briefDesc": "",
+            "artist": {
+              "name": "",
+              "id": 0,
+              "picId": 0,
+              "img1v1Id": 0,
+              "briefDesc": "",
+              "picUrl": "",
+              "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+              "albumSize": 0,
+              "alias": [],
+              "trans": "",
+              "musicSize": 0,
+              "topicPerson": 0
+            },
+            "songs": [],
+            "alias": [],
+            "status": 0,
+            "copyrightId": 0,
+            "commentThreadId": "R_AL_3_0",
+            "artists": [
+              {
+                "name": "",
+                "id": 0,
+                "picId": 0,
+                "img1v1Id": 0,
+                "briefDesc": "",
+                "picUrl": "",
+                "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "albumSize": 0,
+                "alias": [],
+                "trans": "",
+                "musicSize": 0,
+                "topicPerson": 0
+              }
+            ],
+            "subType": null,
+            "transName": null,
+            "mark": 0
+          },
+          "starred": false,
+          "popularity": 5,
+          "score": 5,
+          "starredNum": 0,
+          "duration": 2350550,
+          "playedNum": 0,
+          "dayPlays": 0,
+          "hearTime": 0,
+          "ringtone": null,
+          "crbt": null,
+          "audition": null,
+          "copyFrom": "",
+          "commentThreadId": "R_SO_4_3441717342",
+          "rtUrl": null,
+          "ftype": 0,
+          "rtUrls": [],
+          "copyright": 1,
+          "transName": null,
+          "sign": null,
+          "mark": 0,
+          "noCopyrightRcmd": null,
+          "hMusic": {
+            "name": null,
+            "id": 17311659334,
+            "size": 94022058,
+            "extension": "mp3",
+            "sr": 44100,
+            "dfsId": 0,
+            "bitrate": 320000,
+            "playTime": 2350550,
+            "volumeDelta": 0
+          },
+          "mMusic": null,
+          "lMusic": {
+            "name": null,
+            "id": 17311659334,
+            "size": 94022058,
+            "extension": "mp3",
+            "sr": 44100,
+            "dfsId": 0,
+            "bitrate": 320000,
+            "playTime": 2350550,
+            "volumeDelta": 0
+          },
+          "rtype": 0,
+          "rurl": null,
+          "mvid": 0,
+          "bMusic": {
+            "name": null,
+            "id": 17311659334,
+            "size": 94022058,
+            "extension": "mp3",
+            "sr": 44100,
+            "dfsId": 0,
+            "bitrate": 320000,
+            "playTime": 2350550,
+            "volumeDelta": 0
+          },
+          "mp3Url": null,
+          "publishTime": 1790554834817
+        },
+        "songs": [],
+        "dj": {
+          "defaultAvatar": false,
+          "province": 110000,
+          "authStatus": 0,
+          "followed": false,
+          "avatarUrl": "http://p3.music.126.net/OsDre-jJDU7W3LFK7tynjA==/109951173895142941.jpg",
+          "accountStatus": 0,
+          "gender": 1,
+          "city": 110101,
+          "birthday": 712771200000,
+          "userId": 31705353,
+          "userType": 205,
+          "nickname": "礼崩乐好",
+          "signature": "「世界向右，音乐向前。」\n欢迎进入华语音乐播客【礼崩乐好】\n【合作+：libengyuehao 】",
+          "description": "",
+          "detailDescription": "",
+          "avatarImgId": 109951173895142940,
+          "backgroundImgId": 109951165395733630,
+          "backgroundUrl": "http://p4.music.126.net/JoV68ORMXbVRqYMDNp28GA==/109951165395733633.jpg",
+          "authority": 0,
+          "mutual": false,
+          "expertTags": null,
+          "experts": null,
+          "djStatus": 10,
+          "vipType": 11,
+          "remarkName": null,
+          "authenticationTypes": 544768,
+          "avatarDetail": null,
+          "avatarImgIdStr": "109951173895142941",
+          "backgroundImgIdStr": "109951165395733633",
+          "anchor": true,
+          "avatarImgId_str": "109951173895142941",
+          "brand": "礼崩乐好 | 世界向右，音乐向前。"
+        },
+        "participateAnchors": [
+          {
+            "userId": 4942501347,
+            "role": null,
+            "type": 6,
+            "anchorInfo": {
+              "defaultAvatar": false,
+              "province": 110000,
+              "authStatus": 1,
+              "followed": false,
+              "avatarUrl": "http://p4.music.126.net/c-aW_eB2vofohuLGgI7unw==/109951172136656894.jpg",
+              "accountStatus": 0,
+              "gender": 0,
+              "city": 110101,
+              "birthday": -2209017600000,
+              "userId": 4942501347,
+              "userType": 2,
+              "nickname": "云村音乐播客",
+              "signature": "听懂音乐背后的故事，让经典声声不息",
+              "description": "网易云精品音乐播客",
+              "detailDescription": "网易云精品音乐播客",
+              "avatarImgId": 109951172136656900,
+              "backgroundImgId": 109951162868128400,
+              "backgroundUrl": "http://p4.music.126.net/2zSNIqTcpHL2jIvU6hG0EA==/109951162868128395.jpg",
+              "authority": 0,
+              "mutual": false,
+              "expertTags": null,
+              "experts": null,
+              "djStatus": 10,
+              "vipType": 0,
+              "remarkName": null,
+              "authenticationTypes": 4098,
+              "avatarDetail": null,
+              "avatarImgIdStr": "109951172136656894",
+              "backgroundImgIdStr": "109951162868128395",
+              "anchor": true,
+              "avatarImgId_str": "109951172136656894"
+            },
+            "basicDivide": null,
+            "personalDivide": null,
+            "personalBuyLink": null
+          },
+          {
+            "userId": 120221,
+            "role": null,
+            "type": 6,
+            "anchorInfo": {
+              "defaultAvatar": false,
+              "province": 110000,
+              "authStatus": 0,
+              "followed": false,
+              "avatarUrl": "http://p4.music.126.net/hxGBZ_KQIznYE0d5liLz7g==/109951172517564886.jpg",
+              "accountStatus": 0,
+              "gender": 1,
+              "city": 110101,
+              "birthday": 712771200000,
+              "userId": 120221,
+              "userType": 0,
+              "nickname": "晋晗-礼崩乐好",
+              "signature": "朝阳区抖机灵大赛二等奖／假装自己是个乐评人／嘿我这暴脾气",
+              "description": "",
+              "detailDescription": "",
+              "avatarImgId": 109951172517564880,
+              "backgroundImgId": 2919203374325650,
+              "backgroundUrl": "http://p4.music.126.net/ZGyt0I7AsW7EYw0GjnZXVg==/2919203374325650.jpg",
+              "authority": 0,
+              "mutual": false,
+              "expertTags": null,
+              "experts": null,
+              "djStatus": 0,
+              "vipType": 0,
+              "remarkName": null,
+              "authenticationTypes": 4096,
+              "avatarDetail": null,
+              "avatarImgIdStr": "109951172517564886",
+              "backgroundImgIdStr": "2919203374325650",
+              "anchor": true,
+              "avatarImgId_str": "109951172517564886"
+            },
+            "basicDivide": null,
+            "personalDivide": null,
+            "personalBuyLink": null
+          }
+        ],
+        "programGuests": null,
+        "blurCoverUrl": "http://music.163.com/api/dj/img/blur/109951174016270434",
+        "radio": {
+          "dj": null,
+          "category": "音乐播客",
+          "secondCategory": "音乐鉴赏",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": null,
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": [
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "The World Leans Right, ",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "But Music Is Always RIGHT.",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "「世界向右，音乐向前。」",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "————————",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "每周五中午12:00，《礼崩乐好》我们在声音里相见。",
+                    "attributes": {
+                      "bold": true
+                    }
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": ">>进听众群/商务/内容合作 +V: libengyuehao ",
+                    "attributes": {
+                      "bold": true
+                    }
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 3,
+              "id": 0,
+              "content": "http://p1.music.126.net/gffEoRznPqow9TWrBHXeXA==/109951172517566715.jpg",
+              "height": 2500,
+              "width": 1080,
+              "timeStamp": null,
+              "nestedData": null
+            }
+          ],
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "feeScope": 0,
+          "picUrl": "https://p3.music.126.net/bmLC1I19JX9-VpjnikSl2A==/109951172267407367.jpg",
+          "lastProgramId": 3730829523,
+          "lastProgramCreateTime": 1792755735077,
+          "shortName": null,
+          "radioFeeType": 0,
+          "participateUidList": [4942501347, 120221],
+          "operateUidList": [120221],
+          "picId": 109951172267407360,
+          "subCount": 9446,
+          "categoryId": 2,
+          "taskId": 0,
+          "programCount": 275,
+          "intervenePicUrl": "https://p4.music.126.net/bmLC1I19JX9-VpjnikSl2A==/109951172267407367.jpg",
+          "intervenePicId": 109951172267407360,
+          "dynamic": false,
+          "desc": "The World Leans Right, But Music Is Always RIGHT.「世界向右，音乐向前。」————————每周五中午12:00，《礼崩乐好》我们在声音里相见。>>进听众群/商务/内容合作 +V: libengyuehao",
+          "createTime": 1691075007293,
+          "name": "礼崩乐好 | 世界向右，音乐向前。",
+          "id": 993134566,
+          "subed": false
+        },
+        "duration": 2350550,
+        "authDTO": null,
+        "buyed": false,
+        "buyedNew": false,
+        "programDesc": [
+          {
+            "type": 1,
+            "id": 0,
+            "content": "中国摇滚的标杆人物@谢天笑 ，掏出了一张他等了 20 年的专辑——《火烧云》：把京剧，融合进了摇滚。",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "8 岁上台唱京剧的他，却说\"我从来没喜欢过京剧\"； 能把歌写到洗脑的他，却说\"音乐硬道理就是好听，但不能为了实验而实验\"； 拿过摇滚终身成就奖的他，却说\"我做的事情太少，还不够\"。",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "这期《礼崩乐好》，独家对话谢天笑，以及专辑制作人张彧 ，我们把这盘\"意面里放炸酱\"的新专，从头到尾聊透了。",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "【About】",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "礼崩乐好 =『Musidealists 音乐理想主义』",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "我是一档“华语乐评播客周刊”，",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "深度聚焦华语原创佳作与行业进程。",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "华语：不止于语言，更是以中文为根基的多元音乐创作版图",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "乐评：每期万字文本量，深度剖析音乐作品的时代回响",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "播客：用长音频传递深度思考，带来陪伴，并拒绝审美降级",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "周刊：风雨无阻，持续追踪和梳理佳作，紧跟时事",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "以作品解读、乐评、对谈、reaction等不同形式，致力于分享关于“音乐”的经历、经验和看法。",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "2023年获得网易云音乐“以音乐播客之名”音乐播客大赛最佳合辑奖、创新奖；",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "2024年入围Z世代国际播客节；2025年获评网易云音乐播客品牌活动“音乐友邻计划”最佳音乐友邻。",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": " ",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "【Credits】",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "播客主理人：",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "晋晗（@晋晗-礼崩乐好）（主播/撰稿/制作人/录音/后期/视觉设计/音乐设计）",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "片头声音：",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "贾培德（德仔）",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": " ",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "【Contact Me】",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "Wechat: libengyuehao （加入听众群或合作）",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "Weibo: @晋晗-礼崩乐好",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "RedNote: @礼崩乐好",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "Bilibili: @礼崩乐好",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "WeChat Official Account: 礼崩乐好",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          },
+          {
+            "type": 1,
+            "id": 0,
+            "content": "Youtube: 礼崩乐好 @LarryForMusicBetter",
+            "height": null,
+            "width": null,
+            "timeStamp": null,
+            "nestedData": null
+          }
+        ],
+        "h5Links": null,
+        "canReward": true,
+        "auditStatus": 10,
+        "videoInfo": null,
+        "score": 0,
+        "liveInfo": null,
+        "alg": null,
+        "ctrp": null,
+        "themeType": null,
+        "disPlayStatus": null,
+        "auditDisPlayStatus": 1,
+        "categoryName": "音乐播客",
+        "secondCategoryName": "音乐鉴赏",
+        "existLyric": false,
+        "code": 0,
+        "djPlayRecordVo": null,
+        "recommended": false,
+        "icon": {
+          "type": null,
+          "value": null,
+          "color": null,
+          "textColor": null,
+          "borderColor": null,
+          "realBizType": null
+        },
+        "additionIconList": null,
+        "adIconInfo": null,
+        "replaceVoiceId": 0,
+        "replaceResource": null,
+        "songTimeStamps": null,
+        "classicRelationSong": null,
+        "classicStyleInfo": null,
+        "brandInfo": null,
+        "specialTags": ["XIAYI"],
+        "seqNo": null,
+        "commonModule": null,
+        "aiGenerated": false,
+        "channels": ["音乐故事"],
+        "programFeeType": 0,
+        "titbits": null,
+        "feeScope": 0,
+        "coverUrl": "https://p3.music.126.net/ITZP3RwY2JFhA5DdLeMXTA==/109951174016270434.jpg",
+        "categoryId": 2,
+        "secondCategoryId": 3074096,
+        "specialType": 40,
+        "commentThreadId": "A_DJ_1_3729504614",
+        "createEventId": 0,
+        "listenerCount": 4618,
+        "pubStatus": 1,
+        "scheduledPublishTime": 1790568000000,
+        "serialNum": 273,
+        "coverId": 109951174016270430,
+        "smallLanguageAuditStatus": 0,
+        "bdAuditStatus": 2,
+        "mainTrackId": 3441717342,
+        "reward": false,
+        "subscribedCount": 0,
+        "privacy": false,
+        "trackCount": 0,
+        "titbitImages": null,
+        "isPublish": true,
+        "description": "中国摇滚的标杆人物@谢天笑 ，掏出了一张他等了 20 年的专辑——《火烧云》：把京剧，融合进了摇滚。\n8 岁上台唱京剧的他，却说\"我从来没喜欢过京剧\"； 能把歌写到洗脑的他，却说\"音乐硬道理就是好听，但不能为了实验而实验\"； 拿过摇滚终身成就奖的他，却说\"我做的事情太少，还不够\"。\n这期《礼崩乐好》，独家对话谢天笑，以及专辑制作人张彧 ，我们把这盘\"意面里放炸酱\"的新专，从头到尾聊透了。\n【About】\n礼崩乐好 =『Musidealists 音乐理想主义』\n我是一档“华语乐评播客周刊”，\n深度聚焦华语原创佳作与行业进程。\n华语：不止于语言，更是以中文为根基的多元音乐创作版图\n乐评：每期万字文本量，深度剖析音乐作品的时代回响\n播客：用长音频传递深度思考，带来陪伴，并拒绝审美降级\n周刊：风雨无阻，持续追踪和梳理佳作，紧跟时事\n以作品解读、乐评、对谈、reaction等不同形式，致力于分享关于“音乐”的经历、经验和看法。\n2023年获得网易云音乐“以音乐播客之名”音乐播客大赛最佳合辑奖、创新奖；\n2024年入围Z世代国际播客节；2025年获评网易云音乐播客品牌活动“音乐友邻计划”最佳音乐友邻。\n \n【Credits】\n播客主理人：\n晋晗（@晋晗-礼崩乐好）（主播/撰稿/制作人/录音/后期/视觉设计/音乐设计）\n片头声音：\n贾培德（德仔）\n \n【Contact Me】\nWechat: libengyuehao （加入听众群或合作）\nWeibo: @晋晗-礼崩乐好\nRedNote: @礼崩乐好\nBilibili: @礼崩乐好\nWeChat Official Account: 礼崩乐好\nYoutube: 礼崩乐好 @LarryForMusicBetter",
+        "createTime": 1790568000000,
+        "name": "对话 谢天笑&张彧：《火烧云》这张专辑，我等了20 年。// 对话音乐人 · 礼崩乐好#225",
+        "id": 3729504614,
+        "subscribed": false,
+        "shareCount": 0,
+        "likedCount": 5,
+        "commentCount": 0
+      },
+      "code": 200
+    }
+  }
+}

@@ -41,6 +41,10 @@ const result = await userMutualfollowGet({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和 `body.data` 收紧，`data` 是接口要返回的布尔值：互相关注为 `true`，否则为 `false`。登录与未登录都返回 HTTP 200；未登录时对同一 uid 上游返回 `false`（录制 `user_mutualfollow_get.mutual.json`、`user_mutualfollow_get.not-mutual.json`、`user_mutualfollow_get.anonymous.json`）。结构定义和类型是 `UserMutualfollowGetBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 传入用户id, 可判断用户是否互相关注

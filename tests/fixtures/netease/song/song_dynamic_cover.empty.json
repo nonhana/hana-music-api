@@ -1,0 +1,21 @@
+{
+  "module": "song_dynamic_cover",
+  "query": {
+    "id": 2092595510
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:33:12.961Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B38：song_dynamic_cover 没有动态封面（data 为空对象）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {},
+      "message": ""
+    }
+  }
+}

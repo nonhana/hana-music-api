@@ -1,0 +1,269 @@
+{
+  "module": "dj_sublist",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T16:54:37.516Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B13: dj_sublist 登录用户订阅电台列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "count": 1,
+      "djRadios": [
+        {
+          "dj": {
+            "defaultAvatar": false,
+            "province": 440000,
+            "authStatus": 0,
+            "followed": false,
+            "avatarUrl": "http://p3.music.126.net/iU7QGCMy8DIN5c22Sk1-FQ==/109951167672132926.jpg",
+            "accountStatus": 0,
+            "gender": 1,
+            "city": 440100,
+            "birthday": 1138780727807,
+            "userId": 1737370053,
+            "userType": 0,
+            "nickname": "Kar98kurz",
+            "signature": "嗦面中…",
+            "description": "",
+            "detailDescription": "",
+            "avatarImgId": 109951167672132930,
+            "backgroundImgId": 109951164504008030,
+            "backgroundUrl": "http://p4.music.126.net/W990omii1QQDj7v5SVlhEQ==/109951164504008032.jpg",
+            "authority": 0,
+            "mutual": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 10,
+            "vipType": 11,
+            "remarkName": null,
+            "authenticationTypes": 0,
+            "avatarDetail": null,
+            "backgroundImgIdStr": "109951164504008032",
+            "avatarImgIdStr": "109951167672132926",
+            "anchor": false,
+            "avatarImgId_str": "109951167672132926"
+          },
+          "category": "二次元",
+          "secondCategory": "游戏",
+          "buyed": false,
+          "price": 0,
+          "originalPrice": 0,
+          "discountPrice": null,
+          "purchaseCount": 0,
+          "lastProgramName": "「NIGHTMARE TRAIN」 Battle Theme",
+          "videos": null,
+          "finished": false,
+          "underShelf": false,
+          "liveInfo": null,
+          "playCount": 0,
+          "privacy": false,
+          "icon": null,
+          "manualTagsDTO": null,
+          "descPicList": [
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "此播客仅作为对原OST的补档，祝各位收听愉快！",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中）",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": " 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": " 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": " 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "Telegram频道：@BlueArchiveMusicChannel",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "Thanks 5b25,Eren38324",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "感谢以下人员对本电台的支持：",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            },
+            {
+              "type": 1,
+              "id": 0,
+              "content": "",
+              "height": null,
+              "width": null,
+              "timeStamp": null,
+              "nestedData": {
+                "textList": [
+                  {
+                    "text": "[与你在一起的日常，皆为奇迹！]",
+                    "attributes": null
+                  }
+                ],
+                "attributes": null
+              }
+            }
+          ],
+          "replaceRadioId": 0,
+          "replaceRadio": null,
+          "shortName": null,
+          "picId": 109951173110615020,
+          "subCount": 66435,
+          "categoryId": 3001,
+          "taskId": 0,
+          "programCount": 747,
+          "participateUidList": [],
+          "operateUidList": [272167780, 1995985544],
+          "picUrl": "https://p3.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+          "lastProgramId": 3730865255,
+          "feeScope": 0,
+          "lastProgramCreateTime": 1792634790124,
+          "radioFeeType": 0,
+          "intervenePicUrl": "https://p3.music.126.net/llElq4kR_8FSk73AWOPNBw==/109951173110615031.jpg",
+          "intervenePicId": 109951173110615020,
+          "dynamic": false,
+          "desc": "此播客仅作为对原OST的补档，祝各位收听愉快！学生Live 2D BGM 及歌曲信息请留意歌曲简介（正在施工中） 韩服1.5周年“Blue Archive Symphony-来自管弦的触动”相关曲目请搜索“楼上是dalao”的同名播客或“星璃kira”的“碧蓝档案同人交响乐 Blue Archive Symphony”播客 学生音声ASMR相关请搜索“墨鹏”的“碧蓝档案/蔚蓝档案ASMR”播客 2023 Orchestra 曲目请搜索“岛风君_桃饱网大会员”的“蔚蓝档案 原声集”播客Telegram频道：@BlueArchiveMusicChannelThanks 5b25,Eren38324感谢以下人员对本电台的支持：楼上是dalao,岛风君_桃饱网大会员,正弦line,白夜长夏,碧蓝档案资讯站,非常智慧的皮皮（皮皮不会憨）[与你在一起的日常，皆为奇迹！]",
+          "createTime": 1655865894651,
+          "name": "[补档]BlueArchive蔚蓝档案（碧蓝档案）OST",
+          "id": 977654404,
+          "rcmdtext": null,
+          "newProgramCount": 299
+        }
+      ],
+      "time": 1792634790124,
+      "hasMore": false,
+      "code": 200
+    }
+  }
+}

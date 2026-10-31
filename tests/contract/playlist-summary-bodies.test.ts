@@ -3,22 +3,13 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { gunzipSync } from 'node:zlib';
 
-import {
-  createHanaMusicApi,
-  PlaylistDetailBody,
-  UserPlaylistBody,
-} from '../../index.ts';
+import { PlaylistDetailBody, UserPlaylistBody } from '../../index.ts';
 import type { PlaylistSummary, PlaylistUser } from '../../index.ts';
 import type { Recording } from '../_kit/assertions.ts';
 import { expectUpstreamShapeRejection, settle } from '../_kit/assertions.ts';
+import { replay } from '../_kit/replay.ts';
 import detailOwn from '../fixtures/netease/library/playlist_detail.own-small.json';
 import userPlaylist from '../fixtures/netease/library/user_playlist.json';
-
-const replay = (body: unknown) =>
-  createHanaMusicApi({
-    cookie: 'MUSIC_U=listener',
-    fetcher: async () => Response.json(body),
-  });
 
 const endpoints = [
   {

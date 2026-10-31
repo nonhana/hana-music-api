@@ -1,0 +1,21 @@
+{
+  "module": "dj_sublist",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T16:54:49.832Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B13: dj_sublist 匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "count": 0,
+      "djRadios": [],
+      "time": 0,
+      "hasMore": false,
+      "code": 200
+    }
+  }
+}

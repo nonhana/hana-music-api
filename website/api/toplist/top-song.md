@@ -41,6 +41,10 @@ const result = await topSong({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data` 和每首歌的 `id` 收紧；歌曲共用 `Song`，并局部声明旧式歌曲字段 `popularity`、`starred`、`score`、`position`、`exclusive`、`playedNum`、`dayPlays`、`hearTime`、`starredNum`，全部宽松。`type=999` 会返回真实的空结果：`data: []`，照常返回 200。`bMusic`、`lMusic`、`hMusic`、`mMusic`、`sqMusic`、`mp3Url` 等旧版音质字段不在声明里，原样保留。结构定义和类型是 `TopSongBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取新歌速递

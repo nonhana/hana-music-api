@@ -45,6 +45,10 @@ const result = await playmodeIntelligenceList({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.data` 是心动模式列表，每条记录自己的 `id` 收紧，`songInfo` 是宽松字段并复用 `LooseSong`（嵌套歌曲编号也宽松，坏 `id` 只丢编号，不会让整条 `songInfo` 消失）；`alg`、`recommended`、`message` 宽松。结构定义和类型是 `PlaymodeIntelligenceListBody`，见 [返回体结构](/guide/response-bodies)。录制从原始 149 条截到 3 条（`context.truncated` 记录原始长度）；缺少 `pid` 或探测到的另一个歌单时，SDK 按上游业务码转交，不报 502。本批没有找到可达的空 `data`，数组本身允许为空。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可获取心动模式/智能播放列表

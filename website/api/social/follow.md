@@ -43,6 +43,10 @@ const result = await follow({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 是接口要拿的操作结果，收紧为 `200`；`msg` 是附带的提示，宽松。关注方向在录制设备上被上游风控拒绝（正文 `code: 250`、`message: 关注异常` 加风险提示 `dialog`），SDK 按业务拒绝原样转交，`status` 为 250；成功正文只有取关的证据。结构定义和类型是 `FollowBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入用户 id, 和操作 t,可关注/取消关注用户

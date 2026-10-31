@@ -1,13 +1,37 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const playlistUpdate: ModuleEffect<ModuleInput> = (input, request) =>
+const RouteResult = UpstreamObject({
+  code: Schema.Finite,
+  message: Loose(Schema.String),
+});
+
+// `/api/batch` 的返回码和三条子路由的返回码收紧；子路由的说明宽松。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    '/api/playlist/desc/update': RouteResult,
+    '/api/playlist/tags/update': RouteResult,
+    '/api/playlist/update/name': RouteResult,
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
+  input,
+  request,
+) =>
   Effect.gen(function* () {
     const query = { ...input };
     if (
@@ -61,11 +85,13 @@ const playlistUpdate: ModuleEffect<ModuleInput> = (input, request) =>
       '/api/playlist/tags/update': `{"id":${String(query.id)},"tags":"${String(query.tags)}"}`,
       '/api/playlist/update/name': `{"id":${String(query.id)},"name":"${String(query.name)}"}`,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(`/api/batch`, data, createOption(query)),
-      ),
+    const response = yield* request(
+      buildApiRequestIntent(`/api/batch`, data, createOption(query)),
     );
+    return {
+      ...toModuleResponse(response),
+      body: yield* decodeUpstreamBody('playlist_update', ModuleBody, response),
+    };
   });
 
 /**

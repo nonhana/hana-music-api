@@ -1,0 +1,28 @@
+{
+  "module": "musician_cloudbean",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:34:50.575Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B36：musician_cloudbean 音乐人账号云豆正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": {
+        "artistId": 51535561,
+        "cloudBean": 5,
+        "musicianLevel": null,
+        "maxCloudBean": 9223372036854776000,
+        "needPop": false,
+        "flowStage": null,
+        "dynamicNews": null,
+        "signed": false
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "module": "broadcast_sub",
+  "query": {
+    "id": 131,
+    "t": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:29:31.864Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：broadcast_sub 已收藏再收藏，幂等成功 code 200；回读收藏列表仍含频道 131"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": true,
+      "message": ""
+    }
+  }
+}

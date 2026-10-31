@@ -1,0 +1,21 @@
+{
+  "module": "djRadio_top",
+  "query": {
+    "djRadioId": 792544462
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:55:05.954Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B13: djRadio_top 电台作品榜"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [],
+      "message": ""
+    }
+  }
+}

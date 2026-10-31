@@ -1,0 +1,193 @@
+{
+  "module": "search_hot_detail",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T09:56:36.562Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：另一次录制，alg 有值并带 trp"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "trp": {
+        "rules": [
+          "HOT_SEARCH_SONG#@#::遗憾总是贯穿人生始终::attribute$isOperation$3",
+          "HOT_SEARCH_SONG#@#::给未来的自己::attribute$isOperation$3",
+          "HOT_SEARCH_SONG#@#::背对背 (feat. scarletchoir)::attribute$isOperation$3"
+        ]
+      },
+      "data": [
+        {
+          "score": 83071,
+          "iconType": 4,
+          "searchWord": "天龙八部之宿敌",
+          "source": 0,
+          "iconUrl": "https://p1.music.126.net/IBKnY_RCYTUAALcqWhAT6g==/109951163967994693.png",
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 51471,
+          "iconType": 0,
+          "searchWord": "第五人格",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 72339,
+          "iconType": 0,
+          "searchWord": "季候风",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 64555,
+          "iconType": 0,
+          "searchWord": "我不难过",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 44288,
+          "iconType": 0,
+          "searchWord": "不死鸟",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 60933,
+          "iconType": 0,
+          "searchWord": "The Weeknd",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 47131,
+          "iconType": 0,
+          "searchWord": "背对背 (feat. scarletchoir)",
+          "source": 0,
+          "alg": "alg_search_rec_hotquery_base_hotquery",
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 47131,
+          "iconType": 0,
+          "searchWord": "遗憾总是贯穿人生始终",
+          "source": 0,
+          "alg": "alg_search_rec_hotquery_base_hotquery",
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 47130,
+          "iconType": 0,
+          "searchWord": "99",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 33635,
+          "iconType": 0,
+          "searchWord": "甲乙丙丁",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 40721,
+          "iconType": 0,
+          "searchWord": "雨爱",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 37851,
+          "iconType": 0,
+          "searchWord": "琵琶曲",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 31303,
+          "iconType": 0,
+          "searchWord": "我爱你",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 35550,
+          "iconType": 0,
+          "searchWord": "给未来的自己",
+          "source": 0,
+          "alg": "alg_search_rec_hotquery_base_hotquery",
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 35549,
+          "iconType": 5,
+          "searchWord": "HongKong",
+          "source": 0,
+          "iconUrl": "https://p1.music.126.net/PtgUJbcvDAY0HKWpmOB2HA==/109951163967988470.png",
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 23070,
+          "iconType": 0,
+          "searchWord": "许嵩",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 23604,
+          "iconType": 0,
+          "searchWord": "罗生门",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 20890,
+          "iconType": 5,
+          "searchWord": "失眠",
+          "source": 0,
+          "iconUrl": "https://p1.music.126.net/PtgUJbcvDAY0HKWpmOB2HA==/109951163967988470.png",
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 22968,
+          "iconType": 0,
+          "searchWord": "特别的人",
+          "source": 0,
+          "content": "",
+          "url": ""
+        },
+        {
+          "score": 18838,
+          "iconType": 0,
+          "searchWord": "我怀念的",
+          "source": 0,
+          "content": "",
+          "url": ""
+        }
+      ],
+      "message": "success"
+    }
+  }
+}

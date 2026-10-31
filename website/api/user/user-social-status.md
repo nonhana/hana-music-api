@@ -41,6 +41,10 @@ const result = await userSocialStatus({
 console.log(result.body);
 ```
 
+## 返回内容
+
+社交状态在 `data`，录制里只有空对象，内部字段没有声明，仍原样保留；`code` 收紧，`data` 和 `message` 宽松。结构定义和类型是 `UserSocialStatusBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口, 传入用户id, 获取用户状态

@@ -47,6 +47,10 @@ const result = await topAlbum({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.monthData` 和每张专辑的 `id` 收紧；专辑记录共用 `AlbumSummary`，并局部声明两张列表都有的宽松字段 `areaId`、`exclusive`。`body.weekData` 是“可以没有”的路径：日本区当月录制只有 `monthData`、没有 `weekData`，缺失或 `null` 时照常返回，出现时每张专辑的 `id` 同样收紧，坏一条记录会报 502。`hasMore` 宽松。真实空结果用未来月份（`year=2030&month=1`）录制：`monthData: []`，同样没有 `weekData`；`offset` 越过总数会被上游忽略，不能用它构造空结果。结构定义和类型是 `TopAlbumBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取新碟上架列表，如需具体音乐信息需要调用获取专辑列表接

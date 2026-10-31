@@ -1,0 +1,21 @@
+{
+  "module": "listen_data_realtime_report",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:16:48.179Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B33：listen_data_realtime_report 未登录对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 302,
+      "message": "系统错误",
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "module": "song_download_url",
+  "query": {
+    "id": 2736209461,
+    "br": 999000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:02:19.487Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B3：song_download_url 免费歌曲可下载"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": {
+        "id": 2736209461,
+        "url": "http://m701.music.126.net/20261026002719/4e9351fcc7255e846e13bc7f221db70d/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/45858828292/c822/6a3d/40d8/3e93937b08377be84a92ca1f4bac9a1d.mp3?vuutv=LHMXYz1q4zVcP/285Wgz8KbDG9hQ7he17EmRZXBkHTQJR8A6Noefg+GfeAlFLy3G1gcwik0bE91+f/6uSAvXhmYzAL/f7wVgrNGaCl7q8CM=",
+        "br": 128000,
+        "size": 575991,
+        "md5": "3e93937b08377be84a92ca1f4bac9a1d",
+        "code": 200,
+        "expi": 1200,
+        "type": "mp3",
+        "gain": -8.7099,
+        "peak": 1,
+        "closedGain": -6,
+        "closedPeak": 1.0541,
+        "fee": 0,
+        "uf": null,
+        "payed": 0,
+        "flag": 1343744,
+        "canExtend": false,
+        "freeTrialInfo": null,
+        "level": "standard",
+        "encodeType": "mp3",
+        "channelLayout": null,
+        "freeTrialPrivilege": {
+          "resConsumable": false,
+          "userConsumable": false,
+          "listenType": null,
+          "cannotListenReason": null,
+          "playReason": null,
+          "freeLimitTagType": null
+        },
+        "freeTimeTrialPrivilege": {
+          "resConsumable": false,
+          "userConsumable": false,
+          "type": 0,
+          "remainTime": 0
+        },
+        "urlSource": 0,
+        "rightSource": 0,
+        "podcastCtrp": null,
+        "effectTypes": null,
+        "time": 36014,
+        "message": null,
+        "levelConfuse": null,
+        "musicId": "12774024750",
+        "accompany": null,
+        "sr": 44100,
+        "auEff": null,
+        "immerseType": null,
+        "beatType": 0
+      },
+      "code": 200
+    }
+  }
+}

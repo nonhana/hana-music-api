@@ -42,6 +42,10 @@ const result = await listentogetherRoomCheck({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到房间情况的 `body.data` 和接口就是为了拿的 `data.joinable`、`data.status` 收紧；`data.copywriting` 宽松；`data.type` 在录制里只见过 `null`，未声明并原样保留。结构定义和类型是 `ListentogetherRoomCheckBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 返回示例
 
 ```json
@@ -57,11 +61,13 @@ console.log(result.body);
 }
 ```
 
+示例里的 `data.type` 在本批录制里只见过 `null`，未声明，原样保留；`data.copywriting` 是宽松展示文案。
+
 ## 返回关注点
 
 - `data.joinable`: 当前房间是否还能加入。
 - `data.status`: 房间状态，公开样例里可见 `AVAILABLE`。
-- `data.type`: 房间类型，公开样例里可见 `NORMAL`。
+- `data.type`: 房间类型，公开样例里可见 `NORMAL`；未声明，原样保留。
 - `data.copywriting`: 服务端返回的补充文案，可能为空。
 
 ## 调用场景

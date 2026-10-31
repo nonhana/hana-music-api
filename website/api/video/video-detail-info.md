@@ -41,6 +41,10 @@ const result = await videoDetailInfo({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和接口要返回的计数 `commentCount`、`shareCount`、`likedCount` 收紧；`liked` 是当前账号的点赞状态，宽松。本批录制与探测未发现可达的空结果（未知视频返回 `code: 400`，作为业务失败原样转交）。结构定义和类型是 `VideoDetailInfoBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入 vid ( 视频 id )，可获取对应视频点赞转发评论数数据

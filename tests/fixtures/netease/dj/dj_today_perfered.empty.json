@@ -1,0 +1,19 @@
+{
+  "module": "dj_today_perfered",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T15:27:53.471Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B12：电台今日优选；匿名/登录与 page 0/1/99 都是空 data"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "msg": null,
+      "data": []
+    }
+  }
+}

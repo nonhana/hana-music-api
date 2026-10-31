@@ -1,0 +1,23 @@
+{
+  "module": "yunbei_rcmd_song_history",
+  "query": {
+    "size": -1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T22:37:10.890Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B37：yunbei_rcmd_song_history 非法 size"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": null,
+      "debugInfo": null,
+      "data": null,
+      "failData": null
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "module": "album_detail_dynamic",
+  "query": {
+    "id": 396372188
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:17:59.174Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B1：album_detail_dynamic 数字专辑形态（多 paid/sales/displayType）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "paid": false,
+      "sales": 4690,
+      "displayType": 0,
+      "onSale": true,
+      "commentCount": 153,
+      "likedCount": 0,
+      "shareCount": 624,
+      "isSub": false,
+      "subTime": 0,
+      "subCount": 1987,
+      "code": 200
+    }
+  }
+}

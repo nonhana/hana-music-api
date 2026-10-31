@@ -1,0 +1,20 @@
+{
+  "module": "dj_sub",
+  "query": {
+    "rid": 792544462,
+    "t": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:29:19.763Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：dj_sub 反向（取消订阅电台 792544462）；取消后回读 dj_sublist 1 个（仅 977654404）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200
+    }
+  }
+}

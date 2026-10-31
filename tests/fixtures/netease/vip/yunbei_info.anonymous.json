@@ -1,0 +1,41 @@
+{
+  "module": "yunbei_info",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T23:04:05.564Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B37：yunbei_info 匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "level": 0,
+      "userPoint": {
+        "balance": 0,
+        "blockBalance": 0,
+        "status": 1,
+        "updateTime": 1792969445525,
+        "userId": 18071908342,
+        "version": 10
+      },
+      "mobileSign": false,
+      "pcSign": false,
+      "viptype": 0,
+      "expiretime": 0,
+      "backupExpireTime": -1,
+      "storeTitle": "商城",
+      "pubwords": "",
+      "gameConfig": null,
+      "ringConfig": null,
+      "fmConfig": null,
+      "ticketConfig": {
+        "content": "1文案2",
+        "picId": "109951164034096581",
+        "picUrl": "https://p3.music.126.net/8PXcApMHrXowFVOQbhofmg==/109951164034096581.jpg"
+      },
+      "code": 200
+    }
+  }
+}

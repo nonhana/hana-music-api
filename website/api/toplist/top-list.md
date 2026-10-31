@@ -41,6 +41,10 @@ const result = await topList({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.playlist`、`playlist.id`、`playlist.trackIds` 和每项 `trackIds[].id` 收紧；`trackIds` 是调用方要用的 track 引用，按记录编号处理。歌单摘要共用 `PlaylistSummary`，`tracks[]` 里的编号宽松。飙升榜（`19723756`）的 v4 详情只返回 `code` 和 `playlist`，没有顶层 `privileges`；`s` 固定为 `0` 时 `tracks` 仍然返回。`idx` 参数不请求上游，本地返回 `status: 500` 和 `{ code: 500, msg }`，这个拒绝分支也写进了结构定义的联合：`code` 收紧、`msg` 宽松。榜单详情没有空结果，不存在的 id 会得到上游错误。结构定义和类型是 `TopListBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 请使用[歌单详情](/api/playlist/playlist-detail)接口,传入排行榜 id 获取排行榜详情数据(排行榜也是歌单的一种)

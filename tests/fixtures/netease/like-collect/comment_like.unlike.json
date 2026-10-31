@@ -1,0 +1,22 @@
+{
+  "module": "comment_like",
+  "query": {
+    "id": 2092595510,
+    "type": 0,
+    "cid": 7431461934,
+    "t": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:30:42.223Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：comment_like 反向（取消点赞评论 7431461934）；回读 hotComments 该评论 liked=false、likedCount 695 不变"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200
+    }
+  }
+}

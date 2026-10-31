@@ -1,0 +1,737 @@
+{
+  "module": "user_social_status_rcmd",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T03:48:20.949Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B46：user_social_status_rcmd 设置 LISTENING 状态后的相似用户列表；录制后已清空状态"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "rcmdTitle": "此刻有18个品味相似的人",
+        "onlyShowState": false,
+        "statusContentDTO": {
+          "type": "LISTENING",
+          "iconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/11399985289/69a6/da34/93a3/ed7abfe26cd6481d43d99fde73091cef.png",
+          "content": "最近在听歌",
+          "actionUrl": null,
+          "vistorUrl": null,
+          "canEdit": false,
+          "desc": null
+        },
+        "userRcmdInfoVOList": [
+          {
+            "userId": 5140467990,
+            "nickName": "Horhun-",
+            "avatarUrl": "http://p4.music.126.net/Qmiz47iZf-jcBLITAZ8TmQ==/109951174047447257.jpg",
+            "actionUrl": "orpheus://user/5140467990",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/FrrcsdOmVUwMGKJooI878Q==/109951169042016291.jpg",
+              "content": "在听：Angel Numbers / Ten Toes",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D5140467990",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "内蒙古 赤峰",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "白羊座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "女",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 8779288230,
+            "nickName": "终于学会了劝你",
+            "avatarUrl": "http://p4.music.126.net/Xb22dsqwTiuz2tR0JwStkA==/109951172320651674.jpg",
+            "actionUrl": "orpheus://user/8779288230",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p4.music.126.net/Kc9SWUoUlrcf7tPihgap-A==/109951170169444876.jpg",
+              "content": "在听：锈 (我们两个都拉过勾)",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D8779288230",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "广西 南宁",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "天蝎座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 499132598,
+            "nickName": "睡不醒啊_z",
+            "avatarUrl": "http://p4.music.126.net/vR8tEnfv044FjT3C6kh22g==/109951174160292861.jpg",
+            "actionUrl": "orpheus://user/499132598",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p4.music.126.net/IVI3-cxZvVRDytGK3j7L6A==/109951172841241185.jpg",
+              "content": "在听：天使的翅膀",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D499132598",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "河南 周口",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "00后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "天秤座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "女",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 1653476612,
+            "nickName": "jyan_MxwG",
+            "avatarUrl": "http://p4.music.126.net/K_fRdbkC2TtMb1iiPj2mIA==/109951172154400417.jpg",
+            "actionUrl": "orpheus://user/1653476612",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/IVN4CSi2ABGalKcPg-GndA==/109951169932535789.jpg",
+              "content": "在听：生日快乐",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D1653476612",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "湖南 长沙",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "天蝎座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 1782474011,
+            "nickName": "来杯Gin-Tonic",
+            "avatarUrl": "http://p4.music.126.net/gq424lohD8cgFd5SkbRLmQ==/109951172164403016.jpg",
+            "actionUrl": "orpheus://user/1782474011",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/_3YCwTf4yAB-pMP7j70sUg==/5896680860106448.jpg",
+              "content": "在听：Turnin'",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D1782474011",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "江苏 徐州",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "狮子座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 1771860022,
+            "nickName": "-她爱吃草莓",
+            "avatarUrl": "http://p4.music.126.net/hRISjNPhKuFBx7GN-pBE8w==/109951168139375102.jpg",
+            "actionUrl": "orpheus://user/1771860022",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/A5J9gFuJgfzqravyuj184g==/109951168881933739.jpg",
+              "content": "在听：时过境迁",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D1771860022",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "北京市",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "白羊座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 1442576692,
+            "nickName": "那小子真帅0",
+            "avatarUrl": "http://p4.music.126.net/IX87stREFL4lUmM0iVcM0g==/109951169830287885.jpg",
+            "actionUrl": "orpheus://user/1442576692",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/e9Yh_SIgH8FkmgIVsCXfCA==/109951173428498606.jpg",
+              "content": "在听：玻璃",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D1442576692",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "四川 成都",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "00后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "狮子座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 626270962,
+            "nickName": "涛你兜",
+            "avatarUrl": "http://p4.music.126.net/DGof3A0w_6nlkMw57W6ZLg==/109951174042602180.jpg",
+            "actionUrl": "orpheus://user/626270962",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p4.music.126.net/2w-V1thV2V88WzgojQgzTA==/109951171998447206.jpg",
+              "content": "在听：伯虎说 (DJ版)",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D626270962",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "湖南 郴州",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "巨蟹座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 6380116338,
+            "nickName": "樊星硕樊星硕",
+            "avatarUrl": "http://p4.music.126.net/79X_B7_YSCAQuKWqmTpJuw==/109951173231547346.jpg",
+            "actionUrl": "orpheus://user/6380116338",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/6y1HjgK7Emg3MjsC5IoRoQ==/109951173691743917.jpg",
+              "content": "在听：After Hours",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D6380116338",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "河南 许昌",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "金牛座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 8072716343,
+            "nickName": "Day-Night-CC",
+            "avatarUrl": "http://p3.music.126.net/E7RxOlrw0imujJ5_CtzUJw==/109951168954176931.jpg",
+            "actionUrl": "orpheus://user/8072716343",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p4.music.126.net/rbUy9P12xdIssA-2t6lfkA==/2888417047256583.jpg",
+              "content": "在听：青春大概",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D8072716343",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "山东 菏泽",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "95后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "天秤座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 4018640045,
+            "nickName": "Ba特弗莱",
+            "avatarUrl": "http://p3.music.126.net/Ia5n3jni8uze2age5KEMWA==/109951169512886831.jpg",
+            "actionUrl": "orpheus://user/4018640045",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p4.music.126.net/3Pf46sG6aDNNCvkwbimVPQ==/109951173108714053.jpg",
+              "content": "在听：粉钻 演唱会版",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D4018640045",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "辽宁 铁岭",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "00后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "天蝎座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 574015037,
+            "nickName": "MARVEL大发",
+            "avatarUrl": "http://p3.music.126.net/nTaEAzJ3eSpD9_jH5BaorQ==/109951172908518715.jpg",
+            "actionUrl": "orpheus://user/574015037",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/VpFtsEAUCOgC76jhwMMxsQ==/109951168437512342.jpg",
+              "content": "在听：拾忆",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D574015037",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "上海市",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "00后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "天蝎座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "女",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 2084173101,
+            "nickName": "心动午夜时",
+            "avatarUrl": "http://p4.music.126.net/DTTAsDJKcOdMZ4p8yCIvHw==/109951171916837554.jpg",
+            "actionUrl": "orpheus://user/2084173101",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p4.music.126.net/FLIHPqpkfUBimQZB370agQ==/109951169237251638.jpg",
+              "content": "在听：讨厌红楼梦",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D2084173101",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "黑龙江 哈尔滨",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "水瓶座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "女",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 17679308155,
+            "nickName": "冰雹密室逃脱番茄",
+            "avatarUrl": "http://p4.music.126.net/zcB7hvYWMKjneuRt35UAaA==/109951173467990646.jpg",
+            "actionUrl": "orpheus://user/17679308155",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/Qt6sfLxRCscFZVXhbQ4bfg==/109951172020385959.jpg",
+              "content": "在听：雨爱",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D17679308155",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "湖北 仙桃",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "90后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "狮子座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 9062431300,
+            "nickName": "Eerlvy",
+            "avatarUrl": "http://p3.music.126.net/IbQNYuuuxu7WlaRHV3aGzg==/109951174068249027.jpg",
+            "actionUrl": "orpheus://user/9062431300",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/2I1AKsgJksthorB_ndCNdA==/778454232476457.jpg",
+              "content": "在听：Lonely",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D9062431300",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "处女座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "女",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 2043033047,
+            "nickName": "想你时就写信-",
+            "avatarUrl": "http://p4.music.126.net/YcF9p3AEItRc-dnbtizMFQ==/109951174173693705.jpg",
+            "actionUrl": "orpheus://user/2043033047",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/mymBOsQ9XM3VVgQRwqanAQ==/109951172037264845.jpg",
+              "content": "在听：Dear D (亲爱的告诉你)",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D2043033047",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "江苏 南京",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "摩羯座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "女",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 8039530050,
+            "nickName": "栖于林间看日落沉山海",
+            "avatarUrl": "http://p4.music.126.net/DQUPU1hPu3t7bON2kvhL3w==/109951173939438520.jpg",
+            "actionUrl": "orpheus://user/8039530050",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/xfPdDoM-Kk14BFdJT7Qxgw==/109951169164991342.jpg",
+              "content": "在听：讴歌",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D8039530050",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": {
+              "origin": null,
+              "type": "4",
+              "vip": false,
+              "name": "网易音乐人",
+              "level": 1,
+              "description": "",
+              "detailDescription": "",
+              "showName": "网易音乐人、歌手、作词、作曲、编曲",
+              "iconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png",
+              "iconLinkUrl": null,
+              "tags": ["歌手", "作词", "作曲", "编曲"]
+            },
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "海外 英国",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "05后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "狮子座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "女",
+                "match": false
+              }
+            ]
+          },
+          {
+            "userId": 13108629630,
+            "nickName": "只喜欢火象只喜欢你",
+            "avatarUrl": "http://p3.music.126.net/9UrjVemMyTuC1Gc2pzFu1w==/109951173849261509.jpg",
+            "actionUrl": "orpheus://user/13108629630",
+            "rcmdWords": null,
+            "statusContentDTO": {
+              "type": "LISTENING",
+              "iconUrl": "http://p3.music.126.net/oDZcLV7Jy2YoXxNGhebOLw==/109951173076645392.jpg",
+              "content": "在听：伤痕",
+              "actionUrl": "orpheus://openurl?present=1&disable_loading_progress=1&url=https%3A%2F%2Fmp.music.163.com%2F6168eadf5feea729d22c8909%2Findex%3Fblur%3D1%26nm_style%3Dsbt%26visitorId%3D13108629630",
+              "vistorUrl": null,
+              "canEdit": false,
+              "desc": null
+            },
+            "identityInfoDTO": null,
+            "tagRcmdVOList": [
+              {
+                "id": null,
+                "name": "10后",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "白羊座",
+                "match": false
+              },
+              {
+                "id": null,
+                "name": "男",
+                "match": false
+              }
+            ]
+          }
+        ]
+      },
+      "message": ""
+    }
+  }
+}

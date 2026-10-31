@@ -37,6 +37,10 @@ const result = await musicianCloudbean();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、云豆对象 `body.data`、音乐人编号 `body.data.artistId` 和云豆数 `body.data.cloudBean` 收紧；`maxCloudBean`、`needPop`、`signed` 宽松，`musicianLevel`、`flowStage`、`dynamicNews` 只见过 `null`，没有声明。录制来自音乐人账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `anonimousUser: false`（未落盘））；未登录（匿名）返回 `code: 600`（`musician_cloudbean.anonymous.json`），SDK 以 `status: 400` 转交原文；登录的非音乐人账号未录到，返回码与成功正文未验证。结构定义和类型是 `MusicianCloudbeanBody`，见[返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 音乐人登录后调用此接口，可获取账号云豆数

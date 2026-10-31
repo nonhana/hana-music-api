@@ -1,0 +1,22 @@
+{
+  "module": "record_recent_song",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:42:04.778Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B34：record_recent_song 匿名探测"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "total": 0,
+        "list": []
+      },
+      "message": ""
+    }
+  }
+}

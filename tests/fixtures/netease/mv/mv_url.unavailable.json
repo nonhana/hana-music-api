@@ -1,0 +1,34 @@
+{
+  "module": "mv_url",
+  "query": {
+    "id": 34734028,
+    "r": 1080
+  },
+  "context": {
+    "recordedAt": "2026-10-25T11:27:45.180Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：mv_url 版权不可用，url 为 null（上游按请求间歇性返回 -125）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "id": 34734028,
+        "url": null,
+        "r": 0,
+        "size": 0,
+        "md5": null,
+        "code": -125,
+        "expi": 0,
+        "fee": 0,
+        "mvFee": 0,
+        "st": -100,
+        "promotionVo": null,
+        "msg": "版权方要求，当前资源暂时无法使用"
+      }
+    }
+  }
+}

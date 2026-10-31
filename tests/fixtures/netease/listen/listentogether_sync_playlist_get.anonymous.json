@@ -1,0 +1,21 @@
+{
+  "module": "listentogether_sync_playlist_get",
+  "query": {
+    "roomId": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-25T21:47:51.857Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B32：已失效房间的当前列表匿名对照"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {},
+      "message": ""
+    }
+  }
+}

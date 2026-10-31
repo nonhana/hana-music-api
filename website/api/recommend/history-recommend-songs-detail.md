@@ -41,6 +41,10 @@ const result = await historyRecommendSongsDetail({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data`、`data.songs` 和每首歌的 `id` 收紧；`purchaseUrl`、`noHistoryMessage` 宽松；`message` 未声明，原样保留。`data.dates` 只见过空数组、`data.description` 只见过 `null`，未声明并原样保留。日期格式不合法时上游返回 `code: 400` 的业务拒绝，SDK 原样转交，不报 502。结构定义和类型是 `HistoryRecommendSongsDetailBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口 ,传入当日日期, 可获得当日历史日推数据

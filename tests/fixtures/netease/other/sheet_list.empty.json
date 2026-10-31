@@ -1,0 +1,27 @@
+{
+  "module": "sheet_list",
+  "query": {
+    "id": 7238118806
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:31:34.787Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B44：乐谱列表空结果（无乐谱歌曲 7238118806）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "sheetInstrumentTypeVOList": null,
+        "musicSheetSimpleInfoVOS": null,
+        "errorCode": 404,
+        "findSheet": 1,
+        "uploadSheet": 1
+      },
+      "message": ""
+    }
+  }
+}

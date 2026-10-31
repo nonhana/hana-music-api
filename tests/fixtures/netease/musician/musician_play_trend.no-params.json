@@ -1,0 +1,19 @@
+{
+  "module": "musician_play_trend",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:36:59.198Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B36：musician_play_trend 缺少时间参数返回业务拒绝（code 400）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "参数不正确",
+      "data": null
+    }
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "module": "digitalAlbum_purchased",
+  "query": {
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:47:08.885Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B23：digitalAlbum_purchased 列表为空时 offset=100000 仍为空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "total": 0,
+      "paidAlbums": [],
+      "code": 200
+    }
+  }
+}

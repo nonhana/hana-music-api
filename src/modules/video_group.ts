@@ -1,12 +1,27 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { createOption } from '../core/options.ts';
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const videoGroup: ModuleEffect<ModuleInput> = (query, request) =>
+// 分组视频列表 `datas` 在本批录制和全部标签探测里始终是 null，元素类型无法确定，未声明并原样保留；`msg` 只见过 null，也未声明；`hasmore`、`rcmdLimit` 宽松。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    hasmore: Loose(Schema.Boolean),
+    rcmdLimit: Loose(Schema.Finite),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const videoGroup: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       groupId: query.id,
@@ -14,15 +29,15 @@ const videoGroup: ModuleEffect<ModuleInput> = (query, request) =>
       need_preview_url: 'true',
       total: true,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/videotimeline/videogroup/otherclient/get`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/videotimeline/videogroup/otherclient/get`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    const body = yield* decodeUpstreamBody('video_group', ModuleBody, response);
+    return { ...toModuleResponse(response), body };
   });
 
 /**

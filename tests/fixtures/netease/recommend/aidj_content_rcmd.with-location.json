@@ -1,0 +1,798 @@
+{
+  "module": "aidj_content_rcmd",
+  "query": {
+    "latitude": "12.34",
+    "longitude": "56.78"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:22:24.344Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B40：aidj_content_rcmd 携带通用坐标的私人 DJ 推荐"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "tagName": "",
+        "aiDjResources": [
+          {
+            "type": "song",
+            "value": {
+              "alg": "alg_payrec_userFm_215246713718_EU_TF1_-aidj",
+              "songId": "3388001538",
+              "includeVoice": null,
+              "songPrivilege": {
+                "id": 3388001538,
+                "fee": 8,
+                "payed": 1,
+                "realPayed": 0,
+                "st": 0,
+                "pl": 999000,
+                "dl": 999000,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 320000,
+                "pc": null,
+                "toast": false,
+                "flag": 1544193,
+                "paidBigBang": false,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "maxBrLevel": "jymaster",
+                "playMaxBrLevel": "jymaster",
+                "downloadMaxBrLevel": "jymaster",
+                "plLevel": "jyeffect",
+                "dlLevel": "jyeffect",
+                "flLevel": "exhigh",
+                "rscl": null,
+                "freeTrialPrivilege": {
+                  "resConsumable": false,
+                  "userConsumable": false,
+                  "listenType": null,
+                  "cannotListenReason": null,
+                  "playReason": null,
+                  "freeLimitTagType": null
+                },
+                "rightSource": 0,
+                "chargeInfoList": [
+                  {
+                    "rate": 128000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 192000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 320000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 999000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 1
+                  },
+                  {
+                    "rate": 1999000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 1
+                  }
+                ],
+                "code": 0,
+                "message": null,
+                "plLevels": null,
+                "dlLevels": null,
+                "ignoreCache": null,
+                "bd": null
+              },
+              "songData": {
+                "name": "锈雨",
+                "id": 3388001538,
+                "position": 0,
+                "alias": [],
+                "status": 0,
+                "fee": 8,
+                "copyrightId": 0,
+                "disc": "01",
+                "no": 2,
+                "artists": [
+                  {
+                    "name": "乌龙不是乌龙",
+                    "id": 100057135,
+                    "picId": 0,
+                    "img1v1Id": 0,
+                    "briefDesc": "",
+                    "picUrl": "",
+                    "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                    "albumSize": 0,
+                    "alias": [],
+                    "trans": "",
+                    "musicSize": 0
+                  }
+                ],
+                "album": {
+                  "name": "锈雨",
+                  "id": 379122165,
+                  "type": "专辑",
+                  "size": 1,
+                  "picId": 109951173303795280,
+                  "blurPicUrl": "http://p4.music.126.net/M1PkMnMrCO7G83WE6E0pzw==/109951173303795281.jpg",
+                  "companyId": 0,
+                  "pic": 109951173303795280,
+                  "picUrl": "http://p4.music.126.net/M1PkMnMrCO7G83WE6E0pzw==/109951173303795281.jpg",
+                  "publishTime": 1780070400000,
+                  "description": "",
+                  "tags": "",
+                  "company": null,
+                  "briefDesc": "",
+                  "artist": {
+                    "name": "",
+                    "id": 0,
+                    "picId": 0,
+                    "img1v1Id": 0,
+                    "briefDesc": "",
+                    "picUrl": "",
+                    "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                    "albumSize": 0,
+                    "alias": [],
+                    "trans": "",
+                    "musicSize": 0
+                  },
+                  "songs": [],
+                  "alias": [],
+                  "status": 1,
+                  "copyrightId": 0,
+                  "commentThreadId": "R_AL_3_379122165",
+                  "artists": [
+                    {
+                      "name": "乌龙不是乌龙",
+                      "id": 100057135,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0
+                    }
+                  ],
+                  "subType": "录音室版",
+                  "transName": null,
+                  "picId_str": "109951173303795281"
+                },
+                "starred": false,
+                "popularity": 95,
+                "score": 95,
+                "starredNum": 0,
+                "duration": 140856,
+                "playedNum": 0,
+                "dayPlays": 0,
+                "hearTime": 0,
+                "ringtone": "",
+                "crbt": null,
+                "audition": null,
+                "copyFrom": "",
+                "commentThreadId": "R_SO_4_3388001538",
+                "rtUrl": null,
+                "ftype": 0,
+                "rtUrls": [],
+                "copyright": 0,
+                "transName": null,
+                "sign": null,
+                "rtype": 0,
+                "rurl": null,
+                "mvid": 0,
+                "hMusic": {
+                  "name": null,
+                  "id": 16636429486,
+                  "size": 5637165,
+                  "extension": "mp3",
+                  "sr": 48000,
+                  "dfsId": 0,
+                  "bitrate": 320000,
+                  "playTime": 140856,
+                  "volumeDelta": -13708
+                },
+                "mMusic": {
+                  "name": null,
+                  "id": 16636429487,
+                  "size": 3382317,
+                  "extension": "mp3",
+                  "sr": 48000,
+                  "dfsId": 0,
+                  "bitrate": 192000,
+                  "playTime": 140856,
+                  "volumeDelta": -11101
+                },
+                "lMusic": {
+                  "name": null,
+                  "id": 16636429485,
+                  "size": 2254893,
+                  "extension": "mp3",
+                  "sr": 48000,
+                  "dfsId": 0,
+                  "bitrate": 128000,
+                  "playTime": 140856,
+                  "volumeDelta": -9296
+                },
+                "bMusic": {
+                  "name": null,
+                  "id": 16636429485,
+                  "size": 2254893,
+                  "extension": "mp3",
+                  "sr": 48000,
+                  "dfsId": 0,
+                  "bitrate": 128000,
+                  "playTime": 140856,
+                  "volumeDelta": -9296
+                },
+                "mp3Url": null,
+                "publishTime": 0
+              }
+            }
+          },
+          {
+            "type": "audio",
+            "value": {
+              "audioList": [
+                {
+                  "audioUrl": "http://aidj.music.126.net/20261027082224/583b8e445c09559672dafccadaa082db/8ceb/4334/e5e3/472920e0bc2aa163c9121ca44dad5a36.mp3",
+                  "audioId": "prompt_song_509951163338569939_1734947151579_111868",
+                  "duration": 19.382856,
+                  "nosKey": "jd-music-content-aidj/8ceb/4334/e5e3/472920e0bc2aa163c9121ca44dad5a36.mp3",
+                  "size": 465859,
+                  "gain": -1.2567272,
+                  "peak": 0,
+                  "poolCode": "prompt_song",
+                  "validTime": 86399,
+                  "introductionRelatedSongIds": [543798303],
+                  "fadeInOut": true,
+                  "timbreKey": "M791-C2",
+                  "announcerName": null,
+                  "trp_type": null,
+                  "trp_id": null,
+                  "includeVoice": null,
+                  "textType": "乐评",
+                  "detailCategory": "主观评价，点评",
+                  "modelType": null,
+                  "lastSongSupportAudioSongId": null,
+                  "promptType": null
+                }
+              ]
+            }
+          },
+          {
+            "type": "song",
+            "value": {
+              "alg": "alg-music-rec-unite-userFm-vec-muti_interest_embedding_mm_mt2-aidj",
+              "songId": "543798303",
+              "includeVoice": null,
+              "songPrivilege": {
+                "id": 543798303,
+                "fee": 0,
+                "payed": 0,
+                "realPayed": 0,
+                "st": 0,
+                "pl": 999000,
+                "dl": 999000,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 320000,
+                "pc": null,
+                "toast": false,
+                "flag": 1540352,
+                "paidBigBang": false,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "maxBrLevel": "jymaster",
+                "playMaxBrLevel": "jymaster",
+                "downloadMaxBrLevel": "jymaster",
+                "plLevel": "jyeffect",
+                "dlLevel": "jyeffect",
+                "flLevel": "exhigh",
+                "rscl": null,
+                "freeTrialPrivilege": {
+                  "resConsumable": false,
+                  "userConsumable": false,
+                  "listenType": null,
+                  "cannotListenReason": null,
+                  "playReason": null,
+                  "freeLimitTagType": null
+                },
+                "rightSource": 0,
+                "chargeInfoList": [
+                  {
+                    "rate": 128000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 192000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 320000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 999000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 1
+                  }
+                ],
+                "code": 0,
+                "message": null,
+                "plLevels": null,
+                "dlLevels": null,
+                "ignoreCache": null,
+                "bd": null
+              },
+              "songData": {
+                "name": "ありがとう···",
+                "id": 543798303,
+                "position": 4,
+                "alias": [],
+                "status": 0,
+                "fee": 0,
+                "copyrightId": 663018,
+                "disc": "1",
+                "no": 4,
+                "artists": [
+                  {
+                    "name": "KOKIA",
+                    "id": 16686,
+                    "picId": 0,
+                    "img1v1Id": 0,
+                    "briefDesc": "",
+                    "picUrl": "",
+                    "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                    "albumSize": 0,
+                    "alias": [],
+                    "trans": "",
+                    "musicSize": 0
+                  }
+                ],
+                "album": {
+                  "name": "EVOLVE to LOVE -20 years Anniversary BEST-",
+                  "id": 37873159,
+                  "type": "精选集",
+                  "size": 62,
+                  "picId": 109951163176668500,
+                  "blurPicUrl": "http://p4.music.126.net/dbMimdGInV87myZFakgHeA==/109951163176668498.jpg",
+                  "companyId": 0,
+                  "pic": 109951163176668500,
+                  "picUrl": "http://p4.music.126.net/dbMimdGInV87myZFakgHeA==/109951163176668498.jpg",
+                  "publishTime": 1519142400000,
+                  "description": "",
+                  "tags": "",
+                  "company": "Victor Entertainment",
+                  "briefDesc": "",
+                  "artist": {
+                    "name": "",
+                    "id": 0,
+                    "picId": 0,
+                    "img1v1Id": 0,
+                    "briefDesc": "",
+                    "picUrl": "",
+                    "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                    "albumSize": 0,
+                    "alias": [],
+                    "trans": "",
+                    "musicSize": 0
+                  },
+                  "songs": [],
+                  "alias": [],
+                  "status": 0,
+                  "copyrightId": 663018,
+                  "commentThreadId": "R_AL_3_37873159",
+                  "artists": [
+                    {
+                      "name": "KOKIA",
+                      "id": 16686,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0
+                    }
+                  ],
+                  "subType": "录音室版",
+                  "transName": null,
+                  "picId_str": "109951163176668498"
+                },
+                "starred": false,
+                "popularity": 100,
+                "score": 100,
+                "starredNum": 0,
+                "duration": 250000,
+                "playedNum": 0,
+                "dayPlays": 0,
+                "hearTime": 0,
+                "ringtone": null,
+                "crbt": null,
+                "audition": null,
+                "copyFrom": "",
+                "commentThreadId": "R_SO_4_543798303",
+                "rtUrl": null,
+                "ftype": 0,
+                "rtUrls": [],
+                "copyright": 0,
+                "transName": "谢谢···",
+                "sign": null,
+                "rtype": 0,
+                "rurl": null,
+                "mvid": 0,
+                "hMusic": {
+                  "name": null,
+                  "id": 1428869331,
+                  "size": 10002852,
+                  "extension": "mp3",
+                  "sr": 44100,
+                  "dfsId": 0,
+                  "bitrate": 320000,
+                  "playTime": 250000,
+                  "volumeDelta": -26648
+                },
+                "mMusic": {
+                  "name": null,
+                  "id": 1428869332,
+                  "size": 6001729,
+                  "extension": "mp3",
+                  "sr": 44100,
+                  "dfsId": 0,
+                  "bitrate": 192000,
+                  "playTime": 250000,
+                  "volumeDelta": -24031
+                },
+                "lMusic": {
+                  "name": null,
+                  "id": 1428869333,
+                  "size": 4001167,
+                  "extension": "mp3",
+                  "sr": 44100,
+                  "dfsId": 0,
+                  "bitrate": 128000,
+                  "playTime": 250000,
+                  "volumeDelta": -22292
+                },
+                "bMusic": {
+                  "name": null,
+                  "id": 1428869333,
+                  "size": 4001167,
+                  "extension": "mp3",
+                  "sr": 44100,
+                  "dfsId": 0,
+                  "bitrate": 128000,
+                  "playTime": 250000,
+                  "volumeDelta": -22292
+                },
+                "mp3Url": null,
+                "publishTime": 1519142400000,
+                "transNames": ["谢谢···"]
+              }
+            }
+          },
+          {
+            "type": "audio",
+            "value": {
+              "audioList": [
+                {
+                  "audioUrl": "http://aidj.music.126.net/20261027082224/eb19d60a5bd585ec6f18435d0e86e7b1/547c/56a8/7b0d/ab7c390dba32590751464bb06d2c26b5.mp3",
+                  "audioId": "prompt_song_509951163338569939_1734947151579_74001",
+                  "duration": 11.885714,
+                  "nosKey": "jd-music-content-aidj/547c/56a8/7b0d/ab7c390dba32590751464bb06d2c26b5.mp3",
+                  "size": 285928,
+                  "gain": -0.87999916,
+                  "peak": 0,
+                  "poolCode": "prompt_song",
+                  "validTime": 86399,
+                  "introductionRelatedSongIds": [2618898212],
+                  "fadeInOut": true,
+                  "timbreKey": "M791-C2",
+                  "announcerName": null,
+                  "trp_type": null,
+                  "trp_id": null,
+                  "includeVoice": null,
+                  "textType": "乐评",
+                  "detailCategory": "主观评价，点评",
+                  "modelType": null,
+                  "lastSongSupportAudioSongId": null,
+                  "promptType": null
+                }
+              ]
+            }
+          },
+          {
+            "type": "song",
+            "value": {
+              "alg": "alg-music-rec-fmAIDJ-red_i2i-aidj",
+              "songId": "2618898212",
+              "includeVoice": null,
+              "songPrivilege": {
+                "id": 2618898212,
+                "fee": 8,
+                "payed": 1,
+                "realPayed": 0,
+                "st": 0,
+                "pl": 999000,
+                "dl": 999000,
+                "sp": 7,
+                "cp": 1,
+                "subp": 1,
+                "cs": false,
+                "maxbr": 999000,
+                "fl": 320000,
+                "pc": null,
+                "toast": false,
+                "flag": 1540357,
+                "paidBigBang": false,
+                "preSell": false,
+                "playMaxbr": 999000,
+                "downloadMaxbr": 999000,
+                "maxBrLevel": "jymaster",
+                "playMaxBrLevel": "jymaster",
+                "downloadMaxBrLevel": "jymaster",
+                "plLevel": "jyeffect",
+                "dlLevel": "jyeffect",
+                "flLevel": "exhigh",
+                "rscl": null,
+                "freeTrialPrivilege": {
+                  "resConsumable": false,
+                  "userConsumable": false,
+                  "listenType": null,
+                  "cannotListenReason": null,
+                  "playReason": null,
+                  "freeLimitTagType": null
+                },
+                "rightSource": 0,
+                "chargeInfoList": [
+                  {
+                    "rate": 128000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 192000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 320000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 0
+                  },
+                  {
+                    "rate": 999000,
+                    "chargeUrl": null,
+                    "chargeMessage": null,
+                    "chargeType": 1
+                  }
+                ],
+                "code": 0,
+                "message": null,
+                "plLevels": null,
+                "dlLevels": null,
+                "ignoreCache": null,
+                "bd": null
+              },
+              "songData": {
+                "name": "Bad Apple ~Reprise~ (English Version)",
+                "id": 2618898212,
+                "position": 0,
+                "alias": [],
+                "status": 0,
+                "fee": 8,
+                "copyrightId": 743010,
+                "disc": "01",
+                "no": 1,
+                "artists": [
+                  {
+                    "name": "Lizz Robinett",
+                    "id": 12342149,
+                    "picId": 0,
+                    "img1v1Id": 0,
+                    "briefDesc": "",
+                    "picUrl": "",
+                    "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                    "albumSize": 0,
+                    "alias": [],
+                    "trans": "",
+                    "musicSize": 0
+                  },
+                  {
+                    "name": "Lowlander",
+                    "id": 37180909,
+                    "picId": 0,
+                    "img1v1Id": 0,
+                    "briefDesc": "",
+                    "picUrl": "",
+                    "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                    "albumSize": 0,
+                    "alias": [],
+                    "trans": "",
+                    "musicSize": 0
+                  }
+                ],
+                "album": {
+                  "name": "Bad Apple ~Reprise~",
+                  "id": 245485020,
+                  "type": "专辑",
+                  "size": 0,
+                  "picId": 109951169887490220,
+                  "blurPicUrl": "http://p4.music.126.net/7IKAtJUnmT-7LA9-eWGrOg==/109951169887490223.jpg",
+                  "companyId": 0,
+                  "pic": 109951169887490220,
+                  "picUrl": "http://p3.music.126.net/7IKAtJUnmT-7LA9-eWGrOg==/109951169887490223.jpg",
+                  "publishTime": 1723996800000,
+                  "description": "",
+                  "tags": "",
+                  "company": "Burnt Toast Records",
+                  "briefDesc": "",
+                  "artist": {
+                    "name": "",
+                    "id": 0,
+                    "picId": 0,
+                    "img1v1Id": 0,
+                    "briefDesc": "",
+                    "picUrl": "",
+                    "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                    "albumSize": 0,
+                    "alias": [],
+                    "trans": "",
+                    "musicSize": 0
+                  },
+                  "songs": [],
+                  "alias": [],
+                  "status": 1,
+                  "copyrightId": 743010,
+                  "commentThreadId": "R_AL_3_245485020",
+                  "artists": [
+                    {
+                      "name": "Lizz Robinett",
+                      "id": 12342149,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0
+                    },
+                    {
+                      "name": "Lowlander",
+                      "id": 37180909,
+                      "picId": 0,
+                      "img1v1Id": 0,
+                      "briefDesc": "",
+                      "picUrl": "",
+                      "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                      "albumSize": 0,
+                      "alias": [],
+                      "trans": "",
+                      "musicSize": 0
+                    }
+                  ],
+                  "subType": "录音室版",
+                  "transName": null,
+                  "picId_str": "109951169887490223"
+                },
+                "starred": false,
+                "popularity": 100,
+                "score": 100,
+                "starredNum": 0,
+                "duration": 298947,
+                "playedNum": 0,
+                "dayPlays": 0,
+                "hearTime": 0,
+                "ringtone": "",
+                "crbt": null,
+                "audition": null,
+                "copyFrom": "",
+                "commentThreadId": "R_SO_4_2618898212",
+                "rtUrl": null,
+                "ftype": 0,
+                "rtUrls": [],
+                "copyright": 1,
+                "transName": null,
+                "sign": null,
+                "rtype": 0,
+                "rurl": null,
+                "mvid": 0,
+                "hMusic": {
+                  "name": null,
+                  "id": 11352085596,
+                  "size": 11960991,
+                  "extension": "mp3",
+                  "sr": 44100,
+                  "dfsId": 0,
+                  "bitrate": 320000,
+                  "playTime": 298947,
+                  "volumeDelta": -12790
+                },
+                "mMusic": {
+                  "name": null,
+                  "id": 11352085599,
+                  "size": 7176612,
+                  "extension": "mp3",
+                  "sr": 44100,
+                  "dfsId": 0,
+                  "bitrate": 192000,
+                  "playTime": 298947,
+                  "volumeDelta": -10151
+                },
+                "lMusic": {
+                  "name": null,
+                  "id": 11352085594,
+                  "size": 4784422,
+                  "extension": "mp3",
+                  "sr": 44100,
+                  "dfsId": 0,
+                  "bitrate": 128000,
+                  "playTime": 298947,
+                  "volumeDelta": -8408
+                },
+                "bMusic": {
+                  "name": null,
+                  "id": 11352085594,
+                  "size": 4784422,
+                  "extension": "mp3",
+                  "sr": 44100,
+                  "dfsId": 0,
+                  "bitrate": 128000,
+                  "playTime": 298947,
+                  "volumeDelta": -8408
+                },
+                "mp3Url": null,
+                "publishTime": 1723996800000
+              }
+            }
+          }
+        ]
+      },
+      "message": "",
+      "trp": {
+        "rules": [
+          "aidj_greet_audio::*::linkPlatform$positionCode$aidj_greet_audio",
+          "aidj_alg_rcmd_tag::*::linkPlatform$positionCode$aidj_alg_rcmd_tag",
+          "aidj_intervene_resource::*::linkPlatform$positionCode$aidj_intervene_resource"
+        ]
+      }
+    }
+  }
+}

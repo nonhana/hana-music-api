@@ -1,0 +1,98 @@
+{
+  "module": "playlist_detail_rcmd_get",
+  "query": {
+    "id": 18374591158
+  },
+  "context": {
+    "recordedAt": "2026-10-25T12:32:16.765Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B5：playlist_detail_rcmd_get 有相关推荐的公开歌单"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "success",
+      "data": {
+        "rcmdTitle": "喜欢这个歌单的用户也听了",
+        "jumpUrl": "orpheus://playlistCollection",
+        "recPlaylist": [
+          {
+            "playlist": {
+              "id": 110759778,
+              "name": "民谣是最安静的角落",
+              "coverImgId": 3397490930328962,
+              "coverImgUrl": "http://p1.music.126.net/6_34Jf5YfizBLptYV8-h0g==/3397490930328962.jpg",
+              "playCount": 47344968,
+              "specialType": 0,
+              "action": "orpheus://playlist/110759778?type=0&uiPlaylistType=UGC"
+            },
+            "alg": "alg_similar_tag_hot"
+          },
+          {
+            "playlist": {
+              "id": 2163517726,
+              "name": "熬夜和想你，我都该戒掉了",
+              "coverImgId": 109951163216834300,
+              "coverImgUrl": "http://p1.music.126.net/P8w0xreTcXV-GAUcx6Axjg==/109951163216834301.jpg",
+              "playCount": 51406456,
+              "specialType": 0,
+              "action": "orpheus://playlist/2163517726?type=0&uiPlaylistType=UGC"
+            },
+            "alg": "alg_similar_tag_hot"
+          },
+          {
+            "playlist": {
+              "id": 13634731044,
+              "name": "2026年度全球热榜爆款金曲",
+              "coverImgId": 109951173880782990,
+              "coverImgUrl": "http://p1.music.126.net/SXjx_uWdtQ1vP5oaQ4V2tQ==/109951173880782990.jpg",
+              "playCount": 40958428,
+              "specialType": 0,
+              "action": "orpheus://playlist/13634731044?type=0&uiPlaylistType=UGC"
+            },
+            "alg": "alg_similar_tag_hot"
+          },
+          {
+            "playlist": {
+              "id": 504347934,
+              "name": "开口就爱上的欧美音乐【慎点！】",
+              "coverImgId": 18760966905773936,
+              "coverImgUrl": "http://p1.music.126.net/cdE0fqrtBxKk8OGN5p33rA==/18760966905773938.jpg",
+              "playCount": 66636204,
+              "specialType": 0,
+              "action": "orpheus://playlist/504347934?type=0&uiPlaylistType=UGC"
+            },
+            "alg": "alg_similar_tag_hot"
+          },
+          {
+            "playlist": {
+              "id": 2017931496,
+              "name": "理想男友音，声控福利~（不定期更新）",
+              "coverImgId": 18790653720815490,
+              "coverImgUrl": "http://p1.music.126.net/yYdUG5Pv6_-5PuIn5j1VKQ==/18790653720815486.jpg",
+              "playCount": 42079976,
+              "specialType": 0,
+              "action": "orpheus://playlist/2017931496?type=0&uiPlaylistType=UGC"
+            },
+            "alg": "alg_similar_tag_hot"
+          },
+          {
+            "playlist": {
+              "id": 2438292020,
+              "name": "听说你也在找好听的华语歌",
+              "coverImgId": 109951163571833740,
+              "coverImgUrl": "http://p1.music.126.net/Fs0DjAvcAAyAZa1dgXzFfQ==/109951163571833739.jpg",
+              "playCount": 201431456,
+              "specialType": 0,
+              "action": "orpheus://playlist/2438292020?type=0&uiPlaylistType=UGC"
+            },
+            "alg": "alg_similar_tag_hot"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -44,6 +44,10 @@ const result = await commentAlbum({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.comments`、`body.comments[].commentId` 收紧；`body.hotComments` 是可以没有的路径：越界分页时整个缺失，出现时 `hotComments[].commentId` 收紧。评论记录共用 `CommentRecord`，`user`、`beReplied`、`likedCount`、`time`、`decoration`、`ipLocation`、`pendantData` 等其余声明字段都宽松；`beReplied[]` 是评论里套着的回复记录，编号也宽松。`total`、`more`、`moreHot`、`cnum`、`isMusician`、`userId` 宽松。无评论专辑（录制 `comment_album.empty.json`，专辑 405204773）返回 `comments: []`、`hotComments: []`、`total: 0`；越界分页（录制 `comment_album.out-of-range.json`，`offset=100000`）返回 `comments: []` 且没有 `hotComments`。`topComments`（只见过空数组）和 `commentBanner`（只见过 `null`）没有声明，原样保留。非空录制（`comment_album.default.json`）从原 20 条 `comments`/9 条 `hotComments` 中保留覆盖各字段的非连续 5/4 条。登录对照先用 `login_status` 确认 `account.anonimousUser: false` 后抽查：非 `null` 路径与类型相同，登录响应只会在宽松字段上多出现值为 `null` 的路径（如 `comments[].user.vipRights`、`beReplied[].content`/`richContent`、`beReplied[].ipLocation.userId`），登录录制未保留。
+
 ## 补充说明
 
 说明 : 调用此接口，传入音乐 id 和 limit 参数，可获得该专辑的所有评论 ( 不需要

@@ -1,0 +1,1043 @@
+{
+  "module": "artist_desc",
+  "query": {
+    "id": 3684
+  },
+  "context": {
+    "recordedAt": "2026-10-25T10:06:02.370Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B2：artist_desc 歌手介绍非空（林俊杰 3684）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "introduction": [
+        {
+          "ti": "演艺经历",
+          "txt": "2003年，发行首张全创作专辑《乐行者》。虽然时逢SARS，但他和团队不轻言放弃，在3个月内走遍26个城市，进行了上百场演出，奠定了之后在中国大陆的稳固基础。\n2004年，游走大陆，让从小接受英语教育的林俊杰首次体验中华文化所带来的冲击，结合西方R&B现代曲风以及中国风的第二张创作《江南》（台版《第二天堂》）由此诞生 ，同年更凭借《乐行者》拿下第15届台湾金曲奖最佳新人奖 。\n2005年，赴美国LA向音乐大师Seth Riggs学习唱歌技巧，同时林俊杰也成为Seth Riggs的第一位亚洲学生 ；3月25日 发行第三张创作专辑《编号89757》，穿梭在未来世界与古文明之间，不仅在销量上取得成功，也获得了各大颁奖典礼的肯定 。\n2006年1月20日，发行首部音乐视觉写真书《JJ进化论》 ，1月28日 登上中国中央电视台春节联欢晚会（央视春晚）舞台献唱《一千年以后》，并以33.3%的支持率成为当晚最受观众喜爱的明星 ；推出个人第四张专辑《曹操》，首次尝试摇滚曲风，将R&B与多种音乐元素结合，确立个人风格概念“J-Fusion” ；3月27日 受新加坡旅游局邀请，担任新加坡旅游形象大使 ；2006 就是俊杰世界巡回演唱会开跑，这也是林俊杰首次举办个人巡演 。\n2007年，以人性的善恶纠结为基础，大胆推出更具突破性的第五张专辑《西界》 ；7月22日 在《西界》天津签售会上，以两小时二十八分零九秒签完3052张个人专辑的成绩刷新吉尼斯世界纪录，并由英国吉尼斯总部派出的验证官授予证书 ；首度参演电视剧，客串出演台湾偶像剧《花样少年少女》；成立个人音乐制作公司JFJ Productions 。\n2008年，首次主演网络小说改编的偶像剧《原来我不帅》 ；10月18日 发行具有最多“合作元素”的第六张专辑《JJ陆》，与蔡卓妍合唱的《小酒窝》广为传唱，也让他成功在香港市场占有一席之地 。\n2009年3月28日，第二轮世界巡回演唱会“杰伴2009”于新加坡开启 ；随后，林俊杰遭受出道以来最严重的生理打击，胃酸倒流侵蚀声带，几近失声，演艺活动被迫中止 ；12月15日 携第七张专辑《100天》回归歌坛，这本纪录了低潮期的心情日记，也体现了他心境的转变 。\n2010年，凭借《100天》入围第21届台湾金曲奖最佳男歌手，在颁奖典礼上的“金曲！金曲！”表演 ，让百万观众见证林俊杰“诉说女人故事”的实力与魅力，使其在台湾的事业攀上了新的高峰 ；8月21日 于北京开启第三轮世界巡回演唱会“I AM” ；12月8日 发行概念自选辑《她说》，从曾经写给众多女歌手的近百首创作里精选出10首，重新改编，赋予全新生命，与孙燕姿合作的《她说》大受好评 。\n2011年4月底,与老东家海蝶音乐合约到期 ；8月8日 加盟华纳唱片，开启新乐章 ；9月30日 由林俊杰担任音乐总监的电影《夏日乐悠悠》上映，除了创作了主题曲《Love U U》，同时还负责全片的配乐工作；12月31日 推出第九张创作专辑《学不会 Lost N Found》 。\n2012年3月1日，推出首本个人故事影像集《记得》，跻身畅销作家行列 ；凭借专辑《学不会 Lost N Found》斩获各大奖项，深拓台湾市场 。\n2013年3月13日，发行出道十年纪念专辑《因你而在 Stories Untold》，成绩斐然，不仅创下了五大金榜单周销售百分比83.35%的最高纪录 ，年终销量也在该榜单独占鳌头 ；专辑中的《修炼爱情》获得Hit Fm年度百首单曲票选冠军 ，同时这首歌的微电影《时之繁花》亦入选台湾年度十大微电影；7月13日，“时线TimeLine世界巡回演唱会”从台北小巨蛋起跑，截至到2013年 年底共举办13场，赢得好评如潮 。\n2014年2月16日 ,“时线TimeLine世界巡回演唱会”登陆伦敦，林俊杰成为首位在伦敦开个唱的新加坡歌手 ；5月15日 以制作人身份为陈奕迅制作的国语专辑《米·闪》（《闪》的部分）发行，大获好评；6月28日 荣获第25届台湾金曲奖最佳国语男歌手奖，成为新加坡首位获得该奖项的男歌手 ；7月18日 推出首张英文Live翻唱EP《iTunes Session》 ；11月18日 荣获第5届“通商中国青年奖” ；12月22日 林俊杰蜡像进驻新加坡杜莎夫人蜡像馆 ；12月27日 发行第11张创作专辑《新地球GENESIS》 ，获得台湾五大金榜华语榜2014年度销售冠军 。\n2015年1月10日, “时线Time Line世界巡回演唱会”在青岛落幕，横跨四大洲、24个城市，突破30万人次；2月14、15日 “时线：新地球世界巡回演唱会”安可场在台北小巨蛋全新开启 ，继《新地球GENESIS》专辑中与Jason Mraz、郑容和跨国合作后，台北演唱会邀来滨崎步担任嘉宾并宣布了合作歌曲的消息，音乐交流版图横跨美、韩、日 ；2月25日 受邀出席由通商中国举办的“中国商数学生论坛”，分享学习双语心得 ；2月27、28日 连续两天担任新加坡妆艺大游行压轴表演嘉宾，演唱其原创活动主题曲《Dreams》；8月9日，受邀担任新加坡50周年国庆庆典表演嘉宾，献唱国庆主题曲《Our Singapore》 。12月25日，第十二张，也是个人首张实验概念专辑《和自己对话》正式发行，创华语乐坛先例使用“人头录音”技术，将声音拟真创造空间感，打造“3D超立体环绕听觉”, ，凭借该专辑三度蝉联台湾五大金榜华语榜年度销售冠军，专辑《新地球》亦同时占据榜单亚军位置。\n2016年，1月15日，首次参演的电影《消失爱人》在中国大陆上映 ；2月26日，为Dota2创作的游戏音乐包《The Timekeeper》上线；3月6日，受邀担任Dota2上海特级锦标赛决赛音乐会表演嘉宾。4月8日，在《我是歌手第四季》最后一期“歌王之战”帮帮唱环节搭档徐佳莹演唱歌曲《不为谁而作的歌》。6月25日，凭借专辑《和自己对话》和歌曲《不为谁而作的歌》分别获得第27届台湾金曲奖最佳国语男歌手奖和最佳作曲人奖；7月7日，个人首部音乐纪录片《听·见林俊杰》登陆视频平台；8月19日、26日，发行纪录片DVD和蓝光BD；8月21日，凭借歌曲《不为谁而作的歌》获得美国第三届Pensado Awards最佳外语歌曲奖；11月4日，以常驻导师身份加盟的浙江卫视《梦想的声音》第一季节目开播。\n2017年，1月27日，二度受邀登上央视春晚，与李玟合唱歌曲《梦想之城》；3月，受邀担任2017年国家地理世界地球日中国大陆地区形象大使，并为主题活动宣传片打造了两版主题音乐；4月20日，携手腾讯推出的虚拟偶像乐团“消除联萌”宣布出道；6月3日，以音乐总监身份加盟的浙江卫视综艺节目《天生是优我》播出，JFJ Productions为该节目制作片头配乐并提供三首歌曲资源；7月，作为亚洲区首位受邀明星前往温布尔顿网球锦标赛观赛；7月30日，携手“中国数码文化”成立“SMG”电竞战队；8月23日，携虚拟乐团“消除联萌”推出的全新单曲《丹宁执着》上线；9月13日，受Tim Cook邀请参与Apple Special Event产品发表会，成为官方在亚洲唯一邀请的明星嘉宾。10月27日，二度担任常驻导师的浙江卫视音乐综艺《梦想的声音第二季》开播；11月，受邀与Luis Fonsi合作推出2017年度热单《Despacito》中文版；11月25日，受邀担任第54届金马奖颁奖典礼表演嘉宾；12月29日，第十四张创作专辑《伟大的渺小》发行。\n2018年，1月26日，受邀与Luis Fonsi合唱的全球热单《Despacito》中文版《缓缓》发行；2月3日，“伟大的渺小线上新歌演唱会”在全球33个直播平台同步播出，累计2052万人观看；3月17日，林俊杰“圣所”世界巡回演唱会上海起航，“西洋音乐教父”David Foster担任演唱会音乐总监，电影配乐大师Hans Zimmer量身打造演唱会开场曲。5月16日，入围第29届台湾金曲奖最佳专辑制作人、最佳国语专辑、最佳作曲人、最佳国语男歌手、最佳年度歌曲、最佳年度专辑奖6个奖项 。\n2019年，1月19日，与国际知名艺术家KAWS出席由JFJ主办的「KAWS：HOLIDAY」大型户外艺术展发布会；6月13日，为电影《少年的你》创作的主题曲《我们很好》发行；10月14日，林俊杰担任作曲、编曲与制作，张怀秋填词的歌曲《Wonderland》正式上线。\n2020年1月28日，为向武汉防疫前线人员致敬，与孙燕姿合作创作单曲《Stay With You》MV发布。3月，在浙江卫视全球户外生活文化实境秀节目《周游记》中担任飞行嘉宾。4月，参与湖南卫视音乐竞技节目《歌手·当打之年》总决赛，为萧敬腾的帮唱嘉宾。5月26日，林俊杰与萧敬腾合作单曲《Hello》上线。8月4日，林俊杰与藤原浩合作的单曲《无滤镜》上线。10月20日，发行双维度EP专辑《幸存者·如你》（《幸存者》、《如你》）。10月31日，林俊杰在央视音乐节目《TOP荣耀时刻》中演唱歌曲《幸存者》；12月22日，发表爵士EP《感爵这一刻》。\n2021年1月，抖音官方发布官宣林俊杰\"长线营业\"海报。1月6日晚8点起，每两周林俊杰通过固定直播项目《咖啡调调》与广大网友品咖啡，畅聊生活里的一切，更有惊喜的网友点歌环节。4月28日，林俊杰与好莱坞经纪公司UTA签约，正式闯荡欧美市场。6月9日，发行单曲《裹着心的光》。11月29日，发行单曲《一定会》、《After The Rain》。\n2022年8月19日，发行游戏《永劫无间》周年主题曲《无拘》。11月1日，林俊杰“JJ20”世界巡回演唱会主题曲《7千3百多天》上线。11月4日，纪念出道20周年的“JJ20”世界巡回演唱会从新加坡开跑。"
+        },
+        {
+          "ti": "代表作品",
+          "txt": "●2003年首发第一张个人创作专辑《乐行者》，取得不俗成绩。\n●2004年凭借歌曲【江南】而成名，并于同年获得第15届金曲奖之「最佳演唱新人奖」。\n●2011年发行加盟华纳后首张专辑「学不会」，上线三个月，横扫所有实体、数字排行榜冠军：超越18个以上金榜冠军专辑。\n●2013年，发行出道十年纪念专辑《因你而在》，以单周销售占比83.35%的成绩打破此前台湾五大金榜华语榜单纪录 ，并拿下该榜单年度销售冠军。\n●2014年，发行第11张创作专辑《新地球》  ，蝉联台湾五大金榜华语榜年度销售冠军。\n●2017年，歌曲【不为谁而作的歌】与【修炼爱情】MV皆在YouTube网站达到一亿次观看次数。成为华语歌坛中第一位拥有两首破亿歌曲的歌手\n历届奖项\n●2010年，凭借《100天》入围第21届金曲奖最佳男歌手\n●2014年以专辑【因你而在】获得第25届金曲奖最佳国语男歌手奖\n●2016年凭借第十二张个人专辑【和自己对话】及其主打单曲【不为谁而作的歌】，获得第27届金曲奖最佳国语男歌手奖和最佳作曲人奖。\n●2016年，凭借专辑《和自己对话》和歌曲《不为谁而作的歌》分别获得第27届台湾金曲奖最佳国语男歌手奖和最佳作曲人奖，又凭借歌曲《不为谁而作的歌》获得美国第三届Pensado Awards最佳外语歌曲奖。\n●2018年，入围第29届台湾金曲奖最佳专辑制作人、最佳国语专辑、最佳作曲人、最佳国语男歌手、最佳年度歌曲、最佳年度专辑奖6个奖项。且Mnet亚洲音乐大奖最佳亚洲艺人奖\n●2020年荣获TMEA娱乐音乐盛典「年度最佳制作人」、「年度最佳港台歌手」以及凭借2020年推出的「将故事写成我们」夺下「年度十大单曲」。"
+        },
+        {
+          "ti": "重要里程碑",
+          "txt": "●2004凭借《乐行者》专辑拿下第15届台湾金曲奖最佳新人奖\n●2006就是俊杰世界巡回演唱会开跑，这也是林俊杰首次举办个人巡演\n●2007年3月27日，成立个人音乐制作公司JFJ Productions，2008年创立潮流品牌SMG。\n●2014年，“时线Timeline世界巡回演唱会”登陆伦敦，林俊杰成为首位在伦敦开个唱的新加坡歌手\n●2014年，与格莱美流行歌王Jason Mraz首度同台演唱金曲「I’m Yours」，获媒体一致好评。同年更破天荒跨国合作，由JJ作曲，与Jason Mraz共同谱词「I Am Alive」，并收录在JJ【新地球】专辑中，让专辑发行首周随即空降美国告示牌（Billboard）世界专辑排行榜第10名。\n●2020 Spotify华语流行音乐榜单荣获全球最受欢迎华语歌手及组合第3名与全球最多串流收听次数华语流行音乐男歌手 第2名\n2020至2021年【幸存者·如你】双维度EP，创造全新音乐视角。由JJ 林俊杰亲自领导整张专辑的企划创意与视觉，新专辑一推出便占据大中华区各大排行榜，销售量更在一个月内突破百万。\n把音乐和梦想当做能量，一路走到无人取代的地位，写下华语乐坛最动人的经典乐章，他是亚洲全能唱作天王JJ林俊杰。"
+        }
+      ],
+      "briefDesc": "JJ林俊杰的创作来自最深的情感，他的声音唱出灵魂的璀璨，他把音乐和梦想当做能量，一路走到无人取代的地位，他写下华语乐坛最动人的经典乐章，撼动亚洲数十亿颗心跳。他是亚洲乐坛全能唱作天王 JJ 林俊杰。\n\n2003年首发第一张个人创作专辑《乐行者》，取得不俗成绩；其杰出的创作才能又在之后2004年的凭借歌曲【江南】而成名，并于同年获得第15届金曲奖之「最佳演唱新人奖」。随后的【小酒窝】、【曹操】、【她说】等歌曲亦造成广大回响。2011年8月8日携手华纳，迈出世界。\n\n2020至2021年【幸存者·如你】双维度EP，创造全新音乐视角。由JJ 林俊杰亲自领导整张专辑的企划创意与视觉，新专辑一推出便占据大中华区各大排行榜，销售量更在一个月内突破百万。\n\n把音乐和梦想当做能量，一路走到无人取代的地位，写下华语乐坛最动人的经典乐章，他是亚洲全能唱作天王JJ林俊杰。",
+      "count": 3,
+      "topicData": [
+        {
+          "topic": {
+            "id": 18694060,
+            "addTime": 1515513524108,
+            "mainTitle": "林俊杰：一个跋涉17年之“乐行者”的渺小与伟大",
+            "title": "林俊杰：一个跋涉17年之“乐行者”的渺小与伟大",
+            "content": [
+              {
+                "type": 2,
+                "id": 109951163104522770,
+                "content": "{\"url\":\"http://p3.music.126.net/uDMvpSh85zpSXDfuTrT3-A==/109951163104522769.jpg\",\"size\":\"640x76\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: left;\"><span style=\"font-size: 20px;\">林俊杰：一个跋涉17年之“乐行者”的渺小与伟大</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><strong>文/流水纪</strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">发现很有趣的巧合——17年前，林俊杰正式发表的第一首作品，写给张惠妹的《记得》被收录进的专辑，叫做《真实》。几千个日子以后，林俊杰在2017年尾声推出的新专辑《伟大的渺小》，想要讲述的主题，同样是“真实”。</span></p>"
+              },
+              {
+                "type": 3,
+                "id": 327068,
+                "content": null
+              },
+              {
+                "type": 3,
+                "id": 108269,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><strong><span style=\"font-size: 16px;\">我不禁想，在大众眼里，“真实的林俊杰”，到底该是什么样的？</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><strong><span style=\"font-size: 16px;\">肯定是一台<font color=\"#ff0054\">“金曲制造机”</font>：</span></strong><span style=\"font-size: 16px;\">《江南》《一千年以后》《曹操》《被风吹过的夏天》《不潮不用花钱》《小酒窝》《背对背拥抱》《她说》《学不会》《修炼爱情》《可惜没如果》《不为谁而作的歌》……不仅每张专辑必有传唱不衰，历久弥新，堪称华语乐坛精华的作品，</span><span style=\"background-color: initial; font-size: 16px;\">他为别人写的歌同样影响深远，随手数数又是一串：张惠妹《记得》王心凌《当你》萧亚轩《你是我心中一句惊叹》徐若瑄《爱笑的眼睛》萧萧《握不住的他》S.H.E《一眼万年》Twins《我很想爱他》郭静《心墙》蔡依林《第三人称》……甚至，华语乐坛顶级歌神陈奕迅的《米&middot;闪》专辑，顶级流量小鲜肉王源的《不想长大的世界》单曲，都是由他操刀创作及制作……</span><strong><span style=\"font-size: 16px;\">我甚至觉得，出道十五年的林俊杰，简直就是“乐坛刘德华”啊</span></strong><span style=\"background-color: initial; font-size: 16px;\">——</span></p>"
+              },
+              {
+                "type": 3,
+                "id": 108950,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><em></em></p>"
+              },
+              {
+                "type": 2,
+                "id": 109951163104525800,
+                "content": "{\"url\":\"http://p4.music.126.net/YcA31w6B7WVil1pdrucBMQ==/109951163104525797.jpg\",\"size\":\"619x452\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><em><span style=\"font-size: 16px;\">自2003年发布首张创作专辑《乐行者》至今，JJ林俊杰已正式发行12张专辑，累计创作数百首歌曲，深受乐迷喜爱。来自网易云音乐平台中JJ林俊杰歌曲播放量数据显示，《醉赤壁》、《当你》和《不为谁而作的歌》排名前三，曲风各异，轻快流行风、柔情中国风，多变的作曲风格，不仅印证JJ的歌曲备受欢迎，对于林俊杰的音乐才华也可见一斑。</span></em><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><strong><span style=\"font-size: 16px;\">他是如此敬业、兢兢业业地践行着“唱作歌手”本分，所有工作都以音乐为核心，无论原创、为他人作嫁，还是改编再创造，都有太多亮眼成绩。</span></strong><span style=\"font-size: 16px;\">在变幻的时代里保持着难得的稳定发片速度，偶尔出演影视剧，担任综艺节目《梦想的声音》常驻导师，都只是为创作采集灵感的多元方式，《女儿情》、《凤凰于飞》、《输了你赢了世界又如何》一系列让大家惊艳的改编曲目即是证明，但，这样一个在人们眼中始终才华横溢，唱功稳健，流行代表作无数，创作力惊人，对音乐心无旁骛，永远带着可爱酒窝微笑着的JJ，就是“真实的林俊杰”的全部了吗？</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><strong><span style=\"font-size: 16px;\"><font color=\"#ff0054\">《伟大的渺小》给出掷地有声的答案：绝！对！不！是！</font></span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">我很高兴地看到，那个有着霸气野心和旺盛好奇心的林俊杰，在音乐道路上又启程了——大踏步回到真正想表达的方向，回到最初横空出世的“乐行者”！他要回家，要找回真正的自己，虽然“回家的路，很长，很难”，“离开自己，再被自己找到”的过程也必须放弃讨好市场的元素，</span><strong><span style=\"font-size: 16px;\">但林俊杰追求的从不止是缠绵悱恻、朗朗上口而已！</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><strong><span style=\"font-size: 16px;\">他的音乐里，有一个深邃、复杂、黑暗与光明并存的自我，努力用作品记录下生命中或轻或重的轨迹，一直处在不断成长的辩证思考之中。这个自我，和“我们所以为的林俊杰”，甚至会格格不入、此消彼长，但仔细想想，你愿意让别人看到的自我，和内心深处的自我，又是如何一种关系？</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">就像今天的林俊杰一样吧，“在和解中抗争”，这是《伟大的渺小》要表达的主题。专辑里的作品，从名字到概念都以“矛盾”为线索，如“伟大”VS“渺小”，“黑夜”VS“白天”，而作为作词人、作曲人、制作人、演唱人的JJ，用一首首具象作品，探讨着“梦想”VS“现实”之间，浩瀚的内心宇宙VS拥挤的人生海海之间，究竟该如何相处VS自处？</span></p>"
+              },
+              {
+                "type": 2,
+                "id": 109951163104524450,
+                "content": "{\"url\":\"http://p4.music.126.net/AtHzqsrQ7rASkNC0XULogg==/109951163104524448.jpg\",\"size\":\"547x547\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">当年第一张专辑《乐行者》中以颇为超前、充满鬼马想象力风格和林俊杰搭档完成几乎全部作词的张思尔，创作了新专辑第一首歌《圣所》， 如十五年前处女作里打头的《就是我》一样，构建出奇妙未来感，</span><strong><span style=\"font-size: 16px;\">只是“躺在星空下的草地上 把所有心事摊开给你看”的少年，已成长为“我重温心中的寄托 脉搏如火 依然执着”的男人，</span></strong><strong><span style=\"font-size: 16px;\">所幸心中神圣所在的地方，从未改变。</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">《圣所》是林俊杰和张思尔这对识于微时的伙伴彼此对照成长的心声，也是一篇宣言，带领听者去往他们心中坚持守护的地方。和当下EDM在华语乐坛大行其道，往往喧宾夺主，让人声沦为单一音轨的风气不同，《圣所》里的林俊杰，将电子乐节拍化为前进号角声，扮演的只是呐喊助威角色，贯穿全场的主线节奏没有多余花哨的变化，核心依然是他充满力道的声音表现，以细腻的演唱方式诠释出丰富层次感，不再只是纯阳光积极的励志，表达出经历了希望破碎的沉重打击后，依然不灭的信念。</span></p>"
+              },
+              {
+                "type": 6,
+                "id": 5773068,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><em><span style=\"font-size: 12px;\">林俊杰《伟大的渺小》MV</span></em></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">小寒执笔的《伟大的渺小》，JJ亲自作词的英文版《Until The Day》，再次展现他高超的旋律创作水准，文字则是洗尽铅华后的纯真童话，也是现代社会的黑暗寓言，“一朵玫瑰被刺围绕 也许它也渴望拥抱 海豚脸上总有微笑 也许泪被大海洗掉，是不让人知道 你我幸福或难熬 好或糟 藏进外表的孤傲”，</span><strong><span style=\"font-size: 16px;\">动物世界里的孤独人类，活在一堆似是而非标准里，内心真实感受被一再压抑、变异，而林俊杰把“其实我想要 我心中最想要”的单纯就这么摊开，所有的“伟大”也不过是被点点滴滴的“渺小”成就，懂得爱与被爱的每个人，才是最伟大的存在吧。</span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">吴庆隆的编曲相当精彩，钢琴铺陈如同大海潮起潮落，不断掩埋又不断揭开人们心底那个血肉分明、渴望赤诚相待的灵魂，大规模弦乐的融入则显得克制隐忍，如同深海中的无声呐喊，和JJ的旋律、演唱结合得天衣无缝，《Until The Day》中的“We're never going back Never turning back Won't you wait with me anyway Won't you wait with me anyway Until the day”，以坚守之后的收获，从另一个角度升华了中文版中的“想要”，</span><strong><span style=\"font-size: 16px;\">两首歌构成林俊杰想要的完整表达，让人们得以思索人性中更本质的需要，是要的更多，还是更少。”</span></strong></p>"
+              },
+              {
+                "type": 2,
+                "id": 109951163104533870,
+                "content": "{\"url\":\"http://p3.music.126.net/WgqX1xqPvBdGxo49UOA4Ew==/109951163104533874.jpg\",\"size\":\"500x500\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">《穿越》是相当私密性的作品，林俊杰很少展露出这样压抑、暗沉的声线，林雨果的文字渲染出山雨欲来风满楼的颓唐感，像是一篇绝望的科幻爱情小说——“我在沉睡中重生 窗外黎明变黄昏”，又是一种矛盾对照，而“二零零三年 你最落寞那一天”、“二零一六年 回不去的那一天”，是令人绝望的时间线，即便穿越重来也无济于事，“可是伤害同样也轮回 因为爱我你选择离开我”，JJ很少有这样沉重到心碎的情歌，</span><strong><span style=\"font-size: 16px;\">尤其收尾“梦里我没有 梦醒没有我 谁穿越 穿越谁 如果我没有 如果没有我 谁穿越”，充满巨大的、感同身受的无力感。</span></strong><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">《四点四十四》可能是林俊杰音乐生涯中最特别、诡异、绚烂的一首作品，若隐若现的电音与鼓点，忽远忽近的人声与和声，是内心深处的上帝与魔鬼在激烈地争辩，“抓着神智醒不过来 过分期待 是我活该 精疲力尽喊破声带 只能放开 录重力加速度 路人只看精彩 我愤世但我说不出来”，</span><strong><span style=\"font-size: 16px;\">足以用“惨烈”来形容的歌词宣泄着JJ毫无保留的心声，那一种挣扎在惶恐、脆弱、寂寞、愤怒、质疑之中的情绪，是每个人生命中都曾面临的死结</span></strong><span style=\"font-size: 16px;\">，如同“四点四十四”带着触目惊心的暗示，副歌部分在扭曲电音中一遍遍不断呐喊，直至尾声一段“不三不四”是逼到绝境的爆发，却戛然而止，留下一波波尾声不断激荡，心有余悸。</span><br /></p>"
+              },
+              {
+                "type": 2,
+                "id": 109951163104534820,
+                "content": "{\"url\":\"http://p3.music.126.net/r52QWy3ElH5mwQPdL6I9bA==/109951163104534823.jpg\",\"size\":\"600x595\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"background-color: initial; font-size: 16px;\">方文山作词的《我继续》带着套路化的词语堆砌，却被林俊杰的作曲和演唱洗去了油腻，JJ的编曲从平静到汹涌，2分半时响起的笛声画龙点睛，清空了《穿越》《四点四十四》连续带来的黑暗气息，如同拨云见日；轻柔吉他拨动着的《剪云者》充满浪漫清新味道，“剪一片云爱着，我喜欢独自记得成为一个收藏者，偶尔怀念她，也不错”，易家扬以云朵比喻旧爱的角度颇为可爱；紧随其后的《黑夜问白天》则将爱情里的残酷表达得触目惊心，</span><strong><span style=\"font-size: 16px;\">可能很多人难以想象林俊杰唱出易家扬写出的“皮肤之下的淤青渗着血 细胞之中的绝望在喊冤”，不过这一次他就是无意修饰什么，毕竟，有多绝望，就有多爱。</span></strong><br /></p>"
+              },
+              {
+                "type": 6,
+                "id": 5779168,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><em><span style=\"font-size: 12px;\">林俊杰《黑夜问白天》MV</span></em></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"background-color: initial; font-size: 16px;\">《丹宁执着》最接近大家熟悉的那个林俊杰，携手虚拟乐团“消除联萌”带来年轻无极限的热情力量；姚若龙作词的《身为风帆》，JJ与林怡凤携手作词的《小瓶子》，</span><strong><span style=\"font-size: 16px;\">诠释出以物喻人生的唯美意境，充满古典美感的编曲和JJ沉着大气的演唱形成了一种柳暗花明的反差</span></strong><span style=\"background-color: initial; font-size: 16px;\">，继续着“得到用失去来换 固执用痛偿还 甜酸总轮流相互陪伴 苛求圆满太贪婪”、“纷纷折迭着沉默 层层隐藏另一个我 说着不完美的音色 穿过一朵朵绚烂的漩涡”的矛盾而圆满。&nbsp;</span><br /></p>"
+              },
+              {
+                "type": 2,
+                "id": 109951163104536770,
+                "content": "{\"url\":\"http://p4.music.126.net/5R_QjRtp3In1eGQt9D4NEg==/109951163104536769.jpg\",\"size\":\"550x367\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">听完这张《伟大的渺小》，感觉自己和林俊杰，还有那些一路陪着他成长的创作、制作伙伴们，穿越回溯了他这一路的音乐历程，十几年时光沿十几张专辑一录走着，</span><strong><span style=\"font-size: 16px;\">不止回到最初单纯的初心，更是以现在这个愈发成熟、勇敢、坦然的自我，不避讳地拥抱着那个会迷惘、胆怯、纠结的自我……正是那些过往存在的卑微的渺小，才有了未来超越的自信的伟大啊。</span></strong><span style=\"font-size: 16px;\">林俊杰在他的音乐里怀抱着深切的爱和信仰，建立在不能回避的痛与怀疑之上，这就是最好的真实。这样的林俊杰，从来就不只是一个流行歌手的佼佼者，他是值得被时代记住的创作歌者，一个执着地在渺小个体中寻找伟大共鸣的出色音乐人。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><strong><span style=\"font-size: 16px;\">他说，“这是一张不管唱还是作，都是在掏空自己的作品。”我绝对相信他的真诚，我们也应该有耐心去发现他更多林俊杰所有不同，却一样真实的模样。这张《伟大的渺小》，是2017年岁末的一个核弹，也是2018年属于华语乐坛的第一个震撼。</span></strong></p>"
+              },
+              {
+                "type": 2,
+                "id": 109951163104533940,
+                "content": "{\"url\":\"http://p3.music.126.net/TS2YAoQOxk95NnnvnLt69Q==/109951163104533936.jpg\",\"size\":\"960x1280\"}"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px; background-color: initial;\">而听这张专辑的时候，我仿佛也穿越回了两年前的夏天——那天，我应邀参加在清华大学举办的《听&middot;见林俊杰》音乐纪录片首映发布会。喧闹后台，我和几个媒体人、乐评人围坐成一圈，JJ同学坐在我们身边，带着灿烂笑容分享纪录片里那些关于音乐的点滴——是的，只有关于音乐的话题让他变得滔滔不绝，但任何耸动一点的话题，或者能够成为标题博人眼球的信息，他都给不了。</span><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">从2003年推出第一张专辑《乐行者》，成为我心中多年来“长得最有特色”的男新人，到曾经坐在我身边侃侃而谈心路历程的二度金曲歌王，再到风平浪静、志得意满的时候拿出一张真实到有些血淋淋的新专辑……十几年时光弹指而过，我会觉得，林俊杰好像变了？嗯，外在是变帅太多了！但他的内在，一如既往。就像《听&middot;见》纪录片里，我们听到见到他会聊起过去跟在阿杜身后跑通告的经历，《西界》专辑的失利，和作词搭档的默契……</span><strong><span style=\"font-size: 16px;\">很多想必是刻骨铭心的东西，如今说出来已然云淡风轻，背后的故事却更耐人寻味，只是林俊杰在那些悲欢离合的渺小里，努力提炼出以作品为我们记录人生的伟大</span></strong><span style=\"font-size: 16px;\">。</span><br /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 16px;\">一个十多年只是兢兢业业做音乐没有各种槽点爆点的歌手林俊杰，一个有着无数流行金曲却还在试图在音乐里注入更多复杂况味的创作人林俊杰，在这样一个浮华时代，或许是有些“单调无趣”的，但一个陪我们走过青春年少高峰低谷依然谈到音乐就眼睛闪闪发光，在作品里不断创造着比预期还要精彩的大男孩，其实是稀少而珍贵的。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><strong><span style=\"font-size: 18px;\"><font color=\"#ff0054\">加油，JJ林俊杰。</font></span></strong></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><strong><span style=\"font-size: 18px;\"><font color=\"#ff0054\"><br /></font></span></strong></p>"
+              },
+              {
+                "type": 6,
+                "id": 5741587,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><em><span style=\"font-size: 12px;\">林俊杰《Until The Day</span><span style=\"font-size: 12px;\">》MV</span></em></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><em><br /></em></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><b>——————————————————</b></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><b><a rel=\"nofollow\"><u>网易云音乐 &nbsp;关注</u></a><u><a rel=\"nofollow\">@流水纪</a></u><br /></b></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><b>欢迎大家转载分享<br /></b></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><b>愿我们在阅读、聆听和思考的过程里，</b></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><b>彼此靠近，安慰。</b></p>"
+              }
+            ],
+            "userId": 117095,
+            "cover": 18861022463411012,
+            "headPic": 0,
+            "shareContent": "",
+            "wxTitle": "",
+            "showComment": true,
+            "status": 1,
+            "seriesId": 2457065,
+            "pubTime": 1515513538451,
+            "readCount": 65937,
+            "tags": ["华语", "流行", "林俊杰", "伟大的渺小", "乐行者"],
+            "pubImmidiatly": true,
+            "auditor": "",
+            "auditTime": 0,
+            "auditStatus": 0,
+            "startText": "林俊杰：一个跋涉17年之“乐行者”的渺小与伟大 文/流水纪 发现很有趣的巧合——17年前，林俊杰正式发表的第一首作品，写给张惠妹的《记得》被收录进的专辑，叫做《真实》。几千个日子以后，林俊杰在2017",
+            "delReason": "",
+            "showRelated": true,
+            "fromBackend": false,
+            "rectanglePic": 109951163104534480,
+            "updateTime": 1515513524108,
+            "reward": false,
+            "summary": "在大众眼里，“真实的林俊杰”，到底该是什么样的？",
+            "memo": null,
+            "adInfo": "",
+            "categoryId": 4,
+            "hotScore": 0,
+            "recomdTitle": "",
+            "recomdContent": "",
+            "number": 7
+          },
+          "creator": {
+            "userId": 117095,
+            "userType": 10,
+            "nickname": "流水纪",
+            "avatarImgId": 109951162955516620,
+            "avatarUrl": "http://p3.music.126.net/0BhlXCFA0RIUV-fo5Sll1g==/109951162955516619.jpg",
+            "backgroundImgId": 6620159512342977,
+            "backgroundUrl": "http://p1.music.126.net/AgiSNA9MSjXPcnGMkNs83A==/6620159512342977.jpg",
+            "signature": "唱片企划。乐评人。微信公众号：liushuiji1987 工作邮箱：1369079421@qq.com",
+            "createTime": 1360058055023,
+            "userName": "",
+            "accountType": 1,
+            "shortUserName": "",
+            "birthday": 541440000000,
+            "authority": 0,
+            "gender": 1,
+            "accountStatus": 0,
+            "province": 110000,
+            "city": 110101,
+            "authStatus": 1,
+            "description": "知名乐评人",
+            "detailDescription": "唱片企划",
+            "defaultAvatar": false,
+            "expertTags": ["华语", "流行"],
+            "experts": {
+              "1": "音乐原创视频达人"
+            },
+            "djStatus": 10,
+            "locationStatus": 30,
+            "vipType": 11,
+            "followed": false,
+            "mutual": false,
+            "authenticated": true,
+            "lastLoginTime": 1792611218049,
+            "lastLoginIP": "2409:892a:4f0e:280:7009:9c52:715c:5f86",
+            "remarkName": null,
+            "viptypeVersion": 1787138589861,
+            "authenticationTypes": 0,
+            "avatarDetail": null,
+            "anchor": false
+          },
+          "shareCount": 251,
+          "commentCount": 84,
+          "likedCount": 1153,
+          "liked": false,
+          "rewardCount": 0,
+          "rewardMoney": 0,
+          "relatedResource": null,
+          "rectanglePicUrl": "http://p4.music.126.net/6ZrK3zX8NbjB_DjRbCxlbQ==/109951163104534474.jpg",
+          "coverUrl": "http://p4.music.126.net/f0G6QV842P3vpgf0xQNiVQ==/18861022463411012.jpg",
+          "categoryId": 4,
+          "categoryName": "口袋乐评",
+          "readCount": 65937,
+          "commentThreadId": "A_TO_6_18694060",
+          "reward": false,
+          "shareContent": "",
+          "wxTitle": "林俊杰：一个跋涉17年之“乐行者”的渺小与伟大",
+          "addTime": 1515513538451,
+          "seriesId": 2457065,
+          "showComment": true,
+          "showRelated": true,
+          "memo": null,
+          "summary": "在大众眼里，“真实的林俊杰”，到底该是什么样的？",
+          "recmdTitle": "林俊杰：一个跋涉17年之“乐行者”的渺小与伟大",
+          "recmdContent": "在大众眼里，“真实的林俊杰”，到底该是什么样的？",
+          "url": "/m/topic/18694060",
+          "title": "林俊杰：一个跋涉17年之“乐行者”的渺小与伟大",
+          "tags": ["华语", "流行", "林俊杰", "伟大的渺小", "乐行者"],
+          "mainTitle": "林俊杰：一个跋涉17年之“乐行者”的渺小与伟大",
+          "id": 18694060,
+          "number": 7
+        },
+        {
+          "topic": {
+            "id": 14990050,
+            "addTime": 1478243836801,
+            "mainTitle": "记得感受，记得哭泣，记得林俊杰",
+            "title": "记得感受，记得哭泣，记得林俊杰",
+            "content": [
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<blockquote>\n <p><span style=\"font-size: 14px;\"><b>文/儿时的小雨</b></span></p>\n</blockquote>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">1981</span><span style=\"font-size: 14px;\">年</span><span style=\"font-size: 14px;\">3</span><span style=\"font-size: 14px;\">月</span><span style=\"font-size: 14px;\">27</span><span style=\"font-size: 14px;\">日，林俊杰出生于新加坡的一个音乐世家。在父母的引导下，</span><span style=\"font-size: 14px;\">4</span><span style=\"font-size: 14px;\">岁就开始学习古典钢琴，不善言辞的他由此发现了另一种与人沟通的语言。小时候的林俊杰把哥哥当作偶像，跟随哥哥的步伐做任何事，直到接触流行音乐后，便爱上创作这一条路。</span></p>"
+              },
+              {
+                "type": 2,
+                "id": 1384285156441114,
+                "content": null
+              },
+              {
+                "type": 16,
+                "id": 3684,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">&nbsp; &nbsp; 1996</span><span style=\"font-size: 14px;\">年，林俊杰开始参加各种歌唱比赛，前后获得多个词曲创作和演唱大奖。</span><span style=\"font-size: 14px;\">1999</span><span style=\"font-size: 14px;\">年，海蝶音乐在“非常歌手训练班”发现了他。这个腼腆害羞、并不起眼的高中生，却在自弹自唱的时候，展现了对音乐的纯真热忱。当时在学校成绩优秀的林俊杰，在已收到新加坡国立大学入学通知的情况下，放弃升学，与海蝶签下一纸合约，从此开启了他的音乐道路。</span></p>"
+              },
+              {
+                "type": 3,
+                "id": 108269,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">&nbsp; &nbsp; 新加坡男性均须服兵役，林俊杰亦不例外。由于专长，他加入的是新加坡武装部队文工团。服兵役期间，他积累了大量的舞台表演经验，同时也尝试了无数创作。尽管早期屡遭“打枪”，但在老师的正确引导鼓励下，极具天赋又非常努力的他，终于谱出了令老师首肯的曲子，这便是</span><span style=\"font-size: 14px;\">2001</span><span style=\"font-size: 14px;\">年收录在张惠妹专辑里的《记得》。此后，林俊杰为庾澄庆、阿杜、王心凌等人创作多首主打歌曲，他的创作才华终于得以展示。</span></p>"
+              },
+              {
+                "type": 2,
+                "id": 1365593490405928,
+                "content": null
+              },
+              {
+                "type": 3,
+                "id": 108242,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">&nbsp; &nbsp; 林俊杰记得，</span><span style=\"font-size: 14px;\">19</span><span style=\"font-size: 14px;\">岁的他在新加坡服兵役不得已和女友分手，感情受挫，写下了《记得》。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"background-color: initial; font-size: 14px;\">&nbsp; &nbsp; 林俊杰说，当时在当兵，女朋友</span><span style=\"background-color: initial; font-size: 14px;\">21</span><span style=\"background-color: initial; font-size: 14px;\">岁，想要一个稳定的未来，于是冷冷对他说“你没有车子，也没有房子，没有稳定的收入。”两人</span><span style=\"background-color: initial; font-size: 14px;\">3</span><span style=\"background-color: initial; font-size: 14px;\">年情告终，初恋女友的话也狠狠重击他，那时候林俊杰告诉自己一定要努力，不让别人看不起，这也是他入行这几年来总是把工作摆第一的原因。</span></p>"
+              },
+              {
+                "type": 3,
+                "id": 327068,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">&nbsp; &nbsp; 2001</span><span style=\"font-size: 14px;\">张惠妹唱红了《记得》；</span><span style=\"font-size: 14px;\">2003</span><span style=\"font-size: 14px;\">方大同唱灵了《记得》；</span><span style=\"font-size: 14px;\">2005</span><span style=\"font-size: 14px;\">萧敬腾摇滚了《记得》。终于</span><span style=\"font-size: 14px;\">2010</span><span style=\"font-size: 14px;\">，这首歌原作者——林俊杰，唱哭了《记得》。</span></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">&nbsp; &nbsp; 他在记得的</span><span style=\"font-size: 14px;\">MV</span><span style=\"font-size: 14px;\">中说过：“我永远不会忘记，十年前的今天，因为写了这首歌，让我有力气在这个舞台，一直继续着</span><span style=\"font-size: 14px;\">.</span><span style=\"font-size: 14px;\">然后被所有人记得，深刻的就像</span><span style=\"font-size: 14px;\">.</span><span style=\"font-size: 14px;\">我们在爱情里的最后一天，彼此脱口而出的那句话，将永远难忘</span><span style=\"font-size: 14px;\">-----</span><span style=\"font-size: 14px;\">谁还记得，是谁先说，永远的爱我。”</span></p>"
+              },
+              {
+                "type": 2,
+                "id": 3412884130562840,
+                "content": null
+              },
+              {
+                "type": 3,
+                "id": 167931,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">&nbsp; &nbsp; 选择重新诠释的《记得》，除了因为当初张惠妹唱了</span><span style=\"font-size: 14px;\">JJ</span><span style=\"font-size: 14px;\">的作品，影响他往后生涯的重大意义之外。另一方面也是在配唱这首歌时</span><span style=\"font-size: 14px;\">JJ</span><span style=\"font-size: 14px;\">想起过往难以割舍的心痛回忆，数度哽咽无法继续唱下去，“是不是你和我，要有两个相反的梦……”</span><span style=\"font-size: 14px;\">JJ</span><span style=\"font-size: 14px;\">因为往日的回忆涌上心头，非常真诚的说出当初这段故事，所以</span><span style=\"font-size: 14px;\">MV</span><span style=\"font-size: 14px;\">也为了呈现不是不爱，而是不得不分开的挣扎，上山下海穿插拍摄。</span></p>"
+              },
+              {
+                "type": 2,
+                "id": 3382097776453837,
+                "content": null
+              },
+              {
+                "type": 4,
+                "id": 172276778,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><span style=\"font-size: 14px;\">&nbsp; &nbsp; 每次到KTV都会点上林俊杰的这首《记得》，一方面为了纪念这一次的相聚，另一方面希望到不久的以后我们都还能记得现在的自己，记得自己曾经许下的诺言，记得自己执着的梦想，记得自己还没有达成的目标。</span></p>"
+              }
+            ],
+            "userId": 320156962,
+            "cover": 18874216602482796,
+            "headPic": 0,
+            "shareContent": "",
+            "wxTitle": "",
+            "showComment": true,
+            "status": 1,
+            "seriesId": 1361050,
+            "pubTime": 1478246602997,
+            "readCount": 71964,
+            "tags": ["林俊杰", "华语"],
+            "pubImmidiatly": true,
+            "auditor": "",
+            "auditTime": 0,
+            "auditStatus": 0,
+            "startText": "文/儿时的小雨 1981年3月27日，林俊杰出生于新加坡的一个音乐世家。在父母的引导下，4岁就开始学习古典钢琴，不善言辞的他由此发现了另一种与人沟通的语言。小时候的林俊杰把哥哥当作偶像，跟随哥哥的步伐",
+            "delReason": "",
+            "showRelated": true,
+            "fromBackend": false,
+            "rectanglePic": 18557557254575452,
+            "updateTime": 1492411395190,
+            "reward": false,
+            "summary": "林俊杰选择《记得》自己最重要的时刻",
+            "memo": null,
+            "adInfo": "",
+            "categoryId": 0,
+            "hotScore": 0,
+            "recomdTitle": "",
+            "recomdContent": "",
+            "number": 8
+          },
+          "creator": {
+            "userId": 320156962,
+            "userType": 0,
+            "nickname": "保护弹",
+            "avatarImgId": 3265549614509072,
+            "avatarUrl": "http://p4.music.126.net/TaVn66sntUPvO9v1A5jPww==/3265549614509072.jpg",
+            "backgroundImgId": 2002210674180202,
+            "backgroundUrl": "http://p1.music.126.net/pmHS4fcQtcNEGewNb5HRhg==/2002210674180202.jpg",
+            "signature": "弹或弹",
+            "createTime": 1471421963128,
+            "userName": "",
+            "accountType": 0,
+            "shortUserName": "",
+            "birthday": -2209017600000,
+            "authority": 0,
+            "gender": 1,
+            "accountStatus": 0,
+            "province": 110000,
+            "city": 110101,
+            "authStatus": 0,
+            "description": null,
+            "detailDescription": null,
+            "defaultAvatar": false,
+            "expertTags": null,
+            "experts": null,
+            "djStatus": 0,
+            "locationStatus": 30,
+            "vipType": 0,
+            "followed": false,
+            "mutual": false,
+            "authenticated": false,
+            "lastLoginTime": 1522808473854,
+            "lastLoginIP": "61.135.255.86",
+            "remarkName": null,
+            "viptypeVersion": 0,
+            "authenticationTypes": 0,
+            "avatarDetail": null,
+            "anchor": false
+          },
+          "shareCount": 288,
+          "commentCount": 340,
+          "likedCount": 1785,
+          "liked": false,
+          "rewardCount": 0,
+          "rewardMoney": 0,
+          "relatedResource": null,
+          "rectanglePicUrl": "http://p3.music.126.net/i9tAZVTQUxD9TMEZBBHCUQ==/18557557254575452.jpg",
+          "coverUrl": "http://p4.music.126.net/zg2zWjNBAyPBJ2gS5qRy8Q==/18874216602482797.jpg",
+          "categoryId": 0,
+          "categoryName": "",
+          "readCount": 71964,
+          "commentThreadId": "A_TO_6_14990050",
+          "reward": false,
+          "shareContent": "",
+          "wxTitle": "记得感受，记得哭泣，记得林俊杰",
+          "addTime": 1478246602997,
+          "seriesId": 1361050,
+          "showComment": true,
+          "showRelated": true,
+          "memo": null,
+          "summary": "林俊杰选择《记得》自己最重要的时刻",
+          "recmdTitle": "记得感受，记得哭泣，记得林俊杰",
+          "recmdContent": "林俊杰选择《记得》自己最重要的时刻",
+          "url": "/m/topic/14990050",
+          "title": "记得感受，记得哭泣，记得林俊杰",
+          "tags": ["林俊杰", "华语"],
+          "mainTitle": "记得感受，记得哭泣，记得林俊杰",
+          "id": 14990050,
+          "number": 8
+        },
+        {
+          "topic": {
+            "id": 18839053,
+            "addTime": 1523455801937,
+            "mainTitle": "林俊杰出道十五年：不为谁而作的歌，却唱出了每个人的心声",
+            "title": "林俊杰出道十五年：不为谁而作的歌，却唱出了每个人的心声",
+            "content": [
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: right;\">文/池鱼</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/1523455406171c044f0942e\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>昨晚JJ林俊杰发长文纪念自己的15年歌手之路。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p1.pstatp.com/large/pgc-image/1523455406581345382e90a\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/1523455406144c6e4f7db07\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>出道初期的林俊杰，一直在给别人写歌。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>刚签约不久，JJ便入伍了，他加入新加坡武装部队文工团。也是这一段兵役期间，他积累了大量舞台表演经验，完成了无数创作。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/152345540621002f8296e99\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>最著名的《记得》，收录在了阿妹2001年得专辑里。</p>"
+              },
+              {
+                "type": 6,
+                "id": 5298240,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>之后，林俊杰为庾澄庆、阿杜、王心凌、吴克羣等人量身定制了多首主打歌曲。这也让他显露了头角。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>随后，在2003年，林俊杰发行首张全创作专辑《乐行者》，虽然当时SARS肆行，为林俊杰的出道之旅带来许多阻碍，但林俊杰和他的团队依旧坚持了下来。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>他们用时3个月，走遍了26个城市，用自己的歌声驱走病痛带来的阴霾，带来希望。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/152345540643893ec93b6c6\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\">《乐行者》专辑封面</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>不觉间，林俊杰用他的歌声伴随我们整整十五年，他一开口，就是我们的青春。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>而他自己也从一个腼腆害羞的大男孩成长为现在从幕后到作曲全能的制作人。从最佳新人奖到两度问鼎歌王，我竟想不到不喜欢他的理由。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/152345540635993f7506d11\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>一如大多数歌手，JJ被时间打磨成一块璞玉。而这又不单单是他与日俱增的年龄，还有他越来越娴熟的十八般武艺。</p>"
+              },
+              {
+                "type": 6,
+                "id": 522362,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>从《冻结》到《江南》，从《曹操》到《小酒窝》，从《学不会》到《可惜没如果》，JJ的曲风多种多样，融合世界元素，唱出自己的风格。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/1523455406193e40585c843\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>2004年发行了第二张专辑《第二天堂》（内地版《江南》）。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>这张他歌唱生涯最重要的一张专辑，亚洲销量突破150万，让他顺利跻身华语乐坛一线男歌手。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/1523455406398ee530c22f9\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>《曹操》和《醉赤壁》唱的是三国群雄纷争，英雄气节和爱恨生长。</p>"
+              },
+              {
+                "type": 6,
+                "id": 522361,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>听着这两首歌，仿佛置身于金庸笔下的江湖英雄一般：一蓑长袍，独步武林，歌是穿肠毒药，情是血雨腥风。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>只一出马，便能笑傲江湖。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/152345540623190fee4048f\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>还记得唱着《小酒窝》的JJ脸上挂着温暖如邻家哥哥的微笑，带着他特有的“小酒窝”唱着最甜的歌曲。</p>"
+              },
+              {
+                "type": 3,
+                "id": 108468,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>林俊杰的每一首歌曲都毫不掩饰的昭彰着他的音乐才华。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>独特有辨识度的嗓音，大胆而精彩的编曲，无一不让人叹为观止。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/152345540639448dcfda72e\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>如果说演唱会和跨年的登台，让我们见证了JJ强大的live功底和“行走的CD”般的嗓音；那么去年的《梦想的声音》，就让我们见证了他的音乐才华和不拘一格的改编。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>不仅创作需要实力，改变歌曲更是如此。正所谓“八仙过海，各显神通”。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>JJ的改编，再加上他富有特色且深情的演唱，让人难以忘怀。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>这是其他流水线上选秀歌手所不能及的。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p1.pstatp.com/large/pgc-image/1523455406308ce15bb314e\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>《我怀念的》是婉约感人的对女孩的思念，《爱要怎么说出口》是不同于赵传的林式金曲风格，《崇拜》是如泣如诉，《末班车》是细腻和耐人寻味，而《女儿情》和《菊花台》更是融会贯通，完美生动……</p>"
+              },
+              {
+                "type": 3,
+                "id": 287063,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>从创作中完成人生的蜕变，林俊杰像完成了一次又一次的涅槃重生。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p style=\"text-align: center;\"><img src=\"http://p1.pstatp.com/large/pgc-image/1523455406194d211fe8d23\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>在一次采访中JJ曾说道:“感谢音乐成就了我。”</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>的确如此，如果不是对音乐的热爱和执着，又有谁能够坚持几十年如一日呢？</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/15234554062615e43bdcb4d\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>即使是在身体最痛苦的时期，胃酸倒流侵蚀声带，导致JJ几近失声，演艺活动被迫中止，他也从未想过放弃音乐。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>音乐于他，是最难以割舍的一部分。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/15234554063480e42218c38\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>那些痛苦与挣扎，都记录在了那首《第几个100天》中。</p>"
+              },
+              {
+                "type": 3,
+                "id": 108292,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>“第几个100天/还是很有感觉/用眼睛去素描/你内心的世界”，唱得高亢嘹亮，却又是对命运的负隅顽抗。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/152345540623653a9f38e5a\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>宽阔的音域，足够的气息，独到的演唱，顶级的唱功。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>他自成一派，成为了瞩目的音乐侠客。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>曾经的蛰伏和忍耐，如今的成功与辉煌都是这十五年的经历。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>而我们坚信，JJ的歌声将会伴随我们走过下一个十五年，下下个十五年……</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/15234554063329900d09b76\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>用微笑的酒窝唱着动人的情歌，那是林俊杰带我们走过的青春。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>暗恋的辗转难眠，初恋的青涩懵懂，热恋的浓重热烈，失恋的烦闷痛苦，我们与JJ的歌一同成长。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p><img src=\"http://p3.pstatp.com/large/pgc-image/15234554063270144219daa\" /></p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>不论在低沉烦躁、胡思乱想的夜，还是在欢喜忧愁、需要安慰的时刻，JJ的歌声总是有种强大的力量，伴我安眠，助我向前。</p>"
+              },
+              {
+                "type": 3,
+                "id": 37196629,
+                "content": null
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>你虽渺小，却在书写伟大。</p>"
+              },
+              {
+                "type": 13,
+                "id": 0,
+                "content": "<p>你说音乐是你的生命，我却说你是我生命的光。路虽长，光却亮。</p>"
+              }
+            ],
+            "userId": 253262059,
+            "cover": 109951163242405650,
+            "headPic": 0,
+            "shareContent": "",
+            "wxTitle": "",
+            "showComment": true,
+            "status": 1,
+            "seriesId": 1348050,
+            "pubTime": 1523455803826,
+            "readCount": 147567,
+            "tags": ["华语", "流行", "经典", "林俊杰", "音乐故事"],
+            "pubImmidiatly": true,
+            "auditor": "",
+            "auditTime": 0,
+            "auditStatus": 0,
+            "startText": "文/池鱼 昨晚JJ林俊杰发长文纪念自己的15年歌手之路。 出道初期的林俊杰，一直在给别人写歌。 刚签约不久，JJ便入伍了，他加入新加坡武装部队文工团。也是这一段兵役期间，他积累了大量舞台表演经验，完成",
+            "delReason": "",
+            "showRelated": true,
+            "fromBackend": false,
+            "rectanglePic": 109951163242406560,
+            "updateTime": 1523455801937,
+            "reward": false,
+            "summary": "你虽渺小，却在书写伟大。",
+            "memo": null,
+            "adInfo": "",
+            "categoryId": 3,
+            "hotScore": 0,
+            "recomdTitle": "林俊杰出道十五年：不是为谁作歌，却唱出了每个人的心声",
+            "recomdContent": "你虽渺小，却在书写伟大。",
+            "number": 497
+          },
+          "creator": {
+            "userId": 253262059,
+            "userType": 200,
+            "nickname": "淘漉音乐",
+            "avatarImgId": 1387583683435379,
+            "avatarUrl": "http://p3.music.126.net/nhUWUBvsnRyqSubXwTuScg==/1387583683435379.jpg",
+            "backgroundImgId": 2002210674180204,
+            "backgroundUrl": "http://p1.music.126.net/5L9yqWa_UnlHtlp7li5PAg==/2002210674180204.jpg",
+            "signature": "淘漉音乐专注输出优质的内容，经典音乐，音乐故事，还有包罗万象的歌单，应有尽有，成全所有热爱音乐和电影的人心中向往的诗和远方。我们为音乐聚集在一起，遇见相似的灵魂。有趣，有料，有故事，就等你了。",
+            "createTime": 1461113651008,
+            "userName": "",
+            "accountType": 1,
+            "shortUserName": "",
+            "birthday": -2209017600000,
+            "authority": 0,
+            "gender": 2,
+            "accountStatus": 0,
+            "province": 110000,
+            "city": 110101,
+            "authStatus": 0,
+            "description": null,
+            "detailDescription": null,
+            "defaultAvatar": false,
+            "expertTags": ["流行"],
+            "experts": {
+              "1": "音乐视频达人"
+            },
+            "djStatus": 10,
+            "locationStatus": 30,
+            "vipType": 0,
+            "followed": false,
+            "mutual": false,
+            "authenticated": false,
+            "lastLoginTime": 1725018938836,
+            "lastLoginIP": "2408:844b:1280:2bb3:a9fa:94cf:f303:609d",
+            "remarkName": null,
+            "viptypeVersion": 1675961001609,
+            "authenticationTypes": 0,
+            "avatarDetail": null,
+            "anchor": false
+          },
+          "shareCount": 635,
+          "commentCount": 300,
+          "likedCount": 3275,
+          "liked": false,
+          "rewardCount": 0,
+          "rewardMoney": 0,
+          "relatedResource": null,
+          "rectanglePicUrl": "http://p3.music.126.net/z91FPtneBbW32XQhkaKYGg==/109951163242406566.jpg",
+          "coverUrl": "http://p3.music.126.net/iwKQYIlmsxCvPFYlo58Q8A==/109951163242405652.jpg",
+          "categoryId": 3,
+          "categoryName": "幕后故事",
+          "readCount": 147567,
+          "commentThreadId": "A_TO_6_18839053",
+          "reward": false,
+          "shareContent": "",
+          "wxTitle": "林俊杰出道十五年：不为谁而作的歌，却唱出了每个人的心声",
+          "addTime": 1523455803826,
+          "seriesId": 1348050,
+          "showComment": true,
+          "showRelated": true,
+          "memo": null,
+          "summary": "你虽渺小，却在书写伟大。",
+          "recmdTitle": "林俊杰出道十五年：不是为谁作歌，却唱出了每个人的心声",
+          "recmdContent": "你虽渺小，却在书写伟大。",
+          "url": "/m/topic/18839053",
+          "title": "林俊杰出道十五年：不为谁而作的歌，却唱出了每个人的心声",
+          "tags": ["华语", "流行", "经典", "林俊杰", "音乐故事"],
+          "mainTitle": "林俊杰出道十五年：不为谁而作的歌，却唱出了每个人的心声",
+          "id": 18839053,
+          "number": 497
+        }
+      ],
+      "code": 200
+    }
+  }
+}

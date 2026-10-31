@@ -1,0 +1,23 @@
+{
+  "module": "song_lyrics_mark_user_page",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T14:20:32.214Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B4：song_lyrics_mark_user_page 该账号歌词本为空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "offset": 0,
+        "hasMore": false,
+        "markVOList": []
+      },
+      "message": ""
+    }
+  }
+}

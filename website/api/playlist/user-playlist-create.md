@@ -43,6 +43,12 @@ const result = await userPlaylistCreate({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.data.playlist` 是创建的歌单列表，`body.data.count` 是总数，`body.data.more` 表示后面还有没有；`body.data.subCount` 是宽松字段，真实含义未从录制确认。每张歌单复用 `PlaylistSummary`：只收紧每张歌单自己的编号 `id`（以及 `code`、`data`、`data.playlist`），其余字段宽松。`subscribed` 没有有效登录时是 `null`。
+
+`offset` 越过总数时 `data.playlist` 是空数组（录制 `user_playlist_create.empty.json`）；匿名调用返回同样的结构，`subscribed` 是 `null`（录制 `user_playlist_create.anonymous.json`）。结构定义和类型是 `UserPlaylistCreateBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口, 传入用户id, 获取用户的创建歌单列表

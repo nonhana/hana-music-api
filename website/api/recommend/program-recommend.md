@@ -42,6 +42,10 @@ const result = await programRecommend({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到推荐节目的 `body.programs` 和每个节目自己的编号 `programs[].id` 收紧；`name`、`more` 宽松，节目按 `DjProgram` 校验。越界分页返回 `programs: []`（录制 `program_recommend.empty.json`），数组本身允许为空。录制按字段覆盖保留非连续子集（索引 3/4/0，原始 5 条），见 `context.truncated`。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取推荐电台

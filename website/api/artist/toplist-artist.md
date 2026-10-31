@@ -39,6 +39,10 @@ const result = await toplistArtist();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.list`、`list.artists` 和每个歌手的 `id` 收紧。歌手记录沿用 `Artist` 的宽松字段，在模块内局部收紧了 `id`，并声明了宽松的 `lastRank`、`score`。本批 type=1 录制里有一条歌手缺少 `lastRank`，也保留在截取后的证据里；上游可能缺失或给 `null`，两种都按宽松字段处理（`lastRank` 的类型是 `number | null | undefined`）。`list.type` 是请求的地区类型，不是记录编号，和 `list.updateTime` 一起保持宽松。接口固定 `limit: 100`、`offset: 0`，没有空结果路径。结构定义和类型是 `ToplistArtistBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取排行榜中的歌手榜

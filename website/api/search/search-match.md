@@ -43,6 +43,10 @@ const result = await searchMatch({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.result`、`body.result.songs` 和 `body.result.ids` 收紧；每首匹配歌曲的 `id` 收紧；`ids` 是接口要返回的本地文件映射项，和歌曲 `id` 一起收紧。歌曲共用 `Song`，旧式歌曲字段（`popularity`、`score`、`position`、`hMusic`、`mMusic`、`lMusic`、`bMusic` 等）是宽松字段。空结果录制 `search_match.no-result.json` 是 `songs: []`、`ids: []`。结构定义和类型是 `SearchMatchBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明: 调用此接口可以为本地歌曲文件搜索匹配歌曲ID、专辑封面等信息

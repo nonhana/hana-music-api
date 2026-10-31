@@ -1,0 +1,76 @@
+{
+  "module": "check_music",
+  "query": {
+    "id": 2092595510
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:57:44.572Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B38：check_music 可播放（登录）；response.body 是网易云原文，最终体见 context.expect",
+    "expect": {
+      "code": 200,
+      "success": true,
+      "message": "ok"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "id": 2092595510,
+          "url": "http://m801.music.126.net/20261026082244/492c23b80384f3e37914e4b74c093c4c/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/31032416143/b26e/cfce/dbcd/77674d11b6952d3d473de8d5302953d3.flac?vuutv=KgAqKFoJpwiijKpQmkPeJWmFO+yzV1+q1iZJifM+xJmvUvMYyiMY5EsTjAQVvy7cIubVWXXsWfjIoXb0mEtaScjRd6V2oEhhc8P46bNpqBA=",
+          "br": 897992,
+          "size": 33672017,
+          "md5": "77674d11b6952d3d473de8d5302953d3",
+          "code": 200,
+          "expi": 1200,
+          "type": "flac",
+          "gain": -9.8906,
+          "peak": 1,
+          "closedGain": -6,
+          "closedPeak": 1,
+          "fee": 0,
+          "uf": null,
+          "payed": 0,
+          "flag": 1544449,
+          "canExtend": false,
+          "freeTrialInfo": null,
+          "level": "lossless",
+          "encodeType": "mp3",
+          "channelLayout": null,
+          "freeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "listenType": null,
+            "cannotListenReason": null,
+            "playReason": null,
+            "freeLimitTagType": null
+          },
+          "freeTimeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "type": 0,
+            "remainTime": 0
+          },
+          "urlSource": 0,
+          "rightSource": 0,
+          "podcastCtrp": null,
+          "effectTypes": null,
+          "time": 299975,
+          "message": null,
+          "levelConfuse": null,
+          "musicId": "8526705851",
+          "accompany": null,
+          "sr": 48000,
+          "auEff": null,
+          "immerseType": null,
+          "beatType": 0
+        }
+      ],
+      "code": 200
+    }
+  }
+}

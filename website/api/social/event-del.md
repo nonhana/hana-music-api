@@ -41,6 +41,10 @@ const result = await eventDel({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 收紧为 `200`。本批录制是删除合成 id 的返回体（`event_del.missing-id.json`），只证明成功返回码；同时录制的 `share_resource`、`event_forward` 被上游风控拒绝，没有创建出可删除的测试动态。
+
 ## 补充说明
 
 说明 : 登录后调用此接口 ,可以删除用户动态

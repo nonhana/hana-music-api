@@ -1,0 +1,21 @@
+{
+  "module": "sheet_preview",
+  "query": {
+    "id": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:31:40.658Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B44：乐谱预览空结果（不存在的乐谱 id=1 返回空页列表）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": [],
+      "message": ""
+    }
+  }
+}

@@ -37,6 +37,10 @@ const result = await personalizedPrivatecontent();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、独家放送列表 `body.result` 和每条内容自己的编号 `result[].id` 收紧；`name` 和条目的 `alg`、`copywriter`、`picUrl`、`sPicUrl`、`url`、`type` 宽松。匿名和登录录制都是 3 条且字段集相同；这个接口没有分页参数，没有可达的空结果，数组本身允许为空。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取独家放送

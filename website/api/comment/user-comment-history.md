@@ -44,6 +44,10 @@ const result = await userCommentHistory({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 收紧；`body.data.comments`、`body.data.hotComments` 是可以没有的路径：没有历史评论或未登录时上游返回 `null`（录制 `user_comment_history.empty.json`、`user_comment_history.anonymous.json`），缺失或 `null` 都照常返回，出现时每条评论复用 `CommentRecord` 的字段并补上 `beRepliedContent`、`beRepliedUser`、`resourceInfo`、`resourceType`、`threadId`（宽松），`commentId` 收紧。`commentCount`、`hasMore`、`reminder` 是宽松字段。默认录制 `user_comment_history.default.json`（账号 599663130）保留 7 条历史评论和 15 条热门评论。结构定义和类型是 `UserCommentHistoryBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入用户 id, 可以获取用户历史评论

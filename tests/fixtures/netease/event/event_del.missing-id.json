@@ -1,0 +1,19 @@
+{
+  "module": "event_del",
+  "query": {
+    "evId": 900000000001
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:13:15.970Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：share_resource 和 event_forward 都被风控拒绝（code 250），没有创建出可删除的测试动态；这是删除不存在 id 的返回体，只证明成功返回码，未删除任何真实动态；2026-10-26T05:13:15Z 用 user_event（limit=5）回读 size=22、最新四条 id 37982331004/37982305131/37976419151/37072618460，与创建尝试前一致，没有新增条目（探测未保留录制）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200
+    }
+  }
+}

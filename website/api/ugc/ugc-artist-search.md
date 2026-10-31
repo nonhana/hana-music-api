@@ -39,6 +39,10 @@ const result = await ugcArtistSearch({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、搜索结果 `body.data`、结果列表 `body.data.list` 和每条结果自己的编号 `body.data.list[].artistId` 收紧。关键字搜索、以歌手 id 作为关键字和无结果三种情况里 `list` 都是数组，无结果时是空数组；`totalCount` 和 `msg` 宽松，`extraCount` 只见过空对象，没有声明，原样保留。输入仍是 legacy，关键字不做本地校验。结构定义和类型是 `UgcArtistSearchBody`，见[返回体结构](/guide/response-bodies#百科与用户贡献)。
+
 ## 补充说明
 
 说明: 登录后调用此接口,使用此接口,传入歌手名关键字或者歌手id,可获取搜索到的歌手信息

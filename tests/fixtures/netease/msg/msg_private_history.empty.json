@@ -1,0 +1,25 @@
+{
+  "module": "msg_private_history",
+  "query": {
+    "uid": 609105586,
+    "before": 1600000000000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:30:03.624Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B20：私信内容（早于会话历史的游标空结果）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "isArtist": true,
+      "isSubed": true,
+      "hint": "",
+      "more": false,
+      "msgs": []
+    }
+  }
+}

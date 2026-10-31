@@ -1,0 +1,20 @@
+{
+  "module": "user_binding",
+  "query": {
+    "uid": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:56:59.360Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B16：user_binding 不存在 uid 的空绑定结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "bindings": []
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "module": "ugc_detail",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-26T00:36:10.272Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B42：ugc_detail 登录态用户贡献内容，本账号没有贡献，列表空"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "message": "成功",
+      "data": {
+        "total": 0,
+        "wikiDetailResultVoList": []
+      },
+      "code": 200
+    }
+  }
+}

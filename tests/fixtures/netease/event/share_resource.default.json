@@ -1,0 +1,34 @@
+{
+  "module": "share_resource",
+  "query": {
+    "type": "song",
+    "id": 1394617453,
+    "msg": "schema 录制测试，稍后删除"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:12:32.799Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B48：分享歌曲到动态被风控拒绝（code 250 安全验证分享异常），重试 song/album/playlist/noresource 结果相同（探测未保留录制）；没有创建动态，因此没有每次分享成功正文的证据",
+    "outcome": "rejected"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 250,
+      "message": "安全验证分享异常",
+      "errDetail": "",
+      "userId": null,
+      "id": null,
+      "event": null,
+      "sns": null,
+      "resUrl": "",
+      "afterAction": null,
+      "justReturn": true,
+      "needPolling": false,
+      "pollingTime": 0,
+      "pollingExtInfo": null
+    }
+  }
+}

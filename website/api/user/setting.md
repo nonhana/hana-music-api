@@ -37,6 +37,12 @@ const result = await setting();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body` 是网易云原文；`code`、设置路径 `setting` 和 `setting.userId` 收紧。`setting.userId` 是这份设置所属账号的编号，其余设置项（通知开关、隐私、播放记录、广告推荐等）全部宽松；缺失、`null` 或类型不对都只丢这一项。
+
+`setting` 匿名也可调用，这时返回匿名账号的设置，`userId` 是匿名账号编号；登录和匿名的字段集合相同。只见过 `null` 的 `newSongDiskSetting` 没有声明，原样保留。结构定义和类型是 `SettingBody`，见 [返回体结构](/guide/response-bodies#用户资料)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口 ,可获取用户设置

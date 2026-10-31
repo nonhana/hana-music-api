@@ -41,6 +41,10 @@ const result = await artistMv({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、MV 列表 `body.mvs` 和每个 MV 的编号 `mvs[].id` 收紧；`hasMore` 和下一页游标 `time` 是宽松字段。MV 记录里的 `artist` 是附带信息，编号宽松；`artistName`、`duration`、`imgurl`、`imgurl16v9`、`name`、`playCount`、`publishTime`、`status`、`subed` 也都是宽松字段。`offset` 越过总数时返回空 `mvs` 和 `hasMore: false`（录制 `artist_mv.empty.json`）。结构定义和类型是 `ArtistMvBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，传入歌手 id, 可获得歌手 mv 信息，具体 mv 播放地址可调

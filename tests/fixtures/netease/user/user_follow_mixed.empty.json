@@ -1,0 +1,32 @@
+{
+  "module": "user_follow_mixed",
+  "query": {
+    "size": 10,
+    "cursor": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T16:56:26.246Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B17：user_follow_mixed 越界 cursor 返回空列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "records": [],
+        "extData": {
+          "visualStyle": "new"
+        },
+        "page": {
+          "size": 0,
+          "cursor": "9223372036854775807",
+          "more": false
+        }
+      },
+      "message": ""
+    }
+  }
+}

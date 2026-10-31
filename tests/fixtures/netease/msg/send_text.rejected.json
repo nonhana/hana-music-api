@@ -1,0 +1,29 @@
+{
+  "module": "send_text",
+  "query": {
+    "user_ids": 10000001,
+    "msg": "B49 私信文本写操作"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:54:41.419Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B49：send_text 发给自己（查询里的账号编号已换成合成值 10000001）被上游以 code 2201「发送过于频繁」拒绝；发给自己可能本身不允许，无法区分频率限制与不允许发给自己。换自然内容重试同样 2201，成功正文未验证（需要第二账号）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 2201,
+      "message": "发送过于频繁，晚点再试试吧",
+      "data": {
+        "dialog": {
+          "title": "风险提示",
+          "subtitle": "请您尝试切换网络或设备再尝试操作哦~",
+          "buttonMsg": "查看详情",
+          "buttonUrl": "http://163.lu/EmUzy2"
+        }
+      }
+    }
+  }
+}

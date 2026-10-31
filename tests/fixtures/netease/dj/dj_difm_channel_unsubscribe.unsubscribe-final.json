@@ -1,0 +1,21 @@
+{
+  "module": "dj_difm_channel_unsubscribe",
+  "query": {
+    "id": 10505
+  },
+  "context": {
+    "recordedAt": "2026-10-26T05:00:16.311Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B47：dj_difm_channel_unsubscribe 最终取消（清空后重新订阅的 10505）；写前回读含 10505，写后回读的 data 为空数组，这是 B47 的最终状态"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {},
+      "message": ""
+    }
+  }
+}

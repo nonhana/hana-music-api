@@ -41,6 +41,10 @@ const result = await userDj({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.programs` 和每个节目的 `body.programs[].id` 收紧；节目记录复用 `DjProgram`，其余字段宽松。没有节目时 `programs` 是空数组（录制 `user_dj.empty.json`，账号 599663130）。`count`、`more` 宽松。结构定义和类型是 `UserDjBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，传入用户 id, 可以获取用户电台

@@ -1,4 +1,4 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import { createOption } from '../core/options.ts';
@@ -23,8 +23,30 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 */
 import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
+import {
+  decodeUpstreamBody,
+  Loose,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
+import { Artist } from '../core/upstream-schemas.ts';
 
-const artistList: ModuleEffect<ModuleInput> = (query, request) =>
+const ArtistListItem = UpstreamObject({
+  ...Artist.schema.fields,
+  fansCount: Loose(Schema.Finite),
+  id: Schema.Finite,
+});
+
+// 通到歌手列表的路径 `artists` 和歌手自己的编号收紧；`more` 是分页标记，宽松。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    artists: Schema.Array(ArtistListItem),
+    more: Loose(Schema.Boolean),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
+
+const artistList: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.initial !== undefined &&
@@ -49,15 +71,15 @@ const artistList: ModuleEffect<ModuleInput> = (query, request) =>
       type: query.type || '1',
       area: query.area,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/v1/artist/list`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/v1/artist/list`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    const body = yield* decodeUpstreamBody('artist_list', ModuleBody, response);
+    return { ...toModuleResponse(response), body };
   });
 
 export default artistList;

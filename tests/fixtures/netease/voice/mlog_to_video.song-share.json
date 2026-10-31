@@ -1,0 +1,21 @@
+{
+  "module": "mlog_to_video",
+  "query": {
+    "id": "a1qOVPTWKS1ZrK8"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:53:41.763Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B43：mlog_to_video 分享歌曲的 mlog 转视频 id"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "ok",
+      "data": "A9504F36F1DE3ACBF9FF63A0132BFD5F"
+    }
+  }
+}

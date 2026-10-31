@@ -1,0 +1,32 @@
+{
+  "module": "topic_sublist",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T18:27:32.780Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B19：话题收藏列表 登录账号"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "subTime": 1519192530422,
+          "author": "Cutties",
+          "resUrl": "https://163cn.tv/bjvzaSLq",
+          "picId": 18581746511602556,
+          "rectanglePicUrl": "https://p4.music.126.net/O8horyZSZgKsnqebE5f4Vw==/109951163106167066.jpg",
+          "readCount": 521404,
+          "title": "小清新电音界的扛把子们",
+          "userId": 316704573,
+          "id": 18704053
+        }
+      ],
+      "count": 1,
+      "hasMore": false,
+      "code": 200
+    }
+  }
+}

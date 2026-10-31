@@ -1,0 +1,28 @@
+{
+  "module": "comment_mv",
+  "query": {
+    "id": 34734028,
+    "limit": 20,
+    "offset": 100000
+  },
+  "context": {
+    "recordedAt": "2026-10-25T11:30:06.030Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B7：comment_mv 越界分页（offset=100000，hotComments 整个缺失）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "isMusician": false,
+      "cnum": 0,
+      "userId": 18070693880,
+      "topComments": [],
+      "code": 200,
+      "comments": [],
+      "total": 998,
+      "more": false
+    }
+  }
+}

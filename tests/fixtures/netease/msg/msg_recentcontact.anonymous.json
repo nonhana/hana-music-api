@@ -1,0 +1,20 @@
+{
+  "module": "msg_recentcontact",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T18:30:37.300Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B20：未登录对照，上游返回空最近联系人"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "follow": []
+      }
+    }
+  }
+}

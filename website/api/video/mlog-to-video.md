@@ -43,6 +43,10 @@ const result = await mlogToVideo({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和接口要拿的视频 id `body.data`（32 位十六进制字符串）收紧，`message` 宽松。结构定义和类型是 `MlogToVideoBody`，见 [返回体结构](/guide/response-bodies)。视频 mlog 和分享歌曲的 mlog 都能转换；非法 id 返回 `code: 400`、`msg: mlog无对应video`，按业务拒绝原样转交。
+
 ## 补充说明
 
 说明 : 调用此接口，传入 mlog id, 可获取 video id，然后通过`video/url` 获取播放地址

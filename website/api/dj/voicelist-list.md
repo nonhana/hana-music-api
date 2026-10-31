@@ -13,7 +13,7 @@ description: '可以获取播客里的声音'
 | -------- | ----------------- |
 | 接口地址 | `/voicelist/list` |
 | 请求方式 | `GET` / `POST`    |
-| 需要登录 | 否                |
+| 需要登录 | 是                |
 | 对应模块 | `voicelist_list`  |
 | 文档分类 | 电台与播客        |
 
@@ -36,6 +36,10 @@ const result = await voicelistList();
 
 console.log(result.body);
 ```
+
+## 返回内容
+
+工作台接口只允许读取自己的播客。缺少 `voiceListId` 返回 `code: 400`（`参数错误`，`voicelist_list.missing.json`），读取他人的播客返回 `code: 400`（`只允许操作自己的播客`，`voicelist_list.other.json`），不存在的 id 返回 `code: 400`（`播客不存在`，`voicelist_list.unknown.json`）；没有录到带字段的成功正文，SDK 暂不为该模块声明结构定义，`body` 原样返回网易云正文。
 
 ## 补充说明
 

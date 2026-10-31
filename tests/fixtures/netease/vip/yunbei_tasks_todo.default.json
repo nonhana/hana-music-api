@@ -1,0 +1,50 @@
+{
+  "module": "yunbei_tasks_todo",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T22:37:00.769Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B37：yunbei_tasks_todo 云贝待办任务"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "SUCCESS",
+      "data": [
+        {
+          "userTaskId": 0,
+          "taskName": "发布图文笔记",
+          "taskPoint": 300,
+          "completed": false,
+          "link": "orpheus://pubevent?directlyPub=true&jumpFollow=true",
+          "depositCode": 0,
+          "period": 1,
+          "expireTime": 0
+        },
+        {
+          "userTaskId": 0,
+          "taskName": "探索小众歌曲",
+          "taskPoint": 150,
+          "completed": false,
+          "link": "https://st.music.163.com/yunbei-listen",
+          "depositCode": 0,
+          "period": 1,
+          "expireTime": 0
+        },
+        {
+          "userTaskId": 0,
+          "taskName": "浏览会员中心",
+          "taskPoint": 100,
+          "completed": false,
+          "link": "https://music.163.com/g/vip-portal?nm_style=sbt&tab=welfare&scene=sign_share",
+          "depositCode": 0,
+          "period": 1,
+          "expireTime": 0
+        }
+      ]
+    }
+  }
+}

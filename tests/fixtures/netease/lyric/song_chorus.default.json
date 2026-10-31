@@ -1,0 +1,35 @@
+{
+  "module": "song_chorus",
+  "query": {
+    "id": 1466598056
+  },
+  "context": {
+    "recordedAt": "2026-10-25T14:17:53.254Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B4：song_chorus 有副歌信息"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "chorus": [
+        {
+          "id": 1466598056,
+          "startTime": 58199,
+          "endTime": 86379,
+          "ugcLocked": 1
+        }
+      ],
+      "data": [
+        {
+          "id": 1466598056,
+          "startTime": 58199,
+          "endTime": 86379,
+          "ugcLocked": 1
+        }
+      ]
+    }
+  }
+}

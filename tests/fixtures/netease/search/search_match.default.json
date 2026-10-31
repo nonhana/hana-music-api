@@ -1,0 +1,177 @@
+{
+  "module": "search_match",
+  "query": {
+    "title": "富士山下",
+    "album": "",
+    "artist": "陈奕迅",
+    "duration": "259.21",
+    "md5": "bd708d006912a09d827f02e754cf8e56"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:36:35.561Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "songs": [
+          {
+            "name": "富士山下",
+            "id": 65766,
+            "position": 5,
+            "alias": [],
+            "status": 0,
+            "fee": 1,
+            "copyrightId": 7003,
+            "disc": "01",
+            "no": 5,
+            "artists": [
+              {
+                "name": "陈奕迅",
+                "id": 2116,
+                "picId": 0,
+                "img1v1Id": 0,
+                "briefDesc": "",
+                "picUrl": "",
+                "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "albumSize": 0,
+                "alias": [],
+                "trans": "",
+                "musicSize": 0,
+                "topicPerson": 0
+              }
+            ],
+            "album": {
+              "name": "What's Going On…?",
+              "id": 6451,
+              "idStr": null,
+              "type": "专辑",
+              "size": 15,
+              "picId": 109951171844247580,
+              "blurPicUrl": "http://p3.music.126.net/oSMs7RzJFx0TgWCqRC8XjA==/109951171844247587.jpg",
+              "companyId": 0,
+              "pic": 109951171844247580,
+              "picUrl": "http://p4.music.126.net/oSMs7RzJFx0TgWCqRC8XjA==/109951171844247587.jpg",
+              "publishTime": 1164211200000,
+              "description": "",
+              "tags": "",
+              "company": "Cinepoly Records Co. Ltd.",
+              "briefDesc": "",
+              "artist": {
+                "name": "",
+                "id": 0,
+                "picId": 0,
+                "img1v1Id": 0,
+                "briefDesc": "",
+                "picUrl": "",
+                "img1v1Url": "http://p4.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                "albumSize": 0,
+                "alias": [],
+                "trans": "",
+                "musicSize": 0,
+                "topicPerson": 0
+              },
+              "songs": [],
+              "alias": [],
+              "status": 1,
+              "copyrightId": 7003,
+              "commentThreadId": "R_AL_3_6451",
+              "artists": [
+                {
+                  "name": "陈奕迅",
+                  "id": 2116,
+                  "picId": 0,
+                  "img1v1Id": 0,
+                  "briefDesc": "",
+                  "picUrl": "",
+                  "img1v1Url": "http://p3.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg",
+                  "albumSize": 0,
+                  "alias": [],
+                  "trans": "",
+                  "musicSize": 0,
+                  "topicPerson": 0
+                }
+              ],
+              "onSale": false,
+              "mark": 0,
+              "gapless": 0,
+              "picId_str": "109951171844247587"
+            },
+            "starred": false,
+            "popularity": 100,
+            "score": 100,
+            "starredNum": 0,
+            "duration": 258902,
+            "playedNum": 0,
+            "dayPlays": 0,
+            "hearTime": 0,
+            "ringtone": "600902000001108413",
+            "crbt": null,
+            "audition": null,
+            "copyFrom": "",
+            "commentThreadId": "R_SO_4_65766",
+            "rtUrl": null,
+            "ftype": 0,
+            "rtUrls": [],
+            "copyright": 1,
+            "rurl": null,
+            "mvid": 303140,
+            "rtype": 0,
+            "hMusic": {
+              "name": null,
+              "id": 8702098630,
+              "size": 10359162,
+              "extension": "mp3",
+              "sr": 44100,
+              "dfsId": 0,
+              "bitrate": 320000,
+              "playTime": 258902,
+              "volumeDelta": -32859
+            },
+            "mMusic": {
+              "name": null,
+              "id": 8702098632,
+              "size": 6215515,
+              "extension": "mp3",
+              "sr": 44100,
+              "dfsId": 0,
+              "bitrate": 192000,
+              "playTime": 258902,
+              "volumeDelta": -30259
+            },
+            "lMusic": {
+              "name": null,
+              "id": 8702098629,
+              "size": 4143691,
+              "extension": "mp3",
+              "sr": 44100,
+              "dfsId": 0,
+              "bitrate": 128000,
+              "playTime": 258902,
+              "volumeDelta": -28666
+            },
+            "bMusic": {
+              "name": null,
+              "id": 8702098629,
+              "size": 4143691,
+              "extension": "mp3",
+              "sr": 44100,
+              "dfsId": 0,
+              "bitrate": 128000,
+              "playTime": 258902,
+              "volumeDelta": -28666
+            },
+            "mp3Url": null,
+            "publishTime": 1164211200000
+          }
+        ],
+        "ids": ["bd708d006912a09d827f02e754cf8e56"]
+      },
+      "code": 200
+    }
+  }
+}

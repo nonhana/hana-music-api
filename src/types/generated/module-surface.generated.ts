@@ -1,17 +1,44 @@
 import type { ModuleInput as activateInitProfileInput } from '../../modules/activate_init_profile.ts';
-import type { ModuleInput as aidjContentRcmdInput } from '../../modules/aidj_content_rcmd.ts';
+import type {
+  ModuleBody as aidjContentRcmdBody,
+  ModuleInput as aidjContentRcmdInput,
+} from '../../modules/aidj_content_rcmd.ts';
 import type {
   ModuleBody as albumBody,
   ModuleInput as albumInput,
 } from '../../modules/album.ts';
-import type { ModuleInput as albumDetailInput } from '../../modules/album_detail.ts';
-import type { ModuleInput as albumDetailDynamicInput } from '../../modules/album_detail_dynamic.ts';
-import type { ModuleInput as albumListInput } from '../../modules/album_list.ts';
-import type { ModuleInput as albumListStyleInput } from '../../modules/album_list_style.ts';
-import type { ModuleInput as albumNewInput } from '../../modules/album_new.ts';
-import type { ModuleInput as albumNewestInput } from '../../modules/album_newest.ts';
-import type { ModuleInput as albumPrivilegeInput } from '../../modules/album_privilege.ts';
-import type { ModuleInput as albumSongsaleboardInput } from '../../modules/album_songsaleboard.ts';
+import type {
+  ModuleBody as albumDetailBody,
+  ModuleInput as albumDetailInput,
+} from '../../modules/album_detail.ts';
+import type {
+  ModuleBody as albumDetailDynamicBody,
+  ModuleInput as albumDetailDynamicInput,
+} from '../../modules/album_detail_dynamic.ts';
+import type {
+  ModuleBody as albumListBody,
+  ModuleInput as albumListInput,
+} from '../../modules/album_list.ts';
+import type {
+  ModuleBody as albumListStyleBody,
+  ModuleInput as albumListStyleInput,
+} from '../../modules/album_list_style.ts';
+import type {
+  ModuleBody as albumNewBody,
+  ModuleInput as albumNewInput,
+} from '../../modules/album_new.ts';
+import type {
+  ModuleBody as albumNewestBody,
+  ModuleInput as albumNewestInput,
+} from '../../modules/album_newest.ts';
+import type {
+  ModuleBody as albumPrivilegeBody,
+  ModuleInput as albumPrivilegeInput,
+} from '../../modules/album_privilege.ts';
+import type {
+  ModuleBody as albumSongsaleboardBody,
+  ModuleInput as albumSongsaleboardInput,
+} from '../../modules/album_songsaleboard.ts';
 import type {
   ModuleBody as albumSubBody,
   ModuleInput as albumSubInput,
@@ -24,19 +51,46 @@ import type {
   ModuleBody as artistAlbumBody,
   ModuleInput as artistAlbumInput,
 } from '../../modules/artist_album.ts';
-import type { ModuleInput as artistDescInput } from '../../modules/artist_desc.ts';
+import type {
+  ModuleBody as artistDescBody,
+  ModuleInput as artistDescInput,
+} from '../../modules/artist_desc.ts';
 import type {
   ModuleBody as artistDetailBody,
   ModuleInput as artistDetailInput,
 } from '../../modules/artist_detail.ts';
-import type { ModuleInput as artistDetailDynamicInput } from '../../modules/artist_detail_dynamic.ts';
-import type { ModuleInput as artistFansInput } from '../../modules/artist_fans.ts';
-import type { ModuleInput as artistFollowCountInput } from '../../modules/artist_follow_count.ts';
-import type { ModuleInput as artistListInput } from '../../modules/artist_list.ts';
-import type { ModuleInput as artistMvInput } from '../../modules/artist_mv.ts';
-import type { ModuleInput as artistNewMvInput } from '../../modules/artist_new_mv.ts';
-import type { ModuleInput as artistNewSongInput } from '../../modules/artist_new_song.ts';
-import type { ModuleInput as artistSongsInput } from '../../modules/artist_songs.ts';
+import type {
+  ModuleBody as artistDetailDynamicBody,
+  ModuleInput as artistDetailDynamicInput,
+} from '../../modules/artist_detail_dynamic.ts';
+import type {
+  ModuleBody as artistFansBody,
+  ModuleInput as artistFansInput,
+} from '../../modules/artist_fans.ts';
+import type {
+  ModuleBody as artistFollowCountBody,
+  ModuleInput as artistFollowCountInput,
+} from '../../modules/artist_follow_count.ts';
+import type {
+  ModuleBody as artistListBody,
+  ModuleInput as artistListInput,
+} from '../../modules/artist_list.ts';
+import type {
+  ModuleBody as artistMvBody,
+  ModuleInput as artistMvInput,
+} from '../../modules/artist_mv.ts';
+import type {
+  ModuleBody as artistNewMvBody,
+  ModuleInput as artistNewMvInput,
+} from '../../modules/artist_new_mv.ts';
+import type {
+  ModuleBody as artistNewSongBody,
+  ModuleInput as artistNewSongInput,
+} from '../../modules/artist_new_song.ts';
+import type {
+  ModuleBody as artistSongsBody,
+  ModuleInput as artistSongsInput,
+} from '../../modules/artist_songs.ts';
 import type {
   ModuleBody as artistSubBody,
   ModuleInput as artistSubInput,
@@ -49,101 +103,308 @@ import type {
   ModuleBody as artistTopSongBody,
   ModuleInput as artistTopSongInput,
 } from '../../modules/artist_top_song.ts';
-import type { ModuleInput as artistVideoInput } from '../../modules/artist_video.ts';
+import type {
+  ModuleBody as artistVideoBody,
+  ModuleInput as artistVideoInput,
+} from '../../modules/artist_video.ts';
 import type {
   ModuleBody as artistsBody,
   ModuleInput as artistsInput,
 } from '../../modules/artists.ts';
-import type { ModuleInput as audioMatchInput } from '../../modules/audio_match.ts';
+import type {
+  ModuleBody as audioMatchBody,
+  ModuleInput as audioMatchInput,
+} from '../../modules/audio_match.ts';
 import type { ModuleInput as avatarUploadInput } from '../../modules/avatar_upload.ts';
-import type { ModuleInput as bannerInput } from '../../modules/banner.ts';
+import type {
+  ModuleBody as bannerBody,
+  ModuleInput as bannerInput,
+} from '../../modules/banner.ts';
 import type { ModuleInput as batchInput } from '../../modules/batch.ts';
-import type { ModuleInput as broadcastCategoryRegionGetInput } from '../../modules/broadcast_category_region_get.ts';
-import type { ModuleInput as broadcastChannelCollectListInput } from '../../modules/broadcast_channel_collect_list.ts';
-import type { ModuleInput as broadcastChannelCurrentinfoInput } from '../../modules/broadcast_channel_currentinfo.ts';
-import type { ModuleInput as broadcastChannelListInput } from '../../modules/broadcast_channel_list.ts';
-import type { ModuleInput as broadcastSubInput } from '../../modules/broadcast_sub.ts';
-import type { ModuleInput as calendarInput } from '../../modules/calendar.ts';
+import type {
+  ModuleBody as broadcastCategoryRegionGetBody,
+  ModuleInput as broadcastCategoryRegionGetInput,
+} from '../../modules/broadcast_category_region_get.ts';
+import type {
+  ModuleBody as broadcastChannelCollectListBody,
+  ModuleInput as broadcastChannelCollectListInput,
+} from '../../modules/broadcast_channel_collect_list.ts';
+import type {
+  ModuleBody as broadcastChannelCurrentinfoBody,
+  ModuleInput as broadcastChannelCurrentinfoInput,
+} from '../../modules/broadcast_channel_currentinfo.ts';
+import type {
+  ModuleBody as broadcastChannelListBody,
+  ModuleInput as broadcastChannelListInput,
+} from '../../modules/broadcast_channel_list.ts';
+import type {
+  ModuleBody as broadcastSubBody,
+  ModuleInput as broadcastSubInput,
+} from '../../modules/broadcast_sub.ts';
+import type {
+  ModuleBody as calendarBody,
+  ModuleInput as calendarInput,
+} from '../../modules/calendar.ts';
 import type {
   ModuleBody as captchaSentBody,
   ModuleInput as captchaSentInput,
 } from '../../modules/captcha_sent.ts';
 import type { ModuleInput as captchaVerifyInput } from '../../modules/captcha_verify.ts';
-import type { ModuleInput as cellphoneExistenceCheckInput } from '../../modules/cellphone_existence_check.ts';
-import type { ModuleInput as checkMusicInput } from '../../modules/check_music.ts';
+import type {
+  ModuleBody as cellphoneExistenceCheckBody,
+  ModuleInput as cellphoneExistenceCheckInput,
+} from '../../modules/cellphone_existence_check.ts';
+import type {
+  ModuleBody as checkMusicBody,
+  ModuleInput as checkMusicInput,
+} from '../../modules/check_music.ts';
 import type { ModuleInput as cloudInput } from '../../modules/cloud.ts';
 import type { ModuleInput as cloudImportInput } from '../../modules/cloud_import.ts';
-import type { ModuleInput as cloudMatchInput } from '../../modules/cloud_match.ts';
+import type {
+  ModuleBody as cloudMatchBody,
+  ModuleInput as cloudMatchInput,
+} from '../../modules/cloud_match.ts';
 import type {
   ModuleBody as cloudsearchBody,
   ModuleInput as cloudsearchInput,
 } from '../../modules/cloudsearch.ts';
 import type { ModuleInput as commentInput } from '../../modules/comment.ts';
-import type { ModuleInput as commentAlbumInput } from '../../modules/comment_album.ts';
-import type { ModuleInput as commentDjInput } from '../../modules/comment_dj.ts';
-import type { ModuleInput as commentEventInput } from '../../modules/comment_event.ts';
-import type { ModuleInput as commentFloorInput } from '../../modules/comment_floor.ts';
-import type { ModuleInput as commentHotInput } from '../../modules/comment_hot.ts';
-import type { ModuleInput as commentHugListInput } from '../../modules/comment_hug_list.ts';
-import type { ModuleInput as commentLikeInput } from '../../modules/comment_like.ts';
-import type { ModuleInput as commentMusicInput } from '../../modules/comment_music.ts';
-import type { ModuleInput as commentMvInput } from '../../modules/comment_mv.ts';
-import type { ModuleInput as commentNewInput } from '../../modules/comment_new.ts';
-import type { ModuleInput as commentPlaylistInput } from '../../modules/comment_playlist.ts';
-import type { ModuleInput as commentVideoInput } from '../../modules/comment_video.ts';
-import type { ModuleInput as countriesCodeListInput } from '../../modules/countries_code_list.ts';
+import type {
+  ModuleBody as commentAlbumBody,
+  ModuleInput as commentAlbumInput,
+} from '../../modules/comment_album.ts';
+import type {
+  ModuleBody as commentDjBody,
+  ModuleInput as commentDjInput,
+} from '../../modules/comment_dj.ts';
+import type {
+  ModuleBody as commentEventBody,
+  ModuleInput as commentEventInput,
+} from '../../modules/comment_event.ts';
+import type {
+  ModuleBody as commentFloorBody,
+  ModuleInput as commentFloorInput,
+} from '../../modules/comment_floor.ts';
+import type {
+  ModuleBody as commentHotBody,
+  ModuleInput as commentHotInput,
+} from '../../modules/comment_hot.ts';
+import type {
+  ModuleBody as commentHugListBody,
+  ModuleInput as commentHugListInput,
+} from '../../modules/comment_hug_list.ts';
+import type {
+  ModuleBody as commentLikeBody,
+  ModuleInput as commentLikeInput,
+} from '../../modules/comment_like.ts';
+import type {
+  ModuleBody as commentMusicBody,
+  ModuleInput as commentMusicInput,
+} from '../../modules/comment_music.ts';
+import type {
+  ModuleBody as commentMvBody,
+  ModuleInput as commentMvInput,
+} from '../../modules/comment_mv.ts';
+import type {
+  ModuleBody as commentNewBody,
+  ModuleInput as commentNewInput,
+} from '../../modules/comment_new.ts';
+import type {
+  ModuleBody as commentPlaylistBody,
+  ModuleInput as commentPlaylistInput,
+} from '../../modules/comment_playlist.ts';
+import type {
+  ModuleBody as commentVideoBody,
+  ModuleInput as commentVideoInput,
+} from '../../modules/comment_video.ts';
+import type {
+  ModuleBody as countriesCodeListBody,
+  ModuleInput as countriesCodeListInput,
+} from '../../modules/countries_code_list.ts';
 import type { ModuleInput as dailySigninInput } from '../../modules/daily_signin.ts';
-import type { ModuleInput as digitalAlbumDetailInput } from '../../modules/digitalAlbum_detail.ts';
+import type {
+  ModuleBody as digitalAlbumDetailBody,
+  ModuleInput as digitalAlbumDetailInput,
+} from '../../modules/digitalAlbum_detail.ts';
 import type { ModuleInput as digitalAlbumOrderingInput } from '../../modules/digitalAlbum_ordering.ts';
-import type { ModuleInput as digitalAlbumPurchasedInput } from '../../modules/digitalAlbum_purchased.ts';
-import type { ModuleInput as digitalAlbumSalesInput } from '../../modules/digitalAlbum_sales.ts';
-import type { ModuleInput as djBannerInput } from '../../modules/dj_banner.ts';
-import type { ModuleInput as djCategoryExcludehotInput } from '../../modules/dj_category_excludehot.ts';
-import type { ModuleInput as djCategoryRecommendInput } from '../../modules/dj_category_recommend.ts';
-import type { ModuleInput as djCatelistInput } from '../../modules/dj_catelist.ts';
-import type { ModuleInput as djDetailInput } from '../../modules/dj_detail.ts';
-import type { ModuleInput as djDifmAllStyleChannelInput } from '../../modules/dj_difm_all_style_channel.ts';
-import type { ModuleInput as djDifmChannelSubscribeInput } from '../../modules/dj_difm_channel_subscribe.ts';
-import type { ModuleInput as djDifmChannelUnsubscribeInput } from '../../modules/dj_difm_channel_unsubscribe.ts';
-import type { ModuleInput as djDifmPlayingTracksListInput } from '../../modules/dj_difm_playing_tracks_list.ts';
-import type { ModuleInput as djDifmSubscribeChannelsGetInput } from '../../modules/dj_difm_subscribe_channels_get.ts';
-import type { ModuleInput as djHotInput } from '../../modules/dj_hot.ts';
-import type { ModuleInput as djPaygiftInput } from '../../modules/dj_paygift.ts';
-import type { ModuleInput as djPersonalizeRecommendInput } from '../../modules/dj_personalize_recommend.ts';
-import type { ModuleInput as djProgramInput } from '../../modules/dj_program.ts';
-import type { ModuleInput as djProgramDetailInput } from '../../modules/dj_program_detail.ts';
-import type { ModuleInput as djProgramToplistInput } from '../../modules/dj_program_toplist.ts';
-import type { ModuleInput as djProgramToplistHoursInput } from '../../modules/dj_program_toplist_hours.ts';
-import type { ModuleInput as djRadioHotInput } from '../../modules/dj_radio_hot.ts';
-import type { ModuleInput as djRecommendInput } from '../../modules/dj_recommend.ts';
-import type { ModuleInput as djRecommendTypeInput } from '../../modules/dj_recommend_type.ts';
-import type { ModuleInput as djSubInput } from '../../modules/dj_sub.ts';
-import type { ModuleInput as djSublistInput } from '../../modules/dj_sublist.ts';
-import type { ModuleInput as djSubscriberInput } from '../../modules/dj_subscriber.ts';
-import type { ModuleInput as djTodayPerferedInput } from '../../modules/dj_today_perfered.ts';
-import type { ModuleInput as djToplistInput } from '../../modules/dj_toplist.ts';
-import type { ModuleInput as djToplistHoursInput } from '../../modules/dj_toplist_hours.ts';
-import type { ModuleInput as djToplistNewcomerInput } from '../../modules/dj_toplist_newcomer.ts';
-import type { ModuleInput as djToplistPayInput } from '../../modules/dj_toplist_pay.ts';
-import type { ModuleInput as djToplistPopularInput } from '../../modules/dj_toplist_popular.ts';
-import type { ModuleInput as djRadioTopInput } from '../../modules/djRadio_top.ts';
-import type { ModuleInput as eventInput } from '../../modules/event.ts';
-import type { ModuleInput as eventDelInput } from '../../modules/event_del.ts';
+import type {
+  ModuleBody as digitalAlbumPurchasedBody,
+  ModuleInput as digitalAlbumPurchasedInput,
+} from '../../modules/digitalAlbum_purchased.ts';
+import type {
+  ModuleBody as digitalAlbumSalesBody,
+  ModuleInput as digitalAlbumSalesInput,
+} from '../../modules/digitalAlbum_sales.ts';
+import type {
+  ModuleBody as djBannerBody,
+  ModuleInput as djBannerInput,
+} from '../../modules/dj_banner.ts';
+import type {
+  ModuleBody as djCategoryExcludehotBody,
+  ModuleInput as djCategoryExcludehotInput,
+} from '../../modules/dj_category_excludehot.ts';
+import type {
+  ModuleBody as djCategoryRecommendBody,
+  ModuleInput as djCategoryRecommendInput,
+} from '../../modules/dj_category_recommend.ts';
+import type {
+  ModuleBody as djCatelistBody,
+  ModuleInput as djCatelistInput,
+} from '../../modules/dj_catelist.ts';
+import type {
+  ModuleBody as djDetailBody,
+  ModuleInput as djDetailInput,
+} from '../../modules/dj_detail.ts';
+import type {
+  ModuleBody as djDifmAllStyleChannelBody,
+  ModuleInput as djDifmAllStyleChannelInput,
+} from '../../modules/dj_difm_all_style_channel.ts';
+import type {
+  ModuleBody as djDifmChannelSubscribeBody,
+  ModuleInput as djDifmChannelSubscribeInput,
+} from '../../modules/dj_difm_channel_subscribe.ts';
+import type {
+  ModuleBody as djDifmChannelUnsubscribeBody,
+  ModuleInput as djDifmChannelUnsubscribeInput,
+} from '../../modules/dj_difm_channel_unsubscribe.ts';
+import type {
+  ModuleBody as djDifmPlayingTracksListBody,
+  ModuleInput as djDifmPlayingTracksListInput,
+} from '../../modules/dj_difm_playing_tracks_list.ts';
+import type {
+  ModuleBody as djDifmSubscribeChannelsGetBody,
+  ModuleInput as djDifmSubscribeChannelsGetInput,
+} from '../../modules/dj_difm_subscribe_channels_get.ts';
+import type {
+  ModuleBody as djHotBody,
+  ModuleInput as djHotInput,
+} from '../../modules/dj_hot.ts';
+import type {
+  ModuleBody as djPaygiftBody,
+  ModuleInput as djPaygiftInput,
+} from '../../modules/dj_paygift.ts';
+import type {
+  ModuleBody as djPersonalizeRecommendBody,
+  ModuleInput as djPersonalizeRecommendInput,
+} from '../../modules/dj_personalize_recommend.ts';
+import type {
+  ModuleBody as djProgramBody,
+  ModuleInput as djProgramInput,
+} from '../../modules/dj_program.ts';
+import type {
+  ModuleBody as djProgramDetailBody,
+  ModuleInput as djProgramDetailInput,
+} from '../../modules/dj_program_detail.ts';
+import type {
+  ModuleBody as djProgramToplistBody,
+  ModuleInput as djProgramToplistInput,
+} from '../../modules/dj_program_toplist.ts';
+import type {
+  ModuleBody as djProgramToplistHoursBody,
+  ModuleInput as djProgramToplistHoursInput,
+} from '../../modules/dj_program_toplist_hours.ts';
+import type {
+  ModuleBody as djRadioHotBody,
+  ModuleInput as djRadioHotInput,
+} from '../../modules/dj_radio_hot.ts';
+import type {
+  ModuleBody as djRecommendBody,
+  ModuleInput as djRecommendInput,
+} from '../../modules/dj_recommend.ts';
+import type {
+  ModuleBody as djRecommendTypeBody,
+  ModuleInput as djRecommendTypeInput,
+} from '../../modules/dj_recommend_type.ts';
+import type {
+  ModuleBody as djSubBody,
+  ModuleInput as djSubInput,
+} from '../../modules/dj_sub.ts';
+import type {
+  ModuleBody as djSublistBody,
+  ModuleInput as djSublistInput,
+} from '../../modules/dj_sublist.ts';
+import type {
+  ModuleBody as djSubscriberBody,
+  ModuleInput as djSubscriberInput,
+} from '../../modules/dj_subscriber.ts';
+import type {
+  ModuleBody as djTodayPerferedBody,
+  ModuleInput as djTodayPerferedInput,
+} from '../../modules/dj_today_perfered.ts';
+import type {
+  ModuleBody as djToplistBody,
+  ModuleInput as djToplistInput,
+} from '../../modules/dj_toplist.ts';
+import type {
+  ModuleBody as djToplistHoursBody,
+  ModuleInput as djToplistHoursInput,
+} from '../../modules/dj_toplist_hours.ts';
+import type {
+  ModuleBody as djToplistNewcomerBody,
+  ModuleInput as djToplistNewcomerInput,
+} from '../../modules/dj_toplist_newcomer.ts';
+import type {
+  ModuleBody as djToplistPayBody,
+  ModuleInput as djToplistPayInput,
+} from '../../modules/dj_toplist_pay.ts';
+import type {
+  ModuleBody as djToplistPopularBody,
+  ModuleInput as djToplistPopularInput,
+} from '../../modules/dj_toplist_popular.ts';
+import type {
+  ModuleBody as djRadioTopBody,
+  ModuleInput as djRadioTopInput,
+} from '../../modules/djRadio_top.ts';
+import type {
+  ModuleBody as eventBody,
+  ModuleInput as eventInput,
+} from '../../modules/event.ts';
+import type {
+  ModuleBody as eventDelBody,
+  ModuleInput as eventDelInput,
+} from '../../modules/event_del.ts';
 import type { ModuleInput as eventForwardInput } from '../../modules/event_forward.ts';
-import type { ModuleInput as fmTrashInput } from '../../modules/fm_trash.ts';
-import type { ModuleInput as followInput } from '../../modules/follow.ts';
-import type { ModuleInput as getUseridsInput } from '../../modules/get_userids.ts';
-import type { ModuleInput as historyRecommendSongsInput } from '../../modules/history_recommend_songs.ts';
-import type { ModuleInput as historyRecommendSongsDetailInput } from '../../modules/history_recommend_songs_detail.ts';
-import type { ModuleInput as homepageBlockPageInput } from '../../modules/homepage_block_page.ts';
-import type { ModuleInput as homepageDragonBallInput } from '../../modules/homepage_dragon_ball.ts';
-import type { ModuleInput as hotTopicInput } from '../../modules/hot_topic.ts';
+import type {
+  ModuleBody as fmTrashBody,
+  ModuleInput as fmTrashInput,
+} from '../../modules/fm_trash.ts';
+import type {
+  ModuleBody as followBody,
+  ModuleInput as followInput,
+} from '../../modules/follow.ts';
+import type {
+  ModuleBody as getUseridsBody,
+  ModuleInput as getUseridsInput,
+} from '../../modules/get_userids.ts';
+import type {
+  ModuleBody as historyRecommendSongsBody,
+  ModuleInput as historyRecommendSongsInput,
+} from '../../modules/history_recommend_songs.ts';
+import type {
+  ModuleBody as historyRecommendSongsDetailBody,
+  ModuleInput as historyRecommendSongsDetailInput,
+} from '../../modules/history_recommend_songs_detail.ts';
+import type {
+  ModuleBody as homepageBlockPageBody,
+  ModuleInput as homepageBlockPageInput,
+} from '../../modules/homepage_block_page.ts';
+import type {
+  ModuleBody as homepageDragonBallBody,
+  ModuleInput as homepageDragonBallInput,
+} from '../../modules/homepage_dragon_ball.ts';
+import type {
+  ModuleBody as hotTopicBody,
+  ModuleInput as hotTopicInput,
+} from '../../modules/hot_topic.ts';
 import type { ModuleInput as hugCommentInput } from '../../modules/hug_comment.ts';
 import type {
   ModuleBody as imageUploadTokenBody,
   ModuleInput as imageUploadTokenInput,
 } from '../../modules/image_upload_token.ts';
-import type { ModuleInput as innerVersionInput } from '../../modules/inner_version.ts';
+import type {
+  ModuleBody as innerVersionBody,
+  ModuleInput as innerVersionInput,
+} from '../../modules/inner_version.ts';
 import type {
   ModuleBody as likeBody,
   ModuleInput as likeInput,
@@ -152,20 +413,62 @@ import type {
   ModuleBody as likelistBody,
   ModuleInput as likelistInput,
 } from '../../modules/likelist.ts';
-import type { ModuleInput as listenDataRealtimeReportInput } from '../../modules/listen_data_realtime_report.ts';
-import type { ModuleInput as listenDataReportInput } from '../../modules/listen_data_report.ts';
-import type { ModuleInput as listenDataTodaySongInput } from '../../modules/listen_data_today_song.ts';
-import type { ModuleInput as listenDataTotalInput } from '../../modules/listen_data_total.ts';
-import type { ModuleInput as listenDataYearReportInput } from '../../modules/listen_data_year_report.ts';
-import type { ModuleInput as listentogetherAcceptInput } from '../../modules/listentogether_accept.ts';
-import type { ModuleInput as listentogetherEndInput } from '../../modules/listentogether_end.ts';
-import type { ModuleInput as listentogetherHeatbeatInput } from '../../modules/listentogether_heatbeat.ts';
-import type { ModuleInput as listentogetherPlayCommandInput } from '../../modules/listentogether_play_command.ts';
-import type { ModuleInput as listentogetherRoomCheckInput } from '../../modules/listentogether_room_check.ts';
-import type { ModuleInput as listentogetherRoomCreateInput } from '../../modules/listentogether_room_create.ts';
-import type { ModuleInput as listentogetherStatusInput } from '../../modules/listentogether_status.ts';
-import type { ModuleInput as listentogetherSyncListCommandInput } from '../../modules/listentogether_sync_list_command.ts';
-import type { ModuleInput as listentogetherSyncPlaylistGetInput } from '../../modules/listentogether_sync_playlist_get.ts';
+import type {
+  ModuleBody as listenDataRealtimeReportBody,
+  ModuleInput as listenDataRealtimeReportInput,
+} from '../../modules/listen_data_realtime_report.ts';
+import type {
+  ModuleBody as listenDataReportBody,
+  ModuleInput as listenDataReportInput,
+} from '../../modules/listen_data_report.ts';
+import type {
+  ModuleBody as listenDataTodaySongBody,
+  ModuleInput as listenDataTodaySongInput,
+} from '../../modules/listen_data_today_song.ts';
+import type {
+  ModuleBody as listenDataTotalBody,
+  ModuleInput as listenDataTotalInput,
+} from '../../modules/listen_data_total.ts';
+import type {
+  ModuleBody as listenDataYearReportBody,
+  ModuleInput as listenDataYearReportInput,
+} from '../../modules/listen_data_year_report.ts';
+import type {
+  ModuleBody as listentogetherAcceptBody,
+  ModuleInput as listentogetherAcceptInput,
+} from '../../modules/listentogether_accept.ts';
+import type {
+  ModuleBody as listentogetherEndBody,
+  ModuleInput as listentogetherEndInput,
+} from '../../modules/listentogether_end.ts';
+import type {
+  ModuleBody as listentogetherHeatbeatBody,
+  ModuleInput as listentogetherHeatbeatInput,
+} from '../../modules/listentogether_heatbeat.ts';
+import type {
+  ModuleBody as listentogetherPlayCommandBody,
+  ModuleInput as listentogetherPlayCommandInput,
+} from '../../modules/listentogether_play_command.ts';
+import type {
+  ModuleBody as listentogetherRoomCheckBody,
+  ModuleInput as listentogetherRoomCheckInput,
+} from '../../modules/listentogether_room_check.ts';
+import type {
+  ModuleBody as listentogetherRoomCreateBody,
+  ModuleInput as listentogetherRoomCreateInput,
+} from '../../modules/listentogether_room_create.ts';
+import type {
+  ModuleBody as listentogetherStatusBody,
+  ModuleInput as listentogetherStatusInput,
+} from '../../modules/listentogether_status.ts';
+import type {
+  ModuleBody as listentogetherSyncListCommandBody,
+  ModuleInput as listentogetherSyncListCommandInput,
+} from '../../modules/listentogether_sync_list_command.ts';
+import type {
+  ModuleBody as listentogetherSyncPlaylistGetBody,
+  ModuleInput as listentogetherSyncPlaylistGetInput,
+} from '../../modules/listentogether_sync_playlist_get.ts';
 import type { ModuleInput as loginInput } from '../../modules/login.ts';
 import type {
   ModuleBody as loginCellphoneBody,
@@ -195,46 +498,148 @@ import type {
   ModuleBody as logoutBody,
   ModuleInput as logoutInput,
 } from '../../modules/logout.ts';
-import type { ModuleInput as lyricInput } from '../../modules/lyric.ts';
+import type {
+  ModuleBody as lyricBody,
+  ModuleInput as lyricInput,
+} from '../../modules/lyric.ts';
 import type {
   ModuleBody as lyricNewBody,
   ModuleInput as lyricNewInput,
 } from '../../modules/lyric_new.ts';
-import type { ModuleInput as mlogMusicRcmdInput } from '../../modules/mlog_music_rcmd.ts';
-import type { ModuleInput as mlogToVideoInput } from '../../modules/mlog_to_video.ts';
-import type { ModuleInput as mlogUrlInput } from '../../modules/mlog_url.ts';
-import type { ModuleInput as msgCommentsInput } from '../../modules/msg_comments.ts';
-import type { ModuleInput as msgForwardsInput } from '../../modules/msg_forwards.ts';
-import type { ModuleInput as msgNoticesInput } from '../../modules/msg_notices.ts';
-import type { ModuleInput as msgPrivateInput } from '../../modules/msg_private.ts';
-import type { ModuleInput as msgPrivateHistoryInput } from '../../modules/msg_private_history.ts';
-import type { ModuleInput as msgRecentcontactInput } from '../../modules/msg_recentcontact.ts';
-import type { ModuleInput as musicFirstListenInfoInput } from '../../modules/music_first_listen_info.ts';
-import type { ModuleInput as musicianCloudbeanInput } from '../../modules/musician_cloudbean.ts';
+import type {
+  ModuleBody as mlogMusicRcmdBody,
+  ModuleInput as mlogMusicRcmdInput,
+} from '../../modules/mlog_music_rcmd.ts';
+import type {
+  ModuleBody as mlogToVideoBody,
+  ModuleInput as mlogToVideoInput,
+} from '../../modules/mlog_to_video.ts';
+import type {
+  ModuleBody as mlogUrlBody,
+  ModuleInput as mlogUrlInput,
+} from '../../modules/mlog_url.ts';
+import type {
+  ModuleBody as msgCommentsBody,
+  ModuleInput as msgCommentsInput,
+} from '../../modules/msg_comments.ts';
+import type {
+  ModuleBody as msgForwardsBody,
+  ModuleInput as msgForwardsInput,
+} from '../../modules/msg_forwards.ts';
+import type {
+  ModuleBody as msgNoticesBody,
+  ModuleInput as msgNoticesInput,
+} from '../../modules/msg_notices.ts';
+import type {
+  ModuleBody as msgPrivateBody,
+  ModuleInput as msgPrivateInput,
+} from '../../modules/msg_private.ts';
+import type {
+  ModuleBody as msgPrivateHistoryBody,
+  ModuleInput as msgPrivateHistoryInput,
+} from '../../modules/msg_private_history.ts';
+import type {
+  ModuleBody as msgRecentcontactBody,
+  ModuleInput as msgRecentcontactInput,
+} from '../../modules/msg_recentcontact.ts';
+import type {
+  ModuleBody as musicFirstListenInfoBody,
+  ModuleInput as musicFirstListenInfoInput,
+} from '../../modules/music_first_listen_info.ts';
+import type {
+  ModuleBody as musicianCloudbeanBody,
+  ModuleInput as musicianCloudbeanInput,
+} from '../../modules/musician_cloudbean.ts';
 import type { ModuleInput as musicianCloudbeanObtainInput } from '../../modules/musician_cloudbean_obtain.ts';
-import type { ModuleInput as musicianDataOverviewInput } from '../../modules/musician_data_overview.ts';
-import type { ModuleInput as musicianPlayTrendInput } from '../../modules/musician_play_trend.ts';
+import type {
+  ModuleBody as musicianDataOverviewBody,
+  ModuleInput as musicianDataOverviewInput,
+} from '../../modules/musician_data_overview.ts';
+import type {
+  ModuleBody as musicianPlayTrendBody,
+  ModuleInput as musicianPlayTrendInput,
+} from '../../modules/musician_play_trend.ts';
 import type { ModuleInput as musicianSignInput } from '../../modules/musician_sign.ts';
-import type { ModuleInput as musicianTasksInput } from '../../modules/musician_tasks.ts';
-import type { ModuleInput as musicianTasksNewInput } from '../../modules/musician_tasks_new.ts';
-import type { ModuleInput as mvAllInput } from '../../modules/mv_all.ts';
-import type { ModuleInput as mvDetailInput } from '../../modules/mv_detail.ts';
-import type { ModuleInput as mvDetailInfoInput } from '../../modules/mv_detail_info.ts';
-import type { ModuleInput as mvExclusiveRcmdInput } from '../../modules/mv_exclusive_rcmd.ts';
-import type { ModuleInput as mvFirstInput } from '../../modules/mv_first.ts';
-import type { ModuleInput as mvSubInput } from '../../modules/mv_sub.ts';
-import type { ModuleInput as mvSublistInput } from '../../modules/mv_sublist.ts';
-import type { ModuleInput as mvUrlInput } from '../../modules/mv_url.ts';
-import type { ModuleInput as nicknameCheckInput } from '../../modules/nickname_check.ts';
-import type { ModuleInput as personalFmInput } from '../../modules/personal_fm.ts';
-import type { ModuleInput as personalFmModeInput } from '../../modules/personal_fm_mode.ts';
-import type { ModuleInput as personalizedInput } from '../../modules/personalized.ts';
-import type { ModuleInput as personalizedDjprogramInput } from '../../modules/personalized_djprogram.ts';
-import type { ModuleInput as personalizedMvInput } from '../../modules/personalized_mv.ts';
-import type { ModuleInput as personalizedNewsongInput } from '../../modules/personalized_newsong.ts';
-import type { ModuleInput as personalizedPrivatecontentInput } from '../../modules/personalized_privatecontent.ts';
-import type { ModuleInput as personalizedPrivatecontentListInput } from '../../modules/personalized_privatecontent_list.ts';
-import type { ModuleInput as plCountInput } from '../../modules/pl_count.ts';
+import type {
+  ModuleBody as musicianTasksBody,
+  ModuleInput as musicianTasksInput,
+} from '../../modules/musician_tasks.ts';
+import type {
+  ModuleBody as musicianTasksNewBody,
+  ModuleInput as musicianTasksNewInput,
+} from '../../modules/musician_tasks_new.ts';
+import type {
+  ModuleBody as mvAllBody,
+  ModuleInput as mvAllInput,
+} from '../../modules/mv_all.ts';
+import type {
+  ModuleBody as mvDetailBody,
+  ModuleInput as mvDetailInput,
+} from '../../modules/mv_detail.ts';
+import type {
+  ModuleBody as mvDetailInfoBody,
+  ModuleInput as mvDetailInfoInput,
+} from '../../modules/mv_detail_info.ts';
+import type {
+  ModuleBody as mvExclusiveRcmdBody,
+  ModuleInput as mvExclusiveRcmdInput,
+} from '../../modules/mv_exclusive_rcmd.ts';
+import type {
+  ModuleBody as mvFirstBody,
+  ModuleInput as mvFirstInput,
+} from '../../modules/mv_first.ts';
+import type {
+  ModuleBody as mvSubBody,
+  ModuleInput as mvSubInput,
+} from '../../modules/mv_sub.ts';
+import type {
+  ModuleBody as mvSublistBody,
+  ModuleInput as mvSublistInput,
+} from '../../modules/mv_sublist.ts';
+import type {
+  ModuleBody as mvUrlBody,
+  ModuleInput as mvUrlInput,
+} from '../../modules/mv_url.ts';
+import type {
+  ModuleBody as nicknameCheckBody,
+  ModuleInput as nicknameCheckInput,
+} from '../../modules/nickname_check.ts';
+import type {
+  ModuleBody as personalFmBody,
+  ModuleInput as personalFmInput,
+} from '../../modules/personal_fm.ts';
+import type {
+  ModuleBody as personalFmModeBody,
+  ModuleInput as personalFmModeInput,
+} from '../../modules/personal_fm_mode.ts';
+import type {
+  ModuleBody as personalizedBody,
+  ModuleInput as personalizedInput,
+} from '../../modules/personalized.ts';
+import type {
+  ModuleBody as personalizedDjprogramBody,
+  ModuleInput as personalizedDjprogramInput,
+} from '../../modules/personalized_djprogram.ts';
+import type {
+  ModuleBody as personalizedMvBody,
+  ModuleInput as personalizedMvInput,
+} from '../../modules/personalized_mv.ts';
+import type {
+  ModuleBody as personalizedNewsongBody,
+  ModuleInput as personalizedNewsongInput,
+} from '../../modules/personalized_newsong.ts';
+import type {
+  ModuleBody as personalizedPrivatecontentBody,
+  ModuleInput as personalizedPrivatecontentInput,
+} from '../../modules/personalized_privatecontent.ts';
+import type {
+  ModuleBody as personalizedPrivatecontentListBody,
+  ModuleInput as personalizedPrivatecontentListInput,
+} from '../../modules/personalized_privatecontent_list.ts';
+import type {
+  ModuleBody as plCountBody,
+  ModuleInput as plCountInput,
+} from '../../modules/pl_count.ts';
 import type {
   ModuleBody as playlistCatlistBody,
   ModuleInput as playlistCatlistInput,
@@ -259,13 +664,34 @@ import type {
   ModuleBody as playlistDetailBody,
   ModuleInput as playlistDetailInput,
 } from '../../modules/playlist_detail.ts';
-import type { ModuleInput as playlistDetailDynamicInput } from '../../modules/playlist_detail_dynamic.ts';
-import type { ModuleInput as playlistDetailRcmdGetInput } from '../../modules/playlist_detail_rcmd_get.ts';
-import type { ModuleInput as playlistHighqualityTagsInput } from '../../modules/playlist_highquality_tags.ts';
-import type { ModuleInput as playlistHotInput } from '../../modules/playlist_hot.ts';
-import type { ModuleInput as playlistImportNameTaskCreateInput } from '../../modules/playlist_import_name_task_create.ts';
-import type { ModuleInput as playlistImportTaskStatusInput } from '../../modules/playlist_import_task_status.ts';
-import type { ModuleInput as playlistMylikeInput } from '../../modules/playlist_mylike.ts';
+import type {
+  ModuleBody as playlistDetailDynamicBody,
+  ModuleInput as playlistDetailDynamicInput,
+} from '../../modules/playlist_detail_dynamic.ts';
+import type {
+  ModuleBody as playlistDetailRcmdGetBody,
+  ModuleInput as playlistDetailRcmdGetInput,
+} from '../../modules/playlist_detail_rcmd_get.ts';
+import type {
+  ModuleBody as playlistHighqualityTagsBody,
+  ModuleInput as playlistHighqualityTagsInput,
+} from '../../modules/playlist_highquality_tags.ts';
+import type {
+  ModuleBody as playlistHotBody,
+  ModuleInput as playlistHotInput,
+} from '../../modules/playlist_hot.ts';
+import type {
+  ModuleBody as playlistImportNameTaskCreateBody,
+  ModuleInput as playlistImportNameTaskCreateInput,
+} from '../../modules/playlist_import_name_task_create.ts';
+import type {
+  ModuleBody as playlistImportTaskStatusBody,
+  ModuleInput as playlistImportTaskStatusInput,
+} from '../../modules/playlist_import_task_status.ts';
+import type {
+  ModuleBody as playlistMylikeBody,
+  ModuleInput as playlistMylikeInput,
+} from '../../modules/playlist_mylike.ts';
 import type {
   ModuleBody as playlistNameUpdateBody,
   ModuleInput as playlistNameUpdateInput,
@@ -282,55 +708,133 @@ import type {
   ModuleBody as playlistSubscribeBody,
   ModuleInput as playlistSubscribeInput,
 } from '../../modules/playlist_subscribe.ts';
-import type { ModuleInput as playlistSubscribersInput } from '../../modules/playlist_subscribers.ts';
+import type {
+  ModuleBody as playlistSubscribersBody,
+  ModuleInput as playlistSubscribersInput,
+} from '../../modules/playlist_subscribers.ts';
 import type {
   ModuleBody as playlistTagsUpdateBody,
   ModuleInput as playlistTagsUpdateInput,
 } from '../../modules/playlist_tags_update.ts';
-import type { ModuleInput as playlistTrackAddInput } from '../../modules/playlist_track_add.ts';
+import type {
+  ModuleBody as playlistTrackAddBody,
+  ModuleInput as playlistTrackAddInput,
+} from '../../modules/playlist_track_add.ts';
 import type {
   ModuleBody as playlistTrackAllBody,
   ModuleInput as playlistTrackAllInput,
 } from '../../modules/playlist_track_all.ts';
-import type { ModuleInput as playlistTrackDeleteInput } from '../../modules/playlist_track_delete.ts';
+import type {
+  ModuleBody as playlistTrackDeleteBody,
+  ModuleInput as playlistTrackDeleteInput,
+} from '../../modules/playlist_track_delete.ts';
 import type {
   ModuleBody as playlistTracksBody,
   ModuleInput as playlistTracksInput,
 } from '../../modules/playlist_tracks.ts';
-import type { ModuleInput as playlistUpdateInput } from '../../modules/playlist_update.ts';
-import type { ModuleInput as playlistUpdatePlaycountInput } from '../../modules/playlist_update_playcount.ts';
-import type { ModuleInput as playlistVideoRecentInput } from '../../modules/playlist_video_recent.ts';
-import type { ModuleInput as playmodeIntelligenceListInput } from '../../modules/playmode_intelligence_list.ts';
-import type { ModuleInput as programRecommendInput } from '../../modules/program_recommend.ts';
+import type {
+  ModuleBody as playlistUpdateBody,
+  ModuleInput as playlistUpdateInput,
+} from '../../modules/playlist_update.ts';
+import type {
+  ModuleBody as playlistUpdatePlaycountBody,
+  ModuleInput as playlistUpdatePlaycountInput,
+} from '../../modules/playlist_update_playcount.ts';
+import type {
+  ModuleBody as playlistVideoRecentBody,
+  ModuleInput as playlistVideoRecentInput,
+} from '../../modules/playlist_video_recent.ts';
+import type {
+  ModuleBody as playmodeIntelligenceListBody,
+  ModuleInput as playmodeIntelligenceListInput,
+} from '../../modules/playmode_intelligence_list.ts';
+import type {
+  ModuleBody as programRecommendBody,
+  ModuleInput as programRecommendInput,
+} from '../../modules/program_recommend.ts';
 import type { ModuleInput as rebindInput } from '../../modules/rebind.ts';
-import type { ModuleInput as recentListenListInput } from '../../modules/recent_listen_list.ts';
-import type { ModuleInput as recommendResourceInput } from '../../modules/recommend_resource.ts';
+import type {
+  ModuleBody as recentListenListBody,
+  ModuleInput as recentListenListInput,
+} from '../../modules/recent_listen_list.ts';
+import type {
+  ModuleBody as recommendResourceBody,
+  ModuleInput as recommendResourceInput,
+} from '../../modules/recommend_resource.ts';
 import type {
   ModuleBody as recommendSongsBody,
   ModuleInput as recommendSongsInput,
 } from '../../modules/recommend_songs.ts';
-import type { ModuleInput as recommendSongsDislikeInput } from '../../modules/recommend_songs_dislike.ts';
-import type { ModuleInput as recordRecentAlbumInput } from '../../modules/record_recent_album.ts';
-import type { ModuleInput as recordRecentDjInput } from '../../modules/record_recent_dj.ts';
-import type { ModuleInput as recordRecentPlaylistInput } from '../../modules/record_recent_playlist.ts';
-import type { ModuleInput as recordRecentSongInput } from '../../modules/record_recent_song.ts';
-import type { ModuleInput as recordRecentVideoInput } from '../../modules/record_recent_video.ts';
-import type { ModuleInput as recordRecentVoiceInput } from '../../modules/record_recent_voice.ts';
-import type { ModuleInput as registerAnonimousInput } from '../../modules/register_anonimous.ts';
+import type {
+  ModuleBody as recommendSongsDislikeBody,
+  ModuleInput as recommendSongsDislikeInput,
+} from '../../modules/recommend_songs_dislike.ts';
+import type {
+  ModuleBody as recordRecentAlbumBody,
+  ModuleInput as recordRecentAlbumInput,
+} from '../../modules/record_recent_album.ts';
+import type {
+  ModuleBody as recordRecentDjBody,
+  ModuleInput as recordRecentDjInput,
+} from '../../modules/record_recent_dj.ts';
+import type {
+  ModuleBody as recordRecentPlaylistBody,
+  ModuleInput as recordRecentPlaylistInput,
+} from '../../modules/record_recent_playlist.ts';
+import type {
+  ModuleBody as recordRecentSongBody,
+  ModuleInput as recordRecentSongInput,
+} from '../../modules/record_recent_song.ts';
+import type {
+  ModuleBody as recordRecentVideoBody,
+  ModuleInput as recordRecentVideoInput,
+} from '../../modules/record_recent_video.ts';
+import type {
+  ModuleBody as recordRecentVoiceBody,
+  ModuleInput as recordRecentVoiceInput,
+} from '../../modules/record_recent_voice.ts';
+import type {
+  ModuleBody as registerAnonimousBody,
+  ModuleInput as registerAnonimousInput,
+} from '../../modules/register_anonimous.ts';
 import type { ModuleInput as registerCellphoneInput } from '../../modules/register_cellphone.ts';
-import type { ModuleInput as relatedAllvideoInput } from '../../modules/related_allvideo.ts';
+import type {
+  ModuleBody as relatedAllvideoBody,
+  ModuleInput as relatedAllvideoInput,
+} from '../../modules/related_allvideo.ts';
 import type { ModuleInput as relatedPlaylistInput } from '../../modules/related_playlist.ts';
-import type { ModuleInput as resourceLikeInput } from '../../modules/resource_like.ts';
+import type {
+  ModuleBody as resourceLikeBody,
+  ModuleInput as resourceLikeInput,
+} from '../../modules/resource_like.ts';
 import type {
   ModuleBody as scrobbleBody,
   ModuleInput as scrobbleInput,
 } from '../../modules/scrobble.ts';
-import type { ModuleInput as searchInput } from '../../modules/search.ts';
-import type { ModuleInput as searchDefaultInput } from '../../modules/search_default.ts';
-import type { ModuleInput as searchHotInput } from '../../modules/search_hot.ts';
-import type { ModuleInput as searchHotDetailInput } from '../../modules/search_hot_detail.ts';
-import type { ModuleInput as searchMatchInput } from '../../modules/search_match.ts';
-import type { ModuleInput as searchMultimatchInput } from '../../modules/search_multimatch.ts';
+import type {
+  ModuleBody as searchBody,
+  ModuleInput as searchInput,
+} from '../../modules/search.ts';
+import type {
+  ModuleBody as searchDefaultBody,
+  ModuleInput as searchDefaultInput,
+} from '../../modules/search_default.ts';
+import type {
+  ModuleBody as searchHotBody,
+  ModuleInput as searchHotInput,
+} from '../../modules/search_hot.ts';
+import type {
+  ModuleBody as searchHotDetailBody,
+  ModuleInput as searchHotDetailInput,
+} from '../../modules/search_hot_detail.ts';
+import type {
+  ModuleBody as searchMatchBody,
+  ModuleInput as searchMatchInput,
+} from '../../modules/search_match.ts';
+import type {
+  ModuleBody as searchMultimatchBody,
+  ModuleInput as searchMultimatchInput,
+} from '../../modules/search_multimatch.ts';
 import type {
   ModuleBody as searchSuggestBody,
   ModuleInput as searchSuggestInput,
@@ -339,133 +843,394 @@ import type { ModuleInput as sendAlbumInput } from '../../modules/send_album.ts'
 import type { ModuleInput as sendPlaylistInput } from '../../modules/send_playlist.ts';
 import type { ModuleInput as sendSongInput } from '../../modules/send_song.ts';
 import type { ModuleInput as sendTextInput } from '../../modules/send_text.ts';
-import type { ModuleInput as settingInput } from '../../modules/setting.ts';
+import type {
+  ModuleBody as settingBody,
+  ModuleInput as settingInput,
+} from '../../modules/setting.ts';
 import type { ModuleInput as shareResourceInput } from '../../modules/share_resource.ts';
-import type { ModuleInput as sheetListInput } from '../../modules/sheet_list.ts';
-import type { ModuleInput as sheetPreviewInput } from '../../modules/sheet_preview.ts';
-import type { ModuleInput as signHappyInfoInput } from '../../modules/sign_happy_info.ts';
-import type { ModuleInput as signinProgressInput } from '../../modules/signin_progress.ts';
-import type { ModuleInput as simiArtistInput } from '../../modules/simi_artist.ts';
-import type { ModuleInput as simiMvInput } from '../../modules/simi_mv.ts';
-import type { ModuleInput as simiPlaylistInput } from '../../modules/simi_playlist.ts';
-import type { ModuleInput as simiSongInput } from '../../modules/simi_song.ts';
-import type { ModuleInput as simiUserInput } from '../../modules/simi_user.ts';
-import type { ModuleInput as songChorusInput } from '../../modules/song_chorus.ts';
+import type {
+  ModuleBody as sheetListBody,
+  ModuleInput as sheetListInput,
+} from '../../modules/sheet_list.ts';
+import type {
+  ModuleBody as sheetPreviewBody,
+  ModuleInput as sheetPreviewInput,
+} from '../../modules/sheet_preview.ts';
+import type {
+  ModuleBody as signHappyInfoBody,
+  ModuleInput as signHappyInfoInput,
+} from '../../modules/sign_happy_info.ts';
+import type {
+  ModuleBody as signinProgressBody,
+  ModuleInput as signinProgressInput,
+} from '../../modules/signin_progress.ts';
+import type {
+  ModuleBody as simiArtistBody,
+  ModuleInput as simiArtistInput,
+} from '../../modules/simi_artist.ts';
+import type {
+  ModuleBody as simiMvBody,
+  ModuleInput as simiMvInput,
+} from '../../modules/simi_mv.ts';
+import type {
+  ModuleBody as simiPlaylistBody,
+  ModuleInput as simiPlaylistInput,
+} from '../../modules/simi_playlist.ts';
+import type {
+  ModuleBody as simiSongBody,
+  ModuleInput as simiSongInput,
+} from '../../modules/simi_song.ts';
+import type {
+  ModuleBody as simiUserBody,
+  ModuleInput as simiUserInput,
+} from '../../modules/simi_user.ts';
+import type {
+  ModuleBody as songChorusBody,
+  ModuleInput as songChorusInput,
+} from '../../modules/song_chorus.ts';
 import type {
   ModuleBody as songDetailBody,
   ModuleInput as songDetailInput,
 } from '../../modules/song_detail.ts';
-import type { ModuleInput as songDownlistInput } from '../../modules/song_downlist.ts';
-import type { ModuleInput as songDownloadUrlInput } from '../../modules/song_download_url.ts';
+import type {
+  ModuleBody as songDownlistBody,
+  ModuleInput as songDownlistInput,
+} from '../../modules/song_downlist.ts';
+import type {
+  ModuleBody as songDownloadUrlBody,
+  ModuleInput as songDownloadUrlInput,
+} from '../../modules/song_download_url.ts';
 import type {
   ModuleBody as songDownloadUrlV1Body,
   ModuleInput as songDownloadUrlV1Input,
 } from '../../modules/song_download_url_v1.ts';
-import type { ModuleInput as songDynamicCoverInput } from '../../modules/song_dynamic_cover.ts';
-import type { ModuleInput as songLikeCheckInput } from '../../modules/song_like_check.ts';
-import type { ModuleInput as songLyricsMarkInput } from '../../modules/song_lyrics_mark.ts';
-import type { ModuleInput as songLyricsMarkAddInput } from '../../modules/song_lyrics_mark_add.ts';
-import type { ModuleInput as songLyricsMarkDelInput } from '../../modules/song_lyrics_mark_del.ts';
-import type { ModuleInput as songLyricsMarkUserPageInput } from '../../modules/song_lyrics_mark_user_page.ts';
-import type { ModuleInput as songMonthdownlistInput } from '../../modules/song_monthdownlist.ts';
-import type { ModuleInput as songMusicDetailInput } from '../../modules/song_music_detail.ts';
+import type {
+  ModuleBody as songDynamicCoverBody,
+  ModuleInput as songDynamicCoverInput,
+} from '../../modules/song_dynamic_cover.ts';
+import type {
+  ModuleBody as songLikeCheckBody,
+  ModuleInput as songLikeCheckInput,
+} from '../../modules/song_like_check.ts';
+import type {
+  ModuleBody as songLyricsMarkBody,
+  ModuleInput as songLyricsMarkInput,
+} from '../../modules/song_lyrics_mark.ts';
+import type {
+  ModuleBody as songLyricsMarkAddBody,
+  ModuleInput as songLyricsMarkAddInput,
+} from '../../modules/song_lyrics_mark_add.ts';
+import type {
+  ModuleBody as songLyricsMarkDelBody,
+  ModuleInput as songLyricsMarkDelInput,
+} from '../../modules/song_lyrics_mark_del.ts';
+import type {
+  ModuleBody as songLyricsMarkUserPageBody,
+  ModuleInput as songLyricsMarkUserPageInput,
+} from '../../modules/song_lyrics_mark_user_page.ts';
+import type {
+  ModuleBody as songMonthdownlistBody,
+  ModuleInput as songMonthdownlistInput,
+} from '../../modules/song_monthdownlist.ts';
+import type {
+  ModuleBody as songMusicDetailBody,
+  ModuleInput as songMusicDetailInput,
+} from '../../modules/song_music_detail.ts';
 import type {
   ModuleBody as songOrderUpdateBody,
   ModuleInput as songOrderUpdateInput,
 } from '../../modules/song_order_update.ts';
-import type { ModuleInput as songPurchasedInput } from '../../modules/song_purchased.ts';
-import type { ModuleInput as songRedCountInput } from '../../modules/song_red_count.ts';
-import type { ModuleInput as songSingledownlistInput } from '../../modules/song_singledownlist.ts';
-import type { ModuleInput as songUrlInput } from '../../modules/song_url.ts';
+import type {
+  ModuleBody as songPurchasedBody,
+  ModuleInput as songPurchasedInput,
+} from '../../modules/song_purchased.ts';
+import type {
+  ModuleBody as songRedCountBody,
+  ModuleInput as songRedCountInput,
+} from '../../modules/song_red_count.ts';
+import type {
+  ModuleBody as songSingledownlistBody,
+  ModuleInput as songSingledownlistInput,
+} from '../../modules/song_singledownlist.ts';
+import type {
+  ModuleBody as songUrlBody,
+  ModuleInput as songUrlInput,
+} from '../../modules/song_url.ts';
 import type {
   ModuleBody as songUrlV1Body,
   ModuleInput as songUrlV1Input,
 } from '../../modules/song_url_v1.ts';
-import type { ModuleInput as songWikiSummaryInput } from '../../modules/song_wiki_summary.ts';
-import type { ModuleInput as starpickCommentsSummaryInput } from '../../modules/starpick_comments_summary.ts';
-import type { ModuleInput as styleAlbumInput } from '../../modules/style_album.ts';
-import type { ModuleInput as styleArtistInput } from '../../modules/style_artist.ts';
-import type { ModuleInput as styleDetailInput } from '../../modules/style_detail.ts';
-import type { ModuleInput as styleListInput } from '../../modules/style_list.ts';
-import type { ModuleInput as stylePlaylistInput } from '../../modules/style_playlist.ts';
-import type { ModuleInput as stylePreferenceInput } from '../../modules/style_preference.ts';
-import type { ModuleInput as styleSongInput } from '../../modules/style_song.ts';
-import type { ModuleInput as summaryAnnualInput } from '../../modules/summary_annual.ts';
-import type { ModuleInput as topAlbumInput } from '../../modules/top_album.ts';
-import type { ModuleInput as topArtistsInput } from '../../modules/top_artists.ts';
-import type { ModuleInput as topListInput } from '../../modules/top_list.ts';
-import type { ModuleInput as topMvInput } from '../../modules/top_mv.ts';
-import type { ModuleInput as topPlaylistInput } from '../../modules/top_playlist.ts';
-import type { ModuleInput as topPlaylistHighqualityInput } from '../../modules/top_playlist_highquality.ts';
-import type { ModuleInput as topSongInput } from '../../modules/top_song.ts';
-import type { ModuleInput as topicDetailInput } from '../../modules/topic_detail.ts';
-import type { ModuleInput as topicDetailEventHotInput } from '../../modules/topic_detail_event_hot.ts';
-import type { ModuleInput as topicSublistInput } from '../../modules/topic_sublist.ts';
-import type { ModuleInput as toplistInput } from '../../modules/toplist.ts';
-import type { ModuleInput as toplistArtistInput } from '../../modules/toplist_artist.ts';
-import type { ModuleInput as toplistDetailInput } from '../../modules/toplist_detail.ts';
-import type { ModuleInput as ugcAlbumGetInput } from '../../modules/ugc_album_get.ts';
-import type { ModuleInput as ugcArtistGetInput } from '../../modules/ugc_artist_get.ts';
-import type { ModuleInput as ugcArtistSearchInput } from '../../modules/ugc_artist_search.ts';
-import type { ModuleInput as ugcDetailInput } from '../../modules/ugc_detail.ts';
-import type { ModuleInput as ugcMvGetInput } from '../../modules/ugc_mv_get.ts';
-import type { ModuleInput as ugcSongGetInput } from '../../modules/ugc_song_get.ts';
-import type { ModuleInput as ugcUserDevoteInput } from '../../modules/ugc_user_devote.ts';
+import type {
+  ModuleBody as songWikiSummaryBody,
+  ModuleInput as songWikiSummaryInput,
+} from '../../modules/song_wiki_summary.ts';
+import type {
+  ModuleBody as starpickCommentsSummaryBody,
+  ModuleInput as starpickCommentsSummaryInput,
+} from '../../modules/starpick_comments_summary.ts';
+import type {
+  ModuleBody as styleAlbumBody,
+  ModuleInput as styleAlbumInput,
+} from '../../modules/style_album.ts';
+import type {
+  ModuleBody as styleArtistBody,
+  ModuleInput as styleArtistInput,
+} from '../../modules/style_artist.ts';
+import type {
+  ModuleBody as styleDetailBody,
+  ModuleInput as styleDetailInput,
+} from '../../modules/style_detail.ts';
+import type {
+  ModuleBody as styleListBody,
+  ModuleInput as styleListInput,
+} from '../../modules/style_list.ts';
+import type {
+  ModuleBody as stylePlaylistBody,
+  ModuleInput as stylePlaylistInput,
+} from '../../modules/style_playlist.ts';
+import type {
+  ModuleBody as stylePreferenceBody,
+  ModuleInput as stylePreferenceInput,
+} from '../../modules/style_preference.ts';
+import type {
+  ModuleBody as styleSongBody,
+  ModuleInput as styleSongInput,
+} from '../../modules/style_song.ts';
+import type {
+  ModuleBody as summaryAnnualBody,
+  ModuleInput as summaryAnnualInput,
+} from '../../modules/summary_annual.ts';
+import type {
+  ModuleBody as topAlbumBody,
+  ModuleInput as topAlbumInput,
+} from '../../modules/top_album.ts';
+import type {
+  ModuleBody as topArtistsBody,
+  ModuleInput as topArtistsInput,
+} from '../../modules/top_artists.ts';
+import type {
+  ModuleBody as topListBody,
+  ModuleInput as topListInput,
+} from '../../modules/top_list.ts';
+import type {
+  ModuleBody as topMvBody,
+  ModuleInput as topMvInput,
+} from '../../modules/top_mv.ts';
+import type {
+  ModuleBody as topPlaylistBody,
+  ModuleInput as topPlaylistInput,
+} from '../../modules/top_playlist.ts';
+import type {
+  ModuleBody as topPlaylistHighqualityBody,
+  ModuleInput as topPlaylistHighqualityInput,
+} from '../../modules/top_playlist_highquality.ts';
+import type {
+  ModuleBody as topSongBody,
+  ModuleInput as topSongInput,
+} from '../../modules/top_song.ts';
+import type {
+  ModuleBody as topicDetailBody,
+  ModuleInput as topicDetailInput,
+} from '../../modules/topic_detail.ts';
+import type {
+  ModuleBody as topicDetailEventHotBody,
+  ModuleInput as topicDetailEventHotInput,
+} from '../../modules/topic_detail_event_hot.ts';
+import type {
+  ModuleBody as topicSublistBody,
+  ModuleInput as topicSublistInput,
+} from '../../modules/topic_sublist.ts';
+import type {
+  ModuleBody as toplistBody,
+  ModuleInput as toplistInput,
+} from '../../modules/toplist.ts';
+import type {
+  ModuleBody as toplistArtistBody,
+  ModuleInput as toplistArtistInput,
+} from '../../modules/toplist_artist.ts';
+import type {
+  ModuleBody as toplistDetailBody,
+  ModuleInput as toplistDetailInput,
+} from '../../modules/toplist_detail.ts';
+import type {
+  ModuleBody as ugcAlbumGetBody,
+  ModuleInput as ugcAlbumGetInput,
+} from '../../modules/ugc_album_get.ts';
+import type {
+  ModuleBody as ugcArtistGetBody,
+  ModuleInput as ugcArtistGetInput,
+} from '../../modules/ugc_artist_get.ts';
+import type {
+  ModuleBody as ugcArtistSearchBody,
+  ModuleInput as ugcArtistSearchInput,
+} from '../../modules/ugc_artist_search.ts';
+import type {
+  ModuleBody as ugcDetailBody,
+  ModuleInput as ugcDetailInput,
+} from '../../modules/ugc_detail.ts';
+import type {
+  ModuleBody as ugcMvGetBody,
+  ModuleInput as ugcMvGetInput,
+} from '../../modules/ugc_mv_get.ts';
+import type {
+  ModuleBody as ugcSongGetBody,
+  ModuleInput as ugcSongGetInput,
+} from '../../modules/ugc_song_get.ts';
+import type {
+  ModuleBody as ugcUserDevoteBody,
+  ModuleInput as ugcUserDevoteInput,
+} from '../../modules/ugc_user_devote.ts';
 import type {
   ModuleBody as userAccountBody,
   ModuleInput as userAccountInput,
 } from '../../modules/user_account.ts';
-import type { ModuleInput as userAudioInput } from '../../modules/user_audio.ts';
-import type { ModuleInput as userBindingInput } from '../../modules/user_binding.ts';
-import type { ModuleInput as userCloudInput } from '../../modules/user_cloud.ts';
+import type {
+  ModuleBody as userAudioBody,
+  ModuleInput as userAudioInput,
+} from '../../modules/user_audio.ts';
+import type {
+  ModuleBody as userBindingBody,
+  ModuleInput as userBindingInput,
+} from '../../modules/user_binding.ts';
+import type {
+  ModuleBody as userCloudBody,
+  ModuleInput as userCloudInput,
+} from '../../modules/user_cloud.ts';
 import type { ModuleInput as userCloudDelInput } from '../../modules/user_cloud_del.ts';
-import type { ModuleInput as userCloudDetailInput } from '../../modules/user_cloud_detail.ts';
-import type { ModuleInput as userCommentHistoryInput } from '../../modules/user_comment_history.ts';
+import type {
+  ModuleBody as userCloudDetailBody,
+  ModuleInput as userCloudDetailInput,
+} from '../../modules/user_cloud_detail.ts';
+import type {
+  ModuleBody as userCommentHistoryBody,
+  ModuleInput as userCommentHistoryInput,
+} from '../../modules/user_comment_history.ts';
 import type {
   ModuleBody as userDetailBody,
   ModuleInput as userDetailInput,
 } from '../../modules/user_detail.ts';
-import type { ModuleInput as userDjInput } from '../../modules/user_dj.ts';
-import type { ModuleInput as userEventInput } from '../../modules/user_event.ts';
-import type { ModuleInput as userFollowMixedInput } from '../../modules/user_follow_mixed.ts';
-import type { ModuleInput as userFollowedsInput } from '../../modules/user_followeds.ts';
-import type { ModuleInput as userFollowsInput } from '../../modules/user_follows.ts';
-import type { ModuleInput as userLevelInput } from '../../modules/user_level.ts';
-import type { ModuleInput as userMedalInput } from '../../modules/user_medal.ts';
-import type { ModuleInput as userMutualfollowGetInput } from '../../modules/user_mutualfollow_get.ts';
+import type {
+  ModuleBody as userDjBody,
+  ModuleInput as userDjInput,
+} from '../../modules/user_dj.ts';
+import type {
+  ModuleBody as userEventBody,
+  ModuleInput as userEventInput,
+} from '../../modules/user_event.ts';
+import type {
+  ModuleBody as userFollowMixedBody,
+  ModuleInput as userFollowMixedInput,
+} from '../../modules/user_follow_mixed.ts';
+import type {
+  ModuleBody as userFollowedsBody,
+  ModuleInput as userFollowedsInput,
+} from '../../modules/user_followeds.ts';
+import type {
+  ModuleBody as userFollowsBody,
+  ModuleInput as userFollowsInput,
+} from '../../modules/user_follows.ts';
+import type {
+  ModuleBody as userLevelBody,
+  ModuleInput as userLevelInput,
+} from '../../modules/user_level.ts';
+import type {
+  ModuleBody as userMedalBody,
+  ModuleInput as userMedalInput,
+} from '../../modules/user_medal.ts';
+import type {
+  ModuleBody as userMutualfollowGetBody,
+  ModuleInput as userMutualfollowGetInput,
+} from '../../modules/user_mutualfollow_get.ts';
 import type {
   ModuleBody as userPlaylistBody,
   ModuleInput as userPlaylistInput,
 } from '../../modules/user_playlist.ts';
-import type { ModuleInput as userPlaylistCollectInput } from '../../modules/user_playlist_collect.ts';
-import type { ModuleInput as userPlaylistCreateInput } from '../../modules/user_playlist_create.ts';
+import type {
+  ModuleBody as userPlaylistCollectBody,
+  ModuleInput as userPlaylistCollectInput,
+} from '../../modules/user_playlist_collect.ts';
+import type {
+  ModuleBody as userPlaylistCreateBody,
+  ModuleInput as userPlaylistCreateInput,
+} from '../../modules/user_playlist_create.ts';
 import type {
   ModuleBody as userRecordBody,
   ModuleInput as userRecordInput,
 } from '../../modules/user_record.ts';
 import type { ModuleInput as userReplacephoneInput } from '../../modules/user_replacephone.ts';
-import type { ModuleInput as userSocialStatusInput } from '../../modules/user_social_status.ts';
-import type { ModuleInput as userSocialStatusEditInput } from '../../modules/user_social_status_edit.ts';
-import type { ModuleInput as userSocialStatusRcmdInput } from '../../modules/user_social_status_rcmd.ts';
-import type { ModuleInput as userSocialStatusSupportInput } from '../../modules/user_social_status_support.ts';
-import type { ModuleInput as userSubcountInput } from '../../modules/user_subcount.ts';
+import type {
+  ModuleBody as userSocialStatusBody,
+  ModuleInput as userSocialStatusInput,
+} from '../../modules/user_social_status.ts';
+import type {
+  ModuleBody as userSocialStatusEditBody,
+  ModuleInput as userSocialStatusEditInput,
+} from '../../modules/user_social_status_edit.ts';
+import type {
+  ModuleBody as userSocialStatusRcmdBody,
+  ModuleInput as userSocialStatusRcmdInput,
+} from '../../modules/user_social_status_rcmd.ts';
+import type {
+  ModuleBody as userSocialStatusSupportBody,
+  ModuleInput as userSocialStatusSupportInput,
+} from '../../modules/user_social_status_support.ts';
+import type {
+  ModuleBody as userSubcountBody,
+  ModuleInput as userSubcountInput,
+} from '../../modules/user_subcount.ts';
 import type { ModuleInput as userUpdateInput } from '../../modules/user_update.ts';
 import type {
   ModuleBody as verifyGetQrBody,
   ModuleInput as verifyGetQrInput,
 } from '../../modules/verify_getQr.ts';
-import type { ModuleInput as verifyQrcodestatusInput } from '../../modules/verify_qrcodestatus.ts';
-import type { ModuleInput as videoCategoryListInput } from '../../modules/video_category_list.ts';
-import type { ModuleInput as videoDetailInput } from '../../modules/video_detail.ts';
-import type { ModuleInput as videoDetailInfoInput } from '../../modules/video_detail_info.ts';
-import type { ModuleInput as videoGroupInput } from '../../modules/video_group.ts';
-import type { ModuleInput as videoGroupListInput } from '../../modules/video_group_list.ts';
-import type { ModuleInput as videoSubInput } from '../../modules/video_sub.ts';
-import type { ModuleInput as videoTimelineAllInput } from '../../modules/video_timeline_all.ts';
-import type { ModuleInput as videoTimelineRecommendInput } from '../../modules/video_timeline_recommend.ts';
-import type { ModuleInput as videoUrlInput } from '../../modules/video_url.ts';
-import type { ModuleInput as vipGrowthpointInput } from '../../modules/vip_growthpoint.ts';
-import type { ModuleInput as vipGrowthpointDetailsInput } from '../../modules/vip_growthpoint_details.ts';
+import type {
+  ModuleBody as verifyQrcodestatusBody,
+  ModuleInput as verifyQrcodestatusInput,
+} from '../../modules/verify_qrcodestatus.ts';
+import type {
+  ModuleBody as videoCategoryListBody,
+  ModuleInput as videoCategoryListInput,
+} from '../../modules/video_category_list.ts';
+import type {
+  ModuleBody as videoDetailBody,
+  ModuleInput as videoDetailInput,
+} from '../../modules/video_detail.ts';
+import type {
+  ModuleBody as videoDetailInfoBody,
+  ModuleInput as videoDetailInfoInput,
+} from '../../modules/video_detail_info.ts';
+import type {
+  ModuleBody as videoGroupBody,
+  ModuleInput as videoGroupInput,
+} from '../../modules/video_group.ts';
+import type {
+  ModuleBody as videoGroupListBody,
+  ModuleInput as videoGroupListInput,
+} from '../../modules/video_group_list.ts';
+import type {
+  ModuleBody as videoSubBody,
+  ModuleInput as videoSubInput,
+} from '../../modules/video_sub.ts';
+import type {
+  ModuleBody as videoTimelineAllBody,
+  ModuleInput as videoTimelineAllInput,
+} from '../../modules/video_timeline_all.ts';
+import type {
+  ModuleBody as videoTimelineRecommendBody,
+  ModuleInput as videoTimelineRecommendInput,
+} from '../../modules/video_timeline_recommend.ts';
+import type {
+  ModuleBody as videoUrlBody,
+  ModuleInput as videoUrlInput,
+} from '../../modules/video_url.ts';
+import type {
+  ModuleBody as vipGrowthpointBody,
+  ModuleInput as vipGrowthpointInput,
+} from '../../modules/vip_growthpoint.ts';
+import type {
+  ModuleBody as vipGrowthpointDetailsBody,
+  ModuleInput as vipGrowthpointDetailsInput,
+} from '../../modules/vip_growthpoint_details.ts';
 import type { ModuleInput as vipGrowthpointGetInput } from '../../modules/vip_growthpoint_get.ts';
 import type {
   ModuleBody as vipInfoBody,
@@ -475,28 +1240,61 @@ import type {
   ModuleBody as vipInfoV2Body,
   ModuleInput as vipInfoV2Input,
 } from '../../modules/vip_info_v2.ts';
-import type { ModuleInput as vipTasksInput } from '../../modules/vip_tasks.ts';
-import type { ModuleInput as vipTimemachineInput } from '../../modules/vip_timemachine.ts';
+import type {
+  ModuleBody as vipTasksBody,
+  ModuleInput as vipTasksInput,
+} from '../../modules/vip_tasks.ts';
+import type {
+  ModuleBody as vipTimemachineBody,
+  ModuleInput as vipTimemachineInput,
+} from '../../modules/vip_timemachine.ts';
 import type { ModuleInput as voiceDeleteInput } from '../../modules/voice_delete.ts';
 import type { ModuleInput as voiceDetailInput } from '../../modules/voice_detail.ts';
-import type { ModuleInput as voiceLyricInput } from '../../modules/voice_lyric.ts';
+import type {
+  ModuleBody as voiceLyricBody,
+  ModuleInput as voiceLyricInput,
+} from '../../modules/voice_lyric.ts';
 import type { ModuleInput as voiceUploadInput } from '../../modules/voice_upload.ts';
 import type { ModuleInput as voicelistDetailInput } from '../../modules/voicelist_detail.ts';
 import type { ModuleInput as voicelistListInput } from '../../modules/voicelist_list.ts';
-import type { ModuleInput as voicelistListSearchInput } from '../../modules/voicelist_list_search.ts';
-import type { ModuleInput as voicelistSearchInput } from '../../modules/voicelist_search.ts';
+import type {
+  ModuleBody as voicelistListSearchBody,
+  ModuleInput as voicelistListSearchInput,
+} from '../../modules/voicelist_list_search.ts';
+import type {
+  ModuleBody as voicelistSearchBody,
+  ModuleInput as voicelistSearchInput,
+} from '../../modules/voicelist_search.ts';
 import type { ModuleInput as voicelistTransInput } from '../../modules/voicelist_trans.ts';
-import type { ModuleInput as yunbeiInput } from '../../modules/yunbei.ts';
+import type {
+  ModuleBody as yunbeiBody,
+  ModuleInput as yunbeiInput,
+} from '../../modules/yunbei.ts';
 import type { ModuleInput as yunbeiExpenseInput } from '../../modules/yunbei_expense.ts';
-import type { ModuleInput as yunbeiInfoInput } from '../../modules/yunbei_info.ts';
+import type {
+  ModuleBody as yunbeiInfoBody,
+  ModuleInput as yunbeiInfoInput,
+} from '../../modules/yunbei_info.ts';
 import type { ModuleInput as yunbeiRcmdSongInput } from '../../modules/yunbei_rcmd_song.ts';
-import type { ModuleInput as yunbeiRcmdSongHistoryInput } from '../../modules/yunbei_rcmd_song_history.ts';
+import type {
+  ModuleBody as yunbeiRcmdSongHistoryBody,
+  ModuleInput as yunbeiRcmdSongHistoryInput,
+} from '../../modules/yunbei_rcmd_song_history.ts';
 import type { ModuleInput as yunbeiReceiptInput } from '../../modules/yunbei_receipt.ts';
 import type { ModuleInput as yunbeiSignInput } from '../../modules/yunbei_sign.ts';
 import type { ModuleInput as yunbeiTaskFinishInput } from '../../modules/yunbei_task_finish.ts';
-import type { ModuleInput as yunbeiTasksInput } from '../../modules/yunbei_tasks.ts';
-import type { ModuleInput as yunbeiTasksTodoInput } from '../../modules/yunbei_tasks_todo.ts';
-import type { ModuleInput as yunbeiTodayInput } from '../../modules/yunbei_today.ts';
+import type {
+  ModuleBody as yunbeiTasksBody,
+  ModuleInput as yunbeiTasksInput,
+} from '../../modules/yunbei_tasks.ts';
+import type {
+  ModuleBody as yunbeiTasksTodoBody,
+  ModuleInput as yunbeiTasksTodoInput,
+} from '../../modules/yunbei_tasks_todo.ts';
+import type {
+  ModuleBody as yunbeiTodayBody,
+  ModuleInput as yunbeiTodayInput,
+} from '../../modules/yunbei_today.ts';
 import type { ModuleResponse } from '../runtime.ts';
 
 export const generatedModuleIdentifiers = [
@@ -1221,7 +2019,7 @@ export interface GeneratedModuleContractMap {
   aidj_content_rcmd: {
     input: aidjContentRcmdInput;
     query: aidjContentRcmdInput;
-    response: ModuleResponse;
+    response: ModuleResponse<aidjContentRcmdBody>;
   };
   album: {
     input: albumInput;
@@ -1231,42 +2029,42 @@ export interface GeneratedModuleContractMap {
   album_detail: {
     input: albumDetailInput;
     query: albumDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumDetailBody>;
   };
   album_detail_dynamic: {
     input: albumDetailDynamicInput;
     query: albumDetailDynamicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumDetailDynamicBody>;
   };
   album_list: {
     input: albumListInput;
     query: albumListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumListBody>;
   };
   album_list_style: {
     input: albumListStyleInput;
     query: albumListStyleInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumListStyleBody>;
   };
   album_new: {
     input: albumNewInput;
     query: albumNewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumNewBody>;
   };
   album_newest: {
     input: albumNewestInput;
     query: albumNewestInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumNewestBody>;
   };
   album_privilege: {
     input: albumPrivilegeInput;
     query: albumPrivilegeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumPrivilegeBody>;
   };
   album_songsaleboard: {
     input: albumSongsaleboardInput;
     query: albumSongsaleboardInput;
-    response: ModuleResponse;
+    response: ModuleResponse<albumSongsaleboardBody>;
   };
   album_sub: {
     input: albumSubInput;
@@ -1286,7 +2084,7 @@ export interface GeneratedModuleContractMap {
   artist_desc: {
     input: artistDescInput;
     query: artistDescInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistDescBody>;
   };
   artist_detail: {
     input: artistDetailInput;
@@ -1296,42 +2094,42 @@ export interface GeneratedModuleContractMap {
   artist_detail_dynamic: {
     input: artistDetailDynamicInput;
     query: artistDetailDynamicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistDetailDynamicBody>;
   };
   artist_fans: {
     input: artistFansInput;
     query: artistFansInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistFansBody>;
   };
   artist_follow_count: {
     input: artistFollowCountInput;
     query: artistFollowCountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistFollowCountBody>;
   };
   artist_list: {
     input: artistListInput;
     query: artistListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistListBody>;
   };
   artist_mv: {
     input: artistMvInput;
     query: artistMvInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistMvBody>;
   };
   artist_new_mv: {
     input: artistNewMvInput;
     query: artistNewMvInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistNewMvBody>;
   };
   artist_new_song: {
     input: artistNewSongInput;
     query: artistNewSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistNewSongBody>;
   };
   artist_songs: {
     input: artistSongsInput;
     query: artistSongsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistSongsBody>;
   };
   artist_sub: {
     input: artistSubInput;
@@ -1351,7 +2149,7 @@ export interface GeneratedModuleContractMap {
   artist_video: {
     input: artistVideoInput;
     query: artistVideoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<artistVideoBody>;
   };
   artists: {
     input: artistsInput;
@@ -1361,44 +2159,48 @@ export interface GeneratedModuleContractMap {
   audio_match: {
     input: audioMatchInput;
     query: audioMatchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<audioMatchBody>;
   };
   avatar_upload: {
     input: avatarUploadInput;
     query: avatarUploadInput;
     response: ModuleResponse;
   };
-  banner: { input: bannerInput; query: bannerInput; response: ModuleResponse };
+  banner: {
+    input: bannerInput;
+    query: bannerInput;
+    response: ModuleResponse<bannerBody>;
+  };
   batch: { input: batchInput; query: batchInput; response: ModuleResponse };
   broadcast_category_region_get: {
     input: broadcastCategoryRegionGetInput;
     query: broadcastCategoryRegionGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<broadcastCategoryRegionGetBody>;
   };
   broadcast_channel_collect_list: {
     input: broadcastChannelCollectListInput;
     query: broadcastChannelCollectListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<broadcastChannelCollectListBody>;
   };
   broadcast_channel_currentinfo: {
     input: broadcastChannelCurrentinfoInput;
     query: broadcastChannelCurrentinfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<broadcastChannelCurrentinfoBody>;
   };
   broadcast_channel_list: {
     input: broadcastChannelListInput;
     query: broadcastChannelListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<broadcastChannelListBody>;
   };
   broadcast_sub: {
     input: broadcastSubInput;
     query: broadcastSubInput;
-    response: ModuleResponse;
+    response: ModuleResponse<broadcastSubBody>;
   };
   calendar: {
     input: calendarInput;
     query: calendarInput;
-    response: ModuleResponse;
+    response: ModuleResponse<calendarBody>;
   };
   captcha_sent: {
     input: captchaSentInput;
@@ -1413,12 +2215,12 @@ export interface GeneratedModuleContractMap {
   cellphone_existence_check: {
     input: cellphoneExistenceCheckInput;
     query: cellphoneExistenceCheckInput;
-    response: ModuleResponse;
+    response: ModuleResponse<cellphoneExistenceCheckBody>;
   };
   check_music: {
     input: checkMusicInput;
     query: checkMusicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<checkMusicBody>;
   };
   cloud: { input: cloudInput; query: cloudInput; response: ModuleResponse };
   cloud_import: {
@@ -1429,7 +2231,7 @@ export interface GeneratedModuleContractMap {
   cloud_match: {
     input: cloudMatchInput;
     query: cloudMatchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<cloudMatchBody>;
   };
   cloudsearch: {
     input: cloudsearchInput;
@@ -1444,67 +2246,67 @@ export interface GeneratedModuleContractMap {
   comment_album: {
     input: commentAlbumInput;
     query: commentAlbumInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentAlbumBody>;
   };
   comment_dj: {
     input: commentDjInput;
     query: commentDjInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentDjBody>;
   };
   comment_event: {
     input: commentEventInput;
     query: commentEventInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentEventBody>;
   };
   comment_floor: {
     input: commentFloorInput;
     query: commentFloorInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentFloorBody>;
   };
   comment_hot: {
     input: commentHotInput;
     query: commentHotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentHotBody>;
   };
   comment_hug_list: {
     input: commentHugListInput;
     query: commentHugListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentHugListBody>;
   };
   comment_like: {
     input: commentLikeInput;
     query: commentLikeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentLikeBody>;
   };
   comment_music: {
     input: commentMusicInput;
     query: commentMusicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentMusicBody>;
   };
   comment_mv: {
     input: commentMvInput;
     query: commentMvInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentMvBody>;
   };
   comment_new: {
     input: commentNewInput;
     query: commentNewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentNewBody>;
   };
   comment_playlist: {
     input: commentPlaylistInput;
     query: commentPlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentPlaylistBody>;
   };
   comment_video: {
     input: commentVideoInput;
     query: commentVideoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<commentVideoBody>;
   };
   countries_code_list: {
     input: countriesCodeListInput;
     query: countriesCodeListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<countriesCodeListBody>;
   };
   daily_signin: {
     input: dailySigninInput;
@@ -1514,7 +2316,7 @@ export interface GeneratedModuleContractMap {
   digitalAlbum_detail: {
     input: digitalAlbumDetailInput;
     query: digitalAlbumDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<digitalAlbumDetailBody>;
   };
   digitalAlbum_ordering: {
     input: digitalAlbumOrderingInput;
@@ -1524,160 +2326,172 @@ export interface GeneratedModuleContractMap {
   digitalAlbum_purchased: {
     input: digitalAlbumPurchasedInput;
     query: digitalAlbumPurchasedInput;
-    response: ModuleResponse;
+    response: ModuleResponse<digitalAlbumPurchasedBody>;
   };
   digitalAlbum_sales: {
     input: digitalAlbumSalesInput;
     query: digitalAlbumSalesInput;
-    response: ModuleResponse;
+    response: ModuleResponse<digitalAlbumSalesBody>;
   };
   dj_banner: {
     input: djBannerInput;
     query: djBannerInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djBannerBody>;
   };
   dj_category_excludehot: {
     input: djCategoryExcludehotInput;
     query: djCategoryExcludehotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djCategoryExcludehotBody>;
   };
   dj_category_recommend: {
     input: djCategoryRecommendInput;
     query: djCategoryRecommendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djCategoryRecommendBody>;
   };
   dj_catelist: {
     input: djCatelistInput;
     query: djCatelistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djCatelistBody>;
   };
   dj_detail: {
     input: djDetailInput;
     query: djDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDetailBody>;
   };
   dj_difm_all_style_channel: {
     input: djDifmAllStyleChannelInput;
     query: djDifmAllStyleChannelInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDifmAllStyleChannelBody>;
   };
   dj_difm_channel_subscribe: {
     input: djDifmChannelSubscribeInput;
     query: djDifmChannelSubscribeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDifmChannelSubscribeBody>;
   };
   dj_difm_channel_unsubscribe: {
     input: djDifmChannelUnsubscribeInput;
     query: djDifmChannelUnsubscribeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDifmChannelUnsubscribeBody>;
   };
   dj_difm_playing_tracks_list: {
     input: djDifmPlayingTracksListInput;
     query: djDifmPlayingTracksListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDifmPlayingTracksListBody>;
   };
   dj_difm_subscribe_channels_get: {
     input: djDifmSubscribeChannelsGetInput;
     query: djDifmSubscribeChannelsGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djDifmSubscribeChannelsGetBody>;
   };
-  dj_hot: { input: djHotInput; query: djHotInput; response: ModuleResponse };
+  dj_hot: {
+    input: djHotInput;
+    query: djHotInput;
+    response: ModuleResponse<djHotBody>;
+  };
   dj_paygift: {
     input: djPaygiftInput;
     query: djPaygiftInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djPaygiftBody>;
   };
   dj_personalize_recommend: {
     input: djPersonalizeRecommendInput;
     query: djPersonalizeRecommendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djPersonalizeRecommendBody>;
   };
   dj_program: {
     input: djProgramInput;
     query: djProgramInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djProgramBody>;
   };
   dj_program_detail: {
     input: djProgramDetailInput;
     query: djProgramDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djProgramDetailBody>;
   };
   dj_program_toplist: {
     input: djProgramToplistInput;
     query: djProgramToplistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djProgramToplistBody>;
   };
   dj_program_toplist_hours: {
     input: djProgramToplistHoursInput;
     query: djProgramToplistHoursInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djProgramToplistHoursBody>;
   };
   dj_radio_hot: {
     input: djRadioHotInput;
     query: djRadioHotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djRadioHotBody>;
   };
   dj_recommend: {
     input: djRecommendInput;
     query: djRecommendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djRecommendBody>;
   };
   dj_recommend_type: {
     input: djRecommendTypeInput;
     query: djRecommendTypeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djRecommendTypeBody>;
   };
-  dj_sub: { input: djSubInput; query: djSubInput; response: ModuleResponse };
+  dj_sub: {
+    input: djSubInput;
+    query: djSubInput;
+    response: ModuleResponse<djSubBody>;
+  };
   dj_sublist: {
     input: djSublistInput;
     query: djSublistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djSublistBody>;
   };
   dj_subscriber: {
     input: djSubscriberInput;
     query: djSubscriberInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djSubscriberBody>;
   };
   dj_today_perfered: {
     input: djTodayPerferedInput;
     query: djTodayPerferedInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djTodayPerferedBody>;
   };
   dj_toplist: {
     input: djToplistInput;
     query: djToplistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djToplistBody>;
   };
   dj_toplist_hours: {
     input: djToplistHoursInput;
     query: djToplistHoursInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djToplistHoursBody>;
   };
   dj_toplist_newcomer: {
     input: djToplistNewcomerInput;
     query: djToplistNewcomerInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djToplistNewcomerBody>;
   };
   dj_toplist_pay: {
     input: djToplistPayInput;
     query: djToplistPayInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djToplistPayBody>;
   };
   dj_toplist_popular: {
     input: djToplistPopularInput;
     query: djToplistPopularInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djToplistPopularBody>;
   };
   djRadio_top: {
     input: djRadioTopInput;
     query: djRadioTopInput;
-    response: ModuleResponse;
+    response: ModuleResponse<djRadioTopBody>;
   };
-  event: { input: eventInput; query: eventInput; response: ModuleResponse };
+  event: {
+    input: eventInput;
+    query: eventInput;
+    response: ModuleResponse<eventBody>;
+  };
   event_del: {
     input: eventDelInput;
     query: eventDelInput;
-    response: ModuleResponse;
+    response: ModuleResponse<eventDelBody>;
   };
   event_forward: {
     input: eventForwardInput;
@@ -1687,38 +2501,42 @@ export interface GeneratedModuleContractMap {
   fm_trash: {
     input: fmTrashInput;
     query: fmTrashInput;
-    response: ModuleResponse;
+    response: ModuleResponse<fmTrashBody>;
   };
-  follow: { input: followInput; query: followInput; response: ModuleResponse };
+  follow: {
+    input: followInput;
+    query: followInput;
+    response: ModuleResponse<followBody>;
+  };
   get_userids: {
     input: getUseridsInput;
     query: getUseridsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<getUseridsBody>;
   };
   history_recommend_songs: {
     input: historyRecommendSongsInput;
     query: historyRecommendSongsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<historyRecommendSongsBody>;
   };
   history_recommend_songs_detail: {
     input: historyRecommendSongsDetailInput;
     query: historyRecommendSongsDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<historyRecommendSongsDetailBody>;
   };
   homepage_block_page: {
     input: homepageBlockPageInput;
     query: homepageBlockPageInput;
-    response: ModuleResponse;
+    response: ModuleResponse<homepageBlockPageBody>;
   };
   homepage_dragon_ball: {
     input: homepageDragonBallInput;
     query: homepageDragonBallInput;
-    response: ModuleResponse;
+    response: ModuleResponse<homepageDragonBallBody>;
   };
   hot_topic: {
     input: hotTopicInput;
     query: hotTopicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<hotTopicBody>;
   };
   hug_comment: {
     input: hugCommentInput;
@@ -1733,7 +2551,7 @@ export interface GeneratedModuleContractMap {
   inner_version: {
     input: innerVersionInput;
     query: innerVersionInput;
-    response: ModuleResponse;
+    response: ModuleResponse<innerVersionBody>;
   };
   like: {
     input: likeInput;
@@ -1748,72 +2566,72 @@ export interface GeneratedModuleContractMap {
   listen_data_realtime_report: {
     input: listenDataRealtimeReportInput;
     query: listenDataRealtimeReportInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listenDataRealtimeReportBody>;
   };
   listen_data_report: {
     input: listenDataReportInput;
     query: listenDataReportInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listenDataReportBody>;
   };
   listen_data_today_song: {
     input: listenDataTodaySongInput;
     query: listenDataTodaySongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listenDataTodaySongBody>;
   };
   listen_data_total: {
     input: listenDataTotalInput;
     query: listenDataTotalInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listenDataTotalBody>;
   };
   listen_data_year_report: {
     input: listenDataYearReportInput;
     query: listenDataYearReportInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listenDataYearReportBody>;
   };
   listentogether_accept: {
     input: listentogetherAcceptInput;
     query: listentogetherAcceptInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherAcceptBody>;
   };
   listentogether_end: {
     input: listentogetherEndInput;
     query: listentogetherEndInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherEndBody>;
   };
   listentogether_heatbeat: {
     input: listentogetherHeatbeatInput;
     query: listentogetherHeatbeatInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherHeatbeatBody>;
   };
   listentogether_play_command: {
     input: listentogetherPlayCommandInput;
     query: listentogetherPlayCommandInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherPlayCommandBody>;
   };
   listentogether_room_check: {
     input: listentogetherRoomCheckInput;
     query: listentogetherRoomCheckInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherRoomCheckBody>;
   };
   listentogether_room_create: {
     input: listentogetherRoomCreateInput;
     query: listentogetherRoomCreateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherRoomCreateBody>;
   };
   listentogether_status: {
     input: listentogetherStatusInput;
     query: listentogetherStatusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherStatusBody>;
   };
   listentogether_sync_list_command: {
     input: listentogetherSyncListCommandInput;
     query: listentogetherSyncListCommandInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherSyncListCommandBody>;
   };
   listentogether_sync_playlist_get: {
     input: listentogetherSyncPlaylistGetInput;
     query: listentogetherSyncPlaylistGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<listentogetherSyncPlaylistGetBody>;
   };
   login: { input: loginInput; query: loginInput; response: ModuleResponse };
   login_cellphone: {
@@ -1851,7 +2669,11 @@ export interface GeneratedModuleContractMap {
     query: logoutInput;
     response: ModuleResponse<logoutBody>;
   };
-  lyric: { input: lyricInput; query: lyricInput; response: ModuleResponse };
+  lyric: {
+    input: lyricInput;
+    query: lyricInput;
+    response: ModuleResponse<lyricBody>;
+  };
   lyric_new: {
     input: lyricNewInput;
     query: lyricNewInput;
@@ -1860,57 +2682,57 @@ export interface GeneratedModuleContractMap {
   mlog_music_rcmd: {
     input: mlogMusicRcmdInput;
     query: mlogMusicRcmdInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mlogMusicRcmdBody>;
   };
   mlog_to_video: {
     input: mlogToVideoInput;
     query: mlogToVideoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mlogToVideoBody>;
   };
   mlog_url: {
     input: mlogUrlInput;
     query: mlogUrlInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mlogUrlBody>;
   };
   msg_comments: {
     input: msgCommentsInput;
     query: msgCommentsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgCommentsBody>;
   };
   msg_forwards: {
     input: msgForwardsInput;
     query: msgForwardsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgForwardsBody>;
   };
   msg_notices: {
     input: msgNoticesInput;
     query: msgNoticesInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgNoticesBody>;
   };
   msg_private: {
     input: msgPrivateInput;
     query: msgPrivateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgPrivateBody>;
   };
   msg_private_history: {
     input: msgPrivateHistoryInput;
     query: msgPrivateHistoryInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgPrivateHistoryBody>;
   };
   msg_recentcontact: {
     input: msgRecentcontactInput;
     query: msgRecentcontactInput;
-    response: ModuleResponse;
+    response: ModuleResponse<msgRecentcontactBody>;
   };
   music_first_listen_info: {
     input: musicFirstListenInfoInput;
     query: musicFirstListenInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicFirstListenInfoBody>;
   };
   musician_cloudbean: {
     input: musicianCloudbeanInput;
     query: musicianCloudbeanInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicianCloudbeanBody>;
   };
   musician_cloudbean_obtain: {
     input: musicianCloudbeanObtainInput;
@@ -1920,12 +2742,12 @@ export interface GeneratedModuleContractMap {
   musician_data_overview: {
     input: musicianDataOverviewInput;
     query: musicianDataOverviewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicianDataOverviewBody>;
   };
   musician_play_trend: {
     input: musicianPlayTrendInput;
     query: musicianPlayTrendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicianPlayTrendBody>;
   };
   musician_sign: {
     input: musicianSignInput;
@@ -1935,90 +2757,102 @@ export interface GeneratedModuleContractMap {
   musician_tasks: {
     input: musicianTasksInput;
     query: musicianTasksInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicianTasksBody>;
   };
   musician_tasks_new: {
     input: musicianTasksNewInput;
     query: musicianTasksNewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<musicianTasksNewBody>;
   };
-  mv_all: { input: mvAllInput; query: mvAllInput; response: ModuleResponse };
+  mv_all: {
+    input: mvAllInput;
+    query: mvAllInput;
+    response: ModuleResponse<mvAllBody>;
+  };
   mv_detail: {
     input: mvDetailInput;
     query: mvDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mvDetailBody>;
   };
   mv_detail_info: {
     input: mvDetailInfoInput;
     query: mvDetailInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mvDetailInfoBody>;
   };
   mv_exclusive_rcmd: {
     input: mvExclusiveRcmdInput;
     query: mvExclusiveRcmdInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mvExclusiveRcmdBody>;
   };
   mv_first: {
     input: mvFirstInput;
     query: mvFirstInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mvFirstBody>;
   };
-  mv_sub: { input: mvSubInput; query: mvSubInput; response: ModuleResponse };
+  mv_sub: {
+    input: mvSubInput;
+    query: mvSubInput;
+    response: ModuleResponse<mvSubBody>;
+  };
   mv_sublist: {
     input: mvSublistInput;
     query: mvSublistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<mvSublistBody>;
   };
-  mv_url: { input: mvUrlInput; query: mvUrlInput; response: ModuleResponse };
+  mv_url: {
+    input: mvUrlInput;
+    query: mvUrlInput;
+    response: ModuleResponse<mvUrlBody>;
+  };
   nickname_check: {
     input: nicknameCheckInput;
     query: nicknameCheckInput;
-    response: ModuleResponse;
+    response: ModuleResponse<nicknameCheckBody>;
   };
   personal_fm: {
     input: personalFmInput;
     query: personalFmInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalFmBody>;
   };
   personal_fm_mode: {
     input: personalFmModeInput;
     query: personalFmModeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalFmModeBody>;
   };
   personalized: {
     input: personalizedInput;
     query: personalizedInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedBody>;
   };
   personalized_djprogram: {
     input: personalizedDjprogramInput;
     query: personalizedDjprogramInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedDjprogramBody>;
   };
   personalized_mv: {
     input: personalizedMvInput;
     query: personalizedMvInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedMvBody>;
   };
   personalized_newsong: {
     input: personalizedNewsongInput;
     query: personalizedNewsongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedNewsongBody>;
   };
   personalized_privatecontent: {
     input: personalizedPrivatecontentInput;
     query: personalizedPrivatecontentInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedPrivatecontentBody>;
   };
   personalized_privatecontent_list: {
     input: personalizedPrivatecontentListInput;
     query: personalizedPrivatecontentListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<personalizedPrivatecontentListBody>;
   };
   pl_count: {
     input: plCountInput;
     query: plCountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<plCountBody>;
   };
   playlist_catlist: {
     input: playlistCatlistInput;
@@ -2053,37 +2887,37 @@ export interface GeneratedModuleContractMap {
   playlist_detail_dynamic: {
     input: playlistDetailDynamicInput;
     query: playlistDetailDynamicInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistDetailDynamicBody>;
   };
   playlist_detail_rcmd_get: {
     input: playlistDetailRcmdGetInput;
     query: playlistDetailRcmdGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistDetailRcmdGetBody>;
   };
   playlist_highquality_tags: {
     input: playlistHighqualityTagsInput;
     query: playlistHighqualityTagsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistHighqualityTagsBody>;
   };
   playlist_hot: {
     input: playlistHotInput;
     query: playlistHotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistHotBody>;
   };
   playlist_import_name_task_create: {
     input: playlistImportNameTaskCreateInput;
     query: playlistImportNameTaskCreateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistImportNameTaskCreateBody>;
   };
   playlist_import_task_status: {
     input: playlistImportTaskStatusInput;
     query: playlistImportTaskStatusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistImportTaskStatusBody>;
   };
   playlist_mylike: {
     input: playlistMylikeInput;
     query: playlistMylikeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistMylikeBody>;
   };
   playlist_name_update: {
     input: playlistNameUpdateInput;
@@ -2108,7 +2942,7 @@ export interface GeneratedModuleContractMap {
   playlist_subscribers: {
     input: playlistSubscribersInput;
     query: playlistSubscribersInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistSubscribersBody>;
   };
   playlist_tags_update: {
     input: playlistTagsUpdateInput;
@@ -2118,7 +2952,7 @@ export interface GeneratedModuleContractMap {
   playlist_track_add: {
     input: playlistTrackAddInput;
     query: playlistTrackAddInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistTrackAddBody>;
   };
   playlist_track_all: {
     input: playlistTrackAllInput;
@@ -2128,7 +2962,7 @@ export interface GeneratedModuleContractMap {
   playlist_track_delete: {
     input: playlistTrackDeleteInput;
     query: playlistTrackDeleteInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistTrackDeleteBody>;
   };
   playlist_tracks: {
     input: playlistTracksInput;
@@ -2138,38 +2972,38 @@ export interface GeneratedModuleContractMap {
   playlist_update: {
     input: playlistUpdateInput;
     query: playlistUpdateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistUpdateBody>;
   };
   playlist_update_playcount: {
     input: playlistUpdatePlaycountInput;
     query: playlistUpdatePlaycountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistUpdatePlaycountBody>;
   };
   playlist_video_recent: {
     input: playlistVideoRecentInput;
     query: playlistVideoRecentInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playlistVideoRecentBody>;
   };
   playmode_intelligence_list: {
     input: playmodeIntelligenceListInput;
     query: playmodeIntelligenceListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<playmodeIntelligenceListBody>;
   };
   program_recommend: {
     input: programRecommendInput;
     query: programRecommendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<programRecommendBody>;
   };
   rebind: { input: rebindInput; query: rebindInput; response: ModuleResponse };
   recent_listen_list: {
     input: recentListenListInput;
     query: recentListenListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recentListenListBody>;
   };
   recommend_resource: {
     input: recommendResourceInput;
     query: recommendResourceInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recommendResourceBody>;
   };
   recommend_songs: {
     input: recommendSongsInput;
@@ -2179,42 +3013,42 @@ export interface GeneratedModuleContractMap {
   recommend_songs_dislike: {
     input: recommendSongsDislikeInput;
     query: recommendSongsDislikeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recommendSongsDislikeBody>;
   };
   record_recent_album: {
     input: recordRecentAlbumInput;
     query: recordRecentAlbumInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentAlbumBody>;
   };
   record_recent_dj: {
     input: recordRecentDjInput;
     query: recordRecentDjInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentDjBody>;
   };
   record_recent_playlist: {
     input: recordRecentPlaylistInput;
     query: recordRecentPlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentPlaylistBody>;
   };
   record_recent_song: {
     input: recordRecentSongInput;
     query: recordRecentSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentSongBody>;
   };
   record_recent_video: {
     input: recordRecentVideoInput;
     query: recordRecentVideoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentVideoBody>;
   };
   record_recent_voice: {
     input: recordRecentVoiceInput;
     query: recordRecentVoiceInput;
-    response: ModuleResponse;
+    response: ModuleResponse<recordRecentVoiceBody>;
   };
   register_anonimous: {
     input: registerAnonimousInput;
     query: registerAnonimousInput;
-    response: ModuleResponse;
+    response: ModuleResponse<registerAnonimousBody>;
   };
   register_cellphone: {
     input: registerCellphoneInput;
@@ -2224,7 +3058,7 @@ export interface GeneratedModuleContractMap {
   related_allvideo: {
     input: relatedAllvideoInput;
     query: relatedAllvideoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<relatedAllvideoBody>;
   };
   related_playlist: {
     input: relatedPlaylistInput;
@@ -2234,38 +3068,42 @@ export interface GeneratedModuleContractMap {
   resource_like: {
     input: resourceLikeInput;
     query: resourceLikeInput;
-    response: ModuleResponse;
+    response: ModuleResponse<resourceLikeBody>;
   };
   scrobble: {
     input: scrobbleInput;
     query: scrobbleInput;
     response: ModuleResponse<scrobbleBody>;
   };
-  search: { input: searchInput; query: searchInput; response: ModuleResponse };
+  search: {
+    input: searchInput;
+    query: searchInput;
+    response: ModuleResponse<searchBody>;
+  };
   search_default: {
     input: searchDefaultInput;
     query: searchDefaultInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchDefaultBody>;
   };
   search_hot: {
     input: searchHotInput;
     query: searchHotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchHotBody>;
   };
   search_hot_detail: {
     input: searchHotDetailInput;
     query: searchHotDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchHotDetailBody>;
   };
   search_match: {
     input: searchMatchInput;
     query: searchMatchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchMatchBody>;
   };
   search_multimatch: {
     input: searchMultimatchInput;
     query: searchMultimatchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<searchMultimatchBody>;
   };
   search_suggest: {
     input: searchSuggestInput;
@@ -2295,7 +3133,7 @@ export interface GeneratedModuleContractMap {
   setting: {
     input: settingInput;
     query: settingInput;
-    response: ModuleResponse;
+    response: ModuleResponse<settingBody>;
   };
   share_resource: {
     input: shareResourceInput;
@@ -2305,48 +3143,52 @@ export interface GeneratedModuleContractMap {
   sheet_list: {
     input: sheetListInput;
     query: sheetListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<sheetListBody>;
   };
   sheet_preview: {
     input: sheetPreviewInput;
     query: sheetPreviewInput;
-    response: ModuleResponse;
+    response: ModuleResponse<sheetPreviewBody>;
   };
   sign_happy_info: {
     input: signHappyInfoInput;
     query: signHappyInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<signHappyInfoBody>;
   };
   signin_progress: {
     input: signinProgressInput;
     query: signinProgressInput;
-    response: ModuleResponse;
+    response: ModuleResponse<signinProgressBody>;
   };
   simi_artist: {
     input: simiArtistInput;
     query: simiArtistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<simiArtistBody>;
   };
-  simi_mv: { input: simiMvInput; query: simiMvInput; response: ModuleResponse };
+  simi_mv: {
+    input: simiMvInput;
+    query: simiMvInput;
+    response: ModuleResponse<simiMvBody>;
+  };
   simi_playlist: {
     input: simiPlaylistInput;
     query: simiPlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<simiPlaylistBody>;
   };
   simi_song: {
     input: simiSongInput;
     query: simiSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<simiSongBody>;
   };
   simi_user: {
     input: simiUserInput;
     query: simiUserInput;
-    response: ModuleResponse;
+    response: ModuleResponse<simiUserBody>;
   };
   song_chorus: {
     input: songChorusInput;
     query: songChorusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songChorusBody>;
   };
   song_detail: {
     input: songDetailInput;
@@ -2356,12 +3198,12 @@ export interface GeneratedModuleContractMap {
   song_downlist: {
     input: songDownlistInput;
     query: songDownlistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songDownlistBody>;
   };
   song_download_url: {
     input: songDownloadUrlInput;
     query: songDownloadUrlInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songDownloadUrlBody>;
   };
   song_download_url_v1: {
     input: songDownloadUrlV1Input;
@@ -2371,42 +3213,42 @@ export interface GeneratedModuleContractMap {
   song_dynamic_cover: {
     input: songDynamicCoverInput;
     query: songDynamicCoverInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songDynamicCoverBody>;
   };
   song_like_check: {
     input: songLikeCheckInput;
     query: songLikeCheckInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songLikeCheckBody>;
   };
   song_lyrics_mark: {
     input: songLyricsMarkInput;
     query: songLyricsMarkInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songLyricsMarkBody>;
   };
   song_lyrics_mark_add: {
     input: songLyricsMarkAddInput;
     query: songLyricsMarkAddInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songLyricsMarkAddBody>;
   };
   song_lyrics_mark_del: {
     input: songLyricsMarkDelInput;
     query: songLyricsMarkDelInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songLyricsMarkDelBody>;
   };
   song_lyrics_mark_user_page: {
     input: songLyricsMarkUserPageInput;
     query: songLyricsMarkUserPageInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songLyricsMarkUserPageBody>;
   };
   song_monthdownlist: {
     input: songMonthdownlistInput;
     query: songMonthdownlistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songMonthdownlistBody>;
   };
   song_music_detail: {
     input: songMusicDetailInput;
     query: songMusicDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songMusicDetailBody>;
   };
   song_order_update: {
     input: songOrderUpdateInput;
@@ -2416,22 +3258,22 @@ export interface GeneratedModuleContractMap {
   song_purchased: {
     input: songPurchasedInput;
     query: songPurchasedInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songPurchasedBody>;
   };
   song_red_count: {
     input: songRedCountInput;
     query: songRedCountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songRedCountBody>;
   };
   song_singledownlist: {
     input: songSingledownlistInput;
     query: songSingledownlistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songSingledownlistBody>;
   };
   song_url: {
     input: songUrlInput;
     query: songUrlInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songUrlBody>;
   };
   song_url_v1: {
     input: songUrlV1Input;
@@ -2441,148 +3283,152 @@ export interface GeneratedModuleContractMap {
   song_wiki_summary: {
     input: songWikiSummaryInput;
     query: songWikiSummaryInput;
-    response: ModuleResponse;
+    response: ModuleResponse<songWikiSummaryBody>;
   };
   starpick_comments_summary: {
     input: starpickCommentsSummaryInput;
     query: starpickCommentsSummaryInput;
-    response: ModuleResponse;
+    response: ModuleResponse<starpickCommentsSummaryBody>;
   };
   style_album: {
     input: styleAlbumInput;
     query: styleAlbumInput;
-    response: ModuleResponse;
+    response: ModuleResponse<styleAlbumBody>;
   };
   style_artist: {
     input: styleArtistInput;
     query: styleArtistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<styleArtistBody>;
   };
   style_detail: {
     input: styleDetailInput;
     query: styleDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<styleDetailBody>;
   };
   style_list: {
     input: styleListInput;
     query: styleListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<styleListBody>;
   };
   style_playlist: {
     input: stylePlaylistInput;
     query: stylePlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<stylePlaylistBody>;
   };
   style_preference: {
     input: stylePreferenceInput;
     query: stylePreferenceInput;
-    response: ModuleResponse;
+    response: ModuleResponse<stylePreferenceBody>;
   };
   style_song: {
     input: styleSongInput;
     query: styleSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<styleSongBody>;
   };
   summary_annual: {
     input: summaryAnnualInput;
     query: summaryAnnualInput;
-    response: ModuleResponse;
+    response: ModuleResponse<summaryAnnualBody>;
   };
   top_album: {
     input: topAlbumInput;
     query: topAlbumInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topAlbumBody>;
   };
   top_artists: {
     input: topArtistsInput;
     query: topArtistsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topArtistsBody>;
   };
   top_list: {
     input: topListInput;
     query: topListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topListBody>;
   };
-  top_mv: { input: topMvInput; query: topMvInput; response: ModuleResponse };
+  top_mv: {
+    input: topMvInput;
+    query: topMvInput;
+    response: ModuleResponse<topMvBody>;
+  };
   top_playlist: {
     input: topPlaylistInput;
     query: topPlaylistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topPlaylistBody>;
   };
   top_playlist_highquality: {
     input: topPlaylistHighqualityInput;
     query: topPlaylistHighqualityInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topPlaylistHighqualityBody>;
   };
   top_song: {
     input: topSongInput;
     query: topSongInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topSongBody>;
   };
   topic_detail: {
     input: topicDetailInput;
     query: topicDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topicDetailBody>;
   };
   topic_detail_event_hot: {
     input: topicDetailEventHotInput;
     query: topicDetailEventHotInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topicDetailEventHotBody>;
   };
   topic_sublist: {
     input: topicSublistInput;
     query: topicSublistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<topicSublistBody>;
   };
   toplist: {
     input: toplistInput;
     query: toplistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<toplistBody>;
   };
   toplist_artist: {
     input: toplistArtistInput;
     query: toplistArtistInput;
-    response: ModuleResponse;
+    response: ModuleResponse<toplistArtistBody>;
   };
   toplist_detail: {
     input: toplistDetailInput;
     query: toplistDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<toplistDetailBody>;
   };
   ugc_album_get: {
     input: ugcAlbumGetInput;
     query: ugcAlbumGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcAlbumGetBody>;
   };
   ugc_artist_get: {
     input: ugcArtistGetInput;
     query: ugcArtistGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcArtistGetBody>;
   };
   ugc_artist_search: {
     input: ugcArtistSearchInput;
     query: ugcArtistSearchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcArtistSearchBody>;
   };
   ugc_detail: {
     input: ugcDetailInput;
     query: ugcDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcDetailBody>;
   };
   ugc_mv_get: {
     input: ugcMvGetInput;
     query: ugcMvGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcMvGetBody>;
   };
   ugc_song_get: {
     input: ugcSongGetInput;
     query: ugcSongGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcSongGetBody>;
   };
   ugc_user_devote: {
     input: ugcUserDevoteInput;
     query: ugcUserDevoteInput;
-    response: ModuleResponse;
+    response: ModuleResponse<ugcUserDevoteBody>;
   };
   user_account: {
     input: userAccountInput;
@@ -2592,17 +3438,17 @@ export interface GeneratedModuleContractMap {
   user_audio: {
     input: userAudioInput;
     query: userAudioInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userAudioBody>;
   };
   user_binding: {
     input: userBindingInput;
     query: userBindingInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userBindingBody>;
   };
   user_cloud: {
     input: userCloudInput;
     query: userCloudInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userCloudBody>;
   };
   user_cloud_del: {
     input: userCloudDelInput;
@@ -2612,53 +3458,57 @@ export interface GeneratedModuleContractMap {
   user_cloud_detail: {
     input: userCloudDetailInput;
     query: userCloudDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userCloudDetailBody>;
   };
   user_comment_history: {
     input: userCommentHistoryInput;
     query: userCommentHistoryInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userCommentHistoryBody>;
   };
   user_detail: {
     input: userDetailInput;
     query: userDetailInput;
     response: ModuleResponse<userDetailBody>;
   };
-  user_dj: { input: userDjInput; query: userDjInput; response: ModuleResponse };
+  user_dj: {
+    input: userDjInput;
+    query: userDjInput;
+    response: ModuleResponse<userDjBody>;
+  };
   user_event: {
     input: userEventInput;
     query: userEventInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userEventBody>;
   };
   user_follow_mixed: {
     input: userFollowMixedInput;
     query: userFollowMixedInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userFollowMixedBody>;
   };
   user_followeds: {
     input: userFollowedsInput;
     query: userFollowedsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userFollowedsBody>;
   };
   user_follows: {
     input: userFollowsInput;
     query: userFollowsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userFollowsBody>;
   };
   user_level: {
     input: userLevelInput;
     query: userLevelInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userLevelBody>;
   };
   user_medal: {
     input: userMedalInput;
     query: userMedalInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userMedalBody>;
   };
   user_mutualfollow_get: {
     input: userMutualfollowGetInput;
     query: userMutualfollowGetInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userMutualfollowGetBody>;
   };
   user_playlist: {
     input: userPlaylistInput;
@@ -2668,12 +3518,12 @@ export interface GeneratedModuleContractMap {
   user_playlist_collect: {
     input: userPlaylistCollectInput;
     query: userPlaylistCollectInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userPlaylistCollectBody>;
   };
   user_playlist_create: {
     input: userPlaylistCreateInput;
     query: userPlaylistCreateInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userPlaylistCreateBody>;
   };
   user_record: {
     input: userRecordInput;
@@ -2688,27 +3538,27 @@ export interface GeneratedModuleContractMap {
   user_social_status: {
     input: userSocialStatusInput;
     query: userSocialStatusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userSocialStatusBody>;
   };
   user_social_status_edit: {
     input: userSocialStatusEditInput;
     query: userSocialStatusEditInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userSocialStatusEditBody>;
   };
   user_social_status_rcmd: {
     input: userSocialStatusRcmdInput;
     query: userSocialStatusRcmdInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userSocialStatusRcmdBody>;
   };
   user_social_status_support: {
     input: userSocialStatusSupportInput;
     query: userSocialStatusSupportInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userSocialStatusSupportBody>;
   };
   user_subcount: {
     input: userSubcountInput;
     query: userSubcountInput;
-    response: ModuleResponse;
+    response: ModuleResponse<userSubcountBody>;
   };
   user_update: {
     input: userUpdateInput;
@@ -2723,62 +3573,62 @@ export interface GeneratedModuleContractMap {
   verify_qrcodestatus: {
     input: verifyQrcodestatusInput;
     query: verifyQrcodestatusInput;
-    response: ModuleResponse;
+    response: ModuleResponse<verifyQrcodestatusBody>;
   };
   video_category_list: {
     input: videoCategoryListInput;
     query: videoCategoryListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoCategoryListBody>;
   };
   video_detail: {
     input: videoDetailInput;
     query: videoDetailInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoDetailBody>;
   };
   video_detail_info: {
     input: videoDetailInfoInput;
     query: videoDetailInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoDetailInfoBody>;
   };
   video_group: {
     input: videoGroupInput;
     query: videoGroupInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoGroupBody>;
   };
   video_group_list: {
     input: videoGroupListInput;
     query: videoGroupListInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoGroupListBody>;
   };
   video_sub: {
     input: videoSubInput;
     query: videoSubInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoSubBody>;
   };
   video_timeline_all: {
     input: videoTimelineAllInput;
     query: videoTimelineAllInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoTimelineAllBody>;
   };
   video_timeline_recommend: {
     input: videoTimelineRecommendInput;
     query: videoTimelineRecommendInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoTimelineRecommendBody>;
   };
   video_url: {
     input: videoUrlInput;
     query: videoUrlInput;
-    response: ModuleResponse;
+    response: ModuleResponse<videoUrlBody>;
   };
   vip_growthpoint: {
     input: vipGrowthpointInput;
     query: vipGrowthpointInput;
-    response: ModuleResponse;
+    response: ModuleResponse<vipGrowthpointBody>;
   };
   vip_growthpoint_details: {
     input: vipGrowthpointDetailsInput;
     query: vipGrowthpointDetailsInput;
-    response: ModuleResponse;
+    response: ModuleResponse<vipGrowthpointDetailsBody>;
   };
   vip_growthpoint_get: {
     input: vipGrowthpointGetInput;
@@ -2798,12 +3648,12 @@ export interface GeneratedModuleContractMap {
   vip_tasks: {
     input: vipTasksInput;
     query: vipTasksInput;
-    response: ModuleResponse;
+    response: ModuleResponse<vipTasksBody>;
   };
   vip_timemachine: {
     input: vipTimemachineInput;
     query: vipTimemachineInput;
-    response: ModuleResponse;
+    response: ModuleResponse<vipTimemachineBody>;
   };
   voice_delete: {
     input: voiceDeleteInput;
@@ -2818,7 +3668,7 @@ export interface GeneratedModuleContractMap {
   voice_lyric: {
     input: voiceLyricInput;
     query: voiceLyricInput;
-    response: ModuleResponse;
+    response: ModuleResponse<voiceLyricBody>;
   };
   voice_upload: {
     input: voiceUploadInput;
@@ -2838,19 +3688,23 @@ export interface GeneratedModuleContractMap {
   voicelist_list_search: {
     input: voicelistListSearchInput;
     query: voicelistListSearchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<voicelistListSearchBody>;
   };
   voicelist_search: {
     input: voicelistSearchInput;
     query: voicelistSearchInput;
-    response: ModuleResponse;
+    response: ModuleResponse<voicelistSearchBody>;
   };
   voicelist_trans: {
     input: voicelistTransInput;
     query: voicelistTransInput;
     response: ModuleResponse;
   };
-  yunbei: { input: yunbeiInput; query: yunbeiInput; response: ModuleResponse };
+  yunbei: {
+    input: yunbeiInput;
+    query: yunbeiInput;
+    response: ModuleResponse<yunbeiBody>;
+  };
   yunbei_expense: {
     input: yunbeiExpenseInput;
     query: yunbeiExpenseInput;
@@ -2859,7 +3713,7 @@ export interface GeneratedModuleContractMap {
   yunbei_info: {
     input: yunbeiInfoInput;
     query: yunbeiInfoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<yunbeiInfoBody>;
   };
   yunbei_rcmd_song: {
     input: yunbeiRcmdSongInput;
@@ -2869,7 +3723,7 @@ export interface GeneratedModuleContractMap {
   yunbei_rcmd_song_history: {
     input: yunbeiRcmdSongHistoryInput;
     query: yunbeiRcmdSongHistoryInput;
-    response: ModuleResponse;
+    response: ModuleResponse<yunbeiRcmdSongHistoryBody>;
   };
   yunbei_receipt: {
     input: yunbeiReceiptInput;
@@ -2889,16 +3743,16 @@ export interface GeneratedModuleContractMap {
   yunbei_tasks: {
     input: yunbeiTasksInput;
     query: yunbeiTasksInput;
-    response: ModuleResponse;
+    response: ModuleResponse<yunbeiTasksBody>;
   };
   yunbei_tasks_todo: {
     input: yunbeiTasksTodoInput;
     query: yunbeiTasksTodoInput;
-    response: ModuleResponse;
+    response: ModuleResponse<yunbeiTasksTodoBody>;
   };
   yunbei_today: {
     input: yunbeiTodayInput;
     query: yunbeiTodayInput;
-    response: ModuleResponse;
+    response: ModuleResponse<yunbeiTodayBody>;
   };
 }

@@ -1,0 +1,43 @@
+{
+  "module": "dj_banner",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T14:20:55.537Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B11：电台 banner 列表"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "data": [
+        {
+          "targetId": 3730800343,
+          "targetType": 60001,
+          "pic": "http://p1.music.126.net/LLO29MRfq2H4uHoGtsY5_g==/109951174154619598.jpg",
+          "url": "orpheus://program/3730800343",
+          "typeTitle": "知识",
+          "exclusive": false
+        },
+        {
+          "targetId": 3730351805,
+          "targetType": 60001,
+          "pic": "http://p1.music.126.net/LmU1aNVAfZ7pO8ZSOa13hg==/109951174154618939.jpg",
+          "url": "orpheus://program/3730351805",
+          "typeTitle": "脱口秀",
+          "exclusive": false
+        },
+        {
+          "targetId": 3730313434,
+          "targetType": 60001,
+          "pic": "http://p1.music.126.net/OKxesQfVVGp265KtDgLLJA==/109951174154630875.jpg",
+          "url": "orpheus://program/3730313434",
+          "typeTitle": "情感",
+          "exclusive": false
+        }
+      ],
+      "code": 200
+    }
+  }
+}

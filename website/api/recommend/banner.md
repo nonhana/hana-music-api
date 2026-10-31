@@ -40,6 +40,10 @@ const result = await banner();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和通到轮播图列表的 `body.banners` 收紧；`targetId`、`targetType`、`typeTitle`、`url` 和移动端的 `bannerId`、`pic`、`encodeId`、`showAdTag` 等展示与埋点字段宽松，嵌着的歌曲复用宽松的 `LooseSong`。PC 和移动端是两套字段，都按宽松字段放在同一个对象里。本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `BannerBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取 banner( 轮播图 ) 数据

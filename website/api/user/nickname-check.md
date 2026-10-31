@@ -41,6 +41,10 @@ const result = await nicknameCheck({
 console.log(result.body);
 ```
 
+## 返回内容
+
+昵称是否重复在 `duplicated`（`true` 表示已被占用）。昵称重复时上游还会给出 `candidateNicknames` 备用昵称。`code` 和 `duplicated` 收紧；`candidateNicknames` 按“可以没有”处理：昵称可用时整个缺失或为 `null` 都照常返回，出现时按字符串数组校验，坏一条报 502；`nickname` 是回显的查询昵称，宽松。结构定义和类型是 `NicknameCheckBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口 ,可检测昵称是否重复,并提供备用昵称

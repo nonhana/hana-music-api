@@ -1,0 +1,26 @@
+{
+  "module": "mlog_music_rcmd",
+  "query": {
+    "songid": 347230,
+    "limit": 10
+  },
+  "context": {
+    "recordedAt": "2026-10-25T23:54:25.435Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B40：mlog_music_rcmd 无相关视频的空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "message": "ok",
+      "data": {
+        "feeds": [],
+        "more": false,
+        "msg": null
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "module": "digitalAlbum_sales",
+  "query": {
+    "ids": 396372188
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:44:33.972Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B23：digitalAlbum_sales 匿名销量（单张数字专辑）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "396372188": 4850
+      }
+    }
+  }
+}

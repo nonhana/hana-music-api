@@ -1,0 +1,43 @@
+{
+  "module": "banner",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T19:44:07.696Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B27：banner 首页推荐位登录态正常返回"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "trp": {
+        "rules": [
+          "BANNER_PC_V2::schedule_pc_banner_op_channel_1::linkPlatform$cc$schedule_pc_banner_op_channel$bpo$rt$0$pid$4512077$$digitalAlbum$pc$387017486$cid$BANNER_PC_V2$fgid$1487019$pgid$4581653$rid",
+          "BANNER_PC_V2::schedule_pc_banner_op_channel_2::linkPlatform$cc$schedule_pc_banner_op_channel$bpo$rt$song$pc$0$pid$4510180$$4580672$rid$BANNER_PC_V2$fgid$1487019$pgid$3453167075$cid"
+        ]
+      },
+      "banners": [
+        {
+          "targetId": 0,
+          "bigImageUrl": "https://p1.music.126.net/EfmDaW8c2yY4-jNXJ-FKBw==/109951174155466195.jpg",
+          "imageUrl": "https://p1.music.126.net/6Eig5w7izyx0KbU4244zJA==/109951174155462738.jpg",
+          "targetType": 3000,
+          "typeTitle": "数字专辑",
+          "s_ctrp": "linkPlatform$cc$schedule_pc_banner_op_channel$bpo$$rt$digitalAlbum$pc$BANNER_PC_V2$fgid$1487019$pgid$0$pid$4581653$rid$387017486$cid$4512077$traceid$000001a174977dd902dc0ab0da990007$st$1792957447655$bcc$schedule_pc_banner_op_channel$spc$BANNER_PC_V2-2$fromId$116797_111452_starlink_revenue_DIGITAL_ALBUM_PROMOTION$score$0.0$fromType$starLink$bpc$BANNER_PC_V2",
+          "url": "https://music.163.com/store/newalbum/detail?id=387017486"
+        },
+        {
+          "targetId": 3453167075,
+          "bigImageUrl": "https://p1.music.126.net/c9878UJj4fvUWSuoaa3QyQ==/109951174155465562.jpg",
+          "imageUrl": "https://p1.music.126.net/bFNQPyBnyqb1R4Wnb_bSMQ==/109951174155463574.jpg",
+          "targetType": 1,
+          "typeTitle": "新歌首发",
+          "s_ctrp": "linkPlatform$cc$schedule_pc_banner_op_channel$bpo$$rt$song$pc$BANNER_PC_V2$fgid$1487019$pgid$0$pid$4580672$rid$3453167075$cid$4510180$traceid$000001a174977dd902dc0ab0da990007$st$1792957447655$bcc$schedule_pc_banner_op_channel$spc$BANNER_PC_V2-5$fromId$116892_111454_starlink_music_NEW_SONG_PROMOTION$score$0.0$fromType$starLink$bpc$BANNER_PC_V2",
+          "url": "orpheus://song/3453167075"
+        }
+      ]
+    }
+  }
+}

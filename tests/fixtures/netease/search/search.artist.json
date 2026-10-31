@@ -1,0 +1,89 @@
+{
+  "module": "search",
+  "query": {
+    "keywords": "晴天",
+    "type": 100,
+    "limit": 3
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:36:26.257Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B14：搜索返回体证据"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "result": {
+        "hasMore": true,
+        "artistCount": 502,
+        "hlWords": ["晴天"],
+        "artists": [
+          {
+            "id": 6452,
+            "name": "周杰伦",
+            "picUrl": "https://p3.music.126.net/NWv6PtSBkyWZzqbJVzBr7g==/109951169164936450.jpg",
+            "alias": ["Jay Chou", "周董"],
+            "albumSize": 42,
+            "musicSize": 582,
+            "picId": 109951169164936450,
+            "fansGroup": null,
+            "recommendText": "",
+            "appendRecText": "演唱: 晴天",
+            "fansSize": 19136022,
+            "img1v1Url": "https://p4.music.126.net/_ECPuM0s0qtWhkpQOSTZUg==/109951169164936940.jpg",
+            "img1v1": 109951169164936940,
+            "mvSize": 9,
+            "followed": false,
+            "alg": "alg_search_precision_artist_tab_basic",
+            "alia": ["Jay Chou", "周董"],
+            "trans": null
+          },
+          {
+            "id": 122741192,
+            "name": "DL.晴天",
+            "picUrl": "https://p3.music.126.net/MYy1f2MmcOMQrekKhrGKDg==/109951172682742109.jpg",
+            "alias": [],
+            "albumSize": 2,
+            "musicSize": 4,
+            "picId": 109951172682742110,
+            "fansGroup": null,
+            "recommendText": "",
+            "appendRecText": "",
+            "fansSize": 1675,
+            "img1v1Url": "https://p4.music.126.net/eKaTs_EqewhhU8_Bkx6z7A==/109951172682740188.jpg",
+            "img1v1": 109951172682740200,
+            "mvSize": 0,
+            "followed": false,
+            "alg": "alg_search_precision_artist_tab_basic",
+            "trans": null
+          },
+          {
+            "id": 96147605,
+            "name": "晴天",
+            "picUrl": "https://p4.music.126.net/f0fZtqYbxYCCFe7rfdDumA==/109951170191597441.jpg",
+            "alias": [],
+            "albumSize": 5,
+            "musicSize": 16,
+            "picId": 109951170191597440,
+            "fansGroup": null,
+            "recommendText": "",
+            "appendRecText": "",
+            "fansSize": 21,
+            "img1v1Url": "https://p3.music.126.net/k2XlcPUhCPUCwHcTP-sWzQ==/109951171400175378.jpg",
+            "accountId": 1770827723,
+            "img1v1": 109951171400175380,
+            "identityIconUrl": "https://p5.music.126.net/obj/wo3DlcOGw6DClTvDisK1/4874132307/4499/f228/d867/da64b9725e125943ad4e14e4c72d0884.png",
+            "mvSize": 0,
+            "followed": false,
+            "alg": "alg_search_precision_artist_tab_basic",
+            "trans": null
+          }
+        ],
+        "searchQcReminder": null
+      },
+      "code": 200
+    }
+  }
+}

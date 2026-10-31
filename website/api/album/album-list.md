@@ -42,6 +42,10 @@ const result = await albumList({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.products` 和每张专辑的 `products[].albumId` 收紧；`albumName`、`price`、`saleNum`、`coverUrl`、`area`、`saleType` 等其余字段宽松。上游没有返回总数，`offset` 也没有生效：`album_list.offset-100000.json` 里 `offset=100000` 仍返回与第一页相同的 10 个 `albumId`。本批录制与探测未发现可达的空结果；`products` 数组本身允许为空。结构定义和类型是 `AlbumListBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口 ,可获取数字专辑-新碟上架

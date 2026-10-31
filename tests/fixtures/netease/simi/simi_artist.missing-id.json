@@ -1,0 +1,18 @@
+{
+  "module": "simi_artist",
+  "query": {},
+  "context": {
+    "recordedAt": "2026-10-25T20:58:32.750Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B30：simi_artist 缺少 id 的业务错误（HTTP 200，code 400）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "参数错误"
+    }
+  }
+}

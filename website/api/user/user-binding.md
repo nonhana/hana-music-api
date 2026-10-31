@@ -41,6 +41,10 @@ const result = await userBinding({
 console.log(result.body);
 ```
 
+## 返回内容
+
+绑定列表在 `bindings`，每条绑定自己的 `id` 收紧；`bindingTime`、`refreshTime`、`expiresIn`、`expired`、`url`、`type`、`userId` 和 `tokenJsonStr` 宽松。不存在的 uid 返回 `bindings: []`（录制 `user_binding.no-bindings.json`）。录制里的绑定 id 和账号编号已换成合成值（`10000000001`/`10000000002`、`10000001`），`tokenJsonStr` 按凭据规则替换成 `<redacted>`。结构定义和类型是 `UserBindingBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可以获取用户绑定信息

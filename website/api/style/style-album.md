@@ -45,6 +45,10 @@ const result = await styleAlbum({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.data.albums` 和每张专辑自己的编号 `data.albums[].id` 收紧：`data.albums` 是通到曲风专辑的路径。专辑记录复用宽松的 `SimpleAlbum`，只把 `id` 收紧；`songs` 在录制里只见过空数组，元素类型猜不出，没有声明，`awardTags`、`displayTags` 只见过 `null`，也没有声明。`body.data.page` 是分页提示，全部宽松。未知曲风 id 返回空数组（录制 `style_album.unknown-tag.json`）。
+
 ## 补充说明
 
 说明: 调用此接口可以获取该曲风对应的专辑

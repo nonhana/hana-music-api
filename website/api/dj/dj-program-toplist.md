@@ -42,6 +42,10 @@ const result = await djProgramToplist({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、通到节目榜的 `body.toplist` 和榜上节目自己的编号 `toplist[].program.id` 收紧；排名 `rank`、上期排名 `lastRank`、分数 `score`、`programFeeType` 和 `updateTime` 宽松，节目本身按 `DjProgram` 校验。`limit` 由 SDK 默认 `100` 后再请求（`limit=0` 也走默认），上游忽略 `offset`，本批录制与探测未发现可达的空结果，数组本身允许为空。录制按字段覆盖保留非连续子集（索引 2/1，原始 5 条），见 `context.truncated`。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可获得电台节目榜

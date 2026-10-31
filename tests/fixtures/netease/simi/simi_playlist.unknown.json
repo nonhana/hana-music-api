@@ -1,0 +1,20 @@
+{
+  "module": "simi_playlist",
+  "query": {
+    "id": 999999999
+  },
+  "context": {
+    "recordedAt": "2026-10-25T20:58:26.430Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B30：simi_playlist 未知歌曲 id 的空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "playlists": [],
+      "code": 200
+    }
+  }
+}

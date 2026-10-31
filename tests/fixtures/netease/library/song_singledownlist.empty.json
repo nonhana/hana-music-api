@@ -1,0 +1,21 @@
+{
+  "module": "song_singledownlist",
+  "query": {
+    "limit": 20,
+    "offset": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:23:58.432Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B41：song_singledownlist 账号没有已购买单曲的真实空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "info": [],
+      "code": 200
+    }
+  }
+}

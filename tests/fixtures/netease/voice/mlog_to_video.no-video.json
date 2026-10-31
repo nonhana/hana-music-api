@@ -1,0 +1,21 @@
+{
+  "module": "mlog_to_video",
+  "query": {
+    "id": "a1invalid000000"
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:53:52.136Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B43：mlog_to_video 无对应视频的业务拒绝"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "mlog无对应video",
+      "data": null
+    }
+  }
+}

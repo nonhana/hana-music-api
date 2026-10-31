@@ -39,6 +39,12 @@ const result = await songRedCount({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body` 是网易云原文；`code`、数量路径 `data` 和 `data.count` 收紧。`data.count` 是红心数量，不存在的歌曲返回 `0`；`countDesc` 只是展示文案，宽松（缺失、`null` 或类型不对都只丢这一项）。
+
+匿名调用也会返回数量，登录和匿名的结构相同。结构定义和类型是 `SongRedCountBody`，见 [返回体结构](/guide/response-bodies#曲库)。
+
 ## 补充说明
 
 说明: 调用此接口获取歌曲的红心用户数量

@@ -1,0 +1,79 @@
+{
+  "module": "mv_detail",
+  "query": {
+    "mvid": 5643323
+  },
+  "context": {
+    "recordedAt": "2026-10-25T11:26:12.793Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B9：mv_detail desc 为 null"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "loadingPic": "",
+      "bufferPic": "",
+      "loadingPicFS": "",
+      "bufferPicFS": "",
+      "subed": false,
+      "mp": {
+        "id": 5643323,
+        "fee": 0,
+        "mvFee": 0,
+        "payed": 0,
+        "pl": 480,
+        "dl": 480,
+        "cp": 1,
+        "sid": 0,
+        "st": 0,
+        "normal": false,
+        "unauthorized": false,
+        "msg": null
+      },
+      "data": {
+        "id": 5643323,
+        "name": "我的爱",
+        "artistId": 9272,
+        "artistName": "孙燕姿",
+        "briefDesc": "",
+        "desc": null,
+        "cover": "http://p4.music.126.net/jYVfZct3sMOeyGImd5fCsQ==/18812643953313366.jpg",
+        "coverId_str": "18812643953313366",
+        "coverId": 18812643953313370,
+        "playCount": 219552,
+        "subCount": 1531,
+        "shareCount": 657,
+        "commentCount": 223,
+        "duration": 265220,
+        "nType": 0,
+        "publishTime": "2004-10-01",
+        "price": null,
+        "brs": [
+          {
+            "size": 11667742,
+            "br": 240,
+            "point": 0
+          },
+          {
+            "size": 20463636,
+            "br": 480,
+            "point": 0
+          }
+        ],
+        "artists": [
+          {
+            "id": 9272,
+            "name": "孙燕姿",
+            "img1v1Url": "http://p4.music.126.net/VED2XoZcISpeGUTE_Q6lTA==/109951170045683199.jpg",
+            "followed": false
+          }
+        ],
+        "commentThreadId": "R_MV_5_5643323",
+        "videoGroup": []
+      },
+      "code": 200
+    }
+  }
+}

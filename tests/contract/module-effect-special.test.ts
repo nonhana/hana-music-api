@@ -12,6 +12,9 @@ import {
   UpstreamBusinessFailed,
   UpstreamRateLimited,
 } from '../../src/core/errors.ts';
+import { createOption } from '../../src/core/options.ts';
+import { buildApiRequestIntent } from '../../src/core/request-intent.ts';
+import { toModuleResponse } from '../../src/core/response.ts';
 import batch from '../../src/modules/batch.ts';
 import checkMusic from '../../src/modules/check_music.ts';
 import cloudImport from '../../src/modules/cloud_import.ts';
@@ -24,14 +27,25 @@ import playlistTrackAll from '../../src/modules/playlist_track_all.ts';
 import playlistTracks from '../../src/modules/playlist_tracks.ts';
 import registerAnonymous from '../../src/modules/register_anonimous.ts';
 import songUrl from '../../src/modules/song_url.ts';
-import toplist from '../../src/modules/toplist.ts';
 import verifyGetQr from '../../src/modules/verify_getQr.ts';
 import type {
+  ModuleEffect,
   RequestCapability,
   RequestIntent,
 } from '../../src/types/index.ts';
+import type { LegacyModuleInput } from '../../src/types/legacy.ts';
 import { runEffect, runExit } from '../_kit/it.ts';
 import { executeModule, response } from '../fixtures/upload-effect.ts';
+
+// 测试用的原始模块：没有 ModuleBody，请求结果原样返回，不随真实模块收窄而变化。
+const rawModule: ModuleEffect<LegacyModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent('/api/example', {}, createOption(query)),
+      ),
+    );
+  });
 
 const requestFailures = [
   new TransportFailed({ message: 'socket failed' }),
@@ -219,7 +233,16 @@ describe('special Effect module behavior', () => {
             response(
               identifier === 'like'
                 ? { code: 200, playlistId: 1, songs: [] }
-                : { code: 200 },
+                : identifier === 'comment_hug_list'
+                  ? { code: 200, data: { hugComments: [] } }
+                  : identifier === 'playlist_update'
+                    ? {
+                        code: 200,
+                        '/api/playlist/desc/update': { code: 200 },
+                        '/api/playlist/tags/update': { code: 200 },
+                        '/api/playlist/update/name': { code: 200 },
+                      }
+                    : { code: 200 },
             ),
           ),
         ),
@@ -231,6 +254,7 @@ describe('special Effect module behavior', () => {
 
   test.each([
     { identifier: 'playlist_tracks', input: { tracks: {} } },
+    { identifier: 'user_binding', input: { uid: {} } },
     { identifier: 'user_cloud_detail', input: { id: [] } },
     {
       identifier: 'listentogether_sync_list_command',
@@ -289,7 +313,7 @@ describe('special Effect module behavior', () => {
   test('ordinary requests preserve arrays and primitive upstream bodies', async () => {
     for (const body of [null, 'opaque', [1, { field: true }]]) {
       const result = await runEffect(
-        executeModule(toplist, {}, () => Effect.succeed(response(body))),
+        executeModule(rawModule, {}, () => Effect.succeed(response(body))),
       );
       expect(result.body).toEqual(body);
     }
@@ -419,6 +443,7 @@ describe('special Effect module behavior', () => {
           Effect.succeed({
             ...response({
               code: 200,
+              userId: 1,
               account: { id: 1 },
               profile: {
                 userId: 1,
@@ -441,13 +466,20 @@ describe('special Effect module behavior', () => {
     },
   );
 
-  test.each([login, loginCellphone, registerAnonymous])(
+  test.each([
+    { module: login, body: { code: 200 } },
+    {
+      module: loginCellphone,
+      body: { code: 200, account: { id: 1 }, profile: { userId: 1 } },
+    },
+    { module: registerAnonymous, body: { code: 200, userId: 1 } },
+  ])(
     'missing credentials fail through a verified decoder',
-    async (module) => {
+    async ({ module, body }) => {
       const result = await runEffect(
-        executeModule(module, {}, () =>
-          Effect.succeed(response({ code: 200 })),
-        ).pipe(Effect.flip),
+        executeModule(module, {}, () => Effect.succeed(response(body))).pipe(
+          Effect.flip,
+        ),
       );
       expect(result).toBeInstanceOf(UnexpectedUpstreamShape);
     },

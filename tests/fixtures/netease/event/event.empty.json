@@ -1,0 +1,21 @@
+{
+  "module": "event",
+  "query": {
+    "lasttime": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-25T18:27:27.083Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B19：动态列表 登录账号，游标早于全部动态时的空结果"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "more": false,
+      "event": []
+    }
+  }
+}

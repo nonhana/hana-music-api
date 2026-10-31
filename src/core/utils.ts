@@ -102,14 +102,6 @@ export const resolveRequestCookie = (
     : { ...supplied };
 };
 
-export const getRandom = (length: number): number => {
-  const randomValue = Math.random();
-  const floorValue = Math.floor(randomValue * 9 + 1);
-  const powerValue = 10 ** (length - 1);
-
-  return Math.floor((randomValue + floorValue) * powerValue);
-};
-
 export const generateRandomChineseIP = (): string => {
   const prefix =
     CHINA_IP_PREFIXES[Math.floor(Math.random() * CHINA_IP_PREFIXES.length)];

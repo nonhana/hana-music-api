@@ -1,0 +1,27 @@
+{
+  "module": "follow",
+  "query": {
+    "id": 17062533682,
+    "t": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:28:14.843Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：follow 正向尝试（关注用户 17062533682）被上游设备风控拒绝，code 250；录制前 user_follows 前 100 条不含该目标，失败后回读仍不含"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 250,
+      "dialog": {
+        "title": "风险提示",
+        "subtitle": "系统检测到您的设备存在安全风险，请更换设备后再尝试操作哦",
+        "buttonMsg": "查看详情",
+        "buttonUrl": "https://163cn.tv/0SE6v7r"
+      },
+      "message": "关注异常"
+    }
+  }
+}

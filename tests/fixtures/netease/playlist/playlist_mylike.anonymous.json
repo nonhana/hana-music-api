@@ -1,0 +1,21 @@
+{
+  "module": "playlist_mylike",
+  "query": {
+    "time": -1,
+    "limit": 12
+  },
+  "context": {
+    "recordedAt": "2026-10-25T13:43:37.872Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B5：playlist_mylike 匿名返回 code 302，需要登录"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 302,
+      "message": null
+    }
+  }
+}

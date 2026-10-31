@@ -1,0 +1,63 @@
+{
+  "module": "comment_new",
+  "query": {
+    "id": 1984488794,
+    "type": 0
+  },
+  "context": {
+    "recordedAt": "2026-10-25T15:42:00.962Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "anonymous",
+    "note": "issue #102 B8：comment_new 无评论资源（云盘歌曲 1984488794），comments 为空数组；私有云盘上传，匿名不可见，total: 0 可能来自匿名不可访问"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "commentsTitle": "全部评论",
+        "comments": [],
+        "currentCommentTitle": "当前评论",
+        "currentComment": null,
+        "lottery": null,
+        "totalCount": 0,
+        "hasMore": false,
+        "cursor": "0",
+        "sortType": 99,
+        "sortTypeList": [
+          {
+            "sortType": 99,
+            "sortTypeName": "按推荐排序",
+            "target": "order_by_alg"
+          },
+          {
+            "sortType": 2,
+            "sortTypeName": "按热度排序",
+            "target": "order_by_hot"
+          },
+          {
+            "sortType": 3,
+            "sortTypeName": "按时间排序",
+            "target": "order_by_time"
+          }
+        ],
+        "style": "DEFAULT",
+        "bottomAction": null,
+        "likeAnimation": {
+          "animationConfigMap": {
+            "EVENT_FEED": [],
+            "MOMENT": [],
+            "INPUT": [],
+            "COMMENT_AREA": []
+          },
+          "version": 1792755492833
+        },
+        "linkJumps": null,
+        "newReplyExpGroupName": "c",
+        "expandCount": 3
+      },
+      "message": ""
+    }
+  }
+}

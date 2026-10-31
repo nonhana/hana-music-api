@@ -48,6 +48,10 @@ console.log(result.body);
 - `data.success`: 在上游示例页里用于判断房间是否成功关闭。
 - `message`: 失败时的错误原因。
 
+## 返回内容
+
+`body.code` 收紧为 `200`；`data.success`、`data.roomType` 和 `message` 是宽松字段，其余 `data` 字段只见过 `null`，未声明。
+
 ## 调用场景
 
 - 房主结束一起听会话。

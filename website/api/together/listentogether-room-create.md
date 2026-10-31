@@ -56,6 +56,10 @@ console.log(result.body);
 - `data.roomInfo.creatorId`: 房主用户 ID，可直接作为分享链接中的 `inviterId`。
 - `data.type`: 常见为 `NEW_ROOM`。
 
+## 返回内容
+
+`body.code`、`body.data`、`body.data.roomInfo` 和 `body.data.roomInfo.roomId` 收紧；`data.type`、`data.avatarPendantShow`、房间的 `creatorId`、`roomUsers[]` 和展示字段都是宽松字段。创建成功后 `roomInfo.roomId` 是后续同步、心跳和结束接口的入口，`data.type` 常见为 `NEW_ROOM`。录制里的账号编号已换成合成值。
+
 ## 调用顺序
 
 1. 登录账号并创建房间。

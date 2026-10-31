@@ -1,0 +1,142 @@
+{
+  "module": "album_detail",
+  "query": {
+    "id": 396372188
+  },
+  "context": {
+    "recordedAt": "2026-10-25T09:17:57.490Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B1：album_detail 登录对照（vipType 11、visitorId 为账号）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "product": {
+        "saleNum": 0,
+        "price": 22,
+        "singleCanBoard": false,
+        "buysingle": false,
+        "hasMessage": true,
+        "saleDisplayType": 0,
+        "finished": true,
+        "prefillBuyNum": 0,
+        "prefillMsg": "",
+        "canDraw": 0,
+        "bundling": 0,
+        "multipleType": 1,
+        "pubTime": 1792684801146,
+        "extInfo": {
+          "reserveSuccessImgId": "",
+          "reserveSuccessImgUrl": null,
+          "reserveCardUrl": "",
+          "hasMessageSupportTips": false,
+          "showSettingCount": false,
+          "markToSearch": 1,
+          "coverAnimation": 0,
+          "caPlayType": 0,
+          "caUrl": "",
+          "saleEntranceVideoUrl": "null",
+          "foregroundColor": "rgb(112, 164, 219)",
+          "backgroundColor": "rgba(40, 51, 62, 0.6)",
+          "domainHexColor": "#506088",
+          "combinationModuleTitle": "数字专辑乐享卡同步发售中",
+          "moduleSkuCopywriting": "三款可选",
+          "moduleThemeColor": "3",
+          "pureAlbumSkuName": "《PRESS PLAY》数字专辑",
+          "pureAlbumDesc": "仅包含1张数字专辑",
+          "shopProductId": null,
+          "combinationModuleOnlineTime": null,
+          "combinationModuleOfflineTime": null,
+          "multiShopCardConfig": "[{\"shopProductId\":\"190512680\",\"startTime\":1792684800000,\"endTime\":1800633600000}]",
+          "enableReserveWeight": false,
+          "minReserveWeight": null,
+          "maxReserveWeight": null,
+          "numberLotteryActivityId": null,
+          "numberLotteryActivityType": null,
+          "numberLotteryActivityId2": null,
+          "numberLotteryActivityType2": null,
+          "showTaskModuleWhenReserve": null,
+          "checkoutCounterStyleCode": "normal",
+          "checkoutCountCustomStyleDocId": null,
+          "checkoutCountCustomStyleDocUrl": null,
+          "checkoutCountBackgroundColor": null,
+          "grade": null,
+          "copyrightLogo": "",
+          "copyrightName": "索尼音乐",
+          "hasCertification": true
+        },
+        "donateMsg": "",
+        "albumType": 0,
+        "status": 0,
+        "descr": [
+          {
+            "type": 1,
+            "resource": "已购买数字单曲《SaWaDiKa》的用户可享抵扣减价4元优惠：可抵扣次数等于该数字单曲已购数量，单张专辑该单曲最多可参与抵扣1次（数字专辑乐享卡/礼品卡购买不享受此优惠）。"
+          },
+          {
+            "type": 1,
+            "resource": "《PRESS PLAY》是LISA继首张个人专辑《Alter Ego》之后继续勇敢前进的又一大胆篇章，既是对她踏过来路迢迢的庆贺，也是一次回溯初心、探寻起源的全新体验。这张EP展现最为真实和自我的LISA，致敬了她植根泰国的文化背景，并展示她一步步跃升为国际偶像的经历。这张收录6首曲目的EP，紧随LISA收获满满、热度飙升的一年而来——这一年LISA从亮相热门剧集《白莲花度假村》第三季，到一票难求的拉斯维加斯驻唱演出，再到其个人纪录片登上多伦多国际电影节（TIFF）首映舞台，在多个领域树立了一座座难忘的里程碑！"
+          }
+        ],
+        "mvCoverUrl": "https://p3.music.126.net/g23nC1b9xzPg7PhTyxPzyQ==/109951174145013849.jpg",
+        "buynotes": [
+          "1.数字专辑属于虚拟商品，购买后不支持退款，换货。",
+          "2.云村提醒您理性消费，购买用户应具有完全民事行为能力的自然人（未成年人需在法定监护人的指导及同意下才可购买）。",
+          "3.因版权协议限制，数字专辑默认不支持海外地区购买及使用（包含赠送给海外地区用户的数字专辑），请谨慎购买及赠送。",
+          "4.若出现购买后5分钟仍无法正常使用的情况，可尝试重启云音乐客户端。",
+          "5.如有赠送需求，可通过数字专辑售卖页底部“赠送”入口，根据需求选择赠送方式，请在赠送前详细阅读赠送须知。"
+        ],
+        "isFree": true,
+        "albumfee": 4,
+        "mvPlayUrl": "http://vodkgeyttp8.vod.126.net/cloudmusic/obj/core/83768577728/89d34c07f699876de8cc9e89baf78aaa.mp4?wsSecret=1e7554c16aa3897410b3a1e6b7ccd12b&wsTime=1792919877",
+        "mvTitle": "LISA 携全新EP《PRESS PLAY》问候网易云音乐乐迷",
+        "showMv": true,
+        "tags": [
+          "该专辑无损品质试听",
+          "该专辑无损品质下载",
+          "专属头像挂件",
+          "专属点赞特效",
+          "专属红心动效",
+          "抢福利周边"
+        ]
+      },
+      "album": {
+        "albumId": 396372188,
+        "coverDocId": "109951174157583442",
+        "coverUrl": "https://p3.music.126.net/UFe0Tk0zAo-yPKLRcvNmmQ==/109951174157583442.jpg",
+        "blurImgUrl": null,
+        "albumName": "PRESS PLAY",
+        "artist": null,
+        "artistId": 12062254,
+        "stars": false,
+        "artistName": "LISA",
+        "artistAvatarUrl": "https://p4.music.126.net/z3Wf7AQ7aqAN-zYfkkcYIg==/109951173886267456.jpg",
+        "liveType": 0,
+        "roomNo": 0,
+        "bundling": 0,
+        "artistInfoList": null,
+        "artistNames": "LISA",
+        "customPriceConfig": null
+      },
+      "board": {
+        "totalBoardDesc": "",
+        "totalBoardPics": [],
+        "todayBoardDesc": "",
+        "todayBoardPics": [],
+        "todayBoardPicIds": [],
+        "totalBoardPicIds": [],
+        "hasTodayBoard": false,
+        "hasFansBoard": false
+      },
+      "canBuy": false,
+      "vipType": 11,
+      "hasAlbum": false,
+      "boughtCnt": 0,
+      "visitorId": 599663130,
+      "singleSongProductId": 5933052,
+      "code": 200
+    }
+  }
+}

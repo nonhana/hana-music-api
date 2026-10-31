@@ -43,6 +43,10 @@ const result = await topArtists({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、`body.artists` 和每个歌手的 `id` 收紧。歌手记录沿用 `Artist` 的宽松字段，在模块内局部收紧了 `id`，并声明了宽松的 `fansCount`；`more` 也是宽松字段。录制里只出现过 `null` 的字段（如 `alg`、`identifyTag`、`isSubed`、`showPrivateMsg`）没有声明，原样保留。分页越过总数时返回真实的空结果：`artists: []`、`more: false`。结构定义和类型是 `TopArtistsBody`，见 [返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 调用此接口，可获取热门歌手数据

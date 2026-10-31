@@ -1,0 +1,31 @@
+{
+  "module": "playlist_update",
+  "query": {
+    "id": 18526771500,
+    "name": "x",
+    "desc": "y",
+    "tags": "华语"
+  },
+  "context": {
+    "recordedAt": "2026-10-25T19:55:24.710Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B6：playlist_update 对已删除歌单仍回 200（临时歌单，已删除；删除只移出用户歌单列表，元数据未抹除，仍接受名字/简介/标签写入）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "/api/playlist/tags/update": {
+        "code": 200
+      },
+      "/api/playlist/desc/update": {
+        "code": 200
+      },
+      "/api/playlist/update/name": {
+        "code": 200
+      },
+      "code": 200
+    }
+  }
+}

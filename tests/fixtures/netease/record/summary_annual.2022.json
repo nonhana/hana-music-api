@@ -1,0 +1,867 @@
+{
+  "module": "summary_annual",
+  "query": {
+    "year": 2022
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:31:47.054Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B44：2022 年度听歌报告（data key）；加密用户 id 已换合成值"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": {
+        "encUserId": "FEDCBA9876543210FEDCBA9876543210",
+        "listenOverview": {
+          "regTime": 1506096000000,
+          "daysSinceReg": 1918,
+          "firstPlaySongArtist": "LeeAlive",
+          "hisFirstSongCoverUrl": "http://p1.music.126.net/EmdT8hmDMDRQ0CaKgZ_7xg==/109951163017022673.jpg",
+          "firstPlaySongName": "Rainbow's Dream",
+          "firstPlaySongID": 502845123,
+          "maxDaySongId": 535517304,
+          "maxDaySongName": "为霜",
+          "maxDaySongArtistName": "羽肿",
+          "maxDaySongCoverUrl": "http://p1.music.126.net/678XIIRmFk1IGuv9RB43HQ==/109951163131639447.jpg"
+        },
+        "yearOverview": {
+          "playCount": 2051,
+          "playTime": 3073507,
+          "firstPlayedSong": {
+            "songName": "幽霊東京",
+            "songId": 1453108359,
+            "songCoverUrl": "http://p1.music.126.net/qjI9YTBltXA2G1upWbikvg==/109951165038281254.jpg",
+            "artistName": "Ayase/初音ミク"
+          }
+        },
+        "listenYears": {
+          "pies": [
+            {
+              "name": "2010",
+              "detail": null,
+              "count": 10599
+            },
+            {
+              "name": "2020",
+              "detail": null,
+              "count": 3753
+            },
+            {
+              "name": "2000",
+              "detail": null,
+              "count": 441
+            },
+            {
+              "name": "1990",
+              "detail": null,
+              "count": 3
+            },
+            {
+              "name": "1960",
+              "detail": null,
+              "count": 2
+            }
+          ],
+          "songs": [
+            {
+              "songName": "为霜",
+              "songId": 535517304,
+              "artistName": "羽肿",
+              "publishYear": "2018",
+              "playCount": 241,
+              "songPicId": 109951163131639440,
+              "songPicUrl": "http://p1.music.126.net/678XIIRmFk1IGuv9RB43HQ==/109951163131639447.jpg"
+            },
+            {
+              "songName": "花火が瞬く夜に",
+              "songId": 434902428,
+              "artistName": "羽肿",
+              "publishYear": "2016",
+              "playCount": 128,
+              "songPicId": 736672800839982,
+              "songPicUrl": "http://p1.music.126.net/f7Nd9FSzVZMkTPWDW_rnOg==/736672800839982.jpg"
+            },
+            {
+              "songName": "Atolón",
+              "songId": 1298135870,
+              "artistName": "Noicybino",
+              "publishYear": "2018",
+              "playCount": 109,
+              "songPicId": 109951163436673360,
+              "songPicUrl": "http://p1.music.126.net/ID9frVgi-6h0-o9immuB0A==/109951163436673353.jpg"
+            },
+            {
+              "songName": "Collapsing World",
+              "songId": 38018486,
+              "artistName": "Lightscape",
+              "publishYear": "2015",
+              "playCount": 101,
+              "songPicId": 109951167955465260,
+              "songPicUrl": "http://p1.music.126.net/b-zvY5gJZ2zZ-F7WcH1cbg==/109951167955465270.jpg"
+            },
+            {
+              "songName": "Windy Hill",
+              "songId": 427606780,
+              "artistName": "羽肿",
+              "publishYear": "2016",
+              "playCount": 95,
+              "songPicId": 18241997416865264,
+              "songPicUrl": "http://p1.music.126.net/dAJR6IWlKitcNVlfQwtgfA==/18241997416865263.jpg"
+            }
+          ]
+        },
+        "listenYearsAlbumCovers": [
+          "http://p1.music.126.net/C3C4vPOMsTd_vX9Ccww06Q==/109951163117390906.jpg",
+          "http://p1.music.126.net/f7Nd9FSzVZMkTPWDW_rnOg==/736672800839982.jpg",
+          "http://p1.music.126.net/T0X9b-S-DeddJEh5PcRk0Q==/109951166045234369.jpg",
+          "http://p1.music.126.net/ID9frVgi-6h0-o9immuB0A==/109951163436673353.jpg",
+          "http://p1.music.126.net/Vz0h5x84xoYCAJ2fI50Neg==/109951164012592144.jpg",
+          "http://p1.music.126.net/8inJthYtPgFpfEyBh3tuxA==/6654244372462660.jpg",
+          "http://p1.music.126.net/BgsCl01scHEbWJG0ijOS4A==/109951165687403090.jpg",
+          "http://p1.music.126.net/sTAnmzTuh0ulGgG5ZltyKQ==/109951162975022170.jpg",
+          "http://p1.music.126.net/b-zvY5gJZ2zZ-F7WcH1cbg==/109951167955465270.jpg",
+          "http://p1.music.126.net/kBtj7HlFDuokeO4iyHTXaA==/109951165616927101.jpg",
+          "http://p1.music.126.net/QdxRMFtZCNkTsvJtNfpHpg==/565148976688829.jpg",
+          "http://p1.music.126.net/fEvTj3iuLsIcoFWBNFTC4w==/4447524534356140.jpg",
+          "http://p1.music.126.net/Ok0xk_CpJW21lAUG9UiMww==/109951165666599650.jpg",
+          "http://p1.music.126.net/dAJR6IWlKitcNVlfQwtgfA==/18241997416865263.jpg",
+          "http://p1.music.126.net/GPv_mcfeaD5aZ5L70udTtg==/109951163298570854.jpg",
+          "http://p1.music.126.net/U9XGKKKgVg8DVlkGrmWgzQ==/109951165248232471.jpg",
+          "http://p1.music.126.net/HwQ5ubsoQtN8kDSlCleB_A==/102254581398923.jpg",
+          "http://p1.music.126.net/HoGOY6-oBm4ynkmKUE3J3g==/109951167438901722.jpg",
+          "http://p1.music.126.net/CN5bP6hxB2TXmyMgAPKqHA==/109951165925710451.jpg",
+          "http://p1.music.126.net/_ZBwYwJA-DOpzk4GwUoV-w==/109951166556967189.jpg",
+          "http://p1.music.126.net/ks136mj7FcZXgZ8IF-cpSA==/109951163986681435.jpg",
+          "http://p1.music.126.net/R-gJjMeKmbABrPiRrWT9zA==/109951165777817059.jpg",
+          "http://p1.music.126.net/uj-ciyunQhyQi4q70pkMkw==/3372202162443904.jpg",
+          "http://p1.music.126.net/ID9frVgi-6h0-o9immuB0A==/109951163436673353.jpg",
+          "http://p1.music.126.net/678XIIRmFk1IGuv9RB43HQ==/109951163131639447.jpg"
+        ],
+        "specialDay": {
+          "latePlay": {
+            "datetime": 1659035211000,
+            "songId": 1967698910,
+            "songName": "夏の夕焼け",
+            "artistId": "51535561",
+            "artistName": "待夕归明",
+            "songPicId": "109951167723718937",
+            "songPicUrl": "http://p1.music.126.net/oJ1xsWhjMF4HFUJzLcGxYQ==/109951167723718937.jpg",
+            "year": null
+          },
+          "maxLoopSong": {
+            "playdate": 1649520000000,
+            "singerName": "待夕归明",
+            "playCount": 16,
+            "songName": "夕落"
+          }
+        },
+        "genrePlayRanks": [
+          {
+            "genreType": "2",
+            "genreRank": [
+              {
+                "genreTagName": "游戏音乐",
+                "rank": "1",
+                "genrePlayCnt": "997"
+              },
+              {
+                "genreTagName": "日本流行",
+                "rank": "2",
+                "genrePlayCnt": "869"
+              },
+              {
+                "genreTagName": "流行轻音乐",
+                "rank": "3",
+                "genrePlayCnt": "800"
+              },
+              {
+                "genreTagName": "浩室舞曲",
+                "rank": "4",
+                "genrePlayCnt": "679"
+              },
+              {
+                "genreTagName": "同人作品",
+                "rank": "5",
+                "genrePlayCnt": "559"
+              },
+              {
+                "genreTagName": "歌声合成",
+                "rank": "6",
+                "genrePlayCnt": "559"
+              },
+              {
+                "genreTagName": "融合说唱",
+                "rank": "7",
+                "genrePlayCnt": "504"
+              },
+              {
+                "genreTagName": "动漫歌曲",
+                "rank": "8",
+                "genrePlayCnt": "457"
+              },
+              {
+                "genreTagName": "欧美流行",
+                "rank": "9",
+                "genrePlayCnt": "425"
+              },
+              {
+                "genreTagName": "电子舞曲",
+                "rank": "10",
+                "genrePlayCnt": "394"
+              },
+              {
+                "genreTagName": "纯音乐",
+                "rank": "11",
+                "genrePlayCnt": "355"
+              },
+              {
+                "genreTagName": "缓拍",
+                "rank": "12",
+                "genrePlayCnt": "345"
+              },
+              {
+                "genreTagName": "日系摇滚",
+                "rank": "13",
+                "genrePlayCnt": "323"
+              },
+              {
+                "genreTagName": "回响贝斯",
+                "rank": "14",
+                "genrePlayCnt": "313"
+              },
+              {
+                "genreTagName": "器乐流行",
+                "rank": "15",
+                "genrePlayCnt": "236"
+              },
+              {
+                "genreTagName": "电子流行",
+                "rank": "16",
+                "genrePlayCnt": "191"
+              },
+              {
+                "genreTagName": "低保真",
+                "rank": "17",
+                "genrePlayCnt": "158"
+              },
+              {
+                "genreTagName": "未来贝斯",
+                "rank": "18",
+                "genrePlayCnt": "158"
+              },
+              {
+                "genreTagName": "器乐摇滚",
+                "rank": "19",
+                "genrePlayCnt": "151"
+              },
+              {
+                "genreTagName": "流行",
+                "rank": "20",
+                "genrePlayCnt": "146"
+              },
+              {
+                "genreTagName": "游戏原声",
+                "rank": "21",
+                "genrePlayCnt": "123"
+              },
+              {
+                "genreTagName": "舞曲",
+                "rank": "22",
+                "genrePlayCnt": "120"
+              },
+              {
+                "genreTagName": "独立流行",
+                "rank": "23",
+                "genrePlayCnt": "113"
+              },
+              {
+                "genreTagName": "说唱伴奏",
+                "rank": "24",
+                "genrePlayCnt": "110"
+              },
+              {
+                "genreTagName": "鼓打贝斯",
+                "rank": "25",
+                "genrePlayCnt": "104"
+              },
+              {
+                "genreTagName": "中速节奏",
+                "rank": "26",
+                "genrePlayCnt": "91"
+              },
+              {
+                "genreTagName": "流行摇滚",
+                "rank": "27",
+                "genrePlayCnt": "90"
+              },
+              {
+                "genreTagName": "合成器流行",
+                "rank": "28",
+                "genrePlayCnt": "82"
+              },
+              {
+                "genreTagName": "国风电子",
+                "rank": "29",
+                "genrePlayCnt": "80"
+              },
+              {
+                "genreTagName": "英国车库舞曲",
+                "rank": "30",
+                "genrePlayCnt": "69"
+              },
+              {
+                "genreTagName": "陷阱舞曲",
+                "rank": "31",
+                "genrePlayCnt": "67"
+              },
+              {
+                "genreTagName": "采样",
+                "rank": "32",
+                "genrePlayCnt": "66"
+              },
+              {
+                "genreTagName": "地域说唱",
+                "rank": "33",
+                "genrePlayCnt": "63"
+              },
+              {
+                "genreTagName": "国风流行",
+                "rank": "34",
+                "genrePlayCnt": "58"
+              },
+              {
+                "genreTagName": "氛围音乐",
+                "rank": "35",
+                "genrePlayCnt": "58"
+              },
+              {
+                "genreTagName": "迷幻舞曲",
+                "rank": "36",
+                "genrePlayCnt": "50"
+              },
+              {
+                "genreTagName": "碎拍",
+                "rank": "37",
+                "genrePlayCnt": "48"
+              },
+              {
+                "genreTagName": "自然新世纪",
+                "rank": "38",
+                "genrePlayCnt": "46"
+              },
+              {
+                "genreTagName": "纯器乐",
+                "rank": "39",
+                "genrePlayCnt": "43"
+              },
+              {
+                "genreTagName": "古风",
+                "rank": "40",
+                "genrePlayCnt": "42"
+              },
+              {
+                "genreTagName": "Electronica",
+                "rank": "41",
+                "genrePlayCnt": "41"
+              },
+              {
+                "genreTagName": "另类流行",
+                "rank": "42",
+                "genrePlayCnt": "40"
+              },
+              {
+                "genreTagName": "驰放",
+                "rank": "43",
+                "genrePlayCnt": "39"
+              },
+              {
+                "genreTagName": "华语流行",
+                "rank": "44",
+                "genrePlayCnt": "38"
+              },
+              {
+                "genreTagName": "电影原声",
+                "rank": "45",
+                "genrePlayCnt": "33"
+              },
+              {
+                "genreTagName": "电子",
+                "rank": "46",
+                "genrePlayCnt": "32"
+              },
+              {
+                "genreTagName": "唱见",
+                "rank": "47",
+                "genrePlayCnt": "30"
+              },
+              {
+                "genreTagName": "纯演奏",
+                "rank": "48",
+                "genrePlayCnt": "30"
+              },
+              {
+                "genreTagName": "电视剧原声",
+                "rank": "49",
+                "genrePlayCnt": "29"
+              },
+              {
+                "genreTagName": "流行说唱",
+                "rank": "50",
+                "genrePlayCnt": "28"
+              }
+            ],
+            "genreCnt": "112"
+          },
+          {
+            "genreType": "1",
+            "genreRank": [
+              {
+                "genreTagName": "电子",
+                "rank": "1",
+                "genrePlayCnt": "3331"
+              },
+              {
+                "genreTagName": "轻音乐",
+                "rank": "2",
+                "genrePlayCnt": "3229"
+              },
+              {
+                "genreTagName": "二次元",
+                "rank": "3",
+                "genrePlayCnt": "2660"
+              },
+              {
+                "genreTagName": "流行",
+                "rank": "4",
+                "genrePlayCnt": "1632"
+              },
+              {
+                "genreTagName": "嘻哈说唱",
+                "rank": "5",
+                "genrePlayCnt": "824"
+              },
+              {
+                "genreTagName": "摇滚",
+                "rank": "6",
+                "genrePlayCnt": "596"
+              },
+              {
+                "genreTagName": "其他",
+                "rank": "7",
+                "genrePlayCnt": "478"
+              },
+              {
+                "genreTagName": "原声带",
+                "rank": "8",
+                "genrePlayCnt": "299"
+              },
+              {
+                "genreTagName": "实验",
+                "rank": "9",
+                "genrePlayCnt": "236"
+              },
+              {
+                "genreTagName": "另类/独立",
+                "rank": "10",
+                "genrePlayCnt": "184"
+              },
+              {
+                "genreTagName": "国风",
+                "rank": "11",
+                "genrePlayCnt": "147"
+              },
+              {
+                "genreTagName": "新世纪",
+                "rank": "12",
+                "genrePlayCnt": "69"
+              },
+              {
+                "genreTagName": "民谣",
+                "rank": "13",
+                "genrePlayCnt": "33"
+              },
+              {
+                "genreTagName": "古典",
+                "rank": "14",
+                "genrePlayCnt": "28"
+              },
+              {
+                "genreTagName": "慢摇DJ",
+                "rank": "15",
+                "genrePlayCnt": "27"
+              },
+              {
+                "genreTagName": "节奏布鲁斯",
+                "rank": "16",
+                "genrePlayCnt": "21"
+              },
+              {
+                "genreTagName": "金属",
+                "rank": "17",
+                "genrePlayCnt": "17"
+              },
+              {
+                "genreTagName": "爵士",
+                "rank": "18",
+                "genrePlayCnt": "9"
+              },
+              {
+                "genreTagName": "宗教",
+                "rank": "19",
+                "genrePlayCnt": "4"
+              },
+              {
+                "genreTagName": "世界音乐",
+                "rank": "20",
+                "genrePlayCnt": "3"
+              },
+              {
+                "genreTagName": "中国音乐",
+                "rank": "21",
+                "genrePlayCnt": "3"
+              },
+              {
+                "genreTagName": "唱作人",
+                "rank": "22",
+                "genrePlayCnt": "1"
+              }
+            ],
+            "genreCnt": "22"
+          }
+        ],
+        "minoritySong": {
+          "minoritySongId": "1942010710",
+          "minoritySongName": "暮秋的遐思",
+          "minoritySingerId": "51535561",
+          "minoritySingerName": "待夕归明",
+          "minoritySongIrstDate": 0,
+          "minoritySongPlayNum": 224,
+          "minoritySongPlayUnt": 11
+        },
+        "seasonsListen": {
+          "spring": {
+            "seasonIndex": 1,
+            "songId": 29737646,
+            "songName": "Memories",
+            "artistId": "347497",
+            "artistName": "Jacoo",
+            "playNum": 84,
+            "picId": "6654244372462660",
+            "picUrl": "http://p1.music.126.net/8inJthYtPgFpfEyBh3tuxA==/6654244372462660.jpg",
+            "bpm": 130,
+            "genreTagNameList": "电子"
+          },
+          "summer": {
+            "seasonIndex": 2,
+            "songId": 33469292,
+            "songName": "hometown",
+            "artistId": "159337",
+            "artistName": "mamomo",
+            "playNum": 77,
+            "picId": "3372202162443904",
+            "picUrl": "http://p1.music.126.net/uj-ciyunQhyQi4q70pkMkw==/3372202162443904.jpg",
+            "bpm": 60,
+            "genreTagNameList": "轻音乐"
+          },
+          "autumn": {
+            "seasonIndex": 3,
+            "songId": 814264,
+            "songName": "しゃん・だら・りん♪",
+            "artistId": "17401",
+            "artistName": "nayuta",
+            "playNum": 40,
+            "picId": "935684395237650",
+            "picUrl": "http://p1.music.126.net/JST9QLeSCXtoYoeJD5_0CA==/935684395237650.jpg",
+            "bpm": 135,
+            "genreTagNameList": "二次元"
+          },
+          "winter": {
+            "seasonIndex": 4,
+            "songId": 1840401436,
+            "songName": "INTERNET OVERDOSE",
+            "artistId": "47734911/16691/1137416",
+            "artistName": "NEEDY GIRL OVERDOSE/KOTOKO/Aiobahn",
+            "playNum": 124,
+            "picId": "109951165925710451",
+            "picUrl": "http://p1.music.126.net/CN5bP6hxB2TXmyMgAPKqHA==/109951165925710451.jpg",
+            "bpm": 130,
+            "genreTagNameList": "二次元,电子"
+          }
+        },
+        "seasonsKeyword": null,
+        "musicEmotion": {
+          "genre": "游戏音乐"
+        },
+        "eggStatistics": {
+          "loginDays": 1682,
+          "headArtistName": "羽肿",
+          "activeDaysThisYear": 176,
+          "dailyRcmdViewDays": 7,
+          "starSongCount": 1557,
+          "playlistCount": 0,
+          "songPlayCount": 4186,
+          "djPlayHours": 0,
+          "level": 8,
+          "latePlayDays": 38,
+          "artistPlayCount": 2759,
+          "searchCount": 0,
+          "songShareCount": 190,
+          "voiceBookPlayCount": 0,
+          "buyAlbumCount": 0,
+          "commentCount": 153,
+          "genrePlayCount": 149,
+          "genrePercents": [
+            {
+              "genreTagName": "电子",
+              "rank": 1,
+              "genrePlayCnt": 3331
+            },
+            {
+              "genreTagName": "轻音乐",
+              "rank": 2,
+              "genrePlayCnt": 3229
+            },
+            {
+              "genreTagName": "二次元",
+              "rank": 3,
+              "genrePlayCnt": 2660
+            },
+            {
+              "genreTagName": "流行",
+              "rank": 4,
+              "genrePlayCnt": 1632
+            },
+            {
+              "genreTagName": "嘻哈说唱",
+              "rank": 5,
+              "genrePlayCnt": 824
+            }
+          ],
+          "headArtistPlayCnt": 0
+        },
+        "availableSurprises": null,
+        "commentBizPage": {
+          "count": 100,
+          "hqCount": 9,
+          "bePraisedCount": 4046,
+          "maxPraisedCountComment": {
+            "name": "Operation Deepness",
+            "detail": "有点好奇yj究竟是怎么找到这么冷门却实力这么强的歌手们合作的[星星]",
+            "count": 3323
+          }
+        },
+        "playlistBizPage": {
+          "createCount": 7,
+          "bePlayedCount": 702,
+          "beSubscribedCount": 1
+        },
+        "musicianBizPage": null,
+        "vipBizPage": {
+          "firstTime": 1655568000000,
+          "vipSongPlayCount": 1185,
+          "vipSongCount": 295,
+          "svip": false,
+          "vip": true
+        },
+        "voicePlayBizPage": null,
+        "voiceCreatorBizPage": null,
+        "listenTogetherBizPage": null,
+        "annualSong": {
+          "songName": "为霜",
+          "songId": 535517304,
+          "artistnamelist": "羽肿",
+          "firstDate": 1640966400000,
+          "songPicId": "109951163131639447",
+          "songPicUrl": "http://p1.music.126.net/678XIIRmFk1IGuv9RB43HQ==/109951163131639447.jpg",
+          "hundredthDate": 1650038400000,
+          "playDays": 172,
+          "playCnt": 241,
+          "userCountOfThisAnnualSong": 2795,
+          "tune": "#c"
+        },
+        "annualPlaylist": {
+          "items": [
+            {
+              "songId": 535517304,
+              "songName": "为霜",
+              "playCount": 241,
+              "index": 1,
+              "artistId": "12094419",
+              "artistName": "羽肿",
+              "picid": "109951163131639447",
+              "picUrl": "http://p1.music.126.net/678XIIRmFk1IGuv9RB43HQ==/109951163131639447.jpg"
+            },
+            {
+              "songId": 1942010710,
+              "songName": "暮秋的遐思",
+              "playCount": 224,
+              "index": 2,
+              "artistId": "51535561",
+              "artistName": "待夕归明",
+              "picid": "109951167346606545",
+              "picUrl": "http://p1.music.126.net/KPKzKkCRm4YO9FP27KdkiA==/109951167346606545.jpg"
+            },
+            {
+              "songId": 1921835598,
+              "songName": "为霜(Piano Solo)",
+              "playCount": 183,
+              "index": 3,
+              "artistId": "51535561",
+              "artistName": "待夕归明",
+              "picid": "109951167069957628",
+              "picUrl": "http://p1.music.126.net/aNPMPT7cjI8u3bC7Gc4kvA==/109951167069957628.jpg"
+            },
+            {
+              "songId": 1936622715,
+              "songName": "夕落",
+              "playCount": 169,
+              "index": 4,
+              "artistId": "51535561",
+              "artistName": "待夕归明",
+              "picid": "109951167354674123",
+              "picUrl": "http://p1.music.126.net/ugoE8EreqJPueKMiwSVArw==/109951167354674123.jpg"
+            },
+            {
+              "songId": 434902428,
+              "songName": "花火が瞬く夜に",
+              "playCount": 128,
+              "index": 5,
+              "artistId": "12094419",
+              "artistName": "羽肿",
+              "picid": "736672800839982",
+              "picUrl": "http://p1.music.126.net/f7Nd9FSzVZMkTPWDW_rnOg==/736672800839982.jpg"
+            },
+            {
+              "songId": 1840401436,
+              "songName": "INTERNET OVERDOSE",
+              "playCount": 124,
+              "index": 6,
+              "artistId": "47734911/16691/1137416",
+              "artistName": "NEEDY GIRL OVERDOSE/KOTOKO/Aiobahn",
+              "picid": "109951165925710451",
+              "picUrl": "http://p1.music.126.net/CN5bP6hxB2TXmyMgAPKqHA==/109951165925710451.jpg"
+            },
+            {
+              "songId": 1298135870,
+              "songName": "Atolón",
+              "playCount": 109,
+              "index": 7,
+              "artistId": "1074042",
+              "artistName": "Noicybino",
+              "picid": "109951163436673353",
+              "picUrl": "http://p1.music.126.net/ID9frVgi-6h0-o9immuB0A==/109951163436673353.jpg"
+            },
+            {
+              "songId": 38018486,
+              "songName": "Collapsing World",
+              "playCount": 101,
+              "index": 8,
+              "artistId": "1084238",
+              "artistName": "Lightscape",
+              "picid": "109951167955465270",
+              "picUrl": "http://p1.music.126.net/b-zvY5gJZ2zZ-F7WcH1cbg==/109951167955465270.jpg"
+            },
+            {
+              "songId": 427606780,
+              "songName": "Windy Hill",
+              "playCount": 95,
+              "index": 9,
+              "artistId": "12094419",
+              "artistName": "羽肿",
+              "picid": "18241997416865263",
+              "picUrl": "http://p1.music.126.net/dAJR6IWlKitcNVlfQwtgfA==/18241997416865263.jpg"
+            },
+            {
+              "songId": 29737646,
+              "songName": "Memories",
+              "playCount": 84,
+              "index": 10,
+              "artistId": "347497",
+              "artistName": "Jacoo",
+              "picid": "6654244372462660",
+              "picUrl": "http://p1.music.126.net/8inJthYtPgFpfEyBh3tuxA==/6654244372462660.jpg"
+            }
+          ]
+        },
+        "annualSinger": {
+          "singerId": "32540734",
+          "singerName": "塞壬唱片-MSR",
+          "singerPicid": "109951164481886292",
+          "singerPicUrl": "http://p1.music.126.net/J8mrQPu9oKSva8ziYrGmJQ==/109951164481886292.jpg",
+          "playCount": 873,
+          "top5Songs": [
+            {
+              "songId": null,
+              "name": "Operation Deepness",
+              "playCount": 53,
+              "index": 1
+            },
+            {
+              "songId": null,
+              "name": "Fading Sky",
+              "playCount": 40,
+              "index": 2
+            },
+            {
+              "songId": null,
+              "name": "Radiant",
+              "playCount": 37,
+              "index": 3
+            },
+            {
+              "songId": null,
+              "name": "Operation Spectrum",
+              "playCount": 37,
+              "index": 4
+            },
+            {
+              "songId": null,
+              "name": "却阑珊",
+              "playCount": 33,
+              "index": 5
+            }
+          ]
+        },
+        "annualSingerComparePage": {
+          "singers": [
+            {
+              "year": "2018",
+              "singerName": "徐梦圆",
+              "singerPicid": "109951162862731136",
+              "singerPicUrl": "http://p1.music.126.net/QC-3mPpg7B3dU_13nkYbrA==/109951162862731136.jpg"
+            },
+            {
+              "year": "2019",
+              "singerName": "羽肿",
+              "singerPicid": "109951162878075722",
+              "singerPicUrl": "http://p1.music.126.net/W1P9f2XA0RgEuYU_wrfGjQ==/109951162878075722.jpg"
+            },
+            {
+              "year": "2020",
+              "singerName": "羽肿",
+              "singerPicid": "109951162878075722",
+              "singerPicUrl": "http://p1.music.126.net/W1P9f2XA0RgEuYU_wrfGjQ==/109951162878075722.jpg"
+            },
+            {
+              "year": "2021",
+              "singerName": "ずっと真夜中でいいのに。",
+              "singerPicid": "109951164990345551",
+              "singerPicUrl": "http://p1.music.126.net/KG36FXPZGot9nRkM77TghA==/109951164990345551.jpg"
+            },
+            {
+              "year": "2022",
+              "singerName": "塞壬唱片-MSR",
+              "singerPicid": "109951164481886292",
+              "singerPicUrl": "http://p1.music.126.net/J8mrQPu9oKSva8ziYrGmJQ==/109951164481886292.jpg"
+            }
+          ]
+        }
+      },
+      "message": ""
+    }
+  }
+}

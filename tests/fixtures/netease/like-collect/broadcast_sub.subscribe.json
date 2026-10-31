@@ -1,0 +1,22 @@
+{
+  "module": "broadcast_sub",
+  "query": {
+    "id": 131,
+    "t": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:29:24.608Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：broadcast_sub 正向（收藏广播频道 131）；写前 broadcast_channel_collect_list 为空，收藏后回读含频道 131"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200,
+      "data": true,
+      "message": ""
+    }
+  }
+}

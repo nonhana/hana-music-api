@@ -43,6 +43,10 @@ const result = await musicianPlayTrend({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、趋势数组 `body.data`、日期键 `body.data[].dateTime` 和每天的播放数 `body.data[].dataValue` 收紧，播放数是字符串（`"0"` 也正常）。`startTime`/`endTime` 传 `YYYY-MM-DD` 字符串；毫秒数、秒数或缺少参数会返回 `code: 400`（`musician_play_trend.ms-params.json`、`musician_play_trend.s-params.json`、`musician_play_trend.no-params.json`），SDK 以 `status: 400` 转交原文。没有播放记录的区间返回 `data: []`（`musician_play_trend.empty.json`），匿名调用也返回空趋势（`musician_play_trend.anonymous-empty.json`）。录制来自音乐人账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `anonimousUser: false`（未落盘））。结构定义和类型是 `MusicianPlayTrendBody`，见[返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 音乐人登录后调用此接口，可获取歌曲播放趋势

@@ -37,6 +37,10 @@ const result = await vipGrowthpoint();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code`、成长值页 `body.data`、当前用户记录 `body.data.userLevel` 及其 `userId`、`growthPoint` 收紧；`levelCard` 是附带展示信息，字段全部宽松。登录对照的字段集合与类型相同，值差异只来自账号状态；匿名对照录制保留为 `vip/vip_growthpoint.anonymous.json`。结构定义和类型是 `VipGrowthpointBody`，见[返回体结构](/guide/response-bodies)。
+
 ## 补充说明
 
 说明 : 登录后调用此接口，可获取当前会员成长值

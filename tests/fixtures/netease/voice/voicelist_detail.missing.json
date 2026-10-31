@@ -1,0 +1,21 @@
+{
+  "module": "voicelist_detail",
+  "query": {
+    "id": 900000002
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:53:53.228Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B43：voicelist_detail 播客不存在，账号没有播客，成功体缺口"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 400,
+      "message": "播客不存在",
+      "data": null
+    }
+  }
+}

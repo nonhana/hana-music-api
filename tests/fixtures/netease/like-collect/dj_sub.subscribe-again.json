@@ -1,0 +1,20 @@
+{
+  "module": "dj_sub",
+  "query": {
+    "rid": 792544462,
+    "t": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T02:29:14.518Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B45：dj_sub 已订阅再订阅，幂等成功 code 200；回读 dj_sublist 仍 2 个"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "code": 200
+    }
+  }
+}

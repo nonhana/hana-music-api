@@ -1,0 +1,20 @@
+{
+  "module": "ugc_song_get",
+  "query": {
+    "id": 1
+  },
+  "context": {
+    "recordedAt": "2026-10-26T00:36:03.432Z",
+    "sdk": "hana-music-api@3.1.0",
+    "region": "local",
+    "viewer": "authenticated",
+    "note": "issue #102 B42：ugc_song_get 未知歌曲，code 200 且没有 data（可以没有的路径证据）"
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "message": "歌曲未查到",
+      "code": 200
+    }
+  }
+}

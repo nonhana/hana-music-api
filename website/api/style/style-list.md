@@ -37,6 +37,10 @@ const result = await styleList();
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.code` 和 `body.data` 收紧：`data` 是通到曲风列表的路径，每个曲风自己的编号 `data[].tagId` 也收紧。`body.data[].childrenTags` 是子曲风，嵌在宽松字段里，里面的 `tagId` 也宽松；录制里最多三层，第三层的 `childrenTags` 只见过 `null`，没有声明。`tagName`、`enName`、`level`、`picUrl`、`colorDeep`、`colorShallow`、`link`、`showText`、`tabs` 都宽松。这个接口没有参数，本批录制（28 个一级曲风）与探测未发现可达的空结果；`data` 本身允许为空数组。
+
 ## 补充说明
 
 说明: 调用此接口获取曲风列表及其对应的 `tagId`

@@ -42,6 +42,10 @@ const result = await msgPrivate({
 console.log(result.body);
 ```
 
+## 返回内容
+
+`body.msgs` 是私信会话列表，每个会话只收紧自己的编号 `msgs[].user.id`；会话双方 `fromUser`、`toUser` 是附带资料，复用 `UserProfile` 的字段但把 `userId` 放宽，另补 `expertTags`，整个对象按宽松字段处理。`lastMsg` 是最后一条消息的 JSON 字符串，`lastMsgId`、`lastMsgTime`、`msgSenderType`、`newMsgCount`、`noticeAccountFlag`、`more` 都宽松。`offset` 越界时返回空数组；未登录时上游返回 `code: 200` 和空会话列表。结构定义和类型是 `MsgPrivateBody`。
+
 ## 补充说明
 
 说明 : 登录后调用此接口 ,可获取私信
