@@ -1,16 +1,19 @@
 import { isIP } from 'node:net';
 
-import { Clock, Data, Effect, Option, Ref, Semaphore } from 'effect';
+import { Clock, Effect, Option, Ref, Schema, Semaphore } from 'effect';
 import type { Context, MiddlewareHandler } from 'hono';
 
 import { isUploadModule } from '../core/endpoint-policy.ts';
 import type { CreateServerOptions, TrafficOptions } from '../types/server.ts';
 
-class TrafficRejectedError extends Data.TaggedError('TrafficRejectedError')<{
-  readonly status: 429 | 503;
-  readonly message: string;
-  readonly retryAfterMs?: number;
-}> {}
+class TrafficRejectedError extends Schema.TaggedError<
+  TrafficRejectedError,
+  { readonly brand: unique symbol }
+>()('TrafficRejectedError', {
+  status: Schema.Literals([429, 503]),
+  message: Schema.String,
+  retryAfterMs: Schema.optional(Schema.Finite),
+}) {}
 
 const requestIps = new WeakMap<Request, string>();
 
@@ -106,7 +109,7 @@ export class AdmissionController {
         return [tokens >= 1, buckets];
       });
       if (!allowed) {
-        return yield* new TrafficRejectedError({
+        return yield* TrafficRejectedError.make({
           status: 429,
           message: 'Too Many Requests',
           retryAfterMs: 1_000,
@@ -130,21 +133,19 @@ export class AdmissionController {
         ? uploads
             .withPermitsIfAvailable(1)(counted)
             .pipe(
-              Effect.filterOrFail(
-                Option.isSome,
-                () =>
-                  new TrafficRejectedError({
-                    status: 503,
-                    message: 'Upload capacity exhausted',
-                    retryAfterMs: 1_000,
-                  }),
+              Effect.filterOrFail(Option.isSome, () =>
+                TrafficRejectedError.make({
+                  status: 503,
+                  message: 'Upload capacity exhausted',
+                  retryAfterMs: 1_000,
+                }),
               ),
               Effect.map(Option.getOrThrow),
             )
         : counted;
       const result = yield* modules.withPermitsIfAvailable(1)(guarded);
       if (Option.isNone(result)) {
-        return yield* new TrafficRejectedError({
+        return yield* TrafficRejectedError.make({
           status: 503,
           message: 'Module capacity exhausted',
           retryAfterMs: 1_000,
