@@ -22,7 +22,7 @@ test.each([true, false])(
 import { Effect } from ${JSON.stringify(import.meta.resolve('effect'))}
 import { InvalidModuleInput } from ${JSON.stringify(new URL('../../src/core/errors.ts', import.meta.url).href)}
 export let executions = 0
-${decode ? "export const decodeModuleInput = (input) => typeof input.id === 'string' ? Effect.succeed({ id: input.id }) : Effect.fail(new InvalidModuleInput({ message: 'id must be a string' }))" : ''}
+${decode ? "export const decodeModuleInput = (input) => typeof input.id === 'string' ? Effect.succeed({ id: input.id }) : Effect.fail(InvalidModuleInput.make({ message: 'id must be a string' }))" : ''}
 export default (input) => Effect.sync(() => { executions += 1; return { status: 200, cookie: [], body: input } })
 `,
       );

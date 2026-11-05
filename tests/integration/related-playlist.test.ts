@@ -59,7 +59,7 @@ test('related playlists reject a non-text HTML body with a typed error', async (
 test.each([429, 503, 499, 504])(
   'playlist tracks propagates execution failure %d',
   async (status) => {
-    const failure = new ProtocolFailed({
+    const failure = ProtocolFailed.make({
       message: 'execution failed',
       response: { ...response({ code: status, retryAfter: 7 }), status },
     });

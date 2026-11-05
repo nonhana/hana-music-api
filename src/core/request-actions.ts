@@ -32,7 +32,7 @@ export const normalizeActionTarget = (
     resolved.hash ||
     !resolved.pathname.startsWith('/api/')
   ) {
-    throw new InvalidRequest({
+    throw InvalidRequest.make({
       message:
         'Request action target must be an API path without query or fragment',
     });
@@ -46,7 +46,7 @@ export const normalizeActionTarget = (
         ? path.startsWith(boundary.prefix)
         : path === boundary.prefix || path.startsWith(`${boundary.prefix}/`));
   if (!matches) {
-    throw new InvalidRequest({
+    throw InvalidRequest.make({
       message: 'Request must match a declared module action target',
     });
   }
@@ -55,7 +55,7 @@ export const normalizeActionTarget = (
 
 export const validateModuleActions = (value: unknown): ModuleActions => {
   if (!isRecord(value)) {
-    throw new InvalidRequest({ message: 'moduleActions must be an object' });
+    throw InvalidRequest.make({ message: 'moduleActions must be an object' });
   }
   for (const [name, action] of Object.entries(value)) {
     if (
@@ -77,7 +77,7 @@ export const validateModuleActions = (value: unknown): ModuleActions => {
       (action.semantic !== 'read' &&
         (action.cache !== 'none' || action.retry !== 'never'))
     ) {
-      throw new InvalidRequest({ message: `Invalid request action: ${name}` });
+      throw InvalidRequest.make({ message: `Invalid request action: ${name}` });
     }
   }
   // 上面的逐字段校验建立动作合同；复制并冻结后，模块不能在 token 等待期间修改本次声明。
@@ -89,7 +89,7 @@ export const validateModuleActions = (value: unknown): ModuleActions => {
       normalizeActionTarget(boundary, requestProfiles[action.profile]) !==
       boundary
     ) {
-      throw new InvalidRequest({
+      throw InvalidRequest.make({
         message: 'Declared action target must use a canonical API path',
       });
     }

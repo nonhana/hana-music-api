@@ -64,7 +64,7 @@ const playlistTrackAll: ModuleEffect<ModuleInput, ModuleBody> = (
     );
     const body = response.body;
     if (body === null || typeof body !== 'object' || Array.isArray(body)) {
-      return yield* new UnexpectedUpstreamShape({
+      return yield* UnexpectedUpstreamShape.make({
         module: 'playlist_track_all',
         path: 'body',
         expected: 'object',
@@ -78,7 +78,7 @@ const playlistTrackAll: ModuleEffect<ModuleInput, ModuleBody> = (
         typeof playlist !== 'object' ||
         Array.isArray(playlist))
     ) {
-      return yield* new UnexpectedUpstreamShape({
+      return yield* UnexpectedUpstreamShape.make({
         module: 'playlist_track_all',
         path: 'body.playlist',
         expected: 'object',
@@ -87,7 +87,7 @@ const playlistTrackAll: ModuleEffect<ModuleInput, ModuleBody> = (
     }
     const trackIds = playlist?.trackIds ?? [];
     if (!Array.isArray(trackIds)) {
-      return yield* new UnexpectedUpstreamShape({
+      return yield* UnexpectedUpstreamShape.make({
         module: 'playlist_track_all',
         path: 'body.playlist.trackIds',
         expected: 'array',
@@ -102,7 +102,7 @@ const playlistTrackAll: ModuleEffect<ModuleInput, ModuleBody> = (
         Array.isArray(track) ||
         (typeof track.id !== 'number' && typeof track.id !== 'string')
       ) {
-        return yield* new UnexpectedUpstreamShape({
+        return yield* UnexpectedUpstreamShape.make({
           module: 'playlist_track_all',
           path: 'body.playlist.trackIds[].id',
           expected: 'number or string',

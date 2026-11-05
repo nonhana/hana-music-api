@@ -9,15 +9,14 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 const musicianSign: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
     const data = {};
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/creator/user/access`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/creator/user/access`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    return toModuleResponse(response);
   });
 
 /**

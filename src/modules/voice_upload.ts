@@ -64,7 +64,7 @@ export const parseMultipartUploadId = (xml: unknown) => {
   return uploadId
     ? Effect.succeed(uploadId)
     : Effect.fail(
-        new UnexpectedUpstreamShape({
+        UnexpectedUpstreamShape.make({
           module: 'voice_upload',
           path: 'UploadId',
           expected: 'non-empty XML UploadId',
@@ -89,7 +89,7 @@ const voiceUpload: ModuleEffect<ModuleInput> = (input, request) =>
   uploadWork('voice_upload', request, (stage) =>
     Effect.gen(function* () {
       if (!input.songFile) {
-        return yield* new InvalidModuleInput({
+        return yield* InvalidModuleInput.make({
           message: '请上传音频文件',
           status: 500,
         });
@@ -127,14 +127,13 @@ const voiceUpload: ModuleEffect<ModuleInput> = (input, request) =>
           }),
         }),
       )(allocation.body).pipe(
-        Effect.mapError(
-          () =>
-            new UnexpectedUpstreamShape({
-              module: 'voice_upload',
-              path: 'result',
-              expected: 'docId, objectKey and token',
-              actual: typeof allocation.body,
-            }),
+        Effect.mapError(() =>
+          UnexpectedUpstreamShape.make({
+            module: 'voice_upload',
+            path: 'result',
+            expected: 'docId, objectKey and token',
+            actual: typeof allocation.body,
+          }),
         ),
       );
       const objectKey = encodeURIComponent(token.objectKey);
@@ -150,9 +149,8 @@ const voiceUpload: ModuleEffect<ModuleInput> = (input, request) =>
         response: 'text',
         semantic: 'upload',
       });
-      const uploadId = encodeURIComponent(
-        yield* parseMultipartUploadId(initialized.body),
-      );
+      const parsedUploadId = yield* parseMultipartUploadId(initialized.body);
+      const uploadId = encodeURIComponent(parsedUploadId);
       const bytes =
         input.songFile.data instanceof ArrayBuffer
           ? new Uint8Array(input.songFile.data)
@@ -225,7 +223,7 @@ const voiceUpload: ModuleEffect<ModuleInput> = (input, request) =>
         semantic: 'upload',
       });
       if (!isRecord(submitted.body)) {
-        return yield* new UnexpectedUpstreamShape({
+        return yield* UnexpectedUpstreamShape.make({
           module: 'voice_upload',
           path: 'body',
           expected: 'object',

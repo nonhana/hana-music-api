@@ -47,7 +47,7 @@ const loginQrCreate: ModuleEffect<ModuleInput, ModuleBody> = (query) =>
       ? yield* Effect.tryPromise({
           try: () => QRCode.toDataURL(url),
           catch: (error) =>
-            new ModuleInvariantFailed({ message: String(error) }),
+            ModuleInvariantFailed.make({ message: String(error) }),
         })
       : '';
     return {

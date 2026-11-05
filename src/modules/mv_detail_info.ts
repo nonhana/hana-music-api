@@ -33,7 +33,7 @@ const mvDetailInfo: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       typeof query.mvid !== 'number' &&
       typeof query.mvid !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'mvid must be a primitive value',
       });
     }

@@ -46,7 +46,7 @@ export const buildActionRequestIntent = (
   const path =
     target ?? (typeof action.target === 'string' ? action.target : undefined);
   if (!path) {
-    throw new InvalidRequest({
+    throw InvalidRequest.make({
       message: `Request action ${name} needs a target`,
     });
   }

@@ -13,15 +13,14 @@ const captchaVerify: ModuleEffect<ModuleInput> = (query, request) =>
       cellphone: query.phone,
       captcha: query.captcha,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/sms/captcha/verify`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/sms/captcha/verify`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    return toModuleResponse(response);
   });
 
 /**

@@ -38,7 +38,7 @@ const avatarUpload: ModuleEffect<ModuleInput> = (input, request) =>
         semantic: 'upload',
       });
       if (!isRecord(response.body)) {
-        return yield* new UnexpectedUpstreamShape({
+        return yield* UnexpectedUpstreamShape.make({
           module: 'avatar_upload',
           path: 'body',
           expected: 'object',

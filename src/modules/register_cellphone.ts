@@ -41,15 +41,14 @@ const registerCellphone: ModuleEffect<ModuleInput> = (query, request) =>
       countrycode: query.countrycode || '86',
       force: 'false',
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/w/register/cellphone`,
-          data,
-          createOption(query),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/w/register/cellphone`,
+        data,
+        createOption(query),
       ),
     );
+    return toModuleResponse(response);
   });
 
 /**

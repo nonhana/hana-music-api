@@ -11,15 +11,14 @@ const userCloudDel: ModuleEffect<ModuleInput> = (query, request) =>
     const data = {
       songIds: [query.id],
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/cloud/del`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/cloud/del`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    return toModuleResponse(response);
   });
 
 /**

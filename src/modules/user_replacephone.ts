@@ -14,15 +14,14 @@ const userReplacephone: ModuleEffect<ModuleInput> = (query, request) =>
       oldcaptcha: query.oldcaptcha,
       countrycode: query.countrycode || '86',
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/user/replaceCellphone`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/user/replaceCellphone`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    return toModuleResponse(response);
   });
 
 export default userReplacephone;

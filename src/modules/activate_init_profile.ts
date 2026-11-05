@@ -11,15 +11,14 @@ const activateInitProfile: ModuleEffect<ModuleInput> = (query, request) =>
     const data = {
       nickname: query.nickname,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/activate/initProfile`,
-          data,
-          createOption(query),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/activate/initProfile`,
+        data,
+        createOption(query),
       ),
     );
+    return toModuleResponse(response);
   });
 
 /**

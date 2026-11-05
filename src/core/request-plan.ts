@@ -136,7 +136,7 @@ export const prepareRequest = (
     }
 
     default: {
-      throw new InvalidRequest({
+      throw InvalidRequest.make({
         message: `Unknown crypto mode: ${String(resolvedCrypto)}`,
       });
     }

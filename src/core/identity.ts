@@ -69,7 +69,7 @@ export const createIdentityPool = (
       // 池已由上方 initialization 循环填满 size 条；越界仅发生于异常并发，取模兜底。
       const identity = values[index] ?? values[index % size];
       if (identity === undefined) {
-        return yield* new TransportFailed({
+        return yield* TransportFailed.make({
           message: 'IdentityPool initialization failed',
           cause: new Error(`pool empty at index ${index}`),
         });

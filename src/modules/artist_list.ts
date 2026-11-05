@@ -55,7 +55,7 @@ const artistList: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       typeof query.initial !== 'number' &&
       typeof query.initial !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'initial must be a primitive value',
       });
     }

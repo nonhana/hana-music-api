@@ -70,7 +70,7 @@ export const registerAnonymousEffect = (
     );
     const cookie = cookieToJson(result.cookie.join('; '));
     if (!cookie.MUSIC_A) {
-      return yield* new ResponseDecodeFailed({
+      return yield* ResponseDecodeFailed.make({
         message: 'Anonymous registration did not return MUSIC_A',
       });
     }
@@ -122,7 +122,7 @@ export const ensureRuntimeAnonymousToken = (
             duration: timeoutMs,
             orElse: () =>
               Effect.fail(
-                new DeadlineExceeded({ message: 'Request timed out' }),
+                DeadlineExceeded.make({ message: 'Request timed out' }),
               ),
           }),
         )
