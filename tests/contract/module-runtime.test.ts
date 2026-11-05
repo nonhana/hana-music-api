@@ -3,10 +3,15 @@ import { describe, expect, test } from 'bun:test';
 import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
 
-import { buildCallServices, runCall } from '../../src/core/call.ts';
+import { buildCallServices, Call, runCall } from '../../src/core/call.ts';
+import { InvalidRequest } from '../../src/core/errors.ts';
 import { ReadStore } from '../../src/core/read-store.ts';
+import type { ModuleActions } from '../../src/core/request-actions.ts';
+import { buildActionRequestIntent } from '../../src/core/request-intent.ts';
+import { toModuleResponse } from '../../src/core/response.ts';
 import search, {
   decodeModuleInput as decodeSearchInput,
+  moduleActions as searchActions,
 } from '../../src/modules/search.ts';
 import type {
   FetchLike,
@@ -26,7 +31,204 @@ const searchImplementation = (
 ) => testRequest(request, '/api/search/get', {}, { crypto: 'api' });
 
 describe('module ownership', () => {
-  test('a real Effect read shares transport and isolates identity, target, and protocol', async () => {
+  test('declared reads isolate effective profile, target, parameters, session and transport', async () => {
+    const services = buildCallServices({ cache: { ttlMs: 120_000 } }, false);
+    const web = {
+      read: {
+        profile: 'web',
+        target: '/api/search/get',
+        semantic: 'read',
+        token: 'none',
+        cache: 'shared',
+        retry: 'read',
+      },
+    } as const satisfies ModuleActions;
+    const eapi = {
+      read: { ...web.read, profile: 'eapiTransition' },
+    } as const satisfies ModuleActions;
+    const voice = {
+      read: { ...web.read, target: '/api/search/voice/get' },
+    } as const satisfies ModuleActions;
+    const actionName = 'read';
+    let requests = 0;
+    const fetcher: FetchLike = async (url, init) => {
+      requests += 1;
+      await Bun.sleep(5);
+      return Response.json({
+        code: 200,
+        url:
+          typeof url === 'string'
+            ? url
+            : url instanceof URL
+              ? url.href
+              : url.url,
+        cookie: new Headers(init?.headers).get('cookie'),
+      });
+    };
+    const execute = (input: ModuleQuery, request: RequestCapability) =>
+      Effect.gen(function* () {
+        const action = (yield* Call).actions?.[actionName];
+        if (!action)
+          return yield* InvalidRequest.make({ message: 'Missing test action' });
+        const response = yield* request(
+          buildActionRequestIntent(actionName, action, { s: input.keywords }),
+        );
+        return toModuleResponse(response);
+      });
+    const invoke = (
+      actions: ModuleActions,
+      keywords = 'same',
+      cookie = 'MUSIC_U=declared-identity',
+      transport = fetcher,
+    ) =>
+      runCall(
+        {
+          identifier: 'search',
+          input: { keywords },
+          config: { cookie, fetcher: transport },
+        },
+        services,
+        {
+          identifier: 'search',
+          route: '/search',
+          decodeInput: decodeSearchInput,
+          actions,
+          execute,
+        },
+      );
+    const [first, second] = await Promise.all([invoke(web), invoke(web)]);
+    expect(first.body).not.toBe(second.body);
+    expect(requests).toBe(1);
+    expect((await invoke(eapi)).body).toMatchObject({
+      url: 'https://interface.music.163.com/eapi/search/get',
+    });
+    expect((await invoke(voice)).body).toMatchObject({
+      url: 'https://music.163.com/weapi/search/voice/get',
+    });
+    await invoke(web, 'different');
+    expect(
+      (await invoke(web, 'same', 'MUSIC_U=other-identity')).body,
+    ).toMatchObject({
+      cookie: expect.stringContaining('MUSIC_U=other-identity'),
+    });
+    await invoke(web, 'same', 'MUSIC_U=declared-identity', async (url, init) =>
+      fetcher(url, init),
+    );
+    expect(requests).toBe(6);
+    await invoke(web);
+    expect(requests).toBe(6);
+    expect(services.reads.snapshot.inflight).toBe(0);
+  });
+
+  test('an unshared action does not inherit sharing from its module name', async () => {
+    const services = buildCallServices({ cache: { ttlMs: 120_000 } }, false);
+    const actions = {
+      read: {
+        profile: 'web',
+        target: '/api/search/get',
+        semantic: 'read',
+        token: 'none',
+        cache: 'none',
+        retry: 'never',
+      },
+    } as const satisfies ModuleActions;
+    let calls = 0;
+    const fetcher: FetchLike = async () => {
+      const value = ++calls;
+      await Bun.sleep(10);
+      return Response.json({ code: 200, value });
+    };
+    const definition = {
+      identifier: 'search',
+      route: '/search',
+      actions,
+      decodeInput: decodeSearchInput,
+      execute: (_input: ModuleQuery, request: RequestCapability) =>
+        request(buildActionRequestIntent('read', actions.read, {})).pipe(
+          Effect.map(toModuleResponse),
+        ),
+    };
+    const invoke = () =>
+      runCall(
+        {
+          identifier: 'search',
+          input: { keywords: 'unshared' },
+          config: { cookie: 'MUSIC_U=unshared', fetcher },
+        },
+        services,
+        definition,
+      );
+    const [first, second] = await Promise.all([invoke(), invoke()]);
+    expect(first.body).toMatchObject({ value: 1 });
+    expect(second.body).toMatchObject({ value: 2 });
+    expect((await invoke()).body).toMatchObject({ value: 3 });
+    expect(calls).toBe(3);
+    expect(services.reads.snapshot.inflight).toBe(0);
+  });
+
+  test.each([
+    { retry: 'never', failure: 'ECONNREFUSED', attempts: 1, limit: 1 },
+    { retry: 'connect', failure: 'ECONNRESET', attempts: 1, limit: 3 },
+    { retry: 'read', failure: 'ECONNRESET', attempts: 3, limit: 3 },
+  ] as const)(
+    '$retry action bounds caller-requested retries after $failure',
+    async (scenario) => {
+      const services = buildCallServices({}, false);
+      const actions = {
+        read: {
+          profile: 'web',
+          target: '/api/search/get',
+          semantic: 'read',
+          token: 'none',
+          cache: 'none',
+          retry: scenario.retry,
+        },
+      } as const satisfies ModuleActions;
+      let calls = 0;
+      const reportedLimits: Array<number> = [];
+      const result = await runCall(
+        {
+          identifier: 'action-retry',
+          input: { keywords: 'retry' },
+          config: {
+            cookie: 'MUSIC_U=action-retry',
+            onRequestEvent: (event) => {
+              if (event.type === 'attempt')
+                reportedLimits.push(event.maxAttempts);
+            },
+            retry: {
+              retryNonIdempotent: true,
+              retries: 2,
+              backoffMs: 0,
+              jitter: false,
+            },
+            fetcher: async () => {
+              calls += 1;
+              throw new Error(scenario.failure);
+            },
+          },
+        },
+        services,
+        {
+          identifier: 'action-retry',
+          route: '/action/retry',
+          actions,
+          decodeInput: decodeSearchInput,
+          execute: (_input, request) =>
+            request(buildActionRequestIntent('read', actions.read, {})).pipe(
+              Effect.map(toModuleResponse),
+            ),
+        },
+      ).catch((error: unknown) => error);
+      expect(result).toMatchObject({ status: 502 });
+      expect(calls).toBe(scenario.attempts);
+      expect(reportedLimits.every((limit) => limit === scenario.limit)).toBe(
+        true,
+      );
+    },
+  );
+
+  test('a real declared read shares transport and preserves its identity', async () => {
     const services = buildCallServices({ cache: { ttlMs: 120_000 } }, false);
     let calls = 0;
     const fetcher: FetchLike = async (url, init) => {
@@ -48,6 +250,7 @@ describe('module ownership', () => {
       route: '/search',
       decodeInput: decodeSearchInput,
       execute: search,
+      actions: searchActions,
     };
     const invoke = (config = {}) =>
       runCall(
@@ -78,10 +281,10 @@ describe('module ownership', () => {
     expect(
       (await invoke({ domain: 'https://music.163.com' })).body,
     ).toMatchObject({
-      target: 'https://music.163.com/api/search/get',
+      target: 'https://interface.music.163.com/eapi/search/get',
     });
     expect((await invoke({ crypto: 'weapi' })).body).toMatchObject({
-      target: 'https://music.163.com/weapi/search/get',
+      target: 'https://interface.music.163.com/eapi/search/get',
     });
     expect(calls).toBe(4);
   });

@@ -95,7 +95,7 @@ export const runCall = <Input extends ModuleQuery>(
             catch: (error) =>
               error instanceof InvalidRequest
                 ? error
-                : new InvalidRequest({ message: 'Invalid module actions' }),
+                : InvalidRequest.make({ message: 'Invalid module actions' }),
           });
     const scoped = yield* CallServices;
     const config = {
@@ -138,7 +138,13 @@ export const runCall = <Input extends ModuleQuery>(
       effective,
       scoped.process.readState(effective.state),
     );
-    const read = isReadModule(input.identifier);
+    const declaredActions = actions && Object.values(actions);
+    const read = declaredActions
+      ? declaredActions.length > 0 &&
+        declaredActions.every(
+          (action) => action.semantic === 'read' && action.cache === 'shared',
+        )
+      : isReadModule(input.identifier);
     const call: CallShape = Object.freeze({
       identifier: input.identifier,
       actions,
@@ -225,7 +231,7 @@ export const runCall = <Input extends ModuleQuery>(
           actions: call.actions,
           input: call.input,
           config: keyConfig,
-          identity: call.identity.fingerprint,
+          identity: call.identity,
           references,
         }),
       )
@@ -242,7 +248,7 @@ export const runCall = <Input extends ModuleQuery>(
             duration: timeoutMs,
             orElse: () =>
               Effect.fail(
-                new DeadlineExceeded({ message: 'Request timed out' }),
+                DeadlineExceeded.make({ message: 'Request timed out' }),
               ),
           }),
         )

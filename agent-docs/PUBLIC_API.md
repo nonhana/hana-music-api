@@ -19,7 +19,7 @@
 
 query 只承载端点业务输入，config 承载 Cookie、代理、fetcher、重试、期限、取消和运行时状态。SDK 的 `fetcher` 必须兼容标准 fetch 签名并遵守 `AbortSignal`；请求总期限包含重试等待和完整正文读取。
 
-歌单收藏的 profile 已统一为 web：普通模块配置中的协议、域名、UA、协议选项和受控请求头不能覆盖其声明，Cookie 中的桌面/移动身份字段也不会进入网页请求；登录会话 Cookie 保留。收藏的 `checkToken` 支持单次字符串或每次调用现取的 provider，取消既不取值也不携带 token。其他模块的配置收口按 P12 完成，当前不应宣称全量模块已迁移。
+歌单收藏的 profile 已统一为 web：普通模块配置中的协议、域名、UA、协议选项和受控请求头不能覆盖其声明，Cookie 中的桌面/移动身份字段也不会进入网页请求；登录会话 Cookie 保留。收藏的 `checkToken` 支持单次字符串或每次调用现取的 provider，取消既不取值也不携带 token。四个共享读取模块也由动作声明控制协议和身份：歌曲详情使用 web，搜索、歌词与歌单详情沿用明确标记的 eapi 过渡形态，尚未完成一致身份的上游验收；三者不能作为最终 profile 例外。其余模块的配置收口按 P12 完成，当前不应宣称全量模块已迁移。
 
 浏览器子路径提供 `initializeWatchman` 和 Promise `getToken`，不依赖请求内核、Hono 或 Node 内置模块。Node/SSR 可以安全导入，调用浏览器 initializer 时明确失败；根入口不加载 DOM 初始化代码。
 

@@ -1,11 +1,11 @@
 import { Effect, Schema } from 'effect';
 
-import { Call } from '../core/call.ts';
-import { APP_CONF } from '../core/config.ts';
 import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -54,15 +54,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/song/lyric',
+    profile: 'eapiTransition',
+    semantic: 'read',
+    token: 'none',
+    cache: 'shared',
+    retry: 'read',
+  },
+} as const satisfies ModuleActions;
+
 const lyric: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
   Effect.gen(function* () {
-    const call = yield* Call;
-    const response = yield* request({
-      target: '/api/song/lyric',
-      protocol: call.config.crypto || (APP_CONF.encrypt ? 'eapi' : 'api'),
-      method: 'POST',
-      headers: {},
-      body: JSON.stringify({
+    const response = yield* request(
+      buildActionRequestIntent('read', moduleActions.read, {
         id: input.id,
         tv: -1,
         lv: -1,
@@ -70,9 +76,7 @@ const lyric: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
         kv: -1,
         _nmclfl: 1,
       }),
-      response: 'json',
-      semantic: 'read',
-    });
+    );
     const body = yield* decodeUpstreamBody('lyric', ModuleBody, response);
     return {
       ...toModuleResponse(response),
