@@ -4,7 +4,7 @@
 
 ## 目录职责
 
-- `index.ts`：唯一公开 SDK 入口，只组合公开导出。
+- `index.ts`：公开 Node/Bun SDK 入口，只组合公开导出；`src/browser/watchman.ts` 是独立浏览器入口。
 - `src/app/`：CLI 启动、服务启动和匿名配置生成。
 - `src/server/`：Hono 应用、路由、准入、Cookie/body 解析、模块发现和文档服务。
 - `src/core/`：Effect 请求内核、加密、目标策略、transport、运行时、缓存和身份状态。
@@ -16,6 +16,10 @@
 ## 唯一执行链路
 
 公开入口先解码业务输入并建立不可变 `Call`，冻结配置、Cookie、身份指纹和总期限。模块将输入编译为 `RequestIntent`，再通过 `RequestCapability` 进入唯一的 `RequestEffect`；目标检查、协议准备、重试、期限、transport、完整正文消费和响应解释都在这条链路中完成。
+
+已迁移模块导出本地 `moduleActions`，按动作声明 profile、语义、token、缓存和重试资格；生成 registry 与动态 loader 读取同一份声明，并冻结到本次 `Call.actions`。`requestEffect` 只接受当前模块已声明的动作与目标；profile 统一决定协议、域名、UA、身份 Cookie 默认字段、协议选项和 token 位置，会话仍来自 Call。歌单收藏使用 web，收藏 token 为 optional，取消为 none。
+
+迁移阶段的完整待迁移清单由 `generatedPendingActionModuleIdentifiers` 生成；这些模块继续走原来的同一执行链，不能计入新合同验收。P2 和各领域批次完成后，P12 必须删除可选声明分支、旧默认协议与旧策略判定，改成装配时要求所有模块声明动作；本地模块声明空动作集。具体决策见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
 
 Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `createRequest` 仍返回 Promise；内部组合和 transport 不自行调用 `Effect.runPromise`。公开边界统一由 `src/core/runtime.ts` 负责执行和错误映射。
 

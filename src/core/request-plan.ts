@@ -9,6 +9,7 @@ import { APP_CONF, OS_PROFILES, USER_AGENT_MAP } from './config.ts';
 import { eapi, linuxapi, weapi } from './crypto.ts';
 import { InvalidRequest } from './errors.ts';
 import type { IdentitySnapshot } from './identity.ts';
+import type { RequestProfile } from './request-profiles.ts';
 import { cookieObjToString, toBoolean } from './utils.ts';
 
 type RequestPayload = Record<string, unknown>;
@@ -41,6 +42,7 @@ export const prepareRequest = (
   identity: IdentitySnapshot,
   entropy: RequestEntropy,
   cookieOverrides: CookieRecord = {},
+  profile?: RequestProfile,
 ): RequestPlan => {
   const state = identity.state;
   const headers: Record<string, string> = {};
@@ -63,6 +65,10 @@ export const prepareRequest = (
     state,
     entropy,
   );
+  if (profile) {
+    for (const name of profile.omitCookies) delete cookie[name];
+    Object.assign(cookie, profile.cookie);
+  }
   headers.Cookie = cookieObjToString(cookie);
 
   const csrfToken = String(cookie['__csrf'] ?? '');

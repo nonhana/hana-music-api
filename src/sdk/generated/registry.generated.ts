@@ -561,6 +561,7 @@ import playlistPrivacyModule, {
 } from '../../modules/playlist_privacy.ts';
 import playlistSubscribeModule, {
   decodeModuleInput as playlistSubscribeInputDecoder,
+  moduleActions as playlistSubscribeActions,
 } from '../../modules/playlist_subscribe.ts';
 import playlistSubscribersModule, {
   decodeModuleInput as playlistSubscribersInputDecoder,
@@ -2184,6 +2185,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/subscribe',
     execute: playlistSubscribeModule,
     decodeInput: playlistSubscribeInputDecoder,
+    actions: playlistSubscribeActions,
   },
   playlist_subscribers: {
     identifier: 'playlist_subscribers',

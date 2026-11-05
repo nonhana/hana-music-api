@@ -1655,6 +1655,16 @@ export const generatedModuleIdentifiers = [
 export type GeneratedModuleIdentifier =
   (typeof generatedModuleIdentifiers)[number];
 
+export const generatedActionModuleIdentifiers = ['playlist_subscribe'] as const;
+
+export const generatedPendingActionModuleIdentifiers =
+  generatedModuleIdentifiers.filter(
+    (identifier) =>
+      !generatedActionModuleIdentifiers.some(
+        (declared) => declared === identifier,
+      ),
+  );
+
 export const generatedModuleRoutes = {
   activate_init_profile: '/activate/init/profile',
   aidj_content_rcmd: '/aidj/content/rcmd',

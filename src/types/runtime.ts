@@ -5,6 +5,7 @@ import type {
   ModuleInputError,
   RequestError,
 } from '../core/errors.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import type { requestEffect, RequestServices } from '../core/request.ts';
 import type { LegacyModuleInput } from './legacy.ts';
 import type { UnknownJson } from './unknown.ts';
@@ -32,6 +33,7 @@ export interface RuntimeState {
 }
 
 export interface RequestIntent {
+  readonly action?: string;
   readonly target: string;
   readonly protocol: 'api' | 'weapi' | 'eapi' | 'linuxapi' | 'plain';
   readonly method: string;
@@ -40,7 +42,7 @@ export interface RequestIntent {
   readonly cookieOverrides?: CookieRecord;
   readonly body?: Uint8Array | string;
   readonly response: 'json' | 'text' | 'bytes';
-  readonly semantic: 'read' | 'write' | 'login' | 'upload';
+  readonly semantic: 'read' | 'write' | 'login' | 'upload' | 'poll';
 }
 
 export interface ModuleResponse<Body = UnknownJson> {
@@ -70,6 +72,7 @@ export interface ModuleDefinition<
   Body = UnknownJson,
 > {
   readonly identifier: Identifier;
+  readonly actions?: ModuleActions;
   readonly route: string;
   readonly decodeInput: (
     input: unknown,
