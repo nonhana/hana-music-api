@@ -56,6 +56,7 @@ export default withMermaid({
             { text: 'HTTP 调用约定', link: '/guide/request-convention' },
             { text: '部署 HTTP 服务', link: '/guide/server-deployment' },
             { text: 'SDK 使用边界', link: '/guide/sdk-package-contract' },
+            { text: '浏览器反作弊令牌', link: '/guide/watchman' },
           ],
         },
         {
