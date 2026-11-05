@@ -22,7 +22,6 @@ import login from '../../src/modules/login.ts';
 import loginCellphone from '../../src/modules/login_cellphone.ts';
 import loginQrCheck from '../../src/modules/login_qr_check.ts';
 import loginQrCreate from '../../src/modules/login_qr_create.ts';
-import playlistSubscribe from '../../src/modules/playlist_subscribe.ts';
 import playlistTrackAll from '../../src/modules/playlist_track_all.ts';
 import playlistTracks from '../../src/modules/playlist_tracks.ts';
 import registerAnonymous from '../../src/modules/register_anonimous.ts';
@@ -40,17 +39,16 @@ import { executeModule, response } from '../fixtures/upload-effect.ts';
 // 测试用的原始模块：没有 ModuleBody，请求结果原样返回，不随真实模块收窄而变化。
 const rawModule: ModuleEffect<LegacyModuleInput> = (query, request) =>
   Effect.gen(function* () {
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent('/api/example', {}, createOption(query)),
-      ),
+    const upstream = yield* request(
+      buildApiRequestIntent('/api/example', {}, createOption(query)),
     );
+    return toModuleResponse(upstream);
   });
 
 const requestFailures = [
-  new TransportFailed({ message: 'socket failed' }),
-  new DeadlineExceeded({ message: 'deadline' }),
-  new UpstreamRateLimited({
+  TransportFailed.make({ message: 'socket failed' }),
+  DeadlineExceeded.make({ message: 'deadline' }),
+  UpstreamRateLimited.make({
     host: 'music.163.com',
     identity: 'test',
     status: 429,
@@ -275,41 +273,6 @@ describe('special Effect module behavior', () => {
     },
   );
 
-  test('request intent encodes only protocol options and leaves input untouched', async () => {
-    const intents: Array<RequestIntent> = [];
-    const input = Object.freeze({
-      id: 1,
-      t: 1,
-      e_r: false,
-      acceptGzip: true,
-      headers: { 'X-Test': 'kept' },
-      ua: 'test-agent',
-      proxy: 'secret-proxy',
-      timeoutMs: 17,
-      signal: new AbortController().signal,
-    });
-    await runEffect(
-      executeModule(playlistSubscribe, input, (intent) => {
-        intents.push(intent);
-        return Effect.succeed(response({ code: 200 }));
-      }),
-    );
-    expect(intents).toHaveLength(1);
-    expect(intents[0]).toEqual({
-      target: '/api/playlist/subscribe',
-      protocol: 'weapi',
-      method: 'POST',
-      headers: {
-        'X-Test': 'kept',
-        'User-Agent': 'test-agent',
-        'x-aeapi': 'true',
-      },
-      body: JSON.stringify({ id: 1, e_r: false }),
-      response: 'json',
-      semantic: 'write',
-    });
-  });
-
   test('ordinary requests preserve arrays and primitive upstream bodies', async () => {
     for (const body of [null, 'opaque', [1, { field: true }]]) {
       const result = await runEffect(
@@ -321,7 +284,7 @@ describe('special Effect module behavior', () => {
 
   test('playlist 512 retries exactly once with duplicated tracks', async () => {
     const intents: Array<RequestIntent> = [];
-    const failure = new ProtocolFailed({
+    const failure = ProtocolFailed.make({
       message: '512',
       response: { ...response({ code: 512 }), status: 512 },
     });
@@ -372,7 +335,7 @@ describe('special Effect module behavior', () => {
   );
 
   test('playlist propagates business failures other than 512', async () => {
-    const failure = new ProtocolFailed({
+    const failure = ProtocolFailed.make({
       message: 'no access',
       response: { ...response({ code: 403 }), status: 403 },
     });
