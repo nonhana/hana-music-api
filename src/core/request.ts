@@ -57,7 +57,7 @@ export const requestEffect = (
           intent.protocol !== requestProfiles[action.profile].protocol ||
           intent.semantic !== action.semantic
         ) {
-          return yield* new InvalidRequest({
+          return yield* InvalidRequest.make({
             message: 'Request must match a declared module action',
           });
         }
@@ -76,7 +76,7 @@ export const requestEffect = (
             catch: (error) =>
               error instanceof InvalidRequest
                 ? error
-                : new InvalidRequest({
+                : InvalidRequest.make({
                     message: 'Invalid request action target',
                   }),
           })
@@ -86,7 +86,7 @@ export const requestEffect = (
         action.token !== 'none' &&
         profile?.tokenPlacement === 'none'
       ) {
-        return yield* new InvalidRequest({
+        return yield* InvalidRequest.make({
           message: 'Request profile has no approved token placement',
         });
       }
@@ -94,7 +94,7 @@ export const requestEffect = (
       if (action && action.token !== 'none') {
         const configured = options.checkToken;
         if (configured === undefined && action.token === 'required') {
-          return yield* new InvalidRequest({
+          return yield* InvalidRequest.make({
             message: 'checkToken is required',
           });
         }
@@ -104,13 +104,13 @@ export const requestEffect = (
               ? yield* Effect.tryPromise({
                   try: configured,
                   catch: () =>
-                    new InvalidRequest({
+                    InvalidRequest.make({
                       message: 'checkToken provider failed',
                     }),
                 })
               : configured;
           if (typeof value !== 'string' || value.trim() === '') {
-            return yield* new InvalidRequest({
+            return yield* InvalidRequest.make({
               message: 'checkToken must not be empty',
             });
           }
@@ -140,7 +140,7 @@ export const requestEffect = (
                       : new TextDecoder().decode(intent.body),
                   );
             if (!isRecord(data)) {
-              throw new InvalidRequest({
+              throw InvalidRequest.make({
                 message: 'API request body must be an object',
               });
             }
@@ -228,7 +228,7 @@ export const requestEffect = (
         catch: (error) =>
           error instanceof InvalidRequest || error instanceof TargetRejected
             ? error
-            : new InvalidRequest({
+            : InvalidRequest.make({
                 message: error instanceof Error ? error.message : String(error),
               }),
       });
@@ -294,7 +294,7 @@ export const requestEffect = (
               Effect.filterOrFail(
                 (response) => response.status >= 200 && response.status < 300,
                 (response) =>
-                  new ProtocolFailed({
+                  ProtocolFailed.make({
                     message: 'Upstream request failed',
                     response,
                   }),
@@ -355,7 +355,7 @@ export const withRequestDeadline = <Value, Failure, Requirements>(
         ? remaining
         : Math.min(remaining ?? Infinity, call.policy.stageTimeoutMs);
     if (timeout !== undefined && timeout <= 0) {
-      return yield* new DeadlineExceeded({ message: 'Request timed out' });
+      return yield* DeadlineExceeded.make({ message: 'Request timed out' });
     }
     return yield* timeout === undefined
       ? work
@@ -364,7 +364,7 @@ export const withRequestDeadline = <Value, Failure, Requirements>(
             duration: timeout,
             orElse: () =>
               Effect.fail(
-                new DeadlineExceeded({ message: 'Request timed out' }),
+                DeadlineExceeded.make({ message: 'Request timed out' }),
               ),
           }),
         );

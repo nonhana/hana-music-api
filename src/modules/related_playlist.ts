@@ -19,7 +19,7 @@ const relatedPlaylist: ModuleEffect<ModuleInput> = (input, request) =>
       semantic: 'read',
     });
     if (typeof response.body !== 'string') {
-      return yield* new UnexpectedUpstreamShape({
+      return yield* UnexpectedUpstreamShape.make({
         module: 'related_playlist',
         path: 'body',
         expected: 'HTML text',

@@ -55,7 +55,7 @@ const banner: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       typeof query.type !== 'number' &&
       typeof query.type !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'type must be a primitive value',
       });
     }

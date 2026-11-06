@@ -142,7 +142,7 @@ const loginCellphone: ModuleEffect<ModuleInput, ModuleBody> = (
       { body: renameAvatarField(result.body) },
     );
     if (!result.cookie.some((cookie) => /^MUSIC_U=[^;]+/.test(cookie))) {
-      return yield* new UnexpectedUpstreamShape({
+      return yield* UnexpectedUpstreamShape.make({
         module: 'login_cellphone',
         path: 'cookie.MUSIC_U',
         expected: 'nonempty credential',

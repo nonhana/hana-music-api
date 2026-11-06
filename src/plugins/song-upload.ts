@@ -11,7 +11,7 @@ export type UploadSongQuery = { songFile?: LegacyUploadedFile };
 export default (input: UploadSongQuery, request: RequestCapability) =>
   Effect.gen(function* () {
     if (!input.songFile) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'songFile is required for song upload plugin',
         status: 502,
       });
@@ -49,14 +49,13 @@ export default (input: UploadSongQuery, request: RequestCapability) =>
         }),
       }),
     )(allocation.body).pipe(
-      Effect.mapError(
-        () =>
-          new UnexpectedUpstreamShape({
-            module: call.identifier,
-            path: 'result',
-            expected: 'objectKey and token',
-            actual: typeof allocation.body,
-          }),
+      Effect.mapError(() =>
+        UnexpectedUpstreamShape.make({
+          module: call.identifier,
+          path: 'result',
+          expected: 'objectKey and token',
+          actual: typeof allocation.body,
+        }),
       ),
     );
     const lookup = yield* request({
@@ -72,7 +71,7 @@ export default (input: UploadSongQuery, request: RequestCapability) =>
         ? lookup.body.upload[0]
         : undefined;
     if (typeof uploadBase !== 'string' || !uploadBase) {
-      return yield* new UnexpectedUpstreamShape({
+      return yield* UnexpectedUpstreamShape.make({
         module: call.identifier,
         path: 'upload[0]',
         expected: 'upload URL',

@@ -5,6 +5,7 @@ import { gzipSync } from 'node:zlib';
 import { aesEncrypt } from '../../src/core/crypto.ts';
 import { createRequest } from '../../src/core/request.ts';
 import type { FetchLike, RequestDebugEvent } from '../../src/types/index.ts';
+import { settle } from '../_kit/assertions.ts';
 
 const specialCodeFetcher: FetchLike = async () =>
   new Response(JSON.stringify({ code: 400, msg: 'bad request' }), {
@@ -175,6 +176,130 @@ describe('createRequest', () => {
 
     expect(response.status).toBe(200);
   });
+
+  test('preserves a rejected upstream body when its business code is not numeric', async () => {
+    const result = await settle(
+      createRequest(
+        '/api/test',
+        {},
+        {
+          crypto: 'api',
+          fetcher: async () =>
+            new Response('{"code":"not-a-number","message":"original"}', {
+              status: 400,
+            }),
+        },
+      ),
+    );
+    expect(result).toEqual({
+      rejected: {
+        status: 400,
+        cookie: [],
+        body: { code: NaN, message: 'original' },
+      },
+    });
+  });
+
+  test('preserves rejection bodies and cookies from compatible foreign Headers', async () => {
+    const response = Response.json(
+      { code: 500, message: 'upstream rejected', extra: ['preserved'] },
+      {
+        status: 500,
+        headers: { 'set-cookie': 'MUSIC_U=foreign-test; Path=/' },
+      },
+    );
+    const headers = response.headers;
+    Object.defineProperty(response, 'headers', {
+      value: {
+        append: headers.append.bind(headers),
+        delete: headers.delete.bind(headers),
+        get: headers.get.bind(headers),
+        getSetCookie: headers.getSetCookie.bind(headers),
+        has: headers.has.bind(headers),
+        set: headers.set.bind(headers),
+        forEach: headers.forEach.bind(headers),
+        entries: headers.entries.bind(headers),
+        keys: headers.keys.bind(headers),
+        values: headers.values.bind(headers),
+        [Symbol.iterator]: headers[Symbol.iterator].bind(headers),
+      },
+    });
+
+    const result = await settle(
+      createRequest(
+        '/api/test',
+        {},
+        { crypto: 'api', fetcher: async () => response },
+      ),
+    );
+    expect(result).toEqual({
+      rejected: {
+        status: 500,
+        cookie: ['MUSIC_U=foreign-test; Path=/'],
+        body: {
+          code: 500,
+          message: 'upstream rejected',
+          extra: ['preserved'],
+        },
+      },
+    });
+  });
+
+  test.each([
+    ['array', '[', ']', '0', 10_000],
+    ['object', '{"next":', '}', 'next', 5_000],
+  ] as const)(
+    'preserves a rejected body with deeply nested %s values and its response cookie',
+    async (kind, opening, closing, childKey, depth) => {
+      const raw = `{"code":403,"nested":${opening.repeat(depth)}7${closing.repeat(depth)}}`;
+      let calls = 0;
+      const failure = await createRequest(
+        '/api/test',
+        {},
+        {
+          crypto: 'api',
+          fetcher: async () => {
+            calls += 1;
+            return new Response(raw, {
+              status: 403,
+              headers: { 'set-cookie': 'MUSIC_U=deep-test; Path=/' },
+            });
+          },
+        },
+      ).then(
+        () => {
+          throw new Error('Expected the upstream response to be rejected');
+        },
+        (error: unknown) => error,
+      );
+
+      expect(failure).toMatchObject({
+        status: 403,
+        cookie: ['MUSIC_U=deep-test; Path=/'],
+        body: { code: 403 },
+      });
+      let nested: unknown = failure;
+      for (const key of ['body', 'nested']) {
+        if (typeof nested !== 'object' || nested === null) {
+          throw new Error('Expected the rejected response body');
+        }
+        nested = Reflect.get(nested, key);
+      }
+      let actualDepth = 0;
+      while (
+        actualDepth < depth &&
+        typeof nested === 'object' &&
+        nested !== null &&
+        Array.isArray(nested) === (kind === 'array')
+      ) {
+        nested = Reflect.get(nested, childKey);
+        actualDepth += 1;
+      }
+      expect(actualDepth).toBe(depth);
+      expect(nested).toBe(7);
+      expect(calls).toBe(1);
+    },
+  );
 
   test('should retry transient transport errors with a fresh connection path', async () => {
     const initList: Array<RequestInit> = [];

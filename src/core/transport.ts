@@ -40,7 +40,7 @@ export const transportEffect = <
 ): Effect.Effect<A, RequestError> => {
   if (options.proxy && options.fetcher) {
     return Effect.fail(
-      new InvalidRequest({
+      InvalidRequest.make({
         message: 'proxy cannot be combined with a custom fetcher',
       }),
     );
@@ -99,7 +99,7 @@ export const transportEffect = <
           );
         },
         catch: (error) =>
-          new TransportFailed({
+          TransportFailed.make({
             message: error instanceof Error ? error.message : String(error),
             cause: error,
           }),
@@ -144,7 +144,7 @@ export const transportEffect = <
           return bytes;
         },
         catch: (error) =>
-          new TransportFailed({
+          TransportFailed.make({
             message: error instanceof Error ? error.message : String(error),
           }),
       });
@@ -160,13 +160,13 @@ export const transportEffect = <
         Effect.try({
           try: () => (interpret ? interpret(consumed, now) : (consumed as A)),
           catch: (error) =>
-            new ResponseDecodeFailed({
+            ResponseDecodeFailed.make({
               message: error instanceof Error ? error.message : String(error),
             }),
         }),
       );
       if (headerDecision) {
-        return yield* new UpstreamRateLimited({
+        return yield* UpstreamRateLimited.make({
           host,
           identity,
           retryAfterMs: headerDecision.retryAfterMs,
@@ -184,7 +184,7 @@ export const transportEffect = <
       const value = interpreted.success;
       const decision = classifyConsumedRateLimit(consumed, value, now);
       if (decision) {
-        return yield* new UpstreamRateLimited({
+        return yield* UpstreamRateLimited.make({
           host,
           identity,
           retryAfterMs: decision.retryAfterMs,
@@ -194,7 +194,7 @@ export const transportEffect = <
         });
       }
       if (response.status >= 300 && response.status < 400) {
-        return yield* new ProtocolFailed({
+        return yield* ProtocolFailed.make({
           message: 'Upstream redirects are not allowed',
         });
       }

@@ -272,10 +272,10 @@ describe('ordinary read Effect modules', () => {
               Effect.andThen(
                 Effect.fail(
                   scenario.rejection instanceof Error
-                    ? new TransportFailed({
+                    ? TransportFailed.make({
                         message: scenario.rejection.message,
                       })
-                    : new ProtocolFailed({
+                    : ProtocolFailed.make({
                         message: 'fixture-auth-failure',
                         response: {
                           ...scenario.rejection,

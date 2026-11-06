@@ -15,15 +15,14 @@ const voicelistTrans: ModuleEffect<ModuleInput> = (query, request) =>
       programId: query.programId || '0', // 节目id
       position: query.position || '1', // 排序编号
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/voice/workbench/radio/program/trans`,
-          data,
-          createOption(query),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/voice/workbench/radio/program/trans`,
+        data,
+        createOption(query),
       ),
     );
+    return toModuleResponse(response);
   });
 
 export default voicelistTrans;

@@ -20,15 +20,14 @@ const digitalAlbumOrdering: ModuleEffect<ModuleInput> = (query, request) =>
       ]),
       from: 'web',
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/ordering/web/digital`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/ordering/web/digital`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    return toModuleResponse(response);
   });
 
 /**

@@ -39,17 +39,16 @@ import { executeModule, response } from '../fixtures/upload-effect.ts';
 // 测试用的原始模块：没有 ModuleBody，请求结果原样返回，不随真实模块收窄而变化。
 const rawModule: ModuleEffect<LegacyModuleInput> = (query, request) =>
   Effect.gen(function* () {
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent('/api/example', {}, createOption(query)),
-      ),
+    const upstream = yield* request(
+      buildApiRequestIntent('/api/example', {}, createOption(query)),
     );
+    return toModuleResponse(upstream);
   });
 
 const requestFailures = [
-  new TransportFailed({ message: 'socket failed' }),
-  new DeadlineExceeded({ message: 'deadline' }),
-  new UpstreamRateLimited({
+  TransportFailed.make({ message: 'socket failed' }),
+  DeadlineExceeded.make({ message: 'deadline' }),
+  UpstreamRateLimited.make({
     host: 'music.163.com',
     identity: 'test',
     status: 429,
@@ -285,7 +284,7 @@ describe('special Effect module behavior', () => {
 
   test('playlist 512 retries exactly once with duplicated tracks', async () => {
     const intents: Array<RequestIntent> = [];
-    const failure = new ProtocolFailed({
+    const failure = ProtocolFailed.make({
       message: '512',
       response: { ...response({ code: 512 }), status: 512 },
     });
@@ -336,7 +335,7 @@ describe('special Effect module behavior', () => {
   );
 
   test('playlist propagates business failures other than 512', async () => {
-    const failure = new ProtocolFailed({
+    const failure = ProtocolFailed.make({
       message: 'no access',
       response: { ...response({ code: 403 }), status: 403 },
     });

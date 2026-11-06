@@ -183,7 +183,8 @@ describe('custom Effect upload request budgets', () => {
               yield* Effect.promise(() => Bun.sleep(1));
               expect(settled).toBe(true);
               expect(handlerSignal?.aborted).toBe(true);
-              expect(yield* Effect.promise(() => pending)).toMatchObject({
+              const rejection = yield* Effect.promise(() => pending);
+              expect(rejection).toMatchObject({
                 status: scenario.mode === 'cancel' ? 499 : 504,
                 body: scenario.completed
                   ? {
@@ -283,7 +284,8 @@ describe('custom Effect upload request budgets', () => {
             expect(settled).toBe(false);
             expect(handlerSignal?.aborted).toBe(false);
             yield* clock.adjust(19_999);
-            expect(yield* Effect.promise(() => pending)).toMatchObject({
+            const rejection = yield* Effect.promise(() => pending);
+            expect(rejection).toMatchObject({
               status: 504,
             });
             expect(handlerSignal?.aborted).toBe(true);
@@ -457,7 +459,8 @@ describe('call lifecycle', () => {
               yield* clock.adjust(1);
               yield* Effect.promise(() => Bun.sleep(1));
               expect(settled).toBe(true);
-              expect(yield* Effect.promise(() => pending)).toMatchObject({
+              const rejection = yield* Effect.promise(() => pending);
+              expect(rejection).toMatchObject({
                 status: 504,
               });
             } finally {

@@ -60,7 +60,7 @@ const registerAnonymous: ModuleEffect<ModuleInput, ModuleBody> = (
       },
     );
     if (!result.cookie.some((cookie) => /^MUSIC_A=[^;]+/.test(cookie))) {
-      return yield* new UnexpectedUpstreamShape({
+      return yield* UnexpectedUpstreamShape.make({
         module: 'register_anonimous',
         path: 'cookie.MUSIC_A',
         expected: 'nonempty credential',

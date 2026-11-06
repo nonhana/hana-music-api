@@ -275,7 +275,8 @@ test('voice stage timeout is sixty seconds under the five minute Call budget', a
         ).catch((error: unknown) => error);
         yield* Effect.promise(() => started);
         yield* clock.adjust(60_000);
-        expect(yield* Effect.promise(() => pending)).toMatchObject({
+        const rejection = yield* Effect.promise(() => pending);
+        expect(rejection).toMatchObject({
           status: 504,
           body: { completedStages: 1, partialCompletion: true },
         });

@@ -95,7 +95,7 @@ export const runCall = <Input extends ModuleQuery>(
             catch: (error) =>
               error instanceof InvalidRequest
                 ? error
-                : new InvalidRequest({ message: 'Invalid module actions' }),
+                : InvalidRequest.make({ message: 'Invalid module actions' }),
           });
     const scoped = yield* CallServices;
     const config = {
@@ -251,7 +251,7 @@ export const runCall = <Input extends ModuleQuery>(
             duration: timeoutMs,
             orElse: () =>
               Effect.fail(
-                new DeadlineExceeded({ message: 'Request timed out' }),
+                DeadlineExceeded.make({ message: 'Request timed out' }),
               ),
           }),
         )

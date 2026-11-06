@@ -32,7 +32,7 @@ const songDownloadUrl: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.br !== 'number' &&
       typeof query.br !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'br must be a primitive value',
       });
     }
