@@ -47,8 +47,8 @@ export const UploadedFile = Schema.Struct({
 
 export const decodeLegacyModuleInput = (input: unknown) =>
   Schema.decodeUnknownEffect(LegacyInput)(input).pipe(
-    Effect.mapError((error) =>
-      InvalidModuleInput.make({ message: error.message }),
+    Effect.mapError(
+      (error) => new InvalidModuleInput({ message: error.message }),
     ),
   );
 
@@ -58,7 +58,7 @@ export const decodeModuleInput = <InputSchema extends Schema.Constraint>(
 ) =>
   decodeLegacyModuleInput(input).pipe(
     Effect.flatMap(Schema.decodeUnknownEffect(schema)),
-    Effect.mapError((error) =>
-      InvalidModuleInput.make({ message: error.message }),
+    Effect.mapError(
+      (error) => new InvalidModuleInput({ message: error.message }),
     ),
   );

@@ -6,7 +6,7 @@
 
 SDK 面向 Node.js 24 或更高版本，仅支持 ESM。仓库的安装、测试和 HTTP 服务使用 Bun，版本以 `package.json` 的 `packageManager` 为准。
 
-根 SDK 包含服务端网络和加密能力。浏览器页面应调用自己的服务端，不要把根 SDK 和账号 Cookie 打包进浏览器代码。浏览器需要获取官方反作弊令牌时，单独导入 [Watchman 子路径](/guide/watchman)。
+SDK 包含服务端网络和加密能力。浏览器页面应调用已部署的 HTTP 服务，不要把 SDK 和账号 Cookie 打包进浏览器代码。
 
 SDK 可以在 Vercel 等 Serverless 函数里直接调用：加载和调用时不读写本地文件，版本号在构建时写进产物，匿名令牌只放在当前进程的内存里。函数实例被回收后，新实例会在第一次需要时重新注册匿名身份。
 
@@ -28,7 +28,7 @@ npm install -D typescript @types/node@24
 import { createHanaMusicApi, search, invokeModule } from 'hana-music-api';
 ```
 
-发布包开放 `hana-music-api` 根入口和独立的 `hana-music-api/watchman` 浏览器子路径。不要依赖 `hana-music-api/src/...` 或 `hana-music-api/dist/...` 这样的内部路径，即使本地文件系统里能找到它们。
+发布包只开放 `hana-music-api` 根入口。不要依赖 `hana-music-api/src/...` 或 `hana-music-api/dist/...` 这样的内部路径，即使本地文件系统里能找到它们。
 
 | 公开能力                        | 用途                               |
 | ------------------------------- | ---------------------------------- |

@@ -1655,39 +1655,6 @@ export const generatedModuleIdentifiers = [
 export type GeneratedModuleIdentifier =
   (typeof generatedModuleIdentifiers)[number];
 
-export const generatedActionModuleIdentifiers = [
-  'lyric',
-  'playlist_detail',
-  'playlist_subscribe',
-  'search',
-  'song_detail',
-] as const;
-
-export const generatedPendingActionModuleIdentifiers =
-  generatedModuleIdentifiers.filter(
-    (identifier) =>
-      !generatedActionModuleIdentifiers.some(
-        (declared) => declared === identifier,
-      ),
-  );
-
-export const generatedTransitionActionModuleIdentifiers = [
-  'lyric',
-  'playlist_detail',
-  'search',
-] as const;
-
-export const generatedPendingProfileModuleIdentifiers =
-  generatedModuleIdentifiers.filter(
-    (identifier) =>
-      generatedPendingActionModuleIdentifiers.some(
-        (pending) => pending === identifier,
-      ) ||
-      generatedTransitionActionModuleIdentifiers.some(
-        (pending) => pending === identifier,
-      ),
-  );
-
 export const generatedModuleRoutes = {
   activate_init_profile: '/activate/init/profile',
   aidj_content_rcmd: '/aidj/content/rcmd',

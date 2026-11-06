@@ -65,7 +65,7 @@ const songUrl: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
     );
     const upstream = response.body;
     if (!isRecord(upstream)) {
-      return yield* UnexpectedUpstreamShape.make({
+      return yield* new UnexpectedUpstreamShape({
         module: 'song_url',
         path: 'body.data',
         expected: 'array',
@@ -74,7 +74,7 @@ const songUrl: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
     }
     const data = upstream.data;
     if (data !== undefined && !Array.isArray(data)) {
-      return yield* UnexpectedUpstreamShape.make({
+      return yield* new UnexpectedUpstreamShape({
         module: 'song_url',
         path: 'body.data',
         expected: 'array',

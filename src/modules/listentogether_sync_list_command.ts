@@ -37,7 +37,7 @@ const listentogetherSyncListCommand: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.randomList !== 'string' ||
       typeof query.displayList !== 'string'
     ) {
-      return yield* InvalidModuleInput.make({
+      return yield* new InvalidModuleInput({
         message: 'randomList and displayList must be strings',
       });
     }

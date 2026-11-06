@@ -21,10 +21,9 @@ import {
   isReadModule,
   isUploadModule,
 } from './endpoint-policy.ts';
-import { DeadlineExceeded, InvalidRequest, PartialUpload } from './errors.ts';
+import { DeadlineExceeded, PartialUpload } from './errors.ts';
 import { createIdentityPool, resolveIdentitySnapshot } from './identity.ts';
 import { ReadStore } from './read-store.ts';
-import { validateModuleActions } from './request-actions.ts';
 import { requestEffect, withRequestDeadline } from './request.ts';
 import {
   ProcessServices,
@@ -87,16 +86,6 @@ export const runCall = <Input extends ModuleQuery>(
   const work = Effect.gen(function* () {
     const startedAt = yield* Clock.currentTimeMillis;
     const decodedInput = yield* implementation.decodeInput(input.input);
-    const actions =
-      implementation.actions === undefined
-        ? undefined
-        : yield* Effect.try({
-            try: () => validateModuleActions(implementation.actions),
-            catch: (error) =>
-              error instanceof InvalidRequest
-                ? error
-                : InvalidRequest.make({ message: 'Invalid module actions' }),
-          });
     const scoped = yield* CallServices;
     const config = {
       ...input.config,
@@ -138,16 +127,9 @@ export const runCall = <Input extends ModuleQuery>(
       effective,
       scoped.process.readState(effective.state),
     );
-    const declaredActions = actions && Object.values(actions);
-    const read = declaredActions
-      ? declaredActions.length > 0 &&
-        declaredActions.every(
-          (action) => action.semantic === 'read' && action.cache === 'shared',
-        )
-      : isReadModule(input.identifier);
+    const read = isReadModule(input.identifier);
     const call: CallShape = Object.freeze({
       identifier: input.identifier,
-      actions,
       input: Object.freeze({ ...decodedInput }),
       config: Object.freeze({
         ...effective,
@@ -172,7 +154,6 @@ export const runCall = <Input extends ModuleQuery>(
     const executionCall: CallShape = call.policy.read
       ? {
           identifier: call.identifier,
-          actions: call.actions,
           input: call.input,
           config: Object.freeze({
             ...call.config,
@@ -228,10 +209,9 @@ export const runCall = <Input extends ModuleQuery>(
       .update(
         stableStringify({
           identifier: call.identifier,
-          actions: call.actions,
           input: call.input,
           config: keyConfig,
-          identity: call.identity,
+          identity: call.identity.fingerprint,
           references,
         }),
       )
@@ -248,7 +228,7 @@ export const runCall = <Input extends ModuleQuery>(
             duration: timeoutMs,
             orElse: () =>
               Effect.fail(
-                DeadlineExceeded.make({ message: 'Request timed out' }),
+                new DeadlineExceeded({ message: 'Request timed out' }),
               ),
           }),
         )

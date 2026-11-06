@@ -147,7 +147,7 @@ export const eapiResDecrypt = (
 
     return parseJsonRecord(decrypted.toString('utf8'));
   } catch (error) {
-    throw ProtocolFailed.make({
+    throw new ProtocolFailed({
       message: 'eapi response decrypt failed',
       cause: error,
     });

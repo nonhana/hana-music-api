@@ -47,10 +47,10 @@ const FORBIDDEN_ROOT_EXPORTS = [
   'loadProgrammaticApi',
   'NeteaseCloudMusicApi',
 ];
-const EXPECTED_EXPORT_PATHS = ['.', './watchman'];
+const EXPECTED_EXPORT_PATHS = ['.'];
 
 describe('sdk release contract', () => {
-  test('should expose the root SDK and isolated Watchman package entrypoints', () => {
+  test('should expose only the root package entrypoint as the public ESM boundary', () => {
     const exportMap = sdkPackage.exports ?? {};
 
     expect(sdkPackage.name).toBe('hana-music-api');
@@ -61,10 +61,6 @@ describe('sdk release contract', () => {
     expect(exportMap['.']).toEqual({
       types: './dist/index.d.ts',
       default: './dist/index.js',
-    });
-    expect(exportMap['./watchman']).toEqual({
-      types: './dist/watchman.d.ts',
-      default: './dist/watchman.js',
     });
   });
 
@@ -128,8 +124,6 @@ describe('sdk release contract', () => {
     expect(filename.length).toBeGreaterThan(0);
     expect(filePaths).toContain('dist/index.d.ts');
     expect(filePaths).toContain('dist/index.js');
-    expect(filePaths).toContain('dist/watchman.d.ts');
-    expect(filePaths).toContain('dist/watchman.js');
     expect(filePaths.some((file) => file.startsWith('docs/'))).toBe(false);
     expect(filePaths.some((file) => file.startsWith('src/server/'))).toBe(
       false,
@@ -172,10 +166,7 @@ describe('sdk release contract', () => {
         [
           "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody, SongDetailBody, createHanaMusicApi, generateDeviceId, invokeModule, search, songUrl } from 'hana-music-api'",
           "import { deepStrictEqual } from 'node:assert'",
-          "import { initializeWatchman } from 'hana-music-api/watchman'",
           '',
-          'const ssrError = await initializeWatchman().then(() => null, (error) => error)',
-          "if (ssrError?.code !== 'BROWSER_REQUIRED') throw new Error('Watchman SSR boundary failed')",
           `const recordedArtistAlbum = ${JSON.stringify(artistAlbum.response.body)}`,
           "deepStrictEqual(await ArtistAlbumBody['~standard'].validate(recordedArtistAlbum), { value: recordedArtistAlbum })",
           `const recordedAlbum = ${JSON.stringify(albumNoDescription.response.body)}`,
@@ -211,23 +202,6 @@ describe('sdk release contract', () => {
       const smokeResult = run(['node', smokeScriptPath], consumerDirectory);
       expect(smokeResult.exitCode, smokeResult.stderr).toBe(0);
 
-      const bunSmokeResult = run(['bun', smokeScriptPath], consumerDirectory);
-      expect(bunSmokeResult.exitCode, bunSmokeResult.stderr).toBe(0);
-
-      const browserBundle = await Bun.build({
-        entrypoints: [
-          resolve(
-            consumerDirectory,
-            'node_modules/hana-music-api/dist/watchman.js',
-          ),
-        ],
-        target: 'browser',
-        format: 'esm',
-      });
-      expect(browserBundle.success, JSON.stringify(browserBundle.logs)).toBe(
-        true,
-      );
-
       const negativeImportScriptPath = resolve(
         consumerDirectory,
         'negative-import.mjs',
@@ -259,12 +233,7 @@ describe('sdk release contract', () => {
         typesFixturePath,
         [
           "import { createHanaMusicApi, generateDeviceId, likelist, lyricNew, songDetail as getSongDetail, songUrl, songUrlV1, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type CloudsearchBody, type LikelistBody, type LyricNewBody, type SearchSuggestBody, type SongDetailBody, type SongUrlV1Body, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
-          "import { initializeWatchman, type Watchman, type WatchmanOptions } from 'hana-music-api/watchman'",
           '',
-          "const watchmanOptions: WatchmanOptions = { nonce: 'consumer-nonce', timeoutMs: 10000 }",
-          'const watchman: Promise<Watchman> = initializeWatchman(watchmanOptions)',
-          'const checkToken: Promise<string> = watchman.then((instance) => instance.getToken())',
-          'void checkToken',
           'const config: CreateHanaMusicApiConfig = {',
           "  cookie: 'MUSIC_U=consumer',",
           '  deviceId: generateDeviceId(),',

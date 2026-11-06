@@ -14,14 +14,15 @@ const rebind: ModuleEffect<ModuleInput> = (query, request) =>
       oldcaptcha: query.oldcaptcha,
       ctcode: query.ctcode || '86',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/user/replaceCellphone`,
-        data,
-        createOption(query, 'weapi'),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/user/replaceCellphone`,
+          data,
+          createOption(query, 'weapi'),
+        ),
       ),
     );
-    return toModuleResponse(response);
   });
 
 /**

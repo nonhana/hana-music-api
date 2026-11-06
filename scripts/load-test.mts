@@ -16,7 +16,6 @@ import avatarUpload, {
 import like from '../src/modules/like.ts';
 import search, {
   decodeModuleInput as decodeSearchInput,
-  moduleActions as searchActions,
 } from '../src/modules/search.ts';
 import type { ModuleDefinition, NcmApiResponse } from '../src/types/index.ts';
 import type { StartServerOptions } from '../src/types/server.ts';
@@ -128,7 +127,6 @@ const runLoad = async (soak: boolean) => {
       identifier: 'search',
       route: '/search',
       decodeInput: decodeSearchInput,
-      actions: searchActions,
       execute: (query, request) =>
         search(
           {

@@ -14,10 +14,15 @@ const sendSong: ModuleEffect<ModuleInput> = (query, request) =>
       type: 'song',
       userIds: '[' + query.user_ids + ']',
     };
-    const response = yield* request(
-      buildApiRequestIntent(`/api/msg/private/send`, data, createOption(query)),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/msg/private/send`,
+          data,
+          createOption(query),
+        ),
+      ),
     );
-    return toModuleResponse(response);
   });
 
 /**

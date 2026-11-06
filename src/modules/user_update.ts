@@ -17,14 +17,15 @@ const userUpdate: ModuleEffect<ModuleInput> = (query, request) =>
       province: query.province,
       signature: query.signature,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/user/profile/update`,
-        data,
-        createOption(query),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/user/profile/update`,
+          data,
+          createOption(query),
+        ),
       ),
     );
-    return toModuleResponse(response);
   });
 
 /**

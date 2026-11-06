@@ -57,7 +57,7 @@ const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.tracks !== 'number' &&
       typeof query.tracks !== 'boolean'
     ) {
-      return yield* InvalidModuleInput.make({
+      return yield* new InvalidModuleInput({
         message: 'tracks must be a primitive value',
       });
     }
@@ -86,7 +86,7 @@ const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
             typeof body.code === 'number' &&
             Number.isFinite(body.code)
           ) {
-            return UpstreamBusinessFailed.make({
+            return new UpstreamBusinessFailed({
               message: error.message,
               code: body.code,
               response: error.response,

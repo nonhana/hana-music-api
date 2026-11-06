@@ -11,14 +11,15 @@ const voicelistDetail: ModuleEffect<ModuleInput> = (query, request) =>
     const data = {
       id: query.id,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/voice/workbench/voicelist/detail`,
-        data,
-        createOption(query),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/voice/workbench/voicelist/detail`,
+          data,
+          createOption(query),
+        ),
       ),
     );
-    return toModuleResponse(response);
   });
 
 export default voicelistDetail;

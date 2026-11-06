@@ -23,7 +23,7 @@ export const uploadWork = <Value>(
         const call = yield* Call;
         const now = yield* Clock.currentTimeMillis;
         if (call.deadlineAt !== undefined && now >= call.deadlineAt) {
-          return yield* DeadlineExceeded.make({ message: 'Request timed out' });
+          return yield* new DeadlineExceeded({ message: 'Request timed out' });
         }
         const response = yield* request(intent);
         completedStages = [...completedStages, intent.target];
@@ -35,7 +35,7 @@ export const uploadWork = <Value>(
           (cause) => completedStages.length > 0 && !Cause.hasDies(cause),
           (cause) =>
             Effect.fail(
-              PartialUpload.make({
+              new PartialUpload({
                 module,
                 completedStages,
                 cause: Cause.hasInterrupts(cause) ? cause : Cause.squash(cause),

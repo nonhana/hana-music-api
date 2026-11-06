@@ -41,7 +41,7 @@ const playlistImportNameTaskCreate: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.text !== 'number' &&
       typeof query.text !== 'boolean'
     ) {
-      return yield* InvalidModuleInput.make({
+      return yield* new InvalidModuleInput({
         message: 'text must be a primitive value',
       });
     }

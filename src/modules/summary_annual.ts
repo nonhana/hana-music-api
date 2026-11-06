@@ -673,7 +673,7 @@ const summaryAnnual: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       typeof query.year !== 'number' &&
       typeof query.year !== 'boolean'
     ) {
-      return yield* InvalidModuleInput.make({
+      return yield* new InvalidModuleInput({
         message: 'year must be a primitive value',
       });
     }

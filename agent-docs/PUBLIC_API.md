@@ -4,7 +4,7 @@
 
 ## 发布边界
 
-`package.json` 的 `exports` 开放根入口 `.` 和浏览器子路径 `./watchman`。根入口面向 Node/Bun ESM，类型和运行时代码分别指向 `dist/index.d.ts` 与 `dist/index.js`；浏览器入口分别为 `dist/watchman.d.ts` 与 `dist/watchman.js`；`files` 只发布 `dist/`。下游不得依赖 `src/`、`src/server/` 或生成文件的内部路径。
+`package.json` 的 `exports` 只开放根入口 `.`，类型和运行时代码分别指向 `dist/index.d.ts` 与 `dist/index.js`；`files` 只发布 `dist/`。下游不得依赖 `src/`、`src/server/` 或生成文件的内部路径。
 
 根入口公开 `createHanaMusicApi`、生成的 camelCase 模块函数、`invokeModule`、`createRequest`、`createOption`、`generateDeviceId` 及其支持类型，以及收窄过返回体的模块的 `<模块名>Body` 结构定义和类型（由 `src/sdk/generated/bodies.generated.ts` 生成）。`startServer`、`createServer`、匿名配置生成和模块加载等服务内部能力不属于根 SDK 导出。
 
@@ -18,10 +18,6 @@
 以上入口都返回 Promise；响应继续保持 `{ status, body, cookie }` 外壳。Effect、Hono、`Layer` 和内部错误类型不穿过公开边界。
 
 query 只承载端点业务输入，config 承载 Cookie、代理、fetcher、重试、期限、取消和运行时状态。SDK 的 `fetcher` 必须兼容标准 fetch 签名并遵守 `AbortSignal`；请求总期限包含重试等待和完整正文读取。
-
-歌单收藏的 profile 已统一为 web：普通模块配置中的协议、域名、UA、协议选项和受控请求头不能覆盖其声明，Cookie 中的桌面/移动身份字段也不会进入网页请求；登录会话 Cookie 保留。收藏的 `checkToken` 支持单次字符串或每次调用现取的 provider，取消既不取值也不携带 token。四个共享读取模块也由动作声明控制协议和身份：歌曲详情使用 web，搜索、歌词与歌单详情沿用明确标记的 eapi 过渡形态，尚未完成一致身份的上游验收；三者不能作为最终 profile 例外。其余模块的配置收口按 P12 完成，当前不应宣称全量模块已迁移。
-
-浏览器子路径提供 `initializeWatchman` 和 Promise `getToken`，不依赖请求内核、Hono 或 Node 内置模块。Node/SSR 可以安全导入，调用浏览器 initializer 时明确失败；根入口不加载 DOM 初始化代码。
 
 ## 兼容性规则
 

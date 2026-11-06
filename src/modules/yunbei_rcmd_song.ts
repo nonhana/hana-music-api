@@ -15,14 +15,15 @@ const yunbeiRcmdSong: ModuleEffect<ModuleInput> = (query, request) =>
       fromUserId: -1,
       yunbeiNum: query.yunbeiNum || 10,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/yunbei/rcmd/song/submit`,
-        data,
-        createOption(query, 'weapi'),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/yunbei/rcmd/song/submit`,
+          data,
+          createOption(query, 'weapi'),
+        ),
       ),
     );
-    return toModuleResponse(response);
   });
 
 /**

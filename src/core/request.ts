@@ -25,11 +25,8 @@ import {
   UpstreamRateLimited,
 } from './errors.ts';
 import { resolveIdentitySnapshot } from './identity.ts';
-import { normalizeActionTarget } from './request-actions.ts';
 import type { RequestPlan } from './request-plan.ts';
 import { prepareRequest } from './request-plan.ts';
-import { requestProfiles } from './request-profiles.ts';
-import type { RequestProfile } from './request-profiles.ts';
 import { interpretResponse, isNcmApiResponse } from './response.ts';
 import { getRuntimeState, runPublicEffect } from './runtime.ts';
 import { transportEffect } from './transport.ts';
@@ -45,78 +42,6 @@ export const requestEffect = (
       const call = yield* Call;
       const now = yield* Clock.currentTimeMillis;
       const options = call.config;
-      const action =
-        intent.action !== undefined &&
-        call.actions &&
-        Object.hasOwn(call.actions, intent.action)
-          ? call.actions[intent.action]
-          : undefined;
-      if (call.actions !== undefined || intent.action !== undefined) {
-        if (
-          !action ||
-          intent.protocol !== requestProfiles[action.profile].protocol ||
-          intent.semantic !== action.semantic
-        ) {
-          return yield* InvalidRequest.make({
-            message: 'Request must match a declared module action',
-          });
-        }
-      }
-      const profile: RequestProfile | undefined = action
-        ? requestProfiles[action.profile]
-        : undefined;
-      const target = action
-        ? yield* Effect.try({
-            try: () =>
-              normalizeActionTarget(
-                intent.target,
-                requestProfiles[action.profile],
-                action.target,
-              ),
-            catch: (error) =>
-              error instanceof InvalidRequest
-                ? error
-                : InvalidRequest.make({
-                    message: 'Invalid request action target',
-                  }),
-          })
-        : intent.target;
-      if (
-        action?.token !== undefined &&
-        action.token !== 'none' &&
-        profile?.tokenPlacement === 'none'
-      ) {
-        return yield* InvalidRequest.make({
-          message: 'Request profile has no approved token placement',
-        });
-      }
-      let checkToken: string | undefined;
-      if (action && action.token !== 'none') {
-        const configured = options.checkToken;
-        if (configured === undefined && action.token === 'required') {
-          return yield* InvalidRequest.make({
-            message: 'checkToken is required',
-          });
-        }
-        if (configured !== undefined) {
-          const value =
-            typeof configured === 'function'
-              ? yield* Effect.tryPromise({
-                  try: configured,
-                  catch: () =>
-                    InvalidRequest.make({
-                      message: 'checkToken provider failed',
-                    }),
-                })
-              : configured;
-          if (typeof value !== 'string' || value.trim() === '') {
-            return yield* InvalidRequest.make({
-              message: 'checkToken must not be empty',
-            });
-          }
-          checkToken = value;
-        }
-      }
       const plan = yield* Effect.try({
         try: (): RequestPlan => {
           let prepared: RequestPlan;
@@ -140,13 +65,9 @@ export const requestEffect = (
                       : new TextDecoder().decode(intent.body),
                   );
             if (!isRecord(data)) {
-              throw InvalidRequest.make({
+              throw new InvalidRequest({
                 message: 'API request body must be an object',
               });
-            }
-            if (profile?.tokenPlacement === 'web') {
-              delete data.checkToken;
-              if (checkToken !== undefined) data.checkToken = checkToken;
             }
             const headers = { ...options.headers };
             for (const [name, value] of Object.entries(intent.headers)) {
@@ -157,26 +78,8 @@ export const requestEffect = (
               }
               headers[name] = value;
             }
-            if (profile) {
-              const controlled = new Set([
-                'cookie',
-                'user-agent',
-                'referer',
-                'host',
-                'content-type',
-                'content-length',
-                // cspell:ignore anticheattoken
-                'x-anticheattoken',
-                'x-aeapi',
-              ]);
-              for (const name of Object.keys(headers)) {
-                if (controlled.has(name.toLowerCase())) delete headers[name];
-              }
-              if (profile.tokenPlacement === 'web' && checkToken !== undefined)
-                headers['X-antiCheatToken'] = checkToken;
-            }
             prepared = prepareRequest(
-              target,
+              intent.target,
               data,
               {
                 ...options,
@@ -189,16 +92,6 @@ export const requestEffect = (
                   ? { ua: options.ua || intent.headers['User-Agent'] }
                   : {}),
                 headers,
-                ...(profile
-                  ? {
-                      crypto:
-                        profile.protocol === 'plain' ? '' : profile.protocol,
-                      domain: profile.domain,
-                      ua: profile.userAgent,
-                      e_r: profile.encryptResponse,
-                      acceptGzip: profile.acceptGzip,
-                    }
-                  : {}),
               },
               call.identity,
               {
@@ -211,37 +104,25 @@ export const requestEffect = (
                   .padStart(4, '0')}`,
                 weapiSecret: createWeapiSecretKey(),
               },
-              profile ? undefined : intent.cookieOverrides,
-              profile,
+              intent.cookieOverrides,
             );
           }
-          validateRequestTarget(
-            { ...intent, target },
-            prepared.url,
-            call.identity,
-            action,
-          );
-          return profile
-            ? { ...prepared, url: new URL(prepared.url).href }
-            : prepared;
+          validateRequestTarget(intent, prepared.url, call.identity);
+          return prepared;
         },
         catch: (error) =>
           error instanceof InvalidRequest || error instanceof TargetRejected
             ? error
-            : InvalidRequest.make({
+            : new InvalidRequest({
                 message: error instanceof Error ? error.message : String(error),
               }),
       });
       const work = Effect.gen(function* () {
         const safeUrl = new URL(plan.url);
         safeUrl.search = '';
-        const maxAttempts =
-          action?.retry === 'never'
-            ? 1
-            : options.retry?.retryNonIdempotent &&
-                (!action || action.retry === 'read')
-              ? Math.min(Math.max(options.retry.retries ?? 2, 0), 5) + 1
-              : 3;
+        const maxAttempts = options.retry?.retryNonIdempotent
+          ? Math.min(options.retry.retries ?? 2, 5) + 1
+          : 3;
         for (let attempt = 1; ; attempt += 1) {
           const startedAt = yield* Clock.currentTimeMillis;
           const connectionStrategy =
@@ -298,7 +179,7 @@ export const requestEffect = (
               Effect.filterOrFail(
                 (response) => response.status >= 200 && response.status < 300,
                 (response) =>
-                  ProtocolFailed.make({
+                  new ProtocolFailed({
                     message: 'Upstream request failed',
                     response,
                   }),
@@ -311,14 +192,13 @@ export const requestEffect = (
           const error = result.failure;
           const durationMs = (yield* Clock.currentTimeMillis) - startedAt;
           const delayMs =
-            intent.semantic === 'read' && action?.retry !== 'never'
+            intent.semantic === 'read'
               ? retryDecision(
-                  target,
+                  intent.target,
                   error,
                   attempt,
                   options.retry,
                   Math.random(),
-                  action,
                 )
               : undefined;
           const status =
@@ -359,7 +239,7 @@ export const withRequestDeadline = <Value, Failure, Requirements>(
         ? remaining
         : Math.min(remaining ?? Infinity, call.policy.stageTimeoutMs);
     if (timeout !== undefined && timeout <= 0) {
-      return yield* DeadlineExceeded.make({ message: 'Request timed out' });
+      return yield* new DeadlineExceeded({ message: 'Request timed out' });
     }
     return yield* timeout === undefined
       ? work
@@ -368,7 +248,7 @@ export const withRequestDeadline = <Value, Failure, Requirements>(
             duration: timeout,
             orElse: () =>
               Effect.fail(
-                DeadlineExceeded.make({ message: 'Request timed out' }),
+                new DeadlineExceeded({ message: 'Request timed out' }),
               ),
           }),
         );

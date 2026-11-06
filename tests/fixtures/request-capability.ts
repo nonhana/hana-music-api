@@ -70,7 +70,7 @@ export const mockRequest =
                 ),
               ),
             catch: (error) =>
-              ProtocolFailed.make({
+              new ProtocolFailed({
                 message: 'Custom request failed',
                 response: {
                   ...(error as NcmApiResponse),

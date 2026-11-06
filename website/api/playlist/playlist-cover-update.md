@@ -51,7 +51,6 @@ curl 'http://127.0.0.1:3021/playlist/cover/update?id=your-playlist-id&imgId=your
 
 ```ts
 import { readFile } from 'node:fs/promises';
-
 import { playlistCoverUpdate } from 'hana-music-api';
 
 const data = await readFile('./cover.jpg');

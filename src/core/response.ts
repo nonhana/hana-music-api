@@ -212,7 +212,7 @@ export const normalizeFailure = (
     };
   }
   if (timedOut) {
-    error = DeadlineExceeded.make({ message: 'Request timed out' });
+    error = new DeadlineExceeded({ message: 'Request timed out' });
   }
   if (error instanceof UpstreamRateLimited && error.response) {
     return {

@@ -12,14 +12,15 @@ const musicianCloudbeanObtain: ModuleEffect<ModuleInput> = (query, request) =>
       userMissionId: query.id,
       period: query.period,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/nmusician/workbench/mission/reward/obtain/new`,
-        data,
-        createOption(query, 'weapi'),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/nmusician/workbench/mission/reward/obtain/new`,
+          data,
+          createOption(query, 'weapi'),
+        ),
       ),
     );
-    return toModuleResponse(response);
   });
 
 /**

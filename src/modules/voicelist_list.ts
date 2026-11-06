@@ -13,14 +13,15 @@ const voicelistList: ModuleEffect<ModuleInput> = (query, request) =>
       offset: query.offset || '0',
       voiceListId: query.voiceListId,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/voice/workbench/voices/by/voicelist`,
-        data,
-        createOption(query),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/voice/workbench/voices/by/voicelist`,
+          data,
+          createOption(query),
+        ),
       ),
     );
-    return toModuleResponse(response);
   });
 
 export default voicelistList;

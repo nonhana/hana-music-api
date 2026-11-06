@@ -13,14 +13,15 @@ const shareResource: ModuleEffect<ModuleInput> = (query, request) =>
       msg: query.msg || '',
       id: query.id || '',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/share/friends/resource`,
-        data,
-        createOption(query),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/share/friends/resource`,
+          data,
+          createOption(query),
+        ),
       ),
     );
-    return toModuleResponse(response);
   });
 
 /**

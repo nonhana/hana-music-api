@@ -14,10 +14,15 @@ const sendAlbum: ModuleEffect<ModuleInput> = (query, request) =>
       type: 'album',
       userIds: '[' + query.user_ids + ']',
     };
-    const response = yield* request(
-      buildApiRequestIntent(`/api/msg/private/send`, data, createOption(query)),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/msg/private/send`,
+          data,
+          createOption(query),
+        ),
+      ),
     );
-    return toModuleResponse(response);
   });
 
 /**

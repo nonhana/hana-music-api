@@ -12,14 +12,15 @@ const yunbeiTaskFinish: ModuleEffect<ModuleInput> = (query, request) =>
       userTaskId: query.userTaskId,
       depositCode: query.depositCode || '0',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/usertool/task/point/receive`,
-        data,
-        createOption(query, 'weapi'),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/usertool/task/point/receive`,
+          data,
+          createOption(query, 'weapi'),
+        ),
       ),
     );
-    return toModuleResponse(response);
   });
 
 export default yunbeiTaskFinish;

@@ -18,47 +18,47 @@ describe('Effect core contracts', () => {
       [
         'InvalidRequest',
         'Invalid target',
-        errors.InvalidRequest.make({ message: 'Invalid target' }),
+        new errors.InvalidRequest({ message: 'Invalid target' }),
       ],
       [
         'TargetRejected',
         'Target denied',
-        errors.TargetRejected.make({ message: 'Target denied' }),
+        new errors.TargetRejected({ message: 'Target denied' }),
       ],
       [
         'DeadlineExceeded',
         'Deadline elapsed',
-        errors.DeadlineExceeded.make({ message: 'Deadline elapsed' }),
+        new errors.DeadlineExceeded({ message: 'Deadline elapsed' }),
       ],
       [
         'TransportFailed',
         'Connection failed',
-        errors.TransportFailed.make({ message: 'Connection failed' }),
+        new errors.TransportFailed({ message: 'Connection failed' }),
       ],
       [
         'ResponseDecodeFailed',
         'Invalid JSON',
-        errors.ResponseDecodeFailed.make({ message: 'Invalid JSON' }),
+        new errors.ResponseDecodeFailed({ message: 'Invalid JSON' }),
       ],
       [
         'ProtocolFailed',
         'Invalid protocol response',
-        errors.ProtocolFailed.make({ message: 'Invalid protocol response' }),
+        new errors.ProtocolFailed({ message: 'Invalid protocol response' }),
       ],
       [
         'InvalidModuleInput',
         'Missing identifier',
-        errors.InvalidModuleInput.make({ message: 'Missing identifier' }),
+        new errors.InvalidModuleInput({ message: 'Missing identifier' }),
       ],
       [
         'UpstreamBusinessFailed',
         'Login required',
-        errors.UpstreamBusinessFailed.make({ message: 'Login required' }),
+        new errors.UpstreamBusinessFailed({ message: 'Login required' }),
       ],
       [
         'ModuleInvariantFailed',
         'Missing stage',
-        errors.ModuleInvariantFailed.make({ message: 'Missing stage' }),
+        new errors.ModuleInvariantFailed({ message: 'Missing stage' }),
       ],
     ] as const;
 
@@ -70,7 +70,7 @@ describe('Effect core contracts', () => {
   });
 
   test('shape errors describe the unexpected field without retaining a response body', () => {
-    const error = errors.UnexpectedUpstreamShape.make({
+    const error = new errors.UnexpectedUpstreamShape({
       module: 'song_detail',
       path: 'songs',
       expected: 'array',
@@ -87,7 +87,7 @@ describe('Effect core contracts', () => {
   });
 
   test('partial uploads retain completed stages and the original module identifier', () => {
-    const error = errors.PartialUpload.make({
+    const error = new errors.PartialUpload({
       module: 'song_upload',
       completedStages: ['allocation', 'transfer'],
     });

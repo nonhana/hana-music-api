@@ -38,13 +38,14 @@ export const allocateImageUpload = (
         }),
       }),
     )(allocation.body).pipe(
-      Effect.mapError(() =>
-        UnexpectedUpstreamShape.make({
-          module: call.identifier,
-          path: 'result',
-          expected: 'objectKey, token and docId',
-          actual: typeof allocation.body,
-        }),
+      Effect.mapError(
+        () =>
+          new UnexpectedUpstreamShape({
+            module: call.identifier,
+            path: 'result',
+            expected: 'objectKey, token and docId',
+            actual: typeof allocation.body,
+          }),
       ),
     );
     return {
@@ -58,7 +59,7 @@ export const allocateImageUpload = (
 export default (input: UploadImageQuery, request: RequestCapability) =>
   Effect.gen(function* () {
     if (!input.imgFile) {
-      return yield* InvalidModuleInput.make({
+      return yield* new InvalidModuleInput({
         message: 'imgFile is required for upload plugin',
         status: 502,
       });

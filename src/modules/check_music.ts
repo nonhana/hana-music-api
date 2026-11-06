@@ -69,7 +69,7 @@ const checkMusic: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
     );
     const [first] = upstream.data;
     if (first !== undefined && !isRecord(first)) {
-      return yield* UnexpectedUpstreamShape.make({
+      return yield* new UnexpectedUpstreamShape({
         module: 'check_music',
         path: 'body.data[0]',
         expected: 'object',
@@ -77,7 +77,7 @@ const checkMusic: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       });
     }
     if (first !== undefined && !('code' in first)) {
-      return yield* UnexpectedUpstreamShape.make({
+      return yield* new UnexpectedUpstreamShape({
         module: 'check_music',
         path: 'body.data[0].code',
         expected: 'present',
@@ -85,7 +85,7 @@ const checkMusic: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       });
     }
     if (first !== undefined && typeof first.code !== 'number') {
-      return yield* UnexpectedUpstreamShape.make({
+      return yield* new UnexpectedUpstreamShape({
         module: 'check_music',
         path: 'body.data[0].code',
         expected: 'number',

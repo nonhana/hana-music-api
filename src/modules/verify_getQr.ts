@@ -69,7 +69,7 @@ const verifyGetQr: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
     const qrurl = `https://st.music.163.com/encrypt-pages?qrCode=${qrCode}&verifyToken=${query.token}&verifyId=${query.vid}&verifyType=${query.type}&params=${params}`;
     const qrimg = yield* Effect.tryPromise({
       try: () => QRCode.toDataURL(qrurl),
-      catch: (error) => ModuleInvariantFailed.make({ message: String(error) }),
+      catch: (error) => new ModuleInvariantFailed({ message: String(error) }),
     });
     return {
       status: 200,

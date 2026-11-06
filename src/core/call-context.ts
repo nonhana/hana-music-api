@@ -8,7 +8,6 @@ import type {
 import type { IdentitySnapshot } from './identity-snapshot.ts';
 import type { IdentityPool } from './identity.ts';
 import type { ReadStore } from './read-store.ts';
-import type { ModuleActions } from './request-actions.ts';
 import type { ProcessServices } from './runtime.ts';
 
 export type CallConfig = Omit<ModuleCallConfig, 'signal'>;
@@ -22,7 +21,6 @@ export interface CallInput {
 
 export interface CallShape {
   readonly identifier: string;
-  readonly actions?: ModuleActions;
   readonly input: Readonly<ModuleQuery>;
   readonly config: CallConfig;
   readonly identity: IdentitySnapshot;

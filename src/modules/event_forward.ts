@@ -13,10 +13,11 @@ const eventForward: ModuleEffect<ModuleInput> = (query, request) =>
       id: query.evId,
       eventUserId: query.uid,
     };
-    const response = yield* request(
-      buildApiRequestIntent(`/api/event/forward`, data, createOption(query)),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(`/api/event/forward`, data, createOption(query)),
+      ),
     );
-    return toModuleResponse(response);
   });
 
 /**

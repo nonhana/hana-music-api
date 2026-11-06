@@ -142,7 +142,7 @@ describe('voice upload Effect', () => {
     'failure at stage %d reports only completed stages and sends nothing further',
     async (failureIndex) => {
       const sent: Array<string> = [];
-      const failure = ProtocolFailed.make({
+      const failure = new ProtocolFailed({
         message: 'stage rejected',
         response: {
           ...response({ code: 403, detail: 'retained' }),
@@ -255,7 +255,7 @@ describe('voice upload Effect', () => {
             sent += 1;
             return sent > failureIndex
               ? Effect.fail(
-                  DeadlineExceeded.make({ message: 'Request timed out' }),
+                  new DeadlineExceeded({ message: 'Request timed out' }),
                 )
               : Effect.succeed(stageResponse(intent));
           });

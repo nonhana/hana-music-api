@@ -72,7 +72,7 @@ const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
       Array.isArray(body) ||
       !Array.isArray(body.data)
     ) {
-      return yield* UnexpectedUpstreamShape.make({
+      return yield* new UnexpectedUpstreamShape({
         module: 'cloud_import',
         path: 'body.data',
         expected: 'array',
@@ -86,7 +86,7 @@ const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
       Array.isArray(first) ||
       (typeof first.songId !== 'number' && typeof first.songId !== 'string')
     ) {
-      return yield* UnexpectedUpstreamShape.make({
+      return yield* new UnexpectedUpstreamShape({
         module: 'cloud_import',
         path: 'body.data[0].songId',
         expected: 'number or string',
@@ -106,14 +106,15 @@ const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
         },
       ]),
     };
-    const importedResponse = yield* request(
-      buildApiRequestIntent(
-        '/api/cloud/user/song/import',
-        data,
-        createOption(query),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          '/api/cloud/user/song/import',
+          data,
+          createOption(query),
+        ),
       ),
     );
-    return toModuleResponse(importedResponse);
   });
 
 export default cloudImport;

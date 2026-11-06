@@ -1,11 +1,11 @@
 import { Effect, Schema } from 'effect';
 
+import { Call } from '../core/call.ts';
+import { APP_CONF } from '../core/config.ts';
 import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
-import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -108,27 +108,9 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-export const moduleActions = {
-  search: {
-    target: '/api/search/get',
-    profile: 'eapiTransition',
-    semantic: 'read',
-    token: 'none',
-    cache: 'shared',
-    retry: 'read',
-  },
-  voice: {
-    target: '/api/search/voice/get',
-    profile: 'eapiTransition',
-    semantic: 'read',
-    token: 'none',
-    cache: 'shared',
-    retry: 'read',
-  },
-} as const satisfies ModuleActions;
-
 const search: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
   Effect.gen(function* () {
+    const call = yield* Call;
     const voice = String(input.type ?? '') === '2000';
     const data = voice
       ? {
@@ -143,10 +125,15 @@ const search: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
           limit: input.limit || 30,
           offset: input.offset || 0,
         };
-    const action = voice ? 'voice' : 'search';
-    const response = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], data),
-    );
+    const response = yield* request({
+      target: voice ? '/api/search/voice/get' : '/api/search/get',
+      protocol: call.config.crypto || (APP_CONF.encrypt ? 'eapi' : 'api'),
+      method: 'POST',
+      headers: {},
+      body: JSON.stringify(data),
+      response: 'json',
+      semantic: 'read',
+    });
     const body = yield* decodeUpstreamBody('search', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

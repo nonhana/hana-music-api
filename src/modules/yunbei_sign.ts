@@ -9,14 +9,15 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 const yunbeiSign: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
     const data = {};
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/pointmall/user/sign`,
-        data,
-        createOption(query, 'weapi'),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/pointmall/user/sign`,
+          data,
+          createOption(query, 'weapi'),
+        ),
       ),
     );
-    return toModuleResponse(response);
   });
 
 export default yunbeiSign;

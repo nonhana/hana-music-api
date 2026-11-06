@@ -6,8 +6,6 @@ SDK 的常用入口有三个：创建 client、导入具名函数、按模块名
 
 `createHanaMusicApi` 将一组默认配置绑定到 client。适合共享 Cookie、缓存或自定义 `fetcher` 的场景。
 
-`search`、`lyric`、`songDetail`、`playlistDetail` 的协议和客户端身份由接口声明决定，配置中的 `crypto`、`domain`、`ua`、协议选项和受控请求头不能覆盖它们。继续用 Cookie 传递登录会话，用 `timeoutMs`、`signal`、`fetcher` 和代理配置控制执行。需要显式选择底层协议时，使用 [createRequest](/guide/create-request-and-create-option)。
-
 ```ts
 import { createHanaMusicApi } from 'hana-music-api';
 

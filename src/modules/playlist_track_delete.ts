@@ -26,7 +26,7 @@ const playlistTrackDelete: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.ids !== 'number' &&
       typeof query.ids !== 'boolean'
     ) {
-      return yield* InvalidModuleInput.make({
+      return yield* new InvalidModuleInput({
         message: 'ids must be a primitive value',
       });
     }

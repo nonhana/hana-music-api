@@ -42,7 +42,6 @@ curl 'http://127.0.0.1:3021/cloud' \
 
 ```ts
 import { readFile } from 'node:fs/promises';
-
 import { cloud } from 'hana-music-api';
 
 const data = await readFile('./song.mp3');

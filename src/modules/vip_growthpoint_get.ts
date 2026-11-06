@@ -11,14 +11,15 @@ const vipGrowthpointGet: ModuleEffect<ModuleInput> = (query, request) =>
     const data = {
       taskIds: query.ids,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/vipnewcenter/app/level/task/reward/get`,
-        data,
-        createOption(query, 'weapi'),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(
+          `/api/vipnewcenter/app/level/task/reward/get`,
+          data,
+          createOption(query, 'weapi'),
+        ),
       ),
     );
-    return toModuleResponse(response);
   });
 
 /**

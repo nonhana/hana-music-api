@@ -31,10 +31,11 @@ const batch: ModuleEffect<ModuleInput> = (query, request) =>
         data[route] = parameters;
       }
     });
-    const response = yield* request(
-      buildApiRequestIntent(`/api/batch`, data, createOption(query)),
+    return toModuleResponse(
+      yield* request(
+        buildApiRequestIntent(`/api/batch`, data, createOption(query)),
+      ),
     );
-    return toModuleResponse(response);
   });
 
 /**

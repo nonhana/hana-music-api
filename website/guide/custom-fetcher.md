@@ -78,7 +78,6 @@ await hana.search({ keywords: '海阔天空' });
 
 ```ts
 import { expect, test } from 'bun:test';
-
 import { songUrl, type FetchLike } from 'hana-music-api';
 
 const stub: FetchLike = async () => Response.json({ code: 200, data: [] });

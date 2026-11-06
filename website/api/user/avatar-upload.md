@@ -36,7 +36,6 @@ curl 'http://127.0.0.1:3021/avatar/upload' \
 
 ```ts
 import { readFile } from 'node:fs/promises';
-
 import { avatarUpload } from 'hana-music-api';
 
 const data = await readFile('./avatar.jpg');

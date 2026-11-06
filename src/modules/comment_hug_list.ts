@@ -107,7 +107,7 @@ const commentHugList: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.sid !== 'number' &&
       typeof query.sid !== 'boolean'
     ) {
-      return yield* InvalidModuleInput.make({
+      return yield* new InvalidModuleInput({
         message: 'sid must be a primitive value',
       });
     }

@@ -42,7 +42,7 @@ const userBinding: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       typeof query.uid !== 'number' &&
       typeof query.uid !== 'boolean'
     ) {
-      return yield* InvalidModuleInput.make({
+      return yield* new InvalidModuleInput({
         message: 'uid must be a primitive value',
       });
     }

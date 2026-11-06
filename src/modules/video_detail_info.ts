@@ -36,7 +36,7 @@ const videoDetailInfo: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.vid !== 'number' &&
       typeof query.vid !== 'boolean'
     ) {
-      return yield* InvalidModuleInput.make({
+      return yield* new InvalidModuleInput({
         message: 'vid must be a primitive value',
       });
     }
