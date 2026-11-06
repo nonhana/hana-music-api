@@ -17,6 +17,10 @@
 
 公开入口先解码业务输入并建立不可变 `Call`，冻结配置、Cookie、身份指纹和总期限。模块将输入编译为 `RequestIntent`，再通过 `RequestCapability` 进入唯一的 `RequestEffect`；目标检查、协议准备、重试、期限、transport、完整正文消费和响应解释都在这条链路中完成。
 
+已迁移模块导出本地 `moduleActions`，逐动作声明 profile、目标或动态路径边界、语义、token、缓存和重试资格。生成的 SDK registry 和 HTTP loader 读取同一份声明，`runCall` 校验后将其冻结到 `Call.actions`；请求层只执行本模块声明过的动作，并核对规范化路径与最终 URL。profile 决定协议、域名、UA、身份 Cookie 字段、协议选项和 token 位置，会话仍来自本次 Call。操作声明优先于旧模块名缓存白名单，写动作不共享、不缓存、不重放。
+
+当前只迁移 `playlist_subscribe`：web profile，收藏 token 为 optional，取消为 none。生成的 `generatedPendingActionModuleIdentifiers` 枚举其余 351 个模块，它们仍走同一执行链中的旧判定，不能计为已通过 profile 验收。P2 和领域批次完成后，P12 删除可选声明、旧默认协议和旧策略路径，要求所有模块装配时都有动作合同。决策与证据边界见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
+
 Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `createRequest` 仍返回 Promise；内部组合和 transport 不自行调用 `Effect.runPromise`。公开边界统一由 `src/core/runtime.ts` 负责执行和错误映射。
 
 ## 服务与共享状态

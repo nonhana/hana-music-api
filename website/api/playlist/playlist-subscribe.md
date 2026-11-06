@@ -61,7 +61,9 @@ const checkToken = await getFreshCheckToken(); // 170 字符，易盾 Watchman �
 await playlistSubscribe({ t: '1', id: '106697785' }, { checkToken });
 ```
 
-`checkToken` 只影响收藏（`t=1`）。传函数时，SDK 在每次收藏前调用一次；取消收藏始终走 weapi 网页写法，不取令牌，也不发送 `checkToken`。收藏时 SDK 使用 weapi `os=web`，调用方传入的 `crypto`、`os`、`ua` 会被替换。SDK 不生成、不缓存、不重放令牌。
+`checkToken` 只影响收藏（`t=1`）。传函数时，SDK 在每次收藏前调用一次；取消收藏始终走 weapi 网页写法，不取令牌，也不发送 `checkToken`。收藏和取消都固定使用网页协议、域名和浏览器 UA；调用方的 `crypto`、`domain`、`ua`、`e_r`、冲突请求头以及 Cookie 中的桌面/移动端身份字段不能改变这个请求形态，登录会话 Cookie 会保留。SDK 不生成、不缓存、不重放令牌。
+
+收藏时没配置 `checkToken`，请求仍会发送；配置了空字符串、空白字符串，或者 provider 返回空值或失败，请求会在发送前以 400 拒绝。等待 provider 的时间计入本次调用的总期限，超时或取消后不会再发送收藏请求。连续两次收藏会分别调用 provider，即使歌单 id 相同也不会合并。
 
 ::: warning 令牌与设备
 令牌必须来自**稳定的设备/会话**。2026-10-18 02:05（CST）抓取官方现代 web player：`/weapi/playlist/subscribe` 返回 200，HTTP 头 `X-antiCheatToken` 为 170 字符；`/weapi/playlist/unsubscribe` 返回 200 且不带该头。它的 JS 用 `initWatchman({ productNumber: 'YD00000558929251' })` 初始化，每次收藏前调用 `window.WM.getToken`，把 `checkToken` 放进正文并加 `X-antiCheatToken`。

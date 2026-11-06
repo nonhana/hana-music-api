@@ -10,6 +10,10 @@ import {
   UpstreamRateLimited,
 } from './errors.ts';
 import type { IdentitySnapshot } from './identity.ts';
+import { normalizeActionTarget } from './request-actions.ts';
+import type { RequestAction } from './request-actions.ts';
+import { requestProfiles } from './request-profiles.ts';
+import type { RequestProfile } from './request-profiles.ts';
 import { businessCode } from './response.ts';
 
 const readModules = new Set([
@@ -42,6 +46,7 @@ export const validateRequestTarget = (
   intent: RequestIntent,
   url: string,
   identity: IdentitySnapshot,
+  action?: RequestAction,
 ): void => {
   const targetSemantic =
     intent.protocol === 'plain'
@@ -49,7 +54,7 @@ export const validateRequestTarget = (
         ? 'read'
         : 'upload'
       : requestSemantic(intent.target);
-  if (intent.semantic !== targetSemantic) {
+  if (intent.action === undefined && intent.semantic !== targetSemantic) {
     throw new InvalidRequest({
       message: 'Request semantic does not match its target and method',
     });
@@ -63,6 +68,23 @@ export const validateRequestTarget = (
     });
   }
   const target = new URL(url);
+  if (action) {
+    const profile: RequestProfile = requestProfiles[action.profile];
+    const path = normalizeActionTarget(intent.target, profile, action.target);
+    const preparedPath =
+      profile.protocol === 'linuxapi'
+        ? '/api/linux/forward'
+        : profile.protocol === 'api'
+          ? path
+          : `/${profile.protocol}/${path.slice(5)}`;
+    const expected = new URL(preparedPath, profile.domain);
+    if (target.href !== expected.href) {
+      throw new InvalidRequest({
+        message:
+          'Prepared request does not match its declared profile and target',
+      });
+    }
+  }
   const apiHost = ['music.163.com', 'interface.music.163.com'].includes(
     target.hostname,
   );
@@ -132,8 +154,13 @@ export const retryDecision = (
   attempt: number,
   options: CreateRequestOptions['retry'],
   random: number,
+  action?: RequestAction,
 ): number | undefined => {
-  if (requestSemantic(uri) !== 'read') {
+  if (
+    (action?.semantic ?? requestSemantic(uri)) !== 'read' ||
+    action?.retry === 'never' ||
+    (action !== undefined && action.token !== 'none')
+  ) {
     return undefined;
   }
   if (error instanceof UpstreamRateLimited) {
@@ -144,8 +171,9 @@ export const retryDecision = (
     /eai_again|econnrefused|und_err_connect_timeout|\bconnect etimedout\b/.test(
       text,
     );
-  const read =
-    /\/search\/|\/song\/lyric|\/song\/detail|\/playlist\/detail/.test(uri);
+  const read = action
+    ? action.retry === 'read'
+    : /\/search\/|\/song\/lyric|\/song\/detail|\/playlist\/detail/.test(uri);
   const explicit = options?.retryNonIdempotent === true && read;
   const status =
     error instanceof ProtocolFailed

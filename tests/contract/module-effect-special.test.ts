@@ -22,7 +22,6 @@ import login from '../../src/modules/login.ts';
 import loginCellphone from '../../src/modules/login_cellphone.ts';
 import loginQrCheck from '../../src/modules/login_qr_check.ts';
 import loginQrCreate from '../../src/modules/login_qr_create.ts';
-import playlistSubscribe from '../../src/modules/playlist_subscribe.ts';
 import playlistTrackAll from '../../src/modules/playlist_track_all.ts';
 import playlistTracks from '../../src/modules/playlist_tracks.ts';
 import registerAnonymous from '../../src/modules/register_anonimous.ts';
@@ -274,41 +273,6 @@ describe('special Effect module behavior', () => {
       expect(failure).toBeInstanceOf(InvalidModuleInput);
     },
   );
-
-  test('request intent encodes only protocol options and leaves input untouched', async () => {
-    const intents: Array<RequestIntent> = [];
-    const input = Object.freeze({
-      id: 1,
-      t: 1,
-      e_r: false,
-      acceptGzip: true,
-      headers: { 'X-Test': 'kept' },
-      ua: 'test-agent',
-      proxy: 'secret-proxy',
-      timeoutMs: 17,
-      signal: new AbortController().signal,
-    });
-    await runEffect(
-      executeModule(playlistSubscribe, input, (intent) => {
-        intents.push(intent);
-        return Effect.succeed(response({ code: 200 }));
-      }),
-    );
-    expect(intents).toHaveLength(1);
-    expect(intents[0]).toEqual({
-      target: '/api/playlist/subscribe',
-      protocol: 'weapi',
-      method: 'POST',
-      headers: {
-        'X-Test': 'kept',
-        'User-Agent': 'test-agent',
-        'x-aeapi': 'true',
-      },
-      body: JSON.stringify({ id: 1, e_r: false }),
-      response: 'json',
-      semantic: 'write',
-    });
-  });
 
   test('ordinary requests preserve arrays and primitive upstream bodies', async () => {
     for (const body of [null, 'opaque', [1, { field: true }]]) {

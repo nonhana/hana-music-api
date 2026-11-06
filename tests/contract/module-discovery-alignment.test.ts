@@ -9,8 +9,10 @@ import { sdkModuleRegistry } from '../../src/sdk/generated/registry.generated.ts
 import { discoverModuleFiles } from '../../src/server/module-discovery.ts';
 import { loadModuleDefinitions } from '../../src/server/module-loader.ts';
 import {
+  generatedActionModuleIdentifiers,
   generatedModuleIdentifiers,
   generatedModuleRoutes,
+  generatedPendingActionModuleIdentifiers,
 } from '../../src/types/generated/module-surface.generated.ts';
 
 const REAL_MODULES_DIRECTORY = resolve(
@@ -19,6 +21,55 @@ const REAL_MODULES_DIRECTORY = resolve(
 );
 
 describe('generated module type surface', () => {
+  test('tracks declared and pending actions consistently across SDK and HTTP discovery', async () => {
+    const loaded = await loadModuleDefinitions(REAL_MODULES_DIRECTORY);
+    const declared = loaded
+      .filter((definition) => definition.actions !== undefined)
+      .map((definition) => definition.identifier);
+    expect(declared).toEqual(['playlist_subscribe']);
+    expect(declared).toEqual([...generatedActionModuleIdentifiers]);
+    expect(generatedPendingActionModuleIdentifiers).toHaveLength(351);
+    expect(generatedPendingActionModuleIdentifiers).not.toContain(
+      'playlist_subscribe',
+    );
+    expect(sdkModuleRegistry.playlist_subscribe.actions).toEqual(
+      loaded.find(
+        (definition) => definition.identifier === 'playlist_subscribe',
+      )?.actions,
+    );
+  });
+
+  test('recognizes named action exports in the generated registry', async () => {
+    const directory = await mkdtemp(
+      resolve(tmpdir(), 'hana-module-actions-export-'),
+    );
+    try {
+      await writeFile(
+        resolve(directory, 'tsconfig.json'),
+        '{"include":["*.ts"]}',
+      );
+      await writeFile(
+        resolve(directory, 'sample.ts'),
+        `
+        export type ModuleInput = {}
+        export const decodeModuleInput = (input: unknown) => Effect.succeed(input)
+        const actions = { cancel: { profile: 'web', target: '/api/playlist/unsubscribe', semantic: 'write', token: 'none', cache: 'none', retry: 'never' } }
+        export { actions as moduleActions }
+        const sample: ModuleEffect<ModuleInput> = () => Effect.succeed({})
+        export default sample
+      `,
+      );
+      const artifacts = await buildGeneratedArtifacts(directory);
+      const registry = artifacts.files.find((file) =>
+        file.path.endsWith('registry.generated.ts'),
+      )!;
+      expect(registry.contents).toContain('moduleActions as sampleActions');
+      expect(registry.contents).toContain('actions: sampleActions');
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  });
+
   test('rejects a discovered Effect module without a decoder', async () => {
     const directory = await mkdtemp(
       resolve(tmpdir(), 'hana-module-decoder-required-'),

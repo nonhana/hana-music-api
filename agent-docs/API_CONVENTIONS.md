@@ -6,6 +6,8 @@
 
 `src/modules/` 中的每个端点必须在本地声明并导出 `ModuleInput`，导出 `decodeModuleInput`，并将默认导出显式标注为 `ModuleEffect<ModuleInput>`。模块通过传入的 `RequestCapability` 发请求，不直接使用 `fetch`。
 
+接入请求动作合同的模块在本地导出 `moduleActions`，每个动作指定 profile、target（固定路径或 prefix 边界）、semantic、token、cache 和 retry，再用 `buildActionRequestIntent` 选择动作并提供业务数据。模块不得改写 Call 身份或自行放置 token；纯本地模块声明空动作集，多请求模块分别声明动作。未迁移清单由 `generatedPendingActionModuleIdentifiers` 生成，删除过渡处理的条件见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
+
 输入先经过 `src/core/module-input.ts` 的普通对象校验，再进入模块自己的 Schema。需要精确字段的模块声明本地字段、可选性和字面量；证据不足的旧式输入使用受控的 legacy 对象，不伪造完整接口模型。模块生成器会检查这三个导出合同，动态 loader 也会拒绝缺少 decoder 或不是 Effect 函数的模块。
 
 模块只为确实要读取的上游字段做局部检查。普通响应体保持 `UnknownJson`，未知字段继续保留；收紧的字段（见[收紧与宽松](#收紧与宽松)）缺失或类型错误时返回带模块名和路径的 `UnexpectedUpstreamShape`。公开边界把它映射为 `status: 502`，`body.upstreamShape` 带上 `{ module, path, expected, actual }`。
