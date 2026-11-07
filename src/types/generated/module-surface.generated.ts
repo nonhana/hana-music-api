@@ -1655,7 +1655,13 @@ export const generatedModuleIdentifiers = [
 export type GeneratedModuleIdentifier =
   (typeof generatedModuleIdentifiers)[number];
 
-export const generatedActionModuleIdentifiers = ['playlist_subscribe'] as const;
+export const generatedActionModuleIdentifiers = [
+  'lyric',
+  'playlist_detail',
+  'playlist_subscribe',
+  'search',
+  'song_detail',
+] as const;
 
 export const generatedPendingActionModuleIdentifiers =
   generatedModuleIdentifiers.filter(

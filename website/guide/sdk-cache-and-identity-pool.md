@@ -76,3 +76,5 @@ console.log(result.body);
 如果本次配置已经提供 `MUSIC_U`、`MUSIC_A` 或 `state.anonymousToken`，就优先使用显式身份，不会被身份池替换。身份不同也会影响读缓存命中。
 
 身份注册同样计入调用总期限。轮换身份只改变协议身份，不改变实际出口 IP，也不能用来绕开网易云的限频。
+
+四个读取现在从模块自己的动作声明取得共享读取和重试资格。search（含语音搜索）、lyric、playlistDetail 保持 eapi；songDetail 使用完整 web 身份和 weapi。调用者的 crypto、domain、ua、e_r、acceptGzip 不再覆盖这些声明，需要直接控制协议或目标时使用低层 createRequest。会话 Cookie、fetcher、缓存开关、retry、timeoutMs 和 signal 继续生效；低层 createRequest 没有模块级缓存。

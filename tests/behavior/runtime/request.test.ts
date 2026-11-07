@@ -350,19 +350,23 @@ describe('createRequest', () => {
 
   test('should abort requests that exceed timeoutMs', async () => {
     let sawSignal = false;
+    let aborted = false;
     const fetcher: FetchLike = async (_requestInput, requestInit) => {
       sawSignal = requestInit?.signal instanceof AbortSignal;
 
       return new Promise<Response>((_resolve, reject) => {
         requestInit?.signal?.addEventListener(
           'abort',
-          () => reject(new Error('aborted by request timeout')),
+          () => {
+            aborted = true;
+            reject(new Error('aborted by request timeout'));
+          },
           { once: true },
         );
       });
     };
 
-    expect(
+    const result = await settle(
       createRequest(
         '/api/test',
         {},
@@ -373,14 +377,14 @@ describe('createRequest', () => {
             anonymousToken: 'anonymous-token',
             deviceId: 'DEVICE_ID',
           },
-          timeoutMs: 1,
+          timeoutMs: 1000,
         },
       ),
-    ).rejects.toMatchObject({
-      status: 504,
-    });
+    );
+    expect(result).toMatchObject({ rejected: { status: 504 } });
 
     expect(sawSignal).toBe(true);
+    expect(aborted).toBe(true);
   });
 
   test('should force connection close when configured', async () => {

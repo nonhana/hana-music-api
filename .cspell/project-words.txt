@@ -14,6 +14,7 @@ binaryify
 bodyless
 bufferhealth
 buildver
+bunx
 byids
 byradio
 bytime

@@ -39,3 +39,21 @@ export const readWebBody = (
   }
   return JSON.parse(value);
 };
+
+export const readEapiBody = (body: string): { path: string; data: unknown } => {
+  const value = new URLSearchParams(body).get('params');
+  if (!value) throw new Error('Missing encrypted eapi body');
+  const decipher = createDecipheriv(
+    'aes-128-ecb',
+    Buffer.from('e82ckenh8dichen8'),
+    null,
+  );
+  const decoded = Buffer.concat([
+    decipher.update(Buffer.from(value, 'hex')),
+    decipher.final(),
+  ])
+    .toString('utf8')
+    .split('-36cd479b6b5-');
+  if (decoded.length !== 3) throw new Error('Invalid eapi frame');
+  return { path: decoded[0]!, data: JSON.parse(decoded[1]!) };
+};

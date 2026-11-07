@@ -27,7 +27,13 @@ interface Mutation {
   readonly expectedFailures: ReadonlyArray<string>;
   readonly timeoutMs?: number;
 }
-const groups = ['playlist-subscribe', 'shared-reads', 'upload'];
+const groups = [
+  'playlist-subscribe',
+  'shared-reads',
+  'upload',
+  'watchman',
+  'browser-types',
+];
 
 const execute = async (
   command: Array<string>,
@@ -66,6 +72,7 @@ const readJUnit = async (path: string) => {
     file: string;
     failed: boolean;
     assertionFailure: boolean;
+    timeoutFailure: boolean;
     skipped: boolean;
     text: string;
   }> = [];
@@ -90,6 +97,11 @@ const readJUnit = async (path: string) => {
               )),
         ),
         skipped: children.some((child) => child.name === 'skipped'),
+        timeoutFailure: children.some(
+          (child) =>
+            ['failure', 'error'].includes(child.name) &&
+            child.attributes.type === 'TimeoutError',
+        ),
         text: XML.stringify(node),
       });
     }
@@ -151,7 +163,7 @@ export const runMutations = async (
       (args.includes('--all') && targetIndex >= 0)
     )
       throw new Error(
-        'Use --target playlist-subscribe|shared-reads|upload or --all, optionally --dry-run',
+        'Use --target playlist-subscribe|shared-reads|upload|watchman|browser-types or --all, optionally --dry-run',
       );
     copy = await mkdtemp(resolve(tmpdir(), 'hana-mutation-'));
     const paths = execFileSync(
@@ -294,9 +306,7 @@ export const runMutations = async (
           }
           const cases = await readJUnit(reportPath);
           const failed = cases.filter((entry) => entry.failed);
-          const timeout = failed.some((entry) =>
-            /timed out|timeout exceeded/i.test(entry.text),
-          );
+          const timeout = failed.some((entry) => entry.timeoutFailure);
           const killed = failed.some(
             (entry) =>
               mutation.expectedFailures.includes(entry.name) &&

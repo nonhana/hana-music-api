@@ -15,6 +15,7 @@ export default defineConfig({
     ...apiEntries,
   },
   format: ['esm'],
+  tsconfig: './tsconfig.json',
   deps: { neverBundle: ['bun'] },
   fixedExtension: false,
   platform: 'node',
@@ -22,6 +23,7 @@ export default defineConfig({
   dts: true,
   clean: true,
   outDir: 'dist',
-  publint: true,
-  attw: true,
+  // 整包检查在最后的浏览器构建阶段执行，此时所有公开入口的产物才齐全。
+  publint: false,
+  attw: false,
 });

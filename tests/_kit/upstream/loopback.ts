@@ -25,6 +25,11 @@ export const createFakeUpstream = (delayMs = 50) => {
   const failures: Array<Error> = [];
   const routes = [
     {
+      url: 'https://interface.music.163.com/eapi/search/get',
+      method: 'POST',
+      response: success,
+    },
+    {
       url: 'https://interface.music.163.com/api/search/get',
       method: 'POST',
       response: success,

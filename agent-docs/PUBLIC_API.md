@@ -4,7 +4,9 @@
 
 ## 发布边界
 
-`package.json` 的 `exports` 只开放根入口 `.`，类型和运行时代码分别指向 `dist/index.d.ts` 与 `dist/index.js`；`files` 只发布 `dist/`。下游不得依赖 `src/`、`src/server/` 或生成文件的内部路径。
+`package.json` 的 `exports` 开放根入口 `.` 和独立的 `./watchman`。根类型和运行时代码指向 `dist/index.d.ts` 与 `dist/index.js`；浏览器子路径指向 `dist/watchman.d.ts` 与 `dist/watchman.js`，公开 `initializeWatchman`、`WatchmanError` 与配套类型，不从根入口转导出。`files` 只发布 `dist/`。下游不得依赖 `src/`、`src/server/` 或生成文件的内部路径。
+
+Watchman 实现使用独立的完整 DOM 类型环境，公开声明仍不要求 DOM 或 Node 类型。同一 tarball 的子路径声明须在 `lib=ES2022/types=[]` 和完整 DOM 两种严格消费者中通过；前者不得因导入声明而获得 window/document，后者不得获得 Bun/Node 全局。构建须只写入约定产物目录，不向源码或类型用例目录发射文件。
 
 根入口公开 `createHanaMusicApi`、生成的 camelCase 模块函数、`invokeModule`、`createRequest`、`createOption`、`generateDeviceId` 及其支持类型，以及收窄过返回体的模块的 `<模块名>Body` 结构定义和类型（由 `src/sdk/generated/bodies.generated.ts` 生成）。`startServer`、`createServer`、匿名配置生成和模块加载等服务内部能力不属于根 SDK 导出。
 
@@ -19,7 +21,7 @@
 
 query 只承载端点业务输入，config 承载 Cookie、代理、fetcher、重试、期限、取消和运行时状态。SDK 的 `fetcher` 必须兼容标准 fetch 签名并遵守 `AbortSignal`；请求总期限包含重试等待和完整正文读取。
 
-`playlistSubscribe` 统一使用 web profile，普通配置的协议、域名、UA、协议选项和受控请求头不能覆盖它；Cookie 中的桌面或移动端身份字段会移除，用户会话保留。收藏的 `checkToken` 继续支持单次字符串和异步 provider，未配置可照常发送，配置失败或为空则在发送前失败；取消不取值、不携带 token。provider 等待计入总期限，取消后不得再发业务请求。其他模块的配置移除集中在 P12，按 major 交付；显式低层 `createRequest` 保留现有选项与目标安全校验。
+`playlistSubscribe` 统一使用 web profile，普通配置的协议、域名、UA、协议选项和受控请求头不能覆盖它；Cookie 中的桌面或移动端身份字段会移除，用户会话保留。收藏的 `checkToken` 继续支持单次字符串和异步 provider，未配置可照常发送，配置失败或为空则在发送前失败；取消不取值、不携带 token。provider 等待计入总期限，取消后不得再发业务请求。四个共享读取也由各自声明固定协议、域名、UA 和身份字段：search、lyric、playlistDetail 保持 eapi，songDetail 使用 web/weapi；这些调用的 crypto/domain/ua/e_r/acceptGzip 覆盖不再生效。缓存、重试次数、会话、fetcher、取消和期限配置继续生效。公开配置字段的统一移除集中在 P12，按 major 交付；显式低层 `createRequest` 保留现有选项与目标安全校验。
 
 ## 兼容性规则
 

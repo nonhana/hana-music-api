@@ -162,6 +162,7 @@ describe('ordinary read Effect modules', () => {
     const response = await runEffect(result.pipe(provideService(Call, call)));
     expect(intents).toEqual([
       {
+        action: scenario.target === '/api/search/voice/get' ? 'voice' : 'read',
         target: scenario.target,
         protocol: scenario.protocol,
         method: 'POST',
@@ -185,7 +186,10 @@ describe('ordinary read Effect modules', () => {
       });
       expect(response.body).toEqual({
         ...extraBody,
-        target: `https://interface.music.163.com${scenario.target}`,
+        target:
+          scenario.identifier === 'song_detail'
+            ? 'https://music.163.com/weapi/v3/song/detail'
+            : `https://interface.music.163.com/eapi/${scenario.target.slice(5)}`,
       });
     },
   );
@@ -202,7 +206,10 @@ describe('ordinary read Effect modules', () => {
       });
       expect(response.body).toEqual({
         ...extraBody,
-        target: `https://interface.music.163.com${scenario.target}`,
+        target:
+          scenario.identifier === 'song_detail'
+            ? 'https://music.163.com/weapi/v3/song/detail'
+            : `https://interface.music.163.com/eapi/${scenario.target.slice(5)}`,
       });
     },
   );
