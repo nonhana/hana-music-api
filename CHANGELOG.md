@@ -1,5 +1,11 @@
 # hana-music-api 发布日志
 
+## 3.2.1
+
+### Patch Changes
+
+- aef66d7: 统一歌单收藏的网页请求身份与按次 token 策略，阻止协议、域名、请求头和旧客户端 Cookie 字段覆盖网页身份；保留收藏可不传 token、取消不取 token 的行为。
+
 ## 3.2.0
 
 ### Minor Changes
