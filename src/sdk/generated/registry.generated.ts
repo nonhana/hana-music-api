@@ -402,6 +402,7 @@ import logoutModule, {
 } from '../../modules/logout.ts';
 import lyricModule, {
   decodeModuleInput as lyricInputDecoder,
+  moduleActions as lyricActions,
 } from '../../modules/lyric.ts';
 import lyricNewModule, {
   decodeModuleInput as lyricNewInputDecoder,
@@ -528,6 +529,7 @@ import playlistDescUpdateModule, {
 } from '../../modules/playlist_desc_update.ts';
 import playlistDetailModule, {
   decodeModuleInput as playlistDetailInputDecoder,
+  moduleActions as playlistDetailActions,
 } from '../../modules/playlist_detail.ts';
 import playlistDetailDynamicModule, {
   decodeModuleInput as playlistDetailDynamicInputDecoder,
@@ -649,6 +651,7 @@ import scrobbleModule, {
 } from '../../modules/scrobble.ts';
 import searchModule, {
   decodeModuleInput as searchInputDecoder,
+  moduleActions as searchActions,
 } from '../../modules/search.ts';
 import searchDefaultModule, {
   decodeModuleInput as searchDefaultInputDecoder,
@@ -718,6 +721,7 @@ import songChorusModule, {
 } from '../../modules/song_chorus.ts';
 import songDetailModule, {
   decodeModuleInput as songDetailInputDecoder,
+  moduleActions as songDetailActions,
 } from '../../modules/song_detail.ts';
 import songDownlistModule, {
   decodeModuleInput as songDownlistInputDecoder,
@@ -1867,6 +1871,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/lyric',
     execute: lyricModule,
     decodeInput: lyricInputDecoder,
+    actions: lyricActions,
   },
   lyric_new: {
     identifier: 'lyric_new',
@@ -2119,6 +2124,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/detail',
     execute: playlistDetailModule,
     decodeInput: playlistDetailInputDecoder,
+    actions: playlistDetailActions,
   },
   playlist_detail_dynamic: {
     identifier: 'playlist_detail_dynamic',
@@ -2360,6 +2366,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/search',
     execute: searchModule,
     decodeInput: searchInputDecoder,
+    actions: searchActions,
   },
   search_default: {
     identifier: 'search_default',
@@ -2498,6 +2505,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/song/detail',
     execute: songDetailModule,
     decodeInput: songDetailInputDecoder,
+    actions: songDetailActions,
   },
   song_downlist: {
     identifier: 'song_downlist',

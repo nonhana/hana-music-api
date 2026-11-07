@@ -19,7 +19,7 @@
 
 query 只承载端点业务输入，config 承载 Cookie、代理、fetcher、重试、期限、取消和运行时状态。SDK 的 `fetcher` 必须兼容标准 fetch 签名并遵守 `AbortSignal`；请求总期限包含重试等待和完整正文读取。
 
-`playlistSubscribe` 统一使用 web profile，普通配置的协议、域名、UA、协议选项和受控请求头不能覆盖它；Cookie 中的桌面或移动端身份字段会移除，用户会话保留。收藏的 `checkToken` 继续支持单次字符串和异步 provider，未配置可照常发送，配置失败或为空则在发送前失败；取消不取值、不携带 token。provider 等待计入总期限，取消后不得再发业务请求。其他模块的配置移除集中在 P12，按 major 交付；显式低层 `createRequest` 保留现有选项与目标安全校验。
+`playlistSubscribe` 统一使用 web profile，普通配置的协议、域名、UA、协议选项和受控请求头不能覆盖它；Cookie 中的桌面或移动端身份字段会移除，用户会话保留。收藏的 `checkToken` 继续支持单次字符串和异步 provider，未配置可照常发送，配置失败或为空则在发送前失败；取消不取值、不携带 token。provider 等待计入总期限，取消后不得再发业务请求。四个共享读取也由各自声明固定协议、域名、UA 和身份字段：search、lyric、playlistDetail 保持 eapi，songDetail 使用 web/weapi；这些调用的 crypto/domain/ua/e_r/acceptGzip 覆盖不再生效。缓存、重试次数、会话、fetcher、取消和期限配置继续生效。公开配置字段的统一移除集中在 P12，按 major 交付；显式低层 `createRequest` 保留现有选项与目标安全校验。
 
 ## 兼容性规则
 
