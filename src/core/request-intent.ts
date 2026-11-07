@@ -5,6 +5,9 @@ import type {
 } from '../types/index.ts';
 import { APP_CONF } from './config.ts';
 import { requestSemantic } from './endpoint-policy.ts';
+import { InvalidRequest } from './errors.ts';
+import type { RequestAction } from './request-actions.ts';
+import { requestProfiles } from './request-profiles.ts';
 
 export const buildApiRequestIntent = (
   target: string,
@@ -33,3 +36,28 @@ export const buildApiRequestIntent = (
   response: 'json',
   semantic: requestSemantic(target),
 });
+
+export const buildActionRequestIntent = (
+  name: string,
+  action: RequestAction,
+  data: Record<string, unknown>,
+  target?: string,
+): RequestIntent => {
+  const path =
+    target ?? (typeof action.target === 'string' ? action.target : undefined);
+  if (!path) {
+    throw InvalidRequest.make({
+      message: `Request action ${name} needs a target`,
+    });
+  }
+  return {
+    action: name,
+    target: path,
+    protocol: requestProfiles[action.profile].protocol,
+    method: 'POST',
+    headers: {},
+    body: JSON.stringify(data),
+    response: 'json',
+    semantic: action.semantic,
+  };
+};

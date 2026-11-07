@@ -18,7 +18,7 @@ const hugComment: ModuleEffect<ModuleInput> = (input, request) =>
       typeof query.sid !== 'number' &&
       typeof query.sid !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'sid must be a primitive value',
       });
     }
@@ -29,15 +29,14 @@ const hugComment: ModuleEffect<ModuleInput> = (input, request) =>
       commentId: query.cid,
       threadId,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/v2/resource/comments/hug/listener`,
-          data,
-          createOption(query),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/v2/resource/comments/hug/listener`,
+        data,
+        createOption(query),
       ),
     );
+    return toModuleResponse(response);
   });
 
 export default hugComment;

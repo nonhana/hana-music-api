@@ -1,6 +1,8 @@
+import type { Clock } from 'effect';
 import { Context } from 'effect';
 
 import type {
+  FetchLike,
   ModuleCallConfig,
   ModuleQuery,
   NcmApiResponse,
@@ -8,7 +10,15 @@ import type {
 import type { IdentitySnapshot } from './identity-snapshot.ts';
 import type { IdentityPool } from './identity.ts';
 import type { ReadStore } from './read-store.ts';
+import type { ModuleActions } from './request-actions.ts';
+import type { RequestEntropy } from './request-plan.ts';
 import type { ProcessServices } from './runtime.ts';
+
+export interface InternalExecution {
+  readonly fetcher?: FetchLike;
+  readonly clock?: Clock.Clock;
+  readonly entropy?: (now: number) => RequestEntropy;
+}
 
 export type CallConfig = Omit<ModuleCallConfig, 'signal'>;
 
@@ -21,6 +31,7 @@ export interface CallInput {
 
 export interface CallShape {
   readonly identifier: string;
+  readonly actions?: ModuleActions;
   readonly input: Readonly<ModuleQuery>;
   readonly config: CallConfig;
   readonly identity: IdentitySnapshot;
@@ -31,6 +42,7 @@ export interface CallShape {
     readonly cacheable?: (response: NcmApiResponse) => boolean;
     readonly stageTimeoutMs?: number;
   };
+  readonly execution?: Readonly<InternalExecution>;
   readonly startedAt: number;
   readonly deadlineAt?: number;
 }
@@ -46,5 +58,6 @@ export class CallServices extends Context.Service<
     readonly reads: ReadStore<NcmApiResponse>;
     readonly pool: IdentityPool | null;
     readonly initializeAnonymous: boolean;
+    readonly execution?: Readonly<InternalExecution>;
   }
 >()('hana-music-api/core/call-context/CallServices') {}

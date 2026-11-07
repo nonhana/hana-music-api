@@ -36,6 +36,14 @@ const SDK_GENERATED_TEMP_FILE = resolve(
   import.meta.dir,
   '../src/sdk/generated/client.tmp.ts',
 );
+const SDK_FACTORY_FILE = resolve(
+  import.meta.dir,
+  '../src/sdk/generated/client-factory.generated.ts',
+);
+const SDK_FACTORY_TEMP_FILE = resolve(
+  import.meta.dir,
+  '../src/sdk/generated/client-factory.tmp.ts',
+);
 const SDK_REGISTRY_FILE = resolve(
   import.meta.dir,
   '../src/sdk/generated/registry.generated.ts',
@@ -113,14 +121,10 @@ const buildSdkGeneratedClient = (
     ({ functionName, identifier }) =>
       `export const ${functionName}: SdkModuleInvoker<'${identifier}'> = createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier})`,
   );
-  const clientLines = entries.map(
-    ({ functionName, identifier }) =>
-      `    ${functionName}: createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier}, config, context),`,
-  );
-
   return `import type { CreateHanaMusicApiConfig, SdkModuleInvoker } from '../../types/index.ts'
 import { createEffectModuleInvoker, createSdkClientContext } from '../runtime.ts'
 import { sdkModuleRegistry } from './registry.generated.ts'
+import { createClientFromContext } from './client-factory.generated.ts'
 
 export interface HanaMusicApiClient {
 ${methodLines.join('\n')}
@@ -130,25 +134,43 @@ ${exportLines.join('\n')}
 
 export const createHanaMusicApi = (config: CreateHanaMusicApiConfig = {}): HanaMusicApiClient => {
   const context = createSdkClientContext(config)
-  return {
-${clientLines.join('\n')}
-  }
+  return createClientFromContext(config, context)
 }
+`;
+};
+
+const buildSdkFactory = (identifiers: ReadonlyArray<string>): string => {
+  const entries = buildSdkEntries(identifiers);
+  const clientLines = entries.map(
+    ({ functionName, identifier }) =>
+      `    ${functionName}: createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier}, config, context),`,
+  );
+
+  return `import type { CreateHanaMusicApiConfig } from '../../types/index.ts'
+import { createEffectModuleInvoker } from '../runtime.ts'
+import type { SdkClientContext } from '../runtime.ts'
+import type { HanaMusicApiClient } from './client.generated.ts'
+import { sdkModuleRegistry } from './registry.generated.ts'
+
+export const createClientFromContext = (config: CreateHanaMusicApiConfig, context: SdkClientContext): HanaMusicApiClient => ({
+${clientLines.join('\n')}
+})
 `;
 };
 
 const buildSdkRegistry = (
   identifiers: ReadonlyArray<string>,
   routes: Readonly<Record<string, string>>,
+  actionIdentifiers: ReadonlySet<string>,
 ): string => {
   const entries = buildSdkEntries(identifiers);
   const importLines = entries.map(
     ({ identifier, importName }) =>
-      `import ${importName}, { decodeModuleInput as ${toCamelCase(identifier)}InputDecoder } from '../../modules/${identifier}.ts'`,
+      `import ${importName}, { decodeModuleInput as ${toCamelCase(identifier)}InputDecoder${actionIdentifiers.has(identifier) ? `, moduleActions as ${toCamelCase(identifier)}Actions` : ''} } from '../../modules/${identifier}.ts'`,
   );
   const effectLines = entries.map(
     ({ identifier, importName }) =>
-      `  ${identifier}: { identifier: '${identifier}', route: '${routes[identifier]}', execute: ${importName}, decodeInput: ${toCamelCase(identifier)}InputDecoder },`,
+      `  ${identifier}: { identifier: '${identifier}', route: '${routes[identifier]}', execute: ${importName}, decodeInput: ${toCamelCase(identifier)}InputDecoder${actionIdentifiers.has(identifier) ? `, actions: ${toCamelCase(identifier)}Actions` : ''} },`,
   );
 
   // 显式标注 SdkModuleRegistry：352 条目的 `as const` 字面量让 declaration emit 序列化超过 1M，
@@ -270,7 +292,31 @@ const readModuleContract = (source: SourceFile) => {
         (declaration) => declaration.name.getText(source) === 'ModuleBody',
       ),
   );
-  return { effect, decoder, body: exportsType('ModuleBody'), bodySchema };
+  const actions = source.statements.some(
+    (statement) =>
+      (isVariableStatement(statement) &&
+        statement.modifiers?.some(
+          (modifier) => modifier.kind === SyntaxKind.ExportKeyword,
+        ) &&
+        statement.declarationList.declarations.some(
+          (declaration) => declaration.name.getText(source) === 'moduleActions',
+        )) ||
+      (isExportDeclaration(statement) &&
+        !statement.isTypeOnly &&
+        statement.exportClause &&
+        isNamedExports(statement.exportClause) &&
+        statement.exportClause.elements.some(
+          (element) =>
+            !element.isTypeOnly && element.name.text === 'moduleActions',
+        )),
+  );
+  return {
+    effect,
+    decoder,
+    body: exportsType('ModuleBody'),
+    bodySchema,
+    actions,
+  };
 };
 
 const readModuleContracts = async (
@@ -308,6 +354,7 @@ const buildModuleSurface = (
     readonly identifier: string;
     readonly route: string;
     readonly body: boolean;
+    readonly actions: boolean;
   }>,
 ): string => {
   const identifiers = contracts.map(({ identifier }) => identifier);
@@ -329,6 +376,10 @@ ${localImports.join('\n')}
 export const generatedModuleIdentifiers = ${JSON.stringify(identifiers, null, 2)} as const
 
 export type GeneratedModuleIdentifier = (typeof generatedModuleIdentifiers)[number]
+
+export const generatedActionModuleIdentifiers = ${JSON.stringify(contracts.filter((contract) => contract.actions).map((contract) => contract.identifier))} as const
+
+export const generatedPendingActionModuleIdentifiers = generatedModuleIdentifiers.filter((identifier) => !generatedActionModuleIdentifiers.some((declared) => declared === identifier))
 
 export const generatedModuleRoutes = ${JSON.stringify(Object.fromEntries(routes), null, 2)} as const satisfies Readonly<
   Record<GeneratedModuleIdentifier, string>
@@ -367,7 +418,20 @@ export const buildGeneratedArtifacts = async (
         tempPath: SDK_GENERATED_TEMP_FILE,
       },
       {
-        contents: buildSdkRegistry(identifiers, Object.fromEntries(routes)),
+        contents: buildSdkFactory(identifiers),
+        path: SDK_FACTORY_FILE,
+        tempPath: SDK_FACTORY_TEMP_FILE,
+      },
+      {
+        contents: buildSdkRegistry(
+          identifiers,
+          Object.fromEntries(routes),
+          new Set(
+            contracts
+              .filter((contract) => contract.actions)
+              .map((contract) => contract.identifier),
+          ),
+        ),
         path: SDK_REGISTRY_FILE,
         tempPath: SDK_REGISTRY_TEMP_FILE,
       },

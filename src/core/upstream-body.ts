@@ -50,7 +50,7 @@ const toShapeError = (
         : undefined,
     body,
   );
-  return new UnexpectedUpstreamShape({
+  return UnexpectedUpstreamShape.make({
     module,
     path: keys.reduce<string>(
       (path, key) =>
@@ -83,7 +83,7 @@ export const decodeUpstreamBody = <S extends Schema.Decoder<unknown>>(
   const code = isRecord(response.body) ? response.body.code : undefined;
   return typeof code === 'number' && !codes.includes(code)
     ? Effect.fail(
-        new UpstreamBusinessFailed({
+        UpstreamBusinessFailed.make({
           message: `NetEase rejected the request with code ${code}`,
           code,
           response: {

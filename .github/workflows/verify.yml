@@ -1,10 +1,23 @@
 name: verify
 
 on:
+  workflow_call:
+    inputs:
+      evidence_failure:
+        description: Intentionally fail a native test to validate artifact upload
+        type: boolean
+        default: false
   pull_request:
   push:
     branches:
       - master
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: read
 
 jobs:
   verify:
@@ -16,7 +29,7 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.4.4
 
       - name: Setup Node
         uses: actions/setup-node@v7
@@ -26,11 +39,41 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Record checked out candidate
+        run: |
+          mkdir -p .artifacts/testing/ci
+          git rev-parse HEAD > .artifacts/testing/ci/tested-head.txt
+          bun -e 'import { fingerprint } from "./tests/_kit/evidence.ts"; await Bun.write(".artifacts/testing/ci/initial-candidate.json", JSON.stringify(await fingerprint()));'
+
+      - name: Exercise artifact upload after an intentional test failure
+        if: inputs.evidence_failure
+        run: |
+          mkdir -p .artifacts/testing/ci
+          cat > .artifacts/testing/ci/failure-probe.test.ts <<'TEST'
+          import { expect, test } from 'bun:test';
+          test('intentional artifact upload failure', () => {
+            expect('failure probe').toBe('normal verification');
+          });
+          TEST
+          bun test ./.artifacts/testing/ci/failure-probe.test.ts --reporter=junit --reporter-outfile=.artifacts/testing/ci/failure-probe.xml 2>&1 | tee .artifacts/testing/ci/failure-probe.log
+
+      - name: Run full repository verification
+        run: bun run verify 2>&1 | tee .artifacts/testing/ci/verify.log
+
       - name: Run SDK verification
-        run: bun run verify:sdk
+        run: bun run verify:sdk 2>&1 | tee .artifacts/testing/ci/verify-sdk.log
 
       - name: Run fixtures verification
-        run: bun run verify:fixtures
+        run: bun run verify:fixtures 2>&1 | tee .artifacts/testing/ci/fixtures.log
 
       - name: Run load smoke
-        run: bun run test:load:smoke
+        run: bun run test:load:smoke 2>&1 | tee .artifacts/testing/ci/smoke.log
+
+      - name: Upload test evidence
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: testing-${{ github.sha }}
+          path: .artifacts/testing/**
+          include-hidden-files: true
+          retention-days: ${{ github.event_name == 'workflow_dispatch' && 90 || 30 }}

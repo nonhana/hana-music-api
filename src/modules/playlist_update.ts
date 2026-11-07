@@ -41,7 +41,7 @@ const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.id !== 'number' &&
       typeof query.id !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'id must be a primitive value',
       });
     }
@@ -52,7 +52,7 @@ const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.name !== 'number' &&
       typeof query.name !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'name must be a primitive value',
       });
     }
@@ -63,7 +63,7 @@ const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.desc !== 'number' &&
       typeof query.desc !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'desc must be a primitive value',
       });
     }
@@ -74,7 +74,7 @@ const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.tags !== 'number' &&
       typeof query.tags !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'tags must be a primitive value',
       });
     }

@@ -15,15 +15,20 @@ import {
   registerAnonymousEffect as registerAnonymous,
 } from './anonymous.ts';
 import { Call, CallServices } from './call-context.ts';
-import type { CallInput, CallShape } from './call-context.ts';
+import type {
+  CallInput,
+  CallShape,
+  InternalExecution,
+} from './call-context.ts';
 import {
   isCacheable,
   isReadModule,
   isUploadModule,
 } from './endpoint-policy.ts';
-import { DeadlineExceeded, PartialUpload } from './errors.ts';
+import { DeadlineExceeded, InvalidRequest, PartialUpload } from './errors.ts';
 import { createIdentityPool, resolveIdentitySnapshot } from './identity.ts';
 import { ReadStore } from './read-store.ts';
+import { validateModuleActions } from './request-actions.ts';
 import { requestEffect, withRequestDeadline } from './request.ts';
 import {
   ProcessServices,
@@ -46,6 +51,7 @@ export {
 export const buildCallServices = (
   config: CreateHanaMusicApiConfig = {},
   initializeAnonymous = true,
+  execution: InternalExecution = {},
 ): Context.Service.Shape<typeof CallServices> => ({
   process: resolveProcessServices(),
   reads: new ReadStore<NcmApiResponse>(
@@ -54,9 +60,14 @@ export const buildCallServices = (
       : null,
   ),
   pool: config.identityPool
-    ? createIdentityPool(config.identityPool, config, registerAnonymous)
+    ? createIdentityPool(
+        config.identityPool,
+        { ...config, fetcher: config.fetcher ?? execution.fetcher },
+        registerAnonymous,
+      )
     : null,
   initializeAnonymous,
+  execution: Object.freeze({ ...execution }),
 });
 
 export const createServiceLayer = (cacheTtlMs: number | null = 120_000) =>
@@ -86,9 +97,20 @@ export const runCall = <Input extends ModuleQuery>(
   const work = Effect.gen(function* () {
     const startedAt = yield* Clock.currentTimeMillis;
     const decodedInput = yield* implementation.decodeInput(input.input);
+    const actions =
+      implementation.actions === undefined
+        ? undefined
+        : yield* Effect.try({
+            try: () => validateModuleActions(implementation.actions),
+            catch: (error) =>
+              error instanceof InvalidRequest
+                ? error
+                : InvalidRequest.make({ message: 'Invalid module actions' }),
+          });
     const scoped = yield* CallServices;
     const config = {
       ...input.config,
+      fetcher: input.config.fetcher ?? scoped.execution?.fetcher,
       cookie: resolveRequestCookie(input.config),
       headers: input.config.headers
         ? Object.freeze({ ...input.config.headers })
@@ -127,9 +149,19 @@ export const runCall = <Input extends ModuleQuery>(
       effective,
       scoped.process.readState(effective.state),
     );
-    const read = isReadModule(input.identifier);
+    const read =
+      actions === undefined
+        ? isReadModule(input.identifier)
+        : Object.keys(actions).length > 0 &&
+          Object.values(actions).every(
+            (action) =>
+              action.semantic === 'read' &&
+              action.token === 'none' &&
+              action.cache === 'shared',
+          );
     const call: CallShape = Object.freeze({
       identifier: input.identifier,
+      actions,
       input: Object.freeze({ ...decodedInput }),
       config: Object.freeze({
         ...effective,
@@ -147,6 +179,7 @@ export const runCall = <Input extends ModuleQuery>(
         cacheable: isCacheable,
         stageTimeoutMs: upload ? 60_000 : undefined,
       }),
+      execution: scoped.execution,
       startedAt,
       deadlineAt: timeoutMs > 0 ? startedAt + timeoutMs : undefined,
     });
@@ -154,6 +187,7 @@ export const runCall = <Input extends ModuleQuery>(
     const executionCall: CallShape = call.policy.read
       ? {
           identifier: call.identifier,
+          actions: call.actions,
           input: call.input,
           config: Object.freeze({
             ...call.config,
@@ -161,6 +195,7 @@ export const runCall = <Input extends ModuleQuery>(
           }),
           identity: call.identity,
           policy: call.policy,
+          execution: call.execution,
           startedAt: call.startedAt,
           deadlineAt: undefined,
         }
@@ -209,6 +244,7 @@ export const runCall = <Input extends ModuleQuery>(
       .update(
         stableStringify({
           identifier: call.identifier,
+          actions: call.actions,
           input: call.input,
           config: keyConfig,
           identity: call.identity.fingerprint,
@@ -221,6 +257,7 @@ export const runCall = <Input extends ModuleQuery>(
       cacheable: call.policy.cacheable,
     });
   });
+  const executionClock = clock ?? services.execution?.clock;
   return runPublicEffect(
     (timeoutMs > 0
       ? work.pipe(
@@ -228,13 +265,15 @@ export const runCall = <Input extends ModuleQuery>(
             duration: timeoutMs,
             orElse: () =>
               Effect.fail(
-                new DeadlineExceeded({ message: 'Request timed out' }),
+                DeadlineExceeded.make({ message: 'Request timed out' }),
               ),
           }),
         )
       : work
     ).pipe(Effect.provideService(CallServices, services), (effect) =>
-      clock ? Effect.provideService(Clock.Clock, clock)(effect) : effect,
+      executionClock
+        ? Effect.provideService(Clock.Clock, executionClock)(effect)
+        : effect,
     ),
     input.signal,
     () => Option.getOrUndefined(Effect.runSync(Ref.get(moduleFailure))),

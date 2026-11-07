@@ -1,0 +1,6 @@
+interface:
+  display_name: 'Hana Implement'
+  short_description: 'Implement repo requests with acceptance evidence'
+  default_prompt: 'Use $hana-implement to implement the supplied ticket, plan, or prompt in hana-music-api.'
+policy:
+  allow_implicit_invocation: false

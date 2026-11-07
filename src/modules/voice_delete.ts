@@ -11,15 +11,14 @@ const voiceDelete: ModuleEffect<ModuleInput> = (query, request) =>
     const data = {
       ids: query.ids,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          '/api/content/voice/delete',
-          data,
-          createOption(query),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        '/api/content/voice/delete',
+        data,
+        createOption(query),
       ),
     );
+    return toModuleResponse(response);
   });
 
 export default voiceDelete;

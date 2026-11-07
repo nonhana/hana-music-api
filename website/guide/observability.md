@@ -88,4 +88,4 @@ try {
 
 包装 `fetch` 后立刻返回 `Response`，测到的通常只是收到响应头之前的时间；后续读取正文仍由内核完成。自定义实现与取消要求见 [自定义 fetcher](/guide/custom-fetcher)。
 
-维护者可以继续阅读 [架构详解](/guide/request-layer-overview)，以及仓库中的 `tests/load/` 和 `agent-docs/TESTING.md`。
+维护者可以继续阅读 [架构详解](/guide/request-layer-overview)，以及仓库中的 `tests/transport/load/` 和 `agent-docs/TESTING.md`。

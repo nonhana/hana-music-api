@@ -1,6 +1,7 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
+import { validateModuleActions } from '../core/request-actions.ts';
 import { sdkModuleRegistry } from '../sdk/generated/registry.generated.ts';
 import type { ModuleDefinition } from '../types/index.ts';
 import { discoverModuleFiles } from './module-discovery.ts';
@@ -44,6 +45,10 @@ export const loadModuleDefinitions = async (
         }
       }
 
+      const actions =
+        'moduleActions' in imported
+          ? validateModuleActions(imported.moduleActions)
+          : undefined;
       const execute = imported.default;
       const decodeInput = imported.decodeModuleInput;
       if (!isModuleEffect(execute)) {
@@ -59,6 +64,7 @@ export const loadModuleDefinitions = async (
 
       return {
         identifier,
+        actions,
         execute,
         decodeInput,
         route,

@@ -46,7 +46,7 @@ const userCloudDetail: ModuleEffect<ModuleInput, ModuleBody> = (
 ) =>
   Effect.gen(function* () {
     if (typeof query.id !== 'string') {
-      return yield* new InvalidModuleInput({ message: 'id must be a string' });
+      return yield* InvalidModuleInput.make({ message: 'id must be a string' });
     }
     const id = query.id.replace(/\s/g, '').split(',');
     const data = {

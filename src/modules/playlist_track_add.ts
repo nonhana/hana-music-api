@@ -26,7 +26,7 @@ const playlistTrackAdd: ModuleEffect<ModuleInput, ModuleBody> = (
       typeof query.ids !== 'number' &&
       typeof query.ids !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'ids must be a primitive value',
       });
     }

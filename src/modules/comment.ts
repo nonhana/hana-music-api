@@ -61,15 +61,14 @@ const comment: ModuleEffect<ModuleInput> = (query, request) =>
       data.commentId = query.commentId;
       data.content = query.content;
     }
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/resource/comments/${action}`,
-          data,
-          createOption(query, 'weapi'),
-        ),
+    const response = yield* request(
+      buildApiRequestIntent(
+        `/api/resource/comments/${action}`,
+        data,
+        createOption(query, 'weapi'),
       ),
     );
+    return toModuleResponse(response);
   });
 
 /**

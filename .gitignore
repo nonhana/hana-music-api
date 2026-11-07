@@ -39,3 +39,6 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 
 .superpowers
 docs/superpowers
+
+# generated test execution evidence
+.artifacts/testing/

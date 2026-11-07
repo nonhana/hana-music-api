@@ -28,7 +28,7 @@ const resourceLike: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
       typeof query.id !== 'number' &&
       typeof query.id !== 'boolean'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'id must be a primitive value',
       });
     }

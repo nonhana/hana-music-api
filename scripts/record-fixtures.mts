@@ -34,6 +34,7 @@ import type {
   ModuleIdentifier,
   ModuleQuery,
 } from '../src/types/index.ts';
+import { assertNoLeaks, redact } from './lib/redaction.ts';
 
 const scriptDir = import.meta.dir;
 const repoRoot = resolve(scriptDir, '..');
@@ -480,119 +481,15 @@ const createCaptureFetcher = (
   };
 };
 
-const redactedValue = '<redacted>';
-const credentialKeyFragments = [
-  'music_u',
-  'music_a',
-  'cookie',
-  'token',
-  'csrf',
-  'password',
-  'passwd',
-  'secret',
-  'captcha',
-  'phone',
-  'email',
-] as const;
-// tokenVersion 是数字版本号，不是凭据；只有精确等于这个名字才豁免。
-const credentialKeyExceptions = new Set(['tokenVersion']);
-const isCredentialKey = (key: string) => {
-  if (credentialKeyExceptions.has(key)) return false;
-  const lower = key.toLowerCase();
-  return credentialKeyFragments.some((fragment) => lower.includes(fragment));
-};
-const credentialValue = /MUSIC_[UA]=|__csrf=/i;
-
-/** 敏感 key 只整值替换非空字符串、数字和非空容器；null/空串/布尔/空容器保留类型证据。 */
-const needsCredentialRedaction = (value: unknown): boolean => {
-  if (typeof value === 'string') return value !== '';
-  if (typeof value === 'number') return true;
-  if (Array.isArray(value)) return value.length > 0;
-  if (isRecord(value)) return Object.keys(value).length > 0;
-  return false;
-};
-
-// 仅供测试：HANA_REDACT_DISABLE 按 key 片段临时关闭 redaction，结构化自检仍会兜底。
+// 仅供录制 CLI 的泄漏控制演练，自检始终使用完整规则。
 const disabledRedactionFragments = new Set(
   (process.env.HANA_REDACT_DISABLE ?? '')
     .split(',')
     .map((value) => value.trim().toLowerCase())
-    .filter((value) => value !== ''),
+    .filter(Boolean),
 );
-const shouldRedactKey = (key: string) =>
-  isCredentialKey(key) &&
-  ![...disabledRedactionFragments].some((fragment) =>
-    key.toLowerCase().includes(fragment),
-  );
-
-/**
- * 敏感 key 在任意深度命中，整个值（字符串/数字/布尔/对象/数组）都替换成 <redacted>，
- * 父节点敏感时不再深入；其他节点继续递归。path 相对录制文件（query.* / body.*）。
- */
-const redact = (
-  value: unknown,
-  path: string,
-  redactedPaths: Array<string>,
-): unknown => {
-  if (isRecord(value)) {
-    const redacted: Record<string, unknown> = {};
-    for (const [key, item] of Object.entries(value)) {
-      const childPath = `${path}.${key}`;
-      if (shouldRedactKey(key) && needsCredentialRedaction(item)) {
-        redactedPaths.push(childPath);
-        redacted[key] = redactedValue;
-        continue;
-      }
-      redacted[key] = redact(item, childPath, redactedPaths);
-    }
-    return redacted;
-  }
-  if (Array.isArray(value)) {
-    return value.map((item, index) =>
-      redact(item, `${path}[${index}]`, redactedPaths),
-    );
-  }
-  if (typeof value === 'string' && credentialValue.test(value)) {
-    redactedPaths.push(path);
-    return redactedValue;
-  }
-  return value;
-};
-
-/**
- * 写盘自检：对最终对象结构化递归，敏感 key 只能等于 <redacted>，任何字符串不能含
- * MUSIC_U=/MUSIC_A=/__csrf=。失败时调用方尚未动磁盘，因此不写新文件也不删旧录制。
- */
-const assertNoLeaks = (value: unknown, path: string): void => {
-  if (typeof value === 'string') {
-    if (credentialValue.test(value)) {
-      throw new Error(`录制 ${path} 仍含未隐去的凭据，已停止写盘`);
-    }
-    return;
-  }
-  if (Array.isArray(value)) {
-    for (const [index, item] of value.entries()) {
-      assertNoLeaks(item, `${path}[${index}]`);
-    }
-    return;
-  }
-  if (isRecord(value)) {
-    for (const [key, item] of Object.entries(value)) {
-      if (
-        isCredentialKey(key) &&
-        item !== redactedValue &&
-        item !== null &&
-        item !== '' &&
-        typeof item !== 'boolean' &&
-        !(Array.isArray(item) && item.length === 0) &&
-        !(isRecord(item) && Object.keys(item).length === 0)
-      ) {
-        throw new Error(`录制 ${path}.${key} 的敏感字段没有隐去，已停止写盘`);
-      }
-      assertNoLeaks(item, path.length === 0 ? key : `${path}.${key}`);
-    }
-  }
-};
+const redactRecording = (value: unknown, path: string, paths: Array<string>) =>
+  redact(value, path, paths, disabledRedactionFragments);
 
 type RecordingPart = {
   readonly index: number;
@@ -744,7 +641,11 @@ const planWritings = ({
   const writings: Array<Writing> = [];
 
   const queryRedactedPaths: Array<string> = [];
-  const redactedQuery = redact(options.query, 'query', queryRedactedPaths);
+  const redactedQuery = redactRecording(
+    options.query,
+    'query',
+    queryRedactedPaths,
+  );
   for (const redactedPath of queryRedactedPaths) {
     redactedPaths.add(redactedPath);
   }
@@ -758,7 +659,7 @@ const planWritings = ({
       attempts,
     );
     const captureRedacted: Array<string> = [...queryRedactedPaths];
-    const body = redact(capture.body, 'body', captureRedacted);
+    const body = redactRecording(capture.body, 'body', captureRedacted);
     for (const redactedPath of captureRedacted) {
       redactedPaths.add(redactedPath);
     }

@@ -61,7 +61,7 @@ const login: ModuleEffect<ModuleInput> = (query, request) =>
       Array.isArray(body) ||
       typeof body.code !== 'number'
     ) {
-      return yield* new UnexpectedUpstreamShape({
+      return yield* UnexpectedUpstreamShape.make({
         module: 'login',
         path: 'body.code',
         expected: 'number',
@@ -80,7 +80,7 @@ const login: ModuleEffect<ModuleInput> = (query, request) =>
       return toModuleResponse(result);
     }
     if (!result.cookie.some((cookie) => /^MUSIC_U=[^;]+/.test(cookie))) {
-      return yield* new UnexpectedUpstreamShape({
+      return yield* UnexpectedUpstreamShape.make({
         module: 'login',
         path: 'cookie.MUSIC_U',
         expected: 'nonempty credential',

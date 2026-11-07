@@ -12,11 +12,10 @@ const yunbeiReceipt: ModuleEffect<ModuleInput> = (query, request) =>
       limit: query.limit || 10,
       offset: query.offset || 0,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(`/api/point/receipt`, data, createOption(query)),
-      ),
+    const response = yield* request(
+      buildApiRequestIntent(`/api/point/receipt`, data, createOption(query)),
     );
+    return toModuleResponse(response);
   });
 
 export default yunbeiReceipt;

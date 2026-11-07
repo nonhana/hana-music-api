@@ -1,14 +1,30 @@
 name: release-rehearsal
+run-name: release-rehearsal / ${{ inputs.acceptance || 'PR' }}
 
 on:
   workflow_dispatch:
+    inputs:
+      acceptance:
+        description: Select release, testing acceptance, or intentional failure
+        required: true
+        default: release
+        type: choice
+        options:
+          - release
+          - testing
+          - failure
   pull_request:
+
+defaults:
+  run:
+    shell: bash
 
 permissions:
   contents: read
 
 jobs:
   rehearsal:
+    if: github.event_name != 'workflow_dispatch' || inputs.acceptance == 'release'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -19,7 +35,7 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.4.4
 
       - name: Setup Node
         uses: actions/setup-node@v7
@@ -33,12 +49,42 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
-      - name: Verify SDK release contract
-        run: bun run verify:sdk
+      - name: Record checked out candidate
+        run: |
+          mkdir -p .artifacts/testing/ci
+          git rev-parse HEAD > .artifacts/testing/ci/tested-head.txt
+          bun -e 'import { fingerprint } from "./tests/_kit/evidence.ts"; await Bun.write(".artifacts/testing/ci/initial-candidate.json", JSON.stringify(await fingerprint()));'
 
       - name: Rehearse versioning
         if: github.head_ref != 'changeset-release/master'
         run: bun run version-packages
 
-      - name: Rehearse packaging
-        run: npm pack
+      - name: Verify final version and installed package
+        run: bun run verify:sdk 2>&1 | tee .artifacts/testing/ci/verify-sdk.log
+
+      - name: Validate manual anonymous candidate
+        if: github.event_name == 'workflow_dispatch'
+        run: LIVE_UPSTREAM=1 HANA_LIVE_SUITE=anonymous bun run test:live 2>&1 | tee .artifacts/testing/ci/anonymous.log
+
+      - name: Upload candidate evidence
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: rehearsal-${{ github.sha }}
+          path: .artifacts/testing/**
+          include-hidden-files: true
+          retention-days: 90
+
+  candidate:
+    if: github.event_name == 'workflow_dispatch' && (inputs.acceptance == 'testing' || inputs.acceptance == 'failure')
+    uses: ./.github/workflows/verify.yml
+    with:
+      evidence_failure: ${{ inputs.acceptance == 'failure' }}
+
+  live:
+    if: github.event_name == 'workflow_dispatch' && inputs.acceptance == 'testing'
+    uses: ./.github/workflows/live.yml
+
+  mutation:
+    if: github.event_name == 'workflow_dispatch' && inputs.acceptance == 'testing'
+    uses: ./.github/workflows/mutation.yml

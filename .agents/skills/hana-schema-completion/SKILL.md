@@ -59,7 +59,7 @@ bun run schema:audit module <module>
     [--note "补录原因"] [--force]
   ```
 
-  - `--label` 默认 `default`，不能以 `.数字` 结尾（会与编号录制撞名）。没有录制先报告缺口；用真实账号补录（`--cookie-file`）需要用户明确许可（本票已获许可）。Cookie 只从本机未跟踪文件读取；禁止写进仓库、日志、输出和提交信息。Cookie key 大小写不敏感地规范成 `MUSIC_U`/`MUSIC_A`，文件必须含其一（非空），否则只能当匿名录制。
+  - `--label` 默认 `default`，不能以 `.数字` 结尾（会与编号录制撞名）。没有录制先报告缺口；用真实账号补录（`--cookie-file`）需要用户明确许可。Cookie 只从本机未跟踪文件读取；禁止写进仓库、日志、输出和提交信息。Cookie key 大小写不敏感地规范成 `MUSIC_U`/`MUSIC_A`，文件必须含其一（非空），否则只能当匿名录制。
   - 真实账号录制写模块（`rebind`、`user_replacephone`、`playlist_delete`、`scrobble`、签到/领取/购买等）本身就是一次真实变更：先匿名探测参数和路径，确认后再带 Cookie；涉及一次性奖励或真实支付的不要录，只报告缺口。
   - query 与响应体写盘前统一 redaction：敏感 key（子串、大小写不敏感）`music_u`/`music_a`/`cookie`/`token`/`csrf`/`password`/`passwd`/`secret`/`captcha`/`phone`/`email` 命中时，非空字符串、数字和非空对象/数组整体替换成 `<redacted>`；`null`、空串、布尔、空数组/空对象原样保留（类型和 null 证据仍有意义）。`tokenVersion` 精确匹配时豁免（数字版本号，不是凭据）。任何字符串值含 `MUSIC_U=`/`MUSIC_A=`/`__csrf=` 也整体替换。路径记在 `context.redacted`（`query.*` / `body.*`，数组下标 `[n]`）。写盘前对最终对象做结构化自检（敏感 key 只能是 `<redacted>`、字符串不能含上述凭据片段），失败时不写新文件也不删旧录制。录制除 `context.redacted` 记录的字段外是网易云原文。
   - `--viewer` 默认：Cookie 含 `MUSIC_U` → `authenticated`，只有 `MUSIC_A`（匿名注册令牌）→ `anonymous`；需要区分 `vip`/`invalid-cookie` 等视角时显式传。
@@ -119,8 +119,9 @@ bun run schema:audit module <module>
    - 宽松字段缺失、`null`、类型不对时只丢这一项；
    - `Optional` 路径缺失/`null` 正常，出现坏记录仍报 502；
    - 未声明字段原样保留。
-3. 测试类型一律用 `tests/_kit/assertions.ts` 的 `Recording`、`Validator`、`validateSync`、`expectUpstreamShapeRejection`。不要手写 `{ '~standard': ... }`，不要在 `validateSync` 后重复断言 Promise。
-4. 能回放真实录制就不要手写 body；手写只用于构造边界。
+3. 响应回放放 `tests/replay/`，纯 Schema 规则放 `tests/unit/schema/`；回放不证明请求字段或当次真实上游。需要请求证据时按 API_CONVENTIONS 的旁置元数据规则登记。
+4. 测试类型一律用 `tests/_kit/assertions.ts` 的 `Recording`、`Validator`、`validateSync`、`expectUpstreamShapeRejection`。不要手写 `{ '~standard': ... }`，不要在 `validateSync` 后重复断言 Promise。
+5. 能回放真实录制就不要手写 body；手写只用于构造边界。
 
 **完成标准**：每个新 Body 至少一份真实录制回放；每类行为都有测试；测试文件没有自造的同步校验 helper。
 
@@ -141,7 +142,7 @@ bun run schema:audit module <module>
 bun run schema:audit check
 bun run schema:audit recordings --recordings tests/fixtures/netease
 bun run types:modules:check
-bun test tests/contract
+bun test tests/replay tests/unit/schema
 bun run typecheck
 bun run verify
 ```
@@ -170,7 +171,7 @@ bun run verify
 ## 6. 批量补 200+ 接口
 
 - 先运行 `bun run schema:audit status`，按领域分组；不一次打开 200 个文件。
-- 没有录制的模块先报告缺口，不用“常见字段”或别的接口猜结构；真实账号补录需要用户明确许可（本票已获许可）。
+- 没有录制的模块先报告缺口，不用“常见字段”或别的接口猜结构；真实账号补录需要用户明确许可。
   - 匿名可访问的接口用 `--anonymous`；需要账号数据的接口用 `--cookie-file` 指向本机未跟踪文件，禁止把 Cookie 写进仓库或输出。
   - 列表类接口补一份正常录制和一份空结果录制；一次调用读多次上游的模块保留全部 `<module>.<label>.<n>.json`。
   - 补录后先运行 `bun run schema:audit module <module> --recordings tests/fixtures/netease` 看矩阵，再决定字段松紧。

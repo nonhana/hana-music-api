@@ -18,15 +18,10 @@ const dailySignin: ModuleEffect<ModuleInput> = (query, request) =>
     const data = {
       type: query.type || 0,
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/point/dailyTask`,
-          data,
-          createOption(query),
-        ),
-      ),
+    const response = yield* request(
+      buildApiRequestIntent(`/api/point/dailyTask`, data, createOption(query)),
     );
+    return toModuleResponse(response);
   });
 
 export default dailySignin;

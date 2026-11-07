@@ -33,7 +33,7 @@ const djProgram: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       typeof query.asc !== 'number' &&
       typeof query.asc !== 'string'
     ) {
-      return yield* new InvalidModuleInput({
+      return yield* InvalidModuleInput.make({
         message: 'asc must be a boolean, number or string',
       });
     }

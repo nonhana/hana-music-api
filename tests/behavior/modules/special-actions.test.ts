@@ -1,0 +1,484 @@
+import { describe, expect, test } from 'bun:test';
+
+import { Cause, Effect, Exit } from 'effect';
+
+import { createHanaMusicApi } from '../../../index.ts';
+import {
+  DeadlineExceeded,
+  InvalidModuleInput,
+  ProtocolFailed,
+  TransportFailed,
+  UnexpectedUpstreamShape,
+  UpstreamBusinessFailed,
+  UpstreamRateLimited,
+} from '../../../src/core/errors.ts';
+import { createOption } from '../../../src/core/options.ts';
+import { buildApiRequestIntent } from '../../../src/core/request-intent.ts';
+import { toModuleResponse } from '../../../src/core/response.ts';
+import batch from '../../../src/modules/batch.ts';
+import checkMusic from '../../../src/modules/check_music.ts';
+import cloudImport from '../../../src/modules/cloud_import.ts';
+import login from '../../../src/modules/login.ts';
+import loginCellphone from '../../../src/modules/login_cellphone.ts';
+import loginQrCheck from '../../../src/modules/login_qr_check.ts';
+import loginQrCreate from '../../../src/modules/login_qr_create.ts';
+import playlistTrackAll from '../../../src/modules/playlist_track_all.ts';
+import playlistTracks from '../../../src/modules/playlist_tracks.ts';
+import registerAnonymous from '../../../src/modules/register_anonimous.ts';
+import songUrl from '../../../src/modules/song_url.ts';
+import verifyGetQr from '../../../src/modules/verify_getQr.ts';
+import type {
+  ModuleEffect,
+  RequestCapability,
+  RequestIntent,
+} from '../../../src/types/index.ts';
+import type { LegacyModuleInput } from '../../../src/types/legacy.ts';
+import { runEffect, runExit } from '../../_kit/it.ts';
+import { executeModule, response } from '../../_kit/upload.ts';
+
+// 测试用的原始模块：没有 ModuleBody，请求结果原样返回，不随真实模块收窄而变化。
+const rawModule: ModuleEffect<LegacyModuleInput> = (query, request) =>
+  Effect.gen(function* () {
+    const upstream = yield* request(
+      buildApiRequestIntent('/api/example', {}, createOption(query)),
+    );
+    return toModuleResponse(upstream);
+  });
+
+const requestFailures = [
+  TransportFailed.make({ message: 'socket failed' }),
+  DeadlineExceeded.make({ message: 'deadline' }),
+  UpstreamRateLimited.make({
+    host: 'music.163.com',
+    identity: 'test',
+    status: 429,
+    retryAfterMs: 30000,
+  }),
+];
+
+describe('special Effect module behavior', () => {
+  test('immutable call protocol overrides a module default protocol', async () => {
+    const urls: Array<string> = [];
+    const client = createHanaMusicApi({
+      cookie: 'MUSIC_U=protocol',
+      crypto: 'api',
+      e_r: false,
+      fetcher: async (url) => {
+        urls.push(url instanceof Request ? url.url : url.toString());
+        return Response.json({
+          code: 200,
+          songs: [],
+          album: {
+            id: 1,
+            name: 'album',
+            picUrl: 'https://p1.music.126.net/album.jpg',
+            size: 0,
+            artist: { id: 2, name: 'artist' },
+            publishTime: 0,
+            description: '',
+          },
+        });
+      },
+    });
+    await client.album({ id: 1 });
+    expect(urls).toEqual(['https://interface.music.163.com/api/v1/album/1']);
+  });
+
+  test.each([playlistTracks, loginQrCheck])(
+    'interruption escapes without a second request',
+    async (module) => {
+      let requests = 0;
+      const exit = await runExit(
+        executeModule(module, {}, () => {
+          requests += 1;
+          return Effect.interrupt;
+        }),
+      );
+      expect(Exit.isFailure(exit) && Cause.hasInterrupts(exit.cause)).toBe(
+        true,
+      );
+      expect(requests).toBe(1);
+    },
+  );
+
+  test.each([
+    { module: checkMusic, body: { code: 200, data: [{}] } },
+    { module: songUrl, body: { data: [{}] } },
+    { module: playlistTrackAll, body: { playlist: { trackIds: [{}] } } },
+    { module: cloudImport, body: { data: [{}] } },
+    { module: verifyGetQr, body: { data: {} } },
+    { module: login, body: [] },
+    { module: loginQrCheck, body: null },
+  ])(
+    'field readers reject malformed upstream data before continuing',
+    async ({ module, body }) => {
+      let requests = 0;
+      const failure = await runEffect(
+        executeModule(module, {}, () => {
+          requests += 1;
+          return Effect.succeed(response(body));
+        }).pipe(Effect.flip),
+      );
+      expect(failure).toBeInstanceOf(UnexpectedUpstreamShape);
+      expect(requests).toBe(1);
+    },
+  );
+
+  test('playlist pagination decodes only the track identifiers it consumes', async () => {
+    const intents: Array<RequestIntent> = [];
+    const result = await runEffect(
+      executeModule(
+        playlistTrackAll,
+        { id: 9, limit: 2, offset: 1 },
+        (intent) => {
+          intents.push(intent);
+          return Effect.succeed(
+            response(
+              intents.length === 1
+                ? {
+                    playlist: {
+                      trackIds: [
+                        { unrelated: true },
+                        { id: 2 },
+                        { id: '3', future: true },
+                      ],
+                    },
+                  }
+                : { code: 200, songs: [] },
+            ),
+          );
+        },
+      ),
+    );
+    expect(intents.map((intent) => JSON.parse(String(intent.body)))).toEqual([
+      { id: 9, n: 100000, s: 8 },
+      { c: '[{"id":2},{"id":3}]' },
+    ]);
+    expect(result.body).toEqual({ code: 200, songs: [] });
+  });
+
+  test('cloud import carries the decoded song identifier into publication', async () => {
+    const intents: Array<RequestIntent> = [];
+    const result = await runEffect(
+      executeModule(
+        cloudImport,
+        {
+          md5: 'hash',
+          song: 'Song',
+          fileType: 'mp3',
+          bitrate: 320,
+          fileSize: 2,
+        },
+        (intent) => {
+          intents.push(intent);
+          return Effect.succeed(
+            response(
+              intents.length === 1
+                ? { data: [{ songId: 42, unused: true }] }
+                : { imported: true },
+            ),
+          );
+        },
+      ),
+    );
+    expect(JSON.parse(String(intents[1]?.body))).toEqual({
+      uploadType: 0,
+      songs: JSON.stringify([
+        {
+          songId: 42,
+          bitrate: 320,
+          song: 'Song',
+          artist: '未知',
+          album: '未知',
+          fileName: 'Song.mp3',
+        },
+      ]),
+    });
+    expect(intents.every((intent) => intent.semantic === 'upload')).toBe(true);
+    expect(result.body).toEqual({ imported: true });
+  });
+
+  test.each([
+    'mv_sub',
+    'video_sub',
+    'dj_sub',
+    'follow',
+    'resource_like',
+    'comment_hug_list',
+    'hug_comment',
+    'like',
+    'playlist_update',
+    'broadcast_sub',
+    'playlist_subscribe',
+  ])(
+    'normalization in %s cannot mutate frozen business input',
+    async (identifier) => {
+      const imported = await import(`../../../src/modules/${identifier}.ts`);
+      const input = Object.freeze({
+        id: 1,
+        t: 1,
+        type: 0,
+        sid: 2,
+        mvid: 3,
+        name: 'name',
+        desc: 'description',
+        tags: 'tag',
+        like: 'false',
+      });
+      const result = await runEffect(
+        executeModule(imported.default, input, () =>
+          Effect.succeed(
+            response(
+              identifier === 'like'
+                ? { code: 200, playlistId: 1, songs: [] }
+                : identifier === 'comment_hug_list'
+                  ? { code: 200, data: { hugComments: [] } }
+                  : identifier === 'playlist_update'
+                    ? {
+                        code: 200,
+                        '/api/playlist/desc/update': { code: 200 },
+                        '/api/playlist/tags/update': { code: 200 },
+                        '/api/playlist/update/name': { code: 200 },
+                      }
+                    : { code: 200 },
+            ),
+          ),
+        ),
+      );
+      expect(result.status).toBe(200);
+      expect(input).toMatchObject({ t: 1, type: 0, like: 'false' });
+    },
+  );
+
+  test.each([
+    { identifier: 'playlist_tracks', input: { tracks: {} } },
+    { identifier: 'user_binding', input: { uid: {} } },
+    { identifier: 'user_cloud_detail', input: { id: [] } },
+    {
+      identifier: 'listentogether_sync_list_command',
+      input: { randomList: [], displayList: '' },
+    },
+    { identifier: 'dj_program', input: { asc: {} } },
+    { identifier: 'playlist_update', input: { id: {} } },
+  ])(
+    'invalid field types in $identifier fail before network',
+    async ({ identifier, input }) => {
+      const imported = await import(`../../../src/modules/${identifier}.ts`);
+      const failure = await runEffect(
+        executeModule(imported.default, input, () =>
+          Effect.die('No request expected'),
+        ).pipe(Effect.flip),
+      );
+      expect(failure).toBeInstanceOf(InvalidModuleInput);
+    },
+  );
+
+  test('ordinary requests preserve arrays and primitive upstream bodies', async () => {
+    for (const body of [null, 'opaque', [1, { field: true }]]) {
+      const result = await runEffect(
+        executeModule(rawModule, {}, () => Effect.succeed(response(body))),
+      );
+      expect(result.body).toEqual(body);
+    }
+  });
+
+  test('playlist 512 retries exactly once with duplicated tracks', async () => {
+    const intents: Array<RequestIntent> = [];
+    const failure = ProtocolFailed.make({
+      message: '512',
+      response: { ...response({ code: 512 }), status: 512 },
+    });
+    const request: RequestCapability = (intent) => {
+      intents.push(intent);
+      return intents.length === 1
+        ? Effect.fail(failure)
+        : Effect.succeed(
+            response({ code: 200, recovered: true, count: 3, cloudCount: 0 }),
+          );
+    };
+    const result = await runEffect(
+      executeModule(
+        playlistTracks,
+        { op: 'add', pid: 1, tracks: '2,3' },
+        request,
+      ),
+    );
+    expect(result.body).toEqual({
+      code: 200,
+      recovered: true,
+      count: 3,
+      cloudCount: 0,
+    });
+    expect(intents.map((intent) => JSON.parse(String(intent.body)))).toEqual([
+      { op: 'add', pid: 1, trackIds: '["2","3"]', imme: 'true' },
+      { op: 'add', pid: 1, trackIds: '["2","3","2","3"]', imme: 'true' },
+    ]);
+    expect(intents.every((intent) => intent.semantic === 'write')).toBe(true);
+  });
+
+  test.each(requestFailures)(
+    'playlist propagates $._tag without recovery',
+    async (failure) => {
+      let requests = 0;
+      const request: RequestCapability = () => {
+        requests += 1;
+        return Effect.fail(failure);
+      };
+      const result = await runEffect(
+        executeModule(playlistTracks, { tracks: '2' }, request).pipe(
+          Effect.flip,
+        ),
+      );
+      expect(result).toBe(failure);
+      expect(requests).toBe(1);
+    },
+  );
+
+  test('playlist propagates business failures other than 512', async () => {
+    const failure = ProtocolFailed.make({
+      message: 'no access',
+      response: { ...response({ code: 403 }), status: 403 },
+    });
+    const result = await runEffect(
+      executeModule(playlistTracks, { tracks: '2' }, () =>
+        Effect.fail(failure),
+      ).pipe(Effect.flip),
+    );
+    expect(result).toBeInstanceOf(UpstreamBusinessFailed);
+    expect(result).toMatchObject({ code: 403, response: failure.response });
+  });
+
+  // 802 带上扫码人的昵称和头像，与录到的真实返回一致。
+  test.each<Record<string, string | number>>([
+    { code: 800 },
+    { code: 801 },
+    {
+      code: 802,
+      nickname: 'listener',
+      avatarUrl: 'https://p1.music.126.net/a.jpg',
+    },
+    { code: 803 },
+  ])('QR polling state $code stays a success value', async (state) => {
+    const result = await runEffect(
+      executeModule(loginQrCheck, { key: 'key' }, () =>
+        Effect.succeed({
+          ...response({ ...state, message: 'polling' }),
+          cookie: ['MUSIC_U=qr'],
+        }),
+      ),
+    );
+    expect(result).toEqual({
+      status: 200,
+      cookie: ['MUSIC_U=qr'],
+      body: { ...state, message: 'polling', cookie: 'MUSIC_U=qr' },
+    });
+  });
+
+  test.each(requestFailures)(
+    'QR polling propagates $._tag',
+    async (failure) => {
+      const result = await runEffect(
+        executeModule(loginQrCheck, { key: 'key' }, () =>
+          Effect.fail(failure),
+        ).pipe(Effect.flip),
+      );
+      expect(result).toBe(failure);
+    },
+  );
+
+  test.each([
+    {
+      module: login,
+      credential: 'MUSIC_U',
+      input: { email: 'test', password: 'test' },
+    },
+    {
+      module: loginCellphone,
+      credential: 'MUSIC_U',
+      input: { phone: '1', password: 'test' },
+    },
+    { module: registerAnonymous, credential: 'MUSIC_A', input: {} },
+  ])(
+    '$credential is decoded from a successful login response',
+    async ({ module, credential, input }) => {
+      const result = await runEffect(
+        executeModule(module, input, () =>
+          Effect.succeed({
+            ...response({
+              code: 200,
+              userId: 1,
+              account: { id: 1 },
+              profile: {
+                userId: 1,
+                nickname: 'listener',
+                avatarUrl: 'https://p1.music.126.net/a.jpg',
+                avatarImgId_str: 'image',
+              },
+              future: ['kept'],
+            }),
+            cookie: [`${credential}=token; Path=/`],
+          }),
+        ),
+      );
+      expect(result.cookie).toEqual([`${credential}=token; Path=/`]);
+      expect(result.body).toMatchObject({
+        code: 200,
+        cookie: `${credential}=token; Path=/`,
+        future: ['kept'],
+      });
+    },
+  );
+
+  test.each([
+    { module: login, body: { code: 200 } },
+    {
+      module: loginCellphone,
+      body: { code: 200, account: { id: 1 }, profile: { userId: 1 } },
+    },
+    { module: registerAnonymous, body: { code: 200, userId: 1 } },
+  ])(
+    'missing credentials fail through a verified decoder',
+    async ({ module, body }) => {
+      const result = await runEffect(
+        executeModule(module, {}, () => Effect.succeed(response(body))).pipe(
+          Effect.flip,
+        ),
+      );
+      expect(result).toBeInstanceOf(UnexpectedUpstreamShape);
+    },
+  );
+
+  test('batch forwards only API entries and preserves opaque bodies', async () => {
+    const intents: Array<RequestIntent> = [];
+    const body = { code: 200, future: [null, { field: 'kept' }] };
+    const result = await runEffect(
+      executeModule(
+        batch,
+        { '/api/search/get': { s: 'song' }, ignored: true },
+        (intent) => {
+          intents.push(intent);
+          return Effect.succeed(response(body));
+        },
+      ),
+    );
+    expect(JSON.parse(String(intents[0]?.body))).toEqual({
+      '/api/search/get': { s: 'song' },
+    });
+    expect(result.body).toEqual(body);
+  });
+
+  test('QR image computation stays local', async () => {
+    const result = await runEffect(
+      executeModule(loginQrCreate, { key: 'key', qrimg: true }, () =>
+        Effect.die('No network expected'),
+      ),
+    );
+    expect(result.body).toMatchObject({
+      code: 200,
+      data: {
+        qrurl: 'https://music.163.com/login?codekey=key',
+        qrimg: expect.stringContaining('data:image/png;base64,'),
+      },
+    });
+  });
+});

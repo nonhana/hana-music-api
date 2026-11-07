@@ -1,6 +1,4 @@
-import { execFileSync } from 'node:child_process';
-import { createHash } from 'node:crypto';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 import { Effect, Option } from 'effect';
@@ -19,8 +17,13 @@ import search, {
 } from '../src/modules/search.ts';
 import type { ModuleDefinition, NcmApiResponse } from '../src/types/index.ts';
 import type { StartServerOptions } from '../src/types/server.ts';
-import { createFakeUpstream } from '../tests/fixtures/fake-upstream.ts';
-import type { FakeMode } from '../tests/fixtures/fake-upstream.ts';
+import { fingerprint, writeEvidence } from '../tests/_kit/evidence.ts';
+import { createFakeUpstream } from '../tests/_kit/upstream/loopback.ts';
+import type { FakeMode } from '../tests/_kit/upstream/loopback.ts';
+import {
+  allowLoopback,
+  installOfflineGuard,
+} from '../tests/_kit/upstream/offline.ts';
 
 interface Acceptance {
   readonly requests: number;
@@ -71,43 +74,13 @@ const check = (condition: boolean, message: string): void => {
   }
 };
 
-export const fingerprint = async (cwd = process.cwd()) => {
-  const head = execFileSync('git', ['rev-parse', 'HEAD'], {
-    cwd,
-    encoding: 'utf8',
-  }).trim();
-  const hash = createHash('sha256').update(
-    execFileSync('git', ['diff', 'HEAD', '--binary'], {
-      cwd,
-      maxBuffer: 16 * 1024 * 1024,
-    }),
-  );
-  const untracked = execFileSync(
-    'git',
-    ['ls-files', '--others', '--exclude-standard', '-z'],
-    {
-      cwd,
-      encoding: 'utf8',
-    },
-  )
-    .split('\0')
-    .filter(Boolean)
-    .toSorted();
-  for (const path of untracked) {
-    hash
-      .update(path)
-      .update('\0')
-      .update(await readFile(resolve(cwd, path)));
-  }
-  return { head, diffSha256: hash.digest('hex') };
-};
-
 const percentile = (values: Array<number>, fraction: number): number =>
   values.toSorted((left, right) => left - right)[
     Math.ceil(values.length * fraction) - 1
   ] ?? 0;
 
 const runLoad = async (soak: boolean) => {
+  const started = new Date().toISOString();
   const revision = await fingerprint();
   const samples: Array<{
     scenario: string;
@@ -206,7 +179,7 @@ const runLoad = async (soak: boolean) => {
     }) => Promise<void>,
     mode: FakeMode = 'healthy',
   ) => {
-    const fake = createFakeUpstream(50);
+    await using fake = createFakeUpstream(50);
     fake.setMode(mode);
     const readStores = new Set<ReadStore<NcmApiResponse>>();
     let peakInflight = 0;
@@ -242,6 +215,10 @@ const runLoad = async (soak: boolean) => {
           })),
         ),
     });
+    using registration = { [Symbol.dispose]: allowLoopback(url) };
+    await using listener = { [Symbol.asyncDispose]: () => server.stop(true) };
+    void listener;
+    void registration;
     const call = async (
       path: string,
       init: RequestInit = {},
@@ -319,6 +296,17 @@ const runLoad = async (soak: boolean) => {
       scenarios.push({
         name,
         upstream: fake.metrics,
+        transport: {
+          attempts: fake.sent.length,
+          targets: [
+            ...new Map(
+              fake.sent.map((entry) => [
+                `${entry.method} ${entry.logical}`,
+                entry,
+              ]),
+            ).values(),
+          ],
+        },
         reads: {
           inflight: [...readStores].reduce(
             (sum, reads) => sum + reads.snapshot.inflight,
@@ -327,8 +315,6 @@ const runLoad = async (soak: boolean) => {
           peakInflight,
         },
       });
-      await server.stop(true);
-      await fake.stop();
     }
   };
 
@@ -635,16 +621,36 @@ const runLoad = async (soak: boolean) => {
     failures,
     samples,
   };
-  const directory = resolve('_notes/load-reports');
+  const directory = resolve('.artifacts/testing/load');
   await mkdir(directory, { recursive: true });
   const path = resolve(directory, `${report.mode}-${Date.now()}.json`);
   await writeFile(path, JSON.stringify(report, null, 2) + '\n');
   console.log(
     JSON.stringify({ ...report, samples: undefined, reportPath: path }),
   );
+  await writeEvidence(
+    {
+      suite: 'load',
+      command: [process.execPath, ...process.argv.slice(1)],
+      startedAt: started,
+      candidate: revision,
+      exitCode: failures.length ? 1 : 0,
+      counts: { pass: failures.length ? 0 : 1, fail: failures.length, skip: 0 },
+      artifacts: { load: path },
+      details: report,
+    },
+    process.cwd(),
+    resolve(directory, `${report.mode}-${Date.now()}`),
+  );
   check(failures.length === 0, failures.join('; '));
 };
 
 if (import.meta.main) {
-  await runLoad(process.argv.includes('--soak'));
+  const network = installOfflineGuard();
+  try {
+    await runLoad(process.argv.includes('--soak'));
+    network.verify();
+  } finally {
+    network.dispose();
+  }
 }

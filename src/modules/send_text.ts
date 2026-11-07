@@ -13,15 +13,10 @@ const sendText: ModuleEffect<ModuleInput> = (query, request) =>
       msg: query.msg,
       userIds: '[' + query.user_ids + ']',
     };
-    return toModuleResponse(
-      yield* request(
-        buildApiRequestIntent(
-          `/api/msg/private/send`,
-          data,
-          createOption(query),
-        ),
-      ),
+    const response = yield* request(
+      buildApiRequestIntent(`/api/msg/private/send`, data, createOption(query)),
     );
+    return toModuleResponse(response);
   });
 
 /**

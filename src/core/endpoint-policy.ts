@@ -10,6 +10,10 @@ import {
   UpstreamRateLimited,
 } from './errors.ts';
 import type { IdentitySnapshot } from './identity.ts';
+import { normalizeActionTarget } from './request-actions.ts';
+import type { RequestAction } from './request-actions.ts';
+import { requestProfiles } from './request-profiles.ts';
+import type { RequestProfile } from './request-profiles.ts';
 import { businessCode } from './response.ts';
 
 const readModules = new Set([
@@ -42,6 +46,7 @@ export const validateRequestTarget = (
   intent: RequestIntent,
   url: string,
   identity: IdentitySnapshot,
+  action?: RequestAction,
 ): void => {
   const targetSemantic =
     intent.protocol === 'plain'
@@ -49,8 +54,8 @@ export const validateRequestTarget = (
         ? 'read'
         : 'upload'
       : requestSemantic(intent.target);
-  if (intent.semantic !== targetSemantic) {
-    throw new InvalidRequest({
+  if (intent.action === undefined && intent.semantic !== targetSemantic) {
+    throw InvalidRequest.make({
       message: 'Request semantic does not match its target and method',
     });
   }
@@ -58,11 +63,28 @@ export const validateRequestTarget = (
     intent.protocol !== 'plain' &&
     (!intent.target.startsWith('/api/') || intent.method !== 'POST')
   ) {
-    throw new InvalidRequest({
+    throw InvalidRequest.make({
       message: 'API requests require an /api/ target and POST method',
     });
   }
   const target = new URL(url);
+  if (action) {
+    const profile: RequestProfile = requestProfiles[action.profile];
+    const path = normalizeActionTarget(intent.target, profile, action.target);
+    const preparedPath =
+      profile.protocol === 'linuxapi'
+        ? '/api/linux/forward'
+        : profile.protocol === 'api'
+          ? path
+          : `/${profile.protocol}/${path.slice(5)}`;
+    const expected = new URL(preparedPath, profile.domain);
+    if (target.href !== expected.href) {
+      throw InvalidRequest.make({
+        message:
+          'Prepared request does not match its declared profile and target',
+      });
+    }
+  }
   const apiHost = ['music.163.com', 'interface.music.163.com'].includes(
     target.hostname,
   );
@@ -77,7 +99,7 @@ export const validateRequestTarget = (
     target.password ||
     !['http:', 'https:'].includes(target.protocol)
   ) {
-    throw new TargetRejected({ message: 'Request target is not allowed' });
+    throw TargetRejected.make({ message: 'Request target is not allowed' });
   }
   if (intent.protocol === 'plain') {
     const approved =
@@ -85,7 +107,7 @@ export const validateRequestTarget = (
       target.hostname.endsWith('.127.net') ||
       target.hostname.endsWith('.163yun.com');
     if (!secure || !approved) {
-      throw new TargetRejected({
+      throw TargetRejected.make({
         message: `Raw request target is not allowed: ${target.hostname}`,
       });
     }
@@ -93,7 +115,7 @@ export const validateRequestTarget = (
     (identity.cookie.MUSIC_U || identity.cookie.MUSIC_A) &&
     (!secure || (!apiHost && !scrobbleHost))
   ) {
-    throw new TargetRejected({
+    throw TargetRejected.make({
       message: 'Authenticated API target is not allowed',
     });
   }
@@ -132,8 +154,13 @@ export const retryDecision = (
   attempt: number,
   options: CreateRequestOptions['retry'],
   random: number,
+  action?: RequestAction,
 ): number | undefined => {
-  if (requestSemantic(uri) !== 'read') {
+  if (
+    (action?.semantic ?? requestSemantic(uri)) !== 'read' ||
+    action?.retry === 'never' ||
+    (action !== undefined && action.token !== 'none')
+  ) {
     return undefined;
   }
   if (error instanceof UpstreamRateLimited) {
@@ -144,8 +171,9 @@ export const retryDecision = (
     /eai_again|econnrefused|und_err_connect_timeout|\bconnect etimedout\b/.test(
       text,
     );
-  const read =
-    /\/search\/|\/song\/lyric|\/song\/detail|\/playlist\/detail/.test(uri);
+  const read = action
+    ? action.retry === 'read'
+    : /\/search\/|\/song\/lyric|\/song\/detail|\/playlist\/detail/.test(uri);
   const explicit = options?.retryNonIdempotent === true && read;
   const status =
     error instanceof ProtocolFailed
