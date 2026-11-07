@@ -9,7 +9,7 @@
 - [ARCHITECTURE.md](./agent-docs/ARCHITECTURE.md) — 调整核心、服务层或模块边界前阅读
 - [API_CONVENTIONS.md](./agent-docs/API_CONVENTIONS.md) — 新增模块或修改接口行为前阅读
 - [PUBLIC_API.md](./agent-docs/PUBLIC_API.md) — 修改公开导出或 SDK 兼容性前阅读
-- [CODE_STYLE.md](./agent-docs/CODE_STYLE.md) — 编辑 TypeScript、Effect 或生成文件前阅读
+- [CODE_STYLE.md](./agent-docs/CODE_STYLE.md) — 编辑 TypeScript、Effect、生成文件或编写提交信息前阅读
 
 ## Agent skills
 
