@@ -30,7 +30,7 @@ artifact 还保存了一份 live status=fail 报告，其原因精确为 LIVE_UP
 
 本轮 CI 未出现实际失败，没有必要的代码修复或失败重跑。PR 的匿名 live 步骤仅在 workflow_dispatch 启用，PR 场景未选择它符合既定分层；独立账号写入没有重跑。
 
-## 状态与剩余范围
+## 第一轮状态与剩余范围（历史）
 
 本次请求的完整 PR 门禁已实际通过。先前同源提交的手动 release-rehearsal 和十分钟 soak 也已通过，详情见 `.artifacts/testing/delivery/ci/final.json`；不能把这些结果当成新建独立 live/mutation workflow 的运行证据。
 
@@ -39,3 +39,59 @@ artifact 还保存了一份 live status=fail 报告，其原因精确为 LIVE_UP
 本文件与主记录的更新仅位于指纹排除的 runs 报告目录，不改变产品、测试、配置或包内容；记录提交推送后，仍跟进新 head 的全部 PR 检查，最终状态以 PR checks 和当次原始报告为准。
 
 本地汇总与原件位置：`.artifacts/testing/pr/verify-evidence.json`、`rehearsal-evidence.json`、`verify-artifacts/`、`rehearsal-artifacts/` 和 `verify-job.log`。
+
+## 独立专项与失败上传补验收
+
+本节接续上述历史待办。用户授权必要修改、提交和推送，继续跟进 PR 119，明确不合并。实现提交为 `16e6ad87013f56d3168f6ed68cc397fe67f78ca7`，标题为 `ci: 补齐独立专项与失败上传验收`。普通 PR、显式故障、正常专项与手动 soak 的真实运行证据均已取得；没有修改 master、Secrets 或保护规则，没有发布或重新执行账号写入。
+
+### 实现与 red/green
+
+release-rehearsal 保留默认 release 演练，新增显式 testing/failure 模式。testing 通过相对路径调用同一提交的 verify、live、mutation 实际 workflow；failure 仅调用同一个 verify job 并启用默认关闭的故障输入。live/mutation 保留各自 schedule/workflow_dispatch，普通 PR 不选择这两个上游专项。没有复制一份宽松 job，也没有使用 continue-on-error。
+
+故障输入让临时 Bun 测试执行真实错误断言，保存原生 JUnit 和日志；同一个 always 上传步骤在失败后继续运行。本地控制从实际 YAML 取出命令、以 Action 的 Bash 严格管道语义执行：新增行为先为 17 pass/1 fail，加入实现后为 18 pass/0 fail，内层 Bun 仍实际失败。日志为 `.artifacts/testing/ci-acceptance/probe-red.log`、`probe-green.log` 和 `controls-final.log`。
+
+独立审查发现手动候选原本继承 verify 的 30 天保留期，已修正为手动 90 天、PR/master push 30 天；同类 load 手动候选一并修正为 90 天，定时 load 仍为 30 天。远端 metadata 的实际创建/到期时间也已核对，未只根据 YAML 判通过。两轮旧候选为修复保留期而主动停止的部分 soak 均保留中断记录，不计通过、不用于下表。
+
+### 同一提交的远端结果
+
+| 实际命令 / 运行                                                                      | 决定性结果                                                                                                                                                                                                           | 报告与保留期                                                                                         |
+| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| PR verify                                                                            | [42347563456](https://github.com/nonhana/hana-music-api/actions/runs/42347563456) completed/success；verify 3532/0/0、SDK 32/0/0、fixtures 761 validated/0 failures、smoke 87/0/0 加 500 请求                        | 已下载原生 JUnit、包和负载报告；PR artifact 约 30 天                                                 |
+| PR release-rehearsal                                                                 | [42347563494](https://github.com/nonhana/hana-music-api/actions/runs/42347563494) completed/success；版本步骤后 3.2.1 包重新构建、SDK 32/0/0                                                                         | 已下载、重算 tarball；约 90 天；没有发布                                                             |
+| `gh workflow run release-rehearsal.yml --ref feature/refactor -f acceptance=failure` | [42347650538](https://github.com/nonhana/hana-music-api/actions/runs/42347650538) **completed/failure**；candidate/verify 真实失败；原生测试 1 项、1 个 AssertionError、0 skip；原 Upload test evidence 步骤 success | artifact 13563144719；failure-probe.log/xml/test.ts、初始候选和 checkout SHA 已下载，约 90 天        |
+| `gh workflow run release-rehearsal.yml --ref feature/refactor -f acceptance=testing` | [42347915406](https://github.com/nonhana/hana-music-api/actions/runs/42347915406) **completed/success**；candidate/verify、live/live、mutation/mutation 全部 success                                                 | testing/live/mutation 三份 artifact 均下载，均约 90 天                                               |
+| 独立 live/live                                                                       | 安装后的 3.2.0 候选包；先完成同包 SDK 32 项及 Node/Bun 消费，再执行匿名 2 场景、6 次实际请求（含初始化），0 fail/0 skip；没有账号 Secrets 或替身                                                                     | live 原生 JUnit、请求摘要、包/源码 hash；artifact 13564112726                                        |
+| 独立 mutation/mutation                                                               | playlist-subscribe、shared-reads、upload 三目标的 5 个登记故障均 killed；每项退出 1、非超时，并在登记标题下找到原生断言失败；不是 dry-run、导入失败或普通错误冒充 kill                                               | 逐项 XML/stdout/stderr、summary；artifact 13564945317；上传阶段的组合错误中含明确 Bun AssertionError |
+| `gh workflow run load.yml --ref feature/refactor`                                    | [42347653042](https://github.com/nonhana/hana-music-api/actions/runs/42347653042) completed/success；600193.46ms、30203 请求、p95 52.21ms、RSS 尾部增长 8.56%，active/inflight=0，failures=[]                        | artifact 13564865824 已下载，约 90 天                                                                |
+
+故障 run 没有删除、改成成功或用相同 failure 输入重跑来假装恢复。随后同一提交的正常 testing run 明确关闭故障输入并全部成功。PR 实际 statusCheckRollup 也已读取：verify/rehearsal 和预览成功，无失败或等待项，两个信息检查为 NEUTRAL。普通 PR 的 candidate/live/mutation 因未选择手动模式而为 SKIPPED，testing 的 rehearsal 同理；这些未选择的模式不计为测试通过。原件为 `ci-acceptance/pr-implementation-rollup.json`。
+
+新独立 workflow 在未合并分支通过同提交 workflow_call 实际运行，本次证明实际 job、命令和上传能力；没有声称 master 上的 cron 已触发。合并后的定时激活属于后续运维，不通过提前合并来验收。
+
+### 当前候选与本地门禁
+
+本地源内容 SHA-256 为 `2e7f3a2e9e9496acceb18299d9ba0fe8cf779fb2405e0a9ab5bc2337a99a50cc`，Linux 为 `8d7b334bc98d6806fdc4c37f9227fa95d526d9817a53194c10c442da6d6743e7`。已按原规则重算，差异仍仅为 CLAUDE.md symlink 的 0755/0777。PR checkout `c73f2f80452ee64e8e19eac495a2aac202b78a72` 与实现 head 的 tree 均为 `2658a3f4601592200c176d73ce1ce4c5e6b61f13`；手动 failure/testing/soak 直接 checkout 实现提交，初始候选均为同一 Linux 指纹。没有扩大指纹排除范围。
+
+以下本地命令串行完成，完整组合退出码均为 0；原件位于 `.artifacts/testing/ci-acceptance/`：
+
+| 实际命令                                                      | 当次结果                                                                                                  | 原始日志            |
+| ------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ------------------- |
+| `bun run verify`                                              | 3532 pass、0 fail、0 skip；生成、schema、构建、类型、lint 0 warning/0 error、拼写、格式与文档构建全部通过 | local-verify.log    |
+| `bun run verify:sdk`                                          | SDK 32 pass；同包 Node/Bun、导出、类型、serverless 与全部后续检查通过                                     | local-sdk.log       |
+| `bun run verify:fixtures`                                     | 915 scanned、761 validated、4 无 ModuleBody 另列、0 failures                                              | local-fixtures.log  |
+| `bun run test:load:smoke`                                     | 87 pass 加 500 loopback 请求，active/inflight=0，failures=[]                                              | local-smoke.log     |
+| `bun run test:load:soak`                                      | 600175.53ms、30300 请求、p95 55.77ms、RSS 尾部增长 0%，active/inflight=0，failures=[]                     | local-soak.log      |
+| `bun scripts/mutation-test.mts --all`                         | 三目标五故障均由登记断言检出，非超时/工具错误                                                             | local-mutation.log  |
+| `LIVE_UPSTREAM=1 HANA_LIVE_SUITE=anonymous bun run test:live` | 2 pass、6 次实际请求、0 fail/0 skip，安装后的同候选包                                                     | local-anonymous.log |
+
+本地 3.2.0 tarball 仍为 `08d9446c5f1dc5d630d2bbb9879c06c399992a28fa5e7705def8acaf6af077cc`，与 E1 使用的包逐字节相同，711 项文件路径和内容 hash 全部一致，原有真实账号结果可以绑定当前产品包。证据为 `e1-package-reuse.json`，不重用旧凭据或写入授权。Linux 3.2.0 包为 `7de21fe53aa02be6f1e4901c6ec9c63099d633172b5cd79b18d6824b37f7fd71`；版本演练后的 3.2.1 包为 `1d7a62a6c493ed4f4e96aa5baeb163feec04906ba289e778bdf572ca01d61cae`，分别保存，不混称跨平台或跨版本的同一 tarball。
+
+仓库 hana-implement 未改变，SHA-256 仍为 `32990c5fff7632304cbef6e08d28cc2dfc263029832048b5abd9db42f95985e6`；此前九场景的独立演练与验收判断保持适用。辅助 quick_validate 对必需元数据字段的兼容性限制仍保留“原工具未通过”，没有将它写成通过或削弱仓库门禁。
+
+### 结论与审查入口
+
+CI-01～04、AC-13 的独立远端待办已取得实际证据。本地完整门禁、匿名专项、E1 同包关联与远端候选门禁均通过；最后的验收记录提交只修改 runs 目录，继续沿用上述源/包指纹，并跟进新 HEAD 的完整 PR CI。PR 保持 OPEN，自动合并关闭，不合并、不发布。
+
+记录本身的 `bun run fmt:check` 和 `bun run spell` 也已退出 0。首次拼写检查在新增正文的 shell 选项名称上报 1 issue，已改为中文说明后原强度重跑通过；原失败保存在 records-spell-red.log，最终结果为 records-fmt.log、records-spell.log，没有修改字典或忽略范围。
+
+原始索引为 `.artifacts/testing/ci-acceptance/dispatches.json`、`local-final-proof.json`、`failure-upload-proof.json`、`proof-42347563456.json`、`proof-42347915406.json`、`proof-42347653042.json`、`rehearsal-implementation-proof.json`、`candidate-platforms.json` 和 `pr-candidate-tree.json`。每个远端 run 的原始 jobs、日志、artifact metadata 和下载文件保存在同目录；两轴独立复审为 `review-standards.md`、`review-requirements.md`。最终记录提交后的检查以 PR 最新 checks 与 `.artifacts/testing/ci-acceptance/final.json` 为准。

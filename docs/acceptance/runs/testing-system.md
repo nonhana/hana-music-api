@@ -2,21 +2,23 @@
 
 基线：feature/refactor，fb10b0052f05627307310cb307995f77762211a4。2026-11-07 工作区干净，清单与计划一致。运行证据在 `.artifacts/testing/`，baseline 保存 101 项迁移清单、原始源码与 fixtures hash。
 
-| 切片    | 状态                                    | 证据与剩余事项                                                                      |
-| ------- | --------------------------------------- | ----------------------------------------------------------------------------------- |
-| S1      | 本地及 PR CI 通过                       | 完整 verify 已在 PR 119 实际运行，3531 pass；其余历史结果保留                       |
-| S2      | 本地通过                                | 79 个相关测试、完整 verify 与 smoke 通过                                            |
-| S3      | 本地通过                                | 3443 个回归、SDK、smoke 和十分钟 soak 通过                                          |
-| S4      | 本地通过                                | 全部 Verification 通过，103 个专项、3480 个回归、smoke 与十分钟 soak                |
-| S5      | 本地通过                                | 53 文件代码与断言保持，2710 个相关用例、完整 verify 和 fixtures 审计通过            |
-| S6      | 本地通过                                | 34 个原测试与 3 个类型文件归位，完整门禁与同包 Node/Bun 消费者通过                  |
-| S7      | 本地通过                                | 7 个 CLI 控制样本、5 个有效变异被预期断言发现                                       |
-| S8      | 本地及 E1 通过                          | 同一最终候选登录专项 1 pass、写专项 1 pass，目标恢复 confirmed；见 E1 接续记录      |
-| S9      | PR CI 通过，独立专项/故障验收待执行     | PR verify/rehearsal/预览成功；新 live/mutation 独立工作流及失败 job 上传仍待验      |
-| S10     | 本地通过                                | 三输入五条核心 AC/门禁等价，九场景独立演练及修订复验通过                            |
-| S11     | 本地/E1/PR 门禁通过，独立外部验收待执行 | 同源候选 PR 完整门禁、101 项映射与双轴审查；未合并                                  |
-| E1      | 通过                                    | 当次账号、token、单目标与授权齐备；收藏/取消各一次，真实读回确认恢复                |
-| 远端 CI | 部分通过                                | PR 完整 verify 与 rehearsal、手动 soak 成功；独立 live/mutation 和失败 job 上传待验 |
+本轮接续已完成独立 live/mutation 和故意失败 job 上传的真实远端验收，源候选为 `2e7f3a2e9e9496acceb18299d9ba0fe8cf779fb2405e0a9ab5bc2337a99a50cc`，实现提交 `16e6ad8`。下表与最终逐项结论为接续状态，各切片正文保留当时命令与历史失败；当前完整证据见 [独立专项与失败上传补验收](testing-system-ci.md#独立专项与失败上传补验收)。
+
+| 切片    | 状态                       | 证据与剩余事项                                                                                 |
+| ------- | -------------------------- | ---------------------------------------------------------------------------------------------- |
+| S1      | 本地及 PR CI 通过          | 当前完整 verify 已在 PR 119 实际运行，3532 pass；其余历史结果保留                              |
+| S2      | 本地通过                   | 79 个相关测试、完整 verify 与 smoke 通过                                                       |
+| S3      | 本地通过                   | 3443 个回归、SDK、smoke 和十分钟 soak 通过                                                     |
+| S4      | 本地通过                   | 全部 Verification 通过，103 个专项、3480 个回归、smoke 与十分钟 soak                           |
+| S5      | 本地通过                   | 53 文件代码与断言保持，2710 个相关用例、完整 verify 和 fixtures 审计通过                       |
+| S6      | 本地通过                   | 34 个原测试与 3 个类型文件归位，完整门禁与同包 Node/Bun 消费者通过                             |
+| S7      | 本地通过                   | 7 个 CLI 控制样本、5 个有效变异被预期断言发现                                                  |
+| S8      | 本地及 E1 通过             | 同一最终候选登录专项 1 pass、写专项 1 pass，目标恢复 confirmed；见 E1 接续记录                 |
+| S9      | 本地与远端验收通过         | PR/正常手动 verify、独立 live/mutation、完整 soak 成功；真实失败 job 保留 failure 且上传成功   |
+| S10     | 本地通过                   | 三输入五条核心 AC/门禁等价，九场景独立演练及修订复验通过                                       |
+| S11     | 同源候选门禁与外部验收通过 | 本地及远端完整门禁、E1 同字节包关联、101 项映射与独立审查；未合并                              |
+| E1      | 通过                       | 当次账号、token、单目标与授权齐备；收藏/取消各一次，真实读回确认恢复                           |
+| 远端 CI | 验收通过                   | PR 完整门禁、同提交独立 live/mutation、完整 soak、失败 artifact 下载和 90 天 metadata 均已核对 |
 
 red：`bun test tests/unit/testing/runner.test.ts` 在 runner 未实现时因缺模块失败，日志 baseline/s1-red.log；故障样本随后分别命中失败路径，不能将工具导入失败当作故障检测通过。
 
@@ -188,7 +190,7 @@ baseline/s11-helper-comparison.json 证明三个 helper 的运行时和静态数
 
 分类修复后 `bun test tests/unit/testing/mutation.test.ts`：8 pass、0 fail（s11-mutation-classification-green.log）；`bun scripts/mutation-test.mts --all` 五项均 killed，逐项确有 native AssertionError 或组合中的真实 Bun 断言，明细 s11-explicit-assertion-kills.json，报告 mutation/1793997810338-03d10757-0752-439d-92ca-fa7771ed9320/summary.json。types/lint-6、spell/fmt-revised 通过。规范与需求独立复审分别保存 review/mutation-standards-recheck.md、mutation-classification-recheck.md；需求审查者用自己的同标题普通错误重新运行，得到 invalid/assertionFailure=false/非零，所有新发现已关闭。下面重新冻结，旧 c5bf 门禁及桌面演练保留为历史，不与新结果拼接。
 
-## 最终候选验证
+## 初次完整候选验证（历史）
 
 当前源内容 SHA-256：`6c045a58faf755176fb964ef5016f229a278fb1d7584429da74df692e56b2f8a`。testedHead 为 `fb10b0052f05627307310cb307995f77762211a4`，分支 feature/refactor；最后现场指纹与所有当次报告一致。完整 Git 审查范围为 review/final-surface.json，含受控与 157 个非忽略未跟踪文件，staged/committed 均空，基线无用户既有改动。只排除 artifacts 与 runs 的报告内容，没有扩大排除源码。生成检查运行中的 check-tmp 文件曾使并发只读快照短暂变化，清理后回到同一指纹；最终完成态再次实际核对一致，不把瞬时快照或旧候选当最终结果。
 
@@ -215,40 +217,48 @@ preflight 总报告：`.artifacts/testing/preflight/1793998090754-c51b55ae-7a69-
 
 ## 最终逐项结论
 
-| AC    | 当前结论                                        | 当次决定性证据                                                                                       |
-| ----- | ----------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| AC-01 | 本地通过                                        | 101 项台账、97 文件/3433 旧标题全部承接，3 类型检查；helper/source/hash 及拆分审查                   |
-| AC-02 | 本地通过                                        | 3531 原生回归零失败/跳过；inventory/JUnit/only/alias/dynamic/正常 each 控制                          |
-| AC-03 | 本地通过                                        | 严格匹配、逆序 body、额外/未消费请求、独立 ledger、取消与清理故障控制；redirect 零未登记连接         |
-| AC-04 | 本地通过                                        | 收藏、共享读取、六阶段上传与失败后零后续发送；SDK/HTTP/replay 证据边界明确                           |
-| AC-05 | 本地通过                                        | 真 loader/实例 execution；公开 root/named/invoke 与负向类型/根导出检查                               |
-| AC-06 | 本地通过                                        | 身份/fetcher/Clock/期限/等待者隔离；单次写/不缓存合并重放；架构回归                                  |
-| AC-07 | 本地通过                                        | 915 录制数据字节保持；replay/synthetic/request-evidence 分明；fixtures 0 failures                    |
-| AC-08 | 本地通过                                        | 默认真实 socket/Node 代理；取消故障副本准确被发现；smoke/十分钟 soak 两计数归零                      |
-| AC-09 | 本地通过                                        | 同 tarball Node/Bun、类型/导出/Standard Schema/serverless，无陈旧 dist                               |
-| AC-10 | 本地通过                                        | 8 真实进程分类控制；五故障真正断言 killed；普通错误 invalid；原工作区无变异残留                      |
-| AC-11 | 匿名真实通过                                    | 最终安装包、2 场景/6 请求、源码/包/时间/身份类别/地区齐全，无替身或历史结果                          |
-| AC-12 | E1 真实通过                                     | 同一候选登录 1 pass、写专项 1 pass；七次请求、收藏/取消各一次、restoration=confirmed；见 E1 接续记录 |
-| AC-13 | PR/手动 soak 通过，独立专项/失败 job 待验       | PR 119 完整门禁与成功 artifacts 已实测；新 live/mutation 独立 workflow、失败 job artifacts 尚缺      |
-| AC-14 | 本地通过                                        | 三输入同义矩阵与同门禁，无强制开票/全局依赖；完整工作区独立审查                                      |
-| AC-15 | 本地通过                                        | 九场景独立演练、歧义修订和最终候选复验，隔离项目内容/index/用户草稿保持                              |
-| AC-16 | 本地/E1/PR 门禁与修复审查通过，独立外部证据待验 | 同源候选 PR verify/rehearsal 成功；其余远端专项仍单列                                                |
-| AC-17 | 本地证据与授权边界通过                          | 当前 SHA/包/命令/JUnit/源码追溯，历史/中断另列；没有主仓库提交、推送、PR、关票、合并或发布           |
+| AC    | 当前结论             | 当次决定性证据                                                                                                                       |
+| ----- | -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| AC-01 | 本地通过             | 101 项台账、97 文件/3433 旧标题全部承接，3 类型检查；helper/source/hash 及拆分审查                                                   |
+| AC-02 | 本地通过             | 3532 原生回归零失败/跳过；inventory/JUnit/only/alias/dynamic/正常 each 控制                                                          |
+| AC-03 | 本地通过             | 严格匹配、逆序 body、额外/未消费请求、独立 ledger、取消与清理故障控制；redirect 零未登记连接                                         |
+| AC-04 | 本地通过             | 收藏、共享读取、六阶段上传与失败后零后续发送；SDK/HTTP/replay 证据边界明确                                                           |
+| AC-05 | 本地通过             | 真 loader/实例 execution；公开 root/named/invoke 与负向类型/根导出检查                                                               |
+| AC-06 | 本地通过             | 身份/fetcher/Clock/期限/等待者隔离；单次写/不缓存合并重放；架构回归                                                                  |
+| AC-07 | 本地通过             | 915 录制数据字节保持；replay/synthetic/request-evidence 分明；fixtures 0 failures                                                    |
+| AC-08 | 本地通过             | 默认真实 socket/Node 代理；取消故障副本准确被发现；smoke/十分钟 soak 两计数归零                                                      |
+| AC-09 | 本地通过             | 同 tarball Node/Bun、类型/导出/Standard Schema/serverless，无陈旧 dist                                                               |
+| AC-10 | 本地通过             | 8 真实进程分类控制；五故障真正断言 killed；普通错误 invalid；原工作区无变异残留                                                      |
+| AC-11 | 匿名真实通过         | 最终安装包、2 场景/6 请求、源码/包/时间/身份类别/地区齐全，无替身或历史结果                                                          |
+| AC-12 | E1 真实通过          | 同一候选登录 1 pass、写专项 1 pass；七次请求、收藏/取消各一次、restoration=confirmed；见 E1 接续记录                                 |
+| AC-13 | 远端验收通过         | PR 完整门禁；同提交 testing 的实际 verify/live/mutation 成功；失败 job 保持 failure 且原上传成功；完整 soak 和 90 天 metadata 已核对 |
+| AC-14 | 本地通过             | 三输入同义矩阵与同门禁，无强制开票/全局依赖；完整工作区独立审查                                                                      |
+| AC-15 | 本地通过             | 九场景独立演练、歧义修订和最终候选复验，隔离项目内容/index/用户草稿保持                                                              |
+| AC-16 | 本地/E1/远端门禁通过 | 当前 2e7f 候选的 verify 3532、SDK 32、fixtures、smoke、完整 soak、mutation、匿名 live 均通过；两轴复审核对原件                       |
+| AC-17 | 证据与授权边界通过   | 当前源/包/命令/JUnit 可追溯；提交、推送和 PR 操作按用户新增授权执行；未合并、发布、关票或改 Secrets/保护规则                         |
 
-总体状态：**BLOCKED，剩余独立 live/mutation workflow 与故意失败 job 上传的远端验收**。本地实施、必要门禁、匿名能力、E1 和 PR 119 的完整 verify/rehearsal 已取得真实通过证据；手动十分钟 soak 也已通过。完整 PR 门禁不再阻塞，但上述独立验收仍不能由成功 PR 检查替代。当前结果见 [PR CI 记录](testing-system-ci.md) 与 [E1 记录](testing-system-e1.md)。
+本轮同源候选的必要验收已通过，独立 live/mutation 与故意失败 job 上传两项原 BLOCKED 条件已解除。当前完整结果见 [PR CI 记录](testing-system-ci.md#独立专项与失败上传补验收) 与 [E1 记录](testing-system-e1.md)；验收记录提交后仍跟进最新 HEAD 的完整 PR CI。故意失败 run 保持 failure，不能将它本身写成绿灯；通过的是失败能被准确报告且 artifact 仍可取得这一验收条件。
 
-E1 所需条件已由用户本次提供或授权取得，并已验证通过；fresh token 本轮只使用一次。随后用户已授权提交、推送、创建 PR 和跟进修复；PR 119 的完整门禁、Node 24 与成功 artifacts 已验证。远端剩余新 live/mutation 独立 workflow 和故意失败 job 上传；不因这些待办合并 PR、修改 master 或套用旧候选结果。合并、发布、远端 Secrets、保护规则和关票均未执行，也未作为已授权动作。
+E1 所需条件已由用户本次提供或授权取得，并已验证通过；fresh token 本轮只使用一次。当前 2e7f 候选的本地 tarball 与 E1 包逐字节相同、711 项文件 hash 一致，已保存关联证据，没有重跑账号写入。随后用户新增授权提交、推送、创建 PR、跟进修复和补验收；这些动作已经执行。合并、发布、远端 Secrets、保护规则和关票均未执行。
 
-最终证据审查：review/final-standards.md 与 review/final-requirements.md 已直接核对当次原始日志/JUnit、实际 tarball/711 文件清单与现场指纹；规范轴和需求轴的本地结论均 PASS，无未解决的 actionable 发现。这两份初次审查时 E1 和远端 CI 均未执行；后续 E1 已按下文取得真实通过证据，整体仅因尚缺的独立远端验收保持 BLOCKED。辅助 quick_validate 不兼容字段仍明确保留“原工具未通过”。最终运行记录最后再通过 fmt:check/spell，报告更新没有改变候选源码指纹。
+初次完整候选的证据审查为 review/final-standards.md 与 review/final-requirements.md；本轮追加实现与真实 CI 原件的复审为 ci-acceptance/review-standards.md、review-requirements.md，历史发现和修复复核均保留。原有辅助 quick_validate 不兼容字段仍明确保留“原工具未通过”，不冒充必要门禁通过。运行记录最后另做 fmt:check/spell，报告更新不改变源/包指纹。
 
 ## E1 当次账号接续
 
 **E1 PASS。** 用户已提供本次 Cookie 和 fresh token，并授权选择符合条件的单一目标、执行收藏及恢复。账号 UID 599663130，目标 77629049；同一最终候选正式 authenticated 集合 1 pass、写集合 1 pass。写专项实际 7 次请求，收藏和取消各发送一次、无重试；前后真实列表读回确认未收藏→已收藏→未收藏，restoration=confirmed，failures=[]。含前置调查与独立登录，本次自动化共 12 次真实请求。完整结果及原始报告位置见 [E1 接续记录](testing-system-e1.md)。
 
-上文各切片的历史“未提供账号/授权/token”等为首次交付时状态，当前以本节和接续记录为准。E1 外部阻塞已解除；后续 PR CI 已通过，剩余独立专项仍待验。E1 当时没有修改候选源码、测试或配置；后续提交、推送和 PR 操作按用户新增授权执行，见下节。
+上文各切片的历史“未提供账号/授权/token”等为首次交付时状态，当前以本节和接续记录为准。E1 外部阻塞已解除；独立 CI 补验收也已取得实际证据。E1 当时没有修改候选源码、测试或配置；后续提交、推送和 PR 操作按用户新增授权执行，见下节。
 
 ## PR 119 当次远端接续
 
 用户已授权创建 feature/refactor → master 的 PR、持续跟进 CI 并修复失败，明确先不合并。[PR 119](https://github.com/nonhana/hana-music-api/pull/119) 已创建；第一轮 head e682744 的 verify/rehearsal 全部 completed/success，默认回归 3531、SDK 32、fixtures 761 与 smoke 87+500 均实证通过，成功 artifacts 已下载核对。Netlify 预览成功，两个无相关变化检查为 NEUTRAL。没有发生实际 CI 失败，没有为获得绿灯删测试或降低规则。
 
 具体 SHA、GitHub 测试候选、跨平台权限指纹、包 hash、预期拒绝控制报告和剩余独立验收见 [PR CI 记录](testing-system-ci.md)。记录更新不改变源码候选；推送记录提交后继续跟进最终 head。PR 保持 OPEN，自动合并关闭，未合并或发布。
+
+## 独立远端补验收接续
+
+当前实现提交 16e6ad8 已对同一源候选完成全部本地门禁、正常 PR、独立匿名 live/mutation、故意失败 job 上传以及本地/远端完整十分钟 soak。failure run 42347650538 的原生测试确有 1 个断言失败，job/run 均为 failure，原上传为 success，日志/JUnit/候选已下载且约 90 天；其后同提交的 testing run 42347915406 全部成功。独立 live 为安装包上的 2 场景/6 请求，mutation 三目标五故障均有登记标题下的真实断言证据。PR 实际 rollup 无失败或等待项；未选择模式的 job 单列为 SKIPPED，不计测试通过。
+
+本地当前源为 2e7f3a2e…，Linux 为 8d7b334b…，原规则下权限差异可精确重算；所有当前门禁绑定它们。verify 为 3532/0/0、SDK 32、fixtures 761/0 failures、smoke 87 加 500 请求；本地 soak 600175.53ms/30300 请求，远端 soak 600193.46ms/30203 请求，两边 active/inflight=0、failures=[]。先前两次为保留期修复而中断的旧 soak 不计通过。E1 通过同字节 tarball 关联；hana-implement 内容 hash 与九场景演练均保持，不把未改变的产品或 skill 伪称重新实现。
+
+完整命令、run 链接、原始证据、保留期、审查报告及记录提交后的最终检查入口见 [补验收记录](testing-system-ci.md#独立专项与失败上传补验收)。本次只在已授权分支提交和推送，PR 119 保持打开，未启用自动合并。
