@@ -25,13 +25,19 @@ describe('generated module type surface', () => {
     const loaded = await loadModuleDefinitions(REAL_MODULES_DIRECTORY);
     const declared = loaded
       .filter((definition) => definition.actions !== undefined)
-      .map((definition) => definition.identifier);
-    expect(declared).toEqual(['playlist_subscribe']);
-    expect(declared).toEqual([...generatedActionModuleIdentifiers]);
-    expect(generatedPendingActionModuleIdentifiers).toHaveLength(351);
-    expect(generatedPendingActionModuleIdentifiers).not.toContain(
+      .map((definition) => definition.identifier)
+      .toSorted();
+    expect(declared).toEqual([
+      'lyric',
+      'playlist_detail',
       'playlist_subscribe',
-    );
+      'search',
+      'song_detail',
+    ]);
+    expect(declared).toEqual([...generatedActionModuleIdentifiers].toSorted());
+    expect(generatedPendingActionModuleIdentifiers).toHaveLength(347);
+    for (const identifier of declared)
+      expect(generatedPendingActionModuleIdentifiers).not.toContain(identifier);
     expect(sdkModuleRegistry.playlist_subscribe.actions).toEqual(
       loaded.find(
         (definition) => definition.identifier === 'playlist_subscribe',

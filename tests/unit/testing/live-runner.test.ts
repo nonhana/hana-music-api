@@ -19,7 +19,7 @@ import {
 } from '../../_kit/live.ts';
 import type { UpstreamExpectation } from '../../_kit/upstream/scenario.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
-import { readWebBody } from '../../_kit/upstream/wire.ts';
+import { readEapiBody, readWebBody } from '../../_kit/upstream/wire.ts';
 
 test('explicit live invocation requires the exact gate before reading credentials', async () => {
   for (const gate of [undefined, '', '0', 'true']) {
@@ -79,7 +79,7 @@ const writeControl = async (
 
 const initial = () => [
   entry('api/w/nuser/account/get', account()),
-  entry('api/v6/playlist/detail', {
+  entry('eapi/v6/playlist/detail', {
     code: 200,
     playlist: {
       id: 99,
@@ -198,20 +198,20 @@ test('anonymous budget counts initialization, is shared across files and blocks 
 test('anonymous search, detail and lyric use the derived ID and catalog uses the expected artist', async () => {
   await withScenario(
     [
-      entry('api/search/get', { code: 200, result: { songs: [{ id: 7 }] } }),
+      entry('eapi/search/get', { code: 200, result: { songs: [{ id: 7 }] } }),
       {
-        ...entry('api/v3/song/detail', {
+        ...entry('weapi/v3/song/detail', {
           code: 200,
           songs: [{ id: 7 }],
           privileges: [{ id: 7 }],
         }),
         check: (wire) =>
-          expect(new URLSearchParams(wire.body).get('c')).toBe('[{"id":7}]'),
+          expect(readWebBody(wire.body)).toMatchObject({ c: '[{"id":7}]' }),
       },
       {
-        ...entry('api/song/lyric', { code: 200, lrc: { lyric: 'control' } }),
+        ...entry('eapi/song/lyric', { code: 200, lrc: { lyric: 'control' } }),
         check: (wire) =>
-          expect(new URLSearchParams(wire.body).get('id')).toBe('7'),
+          expect(readEapiBody(wire.body).data).toMatchObject({ id: 7 }),
       },
       entry('api/toplist', { code: 200, list: [{ id: 1 }] }),
       entry('api/artist/head/info/get', {
@@ -446,7 +446,7 @@ test('explicit live command without gate exits nonzero with no package preparati
 test('writes refuse an owned or already collected target before any write', async () =>
   writeControl(async (options) => {
     for (const own of [true, false]) {
-      const detail = entry('api/v6/playlist/detail', {
+      const detail = entry('eapi/v6/playlist/detail', {
         code: 200,
         playlist: {
           id: 99,
@@ -532,7 +532,7 @@ test('unknown creator identity stops before any collection read or write', async
     await withScenario(
       [
         entry('api/w/nuser/account/get', account()),
-        entry('api/v6/playlist/detail', {
+        entry('eapi/v6/playlist/detail', {
           code: 200,
           playlist: { id: 99, trackIds: [], creator: {}, subscribed: false },
         }),

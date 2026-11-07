@@ -26,6 +26,8 @@ client 的默认配置与单次配置按顶层字段合并，单次配置优先�
 | `realIP`     | `string`                            | 使用 `ip` 或 `cnIp`              | 比 `ip` 优先，仍只影响请求头                                   |
 | `ua`         | `string`                            | 按协议选择                       | 覆盖 `User-Agent`                                              |
 
+playlistSubscribe、search、lyric、songDetail、playlistDetail 的客户端身份由动作声明固定，`ua` 及身份 Cookie 字段不能覆盖它；MUSIC_U/MUSIC_A 等会话仍按本次调用保留。自定义 headers 中的协议受控字段也不能覆盖声明。
+
 显式 `cookie` 优先于 `headers` 中的 Cookie，头名不区分大小写。`ip` 和 `realIP` 不会改变实际网络出口。细节见 [运行时状态与身份](/guide/runtime-identity)。
 
 `deviceId` 仅用于 SDK 需要发起匿名注册时；已有账号 Cookie、游客令牌或进程游客身份时不会重新注册。它不替代 `state.deviceId` 的按次覆盖能力，也不是 HTTP 参数。合格条件和保存设备号的示例见 [匿名注册的设备号](/guide/runtime-identity#匿名注册的设备号)。
@@ -58,6 +60,8 @@ client 的默认配置与单次配置按顶层字段合并，单次配置优先�
 | `domain`     | `string`                                         | 协议对应的内置域名                | 覆盖目标域名，仍受目标策略检查           |
 | `e_r`        | `boolean \| number \| string`                    | 默认 `false`，也可来自请求数据    | 请求加密响应，`eapi` 和 `weapi` 支持解密 |
 | `acceptGzip` | `boolean`                                        | `false`                           | 声明接受 gzip 压缩的 `eapi` 响应         |
+
+上表的覆盖能力用于低层 `createRequest` 和尚未迁移的模块。playlistSubscribe、search、lyric、songDetail、playlistDetail 忽略这些覆盖，按动作声明执行：搜索、歌词、歌单详情为 eapi，歌曲详情和歌单收藏为 web/weapi，e_r/acceptGzip 均关闭。需要直接控制协议和目标时改用 `createRequest`，并按上游格式传业务参数。
 
 日常调用沿用模块默认协议即可。带账号或游客身份的 API 请求只允许已知 HTTPS 网易云 API 域名，`domain` 不能用来任意转发凭据。`e_r`、`acceptGzip` 建议使用明确的布尔值，细节见 [加密模式](/guide/crypto-modes)。
 

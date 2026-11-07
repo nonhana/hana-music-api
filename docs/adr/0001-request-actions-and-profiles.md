@@ -1,6 +1,6 @@
 # ADR-0001：请求动作与客户端身份分别声明
 
-状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105) 的首条迁移。
+状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105) 和 [#106](https://github.com/nonhana/hana-music-api/issues/106) 的动作迁移。
 
 ## 原因与决定
 
@@ -22,4 +22,12 @@
 
 保留 Promise、id/t 业务参数、status/body/cookie 外壳、返回体 Schema 和用户会话。普通配置不能再覆盖本模块的受控身份字段；这延续收藏模块原来强制网页请求的约定。本次不删除其他模块的公开配置字段；P12 删除公开字段时使用 major changeset，并保留显式低层 createRequest 及其目标和凭据外送校验。
 
-本次唯一迁移模块为 playlist_subscribe。其余 351 个模块由生成的 generatedPendingActionModuleIdentifiers 完整枚举；该清单只说明迁移范围，不代表所有模块已通过 profile 验收。旧默认协议、模块名缓存名单和 URI 语义判定仅供这些未迁移模块沿原执行链使用。P2、P5 及各领域批次完成后，P12 必须删除可选动作声明分支和旧判定，装配时要求每个模块声明所有实际动作；纯本地模块也不能省略空声明。
+当前已迁移 playlist_subscribe、search、lyric、song_detail、playlist_detail。其余 347 个模块由生成的 generatedPendingActionModuleIdentifiers 完整枚举；该清单只说明迁移范围，不代表所有模块已通过 profile 验收。旧默认协议、模块名缓存名单和 URI 语义判定仅供这些未迁移模块沿原执行链使用。P2、P5 及各领域批次完成后，P12 必须删除可选动作声明分支和旧判定，装配时要求每个模块声明所有实际动作；纯本地模块也不能省略空声明。
+
+## P2：四个共享读取
+
+search 的普通/语音分支分别声明固定目标，lyric、song_detail、playlist_detail 各声明一个动作；五个动作均为 read、token none、cache shared、retry read。只有操作明确声明资格才进入 ReadStore，不能只凭 read 语义获得缓存或扩大重试。Call 的键继续包含动作合同、有效输入、不可变身份、配置及实际 transport 引用；ReadStore 不重写，等待者自己的期限和取消仍包住完整正文消费。
+
+search、lyric、playlist_detail 使用 eapi profile，固定 interface.music.163.com、eapi、既有默认 UA、PC 的 os/appver/channel/osver、e_r=false 和不声明 x-aeapi。来源是基线 eb8f861 的模块、config.ts 与 request-plan.ts：默认确实组合 PC 字段和既有 iPhone UA，这里将既有组合显式列出，没有将其宣称为官方 PC 客户端，也没有构造新的仿官方身份。它是有明确范围和理由的协议例外：P2 无新增官方请求证据，因此不切换这三个接口到 weapi。未来更换协议或身份组合需要单独的上游证据；本次本地解密和严格 fake 只证明声明实际执行，旧响应录制仍只证明响应兼容。
+
+song_detail 保留原 weapi 目标并采用已有完整 web 身份。普通配置不能覆盖这五个动作的协议、域名、UA 或协议选项，会话、设备、实际 fetcher 和期限继续来自 Call。由于四个读取原来允许这些覆盖，本次用 major changeset 记录运行时兼容变化；P12 再统一删除公开配置字段，低层 createRequest 不受影响。

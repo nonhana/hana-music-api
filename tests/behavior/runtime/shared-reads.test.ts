@@ -8,6 +8,7 @@ import { buildCallServices, Call, runCall } from '../../../src/core/call.ts';
 import { ReadStore } from '../../../src/core/read-store.ts';
 import search, {
   decodeModuleInput as decodeSearchInput,
+  moduleActions as searchActions,
 } from '../../../src/modules/search.ts';
 import { createClientFromContext } from '../../../src/sdk/generated/client-factory.generated.ts';
 import type {
@@ -24,7 +25,7 @@ import {
   testRequest,
 } from '../../_kit/module.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
-import { readWebBody } from '../../_kit/upstream/wire.ts';
+import { readEapiBody } from '../../_kit/upstream/wire.ts';
 
 const searchImplementation = (
   _query: Record<string, unknown>,
@@ -54,6 +55,7 @@ describe('module ownership', () => {
       route: '/search',
       decodeInput: decodeSearchInput,
       execute: search,
+      actions: searchActions,
     };
     const invoke = (config = {}) =>
       runCall(
@@ -84,10 +86,10 @@ describe('module ownership', () => {
     expect(
       (await invoke({ domain: 'https://music.163.com' })).body,
     ).toMatchObject({
-      target: 'https://music.163.com/api/search/get',
+      target: 'https://interface.music.163.com/eapi/search/get',
     });
     expect((await invoke({ crypto: 'weapi' })).body).toMatchObject({
-      target: 'https://music.163.com/weapi/search/get',
+      target: 'https://interface.music.163.com/eapi/search/get',
     });
     expect(calls).toBe(4);
   });
@@ -480,7 +482,7 @@ test('strict shared public reads execute exactly one upstream request', async ()
   await withScenario(
     [
       {
-        url: 'https://interface.music.163.com/api/search/get',
+        url: 'https://interface.music.163.com/eapi/search/get',
         method: 'POST',
         response: async () => {
           await Bun.sleep(5);
@@ -525,6 +527,7 @@ test('internal instance fetcher reaches the same request chain without public co
       route: '/search',
       decodeInput: decodeSearchInput,
       execute: search,
+      actions: searchActions,
     },
   ).catch((error: unknown) => error);
   expect(sent).toBe(1);
@@ -585,17 +588,15 @@ test('internal instances isolate fetcher, clock, entropy and public config prior
         ]);
         expect(requests[0]!.body).not.toBe(requests[1]!.body);
         expect(
-          readWebBody(
+          readEapiBody(
             requests.find((request) => request.owner === 'first')!.body,
-            'aaaaaaaaaaaaaaaa',
           ),
-        ).toMatchObject({ s: 'same' });
+        ).toMatchObject({ data: { s: 'same' } });
         expect(
-          readWebBody(
+          readEapiBody(
             requests.find((request) => request.owner === 'second')!.body,
-            'bbbbbbbbbbbbbbbb',
           ),
-        ).toMatchObject({ s: 'same' });
+        ).toMatchObject({ data: { s: 'same' } });
         expect(
           requests.find((request) => request.owner === 'first')!.cookie,
         ).toContain('MUSIC_U=first');

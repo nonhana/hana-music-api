@@ -1,5 +1,5 @@
 import type { CookieRecord, RequestIntent } from '../types/index.ts';
-import { USER_AGENT_MAP } from './config.ts';
+import { OS_PROFILES, USER_AGENT_MAP } from './config.ts';
 
 export interface RequestProfile {
   readonly protocol: RequestIntent['protocol'];
@@ -12,8 +12,18 @@ export interface RequestProfile {
   readonly tokenPlacement: 'none' | 'web';
 }
 
-// web 只带浏览器身份；桌面或移动端字段不能从调用者 Cookie 中回流。
 export const requestProfiles = {
+  eapi: {
+    protocol: 'eapi',
+    domain: 'https://interface.music.163.com',
+    userAgent: USER_AGENT_MAP.api.iphone,
+    cookie: OS_PROFILES.pc,
+    omitCookies: [],
+    encryptResponse: false,
+    acceptGzip: false,
+    tokenPlacement: 'none',
+  },
+  // web 只带浏览器身份；桌面或移动端字段不能从调用者 Cookie 中回流。
   web: {
     protocol: 'weapi',
     domain: 'https://music.163.com',

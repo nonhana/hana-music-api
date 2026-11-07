@@ -14,6 +14,11 @@ export interface TestEntry {
 // Every physical test file has one category; selections may share that file.
 export const testEntries: ReadonlyArray<TestEntry> = [
   {
+    file: 'tests/behavior/runtime/shared-read-actions.test.ts',
+    category: 'behavior',
+    selections: ['local', 'smoke', 'mutation:shared-reads'],
+  },
+  {
     file: 'tests/behavior/runtime/call-runtime.test.ts',
     category: 'behavior',
     selections: ['local'],
