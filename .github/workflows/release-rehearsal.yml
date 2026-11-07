@@ -1,7 +1,18 @@
 name: release-rehearsal
+run-name: release-rehearsal / ${{ inputs.acceptance || 'PR' }}
 
 on:
   workflow_dispatch:
+    inputs:
+      acceptance:
+        description: Select release, testing acceptance, or intentional failure
+        required: true
+        default: release
+        type: choice
+        options:
+          - release
+          - testing
+          - failure
   pull_request:
 
 defaults:
@@ -13,6 +24,7 @@ permissions:
 
 jobs:
   rehearsal:
+    if: github.event_name != 'workflow_dispatch' || inputs.acceptance == 'release'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -62,3 +74,17 @@ jobs:
           path: .artifacts/testing/**
           include-hidden-files: true
           retention-days: 90
+
+  candidate:
+    if: github.event_name == 'workflow_dispatch' && (inputs.acceptance == 'testing' || inputs.acceptance == 'failure')
+    uses: ./.github/workflows/verify.yml
+    with:
+      evidence_failure: ${{ inputs.acceptance == 'failure' }}
+
+  live:
+    if: github.event_name == 'workflow_dispatch' && inputs.acceptance == 'testing'
+    uses: ./.github/workflows/live.yml
+
+  mutation:
+    if: github.event_name == 'workflow_dispatch' && inputs.acceptance == 'testing'
+    uses: ./.github/workflows/mutation.yml

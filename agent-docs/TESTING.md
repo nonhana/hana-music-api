@@ -65,6 +65,10 @@
 
 独立 workflow：load 每日/手动执行十分钟 soak；live 每日 05:40 UTC/手动只执行匿名集合，零账号 Secrets；mutation 每周一 06:30 UTC/手动执行登记目标。它们不成为普通 PR 的真实网络依赖。所有 workflow 固定 Bun 1.4.4/Node 24，失败也上传证据，PR 保留 30 天，候选保留 90 天。配置检查通过不能证明远端 job 或保护规则实际生效。
 
+未合并分支的独立验收通过已登记的 release-rehearsal 手动入口运行：`gh workflow run release-rehearsal.yml --ref <branch> -f acceptance=testing`。它按同一提交的相对路径调用 verify、live、mutation 实际 workflow，不复制 job，不传账号 Secrets，不执行版本步骤或发布。live/mutation 同时保留 schedule 和 workflow_dispatch；普通 PR 仍只执行原有本地门禁和版本演练。
+
+故意失败上传演练使用同一入口的 `acceptance=failure`：调用同一个 verify job，显式传入默认为 false 的 evidence_failure，让一个临时 Bun 测试真实断言失败。job 必须为 failure、退出非零，同一个 always 上传步骤仍应保留 failure-probe.log、原生 failure-probe.xml 和初始候选信息；不能用 continue-on-error 改成通过。该模式不执行真实上游或账号操作。随后对同一候选运行 acceptance=testing，确认 candidate/verify、live、mutation 正常通过，普通 PR 也必须保持全绿。verify/load 上传按调用事件选择保留期：手动候选及故障演练 90 天，verify 的 PR/master push 与定时 load 30 天。省略 acceptance 或选择 release 时保持原发布演练行为。
+
 发布候选在最后一次版本步骤后验证：release-rehearsal 重跑 verify:sdk（包含重新构建、打包和 Node/Bun 消费者），手动模式再跑匿名 live。release 的 publish-script 由 `bun run release:checked` 连接，该脚本在 Bun shell 中执行 `bun scripts/release-preflight.mts && bun run release`；preflight 顺序运行 verify、verify:sdk、fixtures、smoke、soak、登记 mutation 和匿名 live，再核对当前包文件集合/hash、tarball 与源码不变。本地 preflight 不发布；进程控制测试从实际 workflow/package 读取命令，以 Action 的命令和参数方式启动真实 Bun，再在隔离项目用 PATH 命令探针证明每一门禁失败时 release 调用为零。验收内容是当前待发布文件，不能宣称已比对尚未发布的 registry tarball。
 
 ## 请求与流量变更

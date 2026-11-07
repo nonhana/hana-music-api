@@ -223,8 +223,9 @@ test.each([
     await chmod(probe, 0o755);
     let checked = 0;
     for (const job of Object.values(workflow.jobs)) {
-      if (!isRecord(job) || !Array.isArray(job.steps))
-        throw new Error('invalid job');
+      if (!isRecord(job)) throw new Error('invalid job');
+      if (typeof job.uses === 'string') continue;
+      if (!Array.isArray(job.steps)) throw new Error('invalid job');
       const defaults = isRecord(job.defaults)
         ? job.defaults
         : workflow.defaults;
@@ -266,6 +267,56 @@ test.each([
       }
     }
     expect(checked).toBeGreaterThan(0);
+  } finally {
+    await rm(temporary, { recursive: true, force: true });
+  }
+});
+
+test('CI artifact probe runs a real failing assertion and preserves native JUnit and output', async () => {
+  const workflow: unknown = Bun.YAML.parse(
+    await readFile(
+      resolve(projectRoot, '.github/workflows/verify.yml'),
+      'utf8',
+    ),
+  );
+  if (
+    !isRecord(workflow) ||
+    !isRecord(workflow.jobs) ||
+    !isRecord(workflow.jobs.verify) ||
+    !Array.isArray(workflow.jobs.verify.steps)
+  )
+    throw new Error('invalid verify workflow');
+  const step: unknown = workflow.jobs.verify.steps.find(
+    (entry: unknown) =>
+      isRecord(entry) &&
+      entry.name ===
+        'Exercise artifact upload after an intentional test failure',
+  );
+  if (!isRecord(step) || typeof step.run !== 'string')
+    throw new Error('missing executable artifact failure probe');
+  const temporary = await mkdtemp(resolve(tmpdir(), 'hana-artifact-probe-'));
+  try {
+    const child = Bun.spawn(
+      ['bash', '--noprofile', '--norc', '-eo', 'pipefail', '-c', step.run],
+      { cwd: temporary, stdout: 'pipe', stderr: 'pipe' },
+    );
+    expect(await child.exited).toBe(1);
+    const xml = await readFile(
+      resolve(temporary, '.artifacts/testing/ci/failure-probe.xml'),
+      'utf8',
+    );
+    const document = Bun.XML.parse(xml, { compact: false });
+    expect(document.name).toBe('testsuites');
+    expect(Number(document.attributes.tests)).toBe(1);
+    expect(Number(document.attributes.failures)).toBe(1);
+    expect(xml).toContain('intentional artifact upload failure');
+    expect(xml).toContain('AssertionError');
+    expect(
+      await readFile(
+        resolve(temporary, '.artifacts/testing/ci/failure-probe.log'),
+        'utf8',
+      ),
+    ).toContain('intentional artifact upload failure');
   } finally {
     await rm(temporary, { recursive: true, force: true });
   }

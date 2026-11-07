@@ -29,3 +29,16 @@
 三个试点分别检查完整请求与结果：收藏 URL、身份和同值 token；共享读取发送次数、隔离、取消和期限；上传各阶段及失败后零后续发送。mutation 独立检查断言辨别力，响应回放不充当请求或当次 live 证据。
 
 门禁：每切片按计划运行；最终依次运行 types:modules:check、verify、verify:sdk、verify:fixtures、smoke、soak、三个 mutation 目标、匿名 live 与 skill 演练。登录/写专项及远端 CI 缺条件时保持阻塞。
+
+## PR 119 独立远端验收补充
+
+用户已授权在未合并分支补齐独立 live/mutation、故意失败 job 的 artifact 上传，提交推送并跟进 PR CI，明确不合并。沿用 AC-13 和 AC-16，通过既有 release-rehearsal 手动入口调用同一提交的实际 workflow；不改变普通 PR 的网络依赖，也不重跑已完成的账号写入。
+
+| 子项  | 通过条件                                                                                                       | 决定性证据                                                              |
+| ----- | -------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| CI-01 | release 默认行为与普通 PR 门禁保持；testing/failure 仅由显式手动模式启用，同提交复用实际 job                   | 工作流源、进程控制、实际 PR 与手动 run                                  |
+| CI-02 | 独立匿名 live 使用安装后的候选包，预算内完成全部场景，无替身或账号 Secrets                                     | live 原生 JUnit、请求摘要、源码/包 hash、可下载 artifact                |
+| CI-03 | 独立 mutation 三目标五故障由登记标题下的真实断言检出，无无效/存活/工具错误冒充 killed                          | mutation 原生 XML、逐项分类、同候选摘要与 artifact                      |
+| CI-04 | 同一 verify job 中真实测试断言失败，job 和 run 保持 failure，原上传步骤仍保存日志/JUnit/候选；正常模式恢复成功 | failure 与 testing 两份同源 run、失败 job 步骤、下载的原生 JUnit 与日志 |
+
+实际状态与剩余项继续写入 [PR CI 记录](runs/testing-system-ci.md)，原始运行证据保存 `.artifacts/testing/ci-acceptance/`；成功上传、预期缺 gate 的控制子进程均不能替代 CI-04。

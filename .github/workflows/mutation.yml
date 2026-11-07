@@ -1,6 +1,7 @@
 name: mutation
 
 on:
+  workflow_call:
   workflow_dispatch:
   schedule:
     - cron: '30 6 * * 1'
