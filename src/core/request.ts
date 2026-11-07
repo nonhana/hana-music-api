@@ -201,7 +201,7 @@ export const requestEffect = (
                   : {}),
               },
               call.identity,
-              {
+              call.execution?.entropy?.(now) ?? {
                 now,
                 nuid: createRandomHex(32),
                 nmtid: createRandomHex(16),

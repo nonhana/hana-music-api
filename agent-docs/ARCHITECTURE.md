@@ -29,7 +29,7 @@ Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `c
 - 每个 client、HTTP 服务实例和程序化 API 实例拥有自己的 `ReadStore`；共享读取只共享上游执行，等待者仍各自拥有取消和期限。
 - `ReadStore` 用一个原子状态决策处理缓存命中、在飞任务合并和任务清理。
 - SDK 不在本地限制出口请求频率，也不在收到上游限频后冷却身份或域名；调用方自己控制频率。只有 HTTP 服务按来访 IP 和模块容量做入口准入（`src/server/admission.ts`），多进程不会共享这份内存状态，需要在可信反向代理层补充共享限流。
-- SDK 入口和 `src/core/` 在加载和调用时不读写本地文件，以便在 Serverless 函数里运行：版本号由构建内联 `package.json`，运行时状态只在内存；匿名令牌文件只由 `src/app/` 的 CLI 读写。`tests/contract/sdk-release-contract.test.ts` 用单文件打包产物守住这一点。
+- SDK 入口和 `src/core/` 在加载和调用时不读写本地文件，以便在 Serverless 函数里运行：版本号由构建内联 `package.json`，运行时状态只在内存；匿名令牌文件只由 `src/app/` 的 CLI 读写。`tests/package/release.test.ts` 用单文件打包产物守住这一点。
 
 ## 依赖方向
 
@@ -38,3 +38,5 @@ Hono 只属于 `src/server/`。`src/core/` 必须能够脱离 Hono 测试；模�
 上传按阶段执行；已经完成的上游写入不能回滚，失败时由模块报告部分完成阶段。自定义 fetcher 必须遵守传入的 `AbortSignal`，库只能保证自身资源会释放。
 
 重构背景与验收证据见 `_notes/effect-refactor/final-report.md` 和 `website/guide/request-layer-overview.md`。
+
+内部实例装配见 [ADR-0002](../docs/adr/0002-testing-runtime-and-evidence.md)。`buildCallServices(config, initializeAnonymous, execution)` 的第三个参数只供内部装配；Call 保存冻结依赖，公开 fetcher 与显式 Clock 保持优先。SDK 内部 client factory 由生成器产出且不从根导出；HTTP 的 runtimeOptions 不从请求输入读取。测试仍执行同一请求链。

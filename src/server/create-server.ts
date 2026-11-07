@@ -4,7 +4,8 @@ import { fileURLToPath } from 'node:url';
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 
-import { createServiceLayer } from '../core/call.ts';
+import type { InternalExecution } from '../core/call-context.ts';
+import { buildCallServices } from '../core/call.ts';
 import type { CreateServerOptions } from '../types/server.ts';
 import { AdmissionController } from './admission.ts';
 import { registerDemoRoutes } from './demo-routes.tsx';
@@ -14,6 +15,7 @@ import { registerBaseRoutes, registerModuleRoutes } from './routes.ts';
 
 export interface CreateServerRuntimeOptions {
   readonly allowDebugApiRequests?: boolean;
+  readonly execution?: InternalExecution;
 }
 
 /** 创建 Hono 服务实例 */
@@ -37,8 +39,15 @@ export const createServer = async (
   const moduleDefinitions =
     options.moduleDefinitions ??
     (await loadModuleDefinitions(modulesDirectory));
-  const modules = createServiceLayer(
-    options.cacheEnabled === false ? null : (options.cacheTtlMs ?? 120_000),
+  const modules = buildCallServices(
+    {
+      cache:
+        options.cacheEnabled === false
+          ? { enabled: false }
+          : { ttlMs: options.cacheTtlMs ?? 120_000 },
+    },
+    false,
+    runtimeOptions.execution,
   );
   const requestHandler = options.requestHandler;
   const admission = new AdmissionController(options.traffic);

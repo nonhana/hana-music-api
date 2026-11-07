@@ -15,7 +15,11 @@ import {
   registerAnonymousEffect as registerAnonymous,
 } from './anonymous.ts';
 import { Call, CallServices } from './call-context.ts';
-import type { CallInput, CallShape } from './call-context.ts';
+import type {
+  CallInput,
+  CallShape,
+  InternalExecution,
+} from './call-context.ts';
 import {
   isCacheable,
   isReadModule,
@@ -47,6 +51,7 @@ export {
 export const buildCallServices = (
   config: CreateHanaMusicApiConfig = {},
   initializeAnonymous = true,
+  execution: InternalExecution = {},
 ): Context.Service.Shape<typeof CallServices> => ({
   process: resolveProcessServices(),
   reads: new ReadStore<NcmApiResponse>(
@@ -55,9 +60,14 @@ export const buildCallServices = (
       : null,
   ),
   pool: config.identityPool
-    ? createIdentityPool(config.identityPool, config, registerAnonymous)
+    ? createIdentityPool(
+        config.identityPool,
+        { ...config, fetcher: config.fetcher ?? execution.fetcher },
+        registerAnonymous,
+      )
     : null,
   initializeAnonymous,
+  execution: Object.freeze({ ...execution }),
 });
 
 export const createServiceLayer = (cacheTtlMs: number | null = 120_000) =>
@@ -100,6 +110,7 @@ export const runCall = <Input extends ModuleQuery>(
     const scoped = yield* CallServices;
     const config = {
       ...input.config,
+      fetcher: input.config.fetcher ?? scoped.execution?.fetcher,
       cookie: resolveRequestCookie(input.config),
       headers: input.config.headers
         ? Object.freeze({ ...input.config.headers })
@@ -168,6 +179,7 @@ export const runCall = <Input extends ModuleQuery>(
         cacheable: isCacheable,
         stageTimeoutMs: upload ? 60_000 : undefined,
       }),
+      execution: scoped.execution,
       startedAt,
       deadlineAt: timeoutMs > 0 ? startedAt + timeoutMs : undefined,
     });
@@ -183,6 +195,7 @@ export const runCall = <Input extends ModuleQuery>(
           }),
           identity: call.identity,
           policy: call.policy,
+          execution: call.execution,
           startedAt: call.startedAt,
           deadlineAt: undefined,
         }
@@ -244,6 +257,7 @@ export const runCall = <Input extends ModuleQuery>(
       cacheable: call.policy.cacheable,
     });
   });
+  const executionClock = clock ?? services.execution?.clock;
   return runPublicEffect(
     (timeoutMs > 0
       ? work.pipe(
@@ -257,7 +271,9 @@ export const runCall = <Input extends ModuleQuery>(
         )
       : work
     ).pipe(Effect.provideService(CallServices, services), (effect) =>
-      clock ? Effect.provideService(Clock.Clock, clock)(effect) : effect,
+      executionClock
+        ? Effect.provideService(Clock.Clock, executionClock)(effect)
+        : effect,
     ),
     input.signal,
     () => Option.getOrUndefined(Effect.runSync(Ref.get(moduleFailure))),

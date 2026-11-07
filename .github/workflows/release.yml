@@ -15,6 +15,10 @@ on:
           - dry-run
           - publish
 
+defaults:
+  run:
+    shell: bash
+
 permissions:
   contents: write
   pull-requests: write
@@ -32,7 +36,7 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.4.4
 
       - name: Setup Node
         uses: actions/setup-node@v7
@@ -46,14 +50,20 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Record checked out candidate
+        run: |
+          mkdir -p .artifacts/testing/ci
+          git rev-parse HEAD > .artifacts/testing/ci/tested-head.txt
+          bun -e 'import { fingerprint } from "./tests/_kit/evidence.ts"; await Bun.write(".artifacts/testing/ci/initial-candidate.json", JSON.stringify(await fingerprint()));'
+
       - name: Verify before release
-        run: bun run verify:sdk
+        run: bun run verify:sdk 2>&1 | tee .artifacts/testing/ci/verify-sdk.log
 
       - name: Rehearse release preparation
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'dry-run' }}
         run: |
           bun run version-packages
-          npm pack
+          bun scripts/release-preflight.mts
 
       - name: Create release PR or publish
         if:
@@ -62,7 +72,16 @@ jobs:
         uses: changesets/action@v2.1.2
         with:
           version-script: bun run version-packages
-          publish-script: bun run release
+          publish-script: bun run release:checked
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+
+      - name: Upload candidate evidence
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: release-${{ github.sha }}
+          path: .artifacts/testing/**
+          include-hidden-files: true
+          retention-days: 90

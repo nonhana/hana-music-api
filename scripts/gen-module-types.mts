@@ -36,6 +36,14 @@ const SDK_GENERATED_TEMP_FILE = resolve(
   import.meta.dir,
   '../src/sdk/generated/client.tmp.ts',
 );
+const SDK_FACTORY_FILE = resolve(
+  import.meta.dir,
+  '../src/sdk/generated/client-factory.generated.ts',
+);
+const SDK_FACTORY_TEMP_FILE = resolve(
+  import.meta.dir,
+  '../src/sdk/generated/client-factory.tmp.ts',
+);
 const SDK_REGISTRY_FILE = resolve(
   import.meta.dir,
   '../src/sdk/generated/registry.generated.ts',
@@ -113,14 +121,10 @@ const buildSdkGeneratedClient = (
     ({ functionName, identifier }) =>
       `export const ${functionName}: SdkModuleInvoker<'${identifier}'> = createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier})`,
   );
-  const clientLines = entries.map(
-    ({ functionName, identifier }) =>
-      `    ${functionName}: createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier}, config, context),`,
-  );
-
   return `import type { CreateHanaMusicApiConfig, SdkModuleInvoker } from '../../types/index.ts'
 import { createEffectModuleInvoker, createSdkClientContext } from '../runtime.ts'
 import { sdkModuleRegistry } from './registry.generated.ts'
+import { createClientFromContext } from './client-factory.generated.ts'
 
 export interface HanaMusicApiClient {
 ${methodLines.join('\n')}
@@ -130,10 +134,27 @@ ${exportLines.join('\n')}
 
 export const createHanaMusicApi = (config: CreateHanaMusicApiConfig = {}): HanaMusicApiClient => {
   const context = createSdkClientContext(config)
-  return {
-${clientLines.join('\n')}
-  }
+  return createClientFromContext(config, context)
 }
+`;
+};
+
+const buildSdkFactory = (identifiers: ReadonlyArray<string>): string => {
+  const entries = buildSdkEntries(identifiers);
+  const clientLines = entries.map(
+    ({ functionName, identifier }) =>
+      `    ${functionName}: createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier}, config, context),`,
+  );
+
+  return `import type { CreateHanaMusicApiConfig } from '../../types/index.ts'
+import { createEffectModuleInvoker } from '../runtime.ts'
+import type { SdkClientContext } from '../runtime.ts'
+import type { HanaMusicApiClient } from './client.generated.ts'
+import { sdkModuleRegistry } from './registry.generated.ts'
+
+export const createClientFromContext = (config: CreateHanaMusicApiConfig, context: SdkClientContext): HanaMusicApiClient => ({
+${clientLines.join('\n')}
+})
 `;
 };
 
@@ -395,6 +416,11 @@ export const buildGeneratedArtifacts = async (
         contents: buildSdkGeneratedClient(identifiers),
         path: SDK_GENERATED_FILE,
         tempPath: SDK_GENERATED_TEMP_FILE,
+      },
+      {
+        contents: buildSdkFactory(identifiers),
+        path: SDK_FACTORY_FILE,
+        tempPath: SDK_FACTORY_TEMP_FILE,
       },
       {
         contents: buildSdkRegistry(

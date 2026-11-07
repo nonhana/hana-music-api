@@ -1,6 +1,6 @@
 import { createHanaMusicApi } from '../../index.ts';
 
-// 契约测试回放录制文件里的上游正文：走与真实调用相同的解码路径。
+// 回放只验证响应解码与公开返回，不匹配请求，也不证明当次真实上游。
 export const replay = (upstream: unknown, status = 200) =>
   createHanaMusicApi({
     cookie: 'MUSIC_U=listener',

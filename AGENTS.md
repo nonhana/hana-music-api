@@ -13,6 +13,10 @@
 
 ## Agent skills
 
+### Implementation
+
+- [hana-implement](.agents/skills/hana-implement/SKILL.md) — 用户显式选用 `$hana-implement` 时使用，支持 ticket、plan 和提示词输入；验收规则以 TESTING.md 为准。
+
 ### Issue tracker
 
 Issues and specs for this repo live as GitHub Issues. Use `gh` for tracker operations. See `docs/agents/issue-tracker.md`.

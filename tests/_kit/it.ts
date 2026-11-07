@@ -63,3 +63,9 @@ export const itEffect = Object.assign(
       },
   },
 );
+
+// Keep the framework's native execution and service operators at the test boundary.
+export const runSync = Effect.runSync;
+export const runSyncExit = Effect.runSyncExit;
+export const runFork = Effect.runFork;
+export const provideService = Effect.provideService;

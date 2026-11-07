@@ -1,0 +1,41 @@
+name: live
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '40 5 * * *'
+
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+      - run: bun install --frozen-lockfile
+      - name: Record checked out candidate
+        run: |
+          mkdir -p .artifacts/testing/ci
+          git rev-parse HEAD > .artifacts/testing/ci/tested-head.txt
+          bun -e 'import { fingerprint } from "./tests/_kit/evidence.ts"; await Bun.write(".artifacts/testing/ci/initial-candidate.json", JSON.stringify(await fingerprint()));'
+
+      - run: LIVE_UPSTREAM=1 HANA_LIVE_SUITE=anonymous bun run test:live 2>&1 | tee .artifacts/testing/ci/anonymous.log
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: live-${{ github.sha }}
+          path: .artifacts/testing/**
+          include-hidden-files: true
+          retention-days: 90

@@ -21,7 +21,7 @@
 - 多个模块共用的上游结构（歌曲 `Song`、歌手 `Artist`）放在 `src/core/upstream-schemas.ts`，只收至少三个模块都用到、且字段完全相同的结构；各接口字段不同的实体（如三种专辑列表）留在模块里。
 - 用 `decodeUpstreamBody` 校验 SDK 将要返回的 body：`code` 不在已知返回码里时作为 `UpstreamBusinessFailed` 原样转交网易云的正文（`status` 取返回码），已知返回码但结构不符时报 `UnexpectedUpstreamShape`。
 - 失败正文有录制时可另外导出结构定义（如 `LoginCellphoneRiskBody`），不在运行时校验；没有录制的返回码不猜字段。
-- 录制放在 `tests/fixtures/netease/<领域>/`，契约测试用自定义 fetcher 回放，覆盖原样返回、多余字段保留和结构不符三种情况，见 `tests/contract/login-bodies.test.ts`、`tests/contract/library-bodies.test.ts`、`tests/contract/playback-bodies.test.ts`、`tests/contract/search-bodies.test.ts`。一次调用要读两次上游的模块（如 `playlist_track_all`）按尝试顺序回放全部 `<module>.<label>.<n>.json`，并用 `context.part = { index, of, final, gaps? }` 标记：`of` 是尝试次数（含失败），中间无响应的尝试记在 `gaps`，正常多请求只有最后一份 `final: true`；`schema:audit` 只校验 `final: true` 的录制（无 `context.part` 的老录制视为单请求 final），其余计入 `multi-part: N (excluded)`。录制除 `context.redacted` 记录的字段外是网易云原文，不做拼写检查（`cspell.json` 忽略这个目录）。审计扫描同时读取 `.json` 和 `.json.gz`；`fixtures:record --force` 会清理同 base 的两种文件，避免新旧证据并存。SDK 的 `tests/fixtures/netease/` 是唯一证据源；补录用 `bun run fixtures:record`，Cookie 只从本机未跟踪文件读、禁止提交，列表类接口要补空结果录制。
+- 录制放在 `tests/fixtures/netease/<领域>/`，契约测试用自定义 fetcher 回放，覆盖原样返回、多余字段保留和结构不符三种情况，见 `tests/replay/account/login-bodies.test.ts`、`tests/replay/library/library-bodies.test.ts`、`tests/replay/playback/playback-bodies.test.ts`、`tests/replay/search/search-bodies.test.ts`。一次调用要读两次上游的模块（如 `playlist_track_all`）按尝试顺序回放全部 `<module>.<label>.<n>.json`，并用 `context.part = { index, of, final, gaps? }` 标记：`of` 是尝试次数（含失败），中间无响应的尝试记在 `gaps`，正常多请求只有最后一份 `final: true`；`schema:audit` 只校验 `final: true` 的录制（无 `context.part` 的老录制视为单请求 final），其余计入 `multi-part: N (excluded)`。录制除 `context.redacted` 记录的字段外是网易云原文，不做拼写检查（`cspell.json` 忽略这个目录）。审计扫描同时读取 `.json` 和 `.json.gz`；`fixtures:record --force` 会清理同 base 的两种文件，避免新旧证据并存。SDK 的 `tests/fixtures/netease/` 是唯一证据源；补录用 `bun run fixtures:record`，Cookie 只从本机未跟踪文件读、禁止提交，列表类接口要补空结果录制。
 - 验证关卡没录到、但决定字段能不能缺失或是 `null` 的情况（如搜索没有结果、歌手没有头像），可以匿名调用真实网易云补录（用 `bun run fixtures:record`，录制落在 `tests/fixtures/netease/<领域>/`），`context` 写明 `region: local` 和补录原因；补录只用来放宽已声明的字段，不用来新增声明的字段。
 - 录制的 `response.body` 始终是网易云原文。公开体由模块自己组装、与原文不同时，把这次调用的最终公开体写在 `context.expect`；`schema:audit` 在有 `context.expect` 时用它校验 `ModuleBody`，`response.body` 仍作为上游证据保留，契约测试回放原文后断言 `context.expect`。`context.outcome` 仍按 `response.body` 分类，不受 `expect` 影响；`fixtures:record --force` 会覆盖整个文件，重新录制后要补回 `context.expect`。
 
@@ -68,3 +68,9 @@ HTTP 路由按请求头 Cookie → query → body 的顺序合并，后者覆盖
 请求层负责目标拒绝、上游限流、期限、传输和协议失败；HTTP 服务层负责入口准入拒绝；模块层负责输入错误、上游结构错误、业务失败和上传部分完成。内部错误只在公开边界映射为既有的 `{ status, body, cookie }` Promise 响应。
 
 相关实现：`src/modules/`、`src/server/routes.ts`、`src/server/execution-input.ts`、`src/server/admission.ts`、`src/server/module-loader.ts`、`scripts/gen-module-types.mts`。
+
+## 响应回放、请求证据与合成数据
+
+`tests/replay/` 用原始响应证明解码、返回结构、未知字段和错误合同。回放 fetcher 忽略请求时，不能据此证明 URL、method、profile、身份或 token 位置。历史录制的 module/query/context 不等于完整请求抓包，缺少的证据标为未知，不补写成当次 web 验证。`.json` 和 `.json.gz` 的原文及来源保持，人工边界数据放 `tests/fixtures/synthetic/`。
+
+需要新增请求证据时，在原录制旁放 `<name>.request-evidence.md`，写明来源（链接或工件及 hash）、观察时间、协议、profile、匿名/登录类别、脱敏说明、已核对的字段和限制。未知项明确写 unknown；verifiedFields 只列实际观察过的字段。这个旁置 Markdown 不作为响应录制进入 schema:audit。禁止保存 Cookie/token；合成样本不能写成真实观察。具体导航见 [合成数据与证据边界](../tests/fixtures/synthetic/README.md)。

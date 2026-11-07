@@ -4,7 +4,7 @@
 
 ## 环境与安装
 
-- 仓库使用 Bun `1.4.2`，以 `bun.lock` 为唯一锁文件；安装使用 `bun install --frozen-lockfile`。
+- 仓库使用 Bun `1.4.4`，以 `bun.lock` 为唯一锁文件；安装使用 `bun install --frozen-lockfile`。
 - SDK 面向 Node.js `>=24` 的 ESM 项目；仓库的开发、测试和服务运行时均为 Bun。
 - 包声明为公开包，构建入口由 `tsdown.config.ts` 管理，产物输出到 `dist/`。
 
@@ -33,7 +33,8 @@ PM2 使用 `ecosystem.config.cjs`，默认写入 `logs/`，并将匿名令牌保
 ## 发布
 
 - 版本变更使用 `bun run version-packages`，发布使用 `bun run release`。
-- 发布前先执行 `bun run verify:sdk`；发布演练还会执行 `npm pack`。
+- 最后一次 `bun run version-packages` 后，执行 `bun scripts/release-preflight.mts`。它串行运行 TESTING 的完整本地门禁、定向变异与候选包匿名 live，确认 tarball、包文件集合和内容未变；它本身不发布。
+- Changesets 的 publish-script 调用 `bun run release:checked`，由该 package script 先 preflight，再执行 `bun run release`；任一检查失败会阻止发布。dry-run 只在版本确定后执行 preflight。版本变更前的 SDK 结果不能验收新包；真实账号写入仍按当次需求单独授权。
 - 构建、测试和发布共用 `dist/`，需要按 [TESTING.md](./TESTING.md) 的顺序串行执行相关检查。
 
 相关实现：`package.json`、`tsdown.config.ts`、`src/app/cli.ts`、`ecosystem.config.cjs`、`netlify.toml`。

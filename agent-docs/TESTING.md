@@ -4,16 +4,18 @@
 
 ## 测试分层
 
-- `tests/unit/`：密码、请求核心和运行时基础行为。
-- `tests/contract/`：公开 SDK、模块输入、生成表面、模块运行时和架构边界。
-- `tests/integration/`：Hono 服务、CLI 和模块路由。
-- `tests/load/` 与 `scripts/load-test.mts`：本机 loopback 流量、取消、HTTP 入口限流、资源释放和负载验收。
-- `tests/live/`：真实上游的门控测试，不属于默认回归基线。
+- `tests/unit/`：独立规则、状态机与测试工具自身的故障控制样本。
+- `tests/behavior/`：从 SDK/HTTP 入口执行模块和请求链；内存替身与 capability 级场景注明实际边界。
+- `tests/replay/`：原文响应、兼容样本与返回体合同；纯 Schema 规则在 `tests/unit/schema/`，回放不证明请求。
+- `tests/transport/`：默认适配器、代理、真实 loopback socket 与有限 load；`scripts/load-test.mts` 执行 500 次 smoke 和十分钟 soak，判定规则在 `tests/unit/testing/load-acceptance.test.ts`。
+- `tests/package/`：当前候选 tarball 的 Node/Bun 消费者、公开类型/导出与单文件 serverless；`types/` 下文件由 tsc 检查。
+- `tests/live/`：真实上游门控验证，不属于默认回归；条件与证据另记。
+- `tests/mutation/`：定向故障与关联测试的登记，检查测试辨别力，不复制业务测试；CLI 为 `bun scripts/mutation-test.mts --all`（或 `--target playlist-subscribe|shared-reads|upload`、`--dry-run`）。
 - `tests/_kit/`：Effect 测试的统一入口；测试中的 `Effect.run*` 和 Layer 提供应集中在 kit 内。返回体契约测试判断“结构不符”的断言用 `assertions.ts` 的 `expectUpstreamShapeRejection`，录制文件和导出结构定义的类型用同一文件的 `Recording`、`Validator`；回放录制用 `replay.ts` 的 `replay`/`replayRaw`。
 
 ## 基线命令
 
-- 默认回归：`bun test tests/unit tests/contract tests/integration` 或 `bun run test`。
+- 默认回归：`bun run test`（唯一选择源为 `tests/suites.ts`）。
 - 模块生成检查：`bun run types:modules:check`。
 - 结构定义与录制审计：`bun run schema:audit check` 检查结构定义写法，`bun run schema:audit recordings --recordings tests/fixtures/netease` 用本仓库录制回放校验。`schema:audit` 的默认录制根是 Campanula 仓库的 `../campanula-svelte-main/tests/fixtures/netease`，在 SDK 仓库里运行必须显式传 `--recordings tests/fixtures/netease`。
 - Fixtures 门槛：`bun run verify:fixtures`（`bun run schema:audit check && bun run schema:audit recordings --recordings tests/fixtures/netease`），只依赖本仓库 fixtures。
@@ -59,21 +61,47 @@
 
 ## CI
 
-`.github/workflows/verify.yml` 在 PR 和 master push 上依次运行 `bun run verify:sdk`、`bun run verify:fixtures` 和 `bun run test:load:smoke`。fixtures 门槛与本地相同：只读本仓库 `tests/fixtures/netease` 的录制，不访问真实上游。
+`.github/workflows/verify.yml` 在 PR 和 master push 上依次运行 `bun run verify`、`bun run verify:sdk`、`bun run verify:fixtures` 和 `bun run test:load:smoke`。fixtures 门槛与本地相同：只读本仓库 `tests/fixtures/netease` 的录制，不访问真实上游。
+
+独立 workflow：load 每日/手动执行十分钟 soak；live 每日 05:40 UTC/手动只执行匿名集合，零账号 Secrets；mutation 每周一 06:30 UTC/手动执行登记目标。它们不成为普通 PR 的真实网络依赖。所有 workflow 固定 Bun 1.4.4/Node 24，失败也上传证据，PR 保留 30 天，候选保留 90 天。配置检查通过不能证明远端 job 或保护规则实际生效。
+
+发布候选在最后一次版本步骤后验证：release-rehearsal 重跑 verify:sdk（包含重新构建、打包和 Node/Bun 消费者），手动模式再跑匿名 live。release 的 publish-script 由 `bun run release:checked` 连接，该脚本在 Bun shell 中执行 `bun scripts/release-preflight.mts && bun run release`；preflight 顺序运行 verify、verify:sdk、fixtures、smoke、soak、登记 mutation 和匿名 live，再核对当前包文件集合/hash、tarball 与源码不变。本地 preflight 不发布；进程控制测试从实际 workflow/package 读取命令，以 Action 的命令和参数方式启动真实 Bun，再在隔离项目用 PATH 命令探针证明每一门禁失败时 release 调用为零。验收内容是当前待发布文件，不能宣称已比对尚未发布的 registry tarball。
 
 ## 请求与流量变更
 
 - 请求、取消、重试、缓存或流量控制变更至少运行 `bun run test:load:smoke`。
 - 交付前的流量验收还需运行 `bun run test:load:soak`；该命令约运行十分钟，只连接 loopback。
-- 负载报告写入 `_notes/load-reports/`，结束时应确认 `upstreamActive` 和 `inflight` 均归零。
+- 负载报告写入 `.artifacts/testing/load/`，结束时应确认 `upstreamActive` 和 `inflight` 均归零。
 - 负载脚本使用本地 fake upstream；通过它不能推断网易云真实上游的可用性。
 
 ## 真实上游测试
 
-执行 `LIVE_UPSTREAM=1 bun run test:live` 才会启用 `tests/live/`。其中 `login_status` 还需要 `NCM_LIVE_COOKIE`；SDK 不在本地限制请求频率，测试靠固定的小集合顺序执行来控制频率，不应改成并发。
+只有 `LIVE_UPSTREAM=1 bun run test:live` 启用真实上游。`HANA_LIVE_SUITE` 默认 anonymous，也接受 authenticated、writes。显式调用而 gate 不等于 1 时返回非零阻塞，零请求，不以 skip 报绿。普通回归根本不选择 live。
+
+匿名集合共享一个安装后的候选包 client，串行执行搜索→同一歌曲详情→歌词、榜单和歌手；每请求 30 秒，禁重试、关闭缓存，匿名初始化也计入最多 12 次实际请求。报告保存源码、tarball hash、身份类别、地区（未提供时 unknown）、时间与脱敏失败。候选包必须先通过同包 Node/Bun 消费者，不能复用旧源码包。
+
+登录态仅在用户提供本次身份与凭据后执行：使用 `NCM_LIVE_COOKIE` 或 `NCM_LIVE_COOKIE_FILE`，不可同时提供；`NCM_LIVE_EXPECTED_UID` 必须匹配 `loginStatus.data.account/profile`。不要在命令正文放凭据。账号过期或缺失是失败/阻塞，不是通过。
+
+写专项还需记录本次指定目标的写入/恢复授权，在 `HANA_LIVE_WRITE_AUTHORIZATION` 中引用该记录，再设置 `HANA_LIVE_ALLOW_WRITE=1`、一个 `NCM_LIVE_PLAYLIST_ID` 和 `NCM_LIVE_CHECK_TOKEN_FILE`。token 从本机文件读取，仅本次收藏使用，不生成 token。初始歌单不能已收藏或属于本人；userPlaylist 每页 1000、最多 5 页，状态不完整即停止。业务预算 30 次，另留 6 次恢复额度；收藏/取消各最多发送一次，写后最多两次间隔 1500ms 的读回。失败停止业务，按既有授权取消并确认恢复；未确认必须单列失败，不能报 pass。登录与写操作不自动安排到 CI，也不能沿用旧票授权。
+
+门控、预算、失败停止、分页和清理的严格假上游自测只证明控制流程，真实账号读回另记 E1；缺凭据或授权时 E1 保持阻塞。录制、live 和运行摘要共用脱敏规则；录制 CLI 的故障演练开关不能关闭 live/证据脱敏。
 
 当前验证流程不依赖数据库；测试应沿用现有 fixtures、fake upstream 和自定义 fetcher，不另设 mock 数据库。
 
 重构验收的历史结果和证据边界见 `_notes/effect-refactor/final-report.md`，不能将其中的测试数量视为永久不变的通过证明。
 
-相关实现：`package.json`、`tests/_kit/`、`tests/contract/`、`tests/load/`、`scripts/load-test.mts`、`.github/workflows/`。
+相关实现：`package.json`、`tests/_kit/`、`tests/package/`、`tests/transport/load/`、`scripts/load-test.mts`、`.github/workflows/`。
+
+## 执行清单与证据
+
+`tests/suites.ts` 登记每个物理测试文件的主类别和命令选择。新增、移动测试时同步清单，三个类型检查文件仍由 tsc 执行。runner 拒绝漏登记、重复登记、空选择、only、todo、必要测试 skip、缺失或不一致的 JUnit，以及子进程失败。
+
+测试文件默认按清单串行运行在独立 Bun 子进程，避免旧测试的全局替换与运行时状态跨文件泄漏。每个文件保留 Bun 原生 JUnit，runner 校验后汇总；命令数组与每个子进程的日志都保留。
+
+运行结果保存到 `.artifacts/testing/`：Bun 原生 JUnit、日志和 schemaVersion 为 1 的摘要。摘要记录实际命令数组、时间、退出码、pass/fail/skip、运行时版本、锁文件 hash、testedHead 和候选内容指纹。指纹覆盖受控文件和非忽略未跟踪文件；只排除 `.artifacts/testing/` 与 `docs/acceptance/runs/` 的运行记录，需求矩阵仍计入。包证据另记 tarball SHA-256。报告或断言数量只说明执行情况，不能替代需求验收。
+
+需求来源、AC、适用门禁与必要条件写入 `docs/acceptance/<slug>.md`，当次结果写入 `docs/acceptance/runs/<slug>.md`。规则见 [验收记录](../docs/acceptance/README.md)。CI 即使失败也上传运行产物；远端是否实际运行、保护规则是否启用必须独立确认。
+
+实施调度见 [.agents/skills/hana-implement/SKILL.md](../.agents/skills/hana-implement/SKILL.md)，由用户显式选用，支持 ticket、plan、提示词。它引用本文件选择门禁；代码改动由独立 reviewer 读取完整工作区和实际日志，再分别审查规范与 AC，修复后重新验收。
+
+离线 guard 对自动重定向采取拒绝策略，避免 native fetch 在内部跳转到未登记目标；显式 manual 请求保留原始响应，真实 transport 的重定向拒绝另有 socket 证据。测试选择还在实际 Bun 进程预加载独立 only 违例 ledger，局部别名、动态选择或捕获异常都不能让剩余必要测试静默消失。

@@ -6,6 +6,13 @@ on:
     branches:
       - master
 
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -16,7 +23,7 @@ jobs:
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: latest
+          bun-version: 1.4.4
 
       - name: Setup Node
         uses: actions/setup-node@v7
@@ -26,11 +33,29 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Record checked out candidate
+        run: |
+          mkdir -p .artifacts/testing/ci
+          git rev-parse HEAD > .artifacts/testing/ci/tested-head.txt
+          bun -e 'import { fingerprint } from "./tests/_kit/evidence.ts"; await Bun.write(".artifacts/testing/ci/initial-candidate.json", JSON.stringify(await fingerprint()));'
+
+      - name: Run full repository verification
+        run: bun run verify 2>&1 | tee .artifacts/testing/ci/verify.log
+
       - name: Run SDK verification
-        run: bun run verify:sdk
+        run: bun run verify:sdk 2>&1 | tee .artifacts/testing/ci/verify-sdk.log
 
       - name: Run fixtures verification
-        run: bun run verify:fixtures
+        run: bun run verify:fixtures 2>&1 | tee .artifacts/testing/ci/fixtures.log
 
       - name: Run load smoke
-        run: bun run test:load:smoke
+        run: bun run test:load:smoke 2>&1 | tee .artifacts/testing/ci/smoke.log
+
+      - name: Upload test evidence
+        uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: testing-${{ github.sha }}
+          path: .artifacts/testing/**
+          include-hidden-files: true
+          retention-days: 30

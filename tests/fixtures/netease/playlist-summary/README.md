@@ -8,4 +8,4 @@
 - `playlist_detail`：69 份，其中 67 份成功返回，另有 401 和 404 各一份。
 - 成功返回合计 394 张歌单、721 个 `creator` 或 `subscribers[]` 用户对象。
 
-`tests/contract/playlist-summary-bodies.test.ts` 通过公开 SDK 和 Standard Schema 回放全部录制；失败返回继续按业务错误原样转交。此目录独立保留来源版本，不替换 SDK 原有的脱敏录制。
+`tests/replay/playlist/playlist-summary-bodies.test.ts` 通过公开 SDK 和 Standard Schema 回放全部录制；失败返回继续按业务错误原样转交。此目录独立保留来源版本，不替换 SDK 原有的脱敏录制。
