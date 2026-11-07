@@ -21,9 +21,9 @@ export const mutations = [
   {
     id: 'shared-search-retries-disabled',
     file: 'src/modules/search.ts',
-    find: "target: '/api/search/get',\n    profile: 'eapi',\n    semantic: 'read',\n    token: 'none',\n    cache: 'shared',\n    retry: 'read',",
+    find: "target: '/api/search/get',\n    profile: 'eapi',\n    semantic: 'read',\n    cache: 'shared',\n    retry: 'read',",
     replace:
-      "target: '/api/search/get',\n    profile: 'eapi',\n    semantic: 'read',\n    token: 'none',\n    cache: 'shared',\n    retry: 'never',",
+      "target: '/api/search/get',\n    profile: 'eapi',\n    semantic: 'read',\n    cache: 'shared',\n    retry: 'never',",
     expectedFailures: [
       'declared reads retain EAI_AGAIN retry boundary with 3 attempts',
     ],

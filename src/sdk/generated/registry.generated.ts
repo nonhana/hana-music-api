@@ -33,6 +33,7 @@ import albumSongsaleboardModule, {
 } from '../../modules/album_songsaleboard.ts';
 import albumSubModule, {
   decodeModuleInput as albumSubInputDecoder,
+  moduleActions as albumSubActions,
 } from '../../modules/album_sub.ts';
 import albumSublistModule, {
   decodeModuleInput as albumSublistInputDecoder,
@@ -72,6 +73,7 @@ import artistSongsModule, {
 } from '../../modules/artist_songs.ts';
 import artistSubModule, {
   decodeModuleInput as artistSubInputDecoder,
+  moduleActions as artistSubActions,
 } from '../../modules/artist_sub.ts';
 import artistSublistModule, {
   decodeModuleInput as artistSublistInputDecoder,
@@ -1133,6 +1135,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/album/sub',
     execute: albumSubModule,
     decodeInput: albumSubInputDecoder,
+    actions: albumSubActions,
   },
   album_sublist: {
     identifier: 'album_sublist',
@@ -1211,6 +1214,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/artist/sub',
     execute: artistSubModule,
     decodeInput: artistSubInputDecoder,
+    actions: artistSubActions,
   },
   artist_sublist: {
     identifier: 'artist_sublist',

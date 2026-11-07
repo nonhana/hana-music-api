@@ -43,6 +43,7 @@ export const prepareRequest = (
   entropy: RequestEntropy,
   cookieOverrides: CookieRecord = {},
   profile?: RequestProfile,
+  checkToken?: string,
 ): RequestPlan => {
   const state = identity.state;
   const headers: Record<string, string> = {};
@@ -83,6 +84,10 @@ export const prepareRequest = (
   const payload = {
     ...data,
   };
+  if (checkToken !== undefined) {
+    payload.checkToken = checkToken;
+    headers['X-antiCheatToken'] = checkToken;
+  }
   // e_r 决定服务端是否返回加密响应。旧项目对所有 crypto 统一注入该标记,
   // 并对 eapi / weapi 两种加密都做响应解密,这里保持同样语义。
   const encryptResponse = Boolean(
@@ -128,6 +133,7 @@ export const prepareRequest = (
       headers['User-Agent'] = options.ua || chooseUserAgent('api', 'iphone');
 
       if (resolvedCrypto === 'eapi') {
+        if (checkToken !== undefined) header['X-antiCheatToken'] = checkToken;
         payload.header = header;
         // 真客户端会以 x-aeapi 声明可接受 gzip 压缩响应;按需开启以省带宽。
         if (options.acceptGzip) {

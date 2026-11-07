@@ -57,9 +57,6 @@ test('declared search profile owns the final request despite conflicting config'
         ua: 'conflicting-agent',
         e_r: true,
         acceptGzip: true,
-        checkToken: () => {
-          throw new Error('read must not take token');
-        },
       });
       expect((await client.search({ keywords: 'same' })).status).toBe(200);
       expect(scenario.entries).toHaveLength(1);
@@ -249,7 +246,6 @@ test('effective action profiles and targets isolate the same account in one Read
           read: {
             ...action,
             semantic: 'read',
-            token: 'none',
             cache: 'shared',
             retry: 'read',
           },
@@ -273,7 +269,6 @@ test('read semantic alone grants neither shared cache nor wider retries', async 
     profile: 'web',
     target: '/api/custom/read',
     semantic: 'read',
-    token: 'none',
     cache: 'none',
     retry: 'connect',
   } as const;

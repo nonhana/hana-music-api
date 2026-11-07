@@ -28,6 +28,7 @@ interface Mutation {
   readonly timeoutMs?: number;
 }
 const groups = [
+  'check-token',
   'playlist-subscribe',
   'shared-reads',
   'upload',
@@ -163,7 +164,7 @@ export const runMutations = async (
       (args.includes('--all') && targetIndex >= 0)
     )
       throw new Error(
-        'Use --target playlist-subscribe|shared-reads|upload|watchman|browser-types or --all, optionally --dry-run',
+        'Use --target check-token|playlist-subscribe|shared-reads|upload|watchman|browser-types or --all, optionally --dry-run',
       );
     copy = await mkdtemp(resolve(tmpdir(), 'hana-mutation-'));
     const paths = execFileSync(

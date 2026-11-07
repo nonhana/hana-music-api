@@ -59,7 +59,6 @@ export const moduleActions = {
     target: '/api/song/lyric',
     profile: 'eapi',
     semantic: 'read',
-    token: 'none',
     cache: 'shared',
     retry: 'read',
   },

@@ -1,4 +1,4 @@
-import { Clock, Effect, Result } from 'effect';
+import { Clock, Effect, Ref, Result } from 'effect';
 
 import type {
   CreateRequestOptions,
@@ -21,7 +21,9 @@ import {
   DeadlineExceeded,
   InvalidRequest,
   ProtocolFailed,
+  ResponseDecodeFailed,
   TargetRejected,
+  TransportFailed,
   UpstreamRateLimited,
 } from './errors.ts';
 import { resolveIdentitySnapshot } from './identity.ts';
@@ -81,49 +83,84 @@ export const requestEffect = (
                   }),
           })
         : intent.target;
-      if (
-        action?.token !== undefined &&
-        action.token !== 'none' &&
-        profile?.tokenPlacement === 'none'
-      ) {
-        return yield* InvalidRequest.make({
-          message: 'Request profile has no approved token placement',
-        });
-      }
       let checkToken: string | undefined;
-      if (action && action.token !== 'none') {
-        const configured = options.checkToken;
-        if (configured === undefined && action.token === 'required') {
+      const configured = call.checkTokenUses ? options.checkToken : undefined;
+      const tokenTarget =
+        intent.protocol === 'plain'
+          ? yield* Effect.try({
+              try: () =>
+                validateRequestTarget(intent, target, call.identity, action),
+              catch: (error) =>
+                error instanceof InvalidRequest ||
+                error instanceof TargetRejected
+                  ? error
+                  : TargetRejected.make({
+                      message: 'Request target is not allowed',
+                    }),
+            })
+          : true;
+      if (configured !== undefined && tokenTarget) {
+        const value =
+          typeof configured === 'function'
+            ? yield* Effect.tryPromise({
+                try: configured,
+                catch: () =>
+                  InvalidRequest.make({
+                    message: 'checkToken provider failed',
+                  }),
+              })
+            : configured;
+        if (typeof value !== 'string' || value.trim() === '') {
           return yield* InvalidRequest.make({
-            message: 'checkToken is required',
+            message: 'checkToken must not be empty',
           });
         }
-        if (configured !== undefined) {
-          const value =
-            typeof configured === 'function'
-              ? yield* Effect.tryPromise({
-                  try: configured,
-                  catch: () =>
-                    InvalidRequest.make({
-                      message: 'checkToken provider failed',
-                    }),
-                })
-              : configured;
-          if (typeof value !== 'string' || value.trim() === '') {
+        yield* Effect.try({
+          try: () => {
+            if (
+              new Headers({ 'X-antiCheatToken': value }).get(
+                'X-antiCheatToken',
+              ) !== value
+            ) {
+              throw new TypeError('Token header value would change');
+            }
+          },
+          catch: () =>
+            InvalidRequest.make({
+              message:
+                'checkToken must be a valid HTTP header value without surrounding whitespace',
+            }),
+        });
+        if (typeof configured === 'string' && call.checkTokenUses) {
+          const used = yield* Ref.getAndUpdate(
+            call.checkTokenUses,
+            (count) => count + 1,
+          );
+          if (used > 0) {
             return yield* InvalidRequest.make({
-              message: 'checkToken must not be empty',
+              message:
+                'A checkToken string can only be sent once per module call; use a provider for multiple API requests',
             });
           }
-          checkToken = value;
         }
+        checkToken = value;
       }
       const plan = yield* Effect.try({
         try: (): RequestPlan => {
           let prepared: RequestPlan;
           if (intent.protocol === 'plain') {
+            const headers = { ...intent.headers };
+            if (call.checkTokenUses) {
+              for (const name of Object.keys(headers)) {
+                if (name.toLowerCase() === 'x-anticheattoken')
+                  delete headers[name];
+              }
+            }
+            if (checkToken !== undefined)
+              headers['X-antiCheatToken'] = checkToken;
             prepared = {
               url: intent.target,
-              headers: intent.headers,
+              headers,
               body: intent.body,
               method: intent.method,
               protocol: 'plain',
@@ -144,10 +181,7 @@ export const requestEffect = (
                 message: 'API request body must be an object',
               });
             }
-            if (profile?.tokenPlacement === 'web') {
-              delete data.checkToken;
-              if (checkToken !== undefined) data.checkToken = checkToken;
-            }
+            if (call.checkTokenUses) delete data.checkToken;
             const headers = { ...options.headers };
             for (const [name, value] of Object.entries(intent.headers)) {
               for (const existing of Object.keys(headers)) {
@@ -156,6 +190,12 @@ export const requestEffect = (
                 }
               }
               headers[name] = value;
+            }
+            if (call.checkTokenUses) {
+              for (const name of Object.keys(headers)) {
+                if (name.toLowerCase() === 'x-anticheattoken')
+                  delete headers[name];
+              }
             }
             if (profile) {
               const controlled = new Set([
@@ -172,8 +212,6 @@ export const requestEffect = (
               for (const name of Object.keys(headers)) {
                 if (controlled.has(name.toLowerCase())) delete headers[name];
               }
-              if (profile.tokenPlacement === 'web' && checkToken !== undefined)
-                headers['X-antiCheatToken'] = checkToken;
             }
             prepared = prepareRequest(
               target,
@@ -213,14 +251,20 @@ export const requestEffect = (
               },
               profile ? undefined : intent.cookieOverrides,
               profile,
+              checkToken,
             );
           }
-          validateRequestTarget(
+          const credentialsAllowed = validateRequestTarget(
             { ...intent, target },
             prepared.url,
             call.identity,
             action,
           );
+          if (checkToken !== undefined && !credentialsAllowed) {
+            throw TargetRejected.make({
+              message: 'Token-bearing API target is not allowed',
+            });
+          }
           return profile
             ? { ...prepared, url: new URL(prepared.url).href }
             : prepared;
@@ -291,6 +335,20 @@ export const requestEffect = (
                 };
               },
             ).pipe(
+              Effect.mapError((error) => {
+                if (checkToken === undefined) return error;
+                if (error instanceof TransportFailed) {
+                  return TransportFailed.make({
+                    message: error.message.replaceAll(checkToken, '[redacted]'),
+                  });
+                }
+                if (error instanceof ResponseDecodeFailed) {
+                  return ResponseDecodeFailed.make({
+                    message: error.message.replaceAll(checkToken, '[redacted]'),
+                  });
+                }
+                return error;
+              }),
               Effect.filterOrFail(
                 (response) => response.status >= 200 && response.status < 300,
                 (response) =>
@@ -307,7 +365,9 @@ export const requestEffect = (
           const error = result.failure;
           const durationMs = (yield* Clock.currentTimeMillis) - startedAt;
           const delayMs =
-            intent.semantic === 'read' && action?.retry !== 'never'
+            checkToken === undefined &&
+            intent.semantic === 'read' &&
+            action?.retry !== 'never'
               ? retryDecision(
                   target,
                   error,
@@ -327,7 +387,10 @@ export const requestEffect = (
             ...event,
             durationMs,
             status,
-            error: error.message,
+            error:
+              checkToken === undefined
+                ? error.message
+                : error.message?.replaceAll(checkToken, '[redacted]'),
             ...(delayMs === undefined
               ? { type: 'failure' as const }
               : { type: 'retry' as const, delayMs }),

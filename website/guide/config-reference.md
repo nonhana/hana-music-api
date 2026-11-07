@@ -19,20 +19,24 @@ client 的默认配置与单次配置按顶层字段合并，单次配置优先�
 | ------------ | ----------------------------------- | -------------------------------- | -------------------------------------------------------------- |
 | `cookie`     | `string \| CookieRecord`            | 从 Cookie 请求头或运行时身份解析 | 传递账号或游客身份                                             |
 | `deviceId`   | `string`                            | 自动生成合格设备号               | SDK 隐式匿名注册使用的设备号，建议用 `generateDeviceId()` 生成 |
-| `checkToken` | `string \| (() => Promise<string>)` | 未设置                           | 支持该配置的写模块使用的易盾令牌；传函数时每次收藏前调用       |
+| `checkToken` | `string \| (() => Promise<string>)` | 未设置                           | 所有 SDK 模块可选传递的易盾令牌；provider 按 API 请求取值      |
 | `headers`    | `Record<string, string>`            | 无额外请求头                     | 与协议生成的头合并；协议所需字段可能覆盖自定义值               |
 | `state`      | `Partial<RuntimeState>`             | 使用进程状态                     | 按次覆盖匿名令牌、设备号和默认来源 IP                          |
 | `ip`         | `string`                            | 使用运行时 `cnIp`                | 设置来源 IP 请求头                                             |
 | `realIP`     | `string`                            | 使用 `ip` 或 `cnIp`              | 比 `ip` 优先，仍只影响请求头                                   |
 | `ua`         | `string`                            | 按协议选择                       | 覆盖 `User-Agent`                                              |
 
-playlistSubscribe、search、lyric、songDetail、playlistDetail 的客户端身份由动作声明固定，`ua` 及身份 Cookie 字段不能覆盖它；MUSIC_U/MUSIC_A 等会话仍按本次调用保留。自定义 headers 中的协议受控字段也不能覆盖声明。
+playlistSubscribe、albumSub、artistSub、search、lyric、songDetail、playlistDetail 的客户端身份由动作声明固定，`ua` 及身份 Cookie 字段不能覆盖它；MUSIC_U/MUSIC_A 等会话仍按本次调用保留。自定义 headers 中的协议受控字段也不能覆盖声明。
 
 显式 `cookie` 优先于 `headers` 中的 Cookie，头名不区分大小写。`ip` 和 `realIP` 不会改变实际网络出口。细节见 [运行时状态与身份](/guide/runtime-identity)。
 
 `deviceId` 仅用于 SDK 需要发起匿名注册时；已有账号 Cookie、游客令牌或进程游客身份时不会重新注册。它不替代 `state.deviceId` 的按次覆盖能力，也不是 HTTP 参数。合格条件和保存设备号的示例见 [匿名注册的设备号](/guide/runtime-identity#匿名注册的设备号)。
 
-`checkToken` 目前只被 `playlist_subscribe` 使用：收藏（`t=1`）时该模块使用 weapi `os=web`，在正文和 HTTP 头携带同一个令牌；传函数时每次收藏前调用一次。取消收藏（`t=0`）走 weapi 网页写法，不取令牌。令牌必须由调用方从稳定设备/会话现取，SDK 不生成、不缓存、不重放；HTTP 服务会拒绝这个配置。详见 [收藏/取消收藏歌单](/api/playlist/playlist-subscribe)。
+所有 SDK 模块都可选择传入 `checkToken`，读取、收藏和取消使用同一规则。未配置时不取令牌、不附加；配置了空串、空白值或失败的 provider 时，在业务请求发送前以 400 拒绝。token 值必须能原样写入 HTTP 头，首尾空白或非法头字符在发送前以 400 拒绝，避免正文与头不一致。等待 provider 计入总期限，超时或取消后不会继续发送。
+
+传字符串适合一次 API 请求；同一模块调用需要第二次 API 请求时会明确拒绝，使用 provider 才能逐次取新值。带 token 调用不使用缓存、请求合并或自动重试；未配置时保留原有读取策略。纯本地模块不取值，外部上传不会收到 token。SDK 不生成或保存令牌，也不保证任意上游接口接受它。
+
+weapi 把同一值放进加密正文 `checkToken` 和 HTTP 头 `X-antiCheatToken`；eapi 还写入加密头。api 使用表单、linuxapi 使用加密转发正文。网易云的原始 plain 请求只通过 HTTP 头传值，不改 URL 或原始正文；外部上传不接收。token 本身也受 HTTPS 安全目标约束，即使没有账号 Cookie 也不能发往自定义外部域名。令牌不会进入 Cookie、URL 或请求事件。该配置只用于程序化模块调用，普通 HTTP 路由继续拒绝它；底层 `createRequest` 不接受这个模块配置。浏览器取值见 [Watchman](/guide/watchman)。
 
 ## 网络、期限和观测
 
@@ -61,7 +65,7 @@ playlistSubscribe、search、lyric、songDetail、playlistDetail 的客户端身
 | `e_r`        | `boolean \| number \| string`                    | 默认 `false`，也可来自请求数据    | 请求加密响应，`eapi` 和 `weapi` 支持解密 |
 | `acceptGzip` | `boolean`                                        | `false`                           | 声明接受 gzip 压缩的 `eapi` 响应         |
 
-上表的覆盖能力用于低层 `createRequest` 和尚未迁移的模块。playlistSubscribe、search、lyric、songDetail、playlistDetail 忽略这些覆盖，按动作声明执行：搜索、歌词、歌单详情为 eapi，歌曲详情和歌单收藏为 web/weapi，e_r/acceptGzip 均关闭。需要直接控制协议和目标时改用 `createRequest`，并按上游格式传业务参数。
+上表的覆盖能力用于低层 `createRequest` 和尚未迁移的模块。playlistSubscribe、albumSub、artistSub、search、lyric、songDetail、playlistDetail 忽略这些覆盖，按动作声明执行：搜索、歌词、歌单详情为 eapi，歌曲详情和歌单收藏为 web/weapi，e_r/acceptGzip 均关闭。需要直接控制协议和目标时改用 `createRequest`，并按上游格式传业务参数。
 
 日常调用沿用模块默认协议即可。带账号或游客身份的 API 请求只允许已知 HTTPS 网易云 API 域名，`domain` 不能用来任意转发凭据。`e_r`、`acceptGzip` 建议使用明确的布尔值，细节见 [加密模式](/guide/crypto-modes)。
 

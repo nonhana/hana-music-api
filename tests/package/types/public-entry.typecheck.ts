@@ -3,6 +3,8 @@ import { expectTypeOf } from 'bun:test';
 import { Effect, Schema } from 'effect';
 
 import {
+  albumSub,
+  artistSub,
   banner,
   // @ts-expect-error Internal assembly must not become a root export.
   createClientFromContext,
@@ -175,3 +177,24 @@ void assertPublicEntrySurface;
 
 void (undefined as unknown as InternalExecution);
 void createClientFromContext;
+
+const optionalTokenProvider = async () => 'fresh-token';
+
+const assertOptionalCheckToken = async () => {
+  const client = createHanaMusicApi({ checkToken: optionalTokenProvider });
+  await client.albumSub({ id: 1, t: 1 }, { checkToken: 'token' });
+  await artistSub({ id: 1, t: 0 }, { checkToken: optionalTokenProvider });
+  await invokeModule(
+    'search',
+    { keywords: 'token' },
+    { checkToken: optionalTokenProvider },
+  );
+  await albumSub({ id: 1, t: 0 });
+  // @ts-expect-error checkToken belongs in config rather than business input.
+  await albumSub({ id: 1, t: 1, checkToken: 'query-token' });
+  // @ts-expect-error providers must return Promise<string>.
+  await artistSub({ id: 1, t: 1 }, { checkToken: async () => 42 });
+  // @ts-expect-error checkToken does not accept booleans.
+  await client.search({ keywords: 'invalid' }, { checkToken: true });
+};
+void assertOptionalCheckToken;

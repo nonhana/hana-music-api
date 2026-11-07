@@ -1,4 +1,4 @@
-import type { Clock } from 'effect';
+import type { Clock, Ref } from 'effect';
 import { Context } from 'effect';
 
 import type {
@@ -43,6 +43,7 @@ export interface CallShape {
     readonly stageTimeoutMs?: number;
   };
   readonly execution?: Readonly<InternalExecution>;
+  readonly checkTokenUses?: Ref.Ref<number>;
   readonly startedAt: number;
   readonly deadlineAt?: number;
 }

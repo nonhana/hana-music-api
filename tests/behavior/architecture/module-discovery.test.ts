@@ -28,6 +28,8 @@ describe('generated module type surface', () => {
       .map((definition) => definition.identifier)
       .toSorted();
     expect(declared).toEqual([
+      'album_sub',
+      'artist_sub',
       'lyric',
       'playlist_detail',
       'playlist_subscribe',
@@ -35,7 +37,7 @@ describe('generated module type surface', () => {
       'song_detail',
     ]);
     expect(declared).toEqual([...generatedActionModuleIdentifiers].toSorted());
-    expect(generatedPendingActionModuleIdentifiers).toHaveLength(347);
+    expect(generatedPendingActionModuleIdentifiers).toHaveLength(345);
     for (const identifier of declared)
       expect(generatedPendingActionModuleIdentifiers).not.toContain(identifier);
     expect(sdkModuleRegistry.playlist_subscribe.actions).toEqual(
@@ -59,7 +61,7 @@ describe('generated module type surface', () => {
         `
         export type ModuleInput = {}
         export const decodeModuleInput = (input: unknown) => Effect.succeed(input)
-        const actions = { cancel: { profile: 'web', target: '/api/playlist/unsubscribe', semantic: 'write', token: 'none', cache: 'none', retry: 'never' } }
+        const actions = { cancel: { profile: 'web', target: '/api/playlist/unsubscribe', semantic: 'write', cache: 'none', retry: 'never' } }
         export { actions as moduleActions }
         const sample: ModuleEffect<ModuleInput> = () => Effect.succeed({})
         export default sample

@@ -1656,6 +1656,8 @@ export type GeneratedModuleIdentifier =
   (typeof generatedModuleIdentifiers)[number];
 
 export const generatedActionModuleIdentifiers = [
+  'album_sub',
+  'artist_sub',
   'lyric',
   'playlist_detail',
   'playlist_subscribe',

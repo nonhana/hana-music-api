@@ -60,7 +60,6 @@ export const moduleActions = {
     target: '/api/v6/playlist/detail',
     profile: 'eapi',
     semantic: 'read',
-    token: 'none',
     cache: 'shared',
     retry: 'read',
   },

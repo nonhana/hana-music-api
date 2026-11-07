@@ -10,8 +10,8 @@ export const mutations = [
   },
   {
     id: 'playlist-missing-body-token',
-    file: 'src/core/request.ts',
-    find: 'if (checkToken !== undefined) data.checkToken = checkToken;',
+    file: 'src/core/request-plan.ts',
+    find: 'payload.checkToken = checkToken;',
     replace: 'void checkToken;',
     expectedFailures: [
       'playlistSubscribe sends a complete web identity and the same token in its encrypted body and HTTP header',

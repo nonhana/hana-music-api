@@ -150,15 +150,13 @@ export const runCall = <Input extends ModuleQuery>(
       scoped.process.readState(effective.state),
     );
     const read =
-      actions === undefined
+      effective.checkToken === undefined &&
+      (actions === undefined
         ? isReadModule(input.identifier)
         : Object.keys(actions).length > 0 &&
           Object.values(actions).every(
-            (action) =>
-              action.semantic === 'read' &&
-              action.token === 'none' &&
-              action.cache === 'shared',
-          );
+            (action) => action.semantic === 'read' && action.cache === 'shared',
+          ));
     const call: CallShape = Object.freeze({
       identifier: input.identifier,
       actions,
@@ -180,6 +178,7 @@ export const runCall = <Input extends ModuleQuery>(
         stageTimeoutMs: upload ? 60_000 : undefined,
       }),
       execution: scoped.execution,
+      checkTokenUses: Ref.makeUnsafe(0),
       startedAt,
       deadlineAt: timeoutMs > 0 ? startedAt + timeoutMs : undefined,
     });

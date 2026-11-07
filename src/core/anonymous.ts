@@ -1,4 +1,4 @@
-import { Clock, Effect } from 'effect';
+import { Clock, Effect, Ref } from 'effect';
 
 import type { ModuleCallConfig } from '../types/index.ts';
 import { Call } from './call-context.ts';
@@ -46,7 +46,14 @@ export const registerAnonymousEffect = (
     const deviceId = options.deviceId ?? generateDeviceId();
     const cnIp = options.cnIp ?? generateRandomChineseIP();
     const state = { anonymousToken: '', cnIp, deviceId };
-    const config = { ...options, crypto: 'weapi' as const, ip: cnIp, state };
+    // 隐式身份初始化不消费业务调用的 token；显式注册模块仍从自己的 Call 配置取值。
+    const config = {
+      ...options,
+      checkToken: undefined,
+      crypto: 'weapi' as const,
+      ip: cnIp,
+      state,
+    };
     const startedAt = yield* Clock.currentTimeMillis;
     const timeoutMs = options.timeoutMs ?? 8_000;
     const result = yield* requestEffect({
@@ -64,6 +71,7 @@ export const registerAnonymousEffect = (
         config,
         identity: resolveIdentitySnapshot(config, state),
         startedAt,
+        checkTokenUses: Ref.makeUnsafe(0),
         deadlineAt: timeoutMs > 0 ? startedAt + timeoutMs : undefined,
         policy: { read: false, upload: false },
       }),

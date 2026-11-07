@@ -8,7 +8,6 @@ export interface RequestAction {
   readonly profile: RequestProfileName;
   readonly target: string | { readonly prefix: string };
   readonly semantic: RequestIntent['semantic'];
-  readonly token: 'none' | 'optional' | 'required';
   readonly cache: 'none' | 'shared';
   readonly retry: 'never' | 'connect' | 'read';
 }
@@ -71,7 +70,6 @@ export const validateModuleActions = (value: unknown): ModuleActions => {
       !['read', 'write', 'login', 'upload', 'poll'].includes(
         String(action.semantic),
       ) ||
-      !['none', 'optional', 'required'].includes(String(action.token)) ||
       !['none', 'shared'].includes(String(action.cache)) ||
       !['never', 'connect', 'read'].includes(String(action.retry)) ||
       (action.semantic !== 'read' &&

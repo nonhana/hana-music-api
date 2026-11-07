@@ -9,7 +9,6 @@ export interface RequestProfile {
   readonly omitCookies: ReadonlyArray<string>;
   readonly encryptResponse: boolean;
   readonly acceptGzip: boolean;
-  readonly tokenPlacement: 'none' | 'web';
 }
 
 export const requestProfiles = {
@@ -21,7 +20,6 @@ export const requestProfiles = {
     omitCookies: [],
     encryptResponse: false,
     acceptGzip: false,
-    tokenPlacement: 'none',
   },
   // web 只带浏览器身份；桌面或移动端字段不能从调用者 Cookie 中回流。
   web: {
@@ -43,7 +41,6 @@ export const requestProfiles = {
     ],
     encryptResponse: false,
     acceptGzip: false,
-    tokenPlacement: 'web',
   },
 } as const satisfies Readonly<Record<string, RequestProfile>>;
 

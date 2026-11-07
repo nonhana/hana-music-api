@@ -21,7 +21,11 @@ Watchman 实现使用独立的完整 DOM 类型环境，公开声明仍不要求
 
 query 只承载端点业务输入，config 承载 Cookie、代理、fetcher、重试、期限、取消和运行时状态。SDK 的 `fetcher` 必须兼容标准 fetch 签名并遵守 `AbortSignal`；请求总期限包含重试等待和完整正文读取。
 
-`playlistSubscribe` 统一使用 web profile，普通配置的协议、域名、UA、协议选项和受控请求头不能覆盖它；Cookie 中的桌面或移动端身份字段会移除，用户会话保留。收藏的 `checkToken` 继续支持单次字符串和异步 provider，未配置可照常发送，配置失败或为空则在发送前失败；取消不取值、不携带 token。provider 等待计入总期限，取消后不得再发业务请求。四个共享读取也由各自声明固定协议、域名、UA 和身份字段：search、lyric、playlistDetail 保持 eapi，songDetail 使用 web/weapi；这些调用的 crypto/domain/ua/e_r/acceptGzip 覆盖不再生效。缓存、重试次数、会话、fetcher、取消和期限配置继续生效。公开配置字段的统一移除集中在 P12，按 major 交付；显式低层 `createRequest` 保留现有选项与目标安全校验。
+所有程序化 SDK 模块统一接受可选 `checkToken` 字符串或异步 provider，读取、收藏和取消均按调用者配置处理，不按动作判定必填或禁用。未配置不取值、不附加，也不因缺 token 在本地拒绝；已配置却失败或为空在发送前失败。token 值必须能原样写入 HTTP 头，首尾空白或非法头字符在发送前以 400 拒绝，避免正文与头不一致。provider 等待计入总期限，取消/超时后不再发送；独立调用及同一次多请求调用逐次取值。带 token 调用不缓存、不合并、不自动重试；固定字符串在同一模块调用只允许一次 API 请求，第二次需求以 400 拒绝，改用 provider 可逐请求提供新值。纯本地和外部 plain 上传不取值、不发送 token。HTTP 仍拒绝通用 checkToken 配置，显式低层 createRequest 不新增模块 token 参数。
+
+playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、浏览器 UA、os=web，清除受控桌面/移动端 Cookie 字段并保留会话，普通配置不能覆盖身份。专辑/歌手此前默认 Cookie 含 PC 身份字段，此次改为 web 是兼容变化。四个共享读取的原 profile 保持：search、lyric、playlistDetail 为 eapi，songDetail 为 web/weapi；无 token 时缓存、重试、等待者期限/取消保持。公开配置字段统一移除留在 P12，相关兼容变化用 major changeset 记录。
+
+协议准备统一放置 token：weapi 加密正文 checkToken 与 HTTP X-antiCheatToken；eapi 另将同值放入加密 header.X-antiCheatToken，Cookie 不含 token；api 表单和 linuxapi 加密 params 按各自正文容器携带，并设置 HTTP 头。已批准网易云 plain 请求只在 HTTP 头传值，不改 URL 或原始正文；外部上传不取值、不携带。token 自身属于凭据，即使没有账号 Cookie 也只能送往安全 API/已批准特殊目标。编码合同不承诺任意接口接受任意 token。根 SDK 不加载 Watchman，调用者主动取值并转交。
 
 ## 兼容性规则
 

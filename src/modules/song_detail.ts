@@ -36,7 +36,6 @@ export const moduleActions = {
     target: '/api/v3/song/detail',
     profile: 'web',
     semantic: 'read',
-    token: 'none',
     cache: 'shared',
     retry: 'read',
   },

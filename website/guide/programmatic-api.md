@@ -152,3 +152,20 @@ try {
 收窄了返回体的模块更严格：只有这个模块的成功码才 resolve，默认是 `[200]`；唯一的例外是 `login_qr_check`（二维码轮询），成功码是 `[800, 801, 802, 803]`，resolve 时 `status` 是 200，用 `body.code` 区分过期、等待、已扫码、已授权。详见 [返回体结构](/guide/response-bodies#成功码与失败处理)。
 
 普通 `body` 没有为每个端点假定完整字段。要读取 `body.result` 等属性时，先检查正文是对象、目标字段是预期类型。模块内部对自己需要的字段也采用同样原则。部分模块已经在运行时校验返回体，`body` 有确定类型，并导出了结构定义；是哪些模块见 [返回体结构](/guide/response-bodies)。
+
+## 可选传递 checkToken
+
+读取、收藏或取消都可以在执行配置中传入当次 `checkToken`。不传时照常请求，由上游决定是否接受；provider 失败或返回空值时不会发送业务请求。
+
+```ts
+import { createHanaMusicApi } from 'hana-music-api';
+
+const hana = createHanaMusicApi({ cookie });
+await hana.albumSub({ id: albumId, t: 1 }, { checkToken });
+await hana.artistSub(
+  { id: artistId, t: 0 },
+  { checkToken: getFreshCheckToken },
+);
+```
+
+示例中的 Cookie、目标、字符串和取值函数由应用提供，取值函数返回 `Promise<string>`。多请求模块需要逐次取新值，使用 provider；固定字符串在同一次模块调用中只能发送一次。配置 token 会关闭本次缓存、合并和自动重试，等待取值计入总期限。SDK 不生成或保存 token；浏览器取值见 [Watchman](/guide/watchman)，应用通过自己的业务路由转交，普通 Hono 接口不接受通用 token 参数。

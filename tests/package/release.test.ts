@@ -418,7 +418,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         smokeScriptPath,
         [
-          "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody, SongDetailBody, createHanaMusicApi, generateDeviceId, playlistSubscribe, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody, SongDetailBody, createHanaMusicApi, generateDeviceId, playlistSubscribe, albumSub, artistSub, invokeModule, search, songUrl } from 'hana-music-api'",
           "import { deepStrictEqual } from 'node:assert'",
           '',
           `const recordedArtistAlbum = ${JSON.stringify(artistAlbum.response.body)}`,
@@ -461,7 +461,16 @@ describe('sdk release contract', () => {
           "const subscription = await playlistSubscribe({ id: 17, t: 1 }, { ...config, cookie: 'MUSIC_U=package-listener; os=iphone', checkToken: 'package-token' })",
           'const write = requests.at(-1)',
           "if (subscription.status !== 200 || write.url !== 'https://music.163.com/weapi/playlist/subscribe' || write.method !== 'POST' || write.headers.get('X-antiCheatToken') !== 'package-token' || !write.headers.get('cookie').includes('os=web') || !write.headers.get('cookie').includes('MUSIC_U=package-listener')) throw new Error('packaged playlist contract failed')",
-          "if (requests.length !== 7) throw new Error('unexpected packaged sends')",
+          'let tokenProviders = 0',
+          'for (const [call, route] of [[albumSub, "album"], [artistSub, "artist"]]) {',
+          '  for (const t of [1, 0]) for (const mode of ["none", "string", "provider"]) {',
+          '    const token = mode === "none" ? undefined : mode === "string" ? "package-collection" : async () => { tokenProviders++; return "package-collection" }',
+          '    const result = await call({ id: 17, t }, { ...config, checkToken: token })',
+          '    const entry = requests.at(-1)',
+          '    if (result.status !== 200 || entry.url !== `https://music.163.com/weapi/${route}/${t === 1 ? "sub" : "unsub"}` || entry.method !== "POST" || entry.headers.get("X-antiCheatToken") !== (mode === "none" ? null : "package-collection") || !entry.headers.get("cookie").includes("os=web") || entry.headers.get("cookie").includes("appver=")) throw new Error("packaged collection action failed")',
+          '  }',
+          '}',
+          'if (requests.length !== 19 || tokenProviders !== 4) throw new Error("unexpected packaged collection sends or providers")',
           "process.stdout.write(JSON.stringify({ runtime: typeof Bun === 'undefined' ? 'node' : 'bun', version: typeof Bun === 'undefined' ? process.versions.node : Bun.version, status: subscription.status }))",
         ].join('\n'),
       );

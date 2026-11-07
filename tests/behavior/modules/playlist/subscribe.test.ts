@@ -123,7 +123,7 @@ test('playlistSubscribe uses weapi with a configured checkToken', async () => {
   expect(request?.userAgent).not.toContain('NeteaseMusicDesktop');
 });
 
-test('playlistSubscribe calls the checkToken provider for each subscribe only', async () => {
+test('playlistSubscribe calls the checkToken provider for each subscribe and unsubscribe', async () => {
   let calls = 0;
   const { client, sent } = createClient({
     cookie: 'MUSIC_U=listener',
@@ -134,14 +134,14 @@ test('playlistSubscribe calls the checkToken provider for each subscribe only', 
   await client.playlistSubscribe({ id: 1, t: 1 });
   await client.playlistSubscribe({ id: 1, t: 0 });
 
-  expect(calls).toBe(2);
+  expect(calls).toBe(3);
   expect(sent).toHaveLength(3);
   expect(sent[0]?.url).toBe('https://music.163.com/weapi/playlist/subscribe');
   expect(sent[1]?.url).toBe('https://music.163.com/weapi/playlist/subscribe');
   expect(sent[0]?.headers.get('x-anticheattoken')).toBe('token-1');
   expect(sent[1]?.headers.get('x-anticheattoken')).toBe('token-2');
   expect(sent[2]?.url).toBe('https://music.163.com/weapi/playlist/unsubscribe');
-  expect(sent[2]?.headers.has('x-anticheattoken')).toBe(false);
+  expect(sent[2]?.headers.get('x-anticheattoken')).toBe('token-3');
   expect(sent[2]?.bodyKeys.toSorted()).toEqual(['encSecKey', 'params']);
   const cookie = new Map(
     sent[2]?.cookie.split('; ').map((pair) => {
@@ -248,9 +248,10 @@ test('playlistSubscribe sends a complete web identity and the same token in its 
       e_r: false,
     });
     await client.playlistSubscribe({ id: 17, t: 0 });
-    expect(sent[1]!.headers.has('x-anticheattoken')).toBe(false);
+    expect(sent[1]!.headers.get('x-anticheattoken')).toBe('fresh-token');
     expect(readWebBody(sent[1]!.body)).toEqual({
       id: 17,
+      checkToken: 'fresh-token',
       csrf_token: 'csrf',
       e_r: false,
     });

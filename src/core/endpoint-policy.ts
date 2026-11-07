@@ -47,7 +47,7 @@ export const validateRequestTarget = (
   url: string,
   identity: IdentitySnapshot,
   action?: RequestAction,
-): void => {
+): boolean => {
   const targetSemantic =
     intent.protocol === 'plain'
       ? ['GET', 'HEAD'].includes(intent.method)
@@ -119,6 +119,7 @@ export const validateRequestTarget = (
       message: 'Authenticated API target is not allowed',
     });
   }
+  return secure && (apiHost || scrobbleHost);
 };
 
 export const requestSemantic = (uri: string): RequestIntent['semantic'] => {
@@ -158,8 +159,7 @@ export const retryDecision = (
 ): number | undefined => {
   if (
     (action?.semantic ?? requestSemantic(uri)) !== 'read' ||
-    action?.retry === 'never' ||
-    (action !== undefined && action.token !== 'none')
+    action?.retry === 'never'
   ) {
     return undefined;
   }

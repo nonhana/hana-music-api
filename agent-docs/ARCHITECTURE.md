@@ -18,9 +18,11 @@
 
 公开入口先解码业务输入并建立不可变 `Call`，冻结配置、Cookie、身份指纹和总期限。模块将输入编译为 `RequestIntent`，再通过 `RequestCapability` 进入唯一的 `RequestEffect`；目标检查、协议准备、重试、期限、transport、完整正文消费和响应解释都在这条链路中完成。
 
-已迁移模块导出本地 `moduleActions`，逐动作声明 profile、目标或动态路径边界、语义、token、缓存和重试资格。生成的 SDK registry 和 HTTP loader 读取同一份声明，`runCall` 校验后将其冻结到 `Call.actions`；请求层只执行本模块声明过的动作，并核对规范化路径与最终 URL。profile 决定协议、域名、UA、身份 Cookie 字段、协议选项和 token 位置，会话仍来自本次 Call。操作声明优先于旧模块名缓存白名单，写动作不共享、不缓存、不重放。
+已迁移模块导出本地 `moduleActions`，逐动作声明 profile、目标或动态路径边界、语义、缓存和重试资格。生成的 SDK registry 和 HTTP loader 读取同一份声明，`runCall` 校验后将其冻结到 `Call.actions`；请求层只执行本模块声明过的动作，并核对规范化路径与最终 URL。profile 决定协议、域名、UA、身份 Cookie 字段和协议选项，token 由协议准备统一编码，会话仍来自本次 Call。操作声明优先于旧模块名缓存白名单，写动作不共享、不缓存、不重放。
 
-当前迁移 `playlist_subscribe` 和四个共享读取：search、lyric、song_detail、playlist_detail。收藏/取消使用 web，token 为 optional/none；读取使用 token none、shared cache 和 read retry，其中歌曲详情使用 web，其余三个保留 eapi。生成的 `generatedPendingActionModuleIdentifiers` 枚举其余 347 个模块，它们仍走同一执行链中的旧判定，不能计为已通过 profile 验收。P2 和领域批次完成后，P12 删除可选声明、旧默认协议和旧策略路径，要求所有模块装配时都有动作合同。决策与证据边界见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
+当前迁移 playlist_subscribe、album_sub、artist_sub 和四个共享读取 search、lyric、song_detail、playlist_detail。三类收藏/取消使用 web；歌曲详情使用 web，其余三个读取保留 eapi。所有 SDK 模块统一接受可选 checkToken，不按模块或动作分类。带 token 调用绕过 ReadStore，禁自动重试；provider 每个 API 请求独立取值，固定字符串在一次模块调用中只允许一次 API 请求，后续需求明确失败；纯本地/外部上传不取值。未配置 token 时保留声明的 shared cache/read retry 和独立等待者合同。
+
+`generatedPendingActionModuleIdentifiers` 枚举其余 345 个模块，它们沿同一执行链获得通用 token 能力，尚不计为 profile 迁移通过。P12 删除可选声明、旧默认协议和旧策略路径；本票不提前移除全部公开配置。决策与证据边界见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
 
 Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `createRequest` 仍返回 Promise；内部组合和 transport 不自行调用 `Effect.runPromise`。公开边界统一由 `src/core/runtime.ts` 负责执行和错误映射。
 
