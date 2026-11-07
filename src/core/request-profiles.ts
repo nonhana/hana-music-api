@@ -21,6 +21,16 @@ export const requestProfiles = {
     encryptResponse: false,
     acceptGzip: false,
   },
+  // c2c8fa1 的曲库模块实际组合 weapi、浏览器 UA 和 PC Cookie；不把它改成 web 身份。
+  weapiPc: {
+    protocol: 'weapi',
+    domain: 'https://music.163.com',
+    userAgent: USER_AGENT_MAP.weapi.pc,
+    cookie: OS_PROFILES.pc,
+    omitCookies: [],
+    encryptResponse: false,
+    acceptGzip: false,
+  },
   // web 只带浏览器身份；桌面或移动端字段不能从调用者 Cookie 中回流。
   web: {
     protocol: 'weapi',

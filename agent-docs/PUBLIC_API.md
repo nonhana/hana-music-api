@@ -25,6 +25,8 @@ query 只承载端点业务输入，config 承载 Cookie、代理、fetcher、�
 
 playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、浏览器 UA、os=web，清除受控桌面/移动端 Cookie 字段并保留会话，普通配置不能覆盖身份。专辑/歌手此前默认 Cookie 含 PC 身份字段，此次改为 web 是兼容变化。四个共享读取的原 profile 保持：search、lyric、playlistDetail 为 eapi，songDetail 为 web/weapi；无 token 时缓存、重试、等待者期限/取消保持。公开配置字段统一移除留在 P12，相关兼容变化用 major changeset 记录。
 
+#110 的77个曲库与播放模块也固定各自的基线请求身份：38个使用 weapiPc（weapi、浏览器 UA、PC Cookie），39个使用既有 eapi。普通 config 的 crypto、domain、ua、e_r、acceptGzip 和受控身份 Cookie 不再覆盖声明；MUSIC_U/MUSIC_A、__csrf 与设备仍随本次调用传递。默认请求组合、业务输入与返回体保持；需要显式协议控制时使用低层 createRequest。本批不新增共享读取或重试资格，详见 [迁移依据](../docs/acceptance/issue-110.md)。
+
 协议准备统一放置 token：weapi 加密正文 checkToken 与 HTTP X-antiCheatToken；eapi 另将同值放入加密 header.X-antiCheatToken，Cookie 不含 token；api 表单和 linuxapi 加密 params 按各自正文容器携带，并设置 HTTP 头。已批准网易云 plain 请求只在 HTTP 头传值，不改 URL 或原始正文；外部上传不取值、不携带。token 自身属于凭据，即使没有账号 Cookie 也只能送往安全 API/已批准特殊目标。编码合同不承诺任意接口接受任意 token。根 SDK 不加载 Watchman，调用者主动取值并转交。
 
 ## 兼容性规则

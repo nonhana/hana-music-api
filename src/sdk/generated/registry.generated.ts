@@ -6,30 +6,39 @@ import aidjContentRcmdModule, {
 } from '../../modules/aidj_content_rcmd.ts';
 import albumModule, {
   decodeModuleInput as albumInputDecoder,
+  moduleActions as albumActions,
 } from '../../modules/album.ts';
 import albumDetailModule, {
   decodeModuleInput as albumDetailInputDecoder,
+  moduleActions as albumDetailActions,
 } from '../../modules/album_detail.ts';
 import albumDetailDynamicModule, {
   decodeModuleInput as albumDetailDynamicInputDecoder,
+  moduleActions as albumDetailDynamicActions,
 } from '../../modules/album_detail_dynamic.ts';
 import albumListModule, {
   decodeModuleInput as albumListInputDecoder,
+  moduleActions as albumListActions,
 } from '../../modules/album_list.ts';
 import albumListStyleModule, {
   decodeModuleInput as albumListStyleInputDecoder,
+  moduleActions as albumListStyleActions,
 } from '../../modules/album_list_style.ts';
 import albumNewModule, {
   decodeModuleInput as albumNewInputDecoder,
+  moduleActions as albumNewActions,
 } from '../../modules/album_new.ts';
 import albumNewestModule, {
   decodeModuleInput as albumNewestInputDecoder,
+  moduleActions as albumNewestActions,
 } from '../../modules/album_newest.ts';
 import albumPrivilegeModule, {
   decodeModuleInput as albumPrivilegeInputDecoder,
+  moduleActions as albumPrivilegeActions,
 } from '../../modules/album_privilege.ts';
 import albumSongsaleboardModule, {
   decodeModuleInput as albumSongsaleboardInputDecoder,
+  moduleActions as albumSongsaleboardActions,
 } from '../../modules/album_songsaleboard.ts';
 import albumSubModule, {
   decodeModuleInput as albumSubInputDecoder,
@@ -37,39 +46,51 @@ import albumSubModule, {
 } from '../../modules/album_sub.ts';
 import albumSublistModule, {
   decodeModuleInput as albumSublistInputDecoder,
+  moduleActions as albumSublistActions,
 } from '../../modules/album_sublist.ts';
 import artistAlbumModule, {
   decodeModuleInput as artistAlbumInputDecoder,
+  moduleActions as artistAlbumActions,
 } from '../../modules/artist_album.ts';
 import artistDescModule, {
   decodeModuleInput as artistDescInputDecoder,
+  moduleActions as artistDescActions,
 } from '../../modules/artist_desc.ts';
 import artistDetailModule, {
   decodeModuleInput as artistDetailInputDecoder,
+  moduleActions as artistDetailActions,
 } from '../../modules/artist_detail.ts';
 import artistDetailDynamicModule, {
   decodeModuleInput as artistDetailDynamicInputDecoder,
+  moduleActions as artistDetailDynamicActions,
 } from '../../modules/artist_detail_dynamic.ts';
 import artistFansModule, {
   decodeModuleInput as artistFansInputDecoder,
+  moduleActions as artistFansActions,
 } from '../../modules/artist_fans.ts';
 import artistFollowCountModule, {
   decodeModuleInput as artistFollowCountInputDecoder,
+  moduleActions as artistFollowCountActions,
 } from '../../modules/artist_follow_count.ts';
 import artistListModule, {
   decodeModuleInput as artistListInputDecoder,
+  moduleActions as artistListActions,
 } from '../../modules/artist_list.ts';
 import artistMvModule, {
   decodeModuleInput as artistMvInputDecoder,
+  moduleActions as artistMvActions,
 } from '../../modules/artist_mv.ts';
 import artistNewMvModule, {
   decodeModuleInput as artistNewMvInputDecoder,
+  moduleActions as artistNewMvActions,
 } from '../../modules/artist_new_mv.ts';
 import artistNewSongModule, {
   decodeModuleInput as artistNewSongInputDecoder,
+  moduleActions as artistNewSongActions,
 } from '../../modules/artist_new_song.ts';
 import artistSongsModule, {
   decodeModuleInput as artistSongsInputDecoder,
+  moduleActions as artistSongsActions,
 } from '../../modules/artist_songs.ts';
 import artistSubModule, {
   decodeModuleInput as artistSubInputDecoder,
@@ -77,15 +98,19 @@ import artistSubModule, {
 } from '../../modules/artist_sub.ts';
 import artistSublistModule, {
   decodeModuleInput as artistSublistInputDecoder,
+  moduleActions as artistSublistActions,
 } from '../../modules/artist_sublist.ts';
 import artistTopSongModule, {
   decodeModuleInput as artistTopSongInputDecoder,
+  moduleActions as artistTopSongActions,
 } from '../../modules/artist_top_song.ts';
 import artistVideoModule, {
   decodeModuleInput as artistVideoInputDecoder,
+  moduleActions as artistVideoActions,
 } from '../../modules/artist_video.ts';
 import artistsModule, {
   decodeModuleInput as artistsInputDecoder,
+  moduleActions as artistsActions,
 } from '../../modules/artists.ts';
 import audioMatchModule, {
   decodeModuleInput as audioMatchInputDecoder,
@@ -128,6 +153,7 @@ import cellphoneExistenceCheckModule, {
 } from '../../modules/cellphone_existence_check.ts';
 import checkMusicModule, {
   decodeModuleInput as checkMusicInputDecoder,
+  moduleActions as checkMusicActions,
 } from '../../modules/check_music.ts';
 import cloudModule, {
   decodeModuleInput as cloudInputDecoder,
@@ -137,6 +163,7 @@ import cloudImportModule, {
 } from '../../modules/cloud_import.ts';
 import cloudMatchModule, {
   decodeModuleInput as cloudMatchInputDecoder,
+  moduleActions as cloudMatchActions,
 } from '../../modules/cloud_match.ts';
 import cloudsearchModule, {
   decodeModuleInput as cloudsearchInputDecoder,
@@ -332,9 +359,11 @@ import innerVersionModule, {
 } from '../../modules/inner_version.ts';
 import likeModule, {
   decodeModuleInput as likeInputDecoder,
+  moduleActions as likeActions,
 } from '../../modules/like.ts';
 import likelistModule, {
   decodeModuleInput as likelistInputDecoder,
+  moduleActions as likelistActions,
 } from '../../modules/likelist.ts';
 import listenDataRealtimeReportModule, {
   decodeModuleInput as listenDataRealtimeReportInputDecoder,
@@ -408,6 +437,7 @@ import lyricModule, {
 } from '../../modules/lyric.ts';
 import lyricNewModule, {
   decodeModuleInput as lyricNewInputDecoder,
+  moduleActions as lyricNewActions,
 } from '../../modules/lyric_new.ts';
 import mlogMusicRcmdModule, {
   decodeModuleInput as mlogMusicRcmdInputDecoder,
@@ -516,18 +546,22 @@ import plCountModule, {
 } from '../../modules/pl_count.ts';
 import playlistCatlistModule, {
   decodeModuleInput as playlistCatlistInputDecoder,
+  moduleActions as playlistCatlistActions,
 } from '../../modules/playlist_catlist.ts';
 import playlistCoverUpdateModule, {
   decodeModuleInput as playlistCoverUpdateInputDecoder,
 } from '../../modules/playlist_cover_update.ts';
 import playlistCreateModule, {
   decodeModuleInput as playlistCreateInputDecoder,
+  moduleActions as playlistCreateActions,
 } from '../../modules/playlist_create.ts';
 import playlistDeleteModule, {
   decodeModuleInput as playlistDeleteInputDecoder,
+  moduleActions as playlistDeleteActions,
 } from '../../modules/playlist_delete.ts';
 import playlistDescUpdateModule, {
   decodeModuleInput as playlistDescUpdateInputDecoder,
+  moduleActions as playlistDescUpdateActions,
 } from '../../modules/playlist_desc_update.ts';
 import playlistDetailModule, {
   decodeModuleInput as playlistDetailInputDecoder,
@@ -535,33 +569,43 @@ import playlistDetailModule, {
 } from '../../modules/playlist_detail.ts';
 import playlistDetailDynamicModule, {
   decodeModuleInput as playlistDetailDynamicInputDecoder,
+  moduleActions as playlistDetailDynamicActions,
 } from '../../modules/playlist_detail_dynamic.ts';
 import playlistDetailRcmdGetModule, {
   decodeModuleInput as playlistDetailRcmdGetInputDecoder,
+  moduleActions as playlistDetailRcmdGetActions,
 } from '../../modules/playlist_detail_rcmd_get.ts';
 import playlistHighqualityTagsModule, {
   decodeModuleInput as playlistHighqualityTagsInputDecoder,
+  moduleActions as playlistHighqualityTagsActions,
 } from '../../modules/playlist_highquality_tags.ts';
 import playlistHotModule, {
   decodeModuleInput as playlistHotInputDecoder,
+  moduleActions as playlistHotActions,
 } from '../../modules/playlist_hot.ts';
 import playlistImportNameTaskCreateModule, {
   decodeModuleInput as playlistImportNameTaskCreateInputDecoder,
+  moduleActions as playlistImportNameTaskCreateActions,
 } from '../../modules/playlist_import_name_task_create.ts';
 import playlistImportTaskStatusModule, {
   decodeModuleInput as playlistImportTaskStatusInputDecoder,
+  moduleActions as playlistImportTaskStatusActions,
 } from '../../modules/playlist_import_task_status.ts';
 import playlistMylikeModule, {
   decodeModuleInput as playlistMylikeInputDecoder,
+  moduleActions as playlistMylikeActions,
 } from '../../modules/playlist_mylike.ts';
 import playlistNameUpdateModule, {
   decodeModuleInput as playlistNameUpdateInputDecoder,
+  moduleActions as playlistNameUpdateActions,
 } from '../../modules/playlist_name_update.ts';
 import playlistOrderUpdateModule, {
   decodeModuleInput as playlistOrderUpdateInputDecoder,
+  moduleActions as playlistOrderUpdateActions,
 } from '../../modules/playlist_order_update.ts';
 import playlistPrivacyModule, {
   decodeModuleInput as playlistPrivacyInputDecoder,
+  moduleActions as playlistPrivacyActions,
 } from '../../modules/playlist_privacy.ts';
 import playlistSubscribeModule, {
   decodeModuleInput as playlistSubscribeInputDecoder,
@@ -569,33 +613,41 @@ import playlistSubscribeModule, {
 } from '../../modules/playlist_subscribe.ts';
 import playlistSubscribersModule, {
   decodeModuleInput as playlistSubscribersInputDecoder,
+  moduleActions as playlistSubscribersActions,
 } from '../../modules/playlist_subscribers.ts';
 import playlistTagsUpdateModule, {
   decodeModuleInput as playlistTagsUpdateInputDecoder,
+  moduleActions as playlistTagsUpdateActions,
 } from '../../modules/playlist_tags_update.ts';
 import playlistTrackAddModule, {
   decodeModuleInput as playlistTrackAddInputDecoder,
+  moduleActions as playlistTrackAddActions,
 } from '../../modules/playlist_track_add.ts';
 import playlistTrackAllModule, {
   decodeModuleInput as playlistTrackAllInputDecoder,
 } from '../../modules/playlist_track_all.ts';
 import playlistTrackDeleteModule, {
   decodeModuleInput as playlistTrackDeleteInputDecoder,
+  moduleActions as playlistTrackDeleteActions,
 } from '../../modules/playlist_track_delete.ts';
 import playlistTracksModule, {
   decodeModuleInput as playlistTracksInputDecoder,
 } from '../../modules/playlist_tracks.ts';
 import playlistUpdateModule, {
   decodeModuleInput as playlistUpdateInputDecoder,
+  moduleActions as playlistUpdateActions,
 } from '../../modules/playlist_update.ts';
 import playlistUpdatePlaycountModule, {
   decodeModuleInput as playlistUpdatePlaycountInputDecoder,
+  moduleActions as playlistUpdatePlaycountActions,
 } from '../../modules/playlist_update_playcount.ts';
 import playlistVideoRecentModule, {
   decodeModuleInput as playlistVideoRecentInputDecoder,
+  moduleActions as playlistVideoRecentActions,
 } from '../../modules/playlist_video_recent.ts';
 import playmodeIntelligenceListModule, {
   decodeModuleInput as playmodeIntelligenceListInputDecoder,
+  moduleActions as playmodeIntelligenceListActions,
 } from '../../modules/playmode_intelligence_list.ts';
 import programRecommendModule, {
   decodeModuleInput as programRecommendInputDecoder,
@@ -720,6 +772,7 @@ import simiUserModule, {
 } from '../../modules/simi_user.ts';
 import songChorusModule, {
   decodeModuleInput as songChorusInputDecoder,
+  moduleActions as songChorusActions,
 } from '../../modules/song_chorus.ts';
 import songDetailModule, {
   decodeModuleInput as songDetailInputDecoder,
@@ -727,57 +780,75 @@ import songDetailModule, {
 } from '../../modules/song_detail.ts';
 import songDownlistModule, {
   decodeModuleInput as songDownlistInputDecoder,
+  moduleActions as songDownlistActions,
 } from '../../modules/song_downlist.ts';
 import songDownloadUrlModule, {
   decodeModuleInput as songDownloadUrlInputDecoder,
+  moduleActions as songDownloadUrlActions,
 } from '../../modules/song_download_url.ts';
 import songDownloadUrlV1Module, {
   decodeModuleInput as songDownloadUrlV1InputDecoder,
+  moduleActions as songDownloadUrlV1Actions,
 } from '../../modules/song_download_url_v1.ts';
 import songDynamicCoverModule, {
   decodeModuleInput as songDynamicCoverInputDecoder,
+  moduleActions as songDynamicCoverActions,
 } from '../../modules/song_dynamic_cover.ts';
 import songLikeCheckModule, {
   decodeModuleInput as songLikeCheckInputDecoder,
+  moduleActions as songLikeCheckActions,
 } from '../../modules/song_like_check.ts';
 import songLyricsMarkModule, {
   decodeModuleInput as songLyricsMarkInputDecoder,
+  moduleActions as songLyricsMarkActions,
 } from '../../modules/song_lyrics_mark.ts';
 import songLyricsMarkAddModule, {
   decodeModuleInput as songLyricsMarkAddInputDecoder,
+  moduleActions as songLyricsMarkAddActions,
 } from '../../modules/song_lyrics_mark_add.ts';
 import songLyricsMarkDelModule, {
   decodeModuleInput as songLyricsMarkDelInputDecoder,
+  moduleActions as songLyricsMarkDelActions,
 } from '../../modules/song_lyrics_mark_del.ts';
 import songLyricsMarkUserPageModule, {
   decodeModuleInput as songLyricsMarkUserPageInputDecoder,
+  moduleActions as songLyricsMarkUserPageActions,
 } from '../../modules/song_lyrics_mark_user_page.ts';
 import songMonthdownlistModule, {
   decodeModuleInput as songMonthdownlistInputDecoder,
+  moduleActions as songMonthdownlistActions,
 } from '../../modules/song_monthdownlist.ts';
 import songMusicDetailModule, {
   decodeModuleInput as songMusicDetailInputDecoder,
+  moduleActions as songMusicDetailActions,
 } from '../../modules/song_music_detail.ts';
 import songOrderUpdateModule, {
   decodeModuleInput as songOrderUpdateInputDecoder,
+  moduleActions as songOrderUpdateActions,
 } from '../../modules/song_order_update.ts';
 import songPurchasedModule, {
   decodeModuleInput as songPurchasedInputDecoder,
+  moduleActions as songPurchasedActions,
 } from '../../modules/song_purchased.ts';
 import songRedCountModule, {
   decodeModuleInput as songRedCountInputDecoder,
+  moduleActions as songRedCountActions,
 } from '../../modules/song_red_count.ts';
 import songSingledownlistModule, {
   decodeModuleInput as songSingledownlistInputDecoder,
+  moduleActions as songSingledownlistActions,
 } from '../../modules/song_singledownlist.ts';
 import songUrlModule, {
   decodeModuleInput as songUrlInputDecoder,
+  moduleActions as songUrlActions,
 } from '../../modules/song_url.ts';
 import songUrlV1Module, {
   decodeModuleInput as songUrlV1InputDecoder,
+  moduleActions as songUrlV1Actions,
 } from '../../modules/song_url_v1.ts';
 import songWikiSummaryModule, {
   decodeModuleInput as songWikiSummaryInputDecoder,
+  moduleActions as songWikiSummaryActions,
 } from '../../modules/song_wiki_summary.ts';
 import starpickCommentsSummaryModule, {
   decodeModuleInput as starpickCommentsSummaryInputDecoder,
@@ -877,12 +948,15 @@ import userBindingModule, {
 } from '../../modules/user_binding.ts';
 import userCloudModule, {
   decodeModuleInput as userCloudInputDecoder,
+  moduleActions as userCloudActions,
 } from '../../modules/user_cloud.ts';
 import userCloudDelModule, {
   decodeModuleInput as userCloudDelInputDecoder,
+  moduleActions as userCloudDelActions,
 } from '../../modules/user_cloud_del.ts';
 import userCloudDetailModule, {
   decodeModuleInput as userCloudDetailInputDecoder,
+  moduleActions as userCloudDetailActions,
 } from '../../modules/user_cloud_detail.ts';
 import userCommentHistoryModule, {
   decodeModuleInput as userCommentHistoryInputDecoder,
@@ -916,12 +990,15 @@ import userMutualfollowGetModule, {
 } from '../../modules/user_mutualfollow_get.ts';
 import userPlaylistModule, {
   decodeModuleInput as userPlaylistInputDecoder,
+  moduleActions as userPlaylistActions,
 } from '../../modules/user_playlist.ts';
 import userPlaylistCollectModule, {
   decodeModuleInput as userPlaylistCollectInputDecoder,
+  moduleActions as userPlaylistCollectActions,
 } from '../../modules/user_playlist_collect.ts';
 import userPlaylistCreateModule, {
   decodeModuleInput as userPlaylistCreateInputDecoder,
+  moduleActions as userPlaylistCreateActions,
 } from '../../modules/user_playlist_create.ts';
 import userRecordModule, {
   decodeModuleInput as userRecordInputDecoder,
@@ -1081,54 +1158,63 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/album',
     execute: albumModule,
     decodeInput: albumInputDecoder,
+    actions: albumActions,
   },
   album_detail: {
     identifier: 'album_detail',
     route: '/album/detail',
     execute: albumDetailModule,
     decodeInput: albumDetailInputDecoder,
+    actions: albumDetailActions,
   },
   album_detail_dynamic: {
     identifier: 'album_detail_dynamic',
     route: '/album/detail/dynamic',
     execute: albumDetailDynamicModule,
     decodeInput: albumDetailDynamicInputDecoder,
+    actions: albumDetailDynamicActions,
   },
   album_list: {
     identifier: 'album_list',
     route: '/album/list',
     execute: albumListModule,
     decodeInput: albumListInputDecoder,
+    actions: albumListActions,
   },
   album_list_style: {
     identifier: 'album_list_style',
     route: '/album/list/style',
     execute: albumListStyleModule,
     decodeInput: albumListStyleInputDecoder,
+    actions: albumListStyleActions,
   },
   album_new: {
     identifier: 'album_new',
     route: '/album/new',
     execute: albumNewModule,
     decodeInput: albumNewInputDecoder,
+    actions: albumNewActions,
   },
   album_newest: {
     identifier: 'album_newest',
     route: '/album/newest',
     execute: albumNewestModule,
     decodeInput: albumNewestInputDecoder,
+    actions: albumNewestActions,
   },
   album_privilege: {
     identifier: 'album_privilege',
     route: '/album/privilege',
     execute: albumPrivilegeModule,
     decodeInput: albumPrivilegeInputDecoder,
+    actions: albumPrivilegeActions,
   },
   album_songsaleboard: {
     identifier: 'album_songsaleboard',
     route: '/album/songsaleboard',
     execute: albumSongsaleboardModule,
     decodeInput: albumSongsaleboardInputDecoder,
+    actions: albumSongsaleboardActions,
   },
   album_sub: {
     identifier: 'album_sub',
@@ -1142,72 +1228,84 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/album/sublist',
     execute: albumSublistModule,
     decodeInput: albumSublistInputDecoder,
+    actions: albumSublistActions,
   },
   artist_album: {
     identifier: 'artist_album',
     route: '/artist/album',
     execute: artistAlbumModule,
     decodeInput: artistAlbumInputDecoder,
+    actions: artistAlbumActions,
   },
   artist_desc: {
     identifier: 'artist_desc',
     route: '/artist/desc',
     execute: artistDescModule,
     decodeInput: artistDescInputDecoder,
+    actions: artistDescActions,
   },
   artist_detail: {
     identifier: 'artist_detail',
     route: '/artist/detail',
     execute: artistDetailModule,
     decodeInput: artistDetailInputDecoder,
+    actions: artistDetailActions,
   },
   artist_detail_dynamic: {
     identifier: 'artist_detail_dynamic',
     route: '/artist/detail/dynamic',
     execute: artistDetailDynamicModule,
     decodeInput: artistDetailDynamicInputDecoder,
+    actions: artistDetailDynamicActions,
   },
   artist_fans: {
     identifier: 'artist_fans',
     route: '/artist/fans',
     execute: artistFansModule,
     decodeInput: artistFansInputDecoder,
+    actions: artistFansActions,
   },
   artist_follow_count: {
     identifier: 'artist_follow_count',
     route: '/artist/follow/count',
     execute: artistFollowCountModule,
     decodeInput: artistFollowCountInputDecoder,
+    actions: artistFollowCountActions,
   },
   artist_list: {
     identifier: 'artist_list',
     route: '/artist/list',
     execute: artistListModule,
     decodeInput: artistListInputDecoder,
+    actions: artistListActions,
   },
   artist_mv: {
     identifier: 'artist_mv',
     route: '/artist/mv',
     execute: artistMvModule,
     decodeInput: artistMvInputDecoder,
+    actions: artistMvActions,
   },
   artist_new_mv: {
     identifier: 'artist_new_mv',
     route: '/artist/new/mv',
     execute: artistNewMvModule,
     decodeInput: artistNewMvInputDecoder,
+    actions: artistNewMvActions,
   },
   artist_new_song: {
     identifier: 'artist_new_song',
     route: '/artist/new/song',
     execute: artistNewSongModule,
     decodeInput: artistNewSongInputDecoder,
+    actions: artistNewSongActions,
   },
   artist_songs: {
     identifier: 'artist_songs',
     route: '/artist/songs',
     execute: artistSongsModule,
     decodeInput: artistSongsInputDecoder,
+    actions: artistSongsActions,
   },
   artist_sub: {
     identifier: 'artist_sub',
@@ -1221,24 +1319,28 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/artist/sublist',
     execute: artistSublistModule,
     decodeInput: artistSublistInputDecoder,
+    actions: artistSublistActions,
   },
   artist_top_song: {
     identifier: 'artist_top_song',
     route: '/artist/top/song',
     execute: artistTopSongModule,
     decodeInput: artistTopSongInputDecoder,
+    actions: artistTopSongActions,
   },
   artist_video: {
     identifier: 'artist_video',
     route: '/artist/video',
     execute: artistVideoModule,
     decodeInput: artistVideoInputDecoder,
+    actions: artistVideoActions,
   },
   artists: {
     identifier: 'artists',
     route: '/artists',
     execute: artistsModule,
     decodeInput: artistsInputDecoder,
+    actions: artistsActions,
   },
   audio_match: {
     identifier: 'audio_match',
@@ -1323,6 +1425,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/check/music',
     execute: checkMusicModule,
     decodeInput: checkMusicInputDecoder,
+    actions: checkMusicActions,
   },
   cloud: {
     identifier: 'cloud',
@@ -1341,6 +1444,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/cloud/match',
     execute: cloudMatchModule,
     decodeInput: cloudMatchInputDecoder,
+    actions: cloudMatchActions,
   },
   cloudsearch: {
     identifier: 'cloudsearch',
@@ -1731,12 +1835,14 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/like',
     execute: likeModule,
     decodeInput: likeInputDecoder,
+    actions: likeActions,
   },
   likelist: {
     identifier: 'likelist',
     route: '/likelist',
     execute: likelistModule,
     decodeInput: likelistInputDecoder,
+    actions: likelistActions,
   },
   listen_data_realtime_report: {
     identifier: 'listen_data_realtime_report',
@@ -1882,6 +1988,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/lyric/new',
     execute: lyricNewModule,
     decodeInput: lyricNewInputDecoder,
+    actions: lyricNewActions,
   },
   mlog_music_rcmd: {
     identifier: 'mlog_music_rcmd',
@@ -2098,6 +2205,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/catlist',
     execute: playlistCatlistModule,
     decodeInput: playlistCatlistInputDecoder,
+    actions: playlistCatlistActions,
   },
   playlist_cover_update: {
     identifier: 'playlist_cover_update',
@@ -2110,18 +2218,21 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/create',
     execute: playlistCreateModule,
     decodeInput: playlistCreateInputDecoder,
+    actions: playlistCreateActions,
   },
   playlist_delete: {
     identifier: 'playlist_delete',
     route: '/playlist/delete',
     execute: playlistDeleteModule,
     decodeInput: playlistDeleteInputDecoder,
+    actions: playlistDeleteActions,
   },
   playlist_desc_update: {
     identifier: 'playlist_desc_update',
     route: '/playlist/desc/update',
     execute: playlistDescUpdateModule,
     decodeInput: playlistDescUpdateInputDecoder,
+    actions: playlistDescUpdateActions,
   },
   playlist_detail: {
     identifier: 'playlist_detail',
@@ -2135,60 +2246,70 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/detail/dynamic',
     execute: playlistDetailDynamicModule,
     decodeInput: playlistDetailDynamicInputDecoder,
+    actions: playlistDetailDynamicActions,
   },
   playlist_detail_rcmd_get: {
     identifier: 'playlist_detail_rcmd_get',
     route: '/playlist/detail/rcmd/get',
     execute: playlistDetailRcmdGetModule,
     decodeInput: playlistDetailRcmdGetInputDecoder,
+    actions: playlistDetailRcmdGetActions,
   },
   playlist_highquality_tags: {
     identifier: 'playlist_highquality_tags',
     route: '/playlist/highquality/tags',
     execute: playlistHighqualityTagsModule,
     decodeInput: playlistHighqualityTagsInputDecoder,
+    actions: playlistHighqualityTagsActions,
   },
   playlist_hot: {
     identifier: 'playlist_hot',
     route: '/playlist/hot',
     execute: playlistHotModule,
     decodeInput: playlistHotInputDecoder,
+    actions: playlistHotActions,
   },
   playlist_import_name_task_create: {
     identifier: 'playlist_import_name_task_create',
     route: '/playlist/import/name/task/create',
     execute: playlistImportNameTaskCreateModule,
     decodeInput: playlistImportNameTaskCreateInputDecoder,
+    actions: playlistImportNameTaskCreateActions,
   },
   playlist_import_task_status: {
     identifier: 'playlist_import_task_status',
     route: '/playlist/import/task/status',
     execute: playlistImportTaskStatusModule,
     decodeInput: playlistImportTaskStatusInputDecoder,
+    actions: playlistImportTaskStatusActions,
   },
   playlist_mylike: {
     identifier: 'playlist_mylike',
     route: '/playlist/mylike',
     execute: playlistMylikeModule,
     decodeInput: playlistMylikeInputDecoder,
+    actions: playlistMylikeActions,
   },
   playlist_name_update: {
     identifier: 'playlist_name_update',
     route: '/playlist/name/update',
     execute: playlistNameUpdateModule,
     decodeInput: playlistNameUpdateInputDecoder,
+    actions: playlistNameUpdateActions,
   },
   playlist_order_update: {
     identifier: 'playlist_order_update',
     route: '/playlist/order/update',
     execute: playlistOrderUpdateModule,
     decodeInput: playlistOrderUpdateInputDecoder,
+    actions: playlistOrderUpdateActions,
   },
   playlist_privacy: {
     identifier: 'playlist_privacy',
     route: '/playlist/privacy',
     execute: playlistPrivacyModule,
     decodeInput: playlistPrivacyInputDecoder,
+    actions: playlistPrivacyActions,
   },
   playlist_subscribe: {
     identifier: 'playlist_subscribe',
@@ -2202,18 +2323,21 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/subscribers',
     execute: playlistSubscribersModule,
     decodeInput: playlistSubscribersInputDecoder,
+    actions: playlistSubscribersActions,
   },
   playlist_tags_update: {
     identifier: 'playlist_tags_update',
     route: '/playlist/tags/update',
     execute: playlistTagsUpdateModule,
     decodeInput: playlistTagsUpdateInputDecoder,
+    actions: playlistTagsUpdateActions,
   },
   playlist_track_add: {
     identifier: 'playlist_track_add',
     route: '/playlist/track/add',
     execute: playlistTrackAddModule,
     decodeInput: playlistTrackAddInputDecoder,
+    actions: playlistTrackAddActions,
   },
   playlist_track_all: {
     identifier: 'playlist_track_all',
@@ -2226,6 +2350,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/track/delete',
     execute: playlistTrackDeleteModule,
     decodeInput: playlistTrackDeleteInputDecoder,
+    actions: playlistTrackDeleteActions,
   },
   playlist_tracks: {
     identifier: 'playlist_tracks',
@@ -2238,24 +2363,28 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/update',
     execute: playlistUpdateModule,
     decodeInput: playlistUpdateInputDecoder,
+    actions: playlistUpdateActions,
   },
   playlist_update_playcount: {
     identifier: 'playlist_update_playcount',
     route: '/playlist/update/playcount',
     execute: playlistUpdatePlaycountModule,
     decodeInput: playlistUpdatePlaycountInputDecoder,
+    actions: playlistUpdatePlaycountActions,
   },
   playlist_video_recent: {
     identifier: 'playlist_video_recent',
     route: '/playlist/video/recent',
     execute: playlistVideoRecentModule,
     decodeInput: playlistVideoRecentInputDecoder,
+    actions: playlistVideoRecentActions,
   },
   playmode_intelligence_list: {
     identifier: 'playmode_intelligence_list',
     route: '/playmode/intelligence/list',
     execute: playmodeIntelligenceListModule,
     decodeInput: playmodeIntelligenceListInputDecoder,
+    actions: playmodeIntelligenceListActions,
   },
   program_recommend: {
     identifier: 'program_recommend',
@@ -2503,6 +2632,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/song/chorus',
     execute: songChorusModule,
     decodeInput: songChorusInputDecoder,
+    actions: songChorusActions,
   },
   song_detail: {
     identifier: 'song_detail',
@@ -2516,108 +2646,126 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/song/downlist',
     execute: songDownlistModule,
     decodeInput: songDownlistInputDecoder,
+    actions: songDownlistActions,
   },
   song_download_url: {
     identifier: 'song_download_url',
     route: '/song/download/url',
     execute: songDownloadUrlModule,
     decodeInput: songDownloadUrlInputDecoder,
+    actions: songDownloadUrlActions,
   },
   song_download_url_v1: {
     identifier: 'song_download_url_v1',
     route: '/song/download/url/v1',
     execute: songDownloadUrlV1Module,
     decodeInput: songDownloadUrlV1InputDecoder,
+    actions: songDownloadUrlV1Actions,
   },
   song_dynamic_cover: {
     identifier: 'song_dynamic_cover',
     route: '/song/dynamic/cover',
     execute: songDynamicCoverModule,
     decodeInput: songDynamicCoverInputDecoder,
+    actions: songDynamicCoverActions,
   },
   song_like_check: {
     identifier: 'song_like_check',
     route: '/song/like/check',
     execute: songLikeCheckModule,
     decodeInput: songLikeCheckInputDecoder,
+    actions: songLikeCheckActions,
   },
   song_lyrics_mark: {
     identifier: 'song_lyrics_mark',
     route: '/song/lyrics/mark',
     execute: songLyricsMarkModule,
     decodeInput: songLyricsMarkInputDecoder,
+    actions: songLyricsMarkActions,
   },
   song_lyrics_mark_add: {
     identifier: 'song_lyrics_mark_add',
     route: '/song/lyrics/mark/add',
     execute: songLyricsMarkAddModule,
     decodeInput: songLyricsMarkAddInputDecoder,
+    actions: songLyricsMarkAddActions,
   },
   song_lyrics_mark_del: {
     identifier: 'song_lyrics_mark_del',
     route: '/song/lyrics/mark/del',
     execute: songLyricsMarkDelModule,
     decodeInput: songLyricsMarkDelInputDecoder,
+    actions: songLyricsMarkDelActions,
   },
   song_lyrics_mark_user_page: {
     identifier: 'song_lyrics_mark_user_page',
     route: '/song/lyrics/mark/user/page',
     execute: songLyricsMarkUserPageModule,
     decodeInput: songLyricsMarkUserPageInputDecoder,
+    actions: songLyricsMarkUserPageActions,
   },
   song_monthdownlist: {
     identifier: 'song_monthdownlist',
     route: '/song/monthdownlist',
     execute: songMonthdownlistModule,
     decodeInput: songMonthdownlistInputDecoder,
+    actions: songMonthdownlistActions,
   },
   song_music_detail: {
     identifier: 'song_music_detail',
     route: '/song/music/detail',
     execute: songMusicDetailModule,
     decodeInput: songMusicDetailInputDecoder,
+    actions: songMusicDetailActions,
   },
   song_order_update: {
     identifier: 'song_order_update',
     route: '/song/order/update',
     execute: songOrderUpdateModule,
     decodeInput: songOrderUpdateInputDecoder,
+    actions: songOrderUpdateActions,
   },
   song_purchased: {
     identifier: 'song_purchased',
     route: '/song/purchased',
     execute: songPurchasedModule,
     decodeInput: songPurchasedInputDecoder,
+    actions: songPurchasedActions,
   },
   song_red_count: {
     identifier: 'song_red_count',
     route: '/song/red/count',
     execute: songRedCountModule,
     decodeInput: songRedCountInputDecoder,
+    actions: songRedCountActions,
   },
   song_singledownlist: {
     identifier: 'song_singledownlist',
     route: '/song/singledownlist',
     execute: songSingledownlistModule,
     decodeInput: songSingledownlistInputDecoder,
+    actions: songSingledownlistActions,
   },
   song_url: {
     identifier: 'song_url',
     route: '/song/url',
     execute: songUrlModule,
     decodeInput: songUrlInputDecoder,
+    actions: songUrlActions,
   },
   song_url_v1: {
     identifier: 'song_url_v1',
     route: '/song/url/v1',
     execute: songUrlV1Module,
     decodeInput: songUrlV1InputDecoder,
+    actions: songUrlV1Actions,
   },
   song_wiki_summary: {
     identifier: 'song_wiki_summary',
     route: '/song/wiki/summary',
     execute: songWikiSummaryModule,
     decodeInput: songWikiSummaryInputDecoder,
+    actions: songWikiSummaryActions,
   },
   starpick_comments_summary: {
     identifier: 'starpick_comments_summary',
@@ -2816,18 +2964,21 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/user/cloud',
     execute: userCloudModule,
     decodeInput: userCloudInputDecoder,
+    actions: userCloudActions,
   },
   user_cloud_del: {
     identifier: 'user_cloud_del',
     route: '/user/cloud/del',
     execute: userCloudDelModule,
     decodeInput: userCloudDelInputDecoder,
+    actions: userCloudDelActions,
   },
   user_cloud_detail: {
     identifier: 'user_cloud_detail',
     route: '/user/cloud/detail',
     execute: userCloudDetailModule,
     decodeInput: userCloudDetailInputDecoder,
+    actions: userCloudDetailActions,
   },
   user_comment_history: {
     identifier: 'user_comment_history',
@@ -2894,18 +3045,21 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/user/playlist',
     execute: userPlaylistModule,
     decodeInput: userPlaylistInputDecoder,
+    actions: userPlaylistActions,
   },
   user_playlist_collect: {
     identifier: 'user_playlist_collect',
     route: '/user/playlist/collect',
     execute: userPlaylistCollectModule,
     decodeInput: userPlaylistCollectInputDecoder,
+    actions: userPlaylistCollectActions,
   },
   user_playlist_create: {
     identifier: 'user_playlist_create',
     route: '/user/playlist/create',
     execute: userPlaylistCreateModule,
     decodeInput: userPlaylistCreateInputDecoder,
+    actions: userPlaylistCreateActions,
   },
   user_record: {
     identifier: 'user_record',

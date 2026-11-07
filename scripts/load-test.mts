@@ -11,7 +11,7 @@ import { requestEffect } from '../src/core/request.ts';
 import avatarUpload, {
   decodeModuleInput as decodeAvatarInput,
 } from '../src/modules/avatar_upload.ts';
-import like from '../src/modules/like.ts';
+import like, { moduleActions as likeActions } from '../src/modules/like.ts';
 import search, {
   decodeModuleInput as decodeSearchInput,
   moduleActions as searchActions,
@@ -19,6 +19,7 @@ import search, {
 import type { ModuleDefinition, NcmApiResponse } from '../src/types/index.ts';
 import type { StartServerOptions } from '../src/types/server.ts';
 import { fingerprint, writeEvidence } from '../tests/_kit/evidence.ts';
+import { testEntropy } from '../tests/_kit/harness/sdk.ts';
 import { createFakeUpstream } from '../tests/_kit/upstream/loopback.ts';
 import type { FakeMode } from '../tests/_kit/upstream/loopback.ts';
 import {
@@ -114,6 +115,7 @@ const runLoad = async (soak: boolean) => {
     {
       identifier: 'like',
       route: '/like',
+      actions: likeActions,
       decodeInput: decodeLegacyModuleInput,
       execute: like,
     },
@@ -201,6 +203,7 @@ const runLoad = async (soak: boolean) => {
           }),
           Effect.updateService(Call, (call) => ({
             ...call,
+            execution: { ...call.execution, entropy: testEntropy },
             config: {
               ...call.config,
               crypto: 'api' as const,

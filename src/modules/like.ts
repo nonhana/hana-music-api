@@ -1,8 +1,8 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -20,6 +20,23 @@ export const ModuleBody = Schema.toStandardSchemaV1(
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
+
+export const moduleActions = {
+  like: {
+    target: '/api/radio/like',
+    profile: 'weapiPc',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  unlike: {
+    target: '/api/radio/like',
+    profile: 'weapiPc',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const like: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
   Effect.gen(function* () {
@@ -42,12 +59,9 @@ const like: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
       like: query.like,
       time: '3',
     };
+    const action = query.like ? 'like' : 'unlike';
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/radio/like`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent(action, moduleActions[action], data),
     );
     return {
       ...toModuleResponse(response),

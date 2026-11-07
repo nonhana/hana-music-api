@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -39,6 +39,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/sub/artist/new/works/mv/list',
+    profile: 'weapiPc',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
 const artistNewMv: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data = {
@@ -46,11 +56,7 @@ const artistNewMv: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       startTimestamp: query.before || Date.now(),
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/sub/artist/new/works/mv/list`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('read', moduleActions.read, data),
     );
     const body = yield* decodeUpstreamBody(
       'artist_new_mv',

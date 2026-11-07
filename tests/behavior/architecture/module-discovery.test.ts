@@ -14,6 +14,7 @@ import {
   generatedModuleRoutes,
   generatedPendingActionModuleIdentifiers,
 } from '../../../src/types/generated/module-surface.generated.ts';
+import libraryPlayback from '../../fixtures/requests/library-playback.json';
 
 const REAL_MODULES_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -27,24 +28,46 @@ describe('generated module type surface', () => {
       .filter((definition) => definition.actions !== undefined)
       .map((definition) => definition.identifier)
       .toSorted();
-    expect(declared).toEqual([
-      'album_sub',
-      'artist_sub',
-      'lyric',
-      'playlist_detail',
-      'playlist_subscribe',
-      'search',
-      'song_detail',
-    ]);
+    expect(declared).toEqual(
+      [
+        ...new Set(libraryPlayback.cases.map((entry) => entry.module)),
+        'album_sub',
+        'artist_sub',
+        'lyric',
+        'playlist_detail',
+        'playlist_subscribe',
+        'search',
+        'song_detail',
+      ].toSorted(),
+    );
+    for (const entry of libraryPlayback.cases.filter(
+      (candidate) => candidate.label === 'default',
+    )) {
+      const definition = loaded.find(
+        (candidate) => candidate.identifier === entry.module,
+      )!;
+      expect(Object.keys(definition.actions!)).not.toHaveLength(0);
+      for (const action of Object.values(definition.actions!)) {
+        expect(action).toMatchObject({
+          profile: entry.profile,
+          semantic: entry.semantic,
+          cache: 'none',
+          retry: entry.retry,
+        });
+      }
+    }
     expect(declared).toEqual([...generatedActionModuleIdentifiers].toSorted());
-    expect(generatedPendingActionModuleIdentifiers).toHaveLength(345);
+    expect(generatedPendingActionModuleIdentifiers).toHaveLength(268);
     for (const identifier of declared)
       expect(generatedPendingActionModuleIdentifiers).not.toContain(identifier);
-    expect(sdkModuleRegistry.playlist_subscribe.actions).toEqual(
-      loaded.find(
-        (definition) => definition.identifier === 'playlist_subscribe',
-      )?.actions,
-    );
+    for (const definition of loaded.filter(
+      (entry) => entry.actions !== undefined,
+    ))
+      expect(
+        sdkModuleRegistry[
+          definition.identifier as keyof typeof sdkModuleRegistry
+        ].actions,
+      ).toEqual(definition.actions);
   });
 
   test('recognizes named action exports in the generated registry', async () => {

@@ -4,8 +4,8 @@ import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { SongPrivilege } from '../core/upstream-schemas.ts';
@@ -30,6 +30,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/album/privilege',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
 const albumPrivilege: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
@@ -39,7 +49,7 @@ const albumPrivilege: ModuleEffect<ModuleInput, ModuleBody> = (
       id: query.id,
     };
     const response = yield* request(
-      buildApiRequestIntent(`/api/album/privilege`, data, createOption(query)),
+      buildActionRequestIntent('read', moduleActions.read, data),
     );
     const body = yield* decodeUpstreamBody(
       'album_privilege',

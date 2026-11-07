@@ -6,8 +6,8 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import {
   decodeUpstreamBody,
   kindOf,
@@ -50,18 +50,24 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/song/enhance/player/url',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
 const songUrl: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const ids = String(query.id).split(',');
     const response = yield* request(
-      buildApiRequestIntent(
-        '/api/song/enhance/player/url',
-        {
-          ids: JSON.stringify(ids),
-          br: parseInt(String(query.br ?? 999000), 10),
-        },
-        createOption(query),
-      ),
+      buildActionRequestIntent('read', moduleActions.read, {
+        ids: JSON.stringify(ids),
+        br: parseInt(String(query.br ?? 999000), 10),
+      }),
     );
     const upstream = response.body;
     if (!isRecord(upstream)) {

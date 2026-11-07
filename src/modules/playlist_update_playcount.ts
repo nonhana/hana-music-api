@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -17,6 +17,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  report: {
+    target: '/api/playlist/update/playcount',
+    profile: 'eapi',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
 const playlistUpdatePlaycount: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
@@ -26,11 +36,7 @@ const playlistUpdatePlaycount: ModuleEffect<ModuleInput, ModuleBody> = (
       id: query.id,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/update/playcount`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('report', moduleActions.report, data),
     );
     return {
       ...toModuleResponse(response),

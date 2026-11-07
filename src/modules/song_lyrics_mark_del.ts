@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -26,6 +26,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  delete: {
+    target: '/api/song/play/lyrics/mark/del',
+    profile: 'eapi',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
 const songLyricsMarkDel: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
@@ -35,11 +45,7 @@ const songLyricsMarkDel: ModuleEffect<ModuleInput, ModuleBody> = (
       markIds: query.id,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/song/play/lyrics/mark/del`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('delete', moduleActions.delete, data),
     );
     return {
       ...toModuleResponse(response),

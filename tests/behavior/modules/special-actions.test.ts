@@ -57,7 +57,7 @@ const requestFailures = [
 ];
 
 describe('special Effect module behavior', () => {
-  test('immutable call protocol overrides a module default protocol', async () => {
+  test('declared album profile owns the protocol despite a call override', async () => {
     const urls: Array<string> = [];
     const client = createHanaMusicApi({
       cookie: 'MUSIC_U=protocol',
@@ -81,7 +81,7 @@ describe('special Effect module behavior', () => {
       },
     });
     await client.album({ id: 1 });
-    expect(urls).toEqual(['https://interface.music.163.com/api/v1/album/1']);
+    expect(urls).toEqual(['https://music.163.com/weapi/v1/album/1']);
   });
 
   test.each([playlistTracks, loginQrCheck])(

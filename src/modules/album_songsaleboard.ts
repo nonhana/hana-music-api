@@ -4,8 +4,8 @@ import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -74,6 +74,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: { prefix: '/api/feealbum/songsaleboard/' },
+    profile: 'weapiPc',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
 const albumSongsaleboard: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
@@ -90,10 +100,11 @@ const albumSongsaleboard: ModuleEffect<ModuleInput, ModuleBody> = (
       };
     }
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/feealbum/songsaleboard/${type}/type`,
+      buildActionRequestIntent(
+        'read',
+        moduleActions.read,
         data,
-        createOption(query, 'weapi'),
+        `/api/feealbum/songsaleboard/${type}/type`,
       ),
     );
     const body = yield* decodeUpstreamBody(

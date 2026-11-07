@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -44,6 +44,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/song/music/detail/get',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
 const songMusicDetail: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
@@ -53,11 +63,7 @@ const songMusicDetail: ModuleEffect<ModuleInput, ModuleBody> = (
       songId: query.id,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/song/music/detail/get`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('read', moduleActions.read, data),
     );
     const body = yield* decodeUpstreamBody(
       'song_music_detail',

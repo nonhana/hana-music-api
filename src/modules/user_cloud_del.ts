@@ -1,10 +1,20 @@
 import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  delete: {
+    target: '/api/cloud/del',
+    profile: 'weapiPc',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const userCloudDel: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
@@ -12,11 +22,7 @@ const userCloudDel: ModuleEffect<ModuleInput> = (query, request) =>
       songIds: [query.id],
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/cloud/del`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('delete', moduleActions.delete, data),
     );
     return toModuleResponse(response);
   });

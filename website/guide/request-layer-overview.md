@@ -63,6 +63,8 @@ flowchart TD
 
 模块通过传入的 `RequestCapability` 提交它。这个名字表示模块拥有的请求能力，其默认实现就是 `requestEffect`。模块不直接调用 `fetch`，也不在内部启动另一套 Promise 执行器。
 
+曲库与播放的77个模块也会声明动作，由内核统一准备身份。它们保留原来的两种组合：weapi 使用浏览器 UA 和 PC Cookie，eapi 使用原来的 UA 与 PC Cookie；不会因为采用同一套声明就统一换成网页身份。普通配置里的 crypto、domain、ua、e_r、acceptGzip 及受控身份 Cookie 不再覆盖这些声明，会话和设备仍按本次调用传递。需要直接控制底层协议时使用 [createRequest](/guide/create-request-and-create-option)。这些模块继续独立执行，不会新增共享读取或自动重试。
+
 内核根据调用快照准备 URL、Cookie、请求头和加密正文，校验最终目标，再按策略执行请求。内核不在本地限制发送频率，每次尝试都直接发出；请求频率由调用方控制，见 [请求频率由调用方控制](/guide/retry-timeout-resilience#请求频率由调用方控制)。只有允许重试的操作和失败类型才会进入下一次尝试。
 
 ```mermaid

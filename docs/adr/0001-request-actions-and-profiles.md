@@ -1,6 +1,6 @@
 # ADR-0001：请求动作与客户端身份分别声明
 
-状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105)、[#106](https://github.com/nonhana/hana-music-api/issues/106) 和 [#109](https://github.com/nonhana/hana-music-api/issues/109) 的动作迁移。
+状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105)、[#106](https://github.com/nonhana/hana-music-api/issues/106) 、[#109](https://github.com/nonhana/hana-music-api/issues/109) 和 [#110](https://github.com/nonhana/hana-music-api/issues/110) 的动作迁移。
 
 ## 原因与决定
 
@@ -22,7 +22,7 @@
 
 保留 Promise、id/t 业务参数、status/body/cookie 外壳、返回体 Schema 和用户会话。普通配置不能再覆盖本模块的受控身份字段；这延续收藏模块原来强制网页请求的约定。本次不删除其他模块的公开配置字段；P12 删除公开字段时使用 major changeset，并保留显式低层 createRequest 及其目标和凭据外送校验。
 
-当前已迁移 playlist_subscribe、album_sub、artist_sub、search、lyric、song_detail、playlist_detail。其余 345 个模块由生成的 generatedPendingActionModuleIdentifiers 完整枚举；该清单只说明迁移范围，不代表所有模块已通过 profile 验收。旧默认协议、模块名缓存名单和 URI 语义判定仅供这些未迁移模块沿原执行链使用。P2、P5 及各领域批次完成后，P12 必须删除可选动作声明分支和旧判定，装配时要求每个模块声明所有实际动作；纯本地模块也不能省略空声明。
+当前已迁移84个模块：playlist_subscribe、album_sub、artist_sub、search、lyric、song_detail、playlist_detail 与 #110 的77个模块。其余 268 个模块由生成的 generatedPendingActionModuleIdentifiers 完整枚举；该清单只说明迁移范围，不代表所有模块已通过 profile 验收。旧默认协议、模块名缓存名单和 URI 语义判定仅供这些未迁移模块沿原执行链使用。P2、P5 及各领域批次完成后，P12 必须删除可选动作声明分支和旧判定，装配时要求每个模块声明所有实际动作；纯本地模块也不能省略空声明。
 
 ## P2：四个共享读取
 
@@ -39,3 +39,13 @@ checkToken 不再属于动作合同，未迁移模块也沿原链路获得同一
 weapi 的正文 checkToken 与 HTTP X-antiCheatToken 同值；eapi 同时写入加密 header.X-antiCheatToken，生成 Cookie 后才向加密头加 token，避免凭据外送。两者依据 #77 的既有调查。api 在表单、linuxapi 在加密转发 params 传值，并设置 HTTP 头；这是统一编码规则，无对应官方抓包或接受保证。已批准网易云 plain 请求仅在 HTTP 头传值；外部 NOS 不取值。token 自身触发安全 API 目标约束，不依赖账号 Cookie。模块输入和头的 token 清理不影响低层 createRequest 的原始正文/头合同。请求事件及传输/解码错误隐藏当前 token，provider 原始异常不外露。
 
 album_sub/artist_sub 分别声明 sub/unsub，固定 web、write、cache none、retry never。原协议和地址不变，但旧默认 Cookie 的 os=pc、appver/channel/osver 改为 os=web 并清除桌面字段，不能称为等价迁移。真实兼容与账号恢复按 issue-109 的 AC-13 独立验收，离线请求/响应证据不代替它。历史 #105/#107 按旧 token 合同通过的记录保留来源，当前策略按本票重新验收。
+
+## P6：曲库与播放保持现有协议和身份组合
+
+固定基线 c2c8fa1 中，本批38个 weapi 模块实际使用浏览器 UA 和默认 PC Cookie，另39个模块是 eapi 与既有默认身份组合。因此新增 weapiPc profile，复用 OS_PROFILES.pc 和既有 weapi UA；不套用会清除桌面字段的 web。沿用 eapi profile，两个组合都固定 e_r=false、无 x-aeapi，会话与设备按 Call 传递。基线不是官方客户端身份声明；默认组合保持，普通覆盖不再生效，用 major changeset 说明。唯一共享产品接缝是 profile registry 新增一项，没有改请求内核或低层 createRequest。
+
+77模块本地声明82个动作：红心/取消、导入 local/text/link/empty 和 sky/普通播放分别显式选择；其他数据分支复用同一动作并逐分支验收。动态路径给出规范化 prefix 边界。local 元数据导入仍创建上游任务，batch 更新仍是一请求内的三个子操作；本批没有纯本地或多请求模块。
+
+全部 cache=none。八个列表/查询读取虽然旧 URI 策略误标为写或上传，迁移后仍 retry=never，避免扩大上游自动重放；三条原来允许显式读取重试的 URI 保留 read，其余读取 connect，写与导入轮询 never。语义来自实际动作，不能从命名推断或让 read 自动授予共享资格。
+
+基线默认请求经最终编排和独立解码保存122份离线对照；候选另从生成 client/HTTP loader 验证。历史原始响应继续单独回放，云盘删除没有录制，合成样本只守返回与流量合同；不改 Schema，不把离线结果称为网易云当前可用。完整清单、来源和边界见 [验收依据](../acceptance/issue-110.md)。

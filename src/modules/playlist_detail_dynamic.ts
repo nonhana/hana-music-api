@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -26,6 +26,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/playlist/detail/dynamic',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'read',
+  },
+} as const satisfies ModuleActions;
+
 const playlistDetailDynamic: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
@@ -37,11 +47,7 @@ const playlistDetailDynamic: ModuleEffect<ModuleInput, ModuleBody> = (
       s: query.s || 8,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/detail/dynamic`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('read', moduleActions.read, data),
     );
     const body = yield* decodeUpstreamBody(
       'playlist_detail_dynamic',

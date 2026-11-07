@@ -91,7 +91,7 @@ const initial = () => [
 ];
 const page = (ids: Array<number>, more = false, times = 1) =>
   entry(
-    'api/user/playlist',
+    'weapi/user/playlist',
     { code: 200, playlist: ids.map((id) => ({ id })), more },
     times,
   );
@@ -169,7 +169,7 @@ test('anonymous budget counts initialization, is shared across files and blocks 
         },
         entry('api/toplist', { code: 200, list: [{ id: 3 }] }, 6),
         entry(
-          'api/artist/head/info/get',
+          'eapi/artist/head/info/get',
           { code: 200, data: { artist: { id: 6452 } } },
           5,
         ),
@@ -214,7 +214,7 @@ test('anonymous search, detail and lyric use the derived ID and catalog uses the
           expect(readEapiBody(wire.body).data).toMatchObject({ id: 7 }),
       },
       entry('api/toplist', { code: 200, list: [{ id: 1 }] }),
-      entry('api/artist/head/info/get', {
+      entry('eapi/artist/head/info/get', {
         code: 200,
         data: { artist: { id: 6452 } },
       }),

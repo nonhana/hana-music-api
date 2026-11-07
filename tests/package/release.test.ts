@@ -173,6 +173,7 @@ describe('sdk release contract', () => {
     }> = [];
     let consumerExit = 1;
     let browserEvidence: unknown;
+    const libraryPlayback: Array<unknown> = [];
 
     try {
       writeFileSync(
@@ -490,6 +491,43 @@ describe('sdk release contract', () => {
         runtimes.push({ ...output, exitCode: smokeResult.exitCode });
       }
 
+      writeFileSync(
+        resolve(consumerDirectory, 'library-playback.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/library-playback.mjs'),
+        ),
+      );
+      writeFileSync(
+        resolve(consumerDirectory, 'library-playback.json'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/requests/library-playback.json'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'library-playback.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 366,
+          providers: 122,
+          cases: 122,
+          modules: 77,
+        });
+        libraryPlayback.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
       const negativeImportScriptPath = resolve(
         consumerDirectory,
         'negative-import.mjs',
@@ -682,6 +720,7 @@ describe('sdk release contract', () => {
               .update(readFileSync(tarballPath))
               .digest('hex'),
             runtimes,
+            libraryPlayback,
             browser: browserEvidence,
             files: filePaths.map((path) => ({
               path,

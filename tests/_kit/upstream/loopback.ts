@@ -1,7 +1,7 @@
 import type { FetchLike } from '../../../src/types/index.ts';
 import { allowLoopback } from './offline.ts';
 import { withScenario } from './scenario.ts';
-import { readWireRequest } from './wire.ts';
+import { readWebBody, readWireRequest } from './wire.ts';
 
 export type FakeMode = 'healthy' | 'http429' | 'plain429' | 'slow-body';
 
@@ -35,7 +35,7 @@ export const createFakeUpstream = (delayMs = 50) => {
       response: success,
     },
     {
-      url: 'https://interface.music.163.com/api/radio/like',
+      url: 'https://music.163.com/weapi/radio/like',
       method: 'POST',
       response: () => Response.json({ code: 200, playlistId: 1, songs: [] }),
     },
@@ -133,8 +133,10 @@ export const createFakeUpstream = (delayMs = 50) => {
             {
               ...route,
               response: async (wire) => {
-                if (path === '/api/radio/like')
-                  writes.push(new URLSearchParams(wire.body).get('like') ?? '');
+                if (path === '/weapi/radio/like') {
+                  const payload = readWebBody(wire.body) as { like: boolean };
+                  writes.push(String(payload.like));
+                }
                 await Bun.sleep(delayMs);
                 if (selected === 'http429')
                   return Response.json(

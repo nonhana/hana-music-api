@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { PlaylistSummary } from '../core/upstream-schemas.ts';
@@ -18,6 +18,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  create: {
+    target: '/api/playlist/create',
+    profile: 'weapiPc',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
 const playlistCreate: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
@@ -29,11 +39,7 @@ const playlistCreate: ModuleEffect<ModuleInput, ModuleBody> = (
       type: query.type || 'NORMAL', // 默认 NORMAL, VIDEO 视频歌单, SHARED 共享歌单
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/create`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('create', moduleActions.create, data),
     );
     return {
       ...toModuleResponse(response),

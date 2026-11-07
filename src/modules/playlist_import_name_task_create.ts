@@ -1,8 +1,8 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -28,6 +28,37 @@ export const ModuleBody = Schema.toStandardSchemaV1(
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
+
+export const moduleActions = {
+  local: {
+    target: '/api/playlist/import/name/task/create',
+    profile: 'eapi',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  text: {
+    target: '/api/playlist/import/name/task/create',
+    profile: 'eapi',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  link: {
+    target: '/api/playlist/import/name/task/create',
+    profile: 'eapi',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  empty: {
+    target: '/api/playlist/import/name/task/create',
+    profile: 'eapi',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const playlistImportNameTaskCreate: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
@@ -100,12 +131,15 @@ const playlistImportNameTaskCreate: ModuleEffect<ModuleInput, ModuleBody> = (
         songs,
       };
     }
+    const action = query.local
+      ? 'local'
+      : query.link
+        ? 'link'
+        : query.text
+          ? 'text'
+          : 'empty';
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/import/name/task/create`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent(action, moduleActions[action], data),
     );
     return {
       ...toModuleResponse(response),

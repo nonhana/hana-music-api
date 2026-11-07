@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -31,6 +31,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/playmode/intelligence/list',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
 const playmodeIntelligenceList: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
@@ -44,11 +54,7 @@ const playmodeIntelligenceList: ModuleEffect<ModuleInput, ModuleBody> = (
       count: query.count || 1,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playmode/intelligence/list`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('read', moduleActions.read, data),
     );
     const body = yield* decodeUpstreamBody(
       'playmode_intelligence_list',

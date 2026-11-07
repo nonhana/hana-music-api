@@ -1,8 +1,8 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -27,6 +27,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
+
+export const moduleActions = {
+  batch: {
+    target: '/api/batch',
+    profile: 'eapi',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
   input,
@@ -86,7 +96,7 @@ const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
       '/api/playlist/update/name': `{"id":${String(query.id)},"name":"${String(query.name)}"}`,
     };
     const response = yield* request(
-      buildApiRequestIntent(`/api/batch`, data, createOption(query)),
+      buildActionRequestIntent('batch', moduleActions.batch, data),
     );
     return {
       ...toModuleResponse(response),

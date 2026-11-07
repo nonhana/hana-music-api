@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -42,6 +42,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  match: {
+    target: '/api/cloud/user/song/match',
+    profile: 'weapiPc',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
 const cloudMatch: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data = {
@@ -50,11 +60,7 @@ const cloudMatch: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       adjustSongId: query.asid,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/cloud/user/song/match`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('match', moduleActions.match, data),
     );
     return {
       ...toModuleResponse(response),
