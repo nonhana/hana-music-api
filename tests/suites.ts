@@ -14,6 +14,16 @@ export interface TestEntry {
 // Every physical test file has one category; selections may share that file.
 export const testEntries: ReadonlyArray<TestEntry> = [
   {
+    file: 'tests/behavior/tooling/browser-types.test.ts',
+    category: 'behavior',
+    selections: ['local', 'browser-types', 'mutation:browser-types'],
+  },
+  {
+    file: 'tests/behavior/browser/watchman.test.ts',
+    category: 'behavior',
+    selections: ['local', 'watchman', 'mutation:watchman'],
+  },
+  {
     file: 'tests/behavior/runtime/shared-read-actions.test.ts',
     category: 'behavior',
     selections: ['local', 'smoke', 'mutation:shared-reads'],
@@ -577,6 +587,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
 ];
 
 export const typecheckFiles = [
+  'tests/package/types/watchman-browser.typecheck.ts',
   'tests/package/types/module-api.typecheck.ts',
   'tests/package/types/playlist-summary.typecheck.ts',
   'tests/package/types/public-entry.typecheck.ts',

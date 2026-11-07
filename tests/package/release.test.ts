@@ -11,6 +11,8 @@ import {
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
+import { chromium } from 'playwright';
+
 import { findForbiddenArtifactSymbols } from '../_kit/artifacts.ts';
 import { projectRoot } from '../_kit/assertions.ts';
 import { fingerprint, writeEvidence } from '../_kit/evidence.ts';
@@ -55,11 +57,11 @@ const FORBIDDEN_ROOT_EXPORTS = [
   'loadProgrammaticApi',
   'NeteaseCloudMusicApi',
 ];
-const EXPECTED_EXPORT_PATHS = ['.'];
+const EXPECTED_EXPORT_PATHS = ['.', './watchman'];
 
 describe('sdk release contract', () => {
   beforeAll(ensureBuiltArtifacts, 60_000);
-  test('should expose only the root package entrypoint as the public ESM boundary', () => {
+  test('should expose the root and isolated watchman package entrypoints', () => {
     const exportMap = sdkPackage.exports ?? {};
 
     expect(sdkPackage.name).toBe('hana-music-api');
@@ -70,6 +72,10 @@ describe('sdk release contract', () => {
     expect(exportMap['.']).toEqual({
       types: './dist/index.d.ts',
       default: './dist/index.js',
+    });
+    expect(exportMap['./watchman']).toEqual({
+      types: './dist/watchman.d.ts',
+      default: './dist/watchman.js',
     });
   });
 
@@ -146,6 +152,9 @@ describe('sdk release contract', () => {
     expect(filename.length).toBeGreaterThan(0);
     expect(filePaths).toContain('dist/index.d.ts');
     expect(filePaths).toContain('dist/index.js');
+    expect(filePaths).toContain('dist/watchman.js');
+    expect(filePaths).toContain('dist/watchman.d.ts');
+    expect(filePaths.some((file) => file.endsWith('/tool.min.js'))).toBe(false);
     expect(filePaths.some((file) => file.startsWith('docs/'))).toBe(false);
     expect(filePaths.some((file) => file.startsWith('src/server/'))).toBe(
       false,
@@ -163,6 +172,7 @@ describe('sdk release contract', () => {
       status: number;
     }> = [];
     let consumerExit = 1;
+    let browserEvidence: unknown;
 
     try {
       writeFileSync(
@@ -188,6 +198,221 @@ describe('sdk release contract', () => {
           resolve(consumerDirectory, 'node_modules/hana-music-api/dist'),
         ),
       ).toEqual([]);
+
+      const importScript = resolve(consumerDirectory, 'watchman-import.mjs');
+      writeFileSync(
+        importScript,
+        `
+        import { strict as assert } from 'node:assert';
+        for (const name of ['window', 'document']) Object.defineProperty(globalThis, name, {
+          configurable: true, get() { throw new Error('DOM accessed at import'); }
+        });
+        const root = await import('hana-music-api');
+        const { initializeWatchman, WatchmanError } = await import('hana-music-api/watchman');
+        assert.equal(root.initializeWatchman, undefined);
+        for (const name of ['window', 'document']) delete globalThis[name];
+        await assert.rejects(initializeWatchman(), error => error instanceof WatchmanError && error.code === 'environment');
+      `,
+      );
+      for (const runtime of ['node', 'bun']) {
+        const imported = run(
+          [runtime, '--import', OFFLINE_PROCESS_PATH, importScript],
+          consumerDirectory,
+        );
+        expect(imported.exitCode, imported.stderr).toBe(0);
+      }
+
+      const browserEntry = resolve(consumerDirectory, 'browser-entry.mjs');
+      writeFileSync(
+        browserEntry,
+        "import { initializeWatchman } from 'hana-music-api/watchman'; globalThis.initializeWatchman = initializeWatchman;",
+      );
+      const browserBuild = await Bun.build({
+        entrypoints: [browserEntry],
+        target: 'browser',
+        format: 'esm',
+        metafile: true,
+      });
+      expect(browserBuild.success).toBe(true);
+      expect(browserBuild.metafile).toBeDefined();
+      const browserInputs = Object.keys(browserBuild.metafile!.inputs);
+      expect(
+        browserInputs.some((path) =>
+          /(?:node:|\/effect\/|\/hono\/|\/src\/core\/)/.test(path),
+        ),
+      ).toBe(false);
+      expect(
+        Object.values(browserBuild.metafile!.inputs)
+          .flatMap((entry) => entry.imports)
+          .filter((entry) => entry.external),
+      ).toEqual([]);
+      writeFileSync(
+        resolve(packageDirectory, 'browser-metafile.json'),
+        JSON.stringify(browserBuild.metafile, null, 2),
+      );
+      const browserSource = await browserBuild.outputs[0]!.text();
+      const browser = await chromium.launch();
+      try {
+        const context = await browser.newContext({ serviceWorkers: 'block' });
+        const unexpected: Array<string> = [];
+        let scriptLoads = 0;
+        await context.route('**/*', async (route) => {
+          const url = route.request().url();
+          if (url === 'http://127.0.0.1:31808/') {
+            await route.fulfill({
+              contentType: 'text/html',
+              headers: {
+                'Content-Security-Policy':
+                  "default-src 'none'; script-src 'nonce-watchman-nonce'; connect-src 'none'",
+              },
+              body: '<script nonce="watchman-nonce" type="module" src="/browser.js"></script>',
+            });
+          } else if (url === 'http://127.0.0.1:31808/browser.js') {
+            await route.fulfill({
+              contentType: 'text/javascript',
+              body: browserSource,
+            });
+          } else if (url === 'https://acstatic-dun.126.net/tool.min.js') {
+            scriptLoads++;
+            await route.fulfill({
+              contentType: 'text/javascript',
+              body: `
+              let calls = 0;
+              window.initWatchman = options => options.onload({ getToken(key, callback) {
+                if (key !== 'bd5d2f973ef74cd2a61325a412ae54d9') throw new Error('wrong business key');
+                callback('package-token-' + ++calls);
+              }});
+            `,
+            });
+          } else {
+            unexpected.push(url);
+            await route.abort();
+          }
+        });
+        const page = await context.newPage();
+        const pageErrors: Array<string> = [];
+        page.on('pageerror', (error) => pageErrors.push(error.message));
+        await page.goto('http://127.0.0.1:31808/');
+        await page.waitForFunction('Boolean(window.initializeWatchman)');
+        const result = await page.evaluate(`(async () => {
+          const client = await window.initializeWatchman({ nonce: 'watchman-nonce', timeoutMs: 1000 });
+          const first = await client.getToken();
+          const second = await client.getToken();
+          return { first, second, nonce: [...document.scripts].find(script => script.src.endsWith('/tool.min.js')).nonce };
+        })()`);
+        expect(result).toEqual({
+          first: 'package-token-1',
+          second: 'package-token-2',
+          nonce: 'watchman-nonce',
+        });
+        expect(scriptLoads).toBe(1);
+        expect(unexpected).toEqual([]);
+        expect(pageErrors).toEqual([]);
+        browserEvidence = {
+          version: browser.version(),
+          scriptLoads,
+          nonce: 'watchman-nonce',
+          inputs: browserInputs,
+        };
+        await context.close();
+      } finally {
+        await browser.close();
+      }
+
+      const watchmanTypeSource = `
+        import { initializeWatchman, WatchmanError, type WatchmanClient, type WatchmanOptions, type WatchmanErrorCode } from 'hana-music-api/watchman';
+        const options: WatchmanOptions = { productNumber: 'example', protocol: 'https', nonce: 'nonce', businessKey: 'key', timeoutMs: 1000, tokenTimeoutMs: 1000 };
+        const pending: Promise<WatchmanClient> = initializeWatchman(options);
+        const token: Promise<string> = pending.then(client => client.getToken());
+        const code: WatchmanErrorCode = new WatchmanError('environment').code;
+        void token; void code;
+        // @ts-expect-error Only http and https are initialization protocols.
+        initializeWatchman({ protocol: 'ftp' });
+        // @ts-expect-error The nonce must be a string.
+        initializeWatchman({ nonce: 7 });
+        // @ts-expect-error Device metadata is not an initialization option.
+        initializeWatchman({ deviceId: 'device' });
+        // @ts-expect-error The callback API stays behind the Promise facade.
+        pending.then(client => client.getToken('key', () => {}));
+        // @ts-expect-error Device metadata is not public.
+        pending.then(client => client.WM_DID);
+      `;
+      writeFileSync(
+        resolve(consumerDirectory, 'watchman-types.ts'),
+        watchmanTypeSource +
+          `
+          // @ts-expect-error The public declaration must not introduce DOM document globals.
+          void document;
+          // @ts-expect-error The public declaration must not introduce DOM window globals.
+          void window;
+        `,
+      );
+      const watchmanTypes = run(
+        [
+          'node',
+          TSC_CLI_PATH,
+          '--noEmit',
+          '--strict',
+          '--skipLibCheck',
+          'false',
+          '--target',
+          'ES2022',
+          '--lib',
+          'ES2022',
+          '--types',
+          '',
+          '--module',
+          'NodeNext',
+          '--moduleResolution',
+          'NodeNext',
+          'watchman-types.ts',
+        ],
+        consumerDirectory,
+      );
+      expect(
+        watchmanTypes.exitCode,
+        watchmanTypes.stdout + watchmanTypes.stderr,
+      ).toBe(0);
+
+      writeFileSync(
+        resolve(consumerDirectory, 'watchman-browser-types.ts'),
+        watchmanTypeSource +
+          `
+          const script: HTMLScriptElement = document.createElement('script');
+          const browserClient: Promise<WatchmanClient> = initializeWatchman({ nonce: script.nonce });
+          void browserClient;
+          // @ts-expect-error Browser consumers must not acquire Bun globals.
+          void Bun.version;
+          // @ts-expect-error Browser consumers must not acquire Node globals.
+          void process.pid;
+        `,
+      );
+      const browserTypes = run(
+        [
+          'node',
+          TSC_CLI_PATH,
+          '--noEmit',
+          '--strict',
+          '--skipLibCheck',
+          'false',
+          '--target',
+          'ES2022',
+          '--lib',
+          'ES2022,DOM,DOM.Iterable',
+          '--types',
+          '',
+          '--module',
+          'NodeNext',
+          '--moduleResolution',
+          'NodeNext',
+          'watchman-browser-types.ts',
+        ],
+        consumerDirectory,
+      );
+      expect(
+        browserTypes.exitCode,
+        browserTypes.stdout + browserTypes.stderr,
+      ).toBe(0);
 
       const smokeScriptPath = resolve(consumerDirectory, 'smoke.mjs');
       writeFileSync(
@@ -448,6 +673,7 @@ describe('sdk release contract', () => {
               .update(readFileSync(tarballPath))
               .digest('hex'),
             runtimes,
+            browser: browserEvidence,
             files: filePaths.map((path) => ({
               path,
               sha256: createHash('sha256')
@@ -461,7 +687,7 @@ describe('sdk release contract', () => {
       );
       rmSync(consumerDirectory, { force: true, recursive: true });
     }
-  }, 30_000);
+  }, 60_000);
 
   test('should load and answer first calls from a single-file serverless bundle without touching the filesystem', async () => {
     // 云函数打包会把 SDK 和依赖合成单个文件，周围既没有 package.json，也不保证能读写临时目录。
@@ -476,8 +702,14 @@ describe('sdk release contract', () => {
         naming: 'function.mjs',
         outdir: functionDirectory,
         target: 'node',
+        metafile: true,
       });
       expect(bundle.success).toBe(true);
+      expect(
+        Object.keys(bundle.metafile!.inputs).some((path) =>
+          /watchman|\/browser\//.test(path),
+        ),
+      ).toBe(false);
 
       const coldStart = run(
         [
@@ -509,8 +741,10 @@ const readPackageJson = (): PackageJsonLike =>
 
 const sdkPackage = readPackageJson();
 
-const ensureBuiltArtifacts = (): void => {
+const ensureBuiltArtifacts = async (): Promise<void> => {
+  const before = await fingerprint(projectRoot);
   const buildResult = run(['bun', 'run', 'build'], projectRoot);
+  expect(await fingerprint(projectRoot)).toEqual(before);
   expect(buildResult.exitCode, buildResult.stderr).toBe(0);
 };
 

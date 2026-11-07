@@ -10,7 +10,7 @@
 - `tests/transport/`：默认适配器、代理、真实 loopback socket 与有限 load；`scripts/load-test.mts` 执行 500 次 smoke 和十分钟 soak，判定规则在 `tests/unit/testing/load-acceptance.test.ts`。
 - `tests/package/`：当前候选 tarball 的 Node/Bun 消费者、公开类型/导出与单文件 serverless；`types/` 下文件由 tsc 检查。
 - `tests/live/`：真实上游门控验证，不属于默认回归；条件与证据另记。
-- `tests/mutation/`：定向故障与关联测试的登记，检查测试辨别力，不复制业务测试；CLI 为 `bun scripts/mutation-test.mts --all`（或 `--target playlist-subscribe|shared-reads|upload`、`--dry-run`）。
+- `tests/mutation/`：定向故障与关联测试的登记，检查测试辨别力，不复制业务测试；CLI 为 `bun scripts/mutation-test.mts --all`（或 `--target playlist-subscribe|shared-reads|upload|watchman|browser-types`、`--dry-run`）。
 - `tests/_kit/`：Effect 测试的统一入口；测试中的 `Effect.run*` 和 Layer 提供应集中在 kit 内。返回体契约测试判断“结构不符”的断言用 `assertions.ts` 的 `expectUpstreamShapeRejection`，录制文件和导出结构定义的类型用同一文件的 `Recording`、`Validator`；回放录制用 `replay.ts` 的 `replay`/`replayRaw`。
 
 ## 基线命令
@@ -19,8 +19,9 @@
 - 模块生成检查：`bun run types:modules:check`。
 - 结构定义与录制审计：`bun run schema:audit check` 检查结构定义写法，`bun run schema:audit recordings --recordings tests/fixtures/netease` 用本仓库录制回放校验。`schema:audit` 的默认录制根是 Campanula 仓库的 `../campanula-svelte-main/tests/fixtures/netease`，在 SDK 仓库里运行必须显式传 `--recordings tests/fixtures/netease`。
 - Fixtures 门槛：`bun run verify:fixtures`（`bun run schema:audit check && bun run schema:audit recordings --recordings tests/fixtures/netease`），只依赖本仓库 fixtures。
-- 类型、静态检查和格式：`bun run typecheck`、`bun run lint`、`bun run spell`、`bun run fmt:check`。
+- 类型、静态检查和格式：`bun run typecheck`、`bun run lint`、`bun run spell`、`bun run fmt:check`。typecheck 串行检查 Bun/Node 与完整 DOM 两个工程；服务端不得获得 DOM 全局，浏览器不得自动获得 Bun/Node 全局。配置控制样本从实际命令验证两个阶段都能阻止错误。
 - 完整仓库验证：`bun run verify`（含 `bun run schema:audit check`）。
+- 浏览器专项：`bun run test:watchman` 用 Playwright Chromium 与受控官方脚本覆盖公开入口，不访问真实 Watchman；浏览器包消费者和 CSP 同时纳入 local/sdk 集合。首次安装命令见 BUILD.md。
 - SDK 与发布验证：`bun run verify:sdk`、`bun run test:sdk-contract`、`bun run build:check`。
 
 `verify`、`verify:sdk` 和 `build:check` 都会写入或读取构建输出；需要串行运行，上一条通过后再运行下一条。
@@ -98,7 +99,7 @@
 
 ## 执行清单与证据
 
-`tests/suites.ts` 登记每个物理测试文件的主类别和命令选择。新增、移动测试时同步清单，三个类型检查文件仍由 tsc 执行。runner 拒绝漏登记、重复登记、空选择、only、todo、必要测试 skip、缺失或不一致的 JUnit，以及子进程失败。
+`tests/suites.ts` 登记每个物理测试文件的主类别和命令选择。新增、移动测试时同步清单，typecheckFiles 中的类型用例由所属的 Bun/Node 或 DOM 工程通过 tsc 检查。runner 拒绝漏登记、重复登记、空选择、only、todo、必要测试 skip、缺失或不一致的 JUnit，以及子进程失败。
 
 测试文件默认按清单串行运行在独立 Bun 子进程，避免旧测试的全局替换与运行时状态跨文件泄漏。每个文件保留 Bun 原生 JUnit，runner 校验后汇总；命令数组与每个子进程的日志都保留。
 

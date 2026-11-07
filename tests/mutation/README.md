@@ -6,11 +6,15 @@
 bun scripts/mutation-test.mts --target playlist-subscribe
 bun scripts/mutation-test.mts --target shared-reads
 bun scripts/mutation-test.mts --target upload
+bun scripts/mutation-test.mts --target watchman
+bun scripts/mutation-test.mts --target browser-types
 bun scripts/mutation-test.mts --all
 bun scripts/mutation-test.mts --all --dry-run
 ```
 
 CLI 从当前候选（含未提交、非忽略未跟踪文件）建立临时副本，只读复用依赖，预加载 offline 防护；先运行对应有限测试基线。补丁须精确命中一次，每个故障执行后恢复副本，结束时核对原工作区内容指纹。测试关联只在 `tests/suites.ts` 的 mutation selection 登记。
+
+browser-types 的两个有限故障分别省略浏览器和服务端 typecheck 阶段，关联用例必须发现该环境中的错误被放行；类型环境混合导致编译失败不充当有效 killed。
 
 | 结果       | 含义                                                    |
 | ---------- | ------------------------------------------------------- |

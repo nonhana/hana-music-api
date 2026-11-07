@@ -37,6 +37,11 @@ import type {
 } from '../../../src/types/runtime.ts';
 import type { UnknownJson } from '../../../src/types/unknown.ts';
 
+// @ts-expect-error The server project must not acquire browser document globals.
+void document;
+// @ts-expect-error The server project must not acquire browser window globals.
+void window;
+
 const localInputMatches: ModuleInputOf<'search'> extends SearchInput
   ? true
   : never = true;
