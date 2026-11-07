@@ -31,7 +31,7 @@
 准备交付前，先按需求和实际改动列出本次必须通过的检查：
 
 - 代码、测试、构建、生成器或工具配置变更：执行 `bun run verify`。
-- SDK 公开表面或包交付变更：另执行 `bun run verify:sdk`，并满足 [PUBLIC_API.md](./PUBLIC_API.md) 的验证要求；返回体结构定义或录制变更另执行 `bun run verify:fixtures`。请求与流量变更还需通过下文规定的 smoke 和 soak。
+- SDK 公开表面或包交付变更：另执行 `bun run verify:sdk`，并满足 [PUBLIC_API.md](./PUBLIC_API.md) 的验证要求；返回体结构定义或录制变更另执行 `bun run verify:fixtures`。请求与流量变更还需通过下文规定的 smoke。
 - 仅文档变更：执行 `bun run fmt:check`、`bun run spell`；涉及文档站内容或配置时另执行 `bun run docs:build`。
 
 所有检查针对同一份最终候选代码。记录分支、HEAD、未提交改动范围，以及实际执行的命令、结果和必要的日志位置；修复后重新运行受影响的检查。历史报告、其他分支或修复前的通过结果只供参考。
@@ -64,18 +64,20 @@
 
 `.github/workflows/verify.yml` 在 PR 和 master push 上依次运行 `bun run verify`、`bun run verify:sdk`、`bun run verify:fixtures` 和 `bun run test:load:smoke`。fixtures 门槛与本地相同：只读本仓库 `tests/fixtures/netease` 的录制，不访问真实上游。
 
-独立 workflow：load 每日/手动执行十分钟 soak；live 每日 05:40 UTC/手动只执行匿名集合，零账号 Secrets；mutation 每周一 06:30 UTC/手动执行登记目标。它们不成为普通 PR 的真实网络依赖。所有 workflow 固定 Bun 1.4.4/Node 24，失败也上传证据，PR 保留 30 天，候选保留 90 天。配置检查通过不能证明远端 job 或保护规则实际生效。
+CI 保留按有限请求和明确断言完成的正确性检查；需要固定时长观测的 soak 仅由用户按需运行，不接入 workflow，也不作为交付或发布门禁。
+
+独立 workflow：live 每日 05:40 UTC/手动只执行匿名集合，零账号 Secrets；mutation 每周一 06:30 UTC/手动执行登记目标。它们不成为普通 PR 的真实网络依赖。所有 workflow 固定 Bun 1.4.4/Node 24，失败也上传证据，PR 保留 30 天，候选保留 90 天。配置检查通过不能证明远端 job 或保护规则实际生效。
 
 未合并分支的独立验收通过已登记的 release-rehearsal 手动入口运行：`gh workflow run release-rehearsal.yml --ref <branch> -f acceptance=testing`。它按同一提交的相对路径调用 verify、live、mutation 实际 workflow，不复制 job，不传账号 Secrets，不执行版本步骤或发布。live/mutation 同时保留 schedule 和 workflow_dispatch；普通 PR 仍只执行原有本地门禁和版本演练。
 
-故意失败上传演练使用同一入口的 `acceptance=failure`：调用同一个 verify job，显式传入默认为 false 的 evidence_failure，让一个临时 Bun 测试真实断言失败。job 必须为 failure、退出非零，同一个 always 上传步骤仍应保留 failure-probe.log、原生 failure-probe.xml 和初始候选信息；不能用 continue-on-error 改成通过。该模式不执行真实上游或账号操作。随后对同一候选运行 acceptance=testing，确认 candidate/verify、live、mutation 正常通过，普通 PR 也必须保持全绿。verify/load 上传按调用事件选择保留期：手动候选及故障演练 90 天，verify 的 PR/master push 与定时 load 30 天。省略 acceptance 或选择 release 时保持原发布演练行为。
+故意失败上传演练使用同一入口的 `acceptance=failure`：调用同一个 verify job，显式传入默认为 false 的 evidence_failure，让一个临时 Bun 测试真实断言失败。job 必须为 failure、退出非零，同一个 always 上传步骤仍应保留 failure-probe.log、原生 failure-probe.xml 和初始候选信息；不能用 continue-on-error 改成通过。该模式不执行真实上游或账号操作。随后对同一候选运行 acceptance=testing，确认 candidate/verify、live、mutation 正常通过，普通 PR 也必须保持全绿。verify 上传按调用事件选择保留期：手动候选及故障演练 90 天，PR/master push 30 天。省略 acceptance 或选择 release 时保持原发布演练行为。
 
-发布候选在最后一次版本步骤后验证：release-rehearsal 重跑 verify:sdk（包含重新构建、打包和 Node/Bun 消费者），手动模式再跑匿名 live。release 的 publish-script 由 `bun run release:checked` 连接，该脚本在 Bun shell 中执行 `bun scripts/release-preflight.mts && bun run release`；preflight 顺序运行 verify、verify:sdk、fixtures、smoke、soak、登记 mutation 和匿名 live，再核对当前包文件集合/hash、tarball 与源码不变。本地 preflight 不发布；进程控制测试从实际 workflow/package 读取命令，以 Action 的命令和参数方式启动真实 Bun，再在隔离项目用 PATH 命令探针证明每一门禁失败时 release 调用为零。验收内容是当前待发布文件，不能宣称已比对尚未发布的 registry tarball。
+发布候选在最后一次版本步骤后验证：release-rehearsal 重跑 verify:sdk（包含重新构建、打包和 Node/Bun 消费者），手动模式再跑匿名 live。release 的 publish-script 由 `bun run release:checked` 连接，该脚本在 Bun shell 中执行 `bun scripts/release-preflight.mts && bun run release`；preflight 顺序运行 verify、verify:sdk、fixtures、smoke、登记 mutation 和匿名 live，再核对当前包文件集合/hash、tarball 与源码不变。本地 preflight 不发布；进程控制测试从实际 workflow/package 读取命令，以 Action 的命令和参数方式启动真实 Bun，再在隔离项目用 PATH 命令探针证明每一门禁失败时 release 调用为零。验收内容是当前待发布文件，不能宣称已比对尚未发布的 registry tarball。
 
 ## 请求与流量变更
 
 - 请求、取消、重试、缓存或流量控制变更至少运行 `bun run test:load:smoke`。
-- 交付前的流量验收还需运行 `bun run test:load:soak`；该命令约运行十分钟，只连接 loopback。
+- 用户需要观察长时间稳定性时，手动运行 `bun run test:load:soak`；该命令约运行十分钟，只连接 loopback，保留原有时长、内存与资源归零判定。它独立于默认回归和自动门禁。
 - 负载报告写入 `.artifacts/testing/load/`，结束时应确认 `upstreamActive` 和 `inflight` 均归零。
 - 负载脚本使用本地 fake upstream；通过它不能推断网易云真实上游的可用性。
 

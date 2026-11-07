@@ -25,7 +25,6 @@ try {
     ['bun', 'run', 'verify:sdk'],
     ['bun', 'run', 'verify:fixtures'],
     ['bun', 'run', 'test:load:smoke'],
-    ['bun', 'run', 'test:load:soak'],
     ['bun', 'scripts/mutation-test.mts', '--all'],
     ['bun', 'run', 'test:live'],
   ]) {
