@@ -2,7 +2,7 @@
 
 来源：用户 2026-11-07 的实施指令与 `_notes/testing-architecture/implementation-plan.md`；上一 Session 的只授权计划状态已被本次实施授权更新。
 
-基线：`feature/refactor`，`fb10b0052f05627307310cb307995f77762211a4`，工作区干净，98 个测试与 3 个类型文件，无漂移。允许仓库内实施与验证、有限匿名只读 live；未授权提交、推送、PR、关票、合并、发布、远端配置或真实账号操作。
+基线：`feature/refactor`，`fb10b0052f05627307310cb307995f77762211a4`，工作区干净，98 个测试与 3 个类型文件，无漂移。初始授权为仓库内实施与验证、有限匿名只读 live；当时未授权提交、推送、PR、关票、合并、发布、远端配置或真实账号操作。后续用户已分别授权并完成 E1、提交推送、PR 和独立 CI 验收，具体记录见 [实施记录](runs/testing-system.md)；合并、发布、关票及远端配置仍未执行。
 
 范围为 Slice 1–11；非目标和架构方向沿用计划。
 
@@ -20,7 +20,7 @@
 | AC-10 | 三个试点的定向变异能识别预期错误；已知存活样本能存活；无效/超时/工具错误不冒充断言 kill；原工作区未被改写。                                                  | unit/testing/mutation 八个进程控制；mutation/targets 五故障、expectedFailures 与原生 JUnit assertion；原工作区指纹      | 适用，测试系统整体实施 | 本地候选与计划所列 Verification                | [当次结论](runs/testing-system.md#最终逐项结论) |
 | AC-11 | 匿名 live 从候选包获得有效、与请求对应的数据；没有使用替身；报告绑定 tarball/源码/身份类别/时间。                                                            | live/anonymous search-to-detail/catalog；安装后的 tarball，实际 6 请求含匿名注册，live summary/JUnit/包 hash            | 适用，测试系统整体实施 | 本地候选与计划所列 Verification                | [当次结论](runs/testing-system.md#最终逐项结论) |
 | AC-12 | E1：在用户提供当次账号、token、对象与授权后，登录身份确认、一次收藏/读回/取消/恢复有真实证据；失败停止且恢复状态可确认。缺条件就是阻塞，不能回退为本地通过。 | live/authenticated/account 与 writes/playlist-subscribe-cycle；控制测试不替代当次真实身份/目标/恢复 E1                  | 适用，测试系统整体实施 | E1：当次账号、身份、token、目标和写入/恢复授权 | [当次结论](runs/testing-system.md#最终逐项结论) |
-| AC-13 | PR 实际 CI 执行完整本地门禁；定期/手动 live、mutation、soak 独立运行并保留失败 artifacts；最终候选的发布前检查不能被旧版本报告替代。                         | 六个 workflow、release-preflight、11 PATH 进程控制与 manifest/hash；真实远端 job/失败 artifact 仍待授权执行             | 适用，测试系统整体实施 | 授权的远端运行                                 | [当次结论](runs/testing-system.md#最终逐项结论) |
+| AC-13 | PR 实际 CI 执行完整本地门禁；定期/手动 live、mutation、soak 独立运行并保留失败 artifacts；最终候选的发布前检查不能被旧版本报告替代。                         | 六个 workflow、release-preflight、进程控制与 manifest/hash；真实 PR、独立专项与失败 artifact 已验收                     | 适用，测试系统整体实施 | 授权的远端运行                                 | [当次结论](runs/testing-system.md#最终逐项结论) |
 | AC-14 | hana-implement 对 ticket、plan、提示词产生同样完整的验收表；无强制开票、无全局 skill 绝对依赖；审查覆盖所有任务改动。                                        | hana-implement 及 review/input-cases；skill/{ticket,plan,prompt}/recheck.md、comparison.json 的原始来源与五核心 AC 对照 | 适用，测试系统整体实施 | 本地候选与计划所列 Verification                | [当次结论](runs/testing-system.md#最终逐项结论) |
 | AC-15 | skill 的仅计划、缺凭据、未提交改动、用户既有改动、文档任务与已有授权演练全部符合预期。                                                                       | 九项桌面演练的实际矩阵/决策；隔离 Git 四类 diff、草稿/index/status/hash 保持；文档/计划/凭据/提交边界                   | 适用，测试系统整体实施 | 本地候选与计划所列 Verification                | [当次结论](runs/testing-system.md#最终逐项结论) |
 | AC-16 | 当前候选 verify、verify:sdk、fixtures、smoke、soak 和适用专项均通过，lint 0 warning/0 error；双轴审查无阻断项。                                              | 冻结候选后串行 types check + preflight 七门禁与 manifest；独立 standards/requirements/migration 审查、修复/重验         | 适用，测试系统整体实施 | 本地候选与计划所列 Verification                | [当次结论](runs/testing-system.md#最终逐项结论) |

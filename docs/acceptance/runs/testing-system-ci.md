@@ -95,3 +95,13 @@ CI-01～04、AC-13 的独立远端待办已取得实际证据。本地完整门�
 记录本身的 `bun run fmt:check` 和 `bun run spell` 也已退出 0。首次拼写检查在新增正文的 shell 选项名称上报 1 issue，已改为中文说明后原强度重跑通过；原失败保存在 records-spell-red.log，最终结果为 records-fmt.log、records-spell.log，没有修改字典或忽略范围。
 
 原始索引为 `.artifacts/testing/ci-acceptance/dispatches.json`、`local-final-proof.json`、`failure-upload-proof.json`、`proof-42347563456.json`、`proof-42347915406.json`、`proof-42347653042.json`、`rehearsal-implementation-proof.json`、`candidate-platforms.json` 和 `pr-candidate-tree.json`。每个远端 run 的原始 jobs、日志、artifact metadata 和下载文件保存在同目录；两轴独立复审为 `review-standards.md`、`review-requirements.md`。最终记录提交后的检查以 PR 最新 checks 与 `.artifacts/testing/ci-acceptance/final.json` 为准。
+
+## 文档状态同步与发版核对
+
+用户随后要求消除文档漂移，并核对本 PR 的发版与 changeset。基线为 5ba826cd967b9adef7d9d1eba17e53e7fad9c342，工作区干净；该提交的 [verify](https://github.com/nonhana/hana-music-api/actions/runs/42348793133) 和 [发布演练](https://github.com/nonhana/hana-music-api/actions/runs/42348793126) 均 completed/success，最新原生结果为 3532 回归、32 SDK、87 smoke 检查加 500 请求，版本演练后的 SDK 为 32 项。此时所有必要外部验收已完成，PR OPEN、自动合并关闭。
+
+本次仅修改验收文档：AC-13 不再写远端待授权；迁移表和 E1 记录同步真实登录及 CI 已通过；S7 总览同步 S11 补充后的 8 个控制样本。各切片正文和历史候选的命令、失败与阻塞仍保留当时事实，没有重跑账号写入或改写旧报告。需求矩阵与迁移台账参与原指纹规则，新文档候选的 hash 单独保存；产品、测试、构建配置、包清单及 hana-implement 均未改变。
+
+本 PR 相对 master 含歌单收藏网页身份与 token 行为修复，需要 patch 发布；测试系统及本轮文档同步本身不追加版本变更。PR 已有 `.changeset/playlist-request-actions.md`，在本 PR 的 aef66d7 中加入，声明 hana-music-api 为 patch 并描述该用户可见修复。本次只读执行 `bun run changeset status --since=origin/master --output=.artifacts/testing/documentation-refresh/changeset-status.json`，实际计划为 3.2.0 → 3.2.1，唯一 changeset 为 playlist-request-actions。没有新加重复 changeset、提前修改 package.json 版本或调用发布。
+
+本轮文档适用门禁为 `bun run fmt:check`、`bun run spell`；未修改文档站内容或配置。验证结果、文档候选指纹、提交与最新 PR 检查保存 `.artifacts/testing/documentation-refresh/`，最终入口为 final.json。提交推送沿用用户对本 PR 的授权，仍不合并、不发布、不关票或修改远端配置。

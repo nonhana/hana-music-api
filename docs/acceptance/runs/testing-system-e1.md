@@ -1,6 +1,6 @@
 # E1 真实账号专项验收记录
 
-**E1：PASS。** 登录身份、单次收藏、读回、单次取消和目标恢复均有当次真实上游证据。整个测试系统仍为 BLOCKED，剩余条件为远端 CI；本次没有新增远端操作授权。
+**E1：PASS。** 登录身份、单次收藏、读回、单次取消和目标恢复均有当次真实上游证据。E1 执行时尚缺的远端 CI，后续已获用户授权并完成验收，见 [PR CI 记录](testing-system-ci.md#独立专项与失败上传补验收)。以下账号操作、时间和候选均保留 E1 当次事实，没有为本次文档同步重新执行账号操作。
 
 ## 当次授权与候选
 
@@ -61,6 +61,6 @@ bun run test:live
 - 写专项：`.artifacts/testing/live/1794026676855-b06d37e8-2f8c-4acf-980f-78b247ef6f85/summary.json`；同目录保留原生 junit.xml、live.json、output.log 与 output.log.stderr。
 - 13 份原始日志/报告逐个检查，无当前 Cookie 各项真实值或 fresh token 泄漏。凭据原文件没有修改，也未进入 fixtures、命令正文、JUnit 或验收 Markdown。
 - `.artifacts/testing/e1/final-evidence-review.json` 核对同源/同包 hash、账号、原生用例实际执行、七次实际请求顺序、各一次写入、零重试和恢复确认。
-- 当前结构化状态：`.artifacts/testing/e1/current.json`。仅报告更新未改变候选源码指纹。
+- E1 当次结构化状态：`.artifacts/testing/e1/current.json`。该次仅更新报告，没有改变其候选源码指纹；后续候选通过同字节 tarball 和 711 项文件 hash 关联，见 `ci-acceptance/e1-package-reuse.json`。
 
-E1 的外部阻塞已解除。远端 CI 的正常/故意失败 job、失败 artifacts、独立 live/mutation/soak 和 Node 24 仍待当次授权后实际运行；未执行提交、推送、PR、合并、发布、远端 Secrets 或保护规则修改。
+E1 的外部阻塞已解除。E1 执行当时没有提交、推送或 PR 操作授权；随后用户新增授权的提交推送、PR 119、正常与故意失败 CI、失败 artifacts、独立 live/mutation/soak 和 Node 24 均已实际验收。账号写入仍仅为上文这一轮，合并、发布、关票、远端 Secrets 和保护规则修改均未执行。

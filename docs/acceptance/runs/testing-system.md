@@ -12,7 +12,7 @@
 | S4      | 本地通过                   | 全部 Verification 通过，103 个专项、3480 个回归、smoke 与十分钟 soak                           |
 | S5      | 本地通过                   | 53 文件代码与断言保持，2710 个相关用例、完整 verify 和 fixtures 审计通过                       |
 | S6      | 本地通过                   | 34 个原测试与 3 个类型文件归位，完整门禁与同包 Node/Bun 消费者通过                             |
-| S7      | 本地通过                   | 7 个 CLI 控制样本、5 个有效变异被预期断言发现                                                  |
+| S7      | 本地通过                   | 最终 8 个 CLI 控制样本（S11 补充第八项）、5 个有效变异被预期断言发现                           |
 | S8      | 本地及 E1 通过             | 同一最终候选登录专项 1 pass、写专项 1 pass，目标恢复 confirmed；见 E1 接续记录                 |
 | S9      | 本地与远端验收通过         | PR/正常手动 verify、独立 live/mutation、完整 soak 成功；真实失败 job 保留 failure 且上传成功   |
 | S10     | 本地通过                   | 三输入五条核心 AC/门禁等价，九场景独立演练及修订复验通过                                       |
@@ -234,10 +234,10 @@ preflight 总报告：`.artifacts/testing/preflight/1793998090754-c51b55ae-7a69-
 | AC-13 | 远端验收通过         | PR 完整门禁；同提交 testing 的实际 verify/live/mutation 成功；失败 job 保持 failure 且原上传成功；完整 soak 和 90 天 metadata 已核对 |
 | AC-14 | 本地通过             | 三输入同义矩阵与同门禁，无强制开票/全局依赖；完整工作区独立审查                                                                      |
 | AC-15 | 本地通过             | 九场景独立演练、歧义修订和最终候选复验，隔离项目内容/index/用户草稿保持                                                              |
-| AC-16 | 本地/E1/远端门禁通过 | 当前 2e7f 候选的 verify 3532、SDK 32、fixtures、smoke、完整 soak、mutation、匿名 live 均通过；两轴复审核对原件                       |
+| AC-16 | 本地/E1/远端门禁通过 | 实施验收候选 2e7f 的 verify 3532、SDK 32、fixtures、smoke、完整 soak、mutation、匿名 live 均通过；两轴复审核对原件                   |
 | AC-17 | 证据与授权边界通过   | 当前源/包/命令/JUnit 可追溯；提交、推送和 PR 操作按用户新增授权执行；未合并、发布、关票或改 Secrets/保护规则                         |
 
-本轮同源候选的必要验收已通过，独立 live/mutation 与故意失败 job 上传两项原 BLOCKED 条件已解除。当前完整结果见 [PR CI 记录](testing-system-ci.md#独立专项与失败上传补验收) 与 [E1 记录](testing-system-e1.md)；验收记录提交后仍跟进最新 HEAD 的完整 PR CI。故意失败 run 保持 failure，不能将它本身写成绿灯；通过的是失败能被准确报告且 artifact 仍可取得这一验收条件。
+本轮同源候选的必要验收已通过，独立 live/mutation 与故意失败 job 上传两项原 BLOCKED 条件已解除。当前完整结果见 [PR CI 记录](testing-system-ci.md#独立专项与失败上传补验收) 与 [E1 记录](testing-system-e1.md)；记录提交 5ba826c 的完整 PR verify 和发布演练也已成功。故意失败 run 保持 failure，不能将它本身写成绿灯；通过的是失败能被准确报告且 artifact 仍可取得这一验收条件。
 
 E1 所需条件已由用户本次提供或授权取得，并已验证通过；fresh token 本轮只使用一次。当前 2e7f 候选的本地 tarball 与 E1 包逐字节相同、711 项文件 hash 一致，已保存关联证据，没有重跑账号写入。随后用户新增授权提交、推送、创建 PR、跟进修复和补验收；这些动作已经执行。合并、发布、远端 Secrets、保护规则和关票均未执行。
 
@@ -253,12 +253,14 @@ E1 所需条件已由用户本次提供或授权取得，并已验证通过；fr
 
 用户已授权创建 feature/refactor → master 的 PR、持续跟进 CI 并修复失败，明确先不合并。[PR 119](https://github.com/nonhana/hana-music-api/pull/119) 已创建；第一轮 head e682744 的 verify/rehearsal 全部 completed/success，默认回归 3531、SDK 32、fixtures 761 与 smoke 87+500 均实证通过，成功 artifacts 已下载核对。Netlify 预览成功，两个无相关变化检查为 NEUTRAL。没有发生实际 CI 失败，没有为获得绿灯删测试或降低规则。
 
-具体 SHA、GitHub 测试候选、跨平台权限指纹、包 hash、预期拒绝控制报告和剩余独立验收见 [PR CI 记录](testing-system-ci.md)。记录更新不改变源码候选；推送记录提交后继续跟进最终 head。PR 保持 OPEN，自动合并关闭，未合并或发布。
+具体 SHA、GitHub 测试候选、跨平台权限指纹、包 hash、预期拒绝控制报告、已完成的独立验收和后续 HEAD 的检查见 [PR CI 记录](testing-system-ci.md)。PR 保持 OPEN，自动合并关闭，未合并或发布。
 
 ## 独立远端补验收接续
 
 当前实现提交 16e6ad8 已对同一源候选完成全部本地门禁、正常 PR、独立匿名 live/mutation、故意失败 job 上传以及本地/远端完整十分钟 soak。failure run 42347650538 的原生测试确有 1 个断言失败，job/run 均为 failure，原上传为 success，日志/JUnit/候选已下载且约 90 天；其后同提交的 testing run 42347915406 全部成功。独立 live 为安装包上的 2 场景/6 请求，mutation 三目标五故障均有登记标题下的真实断言证据。PR 实际 rollup 无失败或等待项；未选择模式的 job 单列为 SKIPPED，不计测试通过。
 
-本地当前源为 2e7f3a2e…，Linux 为 8d7b334b…，原规则下权限差异可精确重算；所有当前门禁绑定它们。verify 为 3532/0/0、SDK 32、fixtures 761/0 failures、smoke 87 加 500 请求；本地 soak 600175.53ms/30300 请求，远端 soak 600193.46ms/30203 请求，两边 active/inflight=0、failures=[]。先前两次为保留期修复而中断的旧 soak 不计通过。E1 通过同字节 tarball 关联；hana-implement 内容 hash 与九场景演练均保持，不把未改变的产品或 skill 伪称重新实现。
+本地实施验收源为 2e7f3a2e…，Linux 为 8d7b334b…，原规则下权限差异可精确重算；该轮门禁绑定它们。verify 为 3532/0/0、SDK 32、fixtures 761/0 failures、smoke 87 加 500 请求；本地 soak 600175.53ms/30300 请求，远端 soak 600193.46ms/30203 请求，两边 active/inflight=0、failures=[]。先前两次为保留期修复而中断的旧 soak 不计通过。E1 通过同字节 tarball 关联；hana-implement 内容 hash 与九场景演练均保持，不把未改变的产品或 skill 伪称重新实现。
 
 完整命令、run 链接、原始证据、保留期、审查报告及记录提交后的最终检查入口见 [补验收记录](testing-system-ci.md#独立专项与失败上传补验收)。本次只在已授权分支提交和推送，PR 119 保持打开，未启用自动合并。
+
+后续文档同步修正了矩阵 AC-13、迁移台账和 E1 记录中的旧状态，并同步 S7 最终控制样本数。矩阵和迁移台账参与指纹，因此文档候选会有新 hash；上述实施验收的源/包 hash、账号执行和测试结果保持各自原始记录，不改写成新一轮执行。文档候选的验证和发版核对见 [文档同步记录](testing-system-ci.md#文档状态同步与发版核对)。
