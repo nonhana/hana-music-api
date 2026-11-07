@@ -36,7 +36,7 @@ PM2 使用 `ecosystem.config.cjs`，默认写入 `logs/`，并将匿名令牌保
 ## 发布
 
 - 版本变更使用 `bun run version-packages`，发布使用 `bun run release`。
-- 最后一次 `bun run version-packages` 后，执行 `bun scripts/release-preflight.mts`。它串行运行 TESTING 的完整本地门禁、定向变异与候选包匿名 live，确认 tarball、包文件集合和内容未变；它本身不发布。
+- 最后一次 `bun run version-packages` 后，执行 `bun scripts/release-preflight.mts`。它串行运行 TESTING 的正确性门禁、定向变异与候选包匿名 live，确认 tarball、包文件集合和内容未变；它本身不发布。按需手动运行的 soak 见 TESTING。
 - Changesets 的 publish-script 调用 `bun run release:checked`，由该 package script 先 preflight，再执行 `bun run release`；任一检查失败会阻止发布。dry-run 只在版本确定后执行 preflight。版本变更前的 SDK 结果不能验收新包；真实账号写入仍按当次需求单独授权。
 - 构建、测试和发布共用 `dist/`，需要按 [TESTING.md](./TESTING.md) 的顺序串行执行相关检查。
 

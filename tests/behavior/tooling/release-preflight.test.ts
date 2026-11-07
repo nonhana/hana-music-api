@@ -161,7 +161,6 @@ test('preflight runs every final gate, compares the current package manifest and
     ['bun', 'run', 'verify:sdk'],
     ['bun', 'run', 'verify:fixtures'],
     ['bun', 'run', 'test:load:smoke'],
-    ['bun', 'run', 'test:load:soak'],
     ['bun', 'scripts/mutation-test.mts', '--all'],
     ['bun', 'run', 'test:live'],
     ['npm', 'pack', '--dry-run', '--json', '--ignore-scripts'],
@@ -174,7 +173,6 @@ test.each([
   'verify:sdk',
   'verify:fixtures',
   'test:load:smoke',
-  'test:load:soak',
   'mutation',
   'test:live',
   'changed-dist',
@@ -192,85 +190,81 @@ test.each([
   15_000,
 );
 
-test.each([
-  'verify',
-  'load',
-  'live',
-  'mutation',
-  'release',
-  'release-rehearsal',
-])('CI %s preserves both a failed gate exit and its output', async (name) => {
-  const workflow: unknown = Bun.YAML.parse(
-    await readFile(
-      resolve(projectRoot, `.github/workflows/${name}.yml`),
-      'utf8',
-    ),
-  );
-  if (!isRecord(workflow) || !isRecord(workflow.jobs))
-    throw new Error('invalid workflow');
-  const temporary = await mkdtemp(resolve(tmpdir(), 'hana-ci-failure-'));
-  try {
-    const bin = resolve(temporary, 'bin');
-    await mkdir(bin);
-    await mkdir(resolve(temporary, '.artifacts/testing/ci'), {
-      recursive: true,
-    });
-    const probe = resolve(bin, 'bun');
-    await writeFile(
-      probe,
-      '#!/bin/sh\nprintf "forced gate failure\\n"\nexit 7\n',
+test.each(['verify', 'live', 'mutation', 'release', 'release-rehearsal'])(
+  'CI %s preserves both a failed gate exit and its output',
+  async (name) => {
+    const workflow: unknown = Bun.YAML.parse(
+      await readFile(
+        resolve(projectRoot, `.github/workflows/${name}.yml`),
+        'utf8',
+      ),
     );
-    await chmod(probe, 0o755);
-    let checked = 0;
-    for (const job of Object.values(workflow.jobs)) {
-      if (!isRecord(job)) throw new Error('invalid job');
-      if (typeof job.uses === 'string') continue;
-      if (!Array.isArray(job.steps)) throw new Error('invalid job');
-      const defaults = isRecord(job.defaults)
-        ? job.defaults
-        : workflow.defaults;
-      const run = isRecord(defaults) ? defaults.run : undefined;
-      for (const step of job.steps) {
-        if (
-          !isRecord(step) ||
-          typeof step.run !== 'string' ||
-          !step.run.includes('| tee')
-        )
-          continue;
-        const shell = step.shell ?? (isRecord(run) ? run.shell : undefined);
-        // cspell:ignore noprofile norc pipefail
-        const args =
-          shell === 'bash'
-            ? ['--noprofile', '--norc', '-eo', 'pipefail']
-            : ['-e'];
-        const child = Bun.spawn(['bash', ...args, '-c', step.run], {
-          cwd: temporary,
-          env: { ...process.env, PATH: `${bin}:${process.env.PATH}` },
-          stdout: 'pipe',
-          stderr: 'pipe',
-        });
-        expect(await child.exited, `${name}: ${step.run}`).toBe(7);
-        expect(await new Response(child.stdout).text()).toContain(
-          'forced gate failure',
-        );
-        const logs = await Array.fromAsync(
-          new Bun.Glob('.artifacts/testing/ci/*.log').scan({
+    if (!isRecord(workflow) || !isRecord(workflow.jobs))
+      throw new Error('invalid workflow');
+    const temporary = await mkdtemp(resolve(tmpdir(), 'hana-ci-failure-'));
+    try {
+      const bin = resolve(temporary, 'bin');
+      await mkdir(bin);
+      await mkdir(resolve(temporary, '.artifacts/testing/ci'), {
+        recursive: true,
+      });
+      const probe = resolve(bin, 'bun');
+      await writeFile(
+        probe,
+        '#!/bin/sh\nprintf "forced gate failure\\n"\nexit 7\n',
+      );
+      await chmod(probe, 0o755);
+      let checked = 0;
+      for (const job of Object.values(workflow.jobs)) {
+        if (!isRecord(job)) throw new Error('invalid job');
+        if (typeof job.uses === 'string') continue;
+        if (!Array.isArray(job.steps)) throw new Error('invalid job');
+        const defaults = isRecord(job.defaults)
+          ? job.defaults
+          : workflow.defaults;
+        const run = isRecord(defaults) ? defaults.run : undefined;
+        for (const step of job.steps) {
+          if (
+            !isRecord(step) ||
+            typeof step.run !== 'string' ||
+            !step.run.includes('| tee')
+          )
+            continue;
+          const shell = step.shell ?? (isRecord(run) ? run.shell : undefined);
+          // cspell:ignore noprofile norc pipefail
+          const args =
+            shell === 'bash'
+              ? ['--noprofile', '--norc', '-eo', 'pipefail']
+              : ['-e'];
+          const child = Bun.spawn(['bash', ...args, '-c', step.run], {
             cwd: temporary,
-            absolute: true,
-          }),
-        );
-        expect(logs.length).toBeGreaterThan(0);
-        expect(await readFile(logs.at(-1)!, 'utf8')).toContain(
-          'forced gate failure',
-        );
-        checked++;
+            env: { ...process.env, PATH: `${bin}:${process.env.PATH}` },
+            stdout: 'pipe',
+            stderr: 'pipe',
+          });
+          expect(await child.exited, `${name}: ${step.run}`).toBe(7);
+          expect(await new Response(child.stdout).text()).toContain(
+            'forced gate failure',
+          );
+          const logs = await Array.fromAsync(
+            new Bun.Glob('.artifacts/testing/ci/*.log').scan({
+              cwd: temporary,
+              absolute: true,
+            }),
+          );
+          expect(logs.length).toBeGreaterThan(0);
+          expect(await readFile(logs.at(-1)!, 'utf8')).toContain(
+            'forced gate failure',
+          );
+          checked++;
+        }
       }
+      expect(checked).toBeGreaterThan(0);
+    } finally {
+      await rm(temporary, { recursive: true, force: true });
     }
-    expect(checked).toBeGreaterThan(0);
-  } finally {
-    await rm(temporary, { recursive: true, force: true });
-  }
-});
+  },
+);
 
 test('CI artifact probe runs a real failing assertion and preserves native JUnit and output', async () => {
   const workflow: unknown = Bun.YAML.parse(

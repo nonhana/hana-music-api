@@ -7,7 +7,7 @@
 | 完整本地回归 | `bun run test`              | 当前全部默认测试，不选择 live 或十分钟负载 |
 | SDK          | `bun run test:sdk-contract` | 包消费者、公开模块与发现合同               |
 | 有限流量     | `bun run test:load:smoke`   | 本机传输与 500 次 loopback 负载            |
-| 长时流量     | `bun run test:load:soak`    | 十分钟 loopback 与资源归零                 |
+| 手动耐久     | `bun run test:load:soak`    | 按需运行十分钟 loopback，独立于 CI 和发布  |
 | 原始录制     | `bun run verify:fixtures`   | 响应结构与录制，不能证明当次上游可用       |
 
 `_kit/` 放可执行工具，`fixtures/netease/` 保留录制原文。七类目标为 unit、behavior、replay、transport、package、live、mutation，现已归位；mutation 检查测试辨别力，不是重复业务测试。共享构建输出的命令串行执行。
