@@ -5,6 +5,7 @@
 ## 目录职责
 
 - `index.ts`：唯一公开 SDK 入口，只组合公开导出。
+- `src/browser/watchman.ts`：独立的浏览器 Watchman 子路径，不依赖业务 SDK 或核心请求链；页面状态与证据边界见 ADR-0003。
 - `src/app/`：CLI 启动、服务启动和匿名配置生成。
 - `src/server/`：Hono 应用、路由、准入、Cookie/body 解析、模块发现和文档服务。
 - `src/core/`：Effect 请求内核、加密、目标策略、transport、运行时、缓存和身份状态。

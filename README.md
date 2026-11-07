@@ -10,6 +10,8 @@ npm install hana-music-api
 
 SDK 需要 Node.js 24 或更高版本，仅支持 ESM。
 
+浏览器需要现取 Watchman token 时，使用独立的 [Watchman 子路径](website/guide/watchman.md)，再把当次字符串交给自己的服务端。
+
 ## 直接调用
 
 创建客户端后，用 `async/await` 调用接口：

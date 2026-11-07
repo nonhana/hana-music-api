@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: 24
       - run: bun install --frozen-lockfile
+
+      - name: Install Chromium for offline browser verification
+        run: bunx playwright install --with-deps chromium
       - name: Record checked out candidate
         run: |
           mkdir -p .artifacts/testing/ci

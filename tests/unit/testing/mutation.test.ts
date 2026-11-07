@@ -17,6 +17,10 @@ import { fingerprint } from '../../_kit/evidence.ts';
 const fixture = async (mode: string, work: (root: string) => Promise<void>) => {
   const root = await mkdtemp(resolve(tmpdir(), 'hana-mutation-control-'));
   try {
+    const title =
+      mode === 'timeout-title'
+        ? 'detects mutation after a timed out operation'
+        : 'detects mutation';
     await mkdir(resolve(root, 'tests/mutation/targets'), { recursive: true });
     await mkdir(resolve(root, 'tests/behavior'), { recursive: true });
     await symlink(
@@ -56,8 +60,8 @@ const fixture = async (mode: string, work: (root: string) => Promise<void>) => {
       'tests/behavior/control.test.ts':
         mode === 'non-assertion-error'
           ? "import { test, expect } from 'bun:test'; import { value } from '../../product.ts'; test('detects mutation', () => { if(value > 1) throw new Error('Unexpected mock setup'); expect(value).toBe(1); });\n"
-          : "import { test, expect } from 'bun:test'; import { value, hang } from '../../product.ts'; test('detects mutation', async () => { if (hang) await new Promise(() => {}); expect(value).toBe(1); });\n",
-      'tests/mutation/targets/playlist-subscribe.ts': `export const mutations = ${JSON.stringify([{ id: mode, file: 'product.ts', ...patch, timeoutMs: mode === 'timeout' ? 200 : 5000, expectedFailures: [mode === 'unrelated-failure' ? 'unrelated title' : 'detects mutation'] }])};\n`,
+          : `import { test, expect } from 'bun:test'; import { value, hang } from '../../product.ts'; test(${JSON.stringify(title)}, async () => { if (hang) await new Promise(() => {}); expect(value).toBe(1); });\n`,
+      'tests/mutation/targets/playlist-subscribe.ts': `export const mutations = ${JSON.stringify([{ id: mode, file: 'product.ts', ...patch, timeoutMs: mode === 'timeout' ? 200 : 5000, expectedFailures: [mode === 'unrelated-failure' ? 'unrelated title' : title] }])};\n`,
     };
     await Promise.all(
       Object.entries(files).map(([path, body]) =>
@@ -116,6 +120,7 @@ test.each([
   'survived',
   'invalid',
   'timeout',
+  'timeout-title',
   'baseline-failure',
   'unrelated-failure',
   'non-assertion-error',
@@ -126,16 +131,20 @@ test.each([
       const before = await fingerprint(root);
       const result = await run(root);
       const expected =
-        mode === 'baseline-failure'
-          ? 'tool-error'
-          : ['unrelated-failure', 'non-assertion-error'].includes(mode)
-            ? 'invalid'
-            : mode;
+        mode === 'timeout-title'
+          ? 'killed'
+          : mode === 'baseline-failure'
+            ? 'tool-error'
+            : ['unrelated-failure', 'non-assertion-error'].includes(mode)
+              ? 'invalid'
+              : mode;
       expect(
         result.results.map((entry) => entry.status),
         result.failure,
       ).toEqual([expected]);
-      expect(result.exitCode).toBe(mode === 'killed' ? 0 : 1);
+      expect(result.exitCode).toBe(
+        ['killed', 'timeout-title'].includes(mode) ? 0 : 1,
+      );
       expect((await fingerprint(root)).contentSha256).toBe(
         before.contentSha256,
       );

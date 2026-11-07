@@ -28,7 +28,7 @@ npm install -D typescript @types/node@24
 import { createHanaMusicApi, search, invokeModule } from 'hana-music-api';
 ```
 
-发布包只开放 `hana-music-api` 根入口。不要依赖 `hana-music-api/src/...` 或 `hana-music-api/dist/...` 这样的内部路径，即使本地文件系统里能找到它们。
+发布包开放 `hana-music-api` 根入口和独立的 `hana-music-api/watchman` 浏览器子路径。后者只负责加载官方 Watchman 和按次取 token，说明见 [浏览器 Watchman](/guide/watchman)。不要依赖 `hana-music-api/src/...` 或 `hana-music-api/dist/...` 这样的内部路径，即使本地文件系统里能找到它们。
 
 | 公开能力                        | 用途                               |
 | ------------------------------- | ---------------------------------- |
