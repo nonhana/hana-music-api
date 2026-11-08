@@ -177,6 +177,7 @@ describe('sdk release contract', () => {
     const accountSocial: Array<unknown> = [];
     const podcastVideo: Array<unknown> = [];
     const membershipBusiness: Array<unknown> = [];
+    const requestIdentity: Array<unknown> = [];
     const searchDiscovery: Array<unknown> = [];
 
     try {
@@ -686,6 +687,37 @@ describe('sdk release contract', () => {
         });
       }
 
+      writeFileSync(
+        resolve(consumerDirectory, 'request-identity.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/request-identity.mjs'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'request-identity.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 24,
+          entries: 3,
+          levels: 2,
+          devices: 4,
+        });
+        requestIdentity.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
       const negativeImportScriptPath = resolve(
         consumerDirectory,
         'negative-import.mjs',
@@ -883,6 +915,7 @@ describe('sdk release contract', () => {
             accountSocial,
             podcastVideo,
             membershipBusiness,
+            requestIdentity,
             browser: browserEvidence,
             files: filePaths.map((path) => ({
               path,

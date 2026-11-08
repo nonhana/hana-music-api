@@ -59,7 +59,7 @@ const entry = (
             csrf_token: '',
             e_r: false,
           });
-          expect(wire.headers.get('cookie')).toContain('os=pc');
+          expect(wire.headers.get('cookie')).toContain('os=web');
           expect(wire.headers.get('user-agent')).toContain('Chrome/124');
         },
       }
@@ -184,7 +184,7 @@ test('anonymous budget counts initialization, is shared across files and blocks 
           check: (wire) =>
             expect(readEapiBody(wire.body)).toMatchObject({
               path: '/api/toplist',
-              data: { e_r: false, header: { os: 'pc' } },
+              data: { e_r: false, header: { os: 'iPhone OS' } },
             }),
         },
         entry(
@@ -237,7 +237,7 @@ test('anonymous search, detail and lyric use the derived ID and catalog uses the
         check: (wire) =>
           expect(readEapiBody(wire.body)).toMatchObject({
             path: '/api/toplist',
-            data: { e_r: false, header: { os: 'pc' } },
+            data: { e_r: false, header: { os: 'iPhone OS' } },
           }),
       },
       entry('eapi/artist/head/info/get', {

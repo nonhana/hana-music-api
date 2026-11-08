@@ -12,19 +12,33 @@ export interface RequestProfile {
   readonly allowedHostSuffixes?: ReadonlyArray<string>;
 }
 
+const identityCookieFields = [
+  'os',
+  'appver',
+  'channel',
+  'osver',
+  'clientSign',
+  'buildver',
+  'mobilename',
+  'versioncode',
+  'resolution',
+  'brand',
+  'mode',
+] as const;
+
 export const requestProfiles = {
-  // ea108c8 的两条日志保持 clientlog 域名和 osx Cookie，不套用普通 eapi 身份。
+  // #122 以原 scrobble 的 macOS 15.5 字段投影既有浏览器 UA，保留 clientlog 与 App 版本。
   clientlogOsx: {
     protocol: 'eapi',
     domain: 'https://clientlog.music.163.com',
-    userAgent: USER_AGENT_MAP.api.iphone,
+    userAgent: USER_AGENT_MAP.weapi.pc.replace('10_15_7', '15_5'),
     cookie: {
       appver: '3.1.10.5100',
       channel: 'netease',
       os: 'osx',
       osver: '15.5',
     },
-    omitCookies: [],
+    omitCookies: identityCookieFields,
     encryptResponse: false,
     acceptGzip: false,
   },
@@ -89,18 +103,8 @@ export const requestProfiles = {
     protocol: 'eapi',
     domain: 'https://interface.music.163.com',
     userAgent: USER_AGENT_MAP.api.iphone,
-    cookie: OS_PROFILES.pc,
-    omitCookies: [],
-    encryptResponse: false,
-    acceptGzip: false,
-  },
-  // c2c8fa1 的曲库模块实际组合 weapi、浏览器 UA 和 PC Cookie；不把它改成 web 身份。
-  weapiPc: {
-    protocol: 'weapi',
-    domain: 'https://music.163.com',
-    userAgent: USER_AGENT_MAP.weapi.pc,
-    cookie: OS_PROFILES.pc,
-    omitCookies: [],
+    cookie: OS_PROFILES.iphone,
+    omitCookies: identityCookieFields,
     encryptResponse: false,
     acceptGzip: false,
   },
@@ -110,18 +114,7 @@ export const requestProfiles = {
     domain: 'https://music.163.com',
     userAgent: USER_AGENT_MAP.weapi.pc,
     cookie: { os: 'web' },
-    omitCookies: [
-      'appver',
-      'channel',
-      'osver',
-      'clientSign',
-      'buildver',
-      'mobilename',
-      'versioncode',
-      'resolution',
-      'brand',
-      'mode',
-    ],
+    omitCookies: identityCookieFields,
     encryptResponse: false,
     acceptGzip: false,
   },

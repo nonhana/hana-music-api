@@ -10,7 +10,7 @@ import { ModuleBody as AccountBody } from './user_account.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/w/nuser/account/get',
     semantic: 'read',
     cache: 'none',

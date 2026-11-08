@@ -20,7 +20,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   write: {
     target: '/api/v2/discovery/recommend/dislike',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

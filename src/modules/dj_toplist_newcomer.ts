@@ -14,7 +14,7 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/dj/toplist/newcomer',
     semantic: 'read',
     cache: 'none',

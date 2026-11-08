@@ -19,14 +19,14 @@ import type {
 
 export const moduleActions = {
   like: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/v1/comment/like',
     semantic: 'write',
     cache: 'none',
     retry: 'never',
   },
   unlike: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/v1/comment/unlike',
     semantic: 'write',
     cache: 'none',

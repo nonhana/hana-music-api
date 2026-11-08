@@ -22,7 +22,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   read: {
     target: '/api/discovery/simiUser',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'read',
     cache: 'none',
     retry: 'connect',

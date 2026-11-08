@@ -13,14 +13,14 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   sub: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/cloudvideo/video/sub',
     semantic: 'write',
     cache: 'none',
     retry: 'never',
   },
   unsub: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/cloudvideo/video/unsub',
     semantic: 'write',
     cache: 'none',

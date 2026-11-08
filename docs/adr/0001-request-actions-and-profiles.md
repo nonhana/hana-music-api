@@ -79,3 +79,17 @@ album_sub/artist_sub 分别声明 sub/unsub，固定 web、write、cache none、
 固定基线ea108c8的13模块共30动作，两个纯本地模块空声明；352模块全部完成声明。scrobble的clientlog域名与osx Cookie收进clientlogOsx，UA保持原iPhone值，不宣称为官方桌面身份。plain profile保持原本没有显式UA/Cookie的形态，动作声明实际method/response；固定域名与规范路径、动态NOS允许后缀和桶目录同时核对，最终目标检查不放松。
 
 图片、歌曲、声音上传保持原API/plain阶段和部分完成；cloud_import和playlist_track_all按前一次结果准备后一次输入。playlist_tracks只在原数值512条件下修改trackIds发一次第二请求，不增加传输重放。所有动作cache=none；写/上传never，cloud_import读取保留旧upload判定的never上限，两个歌单读取保留read，固定歌曲上传地址查询connect，audio_match/related_playlist因动态query影响旧URI判定而收紧为never。空pending清单只是声明完成；P12才删除旧可选合同、默认与配置类型。离线请求和23份历史回放的来源及缺口见[issue-115](../acceptance/issue-115.md)。
+
+## #122：设备与身份投影
+
+以上P2/P6–P11描述保留各自固定基线和证据来源。#122明确批准改变其身份组合，当前行为以本节及[全动作清单](../acceptance/issue-122-actions.md)为准；原协议、目标、业务数据和语义/cache/retry均不变。
+
+Call在合入运行时默认值前选择设备：有效的显式state.deviceId、旧Cookie.deviceId、现有匿名或运行时兜底。有效值是非空且不含空白或控制字符的字符串，不限制为SDK生成的格式。设备随后冻结，凭据仍来自本次调用；SDK不替调用者创建跨调用会话jar。旧顶层deviceId仅保留为隐式匿名初始化的兼容兜底，优先级低于state和Cookie。
+
+prepareRequest仍是纯函数，时间、请求编号和随机熵从外层传入。所有受控profile在加密前统一清理平台字段大小写变体，再投影固定组合；EAPI Cookie和加密header共用字段源。默认eapi/api使用现有iPhone四项，原weapiPc的220个浏览器动作采用web，原7个web动作保持；clientlog的两条日志保留特殊域名与原macOS/App字段，UA的macOS版本标记对齐15.5。buildver/versioncode/机型/分辨率没有该客户端的可靠值则省略。此组合来自旧源码与#122明确身份变更决定，不是新官方抓包。
+
+显式、隐式和CLI匿名注册正文username与HTTP Cookie读同一设备；并发注册按有效设备分开合并，沿用原匿名状态缓存，不新增听众状态。纯本地或仅外部plain动作不触发匿名初始化，包括配置旧identityPool时；外部上传仍不附带网易云凭据。共享读取的身份指纹包含有效设备，其他隔离、取消、总期限和token合同保持。
+
+旧混合profile及产品引用为零，全部352模块仍声明389动作。低层显式原始选项保留；其无原始覆盖时的eapi/api、weapi和linuxapi默认分别自洽。#116继续删除通用旧控制面，本票不提前删除公开类型。历史录制不改标，真实网易云可用性和有限下游取址仍在父票后续阶段验收。
+
+低层部分Cookie只指定已知os时，未指定的UA/平台默认值也按该os选择：pc复用原Windows 10/App 3.1.17.204416四项，android复用原Android 14/App 9.1.65.240927161425四项，UA由原Chrome/Edge 124浏览器格式投影相应OS（Android为Mobile Safari，不带Edge）；linux、iphone、web、osx分别复用前述组合。不是新官方UA抓包。未知os保留原始字段且不猜UA或版本；显式ua和版本仍保持。调用方已有有效设备时绕过身份池，注册和业务请求均使用该设备，池只作无调用方设备时的匿名兜底，不新增每听众池状态。

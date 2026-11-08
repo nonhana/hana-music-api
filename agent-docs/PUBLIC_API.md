@@ -47,3 +47,5 @@ playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、�
 #114 的50个会员、云贝、音乐人与其他业务模块固定原默认身份（36个weapiPc、14个eapi）。普通协议/身份覆盖收口属于major兼容变化；业务输入、返回Schema、Promise与Cookie外壳保持，低层createRequest继续接受显式配置。下单、签到、领取、云贝推歌与batch不自动重放；报告、签到活动信息及云贝收入/支出查询保持原never上限。全部不新增缓存或共享，详见[issue-114](../docs/acceptance/issue-114.md)。
 
 #115 的13个特殊模块也固定原默认协议、目标与身份，普通覆盖收口属于major兼容变化。图片与声音上传的plain阶段发送原始字节，不带网易云会话或checkToken；API阶段继续逐次provider，固定字符串第二次API发送前失败。两个本地模块不取token。业务输入、返回Schema和低层createRequest保持。[阶段清单](../docs/acceptance/issue-115.md)列出完整依据。
+
+#122明确批准上述各历史批次的身份变化：state.deviceId优先于旧Cookie.deviceId，再用匿名/运行时兜底，调用者负责设备与会话保存；有效值不含空白或控制字符。现有EAPI采用iPhone字段，原weapiPc浏览器动作使用web，clientlog使用自洽macOS组合，原协议和返回体保持。普通配置不能污染受控平台；低层createRequest的显式原始选项保留。详见[全动作迁移](../docs/acceptance/issue-122-actions.md)，通用旧类型仍由#116收口。

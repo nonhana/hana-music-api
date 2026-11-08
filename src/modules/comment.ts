@@ -18,21 +18,21 @@ import type {
 
 export const moduleActions = {
   add: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/resource/comments/add',
     semantic: 'write',
     cache: 'none',
     retry: 'never',
   },
   delete: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/resource/comments/delete',
     semantic: 'write',
     cache: 'none',
     retry: 'never',
   },
   reply: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/resource/comments/reply',
     semantic: 'write',
     cache: 'none',

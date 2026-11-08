@@ -115,7 +115,7 @@ export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-inp
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/user/setting',
     semantic: 'read',
     cache: 'none',

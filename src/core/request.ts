@@ -8,7 +8,7 @@ import type {
 } from '../types/index.ts';
 import type { UpstreamResponse } from '../types/upstream.ts';
 import { Call } from './call-context.ts';
-import type { CallShape } from './call-context.ts';
+import type { CallShape, InternalExecution } from './call-context.ts';
 import { APP_CONF } from './config.ts';
 import { createWeapiSecretKey } from './crypto.ts';
 import {
@@ -438,17 +438,16 @@ export const withRequestDeadline = <Value, Failure, Requirements>(
 export const runRequestAtEdge = async (
   intent: RequestIntent,
   options: CreateRequestOptions,
+  execution?: InternalExecution,
 ): Promise<UpstreamResponse> => {
   const signal = options.signal;
-  const identity = resolveIdentitySnapshot(
-    options,
-    getRuntimeState(options.state),
-  );
+  const identity = resolveIdentitySnapshot(options, getRuntimeState());
   const startedAt = Effect.runSync(Clock.currentTimeMillis);
   const timeoutMs = options.timeoutMs ?? 8_000;
   let lastEvent: RequestDebugEvent | undefined;
   const call: CallShape = {
     identifier: intent.target,
+    execution,
     input: {},
     identity,
     startedAt,

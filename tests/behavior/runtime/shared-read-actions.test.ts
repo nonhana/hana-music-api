@@ -42,7 +42,7 @@ test('declared search profile owns the final request despite conflicting config'
           expect(wire.headers.get('user-agent')).toBe(
             'NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)',
           );
-          expect(wire.headers.get('cookie')).toContain('os=pc');
+          expect(wire.headers.get('cookie')).toContain('os=iPhone%20OS');
           expect(wire.headers.get('cookie')).toContain('MUSIC_U=reader');
         },
         response: () => Response.json({ code: 200, result: { songs: [] } }),
@@ -123,16 +123,16 @@ test('five declared read branches preserve wire payloads and share only matching
               expect(readEapiBody(wire.body).path).toBe(entry.path);
               expect(decoded).toMatchObject({
                 header: {
-                  os: 'pc',
-                  appver: '3.1.17.204416',
-                  channel: 'netease',
+                  os: 'iPhone OS',
+                  appver: '9.0.90',
+                  channel: 'distribution',
                   MUSIC_U: 'reader',
                   MUSIC_A: 'anonymous-reader',
                 },
               });
             }
             expect(wire.headers.get('cookie')).toContain(
-              web ? 'os=web' : 'os=pc',
+              web ? 'os=web' : 'os=iPhone%20OS',
             );
             expect(wire.headers.get('X-antiCheatToken')).toBeNull();
           },

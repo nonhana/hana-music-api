@@ -22,14 +22,14 @@ import type { QueryNumberLike } from '../types/module-shared.ts';
 
 export const moduleActions = {
   captcha: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/w/login/cellphone',
     semantic: 'login',
     cache: 'none',
     retry: 'never',
   },
   password: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/w/login/cellphone',
     semantic: 'login',
     cache: 'none',

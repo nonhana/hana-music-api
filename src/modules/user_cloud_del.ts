@@ -9,7 +9,7 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 export const moduleActions = {
   delete: {
     target: '/api/cloud/del',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

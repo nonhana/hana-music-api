@@ -63,7 +63,7 @@ flowchart TD
 
 模块通过传入的 `RequestCapability` 提交它。这个名字表示模块拥有的请求能力，其默认实现就是 `requestEffect`。模块不直接调用 `fetch`，也不在内部启动另一套 Promise 执行器。
 
-曲库与播放的77个模块也会声明动作，由内核统一准备身份。它们保留原来的两种组合：weapi 使用浏览器 UA 和 PC Cookie，eapi 使用原来的 UA 与 PC Cookie；不会因为采用同一套声明就统一换成网页身份。普通配置里的 crypto、domain、ua、e_r、acceptGzip 及受控身份 Cookie 不再覆盖这些声明，会话和设备仍按本次调用传递。需要直接控制底层协议时使用 [createRequest](/guide/create-request-and-create-option)。这些模块继续独立执行，不会新增共享读取或自动重试。
+曲库与播放的77个模块也会声明动作，由内核统一准备身份。它们保留原来的协议；身份统一后，weapi 浏览器请求使用干净 web Cookie，EAPI 使用配套 iPhone 字段，不再混合 Windows 与 iPhone 身份。普通配置里的 crypto、domain、ua、e_r、acceptGzip 及受控身份 Cookie 不再覆盖这些声明，会话和设备仍按本次调用传递。需要直接控制底层协议时使用 [createRequest](/guide/create-request-and-create-option)。这些模块继续独立执行，不会新增共享读取或自动重试。
 
 内核根据调用快照准备 URL、Cookie、请求头和加密正文，校验最终目标，再按策略执行请求。内核不在本地限制发送频率，每次尝试都直接发出；请求频率由调用方控制，见 [请求频率由调用方控制](/guide/retry-timeout-resilience#请求频率由调用方控制)。只有允许重试的操作和失败类型才会进入下一次尝试。
 
@@ -168,3 +168,11 @@ HTTP 服务会把 `body` 写成 JSON，把 `status` 用作 HTTP 状态码，并�
 普通模块的协议、域名和 UA 来自动作声明，配置中的 `crypto`、`domain`、`ua`、`e_r`、`acceptGzip` 不再覆盖这些模块。调用方继续提供业务 query、Cookie、代理、fetcher、期限、取消和可选 `checkToken`；确需直接构造请求时使用低层 `createRequest`。这是 major 兼容变化，业务输入和返回外壳保持。
 
 `audioMatch` 和 `relatedPlaylist` 采用保守的单次请求策略。它们的动态 query 曾影响旧 URI 重试判定；收紧为不自动重试，可以避免迁移后扩大部分输入的原重试上限。
+
+## 每次调用使用同一台设备
+
+如果你已经保存了听众的设备 ID，就在调用配置的 `state.deviceId` 里传入。SDK先选这个有效值，再看旧网易云 Cookie 的 `deviceId`，都没有才使用匿名或运行时的兜底设备。设备创建和跨调用保存仍由你的应用负责；续期时只更新本次账号凭据，设备不会跟着旧 Cookie 改回去。
+
+身份统一后，各接口继续使用原来的协议和目标。EAPI请求使用已有iPhone平台字段，原先带PC Cookie的weapi浏览器请求改用干净web身份；clientlog使用自洽的macOS字段。普通模块会清除旧平台字段及其大小写变体，Cookie和加密正文中的设备、版本与平台从同一次快照生成。没有可靠来源的buildver、versioncode、机型和分辨率会省略。
+
+显式低层`createRequest`仍保留原始选项，调用者自行负责显式原始组合。普通模块的可选`checkToken`、取消、总期限和重试规则保持；收到`-460`不会自动换身份或重发。这些离线合同不能保证上游永不拒绝请求。

@@ -21,7 +21,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   create: {
     target: '/api/playlist/create',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

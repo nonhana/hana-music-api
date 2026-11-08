@@ -3,6 +3,7 @@
 这些目标检查现有断言能不能发现指定错误，不是一套重复业务测试，也不追求全仓分数。
 
 ```bash
+bun scripts/mutation-test.mts --target request-identity
 bun scripts/mutation-test.mts --target special-chains
 bun scripts/mutation-test.mts --target membership-business
 bun scripts/mutation-test.mts --target podcast-video
@@ -36,3 +37,9 @@ browser-types 的两个有限故障分别省略浏览器和服务端 typecheck �
 #114 的 membership-business 目标覆盖协议、下单资源JSON、下单/batch/奖励单次、报告与收入明细的旧重试上限、会员缓存、时光机范围默认、云贝历史游标和旧年度路径；每项关联本领域原生断言。
 
 #115 的 special-chains 目标覆盖日志特殊域名、导入依赖ID、512条件、旧读取重试上限及动态plain输入的单次边界、plain方法/响应模式/域名边界、外部token隔离、上传字节和本地空动作；关联本票原生断言。
+
+#122 的 request-identity 目标覆盖调用方设备优先级、身份池兜底、低层部分OS覆盖、混合UA、大小写清理、无依据buildver及隐式匿名username；九项都要求对应网络边界用例原生断言有效检出。
+
+身份池返回的有效设备不会被空白或undefined的state.deviceId抹掉；注册等待期间其他调用更新runtime时，username、注册Cookie和后续业务Cookie仍用同一池设备。对应回退故障也登记定向mutation。
+
+旧顶层deviceId只在本次确实需要隐式匿名初始化且尚无runtime匿名会话时提供兼容兜底，已有匿名会话继续沿用其设备，不被仅注册选项覆盖；对应单业务请求wire断言与回退mutation已登记。

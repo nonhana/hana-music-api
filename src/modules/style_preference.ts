@@ -56,7 +56,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   read: {
     target: '/api/tag/my/preference/get',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'read',
     cache: 'none',
     retry: 'connect',

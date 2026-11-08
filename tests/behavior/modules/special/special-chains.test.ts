@@ -57,6 +57,7 @@ const revive = (entry: Case) => {
 const checkWire = async (expected: Wire, wire: WireRequest, token?: string) => {
   expect(wire.url).toBe(expected.url);
   expect(wire.method).toBe(expected.method);
+  let projectedCookie: Record<string, string> = {};
   for (const [name, value] of Object.entries(expected.headers)) {
     if (name === 'cookie') {
       const [actualCookie, expectedCookie] = [
@@ -73,8 +74,46 @@ const checkWire = async (expected: Wire, wire: WireRequest, token?: string) => {
           }),
         ),
       );
-      expect(actualCookie).toEqual(expectedCookie);
-    } else expect(wire.headers.get(name)).toBe(value);
+      // #122 changes only identity; the original orchestration fixture remains immutable.
+      const wanted = expectedCookie!;
+      for (const key of [
+        'os',
+        'appver',
+        'channel',
+        'osver',
+        'buildver',
+        'mobilename',
+        'versioncode',
+        'resolution',
+      ])
+        delete wanted[key];
+      Object.assign(
+        wanted,
+        expected.protocol === 'weapi'
+          ? { os: 'web' }
+          : expected.url.includes('clientlog.music.163.com')
+            ? {
+                os: 'osx',
+                osver: '15.5',
+                appver: '3.1.10.5100',
+                channel: 'netease',
+              }
+            : {
+                os: 'iPhone OS',
+                osver: '16.2',
+                appver: '9.0.90',
+                channel: 'distribution',
+              },
+      );
+      projectedCookie = wanted;
+      expect(actualCookie).toEqual(wanted);
+    } else
+      expect(wire.headers.get(name)).toBe(
+        name === 'user-agent' &&
+          expected.url.includes('clientlog.music.163.com')
+          ? 'Mozilla/5.0 (Macintosh; Intel Mac OS X 15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0'
+          : value,
+      );
   }
   expect(wire.headers.get('x-aeapi')).toBeNull();
   expect(wire.headers.get('X-antiCheatToken')).toBe(token ?? null);
@@ -97,6 +136,7 @@ const checkWire = async (expected: Wire, wire: WireRequest, token?: string) => {
       decoded.dupkey = '<uuid>';
     }
     const wanted = structuredClone(expected.data!);
+    if (expected.protocol === 'eapi') wanted.header = projectedCookie;
     if (token) {
       wanted.checkToken = token;
       if (expected.protocol === 'eapi')
@@ -672,7 +712,8 @@ for (const size of [0, 10 * 1024 * 1024 + 1]) {
 test('special cloud import freezes distinct accounts inputs tokens and dependent results', async () => {
   const paused = createStage('first import token');
   let finish!: (value: string) => void;
-  const firstCookie = { MUSIC_U: 'account-A' };
+  const firstCookie = { MUSIC_U: 'account-A', deviceId: 'old-A' };
+  const firstState = { deviceId: 'device-A' };
   const firstInput = { id: 17, md5: 'md5-A', song: 'song-A' };
   const seen: Array<{
     account: string | undefined;
@@ -687,7 +728,14 @@ test('special cloud import freezes distinct accounts inputs tokens and dependent
         path: string;
         data: Record<string, unknown>;
       };
-      const account = (data.header as Record<string, string>).MUSIC_U;
+      const header = data.header as Record<string, string>;
+      const account = header.MUSIC_U;
+      expect(header.deviceId).toBe(
+        account === 'account-A' ? 'device-A' : 'device-B',
+      );
+      expect(wire.headers.get('X-antiCheatToken')).toMatch(
+        account === 'account-A' ? /^A-token-[12]$/ : /^B-token-[12]$/,
+      );
       seen.push({ account, data });
       expect(account).toBeOneOf(['account-A', 'account-B']);
       const songs = JSON.parse(String(data.songs));
@@ -715,6 +763,7 @@ test('special cloud import freezes distinct accounts inputs tokens and dependent
   let firstTokens = 0;
   const first = client.cloudImport(firstInput, {
     cookie: firstCookie,
+    state: firstState,
     checkToken: () =>
       ++firstTokens === 1
         ? new Promise<string>((resolve) => {
@@ -725,6 +774,8 @@ test('special cloud import freezes distinct accounts inputs tokens and dependent
   });
   await paused.wait(first);
   firstCookie.MUSIC_U = 'changed';
+  firstCookie.deviceId = 'changed';
+  firstState.deviceId = 'changed';
   firstInput.id = 29;
   firstInput.md5 = 'changed';
   firstInput.song = 'changed';
@@ -732,7 +783,8 @@ test('special cloud import freezes distinct accounts inputs tokens and dependent
   const second = await client.cloudImport(
     { id: 19, md5: 'md5-B', song: 'song-B' },
     {
-      cookie: 'MUSIC_U=account-B',
+      cookie: 'MUSIC_U=account-B; deviceId=old-B',
+      state: { deviceId: 'device-B' },
       checkToken: async () => `B-token-${++secondTokens}`,
     },
   );

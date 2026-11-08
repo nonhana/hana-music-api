@@ -52,7 +52,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   read: {
     target: '/api/artist/sublist',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'read',
     cache: 'none',
     retry: 'connect',

@@ -7,6 +7,7 @@ import { ReadStore } from './read-store.ts';
 
 export {
   resolveIdentitySnapshot,
+  isDeviceId,
   type IdentitySnapshot,
 } from './identity-snapshot.ts';
 

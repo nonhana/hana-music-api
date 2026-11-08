@@ -24,7 +24,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   write: {
     target: '/api/radio/trash/add',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

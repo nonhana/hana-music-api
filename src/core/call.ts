@@ -26,9 +26,14 @@ import {
   isUploadModule,
 } from './endpoint-policy.ts';
 import { DeadlineExceeded, InvalidRequest, PartialUpload } from './errors.ts';
-import { createIdentityPool, resolveIdentitySnapshot } from './identity.ts';
+import {
+  createIdentityPool,
+  isDeviceId,
+  resolveIdentitySnapshot,
+} from './identity.ts';
 import { ReadStore } from './read-store.ts';
 import { validateModuleActions } from './request-actions.ts';
+import { requestProfiles } from './request-profiles.ts';
 import { requestEffect, withRequestDeadline } from './request.ts';
 import {
   ProcessServices,
@@ -63,7 +68,7 @@ export const buildCallServices = (
     ? createIdentityPool(
         config.identityPool,
         { ...config, fetcher: config.fetcher ?? execution.fetcher },
-        registerAnonymous,
+        (options) => registerAnonymous(options, execution),
       )
     : null,
   initializeAnonymous,
@@ -131,24 +136,61 @@ export const runCall = <Input extends ModuleQuery>(
       config.cookie.MUSIC_U ||
       config.cookie.MUSIC_A ||
       config.state?.anonymousToken;
-    const identityConfig =
-      !explicitIdentity && scoped.pool ? yield* scoped.pool.next : undefined;
-    if (!explicitIdentity && !scoped.pool && scoped.initializeAnonymous) {
-      yield* ensureAnonymousEffect(config).pipe(
-        Effect.provideService(ProcessServices, scoped.process),
+    const needsSession =
+      actions === undefined ||
+      Object.values(actions).some(
+        (action) => requestProfiles[action.profile].protocol !== 'plain',
       );
-    }
+    const explicitDevice =
+      isDeviceId(config.state?.deviceId) || isDeviceId(config.cookie.deviceId);
+    const identityConfig =
+      !explicitIdentity && !explicitDevice && needsSession && scoped.pool
+        ? yield* scoped.pool.next
+        : undefined;
     const effective = identityConfig
       ? {
           ...config,
           ...identityConfig,
-          state: Object.freeze({ ...identityConfig.state, ...config.state }),
+          state: Object.freeze({
+            ...identityConfig.state,
+            ...config.state,
+            deviceId: identityConfig.state?.deviceId,
+          }),
         }
       : config;
-    const identity = resolveIdentitySnapshot(
-      effective,
-      scoped.process.readState(effective.state),
-    );
+    const runtime = scoped.process.readState();
+    let identity = resolveIdentitySnapshot(effective, {
+      ...runtime,
+      deviceId:
+        !explicitIdentity &&
+        !identityConfig &&
+        scoped.initializeAnonymous &&
+        needsSession &&
+        !runtime.anonymousToken &&
+        isDeviceId(effective.deviceId)
+          ? effective.deviceId
+          : runtime.deviceId,
+    });
+    if (
+      !explicitIdentity &&
+      !identityConfig &&
+      scoped.initializeAnonymous &&
+      needsSession
+    ) {
+      const token = yield* ensureAnonymousEffect(
+        { ...effective, state: identity.state },
+        scoped.execution,
+      ).pipe(Effect.provideService(ProcessServices, scoped.process));
+      identity = Object.freeze({
+        ...identity,
+        cookie: Object.freeze({ ...identity.cookie, MUSIC_A: token }),
+        state: Object.freeze({ ...identity.state, anonymousToken: token }),
+        fingerprint: createHash('sha256')
+          .update(JSON.stringify([token, identity.state.deviceId]))
+          .digest('hex'),
+        source: 'runtime-anonymous' as const,
+      });
+    }
     const read =
       effective.checkToken === undefined &&
       (actions === undefined

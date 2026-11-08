@@ -14,6 +14,11 @@ export interface TestEntry {
 // Every physical test file has one category; selections may share that file.
 export const testEntries: ReadonlyArray<TestEntry> = [
   {
+    file: 'tests/behavior/runtime/request-identity.test.ts',
+    category: 'behavior',
+    selections: ['local', 'mutation:request-identity'],
+  },
+  {
     file: 'tests/replay/special/special-chains.test.ts',
     category: 'replay',
     selections: ['local', 'special-chains'],

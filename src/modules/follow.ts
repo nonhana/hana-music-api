@@ -14,14 +14,14 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   follow: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: { prefix: '/api/user/follow/' },
     semantic: 'write',
     cache: 'none',
     retry: 'never',
   },
   delfollow: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: { prefix: '/api/user/delfollow/' },
     semantic: 'write',
     cache: 'none',

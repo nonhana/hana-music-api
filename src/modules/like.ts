@@ -24,14 +24,14 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   like: {
     target: '/api/radio/like',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',
   },
   unlike: {
     target: '/api/radio/like',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

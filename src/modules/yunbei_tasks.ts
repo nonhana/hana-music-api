@@ -13,7 +13,7 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/usertool/task/list/all',
     semantic: 'read',
     cache: 'none',

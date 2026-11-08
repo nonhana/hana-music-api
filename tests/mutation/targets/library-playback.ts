@@ -1,10 +1,9 @@
 export const mutations = [
   {
-    id: 'library-weapi-pc-cookie-lost',
+    id: 'library-web-cookie-contaminated',
     file: 'src/core/request-profiles.ts',
-    find: "weapiPc: {\n    protocol: 'weapi',\n    domain: 'https://music.163.com',\n    userAgent: USER_AGENT_MAP.weapi.pc,\n    cookie: OS_PROFILES.pc,",
-    replace:
-      "weapiPc: {\n    protocol: 'weapi',\n    domain: 'https://music.163.com',\n    userAgent: USER_AGENT_MAP.weapi.pc,\n    cookie: { os: 'web' },",
+    find: "cookie: { os: 'web' },",
+    replace: "cookie: { os: 'pc' },",
     expectedFailures: [
       'library client album/default owns its baseline wire contract',
     ],
@@ -13,7 +12,7 @@ export const mutations = [
     id: 'library-playback-protocol-swapped',
     file: 'src/modules/song_url.ts',
     find: "profile: 'eapi',",
-    replace: "profile: 'weapiPc',",
+    replace: "profile: 'web',",
     expectedFailures: [
       'library client song_url/default owns its baseline wire contract',
     ],
@@ -48,9 +47,9 @@ export const mutations = [
   {
     id: 'library-write-retry-granted',
     file: 'src/modules/like.ts',
-    find: "  like: {\n    target: '/api/radio/like',\n    profile: 'weapiPc',\n    semantic: 'write',\n    cache: 'none',\n    retry: 'never',",
+    find: "  like: {\n    target: '/api/radio/like',\n    profile: 'web',\n    semantic: 'write',\n    cache: 'none',\n    retry: 'never',",
     replace:
-      "  like: {\n    target: '/api/radio/like',\n    profile: 'weapiPc',\n    semantic: 'read',\n    cache: 'none',\n    retry: 'connect',",
+      "  like: {\n    target: '/api/radio/like',\n    profile: 'web',\n    semantic: 'read',\n    cache: 'none',\n    retry: 'connect',",
     expectedFailures: ['library like preserves EAI_AGAIN retry eligibility'],
   },
   {

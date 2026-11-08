@@ -24,7 +24,7 @@ import type {
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/resource/comment/floor/get',
     semantic: 'read',
     cache: 'none',

@@ -9,12 +9,11 @@ import { APP_CONF, OS_PROFILES, USER_AGENT_MAP } from './config.ts';
 import { eapi, linuxapi, weapi } from './crypto.ts';
 import { InvalidRequest } from './errors.ts';
 import type { IdentitySnapshot } from './identity.ts';
+import { requestProfiles } from './request-profiles.ts';
 import type { RequestProfile } from './request-profiles.ts';
 import { cookieObjToString, toBoolean } from './utils.ts';
 
 type RequestPayload = Record<string, unknown>;
-type UserAgentCrypto = 'api' | 'linuxapi' | 'weapi';
-type OsProfileKey = keyof typeof OS_PROFILES;
 
 export interface RequestEntropy {
   readonly now: number;
@@ -60,11 +59,48 @@ export const prepareRequest = (
     headers['X-Forwarded-For'] = ip;
     headers['X-Real-IP'] = ip;
   }
+  const crypto = resolveCrypto(options.crypto);
+  const rawCookie = { ...identity.cookie, ...cookieOverrides };
+  const rawOs = profile ? undefined : rawCookie.os;
+  const client =
+    profile ??
+    (rawOs === 'pc'
+      ? {
+          cookie: OS_PROFILES.pc,
+          userAgent: USER_AGENT_MAP.weapi.pc.replace(
+            'Macintosh; Intel Mac OS X 10_15_7',
+            'Windows NT 10.0; Win64; x64',
+          ),
+        }
+      : rawOs === 'android'
+        ? {
+            cookie: OS_PROFILES.android,
+            userAgent: USER_AGENT_MAP.weapi.pc
+              .replace('Macintosh; Intel Mac OS X 10_15_7', 'Linux; Android 14')
+              .replace('Safari/537.36 Edg/124.0.0.0', 'Mobile Safari/537.36'),
+          }
+        : rawOs === 'linux' || (rawOs === undefined && crypto === 'linuxapi')
+          ? {
+              cookie: OS_PROFILES.linux,
+              userAgent: USER_AGENT_MAP.linuxapi.linux,
+            }
+          : rawOs === 'osx'
+            ? requestProfiles.clientlogOsx
+            : rawOs === 'web' || (rawOs === undefined && crypto === 'weapi')
+              ? requestProfiles.web
+              : rawOs === undefined ||
+                  rawOs === 'iphone' ||
+                  rawOs === 'iPhone OS'
+                ? requestProfiles.eapi
+                : { cookie: {}, userAgent: '' });
+  const userAgent = options.ua || client.userAgent;
+  if (userAgent) headers['User-Agent'] = userAgent;
   const cookie = processCookieObject(
-    { ...identity.cookie, ...cookieOverrides },
+    rawCookie,
     uri,
     state,
     entropy,
+    client.cookie,
   );
   if (profile) {
     const controlled = new Set(
@@ -80,7 +116,6 @@ export const prepareRequest = (
   headers.Cookie = cookieObjToString(cookie);
 
   const csrfToken = String(cookie['__csrf'] ?? '');
-  const crypto = resolveCrypto(options.crypto);
   const payload = {
     ...data,
   };
@@ -107,7 +142,6 @@ export const prepareRequest = (
   switch (resolvedCrypto) {
     case 'weapi': {
       headers.Referer = options.domain || APP_CONF.domain;
-      headers['User-Agent'] = options.ua || chooseUserAgent('weapi', 'pc');
       payload.csrf_token = csrfToken;
       requestBody = weapi(payload, entropy.weapiSecret);
       url = `${options.domain || APP_CONF.domain}/weapi/${uri.slice(5)}`;
@@ -115,8 +149,6 @@ export const prepareRequest = (
     }
 
     case 'linuxapi': {
-      headers['User-Agent'] =
-        options.ua || chooseUserAgent('linuxapi', 'linux');
       requestBody = linuxapi({
         method: 'POST',
         params: payload,
@@ -130,7 +162,6 @@ export const prepareRequest = (
     case 'api': {
       const header = createEapiHeader(cookie, csrfToken, entropy);
       headers.Cookie = createHeaderCookie(header);
-      headers['User-Agent'] = options.ua || chooseUserAgent('api', 'iphone');
 
       if (resolvedCrypto === 'eapi') {
         if (checkToken !== undefined) header['X-antiCheatToken'] = checkToken;
@@ -178,42 +209,24 @@ const resolveCrypto = (
   return APP_CONF.encrypt ? 'eapi' : 'api';
 };
 
-const chooseUserAgent = (
-  crypto: UserAgentCrypto,
-  uaType: 'android' | 'iphone' | 'linux' | 'pc' = 'pc',
-): string => {
-  const config = USER_AGENT_MAP[crypto] as Partial<
-    Record<'android' | 'iphone' | 'linux' | 'pc', string>
-  >;
-  if (!config) {
-    return '';
-  }
-
-  return config[uaType] ?? '';
-};
-
 const processCookieObject = (
   cookie: CookieRecord,
   uri: string,
   state: RuntimeState,
   entropy: RequestEntropy,
+  defaults: Readonly<CookieRecord>,
 ): CookieRecord => {
   const randomNuid = entropy.nuid;
-  const osKey = getOsProfileKey(cookie.os);
-  const osProfile = OS_PROFILES[osKey];
   const processedCookie: CookieRecord = {
+    ...defaults,
     ...cookie,
     __remember_me: 'true',
     _ntes_nnid: String(cookie['_ntes_nnid'] ?? `${randomNuid},${entropy.now}`),
     _ntes_nuid: String(cookie['_ntes_nuid'] ?? randomNuid),
     WEVNSM: String(cookie.WEVNSM ?? '1.0.0'),
     WNMCID: String(cookie.WNMCID ?? entropy.wnmcid),
-    appver: String(cookie.appver ?? osProfile.appver),
-    channel: String(cookie.channel ?? osProfile.channel),
-    deviceId: String(cookie.deviceId ?? state.deviceId),
+    deviceId: state.deviceId,
     ntes_kaola_ad: '1',
-    os: String(cookie.os ?? osProfile.os),
-    osver: String(cookie.osver ?? osProfile.osver),
   };
 
   if (!uri.includes('login')) {
@@ -238,17 +251,22 @@ const createEapiHeader = (
 ): Record<string, string> => {
   const header: Record<string, string> = {
     __csrf: csrfToken,
-    appver: String(cookie.appver ?? ''),
-    buildver: String(cookie.buildver ?? `${entropy.now}`.slice(0, 10)),
-    channel: String(cookie.channel ?? ''),
     deviceId: String(cookie.deviceId ?? ''),
-    mobilename: String(cookie.mobilename ?? ''),
-    os: String(cookie.os ?? ''),
-    osver: String(cookie.osver ?? ''),
     requestId: entropy.requestId,
-    resolution: String(cookie.resolution ?? '1920x1080'),
-    versioncode: String(cookie.versioncode ?? '140'),
   };
+
+  for (const name of [
+    'appver',
+    'buildver',
+    'channel',
+    'mobilename',
+    'os',
+    'osver',
+    'resolution',
+    'versioncode',
+  ]) {
+    if (cookie[name] !== undefined) header[name] = String(cookie[name]);
+  }
 
   if (cookie.MUSIC_A) {
     header.MUSIC_A = String(cookie.MUSIC_A);
@@ -290,17 +308,4 @@ const readBooleanLike = (
   }
 
   return undefined;
-};
-
-const getOsProfileKey = (value: CookieRecord['os']): OsProfileKey => {
-  if (
-    value === 'android' ||
-    value === 'iphone' ||
-    value === 'linux' ||
-    value === 'pc'
-  ) {
-    return value;
-  }
-
-  return 'pc';
 };

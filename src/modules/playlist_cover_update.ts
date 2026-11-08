@@ -23,7 +23,7 @@ import type {
 export const moduleActions = {
   ...imageUploadActions,
   submit: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/playlist/cover/update',
     semantic: 'write',
     cache: 'none',

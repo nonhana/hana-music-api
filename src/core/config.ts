@@ -12,6 +12,7 @@ export const OS_PROFILES = {
     os: 'android',
     osver: '14',
   },
+
   iphone: {
     appver: '9.0.90',
     channel: 'distribution',

@@ -65,3 +65,7 @@ Hono 只属于 `src/server/`。`src/core/` 必须能够脱离 Hono 测试；模�
 #115 将最后13模块迁移为30个动作，352模块均有声明。inner_version、login_qr_create使用空动作集。上传阶段与plain GET也沿原RequestCapability执行，动作固定方法、响应模式及规范目标；plainNos只接受原允许域名后缀和云盘桶目录，其他plain profile固定域名。目标检查继续核对最终URL，不新增执行器。
 
 图片分配复用三个真实模块消费者的同一动作；声音与云盘保留API/plain混合阶段、数据依赖、总期限及部分完成。scrobble使用独立clientlogOsx组合，保留两条日志的顺序和原内容。playlist_tracks的512条件分支仍是业务第二请求。全部cache=none，写和上传never；cloud_import的读取保持原never，两段歌单读取保留原read上限，固定歌曲上传地址查询只connect，audio_match/related_playlist因动态query影响旧URI判定而收紧为never。P12继续负责删除已无消费者的旧控制面。[验收来源](../docs/acceptance/issue-115.md)与历史回放分别记录。
+
+## #122 当前身份规则
+
+前述P2及P6–P11的身份组合描述是各票历史基线。#122保留协议与动作合同，151个eapi动作改用已有iPhone四项，220个weapiPc浏览器动作改用web，7个web保持，clientlog的两条日志对齐macOS UA；9个plain动作保持。Call在默认状态合并前优先选择显式有效设备，再取Cookie和运行时兜底，prepareRequest纯投影所有受控字段；不存在旧混合profile。完整[字段来源与389动作清单](../docs/acceptance/issue-122-actions.md)保留历史到当前的映射，P12删除通用旧控制面继续归#116。

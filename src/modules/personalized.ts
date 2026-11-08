@@ -36,7 +36,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   read: {
     target: '/api/personalized/playlist',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'read',
     cache: 'none',
     retry: 'connect',

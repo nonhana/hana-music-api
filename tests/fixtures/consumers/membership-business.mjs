@@ -59,12 +59,24 @@ for (const [index, entry] of baseline.cases.entries()) {
             MUSIC_U: 'package-membership',
             MUSIC_A: 'package-anonymous',
             deviceId: 'package-device',
-            os: 'pc',
-            appver: '3.1.17.204416',
-            channel: 'netease',
-            osver: 'Microsoft-Windows-10-Professional-build-19045-64bit',
+            ...(entry.profile === 'eapi'
+              ? {
+                  os: 'iPhone OS',
+                  appver: '9.0.90',
+                  channel: 'distribution',
+                  osver: '16.2',
+                }
+              : { os: 'web' }),
           }))
             assert.equal(cookies[name], value);
+          for (const name of [
+            'buildver',
+            'versioncode',
+            'mobilename',
+            'resolution',
+            ...(entry.profile === 'eapi' ? [] : ['appver', 'channel', 'osver']),
+          ])
+            assert.ok(!(name in cookies));
           assert.ok(
             !request.headers.get('cookie').includes('package-membership-token'),
           );

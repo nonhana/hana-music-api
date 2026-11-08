@@ -17,7 +17,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   add: {
     target: '/api/playlist/track/add',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

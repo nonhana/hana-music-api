@@ -19,7 +19,7 @@ import type { QueryIdentifier } from '../types/module-shared.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/v1/play/record',
     semantic: 'read',
     cache: 'none',

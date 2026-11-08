@@ -11,14 +11,14 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   like: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/resource/like',
     semantic: 'write',
     cache: 'none',
     retry: 'never',
   },
   unlike: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/resource/unlike',
     semantic: 'write',
     cache: 'none',

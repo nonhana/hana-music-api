@@ -37,7 +37,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   read: {
     target: '/api/v2/privatecontent/list',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'read',
     cache: 'none',
     retry: 'connect',

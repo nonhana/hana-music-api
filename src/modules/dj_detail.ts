@@ -19,7 +19,7 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/djradio/v2/get',
     semantic: 'read',
     cache: 'none',

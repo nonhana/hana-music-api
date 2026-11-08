@@ -13,7 +13,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/user/level',
     semantic: 'read',
     cache: 'none',

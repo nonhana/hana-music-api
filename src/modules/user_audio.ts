@@ -18,7 +18,7 @@ import type { QueryIdentifier } from '../types/module-shared.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/djradio/get/byuser',
     semantic: 'read',
     cache: 'none',

@@ -22,7 +22,7 @@ import type {
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: { prefix: '/api/dj/program/' },
     semantic: 'read',
     cache: 'none',

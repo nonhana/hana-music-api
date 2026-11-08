@@ -12,7 +12,7 @@ import type { RequestCapability } from '../types/index.ts';
 
 export const imageUploadActions = {
   imageAllocate: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/nos/token/alloc',
     semantic: 'upload',
     cache: 'none',

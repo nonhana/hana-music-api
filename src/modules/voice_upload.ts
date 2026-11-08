@@ -27,7 +27,7 @@ import type {
 
 export const moduleActions = {
   allocate: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/nos/token/alloc',
     semantic: 'upload',
     cache: 'none',

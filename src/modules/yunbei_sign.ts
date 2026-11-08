@@ -8,7 +8,7 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/pointmall/user/sign',
     semantic: 'write',
     cache: 'none',

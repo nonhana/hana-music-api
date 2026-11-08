@@ -212,7 +212,7 @@ test('account anonymous initialization updates only anonymous runtime state and 
             expect(wire.headers.get('cookie')).toContain(
               'deviceId=anonymous-device',
             );
-            expect(wire.headers.get('cookie')).toContain('os=pc');
+            expect(wire.headers.get('cookie')).toContain('os=web');
           },
           response: () =>
             Response.json(

@@ -42,12 +42,26 @@ const checkWire = (entry: Case, wire: WireRequest, token?: string) => {
     MUSIC_A: 'library-anonymous',
     __csrf: 'csrf',
     deviceId: 'library-device',
-    os: 'pc',
-    appver: '3.1.17.204416',
-    channel: 'netease',
-    osver: 'Microsoft-Windows-10-Professional-build-19045-64bit',
+    ...(entry.profile === 'weapiPc'
+      ? { os: 'web' }
+      : {
+          os: 'iPhone OS',
+          appver: '9.0.90',
+          channel: 'distribution',
+          osver: '16.2',
+        }),
   });
-  for (const name of ['OS', 'APPVER', 'CHANNEL', 'OSVER'])
+  for (const name of [
+    'OS',
+    'APPVER',
+    'CHANNEL',
+    'OSVER',
+    'buildver',
+    'mobilename',
+    'versioncode',
+    'resolution',
+    ...(entry.profile === 'weapiPc' ? ['appver', 'channel', 'osver'] : []),
+  ])
     expect(cookies).not.toHaveProperty(name);
   expect(wire.url).not.toContain('library-token');
   expect(wire.headers.get('cookie')).not.toContain('library-token');

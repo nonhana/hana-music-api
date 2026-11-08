@@ -16,7 +16,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   remove: {
     target: '/api/playlist/remove',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

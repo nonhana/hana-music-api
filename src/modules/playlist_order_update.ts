@@ -16,7 +16,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   update: {
     target: '/api/playlist/order/update',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

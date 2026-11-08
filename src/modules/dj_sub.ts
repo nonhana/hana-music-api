@@ -9,14 +9,14 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   sub: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/djradio/sub',
     semantic: 'write',
     cache: 'none',
     retry: 'never',
   },
   unsub: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/djradio/unsub',
     semantic: 'write',
     cache: 'none',

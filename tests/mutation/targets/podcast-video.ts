@@ -21,7 +21,7 @@ export const mutations = [
     id: 'content-protocol-swapped',
     file: 'src/modules/voice_detail.ts',
     find: "profile: 'eapi',",
-    replace: "profile: 'weapiPc',",
+    replace: "profile: 'web',",
     expectedFailures: [
       'content client voice_detail/default owns its baseline wire contract',
     ],

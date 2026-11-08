@@ -2,7 +2,11 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, resolve } from 'node:path';
 
-import { createRequest } from '../core/request.ts';
+import type { InternalExecution } from '../core/call-context.ts';
+import { resolveIdentitySnapshot } from '../core/identity-snapshot.ts';
+import { buildApiRequestIntent } from '../core/request-intent.ts';
+import { runRequestAtEdge } from '../core/request.ts';
+import { toModuleResponse } from '../core/response.ts';
 import { setRuntimeState } from '../core/runtime.ts';
 import {
   cookieToJson,
@@ -40,29 +44,36 @@ const writeAnonymousToken = (
 
 export const registerAnonymous = async (
   options: GenerateConfigOptions = {},
+  execution?: InternalExecution,
 ): Promise<NcmApiResponse> => {
-  const deviceId = options.state?.deviceId ?? generateDeviceId();
-  const state = {
-    anonymousToken: options.state?.anonymousToken ?? '',
-    cnIp: options.state?.cnIp ?? generateRandomChineseIP(),
-    deviceId,
-  };
+  const state = resolveIdentitySnapshot(options, {
+    anonymousToken: '',
+    cnIp: generateRandomChineseIP(),
+    deviceId: generateDeviceId(),
+  }).state;
+  const deviceId = state.deviceId;
 
   setRuntimeState(state);
 
-  const result = await createRequest(
-    '/api/register/anonimous',
-    {
-      username: Buffer.from(
-        `${deviceId} ${encodeAnonymousDeviceId(deviceId)}`,
-        'utf8',
-      ).toString('base64'),
-    },
-    {
-      crypto: 'weapi',
-      fetcher: options.fetcher,
-      state,
-    },
+  const result = toModuleResponse(
+    await runRequestAtEdge(
+      buildApiRequestIntent(
+        '/api/register/anonimous',
+        {
+          username: Buffer.from(
+            `${deviceId} ${encodeAnonymousDeviceId(deviceId)}`,
+            'utf8',
+          ).toString('base64'),
+        },
+        { crypto: 'weapi' },
+      ),
+      {
+        crypto: 'weapi',
+        fetcher: options.fetcher,
+        state,
+      },
+      execution,
+    ),
   );
 
   if (isRecord(result.body) && result.body.code === 200) {

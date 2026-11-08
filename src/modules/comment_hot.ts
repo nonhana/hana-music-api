@@ -23,7 +23,7 @@ import type {
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: { prefix: '/api/v1/resource/hotcomments/' },
     semantic: 'read',
     cache: 'none',

@@ -63,7 +63,7 @@ describe('generated module type surface', () => {
       expect(Object.keys(definition.actions!)).not.toHaveLength(0);
       for (const action of Object.values(definition.actions!)) {
         expect(action).toMatchObject({
-          profile: entry.profile,
+          profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
           semantic: entry.semantic,
           cache: 'none',
           retry: entry.retry,
@@ -85,7 +85,7 @@ describe('generated module type surface', () => {
               : 'read'
         ];
       expect(action as unknown).toEqual({
-        profile: entry.profile,
+        profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
         target: entry.path,
         semantic: entry.semantic,
         cache: 'none',
@@ -131,7 +131,7 @@ describe('generated module type surface', () => {
                   : 'request';
       const action = definition.actions![actionName]!;
       expect(action).toMatchObject({
-        profile: entry.profile,
+        profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
         semantic: entry.semantic,
         cache: 'none',
         retry: entry.retry,
@@ -163,7 +163,7 @@ describe('generated module type surface', () => {
       expect(Object.keys(definition.actions!)).not.toHaveLength(0);
       for (const action of Object.values(definition.actions!))
         expect(action).toMatchObject({
-          profile: entry.profile,
+          profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
           semantic: entry.semantic,
           cache: 'none',
           retry: entry.retry,
@@ -190,7 +190,7 @@ describe('generated module type surface', () => {
       expect(Object.keys(definition.actions!)).not.toHaveLength(0);
       for (const action of Object.values(definition.actions!))
         expect(action).toMatchObject({
-          profile: entry.profile,
+          profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
           semantic: entry.semantic,
           cache: 'none',
           retry: entry.retry,

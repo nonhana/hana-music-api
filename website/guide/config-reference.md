@@ -15,22 +15,22 @@ client 的默认配置与单次配置按顶层字段合并，单次配置优先�
 
 ## 身份与请求头
 
-| 字段         | 类型                                | 未设置时                         | 作用                                                           |
-| ------------ | ----------------------------------- | -------------------------------- | -------------------------------------------------------------- |
-| `cookie`     | `string \| CookieRecord`            | 从 Cookie 请求头或运行时身份解析 | 传递账号或游客身份                                             |
-| `deviceId`   | `string`                            | 自动生成合格设备号               | SDK 隐式匿名注册使用的设备号，建议用 `generateDeviceId()` 生成 |
-| `checkToken` | `string \| (() => Promise<string>)` | 未设置                           | 所有 SDK 模块可选传递的易盾令牌；provider 按 API 请求取值      |
-| `headers`    | `Record<string, string>`            | 无额外请求头                     | 与协议生成的头合并；协议所需字段可能覆盖自定义值               |
-| `state`      | `Partial<RuntimeState>`             | 使用进程状态                     | 按次覆盖匿名令牌、设备号和默认来源 IP                          |
-| `ip`         | `string`                            | 使用运行时 `cnIp`                | 设置来源 IP 请求头                                             |
-| `realIP`     | `string`                            | 使用 `ip` 或 `cnIp`              | 比 `ip` 优先，仍只影响请求头                                   |
-| `ua`         | `string`                            | 按协议选择                       | 覆盖 `User-Agent`                                              |
+| 字段         | 类型                                | 未设置时                         | 作用                                                         |
+| ------------ | ----------------------------------- | -------------------------------- | ------------------------------------------------------------ |
+| `cookie`     | `string \| CookieRecord`            | 从 Cookie 请求头或运行时身份解析 | 传递账号或游客身份                                           |
+| `deviceId`   | `string`                            | 使用本次已有设备                 | 仅在本次需要隐式匿名注册时提供设备兜底，低于 state 和 Cookie |
+| `checkToken` | `string \| (() => Promise<string>)` | 未设置                           | 所有 SDK 模块可选传递的易盾令牌；provider 按 API 请求取值    |
+| `headers`    | `Record<string, string>`            | 无额外请求头                     | 与协议生成的头合并；协议所需字段可能覆盖自定义值             |
+| `state`      | `Partial<RuntimeState>`             | 使用进程状态                     | 按次覆盖匿名令牌、设备号和默认来源 IP                        |
+| `ip`         | `string`                            | 使用运行时 `cnIp`                | 设置来源 IP 请求头                                           |
+| `realIP`     | `string`                            | 使用 `ip` 或 `cnIp`              | 比 `ip` 优先，仍只影响请求头                                 |
+| `ua`         | `string`                            | 按协议选择                       | 覆盖 `User-Agent`                                            |
 
-playlistSubscribe、albumSub、artistSub、search、lyric、songDetail、playlistDetail 的客户端身份由动作声明固定，`ua` 及身份 Cookie 字段不能覆盖它；MUSIC_U/MUSIC_A 等会话仍按本次调用保留。自定义 headers 中的协议受控字段也不能覆盖声明。
+所有普通 SDK 模块的客户端身份都由动作声明固定，`ua` 及身份 Cookie 字段不能覆盖它；MUSIC_U/MUSIC_A 等会话仍按本次调用保留。自定义 headers 中的协议受控字段也不能覆盖声明。
 
 显式 `cookie` 优先于 `headers` 中的 Cookie，头名不区分大小写。`ip` 和 `realIP` 不会改变实际网络出口。细节见 [运行时状态与身份](/guide/runtime-identity)。
 
-`deviceId` 仅用于 SDK 需要发起匿名注册时；已有账号 Cookie、游客令牌或进程游客身份时不会重新注册。它不替代 `state.deviceId` 的按次覆盖能力，也不是 HTTP 参数。合格条件和保存设备号的示例见 [匿名注册的设备号](/guide/runtime-identity#匿名注册的设备号)。
+`state.deviceId` 中有效的非空设备号优先于旧 Cookie 的 `deviceId`，都没有才使用已有匿名或运行时设备；空白和控制字符不属于有效设备号。设备创建和跨调用保存由应用负责。顶层 `deviceId` 只在本次确实需要隐式匿名注册时提供兼容兜底；已有普通匿名会话不会因为它改设备或重新注册，也不是 HTTP 参数。合格条件和保存设备号的示例见 [匿名注册的设备号](/guide/runtime-identity#匿名注册的设备号)。
 
 所有 SDK 模块都可选择传入 `checkToken`，读取、收藏和取消使用同一规则。未配置时不取令牌、不附加；配置了空串、空白值或失败的 provider 时，在业务请求发送前以 400 拒绝。token 值必须能原样写入 HTTP 头，首尾空白或非法头字符在发送前以 400 拒绝，避免正文与头不一致。等待 provider 计入总期限，超时或取消后不会继续发送。
 
@@ -65,7 +65,7 @@ weapi 把同一值放进加密正文 `checkToken` 和 HTTP 头 `X-antiCheatToken
 | `e_r`        | `boolean \| number \| string`                    | 默认 `false`，也可来自请求数据    | 请求加密响应，`eapi` 和 `weapi` 支持解密 |
 | `acceptGzip` | `boolean`                                        | `false`                           | 声明接受 gzip 压缩的 `eapi` 响应         |
 
-上表的覆盖能力用于低层 `createRequest` 和尚未迁移的模块。playlistSubscribe、albumSub、artistSub、search、lyric、songDetail、playlistDetail 忽略这些覆盖，按动作声明执行：搜索、歌词、歌单详情为 eapi，歌曲详情和歌单收藏为 web/weapi，e_r/acceptGzip 均关闭。需要直接控制协议和目标时改用 `createRequest`，并按上游格式传业务参数。
+上表的覆盖能力用于显式低层 `createRequest`；普通模块均按各自动作声明执行，不接受这些自由覆盖。各接口继续使用原协议，EAPI 使用配套的 iPhone 字段，weapi 浏览器动作为干净 web 身份，特殊 clientlog 使用配套 macOS 身份。需要直接控制协议和目标时改用 `createRequest`，并按上游格式传业务参数。
 
 日常调用沿用模块默认协议即可。带账号或游客身份的 API 请求只允许已知 HTTPS 网易云 API 域名，`domain` 不能用来任意转发凭据。`e_r`、`acceptGzip` 建议使用明确的布尔值，细节见 [加密模式](/guide/crypto-modes)。
 
@@ -76,4 +76,4 @@ weapi 把同一值放进加密正文 `checkToken` 和 HTTP 头 `X-antiCheatToken
 | `cache`        | `{ enabled?: boolean; ttlMs?: number }` | 关闭   | 保存明确读接口的成功结果；传对象后默认保存 120 秒，`enabled: false` 关闭 |
 | `identityPool` | `{ size: number }`                      | 关闭   | 首次需要时注册多套游客身份，再按调用轮换                                 |
 
-关闭缓存不会关闭正在执行的相同读取的合并。身份池也不会改变真实出口 IP。详见 [缓存与身份池](/guide/sdk-cache-and-identity-pool)。
+关闭缓存不会关闭正在执行的相同读取的合并。调用已提供有效的 state 或 Cookie 设备时，会保留该设备并绕过身份池；纯本地和外部 plain 请求不初始化池。身份池也不会改变真实出口 IP。详见 [缓存与身份池](/guide/sdk-cache-and-identity-pool)。

@@ -45,7 +45,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   match: {
     target: '/api/cloud/user/song/match',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

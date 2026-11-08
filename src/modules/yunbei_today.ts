@@ -9,7 +9,7 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/point/today/get',
     semantic: 'read',
     cache: 'none',

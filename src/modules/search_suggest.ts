@@ -84,14 +84,14 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   mobile: {
     target: '/api/search/suggest/keyword',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'read',
     cache: 'none',
     retry: 'read',
   },
   web: {
     target: '/api/search/suggest/web',
-    profile: 'weapiPc',
+    profile: 'web',
     semantic: 'read',
     cache: 'none',
     retry: 'read',

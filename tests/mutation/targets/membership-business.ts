@@ -3,7 +3,7 @@ export const mutations = [
     id: 'membership-protocol-swapped',
     file: 'src/modules/listen_data_total.ts',
     find: "profile: 'eapi',",
-    replace: "profile: 'weapiPc',",
+    replace: "profile: 'web',",
     expectedFailures: [
       'membership client listen_data_total/default owns its baseline wire contract',
     ],

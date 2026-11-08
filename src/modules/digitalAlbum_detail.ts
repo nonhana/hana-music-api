@@ -10,7 +10,7 @@ import { ModuleBody as AlbumDetailBody } from './album_detail.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/vipmall/albumproduct/detail',
     semantic: 'read',
     cache: 'none',

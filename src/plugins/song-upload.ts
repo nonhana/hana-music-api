@@ -13,7 +13,7 @@ import type { LegacyUploadedFile } from '../types/module-shared.ts';
 
 export const songUploadActions = {
   songAllocate: {
-    profile: 'weapiPc',
+    profile: 'web',
     target: '/api/nos/token/alloc',
     semantic: 'upload',
     cache: 'none',
