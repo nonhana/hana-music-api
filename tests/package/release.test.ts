@@ -174,6 +174,7 @@ describe('sdk release contract', () => {
     let consumerExit = 1;
     let browserEvidence: unknown;
     const libraryPlayback: Array<unknown> = [];
+    const accountSocial: Array<unknown> = [];
     const searchDiscovery: Array<unknown> = [];
 
     try {
@@ -566,6 +567,43 @@ describe('sdk release contract', () => {
         });
       }
 
+      writeFileSync(
+        resolve(consumerDirectory, 'account-social.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/account-social.mjs'),
+        ),
+      );
+      writeFileSync(
+        resolve(consumerDirectory, 'account-social.json'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/requests/account-social.json'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'account-social.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 801,
+          providers: 267,
+          cases: 267,
+          modules: 83,
+        });
+        accountSocial.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
       const negativeImportScriptPath = resolve(
         consumerDirectory,
         'negative-import.mjs',
@@ -760,6 +798,7 @@ describe('sdk release contract', () => {
             runtimes,
             libraryPlayback,
             searchDiscovery,
+            accountSocial,
             browser: browserEvidence,
             files: filePaths.map((path) => ({
               path,

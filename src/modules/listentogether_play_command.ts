@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/listen/together/play/command/report',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 接口就是为了确认播放指令上报成功：正文顶层的返回码 `code` 收紧；`data.result` 和
 // `message` 是附带提示，宽松（`data.message` 只见过 `null`，不声明）。
@@ -43,11 +53,7 @@ const listentogetherPlayCommand: ModuleEffect<ModuleInput, ModuleBody> = (
       }),
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/listen/together/play/command/report`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'listentogether_play_command',

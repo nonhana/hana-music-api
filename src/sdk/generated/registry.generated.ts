@@ -1,5 +1,6 @@
 import activateInitProfileModule, {
   decodeModuleInput as activateInitProfileInputDecoder,
+  moduleActions as activateInitProfileActions,
 } from '../../modules/activate_init_profile.ts';
 import aidjContentRcmdModule, {
   decodeModuleInput as aidjContentRcmdInputDecoder,
@@ -147,12 +148,15 @@ import calendarModule, {
 } from '../../modules/calendar.ts';
 import captchaSentModule, {
   decodeModuleInput as captchaSentInputDecoder,
+  moduleActions as captchaSentActions,
 } from '../../modules/captcha_sent.ts';
 import captchaVerifyModule, {
   decodeModuleInput as captchaVerifyInputDecoder,
+  moduleActions as captchaVerifyActions,
 } from '../../modules/captcha_verify.ts';
 import cellphoneExistenceCheckModule, {
   decodeModuleInput as cellphoneExistenceCheckInputDecoder,
+  moduleActions as cellphoneExistenceCheckActions,
 } from '../../modules/cellphone_existence_check.ts';
 import checkMusicModule, {
   decodeModuleInput as checkMusicInputDecoder,
@@ -174,45 +178,59 @@ import cloudsearchModule, {
 } from '../../modules/cloudsearch.ts';
 import commentModule, {
   decodeModuleInput as commentInputDecoder,
+  moduleActions as commentActions,
 } from '../../modules/comment.ts';
 import commentAlbumModule, {
   decodeModuleInput as commentAlbumInputDecoder,
+  moduleActions as commentAlbumActions,
 } from '../../modules/comment_album.ts';
 import commentDjModule, {
   decodeModuleInput as commentDjInputDecoder,
+  moduleActions as commentDjActions,
 } from '../../modules/comment_dj.ts';
 import commentEventModule, {
   decodeModuleInput as commentEventInputDecoder,
+  moduleActions as commentEventActions,
 } from '../../modules/comment_event.ts';
 import commentFloorModule, {
   decodeModuleInput as commentFloorInputDecoder,
+  moduleActions as commentFloorActions,
 } from '../../modules/comment_floor.ts';
 import commentHotModule, {
   decodeModuleInput as commentHotInputDecoder,
+  moduleActions as commentHotActions,
 } from '../../modules/comment_hot.ts';
 import commentHugListModule, {
   decodeModuleInput as commentHugListInputDecoder,
+  moduleActions as commentHugListActions,
 } from '../../modules/comment_hug_list.ts';
 import commentLikeModule, {
   decodeModuleInput as commentLikeInputDecoder,
+  moduleActions as commentLikeActions,
 } from '../../modules/comment_like.ts';
 import commentMusicModule, {
   decodeModuleInput as commentMusicInputDecoder,
+  moduleActions as commentMusicActions,
 } from '../../modules/comment_music.ts';
 import commentMvModule, {
   decodeModuleInput as commentMvInputDecoder,
+  moduleActions as commentMvActions,
 } from '../../modules/comment_mv.ts';
 import commentNewModule, {
   decodeModuleInput as commentNewInputDecoder,
+  moduleActions as commentNewActions,
 } from '../../modules/comment_new.ts';
 import commentPlaylistModule, {
   decodeModuleInput as commentPlaylistInputDecoder,
+  moduleActions as commentPlaylistActions,
 } from '../../modules/comment_playlist.ts';
 import commentVideoModule, {
   decodeModuleInput as commentVideoInputDecoder,
+  moduleActions as commentVideoActions,
 } from '../../modules/comment_video.ts';
 import countriesCodeListModule, {
   decodeModuleInput as countriesCodeListInputDecoder,
+  moduleActions as countriesCodeListActions,
 } from '../../modules/countries_code_list.ts';
 import dailySigninModule, {
   decodeModuleInput as dailySigninInputDecoder,
@@ -321,12 +339,15 @@ import djRadioTopModule, {
 } from '../../modules/djRadio_top.ts';
 import eventModule, {
   decodeModuleInput as eventInputDecoder,
+  moduleActions as eventActions,
 } from '../../modules/event.ts';
 import eventDelModule, {
   decodeModuleInput as eventDelInputDecoder,
+  moduleActions as eventDelActions,
 } from '../../modules/event_del.ts';
 import eventForwardModule, {
   decodeModuleInput as eventForwardInputDecoder,
+  moduleActions as eventForwardActions,
 } from '../../modules/event_forward.ts';
 import fmTrashModule, {
   decodeModuleInput as fmTrashInputDecoder,
@@ -334,9 +355,11 @@ import fmTrashModule, {
 } from '../../modules/fm_trash.ts';
 import followModule, {
   decodeModuleInput as followInputDecoder,
+  moduleActions as followActions,
 } from '../../modules/follow.ts';
 import getUseridsModule, {
   decodeModuleInput as getUseridsInputDecoder,
+  moduleActions as getUseridsActions,
 } from '../../modules/get_userids.ts';
 import historyRecommendSongsModule, {
   decodeModuleInput as historyRecommendSongsInputDecoder,
@@ -356,9 +379,11 @@ import homepageDragonBallModule, {
 } from '../../modules/homepage_dragon_ball.ts';
 import hotTopicModule, {
   decodeModuleInput as hotTopicInputDecoder,
+  moduleActions as hotTopicActions,
 } from '../../modules/hot_topic.ts';
 import hugCommentModule, {
   decodeModuleInput as hugCommentInputDecoder,
+  moduleActions as hugCommentActions,
 } from '../../modules/hug_comment.ts';
 import imageUploadTokenModule, {
   decodeModuleInput as imageUploadTokenInputDecoder,
@@ -391,54 +416,70 @@ import listenDataYearReportModule, {
 } from '../../modules/listen_data_year_report.ts';
 import listentogetherAcceptModule, {
   decodeModuleInput as listentogetherAcceptInputDecoder,
+  moduleActions as listentogetherAcceptActions,
 } from '../../modules/listentogether_accept.ts';
 import listentogetherEndModule, {
   decodeModuleInput as listentogetherEndInputDecoder,
+  moduleActions as listentogetherEndActions,
 } from '../../modules/listentogether_end.ts';
 import listentogetherHeatbeatModule, {
   decodeModuleInput as listentogetherHeatbeatInputDecoder,
+  moduleActions as listentogetherHeatbeatActions,
 } from '../../modules/listentogether_heatbeat.ts';
 import listentogetherPlayCommandModule, {
   decodeModuleInput as listentogetherPlayCommandInputDecoder,
+  moduleActions as listentogetherPlayCommandActions,
 } from '../../modules/listentogether_play_command.ts';
 import listentogetherRoomCheckModule, {
   decodeModuleInput as listentogetherRoomCheckInputDecoder,
+  moduleActions as listentogetherRoomCheckActions,
 } from '../../modules/listentogether_room_check.ts';
 import listentogetherRoomCreateModule, {
   decodeModuleInput as listentogetherRoomCreateInputDecoder,
+  moduleActions as listentogetherRoomCreateActions,
 } from '../../modules/listentogether_room_create.ts';
 import listentogetherStatusModule, {
   decodeModuleInput as listentogetherStatusInputDecoder,
+  moduleActions as listentogetherStatusActions,
 } from '../../modules/listentogether_status.ts';
 import listentogetherSyncListCommandModule, {
   decodeModuleInput as listentogetherSyncListCommandInputDecoder,
+  moduleActions as listentogetherSyncListCommandActions,
 } from '../../modules/listentogether_sync_list_command.ts';
 import listentogetherSyncPlaylistGetModule, {
   decodeModuleInput as listentogetherSyncPlaylistGetInputDecoder,
+  moduleActions as listentogetherSyncPlaylistGetActions,
 } from '../../modules/listentogether_sync_playlist_get.ts';
 import loginModule, {
   decodeModuleInput as loginInputDecoder,
+  moduleActions as loginActions,
 } from '../../modules/login.ts';
 import loginCellphoneModule, {
   decodeModuleInput as loginCellphoneInputDecoder,
+  moduleActions as loginCellphoneActions,
 } from '../../modules/login_cellphone.ts';
 import loginQrCheckModule, {
   decodeModuleInput as loginQrCheckInputDecoder,
+  moduleActions as loginQrCheckActions,
 } from '../../modules/login_qr_check.ts';
 import loginQrCreateModule, {
   decodeModuleInput as loginQrCreateInputDecoder,
 } from '../../modules/login_qr_create.ts';
 import loginQrKeyModule, {
   decodeModuleInput as loginQrKeyInputDecoder,
+  moduleActions as loginQrKeyActions,
 } from '../../modules/login_qr_key.ts';
 import loginRefreshModule, {
   decodeModuleInput as loginRefreshInputDecoder,
+  moduleActions as loginRefreshActions,
 } from '../../modules/login_refresh.ts';
 import loginStatusModule, {
   decodeModuleInput as loginStatusInputDecoder,
+  moduleActions as loginStatusActions,
 } from '../../modules/login_status.ts';
 import logoutModule, {
   decodeModuleInput as logoutInputDecoder,
+  moduleActions as logoutActions,
 } from '../../modules/logout.ts';
 import lyricModule, {
   decodeModuleInput as lyricInputDecoder,
@@ -459,21 +500,27 @@ import mlogUrlModule, {
 } from '../../modules/mlog_url.ts';
 import msgCommentsModule, {
   decodeModuleInput as msgCommentsInputDecoder,
+  moduleActions as msgCommentsActions,
 } from '../../modules/msg_comments.ts';
 import msgForwardsModule, {
   decodeModuleInput as msgForwardsInputDecoder,
+  moduleActions as msgForwardsActions,
 } from '../../modules/msg_forwards.ts';
 import msgNoticesModule, {
   decodeModuleInput as msgNoticesInputDecoder,
+  moduleActions as msgNoticesActions,
 } from '../../modules/msg_notices.ts';
 import msgPrivateModule, {
   decodeModuleInput as msgPrivateInputDecoder,
+  moduleActions as msgPrivateActions,
 } from '../../modules/msg_private.ts';
 import msgPrivateHistoryModule, {
   decodeModuleInput as msgPrivateHistoryInputDecoder,
+  moduleActions as msgPrivateHistoryActions,
 } from '../../modules/msg_private_history.ts';
 import msgRecentcontactModule, {
   decodeModuleInput as msgRecentcontactInputDecoder,
+  moduleActions as msgRecentcontactActions,
 } from '../../modules/msg_recentcontact.ts';
 import musicFirstListenInfoModule, {
   decodeModuleInput as musicFirstListenInfoInputDecoder,
@@ -525,6 +572,7 @@ import mvUrlModule, {
 } from '../../modules/mv_url.ts';
 import nicknameCheckModule, {
   decodeModuleInput as nicknameCheckInputDecoder,
+  moduleActions as nicknameCheckActions,
 } from '../../modules/nickname_check.ts';
 import personalFmModule, {
   decodeModuleInput as personalFmInputDecoder,
@@ -560,6 +608,7 @@ import personalizedPrivatecontentListModule, {
 } from '../../modules/personalized_privatecontent_list.ts';
 import plCountModule, {
   decodeModuleInput as plCountInputDecoder,
+  moduleActions as plCountActions,
 } from '../../modules/pl_count.ts';
 import playlistCatlistModule, {
   decodeModuleInput as playlistCatlistInputDecoder,
@@ -671,6 +720,7 @@ import programRecommendModule, {
 } from '../../modules/program_recommend.ts';
 import rebindModule, {
   decodeModuleInput as rebindInputDecoder,
+  moduleActions as rebindActions,
 } from '../../modules/rebind.ts';
 import recentListenListModule, {
   decodeModuleInput as recentListenListInputDecoder,
@@ -707,9 +757,11 @@ import recordRecentVoiceModule, {
 } from '../../modules/record_recent_voice.ts';
 import registerAnonimousModule, {
   decodeModuleInput as registerAnonimousInputDecoder,
+  moduleActions as registerAnonimousActions,
 } from '../../modules/register_anonimous.ts';
 import registerCellphoneModule, {
   decodeModuleInput as registerCellphoneInputDecoder,
+  moduleActions as registerCellphoneActions,
 } from '../../modules/register_cellphone.ts';
 import relatedAllvideoModule, {
   decodeModuleInput as relatedAllvideoInputDecoder,
@@ -719,6 +771,7 @@ import relatedPlaylistModule, {
 } from '../../modules/related_playlist.ts';
 import resourceLikeModule, {
   decodeModuleInput as resourceLikeInputDecoder,
+  moduleActions as resourceLikeActions,
 } from '../../modules/resource_like.ts';
 import scrobbleModule, {
   decodeModuleInput as scrobbleInputDecoder,
@@ -753,21 +806,27 @@ import searchSuggestModule, {
 } from '../../modules/search_suggest.ts';
 import sendAlbumModule, {
   decodeModuleInput as sendAlbumInputDecoder,
+  moduleActions as sendAlbumActions,
 } from '../../modules/send_album.ts';
 import sendPlaylistModule, {
   decodeModuleInput as sendPlaylistInputDecoder,
+  moduleActions as sendPlaylistActions,
 } from '../../modules/send_playlist.ts';
 import sendSongModule, {
   decodeModuleInput as sendSongInputDecoder,
+  moduleActions as sendSongActions,
 } from '../../modules/send_song.ts';
 import sendTextModule, {
   decodeModuleInput as sendTextInputDecoder,
+  moduleActions as sendTextActions,
 } from '../../modules/send_text.ts';
 import settingModule, {
   decodeModuleInput as settingInputDecoder,
+  moduleActions as settingActions,
 } from '../../modules/setting.ts';
 import shareResourceModule, {
   decodeModuleInput as shareResourceInputDecoder,
+  moduleActions as shareResourceActions,
 } from '../../modules/share_resource.ts';
 import sheetListModule, {
   decodeModuleInput as sheetListInputDecoder,
@@ -883,6 +942,7 @@ import songWikiSummaryModule, {
 } from '../../modules/song_wiki_summary.ts';
 import starpickCommentsSummaryModule, {
   decodeModuleInput as starpickCommentsSummaryInputDecoder,
+  moduleActions as starpickCommentsSummaryActions,
 } from '../../modules/starpick_comments_summary.ts';
 import styleAlbumModule, {
   decodeModuleInput as styleAlbumInputDecoder,
@@ -945,12 +1005,15 @@ import topSongModule, {
 } from '../../modules/top_song.ts';
 import topicDetailModule, {
   decodeModuleInput as topicDetailInputDecoder,
+  moduleActions as topicDetailActions,
 } from '../../modules/topic_detail.ts';
 import topicDetailEventHotModule, {
   decodeModuleInput as topicDetailEventHotInputDecoder,
+  moduleActions as topicDetailEventHotActions,
 } from '../../modules/topic_detail_event_hot.ts';
 import topicSublistModule, {
   decodeModuleInput as topicSublistInputDecoder,
+  moduleActions as topicSublistActions,
 } from '../../modules/topic_sublist.ts';
 import toplistModule, {
   decodeModuleInput as toplistInputDecoder,
@@ -994,12 +1057,14 @@ import ugcUserDevoteModule, {
 } from '../../modules/ugc_user_devote.ts';
 import userAccountModule, {
   decodeModuleInput as userAccountInputDecoder,
+  moduleActions as userAccountActions,
 } from '../../modules/user_account.ts';
 import userAudioModule, {
   decodeModuleInput as userAudioInputDecoder,
 } from '../../modules/user_audio.ts';
 import userBindingModule, {
   decodeModuleInput as userBindingInputDecoder,
+  moduleActions as userBindingActions,
 } from '../../modules/user_binding.ts';
 import userCloudModule, {
   decodeModuleInput as userCloudInputDecoder,
@@ -1015,33 +1080,42 @@ import userCloudDetailModule, {
 } from '../../modules/user_cloud_detail.ts';
 import userCommentHistoryModule, {
   decodeModuleInput as userCommentHistoryInputDecoder,
+  moduleActions as userCommentHistoryActions,
 } from '../../modules/user_comment_history.ts';
 import userDetailModule, {
   decodeModuleInput as userDetailInputDecoder,
+  moduleActions as userDetailActions,
 } from '../../modules/user_detail.ts';
 import userDjModule, {
   decodeModuleInput as userDjInputDecoder,
 } from '../../modules/user_dj.ts';
 import userEventModule, {
   decodeModuleInput as userEventInputDecoder,
+  moduleActions as userEventActions,
 } from '../../modules/user_event.ts';
 import userFollowMixedModule, {
   decodeModuleInput as userFollowMixedInputDecoder,
+  moduleActions as userFollowMixedActions,
 } from '../../modules/user_follow_mixed.ts';
 import userFollowedsModule, {
   decodeModuleInput as userFollowedsInputDecoder,
+  moduleActions as userFollowedsActions,
 } from '../../modules/user_followeds.ts';
 import userFollowsModule, {
   decodeModuleInput as userFollowsInputDecoder,
+  moduleActions as userFollowsActions,
 } from '../../modules/user_follows.ts';
 import userLevelModule, {
   decodeModuleInput as userLevelInputDecoder,
+  moduleActions as userLevelActions,
 } from '../../modules/user_level.ts';
 import userMedalModule, {
   decodeModuleInput as userMedalInputDecoder,
+  moduleActions as userMedalActions,
 } from '../../modules/user_medal.ts';
 import userMutualfollowGetModule, {
   decodeModuleInput as userMutualfollowGetInputDecoder,
+  moduleActions as userMutualfollowGetActions,
 } from '../../modules/user_mutualfollow_get.ts';
 import userPlaylistModule, {
   decodeModuleInput as userPlaylistInputDecoder,
@@ -1060,30 +1134,39 @@ import userRecordModule, {
 } from '../../modules/user_record.ts';
 import userReplacephoneModule, {
   decodeModuleInput as userReplacephoneInputDecoder,
+  moduleActions as userReplacephoneActions,
 } from '../../modules/user_replacephone.ts';
 import userSocialStatusModule, {
   decodeModuleInput as userSocialStatusInputDecoder,
+  moduleActions as userSocialStatusActions,
 } from '../../modules/user_social_status.ts';
 import userSocialStatusEditModule, {
   decodeModuleInput as userSocialStatusEditInputDecoder,
+  moduleActions as userSocialStatusEditActions,
 } from '../../modules/user_social_status_edit.ts';
 import userSocialStatusRcmdModule, {
   decodeModuleInput as userSocialStatusRcmdInputDecoder,
+  moduleActions as userSocialStatusRcmdActions,
 } from '../../modules/user_social_status_rcmd.ts';
 import userSocialStatusSupportModule, {
   decodeModuleInput as userSocialStatusSupportInputDecoder,
+  moduleActions as userSocialStatusSupportActions,
 } from '../../modules/user_social_status_support.ts';
 import userSubcountModule, {
   decodeModuleInput as userSubcountInputDecoder,
+  moduleActions as userSubcountActions,
 } from '../../modules/user_subcount.ts';
 import userUpdateModule, {
   decodeModuleInput as userUpdateInputDecoder,
+  moduleActions as userUpdateActions,
 } from '../../modules/user_update.ts';
 import verifyGetQrModule, {
   decodeModuleInput as verifyGetQrInputDecoder,
+  moduleActions as verifyGetQrActions,
 } from '../../modules/verify_getQr.ts';
 import verifyQrcodestatusModule, {
   decodeModuleInput as verifyQrcodestatusInputDecoder,
+  moduleActions as verifyQrcodestatusActions,
 } from '../../modules/verify_qrcodestatus.ts';
 import videoCategoryListModule, {
   decodeModuleInput as videoCategoryListInputDecoder,
@@ -1201,6 +1284,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/activate/init/profile',
     execute: activateInitProfileModule,
     decodeInput: activateInitProfileInputDecoder,
+    actions: activateInitProfileActions,
   },
   aidj_content_rcmd: {
     identifier: 'aidj_content_rcmd',
@@ -1465,18 +1549,21 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/captcha/sent',
     execute: captchaSentModule,
     decodeInput: captchaSentInputDecoder,
+    actions: captchaSentActions,
   },
   captcha_verify: {
     identifier: 'captcha_verify',
     route: '/captcha/verify',
     execute: captchaVerifyModule,
     decodeInput: captchaVerifyInputDecoder,
+    actions: captchaVerifyActions,
   },
   cellphone_existence_check: {
     identifier: 'cellphone_existence_check',
     route: '/cellphone/existence/check',
     execute: cellphoneExistenceCheckModule,
     decodeInput: cellphoneExistenceCheckInputDecoder,
+    actions: cellphoneExistenceCheckActions,
   },
   check_music: {
     identifier: 'check_music',
@@ -1516,84 +1603,98 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/comment',
     execute: commentModule,
     decodeInput: commentInputDecoder,
+    actions: commentActions,
   },
   comment_album: {
     identifier: 'comment_album',
     route: '/comment/album',
     execute: commentAlbumModule,
     decodeInput: commentAlbumInputDecoder,
+    actions: commentAlbumActions,
   },
   comment_dj: {
     identifier: 'comment_dj',
     route: '/comment/dj',
     execute: commentDjModule,
     decodeInput: commentDjInputDecoder,
+    actions: commentDjActions,
   },
   comment_event: {
     identifier: 'comment_event',
     route: '/comment/event',
     execute: commentEventModule,
     decodeInput: commentEventInputDecoder,
+    actions: commentEventActions,
   },
   comment_floor: {
     identifier: 'comment_floor',
     route: '/comment/floor',
     execute: commentFloorModule,
     decodeInput: commentFloorInputDecoder,
+    actions: commentFloorActions,
   },
   comment_hot: {
     identifier: 'comment_hot',
     route: '/comment/hot',
     execute: commentHotModule,
     decodeInput: commentHotInputDecoder,
+    actions: commentHotActions,
   },
   comment_hug_list: {
     identifier: 'comment_hug_list',
     route: '/comment/hug/list',
     execute: commentHugListModule,
     decodeInput: commentHugListInputDecoder,
+    actions: commentHugListActions,
   },
   comment_like: {
     identifier: 'comment_like',
     route: '/comment/like',
     execute: commentLikeModule,
     decodeInput: commentLikeInputDecoder,
+    actions: commentLikeActions,
   },
   comment_music: {
     identifier: 'comment_music',
     route: '/comment/music',
     execute: commentMusicModule,
     decodeInput: commentMusicInputDecoder,
+    actions: commentMusicActions,
   },
   comment_mv: {
     identifier: 'comment_mv',
     route: '/comment/mv',
     execute: commentMvModule,
     decodeInput: commentMvInputDecoder,
+    actions: commentMvActions,
   },
   comment_new: {
     identifier: 'comment_new',
     route: '/comment/new',
     execute: commentNewModule,
     decodeInput: commentNewInputDecoder,
+    actions: commentNewActions,
   },
   comment_playlist: {
     identifier: 'comment_playlist',
     route: '/comment/playlist',
     execute: commentPlaylistModule,
     decodeInput: commentPlaylistInputDecoder,
+    actions: commentPlaylistActions,
   },
   comment_video: {
     identifier: 'comment_video',
     route: '/comment/video',
     execute: commentVideoModule,
     decodeInput: commentVideoInputDecoder,
+    actions: commentVideoActions,
   },
   countries_code_list: {
     identifier: 'countries_code_list',
     route: '/countries/code/list',
     execute: countriesCodeListModule,
     decodeInput: countriesCodeListInputDecoder,
+    actions: countriesCodeListActions,
   },
   daily_signin: {
     identifier: 'daily_signin',
@@ -1810,18 +1911,21 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/event',
     execute: eventModule,
     decodeInput: eventInputDecoder,
+    actions: eventActions,
   },
   event_del: {
     identifier: 'event_del',
     route: '/event/del',
     execute: eventDelModule,
     decodeInput: eventDelInputDecoder,
+    actions: eventDelActions,
   },
   event_forward: {
     identifier: 'event_forward',
     route: '/event/forward',
     execute: eventForwardModule,
     decodeInput: eventForwardInputDecoder,
+    actions: eventForwardActions,
   },
   fm_trash: {
     identifier: 'fm_trash',
@@ -1835,12 +1939,14 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/follow',
     execute: followModule,
     decodeInput: followInputDecoder,
+    actions: followActions,
   },
   get_userids: {
     identifier: 'get_userids',
     route: '/get/userids',
     execute: getUseridsModule,
     decodeInput: getUseridsInputDecoder,
+    actions: getUseridsActions,
   },
   history_recommend_songs: {
     identifier: 'history_recommend_songs',
@@ -1875,12 +1981,14 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/hot/topic',
     execute: hotTopicModule,
     decodeInput: hotTopicInputDecoder,
+    actions: hotTopicActions,
   },
   hug_comment: {
     identifier: 'hug_comment',
     route: '/hug/comment',
     execute: hugCommentModule,
     decodeInput: hugCommentInputDecoder,
+    actions: hugCommentActions,
   },
   image_upload_token: {
     identifier: 'image_upload_token',
@@ -1943,72 +2051,84 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/listentogether/accept',
     execute: listentogetherAcceptModule,
     decodeInput: listentogetherAcceptInputDecoder,
+    actions: listentogetherAcceptActions,
   },
   listentogether_end: {
     identifier: 'listentogether_end',
     route: '/listentogether/end',
     execute: listentogetherEndModule,
     decodeInput: listentogetherEndInputDecoder,
+    actions: listentogetherEndActions,
   },
   listentogether_heatbeat: {
     identifier: 'listentogether_heatbeat',
     route: '/listentogether/heatbeat',
     execute: listentogetherHeatbeatModule,
     decodeInput: listentogetherHeatbeatInputDecoder,
+    actions: listentogetherHeatbeatActions,
   },
   listentogether_play_command: {
     identifier: 'listentogether_play_command',
     route: '/listentogether/play/command',
     execute: listentogetherPlayCommandModule,
     decodeInput: listentogetherPlayCommandInputDecoder,
+    actions: listentogetherPlayCommandActions,
   },
   listentogether_room_check: {
     identifier: 'listentogether_room_check',
     route: '/listentogether/room/check',
     execute: listentogetherRoomCheckModule,
     decodeInput: listentogetherRoomCheckInputDecoder,
+    actions: listentogetherRoomCheckActions,
   },
   listentogether_room_create: {
     identifier: 'listentogether_room_create',
     route: '/listentogether/room/create',
     execute: listentogetherRoomCreateModule,
     decodeInput: listentogetherRoomCreateInputDecoder,
+    actions: listentogetherRoomCreateActions,
   },
   listentogether_status: {
     identifier: 'listentogether_status',
     route: '/listentogether/status',
     execute: listentogetherStatusModule,
     decodeInput: listentogetherStatusInputDecoder,
+    actions: listentogetherStatusActions,
   },
   listentogether_sync_list_command: {
     identifier: 'listentogether_sync_list_command',
     route: '/listentogether/sync/list/command',
     execute: listentogetherSyncListCommandModule,
     decodeInput: listentogetherSyncListCommandInputDecoder,
+    actions: listentogetherSyncListCommandActions,
   },
   listentogether_sync_playlist_get: {
     identifier: 'listentogether_sync_playlist_get',
     route: '/listentogether/sync/playlist/get',
     execute: listentogetherSyncPlaylistGetModule,
     decodeInput: listentogetherSyncPlaylistGetInputDecoder,
+    actions: listentogetherSyncPlaylistGetActions,
   },
   login: {
     identifier: 'login',
     route: '/login',
     execute: loginModule,
     decodeInput: loginInputDecoder,
+    actions: loginActions,
   },
   login_cellphone: {
     identifier: 'login_cellphone',
     route: '/login/cellphone',
     execute: loginCellphoneModule,
     decodeInput: loginCellphoneInputDecoder,
+    actions: loginCellphoneActions,
   },
   login_qr_check: {
     identifier: 'login_qr_check',
     route: '/login/qr/check',
     execute: loginQrCheckModule,
     decodeInput: loginQrCheckInputDecoder,
+    actions: loginQrCheckActions,
   },
   login_qr_create: {
     identifier: 'login_qr_create',
@@ -2021,24 +2141,28 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/login/qr/key',
     execute: loginQrKeyModule,
     decodeInput: loginQrKeyInputDecoder,
+    actions: loginQrKeyActions,
   },
   login_refresh: {
     identifier: 'login_refresh',
     route: '/login/refresh',
     execute: loginRefreshModule,
     decodeInput: loginRefreshInputDecoder,
+    actions: loginRefreshActions,
   },
   login_status: {
     identifier: 'login_status',
     route: '/login/status',
     execute: loginStatusModule,
     decodeInput: loginStatusInputDecoder,
+    actions: loginStatusActions,
   },
   logout: {
     identifier: 'logout',
     route: '/logout',
     execute: logoutModule,
     decodeInput: logoutInputDecoder,
+    actions: logoutActions,
   },
   lyric: {
     identifier: 'lyric',
@@ -2077,36 +2201,42 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/msg/comments',
     execute: msgCommentsModule,
     decodeInput: msgCommentsInputDecoder,
+    actions: msgCommentsActions,
   },
   msg_forwards: {
     identifier: 'msg_forwards',
     route: '/msg/forwards',
     execute: msgForwardsModule,
     decodeInput: msgForwardsInputDecoder,
+    actions: msgForwardsActions,
   },
   msg_notices: {
     identifier: 'msg_notices',
     route: '/msg/notices',
     execute: msgNoticesModule,
     decodeInput: msgNoticesInputDecoder,
+    actions: msgNoticesActions,
   },
   msg_private: {
     identifier: 'msg_private',
     route: '/msg/private',
     execute: msgPrivateModule,
     decodeInput: msgPrivateInputDecoder,
+    actions: msgPrivateActions,
   },
   msg_private_history: {
     identifier: 'msg_private_history',
     route: '/msg/private/history',
     execute: msgPrivateHistoryModule,
     decodeInput: msgPrivateHistoryInputDecoder,
+    actions: msgPrivateHistoryActions,
   },
   msg_recentcontact: {
     identifier: 'msg_recentcontact',
     route: '/msg/recentcontact',
     execute: msgRecentcontactModule,
     decodeInput: msgRecentcontactInputDecoder,
+    actions: msgRecentcontactActions,
   },
   music_first_listen_info: {
     identifier: 'music_first_listen_info',
@@ -2209,6 +2339,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/nickname/check',
     execute: nicknameCheckModule,
     decodeInput: nicknameCheckInputDecoder,
+    actions: nicknameCheckActions,
   },
   personal_fm: {
     identifier: 'personal_fm',
@@ -2271,6 +2402,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/pl/count',
     execute: plCountModule,
     decodeInput: plCountInputDecoder,
+    actions: plCountActions,
   },
   playlist_catlist: {
     identifier: 'playlist_catlist',
@@ -2469,6 +2601,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/rebind',
     execute: rebindModule,
     decodeInput: rebindInputDecoder,
+    actions: rebindActions,
   },
   recent_listen_list: {
     identifier: 'recent_listen_list',
@@ -2538,12 +2671,14 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/register/anonimous',
     execute: registerAnonimousModule,
     decodeInput: registerAnonimousInputDecoder,
+    actions: registerAnonimousActions,
   },
   register_cellphone: {
     identifier: 'register_cellphone',
     route: '/register/cellphone',
     execute: registerCellphoneModule,
     decodeInput: registerCellphoneInputDecoder,
+    actions: registerCellphoneActions,
   },
   related_allvideo: {
     identifier: 'related_allvideo',
@@ -2562,6 +2697,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/resource/like',
     execute: resourceLikeModule,
     decodeInput: resourceLikeInputDecoder,
+    actions: resourceLikeActions,
   },
   scrobble: {
     identifier: 'scrobble',
@@ -2623,36 +2759,42 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/send/album',
     execute: sendAlbumModule,
     decodeInput: sendAlbumInputDecoder,
+    actions: sendAlbumActions,
   },
   send_playlist: {
     identifier: 'send_playlist',
     route: '/send/playlist',
     execute: sendPlaylistModule,
     decodeInput: sendPlaylistInputDecoder,
+    actions: sendPlaylistActions,
   },
   send_song: {
     identifier: 'send_song',
     route: '/send/song',
     execute: sendSongModule,
     decodeInput: sendSongInputDecoder,
+    actions: sendSongActions,
   },
   send_text: {
     identifier: 'send_text',
     route: '/send/text',
     execute: sendTextModule,
     decodeInput: sendTextInputDecoder,
+    actions: sendTextActions,
   },
   setting: {
     identifier: 'setting',
     route: '/setting',
     execute: settingModule,
     decodeInput: settingInputDecoder,
+    actions: settingActions,
   },
   share_resource: {
     identifier: 'share_resource',
     route: '/share/resource',
     execute: shareResourceModule,
     decodeInput: shareResourceInputDecoder,
+    actions: shareResourceActions,
   },
   sheet_list: {
     identifier: 'sheet_list',
@@ -2858,6 +3000,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/starpick/comments/summary',
     execute: starpickCommentsSummaryModule,
     decodeInput: starpickCommentsSummaryInputDecoder,
+    actions: starpickCommentsSummaryActions,
   },
   style_album: {
     identifier: 'style_album',
@@ -2968,18 +3111,21 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/topic/detail',
     execute: topicDetailModule,
     decodeInput: topicDetailInputDecoder,
+    actions: topicDetailActions,
   },
   topic_detail_event_hot: {
     identifier: 'topic_detail_event_hot',
     route: '/topic/detail/event/hot',
     execute: topicDetailEventHotModule,
     decodeInput: topicDetailEventHotInputDecoder,
+    actions: topicDetailEventHotActions,
   },
   topic_sublist: {
     identifier: 'topic_sublist',
     route: '/topic/sublist',
     execute: topicSublistModule,
     decodeInput: topicSublistInputDecoder,
+    actions: topicSublistActions,
   },
   toplist: {
     identifier: 'toplist',
@@ -3056,6 +3202,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/user/account',
     execute: userAccountModule,
     decodeInput: userAccountInputDecoder,
+    actions: userAccountActions,
   },
   user_audio: {
     identifier: 'user_audio',
@@ -3068,6 +3215,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/user/binding',
     execute: userBindingModule,
     decodeInput: userBindingInputDecoder,
+    actions: userBindingActions,
   },
   user_cloud: {
     identifier: 'user_cloud',
@@ -3095,12 +3243,14 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/user/comment/history',
     execute: userCommentHistoryModule,
     decodeInput: userCommentHistoryInputDecoder,
+    actions: userCommentHistoryActions,
   },
   user_detail: {
     identifier: 'user_detail',
     route: '/user/detail',
     execute: userDetailModule,
     decodeInput: userDetailInputDecoder,
+    actions: userDetailActions,
   },
   user_dj: {
     identifier: 'user_dj',
@@ -3113,42 +3263,49 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/user/event',
     execute: userEventModule,
     decodeInput: userEventInputDecoder,
+    actions: userEventActions,
   },
   user_follow_mixed: {
     identifier: 'user_follow_mixed',
     route: '/user/follow/mixed',
     execute: userFollowMixedModule,
     decodeInput: userFollowMixedInputDecoder,
+    actions: userFollowMixedActions,
   },
   user_followeds: {
     identifier: 'user_followeds',
     route: '/user/followeds',
     execute: userFollowedsModule,
     decodeInput: userFollowedsInputDecoder,
+    actions: userFollowedsActions,
   },
   user_follows: {
     identifier: 'user_follows',
     route: '/user/follows',
     execute: userFollowsModule,
     decodeInput: userFollowsInputDecoder,
+    actions: userFollowsActions,
   },
   user_level: {
     identifier: 'user_level',
     route: '/user/level',
     execute: userLevelModule,
     decodeInput: userLevelInputDecoder,
+    actions: userLevelActions,
   },
   user_medal: {
     identifier: 'user_medal',
     route: '/user/medal',
     execute: userMedalModule,
     decodeInput: userMedalInputDecoder,
+    actions: userMedalActions,
   },
   user_mutualfollow_get: {
     identifier: 'user_mutualfollow_get',
     route: '/user/mutualfollow/get',
     execute: userMutualfollowGetModule,
     decodeInput: userMutualfollowGetInputDecoder,
+    actions: userMutualfollowGetActions,
   },
   user_playlist: {
     identifier: 'user_playlist',
@@ -3182,54 +3339,63 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/user/replacephone',
     execute: userReplacephoneModule,
     decodeInput: userReplacephoneInputDecoder,
+    actions: userReplacephoneActions,
   },
   user_social_status: {
     identifier: 'user_social_status',
     route: '/user/social/status',
     execute: userSocialStatusModule,
     decodeInput: userSocialStatusInputDecoder,
+    actions: userSocialStatusActions,
   },
   user_social_status_edit: {
     identifier: 'user_social_status_edit',
     route: '/user/social/status/edit',
     execute: userSocialStatusEditModule,
     decodeInput: userSocialStatusEditInputDecoder,
+    actions: userSocialStatusEditActions,
   },
   user_social_status_rcmd: {
     identifier: 'user_social_status_rcmd',
     route: '/user/social/status/rcmd',
     execute: userSocialStatusRcmdModule,
     decodeInput: userSocialStatusRcmdInputDecoder,
+    actions: userSocialStatusRcmdActions,
   },
   user_social_status_support: {
     identifier: 'user_social_status_support',
     route: '/user/social/status/support',
     execute: userSocialStatusSupportModule,
     decodeInput: userSocialStatusSupportInputDecoder,
+    actions: userSocialStatusSupportActions,
   },
   user_subcount: {
     identifier: 'user_subcount',
     route: '/user/subcount',
     execute: userSubcountModule,
     decodeInput: userSubcountInputDecoder,
+    actions: userSubcountActions,
   },
   user_update: {
     identifier: 'user_update',
     route: '/user/update',
     execute: userUpdateModule,
     decodeInput: userUpdateInputDecoder,
+    actions: userUpdateActions,
   },
   verify_getQr: {
     identifier: 'verify_getQr',
     route: '/verify/getQr',
     execute: verifyGetQrModule,
     decodeInput: verifyGetQrInputDecoder,
+    actions: verifyGetQrActions,
   },
   verify_qrcodestatus: {
     identifier: 'verify_qrcodestatus',
     route: '/verify/qrcodestatus',
     execute: verifyQrcodestatusModule,
     decodeInput: verifyQrcodestatusInputDecoder,
+    actions: verifyQrcodestatusActions,
   },
   video_category_list: {
     identifier: 'video_category_list',

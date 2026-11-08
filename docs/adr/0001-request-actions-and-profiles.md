@@ -1,6 +1,6 @@
 # ADR-0001：请求动作与客户端身份分别声明
 
-状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105)、[#106](https://github.com/nonhana/hana-music-api/issues/106) 、[#109](https://github.com/nonhana/hana-music-api/issues/109) 、[#110](https://github.com/nonhana/hana-music-api/issues/110) 和 [#111](https://github.com/nonhana/hana-music-api/issues/111) 的动作迁移。
+状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105)、[#106](https://github.com/nonhana/hana-music-api/issues/106) 、[#109](https://github.com/nonhana/hana-music-api/issues/109) 、[#110](https://github.com/nonhana/hana-music-api/issues/110) 、[#111](https://github.com/nonhana/hana-music-api/issues/111) 和 [#112](https://github.com/nonhana/hana-music-api/issues/112) 的动作迁移。
 
 ## 原因与决定
 
@@ -22,7 +22,7 @@
 
 保留 Promise、id/t 业务参数、status/body/cookie 外壳、返回体 Schema 和用户会话。普通配置不能再覆盖本模块的受控身份字段；这延续收藏模块原来强制网页请求的约定。本次不删除其他模块的公开配置字段；P12 删除公开字段时使用 major changeset，并保留显式低层 createRequest 及其目标和凭据外送校验。
 
-当前已迁移139个模块：playlist_subscribe、album_sub、artist_sub、search、lyric、song_detail、playlist_detail 与 #110 的77个模块、#111 的55个模块。其余 213 个模块由生成的 generatedPendingActionModuleIdentifiers 完整枚举；该清单只说明迁移范围，不代表所有模块已通过 profile 验收。旧默认协议、模块名缓存名单和 URI 语义判定仅供这些未迁移模块沿原执行链使用。P2、P5 及各领域批次完成后，P12 必须删除可选动作声明分支和旧判定，装配时要求每个模块声明所有实际动作；纯本地模块也不能省略空声明。
+当前已迁移222个模块：playlist_subscribe、album_sub、artist_sub、search、lyric、song_detail、playlist_detail 与 #110 的77个模块、#111 的55个模块和 #112 的83个模块。其余 130 个模块由生成的 generatedPendingActionModuleIdentifiers 完整枚举；该清单只说明迁移范围，不代表所有模块已通过 profile 验收。旧默认协议、模块名缓存名单和 URI 语义判定仅供这些未迁移模块沿原执行链使用。P2、P5 及各领域批次完成后，P12 必须删除可选动作声明分支和旧判定，装配时要求每个模块声明所有实际动作；纯本地模块也不能省略空声明。
 
 ## P2：四个共享读取
 
@@ -55,3 +55,11 @@ album_sub/artist_sub 分别声明 sub/unsub，固定 web、write、cache none、
 固定基线cb4bcae的55模块实际采用39个weapi浏览器UA加PC Cookie、16个eapi既有组合，均与现有weapiPc/eapi相符，因此复用，不新增profile或执行链。56个请求动作逐一声明，search_suggest将原有限路径拼接改为mobile/web两个固定目标；top_list的idx本地拒绝保持。
 
 全部cache=none，FM垃圾桶和推荐不感兴趣是write/never；FM两模块、私人DJ、首页刷新保守采用read/never，收紧原连接前重试，避免连续推荐流重放。现有源码和历史响应无法证明其是否持久推进上游状态，不能将此推测写成已验证写入；mode/subMode是请求输入。五个搜索模块保留原read重试，其余只读connect。请求144分支的独立解码与150份历史响应的固定基线返回对照分别取证，来源保持，详见 [issue-111](../acceptance/issue-111.md)。
+
+## P8：账号、登录与社交
+
+固定基线11f7b81的83模块使用46个weapiPc和37个eapi默认组合，逐267份离线最终请求独立解码后复用现有profile，没有新产品接缝。89动作显式声明验证码/密码、评论add/delete/reply、点赞/取消和关注/取关；动态资源路径保留目录边界。本票无纯本地或单调用多请求模块，verify_getQr仍在一次上游后本地生成二维码。
+
+全部cache=none。登录/凭据变更用login、风控和一起听检查用poll或login、心跳/命令/社交写入用write，均never。消息读取可能触及已读、会话和访问者状态、强制刷新以及带提醒的读取采用read/never，避免重放；材料不能证明上游持久副作用，不把推测写成事实。user_follow_mixed业务为读取但旧URI策略判write，保留never上限。其余无状态读取只保留connect，无新增共享或读取重试。
+
+会话来自每次Call，profile不保存账号凭据；登录/刷新/退出返回Cookie而不自动更新全局Cookie jar。隐式匿名初始化的状态更新及失败不污染、初始化不消费业务token保持既有合同。149份原录制逐份回放独立于请求证据，旧login_qr_key/login_status包含SDK包装时按既有测试提取data；不改原文件或来源。#38的8821仍无真实样本，保留原拒绝处理，不推测Schema。[完整依据](../acceptance/issue-112.md)。

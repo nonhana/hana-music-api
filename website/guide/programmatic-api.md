@@ -169,3 +169,5 @@ await hana.artistSub(
 ```
 
 示例中的 Cookie、目标、字符串和取值函数由应用提供，取值函数返回 `Promise<string>`。多请求模块需要逐次取新值，使用 provider；固定字符串在同一次模块调用中只能发送一次。配置 token 会关闭本次缓存、合并和自动重试，等待取值计入总期限。SDK 不生成或保存 token；浏览器取值见 [Watchman](/guide/watchman)，应用通过自己的业务路由转交，普通 Hono 接口不接受通用 token 参数。
+
+账号、登录与社交的83个模块也固定各自原有协议和默认身份，普通crypto、domain、ua、e_r、acceptGzip、headers及受控身份Cookie不再覆盖声明。需要手动控制协议时使用低层createRequest。登录和刷新返回新的Cookie，调用者可以在后续config中显式传入；SDK不会把响应Cookie自动存进全局会话。消息读取、风控、一起听轮询/心跳及刷新不自动重放或共享。

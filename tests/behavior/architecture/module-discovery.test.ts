@@ -14,6 +14,7 @@ import {
   generatedModuleRoutes,
   generatedPendingActionModuleIdentifiers,
 } from '../../../src/types/generated/module-surface.generated.ts';
+import accountSocial from '../../fixtures/requests/account-social.json';
 import libraryPlayback from '../../fixtures/requests/library-playback.json';
 import searchDiscovery from '../../fixtures/requests/search-discovery.json';
 
@@ -32,9 +33,11 @@ describe('generated module type surface', () => {
     expect(declared).toEqual(
       [
         ...new Set(
-          [...libraryPlayback.cases, ...searchDiscovery.cases].map(
-            (entry) => entry.module,
-          ),
+          [
+            ...libraryPlayback.cases,
+            ...searchDiscovery.cases,
+            ...accountSocial.cases,
+          ].map((entry) => entry.module),
         ),
         'album_sub',
         'artist_sub',
@@ -83,9 +86,59 @@ describe('generated module type surface', () => {
         retry: entry.retry,
       });
     }
-    expect(declared).toHaveLength(139);
+    const accountModules = new Set(
+      accountSocial.cases.map((entry) => entry.module),
+    );
+    expect(
+      loaded
+        .filter((definition) => accountModules.has(definition.identifier))
+        .reduce(
+          (count, definition) =>
+            count + Object.keys(definition.actions!).length,
+          0,
+        ),
+    ).toBe(89);
+    for (const entry of accountSocial.cases) {
+      const definition = loaded.find(
+        (candidate) => candidate.identifier === entry.module,
+      )!;
+      const query = entry.query as Record<string, unknown>;
+      const actionName =
+        entry.module === 'comment'
+          ? ({ 0: 'delete', 1: 'add', 2: 'reply' } as Record<number, string>)[
+              Number(query.t)
+            ]!
+          : ['comment_like', 'resource_like'].includes(entry.module)
+            ? Number(query.t) === 1
+              ? 'like'
+              : 'unlike'
+            : entry.module === 'follow'
+              ? Number(query.t) === 1
+                ? 'follow'
+                : 'delfollow'
+              : entry.module === 'login_cellphone'
+                ? query.captcha
+                  ? 'captcha'
+                  : 'password'
+                : entry.module === 'login'
+                  ? 'password'
+                  : 'request';
+      const action = definition.actions![actionName]!;
+      expect(action).toMatchObject({
+        profile: entry.profile,
+        semantic: entry.semantic,
+        cache: 'none',
+        retry: entry.retry,
+      });
+      expect(
+        typeof action.target === 'string'
+          ? action.target === entry.path
+          : entry.path.startsWith(action.target.prefix),
+      ).toBe(true);
+    }
+    expect(declared).toHaveLength(222);
     expect(declared).toEqual([...generatedActionModuleIdentifiers].toSorted());
-    expect(generatedPendingActionModuleIdentifiers).toHaveLength(213);
+    expect(generatedPendingActionModuleIdentifiers).toHaveLength(130);
     for (const identifier of declared)
       expect(generatedPendingActionModuleIdentifiers).not.toContain(identifier);
     for (const definition of loaded.filter(

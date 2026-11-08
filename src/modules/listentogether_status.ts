@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/listen/together/status/get',
+    semantic: 'poll',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const TogetherStatus = UpstreamObject({
   inRoom: Schema.Boolean,
@@ -28,16 +38,12 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 export type ModuleBody = typeof ModuleBody.Type;
 
 const listentogetherStatus: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
+  _query,
   request,
 ) =>
   Effect.gen(function* () {
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/listen/together/status/get`,
-        {},
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], {}),
     );
     const body = yield* decodeUpstreamBody(
       'listentogether_status',

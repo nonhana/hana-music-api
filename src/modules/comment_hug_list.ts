@@ -2,8 +2,8 @@ import { Effect, Schema } from 'effect';
 
 import { resolveResourceType } from '../core/comment-thread.ts';
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -17,6 +17,16 @@ import {
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/v2/resource/comments/hug/list',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 抱一抱列表里的用户比歌曲评论多出 `encryptUserId` 和 `isHug`。
 const HugUser = UpstreamObject({
@@ -123,11 +133,7 @@ const commentHugList: ModuleEffect<ModuleInput, ModuleBody> = (
       pageSize: query.pageSize || 100,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v2/resource/comments/hug/list`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'comment_hug_list',

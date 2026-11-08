@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/listen/together/room/create',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const RoomUser = UpstreamObject({
   avatarUrl: Loose(Schema.String),
@@ -50,7 +60,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 export type ModuleBody = typeof ModuleBody.Type;
 
 const listentogetherRoomCreate: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
+  _query,
   request,
 ) =>
   Effect.gen(function* () {
@@ -58,11 +68,7 @@ const listentogetherRoomCreate: ModuleEffect<ModuleInput, ModuleBody> = (
       refer: 'songplay_more',
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/listen/together/room/create`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'listentogether_room_create',

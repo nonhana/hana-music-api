@@ -4,11 +4,21 @@ import { Effect, Schema } from 'effect';
 
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
+
+export const moduleActions = {
+  password: {
+    profile: 'eapi',
+    target: '/api/w/login',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 type PasswordCredential =
   | {
@@ -52,7 +62,7 @@ const login: ModuleEffect<ModuleInput> = (query, request) =>
       rememberLogin: 'true',
     };
     const result = yield* request(
-      buildApiRequestIntent('/api/w/login', data, createOption(query)),
+      buildActionRequestIntent('password', moduleActions['password'], data),
     );
     const body = renameAvatarField(result.body);
     if (

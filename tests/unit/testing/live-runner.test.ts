@@ -52,6 +52,18 @@ const entry = (
   url: `https://${path.startsWith('weapi/') ? 'music.163.com' : 'interface.music.163.com'}/${path}`,
   method: 'POST',
   times,
+  ...(path === 'weapi/w/nuser/account/get'
+    ? {
+        check: (wire) => {
+          expect(readWebBody(wire.body)).toMatchObject({
+            csrf_token: '',
+            e_r: false,
+          });
+          expect(wire.headers.get('cookie')).toContain('os=pc');
+          expect(wire.headers.get('user-agent')).toContain('Chrome/124');
+        },
+      }
+    : {}),
   response: () => Response.json(body),
 });
 
@@ -78,7 +90,7 @@ const writeControl = async (
 };
 
 const initial = () => [
-  entry('api/w/nuser/account/get', account()),
+  entry('weapi/w/nuser/account/get', account()),
   entry('eapi/v6/playlist/detail', {
     code: 200,
     playlist: {
@@ -137,7 +149,7 @@ test('credentials require one source, current identity, fresh token and this run
 
 test('loginStatus.data identity mismatch fails and prevents subsequent business requests', async () => {
   await withScenario(
-    [entry('api/w/nuser/account/get', account(18))],
+    [entry('weapi/w/nuser/account/get', account(18))],
     async ({ fetcher, sent }) => {
       const session = createLiveSession(
         await readLiveOptions(credentials),
@@ -471,7 +483,7 @@ test('writes refuse an owned or already collected target before any write', asyn
       });
       await withScenario(
         [
-          entry('api/w/nuser/account/get', account()),
+          entry('weapi/w/nuser/account/get', account()),
           detail,
           ...(own ? [] : [page([99])]),
         ],
@@ -495,7 +507,7 @@ test('writes refuse an owned or already collected target before any write', asyn
 test('write business budget stops at thirty attempts without consuming the restoration reserve', async () =>
   writeControl(async (options) => {
     await withScenario(
-      [entry('api/w/nuser/account/get', account(), 30)],
+      [entry('weapi/w/nuser/account/get', account(), 30)],
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
@@ -545,7 +557,7 @@ test('unknown creator identity stops before any collection read or write', async
   writeControl(async (options) => {
     await withScenario(
       [
-        entry('api/w/nuser/account/get', account()),
+        entry('weapi/w/nuser/account/get', account()),
         entry('eapi/v6/playlist/detail', {
           code: 200,
           playlist: { id: 99, trackIds: [], creator: {}, subscribed: false },

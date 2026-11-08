@@ -6,8 +6,8 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
@@ -15,6 +15,30 @@ import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  add: {
+    profile: 'weapiPc',
+    target: '/api/resource/comments/add',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  delete: {
+    profile: 'weapiPc',
+    target: '/api/resource/comments/delete',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  reply: {
+    profile: 'weapiPc',
+    target: '/api/resource/comments/reply',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = IdentifierQuery & {
   type: QueryNumberLike;
@@ -39,7 +63,7 @@ export const decodeModuleInput = (input: unknown) =>
 
 const comment: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
-    const actionMap: Record<number, string> = {
+    const actionMap: Record<number, 'add' | 'delete' | 'reply'> = {
       1: 'add',
       0: 'delete',
       2: 'reply',
@@ -62,10 +86,11 @@ const comment: ModuleEffect<ModuleInput> = (query, request) =>
       data.content = query.content;
     }
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/resource/comments/${action}`,
+      buildActionRequestIntent(
+        action,
+        moduleActions[action],
         data,
-        createOption(query, 'weapi'),
+        `/api/resource/comments/${action}`,
       ),
     );
     return toModuleResponse(response);

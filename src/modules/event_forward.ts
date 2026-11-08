@@ -1,10 +1,20 @@
 import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/event/forward',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const eventForward: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
@@ -14,7 +24,7 @@ const eventForward: ModuleEffect<ModuleInput> = (query, request) =>
       eventUserId: query.uid,
     };
     const response = yield* request(
-      buildApiRequestIntent(`/api/event/forward`, data, createOption(query)),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     return toModuleResponse(response);
   });

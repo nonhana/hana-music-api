@@ -6,8 +6,8 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -16,6 +16,23 @@ import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  like: {
+    profile: 'weapiPc',
+    target: '/api/v1/comment/like',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  unlike: {
+    profile: 'weapiPc',
+    target: '/api/v1/comment/unlike',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = IdentifierQuery & {
   type: QueryNumberLike;
@@ -57,10 +74,11 @@ const commentLike: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       data.threadId = query.threadId;
     }
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/comment/${action}`,
+      buildActionRequestIntent(
+        action,
+        moduleActions[action],
         data,
-        createOption(query, 'weapi'),
+        `/api/v1/comment/${action}`,
       ),
     );
     return {

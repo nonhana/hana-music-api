@@ -11,7 +11,10 @@ import {
   getUserids,
   invokeModule,
 } from '../../../index.ts';
-import { buildCallServices } from '../../../src/core/call.ts';
+import { buildCallServices, runCall } from '../../../src/core/call.ts';
+import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { buildApiRequestIntent } from '../../../src/core/request-intent.ts';
+import { toModuleResponse } from '../../../src/core/response.ts';
 import { getRuntimeState, setRuntimeState } from '../../../src/core/runtime.ts';
 import { createClientFromContext } from '../../../src/sdk/generated/client-factory.generated.ts';
 import { settle } from '../../_kit/assertions.ts';
@@ -26,10 +29,10 @@ test.each(['weapi', 'eapi', 'api', 'linuxapi'] as const)(
   async (crypto) => {
     const url =
       crypto === 'weapi'
-        ? 'https://music.163.com/weapi/user/getUserIds'
+        ? 'https://music.163.com/weapi/token/probe'
         : crypto === 'linuxapi'
           ? 'https://music.163.com/api/linux/forward'
-          : `https://interface.music.163.com/${crypto}/user/getUserIds`;
+          : `https://interface.music.163.com/${crypto}/token/probe`;
     await withScenario(
       [
         {
@@ -44,7 +47,7 @@ test.each(['weapi', 'eapi', 'api', 'linuxapi'] as const)(
               });
             } else if (crypto === 'eapi') {
               expect(readEapiBody(wire.body)).toMatchObject({
-                path: '/api/user/getUserIds',
+                path: '/api/token/probe',
                 data: {
                   checkToken: 'protocol-token',
                   header: { 'X-antiCheatToken': 'protocol-token' },
@@ -81,16 +84,23 @@ test.each(['weapi', 'eapi', 'api', 'linuxapi'] as const)(
           cookie: 'MUSIC_U=protocol-account',
           checkToken: 'protocol-token',
         };
-        const client = createClientFromContext(
-          config,
+        const result = await runCall(
+          { identifier: 'protocol_probe', input: { sample: 'probe' }, config },
           buildCallServices(config, false, {
             fetcher: scenario.fetcher,
             entropy: testEntropy,
           }),
+          {
+            identifier: 'protocol_probe',
+            route: '/protocol/probe',
+            decodeInput: decodeLegacyModuleInput,
+            execute: (query, request) =>
+              request(
+                buildApiRequestIntent('/api/token/probe', query, { crypto }),
+              ).pipe(Effect.map(toModuleResponse)),
+          },
         );
-        expect((await client.getUserids({ nicknames: 'sample' })).status).toBe(
-          200,
-        );
+        expect(result.status).toBe(200);
         expect(scenario.entries).toHaveLength(1);
       },
     );
@@ -339,7 +349,7 @@ test.each([
   },
 );
 
-test('all public module entry forms pass strings and providers to a pending action module', async () => {
+test('all public module entry forms pass strings and providers to a declared action module', async () => {
   await withScenario(
     [
       {
@@ -702,12 +712,26 @@ test.each([
         state: { anonymousToken: '' },
         checkToken: 'cannot-leave',
       };
-      const client = createClientFromContext(
-        config,
-        buildCallServices(config, false, { fetcher: scenario.fetcher }),
-      );
       expect(
-        await settle(client.getUserids({ nicknames: 'sample' })),
+        await settle(
+          runCall(
+            {
+              identifier: 'protocol_probe',
+              input: { sample: 'probe' },
+              config,
+            },
+            buildCallServices(config, false, { fetcher: scenario.fetcher }),
+            {
+              identifier: 'protocol_probe',
+              route: '/protocol/probe',
+              decodeInput: decodeLegacyModuleInput,
+              execute: (query, request) =>
+                request(buildApiRequestIntent('/api/token/probe', query)).pipe(
+                  Effect.map(toModuleResponse),
+                ),
+            },
+          ),
+        ),
       ).toMatchObject({ rejected: { status: 400 } });
       expect(scenario.entries).toHaveLength(0);
     });

@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/frontrisk/verify/qrcodestatus',
+    semantic: 'poll',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 返回码、状态路径 `data` 和二维码状态 `qrCodeStatus` 收紧；原因提示 `detailReason` 与 `message` 宽松。
 // 上游把成功码写成字符串 `"200"`，请求层会把它归一成数字 200；结构定义同时接受两者。
@@ -34,11 +44,7 @@ const verifyQrcodestatus: ModuleEffect<ModuleInput, ModuleBody> = (
       qrCode: query.qr,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/frontrisk/verify/qrcodestatus`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'verify_qrcodestatus',

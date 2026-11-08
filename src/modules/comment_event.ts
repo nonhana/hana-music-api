@@ -4,8 +4,8 @@ import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -16,6 +16,16 @@ import {
 import { CommentRecord } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { PagedQuery, QueryNumberLike } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: { prefix: '/api/v1/resource/comments/' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = PagedQuery & {
   before?: QueryNumberLike;
@@ -56,10 +66,11 @@ const commentEvent: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       beforeTime: query.before || 0,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/resource/comments/${query.threadId}`,
+      buildActionRequestIntent(
+        'request',
+        moduleActions['request'],
         data,
-        createOption(query, 'weapi'),
+        `/api/v1/resource/comments/${query.threadId}`,
       ),
     );
     const body = yield* decodeUpstreamBody(

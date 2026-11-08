@@ -6,8 +6,8 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -21,6 +21,16 @@ import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/resource/comment/floor/get',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = IdentifierQuery & {
   type: QueryNumberLike;
@@ -73,11 +83,7 @@ const commentFloor: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       limit: query.limit || 20,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/resource/comment/floor/get`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'comment_floor',

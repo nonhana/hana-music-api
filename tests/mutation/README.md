@@ -3,6 +3,7 @@
 这些目标检查现有断言能不能发现指定错误，不是一套重复业务测试，也不追求全仓分数。
 
 ```bash
+bun scripts/mutation-test.mts --target account-social
 bun scripts/mutation-test.mts --target check-token
 bun scripts/mutation-test.mts --target playlist-subscribe
 bun scripts/mutation-test.mts --target shared-reads

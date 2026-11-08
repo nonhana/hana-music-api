@@ -333,7 +333,7 @@ for (const method of [
                 },
               });
               const client = createClientFromContext(config, services);
-              const pending = settle(
+              const pending = settle<NcmApiResponse>(
                 client[method]({ id: 17 }, { signal: controller.signal }),
               );
               yield* Effect.promise(() => reached.wait(pending));
@@ -501,7 +501,7 @@ for (const method of ['like', 'playlistImportTaskStatus'] as const) {
           });
           const client = createClientFromContext(config, services);
           return {
-            result: await settle(client[method]({ id: 17 })),
+            result: await settle<NcmApiResponse>(client[method]({ id: 17 })),
             sends: scenario.sent.length,
             reads: services.reads.snapshot,
           };

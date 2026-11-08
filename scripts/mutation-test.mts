@@ -28,6 +28,7 @@ interface Mutation {
   readonly timeoutMs?: number;
 }
 const groups = [
+  'account-social',
   'search-discovery',
   'library-playback',
   'check-token',
@@ -166,7 +167,7 @@ export const runMutations = async (
       (args.includes('--all') && targetIndex >= 0)
     )
       throw new Error(
-        'Use --target search-discovery|library-playback|check-token|playlist-subscribe|shared-reads|upload|watchman|browser-types or --all, optionally --dry-run',
+        'Use --target account-social|search-discovery|library-playback|check-token|playlist-subscribe|shared-reads|upload|watchman|browser-types or --all, optionally --dry-run',
       );
     copy = await mkdtemp(resolve(tmpdir(), 'hana-mutation-'));
     const paths = execFileSync(

@@ -4,8 +4,8 @@ import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -16,6 +16,16 @@ import {
 import { Artist, UserProfile, VipRights } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/user/follow/users/mixed/get/v2',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   cursor?: QueryNumberLike;
@@ -128,11 +138,7 @@ const userFollowMixed: ModuleEffect<ModuleInput, ModuleBody> = (
       sortType: '0',
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/user/follow/users/mixed/get/v2`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'user_follow_mixed',

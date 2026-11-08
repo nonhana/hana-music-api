@@ -1,11 +1,21 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/login/qrcode/unikey',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 返回码和二维码 key 收紧。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -16,14 +26,12 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const loginQrKey: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const loginQrKey: ModuleEffect<ModuleInput, ModuleBody> = (_query, request) =>
   Effect.gen(function* () {
     const result = yield* request(
-      buildApiRequestIntent(
-        '/api/login/qrcode/unikey',
-        { type: 3 },
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], {
+        type: 3,
+      }),
     );
     const body = yield* decodeUpstreamBody('login_qr_key', ModuleBody, result, {
       body: { data: result.body, code: 200 },

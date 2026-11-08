@@ -2,12 +2,29 @@ import { Effect, Schema } from 'effect';
 
 import { resolveResourceType } from '../core/comment-thread.ts';
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  like: {
+    profile: 'weapiPc',
+    target: '/api/resource/like',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  unlike: {
+    profile: 'weapiPc',
+    target: '/api/resource/unlike',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 接口就是为了确认点赞/取消点赞成功：正文只带返回码 `code`，收紧。
 // 正方向（点赞）在录制设备上被上游风控拒绝（code 250），成功正文只有反向（取消点赞）的证据。
@@ -41,10 +58,11 @@ const resourceLike: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
       data.threadId = query.threadId;
     }
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/resource/${action}`,
+      buildActionRequestIntent(
+        action,
+        moduleActions[action],
         data,
-        createOption(query, 'weapi'),
+        `/api/resource/${action}`,
       ),
     );
     return {

@@ -2,11 +2,21 @@ import { Effect } from 'effect';
 
 import { resolveResourceType } from '../core/comment-thread.ts';
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/v2/resource/comments/hug/listener',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const hugComment: ModuleEffect<ModuleInput> = (input, request) =>
   Effect.gen(function* () {
@@ -30,11 +40,7 @@ const hugComment: ModuleEffect<ModuleInput> = (input, request) =>
       threadId,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v2/resource/comments/hug/listener`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     return toModuleResponse(response);
   });

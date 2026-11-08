@@ -4,8 +4,8 @@ import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -16,6 +16,16 @@ import { UserProfile } from '../core/upstream-schemas.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryIdentifier } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: { prefix: '/api/v1/user/detail/' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   uid: QueryIdentifier;
@@ -98,10 +108,11 @@ export type ModuleBody = typeof ModuleBody.Type;
 const userDetail: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const result = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/user/detail/${query.uid}`,
+      buildActionRequestIntent(
+        'request',
+        moduleActions['request'],
         {},
-        createOption(query, 'weapi'),
+        `/api/v1/user/detail/${query.uid}`,
       ),
     );
     return {

@@ -1,12 +1,22 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 import { ModuleBody as AccountBody } from './user_account.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/w/nuser/account/get',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 与 user_account 是同一份账号数据，外面多包一层 `data`；`data` 的路径和编号收紧，其余字段沿用宽松写法。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -14,14 +24,10 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const loginStatus: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const loginStatus: ModuleEffect<ModuleInput, ModuleBody> = (_query, request) =>
   Effect.gen(function* () {
     const result = yield* request(
-      buildApiRequestIntent(
-        '/api/w/nuser/account/get',
-        {},
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], {}),
     );
     const body = yield* decodeUpstreamBody('login_status', ModuleBody, result, {
       body: { data: result.body },

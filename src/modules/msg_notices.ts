@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/msg/notices',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const NoticeRecord = UpstreamObject({
   id: Schema.Finite,
@@ -38,11 +48,7 @@ const msgNotices: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       time: query.lasttime || -1,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/msg/notices`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody('msg_notices', ModuleBody, response);
     return { ...toModuleResponse(response), body };

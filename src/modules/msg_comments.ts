@@ -1,8 +1,8 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -12,6 +12,16 @@ import {
 import { CommentRecord, CommentUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: { prefix: '/api/v1/user/comments/' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 评论和回复里的用户记录在 `CommentUser` 之外还带 `experts`（字符串到字符串的对象）。
 const ReceivedCommentUser = UpstreamObject({
@@ -65,10 +75,11 @@ const msgComments: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       uid: query.uid,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/user/comments/${String(query.uid)}`,
+      buildActionRequestIntent(
+        'request',
+        moduleActions['request'],
         data,
-        createOption(query, 'weapi'),
+        `/api/v1/user/comments/${String(query.uid)}`,
       ),
     );
     const body = yield* decodeUpstreamBody(

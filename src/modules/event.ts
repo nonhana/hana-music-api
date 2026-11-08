@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -16,6 +16,16 @@ import {
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/v1/event/get',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 动态记录：只收紧动态自己的编号 `id`；评论信息、用户、图片和计数都是宽松声明。
 // `resourceUniqueId` 的类型证据来自 `user_event` 录制；`contentDeclaration`、`repostSource` 在事件列表里出现过空串。
@@ -78,11 +88,7 @@ const event: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       lasttime: query.lasttime || -1,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/event/get`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody('event', ModuleBody, response);
     return { ...toModuleResponse(response), body };

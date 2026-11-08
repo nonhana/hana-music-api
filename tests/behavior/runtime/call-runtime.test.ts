@@ -5,10 +5,12 @@ import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi } from '../../../index.ts';
 import type { SearchBody } from '../../../index.ts';
-import { Call, runCall } from '../../../src/core/call.ts';
+import { buildCallServices, Call, runCall } from '../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
 import { getRuntimeState, setRuntimeState } from '../../../src/core/runtime.ts';
-import registerAnonymous from '../../../src/modules/register_anonimous.ts';
+import registerAnonymous, {
+  moduleActions as anonymousActions,
+} from '../../../src/modules/register_anonimous.ts';
 import { decodeModuleInput as decodeSearchInput } from '../../../src/modules/search.ts';
 import voiceUpload from '../../../src/modules/voice_upload.ts';
 import {
@@ -19,9 +21,11 @@ import type {
   ModuleQuery,
   RequestCapability,
 } from '../../../src/types/index.ts';
+import { testEntropy } from '../../_kit/harness/sdk.ts';
 import { runEffect } from '../../_kit/it.ts';
 import { clientLayer } from '../../_kit/layers.ts';
 import { mockRequest, moduleResponse, testRequest } from '../../_kit/module.ts';
+import { readWebBody } from '../../_kit/upstream/wire.ts';
 import {
   initXml,
   songFile,
@@ -715,6 +719,7 @@ describe('call lifecycle', () => {
     const original = getRuntimeState();
     const seen: Array<{
       deviceId: string;
+      url: string;
       cookie: string | null;
       username: string;
       global: unknown;
@@ -728,14 +733,20 @@ describe('call lifecycle', () => {
           config: {
             crypto: 'api',
             state: { deviceId: 'call-device-123' },
-            fetcher: async (_url, init) => {
+            fetcher: async (url, init) => {
               if (typeof init?.body !== 'string') {
                 throw new TypeError('Expected an encoded API body');
               }
-              const username =
-                new URLSearchParams(init.body).get('username') ?? '';
+              const username = (readWebBody(init.body) as { username: string })
+                .username;
               seen.push({
                 deviceId: callDeviceId,
+                url:
+                  typeof url === 'string'
+                    ? url
+                    : url instanceof URL
+                      ? url.href
+                      : url.url,
                 cookie: new Headers(init?.headers).get('cookie'),
                 username: Buffer.from(username, 'base64')
                   .toString('utf8')
@@ -749,10 +760,11 @@ describe('call lifecycle', () => {
             },
           },
         },
-        clientLayer({}, false),
+        buildCallServices({}, false, { entropy: testEntropy }),
         {
           identifier: 'register_anonimous',
           route: '/register/anonimous',
+          actions: anonymousActions,
           decodeInput: () => Effect.succeed({}),
           execute: (input, request) =>
             Effect.gen(function* () {
@@ -765,6 +777,7 @@ describe('call lifecycle', () => {
       expect(seen).toEqual([
         {
           deviceId: 'call-device-123',
+          url: 'https://music.163.com/weapi/register/anonimous',
           cookie: expect.stringContaining('deviceId=call-device-123'),
           username: 'call-device-123',
           global: original,

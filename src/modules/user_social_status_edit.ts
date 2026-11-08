@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/social/user/status/edit',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 返回码收紧；`data` 是设置成功后的展示提示（录制里是字符串“将展示7天”），`message` 是附带
 // 提示，都宽松。
@@ -28,18 +38,14 @@ const userSocialStatusEdit: ModuleEffect<ModuleInput, ModuleBody> = (
 ) =>
   Effect.gen(function* () {
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/social/user/status/edit`,
-        {
-          content: JSON.stringify({
-            type: query.type,
-            iconUrl: query.iconUrl,
-            content: query.content,
-            actionUrl: query.actionUrl,
-          }),
-        },
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], {
+        content: JSON.stringify({
+          type: query.type,
+          iconUrl: query.iconUrl,
+          content: query.content,
+          actionUrl: query.actionUrl,
+        }),
+      }),
     );
     return {
       ...toModuleResponse(response),

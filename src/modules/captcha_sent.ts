@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/sms/captcha/sent',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 返回码收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -25,11 +35,7 @@ const captchaSent: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       cellphone: query.phone,
     };
     const result = yield* request(
-      buildApiRequestIntent(
-        `/api/sms/captcha/sent`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     return {
       ...toModuleResponse(result),

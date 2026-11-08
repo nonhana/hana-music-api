@@ -6,11 +6,21 @@ import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/w/register/cellphone',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   captcha: string;
@@ -42,11 +52,7 @@ const registerCellphone: ModuleEffect<ModuleInput> = (query, request) =>
       force: 'false',
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/w/register/cellphone`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     return toModuleResponse(response);
   });

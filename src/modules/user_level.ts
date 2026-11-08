@@ -1,8 +1,8 @@
 import { Effect, Schema } from 'effect';
 
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/user/level',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {};
 
@@ -37,15 +47,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userLevel: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userLevel: ModuleEffect<ModuleInput, ModuleBody> = (_query, request) =>
   Effect.gen(function* () {
     const data = {};
     const result = yield* request(
-      buildApiRequestIntent(
-        `/api/user/level`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     return {
       ...toModuleResponse(result),

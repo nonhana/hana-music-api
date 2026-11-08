@@ -7,8 +7,8 @@ import {
   QueryIdentifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -22,6 +22,16 @@ import type {
   QueryBooleanLike,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/v2/resource/comments',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = IdentifierQuery & {
   type: QueryNumberLike;
@@ -203,11 +213,7 @@ const commentNew: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       sortType, //99:按推荐排序,2:按热度排序,3:按时间排序
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v2/resource/comments`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody('comment_new', ModuleBody, response);
     return { ...toModuleResponse(response), body };

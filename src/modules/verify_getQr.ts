@@ -3,10 +3,20 @@ import * as QRCode from 'qrcode';
 
 import { ModuleInvariantFailed } from '../core/errors.ts';
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/frontrisk/verify/getqrcode',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   evid?: string;
@@ -49,17 +59,13 @@ const verifyGetQr: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const params = JSON.stringify({ event_id: query.evid, sign: query.sign });
     const response = yield* request(
-      buildApiRequestIntent(
-        '/api/frontrisk/verify/getqrcode',
-        {
-          verifyConfigId: query.vid,
-          verifyType: query.type,
-          token: query.token,
-          params,
-          size: 150,
-        },
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], {
+        verifyConfigId: query.vid,
+        verifyType: query.type,
+        token: query.token,
+        params,
+        size: 150,
+      }),
     );
     const { qrCode } = (yield* decodeUpstreamBody(
       'verify_getQr',

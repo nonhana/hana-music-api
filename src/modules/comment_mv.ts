@@ -5,8 +5,8 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -20,6 +20,16 @@ import type {
   IdentifierPagedQuery,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: { prefix: '/api/v1/resource/comments/' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = IdentifierPagedQuery & {
   before?: QueryNumberLike;
@@ -60,10 +70,11 @@ const commentMv: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       beforeTime: query.before || 0,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/resource/comments/R_MV_5_${query.id}`,
+      buildActionRequestIntent(
+        'request',
+        moduleActions['request'],
         data,
-        createOption(query, 'weapi'),
+        `/api/v1/resource/comments/R_MV_5_${query.id}`,
       ),
     );
     const body = yield* decodeUpstreamBody('comment_mv', ModuleBody, response);

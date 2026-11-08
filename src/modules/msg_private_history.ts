@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +11,16 @@ import {
 import { UserProfile } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/msg/private/history',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 消息双方的资料是附带信息，`userId` 不在松紧判断里，全部字段按 `UserProfile` 宽松声明；
 // `expertTags` 的类型证据来自同形用户资料（`msg_private`、`msg_recentcontact`）。
@@ -54,11 +64,7 @@ const msgPrivateHistory: ModuleEffect<ModuleInput, ModuleBody> = (
       total: 'true',
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/msg/private/history`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'msg_private_history',

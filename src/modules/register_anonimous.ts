@@ -3,8 +3,8 @@ import { Effect, Schema } from 'effect';
 import { Call } from '../core/call.ts';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -13,6 +13,16 @@ import {
 } from '../core/upstream-body.ts';
 import { encodeAnonymousDeviceId, isRecord } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/register/anonimous',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {};
 
@@ -33,7 +43,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 export type ModuleBody = typeof ModuleBody.Type;
 
 const registerAnonymous: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
+  _query,
   request,
 ) =>
   Effect.gen(function* () {
@@ -43,11 +53,9 @@ const registerAnonymous: ModuleEffect<ModuleInput, ModuleBody> = (
       'utf8',
     ).toString('base64');
     const result = yield* request(
-      buildApiRequestIntent(
-        '/api/register/anonimous',
-        { username },
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], {
+        username,
+      }),
     );
     const body = yield* decodeUpstreamBody(
       'register_anonimous',
