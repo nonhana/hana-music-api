@@ -28,6 +28,7 @@ interface Mutation {
   readonly timeoutMs?: number;
 }
 const groups = [
+  'special-chains',
   'membership-business',
   'podcast-video',
   'account-social',

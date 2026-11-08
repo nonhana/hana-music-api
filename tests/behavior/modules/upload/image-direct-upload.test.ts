@@ -1,22 +1,26 @@
 import { expect, test } from 'bun:test';
 
-import { createHanaMusicApi } from '../../../../index.ts';
+import type { ModuleCallConfig } from '../../../../index.ts';
+import { buildCallServices } from '../../../../src/core/call.ts';
+import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
+import { testEntropy } from '../../../_kit/harness/sdk.ts';
+import { readWebBody } from '../../../_kit/upstream/wire.ts';
 import { songFile, tokenBody } from '../../../fixtures/synthetic/upload.ts';
 
-const ALLOC = 'https://interface.music.163.com/api/nos/token/alloc';
-const COVER = 'https://interface.music.163.com/api/playlist/cover/update';
+const ALLOC = 'https://music.163.com/weapi/nos/token/alloc';
+const COVER = 'https://music.163.com/weapi/playlist/cover/update';
 const coverResponse = {
   code: 200,
   future: { preserved: true },
   url: 'https://p1.music.126.net/direct-upload.jpg',
 } as const;
 
-// 用 api 协议让请求体保持明文表单，测试直接读取发给网易云的字段。
+// 固定熵后独立解码真实 weapi 正文，测试仍走生成 client 和唯一请求链。
 const createClient = () => {
-  const requests: Array<{ url: string; form: Record<string, string> }> = [];
-  const client = createHanaMusicApi({
+  const requests: Array<{ url: string; form: Record<string, unknown> }> = [];
+  const config: ModuleCallConfig = {
     cookie: 'MUSIC_U=direct-upload',
-    crypto: 'api',
+    crypto: 'api' as const,
     e_r: false,
     fetcher: async (input, init) => {
       const url = input instanceof Request ? input.url : input.toString();
@@ -24,7 +28,9 @@ const createClient = () => {
         url,
         form:
           typeof init?.body === 'string'
-            ? Object.fromEntries(new URLSearchParams(init.body))
+            ? url.includes('/weapi/')
+              ? (readWebBody(init.body) as Record<string, unknown>)
+              : {}
             : {},
       });
       if (url === ALLOC) return Response.json(tokenBody);
@@ -37,7 +43,11 @@ const createClient = () => {
         return Response.json(coverResponse);
       throw new Error(`Unexpected direct upload target: ${url}`);
     },
-  });
+  };
+  const client = createClientFromContext(
+    config,
+    buildCallServices(config, false, { entropy: testEntropy }),
+  );
   return { client, requests };
 };
 
@@ -71,7 +81,7 @@ test('playlistCoverUpdate sets an already uploaded image by imgId without upload
   });
 
   expect(requests.map(({ url }) => url)).toEqual([ALLOC, COVER]);
-  expect(requests[1]?.form).toMatchObject({ id: '9', coverImgId: 'doc-1' });
+  expect(requests[1]?.form).toMatchObject({ id: 9, coverImgId: 'doc-1' });
   expect(result.status).toBe(200);
   expect(result.body).toEqual({
     code: 200,
@@ -92,7 +102,7 @@ test('playlistCoverUpdate with imgFile still uploads the image before setting it
     'https://nosup-hz1.127.net/yyimgs/voice/demo?offset=0&complete=true&version=1.0',
     COVER,
   ]);
-  expect(requests[2]?.form).toMatchObject({ id: '9', coverImgId: 'doc-1' });
+  expect(requests[2]?.form).toMatchObject({ id: 9, coverImgId: 'doc-1' });
 });
 
 test.each([

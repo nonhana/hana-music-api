@@ -2,7 +2,9 @@ import { expect, test } from 'bun:test';
 
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
-import voiceUpload from '../../../src/modules/voice_upload.ts';
+import voiceUpload, {
+  moduleActions as voiceUploadActions,
+} from '../../../src/modules/voice_upload.ts';
 import { createClientFromContext } from '../../../src/sdk/generated/client-factory.generated.ts';
 import { settle } from '../../_kit/assertions.ts';
 import { testEntropy } from '../../_kit/harness/sdk.ts';
@@ -57,11 +59,12 @@ test('a local multipart upload stops after the first cancelled part', async () =
         },
       },
     },
-    buildCallServices(),
+    buildCallServices({}, false, { entropy: testEntropy }),
     {
       identifier: 'voice_upload',
       route: '/voice/upload',
       decodeInput: decodeLegacyModuleInput,
+      actions: voiceUploadActions,
       execute: voiceUpload,
     },
   ).catch((error: unknown) => error);

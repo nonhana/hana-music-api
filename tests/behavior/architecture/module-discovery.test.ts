@@ -19,6 +19,7 @@ import libraryPlayback from '../../fixtures/requests/library-playback.json';
 import membershipBusiness from '../../fixtures/requests/membership-business.json';
 import podcastVideo from '../../fixtures/requests/podcast-video.json';
 import searchDiscovery from '../../fixtures/requests/search-discovery.json';
+import specialChains from '../../fixtures/requests/special-chains.json';
 
 const REAL_MODULES_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -41,6 +42,7 @@ describe('generated module type surface', () => {
             ...accountSocial.cases,
             ...podcastVideo.cases,
             ...membershipBusiness.cases,
+            ...specialChains.cases,
           ].map((entry) => entry.module),
         ),
         'album_sub',
@@ -194,9 +196,9 @@ describe('generated module type surface', () => {
           retry: entry.retry,
         });
     }
-    expect(declared).toHaveLength(339);
+    expect(declared).toHaveLength(352);
     expect(declared).toEqual([...generatedActionModuleIdentifiers].toSorted());
-    expect(generatedPendingActionModuleIdentifiers).toHaveLength(13);
+    expect(generatedPendingActionModuleIdentifiers).toHaveLength(0);
     for (const identifier of declared)
       expect(generatedPendingActionModuleIdentifiers).not.toContain(identifier);
     for (const definition of loaded.filter(

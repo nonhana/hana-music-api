@@ -20,11 +20,11 @@
 
 已迁移模块导出本地 `moduleActions`，逐动作声明 profile、目标或动态路径边界、语义、缓存和重试资格。生成的 SDK registry 和 HTTP loader 读取同一份声明，`runCall` 校验后将其冻结到 `Call.actions`；请求层只执行本模块声明过的动作，并核对规范化路径与最终 URL。profile 决定协议、域名、UA、身份 Cookie 字段和协议选项，token 由协议准备统一编码，会话仍来自本次 Call。操作声明优先于旧模块名缓存白名单，写动作不共享、不缓存、不重放。
 
-当前已迁移339个模块：playlist_subscribe、album_sub、artist_sub、四个共享读取 search、lyric、song_detail、playlist_detail，以及 #110 的77个曲库与播放模块、#111 的55个搜索与发现模块、#112 的83个账号与社交模块、#113 的67个播客、视频与音频模块和 #114 的50个会员、云贝、音乐人与其他业务模块。三类收藏/取消使用 web；歌曲详情使用 web，其余三个读取保留 eapi。所有 SDK 模块统一接受可选 checkToken，不按模块或动作分类。带 token 调用绕过 ReadStore，禁自动重试；provider 每个 API 请求独立取值，固定字符串在一次模块调用中只允许一次 API 请求，后续需求明确失败；纯本地/外部上传不取值。未配置 token 时保留声明的 shared cache/read retry 和独立等待者合同。
+当前已迁移352个模块：playlist_subscribe、album_sub、artist_sub、四个共享读取 search、lyric、song_detail、playlist_detail，以及 #110 的77个曲库与播放模块、#111 的55个搜索与发现模块、#112 的83个账号与社交模块、#113 的67个播客、视频与音频模块、#114 的50个会员、云贝、音乐人与其他业务模块，以及 #115 的13个特殊链路模块。三类收藏/取消使用 web；歌曲详情使用 web，其余三个读取保留 eapi。所有 SDK 模块统一接受可选 checkToken，不按模块或动作分类。带 token 调用绕过 ReadStore，禁自动重试；provider 每个 API 请求独立取值，固定字符串在一次模块调用中只允许一次 API 请求，后续需求明确失败；纯本地/外部上传不取值。未配置 token 时保留声明的 shared cache/read retry 和独立等待者合同。
 
 #110 的38个 weapi 动作模块采用 weapiPc，保留浏览器 UA 与 PC Cookie 的既有组合；39个 eapi 模块复用 eapi。全部声明 cache=none，按原上限分别使用 never/connect/read，不扩共享读取。导入四分支、红心/取消、sky 音质及动态路径都在本地动作合同中表达；local 导入和 batch 更新各发一次请求。完整基线与证据选择见 [issue-110](../docs/acceptance/issue-110.md)。
 
-`generatedPendingActionModuleIdentifiers` 枚举其余 13 个模块，它们沿同一执行链获得通用 token 能力，尚不计为 profile 迁移通过。P12 删除可选声明、旧默认协议和旧策略路径；本票不提前移除全部公开配置。决策与证据边界见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
+`generatedPendingActionModuleIdentifiers` 现在为空；本地模块也有空动作声明。P12 删除可选声明、旧默认协议和旧策略路径；本票不提前移除全部公开配置。决策与证据边界见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
 
 Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `createRequest` 仍返回 Promise；内部组合和 transport 不自行调用 `Effect.runPromise`。公开边界统一由 `src/core/runtime.ts` 负责执行和错误映射。
 
@@ -59,3 +59,9 @@ Hono 只属于 `src/server/`。`src/core/` 必须能够脱离 Hono 测试；模�
 固定基线06f1791的50模块采用36个weapiPc和14个eapi，240个最终请求分支独立解码后复用现有profile，声明50动作。batch无论封装多少子操作都只发送一次/api/batch，保守write/none/never；summary_annual按年度拼接userdata/data，并限制到/api/activity/summary/annual/目录。daily_signin保留特殊HTTP路由/daily_signin，digitalAlbum_*保留大小写入口。没有新增profile或执行器。
 
 下单、签到、任务/成长值/云豆领取与云贝推歌均write/never。听歌报告查询、签到活动信息和云贝收入/支出明细是读取，因旧URI策略禁止重试而继续never；其他读取只保留connect，全部不共享或缓存。统计、历史、年度和乐谱只迁移声明，不改变Schema或业务含义。102份历史返回逐份回放与请求对照分开；十个无录制模块及数字专辑下单缺成功样本如实保留，不执行付费或真实账号操作。[完整依据](../docs/acceptance/issue-114.md)。
+
+## P11：上传与特殊链路
+
+#115 将最后13模块迁移为30个动作，352模块均有声明。inner_version、login_qr_create使用空动作集。上传阶段与plain GET也沿原RequestCapability执行，动作固定方法、响应模式及规范目标；plainNos只接受原允许域名后缀和云盘桶目录，其他plain profile固定域名。目标检查继续核对最终URL，不新增执行器。
+
+图片分配复用三个真实模块消费者的同一动作；声音与云盘保留API/plain混合阶段、数据依赖、总期限及部分完成。scrobble使用独立clientlogOsx组合，保留两条日志的顺序和原内容。playlist_tracks的512条件分支仍是业务第二请求。全部cache=none，写和上传never；cloud_import的读取保持原never，两段歌单读取保留原read上限，固定歌曲上传地址查询只connect，audio_match/related_playlist因动态query影响旧URI判定而收紧为never。P12继续负责删除已无消费者的旧控制面。[验收来源](../docs/acceptance/issue-115.md)与历史回放分别记录。

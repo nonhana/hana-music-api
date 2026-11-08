@@ -116,9 +116,11 @@ import artistsModule, {
 } from '../../modules/artists.ts';
 import audioMatchModule, {
   decodeModuleInput as audioMatchInputDecoder,
+  moduleActions as audioMatchActions,
 } from '../../modules/audio_match.ts';
 import avatarUploadModule, {
   decodeModuleInput as avatarUploadInputDecoder,
+  moduleActions as avatarUploadActions,
 } from '../../modules/avatar_upload.ts';
 import bannerModule, {
   decodeModuleInput as bannerInputDecoder,
@@ -170,9 +172,11 @@ import checkMusicModule, {
 } from '../../modules/check_music.ts';
 import cloudModule, {
   decodeModuleInput as cloudInputDecoder,
+  moduleActions as cloudActions,
 } from '../../modules/cloud.ts';
 import cloudImportModule, {
   decodeModuleInput as cloudImportInputDecoder,
+  moduleActions as cloudImportActions,
 } from '../../modules/cloud_import.ts';
 import cloudMatchModule, {
   decodeModuleInput as cloudMatchInputDecoder,
@@ -428,9 +432,11 @@ import hugCommentModule, {
 } from '../../modules/hug_comment.ts';
 import imageUploadTokenModule, {
   decodeModuleInput as imageUploadTokenInputDecoder,
+  moduleActions as imageUploadTokenActions,
 } from '../../modules/image_upload_token.ts';
 import innerVersionModule, {
   decodeModuleInput as innerVersionInputDecoder,
+  moduleActions as innerVersionActions,
 } from '../../modules/inner_version.ts';
 import likeModule, {
   decodeModuleInput as likeInputDecoder,
@@ -510,6 +516,7 @@ import loginQrCheckModule, {
 } from '../../modules/login_qr_check.ts';
 import loginQrCreateModule, {
   decodeModuleInput as loginQrCreateInputDecoder,
+  moduleActions as loginQrCreateActions,
 } from '../../modules/login_qr_create.ts';
 import loginQrKeyModule, {
   decodeModuleInput as loginQrKeyInputDecoder,
@@ -681,6 +688,7 @@ import playlistCatlistModule, {
 } from '../../modules/playlist_catlist.ts';
 import playlistCoverUpdateModule, {
   decodeModuleInput as playlistCoverUpdateInputDecoder,
+  moduleActions as playlistCoverUpdateActions,
 } from '../../modules/playlist_cover_update.ts';
 import playlistCreateModule, {
   decodeModuleInput as playlistCreateInputDecoder,
@@ -756,6 +764,7 @@ import playlistTrackAddModule, {
 } from '../../modules/playlist_track_add.ts';
 import playlistTrackAllModule, {
   decodeModuleInput as playlistTrackAllInputDecoder,
+  moduleActions as playlistTrackAllActions,
 } from '../../modules/playlist_track_all.ts';
 import playlistTrackDeleteModule, {
   decodeModuleInput as playlistTrackDeleteInputDecoder,
@@ -763,6 +772,7 @@ import playlistTrackDeleteModule, {
 } from '../../modules/playlist_track_delete.ts';
 import playlistTracksModule, {
   decodeModuleInput as playlistTracksInputDecoder,
+  moduleActions as playlistTracksActions,
 } from '../../modules/playlist_tracks.ts';
 import playlistUpdateModule, {
   decodeModuleInput as playlistUpdateInputDecoder,
@@ -842,6 +852,7 @@ import relatedAllvideoModule, {
 } from '../../modules/related_allvideo.ts';
 import relatedPlaylistModule, {
   decodeModuleInput as relatedPlaylistInputDecoder,
+  moduleActions as relatedPlaylistActions,
 } from '../../modules/related_playlist.ts';
 import resourceLikeModule, {
   decodeModuleInput as resourceLikeInputDecoder,
@@ -849,6 +860,7 @@ import resourceLikeModule, {
 } from '../../modules/resource_like.ts';
 import scrobbleModule, {
   decodeModuleInput as scrobbleInputDecoder,
+  moduleActions as scrobbleActions,
 } from '../../modules/scrobble.ts';
 import searchModule, {
   decodeModuleInput as searchInputDecoder,
@@ -1328,6 +1340,7 @@ import voiceLyricModule, {
 } from '../../modules/voice_lyric.ts';
 import voiceUploadModule, {
   decodeModuleInput as voiceUploadInputDecoder,
+  moduleActions as voiceUploadActions,
 } from '../../modules/voice_upload.ts';
 import voicelistDetailModule, {
   decodeModuleInput as voicelistDetailInputDecoder,
@@ -1604,12 +1617,14 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/audio/match',
     execute: audioMatchModule,
     decodeInput: audioMatchInputDecoder,
+    actions: audioMatchActions,
   },
   avatar_upload: {
     identifier: 'avatar_upload',
     route: '/avatar/upload',
     execute: avatarUploadModule,
     decodeInput: avatarUploadInputDecoder,
+    actions: avatarUploadActions,
   },
   banner: {
     identifier: 'banner',
@@ -1700,12 +1715,14 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/cloud',
     execute: cloudModule,
     decodeInput: cloudInputDecoder,
+    actions: cloudActions,
   },
   cloud_import: {
     identifier: 'cloud_import',
     route: '/cloud/import',
     execute: cloudImportModule,
     decodeInput: cloudImportInputDecoder,
+    actions: cloudImportActions,
   },
   cloud_match: {
     identifier: 'cloud_match',
@@ -2153,12 +2170,14 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/image/upload/token',
     execute: imageUploadTokenModule,
     decodeInput: imageUploadTokenInputDecoder,
+    actions: imageUploadTokenActions,
   },
   inner_version: {
     identifier: 'inner_version',
     route: '/inner/version',
     execute: innerVersionModule,
     decodeInput: innerVersionInputDecoder,
+    actions: innerVersionActions,
   },
   like: {
     identifier: 'like',
@@ -2298,6 +2317,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/login/qr/create',
     execute: loginQrCreateModule,
     decodeInput: loginQrCreateInputDecoder,
+    actions: loginQrCreateActions,
   },
   login_qr_key: {
     identifier: 'login_qr_key',
@@ -2598,6 +2618,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/cover/update',
     execute: playlistCoverUpdateModule,
     decodeInput: playlistCoverUpdateInputDecoder,
+    actions: playlistCoverUpdateActions,
   },
   playlist_create: {
     identifier: 'playlist_create',
@@ -2730,6 +2751,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/track/all',
     execute: playlistTrackAllModule,
     decodeInput: playlistTrackAllInputDecoder,
+    actions: playlistTrackAllActions,
   },
   playlist_track_delete: {
     identifier: 'playlist_track_delete',
@@ -2743,6 +2765,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/playlist/tracks',
     execute: playlistTracksModule,
     decodeInput: playlistTracksInputDecoder,
+    actions: playlistTracksActions,
   },
   playlist_update: {
     identifier: 'playlist_update',
@@ -2882,6 +2905,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/related/playlist',
     execute: relatedPlaylistModule,
     decodeInput: relatedPlaylistInputDecoder,
+    actions: relatedPlaylistActions,
   },
   resource_like: {
     identifier: 'resource_like',
@@ -2895,6 +2919,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/scrobble',
     execute: scrobbleModule,
     decodeInput: scrobbleInputDecoder,
+    actions: scrobbleActions,
   },
   search: {
     identifier: 'search',
@@ -3734,6 +3759,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/voice/upload',
     execute: voiceUploadModule,
     decodeInput: voiceUploadInputDecoder,
+    actions: voiceUploadActions,
   },
   voicelist_detail: {
     identifier: 'voicelist_detail',

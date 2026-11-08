@@ -57,7 +57,9 @@ export const requestEffect = (
         if (
           !action ||
           intent.protocol !== requestProfiles[action.profile].protocol ||
-          intent.semantic !== action.semantic
+          intent.semantic !== action.semantic ||
+          intent.method !== (action.method ?? 'POST') ||
+          intent.response !== (action.response ?? 'json')
         ) {
           return yield* InvalidRequest.make({
             message: 'Request must match a declared module action',
@@ -159,7 +161,7 @@ export const requestEffect = (
             if (checkToken !== undefined)
               headers['X-antiCheatToken'] = checkToken;
             prepared = {
-              url: intent.target,
+              url: target,
               headers,
               body: intent.body,
               method: intent.method,

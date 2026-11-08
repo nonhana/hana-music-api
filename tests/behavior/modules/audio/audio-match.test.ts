@@ -30,6 +30,7 @@ test('audio matching emits a plain read intent and preserves arbitrary data', as
     {
       target:
         'https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=3&rawdata=fp%26value&times=1&decrypt=1',
+      action: 'match',
       protocol: 'plain',
       method: 'GET',
       headers: {},

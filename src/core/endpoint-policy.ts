@@ -77,7 +77,10 @@ export const validateRequestTarget = (
         : profile.protocol === 'api'
           ? path
           : `/${profile.protocol}/${path.slice(5)}`;
-    const expected = new URL(preparedPath, profile.domain);
+    const expected =
+      profile.protocol === 'plain'
+        ? new URL(path)
+        : new URL(preparedPath, profile.domain);
     if (target.href !== expected.href) {
       throw InvalidRequest.make({
         message:

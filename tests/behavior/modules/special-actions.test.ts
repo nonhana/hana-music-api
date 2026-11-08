@@ -194,7 +194,7 @@ describe('special Effect module behavior', () => {
         },
       ]),
     });
-    expect(intents.every((intent) => intent.semantic === 'upload')).toBe(true);
+    expect(intents.map((intent) => intent.semantic)).toEqual(['read', 'write']);
     expect(result.body).toEqual({ imported: true });
   });
 

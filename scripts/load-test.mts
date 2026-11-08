@@ -9,6 +9,7 @@ import { decodeLegacyModuleInput } from '../src/core/module-input.ts';
 import type { ReadStore } from '../src/core/read-store.ts';
 import { requestEffect } from '../src/core/request.ts';
 import avatarUpload, {
+  moduleActions as avatarUploadActions,
   decodeModuleInput as decodeAvatarInput,
 } from '../src/modules/avatar_upload.ts';
 import like, { moduleActions as likeActions } from '../src/modules/like.ts';
@@ -123,6 +124,7 @@ const runLoad = async (soak: boolean) => {
       identifier: 'avatar_upload',
       route: '/avatar/upload',
       decodeInput: decodeAvatarInput,
+      actions: avatarUploadActions,
       execute: avatarUpload,
     },
     {

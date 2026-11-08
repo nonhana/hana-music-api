@@ -158,3 +158,13 @@ HTTP 服务会把 `body` 写成 JSON，把 `status` 用作 HTTP 状态码，并�
 每个模块本地声明 `ModuleInput`、导出 `decodeModuleInput`，并用 `ModuleEffect` 实现默认导出。生成器据此维护 SDK 方法、registry 和公开输入类型。维护模块时应运行 `bun run types:modules:generate`，然后按仓库的 `agent-docs/TESTING.md` 选择检查。
 
 取消、缓存、流量控制和上传行为可以用本地假上游验证。这样的检查证明本地执行规则，不能代替真实网易云接口的可用性验证。负载场景与验收规则见仓库中的 `tests/transport/load/`、`scripts/load-test.mts` 和 `agent-docs/TESTING.md`。
+
+## 上传与多请求模块
+
+上传文件时，一次 SDK 调用可能先申请凭证，再把原始文件发到 NOS，最后提交上传结果。这些阶段现在都经过同一请求链，共用本次调用的取消信号和总期限；某阶段失败后停止后续请求，已经完成的阶段通过部分完成信息报告。
+
+`cloudImport` 先检查再导入，`playlistTrackAll` 先取歌曲编号再读取详情。`playlistTracks` 只有收到既有业务码 512 时，才按原逻辑修改歌曲列表再发送一次；它没有获得通用自动重试。`innerVersion`、`loginQrCreate` 在本地完成，不发送上游请求或读取 token。
+
+普通模块的协议、域名和 UA 来自动作声明，配置中的 `crypto`、`domain`、`ua`、`e_r`、`acceptGzip` 不再覆盖这些模块。调用方继续提供业务 query、Cookie、代理、fetcher、期限、取消和可选 `checkToken`；确需直接构造请求时使用低层 `createRequest`。这是 major 兼容变化，业务输入和返回外壳保持。
+
+`audioMatch` 和 `relatedPlaylist` 采用保守的单次请求策略。它们的动态 query 曾影响旧 URI 重试判定；收紧为不自动重试，可以避免迁移后扩大部分输入的原重试上限。

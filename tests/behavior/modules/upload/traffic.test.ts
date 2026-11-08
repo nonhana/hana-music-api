@@ -7,10 +7,18 @@ import { createHanaMusicApi } from '../../../../index.ts';
 import { invokeModule as invokeProgrammatic } from '../../../../src/app/module-api.ts';
 import { buildCallServices, runCall } from '../../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../../src/core/module-input.ts';
-import audioMatch from '../../../../src/modules/audio_match.ts';
-import avatarUpload from '../../../../src/modules/avatar_upload.ts';
-import relatedPlaylist from '../../../../src/modules/related_playlist.ts';
-import voiceUpload from '../../../../src/modules/voice_upload.ts';
+import audioMatch, {
+  moduleActions as audioMatchActions,
+} from '../../../../src/modules/audio_match.ts';
+import avatarUpload, {
+  moduleActions as avatarUploadActions,
+} from '../../../../src/modules/avatar_upload.ts';
+import relatedPlaylist, {
+  moduleActions as relatedPlaylistActions,
+} from '../../../../src/modules/related_playlist.ts';
+import voiceUpload, {
+  moduleActions as voiceUploadActions,
+} from '../../../../src/modules/voice_upload.ts';
 import { sdkModuleRegistry } from '../../../../src/sdk/generated/registry.generated.ts';
 import { createServer } from '../../../../src/server/create-server.ts';
 import type {
@@ -286,6 +294,7 @@ test('voice stage timeout is sixty seconds under the five minute Call budget', a
             identifier: 'voice_upload',
             route: '/voice/upload',
             decodeInput: decodeLegacyModuleInput,
+            actions: voiceUploadActions,
             execute: voiceUpload,
           },
           undefined,
@@ -351,6 +360,7 @@ test.each([
     identifier: 'audio_match',
     decodeInput: decodeLegacyModuleInput,
     execute: audioMatch,
+    actions: audioMatchActions,
     input: { audioFP: 'fp', duration: 3 },
     count: 1,
   },
@@ -358,12 +368,14 @@ test.each([
     identifier: 'related_playlist',
     decodeInput: decodeLegacyModuleInput,
     execute: relatedPlaylist,
+    actions: relatedPlaylistActions,
     input: { id: 1 },
     count: 1,
   },
   {
     identifier: 'avatar_upload',
     decodeInput: decodeLegacyModuleInput,
+    actions: avatarUploadActions,
     execute: avatarUpload,
     input: { imgFile: songFile },
     count: 2,
@@ -409,6 +421,7 @@ test.each([
         route: '/plain',
         decodeInput: decodeLegacyModuleInput,
         execute: scenario.execute as ModuleEffect<ModuleQuery>,
+        actions: scenario.actions,
       },
     ).catch((error: unknown) => error);
     await started;

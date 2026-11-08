@@ -1,0 +1,357 @@
+[
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.add-1000.json",
+    "recordingSha256": "7616dc179b415d05524520214ca16ec17bf3f6e6a1e41e25079c269a58a24ede",
+    "query": {
+      "op": "add",
+      "pid": 900000002,
+      "tracks": "27853227,22765919,2079882237,139268,1447794252,2098478355,729095,2048604695,520126220,2048604694,22765910,2707202386,3389057556,2164433174,729107,16957723,28828078,573415984,22765947,1302578,1828015319,2114723375,863138646,522510081,860203,27713920,22765948,1900171627,4153366,518094539"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "47e5d618caeb5e9c6cb14efb6bb7c640e5efe90790f962a89c9513f29f69c3e0",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_cover_update",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_cover_update.imgid-200px.json",
+    "recordingSha256": "c6816776c99715f5b5561c5f1569866f823a8ed6b460eb6cf263aad4f0dd61d6",
+    "query": {
+      "id": 900000002,
+      "imgId": "109951174079467673"
+    },
+    "upstreamMode": "existing SDK data wrapper",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "6f1db4a4790ed89e4f95a30ab99489da7d10bf21d35e11083f847db216fff2d2",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_cover_update",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_cover_update.deleted-playlist.json",
+    "recordingSha256": "017e1b8a060cbb86681f93d7630c4329cd97ab6d601efbc465167f4a06c03565",
+    "query": {
+      "id": 900000002,
+      "imgId": "109951174079391436"
+    },
+    "upstreamMode": "existing SDK data wrapper",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "60927604866c1d65287844f25fb7d899f0b4c6513ab437697aec5d74b62e3ec1",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.add-9000.json",
+    "recordingSha256": "989b933810c9e8ecc06ee7701e3f3168cada4750e840b5d1f4888cd3e01f0e03",
+    "query": {
+      "op": "add",
+      "pid": 900000021,
+      "tracks": "27853227,22765919,2079882237,139268,1447794252,2098478355,729095,2048604695,520126220,2048604694,22765910,2707202386,3389057556,2164433174,729107,16957723,28828078,573415984,22765947,1302578,1828015319,2114723375,863138646,522510081,860203,27713920,22765948,1900171627,4153366,518094539"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "90157a5d5372e3fc216cd3b1fc4e37137624af15ae0d81be59b258a7eda75a06",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.add-2000.json",
+    "recordingSha256": "751a74d74214a95463682a019da9fbdabb5d4dc5c822e6c5770509065eba4550",
+    "query": {
+      "op": "add",
+      "pid": 900000002,
+      "tracks": "1399788801,1424028303,1828858733,536623501,444267532,2676709884,2642459640,21563184,1844931447,2745132318,865998111,2129311848,1440363352,39224533,3390852249,1399969270,31311706,1385165831,1820822028,2153129690,1333144056,1873561917,22824910,730783,2155423468,1999253939,1345166,3336486981,1970303952,2078006649"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "1b71a935d7067e66b6bbe32bfdbc0f27be980f6bffb739db5a83561179e40479",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.del-deleted-playlist.json",
+    "recordingSha256": "539d3e542cff40e13b8ba7d4a194392a945dc6454f8e451d2b4b645af0c0dcd0",
+    "query": {
+      "op": "del",
+      "pid": 900000002,
+      "tracks": "1402860124"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "rejected",
+    "status": 404,
+    "bodySha256": "1aef7d6bd3cc83af0ae25b6a51f59835e716a72adf31f303e8a918ce08421477",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.add-deleted-playlist.json",
+    "recordingSha256": "33ed6c270bdac751aadb2671400fc2c115693f8c3cfa6b979ec01159b2f0b5a4",
+    "query": {
+      "op": "add",
+      "pid": 900000002,
+      "tracks": "1402860124"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "rejected",
+    "status": 404,
+    "bodySha256": "1aef7d6bd3cc83af0ae25b6a51f59835e716a72adf31f303e8a918ce08421477",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_cover_update",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_cover_update.not-uploaded.json",
+    "recordingSha256": "34daeedbef1916f040de8de8fe8f24d54b2cd8167c966f86b17f1fd79d861674",
+    "query": {
+      "id": 900000002,
+      "imgId": "109951174079460872"
+    },
+    "upstreamMode": "existing SDK data wrapper",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "66866abee8acb84750ab76a99792d24f1f3022a302ae9b6f1b59b87ae88e8f65",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_cover_update",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_cover_update.imgid.json",
+    "recordingSha256": "34606a4be409ee8680c6c4a557f01b985ae4b709162e24fcb2e78239bd4bd9d4",
+    "query": {
+      "id": 900000002,
+      "imgId": "109951174079391436"
+    },
+    "upstreamMode": "existing SDK data wrapper",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "60927604866c1d65287844f25fb7d899f0b4c6513ab437697aec5d74b62e3ec1",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.add.json",
+    "recordingSha256": "9c650d0a4e324a44396c8fab57621a517dcf8f18548dc08afe4e075cd6b88970",
+    "query": {
+      "op": "add",
+      "pid": 900000002,
+      "tracks": "22766017,41632480,1365398014"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "fe58f524ff6cee691f898b6167d38068813aba357bb522816a46650ab540c358",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_cover_update",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_cover_update.imgid-61mb.json",
+    "recordingSha256": "9d0a1fe945f84269736139b3bc206c32ad0035cf6bfbaaebc46f3fffe8ddc7fe",
+    "query": {
+      "id": 900000002,
+      "imgId": "109951174079420215"
+    },
+    "upstreamMode": "existing SDK data wrapper",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "409efcfaca56f56f97a3dbc9152a0416786eac10fbc5c14dc656cb9af5cf0bfd",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.add-partly-duplicate.json",
+    "recordingSha256": "d38b5665025dde943f2cb3c7fc7bb300c385cd490616d3c6588c256f7829a639",
+    "query": {
+      "op": "add",
+      "pid": 900000002,
+      "tracks": "41632480,41632486"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "1746985fad7c68e3df7ae5f8690463ba9a30480a7f07fe2457aed3b8b5b7c9b9",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.del.json",
+    "recordingSha256": "a3ab9972dd4ed71c83029e05d0ad376c0fd47a06a8059eaa944ebb890dbcf1ef",
+    "query": {
+      "op": "del",
+      "pid": 900000002,
+      "tracks": "41632480"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "805d523aa01dc289b2bcbb9cb1d49c23014dcf7aef7b81d05301282625f9db34",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "image_upload_token",
+    "path": "tests/fixtures/netease/playlist-edit/image_upload_token.json",
+    "recordingSha256": "36f5b8398658928abb6cee64988a8a565f82c59b5bf8447a1ce6987d06115b88",
+    "query": {},
+    "upstreamMode": "SDK credential wrapper reconstructed with synthetic token",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "bfac1115fac567b109f1171f9585160883ff7d3813635bb000da9af55a1c7493",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.add-1500-into-9000.json",
+    "recordingSha256": "660659272b763cf5de9190bce757d5d4423d4c5f90b289b1d5a246c6b3da7d93",
+    "query": {
+      "op": "add",
+      "pid": 900000021,
+      "tracks": "441441139,555964763,452554601,476697950,511411944,341978,473549279,468316339,441120396,458558296,465731874,428387405,107823,107817,119557,304847,464219955,89675,169126,35253079,460162175,511927512,27726501,482892397,460298162,464466838,31426712,454867452,464467707,467497873"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2db7c5b1231c786d73a9df84ff776651a70b41b342e501417e9279203da187c5",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.del-not-in-playlist.json",
+    "recordingSha256": "b8cad6fad02332d823827ccc277532d209770782dbc51d5cb6eb376bf6746486",
+    "query": {
+      "op": "del",
+      "pid": 900000002,
+      "tracks": "1"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "805d523aa01dc289b2bcbb9cb1d49c23014dcf7aef7b81d05301282625f9db34",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_tracks",
+    "path": "tests/fixtures/netease/playlist-edit/playlist_tracks.add-duplicate.json",
+    "recordingSha256": "75a38ad2367ecc8101f4bb1d2ed4f2ce2c81feb6f1c03a9ad81b1b5ffabc1f64",
+    "query": {
+      "op": "add",
+      "pid": 900000002,
+      "tracks": "22766017"
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "rejected",
+    "status": 502,
+    "bodySha256": "db9bb574b3c97d209df5f020c6bdddb478a930cdf198d123701a9ca88ebcbd0f",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "playlist_track_all",
+    "path": "tests/fixtures/netease/library/playlist_track_all.json",
+    "recordingSha256": "889d1c2788fd0158fecbc32bc450e233afd74fc2902779e4b61a00d6409d6581",
+    "query": {
+      "id": 900000015,
+      "limit": 50,
+      "offset": 0
+    },
+    "upstreamMode": "synthetic first detail, unchanged recorded final song body",
+    "sends": 2,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "cb231a776681091bfb69116015e45dfe093e206e2c90677f90b1c36d22ad0e66",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "scrobble",
+    "path": "tests/fixtures/netease/playback/scrobble.json",
+    "recordingSha256": "2ce025f3e9fd541f91b318caa700f284ab7693330a4f198c5902b36ec86844a9",
+    "query": {
+      "id": 22712179,
+      "sourceid": 900000001,
+      "time": 241
+    },
+    "upstreamMode": "unchanged response at both log stages",
+    "sends": 2,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "5a82885de67174f6cb943f2be629d5d471d03a0092a172e5bd6544259e54a2ef",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "audio_match",
+    "path": "tests/fixtures/netease/playback/audio_match.match-login.json",
+    "recordingSha256": "0c184d306de77328acc7cc8a20778289142f28befa231dbe08c5c37f0a60d1fe",
+    "query": {
+      "audioFP": "6HMsaH7KZKJlPVM0Tc7InnSvElfohp/TKjgppdnkCQ1wzqFigsKN85Ikt/ITbtrtH48mL7P9DpIGV2NC/yh0tn8AEHLwEubm51/NR08qgHL/lkLe7li/pLaWpbLE3rhYOT2cBn1jRbAg1JoDT2ORpk16Jx2HUwJ4aR9fQLgjkap5g3kR+Dou1BIMJZQDhr1035LRu+nwcYacQn0Zq6zgcUtkCVnS2kX3IP05YEdam5rtpmTFhcqzuVNn/rnzqkV9MXykGbFflHZz25mqDdQNL4nb/eZPFNfJ4jWF6eD8IDkY22iyUWlDiL8SFvEQJYy7/MYxYHXUYu5T5/ww+bukWrE/hXPSuiowrB4j3YZW/jRZvT7Xz8Rqd+7siDag6KL2YsAWDXKBDFDByajJLUYJRGwQC9n3LI3znILJ71ficFliYZ/gYT6XVCmHgj++kW882nnwqnmwRa86YG6d/1XJ1sRXgORhINyLNf5GAxto93/4oymJNQJKzlSiHyhkzIzQFQmDlLMq5c0yVJY5Q1lnDGU+/5rITiLjGqQ7FGKH8Zl8Dt45WbGsXA4ZKooP9rBHcwwvL6PWbkOVpY9fzA89lr4kgEBhRh95pd1RrFb8lksYsM3MiAvdT6qW5zoRUAqIBqB09GdL2tzaDdS2MfrOvnwy3gcnMdOJYH2fifFoXpXBOVfNnJuGhbOy1IKcuriKmEtyLqqmF6u5ilagVpnIO+5s/zhCfotaqD1HM6QYOjE=",
+      "duration": 3
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "832abdacedfd282ed8ae17e7252d42a04bcc3e53b6d7170137ba39367b8d7a95",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "audio_match",
+    "path": "tests/fixtures/netease/playback/audio_match.no-match.json",
+    "recordingSha256": "25b2ffb0e67aa7fe5209d9184e90449900903871f78ce0fe8b60f343facc9c54",
+    "query": {
+      "audioFP": "uLsYcabnjbmgFsxqyv/mkZoFEdC1Xl9UO2/XY36UegtKgC8LmDsuItXH8n7MMquabPAc1oMd6H5+A9uLmfB93GHUy8BazPaKR4MRbyrVNNZBfvm2spgJd6vEAFoCnsS7d8YP1eybNE1h8NgDesWR2fvAU1MJee8V1pr3LaLYYF4FG1wQKstZmReR7ZfDH0RB",
+      "duration": 3
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "07606217d441c0061a1e3ee61be00c4eae6f5b09e7201a4c31db08c6bf1617a4",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "audio_match",
+    "path": "tests/fixtures/netease/playback/audio_match.match.json",
+    "recordingSha256": "3ed1db007d1216de9fef18cbb52243aa1380884ccc998aad0d725341a485eeee",
+    "query": {
+      "audioFP": "6HMsaH7KZKJlPVM0Tc7InnSvElfohp/TKjgppdnkCQ1wzqFigsKN85Ikt/ITbtrtH48mL7P9DpIGV2NC/yh0tn8AEHLwEubm51/NR08qgHL/lkLe7li/pLaWpbLE3rhYOT2cBn1jRbAg1JoDT2ORpk16Jx2HUwJ4aR9fQLgjkap5g3kR+Dou1BIMJZQDhr1035LRu+nwcYacQn0Zq6zgcUtkCVnS2kX3IP05YEdam5rtpmTFhcqzuVNn/rnzqkV9MXykGbFflHZz25mqDdQNL4nb/eZPFNfJ4jWF6eD8IDkY22iyUWlDiL8SFvEQJYy7/MYxYHXUYu5T5/ww+bukWrE/hXPSuiowrB4j3YZW/jRZvT7Xz8Rqd+7siDag6KL2YsAWDXKBDFDByajJLUYJRGwQC9n3LI3znILJ71ficFliYZ/gYT6XVCmHgj++kW882nnwqnmwRa86YG6d/1XJ1sRXgORhINyLNf5GAxto93/4oymJNQJKzlSiHyhkzIzQFQmDlLMq5c0yVJY5Q1lnDGU+/5rITiLjGqQ7FGKH8Zl8Dt45WbGsXA4ZKooP9rBHcwwvL6PWbkOVpY9fzA89lr4kgEBhRh95pd1RrFb8lksYsM3MiAvdT6qW5zoRUAqIBqB09GdL2tzaDdS2MfrOvnwy3gcnMdOJYH2fifFoXpXBOVfNnJuGhbOy1IKcuriKmEtyLqqmF6u5ilagVpnIO+5s/zhCfotaqD1HM6QYOjE=",
+      "duration": 3
+    },
+    "upstreamMode": "unchanged response including existing SDK wrappers",
+    "sends": 1,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "96a67c8803c2e6c4537bee9c034a9c5419ac7ac15fba49e02418e0407e6a4aea",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  },
+  {
+    "module": "login_qr_create",
+    "path": "tests/fixtures/netease/login/login_qr_create.json",
+    "recordingSha256": "87f3274c3b112a91821732577fa17e43c8e712d9d7646098d00ca5b882d5710c",
+    "query": {
+      "key": "f124a8be-db3f-42f9-a236-30cc4130ed2c",
+      "qrimg": true
+    },
+    "upstreamMode": "local QR generation, no upstream",
+    "sends": 0,
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "eb6f39d263c3f70e7f29e9ce647dbf0c4854499e86b4fef260aa9772985bfaa2",
+    "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+  }
+]

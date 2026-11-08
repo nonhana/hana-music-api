@@ -3,7 +3,8 @@ import { describe, expect, test } from 'bun:test';
 import { Effect, Result } from 'effect';
 import { TestClock } from 'effect/testing';
 
-import { createHanaMusicApi } from '../../../../index.ts';
+import type { ModuleCallConfig } from '../../../../index.ts';
+import { buildCallServices } from '../../../../src/core/call.ts';
 import {
   DeadlineExceeded,
   ProtocolFailed,
@@ -13,11 +14,13 @@ import voiceUpload, {
   createMultipartCompleteXml,
   parseMultipartUploadId,
 } from '../../../../src/modules/voice_upload.ts';
+import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
 import type {
   RequestCapability,
   RequestIntent,
 } from '../../../../src/types/index.ts';
 import { expectFailure, settle } from '../../../_kit/assertions.ts';
+import { testEntropy } from '../../../_kit/harness/sdk.ts';
 import { runEffect, runExit } from '../../../_kit/it.ts';
 import { executeModule, response } from '../../../_kit/upload.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
@@ -25,11 +28,18 @@ import type {
   UpstreamExpectation,
   WireRequest,
 } from '../../../_kit/upstream/scenario.ts';
+import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
 import {
   initXml,
   songFile,
   tokenBody,
 } from '../../../fixtures/synthetic/upload.ts';
+
+const createHanaMusicApi = (config: ModuleCallConfig) =>
+  createClientFromContext(
+    config,
+    buildCallServices(config, false, { entropy: testEntropy }),
+  );
 
 const stages = [
   '/api/nos/token/alloc',
@@ -286,11 +296,11 @@ const publicVoiceStages = (
   token = 'nos-token',
 ): Array<UpstreamExpectation> => [
   {
-    url: 'https://interface.music.163.com/api/nos/token/alloc',
+    url: 'https://music.163.com/weapi/nos/token/alloc',
     method: 'POST',
     check: (wire: WireRequest) => {
       expect(wire.headers.get('cookie')).toContain(`MUSIC_U=${account}`);
-      expect(Object.fromEntries(new URLSearchParams(wire.body))).toMatchObject({
+      expect(readWebBody(wire.body)).toMatchObject({
         bucket: 'ymusic',
         ext: 'mp3',
         filename: 'demo',
@@ -323,12 +333,12 @@ const publicVoiceStages = (
     response: () => new Response(''),
   },
   ...['preCheck', 'v2'].map((action) => ({
-    url: `https://interface.music.163.com/api/voice/workbench/voice/batch/upload/${action}`,
+    url: `https://interface.music.163.com/eapi/voice/workbench/voice/batch/upload/${action}`,
     method: 'POST',
     headers: { 'x-nos-token': token },
     check: (wire: WireRequest) => {
       expect(wire.headers.get('cookie')).toContain(`MUSIC_U=${account}`);
-      const form = Object.fromEntries(new URLSearchParams(wire.body));
+      const form = readEapiBody(wire.body).data as Record<string, string>;
       expect(JSON.parse(form.voiceData!)).toMatchObject([
         { name: 'demo', dfsId: 'doc-1', composedSongs: [] },
       ]);

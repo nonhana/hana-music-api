@@ -63,15 +63,7 @@ test('scrobble submits startplay and play logs with the selected source', async 
       { protocol: 'eapi', target: '/api/feedback/weblog' },
     ],
   );
-  expect(intents[0]).toMatchObject({
-    cookieOverrides: {
-      appver: '3.1.10.5100',
-      channel: 'netease',
-      os: 'osx',
-      osver: '15.5',
-    },
-    domain: 'https://clientlog.music.163.com',
-  });
+  expect(intents.map((intent) => intent.action)).toEqual(['start', 'play']);
 
   const startplay = JSON.parse(JSON.parse(String(intents[0]?.body)).logs)[0];
   const play = JSON.parse(JSON.parse(String(intents[1]?.body)).logs)[0];

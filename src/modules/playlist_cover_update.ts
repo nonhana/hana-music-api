@@ -1,23 +1,35 @@
 import { Effect, Schema } from 'effect';
 
-import { Call } from '../core/call.ts';
 import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
   UploadedFile,
 } from '../core/module-input.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import {
   decodeUpstreamBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
-import uploadPlugin from '../plugins/upload.ts';
+import uploadPlugin, { imageUploadActions } from '../plugins/upload.ts';
 import type { ModuleEffect, ModuleResponse } from '../types/index.ts';
 import type {
   LegacyUploadedFile,
   QueryIdentifier,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  ...imageUploadActions,
+  submit: {
+    profile: 'weapiPc',
+    target: '/api/playlist/cover/update',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   imgFile?: LegacyUploadedFile;
@@ -84,22 +96,15 @@ const playlistCoverUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
   }
   return uploadWork('playlist_cover_update', request, (stage) =>
     Effect.gen(function* () {
-      const call = yield* Call;
       const uploaded = imgFile
         ? yield* uploadPlugin({ imgFile }, stage)
         : undefined;
-      const response = yield* stage({
-        target: '/api/playlist/cover/update',
-        protocol: call.config.crypto || 'weapi',
-        method: 'POST',
-        headers: {},
-        body: JSON.stringify({
+      const response = yield* stage(
+        buildActionRequestIntent('submit', moduleActions.submit, {
           id: input.id,
           coverImgId: uploaded?.imgId ?? imgId,
         }),
-        response: 'json',
-        semantic: 'write',
-      });
+      );
       const upstreamBody = yield* decodeUpstreamBody(
         'playlist_cover_update',
         UpstreamBody,

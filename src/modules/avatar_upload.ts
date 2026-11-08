@@ -1,16 +1,28 @@
 import { Effect, Schema } from 'effect';
 
-import { Call } from '../core/call.ts';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
   UploadedFile,
 } from '../core/module-input.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
-import uploadPlugin from '../plugins/upload.ts';
+import uploadPlugin, { imageUploadActions } from '../plugins/upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyUploadedFile } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  ...imageUploadActions,
+  submit: {
+    profile: 'eapi',
+    target: '/api/user/avatar/upload/v1',
+    semantic: 'upload',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   imgFile?: LegacyUploadedFile;
@@ -26,17 +38,12 @@ export const decodeModuleInput = (input: unknown) =>
 const avatarUpload: ModuleEffect<ModuleInput> = (input, request) =>
   uploadWork('avatar_upload', request, (stage) =>
     Effect.gen(function* () {
-      const call = yield* Call;
       const uploaded = yield* uploadPlugin(input, stage);
-      const response = yield* stage({
-        target: '/api/user/avatar/upload/v1',
-        protocol: call.config.crypto || 'eapi',
-        method: 'POST',
-        headers: {},
-        body: JSON.stringify({ imgid: uploaded.imgId }),
-        response: 'json',
-        semantic: 'upload',
-      });
+      const response = yield* stage(
+        buildActionRequestIntent('submit', moduleActions.submit, {
+          imgid: uploaded.imgId,
+        }),
+      );
       if (!isRecord(response.body)) {
         return yield* UnexpectedUpstreamShape.make({
           module: 'avatar_upload',

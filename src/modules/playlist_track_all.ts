@@ -6,8 +6,8 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -20,6 +20,23 @@ import type {
   IdentifierQuery,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  playlist: {
+    profile: 'eapi',
+    target: '/api/v6/playlist/detail',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'read',
+  },
+  songs: {
+    profile: 'eapi',
+    target: '/api/v3/song/detail',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'read',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = IdentifierQuery & {
   s?: QueryNumberLike;
@@ -56,11 +73,11 @@ const playlistTrackAll: ModuleEffect<ModuleInput, ModuleBody> = (
     const limit = parseInt(String(query.limit ?? 1000), 10) || 1000;
     const offset = parseInt(String(query.offset ?? 0), 10) || 0;
     const response = yield* request(
-      buildApiRequestIntent(
-        '/api/v6/playlist/detail',
-        { id: query.id, n: 100000, s: query.s || 8 },
-        createOption(query),
-      ),
+      buildActionRequestIntent('playlist', moduleActions.playlist, {
+        id: query.id,
+        n: 100000,
+        s: query.s || 8,
+      }),
     );
     const body = response.body;
     if (body === null || typeof body !== 'object' || Array.isArray(body)) {
@@ -112,11 +129,9 @@ const playlistTrackAll: ModuleEffect<ModuleInput, ModuleBody> = (
       ids.push(track.id);
     }
     const songDetail = yield* request(
-      buildApiRequestIntent(
-        '/api/v3/song/detail',
-        { c: '[' + ids.map((id) => '{"id":' + id + '}').join(',') + ']' },
-        createOption(query),
-      ),
+      buildActionRequestIntent('songs', moduleActions.songs, {
+        c: '[' + ids.map((id) => '{"id":' + id + '}').join(',') + ']',
+      }),
     );
     const songs = yield* decodeUpstreamBody(
       'playlist_track_all',

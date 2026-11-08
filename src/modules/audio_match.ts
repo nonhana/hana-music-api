@@ -4,6 +4,8 @@ import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildPlainActionRequestIntent } from '../core/request-intent.ts';
 import {
   decodeUpstreamBody,
   Loose,
@@ -13,6 +15,18 @@ import {
 import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  match: {
+    profile: 'plainInterface',
+    target: '/api/music/audio/match',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+    method: 'GET',
+    response: 'json',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   audioFP: string;
@@ -53,14 +67,13 @@ export type ModuleBody = typeof ModuleBody.Type;
 
 const audioMatch: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
   Effect.gen(function* () {
-    const response = yield* request({
-      target: `https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=${input.duration}&rawdata=${encodeURIComponent(input.audioFP)}&times=1&decrypt=1`,
-      protocol: 'plain',
-      method: 'GET',
-      headers: {},
-      response: 'json',
-      semantic: 'read',
-    });
+    const response = yield* request(
+      buildPlainActionRequestIntent(
+        'match',
+        moduleActions.match,
+        `https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=${input.duration}&rawdata=${encodeURIComponent(input.audioFP)}&times=1&decrypt=1`,
+      ),
+    );
     const body = yield* decodeUpstreamBody('audio_match', ModuleBody, response);
     return { status: 200, cookie: [], body };
   });

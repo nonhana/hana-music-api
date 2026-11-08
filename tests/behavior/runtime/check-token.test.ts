@@ -500,7 +500,7 @@ test('upload API stages take fresh tokens while external NOS receives no SDK cre
   await withScenario(
     [
       {
-        url: 'https://interface.music.163.com/api/nos/token/alloc',
+        url: 'https://music.163.com/weapi/nos/token/alloc',
         method: 'POST',
         headers: { 'X-antiCheatToken': 'upload-token-1' },
         response: () => Response.json(tokenBody),
@@ -520,7 +520,7 @@ test('upload API stages take fresh tokens while external NOS receives no SDK cre
         response: () => Response.json({ code: 200 }),
       },
       {
-        url: 'https://interface.music.163.com/api/playlist/cover/update',
+        url: 'https://music.163.com/weapi/playlist/cover/update',
         method: 'POST',
         headers: { 'X-antiCheatToken': 'upload-token-2' },
         response: () => Response.json({ code: 200 }),

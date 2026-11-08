@@ -9,9 +9,82 @@ export interface RequestProfile {
   readonly omitCookies: ReadonlyArray<string>;
   readonly encryptResponse: boolean;
   readonly acceptGzip: boolean;
+  readonly allowedHostSuffixes?: ReadonlyArray<string>;
 }
 
 export const requestProfiles = {
+  // ea108c8 的两条日志保持 clientlog 域名和 osx Cookie，不套用普通 eapi 身份。
+  clientlogOsx: {
+    protocol: 'eapi',
+    domain: 'https://clientlog.music.163.com',
+    userAgent: USER_AGENT_MAP.api.iphone,
+    cookie: {
+      appver: '3.1.10.5100',
+      channel: 'netease',
+      os: 'osx',
+      osver: '15.5',
+    },
+    omitCookies: [],
+    encryptResponse: false,
+    acceptGzip: false,
+  },
+  // ea108c8 的 plain 阶段没有显式 UA/Cookie；各域名和原始响应模式按固定基线保留。
+  plainInterface: {
+    protocol: 'plain',
+    domain: 'https://interface.music.163.com',
+    userAgent: '',
+    cookie: {},
+    omitCookies: [],
+    encryptResponse: false,
+    acceptGzip: false,
+  },
+  plainMusic: {
+    protocol: 'plain',
+    domain: 'https://music.163.com',
+    userAgent: '',
+    cookie: {},
+    omitCookies: [],
+    encryptResponse: false,
+    acceptGzip: false,
+  },
+  plainImage: {
+    protocol: 'plain',
+    domain: 'https://nosup-hz1.127.net',
+    userAgent: '',
+    cookie: {},
+    omitCookies: [],
+    encryptResponse: false,
+    acceptGzip: false,
+  },
+  plainLookup: {
+    protocol: 'plain',
+    domain: 'https://wanproxy.127.net',
+    userAgent: '',
+    cookie: {},
+    omitCookies: [],
+    encryptResponse: false,
+    acceptGzip: false,
+  },
+  plainNos: {
+    protocol: 'plain',
+    domain: 'https://nosup-hz1.127.net',
+    userAgent: '',
+    cookie: {},
+    omitCookies: [],
+    encryptResponse: false,
+    acceptGzip: false,
+    allowedHostSuffixes: ['.127.net', '.163yun.com'],
+  },
+  plainVoice: {
+    protocol: 'plain',
+    domain: 'https://ymusic.nos-hz.163yun.com',
+    userAgent: '',
+    cookie: {},
+    omitCookies: [],
+    encryptResponse: false,
+    acceptGzip: false,
+  },
+
   eapi: {
     protocol: 'eapi',
     domain: 'https://interface.music.163.com',

@@ -30,6 +30,7 @@ test('related playlists use injected transport and preserve parsing', async () =
   expect(intents).toEqual([
     {
       target: 'https://music.163.com/playlist?id=1',
+      action: 'page',
       protocol: 'plain',
       method: 'GET',
       headers: {},

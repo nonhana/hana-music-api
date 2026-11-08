@@ -12,7 +12,9 @@ import registerAnonymous, {
   moduleActions as anonymousActions,
 } from '../../../src/modules/register_anonimous.ts';
 import { decodeModuleInput as decodeSearchInput } from '../../../src/modules/search.ts';
-import voiceUpload from '../../../src/modules/voice_upload.ts';
+import voiceUpload, {
+  moduleActions as voiceUploadActions,
+} from '../../../src/modules/voice_upload.ts';
 import {
   createEffectModuleInvoker as createModuleInvoker,
   invokeModule,
@@ -149,6 +151,7 @@ describe('custom Effect upload request budgets', () => {
               clientLayer(),
               {
                 identifier: 'voice_upload',
+                actions: voiceUploadActions,
                 route: '/voice/upload',
                 decodeInput: decodeLegacyModuleInput,
                 execute: (input, request) =>

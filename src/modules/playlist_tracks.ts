@@ -5,8 +5,8 @@ import {
   ProtocolFailed,
   UpstreamBusinessFailed,
 } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -15,6 +15,23 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  manipulate: {
+    profile: 'eapi',
+    target: '/api/playlist/manipulate/tracks',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  fallback: {
+    profile: 'eapi',
+    target: '/api/playlist/manipulate/tracks',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 返回码收紧；歌单歌曲计数和 trackIds 宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -69,11 +86,7 @@ const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
       imme: 'true',
     };
     return yield* request(
-      buildApiRequestIntent(
-        '/api/playlist/manipulate/tracks',
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('manipulate', moduleActions.manipulate, data),
     ).pipe(
       Effect.flatMap(decodeResponse),
       Effect.mapError((error) => {
@@ -101,11 +114,10 @@ const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
             return yield* error;
           }
           return yield* request(
-            buildApiRequestIntent(
-              '/api/playlist/manipulate/tracks',
-              { ...data, trackIds: JSON.stringify([...tracks, ...tracks]) },
-              createOption(query),
-            ),
+            buildActionRequestIntent('fallback', moduleActions.fallback, {
+              ...data,
+              trackIds: JSON.stringify([...tracks, ...tracks]),
+            }),
           ).pipe(Effect.flatMap(decodeResponse));
         }),
       ),

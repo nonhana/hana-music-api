@@ -10,6 +10,8 @@ export interface RequestAction {
   readonly semantic: RequestIntent['semantic'];
   readonly cache: 'none' | 'shared';
   readonly retry: 'never' | 'connect' | 'read';
+  readonly method?: RequestIntent['method'];
+  readonly response?: RequestIntent['response'];
 }
 
 export type ModuleActions = Readonly<Record<string, RequestAction>>;
@@ -22,6 +24,42 @@ export const normalizeActionTarget = (
 ): string => {
   const origin = new URL(profile.domain);
   const resolved = new URL(target, origin);
+  if (profile.protocol === 'plain') {
+    const allowedOrigin =
+      resolved.origin === origin.origin ||
+      (resolved.protocol === 'https:' &&
+        !resolved.port &&
+        profile.allowedHostSuffixes?.some((suffix) =>
+          resolved.hostname.endsWith(suffix),
+        ));
+    if (
+      !allowedOrigin ||
+      resolved.username ||
+      resolved.password ||
+      resolved.hash ||
+      resolved.protocol !== 'https:'
+    ) {
+      throw InvalidRequest.make({
+        message: 'Plain action target is not allowed',
+      });
+    }
+    const declared = typeof boundary === 'string' ? boundary : boundary?.prefix;
+    if (declared !== undefined) {
+      const path = new URL(declared, origin).pathname;
+      const matches =
+        typeof boundary === 'string'
+          ? resolved.pathname === path
+          : path.endsWith('/')
+            ? resolved.pathname.startsWith(path)
+            : resolved.pathname === path ||
+              resolved.pathname.startsWith(`${path}/`);
+      if (!matches)
+        throw InvalidRequest.make({
+          message: 'Request must match a declared plain action target',
+        });
+    }
+    return resolved.href;
+  }
   if (
     !target.startsWith('/api/') ||
     resolved.origin !== origin.origin ||
@@ -63,10 +101,10 @@ export const validateModuleActions = (value: unknown): ModuleActions => {
       typeof action.profile !== 'string' ||
       !Object.hasOwn(requestProfiles, action.profile) ||
       !(typeof action.target === 'string'
-        ? action.target.startsWith('/api/')
+        ? action.target.startsWith('/')
         : isRecord(action.target) &&
           typeof action.target.prefix === 'string' &&
-          action.target.prefix.startsWith('/api/')) ||
+          action.target.prefix.startsWith('/')) ||
       !['read', 'write', 'login', 'upload', 'poll'].includes(
         String(action.semantic),
       ) ||
@@ -83,9 +121,21 @@ export const validateModuleActions = (value: unknown): ModuleActions => {
   for (const action of Object.values(actions)) {
     const boundary =
       typeof action.target === 'string' ? action.target : action.target.prefix;
+    const profile = requestProfiles[action.profile];
     if (
-      normalizeActionTarget(boundary, requestProfiles[action.profile]) !==
-      boundary
+      profile.protocol === 'plain' &&
+      (!['GET', 'POST', 'PUT', 'HEAD'].includes(action.method ?? '') ||
+        !['json', 'text', 'bytes'].includes(action.response ?? ''))
+    ) {
+      throw InvalidRequest.make({
+        message: 'Plain actions require method and response mode',
+      });
+    }
+    const normalized = normalizeActionTarget(boundary, profile);
+    if (
+      (profile.protocol === 'plain'
+        ? new URL(normalized).pathname
+        : normalized) !== boundary
     ) {
       throw InvalidRequest.make({
         message: 'Declared action target must use a canonical API path',
