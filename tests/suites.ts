@@ -717,7 +717,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/behavior/tooling/release-preflight.test.ts',
     category: 'behavior',
-    selections: ['local'],
+    selections: ['local', 'mutation:candidate-package'],
   },
 ];
 

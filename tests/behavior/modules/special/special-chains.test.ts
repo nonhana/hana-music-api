@@ -4,6 +4,7 @@ import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
 
 import type { ModuleCallConfig, NcmApiResponse } from '../../../../index.ts';
+import packageJson from '../../../../package.json';
 import { buildCallServices, runCall } from '../../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../../src/core/module-input.ts';
 import { toModuleResponse } from '../../../../src/core/response.ts';
@@ -44,6 +45,16 @@ interface Case {
   result: { resolved?: NcmApiResponse; rejected?: NcmApiResponse };
 }
 const baseline = recorded as unknown as { cases: Array<Case> };
+const expectedResult = (entry: Case): Case['result'] =>
+  entry.module === 'inner_version'
+    ? {
+        resolved: {
+          status: 200,
+          cookie: [],
+          body: { code: 200, data: { version: packageJson.version } },
+        },
+      }
+    : entry.result;
 const cookie =
   'MUSIC_U=synthetic-account; MUSIC_A=synthetic-anonymous; __csrf=csrf; deviceId=special-device';
 const revive = (entry: Case) => {
@@ -184,7 +195,7 @@ for (const entry of baseline.cases) {
           input: unknown,
         ) => Promise<NcmApiResponse>;
         expect(normalize(await settle(call(revive(entry))))).toEqual(
-          entry.result,
+          expectedResult(entry),
         );
         expect(scenario.sent).toHaveLength(entry.wires.length);
         for (const [index, wire] of scenario.sent.entries())
@@ -252,7 +263,8 @@ for (const entry of baseline.cases) {
             body: (await result.json()) as NcmApiResponse['body'],
           },
         }).resolved!;
-        const expected = entry.result.resolved ?? entry.result.rejected!;
+        const wanted = expectedResult(entry);
+        const expected = wanted.resolved ?? wanted.rejected!;
         expect(actual.status).toBe(expected.status);
         expect(actual.body).toEqual(expected.body);
         expect(scenario.sent).toHaveLength(entry.wires.length);
@@ -305,7 +317,7 @@ for (const entry of baseline.cases.filter((candidate) =>
           input: unknown,
         ) => Promise<NcmApiResponse>;
         expect(normalize(await settle(call(revive(entry))))).toEqual(
-          entry.result,
+          expectedResult(entry),
         );
         let expectedTokens = 0;
         for (const [index, wire] of scenario.sent.entries()) {
@@ -1132,7 +1144,7 @@ for (const selection of [
           query: unknown,
         ) => Promise<NcmApiResponse>;
         expect(normalize(await settle(call(revive(entry))))).toEqual(
-          entry.result,
+          expectedResult(entry),
         );
         expect(opaqueResponses).toBe(1);
         expect(scenario.sent).toHaveLength(entry.wires.length);

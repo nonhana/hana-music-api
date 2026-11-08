@@ -3,6 +3,7 @@
 这些目标检查现有断言能不能发现指定错误，不是一套重复业务测试，也不追求全仓分数。
 
 ```bash
+bun scripts/mutation-test.mts --target candidate-package
 bun scripts/mutation-test.mts --target request-identity
 bun scripts/mutation-test.mts --target special-chains
 bun scripts/mutation-test.mts --target membership-business
@@ -21,6 +22,8 @@ bun scripts/mutation-test.mts --all --dry-run
 CLI 从当前候选（含未提交、非忽略未跟踪文件）建立临时副本，只读复用依赖，预加载 offline 防护；先运行对应有限测试基线。补丁须精确命中一次，每个故障执行后恢复副本，结束时核对原工作区内容指纹。测试关联只在 `tests/suites.ts` 的 mutation selection 登记。
 
 browser-types 的两个有限故障分别省略浏览器和服务端 typecheck 阶段，关联用例必须发现该环境中的错误被放行；类型环境混合导致编译失败不充当有效 killed。
+
+candidate-package 的有限故障分别省略候选包 hash 与 next tag 检查；控制用例实际执行 workflow 的候选检查命令，必须由错误候选被放行后的原生断言检出，不能把命令/编译错误当作有效 kill。
 
 | 结果       | 含义                                                    |
 | ---------- | ------------------------------------------------------- |

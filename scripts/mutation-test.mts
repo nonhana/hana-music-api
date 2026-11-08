@@ -28,6 +28,7 @@ interface Mutation {
   readonly timeoutMs?: number;
 }
 const groups = [
+  'candidate-package',
   'module-config',
   'request-identity',
   'special-chains',

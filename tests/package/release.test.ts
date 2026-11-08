@@ -68,6 +68,7 @@ describe('sdk release contract', () => {
     expect(sdkPackage.private).toBe(false);
     expect(sdkPackage.type).toBe('module');
     expect(sdkPackage.sideEffects).toBe(false);
+    expect(sdkPackage.engines).toEqual({ node: '>=24' });
     expect(Object.keys(exportMap).toSorted()).toEqual(EXPECTED_EXPORT_PATHS);
     expect(exportMap['.']).toEqual({
       types: './dist/index.d.ts',
@@ -131,6 +132,7 @@ describe('sdk release contract', () => {
     const packCommand = [
       'npm',
       'pack',
+      ...(process.env.HANA_PACKAGE_SPEC ? [process.env.HANA_PACKAGE_SPEC] : []),
       '--json',
       '--pack-destination',
       packageDirectory,
@@ -145,7 +147,7 @@ describe('sdk release contract', () => {
     const packEntries = Array.isArray(packOutput)
       ? packOutput
       : Object.values(packOutput);
-    const [{ filename, files = [] } = { filename: '', files: [] }] =
+    const [{ filename, integrity, files = [] } = { filename: '', files: [] }] =
       packEntries;
     const filePaths = files.map((file) => file.path);
 
@@ -160,6 +162,9 @@ describe('sdk release contract', () => {
       false,
     );
     expect(filePaths.some((file) => file.startsWith('src/demo/'))).toBe(false);
+    expect(
+      filePaths.filter((file) => !file.startsWith('dist/')).toSorted(),
+    ).toEqual(['LICENSE', 'README.md', 'package.json']);
 
     const consumerDirectory = mkdtempSync(
       join(tmpdir(), 'hana-music-api-sdk-consumer-'),
@@ -179,6 +184,7 @@ describe('sdk release contract', () => {
     const membershipBusiness: Array<unknown> = [];
     const requestIdentity: Array<unknown> = [];
     const moduleConfig: Array<unknown> = [];
+    const specialChains: Array<unknown> = [];
     const searchDiscovery: Array<unknown> = [];
 
     try {
@@ -200,6 +206,17 @@ describe('sdk release contract', () => {
         consumerDirectory,
       );
       expect(installResult.exitCode).toBe(0);
+      for (const path of filePaths) {
+        expect(
+          readFileSync(
+            resolve(consumerDirectory, 'node_modules/hana-music-api', path),
+          ),
+          path,
+        ).toEqual(readFileSync(resolve(projectRoot, path)));
+      }
+      expect(integrity).toBe(
+        `sha512-${createHash('sha512').update(readFileSync(tarballPath)).digest('base64')}`,
+      );
       expect(
         await findForbiddenArtifactSymbols(
           resolve(consumerDirectory, 'node_modules/hana-music-api/dist'),
@@ -754,6 +771,38 @@ describe('sdk release contract', () => {
         });
       }
 
+      writeFileSync(
+        resolve(consumerDirectory, 'special-chains.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/special-chains.mjs'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'special-chains.mjs'),
+          sdkPackage.version!,
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 21,
+          providers: 6,
+          scenarios: 3,
+          localProviders: 0,
+        });
+        specialChains.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
       const negativeImportScriptPath = resolve(
         consumerDirectory,
         'negative-import.mjs',
@@ -788,7 +837,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         typesFixturePath,
         [
-          "import { createHanaMusicApi, generateDeviceId, likelist, lyricNew, songDetail as getSongDetail, songUrl, songUrlV1, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type CloudsearchBody, type LikelistBody, type LyricNewBody, type SearchSuggestBody, type SongDetailBody, type SongUrlV1Body, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
+          "import { createHanaMusicApi, generateDeviceId, invokeModule, likelist, lyricNew, songDetail as getSongDetail, songUrl, songUrlV1, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type CloudsearchBody, type LikelistBody, type LyricNewBody, type SearchSuggestBody, type SongDetailBody, type SongUrlV1Body, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
           '',
           "import { createRequest, type CreateRequestOptions } from 'hana-music-api'",
           "const rawOptions: CreateRequestOptions = { crypto: 'api', ua: 'raw', headers: { 'X-Raw': 'value' }, e_r: false, acceptGzip: true }",
@@ -813,6 +862,21 @@ describe('sdk release contract', () => {
           'const clientDefaults: CreateHanaMusicApiConfig = { cache: { enabled: true }, identityPool: { size: 2 } }',
           'void clientDefaults',
           'const api = createHanaMusicApi(config)',
+          'const tokenProvider = async () => "fresh-token"',
+          'const tokenClient = createHanaMusicApi({ checkToken: tokenProvider })',
+          'const tokenCalls = () => Promise.all([',
+          '  tokenClient.albumSub({ id: 1, t: 1 }, { checkToken: "token" }),',
+          '  tokenClient.artistSub({ id: 1, t: 0 }, { checkToken: tokenProvider }),',
+          '  invokeModule("search", { keywords: "token" }, { checkToken: tokenProvider }),',
+          '  tokenClient.albumSub({ id: 1, t: 0 }),',
+          '])',
+          'void tokenCalls',
+          '// @ts-expect-error Token providers must return Promise<string>.',
+          'api.artistSub({ id: 1, t: 1 }, { checkToken: async () => 42 })',
+          '// @ts-expect-error Tokens do not accept booleans.',
+          'api.search({ keywords: "invalid" }, { checkToken: true })',
+          '// @ts-expect-error Tokens belong in config rather than query.',
+          'api.albumSub({ id: 1, t: 1, checkToken: "query-token" })',
           '// @ts-expect-error Client cache configuration cannot be a module query.',
           'api.innerVersion({ cache: {} })',
           '// @ts-expect-error Client identity pool configuration cannot be a module query.',
@@ -958,6 +1022,8 @@ describe('sdk release contract', () => {
           artifacts: { tarball: tarballPath },
           details: {
             phase: 'consumer-validation',
+            packageSpec: process.env.HANA_PACKAGE_SPEC ?? 'local',
+            integrity,
             tarballSha256: createHash('sha256')
               .update(readFileSync(tarballPath))
               .digest('hex'),
@@ -969,6 +1035,7 @@ describe('sdk release contract', () => {
             membershipBusiness,
             requestIdentity,
             moduleConfig,
+            specialChains,
             browser: browserEvidence,
             files: filePaths.map((path) => ({
               path,
@@ -1063,9 +1130,11 @@ const run = (cmd: Array<string>, cwd: string) => {
 type PackEntry = {
   files?: Array<{ path: string }>;
   filename: string;
+  integrity?: string;
 };
 
 type PackageJsonLike = {
+  engines?: Record<string, string>;
   exports?: Record<string, unknown>;
   name?: string;
   private?: boolean;

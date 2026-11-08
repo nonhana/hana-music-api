@@ -25,7 +25,7 @@ async function collectPlaylist(id: number) {
 
 `submitCollection` 和 `showFailure` 由应用提供。服务端将当次字符串交给 `playlistSubscribe({ id, t: 1 }, { cookie, checkToken })`；账号 Cookie 留在服务端，token 不记日志、不存储。SDK 的通用 HTTP execution config 继续拒绝 `checkToken`，应用需要使用自己的明确业务路由。
 
-页面内相同配置的初始化共享 Promise 和实例，包括分开的模块副本；每次 `getToken()` 都单独调用官方接口，不缓存或合并 token。并发取值各自等待自己的回调。取消收藏 `t: 0` 和读接口无需取值；初始化失败后，下一次用户主动操作可以重新调用 initializer，封装不会后台重试。
+页面内相同配置的初始化共享 Promise 和实例，包括分开的模块副本；每次 `getToken()` 都单独调用官方接口，不缓存或合并 token。并发取值各自等待自己的回调。读取、收藏与取消都由调用者选择是否提供 token，SDK 不因动作类别强制取值或丢弃显式值；初始化失败后，下一次用户主动操作可以重新调用 initializer，封装不会后台重试。
 
 ## 配置
 

@@ -1,6 +1,6 @@
 {
   "name": "hana-music-api",
-  "version": "3.2.1",
+  "version": "4.0.0-next.0",
   "private": false,
   "description": "Modern NCM API library for Bun & Node.js.",
   "keywords": [
@@ -98,6 +98,9 @@
     "typescript": "^7.0.2",
     "vitepress": "^1.6.4",
     "vitepress-plugin-mermaid": "^2.0.17"
+  },
+  "engines": {
+    "node": ">=24"
   },
   "packageManager": "bun@1.4.4"
 }

@@ -13,7 +13,14 @@ on:
         type: choice
         options:
           - dry-run
+          - candidate
           - publish
+      candidate_version:
+        description: Exact version approved for candidate publication
+        type: string
+      candidate_sha256:
+        description: SHA-256 of the approved npm tarball
+        type: string
 
 defaults:
   run:
@@ -68,14 +75,52 @@ jobs:
           bun run version-packages
           bun scripts/release-preflight.mts
 
+      - name: Check approved candidate
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'candidate' }}
+        env:
+          HANA_CANDIDATE_VERSION: ${{ inputs.candidate_version }}
+          HANA_CANDIDATE_SHA256: ${{ inputs.candidate_sha256 }}
+        run: |
+          bun -e '
+          import { createHash } from "node:crypto";
+          const pkg = await Bun.file("package.json").json();
+          const pre = await Bun.file(".changeset/pre.json").json();
+          const active = [...new Bun.Glob("*.md").scanSync({ cwd: ".changeset" })]
+            .filter(path => path !== "README.md");
+          if (
+            pkg.version !== process.env.HANA_CANDIDATE_VERSION ||
+            !/^\d+\.\d+\.\d+-next\.\d+$/.test(pkg.version) ||
+            pre.mode !== "pre" ||
+            pre.tag !== "next" ||
+            active.length ||
+            pkg.publishConfig?.provenance !== true
+          ) throw new Error("candidate version, tag or Changesets state is not approved");
+          const packed = Bun.spawnSync([
+            "npm", "pack", "--json", "--pack-destination", ".artifacts/testing/ci"
+          ]);
+          if (packed.exitCode !== 0) throw new Error("cannot pack candidate");
+          const metadata = JSON.parse(packed.stdout.toString());
+          const entry = Array.isArray(metadata)
+            ? metadata[0] : Object.values(metadata)[0];
+          const bytes = await Bun.file(`.artifacts/testing/ci/${entry.filename}`).bytes();
+          const hash = createHash("sha256").update(bytes).digest("hex");
+          if (hash !== process.env.HANA_CANDIDATE_SHA256)
+            throw new Error("candidate tarball differs from approved hash");
+          await Bun.write(".artifacts/testing/ci/approved-package.json", JSON.stringify({
+            version: pkg.version, sha256: hash, integrity: entry.integrity, tag: pre.tag
+          }));
+          '
+
       - name: Create release PR or publish
         if:
           ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch'
-          && inputs.mode == 'publish') }}
+          && (inputs.mode == 'publish' || inputs.mode == 'candidate')) }}
         uses: changesets/action@v2.1.2
         with:
           version-script: bun run version-packages
           publish-script: bun run release:checked
+          create-github-releases: ${{ inputs.mode != 'candidate' }}
+          push-git-tags: ${{ inputs.mode != 'candidate' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
