@@ -251,7 +251,9 @@ export const registerModuleRoutes = (
       admissionMiddleware(
         options.admission,
         options.serverOptions,
-        moduleDefinition.identifier,
+        Object.values(moduleDefinition.actions).some(
+          (action) => action.semantic === 'upload',
+        ),
       ),
       async (context) => {
         let query: ModuleQuery = {};
@@ -260,15 +262,15 @@ export const registerModuleRoutes = (
           const moduleResponse = await runCall(
             {
               identifier: moduleDefinition.identifier,
-              input: query,
+              input: Object.fromEntries(
+                Object.entries(query).filter(([key]) => key !== 'cookie'),
+              ),
               signal: context.req.raw.signal,
               config: {
                 cookie: isCookieRecord(query.cookie) ? query.cookie : undefined,
                 ip: resolveClientIp(context, options.serverOptions),
-                domain: '',
                 proxy: undefined,
                 fetcher: undefined,
-                headers: undefined,
                 state: undefined,
                 retry: undefined,
               },

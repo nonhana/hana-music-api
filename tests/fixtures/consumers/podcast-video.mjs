@@ -21,11 +21,7 @@ for (const [index, entry] of baseline.cases.entries()) {
     const config = {
       cookie:
         'MUSIC_U=package-content; MUSIC_A=package-anonymous; __csrf=csrf; deviceId=package-device; os=android; appver=conflict',
-      crypto: 'linuxapi',
-      domain: 'https://external.example',
-      ua: 'conflict',
-      e_r: true,
-      acceptGzip: true,
+
       checkToken:
         kind === 'provider'
           ? async () => {

@@ -27,6 +27,25 @@ const identityCookieFields = [
 ] as const;
 
 export const requestProfiles = {
+  // 显式低层 api/linuxapi 的默认身份不参与内置模块的策略选择。
+  api: {
+    protocol: 'api',
+    domain: 'https://interface.music.163.com',
+    userAgent: USER_AGENT_MAP.api.iphone,
+    cookie: OS_PROFILES.iphone,
+    omitCookies: identityCookieFields,
+    encryptResponse: false,
+    acceptGzip: false,
+  },
+  linuxapi: {
+    protocol: 'linuxapi',
+    domain: 'https://music.163.com',
+    userAgent: USER_AGENT_MAP.linuxapi.linux,
+    cookie: OS_PROFILES.linux,
+    omitCookies: identityCookieFields,
+    encryptResponse: false,
+    acceptGzip: false,
+  },
   // #122 以原 scrobble 的 macOS 15.5 字段投影既有浏览器 UA，保留 clientlog 与 App 版本。
   clientlogOsx: {
     protocol: 'eapi',

@@ -1,10 +1,8 @@
 import { Effect } from 'effect';
 
-import { buildCallServices, runCall } from '../core/call.ts';
-import { requestSemantic } from '../core/endpoint-policy.ts';
-import { decodeLegacyModuleInput } from '../core/module-input.ts';
+import { buildCallServices, CallServices } from '../core/call.ts';
 import { createOption } from '../core/options.ts';
-import { requestEffect } from '../core/request.ts';
+import { requestEffect, runRequestAtEdge } from '../core/request.ts';
 import { cookieToJson, isCookieRecord, isRecord } from '../core/utils.ts';
 import { RequestBodyError } from '../server/parse-body.ts';
 import type {
@@ -43,36 +41,26 @@ export const invokeApiDebugRequest = async (
   const cookie = readEffectiveCookie(payload.cookie, data, fallbackCookie);
   const crypto = readRequestCrypto(payload.crypto);
 
-  return runCall(
+  const response = await runRequestAtEdge(
     {
-      identifier: 'debug',
-      input: {},
-      config: createOption({ ...payload, cookie, crypto, ip }, crypto),
-      signal,
+      target: uri,
+      body: JSON.stringify(data),
+      protocol: crypto || 'api',
+      method: 'POST',
+      headers: {},
+      response: 'json',
+      semantic: 'write',
     },
-    services,
-    {
-      identifier: 'debug',
-      route: '/demo/api-debug/request',
-      decodeInput: decodeLegacyModuleInput,
-      execute: (_input, capability) =>
-        capability({
-          target: uri,
-          body: JSON.stringify(data),
-          protocol: crypto || 'api',
-          method: 'POST',
-          headers: {},
-          response: 'json',
-          semantic: requestSemantic(uri),
-        }).pipe(
-          Effect.map((response) => ({
-            ...response,
-            cookie: [...response.cookie],
-          })),
-        ),
-    },
-    request,
+    { ...createOption({ ...payload, cookie, crypto, ip }, crypto), signal },
+    services.execution,
+    (intent) =>
+      request(intent).pipe(Effect.provideService(CallServices, services)),
   );
+  return {
+    status: response.status,
+    cookie: [...response.cookie],
+    body: response.body,
+  };
 };
 
 const readDynamicJsonRecord = (value: unknown): DynamicJsonRecord => {

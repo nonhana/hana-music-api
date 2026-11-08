@@ -6,6 +6,7 @@ import { cors } from 'hono/cors';
 
 import type { InternalExecution } from '../core/call-context.ts';
 import { buildCallServices } from '../core/call.ts';
+import { validateModuleActions } from '../core/request-actions.ts';
 import type { CreateServerOptions } from '../types/server.ts';
 import { AdmissionController } from './admission.ts';
 import { registerDemoRoutes } from './demo-routes.tsx';
@@ -59,7 +60,11 @@ export const createServer = async (
     docsDistDirectory: options.docsDistDirectory,
     serviceName: options.serviceName ?? 'hana-music-api',
   });
-  registerModuleRoutes(app, moduleDefinitions, {
+  const registered = moduleDefinitions.map((definition) => ({
+    ...definition,
+    actions: validateModuleActions(definition.actions),
+  }));
+  registerModuleRoutes(app, registered, {
     modules,
     admission,
     serverOptions: options,

@@ -9,6 +9,7 @@ import {
   // @ts-expect-error Internal assembly must not become a root export.
   createClientFromContext,
   createHanaMusicApi,
+  createRequest,
   generateDeviceId,
   innerVersion,
   invokeModule,
@@ -18,6 +19,7 @@ import {
 } from '../../../index.ts';
 import type {
   CreateHanaMusicApiConfig,
+  CreateRequestOptions,
   HanaMusicApiClient,
   // @ts-expect-error Execution dependencies stay behind the public config boundary.
   InternalExecution,
@@ -25,7 +27,6 @@ import type {
   ModuleInputOf,
   ModuleResponseOf,
   NcmApiResponse,
-  RequestCrypto,
 } from '../../../index.ts';
 import {
   invokeModule as invokeProgrammatic,
@@ -59,6 +60,7 @@ const localInputHasNoIndexSignature: string extends keyof SearchInput
 void localInputHasNoExecutionKeys;
 void localInputHasNoIndexSignature;
 const definition: ModuleDefinition<'example', { id: string }> = {
+  actions: {},
   identifier: 'example',
   route: '/example',
   decodeInput: (input) =>
@@ -78,25 +80,24 @@ void implementation;
 void promiseImplementation;
 
 const assertPublicEntrySurface = async () => {
-  await invokeProgrammatic('lyric', {
-    id: '12',
-    cookie: 'MUSIC_U=programmatic',
-    crypto: 'api',
-  });
+  await invokeProgrammatic(
+    'lyric',
+    { id: '12' },
+    {},
+    { cookie: 'MUSIC_U=programmatic' },
+  );
   const programmatic = await loadProgrammaticApi();
-  await programmatic.song_detail({
-    ids: '12,34',
-    cookie: 'MUSIC_U=programmatic',
-    crypto: 'weapi',
-  });
+  await programmatic.song_detail(
+    { ids: '12,34' },
+    { cookie: 'MUSIC_U=programmatic' },
+  );
   const config: CreateHanaMusicApiConfig = {
     cookie: 'MUSIC_U=demo-cookie',
-    deviceId: generateDeviceId(),
+    state: { deviceId: generateDeviceId() },
   };
   const api: HanaMusicApiClient = createHanaMusicApi(config);
   const moduleCallConfig: ModuleCallConfig = {
-    crypto: 'weapi' satisfies RequestCrypto,
-    deviceId: generateDeviceId(),
+    state: { deviceId: generateDeviceId() },
   };
 
   await api.login({ email: 'demo@example.com', password: 'password' });
@@ -138,6 +139,7 @@ const assertPublicEntrySurface = async () => {
 
   // 局部定义没有 ModuleBody 的模块，避免依赖某个真实模块还没收窄。
   const unverifiedDefinition: ModuleDefinition<'unverified'> = {
+    actions: {},
     identifier: 'unverified',
     route: '/unverified',
     decodeInput: (input) => decodeModuleInput(Schema.Struct({}), input),
@@ -198,3 +200,36 @@ const assertOptionalCheckToken = async () => {
   await client.search({ keywords: 'invalid' }, { checkToken: true });
 };
 void assertOptionalCheckToken;
+
+const assertNarrowModuleConfig = async () => {
+  // @ts-expect-error Ordinary modules cannot choose a protocol.
+  await search({ keywords: 'x' }, { crypto: 'api' });
+  // @ts-expect-error Ordinary modules cannot choose a UA.
+  await search({ keywords: 'x' }, { ua: 'old' });
+  // @ts-expect-error Ordinary modules cannot choose a domain.
+  await search({ keywords: 'x' }, { domain: 'https://music.163.com' });
+  // @ts-expect-error Ordinary modules cannot choose encrypted responses.
+  await search({ keywords: 'x' }, { e_r: true });
+  // @ts-expect-error Ordinary modules cannot choose protocol compression.
+  await search({ keywords: 'x' }, { acceptGzip: true });
+  // @ts-expect-error Arbitrary headers are a low-level option.
+  await search({ keywords: 'x' }, { headers: {} });
+  // @ts-expect-error The old device alias has been removed.
+  await search({ keywords: 'x' }, { deviceId: 'old' });
+  await search(
+    { keywords: 'x' },
+    { state: { deviceId: 'new' }, checkToken: async () => 'fresh' },
+  );
+};
+void assertNarrowModuleConfig;
+
+const rawOptions: CreateRequestOptions = {
+  crypto: 'linuxapi',
+  ua: 'raw',
+  domain: 'https://music.163.com',
+  headers: { 'X-Raw': 'value' },
+  e_r: false,
+  acceptGzip: true,
+};
+const assertRawOptions = () => createRequest('/api/probe', {}, rawOptions);
+void assertRawOptions;

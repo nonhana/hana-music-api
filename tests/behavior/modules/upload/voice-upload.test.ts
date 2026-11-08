@@ -356,7 +356,7 @@ test('public voiceUpload executes token, part, completion and submission through
   await withScenario(publicVoiceStages('public-voice'), async (scenario) => {
     const client = createHanaMusicApi({
       cookie: 'MUSIC_U=public-voice',
-      crypto: 'api',
+
       fetcher: scenario.fetcher,
     });
     expect((await client.voiceUpload({ songFile })).body).toEqual({
@@ -387,7 +387,7 @@ test.each([0, 1, 2, 3, 4, 5])(
     await withScenario(expectedStages, async (scenario) => {
       const client = createHanaMusicApi({
         cookie: 'MUSIC_U=failed-voice',
-        crypto: 'api',
+
         fetcher: scenario.fetcher,
       });
       expect(await settle(client.voiceUpload({ songFile }))).toEqual({
@@ -428,7 +428,7 @@ test('public voiceUpload cancellation sends no later upload or commit stage', as
   await withScenario(expectedStages, async (scenario) => {
     const client = createHanaMusicApi({
       cookie: 'MUSIC_U=cancel-voice',
-      crypto: 'api',
+
       fetcher: scenario.fetcher,
     });
     expect(
@@ -453,7 +453,7 @@ test('concurrent public voice uploads isolate accounts, tokens and completed sta
         async (scenario) => {
           const client = createHanaMusicApi({
             cookie: `MUSIC_U=${account}`,
-            crypto: 'api',
+
             fetcher: scenario.fetcher,
           });
           expect((await client.voiceUpload({ songFile })).status).toBe(200);

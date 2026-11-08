@@ -35,20 +35,16 @@ export const loadModuleDefinitions = async (
         );
       }
 
+      const actions = validateModuleActions(
+        'moduleActions' in imported ? imported.moduleActions : undefined,
+      );
       if (Object.hasOwn(sdkModuleRegistry, identifier)) {
         const definition =
           sdkModuleRegistry[identifier as keyof typeof sdkModuleRegistry];
-        if (imported.default === definition.execute) {
-          // registry 条目按 identifier 与模块一一对应，execute 引用相同即同一模块；
-          // ModuleDefinition 的 Input 逆变无法结构化证明，此处信任生成物类型。
-          return definition as ModuleDefinition;
-        }
+        if (imported.default === definition.execute)
+          return { ...definition, actions } as ModuleDefinition;
       }
 
-      const actions =
-        'moduleActions' in imported
-          ? validateModuleActions(imported.moduleActions)
-          : undefined;
       const execute = imported.default;
       const decodeInput = imported.decodeModuleInput;
       if (!isModuleEffect(execute)) {

@@ -35,7 +35,7 @@ import { createHanaMusicApi, search, invokeModule } from 'hana-music-api';
 | `createHanaMusicApi`            | 创建带默认配置的 client            |
 | `search`、`songUrl` 等具名函数  | 按需调用模块                       |
 | `invokeModule`                  | 按模块标识调用                     |
-| `createRequest`、`createOption` | 底层请求与旧式配置提取             |
+| `createRequest`、`createOption` | 显式底层请求与其配置提取           |
 | `generateDeviceId`              | 生成满足匿名注册条件的设备号       |
 | 配套公开类型                    | 声明配置、模块标识、输入和响应外壳 |
 

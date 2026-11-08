@@ -20,8 +20,7 @@ const createClient = () => {
   const requests: Array<{ url: string; form: Record<string, unknown> }> = [];
   const config: ModuleCallConfig = {
     cookie: 'MUSIC_U=direct-upload',
-    crypto: 'api' as const,
-    e_r: false,
+
     fetcher: async (input, init) => {
       const url = input instanceof Request ? input.url : input.toString();
       requests.push({

@@ -24,7 +24,12 @@ import type {
   RequestCapability,
 } from '../../../src/types/index.ts';
 import type { LegacyUploadedFile } from '../../../src/types/modules.ts';
-import { mockRequest, moduleResponse, testRequest } from '../../_kit/module.ts';
+import {
+  mockRequest,
+  moduleResponse,
+  probeReadActions,
+  testRequest,
+} from '../../_kit/module.ts';
 
 const REAL_MODULES_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -68,6 +73,7 @@ describe('createServer', () => {
     let calls = 0;
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: probeReadActions,
         identifier: 'search',
         route: '/search',
         decodeInput: decodeLegacyModuleInput,
@@ -140,6 +146,7 @@ describe('createServer', () => {
     } = {};
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: probeReadActions,
         identifier: 'search',
         decodeInput: decodeLegacyModuleInput,
         execute: (query: ModuleQuery, request: RequestCapability) =>
@@ -202,10 +209,8 @@ describe('createServer', () => {
       hello: 'world',
     });
     expect(captured.options?.ip).toBe('8.8.8.8');
+    expect(captured.options?.cookie).toMatchObject({ MUSIC_A: 'body-token' });
     expect(body.query).toEqual({
-      cookie: {
-        MUSIC_A: 'body-token',
-      },
       keyword: 'test',
       limit: '10',
     });
@@ -217,6 +222,7 @@ describe('createServer', () => {
   test('should normalize multipart uploads into legacy file objects', async () => {
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: {},
         identifier: 'upload-probe',
         decodeInput: decodeLegacyModuleInput,
         execute: (query: ModuleQuery) =>
@@ -275,6 +281,7 @@ describe('createServer', () => {
   test('should append secure cookie attributes for https requests', async () => {
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: {},
         identifier: 'secure-cookie',
         decodeInput: decodeLegacyModuleInput,
         execute: () =>
@@ -302,6 +309,7 @@ describe('createServer', () => {
     let invokeCount = 0;
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: probeReadActions,
         identifier: 'search',
         decodeInput: decodeLegacyModuleInput,
         execute: () =>
@@ -485,6 +493,7 @@ describe('createServer', () => {
     const app = await createServer({
       moduleDefinitions: [
         {
+          actions: probeReadActions,
           identifier: 'probe',
           route: '/probe',
           decodeInput: decodeLegacyModuleInput,
@@ -625,7 +634,6 @@ describe('createServer', () => {
       options: expect.objectContaining({
         cookie: {},
         crypto: 'eapi',
-        domain: '',
         headers: {},
         ip: expect.any(String),
       }),
@@ -694,7 +702,6 @@ describe('createServer', () => {
           MUSIC_U: 'fm-cookie',
         },
         crypto: 'weapi',
-        domain: '',
         ip: expect.any(String),
         signal: {},
       }),
@@ -713,7 +720,6 @@ describe('createServer', () => {
           MUSIC_U: 'signin-cookie',
         },
         crypto: 'eapi',
-        domain: '',
         ip: expect.any(String),
         signal: {},
       }),
@@ -762,7 +768,6 @@ describe('createServer', () => {
           MUSIC_U: 'body-cookie',
         },
         crypto: 'weapi',
-        domain: '',
         ip: expect.any(String),
         signal: {},
       }),

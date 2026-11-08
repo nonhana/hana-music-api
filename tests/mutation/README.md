@@ -42,4 +42,4 @@ browser-types 的两个有限故障分别省略浏览器和服务端 typecheck �
 
 身份池返回的有效设备不会被空白或undefined的state.deviceId抹掉；注册等待期间其他调用更新runtime时，username、注册Cookie和后续业务Cookie仍用同一池设备。对应回退故障也登记定向mutation。
 
-旧顶层deviceId只在本次确实需要隐式匿名初始化且尚无runtime匿名会话时提供兼容兜底，已有匿名会话继续沿用其设备，不被仅注册选项覆盖；对应单业务请求wire断言与回退mutation已登记。
+#116 删除顶层deviceId后，旧兼容入口的mutation由配置拒绝目标承接；request-identity保留九项，新增同一匿名凭据切换runtime设备时的共享缓存指纹故障。新module-config组覆盖旧键拒绝、query分离、client构造、强制动作、空动作零发送及生成器非法声明。都要求关联用例的原生AssertionError，工具或编译失败不算killed。

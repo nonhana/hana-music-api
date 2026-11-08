@@ -7,7 +7,10 @@ import type { CallShape } from '../../../src/core/call.ts';
 import { resolveIdentitySnapshot } from '../../../src/core/identity.ts';
 import { createRequest, requestEffect } from '../../../src/core/request.ts';
 import { getRuntimeState } from '../../../src/core/runtime.ts';
-import type { FetchLike, ModuleCallConfig } from '../../../src/types/index.ts';
+import type {
+  CreateRequestOptions,
+  FetchLike,
+} from '../../../src/types/index.ts';
 import type { RequestIntent } from '../../../src/types/runtime.ts';
 import { provideService, runEffect } from '../../_kit/it.ts';
 import { plainRequest } from '../../_kit/module.ts';
@@ -40,6 +43,8 @@ describe('Effect request execution', () => {
                 return Response.json({ code: 200 });
               },
             },
+            undefined,
+            scenario.protocol === 'plain' ? 'upload' : 'write',
           ),
         ),
       );
@@ -85,6 +90,14 @@ describe('Effect request execution', () => {
                 return Response.json({ code: 200 });
               },
             },
+            undefined,
+            scenario.protocol === 'plain'
+              ? 'read'
+              : scenario.target === '/api/test'
+                ? 'read'
+                : scenario.target === '/api/login/status'
+                  ? 'login'
+                  : 'write',
           ),
         ),
       );
@@ -225,6 +238,8 @@ describe('Effect request execution', () => {
             : Response.json({ code: 200 });
       };
       const call: CallShape = {
+        actions: {},
+        rawOptions: { fetcher },
         identifier: 'test',
         input: {},
         config: { fetcher },
@@ -339,10 +354,30 @@ describe('Effect request execution', () => {
 
 const kernelFor = (
   intent: RequestIntent,
-  config: ModuleCallConfig,
+  config: CreateRequestOptions,
   deadlineAt?: number,
+  declaredSemantic?: RequestIntent['semantic'],
 ) => {
+  const action = {
+    profile:
+      intent.protocol === 'plain'
+        ? new URL(intent.target).hostname === 'music.163.com'
+          ? 'plainMusic'
+          : 'plainVoice'
+        : 'api',
+    target:
+      intent.protocol === 'plain'
+        ? new URL(intent.target).pathname
+        : intent.target,
+    semantic: declaredSemantic ?? intent.semantic,
+    cache: 'none',
+    retry: 'never',
+    method: intent.method,
+    response: intent.response,
+  } as const;
   const call: CallShape = {
+    actions: { probe: action },
+    ...(declaredSemantic === undefined ? { rawOptions: config } : {}),
     identifier: 'test',
     input: {},
     config,
@@ -354,5 +389,7 @@ const kernelFor = (
     startedAt: Date.now(),
     deadlineAt,
   };
-  return requestEffect(intent).pipe(provideService(Call, call));
+  return requestEffect(
+    declaredSemantic === undefined ? intent : { ...intent, action: 'probe' },
+  ).pipe(provideService(Call, call));
 };

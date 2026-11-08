@@ -18,7 +18,12 @@ import type {
   ProgrammaticModuleInvoker,
   RequestCapability,
 } from '../../../src/types/index.ts';
-import { mockRequest, moduleResponse, testRequest } from '../../_kit/module.ts';
+import {
+  mockRequest,
+  moduleResponse,
+  probeReadActions,
+  testRequest,
+} from '../../_kit/module.ts';
 import artistAlbum from '../../fixtures/netease/library/artist_album.json';
 
 const REAL_MODULES_DIRECTORY = resolve(
@@ -31,6 +36,7 @@ describe('programmatic module api', () => {
     const api = await loadProgrammaticApi({
       moduleDefinitions: [
         {
+          actions: {},
           identifier: 'example',
           route: '/example',
           decodeInput: decodeLegacyModuleInput,
@@ -43,14 +49,15 @@ describe('programmatic module api', () => {
         },
       ],
     });
-    const response = await getProgrammaticInvoker(
-      api,
-      'example',
-    )({ value: 'business', timeoutMs: 100, headers: { 'X-Test': 'secret' } });
+    const response = await getProgrammaticInvoker(api, 'example')(
+      { value: 'business' },
+      { timeoutMs: 100 },
+    );
     expect(response.body).toEqual({ keys: ['value'] });
   });
   const moduleDefinitions: Array<ModuleDefinition> = [
     {
+      actions: probeReadActions,
       identifier: 'search',
       decodeInput: decodeLegacyModuleInput,
       execute: (query: ModuleQuery, request: RequestCapability) =>
@@ -94,19 +101,14 @@ describe('programmatic module api', () => {
     });
 
     const search = getProgrammaticInvoker(api, 'search');
-    const response = await search({
-      cookie: 'MUSIC_U=test-cookie',
-      keywords: 'hello',
-    });
+    const response = await search(
+      { keywords: 'hello' },
+      { cookie: 'MUSIC_U=test-cookie' },
+    );
 
     expect(response.status).toBe(200);
     expect(response.body).toEqual({
-      query: {
-        cookie: {
-          MUSIC_U: 'test-cookie',
-        },
-        keywords: 'hello',
-      },
+      query: { keywords: 'hello' },
       upstream: {
         body: {
           code: 200,
@@ -146,6 +148,7 @@ describe('programmatic module api', () => {
     const api = createModuleApi({
       moduleDefinitions: [
         {
+          actions: probeReadActions,
           identifier: 'search',
           decodeInput: decodeLegacyModuleInput,
           execute: () =>
@@ -171,6 +174,7 @@ describe('programmatic module api', () => {
     let calls = 0;
     const definitions: Array<ModuleDefinition> = [
       {
+        actions: probeReadActions,
         identifier: 'search',
         route: '/search',
         decodeInput: decodeLegacyModuleInput,
@@ -201,6 +205,7 @@ describe('programmatic module api', () => {
       {
         moduleDefinitions: [
           {
+            actions: {},
             identifier: 'search',
             route: '/search',
             decodeInput: decodeLegacyModuleInput,
@@ -277,12 +282,10 @@ describe('programmatic module api', () => {
     });
 
     const search = getProgrammaticInvoker(api, 'search');
-    const response = await search({
-      cookie: 'MUSIC_U=real-cookie',
-      keywords: 'phase-5',
-      limit: 5,
-      offset: 2,
-    });
+    const response = await search(
+      { keywords: 'phase-5', limit: 5, offset: 2 },
+      { cookie: 'MUSIC_U=real-cookie' },
+    );
 
     expect(captured.uri).toBe('/api/search/get');
     expect(captured.data).toEqual({
@@ -312,13 +315,7 @@ describe('programmatic module api', () => {
 
     const response = await invokeModule(
       'comment_music',
-      {
-        before: 10,
-        cookie: 'MUSIC_U=comment-cookie',
-        id: 12345,
-        limit: 30,
-        offset: 5,
-      },
+      { before: 10, id: 12345, limit: 30, offset: 5 },
       {
         requestHandler: mockRequest(async (uri, data, options = {}) => {
           captured.uri = uri;
@@ -335,6 +332,7 @@ describe('programmatic module api', () => {
           };
         }),
       },
+      { cookie: 'MUSIC_U=comment-cookie' },
     );
 
     expect(captured.uri).toBe('/api/v1/resource/comments/R_SO_4_12345');
@@ -359,13 +357,7 @@ describe('programmatic module api', () => {
 
     const response = await invokeModule(
       'album_list',
-      {
-        area: 'EA',
-        cookie: 'MUSIC_U=album-cookie',
-        limit: 12,
-        offset: 24,
-        type: 2,
-      },
+      { area: 'EA', limit: 12, offset: 24, type: 2 },
       {
         requestHandler: mockRequest(async (uri, data, options = {}) => {
           captured.uri = uri;
@@ -382,6 +374,7 @@ describe('programmatic module api', () => {
           };
         }),
       },
+      { cookie: 'MUSIC_U=album-cookie' },
     );
 
     expect(captured.uri).toBe('/api/vipmall/albumproduct/list');
@@ -407,11 +400,7 @@ describe('programmatic module api', () => {
 
     const response = await invokeModule(
       'album_sub',
-      {
-        cookie: 'MUSIC_U=album-sub-cookie',
-        id: 99887,
-        t: 1,
-      },
+      { id: 99887, t: 1 },
       {
         requestHandler: mockRequest(async (uri, data, options = {}) => {
           captured.uri = uri;
@@ -427,6 +416,7 @@ describe('programmatic module api', () => {
           };
         }),
       },
+      { cookie: 'MUSIC_U=album-sub-cookie' },
     );
 
     expect(captured.uri).toBe('/api/album/sub');
@@ -448,10 +438,7 @@ describe('programmatic module api', () => {
 
     const response = await invokeModule(
       'user_detail',
-      {
-        cookie: 'MUSIC_U=user-detail-cookie',
-        uid: 67890,
-      },
+      { uid: 67890 },
       {
         requestHandler: mockRequest(async (uri, data, options = {}) => {
           captured.uri = uri;
@@ -474,6 +461,7 @@ describe('programmatic module api', () => {
           };
         }),
       },
+      { cookie: 'MUSIC_U=user-detail-cookie' },
     );
 
     expect(captured.uri).toBe('/api/v1/user/detail/67890');
@@ -503,12 +491,7 @@ describe('programmatic module api', () => {
 
     const response = await invokeModule(
       'user_playlist',
-      {
-        cookie: 'MUSIC_U=user-playlist-cookie',
-        limit: 20,
-        offset: 40,
-        uid: 24680,
-      },
+      { limit: 20, offset: 40, uid: 24680 },
       {
         requestHandler: mockRequest(async (uri, data, options = {}) => {
           captured.uri = uri;
@@ -526,6 +509,7 @@ describe('programmatic module api', () => {
           };
         }),
       },
+      { cookie: 'MUSIC_U=user-playlist-cookie' },
     );
 
     expect(captured.uri).toBe('/api/user/playlist');
@@ -550,9 +534,7 @@ describe('programmatic module api', () => {
 
     const response = await invokeModule(
       'user_level',
-      {
-        cookie: 'MUSIC_U=user-level-cookie',
-      },
+      {},
       {
         requestHandler: mockRequest(async (uri, data, options = {}) => {
           captured.uri = uri;
@@ -573,6 +555,7 @@ describe('programmatic module api', () => {
           };
         }),
       },
+      { cookie: 'MUSIC_U=user-level-cookie' },
     );
 
     expect(captured.uri).toBe('/api/user/level');
@@ -592,12 +575,7 @@ describe('programmatic module api', () => {
 
     const response = await invokeModule(
       'artist_album',
-      {
-        cookie: 'MUSIC_U=artist-album-cookie',
-        id: artistAlbum.query.id,
-        limit: 15,
-        offset: 30,
-      },
+      { id: artistAlbum.query.id, limit: 15, offset: 30 },
       {
         requestHandler: mockRequest(async (uri, data, options = {}) => {
           captured.uri = uri;
@@ -611,6 +589,7 @@ describe('programmatic module api', () => {
           };
         }),
       },
+      { cookie: 'MUSIC_U=artist-album-cookie' },
     );
 
     expect(captured.uri).toBe('/api/artist/albums/33927412');
@@ -634,11 +613,7 @@ describe('programmatic module api', () => {
 
     const response = await invokeModule(
       'artist_sub',
-      {
-        cookie: 'MUSIC_U=artist-sub-cookie',
-        id: 4455,
-        t: 1,
-      },
+      { id: 4455, t: 1 },
       {
         requestHandler: mockRequest(async (uri, data, options = {}) => {
           captured.uri = uri;
@@ -656,6 +631,7 @@ describe('programmatic module api', () => {
           };
         }),
       },
+      { cookie: 'MUSIC_U=artist-sub-cookie' },
     );
 
     expect(captured.uri).toBe('/api/artist/sub');
@@ -678,10 +654,7 @@ describe('programmatic module api', () => {
 
     const response = await invokeModule(
       'top_song',
-      {
-        cookie: 'MUSIC_U=top-song-cookie',
-        type: 96,
-      },
+      { type: 96 },
       {
         requestHandler: mockRequest(async (uri, data, options = {}) => {
           captured.uri = uri;
@@ -698,6 +671,7 @@ describe('programmatic module api', () => {
           };
         }),
       },
+      { cookie: 'MUSIC_U=top-song-cookie' },
     );
 
     expect(captured.uri).toBe('/api/v1/discovery/new/songs');

@@ -1,11 +1,11 @@
 export const mutations = [
   {
-    id: 'identity-registration-alias-overrides-existing-session',
-    file: 'src/core/call.ts',
-    find: '!runtime.anonymousToken &&',
-    replace: 'runtime.anonymousToken !== undefined &&',
+    id: 'identity-device-omitted-from-fingerprint',
+    file: 'src/core/identity-snapshot.ts',
+    find: '[value, deviceId]',
+    replace: '[value]',
     expectedFailures: [
-      'identity legacy registration device does not replace an existing anonymous session device',
+      'identity shared cache includes a changing runtime device with the same anonymous credentials',
     ],
   },
   {
@@ -46,8 +46,9 @@ export const mutations = [
   {
     id: 'identity-mixed-eapi-ua-restored',
     file: 'src/core/request-profiles.ts',
-    find: 'userAgent: USER_AGENT_MAP.api.iphone,',
-    replace: 'userAgent: USER_AGENT_MAP.weapi.pc,',
+    find: "eapi: {\n    protocol: 'eapi',\n    domain: 'https://interface.music.163.com',\n    userAgent: USER_AGENT_MAP.api.iphone,",
+    replace:
+      "eapi: {\n    protocol: 'eapi',\n    domain: 'https://interface.music.163.com',\n    userAgent: USER_AGENT_MAP.weapi.pc,",
     expectedFailures: ['identity sdk Ficus exhigh uses one iPhone identity'],
   },
   {

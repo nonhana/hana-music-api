@@ -1,8 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 
-import { Effect } from 'effect';
+import { Effect, Option } from 'effect';
+import { TestClock } from 'effect/testing';
 
-import { Call } from '../../../src/core/call.ts';
+import { Call, CallServices } from '../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
 import { createRequest, requestEffect } from '../../../src/core/request.ts';
 import { setConnectionIp } from '../../../src/server/admission.ts';
@@ -12,7 +13,15 @@ import type {
   ModuleQuery,
   RequestCapability,
 } from '../../../src/types/index.ts';
-import { mockRequest, moduleResponse, testRequest } from '../../_kit/module.ts';
+import { createStage } from '../../_kit/harness/sdk.ts';
+import { runEffect } from '../../_kit/it.ts';
+import {
+  mockRequest,
+  moduleResponse,
+  probeReadActions,
+  testRequest,
+} from '../../_kit/module.ts';
+import { withScenario } from '../../_kit/upstream/scenario.ts';
 
 describe('server traffic admission', () => {
   test.each(['/api/test', '/api/playlist/track/add', '/api/login/status'])(
@@ -60,6 +69,7 @@ describe('server traffic admission', () => {
       const app = await createServer({
         moduleDefinitions: [
           {
+            actions: probeReadActions,
             identifier: 'probe',
             route: '/probe',
             decodeInput: decodeLegacyModuleInput,
@@ -132,6 +142,7 @@ describe('server traffic admission', () => {
     const app = await createServer({
       moduleDefinitions: [
         {
+          actions: {},
           identifier: 'search',
           route: '/search',
           decodeInput: decodeLegacyModuleInput,
@@ -187,6 +198,7 @@ describe('server traffic admission', () => {
     const app = await createServer({
       moduleDefinitions: [
         {
+          actions: probeReadActions,
           identifier: 'probe',
           route: '/probe',
           decodeInput: decodeLegacyModuleInput,
@@ -239,6 +251,7 @@ describe('server traffic admission', () => {
     let invoked = 0;
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: {},
         identifier: 'traffic-probe',
         decodeInput: decodeLegacyModuleInput,
         execute: () =>
@@ -272,6 +285,7 @@ describe('server traffic admission', () => {
       maxBodyBytes: 4,
       moduleDefinitions: [
         {
+          actions: {},
           identifier: 'body-limit',
           route: '/body-limit',
           decodeInput: decodeLegacyModuleInput,
@@ -298,6 +312,7 @@ describe('server traffic admission', () => {
       maxBodyBytes: 10 * 1024 * 1024,
       moduleDefinitions: [
         {
+          actions: {},
           identifier: 'upload-limit',
           route: '/upload-limit',
           decodeInput: decodeLegacyModuleInput,
@@ -330,6 +345,7 @@ describe('server traffic admission', () => {
         maxBodyBytes: 128,
         moduleDefinitions: [
           {
+            actions: {},
             identifier: 'voice_upload',
             route: '/voice/upload',
             decodeInput: decodeLegacyModuleInput,
@@ -371,6 +387,7 @@ describe('server traffic admission', () => {
         traffic: { maxInFlight: 1 },
         moduleDefinitions: [
           {
+            actions: {},
             identifier: 'body-timeout',
             route: '/body-timeout',
             decodeInput: decodeLegacyModuleInput,
@@ -404,5 +421,135 @@ describe('server traffic admission', () => {
       expect((await app.request('/body-timeout')).status).toBe(200);
     },
     1_000,
+  );
+});
+
+test('debug raw request retains the HTTP call services for its controlled handler', async () => {
+  const app = await createServer(
+    {
+      hostname: '127.0.0.1',
+      debugApiRequests: true,
+      requestHandler: () =>
+        Effect.serviceOption(CallServices).pipe(
+          Effect.map((scope) => ({
+            status: 200,
+            cookie: [],
+            headers: new Headers(),
+            body: { code: 200, services: Option.isSome(scope) },
+          })),
+        ),
+    },
+    { allowDebugApiRequests: true },
+  );
+  const response = await app.request('/demo/api-debug/request', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify({ uri: '/api/context/probe', crypto: 'api' }),
+  });
+  expect(response.status).toBe(200);
+  expect(await response.json()).toEqual({ code: 200, services: true });
+});
+
+test('debug raw request uses the internal instance fetcher at the final wire', async () => {
+  await withScenario(
+    [
+      {
+        url: 'https://interface.music.163.com/api/context/probe',
+        method: 'POST',
+        check: (wire) => {
+          expect(new URLSearchParams(wire.body).get('id')).toBe('7');
+          expect(wire.headers.get('cookie')).toContain('MUSIC_U=debug-context');
+        },
+        response: () => Response.json({ code: 200 }),
+      },
+    ],
+    async (scenario) => {
+      const app = await createServer(
+        { hostname: '127.0.0.1', debugApiRequests: true },
+        {
+          allowDebugApiRequests: true,
+          execution: { fetcher: scenario.fetcher },
+        },
+      );
+      const response = await app.request('/demo/api-debug/request', {
+        method: 'POST',
+        headers: {
+          'content-type': 'application/json',
+          cookie: 'MUSIC_U=debug-context',
+        },
+        body: JSON.stringify({
+          uri: '/api/context/probe',
+          crypto: 'api',
+          data: { id: 7 },
+        }),
+      });
+      expect(response.status).toBe(200);
+      expect(scenario.sent).toHaveLength(1);
+    },
+  );
+});
+
+test('debug raw request keeps the instance clock for its deadline and body cancellation', async () => {
+  await runEffect(
+    Effect.scoped(
+      Effect.gen(function* () {
+        const clock = yield* TestClock.make();
+        const controller = new AbortController();
+        const stage = createStage('debug body');
+        let settled = false;
+        let aborted = false;
+        const app = yield* Effect.promise(() =>
+          createServer(
+            {
+              hostname: '127.0.0.1',
+              debugApiRequests: true,
+              requestHandler: (intent) =>
+                requestEffect(intent).pipe(
+                  Effect.updateService(Call, (call) => ({
+                    ...call,
+                    config: {
+                      ...call.config,
+                      fetcher: async (_input, init) => {
+                        stage.reach();
+                        init?.signal?.addEventListener(
+                          'abort',
+                          () => {
+                            aborted = true;
+                          },
+                          { once: true },
+                        );
+                        return new Promise<Response>(() => {});
+                      },
+                    },
+                  })),
+                ),
+            },
+            { allowDebugApiRequests: true, execution: { clock } },
+          ),
+        );
+        const pending = Promise.resolve(
+          app.request('/demo/api-debug/request', {
+            method: 'POST',
+            signal: controller.signal,
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ uri: '/api/context/probe', crypto: 'api' }),
+          }),
+        ).then((response) => {
+          settled = true;
+          return response;
+        });
+        try {
+          yield* Effect.promise(() => stage.wait(pending));
+          yield* clock.adjust(8_000);
+          yield* Effect.promise(() => Bun.sleep(5));
+          expect(settled).toBe(true);
+          expect((yield* Effect.promise(() => pending)).status).toBe(504);
+          expect(aborted).toBe(true);
+        } finally {
+          controller.abort();
+          yield* Effect.promise(() => pending);
+        }
+      }),
+    ),
   );
 });

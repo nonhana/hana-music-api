@@ -12,7 +12,6 @@ import { getRuntimeState, setRuntimeState } from '../../../src/core/runtime.ts';
 import { createClientFromContext } from '../../../src/sdk/generated/client-factory.generated.ts';
 import { sdkModuleRegistry } from '../../../src/sdk/generated/registry.generated.ts';
 import { createServer } from '../../../src/server/create-server.ts';
-import { generatedPendingActionModuleIdentifiers } from '../../../src/types/generated/module-surface.generated.ts';
 import { settle } from '../../_kit/assertions.ts';
 import { testEntropy } from '../../_kit/harness/sdk.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
@@ -108,8 +107,6 @@ for (const entry of ['sdk', 'http'] as const)
             const config = {
               cookie,
               state: { deviceId: 'D1' },
-              ua: 'conflict',
-              headers: { 'uSeR-aGeNt': 'conflict' },
             };
             const client = createClientFromContext(
               config,
@@ -276,7 +273,7 @@ test('identity refusal -460 sends once and never rotates identity', async () => 
   );
 });
 
-test('identity standalone anonymous state wins over the legacy top-level device', async () => {
+test('identity standalone anonymous state wins over the cookie device', async () => {
   await withScenario(
     [
       {
@@ -291,7 +288,6 @@ test('identity standalone anonymous state wins over the legacy top-level device'
     ],
     async (scenario) => {
       const registration = await registerAnonymousToken({
-        deviceId: 'legacy',
         state: { deviceId: 'D1' },
         cookie: { deviceId: 'D2' },
         fetcher: scenario.fetcher,
@@ -331,7 +327,6 @@ for (const [label, state, cookie, expected] of [
         const config = {
           cookie: `${cookie}; OS=pc; os=pc; appver=old; channel=old`,
           state,
-          deviceId: 'legacy',
         };
         const client = createClientFromContext(
           config,
@@ -345,11 +340,9 @@ for (const [label, state, cookie, expected] of [
         const payload = readWebBody(registration.body) as { username: string };
         expect(
           Buffer.from(payload.username, 'base64').toString().split(' ')[0],
-        ).toBe(expected === 'runtime-device' ? 'legacy' : expected);
+        ).toBe(expected);
         for (const wire of scenario.sent)
-          expect(readCookies(wire.headers).deviceId).toBe(
-            expected === 'runtime-device' ? 'legacy' : expected,
-          );
+          expect(readCookies(wire.headers).deviceId).toBe(expected);
         expect(readCookies(registration.headers).os).toBe('web');
         expect(readCookies(registration.headers)).not.toHaveProperty('appver');
         expect(readCookies(scenario.sent[1]!.headers).MUSIC_A).toBe('implicit');
@@ -664,8 +657,10 @@ test('identity concurrent anonymous calls retain distinct devices and returned c
 
 test('identity registry has no mixed profiles or undeclared defaults', () => {
   expect(Object.keys(requestProfiles).toSorted()).toEqual([
+    'api',
     'clientlogOsx',
     'eapi',
+    'linuxapi',
     'plainImage',
     'plainInterface',
     'plainLookup',
@@ -674,7 +669,6 @@ test('identity registry has no mixed profiles or undeclared defaults', () => {
     'plainVoice',
     'web',
   ]);
-  expect(generatedPendingActionModuleIdentifiers).toEqual([]);
   const profiles: Array<string> = [];
   for (const module of Object.values(sdkModuleRegistry)) {
     expect(module.actions).toBeDefined();
@@ -903,7 +897,7 @@ for (const [label, deviceId] of [
     );
   });
 
-test('identity legacy registration device does not replace an existing anonymous session device', async () => {
+test('identity existing anonymous session keeps its runtime device without an explicit device', async () => {
   setRuntimeState({
     anonymousToken: 'existing-runtime-token',
     deviceId: 'existing-anonymous-device',
@@ -928,11 +922,42 @@ test('identity legacy registration device does not replace an existing anonymous
     ],
     async (scenario) => {
       const client = createHanaMusicApi({
-        deviceId: 'legacy-registration-only',
         fetcher: scenario.fetcher,
       });
       expect((await client.loginQrKey()).status).toBe(200);
       expect(scenario.sent).toHaveLength(1);
+    },
+  );
+});
+
+test('identity shared cache includes a changing runtime device with the same anonymous credentials', async () => {
+  setRuntimeState({
+    anonymousToken: 'runtime-session',
+    deviceId: 'runtime-D1',
+  });
+  await withScenario(
+    ['runtime-D1', 'runtime-D2'].map((device) => ({
+      url: 'https://interface.music.163.com/eapi/song/lyric',
+      method: 'POST',
+      response: (wire) => {
+        const decoded = readEapiBody(wire.body).data as {
+          header: { deviceId: string };
+        };
+        expect(decoded.header.deviceId).toBe(device);
+        return Response.json({ code: 200, lrc: { lyric: device } });
+      },
+    })),
+    async (scenario) => {
+      const client = createHanaMusicApi({
+        cache: { ttlMs: 60_000 },
+        cookie: 'MUSIC_A=same-session',
+        fetcher: scenario.fetcher,
+      });
+      for (const device of ['runtime-D1', 'runtime-D2', 'runtime-D1']) {
+        setRuntimeState({ deviceId: device });
+        expect((await client.lyric({ id: 7 })).body.lrc?.lyric).toBe(device);
+      }
+      expect(scenario.sent).toHaveLength(2);
     },
   );
 });

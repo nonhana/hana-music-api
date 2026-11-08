@@ -12,8 +12,6 @@ import {
   UpstreamBusinessFailed,
   UpstreamRateLimited,
 } from '../../../src/core/errors.ts';
-import { createOption } from '../../../src/core/options.ts';
-import { buildApiRequestIntent } from '../../../src/core/request-intent.ts';
 import { toModuleResponse } from '../../../src/core/response.ts';
 import batch from '../../../src/modules/batch.ts';
 import checkMusic from '../../../src/modules/check_music.ts';
@@ -37,11 +35,18 @@ import { runEffect, runExit } from '../../_kit/it.ts';
 import { executeModule, response } from '../../_kit/upload.ts';
 
 // 测试用的原始模块：没有 ModuleBody，请求结果原样返回，不随真实模块收窄而变化。
-const rawModule: ModuleEffect<LegacyModuleInput> = (query, request) =>
+const rawModule: ModuleEffect<LegacyModuleInput> = (_query, request) =>
   Effect.gen(function* () {
-    const upstream = yield* request(
-      buildApiRequestIntent('/api/example', {}, createOption(query)),
-    );
+    const upstream = yield* request({
+      action: 'example',
+      target: '/api/example',
+      protocol: 'eapi',
+      method: 'POST',
+      headers: {},
+      body: '{}',
+      response: 'json',
+      semantic: 'read',
+    });
     return toModuleResponse(upstream);
   });
 
@@ -61,8 +66,7 @@ describe('special Effect module behavior', () => {
     const urls: Array<string> = [];
     const client = createHanaMusicApi({
       cookie: 'MUSIC_U=protocol',
-      crypto: 'api',
-      e_r: false,
+
       fetcher: async (url) => {
         urls.push(url instanceof Request ? url.url : url.toString());
         return Response.json({

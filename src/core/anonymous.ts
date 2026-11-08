@@ -5,7 +5,7 @@ import { Call } from './call-context.ts';
 import type { InternalExecution } from './call-context.ts';
 import type { RequestError } from './errors.ts';
 import { DeadlineExceeded, ResponseDecodeFailed } from './errors.ts';
-import { isDeviceId, resolveIdentitySnapshot } from './identity.ts';
+import { resolveIdentitySnapshot } from './identity.ts';
 import { ReadStore } from './read-store.ts';
 import { buildActionRequestIntent } from './request-intent.ts';
 import { requestEffect } from './request.ts';
@@ -52,9 +52,6 @@ export const registerAnonymousEffect = (
       {
         ...runtime,
         anonymousToken: '',
-        deviceId: isDeviceId(options.deviceId)
-          ? options.deviceId
-          : runtime.deviceId,
       },
     );
     const deviceId = snapshot.state.deviceId;
@@ -65,7 +62,6 @@ export const registerAnonymousEffect = (
     const config = {
       ...options,
       checkToken: undefined,
-      crypto: 'weapi' as const,
       ip: cnIp,
       state,
       cookie: snapshot.cookie,
@@ -127,9 +123,6 @@ export const ensureAnonymousEffect = (
     }
     const snapshot = resolveIdentitySnapshot(options, {
       ...runtime,
-      deviceId: isDeviceId(options.deviceId)
-        ? options.deviceId
-        : runtime.deviceId,
     });
     return yield* registration.run(
       snapshot.state.deviceId,

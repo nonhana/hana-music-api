@@ -13,7 +13,8 @@ import {
 } from '../../../index.ts';
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
-import { buildApiRequestIntent } from '../../../src/core/request-intent.ts';
+import { buildActionRequestIntent } from '../../../src/core/request-intent.ts';
+import { requestProfiles } from '../../../src/core/request-profiles.ts';
 import { toModuleResponse } from '../../../src/core/response.ts';
 import { getRuntimeState, setRuntimeState } from '../../../src/core/runtime.ts';
 import { createClientFromContext } from '../../../src/sdk/generated/client-factory.generated.ts';
@@ -27,6 +28,13 @@ import { songFile, tokenBody } from '../../fixtures/synthetic/upload.ts';
 test.each(['weapi', 'eapi', 'api', 'linuxapi'] as const)(
   'optional checkToken uses the final %s protocol envelope',
   async (crypto) => {
+    const action = {
+      profile: crypto === 'weapi' ? ('web' as const) : crypto,
+      target: '/api/token/probe',
+      semantic: 'read',
+      cache: 'none',
+      retry: 'never',
+    } as const;
     const url =
       crypto === 'weapi'
         ? 'https://music.163.com/weapi/token/probe'
@@ -80,7 +88,6 @@ test.each(['weapi', 'eapi', 'api', 'linuxapi'] as const)(
       ],
       async (scenario) => {
         const config = {
-          crypto,
           cookie: 'MUSIC_U=protocol-account',
           checkToken: 'protocol-token',
         };
@@ -92,12 +99,13 @@ test.each(['weapi', 'eapi', 'api', 'linuxapi'] as const)(
           }),
           {
             identifier: 'protocol_probe',
+            actions: { probe: action },
             route: '/protocol/probe',
             decodeInput: decodeLegacyModuleInput,
             execute: (query, request) =>
-              request(
-                buildApiRequestIntent('/api/token/probe', query, { crypto }),
-              ).pipe(Effect.map(toModuleResponse)),
+              request(buildActionRequestIntent('probe', action, query)).pipe(
+                Effect.map(toModuleResponse),
+              ),
           },
         );
         expect(result.status).toBe(200);
@@ -529,7 +537,7 @@ test('upload API stages take fresh tokens while external NOS receives no SDK cre
     async (scenario) => {
       const client = createHanaMusicApi({
         cookie: 'MUSIC_U=upload-session',
-        crypto: 'api',
+
         fetcher: scenario.fetcher,
         checkToken: async () => `upload-token-${++calls}`,
       });
@@ -706,35 +714,61 @@ test.each([
 ])(
   'a configured token cannot leave through %s even without account cookies',
   async (domain) => {
-    await withScenario([], async (scenario) => {
-      const config = {
-        domain,
-        state: { anonymousToken: '' },
-        checkToken: 'cannot-leave',
-      };
-      expect(
-        await settle(
-          runCall(
-            {
-              identifier: 'protocol_probe',
-              input: { sample: 'probe' },
-              config,
-            },
-            buildCallServices(config, false, { fetcher: scenario.fetcher }),
-            {
-              identifier: 'protocol_probe',
-              route: '/protocol/probe',
-              decodeInput: decodeLegacyModuleInput,
-              execute: (query, request) =>
-                request(buildApiRequestIntent('/api/token/probe', query)).pipe(
-                  Effect.map(toModuleResponse),
-                ),
-            },
-          ),
-        ),
-      ).toMatchObject({ rejected: { status: 400 } });
-      expect(scenario.entries).toHaveLength(0);
+    Object.defineProperty(requestProfiles, 'unsafeProbe', {
+      value: { ...requestProfiles.eapi, domain },
+      configurable: true,
     });
+    try {
+      await withScenario([], async (scenario) => {
+        const config = {
+          state: { anonymousToken: '' },
+          checkToken: 'cannot-leave',
+        };
+        expect(
+          await settle(
+            runCall(
+              {
+                identifier: 'protocol_probe',
+                input: { sample: 'probe' },
+                config,
+              },
+              buildCallServices(config, false, { fetcher: scenario.fetcher }),
+              {
+                identifier: 'protocol_probe',
+                actions: {
+                  probe: {
+                    profile: 'unsafeProbe' as never,
+                    target: '/api/token/probe',
+                    semantic: 'read',
+                    cache: 'none',
+                    retry: 'never',
+                  },
+                },
+                route: '/protocol/probe',
+                decodeInput: decodeLegacyModuleInput,
+                execute: (query, request) =>
+                  request(
+                    buildActionRequestIntent(
+                      'probe',
+                      {
+                        profile: 'unsafeProbe' as never,
+                        target: '/api/token/probe',
+                        semantic: 'read',
+                        cache: 'none',
+                        retry: 'never',
+                      },
+                      query,
+                    ),
+                  ).pipe(Effect.map(toModuleResponse)),
+              },
+            ),
+          ),
+        ).toMatchObject({ rejected: { status: 400 } });
+        expect(scenario.entries).toHaveLength(0);
+      });
+    } finally {
+      Reflect.deleteProperty(requestProfiles, 'unsafeProbe');
+    }
   },
 );
 

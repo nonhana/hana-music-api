@@ -20,6 +20,8 @@ import type {
 import { runEffect } from '../../_kit/it.ts';
 import {
   moduleResponse,
+  probeReadActions,
+  probeUploadActions,
   testPlainRequest,
   testRequest,
 } from '../../_kit/module.ts';
@@ -91,6 +93,7 @@ describe('sdk response cache', () => {
               { identifier: 'search', input: {}, config: { timeoutMs: 0 } },
               services,
               {
+                actions: probeReadActions,
                 identifier: 'test',
                 route: '/test',
                 decodeInput: decodeLegacyModuleInput,
@@ -129,6 +132,7 @@ describe('sdk response cache', () => {
       }).pipe(Effect.map(moduleResponse));
     const invoke = () =>
       runCall({ identifier, input: {}, config: {} }, services, {
+        actions: {},
         identifier: 'test',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
@@ -209,6 +213,7 @@ describe('sdk identity pool', () => {
     const upload = createModuleInvoker(
       'voice_upload',
       {
+        actions: probeUploadActions,
         identifier: 'voice_upload',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
@@ -266,6 +271,7 @@ describe('sdk identity pool', () => {
     const upload = createModuleInvoker(
       'voice_upload',
       {
+        actions: probeUploadActions,
         identifier: 'voice_upload',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
@@ -387,7 +393,7 @@ describe('sdk identity pool', () => {
     ]);
   });
 
-  test('uses a Cookie header as an explicit SDK identity', async () => {
+  test('uses cookie config as an explicit SDK identity', async () => {
     let registrations = 0;
     let sentCookie = '';
     const fetcher: FetchLike = async (input, init) => {
@@ -404,8 +410,9 @@ describe('sdk identity pool', () => {
       return Response.json({ code: 200 });
     };
     const hana = createHanaMusicApi({
+      cookie: 'MUSIC_U=header-user',
       fetcher,
-      headers: { Cookie: 'MUSIC_U=header-user' },
+
       identityPool: { size: 1 },
     });
 

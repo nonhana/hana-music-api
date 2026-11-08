@@ -20,7 +20,7 @@ const songResult = await hana.songUrl({ id: '347230', br: 320000 });
 console.log(searchResult.body, songResult.body);
 ```
 
-方法的第二个参数覆盖这次调用的默认配置。覆盖按字段进行，比如传入新的 `headers` 对象会替换原来的 `headers`，不会递归合并对象里的每个字段。
+方法的第二个参数覆盖这次调用的默认配置。覆盖按字段进行，比如传入新的 `state` 对象会替换原来的 `state`，不会递归合并对象里的每个字段。
 
 ```ts
 await hana.search({ keywords: '林俊杰' }, { timeoutMs: 5000 });
@@ -69,7 +69,7 @@ flowchart LR
   CALL --> REQUEST
 ```
 
-`query` 的类型来自模块自己的输入声明。`config` 使用 `ModuleCallConfig`，完整字段见 [配置参考](/guide/config-reference)。HTTP 能接收的字段更少，见 [调用约定](/guide/request-convention)。
+`query` 的类型来自模块自己的输入声明。`config` 使用独立的 `ModuleCallConfig`。`crypto`、`ua`、`domain`、`e_r`、`acceptGzip`、`headers` 和顶层 `deviceId` 已移除，传入会在执行前拒绝；设备改用 `state.deviceId`。完整字段及 major 迁移表见 [配置参考](/guide/config-reference)。HTTP 能接收的字段更少，见 [调用约定](/guide/request-convention)。
 
 ## 返回值与错误
 
@@ -183,3 +183,5 @@ DJ、广播、MV、视频、声音和声音列表的67个接口已固定各自�
 会员、数字专辑、云贝、音乐人、收听统计、历史、年度报告、乐谱和batch共50个接口固定各自原有协议与默认身份。普通crypto、domain、ua、e_r、acceptGzip和受控身份Cookie不再覆盖声明；账号Cookie、fetcher、取消与期限继续按调用传入，需要控制协议时使用createRequest。digitalAlbum_*保留大小写，daily_signin的HTTP路径仍是/daily_signin。
 
 下单、签到、领奖、云贝推歌和batch不自动重放；batch可以封装多个子操作，但SDK只发一个请求。听歌报告、签到活动信息和云贝收入/支出明细的查询保持原有不重试上限，全部接口不缓存或合并。原有会员、乐谱预览和账号访问限制保持，离线验证不代表当前上游可用，也没有执行真实支付或领取。
+
+普通配置已完成收口。上文各批次所述“不再覆盖声明”的旧选项现在会明确拒绝，不会静默忽略。需要原始请求时使用独立的 `CreateRequestOptions`。

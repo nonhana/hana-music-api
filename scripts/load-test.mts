@@ -128,11 +128,23 @@ const runLoad = async (soak: boolean) => {
       execute: avatarUpload,
     },
     {
+      actions: {
+        raw: {
+          profile: 'plainMusic',
+          target: '/raw/page',
+          semantic: 'read',
+          cache: 'none',
+          retry: 'never',
+          method: 'GET',
+          response: 'bytes',
+        },
+      },
       identifier: 'raw',
       route: '/raw',
       decodeInput: decodeLegacyModuleInput,
       execute: (_query, request) =>
         request({
+          action: 'raw',
           target: 'https://music.163.com/raw/page',
           protocol: 'plain',
           method: 'GET',
@@ -142,11 +154,21 @@ const runLoad = async (soak: boolean) => {
         }).pipe(Effect.as({ status: 200, cookie: [], body: { code: 200 } })),
     },
     {
+      actions: {
+        slow: {
+          profile: 'api',
+          target: '/api/load/slow',
+          semantic: 'read',
+          cache: 'none',
+          retry: 'never',
+        },
+      },
       identifier: 'slow',
       route: '/slow',
       decodeInput: decodeLegacyModuleInput,
       execute: (_query, request) =>
         request({
+          action: 'slow',
           target: '/api/load/slow',
           protocol: 'api',
           method: 'POST',
@@ -208,7 +230,6 @@ const runLoad = async (soak: boolean) => {
             execution: { ...call.execution, entropy: testEntropy },
             config: {
               ...call.config,
-              crypto: 'api' as const,
               fetcher: fake.fetcher,
               onRequestEvent: (event) => {
                 if (event.type === 'attempt' && event.attempt === 1) {

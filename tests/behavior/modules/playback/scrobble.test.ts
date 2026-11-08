@@ -22,6 +22,7 @@ const response = {
 };
 
 const call: CallShape = {
+  actions: {},
   config: {},
   identity: resolveIdentitySnapshot({}, getRuntimeState()),
   identifier: 'scrobble',

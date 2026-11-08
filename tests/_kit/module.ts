@@ -1,9 +1,13 @@
 import { Clock, Effect } from 'effect';
 
 import { buildCallServices, Call, runCall } from '../../src/core/call.ts';
-import { requestSemantic } from '../../src/core/endpoint-policy.ts';
 import { ProtocolFailed } from '../../src/core/errors.ts';
 import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
+import type { ModuleActions } from '../../src/core/request-actions.ts';
+import {
+  buildActionRequestIntent,
+  buildPlainActionRequestIntent,
+} from '../../src/core/request-intent.ts';
 import { requestEffect, runRequestAtEdge } from '../../src/core/request.ts';
 import type {
   CreateRequestOptions,
@@ -53,17 +57,14 @@ export const mockRequest =
                   JSON.parse(String(intent.body ?? '{}')),
                   {
                     ...call.config,
-                    crypto:
-                      call.config.crypto ||
-                      (intent.protocol === 'plain' ? '' : intent.protocol),
+                    crypto: intent.protocol === 'plain' ? '' : intent.protocol,
                     signal,
                     timeoutMs,
                     ...(intent.headers['x-aeapi'] ? { acceptGzip: true } : {}),
                     ...(intent.headers['User-Agent']
-                      ? { ua: call.config.ua || intent.headers['User-Agent'] }
+                      ? { ua: intent.headers['User-Agent'] }
                       : {}),
                     headers: {
-                      ...call.config.headers,
                       ...intent.headers,
                     },
                   },
@@ -93,34 +94,44 @@ export const testRequest = (
   data: Record<string, unknown> = {},
   options: CreateRequestOptions = {},
 ) =>
-  request({
-    target: uri,
-    protocol: options.crypto || 'api',
-    method: 'POST',
-    headers: options.headers ?? {},
-    body: JSON.stringify(data),
-    response: 'json',
-    semantic: requestSemantic(uri),
-  }).pipe(
-    Effect.map((response) => ({
+  Effect.gen(function* () {
+    const call = yield* Call;
+    const selected = Object.entries(call.actions).find(
+      ([, action]) => action.target === uri,
+    );
+    if (!selected)
+      throw new Error(`Test must declare its request action: ${uri}`);
+    const [name, action] = selected;
+    const response = yield* request(
+      buildActionRequestIntent(name, action, data, uri, options.headers),
+    );
+    return {
       status: response.status,
       cookie: [...response.cookie],
       body: response.body,
-    })),
-  );
+    };
+  });
 
 export const testPlainRequest = (
   request: RequestCapability,
   url: string,
   options: { method?: string } = {},
 ) =>
-  request({
-    target: url,
-    protocol: 'plain',
-    method: options.method ?? 'GET',
-    headers: {},
-    response: 'bytes',
-    semantic: options.method && options.method !== 'GET' ? 'upload' : 'read',
+  Effect.gen(function* () {
+    const call = yield* Call;
+    const selected = Object.entries(call.actions).find(
+      ([, action]) => action.method === (options.method ?? 'GET'),
+    );
+    if (!selected)
+      throw new Error(`Test must declare its plain action: ${url}`);
+    const [name, action] = selected;
+    return yield* request(
+      buildPlainActionRequestIntent(
+        name,
+        action as Parameters<typeof buildPlainActionRequestIntent>[1],
+        url,
+      ),
+    );
   });
 
 export const plainRequest = (options: ModuleCallConfig) => (url: string) =>
@@ -136,7 +147,18 @@ export const plainRequest = (options: ModuleCallConfig) => (url: string) =>
     options,
   );
 
-export const moduleRuntime = (ttlMs: number | null = 120_000) => {
+export const moduleRuntime = (
+  ttlMs: number | null = 120_000,
+  actions: ModuleActions = {
+    request: {
+      profile: 'api',
+      target: '/api/search/get',
+      semantic: 'read',
+      cache: 'shared',
+      retry: 'read',
+    },
+  },
+) => {
   // shape 值直接持有（服务集无 scope 资源），供 runCall 与快照读取共用。
   const scoped = buildCallServices(
     { cache: ttlMs === null ? { enabled: false } : { ttlMs } },
@@ -159,6 +181,7 @@ export const moduleRuntime = (ttlMs: number | null = 120_000) => {
         services,
         {
           identifier,
+          actions,
           route: '/' + identifier,
           decodeInput: decodeLegacyModuleInput,
           execute,
@@ -167,3 +190,62 @@ export const moduleRuntime = (ttlMs: number | null = 120_000) => {
     },
   };
 };
+
+// 显式测试合同只服务探针，不借真实业务模块的配置覆盖协议或策略。
+export const probeReadActions = {
+  example: {
+    profile: 'api',
+    target: '/api/example',
+    semantic: 'read',
+    cache: 'shared',
+    retry: 'read',
+  },
+  read: {
+    profile: 'api',
+    target: '/api/search/get',
+    semantic: 'read',
+    cache: 'shared',
+    retry: 'read',
+  },
+  test: {
+    profile: 'api',
+    target: '/api/test',
+    semantic: 'read',
+    cache: 'shared',
+    retry: 'read',
+  },
+} as const satisfies ModuleActions;
+export const probeWriteActions = {
+  like: {
+    profile: 'api',
+    target: '/api/like',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  radio: {
+    profile: 'web',
+    target: '/api/radio/like',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+export const probeUploadActions = {
+  token: {
+    profile: 'api',
+    target: '/api/nos/token/alloc',
+    semantic: 'upload',
+    cache: 'none',
+    retry: 'never',
+  },
+  part: {
+    profile: 'plainVoice',
+    target: '/test',
+    semantic: 'upload',
+    cache: 'none',
+    retry: 'never',
+    method: 'PUT',
+    response: 'bytes',
+  },
+} as const satisfies ModuleActions;

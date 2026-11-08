@@ -105,16 +105,6 @@ for (const entry of baseline.cases) {
         async (scenario) => {
           const config = {
             cookie: `${cookie}; os=android; appver=conflict; channel=conflict; osver=conflict; OS=iphone; APPVER=conflict; CHANNEL=conflict; OSVER=conflict`,
-            crypto: 'linuxapi' as const,
-            domain: 'https://external.example',
-            ua: 'conflict',
-            e_r: true,
-            acceptGzip: true,
-            headers: {
-              'User-Agent': 'conflict',
-              Referer: 'https://external.example',
-              'x-aeapi': 'true',
-            },
           };
           const client = createClientFromContext(
             config,

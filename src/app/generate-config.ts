@@ -4,7 +4,6 @@ import { dirname, resolve } from 'node:path';
 
 import type { InternalExecution } from '../core/call-context.ts';
 import { resolveIdentitySnapshot } from '../core/identity-snapshot.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
 import { runRequestAtEdge } from '../core/request.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { setRuntimeState } from '../core/runtime.ts';
@@ -57,16 +56,20 @@ export const registerAnonymous = async (
 
   const result = toModuleResponse(
     await runRequestAtEdge(
-      buildApiRequestIntent(
-        '/api/register/anonimous',
-        {
+      {
+        target: '/api/register/anonimous',
+        protocol: 'weapi',
+        method: 'POST',
+        headers: {},
+        response: 'json',
+        semantic: 'login',
+        body: JSON.stringify({
           username: Buffer.from(
             `${deviceId} ${encodeAnonymousDeviceId(deviceId)}`,
             'utf8',
           ).toString('base64'),
-        },
-        { crypto: 'weapi' },
-      ),
+        }),
+      },
       {
         crypto: 'weapi',
         fetcher: options.fetcher,

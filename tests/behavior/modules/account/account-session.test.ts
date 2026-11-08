@@ -238,7 +238,7 @@ test('account anonymous initialization updates only anonymous runtime state and 
       ],
       async (scenario) => {
         const result = await createHanaMusicApi({
-          deviceId: 'anonymous-device',
+          state: { deviceId: 'anonymous-device' },
           fetcher: scenario.fetcher,
           checkToken: async () => {
             providers++;

@@ -26,7 +26,14 @@ import type {
 import { testEntropy } from '../../_kit/harness/sdk.ts';
 import { runEffect } from '../../_kit/it.ts';
 import { clientLayer } from '../../_kit/layers.ts';
-import { mockRequest, moduleResponse, testRequest } from '../../_kit/module.ts';
+import {
+  mockRequest,
+  moduleResponse,
+  probeReadActions,
+  probeUploadActions,
+  probeWriteActions,
+  testRequest,
+} from '../../_kit/module.ts';
 import { readWebBody } from '../../_kit/upstream/wire.ts';
 import {
   initXml,
@@ -256,6 +263,7 @@ describe('custom Effect upload request budgets', () => {
             },
             clientLayer(),
             {
+              actions: probeWriteActions,
               identifier: 'like',
               route: '/like',
               decodeInput: decodeLegacyModuleInput,
@@ -325,9 +333,9 @@ describe('call lifecycle', () => {
     });
   });
 
-  test('the client web QR method consumes a mixed-case Cookie header identity', async () => {
+  test('the client web QR method consumes its cookie config identity', async () => {
     const client = createHanaMusicApi({
-      headers: { cOoKiE: 'MUSIC_U=qr-user; sDeviceId=client-device' },
+      cookie: 'MUSIC_U=qr-user; sDeviceId=client-device',
     });
     const response = await client.loginQrCreate({
       key: 'client-key',
@@ -342,18 +350,19 @@ describe('call lifecycle', () => {
     });
   });
 
-  test('external header changes cannot affect an already started call', async () => {
-    const headers = { 'X-Call-Snapshot': 'original' };
+  test('external state changes cannot affect an already started call', async () => {
+    const state = { deviceId: 'original' };
     // inner_version 已带收窄 Body；这里改用无 Body 的模块标识占位，fake execute 才能返回任意正文。
     const invoke = createModuleInvoker(
       'captcha_verify',
       {
+        actions: probeWriteActions,
         identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
           Effect.gen(function* () {
-            headers['X-Call-Snapshot'] = 'changed';
+            state.deviceId = 'changed';
             return yield* testRequest(
               request,
               '/api/like',
@@ -364,16 +373,18 @@ describe('call lifecycle', () => {
       },
       {
         cookie: 'MUSIC_U=header-snapshot',
-        headers,
+        state,
         fetcher: async (_url, init) =>
           Response.json({
             code: 200,
-            header: new Headers(init?.headers).get('X-Call-Snapshot'),
+            header: decodeURIComponent(
+              new Headers(init?.headers).get('cookie') ?? '',
+            ),
           }),
       },
     );
     expect((await invoke({ id: 1 })).body).toMatchObject({
-      header: 'original',
+      header: expect.stringContaining('deviceId=original'),
     });
   });
 
@@ -391,6 +402,7 @@ describe('call lifecycle', () => {
       const invoke = createModuleInvoker(
         'search',
         {
+          actions: probeReadActions,
           identifier: 'search',
           route: '/test',
           decodeInput: decodeSearchInput,
@@ -449,6 +461,8 @@ describe('call lifecycle', () => {
               },
               clientLayer(),
               {
+                actions:
+                  identifier === 'voice_upload' ? probeUploadActions : {},
                 identifier: 'test',
                 route: '/test',
                 decodeInput: decodeLegacyModuleInput,
@@ -495,6 +509,7 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'search',
       {
+        actions: {},
         identifier: 'search',
         route: '/test',
         decodeInput: decodeSearchInput,
@@ -508,7 +523,6 @@ describe('call lifecycle', () => {
       {
         cookie: 'MUSIC_U=private',
         timeoutMs: 100,
-        headers: { 'X-Test': 'value' },
       },
     );
     expect((await invoke({ keywords: 'business' })).body).toEqual({
@@ -523,6 +537,7 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'captcha_verify',
       {
+        actions: probeWriteActions,
         identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
@@ -554,6 +569,7 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'captcha_verify',
       {
+        actions: probeWriteActions,
         identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
@@ -564,7 +580,7 @@ describe('call lifecycle', () => {
       },
       {
         cookie: 'MUSIC_U=explicit-user',
-        headers: { cOoKiE: 'MUSIC_U=header-user' },
+
         identityPool: { size: 1 },
         fetcher: async (_url, init) => {
           sentCookie = new Headers(init?.headers).get('cookie') ?? '';
@@ -582,6 +598,7 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'captcha_verify',
       {
+        actions: {},
         identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
@@ -601,6 +618,7 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'captcha_verify',
       {
+        actions: {},
         identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
@@ -621,6 +639,7 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'search',
       {
+        actions: probeReadActions,
         identifier: 'search',
         route: '/test',
         decodeInput: decodeSearchInput,
@@ -663,6 +682,7 @@ describe('call lifecycle', () => {
       const invoke = createModuleInvoker(
         'captcha_verify',
         {
+          actions: probeWriteActions,
           identifier: 'captcha_verify',
           route: '/test',
           decodeInput: decodeLegacyModuleInput,
@@ -704,6 +724,7 @@ describe('call lifecycle', () => {
         },
         clientLayer(),
         {
+          actions: probeUploadActions,
           identifier: 'test',
           route: '/test',
           decodeInput: decodeLegacyModuleInput,
@@ -734,7 +755,6 @@ describe('call lifecycle', () => {
           identifier: 'register_anonimous',
           input: {},
           config: {
-            crypto: 'api',
             state: { deviceId: 'call-device-123' },
             fetcher: async (url, init) => {
               if (typeof init?.body !== 'string') {

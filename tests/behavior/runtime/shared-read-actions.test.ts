@@ -20,7 +20,7 @@ import { readEapiBody, readWebBody } from '../../_kit/upstream/wire.ts';
 const declaredRead: ModuleEffect<ModuleQuery> = (_input, request) =>
   Effect.gen(function* () {
     const call = yield* Call;
-    const action = call.actions!.read!;
+    const action = call.actions.read!;
     const response = yield* request(
       buildActionRequestIntent('read', action, {}),
     );
@@ -52,11 +52,6 @@ test('declared search profile owns the final request despite conflicting config'
       const client = createHanaMusicApi({
         cookie: 'MUSIC_U=reader; os=android',
         fetcher: scenario.fetcher,
-        crypto: 'weapi',
-        domain: 'https://music.163.com',
-        ua: 'conflicting-agent',
-        e_r: true,
-        acceptGzip: true,
       });
       expect((await client.search({ keywords: 'same' })).status).toBe(200);
       expect(scenario.entries).toHaveLength(1);

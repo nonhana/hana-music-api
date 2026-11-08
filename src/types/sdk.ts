@@ -6,8 +6,18 @@ import type {
 import type { CreateRequestOptions } from './request.ts';
 import type { ModuleDefinition, ModuleEffect } from './runtime.ts';
 
-export interface ModuleCallConfig extends CreateRequestOptions {
-  readonly deviceId?: string;
+export interface ModuleCallConfig {
+  readonly connectionStrategy?: CreateRequestOptions['connectionStrategy'];
+  readonly cookie?: CreateRequestOptions['cookie'];
+  readonly fetcher?: CreateRequestOptions['fetcher'];
+  readonly ip?: string;
+  readonly onRequestEvent?: CreateRequestOptions['onRequestEvent'];
+  readonly proxy?: string;
+  readonly realIP?: string;
+  readonly retry?: CreateRequestOptions['retry'];
+  readonly signal?: AbortSignal;
+  readonly state?: CreateRequestOptions['state'];
+  readonly timeoutMs?: number;
   // 调用者选择是否提供；provider 在每次 API 请求准备时取值，SDK 不缓存或重放。
   readonly checkToken?: string | (() => Promise<string>);
 }
@@ -26,8 +36,20 @@ export interface CreateHanaMusicApiConfig extends ModuleCallConfig {
   readonly identityPool?: IdentityPoolConfig;
 }
 
-type DisallowExecutionKeys = {
-  [K in keyof ModuleCallConfig]?: never;
+export type DisallowExecutionKeys = {
+  [
+    K in
+      | keyof ModuleCallConfig
+      | 'cache'
+      | 'identityPool'
+      | 'crypto'
+      | 'ua'
+      | 'domain'
+      | 'e_r'
+      | 'acceptGzip'
+      | 'headers'
+      | 'deviceId'
+  ]?: never;
 };
 
 type RequiredKeys<T> = {

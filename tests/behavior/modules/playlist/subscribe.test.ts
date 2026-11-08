@@ -67,8 +67,6 @@ test.each([
   async ({ t, path }) => {
     const { client, sent } = createClient({
       cookie: 'MUSIC_U=listener; os=pc; appver=3.1.17.204416',
-      ua: 'Mozilla/5.0 (Windows NT 10.0) NeteaseMusicDesktop/3.1.29.205117',
-      crypto: 'eapi',
     });
 
     await client.playlistSubscribe({ id: 2889745179, t });
@@ -194,17 +192,7 @@ test('playlistSubscribe sends a complete web identity and the same token in its 
     const { client, sent } = createClient({
       cookie:
         'MUSIC_U=listener; __csrf=csrf; os=pc; appver=desktop; osver=desktop-os; channel=desktop-channel; clientSign=desktop-sign; OS=iphone; APPVER=mobile; OsVer=mobile; Channel=mobile; ClientSign=mobile; buildver=1; mobilename=phone; versioncode=2; resolution=small; brand=mobile; mode=phone',
-      crypto: 'eapi',
-      domain: 'https://interface.music.163.com',
-      ua: 'desktop-user-agent',
-      e_r: true,
-      headers: {
-        'uSeR-aGeNt': 'mixed-agent',
-        referer: 'https://other.example',
-        'x-antiCheatToken': 'stale-token',
-        cOoKiE: 'MUSIC_U=other-listener; os=iphone',
-        'x-aeapi': 'true',
-      },
+
       checkToken: async () => 'fresh-token',
     });
     await client.playlistSubscribe({ id: 17, t: 1 });
@@ -378,8 +366,7 @@ test.each([
       { id: 1, t: 0 },
       {
         cookie: 'MUSIC_U=own-account; os=iphone',
-        domain: 'https://interface.music.163.com',
-        crypto: 'eapi',
+
         fetcher: async (input, init) => {
           sent.push({
             url: input instanceof Request ? input.url : input.toString(),

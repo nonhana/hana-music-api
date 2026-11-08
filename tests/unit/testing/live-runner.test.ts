@@ -153,7 +153,7 @@ test('loginStatus.data identity mismatch fails and prevents subsequent business 
     async ({ fetcher, sent }) => {
       const session = createLiveSession(
         await readLiveOptions(credentials),
-        (config) => createControlClient({ ...config, fetcher, crypto: 'api' }),
+        (config) => createControlClient({ ...config, fetcher }),
       );
       await assert.rejects(session.account(), /live failed/);
       await assert.rejects(session.catalog(), /stopped/);
@@ -196,8 +196,7 @@ test('anonymous budget counts initialization, is shared across files and blocks 
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           await readLiveOptions({ LIVE_UPSTREAM: '1' }),
-          (config) =>
-            createControlClient({ ...config, fetcher, crypto: 'api' }),
+          (config) => createControlClient({ ...config, fetcher }),
         );
         for (let repeat = 0; repeat < 5; repeat++) await session.catalog();
         await assert.rejects(session.catalog(), /live failed/);
@@ -252,7 +251,7 @@ test('anonymous search, detail and lyric use the derived ID and catalog uses the
           createControlClient({
             ...config,
             cookie: 'MUSIC_A=control',
-            crypto: 'api',
+
             fetcher,
           }),
       );
@@ -292,8 +291,7 @@ test('write cycle sends each write once, forwards the fresh token only on subscr
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {
             pauses.push(1);
           },
@@ -317,8 +315,7 @@ test('incomplete initial pagination stops after five pages and sends no write', 
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);
@@ -342,8 +339,7 @@ test('failed confirmation stops business after two reads and uses reserved one-c
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);
@@ -374,8 +370,7 @@ test('ambiguous subscribe failure performs authorized cleanup and unconfirmed re
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);
@@ -402,8 +397,7 @@ test('failed cancel is never repeated and cleanup remains within its six-request
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);
@@ -490,8 +484,7 @@ test('writes refuse an owned or already collected target before any write', asyn
         async ({ fetcher, sent }) => {
           const session = createLiveSession(
             options,
-            (config) =>
-              createControlClient({ ...config, crypto: 'api', fetcher }),
+            (config) => createControlClient({ ...config, fetcher }),
             async () => {},
           );
           await assert.rejects(session.playlistCycle(), /live failed/);
@@ -511,8 +504,7 @@ test('write business budget stops at thirty attempts without consuming the resto
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         for (let repeat = 0; repeat < 30; repeat++) await session.account();
@@ -539,8 +531,7 @@ test('ambiguous write cleanup uses at most one cancel and five confirmation page
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);
@@ -566,8 +557,7 @@ test('unknown creator identity stops before any collection read or write', async
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);

@@ -18,13 +18,13 @@
 
 公开入口先解码业务输入并建立不可变 `Call`，冻结配置、Cookie、身份指纹和总期限。模块将输入编译为 `RequestIntent`，再通过 `RequestCapability` 进入唯一的 `RequestEffect`；目标检查、协议准备、重试、期限、transport、完整正文消费和响应解释都在这条链路中完成。
 
-已迁移模块导出本地 `moduleActions`，逐动作声明 profile、目标或动态路径边界、语义、缓存和重试资格。生成的 SDK registry 和 HTTP loader 读取同一份声明，`runCall` 校验后将其冻结到 `Call.actions`；请求层只执行本模块声明过的动作，并核对规范化路径与最终 URL。profile 决定协议、域名、UA、身份 Cookie 字段和协议选项，token 由协议准备统一编码，会话仍来自本次 Call。操作声明优先于旧模块名缓存白名单，写动作不共享、不缓存、不重放。
+所有模块必须导出本地 `moduleActions`，逐动作声明 profile、目标或动态路径边界、语义、缓存和重试资格。生成的 SDK registry 和 HTTP loader 读取同一份声明，`runCall` 校验后将其冻结到 `Call.actions`；请求层只执行本模块声明过的动作，并核对规范化路径与最终 URL。profile 决定协议、域名、UA、身份 Cookie 字段和协议选项，token 由协议准备统一编码，会话仍来自本次 Call。操作声明是缓存和重试的唯一依据，写动作不共享、不缓存、不重放。
 
 当前已迁移352个模块：playlist_subscribe、album_sub、artist_sub、四个共享读取 search、lyric、song_detail、playlist_detail，以及 #110 的77个曲库与播放模块、#111 的55个搜索与发现模块、#112 的83个账号与社交模块、#113 的67个播客、视频与音频模块、#114 的50个会员、云贝、音乐人与其他业务模块，以及 #115 的13个特殊链路模块。三类收藏/取消使用 web；歌曲详情使用 web，其余三个读取保留 eapi。所有 SDK 模块统一接受可选 checkToken，不按模块或动作分类。带 token 调用绕过 ReadStore，禁自动重试；provider 每个 API 请求独立取值，固定字符串在一次模块调用中只允许一次 API 请求，后续需求明确失败；纯本地/外部上传不取值。未配置 token 时保留声明的 shared cache/read retry 和独立等待者合同。
 
 #110 的38个 weapi 动作模块采用 weapiPc，保留浏览器 UA 与 PC Cookie 的既有组合；39个 eapi 模块复用 eapi。全部声明 cache=none，按原上限分别使用 never/connect/read，不扩共享读取。导入四分支、红心/取消、sky 音质及动态路径都在本地动作合同中表达；local 导入和 batch 更新各发一次请求。完整基线与证据选择见 [issue-110](../docs/acceptance/issue-110.md)。
 
-`generatedPendingActionModuleIdentifiers` 现在为空；本地模块也有空动作声明。P12 删除可选声明、旧默认协议和旧策略路径；本票不提前移除全部公开配置。决策与证据边界见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
+#116 已删除可选声明、pending清单、模块默认协议选择、URI语义正则和模块名缓存/上传名单。所有352模块（389动作）都必须声明动作；本地模块声明空集。HTTP准入和上传期限也读取动作语义。显式低层原始请求以 rawOptions 标记进入同一内核，保留默认协议/目标和凭据外送校验，不取得模块缓存或重放资格。见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
 
 Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `createRequest` 仍返回 Promise；内部组合和 transport 不自行调用 `Effect.runPromise`。公开边界统一由 `src/core/runtime.ts` 负责执行和错误映射。
 
@@ -64,8 +64,8 @@ Hono 只属于 `src/server/`。`src/core/` 必须能够脱离 Hono 测试；模�
 
 #115 将最后13模块迁移为30个动作，352模块均有声明。inner_version、login_qr_create使用空动作集。上传阶段与plain GET也沿原RequestCapability执行，动作固定方法、响应模式及规范目标；plainNos只接受原允许域名后缀和云盘桶目录，其他plain profile固定域名。目标检查继续核对最终URL，不新增执行器。
 
-图片分配复用三个真实模块消费者的同一动作；声音与云盘保留API/plain混合阶段、数据依赖、总期限及部分完成。scrobble使用独立clientlogOsx组合，保留两条日志的顺序和原内容。playlist_tracks的512条件分支仍是业务第二请求。全部cache=none，写和上传never；cloud_import的读取保持原never，两段歌单读取保留原read上限，固定歌曲上传地址查询只connect，audio_match/related_playlist因动态query影响旧URI判定而收紧为never。P12继续负责删除已无消费者的旧控制面。[验收来源](../docs/acceptance/issue-115.md)与历史回放分别记录。
+图片分配复用三个真实模块消费者的同一动作；声音与云盘保留API/plain混合阶段、数据依赖、总期限及部分完成。scrobble使用独立clientlogOsx组合，保留两条日志的顺序和原内容。playlist_tracks的512条件分支仍是业务第二请求。全部cache=none，写和上传never；cloud_import的读取保持原never，两段歌单读取保留原read上限，固定歌曲上传地址查询只connect，audio_match/related_playlist因动态query影响旧URI判定而收紧为never。旧控制面已由#116删除。[验收来源](../docs/acceptance/issue-115.md)与历史回放分别记录。
 
 ## #122 当前身份规则
 
-前述P2及P6–P11的身份组合描述是各票历史基线。#122保留协议与动作合同，151个eapi动作改用已有iPhone四项，220个weapiPc浏览器动作改用web，7个web保持，clientlog的两条日志对齐macOS UA；9个plain动作保持。Call在默认状态合并前优先选择显式有效设备，再取Cookie和运行时兜底，prepareRequest纯投影所有受控字段；不存在旧混合profile。完整[字段来源与389动作清单](../docs/acceptance/issue-122-actions.md)保留历史到当前的映射，P12删除通用旧控制面继续归#116。
+前述P2及P6–P11的身份组合描述是各票历史基线。#122保留协议与动作合同，151个eapi动作改用已有iPhone四项，220个weapiPc浏览器动作改用web，7个web保持，clientlog的两条日志对齐macOS UA；9个plain动作保持。Call在默认状态合并前优先选择显式有效设备，再取Cookie和运行时兜底，prepareRequest纯投影所有受控字段；不存在旧混合profile。完整[字段来源与389动作清单](../docs/acceptance/issue-122-actions.md)保留历史到当前的映射，通用旧控制面已由#116删除。

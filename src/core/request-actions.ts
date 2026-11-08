@@ -105,11 +105,12 @@ export const validateModuleActions = (value: unknown): ModuleActions => {
         : isRecord(action.target) &&
           typeof action.target.prefix === 'string' &&
           action.target.prefix.startsWith('/')) ||
-      !['read', 'write', 'login', 'upload', 'poll'].includes(
-        String(action.semantic),
-      ) ||
-      !['none', 'shared'].includes(String(action.cache)) ||
-      !['never', 'connect', 'read'].includes(String(action.retry)) ||
+      typeof action.semantic !== 'string' ||
+      !['read', 'write', 'login', 'upload', 'poll'].includes(action.semantic) ||
+      typeof action.cache !== 'string' ||
+      !['none', 'shared'].includes(action.cache) ||
+      typeof action.retry !== 'string' ||
+      !['never', 'connect', 'read'].includes(action.retry) ||
       (action.semantic !== 'read' &&
         (action.cache !== 'none' || action.retry !== 'never'))
     ) {
@@ -129,6 +130,15 @@ export const validateModuleActions = (value: unknown): ModuleActions => {
     ) {
       throw InvalidRequest.make({
         message: 'Plain actions require method and response mode',
+      });
+    }
+    if (
+      profile.protocol !== 'plain' &&
+      ((action.method !== undefined && action.method !== 'POST') ||
+        (action.response !== undefined && action.response !== 'json'))
+    ) {
+      throw InvalidRequest.make({
+        message: 'API actions require POST and JSON response mode',
       });
     }
     const normalized = normalizeActionTarget(boundary, profile);

@@ -6,7 +6,7 @@
 
 `src/modules/` 中的每个端点必须在本地声明并导出 `ModuleInput`，导出 `decodeModuleInput`，并将默认导出显式标注为 `ModuleEffect<ModuleInput>`。模块通过传入的 `RequestCapability` 发请求，不直接使用 `fetch`。
 
-接入请求动作合同的模块在本地导出 `moduleActions`，每个动作指定 profile、target（固定路径或 prefix 边界）、semantic、cache 和 retry，checkToken 不属于动作声明，由所有 SDK 模块统一接受可选配置，再用 `buildActionRequestIntent` 选择动作并提供业务数据。模块不得改写 Call 身份或自行放置 token；纯本地模块声明空动作集，多请求模块分别声明动作；plain动作还声明实际method/response，目标由profile域名与规范路径限制，动态NOS同时限制允许后缀和桶目录。未迁移清单由 `generatedPendingActionModuleIdentifiers` 生成，删除过渡处理的条件见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
+每个模块必须在本地导出 `moduleActions`，每个动作指定 profile、target（固定路径或 prefix 边界）、semantic、cache 和 retry，checkToken 不属于动作声明，由所有 SDK 模块统一接受可选配置，再用 `buildActionRequestIntent` 选择动作并提供业务数据。模块不得改写 Call 身份或自行放置 token；纯本地模块声明空动作集，多请求模块分别声明动作；plain动作还声明实际method/response，目标由profile域名与规范路径限制，动态NOS同时限制允许后缀和桶目录。生成器、SDK/HTTP装配和动态loader都校验声明，缺失或非法立即拒绝；不再保留pending清单或缺声明fallback，见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
 
 输入先经过 `src/core/module-input.ts` 的普通对象校验，再进入模块自己的 Schema。需要精确字段的模块声明本地字段、可选性和字面量；证据不足的旧式输入使用受控的 legacy 对象，不伪造完整接口模型。模块生成器会检查这三个导出合同，动态 loader 也会拒绝缺少 decoder 或不是 Effect 函数的模块。
 

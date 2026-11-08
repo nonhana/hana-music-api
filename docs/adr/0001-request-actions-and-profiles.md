@@ -93,3 +93,9 @@ prepareRequest仍是纯函数，时间、请求编号和随机熵从外层传入
 旧混合profile及产品引用为零，全部352模块仍声明389动作。低层显式原始选项保留；其无原始覆盖时的eapi/api、weapi和linuxapi默认分别自洽。#116继续删除通用旧控制面，本票不提前删除公开类型。历史录制不改标，真实网易云可用性和有限下游取址仍在父票后续阶段验收。
 
 低层部分Cookie只指定已知os时，未指定的UA/平台默认值也按该os选择：pc复用原Windows 10/App 3.1.17.204416四项，android复用原Android 14/App 9.1.65.240927161425四项，UA由原Chrome/Edge 124浏览器格式投影相应OS（Android为Mobile Safari，不带Edge）；linux、iphone、web、osx分别复用前述组合。不是新官方UA抓包。未知os保留原始字段且不猜UA或版本；显式ua和版本仍保持。调用方已有有效设备时绕过身份池，注册和业务请求均使用该设备，池只作无调用方设备时的匿名兜底，不新增每听众池状态。
+
+## #116：删除过渡控制面
+
+以上各批次描述保留当时的来源。当前普通模块必需显式动作声明，缺失或非法在生成、动态发现、SDK/HTTP装配时拒绝；本地模块保留空动作集。pending列表、模块默认协议桥接、URI语义正则及identifier缓存/上传名单已经删除。读缓存、重试和上传期限只有动作声明这一个来源。
+
+ModuleCallConfig独立列出会话与执行字段，删除crypto/ua/domain/e_r/acceptGzip/headers和顶层deviceId。运行时也拒绝这些旧键及未知键，设备改用state.deviceId；不保留别名或静默忽略。内部动态程序入口同步query/config分离。显式低层createRequest/createOption继续保留原始协议与请求头能力，默认eapi及各协议原目标/身份由既有registry提供；api/linuxapi的低层默认身份也有明确条目，内置389动作映射不变。原始请求不猜URI语义，不自动重放。endpoint-policy保留最终目标、HTTPS与凭据外送检查。响应Schema和原录制不变，以major交付。

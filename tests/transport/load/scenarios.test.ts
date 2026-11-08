@@ -42,7 +42,7 @@ test('a local multipart upload stops after the first cancelled part', async () =
       signal: controller.signal,
       config: {
         cookie: 'MUSIC_U=local-upload',
-        crypto: 'api',
+
         fetcher: async (url, init) => {
           const response = await fake.fetcher(url, init);
           const address =

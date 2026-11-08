@@ -9,10 +9,8 @@ import { sdkModuleRegistry } from '../../../src/sdk/generated/registry.generated
 import { discoverModuleFiles } from '../../../src/server/module-discovery.ts';
 import { loadModuleDefinitions } from '../../../src/server/module-loader.ts';
 import {
-  generatedActionModuleIdentifiers,
   generatedModuleIdentifiers,
   generatedModuleRoutes,
-  generatedPendingActionModuleIdentifiers,
 } from '../../../src/types/generated/module-surface.generated.ts';
 import accountSocial from '../../fixtures/requests/account-social.json';
 import libraryPlayback from '../../fixtures/requests/library-playback.json';
@@ -27,7 +25,7 @@ const REAL_MODULES_DIRECTORY = resolve(
 );
 
 describe('generated module type surface', () => {
-  test('tracks declared and pending actions consistently across SDK and HTTP discovery', async () => {
+  test('requires declared actions consistently across SDK and HTTP discovery', async () => {
     const loaded = await loadModuleDefinitions(REAL_MODULES_DIRECTORY);
     const declared = loaded
       .filter((definition) => definition.actions !== undefined)
@@ -60,8 +58,8 @@ describe('generated module type surface', () => {
       const definition = loaded.find(
         (candidate) => candidate.identifier === entry.module,
       )!;
-      expect(Object.keys(definition.actions!)).not.toHaveLength(0);
-      for (const action of Object.values(definition.actions!)) {
+      expect(Object.keys(definition.actions)).not.toHaveLength(0);
+      for (const action of Object.values(definition.actions)) {
         expect(action).toMatchObject({
           profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
           semantic: entry.semantic,
@@ -75,7 +73,7 @@ describe('generated module type surface', () => {
         (candidate) => candidate.identifier === entry.module,
       )!;
       const action =
-        definition.actions![
+        definition.actions[
           entry.module === 'search_suggest'
             ? entry.query.type === 'mobile'
               ? 'mobile'
@@ -99,8 +97,7 @@ describe('generated module type surface', () => {
       loaded
         .filter((definition) => accountModules.has(definition.identifier))
         .reduce(
-          (count, definition) =>
-            count + Object.keys(definition.actions!).length,
+          (count, definition) => count + Object.keys(definition.actions).length,
           0,
         ),
     ).toBe(89);
@@ -129,7 +126,7 @@ describe('generated module type surface', () => {
                 : entry.module === 'login'
                   ? 'password'
                   : 'request';
-      const action = definition.actions![actionName]!;
+      const action = definition.actions[actionName]!;
       expect(action).toMatchObject({
         profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
         semantic: entry.semantic,
@@ -149,8 +146,7 @@ describe('generated module type surface', () => {
       loaded
         .filter((definition) => contentModules.has(definition.identifier))
         .reduce(
-          (count, definition) =>
-            count + Object.keys(definition.actions!).length,
+          (count, definition) => count + Object.keys(definition.actions).length,
           0,
         ),
     ).toBe(71);
@@ -160,8 +156,8 @@ describe('generated module type surface', () => {
       const definition = loaded.find(
         (candidate) => candidate.identifier === entry.module,
       )!;
-      expect(Object.keys(definition.actions!)).not.toHaveLength(0);
-      for (const action of Object.values(definition.actions!))
+      expect(Object.keys(definition.actions)).not.toHaveLength(0);
+      for (const action of Object.values(definition.actions))
         expect(action).toMatchObject({
           profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
           semantic: entry.semantic,
@@ -176,8 +172,7 @@ describe('generated module type surface', () => {
       loaded
         .filter((definition) => membershipModules.has(definition.identifier))
         .reduce(
-          (count, definition) =>
-            count + Object.keys(definition.actions!).length,
+          (count, definition) => count + Object.keys(definition.actions).length,
           0,
         ),
     ).toBe(50);
@@ -187,8 +182,8 @@ describe('generated module type surface', () => {
       const definition = loaded.find(
         (candidate) => candidate.identifier === entry.module,
       )!;
-      expect(Object.keys(definition.actions!)).not.toHaveLength(0);
-      for (const action of Object.values(definition.actions!))
+      expect(Object.keys(definition.actions)).not.toHaveLength(0);
+      for (const action of Object.values(definition.actions))
         expect(action).toMatchObject({
           profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
           semantic: entry.semantic,
@@ -197,10 +192,7 @@ describe('generated module type surface', () => {
         });
     }
     expect(declared).toHaveLength(352);
-    expect(declared).toEqual([...generatedActionModuleIdentifiers].toSorted());
-    expect(generatedPendingActionModuleIdentifiers).toHaveLength(0);
-    for (const identifier of declared)
-      expect(generatedPendingActionModuleIdentifiers).not.toContain(identifier);
+    expect(declared).toEqual([...generatedModuleIdentifiers].toSorted());
     for (const definition of loaded.filter(
       (entry) => entry.actions !== undefined,
     ))
@@ -275,7 +267,7 @@ describe('generated module type surface', () => {
       );
       await writeFile(
         resolve(directory, 'voice_upload.ts'),
-        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); const upload: ModuleEffect<ModuleInput> = () => Effect.succeed({}); export default upload',
+        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); export const moduleActions = {}; const upload: ModuleEffect<ModuleInput> = () => Effect.succeed({}); export default upload',
       );
       await writeFile(
         resolve(directory, 'voice_upload/multipart_xml.ts'),
@@ -283,7 +275,7 @@ describe('generated module type surface', () => {
       );
       await writeFile(
         resolve(directory, 'nested/endpoint.ts'),
-        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); const endpoint: ModuleEffect<ModuleInput> = () => Effect.succeed({}); export default endpoint',
+        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); export const moduleActions = {}; const endpoint: ModuleEffect<ModuleInput> = () => Effect.succeed({}); export default endpoint',
       );
       const modules = await discoverModuleFiles(directory);
       expect(modules.map((entry) => entry.identifier).toSorted()).toEqual([
@@ -367,6 +359,7 @@ describe('generated module type surface', () => {
         export type ModuleInput = { id: string }
         export type ModuleBody = { title: string }
         export const decodeModuleInput = (input: unknown) => Effect.succeed(input)
+        export const moduleActions = {}
         const sample: ModuleEffect<ModuleInput, ModuleBody> = () => Effect.succeed({})
         export default sample
       `,
@@ -439,15 +432,22 @@ describe('generated module type surface', () => {
           `
         export type ModuleInput = { id: string }
         ${declaration}
+        export const moduleActions = {}
         const decoded: ModuleEffect<ModuleInput> = () => Effect.succeed({})
         export default decoded
       `,
+        );
+        await mkdir(resolve(directory, 'plain'));
+        await writeFile(
+          resolve(directory, 'plain/_input.ts'),
+          'export const decodeLegacyModuleInput = (input) => input',
         );
         await writeFile(
           resolve(directory, 'plain.ts'),
           `
         export type ModuleInput = LegacyModuleInput
-        export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts'
+        export { decodeLegacyModuleInput as decodeModuleInput } from './plain/_input.ts'
+        export const moduleActions = {}
         const plain: ModuleEffect<ModuleInput> = () => Effect.succeed({})
         export default plain
       `,
@@ -464,7 +464,7 @@ describe('generated module type surface', () => {
           'decodeModuleInput as plainInputDecoder',
         );
         expect(registry.contents).toContain(
-          "plain: { identifier: 'plain', route: '/plain', execute: plainModule, decodeInput: plainInputDecoder }",
+          "plain: { identifier: 'plain', route: '/plain', execute: plainModule, decodeInput: plainInputDecoder, actions: plainActions }",
         );
         expect(await buildGeneratedArtifacts(directory)).toEqual(artifacts);
       } finally {

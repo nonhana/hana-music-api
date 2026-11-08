@@ -770,7 +770,9 @@ const main = async () => {
     await runCall(
       {
         identifier: options.moduleName,
-        input: options.query,
+        input: Object.fromEntries(
+          Object.entries(options.query).filter(([key]) => key !== 'cookie'),
+        ),
         config: {
           ...withCookie,
           ...(anonymousToken === undefined

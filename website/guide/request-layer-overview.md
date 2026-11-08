@@ -63,7 +63,7 @@ flowchart TD
 
 模块通过传入的 `RequestCapability` 提交它。这个名字表示模块拥有的请求能力，其默认实现就是 `requestEffect`。模块不直接调用 `fetch`，也不在内部启动另一套 Promise 执行器。
 
-曲库与播放的77个模块也会声明动作，由内核统一准备身份。它们保留原来的协议；身份统一后，weapi 浏览器请求使用干净 web Cookie，EAPI 使用配套 iPhone 字段，不再混合 Windows 与 iPhone 身份。普通配置里的 crypto、domain、ua、e_r、acceptGzip 及受控身份 Cookie 不再覆盖这些声明，会话和设备仍按本次调用传递。需要直接控制底层协议时使用 [createRequest](/guide/create-request-and-create-option)。这些模块继续独立执行，不会新增共享读取或自动重试。
+曲库与播放的77个模块也已声明动作，由内核统一准备身份。它们保留原来的协议；身份统一后，weapi 浏览器请求使用干净 web Cookie，EAPI 使用配套 iPhone 字段，不再混合 Windows 与 iPhone 身份。普通配置里的 crypto、domain、ua、e_r、acceptGzip 及受控身份 Cookie 不再覆盖这些声明，会话和设备仍按本次调用传递。需要直接控制底层协议时使用 [createRequest](/guide/create-request-and-create-option)。这些模块继续独立执行，不会新增共享读取或自动重试。
 
 内核根据调用快照准备 URL、Cookie、请求头和加密正文，校验最终目标，再按策略执行请求。内核不在本地限制发送频率，每次尝试都直接发出；请求频率由调用方控制，见 [请求频率由调用方控制](/guide/retry-timeout-resilience#请求频率由调用方控制)。只有允许重试的操作和失败类型才会进入下一次尝试。
 
@@ -176,3 +176,5 @@ HTTP 服务会把 `body` 写成 JSON，把 `status` 用作 HTTP 状态码，并�
 身份统一后，各接口继续使用原来的协议和目标。EAPI请求使用已有iPhone平台字段，原先带PC Cookie的weapi浏览器请求改用干净web身份；clientlog使用自洽的macOS字段。普通模块会清除旧平台字段及其大小写变体，Cookie和加密正文中的设备、版本与平台从同一次快照生成。没有可靠来源的buildver、versioncode、机型和分辨率会省略。
 
 显式低层`createRequest`仍保留原始选项，调用者自行负责显式原始组合。普通模块的可选`checkToken`、取消、总期限和重试规则保持；收到`-460`不会自动换身份或重发。这些离线合同不能保证上游永不拒绝请求。
+
+#116 已删除普通配置的 crypto、domain、ua、e_r、acceptGzip、headers 及顶层 deviceId，旧键会明确拒绝。全部模块必须声明动作，本地模块也必须导出空动作集；生成器与动态 loader 均拒绝缺失或非法声明。缓存、重试和上传期限只读动作合同，原 URI 正则、模块名缓存名单和默认协议桥接已删除。显式低层请求沿同一内核运行并保留目标安全检查，默认 eapi 且不自动重放。

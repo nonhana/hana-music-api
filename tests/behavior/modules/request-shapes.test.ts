@@ -6,6 +6,7 @@ import { invokeModule } from '../../../src/app/module-api.ts';
 import { loadModuleDefinitions } from '../../../src/server/module-loader.ts';
 import type {
   CreateRequestOptions,
+  ModuleCallConfig,
   RequestCapability,
 } from '../../../src/types/index.ts';
 import { mockRequest } from '../../_kit/module.ts';
@@ -60,12 +61,7 @@ describe('phase 5 module regression suite', () => {
         cookie: undefined,
         crypto: 'eapi',
         headers: {},
-        domain: '',
-        e_r: undefined,
-        proxy: undefined,
-        realIP: undefined,
         signal: expect.any(AbortSignal),
-        ua: '',
       }),
       uri: '/api/search/get',
     });
@@ -80,12 +76,7 @@ describe('phase 5 module regression suite', () => {
         cookie: undefined,
         crypto: 'eapi',
         headers: {},
-        domain: '',
-        e_r: undefined,
-        proxy: undefined,
-        realIP: undefined,
         signal: expect.any(AbortSignal),
-        ua: '',
       }),
       uri: '/api/search/voice/get',
     });
@@ -158,12 +149,7 @@ describe('phase 5 module regression suite', () => {
       options: expect.objectContaining({
         cookie: undefined,
         crypto: 'eapi',
-        domain: '',
-        e_r: undefined,
-        proxy: undefined,
-        realIP: undefined,
         signal: expect.any(AbortSignal),
-        ua: '',
       }),
       uri: '/api/song/enhance/player/url',
     });
@@ -177,12 +163,7 @@ describe('phase 5 module regression suite', () => {
         cookie: undefined,
         crypto: 'eapi',
         headers: {},
-        domain: '',
-        e_r: undefined,
-        proxy: undefined,
-        realIP: undefined,
         signal: expect.any(AbortSignal),
-        ua: '',
       }),
       uri: '/api/v6/playlist/detail',
     });
@@ -213,10 +194,9 @@ describe('phase 5 module regression suite', () => {
 
     const response = await invokeRealModule(
       'user_account',
-      {
-        cookie: 'MUSIC_U=phase5-cookie',
-      },
+      {},
       requestSpy.requestHandler,
+      { cookie: 'MUSIC_U=phase5-cookie' },
     );
 
     expect(requestSpy.calls).toEqual([
@@ -227,12 +207,7 @@ describe('phase 5 module regression suite', () => {
             MUSIC_U: 'phase5-cookie',
           },
           crypto: 'weapi',
-          domain: '',
-          e_r: undefined,
-          proxy: undefined,
-          realIP: undefined,
           signal: expect.any(AbortSignal),
-          ua: '',
         }),
         uri: '/api/nuser/account/get',
       },
@@ -284,12 +259,7 @@ describe('phase 5 module regression suite', () => {
         options: expect.objectContaining({
           cookie: undefined,
           crypto: 'weapi',
-          domain: '',
-          e_r: undefined,
-          proxy: undefined,
-          realIP: undefined,
           signal: expect.any(AbortSignal),
-          ua: '',
         }),
         uri: '/api/w/login/cellphone',
       },
@@ -303,12 +273,12 @@ describe('phase 5 module regression suite', () => {
   });
 
   test('should keep login_qr_create local qr generation behavior', async () => {
-    const response = await invokeRealModule('login_qr_create', {
-      cookie: 'sDeviceId=device-phase5',
-      key: 'qr-key',
-      platform: 'web',
-      qrimg: true,
-    });
+    const response = await invokeRealModule(
+      'login_qr_create',
+      { key: 'qr-key', platform: 'web', qrimg: true },
+      undefined,
+      { cookie: 'sDeviceId=device-phase5' },
+    );
 
     const bodyData = readRecordProperty(response.body, 'data');
     const qrurl = readStringProperty(bodyData, 'qrurl');
@@ -352,12 +322,7 @@ describe('phase 5 module regression suite', () => {
         options: expect.objectContaining({
           cookie: undefined,
           crypto: 'eapi',
-          domain: '',
-          e_r: undefined,
-          proxy: undefined,
-          realIP: undefined,
           signal: expect.any(AbortSignal),
-          ua: '',
         }),
         uri: '/api/batch',
       },
@@ -389,11 +354,9 @@ describe('phase 5 module regression suite', () => {
     try {
       await invokeRealModule(
         'daily_signin',
-        {
-          cookie: 'MUSIC_U=signed-in',
-          type: 1,
-        },
+        { type: 1 },
         requestSpy.requestHandler,
+        { cookie: 'MUSIC_U=signed-in' },
       );
       throw new TypeError(
         'Expected daily_signin to preserve the legacy 301 response',
@@ -410,10 +373,9 @@ describe('phase 5 module regression suite', () => {
 
     const personalFm = await invokeRealModule(
       'personal_fm',
-      {
-        cookie: 'MUSIC_U=fm-cookie',
-      },
+      {},
       requestSpy.requestHandler,
+      { cookie: 'MUSIC_U=fm-cookie' },
     );
 
     expect(requestSpy.calls).toEqual([
@@ -426,12 +388,7 @@ describe('phase 5 module regression suite', () => {
             MUSIC_U: 'signed-in',
           },
           crypto: 'eapi',
-          domain: '',
-          e_r: undefined,
-          proxy: undefined,
-          realIP: undefined,
           signal: expect.any(AbortSignal),
-          ua: '',
         }),
         uri: '/api/point/dailyTask',
       },
@@ -442,12 +399,7 @@ describe('phase 5 module regression suite', () => {
             MUSIC_U: 'fm-cookie',
           },
           crypto: 'weapi',
-          domain: '',
-          e_r: undefined,
-          proxy: undefined,
-          realIP: undefined,
           signal: expect.any(AbortSignal),
-          ua: '',
         }),
         uri: '/api/v1/radio/get',
       },
@@ -514,13 +466,19 @@ const invokeRealModule = async (
   identifier: string,
   query: Record<string, unknown>,
   requestHandler?: RequestCapability,
+  config: ModuleCallConfig = {},
 ) => {
   const moduleDefinitions = await realModuleDefinitionsPromise;
 
-  return invokeModule(identifier, query, {
-    moduleDefinitions,
-    requestHandler,
-  });
+  return invokeModule(
+    identifier,
+    query,
+    {
+      moduleDefinitions,
+      requestHandler,
+    },
+    config,
+  );
 };
 
 type PromiseLikeReturn = {

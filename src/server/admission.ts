@@ -3,7 +3,6 @@ import { isIP } from 'node:net';
 import { Clock, Effect, Option, Ref, Schema, Semaphore } from 'effect';
 import type { Context, MiddlewareHandler } from 'hono';
 
-import { isUploadModule } from '../core/endpoint-policy.ts';
 import type { CreateServerOptions, TrafficOptions } from '../types/server.ts';
 
 class TrafficRejectedError extends Schema.TaggedError<
@@ -160,14 +159,14 @@ export const admissionMiddleware =
   (
     controller: AdmissionController,
     options: CreateServerOptions,
-    identifier: string,
+    upload: boolean,
   ): MiddlewareHandler =>
   async (context, next) => {
     try {
       await Effect.runPromise(
         controller.run(
           resolveAdmissionIdentity(context, options),
-          isUploadModule(identifier),
+          upload,
           Effect.tryPromise({
             try: () => next(),
             catch: (error) => {

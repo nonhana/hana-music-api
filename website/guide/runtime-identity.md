@@ -18,7 +18,7 @@ interface RuntimeState {
 
 ## 这次调用用哪个身份
 
-先解析 Cookie 来源：显式 `config.cookie` 优先，未提供时才读取 `config.headers` 中的 Cookie。请求头名称不区分大小写，两种来源不会逐项合并。
+普通模块从 `config.cookie` 取得本次会话，不能通过任意 headers 覆写身份。显式低层 `createRequest` 仍保留原始头：显式 cookie 优先，缺少时读取不区分大小写的 Cookie 头。
 
 ```mermaid
 flowchart TD
@@ -88,7 +88,7 @@ console.log(result.body);
 
 如果由调用方生成设备号，合格条件是：设备号与字符串 `3go8&$8*3*3h0k(2)2` 循环逐字符异或，将结果按 UTF-8 编码后计算 MD5，再转为标准 Base64；这份摘要不能包含 `+` 或 `/`。注册用户名仍为 `base64(deviceId + ' ' + digest)`，不改用 Base64URL。仅仅是十六进制字符串并不保证合格，建议直接调用公开生成器。
 
-旧顶层 `ModuleCallConfig.deviceId` 仍可用于 client 默认配置、具名函数的第二个参数和 `invokeModule` 的第三个参数，作为本次确实需要隐式注册时的兼容兜底，优先级低于 `state.deviceId` 和 Cookie 设备。已有普通游客会话会继续沿用其设备，单独传这个旧选项不会创建独立会话。需要为听众保存设备身份时，生成一次并持久化，后续复用；已有 Cookie 的调用可配合 `state.deviceId` 设置相同设备号。
+旧顶层 `ModuleCallConfig.deviceId` 已在 major 配置收口中移除，改用 `state.deviceId`。调用方生成一次并保存，后续复用同一设备；真实登录或续期返回的 Cookie 仍由调用方决定怎样保存和继续传入。
 
 ## 按次覆盖运行时状态
 

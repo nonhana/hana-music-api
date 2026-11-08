@@ -470,6 +470,15 @@ describe('untrusted entry input', () => {
       callInput: Readonly<ModuleQuery>;
     }> = [];
     const definition = {
+      actions: {
+        read: {
+          profile: 'web',
+          target: '/api/search/get',
+          semantic: 'read',
+          cache: 'shared',
+          retry: 'read',
+        },
+      } as const,
       identifier: 'search',
       route: '/search',
       decodeInput: (input: unknown) =>
@@ -555,6 +564,7 @@ describe('untrusted entry input', () => {
     const api = await loadProgrammaticApi({
       moduleDefinitions: [
         {
+          actions: {},
           identifier: 'legacy',
           route: '/legacy',
           decodeInput: decodeLegacyModuleInput,
@@ -578,6 +588,7 @@ describe('untrusted entry input', () => {
     const api = await loadProgrammaticApi({
       moduleDefinitions: [
         {
+          actions: {},
           identifier: 'legacy_effect',
           route: '/legacy/effect',
           decodeInput: decodeLegacyModuleInput,

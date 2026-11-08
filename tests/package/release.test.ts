@@ -178,6 +178,7 @@ describe('sdk release contract', () => {
     const podcastVideo: Array<unknown> = [];
     const membershipBusiness: Array<unknown> = [];
     const requestIdentity: Array<unknown> = [];
+    const moduleConfig: Array<unknown> = [];
     const searchDiscovery: Array<unknown> = [];
 
     try {
@@ -450,7 +451,7 @@ describe('sdk release contract', () => {
           "if (typeof songUrl !== 'function') throw new Error('missing root songUrl export')",
           'const deviceId = generateDeviceId()',
           "if (!/^[0-9A-F]{52}$/.test(deviceId)) throw new Error('invalid generated device ID')",
-          "const config = { deviceId, fetcher, cookie: { MUSIC_A: 'consumer-test-token' } }",
+          "const config = { state: { deviceId }, fetcher, cookie: { MUSIC_A: 'consumer-test-token' } }",
           'const client = createHanaMusicApi(config)',
           "const clientSearchResult = await client.search({ keywords: 'demo' })",
           "const rawSearchResult = await search({ keywords: 'demo' }, config)",
@@ -718,6 +719,41 @@ describe('sdk release contract', () => {
         });
       }
 
+      writeFileSync(
+        resolve(consumerDirectory, 'module-config.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/module-config.mjs'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'module-config.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          removedKeys: 7,
+          rejectedCalls: 42,
+          rejectedConstructors: 14,
+          nonEnumerableRejections: 42,
+          queryRejections: 7,
+          requests: 3,
+          rawRequests: 1,
+          providers: 0,
+        });
+        moduleConfig.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
       const negativeImportScriptPath = resolve(
         consumerDirectory,
         'negative-import.mjs',
@@ -754,6 +790,10 @@ describe('sdk release contract', () => {
         [
           "import { createHanaMusicApi, generateDeviceId, likelist, lyricNew, songDetail as getSongDetail, songUrl, songUrlV1, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type CloudsearchBody, type LikelistBody, type LyricNewBody, type SearchSuggestBody, type SongDetailBody, type SongUrlV1Body, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
           '',
+          "import { createRequest, type CreateRequestOptions } from 'hana-music-api'",
+          "const rawOptions: CreateRequestOptions = { crypto: 'api', ua: 'raw', headers: { 'X-Raw': 'value' }, e_r: false, acceptGzip: true }",
+          "const rawCall = () => createRequest('/api/probe', {}, rawOptions)",
+          'void rawCall',
           '// @ts-expect-error The internal client assembly is not a root export.',
           "import { createClientFromContext } from 'hana-music-api'",
           '// @ts-expect-error Internal dependencies are not public configuration.',
@@ -761,10 +801,22 @@ describe('sdk release contract', () => {
           'void createClientFromContext',
           'const config: CreateHanaMusicApiConfig = {',
           "  cookie: 'MUSIC_U=consumer',",
-          '  deviceId: generateDeviceId(),',
+          '  state: { deviceId: generateDeviceId() },',
           '}',
           '',
+          '// @ts-expect-error Ordinary module config cannot select crypto.',
+          "createHanaMusicApi({ crypto: 'api' })",
+          '// @ts-expect-error Device identity moved into state.',
+          "createHanaMusicApi({ deviceId: 'old' })",
+          '// @ts-expect-error Arbitrary headers belong to the raw API.',
+          'createHanaMusicApi({ headers: {} })',
+          'const clientDefaults: CreateHanaMusicApiConfig = { cache: { enabled: true }, identityPool: { size: 2 } }',
+          'void clientDefaults',
           'const api = createHanaMusicApi(config)',
+          '// @ts-expect-error Client cache configuration cannot be a module query.',
+          'api.innerVersion({ cache: {} })',
+          '// @ts-expect-error Client identity pool configuration cannot be a module query.',
+          'api.innerVersion({ identityPool: { size: 2 } })',
           "const resultPromise: Promise<ModuleResponseOf<'song_url'>> = api.songUrl({ id: '1,2' })",
           "const rawResultPromise: Promise<ModuleResponseOf<'song_url'>> = songUrl({ id: '1,2' }, config)",
           'void resultPromise',
@@ -916,6 +968,7 @@ describe('sdk release contract', () => {
             podcastVideo,
             membershipBusiness,
             requestIdentity,
+            moduleConfig,
             browser: browserEvidence,
             files: filePaths.map((path) => ({
               path,

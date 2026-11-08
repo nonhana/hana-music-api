@@ -152,6 +152,7 @@ describe('ordinary read Effect modules', () => {
     }
     const config: ModuleCallConfig = { cookie: 'MUSIC_U=module-reader' };
     const call: CallShape = {
+      actions: {},
       identifier: 'read-test',
       input: scenario.input,
       config,
@@ -180,7 +181,7 @@ describe('ordinary read Effect modules', () => {
     async (scenario) => {
       const response = await invokeModule(scenario.identifier, scenario.input, {
         cookie: 'MUSIC_U=sdk-effect',
-        crypto: 'api',
+
         fetcher: async (url) =>
           Response.json({ ...extraBody, target: requestUrl(url) }),
       });
@@ -197,13 +198,16 @@ describe('ordinary read Effect modules', () => {
   test.each([...scenarios])(
     '$identifier runs through the programmatic entry through the shared Call',
     async (scenario) => {
-      const response = await invokeProgrammatic(scenario.identifier, {
-        ...scenario.input,
-        cookie: 'MUSIC_U=programmatic-effect',
-        crypto: 'api',
-        fetcher: async (url: Request | URL | string) =>
-          Response.json({ ...extraBody, target: requestUrl(url) }),
-      });
+      const response = await invokeProgrammatic(
+        scenario.identifier,
+        { ...scenario.input },
+        {},
+        {
+          cookie: 'MUSIC_U=programmatic-effect',
+          fetcher: async (url: Request | URL | string) =>
+            Response.json({ ...extraBody, target: requestUrl(url) }),
+        },
+      );
       expect(response.body).toEqual({
         ...extraBody,
         target:
@@ -271,7 +275,7 @@ describe('ordinary read Effect modules', () => {
     async (scenario) => {
       const failure = await invokeProgrammatic(
         'search',
-        { keywords: 'failure', cookie: 'MUSIC_U=effect-handler-failure' },
+        { keywords: 'failure' },
         {
           requestHandler: (intent) =>
             Effect.sync(() =>
@@ -295,6 +299,7 @@ describe('ordinary read Effect modules', () => {
               ),
             ),
         },
+        { cookie: 'MUSIC_U=effect-handler-failure' },
       ).catch((error: unknown) => error);
       expect(failure).toEqual(scenario.expected);
     },

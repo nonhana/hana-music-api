@@ -14,6 +14,11 @@ export interface TestEntry {
 // Every physical test file has one category; selections may share that file.
 export const testEntries: ReadonlyArray<TestEntry> = [
   {
+    file: 'tests/behavior/runtime/module-config.test.ts',
+    category: 'behavior',
+    selections: ['local', 'module-config', 'mutation:module-config'],
+  },
+  {
     file: 'tests/behavior/runtime/request-identity.test.ts',
     category: 'behavior',
     selections: ['local', 'mutation:request-identity'],
@@ -604,7 +609,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/behavior/http/traffic.test.ts',
     category: 'behavior',
-    selections: ['local', 'smoke'],
+    selections: ['debug-context', 'local', 'smoke', 'mutation:module-config'],
   },
   {
     file: 'tests/behavior/http/server.test.ts',

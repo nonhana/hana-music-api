@@ -6,6 +6,7 @@ import { Call } from '../../src/core/call.ts';
 import type { CallShape } from '../../src/core/call.ts';
 import { resolveIdentitySnapshot } from '../../src/core/identity.ts';
 import { getRuntimeState } from '../../src/core/runtime.ts';
+import { sdkModuleRegistry } from '../../src/sdk/generated/registry.generated.ts';
 import type {
   ModuleCallConfig,
   ModuleEffect,
@@ -38,6 +39,10 @@ export const executeModule = (
   }
   expect(Effect.isEffect(result)).toBe(true);
   const call: CallShape = {
+    actions:
+      Object.values(sdkModuleRegistry).find(
+        (definition) => definition.execute === implementation,
+      )?.actions ?? {},
     identifier: 'upload-test',
     input,
     config,

@@ -20,17 +20,14 @@ import type {
   CallShape,
   InternalExecution,
 } from './call-context.ts';
-import {
-  isCacheable,
-  isReadModule,
-  isUploadModule,
-} from './endpoint-policy.ts';
+import { isCacheable } from './endpoint-policy.ts';
 import { DeadlineExceeded, InvalidRequest, PartialUpload } from './errors.ts';
 import {
   createIdentityPool,
   isDeviceId,
   resolveIdentitySnapshot,
 } from './identity.ts';
+import { validateModuleConfig, validateModuleQuery } from './options.ts';
 import { ReadStore } from './read-store.ts';
 import { validateModuleActions } from './request-actions.ts';
 import { requestProfiles } from './request-profiles.ts';
@@ -57,23 +54,26 @@ export const buildCallServices = (
   config: CreateHanaMusicApiConfig = {},
   initializeAnonymous = true,
   execution: InternalExecution = {},
-): Context.Service.Shape<typeof CallServices> => ({
-  process: resolveProcessServices(),
-  reads: new ReadStore<NcmApiResponse>(
-    config.cache && config.cache.enabled !== false
-      ? (config.cache.ttlMs ?? 120_000)
+): Context.Service.Shape<typeof CallServices> => {
+  validateModuleConfig(config, true);
+  return {
+    process: resolveProcessServices(),
+    reads: new ReadStore<NcmApiResponse>(
+      config.cache && config.cache.enabled !== false
+        ? (config.cache.ttlMs ?? 120_000)
+        : null,
+    ),
+    pool: config.identityPool
+      ? createIdentityPool(
+          config.identityPool,
+          { ...config, fetcher: config.fetcher ?? execution.fetcher },
+          (options) => registerAnonymous(options, execution),
+        )
       : null,
-  ),
-  pool: config.identityPool
-    ? createIdentityPool(
-        config.identityPool,
-        { ...config, fetcher: config.fetcher ?? execution.fetcher },
-        (options) => registerAnonymous(options, execution),
-      )
-    : null,
-  initializeAnonymous,
-  execution: Object.freeze({ ...execution }),
-});
+    initializeAnonymous,
+    execution: Object.freeze({ ...execution }),
+  };
+};
 
 export const createServiceLayer = (cacheTtlMs: number | null = 120_000) =>
   buildCallServices(
@@ -91,7 +91,25 @@ export const runCall = <Input extends ModuleQuery>(
   request: RequestCapability = requestEffect,
   clock?: Clock.Clock,
 ): Promise<NcmApiResponse> => {
-  const upload = isUploadModule(input.identifier);
+  let actions;
+  try {
+    validateModuleConfig(input.config);
+    validateModuleQuery(input.input);
+    actions = validateModuleActions(implementation.actions);
+  } catch (error) {
+    return runPublicEffect(
+      Effect.fail(
+        error instanceof InvalidRequest
+          ? error
+          : InvalidRequest.make({
+              message: 'Invalid module config or actions',
+            }),
+      ),
+    );
+  }
+  const upload = Object.values(actions).some(
+    (action) => action.semantic === 'upload',
+  );
   const configuredTimeout = input.config.timeoutMs;
   const timeoutMs = upload
     ? configuredTimeout && configuredTimeout > 0
@@ -102,24 +120,11 @@ export const runCall = <Input extends ModuleQuery>(
   const work = Effect.gen(function* () {
     const startedAt = yield* Clock.currentTimeMillis;
     const decodedInput = yield* implementation.decodeInput(input.input);
-    const actions =
-      implementation.actions === undefined
-        ? undefined
-        : yield* Effect.try({
-            try: () => validateModuleActions(implementation.actions),
-            catch: (error) =>
-              error instanceof InvalidRequest
-                ? error
-                : InvalidRequest.make({ message: 'Invalid module actions' }),
-          });
     const scoped = yield* CallServices;
     const config = {
       ...input.config,
       fetcher: input.config.fetcher ?? scoped.execution?.fetcher,
       cookie: resolveRequestCookie(input.config),
-      headers: input.config.headers
-        ? Object.freeze({ ...input.config.headers })
-        : undefined,
       retry: input.config.retry
         ? Object.freeze({
             ...input.config.retry,
@@ -136,11 +141,9 @@ export const runCall = <Input extends ModuleQuery>(
       config.cookie.MUSIC_U ||
       config.cookie.MUSIC_A ||
       config.state?.anonymousToken;
-    const needsSession =
-      actions === undefined ||
-      Object.values(actions).some(
-        (action) => requestProfiles[action.profile].protocol !== 'plain',
-      );
+    const needsSession = Object.values(actions).some(
+      (action) => requestProfiles[action.profile].protocol !== 'plain',
+    );
     const explicitDevice =
       isDeviceId(config.state?.deviceId) || isDeviceId(config.cookie.deviceId);
     const identityConfig =
@@ -159,18 +162,7 @@ export const runCall = <Input extends ModuleQuery>(
         }
       : config;
     const runtime = scoped.process.readState();
-    let identity = resolveIdentitySnapshot(effective, {
-      ...runtime,
-      deviceId:
-        !explicitIdentity &&
-        !identityConfig &&
-        scoped.initializeAnonymous &&
-        needsSession &&
-        !runtime.anonymousToken &&
-        isDeviceId(effective.deviceId)
-          ? effective.deviceId
-          : runtime.deviceId,
-    });
+    let identity = resolveIdentitySnapshot(effective, runtime);
     if (
       !explicitIdentity &&
       !identityConfig &&
@@ -193,12 +185,10 @@ export const runCall = <Input extends ModuleQuery>(
     }
     const read =
       effective.checkToken === undefined &&
-      (actions === undefined
-        ? isReadModule(input.identifier)
-        : Object.keys(actions).length > 0 &&
-          Object.values(actions).every(
-            (action) => action.semantic === 'read' && action.cache === 'shared',
-          ));
+      Object.keys(actions).length > 0 &&
+      Object.values(actions).every(
+        (action) => action.semantic === 'read' && action.cache === 'shared',
+      );
     const call: CallShape = Object.freeze({
       identifier: input.identifier,
       actions,

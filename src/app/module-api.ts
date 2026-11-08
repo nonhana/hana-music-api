@@ -1,23 +1,28 @@
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
+import { Effect } from 'effect';
+
 import { buildCallServices, runCall } from '../core/call.ts';
-import { createOption } from '../core/options.ts';
+import { validateModuleConfig } from '../core/options.ts';
+import { validateModuleActions } from '../core/request-actions.ts';
 import { requestEffect } from '../core/request.ts';
-import { cookieToJson, isRecord } from '../core/utils.ts';
+import { runPublicEffect } from '../core/runtime.ts';
 import { loadModuleDefinitions } from '../server/module-loader.ts';
 import type { LoadedModuleDefinition } from '../server/module-loader.ts';
 import type {
   DynamicProgrammaticApi,
+  ModuleCallConfig,
   ModuleIdentifier,
   ModuleQuery,
-  ModuleQueryOf,
   ModuleResponseOf,
   NcmApiResponse,
   ProgrammaticApi,
   ProgrammaticModuleInvoker,
   RequestCapability,
+  SdkQueryOf,
 } from '../types/index.ts';
+import type { DisallowExecutionKeys } from '../types/sdk.ts';
 import type { CreateModuleApiOptions } from '../types/server.ts';
 
 const DEFAULT_MODULES_DIRECTORY = resolve(
@@ -91,7 +96,10 @@ export function createModuleApi(
           return undefined;
         }
 
-        return async (query: ModuleQuery = {}) => {
+        return async (
+          query: ModuleQuery = {},
+          config: ModuleCallConfig = {},
+        ) => {
           const registry = await registryPromise;
           const moduleDefinition = registry.get(property);
           if (!moduleDefinition) {
@@ -101,7 +109,7 @@ export function createModuleApi(
             moduleDefinition,
             requestHandler,
             modules,
-          )(query);
+          )(query, config);
         };
       },
       has: (_target, property) => typeof property === 'string',
@@ -112,18 +120,21 @@ export function createModuleApi(
 
 export async function invokeModule<K extends ModuleIdentifier>(
   identifier: K,
-  query: ModuleQueryOf<K> & ModuleQuery,
+  query: SdkQueryOf<K> & ModuleQuery,
   options?: StaticCreateModuleApiOptions,
+  config?: ModuleCallConfig,
 ): Promise<ModuleResponseOf<K>>;
 export async function invokeModule(
   identifier: string,
-  query: ModuleQuery,
+  query: ModuleQuery & DisallowExecutionKeys,
   options: DynamicCreateModuleApiOptions,
+  config?: ModuleCallConfig,
 ): Promise<NcmApiResponse>;
 export async function invokeModule(
   identifier: string,
   query: ModuleQuery = {},
   options: CreateModuleApiOptions = {},
+  config: ModuleCallConfig = {},
 ): Promise<NcmApiResponse> {
   const registry = await loadModuleRegistry(options);
   const moduleDefinition = registry.get(identifier);
@@ -138,7 +149,11 @@ export async function invokeModule(
     modules = buildCallServices({}, false);
     invocationRuntimes.set(implementation, modules);
   }
-  return createModuleInvoker(moduleDefinition, requestHandler, modules)(query);
+  return createModuleInvoker(
+    moduleDefinition,
+    requestHandler,
+    modules,
+  )(query, config);
 }
 
 const createModuleInvoker =
@@ -147,32 +162,18 @@ const createModuleInvoker =
     requestHandler: RequestCapability,
     modules: ModuleServices,
   ): ProgrammaticModuleInvoker =>
-  async (query = {}) => {
-    if (
-      !isRecord(query) ||
-      (Object.getPrototypeOf(query) !== Object.prototype &&
-        Object.getPrototypeOf(query) !== null)
-    ) {
-      return runCall(
-        { identifier: moduleDefinition.identifier, input: query, config: {} },
-        modules,
-        moduleDefinition,
-        requestHandler,
-      );
+  async (query = {}, config = {}) => {
+    try {
+      validateModuleConfig(config);
+    } catch (error) {
+      return runPublicEffect(Effect.fail(error));
     }
-    const normalized = normalizeProgrammaticQuery(query);
-    const { signal, ...config } = createOption(normalized);
-    const business = Object.fromEntries(
-      Object.entries(normalized).filter(
-        ([key]) =>
-          key === 'cookie' || (!Object.hasOwn(config, key) && key !== 'signal'),
-      ),
-    );
+    const { signal, ...callConfig } = config;
     return runCall(
       {
         identifier: moduleDefinition.identifier,
-        input: business,
-        config,
+        input: query,
+        config: callConfig,
         signal,
       },
       modules,
@@ -193,21 +194,12 @@ const loadModuleRegistry = async (
   return new Map(
     moduleDefinitions.map((moduleDefinition) => [
       moduleDefinition.identifier,
-      moduleDefinition,
+      {
+        ...moduleDefinition,
+        actions: validateModuleActions(moduleDefinition.actions),
+      },
     ]),
   );
-};
-
-const normalizeProgrammaticQuery = (query: ModuleQuery): ModuleQuery => {
-  const normalized = {
-    ...query,
-  };
-
-  if (typeof normalized.cookie === 'string') {
-    normalized.cookie = cookieToJson(normalized.cookie);
-  }
-
-  return normalized;
 };
 
 export const NeteaseCloudMusicApi = createModuleApi();

@@ -72,7 +72,7 @@ export interface ModuleDefinition<
   Body = UnknownJson,
 > {
   readonly identifier: Identifier;
-  readonly actions?: ModuleActions;
+  readonly actions: ModuleActions;
   readonly route: string;
   readonly decodeInput: (
     input: unknown,

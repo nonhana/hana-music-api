@@ -20,7 +20,7 @@ for (const kind of ['client', 'named', 'invoke']) {
       const config = {
         state,
         cookie: `MUSIC_U=package-identity; ${deviceCookie}; OS=pc; os=pc; APPVER=old; appver=old; buildver=old; versioncode=140; resolution=desktop`,
-        ua: 'conflict',
+
         fetcher: async (input, init) => {
           try {
             requests++;

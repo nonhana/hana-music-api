@@ -172,16 +172,6 @@ for (const entry of baseline.cases) {
           cookie:
             cookie +
             '; os=android; appver=conflict; channel=conflict; osver=conflict; OS=conflict; APPVER=conflict; CHANNEL=conflict; OSVER=conflict',
-          crypto: 'linuxapi',
-          domain: 'https://external.example',
-          ua: 'conflict',
-          e_r: true,
-          acceptGzip: true,
-          headers: {
-            'User-Agent': 'conflict',
-            Referer: 'https://external.example',
-            'x-aeapi': 'true',
-          },
         };
         const client = createClientFromContext(
           config,

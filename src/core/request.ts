@@ -3,19 +3,15 @@ import { Clock, Effect, Ref, Result } from 'effect';
 import type {
   CreateRequestOptions,
   NcmApiResponse,
+  RequestCapability,
   RequestDebugEvent,
   RequestIntent,
 } from '../types/index.ts';
 import type { UpstreamResponse } from '../types/upstream.ts';
 import { Call } from './call-context.ts';
 import type { CallShape, InternalExecution } from './call-context.ts';
-import { APP_CONF } from './config.ts';
 import { createWeapiSecretKey } from './crypto.ts';
-import {
-  requestSemantic,
-  retryDecision,
-  validateRequestTarget,
-} from './endpoint-policy.ts';
+import { retryDecision, validateRequestTarget } from './endpoint-policy.ts';
 import type { RequestError } from './errors.ts';
 import {
   DeadlineExceeded,
@@ -46,14 +42,14 @@ export const requestEffect = (
     Effect.gen(function* () {
       const call = yield* Call;
       const now = yield* Clock.currentTimeMillis;
-      const options = call.config;
+      const options = { ...call.rawOptions, ...call.config };
       const action =
         intent.action !== undefined &&
         call.actions &&
         Object.hasOwn(call.actions, intent.action)
           ? call.actions[intent.action]
           : undefined;
-      if (call.actions !== undefined || intent.action !== undefined) {
+      if (call.rawOptions === undefined) {
         if (
           !action ||
           intent.protocol !== requestProfiles[action.profile].protocol ||
@@ -220,13 +216,13 @@ export const requestEffect = (
               data,
               {
                 ...options,
-                crypto: options.crypto || intent.protocol,
-                domain: intent.domain ?? options.domain,
+                crypto: call.rawOptions?.crypto || intent.protocol,
+                domain: intent.domain ?? call.rawOptions?.domain,
                 ...(intent.headers['x-aeapi'] === 'true'
                   ? { acceptGzip: true }
                   : {}),
                 ...(intent.headers['User-Agent']
-                  ? { ua: options.ua || intent.headers['User-Agent'] }
+                  ? { ua: call.rawOptions?.ua || intent.headers['User-Agent'] }
                   : {}),
                 headers,
                 ...(profile
@@ -369,9 +365,9 @@ export const requestEffect = (
           const delayMs =
             checkToken === undefined &&
             intent.semantic === 'read' &&
-            action?.retry !== 'never'
+            action !== undefined &&
+            action.retry !== 'never'
               ? retryDecision(
-                  target,
                   error,
                   attempt,
                   options.retry,
@@ -439,14 +435,22 @@ export const runRequestAtEdge = async (
   intent: RequestIntent,
   options: CreateRequestOptions,
   execution?: InternalExecution,
+  request: RequestCapability = requestEffect,
 ): Promise<UpstreamResponse> => {
   const signal = options.signal;
   const identity = resolveIdentitySnapshot(options, getRuntimeState());
-  const startedAt = Effect.runSync(Clock.currentTimeMillis);
+  const now = execution?.clock
+    ? Clock.currentTimeMillis.pipe(
+        Effect.provideService(Clock.Clock, execution.clock),
+      )
+    : Clock.currentTimeMillis;
+  const startedAt = Effect.runSync(now);
   const timeoutMs = options.timeoutMs ?? 8_000;
   let lastEvent: RequestDebugEvent | undefined;
   const call: CallShape = {
     identifier: intent.target,
+    actions: {},
+    rawOptions: options,
     execution,
     input: {},
     identity,
@@ -457,6 +461,7 @@ export const runRequestAtEdge = async (
         : undefined,
     config: {
       ...options,
+      fetcher: options.fetcher ?? execution?.fetcher,
       onRequestEvent: (event) => {
         lastEvent = event;
         options.onRequestEvent?.(event);
@@ -468,8 +473,13 @@ export const runRequestAtEdge = async (
     },
   };
   try {
+    const work = withRequestDeadline(request(intent)).pipe(
+      Effect.provideService(Call, call),
+    );
     return await runPublicEffect(
-      requestEffect(intent).pipe(Effect.provideService(Call, call)),
+      execution?.clock
+        ? work.pipe(Effect.provideService(Clock.Clock, execution.clock))
+        : work,
       signal,
     );
   } catch (error) {
@@ -482,7 +492,7 @@ export const runRequestAtEdge = async (
         ...lastEvent,
         type: 'failure',
         status: failure.status,
-        durationMs: Effect.runSync(Clock.currentTimeMillis) - startedAt,
+        durationMs: Effect.runSync(now) - startedAt,
       });
     }
     // SDK Promise 边界契约：失败以 NcmApiResponse 对象抛出，调用方以 isNcmApiResponse 守卫消费。
@@ -496,15 +506,25 @@ export const createRequest = async (
   data: Record<string, unknown>,
   options: CreateRequestOptions = {},
 ): Promise<NcmApiResponse> => {
+  if (Object.hasOwn(options, 'checkToken')) {
+    return runPublicEffect(
+      Effect.fail(
+        InvalidRequest.make({
+          message:
+            'checkToken is a module option; raw requests use explicit data/headers',
+        }),
+      ),
+    );
+  }
   const response = await runRequestAtEdge(
     {
       target: uri,
-      protocol: options.crypto || (APP_CONF.encrypt ? 'eapi' : 'api'),
+      protocol: options.crypto || requestProfiles.eapi.protocol,
       body: JSON.stringify(data),
       method: 'POST',
       headers: {},
       response: 'json',
-      semantic: requestSemantic(uri),
+      semantic: 'write',
     },
     options,
   );

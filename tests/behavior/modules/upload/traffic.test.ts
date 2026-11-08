@@ -131,7 +131,7 @@ test.each([
     try {
       const config = {
         cookie: 'MUSIC_U=' + scenario.identifier,
-        crypto: 'api' as const,
+
         fetcher,
       };
       const client = createHanaMusicApi(config);
@@ -148,10 +148,12 @@ test.each([
       ).toBe(200);
       expect(
         (
-          await invokeProgrammatic(scenario.identifier, {
-            ...scenario.input,
-            ...config,
-          })
+          await invokeProgrammatic(
+            scenario.identifier,
+            scenario.input,
+            {},
+            config,
+          )
         ).status,
       ).toBe(200);
       const app = await createServer({}, { execution: { fetcher } });
@@ -476,7 +478,7 @@ test('a custom API handler cannot reinterpret plain upload bodies as API JSON', 
   };
   const result = await invokeProgrammatic(
     'voice_upload',
-    { songFile, cookie: 'MUSIC_U=custom-api', fetcher },
+    { songFile },
     {
       requestHandler: mockRequest(async (target: string) => {
         apiCalls += 1;
@@ -490,6 +492,7 @@ test('a custom API handler cannot reinterpret plain upload bodies as API JSON', 
         };
       }),
     },
+    { cookie: 'MUSIC_U=custom-api', fetcher },
   );
   expect(result.body).toEqual({ code: 200, data: { marker: 'kept' } });
   expect(apiCalls).toBe(3);

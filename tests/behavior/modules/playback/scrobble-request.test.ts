@@ -1,25 +1,26 @@
 import { expect, test } from 'bun:test';
 
-import { buildApiRequestIntent } from '../../../../src/core/request-intent.ts';
 import { runRequestAtEdge } from '../../../../src/core/request.ts';
 
 test('scrobble request uses the clientlog domain and scoped osx identity', async () => {
   let url = '';
   let cookie = '';
-  const intent = buildApiRequestIntent(
-    '/api/feedback/weblog',
-    { logs: '[]' },
-    {
-      cookieOverrides: {
-        appver: '3.1.10.5100',
-        channel: 'netease',
-        os: 'osx',
-        osver: '15.5',
-      },
-      crypto: 'eapi',
-      domain: 'https://clientlog.music.163.com',
+  const intent = {
+    target: '/api/feedback/weblog',
+    body: JSON.stringify({ logs: '[]' }),
+    protocol: 'eapi',
+    domain: 'https://clientlog.music.163.com',
+    cookieOverrides: {
+      appver: '3.1.10.5100',
+      channel: 'netease',
+      os: 'osx',
+      osver: '15.5',
     },
-  );
+    method: 'POST',
+    headers: {},
+    response: 'json',
+    semantic: 'write',
+  } as const;
 
   await runRequestAtEdge(intent, {
     cookie: 'MUSIC_U=listener',
@@ -40,11 +41,16 @@ test('scrobble request uses the clientlog domain and scoped osx identity', async
 
 test('authenticated API requests cannot use the clientlog domain for other endpoints', async () => {
   const result = await runRequestAtEdge(
-    buildApiRequestIntent(
-      '/api/user/account',
-      {},
-      { crypto: 'eapi', domain: 'https://clientlog.music.163.com' },
-    ),
+    {
+      target: '/api/user/account',
+      body: '{}',
+      protocol: 'eapi',
+      domain: 'https://clientlog.music.163.com',
+      method: 'POST',
+      headers: {},
+      response: 'json',
+      semantic: 'read',
+    },
     {
       cookie: 'MUSIC_U=listener',
       fetcher: async () => Response.json({ code: 200 }),

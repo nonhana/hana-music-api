@@ -2,9 +2,18 @@ import { describe, expect, test } from 'bun:test';
 import { createCipheriv } from 'node:crypto';
 import { gzipSync } from 'node:zlib';
 
+import { Effect } from 'effect';
+
+import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { aesEncrypt } from '../../../src/core/crypto.ts';
+import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { buildActionRequestIntent } from '../../../src/core/request-intent.ts';
 import { createRequest } from '../../../src/core/request.ts';
-import type { FetchLike, RequestDebugEvent } from '../../../src/types/index.ts';
+import type {
+  CreateRequestOptions,
+  FetchLike,
+  RequestDebugEvent,
+} from '../../../src/types/index.ts';
 import { settle } from '../../_kit/assertions.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
 
@@ -22,7 +31,7 @@ const rateLimited405Fetcher: FetchLike = async () =>
 describe('createRequest', () => {
   test('typed transport failures retain nested connection causes for safe retry', async () => {
     let calls = 0;
-    const response = await createRequest(
+    const response = await readProbe(
       '/api/test',
       {},
       {
@@ -45,7 +54,7 @@ describe('createRequest', () => {
 
   test('typed protocol failures preserve explicit read status retries', async () => {
     let calls = 0;
-    const response = await createRequest(
+    const response = await readProbe(
       '/api/search/get',
       {},
       {
@@ -321,7 +330,7 @@ describe('createRequest', () => {
       });
     };
 
-    const response = await createRequest(
+    const response = await readProbe(
       '/api/song/lyric',
       {},
       {
@@ -675,7 +684,7 @@ describe('createRequest', () => {
         });
       };
 
-      const response = await createRequest(
+      const response = await readProbe(
         '/api/test',
         {},
         {
@@ -767,3 +776,45 @@ test('strict low-level transport preserves rejection body and multiple response 
     },
   );
 });
+
+const readProbe = (
+  target: string,
+  data: Record<string, unknown>,
+  options: CreateRequestOptions,
+) => {
+  const action = {
+    profile: 'api',
+    target,
+    semantic: 'read',
+    cache: 'none',
+    retry: 'read',
+  } as const;
+  const {
+    crypto: _crypto,
+    headers: _headers,
+    domain: _domain,
+    e_r: _encrypted,
+    ua: _ua,
+    acceptGzip: _gzip,
+    signal,
+    ...config
+  } = options;
+  return runCall(
+    { identifier: 'read_probe', input: data, config, signal },
+    buildCallServices({}, false),
+    {
+      identifier: 'read_probe',
+      route: '/read-probe',
+      actions: { read: action },
+      decodeInput: decodeLegacyModuleInput,
+      execute: (input, request) =>
+        request(buildActionRequestIntent('read', action, input)).pipe(
+          Effect.map((response) => ({
+            status: response.status,
+            cookie: [...response.cookie],
+            body: response.body,
+          })),
+        ),
+    },
+  );
+};

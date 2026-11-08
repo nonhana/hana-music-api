@@ -147,11 +147,7 @@ for (const tokenKind of ['none', 'string', 'provider'] as const) {
           const config = {
             cookie:
               'MUSIC_U=collector; MUSIC_A=anonymous-collector; __csrf=csrf; os=pc; appver=desktop; channel=pc; osver=desktop; clientSign=old; APPVER=mobile; OS=iphone',
-            crypto: 'eapi' as const,
-            domain: 'https://interface.music.163.com',
-            ua: 'conflict',
-            e_r: true,
-            headers: { 'x-antiCheatToken': 'stale', 'uSeR-aGeNt': 'conflict' },
+
             checkToken:
               tokenKind === 'provider'
                 ? async () => {

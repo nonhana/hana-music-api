@@ -2,6 +2,7 @@ import type { Clock, Ref } from 'effect';
 import { Context } from 'effect';
 
 import type {
+  CreateRequestOptions,
   FetchLike,
   ModuleCallConfig,
   ModuleQuery,
@@ -31,7 +32,8 @@ export interface CallInput {
 
 export interface CallShape {
   readonly identifier: string;
-  readonly actions?: ModuleActions;
+  readonly actions: ModuleActions;
+  readonly rawOptions?: CreateRequestOptions;
   readonly input: Readonly<ModuleQuery>;
   readonly config: CallConfig;
   readonly identity: IdentitySnapshot;

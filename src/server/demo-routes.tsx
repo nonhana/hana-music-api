@@ -148,7 +148,7 @@ export const registerDemoRoutes = (
       }
       return next();
     },
-    admissionMiddleware(options.admission, options.serverOptions, 'debug'),
+    admissionMiddleware(options.admission, options.serverOptions, false),
     async (context) => {
       let query: ModuleQuery = {};
       try {

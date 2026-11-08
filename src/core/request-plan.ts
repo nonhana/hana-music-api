@@ -5,7 +5,7 @@ import type {
   RequestIntent,
   RuntimeState,
 } from '../types/index.ts';
-import { APP_CONF, OS_PROFILES, USER_AGENT_MAP } from './config.ts';
+import { OS_PROFILES, USER_AGENT_MAP } from './config.ts';
 import { eapi, linuxapi, weapi } from './crypto.ts';
 import { InvalidRequest } from './errors.ts';
 import type { IdentitySnapshot } from './identity.ts';
@@ -80,10 +80,7 @@ export const prepareRequest = (
               .replace('Safari/537.36 Edg/124.0.0.0', 'Mobile Safari/537.36'),
           }
         : rawOs === 'linux' || (rawOs === undefined && crypto === 'linuxapi')
-          ? {
-              cookie: OS_PROFILES.linux,
-              userAgent: USER_AGENT_MAP.linuxapi.linux,
-            }
+          ? requestProfiles.linuxapi
           : rawOs === 'osx'
             ? requestProfiles.clientlogOsx
             : rawOs === 'web' || (rawOs === undefined && crypto === 'weapi')
@@ -91,7 +88,9 @@ export const prepareRequest = (
               : rawOs === undefined ||
                   rawOs === 'iphone' ||
                   rawOs === 'iPhone OS'
-                ? requestProfiles.eapi
+                ? crypto === 'api'
+                  ? requestProfiles.api
+                  : requestProfiles.eapi
                 : { cookie: {}, userAgent: '' });
   const userAgent = options.ua || client.userAgent;
   if (userAgent) headers['User-Agent'] = userAgent;
@@ -129,7 +128,7 @@ export const prepareRequest = (
     toBoolean(
       options.e_r !== undefined
         ? options.e_r
-        : (readBooleanLike(payload.e_r) ?? APP_CONF.encryptResponse),
+        : (readBooleanLike(payload.e_r) ?? false),
     ),
   );
   payload.e_r = encryptResponse;
@@ -137,14 +136,14 @@ export const prepareRequest = (
   let url = '';
   let requestBody: Record<string, string>;
 
-  // `''` 在 resolveCrypto 已被折叠成 'eapi'/'api'，这里显式处理以满足穷尽性检查。
+  // 空协议只在显式低层入口采用 eapi 默认值。
   const resolvedCrypto = resolveCrypto(crypto);
   switch (resolvedCrypto) {
     case 'weapi': {
-      headers.Referer = options.domain || APP_CONF.domain;
+      headers.Referer = options.domain || requestProfiles.web.domain;
       payload.csrf_token = csrfToken;
       requestBody = weapi(payload, entropy.weapiSecret);
-      url = `${options.domain || APP_CONF.domain}/weapi/${uri.slice(5)}`;
+      url = `${options.domain || requestProfiles.web.domain}/weapi/${uri.slice(5)}`;
       break;
     }
 
@@ -152,9 +151,9 @@ export const prepareRequest = (
       requestBody = linuxapi({
         method: 'POST',
         params: payload,
-        url: `${options.domain || APP_CONF.domain}${uri}`,
+        url: `${options.domain || requestProfiles.web.domain}${uri}`,
       });
-      url = `${options.domain || APP_CONF.domain}/api/linux/forward`;
+      url = `${options.domain || requestProfiles.web.domain}/api/linux/forward`;
       break;
     }
 
@@ -171,10 +170,10 @@ export const prepareRequest = (
           headers['x-aeapi'] = 'true';
         }
         requestBody = eapi(uri, payload);
-        url = `${options.domain || APP_CONF.apiDomain}/eapi/${uri.slice(5)}`;
+        url = `${options.domain || requestProfiles.eapi.domain}/eapi/${uri.slice(5)}`;
       } else {
         requestBody = stringifyPayload(payload);
-        url = `${options.domain || APP_CONF.apiDomain}${uri}`;
+        url = `${options.domain || requestProfiles.eapi.domain}${uri}`;
       }
       break;
     }
@@ -206,7 +205,7 @@ const resolveCrypto = (
     return crypto;
   }
 
-  return APP_CONF.encrypt ? 'eapi' : 'api';
+  return requestProfiles.eapi.protocol;
 };
 
 const processCookieObject = (
