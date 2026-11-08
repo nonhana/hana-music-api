@@ -11,6 +11,9 @@
 - `tests/package/`：当前候选 tarball 的 Node/Bun 消费者、公开类型/导出与单文件 serverless；`types/` 下文件由 tsc 检查。
 - `tests/live/`：真实上游门控验证，不属于默认回归；条件与证据另记。
 - `tests/mutation/`：定向故障与关联测试的登记，检查测试辨别力，不复制业务测试；CLI 为 `bun scripts/mutation-test.mts --all`（或 `--target candidate-package|module-config|request-identity|special-chains|membership-business|podcast-video|account-social|search-discovery|library-playback|check-token|playlist-subscribe|shared-reads|upload|watchman|browser-types`、`--dry-run`）。
+
+变异先跑该组全部登记文件的绿色基线；注入后按 `expectedFailures` 定位所属文件，执行这些文件的全部用例。原生 JUnit 必须与选中文件的基线用例逐项一致，空关联、缺名、跳过、遗漏、意外用例或超时均不能计为 killed；有效 kill 仍须是登记用例的原生断言失败。
+
 - `tests/_kit/`：Effect 测试的统一入口；测试中的 `Effect.run*` 和 Layer 提供应集中在 kit 内。返回体契约测试判断“结构不符”的断言用 `assertions.ts` 的 `expectUpstreamShapeRejection`，录制文件和导出结构定义的类型用同一文件的 `Recording`、`Validator`；回放录制用 `replay.ts` 的 `replay`/`replayRaw`。
 
 ## 基线命令

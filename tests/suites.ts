@@ -14,6 +14,23 @@ export interface TestEntry {
 // Every physical test file has one category; selections may share that file.
 export const testEntries: ReadonlyArray<TestEntry> = [
   {
+    file: 'tests/behavior/tooling/module-query-types.test.ts',
+    category: 'behavior',
+    selections: ['local', 'module-config', 'mutation:module-config'],
+  },
+  {
+    file: 'tests/behavior/tooling/request-capability-types.test.ts',
+    category: 'behavior',
+    selections: [
+      'local',
+      'request-flow',
+      'module-config',
+      'mutation:module-config',
+      'mutation:request-identity',
+      'mutation:shared-reads',
+    ],
+  },
+  {
     file: 'tests/behavior/runtime/request-flow.test.ts',
     category: 'behavior',
     selections: [
@@ -617,6 +634,11 @@ export const testEntries: ReadonlyArray<TestEntry> = [
     file: 'tests/behavior/sdk/enhance.test.ts',
     category: 'behavior',
     selections: ['local'],
+  },
+  {
+    file: 'tests/behavior/http/debug-fetcher.test.ts',
+    category: 'behavior',
+    selections: ['debug-context', 'local', 'smoke', 'mutation:module-config'],
   },
   {
     file: 'tests/behavior/http/traffic.test.ts',

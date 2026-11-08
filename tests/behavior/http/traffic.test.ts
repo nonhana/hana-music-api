@@ -419,45 +419,6 @@ describe('server traffic admission', () => {
   );
 });
 
-test('debug raw request uses the internal instance fetcher at the final wire', async () => {
-  await withScenario(
-    [
-      {
-        url: 'https://interface.music.163.com/api/context/probe',
-        method: 'POST',
-        check: (wire) => {
-          expect(new URLSearchParams(wire.body).get('id')).toBe('7');
-          expect(wire.headers.get('cookie')).toContain('MUSIC_U=debug-context');
-        },
-        response: () => Response.json({ code: 200 }),
-      },
-    ],
-    async (scenario) => {
-      const app = await createServer(
-        { hostname: '127.0.0.1', debugApiRequests: true },
-        {
-          allowDebugApiRequests: true,
-          execution: { fetcher: scenario.fetcher },
-        },
-      );
-      const response = await app.request('/demo/api-debug/request', {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          cookie: 'MUSIC_U=debug-context',
-        },
-        body: JSON.stringify({
-          uri: '/api/context/probe',
-          crypto: 'api',
-          data: { id: 7 },
-        }),
-      });
-      expect(response.status).toBe(200);
-      expect(scenario.sent).toHaveLength(1);
-    },
-  );
-});
-
 test('debug raw request keeps the instance clock for its deadline and body cancellation', async () => {
   await runEffect(
     Effect.scoped(
