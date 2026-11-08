@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -16,6 +16,16 @@ import {
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/play-record/album/list',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 专辑记录里附带的歌曲数组（录制里长度等于专辑 size）：旧版歌曲结构，编号在宽松容器里，全部宽松。
 const AlbumTrack = UpstreamObject({
@@ -65,11 +75,7 @@ const recordRecentAlbum: ModuleEffect<ModuleInput, ModuleBody> = (
       limit: query.limit || 100,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/play-record/album/list`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'record_recent_album',

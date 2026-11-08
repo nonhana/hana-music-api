@@ -1,8 +1,8 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +11,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: { prefix: '/api/activity/summary/annual/' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const AnnualPlaylistItem = UpstreamObject({
   artistId: Loose(Schema.String),
@@ -682,10 +692,11 @@ const summaryAnnual: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       ? 'userdata'
       : 'data';
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/activity/summary/annual/${String(query.year)}/${key}`,
+      buildActionRequestIntent(
+        'request',
+        moduleActions['request'],
         data,
-        createOption(query),
+        `/api/activity/summary/annual/${String(query.year)}/${key}`,
       ),
     );
     const body = yield* decodeUpstreamBody(

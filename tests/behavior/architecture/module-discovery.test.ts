@@ -16,6 +16,7 @@ import {
 } from '../../../src/types/generated/module-surface.generated.ts';
 import accountSocial from '../../fixtures/requests/account-social.json';
 import libraryPlayback from '../../fixtures/requests/library-playback.json';
+import membershipBusiness from '../../fixtures/requests/membership-business.json';
 import podcastVideo from '../../fixtures/requests/podcast-video.json';
 import searchDiscovery from '../../fixtures/requests/search-discovery.json';
 
@@ -39,6 +40,7 @@ describe('generated module type surface', () => {
             ...searchDiscovery.cases,
             ...accountSocial.cases,
             ...podcastVideo.cases,
+            ...membershipBusiness.cases,
           ].map((entry) => entry.module),
         ),
         'album_sub',
@@ -165,9 +167,36 @@ describe('generated module type surface', () => {
           retry: entry.retry,
         });
     }
-    expect(declared).toHaveLength(289);
+    const membershipModules = new Set(
+      membershipBusiness.cases.map((entry) => entry.module),
+    );
+    expect(
+      loaded
+        .filter((definition) => membershipModules.has(definition.identifier))
+        .reduce(
+          (count, definition) =>
+            count + Object.keys(definition.actions!).length,
+          0,
+        ),
+    ).toBe(50);
+    for (const entry of membershipBusiness.cases.filter(
+      (candidate) => candidate.label === 'default',
+    )) {
+      const definition = loaded.find(
+        (candidate) => candidate.identifier === entry.module,
+      )!;
+      expect(Object.keys(definition.actions!)).not.toHaveLength(0);
+      for (const action of Object.values(definition.actions!))
+        expect(action).toMatchObject({
+          profile: entry.profile,
+          semantic: entry.semantic,
+          cache: 'none',
+          retry: entry.retry,
+        });
+    }
+    expect(declared).toHaveLength(339);
     expect(declared).toEqual([...generatedActionModuleIdentifiers].toSorted());
-    expect(generatedPendingActionModuleIdentifiers).toHaveLength(63);
+    expect(generatedPendingActionModuleIdentifiers).toHaveLength(13);
     for (const identifier of declared)
       expect(generatedPendingActionModuleIdentifiers).not.toContain(identifier);
     for (const definition of loaded.filter(

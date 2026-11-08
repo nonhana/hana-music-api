@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +11,16 @@ import {
 import { DjProgram, MultiTerminalInfo } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/play-record/voice/list',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 最近播放的声音：`pubDJProgramData` 复用节目结构并补上最近播放列表额外返回的统计和分类字段，
 // 只收紧节目自己的 `id`；评论计数宽松；`replaceName`、`icon` 只见过 null，未声明。
@@ -65,11 +75,7 @@ const recordRecentVoice: ModuleEffect<ModuleInput, ModuleBody> = (
       limit: query.limit || 100,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/play-record/voice/list`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'record_recent_voice',

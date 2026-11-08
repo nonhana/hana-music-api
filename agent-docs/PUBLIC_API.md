@@ -43,3 +43,5 @@ playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、�
 #112 的83个账号、登录与社交模块固定基线身份（46个weapiPc、37个eapi），普通配置覆盖收口按major说明；输入、响应Schema与Cookie外壳保持。消息读取、会话探测、风控/轮询和刷新不自动重放或共享。SDK返回Set-Cookie，由调用者选择后续会话，不自动建立跨调用登录Cookie jar；HTTP仍按请求来源优先级选择Cookie并写回响应属性。低层createRequest保持，详见[issue-112](../docs/acceptance/issue-112.md)。
 
 #113 的67个播客、视频与音频模块固定原默认身份（44个weapiPc、23个eapi）；普通协议/身份覆盖收口属于major兼容变化。输入、返回Schema、Promise和Cookie外壳保持；低层createRequest继续提供显式请求控制。全部不共享或缓存；声音排序/删除和订阅取消不自动重放，时间线及连续推荐采用保守never。详见[issue-113](../docs/acceptance/issue-113.md)。
+
+#114 的50个会员、云贝、音乐人与其他业务模块固定原默认身份（36个weapiPc、14个eapi）。普通协议/身份覆盖收口属于major兼容变化；业务输入、返回Schema、Promise与Cookie外壳保持，低层createRequest继续接受显式配置。下单、签到、领取、云贝推歌与batch不自动重放；报告、签到活动信息及云贝收入/支出查询保持原never上限。全部不新增缓存或共享，详见[issue-114](../docs/acceptance/issue-114.md)。

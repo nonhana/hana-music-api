@@ -1,6 +1,6 @@
 # ADR-0001：请求动作与客户端身份分别声明
 
-状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105)、[#106](https://github.com/nonhana/hana-music-api/issues/106) 、[#109](https://github.com/nonhana/hana-music-api/issues/109) 、[#110](https://github.com/nonhana/hana-music-api/issues/110) 、[#111](https://github.com/nonhana/hana-music-api/issues/111) 、[#112](https://github.com/nonhana/hana-music-api/issues/112) 和 [#113](https://github.com/nonhana/hana-music-api/issues/113) 的动作迁移。
+状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105)、[#106](https://github.com/nonhana/hana-music-api/issues/106) 、[#109](https://github.com/nonhana/hana-music-api/issues/109) 、[#110](https://github.com/nonhana/hana-music-api/issues/110) 、[#111](https://github.com/nonhana/hana-music-api/issues/111) 、[#112](https://github.com/nonhana/hana-music-api/issues/112) 、[#113](https://github.com/nonhana/hana-music-api/issues/113) 和 [#114](https://github.com/nonhana/hana-music-api/issues/114) 的动作迁移。
 
 ## 原因与决定
 
@@ -22,7 +22,7 @@
 
 保留 Promise、id/t 业务参数、status/body/cookie 外壳、返回体 Schema 和用户会话。普通配置不能再覆盖本模块的受控身份字段；这延续收藏模块原来强制网页请求的约定。本次不删除其他模块的公开配置字段；P12 删除公开字段时使用 major changeset，并保留显式低层 createRequest 及其目标和凭据外送校验。
 
-当前已迁移289个模块：playlist_subscribe、album_sub、artist_sub、search、lyric、song_detail、playlist_detail 与 #110 的77个模块、#111 的55个模块、#112 的83个模块和 #113 的67个模块。其余 63 个模块由生成的 generatedPendingActionModuleIdentifiers 完整枚举；该清单只说明迁移范围，不代表所有模块已通过 profile 验收。旧默认协议、模块名缓存名单和 URI 语义判定仅供这些未迁移模块沿原执行链使用。P2、P5 及各领域批次完成后，P12 必须删除可选动作声明分支和旧判定，装配时要求每个模块声明所有实际动作；纯本地模块也不能省略空声明。
+当前已迁移339个模块：playlist_subscribe、album_sub、artist_sub、search、lyric、song_detail、playlist_detail 与 #110 的77个模块、#111 的55个模块、#112 的83个模块、#113 的67个模块和 #114 的50个模块。其余 13 个模块由生成的 generatedPendingActionModuleIdentifiers 完整枚举；该清单只说明迁移范围，不代表所有模块已通过 profile 验收。旧默认协议、模块名缓存名单和 URI 语义判定仅供这些未迁移模块沿原执行链使用。P2、P5 及各领域批次完成后，P12 必须删除可选动作声明分支和旧判定，装配时要求每个模块声明所有实际动作；纯本地模块也不能省略空声明。
 
 ## P2：四个共享读取
 
@@ -67,3 +67,9 @@ album_sub/artist_sub 分别声明 sub/unsub，固定 web、write、cache none、
 ## P9：播客、视频与音频
 
 固定基线fa40cad6的67模块采用44个weapiPc和23个eapi，独立解码370分支后复用现有profile；71动作明确广播收藏/取消与DJ/MV/视频订阅分支，user_dj保留动态目录边界。没有新增profile或执行器，voice_upload仍归P11。全部cache=none；声音删除和声音列表排序是write/never，时间线、分组视频、个性推荐、今日优选、DIFM播放列表和mlog推荐保守read/never，材料不能证明上游持久推进。广播收藏列表和DIFM已收藏频道列表保持原never上限，其余读取只保留connect。currentinfo查询频道快照，mlog_to_video查询对应ID，均不因名称推成poll或write。155份历史返回逐份回放与最终请求证据独立，缺失工作台成功样本不猜Schema。[完整依据](../acceptance/issue-113.md)。
+
+## P10：会员、云贝、音乐人与其他业务
+
+固定基线06f1791的50模块采用36个weapiPc和14个eapi，240个最终请求分支独立解码后复用现有profile，声明50动作。batch无论封装多少子操作都只发送一次/api/batch，保守write/none/never；summary_annual按年度拼接userdata/data，并限制到/api/activity/summary/annual/目录。daily_signin保留特殊HTTP路由/daily_signin，digitalAlbum_*保留大小写入口。没有新增profile或执行器。
+
+下单、签到、任务/成长值/云豆领取与云贝推歌均write/never。听歌报告查询、签到活动信息和云贝收入/支出明细是读取，因旧URI策略禁止重试而继续never；其他读取只保留connect，全部不共享或缓存。统计、历史、年度和乐谱只迁移声明，不改变Schema或业务含义。102份历史返回逐份回放与请求对照分开；十个无录制模块及数字专辑下单缺成功样本如实保留，不执行付费或真实账号操作。[完整依据](../acceptance/issue-114.md)。

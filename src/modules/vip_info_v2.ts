@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/music-vip-membership/client/vip/info',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const VipRight = UpstreamObject({
   expireTime: Loose(Schema.Finite),
@@ -48,13 +58,9 @@ export type ModuleBody = typeof ModuleBody.Type;
 const vipInfoV2: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/music-vip-membership/client/vip/info`,
-        {
-          userId: query.uid || '',
-        },
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], {
+        userId: query.uid || '',
+      }),
     );
     const body = yield* decodeUpstreamBody('vip_info_v2', ModuleBody, response);
     return { ...toModuleResponse(response), body };

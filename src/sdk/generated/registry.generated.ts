@@ -126,6 +126,7 @@ import bannerModule, {
 } from '../../modules/banner.ts';
 import batchModule, {
   decodeModuleInput as batchInputDecoder,
+  moduleActions as batchActions,
 } from '../../modules/batch.ts';
 import broadcastCategoryRegionGetModule, {
   decodeModuleInput as broadcastCategoryRegionGetInputDecoder,
@@ -239,18 +240,23 @@ import countriesCodeListModule, {
 } from '../../modules/countries_code_list.ts';
 import dailySigninModule, {
   decodeModuleInput as dailySigninInputDecoder,
+  moduleActions as dailySigninActions,
 } from '../../modules/daily_signin.ts';
 import digitalAlbumDetailModule, {
   decodeModuleInput as digitalAlbumDetailInputDecoder,
+  moduleActions as digitalAlbumDetailActions,
 } from '../../modules/digitalAlbum_detail.ts';
 import digitalAlbumOrderingModule, {
   decodeModuleInput as digitalAlbumOrderingInputDecoder,
+  moduleActions as digitalAlbumOrderingActions,
 } from '../../modules/digitalAlbum_ordering.ts';
 import digitalAlbumPurchasedModule, {
   decodeModuleInput as digitalAlbumPurchasedInputDecoder,
+  moduleActions as digitalAlbumPurchasedActions,
 } from '../../modules/digitalAlbum_purchased.ts';
 import digitalAlbumSalesModule, {
   decodeModuleInput as digitalAlbumSalesInputDecoder,
+  moduleActions as digitalAlbumSalesActions,
 } from '../../modules/digitalAlbum_sales.ts';
 import djBannerModule, {
   decodeModuleInput as djBannerInputDecoder,
@@ -436,18 +442,23 @@ import likelistModule, {
 } from '../../modules/likelist.ts';
 import listenDataRealtimeReportModule, {
   decodeModuleInput as listenDataRealtimeReportInputDecoder,
+  moduleActions as listenDataRealtimeReportActions,
 } from '../../modules/listen_data_realtime_report.ts';
 import listenDataReportModule, {
   decodeModuleInput as listenDataReportInputDecoder,
+  moduleActions as listenDataReportActions,
 } from '../../modules/listen_data_report.ts';
 import listenDataTodaySongModule, {
   decodeModuleInput as listenDataTodaySongInputDecoder,
+  moduleActions as listenDataTodaySongActions,
 } from '../../modules/listen_data_today_song.ts';
 import listenDataTotalModule, {
   decodeModuleInput as listenDataTotalInputDecoder,
+  moduleActions as listenDataTotalActions,
 } from '../../modules/listen_data_total.ts';
 import listenDataYearReportModule, {
   decodeModuleInput as listenDataYearReportInputDecoder,
+  moduleActions as listenDataYearReportActions,
 } from '../../modules/listen_data_year_report.ts';
 import listentogetherAcceptModule, {
   decodeModuleInput as listentogetherAcceptInputDecoder,
@@ -562,27 +573,35 @@ import msgRecentcontactModule, {
 } from '../../modules/msg_recentcontact.ts';
 import musicFirstListenInfoModule, {
   decodeModuleInput as musicFirstListenInfoInputDecoder,
+  moduleActions as musicFirstListenInfoActions,
 } from '../../modules/music_first_listen_info.ts';
 import musicianCloudbeanModule, {
   decodeModuleInput as musicianCloudbeanInputDecoder,
+  moduleActions as musicianCloudbeanActions,
 } from '../../modules/musician_cloudbean.ts';
 import musicianCloudbeanObtainModule, {
   decodeModuleInput as musicianCloudbeanObtainInputDecoder,
+  moduleActions as musicianCloudbeanObtainActions,
 } from '../../modules/musician_cloudbean_obtain.ts';
 import musicianDataOverviewModule, {
   decodeModuleInput as musicianDataOverviewInputDecoder,
+  moduleActions as musicianDataOverviewActions,
 } from '../../modules/musician_data_overview.ts';
 import musicianPlayTrendModule, {
   decodeModuleInput as musicianPlayTrendInputDecoder,
+  moduleActions as musicianPlayTrendActions,
 } from '../../modules/musician_play_trend.ts';
 import musicianSignModule, {
   decodeModuleInput as musicianSignInputDecoder,
+  moduleActions as musicianSignActions,
 } from '../../modules/musician_sign.ts';
 import musicianTasksModule, {
   decodeModuleInput as musicianTasksInputDecoder,
+  moduleActions as musicianTasksActions,
 } from '../../modules/musician_tasks.ts';
 import musicianTasksNewModule, {
   decodeModuleInput as musicianTasksNewInputDecoder,
+  moduleActions as musicianTasksNewActions,
 } from '../../modules/musician_tasks_new.ts';
 import mvAllModule, {
   decodeModuleInput as mvAllInputDecoder,
@@ -771,6 +790,7 @@ import rebindModule, {
 } from '../../modules/rebind.ts';
 import recentListenListModule, {
   decodeModuleInput as recentListenListInputDecoder,
+  moduleActions as recentListenListActions,
 } from '../../modules/recent_listen_list.ts';
 import recommendResourceModule, {
   decodeModuleInput as recommendResourceInputDecoder,
@@ -786,21 +806,27 @@ import recommendSongsDislikeModule, {
 } from '../../modules/recommend_songs_dislike.ts';
 import recordRecentAlbumModule, {
   decodeModuleInput as recordRecentAlbumInputDecoder,
+  moduleActions as recordRecentAlbumActions,
 } from '../../modules/record_recent_album.ts';
 import recordRecentDjModule, {
   decodeModuleInput as recordRecentDjInputDecoder,
+  moduleActions as recordRecentDjActions,
 } from '../../modules/record_recent_dj.ts';
 import recordRecentPlaylistModule, {
   decodeModuleInput as recordRecentPlaylistInputDecoder,
+  moduleActions as recordRecentPlaylistActions,
 } from '../../modules/record_recent_playlist.ts';
 import recordRecentSongModule, {
   decodeModuleInput as recordRecentSongInputDecoder,
+  moduleActions as recordRecentSongActions,
 } from '../../modules/record_recent_song.ts';
 import recordRecentVideoModule, {
   decodeModuleInput as recordRecentVideoInputDecoder,
+  moduleActions as recordRecentVideoActions,
 } from '../../modules/record_recent_video.ts';
 import recordRecentVoiceModule, {
   decodeModuleInput as recordRecentVoiceInputDecoder,
+  moduleActions as recordRecentVoiceActions,
 } from '../../modules/record_recent_voice.ts';
 import registerAnonimousModule, {
   decodeModuleInput as registerAnonimousInputDecoder,
@@ -878,15 +904,19 @@ import shareResourceModule, {
 } from '../../modules/share_resource.ts';
 import sheetListModule, {
   decodeModuleInput as sheetListInputDecoder,
+  moduleActions as sheetListActions,
 } from '../../modules/sheet_list.ts';
 import sheetPreviewModule, {
   decodeModuleInput as sheetPreviewInputDecoder,
+  moduleActions as sheetPreviewActions,
 } from '../../modules/sheet_preview.ts';
 import signHappyInfoModule, {
   decodeModuleInput as signHappyInfoInputDecoder,
+  moduleActions as signHappyInfoActions,
 } from '../../modules/sign_happy_info.ts';
 import signinProgressModule, {
   decodeModuleInput as signinProgressInputDecoder,
+  moduleActions as signinProgressActions,
 } from '../../modules/signin_progress.ts';
 import simiArtistModule, {
   decodeModuleInput as simiArtistInputDecoder,
@@ -1022,6 +1052,7 @@ import styleSongModule, {
 } from '../../modules/style_song.ts';
 import summaryAnnualModule, {
   decodeModuleInput as summaryAnnualInputDecoder,
+  moduleActions as summaryAnnualActions,
 } from '../../modules/summary_annual.ts';
 import topAlbumModule, {
   decodeModuleInput as topAlbumInputDecoder,
@@ -1181,6 +1212,7 @@ import userPlaylistCreateModule, {
 } from '../../modules/user_playlist_create.ts';
 import userRecordModule, {
   decodeModuleInput as userRecordInputDecoder,
+  moduleActions as userRecordActions,
 } from '../../modules/user_record.ts';
 import userReplacephoneModule, {
   decodeModuleInput as userReplacephoneInputDecoder,
@@ -1256,24 +1288,31 @@ import videoUrlModule, {
 } from '../../modules/video_url.ts';
 import vipGrowthpointModule, {
   decodeModuleInput as vipGrowthpointInputDecoder,
+  moduleActions as vipGrowthpointActions,
 } from '../../modules/vip_growthpoint.ts';
 import vipGrowthpointDetailsModule, {
   decodeModuleInput as vipGrowthpointDetailsInputDecoder,
+  moduleActions as vipGrowthpointDetailsActions,
 } from '../../modules/vip_growthpoint_details.ts';
 import vipGrowthpointGetModule, {
   decodeModuleInput as vipGrowthpointGetInputDecoder,
+  moduleActions as vipGrowthpointGetActions,
 } from '../../modules/vip_growthpoint_get.ts';
 import vipInfoModule, {
   decodeModuleInput as vipInfoInputDecoder,
+  moduleActions as vipInfoActions,
 } from '../../modules/vip_info.ts';
 import vipInfoV2Module, {
   decodeModuleInput as vipInfoV2InputDecoder,
+  moduleActions as vipInfoV2Actions,
 } from '../../modules/vip_info_v2.ts';
 import vipTasksModule, {
   decodeModuleInput as vipTasksInputDecoder,
+  moduleActions as vipTasksActions,
 } from '../../modules/vip_tasks.ts';
 import vipTimemachineModule, {
   decodeModuleInput as vipTimemachineInputDecoder,
+  moduleActions as vipTimemachineActions,
 } from '../../modules/vip_timemachine.ts';
 import voiceDeleteModule, {
   decodeModuleInput as voiceDeleteInputDecoder,
@@ -1312,36 +1351,47 @@ import voicelistTransModule, {
 } from '../../modules/voicelist_trans.ts';
 import yunbeiModule, {
   decodeModuleInput as yunbeiInputDecoder,
+  moduleActions as yunbeiActions,
 } from '../../modules/yunbei.ts';
 import yunbeiExpenseModule, {
   decodeModuleInput as yunbeiExpenseInputDecoder,
+  moduleActions as yunbeiExpenseActions,
 } from '../../modules/yunbei_expense.ts';
 import yunbeiInfoModule, {
   decodeModuleInput as yunbeiInfoInputDecoder,
+  moduleActions as yunbeiInfoActions,
 } from '../../modules/yunbei_info.ts';
 import yunbeiRcmdSongModule, {
   decodeModuleInput as yunbeiRcmdSongInputDecoder,
+  moduleActions as yunbeiRcmdSongActions,
 } from '../../modules/yunbei_rcmd_song.ts';
 import yunbeiRcmdSongHistoryModule, {
   decodeModuleInput as yunbeiRcmdSongHistoryInputDecoder,
+  moduleActions as yunbeiRcmdSongHistoryActions,
 } from '../../modules/yunbei_rcmd_song_history.ts';
 import yunbeiReceiptModule, {
   decodeModuleInput as yunbeiReceiptInputDecoder,
+  moduleActions as yunbeiReceiptActions,
 } from '../../modules/yunbei_receipt.ts';
 import yunbeiSignModule, {
   decodeModuleInput as yunbeiSignInputDecoder,
+  moduleActions as yunbeiSignActions,
 } from '../../modules/yunbei_sign.ts';
 import yunbeiTaskFinishModule, {
   decodeModuleInput as yunbeiTaskFinishInputDecoder,
+  moduleActions as yunbeiTaskFinishActions,
 } from '../../modules/yunbei_task_finish.ts';
 import yunbeiTasksModule, {
   decodeModuleInput as yunbeiTasksInputDecoder,
+  moduleActions as yunbeiTasksActions,
 } from '../../modules/yunbei_tasks.ts';
 import yunbeiTasksTodoModule, {
   decodeModuleInput as yunbeiTasksTodoInputDecoder,
+  moduleActions as yunbeiTasksTodoActions,
 } from '../../modules/yunbei_tasks_todo.ts';
 import yunbeiTodayModule, {
   decodeModuleInput as yunbeiTodayInputDecoder,
+  moduleActions as yunbeiTodayActions,
 } from '../../modules/yunbei_today.ts';
 import type { SdkModuleRegistry } from '../../types/index.ts';
 
@@ -1573,6 +1623,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/batch',
     execute: batchModule,
     decodeInput: batchInputDecoder,
+    actions: batchActions,
   },
   broadcast_category_region_get: {
     identifier: 'broadcast_category_region_get',
@@ -1773,30 +1824,35 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/daily_signin',
     execute: dailySigninModule,
     decodeInput: dailySigninInputDecoder,
+    actions: dailySigninActions,
   },
   digitalAlbum_detail: {
     identifier: 'digitalAlbum_detail',
     route: '/digitalAlbum/detail',
     execute: digitalAlbumDetailModule,
     decodeInput: digitalAlbumDetailInputDecoder,
+    actions: digitalAlbumDetailActions,
   },
   digitalAlbum_ordering: {
     identifier: 'digitalAlbum_ordering',
     route: '/digitalAlbum/ordering',
     execute: digitalAlbumOrderingModule,
     decodeInput: digitalAlbumOrderingInputDecoder,
+    actions: digitalAlbumOrderingActions,
   },
   digitalAlbum_purchased: {
     identifier: 'digitalAlbum_purchased',
     route: '/digitalAlbum/purchased',
     execute: digitalAlbumPurchasedModule,
     decodeInput: digitalAlbumPurchasedInputDecoder,
+    actions: digitalAlbumPurchasedActions,
   },
   digitalAlbum_sales: {
     identifier: 'digitalAlbum_sales',
     route: '/digitalAlbum/sales',
     execute: digitalAlbumSalesModule,
     decodeInput: digitalAlbumSalesInputDecoder,
+    actions: digitalAlbumSalesActions,
   },
   dj_banner: {
     identifier: 'dj_banner',
@@ -2123,30 +2179,35 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/listen/data/realtime/report',
     execute: listenDataRealtimeReportModule,
     decodeInput: listenDataRealtimeReportInputDecoder,
+    actions: listenDataRealtimeReportActions,
   },
   listen_data_report: {
     identifier: 'listen_data_report',
     route: '/listen/data/report',
     execute: listenDataReportModule,
     decodeInput: listenDataReportInputDecoder,
+    actions: listenDataReportActions,
   },
   listen_data_today_song: {
     identifier: 'listen_data_today_song',
     route: '/listen/data/today/song',
     execute: listenDataTodaySongModule,
     decodeInput: listenDataTodaySongInputDecoder,
+    actions: listenDataTodaySongActions,
   },
   listen_data_total: {
     identifier: 'listen_data_total',
     route: '/listen/data/total',
     execute: listenDataTotalModule,
     decodeInput: listenDataTotalInputDecoder,
+    actions: listenDataTotalActions,
   },
   listen_data_year_report: {
     identifier: 'listen_data_year_report',
     route: '/listen/data/year/report',
     execute: listenDataYearReportModule,
     decodeInput: listenDataYearReportInputDecoder,
+    actions: listenDataYearReportActions,
   },
   listentogether_accept: {
     identifier: 'listentogether_accept',
@@ -2348,48 +2409,56 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/music/first/listen/info',
     execute: musicFirstListenInfoModule,
     decodeInput: musicFirstListenInfoInputDecoder,
+    actions: musicFirstListenInfoActions,
   },
   musician_cloudbean: {
     identifier: 'musician_cloudbean',
     route: '/musician/cloudbean',
     execute: musicianCloudbeanModule,
     decodeInput: musicianCloudbeanInputDecoder,
+    actions: musicianCloudbeanActions,
   },
   musician_cloudbean_obtain: {
     identifier: 'musician_cloudbean_obtain',
     route: '/musician/cloudbean/obtain',
     execute: musicianCloudbeanObtainModule,
     decodeInput: musicianCloudbeanObtainInputDecoder,
+    actions: musicianCloudbeanObtainActions,
   },
   musician_data_overview: {
     identifier: 'musician_data_overview',
     route: '/musician/data/overview',
     execute: musicianDataOverviewModule,
     decodeInput: musicianDataOverviewInputDecoder,
+    actions: musicianDataOverviewActions,
   },
   musician_play_trend: {
     identifier: 'musician_play_trend',
     route: '/musician/play/trend',
     execute: musicianPlayTrendModule,
     decodeInput: musicianPlayTrendInputDecoder,
+    actions: musicianPlayTrendActions,
   },
   musician_sign: {
     identifier: 'musician_sign',
     route: '/musician/sign',
     execute: musicianSignModule,
     decodeInput: musicianSignInputDecoder,
+    actions: musicianSignActions,
   },
   musician_tasks: {
     identifier: 'musician_tasks',
     route: '/musician/tasks',
     execute: musicianTasksModule,
     decodeInput: musicianTasksInputDecoder,
+    actions: musicianTasksActions,
   },
   musician_tasks_new: {
     identifier: 'musician_tasks_new',
     route: '/musician/tasks/new',
     execute: musicianTasksNewModule,
     decodeInput: musicianTasksNewInputDecoder,
+    actions: musicianTasksNewActions,
   },
   mv_all: {
     identifier: 'mv_all',
@@ -2722,6 +2791,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/recent/listen/list',
     execute: recentListenListModule,
     decodeInput: recentListenListInputDecoder,
+    actions: recentListenListActions,
   },
   recommend_resource: {
     identifier: 'recommend_resource',
@@ -2749,36 +2819,42 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/record/recent/album',
     execute: recordRecentAlbumModule,
     decodeInput: recordRecentAlbumInputDecoder,
+    actions: recordRecentAlbumActions,
   },
   record_recent_dj: {
     identifier: 'record_recent_dj',
     route: '/record/recent/dj',
     execute: recordRecentDjModule,
     decodeInput: recordRecentDjInputDecoder,
+    actions: recordRecentDjActions,
   },
   record_recent_playlist: {
     identifier: 'record_recent_playlist',
     route: '/record/recent/playlist',
     execute: recordRecentPlaylistModule,
     decodeInput: recordRecentPlaylistInputDecoder,
+    actions: recordRecentPlaylistActions,
   },
   record_recent_song: {
     identifier: 'record_recent_song',
     route: '/record/recent/song',
     execute: recordRecentSongModule,
     decodeInput: recordRecentSongInputDecoder,
+    actions: recordRecentSongActions,
   },
   record_recent_video: {
     identifier: 'record_recent_video',
     route: '/record/recent/video',
     execute: recordRecentVideoModule,
     decodeInput: recordRecentVideoInputDecoder,
+    actions: recordRecentVideoActions,
   },
   record_recent_voice: {
     identifier: 'record_recent_voice',
     route: '/record/recent/voice',
     execute: recordRecentVoiceModule,
     decodeInput: recordRecentVoiceInputDecoder,
+    actions: recordRecentVoiceActions,
   },
   register_anonimous: {
     identifier: 'register_anonimous',
@@ -2916,24 +2992,28 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/sheet/list',
     execute: sheetListModule,
     decodeInput: sheetListInputDecoder,
+    actions: sheetListActions,
   },
   sheet_preview: {
     identifier: 'sheet_preview',
     route: '/sheet/preview',
     execute: sheetPreviewModule,
     decodeInput: sheetPreviewInputDecoder,
+    actions: sheetPreviewActions,
   },
   sign_happy_info: {
     identifier: 'sign_happy_info',
     route: '/sign/happy/info',
     execute: signHappyInfoModule,
     decodeInput: signHappyInfoInputDecoder,
+    actions: signHappyInfoActions,
   },
   signin_progress: {
     identifier: 'signin_progress',
     route: '/signin/progress',
     execute: signinProgressModule,
     decodeInput: signinProgressInputDecoder,
+    actions: signinProgressActions,
   },
   simi_artist: {
     identifier: 'simi_artist',
@@ -3171,6 +3251,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/summary/annual',
     execute: summaryAnnualModule,
     decodeInput: summaryAnnualInputDecoder,
+    actions: summaryAnnualActions,
   },
   top_album: {
     identifier: 'top_album',
@@ -3450,6 +3531,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/user/record',
     execute: userRecordModule,
     decodeInput: userRecordInputDecoder,
+    actions: userRecordActions,
   },
   user_replacephone: {
     identifier: 'user_replacephone',
@@ -3582,42 +3664,49 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/vip/growthpoint',
     execute: vipGrowthpointModule,
     decodeInput: vipGrowthpointInputDecoder,
+    actions: vipGrowthpointActions,
   },
   vip_growthpoint_details: {
     identifier: 'vip_growthpoint_details',
     route: '/vip/growthpoint/details',
     execute: vipGrowthpointDetailsModule,
     decodeInput: vipGrowthpointDetailsInputDecoder,
+    actions: vipGrowthpointDetailsActions,
   },
   vip_growthpoint_get: {
     identifier: 'vip_growthpoint_get',
     route: '/vip/growthpoint/get',
     execute: vipGrowthpointGetModule,
     decodeInput: vipGrowthpointGetInputDecoder,
+    actions: vipGrowthpointGetActions,
   },
   vip_info: {
     identifier: 'vip_info',
     route: '/vip/info',
     execute: vipInfoModule,
     decodeInput: vipInfoInputDecoder,
+    actions: vipInfoActions,
   },
   vip_info_v2: {
     identifier: 'vip_info_v2',
     route: '/vip/info/v2',
     execute: vipInfoV2Module,
     decodeInput: vipInfoV2InputDecoder,
+    actions: vipInfoV2Actions,
   },
   vip_tasks: {
     identifier: 'vip_tasks',
     route: '/vip/tasks',
     execute: vipTasksModule,
     decodeInput: vipTasksInputDecoder,
+    actions: vipTasksActions,
   },
   vip_timemachine: {
     identifier: 'vip_timemachine',
     route: '/vip/timemachine',
     execute: vipTimemachineModule,
     decodeInput: vipTimemachineInputDecoder,
+    actions: vipTimemachineActions,
   },
   voice_delete: {
     identifier: 'voice_delete',
@@ -3686,65 +3775,76 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/yunbei',
     execute: yunbeiModule,
     decodeInput: yunbeiInputDecoder,
+    actions: yunbeiActions,
   },
   yunbei_expense: {
     identifier: 'yunbei_expense',
     route: '/yunbei/expense',
     execute: yunbeiExpenseModule,
     decodeInput: yunbeiExpenseInputDecoder,
+    actions: yunbeiExpenseActions,
   },
   yunbei_info: {
     identifier: 'yunbei_info',
     route: '/yunbei/info',
     execute: yunbeiInfoModule,
     decodeInput: yunbeiInfoInputDecoder,
+    actions: yunbeiInfoActions,
   },
   yunbei_rcmd_song: {
     identifier: 'yunbei_rcmd_song',
     route: '/yunbei/rcmd/song',
     execute: yunbeiRcmdSongModule,
     decodeInput: yunbeiRcmdSongInputDecoder,
+    actions: yunbeiRcmdSongActions,
   },
   yunbei_rcmd_song_history: {
     identifier: 'yunbei_rcmd_song_history',
     route: '/yunbei/rcmd/song/history',
     execute: yunbeiRcmdSongHistoryModule,
     decodeInput: yunbeiRcmdSongHistoryInputDecoder,
+    actions: yunbeiRcmdSongHistoryActions,
   },
   yunbei_receipt: {
     identifier: 'yunbei_receipt',
     route: '/yunbei/receipt',
     execute: yunbeiReceiptModule,
     decodeInput: yunbeiReceiptInputDecoder,
+    actions: yunbeiReceiptActions,
   },
   yunbei_sign: {
     identifier: 'yunbei_sign',
     route: '/yunbei/sign',
     execute: yunbeiSignModule,
     decodeInput: yunbeiSignInputDecoder,
+    actions: yunbeiSignActions,
   },
   yunbei_task_finish: {
     identifier: 'yunbei_task_finish',
     route: '/yunbei/task/finish',
     execute: yunbeiTaskFinishModule,
     decodeInput: yunbeiTaskFinishInputDecoder,
+    actions: yunbeiTaskFinishActions,
   },
   yunbei_tasks: {
     identifier: 'yunbei_tasks',
     route: '/yunbei/tasks',
     execute: yunbeiTasksModule,
     decodeInput: yunbeiTasksInputDecoder,
+    actions: yunbeiTasksActions,
   },
   yunbei_tasks_todo: {
     identifier: 'yunbei_tasks_todo',
     route: '/yunbei/tasks/todo',
     execute: yunbeiTasksTodoModule,
     decodeInput: yunbeiTasksTodoInputDecoder,
+    actions: yunbeiTasksTodoActions,
   },
   yunbei_today: {
     identifier: 'yunbei_today',
     route: '/yunbei/today',
     execute: yunbeiTodayModule,
     decodeInput: yunbeiTodayInputDecoder,
+    actions: yunbeiTodayActions,
   },
 };

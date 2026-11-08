@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/content/activity/listen/data/realtime/report',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const DurationDetail = UpstreamObject({
   audiobookDuration: Loose(Schema.Finite),
@@ -81,13 +91,9 @@ const listenDataRealtimeReport: ModuleEffect<ModuleInput, ModuleBody> = (
 ) =>
   Effect.gen(function* () {
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/content/activity/listen/data/realtime/report`,
-        {
-          type: query.type || 'week', //周 week 月 month
-        },
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], {
+        type: query.type || 'week', //周 week 月 month
+      }),
     );
     const body = yield* decodeUpstreamBody(
       'listen_data_realtime_report',

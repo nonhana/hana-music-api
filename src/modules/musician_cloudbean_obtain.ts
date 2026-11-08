@@ -1,10 +1,20 @@
 import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/nmusician/workbench/mission/reward/obtain/new',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const musicianCloudbeanObtain: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
@@ -13,11 +23,7 @@ const musicianCloudbeanObtain: ModuleEffect<ModuleInput> = (query, request) =>
       period: query.period,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/nmusician/workbench/mission/reward/obtain/new`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     return toModuleResponse(response);
   });

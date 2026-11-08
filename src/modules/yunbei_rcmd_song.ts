@@ -1,10 +1,20 @@
 import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/yunbei/rcmd/song/submit',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const yunbeiRcmdSong: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
@@ -16,11 +26,7 @@ const yunbeiRcmdSong: ModuleEffect<ModuleInput> = (query, request) =>
       yunbeiNum: query.yunbeiNum || 10,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/yunbei/rcmd/song/submit`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     return toModuleResponse(response);
   });

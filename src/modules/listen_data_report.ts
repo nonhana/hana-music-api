@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/content/activity/listen/data/report',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const DurationDetail = UpstreamObject({
   audiobookDuration: Loose(Schema.Finite),
@@ -335,14 +345,10 @@ const listenDataReport: ModuleEffect<ModuleInput, ModuleBody> = (
 ) =>
   Effect.gen(function* () {
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/content/activity/listen/data/report`,
-        {
-          type: query.type || 'week', //周 week 月 month 年 year
-          endTime: query.endTime, // 不填就是本周/月的
-        },
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], {
+        type: query.type || 'week', //周 week 月 month 年 year
+        endTime: query.endTime, // 不填就是本周/月的
+      }),
     );
     const body = yield* decodeUpstreamBody(
       'listen_data_report',

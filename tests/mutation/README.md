@@ -3,6 +3,7 @@
 这些目标检查现有断言能不能发现指定错误，不是一套重复业务测试，也不追求全仓分数。
 
 ```bash
+bun scripts/mutation-test.mts --target membership-business
 bun scripts/mutation-test.mts --target podcast-video
 bun scripts/mutation-test.mts --target account-social
 bun scripts/mutation-test.mts --target check-token
@@ -30,3 +31,5 @@ browser-types 的两个有限故障分别省略浏览器和服务端 typecheck �
 `--dry-run` 只核对基线和补丁范围，不注入故障，不声称 kill。产物位于 `.artifacts/testing/mutation/`，包含原始命令、日志、JUnit、候选、故障位置和失败标题。任一 survived/invalid/timeout/tool-error 令实际变异命令非零退出；控制样本自测故意验证这些非零结果。
 
 #113 的 podcast-video 目标覆盖视频资源ID转发、DIFM已收藏频道列表的重试上限、协议、取消目标、广播取消标志、声音排序重放、时间线重放、推荐缓存、声音免费过滤假值和小时榜分页；每项关联当前领域用例的原生断言。
+
+#114 的 membership-business 目标覆盖协议、下单资源JSON、下单/batch/奖励单次、报告与收入明细的旧重试上限、会员缓存、时光机范围默认、云贝历史游标和旧年度路径；每项关联本领域原生断言。
