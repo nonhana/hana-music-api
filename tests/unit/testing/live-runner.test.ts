@@ -167,7 +167,14 @@ test('anonymous budget counts initialization, is shared across files and blocks 
               { headers: { 'Set-Cookie': 'MUSIC_A=control; Path=/' } },
             ),
         },
-        entry('api/toplist', { code: 200, list: [{ id: 3 }] }, 6),
+        {
+          ...entry('eapi/toplist', { code: 200, list: [{ id: 3 }] }, 6),
+          check: (wire) =>
+            expect(readEapiBody(wire.body)).toMatchObject({
+              path: '/api/toplist',
+              data: { e_r: false, header: { os: 'pc' } },
+            }),
+        },
         entry(
           'eapi/artist/head/info/get',
           { code: 200, data: { artist: { id: 6452 } } },
@@ -213,7 +220,14 @@ test('anonymous search, detail and lyric use the derived ID and catalog uses the
         check: (wire) =>
           expect(readEapiBody(wire.body).data).toMatchObject({ id: 7 }),
       },
-      entry('api/toplist', { code: 200, list: [{ id: 1 }] }),
+      {
+        ...entry('eapi/toplist', { code: 200, list: [{ id: 1 }] }),
+        check: (wire) =>
+          expect(readEapiBody(wire.body)).toMatchObject({
+            path: '/api/toplist',
+            data: { e_r: false, header: { os: 'pc' } },
+          }),
+      },
       entry('eapi/artist/head/info/get', {
         code: 200,
         data: { artist: { id: 6452 } },

@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -54,14 +54,23 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const toplistDetail: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  read: {
+    target: '/api/toplist/detail',
+    profile: 'weapiPc',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const toplistDetail: ModuleEffect<ModuleInput, ModuleBody> = (
+  _query,
+  request,
+) =>
   Effect.gen(function* () {
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/toplist/detail`,
-        {},
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('read', moduleActions.read, {}),
     );
     const body = yield* decodeUpstreamBody(
       'toplist_detail',

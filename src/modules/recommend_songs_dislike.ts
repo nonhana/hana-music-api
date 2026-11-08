@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { Song } from '../core/upstream-schemas.ts';
@@ -17,6 +17,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  write: {
+    target: '/api/v2/discovery/recommend/dislike',
+    profile: 'weapiPc',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
 const recommendSongsDislike: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
@@ -28,11 +38,7 @@ const recommendSongsDislike: ModuleEffect<ModuleInput, ModuleBody> = (
       sceneType: 1,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v2/discovery/recommend/dislike`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('write', moduleActions.write, data),
     );
     return {
       ...toModuleResponse(response),

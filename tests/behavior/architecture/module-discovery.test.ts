@@ -15,6 +15,7 @@ import {
   generatedPendingActionModuleIdentifiers,
 } from '../../../src/types/generated/module-surface.generated.ts';
 import libraryPlayback from '../../fixtures/requests/library-playback.json';
+import searchDiscovery from '../../fixtures/requests/search-discovery.json';
 
 const REAL_MODULES_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -30,7 +31,11 @@ describe('generated module type surface', () => {
       .toSorted();
     expect(declared).toEqual(
       [
-        ...new Set(libraryPlayback.cases.map((entry) => entry.module)),
+        ...new Set(
+          [...libraryPlayback.cases, ...searchDiscovery.cases].map(
+            (entry) => entry.module,
+          ),
+        ),
         'album_sub',
         'artist_sub',
         'lyric',
@@ -56,8 +61,31 @@ describe('generated module type surface', () => {
         });
       }
     }
+    for (const entry of searchDiscovery.cases) {
+      const definition = loaded.find(
+        (candidate) => candidate.identifier === entry.module,
+      )!;
+      const action =
+        definition.actions![
+          entry.module === 'search_suggest'
+            ? entry.query.type === 'mobile'
+              ? 'mobile'
+              : 'web'
+            : entry.semantic === 'write'
+              ? 'write'
+              : 'read'
+        ];
+      expect(action as unknown).toEqual({
+        profile: entry.profile,
+        target: entry.path,
+        semantic: entry.semantic,
+        cache: 'none',
+        retry: entry.retry,
+      });
+    }
+    expect(declared).toHaveLength(139);
     expect(declared).toEqual([...generatedActionModuleIdentifiers].toSorted());
-    expect(generatedPendingActionModuleIdentifiers).toHaveLength(268);
+    expect(generatedPendingActionModuleIdentifiers).toHaveLength(213);
     for (const identifier of declared)
       expect(generatedPendingActionModuleIdentifiers).not.toContain(identifier);
     for (const definition of loaded.filter(

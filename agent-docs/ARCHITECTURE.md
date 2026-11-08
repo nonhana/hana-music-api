@@ -20,11 +20,11 @@
 
 已迁移模块导出本地 `moduleActions`，逐动作声明 profile、目标或动态路径边界、语义、缓存和重试资格。生成的 SDK registry 和 HTTP loader 读取同一份声明，`runCall` 校验后将其冻结到 `Call.actions`；请求层只执行本模块声明过的动作，并核对规范化路径与最终 URL。profile 决定协议、域名、UA、身份 Cookie 字段和协议选项，token 由协议准备统一编码，会话仍来自本次 Call。操作声明优先于旧模块名缓存白名单，写动作不共享、不缓存、不重放。
 
-当前已迁移84个模块：playlist_subscribe、album_sub、artist_sub、四个共享读取 search、lyric、song_detail、playlist_detail，以及 #110 的77个曲库与播放模块。三类收藏/取消使用 web；歌曲详情使用 web，其余三个读取保留 eapi。所有 SDK 模块统一接受可选 checkToken，不按模块或动作分类。带 token 调用绕过 ReadStore，禁自动重试；provider 每个 API 请求独立取值，固定字符串在一次模块调用中只允许一次 API 请求，后续需求明确失败；纯本地/外部上传不取值。未配置 token 时保留声明的 shared cache/read retry 和独立等待者合同。
+当前已迁移139个模块：playlist_subscribe、album_sub、artist_sub、四个共享读取 search、lyric、song_detail、playlist_detail，以及 #110 的77个曲库与播放模块、#111 的55个搜索与发现模块。三类收藏/取消使用 web；歌曲详情使用 web，其余三个读取保留 eapi。所有 SDK 模块统一接受可选 checkToken，不按模块或动作分类。带 token 调用绕过 ReadStore，禁自动重试；provider 每个 API 请求独立取值，固定字符串在一次模块调用中只允许一次 API 请求，后续需求明确失败；纯本地/外部上传不取值。未配置 token 时保留声明的 shared cache/read retry 和独立等待者合同。
 
 #110 的38个 weapi 动作模块采用 weapiPc，保留浏览器 UA 与 PC Cookie 的既有组合；39个 eapi 模块复用 eapi。全部声明 cache=none，按原上限分别使用 never/connect/read，不扩共享读取。导入四分支、红心/取消、sky 音质及动态路径都在本地动作合同中表达；local 导入和 batch 更新各发一次请求。完整基线与证据选择见 [issue-110](../docs/acceptance/issue-110.md)。
 
-`generatedPendingActionModuleIdentifiers` 枚举其余 268 个模块，它们沿同一执行链获得通用 token 能力，尚不计为 profile 迁移通过。P12 删除可选声明、旧默认协议和旧策略路径；本票不提前移除全部公开配置。决策与证据边界见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
+`generatedPendingActionModuleIdentifiers` 枚举其余 213 个模块，它们沿同一执行链获得通用 token 能力，尚不计为 profile 迁移通过。P12 删除可选声明、旧默认协议和旧策略路径；本票不提前移除全部公开配置。决策与证据边界见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
 
 Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `createRequest` 仍返回 Promise；内部组合和 transport 不自行调用 `Effect.runPromise`。公开边界统一由 `src/core/runtime.ts` 负责执行和错误映射。
 
@@ -45,3 +45,5 @@ Hono 只属于 `src/server/`。`src/core/` 必须能够脱离 Hono 测试；模�
 重构背景与验收证据见 `_notes/effect-refactor/final-report.md` 和 `website/guide/request-layer-overview.md`。
 
 内部实例装配见 [ADR-0002](../docs/adr/0002-testing-runtime-and-evidence.md)。`buildCallServices(config, initializeAnonymous, execution)` 的第三个参数只供内部装配；Call 保存冻结依赖，公开 fetcher 与显式 Clock 保持优先。SDK 内部 client factory 由生成器产出且不从根导出；HTTP 的 runtimeOptions 不从请求输入读取。测试仍执行同一请求链。
+
+#111 的55模块声明56个请求动作，复用39个weapiPc和16个eapi组合；search_suggest的mobile/web分别固定目标，top_list的idx本地拒绝零请求。全部cache=none；FM垃圾桶与推荐不感兴趣write/never，连续推荐与首页刷新read/never，其他读取不扩大原重试上限。源码/离线材料不证明推荐流是否持久推进上游状态。没有新增产品共享接缝，完整清单和证据边界见 [issue-111](../docs/acceptance/issue-111.md)。

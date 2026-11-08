@@ -1,6 +1,6 @@
 # ADR-0001：请求动作与客户端身份分别声明
 
-状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105)、[#106](https://github.com/nonhana/hana-music-api/issues/106) 、[#109](https://github.com/nonhana/hana-music-api/issues/109) 和 [#110](https://github.com/nonhana/hana-music-api/issues/110) 的动作迁移。
+状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105)、[#106](https://github.com/nonhana/hana-music-api/issues/106) 、[#109](https://github.com/nonhana/hana-music-api/issues/109) 、[#110](https://github.com/nonhana/hana-music-api/issues/110) 和 [#111](https://github.com/nonhana/hana-music-api/issues/111) 的动作迁移。
 
 ## 原因与决定
 
@@ -22,7 +22,7 @@
 
 保留 Promise、id/t 业务参数、status/body/cookie 外壳、返回体 Schema 和用户会话。普通配置不能再覆盖本模块的受控身份字段；这延续收藏模块原来强制网页请求的约定。本次不删除其他模块的公开配置字段；P12 删除公开字段时使用 major changeset，并保留显式低层 createRequest 及其目标和凭据外送校验。
 
-当前已迁移84个模块：playlist_subscribe、album_sub、artist_sub、search、lyric、song_detail、playlist_detail 与 #110 的77个模块。其余 268 个模块由生成的 generatedPendingActionModuleIdentifiers 完整枚举；该清单只说明迁移范围，不代表所有模块已通过 profile 验收。旧默认协议、模块名缓存名单和 URI 语义判定仅供这些未迁移模块沿原执行链使用。P2、P5 及各领域批次完成后，P12 必须删除可选动作声明分支和旧判定，装配时要求每个模块声明所有实际动作；纯本地模块也不能省略空声明。
+当前已迁移139个模块：playlist_subscribe、album_sub、artist_sub、search、lyric、song_detail、playlist_detail 与 #110 的77个模块、#111 的55个模块。其余 213 个模块由生成的 generatedPendingActionModuleIdentifiers 完整枚举；该清单只说明迁移范围，不代表所有模块已通过 profile 验收。旧默认协议、模块名缓存名单和 URI 语义判定仅供这些未迁移模块沿原执行链使用。P2、P5 及各领域批次完成后，P12 必须删除可选动作声明分支和旧判定，装配时要求每个模块声明所有实际动作；纯本地模块也不能省略空声明。
 
 ## P2：四个共享读取
 
@@ -49,3 +49,9 @@ album_sub/artist_sub 分别声明 sub/unsub，固定 web、write、cache none、
 全部 cache=none。八个列表/查询读取虽然旧 URI 策略误标为写或上传，迁移后仍 retry=never，避免扩大上游自动重放；三条原来允许显式读取重试的 URI 保留 read，其余读取 connect，写与导入轮询 never。语义来自实际动作，不能从命名推断或让 read 自动授予共享资格。
 
 基线默认请求经最终编排和独立解码保存122份离线对照；候选另从生成 client/HTTP loader 验证。历史原始响应继续单独回放，云盘删除没有录制，合成样本只守返回与流量合同；不改 Schema，不把离线结果称为网易云当前可用。完整清单、来源和边界见 [验收依据](../acceptance/issue-110.md)。
+
+## P7：搜索、推荐与发现
+
+固定基线cb4bcae的55模块实际采用39个weapi浏览器UA加PC Cookie、16个eapi既有组合，均与现有weapiPc/eapi相符，因此复用，不新增profile或执行链。56个请求动作逐一声明，search_suggest将原有限路径拼接改为mobile/web两个固定目标；top_list的idx本地拒绝保持。
+
+全部cache=none，FM垃圾桶和推荐不感兴趣是write/never；FM两模块、私人DJ、首页刷新保守采用read/never，收紧原连接前重试，避免连续推荐流重放。现有源码和历史响应无法证明其是否持久推进上游状态，不能将此推测写成已验证写入；mode/subMode是请求输入。五个搜索模块保留原read重试，其余只读connect。请求144分支的独立解码与150份历史响应的固定基线返回对照分别取证，来源保持，详见 [issue-111](../acceptance/issue-111.md)。

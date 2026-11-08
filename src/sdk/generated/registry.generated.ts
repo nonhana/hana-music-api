@@ -3,6 +3,7 @@ import activateInitProfileModule, {
 } from '../../modules/activate_init_profile.ts';
 import aidjContentRcmdModule, {
   decodeModuleInput as aidjContentRcmdInputDecoder,
+  moduleActions as aidjContentRcmdActions,
 } from '../../modules/aidj_content_rcmd.ts';
 import albumModule, {
   decodeModuleInput as albumInputDecoder,
@@ -120,6 +121,7 @@ import avatarUploadModule, {
 } from '../../modules/avatar_upload.ts';
 import bannerModule, {
   decodeModuleInput as bannerInputDecoder,
+  moduleActions as bannerActions,
 } from '../../modules/banner.ts';
 import batchModule, {
   decodeModuleInput as batchInputDecoder,
@@ -141,6 +143,7 @@ import broadcastSubModule, {
 } from '../../modules/broadcast_sub.ts';
 import calendarModule, {
   decodeModuleInput as calendarInputDecoder,
+  moduleActions as calendarActions,
 } from '../../modules/calendar.ts';
 import captchaSentModule, {
   decodeModuleInput as captchaSentInputDecoder,
@@ -167,6 +170,7 @@ import cloudMatchModule, {
 } from '../../modules/cloud_match.ts';
 import cloudsearchModule, {
   decodeModuleInput as cloudsearchInputDecoder,
+  moduleActions as cloudsearchActions,
 } from '../../modules/cloudsearch.ts';
 import commentModule, {
   decodeModuleInput as commentInputDecoder,
@@ -326,6 +330,7 @@ import eventForwardModule, {
 } from '../../modules/event_forward.ts';
 import fmTrashModule, {
   decodeModuleInput as fmTrashInputDecoder,
+  moduleActions as fmTrashActions,
 } from '../../modules/fm_trash.ts';
 import followModule, {
   decodeModuleInput as followInputDecoder,
@@ -335,15 +340,19 @@ import getUseridsModule, {
 } from '../../modules/get_userids.ts';
 import historyRecommendSongsModule, {
   decodeModuleInput as historyRecommendSongsInputDecoder,
+  moduleActions as historyRecommendSongsActions,
 } from '../../modules/history_recommend_songs.ts';
 import historyRecommendSongsDetailModule, {
   decodeModuleInput as historyRecommendSongsDetailInputDecoder,
+  moduleActions as historyRecommendSongsDetailActions,
 } from '../../modules/history_recommend_songs_detail.ts';
 import homepageBlockPageModule, {
   decodeModuleInput as homepageBlockPageInputDecoder,
+  moduleActions as homepageBlockPageActions,
 } from '../../modules/homepage_block_page.ts';
 import homepageDragonBallModule, {
   decodeModuleInput as homepageDragonBallInputDecoder,
+  moduleActions as homepageDragonBallActions,
 } from '../../modules/homepage_dragon_ball.ts';
 import hotTopicModule, {
   decodeModuleInput as hotTopicInputDecoder,
@@ -519,27 +528,35 @@ import nicknameCheckModule, {
 } from '../../modules/nickname_check.ts';
 import personalFmModule, {
   decodeModuleInput as personalFmInputDecoder,
+  moduleActions as personalFmActions,
 } from '../../modules/personal_fm.ts';
 import personalFmModeModule, {
   decodeModuleInput as personalFmModeInputDecoder,
+  moduleActions as personalFmModeActions,
 } from '../../modules/personal_fm_mode.ts';
 import personalizedModule, {
   decodeModuleInput as personalizedInputDecoder,
+  moduleActions as personalizedActions,
 } from '../../modules/personalized.ts';
 import personalizedDjprogramModule, {
   decodeModuleInput as personalizedDjprogramInputDecoder,
+  moduleActions as personalizedDjprogramActions,
 } from '../../modules/personalized_djprogram.ts';
 import personalizedMvModule, {
   decodeModuleInput as personalizedMvInputDecoder,
+  moduleActions as personalizedMvActions,
 } from '../../modules/personalized_mv.ts';
 import personalizedNewsongModule, {
   decodeModuleInput as personalizedNewsongInputDecoder,
+  moduleActions as personalizedNewsongActions,
 } from '../../modules/personalized_newsong.ts';
 import personalizedPrivatecontentModule, {
   decodeModuleInput as personalizedPrivatecontentInputDecoder,
+  moduleActions as personalizedPrivatecontentActions,
 } from '../../modules/personalized_privatecontent.ts';
 import personalizedPrivatecontentListModule, {
   decodeModuleInput as personalizedPrivatecontentListInputDecoder,
+  moduleActions as personalizedPrivatecontentListActions,
 } from '../../modules/personalized_privatecontent_list.ts';
 import plCountModule, {
   decodeModuleInput as plCountInputDecoder,
@@ -660,12 +677,15 @@ import recentListenListModule, {
 } from '../../modules/recent_listen_list.ts';
 import recommendResourceModule, {
   decodeModuleInput as recommendResourceInputDecoder,
+  moduleActions as recommendResourceActions,
 } from '../../modules/recommend_resource.ts';
 import recommendSongsModule, {
   decodeModuleInput as recommendSongsInputDecoder,
+  moduleActions as recommendSongsActions,
 } from '../../modules/recommend_songs.ts';
 import recommendSongsDislikeModule, {
   decodeModuleInput as recommendSongsDislikeInputDecoder,
+  moduleActions as recommendSongsDislikeActions,
 } from '../../modules/recommend_songs_dislike.ts';
 import recordRecentAlbumModule, {
   decodeModuleInput as recordRecentAlbumInputDecoder,
@@ -709,21 +729,27 @@ import searchModule, {
 } from '../../modules/search.ts';
 import searchDefaultModule, {
   decodeModuleInput as searchDefaultInputDecoder,
+  moduleActions as searchDefaultActions,
 } from '../../modules/search_default.ts';
 import searchHotModule, {
   decodeModuleInput as searchHotInputDecoder,
+  moduleActions as searchHotActions,
 } from '../../modules/search_hot.ts';
 import searchHotDetailModule, {
   decodeModuleInput as searchHotDetailInputDecoder,
+  moduleActions as searchHotDetailActions,
 } from '../../modules/search_hot_detail.ts';
 import searchMatchModule, {
   decodeModuleInput as searchMatchInputDecoder,
+  moduleActions as searchMatchActions,
 } from '../../modules/search_match.ts';
 import searchMultimatchModule, {
   decodeModuleInput as searchMultimatchInputDecoder,
+  moduleActions as searchMultimatchActions,
 } from '../../modules/search_multimatch.ts';
 import searchSuggestModule, {
   decodeModuleInput as searchSuggestInputDecoder,
+  moduleActions as searchSuggestActions,
 } from '../../modules/search_suggest.ts';
 import sendAlbumModule, {
   decodeModuleInput as sendAlbumInputDecoder,
@@ -757,18 +783,23 @@ import signinProgressModule, {
 } from '../../modules/signin_progress.ts';
 import simiArtistModule, {
   decodeModuleInput as simiArtistInputDecoder,
+  moduleActions as simiArtistActions,
 } from '../../modules/simi_artist.ts';
 import simiMvModule, {
   decodeModuleInput as simiMvInputDecoder,
+  moduleActions as simiMvActions,
 } from '../../modules/simi_mv.ts';
 import simiPlaylistModule, {
   decodeModuleInput as simiPlaylistInputDecoder,
+  moduleActions as simiPlaylistActions,
 } from '../../modules/simi_playlist.ts';
 import simiSongModule, {
   decodeModuleInput as simiSongInputDecoder,
+  moduleActions as simiSongActions,
 } from '../../modules/simi_song.ts';
 import simiUserModule, {
   decodeModuleInput as simiUserInputDecoder,
+  moduleActions as simiUserActions,
 } from '../../modules/simi_user.ts';
 import songChorusModule, {
   decodeModuleInput as songChorusInputDecoder,
@@ -855,48 +886,62 @@ import starpickCommentsSummaryModule, {
 } from '../../modules/starpick_comments_summary.ts';
 import styleAlbumModule, {
   decodeModuleInput as styleAlbumInputDecoder,
+  moduleActions as styleAlbumActions,
 } from '../../modules/style_album.ts';
 import styleArtistModule, {
   decodeModuleInput as styleArtistInputDecoder,
+  moduleActions as styleArtistActions,
 } from '../../modules/style_artist.ts';
 import styleDetailModule, {
   decodeModuleInput as styleDetailInputDecoder,
+  moduleActions as styleDetailActions,
 } from '../../modules/style_detail.ts';
 import styleListModule, {
   decodeModuleInput as styleListInputDecoder,
+  moduleActions as styleListActions,
 } from '../../modules/style_list.ts';
 import stylePlaylistModule, {
   decodeModuleInput as stylePlaylistInputDecoder,
+  moduleActions as stylePlaylistActions,
 } from '../../modules/style_playlist.ts';
 import stylePreferenceModule, {
   decodeModuleInput as stylePreferenceInputDecoder,
+  moduleActions as stylePreferenceActions,
 } from '../../modules/style_preference.ts';
 import styleSongModule, {
   decodeModuleInput as styleSongInputDecoder,
+  moduleActions as styleSongActions,
 } from '../../modules/style_song.ts';
 import summaryAnnualModule, {
   decodeModuleInput as summaryAnnualInputDecoder,
 } from '../../modules/summary_annual.ts';
 import topAlbumModule, {
   decodeModuleInput as topAlbumInputDecoder,
+  moduleActions as topAlbumActions,
 } from '../../modules/top_album.ts';
 import topArtistsModule, {
   decodeModuleInput as topArtistsInputDecoder,
+  moduleActions as topArtistsActions,
 } from '../../modules/top_artists.ts';
 import topListModule, {
   decodeModuleInput as topListInputDecoder,
+  moduleActions as topListActions,
 } from '../../modules/top_list.ts';
 import topMvModule, {
   decodeModuleInput as topMvInputDecoder,
+  moduleActions as topMvActions,
 } from '../../modules/top_mv.ts';
 import topPlaylistModule, {
   decodeModuleInput as topPlaylistInputDecoder,
+  moduleActions as topPlaylistActions,
 } from '../../modules/top_playlist.ts';
 import topPlaylistHighqualityModule, {
   decodeModuleInput as topPlaylistHighqualityInputDecoder,
+  moduleActions as topPlaylistHighqualityActions,
 } from '../../modules/top_playlist_highquality.ts';
 import topSongModule, {
   decodeModuleInput as topSongInputDecoder,
+  moduleActions as topSongActions,
 } from '../../modules/top_song.ts';
 import topicDetailModule, {
   decodeModuleInput as topicDetailInputDecoder,
@@ -909,33 +954,43 @@ import topicSublistModule, {
 } from '../../modules/topic_sublist.ts';
 import toplistModule, {
   decodeModuleInput as toplistInputDecoder,
+  moduleActions as toplistActions,
 } from '../../modules/toplist.ts';
 import toplistArtistModule, {
   decodeModuleInput as toplistArtistInputDecoder,
+  moduleActions as toplistArtistActions,
 } from '../../modules/toplist_artist.ts';
 import toplistDetailModule, {
   decodeModuleInput as toplistDetailInputDecoder,
+  moduleActions as toplistDetailActions,
 } from '../../modules/toplist_detail.ts';
 import ugcAlbumGetModule, {
   decodeModuleInput as ugcAlbumGetInputDecoder,
+  moduleActions as ugcAlbumGetActions,
 } from '../../modules/ugc_album_get.ts';
 import ugcArtistGetModule, {
   decodeModuleInput as ugcArtistGetInputDecoder,
+  moduleActions as ugcArtistGetActions,
 } from '../../modules/ugc_artist_get.ts';
 import ugcArtistSearchModule, {
   decodeModuleInput as ugcArtistSearchInputDecoder,
+  moduleActions as ugcArtistSearchActions,
 } from '../../modules/ugc_artist_search.ts';
 import ugcDetailModule, {
   decodeModuleInput as ugcDetailInputDecoder,
+  moduleActions as ugcDetailActions,
 } from '../../modules/ugc_detail.ts';
 import ugcMvGetModule, {
   decodeModuleInput as ugcMvGetInputDecoder,
+  moduleActions as ugcMvGetActions,
 } from '../../modules/ugc_mv_get.ts';
 import ugcSongGetModule, {
   decodeModuleInput as ugcSongGetInputDecoder,
+  moduleActions as ugcSongGetActions,
 } from '../../modules/ugc_song_get.ts';
 import ugcUserDevoteModule, {
   decodeModuleInput as ugcUserDevoteInputDecoder,
+  moduleActions as ugcUserDevoteActions,
 } from '../../modules/ugc_user_devote.ts';
 import userAccountModule, {
   decodeModuleInput as userAccountInputDecoder,
@@ -1152,6 +1207,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/aidj/content/rcmd',
     execute: aidjContentRcmdModule,
     decodeInput: aidjContentRcmdInputDecoder,
+    actions: aidjContentRcmdActions,
   },
   album: {
     identifier: 'album',
@@ -1359,6 +1415,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/banner',
     execute: bannerModule,
     decodeInput: bannerInputDecoder,
+    actions: bannerActions,
   },
   batch: {
     identifier: 'batch',
@@ -1401,6 +1458,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/calendar',
     execute: calendarModule,
     decodeInput: calendarInputDecoder,
+    actions: calendarActions,
   },
   captcha_sent: {
     identifier: 'captcha_sent',
@@ -1451,6 +1509,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/cloudsearch',
     execute: cloudsearchModule,
     decodeInput: cloudsearchInputDecoder,
+    actions: cloudsearchActions,
   },
   comment: {
     identifier: 'comment',
@@ -1769,6 +1828,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/fm_trash',
     execute: fmTrashModule,
     decodeInput: fmTrashInputDecoder,
+    actions: fmTrashActions,
   },
   follow: {
     identifier: 'follow',
@@ -1787,24 +1847,28 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/history/recommend/songs',
     execute: historyRecommendSongsModule,
     decodeInput: historyRecommendSongsInputDecoder,
+    actions: historyRecommendSongsActions,
   },
   history_recommend_songs_detail: {
     identifier: 'history_recommend_songs_detail',
     route: '/history/recommend/songs/detail',
     execute: historyRecommendSongsDetailModule,
     decodeInput: historyRecommendSongsDetailInputDecoder,
+    actions: historyRecommendSongsDetailActions,
   },
   homepage_block_page: {
     identifier: 'homepage_block_page',
     route: '/homepage/block/page',
     execute: homepageBlockPageModule,
     decodeInput: homepageBlockPageInputDecoder,
+    actions: homepageBlockPageActions,
   },
   homepage_dragon_ball: {
     identifier: 'homepage_dragon_ball',
     route: '/homepage/dragon/ball',
     execute: homepageDragonBallModule,
     decodeInput: homepageDragonBallInputDecoder,
+    actions: homepageDragonBallActions,
   },
   hot_topic: {
     identifier: 'hot_topic',
@@ -2151,48 +2215,56 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/personal_fm',
     execute: personalFmModule,
     decodeInput: personalFmInputDecoder,
+    actions: personalFmActions,
   },
   personal_fm_mode: {
     identifier: 'personal_fm_mode',
     route: '/personal/fm/mode',
     execute: personalFmModeModule,
     decodeInput: personalFmModeInputDecoder,
+    actions: personalFmModeActions,
   },
   personalized: {
     identifier: 'personalized',
     route: '/personalized',
     execute: personalizedModule,
     decodeInput: personalizedInputDecoder,
+    actions: personalizedActions,
   },
   personalized_djprogram: {
     identifier: 'personalized_djprogram',
     route: '/personalized/djprogram',
     execute: personalizedDjprogramModule,
     decodeInput: personalizedDjprogramInputDecoder,
+    actions: personalizedDjprogramActions,
   },
   personalized_mv: {
     identifier: 'personalized_mv',
     route: '/personalized/mv',
     execute: personalizedMvModule,
     decodeInput: personalizedMvInputDecoder,
+    actions: personalizedMvActions,
   },
   personalized_newsong: {
     identifier: 'personalized_newsong',
     route: '/personalized/newsong',
     execute: personalizedNewsongModule,
     decodeInput: personalizedNewsongInputDecoder,
+    actions: personalizedNewsongActions,
   },
   personalized_privatecontent: {
     identifier: 'personalized_privatecontent',
     route: '/personalized/privatecontent',
     execute: personalizedPrivatecontentModule,
     decodeInput: personalizedPrivatecontentInputDecoder,
+    actions: personalizedPrivatecontentActions,
   },
   personalized_privatecontent_list: {
     identifier: 'personalized_privatecontent_list',
     route: '/personalized/privatecontent/list',
     execute: personalizedPrivatecontentListModule,
     decodeInput: personalizedPrivatecontentListInputDecoder,
+    actions: personalizedPrivatecontentListActions,
   },
   pl_count: {
     identifier: 'pl_count',
@@ -2409,18 +2481,21 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/recommend/resource',
     execute: recommendResourceModule,
     decodeInput: recommendResourceInputDecoder,
+    actions: recommendResourceActions,
   },
   recommend_songs: {
     identifier: 'recommend_songs',
     route: '/recommend/songs',
     execute: recommendSongsModule,
     decodeInput: recommendSongsInputDecoder,
+    actions: recommendSongsActions,
   },
   recommend_songs_dislike: {
     identifier: 'recommend_songs_dislike',
     route: '/recommend/songs/dislike',
     execute: recommendSongsDislikeModule,
     decodeInput: recommendSongsDislikeInputDecoder,
+    actions: recommendSongsDislikeActions,
   },
   record_recent_album: {
     identifier: 'record_recent_album',
@@ -2506,36 +2581,42 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/search/default',
     execute: searchDefaultModule,
     decodeInput: searchDefaultInputDecoder,
+    actions: searchDefaultActions,
   },
   search_hot: {
     identifier: 'search_hot',
     route: '/search/hot',
     execute: searchHotModule,
     decodeInput: searchHotInputDecoder,
+    actions: searchHotActions,
   },
   search_hot_detail: {
     identifier: 'search_hot_detail',
     route: '/search/hot/detail',
     execute: searchHotDetailModule,
     decodeInput: searchHotDetailInputDecoder,
+    actions: searchHotDetailActions,
   },
   search_match: {
     identifier: 'search_match',
     route: '/search/match',
     execute: searchMatchModule,
     decodeInput: searchMatchInputDecoder,
+    actions: searchMatchActions,
   },
   search_multimatch: {
     identifier: 'search_multimatch',
     route: '/search/multimatch',
     execute: searchMultimatchModule,
     decodeInput: searchMultimatchInputDecoder,
+    actions: searchMultimatchActions,
   },
   search_suggest: {
     identifier: 'search_suggest',
     route: '/search/suggest',
     execute: searchSuggestModule,
     decodeInput: searchSuggestInputDecoder,
+    actions: searchSuggestActions,
   },
   send_album: {
     identifier: 'send_album',
@@ -2602,30 +2683,35 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/simi/artist',
     execute: simiArtistModule,
     decodeInput: simiArtistInputDecoder,
+    actions: simiArtistActions,
   },
   simi_mv: {
     identifier: 'simi_mv',
     route: '/simi/mv',
     execute: simiMvModule,
     decodeInput: simiMvInputDecoder,
+    actions: simiMvActions,
   },
   simi_playlist: {
     identifier: 'simi_playlist',
     route: '/simi/playlist',
     execute: simiPlaylistModule,
     decodeInput: simiPlaylistInputDecoder,
+    actions: simiPlaylistActions,
   },
   simi_song: {
     identifier: 'simi_song',
     route: '/simi/song',
     execute: simiSongModule,
     decodeInput: simiSongInputDecoder,
+    actions: simiSongActions,
   },
   simi_user: {
     identifier: 'simi_user',
     route: '/simi/user',
     execute: simiUserModule,
     decodeInput: simiUserInputDecoder,
+    actions: simiUserActions,
   },
   song_chorus: {
     identifier: 'song_chorus',
@@ -2778,42 +2864,49 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/style/album',
     execute: styleAlbumModule,
     decodeInput: styleAlbumInputDecoder,
+    actions: styleAlbumActions,
   },
   style_artist: {
     identifier: 'style_artist',
     route: '/style/artist',
     execute: styleArtistModule,
     decodeInput: styleArtistInputDecoder,
+    actions: styleArtistActions,
   },
   style_detail: {
     identifier: 'style_detail',
     route: '/style/detail',
     execute: styleDetailModule,
     decodeInput: styleDetailInputDecoder,
+    actions: styleDetailActions,
   },
   style_list: {
     identifier: 'style_list',
     route: '/style/list',
     execute: styleListModule,
     decodeInput: styleListInputDecoder,
+    actions: styleListActions,
   },
   style_playlist: {
     identifier: 'style_playlist',
     route: '/style/playlist',
     execute: stylePlaylistModule,
     decodeInput: stylePlaylistInputDecoder,
+    actions: stylePlaylistActions,
   },
   style_preference: {
     identifier: 'style_preference',
     route: '/style/preference',
     execute: stylePreferenceModule,
     decodeInput: stylePreferenceInputDecoder,
+    actions: stylePreferenceActions,
   },
   style_song: {
     identifier: 'style_song',
     route: '/style/song',
     execute: styleSongModule,
     decodeInput: styleSongInputDecoder,
+    actions: styleSongActions,
   },
   summary_annual: {
     identifier: 'summary_annual',
@@ -2826,42 +2919,49 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/top/album',
     execute: topAlbumModule,
     decodeInput: topAlbumInputDecoder,
+    actions: topAlbumActions,
   },
   top_artists: {
     identifier: 'top_artists',
     route: '/top/artists',
     execute: topArtistsModule,
     decodeInput: topArtistsInputDecoder,
+    actions: topArtistsActions,
   },
   top_list: {
     identifier: 'top_list',
     route: '/top/list',
     execute: topListModule,
     decodeInput: topListInputDecoder,
+    actions: topListActions,
   },
   top_mv: {
     identifier: 'top_mv',
     route: '/top/mv',
     execute: topMvModule,
     decodeInput: topMvInputDecoder,
+    actions: topMvActions,
   },
   top_playlist: {
     identifier: 'top_playlist',
     route: '/top/playlist',
     execute: topPlaylistModule,
     decodeInput: topPlaylistInputDecoder,
+    actions: topPlaylistActions,
   },
   top_playlist_highquality: {
     identifier: 'top_playlist_highquality',
     route: '/top/playlist/highquality',
     execute: topPlaylistHighqualityModule,
     decodeInput: topPlaylistHighqualityInputDecoder,
+    actions: topPlaylistHighqualityActions,
   },
   top_song: {
     identifier: 'top_song',
     route: '/top/song',
     execute: topSongModule,
     decodeInput: topSongInputDecoder,
+    actions: topSongActions,
   },
   topic_detail: {
     identifier: 'topic_detail',
@@ -2886,60 +2986,70 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/toplist',
     execute: toplistModule,
     decodeInput: toplistInputDecoder,
+    actions: toplistActions,
   },
   toplist_artist: {
     identifier: 'toplist_artist',
     route: '/toplist/artist',
     execute: toplistArtistModule,
     decodeInput: toplistArtistInputDecoder,
+    actions: toplistArtistActions,
   },
   toplist_detail: {
     identifier: 'toplist_detail',
     route: '/toplist/detail',
     execute: toplistDetailModule,
     decodeInput: toplistDetailInputDecoder,
+    actions: toplistDetailActions,
   },
   ugc_album_get: {
     identifier: 'ugc_album_get',
     route: '/ugc/album/get',
     execute: ugcAlbumGetModule,
     decodeInput: ugcAlbumGetInputDecoder,
+    actions: ugcAlbumGetActions,
   },
   ugc_artist_get: {
     identifier: 'ugc_artist_get',
     route: '/ugc/artist/get',
     execute: ugcArtistGetModule,
     decodeInput: ugcArtistGetInputDecoder,
+    actions: ugcArtistGetActions,
   },
   ugc_artist_search: {
     identifier: 'ugc_artist_search',
     route: '/ugc/artist/search',
     execute: ugcArtistSearchModule,
     decodeInput: ugcArtistSearchInputDecoder,
+    actions: ugcArtistSearchActions,
   },
   ugc_detail: {
     identifier: 'ugc_detail',
     route: '/ugc/detail',
     execute: ugcDetailModule,
     decodeInput: ugcDetailInputDecoder,
+    actions: ugcDetailActions,
   },
   ugc_mv_get: {
     identifier: 'ugc_mv_get',
     route: '/ugc/mv/get',
     execute: ugcMvGetModule,
     decodeInput: ugcMvGetInputDecoder,
+    actions: ugcMvGetActions,
   },
   ugc_song_get: {
     identifier: 'ugc_song_get',
     route: '/ugc/song/get',
     execute: ugcSongGetModule,
     decodeInput: ugcSongGetInputDecoder,
+    actions: ugcSongGetActions,
   },
   ugc_user_devote: {
     identifier: 'ugc_user_devote',
     route: '/ugc/user/devote',
     execute: ugcUserDevoteModule,
     decodeInput: ugcUserDevoteInputDecoder,
+    actions: ugcUserDevoteActions,
   },
   user_account: {
     identifier: 'user_account',

@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -40,6 +40,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/playlist/list',
+    profile: 'weapiPc',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
 const topPlaylist: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data = {
@@ -50,11 +60,7 @@ const topPlaylist: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       total: true,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/list`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('read', moduleActions.read, data),
     );
     // 成功返回体里把 `avatarImgId_str` 改写成 `avatarImgIdStr`（公开行为）；录制保存上游原文，
     // 非 200 业务拒绝由 decodeUpstreamBody 原样透传 response.body，不做改写。

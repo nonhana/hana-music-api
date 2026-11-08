@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -20,19 +20,25 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/homepage/dragon/ball/static',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
 const homepageDragonBall: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
+  _query,
   request,
 ) =>
   Effect.gen(function* () {
     const data = {};
 
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/homepage/dragon/ball/static`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('read', moduleActions.read, data),
     );
     const body = yield* decodeUpstreamBody(
       'homepage_dragon_ball',

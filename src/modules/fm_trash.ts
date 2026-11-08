@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -21,6 +21,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  write: {
+    target: '/api/radio/trash/add',
+    profile: 'weapiPc',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
 const fmTrash: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
   Effect.gen(function* () {
     const data = {
@@ -29,11 +39,7 @@ const fmTrash: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       time: query.time || 25,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/radio/trash/add`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('write', moduleActions.write, data),
     );
     return {
       ...toModuleResponse(response),

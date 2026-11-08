@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -99,17 +99,23 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/personalized/djprogram',
+    profile: 'weapiPc',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
 const personalizedDjprogram: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
+  _query,
   request,
 ) =>
   Effect.gen(function* () {
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/personalized/djprogram`,
-        {},
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('read', moduleActions.read, {}),
     );
     const body = yield* decodeUpstreamBody(
       'personalized_djprogram',

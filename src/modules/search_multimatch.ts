@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -99,6 +99,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export const moduleActions = {
+  read: {
+    target: '/api/search/suggest/multimatch',
+    profile: 'weapiPc',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'read',
+  },
+} as const satisfies ModuleActions;
+
 const searchMultimatch: ModuleEffect<ModuleInput, ModuleBody> = (
   query,
   request,
@@ -109,11 +119,7 @@ const searchMultimatch: ModuleEffect<ModuleInput, ModuleBody> = (
       s: query.keywords || '',
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/search/suggest/multimatch`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('read', moduleActions.read, data),
     );
     const body = yield* decodeUpstreamBody(
       'search_multimatch',

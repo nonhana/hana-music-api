@@ -37,3 +37,5 @@ playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、�
 - 修改公开导出后，必须通过 `bun run test:sdk-contract`、`bun run verify:sdk` 和 `bun run build:check`。
 
 使用说明见 `website/guide/programmatic-api.md`、`website/guide/create-request-and-create-option.md` 和 `website/guide/sdk-package-contract.md`。
+
+#111 的55个搜索、推荐与发现模块同样固定各自基线身份：39个weapiPc、16个eapi。普通覆盖收口属于major兼容变化，业务输入、响应Schema和低层createRequest保持。FM、私人DJ和首页刷新不再自动重试连接前失败；不新增缓存或共享。详见 [issue-111](../docs/acceptance/issue-111.md)。
