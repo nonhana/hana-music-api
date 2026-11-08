@@ -12,7 +12,6 @@ import type {
   ModuleQuery,
 } from '../../../src/types/index.ts';
 import { runSync, runSyncExit } from '../../_kit/it.ts';
-import { response } from '../../_kit/upload.ts';
 import { songFile } from '../../fixtures/synthetic/upload.ts';
 
 const contracts: Array<{
@@ -485,22 +484,20 @@ test.each([{ input: null }, { input: [] }])(
         return Response.json({ code: 200 });
       },
     });
-    const requestHandler = () =>
-      Effect.sync(() => {
-        requests += 1;
-        return response({ code: 200 });
-      });
+    const fetcher = async () => {
+      requests++;
+      return Response.json({ code: 200 });
+    };
     const sdk = await Reflect.apply(api.likelist, undefined, [input]).catch(
       (error: unknown) => error,
     );
     const programmatic = await invokeModule(
       'likelist',
       input as unknown as ModuleQuery,
-      {
-        requestHandler,
-      },
+      {},
+      { fetcher },
     ).catch((error: unknown) => error);
-    const app = await createServer({ requestHandler });
+    const app = await createServer({}, { execution: { fetcher } });
     const http = await app.request('http://localhost/likelist', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -525,17 +522,17 @@ test.each([
   '$identifier rejects malformed programmatic and Hono input before execution',
   async ({ identifier, route, input }) => {
     let requests = 0;
-    const requestHandler = () =>
-      Effect.sync(() => {
-        requests += 1;
-        return response({ code: 200 });
-      });
+    const fetcher = async () => {
+      requests++;
+      return Response.json({ code: 200 });
+    };
     const programmatic = await Reflect.apply(invokeModule, undefined, [
       identifier,
       input,
-      { requestHandler },
+      {},
+      { fetcher },
     ]).catch((error: unknown) => error);
-    const app = await createServer({ requestHandler });
+    const app = await createServer({}, { execution: { fetcher } });
     const http = await app.request(`http://localhost${route}`, {
       method: 'POST',
       headers: { 'content-type': 'application/json' },

@@ -1,28 +1,24 @@
 import { describe, expect, test } from 'bun:test';
 
-import { Effect, Result } from 'effect';
-import { TestClock } from 'effect/testing';
+import { Effect } from 'effect';
 
 import type { ModuleCallConfig } from '../../../../index.ts';
 import { buildCallServices } from '../../../../src/core/call.ts';
-import {
-  DeadlineExceeded,
-  ProtocolFailed,
-} from '../../../../src/core/errors.ts';
-import { normalizeFailure } from '../../../../src/core/response.ts';
 import voiceUpload, {
   createMultipartCompleteXml,
   parseMultipartUploadId,
 } from '../../../../src/modules/voice_upload.ts';
 import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
-import type {
-  RequestCapability,
-  RequestIntent,
-} from '../../../../src/types/index.ts';
-import { expectFailure, settle } from '../../../_kit/assertions.ts';
-import { testEntropy } from '../../../_kit/harness/sdk.ts';
-import { runEffect, runExit } from '../../../_kit/it.ts';
-import { executeModule, response } from '../../../_kit/upload.ts';
+import type { RequestCapability } from '../../../../src/types/index.ts';
+import { settle } from '../../../_kit/assertions.ts';
+import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
+import { runEffect } from '../../../_kit/it.ts';
+import type { RecordedAction } from '../../../_kit/module.ts';
+import {
+  captureBoundModule,
+  executeModule,
+  response,
+} from '../../../_kit/upload.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import type {
   UpstreamExpectation,
@@ -49,18 +45,6 @@ const stages = [
   '/api/voice/workbench/voice/batch/upload/preCheck',
   '/api/voice/workbench/voice/batch/upload/v2',
 ];
-
-const stageResponse = (intent: RequestIntent) =>
-  response(
-    intent.target === stages[0]
-      ? tokenBody
-      : intent.target.endsWith('?uploads')
-        ? initXml
-        : { code: 200, data: { voiceId: 'voice-1', future: [true, null] } },
-    new Headers({
-      etag: intent.target.includes('partNumber=2') ? 'etag-2' : 'etag-1',
-    }),
-  );
 
 describe('voice multipart XML', () => {
   test('parses UploadId as an Effect value', async () => {
@@ -98,12 +82,25 @@ describe('voice multipart XML', () => {
 
 describe('voice upload Effect', () => {
   test('one capability receives token, ordered parts, completion and voice metadata', async () => {
-    const intents: Array<RequestIntent> = [];
-    const request: RequestCapability = (intent) =>
-      Effect.sync(() => {
+    const intents: Array<RecordedAction> = [];
+    const request: RequestCapability = (action, args) => {
+      const intent = { action, args };
+      return Effect.sync(() => {
         intents.push(intent);
-        return stageResponse(intent);
+        let body: unknown = {
+          code: 200,
+          data: { voiceId: 'voice-1', future: [true, null] },
+        };
+        if (action === 'allocate') body = tokenBody;
+        else if (action === 'initialize') body = initXml;
+        return response(
+          body,
+          new Headers({
+            etag: args.target?.includes('partNumber=2') ? 'etag-2' : 'etag-1',
+          }),
+        );
       });
+    };
     const result = await runEffect(
       executeModule(
         voiceUpload,
@@ -122,35 +119,30 @@ describe('voice upload Effect', () => {
       cookie: [],
       body: { code: 200, data: { voiceId: 'voice-1', future: [true, null] } },
     });
-    expect(intents.map((intent) => intent.target)).toEqual([
-      ...stages.slice(0, 3),
+    expect(intents.map((intent) => intent.action)).toEqual([
+      'allocate',
+      'initialize',
+      'part',
+      'part',
+      'complete',
+      'preCheck',
+      'submit',
+    ]);
+    expect(intents.slice(1, 5).map((intent) => intent.args.target)).toEqual([
+      ...stages.slice(1, 3),
       'https://ymusic.nos-hz.163yun.com/voice%2Fdemo?partNumber=2&uploadId=upload-123',
-      ...stages.slice(3),
+      stages[3],
     ]);
-    expect(
-      intents.map((intent) => [
-        intent.protocol,
-        intent.method,
-        intent.semantic,
-        intent.response,
-      ]),
-    ).toEqual([
-      ['weapi', 'POST', 'upload', 'json'],
-      ['plain', 'POST', 'upload', 'text'],
-      ['plain', 'PUT', 'upload', 'bytes'],
-      ['plain', 'PUT', 'upload', 'bytes'],
-      ['plain', 'POST', 'upload', 'bytes'],
-      ['eapi', 'POST', 'upload', 'json'],
-      ['eapi', 'POST', 'upload', 'json'],
-    ]);
-    expect((intents[2]!.body as Uint8Array).byteLength).toBe(10 * 1024 * 1024);
-    expect((intents[3]!.body as Uint8Array).byteLength).toBe(1);
-    expect(intents[4]?.body).toBe(
+    expect((intents[2]!.args.body as Uint8Array).byteLength).toBe(
+      10 * 1024 * 1024,
+    );
+    expect((intents[3]!.args.body as Uint8Array).byteLength).toBe(1);
+    expect(intents[4]?.args.body).toBe(
       createMultipartCompleteXml(['etag-1', 'etag-2']),
     );
     for (const intent of intents.slice(5)) {
-      expect(intent.headers['x-nos-token']).toBe('nos-token');
-      expect(JSON.parse(String(intent.body))).toMatchObject({
+      expect(intent.args.headers?.['x-nos-token']).toBe('nos-token');
+      expect(intent.args.data).toMatchObject({
         voiceData: expect.stringContaining('"composedSongs":["1","2"]'),
       });
     }
@@ -159,134 +151,178 @@ describe('voice upload Effect', () => {
   test.each([0, 1, 2, 3, 4, 5])(
     'failure at stage %d reports only completed stages and sends nothing further',
     async (failureIndex) => {
-      const sent: Array<string> = [];
-      const failure = ProtocolFailed.make({
-        message: 'stage rejected',
-        response: {
-          ...response({ code: 403, detail: 'retained' }),
-          status: 403,
-        },
-      });
-      const request: RequestCapability = (intent) =>
-        Effect.suspend(() => {
-          sent.push(intent.target);
-          return sent.length === failureIndex + 1
-            ? Effect.fail(failure)
-            : Effect.succeed(stageResponse(intent));
-        });
-      const result = await runEffect(
-        Effect.result(executeModule(voiceUpload, { songFile }, request)),
-      );
-      expect(Result.isFailure(result)).toBe(true);
-      if (!Result.isFailure(result)) {
-        return;
-      }
-      expect(result.failure).toMatchObject(
-        failureIndex === 0
-          ? { _tag: 'ProtocolFailed' }
-          : {
-              _tag: 'PartialUpload',
-              module: 'voice_upload',
-              completedStages: stages.slice(0, failureIndex),
+      const expected = publicVoiceStages('voice-failure')
+        .slice(0, failureIndex + 1)
+        .map((entry, index) =>
+          index === failureIndex
+            ? {
+                ...entry,
+                response: () =>
+                  Response.json(
+                    { code: 403, detail: 'retained' },
+                    { status: 403 },
+                  ),
+              }
+            : entry,
+        );
+      await withScenario(expected, async (network) => {
+        const result = await captureBoundModule(
+          voiceUpload,
+          { songFile },
+          network.fetcher,
+          { cookie: 'MUSIC_U=voice-failure' },
+        );
+        expect(result.failure).toMatchObject(
+          failureIndex === 0
+            ? { _tag: 'ProtocolFailed' }
+            : {
+                _tag: 'PartialUpload',
+                module: 'voice_upload',
+                completedStages: stages.slice(0, failureIndex),
+              },
+        );
+        expect(result.outcome).toMatchObject({
+          rejected: {
+            status: 403,
+            body: {
+              ...(failureIndex === 0 || failureIndex > 3
+                ? { code: 403, detail: 'retained' }
+                : {}),
+              ...(failureIndex
+                ? { partialCompletion: true, completedStages: failureIndex }
+                : {}),
             },
-      );
-      expect(result.failure.pipe(normalizeFailure)).toMatchObject({
-        status: 403,
-        body: {
-          code: 403,
-          detail: 'retained',
-          ...(failureIndex
-            ? { partialCompletion: true, completedStages: failureIndex }
-            : {}),
-        },
+          },
+        });
+        if (failureIndex > 0) {
+          let expectedBody: unknown = { code: 403, detail: 'retained' };
+          if (failureIndex === 1) {
+            expectedBody = JSON.stringify(expectedBody);
+          } else if (failureIndex < 4) {
+            expectedBody = Array.from(
+              new TextEncoder().encode(JSON.stringify(expectedBody)),
+            );
+          }
+          expect(result.failure).toMatchObject({
+            cause: {
+              response: {
+                body: expectedBody,
+              },
+            },
+          });
+        }
+        expect(result.completedStages).toEqual(stages.slice(0, failureIndex));
+        expect(network.sent).toHaveLength(failureIndex + 1);
       });
-      expect(sent).toEqual(stages.slice(0, failureIndex + 1));
     },
   );
 
-  test('checks the current Call deadline before the next stage even with an injected capability', async () => {
-    const sent: Array<string> = [];
-    const request: RequestCapability = (intent) =>
-      Effect.gen(function* () {
-        sent.push(intent.target);
-        yield* TestClock.adjust(50);
-        return stageResponse(intent);
+  test('bound upload enforces its total deadline during the next body and releases the reader', async () => {
+    let cancelled = false;
+    const expected = publicVoiceStages('voice-deadline').slice(0, 2);
+    expected[1] = {
+      ...expected[1]!,
+      response: () =>
+        new Response(
+          new ReadableStream({
+            cancel: () => {
+              cancelled = true;
+            },
+          }),
+        ),
+    };
+    await withScenario(expected, async (network) => {
+      const result = await captureBoundModule(
+        voiceUpload,
+        { songFile },
+        network.fetcher,
+        { cookie: 'MUSIC_U=voice-deadline', timeoutMs: 200 },
+      );
+      expect(result.outcome).toMatchObject({
+        rejected: {
+          status: 504,
+          body: { partialCompletion: true, completedStages: 1 },
+        },
       });
-    const result = await runEffect(
-      Effect.gen(function* () {
-        yield* TestClock.setTime(0);
-        return yield* Effect.result(
-          executeModule(voiceUpload, { songFile }, request, {}, 50),
-        );
-      }),
-      TestClock.layer(),
-    );
-    expect(Result.isFailure(result)).toBe(true);
-    if (Result.isFailure(result)) {
-      expect(result.failure.pipe(normalizeFailure)).toMatchObject({
-        status: 504,
-        body: { partialCompletion: true, completedStages: 1 },
-      });
-    }
-    expect(sent).toEqual(stages.slice(0, 1));
-  });
-
-  test('an expired Call never sends its token request', async () => {
-    let sent = 0;
-    const request: RequestCapability = () =>
-      Effect.sync(() => {
-        sent += 1;
-        return response(tokenBody);
-      });
-    const result = await runEffect(
-      Effect.flip(executeModule(voiceUpload, { songFile }, request, {}, 0)),
-    );
-    expect(result).toBeInstanceOf(DeadlineExceeded);
-    expect(sent).toBe(0);
+      expect(result.completedStages).toEqual(stages.slice(0, 1));
+      expect(network.sent).toHaveLength(2);
+      expect(cancelled).toBe(true);
+    });
   });
 
   test('interruption stops subsequent stages and carries partial progress', async () => {
-    const sent: Array<string> = [];
-    const request: RequestCapability = (intent) =>
-      Effect.suspend(() => {
-        sent.push(intent.target);
-        return sent.length === 2
-          ? Effect.interrupt
-          : Effect.succeed(stageResponse(intent));
-      });
-    const exit = await runExit(
-      executeModule(voiceUpload, { songFile }, request),
-    );
-    expect(exit.pipe(expectFailure)).toMatchObject({
-      status: 499,
-      body: { partialCompletion: true, completedStages: 1 },
+    const stage = createStage('voice initialization');
+    const controller = new AbortController();
+    let release!: () => void;
+    const gate = new Promise<void>((resolve) => {
+      release = resolve;
     });
-    expect(sent).toEqual(stages.slice(0, 2));
+    const expected = publicVoiceStages('voice-cancel').slice(0, 2);
+    expected[1] = {
+      ...expected[1]!,
+      response: async () => {
+        stage.reach();
+        await gate;
+        throw new DOMException('Aborted', 'AbortError');
+      },
+    };
+    await withScenario(expected, async (network) => {
+      const pending = captureBoundModule(
+        voiceUpload,
+        { songFile },
+        network.fetcher,
+        { cookie: 'MUSIC_U=voice-cancel', signal: controller.signal },
+      );
+      try {
+        await stage.wait(pending);
+        controller.abort();
+        const result = await pending;
+        expect(result.outcome).toMatchObject({
+          rejected: {
+            status: 499,
+            body: { partialCompletion: true, completedStages: 1 },
+          },
+        });
+        expect(result.completedStages).toEqual(stages.slice(0, 1));
+        expect(network.sent).toHaveLength(2);
+      } finally {
+        controller.abort();
+        release();
+        await pending;
+      }
+    });
   });
 
   test('concurrent calls keep their completed-stage counts isolated', async () => {
-    const counts = await Promise.all(
+    const results = await Promise.all(
       [1, 4].map(async (failureIndex) => {
-        let sent = 0;
-        const request: RequestCapability = (intent) =>
-          Effect.suspend(() => {
-            sent += 1;
-            return sent > failureIndex
-              ? Effect.fail(
-                  DeadlineExceeded.make({ message: 'Request timed out' }),
-                )
-              : Effect.succeed(stageResponse(intent));
-          });
-        return normalizeFailure(
-          await runEffect(
-            Effect.flip(executeModule(voiceUpload, { songFile }, request)),
-          ),
-        );
+        const account = `voice-concurrent-${failureIndex}`;
+        const expected = publicVoiceStages(account)
+          .slice(0, failureIndex + 1)
+          .map((entry, index) =>
+            index === failureIndex
+              ? {
+                  ...entry,
+                  response: () => Response.json({ code: 403 }, { status: 403 }),
+                }
+              : entry,
+          );
+        return withScenario(expected, async (network) => {
+          const result = await captureBoundModule(
+            voiceUpload,
+            { songFile },
+            network.fetcher,
+            { cookie: `MUSIC_U=${account}` },
+          );
+          expect(result.completedStages).toEqual(stages.slice(0, failureIndex));
+          expect(network.sent).toHaveLength(failureIndex + 1);
+          return result.outcome;
+        });
       }),
     );
-    expect(counts).toMatchObject([
-      { body: { completedStages: 1 } },
-      { body: { completedStages: 4 } },
+    expect(results).toMatchObject([
+      { rejected: { body: { completedStages: 1 } } },
+      { rejected: { body: { completedStages: 4 } } },
     ]);
   });
 });

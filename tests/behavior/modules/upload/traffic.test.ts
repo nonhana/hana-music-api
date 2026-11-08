@@ -26,9 +26,12 @@ import type {
   ModuleEffect,
   ModuleQuery,
 } from '../../../../src/types/index.ts';
+import { testEntropy } from '../../../_kit/harness/sdk.ts';
 import { runEffect } from '../../../_kit/it.ts';
 import { clientLayer } from '../../../_kit/layers.ts';
-import { mockRequest } from '../../../_kit/module.ts';
+import type { WireRequest } from '../../../_kit/upstream/scenario.ts';
+import { withScenario } from '../../../_kit/upstream/scenario.ts';
+import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
 import {
   initXml,
   relatedHtml,
@@ -299,7 +302,7 @@ test('voice stage timeout is sixty seconds under the five minute Call budget', a
             actions: voiceUploadActions,
             execute: voiceUpload,
           },
-          undefined,
+
           clock,
         ).catch((error: unknown) => error);
         yield* Effect.promise(() => started);
@@ -396,8 +399,9 @@ test.each([
       {
         identifier: scenario.identifier,
         input: scenario.input,
-        signal: controller.signal,
+
         config: {
+          signal: controller.signal,
           cookie: 'MUSIC_U=body-' + scenario.identifier,
           fetcher: async (input, init) => {
             sent += 1;
@@ -467,40 +471,77 @@ test.each(['audioMatch', 'relatedPlaylist', 'avatarUpload'] as const)(
   },
 );
 
-test('a custom API handler cannot reinterpret plain upload bodies as API JSON', async () => {
-  let apiCalls = 0;
-  const plainTargets: Array<string> = [];
-  const plainBodies: Array<unknown> = [];
-  const fetcher: FetchLike = async (input, init) => {
-    plainTargets.push(requestUrl(input));
-    plainBodies.push(init?.body);
-    return fetchUpload(input, init);
-  };
-  const result = await invokeProgrammatic(
-    'voice_upload',
-    { songFile },
-    {
-      requestHandler: mockRequest(async (target: string) => {
-        apiCalls += 1;
-        return {
-          status: 200,
-          cookie: [],
-          body:
-            target === '/api/nos/token/alloc'
-              ? tokenBody
-              : { code: 200, data: { marker: 'kept' } },
-        };
-      }),
+test('one fetcher preserves API envelopes and raw plain upload bodies', async () => {
+  const nos = 'https://ymusic.nos-hz.163yun.com/voice%2Fdemo';
+  const api =
+    'https://interface.music.163.com/eapi/voice/workbench/voice/batch/upload';
+  await withScenario(
+    [
+      {
+        url: 'https://music.163.com/weapi/nos/token/alloc',
+        method: 'POST',
+        check: (wire) =>
+          expect(readWebBody(wire.body)).toMatchObject({
+            bucket: 'ymusic',
+            filename: 'demo',
+            ext: 'mp3',
+          }),
+        response: () => Response.json(tokenBody),
+      },
+      {
+        url: `${nos}?uploads`,
+        method: 'POST',
+        headers: { cookie: null, 'x-nos-token': 'nos-token' },
+        response: () => new Response(initXml),
+      },
+      {
+        url: `${nos}?partNumber=1&uploadId=upload-123`,
+        method: 'PUT',
+        headers: { cookie: null, 'x-nos-token': 'nos-token' },
+        check: (wire) =>
+          expect(new TextEncoder().encode(wire.body)).toEqual(
+            new Uint8Array([1, 2]),
+          ),
+        response: () =>
+          new Response(new Uint8Array([0, 128, 255]), {
+            headers: { etag: 'etag-1' },
+          }),
+      },
+      {
+        url: `${nos}?uploadId=upload-123`,
+        method: 'POST',
+        headers: { cookie: null, 'x-nos-token': 'nos-token' },
+        check: (wire) =>
+          expect(wire.body).toBe(
+            '<CompleteMultipartUpload><Part><PartNumber>1</PartNumber><ETag>etag-1</ETag></Part></CompleteMultipartUpload>',
+          ),
+        response: () => new Response(new Uint8Array([0, 128, 255])),
+      },
+      ...['preCheck', 'v2'].map((stage) => ({
+        url: `${api}/${stage}`,
+        method: 'POST',
+        headers: { 'x-nos-token': 'nos-token' },
+        check: (wire: WireRequest) =>
+          expect(readEapiBody(wire.body).data).toMatchObject({
+            voiceData: expect.any(String),
+            dupkey: expect.any(String),
+          }),
+        response: () => Response.json({ code: 200, data: { marker: 'kept' } }),
+      })),
+    ],
+    async (network) => {
+      const result = await invokeProgrammatic(
+        'voice_upload',
+        { songFile },
+        {},
+        { cookie: 'MUSIC_U=custom-api', fetcher: network.fetcher },
+        { entropy: testEntropy },
+      );
+      expect(result.body).toEqual({ code: 200, data: { marker: 'kept' } });
+      expect(
+        network.sent.filter((wire) => wire.url.startsWith('https://ymusic.')),
+      ).toHaveLength(3);
+      expect(network.sent).toHaveLength(6);
     },
-    { cookie: 'MUSIC_U=custom-api', fetcher },
   );
-  expect(result.body).toEqual({ code: 200, data: { marker: 'kept' } });
-  expect(apiCalls).toBe(3);
-  expect(plainTargets).toHaveLength(3);
-  expect(
-    plainTargets.every((target) =>
-      target.startsWith('https://ymusic.nos-hz.163yun.com/'),
-    ),
-  ).toBe(true);
-  expect(plainBodies[1]).toEqual(new Uint8Array([1, 2]));
 });

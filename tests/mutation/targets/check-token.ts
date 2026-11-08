@@ -13,7 +13,7 @@ export const mutations = [
     file: 'src/core/request.ts',
     find: 'configured !== undefined && tokenTarget',
     replace:
-      "configured !== undefined && tokenTarget && intent.protocol !== 'plain'",
+      "configured !== undefined && tokenTarget && request.protocol !== 'plain'",
     expectedFailures: [
       'approved plain audioMatch requests forward an explicit token only in the header',
     ],
@@ -32,7 +32,7 @@ export const mutations = [
     file: 'src/core/request.ts',
     find: 'configured !== undefined && tokenTarget',
     replace:
-      "configured !== undefined && tokenTarget && intent.semantic !== 'read'",
+      "configured !== undefined && tokenTarget && request.policy.semantic !== 'read'",
     expectedFailures: [
       'explicit tokens on reads bypass existing cache and never merge concurrent calls',
     ],
@@ -67,8 +67,8 @@ export const mutations = [
   {
     id: 'token-provider-late-send',
     file: 'src/core/call.ts',
-    find: '    input.signal,',
-    replace: '    undefined,',
+    find: '    signal,\n    () =>',
+    replace: '    signal && undefined,\n    () =>',
     expectedFailures: [
       'provider cancellation ignores a late value before any API send',
     ],
@@ -94,8 +94,8 @@ export const mutations = [
   {
     id: 'token-read-retried',
     file: 'src/core/request.ts',
-    find: "checkToken === undefined &&\n            intent.semantic === 'read'",
-    replace: "intent.semantic === 'read'",
+    find: "checkToken === undefined &&\n            request.policy.semantic === 'read'",
+    replace: "request.policy.semantic === 'read'",
     expectedFailures: [
       'a token-bearing read never automatically retries a failed send',
     ],

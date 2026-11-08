@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -50,10 +49,11 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const userCloudDetail: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const userCloudDetail: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (typeof query.id !== 'string') {
       return yield* InvalidModuleInput.make({ message: 'id must be a string' });
@@ -62,9 +62,7 @@ const userCloudDetail: ModuleEffect<ModuleInput, ModuleBody> = (
     const data = {
       songIds: id,
     };
-    const result = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, data),
-    );
+    const result = yield* request('read', { data });
     return {
       ...toModuleResponse(result),
       body: yield* decodeUpstreamBody('user_cloud_detail', ModuleBody, result),

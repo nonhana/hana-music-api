@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -36,17 +35,16 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const historyRecommendSongsDetail: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const historyRecommendSongsDetail: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       date: query.date || '',
     };
-    const response = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, data),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
       'history_recommend_songs_detail',
       ModuleBody,

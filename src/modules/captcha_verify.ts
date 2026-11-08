@@ -1,10 +1,10 @@
 import { Effect } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   request: {
@@ -16,16 +16,18 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const captchaVerify: ModuleEffect<ModuleInput> = (query, request) =>
+const captchaVerify: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       ctcode: query.ctcode || '86',
       cellphone: query.phone,
       captcha: query.captcha,
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 

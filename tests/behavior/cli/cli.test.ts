@@ -1,9 +1,20 @@
-import { describe, expect, test } from 'bun:test';
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
+import { describe, expect, spyOn, test } from 'bun:test';
+import {
+  existsSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 
 import { ensureAnonymousToken } from '../../../src/app/cli.ts';
+import {
+  generateConfig,
+  registerAnonymous,
+} from '../../../src/app/generate-config.ts';
+import { getRuntimeState, setRuntimeState } from '../../../src/core/runtime.ts';
 import type { FetchLike } from '../../../src/types/index.ts';
 
 const restoreAnonymousTokenFileEnv = (
@@ -191,3 +202,75 @@ describe('ensureAnonymousToken', () => {
     }
   });
 });
+
+test('CLI registration writes state before requests and retains a success without MUSIC_A', async () => {
+  const previous = getRuntimeState();
+  try {
+    const result = await registerAnonymous({
+      state: { deviceId: 'cli-before-send', cnIp: '3.3.3.3' },
+      fetcher: async (input) => {
+        expect(input instanceof Request ? input.url : input.toString()).toBe(
+          'https://music.163.com/weapi/register/anonimous',
+        );
+        expect(getRuntimeState()).toMatchObject({
+          deviceId: 'cli-before-send',
+          cnIp: '3.3.3.3',
+          anonymousToken: '',
+        });
+        return Response.json(
+          { code: 200, marker: 'raw-response' },
+          { headers: { 'set-cookie': 'other=value; Path=/' } },
+        );
+      },
+    });
+    expect(result).toMatchObject({
+      status: 200,
+      body: {
+        code: 200,
+        marker: 'raw-response',
+        cookie: 'other=value; Path=/',
+      },
+      cookie: ['other=value; Path=/'],
+    });
+  } finally {
+    setRuntimeState(previous);
+  }
+});
+
+test.each(['empty', 'request', 'file'] as const)(
+  'CLI generation keeps the %s failure and file boundary',
+  async (mode) => {
+    const previous = getRuntimeState();
+    const directory = mkdtempSync(join(tmpdir(), 'hana-cli-failure-'));
+    const tokenFilePath =
+      mode === 'file' ? directory : join(directory, 'token');
+    const errors = spyOn(console, 'error').mockImplementation(() => {});
+    try {
+      const result = await generateConfig({
+        tokenFilePath,
+        state: { deviceId: 'cli-failure', cnIp: '4.4.4.4' },
+        fetcher: async () => {
+          if (mode === 'request') throw new Error('controlled request failure');
+          return Response.json(
+            { code: 200 },
+            mode === 'empty'
+              ? {}
+              : { headers: { 'set-cookie': 'MUSIC_A=not-persisted; Path=/' } },
+          );
+        },
+      });
+      expect(result).toBe('');
+      expect(getRuntimeState()).toMatchObject({
+        deviceId: 'cli-failure',
+        cnIp: '4.4.4.4',
+        anonymousToken: '',
+      });
+      expect(errors.mock.calls.length).toBe(mode === 'empty' ? 0 : 1);
+      if (mode !== 'file') expect(existsSync(tokenFilePath)).toBe(false);
+    } finally {
+      errors.mockRestore();
+      setRuntimeState(previous);
+      rmSync(directory, { recursive: true, force: true });
+    }
+  },
+);

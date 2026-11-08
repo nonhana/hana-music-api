@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -56,7 +55,10 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const banner: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const banner: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     if (
       query.type !== undefined &&
@@ -76,11 +78,11 @@ const banner: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       3: 'ipad',
     };
     const type = clientTypeMap[String(query.type ?? 0)] || 'pc';
-    const response = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, {
+    const response = yield* request('read', {
+      data: {
         clientType: type,
-      }),
-    );
+      },
+    });
     const body = yield* decodeUpstreamBody('banner', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

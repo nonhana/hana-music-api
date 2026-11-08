@@ -11,7 +11,7 @@ export const mutations = [
   {
     id: 'identity-invalid-state-erases-pool-device',
     file: 'src/core/call.ts',
-    find: 'deviceId: identityConfig.state?.deviceId,',
+    find: 'deviceId: identityConfig.deviceId,',
     replace: 'deviceId: config.state?.deviceId,',
     expectedFailures: [
       'identity pool ignores undefined state device through a concurrent runtime change',
@@ -29,9 +29,9 @@ export const mutations = [
   },
   {
     id: 'identity-raw-os-defaults-ignored',
-    file: 'src/core/request-plan.ts',
-    find: 'const rawOs = profile ? undefined : rawCookie.os;',
-    replace: 'const rawOs: typeof rawCookie.os = undefined;',
+    file: 'src/core/request.ts',
+    find: 'const rawOs = rawCookie.os;',
+    replace: 'const rawOs = [undefined, rawCookie.os][0];',
     expectedFailures: [
       'identity low-level partial PC override gets matching generated platform defaults',
     ],

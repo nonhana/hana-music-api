@@ -5,7 +5,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -58,21 +57,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const commentEvent: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const commentEvent: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 20,
       offset: query.offset || 0,
       beforeTime: query.before || 0,
     };
-    const response = yield* request(
-      buildActionRequestIntent(
-        'request',
-        moduleActions['request'],
-        data,
-        `/api/v1/resource/comments/${query.threadId}`,
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/v1/resource/comments/${query.threadId}`,
+    });
     const body = yield* decodeUpstreamBody(
       'comment_event',
       ModuleBody,

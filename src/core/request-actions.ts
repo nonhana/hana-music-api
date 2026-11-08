@@ -1,4 +1,4 @@
-import type { RequestIntent } from '../types/index.ts';
+import type { RequestSemantic } from '../types/index.ts';
 import { InvalidRequest } from './errors.ts';
 import { requestProfiles } from './request-profiles.ts';
 import type { RequestProfile, RequestProfileName } from './request-profiles.ts';
@@ -7,14 +7,35 @@ import { isRecord } from './utils.ts';
 export interface RequestAction {
   readonly profile: RequestProfileName;
   readonly target: string | { readonly prefix: string };
-  readonly semantic: RequestIntent['semantic'];
+  readonly semantic: RequestSemantic;
   readonly cache: 'none' | 'shared';
   readonly retry: 'never' | 'connect' | 'read';
-  readonly method?: RequestIntent['method'];
-  readonly response?: RequestIntent['response'];
+  readonly method?: string;
+  readonly response?: 'json' | 'text' | 'bytes';
 }
 
 export type ModuleActions = Readonly<Record<string, RequestAction>>;
+
+const actionSnapshots = new WeakMap<object, ModuleActions>();
+const policies = new WeakMap<
+  ModuleActions,
+  { readonly shared: boolean; readonly upload: boolean }
+>();
+export const modulePolicy = (actions: ModuleActions) => {
+  const cached = policies.get(actions);
+  if (cached) return cached;
+  const values = Object.values(actions);
+  const policy = Object.freeze({
+    shared:
+      values.length > 0 &&
+      values.every(
+        (action) => action.semantic === 'read' && action.cache === 'shared',
+      ),
+    upload: values.some((action) => action.semantic === 'upload'),
+  });
+  policies.set(actions, policy);
+  return policy;
+};
 
 // WHATWG URL 与 fetch 使用同一套路径规范化规则；声明和最终发送共同核对这条规范路径。
 export const normalizeActionTarget = (
@@ -46,13 +67,11 @@ export const normalizeActionTarget = (
     const declared = typeof boundary === 'string' ? boundary : boundary?.prefix;
     if (declared !== undefined) {
       const path = new URL(declared, origin).pathname;
-      const matches =
-        typeof boundary === 'string'
-          ? resolved.pathname === path
-          : path.endsWith('/')
-            ? resolved.pathname.startsWith(path)
-            : resolved.pathname === path ||
-              resolved.pathname.startsWith(`${path}/`);
+      let matches = resolved.pathname === path;
+      if (typeof boundary !== 'string') {
+        const prefix = path.endsWith('/') ? path : `${path}/`;
+        matches ||= resolved.pathname.startsWith(prefix);
+      }
       if (!matches)
         throw InvalidRequest.make({
           message: 'Request must match a declared plain action target',
@@ -75,13 +94,15 @@ export const normalizeActionTarget = (
     });
   }
   const path = resolved.pathname;
-  const matches =
-    boundary === undefined ||
-    (typeof boundary === 'string'
-      ? path === boundary
-      : boundary.prefix.endsWith('/')
-        ? path.startsWith(boundary.prefix)
-        : path === boundary.prefix || path.startsWith(`${boundary.prefix}/`));
+  let matches = true;
+  if (typeof boundary === 'string') {
+    matches = path === boundary;
+  } else if (boundary !== undefined) {
+    const prefix = boundary.prefix.endsWith('/')
+      ? boundary.prefix
+      : `${boundary.prefix}/`;
+    matches = path === boundary.prefix || path.startsWith(prefix);
+  }
   if (!matches) {
     throw InvalidRequest.make({
       message: 'Request must match a declared module action target',
@@ -94,7 +115,28 @@ export const validateModuleActions = (value: unknown): ModuleActions => {
   if (!isRecord(value)) {
     throw InvalidRequest.make({ message: 'moduleActions must be an object' });
   }
-  for (const [name, action] of Object.entries(value)) {
+  const known = actionSnapshots.get(value);
+  if (known) return known;
+  const source = value;
+  const capturedActions = Object.fromEntries(
+    Object.entries(source).map(([name, action]) => {
+      if (!isRecord(action)) return [name, action];
+      const captured = { ...action };
+      // spread 未包含的可选字段仍需校验，且已捕获的 getter 不应再读一次。
+      for (const key of ['method', 'response']) {
+        if (!Object.hasOwn(captured, key)) {
+          const field = action[key];
+          if (field !== undefined) captured[key] = field;
+        }
+      }
+      const target = Object.hasOwn(captured, 'target')
+        ? captured.target
+        : action.target;
+      captured.target = isRecord(target) ? { ...target } : target;
+      return [name, captured];
+    }),
+  );
+  for (const [name, action] of Object.entries(capturedActions)) {
     if (
       !name ||
       !isRecord(action) ||
@@ -118,7 +160,7 @@ export const validateModuleActions = (value: unknown): ModuleActions => {
     }
   }
   // 上面的逐字段校验建立动作合同；复制并冻结后，模块不能在 token 等待期间修改本次声明。
-  const actions = value as ModuleActions;
+  const actions = capturedActions as ModuleActions;
   for (const action of Object.values(actions)) {
     const boundary =
       typeof action.target === 'string' ? action.target : action.target.prefix;
@@ -152,18 +194,17 @@ export const validateModuleActions = (value: unknown): ModuleActions => {
       });
     }
   }
-  return Object.freeze(
+  const snapshot = Object.freeze(
     Object.fromEntries(
-      Object.entries(actions).map(([name, action]) => [
-        name,
-        Object.freeze({
-          ...action,
-          target:
-            typeof action.target === 'string'
-              ? action.target
-              : Object.freeze({ ...action.target }),
-        }),
-      ]),
+      Object.entries(actions).map(([name, action]) => {
+        const target = action.target;
+        const frozenTarget =
+          typeof target === 'string' ? target : Object.freeze(target);
+        return [name, Object.freeze({ ...action, target: frozenTarget })];
+      }),
     ),
   );
+  actionSnapshots.set(snapshot, snapshot);
+  modulePolicy(snapshot);
+  return snapshot;
 };

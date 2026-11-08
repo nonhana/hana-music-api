@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -39,11 +38,12 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const djBanner: ModuleEffect<ModuleInput, ModuleBody> = (_query, request) =>
+const djBanner: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  _query,
+  request,
+) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], {}),
-    );
+    const response = yield* request('request', { data: {} });
     const body = yield* decodeUpstreamBody('dj_banner', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

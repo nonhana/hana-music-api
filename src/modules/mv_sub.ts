@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -38,7 +37,10 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const mvSub: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
+const mvSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  input,
+  request,
+) =>
   Effect.gen(function* () {
     const query = { ...input };
     const action = Number(query.t) === 1 ? 'sub' : 'unsub';
@@ -46,9 +48,7 @@ const mvSub: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
       mvId: query.mvid,
       mvIds: '["' + query.mvid + '"]',
     };
-    const response = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], data),
-    );
+    const response = yield* request(action, { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('mv_sub', ModuleBody, response),

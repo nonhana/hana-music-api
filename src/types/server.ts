@@ -1,7 +1,7 @@
 import type { Server } from 'bun';
 import type { Hono } from 'hono';
 
-import type { ModuleDefinition, RequestCapability } from './runtime.ts';
+import type { ModuleDefinition } from './runtime.ts';
 
 export interface CreateServerOptions {
   readonly cacheEnabled?: boolean;
@@ -12,7 +12,6 @@ export interface CreateServerOptions {
   readonly hostname?: string;
   readonly moduleDefinitions?: Array<ModuleDefinition>;
   readonly modulesDirectory?: string;
-  readonly requestHandler?: RequestCapability;
   readonly connectionIp?: (request: Request) => string | undefined;
   readonly bodyTimeoutMs?: number;
   readonly maxBodyBytes?: number;
@@ -43,5 +42,4 @@ export interface StartedServer {
 export interface CreateModuleApiOptions {
   readonly moduleDefinitions?: Array<ModuleDefinition>;
   readonly modulesDirectory?: string;
-  readonly requestHandler?: RequestCapability;
 }

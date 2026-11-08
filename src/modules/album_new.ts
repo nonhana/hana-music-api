@@ -5,7 +5,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -61,7 +60,10 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const albumNew: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const albumNew: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 30,
@@ -69,9 +71,7 @@ const albumNew: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       total: true,
       area: query.area || 'ALL', //ALL:全部,ZH:华语,EA:欧美,KR:韩国,JP:日本
     };
-    const response = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, data),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody('album_new', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

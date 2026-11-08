@@ -3,7 +3,6 @@ import { Effect, Schema } from 'effect';
 import { resolveResourceType } from '../core/comment-thread.ts';
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -104,10 +103,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const commentHugList: ModuleEffect<ModuleInput, ModuleBody> = (
-  input,
-  request,
-) =>
+const commentHugList: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (input, request) =>
   Effect.gen(function* () {
     const query = { ...input };
     if (
@@ -132,9 +132,7 @@ const commentHugList: ModuleEffect<ModuleInput, ModuleBody> = (
       idCursor: query.idCursor || -1,
       pageSize: query.pageSize || 100,
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'comment_hug_list',
       ModuleBody,

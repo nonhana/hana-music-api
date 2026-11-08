@@ -1,13 +1,13 @@
-import { Clock, Effect, Ref } from 'effect';
+import { Clock, Effect } from 'effect';
 
 import type { ModuleCallConfig } from '../types/index.ts';
-import { Call } from './call-context.ts';
+import { ExecutionScope, resolveExecutionScope } from './call-context.ts';
 import type { InternalExecution } from './call-context.ts';
 import type { RequestError } from './errors.ts';
 import { DeadlineExceeded, ResponseDecodeFailed } from './errors.ts';
 import { resolveIdentitySnapshot } from './identity.ts';
 import { ReadStore } from './read-store.ts';
-import { buildActionRequestIntent } from './request-intent.ts';
+import { requestProfiles } from './request-profiles.ts';
 import { requestEffect } from './request.ts';
 import {
   getRuntimeState,
@@ -27,8 +27,6 @@ export interface AnonymousRegistration {
   readonly cnIp: string;
   readonly deviceId: string;
 }
-
-export interface EnsureAnonymousTokenOptions extends ModuleCallConfig {}
 
 const registrations = new WeakMap<object, ReadStore<string, RequestError>>();
 const sharedRegistrationKey = {};
@@ -58,42 +56,40 @@ export const registerAnonymousEffect = (
     const cnIp =
       options.cnIp ?? options.state?.cnIp ?? generateRandomChineseIP();
     const state = { anonymousToken: '', cnIp, deviceId };
-    // 隐式身份初始化不消费业务调用的 token；显式注册模块仍从自己的 Call 配置取值。
-    const config = {
-      ...options,
-      checkToken: undefined,
-      ip: cnIp,
-      state,
-      cookie: snapshot.cookie,
-    };
-    const actions = {
-      register: {
-        profile: 'web',
-        target: '/api/register/anonimous',
-        semantic: 'login',
-        cache: 'none',
-        retry: 'never',
-      },
-    } as const;
+    // 隐式身份初始化不消费业务调用的 token；显式注册模块仍使用自己的 token 来源。
     const startedAt = yield* Clock.currentTimeMillis;
     const timeoutMs = options.timeoutMs ?? 8_000;
-    const result = yield* requestEffect(
-      buildActionRequestIntent('register', actions.register, {
-        username: createAnonymousUsername(deviceId),
-      }),
-    ).pipe(
-      Effect.provideService(Call, {
-        identifier: 'register_anonimous',
-        actions,
-        execution,
-        input: {},
-        config,
-        identity: Object.freeze({ ...snapshot, state: Object.freeze(state) }),
-        startedAt,
-        checkTokenUses: Ref.makeUnsafe(0),
-        deadlineAt: timeoutMs > 0 ? startedAt + timeoutMs : undefined,
-        policy: { read: false, upload: false },
-      }),
+    const profile = requestProfiles.web;
+    const result = yield* requestEffect({
+      target: '/api/register/anonimous',
+      protocol: 'weapi',
+      method: 'POST',
+      response: 'json',
+      headers: {},
+      data: { username: createAnonymousUsername(deviceId) },
+      identity: Object.freeze({ ...snapshot, state: Object.freeze(state) }),
+      ip: options.realIP ?? cnIp,
+      expectedUrl: 'https://music.163.com/weapi/register/anonimous',
+      policy: { semantic: 'login', retry: 'never' },
+      retry: options.retry,
+      token: { source: undefined, uses: undefined, managed: false },
+      client: {
+        domain: profile.domain,
+        userAgent: profile.userAgent,
+        cookie: profile.cookie,
+        controlledCookies: [
+          ...profile.omitCookies,
+          ...Object.keys(profile.cookie),
+        ],
+        controlledHeaders: [],
+        encryptResponse: profile.encryptResponse,
+        acceptGzip: profile.acceptGzip,
+      },
+    }).pipe(
+      Effect.provideService(
+        ExecutionScope,
+        resolveExecutionScope(options, execution, startedAt, timeoutMs),
+      ),
     );
     const cookie = cookieToJson(result.cookie.join('; '));
     if (!cookie.MUSIC_A) {
@@ -144,7 +140,7 @@ export const registerAnonymousToken = (
   runPublicEffect(registerAnonymousEffect(options), options.signal);
 
 export const ensureRuntimeAnonymousToken = (
-  options: EnsureAnonymousTokenOptions = {},
+  options: ModuleCallConfig = {},
 ): Promise<string> => {
   const timeoutMs = options.timeoutMs ?? 8_000;
   const work = ensureAnonymousEffect(options).pipe(

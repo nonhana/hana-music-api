@@ -5,7 +5,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -125,7 +124,10 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const search: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
+const search: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  input,
+  request,
+) =>
   Effect.gen(function* () {
     const voice = String(input.type ?? '') === '2000';
     const data = voice
@@ -142,9 +144,7 @@ const search: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
           offset: input.offset || 0,
         };
     const action = voice ? 'voice' : 'read';
-    const response = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], data),
-    );
+    const response = yield* request(action, { data });
     const body = yield* decodeUpstreamBody('search', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

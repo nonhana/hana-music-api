@@ -6,7 +6,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -57,20 +56,19 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userDj: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userDj: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 30,
       offset: query.offset || 0,
     };
-    const response = yield* request(
-      buildActionRequestIntent(
-        'request',
-        moduleActions['request'],
-        data,
-        `/api/dj/program/${query.uid}`,
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/dj/program/${query.uid}`,
+    });
     const body = yield* decodeUpstreamBody('user_dj', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

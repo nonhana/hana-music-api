@@ -6,7 +6,6 @@ import {
   UploadedFile,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import {
   decodeUpstreamBody,
@@ -69,10 +68,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistCoverUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
-  input,
-  request,
-) => {
+const playlistCoverUpdate: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (input, request) => {
   const { imgFile, imgId } = input;
   if (imgFile && imgId !== undefined) {
     return Effect.succeed<ModuleResponse<ModuleBody>>({
@@ -99,12 +99,12 @@ const playlistCoverUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
       const uploaded = imgFile
         ? yield* uploadPlugin({ imgFile }, stage)
         : undefined;
-      const response = yield* stage(
-        buildActionRequestIntent('submit', moduleActions.submit, {
+      const response = yield* stage('submit', {
+        data: {
           id: input.id,
           coverImgId: uploaded?.imgId ?? imgId,
-        }),
-      );
+        },
+      });
       const upstreamBody = yield* decodeUpstreamBody(
         'playlist_cover_update',
         UpstreamBody,

@@ -171,12 +171,13 @@ const buildSdkRegistry = (
   );
   const effectLines = entries.map(
     ({ identifier, importName }) =>
-      `  ${identifier}: { identifier: '${identifier}', route: '${routes[identifier]}', execute: ${importName}, decodeInput: ${toCamelCase(identifier)}InputDecoder, actions: ${toCamelCase(identifier)}Actions },`,
+      `  ${identifier}: { identifier: '${identifier}', route: '${routes[identifier]}', execute: ${importName}, decodeInput: ${toCamelCase(identifier)}InputDecoder, actions: validateModuleActions(${toCamelCase(identifier)}Actions) },`,
   );
 
   // 显式标注 SdkModuleRegistry：352 条目的 `as const` 字面量让 declaration emit 序列化超过 1M，
   // `bun run build` 会报 TS7056（`tsc --noEmit` 不报）；标注后运行时值与生成输出不变。
-  return `import type { SdkModuleRegistry } from '../../types/index.ts'
+  return `import { validateModuleActions } from '../../core/request-actions.ts'
+import type { SdkModuleRegistry } from '../../types/index.ts'
 ${importLines.join('\n')}
 
 export const sdkModuleRegistry: SdkModuleRegistry = {
@@ -246,12 +247,15 @@ const readModuleContract = (source: SourceFile) => {
           declaration.name.getText(source) === defaultName &&
           declaration.type &&
           isTypeReferenceNode(declaration.type) &&
-          declaration.type.typeName.getText(source) === 'ModuleEffect',
+          declaration.type.typeName.getText(source) === 'ModuleEffect' &&
+          declaration.type.typeArguments?.[2]
+            ?.getText(source)
+            .replace(/\s+/g, ' ') === 'typeof moduleActions',
       ),
   );
   if (!effect) {
     throw new Error(
-      `Module "${source.fileName}" default must be explicitly typed as ModuleEffect`,
+      `Module "${source.fileName}" default must bind ModuleEffect to typeof moduleActions`,
     );
   }
   const decoder =

@@ -1,16 +1,10 @@
-import { Clock, Effect } from 'effect';
+import { Effect } from 'effect';
 
 import { buildCallServices, Call, runCall } from '../../src/core/call.ts';
-import { ProtocolFailed } from '../../src/core/errors.ts';
 import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
 import type { ModuleActions } from '../../src/core/request-actions.ts';
-import {
-  buildActionRequestIntent,
-  buildPlainActionRequestIntent,
-} from '../../src/core/request-intent.ts';
-import { requestEffect, runRequestAtEdge } from '../../src/core/request.ts';
+import { runRequestAtEdge } from '../../src/core/request.ts';
 import type {
-  CreateRequestOptions,
   ModuleCallConfig,
   ModuleEffect,
   ModuleQuery,
@@ -19,80 +13,22 @@ import type {
   UnknownJson,
 } from '../../src/types/index.ts';
 
-export type MockRequestHandler = (
-  uri: string,
-  data: Record<string, unknown>,
-  options?: CreateRequestOptions,
-) => Promise<NcmApiResponse> | NcmApiResponse;
-
 // 模块返回体的类型由调用点决定：mock 本体是 legacy 响应，测试里要断言成具体 Body。
 // oxlint-disable-next-line typescript/no-unnecessary-type-parameters
 export const moduleResponse = <Body = UnknownJson>(
   response: NcmApiResponse,
-): {
-  status: number;
-  cookie: Array<string>;
-  body: Body;
-} => ({ ...response, body: response.body as Body });
+): NcmApiResponse<Body> => ({ ...response, body: response.body as Body });
 
-export const mockRequest =
-  (handler: MockRequestHandler): RequestCapability =>
-  (intent) =>
-    intent.protocol === 'plain'
-      ? requestEffect(intent)
-      : Effect.gen(function* () {
-          const call = yield* Call;
-          const now = yield* Clock.currentTimeMillis;
-          const remaining =
-            call.deadlineAt === undefined ? undefined : call.deadlineAt - now;
-          const timeoutMs =
-            call.policy.stageTimeoutMs === undefined
-              ? remaining
-              : Math.min(remaining ?? Infinity, call.policy.stageTimeoutMs);
-          const response = yield* Effect.tryPromise({
-            try: (signal) =>
-              Promise.resolve(
-                handler(
-                  intent.target,
-                  JSON.parse(String(intent.body ?? '{}')),
-                  {
-                    ...call.config,
-                    crypto: intent.protocol === 'plain' ? '' : intent.protocol,
-                    signal,
-                    timeoutMs,
-                    ...(intent.headers['x-aeapi'] ? { acceptGzip: true } : {}),
-                    ...(intent.headers['User-Agent']
-                      ? { ua: intent.headers['User-Agent'] }
-                      : {}),
-                    headers: {
-                      ...intent.headers,
-                    },
-                  },
-                ),
-              ),
-            catch: (error) =>
-              ProtocolFailed.make({
-                message: 'Custom request failed',
-                response: {
-                  ...(error as NcmApiResponse),
-                  headers: new Headers(),
-                  body: (error as NcmApiResponse).body as UnknownJson,
-                  cookie: (error as NcmApiResponse).cookie ?? [],
-                },
-              }),
-          });
-          return {
-            ...response,
-            headers: new Headers(),
-            body: response.body as UnknownJson,
-          };
-        });
+export type RecordedAction = {
+  readonly action: string;
+  readonly args: Parameters<RequestCapability>[1];
+};
 
 export const testRequest = (
   request: RequestCapability,
   uri: string,
   data: Record<string, unknown> = {},
-  options: CreateRequestOptions = {},
+  options: { readonly headers?: Readonly<Record<string, string>> } = {},
 ) =>
   Effect.gen(function* () {
     const call = yield* Call;
@@ -101,10 +37,8 @@ export const testRequest = (
     );
     if (!selected)
       throw new Error(`Test must declare its request action: ${uri}`);
-    const [name, action] = selected;
-    const response = yield* request(
-      buildActionRequestIntent(name, action, data, uri, options.headers),
-    );
+    const [name] = selected;
+    const response = yield* request(name, { data, headers: options.headers });
     return {
       status: response.status,
       cookie: [...response.cookie],
@@ -126,11 +60,14 @@ export const testPlainRequest = (
       throw new Error(`Test must declare its plain action: ${url}`);
     const [name, action] = selected;
     return yield* request(
-      buildPlainActionRequestIntent(
-        name,
-        action as Parameters<typeof buildPlainActionRequestIntent>[1],
-        url,
-      ),
+      name,
+      typeof action.target === 'string'
+        ? {
+            query: url.includes('?')
+              ? url.slice(url.indexOf('?') + 1)
+              : undefined,
+          }
+        : { target: url },
     );
   });
 
@@ -142,7 +79,6 @@ export const plainRequest = (options: ModuleCallConfig) => (url: string) =>
       method: 'GET',
       headers: {},
       response: 'bytes',
-      semantic: 'read',
     },
     options,
   );
@@ -174,20 +110,14 @@ export const moduleRuntime = (
       execute: ModuleEffect<ModuleQuery>,
       input: ModuleQuery,
       config: ModuleCallConfig = {},
-    ) => {
-      const { signal, ...callConfig } = config;
-      return runCall(
-        { identifier, input, config: callConfig, signal },
-        services,
-        {
-          identifier,
-          actions,
-          route: '/' + identifier,
-          decodeInput: decodeLegacyModuleInput,
-          execute,
-        },
-      );
-    },
+    ) =>
+      runCall({ identifier, input, config }, services, {
+        identifier,
+        actions,
+        route: '/' + identifier,
+        decodeInput: decodeLegacyModuleInput,
+        execute,
+      }),
   };
 };
 

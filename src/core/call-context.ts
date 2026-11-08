@@ -2,11 +2,11 @@ import type { Clock, Ref } from 'effect';
 import { Context } from 'effect';
 
 import type {
-  CreateRequestOptions,
   FetchLike,
   ModuleCallConfig,
   ModuleQuery,
   NcmApiResponse,
+  RequestDebugEvent,
 } from '../types/index.ts';
 import type { IdentitySnapshot } from './identity-snapshot.ts';
 import type { IdentityPool } from './identity.ts';
@@ -19,35 +19,67 @@ export interface InternalExecution {
   readonly fetcher?: FetchLike;
   readonly clock?: Clock.Clock;
   readonly entropy?: (now: number) => RequestEntropy;
+  readonly onRequestEvent?: (event: RequestDebugEvent) => void;
 }
 
-export type CallConfig = Omit<ModuleCallConfig, 'signal'>;
+export interface ExecutionScopeShape {
+  readonly fetcher?: FetchLike;
+  readonly proxy?: string;
+  readonly connectionStrategy?: ModuleCallConfig['connectionStrategy'];
+  readonly entropy?: (now: number) => RequestEntropy;
+  readonly onRequestEvent?: (event: RequestDebugEvent) => void;
+  readonly startedAt: number;
+  readonly deadlineAt?: number;
+  readonly stageTimeoutMs?: number;
+}
+
+export class ExecutionScope extends Context.Service<
+  ExecutionScope,
+  ExecutionScopeShape
+>()('hana-music-api/core/call-context/ExecutionScope') {}
+
+export const resolveExecutionScope = (
+  options: Pick<
+    ModuleCallConfig,
+    'fetcher' | 'proxy' | 'connectionStrategy' | 'onRequestEvent'
+  >,
+  execution: InternalExecution | undefined,
+  startedAt: number,
+  timeoutMs: number,
+  stageTimeoutMs?: number,
+): ExecutionScopeShape =>
+  Object.freeze({
+    fetcher: options.fetcher ?? execution?.fetcher,
+    proxy: options.proxy,
+    connectionStrategy: options.connectionStrategy,
+    onRequestEvent: options.onRequestEvent ?? execution?.onRequestEvent,
+    entropy: execution?.entropy,
+    startedAt,
+    deadlineAt: timeoutMs > 0 ? startedAt + timeoutMs : undefined,
+    stageTimeoutMs,
+  });
 
 export interface CallInput {
   readonly identifier: string;
   readonly input: unknown;
-  readonly config: CallConfig;
-  readonly signal?: AbortSignal;
+  readonly config: ModuleCallConfig;
+  readonly defaults?: ModuleCallConfig;
 }
 
 export interface CallShape {
   readonly identifier: string;
   readonly actions: ModuleActions;
-  readonly rawOptions?: CreateRequestOptions;
   readonly input: Readonly<ModuleQuery>;
-  readonly config: CallConfig;
   readonly identity: IdentitySnapshot;
   readonly policy: {
     readonly read: boolean;
     readonly upload: boolean;
-    readonly cache?: boolean;
-    readonly cacheable?: (response: NcmApiResponse) => boolean;
-    readonly stageTimeoutMs?: number;
   };
-  readonly execution?: Readonly<InternalExecution>;
   readonly checkTokenUses?: Ref.Ref<number>;
-  readonly startedAt: number;
-  readonly deadlineAt?: number;
+  readonly tokenSource?: ModuleCallConfig['checkToken'];
+  readonly ip?: string;
+  readonly retry?: ModuleCallConfig['retry'];
+  readonly completedStages?: Ref.Ref<ReadonlyArray<string>>;
 }
 
 export class Call extends Context.Service<Call, CallShape>()(

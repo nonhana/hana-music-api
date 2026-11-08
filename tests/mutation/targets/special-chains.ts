@@ -37,18 +37,18 @@ export const mutations = [
   },
   {
     id: 'special-plain-upload-method-lost',
-    file: 'src/core/request-intent.ts',
-    find: 'method: action.method,',
-    replace: "method: 'GET',",
+    file: 'src/core/call.ts',
+    find: "method: action.method ?? 'POST',",
+    replace: "method: 'GET' as const,",
     expectedFailures: [
       'special client voice_upload/default preserves full baseline orchestration',
     ],
   },
   {
     id: 'special-plain-mode-lost',
-    file: 'src/core/request-intent.ts',
-    find: 'response: action.response,',
-    replace: "response: 'bytes',",
+    file: 'src/core/call.ts',
+    find: "response: action.response ?? 'json',",
+    replace: "response: 'bytes' as const,",
     expectedFailures: [
       'special client audio_match/fingerprint-0 preserves full baseline orchestration',
     ],
@@ -57,7 +57,8 @@ export const mutations = [
     id: 'special-plain-origin-check-lost',
     file: 'src/core/request-actions.ts',
     find: 'resolved.origin === origin.origin ||',
-    replace: "resolved.hostname.endsWith('music.163.com') ||",
+    replace:
+      "resolved.origin === origin.origin || resolved.hostname.endsWith('music.163.com') ||",
     expectedFailures: [
       'special plain declaration rejects {"target":"https://music.163.com/api/music/audio/match"} before provider or network',
     ],

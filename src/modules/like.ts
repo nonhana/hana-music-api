@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -38,7 +37,10 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const like: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
+const like: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  input,
+  request,
+) =>
   Effect.gen(function* () {
     const query = { ...input };
     if (
@@ -60,9 +62,7 @@ const like: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
       time: '3',
     };
     const action = query.like ? 'like' : 'unlike';
-    const response = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], data),
-    );
+    const response = yield* request(action, { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('like', ModuleBody, response),

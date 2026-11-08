@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -37,17 +36,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const listentogetherEnd: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const listentogetherEnd: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       roomId: query.roomId,
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'listentogether_end',
       ModuleBody,

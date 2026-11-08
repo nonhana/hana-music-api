@@ -854,6 +854,60 @@ test('special multi-request total deadline does not restart at the second provid
   );
 });
 
+const dynamicPlainActions = {
+  match: {
+    profile: 'plainInterface',
+    target: { prefix: '/api/music/audio/match' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+    method: 'GET',
+    response: 'json',
+  },
+} as const;
+
+test('special dynamic plain accepts its declared origin and target', async () => {
+  let providers = 0;
+  await withScenario(
+    [
+      {
+        url: 'https://interface.music.163.com/api/music/audio/match',
+        method: 'GET',
+        headers: { 'X-antiCheatToken': 'plain-token' },
+        response: () => Response.json({ code: 200 }),
+      },
+    ],
+    async (scenario) => {
+      const outcome = await runCall(
+        {
+          identifier: 'plain-boundary',
+          input: {},
+          config: {
+            cookie,
+            checkToken: async () => {
+              providers++;
+              return 'plain-token';
+            },
+          },
+        },
+        buildCallServices({}, false, { fetcher: scenario.fetcher }),
+        {
+          ...sdkModuleRegistry.audio_match,
+          actions: dynamicPlainActions,
+          decodeInput: decodeLegacyModuleInput,
+          execute: (_input, request) =>
+            request('match', {
+              target: 'https://interface.music.163.com/api/music/audio/match',
+            }).pipe(Effect.map(toModuleResponse)),
+        },
+      );
+      expect(outcome.status).toBe(200);
+      expect(providers).toBe(1);
+      expect(scenario.sent).toHaveLength(1);
+    },
+  );
+});
+
 for (const change of [
   { target: 'https://music.163.com/api/music/audio/match' },
   { target: 'https://interface.music.163.com/api/music/escape' },
@@ -879,18 +933,15 @@ for (const change of [
           buildCallServices(config, false, { fetcher: scenario.fetcher }),
           {
             ...sdkModuleRegistry.audio_match,
+            actions: dynamicPlainActions,
             decodeInput: decodeLegacyModuleInput,
             execute: (_input, request) =>
-              request({
-                action: 'match',
+              // 模拟 JavaScript 调用者绕过类型检查，验证运行时仍拒绝非法参数。
+              request('match', {
                 target: 'https://interface.music.163.com/api/music/audio/match',
-                protocol: 'plain',
-                method: 'GET',
-                response: 'json',
                 headers: {},
-                semantic: 'read',
                 ...change,
-              }).pipe(Effect.map(toModuleResponse)),
+              } as never).pipe(Effect.map(toModuleResponse)),
           },
         ),
       );

@@ -39,7 +39,9 @@ export type {
   ModuleResponse,
   NcmApiResponse,
   RequestCrypto,
-  RequestIntent,
+  RequestProtocol,
+  RequestSemantic,
+  RequestArguments,
   RuntimeState,
 } from './runtime.ts';
 export type {

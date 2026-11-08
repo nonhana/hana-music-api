@@ -7,7 +7,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -60,14 +59,18 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const checkMusic: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const checkMusic: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, {
+    const response = yield* request('read', {
+      data: {
         ids: '[' + parseInt(String(query.id ?? 0), 10) + ']',
         br: parseInt(String(query.br ?? 999000), 10),
-      }),
-    );
+      },
+    });
     const upstream = yield* decodeUpstreamBody(
       'check_music',
       upstreamSchema,

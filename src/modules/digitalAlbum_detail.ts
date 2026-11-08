@@ -1,7 +1,6 @@
 import { Effect } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -23,17 +22,16 @@ export const moduleActions = {
 export const ModuleBody = AlbumDetailBody;
 export type ModuleBody = typeof ModuleBody.Type;
 
-const digitalAlbumDetail: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const digitalAlbumDetail: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       id: query.id,
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'digitalAlbum_detail',
       ModuleBody,

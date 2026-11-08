@@ -5,7 +5,6 @@ import {
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { SongUrlData } from '../core/upstream-schemas.ts';
@@ -69,7 +68,10 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const songUrlV1: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const songUrlV1: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data: Record<string, unknown> = {
       ids: '[' + query.id + ']',
@@ -80,9 +82,7 @@ const songUrlV1: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       data.immerseType = 'c51';
     }
     const action = query.level === 'sky' ? 'sky' : 'read';
-    const response = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], data),
-    );
+    const response = yield* request(action, { data });
     const body = yield* decodeUpstreamBody('song_url_v1', ModuleBody, response);
     return {
       ...toModuleResponse(response),

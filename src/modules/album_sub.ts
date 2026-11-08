@@ -5,7 +5,6 @@ import {
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -52,15 +51,16 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const albumSub: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const albumSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const action = Number(query.t) === 1 ? 'sub' : 'unsub';
     const data = {
       id: query.id,
     };
-    const response = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], data),
-    );
+    const response = yield* request(action, { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('album_sub', ModuleBody, response),

@@ -1,11 +1,9 @@
 import { describe, expect, test } from 'bun:test';
 
-import { Effect, Option } from 'effect';
+import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
 
-import { Call, CallServices } from '../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
-import { createRequest, requestEffect } from '../../../src/core/request.ts';
 import { setConnectionIp } from '../../../src/server/admission.ts';
 import { createServer } from '../../../src/server/create-server.ts';
 import type {
@@ -16,7 +14,6 @@ import type {
 import { createStage } from '../../_kit/harness/sdk.ts';
 import { runEffect } from '../../_kit/it.ts';
 import {
-  mockRequest,
   moduleResponse,
   probeReadActions,
   testRequest,
@@ -32,21 +29,16 @@ describe('server traffic admission', () => {
         {
           hostname: '127.0.0.1',
           debugApiRequests: true,
-          requestHandler: (intent) =>
-            requestEffect(intent).pipe(
-              Effect.updateService(Call, (call) => ({
-                ...call,
-                config: {
-                  ...call.config,
-                  fetcher: async () => {
-                    calls += 1;
-                    return Response.json({ code: 200 });
-                  },
-                },
-              })),
-            ),
         },
-        { allowDebugApiRequests: true },
+        {
+          execution: {
+            fetcher: async () => {
+              calls += 1;
+              return Response.json({ code: 200 });
+            },
+          },
+          allowDebugApiRequests: true,
+        },
       );
       const response = await app.request('/demo/api-debug/request', {
         method: 'POST',
@@ -66,60 +58,66 @@ describe('server traffic admission', () => {
   ])(
     'an upstream $code rate limit inside an HTTP $status response keeps Retry-After',
     async ({ status, code, msg }) => {
-      const app = await createServer({
-        moduleDefinitions: [
+      await withScenario(
+        [
           {
-            actions: probeReadActions,
-            identifier: 'probe',
-            route: '/probe',
-            decodeInput: decodeLegacyModuleInput,
-            execute: (_query: ModuleQuery, handler: RequestCapability) =>
-              testRequest(handler, '/api/test', {}).pipe(
-                Effect.map(moduleResponse),
-              ),
-          },
-        ],
-        requestHandler: mockRequest((uri, data, options) =>
-          createRequest(uri, data, {
-            ...options,
-            crypto: 'api',
-            fetcher: async () =>
+            url: 'https://interface.music.163.com/api/test',
+            method: 'POST',
+            response: () =>
               Response.json(
                 { code, msg },
                 { status, headers: { 'Retry-After': '17' } },
               ),
-          }),
-        ),
-      });
-      const response = await app.request('/probe');
-      expect(response.status).toBe(code);
-      expect(response.headers.get('retry-after')).toBe('17');
-      expect(await response.json()).toMatchObject({
-        code,
-        msg,
-        retryAfter: 17,
-      });
+          },
+        ],
+        async (network) => {
+          const app = await createServer(
+            {
+              moduleDefinitions: [
+                {
+                  actions: probeReadActions,
+                  identifier: 'probe',
+                  route: '/probe',
+                  decodeInput: decodeLegacyModuleInput,
+                  execute: (_query: ModuleQuery, handler: RequestCapability) =>
+                    testRequest(handler, '/api/test', {}).pipe(
+                      Effect.map(moduleResponse),
+                    ),
+                },
+              ],
+            },
+            { execution: { fetcher: network.fetcher } },
+          );
+          const response = await app.request('/probe');
+          expect(response.status).toBe(code);
+          expect(response.headers.get('retry-after')).toBe('17');
+          expect(await response.json()).toMatchObject({
+            code,
+            msg,
+            retryAfter: 17,
+          });
+        },
+      );
     },
   );
 
   test('debug execution passes client cancellation to the upstream handler', async () => {
     let receivedSignal: AbortSignal | undefined;
-    let notifyStarted!: () => void;
-    const started = new Promise<void>((resolve) => {
-      notifyStarted = resolve;
-    });
-    const requestHandler = mockRequest(async (_uri, _data, options) => {
-      receivedSignal = options?.signal;
-      notifyStarted();
-      return { body: { code: 200 }, cookie: [], status: 200 };
-    });
+    const stage = createStage('debug transport');
+    const fetcher = async (
+      _input: Request | URL | string,
+      init?: RequestInit,
+    ) => {
+      receivedSignal = init?.signal ?? undefined;
+      stage.reach();
+      return Response.json({ code: 200 });
+    };
     const app = await createServer(
       {
         hostname: '127.0.0.1',
         debugApiRequests: true,
-        requestHandler,
       },
-      { allowDebugApiRequests: true },
+      { allowDebugApiRequests: true, execution: { fetcher } },
     );
     const controller = new AbortController();
     const pending = app.request(
@@ -130,7 +128,7 @@ describe('server traffic admission', () => {
         signal: controller.signal,
       }),
     );
-    await started;
+    await stage.wait(pending);
     controller.abort();
     await pending;
     expect(receivedSignal).toBeDefined();
@@ -195,39 +193,36 @@ describe('server traffic admission', () => {
 
   test('each visiting IP keeps its own HTTP budget in front of the request pipeline', async () => {
     let calls = 0;
-    const app = await createServer({
-      moduleDefinitions: [
-        {
-          actions: probeReadActions,
-          identifier: 'probe',
-          route: '/probe',
-          decodeInput: decodeLegacyModuleInput,
-          execute: (_query: ModuleQuery, handler: RequestCapability) =>
-            testRequest(handler, '/api/test', {}).pipe(
-              Effect.map(moduleResponse),
-            ),
+    const app = await createServer(
+      {
+        moduleDefinitions: [
+          {
+            actions: probeReadActions,
+            identifier: 'probe',
+            route: '/probe',
+            decodeInput: decodeLegacyModuleInput,
+            execute: (_query: ModuleQuery, handler: RequestCapability) =>
+              testRequest(handler, '/api/test', {}).pipe(
+                Effect.map(moduleResponse),
+              ),
+          },
+        ],
+        cacheEnabled: false,
+        traffic: {
+          burst: 2,
+          requestsPerSecond: 1,
+          trustedProxyIps: ['127.0.0.1'],
         },
-      ],
-      cacheEnabled: false,
-      traffic: {
-        burst: 2,
-        requestsPerSecond: 1,
-        trustedProxyIps: ['127.0.0.1'],
       },
-      requestHandler: (intent) =>
-        requestEffect(intent).pipe(
-          Effect.updateService(Call, (call) => ({
-            ...call,
-            config: {
-              ...call.config,
-              fetcher: async () => {
-                calls += 1;
-                return Response.json({ code: 200 });
-              },
-            },
-          })),
-        ),
-    });
+      {
+        execution: {
+          fetcher: async () => {
+            calls += 1;
+            return Response.json({ code: 200 });
+          },
+        },
+      },
+    );
     const visit = (ip: string) => {
       const request = new Request('http://localhost/probe', {
         headers: { 'x-forwarded-for': ip },
@@ -424,32 +419,6 @@ describe('server traffic admission', () => {
   );
 });
 
-test('debug raw request retains the HTTP call services for its controlled handler', async () => {
-  const app = await createServer(
-    {
-      hostname: '127.0.0.1',
-      debugApiRequests: true,
-      requestHandler: () =>
-        Effect.serviceOption(CallServices).pipe(
-          Effect.map((scope) => ({
-            status: 200,
-            cookie: [],
-            headers: new Headers(),
-            body: { code: 200, services: Option.isSome(scope) },
-          })),
-        ),
-    },
-    { allowDebugApiRequests: true },
-  );
-  const response = await app.request('/demo/api-debug/request', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json' },
-    body: JSON.stringify({ uri: '/api/context/probe', crypto: 'api' }),
-  });
-  expect(response.status).toBe(200);
-  expect(await response.json()).toEqual({ code: 200, services: true });
-});
-
 test('debug raw request uses the internal instance fetcher at the final wire', async () => {
   await withScenario(
     [
@@ -503,28 +472,24 @@ test('debug raw request keeps the instance clock for its deadline and body cance
             {
               hostname: '127.0.0.1',
               debugApiRequests: true,
-              requestHandler: (intent) =>
-                requestEffect(intent).pipe(
-                  Effect.updateService(Call, (call) => ({
-                    ...call,
-                    config: {
-                      ...call.config,
-                      fetcher: async (_input, init) => {
-                        stage.reach();
-                        init?.signal?.addEventListener(
-                          'abort',
-                          () => {
-                            aborted = true;
-                          },
-                          { once: true },
-                        );
-                        return new Promise<Response>(() => {});
-                      },
-                    },
-                  })),
-                ),
             },
-            { allowDebugApiRequests: true, execution: { clock } },
+            {
+              allowDebugApiRequests: true,
+              execution: {
+                fetcher: async (_input, init) => {
+                  stage.reach();
+                  init?.signal?.addEventListener(
+                    'abort',
+                    () => {
+                      aborted = true;
+                    },
+                    { once: true },
+                  );
+                  return new Promise<Response>(() => {});
+                },
+                clock,
+              },
+            },
           ),
         );
         const pending = Promise.resolve(

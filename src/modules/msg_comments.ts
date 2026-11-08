@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -55,7 +54,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const msgComments: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const msgComments: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.uid !== undefined &&
@@ -74,14 +77,10 @@ const msgComments: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       total: 'true',
       uid: query.uid,
     };
-    const response = yield* request(
-      buildActionRequestIntent(
-        'request',
-        moduleActions['request'],
-        data,
-        `/api/v1/user/comments/${String(query.uid)}`,
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/v1/user/comments/${String(query.uid)}`,
+    });
     const body = yield* decodeUpstreamBody(
       'msg_comments',
       ModuleBody,

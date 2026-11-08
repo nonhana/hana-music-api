@@ -14,6 +14,18 @@ export interface TestEntry {
 // Every physical test file has one category; selections may share that file.
 export const testEntries: ReadonlyArray<TestEntry> = [
   {
+    file: 'tests/behavior/runtime/request-flow.test.ts',
+    category: 'behavior',
+    selections: [
+      'local',
+      'request-flow',
+      'module-config',
+      'mutation:module-config',
+      'mutation:request-identity',
+      'mutation:shared-reads',
+    ],
+  },
+  {
     file: 'tests/behavior/runtime/module-config.test.ts',
     category: 'behavior',
     selections: ['local', 'module-config', 'mutation:module-config'],
@@ -574,7 +586,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/behavior/modules/upload/effect-upload-plugins.test.ts',
     category: 'behavior',
-    selections: ['local'],
+    selections: ['local', 'request-flow'],
   },
   {
     file: 'tests/transport/proxy/node-proxy.test.ts',
@@ -624,7 +636,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/behavior/modules/upload/voice-upload.test.ts',
     category: 'behavior',
-    selections: ['local', 'mutation:upload'],
+    selections: ['local', 'request-flow', 'mutation:upload'],
   },
 
   {

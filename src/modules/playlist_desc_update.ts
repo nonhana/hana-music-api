@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -23,18 +22,17 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const playlistDescUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const playlistDescUpdate: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       id: query.id,
       desc: query.desc,
     };
-    const response = yield* request(
-      buildActionRequestIntent('update', moduleActions.update, data),
-    );
+    const response = yield* request('update', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody(

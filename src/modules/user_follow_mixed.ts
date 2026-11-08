@@ -5,7 +5,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -119,10 +118,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userFollowMixed: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const userFollowMixed: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const size = query.size || 30;
     const cursor = query.cursor || 0;
@@ -137,9 +137,7 @@ const userFollowMixed: ModuleEffect<ModuleInput, ModuleBody> = (
       size,
       sortType: '0',
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'user_follow_mixed',
       ModuleBody,

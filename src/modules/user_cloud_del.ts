@@ -1,10 +1,10 @@
 import { Effect } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   delete: {
@@ -16,14 +16,16 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const userCloudDel: ModuleEffect<ModuleInput> = (query, request) =>
+const userCloudDel: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       songIds: [query.id],
     };
-    const response = yield* request(
-      buildActionRequestIntent('delete', moduleActions.delete, data),
-    );
+    const response = yield* request('delete', { data });
     return toModuleResponse(response);
   });
 

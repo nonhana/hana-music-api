@@ -13,7 +13,11 @@ import {
   invokeModule,
 } from '../../../index.ts';
 import { buildGeneratedArtifacts } from '../../../scripts/gen-module-types.mts';
-import { createModuleApi } from '../../../src/app/module-api.ts';
+import {
+  createModuleApi,
+  invokeModule as invokeProgrammatic,
+  loadProgrammaticApi,
+} from '../../../src/app/module-api.ts';
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
 import { loadModuleDefinitions } from '../../../src/server/module-loader.ts';
@@ -66,7 +70,7 @@ for (const [key, value] of Object.entries(removed)) {
   test(`module client rejects removed default ${key}`, () => {
     expect(() =>
       Reflect.apply(createHanaMusicApi, undefined, [{ [key]: value }]),
-    ).toThrow();
+    ).toThrow(TypeError);
   });
 }
 
@@ -135,7 +139,7 @@ for (const declaration of [
       );
       await writeFile(
         resolve(directory, 'sample.ts'),
-        `export type ModuleInput = {}; export const decodeModuleInput = (input) => input; ${declaration} const sample: ModuleEffect<ModuleInput> = (input) => input; export default sample;`,
+        `export type ModuleInput = {}; export const decodeModuleInput = (input) => input; ${declaration} const sample: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (input) => input; export default sample;`,
       );
       expect(
         await buildGeneratedArtifacts(directory).then(
@@ -240,14 +244,7 @@ test('module empty actions cannot send an undeclared API request', async () => {
           actions: {},
           decodeInput: decodeLegacyModuleInput,
           execute: (_input, request) =>
-            request({
-              target: '/api/local',
-              protocol: 'eapi',
-              method: 'POST',
-              headers: {},
-              response: 'json',
-              semantic: 'read',
-            }).pipe(
+            request('undeclared', { data: {}, headers: {} }).pipe(
               Effect.map((response) => ({
                 status: response.status,
                 cookie: [...response.cookie],
@@ -264,10 +261,16 @@ test('module empty actions cannot send an undeclared API request', async () => {
 for (const key of [...Object.keys(removed), 'unknownControl']) {
   test(`module non-enumerable ${key} is rejected by every call entry`, async () => {
     const api = createModuleApi();
+    const eager = await loadProgrammaticApi();
+    let copies = 0;
     let sends = 0;
     let providers = 0;
     const config = Object.defineProperty(
       {
+        get cookie() {
+          copies++;
+          return 'MUSIC_U=not-copied';
+        },
         fetcher: async () => {
           sends++;
           return Response.json({ code: 200 });
@@ -290,10 +293,19 @@ for (const key of [...Object.keys(removed), 'unknownControl']) {
       () =>
         Reflect.apply(invokeModule, undefined, ['inner_version', {}, config]),
       () => Reflect.apply(api.inner_version, undefined, [{}, config]),
+      () => Reflect.apply(eager.inner_version, undefined, [{}, config]),
+      () =>
+        Reflect.apply(invokeProgrammatic, undefined, [
+          'inner_version',
+          {},
+          {},
+          config,
+        ]),
     ])
       expect(await settle(call())).toMatchObject({ rejected: { status: 400 } });
     expect(sends).toBe(0);
     expect(providers).toBe(0);
+    expect(copies).toBe(0);
   });
 }
 
@@ -325,7 +337,7 @@ for (const [label, fields] of [
       );
       await writeFile(
         resolve(directory, 'sample.ts'),
-        `export type ModuleInput = {}; export const decodeModuleInput = (input) => input; export const moduleActions = { read: ${JSON.stringify(action)} }; const sample: ModuleEffect<ModuleInput> = (input) => input; export default sample;`,
+        `export type ModuleInput = {}; export const decodeModuleInput = (input) => input; export const moduleActions = { read: ${JSON.stringify(action)} }; const sample: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (input) => input; export default sample;`,
       );
       const generated = await buildGeneratedArtifacts(directory).then(
         () => 'accepted',
@@ -365,6 +377,86 @@ for (const [label, fields] of [
   });
 }
 
+for (const inherited of [false, true]) {
+  for (const [field, value] of [
+    ['method', 'GET'],
+    ['method', 123],
+    ['response', 'bytes'],
+    ['response', 'bogus'],
+  ] as const) {
+    test(`action snapshot rejects hidden ${field}=${value}, inherited=${inherited}`, async () => {
+      const action = {
+        profile: 'eapi',
+        target: '/api/probe',
+        semantic: 'read',
+        cache: 'none',
+        retry: 'never',
+      };
+      if (inherited) Object.setPrototypeOf(action, { [field]: value });
+      else Object.defineProperty(action, field, { value });
+      let executions = 0;
+      const result = await settle(
+        runCall(
+          { identifier: 'hidden_action', input: {}, config: {} },
+          buildCallServices({}, false),
+          {
+            identifier: 'hidden_action',
+            route: '/hidden-action',
+            // 模拟 JavaScript 动态模块的非法声明，交由真实装配边界拒绝。
+            actions: { read: action } as never,
+            decodeInput: decodeLegacyModuleInput,
+            execute: () =>
+              Effect.sync(() => {
+                executions++;
+                return { status: 200, cookie: [], body: {} };
+              }),
+          },
+        ),
+      );
+      expect(result).toMatchObject({ rejected: { status: 400 } });
+      expect(executions).toBe(0);
+    });
+  }
+}
+
+for (const hidden of [false, true]) {
+  test(`action snapshot captures legal optional getters once, hidden=${hidden}`, async () => {
+    const reads = { method: 0, response: 0, target: 0 };
+    const action = {
+      profile: 'eapi',
+      semantic: 'read',
+      cache: 'none',
+      retry: 'never',
+      get target() {
+        reads.target++;
+        return '/api/probe';
+      },
+    } as const;
+    for (const field of ['method', 'response'] as const) {
+      Object.defineProperty(action, field, {
+        enumerable: !hidden,
+        get: () => {
+          reads[field]++;
+          return field === 'method' ? 'POST' : 'json';
+        },
+      });
+    }
+    const result = await runCall(
+      { identifier: 'legal_action', input: {}, config: {} },
+      buildCallServices({}, false),
+      {
+        identifier: 'legal_action',
+        route: '/legal-action',
+        actions: { read: action },
+        decodeInput: decodeLegacyModuleInput,
+        execute: () => Effect.succeed({ status: 200, cookie: [], body: {} }),
+      },
+    );
+    expect(result.status).toBe(200);
+    expect(reads).toEqual({ method: 1, response: 1, target: 1 });
+  });
+}
+
 test('module illegal retry array cannot grant connection replay', async () => {
   let sends = 0;
   const result = await settle(
@@ -396,15 +488,7 @@ test('module illegal retry array cannot grant connection replay', async () => {
           },
         } as never,
         execute: (_input, request) =>
-          request({
-            action: 'read',
-            target: '/api/probe',
-            protocol: 'eapi',
-            method: 'POST',
-            headers: {},
-            response: 'json',
-            semantic: 'read',
-          }).pipe(
+          request('read', { data: {}, headers: {} }).pipe(
             Effect.map((response) => ({
               status: response.status,
               cookie: [...response.cookie],
@@ -418,70 +502,91 @@ test('module illegal retry array cannot grant connection replay', async () => {
   expect(sends).toBe(0);
 });
 
-test.each(['crypto', 'cache', 'identityPool'] as const)(
-  'module direct dynamic invocation types reject %s in both queries',
-  async (key) => {
-    const option =
-      key === 'crypto'
-        ? "crypto: 'api'"
-        : key === 'cache'
-          ? 'cache: {}'
-          : 'identityPool: { size: 1 }';
-    await mkdir(resolve(projectRoot, '.artifacts/testing'), {
-      recursive: true,
-    });
+test('module direct dynamic invocation types reject execution keys in both queries', async () => {
+  const options = ["crypto: 'api'", 'cache: {}', 'identityPool: { size: 1 }'];
+  await mkdir(resolve(projectRoot, '.artifacts/testing'), { recursive: true });
+  const directory = await mkdtemp(
+    resolve(projectRoot, '.artifacts/testing/module-config-types-'),
+  );
+  try {
+    await writeFile(
+      resolve(directory, 'tsconfig.json'),
+      JSON.stringify({
+        extends: resolve(projectRoot, 'tsconfig.json'),
+        include: ['control.ts'],
+        exclude: [],
+      }),
+    );
+    for (const invalid of [false, true]) {
+      const calls = options.flatMap((option, index) => [
+        `const staticCall${index} = () => invokeModule('lyric', { id: '1'${invalid ? `, ${option}` : ''} }, {}, { state: { deviceId: 'device' } });`,
+        `const identifier${index}: string = 'custom';`,
+        `const dynamicCall${index} = () => invokeModule(identifier${index}, { id: '1'${invalid ? `, ${option}` : ''} }, { modulesDirectory: '/unused' }, { state: { deviceId: 'device' } });`,
+        `void staticCall${index}; void dynamicCall${index};`,
+      ]);
+      await writeFile(
+        resolve(directory, 'control.ts'),
+        [
+          `import { invokeModule } from ${JSON.stringify(resolve(projectRoot, 'src/app/module-api.ts'))};`,
+          ...calls,
+          `const clientConfig: import(${JSON.stringify(resolve(projectRoot, 'index.ts'))}).CreateHanaMusicApiConfig = { cache: { enabled: true }, identityPool: { size: 2 } };`,
+          'void clientConfig;',
+        ].join('\n'),
+      );
+      const child = Bun.spawn(
+        [
+          process.execPath,
+          resolve(projectRoot, 'node_modules/typescript/bin/tsc'),
+          '--project',
+          resolve(directory, 'tsconfig.json'),
+          '--pretty',
+          'false',
+        ],
+        { stdout: 'pipe', stderr: 'pipe' },
+      );
+      const [exitCode, stdout, stderr] = await Promise.all([
+        child.exited,
+        new Response(child.stdout).text(),
+        new Response(child.stderr).text(),
+      ]);
+      const output = stdout + stderr;
+      if (!invalid) expect(exitCode, output).toBe(0);
+      else {
+        expect(exitCode, output).not.toBe(0);
+        for (const line of [2, 4, 6, 8, 10, 12])
+          expect(output).toContain(`control.ts(${line},`);
+      }
+    }
+  } finally {
+    await rm(directory, { recursive: true, force: true });
+  }
+}, 30_000);
+
+test.each([
+  'ModuleEffect<ModuleInput>',
+  'ModuleEffect<ModuleInput, UnknownJson, ModuleActions>',
+])(
+  'module generator rejects an unbound action capability: %s',
+  async (annotation) => {
     const directory = await mkdtemp(
-      resolve(projectRoot, '.artifacts/testing/module-config-types-'),
+      resolve(projectRoot, '.artifacts/testing/bound-generator-'),
     );
     try {
       await writeFile(
         resolve(directory, 'tsconfig.json'),
-        JSON.stringify({
-          extends: resolve(projectRoot, 'tsconfig.json'),
-          include: ['control.ts'],
-          exclude: [],
-        }),
+        '{"include":["*.ts"]}',
       );
-      for (const invalid of [false, true]) {
-        await writeFile(
-          resolve(directory, 'control.ts'),
-          [
-            `import { invokeModule } from ${JSON.stringify(resolve(projectRoot, 'src/app/module-api.ts'))};`,
-            `const staticCall = () => invokeModule('lyric', { id: '1'${invalid ? `, ${option}` : ''} }, {}, { state: { deviceId: 'device' } });`,
-            `const identifier: string = 'custom';`,
-            `const dynamicCall = () => invokeModule(identifier, { id: '1'${invalid ? `, ${option}` : ''} }, { modulesDirectory: '/unused' }, { state: { deviceId: 'device' } });`,
-            `void staticCall; void dynamicCall;`,
-            `const clientConfig: import(${JSON.stringify(resolve(projectRoot, 'index.ts'))}).CreateHanaMusicApiConfig = { cache: { enabled: true }, identityPool: { size: 2 } };`,
-            `void clientConfig;`,
-          ].join('\n'),
-        );
-        const child = Bun.spawn(
-          [
-            process.execPath,
-            resolve(projectRoot, 'node_modules/typescript/bin/tsc'),
-            '--project',
-            resolve(directory, 'tsconfig.json'),
-            '--pretty',
-            'false',
-          ],
-          { stdout: 'pipe', stderr: 'pipe' },
-        );
-        const [exitCode, stdout, stderr] = await Promise.all([
-          child.exited,
-          new Response(child.stdout).text(),
-          new Response(child.stderr).text(),
-        ]);
-        const output = stdout + stderr;
-        if (!invalid) expect(exitCode, output).toBe(0);
-        else {
-          expect(exitCode, output).not.toBe(0);
-          expect(output).toContain('control.ts(2,');
-          expect(output).toContain('control.ts(4,');
-        }
-      }
+      await writeFile(
+        resolve(directory, 'sample.ts'),
+        `export type ModuleInput = {}; export const decodeModuleInput = (input) => input; export const moduleActions = {read: {profile: 'api', target: '/api/read', semantic: 'read', cache: 'none', retry: 'never'}}; const sample: ${annotation} = (input) => input; export default sample;`,
+      );
+      const outcome = await buildGeneratedArtifacts(directory).then(
+        () => 'accepted',
+        () => 'rejected',
+      );
+      expect(outcome).toBe('rejected');
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
   },
-  30_000,
 );

@@ -4,7 +4,8 @@ import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi } from '../../../index.ts';
-import { buildCallServices, Call, runCall } from '../../../src/core/call.ts';
+import { ExecutionScope } from '../../../src/core/call-context.ts';
+import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { ReadStore } from '../../../src/core/read-store.ts';
 import search, {
   decodeModuleInput as decodeSearchInput,
@@ -30,7 +31,7 @@ import { readEapiBody } from '../../_kit/upstream/wire.ts';
 const searchImplementation = (
   _query: Record<string, unknown>,
   request: RequestCapability,
-) => testRequest(request, '/api/search/get', {}, { crypto: 'api' });
+) => testRequest(request, '/api/search/get', {});
 
 describe('module ownership', () => {
   test('a real Effect read shares transport and isolates identity, target, and protocol', async () => {
@@ -267,10 +268,7 @@ describe('module ownership', () => {
           request,
           '/api/voice/workbench/voice/batch/upload/preCheck',
           {},
-          {
-            crypto: 'api',
-            headers: { 'x-nos-token': 'stage-token' },
-          },
+          { headers: { 'x-nos-token': 'stage-token' } },
         ).pipe(Effect.map(moduleResponse)),
       {},
       {
@@ -287,10 +285,7 @@ describe('module ownership', () => {
           request,
           '/api/voice/workbench/voice/batch/upload/v2',
           {},
-          {
-            crypto: 'api',
-            headers: { 'x-nos-token': 'stage-token' },
-          },
+          { headers: { 'x-nos-token': 'stage-token' } },
         ).pipe(Effect.map(moduleResponse)),
       {},
       { cookie: 'MUSIC_A=test', fetcher },
@@ -768,13 +763,13 @@ test('explicit runCall clock takes precedence over the instance clock', async ()
               route: '/clock',
               decodeInput: decodeSearchInput,
               execute: () =>
-                Effect.map(Call, (call) => ({
+                Effect.map(ExecutionScope, (scope) => ({
                   status: 200,
                   cookie: [],
-                  body: { code: 200, now: call.startedAt },
+                  body: { code: 200, now: scope.startedAt },
                 })),
             },
-            undefined,
+
             explicit,
           ),
         );

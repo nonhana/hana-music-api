@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -35,7 +34,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const djRadioTop: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const djRadioTop: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       djRadioId: query.djRadioId || null, // 电台id
@@ -43,9 +46,7 @@ const djRadioTop: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       dataGapDays: query.dataGapDays || 7, // 天数 7:一周 30:一个月 90:三个月
       dataType: query.dataType || 3, // 未知
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('djRadio_top', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

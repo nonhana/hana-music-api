@@ -7,13 +7,13 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   check: {
@@ -57,7 +57,11 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
+const cloudImport: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (input, request) =>
   Effect.gen(function* () {
     const query = {
       ...input,
@@ -65,8 +69,8 @@ const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
       artist: input.artist || '未知',
       album: input.album || '未知',
     };
-    const response = yield* request(
-      buildActionRequestIntent('check', moduleActions.check, {
+    const response = yield* request('check', {
+      data: {
         uploadType: 0,
         songs: JSON.stringify([
           {
@@ -76,8 +80,8 @@ const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
             fileSize: query.fileSize,
           },
         ]),
-      }),
-    );
+      },
+    });
     const body = response.body;
     if (
       body === null ||
@@ -119,9 +123,7 @@ const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
         },
       ]),
     };
-    const importedResponse = yield* request(
-      buildActionRequestIntent('import', moduleActions.import, data),
-    );
+    const importedResponse = yield* request('import', { data });
     return toModuleResponse(importedResponse);
   });
 

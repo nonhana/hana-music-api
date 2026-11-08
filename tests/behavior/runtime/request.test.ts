@@ -7,7 +7,6 @@ import { Effect } from 'effect';
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { aesEncrypt } from '../../../src/core/crypto.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
-import { buildActionRequestIntent } from '../../../src/core/request-intent.ts';
 import { createRequest } from '../../../src/core/request.ts';
 import type {
   CreateRequestOptions,
@@ -800,7 +799,7 @@ const readProbe = (
     ...config
   } = options;
   return runCall(
-    { identifier: 'read_probe', input: data, config, signal },
+    { identifier: 'read_probe', input: data, config: { ...config, signal } },
     buildCallServices({}, false),
     {
       identifier: 'read_probe',
@@ -808,7 +807,7 @@ const readProbe = (
       actions: { read: action },
       decodeInput: decodeLegacyModuleInput,
       execute: (input, request) =>
-        request(buildActionRequestIntent('read', action, input)).pipe(
+        request('read', { data: input }).pipe(
           Effect.map((response) => ({
             status: response.status,
             cookie: [...response.cookie],

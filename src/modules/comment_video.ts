@@ -6,7 +6,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -61,7 +60,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const commentVideo: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const commentVideo: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       rid: query.id,
@@ -69,14 +72,10 @@ const commentVideo: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       offset: query.offset || 0,
       beforeTime: query.before || 0,
     };
-    const response = yield* request(
-      buildActionRequestIntent(
-        'request',
-        moduleActions['request'],
-        data,
-        `/api/v1/resource/comments/R_VI_62_${query.id}`,
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/v1/resource/comments/R_VI_62_${query.id}`,
+    });
     const body = yield* decodeUpstreamBody(
       'comment_video',
       ModuleBody,

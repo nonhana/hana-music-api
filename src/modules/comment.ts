@@ -7,7 +7,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
@@ -15,6 +14,7 @@ import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   add: {
@@ -61,7 +61,10 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const comment: ModuleEffect<ModuleInput> = (query, request) =>
+const comment: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const actionMap: Record<number, 'add' | 'delete' | 'reply'> = {
       1: 'add',
@@ -85,14 +88,7 @@ const comment: ModuleEffect<ModuleInput> = (query, request) =>
       data.commentId = query.commentId;
       data.content = query.content;
     }
-    const response = yield* request(
-      buildActionRequestIntent(
-        action,
-        moduleActions[action],
-        data,
-        `/api/resource/comments/${action}`,
-      ),
-    );
+    const response = yield* request(action, { data });
     return toModuleResponse(response);
   });
 

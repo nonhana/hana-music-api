@@ -2,9 +2,9 @@ import { Effect } from 'effect';
 
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildPlainActionRequestIntent } from '../core/request-intent.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   page: {
@@ -22,15 +22,15 @@ export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-inp
 
 export type ModuleInput = LegacyModuleInput;
 
-const relatedPlaylist: ModuleEffect<ModuleInput> = (input, request) =>
+const relatedPlaylist: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (input, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildPlainActionRequestIntent(
-        'page',
-        moduleActions.page,
-        `https://music.163.com/playlist?id=${String(input.id)}`,
-      ),
-    );
+    const response = yield* request('page', {
+      query: `id=${String(input.id)}`,
+    });
     if (typeof response.body !== 'string') {
       return yield* UnexpectedUpstreamShape.make({
         module: 'related_playlist',

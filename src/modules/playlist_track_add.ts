@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -24,10 +23,11 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const playlistTrackAdd: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const playlistTrackAdd: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.ids !== undefined &&
@@ -48,9 +48,7 @@ const playlistTrackAdd: ModuleEffect<ModuleInput, ModuleBody> = (
       ),
     };
 
-    const response = yield* request(
-      buildActionRequestIntent('add', moduleActions.add, data),
-    );
+    const response = yield* request('add', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody(

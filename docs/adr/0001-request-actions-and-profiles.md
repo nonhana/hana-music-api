@@ -6,9 +6,27 @@
 
 模块原来能分别指定协议、域名、UA 和 Cookie，歌单收藏还需要改写 Call 才能形成网页请求。现在由 profile 统一决定这些客户端身份字段、加密响应等协议选项；模块按动作声明业务语义、缓存和重试资格，checkToken 是通用可选调用配置，位置由协议准备统一决定。profile 不保存 MUSIC_U、MUSIC_A 等会话，它们继续来自每次调用的不可变身份快照。
 
-模块导出的 `moduleActions` 同时进入生成的 SDK registry 与 HTTP 动态 loader，调用时复制并冻结，避免等待 token 时声明被改动。动作可以使用固定 API 路径或有边界的动态路径；请求层按 URL 的规范化结果检查边界，再核对最终 URL。纯本地模块用空动作集，多请求模块逐动作声明。
+模块导出的 `moduleActions` 同时进入生成的 SDK registry 与 HTTP 动态 loader，装配时验证并冻结自有快照，避免等待 token 时声明被改动。动作可以使用固定 API 路径或有边界的动态路径；请求层按 URL 的规范化结果检查边界，再核对最终 URL。纯本地模块用空动作集，多请求模块逐动作声明。
 
-保留 SDK/HTTP → runCall → 模块 → RequestCapability/RequestIntent → requestEffect → prepareRequest → transport 这条执行链。token 在请求层按次读取，不缓存、不重放，不进入 URL、Cookie 或事件日志；provider 等待属于本次期限。写动作绕过 ReadStore，无论模块名是否落在旧读取白名单中，都不合并、不缓存、不自动重试。
+保留 SDK/HTTP → runCall → 模块 → 绑定的 RequestCapability → ResolvedRequest → requestEffect → prepareRequest → transport 这条执行链。token 在请求层按次读取，不缓存、不重放，不进入 URL、Cookie 或事件日志；provider 等待属于本次期限。写动作绕过 ReadStore，无论模块名是否落在旧读取白名单中，都不合并、不缓存、不自动重试。
+
+## 请求数据流收敛：单内核的已解析输入
+
+requestEffect 只接收 ResolvedRequest 并依赖 ExecutionScope；prepareRequest 只接收已确定的客户端编码规则、自有数据与显式熵。raw/debug 和私有匿名注册不建立模块 Call。raw 自己解析公开选项、默认协议与部分 OS 覆盖，内部注册固定 web 且不消费业务 token。池只返回 anonymousToken/deviceId/cnIp；调用准备按原 Cookie/IP 替换规则产生身份。
+
+模块只调用 request(actionName, args)，动作名绑定本地 moduleActions 的类型；API 传 data 和业务 headers，固定 plain 传 query，动态 plain 传受限 target。runCall 从冻结声明解析目标与编码规则，保留业务头的大小写合并和受控头清理。旧 RequestIntent 及两个 builder 已删除。
+
+API 数据在取 token 前捕获自有 JSON 值树，不先 stringify/parse；getter、toJSON、空位、boxed primitive 和异常阶段按原生 JSON 对照，原对象不冻结。根对象资格仍在 token 后检查。上传成功后由绑定能力原子追加原 logicalTarget，uploadWork 只转发二元能力并解释本次区间的部分完成，不再包装逐阶段请求或检查期限。
+
+CLI 注册仍走 raw weapi、请求前预写 state，并保留原响应与文件边界，不改调私有注册。
+
+Call 只保存模块调用数据；原始配置的校验、默认浅合并与 signal 分离收拢到 runCall。共享键在共同入口从同一有效配置作局部投影，仍剔除 observer/等待超时/signal，并使用 execute 与实际 fetcher 的稳定引用；不把新绑定闭包或 Scope 放入键。
+
+生产 SDK/HTTP/动态装配删除 requestHandler，带有旧键的 JavaScript 对象即使 undefined 或不可枚举也明确拒绝。完整链测试在 fetcher 替换网络；模块级 fake capability 保留。此内部动作合同变更与装配删除用 major changeset 记录，根 Promise 调用形状和返回体不变。
+
+## 历史迁移记录
+
+以下各票保留当时的固定基线、过渡安排和证据来源；当前链路以上文为准，P12 等未来表述不再作为未完成工作。
 
 ## 首条合同与证据
 

@@ -1,8 +1,8 @@
-import type { CookieRecord, RequestIntent } from '../types/index.ts';
+import type { CookieRecord, RequestProtocol } from '../types/index.ts';
 import { OS_PROFILES, USER_AGENT_MAP } from './config.ts';
 
 export interface RequestProfile {
-  readonly protocol: RequestIntent['protocol'];
+  readonly protocol: RequestProtocol;
   readonly domain: string;
   readonly userAgent: string;
   readonly cookie: Readonly<CookieRecord>;
@@ -140,3 +140,12 @@ export const requestProfiles = {
 } as const satisfies Readonly<Record<string, RequestProfile>>;
 
 export type RequestProfileName = keyof typeof requestProfiles;
+
+for (const profile of Object.values(requestProfiles)) {
+  Object.freeze(profile.cookie);
+  Object.freeze(profile.omitCookies);
+  if ('allowedHostSuffixes' in profile)
+    Object.freeze(profile.allowedHostSuffixes);
+  Object.freeze(profile);
+}
+Object.freeze(requestProfiles);

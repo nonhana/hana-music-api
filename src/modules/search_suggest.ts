@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -98,15 +97,17 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const searchSuggest: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const searchSuggest: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       s: query.keywords || '',
     };
     const action = query.type === 'mobile' ? 'mobile' : 'web';
-    const response = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], data),
-    );
+    const response = yield* request(action, { data });
     const body = yield* decodeUpstreamBody(
       'search_suggest',
       ModuleBody,

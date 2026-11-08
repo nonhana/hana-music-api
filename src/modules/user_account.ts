@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { Account, UserProfile } from '../core/upstream-schemas.ts';
@@ -41,11 +40,13 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userAccount: ModuleEffect<ModuleInput, ModuleBody> = (_query, request) =>
+const userAccount: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (_query, request) =>
   Effect.gen(function* () {
-    const result = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], {}),
-    );
+    const result = yield* request('request', { data: {} });
     return {
       ...toModuleResponse(result),
       body: yield* decodeUpstreamBody('user_account', ModuleBody, result),

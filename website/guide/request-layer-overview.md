@@ -13,9 +13,10 @@ flowchart TD
   SDK["SDK：client、具名函数、invokeModule"] --> CALL["校验业务输入、准备身份<br/>建立调用快照"]
   HTTP["HTTP 请求"] --> EDGE["检查入口额度<br/>解析参数与 Cookie"]
   EDGE --> CALL
-  CALL --> MODULE["业务模块<br/>生成请求意图"]
-  DIRECT["createRequest<br/>建立底层调用快照"] --> CORE["统一请求内核 requestEffect"]
-  MODULE --> CORE
+  CALL --> MODULE["业务模块<br/>选择动作与业务数据"]
+  DIRECT["createRequest<br/>解析路径、数据与选项"] --> CORE["统一请求内核 requestEffect"]
+  MODULE --> BIND["按动作解析请求"]
+  BIND --> CORE
   CORE --> TRANSPORT["transport<br/>发送请求并完整读取正文"]
   TRANSPORT --> UPSTREAM["网易云 API、网页或上传服务"]
 ```
@@ -34,7 +35,7 @@ flowchart TD
 
 ### 为这次调用保存一份快照
 
-内部的 `Call` 表示一次模块调用。它保存整理后的业务参数、执行配置、有效身份和截止时间。模块后续发出多次请求时，仍使用这次调用的身份，不会中途换成全局状态里刚更新的账号。
+内部的 `Call` 表示一次模块调用。它保存整理后的业务参数、有效身份、可用动作和本次 token 的使用状态。实际网络依赖和截止时间由单独的 `ExecutionScope` 保存，原始请求也能使用这份执行上下文。模块后续发出多次请求时，仍使用这次调用的身份，不会中途换成全局状态里刚更新的账号。
 
 普通模块默认有 8 秒总期限。准备游客身份、重试和读取正文都算在这 8 秒里。两个相同的读取可以共享上游工作，但每个调用者仍有自己的期限，详见 [超时与取消](/guide/retry-timeout-resilience)。
 
@@ -59,11 +60,11 @@ flowchart TD
 
 ### 模块描述请求，内核负责执行
 
-搜索模块把 `keywords` 转成上游要求的 `s`，再提供目标路径、协议、方法和正文。这份描述叫 `RequestIntent`，也就是请求意图。
+搜索模块把 `keywords` 转成上游要求的 `s`，再调用 `request('read', { data })`。目标路径、协议和方法已经在动作里声明，模块只需要选择动作并提供业务数据。
 
-模块通过传入的 `RequestCapability` 提交它。这个名字表示模块拥有的请求能力，其默认实现就是 `requestEffect`。模块不直接调用 `fetch`，也不在内部启动另一套 Promise 执行器。
+传入的 `RequestCapability` 就是这份绑定好的请求能力。它检查动作和参数，在等待 token 前保存一份自有数据快照，再把已解析的请求交给内核；调用者之后修改原对象，不会改变已经准备的请求。模块不直接调用 fetch，也不在内部启动另一套 Promise 执行器。
 
-曲库与播放的77个模块也已声明动作，由内核统一准备身份。它们保留原来的协议；身份统一后，weapi 浏览器请求使用干净 web Cookie，EAPI 使用配套 iPhone 字段，不再混合 Windows 与 iPhone 身份。普通配置里的 crypto、domain、ua、e_r、acceptGzip 及受控身份 Cookie 不再覆盖这些声明，会话和设备仍按本次调用传递。需要直接控制底层协议时使用 [createRequest](/guide/create-request-and-create-option)。这些模块继续独立执行，不会新增共享读取或自动重试。
+动作和 profile 决定客户端身份；登录 Cookie 和设备随本次调用固定下来。浏览器请求使用 web Cookie，EAPI 使用配套 iPhone 字段，普通配置不能改写协议或平台。需要直接控制底层协议时使用 [createRequest](/guide/create-request-and-create-option)。
 
 内核根据调用快照准备 URL、Cookie、请求头和加密正文，校验最终目标，再按策略执行请求。内核不在本地限制发送频率，每次尝试都直接发出；请求频率由调用方控制，见 [请求频率由调用方控制](/guide/retry-timeout-resilience#请求频率由调用方控制)。只有允许重试的操作和失败类型才会进入下一次尝试。
 
@@ -73,7 +74,7 @@ sequenceDiagram
   participant Core as 请求内核
   participant Transport as 网络传输
   participant Upstream as 网易云
-  Module->>Core: 请求意图
+  Module->>Core: 动作名与业务数据
   Core->>Core: 准备协议并校验目标
   Core->>Transport: 发送请求
   Transport->>Upstream: HTTP 请求
@@ -91,7 +92,7 @@ sequenceDiagram
 | ----------------------- | ------------------------------------------- | ------------------------------------------------------ |
 | 进程                    | 匿名运行时状态                              | 多个 client 共用同一份匿名身份                         |
 | client 或 HTTP 服务实例 | 各自的 `ReadStore`；client 可选的匿名身份池 | 不同 client 的缓存独立；同一 client 的方法共用读取状态 |
-| 单次调用                | 参数、配置、身份快照、截止时间              | 单次覆盖只影响这次调用，取消也先作用于这个调用者       |
+| 单次调用                | 参数、身份快照、token 状态与独立等待期限    | 单次覆盖只影响这次调用，取消也先作用于这个调用者       |
 
 具名函数保留各自的调用上下文，公开 `invokeModule` 复用其调用上下文；它们默认不保存已完成结果的缓存。共享范围不能仅凭“在同一进程”判断。
 

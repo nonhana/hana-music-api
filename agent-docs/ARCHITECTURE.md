@@ -2,70 +2,56 @@
 
 在修改核心请求链路、运行时服务、HTTP 层、模块加载或共享状态前阅读本文件。
 
-## 目录职责
+## 当前执行链
 
-- `index.ts`：唯一公开 SDK 入口，只组合公开导出。
-- `src/browser/watchman.ts`：独立的浏览器 Watchman 子路径，不依赖业务 SDK 或核心请求链；页面状态与证据边界见 ADR-0003。
-- `src/app/`：CLI 启动、服务启动和匿名配置生成。
-- `src/server/`：Hono 应用、路由、准入、Cookie/body 解析、模块发现和文档服务。
-- `src/core/`：Effect 请求内核、加密、目标策略、transport、运行时、缓存和身份状态。
-- `src/modules/`：每个网易云端点一个模块，负责业务输入和请求意图。
-- `src/sdk/`：Promise SDK runtime，以及由模块生成的 client、registry 和具名 API 文件。
-- `src/plugins/`：上传等可组合能力；`src/types/`：共享公开类型和内部合同。
-- `tests/`：分层测试；`website/`：面向使用者的 VitePress 文档；`docs/`：agent 与 domain 文档；`_notes/`：历史报告和验收证据。
+SDK 的 client、具名函数和 root invoke，以及动态程序入口，都把原始配置交给 `runCall`。共同入口先检查原对象，再浅合并已验证的 client 默认值并分离 signal，随后解码业务输入、准备一次不可变身份。HTTP 先完成准入和参数解析，只提供允许的 Cookie、来源 IP 和请求 signal。
 
-## 唯一执行链路
+模块只调用 `request(actionName, args)`。绑定能力按冻结动作声明验证参数和目标，取得自有业务数据快照，再构造 `ResolvedRequest`。执行链为：
 
-公开入口先解码业务输入并建立不可变 `Call`，冻结配置、Cookie、身份指纹和总期限。模块将输入编译为 `RequestIntent`，再通过 `RequestCapability` 进入唯一的 `RequestEffect`；目标检查、协议准备、重试、期限、transport、完整正文消费和响应解释都在这条链路中完成。
+业务输入 → 模块 → 绑定的 RequestCapability → ResolvedRequest → requestEffect → prepareRequest → transport → 模块结果。
 
-所有模块必须导出本地 `moduleActions`，逐动作声明 profile、目标或动态路径边界、语义、缓存和重试资格。生成的 SDK registry 和 HTTP loader 读取同一份声明，`runCall` 校验后将其冻结到 `Call.actions`；请求层只执行本模块声明过的动作，并核对规范化路径与最终 URL。profile 决定协议、域名、UA、身份 Cookie 字段和协议选项，token 由协议准备统一编码，会话仍来自本次 Call。操作声明是缓存和重试的唯一依据，写动作不共享、不缓存、不重放。
+全部 352 模块声明 389 动作；本地模块声明空集。生成的 SDK registry、HTTP loader 和手工装配共用声明验证，冻结自有动作快照并推导 shared/upload 资格。请求时仍检查动作名、未知参数、动态边界和最终 URL；声明不能被源对象突变改变。
 
-当前已迁移352个模块：playlist_subscribe、album_sub、artist_sub、四个共享读取 search、lyric、song_detail、playlist_detail，以及 #110 的77个曲库与播放模块、#111 的55个搜索与发现模块、#112 的83个账号与社交模块、#113 的67个播客、视频与音频模块、#114 的50个会员、云贝、音乐人与其他业务模块，以及 #115 的13个特殊链路模块。三类收藏/取消使用 web；歌曲详情使用 web，其余三个读取保留 eapi。所有 SDK 模块统一接受可选 checkToken，不按模块或动作分类。带 token 调用绕过 ReadStore，禁自动重试；provider 每个 API 请求独立取值，固定字符串在一次模块调用中只允许一次 API 请求，后续需求明确失败；纯本地/外部上传不取值。未配置 token 时保留声明的 shared cache/read retry 和独立等待者合同。
+API 参数为 data/headers，动态 API 另提供 path；固定 plain 提供原始 query，动态 plain 提供受限 target 与原始 body。profile 决定协议、域名、UA 和平台 Cookie，会话与设备来自调用身份。业务头保留，受控头由内核处理；业务模块不复制协议、方法或重试政策。
 
-#110 的38个 weapi 动作模块采用 weapiPc，保留浏览器 UA 与 PC Cookie 的既有组合；39个 eapi 模块复用 eapi。全部声明 cache=none，按原上限分别使用 never/connect/read，不扩共享读取。导入四分支、红心/取消、sky 音质及动态路径都在本地动作合同中表达；local 导入和 batch 更新各发一次请求。完整基线与证据选择见 [issue-110](../docs/acceptance/issue-110.md)。
+## 每份数据由谁持有
 
-#116 已删除可选声明、pending清单、模块默认协议选择、URI语义正则和模块名缓存/上传名单。所有352模块（389动作）都必须声明动作；本地模块声明空集。HTTP准入和上传期限也读取动作语义。显式低层原始请求以 rawOptions 标记进入同一内核，保留默认协议/目标和凭据外送校验，不取得模块缓存或重放资格。见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
+| 模型            | 持有内容                                                                                 | 生命周期                  |
+| --------------- | ---------------------------------------------------------------------------------------- | ------------------------- |
+| ProcessServices | 内存运行时状态读取                                                                       | 进程                      |
+| CallServices    | ReadStore、可选匿名池、默认 execution 依赖                                               | client/HTTP/动态 API 实例 |
+| Call            | 模块标识、输入、身份、动作、派生策略、token 来源/计数、IP/retry、上传进度                | 一次模块调用              |
+| ExecutionScope  | 实际 fetcher/proxy/连接策略、熵/事件、开始时间和绝对期限                                 | 实际执行任务              |
+| ResolvedRequest | 已确定的 API/plain 目标、客户端编码规则、自有数据或原始正文、头、响应和 token/retry 规则 | 一次逻辑请求              |
+| RequestPlan     | 最终 URL、method、headers、编码 body 与身份指纹                                          | 一次逻辑请求及其重试      |
 
-Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `createRequest` 仍返回 Promise；内部组合和 transport 不自行调用 `Effect.runPromise`。公开边界统一由 `src/core/runtime.ts` 负责执行和错误映射。
+`Call` 不保存整份 config、重复 Cookie、执行依赖或期限。raw/debug 与内部匿名注册不构造 Call；它们各自解析入口后，把 ResolvedRequest 交给同一内核。requestEffect 只依赖 ExecutionScope，prepareRequest 是接收显式熵的纯编码函数，不读全局状态或发送网络。
 
-## 服务与共享状态
+API 数据在异步 token 等待前捕获为自有 JSON 值树，保留原生 JSON 的值、键序、getter/toJSON 与异常阶段，不先 stringify/parse 整体，也不冻结用户对象。plain 原始字节不增加大文件复制。上传绑定请求成功后原子追加原 logicalTarget，uploadWork 按本次区间报告部分完成；总期限和阶段上限由公共内核执行。
 
-- `ProcessServices` 只提供运行时状态读取，供模块调用准备身份时使用；请求内核 `requestEffect` 只依赖 `Call`。
-- 每个 client、HTTP 服务实例和程序化 API 实例拥有自己的 `ReadStore`；共享读取只共享上游执行，等待者仍各自拥有取消和期限。
-- `ReadStore` 用一个原子状态决策处理缓存命中、在飞任务合并和任务清理。
-- SDK 不在本地限制出口请求频率，也不在收到上游限频后冷却身份或域名；调用方自己控制频率。只有 HTTP 服务按来访 IP 和模块容量做入口准入（`src/server/admission.ts`），多进程不会共享这份内存状态，需要在可信反向代理层补充共享限流。
-- SDK 入口和 `src/core/` 在加载和调用时不读写本地文件，以便在 Serverless 函数里运行：版本号由构建内联 `package.json`，运行时状态只在内存；匿名令牌文件只由 `src/app/` 的 CLI 读写。`tests/package/release.test.ts` 用单文件打包产物守住这一点。
+## 共享读取与取消
 
-## 依赖方向
+只有明确声明 shared 的 search、lyric、song_detail、playlist_detail 获得共享资格。配置 checkToken 后禁共享、缓存和自动重试；provider 逐个获准的 API 请求取值，字符串在同一 Call 限一次，外部 plain 与内部注册不消费业务 token。
 
-Hono 只属于 `src/server/`。`src/core/` 必须能够脱离 Hono 测试；模块不得直接调用 `fetch`，也不得启动第二套 Promise 请求执行器。请求 target、协议、方法和语义由 `RequestIntent` 表达，transport 是唯一上游发送位置，并拒绝未经允许的重定向。
+ReadStore 持有实际共享任务，每个等待者仍有自己的 signal 和期限。实际任务使用独立 ExecutionScope，最后一个等待者离开才中断它；完整模块结果校验属于共享任务。局部 keyConfig 保留原有效配置的字段与缺省差异，只剔除事件、等待超时和 signal，使用原 execute 与实际 fetcher 的稳定引用；绑定闭包、Scope、时点和熵不进入键。
 
-上传按阶段执行；已经完成的上游写入不能回滚，失败时由模块报告部分完成阶段。自定义 fetcher 必须遵守传入的 `AbortSignal`，库只能保证自身资源会释放。
+普通调用默认总期限 8 秒，非正值关闭普通总期限；上传总上限 300 秒、单阶段 60 秒，正配置只能缩短。输入、身份、provider、退避与完整正文消费都计入期限。重试复用同一 RequestPlan，不再取 token 或生成 nonce。
 
-重构背景与验收证据见 `_notes/effect-refactor/final-report.md` 和 `website/guide/request-layer-overview.md`。
+## 入口与依赖边界
 
-内部实例装配见 [ADR-0002](../docs/adr/0002-testing-runtime-and-evidence.md)。`buildCallServices(config, initializeAnonymous, execution)` 的第三个参数只供内部装配；Call 保存冻结依赖，公开 fetcher 与显式 Clock 保持优先。SDK 内部 client factory 由生成器产出且不从根导出；HTTP 的 runtimeOptions 不从请求输入读取。测试仍执行同一请求链。
+- `index.ts` 和 `src/sdk/` 组合公开 Promise API；Effect 和内部错误由 core/runtime 在唯一公开执行边界封口。
+- `src/modules/` 处理业务输入、动作选择和返回检查；`src/plugins/` 组合上传步骤。模块不直接 fetch 或 runPromise。
+- `src/core/` 负责请求、身份、纯编码、transport 和 ReadStore，不依赖 Hono。
+- `src/server/` 负责 Hono、准入、Cookie/body、路由和发现；不从 HTTP 输入取得 execution。内部 createServer/startServer runtime 参数提供网络、Clock/熵与实际 ReadStore reader。
+- `src/app/` 负责 CLI、服务启动和匿名文件；core/SDK 加载与调用不读写本地文件，CLI 注册保留 raw weapi 和原状态/文件时序。
+- `src/browser/watchman.ts` 是独立浏览器子路径，不依赖业务 SDK 或核心请求链，见 ADR-0003。
 
-#111 的55模块声明56个请求动作，复用39个weapiPc和16个eapi组合；search_suggest的mobile/web分别固定目标，top_list的idx本地拒绝零请求。全部cache=none；FM垃圾桶与推荐不感兴趣write/never，连续推荐与首页刷新read/never，其他读取不扩大原重试上限。源码/离线材料不证明推荐流是否持久推进上游状态。没有新增产品共享接缝，完整清单和证据边界见 [issue-111](../docs/acceptance/issue-111.md)。
+生产装配不接受 requestHandler 替换内核。完整链测试只在 fetcher 替换网络，模块组合测试直接提供 fake capability；内部 execution 不从根包导出。显式 runCall Clock 优先于实例 Clock；公开有效 fetcher 优先于实例依赖。见 [ADR-0002](../docs/adr/0002-testing-runtime-and-evidence.md)。
 
-#112 的83模块声明89动作，46个weapiPc、37个eapi，保持原协议/身份与业务返回。验证码/密码、评论/点赞/关注的有限路径分别声明，动态资源路径按规范化目录约束；消息/会话/刷新读取采用保守never重试，不扩大共享。SDK不自动保存登录Cookie；隐式匿名初始化的内存更新保持，业务token不被初始化消耗。详见[issue-112](../docs/acceptance/issue-112.md)。
+SDK 不在本地限制出口频率；HTTP 只按来访 IP 和容量做入口准入，多进程需要反向代理提供共享限流。SDK 不创建登录 Cookie jar，调用者保存设备和会话；取消自定义 fetcher 时，它仍需遵守 AbortSignal。
 
-## P9：播客、视频与音频
+## 历史迁移依据
 
-固定基线fa40cad6的67模块采用44个weapiPc和23个eapi，独立解码370分支后复用现有profile；71动作明确广播收藏/取消与DJ/MV/视频订阅分支，user_dj保留动态目录边界。没有新增profile或执行器，voice_upload仍归P11。全部cache=none；声音删除和声音列表排序是write/never，时间线、分组视频、个性推荐、今日优选、DIFM播放列表和mlog推荐保守read/never，材料不能证明上游持久推进。广播收藏列表和DIFM已收藏频道列表保持原never上限，其余读取只保留connect。currentinfo查询频道快照，mlog_to_video查询对应ID，均不因名称推成poll或write。155份历史返回逐份回放与最终请求证据独立，缺失工作台成功样本不猜Schema。[完整依据](../docs/acceptance/issue-113.md)。
+各批次的协议、身份与录制来源保留在 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md) 及 issue-105/109–116 的验收记录。早期 weapiPc/PC Cookie 是当时基线；当前身份以 #122 和[389 动作清单](../docs/acceptance/issue-122-actions.md)为准，不能把历史默认组合当成当前行为。
 
-## P10：会员、云贝、音乐人与其他业务
-
-固定基线06f1791的50模块采用36个weapiPc和14个eapi，240个最终请求分支独立解码后复用现有profile，声明50动作。batch无论封装多少子操作都只发送一次/api/batch，保守write/none/never；summary_annual按年度拼接userdata/data，并限制到/api/activity/summary/annual/目录。daily_signin保留特殊HTTP路由/daily_signin，digitalAlbum_*保留大小写入口。没有新增profile或执行器。
-
-下单、签到、任务/成长值/云豆领取与云贝推歌均write/never。听歌报告查询、签到活动信息和云贝收入/支出明细是读取，因旧URI策略禁止重试而继续never；其他读取只保留connect，全部不共享或缓存。统计、历史、年度和乐谱只迁移声明，不改变Schema或业务含义。102份历史返回逐份回放与请求对照分开；十个无录制模块及数字专辑下单缺成功样本如实保留，不执行付费或真实账号操作。[完整依据](../docs/acceptance/issue-114.md)。
-
-## P11：上传与特殊链路
-
-#115 将最后13模块迁移为30个动作，352模块均有声明。inner_version、login_qr_create使用空动作集。上传阶段与plain GET也沿原RequestCapability执行，动作固定方法、响应模式及规范目标；plainNos只接受原允许域名后缀和云盘桶目录，其他plain profile固定域名。目标检查继续核对最终URL，不新增执行器。
-
-图片分配复用三个真实模块消费者的同一动作；声音与云盘保留API/plain混合阶段、数据依赖、总期限及部分完成。scrobble使用独立clientlogOsx组合，保留两条日志的顺序和原内容。playlist_tracks的512条件分支仍是业务第二请求。全部cache=none，写和上传never；cloud_import的读取保持原never，两段歌单读取保留原read上限，固定歌曲上传地址查询只connect，audio_match/related_playlist因动态query影响旧URI判定而收紧为never。旧控制面已由#116删除。[验收来源](../docs/acceptance/issue-115.md)与历史回放分别记录。
-
-## #122 当前身份规则
-
-前述P2及P6–P11的身份组合描述是各票历史基线。#122保留协议与动作合同，151个eapi动作改用已有iPhone四项，220个weapiPc浏览器动作改用web，7个web保持，clientlog的两条日志对齐macOS UA；9个plain动作保持。Call在默认状态合并前优先选择显式有效设备，再取Cookie和运行时兜底，prepareRequest纯投影所有受控字段；不存在旧混合profile。完整[字段来源与389动作清单](../docs/acceptance/issue-122-actions.md)保留历史到当前的映射，通用旧控制面已由#116删除。
+测试分层和交付门禁见 [TESTING.md](./TESTING.md)，模块合同见 [API_CONVENTIONS.md](./API_CONVENTIONS.md)，根导出边界见 [PUBLIC_API.md](./PUBLIC_API.md)。

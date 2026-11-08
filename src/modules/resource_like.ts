@@ -3,7 +3,6 @@ import { Effect, Schema } from 'effect';
 import { resolveResourceType } from '../core/comment-thread.ts';
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -35,7 +34,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const resourceLike: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
+const resourceLike: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (input, request) =>
   Effect.gen(function* () {
     const query = { ...input };
     if (
@@ -57,14 +60,7 @@ const resourceLike: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
     if (resourceType === 'A_EV_2_') {
       data.threadId = query.threadId;
     }
-    const response = yield* request(
-      buildActionRequestIntent(
-        action,
-        moduleActions[action],
-        data,
-        `/api/resource/${action}`,
-      ),
-    );
+    const response = yield* request(action, { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('resource_like', ModuleBody, response),

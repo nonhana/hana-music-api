@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -38,10 +37,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const listentogetherHeatbeat: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const listentogetherHeatbeat: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       roomId: query.roomId,
@@ -49,9 +49,7 @@ const listentogetherHeatbeat: ModuleEffect<ModuleInput, ModuleBody> = (
       playStatus: query.playStatus,
       progress: query.progress,
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'listentogether_heatbeat',
       ModuleBody,

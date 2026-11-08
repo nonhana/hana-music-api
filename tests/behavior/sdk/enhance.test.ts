@@ -99,7 +99,7 @@ describe('sdk response cache', () => {
                 decodeInput: decodeLegacyModuleInput,
                 execute: implementation,
               },
-              undefined,
+
               clock,
             );
           yield* Effect.promise(invoke);
@@ -220,12 +220,7 @@ describe('sdk identity pool', () => {
         execute: (_query: ModuleQuery, request: RequestCapability) =>
           uploadWork('voice_upload', request, (stage) =>
             Effect.gen(function* () {
-              yield* testRequest(
-                stage,
-                '/api/nos/token/alloc',
-                {},
-                { crypto: 'api' },
-              );
+              yield* testRequest(stage, '/api/nos/token/alloc', {});
               yield* testPlainRequest(
                 stage,
                 'https://ymusic.nos-hz.163yun.com/test',

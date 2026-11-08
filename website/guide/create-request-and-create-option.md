@@ -30,13 +30,14 @@ console.log(result.status, result.body, result.cookie);
 
 ```mermaid
 flowchart TD
-  SDK["search 等公开函数"] --> MODULE["模块校验输入<br/>生成 RequestIntent"]
-  MODULE --> CORE["内部 requestEffect"]
+  SDK["search 等公开函数"] --> MODULE["模块校验输入<br/>选择声明过的动作"]
+  MODULE --> BIND["绑定动作与业务数据"]
+  BIND --> CORE["内部 requestEffect"]
   DIRECT["createRequest<br/>提供路径、数据、配置"] --> CORE
   CORE --> TRANSPORT["统一 transport"]
 ```
 
-模块通过 `RequestCapability` 提交请求意图，默认实现是 `requestEffect`。它们不会绕到公开的 Promise 函数 `createRequest` 再执行一次。
+模块通过 `RequestCapability` 调用动作名和业务参数。绑定能力按声明确定目标、协议和方法，再把已解析请求交给 `requestEffect`。`createRequest` 自己解析底层选项后进入同一内核，两者都不会再启动另一套执行器。
 
 `createRequest` 专用于这类 API 协议请求，不是任意 URL 的代理。路径和最终目标仍要通过检查，携带身份时只允许已知 HTTPS 网易云 API 域名。
 
@@ -65,5 +66,3 @@ console.log(result.body);
 第二个参数为协议默认值，对象里的有效 `crypto` 字段优先。它的结果只用于低层 `createRequest`，传给普通模块会被拒绝。内置模块已经全部使用显式动作声明。
 
 新写的 SDK 调用直接把业务参数和配置分开即可，不必先混进一个对象再提取。`createOption` 只用于低层请求接入已有的扁平参数约定。普通模块配置迁移见[major 迁移表](/guide/config-reference#从旧配置迁移-major)。
-
-搜索、推荐与发现的55个模块现在也使用固定请求合同，保留原协议和默认身份。普通调用的crypto、domain、ua、e_r、acceptGzip或Cookie身份字段不再覆盖这些声明；确需控制协议时使用低层createRequest。私人FM、私人DJ与首页刷新不自动重试连接前失败；FM垃圾桶和推荐不感兴趣仍只发送一次。本批没有新增缓存或共享读取。

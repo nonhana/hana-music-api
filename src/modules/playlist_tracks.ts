@@ -6,7 +6,6 @@ import {
   UpstreamBusinessFailed,
 } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -62,10 +61,11 @@ const decodeResponse = (response: Parameters<typeof toModuleResponse>[0]) => {
   );
 };
 
-const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const playlistTracks: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.tracks !== undefined &&
@@ -85,9 +85,7 @@ const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
       trackIds: JSON.stringify(tracks),
       imme: 'true',
     };
-    return yield* request(
-      buildActionRequestIntent('manipulate', moduleActions.manipulate, data),
-    ).pipe(
+    return yield* request('manipulate', { data }).pipe(
       Effect.flatMap(decodeResponse),
       Effect.mapError((error) => {
         if (error instanceof ProtocolFailed && error.response) {
@@ -113,12 +111,12 @@ const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
           if (error.code !== 512) {
             return yield* error;
           }
-          return yield* request(
-            buildActionRequestIntent('fallback', moduleActions.fallback, {
+          return yield* request('fallback', {
+            data: {
               ...data,
               trackIds: JSON.stringify([...tracks, ...tracks]),
-            }),
-          ).pipe(Effect.flatMap(decodeResponse));
+            },
+          }).pipe(Effect.flatMap(decodeResponse));
         }),
       ),
     );

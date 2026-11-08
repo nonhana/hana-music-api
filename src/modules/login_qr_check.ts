@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -58,14 +57,18 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const loginQrCheck: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const loginQrCheck: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
-    const result = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], {
+    const result = yield* request('request', {
+      data: {
         key: query.key,
         type: 3,
-      }),
-    );
+      },
+    });
     const body = yield* decodeUpstreamBody(
       'login_qr_check',
       ModuleBody,

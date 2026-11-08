@@ -72,7 +72,7 @@ test.each([
 import { Effect } from ${JSON.stringify(import.meta.resolve('effect'))}
 export const decodeModuleInput = (input) => Effect.succeed(input)
 export const moduleActions = { read: { profile: 'web', target: ${JSON.stringify(target)}, semantic: 'read', cache: 'none', retry: '${retry}' } }
-export default (input, request) => request({ action: 'read', target: ${JSON.stringify(target)}, protocol: 'weapi', method: 'POST', headers: {}, body: '{}', response: 'json', semantic: 'read' }).pipe(Effect.map((response) => ({ status: response.status, cookie: response.cookie, body: response.body })))
+export default (input, request) => request('read', { data: {} }).pipe(Effect.map((response) => ({ status: response.status, cookie: response.cookie, body: response.body })))
       `,
       );
       const [definition] = await loadModuleDefinitions(directory);
@@ -197,6 +197,12 @@ const dynamicActionCases: Array<{
     status: 200,
     identifier: 'search',
   },
+  {
+    action: 'cancel',
+    target: '/api/playlist/unsubscribe',
+    declaration: '/api/playlist/unsubscribe',
+    status: 200,
+  },
   { action: 'missing', target: '/api/playlist/unsubscribe', status: 400 },
   { action: 'toString', target: '/api/playlist/unsubscribe', status: 400 },
   { action: 'cancel', target: '/api/user/delete', status: 400 },
@@ -217,7 +223,7 @@ const dynamicActionCases: Array<{
   {
     action: 'cancel',
     target: '/api/playlist/item/../unsubscribe',
-    status: 200,
+    status: 400,
     declaration: '/api/playlist/unsubscribe',
   },
   {
@@ -291,7 +297,7 @@ export const decodeModuleInput = (input) => Effect.succeed(input)
 export const moduleActions = {
   cancel: { profile: 'web', target: ${JSON.stringify(declaration)}, semantic: 'write', checkToken: undefined, cache: 'none', retry: 'never' },
 }
-export default (input, request) => request({ action: input.action, target: input.target, protocol: 'weapi', method: 'POST', headers: {}, body: '{}', response: 'json', semantic: 'write' }).pipe(Effect.map((response) => ({ status: response.status, cookie: response.cookie, body: response.body })))
+export default (input, request) => request(input.action, { data: {}, ${typeof declaration === 'string' && target === declaration ? '' : 'path: input.target'} }).pipe(Effect.map((response) => ({ status: response.status, cookie: response.cookie, body: response.body })))
 `,
       );
       if (loadRejected) {

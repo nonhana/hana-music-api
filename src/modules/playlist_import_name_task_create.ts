@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -60,10 +59,11 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const playlistImportNameTaskCreate: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const playlistImportNameTaskCreate: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.text !== undefined &&
@@ -138,9 +138,7 @@ const playlistImportNameTaskCreate: ModuleEffect<ModuleInput, ModuleBody> = (
         : query.text
           ? 'text'
           : 'empty';
-    const response = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], data),
-    );
+    const response = yield* request(action, { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody(

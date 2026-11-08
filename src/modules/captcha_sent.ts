@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -27,16 +26,18 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const captchaSent: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const captchaSent: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       ctcode: query.ctcode || '86',
       secrete: 'music_middleuser_pclogin',
       cellphone: query.phone,
     };
-    const result = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const result = yield* request('request', { data });
     return {
       ...toModuleResponse(result),
       body: yield* decodeUpstreamBody('captcha_sent', ModuleBody, result),

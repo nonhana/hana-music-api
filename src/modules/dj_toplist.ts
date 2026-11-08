@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -56,16 +55,17 @@ export type ModuleBody = typeof ModuleBody.Type;
 const resolveDjToplistType = (value: unknown): 0 | 1 =>
   value === 'hot' ? 1 : 0;
 
-const djToplist: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const djToplist: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 100,
       offset: query.offset || 0,
       type: resolveDjToplistType(query.type), //0为新晋,1为热门
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('dj_toplist', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

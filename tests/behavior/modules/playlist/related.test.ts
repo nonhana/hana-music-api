@@ -6,20 +6,21 @@ import { ProtocolFailed } from '../../../../src/core/errors.ts';
 import { normalizeFailure } from '../../../../src/core/response.ts';
 import playlistTracks from '../../../../src/modules/playlist_tracks.ts';
 import relatedPlaylist from '../../../../src/modules/related_playlist.ts';
-import type { RequestIntent } from '../../../../src/types/index.ts';
 import { runEffect } from '../../../_kit/it.ts';
+import type { RecordedAction } from '../../../_kit/module.ts';
 import { executeModule, response } from '../../../_kit/upload.ts';
 import { relatedHtml } from '../../../fixtures/synthetic/upload.ts';
 
 test('related playlists use injected transport and preserve parsing', async () => {
-  const intents: Array<RequestIntent> = [];
+  const intents: Array<RecordedAction> = [];
   const result = await runEffect(
-    executeModule(relatedPlaylist, { id: 1 }, (intent) =>
-      Effect.sync(() => {
+    executeModule(relatedPlaylist, { id: 1 }, (action, args) => {
+      const intent = { action, args };
+      return Effect.sync(() => {
         intents.push(intent);
         return response(relatedHtml);
-      }),
-    ),
+      });
+    }),
   );
   expect(result.body).toMatchObject({
     code: 200,
@@ -27,17 +28,7 @@ test('related playlists use injected transport and preserve parsing', async () =
       { id: '1', name: 'List', creator: { userId: '2', nickname: 'User' } },
     ],
   });
-  expect(intents).toEqual([
-    {
-      target: 'https://music.163.com/playlist?id=1',
-      action: 'page',
-      protocol: 'plain',
-      method: 'GET',
-      headers: {},
-      response: 'text',
-      semantic: 'read',
-    },
-  ]);
+  expect(intents).toEqual([{ action: 'page', args: { query: 'id=1' } }]);
 });
 
 test('related playlists reject a non-text HTML body with a typed error', async () => {

@@ -4,10 +4,9 @@ import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi, invokeModule, lyric } from '../../../index.ts';
-import { buildCallServices, Call, runCall } from '../../../src/core/call.ts';
+import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
 import type { ModuleActions } from '../../../src/core/request-actions.ts';
-import { buildActionRequestIntent } from '../../../src/core/request-intent.ts';
 import { createClientFromContext } from '../../../src/sdk/generated/client-factory.generated.ts';
 import { createServer } from '../../../src/server/create-server.ts';
 import type { ModuleEffect, ModuleQuery } from '../../../src/types/index.ts';
@@ -19,11 +18,7 @@ import { readEapiBody, readWebBody } from '../../_kit/upstream/wire.ts';
 
 const declaredRead: ModuleEffect<ModuleQuery> = (_input, request) =>
   Effect.gen(function* () {
-    const call = yield* Call;
-    const action = call.actions.read!;
-    const response = yield* request(
-      buildActionRequestIntent('read', action, {}),
-    );
+    const response = yield* request('read', { data: {} });
     return {
       status: response.status,
       body: response.body,

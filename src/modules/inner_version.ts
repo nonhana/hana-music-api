@@ -19,7 +19,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const innerVersion: ModuleEffect<ModuleInput, ModuleBody> = () =>
+const innerVersion: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = () =>
   Effect.succeed({
     status: 200,
     cookie: [],

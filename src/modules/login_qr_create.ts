@@ -39,7 +39,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const loginQrCreate: ModuleEffect<ModuleInput, ModuleBody> = (query) =>
+const loginQrCreate: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query) =>
   Effect.gen(function* () {
     const call = yield* Call;
     let url = `https://music.163.com/login?codekey=${query.key}`;

@@ -62,13 +62,12 @@ export const registerAnonymous = async (
         method: 'POST',
         headers: {},
         response: 'json',
-        semantic: 'login',
-        body: JSON.stringify({
+        data: {
           username: Buffer.from(
             `${deviceId} ${encodeAnonymousDeviceId(deviceId)}`,
             'utf8',
           ).toString('base64'),
-        }),
+        },
       },
       {
         crypto: 'weapi',

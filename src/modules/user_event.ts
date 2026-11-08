@@ -6,7 +6,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -102,7 +101,10 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userEvent: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userEvent: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       getcounts: true,
@@ -110,14 +112,10 @@ const userEvent: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       limit: query.limit || 30,
       total: false,
     };
-    const response = yield* request(
-      buildActionRequestIntent(
-        'request',
-        moduleActions['request'],
-        data,
-        `/api/event/get/${query.uid}`,
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/event/get/${query.uid}`,
+    });
     const body = yield* decodeUpstreamBody('user_event', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

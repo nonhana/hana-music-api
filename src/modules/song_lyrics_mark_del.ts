@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -36,17 +35,16 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const songLyricsMarkDel: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const songLyricsMarkDel: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       markIds: query.id,
     };
-    const response = yield* request(
-      buildActionRequestIntent('delete', moduleActions.delete, data),
-    );
+    const response = yield* request('delete', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody(

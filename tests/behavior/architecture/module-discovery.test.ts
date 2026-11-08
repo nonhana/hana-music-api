@@ -219,7 +219,7 @@ describe('generated module type surface', () => {
         export const decodeModuleInput = (input: unknown) => Effect.succeed(input)
         const actions = { cancel: { profile: 'web', target: '/api/playlist/unsubscribe', semantic: 'write', cache: 'none', retry: 'never' } }
         export { actions as moduleActions }
-        const sample: ModuleEffect<ModuleInput> = () => Effect.succeed({})
+        const sample: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({})
         export default sample
       `,
       );
@@ -228,7 +228,9 @@ describe('generated module type surface', () => {
         file.path.endsWith('registry.generated.ts'),
       )!;
       expect(registry.contents).toContain('moduleActions as sampleActions');
-      expect(registry.contents).toContain('actions: sampleActions');
+      expect(registry.contents).toContain(
+        'actions: validateModuleActions(sampleActions)',
+      );
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
@@ -245,7 +247,7 @@ describe('generated module type surface', () => {
       );
       await writeFile(
         resolve(directory, 'sample.ts'),
-        'export type ModuleInput = {}; const sample: ModuleEffect<ModuleInput> = () => Effect.succeed({}); export default sample',
+        'export type ModuleInput = {}; const sample: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({}); export default sample',
       );
       const result = await buildGeneratedArtifacts(directory).catch(
         (error: unknown) => error,
@@ -267,7 +269,7 @@ describe('generated module type surface', () => {
       );
       await writeFile(
         resolve(directory, 'voice_upload.ts'),
-        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); export const moduleActions = {}; const upload: ModuleEffect<ModuleInput> = () => Effect.succeed({}); export default upload',
+        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); export const moduleActions = {}; const upload: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({}); export default upload',
       );
       await writeFile(
         resolve(directory, 'voice_upload/multipart_xml.ts'),
@@ -275,7 +277,7 @@ describe('generated module type surface', () => {
       );
       await writeFile(
         resolve(directory, 'nested/endpoint.ts'),
-        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); export const moduleActions = {}; const endpoint: ModuleEffect<ModuleInput> = () => Effect.succeed({}); export default endpoint',
+        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); export const moduleActions = {}; const endpoint: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({}); export default endpoint',
       );
       const modules = await discoverModuleFiles(directory);
       expect(modules.map((entry) => entry.identifier).toSorted()).toEqual([
@@ -332,7 +334,7 @@ describe('generated module type surface', () => {
         resolve(directory, 'sample.ts'),
         `
         export type { SharedInput as ModuleInput } from './sample/central.ts'
-        const sample: ModuleEffect<ModuleInput> = () => Effect.succeed({})
+        const sample: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({})
         export default sample
       `,
       );
@@ -360,7 +362,7 @@ describe('generated module type surface', () => {
         export type ModuleBody = { title: string }
         export const decodeModuleInput = (input: unknown) => Effect.succeed(input)
         export const moduleActions = {}
-        const sample: ModuleEffect<ModuleInput, ModuleBody> = () => Effect.succeed({})
+        const sample: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = () => Effect.succeed({})
         export default sample
       `,
       );
@@ -433,7 +435,7 @@ describe('generated module type surface', () => {
         export type ModuleInput = { id: string }
         ${declaration}
         export const moduleActions = {}
-        const decoded: ModuleEffect<ModuleInput> = () => Effect.succeed({})
+        const decoded: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({})
         export default decoded
       `,
         );
@@ -448,7 +450,7 @@ describe('generated module type surface', () => {
         export type ModuleInput = LegacyModuleInput
         export { decodeLegacyModuleInput as decodeModuleInput } from './plain/_input.ts'
         export const moduleActions = {}
-        const plain: ModuleEffect<ModuleInput> = () => Effect.succeed({})
+        const plain: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({})
         export default plain
       `,
         );
@@ -464,7 +466,7 @@ describe('generated module type surface', () => {
           'decodeModuleInput as plainInputDecoder',
         );
         expect(registry.contents).toContain(
-          "plain: { identifier: 'plain', route: '/plain', execute: plainModule, decodeInput: plainInputDecoder, actions: plainActions }",
+          "plain: { identifier: 'plain', route: '/plain', execute: plainModule, decodeInput: plainInputDecoder, actions: validateModuleActions(plainActions) }",
         );
         expect(await buildGeneratedArtifacts(directory)).toEqual(artifacts);
       } finally {

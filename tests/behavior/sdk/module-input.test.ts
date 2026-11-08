@@ -35,7 +35,6 @@ import type {
   ModuleDefinition,
   ModuleQuery,
   RequestCapability,
-  RequestIntent,
   UnknownJson,
 } from '../../../src/types/index.ts';
 import { projectRoot } from '../../_kit/assertions.ts';
@@ -183,9 +182,9 @@ describe('module-local input decoding', () => {
   );
 
   test('search accepts numeric strings without changing its existing wire representation', async () => {
-    let requestBody: RequestIntent['body'];
-    const request: RequestCapability = (intent) => {
-      requestBody = intent.body;
+    let requestBody: Record<string, unknown> | undefined;
+    const request: RequestCapability = (_action, args) => {
+      requestBody = args.data;
       return Effect.succeed(response({ code: 200 }));
     };
     const result = await runEffect(
@@ -195,14 +194,12 @@ describe('module-local input decoding', () => {
         request,
       ),
     );
-    expect(requestBody).toBe(
-      JSON.stringify({
-        keyword: 'voice',
-        scene: 'normal',
-        limit: '5',
-        offset: '2',
-      }),
-    );
+    expect(requestBody).toEqual({
+      keyword: 'voice',
+      scene: 'normal',
+      limit: '5',
+      offset: '2',
+    });
     expect(result.body).toEqual({ code: 200 });
   });
 
@@ -211,8 +208,10 @@ describe('module-local input decoding', () => {
       executeModule(
         audioMatch,
         { audioFP: 'a+b', duration: '2.5' },
-        (intent) => {
-          const url = new URL(intent.target);
+        (_action, args) => {
+          const url = new URL(
+            `https://interface.music.163.com/api/music/audio/match?${args.query ?? ''}`,
+          );
           return Effect.succeed(
             response({
               code: 200,
@@ -251,8 +250,8 @@ describe('module-local input decoding', () => {
         showInner: value,
       }).pipe(
         Effect.flatMap((input) =>
-          executeModule(commentNew, input, (intent) => {
-            requestBody = intent.body ? JSON.parse(String(intent.body)) : {};
+          executeModule(commentNew, input, (_action, args) => {
+            requestBody = args.data ?? {};
             return Effect.succeed(
               response({ code: 200, data: { comments: [] } }),
             );
@@ -275,8 +274,8 @@ describe('module-local input decoding', () => {
     async (type) => {
       let requestBody: Record<string, unknown> = {};
       await runEffect(
-        executeModule(commentNew, { id: 12, type }, (intent) => {
-          requestBody = intent.body ? JSON.parse(String(intent.body)) : {};
+        executeModule(commentNew, { id: 12, type }, (_action, args) => {
+          requestBody = args.data ?? {};
           return Effect.succeed(
             response({ code: 200, data: { comments: [] } }),
           );
@@ -297,8 +296,8 @@ describe('module-local input decoding', () => {
   ])('preserves DJ toplist fallback for $type', async ({ type, expected }) => {
     let requestBody: Record<string, unknown> = {};
     await runEffect(
-      executeModule(djToplist, { type }, (intent) => {
-        requestBody = intent.body ? JSON.parse(String(intent.body)) : {};
+      executeModule(djToplist, { type }, (_action, args) => {
+        requestBody = args.data ?? {};
         return Effect.succeed(response({ code: 200, toplist: [] }));
       }),
     );
@@ -404,12 +403,12 @@ describe('untrusted entry input', () => {
     const programmatic = await invokeProgrammatic(
       'search',
       input as unknown as { keywords: string },
+      {},
       {
-        requestHandler: () =>
-          Effect.sync(() => {
-            requests += 1;
-            throw new Error('invalid input reached upstream');
-          }),
+        fetcher: async () => {
+          requests++;
+          throw new Error('invalid input reached upstream');
+        },
       },
     ).catch((error: unknown) => error);
     expect(sdk).toMatchObject({ status: 400, body: { code: 400 } });
@@ -446,13 +445,17 @@ describe('untrusted entry input', () => {
 
   test('Hono rejects a BigInt literal in a JSON body with 400', async () => {
     let requests = 0;
-    const app = await createServer({
-      requestHandler: () =>
-        Effect.sync(() => {
-          requests += 1;
-          throw new Error('invalid input reached upstream');
-        }),
-    });
+    const app = await createServer(
+      {},
+      {
+        execution: {
+          fetcher: async () => {
+            requests++;
+            throw new Error('invalid input reached upstream');
+          },
+        },
+      },
+    );
     const result = await app.request('http://localhost/search', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
@@ -524,17 +527,17 @@ describe('untrusted entry input', () => {
     expect(requests).toBe(0);
   });
 
-  test('programmatic callers receive 400 before invoking their request handler', async () => {
+  test('programmatic callers receive 400 before sending upstream', async () => {
     let requests = 0;
     const result = await invokeProgrammatic(
       'search',
       { keywords: [] } as unknown as { keywords: string },
+      {},
       {
-        requestHandler: () =>
-          Effect.sync(() => {
-            requests += 1;
-            throw new Error('invalid input reached the request handler');
-          }),
+        fetcher: async () => {
+          requests++;
+          throw new Error('invalid input reached upstream');
+        },
       },
     ).catch((error: unknown) => error);
     expect(result).toMatchObject({ status: 400, body: { code: 400 } });
@@ -543,13 +546,17 @@ describe('untrusted entry input', () => {
 
   test('Hono JSON bodies use the same input validation', async () => {
     let requests = 0;
-    const app = await createServer({
-      requestHandler: () =>
-        Effect.sync(() => {
-          requests += 1;
-          throw new Error('invalid input reached the request handler');
-        }),
-    });
+    const app = await createServer(
+      {},
+      {
+        execution: {
+          fetcher: async () => {
+            requests++;
+            throw new Error('invalid input reached upstream');
+          },
+        },
+      },
+    );
     const result = await app.request('http://localhost/search', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },

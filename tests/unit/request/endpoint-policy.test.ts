@@ -85,14 +85,15 @@ test('declared reads retain connection-only retries regardless of their path nam
     '/api/unknown',
     '/api/playlist/delete',
   ]) {
+    const action = {
+      profile: 'web',
+      target,
+      semantic: 'read',
+      cache: 'none',
+      retry: 'connect',
+    } as const;
     expect(
-      retryDecision(new Error('EAI_AGAIN'), 1, { jitter: false }, 0, {
-        profile: 'web',
-        target,
-        semantic: 'read',
-        cache: 'none',
-        retry: 'connect',
-      }),
+      retryDecision(new Error('EAI_AGAIN'), 1, { jitter: false }, 0, action),
     ).toBe(300);
   }
 });
@@ -106,10 +107,7 @@ test('action declarations alone authorize shared reads and forbid write retries'
         { retryNonIdempotent: true },
         0,
         {
-          profile: 'web',
-          target: '/api/search/get',
           semantic,
-          cache: 'none',
           retry: 'never',
         },
       ),

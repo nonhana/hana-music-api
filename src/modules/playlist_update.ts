@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -38,10 +37,11 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
-  input,
-  request,
-) =>
+const playlistUpdate: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (input, request) =>
   Effect.gen(function* () {
     const query = { ...input };
     if (
@@ -95,9 +95,7 @@ const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
       '/api/playlist/tags/update': `{"id":${String(query.id)},"tags":"${String(query.tags)}"}`,
       '/api/playlist/update/name': `{"id":${String(query.id)},"name":"${String(query.name)}"}`,
     };
-    const response = yield* request(
-      buildActionRequestIntent('batch', moduleActions.batch, data),
-    );
+    const response = yield* request('batch', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('playlist_update', ModuleBody, response),

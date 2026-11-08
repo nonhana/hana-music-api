@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -23,17 +22,16 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const playlistDelete: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const playlistDelete: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       ids: '[' + query.id + ']',
     };
-    const response = yield* request(
-      buildActionRequestIntent('remove', moduleActions.remove, data),
-    );
+    const response = yield* request('remove', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('playlist_delete', ModuleBody, response),

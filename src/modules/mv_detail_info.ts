@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -34,7 +33,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const mvDetailInfo: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const mvDetailInfo: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.mvid !== undefined &&
@@ -51,9 +54,7 @@ const mvDetailInfo: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       threadid: `R_MV_5_${String(query.mvid)}`,
       composeliked: true,
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'mv_detail_info',
       ModuleBody,

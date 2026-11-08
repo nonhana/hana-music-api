@@ -178,3 +178,11 @@ export const validateModuleQuery = (value: unknown): void => {
       });
   }
 };
+
+export const rejectRemovedRequestHandler = (options: object): void => {
+  if ('requestHandler' in options) {
+    throw new TypeError(
+      'requestHandler is no longer supported; inject a fetcher instead',
+    );
+  }
+};

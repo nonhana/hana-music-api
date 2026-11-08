@@ -23,11 +23,7 @@ import { SearchPage } from '../demo/pages/search.tsx';
 import { UploadPlaylistCoverPage } from '../demo/pages/upload-playlist-cover.tsx';
 import { getDemoPageByPath, getGroupedDemoPages } from '../demo/registry.ts';
 import { demoStyles } from '../demo/styles/demo.css.ts';
-import type {
-  ModuleQuery,
-  NcmApiResponse,
-  RequestCapability,
-} from '../types/index.ts';
+import type { ModuleQuery, NcmApiResponse } from '../types/index.ts';
 import type { CreateServerOptions } from '../types/server.ts';
 import { admissionMiddleware } from './admission.ts';
 import type { AdmissionController } from './admission.ts';
@@ -77,7 +73,6 @@ interface DemoRouteOptions {
   readonly admission: AdmissionController;
   readonly serverOptions: CreateServerOptions;
   readonly modules: ReturnType<typeof createServiceLayer>;
-  readonly requestHandler?: RequestCapability;
 }
 
 export const registerDemoRoutes = (
@@ -155,7 +150,6 @@ export const registerDemoRoutes = (
         query = await buildDemoRouteQuery(context, options.serverOptions);
         const moduleResponse = await invokeApiDebugRequest(
           query,
-          options.requestHandler,
           readRequestCookies(context),
           options.modules,
           context.req.raw.signal,

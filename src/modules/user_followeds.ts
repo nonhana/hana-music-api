@@ -6,7 +6,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -67,7 +66,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userFolloweds: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userFolloweds: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       userId: query.uid,
@@ -76,14 +79,10 @@ const userFolloweds: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       offset: query.offset || 0,
       getcounts: 'true',
     };
-    const response = yield* request(
-      buildActionRequestIntent(
-        'request',
-        moduleActions['request'],
-        data,
-        `/api/user/getfolloweds/${query.uid}`,
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/user/getfolloweds/${query.uid}`,
+    });
     const body = yield* decodeUpstreamBody(
       'user_followeds',
       ModuleBody,

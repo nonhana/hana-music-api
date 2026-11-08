@@ -4,7 +4,6 @@ import * as QRCode from 'qrcode';
 import { ModuleInvariantFailed } from '../core/errors.ts';
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
@@ -55,18 +54,22 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const verifyGetQr: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const verifyGetQr: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const params = JSON.stringify({ event_id: query.evid, sign: query.sign });
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], {
+    const response = yield* request('request', {
+      data: {
         verifyConfigId: query.vid,
         verifyType: query.type,
         token: query.token,
         params,
         size: 150,
-      }),
-    );
+      },
+    });
     const { qrCode } = (yield* decodeUpstreamBody(
       'verify_getQr',
       upstreamSchema,

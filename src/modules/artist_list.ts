@@ -21,7 +21,7 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
     initial 取值 a-z/A-Z
 */
-import { buildActionRequestIntent } from '../core/request-intent.ts';
+
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -56,7 +56,11 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const artistList: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const artistList: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.initial !== undefined &&
@@ -81,9 +85,7 @@ const artistList: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       type: query.type || '1',
       area: query.area,
     };
-    const response = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, data),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody('artist_list', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

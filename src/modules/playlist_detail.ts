@@ -6,7 +6,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -65,18 +64,19 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const playlistDetail: ModuleEffect<ModuleInput, ModuleBody> = (
-  input,
-  request,
-) =>
+const playlistDetail: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (input, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, {
+    const response = yield* request('read', {
+      data: {
         id: input.id,
         n: 100000,
         s: input.s || 8,
-      }),
-    );
+      },
+    });
     const body = yield* decodeUpstreamBody(
       'playlist_detail',
       ModuleBody,

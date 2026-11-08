@@ -1,8 +1,4 @@
-import { Effect } from 'effect';
-
 import { buildCallServices, runCall } from '../core/call.ts';
-import { validateModuleConfig } from '../core/options.ts';
-import { runPublicEffect } from '../core/runtime.ts';
 import type {
   CreateHanaMusicApiConfig,
   ModuleCallConfig,
@@ -33,19 +29,12 @@ export const invokeModule = async <K extends ModuleIdentifier>(
   identifier: K,
   query: SdkQueryOf<K>,
   config: ModuleCallConfig = {},
-): Promise<ModuleResponseOf<K>> => {
-  try {
-    validateModuleConfig(config);
-  } catch (error) {
-    return runPublicEffect(Effect.fail(error));
-  }
-  const { signal, ...callConfig } = config;
-  return runCall(
-    { identifier, input: query, config: callConfig, signal },
+): Promise<ModuleResponseOf<K>> =>
+  runCall(
+    { identifier, input: query, config },
     (invocationServices ??= createSdkClientContext({})),
     sdkModuleRegistry[identifier],
   ) as Promise<ModuleResponseOf<K>>;
-};
 
 export const createEffectModuleInvoker = <K extends ModuleIdentifier>(
   identifier: K,
@@ -53,23 +42,16 @@ export const createEffectModuleInvoker = <K extends ModuleIdentifier>(
   baseConfig: CreateHanaMusicApiConfig = {},
   context: SdkClientContext = createSdkClientContext(baseConfig),
 ): SdkModuleInvoker<K> => {
-  const { cache: _cache, identityPool: _pool, ...requestConfig } = baseConfig;
-  return async (query?: SdkQueryOf<K>, config: ModuleCallConfig = {}) => {
-    try {
-      validateModuleConfig(config);
-    } catch (error) {
-      return runPublicEffect(Effect.fail(error));
-    }
-    const { signal, ...callConfig } = { ...requestConfig, ...config };
-    return runCall(
+  const { cache: _cache, identityPool: _pool, ...defaults } = baseConfig;
+  return async (query?: SdkQueryOf<K>, config: ModuleCallConfig = {}) =>
+    runCall(
       {
         identifier,
         input: query === undefined ? {} : query,
-        config: callConfig,
-        signal,
+        config,
+        defaults,
       },
       context,
       definition,
     ) as Promise<ModuleResponseOf<K>>;
-  };
 };

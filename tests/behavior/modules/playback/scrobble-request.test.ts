@@ -7,23 +7,22 @@ test('scrobble request uses the clientlog domain and scoped osx identity', async
   let cookie = '';
   const intent = {
     target: '/api/feedback/weblog',
-    body: JSON.stringify({ logs: '[]' }),
+    data: { logs: '[]' },
     protocol: 'eapi',
-    domain: 'https://clientlog.music.163.com',
-    cookieOverrides: {
-      appver: '3.1.10.5100',
-      channel: 'netease',
-      os: 'osx',
-      osver: '15.5',
-    },
     method: 'POST',
     headers: {},
     response: 'json',
-    semantic: 'write',
   } as const;
 
   await runRequestAtEdge(intent, {
-    cookie: 'MUSIC_U=listener',
+    domain: 'https://clientlog.music.163.com',
+    cookie: {
+      MUSIC_U: 'listener',
+      os: 'osx',
+      appver: '3.1.10.5100',
+      channel: 'netease',
+      osver: '15.5',
+    },
     fetcher: async (input, init) => {
       url = input instanceof Request ? input.url : input.toString();
       cookie = new Headers(init?.headers).get('Cookie') ?? '';
@@ -43,16 +42,21 @@ test('authenticated API requests cannot use the clientlog domain for other endpo
   const result = await runRequestAtEdge(
     {
       target: '/api/user/account',
-      body: '{}',
+      data: {},
       protocol: 'eapi',
-      domain: 'https://clientlog.music.163.com',
       method: 'POST',
       headers: {},
       response: 'json',
-      semantic: 'read',
     },
     {
-      cookie: 'MUSIC_U=listener',
+      domain: 'https://clientlog.music.163.com',
+      cookie: {
+        MUSIC_U: 'listener',
+        os: 'osx',
+        appver: '3.1.10.5100',
+        channel: 'netease',
+        osver: '15.5',
+      },
       fetcher: async () => Response.json({ code: 200 }),
     },
   ).catch((error: unknown) => error);

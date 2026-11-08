@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -85,16 +84,17 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const listenDataRealtimeReport: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const listenDataRealtimeReport: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], {
+    const response = yield* request('request', {
+      data: {
         type: query.type || 'week', //周 week 月 month
-      }),
-    );
+      },
+    });
     const body = yield* decodeUpstreamBody(
       'listen_data_realtime_report',
       ModuleBody,

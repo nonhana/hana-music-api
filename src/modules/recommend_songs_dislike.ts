@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { Song } from '../core/upstream-schemas.ts';
@@ -27,19 +26,18 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const recommendSongsDislike: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const recommendSongsDislike: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       resId: query.id, // 日推歌曲id
       resType: 4,
       sceneType: 1,
     };
-    const response = yield* request(
-      buildActionRequestIntent('write', moduleActions.write, data),
-    );
+    const response = yield* request('write', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody(

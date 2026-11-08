@@ -177,26 +177,31 @@ test('identity projection is deterministic and omits unproven desktop defaults',
   };
   const identity = resolveIdentitySnapshot(options, state);
   const entropy = testEntropy(1700000000000);
-  const first = prepareRequest(
-    '/api/test',
-    {},
-    options,
+  const resolved = {
+    target: '/api/test',
+    protocol: 'eapi',
+    method: 'POST',
+    response: 'json',
+    data: {},
+    headers: {},
     identity,
-    entropy,
-    {},
-    requestProfiles.eapi,
-  );
-  expect(first).toEqual(
-    prepareRequest(
-      '/api/test',
-      {},
-      options,
-      identity,
-      entropy,
-      {},
-      requestProfiles.eapi,
-    ),
-  );
+    ip: '',
+    expectedUrl: 'https://interface.music.163.com/eapi/test',
+    policy: { semantic: 'read', retry: 'never' },
+    retry: undefined,
+    token: { source: undefined, uses: undefined, managed: true },
+    client: {
+      domain: requestProfiles.eapi.domain,
+      userAgent: requestProfiles.eapi.userAgent,
+      cookie: requestProfiles.eapi.cookie,
+      controlledCookies: requestProfiles.eapi.omitCookies,
+      controlledHeaders: [],
+      encryptResponse: false,
+      acceptGzip: false,
+    },
+  } as const;
+  const first = prepareRequest(resolved, entropy);
+  expect(first).toEqual(prepareRequest(resolved, entropy));
   expect(readCookies(new Headers(first.headers))).toEqual({
     __csrf: '',
     ...platform,

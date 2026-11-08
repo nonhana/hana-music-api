@@ -1,3 +1,4 @@
+// cspell:words shazam
 import { Effect, Schema } from 'effect';
 
 import {
@@ -5,7 +6,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildPlainActionRequestIntent } from '../core/request-intent.ts';
 import {
   decodeUpstreamBody,
   Loose,
@@ -65,15 +65,15 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const audioMatch: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
+const audioMatch: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (input, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildPlainActionRequestIntent(
-        'match',
-        moduleActions.match,
-        `https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=${input.duration}&rawdata=${encodeURIComponent(input.audioFP)}&times=1&decrypt=1`,
-      ),
-    );
+    const response = yield* request('match', {
+      query: `sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=${input.duration}&rawdata=${encodeURIComponent(input.audioFP)}&times=1&decrypt=1`,
+    });
     const body = yield* decodeUpstreamBody('audio_match', ModuleBody, response);
     return { status: 200, cookie: [], body };
   });

@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -36,10 +35,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const listentogetherPlayCommand: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const listentogetherPlayCommand: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       roomId: query.roomId,
@@ -52,9 +52,7 @@ const listentogetherPlayCommand: ModuleEffect<ModuleInput, ModuleBody> = (
         clientSeq: query.clientSeq,
       }),
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'listentogether_play_command',
       ModuleBody,

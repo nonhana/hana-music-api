@@ -7,7 +7,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -65,20 +64,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistTrackAll: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const playlistTrackAll: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const limit = parseInt(String(query.limit ?? 1000), 10) || 1000;
     const offset = parseInt(String(query.offset ?? 0), 10) || 0;
-    const response = yield* request(
-      buildActionRequestIntent('playlist', moduleActions.playlist, {
+    const response = yield* request('playlist', {
+      data: {
         id: query.id,
         n: 100000,
         s: query.s || 8,
-      }),
-    );
+      },
+    });
     const body = response.body;
     if (body === null || typeof body !== 'object' || Array.isArray(body)) {
       return yield* UnexpectedUpstreamShape.make({
@@ -128,11 +128,11 @@ const playlistTrackAll: ModuleEffect<ModuleInput, ModuleBody> = (
       }
       ids.push(track.id);
     }
-    const songDetail = yield* request(
-      buildActionRequestIntent('songs', moduleActions.songs, {
+    const songDetail = yield* request('songs', {
+      data: {
         c: '[' + ids.map((id) => '{"id":' + id + '}').join(',') + ']',
-      }),
-    );
+      },
+    });
     const songs = yield* decodeUpstreamBody(
       'playlist_track_all',
       ModuleBody,

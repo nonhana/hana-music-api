@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { AlbumSummary } from '../core/upstream-schemas.ts';
@@ -34,11 +33,13 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const albumNewest: ModuleEffect<ModuleInput, ModuleBody> = (_query, request) =>
+const albumNewest: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (_query, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, {}),
-    );
+    const response = yield* request('read', { data: {} });
     const body = yield* decodeUpstreamBody(
       'album_newest',
       ModuleBody,

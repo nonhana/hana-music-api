@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -31,16 +30,17 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const fmTrash: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const fmTrash: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       songId: query.id,
       alg: 'RT',
       time: query.time || 25,
     };
-    const response = yield* request(
-      buildActionRequestIntent('write', moduleActions.write, data),
-    );
+    const response = yield* request('write', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('fm_trash', ModuleBody, response),

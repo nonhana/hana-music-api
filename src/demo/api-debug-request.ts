@@ -1,15 +1,12 @@
-import { Effect } from 'effect';
-
-import { buildCallServices, CallServices } from '../core/call.ts';
+import { buildCallServices } from '../core/call.ts';
 import { createOption } from '../core/options.ts';
-import { requestEffect, runRequestAtEdge } from '../core/request.ts';
+import { runRequestAtEdge, snapshotRequestData } from '../core/request.ts';
 import { cookieToJson, isCookieRecord, isRecord } from '../core/utils.ts';
 import { RequestBodyError } from '../server/parse-body.ts';
 import type {
   CookieRecord,
   ModuleQuery,
   NcmApiResponse,
-  RequestCapability,
   RequestCrypto,
 } from '../types/index.ts';
 import type { DynamicJsonRecord } from '../types/upstream.ts';
@@ -22,7 +19,6 @@ export interface ApiDebugRequestPayload extends ModuleQuery {
 
 export const invokeApiDebugRequest = async (
   payload: ApiDebugRequestPayload,
-  request: RequestCapability = requestEffect,
   fallbackCookie: CookieRecord = {},
   services = buildCallServices({}, false),
   signal?: AbortSignal,
@@ -44,17 +40,14 @@ export const invokeApiDebugRequest = async (
   const response = await runRequestAtEdge(
     {
       target: uri,
-      body: JSON.stringify(data),
+      data: snapshotRequestData(data),
       protocol: crypto || 'api',
       method: 'POST',
       headers: {},
       response: 'json',
-      semantic: 'write',
     },
     { ...createOption({ ...payload, cookie, crypto, ip }, crypto), signal },
     services.execution,
-    (intent) =>
-      request(intent).pipe(Effect.provideService(CallServices, services)),
   );
   return {
     status: response.status,

@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -43,7 +42,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userBinding: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userBinding: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.uid !== undefined &&
@@ -57,14 +60,10 @@ const userBinding: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       });
     }
     const data = {};
-    const result = yield* request(
-      buildActionRequestIntent(
-        'request',
-        moduleActions['request'],
-        data,
-        `/api/v1/user/bindings/${String(query.uid)}`,
-      ),
-    );
+    const result = yield* request('request', {
+      data,
+      path: `/api/v1/user/bindings/${String(query.uid)}`,
+    });
     return {
       ...toModuleResponse(result),
       body: yield* decodeUpstreamBody('user_binding', ModuleBody, result),

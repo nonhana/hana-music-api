@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -38,13 +37,17 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const songChorus: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const songChorus: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, {
+    const response = yield* request('read', {
+      data: {
         ids: JSON.stringify([query.id]),
-      }),
-    );
+      },
+    });
     const body = yield* decodeUpstreamBody('song_chorus', ModuleBody, response);
     return {
       ...toModuleResponse(response),

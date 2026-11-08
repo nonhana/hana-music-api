@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -51,13 +50,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const vipInfo: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const vipInfo: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], {
+    const response = yield* request('request', {
+      data: {
         userId: query.uid || '',
-      }),
-    );
+      },
+    });
     const body = yield* decodeUpstreamBody('vip_info', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

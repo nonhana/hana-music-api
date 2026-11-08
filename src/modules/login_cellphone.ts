@@ -8,7 +8,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -128,10 +127,11 @@ export const RiskBody = Schema.toStandardSchemaV1(
 );
 export type RiskBody = typeof RiskBody.Type;
 
-const loginCellphone: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const loginCellphone: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       type: '1',
@@ -146,9 +146,7 @@ const loginCellphone: ModuleEffect<ModuleInput, ModuleBody> = (
       remember: 'true',
     };
     const action = query.captcha ? 'captcha' : 'password';
-    const result = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], data),
-    );
+    const result = yield* request(action, { data });
     const body = yield* decodeUpstreamBody(
       'login_cellphone',
       ModuleBody,

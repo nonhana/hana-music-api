@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { PlaylistSummary } from '../core/upstream-schemas.ts';
@@ -28,19 +27,18 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const playlistCreate: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const playlistCreate: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       name: query.name,
       privacy: query.privacy || '0', // 0 普通歌单, 10 隐私歌单
       type: query.type || 'NORMAL', // 默认 NORMAL, VIDEO 视频歌单, SHARED 共享歌单
     };
-    const response = yield* request(
-      buildActionRequestIntent('create', moduleActions.create, data),
-    );
+    const response = yield* request('create', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('playlist_create', ModuleBody, response),

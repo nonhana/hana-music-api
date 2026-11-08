@@ -7,7 +7,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -73,7 +72,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const commentFloor: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const commentFloor: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const resourceType = resolveResourceType(query.type);
     const data = {
@@ -82,9 +85,7 @@ const commentFloor: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       time: query.time || -1,
       limit: query.limit || 20,
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'comment_floor',
       ModuleBody,

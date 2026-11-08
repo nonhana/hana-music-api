@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -39,11 +38,14 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const scrobble: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const scrobble: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const source = query.source ?? 'list';
-    yield* request(
-      buildActionRequestIntent('start', moduleActions.start, {
+    yield* request('start', {
+      data: {
         logs: JSON.stringify([
           {
             action: 'startplay',
@@ -56,10 +58,10 @@ const scrobble: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
             },
           },
         ]),
-      }),
-    );
-    const response = yield* request(
-      buildActionRequestIntent('play', moduleActions.play, {
+      },
+    });
+    const response = yield* request('play', {
+      data: {
         logs: JSON.stringify([
           {
             action: 'play',
@@ -78,8 +80,8 @@ const scrobble: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
             },
           },
         ]),
-      }),
-    );
+      },
+    });
     const body = yield* decodeUpstreamBody('scrobble', ModuleBody, response);
     return {
       ...toModuleResponse(response),

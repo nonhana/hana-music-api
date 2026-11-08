@@ -7,7 +7,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -61,7 +60,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const commentHot: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const commentHot: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const resourceType = resolveResourceType(query.type);
     const data = {
@@ -70,14 +73,10 @@ const commentHot: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       offset: query.offset || 0,
       beforeTime: query.before || 0,
     };
-    const response = yield* request(
-      buildActionRequestIntent(
-        'request',
-        moduleActions['request'],
-        data,
-        `/api/v1/resource/hotcomments/${resourceType}${String(query.id)}`,
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/v1/resource/hotcomments/${resourceType}${String(query.id)}`,
+    });
     const body = yield* decodeUpstreamBody('comment_hot', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

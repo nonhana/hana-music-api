@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { SongUrlData } from '../core/upstream-schemas.ts';
@@ -30,10 +29,11 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const songDownloadUrl: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const songDownloadUrl: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.br !== undefined &&
@@ -50,9 +50,7 @@ const songDownloadUrl: ModuleEffect<ModuleInput, ModuleBody> = (
       id: query.id,
       br: parseInt(String(query.br || 999000)),
     };
-    const response = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, data),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
       'song_download_url',
       ModuleBody,

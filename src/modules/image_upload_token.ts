@@ -31,10 +31,11 @@ const inputSchema = Schema.Struct({});
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input).pipe(Effect.as({}));
 
-const imageUploadToken: ModuleEffect<ModuleInput, ModuleBody> = (
-  _input,
-  request,
-) =>
+const imageUploadToken: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (_input, request) =>
   allocateImageUpload('image.jpg', request).pipe(
     Effect.map((data) => ({
       status: 200,

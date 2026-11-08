@@ -5,7 +5,6 @@ import {
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -105,16 +104,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userDetail: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userDetail: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
-    const result = yield* request(
-      buildActionRequestIntent(
-        'request',
-        moduleActions['request'],
-        {},
-        `/api/v1/user/detail/${query.uid}`,
-      ),
-    );
+    const result = yield* request('request', {
+      data: {},
+      path: `/api/v1/user/detail/${query.uid}`,
+    });
     return {
       ...toModuleResponse(result),
       body: yield* decodeUpstreamBody('user_detail', ModuleBody, result, {

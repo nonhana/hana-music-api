@@ -6,12 +6,12 @@ import {
   UploadedFile,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
 import uploadPlugin, { imageUploadActions } from '../plugins/upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyUploadedFile } from '../types/module-shared.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   ...imageUploadActions,
@@ -35,15 +35,19 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const avatarUpload: ModuleEffect<ModuleInput> = (input, request) =>
+const avatarUpload: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (input, request) =>
   uploadWork('avatar_upload', request, (stage) =>
     Effect.gen(function* () {
       const uploaded = yield* uploadPlugin(input, stage);
-      const response = yield* stage(
-        buildActionRequestIntent('submit', moduleActions.submit, {
+      const response = yield* stage('submit', {
+        data: {
           imgid: uploaded.imgId,
-        }),
-      );
+        },
+      });
       if (!isRecord(response.body)) {
         return yield* UnexpectedUpstreamShape.make({
           module: 'avatar_upload',

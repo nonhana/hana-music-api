@@ -4,7 +4,6 @@ import { Call } from '../core/call.ts';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -42,21 +41,22 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const registerAnonymous: ModuleEffect<ModuleInput, ModuleBody> = (
-  _query,
-  request,
-) =>
+const registerAnonymous: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (_query, request) =>
   Effect.gen(function* () {
     const deviceId = (yield* Call).identity.state.deviceId;
     const username = Buffer.from(
       `${deviceId} ${encodeAnonymousDeviceId(deviceId)}`,
       'utf8',
     ).toString('base64');
-    const result = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], {
+    const result = yield* request('request', {
+      data: {
         username,
-      }),
-    );
+      },
+    });
     const body = yield* decodeUpstreamBody(
       'register_anonimous',
       ModuleBody,

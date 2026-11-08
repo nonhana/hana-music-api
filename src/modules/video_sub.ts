@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -38,16 +37,17 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const videoSub: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
+const videoSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  input,
+  request,
+) =>
   Effect.gen(function* () {
     const query = { ...input };
     const action = Number(query.t) === 1 ? 'sub' : 'unsub';
     const data = {
       id: query.id,
     };
-    const response = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], data),
-    );
+    const response = yield* request(action, { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('video_sub', ModuleBody, response),

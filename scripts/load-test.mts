@@ -1,13 +1,11 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-import { Effect, Option } from 'effect';
+import { Effect } from 'effect';
 
 import { startServer } from '../src/app/cli.ts';
-import { Call, CallServices } from '../src/core/call.ts';
+import { ExecutionScope } from '../src/core/call-context.ts';
 import { decodeLegacyModuleInput } from '../src/core/module-input.ts';
-import type { ReadStore } from '../src/core/read-store.ts';
-import { requestEffect } from '../src/core/request.ts';
 import avatarUpload, {
   moduleActions as avatarUploadActions,
   decodeModuleInput as decodeAvatarInput,
@@ -17,7 +15,7 @@ import search, {
   decodeModuleInput as decodeSearchInput,
   moduleActions as searchActions,
 } from '../src/modules/search.ts';
-import type { ModuleDefinition, NcmApiResponse } from '../src/types/index.ts';
+import type { ModuleDefinition } from '../src/types/index.ts';
 import type { StartServerOptions } from '../src/types/server.ts';
 import { fingerprint, writeEvidence } from '../tests/_kit/evidence.ts';
 import { testEntropy } from '../tests/_kit/harness/sdk.ts';
@@ -143,14 +141,8 @@ const runLoad = async (soak: boolean) => {
       route: '/raw',
       decodeInput: decodeLegacyModuleInput,
       execute: (_query, request) =>
-        request({
-          action: 'raw',
-          target: 'https://music.163.com/raw/page',
-          protocol: 'plain',
-          method: 'GET',
+        request('raw', {
           headers: {},
-          response: 'bytes',
-          semantic: 'read',
         }).pipe(Effect.as({ status: 200, cookie: [], body: { code: 200 } })),
     },
     {
@@ -167,25 +159,16 @@ const runLoad = async (soak: boolean) => {
       route: '/slow',
       decodeInput: decodeLegacyModuleInput,
       execute: (_query, request) =>
-        request({
-          action: 'slow',
-          target: '/api/load/slow',
-          protocol: 'api',
-          method: 'POST',
-          headers: {},
-          body: '{}',
-          response: 'json',
-          semantic: 'read',
-        }).pipe(
+        request('slow', { data: {}, headers: {} }).pipe(
           Effect.map((response) => ({
             ...response,
             cookie: [...response.cookie],
           })),
-          Effect.updateService(Call, (call) => ({
-            ...call,
+          Effect.updateService(ExecutionScope, (scope) => ({
+            ...scope,
             deadlineAt: Math.min(
-              call.deadlineAt ?? Infinity,
-              call.startedAt + 200,
+              scope.deadlineAt ?? Infinity,
+              scope.startedAt + 200,
             ),
           })),
         ),
@@ -209,40 +192,35 @@ const runLoad = async (soak: boolean) => {
   ) => {
     await using fake = createFakeUpstream(50);
     fake.setMode(mode);
-    const readStores = new Set<ReadStore<NcmApiResponse>>();
+    const readStores = new Set<() => { inflight: number }>();
     let peakInflight = 0;
-    const { server, url } = await startServer({
-      ...options,
-      hostname: '127.0.0.1',
-      port: 0,
-      silent: true,
-      moduleDefinitions,
-      requestHandler: (intent) =>
-        Effect.serviceOption(CallServices).pipe(
-          Effect.map(Option.getOrThrow),
-          Effect.flatMap(({ reads }) => {
-            readStores.add(reads);
-            peakInflight = Math.max(peakInflight, reads.snapshot.inflight);
-            return requestEffect(intent);
-          }),
-          Effect.updateService(Call, (call) => ({
-            ...call,
-            execution: { ...call.execution, entropy: testEntropy },
-            config: {
-              ...call.config,
-              fetcher: fake.fetcher,
-              onRequestEvent: (event) => {
-                if (event.type === 'attempt' && event.attempt === 1) {
-                  apiExecutions += 1;
-                }
-                if (event.type === 'retry') {
-                  retries += 1;
-                }
-              },
-            },
-          })),
-        ),
-    });
+    const { server, url } = await startServer(
+      {
+        ...options,
+        hostname: '127.0.0.1',
+        port: 0,
+        silent: true,
+        moduleDefinitions,
+      },
+      {
+        inspectReadStore: (reader) => {
+          readStores.add(reader);
+        },
+        execution: {
+          entropy: testEntropy,
+          fetcher: (input, init) => {
+            for (const reader of readStores)
+              peakInflight = Math.max(peakInflight, reader().inflight);
+            return fake.fetcher(input, init);
+          },
+          onRequestEvent: (event) => {
+            if (event.type === 'attempt' && event.attempt === 1)
+              apiExecutions += 1;
+            if (event.type === 'retry') retries += 1;
+          },
+        },
+      },
+    );
     using registration = { [Symbol.dispose]: allowLoopback(url) };
     await using listener = { [Symbol.asyncDispose]: () => server.stop(true) };
     void listener;
@@ -311,7 +289,7 @@ const runLoad = async (soak: boolean) => {
       check(
         fake.metrics.active === 0 &&
           readStores.size === 1 &&
-          [...readStores].every((reads) => reads.snapshot.inflight === 0),
+          [...readStores].every((reads) => reads().inflight === 0),
         `${name}: leaked activity`,
       );
       if (mode === 'slow-body') {
@@ -337,7 +315,7 @@ const runLoad = async (soak: boolean) => {
         },
         reads: {
           inflight: [...readStores].reduce(
-            (sum, reads) => sum + reads.snapshot.inflight,
+            (sum, reads) => sum + reads().inflight,
             0,
           ),
           peakInflight,

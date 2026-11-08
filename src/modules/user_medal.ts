@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -149,13 +148,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userMedal: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userMedal: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
-    const result = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], {
+    const result = yield* request('request', {
+      data: {
         uid: query.uid,
-      }),
-    );
+      },
+    });
     return {
       ...toModuleResponse(result),
       body: yield* decodeUpstreamBody('user_medal', ModuleBody, result),

@@ -1,12 +1,9 @@
+// cspell:words bucketname
 import { Effect, Schema } from 'effect';
 
 import { Call } from '../core/call.ts';
 import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import {
-  buildActionRequestIntent,
-  buildPlainActionRequestIntent,
-} from '../core/request-intent.ts';
 import { isRecord } from '../core/utils.ts';
 import type { RequestCapability } from '../types/index.ts';
 import type { LegacyUploadedFile } from '../types/module-shared.ts';
@@ -41,7 +38,10 @@ export const songUploadActions = {
 
 export type UploadSongQuery = { songFile?: LegacyUploadedFile };
 
-export default (input: UploadSongQuery, request: RequestCapability) =>
+export default (
+  input: UploadSongQuery,
+  request: RequestCapability<typeof songUploadActions>,
+) =>
   Effect.gen(function* () {
     if (!input.songFile) {
       return yield* InvalidModuleInput.make({
@@ -57,23 +57,18 @@ export default (input: UploadSongQuery, request: RequestCapability) =>
       .replace(/\s/g, '')
       .replace(/\./g, '_');
     const bucket = 'jd-musicrep-privatecloud-audio-public';
-    const allocation = yield* request(
-      buildActionRequestIntent(
-        'songAllocate',
-        songUploadActions.songAllocate,
-        {
-          bucket,
-          ext,
-          filename,
-          local: false,
-          nos_product: 3,
-          type: 'audio',
-          md5: input.songFile.md5,
-        },
-        undefined,
-        {},
-      ),
-    );
+    const allocation = yield* request('songAllocate', {
+      data: {
+        bucket,
+        ext,
+        filename,
+        local: false,
+        nos_product: 3,
+        type: 'audio',
+        md5: input.songFile.md5,
+      },
+      headers: {},
+    });
     const { result: token } = yield* Schema.decodeUnknownEffect(
       Schema.Struct({
         result: Schema.Struct({
@@ -91,14 +86,10 @@ export default (input: UploadSongQuery, request: RequestCapability) =>
         }),
       ),
     );
-    const lookup = yield* request(
-      buildPlainActionRequestIntent(
-        'songLookup',
-        songUploadActions.songLookup,
-        `https://wanproxy.127.net/lbs?version=1.0&bucketname=${bucket}`,
-        { headers: {} },
-      ),
-    );
+    const lookup = yield* request('songLookup', {
+      query: `version=1.0&bucketname=${bucket}`,
+      headers: {},
+    });
     const uploadBase =
       isRecord(lookup.body) && Array.isArray(lookup.body.upload)
         ? lookup.body.upload[0]
@@ -111,24 +102,18 @@ export default (input: UploadSongQuery, request: RequestCapability) =>
         actual: typeof uploadBase,
       });
     }
-    yield* request(
-      buildPlainActionRequestIntent(
-        'songUpload',
-        songUploadActions.songUpload,
-        `${uploadBase}/${bucket}/${encodeURIComponent(token.objectKey)}?offset=0&complete=true&version=1.0`,
-        {
-          headers: {
-            'x-nos-token': token.token,
-            'Content-MD5': input.songFile.md5 ?? '',
-            'Content-Type': 'audio/mpeg',
-            'Content-Length': String(input.songFile.size),
-          },
-          body:
-            input.songFile.data instanceof ArrayBuffer
-              ? new Uint8Array(input.songFile.data)
-              : input.songFile.data,
-        },
-      ),
-    );
+    yield* request('songUpload', {
+      target: `${uploadBase}/${bucket}/${encodeURIComponent(token.objectKey)}?offset=0&complete=true&version=1.0`,
+      headers: {
+        'x-nos-token': token.token,
+        'Content-MD5': input.songFile.md5 ?? '',
+        'Content-Type': 'audio/mpeg',
+        'Content-Length': String(input.songFile.size),
+      },
+      body:
+        input.songFile.data instanceof ArrayBuffer
+          ? new Uint8Array(input.songFile.data)
+          : input.songFile.data,
+    });
     return allocation;
   });

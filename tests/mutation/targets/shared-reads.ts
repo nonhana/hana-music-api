@@ -1,5 +1,23 @@
 export const mutations = [
   {
+    id: 'shared-key-wire-only-config',
+    file: 'src/core/call.ts',
+    find: 'config: keyConfig,',
+    replace: 'config: {...keyConfig, ip: undefined, realIP: undefined},',
+    expectedFailures: [
+      'shared keys ignore observers and waiter timeout while preserving effective config distinctions',
+    ],
+  },
+  {
+    id: 'shared-key-bound-closure-reference',
+    file: 'src/core/call.ts',
+    find: '[implementation.execute, effective.fetcher]',
+    replace: '[implementation.execute, effective.fetcher, capability]',
+    expectedFailures: [
+      'shared keys ignore observers and waiter timeout while preserving effective config distinctions',
+    ],
+  },
+  {
     id: 'shared-action-key-omitted',
     file: 'src/core/call.ts',
     find: 'actions: call.actions,\n          input: call.input,\n          config: keyConfig,',
@@ -11,7 +29,7 @@ export const mutations = [
   },
   {
     id: 'shared-read-cache-granted-by-semantic',
-    file: 'src/core/call.ts',
+    file: 'src/core/request-actions.ts',
     find: "action.cache === 'shared',",
     replace: "action.semantic === 'read',",
     expectedFailures: [

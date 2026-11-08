@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -39,7 +38,10 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const follow: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
+const follow: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  input,
+  request,
+) =>
   Effect.gen(function* () {
     const query = { ...input };
     if (
@@ -54,14 +56,10 @@ const follow: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
       });
     }
     const action = Number(query.t) === 1 ? 'follow' : 'delfollow';
-    const response = yield* request(
-      buildActionRequestIntent(
-        action,
-        moduleActions[action],
-        {},
-        `/api/user/${action}/${String(query.id)}`,
-      ),
-    );
+    const response = yield* request(action, {
+      data: {},
+      path: `/api/user/${action}/${String(query.id)}`,
+    });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('follow', ModuleBody, response),

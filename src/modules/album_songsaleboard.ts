@@ -5,7 +5,6 @@ import {
   QueryNumber,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -84,10 +83,11 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const albumSongsaleboard: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const albumSongsaleboard: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     let data: Record<string, unknown> = {
       albumType: query.albumType || 0, //0为数字专辑,1为数字单曲
@@ -99,14 +99,10 @@ const albumSongsaleboard: ModuleEffect<ModuleInput, ModuleBody> = (
         year: query.year,
       };
     }
-    const response = yield* request(
-      buildActionRequestIntent(
-        'read',
-        moduleActions.read,
-        data,
-        `/api/feealbum/songsaleboard/${type}/type`,
-      ),
-    );
+    const response = yield* request('read', {
+      data,
+      path: `/api/feealbum/songsaleboard/${type}/type`,
+    });
     const body = yield* decodeUpstreamBody(
       'album_songsaleboard',
       ModuleBody,

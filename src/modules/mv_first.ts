@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { MvSummary } from '../core/upstream-schemas.ts';
@@ -27,7 +26,10 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const mvFirst: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const mvFirst: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       // 'offset': query.offset || 0,
@@ -35,9 +37,7 @@ const mvFirst: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       limit: query.limit || 30,
       total: true,
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('mv_first', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

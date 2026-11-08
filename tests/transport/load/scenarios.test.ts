@@ -39,8 +39,9 @@ test('a local multipart upload stops after the first cancelled part', async () =
           mimetype: 'audio/mpeg',
         },
       },
-      signal: controller.signal,
+
       config: {
+        signal: controller.signal,
         cookie: 'MUSIC_U=local-upload',
 
         fetcher: async (url, init) => {

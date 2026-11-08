@@ -2,7 +2,6 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -674,7 +673,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const summaryAnnual: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const summaryAnnual: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.year !== undefined &&
@@ -691,14 +694,10 @@ const summaryAnnual: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
     const key = ['2017', '2018', '2019'].includes(String(query.year))
       ? 'userdata'
       : 'data';
-    const response = yield* request(
-      buildActionRequestIntent(
-        'request',
-        moduleActions['request'],
-        data,
-        `/api/activity/summary/annual/${String(query.year)}/${key}`,
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/activity/summary/annual/${String(query.year)}/${key}`,
+    });
     const body = yield* decodeUpstreamBody(
       'summary_annual',
       ModuleBody,

@@ -2,6 +2,7 @@ import { Effect } from 'effect';
 
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 // 签到
 /*
     0为安卓端签到 3点经验, 1为网页签到,2点经验
@@ -10,7 +11,6 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
     未登录 {'android': {'code': 301}, 'web': {'code': 301}}
 */
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 
 export const moduleActions = {
@@ -23,14 +23,16 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const dailySignin: ModuleEffect<ModuleInput> = (query, request) =>
+const dailySignin: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       type: query.type || 0,
     };
-    const response = yield* request(
-      buildActionRequestIntent('request', moduleActions['request'], data),
-    );
+    const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 

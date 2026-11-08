@@ -4,12 +4,10 @@ import { fileURLToPath } from 'node:url';
 
 import { invokeModule } from '../../../src/app/module-api.ts';
 import { loadModuleDefinitions } from '../../../src/server/module-loader.ts';
-import type {
-  CreateRequestOptions,
-  ModuleCallConfig,
-  RequestCapability,
-} from '../../../src/types/index.ts';
-import { mockRequest } from '../../_kit/module.ts';
+import type { FetchLike, ModuleCallConfig } from '../../../src/types/index.ts';
+import { testEntropy } from '../../_kit/harness/sdk.ts';
+import type { ApiWireMetadata } from '../../_kit/upstream/api.ts';
+import { withApiScenario } from '../../_kit/upstream/api.ts';
 
 const REAL_MODULES_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -21,65 +19,80 @@ const realModuleDefinitionsPromise = loadModuleDefinitions(
 
 describe('phase 5 module regression suite', () => {
   test('should keep search and voice-search request shapes aligned with legacy behavior', async () => {
-    const requestSpy = createRequestSpy((uri) => ({
-      body: {
-        code: 200,
-        route: uri,
-      },
-      cookie: [],
-      status: 200,
-    }));
-
-    await invokeRealModule(
-      'search',
-      {
-        keywords: '周杰伦',
-        limit: 20,
-        offset: 5,
-      },
-      requestSpy.requestHandler,
-    );
-
-    await invokeRealModule(
-      'search',
-      {
-        keywords: '语音搜索',
-        type: '2000',
-      },
-      requestSpy.requestHandler,
-    );
-
-    expect(requestSpy.calls).toHaveLength(2);
-    expect(requestSpy.calls[0]).toEqual({
-      data: {
-        limit: 20,
-        offset: 5,
-        s: '周杰伦',
-        type: 1,
-      },
-      options: expect.objectContaining({
-        cookie: undefined,
-        crypto: 'eapi',
-        headers: {},
-        signal: expect.any(AbortSignal),
+    await withRequestSpy(
+      [
+        'https://interface.music.163.com/eapi/search/get',
+        'https://interface.music.163.com/eapi/search/voice/get',
+      ],
+      (uri) => ({
+        body: {
+          code: 200,
+          route: uri,
+        },
+        cookie: [],
+        status: 200,
       }),
-      uri: '/api/search/get',
-    });
-    expect(requestSpy.calls[1]).toEqual({
-      data: {
-        keyword: '语音搜索',
-        limit: 30,
-        offset: 0,
-        scene: 'normal',
+      async (requestSpy) => {
+        await invokeRealModule(
+          'search',
+          {
+            keywords: '周杰伦',
+            limit: 20,
+            offset: 5,
+          },
+          requestSpy.fetcher,
+        );
+
+        await invokeRealModule(
+          'search',
+          {
+            keywords: '语音搜索',
+            type: '2000',
+          },
+          requestSpy.fetcher,
+        );
+
+        for (const call of requestSpy.calls) {
+          expect(call.options.cookie).not.toHaveProperty('MUSIC_U');
+          expect(call.options.cookie).not.toHaveProperty('MUSIC_A');
+        }
+        expect(requestSpy.calls).toHaveLength(2);
+        expect(requestSpy.calls[0]).toEqual({
+          data: {
+            limit: 20,
+            offset: 5,
+            s: '周杰伦',
+            type: 1,
+          },
+          options: expect.objectContaining({
+            cookie: expect.any(Object),
+            crypto: 'eapi',
+            headers: expect.objectContaining({
+              'content-type': 'application/x-www-form-urlencoded',
+            }),
+            signal: expect.any(AbortSignal),
+          }),
+          uri: '/api/search/get',
+        });
+        expect(requestSpy.calls[1]).toEqual({
+          data: {
+            keyword: '语音搜索',
+            limit: 30,
+            offset: 0,
+            scene: 'normal',
+          },
+          options: expect.objectContaining({
+            cookie: expect.any(Object),
+            crypto: 'eapi',
+            headers: expect.objectContaining({
+              'content-type': 'application/x-www-form-urlencoded',
+            }),
+            signal: expect.any(AbortSignal),
+          }),
+          uri: '/api/search/voice/get',
+        });
       },
-      options: expect.objectContaining({
-        cookie: undefined,
-        crypto: 'eapi',
-        headers: {},
-        signal: expect.any(AbortSignal),
-      }),
-      uri: '/api/search/voice/get',
-    });
+    );
   });
 
   test('should preserve song_url ordering and playlist_detail request shape', async () => {
@@ -100,175 +113,200 @@ describe('phase 5 module regression suite', () => {
       privacy: 0,
       specialType: 0,
     };
-    const requestSpy = createRequestSpy((uri) => {
-      if (uri === '/api/song/enhance/player/url') {
+    await withRequestSpy(
+      [
+        'https://interface.music.163.com/eapi/song/enhance/player/url',
+        'https://interface.music.163.com/eapi/v6/playlist/detail',
+      ],
+      (uri) => {
+        if (uri === '/api/song/enhance/player/url') {
+          return {
+            body: {
+              code: 200,
+              data: [
+                { id: 2, url: 'second', code: 200 },
+                { id: 1, url: 'first', code: 200 },
+              ],
+            },
+            cookie: [],
+            status: 200,
+          };
+        }
+
         return {
           body: {
             code: 200,
-            data: [
-              { id: 2, url: 'second', code: 200 },
-              { id: 1, url: 'first', code: 200 },
-            ],
+            playlist: fakePlaylist,
           },
           cookie: [],
           status: 200,
         };
-      }
+      },
+      async (requestSpy) => {
+        const songUrl = await invokeRealModule(
+          'song_url',
+          {
+            id: '1,2',
+            br: '320000',
+          },
+          requestSpy.fetcher,
+        );
+        const playlistDetail = await invokeRealModule(
+          'playlist_detail',
+          {
+            id: '123',
+          },
+          requestSpy.fetcher,
+        );
 
-      return {
-        body: {
-          code: 200,
-          playlist: fakePlaylist,
-        },
-        cookie: [],
-        status: 200,
-      };
-    });
-
-    const songUrl = await invokeRealModule(
-      'song_url',
-      {
-        id: '1,2',
-        br: '320000',
+        for (const call of requestSpy.calls) {
+          expect(call.options.cookie).not.toHaveProperty('MUSIC_U');
+          expect(call.options.cookie).not.toHaveProperty('MUSIC_A');
+        }
+        expect(requestSpy.calls[0]).toEqual({
+          data: {
+            br: 320000,
+            ids: '["1","2"]',
+          },
+          options: expect.objectContaining({
+            cookie: expect.any(Object),
+            crypto: 'eapi',
+            signal: expect.any(AbortSignal),
+          }),
+          uri: '/api/song/enhance/player/url',
+        });
+        expect(requestSpy.calls[1]).toEqual({
+          data: {
+            id: '123',
+            n: 100000,
+            s: 8,
+          },
+          options: expect.objectContaining({
+            cookie: expect.any(Object),
+            crypto: 'eapi',
+            headers: expect.objectContaining({
+              'content-type': 'application/x-www-form-urlencoded',
+            }),
+            signal: expect.any(AbortSignal),
+          }),
+          uri: '/api/v6/playlist/detail',
+        });
+        expect(readArrayProperty(songUrl.body, 'data')).toEqual([
+          { id: 1, url: 'first', code: 200 },
+          { id: 2, url: 'second', code: 200 },
+        ]);
+        expect(readRecordProperty(playlistDetail.body, 'playlist')).toEqual(
+          fakePlaylist,
+        );
       },
-      requestSpy.requestHandler,
-    );
-    const playlistDetail = await invokeRealModule(
-      'playlist_detail',
-      {
-        id: '123',
-      },
-      requestSpy.requestHandler,
-    );
-
-    expect(requestSpy.calls[0]).toEqual({
-      data: {
-        br: 320000,
-        ids: '["1","2"]',
-      },
-      options: expect.objectContaining({
-        cookie: undefined,
-        crypto: 'eapi',
-        signal: expect.any(AbortSignal),
-      }),
-      uri: '/api/song/enhance/player/url',
-    });
-    expect(requestSpy.calls[1]).toEqual({
-      data: {
-        id: '123',
-        n: 100000,
-        s: 8,
-      },
-      options: expect.objectContaining({
-        cookie: undefined,
-        crypto: 'eapi',
-        headers: {},
-        signal: expect.any(AbortSignal),
-      }),
-      uri: '/api/v6/playlist/detail',
-    });
-    expect(readArrayProperty(songUrl.body, 'data')).toEqual([
-      { id: 1, url: 'first', code: 200 },
-      { id: 2, url: 'second', code: 200 },
-    ]);
-    expect(readRecordProperty(playlistDetail.body, 'playlist')).toEqual(
-      fakePlaylist,
     );
   });
 
   test('should keep user_account on weapi and retain cookie semantics', async () => {
-    const requestSpy = createRequestSpy(() => ({
-      body: {
-        code: 200,
-        account: { id: 1, anonimousUser: false, vipType: 0 },
-        profile: {
+    await withRequestSpy(
+      ['https://music.163.com/weapi/nuser/account/get'],
+      () => ({
+        body: {
+          code: 200,
+          account: { id: 1, anonimousUser: false, vipType: 0 },
+          profile: {
+            userId: 1,
+            nickname: 'hana',
+            avatarUrl: 'https://p1.music.126.net/a.jpg',
+            vipType: 0,
+          },
+        },
+        cookie: ['MUSIC_U=upstream-account; Path=/'],
+        status: 200,
+      }),
+      async (requestSpy) => {
+        const response = await invokeRealModule(
+          'user_account',
+          {},
+          requestSpy.fetcher,
+          { cookie: 'MUSIC_U=phase5-cookie' },
+        );
+
+        expect(requestSpy.calls).toEqual([
+          {
+            data: {},
+            options: expect.objectContaining({
+              cookie: expect.objectContaining({
+                MUSIC_U: 'phase5-cookie',
+              }),
+              crypto: 'weapi',
+              signal: expect.any(AbortSignal),
+            }),
+            uri: '/api/nuser/account/get',
+          },
+        ]);
+        expect(response.cookie).toEqual(['MUSIC_U=upstream-account; Path=/']);
+        expect(readRecordProperty(response.body, 'profile')).toEqual({
           userId: 1,
           nickname: 'hana',
           avatarUrl: 'https://p1.music.126.net/a.jpg',
           vipType: 0,
-        },
+        });
       },
-      cookie: ['MUSIC_U=upstream-account; Path=/'],
-      status: 200,
-    }));
-
-    const response = await invokeRealModule(
-      'user_account',
-      {},
-      requestSpy.requestHandler,
-      { cookie: 'MUSIC_U=phase5-cookie' },
     );
-
-    expect(requestSpy.calls).toEqual([
-      {
-        data: {},
-        options: expect.objectContaining({
-          cookie: {
-            MUSIC_U: 'phase5-cookie',
-          },
-          crypto: 'weapi',
-          signal: expect.any(AbortSignal),
-        }),
-        uri: '/api/nuser/account/get',
-      },
-    ]);
-    expect(response.cookie).toEqual(['MUSIC_U=upstream-account; Path=/']);
-    expect(readRecordProperty(response.body, 'profile')).toEqual({
-      userId: 1,
-      nickname: 'hana',
-      avatarUrl: 'https://p1.music.126.net/a.jpg',
-      vipType: 0,
-    });
   });
 
   test('should preserve login_cellphone request body and success normalization', async () => {
-    const requestSpy = createRequestSpy(() => ({
-      body: {
-        avatarImgId_str: 'avatar-id',
-        code: 200,
-        account: { id: 1 },
-        profile: {
-          userId: 1,
-          nickname: 'hana',
-          avatarUrl: 'https://p1.music.126.net/a.jpg',
+    await withRequestSpy(
+      ['https://music.163.com/weapi/w/login/cellphone'],
+      () => ({
+        body: {
+          avatarImgId_str: 'avatar-id',
+          code: 200,
+          account: { id: 1 },
+          profile: {
+            userId: 1,
+            nickname: 'hana',
+            avatarUrl: 'https://p1.music.126.net/a.jpg',
+          },
         },
-      },
-      cookie: ['MUSIC_U=login-cookie; Path=/', '__csrf=token; Path=/'],
-      status: 200,
-    }));
+        cookie: ['MUSIC_U=login-cookie; Path=/', '__csrf=token; Path=/'],
+        status: 200,
+      }),
+      async (requestSpy) => {
+        const response = await invokeRealModule(
+          'login_cellphone',
+          {
+            password: 'secret',
+            phone: '13800138000',
+          },
+          requestSpy.fetcher,
+        );
 
-    const response = await invokeRealModule(
-      'login_cellphone',
-      {
-        password: 'secret',
-        phone: '13800138000',
+        for (const call of requestSpy.calls) {
+          expect(call.options.cookie).not.toHaveProperty('MUSIC_U');
+          expect(call.options.cookie).not.toHaveProperty('MUSIC_A');
+        }
+        expect(requestSpy.calls).toEqual([
+          {
+            data: {
+              countrycode: '86',
+              https: 'true',
+              password: '5ebe2294ecd0e0f08eab7690d2a6ee69',
+              phone: '13800138000',
+              remember: 'true',
+              type: '1',
+            },
+            options: expect.objectContaining({
+              cookie: expect.any(Object),
+              crypto: 'weapi',
+              signal: expect.any(AbortSignal),
+            }),
+            uri: '/api/w/login/cellphone',
+          },
+        ]);
+        expect(readStringProperty(response.body, 'avatarImgIdStr')).toBe(
+          'avatar-id',
+        );
+        expect(readStringProperty(response.body, 'cookie')).toBe(
+          'MUSIC_U=login-cookie; Path=/;__csrf=token; Path=/',
+        );
       },
-      requestSpy.requestHandler,
-    );
-
-    expect(requestSpy.calls).toEqual([
-      {
-        data: {
-          countrycode: '86',
-          https: 'true',
-          password: '5ebe2294ecd0e0f08eab7690d2a6ee69',
-          phone: '13800138000',
-          remember: 'true',
-          type: '1',
-        },
-        options: expect.objectContaining({
-          cookie: undefined,
-          crypto: 'weapi',
-          signal: expect.any(AbortSignal),
-        }),
-        uri: '/api/w/login/cellphone',
-      },
-    ]);
-    expect(readStringProperty(response.body, 'avatarImgIdStr')).toBe(
-      'avatar-id',
-    );
-    expect(readStringProperty(response.body, 'cookie')).toBe(
-      'MUSIC_U=login-cookie; Path=/;__csrf=token; Path=/',
     );
   });
 
@@ -291,121 +329,136 @@ describe('phase 5 module regression suite', () => {
   });
 
   test('should keep batch filtering only legacy /api-prefixed subrequests', async () => {
-    const requestSpy = createRequestSpy(() => ({
-      body: {
-        code: 200,
-      },
-      cookie: [],
-      status: 200,
-    }));
-
-    await invokeRealModule(
-      'batch',
-      {
-        '/api/song/detail': {
-          c: '[{"id":"1"}]',
-        },
-        '/api/user/account': {},
-        shouldIgnore: true,
-      },
-      requestSpy.requestHandler,
-    );
-
-    expect(requestSpy.calls).toEqual([
-      {
-        data: {
-          '/api/song/detail': {
-            c: '[{"id":"1"}]',
-          },
-          '/api/user/account': {},
-        },
-        options: expect.objectContaining({
-          cookie: undefined,
-          crypto: 'eapi',
-          signal: expect.any(AbortSignal),
-        }),
-        uri: '/api/batch',
-      },
-    ]);
-  });
-
-  test('should keep daily_signin and personal_fm request contracts', async () => {
-    const requestSpy = createRequestSpy((uri) => {
-      if (uri === '/api/point/dailyTask') {
-        return Promise.reject({
-          body: {
-            code: 301,
-          },
-          cookie: [],
-          status: 301,
-        });
-      }
-
-      return {
+    await withRequestSpy(
+      ['https://interface.music.163.com/eapi/batch'],
+      () => ({
         body: {
           code: 200,
-          data: [],
         },
         cookie: [],
         status: 200,
-      };
-    });
+      }),
+      async (requestSpy) => {
+        await invokeRealModule(
+          'batch',
+          {
+            '/api/song/detail': {
+              c: '[{"id":"1"}]',
+            },
+            '/api/user/account': {},
+            shouldIgnore: true,
+          },
+          requestSpy.fetcher,
+        );
 
-    try {
-      await invokeRealModule(
-        'daily_signin',
-        { type: 1 },
-        requestSpy.requestHandler,
-        { cookie: 'MUSIC_U=signed-in' },
-      );
-      throw new TypeError(
-        'Expected daily_signin to preserve the legacy 301 response',
-      );
-    } catch (error) {
-      expect(error).toEqual({
-        body: {
-          code: 301,
-        },
-        cookie: [],
-        status: 301,
-      });
-    }
-
-    const personalFm = await invokeRealModule(
-      'personal_fm',
-      {},
-      requestSpy.requestHandler,
-      { cookie: 'MUSIC_U=fm-cookie' },
+        for (const call of requestSpy.calls) {
+          expect(call.options.cookie).not.toHaveProperty('MUSIC_U');
+          expect(call.options.cookie).not.toHaveProperty('MUSIC_A');
+        }
+        expect(requestSpy.calls).toEqual([
+          {
+            data: {
+              '/api/song/detail': {
+                c: '[{"id":"1"}]',
+              },
+              '/api/user/account': {},
+            },
+            options: expect.objectContaining({
+              cookie: expect.any(Object),
+              crypto: 'eapi',
+              signal: expect.any(AbortSignal),
+            }),
+            uri: '/api/batch',
+          },
+        ]);
+      },
     );
+  });
 
-    expect(requestSpy.calls).toEqual([
-      {
-        data: {
-          type: 1,
-        },
-        options: expect.objectContaining({
-          cookie: {
-            MUSIC_U: 'signed-in',
+  test('should keep daily_signin and personal_fm request contracts', async () => {
+    await withRequestSpy(
+      [
+        'https://interface.music.163.com/eapi/point/dailyTask',
+        'https://music.163.com/weapi/v1/radio/get',
+      ],
+      (uri) => {
+        if (uri === '/api/point/dailyTask') {
+          return {
+            body: {
+              code: 301,
+            },
+            cookie: [],
+            status: 200,
+          };
+        }
+
+        return {
+          body: {
+            code: 200,
+            data: [],
           },
-          crypto: 'eapi',
-          signal: expect.any(AbortSignal),
-        }),
-        uri: '/api/point/dailyTask',
+          cookie: [],
+          status: 200,
+        };
       },
-      {
-        data: {},
-        options: expect.objectContaining({
-          cookie: {
-            MUSIC_U: 'fm-cookie',
+      async (requestSpy) => {
+        try {
+          await invokeRealModule(
+            'daily_signin',
+            { type: 1 },
+            requestSpy.fetcher,
+            { cookie: 'MUSIC_U=signed-in' },
+          );
+          throw new TypeError(
+            'Expected daily_signin to preserve the legacy 301 response',
+          );
+        } catch (error) {
+          expect(error).toEqual({
+            body: {
+              code: 301,
+            },
+            cookie: [],
+            status: 301,
+          });
+        }
+
+        const personalFm = await invokeRealModule(
+          'personal_fm',
+          {},
+          requestSpy.fetcher,
+          { cookie: 'MUSIC_U=fm-cookie' },
+        );
+
+        expect(requestSpy.calls).toEqual([
+          {
+            data: {
+              type: 1,
+            },
+            options: expect.objectContaining({
+              cookie: expect.objectContaining({
+                MUSIC_U: 'signed-in',
+              }),
+              crypto: 'eapi',
+              signal: expect.any(AbortSignal),
+            }),
+            uri: '/api/point/dailyTask',
           },
-          crypto: 'weapi',
-          signal: expect.any(AbortSignal),
-        }),
-        uri: '/api/v1/radio/get',
+          {
+            data: {},
+            options: expect.objectContaining({
+              cookie: expect.objectContaining({
+                MUSIC_U: 'fm-cookie',
+              }),
+              crypto: 'weapi',
+              signal: expect.any(AbortSignal),
+            }),
+            uri: '/api/v1/radio/get',
+          },
+        ]);
+        expect(personalFm.status).toBe(200);
+        expect(readArrayProperty(personalFm.body, 'data')).toEqual([]);
       },
-    ]);
-    expect(personalFm.status).toBe(200);
-    expect(readArrayProperty(personalFm.body, 'data')).toEqual([]);
+    );
   });
 
   test('should keep voice_upload missing-file validation on the legacy error contract', async () => {
@@ -429,43 +482,37 @@ describe('phase 5 module regression suite', () => {
 
 interface CapturedRequest {
   readonly data: Record<string, unknown>;
-  readonly options: CreateRequestOptions;
+  readonly options: ApiWireMetadata;
   readonly uri: string;
 }
 
-const createRequestSpy = (
+const withRequestSpy = (
+  targets: ReadonlyArray<string>,
   responder: (
     uri: string,
     data: Record<string, unknown>,
-    options: CreateRequestOptions,
+    options: ApiWireMetadata,
   ) => PromiseLikeReturn | Promise<PromiseLikeReturn>,
-): {
-  readonly calls: Array<CapturedRequest>;
-  readonly requestHandler: RequestCapability;
-} => {
+  work: (spy: {
+    calls: Array<CapturedRequest>;
+    fetcher: FetchLike;
+  }) => Promise<void>,
+) => {
   const calls: Array<CapturedRequest> = [];
-  /* oxlint-disable typescript/no-unsafe-type-assertion -- Test double matches RequestCapability at runtime. */
-  const requestHandler = mockRequest(async (uri, data, options = {}) => {
-    calls.push({
-      data,
-      options,
-      uri,
-    });
-
-    return responder(uri, data, options);
-  });
-  /* oxlint-enable typescript/no-unsafe-type-assertion */
-
-  return {
-    calls,
-    requestHandler,
-  };
+  return withApiScenario(
+    targets,
+    async ({ path: uri, data, ...options }) => {
+      calls.push({ uri, data, options });
+      return responder(uri, data, options);
+    },
+    (fetcher) => work({ calls, fetcher }),
+  );
 };
 
 const invokeRealModule = async (
   identifier: string,
   query: Record<string, unknown>,
-  requestHandler?: RequestCapability,
+  fetcher?: FetchLike,
   config: ModuleCallConfig = {},
 ) => {
   const moduleDefinitions = await realModuleDefinitionsPromise;
@@ -475,9 +522,9 @@ const invokeRealModule = async (
     query,
     {
       moduleDefinitions,
-      requestHandler,
     },
-    config,
+    { ...config, fetcher: fetcher ?? config.fetcher },
+    { entropy: testEntropy },
   );
 };
 

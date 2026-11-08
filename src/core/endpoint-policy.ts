@@ -1,7 +1,7 @@
 import type {
   CreateRequestOptions,
   NcmApiResponse,
-  RequestIntent,
+  RequestProtocol,
 } from '../types/index.ts';
 import {
   InvalidRequest,
@@ -10,53 +10,33 @@ import {
   UpstreamRateLimited,
 } from './errors.ts';
 import type { IdentitySnapshot } from './identity.ts';
-import { normalizeActionTarget } from './request-actions.ts';
 import type { RequestAction } from './request-actions.ts';
-import { requestProfiles } from './request-profiles.ts';
-import type { RequestProfile } from './request-profiles.ts';
 import { businessCode } from './response.ts';
 
 export const validateRequestTarget = (
-  intent: RequestIntent,
+  request: {
+    readonly protocol: RequestProtocol;
+    readonly target: string;
+    readonly method: string;
+  },
   url: string,
   identity: IdentitySnapshot,
-  action?: RequestAction,
 ): boolean => {
   if (
-    intent.protocol !== 'plain' &&
-    (!intent.target.startsWith('/api/') || intent.method !== 'POST')
+    request.protocol !== 'plain' &&
+    (!request.target.startsWith('/api/') || request.method !== 'POST')
   ) {
     throw InvalidRequest.make({
       message: 'API requests require an /api/ target and POST method',
     });
   }
   const target = new URL(url);
-  if (action) {
-    const profile: RequestProfile = requestProfiles[action.profile];
-    const path = normalizeActionTarget(intent.target, profile, action.target);
-    const preparedPath =
-      profile.protocol === 'linuxapi'
-        ? '/api/linux/forward'
-        : profile.protocol === 'api'
-          ? path
-          : `/${profile.protocol}/${path.slice(5)}`;
-    const expected =
-      profile.protocol === 'plain'
-        ? new URL(path)
-        : new URL(preparedPath, profile.domain);
-    if (target.href !== expected.href) {
-      throw InvalidRequest.make({
-        message:
-          'Prepared request does not match its declared profile and target',
-      });
-    }
-  }
   const apiHost = ['music.163.com', 'interface.music.163.com'].includes(
     target.hostname,
   );
   const scrobbleHost =
-    intent.protocol === 'eapi' &&
-    intent.target === '/api/feedback/weblog' &&
+    request.protocol === 'eapi' &&
+    request.target === '/api/feedback/weblog' &&
     target.hostname === 'clientlog.music.163.com';
   const secure =
     target.protocol === 'https:' && (!target.port || target.port === '443');
@@ -67,7 +47,7 @@ export const validateRequestTarget = (
   ) {
     throw TargetRejected.make({ message: 'Request target is not allowed' });
   }
-  if (intent.protocol === 'plain') {
+  if (request.protocol === 'plain') {
     const approved =
       apiHost ||
       target.hostname.endsWith('.127.net') ||
@@ -98,7 +78,7 @@ export const retryDecision = (
   attempt: number,
   options: CreateRequestOptions['retry'],
   random: number,
-  action: RequestAction,
+  action: Pick<RequestAction, 'semantic' | 'retry'>,
 ): number | undefined => {
   if (action.semantic !== 'read' || action.retry === 'never') {
     return undefined;

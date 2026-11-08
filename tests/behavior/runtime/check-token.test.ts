@@ -11,10 +11,15 @@ import {
   getUserids,
   invokeModule,
 } from '../../../index.ts';
+import {
+  ExecutionScope,
+  resolveExecutionScope,
+} from '../../../src/core/call-context.ts';
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
+import { resolveIdentitySnapshot } from '../../../src/core/identity.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
-import { buildActionRequestIntent } from '../../../src/core/request-intent.ts';
 import { requestProfiles } from '../../../src/core/request-profiles.ts';
+import { requestEffect } from '../../../src/core/request.ts';
 import { toModuleResponse } from '../../../src/core/response.ts';
 import { getRuntimeState, setRuntimeState } from '../../../src/core/runtime.ts';
 import { createClientFromContext } from '../../../src/sdk/generated/client-factory.generated.ts';
@@ -103,7 +108,7 @@ test.each(['weapi', 'eapi', 'api', 'linuxapi'] as const)(
             route: '/protocol/probe',
             decodeInput: decodeLegacyModuleInput,
             execute: (query, request) =>
-              request(buildActionRequestIntent('probe', action, query)).pipe(
+              request('probe', { data: query }).pipe(
                 Effect.map(toModuleResponse),
               ),
           },
@@ -714,61 +719,48 @@ test.each([
 ])(
   'a configured token cannot leave through %s even without account cookies',
   async (domain) => {
-    Object.defineProperty(requestProfiles, 'unsafeProbe', {
-      value: { ...requestProfiles.eapi, domain },
-      configurable: true,
-    });
-    try {
-      await withScenario([], async (scenario) => {
-        const config = {
-          state: { anonymousToken: '' },
-          checkToken: 'cannot-leave',
-        };
-        expect(
-          await settle(
-            runCall(
-              {
-                identifier: 'protocol_probe',
-                input: { sample: 'probe' },
-                config,
-              },
-              buildCallServices(config, false, { fetcher: scenario.fetcher }),
-              {
-                identifier: 'protocol_probe',
-                actions: {
-                  probe: {
-                    profile: 'unsafeProbe' as never,
-                    target: '/api/token/probe',
-                    semantic: 'read',
-                    cache: 'none',
-                    retry: 'never',
-                  },
-                },
-                route: '/protocol/probe',
-                decodeInput: decodeLegacyModuleInput,
-                execute: (query, request) =>
-                  request(
-                    buildActionRequestIntent(
-                      'probe',
-                      {
-                        profile: 'unsafeProbe' as never,
-                        target: '/api/token/probe',
-                        semantic: 'read',
-                        cache: 'none',
-                        retry: 'never',
-                      },
-                      query,
-                    ),
-                  ).pipe(Effect.map(toModuleResponse)),
-              },
-            ),
+    await withScenario([], async (scenario) => {
+      const identity = resolveIdentitySnapshot(
+        { state: { anonymousToken: '' } },
+        { ...getRuntimeState(), anonymousToken: '' },
+      );
+      const work = requestEffect({
+        protocol: 'eapi',
+        target: '/api/token/probe',
+        method: 'POST',
+        response: 'json',
+        data: { sample: 'probe' },
+        headers: {},
+        identity,
+        ip: undefined,
+        expectedUrl: null,
+        policy: { semantic: 'read', retry: 'never' },
+        retry: undefined,
+        token: { source: 'cannot-leave', uses: undefined, managed: true },
+        client: {
+          domain,
+          userAgent: requestProfiles.eapi.userAgent,
+          cookie: requestProfiles.eapi.cookie,
+          controlledCookies: [],
+          controlledHeaders: [],
+          encryptResponse: false,
+          acceptGzip: false,
+        },
+      }).pipe(
+        Effect.provideService(
+          ExecutionScope,
+          resolveExecutionScope(
+            { fetcher: scenario.fetcher },
+            undefined,
+            Date.now(),
+            8_000,
           ),
-        ).toMatchObject({ rejected: { status: 400 } });
-        expect(scenario.entries).toHaveLength(0);
-      });
-    } finally {
-      Reflect.deleteProperty(requestProfiles, 'unsafeProbe');
-    }
+        ),
+      );
+      const result = await work.pipe(runEffect, settle);
+      expect(result).toMatchObject({ rejected: { _tag: 'TargetRejected' } });
+      expect(scenario.entries).toHaveLength(0);
+    });
   },
 );
 

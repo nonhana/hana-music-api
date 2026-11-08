@@ -9,12 +9,12 @@ import {
   UploadedFile,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
 import uploadSongPlugin, { songUploadActions } from '../plugins/song-upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyUploadedFile } from '../types/module-shared.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   ...songUploadActions,
@@ -59,7 +59,10 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const cloud: ModuleEffect<ModuleInput> = (input, request) =>
+const cloud: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
+  input,
+  request,
+) =>
   uploadWork('cloud', request, (stage) =>
     Effect.gen(function* () {
       if (!input.songFile) {
@@ -86,16 +89,16 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
         .replace('.' + ext, '')
         .replace(/\s/g, '')
         .replace(/\./g, '_');
-      const checked = yield* stage(
-        buildActionRequestIntent('check', moduleActions.check, {
+      const checked = yield* stage('check', {
+        data: {
           bitrate: '999000',
           ext: '',
           length: songFile.size,
           md5: songFile.md5,
           songId: '0',
           version: 1,
-        }),
-      );
+        },
+      });
       const check = yield* Schema.decodeUnknownEffect(
         Schema.Struct({
           needUpload: Schema.Boolean,
@@ -119,8 +122,8 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
         Effect.map((info) => info.common),
         Effect.orElseSucceed(() => ({ title: '', album: '', artist: '' })),
       );
-      const allocation = yield* stage(
-        buildActionRequestIntent('allocate', moduleActions.allocate, {
+      const allocation = yield* stage('allocate', {
+        data: {
           bucket: '',
           ext,
           filename,
@@ -128,8 +131,8 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
           nos_product: 3,
           type: 'audio',
           md5: songFile.md5,
-        }),
-      );
+        },
+      });
       const { result: token } = yield* Schema.decodeUnknownEffect(
         Schema.Struct({
           result: Schema.Struct({
@@ -149,8 +152,8 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
       if (check.needUpload) {
         yield* uploadSongPlugin({ ...input, songFile }, stage);
       }
-      const information = yield* stage(
-        buildActionRequestIntent('information', moduleActions.information, {
+      const information = yield* stage('information', {
+        data: {
           md5: songFile.md5,
           songid: check.songId,
           filename: songFile.name,
@@ -159,8 +162,8 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
           artist: tags.artist || '未知艺术家',
           bitrate: '999000',
           resourceId: token.resourceId,
-        }),
-      );
+        },
+      });
       const info = yield* Schema.decodeUnknownEffect(
         Schema.Struct({ songId: Schema.Union([Schema.String, Schema.Finite]) }),
       )(information.body).pipe(
@@ -173,11 +176,11 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
           }),
         ),
       );
-      const published = yield* stage(
-        buildActionRequestIntent('publish', moduleActions.publish, {
+      const published = yield* stage('publish', {
+        data: {
           songid: info.songId,
-        }),
-      );
+        },
+      });
       if (!isRecord(published.body)) {
         return yield* UnexpectedUpstreamShape.make({
           module: 'cloud',

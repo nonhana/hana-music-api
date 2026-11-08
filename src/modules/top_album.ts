@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -41,7 +40,10 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-const topAlbum: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const topAlbum: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const date = new Date();
 
@@ -55,9 +57,7 @@ const topAlbum: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       total: false,
       rcmd: true,
     };
-    const response = yield* request(
-      buildActionRequestIntent('read', moduleActions.read, data),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody('top_album', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });
