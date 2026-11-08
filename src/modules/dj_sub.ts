@@ -1,11 +1,28 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  sub: {
+    profile: 'weapiPc',
+    target: '/api/djradio/sub',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  unsub: {
+    profile: 'weapiPc',
+    target: '/api/djradio/unsub',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 接口就是为了确认订阅/取消订阅成功：正文只带返回码 `code`，收紧。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -23,11 +40,7 @@ const djSub: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
       id: query.rid,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/djradio/${action}`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent(action, moduleActions[action], data),
     );
     return {
       ...toModuleResponse(response),

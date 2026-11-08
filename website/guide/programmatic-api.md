@@ -171,3 +171,9 @@ await hana.artistSub(
 示例中的 Cookie、目标、字符串和取值函数由应用提供，取值函数返回 `Promise<string>`。多请求模块需要逐次取新值，使用 provider；固定字符串在同一次模块调用中只能发送一次。配置 token 会关闭本次缓存、合并和自动重试，等待取值计入总期限。SDK 不生成或保存 token；浏览器取值见 [Watchman](/guide/watchman)，应用通过自己的业务路由转交，普通 Hono 接口不接受通用 token 参数。
 
 账号、登录与社交的83个模块也固定各自原有协议和默认身份，普通crypto、domain、ua、e_r、acceptGzip、headers及受控身份Cookie不再覆盖声明。需要手动控制协议时使用低层createRequest。登录和刷新返回新的Cookie，调用者可以在后续config中显式传入；SDK不会把响应Cookie自动存进全局会话。消息读取、风控、一起听轮询/心跳及刷新不自动重放或共享。
+
+## 播客、视频与音频请求迁移
+
+DJ、广播、MV、视频、声音和声音列表的67个接口已固定各自原有的协议与默认身份。业务参数与返回结构保持，普通调用配置里的crypto、domain、ua、e_r、acceptGzip和受控身份Cookie不再覆盖这些接口；仍可传入当次账号Cookie、fetcher、取消和期限，需要手动控制协议时使用createRequest。
+
+这些接口不缓存或合并请求。订阅、取消、声音删除和声音排序不自动重放；时间线、个性推荐、今日优选、DIFM播放列表及mlog推荐也采用保守的单次策略，调用方需要再次读取时主动调用。原有付费、版权、空播放地址和工作台权限限制继续由上游返回，离线迁移验收不证明接口当前可用。voice_upload的上传流程由后续批次处理。

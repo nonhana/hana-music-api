@@ -20,11 +20,11 @@
 
 已迁移模块导出本地 `moduleActions`，逐动作声明 profile、目标或动态路径边界、语义、缓存和重试资格。生成的 SDK registry 和 HTTP loader 读取同一份声明，`runCall` 校验后将其冻结到 `Call.actions`；请求层只执行本模块声明过的动作，并核对规范化路径与最终 URL。profile 决定协议、域名、UA、身份 Cookie 字段和协议选项，token 由协议准备统一编码，会话仍来自本次 Call。操作声明优先于旧模块名缓存白名单，写动作不共享、不缓存、不重放。
 
-当前已迁移222个模块：playlist_subscribe、album_sub、artist_sub、四个共享读取 search、lyric、song_detail、playlist_detail，以及 #110 的77个曲库与播放模块、#111 的55个搜索与发现模块和 #112 的83个账号与社交模块。三类收藏/取消使用 web；歌曲详情使用 web，其余三个读取保留 eapi。所有 SDK 模块统一接受可选 checkToken，不按模块或动作分类。带 token 调用绕过 ReadStore，禁自动重试；provider 每个 API 请求独立取值，固定字符串在一次模块调用中只允许一次 API 请求，后续需求明确失败；纯本地/外部上传不取值。未配置 token 时保留声明的 shared cache/read retry 和独立等待者合同。
+当前已迁移289个模块：playlist_subscribe、album_sub、artist_sub、四个共享读取 search、lyric、song_detail、playlist_detail，以及 #110 的77个曲库与播放模块、#111 的55个搜索与发现模块、#112 的83个账号与社交模块和 #113 的67个播客、视频与音频模块。三类收藏/取消使用 web；歌曲详情使用 web，其余三个读取保留 eapi。所有 SDK 模块统一接受可选 checkToken，不按模块或动作分类。带 token 调用绕过 ReadStore，禁自动重试；provider 每个 API 请求独立取值，固定字符串在一次模块调用中只允许一次 API 请求，后续需求明确失败；纯本地/外部上传不取值。未配置 token 时保留声明的 shared cache/read retry 和独立等待者合同。
 
 #110 的38个 weapi 动作模块采用 weapiPc，保留浏览器 UA 与 PC Cookie 的既有组合；39个 eapi 模块复用 eapi。全部声明 cache=none，按原上限分别使用 never/connect/read，不扩共享读取。导入四分支、红心/取消、sky 音质及动态路径都在本地动作合同中表达；local 导入和 batch 更新各发一次请求。完整基线与证据选择见 [issue-110](../docs/acceptance/issue-110.md)。
 
-`generatedPendingActionModuleIdentifiers` 枚举其余 130 个模块，它们沿同一执行链获得通用 token 能力，尚不计为 profile 迁移通过。P12 删除可选声明、旧默认协议和旧策略路径；本票不提前移除全部公开配置。决策与证据边界见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
+`generatedPendingActionModuleIdentifiers` 枚举其余 63 个模块，它们沿同一执行链获得通用 token 能力，尚不计为 profile 迁移通过。P12 删除可选声明、旧默认协议和旧策略路径；本票不提前移除全部公开配置。决策与证据边界见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
 
 Effect 只用于内部实现。公开 SDK、模块函数、`invokeModule` 和 `createRequest` 仍返回 Promise；内部组合和 transport 不自行调用 `Effect.runPromise`。公开边界统一由 `src/core/runtime.ts` 负责执行和错误映射。
 
@@ -49,3 +49,7 @@ Hono 只属于 `src/server/`。`src/core/` 必须能够脱离 Hono 测试；模�
 #111 的55模块声明56个请求动作，复用39个weapiPc和16个eapi组合；search_suggest的mobile/web分别固定目标，top_list的idx本地拒绝零请求。全部cache=none；FM垃圾桶与推荐不感兴趣write/never，连续推荐与首页刷新read/never，其他读取不扩大原重试上限。源码/离线材料不证明推荐流是否持久推进上游状态。没有新增产品共享接缝，完整清单和证据边界见 [issue-111](../docs/acceptance/issue-111.md)。
 
 #112 的83模块声明89动作，46个weapiPc、37个eapi，保持原协议/身份与业务返回。验证码/密码、评论/点赞/关注的有限路径分别声明，动态资源路径按规范化目录约束；消息/会话/刷新读取采用保守never重试，不扩大共享。SDK不自动保存登录Cookie；隐式匿名初始化的内存更新保持，业务token不被初始化消耗。详见[issue-112](../docs/acceptance/issue-112.md)。
+
+## P9：播客、视频与音频
+
+固定基线fa40cad6的67模块采用44个weapiPc和23个eapi，独立解码370分支后复用现有profile；71动作明确广播收藏/取消与DJ/MV/视频订阅分支，user_dj保留动态目录边界。没有新增profile或执行器，voice_upload仍归P11。全部cache=none；声音删除和声音列表排序是write/never，时间线、分组视频、个性推荐、今日优选、DIFM播放列表和mlog推荐保守read/never，材料不能证明上游持久推进。广播收藏列表和DIFM已收藏频道列表保持原never上限，其余读取只保留connect。currentinfo查询频道快照，mlog_to_video查询对应ID，均不因名称推成poll或write。155份历史返回逐份回放与最终请求证据独立，缺失工作台成功样本不猜Schema。[完整依据](../docs/acceptance/issue-113.md)。

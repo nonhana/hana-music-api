@@ -4,8 +4,8 @@ import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -15,6 +15,16 @@ import {
 import { PlaylistUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryIdentifier } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/djradio/get/byuser',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   uid: QueryIdentifier;
@@ -81,11 +91,7 @@ const userAudio: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       userId: query.uid,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/djradio/get/byuser`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody('user_audio', ModuleBody, response);
     return { ...toModuleResponse(response), body };

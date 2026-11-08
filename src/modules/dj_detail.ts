@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -16,6 +16,16 @@ import {
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/djradio/v2/get',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 电台详情里的主播记录：`PlaylistUser` 之外还有打赏相关字段，编号仍宽松。
 const RadioDj = UpstreamObject({
@@ -207,11 +217,7 @@ const djDetail: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       id: query.rid,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/djradio/v2/get`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody('dj_detail', ModuleBody, response);
     return { ...toModuleResponse(response), body };

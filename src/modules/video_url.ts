@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/cloudvideo/playurl',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const VideoUrl = UpstreamObject({
   id: Schema.String,
@@ -36,11 +46,7 @@ const videoUrl: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       resolution: query.res || 1080,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/cloudvideo/playurl`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody('video_url', ModuleBody, response);
     return { ...toModuleResponse(response), body };

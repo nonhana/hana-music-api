@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/voice/broadcast/channel/currentinfo',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const CurrentInfo = UpstreamObject({
   id: Schema.Finite,
@@ -46,11 +56,7 @@ const broadcastChannelCurrentinfo: ModuleEffect<ModuleInput, ModuleBody> = (
       channelId: query.id,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/voice/broadcast/channel/currentinfo`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'broadcast_channel_currentinfo',

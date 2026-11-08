@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +11,16 @@ import {
 import { MvSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/mv/exclusive/rcmd',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 通到网易出品 MV 列表的路径 `data` 和 MV 自己的编号 `data[].id` 收紧（共用 `MvSummary`）；`more` 宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -32,11 +42,7 @@ const mvExclusiveRcmd: ModuleEffect<ModuleInput, ModuleBody> = (
       limit: query.limit || 30,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/mv/exclusive/rcmd`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'mv_exclusive_rcmd',

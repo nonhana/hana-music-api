@@ -129,18 +129,23 @@ import batchModule, {
 } from '../../modules/batch.ts';
 import broadcastCategoryRegionGetModule, {
   decodeModuleInput as broadcastCategoryRegionGetInputDecoder,
+  moduleActions as broadcastCategoryRegionGetActions,
 } from '../../modules/broadcast_category_region_get.ts';
 import broadcastChannelCollectListModule, {
   decodeModuleInput as broadcastChannelCollectListInputDecoder,
+  moduleActions as broadcastChannelCollectListActions,
 } from '../../modules/broadcast_channel_collect_list.ts';
 import broadcastChannelCurrentinfoModule, {
   decodeModuleInput as broadcastChannelCurrentinfoInputDecoder,
+  moduleActions as broadcastChannelCurrentinfoActions,
 } from '../../modules/broadcast_channel_currentinfo.ts';
 import broadcastChannelListModule, {
   decodeModuleInput as broadcastChannelListInputDecoder,
+  moduleActions as broadcastChannelListActions,
 } from '../../modules/broadcast_channel_list.ts';
 import broadcastSubModule, {
   decodeModuleInput as broadcastSubInputDecoder,
+  moduleActions as broadcastSubActions,
 } from '../../modules/broadcast_sub.ts';
 import calendarModule, {
   decodeModuleInput as calendarInputDecoder,
@@ -249,93 +254,123 @@ import digitalAlbumSalesModule, {
 } from '../../modules/digitalAlbum_sales.ts';
 import djBannerModule, {
   decodeModuleInput as djBannerInputDecoder,
+  moduleActions as djBannerActions,
 } from '../../modules/dj_banner.ts';
 import djCategoryExcludehotModule, {
   decodeModuleInput as djCategoryExcludehotInputDecoder,
+  moduleActions as djCategoryExcludehotActions,
 } from '../../modules/dj_category_excludehot.ts';
 import djCategoryRecommendModule, {
   decodeModuleInput as djCategoryRecommendInputDecoder,
+  moduleActions as djCategoryRecommendActions,
 } from '../../modules/dj_category_recommend.ts';
 import djCatelistModule, {
   decodeModuleInput as djCatelistInputDecoder,
+  moduleActions as djCatelistActions,
 } from '../../modules/dj_catelist.ts';
 import djDetailModule, {
   decodeModuleInput as djDetailInputDecoder,
+  moduleActions as djDetailActions,
 } from '../../modules/dj_detail.ts';
 import djDifmAllStyleChannelModule, {
   decodeModuleInput as djDifmAllStyleChannelInputDecoder,
+  moduleActions as djDifmAllStyleChannelActions,
 } from '../../modules/dj_difm_all_style_channel.ts';
 import djDifmChannelSubscribeModule, {
   decodeModuleInput as djDifmChannelSubscribeInputDecoder,
+  moduleActions as djDifmChannelSubscribeActions,
 } from '../../modules/dj_difm_channel_subscribe.ts';
 import djDifmChannelUnsubscribeModule, {
   decodeModuleInput as djDifmChannelUnsubscribeInputDecoder,
+  moduleActions as djDifmChannelUnsubscribeActions,
 } from '../../modules/dj_difm_channel_unsubscribe.ts';
 import djDifmPlayingTracksListModule, {
   decodeModuleInput as djDifmPlayingTracksListInputDecoder,
+  moduleActions as djDifmPlayingTracksListActions,
 } from '../../modules/dj_difm_playing_tracks_list.ts';
 import djDifmSubscribeChannelsGetModule, {
   decodeModuleInput as djDifmSubscribeChannelsGetInputDecoder,
+  moduleActions as djDifmSubscribeChannelsGetActions,
 } from '../../modules/dj_difm_subscribe_channels_get.ts';
 import djHotModule, {
   decodeModuleInput as djHotInputDecoder,
+  moduleActions as djHotActions,
 } from '../../modules/dj_hot.ts';
 import djPaygiftModule, {
   decodeModuleInput as djPaygiftInputDecoder,
+  moduleActions as djPaygiftActions,
 } from '../../modules/dj_paygift.ts';
 import djPersonalizeRecommendModule, {
   decodeModuleInput as djPersonalizeRecommendInputDecoder,
+  moduleActions as djPersonalizeRecommendActions,
 } from '../../modules/dj_personalize_recommend.ts';
 import djProgramModule, {
   decodeModuleInput as djProgramInputDecoder,
+  moduleActions as djProgramActions,
 } from '../../modules/dj_program.ts';
 import djProgramDetailModule, {
   decodeModuleInput as djProgramDetailInputDecoder,
+  moduleActions as djProgramDetailActions,
 } from '../../modules/dj_program_detail.ts';
 import djProgramToplistModule, {
   decodeModuleInput as djProgramToplistInputDecoder,
+  moduleActions as djProgramToplistActions,
 } from '../../modules/dj_program_toplist.ts';
 import djProgramToplistHoursModule, {
   decodeModuleInput as djProgramToplistHoursInputDecoder,
+  moduleActions as djProgramToplistHoursActions,
 } from '../../modules/dj_program_toplist_hours.ts';
 import djRadioHotModule, {
   decodeModuleInput as djRadioHotInputDecoder,
+  moduleActions as djRadioHotActions,
 } from '../../modules/dj_radio_hot.ts';
 import djRecommendModule, {
   decodeModuleInput as djRecommendInputDecoder,
+  moduleActions as djRecommendActions,
 } from '../../modules/dj_recommend.ts';
 import djRecommendTypeModule, {
   decodeModuleInput as djRecommendTypeInputDecoder,
+  moduleActions as djRecommendTypeActions,
 } from '../../modules/dj_recommend_type.ts';
 import djSubModule, {
   decodeModuleInput as djSubInputDecoder,
+  moduleActions as djSubActions,
 } from '../../modules/dj_sub.ts';
 import djSublistModule, {
   decodeModuleInput as djSublistInputDecoder,
+  moduleActions as djSublistActions,
 } from '../../modules/dj_sublist.ts';
 import djSubscriberModule, {
   decodeModuleInput as djSubscriberInputDecoder,
+  moduleActions as djSubscriberActions,
 } from '../../modules/dj_subscriber.ts';
 import djTodayPerferedModule, {
   decodeModuleInput as djTodayPerferedInputDecoder,
+  moduleActions as djTodayPerferedActions,
 } from '../../modules/dj_today_perfered.ts';
 import djToplistModule, {
   decodeModuleInput as djToplistInputDecoder,
+  moduleActions as djToplistActions,
 } from '../../modules/dj_toplist.ts';
 import djToplistHoursModule, {
   decodeModuleInput as djToplistHoursInputDecoder,
+  moduleActions as djToplistHoursActions,
 } from '../../modules/dj_toplist_hours.ts';
 import djToplistNewcomerModule, {
   decodeModuleInput as djToplistNewcomerInputDecoder,
+  moduleActions as djToplistNewcomerActions,
 } from '../../modules/dj_toplist_newcomer.ts';
 import djToplistPayModule, {
   decodeModuleInput as djToplistPayInputDecoder,
+  moduleActions as djToplistPayActions,
 } from '../../modules/dj_toplist_pay.ts';
 import djToplistPopularModule, {
   decodeModuleInput as djToplistPopularInputDecoder,
+  moduleActions as djToplistPopularActions,
 } from '../../modules/dj_toplist_popular.ts';
 import djRadioTopModule, {
   decodeModuleInput as djRadioTopInputDecoder,
+  moduleActions as djRadioTopActions,
 } from '../../modules/djRadio_top.ts';
 import eventModule, {
   decodeModuleInput as eventInputDecoder,
@@ -491,12 +526,15 @@ import lyricNewModule, {
 } from '../../modules/lyric_new.ts';
 import mlogMusicRcmdModule, {
   decodeModuleInput as mlogMusicRcmdInputDecoder,
+  moduleActions as mlogMusicRcmdActions,
 } from '../../modules/mlog_music_rcmd.ts';
 import mlogToVideoModule, {
   decodeModuleInput as mlogToVideoInputDecoder,
+  moduleActions as mlogToVideoActions,
 } from '../../modules/mlog_to_video.ts';
 import mlogUrlModule, {
   decodeModuleInput as mlogUrlInputDecoder,
+  moduleActions as mlogUrlActions,
 } from '../../modules/mlog_url.ts';
 import msgCommentsModule, {
   decodeModuleInput as msgCommentsInputDecoder,
@@ -548,27 +586,35 @@ import musicianTasksNewModule, {
 } from '../../modules/musician_tasks_new.ts';
 import mvAllModule, {
   decodeModuleInput as mvAllInputDecoder,
+  moduleActions as mvAllActions,
 } from '../../modules/mv_all.ts';
 import mvDetailModule, {
   decodeModuleInput as mvDetailInputDecoder,
+  moduleActions as mvDetailActions,
 } from '../../modules/mv_detail.ts';
 import mvDetailInfoModule, {
   decodeModuleInput as mvDetailInfoInputDecoder,
+  moduleActions as mvDetailInfoActions,
 } from '../../modules/mv_detail_info.ts';
 import mvExclusiveRcmdModule, {
   decodeModuleInput as mvExclusiveRcmdInputDecoder,
+  moduleActions as mvExclusiveRcmdActions,
 } from '../../modules/mv_exclusive_rcmd.ts';
 import mvFirstModule, {
   decodeModuleInput as mvFirstInputDecoder,
+  moduleActions as mvFirstActions,
 } from '../../modules/mv_first.ts';
 import mvSubModule, {
   decodeModuleInput as mvSubInputDecoder,
+  moduleActions as mvSubActions,
 } from '../../modules/mv_sub.ts';
 import mvSublistModule, {
   decodeModuleInput as mvSublistInputDecoder,
+  moduleActions as mvSublistActions,
 } from '../../modules/mv_sublist.ts';
 import mvUrlModule, {
   decodeModuleInput as mvUrlInputDecoder,
+  moduleActions as mvUrlActions,
 } from '../../modules/mv_url.ts';
 import nicknameCheckModule, {
   decodeModuleInput as nicknameCheckInputDecoder,
@@ -717,6 +763,7 @@ import playmodeIntelligenceListModule, {
 } from '../../modules/playmode_intelligence_list.ts';
 import programRecommendModule, {
   decodeModuleInput as programRecommendInputDecoder,
+  moduleActions as programRecommendActions,
 } from '../../modules/program_recommend.ts';
 import rebindModule, {
   decodeModuleInput as rebindInputDecoder,
@@ -765,6 +812,7 @@ import registerCellphoneModule, {
 } from '../../modules/register_cellphone.ts';
 import relatedAllvideoModule, {
   decodeModuleInput as relatedAllvideoInputDecoder,
+  moduleActions as relatedAllvideoActions,
 } from '../../modules/related_allvideo.ts';
 import relatedPlaylistModule, {
   decodeModuleInput as relatedPlaylistInputDecoder,
@@ -1061,6 +1109,7 @@ import userAccountModule, {
 } from '../../modules/user_account.ts';
 import userAudioModule, {
   decodeModuleInput as userAudioInputDecoder,
+  moduleActions as userAudioActions,
 } from '../../modules/user_audio.ts';
 import userBindingModule, {
   decodeModuleInput as userBindingInputDecoder,
@@ -1088,6 +1137,7 @@ import userDetailModule, {
 } from '../../modules/user_detail.ts';
 import userDjModule, {
   decodeModuleInput as userDjInputDecoder,
+  moduleActions as userDjActions,
 } from '../../modules/user_dj.ts';
 import userEventModule, {
   decodeModuleInput as userEventInputDecoder,
@@ -1170,30 +1220,39 @@ import verifyQrcodestatusModule, {
 } from '../../modules/verify_qrcodestatus.ts';
 import videoCategoryListModule, {
   decodeModuleInput as videoCategoryListInputDecoder,
+  moduleActions as videoCategoryListActions,
 } from '../../modules/video_category_list.ts';
 import videoDetailModule, {
   decodeModuleInput as videoDetailInputDecoder,
+  moduleActions as videoDetailActions,
 } from '../../modules/video_detail.ts';
 import videoDetailInfoModule, {
   decodeModuleInput as videoDetailInfoInputDecoder,
+  moduleActions as videoDetailInfoActions,
 } from '../../modules/video_detail_info.ts';
 import videoGroupModule, {
   decodeModuleInput as videoGroupInputDecoder,
+  moduleActions as videoGroupActions,
 } from '../../modules/video_group.ts';
 import videoGroupListModule, {
   decodeModuleInput as videoGroupListInputDecoder,
+  moduleActions as videoGroupListActions,
 } from '../../modules/video_group_list.ts';
 import videoSubModule, {
   decodeModuleInput as videoSubInputDecoder,
+  moduleActions as videoSubActions,
 } from '../../modules/video_sub.ts';
 import videoTimelineAllModule, {
   decodeModuleInput as videoTimelineAllInputDecoder,
+  moduleActions as videoTimelineAllActions,
 } from '../../modules/video_timeline_all.ts';
 import videoTimelineRecommendModule, {
   decodeModuleInput as videoTimelineRecommendInputDecoder,
+  moduleActions as videoTimelineRecommendActions,
 } from '../../modules/video_timeline_recommend.ts';
 import videoUrlModule, {
   decodeModuleInput as videoUrlInputDecoder,
+  moduleActions as videoUrlActions,
 } from '../../modules/video_url.ts';
 import vipGrowthpointModule, {
   decodeModuleInput as vipGrowthpointInputDecoder,
@@ -1218,30 +1277,38 @@ import vipTimemachineModule, {
 } from '../../modules/vip_timemachine.ts';
 import voiceDeleteModule, {
   decodeModuleInput as voiceDeleteInputDecoder,
+  moduleActions as voiceDeleteActions,
 } from '../../modules/voice_delete.ts';
 import voiceDetailModule, {
   decodeModuleInput as voiceDetailInputDecoder,
+  moduleActions as voiceDetailActions,
 } from '../../modules/voice_detail.ts';
 import voiceLyricModule, {
   decodeModuleInput as voiceLyricInputDecoder,
+  moduleActions as voiceLyricActions,
 } from '../../modules/voice_lyric.ts';
 import voiceUploadModule, {
   decodeModuleInput as voiceUploadInputDecoder,
 } from '../../modules/voice_upload.ts';
 import voicelistDetailModule, {
   decodeModuleInput as voicelistDetailInputDecoder,
+  moduleActions as voicelistDetailActions,
 } from '../../modules/voicelist_detail.ts';
 import voicelistListModule, {
   decodeModuleInput as voicelistListInputDecoder,
+  moduleActions as voicelistListActions,
 } from '../../modules/voicelist_list.ts';
 import voicelistListSearchModule, {
   decodeModuleInput as voicelistListSearchInputDecoder,
+  moduleActions as voicelistListSearchActions,
 } from '../../modules/voicelist_list_search.ts';
 import voicelistSearchModule, {
   decodeModuleInput as voicelistSearchInputDecoder,
+  moduleActions as voicelistSearchActions,
 } from '../../modules/voicelist_search.ts';
 import voicelistTransModule, {
   decodeModuleInput as voicelistTransInputDecoder,
+  moduleActions as voicelistTransActions,
 } from '../../modules/voicelist_trans.ts';
 import yunbeiModule, {
   decodeModuleInput as yunbeiInputDecoder,
@@ -1512,30 +1579,35 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/broadcast/category/region/get',
     execute: broadcastCategoryRegionGetModule,
     decodeInput: broadcastCategoryRegionGetInputDecoder,
+    actions: broadcastCategoryRegionGetActions,
   },
   broadcast_channel_collect_list: {
     identifier: 'broadcast_channel_collect_list',
     route: '/broadcast/channel/collect/list',
     execute: broadcastChannelCollectListModule,
     decodeInput: broadcastChannelCollectListInputDecoder,
+    actions: broadcastChannelCollectListActions,
   },
   broadcast_channel_currentinfo: {
     identifier: 'broadcast_channel_currentinfo',
     route: '/broadcast/channel/currentinfo',
     execute: broadcastChannelCurrentinfoModule,
     decodeInput: broadcastChannelCurrentinfoInputDecoder,
+    actions: broadcastChannelCurrentinfoActions,
   },
   broadcast_channel_list: {
     identifier: 'broadcast_channel_list',
     route: '/broadcast/channel/list',
     execute: broadcastChannelListModule,
     decodeInput: broadcastChannelListInputDecoder,
+    actions: broadcastChannelListActions,
   },
   broadcast_sub: {
     identifier: 'broadcast_sub',
     route: '/broadcast/sub',
     execute: broadcastSubModule,
     decodeInput: broadcastSubInputDecoder,
+    actions: broadcastSubActions,
   },
   calendar: {
     identifier: 'calendar',
@@ -1731,180 +1803,210 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/dj/banner',
     execute: djBannerModule,
     decodeInput: djBannerInputDecoder,
+    actions: djBannerActions,
   },
   dj_category_excludehot: {
     identifier: 'dj_category_excludehot',
     route: '/dj/category/excludehot',
     execute: djCategoryExcludehotModule,
     decodeInput: djCategoryExcludehotInputDecoder,
+    actions: djCategoryExcludehotActions,
   },
   dj_category_recommend: {
     identifier: 'dj_category_recommend',
     route: '/dj/category/recommend',
     execute: djCategoryRecommendModule,
     decodeInput: djCategoryRecommendInputDecoder,
+    actions: djCategoryRecommendActions,
   },
   dj_catelist: {
     identifier: 'dj_catelist',
     route: '/dj/catelist',
     execute: djCatelistModule,
     decodeInput: djCatelistInputDecoder,
+    actions: djCatelistActions,
   },
   dj_detail: {
     identifier: 'dj_detail',
     route: '/dj/detail',
     execute: djDetailModule,
     decodeInput: djDetailInputDecoder,
+    actions: djDetailActions,
   },
   dj_difm_all_style_channel: {
     identifier: 'dj_difm_all_style_channel',
     route: '/dj/difm/all/style/channel',
     execute: djDifmAllStyleChannelModule,
     decodeInput: djDifmAllStyleChannelInputDecoder,
+    actions: djDifmAllStyleChannelActions,
   },
   dj_difm_channel_subscribe: {
     identifier: 'dj_difm_channel_subscribe',
     route: '/dj/difm/channel/subscribe',
     execute: djDifmChannelSubscribeModule,
     decodeInput: djDifmChannelSubscribeInputDecoder,
+    actions: djDifmChannelSubscribeActions,
   },
   dj_difm_channel_unsubscribe: {
     identifier: 'dj_difm_channel_unsubscribe',
     route: '/dj/difm/channel/unsubscribe',
     execute: djDifmChannelUnsubscribeModule,
     decodeInput: djDifmChannelUnsubscribeInputDecoder,
+    actions: djDifmChannelUnsubscribeActions,
   },
   dj_difm_playing_tracks_list: {
     identifier: 'dj_difm_playing_tracks_list',
     route: '/dj/difm/playing/tracks/list',
     execute: djDifmPlayingTracksListModule,
     decodeInput: djDifmPlayingTracksListInputDecoder,
+    actions: djDifmPlayingTracksListActions,
   },
   dj_difm_subscribe_channels_get: {
     identifier: 'dj_difm_subscribe_channels_get',
     route: '/dj/difm/subscribe/channels/get',
     execute: djDifmSubscribeChannelsGetModule,
     decodeInput: djDifmSubscribeChannelsGetInputDecoder,
+    actions: djDifmSubscribeChannelsGetActions,
   },
   dj_hot: {
     identifier: 'dj_hot',
     route: '/dj/hot',
     execute: djHotModule,
     decodeInput: djHotInputDecoder,
+    actions: djHotActions,
   },
   dj_paygift: {
     identifier: 'dj_paygift',
     route: '/dj/paygift',
     execute: djPaygiftModule,
     decodeInput: djPaygiftInputDecoder,
+    actions: djPaygiftActions,
   },
   dj_personalize_recommend: {
     identifier: 'dj_personalize_recommend',
     route: '/dj/personalize/recommend',
     execute: djPersonalizeRecommendModule,
     decodeInput: djPersonalizeRecommendInputDecoder,
+    actions: djPersonalizeRecommendActions,
   },
   dj_program: {
     identifier: 'dj_program',
     route: '/dj/program',
     execute: djProgramModule,
     decodeInput: djProgramInputDecoder,
+    actions: djProgramActions,
   },
   dj_program_detail: {
     identifier: 'dj_program_detail',
     route: '/dj/program/detail',
     execute: djProgramDetailModule,
     decodeInput: djProgramDetailInputDecoder,
+    actions: djProgramDetailActions,
   },
   dj_program_toplist: {
     identifier: 'dj_program_toplist',
     route: '/dj/program/toplist',
     execute: djProgramToplistModule,
     decodeInput: djProgramToplistInputDecoder,
+    actions: djProgramToplistActions,
   },
   dj_program_toplist_hours: {
     identifier: 'dj_program_toplist_hours',
     route: '/dj/program/toplist/hours',
     execute: djProgramToplistHoursModule,
     decodeInput: djProgramToplistHoursInputDecoder,
+    actions: djProgramToplistHoursActions,
   },
   dj_radio_hot: {
     identifier: 'dj_radio_hot',
     route: '/dj/radio/hot',
     execute: djRadioHotModule,
     decodeInput: djRadioHotInputDecoder,
+    actions: djRadioHotActions,
   },
   dj_recommend: {
     identifier: 'dj_recommend',
     route: '/dj/recommend',
     execute: djRecommendModule,
     decodeInput: djRecommendInputDecoder,
+    actions: djRecommendActions,
   },
   dj_recommend_type: {
     identifier: 'dj_recommend_type',
     route: '/dj/recommend/type',
     execute: djRecommendTypeModule,
     decodeInput: djRecommendTypeInputDecoder,
+    actions: djRecommendTypeActions,
   },
   dj_sub: {
     identifier: 'dj_sub',
     route: '/dj/sub',
     execute: djSubModule,
     decodeInput: djSubInputDecoder,
+    actions: djSubActions,
   },
   dj_sublist: {
     identifier: 'dj_sublist',
     route: '/dj/sublist',
     execute: djSublistModule,
     decodeInput: djSublistInputDecoder,
+    actions: djSublistActions,
   },
   dj_subscriber: {
     identifier: 'dj_subscriber',
     route: '/dj/subscriber',
     execute: djSubscriberModule,
     decodeInput: djSubscriberInputDecoder,
+    actions: djSubscriberActions,
   },
   dj_today_perfered: {
     identifier: 'dj_today_perfered',
     route: '/dj/today/perfered',
     execute: djTodayPerferedModule,
     decodeInput: djTodayPerferedInputDecoder,
+    actions: djTodayPerferedActions,
   },
   dj_toplist: {
     identifier: 'dj_toplist',
     route: '/dj/toplist',
     execute: djToplistModule,
     decodeInput: djToplistInputDecoder,
+    actions: djToplistActions,
   },
   dj_toplist_hours: {
     identifier: 'dj_toplist_hours',
     route: '/dj/toplist/hours',
     execute: djToplistHoursModule,
     decodeInput: djToplistHoursInputDecoder,
+    actions: djToplistHoursActions,
   },
   dj_toplist_newcomer: {
     identifier: 'dj_toplist_newcomer',
     route: '/dj/toplist/newcomer',
     execute: djToplistNewcomerModule,
     decodeInput: djToplistNewcomerInputDecoder,
+    actions: djToplistNewcomerActions,
   },
   dj_toplist_pay: {
     identifier: 'dj_toplist_pay',
     route: '/dj/toplist/pay',
     execute: djToplistPayModule,
     decodeInput: djToplistPayInputDecoder,
+    actions: djToplistPayActions,
   },
   dj_toplist_popular: {
     identifier: 'dj_toplist_popular',
     route: '/dj/toplist/popular',
     execute: djToplistPopularModule,
     decodeInput: djToplistPopularInputDecoder,
+    actions: djToplistPopularActions,
   },
   djRadio_top: {
     identifier: 'djRadio_top',
     route: '/djRadio/top',
     execute: djRadioTopModule,
     decodeInput: djRadioTopInputDecoder,
+    actions: djRadioTopActions,
   },
   event: {
     identifier: 'event',
@@ -2183,18 +2285,21 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/mlog/music/rcmd',
     execute: mlogMusicRcmdModule,
     decodeInput: mlogMusicRcmdInputDecoder,
+    actions: mlogMusicRcmdActions,
   },
   mlog_to_video: {
     identifier: 'mlog_to_video',
     route: '/mlog/to/video',
     execute: mlogToVideoModule,
     decodeInput: mlogToVideoInputDecoder,
+    actions: mlogToVideoActions,
   },
   mlog_url: {
     identifier: 'mlog_url',
     route: '/mlog/url',
     execute: mlogUrlModule,
     decodeInput: mlogUrlInputDecoder,
+    actions: mlogUrlActions,
   },
   msg_comments: {
     identifier: 'msg_comments',
@@ -2291,48 +2396,56 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/mv/all',
     execute: mvAllModule,
     decodeInput: mvAllInputDecoder,
+    actions: mvAllActions,
   },
   mv_detail: {
     identifier: 'mv_detail',
     route: '/mv/detail',
     execute: mvDetailModule,
     decodeInput: mvDetailInputDecoder,
+    actions: mvDetailActions,
   },
   mv_detail_info: {
     identifier: 'mv_detail_info',
     route: '/mv/detail/info',
     execute: mvDetailInfoModule,
     decodeInput: mvDetailInfoInputDecoder,
+    actions: mvDetailInfoActions,
   },
   mv_exclusive_rcmd: {
     identifier: 'mv_exclusive_rcmd',
     route: '/mv/exclusive/rcmd',
     execute: mvExclusiveRcmdModule,
     decodeInput: mvExclusiveRcmdInputDecoder,
+    actions: mvExclusiveRcmdActions,
   },
   mv_first: {
     identifier: 'mv_first',
     route: '/mv/first',
     execute: mvFirstModule,
     decodeInput: mvFirstInputDecoder,
+    actions: mvFirstActions,
   },
   mv_sub: {
     identifier: 'mv_sub',
     route: '/mv/sub',
     execute: mvSubModule,
     decodeInput: mvSubInputDecoder,
+    actions: mvSubActions,
   },
   mv_sublist: {
     identifier: 'mv_sublist',
     route: '/mv/sublist',
     execute: mvSublistModule,
     decodeInput: mvSublistInputDecoder,
+    actions: mvSublistActions,
   },
   mv_url: {
     identifier: 'mv_url',
     route: '/mv/url',
     execute: mvUrlModule,
     decodeInput: mvUrlInputDecoder,
+    actions: mvUrlActions,
   },
   nickname_check: {
     identifier: 'nickname_check',
@@ -2595,6 +2708,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/program/recommend',
     execute: programRecommendModule,
     decodeInput: programRecommendInputDecoder,
+    actions: programRecommendActions,
   },
   rebind: {
     identifier: 'rebind',
@@ -2685,6 +2799,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/related/allvideo',
     execute: relatedAllvideoModule,
     decodeInput: relatedAllvideoInputDecoder,
+    actions: relatedAllvideoActions,
   },
   related_playlist: {
     identifier: 'related_playlist',
@@ -3209,6 +3324,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/user/audio',
     execute: userAudioModule,
     decodeInput: userAudioInputDecoder,
+    actions: userAudioActions,
   },
   user_binding: {
     identifier: 'user_binding',
@@ -3257,6 +3373,7 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/user/dj',
     execute: userDjModule,
     decodeInput: userDjInputDecoder,
+    actions: userDjActions,
   },
   user_event: {
     identifier: 'user_event',
@@ -3402,54 +3519,63 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/video/category/list',
     execute: videoCategoryListModule,
     decodeInput: videoCategoryListInputDecoder,
+    actions: videoCategoryListActions,
   },
   video_detail: {
     identifier: 'video_detail',
     route: '/video/detail',
     execute: videoDetailModule,
     decodeInput: videoDetailInputDecoder,
+    actions: videoDetailActions,
   },
   video_detail_info: {
     identifier: 'video_detail_info',
     route: '/video/detail/info',
     execute: videoDetailInfoModule,
     decodeInput: videoDetailInfoInputDecoder,
+    actions: videoDetailInfoActions,
   },
   video_group: {
     identifier: 'video_group',
     route: '/video/group',
     execute: videoGroupModule,
     decodeInput: videoGroupInputDecoder,
+    actions: videoGroupActions,
   },
   video_group_list: {
     identifier: 'video_group_list',
     route: '/video/group/list',
     execute: videoGroupListModule,
     decodeInput: videoGroupListInputDecoder,
+    actions: videoGroupListActions,
   },
   video_sub: {
     identifier: 'video_sub',
     route: '/video/sub',
     execute: videoSubModule,
     decodeInput: videoSubInputDecoder,
+    actions: videoSubActions,
   },
   video_timeline_all: {
     identifier: 'video_timeline_all',
     route: '/video/timeline/all',
     execute: videoTimelineAllModule,
     decodeInput: videoTimelineAllInputDecoder,
+    actions: videoTimelineAllActions,
   },
   video_timeline_recommend: {
     identifier: 'video_timeline_recommend',
     route: '/video/timeline/recommend',
     execute: videoTimelineRecommendModule,
     decodeInput: videoTimelineRecommendInputDecoder,
+    actions: videoTimelineRecommendActions,
   },
   video_url: {
     identifier: 'video_url',
     route: '/video/url',
     execute: videoUrlModule,
     decodeInput: videoUrlInputDecoder,
+    actions: videoUrlActions,
   },
   vip_growthpoint: {
     identifier: 'vip_growthpoint',
@@ -3498,18 +3624,21 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/voice/delete',
     execute: voiceDeleteModule,
     decodeInput: voiceDeleteInputDecoder,
+    actions: voiceDeleteActions,
   },
   voice_detail: {
     identifier: 'voice_detail',
     route: '/voice/detail',
     execute: voiceDetailModule,
     decodeInput: voiceDetailInputDecoder,
+    actions: voiceDetailActions,
   },
   voice_lyric: {
     identifier: 'voice_lyric',
     route: '/voice/lyric',
     execute: voiceLyricModule,
     decodeInput: voiceLyricInputDecoder,
+    actions: voiceLyricActions,
   },
   voice_upload: {
     identifier: 'voice_upload',
@@ -3522,30 +3651,35 @@ export const sdkModuleRegistry: SdkModuleRegistry = {
     route: '/voicelist/detail',
     execute: voicelistDetailModule,
     decodeInput: voicelistDetailInputDecoder,
+    actions: voicelistDetailActions,
   },
   voicelist_list: {
     identifier: 'voicelist_list',
     route: '/voicelist/list',
     execute: voicelistListModule,
     decodeInput: voicelistListInputDecoder,
+    actions: voicelistListActions,
   },
   voicelist_list_search: {
     identifier: 'voicelist_list_search',
     route: '/voicelist/list/search',
     execute: voicelistListSearchModule,
     decodeInput: voicelistListSearchInputDecoder,
+    actions: voicelistListSearchActions,
   },
   voicelist_search: {
     identifier: 'voicelist_search',
     route: '/voicelist/search',
     execute: voicelistSearchModule,
     decodeInput: voicelistSearchInputDecoder,
+    actions: voicelistSearchActions,
   },
   voicelist_trans: {
     identifier: 'voicelist_trans',
     route: '/voicelist/trans',
     execute: voicelistTransModule,
     decodeInput: voicelistTransInputDecoder,
+    actions: voicelistTransActions,
   },
   yunbei: {
     identifier: 'yunbei',

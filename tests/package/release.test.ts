@@ -175,6 +175,7 @@ describe('sdk release contract', () => {
     let browserEvidence: unknown;
     const libraryPlayback: Array<unknown> = [];
     const accountSocial: Array<unknown> = [];
+    const podcastVideo: Array<unknown> = [];
     const searchDiscovery: Array<unknown> = [];
 
     try {
@@ -604,6 +605,43 @@ describe('sdk release contract', () => {
         });
       }
 
+      writeFileSync(
+        resolve(consumerDirectory, 'podcast-video.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/podcast-video.mjs'),
+        ),
+      );
+      writeFileSync(
+        resolve(consumerDirectory, 'podcast-video.json'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/requests/podcast-video.json'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'podcast-video.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 1110,
+          providers: 370,
+          cases: 370,
+          modules: 67,
+        });
+        podcastVideo.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
       const negativeImportScriptPath = resolve(
         consumerDirectory,
         'negative-import.mjs',
@@ -799,6 +837,7 @@ describe('sdk release contract', () => {
             libraryPlayback,
             searchDiscovery,
             accountSocial,
+            podcastVideo,
             browser: browserEvidence,
             files: filePaths.map((path) => ({
               path,

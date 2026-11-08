@@ -16,6 +16,7 @@ import {
 } from '../../../src/types/generated/module-surface.generated.ts';
 import accountSocial from '../../fixtures/requests/account-social.json';
 import libraryPlayback from '../../fixtures/requests/library-playback.json';
+import podcastVideo from '../../fixtures/requests/podcast-video.json';
 import searchDiscovery from '../../fixtures/requests/search-discovery.json';
 
 const REAL_MODULES_DIRECTORY = resolve(
@@ -37,6 +38,7 @@ describe('generated module type surface', () => {
             ...libraryPlayback.cases,
             ...searchDiscovery.cases,
             ...accountSocial.cases,
+            ...podcastVideo.cases,
           ].map((entry) => entry.module),
         ),
         'album_sub',
@@ -136,9 +138,36 @@ describe('generated module type surface', () => {
           : entry.path.startsWith(action.target.prefix),
       ).toBe(true);
     }
-    expect(declared).toHaveLength(222);
+    const contentModules = new Set(
+      podcastVideo.cases.map((entry) => entry.module),
+    );
+    expect(
+      loaded
+        .filter((definition) => contentModules.has(definition.identifier))
+        .reduce(
+          (count, definition) =>
+            count + Object.keys(definition.actions!).length,
+          0,
+        ),
+    ).toBe(71);
+    for (const entry of podcastVideo.cases.filter(
+      (candidate) => candidate.label === 'default',
+    )) {
+      const definition = loaded.find(
+        (candidate) => candidate.identifier === entry.module,
+      )!;
+      expect(Object.keys(definition.actions!)).not.toHaveLength(0);
+      for (const action of Object.values(definition.actions!))
+        expect(action).toMatchObject({
+          profile: entry.profile,
+          semantic: entry.semantic,
+          cache: 'none',
+          retry: entry.retry,
+        });
+    }
+    expect(declared).toHaveLength(289);
     expect(declared).toEqual([...generatedActionModuleIdentifiers].toSorted());
-    expect(generatedPendingActionModuleIdentifiers).toHaveLength(130);
+    expect(generatedPendingActionModuleIdentifiers).toHaveLength(63);
     for (const identifier of declared)
       expect(generatedPendingActionModuleIdentifiers).not.toContain(identifier);
     for (const definition of loaded.filter(

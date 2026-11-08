@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/voice/workbench/voicelist/search',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 通到播客列表的路径 `data` 收紧；`data.list` 的元素只在空结果里出现过，类型没有证据，未声明并原样保留，
 // `data.total`、`data.hasMore` 是宽松的分页提示，`message` 只见过 `null`，也不声明。
@@ -36,11 +46,7 @@ const voicelistSearch: ModuleEffect<ModuleInput, ModuleBody> = (
       podcastName: query.podcastName || '',
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/voice/workbench/voicelist/search`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'voicelist_search',

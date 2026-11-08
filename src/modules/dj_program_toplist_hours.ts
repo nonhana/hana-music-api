@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +11,16 @@ import {
 import { DjProgram } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/djprogram/toplist/hours',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const ToplistEntry = UpstreamObject({
   program: DjProgram,
@@ -43,11 +53,7 @@ const djProgramToplistHours: ModuleEffect<ModuleInput, ModuleBody> = (
       // 不支持 offset
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/djprogram/toplist/hours`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'dj_program_toplist_hours',

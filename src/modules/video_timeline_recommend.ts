@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -16,6 +16,16 @@ import {
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/videotimeline/get',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const VideoPlayback = UpstreamObject({
   id: Loose(Schema.String),
@@ -84,11 +94,7 @@ const videoTimelineRecommend: ModuleEffect<ModuleInput, ModuleBody> = (
       resolution: '480',
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/videotimeline/get`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'video_timeline_recommend',

@@ -5,8 +5,8 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -19,6 +19,16 @@ import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: { prefix: '/api/dj/program/' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   uid: QueryIdentifier;
@@ -54,10 +64,11 @@ const userDj: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       offset: query.offset || 0,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/dj/program/${query.uid}`,
+      buildActionRequestIntent(
+        'request',
+        moduleActions['request'],
         data,
-        createOption(query, 'weapi'),
+        `/api/dj/program/${query.uid}`,
       ),
     );
     const body = yield* decodeUpstreamBody('user_dj', ModuleBody, response);

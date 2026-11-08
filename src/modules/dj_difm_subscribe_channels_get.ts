@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/dj/difm/subscribe/channels/get/v2',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 只收紧返回码。`data` 在匿名、登录和 `sources` 的 `[0]`/`[1]` 探测里都是空数组，元素类型没有证据，
 // 未声明并原样保留；账号的收藏频道为空是正常结果。
@@ -30,11 +40,7 @@ const djDifmSubscribeChannelsGet: ModuleEffect<ModuleInput, ModuleBody> = (
       sources: query.sources || '[0]',
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/dj/difm/subscribe/channels/get/v2`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody(
       'dj_difm_subscribe_channels_get',

@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +11,16 @@ import {
 import { PlaylistUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/djradio/recommend/v1',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const Radio = UpstreamObject({
   id: Schema.Finite,
@@ -41,14 +51,10 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const djRecommend: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const djRecommend: ModuleEffect<ModuleInput, ModuleBody> = (_query, request) =>
   Effect.gen(function* () {
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/djradio/recommend/v1`,
-        {},
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], {}),
     );
     const body = yield* decodeUpstreamBody(
       'dj_recommend',

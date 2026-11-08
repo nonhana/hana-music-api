@@ -1,0 +1,1552 @@
+[
+  {
+    "module": "broadcast_category_region_get",
+    "path": "tests/fixtures/netease/podcast/broadcast_category_region_get.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f43b57b1048927b9ce56ff3ceca56434842b658bf764ebf79237ef72f30828a2",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "17358e61d4102c47dca2ee7aceb71861022e1940ff12a6fde6919a21b820360d"
+  },
+  {
+    "module": "broadcast_category_region_get",
+    "path": "tests/fixtures/netease/podcast/broadcast_category_region_get.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "1e78c1d57f320275480ae7d02889d1cdca945c5958138e06918f62c86f67f38a",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "52a501f3db3ea5b6d6e3dbae9dc1189f63cc803845e8a671927c67e8f63a0334"
+  },
+  {
+    "module": "broadcast_channel_collect_list",
+    "path": "tests/fixtures/netease/podcast/broadcast_channel_collect_list.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "35d579e96326204c863cd60a6c784029403161b73c84f7be48e10b8b6201867e",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "cc2c6a9ff14495d14c770da1ff59644df1e9a89b54909b2f35239d4d05bf2d0d"
+  },
+  {
+    "module": "broadcast_channel_collect_list",
+    "path": "tests/fixtures/netease/podcast/broadcast_channel_collect_list.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "35d579e96326204c863cd60a6c784029403161b73c84f7be48e10b8b6201867e",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "df7b8fe5629a1e890b9361710736498c4210ad8bec8282309e98d825ce842da4"
+  },
+  {
+    "module": "broadcast_channel_currentinfo",
+    "path": "tests/fixtures/netease/podcast/broadcast_channel_currentinfo.anonymous.json",
+    "querySha256": "61cd31fac6b554df78d96acacc478f6c3855cd7f360bf6b7c1fabc058cbf44ee",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "cd9f8b83cc27f82429cc4964bc810599bd08326ed551d91d5a53b9e7d183e9a1",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "9b822010247a10768e8a31b930fc48e0bbb84b8de4f52314a243b7703825eb77"
+  },
+  {
+    "module": "broadcast_channel_currentinfo",
+    "path": "tests/fixtures/netease/podcast/broadcast_channel_currentinfo.default.json",
+    "querySha256": "61cd31fac6b554df78d96acacc478f6c3855cd7f360bf6b7c1fabc058cbf44ee",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "275822e1f00ce853c6b32db02f57e657820d9b5935897fee7f8523375fed9aaf",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "176dc69269019bbe0d9701cec3d7d661b6f1be3ca66c5d607fa8f00734bf8edd"
+  },
+  {
+    "module": "broadcast_channel_currentinfo",
+    "path": "tests/fixtures/netease/podcast/broadcast_channel_currentinfo.delisted.json",
+    "querySha256": "d45c4c472e77b9a958bbac69e83e0997aad0b88fb2bff90c3b84273abcaf579d",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "47a16b643a336e43be4bbc32f03bc994d7f7ca987ac8cdb802b7cb3f4a2bba8d",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "a3eab954500658abcee25da19db8c0205b1afaa48330f035727d90784848dcc4"
+  },
+  {
+    "module": "broadcast_channel_currentinfo",
+    "path": "tests/fixtures/netease/podcast/broadcast_channel_currentinfo.program.json",
+    "querySha256": "1a95d2ba5e61ae82985601a91726b1fc8476d69e787ca3a1eea4a1e52e4d6bce",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "1522f15cb8f5d835af599d53b56a5566ff448cc83b591f1526cf218d3025ae40",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "9db306c8f156838320831513305d90fefeb5253815040d4aaff509b44bdb2271"
+  },
+  {
+    "module": "broadcast_channel_list",
+    "path": "tests/fixtures/netease/podcast/broadcast_channel_list.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "013facfc4fbe18e340c0255bf1a485d4fa69b1ab61a71fc5c5f5a6fc85f28556",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "b71eb340644c080ad3990e21a7b59d30d5ffdf086ef229553916828f9347de2e"
+  },
+  {
+    "module": "broadcast_channel_list",
+    "path": "tests/fixtures/netease/podcast/broadcast_channel_list.category.json",
+    "querySha256": "58814d75e91ce38231e825ac5b439bae17449179398f819012ceaaa32a792500",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a492080099a715f2b2e5617f9f9893d690e7d68ac710eef126fca769c0dd9f9e",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "c60489cf95acea0213cc9473a5fc03a46587394a4d708eeaeaeb2b42883e5599"
+  },
+  {
+    "module": "broadcast_channel_list",
+    "path": "tests/fixtures/netease/podcast/broadcast_channel_list.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "53c3af690b01db95b88a0aa90ba719ac8e6aa4b0a010313ed8ba9e41b44ee302",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "aebd0434313b897ac1a1a016aee7cde0c6ac8442117a6f39fa0aa54bec3bf441"
+  },
+  {
+    "module": "broadcast_channel_list",
+    "path": "tests/fixtures/netease/podcast/broadcast_channel_list.empty.json",
+    "querySha256": "92b61a9e5dd562f383490e94426c435d27260ada4812452f165eb7ea11777453",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "05e8f3213ab546c4b89b5c20c1441dff8564bddbaa0cf8f5b5abde4b71dd13cc",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "a74494e3c4ffc4b6da7037129076e8408cf4f849c357be0e746438baba780c2c"
+  },
+  {
+    "module": "broadcast_sub",
+    "path": "tests/fixtures/netease/like-collect/broadcast_sub.subscribe-again.json",
+    "querySha256": "5bec6b6f65ec555c0770a26322adfd88a427f4ff991f436247b447311bb3823a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "348ecb3c76a4b41122d9673f9c87810d6e0cd6c0e3bc4d591408bf25277086ce",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "1abca460ba53bbe6612ac4ba6a31b8d41e49d1107b44700d78e387ad5138ab32"
+  },
+  {
+    "module": "broadcast_sub",
+    "path": "tests/fixtures/netease/like-collect/broadcast_sub.subscribe.json",
+    "querySha256": "5bec6b6f65ec555c0770a26322adfd88a427f4ff991f436247b447311bb3823a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "348ecb3c76a4b41122d9673f9c87810d6e0cd6c0e3bc4d591408bf25277086ce",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "97f316bd7356e9e75a427dd2a385582385da3e1babd07bed871d2f26f9a95cea"
+  },
+  {
+    "module": "broadcast_sub",
+    "path": "tests/fixtures/netease/like-collect/broadcast_sub.unsubscribe.json",
+    "querySha256": "91a675cbe037896c155ab48032400d7f34bb43f363501cd01a73aa18cfc3772d",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "348ecb3c76a4b41122d9673f9c87810d6e0cd6c0e3bc4d591408bf25277086ce",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "6e8d914de26f5da85509e9b6adde9e8f9afb9b4b10e95bbb2565ff6d9f563a9e"
+  },
+  {
+    "module": "djRadio_top",
+    "path": "tests/fixtures/netease/dj/djRadio_top.anonymous.json",
+    "querySha256": "cc5fdd74a90952d5ff1f1f00056f68373e6f7728fa05b29eebb4fff46c55e28b",
+    "outcome": "rejected",
+    "status": 302,
+    "bodySha256": "379abc48437f84ef4a122eeae726dd095388d46c5dccf639eeed5a700e071a3e",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "416cc17c6c5e81309cfc8cf55d1f159d3857acc725022af5c605d1d6c3c3281b"
+  },
+  {
+    "module": "djRadio_top",
+    "path": "tests/fixtures/netease/dj/djRadio_top.default.json",
+    "querySha256": "cc5fdd74a90952d5ff1f1f00056f68373e6f7728fa05b29eebb4fff46c55e28b",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "35d579e96326204c863cd60a6c784029403161b73c84f7be48e10b8b6201867e",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "fa962618d2b67b1d81f4b8611edea38558b4586321b1ea44f5a09e0b8db1a4e9"
+  },
+  {
+    "module": "djRadio_top",
+    "path": "tests/fixtures/netease/dj/djRadio_top.invalid-param.json",
+    "querySha256": "4e351626578195210b8392857d27c0fc481dce6e4c4b77e7cd1941a104edc01d",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "d48d4233ae341860de999c3b063bf3579b10e69376d37d65f9af9e263394526a"
+  },
+  {
+    "module": "dj_banner",
+    "path": "tests/fixtures/netease/dj/dj_banner.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4bba97ac4f5fdfb598387a56c614190c875b986bf0a8539882b0f01aebdb6ac3",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "97e0b042a0ef4a82792e47a662ac77d1f7d2ab91599b4649c376071db4683006"
+  },
+  {
+    "module": "dj_category_excludehot",
+    "path": "tests/fixtures/netease/dj/dj_category_excludehot.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f86b080b79bef0571c4f2b07c35d1406038b3a5d85ecb5236729622ef734c280",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "18c97a6890b0ce2e4424f97f98454b3c5b430f50646539cd6a1567ba2459ed5c"
+  },
+  {
+    "module": "dj_category_recommend",
+    "path": "tests/fixtures/netease/dj/dj_category_recommend.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "66d12cfb7b5bfbfd211d264c049b1610044bf02b439980a12d60bceb38580fe4",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "b503764d7d32faeaa7aa235f79915f5bf1b30f9bfedefa7e737ccbaad685f43b"
+  },
+  {
+    "module": "dj_catelist",
+    "path": "tests/fixtures/netease/dj/dj_catelist.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "5d90317d881526d008eb61c7f6df83f50f39e73261a3b22411eed7ec36c2980b",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "9f96c2b2d13543c3cc84cc0ff081b34ecca60c8589ce7bf99fb4f443f7b73e89"
+  },
+  {
+    "module": "dj_detail",
+    "path": "tests/fixtures/netease/dj/dj_detail.default.json",
+    "querySha256": "a114abf24f13df2876fae32307978622aba5c8346f583e08de17f250ecc155e1",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "802c9e48caa86581eb409f466bcf1a6391440b7523f51391981e4dbe8f8dcfc7",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "96466e06cf35e1e06d5472d03c1b19e0ad936d3ced3c49935be04239c9d779d3"
+  },
+  {
+    "module": "dj_detail",
+    "path": "tests/fixtures/netease/dj/dj_detail.missing-param.json",
+    "querySha256": "d0c66743a0329db25da54bbed927c93e5623b9f56b0a5162aa37a0832b211e73",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "cedeb89054612a29f5df958e6be481db9db5b9dd2ad80c3fd6f7f5d2d2ec8092"
+  },
+  {
+    "module": "dj_detail",
+    "path": "tests/fixtures/netease/dj/dj_detail.official.json",
+    "querySha256": "fd6f0f892a1c99dbf58aa2399bbfcba142e91e6e7603183d79096a7f32c91a93",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "be1935a2bab2b276fc5fe07cd5360ca96929a29d67f1c7d9b1e19b0a5e191240",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "cee31eb53e7947db2d85d51957b73315e9151bd69b7958ac4d900504af9c562d"
+  },
+  {
+    "module": "dj_detail",
+    "path": "tests/fixtures/netease/dj/dj_detail.paid.json",
+    "querySha256": "bdf560c73e8f3a8e59c597f731ffb0528b34480cf25f392d97b3a41ca1df6cc0",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "890a84a6ea66bae5ec1bb2d30c1bc7cf66f450475a5ea0d27d8cbbff7c39dcc9",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "fdd7299fb21a7f0fffe8d4258b767bff92351e124c06915699a4d1c74c6ed229"
+  },
+  {
+    "module": "dj_detail",
+    "path": "tests/fixtures/netease/dj/dj_detail.unknown-rid.json",
+    "querySha256": "ae3eb354eb13e0ef6ea9c4284a492d0ea125de803b5fd8513adf544f200613c2",
+    "outcome": "rejected",
+    "status": 404,
+    "bodySha256": "a17b0d30cbf73625e11067f10c57ffa58533ccc8ca2399d2cc09b9c46097c4f2",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "08b62240118bbf46e206dd46bbbe5136364e71f2da21b0300f230cbb15ac6ace"
+  },
+  {
+    "module": "dj_difm_all_style_channel",
+    "path": "tests/fixtures/netease/dj/dj_difm_all_style_channel.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f117544bbbb0cc2ae078fc49f117c4d2194d347d1b6a3c96a10609aaa3b6acbb",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "dec098b86619f8c2ba1be82a840b998a01f6e2d81a2f5acddd21cab6ece12021"
+  },
+  {
+    "module": "dj_difm_all_style_channel",
+    "path": "tests/fixtures/netease/dj/dj_difm_all_style_channel.empty.json",
+    "querySha256": "4e60a0deda7ee9d829904e581ebb31ee4b4a9ae1797281044a27ed0f698a9420",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f78441c8b4c2c62c7759def2d9b7ddd76d33d1ec24def70f83fdd18b3e84ca26",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "51d6c936c6fa933b26b23d3695f86f57c0cbf66a37a226c9c9dbc19c93ae2339"
+  },
+  {
+    "module": "dj_difm_channel_subscribe",
+    "path": "tests/fixtures/netease/dj/dj_difm_channel_subscribe.subscribe-again.json",
+    "querySha256": "f4dabc08567dd6f5ea7f8a644c844f732c6019ad01b4b32fa21b4094ce316e29",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "668d8f60c1f52a5d74105b2cd02eeb0b399399b7c76d878382e7b97b935242da",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "3de4b18306c8a63a3ced0fd14d71e96ea208247270979535f899fd1c019f5c3b"
+  },
+  {
+    "module": "dj_difm_channel_subscribe",
+    "path": "tests/fixtures/netease/dj/dj_difm_channel_subscribe.subscribe.json",
+    "querySha256": "f4dabc08567dd6f5ea7f8a644c844f732c6019ad01b4b32fa21b4094ce316e29",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "668d8f60c1f52a5d74105b2cd02eeb0b399399b7c76d878382e7b97b935242da",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "bff3a96b4b0ae864adac1d684438ecf8f9de84902a99b3ff02a45c5db7707559"
+  },
+  {
+    "module": "dj_difm_channel_unsubscribe",
+    "path": "tests/fixtures/netease/dj/dj_difm_channel_unsubscribe.unsubscribe-again.json",
+    "querySha256": "f4dabc08567dd6f5ea7f8a644c844f732c6019ad01b4b32fa21b4094ce316e29",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "668d8f60c1f52a5d74105b2cd02eeb0b399399b7c76d878382e7b97b935242da",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "d69230f507593c27700a38aa76d78cbac259a35a71b5d89093c3b9fc4637bc0e"
+  },
+  {
+    "module": "dj_difm_channel_unsubscribe",
+    "path": "tests/fixtures/netease/dj/dj_difm_channel_unsubscribe.unsubscribe-final.json",
+    "querySha256": "f4dabc08567dd6f5ea7f8a644c844f732c6019ad01b4b32fa21b4094ce316e29",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "668d8f60c1f52a5d74105b2cd02eeb0b399399b7c76d878382e7b97b935242da",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "edcd1d77e83967d56ec7c1aa986d186c3f80629d92f68f03a236acf57fcf8198"
+  },
+  {
+    "module": "dj_difm_channel_unsubscribe",
+    "path": "tests/fixtures/netease/dj/dj_difm_channel_unsubscribe.unsubscribe.json",
+    "querySha256": "f4dabc08567dd6f5ea7f8a644c844f732c6019ad01b4b32fa21b4094ce316e29",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "668d8f60c1f52a5d74105b2cd02eeb0b399399b7c76d878382e7b97b935242da",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "6ee0b5944f3b5e1e4d5a8705ce51548096165a1abf05ad7a9f591066c08eb1e9"
+  },
+  {
+    "module": "dj_difm_playing_tracks_list",
+    "path": "tests/fixtures/netease/dj/dj_difm_playing_tracks_list.default.json",
+    "querySha256": "7d3ed08275975c67daac0f1d9c206b77d27124db695e0a7bb9157b3d9a2914cf",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "489ef19f11945f35618879cf788a4c212fc23bf059feda9536d0c34a207d2a34",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "dda620b758bd34409f9c4873e0639d01b4936d3ec2c27c9daac2ce853a95df9e"
+  },
+  {
+    "module": "dj_difm_playing_tracks_list",
+    "path": "tests/fixtures/netease/dj/dj_difm_playing_tracks_list.unknown.json",
+    "querySha256": "91a8bd2e394866ddcf9e5a0e37b852e4efa706b10a3ce376a27345e2811e9d83",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "1929b32c5c6e3277b0dc5411b2bba46d3666c8daaa443b9fe6a3f6006e92d68e",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "c95fd72726708147b1a91de417082dd1dd718ddaf35d9edbf16925ada60cdf62"
+  },
+  {
+    "module": "dj_difm_subscribe_channels_get",
+    "path": "tests/fixtures/netease/dj/dj_difm_subscribe_channels_get.empty.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "35d579e96326204c863cd60a6c784029403161b73c84f7be48e10b8b6201867e",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "7ac8e1756f5986b2dae9e73641cbda1f99687edd620da925f7c8dd7a4c3116ed"
+  },
+  {
+    "module": "dj_hot",
+    "path": "tests/fixtures/netease/dj/dj_hot.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "40b0e7c415d03a9b81b673a1501b1fc47f1404d49b2fdd92e1e2a5bb4ea19e93",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "45802d28a0b0695362078649c64dcd2fc5c8cda6bf63449755c1d641f4900c9a"
+  },
+  {
+    "module": "dj_hot",
+    "path": "tests/fixtures/netease/dj/dj_hot.empty.json",
+    "querySha256": "067d91cc9cf8f9b7dec4ef40a65011e4908c901283c3d71cfeb71b51cf7092a2",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "717799d344e064080ffbbc8fcd91c858c4f551b9323126013c5d40586cb9053f",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "f5dc41390b75d1100204a5e75e2a1a66aaa9827dd45fc783ba49d4a3df4188b8"
+  },
+  {
+    "module": "dj_hot",
+    "path": "tests/fixtures/netease/dj/dj_hot.invalid-limit.json",
+    "querySha256": "21858318fc830a7a8649d89b47db6819affee68b976799d323a955a6c5ae1d85",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "8c94b24c6a2155cd3c5bf5fb541a08c7bfcb433780645abadd80366d98177a1e"
+  },
+  {
+    "module": "dj_paygift",
+    "path": "tests/fixtures/netease/dj/dj_paygift.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "5f00726595de4f4a370c40da81f32002c8eea386d399719e96431cba0d7e715c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "e0fe800185afea4c109aa9b8c2d35cc9c60a8cdf3cd9396bc01fa2e72d4a5776"
+  },
+  {
+    "module": "dj_paygift",
+    "path": "tests/fixtures/netease/dj/dj_paygift.empty.json",
+    "querySha256": "067d91cc9cf8f9b7dec4ef40a65011e4908c901283c3d71cfeb71b51cf7092a2",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "054dc89a87df61b1b16828e419edaf20521b02ec8f983a12407e7610a572b375",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "5d7021d7e84a098825e1bc35862bc3f6dc1649db28ef5b1074337351dd6ab1c3"
+  },
+  {
+    "module": "dj_paygift",
+    "path": "tests/fixtures/netease/dj/dj_paygift.invalid-limit.json",
+    "querySha256": "21858318fc830a7a8649d89b47db6819affee68b976799d323a955a6c5ae1d85",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "bdb0c8730d9f1282ff27c050fb6bba3a096bb25aa62c61edec6a2aaff66c66e1"
+  },
+  {
+    "module": "dj_personalize_recommend",
+    "path": "tests/fixtures/netease/dj/dj_personalize_recommend.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ba59a731606d5aa898e994a661df29d21de1e36034d30d02075bdc7d8223aa6c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "66c82bf0ce3d568064f85e9ba4091b944c22d1c00ef58c8c40436b40d37ba3a8"
+  },
+  {
+    "module": "dj_program",
+    "path": "tests/fixtures/netease/dj/dj_program.default.json",
+    "querySha256": "a114abf24f13df2876fae32307978622aba5c8346f583e08de17f250ecc155e1",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "d59f4ebff4ad775cd8e2c0f373d629d5cc036756217f588f17b4d02e7ca55c78",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "0ffa33b05729c656c40f567003e235b7099e8869cd7d6c509c93685539db0854"
+  },
+  {
+    "module": "dj_program",
+    "path": "tests/fixtures/netease/dj/dj_program.empty.json",
+    "querySha256": "ff554ff82e81add009caa52193ea8c0111c50c4ec8b1490e5d7e46a59ecef03b",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "c6e5e3140f21505eca6d5d79e53ab31e8bb5d251a15e857c5620cf643e17108f",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "4081593a3ecde4451faab0badf2f13d6e7241ba81db394f5f733a5fb5cb08575"
+  },
+  {
+    "module": "dj_program",
+    "path": "tests/fixtures/netease/dj/dj_program.missing-rid.json",
+    "querySha256": "d0c66743a0329db25da54bbed927c93e5623b9f56b0a5162aa37a0832b211e73",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "c37ffda33cf7bca0090b7a8eb58cb24919b1beda9315dd6d9afe3ad50563bd2c"
+  },
+  {
+    "module": "dj_program_detail",
+    "path": "tests/fixtures/netease/dj/dj_program_detail.anchors.json",
+    "querySha256": "a28eb479d527944abeea15b8cb79fae12afdb169371d7edfcffe7aa6b0ee3c2a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "3bcfa25aa334bd7aaee5a61e4779c53091805fb16b0cbb737f58cb59afd9e546",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "a7f33e0d234db083be0c8ea8bca7c3e245b863433350f347132a04c3f736c52f"
+  },
+  {
+    "module": "dj_program_detail",
+    "path": "tests/fixtures/netease/dj/dj_program_detail.default.json",
+    "querySha256": "ea30fe9a27ef6252e6177f7001fe76b73553500a356d82299876fbfbb8afcc18",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "708c3e95b4b91e9d7ea5f284f3ec5773dcc47c8c8e072bab3b30e9c9589b6417",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "566c49e7b12e80a07716f53a7695658eb38b450dee3dbefea6abb1c40d3e98b4"
+  },
+  {
+    "module": "dj_program_detail",
+    "path": "tests/fixtures/netease/dj/dj_program_detail.unknown.json",
+    "querySha256": "037c9214eef74cc3887f3a4f085b4e17d76280dafd273b0ee160c09c4ba1cfd4",
+    "outcome": "rejected",
+    "status": 404,
+    "bodySha256": "46a9b43e5bc3f0f96b229541dd7988adbdbe5b3077d18f31c11d3d3aa9e0df01",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "bd43b90b7646c0e02d16e80738e9ce8d964dee735dd143b983aaf331fa9a51da"
+  },
+  {
+    "module": "dj_program_toplist",
+    "path": "tests/fixtures/netease/dj/dj_program_toplist.default.json",
+    "querySha256": "a03c8657a575356de5937110fc9038dafa42d659089628586aa8f8d73924cd16",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "952975753706045b60bab87e86b353ad5107a5632dd439d7bf9eac6dcd19ba6a",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "5b48ba1f271eb75804a1009e8354f8cc180023de7a9057d43d5ed598ff9beba9"
+  },
+  {
+    "module": "dj_program_toplist_hours",
+    "path": "tests/fixtures/netease/dj/dj_program_toplist_hours.default.json",
+    "querySha256": "a7175ed78ef07ac44431637962e4f5f94a66ffd04e15d47f6a1547a155491fc3",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "6f1906eb3d1339f616fce4574cbaf3092af73b553eee670bec3bb1a8c4e4f733",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "d95f7553059f3377df9c23ee9c99672b852943258283d16dd1ba9d3e2ecc751b"
+  },
+  {
+    "module": "dj_radio_hot",
+    "path": "tests/fixtures/netease/dj/dj_radio_hot.default.json",
+    "querySha256": "6431ec32922c4c9ed7f0f132a111708073fe8cca031e3de5b7d9e6a3455f5a1b",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "dea97629c12e67f64557a26b8b839e732b04700db83037dd903d151cb1e5b77d",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "897ac87b377ebb029e827c45f6dd6d6e8b7cc2603f700ec479f53d9a3d9f825b"
+  },
+  {
+    "module": "dj_radio_hot",
+    "path": "tests/fixtures/netease/dj/dj_radio_hot.empty-cate.json",
+    "querySha256": "5b16d4d40db1f8a8805896a00e82aea1860ebc98bca7bfd1ce0eb3848914a4da",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4c7728fce708c5be142635bf454e71053eb4c615948233cc569ce9ac0b5377db",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "8da7de997fc3bdcab6631c44a014d26ed5f4f09f200f709e255c19b6a25b8e21"
+  },
+  {
+    "module": "dj_radio_hot",
+    "path": "tests/fixtures/netease/dj/dj_radio_hot.empty.json",
+    "querySha256": "3ae53482d64f49eaa155514732b60779b8ca6c87b9504f4bd7259c72a7e9d12c",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ae581ed136b4a530548e157826a93b80224f1d1b34b1d698b3cef185ea063707",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "53582059cdfd12ebc01ae1772401371f86cfdee6c728e8333017cabe4c98503f"
+  },
+  {
+    "module": "dj_radio_hot",
+    "path": "tests/fixtures/netease/dj/dj_radio_hot.invalid-limit.json",
+    "querySha256": "bcd9f737539fe63aca51c58600ca14a9b134369c08ed384f9d555289b5d51e67",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "ad3318fde43fe27bab8a957ed5c2a6288d2051e3c26083a4c7fb4b4b93cc679f"
+  },
+  {
+    "module": "dj_radio_hot",
+    "path": "tests/fixtures/netease/dj/dj_radio_hot.missing-param.json",
+    "querySha256": "98a9616ec04bb0d515a02087a5b1ecc7e45df37126e7c7de8edc7a997151ccfe",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "f1ecf2a353559b8fead0e0ce3f681c9b1cf0d42984d9851d03fc55342d463727"
+  },
+  {
+    "module": "dj_recommend",
+    "path": "tests/fixtures/netease/dj/dj_recommend.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "92ed7510386d4bd38a4197a96d66d73367402b0b4f79c85042479d7e7413fa04",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "d48f762702c38eb28805d2c11b2334f3fe722c47ae636368d026e50c590bf518"
+  },
+  {
+    "module": "dj_recommend_type",
+    "path": "tests/fixtures/netease/dj/dj_recommend_type.default.json",
+    "querySha256": "909a40a34e6f466c46f9c8e23b521b9fe8ea228b7b22058c49a3bee3e9c347c4",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "8f53adc2ce807eb5a509f90a540eb5664b314e1eabd96bbcec68ab9e4ab38e07",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "7b0e55afe709e329be6d699cead7acdef58d32ba7db5e04eb49991aa4a5817a6"
+  },
+  {
+    "module": "dj_recommend_type",
+    "path": "tests/fixtures/netease/dj/dj_recommend_type.empty.json",
+    "querySha256": "98e7d33754ad12185377a9897e2a8182677322eed960cd499dd15859717eb8a6",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "717799d344e064080ffbbc8fcd91c858c4f551b9323126013c5d40586cb9053f",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "19adafd0a50bda59f42037f84008fe92da465a9c4eb45a66eb1634272bed2028"
+  },
+  {
+    "module": "dj_recommend_type",
+    "path": "tests/fixtures/netease/dj/dj_recommend_type.missing-param.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "6c255499fa140bd9061606006ecb643317c164aa8abe9ee0a5b3034831d50e0e"
+  },
+  {
+    "module": "dj_sub",
+    "path": "tests/fixtures/netease/like-collect/dj_sub.subscribe-again.json",
+    "querySha256": "1c24854893fa4c7f5fdd85c55c95d3f6dcddc1b4d77d8b185eb93b5db13394b3",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ae64196db7fe3eccb7a320032b6a44caff13bfc21fa264713fba1a5368a7cb6a",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "5dad0104f1bd1ac1ef4bc71de3c2d99bbef27046f3071687220ef254d3a72fcb"
+  },
+  {
+    "module": "dj_sub",
+    "path": "tests/fixtures/netease/like-collect/dj_sub.subscribe.json",
+    "querySha256": "1c24854893fa4c7f5fdd85c55c95d3f6dcddc1b4d77d8b185eb93b5db13394b3",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ae64196db7fe3eccb7a320032b6a44caff13bfc21fa264713fba1a5368a7cb6a",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "33e0b25f84d0f28503375e0341c355b49b23f70e400733368fb674cfd6d5884b"
+  },
+  {
+    "module": "dj_sub",
+    "path": "tests/fixtures/netease/like-collect/dj_sub.unsubscribe.json",
+    "querySha256": "4982b6bc025e688dbcb7047c031cfb8da274236d346d053e1709b2281f3c6bb1",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ae64196db7fe3eccb7a320032b6a44caff13bfc21fa264713fba1a5368a7cb6a",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "e0c656e9aa77d9bdd522377020a91a9edab844ca426945394601753e94f7a94a"
+  },
+  {
+    "module": "dj_sublist",
+    "path": "tests/fixtures/netease/dj/dj_sublist.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "fd8a927c61498b3e052ae75cf202d5fc75e31b50b56331028191554c79c8e2bc",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "b1916072a40b1bd2905a9ba7a145670043ec9e58e526060d326e9bc4d9981c4a"
+  },
+  {
+    "module": "dj_sublist",
+    "path": "tests/fixtures/netease/dj/dj_sublist.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2b109dacbaaaa4abe47882349bac48e1f5489b15415d368827d9e7835e03449a",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "3381ffa2429dacc2ad172375aec87d74483ecb5fda5c7c80a52b8054be187781"
+  },
+  {
+    "module": "dj_sublist",
+    "path": "tests/fixtures/netease/dj/dj_sublist.invalid-limit.json",
+    "querySha256": "21858318fc830a7a8649d89b47db6819affee68b976799d323a955a6c5ae1d85",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "65efe01a1a25e4e0b2dfd67239d22a0261f840bf52fa3cd2447835ad73feafda"
+  },
+  {
+    "module": "dj_subscriber",
+    "path": "tests/fixtures/netease/dj/dj_subscriber.anonymous.json",
+    "querySha256": "f91c359854842d37b0a58c351c199644f908c9b2154a114826cfb0a947dfd6a2",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "08c8289d089fc6605321d3cb63e0589bc396736dc079507700dd018ac6446109",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "51390e58009dda2058f623ad1a7d8485bfb9581005bad2615b8232debc88f6e1"
+  },
+  {
+    "module": "dj_subscriber",
+    "path": "tests/fixtures/netease/dj/dj_subscriber.default.json",
+    "querySha256": "f91c359854842d37b0a58c351c199644f908c9b2154a114826cfb0a947dfd6a2",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "773c5dc119825f19db63d49532a6b8bcc47a53d525fb099d336ef999245f2149",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "1b1de13b5a868024f5f9fda6e5fa7d7c12e135e37479395ecdc02618d7b1ee1a"
+  },
+  {
+    "module": "dj_subscriber",
+    "path": "tests/fixtures/netease/dj/dj_subscriber.empty.json",
+    "querySha256": "29146ad822ab6b1f26a157a4daa166a52025ed0f9b16be41c5398bbe7bb68da6",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "1a41777db10b3504ed662b9c3df6b32d4f4fae9fc4a493b5b2002124b0336259",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "96a0393ac96cb8f36dfd20f3596e8d45894f7fae7ddae9d9a6016c58be3db59b"
+  },
+  {
+    "module": "dj_subscriber",
+    "path": "tests/fixtures/netease/dj/dj_subscriber.missing-id.json",
+    "querySha256": "f6fb08a399edb584a6b2a13569533dd095780f27c93b204eb577944b19cdfff4",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "c3fb91fcf831f02fb8963664691f39d7858c767a57211f356c343fe4976caf25"
+  },
+  {
+    "module": "dj_today_perfered",
+    "path": "tests/fixtures/netease/dj/dj_today_perfered.empty.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "26efcb502ae13ed16c585bff7a930575051ebe08904c5bdd1ab6c12e07fa23eb",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "5c49e33a8f76afc05f330cb11f79f47c627242cc880676f2dc139ab6bc793b71"
+  },
+  {
+    "module": "dj_toplist",
+    "path": "tests/fixtures/netease/dj/dj_toplist.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "b898248a4f125403c43bd3f0cd7a4d2d2eb0fdf39c61ce5202e47aad8a440701",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "04b9e262ede8c9f62531a6453a822932deee09980447a02ccb7b971676fad60b"
+  },
+  {
+    "module": "dj_toplist",
+    "path": "tests/fixtures/netease/dj/dj_toplist.empty.json",
+    "querySha256": "c5905d03f60f0c6f2b7bef11c97f9fb2170f5055d06ea81a8604709955e5c449",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "fc8657f608e066d418e5bc7b4a4210641f8602502a02311ea0a3ba689c7b0c47",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "7e53f1cec9c0b9764325026ec7d7eff760d6966daca8d066298dced495e7a852"
+  },
+  {
+    "module": "dj_toplist",
+    "path": "tests/fixtures/netease/dj/dj_toplist.hot.json",
+    "querySha256": "d651fb16c22c2fe5f3d5751812c88f6ac6bb632c38747baa4bf4b6829f19c2f9",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "15118c890171ca943dfd3936efe7263316f7fc479d25e3c25ffc8d338087c6ed",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "bcd65233d83147a2f84956ffb1dacb4dfb7e3334c2fa427a0f7f6f2ddf00ad37"
+  },
+  {
+    "module": "dj_toplist",
+    "path": "tests/fixtures/netease/dj/dj_toplist.invalid-limit.json",
+    "querySha256": "21858318fc830a7a8649d89b47db6819affee68b976799d323a955a6c5ae1d85",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "b11fa7014b4d61a87d24a0f939fc31781dcbb631b3fa66fe5cda9c44bf1ad63b"
+  },
+  {
+    "module": "dj_toplist",
+    "path": "tests/fixtures/netease/dj/dj_toplist.new.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "013844b2ce81511adc077f0d0ddffd4bb7b6c70033e8f4565ffc2cbe0ff56334",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "9391350062777f4902311ff34f0cd92b627507066a0babe9c62d39f4851a9d7b"
+  },
+  {
+    "module": "dj_toplist_hours",
+    "path": "tests/fixtures/netease/dj/dj_toplist_hours.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "164e651f2190ac5e34f2a8e71148eceebf9e7b349875b24ed1fb7c0ffadd8613",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "c0ef3c56dfe02266caa1e20ec398d368386b90e5d365cfe88177129d1f8e2da6"
+  },
+  {
+    "module": "dj_toplist_hours",
+    "path": "tests/fixtures/netease/dj/dj_toplist_hours.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "164e651f2190ac5e34f2a8e71148eceebf9e7b349875b24ed1fb7c0ffadd8613",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "ca69d1de81899b27fce8e4fa2ccdfcf947c4572c0f83b54ba9a40aa4a1f929c6"
+  },
+  {
+    "module": "dj_toplist_hours",
+    "path": "tests/fixtures/netease/dj/dj_toplist_hours.invalid-limit.json",
+    "querySha256": "21858318fc830a7a8649d89b47db6819affee68b976799d323a955a6c5ae1d85",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "072e37388306f834833672d553c276010ef32ab8ca317ac694c1e64380048c02"
+  },
+  {
+    "module": "dj_toplist_newcomer",
+    "path": "tests/fixtures/netease/dj/dj_toplist_newcomer.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4f680e2cb3c3613ef5d40ddcd70ecec773773d9566da618f58efcef583504a21",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "350fbde8bb888696df032bf609a4dfcf9cb5de76d32942a968eabeffe7bedf08"
+  },
+  {
+    "module": "dj_toplist_newcomer",
+    "path": "tests/fixtures/netease/dj/dj_toplist_newcomer.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4f680e2cb3c3613ef5d40ddcd70ecec773773d9566da618f58efcef583504a21",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "ea4c9cb93f4a277a2c0b47e83c496856073f22a0c3d382749449ffd7dc59fd21"
+  },
+  {
+    "module": "dj_toplist_newcomer",
+    "path": "tests/fixtures/netease/dj/dj_toplist_newcomer.invalid-limit.json",
+    "querySha256": "21858318fc830a7a8649d89b47db6819affee68b976799d323a955a6c5ae1d85",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "1451dcb75c22b7609515e12715947d823376677ed3f930a253f63273b4751172"
+  },
+  {
+    "module": "dj_toplist_pay",
+    "path": "tests/fixtures/netease/dj/dj_toplist_pay.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "01ee123939c73f01796845a4f0fd23296426d31ecf032cc0eda2ab571ac2076e",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "78e8e1f1e7ca646c00e68d7449ce0913d459b29bc9e7524cf03c2c06deeba729"
+  },
+  {
+    "module": "dj_toplist_pay",
+    "path": "tests/fixtures/netease/dj/dj_toplist_pay.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "8e5781234fc4596e56c40d82bebd39c305fcdac656f35b0a38710e1aff2b533b",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "c1a8c975d9de48fbba8e62c76fdb5e7f4cea2a839e339b620b039f50eb069e5a"
+  },
+  {
+    "module": "dj_toplist_pay",
+    "path": "tests/fixtures/netease/dj/dj_toplist_pay.invalid-limit.json",
+    "querySha256": "21858318fc830a7a8649d89b47db6819affee68b976799d323a955a6c5ae1d85",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "ce5efef2233730c8e7f62f3c94020d0730e0ae8dbd8957a953d00666abce0529"
+  },
+  {
+    "module": "dj_toplist_popular",
+    "path": "tests/fixtures/netease/dj/dj_toplist_popular.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "25cbea6131f898087a9fb2a18a5f073de60aa7a4db6b3ecb6da69f9371653285",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "d68c8c189d2ccd3ef04377eb8e4ba9b98f3c0d418c3cdd9e43d3d8f6accc59d9"
+  },
+  {
+    "module": "dj_toplist_popular",
+    "path": "tests/fixtures/netease/dj/dj_toplist_popular.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "8b9cff4e116fd376c618a125ff4d253cb1b0629b03814ef6e307e193a68ac4dc",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "262553d8b1a04ce07564b79c93e118f58952220e1589ca8fa64cd86320cb02f0"
+  },
+  {
+    "module": "dj_toplist_popular",
+    "path": "tests/fixtures/netease/dj/dj_toplist_popular.invalid-limit.json",
+    "querySha256": "21858318fc830a7a8649d89b47db6819affee68b976799d323a955a6c5ae1d85",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "a81dff0585233518da8efc1b8a11834561b5eb5e5ec3c906c5e4707a0546d22e"
+  },
+  {
+    "module": "mlog_music_rcmd",
+    "path": "tests/fixtures/netease/recommend/mlog_music_rcmd.default.json",
+    "querySha256": "822cdee7effc40703d40d7ccfe240862aab3833f669001fba76df295bd81489b",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f37ad31393ee63f69e33d220965b138e92da19ed07afc8d0abc2027ad8573f7d",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "4ea6b0cfe055bc207cebb5ede87f6eb939e7ed63c743de7e37ddf33fbb40c4a6"
+  },
+  {
+    "module": "mlog_music_rcmd",
+    "path": "tests/fixtures/netease/recommend/mlog_music_rcmd.empty.json",
+    "querySha256": "a7c0e912e2bfc99e98974d8f96102015b0244a8de59cef2d210fdd7a3833c29a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "3502cb198786fde2e3b159081e270b7fb249e00fed8b6446c33c9a5d3e6fd3d4",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "295c51789817000ffbb3d409ceaf5e234fd8873ac4b6066d30260b13747f3a60"
+  },
+  {
+    "module": "mlog_to_video",
+    "path": "tests/fixtures/netease/voice/mlog_to_video.default.json",
+    "querySha256": "b9bac55f0e4f8f03b3a77dc710117363937651faab1524cf5278ca77f5960831",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "d75f6c6b7d7dda756bd45d636a0f08effc3ae54f8b373e9d00240912646a6e2a",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "ab66609c325350609a652a427c1d2579a6af3d4e4cd464c0ef17a4755b29c9df"
+  },
+  {
+    "module": "mlog_to_video",
+    "path": "tests/fixtures/netease/voice/mlog_to_video.no-video.json",
+    "querySha256": "8d213b099a17275928df8b28a06780162bb50e8d33ea3023da9aeb4d0f92fb53",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "983b1ceb8fd35e77fac61af7b5aa6cae553c0d24099c9206641a6cc7e84a4ab2",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "271895a311880ec7b11e589d020e96d3f4a078bc41b9c328c5dca6dc07278a8f"
+  },
+  {
+    "module": "mlog_to_video",
+    "path": "tests/fixtures/netease/voice/mlog_to_video.song-share.json",
+    "querySha256": "a7dc56a604afc5acb0bd47c4a0faf68a754ef2643f2ca9a86e40c0a447befbfa",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "6970a9b5b79e90ed5ed9e98f98cd7948b42e30ed38b8109dcddaeab1f0c09a8f",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "5e968d6cd9c42d73315847fda3073cdfb7faf0bc4d0823b271538dd4c36407b0"
+  },
+  {
+    "module": "mlog_url",
+    "path": "tests/fixtures/netease/voice/mlog_url.default.json",
+    "querySha256": "b9bac55f0e4f8f03b3a77dc710117363937651faab1524cf5278ca77f5960831",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "b92a8aa2ac6bea1e7a815cad4736173970041573f23ea9377c22f3f288df82c5",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "144c66d25ba68a93bbb026cd47c0856a59fdd62953df513fb65cac041d4dc684"
+  },
+  {
+    "module": "mlog_url",
+    "path": "tests/fixtures/netease/voice/mlog_url.invalid.json",
+    "querySha256": "8d213b099a17275928df8b28a06780162bb50e8d33ea3023da9aeb4d0f92fb53",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "af084780dcbc64e4ed16c227f47c6227f43353ca397e1ab96fffacd96eae4e69",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "8cf543cc27cc0ff04214d6e7b22ab0f01117b15167d6e5f598013d3b0ed8e1b0"
+  },
+  {
+    "module": "mlog_url",
+    "path": "tests/fixtures/netease/voice/mlog_url.song-share.json",
+    "querySha256": "a7dc56a604afc5acb0bd47c4a0faf68a754ef2643f2ca9a86e40c0a447befbfa",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "deb65bd5bab5c0c3fbf625a109e4d909b350dc3e85acfccf37523a5ddf779ea7",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "e77b977e91e8087cdb428c874b891d119bdf9bbe11185ac99f08eb97a593b907"
+  },
+  {
+    "module": "mv_all",
+    "path": "tests/fixtures/netease/mv/mv_all.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "dfc0507aa465977d24e02fc1211ef96588a9a12af4d1d4125aebd6ce9daac503",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "f1e3e93586caee2f3cfef0eab685a758420dc2c73c58b30f376798ca4be63c07"
+  },
+  {
+    "module": "mv_all",
+    "path": "tests/fixtures/netease/mv/mv_all.page-two.json",
+    "querySha256": "e2b155af72d7391dc06c75f5ed0ec522fa51b759cb51467fbe5f67338449f840",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "707e64d648c9fd572c977eba282f35f4ba39644114bf98804811e6e30e28d97a",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "b8f9d57c0edf7c19a2fb85a047a94d5e989f8ac0d6f96ad421d326bc2cf88833"
+  },
+  {
+    "module": "mv_detail",
+    "path": "tests/fixtures/netease/mv/mv_detail.default.json",
+    "querySha256": "5276834366463336a96f81ebb03577b33ecbb1f0cfdc1cbeb64cddd5a8d32d69",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ef544288d80539007b6ca2c30b4f26cd86330b42eee115dc2d463652319dda29",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "f2026b68823a66196786551e4bbcbb74166126b1bcc1fc17b77e0d47a7f0cf46"
+  },
+  {
+    "module": "mv_detail",
+    "path": "tests/fixtures/netease/mv/mv_detail.null-desc.json",
+    "querySha256": "48e547e133031694497aefc78f41d9f098403603647f8c187223a5208b814135",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "aee7b381c0ce5606fff47f34cb04f65ca821d9670c242524b56b8ae030c39420",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "b4329476defd3b5d87047193e2ce0a07c41984146f0ba384b3d8b92426c394ec"
+  },
+  {
+    "module": "mv_detail_info",
+    "path": "tests/fixtures/netease/mv/mv_detail_info.default.json",
+    "querySha256": "5d876717e7c09d85644f3786708d8dc2b346d13758a1a2177e794e492600ef5b",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "368a577ab214d3f369b8fb6ee2e7a13d6b264551181a14a61229bed2936125c2",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "c56caa145df27e09511b3f5f922ed140d04c47707c851539080189de4d3efdf9"
+  },
+  {
+    "module": "mv_exclusive_rcmd",
+    "path": "tests/fixtures/netease/mv/mv_exclusive_rcmd.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "566f9141f9c93a1ec1a499c1055452427050d56892957d95f6e18305fd6f450c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "eea1b1f49dda601a4d63d66133d185480caffb8d8ea0b8a0695b297e8d9d1b92"
+  },
+  {
+    "module": "mv_exclusive_rcmd",
+    "path": "tests/fixtures/netease/mv/mv_exclusive_rcmd.no-result.json",
+    "querySha256": "3bc8d4ff94045d2bab6cb4be7272766d0267a29e2c178861ef5400a626e51834",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a2d4ec23c8728f04f0431b92b28ba244a3003a30a9b0fbd129b6c2c4b7adcd93",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "0c680a108562cb326b5e1222a02386549dc99ab071758f2cdf3ca3bab4470c3f"
+  },
+  {
+    "module": "mv_first",
+    "path": "tests/fixtures/netease/mv/mv_first.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "d4e3b2069b2b48635d33309678959f0609c0768d5b61a7063c434dec06458b9f",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "f23c528ca505ad5e56fba6d7de9a8a1da801fd5235f6884c996161810b9e33af"
+  },
+  {
+    "module": "mv_first",
+    "path": "tests/fixtures/netease/mv/mv_first.empty-area.json",
+    "querySha256": "f3a1265bf4df498041d5f06493c3e7627646be3dc4b93f8fc5dc825c2889e5c3",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "b135502276a4aa6d653b32189e747694f1bf62edd390989902d60dbfbe5e12d1",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "ada1cd9828cd08eefd21b6e07f3be9554cb24a48ace8af0e2b28ca19fdc468d5"
+  },
+  {
+    "module": "mv_sub",
+    "path": "tests/fixtures/netease/like-collect/mv_sub.subscribe-again.json",
+    "querySha256": "f35848040df1268264aac7dc681f57183b8a9db7b102c21a0e07f2132c6ec71d",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a3758b7a4683d3b30974e157e824507f3c972dc793260b627066a48376b0f0fb",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "b4949e9bd55d26f2335265d7a7e852f54e3302f6785d7ef8b16f2ab7b912071b"
+  },
+  {
+    "module": "mv_sub",
+    "path": "tests/fixtures/netease/like-collect/mv_sub.subscribe.json",
+    "querySha256": "f35848040df1268264aac7dc681f57183b8a9db7b102c21a0e07f2132c6ec71d",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a3758b7a4683d3b30974e157e824507f3c972dc793260b627066a48376b0f0fb",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "bd14b49ffdbb80a68ec28db5479829c95871b0c9587ac6a2a3a0785dc0996462"
+  },
+  {
+    "module": "mv_sub",
+    "path": "tests/fixtures/netease/like-collect/mv_sub.unsubscribe.json",
+    "querySha256": "2f893a2665731e5165912d31b2faa683ee52248b317b60fc3d709cd02bad4980",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "6aacb3ee10792a1954ff46386ba58348964fc9350982e9f16944d5eb7959f621",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "c7e21f500b558a83fba67871d59dbcc9533991782365cb6e3a00c4441a67ff67"
+  },
+  {
+    "module": "mv_sublist",
+    "path": "tests/fixtures/netease/mv/mv_sublist.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "b81e7e7ada59dc077c82ee574035fe828d0869180f1a6467af18ded72e6df748",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "e55cc68d91bff2538520af27d5bce6a9d498412e885c71555509e3d51ce5db4b"
+  },
+  {
+    "module": "mv_sublist",
+    "path": "tests/fixtures/netease/mv/mv_sublist.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "adb6bbd719f27f40877e1020340a2813151c8eaffba080b64105fc3ecea7bdd8",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "50807ed0c749f8f600f06327c4765ac8fec519be0d5259ab0ec0e17f1cac0c46"
+  },
+  {
+    "module": "mv_url",
+    "path": "tests/fixtures/netease/mv/mv_url.720p.json",
+    "querySha256": "e609c8c7d164dcc5ad1dd40af0f180e9f0c2147bc30fb0f29bd7c0ba0e6cffa9",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f913a7ac15fe9a05340094f089b5234554bf71c4814f8ff5335f3aa43b7ba604",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "2255bc3e47c1e8127df5bdb17b4c84e7079ad22372c080784f8bb146ac061875"
+  },
+  {
+    "module": "mv_url",
+    "path": "tests/fixtures/netease/mv/mv_url.default.json",
+    "querySha256": "40e9b5c747de6725abfdc21378782d9fc50431360799e3b16c4c5a6dd7853ecd",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "cbea76e261cffc5bcf4a036b583335980161b67e71bdf44b297152a62d4b8a6b",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "55be976a0b1cf68ae7389900f9c4ca08e01ca32f455b5087c5b3b60e0cdb6f94"
+  },
+  {
+    "module": "mv_url",
+    "path": "tests/fixtures/netease/mv/mv_url.unavailable.json",
+    "querySha256": "f2994aabaaa199982e16b126c4df995776776fe49e6579f807f9039af94b1bac",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f0e16b853e25159457c49667092968bedd8938ebfabaed7bcaf055025df5ac95",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "0cbd0c6c9f91310d549ad4f50fd2ed671bc6bc8ffe5a5c5e2d9a264bfe27751b"
+  },
+  {
+    "module": "program_recommend",
+    "path": "tests/fixtures/netease/dj/program_recommend.default.json",
+    "querySha256": "a03c8657a575356de5937110fc9038dafa42d659089628586aa8f8d73924cd16",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "438b6ac3c0ecec4064291fc8b92548effd0d9b0f5c03ea9c18afedf783e104bf",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "6e3d7518aec2818e25ac44b8ce6f5106fa7539b52d65a36588a003b356baf54d"
+  },
+  {
+    "module": "program_recommend",
+    "path": "tests/fixtures/netease/dj/program_recommend.empty.json",
+    "querySha256": "c693c27bcbd083172a287971863ce8348baf541b82bb7b0381d14b5fc0456bad",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2ca5e9205767da03cbd3159186ab5ef2f63a88bd927be9a250e26183ebeb5853",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "e46a31b406b15451d0b63df05790a8e6b54fdc83dd9477cd23f10c148d398b85"
+  },
+  {
+    "module": "related_allvideo",
+    "path": "tests/fixtures/netease/video/related_allvideo.default.json",
+    "querySha256": "a6134ad6d0b2b952ccbb718b104a414c73d2bcb439d341a71b97e285967aa18e",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "17d23d0db7da15eb43d6534270daf62f55b786837fac25daec2b5d8c9638840b",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "1cfe7fe11a98ee672c301bc72ec7057dfe464e6c974bda4a8bffa7f0ad1b1447"
+  },
+  {
+    "module": "related_allvideo",
+    "path": "tests/fixtures/netease/video/related_allvideo.numeric-id.json",
+    "querySha256": "351c5e16d656155b4ad916086cd9ff050e005ccc57c9fca6a679dbf5b70d6f6e",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "17d23d0db7da15eb43d6534270daf62f55b786837fac25daec2b5d8c9638840b",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "f87a3842ce111196e75a24f161c5cc3d6a7aee5b7a9fac49361f7f0a73757c91"
+  },
+  {
+    "module": "user_audio",
+    "path": "tests/fixtures/netease/voice/user_audio.default.json",
+    "querySha256": "68376f097cea50ae4a7cb016018fb581c7092214d647eac4b2aa5bbbcfb8d0b4",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "932610d28e5449ec491a79a3a627854279235782c7c875c0b96d1b6c32f9b673",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "256136c80e398b2da5593fd35447f8731d4caecb01bb627808cdd7b89975145f"
+  },
+  {
+    "module": "user_audio",
+    "path": "tests/fixtures/netease/voice/user_audio.empty.json",
+    "querySha256": "09b16699a1fa5504c6e1c0458e0809bc8e85a1997e4f4f799c0c70275fc33ac8",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2af068c4301cd594cf9de20a14817bec8915946a321b6350ac96f93bfa4dbaa9",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "d4071f165a48eae6c5d5a16762c87b7a444768c45e2e5ffd7568967baad8b0a3"
+  },
+  {
+    "module": "user_dj",
+    "path": "tests/fixtures/netease/user/user_dj.default.json",
+    "querySha256": "94ac21a2059498d13db9e7d94de7714b53c79c53f94304cea7a6472d01c01e30",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "0cf3a6143d38827b33ef9a05b10a3b9f604c406fb84f00a077fbeb4d515953d2",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "92f7affe507c6349723d316ebc1fe9eb21d8250bab148eb8dc0b69791f8ce32c"
+  },
+  {
+    "module": "user_dj",
+    "path": "tests/fixtures/netease/user/user_dj.empty.json",
+    "querySha256": "1f8517ea31bd2851aa88e29a3857d66a3c618411542fd662f8611ac202c7aadc",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "72600b6a20cc35fc717616d8d387ca7a56c6610832f4736db437e50a67371afb",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "d9a069c9cfd731de16efd1b9d7f6b0c227a7510b11b3da185f62d96c57062dda"
+  },
+  {
+    "module": "video_category_list",
+    "path": "tests/fixtures/netease/video/video_category_list.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a50f3e862453d75adafab55e1044a966d3ba04b7506eefa5db4eaf924a904ffa",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "ef6773c1c06b192131ffaaaeea61ab60f42378cfb51b0edd6a610c8e5e35e4ba"
+  },
+  {
+    "module": "video_detail",
+    "path": "tests/fixtures/netease/video/video_detail.default.json",
+    "querySha256": "a6134ad6d0b2b952ccbb718b104a414c73d2bcb439d341a71b97e285967aa18e",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "8068192b8c71c3a46d73cb6df3f8f36adbfefbaebf619d1495ee14439ec605f7",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "0f9f485f7051f282fbb6b67deadfcd14f85a38bc9a906ed76aa499d30bd1495d"
+  },
+  {
+    "module": "video_detail_info",
+    "path": "tests/fixtures/netease/video/video_detail_info.default.json",
+    "querySha256": "c6abede4a6ac89f842213cd770a20b55cffd4c17bbc55c6e6ac9e65829fcef09",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4d6cbd890b2f245437924810feaf7efcc08f023566358ce4d9ed1fc2d31d5375",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "17b9d4d1571136d4bbc8f9c369647f07426d4e43b50666588dc7f65b8e8a048d"
+  },
+  {
+    "module": "video_group",
+    "path": "tests/fixtures/netease/video/video_group.default.json",
+    "querySha256": "c196b95f0ca2afd4d5523bbb091c4aae3451e1bec648f77e820dbea0f1ceff8d",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "cee6840dd5d799dff28d27aa3237d2a7257a7aceeeaa74ce1567da2029d4ae20",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "2c92c5b35e9ab4b4ca596e04b9da03a8be7036ab8197e217e5144fd4d3a57f69"
+  },
+  {
+    "module": "video_group_list",
+    "path": "tests/fixtures/netease/video/video_group_list.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "d6183116d053a83a6ecc434b90def4cd08ac73302e83e564c215b05385714bb8",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "d25f5d06787c087279d332203055a2263e4a30f51231b91c2eea4560dfa351f1"
+  },
+  {
+    "module": "video_sub",
+    "path": "tests/fixtures/netease/like-collect/video_sub.subscribe-again.json",
+    "querySha256": "51b59c28fd06eb9e2624ab2ed2e852d961637553e939e8b13e317aca06d56645",
+    "outcome": "rejected",
+    "status": 408,
+    "bodySha256": "3d3413936a6be1594a5d99c276c3e9eb6688919d663c36313906d137fdcac72d",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "a47b424b13be4ff574ddaea2195e6e918037f23ac776c973ec09d77b95419b6e"
+  },
+  {
+    "module": "video_sub",
+    "path": "tests/fixtures/netease/like-collect/video_sub.subscribe.json",
+    "querySha256": "51b59c28fd06eb9e2624ab2ed2e852d961637553e939e8b13e317aca06d56645",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a3758b7a4683d3b30974e157e824507f3c972dc793260b627066a48376b0f0fb",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "912ce7dfd6be8b7726e9b370eb9fd490a36163553d1682c3d07ff0eba4e0266e"
+  },
+  {
+    "module": "video_sub",
+    "path": "tests/fixtures/netease/like-collect/video_sub.unsubscribe.json",
+    "querySha256": "68f9cd29aead62c036e2db49d68d033286353a7ce20e90c5803b268bb5d472f0",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "6aacb3ee10792a1954ff46386ba58348964fc9350982e9f16944d5eb7959f621",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "042755e363e8056666812fc99fe82aeb4eee9084938fcbcbc7a370a210f86642"
+  },
+  {
+    "module": "video_timeline_all",
+    "path": "tests/fixtures/netease/video/video_timeline_all.authenticated.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "61cffa7db2be767ae7409582dc642bf65aa2a07ed47f2597cd177a13aa21d496",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "7c815f87920dd0dcc3de66cf4feb1525ddc236139c9a69d689b61220519dae92"
+  },
+  {
+    "module": "video_timeline_all",
+    "path": "tests/fixtures/netease/video/video_timeline_all.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "8978006f7e2aa0ce553bc631cfaf82063a27c657a918e401a234583f3fc7f60f",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "a1052c807b3a8dbbd269161072c173710c07920776b8ded739047a2017efabf4"
+  },
+  {
+    "module": "video_timeline_all",
+    "path": "tests/fixtures/netease/video/video_timeline_all.empty.json",
+    "querySha256": "aac675b19291afd13e9e8f82eb6da7849002943dd054e85b8e95b7bd6416991f",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "9f9a1305f6e6f72d480daf9fad2c6a4f4c661f662884bbc6443c68bce16e9ee0",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "bafbc10f71b4f4e82803e74f256e850485d1add7dbf67de451c2c2e08e7f0ac9"
+  },
+  {
+    "module": "video_timeline_recommend",
+    "path": "tests/fixtures/netease/video/video_timeline_recommend.authenticated.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "966b2704f565a83074d548437b7d3d1e4e376c536eeca4536e8f593dc6ebf1e7",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "4ea76dbdd32e11633bc5f3bc9b52dd2f194f753e5fb418dddf304c43c3d18829"
+  },
+  {
+    "module": "video_timeline_recommend",
+    "path": "tests/fixtures/netease/video/video_timeline_recommend.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "1140ff5ea9109a6251dec3883f47f8397e2ab092cd6ca7eba984c9aebc73c07d",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "8fd6d8e69ac30b9e6b5a74be212f30445d7a22bd2bada3346e156097103eccc4"
+  },
+  {
+    "module": "video_timeline_recommend",
+    "path": "tests/fixtures/netease/video/video_timeline_recommend.empty.json",
+    "querySha256": "2aa03ddff4c7f8d26c8ee0f98568cc976eb1f75225b3120291280217cdc9db12",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "21dd490cc0a83e650986eb5542f1dfa803c9314e9558df3c93085f6187ec4ab2",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "ca6d8dcc409cde4ba4423f9c4447f1de29403b3f042b0fb25e378dfb6f4f5401"
+  },
+  {
+    "module": "video_url",
+    "path": "tests/fixtures/netease/video/video_url.240p.json",
+    "querySha256": "223fdb370a11b8e98031841163b1f2548923a7dcadde3a648647ea15cd3c14fe",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "01452462e55e423849c490ed8f34f740cffb12cf2dc27b25936902bafa7a1a30",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "52444c82a473640c592b5cc6b5f1d5147b973f782883af8bc9bac3ebdf16979d"
+  },
+  {
+    "module": "video_url",
+    "path": "tests/fixtures/netease/video/video_url.480p.json",
+    "querySha256": "3761a834670791732d3f48c6d585969e3001386cde4c6a2c500b25763cdd2eac",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4faaa145d5db48e8d8aade16a2ca821fffed7718486372091f4c5f834f2d8e32",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "a37e52b16a8fb34c7315c98bdd7613cf32bdc14cbd56af8fdc0a9b4c921559a2"
+  },
+  {
+    "module": "video_url",
+    "path": "tests/fixtures/netease/video/video_url.default.json",
+    "querySha256": "a6134ad6d0b2b952ccbb718b104a414c73d2bcb439d341a71b97e285967aa18e",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "fd6d3ee28b50cd8502edaee79cc61a58ff713052dbbf36677284810466144033",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "4d7258ab9b0848ac1f99647ab9f62af142b3eec2f54c8a0ebf5a1da9500de8ae"
+  },
+  {
+    "module": "video_url",
+    "path": "tests/fixtures/netease/video/video_url.empty.json",
+    "querySha256": "cf1730e300a36fc792f997881aef0e859645ac0c771c363791009cc87cfcace7",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "fc7eb79aa6376207b903aabefa0983a51b189cccbf73303927a5b7e6f3ed4a82",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "87f5788dee4cb458452fd9dc45667545bd887c1627612b3686eca83f2c28ec99"
+  },
+  {
+    "module": "voice_detail",
+    "path": "tests/fixtures/netease/voice/voice_detail.other-voice.json",
+    "querySha256": "dbc547e38c8a89d88e476330a1bad0fff1c2b7404f6841690e4106587996ead7",
+    "outcome": "rejected",
+    "status": 401,
+    "bodySha256": "9e1db62880ab26e8c67668f98c5ac0fad44fefab00bb575c89b469081e06d102",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "c00aff439159544bb97382d9ae8d7e25cfcf2e2f28fee64cf95b36f360ea774f"
+  },
+  {
+    "module": "voice_detail",
+    "path": "tests/fixtures/netease/voice/voice_detail.unknown.json",
+    "querySha256": "f0d9dc55adf56c34697a435bff3e62db6d2b6c7714793b4a497c640db382fef7",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "96992c6942a8a355ee133d428e96e3d209867947dce9fa5caf516e3f740fd091",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "b2b6a0bd4cc559b6c3745dc4ace75119eeac45814793263ec300a2a0660d9bbc"
+  },
+  {
+    "module": "voice_lyric",
+    "path": "tests/fixtures/netease/podcast/voice_lyric.anonymous.json",
+    "querySha256": "0970232960f06d651c5d296c5c8995644c259eb1002c737c3be75c3d74196bc2",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "07aacfa27a0eac6747449d11b832a4cb5a62f7218e32cb1ed6d3d38e45253085",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "6a3f6ca2007a1244c94ab858ad5a6a85197f4e44463887ba69225cd0e76488ac"
+  },
+  {
+    "module": "voice_lyric",
+    "path": "tests/fixtures/netease/podcast/voice_lyric.default.json",
+    "querySha256": "0970232960f06d651c5d296c5c8995644c259eb1002c737c3be75c3d74196bc2",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "07aacfa27a0eac6747449d11b832a4cb5a62f7218e32cb1ed6d3d38e45253085",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "0940086984440b7ea25d80d078f40d47af3272a7d60d97727c74721ccc0fe325"
+  },
+  {
+    "module": "voice_lyric",
+    "path": "tests/fixtures/netease/podcast/voice_lyric.unavailable.json",
+    "querySha256": "7cf4eeeceab08859d765c605a9a969667c3b20b9d234698074c7ff0a573a45fd",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "cb1792be95a3cf18487f1088b74fcd4097840ead99381c9132c379e6b6a22f16",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "584ae5d30c5d0f643f00a3d11a7fd3f0c7ec93dd1691dd801fff09c15c7e1bfc"
+  },
+  {
+    "module": "voice_lyric",
+    "path": "tests/fixtures/netease/podcast/voice_lyric.without-lyric.json",
+    "querySha256": "ea30fe9a27ef6252e6177f7001fe76b73553500a356d82299876fbfbb8afcc18",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "3f43d4ddca5f1e9a2fb139c7f6c46169e824cc5c13425309ed5d2951a2aefd4b",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "16a51d0d9977df6cb97e2ce9242ae9166dfbf6ff9bd88398e3dea24dc2ad0027"
+  },
+  {
+    "module": "voicelist_detail",
+    "path": "tests/fixtures/netease/voice/voicelist_detail.missing.json",
+    "querySha256": "9754cd0357e6e2915ba07418e04958b95e9f34c4cd10f98879c0b461c4c66850",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "9572b3f37d3ec0017052fa95951e83578bb072b9f623a3f08275a5eb329dea64",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "024028473e054e217e1702638f4e75909356eab8a611a0159b310cbad4513d41"
+  },
+  {
+    "module": "voicelist_detail",
+    "path": "tests/fixtures/netease/voice/voicelist_detail.other.json",
+    "querySha256": "f91c359854842d37b0a58c351c199644f908c9b2154a114826cfb0a947dfd6a2",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "69302ea0a96968d5580541f512de61020923e88de3a9a446279cfbd035e4207b",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "260d69e47c4079ac0a0fa19257eb04c6b2a22220790f53b08ea783f83651a051"
+  },
+  {
+    "module": "voicelist_list",
+    "path": "tests/fixtures/netease/voice/voicelist_list.missing.json",
+    "querySha256": "57369a2009038250d39ee2855c6b5a729b666107026a51a701da062235f1be7a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "53af657f4a2957d7d566f1cbad0b281bc61951ed8d50996734a331d2433203d8"
+  },
+  {
+    "module": "voicelist_list",
+    "path": "tests/fixtures/netease/voice/voicelist_list.other.json",
+    "querySha256": "58fbfa58f4e2dd15dfefd097b75458bfc28252940b222acb5720bdbcf7697ee2",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "69302ea0a96968d5580541f512de61020923e88de3a9a446279cfbd035e4207b",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "8df41dbe0ccbba4253eb73bc03d9ec229894512380039f9dd4e7f2ade1bd8a89"
+  },
+  {
+    "module": "voicelist_list",
+    "path": "tests/fixtures/netease/voice/voicelist_list.unknown.json",
+    "querySha256": "8a8ca15a6f7967b48e88fbdf4db1e583576ab0e9877d583b1bd53348763c8074",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "9572b3f37d3ec0017052fa95951e83578bb072b9f623a3f08275a5eb329dea64",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "ebbdc0b694b479806f6007d0949278a16d2371fc11646dbec6b6b0b7786a9de8"
+  },
+  {
+    "module": "voicelist_list_search",
+    "path": "tests/fixtures/netease/podcast/voicelist_list_search.anonymous.json",
+    "querySha256": "57369a2009038250d39ee2855c6b5a729b666107026a51a701da062235f1be7a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "303eee4aa8ad68967e9468523a50ce733116ee43d7e5c6095dcf8097a20ff5e9",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "44dc90b48f0e9a5da2f447e10a78f64165c1ca5eb0568f7b9e7d2c3dfd612f31"
+  },
+  {
+    "module": "voicelist_list_search",
+    "path": "tests/fixtures/netease/podcast/voicelist_list_search.default.json",
+    "querySha256": "57369a2009038250d39ee2855c6b5a729b666107026a51a701da062235f1be7a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "303eee4aa8ad68967e9468523a50ce733116ee43d7e5c6095dcf8097a20ff5e9",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "d32452ae3711f41c79353819d227edd892017ba8f0f1103be3f0458cbb161dc6"
+  },
+  {
+    "module": "voicelist_search",
+    "path": "tests/fixtures/netease/podcast/voicelist_search.anonymous.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "303eee4aa8ad68967e9468523a50ce733116ee43d7e5c6095dcf8097a20ff5e9",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "a385e46189fcd0a9b499e12bf85355dfab159cdc7ad3b76c9db491f611ce644a"
+  },
+  {
+    "module": "voicelist_search",
+    "path": "tests/fixtures/netease/podcast/voicelist_search.default.json",
+    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "303eee4aa8ad68967e9468523a50ce733116ee43d7e5c6095dcf8097a20ff5e9",
+    "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
+    "recordingSha256": "0e8ac9af1246c12735c87e49e1ae676e7501a1d074c3712d0a9f5b65b7495d88"
+  }
+]

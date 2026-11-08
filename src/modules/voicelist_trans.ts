@@ -1,10 +1,20 @@
 import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/voice/workbench/radio/program/trans',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const voicelistTrans: ModuleEffect<ModuleInput> = (query, request) =>
   Effect.gen(function* () {
@@ -16,11 +26,7 @@ const voicelistTrans: ModuleEffect<ModuleInput> = (query, request) =>
       position: query.position || '1', // 排序编号
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/voice/workbench/radio/program/trans`,
-        data,
-        createOption(query),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     return toModuleResponse(response);
   });

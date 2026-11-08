@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +11,16 @@ import {
 import { Artist } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'weapiPc',
+    target: '/api/v1/mv/detail',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const MvBitrate = UpstreamObject({
   br: Loose(Schema.Finite),
@@ -75,11 +85,7 @@ const mvDetail: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       id: query.mvid,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/mv/detail`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent('request', moduleActions['request'], data),
     );
     const body = yield* decodeUpstreamBody('mv_detail', ModuleBody, response);
     return { ...toModuleResponse(response), body };

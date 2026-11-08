@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +10,23 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  sub: {
+    profile: 'weapiPc',
+    target: '/api/cloudvideo/video/sub',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  unsub: {
+    profile: 'weapiPc',
+    target: '/api/cloudvideo/video/unsub',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 接口就是为了确认收藏/取消收藏成功：正文顶层的返回码 `code` 收紧；`message` 是附带提示，宽松
 // （`data`、`debugInfo`、`failData` 只见过 `null`，不声明）。
@@ -29,11 +46,7 @@ const videoSub: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
       id: query.id,
     };
     const response = yield* request(
-      buildApiRequestIntent(
-        `/api/cloudvideo/video/${action}`,
-        data,
-        createOption(query, 'weapi'),
-      ),
+      buildActionRequestIntent(action, moduleActions[action], data),
     );
     return {
       ...toModuleResponse(response),
