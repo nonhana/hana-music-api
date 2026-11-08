@@ -121,3 +121,33 @@ debug fetcher故障本来就触发目标原生断言，但还使同文件其他d
 本地8b与预期git-checkout模式源码指纹3c3e10704e843cef82a50b12439beb4e53c0f7366e1c4073115c82e888992e95的差异仍仅CLAUDE.md symlink模式，见 `tooling-source-mode-map.json`。这只是环境模式映射，后续CI必须保存自己的实际值。外部匿名preflight/发布/registry尚待执行，#117仍未完成；按用户明确的提前提交例外，在独立离线复审通过后普通提交推送必要工具修复，再实际重跑原可信流程。
 
 包证据口径：本轮af23784b…安装消费者实际打包并安装的是本机Node26的179d压缩归档；最后一条明确Node24/npm11.5.1的pack才生成8143 canonical。二者完整解压tar逐字节相同，均为3b8f687b…，且8143本身已在首次可信CI实际安装消费通过；不得将af237报告改标成8143安装记录。后续新可信CI还须在当前源码实际安装8143并完成preflight，registry也须下载8143物理包复验。
+
+## 真实匿名 preflight、next 发布与 registry 复验
+
+必要工具修复经最终离线功能双轴和专门风格审查通过，报告为 `functional-review-tooling-final.md`、`style-review-tooling-final.md`。按当次授权生成准备提交 **fc07ee25d3f18163959047f464a19cb6fdbb2bd6**（fix: 按关联文件执行候选发布变异检查），普通推送feature/refactor，读回一致且工作区干净；源内容仍8b81b7e…，没有把原本地testedHead=f243改写成提交后重跑，回执 `tooling-preparation-receipt.json`。
+
+第三次可信工作流 [42518438492](https://github.com/nonhana/hana-music-api/actions/runs/42518438492) **success**，实际checkout=fc07ee2，CI实际source content=3c3e1070…，与本地8b的已记录symlink模式映射完全一致。原始job日志、状态和下载产物分别为 `trusted-workflow-42518438492.log/json`、`trusted-run-42518438492/release-fc07ee25d3f18163959047f464a19cb6fdbb2bd6/`。当前源码实际Node24.22.2/Bun/Chromium消费者安装8143物理包并通过；候选hash guard、全部preflight和发布均实际执行，不能只以job绿色替代registry。
+
+preflight目录为该产物下 `preflight/1794168637017-d71296fa-6b3f-4d6e-9934-4877a17dd95c`，7项exit0：verify（8254/0/0）、verify:sdk（32/0/0）、fixtures、smoke（142/0/0与500次资源归零）、mutation（123有效kill、0invalid/timeout/skip）、实际anonymous live及最后npm pack --dry-run --json --ignore-scripts文件/内容核对。完整源码、同包hash和结束不变检查通过；当前CI所有报告真实HEAD均fc07，未借用f243失败轮次。
+
+真正的匿名报告为 `live/1794170729032-d6b726e2-f5c2-4a9d-853d-168ddc02558f/summary.json`，identityClass=anonymous、region=unknown，**6次真实请求**：匿名注册、搜索、同曲详情、歌词、榜单、歌手，均一次发送、0失败、无账号写入，未超过12次。它绑定8143包，同包Node/Bun消费者也通过。另 `live/1794168883751…` 是默认回归故意验证gate关闭的0请求控制失败，不是这次真实访问，不混入预算或通过数。此前两轮失败CI没有实际匿名请求；本任务合计只执行这一次真实匿名集合。
+
+原Changesets在20:45:43 UTC报告hana-music-api@4.0.0-next.0发布成功，并在CI本地创建git tag；candidate输入create-github-releases=false/push-git-tags=false实际生效，远端候选tag查询为空，见 `remote-candidate-tags.txt`，没有执行Release、合并或部署。发布后首次registry读仍只有latest，复验 `registry-1794170792502/summary.json` 非零保留；直接官方无缓存读取也曾未见版本。随后同一版本已可见，仅重试只读registry核对，**没有重发publish或重复真实live**。不把首次失败改标为通过，也不据此猜测具体缓存/传播机制。
+
+最终registry复验目录 **registry-1794171054882**，summary.json与commands.json记录11条实际命令、原日志和exit0；已通过以下检查：
+
+| 实际操作                                                                                                           | 结果                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| npm view dist-tags及latest版本/integrity，消费者前后各读一次                                                       | next=4.0.0-next.0；latest=3.2.1及原sha512-sOhPN…始终相同                                  |
+| npm view指定4.0.0-next.0版本、dist、gitHead和attestations                                                          | gitHead=fc07ee2，明确public tarball与出处记录                                             |
+| npm pack hana-music-api@4.0.0-next.0 --json --prefer-online                                                        | registry下载713文件的8143物理包，与canonical逐字节相同，SRI=fLHC…                         |
+| curl读取官方registry出处记录                                                                                       | 产物sha512、同条repo/ref+commit、release.yml路径及run42518438492/attempts/1一致           |
+| npm install --prefix隔离消费者 --ignore-scripts --no-audit --no-fund --no-package-lock hana-music-api@4.0.0-next.0 | 从registry实际安装明确版本，不是workspace link                                            |
+| node和bun --import offline-process.mjs运行该隔离消费者                                                             | 根公开调用返回4.0.0-next.0，模块确从隔离node_modules解析，SSR Watchman拒绝环境初始化      |
+| HANA_PACKAGE_SPEC=hana-music-api@4.0.0-next.0 bun run test:sdk-contract                                            | 32 pass、0 fail、0 skip；registry同一8143包的Node/Bun/Chromium/严格正负类型及特殊链路重验 |
+
+registry SDK原生报告为 `.artifacts/testing/sdk/1794171061777-6b5ed0dd-597c-4d64-b244-d1b5c61942e0`；出处原件及解码statement随registry目录保存。复验开始确认本地源码等于已审8b，结束仍不变；source testedHead=fc07，和原本地门禁f243各留实际值。准确证据索引在 `external-final-evidence.json`，最终独立审查仍直接读取各原件。
+
+最终候选安装命令：`npm install hana-music-api@4.0.0-next.0`。canonical与registry SHA-256均8143eb697c100874e2d3dd6cf9e354da9980c3d060d0542568ba10c0be087553，integrity均sha512-fLHCLcSMT28zCStmhOzcAetVRZaPgvKuoxsY34K4TCmRo3YB29d+s6eGrO6I75fky/pcifdlmavZgUODbm3fcQ==。已有当次origin的179d→8143完整tar等价仍有效，因此未新增token调用；origin总网络7/40、同页两次170样本保留。
+
+最终独立外部功能审查的规范轴与需求轴实质验收均PASS，专门风格复审PASS，无未解决阻断项；完整报告为 `functional-review-complete.md`、`style-review-complete.md`，审查者直接核对原始日志和包字节。最终交付记录提交/普通推送、completed关票和唯一Campanula#87用户聊天启动按既有授权顺序接续执行；各动作完成后的实际回执保存于 `closeout.json`及链state，不能把待执行动作提前写成已完成。
