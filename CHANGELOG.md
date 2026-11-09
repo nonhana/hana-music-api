@@ -1,5 +1,64 @@
 # hana-music-api 发布日志
 
+## 4.0.0
+
+### Major Changes
+
+- c71c459: 账号、登录与社交的83个模块使用显式请求动作，保留46个weapi和37个eapi的原协议；最终身份统一为web与iPhone组合，业务输入、响应Schema和Cookie外壳保持。
+
+  普通config的crypto、domain、ua、e_r、acceptGzip、冲突headers与受控身份Cookie不再覆盖这批声明；需要原始协议控制时使用显式低层createRequest，旧公开配置类型与运行时覆盖已统一移除。消息/会话/刷新类读取不再自动重试连接前失败；写入、登录、风控与一起听轮询/心跳不自动重放，不新增共享缓存或合并。SDK仍由调用者显式传递后续会话Cookie，不自动维护登录Cookie jar。
+
+- c71c459: 将77个曲库与播放模块接入显式请求动作：38个保留 weapi、39个保留 eapi 的原协议；最终身份分别使用 web 与 iPhone 组合，业务输入和返回体保持。普通配置的 crypto、domain、ua、e_r、acceptGzip 及受控身份 Cookie 不再覆盖这些模块；需要底层控制时使用 createRequest，低层原始参数合同不变。
+
+  逐分支声明红心/取消、导入任务、sky 音质和动态目标；歌单编辑、云盘匹配/删除及轮询不自动重放，原有读取重试上限保持，不新增共享读取或缓存。默认离线验证只证明迁移和返回合同，不代表真实上游当前可用。
+
+- c71c459: 会员、数字专辑、云贝、音乐人、收听统计、历史、年度、乐谱与batch的50个接口保留迁移前协议，最终身份按统一 web/iPhone 规则生成；普通crypto、domain、ua、e_r、acceptGzip和受控身份Cookie覆盖不再生效。账号会话和执行配置继续按调用传递，需要手动控制协议时使用低层createRequest。
+
+  下单、签到、奖励领取、云贝推歌和batch不自动重放；报告、签到活动信息与收入/支出明细查询保持原有不重试上限，全部不新增缓存或合并。业务输入、响应Schema、Promise与Cookie外壳保持。
+
+- c71c459: 将普通模块配置与显式低层选项分开。普通模块移除 crypto、ua、domain、e_r、acceptGzip、headers 和顶层 deviceId；运行时拒绝这些键（包括 undefined）及未知键，执行配置不能混入业务 query。设备改用 state.deviceId，Cookie 头改用 cookie，需要原始协议和请求头时使用 createRequest，createOption 只服务低层请求。
+
+  全部模块必须声明动作，本地模块保留空声明。删除缺声明 fallback、模块默认协议、URI 语义正则和模块名缓存名单，缓存、重试及上传期限由动作决定。低层保留原始协议、默认目标和凭据外送校验，但不再猜测业务语义或自动重放。保留 #122 身份、checkToken、业务参数、返回体与上传阶段行为。
+
+- c71c459: 准备 4.x 预发布候选：根 SDK 仅支持 Node.js >=24/Bun ESM，浏览器只使用独立的 hana-music-api/watchman。包仅公开根与 Watchman 子路径，普通模块配置与底层请求选项分别使用独立类型。
+
+  迁移说明集中覆盖配置拒绝、调用者保存设备和会话、统一可选 token、协议保持与已批准的身份变化、共享读取和上传多阶段行为。发布使用 next tag，稳定 latest 保持原版本；本地验证不代表候选已发布或真实上游可用。
+
+- c71c459: 所有程序化 SDK 模块统一接受可选 checkToken 字符串或异步 provider，读取和取消也会处理显式配置。provider 按 API 请求分别取值；带 token 调用不缓存、不合并、不自动重试，固定字符串在同一次模块调用中只允许一次 API 请求，多请求请使用 provider。未配置时不取值、不附加；HTTP 通用执行配置仍拒绝 checkToken。
+
+  专辑和歌手收藏/取消固定采用 web 身份：weapi、music.163.com、浏览器 UA、os=web，移除桌面 Cookie 字段并保留会话。旧默认 PC 身份字段及普通覆盖行为因此改变。保留业务输入、Promise 响应和原有业务错误；真实上游兼容需另行验证，不以旧响应录制或离线测试代替。
+
+- c71c459: 播客、广播、MV、视频、声音和声音列表的67个接口保留迁移前协议，最终身份按统一 web/iPhone 规则生成；普通crypto、domain、ua、e_r、acceptGzip和受控身份Cookie覆盖不再生效。账号Cookie与执行配置继续按调用传递，需要显式协议控制时使用低层createRequest。
+
+  时间线、分组视频、个性推荐、今日优选、DIFM播放列表及mlog推荐采用保守的单次请求策略，避免自动重放可能变化的推荐内容；订阅、取消、声音删除和声音排序保持不自动重放，全部不新增缓存或合并。业务输入、响应Schema与Promise返回外壳保持。
+
+- c71c459: 统一每次调用的设备与请求身份。有效的 state.deviceId 优先于旧网易云 Cookie 的 deviceId，其次才用匿名或运行时设备；匿名注册正文与 HTTP Cookie 使用同一设备。调用者继续负责创建设备和保存会话。
+
+  保留各动作协议、目标和业务返回，EAPI 使用已有 iPhone 平台四项，原 weapiPc 浏览器动作改为干净 web 身份，clientlog 的 macOS UA 与 Cookie 对齐。不再为这些请求生成没有依据的 buildver、versioncode、机型和分辨率。普通模块不接受平台字段回流；显式低层 createRequest 原始选项继续保留。真实上游兼容性由父票下游验证单独记录。
+
+- c71c459: 内部自定义模块改用 `request(actionName, args)`，并将 `ModuleEffect` 绑定到本地 `moduleActions`。API 传入 `data` 和可选业务 `headers`，动态 API 另传 `path`；固定 plain 传原始 `query`，动态 plain 传受限 `target` 和原始 `body`。删除 `RequestIntent` 和两个 intent builder，不自动兼容旧签名。
+
+  服务与动态程序装配删除 `requestHandler`。测试完整调用链时改为注入 `fetcher`，模块组合测试仍可直接提供 fake capability。旧 JavaScript 装配对象只要带有 `requestHandler`，包括继承字段、值为 undefined 或不可枚举的情况，都会明确拒绝，且不读取 getter。
+
+  公开根 SDK 的调用形状、Promise 和 status/body/cookie 保持；普通配置仍在复制前拒绝旧键与未知键。API 业务数据在等待 token 前取得自有快照，上传保持原字节、阶段顺序及部分完成结果。
+
+- c71c459: 搜索、推荐与发现的55个模块改用显式请求动作，保留39个weapi和16个eapi的原协议；最终身份分别采用web与iPhone组合。search_suggest的mobile/web目标及top_list的本地拒绝保持，业务输入和返回体不变。
+
+  普通配置的crypto、domain、ua、e_r、acceptGzip、冲突headers及受控Cookie身份字段不再覆盖这批模块的声明。需要原始协议控制时使用显式低层createRequest；旧公开配置类型与运行时覆盖已统一移除。私人FM、私人DJ和首页刷新不再自动重试连接前失败，避免连续推荐操作重放；不新增缓存、合并或其他重试资格。
+
+- c71c459: 将 search、lyric、songDetail、playlistDetail 迁入操作声明，分别固定协议、目标和客户端身份。搜索、歌词、歌单详情保持 eapi，歌曲详情保持 weapi 并使用完整 web 身份。普通调用的 crypto、domain、ua、e_r、acceptGzip 不再覆盖这些声明；需要低层协议控制时改用 createRequest。保留四模块的请求合并、可选缓存、身份隔离、独立取消和总期限，其他模块不会只因声明 read 就获得共享读取或更宽重试。
+- c71c459: 上传、多请求、特殊域名和本地模块全部声明请求动作。普通模块配置不能再覆盖这些动作的协议、域名、UA、身份 Cookie、e_r 或 acceptGzip；需要自行控制请求时使用低层 createRequest。
+
+  保持业务输入、原协议、Promise 和 status/body/cookie，客户端平台按统一身份规则生成。上传的 plain 阶段继续发送原始字节，不携带网易云会话或 checkToken；多请求保留顺序、总期限、部分完成和失败停止规则。playlist_tracks 仅在原业务码 512 时发一次既有的第二请求。
+
+  audioMatch 和 relatedPlaylist 改为不自动重试。它们的动态 query 曾参与旧 URI 判定，部分合法字符串原本只发送一次；使用保守的单次策略，避免迁移后扩大这些输入的重试上限。其他成功请求内容与原协议保持。
+
+### Minor Changes
+
+- c71c459: 新增独立的 `hana-music-api/watchman` 浏览器入口，加载官方 Watchman，页面复用初始化，每次调用现取 token。支持业务参数、CSP nonce 和有界超时，初始化失败后可主动重试；保留根 SDK 的 Node/Bun 与 SSR 导入边界。
+
+  浏览器实现独立使用完整 DOM 类型，类型检查与声明构建按运行环境分开；公开子路径声明同时兼容完整 DOM 和无 DOM/Node 类型的消费者。
+
 ## 4.0.0-next.0
 
 ### Major Changes
