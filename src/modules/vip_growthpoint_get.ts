@@ -1,23 +1,31 @@
 import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
-const vipGrowthpointGet: ModuleEffect<ModuleInput> = (query, request) =>
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/vipnewcenter/app/level/task/reward/get',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const vipGrowthpointGet: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       taskIds: query.ids,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/vipnewcenter/app/level/task/reward/get`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 

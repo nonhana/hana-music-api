@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'bun:test';
 
 import * as errors from '../../../src/core/errors.ts';
+import type { RawRequestInput } from '../../../src/core/request.ts';
 import type {
   ModuleResponse,
   NcmApiResponse,
-  RequestIntent,
   UnknownJson,
 } from '../../../src/types/index.ts';
 import type {
@@ -129,18 +129,17 @@ describe('Effect core contracts', () => {
     expect(typedResponse.body.local).toBe('value');
   });
 
-  test('request intents express the plain protocol and byte response without endpoint fields', () => {
-    const intent: RequestIntent = {
+  test('raw inputs express the plain protocol and byte response without endpoint fields', () => {
+    const request: RawRequestInput = {
       target: 'https://music.163.com/test',
       protocol: 'plain',
       method: 'POST',
       headers: { 'content-type': 'application/octet-stream' },
       body: new Uint8Array([1, 2]),
       response: 'bytes',
-      semantic: 'upload',
     };
-    expect(intent.body).toEqual(new Uint8Array([1, 2]));
-    expect(intent.response).toBe('bytes');
+    expect(request.body).toEqual(new Uint8Array([1, 2]));
+    expect(request.response).toBe('bytes');
   });
 
   test('legacy envelopes retain dynamic records while new JSON contracts exclude non-JSON values', () => {

@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +9,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/content/activity/listen/data/today/song/play/rank',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const TodaySong = UpstreamObject({
   aliasName: Loose(Schema.String),
@@ -41,18 +50,13 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const listenDataTodaySong: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const listenDataTodaySong: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (_query, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/content/activity/listen/data/today/song/play/rank`,
-        {},
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', { data: {} });
     const body = yield* decodeUpstreamBody(
       'listen_data_today_song',
       ModuleBody,

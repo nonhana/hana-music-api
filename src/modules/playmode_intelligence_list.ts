@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -31,10 +30,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playmodeIntelligenceList: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  read: {
+    target: '/api/playmode/intelligence/list',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const playmodeIntelligenceList: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       songId: query.id,
@@ -43,13 +53,7 @@ const playmodeIntelligenceList: ModuleEffect<ModuleInput, ModuleBody> = (
       startMusicId: query.sid || query.id,
       count: query.count || 1,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playmode/intelligence/list`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
       'playmode_intelligence_list',
       ModuleBody,

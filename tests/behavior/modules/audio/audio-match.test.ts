@@ -1,24 +1,30 @@
+// cspell:words shazam
 import { expect, test } from 'bun:test';
 
 import { Effect } from 'effect';
 
 import audioMatch from '../../../../src/modules/audio_match.ts';
-import type { RequestIntent } from '../../../../src/types/index.ts';
 import { runEffect } from '../../../_kit/it.ts';
+import type { RecordedAction } from '../../../_kit/module.ts';
 import { executeModule, response } from '../../../_kit/upload.ts';
 
 test('audio matching emits a plain read intent and preserves arbitrary data', async () => {
-  const intents: Array<RequestIntent> = [];
+  const intents: Array<RecordedAction> = [];
   const data = {
     result: [{ song: { id: 123, album: { name: 'Album' } } }],
     future: [null, true],
   };
   const result = await runEffect(
-    executeModule(audioMatch, { audioFP: 'fp&value', duration: 3 }, (intent) =>
-      Effect.sync(() => {
-        intents.push(intent);
-        return response({ code: 200, data, message: '' });
-      }),
+    executeModule(
+      audioMatch,
+      { audioFP: 'fp&value', duration: 3 },
+      (action, args) => {
+        const intent = { action, args };
+        return Effect.sync(() => {
+          intents.push(intent);
+          return response({ code: 200, data, message: '' });
+        });
+      },
     ),
   );
   expect(result).toEqual({
@@ -28,13 +34,11 @@ test('audio matching emits a plain read intent and preserves arbitrary data', as
   });
   expect(intents).toEqual([
     {
-      target:
-        'https://interface.music.163.com/api/music/audio/match?sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=3&rawdata=fp%26value&times=1&decrypt=1',
-      protocol: 'plain',
-      method: 'GET',
-      headers: {},
-      response: 'json',
-      semantic: 'read',
+      action: 'match',
+      args: {
+        query:
+          'sessionId=0123456789abcdef&algorithmCode=shazam_v2&duration=3&rawdata=fp%26value&times=1&decrypt=1',
+      },
     },
   ]);
 });

@@ -19,7 +19,7 @@ import {
 } from '../../_kit/live.ts';
 import type { UpstreamExpectation } from '../../_kit/upstream/scenario.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
-import { readWebBody } from '../../_kit/upstream/wire.ts';
+import { readEapiBody, readWebBody } from '../../_kit/upstream/wire.ts';
 
 test('explicit live invocation requires the exact gate before reading credentials', async () => {
   for (const gate of [undefined, '', '0', 'true']) {
@@ -52,6 +52,18 @@ const entry = (
   url: `https://${path.startsWith('weapi/') ? 'music.163.com' : 'interface.music.163.com'}/${path}`,
   method: 'POST',
   times,
+  ...(path === 'weapi/w/nuser/account/get'
+    ? {
+        check: (wire) => {
+          expect(readWebBody(wire.body)).toMatchObject({
+            csrf_token: '',
+            e_r: false,
+          });
+          expect(wire.headers.get('cookie')).toContain('os=web');
+          expect(wire.headers.get('user-agent')).toContain('Chrome/124');
+        },
+      }
+    : {}),
   response: () => Response.json(body),
 });
 
@@ -78,8 +90,8 @@ const writeControl = async (
 };
 
 const initial = () => [
-  entry('api/w/nuser/account/get', account()),
-  entry('api/v6/playlist/detail', {
+  entry('weapi/w/nuser/account/get', account()),
+  entry('eapi/v6/playlist/detail', {
     code: 200,
     playlist: {
       id: 99,
@@ -91,7 +103,7 @@ const initial = () => [
 ];
 const page = (ids: Array<number>, more = false, times = 1) =>
   entry(
-    'api/user/playlist',
+    'weapi/user/playlist',
     { code: 200, playlist: ids.map((id) => ({ id })), more },
     times,
   );
@@ -137,11 +149,11 @@ test('credentials require one source, current identity, fresh token and this run
 
 test('loginStatus.data identity mismatch fails and prevents subsequent business requests', async () => {
   await withScenario(
-    [entry('api/w/nuser/account/get', account(18))],
+    [entry('weapi/w/nuser/account/get', account(18))],
     async ({ fetcher, sent }) => {
       const session = createLiveSession(
         await readLiveOptions(credentials),
-        (config) => createControlClient({ ...config, fetcher, crypto: 'api' }),
+        (config) => createControlClient({ ...config, fetcher }),
       );
       await assert.rejects(session.account(), /live failed/);
       await assert.rejects(session.catalog(), /stopped/);
@@ -167,9 +179,16 @@ test('anonymous budget counts initialization, is shared across files and blocks 
               { headers: { 'Set-Cookie': 'MUSIC_A=control; Path=/' } },
             ),
         },
-        entry('api/toplist', { code: 200, list: [{ id: 3 }] }, 6),
+        {
+          ...entry('eapi/toplist', { code: 200, list: [{ id: 3 }] }, 6),
+          check: (wire) =>
+            expect(readEapiBody(wire.body)).toMatchObject({
+              path: '/api/toplist',
+              data: { e_r: false, header: { os: 'iPhone OS' } },
+            }),
+        },
         entry(
-          'api/artist/head/info/get',
+          'eapi/artist/head/info/get',
           { code: 200, data: { artist: { id: 6452 } } },
           5,
         ),
@@ -177,8 +196,7 @@ test('anonymous budget counts initialization, is shared across files and blocks 
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           await readLiveOptions({ LIVE_UPSTREAM: '1' }),
-          (config) =>
-            createControlClient({ ...config, fetcher, crypto: 'api' }),
+          (config) => createControlClient({ ...config, fetcher }),
         );
         for (let repeat = 0; repeat < 5; repeat++) await session.catalog();
         await assert.rejects(session.catalog(), /live failed/);
@@ -198,23 +216,30 @@ test('anonymous budget counts initialization, is shared across files and blocks 
 test('anonymous search, detail and lyric use the derived ID and catalog uses the expected artist', async () => {
   await withScenario(
     [
-      entry('api/search/get', { code: 200, result: { songs: [{ id: 7 }] } }),
+      entry('eapi/search/get', { code: 200, result: { songs: [{ id: 7 }] } }),
       {
-        ...entry('api/v3/song/detail', {
+        ...entry('weapi/v3/song/detail', {
           code: 200,
           songs: [{ id: 7 }],
           privileges: [{ id: 7 }],
         }),
         check: (wire) =>
-          expect(new URLSearchParams(wire.body).get('c')).toBe('[{"id":7}]'),
+          expect(readWebBody(wire.body)).toMatchObject({ c: '[{"id":7}]' }),
       },
       {
-        ...entry('api/song/lyric', { code: 200, lrc: { lyric: 'control' } }),
+        ...entry('eapi/song/lyric', { code: 200, lrc: { lyric: 'control' } }),
         check: (wire) =>
-          expect(new URLSearchParams(wire.body).get('id')).toBe('7'),
+          expect(readEapiBody(wire.body).data).toMatchObject({ id: 7 }),
       },
-      entry('api/toplist', { code: 200, list: [{ id: 1 }] }),
-      entry('api/artist/head/info/get', {
+      {
+        ...entry('eapi/toplist', { code: 200, list: [{ id: 1 }] }),
+        check: (wire) =>
+          expect(readEapiBody(wire.body)).toMatchObject({
+            path: '/api/toplist',
+            data: { e_r: false, header: { os: 'iPhone OS' } },
+          }),
+      },
+      entry('eapi/artist/head/info/get', {
         code: 200,
         data: { artist: { id: 6452 } },
       }),
@@ -226,7 +251,7 @@ test('anonymous search, detail and lyric use the derived ID and catalog uses the
           createControlClient({
             ...config,
             cookie: 'MUSIC_A=control',
-            crypto: 'api',
+
             fetcher,
           }),
       );
@@ -266,8 +291,7 @@ test('write cycle sends each write once, forwards the fresh token only on subscr
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {
             pauses.push(1);
           },
@@ -291,8 +315,7 @@ test('incomplete initial pagination stops after five pages and sends no write', 
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);
@@ -316,8 +339,7 @@ test('failed confirmation stops business after two reads and uses reserved one-c
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);
@@ -348,8 +370,7 @@ test('ambiguous subscribe failure performs authorized cleanup and unconfirmed re
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);
@@ -376,8 +397,7 @@ test('failed cancel is never repeated and cleanup remains within its six-request
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);
@@ -446,7 +466,7 @@ test('explicit live command without gate exits nonzero with no package preparati
 test('writes refuse an owned or already collected target before any write', async () =>
   writeControl(async (options) => {
     for (const own of [true, false]) {
-      const detail = entry('api/v6/playlist/detail', {
+      const detail = entry('eapi/v6/playlist/detail', {
         code: 200,
         playlist: {
           id: 99,
@@ -457,15 +477,14 @@ test('writes refuse an owned or already collected target before any write', asyn
       });
       await withScenario(
         [
-          entry('api/w/nuser/account/get', account()),
+          entry('weapi/w/nuser/account/get', account()),
           detail,
           ...(own ? [] : [page([99])]),
         ],
         async ({ fetcher, sent }) => {
           const session = createLiveSession(
             options,
-            (config) =>
-              createControlClient({ ...config, crypto: 'api', fetcher }),
+            (config) => createControlClient({ ...config, fetcher }),
             async () => {},
           );
           await assert.rejects(session.playlistCycle(), /live failed/);
@@ -481,12 +500,11 @@ test('writes refuse an owned or already collected target before any write', asyn
 test('write business budget stops at thirty attempts without consuming the restoration reserve', async () =>
   writeControl(async (options) => {
     await withScenario(
-      [entry('api/w/nuser/account/get', account(), 30)],
+      [entry('weapi/w/nuser/account/get', account(), 30)],
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         for (let repeat = 0; repeat < 30; repeat++) await session.account();
@@ -513,8 +531,7 @@ test('ambiguous write cleanup uses at most one cancel and five confirmation page
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);
@@ -531,8 +548,8 @@ test('unknown creator identity stops before any collection read or write', async
   writeControl(async (options) => {
     await withScenario(
       [
-        entry('api/w/nuser/account/get', account()),
-        entry('api/v6/playlist/detail', {
+        entry('weapi/w/nuser/account/get', account()),
+        entry('eapi/v6/playlist/detail', {
           code: 200,
           playlist: { id: 99, trackIds: [], creator: {}, subscribed: false },
         }),
@@ -540,8 +557,7 @@ test('unknown creator identity stops before any collection read or write', async
       async ({ fetcher, sent }) => {
         const session = createLiveSession(
           options,
-          (config) =>
-            createControlClient({ ...config, crypto: 'api', fetcher }),
+          (config) => createControlClient({ ...config, fetcher }),
           async () => {},
         );
         await assert.rejects(session.playlistCycle(), /live failed/);

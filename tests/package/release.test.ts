@@ -11,6 +11,8 @@ import {
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 
+import { chromium } from 'playwright';
+
 import { findForbiddenArtifactSymbols } from '../_kit/artifacts.ts';
 import { projectRoot } from '../_kit/assertions.ts';
 import { fingerprint, writeEvidence } from '../_kit/evidence.ts';
@@ -55,21 +57,26 @@ const FORBIDDEN_ROOT_EXPORTS = [
   'loadProgrammaticApi',
   'NeteaseCloudMusicApi',
 ];
-const EXPECTED_EXPORT_PATHS = ['.'];
+const EXPECTED_EXPORT_PATHS = ['.', './watchman'];
 
 describe('sdk release contract', () => {
   beforeAll(ensureBuiltArtifacts, 60_000);
-  test('should expose only the root package entrypoint as the public ESM boundary', () => {
+  test('should expose the root and isolated watchman package entrypoints', () => {
     const exportMap = sdkPackage.exports ?? {};
 
     expect(sdkPackage.name).toBe('hana-music-api');
     expect(sdkPackage.private).toBe(false);
     expect(sdkPackage.type).toBe('module');
     expect(sdkPackage.sideEffects).toBe(false);
+    expect(sdkPackage.engines).toEqual({ node: '>=24' });
     expect(Object.keys(exportMap).toSorted()).toEqual(EXPECTED_EXPORT_PATHS);
     expect(exportMap['.']).toEqual({
       types: './dist/index.d.ts',
       default: './dist/index.js',
+    });
+    expect(exportMap['./watchman']).toEqual({
+      types: './dist/watchman.d.ts',
+      default: './dist/watchman.js',
     });
   });
 
@@ -125,6 +132,7 @@ describe('sdk release contract', () => {
     const packCommand = [
       'npm',
       'pack',
+      ...(process.env.HANA_PACKAGE_SPEC ? [process.env.HANA_PACKAGE_SPEC] : []),
       '--json',
       '--pack-destination',
       packageDirectory,
@@ -139,18 +147,24 @@ describe('sdk release contract', () => {
     const packEntries = Array.isArray(packOutput)
       ? packOutput
       : Object.values(packOutput);
-    const [{ filename, files = [] } = { filename: '', files: [] }] =
+    const [{ filename, integrity, files = [] } = { filename: '', files: [] }] =
       packEntries;
     const filePaths = files.map((file) => file.path);
 
     expect(filename.length).toBeGreaterThan(0);
     expect(filePaths).toContain('dist/index.d.ts');
     expect(filePaths).toContain('dist/index.js');
+    expect(filePaths).toContain('dist/watchman.js');
+    expect(filePaths).toContain('dist/watchman.d.ts');
+    expect(filePaths.some((file) => file.endsWith('/tool.min.js'))).toBe(false);
     expect(filePaths.some((file) => file.startsWith('docs/'))).toBe(false);
     expect(filePaths.some((file) => file.startsWith('src/server/'))).toBe(
       false,
     );
     expect(filePaths.some((file) => file.startsWith('src/demo/'))).toBe(false);
+    expect(
+      filePaths.filter((file) => !file.startsWith('dist/')).toSorted(),
+    ).toEqual(['LICENSE', 'README.md', 'package.json']);
 
     const consumerDirectory = mkdtempSync(
       join(tmpdir(), 'hana-music-api-sdk-consumer-'),
@@ -163,6 +177,15 @@ describe('sdk release contract', () => {
       status: number;
     }> = [];
     let consumerExit = 1;
+    let browserEvidence: unknown;
+    const libraryPlayback: Array<unknown> = [];
+    const accountSocial: Array<unknown> = [];
+    const podcastVideo: Array<unknown> = [];
+    const membershipBusiness: Array<unknown> = [];
+    const requestIdentity: Array<unknown> = [];
+    const moduleConfig: Array<unknown> = [];
+    const specialChains: Array<unknown> = [];
+    const searchDiscovery: Array<unknown> = [];
 
     try {
       writeFileSync(
@@ -183,17 +206,243 @@ describe('sdk release contract', () => {
         consumerDirectory,
       );
       expect(installResult.exitCode).toBe(0);
+      for (const path of filePaths) {
+        expect(
+          readFileSync(
+            resolve(consumerDirectory, 'node_modules/hana-music-api', path),
+          ),
+          path,
+        ).toEqual(readFileSync(resolve(projectRoot, path)));
+      }
+      expect(integrity).toBe(
+        `sha512-${createHash('sha512').update(readFileSync(tarballPath)).digest('base64')}`,
+      );
       expect(
         await findForbiddenArtifactSymbols(
           resolve(consumerDirectory, 'node_modules/hana-music-api/dist'),
         ),
       ).toEqual([]);
 
+      const importScript = resolve(consumerDirectory, 'watchman-import.mjs');
+      writeFileSync(
+        importScript,
+        `
+        import { strict as assert } from 'node:assert';
+        for (const name of ['window', 'document']) Object.defineProperty(globalThis, name, {
+          configurable: true, get() { throw new Error('DOM accessed at import'); }
+        });
+        const root = await import('hana-music-api');
+        const { initializeWatchman, WatchmanError } = await import('hana-music-api/watchman');
+        assert.equal(root.initializeWatchman, undefined);
+        for (const name of ['window', 'document']) delete globalThis[name];
+        await assert.rejects(initializeWatchman(), error => error instanceof WatchmanError && error.code === 'environment');
+      `,
+      );
+      for (const runtime of ['node', 'bun']) {
+        const imported = run(
+          [runtime, '--import', OFFLINE_PROCESS_PATH, importScript],
+          consumerDirectory,
+        );
+        expect(imported.exitCode, imported.stderr).toBe(0);
+      }
+
+      const browserEntry = resolve(consumerDirectory, 'browser-entry.mjs');
+      writeFileSync(
+        browserEntry,
+        "import { initializeWatchman } from 'hana-music-api/watchman'; globalThis.initializeWatchman = initializeWatchman;",
+      );
+      const browserBuild = await Bun.build({
+        entrypoints: [browserEntry],
+        target: 'browser',
+        format: 'esm',
+        metafile: true,
+      });
+      expect(browserBuild.success).toBe(true);
+      expect(browserBuild.metafile).toBeDefined();
+      const browserInputs = Object.keys(browserBuild.metafile!.inputs);
+      expect(
+        browserInputs.some((path) =>
+          /(?:node:|\/effect\/|\/hono\/|\/src\/core\/)/.test(path),
+        ),
+      ).toBe(false);
+      expect(
+        Object.values(browserBuild.metafile!.inputs)
+          .flatMap((entry) => entry.imports)
+          .filter((entry) => entry.external),
+      ).toEqual([]);
+      writeFileSync(
+        resolve(packageDirectory, 'browser-metafile.json'),
+        JSON.stringify(browserBuild.metafile, null, 2),
+      );
+      const browserSource = await browserBuild.outputs[0]!.text();
+      const browser = await chromium.launch();
+      try {
+        const context = await browser.newContext({ serviceWorkers: 'block' });
+        const unexpected: Array<string> = [];
+        let scriptLoads = 0;
+        await context.route('**/*', async (route) => {
+          const url = route.request().url();
+          if (url === 'http://127.0.0.1:31808/') {
+            await route.fulfill({
+              contentType: 'text/html',
+              headers: {
+                'Content-Security-Policy':
+                  "default-src 'none'; script-src 'nonce-watchman-nonce'; connect-src 'none'",
+              },
+              body: '<script nonce="watchman-nonce" type="module" src="/browser.js"></script>',
+            });
+          } else if (url === 'http://127.0.0.1:31808/browser.js') {
+            await route.fulfill({
+              contentType: 'text/javascript',
+              body: browserSource,
+            });
+          } else if (url === 'https://acstatic-dun.126.net/tool.min.js') {
+            scriptLoads++;
+            await route.fulfill({
+              contentType: 'text/javascript',
+              body: `
+              let calls = 0;
+              window.initWatchman = options => options.onload({ getToken(key, callback) {
+                if (key !== 'bd5d2f973ef74cd2a61325a412ae54d9') throw new Error('wrong business key');
+                callback('package-token-' + ++calls);
+              }});
+            `,
+            });
+          } else {
+            unexpected.push(url);
+            await route.abort();
+          }
+        });
+        const page = await context.newPage();
+        const pageErrors: Array<string> = [];
+        page.on('pageerror', (error) => pageErrors.push(error.message));
+        await page.goto('http://127.0.0.1:31808/');
+        await page.waitForFunction('Boolean(window.initializeWatchman)');
+        const result = await page.evaluate(`(async () => {
+          const client = await window.initializeWatchman({ nonce: 'watchman-nonce', timeoutMs: 1000 });
+          const first = await client.getToken();
+          const second = await client.getToken();
+          return { first, second, nonce: [...document.scripts].find(script => script.src.endsWith('/tool.min.js')).nonce };
+        })()`);
+        expect(result).toEqual({
+          first: 'package-token-1',
+          second: 'package-token-2',
+          nonce: 'watchman-nonce',
+        });
+        expect(scriptLoads).toBe(1);
+        expect(unexpected).toEqual([]);
+        expect(pageErrors).toEqual([]);
+        browserEvidence = {
+          version: browser.version(),
+          scriptLoads,
+          nonce: 'watchman-nonce',
+          inputs: browserInputs,
+        };
+        await context.close();
+      } finally {
+        await browser.close();
+      }
+
+      const watchmanTypeSource = `
+        import { initializeWatchman, WatchmanError, type WatchmanClient, type WatchmanOptions, type WatchmanErrorCode } from 'hana-music-api/watchman';
+        const options: WatchmanOptions = { productNumber: 'example', protocol: 'https', nonce: 'nonce', businessKey: 'key', timeoutMs: 1000, tokenTimeoutMs: 1000 };
+        const pending: Promise<WatchmanClient> = initializeWatchman(options);
+        const token: Promise<string> = pending.then(client => client.getToken());
+        const code: WatchmanErrorCode = new WatchmanError('environment').code;
+        void token; void code;
+        // @ts-expect-error Only http and https are initialization protocols.
+        initializeWatchman({ protocol: 'ftp' });
+        // @ts-expect-error The nonce must be a string.
+        initializeWatchman({ nonce: 7 });
+        // @ts-expect-error Device metadata is not an initialization option.
+        initializeWatchman({ deviceId: 'device' });
+        // @ts-expect-error The callback API stays behind the Promise facade.
+        pending.then(client => client.getToken('key', () => {}));
+        // @ts-expect-error Device metadata is not public.
+        pending.then(client => client.WM_DID);
+      `;
+      writeFileSync(
+        resolve(consumerDirectory, 'watchman-types.ts'),
+        watchmanTypeSource +
+          `
+          // @ts-expect-error The public declaration must not introduce DOM document globals.
+          void document;
+          // @ts-expect-error The public declaration must not introduce DOM window globals.
+          void window;
+        `,
+      );
+      const watchmanTypes = run(
+        [
+          'node',
+          TSC_CLI_PATH,
+          '--noEmit',
+          '--strict',
+          '--skipLibCheck',
+          'false',
+          '--target',
+          'ES2022',
+          '--lib',
+          'ES2022',
+          '--types',
+          '',
+          '--module',
+          'NodeNext',
+          '--moduleResolution',
+          'NodeNext',
+          'watchman-types.ts',
+        ],
+        consumerDirectory,
+      );
+      expect(
+        watchmanTypes.exitCode,
+        watchmanTypes.stdout + watchmanTypes.stderr,
+      ).toBe(0);
+
+      writeFileSync(
+        resolve(consumerDirectory, 'watchman-browser-types.ts'),
+        watchmanTypeSource +
+          `
+          const script: HTMLScriptElement = document.createElement('script');
+          const browserClient: Promise<WatchmanClient> = initializeWatchman({ nonce: script.nonce });
+          void browserClient;
+          // @ts-expect-error Browser consumers must not acquire Bun globals.
+          void Bun.version;
+          // @ts-expect-error Browser consumers must not acquire Node globals.
+          void process.pid;
+        `,
+      );
+      const browserTypes = run(
+        [
+          'node',
+          TSC_CLI_PATH,
+          '--noEmit',
+          '--strict',
+          '--skipLibCheck',
+          'false',
+          '--target',
+          'ES2022',
+          '--lib',
+          'ES2022,DOM,DOM.Iterable',
+          '--types',
+          '',
+          '--module',
+          'NodeNext',
+          '--moduleResolution',
+          'NodeNext',
+          'watchman-browser-types.ts',
+        ],
+        consumerDirectory,
+      );
+      expect(
+        browserTypes.exitCode,
+        browserTypes.stdout + browserTypes.stderr,
+      ).toBe(0);
+
       const smokeScriptPath = resolve(consumerDirectory, 'smoke.mjs');
       writeFileSync(
         smokeScriptPath,
         [
-          "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody, SongDetailBody, createHanaMusicApi, generateDeviceId, playlistSubscribe, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody, SongDetailBody, createHanaMusicApi, generateDeviceId, playlistSubscribe, albumSub, artistSub, invokeModule, search, songUrl } from 'hana-music-api'",
           "import { deepStrictEqual } from 'node:assert'",
           '',
           `const recordedArtistAlbum = ${JSON.stringify(artistAlbum.response.body)}`,
@@ -208,7 +457,7 @@ describe('sdk release contract', () => {
           'const requests = []',
           'const fetcher = async (input, init) => {',
           '  requests.push({ url: input instanceof Request ? input.url : String(input), method: init?.method, headers: new Headers(init?.headers) })',
-          '  return new Response(JSON.stringify({ code: 200, result: { songs: [] }, data: [] }), {',
+          '  return new Response(JSON.stringify({ code: 200, result: { songs: [] }, data: [], lrc: { lyric: "sample" }, songs: [], privileges: [], playlist: { id: 7, trackIds: [] } }), {',
           "    headers: { 'content-type': 'application/json' },",
           '  })',
           '}',
@@ -219,7 +468,7 @@ describe('sdk release contract', () => {
           "if (typeof songUrl !== 'function') throw new Error('missing root songUrl export')",
           'const deviceId = generateDeviceId()',
           "if (!/^[0-9A-F]{52}$/.test(deviceId)) throw new Error('invalid generated device ID')",
-          "const config = { deviceId, fetcher, cookie: { MUSIC_A: 'consumer-test-token' } }",
+          "const config = { state: { deviceId }, fetcher, cookie: { MUSIC_A: 'consumer-test-token' } }",
           'const client = createHanaMusicApi(config)',
           "const clientSearchResult = await client.search({ keywords: 'demo' })",
           "const rawSearchResult = await search({ keywords: 'demo' }, config)",
@@ -227,10 +476,25 @@ describe('sdk release contract', () => {
           "if (clientSearchResult.status !== 200) throw new Error('client search call failed')",
           "if (rawSearchResult.status !== 200) throw new Error('raw search call failed')",
           "if (invokedSearchResult.status !== 200) throw new Error('invokeModule search call failed')",
+          "for (const entry of requests) if (entry.url !== 'https://interface.music.163.com/eapi/search/get' || entry.method !== 'POST') throw new Error('packaged search action failed')",
+          'await client.lyric({ id: 7 })',
+          'await client.songDetail({ ids: 7 })',
+          'await client.playlistDetail({ id: 7 })',
+          "deepStrictEqual(requests.slice(3).map((entry) => entry.url), ['https://interface.music.163.com/eapi/song/lyric', 'https://music.163.com/weapi/v3/song/detail', 'https://interface.music.163.com/eapi/v6/playlist/detail'])",
+          "if (!requests[4].headers.get('cookie').includes('os=web')) throw new Error('packaged song detail profile failed')",
           "const subscription = await playlistSubscribe({ id: 17, t: 1 }, { ...config, cookie: 'MUSIC_U=package-listener; os=iphone', checkToken: 'package-token' })",
           'const write = requests.at(-1)',
           "if (subscription.status !== 200 || write.url !== 'https://music.163.com/weapi/playlist/subscribe' || write.method !== 'POST' || write.headers.get('X-antiCheatToken') !== 'package-token' || !write.headers.get('cookie').includes('os=web') || !write.headers.get('cookie').includes('MUSIC_U=package-listener')) throw new Error('packaged playlist contract failed')",
-          "if (requests.length !== 4) throw new Error('unexpected packaged sends')",
+          'let tokenProviders = 0',
+          'for (const [call, route] of [[albumSub, "album"], [artistSub, "artist"]]) {',
+          '  for (const t of [1, 0]) for (const mode of ["none", "string", "provider"]) {',
+          '    const token = mode === "none" ? undefined : mode === "string" ? "package-collection" : async () => { tokenProviders++; return "package-collection" }',
+          '    const result = await call({ id: 17, t }, { ...config, checkToken: token })',
+          '    const entry = requests.at(-1)',
+          '    if (result.status !== 200 || entry.url !== `https://music.163.com/weapi/${route}/${t === 1 ? "sub" : "unsub"}` || entry.method !== "POST" || entry.headers.get("X-antiCheatToken") !== (mode === "none" ? null : "package-collection") || !entry.headers.get("cookie").includes("os=web") || entry.headers.get("cookie").includes("appver=")) throw new Error("packaged collection action failed")',
+          '  }',
+          '}',
+          'if (requests.length !== 19 || tokenProviders !== 4) throw new Error("unexpected packaged collection sends or providers")',
           "process.stdout.write(JSON.stringify({ runtime: typeof Bun === 'undefined' ? 'node' : 'bun', version: typeof Bun === 'undefined' ? process.versions.node : Bun.version, status: subscription.status }))",
         ].join('\n'),
       );
@@ -248,6 +512,295 @@ describe('sdk release contract', () => {
         };
         expect(output.runtime).toBe(runtime);
         runtimes.push({ ...output, exitCode: smokeResult.exitCode });
+      }
+
+      writeFileSync(
+        resolve(consumerDirectory, 'library-playback.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/library-playback.mjs'),
+        ),
+      );
+      writeFileSync(
+        resolve(consumerDirectory, 'library-playback.json'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/requests/library-playback.json'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'library-playback.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 366,
+          providers: 122,
+          cases: 122,
+          modules: 77,
+        });
+        libraryPlayback.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
+      writeFileSync(
+        resolve(consumerDirectory, 'search-discovery.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/search-discovery.mjs'),
+        ),
+      );
+      writeFileSync(
+        resolve(consumerDirectory, 'search-discovery.json'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/requests/search-discovery.json'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'search-discovery.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 432,
+          providers: 144,
+          cases: 144,
+          modules: 55,
+        });
+        searchDiscovery.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
+      writeFileSync(
+        resolve(consumerDirectory, 'account-social.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/account-social.mjs'),
+        ),
+      );
+      writeFileSync(
+        resolve(consumerDirectory, 'account-social.json'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/requests/account-social.json'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'account-social.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 801,
+          providers: 267,
+          cases: 267,
+          modules: 83,
+        });
+        accountSocial.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
+      writeFileSync(
+        resolve(consumerDirectory, 'podcast-video.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/podcast-video.mjs'),
+        ),
+      );
+      writeFileSync(
+        resolve(consumerDirectory, 'podcast-video.json'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/requests/podcast-video.json'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'podcast-video.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 1110,
+          providers: 370,
+          cases: 370,
+          modules: 67,
+        });
+        podcastVideo.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
+      writeFileSync(
+        resolve(consumerDirectory, 'membership-business.mjs'),
+        readFileSync(
+          resolve(
+            projectRoot,
+            'tests/fixtures/consumers/membership-business.mjs',
+          ),
+        ),
+      );
+      writeFileSync(
+        resolve(consumerDirectory, 'membership-business.json'),
+        readFileSync(
+          resolve(
+            projectRoot,
+            'tests/fixtures/requests/membership-business.json',
+          ),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'membership-business.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 720,
+          providers: 240,
+          cases: 240,
+          modules: 50,
+        });
+        membershipBusiness.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
+      writeFileSync(
+        resolve(consumerDirectory, 'request-identity.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/request-identity.mjs'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'request-identity.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 24,
+          entries: 3,
+          levels: 2,
+          devices: 4,
+        });
+        requestIdentity.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
+      writeFileSync(
+        resolve(consumerDirectory, 'module-config.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/module-config.mjs'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'module-config.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          removedKeys: 7,
+          rejectedCalls: 42,
+          rejectedConstructors: 14,
+          nonEnumerableRejections: 42,
+          queryRejections: 7,
+          requests: 3,
+          rawRequests: 1,
+          providers: 0,
+        });
+        moduleConfig.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
+      writeFileSync(
+        resolve(consumerDirectory, 'special-chains.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/special-chains.mjs'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'special-chains.mjs'),
+          sdkPackage.version!,
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 21,
+          providers: 6,
+          scenarios: 3,
+          localProviders: 0,
+        });
+        specialChains.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
       }
 
       const negativeImportScriptPath = resolve(
@@ -284,8 +837,12 @@ describe('sdk release contract', () => {
       writeFileSync(
         typesFixturePath,
         [
-          "import { createHanaMusicApi, generateDeviceId, likelist, lyricNew, songDetail as getSongDetail, songUrl, songUrlV1, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type CloudsearchBody, type LikelistBody, type LyricNewBody, type SearchSuggestBody, type SongDetailBody, type SongUrlV1Body, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
+          "import { createHanaMusicApi, generateDeviceId, invokeModule, likelist, lyricNew, songDetail as getSongDetail, songUrl, songUrlV1, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type CloudsearchBody, type LikelistBody, type LyricNewBody, type SearchSuggestBody, type SongDetailBody, type SongUrlV1Body, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
           '',
+          "import { createRequest, type CreateRequestOptions } from 'hana-music-api'",
+          "const rawOptions: CreateRequestOptions = { crypto: 'api', ua: 'raw', headers: { 'X-Raw': 'value' }, e_r: false, acceptGzip: true }",
+          "const rawCall = () => createRequest('/api/probe', {}, rawOptions)",
+          'void rawCall',
           '// @ts-expect-error The internal client assembly is not a root export.',
           "import { createClientFromContext } from 'hana-music-api'",
           '// @ts-expect-error Internal dependencies are not public configuration.',
@@ -293,10 +850,37 @@ describe('sdk release contract', () => {
           'void createClientFromContext',
           'const config: CreateHanaMusicApiConfig = {',
           "  cookie: 'MUSIC_U=consumer',",
-          '  deviceId: generateDeviceId(),',
+          '  state: { deviceId: generateDeviceId() },',
           '}',
           '',
+          '// @ts-expect-error Ordinary module config cannot select crypto.',
+          "createHanaMusicApi({ crypto: 'api' })",
+          '// @ts-expect-error Device identity moved into state.',
+          "createHanaMusicApi({ deviceId: 'old' })",
+          '// @ts-expect-error Arbitrary headers belong to the raw API.',
+          'createHanaMusicApi({ headers: {} })',
+          'const clientDefaults: CreateHanaMusicApiConfig = { cache: { enabled: true }, identityPool: { size: 2 } }',
+          'void clientDefaults',
           'const api = createHanaMusicApi(config)',
+          'const tokenProvider = async () => "fresh-token"',
+          'const tokenClient = createHanaMusicApi({ checkToken: tokenProvider })',
+          'const tokenCalls = () => Promise.all([',
+          '  tokenClient.albumSub({ id: 1, t: 1 }, { checkToken: "token" }),',
+          '  tokenClient.artistSub({ id: 1, t: 0 }, { checkToken: tokenProvider }),',
+          '  invokeModule("search", { keywords: "token" }, { checkToken: tokenProvider }),',
+          '  tokenClient.albumSub({ id: 1, t: 0 }),',
+          '])',
+          'void tokenCalls',
+          '// @ts-expect-error Token providers must return Promise<string>.',
+          'api.artistSub({ id: 1, t: 1 }, { checkToken: async () => 42 })',
+          '// @ts-expect-error Tokens do not accept booleans.',
+          'api.search({ keywords: "invalid" }, { checkToken: true })',
+          '// @ts-expect-error Tokens belong in config rather than query.',
+          'api.albumSub({ id: 1, t: 1, checkToken: "query-token" })',
+          '// @ts-expect-error Client cache configuration cannot be a module query.',
+          'api.innerVersion({ cache: {} })',
+          '// @ts-expect-error Client identity pool configuration cannot be a module query.',
+          'api.innerVersion({ identityPool: { size: 2 } })',
           "const resultPromise: Promise<ModuleResponseOf<'song_url'>> = api.songUrl({ id: '1,2' })",
           "const rawResultPromise: Promise<ModuleResponseOf<'song_url'>> = songUrl({ id: '1,2' }, config)",
           'void resultPromise',
@@ -438,10 +1022,21 @@ describe('sdk release contract', () => {
           artifacts: { tarball: tarballPath },
           details: {
             phase: 'consumer-validation',
+            packageSpec: process.env.HANA_PACKAGE_SPEC ?? 'local',
+            integrity,
             tarballSha256: createHash('sha256')
               .update(readFileSync(tarballPath))
               .digest('hex'),
             runtimes,
+            libraryPlayback,
+            searchDiscovery,
+            accountSocial,
+            podcastVideo,
+            membershipBusiness,
+            requestIdentity,
+            moduleConfig,
+            specialChains,
+            browser: browserEvidence,
             files: filePaths.map((path) => ({
               path,
               sha256: createHash('sha256')
@@ -455,7 +1050,7 @@ describe('sdk release contract', () => {
       );
       rmSync(consumerDirectory, { force: true, recursive: true });
     }
-  }, 30_000);
+  }, 60_000);
 
   test('should load and answer first calls from a single-file serverless bundle without touching the filesystem', async () => {
     // 云函数打包会把 SDK 和依赖合成单个文件，周围既没有 package.json，也不保证能读写临时目录。
@@ -470,8 +1065,14 @@ describe('sdk release contract', () => {
         naming: 'function.mjs',
         outdir: functionDirectory,
         target: 'node',
+        metafile: true,
       });
       expect(bundle.success).toBe(true);
+      expect(
+        Object.keys(bundle.metafile!.inputs).some((path) =>
+          /watchman|\/browser\//.test(path),
+        ),
+      ).toBe(false);
 
       const coldStart = run(
         [
@@ -503,8 +1104,10 @@ const readPackageJson = (): PackageJsonLike =>
 
 const sdkPackage = readPackageJson();
 
-const ensureBuiltArtifacts = (): void => {
+const ensureBuiltArtifacts = async (): Promise<void> => {
+  const before = await fingerprint(projectRoot);
   const buildResult = run(['bun', 'run', 'build'], projectRoot);
+  expect(await fingerprint(projectRoot)).toEqual(before);
   expect(buildResult.exitCode, buildResult.stderr).toBe(0);
 };
 
@@ -527,9 +1130,11 @@ const run = (cmd: Array<string>, cwd: string) => {
 type PackEntry = {
   files?: Array<{ path: string }>;
   filename: string;
+  integrity?: string;
 };
 
 type PackageJsonLike = {
+  engines?: Record<string, string>;
   exports?: Record<string, unknown>;
   name?: string;
   private?: boolean;

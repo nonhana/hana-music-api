@@ -1,4 +1,6 @@
+import { rejectRemovedRequestHandler } from '../core/options.ts';
 import { setRuntimeState } from '../core/runtime.ts';
+import type { CreateServerRuntimeOptions } from '../server/create-server.ts';
 import { createServer } from '../server/create-server.ts';
 import type { GenerateConfigOptions } from '../types/index.ts';
 import type { StartedServer, StartServerOptions } from '../types/server.ts';
@@ -33,7 +35,12 @@ const resolveStartServerOptions = (
 
 export const startServer = async (
   options: StartServerOptions = {},
+  runtimeOptions: Omit<
+    CreateServerRuntimeOptions,
+    'allowDebugApiRequests'
+  > = {},
 ): Promise<StartedServer> => {
+  rejectRemovedRequestHandler(options);
   const resolvedOptions = resolveStartServerOptions(options);
   if (
     resolvedOptions.debugApiRequests &&
@@ -48,7 +55,7 @@ export const startServer = async (
       connectionIp: (request) =>
         servers.get(request)?.requestIP(request)?.address,
     },
-    { allowDebugApiRequests: true },
+    { ...runtimeOptions, allowDebugApiRequests: true },
   );
   const server = Bun.serve({
     fetch: (request, currentServer) => {

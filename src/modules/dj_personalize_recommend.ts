@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 import { ProgramDj } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/djradio/personalize/rcmd',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 电台个性推荐的条目是电台记录：编号自己的 `id` 收紧，主播复用节目的 `ProgramDj`。
 const Radio = UpstreamObject({
@@ -70,20 +79,17 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const djPersonalizeRecommend: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const djPersonalizeRecommend: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/djradio/personalize/rcmd`,
-        {
-          limit: query.limit || 6,
-        },
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', {
+      data: {
+        limit: query.limit || 6,
+      },
+    });
     const body = yield* decodeUpstreamBody(
       'dj_personalize_recommend',
       ModuleBody,

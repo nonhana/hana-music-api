@@ -8,11 +8,9 @@ import { resolveIdentitySnapshot } from '../../../../src/core/identity.ts';
 import { getRuntimeState } from '../../../../src/core/runtime.ts';
 import scrobble from '../../../../src/modules/scrobble.ts';
 import type { ModuleInput } from '../../../../src/modules/scrobble.ts';
-import type {
-  RequestCapability,
-  RequestIntent,
-} from '../../../../src/types/index.ts';
+import type { RequestCapability } from '../../../../src/types/index.ts';
 import { provideService, runEffect } from '../../../_kit/it.ts';
+import type { RecordedAction } from '../../../_kit/module.ts';
 
 const response = {
   body: { code: 200, data: 'success' },
@@ -22,21 +20,22 @@ const response = {
 };
 
 const call: CallShape = {
-  config: {},
+  actions: {},
   identity: resolveIdentitySnapshot({}, getRuntimeState()),
   identifier: 'scrobble',
   input: {},
   policy: { read: false, upload: false },
-  startedAt: Date.now(),
 };
 
 const captureRequests = () => {
-  const intents: Array<RequestIntent> = [];
-  const request: RequestCapability = (intent) =>
-    Effect.sync(() => {
+  const intents: Array<RecordedAction> = [];
+  const request: RequestCapability = (action, args) => {
+    const intent = { action, args };
+    return Effect.sync(() => {
       intents.push(intent);
       return response;
     });
+  };
   return { intents, request };
 };
 
@@ -57,24 +56,10 @@ test('scrobble submits startplay and play logs with the selected source', async 
   );
 
   expect(intents).toHaveLength(2);
-  expect(intents.map(({ target, protocol }) => ({ target, protocol }))).toEqual(
-    [
-      { protocol: 'eapi', target: '/api/feedback/weblog' },
-      { protocol: 'eapi', target: '/api/feedback/weblog' },
-    ],
-  );
-  expect(intents[0]).toMatchObject({
-    cookieOverrides: {
-      appver: '3.1.10.5100',
-      channel: 'netease',
-      os: 'osx',
-      osver: '15.5',
-    },
-    domain: 'https://clientlog.music.163.com',
-  });
+  expect(intents.map((intent) => intent.action)).toEqual(['start', 'play']);
 
-  const startplay = JSON.parse(JSON.parse(String(intents[0]?.body)).logs)[0];
-  const play = JSON.parse(JSON.parse(String(intents[1]?.body)).logs)[0];
+  const startplay = JSON.parse(String(intents[0]?.args.data?.logs))[0];
+  const play = JSON.parse(String(intents[1]?.args.data?.logs))[0];
   expect(startplay).toEqual({
     action: 'startplay',
     json: {
@@ -108,6 +93,6 @@ test('scrobble keeps list as the default source', async () => {
 
   await runScrobble({ id: 22712179, sourceid: 323232, time: 241 }, request);
 
-  const play = JSON.parse(JSON.parse(String(intents[1]?.body)).logs)[0];
+  const play = JSON.parse(String(intents[1]?.args.data?.logs))[0];
   expect(play.json.source).toBe('list');
 });

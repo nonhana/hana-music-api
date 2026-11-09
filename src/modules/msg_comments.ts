@@ -1,8 +1,7 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -12,6 +11,16 @@ import {
 import { CommentRecord, CommentUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: { prefix: '/api/v1/user/comments/' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 评论和回复里的用户记录在 `CommentUser` 之外还带 `experts`（字符串到字符串的对象）。
 const ReceivedCommentUser = UpstreamObject({
@@ -45,7 +54,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const msgComments: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const msgComments: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.uid !== undefined &&
@@ -64,13 +77,10 @@ const msgComments: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       total: 'true',
       uid: query.uid,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/user/comments/${String(query.uid)}`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/v1/user/comments/${String(query.uid)}`,
+    });
     const body = yield* decodeUpstreamBody(
       'msg_comments',
       ModuleBody,

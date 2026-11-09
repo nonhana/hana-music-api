@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 import { MultiTerminalInfo, Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/play-record/song/list',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const RecentSongRecord = UpstreamObject({
   resourceId: Schema.String,
@@ -38,21 +47,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const recordRecentSong: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const recordRecentSong: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 100,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/play-record/song/list`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'record_recent_song',
       ModuleBody,

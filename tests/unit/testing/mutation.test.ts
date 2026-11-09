@@ -5,7 +5,9 @@ import {
   mkdtemp,
   readFile,
   rm,
+  stat,
   symlink,
+  utimes,
   writeFile,
 } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -17,6 +19,12 @@ import { fingerprint } from '../../_kit/evidence.ts';
 const fixture = async (mode: string, work: (root: string) => Promise<void>) => {
   const root = await mkdtemp(resolve(tmpdir(), 'hana-mutation-control-'));
   try {
+    const title =
+      mode === 'regex-title'
+        ? 'detects mutation (value[0])? $'
+        : mode === 'timeout-title'
+          ? 'detects mutation after a timed out operation'
+          : 'detects mutation';
     await mkdir(resolve(root, 'tests/mutation/targets'), { recursive: true });
     await mkdir(resolve(root, 'tests/behavior'), { recursive: true });
     await symlink(
@@ -32,7 +40,24 @@ const fixture = async (mode: string, work: (root: string) => Promise<void>) => {
           : mode === 'timeout'
             ? { find: 'hang = false', replace: 'hang = true' }
             : { find: 'value = 1', replace: 'value = 2' };
-    const files = {
+    const controls: Record<string, string> = {
+      'fresh-copy':
+        "import { test, expect } from 'bun:test'; import { readFile, stat } from 'node:fs/promises'; import { value } from '../../product.ts'; test('detects mutation', async () => { const file = new URL('../../stale-recording.json', import.meta.url); expect((await stat(file)).mtimeMs).toBeGreaterThan(Date.now() - 60_000); expect(JSON.parse(await readFile(file, 'utf8')).payload).toBe('x'.repeat(144000)); expect(value).toBe(1); });\n",
+      'skipped-associated':
+        "import { test, expect } from 'bun:test'; import { value } from '../../product.ts'; test.skipIf(value > 1)('detects mutation', () => expect(value).toBe(1));\n",
+      'regex-title': `import { describe, test, expect } from 'bun:test'; import { value } from '../../product.ts'; describe('outer (suite)?', () => describe('inner[context]', () => { test(${JSON.stringify(title)}, () => expect(value).toBe(1)); test(${JSON.stringify('prefix ' + title)}, () => expect(value).toBe(1)); }));\n`,
+      'omitted-associated':
+        "import { test, expect } from 'bun:test'; import { value } from '../../product.ts'; test('detects mutation', () => expect(value).toBe(1)); test(value === 1 ? 'secondary assertion' : 'renamed assertion', () => expect(value).toBe(1));\n",
+      'non-assertion-error':
+        "import { test, expect } from 'bun:test'; import { value } from '../../product.ts'; test('detects mutation', () => { if(value > 1) throw new Error('Unexpected mock setup'); expect(value).toBe(1); });\n",
+    };
+    const expectedFailures =
+      mode === 'empty-associated'
+        ? []
+        : mode === 'omitted-associated'
+          ? [title, 'secondary assertion']
+          : [mode === 'unrelated-failure' ? 'unrelated title' : title];
+    const files: Record<string, string> = {
       '.gitignore': 'node_modules\n.artifacts/\n',
       'package.json': JSON.stringify({
         type: 'module',
@@ -54,16 +79,29 @@ const fixture = async (mode: string, work: (root: string) => Promise<void>) => {
       'tests/suites.ts':
         "export const testEntries = [{ file: 'tests/behavior/control.test.ts', category: 'behavior', selections: ['mutation:playlist-subscribe'] }];\n",
       'tests/behavior/control.test.ts':
-        mode === 'non-assertion-error'
-          ? "import { test, expect } from 'bun:test'; import { value } from '../../product.ts'; test('detects mutation', () => { if(value > 1) throw new Error('Unexpected mock setup'); expect(value).toBe(1); });\n"
-          : "import { test, expect } from 'bun:test'; import { value, hang } from '../../product.ts'; test('detects mutation', async () => { if (hang) await new Promise(() => {}); expect(value).toBe(1); });\n",
-      'tests/mutation/targets/playlist-subscribe.ts': `export const mutations = ${JSON.stringify([{ id: mode, file: 'product.ts', ...patch, timeoutMs: mode === 'timeout' ? 200 : 5000, expectedFailures: [mode === 'unrelated-failure' ? 'unrelated title' : 'detects mutation'] }])};\n`,
+        controls[mode] ??
+        `import { test, expect } from 'bun:test'; import { value, hang } from '../../product.ts'; test(${JSON.stringify(title)}, async () => { if (hang) await new Promise(() => {}); expect(value).toBe(1); });\n`,
+      'tests/mutation/targets/playlist-subscribe.ts': `export const mutations = ${JSON.stringify([{ id: mode, file: 'product.ts', ...patch, timeoutMs: ['timeout', 'associated-selection'].includes(mode) ? 200 : 5000, expectedFailures }])};\n`,
     };
+    if (mode === 'associated-selection') {
+      files['tests/suites.ts'] =
+        "export const testEntries = ['control', 'unrelated'].map(name => ({ file: `tests/behavior/${name}.test.ts`, category: 'behavior', selections: ['mutation:playlist-subscribe'] }));\n";
+      files['tests/behavior/unrelated.test.ts'] =
+        `import { test, expect } from 'bun:test'; import { appendFile } from 'node:fs/promises'; import { value } from '../../product.ts'; test('unrelated slow control', async () => { await appendFile(${JSON.stringify(resolve(root, '.artifacts/testing/selection-trace.jsonl'))}, String(value) + '\\n'); if(value > 1) await new Promise(() => {}); expect(value).toBe(1); });\n`;
+    }
     await Promise.all(
       Object.entries(files).map(([path, body]) =>
         writeFile(resolve(root, path), body),
       ),
     );
+    if (mode === 'fresh-copy') {
+      const recording = resolve(root, 'stale-recording.json');
+      await writeFile(
+        recording,
+        JSON.stringify({ payload: 'x'.repeat(144000) }),
+      );
+      await utimes(recording, 1, 1);
+    }
     execFileSync('git', ['init', '-q'], { cwd: root });
     execFileSync('git', ['add', '.'], { cwd: root });
     execFileSync(
@@ -116,31 +154,56 @@ test.each([
   'survived',
   'invalid',
   'timeout',
+  'timeout-title',
   'baseline-failure',
   'unrelated-failure',
   'non-assertion-error',
+  'associated-selection',
+  'regex-title',
+  'empty-associated',
+  'omitted-associated',
+  'skipped-associated',
+  'fresh-copy',
 ])(
   'mutation CLI classifies the real subprocess control %s',
   async (mode) => {
     await fixture(mode, async (root) => {
       const before = await fingerprint(root);
       const result = await run(root);
-      const expected =
-        mode === 'baseline-failure'
-          ? 'tool-error'
-          : ['unrelated-failure', 'non-assertion-error'].includes(mode)
-            ? 'invalid'
-            : mode;
+      const classifications: Record<string, string> = {
+        'timeout-title': 'killed',
+        'associated-selection': 'killed',
+        'regex-title': 'killed',
+        'fresh-copy': 'killed',
+        'baseline-failure': 'tool-error',
+        'skipped-associated': 'tool-error',
+        'unrelated-failure': 'invalid',
+        'non-assertion-error': 'invalid',
+        'empty-associated': 'invalid',
+        'omitted-associated': 'invalid',
+      };
+      const expected = classifications[mode] ?? mode;
       expect(
         result.results.map((entry) => entry.status),
         result.failure,
       ).toEqual([expected]);
-      expect(result.exitCode).toBe(mode === 'killed' ? 0 : 1);
+      expect(result.exitCode).toBe(expected === 'killed' ? 0 : 1);
       expect((await fingerprint(root)).contentSha256).toBe(
         before.contentSha256,
       );
+      if (mode === 'fresh-copy')
+        expect(
+          (await stat(resolve(root, 'stale-recording.json'))).mtimeMs,
+        ).toBe(1000);
       const report = JSON.parse(await readFile(result.report, 'utf8'));
       expect(report.candidate.contentSha256).toBe(before.contentSha256);
+      if (mode === 'associated-selection')
+        expect(
+          await readFile(
+            resolve(root, '.artifacts/testing/selection-trace.jsonl'),
+            'utf8',
+          ),
+        ).toBe('1\n');
       expect(await readFile(resolve(root, 'product.ts'), 'utf8')).toContain(
         mode === 'baseline-failure' ? 'value = 0' : 'value = 1',
       );
@@ -159,3 +222,15 @@ test('mutation dry-run validates a green baseline and patch scope without inject
     );
   });
 }, 60_000);
+
+test.each(['empty-associated', 'unrelated-failure'])(
+  'mutation dry-run refuses invalid associated assertions: %s',
+  async (mode) => {
+    await fixture(mode, async (root) => {
+      const result = await run(root, ['--dry-run']);
+      expect(result.exitCode).toBe(1);
+      expect(result.results.map((entry) => entry.status)).toEqual(['invalid']);
+    });
+  },
+  60_000,
+);

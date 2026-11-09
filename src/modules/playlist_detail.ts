@@ -1,12 +1,11 @@
 import { Effect, Schema } from 'effect';
 
-import { Call } from '../core/call.ts';
-import { APP_CONF } from '../core/config.ts';
 import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -55,20 +54,28 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistDetail: ModuleEffect<ModuleInput, ModuleBody> = (
-  input,
-  request,
-) =>
+export const moduleActions = {
+  read: {
+    target: '/api/v6/playlist/detail',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'shared',
+    retry: 'read',
+  },
+} as const satisfies ModuleActions;
+
+const playlistDetail: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (input, request) =>
   Effect.gen(function* () {
-    const call = yield* Call;
-    const response = yield* request({
-      target: '/api/v6/playlist/detail',
-      protocol: call.config.crypto || (APP_CONF.encrypt ? 'eapi' : 'api'),
-      method: 'POST',
-      headers: {},
-      body: JSON.stringify({ id: input.id, n: 100000, s: input.s || 8 }),
-      response: 'json',
-      semantic: 'read',
+    const response = yield* request('read', {
+      data: {
+        id: input.id,
+        n: 100000,
+        s: input.s || 8,
+      },
     });
     const body = yield* decodeUpstreamBody(
       'playlist_detail',

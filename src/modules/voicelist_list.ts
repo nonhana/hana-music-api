@@ -1,25 +1,33 @@
 import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
-const voicelistList: ModuleEffect<ModuleInput> = (query, request) =>
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/voice/workbench/voices/by/voicelist',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const voicelistList: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || '200',
       offset: query.offset || '0',
       voiceListId: query.voiceListId,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/voice/workbench/voices/by/voicelist`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 

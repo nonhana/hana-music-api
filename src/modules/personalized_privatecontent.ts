@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -33,18 +32,23 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const personalizedPrivatecontent: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  read: {
+    target: '/api/personalized/privatecontent',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const personalizedPrivatecontent: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (_query, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/personalized/privatecontent`,
-        {},
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('read', { data: {} });
     const body = yield* decodeUpstreamBody(
       'personalized_privatecontent',
       ModuleBody,

@@ -1,8 +1,7 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -46,7 +45,20 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const banner: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  read: {
+    target: '/api/v2/banner/get',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const banner: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     if (
       query.type !== undefined &&
@@ -66,13 +78,11 @@ const banner: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       3: 'ipad',
     };
     const type = clientTypeMap[String(query.type ?? 0)] || 'pc';
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v2/banner/get`,
-        { clientType: type },
-        createOption(query),
-      ),
-    );
+    const response = yield* request('read', {
+      data: {
+        clientType: type,
+      },
+    });
     const body = yield* decodeUpstreamBody('banner', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

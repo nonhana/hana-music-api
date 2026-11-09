@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 import { Artist } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/v1/mv/detail',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const MvBitrate = UpstreamObject({
   br: Loose(Schema.Finite),
@@ -69,18 +78,15 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const mvDetail: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const mvDetail: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       id: query.mvid,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/mv/detail`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('mv_detail', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

@@ -1,21 +1,29 @@
 import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
-const yunbeiSign: ModuleEffect<ModuleInput> = (query, request) =>
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/pointmall/user/sign',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const yunbeiSign: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (_query, request) =>
   Effect.gen(function* () {
     const data = {};
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/pointmall/user/sign`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 

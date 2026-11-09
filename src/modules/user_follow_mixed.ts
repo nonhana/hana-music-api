@@ -4,8 +4,7 @@ import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -16,6 +15,16 @@ import {
 import { Artist, UserProfile, VipRights } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/user/follow/users/mixed/get/v2',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   cursor?: QueryNumberLike;
@@ -109,10 +118,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userFollowMixed: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const userFollowMixed: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const size = query.size || 30;
     const cursor = query.cursor || 0;
@@ -127,13 +137,7 @@ const userFollowMixed: ModuleEffect<ModuleInput, ModuleBody> = (
       size,
       sortType: '0',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/user/follow/users/mixed/get/v2`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'user_follow_mixed',
       ModuleBody,

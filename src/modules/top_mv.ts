@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -86,7 +85,20 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const topMv: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  read: {
+    target: '/api/mv/toplist',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const topMv: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       area: query.area || '',
@@ -94,13 +106,7 @@ const topMv: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       offset: query.offset || 0,
       total: true,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/mv/toplist`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody('top_mv', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

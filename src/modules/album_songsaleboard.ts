@@ -4,8 +4,7 @@ import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -74,10 +73,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const albumSongsaleboard: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  read: {
+    target: { prefix: '/api/feealbum/songsaleboard/' },
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const albumSongsaleboard: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     let data: Record<string, unknown> = {
       albumType: query.albumType || 0, //0为数字专辑,1为数字单曲
@@ -89,13 +99,10 @@ const albumSongsaleboard: ModuleEffect<ModuleInput, ModuleBody> = (
         year: query.year,
       };
     }
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/feealbum/songsaleboard/${type}/type`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('read', {
+      data,
+      path: `/api/feealbum/songsaleboard/${type}/type`,
+    });
     const body = yield* decodeUpstreamBody(
       'album_songsaleboard',
       ModuleBody,

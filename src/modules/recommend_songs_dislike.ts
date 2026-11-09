@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { Song } from '../core/upstream-schemas.ts';
@@ -17,23 +16,28 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const recommendSongsDislike: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  write: {
+    target: '/api/v2/discovery/recommend/dislike',
+    profile: 'web',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const recommendSongsDislike: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       resId: query.id, // 日推歌曲id
       resType: 4,
       sceneType: 1,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v2/discovery/recommend/dislike`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('write', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody(

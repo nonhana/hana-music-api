@@ -26,9 +26,7 @@ describe('sdk config forwarding', () => {
       connectionStrategy: 'close',
       cookie: 'MUSIC_U=linked-cookie',
       fetcher,
-      headers: {
-        'X-Debug-Mode': 'linked',
-      },
+
       ip: '1.2.3.4',
       onRequestEvent: (event) => events.push(event),
       state: {
@@ -45,7 +43,7 @@ describe('sdk config forwarding', () => {
     expect(getRequestUrl(captured.input)).toBe(
       'https://interface.music.163.com/eapi/song/lyric',
     );
-    expect(getHeader(captured.init, 'X-Debug-Mode')).toBe('linked');
+    expect(getHeader(captured.init, 'X-Debug-Mode')).toBe('');
     expect(getHeader(captured.init, 'X-Real-IP')).toBe('1.2.3.4');
     expect(getHeader(captured.init, 'Connection')).toBe('close');
     expect(captured.init?.signal).toBeInstanceOf(AbortSignal);
@@ -80,9 +78,7 @@ describe('sdk config forwarding', () => {
         connectionStrategy: 'close',
         cookie: 'MUSIC_U=raw-cookie',
         fetcher,
-        headers: {
-          'X-Debug-Mode': 'raw',
-        },
+
         ip: '5.6.7.8',
         state: {
           anonymousToken: 'anonymous-token',
@@ -95,7 +91,7 @@ describe('sdk config forwarding', () => {
     expect(getRequestUrl(captured.input)).toBe(
       'https://interface.music.163.com/eapi/song/lyric',
     );
-    expect(getHeader(captured.init, 'X-Debug-Mode')).toBe('raw');
+    expect(getHeader(captured.init, 'X-Debug-Mode')).toBe('');
     expect(getHeader(captured.init, 'X-Real-IP')).toBe('5.6.7.8');
     expect(getHeader(captured.init, 'Connection')).toBe('close');
     expect(captured.init?.signal).toBeInstanceOf(AbortSignal);

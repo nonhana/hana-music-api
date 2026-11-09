@@ -5,8 +5,7 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -24,6 +23,16 @@ import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: { prefix: '/api/event/get/' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   uid: QueryIdentifier;
@@ -92,7 +101,10 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userEvent: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userEvent: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       getcounts: true,
@@ -100,13 +112,10 @@ const userEvent: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       limit: query.limit || 30,
       total: false,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/event/get/${query.uid}`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/event/get/${query.uid}`,
+    });
     const body = yield* decodeUpstreamBody('user_event', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

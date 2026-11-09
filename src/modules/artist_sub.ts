@@ -4,8 +4,7 @@ import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -35,20 +34,34 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const artistSub: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  sub: {
+    profile: 'web',
+    target: '/api/artist/sub',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  unsub: {
+    profile: 'web',
+    target: '/api/artist/unsub',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const artistSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const action = Number(query.t) === 1 ? 'sub' : 'unsub';
     const data = {
       artistId: query.id,
       artistIds: '[' + query.id + ']',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/artist/${action}`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request(action, { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('artist_sub', ModuleBody, response),

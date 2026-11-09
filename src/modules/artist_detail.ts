@@ -4,8 +4,7 @@ import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -109,17 +108,27 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const artistDetail: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  read: {
+    target: '/api/artist/head/info/get',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const artistDetail: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/artist/head/info/get`,
-        {
-          id: query.id,
-        },
-        createOption(query),
-      ),
-    );
+    const response = yield* request('read', {
+      data: {
+        id: query.id,
+      },
+    });
     const body = yield* decodeUpstreamBody(
       'artist_detail',
       ModuleBody,

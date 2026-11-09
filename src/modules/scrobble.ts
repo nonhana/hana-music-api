@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,13 +10,22 @@ import {
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 
-const SCROBBLE_DOMAIN = 'https://clientlog.music.163.com';
-const SCROBBLE_COOKIE_OVERRIDES = {
-  appver: '3.1.10.5100',
-  channel: 'netease',
-  os: 'osx',
-  osver: '15.5',
-};
+export const moduleActions = {
+  start: {
+    profile: 'clientlogOsx',
+    target: '/api/feedback/weblog',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  play: {
+    profile: 'clientlogOsx',
+    target: '/api/feedback/weblog',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 返回 200 不代表计入了听歌排行（验证关卡①实测没有计入，见 nonhana/hana-music-api#31）。
 // 接口只返回返回码，收紧的是返回码。
@@ -30,63 +38,50 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const scrobble: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const scrobble: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const source = query.source ?? 'list';
-    yield* request(
-      buildApiRequestIntent(
-        `/api/feedback/weblog`,
-        {
-          logs: JSON.stringify([
-            {
-              action: 'startplay',
-              json: {
-                id: query.id,
-                type: 'song',
-                mainsite: '1',
-                mainsiteWeb: '1',
-                content: `id=${String(query.sourceid)}`,
-              },
+    yield* request('start', {
+      data: {
+        logs: JSON.stringify([
+          {
+            action: 'startplay',
+            json: {
+              id: query.id,
+              type: 'song',
+              mainsite: '1',
+              mainsiteWeb: '1',
+              content: `id=${String(query.sourceid)}`,
             },
-          ]),
-        },
-        {
-          ...createOption(query, 'eapi'),
-          cookieOverrides: SCROBBLE_COOKIE_OVERRIDES,
-          domain: SCROBBLE_DOMAIN,
-        },
-      ),
-    );
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/feedback/weblog`,
-        {
-          logs: JSON.stringify([
-            {
-              action: 'play',
-              json: {
-                download: 0,
-                end: 'playend',
-                id: query.id,
-                sourceId: query.sourceid,
-                time: query.time,
-                type: 'song',
-                wifi: 0,
-                source,
-                mainsite: '1',
-                mainsiteWeb: '1',
-                content: `id=${String(query.sourceid)}`,
-              },
+          },
+        ]),
+      },
+    });
+    const response = yield* request('play', {
+      data: {
+        logs: JSON.stringify([
+          {
+            action: 'play',
+            json: {
+              download: 0,
+              end: 'playend',
+              id: query.id,
+              sourceId: query.sourceid,
+              time: query.time,
+              type: 'song',
+              wifi: 0,
+              source,
+              mainsite: '1',
+              mainsiteWeb: '1',
+              content: `id=${String(query.sourceid)}`,
             },
-          ]),
-        },
-        {
-          ...createOption(query, 'eapi'),
-          cookieOverrides: SCROBBLE_COOKIE_OVERRIDES,
-          domain: SCROBBLE_DOMAIN,
-        },
-      ),
-    );
+          },
+        ]),
+      },
+    });
     const body = yield* decodeUpstreamBody('scrobble', ModuleBody, response);
     return {
       ...toModuleResponse(response),

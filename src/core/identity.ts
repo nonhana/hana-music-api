@@ -7,6 +7,7 @@ import { ReadStore } from './read-store.ts';
 
 export {
   resolveIdentitySnapshot,
+  isDeviceId,
   type IdentitySnapshot,
 } from './identity-snapshot.ts';
 
@@ -21,7 +22,7 @@ export type RegisterAnonymous = (
 ) => Effect.Effect<AnonymousRegistration, RequestError>;
 
 export interface IdentityPool {
-  readonly next: Effect.Effect<Partial<ModuleCallConfig>, RequestError>;
+  readonly next: Effect.Effect<AnonymousRegistration, RequestError>;
 }
 
 export const createIdentityPool = (
@@ -34,7 +35,7 @@ export const createIdentityPool = (
   }
   const size = Math.floor(config.size);
   const cursor = Ref.makeUnsafe(0);
-  const identities = Ref.makeUnsafe<Array<Partial<ModuleCallConfig>>>([]);
+  const identities = Ref.makeUnsafe<Array<AnonymousRegistration>>([]);
   const initialization = new ReadStore<void, RequestError>(null);
   return {
     next: Effect.gen(function* () {
@@ -52,11 +53,7 @@ export const createIdentityPool = (
             });
             yield* Ref.update(identities, (values) => [
               ...values,
-              {
-                cookie: { MUSIC_A: registration.anonymousToken },
-                ip: registration.cnIp,
-                state: registration,
-              },
+              registration,
             ]);
           }
         }),

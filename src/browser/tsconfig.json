@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "../..",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": [],
+    "skipLibCheck": false
+  },
+  "include": [
+    "./**/*.ts",
+    "../../tests/package/types/watchman-browser.typecheck.ts"
+  ]
+}

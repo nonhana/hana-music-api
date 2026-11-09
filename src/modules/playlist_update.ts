@@ -1,8 +1,7 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -28,10 +27,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
-  input,
-  request,
-) =>
+export const moduleActions = {
+  batch: {
+    target: '/api/batch',
+    profile: 'eapi',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const playlistUpdate: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (input, request) =>
   Effect.gen(function* () {
     const query = { ...input };
     if (
@@ -85,9 +95,7 @@ const playlistUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
       '/api/playlist/tags/update': `{"id":${String(query.id)},"tags":"${String(query.tags)}"}`,
       '/api/playlist/update/name': `{"id":${String(query.id)},"name":"${String(query.name)}"}`,
     };
-    const response = yield* request(
-      buildApiRequestIntent(`/api/batch`, data, createOption(query)),
-    );
+    const response = yield* request('batch', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('playlist_update', ModuleBody, response),

@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 import { PlaylistUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/djradio/toplist',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const ToplistRadio = UpstreamObject({
   id: Schema.Finite,
@@ -46,20 +55,17 @@ export type ModuleBody = typeof ModuleBody.Type;
 const resolveDjToplistType = (value: unknown): 0 | 1 =>
   value === 'hot' ? 1 : 0;
 
-const djToplist: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const djToplist: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 100,
       offset: query.offset || 0,
       type: resolveDjToplistType(query.type), //0为新晋,1为热门
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/djradio/toplist`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('dj_toplist', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

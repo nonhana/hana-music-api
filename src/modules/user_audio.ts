@@ -4,8 +4,7 @@ import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -15,6 +14,16 @@ import {
 import { PlaylistUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryIdentifier } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/djradio/get/byuser',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   uid: QueryIdentifier;
@@ -75,18 +84,15 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userAudio: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userAudio: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       userId: query.uid,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/djradio/get/byuser`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('user_audio', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

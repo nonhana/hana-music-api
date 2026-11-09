@@ -6,8 +6,7 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -21,6 +20,16 @@ import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/resource/comment/floor/get',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = IdentifierQuery & {
   type: QueryNumberLike;
@@ -63,7 +72,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const commentFloor: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const commentFloor: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const resourceType = resolveResourceType(query.type);
     const data = {
@@ -72,13 +85,7 @@ const commentFloor: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       time: query.time || -1,
       limit: query.limit || 20,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/resource/comment/floor/get`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'comment_floor',
       ModuleBody,

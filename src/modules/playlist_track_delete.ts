@@ -1,8 +1,7 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -14,10 +13,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistTrackDelete: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  delete: {
+    target: '/api/playlist/track/delete',
+    profile: 'web',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const playlistTrackDelete: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.ids !== undefined &&
@@ -38,13 +48,7 @@ const playlistTrackDelete: ModuleEffect<ModuleInput, ModuleBody> = (
       ),
     };
 
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/track/delete`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('delete', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody(

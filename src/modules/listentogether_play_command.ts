@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +9,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/listen/together/play/command/report',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 接口就是为了确认播放指令上报成功：正文顶层的返回码 `code` 收紧；`data.result` 和
 // `message` 是附带提示，宽松（`data.message` 只见过 `null`，不声明）。
@@ -26,10 +35,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const listentogetherPlayCommand: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const listentogetherPlayCommand: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       roomId: query.roomId,
@@ -42,13 +52,7 @@ const listentogetherPlayCommand: ModuleEffect<ModuleInput, ModuleBody> = (
         clientSeq: query.clientSeq,
       }),
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/listen/together/play/command/report`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'listentogether_play_command',
       ModuleBody,

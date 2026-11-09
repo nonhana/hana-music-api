@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -21,20 +20,27 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const fmTrash: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  write: {
+    target: '/api/radio/trash/add',
+    profile: 'web',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const fmTrash: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       songId: query.id,
       alg: 'RT',
       time: query.time || 25,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/radio/trash/add`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('write', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('fm_trash', ModuleBody, response),

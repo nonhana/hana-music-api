@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -28,19 +27,24 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistHighqualityTags: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  read: {
+    target: '/api/playlist/highquality/tags',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const playlistHighqualityTags: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (_query, request) =>
   Effect.gen(function* () {
     const data = {};
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/highquality/tags`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
       'playlist_highquality_tags',
       ModuleBody,

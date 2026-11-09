@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -24,22 +23,27 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const songLyricsMarkUserPage: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  read: {
+    target: '/api/song/play/lyrics/mark/user/page',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const songLyricsMarkUserPage: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 10,
       offset: query.offset || 0,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/song/play/lyrics/mark/user/page`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
       'song_lyrics_mark_user_page',
       ModuleBody,

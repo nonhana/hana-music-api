@@ -5,8 +5,7 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -19,6 +18,16 @@ import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: { prefix: '/api/user/getfolloweds/' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   uid: QueryIdentifier;
@@ -57,7 +66,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userFolloweds: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userFolloweds: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       userId: query.uid,
@@ -66,13 +79,10 @@ const userFolloweds: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       offset: query.offset || 0,
       getcounts: 'true',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/user/getfolloweds/${query.uid}`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/user/getfolloweds/${query.uid}`,
+    });
     const body = yield* decodeUpstreamBody(
       'user_followeds',
       ModuleBody,

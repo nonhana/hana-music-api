@@ -360,12 +360,11 @@ test('personalized rejects a text return code with 502', async () => {
     })) as RequestCapability;
   const config = { cookie: 'MUSIC_U=module-reader' };
   const call: CallShape = {
+    actions: {},
     identifier: 'personalized',
     input: personalizedDefault.query,
-    config,
     identity: resolveIdentitySnapshot(config, getRuntimeState()),
     policy: { read: true, upload: false },
-    startedAt: Date.now(),
   };
 
   const failure = expectFailure(

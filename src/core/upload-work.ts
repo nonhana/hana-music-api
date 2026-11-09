@@ -1,46 +1,46 @@
-import { Cause, Clock, Effect } from 'effect';
+import { Cause, Effect, Ref } from 'effect';
 
 import type { ModuleServices, RequestCapability } from '../types/index.ts';
-import { Call } from './call.ts';
+import { Call } from './call-context.ts';
 import type { ModuleError, ModuleInputError, RequestError } from './errors.ts';
-import { DeadlineExceeded, PartialUpload } from './errors.ts';
+import { PartialUpload } from './errors.ts';
+import type { ModuleActions } from './request-actions.ts';
 
-export const uploadWork = <Value>(
+export const uploadWork = <Value, Actions extends ModuleActions>(
   module: string,
-  request: RequestCapability,
+  request: RequestCapability<Actions>,
   execute: (
-    stage: RequestCapability,
+    request: RequestCapability<Actions>,
   ) => Effect.Effect<
     Value,
     ModuleError | ModuleInputError | RequestError,
     ModuleServices
   >,
 ) =>
-  Effect.suspend(() => {
-    let completedStages: ReadonlyArray<string> = [];
-    const stage: RequestCapability = (intent) =>
-      Effect.gen(function* () {
-        const call = yield* Call;
-        const now = yield* Clock.currentTimeMillis;
-        if (call.deadlineAt !== undefined && now >= call.deadlineAt) {
-          return yield* DeadlineExceeded.make({ message: 'Request timed out' });
-        }
-        const response = yield* request(intent);
-        completedStages = [...completedStages, intent.target];
-        return response;
-      });
-    return Effect.uninterruptibleMask((restore) =>
-      restore(execute(stage)).pipe(
+  Effect.gen(function* () {
+    const { completedStages: progress } = yield* Call;
+    const start = progress ? (yield* Ref.get(progress)).length : 0;
+    return yield* Effect.uninterruptibleMask((restore) =>
+      restore(execute(request)).pipe(
         Effect.catchCauseIf(
-          (cause) => completedStages.length > 0 && !Cause.hasDies(cause),
+          (cause) => !Cause.hasDies(cause),
           (cause) =>
-            Effect.fail(
-              PartialUpload.make({
+            Effect.gen(function* () {
+              const completedStages = progress
+                ? (yield* Ref.get(progress)).slice(start)
+                : [];
+              if (!completedStages.length) {
+                return yield* Effect.failCause(cause);
+              }
+              const failure = Cause.hasInterrupts(cause)
+                ? cause
+                : Cause.squash(cause);
+              return yield* PartialUpload.make({
                 module,
                 completedStages,
-                cause: Cause.hasInterrupts(cause) ? cause : Cause.squash(cause),
-              }),
-            ),
+                cause: failure,
+              });
+            }),
         ),
       ),
     );

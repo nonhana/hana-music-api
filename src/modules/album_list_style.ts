@@ -4,8 +4,7 @@ import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -61,10 +60,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const albumListStyle: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  read: {
+    target: '/api/vipmall/appalbum/album/style',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const albumListStyle: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 10,
@@ -72,13 +82,7 @@ const albumListStyle: ModuleEffect<ModuleInput, ModuleBody> = (
       total: true,
       area: query.area || 'Z_H', //Z_H:华语,E_A:欧美,KR:韩国,JP:日本
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/vipmall/appalbum/album/style`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
       'album_list_style',
       ModuleBody,

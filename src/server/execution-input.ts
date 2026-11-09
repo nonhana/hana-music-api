@@ -1,29 +1,14 @@
-import type { ModuleCallConfig, ModuleQuery } from '../types/index.ts';
+import { moduleConfigKeys, removedModuleConfigKeys } from '../core/options.ts';
+import type { ModuleQuery } from '../types/index.ts';
 import { RequestBodyError } from './parse-body.ts';
 
-const executionKeys = [
-  'acceptGzip',
-  'checkToken',
-  'connectionStrategy',
-  'crypto',
-  'deviceId',
-  'domain',
-  'e_r',
-  'fetcher',
-  'headers',
-  'ip',
-  'onRequestEvent',
-  'proxy',
-  'realIP',
-  'retry',
-  'signal',
-  'state',
-  'timeoutMs',
-  'ua',
-] satisfies Array<Exclude<keyof ModuleCallConfig, 'cookie'>>;
-
 export const validateHttpInput = (input: ModuleQuery, debug = false): void => {
-  for (const key of [...executionKeys, 'cache', 'identityPool']) {
+  for (const key of [
+    ...moduleConfigKeys.filter((candidate) => candidate !== 'cookie'),
+    ...removedModuleConfigKeys,
+    'cache',
+    'identityPool',
+  ]) {
     if (debug && key === 'crypto') {
       continue;
     }

@@ -13,6 +13,7 @@ export { invokeModule } from './src/sdk/runtime.ts';
 
 export type {
   CreateHanaMusicApiConfig,
+  CreateRequestOptions,
   CookieRecord,
   FetchLike,
   ModuleCallConfig,

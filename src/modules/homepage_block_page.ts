@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -245,19 +244,24 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const homepageBlockPage: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  read: {
+    target: '/api/homepage/block/page',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const homepageBlockPage: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = { refresh: query.refresh || false, cursor: query.cursor };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/homepage/block/page`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
       'homepage_block_page',
       ModuleBody,

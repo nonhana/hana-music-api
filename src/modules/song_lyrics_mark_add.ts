@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -27,10 +26,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const songLyricsMarkAdd: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  add: {
+    target: '/api/song/play/lyrics/mark/add',
+    profile: 'eapi',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const songLyricsMarkAdd: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       songId: query.id,
@@ -38,13 +48,7 @@ const songLyricsMarkAdd: ModuleEffect<ModuleInput, ModuleBody> = (
       data: query.data || '[]',
       // "[{\"translateType\":1,\"startTimeStamp\":800,\"translateLyricsText\":\"让我逃走吧、声音已经枯萎\",\"originalLyricsText\":\"逃がしてくれって声を枯らした\"},{\"translateType\":1,\"startTimeStamp\":4040,\"translateLyricsText\":\"我的愿望究竟会实现吗\",\"originalLyricsText\":\"あたしの願いなど叶うでしょうか\"}]"
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/song/play/lyrics/mark/add`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('add', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody(

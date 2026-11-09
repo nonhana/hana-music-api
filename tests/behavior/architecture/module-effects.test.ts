@@ -43,7 +43,7 @@ describe('complete Effect module contract', () => {
       ) {
         failures.push(module.identifier);
       }
-      expect(source).toMatch(/ModuleEffect<ModuleInput/);
+      expect(source).toMatch(/ModuleEffect<\s*ModuleInput/);
     }
     expect(failures).toEqual([]);
   });

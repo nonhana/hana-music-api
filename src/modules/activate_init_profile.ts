@@ -1,23 +1,31 @@
 import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
-const activateInitProfile: ModuleEffect<ModuleInput> = (query, request) =>
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/activate/initProfile',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const activateInitProfile: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       nickname: query.nickname,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/activate/initProfile`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 

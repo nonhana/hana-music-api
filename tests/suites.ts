@@ -14,6 +14,173 @@ export interface TestEntry {
 // Every physical test file has one category; selections may share that file.
 export const testEntries: ReadonlyArray<TestEntry> = [
   {
+    file: 'tests/behavior/tooling/module-query-types.test.ts',
+    category: 'behavior',
+    selections: ['local', 'module-config', 'mutation:module-config'],
+  },
+  {
+    file: 'tests/behavior/tooling/request-capability-types.test.ts',
+    category: 'behavior',
+    selections: [
+      'local',
+      'request-flow',
+      'module-config',
+      'mutation:module-config',
+      'mutation:request-identity',
+      'mutation:shared-reads',
+    ],
+  },
+  {
+    file: 'tests/behavior/runtime/request-flow.test.ts',
+    category: 'behavior',
+    selections: [
+      'local',
+      'request-flow',
+      'module-config',
+      'mutation:module-config',
+      'mutation:request-identity',
+      'mutation:shared-reads',
+    ],
+  },
+  {
+    file: 'tests/behavior/runtime/module-config.test.ts',
+    category: 'behavior',
+    selections: ['local', 'module-config', 'mutation:module-config'],
+  },
+  {
+    file: 'tests/behavior/runtime/request-identity.test.ts',
+    category: 'behavior',
+    selections: ['local', 'mutation:request-identity'],
+  },
+  {
+    file: 'tests/replay/special/special-chains.test.ts',
+    category: 'replay',
+    selections: ['local', 'special-chains'],
+  },
+  {
+    file: 'tests/behavior/modules/special/special-chains.test.ts',
+    category: 'behavior',
+    selections: ['local', 'special-chains', 'mutation:special-chains'],
+  },
+  {
+    file: 'tests/behavior/modules/membership/membership-business.test.ts',
+    category: 'behavior',
+    selections: [
+      'local',
+      'membership-business',
+      'mutation:membership-business',
+    ],
+  },
+  {
+    file: 'tests/behavior/modules/membership/membership-business-policy.test.ts',
+    category: 'behavior',
+    selections: [
+      'local',
+      'membership-business',
+      'mutation:membership-business',
+    ],
+  },
+  {
+    file: 'tests/replay/membership/membership-business.test.ts',
+    category: 'replay',
+    selections: ['local', 'membership-business'],
+  },
+  {
+    file: 'tests/behavior/modules/podcast/podcast-video.test.ts',
+    category: 'behavior',
+    selections: ['local', 'podcast-video', 'mutation:podcast-video'],
+  },
+  {
+    file: 'tests/behavior/modules/podcast/podcast-video-policy.test.ts',
+    category: 'behavior',
+    selections: ['local', 'podcast-video', 'mutation:podcast-video'],
+  },
+  {
+    file: 'tests/replay/podcast/podcast-video.test.ts',
+    category: 'replay',
+    selections: ['local', 'podcast-video'],
+  },
+  {
+    file: 'tests/behavior/modules/account/account-session.test.ts',
+    category: 'behavior',
+    selections: ['local', 'account-social'],
+  },
+  {
+    file: 'tests/replay/account/account-social.test.ts',
+    category: 'replay',
+    selections: ['local', 'account-social'],
+  },
+  {
+    file: 'tests/behavior/modules/account/account-social-policy.test.ts',
+    category: 'behavior',
+    selections: [
+      'local',
+      'account-social-policy',
+      'account-social',
+      'mutation:account-social',
+    ],
+  },
+  {
+    file: 'tests/behavior/modules/account/account-social.test.ts',
+    category: 'behavior',
+    selections: ['local', 'account-social', 'mutation:account-social'],
+  },
+  {
+    file: 'tests/replay/discovery/search-discovery.test.ts',
+    category: 'replay',
+    selections: ['local', 'search-discovery'],
+  },
+  {
+    file: 'tests/behavior/modules/discovery/search-discovery-policy.test.ts',
+    category: 'behavior',
+    selections: ['local', 'search-discovery', 'mutation:search-discovery'],
+  },
+  {
+    file: 'tests/behavior/modules/discovery/search-discovery.test.ts',
+    category: 'behavior',
+    selections: ['local', 'search-discovery', 'mutation:search-discovery'],
+  },
+  {
+    file: 'tests/behavior/modules/library/library-playback-policy.test.ts',
+    category: 'behavior',
+    selections: ['local', 'library-playback', 'mutation:library-playback'],
+  },
+  {
+    file: 'tests/behavior/modules/library/library-playback.test.ts',
+    category: 'behavior',
+    selections: ['local', 'library-playback', 'mutation:library-playback'],
+  },
+  {
+    file: 'tests/replay/library/collection-actions.test.ts',
+    category: 'replay',
+    selections: ['local', 'collection-actions'],
+  },
+  {
+    file: 'tests/behavior/modules/library/collection-actions.test.ts',
+    category: 'behavior',
+    selections: ['local', 'collection-actions', 'mutation:check-token'],
+  },
+  {
+    file: 'tests/behavior/runtime/check-token.test.ts',
+    category: 'behavior',
+    selections: ['local', 'check-token', 'smoke', 'mutation:check-token'],
+  },
+  {
+    file: 'tests/behavior/tooling/browser-types.test.ts',
+    category: 'behavior',
+    selections: ['local', 'browser-types', 'mutation:browser-types'],
+  },
+  {
+    file: 'tests/behavior/browser/watchman.test.ts',
+    category: 'behavior',
+    selections: ['local', 'watchman', 'mutation:watchman'],
+  },
+  {
+    file: 'tests/behavior/runtime/shared-read-actions.test.ts',
+    category: 'behavior',
+    selections: ['local', 'smoke', 'mutation:shared-reads'],
+  },
+  {
     file: 'tests/behavior/runtime/call-runtime.test.ts',
     category: 'behavior',
     selections: ['local'],
@@ -211,7 +378,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/behavior/architecture/module-discovery.test.ts',
     category: 'behavior',
-    selections: ['local', 'sdk'],
+    selections: ['local', 'sdk', 'mutation:special-chains'],
   },
   {
     file: 'tests/behavior/architecture/module-effects.test.ts',
@@ -436,7 +603,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/behavior/modules/upload/effect-upload-plugins.test.ts',
     category: 'behavior',
-    selections: ['local'],
+    selections: ['local', 'request-flow'],
   },
   {
     file: 'tests/transport/proxy/node-proxy.test.ts',
@@ -469,9 +636,14 @@ export const testEntries: ReadonlyArray<TestEntry> = [
     selections: ['local'],
   },
   {
+    file: 'tests/behavior/http/debug-fetcher.test.ts',
+    category: 'behavior',
+    selections: ['debug-context', 'local', 'smoke', 'mutation:module-config'],
+  },
+  {
     file: 'tests/behavior/http/traffic.test.ts',
     category: 'behavior',
-    selections: ['local', 'smoke'],
+    selections: ['debug-context', 'local', 'smoke', 'mutation:module-config'],
   },
   {
     file: 'tests/behavior/http/server.test.ts',
@@ -486,7 +658,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/behavior/modules/upload/voice-upload.test.ts',
     category: 'behavior',
-    selections: ['local', 'mutation:upload'],
+    selections: ['local', 'request-flow', 'mutation:upload'],
   },
 
   {
@@ -567,11 +739,12 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/behavior/tooling/release-preflight.test.ts',
     category: 'behavior',
-    selections: ['local'],
+    selections: ['local', 'mutation:candidate-package'],
   },
 ];
 
 export const typecheckFiles = [
+  'tests/package/types/watchman-browser.typecheck.ts',
   'tests/package/types/module-api.typecheck.ts',
   'tests/package/types/playlist-summary.typecheck.ts',
   'tests/package/types/public-entry.typecheck.ts',

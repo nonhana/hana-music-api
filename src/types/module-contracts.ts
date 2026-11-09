@@ -1,5 +1,6 @@
 import type { GeneratedModuleContractMap } from './generated/module-surface.generated.ts';
 import type { ModuleQuery, ModuleResponse, NcmApiResponse } from './runtime.ts';
+import type { DisallowExecutionKeys, ModuleCallConfig } from './sdk.ts';
 
 export interface ModuleContractDefinition<
   TQuery extends ModuleQuery = ModuleQuery,
@@ -20,7 +21,10 @@ export type ModuleResponseOf<K extends ModuleIdentifier> =
 export type ProgrammaticModuleInvoker<
   TQuery extends ModuleQuery = ModuleQuery,
   TResponse extends NcmApiResponse = NcmApiResponse,
-> = (query?: TQuery & ModuleQuery) => Promise<TResponse>;
+> = (
+  query?: TQuery & DisallowExecutionKeys,
+  config?: ModuleCallConfig,
+) => Promise<TResponse>;
 
 export type ProgrammaticApi<TContractMap extends object = ModuleContractMap> = {
   [K in keyof TContractMap]: TContractMap[K] extends ModuleContractDefinition

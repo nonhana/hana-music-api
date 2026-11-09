@@ -1,7 +1,7 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
 // 歌手分类
@@ -21,7 +21,7 @@ import type { LegacyModuleInput } from '../types/legacy.ts';
 
     initial 取值 a-z/A-Z
 */
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -46,7 +46,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const artistList: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  read: {
+    target: '/api/v1/artist/list',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const artistList: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.initial !== undefined &&
@@ -71,13 +85,7 @@ const artistList: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       type: query.type || '1',
       area: query.area,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/artist/list`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody('artist_list', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

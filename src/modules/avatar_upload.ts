@@ -1,16 +1,28 @@
 import { Effect, Schema } from 'effect';
 
-import { Call } from '../core/call.ts';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
   UploadedFile,
 } from '../core/module-input.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
-import uploadPlugin from '../plugins/upload.ts';
+import uploadPlugin, { imageUploadActions } from '../plugins/upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyUploadedFile } from '../types/module-shared.ts';
+import type { UnknownJson } from '../types/unknown.ts';
+
+export const moduleActions = {
+  ...imageUploadActions,
+  submit: {
+    profile: 'eapi',
+    target: '/api/user/avatar/upload/v1',
+    semantic: 'upload',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   imgFile?: LegacyUploadedFile;
@@ -23,19 +35,18 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const avatarUpload: ModuleEffect<ModuleInput> = (input, request) =>
+const avatarUpload: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (input, request) =>
   uploadWork('avatar_upload', request, (stage) =>
     Effect.gen(function* () {
-      const call = yield* Call;
       const uploaded = yield* uploadPlugin(input, stage);
-      const response = yield* stage({
-        target: '/api/user/avatar/upload/v1',
-        protocol: call.config.crypto || 'eapi',
-        method: 'POST',
-        headers: {},
-        body: JSON.stringify({ imgid: uploaded.imgId }),
-        response: 'json',
-        semantic: 'upload',
+      const response = yield* stage('submit', {
+        data: {
+          imgid: uploaded.imgId,
+        },
       });
       if (!isRecord(response.body)) {
         return yield* UnexpectedUpstreamShape.make({

@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +9,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/yunbei/rcmd/song/history/list',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const Page = UpstreamObject({
   more: Loose(Schema.Boolean),
@@ -28,10 +37,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const yunbeiRcmdSongHistory: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const yunbeiRcmdSongHistory: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       page: JSON.stringify({
@@ -39,13 +49,7 @@ const yunbeiRcmdSongHistory: ModuleEffect<ModuleInput, ModuleBody> = (
         cursor: query.cursor || '',
       }),
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/yunbei/rcmd/song/history/list`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'yunbei_rcmd_song_history',
       ModuleBody,

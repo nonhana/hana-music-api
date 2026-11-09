@@ -4,11 +4,21 @@ import { Effect, Schema } from 'effect';
 
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
+import type { UnknownJson } from '../types/unknown.ts';
+
+export const moduleActions = {
+  password: {
+    profile: 'eapi',
+    target: '/api/w/login',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 type PasswordCredential =
   | {
@@ -40,7 +50,10 @@ const inputSchema = Schema.Union([
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const login: ModuleEffect<ModuleInput> = (query, request) =>
+const login: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       type: '0',
@@ -51,9 +64,7 @@ const login: ModuleEffect<ModuleInput> = (query, request) =>
         createHash('md5').update(String(query.password)).digest('hex'),
       rememberLogin: 'true',
     };
-    const result = yield* request(
-      buildApiRequestIntent('/api/w/login', data, createOption(query)),
-    );
+    const result = yield* request('password', { data });
     const body = renameAvatarField(result.body);
     if (
       body === null ||

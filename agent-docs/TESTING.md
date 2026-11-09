@@ -10,7 +10,10 @@
 - `tests/transport/`：默认适配器、代理、真实 loopback socket 与有限 load；`scripts/load-test.mts` 执行 500 次 smoke 和十分钟 soak，判定规则在 `tests/unit/testing/load-acceptance.test.ts`。
 - `tests/package/`：当前候选 tarball 的 Node/Bun 消费者、公开类型/导出与单文件 serverless；`types/` 下文件由 tsc 检查。
 - `tests/live/`：真实上游门控验证，不属于默认回归；条件与证据另记。
-- `tests/mutation/`：定向故障与关联测试的登记，检查测试辨别力，不复制业务测试；CLI 为 `bun scripts/mutation-test.mts --all`（或 `--target playlist-subscribe|shared-reads|upload`、`--dry-run`）。
+- `tests/mutation/`：定向故障与关联测试的登记，检查测试辨别力，不复制业务测试；CLI 为 `bun scripts/mutation-test.mts --all`（或 `--target candidate-package|module-config|request-identity|special-chains|membership-business|podcast-video|account-social|search-discovery|library-playback|check-token|playlist-subscribe|shared-reads|upload|watchman|browser-types`、`--dry-run`）。
+
+变异先跑该组全部登记文件的绿色基线；注入后按 `expectedFailures` 定位所属文件，执行这些文件的全部用例。原生 JUnit 必须与选中文件的基线用例逐项一致，空关联、缺名、跳过、遗漏、意外用例或超时均不能计为 killed；有效 kill 仍须是登记用例的原生断言失败。
+
 - `tests/_kit/`：Effect 测试的统一入口；测试中的 `Effect.run*` 和 Layer 提供应集中在 kit 内。返回体契约测试判断“结构不符”的断言用 `assertions.ts` 的 `expectUpstreamShapeRejection`，录制文件和导出结构定义的类型用同一文件的 `Recording`、`Validator`；回放录制用 `replay.ts` 的 `replay`/`replayRaw`。
 
 ## 基线命令
@@ -19,8 +22,9 @@
 - 模块生成检查：`bun run types:modules:check`。
 - 结构定义与录制审计：`bun run schema:audit check` 检查结构定义写法，`bun run schema:audit recordings --recordings tests/fixtures/netease` 用本仓库录制回放校验。`schema:audit` 的默认录制根是 Campanula 仓库的 `../campanula-svelte-main/tests/fixtures/netease`，在 SDK 仓库里运行必须显式传 `--recordings tests/fixtures/netease`。
 - Fixtures 门槛：`bun run verify:fixtures`（`bun run schema:audit check && bun run schema:audit recordings --recordings tests/fixtures/netease`），只依赖本仓库 fixtures。
-- 类型、静态检查和格式：`bun run typecheck`、`bun run lint`、`bun run spell`、`bun run fmt:check`。
+- 类型、静态检查和格式：`bun run typecheck`、`bun run lint`、`bun run spell`、`bun run fmt:check`。typecheck 串行检查 Bun/Node 与完整 DOM 两个工程；服务端不得获得 DOM 全局，浏览器不得自动获得 Bun/Node 全局。配置控制样本从实际命令验证两个阶段都能阻止错误。
 - 完整仓库验证：`bun run verify`（含 `bun run schema:audit check`）。
+- 浏览器专项：`bun run test:watchman` 用 Playwright Chromium 与受控官方脚本覆盖公开入口，不访问真实 Watchman；浏览器包消费者和 CSP 同时纳入 local/sdk 集合。首次安装命令见 BUILD.md。
 - SDK 与发布验证：`bun run verify:sdk`、`bun run test:sdk-contract`、`bun run build:check`。
 
 `verify`、`verify:sdk` 和 `build:check` 都会写入或读取构建输出；需要串行运行，上一条通过后再运行下一条。
@@ -30,7 +34,7 @@
 准备交付前，先按需求和实际改动列出本次必须通过的检查：
 
 - 代码、测试、构建、生成器或工具配置变更：执行 `bun run verify`。
-- SDK 公开表面或包交付变更：另执行 `bun run verify:sdk`，并满足 [PUBLIC_API.md](./PUBLIC_API.md) 的验证要求；返回体结构定义或录制变更另执行 `bun run verify:fixtures`。请求与流量变更还需通过下文规定的 smoke 和 soak。
+- SDK 公开表面或包交付变更：另执行 `bun run verify:sdk`，并满足 [PUBLIC_API.md](./PUBLIC_API.md) 的验证要求；返回体结构定义或录制变更另执行 `bun run verify:fixtures`。请求与流量变更还需通过下文规定的 smoke。
 - 仅文档变更：执行 `bun run fmt:check`、`bun run spell`；涉及文档站内容或配置时另执行 `bun run docs:build`。
 
 所有检查针对同一份最终候选代码。记录分支、HEAD、未提交改动范围，以及实际执行的命令、结果和必要的日志位置；修复后重新运行受影响的检查。历史报告、其他分支或修复前的通过结果只供参考。
@@ -63,18 +67,20 @@
 
 `.github/workflows/verify.yml` 在 PR 和 master push 上依次运行 `bun run verify`、`bun run verify:sdk`、`bun run verify:fixtures` 和 `bun run test:load:smoke`。fixtures 门槛与本地相同：只读本仓库 `tests/fixtures/netease` 的录制，不访问真实上游。
 
-独立 workflow：load 每日/手动执行十分钟 soak；live 每日 05:40 UTC/手动只执行匿名集合，零账号 Secrets；mutation 每周一 06:30 UTC/手动执行登记目标。它们不成为普通 PR 的真实网络依赖。所有 workflow 固定 Bun 1.4.4/Node 24，失败也上传证据，PR 保留 30 天，候选保留 90 天。配置检查通过不能证明远端 job 或保护规则实际生效。
+CI 保留按有限请求和明确断言完成的正确性检查；需要固定时长观测的 soak 仅由用户按需运行，不接入 workflow，也不作为交付或发布门禁。
+
+独立 workflow：live 每日 05:40 UTC/手动只执行匿名集合，零账号 Secrets；mutation 每周一 06:30 UTC/手动执行登记目标。它们不成为普通 PR 的真实网络依赖。所有 workflow 固定 Bun 1.4.4/Node 24，失败也上传证据，PR 保留 30 天，候选保留 90 天。配置检查通过不能证明远端 job 或保护规则实际生效。
 
 未合并分支的独立验收通过已登记的 release-rehearsal 手动入口运行：`gh workflow run release-rehearsal.yml --ref <branch> -f acceptance=testing`。它按同一提交的相对路径调用 verify、live、mutation 实际 workflow，不复制 job，不传账号 Secrets，不执行版本步骤或发布。live/mutation 同时保留 schedule 和 workflow_dispatch；普通 PR 仍只执行原有本地门禁和版本演练。
 
-故意失败上传演练使用同一入口的 `acceptance=failure`：调用同一个 verify job，显式传入默认为 false 的 evidence_failure，让一个临时 Bun 测试真实断言失败。job 必须为 failure、退出非零，同一个 always 上传步骤仍应保留 failure-probe.log、原生 failure-probe.xml 和初始候选信息；不能用 continue-on-error 改成通过。该模式不执行真实上游或账号操作。随后对同一候选运行 acceptance=testing，确认 candidate/verify、live、mutation 正常通过，普通 PR 也必须保持全绿。verify/load 上传按调用事件选择保留期：手动候选及故障演练 90 天，verify 的 PR/master push 与定时 load 30 天。省略 acceptance 或选择 release 时保持原发布演练行为。
+故意失败上传演练使用同一入口的 `acceptance=failure`：调用同一个 verify job，显式传入默认为 false 的 evidence_failure，让一个临时 Bun 测试真实断言失败。job 必须为 failure、退出非零，同一个 always 上传步骤仍应保留 failure-probe.log、原生 failure-probe.xml 和初始候选信息；不能用 continue-on-error 改成通过。该模式不执行真实上游或账号操作。随后对同一候选运行 acceptance=testing，确认 candidate/verify、live、mutation 正常通过，普通 PR 也必须保持全绿。verify 上传按调用事件选择保留期：手动候选及故障演练 90 天，PR/master push 30 天。省略 acceptance 或选择 release 时保持原发布演练行为。
 
-发布候选在最后一次版本步骤后验证：release-rehearsal 重跑 verify:sdk（包含重新构建、打包和 Node/Bun 消费者），手动模式再跑匿名 live。release 的 publish-script 由 `bun run release:checked` 连接，该脚本在 Bun shell 中执行 `bun scripts/release-preflight.mts && bun run release`；preflight 顺序运行 verify、verify:sdk、fixtures、smoke、soak、登记 mutation 和匿名 live，再核对当前包文件集合/hash、tarball 与源码不变。本地 preflight 不发布；进程控制测试从实际 workflow/package 读取命令，以 Action 的命令和参数方式启动真实 Bun，再在隔离项目用 PATH 命令探针证明每一门禁失败时 release 调用为零。验收内容是当前待发布文件，不能宣称已比对尚未发布的 registry tarball。
+发布候选在最后一次版本步骤后验证：release-rehearsal 重跑 verify:sdk（包含重新构建、打包和 Node/Bun 消费者），手动模式再跑匿名 live。release 的 publish-script 由 `bun run release:checked` 连接，该脚本在 Bun shell 中执行 `bun scripts/release-preflight.mts && bun run release`；preflight 顺序运行 verify、verify:sdk、fixtures、smoke、登记 mutation 和匿名 live，再核对当前包文件集合/hash、tarball 与源码不变。本地 preflight 不发布；进程控制测试从实际 workflow/package 读取命令，以 Action 的命令和参数方式启动真实 Bun，再在隔离项目用 PATH 命令探针证明每一门禁失败时 release 调用为零。验收内容是当前待发布文件，不能宣称已比对尚未发布的 registry tarball。
 
 ## 请求与流量变更
 
 - 请求、取消、重试、缓存或流量控制变更至少运行 `bun run test:load:smoke`。
-- 交付前的流量验收还需运行 `bun run test:load:soak`；该命令约运行十分钟，只连接 loopback。
+- 用户需要观察长时间稳定性时，手动运行 `bun run test:load:soak`；该命令约运行十分钟，只连接 loopback，保留原有时长、内存与资源归零判定。它独立于默认回归和自动门禁。
 - 负载报告写入 `.artifacts/testing/load/`，结束时应确认 `upstreamActive` 和 `inflight` 均归零。
 - 负载脚本使用本地 fake upstream；通过它不能推断网易云真实上游的可用性。
 
@@ -98,7 +104,7 @@
 
 ## 执行清单与证据
 
-`tests/suites.ts` 登记每个物理测试文件的主类别和命令选择。新增、移动测试时同步清单，三个类型检查文件仍由 tsc 执行。runner 拒绝漏登记、重复登记、空选择、only、todo、必要测试 skip、缺失或不一致的 JUnit，以及子进程失败。
+`tests/suites.ts` 登记每个物理测试文件的主类别和命令选择。新增、移动测试时同步清单，typecheckFiles 中的类型用例由所属的 Bun/Node 或 DOM 工程通过 tsc 检查。runner 拒绝漏登记、重复登记、空选择、only、todo、必要测试 skip、缺失或不一致的 JUnit，以及子进程失败。
 
 测试文件默认按清单串行运行在独立 Bun 子进程，避免旧测试的全局替换与运行时状态跨文件泄漏。每个文件保留 Bun 原生 JUnit，runner 校验后汇总；命令数组与每个子进程的日志都保留。
 

@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +9,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/voice/broadcast/channel/list',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const Channel = UpstreamObject({
   id: Schema.Finite,
@@ -36,10 +45,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const broadcastChannelList: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const broadcastChannelList: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       categoryId: query.categoryId || '0',
@@ -48,13 +58,7 @@ const broadcastChannelList: ModuleEffect<ModuleInput, ModuleBody> = (
       lastId: query.lastId || '0',
       score: query.score || '-1',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/voice/broadcast/channel/list`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'broadcast_channel_list',
       ModuleBody,

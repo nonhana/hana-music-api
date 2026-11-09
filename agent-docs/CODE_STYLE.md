@@ -1,6 +1,6 @@
 # 编码约定
 
-在编辑 TypeScript、Effect、生成文件、测试 kit 或格式配置前阅读本文件。
+在编辑 TypeScript、Effect、生成文件、测试 kit、格式配置或编写提交信息前阅读本文件。
 
 ## 通用规则
 
@@ -27,6 +27,15 @@
 
 - 模块表面、SDK registry、client 和具名 API 文件由 `bun run types:modules:generate` 生成；修改模块合同后先生成，再运行 `bun run types:modules:check`。
 - 不手工修改 `.codegraph/`、`.omx/`、`node_modules/` 或 `dist/` 中的生成产物；不要把令牌、Cookie 或真实上游凭据写入仓库。
-- 不提交、推送或发布，除非用户明确授权；提交时使用项目既有的 Conventional Commits 约定。
+- 不提交、推送或发布，除非用户明确授权。
+
+## 提交规范
+
+提交信息仅使用一行，格式为 `<type>: <message>`，冒号后保留一个空格。
+
+- `type` 表示改动类型，如 `feat`、`fix`、`docs`、`refactor`。
+- `message` 用一句简短的话总结本次改动，不宜过长。
+
+示例：`docs: 补充提交规范`。
 
 相关配置：`tsconfig.json`、`oxlint.config.ts`、`oxfmt.config.ts`、`scripts/gen-module-types.mts`。

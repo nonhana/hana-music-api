@@ -6,10 +6,6 @@ import { createHanaMusicApi, invokeModule } from '../../../../index.ts';
 import { invokeModule as invokeProgrammatic } from '../../../../src/app/module-api.ts';
 import { Call } from '../../../../src/core/call.ts';
 import type { CallShape } from '../../../../src/core/call.ts';
-import {
-  ProtocolFailed,
-  TransportFailed,
-} from '../../../../src/core/errors.ts';
 import { resolveIdentitySnapshot } from '../../../../src/core/identity.ts';
 import { getRuntimeState } from '../../../../src/core/runtime.ts';
 import lyric from '../../../../src/modules/lyric.ts';
@@ -21,9 +17,11 @@ import type {
   ModuleCallConfig,
   ModuleQuery,
   RequestCapability,
-  RequestIntent,
 } from '../../../../src/types/index.ts';
 import { provideService, runEffect } from '../../../_kit/it.ts';
+import type { RecordedAction } from '../../../_kit/module.ts';
+import { withScenario } from '../../../_kit/upstream/scenario.ts';
+import { readEapiBody } from '../../../_kit/upstream/wire.ts';
 
 // song_detail、playlist_detail 和 lyric 会校验返回体，共用的假返回体带上它们声明的字段。
 const extraBody = {
@@ -128,8 +126,9 @@ describe('ordinary read Effect modules', () => {
       protocol: 'eapi',
     },
   ])('emits an Effect request for $target with $input', async (scenario) => {
-    const intents: Array<RequestIntent> = [];
-    const request: RequestCapability = (intent) => {
+    const intents: Array<RecordedAction> = [];
+    const request: RequestCapability = (action, args) => {
+      const intent = { action, args };
       intents.push(intent);
       return Effect.succeed({
         status: 200,
@@ -152,23 +151,17 @@ describe('ordinary read Effect modules', () => {
     }
     const config: ModuleCallConfig = { cookie: 'MUSIC_U=module-reader' };
     const call: CallShape = {
+      actions: {},
       identifier: 'read-test',
       input: scenario.input,
-      config,
       identity: resolveIdentitySnapshot(config, getRuntimeState()),
       policy: { read: true, upload: false },
-      startedAt: Date.now(),
     };
     const response = await runEffect(result.pipe(provideService(Call, call)));
     expect(intents).toEqual([
       {
-        target: scenario.target,
-        protocol: scenario.protocol,
-        method: 'POST',
-        headers: {},
-        body: JSON.stringify(scenario.body),
-        response: 'json',
-        semantic: 'read',
+        action: scenario.target === '/api/search/voice/get' ? 'voice' : 'read',
+        args: { data: scenario.body },
       },
     ]);
     expect(response).toEqual({ status: 200, cookie: [], body: extraBody });
@@ -179,13 +172,16 @@ describe('ordinary read Effect modules', () => {
     async (scenario) => {
       const response = await invokeModule(scenario.identifier, scenario.input, {
         cookie: 'MUSIC_U=sdk-effect',
-        crypto: 'api',
+
         fetcher: async (url) =>
           Response.json({ ...extraBody, target: requestUrl(url) }),
       });
       expect(response.body).toEqual({
         ...extraBody,
-        target: `https://interface.music.163.com${scenario.target}`,
+        target:
+          scenario.identifier === 'song_detail'
+            ? 'https://music.163.com/weapi/v3/song/detail'
+            : `https://interface.music.163.com/eapi/${scenario.target.slice(5)}`,
       });
     },
   );
@@ -193,16 +189,22 @@ describe('ordinary read Effect modules', () => {
   test.each([...scenarios])(
     '$identifier runs through the programmatic entry through the shared Call',
     async (scenario) => {
-      const response = await invokeProgrammatic(scenario.identifier, {
-        ...scenario.input,
-        cookie: 'MUSIC_U=programmatic-effect',
-        crypto: 'api',
-        fetcher: async (url: Request | URL | string) =>
-          Response.json({ ...extraBody, target: requestUrl(url) }),
-      });
+      const response = await invokeProgrammatic(
+        scenario.identifier,
+        { ...scenario.input },
+        {},
+        {
+          cookie: 'MUSIC_U=programmatic-effect',
+          fetcher: async (url: Request | URL | string) =>
+            Response.json({ ...extraBody, target: requestUrl(url) }),
+        },
+      );
       expect(response.body).toEqual({
         ...extraBody,
-        target: `https://interface.music.163.com${scenario.target}`,
+        target:
+          scenario.identifier === 'song_detail'
+            ? 'https://music.163.com/weapi/v3/song/detail'
+            : `https://interface.music.163.com/eapi/${scenario.target.slice(5)}`,
       });
     },
   );
@@ -245,7 +247,7 @@ describe('ordinary read Effect modules', () => {
         body: { code: 301, msg: 'fixture-auth-failure', extra: { keep: true } },
       },
       expected: {
-        status: 401,
+        status: 301,
         cookie: [],
         body: { code: 301, msg: 'fixture-auth-failure', extra: { keep: true } },
       },
@@ -259,39 +261,42 @@ describe('ordinary read Effect modules', () => {
         body: { code: 502, msg: 'fixture-handler-error' },
       },
     },
-  ])(
-    'maps custom request $name at the programmatic Effect ingress',
-    async (scenario) => {
-      const failure = await invokeProgrammatic(
-        'search',
-        { keywords: 'failure', cookie: 'MUSIC_U=effect-handler-failure' },
+  ])('maps upstream $name at the programmatic ingress', async (scenario) => {
+    await withScenario(
+      [
         {
-          requestHandler: (intent) =>
-            Effect.sync(() =>
-              expect(intent.target).toBe('/api/search/get'),
-            ).pipe(
-              Effect.andThen(
-                Effect.fail(
-                  scenario.rejection instanceof Error
-                    ? TransportFailed.make({
-                        message: scenario.rejection.message,
-                      })
-                    : ProtocolFailed.make({
-                        message: 'fixture-auth-failure',
-                        response: {
-                          ...scenario.rejection,
-                          cookie: [],
-                          headers: new Headers(),
-                        },
-                      }),
-                ),
-              ),
-            ),
+          url: 'https://interface.music.163.com/eapi/search/get',
+          method: 'POST',
+          reject:
+            scenario.rejection instanceof Error
+              ? scenario.rejection
+              : undefined,
+          check: (wire) =>
+            expect(readEapiBody(wire.body).data).toMatchObject({
+              s: 'failure',
+            }),
+          response: () =>
+            scenario.rejection instanceof Error
+              ? Response.json({ code: 200 })
+              : Response.json(scenario.rejection.body, {
+                  status: scenario.rejection.status,
+                }),
         },
-      ).catch((error: unknown) => error);
-      expect(failure).toEqual(scenario.expected);
-    },
-  );
+      ],
+      async (network) => {
+        const failure = await invokeProgrammatic(
+          'search',
+          { keywords: 'failure' },
+          {},
+          {
+            cookie: 'MUSIC_U=effect-handler-failure',
+            fetcher: network.fetcher,
+          },
+        ).catch((error: unknown) => error);
+        expect(failure).toEqual(scenario.expected);
+      },
+    );
+  });
 
   test('all generated client methods remain available from the Effect registry', () => {
     const client = createHanaMusicApi({ cookie: 'MUSIC_U=method-surface' });

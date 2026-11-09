@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +9,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/cellphone/existence/check',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 返回码和手机号是否已注册的 `exist` 收紧（`1` 已注册、`-1` 未注册）；`avatarUrl`、`cellphone`、`countryCode`、`hasPassword`、`hasSnsBinded`、`nickname` 宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -26,22 +35,17 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const cellphoneExistenceCheck: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const cellphoneExistenceCheck: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       cellphone: query.phone,
       countrycode: query.countrycode,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/cellphone/existence/check`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'cellphone_existence_check',
       ModuleBody,

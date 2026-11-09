@@ -6,11 +6,21 @@ import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
+import type { UnknownJson } from '../types/unknown.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/w/register/cellphone',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   captcha: string;
@@ -31,7 +41,11 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const registerCellphone: ModuleEffect<ModuleInput> = (query, request) =>
+const registerCellphone: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       captcha: query.captcha,
@@ -41,13 +55,7 @@ const registerCellphone: ModuleEffect<ModuleInput> = (query, request) =>
       countrycode: query.countrycode || '86',
       force: 'false',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/w/register/cellphone`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 

@@ -1,6 +1,6 @@
 {
   "name": "hana-music-api",
-  "version": "3.2.1",
+  "version": "4.0.0-next.0",
   "private": false,
   "description": "Modern NCM API library for Bun & Node.js.",
   "keywords": [
@@ -30,6 +30,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./watchman": {
+      "types": "./dist/watchman.d.ts",
+      "default": "./dist/watchman.js"
     }
   },
   "publishConfig": {
@@ -37,7 +41,7 @@
     "provenance": true
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "tsdown --config tsdown.config.ts && tsdown --config tsdown.browser.config.ts",
     "build:check": "bun run build && publint --strict && attw --pack . --profile esm-only",
     "changeset": "changeset",
     "dev": "bun --watch src/app/cli.ts",
@@ -61,7 +65,8 @@
     "test:load:smoke": "bun scripts/test.mts smoke && bun scripts/load-test.mts",
     "test:load:soak": "bun scripts/load-test.mts --soak",
     "test:sdk-contract": "bun scripts/test.mts sdk",
-    "typecheck": "tsc --noEmit",
+    "test:watchman": "bun scripts/test.mts watchman",
+    "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p src/browser/tsconfig.json",
     "types:modules:check": "bun scripts/gen-module-types.mts --check",
     "types:modules:generate": "bun scripts/gen-module-types.mts",
     "verify": "bun run types:modules:check && bun run schema:audit check && bun run build && bun run test && bun run typecheck && bun run lint && bun run spell && bun run fmt:check && bun run docs:build",
@@ -87,11 +92,15 @@
     "oxfmt": "^0.76.0",
     "oxlint": "^1.91.0",
     "oxlint-tsgolint": "^7.0.2005",
+    "playwright": "1.65.0",
     "publint": "^0.3.25",
     "tsdown": "^0.23.5",
     "typescript": "^7.0.2",
     "vitepress": "^1.6.4",
     "vitepress-plugin-mermaid": "^2.0.17"
+  },
+  "engines": {
+    "node": ">=24"
   },
   "packageManager": "bun@1.4.4"
 }

@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 import { MvSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/mv/all',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 通到全部 MV 列表的路径 `data` 和 MV 自己的编号 `data[].id` 收紧（共用 `MvSummary`）；`count` 在非首页缺失、`hasMore` 宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -23,7 +32,10 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const mvAll: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const mvAll: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       tags: JSON.stringify({
@@ -35,9 +47,7 @@ const mvAll: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       total: 'true',
       limit: query.limit || 30,
     };
-    const response = yield* request(
-      buildApiRequestIntent(`/api/mv/all`, data, createOption(query)),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('mv_all', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

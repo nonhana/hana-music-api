@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -16,6 +15,16 @@ import {
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/videotimeline/get',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const VideoPlayback = UpstreamObject({
   id: Loose(Schema.String),
@@ -71,10 +80,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const videoTimelineRecommend: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const videoTimelineRecommend: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       offset: query.offset || 0,
@@ -83,13 +93,7 @@ const videoTimelineRecommend: ModuleEffect<ModuleInput, ModuleBody> = (
       needUrl: '1',
       resolution: '480',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/videotimeline/get`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'video_timeline_recommend',
       ModuleBody,

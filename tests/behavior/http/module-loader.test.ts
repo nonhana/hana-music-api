@@ -13,49 +13,55 @@ import { clientLayer } from '../../_kit/layers.ts';
 test.each([
   {
     retry: 'never',
-    token: 'none',
+    checkToken: undefined,
     target: '/api/search/get',
     failure: 'ECONNREFUSED',
     attempts: 1,
   },
   {
     retry: 'connect',
-    token: 'none',
+    checkToken: undefined,
     target: '/api/search/get',
     failure: 'fetch failed',
     attempts: 1,
   },
   {
     retry: 'connect',
-    token: 'none',
+    checkToken: undefined,
     target: '/api/custom/read',
     failure: 'ECONNREFUSED',
     attempts: 2,
   },
   {
     retry: 'read',
-    token: 'none',
+    checkToken: undefined,
     target: '/api/custom/read',
     failure: 'fetch failed',
     attempts: 2,
   },
   {
     retry: 'read',
-    token: 'none',
+    checkToken: undefined,
     target: '/api/playlist/update',
     failure: 'ECONNREFUSED',
     attempts: 2,
   },
   {
     retry: 'read',
-    token: 'optional',
+    checkToken: 'fresh-token',
     target: '/api/search/get',
     failure: 'fetch failed',
     attempts: 1,
   },
 ])(
-  'loaded action retry $retry with token $token at $target governs $failure',
-  async ({ retry, token, target, failure, attempts: expectedAttempts }) => {
+  'loaded action retry $retry with token $checkToken at $target governs $failure',
+  async ({
+    retry,
+    checkToken,
+    target,
+    failure,
+    attempts: expectedAttempts,
+  }) => {
     const directory = await mkdtemp(
       resolve(tmpdir(), 'hana-module-action-retry-'),
     );
@@ -65,8 +71,8 @@ test.each([
         `
 import { Effect } from ${JSON.stringify(import.meta.resolve('effect'))}
 export const decodeModuleInput = (input) => Effect.succeed(input)
-export const moduleActions = { read: { profile: 'web', target: ${JSON.stringify(target)}, semantic: 'read', token: '${token}', cache: 'none', retry: '${retry}' } }
-export default (input, request) => request({ action: 'read', target: ${JSON.stringify(target)}, protocol: 'weapi', method: 'POST', headers: {}, body: '{}', response: 'json', semantic: 'read' }).pipe(Effect.map((response) => ({ status: response.status, cookie: response.cookie, body: response.body })))
+export const moduleActions = { read: { profile: 'web', target: ${JSON.stringify(target)}, semantic: 'read', cache: 'none', retry: '${retry}' } }
+export default (input, request) => request('read', { data: {} }).pipe(Effect.map((response) => ({ status: response.status, cookie: response.cookie, body: response.body })))
       `,
       );
       const [definition] = await loadModuleDefinitions(directory);
@@ -78,7 +84,7 @@ export default (input, request) => request({ action: 'read', target: ${JSON.stri
             input: {},
             config: {
               cookie: 'MUSIC_U=listener',
-              checkToken: 'fresh-token',
+              checkToken,
               retry: {
                 retryNonIdempotent: true,
                 retries: 1,
@@ -120,6 +126,7 @@ test.each([true, false])(
         `
 import { Effect } from ${JSON.stringify(import.meta.resolve('effect'))}
 import { InvalidModuleInput } from ${JSON.stringify(new URL('../../../src/core/errors.ts', import.meta.url).href)}
+export const moduleActions = {}
 export let executions = 0
 ${decode ? "export const decodeModuleInput = (input) => typeof input.id === 'string' ? Effect.succeed({ id: input.id }) : Effect.fail(InvalidModuleInput.make({ message: 'id must be a string' }))" : ''}
 export default (input) => Effect.sync(() => { executions += 1; return { status: 200, cookie: [], body: input } })
@@ -190,6 +197,12 @@ const dynamicActionCases: Array<{
     status: 200,
     identifier: 'search',
   },
+  {
+    action: 'cancel',
+    target: '/api/playlist/unsubscribe',
+    declaration: '/api/playlist/unsubscribe',
+    status: 200,
+  },
   { action: 'missing', target: '/api/playlist/unsubscribe', status: 400 },
   { action: 'toString', target: '/api/playlist/unsubscribe', status: 400 },
   { action: 'cancel', target: '/api/user/delete', status: 400 },
@@ -210,7 +223,7 @@ const dynamicActionCases: Array<{
   {
     action: 'cancel',
     target: '/api/playlist/item/../unsubscribe',
-    status: 200,
+    status: 400,
     declaration: '/api/playlist/unsubscribe',
   },
   {
@@ -282,9 +295,9 @@ test.each(dynamicActionCases)(
 import { Effect } from ${JSON.stringify(import.meta.resolve('effect'))}
 export const decodeModuleInput = (input) => Effect.succeed(input)
 export const moduleActions = {
-  cancel: { profile: 'web', target: ${JSON.stringify(declaration)}, semantic: 'write', token: 'none', cache: 'none', retry: 'never' },
+  cancel: { profile: 'web', target: ${JSON.stringify(declaration)}, semantic: 'write', checkToken: undefined, cache: 'none', retry: 'never' },
 }
-export default (input, request) => request({ action: input.action, target: input.target, protocol: 'weapi', method: 'POST', headers: {}, body: '{}', response: 'json', semantic: 'write' }).pipe(Effect.map((response) => ({ status: response.status, cookie: response.cookie, body: response.body })))
+export default (input, request) => request(input.action, { data: {}, ${typeof declaration === 'string' && target === declaration ? '' : 'path: input.target'} }).pipe(Effect.map((response) => ({ status: response.status, cookie: response.cookie, body: response.body })))
 `,
       );
       if (loadRejected) {

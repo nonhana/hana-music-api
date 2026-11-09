@@ -1,8 +1,7 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -21,7 +20,27 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const like: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
+export const moduleActions = {
+  like: {
+    target: '/api/radio/like',
+    profile: 'web',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  unlike: {
+    target: '/api/radio/like',
+    profile: 'web',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const like: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  input,
+  request,
+) =>
   Effect.gen(function* () {
     const query = { ...input };
     if (
@@ -42,13 +61,8 @@ const like: ModuleEffect<ModuleInput, ModuleBody> = (input, request) =>
       like: query.like,
       time: '3',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/radio/like`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const action = query.like ? 'like' : 'unlike';
+    const response = yield* request(action, { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('like', ModuleBody, response),

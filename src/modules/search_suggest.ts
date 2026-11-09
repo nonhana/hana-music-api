@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -81,19 +80,34 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const searchSuggest: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  mobile: {
+    target: '/api/search/suggest/keyword',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'read',
+  },
+  web: {
+    target: '/api/search/suggest/web',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'read',
+  },
+} as const satisfies ModuleActions;
+
+const searchSuggest: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       s: query.keywords || '',
     };
-    const type = query.type === 'mobile' ? 'keyword' : 'web';
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/search/suggest/` + type,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const action = query.type === 'mobile' ? 'mobile' : 'web';
+    const response = yield* request(action, { data });
     const body = yield* decodeUpstreamBody(
       'search_suggest',
       ModuleBody,

@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -12,6 +11,16 @@ import {
 import { CommentRecord, CommentUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/comment/user/comment/history',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 历史评论除了 `CommentRecord` 的字段，还带被回复内容/用户和资源信息 `resourceInfo`、`resourceType`、`threadId`。
 const HistoryComment = UpstreamObject({
@@ -41,10 +50,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userCommentHistory: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const userCommentHistory: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       compose_reminder: 'true',
@@ -53,13 +63,7 @@ const userCommentHistory: ModuleEffect<ModuleInput, ModuleBody> = (
       user_id: query.uid,
       time: query.time || 0,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/comment/user/comment/history`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'user_comment_history',
       ModuleBody,

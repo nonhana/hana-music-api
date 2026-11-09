@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +9,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/act/hot',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 话题记录的编号是 `actId`；标题、正文、参与人数和封面都是宽松字段。
 const HotTopicRecord = UpstreamObject({
@@ -32,15 +41,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const hotTopic: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const hotTopic: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 20,
       offset: query.offset || 0,
     };
-    const response = yield* request(
-      buildApiRequestIntent(`/api/act/hot`, data, createOption(query, 'weapi')),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('hot_topic', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

@@ -6,6 +6,8 @@ import { cors } from 'hono/cors';
 
 import type { InternalExecution } from '../core/call-context.ts';
 import { buildCallServices } from '../core/call.ts';
+import { rejectRemovedRequestHandler } from '../core/options.ts';
+import { validateModuleActions } from '../core/request-actions.ts';
 import type { CreateServerOptions } from '../types/server.ts';
 import { AdmissionController } from './admission.ts';
 import { registerDemoRoutes } from './demo-routes.tsx';
@@ -16,6 +18,9 @@ import { registerBaseRoutes, registerModuleRoutes } from './routes.ts';
 export interface CreateServerRuntimeOptions {
   readonly allowDebugApiRequests?: boolean;
   readonly execution?: InternalExecution;
+  readonly inspectReadStore?: (
+    read: () => { inflight: number; cacheHits: number; merged: number },
+  ) => void;
 }
 
 /** 创建 Hono 服务实例 */
@@ -23,6 +28,7 @@ export const createServer = async (
   options: CreateServerOptions = {},
   runtimeOptions: CreateServerRuntimeOptions = {},
 ): Promise<Hono> => {
+  rejectRemovedRequestHandler(options);
   if (
     options.debugApiRequests &&
     !['127.0.0.1', 'localhost', '::1'].includes(options.hostname ?? '')
@@ -49,7 +55,7 @@ export const createServer = async (
     false,
     runtimeOptions.execution,
   );
-  const requestHandler = options.requestHandler;
+  runtimeOptions.inspectReadStore?.(() => modules.reads.snapshot);
   const admission = new AdmissionController(options.traffic);
 
   app.use('*', createCorsMiddleware(options));
@@ -59,17 +65,19 @@ export const createServer = async (
     docsDistDirectory: options.docsDistDirectory,
     serviceName: options.serviceName ?? 'hana-music-api',
   });
-  registerModuleRoutes(app, moduleDefinitions, {
+  const registered = moduleDefinitions.map((definition) => ({
+    ...definition,
+    actions: validateModuleActions(definition.actions),
+  }));
+  registerModuleRoutes(app, registered, {
     modules,
     admission,
     serverOptions: options,
-    requestHandler,
   });
   registerDemoRoutes(app, {
     admission,
     serverOptions: options,
     modules,
-    requestHandler,
   });
 
   return app;

@@ -3,17 +3,50 @@ import { createHash } from 'node:crypto';
 import { Effect, Schema } from 'effect';
 import * as metadata from 'music-metadata';
 
-import { Call } from '../core/call.ts';
 import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
   UploadedFile,
 } from '../core/module-input.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
-import uploadSongPlugin from '../plugins/song-upload.ts';
+import uploadSongPlugin, { songUploadActions } from '../plugins/song-upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyUploadedFile } from '../types/module-shared.ts';
+import type { UnknownJson } from '../types/unknown.ts';
+
+export const moduleActions = {
+  ...songUploadActions,
+  check: {
+    profile: 'eapi',
+    target: '/api/cloud/upload/check',
+    semantic: 'upload',
+    cache: 'none',
+    retry: 'never',
+  },
+  allocate: {
+    profile: 'eapi',
+    target: '/api/nos/token/alloc',
+    semantic: 'upload',
+    cache: 'none',
+    retry: 'never',
+  },
+  information: {
+    profile: 'eapi',
+    target: '/api/upload/cloud/info/v2',
+    semantic: 'upload',
+    cache: 'none',
+    retry: 'never',
+  },
+  publish: {
+    profile: 'eapi',
+    target: '/api/cloud/pub/v2',
+    semantic: 'upload',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   songFile?: LegacyUploadedFile;
@@ -26,7 +59,10 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const cloud: ModuleEffect<ModuleInput> = (input, request) =>
+const cloud: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
+  input,
+  request,
+) =>
   uploadWork('cloud', request, (stage) =>
     Effect.gen(function* () {
       if (!input.songFile) {
@@ -35,7 +71,6 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
           status: 500,
         });
       }
-      const call = yield* Call;
       const bytes =
         input.songFile.data instanceof ArrayBuffer
           ? new Uint8Array(input.songFile.data)
@@ -54,21 +89,15 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
         .replace('.' + ext, '')
         .replace(/\s/g, '')
         .replace(/\./g, '_');
-      const checked = yield* stage({
-        target: '/api/cloud/upload/check',
-        protocol: call.config.crypto || 'eapi',
-        method: 'POST',
-        headers: {},
-        body: JSON.stringify({
+      const checked = yield* stage('check', {
+        data: {
           bitrate: '999000',
           ext: '',
           length: songFile.size,
           md5: songFile.md5,
           songId: '0',
           version: 1,
-        }),
-        response: 'json',
-        semantic: 'upload',
+        },
       });
       const check = yield* Schema.decodeUnknownEffect(
         Schema.Struct({
@@ -93,12 +122,8 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
         Effect.map((info) => info.common),
         Effect.orElseSucceed(() => ({ title: '', album: '', artist: '' })),
       );
-      const allocation = yield* stage({
-        target: '/api/nos/token/alloc',
-        protocol: call.config.crypto || 'eapi',
-        method: 'POST',
-        headers: {},
-        body: JSON.stringify({
+      const allocation = yield* stage('allocate', {
+        data: {
           bucket: '',
           ext,
           filename,
@@ -106,9 +131,7 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
           nos_product: 3,
           type: 'audio',
           md5: songFile.md5,
-        }),
-        response: 'json',
-        semantic: 'upload',
+        },
       });
       const { result: token } = yield* Schema.decodeUnknownEffect(
         Schema.Struct({
@@ -129,12 +152,8 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
       if (check.needUpload) {
         yield* uploadSongPlugin({ ...input, songFile }, stage);
       }
-      const information = yield* stage({
-        target: '/api/upload/cloud/info/v2',
-        protocol: call.config.crypto || 'eapi',
-        method: 'POST',
-        headers: {},
-        body: JSON.stringify({
+      const information = yield* stage('information', {
+        data: {
           md5: songFile.md5,
           songid: check.songId,
           filename: songFile.name,
@@ -143,9 +162,7 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
           artist: tags.artist || '未知艺术家',
           bitrate: '999000',
           resourceId: token.resourceId,
-        }),
-        response: 'json',
-        semantic: 'upload',
+        },
       });
       const info = yield* Schema.decodeUnknownEffect(
         Schema.Struct({ songId: Schema.Union([Schema.String, Schema.Finite]) }),
@@ -159,14 +176,10 @@ const cloud: ModuleEffect<ModuleInput> = (input, request) =>
           }),
         ),
       );
-      const published = yield* stage({
-        target: '/api/cloud/pub/v2',
-        protocol: call.config.crypto || 'eapi',
-        method: 'POST',
-        headers: {},
-        body: JSON.stringify({ songid: info.songId }),
-        response: 'json',
-        semantic: 'upload',
+      const published = yield* stage('publish', {
+        data: {
+          songid: info.songId,
+        },
       });
       if (!isRecord(published.body)) {
         return yield* UnexpectedUpstreamShape.make({

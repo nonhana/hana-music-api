@@ -1,7 +1,7 @@
 import type {
   CreateRequestOptions,
   NcmApiResponse,
-  RequestIntent,
+  RequestProtocol,
 } from '../types/index.ts';
 import {
   InvalidRequest,
@@ -10,87 +10,33 @@ import {
   UpstreamRateLimited,
 } from './errors.ts';
 import type { IdentitySnapshot } from './identity.ts';
-import { normalizeActionTarget } from './request-actions.ts';
 import type { RequestAction } from './request-actions.ts';
-import { requestProfiles } from './request-profiles.ts';
-import type { RequestProfile } from './request-profiles.ts';
 import { businessCode } from './response.ts';
 
-const readModules = new Set([
-  'search',
-  'lyric',
-  'song_detail',
-  'playlist_detail',
-]);
-const uploadModules = new Set([
-  'avatar_upload',
-  'playlist_cover_update',
-  'cloud',
-  'voice_upload',
-]);
-const noRetryUris = new Set([
-  '/api/activate/initProfile',
-  '/api/user/replaceCellphone',
-  '/api/point/dailyTask',
-  '/api/point/expense',
-  '/api/point/receipt',
-  '/api/vipnewcenter/app/level/task/reward/get',
-  '/api/creator/user/access',
-  '/api/feedback/weblog',
-  '/api/v2/resource/comments/hug/listener',
-  '/api/voice/workbench/radio/program/trans',
-  '/api/playlist/import/task/status/v2',
-]);
-
 export const validateRequestTarget = (
-  intent: RequestIntent,
+  request: {
+    readonly protocol: RequestProtocol;
+    readonly target: string;
+    readonly method: string;
+  },
   url: string,
   identity: IdentitySnapshot,
-  action?: RequestAction,
-): void => {
-  const targetSemantic =
-    intent.protocol === 'plain'
-      ? ['GET', 'HEAD'].includes(intent.method)
-        ? 'read'
-        : 'upload'
-      : requestSemantic(intent.target);
-  if (intent.action === undefined && intent.semantic !== targetSemantic) {
-    throw InvalidRequest.make({
-      message: 'Request semantic does not match its target and method',
-    });
-  }
+): boolean => {
   if (
-    intent.protocol !== 'plain' &&
-    (!intent.target.startsWith('/api/') || intent.method !== 'POST')
+    request.protocol !== 'plain' &&
+    (!request.target.startsWith('/api/') || request.method !== 'POST')
   ) {
     throw InvalidRequest.make({
       message: 'API requests require an /api/ target and POST method',
     });
   }
   const target = new URL(url);
-  if (action) {
-    const profile: RequestProfile = requestProfiles[action.profile];
-    const path = normalizeActionTarget(intent.target, profile, action.target);
-    const preparedPath =
-      profile.protocol === 'linuxapi'
-        ? '/api/linux/forward'
-        : profile.protocol === 'api'
-          ? path
-          : `/${profile.protocol}/${path.slice(5)}`;
-    const expected = new URL(preparedPath, profile.domain);
-    if (target.href !== expected.href) {
-      throw InvalidRequest.make({
-        message:
-          'Prepared request does not match its declared profile and target',
-      });
-    }
-  }
   const apiHost = ['music.163.com', 'interface.music.163.com'].includes(
     target.hostname,
   );
   const scrobbleHost =
-    intent.protocol === 'eapi' &&
-    intent.target === '/api/feedback/weblog' &&
+    request.protocol === 'eapi' &&
+    request.target === '/api/feedback/weblog' &&
     target.hostname === 'clientlog.music.163.com';
   const secure =
     target.protocol === 'https:' && (!target.port || target.port === '443');
@@ -101,7 +47,7 @@ export const validateRequestTarget = (
   ) {
     throw TargetRejected.make({ message: 'Request target is not allowed' });
   }
-  if (intent.protocol === 'plain') {
+  if (request.protocol === 'plain') {
     const approved =
       apiHost ||
       target.hostname.endsWith('.127.net') ||
@@ -119,48 +65,22 @@ export const validateRequestTarget = (
       message: 'Authenticated API target is not allowed',
     });
   }
+  return secure && (apiHost || scrobbleHost);
 };
 
-export const requestSemantic = (uri: string): RequestIntent['semantic'] => {
-  if (/login|logout|register|captcha/.test(uri)) {
-    return 'login';
-  }
-  if (/upload|\/nos\/|\/cloud\//.test(uri)) {
-    return 'upload';
-  }
-  return noRetryUris.has(uri) ||
-    /\/listen\/together\/|\/frontrisk\/verify\/|\/ordering\/|\/user\/(?:follow|delfollow)\//.test(
-      uri,
-    ) ||
-    /\/(?:like|unlike|dislike|batch|publish|delete|del|update|subscribe|unsubscribe|sub|unsub|send|sign|report|add|reply|create|remove|manipulate|share|forward|edit|collect|submit|receive|obtain)(?:\/|$)/.test(
-      uri,
-    )
-    ? 'write'
-    : 'read';
-};
-
-export const isReadModule = (identifier: string): boolean =>
-  readModules.has(identifier);
-export const isUploadModule = (identifier: string): boolean =>
-  uploadModules.has(identifier);
 export const isCacheable = (response: NcmApiResponse): boolean => {
   const code = businessCode(response);
   return response.status === 200 && (code === undefined || code === 200);
 };
 
 export const retryDecision = (
-  uri: string,
   error: unknown,
   attempt: number,
   options: CreateRequestOptions['retry'],
   random: number,
-  action?: RequestAction,
+  action: Pick<RequestAction, 'semantic' | 'retry'>,
 ): number | undefined => {
-  if (
-    (action?.semantic ?? requestSemantic(uri)) !== 'read' ||
-    action?.retry === 'never' ||
-    (action !== undefined && action.token !== 'none')
-  ) {
+  if (action.semantic !== 'read' || action.retry === 'never') {
     return undefined;
   }
   if (error instanceof UpstreamRateLimited) {
@@ -171,9 +91,7 @@ export const retryDecision = (
     /eai_again|econnrefused|und_err_connect_timeout|\bconnect etimedout\b/.test(
       text,
     );
-  const read = action
-    ? action.retry === 'read'
-    : /\/search\/|\/song\/lyric|\/song\/detail|\/playlist\/detail/.test(uri);
+  const read = action.retry === 'read';
   const explicit = options?.retryNonIdempotent === true && read;
   const status =
     error instanceof ProtocolFailed

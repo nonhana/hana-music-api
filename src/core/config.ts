@@ -1,10 +1,3 @@
-export const APP_CONF = {
-  apiDomain: 'https://interface.music.163.com',
-  domain: 'https://music.163.com',
-  encrypt: true,
-  encryptResponse: false,
-} as const;
-
 export const OS_PROFILES = {
   android: {
     appver: '9.1.65.240927161425',
@@ -12,6 +5,7 @@ export const OS_PROFILES = {
     os: 'android',
     osver: '14',
   },
+
   iphone: {
     appver: '9.0.90',
     channel: 'distribution',

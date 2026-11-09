@@ -1,12 +1,26 @@
 import { Effect } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+import type { UnknownJson } from '../types/unknown.ts';
 
-const voicelistTrans: ModuleEffect<ModuleInput> = (query, request) =>
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/voice/workbench/radio/program/trans',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const voicelistTrans: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || '200', // 每页数量
@@ -15,13 +29,7 @@ const voicelistTrans: ModuleEffect<ModuleInput> = (query, request) =>
       programId: query.programId || '0', // 节目id
       position: query.position || '1', // 排序编号
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/voice/workbench/radio/program/trans`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 

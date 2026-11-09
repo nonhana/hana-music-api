@@ -5,8 +5,7 @@ import {
   ProtocolFailed,
   UpstreamBusinessFailed,
 } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -15,6 +14,23 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  manipulate: {
+    profile: 'eapi',
+    target: '/api/playlist/manipulate/tracks',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  fallback: {
+    profile: 'eapi',
+    target: '/api/playlist/manipulate/tracks',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 返回码收紧；歌单歌曲计数和 trackIds 宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -45,10 +61,11 @@ const decodeResponse = (response: Parameters<typeof toModuleResponse>[0]) => {
   );
 };
 
-const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const playlistTracks: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     if (
       query.tracks !== undefined &&
@@ -68,13 +85,7 @@ const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
       trackIds: JSON.stringify(tracks),
       imme: 'true',
     };
-    return yield* request(
-      buildApiRequestIntent(
-        '/api/playlist/manipulate/tracks',
-        data,
-        createOption(query),
-      ),
-    ).pipe(
+    return yield* request('manipulate', { data }).pipe(
       Effect.flatMap(decodeResponse),
       Effect.mapError((error) => {
         if (error instanceof ProtocolFailed && error.response) {
@@ -100,13 +111,12 @@ const playlistTracks: ModuleEffect<ModuleInput, ModuleBody> = (
           if (error.code !== 512) {
             return yield* error;
           }
-          return yield* request(
-            buildApiRequestIntent(
-              '/api/playlist/manipulate/tracks',
-              { ...data, trackIds: JSON.stringify([...tracks, ...tracks]) },
-              createOption(query),
-            ),
-          ).pipe(Effect.flatMap(decodeResponse));
+          return yield* request('fallback', {
+            data: {
+              ...data,
+              trackIds: JSON.stringify([...tracks, ...tracks]),
+            },
+          }).pipe(Effect.flatMap(decodeResponse));
         }),
       ),
     );

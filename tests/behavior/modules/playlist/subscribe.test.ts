@@ -67,8 +67,6 @@ test.each([
   async ({ t, path }) => {
     const { client, sent } = createClient({
       cookie: 'MUSIC_U=listener; os=pc; appver=3.1.17.204416',
-      ua: 'Mozilla/5.0 (Windows NT 10.0) NeteaseMusicDesktop/3.1.29.205117',
-      crypto: 'eapi',
     });
 
     await client.playlistSubscribe({ id: 2889745179, t });
@@ -123,7 +121,7 @@ test('playlistSubscribe uses weapi with a configured checkToken', async () => {
   expect(request?.userAgent).not.toContain('NeteaseMusicDesktop');
 });
 
-test('playlistSubscribe calls the checkToken provider for each subscribe only', async () => {
+test('playlistSubscribe calls the checkToken provider for each subscribe and unsubscribe', async () => {
   let calls = 0;
   const { client, sent } = createClient({
     cookie: 'MUSIC_U=listener',
@@ -134,14 +132,14 @@ test('playlistSubscribe calls the checkToken provider for each subscribe only', 
   await client.playlistSubscribe({ id: 1, t: 1 });
   await client.playlistSubscribe({ id: 1, t: 0 });
 
-  expect(calls).toBe(2);
+  expect(calls).toBe(3);
   expect(sent).toHaveLength(3);
   expect(sent[0]?.url).toBe('https://music.163.com/weapi/playlist/subscribe');
   expect(sent[1]?.url).toBe('https://music.163.com/weapi/playlist/subscribe');
   expect(sent[0]?.headers.get('x-anticheattoken')).toBe('token-1');
   expect(sent[1]?.headers.get('x-anticheattoken')).toBe('token-2');
   expect(sent[2]?.url).toBe('https://music.163.com/weapi/playlist/unsubscribe');
-  expect(sent[2]?.headers.has('x-anticheattoken')).toBe(false);
+  expect(sent[2]?.headers.get('x-anticheattoken')).toBe('token-3');
   expect(sent[2]?.bodyKeys.toSorted()).toEqual(['encSecKey', 'params']);
   const cookie = new Map(
     sent[2]?.cookie.split('; ').map((pair) => {
@@ -194,17 +192,7 @@ test('playlistSubscribe sends a complete web identity and the same token in its 
     const { client, sent } = createClient({
       cookie:
         'MUSIC_U=listener; __csrf=csrf; os=pc; appver=desktop; osver=desktop-os; channel=desktop-channel; clientSign=desktop-sign; OS=iphone; APPVER=mobile; OsVer=mobile; Channel=mobile; ClientSign=mobile; buildver=1; mobilename=phone; versioncode=2; resolution=small; brand=mobile; mode=phone',
-      crypto: 'eapi',
-      domain: 'https://interface.music.163.com',
-      ua: 'desktop-user-agent',
-      e_r: true,
-      headers: {
-        'uSeR-aGeNt': 'mixed-agent',
-        referer: 'https://other.example',
-        'x-antiCheatToken': 'stale-token',
-        cOoKiE: 'MUSIC_U=other-listener; os=iphone',
-        'x-aeapi': 'true',
-      },
+
       checkToken: async () => 'fresh-token',
     });
     await client.playlistSubscribe({ id: 17, t: 1 });
@@ -248,9 +236,10 @@ test('playlistSubscribe sends a complete web identity and the same token in its 
       e_r: false,
     });
     await client.playlistSubscribe({ id: 17, t: 0 });
-    expect(sent[1]!.headers.has('x-anticheattoken')).toBe(false);
+    expect(sent[1]!.headers.get('x-anticheattoken')).toBe('fresh-token');
     expect(readWebBody(sent[1]!.body)).toEqual({
       id: 17,
+      checkToken: 'fresh-token',
       csrf_token: 'csrf',
       e_r: false,
     });
@@ -377,8 +366,7 @@ test.each([
       { id: 1, t: 0 },
       {
         cookie: 'MUSIC_U=own-account; os=iphone',
-        domain: 'https://interface.music.163.com',
-        crypto: 'eapi',
+
         fetcher: async (input, init) => {
           sent.push({
             url: input instanceof Request ? input.url : input.toString(),

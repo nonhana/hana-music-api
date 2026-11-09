@@ -13,18 +13,25 @@ import { fileURLToPath } from 'node:url';
 import { Effect } from 'effect';
 
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
-import { createRequest } from '../../../src/core/request.ts';
 import { setConnectionIp } from '../../../src/server/admission.ts';
 import { createServer } from '../../../src/server/create-server.ts';
 import { parseModuleRoute } from '../../../src/server/module-loader.ts';
 import type {
-  CreateRequestOptions,
   ModuleDefinition,
   ModuleQuery,
   RequestCapability,
 } from '../../../src/types/index.ts';
 import type { LegacyUploadedFile } from '../../../src/types/modules.ts';
-import { mockRequest, moduleResponse, testRequest } from '../../_kit/module.ts';
+import { testEntropy } from '../../_kit/harness/sdk.ts';
+import {
+  moduleResponse,
+  probeReadActions,
+  testRequest,
+} from '../../_kit/module.ts';
+import type { ApiWireMetadata } from '../../_kit/upstream/api.ts';
+import { withApiScenario } from '../../_kit/upstream/api.ts';
+import { withScenario } from '../../_kit/upstream/scenario.ts';
+import { readWebBody } from '../../_kit/upstream/wire.ts';
 
 const REAL_MODULES_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -55,19 +62,12 @@ const PACKAGE_VERSION = readPackageVersion();
 const readJson = async (response: Response): Promise<unknown> =>
   response.json();
 
-const upstreamRequiringLogin = mockRequest((uri, data, options) =>
-  createRequest(uri, data, {
-    ...options,
-    crypto: 'api',
-    fetcher: async () => Response.json({ code: 301 }),
-  }),
-);
-
 describe('createServer', () => {
   test('separate services do not share response caches', async () => {
     let calls = 0;
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: probeReadActions,
         identifier: 'search',
         route: '/search',
         decodeInput: decodeLegacyModuleInput,
@@ -135,11 +135,12 @@ describe('createServer', () => {
   test('should merge request data and inject client ip into module request adapter', async () => {
     const captured: {
       data?: Record<string, unknown>;
-      options?: CreateRequestOptions;
+      options?: ApiWireMetadata;
       uri?: string;
     } = {};
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: probeReadActions,
         identifier: 'search',
         decodeInput: decodeLegacyModuleInput,
         execute: (query: ModuleQuery, request: RequestCapability) =>
@@ -164,9 +165,9 @@ describe('createServer', () => {
         route: '/search',
       },
     ];
-    const app = await createServer({
-      moduleDefinitions,
-      requestHandler: mockRequest(async (uri, data, options = {}) => {
+    await withApiScenario(
+      ['https://interface.music.163.com/api/example'],
+      async ({ path: uri, data, ...options }) => {
         captured.uri = uri;
         captured.data = data;
         captured.options = options;
@@ -178,45 +179,55 @@ describe('createServer', () => {
           cookie: [],
           status: 200,
         };
-      }),
-      traffic: {
-        trustedProxyIps: ['127.0.0.1'],
       },
-    });
-    const request = new Request('http://localhost/search?keyword=test', {
-      // cSpell:ignore Dbody
-      body: 'limit=10&cookie=MUSIC_A%3Dbody-token',
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        cookie: 'MUSIC_U=request-cookie',
-        'x-forwarded-for': '8.8.8.8',
-      },
-      method: 'POST',
-    });
-    setConnectionIp(request, '127.0.0.1');
-    const response = await app.request(request);
-    const body = await readModuleQueryBody(response);
+      async (upstream) => {
+        const app = await createServer(
+          {
+            moduleDefinitions,
 
-    expect(captured.uri).toBe('/api/example');
-    expect(captured.data).toEqual({
-      hello: 'world',
-    });
-    expect(captured.options?.ip).toBe('8.8.8.8');
-    expect(body.query).toEqual({
-      cookie: {
-        MUSIC_A: 'body-token',
+            traffic: {
+              trustedProxyIps: ['127.0.0.1'],
+            },
+          },
+          { execution: { fetcher: upstream, entropy: testEntropy } },
+        );
+        const request = new Request('http://localhost/search?keyword=test', {
+          // cSpell:ignore Dbody
+          body: 'limit=10&cookie=MUSIC_A%3Dbody-token',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            cookie: 'MUSIC_U=request-cookie',
+            'x-forwarded-for': '8.8.8.8',
+          },
+          method: 'POST',
+        });
+        setConnectionIp(request, '127.0.0.1');
+        const response = await app.request(request);
+        const body = await readModuleQueryBody(response);
+
+        expect(captured.uri).toBe('/api/example');
+        expect(captured.data).toEqual({
+          hello: 'world',
+        });
+        expect(captured.options?.ip).toBe('8.8.8.8');
+        expect(captured.options?.cookie).toMatchObject({
+          MUSIC_A: 'body-token',
+        });
+        expect(body.query).toEqual({
+          keyword: 'test',
+          limit: '10',
+        });
+        expect(response.headers.get('set-cookie')).toContain(
+          'MUSIC_U=server-cookie; Path=/',
+        );
       },
-      keyword: 'test',
-      limit: '10',
-    });
-    expect(response.headers.get('set-cookie')).toContain(
-      'MUSIC_U=server-cookie; Path=/',
     );
   });
 
   test('should normalize multipart uploads into legacy file objects', async () => {
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: {},
         identifier: 'upload-probe',
         decodeInput: decodeLegacyModuleInput,
         execute: (query: ModuleQuery) =>
@@ -275,6 +286,7 @@ describe('createServer', () => {
   test('should append secure cookie attributes for https requests', async () => {
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: {},
         identifier: 'secure-cookie',
         decodeInput: decodeLegacyModuleInput,
         execute: () =>
@@ -302,6 +314,7 @@ describe('createServer', () => {
     let invokeCount = 0;
     const moduleDefinitions: Array<ModuleDefinition> = [
       {
+        actions: probeReadActions,
         identifier: 'search',
         decodeInput: decodeLegacyModuleInput,
         execute: () =>
@@ -410,116 +423,136 @@ describe('createServer', () => {
   });
 
   test('should handle api debug requests without exposing the raw /api module route', async () => {
-    const captured: {
-      data?: Record<string, unknown>;
-      options?: CreateRequestOptions;
-      uri?: string;
-    } = {};
-    const app = await createServer(
-      {
-        debugApiRequests: true,
-        hostname: '127.0.0.1',
-        moduleDefinitions: [],
-        traffic: {
-          trustedProxyIps: ['127.0.0.1'],
-        },
-        requestHandler: mockRequest(async (uri, data, options = {}) => {
-          captured.uri = uri;
-          captured.data = data;
-          captured.options = options;
-
-          return {
-            body: {
-              code: 200,
-              ok: true,
-            },
-            cookie: ['MUSIC_U=demo-cookie; Path=/'],
-            status: 200,
-          };
-        }),
-      },
-      { allowDebugApiRequests: true },
-    );
-    const request = new Request(
-      'http://localhost/demo/api-debug/request?timestamp=1',
-      {
-        body: JSON.stringify({
-          crypto: 'weapi',
-          data: {
-            hello: 'world',
+    await withScenario(
+      [
+        {
+          url: 'https://music.163.com/weapi/example',
+          method: 'POST',
+          check: (wire) => {
+            expect(readWebBody(wire.body)).toEqual({
+              hello: 'world',
+              e_r: false,
+              csrf_token: '',
+            });
+            expect(wire.headers.get('cookie')).toContain(
+              'MUSIC_U=request-cookie',
+            );
+            expect(wire.headers.get('x-real-ip')).toBe('1.2.3.4');
           },
-          uri: '/api/example',
-        }),
-        headers: {
-          cookie: 'MUSIC_U=request-cookie',
-          'content-type': 'application/json',
-          'x-forwarded-for': '1.2.3.4',
+          response: () =>
+            Response.json(
+              { code: 200, ok: true },
+              { headers: { 'set-cookie': 'MUSIC_U=demo-cookie; Path=/' } },
+            ),
         },
-        method: 'POST',
+      ],
+      async (network) => {
+        const app = await createServer(
+          {
+            debugApiRequests: true,
+            hostname: '127.0.0.1',
+            moduleDefinitions: [],
+            traffic: { trustedProxyIps: ['127.0.0.1'] },
+          },
+          {
+            allowDebugApiRequests: true,
+            execution: { fetcher: network.fetcher, entropy: testEntropy },
+          },
+        );
+        const request = new Request(
+          'http://localhost/demo/api-debug/request?timestamp=1',
+          {
+            method: 'POST',
+            headers: {
+              cookie: 'MUSIC_U=request-cookie',
+              'content-type': 'application/json',
+              'x-forwarded-for': '1.2.3.4',
+            },
+            body: JSON.stringify({
+              crypto: 'weapi',
+              uri: '/api/example',
+              data: { hello: 'world' },
+            }),
+          },
+        );
+        setConnectionIp(request, '127.0.0.1');
+        const response = await app.request(request);
+        expect(response.status).toBe(200);
+        expect(await readJson(response)).toEqual({ code: 200, ok: true });
+        expect(response.headers.get('set-cookie')).toContain(
+          'MUSIC_U=demo-cookie; Path=/',
+        );
+        expect((await app.request('/api/example')).status).toBe(404);
       },
-    );
-    setConnectionIp(request, '127.0.0.1');
-    const response = await app.request(request);
-    const body = await readJson(response);
-
-    expect(response.status).toBe(200);
-    expect(body).toEqual({
-      code: 200,
-      ok: true,
-    });
-    expect(captured.uri).toBe('/api/example');
-    expect(captured.data).toEqual({
-      hello: 'world',
-    });
-    expect(captured.options?.cookie).toEqual({
-      MUSIC_U: 'request-cookie',
-    });
-    expect(captured.options?.crypto).toBe('weapi');
-    expect(captured.options?.ip).toBe('1.2.3.4');
-    expect(response.headers.get('set-cookie')).toContain(
-      'MUSIC_U=demo-cookie; Path=/',
     );
   });
 
   test('module routes tell the caller that login is required when upstream returns 301', async () => {
-    const app = await createServer({
-      moduleDefinitions: [
-        {
-          identifier: 'probe',
-          route: '/probe',
-          decodeInput: decodeLegacyModuleInput,
-          execute: (_query: ModuleQuery, handler: RequestCapability) =>
-            testRequest(handler, '/api/test', {}).pipe(
-              Effect.map(moduleResponse),
-            ),
-        },
-      ],
-      requestHandler: upstreamRequiringLogin,
-    });
-    const response = await app.request('/probe');
+    await withApiScenario(
+      ['https://interface.music.163.com/api/test'],
+      async () => ({ status: 200, cookie: [], body: { code: 301 } }),
+      async (upstream) => {
+        const app = await createServer(
+          {
+            moduleDefinitions: [
+              {
+                actions: probeReadActions,
+                identifier: 'probe',
+                route: '/probe',
+                decodeInput: decodeLegacyModuleInput,
+                execute: (_query: ModuleQuery, handler: RequestCapability) =>
+                  testRequest(handler, '/api/test', {}).pipe(
+                    Effect.map(moduleResponse),
+                  ),
+              },
+            ],
+          },
+          { execution: { fetcher: upstream, entropy: testEntropy } },
+        );
+        const response = await app.request('/probe');
 
-    expect(response.status).toBe(301);
-    expect(await readJson(response)).toEqual({ code: 301, msg: '需要登录' });
+        expect(response.status).toBe(301);
+        expect(await readJson(response)).toEqual({
+          code: 301,
+          msg: '需要登录',
+        });
+      },
+    );
   });
 
   test('the api debug demo tells the caller that login is required when upstream returns 301', async () => {
-    const app = await createServer(
-      {
-        debugApiRequests: true,
-        hostname: '127.0.0.1',
-        moduleDefinitions: [],
-        requestHandler: upstreamRequiringLogin,
+    await withScenario(
+      [
+        {
+          url: 'https://interface.music.163.com/api/test',
+          method: 'POST',
+          response: () => Response.json({ code: 301, msg: '需要登录' }),
+        },
+      ],
+      async (network) => {
+        const app = await createServer(
+          {
+            debugApiRequests: true,
+            hostname: '127.0.0.1',
+            moduleDefinitions: [],
+          },
+          {
+            allowDebugApiRequests: true,
+            execution: { fetcher: network.fetcher },
+          },
+        );
+        const response = await app.request('/demo/api-debug/request', {
+          method: 'POST',
+          headers: { 'content-type': 'application/json' },
+          body: JSON.stringify({ crypto: 'api', uri: '/api/test' }),
+        });
+        expect(response.status).toBe(301);
+        expect(await readJson(response)).toEqual({
+          code: 301,
+          msg: '需要登录',
+        });
       },
-      { allowDebugApiRequests: true },
     );
-    const response = await app.request('/demo/api-debug/request', {
-      body: JSON.stringify({ crypto: 'api', uri: '/api/test' }),
-      headers: { 'content-type': 'application/json' },
-      method: 'POST',
-    });
-
-    expect(response.status).toBe(301);
-    expect(await readJson(response)).toEqual({ code: 301, msg: '需要登录' });
   });
 
   test('should serve built docs assets under /docs with clean url support', async () => {
@@ -588,10 +621,9 @@ describe('createServer', () => {
   });
 
   test('should load real migrated modules from the modules directory', async () => {
-    const app = await createServer({
-      cacheEnabled: false,
-      modulesDirectory: REAL_MODULES_DIRECTORY,
-      requestHandler: mockRequest(async (uri, data, options = {}) => {
+    await withApiScenario(
+      ['https://interface.music.163.com/eapi/search/voice/get'],
+      async ({ path: uri, data, ...options }) => {
         const { signal, ...responseOptions } = options;
         expect(signal).toBeInstanceOf(AbortSignal);
         return {
@@ -605,32 +637,42 @@ describe('createServer', () => {
           cookie: [],
           status: 200,
         };
-      }),
-    });
-
-    const searchResponse = await app.request(
-      'http://localhost/search?keywords=phase5&type=2000',
-    );
-    const body = await readJson(searchResponse);
-
-    expect(searchResponse.status).toBe(200);
-    expect(body).toEqual({
-      code: 200,
-      data: {
-        keyword: 'phase5',
-        limit: 30,
-        offset: 0,
-        scene: 'normal',
       },
-      options: expect.objectContaining({
-        cookie: {},
-        crypto: 'eapi',
-        domain: '',
-        headers: {},
-        ip: expect.any(String),
-      }),
-      uri: '/api/search/voice/get',
-    });
+      async (upstream) => {
+        const app = await createServer(
+          {
+            cacheEnabled: false,
+            modulesDirectory: REAL_MODULES_DIRECTORY,
+          },
+          { execution: { fetcher: upstream, entropy: testEntropy } },
+        );
+
+        const searchResponse = await app.request(
+          'http://localhost/search?keywords=phase5&type=2000',
+        );
+        const body = await readJson(searchResponse);
+
+        expect(searchResponse.status).toBe(200);
+        expect(body).toEqual({
+          code: 200,
+          data: {
+            keyword: 'phase5',
+            limit: 30,
+            offset: 0,
+            scene: 'normal',
+          },
+          options: expect.objectContaining({
+            cookie: expect.objectContaining({}),
+            crypto: 'eapi',
+            headers: expect.objectContaining({
+              'content-type': 'application/x-www-form-urlencoded',
+            }),
+            ip: expect.any(String),
+          }),
+          uri: '/api/search/voice/get',
+        });
+      },
+    );
   });
 
   test('should expose the package version through the real inner_version module', async () => {
@@ -652,10 +694,12 @@ describe('createServer', () => {
   });
 
   test('should preserve special routes and noCookie semantics with real migrated modules', async () => {
-    const app = await createServer({
-      cacheEnabled: false,
-      modulesDirectory: REAL_MODULES_DIRECTORY,
-      requestHandler: mockRequest(async (uri, data, options = {}) => ({
+    await withApiScenario(
+      [
+        'https://music.163.com/weapi/v1/radio/get',
+        'https://interface.music.163.com/eapi/point/dailyTask',
+      ],
+      async ({ path: uri, data, ...options }) => ({
         // personal_fm 现在校验 data 为歌曲数组；请求 payload 放进 requestData 继续断言，
         // options 先序列化掉 AbortSignal，避免未声明字段的 JSON 校验失败。
         body:
@@ -670,62 +714,68 @@ describe('createServer', () => {
             : { code: 200, data, options, uri },
         cookie: ['MUSIC_U=server-cookie; Path=/'],
         status: 200,
-      })),
-    });
-
-    const personalFm = await app.request(
-      'http://localhost/personal_fm?cookie=MUSIC_U%3Dfm-cookie',
-    );
-    const personalFmBody = await readJson(personalFm);
-    const dailySignin = await app.request(
-      'http://localhost/daily_signin?type=1&cookie=MUSIC_U%3Dsignin-cookie&noCookie=true',
-    );
-    const dailySigninBody = await readJson(dailySignin);
-
-    expect(personalFm.status).toBe(200);
-    expect(personalFm.headers.get('set-cookie')).toContain(
-      'MUSIC_U=server-cookie; Path=/',
-    );
-    expect(personalFmBody).toEqual({
-      code: 200,
-      data: [],
-      options: expect.objectContaining({
-        cookie: {
-          MUSIC_U: 'fm-cookie',
-        },
-        crypto: 'weapi',
-        domain: '',
-        ip: expect.any(String),
-        signal: {},
       }),
-      requestData: {},
-      uri: '/api/v1/radio/get',
-    });
-    expect(dailySignin.status).toBe(200);
-    expect(dailySignin.headers.get('set-cookie')).toBeNull();
-    expect(dailySigninBody).toEqual({
-      code: 200,
-      data: {
-        type: '1',
+      async (upstream) => {
+        const app = await createServer(
+          {
+            cacheEnabled: false,
+            modulesDirectory: REAL_MODULES_DIRECTORY,
+          },
+          { execution: { fetcher: upstream, entropy: testEntropy } },
+        );
+
+        const personalFm = await app.request(
+          'http://localhost/personal_fm?cookie=MUSIC_U%3Dfm-cookie',
+        );
+        const personalFmBody = await readJson(personalFm);
+        const dailySignin = await app.request(
+          'http://localhost/daily_signin?type=1&cookie=MUSIC_U%3Dsignin-cookie&noCookie=true',
+        );
+        const dailySigninBody = await readJson(dailySignin);
+
+        expect(personalFm.status).toBe(200);
+        expect(personalFm.headers.get('set-cookie')).toContain(
+          'MUSIC_U=server-cookie; Path=/',
+        );
+        expect(personalFmBody).toEqual({
+          code: 200,
+          data: [],
+          options: expect.objectContaining({
+            cookie: expect.objectContaining({
+              MUSIC_U: 'fm-cookie',
+            }),
+            crypto: 'weapi',
+            ip: expect.any(String),
+            signal: {},
+          }),
+          requestData: {},
+          uri: '/api/v1/radio/get',
+        });
+        expect(dailySignin.status).toBe(200);
+        expect(dailySignin.headers.get('set-cookie')).toBeNull();
+        expect(dailySigninBody).toEqual({
+          code: 200,
+          data: {
+            type: '1',
+          },
+          options: expect.objectContaining({
+            cookie: expect.objectContaining({
+              MUSIC_U: 'signin-cookie',
+            }),
+            crypto: 'eapi',
+            ip: expect.any(String),
+            signal: {},
+          }),
+          uri: '/api/point/dailyTask',
+        });
       },
-      options: expect.objectContaining({
-        cookie: {
-          MUSIC_U: 'signin-cookie',
-        },
-        crypto: 'eapi',
-        domain: '',
-        ip: expect.any(String),
-        signal: {},
-      }),
-      uri: '/api/point/dailyTask',
-    });
+    );
   });
 
   test('should let real migrated modules override header cookies with body cookies', async () => {
-    const app = await createServer({
-      cacheEnabled: false,
-      modulesDirectory: REAL_MODULES_DIRECTORY,
-      requestHandler: mockRequest(async (uri, data, options = {}) => ({
+    await withApiScenario(
+      ['https://music.163.com/weapi/nuser/account/get'],
+      async ({ path: uri, data, ...options }) => ({
         body: {
           code: 200,
           account: null,
@@ -736,38 +786,46 @@ describe('createServer', () => {
         },
         cookie: ['MUSIC_U=account-cookie; Path=/'],
         status: 200,
-      })),
-    });
-    const response = await app.request('http://localhost/user/account', {
-      body: 'cookie=MUSIC_U%3Dbody-cookie',
-      headers: {
-        'content-type': 'application/x-www-form-urlencoded',
-        cookie: 'MUSIC_U=header-cookie',
-      },
-      method: 'POST',
-    });
-    const body = await readJson(response);
-
-    expect(response.status).toBe(200);
-    expect(response.headers.get('set-cookie')).toContain(
-      'MUSIC_U=account-cookie; Path=/',
-    );
-    expect(body).toEqual({
-      code: 200,
-      account: null,
-      profile: null,
-      data: {},
-      options: expect.objectContaining({
-        cookie: {
-          MUSIC_U: 'body-cookie',
-        },
-        crypto: 'weapi',
-        domain: '',
-        ip: expect.any(String),
-        signal: {},
       }),
-      uri: '/api/nuser/account/get',
-    });
+      async (upstream) => {
+        const app = await createServer(
+          {
+            cacheEnabled: false,
+            modulesDirectory: REAL_MODULES_DIRECTORY,
+          },
+          { execution: { fetcher: upstream, entropy: testEntropy } },
+        );
+        const response = await app.request('http://localhost/user/account', {
+          body: 'cookie=MUSIC_U%3Dbody-cookie',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+            cookie: 'MUSIC_U=header-cookie',
+          },
+          method: 'POST',
+        });
+        const body = await readJson(response);
+
+        expect(response.status).toBe(200);
+        expect(response.headers.get('set-cookie')).toContain(
+          'MUSIC_U=account-cookie; Path=/',
+        );
+        expect(body).toEqual({
+          code: 200,
+          account: null,
+          profile: null,
+          data: {},
+          options: expect.objectContaining({
+            cookie: expect.objectContaining({
+              MUSIC_U: 'body-cookie',
+            }),
+            crypto: 'weapi',
+            ip: expect.any(String),
+            signal: {},
+          }),
+          uri: '/api/nuser/account/get',
+        });
+      },
+    );
   });
 });
 

@@ -8,6 +8,7 @@ import {
   readlink,
   rm,
   symlink,
+  utimes,
   writeFile,
 } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
@@ -27,7 +28,23 @@ interface Mutation {
   readonly expectedFailures: ReadonlyArray<string>;
   readonly timeoutMs?: number;
 }
-const groups = ['playlist-subscribe', 'shared-reads', 'upload'];
+const groups = [
+  'candidate-package',
+  'module-config',
+  'request-identity',
+  'special-chains',
+  'membership-business',
+  'podcast-video',
+  'account-social',
+  'search-discovery',
+  'library-playback',
+  'check-token',
+  'playlist-subscribe',
+  'shared-reads',
+  'upload',
+  'watchman',
+  'browser-types',
+];
 
 const execute = async (
   command: Array<string>,
@@ -63,13 +80,19 @@ const readJUnit = async (path: string) => {
   const document = XML.parse(await readFile(path, 'utf8'), { compact: false });
   const cases: Array<{
     name: string;
+    fullName: string;
     file: string;
     failed: boolean;
     assertionFailure: boolean;
+    timeoutFailure: boolean;
     skipped: boolean;
     text: string;
   }> = [];
-  const visit = (node: Bun.XML.Node) => {
+  const visit = (node: Bun.XML.Node, parents: ReadonlyArray<string> = []) => {
+    const names =
+      node.name === 'testsuite' && node.attributes.name !== node.attributes.file
+        ? [...parents, node.attributes.name ?? '']
+        : parents;
     if (node.name === 'testcase') {
       const children = node.children.filter(
         (child): child is Bun.XML.Node =>
@@ -77,6 +100,7 @@ const readJUnit = async (path: string) => {
       );
       cases.push({
         name: node.attributes.name ?? '',
+        fullName: [...names, node.attributes.name ?? ''].join(' '),
         file: node.attributes.file ?? '',
         failed: children.some((child) =>
           ['failure', 'error'].includes(child.name),
@@ -90,11 +114,16 @@ const readJUnit = async (path: string) => {
               )),
         ),
         skipped: children.some((child) => child.name === 'skipped'),
+        timeoutFailure: children.some(
+          (child) =>
+            ['failure', 'error'].includes(child.name) &&
+            child.attributes.type === 'TimeoutError',
+        ),
         text: XML.stringify(node),
       });
     }
     for (const child of node.children)
-      if (typeof child === 'object' && 'name' in child) visit(child);
+      if (typeof child === 'object' && 'name' in child) visit(child, names);
   };
   visit(document);
   if (
@@ -151,7 +180,7 @@ export const runMutations = async (
       (args.includes('--all') && targetIndex >= 0)
     )
       throw new Error(
-        'Use --target playlist-subscribe|shared-reads|upload or --all, optionally --dry-run',
+        'Use --target membership-business|podcast-video|account-social|search-discovery|library-playback|check-token|playlist-subscribe|shared-reads|upload|watchman|browser-types or --all, optionally --dry-run',
       );
     copy = await mkdtemp(resolve(tmpdir(), 'hana-mutation-'));
     const paths = execFileSync(
@@ -180,7 +209,11 @@ export const runMutations = async (
       await mkdir(dirname(destination), { recursive: true });
       if (metadata.isSymbolicLink())
         await symlink(await readlink(source), destination);
-      else await copyFile(source, destination);
+      else {
+        await copyFile(source, destination);
+        const copiedAt = new Date();
+        await utimes(destination, copiedAt, copiedAt);
+      }
     }
     await symlink(
       resolve(root, 'node_modules'),
@@ -201,10 +234,14 @@ export const runMutations = async (
       if (!files.length || !registered.mutations.length)
         throw new Error(`Empty mutation target ${group}`);
       const baselinePath = resolve(directory, `${group}-baseline.xml`);
-      const testCommand = (path: string, timeout = 5000) => [
+      const testCommand = (
+        path: string,
+        timeout = 5000,
+        selectedFiles = files,
+      ) => [
         process.execPath,
         'test',
-        ...files.map((file) => `./${file}`),
+        ...selectedFiles.map((file) => `./${file}`),
         '--preload',
         resolve(import.meta.dir, '../tests/fixtures/consumers/selection.ts'),
         '--preload',
@@ -235,6 +272,35 @@ export const runMutations = async (
       )
         throw new Error(`Baseline failed for ${group}`);
       for (const mutation of registered.mutations) {
+        const associated = baselineCases.filter((entry) =>
+          mutation.expectedFailures.includes(entry.name),
+        );
+        const selectedFiles = files.filter((file) =>
+          associated.some((entry) => entry.file === file),
+        );
+        if (
+          !selectedFiles.length ||
+          associated.some((entry) => !selectedFiles.includes(entry.file)) ||
+          !mutation.expectedFailures.length ||
+          mutation.expectedFailures.some(
+            (name) => !name || !associated.some((entry) => entry.name === name),
+          )
+        ) {
+          results.push({
+            id: mutation.id,
+            group,
+            file: mutation.file,
+            expectedFailures: mutation.expectedFailures,
+            status: 'invalid',
+            reason:
+              'Expected mutation assertions are absent from registered baseline files',
+            evidence: baseline,
+          });
+          continue;
+        }
+        const selectedBaseline = baselineCases.filter((entry) =>
+          selectedFiles.includes(entry.file),
+        );
         const absolute = resolve(copy, mutation.file);
         if (relative(copy, absolute).startsWith('..') || !mutation.find)
           throw new Error('Mutation path or patch is invalid');
@@ -276,7 +342,7 @@ export const runMutations = async (
           }
           const reportPath = resolve(directory, `${mutation.id}.xml`);
           const run = await execute(
-            testCommand(reportPath, mutation.timeoutMs ?? 5000),
+            testCommand(reportPath, mutation.timeoutMs ?? 5000, selectedFiles),
             copy,
             resolve(directory, mutation.id),
             (mutation.timeoutMs ?? 5000) + 5000,
@@ -294,27 +360,39 @@ export const runMutations = async (
           }
           const cases = await readJUnit(reportPath);
           const failed = cases.filter((entry) => entry.failed);
-          const timeout = failed.some((entry) =>
-            /timed out|timeout exceeded/i.test(entry.text),
-          );
+          const selectionComplete =
+            JSON.stringify(
+              cases
+                .map((entry) => JSON.stringify([entry.file, entry.fullName]))
+                .toSorted(),
+            ) ===
+            JSON.stringify(
+              selectedBaseline
+                .map((entry) => JSON.stringify([entry.file, entry.fullName]))
+                .toSorted(),
+            );
+          const timeout = failed.some((entry) => entry.timeoutFailure);
           const killed = failed.some(
             (entry) =>
               mutation.expectedFailures.includes(entry.name) &&
               entry.assertionFailure,
           );
+          let status;
+          if (timeout) status = 'timeout';
+          else if (!selectionComplete) status = 'invalid';
+          else if (run.exitCode === 0 && !failed.length) status = 'survived';
+          else if (killed) status = 'killed';
+          else status = 'invalid';
           results.push({
             id: mutation.id,
             group,
             file: mutation.file,
             expectedFailures: mutation.expectedFailures,
-            status: timeout
-              ? 'timeout'
-              : run.exitCode === 0 && !failed.length
-                ? 'survived'
-                : killed
-                  ? 'killed'
-                  : 'invalid',
+            status,
             failures: failed,
+            reason: selectionComplete
+              ? undefined
+              : 'Associated mutation test selection was incomplete or unexpected',
             evidence: run,
           });
         } finally {

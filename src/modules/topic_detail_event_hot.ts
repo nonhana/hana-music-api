@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -16,6 +15,16 @@ import {
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/act/event/hot',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 动态记录：只收紧动态自己的编号 `id`；评论信息、用户、图片和计数都是宽松声明。
 // `resourceUniqueId` 的类型证据来自 `user_event` 录制；事件记录的证据按三份录制并集取证。
@@ -69,21 +78,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const topicDetailEventHot: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const topicDetailEventHot: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       actid: query.actid,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/act/event/hot`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'topic_detail_event_hot',
       ModuleBody,

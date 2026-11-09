@@ -4,8 +4,7 @@ import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -35,19 +34,33 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const albumSub: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  sub: {
+    profile: 'web',
+    target: '/api/album/sub',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+  unsub: {
+    profile: 'web',
+    target: '/api/album/unsub',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const albumSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const action = Number(query.t) === 1 ? 'sub' : 'unsub';
     const data = {
       id: query.id,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/album/${action}`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request(action, { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('album_sub', ModuleBody, response),

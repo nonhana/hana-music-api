@@ -5,6 +5,8 @@ description: 'Issue #77 的源码调研、单变量反向对照和失败候选�
 
 # 歌单收藏 405：请求身份与时序的深入调查
 
+本文保留 2026-10 的调查与当时 SDK 策略，包含取消不取 token 的历史结论。当前所有程序化模块由调用者决定是否传 checkToken，读取和取消也可显式携带，见 [执行配置](./config-reference)。本文的旧成功记录不作为新策略或其他接口的当次验收证据。
+
 <!-- cspell:ignore APNIC RDAP DIGITALPACIFIC SGCABLEVISION Referer JSESSIONID WYYY anticheattoken -->
 
 2026-10-17 的调查确认了一个具体拒绝条件：**在本次成功的官方网页请求中，只增加 `os=iphone` Cookie 就会得到 405；去掉它，原样请求又成功。**这证明客户端身份标记可以触发相同的“操作过于频繁”正文。

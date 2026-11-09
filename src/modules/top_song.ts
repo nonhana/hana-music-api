@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -35,7 +34,20 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const topSong: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  read: {
+    target: '/api/v1/discovery/new/songs',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const topSong: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       areaId: query.type || 0, // 全部:0 华语:7 欧美:96 日本:8 韩国:16
@@ -43,13 +55,7 @@ const topSong: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       // offset: query.offset || 0,
       total: true,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/discovery/new/songs`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody('top_song', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

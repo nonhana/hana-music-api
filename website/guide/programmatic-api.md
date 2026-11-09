@@ -1,5 +1,7 @@
 # 编程式调用
 
+升级到 4.x 时，请先按[迁移说明](/guide/migrating-to-v4)移除旧配置键，再核对设备与 token 的保存和传递方式。
+
 SDK 的常用入口有三个：创建 client、导入具名函数、按模块名调用。它们都返回 Promise，业务参数和执行配置分开传。
 
 ## 连续调用多个接口
@@ -20,7 +22,7 @@ const songResult = await hana.songUrl({ id: '347230', br: 320000 });
 console.log(searchResult.body, songResult.body);
 ```
 
-方法的第二个参数覆盖这次调用的默认配置。覆盖按字段进行，比如传入新的 `headers` 对象会替换原来的 `headers`，不会递归合并对象里的每个字段。
+方法的第二个参数覆盖这次调用的默认配置。覆盖按字段进行，比如传入新的 `state` 对象会替换原来的 `state`，不会递归合并对象里的每个字段。
 
 ```ts
 await hana.search({ keywords: '林俊杰' }, { timeoutMs: 5000 });
@@ -69,7 +71,7 @@ flowchart LR
   CALL --> REQUEST
 ```
 
-`query` 的类型来自模块自己的输入声明。`config` 使用 `ModuleCallConfig`，完整字段见 [配置参考](/guide/config-reference)。HTTP 能接收的字段更少，见 [调用约定](/guide/request-convention)。
+`query` 的类型来自模块自己的输入声明。`config` 使用独立的 `ModuleCallConfig`。`crypto`、`ua`、`domain`、`e_r`、`acceptGzip`、`headers` 和顶层 `deviceId` 已移除，传入会在执行前拒绝；设备改用 `state.deviceId`。完整字段及 major 迁移表见 [配置参考](/guide/config-reference)。HTTP 能接收的字段更少，见 [调用约定](/guide/request-convention)。
 
 ## 返回值与错误
 
@@ -152,3 +154,36 @@ try {
 收窄了返回体的模块更严格：只有这个模块的成功码才 resolve，默认是 `[200]`；唯一的例外是 `login_qr_check`（二维码轮询），成功码是 `[800, 801, 802, 803]`，resolve 时 `status` 是 200，用 `body.code` 区分过期、等待、已扫码、已授权。详见 [返回体结构](/guide/response-bodies#成功码与失败处理)。
 
 普通 `body` 没有为每个端点假定完整字段。要读取 `body.result` 等属性时，先检查正文是对象、目标字段是预期类型。模块内部对自己需要的字段也采用同样原则。部分模块已经在运行时校验返回体，`body` 有确定类型，并导出了结构定义；是哪些模块见 [返回体结构](/guide/response-bodies)。
+
+## 可选传递 checkToken
+
+读取、收藏或取消都可以在执行配置中传入当次 `checkToken`。不传时照常请求，由上游决定是否接受；provider 失败或返回空值时不会发送业务请求。
+
+```ts
+import { createHanaMusicApi } from 'hana-music-api';
+
+const hana = createHanaMusicApi({ cookie });
+await hana.albumSub({ id: albumId, t: 1 }, { checkToken });
+await hana.artistSub(
+  { id: artistId, t: 0 },
+  { checkToken: getFreshCheckToken },
+);
+```
+
+示例中的 Cookie、目标、字符串和取值函数由应用提供，取值函数返回 `Promise<string>`。多请求模块需要逐次取新值，使用 provider；固定字符串在同一次模块调用中只能发送一次。配置 token 会关闭本次缓存、合并和自动重试，等待取值计入总期限。SDK 不生成或保存 token；浏览器取值见 [Watchman](/guide/watchman)，应用通过自己的业务路由转交，普通 Hono 接口不接受通用 token 参数。
+
+账号、登录与社交的83个模块也固定各自原有协议和默认身份，普通crypto、domain、ua、e_r、acceptGzip、headers及受控身份Cookie不再覆盖声明。需要手动控制协议时使用低层createRequest。登录和刷新返回新的Cookie，调用者可以在后续config中显式传入；SDK不会把响应Cookie自动存进全局会话。消息读取、风控、一起听轮询/心跳及刷新不自动重放或共享。
+
+## 播客、视频与音频请求迁移
+
+DJ、广播、MV、视频、声音和声音列表的67个接口已固定各自原有的协议与默认身份。业务参数与返回结构保持，普通调用配置里的crypto、domain、ua、e_r、acceptGzip和受控身份Cookie不再覆盖这些接口；仍可传入当次账号Cookie、fetcher、取消和期限，需要手动控制协议时使用createRequest。
+
+这些接口不缓存或合并请求。订阅、取消、声音删除和声音排序不自动重放；时间线、个性推荐、今日优选、DIFM播放列表及mlog推荐也采用保守的单次策略，调用方需要再次读取时主动调用。原有付费、版权、空播放地址和工作台权限限制继续由上游返回，离线迁移验收不证明接口当前可用。voice_upload的上传流程由后续批次处理。
+
+## 会员、云贝与统计请求迁移
+
+会员、数字专辑、云贝、音乐人、收听统计、历史、年度报告、乐谱和batch共50个接口固定各自原有协议与默认身份。普通crypto、domain、ua、e_r、acceptGzip和受控身份Cookie不再覆盖声明；账号Cookie、fetcher、取消与期限继续按调用传入，需要控制协议时使用createRequest。digitalAlbum_*保留大小写，daily_signin的HTTP路径仍是/daily_signin。
+
+下单、签到、领奖、云贝推歌和batch不自动重放；batch可以封装多个子操作，但SDK只发一个请求。听歌报告、签到活动信息和云贝收入/支出明细的查询保持原有不重试上限，全部接口不缓存或合并。原有会员、乐谱预览和账号访问限制保持，离线验证不代表当前上游可用，也没有执行真实支付或领取。
+
+普通配置已完成收口。上文各批次所述“不再覆盖声明”的旧选项现在会明确拒绝，不会静默忽略。需要原始请求时使用独立的 `CreateRequestOptions`。

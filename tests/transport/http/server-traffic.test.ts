@@ -20,6 +20,7 @@ test('bounds 100 real HTTP requests and ignores forged forwarding headers', asyn
       cacheEnabled: false,
       moduleDefinitions: [
         {
+          actions: {},
           identifier: 'search',
           route: '/search',
           decodeInput: decodeLegacyModuleInput,

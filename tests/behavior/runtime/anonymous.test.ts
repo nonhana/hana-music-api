@@ -68,7 +68,7 @@ describe('ensureRuntimeAnonymousToken', () => {
             )
           : Response.json({ code: 200, unikey: 'device-key' });
       };
-      const config = { deviceId, fetcher };
+      const config = { state: { deviceId }, fetcher };
       const response =
         entry === 'client'
           ? await createHanaMusicApi(config).loginQrKey()

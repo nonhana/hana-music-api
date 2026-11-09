@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -15,6 +14,16 @@ import {
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/play-record/newvideo/list',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 同一次返回里混有 MLOG（`id` 是字符串，带 `title`、`creator`）和 MV（`id` 是数字，带 `name`、`artists`），
 // 外层 `resourceType` 区分 MLOG 和 MV，但 `data` 内没有统一的区分字段，把两边的字段都声明成宽松、可以没有；只收紧记录自己的 `id`。
@@ -54,21 +63,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const recordRecentVideo: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const recordRecentVideo: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 100,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/play-record/newvideo/list`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'record_recent_video',
       ModuleBody,

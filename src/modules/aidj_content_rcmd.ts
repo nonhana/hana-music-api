@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -75,10 +74,21 @@ export type ModuleBody = typeof ModuleBody.Type;
 
 // 实际请求参数如下，部分内容省略，敏感信息已进行混淆，可按需修改此 API 的代码：
 /* {"extInfo":"{\"lastRequestTimestamp\":1692358373509,\"lbsInfoList\":[{\"lat\":40.23076381,\"lon\":129.07545186,\"time\":1692358543},{\"lat\":40.23076381,\"lon\":129.07545186,\"time\":1692055283}],\"listenedTs\":false,\"noAidjToAidj\":true}","header":"{}"} */
-const aidjContentRcmd: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  read: {
+    target: '/api/aidj/content/rcmd/info',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const aidjContentRcmd: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const extInfo: Record<string, unknown> = {};
     if (query.latitude !== undefined) {
@@ -96,13 +106,7 @@ const aidjContentRcmd: ModuleEffect<ModuleInput, ModuleBody> = (
     const data = {
       extInfo: JSON.stringify(extInfo),
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/aidj/content/rcmd/info`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
       'aidj_content_rcmd',
       ModuleBody,

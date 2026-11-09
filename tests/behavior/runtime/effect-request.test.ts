@@ -2,102 +2,36 @@ import { describe, expect, test } from 'bun:test';
 
 import { Effect, Result } from 'effect';
 
-import { Call } from '../../../src/core/call.ts';
-import type { CallShape } from '../../../src/core/call.ts';
+import {
+  ExecutionScope,
+  resolveExecutionScope,
+} from '../../../src/core/call-context.ts';
+import type { RequestError } from '../../../src/core/errors.ts';
 import { resolveIdentitySnapshot } from '../../../src/core/identity.ts';
-import { createRequest, requestEffect } from '../../../src/core/request.ts';
+import {
+  createRequest,
+  requestEffect,
+  resolveRawRequest,
+} from '../../../src/core/request.ts';
+import type { RawRequestInput } from '../../../src/core/request.ts';
 import { getRuntimeState } from '../../../src/core/runtime.ts';
-import type { FetchLike, ModuleCallConfig } from '../../../src/types/index.ts';
-import type { RequestIntent } from '../../../src/types/runtime.ts';
+import type {
+  CreateRequestOptions,
+  FetchLike,
+} from '../../../src/types/index.ts';
+import type { UpstreamResponse } from '../../../src/types/upstream.ts';
 import { provideService, runEffect } from '../../_kit/it.ts';
 import { plainRequest } from '../../_kit/module.ts';
 
 describe('Effect request execution', () => {
   test.each([
-    { protocol: 'api', target: '/api/playlist/track/add', method: 'POST' },
-    {
-      protocol: 'plain',
-      target: 'https://ymusic.nos-hz.163yun.com/test',
-      method: 'PUT',
-    },
-  ] as const)(
-    'rejects a write disguised as read at $target before transport',
-    async (scenario) => {
-      let calls = 0;
-      const result = await runEffect(
-        Effect.result(
-          kernelFor(
-            {
-              ...scenario,
-              headers: {},
-              body: '{}',
-              response: 'json',
-              semantic: 'read',
-            },
-            {
-              fetcher: async () => {
-                calls += 1;
-                return Response.json({ code: 200 });
-              },
-            },
-          ),
-        ),
-      );
-      expect(Result.isFailure(result)).toBe(true);
-      if (Result.isFailure(result)) {
-        expect(result.failure).toMatchObject({ _tag: 'InvalidRequest' });
-      }
-      expect(calls).toBe(0);
-    },
-  );
-
-  test.each([
-    { protocol: 'api', target: '/api/test', method: 'POST', semantic: 'write' },
     {
       protocol: 'api',
-      target: '/api/playlist/track/add',
+      target: '/api/test',
       method: 'POST',
-      semantic: 'read',
+      response: 'json',
+      data: {},
     },
-    {
-      protocol: 'api',
-      target: '/api/login/status',
-      method: 'POST',
-      semantic: 'write',
-    },
-    {
-      protocol: 'plain',
-      target: 'https://music.163.com/playlist',
-      method: 'GET',
-      semantic: 'upload',
-    },
-  ] as const)(
-    'rejects every semantic mismatch before transport: $protocol $target $semantic',
-    async (scenario) => {
-      let calls = 0;
-      const result = await runEffect(
-        Effect.result(
-          kernelFor(
-            { ...scenario, headers: {}, body: '{}', response: 'json' },
-            {
-              fetcher: async () => {
-                calls += 1;
-                return Response.json({ code: 200 });
-              },
-            },
-          ),
-        ),
-      );
-      expect(Result.isFailure(result)).toBe(true);
-      if (Result.isFailure(result)) {
-        expect(result.failure).toMatchObject({ _tag: 'InvalidRequest' });
-      }
-      expect(calls).toBe(0);
-    },
-  );
-
-  test.each([
-    { protocol: 'api', target: '/api/test', method: 'POST', response: 'json' },
     {
       protocol: 'plain',
       target: 'https://music.163.com/playlist',
@@ -111,13 +45,13 @@ describe('Effect request execution', () => {
       response: 'bytes',
     },
   ] as const)(
-    '$target body consumption shares the Call deadline and releases its reader',
+    '$target body consumption shares the Scope deadline and releases its reader',
     async (scenario) => {
       let cancelled = false;
       const result = await runEffect(
         Effect.result(
           kernelFor(
-            { ...scenario, headers: {}, semantic: 'read' },
+            { ...scenario, headers: {} },
             {
               fetcher: async () =>
                 new Response(
@@ -141,7 +75,13 @@ describe('Effect request execution', () => {
   );
 
   test.each([
-    { protocol: 'api', target: '/api/test', method: 'POST', response: 'json' },
+    {
+      protocol: 'api',
+      target: '/api/test',
+      method: 'POST',
+      response: 'json',
+      data: {},
+    },
     {
       protocol: 'plain',
       target: 'https://music.163.com/playlist',
@@ -165,7 +105,7 @@ describe('Effect request execution', () => {
       let cancelled = false;
       const pending = runEffect(
         kernelFor(
-          { ...scenario, headers: {}, semantic: 'read' },
+          { ...scenario, headers: {} },
           {
             fetcher: async () =>
               new Response(
@@ -209,7 +149,7 @@ describe('Effect request execution', () => {
       expected: [0, 128, 255, 1],
     },
   ] as const)(
-    'the Call kernel serves $target using its identity snapshot',
+    'the resolved kernel serves $target using its identity snapshot',
     async (scenario) => {
       const state = getRuntimeState({ anonymousToken: 'captured-token' });
       const fetcher: FetchLike = async (_url, init) => {
@@ -224,23 +164,32 @@ describe('Effect request execution', () => {
             ? new Response('page')
             : Response.json({ code: 200 });
       };
-      const call: CallShape = {
-        identifier: 'test',
-        input: {},
-        config: { fetcher },
-        identity: resolveIdentitySnapshot({}, state),
-        policy: { read: true, upload: false },
-        startedAt: Date.now(),
-      };
-      const intent: RequestIntent = {
-        ...scenario,
-        method: scenario.protocol === 'api' ? 'POST' : 'GET',
-        headers: {},
-        semantic: 'read',
-        body: scenario.protocol === 'api' ? '{}' : undefined,
-      };
+      const request: RawRequestInput =
+        scenario.protocol === 'plain'
+          ? { ...scenario, protocol: 'plain', method: 'GET', headers: {} }
+          : {
+              ...scenario,
+              protocol: 'api',
+              response: 'json',
+              method: 'POST',
+              headers: {},
+              data: {},
+            };
       const result = await runEffect(
-        Effect.result(requestEffect(intent).pipe(provideService(Call, call))),
+        Effect.result(
+          requestEffect(
+            resolveRawRequest(
+              request,
+              { fetcher },
+              resolveIdentitySnapshot({}, state),
+            ),
+          ).pipe(
+            provideService(
+              ExecutionScope,
+              resolveExecutionScope({ fetcher }, undefined, Date.now(), 0),
+            ),
+          ),
+        ),
       );
       expect(Result.isSuccess(result)).toBe(true);
       if (Result.isSuccess(result)) {
@@ -253,7 +202,7 @@ describe('Effect request execution', () => {
     },
   );
 
-  test('the plain RequestIntent preserves all byte values in order', async () => {
+  test('the plain request preserves all byte values in order', async () => {
     const response = await plainRequest({
       fetcher: async () => new Response(new Uint8Array([0, 128, 255, 1])),
     })('https://ymusic.nos-hz.163yun.com/test');
@@ -338,21 +287,13 @@ describe('Effect request execution', () => {
 });
 
 const kernelFor = (
-  intent: RequestIntent,
-  config: ModuleCallConfig,
+  request: RawRequestInput,
+  config: CreateRequestOptions,
   deadlineAt?: number,
-) => {
-  const call: CallShape = {
-    identifier: 'test',
-    input: {},
-    config,
-    identity: resolveIdentitySnapshot(config, getRuntimeState(config.state)),
-    policy: {
-      read: intent.semantic === 'read',
-      upload: intent.semantic === 'upload',
-    },
-    startedAt: Date.now(),
-    deadlineAt,
-  };
-  return requestEffect(intent).pipe(provideService(Call, call));
-};
+): Effect.Effect<UpstreamResponse, RequestError> =>
+  requestEffect(resolveRawRequest(request, config)).pipe(
+    provideService(ExecutionScope, {
+      ...resolveExecutionScope(config, undefined, Date.now(), 0),
+      deadlineAt,
+    }),
+  );

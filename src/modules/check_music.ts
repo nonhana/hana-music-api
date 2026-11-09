@@ -6,8 +6,7 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -50,18 +49,28 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const checkMusic: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  read: {
+    target: '/api/song/enhance/player/url',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const checkMusic: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildApiRequestIntent(
-        '/api/song/enhance/player/url',
-        {
-          ids: '[' + parseInt(String(query.id ?? 0), 10) + ']',
-          br: parseInt(String(query.br ?? 999000), 10),
-        },
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('read', {
+      data: {
+        ids: '[' + parseInt(String(query.id ?? 0), 10) + ']',
+        br: parseInt(String(query.br ?? 999000), 10),
+      },
+    });
     const upstream = yield* decodeUpstreamBody(
       'check_music',
       upstreamSchema,

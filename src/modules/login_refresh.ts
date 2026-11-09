@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 import { isRecord } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/login/token/refresh',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 续期成功时新的 MUSIC_U 在 `cookie` 里；扫码和短信两种登录得到的 Cookie 都能续期。返回码和 Cookie 收紧。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -22,15 +31,13 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const loginRefresh: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const loginRefresh: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (_query, request) =>
   Effect.gen(function* () {
-    const result = yield* request(
-      buildApiRequestIntent(
-        '/api/login/token/refresh',
-        {},
-        createOption(query),
-      ),
-    );
+    const result = yield* request('request', { data: {} });
     const body = yield* decodeUpstreamBody(
       'login_refresh',
       ModuleBody,

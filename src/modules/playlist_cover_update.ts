@@ -1,23 +1,34 @@
 import { Effect, Schema } from 'effect';
 
-import { Call } from '../core/call.ts';
 import {
   decodeModuleInput as decodeInput,
   QueryIdentifier as Identifier,
   UploadedFile,
 } from '../core/module-input.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import {
   decodeUpstreamBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
-import uploadPlugin from '../plugins/upload.ts';
+import uploadPlugin, { imageUploadActions } from '../plugins/upload.ts';
 import type { ModuleEffect, ModuleResponse } from '../types/index.ts';
 import type {
   LegacyUploadedFile,
   QueryIdentifier,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  ...imageUploadActions,
+  submit: {
+    profile: 'web',
+    target: '/api/playlist/cover/update',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   imgFile?: LegacyUploadedFile;
@@ -57,10 +68,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistCoverUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
-  input,
-  request,
-) => {
+const playlistCoverUpdate: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (input, request) => {
   const { imgFile, imgId } = input;
   if (imgFile && imgId !== undefined) {
     return Effect.succeed<ModuleResponse<ModuleBody>>({
@@ -84,21 +96,14 @@ const playlistCoverUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
   }
   return uploadWork('playlist_cover_update', request, (stage) =>
     Effect.gen(function* () {
-      const call = yield* Call;
       const uploaded = imgFile
         ? yield* uploadPlugin({ imgFile }, stage)
         : undefined;
-      const response = yield* stage({
-        target: '/api/playlist/cover/update',
-        protocol: call.config.crypto || 'weapi',
-        method: 'POST',
-        headers: {},
-        body: JSON.stringify({
+      const response = yield* stage('submit', {
+        data: {
           id: input.id,
           coverImgId: uploaded?.imgId ?? imgId,
-        }),
-        response: 'json',
-        semantic: 'write',
+        },
       });
       const upstreamBody = yield* decodeUpstreamBody(
         'playlist_cover_update',

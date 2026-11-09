@@ -5,8 +5,7 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -20,6 +19,16 @@ import type {
   IdentifierPagedQuery,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: { prefix: '/api/v1/resource/comments/' },
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = IdentifierPagedQuery & {
   before?: QueryNumberLike;
@@ -51,7 +60,10 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const commentMv: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const commentMv: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {
       rid: query.id,
@@ -59,13 +71,10 @@ const commentMv: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       offset: query.offset || 0,
       beforeTime: query.before || 0,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/v1/resource/comments/R_MV_5_${query.id}`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', {
+      data,
+      path: `/api/v1/resource/comments/R_MV_5_${query.id}`,
+    });
     const body = yield* decodeUpstreamBody('comment_mv', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

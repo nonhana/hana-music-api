@@ -1,9 +1,14 @@
 import { Effect, Schema } from 'effect';
 
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { UpstreamObject } from '../core/upstream-body.ts';
-import { allocateImageUpload } from '../plugins/upload.ts';
+import { allocateImageUpload, imageUploadActions } from '../plugins/upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
+
+export const moduleActions = {
+  imageAllocate: imageUploadActions.imageAllocate,
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {};
 
@@ -26,10 +31,11 @@ const inputSchema = Schema.Struct({});
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input).pipe(Effect.as({}));
 
-const imageUploadToken: ModuleEffect<ModuleInput, ModuleBody> = (
-  _input,
-  request,
-) =>
+const imageUploadToken: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (_input, request) =>
   allocateImageUpload('image.jpg', request).pipe(
     Effect.map((data) => ({
       status: 200,

@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -38,20 +37,27 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const playlistImportTaskStatus: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  poll: {
+    target: '/api/playlist/import/task/status/v2',
+    profile: 'eapi',
+    semantic: 'poll',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const playlistImportTaskStatus: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/import/task/status/v2`,
-        {
-          taskIds: JSON.stringify([query.id]),
-        },
-        createOption(query),
-      ),
-    );
+    const response = yield* request('poll', {
+      data: {
+        taskIds: JSON.stringify([query.id]),
+      },
+    });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody(

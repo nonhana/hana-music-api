@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 import { UserProfile } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/msg/private/history',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 消息双方的资料是附带信息，`userId` 不在松紧判断里，全部字段按 `UserProfile` 宽松声明；
 // `expertTags` 的类型证据来自同形用户资料（`msg_private`、`msg_recentcontact`）。
@@ -42,10 +51,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const msgPrivateHistory: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const msgPrivateHistory: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       userId: query.uid,
@@ -53,13 +63,7 @@ const msgPrivateHistory: ModuleEffect<ModuleInput, ModuleBody> = (
       time: query.before || 0,
       total: 'true',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/msg/private/history`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'msg_private_history',
       ModuleBody,

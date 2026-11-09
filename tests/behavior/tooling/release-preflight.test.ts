@@ -1,5 +1,6 @@
 import { expect, test } from 'bun:test';
 import { execFileSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 import {
   chmod,
   mkdir,
@@ -13,6 +14,133 @@ import { resolve } from 'node:path';
 
 import { isRecord } from '../../../src/core/utils.ts';
 import { projectRoot } from '../../_kit/assertions.ts';
+
+for (const control of [
+  { name: 'accepts the approved prerelease', accepted: true },
+  { name: 'rejects wrong version', version: '4.0.0', accepted: false },
+  { name: 'rejects wrong tag', tag: 'latest', accepted: false },
+  { name: 'rejects unversioned changesets', active: true, accepted: false },
+  { name: 'rejects wrong tarball digest', hash: 'unapproved', accepted: false },
+]) {
+  test(`candidate publication guard ${control.name}`, async () => {
+    const workflow: unknown = Bun.YAML.parse(
+      await readFile(
+        resolve(projectRoot, '.github/workflows/release.yml'),
+        'utf8',
+      ),
+    );
+    if (
+      !isRecord(workflow) ||
+      !isRecord(workflow.jobs) ||
+      !isRecord(workflow.jobs.release) ||
+      !Array.isArray(workflow.jobs.release.steps)
+    )
+      throw new Error('invalid release workflow');
+    const guard = workflow.jobs.release.steps.find(
+      (step: unknown) =>
+        isRecord(step) && step.name === 'Check approved candidate',
+    );
+    if (!isRecord(guard) || typeof guard.run !== 'string')
+      throw new Error('missing candidate guard');
+    const temporary = await mkdtemp(resolve(tmpdir(), 'hana-candidate-guard-'));
+    try {
+      await mkdir(resolve(temporary, '.changeset'));
+      await mkdir(resolve(temporary, '.artifacts/testing/ci'), {
+        recursive: true,
+      });
+      await mkdir(resolve(temporary, 'bin'));
+      await writeFile(
+        resolve(temporary, 'package.json'),
+        JSON.stringify({
+          version: control.version ?? '4.0.0-next.0',
+          publishConfig: { provenance: true },
+        }),
+      );
+      await writeFile(
+        resolve(temporary, '.changeset/pre.json'),
+        JSON.stringify({ mode: 'pre', tag: control.tag ?? 'next' }),
+      );
+      if (control.active)
+        await writeFile(
+          resolve(temporary, '.changeset/active.md'),
+          'unversioned',
+        );
+      const archive = 'isolated candidate archive';
+      await writeFile(
+        resolve(temporary, '.artifacts/testing/ci/control.tgz'),
+        archive,
+      );
+      const npm = resolve(temporary, 'bin/npm');
+      await writeFile(
+        npm,
+        '#!/bin/sh\nprintf \'[{"filename":"control.tgz","integrity":"control-integrity"}]\'\n',
+      );
+      await chmod(npm, 0o755);
+      const child = Bun.spawn(
+        ['bash', '--noprofile', '--norc', '-eo', 'pipefail', '-c', guard.run],
+        {
+          cwd: temporary,
+          env: {
+            ...process.env,
+            PATH: `${resolve(temporary, 'bin')}:${process.env.PATH}`,
+            HANA_CANDIDATE_VERSION: '4.0.0-next.0',
+            HANA_CANDIDATE_SHA256:
+              control.hash ??
+              createHash('sha256').update(archive).digest('hex'),
+          },
+          stdout: 'pipe',
+          stderr: 'pipe',
+        },
+      );
+      const exitCode = await child.exited;
+      const output =
+        (await new Response(child.stdout).text()) +
+        (await new Response(child.stderr).text());
+      if (control.accepted) {
+        expect(exitCode, output).toBe(0);
+        expect(
+          await Bun.file(
+            resolve(temporary, '.artifacts/testing/ci/approved-package.json'),
+          ).json(),
+        ).toMatchObject({ version: '4.0.0-next.0', tag: 'next' });
+      } else {
+        expect(exitCode, output).not.toBe(0);
+        expect(output).toContain(
+          control.hash
+            ? 'candidate tarball differs from approved hash'
+            : 'candidate version, tag or Changesets state is not approved',
+        );
+      }
+    } finally {
+      await rm(temporary, { recursive: true, force: true });
+    }
+  });
+}
+
+test('candidate publication suppresses GitHub releases and tag pushes while preserving checked publishing', async () => {
+  const workflow = Bun.YAML.parse(
+    await readFile(
+      resolve(projectRoot, '.github/workflows/release.yml'),
+      'utf8',
+    ),
+  ) as {
+    jobs: {
+      release: {
+        steps: Array<{ uses?: string; with?: Record<string, unknown> }>;
+      };
+    };
+  };
+  const action = workflow.jobs.release.steps.find(
+    (step) => step.uses === 'changesets/action@v2.1.2',
+  )!;
+  expect(action.with?.['publish-script']).toBe('bun run release:checked');
+  expect(action.with?.['create-github-releases']).toBe(
+    "${{ inputs.mode != 'candidate' }}",
+  );
+  expect(action.with?.['push-git-tags']).toBe(
+    "${{ inputs.mode != 'candidate' }}",
+  );
+});
 
 const exercise = async (failure: string | undefined) => {
   const temporary = await mkdtemp(resolve(tmpdir(), 'hana-preflight-'));
@@ -161,7 +289,6 @@ test('preflight runs every final gate, compares the current package manifest and
     ['bun', 'run', 'verify:sdk'],
     ['bun', 'run', 'verify:fixtures'],
     ['bun', 'run', 'test:load:smoke'],
-    ['bun', 'run', 'test:load:soak'],
     ['bun', 'scripts/mutation-test.mts', '--all'],
     ['bun', 'run', 'test:live'],
     ['npm', 'pack', '--dry-run', '--json', '--ignore-scripts'],
@@ -174,7 +301,6 @@ test.each([
   'verify:sdk',
   'verify:fixtures',
   'test:load:smoke',
-  'test:load:soak',
   'mutation',
   'test:live',
   'changed-dist',
@@ -192,85 +318,81 @@ test.each([
   15_000,
 );
 
-test.each([
-  'verify',
-  'load',
-  'live',
-  'mutation',
-  'release',
-  'release-rehearsal',
-])('CI %s preserves both a failed gate exit and its output', async (name) => {
-  const workflow: unknown = Bun.YAML.parse(
-    await readFile(
-      resolve(projectRoot, `.github/workflows/${name}.yml`),
-      'utf8',
-    ),
-  );
-  if (!isRecord(workflow) || !isRecord(workflow.jobs))
-    throw new Error('invalid workflow');
-  const temporary = await mkdtemp(resolve(tmpdir(), 'hana-ci-failure-'));
-  try {
-    const bin = resolve(temporary, 'bin');
-    await mkdir(bin);
-    await mkdir(resolve(temporary, '.artifacts/testing/ci'), {
-      recursive: true,
-    });
-    const probe = resolve(bin, 'bun');
-    await writeFile(
-      probe,
-      '#!/bin/sh\nprintf "forced gate failure\\n"\nexit 7\n',
+test.each(['verify', 'live', 'mutation', 'release', 'release-rehearsal'])(
+  'CI %s preserves both a failed gate exit and its output',
+  async (name) => {
+    const workflow: unknown = Bun.YAML.parse(
+      await readFile(
+        resolve(projectRoot, `.github/workflows/${name}.yml`),
+        'utf8',
+      ),
     );
-    await chmod(probe, 0o755);
-    let checked = 0;
-    for (const job of Object.values(workflow.jobs)) {
-      if (!isRecord(job)) throw new Error('invalid job');
-      if (typeof job.uses === 'string') continue;
-      if (!Array.isArray(job.steps)) throw new Error('invalid job');
-      const defaults = isRecord(job.defaults)
-        ? job.defaults
-        : workflow.defaults;
-      const run = isRecord(defaults) ? defaults.run : undefined;
-      for (const step of job.steps) {
-        if (
-          !isRecord(step) ||
-          typeof step.run !== 'string' ||
-          !step.run.includes('| tee')
-        )
-          continue;
-        const shell = step.shell ?? (isRecord(run) ? run.shell : undefined);
-        // cspell:ignore noprofile norc pipefail
-        const args =
-          shell === 'bash'
-            ? ['--noprofile', '--norc', '-eo', 'pipefail']
-            : ['-e'];
-        const child = Bun.spawn(['bash', ...args, '-c', step.run], {
-          cwd: temporary,
-          env: { ...process.env, PATH: `${bin}:${process.env.PATH}` },
-          stdout: 'pipe',
-          stderr: 'pipe',
-        });
-        expect(await child.exited, `${name}: ${step.run}`).toBe(7);
-        expect(await new Response(child.stdout).text()).toContain(
-          'forced gate failure',
-        );
-        const logs = await Array.fromAsync(
-          new Bun.Glob('.artifacts/testing/ci/*.log').scan({
+    if (!isRecord(workflow) || !isRecord(workflow.jobs))
+      throw new Error('invalid workflow');
+    const temporary = await mkdtemp(resolve(tmpdir(), 'hana-ci-failure-'));
+    try {
+      const bin = resolve(temporary, 'bin');
+      await mkdir(bin);
+      await mkdir(resolve(temporary, '.artifacts/testing/ci'), {
+        recursive: true,
+      });
+      const probe = resolve(bin, 'bun');
+      await writeFile(
+        probe,
+        '#!/bin/sh\nprintf "forced gate failure\\n"\nexit 7\n',
+      );
+      await chmod(probe, 0o755);
+      let checked = 0;
+      for (const job of Object.values(workflow.jobs)) {
+        if (!isRecord(job)) throw new Error('invalid job');
+        if (typeof job.uses === 'string') continue;
+        if (!Array.isArray(job.steps)) throw new Error('invalid job');
+        const defaults = isRecord(job.defaults)
+          ? job.defaults
+          : workflow.defaults;
+        const run = isRecord(defaults) ? defaults.run : undefined;
+        for (const step of job.steps) {
+          if (
+            !isRecord(step) ||
+            typeof step.run !== 'string' ||
+            !step.run.includes('| tee')
+          )
+            continue;
+          const shell = step.shell ?? (isRecord(run) ? run.shell : undefined);
+          // cspell:ignore noprofile norc pipefail
+          const args =
+            shell === 'bash'
+              ? ['--noprofile', '--norc', '-eo', 'pipefail']
+              : ['-e'];
+          const child = Bun.spawn(['bash', ...args, '-c', step.run], {
             cwd: temporary,
-            absolute: true,
-          }),
-        );
-        expect(logs.length).toBeGreaterThan(0);
-        expect(await readFile(logs.at(-1)!, 'utf8')).toContain(
-          'forced gate failure',
-        );
-        checked++;
+            env: { ...process.env, PATH: `${bin}:${process.env.PATH}` },
+            stdout: 'pipe',
+            stderr: 'pipe',
+          });
+          expect(await child.exited, `${name}: ${step.run}`).toBe(7);
+          expect(await new Response(child.stdout).text()).toContain(
+            'forced gate failure',
+          );
+          const logs = await Array.fromAsync(
+            new Bun.Glob('.artifacts/testing/ci/*.log').scan({
+              cwd: temporary,
+              absolute: true,
+            }),
+          );
+          expect(logs.length).toBeGreaterThan(0);
+          expect(await readFile(logs.at(-1)!, 'utf8')).toContain(
+            'forced gate failure',
+          );
+          checked++;
+        }
       }
+      expect(checked).toBeGreaterThan(0);
+    } finally {
+      await rm(temporary, { recursive: true, force: true });
     }
-    expect(checked).toBeGreaterThan(0);
-  } finally {
-    await rm(temporary, { recursive: true, force: true });
-  }
-});
+  },
+);
 
 test('CI artifact probe runs a real failing assertion and preserves native JUnit and output', async () => {
   const workflow: unknown = Bun.YAML.parse(

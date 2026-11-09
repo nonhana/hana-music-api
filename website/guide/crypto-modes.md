@@ -15,9 +15,11 @@
 
 ## 模块默认值与底层默认值
 
-调用模块时，以模块选择的协议为默认值，比如手机号登录使用 `weapi`。显式 `config.crypto` 可以覆盖 API 请求协议，但换协议不保证接口仍可用。
+playlistSubscribe、search、lyric、songDetail、playlistDetail 由模块的动作声明固定协议和客户端身份：search、lyric、playlistDetail 使用 eapi，songDetail 和 playlistSubscribe 使用 web/weapi。这些调用的 `crypto`、`domain`、`ua`、`e_r`、`acceptGzip` 覆盖不再生效。
 
-直接调用 `createRequest` 时，没有模块帮你选择。不传 `crypto` 或传空字符串，当前内置配置会选择 `eapi`。内部 `APP_CONF.encrypt` 关闭时才会回退为 `api`，它不是根 SDK 提供的全局设置接口。
+全部模块都已声明实际请求动作，普通 `config.crypto`、`domain`、`ua`、`e_r`、`acceptGzip` 已移除；传入会在发送前拒绝。需要直接选择协议或目标时使用 `createRequest`，并自行提供上游业务参数。
+
+直接调用 `createRequest` 时，不传 `crypto` 或传空字符串都明确使用 `eapi`。原始请求保留协议默认目标和原始选项，不再依赖模块的隐式默认配置。
 
 ## 路径始终传 /api/
 
@@ -46,6 +48,8 @@ console.log(result.body);
 日常搜索仍优先用 `search`，因为它还负责业务参数转换和 SDK 身份初始化。
 
 ## 加密响应和 gzip
+
+以下选项只用于显式低层 `createRequest`。普通模块的相应值由动作声明固定。
 
 `e_r` 表示请求上游返回加密响应，默认关闭。请求层会先尝试解析普通 JSON；遇到非 JSON 正文，且使用 `eapi` 或 `weapi` 并启用了 `e_r` 时，才尝试解密。
 

@@ -1,0 +1,1052 @@
+[
+  {
+    "module": "aidj_content_rcmd",
+    "path": "tests/fixtures/netease/recommend/aidj_content_rcmd.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "fcb98f913caa883b4aeddc4bd47a2552769fb3b464ea1288faac53592cd6a7e5"
+  },
+  {
+    "module": "aidj_content_rcmd",
+    "path": "tests/fixtures/netease/recommend/aidj_content_rcmd.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "0135cb16481dc6ea890add500b823d93084d23db0b7beb5a4b3ccceb31e1ed8a"
+  },
+  {
+    "module": "aidj_content_rcmd",
+    "path": "tests/fixtures/netease/recommend/aidj_content_rcmd.with-location.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "dace6db734e527f7fe5e10d6a6cee227d84645d080b33cfb85d822150c358b2f"
+  },
+  {
+    "module": "banner",
+    "path": "tests/fixtures/netease/home/banner.type-android.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "7c550dc07798fcf49580073059a1d9838552ed6260dc24f5c0cf89c41f56ea5e"
+  },
+  {
+    "module": "banner",
+    "path": "tests/fixtures/netease/home/banner.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a3c686ca604b389278dda6e8f3f9f32fc5d580c621ee9555b8b872d8e2ee4ef3"
+  },
+  {
+    "module": "banner",
+    "path": "tests/fixtures/netease/home/banner.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "1942d5857f920dbb618172b05447d17561067d22b1ca5dd82cdb368c57dc6558"
+  },
+  {
+    "module": "banner",
+    "path": "tests/fixtures/netease/home/banner.type-ipad.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "60573f6f2444eb897d67f2c2d1f8d1fbf4b173eb028c10ef7ac99a3fa9db5f31"
+  },
+  {
+    "module": "banner",
+    "path": "tests/fixtures/netease/home/banner.type-iphone.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ffb318b8e30e76fa79850b77dae35e1a7322ece434c120929b08c84a3552d5aa"
+  },
+  {
+    "module": "calendar",
+    "path": "tests/fixtures/netease/recommend/calendar.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "bcaf4c316810832e8c001462a5342f5b6e0d303828bbf4a1f94d9c8efbdc6baa"
+  },
+  {
+    "module": "calendar",
+    "path": "tests/fixtures/netease/recommend/calendar.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f907edf01cd12373829c3b62fd58d6252fcf254d312affdcf8e5d29c11f1c4d7"
+  },
+  {
+    "module": "calendar",
+    "path": "tests/fixtures/netease/recommend/calendar.empty.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "bcaf4c316810832e8c001462a5342f5b6e0d303828bbf4a1f94d9c8efbdc6baa"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.song.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2cc285be230066994a31c26ee924ce238d07337983cfb0f36d10c64369839f0a"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.artist.no-avatar.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "0715f794a82d50f4d082c0ecc17e9797bccfc914ac3c14af62ee211f73ad5931"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.artist.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "c0f0d4ae32311de559424861d51f7b4da34f11b45170fd9fd9122d7a0856d5c5"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.album.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "cf0bc9d97784fb77be0b8fa6d90e7935b2a4544fe0a880bbef8d94e2287e7b3a"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.song.missing-album-name.hieroglyphs.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "7678df6de9c1ab3bcf705fec1c85058b41cc4a511429bab121301b89cafec327"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.album.no-result.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f75b882641cae1664a59984bca3fe6b439941a1ae281fafd65598bc2ab7999be"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.artist.no-result.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "3b18f598d21c75f4b9395cb03a13d47b006313fbd1947be1c02643ddd5343949"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.song.missing-album-name.symbols.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "d6e96b3ff25c41522f97b102d9eb9641b4e2a1a061d462b7d4ace0b0a831d781"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.playlist.no-result.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "e7805b6831d4cb89d96ca22eabb5d029ecedd9a5c61a95ca621c558b1368ecd6"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.playlist.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "3aee58f2fcb62710114ecd093746c4a5d261186ec6b13cc81ca5f0d398bc33a1"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/cloudsearch.song.no-result.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a9cbcf49db4fe78f672e584609aa548e3e8e0a477c70febbbfcf95437b0748be"
+  },
+  {
+    "module": "cloudsearch",
+    "path": "tests/fixtures/netease/search/kinds/004-cloudsearch.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "209f108979f26e8ef85de6b8228cd3903377f76e7690c9cfa5360c680538707b"
+  },
+  {
+    "module": "fm_trash",
+    "path": "tests/fixtures/netease/other/fm_trash.trash.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f974869b9e2f983230ec6155f14fa609a6defcf8c8d851da94944964e745d27b"
+  },
+  {
+    "module": "history_recommend_songs",
+    "path": "tests/fixtures/netease/record/history_recommend_songs.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a1421606b737a33923950de74b9d7037fdef9db0ca738f921856380e80807933"
+  },
+  {
+    "module": "history_recommend_songs",
+    "path": "tests/fixtures/netease/record/history_recommend_songs.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "6b5b833c5a25b693fac6d0d5cbfcfb3a88e481cc418006047d1f53429662f83c"
+  },
+  {
+    "module": "history_recommend_songs_detail",
+    "path": "tests/fixtures/netease/record/history_recommend_songs_detail.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ee45c625a534c52d54599b18b47963fbdc5809c9f2334a239da80146a1a4e33e"
+  },
+  {
+    "module": "history_recommend_songs_detail",
+    "path": "tests/fixtures/netease/record/history_recommend_songs_detail.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "d18aad03a3c96f1d32eb9975acd52f4a6e0ad162e41ed2bd1aaf3c6e4576171d"
+  },
+  {
+    "module": "history_recommend_songs_detail",
+    "path": "tests/fixtures/netease/record/history_recommend_songs_detail.invalid-date.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "2d977304c31c9275eb41718991e8ddcde00d218ff89da462a58dd508ad888005"
+  },
+  {
+    "module": "homepage_block_page",
+    "path": "tests/fixtures/netease/home/homepage_block_page.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "321eda71979d810dbf5750f61187c01faef7ed69ac708091e5ea302d410d4d39"
+  },
+  {
+    "module": "homepage_block_page",
+    "path": "tests/fixtures/netease/home/homepage_block_page.invalid-cursor.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "cbd70335e359b23709885fa770c9c54d96add8a00f7e5eaa6eb312890dc79d6e"
+  },
+  {
+    "module": "homepage_block_page",
+    "path": "tests/fixtures/netease/home/homepage_block_page.invalid-cookie.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "1842e890ba7d8e7b9f1f0137f1775ee934fe74868633454b4d8fd3cdbbf5b359"
+  },
+  {
+    "module": "homepage_dragon_ball",
+    "path": "tests/fixtures/netease/home/homepage_dragon_ball.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "35d579e96326204c863cd60a6c784029403161b73c84f7be48e10b8b6201867e"
+  },
+  {
+    "module": "homepage_dragon_ball",
+    "path": "tests/fixtures/netease/home/homepage_dragon_ball.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "35d579e96326204c863cd60a6c784029403161b73c84f7be48e10b8b6201867e"
+  },
+  {
+    "module": "personal_fm",
+    "path": "tests/fixtures/netease/recommend/personal_fm.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4ff6bd2c7ade0e0336b7a53010ab368e8409c6f88ea7d388fd29fb9a7167e14b"
+  },
+  {
+    "module": "personal_fm",
+    "path": "tests/fixtures/netease/recommend/personal_fm.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "7250a36249b42fc7405dff4d78325b17a857965a9b3fd346f66a08607755e01a"
+  },
+  {
+    "module": "personal_fm_mode",
+    "path": "tests/fixtures/netease/recommend/personal_fm_mode.explore.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "467b7489523f06feb73bfe7633f2283d87bba9b6dde62a102ecf3cf55700636e"
+  },
+  {
+    "module": "personal_fm_mode",
+    "path": "tests/fixtures/netease/recommend/personal_fm_mode.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "6f63149ee9813db9a490e3c3df54b6ce73647853f887ea0401971e8fd14af12c"
+  },
+  {
+    "module": "personal_fm_mode",
+    "path": "tests/fixtures/netease/recommend/personal_fm_mode.scene-night-emo.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "43afd7ef46f143bd95c94d8d55fc72d6011d3ce52f0fc182d6ace958e13503c7"
+  },
+  {
+    "module": "personal_fm_mode",
+    "path": "tests/fixtures/netease/recommend/personal_fm_mode.scene-exercise.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "c73dbe62febb527bc281f2ca4a3aec775dd2e0ecd7e0baaef3b10bd6db14148b"
+  },
+  {
+    "module": "personal_fm_mode",
+    "path": "tests/fixtures/netease/recommend/personal_fm_mode.aidj.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "7127a3570acecb574fb4dd1d573ea59cc93ba6c65733c399185c0c8bc2b833ec"
+  },
+  {
+    "module": "personal_fm_mode",
+    "path": "tests/fixtures/netease/recommend/personal_fm_mode.familiar.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "9b1614f2367593201e51bd3150fd6a3c2385c057fe58a363ac934e807b8baf39"
+  },
+  {
+    "module": "personal_fm_mode",
+    "path": "tests/fixtures/netease/recommend/personal_fm_mode.scene-focus.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "85b353b7396f8e358f9688d5bd18ce333100fb9124f49bb168f990d5f44a7559"
+  },
+  {
+    "module": "personal_fm_mode",
+    "path": "tests/fixtures/netease/recommend/personal_fm_mode.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "e40fcce41a8c42c876c49756957ced7fd686480c6de0205421a25b23d200f1ea"
+  },
+  {
+    "module": "personalized",
+    "path": "tests/fixtures/netease/recommend/personalized.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "c715403e48652ff871b88fa2e21172fbcba42279bdc4d2b737cfb84d3f4f7722"
+  },
+  {
+    "module": "personalized",
+    "path": "tests/fixtures/netease/recommend/personalized.invalid-limit.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "4e21b78b340d4de4201c1c820bee66e4ac052857726491630fee9db237e1517b"
+  },
+  {
+    "module": "personalized",
+    "path": "tests/fixtures/netease/recommend/personalized.authenticated.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a24e7b12f2dd5b4fe0a7b64c3c63d58fa8acef09a83ca66a81826fddf2bbcbc5"
+  },
+  {
+    "module": "personalized_djprogram",
+    "path": "tests/fixtures/netease/dj/personalized_djprogram.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "70ade06d2ba8284eac8f6b3e1121c527c79a292e54ee08fc10827e68b2c19e9b"
+  },
+  {
+    "module": "personalized_mv",
+    "path": "tests/fixtures/netease/recommend/personalized_mv.authenticated.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "8791f6e71eef2d2c15cef2fa4e6bf7fe0b4493ef9c4621afadade6642a59c2cc"
+  },
+  {
+    "module": "personalized_mv",
+    "path": "tests/fixtures/netease/recommend/personalized_mv.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "5291d7b934fec169aa069ac0b7d81ee440da4f6bd7321e8c25e42c171088c8c2"
+  },
+  {
+    "module": "personalized_newsong",
+    "path": "tests/fixtures/netease/recommend/personalized_newsong.invalid-limit.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "4e21b78b340d4de4201c1c820bee66e4ac052857726491630fee9db237e1517b"
+  },
+  {
+    "module": "personalized_newsong",
+    "path": "tests/fixtures/netease/recommend/personalized_newsong.authenticated.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "98e36939189e4685da1e4ca96c9374c5b1c53f10109f9832afcdd7119e082a49"
+  },
+  {
+    "module": "personalized_newsong",
+    "path": "tests/fixtures/netease/recommend/personalized_newsong.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "02db616c58d82ff9330b5ed6e03785f7449fceeaac16a2227928bed7cd282516"
+  },
+  {
+    "module": "personalized_privatecontent",
+    "path": "tests/fixtures/netease/recommend/personalized_privatecontent.authenticated.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a9e267bca85a323448f9f4b8bcfad197781ffa00618b005b9aca52f1ff2c723f"
+  },
+  {
+    "module": "personalized_privatecontent",
+    "path": "tests/fixtures/netease/recommend/personalized_privatecontent.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a0d1b251f954f794955791d8d1a89c0ec7b6211348bb98e07a7d3c2cae2bb52f"
+  },
+  {
+    "module": "personalized_privatecontent_list",
+    "path": "tests/fixtures/netease/recommend/personalized_privatecontent_list.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "c8cc7e888a997fe2458074e391982484a285924f880ecbf1d9c06d878c63481d"
+  },
+  {
+    "module": "personalized_privatecontent_list",
+    "path": "tests/fixtures/netease/recommend/personalized_privatecontent_list.offset-out-of-range.json",
+    "outcome": "rejected",
+    "status": 404,
+    "bodySha256": "46a9b43e5bc3f0f96b229541dd7988adbdbe5b3077d18f31c11d3d3aa9e0df01"
+  },
+  {
+    "module": "personalized_privatecontent_list",
+    "path": "tests/fixtures/netease/recommend/personalized_privatecontent_list.invalid-offset.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "4e21b78b340d4de4201c1c820bee66e4ac052857726491630fee9db237e1517b"
+  },
+  {
+    "module": "personalized_privatecontent_list",
+    "path": "tests/fixtures/netease/recommend/personalized_privatecontent_list.authenticated.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "105dee4eb719811a03f0fd6363b7961eb3baed8fc76e23b8a57252953cafbe2c"
+  },
+  {
+    "module": "recommend_resource",
+    "path": "tests/fixtures/netease/recommend/recommend_resource.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "c5e04172462f5c7ac28300f0ad6cb521c70333d66d39675ba7c5405f42971555"
+  },
+  {
+    "module": "recommend_resource",
+    "path": "tests/fixtures/netease/recommend/recommend_resource.authenticated.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4bc7fc64865b5bb95cd3932142c24ba47d942b6766ad050e2e9450d9b9685ba7"
+  },
+  {
+    "module": "recommend_songs",
+    "path": "tests/fixtures/netease/library/recommend_songs.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2b4d2b63afc6ab90b5dccc06321b863b9acbecfb44f604d862e8ffd6ff857dfd"
+  },
+  {
+    "module": "recommend_songs_dislike",
+    "path": "tests/fixtures/netease/recommend/recommend_songs_dislike.dislike.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "224a2ce05997ece4bb842fdca1294220a32fb08d7d76cebdc872c944af10662f"
+  },
+  {
+    "module": "search_default",
+    "path": "tests/fixtures/netease/search/search_default.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "82759db491c7a434ea697fd715414716a5699e90a6fe61f8d917e02e0c8b71c7"
+  },
+  {
+    "module": "search_hot",
+    "path": "tests/fixtures/netease/search/search_hot.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "9e7841ba97ced87b38e37f3aec0da2f1898a97a77219bd2d531b45e7eb4c87cf"
+  },
+  {
+    "module": "search_hot_detail",
+    "path": "tests/fixtures/netease/search/search_hot_detail.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "bb8b0ec89acbbb3fc208ac8cec39eb06d8e2c95d43d58cfa068dcbfb57d0096b"
+  },
+  {
+    "module": "search_hot_detail",
+    "path": "tests/fixtures/netease/search/search_hot_detail.second.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "06133f7226d81b90b9333b48089dd5c817a0098556d4814931102040a5b72bfb"
+  },
+  {
+    "module": "search_match",
+    "path": "tests/fixtures/netease/search/search_match.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "442fff510bea5edd250abd50790368faeffd5f3357151da453f3a8f2624ea3d4"
+  },
+  {
+    "module": "search_match",
+    "path": "tests/fixtures/netease/search/search_match.no-result.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "a91b30b6adcf497b66b790ba909d4237863b907a72d1f3a694647c9b14102e8a"
+  },
+  {
+    "module": "search_multimatch",
+    "path": "tests/fixtures/netease/search/search_multimatch.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2b4c59da6e5e98fa89fa2db44b4f46cfb121b3cb6f58be76a959657c4ebf2dbe"
+  },
+  {
+    "module": "search_multimatch",
+    "path": "tests/fixtures/netease/search/search_multimatch.no-result.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "45ab0c848f42f9d3994a7a4a0297e5973935270167d5cab5c0699794cac54c03"
+  },
+  {
+    "module": "search_suggest",
+    "path": "tests/fixtures/netease/search/search_suggest.mobile.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "26100314e0ca59ba874d781f202fe94c0953b7faf2075d279f976a330e00267d"
+  },
+  {
+    "module": "search_suggest",
+    "path": "tests/fixtures/netease/search/search_suggest.no-result.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "d995f529f0e0a81fbbea9a354fb0cec840db53450807d02fab2880b36039e5c7"
+  },
+  {
+    "module": "search_suggest",
+    "path": "tests/fixtures/netease/search/search_suggest.mobile.no-result.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "d995f529f0e0a81fbbea9a354fb0cec840db53450807d02fab2880b36039e5c7"
+  },
+  {
+    "module": "search_suggest",
+    "path": "tests/fixtures/netease/search/search_suggest.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4e0cbf2bedfb9c6b1823e8ed4606849f94558927c0ec8669dce87af5c01814c1"
+  },
+  {
+    "module": "search_suggest",
+    "path": "tests/fixtures/netease/search/kinds/002-search_suggest.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "c40041104a20b580072cabb4a085af8806cab0fd9013114858c6cc056dfa6140"
+  },
+  {
+    "module": "search_suggest",
+    "path": "tests/fixtures/netease/search/kinds/001-search_suggest.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "9ea5a755580eea5bb6ef7a5e9cefff7c178339e4d0ecfdd4b3c7ab68066f4b84"
+  },
+  {
+    "module": "simi_artist",
+    "path": "tests/fixtures/netease/simi/simi_artist.missing-id.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "c42b60786af88299053225615fc04bb5888ad0564218c0aed88a3548c2caffba"
+  },
+  {
+    "module": "simi_artist",
+    "path": "tests/fixtures/netease/simi/simi_artist.unknown.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "59c500386dad3db3d320a78a6cadfff32b873bc209398e8704dd4fc36f97d172"
+  },
+  {
+    "module": "simi_artist",
+    "path": "tests/fixtures/netease/simi/simi_artist.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2ae77b5597c5eb8ade5c73c7009800eeacd1f9bf9e119e4317118894d4e1f87f"
+  },
+  {
+    "module": "simi_mv",
+    "path": "tests/fixtures/netease/simi/simi_mv.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "b4baef6e5559db2cd14093c526a5fcc19dfd76d9fea6b47e411c324c53ba85ad"
+  },
+  {
+    "module": "simi_mv",
+    "path": "tests/fixtures/netease/simi/simi_mv.unknown-mvid.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "728553e514ba6f177c6c61e8fd486dc5a8d27b424050561d39d2d2e3fa9cebfa"
+  },
+  {
+    "module": "simi_playlist",
+    "path": "tests/fixtures/netease/simi/simi_playlist.missing-id.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126"
+  },
+  {
+    "module": "simi_playlist",
+    "path": "tests/fixtures/netease/simi/simi_playlist.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "5c936af86c0a7058896bb76bdfb9c18b5d826cba87d071b79ecf88f83b550ef0"
+  },
+  {
+    "module": "simi_playlist",
+    "path": "tests/fixtures/netease/simi/simi_playlist.unknown.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "620a4631fce4becc55fbef19db27ff6389b8313e1763fab4b58a7d87a9a097c7"
+  },
+  {
+    "module": "simi_song",
+    "path": "tests/fixtures/netease/simi/simi_song.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2f2df66a91046a2345ab60184da998a2d1d4672fdee26e9eeb178f709bc8e0c7"
+  },
+  {
+    "module": "simi_song",
+    "path": "tests/fixtures/netease/simi/simi_song.missing-id.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "4e21b78b340d4de4201c1c820bee66e4ac052857726491630fee9db237e1517b"
+  },
+  {
+    "module": "simi_song",
+    "path": "tests/fixtures/netease/simi/simi_song.unknown.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "991828d46cf1e45ccef788980a0f8ea5dcab10e3bb8e547982c0ace82f8fdfec"
+  },
+  {
+    "module": "simi_user",
+    "path": "tests/fixtures/netease/simi/simi_user.missing-id.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126"
+  },
+  {
+    "module": "simi_user",
+    "path": "tests/fixtures/netease/simi/simi_user.empty.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ed3ce11fba0ab513a5cd4f5c432eb2bfabfc6d7cb59bfc60f4d66c38e846b8e5"
+  },
+  {
+    "module": "style_album",
+    "path": "tests/fixtures/netease/style/style_album.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "33e8797115dac328db19f6dc3c271b1957df60b6da7ac9e5ab34cf5519198238"
+  },
+  {
+    "module": "style_album",
+    "path": "tests/fixtures/netease/style/style_album.missing-tag.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "4e21b78b340d4de4201c1c820bee66e4ac052857726491630fee9db237e1517b"
+  },
+  {
+    "module": "style_album",
+    "path": "tests/fixtures/netease/style/style_album.unknown-tag.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "dcc747acd75bdc1690987c8fef70218c315103e3db4e5f106a19e6c6daacb964"
+  },
+  {
+    "module": "style_artist",
+    "path": "tests/fixtures/netease/style/style_artist.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "1f36e0de4ee0b11cf716a9e196499cc0720d2254bb7a46be0a60ad29d08b8a3b"
+  },
+  {
+    "module": "style_artist",
+    "path": "tests/fixtures/netease/style/style_artist.missing-tag.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "4e21b78b340d4de4201c1c820bee66e4ac052857726491630fee9db237e1517b"
+  },
+  {
+    "module": "style_artist",
+    "path": "tests/fixtures/netease/style/style_artist.unknown-tag.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "3235b0998bd5e4f6b94dbf58b402e9776d5e85f6eb78fec50bff3862bf42aae7"
+  },
+  {
+    "module": "style_detail",
+    "path": "tests/fixtures/netease/style/style_detail.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "9e45622428f387daad8032d56d326543168b4853e697d61a2ce9126d7ceffca2"
+  },
+  {
+    "module": "style_detail",
+    "path": "tests/fixtures/netease/style/style_detail.missing-tag.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "4e21b78b340d4de4201c1c820bee66e4ac052857726491630fee9db237e1517b"
+  },
+  {
+    "module": "style_detail",
+    "path": "tests/fixtures/netease/style/style_detail.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "5fd37d7c0b8a098cebaf99563a306b360806a6b3e817369ead6951b67e0d855c"
+  },
+  {
+    "module": "style_detail",
+    "path": "tests/fixtures/netease/style/style_detail.unknown-tag.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "c29342eeeb9e8c561bbe6cdb8d8743947cd1b7d641d3f1f1605b174d2b394cdb"
+  },
+  {
+    "module": "style_list",
+    "path": "tests/fixtures/netease/style/style_list.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "e13ed3638dd584b5c2c9405070a4d36b1f197ca3a48e5ea55738c5d7ac4d2ce3"
+  },
+  {
+    "module": "style_playlist",
+    "path": "tests/fixtures/netease/style/style_playlist.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "90695684c98ce4757bce21874a8c1ca36e8ac86c4cc0231fd8bad6b55a17827b"
+  },
+  {
+    "module": "style_playlist",
+    "path": "tests/fixtures/netease/style/style_playlist.missing-tag.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "4e21b78b340d4de4201c1c820bee66e4ac052857726491630fee9db237e1517b"
+  },
+  {
+    "module": "style_playlist",
+    "path": "tests/fixtures/netease/style/style_playlist.unknown-tag.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "e069eaf90218746729d6785022edbbf989f62f18c8022a5f59c910f38f198582"
+  },
+  {
+    "module": "style_preference",
+    "path": "tests/fixtures/netease/style/style_preference.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2ed91223f505b753b7b6e5537fde2eaf3e3d390b3105b8bddcdc4ca15e2e9605"
+  },
+  {
+    "module": "style_preference",
+    "path": "tests/fixtures/netease/style/style_preference.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "73388ea284b9ea902cc0522007c48f18d7335ba9329e1446c363e7e8602fcad8"
+  },
+  {
+    "module": "style_song",
+    "path": "tests/fixtures/netease/style/style_song.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2302b3072eb0509a0bfd7090f1541d2d2fa70cc9453992f6a3dd78c27938aa40"
+  },
+  {
+    "module": "style_song",
+    "path": "tests/fixtures/netease/style/style_song.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "22c6432c83ac632702ac7898c5407d08adf9ee82f13e9fc3fdb2233303798e6e"
+  },
+  {
+    "module": "style_song",
+    "path": "tests/fixtures/netease/style/style_song.unknown-tag.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "8fd739298343eeff388edb9918598410d76b9588021825a94399f5bf010c0207"
+  },
+  {
+    "module": "style_song",
+    "path": "tests/fixtures/netease/style/style_song.missing-tag.json",
+    "outcome": "rejected",
+    "status": 400,
+    "bodySha256": "4e21b78b340d4de4201c1c820bee66e4ac052857726491630fee9db237e1517b"
+  },
+  {
+    "module": "top_album",
+    "path": "tests/fixtures/netease/album/top_album.empty.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "b3fba0513b3f5874b3b7da0a6e575853d40049884ed051a02a4ff67b808fa798"
+  },
+  {
+    "module": "top_album",
+    "path": "tests/fixtures/netease/album/top_album.area-all.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "e0b50c1ea0a9c18d5e10ec76b79d73860631c6f5bbeb5312004f60e2b8016c97"
+  },
+  {
+    "module": "top_album",
+    "path": "tests/fixtures/netease/album/top_album.area-jp.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "8adecc20e9c14a0ecb9ad2f2cfd7dc92c8c9557f992506200d78d058f597d73a"
+  },
+  {
+    "module": "top_artists",
+    "path": "tests/fixtures/netease/artist/top_artists.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "8bb7d0f6170c2ccf69010af90e88a7f2920b959e5948e0e9da0ad62d76b838d2"
+  },
+  {
+    "module": "top_artists",
+    "path": "tests/fixtures/netease/artist/top_artists.default-vip.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f597476355c35795870d83ea003ae3f5d7e734f3618685632b84ba44d1c3542d"
+  },
+  {
+    "module": "top_artists",
+    "path": "tests/fixtures/netease/artist/top_artists.empty.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "38d906311a215a4e68c83391e335e8e5057f0345f4f7a33284910f419bd0c820"
+  },
+  {
+    "module": "top_list",
+    "path": "tests/fixtures/netease/toplist/top_list.chart-19723756.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "6c060d6c1fc5e76c7453232a2a81032310116c6f47e586a7806400ca3313ddc0"
+  },
+  {
+    "module": "top_mv",
+    "path": "tests/fixtures/netease/mv/top_mv.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "d9f3c40a02245982825055b9a5919d71e53e93b91bfb3bd54be258218c548356"
+  },
+  {
+    "module": "top_playlist",
+    "path": "tests/fixtures/netease/playlist/top_playlist.empty.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f3c0346eddfeb1927bd156333d7aae9b13c631f67dc1658f2f3bf7a7c06957c5"
+  },
+  {
+    "module": "top_playlist",
+    "path": "tests/fixtures/netease/playlist/top_playlist.last-page.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "0de3cd72045614f380c76e780f4f2f7845ff4a61eec79f5efa4d303a7038ff14"
+  },
+  {
+    "module": "top_playlist",
+    "path": "tests/fixtures/netease/playlist/top_playlist.beyond-last-page.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "8aeb50f93cb9f1f4425185e5747e30a1c98134f5cfcfdda2c58c3ad1d499aafa"
+  },
+  {
+    "module": "top_playlist",
+    "path": "tests/fixtures/netease/playlist/top_playlist.invalid-limit.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "12ae32cb1ec02d01eda3581b127c1fee3b0dc53572ed6baf239721a03d82e126"
+  },
+  {
+    "module": "top_playlist",
+    "path": "tests/fixtures/netease/playlist/top_playlist.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f418f4f79aeb6111c8c20f6cf577f191ecc2ebd80bfbb20e3f5a915b6514aec1"
+  },
+  {
+    "module": "top_playlist",
+    "path": "tests/fixtures/netease/playlist/top_playlist.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "0339d5bbb4fa9d6b259e536c2c6ff2f298f83ee97f17b0cc79b7cac3c24fbb23"
+  },
+  {
+    "module": "top_playlist",
+    "path": "tests/fixtures/netease/playlist/top_playlist.fallback-ignores-limit.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4d1543ce9d59f038670790e5e9b421cf363979299bda6a08f68fd8e2698eb336"
+  },
+  {
+    "module": "top_playlist_highquality",
+    "path": "tests/fixtures/netease/playlist/top_playlist_highquality.empty.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "6fc703eea0c3d64e11a1a588f569cf9e4d1784fcd7142462788575fecafd61c4"
+  },
+  {
+    "module": "top_playlist_highquality",
+    "path": "tests/fixtures/netease/playlist/top_playlist_highquality.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "7e9cbc9a85de0793fdaceb94f7f42c152ff5d7e0bda7f20abb457f9a22d9fd76"
+  },
+  {
+    "module": "top_song",
+    "path": "tests/fixtures/netease/toplist/top_song.type-96.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "7a7175b362fc6d2c36de9d1d7eeacc9bdc70a22c1d7f47525cf843f0abe29efb"
+  },
+  {
+    "module": "top_song",
+    "path": "tests/fixtures/netease/toplist/top_song.type-999.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "b135502276a4aa6d653b32189e747694f1bf62edd390989902d60dbfbe5e12d1"
+  },
+  {
+    "module": "top_song",
+    "path": "tests/fixtures/netease/toplist/top_song.type-0.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "38ffb36b5d134f15c5e8d754651efebf8792ea6a064675d39a899742224c17ba"
+  },
+  {
+    "module": "top_song",
+    "path": "tests/fixtures/netease/toplist/top_song.type-0-vip.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "dfb0a9a9c21a55b34e4dc46c025109930bd8850df8744fe07add42cfd51abc9c"
+  },
+  {
+    "module": "toplist",
+    "path": "tests/fixtures/netease/toplist/toplist.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "b46b3de50100a80f0bc058084589597a3ddb6abd2c9b9052dc76cdc3e6194ddc"
+  },
+  {
+    "module": "toplist_artist",
+    "path": "tests/fixtures/netease/toplist/toplist_artist.type-1.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "cb24875719745360cd56e797d3c6067ed927055741c048a7e772f2b969795974"
+  },
+  {
+    "module": "toplist_artist",
+    "path": "tests/fixtures/netease/toplist/toplist_artist.type-2.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "60b52904be1fc4be2169cd38b677842e00606c2cef46a6d56919a7fb2aa20203"
+  },
+  {
+    "module": "toplist_detail",
+    "path": "tests/fixtures/netease/toplist/toplist_detail.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "15e602b9c39276014ea73ded8bbe6db5af7edcbf36953a9419c0d84d56542d49"
+  },
+  {
+    "module": "ugc_album_get",
+    "path": "tests/fixtures/netease/ugc/ugc_album_get.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "0fe3923d4d2909ecf59113a4587729b8165ac68cc27b8f398e980374b811e5d2"
+  },
+  {
+    "module": "ugc_album_get",
+    "path": "tests/fixtures/netease/ugc/ugc_album_get.missing.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "9e47771b2caec21d7cf3abd0af46c033233f5ad673e4729a053635eb6dd30f66"
+  },
+  {
+    "module": "ugc_artist_get",
+    "path": "tests/fixtures/netease/ugc/ugc_artist_get.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "2b604518a0c02ed8c30c90d6da42820a34343dd8c1dc89056f662ad2aa1becdd"
+  },
+  {
+    "module": "ugc_artist_get",
+    "path": "tests/fixtures/netease/ugc/ugc_artist_get.missing.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "0e9ef6f0e69a361f8975b1d01ee044a6ce497bc52ac53caeb0b189144b74881c"
+  },
+  {
+    "module": "ugc_artist_search",
+    "path": "tests/fixtures/netease/ugc/ugc_artist_search.artist-id.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ff9d10bdba459e87c69c3a7ebc412e5b62e9b4b9496cc4e32502ad6a65a1212a"
+  },
+  {
+    "module": "ugc_artist_search",
+    "path": "tests/fixtures/netease/ugc/ugc_artist_search.keyword.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "ff9d10bdba459e87c69c3a7ebc412e5b62e9b4b9496cc4e32502ad6a65a1212a"
+  },
+  {
+    "module": "ugc_artist_search",
+    "path": "tests/fixtures/netease/ugc/ugc_artist_search.empty.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "b02fb1bea74af5116b46cce0b92c5427d1f3b44c8437e1346143aa81defead5a"
+  },
+  {
+    "module": "ugc_detail",
+    "path": "tests/fixtures/netease/ugc/ugc_detail.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "179a1c66f38626e87eb10a26cf7fa2dfd5b6fff7f536482b538091715fd5eba7"
+  },
+  {
+    "module": "ugc_detail",
+    "path": "tests/fixtures/netease/ugc/ugc_detail.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "179a1c66f38626e87eb10a26cf7fa2dfd5b6fff7f536482b538091715fd5eba7"
+  },
+  {
+    "module": "ugc_mv_get",
+    "path": "tests/fixtures/netease/ugc/ugc_mv_get.missing.json",
+    "outcome": "rejected",
+    "status": 404,
+    "bodySha256": "96a1f10347669aaaffdf3d7e1a946277bccc899ec159fed8fe1e78b9a9bf00a4"
+  },
+  {
+    "module": "ugc_mv_get",
+    "path": "tests/fixtures/netease/ugc/ugc_mv_get.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f2dd4bf571e4cfc608c08754c9ddd906a2786ba7fb378801a8d435a79810f246"
+  },
+  {
+    "module": "ugc_song_get",
+    "path": "tests/fixtures/netease/ugc/ugc_song_get.missing.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4e7be1b75e880b35a7c09f4a63d007e71d0f32743adbd9194a0c5195a198de9e"
+  },
+  {
+    "module": "ugc_song_get",
+    "path": "tests/fixtures/netease/ugc/ugc_song_get.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "4d9027518e869fd4abbf598139981af0e028d600b9d22ce4257a667e5738c4aa"
+  },
+  {
+    "module": "ugc_user_devote",
+    "path": "tests/fixtures/netease/ugc/ugc_user_devote.default.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "c14dfa85cad0f6e1c189fedae3ee0b276341d3d14e215e2df98fb4374ae87623"
+  },
+  {
+    "module": "ugc_user_devote",
+    "path": "tests/fixtures/netease/ugc/ugc_user_devote.anonymous.json",
+    "outcome": "resolved",
+    "status": 200,
+    "bodySha256": "f3e587f4921cc2f81b0741e1ee86a69a9217ccbbb219a57f6c9ad02ebd6a8625"
+  }
+]

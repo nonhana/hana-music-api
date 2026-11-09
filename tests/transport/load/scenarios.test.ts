@@ -2,7 +2,12 @@ import { expect, test } from 'bun:test';
 
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
-import voiceUpload from '../../../src/modules/voice_upload.ts';
+import voiceUpload, {
+  moduleActions as voiceUploadActions,
+} from '../../../src/modules/voice_upload.ts';
+import { createClientFromContext } from '../../../src/sdk/generated/client-factory.generated.ts';
+import { settle } from '../../_kit/assertions.ts';
+import { testEntropy } from '../../_kit/harness/sdk.ts';
 import { plainRequest } from '../../_kit/module.ts';
 import { createFakeUpstream } from '../../_kit/upstream/loopback.ts';
 
@@ -34,10 +39,11 @@ test('a local multipart upload stops after the first cancelled part', async () =
           mimetype: 'audio/mpeg',
         },
       },
-      signal: controller.signal,
+
       config: {
+        signal: controller.signal,
         cookie: 'MUSIC_U=local-upload',
-        crypto: 'api',
+
         fetcher: async (url, init) => {
           const response = await fake.fetcher(url, init);
           const address =
@@ -54,11 +60,12 @@ test('a local multipart upload stops after the first cancelled part', async () =
         },
       },
     },
-    buildCallServices(),
+    buildCallServices({}, false, { entropy: testEntropy }),
     {
       identifier: 'voice_upload',
       route: '/voice/upload',
       decodeInput: decodeLegacyModuleInput,
+      actions: voiceUploadActions,
       execute: voiceUpload,
     },
   ).catch((error: unknown) => error);
@@ -72,4 +79,34 @@ test('a local multipart upload stops after the first cancelled part', async () =
   expect(
     fake.sent.every((entry) => new URL(entry.socket).hostname === '127.0.0.1'),
   ).toBe(true);
+});
+
+test('loopback accepts declared PC like actions and decodes each write in order', async () => {
+  const observed = await settle(
+    (async () => {
+      await using fake = createFakeUpstream(1);
+      const config = { cookie: 'MUSIC_U=loopback-listener' };
+      const client = createClientFromContext(
+        config,
+        buildCallServices(config, false, {
+          fetcher: fake.fetcher,
+          entropy: testEntropy,
+        }),
+      );
+      for (const like of [true, false, true])
+        await client.like({ id: 17, like });
+      return {
+        writes: fake.metrics.writes,
+        sent: fake.sent,
+        active: fake.metrics.active,
+      };
+    })(),
+  );
+  expect(observed).toHaveProperty('resolved');
+  if (!('resolved' in observed)) return;
+  expect(observed.resolved.writes).toEqual(['true', 'false', 'true']);
+  expect(observed.resolved.active).toBe(0);
+  expect(observed.resolved.sent.map((entry) => entry.logical)).toEqual(
+    Array.from({ length: 3 }, () => 'https://music.163.com/weapi/radio/like'),
+  );
 });

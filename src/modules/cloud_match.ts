@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -42,20 +41,28 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const cloudMatch: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  match: {
+    target: '/api/cloud/user/song/match',
+    profile: 'web',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const cloudMatch: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       userId: query.uid,
       songId: query.sid,
       adjustSongId: query.asid,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/cloud/user/song/match`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('match', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody('cloud_match', ModuleBody, response),

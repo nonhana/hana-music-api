@@ -13,9 +13,10 @@ flowchart TD
   SDK["SDK：client、具名函数、invokeModule"] --> CALL["校验业务输入、准备身份<br/>建立调用快照"]
   HTTP["HTTP 请求"] --> EDGE["检查入口额度<br/>解析参数与 Cookie"]
   EDGE --> CALL
-  CALL --> MODULE["业务模块<br/>生成请求意图"]
-  DIRECT["createRequest<br/>建立底层调用快照"] --> CORE["统一请求内核 requestEffect"]
-  MODULE --> CORE
+  CALL --> MODULE["业务模块<br/>选择动作与业务数据"]
+  DIRECT["createRequest<br/>解析路径、数据与选项"] --> CORE["统一请求内核 requestEffect"]
+  MODULE --> BIND["按动作解析请求"]
+  BIND --> CORE
   CORE --> TRANSPORT["transport<br/>发送请求并完整读取正文"]
   TRANSPORT --> UPSTREAM["网易云 API、网页或上传服务"]
 ```
@@ -34,7 +35,7 @@ flowchart TD
 
 ### 为这次调用保存一份快照
 
-内部的 `Call` 表示一次模块调用。它保存整理后的业务参数、执行配置、有效身份和截止时间。模块后续发出多次请求时，仍使用这次调用的身份，不会中途换成全局状态里刚更新的账号。
+内部的 `Call` 表示一次模块调用。它保存整理后的业务参数、有效身份、可用动作和本次 token 的使用状态。实际网络依赖和截止时间由单独的 `ExecutionScope` 保存，原始请求也能使用这份执行上下文。模块后续发出多次请求时，仍使用这次调用的身份，不会中途换成全局状态里刚更新的账号。
 
 普通模块默认有 8 秒总期限。准备游客身份、重试和读取正文都算在这 8 秒里。两个相同的读取可以共享上游工作，但每个调用者仍有自己的期限，详见 [超时与取消](/guide/retry-timeout-resilience)。
 
@@ -59,9 +60,11 @@ flowchart TD
 
 ### 模块描述请求，内核负责执行
 
-搜索模块把 `keywords` 转成上游要求的 `s`，再提供目标路径、协议、方法和正文。这份描述叫 `RequestIntent`，也就是请求意图。
+搜索模块把 `keywords` 转成上游要求的 `s`，再调用 `request('read', { data })`。目标路径、协议和方法已经在动作里声明，模块只需要选择动作并提供业务数据。
 
-模块通过传入的 `RequestCapability` 提交它。这个名字表示模块拥有的请求能力，其默认实现就是 `requestEffect`。模块不直接调用 `fetch`，也不在内部启动另一套 Promise 执行器。
+传入的 `RequestCapability` 就是这份绑定好的请求能力。它检查动作和参数，在等待 token 前保存一份自有数据快照，再把已解析的请求交给内核；调用者之后修改原对象，不会改变已经准备的请求。模块不直接调用 fetch，也不在内部启动另一套 Promise 执行器。
+
+动作和 profile 决定客户端身份；登录 Cookie 和设备随本次调用固定下来。浏览器请求使用 web Cookie，EAPI 使用配套 iPhone 字段，普通配置不能改写协议或平台。需要直接控制底层协议时使用 [createRequest](/guide/create-request-and-create-option)。
 
 内核根据调用快照准备 URL、Cookie、请求头和加密正文，校验最终目标，再按策略执行请求。内核不在本地限制发送频率，每次尝试都直接发出；请求频率由调用方控制，见 [请求频率由调用方控制](/guide/retry-timeout-resilience#请求频率由调用方控制)。只有允许重试的操作和失败类型才会进入下一次尝试。
 
@@ -71,7 +74,7 @@ sequenceDiagram
   participant Core as 请求内核
   participant Transport as 网络传输
   participant Upstream as 网易云
-  Module->>Core: 请求意图
+  Module->>Core: 动作名与业务数据
   Core->>Core: 准备协议并校验目标
   Core->>Transport: 发送请求
   Transport->>Upstream: HTTP 请求
@@ -89,7 +92,7 @@ sequenceDiagram
 | ----------------------- | ------------------------------------------- | ------------------------------------------------------ |
 | 进程                    | 匿名运行时状态                              | 多个 client 共用同一份匿名身份                         |
 | client 或 HTTP 服务实例 | 各自的 `ReadStore`；client 可选的匿名身份池 | 不同 client 的缓存独立；同一 client 的方法共用读取状态 |
-| 单次调用                | 参数、配置、身份快照、截止时间              | 单次覆盖只影响这次调用，取消也先作用于这个调用者       |
+| 单次调用                | 参数、身份快照、token 状态与独立等待期限    | 单次覆盖只影响这次调用，取消也先作用于这个调用者       |
 
 具名函数保留各自的调用上下文，公开 `invokeModule` 复用其调用上下文；它们默认不保存已完成结果的缓存。共享范围不能仅凭“在同一进程”判断。
 
@@ -156,3 +159,23 @@ HTTP 服务会把 `body` 写成 JSON，把 `status` 用作 HTTP 状态码，并�
 每个模块本地声明 `ModuleInput`、导出 `decodeModuleInput`，并用 `ModuleEffect` 实现默认导出。生成器据此维护 SDK 方法、registry 和公开输入类型。维护模块时应运行 `bun run types:modules:generate`，然后按仓库的 `agent-docs/TESTING.md` 选择检查。
 
 取消、缓存、流量控制和上传行为可以用本地假上游验证。这样的检查证明本地执行规则，不能代替真实网易云接口的可用性验证。负载场景与验收规则见仓库中的 `tests/transport/load/`、`scripts/load-test.mts` 和 `agent-docs/TESTING.md`。
+
+## 上传与多请求模块
+
+上传文件时，一次 SDK 调用可能先申请凭证，再把原始文件发到 NOS，最后提交上传结果。这些阶段现在都经过同一请求链，共用本次调用的取消信号和总期限；某阶段失败后停止后续请求，已经完成的阶段通过部分完成信息报告。
+
+`cloudImport` 先检查再导入，`playlistTrackAll` 先取歌曲编号再读取详情。`playlistTracks` 只有收到既有业务码 512 时，才按原逻辑修改歌曲列表再发送一次；它没有获得通用自动重试。`innerVersion`、`loginQrCreate` 在本地完成，不发送上游请求或读取 token。
+
+普通模块的协议、域名和 UA 来自动作声明，配置中的 `crypto`、`domain`、`ua`、`e_r`、`acceptGzip` 不再覆盖这些模块。调用方继续提供业务 query、Cookie、代理、fetcher、期限、取消和可选 `checkToken`；确需直接构造请求时使用低层 `createRequest`。这是 major 兼容变化，业务输入和返回外壳保持。
+
+`audioMatch` 和 `relatedPlaylist` 采用保守的单次请求策略。它们的动态 query 曾影响旧 URI 重试判定；收紧为不自动重试，可以避免迁移后扩大部分输入的原重试上限。
+
+## 每次调用使用同一台设备
+
+如果你已经保存了听众的设备 ID，就在调用配置的 `state.deviceId` 里传入。SDK先选这个有效值，再看旧网易云 Cookie 的 `deviceId`，都没有才使用匿名或运行时的兜底设备。设备创建和跨调用保存仍由你的应用负责；续期时只更新本次账号凭据，设备不会跟着旧 Cookie 改回去。
+
+身份统一后，各接口继续使用原来的协议和目标。EAPI请求使用已有iPhone平台字段，原先带PC Cookie的weapi浏览器请求改用干净web身份；clientlog使用自洽的macOS字段。普通模块会清除旧平台字段及其大小写变体，Cookie和加密正文中的设备、版本与平台从同一次快照生成。没有可靠来源的buildver、versioncode、机型和分辨率会省略。
+
+显式低层`createRequest`仍保留原始选项，调用者自行负责显式原始组合。普通模块的可选`checkToken`、取消、总期限和重试规则保持；收到`-460`不会自动换身份或重发。这些离线合同不能保证上游永不拒绝请求。
+
+#116 已删除普通配置的 crypto、domain、ua、e_r、acceptGzip、headers 及顶层 deviceId，旧键会明确拒绝。全部模块必须声明动作，本地模块也必须导出空动作集；生成器与动态 loader 均拒绝缺失或非法声明。缓存、重试和上传期限只读动作合同，原 URI 正则、模块名缓存名单和默认协议桥接已删除。显式低层请求沿同一内核运行并保留目标安全检查，默认 eapi 且不自动重放。

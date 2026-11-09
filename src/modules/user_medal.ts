@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/medal/user/page',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 const MedalResource = UpstreamObject({
   actionTitle: Loose(Schema.String),
@@ -139,17 +148,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const userMedal: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const userMedal: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
-    const result = yield* request(
-      buildApiRequestIntent(
-        `/api/medal/user/page`,
-        {
-          uid: query.uid,
-        },
-        createOption(query),
-      ),
-    );
+    const result = yield* request('request', {
+      data: {
+        uid: query.uid,
+      },
+    });
     return {
       ...toModuleResponse(result),
       body: yield* decodeUpstreamBody('user_medal', ModuleBody, result),

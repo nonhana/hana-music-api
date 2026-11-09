@@ -235,12 +235,11 @@ test('songUrl synthesizes code 200 when a 301 body reaches the module', async ()
     })) as RequestCapability;
   const config = { cookie: 'MUSIC_U=module-reader' };
   const call: CallShape = {
+    actions: {},
     identifier: 'song_url',
     input: { id: '1' },
-    config,
     identity: resolveIdentitySnapshot(config, getRuntimeState()),
     policy: { read: true, upload: false },
-    startedAt: Date.now(),
   };
 
   const result = await runEffect(

@@ -1,7 +1,7 @@
 import type { FetchLike } from '../../../src/types/index.ts';
 import { allowLoopback } from './offline.ts';
 import { withScenario } from './scenario.ts';
-import { readWireRequest } from './wire.ts';
+import { readEapiBody, readWebBody, readWireRequest } from './wire.ts';
 
 export type FakeMode = 'healthy' | 'http429' | 'plain429' | 'slow-body';
 
@@ -25,12 +25,17 @@ export const createFakeUpstream = (delayMs = 50) => {
   const failures: Array<Error> = [];
   const routes = [
     {
+      url: 'https://interface.music.163.com/eapi/search/get',
+      method: 'POST',
+      response: success,
+    },
+    {
       url: 'https://interface.music.163.com/api/search/get',
       method: 'POST',
       response: success,
     },
     {
-      url: 'https://interface.music.163.com/api/radio/like',
+      url: 'https://music.163.com/weapi/radio/like',
       method: 'POST',
       response: () => Response.json({ code: 200, playlistId: 1, songs: [] }),
     },
@@ -46,7 +51,7 @@ export const createFakeUpstream = (delayMs = 50) => {
       response: success,
     },
     {
-      url: 'https://interface.music.163.com/api/nos/token/alloc',
+      url: 'https://music.163.com/weapi/nos/token/alloc',
       method: 'POST',
       response: () =>
         Response.json({
@@ -65,7 +70,7 @@ export const createFakeUpstream = (delayMs = 50) => {
       response: success,
     },
     {
-      url: 'https://interface.music.163.com/api/user/avatar/upload/v1',
+      url: 'https://interface.music.163.com/eapi/user/avatar/upload/v1',
       method: 'POST',
       response: success,
     },
@@ -88,12 +93,12 @@ export const createFakeUpstream = (delayMs = 50) => {
       response: success,
     },
     {
-      url: 'https://interface.music.163.com/api/voice/workbench/voice/batch/upload/preCheck',
+      url: 'https://interface.music.163.com/eapi/voice/workbench/voice/batch/upload/preCheck',
       method: 'POST',
       response: success,
     },
     {
-      url: 'https://interface.music.163.com/api/voice/workbench/voice/batch/upload/v2',
+      url: 'https://interface.music.163.com/eapi/voice/workbench/voice/batch/upload/v2',
       method: 'POST',
       response: success,
     },
@@ -128,8 +133,26 @@ export const createFakeUpstream = (delayMs = 50) => {
             {
               ...route,
               response: async (wire) => {
-                if (path === '/api/radio/like')
-                  writes.push(new URLSearchParams(wire.body).get('like') ?? '');
+                if (path === '/weapi/radio/like') {
+                  const payload = readWebBody(wire.body) as { like: boolean };
+                  writes.push(String(payload.like));
+                }
+                if (path === '/weapi/nos/token/alloc') {
+                  const payload = readWebBody(wire.body) as {
+                    bucket?: string;
+                    e_r?: boolean;
+                  };
+                  if (
+                    !['yyimgs', 'ymusic'].includes(payload.bucket ?? '') ||
+                    payload.e_r !== false
+                  )
+                    throw new Error('Unexpected upload allocation body');
+                }
+                if (path.startsWith('/eapi/')) {
+                  const decoded = readEapiBody(wire.body);
+                  if (decoded.path !== '/api/' + path.slice(6))
+                    throw new Error('Unexpected encrypted upload path');
+                }
                 await Bun.sleep(delayMs);
                 if (selected === 'http429')
                   return Response.json(

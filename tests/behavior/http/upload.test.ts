@@ -5,7 +5,7 @@ import { Effect } from 'effect';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
 import { createServer } from '../../../src/server/create-server.ts';
 import { testEntropy } from '../../_kit/harness/sdk.ts';
-import { moduleResponse } from '../../_kit/module.ts';
+import { moduleResponse, probeUploadActions } from '../../_kit/module.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
 import { tokenBody } from '../../fixtures/synthetic/upload.ts';
 
@@ -54,6 +54,7 @@ test('HTTP admits at most two uploads before consuming multipart bodies', async 
     traffic: { burst: 100 },
     moduleDefinitions: [
       {
+        actions: probeUploadActions,
         identifier: 'voice_upload',
         route: '/voice/upload',
         decodeInput: decodeLegacyModuleInput,

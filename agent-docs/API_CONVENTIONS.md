@@ -4,9 +4,9 @@
 
 ## 模块合同
 
-`src/modules/` 中的每个端点必须在本地声明并导出 `ModuleInput`，导出 `decodeModuleInput`，并将默认导出显式标注为 `ModuleEffect<ModuleInput>`。模块通过传入的 `RequestCapability` 发请求，不直接使用 `fetch`。
+`src/modules/` 中的每个端点必须在本地声明并导出 `ModuleInput`，导出 `decodeModuleInput`，并将默认导出显式标注为 `ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions>`（无本地返回体类型时使用 `UnknownJson`）。模块通过传入的 `RequestCapability` 发请求，不直接使用 `fetch`。
 
-接入请求动作合同的模块在本地导出 `moduleActions`，每个动作指定 profile、target（固定路径或 prefix 边界）、semantic、token、cache 和 retry，再用 `buildActionRequestIntent` 选择动作并提供业务数据。模块不得改写 Call 身份或自行放置 token；纯本地模块声明空动作集，多请求模块分别声明动作。未迁移清单由 `generatedPendingActionModuleIdentifiers` 生成，删除过渡处理的条件见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
+每个模块必须在本地导出 `moduleActions`，每个动作指定 profile、target（固定路径或 prefix 边界）、semantic、cache 和 retry，checkToken 不属于动作声明，由所有 SDK 模块统一接受可选配置，再用 `request(actionName, args)` 选择本地动作并提供业务数据。API 传 data 和业务 headers，动态 API 另传 path；固定 plain 传原始 query，动态 plain 传 target 和原始 body。模块不得改写 Call 身份或自行放置 token；纯本地模块声明空动作集，多请求模块分别声明动作；plain动作还声明实际method/response，目标由profile域名与规范路径限制，动态NOS同时限制允许后缀和桶目录。生成器、SDK/HTTP装配和动态loader都校验声明，缺失或非法立即拒绝；不再保留pending清单或缺声明fallback，见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
 
 输入先经过 `src/core/module-input.ts` 的普通对象校验，再进入模块自己的 Schema。需要精确字段的模块声明本地字段、可选性和字面量；证据不足的旧式输入使用受控的 legacy 对象，不伪造完整接口模型。模块生成器会检查这三个导出合同，动态 loader 也会拒绝缺少 decoder 或不是 Effect 函数的模块。
 
@@ -14,7 +14,7 @@
 
 ## 收窄返回体
 
-按 ADR（campanula-music `docs/adr/0005`），被下游依赖的模块在 SDK 里收窄返回体：导出 `ModuleBody` 结构定义（`Schema.toStandardSchemaV1` 包装）和同名类型，默认导出标注为 `ModuleEffect<ModuleInput, ModuleBody>`。生成器把它们以 `<模块名 PascalCase>Body` 从根入口公开；只导出类型的模块（如 `image_upload_token`）只公开类型。
+按 ADR（campanula-music `docs/adr/0005`），被下游依赖的模块在 SDK 里收窄返回体：导出 `ModuleBody` 结构定义（`Schema.toStandardSchemaV1` 包装）和同名类型，默认导出标注为 `ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions>`。生成器把它们以 `<模块名 PascalCase>Body` 从根入口公开；只导出类型的模块（如 `image_upload_token`）只公开类型。
 
 - 用 `src/core/upstream-body.ts` 的 `UpstreamObject` 声明对象，每个字段按下面的[收紧与宽松](#收紧与宽松)写，未声明的字段原样保留为 JSON。宽松字段用同文件的 `Loose(schema)`，可以整个没有的路径用 `Optional(schema)`，收紧字段照常写。区分返回码时每个联合成员只认一个 `code` 字面量。
 - 同一个模块按查询参数返回不同形状、正文里又没有区分字段时（如 `cloudsearch` 的 `type`、`search_suggest` 的 `type=mobile`），把各形状的字段都声明成可以缺失，放在同一个对象里，不用联合：没声明的形状（如 MV 搜索）原样通过，出现了的字段照样校验。
@@ -74,3 +74,5 @@ HTTP 路由按请求头 Cookie → query → body 的顺序合并，后者覆盖
 `tests/replay/` 用原始响应证明解码、返回结构、未知字段和错误合同。回放 fetcher 忽略请求时，不能据此证明 URL、method、profile、身份或 token 位置。历史录制的 module/query/context 不等于完整请求抓包，缺少的证据标为未知，不补写成当次 web 验证。`.json` 和 `.json.gz` 的原文及来源保持，人工边界数据放 `tests/fixtures/synthetic/`。
 
 需要新增请求证据时，在原录制旁放 `<name>.request-evidence.md`，写明来源（链接或工件及 hash）、观察时间、协议、profile、匿名/登录类别、脱敏说明、已核对的字段和限制。未知项明确写 unknown；verifiedFields 只列实际观察过的字段。这个旁置 Markdown 不作为响应录制进入 schema:audit。禁止保存 Cookie/token；合成样本不能写成真实观察。具体导航见 [合成数据与证据边界](../tests/fixtures/synthetic/README.md)。
+
+内部装配不接受 requestHandler。完整链测试通过内部 execution 或公开单次 config 注入 fetcher；业务模块组合测试直接给 execute 提供二元 fake capability。普通入口的原对象校验、默认浅合并和 signal 分离只由 runCall 处理，client 构造的无效默认配置仍抛 TypeError。

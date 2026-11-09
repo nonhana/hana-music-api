@@ -1,13 +1,16 @@
 import { Clock, Effect } from 'effect';
 
 import type { ModuleCallConfig } from '../types/index.ts';
-import { Call } from './call-context.ts';
+import { ExecutionScope, resolveExecutionScope } from './call-context.ts';
+import type { InternalExecution } from './call-context.ts';
 import type { RequestError } from './errors.ts';
 import { DeadlineExceeded, ResponseDecodeFailed } from './errors.ts';
 import { resolveIdentitySnapshot } from './identity.ts';
 import { ReadStore } from './read-store.ts';
+import { requestProfiles } from './request-profiles.ts';
 import { requestEffect } from './request.ts';
 import {
+  getRuntimeState,
   ProcessServices,
   resolveProcessServices,
   runPublicEffect,
@@ -16,7 +19,6 @@ import {
 import {
   cookieToJson,
   encodeAnonymousDeviceId,
-  generateDeviceId,
   generateRandomChineseIP,
 } from './utils.ts';
 
@@ -25,8 +27,6 @@ export interface AnonymousRegistration {
   readonly cnIp: string;
   readonly deviceId: string;
 }
-
-export interface EnsureAnonymousTokenOptions extends ModuleCallConfig {}
 
 const registrations = new WeakMap<object, ReadStore<string, RequestError>>();
 const sharedRegistrationKey = {};
@@ -41,32 +41,55 @@ export const registerAnonymousEffect = (
   options: ModuleCallConfig & {
     readonly cnIp?: string;
   } = {},
+  execution?: InternalExecution,
 ): Effect.Effect<AnonymousRegistration, RequestError> =>
   Effect.gen(function* () {
-    const deviceId = options.deviceId ?? generateDeviceId();
-    const cnIp = options.cnIp ?? generateRandomChineseIP();
+    const runtime = getRuntimeState();
+    const snapshot = resolveIdentitySnapshot(
+      { ...options, state: { ...options.state, anonymousToken: '' } },
+      {
+        ...runtime,
+        anonymousToken: '',
+      },
+    );
+    const deviceId = snapshot.state.deviceId;
+    const cnIp =
+      options.cnIp ?? options.state?.cnIp ?? generateRandomChineseIP();
     const state = { anonymousToken: '', cnIp, deviceId };
-    const config = { ...options, crypto: 'weapi' as const, ip: cnIp, state };
+    // 隐式身份初始化不消费业务调用的 token；显式注册模块仍使用自己的 token 来源。
     const startedAt = yield* Clock.currentTimeMillis;
     const timeoutMs = options.timeoutMs ?? 8_000;
+    const profile = requestProfiles.web;
     const result = yield* requestEffect({
       target: '/api/register/anonimous',
       protocol: 'weapi',
       method: 'POST',
-      headers: {},
-      body: JSON.stringify({ username: createAnonymousUsername(deviceId) }),
       response: 'json',
-      semantic: 'login',
+      headers: {},
+      data: { username: createAnonymousUsername(deviceId) },
+      identity: Object.freeze({ ...snapshot, state: Object.freeze(state) }),
+      ip: options.realIP ?? cnIp,
+      expectedUrl: 'https://music.163.com/weapi/register/anonimous',
+      policy: { semantic: 'login', retry: 'never' },
+      retry: options.retry,
+      token: { source: undefined, uses: undefined, managed: false },
+      client: {
+        domain: profile.domain,
+        userAgent: profile.userAgent,
+        cookie: profile.cookie,
+        controlledCookies: [
+          ...profile.omitCookies,
+          ...Object.keys(profile.cookie),
+        ],
+        controlledHeaders: [],
+        encryptResponse: profile.encryptResponse,
+        acceptGzip: profile.acceptGzip,
+      },
     }).pipe(
-      Effect.provideService(Call, {
-        identifier: 'register_anonimous',
-        input: {},
-        config,
-        identity: resolveIdentitySnapshot(config, state),
-        startedAt,
-        deadlineAt: timeoutMs > 0 ? startedAt + timeoutMs : undefined,
-        policy: { read: false, upload: false },
-      }),
+      Effect.provideService(
+        ExecutionScope,
+        resolveExecutionScope(options, execution, startedAt, timeoutMs),
+      ),
     );
     const cookie = cookieToJson(result.cookie.join('; '));
     if (!cookie.MUSIC_A) {
@@ -79,10 +102,12 @@ export const registerAnonymousEffect = (
 
 export const ensureAnonymousEffect = (
   options: ModuleCallConfig = {},
+  execution?: InternalExecution,
 ): Effect.Effect<string, RequestError, ProcessServices> =>
   Effect.gen(function* () {
     const process = yield* ProcessServices;
-    const token = process.readState().anonymousToken;
+    const runtime = process.readState();
+    const token = runtime.anonymousToken;
     if (token) {
       return token;
     }
@@ -92,9 +117,15 @@ export const ensureAnonymousEffect = (
       registration = new ReadStore<string, RequestError>(null);
       registrations.set(key, registration);
     }
+    const snapshot = resolveIdentitySnapshot(options, {
+      ...runtime,
+    });
     return yield* registration.run(
-      'anonymous',
-      registerAnonymousEffect({ ...options, timeoutMs: 0 }).pipe(
+      snapshot.state.deviceId,
+      registerAnonymousEffect(
+        { ...options, state: snapshot.state, timeoutMs: 0 },
+        execution,
+      ).pipe(
         Effect.tap((value) => Effect.sync(() => setRuntimeState(value))),
         Effect.map((value) => value.anonymousToken),
       ),
@@ -109,7 +140,7 @@ export const registerAnonymousToken = (
   runPublicEffect(registerAnonymousEffect(options), options.signal);
 
 export const ensureRuntimeAnonymousToken = (
-  options: EnsureAnonymousTokenOptions = {},
+  options: ModuleCallConfig = {},
 ): Promise<string> => {
   const timeoutMs = options.timeoutMs ?? 8_000;
   const work = ensureAnonymousEffect(options).pipe(

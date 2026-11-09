@@ -4,10 +4,12 @@ import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi } from '../../../index.ts';
-import { buildCallServices, Call, runCall } from '../../../src/core/call.ts';
+import { ExecutionScope } from '../../../src/core/call-context.ts';
+import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { ReadStore } from '../../../src/core/read-store.ts';
 import search, {
   decodeModuleInput as decodeSearchInput,
+  moduleActions as searchActions,
 } from '../../../src/modules/search.ts';
 import { createClientFromContext } from '../../../src/sdk/generated/client-factory.generated.ts';
 import type {
@@ -24,12 +26,12 @@ import {
   testRequest,
 } from '../../_kit/module.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
-import { readWebBody } from '../../_kit/upstream/wire.ts';
+import { readEapiBody } from '../../_kit/upstream/wire.ts';
 
 const searchImplementation = (
   _query: Record<string, unknown>,
   request: RequestCapability,
-) => testRequest(request, '/api/search/get', {}, { crypto: 'api' });
+) => testRequest(request, '/api/search/get', {});
 
 describe('module ownership', () => {
   test('a real Effect read shares transport and isolates identity, target, and protocol', async () => {
@@ -54,6 +56,7 @@ describe('module ownership', () => {
       route: '/search',
       decodeInput: decodeSearchInput,
       execute: search,
+      actions: searchActions,
     };
     const invoke = (config = {}) =>
       runCall(
@@ -62,7 +65,7 @@ describe('module ownership', () => {
           input: { keywords: 'same' },
           config: {
             cookie: 'MUSIC_U=effect-first',
-            crypto: 'api',
+
             fetcher,
             ...config,
           },
@@ -82,14 +85,12 @@ describe('module ownership', () => {
       cookie: expect.stringContaining('MUSIC_U=effect-second'),
     });
     expect(
-      (await invoke({ domain: 'https://music.163.com' })).body,
-    ).toMatchObject({
-      target: 'https://music.163.com/api/search/get',
+      await settle(invoke({ domain: 'https://music.163.com' })),
+    ).toMatchObject({ rejected: { status: 400 } });
+    expect(await settle(invoke({ crypto: 'weapi' }))).toMatchObject({
+      rejected: { status: 400 },
     });
-    expect((await invoke({ crypto: 'weapi' })).body).toMatchObject({
-      target: 'https://music.163.com/weapi/search/get',
-    });
-    expect(calls).toBe(4);
+    expect(calls).toBe(2);
   });
 
   test('ReadStore shares an Effect and clones each waiter result', async () => {
@@ -196,13 +197,19 @@ describe('module ownership', () => {
   );
 
   test.each(['eapi', 'weapi'] as const)(
-    '%s plaintext business 429 with e_r enabled never becomes a cached success',
+    '%s declared profile plaintext business 429 never becomes a cached success',
     async (crypto) => {
-      const modules = moduleRuntime();
+      const modules = moduleRuntime(120_000, {
+        request: {
+          profile: crypto === 'weapi' ? 'web' : 'eapi',
+          target: '/api/search/get',
+          semantic: 'read',
+          cache: 'shared',
+          retry: 'read',
+        },
+      });
       let calls = 0;
       const config = {
-        crypto,
-        e_r: true,
         cookie: 'MUSIC_U=limited-reader',
         fetcher: async () => {
           calls += 1;
@@ -232,8 +239,23 @@ describe('module ownership', () => {
     },
   );
 
-  test('module headers survive absent ingress headers and retain caller headers', async () => {
-    const modules = moduleRuntime();
+  test('module stage headers survive without caller headers', async () => {
+    const modules = moduleRuntime(120_000, {
+      preCheck: {
+        profile: 'api',
+        target: '/api/voice/workbench/voice/batch/upload/preCheck',
+        semantic: 'upload',
+        cache: 'none',
+        retry: 'never',
+      },
+      submit: {
+        profile: 'api',
+        target: '/api/voice/workbench/voice/batch/upload/v2',
+        semantic: 'upload',
+        cache: 'none',
+        retry: 'never',
+      },
+    });
     let headers: Headers | undefined;
     const fetcher: FetchLike = async (_url, init) => {
       headers = new Headers(init?.headers);
@@ -246,23 +268,15 @@ describe('module ownership', () => {
           request,
           '/api/voice/workbench/voice/batch/upload/preCheck',
           {},
-          {
-            crypto: 'api',
-            headers: { 'x-nos-token': 'stage-token' },
-          },
+          { headers: { 'x-nos-token': 'stage-token' } },
         ).pipe(Effect.map(moduleResponse)),
       {},
       {
         cookie: 'MUSIC_A=test',
         fetcher,
-        headers: {
-          'x-client': 'client',
-          'x-nos-token': 'older-token',
-          'X-Nos-Token': 'old-token',
-        },
       },
     );
-    expect(headers?.get('x-client')).toBe('client');
+    expect(headers?.get('x-client')).toBeNull();
     expect(headers?.get('x-nos-token')).toBe('stage-token');
     await modules.invoke(
       'voice_upload',
@@ -271,13 +285,10 @@ describe('module ownership', () => {
           request,
           '/api/voice/workbench/voice/batch/upload/v2',
           {},
-          {
-            crypto: 'api',
-            headers: { 'x-nos-token': 'stage-token' },
-          },
+          { headers: { 'x-nos-token': 'stage-token' } },
         ).pipe(Effect.map(moduleResponse)),
       {},
-      { cookie: 'MUSIC_A=test', fetcher, headers: undefined },
+      { cookie: 'MUSIC_A=test', fetcher },
     );
     expect(headers?.get('x-nos-token')).toBe('stage-token');
   });
@@ -334,28 +345,47 @@ describe('module ownership', () => {
     expect(second.body).toMatchObject({ value: 'second' });
   });
 
-  test('read keys isolate explicit domains and protocols', async () => {
-    const modules = moduleRuntime();
+  test('read keys isolate explicit action profiles and targets', async () => {
+    const services = buildCallServices({ cache: { ttlMs: 120_000 } }, false);
     let calls = 0;
     const fetcher: FetchLike = async (url) => {
       calls += 1;
-      const target =
-        typeof url === 'string' ? url : url instanceof URL ? url.href : url.url;
-      return Response.json({ code: 200, target });
+      return Response.json({
+        code: 200,
+        target: url instanceof Request ? url.url : url.toString(),
+      });
     };
-    for (const config of [
-      { domain: 'https://music.163.com', crypto: 'api' },
-      { domain: 'https://interface.music.163.com', crypto: 'api' },
-      { domain: 'https://music.163.com', crypto: 'weapi' },
-    ] as const) {
-      const response = await modules.invoke(
-        'search',
-        searchImplementation,
-        {},
-        { ...config, fetcher, cookie: 'MUSIC_U=test' },
+    for (const profile of ['api', 'eapi', 'web'] as const) {
+      const actions = {
+        read: {
+          profile,
+          target: '/api/search/get',
+          semantic: 'read',
+          cache: 'shared',
+          retry: 'read',
+        },
+      } as const;
+      const definition = {
+        identifier: 'probe',
+        route: '/probe',
+        actions,
+        decodeInput: decodeSearchInput,
+        execute: searchImplementation,
+      };
+      const result = await runCall(
+        {
+          identifier: 'probe',
+          input: { keywords: 'same' },
+          config: { cookie: 'MUSIC_U=reader', fetcher },
+        },
+        services,
+        definition,
       );
-      expect(response.body).toMatchObject({
-        target: `${config.domain}/${config.crypto === 'weapi' ? 'weapi' : 'api'}/search/get`,
+      expect(result.body).toMatchObject({
+        target:
+          profile === 'web'
+            ? 'https://music.163.com/weapi/search/get'
+            : `https://interface.music.163.com/${profile}/search/get`,
       });
     }
     expect(calls).toBe(3);
@@ -453,11 +483,29 @@ describe('module ownership', () => {
         calls += 1;
         return { status: 200, cookie: [], body: { code: 200 } };
       }).pipe(Effect.map(moduleResponse));
+    const writes = moduleRuntime(120_000, {
+      write: {
+        profile: 'web',
+        target: '/api/like',
+        semantic: 'write',
+        cache: 'none',
+        retry: 'never',
+      },
+    });
+    const polling = moduleRuntime(120_000, {
+      poll: {
+        profile: 'web',
+        target: '/api/login/check',
+        semantic: 'poll',
+        cache: 'none',
+        retry: 'never',
+      },
+    });
     for (const like of [true, false, true]) {
-      await modules.invoke('like', handler, { like });
+      await writes.invoke('like', handler, { like });
     }
     for (let index = 0; index < 2; index += 1) {
-      await modules.invoke('login_qr_check', handler, {});
+      await polling.invoke('login_qr_check', handler, {});
     }
     for (const code of [400, 429]) {
       for (let index = 0; index < 2; index += 1) {
@@ -480,7 +528,7 @@ test('strict shared public reads execute exactly one upstream request', async ()
   await withScenario(
     [
       {
-        url: 'https://interface.music.163.com/api/search/get',
+        url: 'https://interface.music.163.com/eapi/search/get',
         method: 'POST',
         response: async () => {
           await Bun.sleep(5);
@@ -491,7 +539,7 @@ test('strict shared public reads execute exactly one upstream request', async ()
     async (scenario) => {
       const client = createHanaMusicApi({
         cookie: 'MUSIC_U=strict-reader',
-        crypto: 'api',
+
         fetcher: scenario.fetcher,
       });
       const [first, second] = await Promise.all([
@@ -517,7 +565,7 @@ test('internal instance fetcher reaches the same request chain without public co
     {
       identifier: 'search',
       input: { keywords: 'internal' },
-      config: { cookie: 'MUSIC_U=internal', crypto: 'api' },
+      config: { cookie: 'MUSIC_U=internal' },
     },
     services,
     {
@@ -525,6 +573,7 @@ test('internal instance fetcher reaches the same request chain without public co
       route: '/search',
       decodeInput: decodeSearchInput,
       execute: search,
+      actions: searchActions,
     },
   ).catch((error: unknown) => error);
   expect(sent).toBe(1);
@@ -544,7 +593,7 @@ test('internal instances isolate fetcher, clock, entropy and public config prior
         const make = (owner: string, clock: typeof firstClock) => {
           const config = {
             cookie: `MUSIC_U=${owner}`,
-            crypto: 'weapi' as const,
+
             cache: { ttlMs: 1000 },
           };
           const execution = {
@@ -585,17 +634,15 @@ test('internal instances isolate fetcher, clock, entropy and public config prior
         ]);
         expect(requests[0]!.body).not.toBe(requests[1]!.body);
         expect(
-          readWebBody(
+          readEapiBody(
             requests.find((request) => request.owner === 'first')!.body,
-            'aaaaaaaaaaaaaaaa',
           ),
-        ).toMatchObject({ s: 'same' });
+        ).toMatchObject({ data: { s: 'same' } });
         expect(
-          readWebBody(
+          readEapiBody(
             requests.find((request) => request.owner === 'second')!.body,
-            'bbbbbbbbbbbbbbbb',
           ),
-        ).toMatchObject({ s: 'same' });
+        ).toMatchObject({ data: { s: 'same' } });
         expect(
           requests.find((request) => request.owner === 'first')!.cookie,
         ).toContain('MUSIC_U=first');
@@ -643,7 +690,6 @@ test('controlled shared waiters keep independent deadlines and cancel the last u
         let sends = 0;
         const config = {
           cookie: 'MUSIC_U=controlled-read',
-          crypto: 'api' as const,
         };
         const client = createClientFromContext(
           config,
@@ -712,17 +758,18 @@ test('explicit runCall clock takes precedence over the instance clock', async ()
             },
             buildCallServices({}, false, { clock: instance }),
             {
+              actions: {},
               identifier: 'clock-probe',
               route: '/clock',
               decodeInput: decodeSearchInput,
               execute: () =>
-                Effect.map(Call, (call) => ({
+                Effect.map(ExecutionScope, (scope) => ({
                   status: 200,
                   cookie: [],
-                  body: { code: 200, now: call.startedAt },
+                  body: { code: 200, now: scope.startedAt },
                 })),
             },
-            undefined,
+
             explicit,
           ),
         );

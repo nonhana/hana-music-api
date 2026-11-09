@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 import { DjProgram } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/program/recommend/v1',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 通到推荐节目的路径 `programs` 和每个节目自己的编号 `programs[].id` 收紧；`name`、`more` 和节目其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -23,23 +32,18 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const programRecommend: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const programRecommend: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       cateId: query.type,
       limit: query.limit || 10,
       offset: query.offset || 0,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/program/recommend/v1`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'program_recommend',
       ModuleBody,

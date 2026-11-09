@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
 import type { ModuleActions } from '../core/request-actions.ts';
-import { buildActionRequestIntent } from '../core/request-intent.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -18,7 +17,6 @@ export const moduleActions = {
     target: '/api/playlist/subscribe',
     profile: 'web',
     semantic: 'write',
-    token: 'optional',
     cache: 'none',
     retry: 'never',
   },
@@ -26,21 +24,19 @@ export const moduleActions = {
     target: '/api/playlist/unsubscribe',
     profile: 'web',
     semantic: 'write',
-    token: 'none',
     cache: 'none',
     retry: 'never',
   },
 } as const satisfies ModuleActions;
 
-const playlistSubscribe: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const playlistSubscribe: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const action = Number(query.t) === 1 ? 'subscribe' : 'unsubscribe';
-    const response = yield* request(
-      buildActionRequestIntent(action, moduleActions[action], { id: query.id }),
-    );
+    const response = yield* request(action, { data: { id: query.id } });
 
     return {
       ...toModuleResponse(response),

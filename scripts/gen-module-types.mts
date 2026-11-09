@@ -1,6 +1,7 @@
 import { spawnSync } from 'node:child_process';
 import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
+import { pathToFileURL } from 'node:url';
 
 import {
   isExportAssignment,
@@ -16,6 +17,7 @@ import {
 import type { SourceFile } from 'typescript/unstable/ast';
 import { API } from 'typescript/unstable/async';
 
+import { validateModuleActions } from '../src/core/request-actions.ts';
 import { discoverModuleFiles } from '../src/server/module-discovery.ts';
 import type { DiscoveredModuleFile } from '../src/server/module-discovery.ts';
 
@@ -161,21 +163,21 @@ ${clientLines.join('\n')}
 const buildSdkRegistry = (
   identifiers: ReadonlyArray<string>,
   routes: Readonly<Record<string, string>>,
-  actionIdentifiers: ReadonlySet<string>,
 ): string => {
   const entries = buildSdkEntries(identifiers);
   const importLines = entries.map(
     ({ identifier, importName }) =>
-      `import ${importName}, { decodeModuleInput as ${toCamelCase(identifier)}InputDecoder${actionIdentifiers.has(identifier) ? `, moduleActions as ${toCamelCase(identifier)}Actions` : ''} } from '../../modules/${identifier}.ts'`,
+      `import ${importName}, { decodeModuleInput as ${toCamelCase(identifier)}InputDecoder, moduleActions as ${toCamelCase(identifier)}Actions } from '../../modules/${identifier}.ts'`,
   );
   const effectLines = entries.map(
     ({ identifier, importName }) =>
-      `  ${identifier}: { identifier: '${identifier}', route: '${routes[identifier]}', execute: ${importName}, decodeInput: ${toCamelCase(identifier)}InputDecoder${actionIdentifiers.has(identifier) ? `, actions: ${toCamelCase(identifier)}Actions` : ''} },`,
+      `  ${identifier}: { identifier: '${identifier}', route: '${routes[identifier]}', execute: ${importName}, decodeInput: ${toCamelCase(identifier)}InputDecoder, actions: validateModuleActions(${toCamelCase(identifier)}Actions) },`,
   );
 
   // 显式标注 SdkModuleRegistry：352 条目的 `as const` 字面量让 declaration emit 序列化超过 1M，
   // `bun run build` 会报 TS7056（`tsc --noEmit` 不报）；标注后运行时值与生成输出不变。
-  return `import type { SdkModuleRegistry } from '../../types/index.ts'
+  return `import { validateModuleActions } from '../../core/request-actions.ts'
+import type { SdkModuleRegistry } from '../../types/index.ts'
 ${importLines.join('\n')}
 
 export const sdkModuleRegistry: SdkModuleRegistry = {
@@ -245,12 +247,15 @@ const readModuleContract = (source: SourceFile) => {
           declaration.name.getText(source) === defaultName &&
           declaration.type &&
           isTypeReferenceNode(declaration.type) &&
-          declaration.type.typeName.getText(source) === 'ModuleEffect',
+          declaration.type.typeName.getText(source) === 'ModuleEffect' &&
+          declaration.type.typeArguments?.[2]
+            ?.getText(source)
+            .replace(/\s+/g, ' ') === 'typeof moduleActions',
       ),
   );
   if (!effect) {
     throw new Error(
-      `Module "${source.fileName}" default must be explicitly typed as ModuleEffect`,
+      `Module "${source.fileName}" default must bind ModuleEffect to typeof moduleActions`,
     );
   }
   const decoder =
@@ -310,6 +315,8 @@ const readModuleContract = (source: SourceFile) => {
             !element.isTypeOnly && element.name.text === 'moduleActions',
         )),
   );
+  if (!actions)
+    throw new Error(`Module "${source.fileName}" must export moduleActions`);
   return {
     effect,
     decoder,
@@ -338,7 +345,12 @@ const readModuleContracts = async (
           const source = (await project.program.getSourceFile(
             moduleFile.filePath,
           ))!;
-          return { ...moduleFile, ...readModuleContract(source) };
+          const contract = readModuleContract(source);
+          const imported = await import(
+            pathToFileURL(moduleFile.filePath).href
+          );
+          validateModuleActions(imported.moduleActions);
+          return { ...moduleFile, ...contract };
         }),
       );
     } finally {
@@ -376,10 +388,6 @@ ${localImports.join('\n')}
 export const generatedModuleIdentifiers = ${JSON.stringify(identifiers, null, 2)} as const
 
 export type GeneratedModuleIdentifier = (typeof generatedModuleIdentifiers)[number]
-
-export const generatedActionModuleIdentifiers = ${JSON.stringify(contracts.filter((contract) => contract.actions).map((contract) => contract.identifier))} as const
-
-export const generatedPendingActionModuleIdentifiers = generatedModuleIdentifiers.filter((identifier) => !generatedActionModuleIdentifiers.some((declared) => declared === identifier))
 
 export const generatedModuleRoutes = ${JSON.stringify(Object.fromEntries(routes), null, 2)} as const satisfies Readonly<
   Record<GeneratedModuleIdentifier, string>
@@ -423,15 +431,7 @@ export const buildGeneratedArtifacts = async (
         tempPath: SDK_FACTORY_TEMP_FILE,
       },
       {
-        contents: buildSdkRegistry(
-          identifiers,
-          Object.fromEntries(routes),
-          new Set(
-            contracts
-              .filter((contract) => contract.actions)
-              .map((contract) => contract.identifier),
-          ),
-        ),
+        contents: buildSdkRegistry(identifiers, Object.fromEntries(routes)),
         path: SDK_REGISTRY_FILE,
         tempPath: SDK_REGISTRY_TEMP_FILE,
       },

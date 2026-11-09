@@ -1,8 +1,7 @@
 import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput } from '../core/errors.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -13,6 +12,16 @@ import { DjProgram } from '../core/upstream-schemas.ts';
 import { toBoolean } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/dj/program/byradio',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 通到节目列表的路径 `programs` 和每个节目自己的编号 `programs[].id` 收紧；总数、`more` 和节目其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -25,7 +34,10 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const djProgram: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const djProgram: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     if (
       query.asc !== undefined &&
@@ -43,13 +55,7 @@ const djProgram: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       offset: query.offset || 0,
       asc: toBoolean(query.asc),
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/dj/program/byradio`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('dj_program', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

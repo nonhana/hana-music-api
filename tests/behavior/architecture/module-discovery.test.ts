@@ -9,11 +9,15 @@ import { sdkModuleRegistry } from '../../../src/sdk/generated/registry.generated
 import { discoverModuleFiles } from '../../../src/server/module-discovery.ts';
 import { loadModuleDefinitions } from '../../../src/server/module-loader.ts';
 import {
-  generatedActionModuleIdentifiers,
   generatedModuleIdentifiers,
   generatedModuleRoutes,
-  generatedPendingActionModuleIdentifiers,
 } from '../../../src/types/generated/module-surface.generated.ts';
+import accountSocial from '../../fixtures/requests/account-social.json';
+import libraryPlayback from '../../fixtures/requests/library-playback.json';
+import membershipBusiness from '../../fixtures/requests/membership-business.json';
+import podcastVideo from '../../fixtures/requests/podcast-video.json';
+import searchDiscovery from '../../fixtures/requests/search-discovery.json';
+import specialChains from '../../fixtures/requests/special-chains.json';
 
 const REAL_MODULES_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -21,22 +25,182 @@ const REAL_MODULES_DIRECTORY = resolve(
 );
 
 describe('generated module type surface', () => {
-  test('tracks declared and pending actions consistently across SDK and HTTP discovery', async () => {
+  test('requires declared actions consistently across SDK and HTTP discovery', async () => {
     const loaded = await loadModuleDefinitions(REAL_MODULES_DIRECTORY);
     const declared = loaded
       .filter((definition) => definition.actions !== undefined)
-      .map((definition) => definition.identifier);
-    expect(declared).toEqual(['playlist_subscribe']);
-    expect(declared).toEqual([...generatedActionModuleIdentifiers]);
-    expect(generatedPendingActionModuleIdentifiers).toHaveLength(351);
-    expect(generatedPendingActionModuleIdentifiers).not.toContain(
-      'playlist_subscribe',
+      .map((definition) => definition.identifier)
+      .toSorted();
+    expect(declared).toEqual(
+      [
+        ...new Set(
+          [
+            ...libraryPlayback.cases,
+            ...searchDiscovery.cases,
+            ...accountSocial.cases,
+            ...podcastVideo.cases,
+            ...membershipBusiness.cases,
+            ...specialChains.cases,
+          ].map((entry) => entry.module),
+        ),
+        'album_sub',
+        'artist_sub',
+        'lyric',
+        'playlist_detail',
+        'playlist_subscribe',
+        'search',
+        'song_detail',
+      ].toSorted(),
     );
-    expect(sdkModuleRegistry.playlist_subscribe.actions).toEqual(
-      loaded.find(
-        (definition) => definition.identifier === 'playlist_subscribe',
-      )?.actions,
+    for (const entry of libraryPlayback.cases.filter(
+      (candidate) => candidate.label === 'default',
+    )) {
+      const definition = loaded.find(
+        (candidate) => candidate.identifier === entry.module,
+      )!;
+      expect(Object.keys(definition.actions)).not.toHaveLength(0);
+      for (const action of Object.values(definition.actions)) {
+        expect(action).toMatchObject({
+          profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
+          semantic: entry.semantic,
+          cache: 'none',
+          retry: entry.retry,
+        });
+      }
+    }
+    for (const entry of searchDiscovery.cases) {
+      const definition = loaded.find(
+        (candidate) => candidate.identifier === entry.module,
+      )!;
+      const action =
+        definition.actions[
+          entry.module === 'search_suggest'
+            ? entry.query.type === 'mobile'
+              ? 'mobile'
+              : 'web'
+            : entry.semantic === 'write'
+              ? 'write'
+              : 'read'
+        ];
+      expect(action as unknown).toEqual({
+        profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
+        target: entry.path,
+        semantic: entry.semantic,
+        cache: 'none',
+        retry: entry.retry,
+      });
+    }
+    const accountModules = new Set(
+      accountSocial.cases.map((entry) => entry.module),
     );
+    expect(
+      loaded
+        .filter((definition) => accountModules.has(definition.identifier))
+        .reduce(
+          (count, definition) => count + Object.keys(definition.actions).length,
+          0,
+        ),
+    ).toBe(89);
+    for (const entry of accountSocial.cases) {
+      const definition = loaded.find(
+        (candidate) => candidate.identifier === entry.module,
+      )!;
+      const query = entry.query as Record<string, unknown>;
+      const actionName =
+        entry.module === 'comment'
+          ? ({ 0: 'delete', 1: 'add', 2: 'reply' } as Record<number, string>)[
+              Number(query.t)
+            ]!
+          : ['comment_like', 'resource_like'].includes(entry.module)
+            ? Number(query.t) === 1
+              ? 'like'
+              : 'unlike'
+            : entry.module === 'follow'
+              ? Number(query.t) === 1
+                ? 'follow'
+                : 'delfollow'
+              : entry.module === 'login_cellphone'
+                ? query.captcha
+                  ? 'captcha'
+                  : 'password'
+                : entry.module === 'login'
+                  ? 'password'
+                  : 'request';
+      const action = definition.actions[actionName]!;
+      expect(action).toMatchObject({
+        profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
+        semantic: entry.semantic,
+        cache: 'none',
+        retry: entry.retry,
+      });
+      expect(
+        typeof action.target === 'string'
+          ? action.target === entry.path
+          : entry.path.startsWith(action.target.prefix),
+      ).toBe(true);
+    }
+    const contentModules = new Set(
+      podcastVideo.cases.map((entry) => entry.module),
+    );
+    expect(
+      loaded
+        .filter((definition) => contentModules.has(definition.identifier))
+        .reduce(
+          (count, definition) => count + Object.keys(definition.actions).length,
+          0,
+        ),
+    ).toBe(71);
+    for (const entry of podcastVideo.cases.filter(
+      (candidate) => candidate.label === 'default',
+    )) {
+      const definition = loaded.find(
+        (candidate) => candidate.identifier === entry.module,
+      )!;
+      expect(Object.keys(definition.actions)).not.toHaveLength(0);
+      for (const action of Object.values(definition.actions))
+        expect(action).toMatchObject({
+          profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
+          semantic: entry.semantic,
+          cache: 'none',
+          retry: entry.retry,
+        });
+    }
+    const membershipModules = new Set(
+      membershipBusiness.cases.map((entry) => entry.module),
+    );
+    expect(
+      loaded
+        .filter((definition) => membershipModules.has(definition.identifier))
+        .reduce(
+          (count, definition) => count + Object.keys(definition.actions).length,
+          0,
+        ),
+    ).toBe(50);
+    for (const entry of membershipBusiness.cases.filter(
+      (candidate) => candidate.label === 'default',
+    )) {
+      const definition = loaded.find(
+        (candidate) => candidate.identifier === entry.module,
+      )!;
+      expect(Object.keys(definition.actions)).not.toHaveLength(0);
+      for (const action of Object.values(definition.actions))
+        expect(action).toMatchObject({
+          profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
+          semantic: entry.semantic,
+          cache: 'none',
+          retry: entry.retry,
+        });
+    }
+    expect(declared).toHaveLength(352);
+    expect(declared).toEqual([...generatedModuleIdentifiers].toSorted());
+    for (const definition of loaded.filter(
+      (entry) => entry.actions !== undefined,
+    ))
+      expect(
+        sdkModuleRegistry[
+          definition.identifier as keyof typeof sdkModuleRegistry
+        ].actions,
+      ).toEqual(definition.actions);
   });
 
   test('recognizes named action exports in the generated registry', async () => {
@@ -53,9 +217,9 @@ describe('generated module type surface', () => {
         `
         export type ModuleInput = {}
         export const decodeModuleInput = (input: unknown) => Effect.succeed(input)
-        const actions = { cancel: { profile: 'web', target: '/api/playlist/unsubscribe', semantic: 'write', token: 'none', cache: 'none', retry: 'never' } }
+        const actions = { cancel: { profile: 'web', target: '/api/playlist/unsubscribe', semantic: 'write', cache: 'none', retry: 'never' } }
         export { actions as moduleActions }
-        const sample: ModuleEffect<ModuleInput> = () => Effect.succeed({})
+        const sample: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({})
         export default sample
       `,
       );
@@ -64,7 +228,9 @@ describe('generated module type surface', () => {
         file.path.endsWith('registry.generated.ts'),
       )!;
       expect(registry.contents).toContain('moduleActions as sampleActions');
-      expect(registry.contents).toContain('actions: sampleActions');
+      expect(registry.contents).toContain(
+        'actions: validateModuleActions(sampleActions)',
+      );
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
@@ -81,7 +247,7 @@ describe('generated module type surface', () => {
       );
       await writeFile(
         resolve(directory, 'sample.ts'),
-        'export type ModuleInput = {}; const sample: ModuleEffect<ModuleInput> = () => Effect.succeed({}); export default sample',
+        'export type ModuleInput = {}; const sample: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({}); export default sample',
       );
       const result = await buildGeneratedArtifacts(directory).catch(
         (error: unknown) => error,
@@ -103,7 +269,7 @@ describe('generated module type surface', () => {
       );
       await writeFile(
         resolve(directory, 'voice_upload.ts'),
-        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); const upload: ModuleEffect<ModuleInput> = () => Effect.succeed({}); export default upload',
+        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); export const moduleActions = {}; const upload: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({}); export default upload',
       );
       await writeFile(
         resolve(directory, 'voice_upload/multipart_xml.ts'),
@@ -111,7 +277,7 @@ describe('generated module type surface', () => {
       );
       await writeFile(
         resolve(directory, 'nested/endpoint.ts'),
-        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); const endpoint: ModuleEffect<ModuleInput> = () => Effect.succeed({}); export default endpoint',
+        'export type ModuleInput = {}; export const decodeModuleInput = () => Effect.succeed({}); export const moduleActions = {}; const endpoint: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({}); export default endpoint',
       );
       const modules = await discoverModuleFiles(directory);
       expect(modules.map((entry) => entry.identifier).toSorted()).toEqual([
@@ -168,7 +334,7 @@ describe('generated module type surface', () => {
         resolve(directory, 'sample.ts'),
         `
         export type { SharedInput as ModuleInput } from './sample/central.ts'
-        const sample: ModuleEffect<ModuleInput> = () => Effect.succeed({})
+        const sample: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({})
         export default sample
       `,
       );
@@ -195,7 +361,8 @@ describe('generated module type surface', () => {
         export type ModuleInput = { id: string }
         export type ModuleBody = { title: string }
         export const decodeModuleInput = (input: unknown) => Effect.succeed(input)
-        const sample: ModuleEffect<ModuleInput, ModuleBody> = () => Effect.succeed({})
+        export const moduleActions = {}
+        const sample: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = () => Effect.succeed({})
         export default sample
       `,
       );
@@ -267,16 +434,23 @@ describe('generated module type surface', () => {
           `
         export type ModuleInput = { id: string }
         ${declaration}
-        const decoded: ModuleEffect<ModuleInput> = () => Effect.succeed({})
+        export const moduleActions = {}
+        const decoded: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({})
         export default decoded
       `,
+        );
+        await mkdir(resolve(directory, 'plain'));
+        await writeFile(
+          resolve(directory, 'plain/_input.ts'),
+          'export const decodeLegacyModuleInput = (input) => input',
         );
         await writeFile(
           resolve(directory, 'plain.ts'),
           `
         export type ModuleInput = LegacyModuleInput
-        export { decodeLegacyModuleInput as decodeModuleInput } from './_input.ts'
-        const plain: ModuleEffect<ModuleInput> = () => Effect.succeed({})
+        export { decodeLegacyModuleInput as decodeModuleInput } from './plain/_input.ts'
+        export const moduleActions = {}
+        const plain: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => Effect.succeed({})
         export default plain
       `,
         );
@@ -292,7 +466,7 @@ describe('generated module type surface', () => {
           'decodeModuleInput as plainInputDecoder',
         );
         expect(registry.contents).toContain(
-          "plain: { identifier: 'plain', route: '/plain', execute: plainModule, decodeInput: plainInputDecoder }",
+          "plain: { identifier: 'plain', route: '/plain', execute: plainModule, decodeInput: plainInputDecoder, actions: validateModuleActions(plainActions) }",
         );
         expect(await buildGeneratedArtifacts(directory)).toEqual(artifacts);
       } finally {

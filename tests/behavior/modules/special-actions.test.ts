@@ -12,8 +12,6 @@ import {
   UpstreamBusinessFailed,
   UpstreamRateLimited,
 } from '../../../src/core/errors.ts';
-import { createOption } from '../../../src/core/options.ts';
-import { buildApiRequestIntent } from '../../../src/core/request-intent.ts';
 import { toModuleResponse } from '../../../src/core/response.ts';
 import batch from '../../../src/modules/batch.ts';
 import checkMusic from '../../../src/modules/check_music.ts';
@@ -30,18 +28,16 @@ import verifyGetQr from '../../../src/modules/verify_getQr.ts';
 import type {
   ModuleEffect,
   RequestCapability,
-  RequestIntent,
 } from '../../../src/types/index.ts';
 import type { LegacyModuleInput } from '../../../src/types/legacy.ts';
 import { runEffect, runExit } from '../../_kit/it.ts';
+import type { RecordedAction } from '../../_kit/module.ts';
 import { executeModule, response } from '../../_kit/upload.ts';
 
 // 测试用的原始模块：没有 ModuleBody，请求结果原样返回，不随真实模块收窄而变化。
-const rawModule: ModuleEffect<LegacyModuleInput> = (query, request) =>
+const rawModule: ModuleEffect<LegacyModuleInput> = (_query, request) =>
   Effect.gen(function* () {
-    const upstream = yield* request(
-      buildApiRequestIntent('/api/example', {}, createOption(query)),
-    );
+    const upstream = yield* request('example', { data: {}, headers: {} });
     return toModuleResponse(upstream);
   });
 
@@ -57,12 +53,11 @@ const requestFailures = [
 ];
 
 describe('special Effect module behavior', () => {
-  test('immutable call protocol overrides a module default protocol', async () => {
+  test('declared album profile owns the protocol despite a call override', async () => {
     const urls: Array<string> = [];
     const client = createHanaMusicApi({
       cookie: 'MUSIC_U=protocol',
-      crypto: 'api',
-      e_r: false,
+
       fetcher: async (url) => {
         urls.push(url instanceof Request ? url.url : url.toString());
         return Response.json({
@@ -81,7 +76,7 @@ describe('special Effect module behavior', () => {
       },
     });
     await client.album({ id: 1 });
-    expect(urls).toEqual(['https://interface.music.163.com/api/v1/album/1']);
+    expect(urls).toEqual(['https://music.163.com/weapi/v1/album/1']);
   });
 
   test.each([playlistTracks, loginQrCheck])(
@@ -125,12 +120,13 @@ describe('special Effect module behavior', () => {
   );
 
   test('playlist pagination decodes only the track identifiers it consumes', async () => {
-    const intents: Array<RequestIntent> = [];
+    const intents: Array<RecordedAction> = [];
     const result = await runEffect(
       executeModule(
         playlistTrackAll,
         { id: 9, limit: 2, offset: 1 },
-        (intent) => {
+        (action, args) => {
+          const intent = { action, args };
           intents.push(intent);
           return Effect.succeed(
             response(
@@ -150,7 +146,7 @@ describe('special Effect module behavior', () => {
         },
       ),
     );
-    expect(intents.map((intent) => JSON.parse(String(intent.body)))).toEqual([
+    expect(intents.map((intent) => intent.args.data)).toEqual([
       { id: 9, n: 100000, s: 8 },
       { c: '[{"id":2},{"id":3}]' },
     ]);
@@ -158,7 +154,7 @@ describe('special Effect module behavior', () => {
   });
 
   test('cloud import carries the decoded song identifier into publication', async () => {
-    const intents: Array<RequestIntent> = [];
+    const intents: Array<RecordedAction> = [];
     const result = await runEffect(
       executeModule(
         cloudImport,
@@ -169,7 +165,8 @@ describe('special Effect module behavior', () => {
           bitrate: 320,
           fileSize: 2,
         },
-        (intent) => {
+        (action, args) => {
+          const intent = { action, args };
           intents.push(intent);
           return Effect.succeed(
             response(
@@ -181,7 +178,7 @@ describe('special Effect module behavior', () => {
         },
       ),
     );
-    expect(JSON.parse(String(intents[1]?.body))).toEqual({
+    expect(intents[1]?.args.data).toEqual({
       uploadType: 0,
       songs: JSON.stringify([
         {
@@ -194,7 +191,7 @@ describe('special Effect module behavior', () => {
         },
       ]),
     });
-    expect(intents.every((intent) => intent.semantic === 'upload')).toBe(true);
+    expect(intents.map((intent) => intent.action)).toEqual(['check', 'import']);
     expect(result.body).toEqual({ imported: true });
   });
 
@@ -283,12 +280,13 @@ describe('special Effect module behavior', () => {
   });
 
   test('playlist 512 retries exactly once with duplicated tracks', async () => {
-    const intents: Array<RequestIntent> = [];
+    const intents: Array<RecordedAction> = [];
     const failure = ProtocolFailed.make({
       message: '512',
       response: { ...response({ code: 512 }), status: 512 },
     });
-    const request: RequestCapability = (intent) => {
+    const request: RequestCapability = (action, args) => {
+      const intent = { action, args };
       intents.push(intent);
       return intents.length === 1
         ? Effect.fail(failure)
@@ -309,11 +307,14 @@ describe('special Effect module behavior', () => {
       count: 3,
       cloudCount: 0,
     });
-    expect(intents.map((intent) => JSON.parse(String(intent.body)))).toEqual([
+    expect(intents.map((intent) => intent.args.data)).toEqual([
       { op: 'add', pid: 1, trackIds: '["2","3"]', imme: 'true' },
       { op: 'add', pid: 1, trackIds: '["2","3","2","3"]', imme: 'true' },
     ]);
-    expect(intents.every((intent) => intent.semantic === 'write')).toBe(true);
+    expect(intents.map((intent) => intent.action)).toEqual([
+      'manipulate',
+      'fallback',
+    ]);
   });
 
   test.each(requestFailures)(
@@ -449,19 +450,20 @@ describe('special Effect module behavior', () => {
   );
 
   test('batch forwards only API entries and preserves opaque bodies', async () => {
-    const intents: Array<RequestIntent> = [];
+    const intents: Array<RecordedAction> = [];
     const body = { code: 200, future: [null, { field: 'kept' }] };
     const result = await runEffect(
       executeModule(
         batch,
         { '/api/search/get': { s: 'song' }, ignored: true },
-        (intent) => {
+        (action, args) => {
+          const intent = { action, args };
           intents.push(intent);
           return Effect.succeed(response(body));
         },
       ),
     );
-    expect(JSON.parse(String(intents[0]?.body))).toEqual({
+    expect(intents[0]?.args.data).toEqual({
       '/api/search/get': { s: 'song' },
     });
     expect(result.body).toEqual(body);

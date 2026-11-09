@@ -6,14 +6,31 @@ import {
   QueryIdentifier as Identifier,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type {
   QueryIdentifier,
   QueryNumberLike,
 } from '../types/module-shared.ts';
+import type { UnknownJson } from '../types/unknown.ts';
+
+export const moduleActions = {
+  check: {
+    profile: 'eapi',
+    target: '/api/cloud/upload/check/v2',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+  import: {
+    profile: 'eapi',
+    target: '/api/cloud/user/song/import',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   album?: string;
@@ -40,7 +57,11 @@ const inputSchema = Schema.Struct({
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
+const cloudImport: ModuleEffect<
+  ModuleInput,
+  UnknownJson,
+  typeof moduleActions
+> = (input, request) =>
   Effect.gen(function* () {
     const query = {
       ...input,
@@ -48,23 +69,19 @@ const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
       artist: input.artist || '未知',
       album: input.album || '未知',
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        '/api/cloud/upload/check/v2',
-        {
-          uploadType: 0,
-          songs: JSON.stringify([
-            {
-              md5: query.md5,
-              songId: query.id,
-              bitrate: query.bitrate,
-              fileSize: query.fileSize,
-            },
-          ]),
-        },
-        createOption(query),
-      ),
-    );
+    const response = yield* request('check', {
+      data: {
+        uploadType: 0,
+        songs: JSON.stringify([
+          {
+            md5: query.md5,
+            songId: query.id,
+            bitrate: query.bitrate,
+            fileSize: query.fileSize,
+          },
+        ]),
+      },
+    });
     const body = response.body;
     if (
       body === null ||
@@ -106,13 +123,7 @@ const cloudImport: ModuleEffect<ModuleInput> = (input, request) =>
         },
       ]),
     };
-    const importedResponse = yield* request(
-      buildApiRequestIntent(
-        '/api/cloud/user/song/import',
-        data,
-        createOption(query),
-      ),
-    );
+    const importedResponse = yield* request('import', { data });
     return toModuleResponse(importedResponse);
   });
 

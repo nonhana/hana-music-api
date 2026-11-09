@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -48,19 +47,28 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const personalFmMode: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  read: {
+    target: '/api/v1/radio/get',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const personalFmMode: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       mode: query.mode,
       subMode: query.submode,
       limit: query.limit || 3,
     };
-    const response = yield* request(
-      buildApiRequestIntent(`/api/v1/radio/get`, data, createOption(query)),
-    );
+    const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
       'personal_fm_mode',
       ModuleBody,

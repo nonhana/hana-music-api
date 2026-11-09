@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 import { AvatarDetail, MlogSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/mlog/rcmd/feed/list',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 const MlogImage = UpstreamObject({
   height: Loose(Schema.Finite),
@@ -123,7 +132,11 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const mlogMusicRcmd: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const mlogMusicRcmd: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       id: query.mvid || 0,
@@ -132,13 +145,7 @@ const mlogMusicRcmd: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       limit: query.limit || 10,
       extInfo: JSON.stringify({ songId: query.songid }),
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/mlog/rcmd/feed/list`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'mlog_music_rcmd',
       ModuleBody,

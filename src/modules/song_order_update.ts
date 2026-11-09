@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -13,10 +12,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const songOrderUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+export const moduleActions = {
+  update: {
+    target: '/api/playlist/manipulate/tracks',
+    profile: 'eapi',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
+
+const songOrderUpdate: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       pid: query.pid,
@@ -24,13 +34,7 @@ const songOrderUpdate: ModuleEffect<ModuleInput, ModuleBody> = (
       op: 'update',
     };
 
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/playlist/manipulate/tracks`,
-        data,
-        createOption(query),
-      ),
-    );
+    const response = yield* request('update', { data });
     return {
       ...toModuleResponse(response),
       body: yield* decodeUpstreamBody(

@@ -48,7 +48,7 @@ await pending.catch((error: unknown) => console.log(error));
 
 ## 哪些失败允许重试
 
-重试先看操作是否允许，再看失败原因。已知写入、登录、轮询、批量和上传不会被普通请求重试策略自动重放。
+重试先看动作声明是否允许，再看失败原因。显式低层 `createRequest` 没有业务动作声明，因此不自动重放，配置 `retry` 也不会解除这个边界。已知写入、登录、轮询、批量和上传不会被普通请求重试策略自动重放。
 
 ```mermaid
 flowchart TD
@@ -63,7 +63,7 @@ flowchart TD
   REASON -->|是| RETRY["在总期限内退避后重试"]
 ```
 
-明确未建立连接的错误包括 `ECONNREFUSED`、`EAI_AGAIN` 和连接建立超时。其他未分类的读取也只保留这类重试。
+明确未建立连接的错误包括 `ECONNREFUSED`、`EAI_AGAIN` 和连接建立超时。只有动作声明允许连接重试时才使用这类重试，不再根据 URI 名称判断。
 
 额外重试用于搜索、歌词、歌曲详情和歌单详情对应的明确读请求。兼容字段名叫 `retryNonIdempotent`，但设为 `true` 不会解除已知写操作的保护。
 

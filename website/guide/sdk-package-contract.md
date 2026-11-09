@@ -1,5 +1,7 @@
 # SDK 使用边界
 
+从 3.x 升级请先看[4.x 迁移说明](/guide/migrating-to-v4)，确认配置删除、设备保存与 token 的逐次传递规则。
+
 在自己的 Node.js 服务或脚本里调用接口时，使用 SDK。需要向浏览器或其他语言提供统一 HTTP 接口时，从仓库启动 Bun 服务。
 
 ## 运行环境
@@ -28,14 +30,14 @@ npm install -D typescript @types/node@24
 import { createHanaMusicApi, search, invokeModule } from 'hana-music-api';
 ```
 
-发布包只开放 `hana-music-api` 根入口。不要依赖 `hana-music-api/src/...` 或 `hana-music-api/dist/...` 这样的内部路径，即使本地文件系统里能找到它们。
+发布包开放 `hana-music-api` 根入口和独立的 `hana-music-api/watchman` 浏览器子路径。后者只负责加载官方 Watchman 和按次取 token，说明见 [浏览器 Watchman](/guide/watchman)。不要依赖 `hana-music-api/src/...` 或 `hana-music-api/dist/...` 这样的内部路径，即使本地文件系统里能找到它们。
 
 | 公开能力                        | 用途                               |
 | ------------------------------- | ---------------------------------- |
 | `createHanaMusicApi`            | 创建带默认配置的 client            |
 | `search`、`songUrl` 等具名函数  | 按需调用模块                       |
 | `invokeModule`                  | 按模块标识调用                     |
-| `createRequest`、`createOption` | 底层请求与旧式配置提取             |
+| `createRequest`、`createOption` | 显式底层请求与其配置提取           |
 | `generateDeviceId`              | 生成满足匿名注册条件的设备号       |
 | 配套公开类型                    | 声明配置、模块标识、输入和响应外壳 |
 

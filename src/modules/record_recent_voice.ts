@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -11,6 +10,16 @@ import {
 import { DjProgram, MultiTerminalInfo } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/play-record/voice/list',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
 
 // 最近播放的声音：`pubDJProgramData` 复用节目结构并补上最近播放列表额外返回的统计和分类字段，
 // 只收紧节目自己的 `id`；评论计数宽松；`replaceName`、`icon` 只见过 null，未声明。
@@ -56,21 +65,16 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const recordRecentVoice: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const recordRecentVoice: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 100,
     };
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/play-record/voice/list`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
       'record_recent_voice',
       ModuleBody,

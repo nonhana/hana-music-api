@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -10,6 +9,16 @@ import {
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'web',
+    target: '/api/pl/count',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 // 返回码收紧；接口返回的私信、通知、关注等计数平铺在正文，少一项只是少一项信息，全部宽松（同 user_subcount）。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -61,16 +70,13 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const plCount: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+const plCount: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  _query,
+  request,
+) =>
   Effect.gen(function* () {
     const data = {};
-    const response = yield* request(
-      buildApiRequestIntent(
-        `/api/pl/count`,
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('pl_count', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

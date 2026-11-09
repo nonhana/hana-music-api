@@ -4,10 +4,20 @@ import {
   decodeModuleInput as decodeInput,
   LegacyInput,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
+import type { UnknownJson } from '../types/unknown.ts';
+
+export const moduleActions = {
+  request: {
+    profile: 'eapi',
+    target: '/api/batch',
+    semantic: 'write',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 export type BatchSubRequest = Record<string, unknown>;
 
@@ -23,7 +33,10 @@ const inputSchema = Schema.Record(
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-const batch: ModuleEffect<ModuleInput> = (query, request) =>
+const batch: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     const data: Record<string, unknown> = {};
     Object.entries(query).forEach(([route, parameters]) => {
@@ -31,9 +44,7 @@ const batch: ModuleEffect<ModuleInput> = (query, request) =>
         data[route] = parameters;
       }
     });
-    const response = yield* request(
-      buildApiRequestIntent(`/api/batch`, data, createOption(query)),
-    );
+    const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 

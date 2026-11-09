@@ -1,9 +1,6 @@
 import { expect, test } from 'bun:test';
 
-import {
-  isReadModule,
-  retryDecision,
-} from '../../../src/core/endpoint-policy.ts';
+import { retryDecision } from '../../../src/core/endpoint-policy.ts';
 import { createRequest } from '../../../src/core/request.ts';
 
 const writeUris = [
@@ -81,50 +78,38 @@ test.each(writeUris)(
   },
 );
 
-test('unclassified reads retain connection-only retries', () => {
-  for (const uri of [
+test('declared reads retain connection-only retries regardless of their path name', () => {
+  for (const target of [
     '/api/artist/follow/count/get',
     '/api/playlist/subscribers',
     '/api/unknown',
+    '/api/playlist/delete',
   ]) {
+    const action = {
+      profile: 'web',
+      target,
+      semantic: 'read',
+      cache: 'none',
+      retry: 'connect',
+    } as const;
     expect(
-      retryDecision(uri, new Error('EAI_AGAIN'), 1, { jitter: false }, 0),
+      retryDecision(new Error('EAI_AGAIN'), 1, { jitter: false }, 0, action),
     ).toBe(300);
   }
 });
 
-test('only evidenced reads are cached and known writes are never automatically replayed', () => {
-  for (const identifier of [
-    'search',
-    'lyric',
-    'song_detail',
-    'playlist_detail',
-  ]) {
-    expect(isReadModule(identifier)).toBe(true);
-  }
-  for (const identifier of [
-    'like',
-    'login_qr_check',
-    'batch',
-    'voice_upload',
-    'unknown',
-  ]) {
-    expect(isReadModule(identifier)).toBe(false);
-  }
-  for (const uri of [
-    '/api/like',
-    '/api/login/token',
-    '/api/nos/token/alloc',
-    '/api/batch',
-    '/api/register/anonimous',
-  ]) {
+test('action declarations alone authorize shared reads and forbid write retries', () => {
+  for (const semantic of ['write', 'login', 'upload', 'poll'] as const) {
     expect(
       retryDecision(
-        uri,
         new Error('ECONNREFUSED'),
         1,
         { retryNonIdempotent: true },
         0,
+        {
+          semantic,
+          retry: 'never',
+        },
       ),
     ).toBeUndefined();
   }

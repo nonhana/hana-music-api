@@ -5,12 +5,16 @@ import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi } from '../../../index.ts';
 import type { SearchBody } from '../../../index.ts';
-import { Call, runCall } from '../../../src/core/call.ts';
+import { buildCallServices, Call, runCall } from '../../../src/core/call.ts';
 import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
 import { getRuntimeState, setRuntimeState } from '../../../src/core/runtime.ts';
-import registerAnonymous from '../../../src/modules/register_anonimous.ts';
+import registerAnonymous, {
+  moduleActions as anonymousActions,
+} from '../../../src/modules/register_anonimous.ts';
 import { decodeModuleInput as decodeSearchInput } from '../../../src/modules/search.ts';
-import voiceUpload from '../../../src/modules/voice_upload.ts';
+import voiceUpload, {
+  moduleActions as voiceUploadActions,
+} from '../../../src/modules/voice_upload.ts';
 import {
   createEffectModuleInvoker as createModuleInvoker,
   invokeModule,
@@ -19,16 +23,24 @@ import type {
   ModuleQuery,
   RequestCapability,
 } from '../../../src/types/index.ts';
+import { createStage, testEntropy } from '../../_kit/harness/sdk.ts';
 import { runEffect } from '../../_kit/it.ts';
 import { clientLayer } from '../../_kit/layers.ts';
-import { mockRequest, moduleResponse, testRequest } from '../../_kit/module.ts';
+import {
+  moduleResponse,
+  probeReadActions,
+  probeUploadActions,
+  probeWriteActions,
+  testRequest,
+} from '../../_kit/module.ts';
+import { readWebBody } from '../../_kit/upstream/wire.ts';
 import {
   initXml,
   songFile,
   tokenBody,
 } from '../../fixtures/synthetic/upload.ts';
 
-describe('custom Effect upload request budgets', () => {
+describe('real kernel request budgets', () => {
   test.each([
     {
       stage: 'token',
@@ -86,65 +98,65 @@ describe('custom Effect upload request budgets', () => {
           Effect.gen(function* () {
             const clock = yield* TestClock.make();
             const controller = new AbortController();
-            let tokenStarted!: () => void;
-            const tokenReady = new Promise<void>((resolve) => {
-              tokenStarted = resolve;
-            });
+            const tokenStarted = createStage('token allocation');
             let releaseToken!: () => void;
             const tokenGate = new Promise<void>((resolve) => {
               releaseToken = resolve;
             });
-            let stageStarted!: () => void;
-            const stageReady = new Promise<void>((resolve) => {
-              stageStarted = resolve;
-            });
+            const stageStarted = createStage('request under deadline');
             const sent: Array<string> = [];
-            let handlerSignal: AbortSignal | undefined;
-            let handlerBudget: number | undefined;
+            let requestSignal: AbortSignal | undefined;
             let typedFailure: unknown;
             let settled = false;
-            const handler = mockRequest(async (target, _data, options) => {
-              sent.push(target);
-              if (
-                target === '/api/nos/token/alloc' &&
-                scenario.stage === 'pre-check'
-              ) {
-                tokenStarted();
-                await tokenGate;
-                return { status: 200, cookie: [], body: tokenBody };
-              }
-              handlerSignal = options?.signal;
-              handlerBudget = options?.timeoutMs;
-              stageStarted();
-              return new Promise(() => {});
-            });
             const pending = runCall(
               {
                 identifier: 'voice_upload',
                 input: { songFile },
-                signal: controller.signal,
+
                 config: {
+                  signal: controller.signal,
                   cookie: 'MUSIC_U=custom-budget',
                   timeoutMs: scenario.total,
-                  fetcher: async (input) => {
+                  fetcher: async (input, init) => {
                     const target =
-                      typeof input === 'string'
-                        ? input
-                        : input instanceof URL
-                          ? input.href
-                          : input.url;
+                      input instanceof Request ? input.url : String(input);
                     sent.push(target);
-                    return target.endsWith('?uploads')
-                      ? new Response(initXml)
-                      : new Response(new Uint8Array([0, 128, 255]), {
-                          headers: { etag: 'etag-1' },
-                        });
+                    if (
+                      target.includes('/nos/token/alloc') &&
+                      scenario.stage === 'pre-check'
+                    ) {
+                      tokenStarted.reach();
+                      await tokenGate;
+                      if (init?.signal?.aborted)
+                        throw new DOMException('Cancelled', 'AbortError');
+                      return Response.json(tokenBody);
+                    }
+                    if (
+                      target.startsWith('https://ymusic.nos-hz.163yun.com/')
+                    ) {
+                      return target.endsWith('?uploads')
+                        ? new Response(initXml)
+                        : new Response(new Uint8Array([0, 128, 255]), {
+                            headers: { etag: 'etag-1' },
+                          });
+                    }
+                    requestSignal = init?.signal ?? undefined;
+                    stageStarted.reach();
+                    return new Promise((_resolve, reject) => {
+                      requestSignal?.addEventListener(
+                        'abort',
+                        () =>
+                          reject(new DOMException('Cancelled', 'AbortError')),
+                        { once: true },
+                      );
+                    });
                   },
                 },
               },
               clientLayer(),
               {
                 identifier: 'voice_upload',
+                actions: voiceUploadActions,
                 route: '/voice/upload',
                 decodeInput: decodeLegacyModuleInput,
                 execute: (input, request) =>
@@ -158,7 +170,7 @@ describe('custom Effect upload request budgets', () => {
                     ),
                   ),
               },
-              handler,
+
               clock,
             )
               .catch((error: unknown) => error)
@@ -168,24 +180,23 @@ describe('custom Effect upload request budgets', () => {
               });
             try {
               if (scenario.stage === 'pre-check') {
-                yield* Effect.promise(() => tokenReady);
+                yield* Effect.promise(() => tokenStarted.wait(pending));
                 yield* clock.adjust(scenario.elapsed);
                 releaseToken();
               }
-              yield* Effect.promise(() => stageReady);
-              expect(handlerBudget).toBe(scenario.budget);
-              expect(handlerSignal?.aborted).toBe(false);
+              yield* Effect.promise(() => stageStarted.wait(pending));
+              expect(requestSignal?.aborted).toBe(false);
               if (scenario.mode === 'cancel') {
                 controller.abort();
               } else {
                 yield* clock.adjust(scenario.budget - 1);
                 expect(settled).toBe(false);
-                expect(handlerSignal?.aborted).toBe(false);
+                expect(requestSignal?.aborted).toBe(false);
                 yield* clock.adjust(1);
               }
               yield* Effect.promise(() => Bun.sleep(1));
               expect(settled).toBe(true);
-              expect(handlerSignal?.aborted).toBe(true);
+              expect(requestSignal?.aborted).toBe(true);
               const rejection = yield* Effect.promise(() => pending);
               expect(rejection).toMatchObject({
                 status: scenario.mode === 'cancel' ? 499 : 504,
@@ -221,48 +232,49 @@ describe('custom Effect upload request budgets', () => {
     },
   );
 
-  test('ordinary custom Effect handlers use the remaining total without an upload stage cap', async () => {
+  test('ordinary kernel requests use the remaining total without an upload stage cap', async () => {
     await runEffect(
       Effect.scoped(
         Effect.gen(function* () {
           const clock = yield* TestClock.make();
           const controller = new AbortController();
-          let started!: () => void;
-          const ready = new Promise<void>((resolve) => {
-            started = resolve;
-          });
-          let handlerBudget: number | undefined;
-          let handlerSignal: AbortSignal | undefined;
+          const started = createStage('ordinary request');
+          let requestSignal: AbortSignal | undefined;
           let settled = false;
-          const handler = mockRequest(async (_target, _data, options) => {
-            handlerBudget = options?.timeoutMs;
-            handlerSignal = options?.signal;
-            started();
-            return new Promise(() => {});
-          });
           const pending = runCall(
             {
               identifier: 'like',
               input: {},
-              signal: controller.signal,
-              config: { cookie: 'MUSIC_U=ordinary-budget', timeoutMs: 90_000 },
+
+              config: {
+                signal: controller.signal,
+                cookie: 'MUSIC_U=ordinary-budget',
+                timeoutMs: 90_000,
+                fetcher: async (_input, init) => {
+                  requestSignal = init?.signal ?? undefined;
+                  started.reach();
+                  return new Promise((_resolve, reject) => {
+                    requestSignal?.addEventListener(
+                      'abort',
+                      () => reject(new DOMException('Cancelled', 'AbortError')),
+                      { once: true },
+                    );
+                  });
+                },
+              },
             },
             clientLayer(),
             {
+              actions: probeWriteActions,
               identifier: 'like',
               route: '/like',
               decodeInput: decodeLegacyModuleInput,
               execute: (_input, request) =>
                 Effect.gen(function* () {
                   yield* Effect.sleep(10_000);
-                  const result = yield* request({
-                    target: '/api/radio/like',
-                    protocol: 'weapi',
-                    method: 'POST',
+                  const result = yield* request('like', {
+                    data: {},
                     headers: {},
-                    body: '{}',
-                    semantic: 'write',
-                    response: 'json',
                   });
                   return {
                     status: result.status,
@@ -271,7 +283,7 @@ describe('custom Effect upload request budgets', () => {
                   };
                 }),
             },
-            handler,
+
             clock,
           )
             .catch((error: unknown) => error)
@@ -281,17 +293,16 @@ describe('custom Effect upload request budgets', () => {
             });
           try {
             yield* clock.adjust(10_000);
-            yield* Effect.promise(() => ready);
-            expect(handlerBudget).toBe(80_000);
+            yield* Effect.promise(() => started.wait(pending));
             yield* clock.adjust(60_001);
             expect(settled).toBe(false);
-            expect(handlerSignal?.aborted).toBe(false);
+            expect(requestSignal?.aborted).toBe(false);
             yield* clock.adjust(19_999);
             const rejection = yield* Effect.promise(() => pending);
             expect(rejection).toMatchObject({
               status: 504,
             });
-            expect(handlerSignal?.aborted).toBe(true);
+            expect(requestSignal?.aborted).toBe(true);
           } finally {
             controller.abort();
             yield* Effect.promise(() => pending);
@@ -318,9 +329,9 @@ describe('call lifecycle', () => {
     });
   });
 
-  test('the client web QR method consumes a mixed-case Cookie header identity', async () => {
+  test('the client web QR method consumes its cookie config identity', async () => {
     const client = createHanaMusicApi({
-      headers: { cOoKiE: 'MUSIC_U=qr-user; sDeviceId=client-device' },
+      cookie: 'MUSIC_U=qr-user; sDeviceId=client-device',
     });
     const response = await client.loginQrCreate({
       key: 'client-key',
@@ -335,38 +346,36 @@ describe('call lifecycle', () => {
     });
   });
 
-  test('external header changes cannot affect an already started call', async () => {
-    const headers = { 'X-Call-Snapshot': 'original' };
+  test('external state changes cannot affect an already started call', async () => {
+    const state = { deviceId: 'original' };
     // inner_version 已带收窄 Body；这里改用无 Body 的模块标识占位，fake execute 才能返回任意正文。
     const invoke = createModuleInvoker(
       'captcha_verify',
       {
+        actions: probeWriteActions,
         identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
           Effect.gen(function* () {
-            headers['X-Call-Snapshot'] = 'changed';
-            return yield* testRequest(
-              request,
-              '/api/like',
-              {},
-              { crypto: 'api' },
-            );
+            state.deviceId = 'changed';
+            return yield* testRequest(request, '/api/like', {});
           }).pipe(Effect.map(moduleResponse)),
       },
       {
         cookie: 'MUSIC_U=header-snapshot',
-        headers,
+        state,
         fetcher: async (_url, init) =>
           Response.json({
             code: 200,
-            header: new Headers(init?.headers).get('X-Call-Snapshot'),
+            header: decodeURIComponent(
+              new Headers(init?.headers).get('cookie') ?? '',
+            ),
           }),
       },
     );
     expect((await invoke({ id: 1 })).body).toMatchObject({
-      header: 'original',
+      header: expect.stringContaining('deviceId=original'),
     });
   });
 
@@ -384,6 +393,7 @@ describe('call lifecycle', () => {
       const invoke = createModuleInvoker(
         'search',
         {
+          actions: probeReadActions,
           identifier: 'search',
           route: '/test',
           decodeInput: decodeSearchInput,
@@ -394,12 +404,7 @@ describe('call lifecycle', () => {
               } else {
                 retry.statusCodes.splice(0);
               }
-              return yield* testRequest(
-                request,
-                '/api/search/get',
-                {},
-                { crypto: 'api' },
-              );
+              return yield* testRequest(request, '/api/search/get', {});
             }).pipe(Effect.map(moduleResponse<SearchBody>)),
         },
         {
@@ -437,11 +442,16 @@ describe('call lifecycle', () => {
               {
                 identifier,
                 input: {},
-                config: { cookie: 'MUSIC_U=user', timeoutMs },
-                signal: controller.signal,
+                config: {
+                  signal: controller.signal,
+                  cookie: 'MUSIC_U=user',
+                  timeoutMs,
+                },
               },
               clientLayer(),
               {
+                actions:
+                  identifier === 'voice_upload' ? probeUploadActions : {},
                 identifier: 'test',
                 route: '/test',
                 decodeInput: decodeLegacyModuleInput,
@@ -450,7 +460,7 @@ describe('call lifecycle', () => {
                     Effect.map(moduleResponse),
                   ),
               },
-              undefined,
+
               clock,
             ).catch((error: unknown) => {
               settled = true;
@@ -488,6 +498,7 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'search',
       {
+        actions: {},
         identifier: 'search',
         route: '/test',
         decodeInput: decodeSearchInput,
@@ -501,7 +512,6 @@ describe('call lifecycle', () => {
       {
         cookie: 'MUSIC_U=private',
         timeoutMs: 100,
-        headers: { 'X-Test': 'value' },
       },
     );
     expect((await invoke({ keywords: 'business' })).body).toEqual({
@@ -516,14 +526,15 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'captcha_verify',
       {
+        actions: probeWriteActions,
         identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
           Effect.gen(function* () {
             cookie.MUSIC_U = 'changed-user';
-            yield* testRequest(request, '/api/like', {}, { crypto: 'api' });
-            yield* testRequest(request, '/api/like', {}, { crypto: 'api' });
+            yield* testRequest(request, '/api/like', {});
+            yield* testRequest(request, '/api/like', {});
             return { status: 200, cookie: [], body: { code: 200 } };
           }).pipe(Effect.map(moduleResponse)),
       },
@@ -547,17 +558,18 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'captcha_verify',
       {
+        actions: probeWriteActions,
         identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
-          testRequest(request, '/api/like', {}, { crypto: 'api' }).pipe(
+          testRequest(request, '/api/like', {}).pipe(
             Effect.map(moduleResponse),
           ),
       },
       {
         cookie: 'MUSIC_U=explicit-user',
-        headers: { cOoKiE: 'MUSIC_U=header-user' },
+
         identityPool: { size: 1 },
         fetcher: async (_url, init) => {
           sentCookie = new Headers(init?.headers).get('cookie') ?? '';
@@ -575,6 +587,7 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'captcha_verify',
       {
+        actions: {},
         identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
@@ -594,6 +607,7 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'captcha_verify',
       {
+        actions: {},
         identifier: 'captcha_verify',
         route: '/test',
         decodeInput: decodeLegacyModuleInput,
@@ -614,11 +628,12 @@ describe('call lifecycle', () => {
     const invoke = createModuleInvoker(
       'search',
       {
+        actions: probeReadActions,
         identifier: 'search',
         route: '/test',
         decodeInput: decodeSearchInput,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
-          testRequest(request, '/api/search/get', {}, { crypto: 'api' }).pipe(
+          testRequest(request, '/api/search/get', {}).pipe(
             Effect.map(moduleResponse<SearchBody>),
           ),
       },
@@ -656,13 +671,14 @@ describe('call lifecycle', () => {
       const invoke = createModuleInvoker(
         'captcha_verify',
         {
+          actions: probeWriteActions,
           identifier: 'captcha_verify',
           route: '/test',
           decodeInput: decodeLegacyModuleInput,
           execute: (_query: ModuleQuery, request: RequestCapability) =>
             Effect.gen(function* () {
               setRuntimeState({ anonymousToken: 'after-call' });
-              yield* testRequest(request, '/api/like', {}, { crypto: 'api' });
+              yield* testRequest(request, '/api/like', {});
               return { status: 200, cookie: [], body: { code: 200 } };
             }).pipe(Effect.map(moduleResponse)),
         },
@@ -684,30 +700,64 @@ describe('call lifecycle', () => {
   test.each([0, 900_000])(
     'upload stage limit remains 60 seconds with timeoutMs %i',
     async (timeoutMs) => {
-      const timeouts: Array<number | undefined> = [];
-      const request = mockRequest(async (_uri, _data, options) => {
-        timeouts.push(options?.timeoutMs);
-        return { status: 200, cookie: [], body: { code: 200 } };
-      });
-      await runCall(
-        {
-          identifier: 'voice_upload',
-          input: {},
-          config: { cookie: 'MUSIC_U=user', timeoutMs },
-        },
-        clientLayer(),
-        {
-          identifier: 'test',
-          route: '/test',
-          decodeInput: decodeLegacyModuleInput,
-          execute: (_query: ModuleQuery, api: RequestCapability) =>
-            testRequest(api, '/api/nos/token/alloc', {}).pipe(
-              Effect.map(moduleResponse),
-            ),
-        },
-        request,
+      await runEffect(
+        Effect.scoped(
+          Effect.gen(function* () {
+            const clock = yield* TestClock.make();
+            const started = createStage('upload stage');
+            let requestSignal: AbortSignal | undefined;
+            let settled = false;
+            const pending = runCall(
+              {
+                identifier: 'voice_upload',
+                input: {},
+                config: {
+                  cookie: 'MUSIC_U=user',
+                  timeoutMs,
+                  fetcher: async (_input, init) => {
+                    requestSignal = init?.signal ?? undefined;
+                    started.reach();
+                    return new Promise((_resolve, reject) => {
+                      requestSignal?.addEventListener(
+                        'abort',
+                        () =>
+                          reject(new DOMException('Cancelled', 'AbortError')),
+                        { once: true },
+                      );
+                    });
+                  },
+                },
+              },
+              clientLayer(),
+              {
+                actions: probeUploadActions,
+                identifier: 'test',
+                route: '/test',
+                decodeInput: decodeLegacyModuleInput,
+                execute: (_query: ModuleQuery, api: RequestCapability) =>
+                  testRequest(api, '/api/nos/token/alloc', {}).pipe(
+                    Effect.map(moduleResponse),
+                  ),
+              },
+
+              clock,
+            ).catch((error: unknown) => {
+              settled = true;
+              return error;
+            });
+            yield* Effect.promise(() => started.wait(pending));
+            yield* clock.adjust(59_999);
+            expect(settled).toBe(false);
+            expect(requestSignal?.aborted).toBe(false);
+            yield* clock.adjust(1);
+            const result = yield* Effect.promise(() => pending);
+            expect(result).toMatchObject({
+              status: 504,
+            });
+            expect(requestSignal?.aborted).toBe(true);
+          }),
+        ),
       );
-      expect(timeouts).toEqual([60_000]);
     },
   );
 
@@ -715,6 +765,7 @@ describe('call lifecycle', () => {
     const original = getRuntimeState();
     const seen: Array<{
       deviceId: string;
+      url: string;
       cookie: string | null;
       username: string;
       global: unknown;
@@ -726,16 +777,21 @@ describe('call lifecycle', () => {
           identifier: 'register_anonimous',
           input: {},
           config: {
-            crypto: 'api',
             state: { deviceId: 'call-device-123' },
-            fetcher: async (_url, init) => {
+            fetcher: async (url, init) => {
               if (typeof init?.body !== 'string') {
                 throw new TypeError('Expected an encoded API body');
               }
-              const username =
-                new URLSearchParams(init.body).get('username') ?? '';
+              const username = (readWebBody(init.body) as { username: string })
+                .username;
               seen.push({
                 deviceId: callDeviceId,
+                url:
+                  typeof url === 'string'
+                    ? url
+                    : url instanceof URL
+                      ? url.href
+                      : url.url,
                 cookie: new Headers(init?.headers).get('cookie'),
                 username: Buffer.from(username, 'base64')
                   .toString('utf8')
@@ -749,10 +805,11 @@ describe('call lifecycle', () => {
             },
           },
         },
-        clientLayer({}, false),
+        buildCallServices({}, false, { entropy: testEntropy }),
         {
           identifier: 'register_anonimous',
           route: '/register/anonimous',
+          actions: anonymousActions,
           decodeInput: () => Effect.succeed({}),
           execute: (input, request) =>
             Effect.gen(function* () {
@@ -765,6 +822,7 @@ describe('call lifecycle', () => {
       expect(seen).toEqual([
         {
           deviceId: 'call-device-123',
+          url: 'https://music.163.com/weapi/register/anonimous',
           cookie: expect.stringContaining('deviceId=call-device-123'),
           username: 'call-device-123',
           global: original,

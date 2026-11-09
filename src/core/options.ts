@@ -4,7 +4,8 @@ import type {
   ModuleQuery,
   RequestCrypto,
 } from '../types/index.ts';
-import { toBoolean } from './utils.ts';
+import { InvalidRequest } from './errors.ts';
+import { isRecord, toBoolean } from './utils.ts';
 
 interface OptionSource {
   readonly acceptGzip?: unknown;
@@ -26,10 +27,7 @@ interface OptionSource {
   readonly ua?: unknown;
 }
 
-/**
- * 将模块层的 query 对象收敛成 request 层可消费的配置结构。
- * 这里尽量保持旧项目的字段语义，避免过早引入额外的标准化逻辑。
- */
+// 仅供显式低层 createRequest；普通模块配置由独立合同校验。
 export const createOption = (
   query: ModuleQuery & OptionSource,
   crypto: RequestCrypto = '',
@@ -124,4 +122,67 @@ const toRequestCrypto = (value: unknown): RequestCrypto | undefined => {
   }
 
   return undefined;
+};
+
+export const moduleConfigKeys = [
+  'connectionStrategy',
+  'cookie',
+  'fetcher',
+  'ip',
+  'onRequestEvent',
+  'proxy',
+  'realIP',
+  'retry',
+  'signal',
+  'state',
+  'timeoutMs',
+  'checkToken',
+] as const;
+
+export const removedModuleConfigKeys = [
+  'crypto',
+  'ua',
+  'domain',
+  'e_r',
+  'acceptGzip',
+  'headers',
+  'deviceId',
+] as const;
+
+export const validateModuleConfig = (value: unknown, client = false): void => {
+  if (!isRecord(value))
+    throw InvalidRequest.make({ message: 'Module config must be an object' });
+  const allowed: ReadonlyArray<string> = client
+    ? [...moduleConfigKeys, 'cache', 'identityPool']
+    : moduleConfigKeys;
+  for (const key of Reflect.ownKeys(value)) {
+    if (typeof key !== 'string' || !allowed.includes(key)) {
+      throw InvalidRequest.make({
+        message: `Module execution option is not allowed: ${String(key)}`,
+      });
+    }
+  }
+};
+
+export const validateModuleQuery = (value: unknown): void => {
+  if (!isRecord(value)) return;
+  for (const key of [
+    ...moduleConfigKeys,
+    ...removedModuleConfigKeys,
+    'cache',
+    'identityPool',
+  ]) {
+    if (Object.hasOwn(value, key))
+      throw InvalidRequest.make({
+        message: `Execution option belongs in config: ${key}`,
+      });
+  }
+};
+
+export const rejectRemovedRequestHandler = (options: object): void => {
+  if ('requestHandler' in options) {
+    throw new TypeError(
+      'requestHandler is no longer supported; inject a fetcher instead',
+    );
+  }
 };

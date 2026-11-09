@@ -1,0 +1,2287 @@
+{
+  "source": {
+    "head": "c2c8fa1352578f146d3630b760b5de546f2ee3c7",
+    "kind": "offline final requests decoded independently; synthetic identity and refusal; not upstream recordings",
+    "viewer": "synthetic-session",
+    "region": "offline"
+  },
+  "cases": [
+    {
+      "module": "album",
+      "method": "album",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/v1/album/17",
+      "url": "https://music.163.com/weapi/v1/album/17",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {},
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_detail",
+      "method": "albumDetail",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/vipmall/albumproduct/detail",
+      "url": "https://music.163.com/weapi/vipmall/albumproduct/detail",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_detail_dynamic",
+      "method": "albumDetailDynamic",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/album/detail/dynamic",
+      "url": "https://music.163.com/weapi/album/detail/dynamic",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_list",
+      "method": "albumList",
+      "label": "default",
+      "query": {},
+      "path": "/api/vipmall/albumproduct/list",
+      "url": "https://music.163.com/weapi/vipmall/albumproduct/list",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": 30,
+        "offset": 0,
+        "total": true,
+        "area": "ALL"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_list_style",
+      "method": "albumListStyle",
+      "label": "default",
+      "query": {},
+      "path": "/api/vipmall/appalbum/album/style",
+      "url": "https://music.163.com/weapi/vipmall/appalbum/album/style",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": 10,
+        "offset": 0,
+        "total": true,
+        "area": "Z_H"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_new",
+      "method": "albumNew",
+      "label": "default",
+      "query": {},
+      "path": "/api/album/new",
+      "url": "https://music.163.com/weapi/album/new",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": 30,
+        "offset": 0,
+        "total": true,
+        "area": "ALL"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_newest",
+      "method": "albumNewest",
+      "label": "default",
+      "query": {},
+      "path": "/api/discovery/newAlbum",
+      "url": "https://music.163.com/weapi/discovery/newAlbum",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {},
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_privilege",
+      "method": "albumPrivilege",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/album/privilege",
+      "url": "https://interface.music.163.com/eapi/album/privilege",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "album_songsaleboard",
+      "method": "albumSongsaleboard",
+      "label": "default",
+      "query": {},
+      "path": "/api/feealbum/songsaleboard/daily/type",
+      "url": "https://music.163.com/weapi/feealbum/songsaleboard/daily/type",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "albumType": 0
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_sublist",
+      "method": "albumSublist",
+      "label": "default",
+      "query": {},
+      "path": "/api/album/sublist",
+      "url": "https://music.163.com/weapi/album/sublist",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": 25,
+        "offset": 0,
+        "total": true
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_album",
+      "method": "artistAlbum",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/artist/albums/17",
+      "url": "https://music.163.com/weapi/artist/albums/17",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": 30,
+        "offset": 0,
+        "total": true
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_desc",
+      "method": "artistDesc",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/artist/introduction",
+      "url": "https://music.163.com/weapi/artist/introduction",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_detail",
+      "method": "artistDetail",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/artist/head/info/get",
+      "url": "https://interface.music.163.com/eapi/artist/head/info/get",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "artist_detail_dynamic",
+      "method": "artistDetailDynamic",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/artist/detail/dynamic",
+      "url": "https://interface.music.163.com/eapi/artist/detail/dynamic",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "artist_fans",
+      "method": "artistFans",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/artist/fans/get",
+      "url": "https://music.163.com/weapi/artist/fans/get",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "limit": 20,
+        "offset": 0
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_follow_count",
+      "method": "artistFollowCount",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/artist/follow/count/get",
+      "url": "https://music.163.com/weapi/artist/follow/count/get",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_list",
+      "method": "artistList",
+      "label": "default",
+      "query": {},
+      "path": "/api/v1/artist/list",
+      "url": "https://music.163.com/weapi/v1/artist/list",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "offset": 0,
+        "limit": 30,
+        "total": true,
+        "type": "1"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_mv",
+      "method": "artistMv",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/artist/mvs",
+      "url": "https://music.163.com/weapi/artist/mvs",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "artistId": "17",
+        "total": true
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_new_mv",
+      "method": "artistNewMv",
+      "label": "default",
+      "query": {
+        "before": 1700000000000
+      },
+      "path": "/api/sub/artist/new/works/mv/list",
+      "url": "https://music.163.com/weapi/sub/artist/new/works/mv/list",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "limit": 20,
+        "startTimestamp": 1700000000000
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_new_song",
+      "method": "artistNewSong",
+      "label": "default",
+      "query": {
+        "before": 1700000000000
+      },
+      "path": "/api/sub/artist/new/works/song/list",
+      "url": "https://music.163.com/weapi/sub/artist/new/works/song/list",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "limit": 20,
+        "startTimestamp": 1700000000000
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_songs",
+      "method": "artistSongs",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/v1/artist/songs",
+      "url": "https://interface.music.163.com/eapi/v1/artist/songs",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "private_cloud": "true",
+        "work_type": 1,
+        "order": "hot",
+        "offset": 0,
+        "limit": 100
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "artist_sublist",
+      "method": "artistSublist",
+      "label": "default",
+      "query": {},
+      "path": "/api/artist/sublist",
+      "url": "https://music.163.com/weapi/artist/sublist",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": 25,
+        "offset": 0,
+        "total": true
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_top_song",
+      "method": "artistTopSong",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/artist/top/song",
+      "url": "https://music.163.com/weapi/artist/top/song",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_video",
+      "method": "artistVideo",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/mlog/artist/video",
+      "url": "https://music.163.com/weapi/mlog/artist/video",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "artistId": "17",
+        "page": "{\"size\":10,\"cursor\":0}",
+        "tab": 0,
+        "order": 0
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artists",
+      "method": "artists",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/v1/artist/17",
+      "url": "https://music.163.com/weapi/v1/artist/17",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {},
+      "protocol": "weapi"
+    },
+    {
+      "module": "check_music",
+      "method": "checkMusic",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/enhance/player/url",
+      "url": "https://music.163.com/weapi/song/enhance/player/url",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17]",
+        "br": 999000
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "cloud_match",
+      "method": "cloudMatch",
+      "label": "default",
+      "query": {
+        "uid": "19",
+        "sid": "23",
+        "asid": "29"
+      },
+      "path": "/api/cloud/user/song/match",
+      "url": "https://music.163.com/weapi/cloud/user/song/match",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "userId": "19",
+        "songId": "23",
+        "adjustSongId": "29"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "like",
+      "method": "like",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/radio/like",
+      "url": "https://music.163.com/weapi/radio/like",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "alg": "itembased",
+        "trackId": "17",
+        "like": true,
+        "time": "3"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "likelist",
+      "method": "likelist",
+      "label": "default",
+      "query": {
+        "uid": "19"
+      },
+      "path": "/api/song/like/get",
+      "url": "https://interface.music.163.com/eapi/song/like/get",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "uid": "19"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "lyric_new",
+      "method": "lyricNew",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/lyric/v1",
+      "url": "https://interface.music.163.com/eapi/song/lyric/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "read",
+      "data": {
+        "id": "17",
+        "cp": false,
+        "tv": 0,
+        "lv": 0,
+        "rv": 0,
+        "kv": 0,
+        "yv": 0,
+        "ytv": 0,
+        "yrv": 0
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_catlist",
+      "method": "playlistCatlist",
+      "label": "default",
+      "query": {},
+      "path": "/api/playlist/catalogue",
+      "url": "https://interface.music.163.com/eapi/playlist/catalogue",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {},
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_create",
+      "method": "playlistCreate",
+      "label": "default",
+      "query": {
+        "name": "sample"
+      },
+      "path": "/api/playlist/create",
+      "url": "https://music.163.com/weapi/playlist/create",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "name": "sample",
+        "privacy": "0",
+        "type": "NORMAL"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_delete",
+      "method": "playlistDelete",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/playlist/remove",
+      "url": "https://music.163.com/weapi/playlist/remove",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "ids": "[17]"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_desc_update",
+      "method": "playlistDescUpdate",
+      "label": "default",
+      "query": {
+        "id": "17",
+        "desc": "description"
+      },
+      "path": "/api/playlist/desc/update",
+      "url": "https://interface.music.163.com/eapi/playlist/desc/update",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "id": "17",
+        "desc": "description"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_detail_dynamic",
+      "method": "playlistDetailDynamic",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/playlist/detail/dynamic",
+      "url": "https://interface.music.163.com/eapi/playlist/detail/dynamic",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "read",
+      "data": {
+        "id": "17",
+        "n": 100000,
+        "s": 8
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_detail_rcmd_get",
+      "method": "playlistDetailRcmdGet",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/playlist/detail/rcmd/get",
+      "url": "https://interface.music.163.com/eapi/playlist/detail/rcmd/get",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "read",
+      "data": {
+        "scene": "playlist_head",
+        "playlistId": "17",
+        "newStyle": "true"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_highquality_tags",
+      "method": "playlistHighqualityTags",
+      "label": "default",
+      "query": {},
+      "path": "/api/playlist/highquality/tags",
+      "url": "https://music.163.com/weapi/playlist/highquality/tags",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {},
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_hot",
+      "method": "playlistHot",
+      "label": "default",
+      "query": {},
+      "path": "/api/playlist/hottags",
+      "url": "https://music.163.com/weapi/playlist/hottags",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {},
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "method": "playlistImportNameTaskCreate",
+      "label": "default",
+      "query": {
+        "playlistName": "imported"
+      },
+      "path": "/api/playlist/import/name/task/create",
+      "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "importStarPlaylist": false,
+        "playlistName": "imported",
+        "taskIdForLog": "",
+        "songs": ""
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_import_task_status",
+      "method": "playlistImportTaskStatus",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/playlist/import/task/status/v2",
+      "url": "https://interface.music.163.com/eapi/playlist/import/task/status/v2",
+      "profile": "eapi",
+      "semantic": "poll",
+      "retry": "never",
+      "data": {
+        "taskIds": "[\"17\"]"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_mylike",
+      "method": "playlistMylike",
+      "label": "default",
+      "query": {},
+      "path": "/api/mlog/playlist/mylike/bytime/get",
+      "url": "https://music.163.com/weapi/mlog/playlist/mylike/bytime/get",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "time": "-1",
+        "limit": "12"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_name_update",
+      "method": "playlistNameUpdate",
+      "label": "default",
+      "query": {
+        "id": "17",
+        "name": "sample"
+      },
+      "path": "/api/playlist/update/name",
+      "url": "https://interface.music.163.com/eapi/playlist/update/name",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "id": "17",
+        "name": "sample"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_order_update",
+      "method": "playlistOrderUpdate",
+      "label": "default",
+      "query": {
+        "ids": "17,23"
+      },
+      "path": "/api/playlist/order/update",
+      "url": "https://music.163.com/weapi/playlist/order/update",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "ids": "17,23"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_privacy",
+      "method": "playlistPrivacy",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/playlist/update/privacy",
+      "url": "https://interface.music.163.com/eapi/playlist/update/privacy",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "id": "17",
+        "privacy": 0
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_subscribers",
+      "method": "playlistSubscribers",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/playlist/subscribers",
+      "url": "https://interface.music.163.com/eapi/playlist/subscribers",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "limit": 20,
+        "offset": 0
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_tags_update",
+      "method": "playlistTagsUpdate",
+      "label": "default",
+      "query": {
+        "id": "17",
+        "tags": "rock"
+      },
+      "path": "/api/playlist/tags/update",
+      "url": "https://interface.music.163.com/eapi/playlist/tags/update",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "id": "17",
+        "tags": "rock"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_track_add",
+      "method": "playlistTrackAdd",
+      "label": "default",
+      "query": {
+        "ids": "17,23",
+        "pid": "31"
+      },
+      "path": "/api/playlist/track/add",
+      "url": "https://music.163.com/weapi/playlist/track/add",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "id": "31",
+        "tracks": "[{\"type\":3,\"id\":\"17\"},{\"type\":3,\"id\":\"23\"}]"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_track_delete",
+      "method": "playlistTrackDelete",
+      "label": "default",
+      "query": {
+        "id": "17",
+        "ids": "17,23"
+      },
+      "path": "/api/playlist/track/delete",
+      "url": "https://music.163.com/weapi/playlist/track/delete",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "id": "17",
+        "tracks": "[{\"type\":3,\"id\":\"17\"},{\"type\":3,\"id\":\"23\"}]"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_update",
+      "method": "playlistUpdate",
+      "label": "default",
+      "query": {
+        "id": "17",
+        "name": "sample",
+        "desc": "description",
+        "tags": "rock"
+      },
+      "path": "/api/batch",
+      "url": "https://interface.music.163.com/eapi/batch",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "/api/playlist/desc/update": "{\"id\":17,\"desc\":\"description\"}",
+        "/api/playlist/tags/update": "{\"id\":17,\"tags\":\"rock\"}",
+        "/api/playlist/update/name": "{\"id\":17,\"name\":\"sample\"}"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_update_playcount",
+      "method": "playlistUpdatePlaycount",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/playlist/update/playcount",
+      "url": "https://interface.music.163.com/eapi/playlist/update/playcount",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "id": "17"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_video_recent",
+      "method": "playlistVideoRecent",
+      "label": "default",
+      "query": {},
+      "path": "/api/playlist/video/recent",
+      "url": "https://music.163.com/weapi/playlist/video/recent",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {},
+      "protocol": "weapi"
+    },
+    {
+      "module": "playmode_intelligence_list",
+      "method": "playmodeIntelligenceList",
+      "label": "default",
+      "query": {
+        "id": "17",
+        "pid": "31",
+        "sid": "23"
+      },
+      "path": "/api/playmode/intelligence/list",
+      "url": "https://interface.music.163.com/eapi/playmode/intelligence/list",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "songId": "17",
+        "type": "fromPlayOne",
+        "playlistId": "31",
+        "startMusicId": "23",
+        "count": 1
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_chorus",
+      "method": "songChorus",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/chorus",
+      "url": "https://interface.music.163.com/eapi/song/chorus",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[\"17\"]"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_downlist",
+      "method": "songDownlist",
+      "label": "default",
+      "query": {},
+      "path": "/api/member/song/downlist",
+      "url": "https://interface.music.163.com/eapi/member/song/downlist",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": "20",
+        "offset": "0",
+        "total": "true"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url",
+      "method": "songDownloadUrl",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/enhance/download/url",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "br": 999000
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url_v1",
+      "method": "songDownloadUrlV1",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/enhance/download/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "immerseType": "c51"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_dynamic_cover",
+      "method": "songDynamicCover",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/songplay/dynamic-cover",
+      "url": "https://interface.music.163.com/eapi/songplay/dynamic-cover",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "songId": "17"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_like_check",
+      "method": "songLikeCheck",
+      "label": "default",
+      "query": {
+        "ids": "17,23"
+      },
+      "path": "/api/song/like/check",
+      "url": "https://interface.music.163.com/eapi/song/like/check",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "trackIds": "17,23"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_lyrics_mark",
+      "method": "songLyricsMark",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/play/lyrics/mark/song",
+      "url": "https://interface.music.163.com/eapi/song/play/lyrics/mark/song",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "songId": "17"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_lyrics_mark_add",
+      "method": "songLyricsMarkAdd",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/play/lyrics/mark/add",
+      "url": "https://interface.music.163.com/eapi/song/play/lyrics/mark/add",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "songId": "17",
+        "markId": "",
+        "data": "[]"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_lyrics_mark_del",
+      "method": "songLyricsMarkDel",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/play/lyrics/mark/del",
+      "url": "https://interface.music.163.com/eapi/song/play/lyrics/mark/del",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "markIds": "17"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_lyrics_mark_user_page",
+      "method": "songLyricsMarkUserPage",
+      "label": "default",
+      "query": {},
+      "path": "/api/song/play/lyrics/mark/user/page",
+      "url": "https://interface.music.163.com/eapi/song/play/lyrics/mark/user/page",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": 10,
+        "offset": 0
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_monthdownlist",
+      "method": "songMonthdownlist",
+      "label": "default",
+      "query": {},
+      "path": "/api/member/song/monthdownlist",
+      "url": "https://interface.music.163.com/eapi/member/song/monthdownlist",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": "20",
+        "offset": "0",
+        "total": "true"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_music_detail",
+      "method": "songMusicDetail",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/music/detail/get",
+      "url": "https://interface.music.163.com/eapi/song/music/detail/get",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "songId": "17"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_order_update",
+      "method": "songOrderUpdate",
+      "label": "default",
+      "query": {
+        "ids": "17,23",
+        "pid": "31"
+      },
+      "path": "/api/playlist/manipulate/tracks",
+      "url": "https://interface.music.163.com/eapi/playlist/manipulate/tracks",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "pid": "31",
+        "trackIds": "17,23",
+        "op": "update"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_purchased",
+      "method": "songPurchased",
+      "label": "default",
+      "query": {},
+      "path": "/api/single/mybought/song/list",
+      "url": "https://music.163.com/weapi/single/mybought/song/list",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": 20,
+        "offset": 0
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "song_red_count",
+      "method": "songRedCount",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/red/count",
+      "url": "https://interface.music.163.com/eapi/song/red/count",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "songId": "17"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_singledownlist",
+      "method": "songSingledownlist",
+      "label": "default",
+      "query": {},
+      "path": "/api/member/song/singledownlist",
+      "url": "https://interface.music.163.com/eapi/member/song/singledownlist",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "limit": "20",
+        "offset": "0",
+        "total": "true"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url",
+      "method": "songUrl",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/enhance/player/url",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[\"17\"]",
+        "br": 999000
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url_v1",
+      "method": "songUrlV1",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/enhance/player/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17]",
+        "encodeType": "flac"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_wiki_summary",
+      "method": "songWikiSummary",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/song/play/about/block/page",
+      "url": "https://interface.music.163.com/eapi/song/play/about/block/page",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "songId": "17"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "user_cloud",
+      "method": "userCloud",
+      "label": "default",
+      "query": {},
+      "path": "/api/v1/cloud/get",
+      "url": "https://music.163.com/weapi/v1/cloud/get",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "limit": 30,
+        "offset": 0
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "user_cloud_del",
+      "method": "userCloudDel",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/cloud/del",
+      "url": "https://music.163.com/weapi/cloud/del",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "songIds": ["17"]
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "user_cloud_detail",
+      "method": "userCloudDetail",
+      "label": "default",
+      "query": {
+        "id": "17"
+      },
+      "path": "/api/v1/cloud/get/byids",
+      "url": "https://music.163.com/weapi/v1/cloud/get/byids",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "songIds": ["17"]
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "user_playlist",
+      "method": "userPlaylist",
+      "label": "default",
+      "query": {
+        "uid": "19"
+      },
+      "path": "/api/user/playlist",
+      "url": "https://music.163.com/weapi/user/playlist",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "uid": "19",
+        "limit": 30,
+        "offset": 0,
+        "includeVideo": true
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "user_playlist_collect",
+      "method": "userPlaylistCollect",
+      "label": "default",
+      "query": {
+        "uid": "19"
+      },
+      "path": "/api/user/playlist/collect",
+      "url": "https://interface.music.163.com/eapi/user/playlist/collect",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "limit": "100",
+        "offset": "0",
+        "userId": "19",
+        "isWebview": "true",
+        "includeRedHeart": "true",
+        "includeTop": "true"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "user_playlist_create",
+      "method": "userPlaylistCreate",
+      "label": "default",
+      "query": {
+        "uid": "19"
+      },
+      "path": "/api/user/playlist/create",
+      "url": "https://interface.music.163.com/eapi/user/playlist/create",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "limit": "100",
+        "offset": "0",
+        "userId": "19",
+        "isWebview": "true",
+        "includeRedHeart": "true",
+        "includeTop": "true"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "album_songsaleboard",
+      "method": "albumSongsaleboard",
+      "label": "daily",
+      "query": {
+        "type": "daily",
+        "albumType": 1,
+        "year": 2026
+      },
+      "path": "/api/feealbum/songsaleboard/daily/type",
+      "url": "https://music.163.com/weapi/feealbum/songsaleboard/daily/type",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "albumType": 1
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_songsaleboard",
+      "method": "albumSongsaleboard",
+      "label": "week",
+      "query": {
+        "type": "week",
+        "albumType": 1,
+        "year": 2026
+      },
+      "path": "/api/feealbum/songsaleboard/week/type",
+      "url": "https://music.163.com/weapi/feealbum/songsaleboard/week/type",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "albumType": 1
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_songsaleboard",
+      "method": "albumSongsaleboard",
+      "label": "year",
+      "query": {
+        "type": "year",
+        "albumType": 1,
+        "year": 2026
+      },
+      "path": "/api/feealbum/songsaleboard/year/type",
+      "url": "https://music.163.com/weapi/feealbum/songsaleboard/year/type",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "albumType": 1,
+        "year": 2026
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_songsaleboard",
+      "method": "albumSongsaleboard",
+      "label": "total",
+      "query": {
+        "type": "total",
+        "albumType": 1,
+        "year": 2026
+      },
+      "path": "/api/feealbum/songsaleboard/total/type",
+      "url": "https://music.163.com/weapi/feealbum/songsaleboard/total/type",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "albumType": 1
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "album_songsaleboard",
+      "method": "albumSongsaleboard",
+      "label": "custom",
+      "query": {
+        "type": "custom",
+        "albumType": 1,
+        "year": 2026
+      },
+      "path": "/api/feealbum/songsaleboard/custom/type",
+      "url": "https://music.163.com/weapi/feealbum/songsaleboard/custom/type",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "albumType": 1
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_list",
+      "method": "artistList",
+      "label": "a",
+      "query": {
+        "initial": "a",
+        "area": 7,
+        "type": 2,
+        "limit": 5,
+        "offset": 3
+      },
+      "path": "/api/v1/artist/list",
+      "url": "https://music.163.com/weapi/v1/artist/list",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "initial": 65,
+        "offset": 3,
+        "limit": 5,
+        "total": true,
+        "type": 2,
+        "area": 7
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_list",
+      "method": "artistList",
+      "label": "-1",
+      "query": {
+        "initial": -1,
+        "area": 7,
+        "type": 2,
+        "limit": 5,
+        "offset": 3
+      },
+      "path": "/api/v1/artist/list",
+      "url": "https://music.163.com/weapi/v1/artist/list",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "initial": -1,
+        "offset": 3,
+        "limit": 5,
+        "total": true,
+        "type": 2,
+        "area": 7
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_new_mv",
+      "method": "artistNewMv",
+      "label": "explicit-before",
+      "query": {
+        "before": 1234567890,
+        "limit": 5
+      },
+      "path": "/api/sub/artist/new/works/mv/list",
+      "url": "https://music.163.com/weapi/sub/artist/new/works/mv/list",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "limit": 5,
+        "startTimestamp": 1234567890
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "artist_new_song",
+      "method": "artistNewSong",
+      "label": "explicit-before",
+      "query": {
+        "before": 1234567890,
+        "limit": 5
+      },
+      "path": "/api/sub/artist/new/works/song/list",
+      "url": "https://music.163.com/weapi/sub/artist/new/works/song/list",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "limit": 5,
+        "startTimestamp": 1234567890
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "like",
+      "method": "like",
+      "label": "unlike",
+      "query": {
+        "id": 17,
+        "like": false
+      },
+      "path": "/api/radio/like",
+      "url": "https://music.163.com/weapi/radio/like",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "alg": "itembased",
+        "trackId": 17,
+        "like": false,
+        "time": "3"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "like",
+      "method": "like",
+      "label": "literal-true",
+      "query": {
+        "id": 17,
+        "like": "true"
+      },
+      "path": "/api/radio/like",
+      "url": "https://music.163.com/weapi/radio/like",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "alg": "itembased",
+        "trackId": 17,
+        "like": true,
+        "time": "3"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "method": "playlistImportNameTaskCreate",
+      "label": "local",
+      "query": {
+        "playlistName": "imported",
+        "local": "[{\"name\":\"song\",\"artist\":\"artist\",\"album\":\"album\"}]",
+        "text": "ignored",
+        "link": "[\"https://example.org/ignored\"]"
+      },
+      "path": "/api/playlist/import/name/task/create",
+      "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "importStarPlaylist": false,
+        "multiSongs": "[{\"songName\":\"song\",\"artistName\":\"artist\",\"albumName\":\"album\"}]"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "method": "playlistImportNameTaskCreate",
+      "label": "text",
+      "query": {
+        "playlistName": "imported",
+        "text": "song artist"
+      },
+      "path": "/api/playlist/import/name/task/create",
+      "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "importStarPlaylist": false,
+        "playlistName": "imported",
+        "taskIdForLog": "",
+        "songs": "[{\"name\":\"imported\",\"type\":\"\",\"url\":\"rpc://playlist/import?text=song%20artist\"}]"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "method": "playlistImportNameTaskCreate",
+      "label": "link",
+      "query": {
+        "playlistName": "imported",
+        "text": "ignored",
+        "link": "[\"https://example.org/list?q=曲\"]"
+      },
+      "path": "/api/playlist/import/name/task/create",
+      "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "importStarPlaylist": false,
+        "playlistName": "imported",
+        "taskIdForLog": "",
+        "songs": "[{\"name\":\"imported\",\"type\":\"\",\"url\":\"https://example.org/list?q=%E6%9B%B2\"}]"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "method": "playlistImportNameTaskCreate",
+      "label": "empty",
+      "query": {
+        "playlistName": "imported"
+      },
+      "path": "/api/playlist/import/name/task/create",
+      "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "importStarPlaylist": false,
+        "playlistName": "imported",
+        "taskIdForLog": "",
+        "songs": ""
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "method": "playlistImportNameTaskCreate",
+      "label": "invalidLocal",
+      "query": {
+        "playlistName": "imported",
+        "local": "broken"
+      },
+      "path": "/api/playlist/import/name/task/create",
+      "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "importStarPlaylist": false,
+        "multiSongs": "[]"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "method": "playlistImportNameTaskCreate",
+      "label": "invalidLink",
+      "query": {
+        "playlistName": "imported",
+        "link": "{}"
+      },
+      "path": "/api/playlist/import/name/task/create",
+      "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "importStarPlaylist": false,
+        "playlistName": "imported",
+        "taskIdForLog": "",
+        "songs": "[]"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "check_music",
+      "method": "checkMusic",
+      "label": "bitrate",
+      "query": {
+        "id": "17",
+        "br": "320000"
+      },
+      "path": "/api/song/enhance/player/url",
+      "url": "https://music.163.com/weapi/song/enhance/player/url",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17]",
+        "br": 320000
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "check_music",
+      "method": "checkMusic",
+      "label": "zero-bitrate",
+      "query": {
+        "id": "17",
+        "br": 0
+      },
+      "path": "/api/song/enhance/player/url",
+      "url": "https://music.163.com/weapi/song/enhance/player/url",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17]",
+        "br": 0
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "song_url",
+      "method": "songUrl",
+      "label": "bitrate",
+      "query": {
+        "id": "17",
+        "br": "320000"
+      },
+      "path": "/api/song/enhance/player/url",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[\"17\"]",
+        "br": 320000
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url",
+      "method": "songUrl",
+      "label": "zero-bitrate",
+      "query": {
+        "id": "17",
+        "br": 0
+      },
+      "path": "/api/song/enhance/player/url",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[\"17\"]",
+        "br": 0
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url",
+      "method": "songDownloadUrl",
+      "label": "bitrate",
+      "query": {
+        "id": "17",
+        "br": "320000"
+      },
+      "path": "/api/song/enhance/download/url",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "br": 320000
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url",
+      "method": "songDownloadUrl",
+      "label": "zero-bitrate",
+      "query": {
+        "id": "17",
+        "br": 0
+      },
+      "path": "/api/song/enhance/download/url",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "br": 999000
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url_v1",
+      "method": "songUrlV1",
+      "label": "standard",
+      "query": {
+        "id": "17,23",
+        "level": "standard"
+      },
+      "path": "/api/song/enhance/player/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17,23]",
+        "level": "standard",
+        "encodeType": "flac"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url_v1",
+      "method": "songDownloadUrlV1",
+      "label": "standard",
+      "query": {
+        "id": "17",
+        "level": "standard"
+      },
+      "path": "/api/song/enhance/download/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "immerseType": "c51",
+        "level": "standard"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url_v1",
+      "method": "songUrlV1",
+      "label": "higher",
+      "query": {
+        "id": "17,23",
+        "level": "higher"
+      },
+      "path": "/api/song/enhance/player/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17,23]",
+        "level": "higher",
+        "encodeType": "flac"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url_v1",
+      "method": "songDownloadUrlV1",
+      "label": "higher",
+      "query": {
+        "id": "17",
+        "level": "higher"
+      },
+      "path": "/api/song/enhance/download/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "immerseType": "c51",
+        "level": "higher"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url_v1",
+      "method": "songUrlV1",
+      "label": "exhigh",
+      "query": {
+        "id": "17,23",
+        "level": "exhigh"
+      },
+      "path": "/api/song/enhance/player/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17,23]",
+        "level": "exhigh",
+        "encodeType": "flac"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url_v1",
+      "method": "songDownloadUrlV1",
+      "label": "exhigh",
+      "query": {
+        "id": "17",
+        "level": "exhigh"
+      },
+      "path": "/api/song/enhance/download/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "immerseType": "c51",
+        "level": "exhigh"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url_v1",
+      "method": "songUrlV1",
+      "label": "lossless",
+      "query": {
+        "id": "17,23",
+        "level": "lossless"
+      },
+      "path": "/api/song/enhance/player/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17,23]",
+        "level": "lossless",
+        "encodeType": "flac"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url_v1",
+      "method": "songDownloadUrlV1",
+      "label": "lossless",
+      "query": {
+        "id": "17",
+        "level": "lossless"
+      },
+      "path": "/api/song/enhance/download/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "immerseType": "c51",
+        "level": "lossless"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url_v1",
+      "method": "songUrlV1",
+      "label": "hires",
+      "query": {
+        "id": "17,23",
+        "level": "hires"
+      },
+      "path": "/api/song/enhance/player/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17,23]",
+        "level": "hires",
+        "encodeType": "flac"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url_v1",
+      "method": "songDownloadUrlV1",
+      "label": "hires",
+      "query": {
+        "id": "17",
+        "level": "hires"
+      },
+      "path": "/api/song/enhance/download/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "immerseType": "c51",
+        "level": "hires"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url_v1",
+      "method": "songUrlV1",
+      "label": "jyeffect",
+      "query": {
+        "id": "17,23",
+        "level": "jyeffect"
+      },
+      "path": "/api/song/enhance/player/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17,23]",
+        "level": "jyeffect",
+        "encodeType": "flac"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url_v1",
+      "method": "songDownloadUrlV1",
+      "label": "jyeffect",
+      "query": {
+        "id": "17",
+        "level": "jyeffect"
+      },
+      "path": "/api/song/enhance/download/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "immerseType": "c51",
+        "level": "jyeffect"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url_v1",
+      "method": "songUrlV1",
+      "label": "sky",
+      "query": {
+        "id": "17,23",
+        "level": "sky"
+      },
+      "path": "/api/song/enhance/player/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17,23]",
+        "level": "sky",
+        "encodeType": "flac",
+        "immerseType": "c51"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url_v1",
+      "method": "songDownloadUrlV1",
+      "label": "sky",
+      "query": {
+        "id": "17",
+        "level": "sky"
+      },
+      "path": "/api/song/enhance/download/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "immerseType": "c51",
+        "level": "sky"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_url_v1",
+      "method": "songUrlV1",
+      "label": "jymaster",
+      "query": {
+        "id": "17,23",
+        "level": "jymaster"
+      },
+      "path": "/api/song/enhance/player/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "ids": "[17,23]",
+        "level": "jymaster",
+        "encodeType": "flac"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "song_download_url_v1",
+      "method": "songDownloadUrlV1",
+      "label": "jymaster",
+      "query": {
+        "id": "17",
+        "level": "jymaster"
+      },
+      "path": "/api/song/enhance/download/url/v1",
+      "url": "https://interface.music.163.com/eapi/song/enhance/download/url/v1",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "id": "17",
+        "immerseType": "c51",
+        "level": "jymaster"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "user_cloud_detail",
+      "method": "userCloudDetail",
+      "label": "trimmed",
+      "query": {
+        "id": "17, 23"
+      },
+      "path": "/api/v1/cloud/get/byids",
+      "url": "https://music.163.com/weapi/v1/cloud/get/byids",
+      "profile": "weapiPc",
+      "semantic": "read",
+      "retry": "never",
+      "data": {
+        "songIds": ["17", "23"]
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_create",
+      "method": "playlistCreate",
+      "label": "private-video",
+      "query": {
+        "name": "private",
+        "privacy": 10,
+        "type": "VIDEO"
+      },
+      "path": "/api/playlist/create",
+      "url": "https://music.163.com/weapi/playlist/create",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "name": "private",
+        "privacy": 10,
+        "type": "VIDEO"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_track_add",
+      "method": "playlistTrackAdd",
+      "label": "multiple",
+      "query": {
+        "pid": 31,
+        "ids": "17,23"
+      },
+      "path": "/api/playlist/track/add",
+      "url": "https://music.163.com/weapi/playlist/track/add",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "id": 31,
+        "tracks": "[{\"type\":3,\"id\":\"17\"},{\"type\":3,\"id\":\"23\"}]"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "playlist_track_delete",
+      "method": "playlistTrackDelete",
+      "label": "multiple",
+      "query": {
+        "id": 31,
+        "ids": "17,23"
+      },
+      "path": "/api/playlist/track/delete",
+      "url": "https://music.163.com/weapi/playlist/track/delete",
+      "profile": "weapiPc",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "id": 31,
+        "tracks": "[{\"type\":3,\"id\":\"17\"},{\"type\":3,\"id\":\"23\"}]"
+      },
+      "protocol": "weapi"
+    },
+    {
+      "module": "song_lyrics_mark_add",
+      "method": "songLyricsMarkAdd",
+      "label": "explicit",
+      "query": {
+        "id": 17,
+        "markId": 29,
+        "data": "[{\"text\":\"sample\"}]"
+      },
+      "path": "/api/song/play/lyrics/mark/add",
+      "url": "https://interface.music.163.com/eapi/song/play/lyrics/mark/add",
+      "profile": "eapi",
+      "semantic": "write",
+      "retry": "never",
+      "data": {
+        "songId": 17,
+        "markId": 29,
+        "data": "[{\"text\":\"sample\"}]"
+      },
+      "protocol": "eapi"
+    },
+    {
+      "module": "playmode_intelligence_list",
+      "method": "playmodeIntelligenceList",
+      "label": "fallback",
+      "query": {
+        "id": 17,
+        "pid": 31,
+        "sid": 0,
+        "count": 0
+      },
+      "path": "/api/playmode/intelligence/list",
+      "url": "https://interface.music.163.com/eapi/playmode/intelligence/list",
+      "profile": "eapi",
+      "semantic": "read",
+      "retry": "connect",
+      "data": {
+        "songId": 17,
+        "type": "fromPlayOne",
+        "playlistId": 31,
+        "startMusicId": 17,
+        "count": 1
+      },
+      "protocol": "eapi"
+    }
+  ]
+}

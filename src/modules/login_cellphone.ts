@@ -7,8 +7,7 @@ import {
   decodeModuleInput as decodeInput,
   QueryNumber,
 } from '../core/module-input.ts';
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -19,6 +18,23 @@ import { Account, UserProfile } from '../core/upstream-schemas.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
+
+export const moduleActions = {
+  captcha: {
+    profile: 'web',
+    target: '/api/w/login/cellphone',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+  password: {
+    profile: 'web',
+    target: '/api/w/login/cellphone',
+    semantic: 'login',
+    cache: 'none',
+    retry: 'never',
+  },
+} as const satisfies ModuleActions;
 
 type PasswordCredential =
   | {
@@ -111,10 +127,11 @@ export const RiskBody = Schema.toStandardSchemaV1(
 );
 export type RiskBody = typeof RiskBody.Type;
 
-const loginCellphone: ModuleEffect<ModuleInput, ModuleBody> = (
-  query,
-  request,
-) =>
+const loginCellphone: ModuleEffect<
+  ModuleInput,
+  ModuleBody,
+  typeof moduleActions
+> = (query, request) =>
   Effect.gen(function* () {
     const data = {
       type: '1',
@@ -128,13 +145,8 @@ const loginCellphone: ModuleEffect<ModuleInput, ModuleBody> = (
           createHash('md5').update(String(query.password)).digest('hex'),
       remember: 'true',
     };
-    const result = yield* request(
-      buildApiRequestIntent(
-        '/api/w/login/cellphone',
-        data,
-        createOption(query, 'weapi'),
-      ),
-    );
+    const action = query.captcha ? 'captcha' : 'password';
+    const result = yield* request(action, { data });
     const body = yield* decodeUpstreamBody(
       'login_cellphone',
       ModuleBody,

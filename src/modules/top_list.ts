@@ -1,7 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { createOption } from '../core/options.ts';
-import { buildApiRequestIntent } from '../core/request-intent.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
   decodeUpstreamBody,
@@ -38,7 +37,20 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const topList: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
+export const moduleActions = {
+  read: {
+    target: '/api/playlist/v4/detail',
+    profile: 'eapi',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
+} as const satisfies ModuleActions;
+
+const topList: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
+  query,
+  request,
+) =>
   Effect.gen(function* () {
     if (query.idx) {
       const body: ModuleBody = {
@@ -47,13 +59,13 @@ const topList: ModuleEffect<ModuleInput, ModuleBody> = (query, request) =>
       };
       return { status: 500, cookie: [], body };
     }
-    const response = yield* request(
-      buildApiRequestIntent(
-        '/api/playlist/v4/detail',
-        { id: query.id, n: '500', s: '0' },
-        createOption(query),
-      ),
-    );
+    const response = yield* request('read', {
+      data: {
+        id: query.id,
+        n: '500',
+        s: '0',
+      },
+    });
     const body = yield* decodeUpstreamBody('top_list', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

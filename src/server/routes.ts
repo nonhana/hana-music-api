@@ -2,15 +2,12 @@ import type { Context, Hono } from 'hono';
 
 import { runCall } from '../core/call.ts';
 import type { createServiceLayer } from '../core/call.ts';
+import { modulePolicy } from '../core/request-actions.ts';
 import { businessCode } from '../core/response.ts';
 import { getRuntimeState } from '../core/runtime.ts';
 import { SERVICE_VERSION } from '../core/service-metadata.ts';
 import { cookieToJson, isCookieRecord } from '../core/utils.ts';
-import type {
-  ModuleQuery,
-  NcmApiResponse,
-  RequestCapability,
-} from '../types/index.ts';
+import type { ModuleQuery, NcmApiResponse } from '../types/index.ts';
 import type { CreateServerOptions } from '../types/server.ts';
 import { admissionMiddleware, resolveAdmissionIdentity } from './admission.ts';
 import type { AdmissionController } from './admission.ts';
@@ -163,7 +160,6 @@ export interface RegisteredRouteContext {
   readonly modules: ReturnType<typeof createServiceLayer>;
   readonly admission: AdmissionController;
   readonly serverOptions: CreateServerOptions;
-  readonly requestHandler?: RequestCapability;
 }
 
 /**
@@ -251,7 +247,7 @@ export const registerModuleRoutes = (
       admissionMiddleware(
         options.admission,
         options.serverOptions,
-        moduleDefinition.identifier,
+        modulePolicy(moduleDefinition.actions).upload,
       ),
       async (context) => {
         let query: ModuleQuery = {};
@@ -260,22 +256,22 @@ export const registerModuleRoutes = (
           const moduleResponse = await runCall(
             {
               identifier: moduleDefinition.identifier,
-              input: query,
-              signal: context.req.raw.signal,
+              input: Object.fromEntries(
+                Object.entries(query).filter(([key]) => key !== 'cookie'),
+              ),
+
               config: {
+                signal: context.req.raw.signal,
                 cookie: isCookieRecord(query.cookie) ? query.cookie : undefined,
                 ip: resolveClientIp(context, options.serverOptions),
-                domain: '',
                 proxy: undefined,
                 fetcher: undefined,
-                headers: undefined,
                 state: undefined,
                 retry: undefined,
               },
             },
             options.modules,
             moduleDefinition,
-            options.requestHandler,
           );
           return toResponse(context, moduleResponse, query);
         } catch (error) {

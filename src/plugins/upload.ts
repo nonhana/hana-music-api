@@ -2,22 +2,38 @@ import { Effect, Schema } from 'effect';
 
 import { Call } from '../core/call.ts';
 import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
 import type { ModuleInput as UploadImageQuery } from '../modules/avatar_upload.ts';
 import type { RequestCapability } from '../types/index.ts';
+
+export const imageUploadActions = {
+  imageAllocate: {
+    profile: 'web',
+    target: '/api/nos/token/alloc',
+    semantic: 'upload',
+    cache: 'none',
+    retry: 'never',
+  },
+  imageUpload: {
+    profile: 'plainImage',
+    target: { prefix: '/yyimgs/' },
+    semantic: 'upload',
+    cache: 'none',
+    retry: 'never',
+    method: 'POST',
+    response: 'bytes',
+  },
+} as const satisfies ModuleActions;
 
 // 上传地址和凭证不绑定本进程，可以交给浏览器直传；imgId 在上传完成后才能设为封面。
 export const allocateImageUpload = (
   filename: string,
-  request: RequestCapability,
+  request: RequestCapability<typeof imageUploadActions>,
 ) =>
   Effect.gen(function* () {
     const call = yield* Call;
-    const allocation = yield* request({
-      target: '/api/nos/token/alloc',
-      protocol: call.config.crypto || 'weapi',
-      method: 'POST',
-      headers: {},
-      body: JSON.stringify({
+    const allocation = yield* request('imageAllocate', {
+      data: {
         bucket: 'yyimgs',
         ext: 'jpg',
         filename,
@@ -25,9 +41,7 @@ export const allocateImageUpload = (
         nos_product: 0,
         return_body: '{"code":200,"size":"$(ObjectSize)"}',
         type: 'other',
-      }),
-      response: 'json',
-      semantic: 'upload',
+      },
     });
     const { result: token } = yield* Schema.decodeUnknownEffect(
       Schema.Struct({
@@ -55,7 +69,10 @@ export const allocateImageUpload = (
     };
   });
 
-export default (input: UploadImageQuery, request: RequestCapability) =>
+export default (
+  input: UploadImageQuery,
+  request: RequestCapability<typeof imageUploadActions>,
+) =>
   Effect.gen(function* () {
     if (!input.imgFile) {
       return yield* InvalidModuleInput.make({
@@ -64,10 +81,8 @@ export default (input: UploadImageQuery, request: RequestCapability) =>
       });
     }
     const allocation = yield* allocateImageUpload(input.imgFile.name, request);
-    yield* request({
+    yield* request('imageUpload', {
       target: allocation.uploadUrl,
-      protocol: 'plain',
-      method: 'POST',
       headers: {
         'x-nos-token': allocation.token,
         'Content-Type': 'image/jpeg',
@@ -76,8 +91,6 @@ export default (input: UploadImageQuery, request: RequestCapability) =>
         input.imgFile.data instanceof ArrayBuffer
           ? new Uint8Array(input.imgFile.data)
           : input.imgFile.data,
-      response: 'bytes',
-      semantic: 'upload',
     });
     return { url_pre: allocation.url_pre, imgId: allocation.imgId };
   });
