@@ -1,7 +1,7 @@
 export const mutations = [
   {
     id: 'library-web-cookie-contaminated',
-    file: 'src/core/request-profiles.ts',
+    file: 'src/core/config.ts',
     find: "cookie: { os: 'web' },",
     replace: "cookie: { os: 'pc' },",
     expectedFailures: [

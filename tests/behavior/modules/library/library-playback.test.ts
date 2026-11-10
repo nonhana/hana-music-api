@@ -9,6 +9,7 @@ import { testEntropy } from '../../../_kit/harness/sdk.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import type { WireRequest } from '../../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
+import expectedClients from '../../../fixtures/consumers/client-identities.json';
 import baseline from '../../../fixtures/requests/library-playback.json';
 
 type Case = (typeof baseline.cases)[number];
@@ -22,8 +23,8 @@ const checkWire = (entry: Case, wire: WireRequest, token?: string) => {
   expect(wire.headers.get('X-antiCheatToken')).toBe(token ?? null);
   expect(wire.headers.get('user-agent')).toBe(
     entry.profile === 'weapiPc'
-      ? 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0'
-      : 'NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)',
+      ? expectedClients.web.userAgent
+      : expectedClients.iphone.userAgent,
   );
   const cookies = Object.fromEntries(
     wire.headers
@@ -44,12 +45,7 @@ const checkWire = (entry: Case, wire: WireRequest, token?: string) => {
     deviceId: 'library-device',
     ...(entry.profile === 'weapiPc'
       ? { os: 'web' }
-      : {
-          os: 'iPhone OS',
-          appver: '9.0.90',
-          channel: 'distribution',
-          osver: '16.2',
-        }),
+      : expectedClients.iphone.cookie),
   });
   for (const name of [
     'OS',

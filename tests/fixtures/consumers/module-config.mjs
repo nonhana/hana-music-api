@@ -3,6 +3,8 @@ import { createDecipheriv } from 'node:crypto';
 
 import * as sdk from 'hana-music-api';
 
+import expectedClients from './client-identities.json' with { type: 'json' };
+
 const removed = {
   crypto: 'api',
   ua: 'old',
@@ -90,7 +92,7 @@ for (const [index, call] of [
         const headers = new Headers(init.headers);
         assert.equal(
           headers.get('User-Agent'),
-          'NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)',
+          expectedClients.iphone.userAgent,
         );
         const cookies = Object.fromEntries(
           headers

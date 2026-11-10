@@ -11,7 +11,7 @@ import type {
 import type { UpstreamResponse } from '../types/upstream.ts';
 import { ExecutionScope, resolveExecutionScope } from './call-context.ts';
 import type { InternalExecution } from './call-context.ts';
-import { OS_PROFILES, USER_AGENT_MAP } from './config.ts';
+import { clientIdentities } from './config.ts';
 import { createWeapiSecretKey } from './crypto.ts';
 import { retryDecision, validateRequestTarget } from './endpoint-policy.ts';
 import type { RequestError } from './errors.ts';
@@ -529,21 +529,8 @@ export const resolveRawRequest = (
   let defaults: Pick<RequestProfile, 'cookie' | 'userAgent'>;
   switch (rawOs) {
     case 'pc':
-      defaults = {
-        cookie: OS_PROFILES.pc,
-        userAgent: USER_AGENT_MAP.weapi.pc.replace(
-          'Macintosh; Intel Mac OS X 10_15_7',
-          'Windows NT 10.0; Win64; x64',
-        ),
-      };
-      break;
     case 'android':
-      defaults = {
-        cookie: OS_PROFILES.android,
-        userAgent: USER_AGENT_MAP.weapi.pc
-          .replace('Macintosh; Intel Mac OS X 10_15_7', 'Linux; Android 14')
-          .replace('Safari/537.36 Edg/124.0.0.0', 'Mobile Safari/537.36'),
-      };
+      defaults = clientIdentities[rawOs];
       break;
     case 'linux':
       defaults = requestProfiles.linuxapi;

@@ -16,16 +16,12 @@ import { settle } from '../../_kit/assertions.ts';
 import { testEntropy } from '../../_kit/harness/sdk.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../_kit/upstream/wire.ts';
+import expectedClients from '../../fixtures/consumers/client-identities.json';
 
 const previous = getRuntimeState();
 afterEach(() => setRuntimeState(previous));
-const iphone = 'NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)';
-const platform = {
-  os: 'iPhone OS',
-  osver: '16.2',
-  appver: '9.0.90',
-  channel: 'distribution',
-};
+const iphone = expectedClients.iphone.userAgent;
+const platform = expectedClients.iphone.cookie;
 const readCookies = (headers: Headers) =>
   Object.fromEntries(
     (headers.get('cookie') ?? '')
@@ -470,9 +466,7 @@ test('identity low-level weapi defaults to web while raw options stay explicit',
         const wire = scenario.sent[0]!;
         expect(readCookies(wire.headers).os).toBe(raw ? 'raw-os' : 'web');
         expect(wire.headers.get('user-agent')).toBe(
-          raw
-            ? 'raw-agent'
-            : 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
+          raw ? 'raw-agent' : expectedClients.web.userAgent,
         );
         if (raw) expect(readCookies(wire.headers).appver).toBe('raw-app');
         else expect(readCookies(wire.headers)).not.toHaveProperty('appver');
@@ -756,7 +750,7 @@ test('identity low-level partial PC override gets matching generated platform de
       );
       const wire = scenario.sent[0]!;
       expect(wire.headers.get('user-agent')).toBe(
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
       );
       expect(readCookies(wire.headers)).toMatchObject({
         os: 'pc',
@@ -779,17 +773,15 @@ for (const [os, expected] of [
       appver: '9.1.65.240927161425',
       osver: '14',
       channel: 'xiaomi',
-      agent: 'Linux; Android 14',
+      agent:
+        'Mozilla/5.0 (Linux; Android 14) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
     },
   ],
   [
     'osx',
     {
-      os: 'osx',
-      appver: '3.1.10.5100',
-      osver: '15.5',
-      channel: 'netease',
-      agent: 'Macintosh; Intel Mac OS X 15_5',
+      ...expectedClients.osx.cookie,
+      agent: expectedClients.osx.userAgent,
     },
   ],
 ] as const)
@@ -809,7 +801,7 @@ for (const [os, expected] of [
           { cookie: { os }, fetcher: scenario.fetcher },
         );
         const wire = scenario.sent[0]!;
-        expect(wire.headers.get('user-agent')).toContain(expected.agent);
+        expect(wire.headers.get('user-agent')).toBe(expected.agent);
         const { agent: _agent, ...fields } = expected;
         expect(readCookies(wire.headers)).toMatchObject(fields);
         expect(readEapiBody(wire.body).data).toEqual({

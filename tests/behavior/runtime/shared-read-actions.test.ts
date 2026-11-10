@@ -15,6 +15,7 @@ import { createStage, testEntropy } from '../../_kit/harness/sdk.ts';
 import { runEffect } from '../../_kit/it.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../_kit/upstream/wire.ts';
+import expectedClients from '../../fixtures/consumers/client-identities.json';
 
 const declaredRead: ModuleEffect<ModuleQuery> = (_input, request) =>
   Effect.gen(function* () {
@@ -35,7 +36,7 @@ test('declared search profile owns the final request despite conflicting config'
         headers: { 'x-aeapi': null, 'X-antiCheatToken': null },
         check: (wire) => {
           expect(wire.headers.get('user-agent')).toBe(
-            'NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)',
+            expectedClients.iphone.userAgent,
           );
           expect(wire.headers.get('cookie')).toContain('os=iPhone%20OS');
           expect(wire.headers.get('cookie')).toContain('MUSIC_U=reader');
@@ -114,7 +115,7 @@ test('five declared read branches preserve wire payloads and share only matching
               expect(decoded).toMatchObject({
                 header: {
                   os: 'iPhone OS',
-                  appver: '9.0.90',
+                  appver: expectedClients.iphone.cookie.appver,
                   channel: 'distribution',
                   MUSIC_U: 'reader',
                   MUSIC_A: 'anonymous-reader',
