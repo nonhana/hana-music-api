@@ -1,0 +1,284 @@
+[
+  {
+    "module": "check_music",
+    "actions": ["read"],
+    "current": "IdentifierQuery & { br?: QueryNumberLike; }",
+    "fields": ["br", "id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "lyric",
+    "actions": ["read"],
+    "current": "{ id?: QueryIdentifier }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "lyric_new",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "music_first_listen_info",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "scrobble",
+    "actions": ["play", "start"],
+    "current": "LegacyModuleInput & { source?: string }",
+    "fields": ["id", "source", "sourceid", "time", "ts"],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_chorus",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_detail",
+    "actions": ["read"],
+    "current": "{ ids: NumberIdList }",
+    "fields": ["ids", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ ids: readonly NumberId[] }（非空）",
+    "upstreamEncoding": "c = [{\"id\":<id>}, ...]，id 用原样十进制文本",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/special/input-encoding.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧逗号串和单值不再接受；空数组拒绝。"
+  },
+  {
+    "module": "song_downlist",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_download_url",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["br", "id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_download_url_v1",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "level", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_dynamic_cover",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_like_check",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["ids", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_lyrics_mark",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_lyrics_mark_add",
+    "actions": ["add"],
+    "current": "LegacyModuleInput",
+    "fields": ["data", "id", "markId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_lyrics_mark_del",
+    "actions": ["delete"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_lyrics_mark_user_page",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_monthdownlist",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_music_detail",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_order_update",
+    "actions": ["update"],
+    "current": "{ ids: NumberIdList; pid: NumberId }",
+    "fields": ["ids", "pid", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ pid: NumberId; ids: readonly NumberId[] }（非空）",
+    "upstreamEncoding": "trackIds = JSON.stringify(ids.map(String))，op 固定 update",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/special/input-encoding.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "song_purchased",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_red_count",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_singledownlist",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_url",
+    "actions": ["read"],
+    "current": "IdentifierQuery & { br?: QueryNumberLike; }",
+    "fields": ["br", "id", "ts"],
+    "legacyEncoding": ["JSON.stringify", "split(',')"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_url_v1",
+    "actions": [],
+    "current": "IdentifierQuery & { level?: | 'standard' | 'higher' | 'exhigh' | 'lossless' | 'hires' | 'jyeffect' | 'sky' | 'jymaster'; }",
+    "fields": ["id", "level", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "song_wiki_summary",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

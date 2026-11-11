@@ -52,6 +52,11 @@ const replay = (...upstream: ReadonlyArray<unknown>) => {
   });
 };
 
+// 录制保存的是旧的逗号串；回放时换成交付给新 SDK 的编号数组。
+const songDetailInput = (query: { ids: string }) => ({
+  ids: query.ids.split(',').map((id) => id.trim()),
+});
+
 test.each<{
   name: string;
   recording: Recording;
@@ -239,7 +244,9 @@ test.each<{ name: string; recording: Recording; query: { ids: string } }>([
 ])(
   'songDetail returns the recorded $name songs',
   async ({ recording, query }) => {
-    const result = await replay(recording.response.body).songDetail(query);
+    const result = await replay(recording.response.body).songDetail(
+      songDetailInput(query),
+    );
 
     expect(result.body as unknown).toEqual(recording.response.body);
   },
@@ -247,7 +254,7 @@ test.each<{ name: string; recording: Recording; query: { ids: string } }>([
 
 test('songDetail keeps the recorded mark tags', async () => {
   const result = await replay(songDetailMarkTags.response.body).songDetail(
-    songDetailMarkTags.query,
+    songDetailInput(songDetailMarkTags.query),
   );
 
   expect(
@@ -266,7 +273,7 @@ test('songDetail rejects missing privileges', async () => {
     songDetailAnonymous.response.body;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songDetail(songDetailAnonymous.query),
+    replay(upstream).songDetail(songDetailInput(songDetailAnonymous.query)),
     {
       module: 'song_detail',
       path: 'body.privileges',
@@ -278,7 +285,7 @@ test('songDetail rejects missing privileges', async () => {
 
 test('songDetail exposes numeric privileges without changing their recorded values', async () => {
   const { body } = await replay(songDetailPrivileges.response.body).songDetail(
-    songDetailPrivileges.query,
+    songDetailInput(songDetailPrivileges.query),
   );
 
   expect(body.privileges.map(({ id, st, pl }) => ({ id, st, pl }))).toEqual([
@@ -304,7 +311,7 @@ test('songDetail rejects privileges that are not an array', async () => {
     'issues',
   );
   await expectUpstreamShapeRejection(
-    replay(upstream).songDetail(songDetailAnonymous.query),
+    replay(upstream).songDetail(songDetailInput(songDetailAnonymous.query)),
     {
       module: 'song_detail',
       path: 'body.privileges',
@@ -436,7 +443,8 @@ for (const {
     }),
     readPrivilege: (body: { privileges: Array<Record<string, unknown>> }) =>
       body.privileges[0],
-    call: (body: unknown) => replay(body).songDetail(songDetailAnonymous.query),
+    call: (body: unknown) =>
+      replay(body).songDetail(songDetailInput(songDetailAnonymous.query)),
   },
   {
     module: 'album',

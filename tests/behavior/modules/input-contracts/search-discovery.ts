@@ -1,0 +1,28 @@
+import type { ModuleInputCase } from './contract.ts';
+
+export const cases: ReadonlyArray<ModuleInputCase> = [
+  { module: 'aidj_content_rcmd', valid: [], invalid: [] },
+  { module: 'banner', valid: [], invalid: [] },
+  { module: 'calendar', valid: [], invalid: [] },
+  { module: 'homepage_block_page', valid: [], invalid: [] },
+  { module: 'homepage_dragon_ball', valid: [], invalid: [] },
+  { module: 'personalized', valid: [], invalid: [] },
+  { module: 'personalized_djprogram', valid: [], invalid: [] },
+  { module: 'personalized_mv', valid: [], invalid: [] },
+  { module: 'personalized_newsong', valid: [], invalid: [] },
+  { module: 'personalized_privatecontent', valid: [], invalid: [] },
+  { module: 'personalized_privatecontent_list', valid: [], invalid: [] },
+  { module: 'recommend_resource', valid: [], invalid: [] },
+  { module: 'recommend_songs', valid: [], invalid: [] },
+  { module: 'recommend_songs_dislike', valid: [], invalid: [] },
+  { module: 'search', valid: [], invalid: [] },
+  { module: 'search_default', valid: [], invalid: [] },
+  { module: 'search_hot', valid: [], invalid: [] },
+  { module: 'search_hot_detail', valid: [], invalid: [] },
+  { module: 'search_match', valid: [], invalid: [] },
+  { module: 'search_multimatch', valid: [], invalid: [] },
+  { module: 'search_suggest', valid: [], invalid: [] },
+  { module: 'sheet_list', valid: [], invalid: [] },
+  { module: 'sheet_preview', valid: [], invalid: [] },
+  { module: 'summary_annual', valid: [], invalid: [] },
+];

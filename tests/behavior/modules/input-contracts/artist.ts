@@ -1,0 +1,27 @@
+import type { ModuleInputCase } from './contract.ts';
+
+export const cases: ReadonlyArray<ModuleInputCase> = [
+  { module: 'artist_album', valid: [], invalid: [] },
+  { module: 'artist_desc', valid: [], invalid: [] },
+  { module: 'artist_detail', valid: [], invalid: [] },
+  { module: 'artist_detail_dynamic', valid: [], invalid: [] },
+  { module: 'artist_fans', valid: [], invalid: [] },
+  { module: 'artist_follow_count', valid: [], invalid: [] },
+  { module: 'artist_list', valid: [], invalid: [] },
+  { module: 'artist_mv', valid: [], invalid: [] },
+  { module: 'artist_new_mv', valid: [], invalid: [] },
+  { module: 'artist_new_song', valid: [], invalid: [] },
+  { module: 'artist_songs', valid: [], invalid: [] },
+  { module: 'artist_sub', valid: [], invalid: [] },
+  { module: 'artist_sublist', valid: [], invalid: [] },
+  { module: 'artist_top_song', valid: [], invalid: [] },
+  { module: 'artist_video', valid: [], invalid: [] },
+  { module: 'artists', valid: [], invalid: [] },
+  { module: 'ugc_album_get', valid: [], invalid: [] },
+  { module: 'ugc_artist_get', valid: [], invalid: [] },
+  { module: 'ugc_artist_search', valid: [], invalid: [] },
+  { module: 'ugc_detail', valid: [], invalid: [] },
+  { module: 'ugc_mv_get', valid: [], invalid: [] },
+  { module: 'ugc_song_get', valid: [], invalid: [] },
+  { module: 'ugc_user_devote', valid: [], invalid: [] },
+];

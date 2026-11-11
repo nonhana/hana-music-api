@@ -29,6 +29,18 @@ import listenTogetherPlayCommand from '../../fixtures/netease/listen/listentoget
 import listenTogetherRoomCreate from '../../fixtures/netease/listen/listentogether_room_create.default.json';
 import listenTogetherSyncListCommand from '../../fixtures/netease/listen/listentogether_sync_list_command.default.json';
 
+const syncListInput = () => {
+  const query = listenTogetherSyncListCommand.query;
+  return {
+    roomId: query.roomId,
+    commandType: query.commandType,
+    userId: query.userId,
+    version: query.version,
+    displayList: query.displayList.split(','),
+    randomList: query.randomList.split(','),
+  };
+};
+
 // issue #102 B48 的一起听写操作与动态录制。本批创建并结束了两个一起听房间：
 // e0902e73ecee9403a8d393247d6857d2_1792991303（room_create → heartbeat/play_command/
 // sync_list/end）和 173c2b24bbfbd4f61546d31e0af852ed_1792991389（accept 用自己的房间），
@@ -78,9 +90,7 @@ const cases: Array<Case> = [
     recording: listenTogetherSyncListCommand,
     bodySchema: ListentogetherSyncListCommandBody,
     call: (upstream, status) =>
-      replay(upstream, status).listentogetherSyncListCommand(
-        listenTogetherSyncListCommand.query,
-      ),
+      replay(upstream, status).listentogetherSyncListCommand(syncListInput()),
   },
   {
     name: 'listentogether_end',
@@ -250,9 +260,7 @@ test.each<{
     path: 'body.code',
     recording: listenTogetherSyncListCommand,
     call: (upstream) =>
-      replay(upstream).listentogetherSyncListCommand(
-        listenTogetherSyncListCommand.query,
-      ),
+      replay(upstream).listentogetherSyncListCommand(syncListInput()),
   },
   {
     name: 'listentogether_end',
@@ -486,9 +494,8 @@ test('listentogether_sync_list_command drops bad loose fields', async () => {
   upstream.data = { result: 'yes', message: 7 };
   upstream.message = null;
 
-  const result = await replay(upstream).listentogetherSyncListCommand(
-    listenTogetherSyncListCommand.query,
-  );
+  const result =
+    await replay(upstream).listentogetherSyncListCommand(syncListInput());
 
   expect(result.body as unknown).toHaveProperty('data', {});
   expect(result.body as unknown).toHaveProperty('message', null);
@@ -577,7 +584,7 @@ test('event_del keeps undeclared fields', async () => {
   expect(result.body as unknown).toHaveProperty('message', 'deleted');
 });
 
-test('listentogether_sync_list_command rejects non-string lists before calling upstream', async () => {
+test('listentogether_sync_list_command rejects the legacy comma string before calling upstream', async () => {
   let upstreamCalls = 0;
   const api = createHanaMusicApi({
     cookie: 'MUSIC_U=listener',
@@ -590,18 +597,15 @@ test('listentogether_sync_list_command rejects non-string lists before calling u
   expect(
     await settle(
       api.listentogetherSyncListCommand({
-        ...listenTogetherSyncListCommand.query,
-        randomList: ['1394617453'] as never,
+        ...syncListInput(),
+        randomList: '1394617453' as never,
       }),
     ),
-  ).toEqual({
+  ).toMatchObject({
     rejected: {
       status: 400,
       cookie: [],
-      body: {
-        code: 400,
-        msg: 'randomList and displayList must be strings',
-      },
+      body: { code: 400 },
     },
   });
   expect(upstreamCalls).toBe(0);

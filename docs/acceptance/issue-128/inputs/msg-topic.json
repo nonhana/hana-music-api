@@ -1,0 +1,178 @@
+[
+  {
+    "module": "broadcast_category_region_get",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "broadcast_channel_collect_list",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "broadcast_channel_currentinfo",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "broadcast_channel_list",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["categoryId", "lastId", "limit", "regionId", "score", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "broadcast_sub",
+    "actions": [],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "t", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "hot_topic",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "msg_comments",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["before", "limit", "ts", "uid"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "msg_forwards",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "msg_notices",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["lasttime", "limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "msg_private",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "msg_private_history",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["before", "limit", "ts", "uid"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "msg_recentcontact",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "starpick_comments_summary",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "topic_detail",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["actid", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "topic_detail_event_hot",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["actid", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "topic_sublist",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

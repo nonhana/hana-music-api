@@ -1,0 +1,47 @@
+import type { ModuleInputCase } from './contract.ts';
+
+export const cases: ReadonlyArray<ModuleInputCase> = [
+  { module: 'check_music', valid: [], invalid: [] },
+  { module: 'lyric', valid: [], invalid: [] },
+  { module: 'lyric_new', valid: [], invalid: [] },
+  { module: 'music_first_listen_info', valid: [], invalid: [] },
+  { module: 'scrobble', valid: [], invalid: [] },
+  { module: 'song_chorus', valid: [], invalid: [] },
+  {
+    module: 'song_detail',
+    valid: [{ ids: [12, '34'] }],
+    invalid: [
+      { ids: [] },
+      { ids: ['12,34'] },
+      { ids: [0] },
+      { ids: [1.5] },
+      {},
+    ],
+  },
+  { module: 'song_downlist', valid: [], invalid: [] },
+  { module: 'song_download_url', valid: [], invalid: [] },
+  { module: 'song_download_url_v1', valid: [], invalid: [] },
+  { module: 'song_dynamic_cover', valid: [], invalid: [] },
+  { module: 'song_like_check', valid: [], invalid: [] },
+  { module: 'song_lyrics_mark', valid: [], invalid: [] },
+  { module: 'song_lyrics_mark_add', valid: [], invalid: [] },
+  { module: 'song_lyrics_mark_del', valid: [], invalid: [] },
+  { module: 'song_lyrics_mark_user_page', valid: [], invalid: [] },
+  { module: 'song_monthdownlist', valid: [], invalid: [] },
+  { module: 'song_music_detail', valid: [], invalid: [] },
+  {
+    module: 'song_order_update',
+    valid: [{ pid: 1, ids: [2, '3'] }],
+    invalid: [
+      { pid: 1, ids: [] },
+      { pid: 1, ids: ['2,3'] },
+      { pid: 0, ids: [2] },
+    ],
+  },
+  { module: 'song_purchased', valid: [], invalid: [] },
+  { module: 'song_red_count', valid: [], invalid: [] },
+  { module: 'song_singledownlist', valid: [], invalid: [] },
+  { module: 'song_url', valid: [], invalid: [] },
+  { module: 'song_url_v1', valid: [], invalid: [] },
+  { module: 'song_wiki_summary', valid: [], invalid: [] },
+];

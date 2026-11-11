@@ -24,7 +24,20 @@ export const QueryBoolean = Schema.Literals([
   'false',
 ]);
 
-export const LegacyInput = Schema.declare<LegacyModuleInput>(
+// 业务编号：正安全整数或纯十进制正数字符串；字符串保持原样，不做 Number 转换。
+export type NumberId = number | string;
+
+export const NumberId = Schema.declare<NumberId>(
+  (value): value is NumberId =>
+    (typeof value === 'number' && Number.isSafeInteger(value) && value > 0) ||
+    (typeof value === 'string' && /^[1-9][0-9]*$/u.test(value)),
+);
+
+// 编号集合不接受空数组；重复项和顺序由调用者决定，SDK 原样保留。
+export const NumberIdList = Schema.Array(NumberId).check(Schema.isMinLength(1));
+export type NumberIdList = typeof NumberIdList.Type;
+
+export const PlainObject = Schema.declare<LegacyModuleInput>(
   (value): value is LegacyModuleInput => {
     if (value === null || typeof value !== 'object' || Array.isArray(value)) {
       return false;
@@ -32,6 +45,15 @@ export const LegacyInput = Schema.declare<LegacyModuleInput>(
     const prototype = Object.getPrototypeOf(value);
     return prototype === Object.prototype || prototype === null;
   },
+);
+
+// 无参数模块：普通对象且没有任何键；Struct({}) 对多余键不设防，不能用它表达“无参数”。
+export const EmptyInput = Schema.declare<Record<never, never>>(
+  (value): value is Record<never, never> =>
+    typeof value === 'object' &&
+    value !== null &&
+    !Array.isArray(value) &&
+    Object.keys(value).length === 0,
 );
 
 export const UploadedFile = Schema.Struct({
@@ -45,19 +67,26 @@ export const UploadedFile = Schema.Struct({
   size: Schema.Finite,
 });
 
-export const decodeLegacyModuleInput = (input: unknown) =>
-  Schema.decodeUnknownEffect(LegacyInput)(input).pipe(
+export const decodeModuleObject = (input: unknown) =>
+  Schema.decodeUnknownEffect(PlainObject)(input).pipe(
     Effect.mapError((error) =>
       InvalidModuleInput.make({ message: error.message }),
     ),
   );
 
+// 迁移期间保留旧名字，全部模块迁移完成后删除。
+export const LegacyInput = PlainObject;
+export const decodeLegacyModuleInput = decodeModuleObject;
+
+// 输入必须先是普通对象，再按模块 Schema 解码；未声明字段直接拒绝。
 export const decodeModuleInput = <InputSchema extends Schema.Constraint>(
   schema: InputSchema,
   input: unknown,
 ) =>
-  decodeLegacyModuleInput(input).pipe(
-    Effect.flatMap(Schema.decodeUnknownEffect(schema)),
+  decodeModuleObject(input).pipe(
+    Effect.flatMap(
+      Schema.decodeUnknownEffect(schema, { onExcessProperty: 'error' }),
+    ),
     Effect.mapError((error) =>
       InvalidModuleInput.make({ message: error.message }),
     ),

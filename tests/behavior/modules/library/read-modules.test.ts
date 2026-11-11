@@ -57,7 +57,7 @@ const scenarios = [
   { identifier: 'lyric', input: { id: '12' }, target: '/api/song/lyric' },
   {
     identifier: 'song_detail',
-    input: { ids: '12, 34' },
+    input: { ids: [12, 34] },
     target: '/api/v3/song/detail',
   },
   {
@@ -99,14 +99,14 @@ describe('ordinary read Effect modules', () => {
     },
     {
       module: songDetail,
-      input: { ids: '12, 34' },
+      input: { ids: [12, 34] },
       target: '/api/v3/song/detail',
       body: { c: '[{"id":12},{"id":34}]' },
       protocol: 'weapi',
     },
     {
       module: songDetail,
-      input: { ids: 12 },
+      input: { ids: [12] },
       target: '/api/v3/song/detail',
       body: { c: '[{"id":12}]' },
       protocol: 'weapi',
@@ -222,8 +222,15 @@ describe('ordinary read Effect modules', () => {
       try {
         const app = await createServer();
         const response = await app.request(
-          `http://localhost/${scenario.identifier.replaceAll('_', '/')}?${new URLSearchParams(Object.entries(scenario.input).map(([key, value]): [string, string] => [key, String(value)])).toString()}`,
-          { headers: { cookie: 'MUSIC_U=http-effect' } },
+          `http://localhost/${scenario.identifier.replaceAll('_', '/')}`,
+          {
+            method: 'POST',
+            headers: {
+              cookie: 'MUSIC_U=http-effect',
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify(scenario.input),
+          },
         );
         expect(response.status).toBe(200);
         expect(await response.json()).toEqual({

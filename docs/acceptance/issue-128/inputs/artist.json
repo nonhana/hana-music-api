@@ -1,0 +1,263 @@
+[
+  {
+    "module": "artist_album",
+    "actions": ["read"],
+    "current": "IdentifierQuery & { limit?: QueryNumberLike; offset?: QueryNumberLike; }",
+    "fields": ["id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_desc",
+    "actions": ["read"],
+    "current": "IdentifierQuery",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_detail",
+    "actions": ["read"],
+    "current": "IdentifierQuery",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_detail_dynamic",
+    "actions": ["read"],
+    "current": "IdentifierQuery",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_fans",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_follow_count",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_list",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["area", "initial", "limit", "offset", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_mv",
+    "actions": ["read"],
+    "current": "IdentifierQuery & { limit?: QueryNumberLike; offset?: QueryNumberLike; }",
+    "fields": ["id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_new_mv",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["before", "limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_new_song",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["before", "limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_songs",
+    "actions": ["read"],
+    "current": "IdentifierQuery & { limit?: QueryNumberLike; offset?: QueryNumberLike; order?: ArtistSongsOrder; }",
+    "fields": ["id", "limit", "offset", "order", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_sub",
+    "actions": [],
+    "current": "IdentifierActionQuery",
+    "fields": ["id", "t", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_sublist",
+    "actions": ["read"],
+    "current": "PagedQuery",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_top_song",
+    "actions": ["read"],
+    "current": "IdentifierQuery",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artist_video",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["cursor", "id", "order", "size", "ts"],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "artists",
+    "actions": ["read"],
+    "current": "IdentifierQuery",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "ugc_album_get",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "ugc_artist_get",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "ugc_artist_search",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["keyword", "limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "ugc_detail",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": [
+      "auditStatus",
+      "limit",
+      "offset",
+      "order",
+      "sortBy",
+      "ts",
+      "type"
+    ],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "ugc_mv_get",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "ugc_song_get",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "ugc_user_devote",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

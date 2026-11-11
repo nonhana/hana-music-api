@@ -1,10 +1,24 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+  NumberIdList,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { ids: NumberIdList; pid: NumberId };
+
+const inputSchema = Schema.Struct({
+  ids: NumberIdList,
+  pid: NumberId,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 接口只返回返回码，收紧的是返回码。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -30,7 +44,7 @@ const songOrderUpdate: ModuleEffect<
   Effect.gen(function* () {
     const data = {
       pid: query.pid,
-      trackIds: query.ids,
+      trackIds: JSON.stringify(query.ids.map(String)),
       op: 'update',
     };
 
@@ -49,7 +63,3 @@ const songOrderUpdate: ModuleEffect<
  * 更新歌曲顺序
  */
 export default songOrderUpdate;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

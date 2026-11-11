@@ -1,0 +1,55 @@
+import type { ModuleInputCase } from './contract.ts';
+
+export const cases: ReadonlyArray<ModuleInputCase> = [
+  { module: 'playlist_catlist', valid: [], invalid: [] },
+  { module: 'playlist_cover_update', valid: [], invalid: [] },
+  { module: 'playlist_create', valid: [], invalid: [] },
+  { module: 'playlist_delete', valid: [], invalid: [] },
+  { module: 'playlist_desc_update', valid: [], invalid: [] },
+  { module: 'playlist_detail', valid: [], invalid: [] },
+  { module: 'playlist_detail_dynamic', valid: [], invalid: [] },
+  { module: 'playlist_detail_rcmd_get', valid: [], invalid: [] },
+  { module: 'playlist_highquality_tags', valid: [], invalid: [] },
+  { module: 'playlist_hot', valid: [], invalid: [] },
+  { module: 'playlist_import_name_task_create', valid: [], invalid: [] },
+  { module: 'playlist_import_task_status', valid: [], invalid: [] },
+  { module: 'playlist_mylike', valid: [], invalid: [] },
+  { module: 'playlist_name_update', valid: [], invalid: [] },
+  {
+    module: 'playlist_order_update',
+    valid: [{ ids: [1, '2'] }],
+    invalid: [{ ids: [] }, { ids: ['1,2'] }, { ids: [0] }, {}],
+  },
+  { module: 'playlist_privacy', valid: [], invalid: [] },
+  { module: 'playlist_subscribe', valid: [], invalid: [] },
+  { module: 'playlist_subscribers', valid: [], invalid: [] },
+  {
+    module: 'playlist_tags_update',
+    valid: [
+      { id: 1, tags: ['rock', '2026'] },
+      { id: '2', tags: [] },
+    ],
+    invalid: [
+      { id: 1, tags: ['rock;pop'] },
+      { id: 1, tags: [''] },
+      { id: 0, tags: [] },
+      { id: 1, tags: 'rock;pop' },
+    ],
+  },
+  { module: 'playlist_track_add', valid: [], invalid: [] },
+  { module: 'playlist_track_all', valid: [], invalid: [] },
+  { module: 'playlist_track_delete', valid: [], invalid: [] },
+  {
+    module: 'playlist_tracks',
+    valid: [{ op: 'add', pid: 1, tracks: [2, '3'] }],
+    invalid: [
+      { op: 'move', pid: 1, tracks: [2] },
+      { op: 'add', pid: 0, tracks: [2] },
+      { op: 'add', pid: 1, tracks: [] },
+      { op: 'add', pid: 1, tracks: ['1,2'] },
+    ],
+  },
+  { module: 'playlist_update', valid: [], invalid: [] },
+  { module: 'playlist_update_playcount', valid: [], invalid: [] },
+  { module: 'playlist_video_recent', valid: [], invalid: [] },
+];

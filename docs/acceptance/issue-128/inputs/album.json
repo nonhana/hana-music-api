@@ -1,0 +1,123 @@
+[
+  {
+    "module": "album",
+    "actions": ["read"],
+    "current": "IdentifierQuery",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "album_detail",
+    "actions": ["read"],
+    "current": "IdentifierQuery",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "album_detail_dynamic",
+    "actions": ["read"],
+    "current": "IdentifierQuery",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "album_list",
+    "actions": ["read"],
+    "current": "PagedQuery & { area?: AlbumArea; type?: QueryNumberLike; }",
+    "fields": ["area", "limit", "offset", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "album_list_style",
+    "actions": ["read"],
+    "current": "PagedQuery & { area?: AlbumStyleArea; }",
+    "fields": ["area", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "album_new",
+    "actions": ["read"],
+    "current": "PagedQuery & { area?: AlbumArea; type?: QueryNumberLike; }",
+    "fields": ["area", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "album_newest",
+    "actions": ["read"],
+    "current": "{}",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "album_privilege",
+    "actions": ["read"],
+    "current": "IdentifierQuery",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "album_songsaleboard",
+    "actions": ["read"],
+    "current": "{ albumType?: QueryNumberLike; type?: AlbumSalesBoardType; year?: QueryNumberLike; }",
+    "fields": ["albumType", "ts", "type", "year"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "album_sub",
+    "actions": [],
+    "current": "IdentifierActionQuery",
+    "fields": ["id", "t", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "album_sublist",
+    "actions": ["read"],
+    "current": "PagedQuery",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

@@ -2,7 +2,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  LegacyInput,
+  PlainObject,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -27,7 +27,7 @@ export type ModuleInput = Partial<Record<BatchRouteKey, BatchSubRequest>>;
 
 const inputSchema = Schema.Record(
   Schema.TemplateLiteral(['/api/', Schema.String]),
-  Schema.UndefinedOr(LegacyInput),
+  Schema.UndefinedOr(PlainObject),
 );
 
 export const decodeModuleInput = (input: unknown) =>

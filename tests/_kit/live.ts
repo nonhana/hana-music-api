@@ -215,7 +215,7 @@ export const createLiveSession = (
         );
         if (!isRecord(first) || typeof first.id !== 'number')
           throw new Error('invalid song ID');
-        const detail = bodyOf(await client.songDetail({ ids: first.id }));
+        const detail = bodyOf(await client.songDetail({ ids: [first.id] }));
         requireValue(
           Array.isArray(detail.songs) &&
             detail.songs.some(

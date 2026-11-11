@@ -145,7 +145,7 @@ for (const tokenKind of ['string', 'provider'] as const) {
       name: 'songDetail',
       path: 'v3/song/detail',
       web: true,
-      call: (client: HanaMusicApiClient) => client.songDetail({ ids: 7 }),
+      call: (client: HanaMusicApiClient) => client.songDetail({ ids: [7] }),
     },
     {
       name: 'playlistDetail',
@@ -780,7 +780,7 @@ for (const kind of ['string', 'provider'] as const) {
           fetcher: scenario.fetcher,
           checkToken,
         });
-        expect(await settle(client.songDetail({ ids: 7 }))).toMatchObject({
+        expect(await settle(client.songDetail({ ids: [7] }))).toMatchObject({
           rejected: { status: 400 },
         });
         expect(scenario.entries).toHaveLength(0);

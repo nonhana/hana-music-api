@@ -1,0 +1,200 @@
+[
+  {
+    "module": "vip_growthpoint",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "vip_growthpoint_details",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "vip_growthpoint_get",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ids", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "vip_info",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts", "uid"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "vip_info_v2",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts", "uid"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "vip_tasks",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "vip_timemachine",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["endTime", "limit", "startTime", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei_expense",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei_info",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei_rcmd_song",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "reason", "ts", "yunbeiNum"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei_rcmd_song_history",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["cursor", "size", "ts"],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei_receipt",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei_sign",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei_task_finish",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["depositCode", "ts", "userTaskId"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei_tasks",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei_tasks_todo",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "yunbei_today",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

@@ -51,6 +51,33 @@ const replay = (upstream: unknown) =>
     fetcher: async () => Response.json(upstream),
   });
 
+// 录制保存的是旧 SDK 的协议编码；回放时换成新的业务输入。
+const commaIds = (value: string): Array<number | string> =>
+  value.split(',').map((id) => id.trim());
+
+const jsonIds = (value: string): Array<number | string> =>
+  JSON.parse(value) as Array<number | string>;
+
+const tracksInput = (query: { op: string; pid: number; tracks: string }) => ({
+  op: query.op as 'add' | 'del',
+  pid: query.pid,
+  tracks: commaIds(query.tracks),
+});
+
+const playlistOrderInput = (query: { ids: string }) => ({
+  ids: jsonIds(query.ids),
+});
+
+const songOrderInput = (query: { ids: string; pid: number }) => ({
+  ids: jsonIds(query.ids),
+  pid: query.pid,
+});
+
+const tagsInput = (query: { id: number; tags: string }) => ({
+  id: query.id,
+  tags: query.tags.split(';'),
+});
+
 type BodyCase = {
   name: string;
   recording: Recording;
@@ -105,7 +132,8 @@ const bodyCases: Array<BodyCase> = [
   {
     name: 'playlistOrderUpdate',
     recording: orderUpdate,
-    call: (client) => client.playlistOrderUpdate(orderUpdate.query),
+    call: (client) =>
+      client.playlistOrderUpdate(playlistOrderInput(orderUpdate.query)),
   },
   {
     name: 'playlistPrivacy',
@@ -115,18 +143,18 @@ const bodyCases: Array<BodyCase> = [
   {
     name: 'playlistTagsUpdate',
     recording: tagsUpdate,
-    call: (client) => client.playlistTagsUpdate(tagsUpdate.query),
+    call: (client) => client.playlistTagsUpdate(tagsInput(tagsUpdate.query)),
   },
   {
     name: 'playlistTracks add',
     recording: addTracks,
-    call: (client) => client.playlistTracks(addTracks.query),
+    call: (client) => client.playlistTracks(tracksInput(addTracks.query)),
     expected: addTracks.response.body.body,
   },
   {
     name: 'playlistTracks delete',
     recording: deleteTracks,
-    call: (client) => client.playlistTracks(deleteTracks.query),
+    call: (client) => client.playlistTracks(tracksInput(deleteTracks.query)),
     expected: deleteTracks.response.body.body,
   },
   {
@@ -148,7 +176,8 @@ const bodyCases: Array<BodyCase> = [
   {
     name: 'songOrderUpdate',
     recording: songOrderUpdate,
-    call: (client) => client.songOrderUpdate(songOrderUpdate.query),
+    call: (client) =>
+      client.songOrderUpdate(songOrderInput(songOrderUpdate.query)),
   },
 ];
 
@@ -259,7 +288,7 @@ test('playlistTracks rejects a nested business failure', async () => {
     await import('../../fixtures/netease/playlist-edit/playlist_tracks.add-duplicate.json');
   const result = await settle(
     replay(recording.default.response.body).playlistTracks(
-      recording.default.query,
+      tracksInput(recording.default.query),
     ),
   );
 
@@ -277,7 +306,7 @@ test('songOrderUpdate maps the recorded -1 response to a rejected call', async (
     await import('../../fixtures/netease/playlist-edit/song_order_update.missing-one.json');
   const result = await settle(
     replay(recording.default.response.body).songOrderUpdate(
-      recording.default.query,
+      songOrderInput(recording.default.query),
     ),
   );
 
@@ -309,7 +338,9 @@ test('playlistTracks treats a missing count as absent', async () => {
   };
   delete upstream.body.count;
 
-  const result = await replay(upstream).playlistTracks(deleteTracks.query);
+  const result = await replay(upstream).playlistTracks(
+    tracksInput(deleteTracks.query),
+  );
 
   expect(result.status).toBe(200);
   expect(result.body as unknown).not.toHaveProperty('count');

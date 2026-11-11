@@ -88,7 +88,7 @@ const assertPublicEntrySurface = async () => {
   );
   const programmatic = await loadProgrammaticApi();
   await programmatic.song_detail(
-    { ids: '12,34' },
+    { ids: [12, 34] },
     { cookie: 'MUSIC_U=programmatic' },
   );
   const config: CreateHanaMusicApiConfig = {

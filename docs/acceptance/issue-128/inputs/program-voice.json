@@ -1,0 +1,169 @@
+[
+  {
+    "module": "mlog_music_rcmd",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "mvid", "songid", "ts"],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "mlog_to_video",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "mlog_url",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "res", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "program_recommend",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "voice_delete",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ids", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "voice_detail",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "voice_lyric",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "voice_upload",
+    "actions": [],
+    "current": "{ autoPublish?: QueryBooleanLike; autoPublishText?: string; categoryId?: QueryIdentifier; composedSongs?: string; coverImgId?: QueryIdentifier; description?: string; orderNo?: QueryNumberLike; privacy?: QueryBooleanLike; publishTime?: QueryNumberLike; secondCategoryId?: QueryIdentifier; songFile?: LegacyUploadedFile; songName?: string; voiceListId?: QueryIdentifier; }",
+    "fields": [
+      "autoPublish",
+      "autoPublishText",
+      "categoryId",
+      "composedSongs",
+      "coverImgId",
+      "description",
+      "orderNo",
+      "privacy",
+      "publishTime",
+      "secondCategoryId",
+      "songFile",
+      "songName",
+      "ts",
+      "voiceListId"
+    ],
+    "legacyEncoding": ["JSON.stringify", "join('')", "split(',')"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "voicelist_detail",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "voicelist_list",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts", "voiceListId"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "voicelist_list_search",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": [
+      "displayStatus",
+      "limit",
+      "name",
+      "offset",
+      "ts",
+      "type",
+      "voiceFeeType",
+      "voiceListId"
+    ],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "voicelist_search",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "podcastName", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "voicelist_trans",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "position", "programId", "radioId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

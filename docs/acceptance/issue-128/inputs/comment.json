@@ -1,0 +1,164 @@
+[
+  {
+    "module": "comment",
+    "actions": [],
+    "current": "IdentifierQuery & { type: QueryNumberLike; commentId?: QueryIdentifier; content?: string; t: 0 | 1 | 2 | '0' | '1' | '2'; threadId?: string; }",
+    "fields": ["commentId", "content", "id", "t", "threadId", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_album",
+    "actions": ["request"],
+    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
+    "fields": ["before", "id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_dj",
+    "actions": ["request"],
+    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
+    "fields": ["before", "id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_event",
+    "actions": ["request"],
+    "current": "PagedQuery & { before?: QueryNumberLike; threadId: string; }",
+    "fields": ["before", "limit", "offset", "threadId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_floor",
+    "actions": ["request"],
+    "current": "IdentifierQuery & { type: QueryNumberLike; limit?: QueryNumberLike; parentCommentId: QueryIdentifier; time?: QueryNumberLike; }",
+    "fields": ["id", "limit", "parentCommentId", "time", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_hot",
+    "actions": ["request"],
+    "current": "IdentifierQuery & { type: QueryNumberLike; before?: QueryNumberLike; limit?: QueryNumberLike; offset?: QueryNumberLike; }",
+    "fields": ["before", "id", "limit", "offset", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_hug_list",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": [
+      "cid",
+      "cursor",
+      "idCursor",
+      "page",
+      "pageSize",
+      "sid",
+      "ts",
+      "type",
+      "uid"
+    ],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_like",
+    "actions": [],
+    "current": "IdentifierQuery & { type: QueryNumberLike; cid: QueryIdentifier; t: 0 | 1 | '0' | '1'; threadId?: string; }",
+    "fields": ["cid", "id", "t", "threadId", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_music",
+    "actions": ["request"],
+    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
+    "fields": ["before", "id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_mv",
+    "actions": ["request"],
+    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
+    "fields": ["before", "id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_new",
+    "actions": ["request"],
+    "current": "IdentifierQuery & { type: QueryNumberLike; cursor?: string; pageNo?: QueryNumberLike; pageSize?: QueryNumberLike; showInner?: QueryBooleanLike; sortType?: QueryNumberLike; }",
+    "fields": [
+      "cursor",
+      "id",
+      "pageNo",
+      "pageSize",
+      "showInner",
+      "sortType",
+      "ts",
+      "type"
+    ],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_playlist",
+    "actions": ["request"],
+    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
+    "fields": ["before", "id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "comment_video",
+    "actions": ["request"],
+    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
+    "fields": ["before", "id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

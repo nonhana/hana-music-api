@@ -1,0 +1,134 @@
+[
+  {
+    "module": "event",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["lasttime", "pagesize", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "event_del",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["evId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "event_forward",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["evId", "forwards", "ts", "uid"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "follow",
+    "actions": [],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "t", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "get_userids",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["nicknames", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "hug_comment",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["cid", "sid", "ts", "type", "uid"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "resource_like",
+    "actions": [],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "t", "threadId", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "send_album",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "msg", "ts", "user_ids"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "send_playlist",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["msg", "playlist", "ts", "user_ids"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "send_song",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "msg", "ts", "user_ids"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "send_text",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["msg", "ts", "user_ids"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "share_resource",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "msg", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

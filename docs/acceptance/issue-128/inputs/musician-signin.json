@@ -1,0 +1,112 @@
+[
+  {
+    "module": "daily_signin",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "musician_cloudbean",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "musician_cloudbean_obtain",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "period", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "musician_data_overview",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "musician_play_trend",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["endTime", "startTime", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "musician_sign",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "musician_tasks",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "musician_tasks_new",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "sign_happy_info",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "signin_progress",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["moduleId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

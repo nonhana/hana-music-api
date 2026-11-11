@@ -1,0 +1,222 @@
+[
+  {
+    "module": "audio_match",
+    "actions": ["match"],
+    "current": "{ audioFP: string; duration: QueryNumberLike; }",
+    "fields": ["audioFP", "duration", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "cloud_match",
+    "actions": ["match"],
+    "current": "LegacyModuleInput",
+    "fields": ["asid", "sid", "ts", "uid"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "mv_all",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["area", "limit", "offset", "order", "ts", "type"],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "mv_detail",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["mvid", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "mv_detail_info",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["mvid", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "mv_exclusive_rcmd",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "mv_first",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["area", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "mv_sub",
+    "actions": [],
+    "current": "LegacyModuleInput",
+    "fields": ["mvid", "t", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "mv_sublist",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "mv_url",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "r", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playmode_intelligence_list",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["count", "id", "pid", "sid", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "video_category_list",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "video_detail",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "video_detail_info",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts", "vid"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "video_group",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "video_group_list",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "video_sub",
+    "actions": [],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "t", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "video_timeline_all",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "video_timeline_recommend",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "video_url",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "res", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

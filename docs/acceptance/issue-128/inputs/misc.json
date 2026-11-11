@@ -1,0 +1,202 @@
+[
+  {
+    "module": "batch",
+    "actions": ["request"],
+    "current": "Partial<Record<`/api/${string}`, BatchSubRequest>>",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "按 /api/ 路由转发的开放字典；值为普通对象",
+    "upstreamEncoding": "原样转发每个路由的子请求对象",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/request-shapes.test.ts"
+    ],
+    "status": "already-compliant",
+    "notes": "唯一保留的开放字典：接口语义就是按路由转发，值类型由目标接口决定。"
+  },
+  {
+    "module": "image_upload_token",
+    "actions": [],
+    "current": "{}",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listen_data_realtime_report",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listen_data_report",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["endTime", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listen_data_today_song",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listen_data_total",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listen_data_year_report",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listentogether_accept",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["inviterId", "roomId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listentogether_end",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["roomId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listentogether_heatbeat",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["playStatus", "progress", "roomId", "songId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listentogether_play_command",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": [
+      "clientSeq",
+      "commandType",
+      "formerSongId",
+      "playStatus",
+      "progress",
+      "roomId",
+      "targetSongId",
+      "ts"
+    ],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listentogether_room_check",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["roomId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listentogether_room_create",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listentogether_status",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "listentogether_sync_list_command",
+    "actions": ["request"],
+    "current": "{ commandType: string; displayList: ReadonlyArray<NumberId>; randomList: ReadonlyArray<NumberId>; roomId: string; userId: NumberId; version: number }",
+    "fields": [
+      "commandType",
+      "displayList",
+      "randomList",
+      "roomId",
+      "ts",
+      "userId",
+      "version"
+    ],
+    "legacyEncoding": [],
+    "businessInput": "同上；列表传编号数组，roomId 是不透明字符串，commandType 是上游字符串",
+    "upstreamEncoding": "playlistParam = JSON.stringify({... lists: lists.map(String)})",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/special/input-encoding.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "listentogether_sync_playlist_get",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["roomId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

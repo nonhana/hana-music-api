@@ -1,0 +1,251 @@
+[
+  {
+    "module": "activate_init_profile",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["nickname", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "avatar_upload",
+    "actions": [],
+    "current": "{ imgFile?: LegacyUploadedFile; }",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "captcha_sent",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ctcode", "phone", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "captcha_verify",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["captcha", "ctcode", "phone", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "cellphone_existence_check",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["countrycode", "phone", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "countries_code_list",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "inner_version",
+    "actions": [],
+    "current": "Record<never, never>",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "本地返回版本号，不发请求",
+    "evidence": ["tests/behavior/modules/input-contracts.test.ts"],
+    "status": "migrated"
+  },
+  {
+    "module": "login",
+    "actions": ["password"],
+    "current": "PasswordCredential & { email: string; }",
+    "fields": ["email", "md5_password", "password", "ts"],
+    "legacyEncoding": ["join(';')"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "login_cellphone",
+    "actions": [],
+    "current": "LoginCellphoneBaseQuery & (LoginCellphoneCaptchaCredential | LoginCellphonePasswordCredential)",
+    "fields": [
+      "captcha",
+      "countrycode",
+      "md5_password",
+      "password",
+      "phone",
+      "ts"
+    ],
+    "legacyEncoding": ["join(';')"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "login_qr_check",
+    "actions": ["request"],
+    "current": "{ key: string; }",
+    "fields": ["key", "ts"],
+    "legacyEncoding": ["join(';')"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "login_qr_create",
+    "actions": [],
+    "current": "{ key: string; platform?: 'pc' | 'web' | (string & {}); qrimg?: boolean | number | string; }",
+    "fields": ["key", "platform", "qrimg", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "login_qr_key",
+    "actions": ["request"],
+    "current": "Record<never, never>",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定 data.type = 3",
+    "evidence": ["tests/behavior/modules/input-contracts.test.ts"],
+    "status": "migrated"
+  },
+  {
+    "module": "login_refresh",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": ["join(';')"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "login_status",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "logout",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "nickname_check",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["nickname", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "rebind",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["captcha", "ctcode", "oldcaptcha", "phone", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "register_anonimous",
+    "actions": ["request"],
+    "current": "Record<never, never>",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "本地计算 username 后发送",
+    "evidence": ["tests/behavior/modules/input-contracts.test.ts"],
+    "status": "migrated"
+  },
+  {
+    "module": "register_cellphone",
+    "actions": ["request"],
+    "current": "{ captcha: string; countrycode?: QueryNumberLike; nickname: string; password: string; phone: string; }",
+    "fields": ["captcha", "countrycode", "nickname", "password", "phone", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "setting",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "verify_getQr",
+    "actions": ["request"],
+    "current": "{ evid?: string; sign?: string; token?: string; type?: number | string; vid?: string; }",
+    "fields": ["evid", "sign", "token", "ts", "type", "vid"],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "verify_qrcodestatus",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["qr", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

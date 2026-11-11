@@ -378,7 +378,7 @@ describe('sdk identity pool', () => {
 
     await hana.lyric({ id: '1' });
     await hana.search({ keywords: 'second-module' });
-    await hana.songDetail({ ids: '3' });
+    await hana.songDetail({ ids: [3] });
 
     expect(registered.length).toBe(2);
     expect(sentTokens).toEqual([

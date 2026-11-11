@@ -1,0 +1,305 @@
+[
+  {
+    "module": "playlist_catlist",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_cover_update",
+    "actions": [],
+    "current": "{ imgFile?: LegacyUploadedFile; imgId?: QueryIdentifier; id?: QueryIdentifier; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_create",
+    "actions": ["create"],
+    "current": "LegacyModuleInput",
+    "fields": ["name", "privacy", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_delete",
+    "actions": ["remove"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_desc_update",
+    "actions": ["update"],
+    "current": "LegacyModuleInput",
+    "fields": ["desc", "id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_detail",
+    "actions": ["read"],
+    "current": "IdentifierQuery & { s?: QueryNumberLike; }",
+    "fields": ["id", "s", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_detail_dynamic",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "s", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_detail_rcmd_get",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_highquality_tags",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_hot",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_import_name_task_create",
+    "actions": [],
+    "current": "LegacyModuleInput",
+    "fields": [
+      "importStarPlaylist",
+      "link",
+      "local",
+      "playlistName",
+      "text",
+      "ts"
+    ],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_import_task_status",
+    "actions": ["poll"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_mylike",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "time", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_name_update",
+    "actions": ["update"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "name", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_order_update",
+    "actions": ["update"],
+    "current": "{ ids: NumberIdList }",
+    "fields": ["ids", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ ids: readonly NumberId[] }（非空）",
+    "upstreamEncoding": "ids = JSON.stringify(ids.map(String))",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/special/input-encoding.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "playlist_privacy",
+    "actions": ["update"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_subscribe",
+    "actions": [],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "t", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_subscribers",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_tags_update",
+    "actions": ["update"],
+    "current": "{ id: NumberId; tags: ReadonlyArray<string> }",
+    "fields": ["id", "tags", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; tags: readonly string[] }（空数组清空；成员非空且不含分号）",
+    "upstreamEncoding": "tags = tags.join(';')",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/special/input-encoding.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "playlist_track_add",
+    "actions": ["add"],
+    "current": "LegacyModuleInput",
+    "fields": ["ids", "pid", "ts"],
+    "legacyEncoding": ["JSON.stringify", "split(',')"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_track_all",
+    "actions": ["playlist", "songs"],
+    "current": "IdentifierQuery & { s?: QueryNumberLike; limit?: QueryNumberLike; offset?: QueryNumberLike; }",
+    "fields": ["id", "limit", "offset", "s", "ts"],
+    "legacyEncoding": ["join(',')"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_track_delete",
+    "actions": ["delete"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ids", "ts"],
+    "legacyEncoding": ["JSON.stringify", "split(',')"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_tracks",
+    "actions": ["fallback", "manipulate"],
+    "current": "{ op: 'add' | 'del'; pid: NumberId; tracks: NumberIdList }",
+    "fields": ["op", "pid", "tracks", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ op: 'add' | 'del'; pid: NumberId; tracks: readonly NumberId[] }（非空）",
+    "upstreamEncoding": "trackIds = JSON.stringify(ids.map(String))；512 时重复原数组再编码一次",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/special/input-encoding.test.ts",
+      "tests/behavior/modules/special/special-chains.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "playlist_update",
+    "actions": ["batch"],
+    "current": "LegacyModuleInput",
+    "fields": ["desc", "id", "name", "tags", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_update_playcount",
+    "actions": ["report"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "playlist_video_recent",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

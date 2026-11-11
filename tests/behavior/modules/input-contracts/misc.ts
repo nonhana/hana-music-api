@@ -1,0 +1,72 @@
+import type { ModuleInputCase } from './contract.ts';
+
+export const cases: ReadonlyArray<ModuleInputCase> = [
+  {
+    module: 'batch',
+    open: true,
+    valid: [{ '/api/song/detail': { ids: [1] } }],
+    invalid: [[], { 'api/song/detail': {} }, { '/api/song/detail': [] }],
+  },
+  { module: 'image_upload_token', valid: [], invalid: [] },
+  { module: 'listen_data_realtime_report', valid: [], invalid: [] },
+  { module: 'listen_data_report', valid: [], invalid: [] },
+  { module: 'listen_data_today_song', valid: [], invalid: [] },
+  { module: 'listen_data_total', valid: [], invalid: [] },
+  { module: 'listen_data_year_report', valid: [], invalid: [] },
+  { module: 'listentogether_accept', valid: [], invalid: [] },
+  { module: 'listentogether_end', valid: [], invalid: [] },
+  { module: 'listentogether_heatbeat', valid: [], invalid: [] },
+  { module: 'listentogether_play_command', valid: [], invalid: [] },
+  { module: 'listentogether_room_check', valid: [], invalid: [] },
+  { module: 'listentogether_room_create', valid: [], invalid: [] },
+  { module: 'listentogether_status', valid: [], invalid: [] },
+  {
+    module: 'listentogether_sync_list_command',
+    valid: [
+      {
+        roomId: 'room_1',
+        commandType: 'REPLACE',
+        version: 2,
+        userId: 3,
+        randomList: [4, '5'],
+        displayList: [],
+      },
+    ],
+    invalid: [
+      {
+        roomId: 'room_1',
+        commandType: 'REPLACE',
+        version: 2,
+        userId: 3,
+        randomList: [],
+        displayList: [],
+        extra: true,
+      },
+      {
+        roomId: 1,
+        commandType: 'REPLACE',
+        version: 2,
+        userId: 3,
+        randomList: [],
+        displayList: [],
+      },
+      {
+        roomId: 'room_1',
+        commandType: 1,
+        version: 2,
+        userId: 3,
+        randomList: [],
+        displayList: [],
+      },
+      {
+        roomId: 'room_1',
+        commandType: 'REPLACE',
+        version: 2,
+        userId: 3,
+        randomList: ['1,2'],
+        displayList: [],
+      },
+    ],
+  },
+  { module: 'listentogether_sync_playlist_get', valid: [], invalid: [] },
+];

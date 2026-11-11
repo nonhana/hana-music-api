@@ -1,0 +1,210 @@
+[
+  {
+    "module": "cloud",
+    "actions": [],
+    "current": "{ songFile?: LegacyUploadedFile; }",
+    "fields": ["songFile", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "cloud_import",
+    "actions": ["check", "import"],
+    "current": "{ album?: string; artist?: string; bitrate?: QueryNumberLike; fileSize?: QueryNumberLike; fileType?: string; id?: QueryIdentifier; md5?: string; song?: string; }",
+    "fields": [
+      "album",
+      "artist",
+      "bitrate",
+      "fileSize",
+      "fileType",
+      "id",
+      "md5",
+      "song",
+      "ts"
+    ],
+    "legacyEncoding": ["JSON.stringify"],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "cloudsearch",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["keywords", "limit", "offset", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "fm_trash",
+    "actions": ["write"],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "time", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "history_recommend_songs",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "history_recommend_songs_detail",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["date", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "like",
+    "actions": [],
+    "current": "LegacyModuleInput",
+    "fields": ["id", "like", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "likelist",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts", "uid"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "personal_fm",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "personal_fm_mode",
+    "actions": ["read"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "mode", "submode", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "pl_count",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "recent_listen_list",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "record_recent_album",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "record_recent_dj",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "record_recent_playlist",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "record_recent_song",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "record_recent_video",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  },
+  {
+    "module": "record_recent_voice",
+    "actions": ["request"],
+    "current": "LegacyModuleInput",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "",
+    "upstreamEncoding": "",
+    "evidence": [],
+    "status": "pending"
+  }
+]

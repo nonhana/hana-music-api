@@ -1,12 +1,22 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { SERVICE_VERSION } from '../core/service-metadata.ts';
 import { UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {} as const satisfies ModuleActions;
+
+export type ModuleInput = Record<never, never>;
+
+const inputSchema = EmptyInput;
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
 
 // 返回码和版本号路径 data.version 收紧；接口就是为了拿构建内联的 package.json 版本号。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -31,6 +41,3 @@ const innerVersion: ModuleEffect<
   });
 
 export default innerVersion;
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

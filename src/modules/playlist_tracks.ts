@@ -1,10 +1,11 @@
 import { Effect, Schema } from 'effect';
 
+import { ProtocolFailed, UpstreamBusinessFailed } from '../core/errors.ts';
 import {
-  InvalidModuleInput,
-  ProtocolFailed,
-  UpstreamBusinessFailed,
-} from '../core/errors.ts';
+  decodeModuleInput as decodeInput,
+  NumberId,
+  NumberIdList,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -13,7 +14,21 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  op: 'add' | 'del';
+  pid: NumberId;
+  tracks: NumberIdList;
+};
+
+const inputSchema = Schema.Struct({
+  op: Schema.Literals(['add', 'del']),
+  pid: NumberId,
+  tracks: NumberIdList,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   manipulate: {
@@ -67,22 +82,10 @@ const playlistTracks: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    if (
-      query.tracks !== undefined &&
-      query.tracks !== null &&
-      typeof query.tracks !== 'string' &&
-      typeof query.tracks !== 'number' &&
-      typeof query.tracks !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'tracks must be a primitive value',
-      });
-    }
-    const tracks = String(query.tracks ?? '').split(',');
     const data = {
       op: query.op,
       pid: query.pid,
-      trackIds: JSON.stringify(tracks),
+      trackIds: JSON.stringify(query.tracks.map(String)),
       imme: 'true',
     };
     return yield* request('manipulate', { data }).pipe(
@@ -114,7 +117,9 @@ const playlistTracks: ModuleEffect<
           return yield* request('fallback', {
             data: {
               ...data,
-              trackIds: JSON.stringify([...tracks, ...tracks]),
+              trackIds: JSON.stringify(
+                [...query.tracks, ...query.tracks].map(String),
+              ),
             },
           }).pipe(Effect.flatMap(decodeResponse));
         }),
@@ -123,6 +128,3 @@ const playlistTracks: ModuleEffect<
   });
 
 export default playlistTracks;
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

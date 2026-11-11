@@ -80,7 +80,7 @@ test('five declared read branches preserve wire payloads and share only matching
     },
     {
       module: 'song_detail',
-      query: { ids: '7, 8' },
+      query: { ids: [7, 8] },
       path: '/api/v3/song/detail',
       data: { c: '[{"id":7},{"id":8}]' },
       body: { code: 200, songs: [], privileges: [] },
@@ -394,7 +394,7 @@ test('named, dynamic and real HTTP loader entries execute the declared profiles'
       const config = { cookie: 'MUSIC_U=reader', fetcher: scenario.fetcher };
       expect((await lyric({ id: 7 }, config)).status).toBe(200);
       expect(
-        (await invokeModule('song_detail', { ids: 7 }, config)).status,
+        (await invokeModule('song_detail', { ids: [7] }, config)).status,
       ).toBe(200);
       const server = await createServer(
         {},
