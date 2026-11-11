@@ -1,0 +1,26 @@
+{
+  "web": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/157.0.0.0 Safari/537.36",
+    "cookie": {
+      "os": "web"
+    }
+  },
+  "iphone": {
+    "userAgent": "NeteaseMusic 9.6.20/7636 (iPhone; iOS 27.0; zh_CN)",
+    "cookie": {
+      "os": "iPhone OS",
+      "appver": "9.6.20",
+      "channel": "distribution",
+      "osver": "27.0"
+    }
+  },
+  "osx": {
+    "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 NeteaseMusicDesktop/3.1.14.3459",
+    "cookie": {
+      "appver": "3.1.14",
+      "channel": "netease",
+      "os": "osx",
+      "osver": "27.2.1"
+    }
+  }
+}

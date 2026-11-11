@@ -1,5 +1,5 @@
 import type { CookieRecord, RequestProtocol } from '../types/index.ts';
-import { OS_PROFILES, USER_AGENT_MAP } from './config.ts';
+import { clientIdentities } from './config.ts';
 
 export interface RequestProfile {
   readonly protocol: RequestProtocol;
@@ -31,8 +31,7 @@ export const requestProfiles = {
   api: {
     protocol: 'api',
     domain: 'https://interface.music.163.com',
-    userAgent: USER_AGENT_MAP.api.iphone,
-    cookie: OS_PROFILES.iphone,
+    ...clientIdentities.iphone,
     omitCookies: identityCookieFields,
     encryptResponse: false,
     acceptGzip: false,
@@ -40,23 +39,15 @@ export const requestProfiles = {
   linuxapi: {
     protocol: 'linuxapi',
     domain: 'https://music.163.com',
-    userAgent: USER_AGENT_MAP.linuxapi.linux,
-    cookie: OS_PROFILES.linux,
+    ...clientIdentities.linux,
     omitCookies: identityCookieFields,
     encryptResponse: false,
     acceptGzip: false,
   },
-  // #122 以原 scrobble 的 macOS 15.5 字段投影既有浏览器 UA，保留 clientlog 与 App 版本。
   clientlogOsx: {
     protocol: 'eapi',
     domain: 'https://clientlog.music.163.com',
-    userAgent: USER_AGENT_MAP.weapi.pc.replace('10_15_7', '15_5'),
-    cookie: {
-      appver: '3.1.10.5100',
-      channel: 'netease',
-      os: 'osx',
-      osver: '15.5',
-    },
+    ...clientIdentities.osx,
     omitCookies: identityCookieFields,
     encryptResponse: false,
     acceptGzip: false,
@@ -121,8 +112,7 @@ export const requestProfiles = {
   eapi: {
     protocol: 'eapi',
     domain: 'https://interface.music.163.com',
-    userAgent: USER_AGENT_MAP.api.iphone,
-    cookie: OS_PROFILES.iphone,
+    ...clientIdentities.iphone,
     omitCookies: identityCookieFields,
     encryptResponse: false,
     acceptGzip: false,
@@ -131,8 +121,7 @@ export const requestProfiles = {
   web: {
     protocol: 'weapi',
     domain: 'https://music.163.com',
-    userAgent: USER_AGENT_MAP.weapi.pc,
-    cookie: { os: 'web' },
+    ...clientIdentities.web,
     omitCookies: identityCookieFields,
     encryptResponse: false,
     acceptGzip: false,

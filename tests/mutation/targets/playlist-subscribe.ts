@@ -19,7 +19,7 @@ export const mutations = [
   },
   {
     id: 'playlist-os-contamination',
-    file: 'src/core/request-profiles.ts',
+    file: 'src/core/config.ts',
     find: "cookie: { os: 'web' },",
     replace: "cookie: { os: 'pc' },",
     expectedFailures: [

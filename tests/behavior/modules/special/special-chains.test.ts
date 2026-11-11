@@ -23,6 +23,7 @@ import {
   readWebBody,
   readWireRequest,
 } from '../../../_kit/upstream/wire.ts';
+import expectedClients from '../../../fixtures/consumers/client-identities.json';
 import recorded from '../../../fixtures/requests/special-chains.json';
 
 setRuntimeState({ deviceId: 'special-device', cnIp: '127.0.0.1' });
@@ -68,6 +69,12 @@ const revive = (entry: Case) => {
 const checkWire = async (expected: Wire, wire: WireRequest, token?: string) => {
   expect(wire.url).toBe(expected.url);
   expect(wire.method).toBe(expected.method);
+  const client =
+    expected.protocol === 'weapi'
+      ? expectedClients.web
+      : expected.url.includes('clientlog.music.163.com')
+        ? expectedClients.osx
+        : expectedClients.iphone;
   let projectedCookie: Record<string, string> = {};
   for (const [name, value] of Object.entries(expected.headers)) {
     if (name === 'cookie') {
@@ -98,32 +105,12 @@ const checkWire = async (expected: Wire, wire: WireRequest, token?: string) => {
         'resolution',
       ])
         delete wanted[key];
-      Object.assign(
-        wanted,
-        expected.protocol === 'weapi'
-          ? { os: 'web' }
-          : expected.url.includes('clientlog.music.163.com')
-            ? {
-                os: 'osx',
-                osver: '15.5',
-                appver: '3.1.10.5100',
-                channel: 'netease',
-              }
-            : {
-                os: 'iPhone OS',
-                osver: '16.2',
-                appver: '9.0.90',
-                channel: 'distribution',
-              },
-      );
+      Object.assign(wanted, client.cookie);
       projectedCookie = wanted;
       expect(actualCookie).toEqual(wanted);
     } else
       expect(wire.headers.get(name)).toBe(
-        name === 'user-agent' &&
-          expected.url.includes('clientlog.music.163.com')
-          ? 'Mozilla/5.0 (Macintosh; Intel Mac OS X 15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0'
-          : value,
+        name === 'user-agent' ? client.userAgent : value,
       );
   }
   expect(wire.headers.get('x-aeapi')).toBeNull();

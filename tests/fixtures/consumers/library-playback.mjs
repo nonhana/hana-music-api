@@ -4,6 +4,8 @@ import { readFileSync } from 'node:fs';
 
 import * as sdk from 'hana-music-api';
 
+import expectedClients from './client-identities.json' with { type: 'json' };
+
 const baseline = JSON.parse(
   readFileSync(new URL('./library-playback.json', import.meta.url), 'utf8'),
 );
@@ -54,12 +56,7 @@ for (const [index, entry] of baseline.cases.entries()) {
             MUSIC_A: 'package-anonymous',
             deviceId: 'package-device',
             ...(entry.profile === 'eapi'
-              ? {
-                  os: 'iPhone OS',
-                  appver: '9.0.90',
-                  channel: 'distribution',
-                  osver: '16.2',
-                }
+              ? expectedClients.iphone.cookie
               : { os: 'web' }),
           }))
             assert.equal(cookies[name], value);
@@ -78,7 +75,7 @@ for (const [index, entry] of baseline.cases.entries()) {
           if (entry.profile === 'eapi') {
             assert.equal(
               request.headers.get('user-agent'),
-              'NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)',
+              expectedClients.iphone.userAgent,
             );
             const decipher = createDecipheriv(
               'aes-128-ecb',
@@ -105,7 +102,7 @@ for (const [index, entry] of baseline.cases.entries()) {
           } else {
             assert.equal(
               request.headers.get('user-agent'),
-              'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
+              expectedClients.web.userAgent,
             );
             assert.equal(
               request.headers.get('referer'),

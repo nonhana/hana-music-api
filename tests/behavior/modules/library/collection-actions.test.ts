@@ -7,6 +7,7 @@ import { settle } from '../../../_kit/assertions.ts';
 import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import { readWebBody } from '../../../_kit/upstream/wire.ts';
+import expectedClients from '../../../fixtures/consumers/client-identities.json';
 
 const actions = [
   { method: 'albumSub', route: 'album', t: 1, action: 'sub', data: { id: 17 } },
@@ -117,8 +118,8 @@ for (const tokenKind of ['none', 'string', 'provider'] as const) {
             method: 'POST',
             headers: { 'X-antiCheatToken': token ?? null, 'x-aeapi': null },
             check: (wire) => {
-              expect(wire.headers.get('user-agent')).toContain(
-                'Chrome/124.0.0.0',
+              expect(wire.headers.get('user-agent')).toBe(
+                expectedClients.web.userAgent,
               );
               const cookie = wire.headers.get('cookie')!;
               expect(cookie).toContain('os=web');

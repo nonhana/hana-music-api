@@ -46,9 +46,9 @@ export const mutations = [
   {
     id: 'identity-mixed-eapi-ua-restored',
     file: 'src/core/request-profiles.ts',
-    find: "eapi: {\n    protocol: 'eapi',\n    domain: 'https://interface.music.163.com',\n    userAgent: USER_AGENT_MAP.api.iphone,",
+    find: "eapi: {\n    protocol: 'eapi',\n    domain: 'https://interface.music.163.com',\n    ...clientIdentities.iphone,",
     replace:
-      "eapi: {\n    protocol: 'eapi',\n    domain: 'https://interface.music.163.com',\n    userAgent: USER_AGENT_MAP.weapi.pc,",
+      "eapi: {\n    protocol: 'eapi',\n    domain: 'https://interface.music.163.com',\n    ...clientIdentities.iphone,\n    userAgent: clientIdentities.web.userAgent,",
     expectedFailures: ['identity sdk Ficus exhigh uses one iPhone identity'],
   },
   {

@@ -52,6 +52,6 @@ SDK 不在本地限制出口频率；HTTP 只按来访 IP 和容量做入口准�
 
 ## 历史迁移依据
 
-各批次的协议、身份与录制来源保留在 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md) 及 issue-105/109–116 的验收记录。早期 weapiPc/PC Cookie 是当时基线；当前身份以 #122 和[389 动作清单](../docs/acceptance/issue-122-actions.md)为准，不能把历史默认组合当成当前行为。
+各批次的协议、身份与录制来源保留在 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md) 及 issue-105/109–116 的验收记录。早期 weapiPc/PC Cookie 是当时基线；各动作选用的客户端见 [389 动作清单](../docs/acceptance/issue-122-actions.md)，当前 UA 和版本由 [config.ts](../src/core/config.ts) 定义，取值依据见[客户端身份调研与验收](../docs/acceptance/client-identities-2026.md)。
 
 测试分层和交付门禁见 [TESTING.md](./TESTING.md)，模块合同见 [API_CONVENTIONS.md](./API_CONVENTIONS.md)，根导出边界见 [PUBLIC_API.md](./PUBLIC_API.md)。

@@ -57,7 +57,7 @@ export const mutations = [
   },
   {
     id: 'collection-pc-cookie-contamination',
-    file: 'src/core/request-profiles.ts',
+    file: 'src/core/config.ts',
     find: "cookie: { os: 'web' },",
     replace: "cookie: { os: 'pc' },",
     expectedFailures: [

@@ -17,6 +17,7 @@ import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
 import { runEffect } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import { readWebBody } from '../../../_kit/upstream/wire.ts';
+import expectedClients from '../../../fixtures/consumers/client-identities.json';
 import tokenSubscribed from '../../../fixtures/netease/playlist_subscribe/subscribe-token.json';
 
 const createClient = (
@@ -82,9 +83,7 @@ test.each([
     );
     expect(cookie.get('os')).toBe('web');
     expect(cookie.get('MUSIC_U')).toBe('listener');
-    expect(request?.userAgent).toBe(
-      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0',
-    );
+    expect(request?.userAgent).toBe(expectedClients.web.userAgent);
     expect(request?.headers.get('referer')).toBe('https://music.163.com');
     // cspell:ignore anticheattoken
     expect(request?.headers.has('x-anticheattoken')).toBe(false);
@@ -228,7 +227,7 @@ test('playlistSubscribe sends a complete web identity and the same token in its 
     expect(request.headers.get('x-aeapi')).toBeNull();
     expect(request.headers.get('x-anticheattoken')).toBe('fresh-token');
     expect(request.headers.get('referer')).toBe('https://music.163.com');
-    expect(request.userAgent).toContain('Chrome/124.0.0.0');
+    expect(request.userAgent).toBe(expectedClients.web.userAgent);
     expect(readWebBody(request.body)).toEqual({
       id: 17,
       checkToken: 'fresh-token',

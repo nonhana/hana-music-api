@@ -515,6 +515,15 @@ describe('sdk release contract', () => {
       }
 
       writeFileSync(
+        resolve(consumerDirectory, 'client-identities.json'),
+        readFileSync(
+          resolve(
+            projectRoot,
+            'tests/fixtures/consumers/client-identities.json',
+          ),
+        ),
+      );
+      writeFileSync(
         resolve(consumerDirectory, 'library-playback.mjs'),
         readFileSync(
           resolve(projectRoot, 'tests/fixtures/consumers/library-playback.mjs'),

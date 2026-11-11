@@ -20,6 +20,7 @@ import {
 import type { UpstreamExpectation } from '../../_kit/upstream/scenario.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../_kit/upstream/wire.ts';
+import expectedClients from '../../fixtures/consumers/client-identities.json';
 
 test('explicit live invocation requires the exact gate before reading credentials', async () => {
   for (const gate of [undefined, '', '0', 'true']) {
@@ -60,7 +61,9 @@ const entry = (
             e_r: false,
           });
           expect(wire.headers.get('cookie')).toContain('os=web');
-          expect(wire.headers.get('user-agent')).toContain('Chrome/124');
+          expect(wire.headers.get('user-agent')).toBe(
+            expectedClients.web.userAgent,
+          );
         },
       }
     : {}),
