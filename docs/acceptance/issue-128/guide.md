@@ -70,7 +70,7 @@ export const decodeModuleInput = (input: unknown) =>
    - `valid` 要覆盖数字和字符串编号的混合形式（如果有）。
    - `invalid` 覆盖未声明字段（聚合测试会自动加一条 `__unexpected`，不需要重复）、旧分隔符串、错误类型、空编号数组（如果该字段要求非空）。
    - `batch` 用 `open: true`，不要加 `__unexpected` 断言。
-3. `tests/behavior/modules/input-encoding/<domain>.ts`：为该批中所有有上游编码的模块增加用例。每条用例是 `EncodingCase`：
+3. `tests/behavior/modules/input-encoding/<domain>.ts`：为该批中**发生集合/对象/布尔/默认值转换**的模块增加用例；字段只做原样透传的模块不需要重复编码用例。每条用例是 `EncodingCase`：
    - `module`、`input`（新业务输入）；
    - `check(wires)`：用 `readEapiBody` / `readWebBody` 解码实际请求体并断言 `data`；
    - 多阶段/上传模块可用 `respond(wire, index)` 返回不同响应，并在 `check` 中断言每个阶段。

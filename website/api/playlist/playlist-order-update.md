@@ -19,9 +19,9 @@ description: '登录后调用此接口,可以根据歌单 id 顺序调整歌单�
 
 ## 请求参数
 
-| 参数  | 类型               | 必填 | 默认值 | 说明         |
-| ----- | ------------------ | :--: | ------ | ------------ |
-| `ids` | string[] \| string |  ✅  | -      | 歌单 id 列表 |
+| 参数  | 类型                      | 必填 | 默认值 | 说明                       |
+| ----- | ------------------------- | :--: | ------ | -------------------------- |
+| `ids` | `(number \| string)` 数组 |  ✅  | -      | 歌单 id 数组，顺序即新顺序 |
 
 ## HTTP 示例
 
@@ -35,7 +35,7 @@ GET /playlist/order/update?ids=[111,222]
 import { playlistOrderUpdate } from 'hana-music-api';
 
 const result = await playlistOrderUpdate({
-  ids: '[111,222]',
+  ids: [111, 222],
 });
 
 console.log(result.body);

@@ -19,11 +19,11 @@ description: '调用此接口，可以添加歌曲到歌单或者从歌单删除
 
 ## 请求参数
 
-| 参数     | 类型               | 必填 | 默认值 | 说明                             |
-| -------- | ------------------ | :--: | ------ | -------------------------------- |
-| `op`     | string             |  ✅  | -      | 从歌单增加单曲为 add, 删除为 del |
-| `pid`    | string             |  ✅  | -      | 歌单 id                          |
-| `tracks` | string[] \| string |  ✅  | -      | 歌曲 id,可多个,用逗号隔开        |
+| 参数     | 类型                      | 必填 | 默认值 | 说明                             |
+| -------- | ------------------------- | :--: | ------ | -------------------------------- |
+| `op`     | string                    |  ✅  | -      | 从歌单增加单曲为 add, 删除为 del |
+| `pid`    | `number \| string`        |  ✅  | -      | 歌单 id                          |
+| `tracks` | `(number \| string)` 数组 |  ✅  | -      | 歌曲 id 数组                     |
 
 ## HTTP 示例
 
@@ -38,8 +38,8 @@ import { playlistTracks } from 'hana-music-api';
 
 const result = await playlistTracks({
   op: 'add',
-  pid: '24381616',
-  tracks: '347231',
+  pid: 24381616,
+  tracks: [347231],
 });
 
 console.log(result.body);

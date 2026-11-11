@@ -8,9 +8,20 @@
 
 每个模块必须在本地导出 `moduleActions`，每个动作指定 profile、target（固定路径或 prefix 边界）、semantic、cache 和 retry，checkToken 不属于动作声明，由所有 SDK 模块统一接受可选配置，再用 `request(actionName, args)` 选择本地动作并提供业务数据。API 传 data 和业务 headers，动态 API 另传 path；固定 plain 传原始 query，动态 plain 传 target 和原始 body。模块不得改写 Call 身份或自行放置 token；纯本地模块声明空动作集，多请求模块分别声明动作；plain动作还声明实际method/response，目标由profile域名与规范路径限制，动态NOS同时限制允许后缀和桶目录。生成器、SDK/HTTP装配和动态loader都校验声明，缺失或非法立即拒绝；不再保留pending清单或缺声明fallback，见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
 
-输入先经过 `src/core/module-input.ts` 的普通对象校验，再进入模块自己的 Schema。需要精确字段的模块声明本地字段、可选性和字面量；证据不足的旧式输入使用受控的 legacy 对象，不伪造完整接口模型。模块生成器会检查这三个导出合同，动态 loader 也会拒绝缺少 decoder 或不是 Effect 函数的模块。
+输入先经过 `src/core/module-input.ts` 的普通对象校验，再进入模块自己的 Schema；decoder 用 `onExcessProperty: 'error'` 拒绝未声明字段。每个模块必须声明具体业务字段、可选性和字面量，不使用 `LegacyModuleInput`、`Record<string, unknown>` 或 `unknown` 兜底；`batch` 是唯一有依据的开放字典。模块生成器会检查这三个导出合同，动态 loader 也会拒绝缺少 decoder 或不是 Effect 函数的模块。
 
 模块只为确实要读取的上游字段做局部检查。普通响应体保持 `UnknownJson`，未知字段继续保留；收紧的字段（见[收紧与宽松](#收紧与宽松)）缺失或类型错误时返回带模块名和路径的 `UnexpectedUpstreamShape`。公开边界把它映射为 `status: 502`，`body.upstreamShape` 带上 `{ module, path, expected, actual }`。
+
+## 输入声明与编码
+
+调用者只传业务值，协议编码由 SDK 在模块内完成。输入的唯一声明来源是模块本地 `ModuleInput` 和 `inputSchema`；生成器、具名函数、client、`invokeModule`、HTTP/动态入口共用同一份 decoder，不维护第二张手工表。
+
+- 编号用 `NumberId`：正安全整数或纯十进制正数字符串，拒绝 0、负数、小数、`NaN`、`Infinity`、分隔符串、布尔、对象和 `null`。需要非空编号集合（歌曲/歌单/排序/收藏）用 `NumberIdList`；可为空的列表用 `Schema.Array(NumberId)`。
+- 页码、数量、时间戳、版本用 `Schema.Natural` 或 `Schema.Int`；布尔用 `Schema.Boolean`；枚举只在代码或文档已穷举时用字面量；不透明 key、token、房间号、文本用 `Schema.String`。
+- 对象、数组和 JSON 载荷逐字段声明为 `Schema.Struct`/`Schema.Array`，不接受调用者预编码的 JSON 字符串。文件保持 `UploadedFile` 二进制结构，不 JSON 化。无参数模块用 `EmptyInput` 和 `Record<never, never>`。
+- 可选性来自现有默认值和上游要求；不要凭空增加必填、枚举或范围，也不要把 `null` 当缺省接受。
+- 编码在模块内用 `String(id)` 保留十进制文本；不修改调用者数组或对象。旧逗号串、JSON 串、分号串不兼容，属于 major 变化，逐项记录在验收清单。
+- 每个模块的 decoder 必须有正反用例；发生集合、对象、布尔或默认值转换的模块另需公开入口的实际请求体断言。
 
 ## 收窄返回体
 

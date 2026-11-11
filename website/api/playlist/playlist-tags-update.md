@@ -19,10 +19,10 @@ description: '登录后调用此接口,可以单独更新用户歌单标签'
 
 ## 请求参数
 
-| 参数   | 类型   | 必填 | 默认值 | 说明     |
-| ------ | ------ | :--: | ------ | -------- |
-| `id`   | string |  ✅  | -      | 歌单id   |
-| `tags` | string |  ✅  | -      | 歌单标签 |
+| 参数   | 类型               | 必填 | 默认值 | 说明                                       |
+| ------ | ------------------ | :--: | ------ | ------------------------------------------ |
+| `id`   | `number \| string` |  ✅  | -      | 歌单 id                                    |
+| `tags` | string 数组        |  ✅  | -      | 歌单标签；空数组表示清空，成员不能包含分号 |
 
 ## HTTP 示例
 
@@ -36,8 +36,8 @@ GET /playlist/tags/update?id=24381616&tags=学习
 import { playlistTagsUpdate } from 'hana-music-api';
 
 const result = await playlistTagsUpdate({
-  id: '24381616',
-  tags: '学习',
+  id: 24381616,
+  tags: ['学习'],
 });
 
 console.log(result.body);

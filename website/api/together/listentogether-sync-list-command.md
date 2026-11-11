@@ -20,14 +20,14 @@ description: '向一起听房间上报当前播放列表快照和列表版本。
 
 ## 请求参数
 
-| 参数          | 类型   | 必填 | 默认值 | 说明                                                    |
-| ------------- | ------ | :--: | ------ | ------------------------------------------------------- |
-| `roomId`      | string |  ✅  | -      | 房间 ID                                                 |
-| `commandType` | string |  ✅  | -      | 列表指令类型，公开资料可见 `REPLACE`、`PLAYMODE_CHANGE` |
-| `userId`      | string |  ✅  | -      | 发起本次列表变更的用户 ID                               |
-| `version`     | number |  ✅  | -      | 列表版本号，示例页里使用本地递增计数器                  |
-| `randomList`  | string |  ✅  | -      | 随机顺序列表，逗号分隔的歌曲 ID 字符串                  |
-| `displayList` | string |  ✅  | -      | 展示顺序列表，逗号分隔的歌曲 ID 字符串                  |
+| 参数          | 类型                      | 必填 | 默认值 | 说明                                                    |
+| ------------- | ------------------------- | :--: | ------ | ------------------------------------------------------- |
+| `roomId`      | string                    |  ✅  | -      | 房间 ID                                                 |
+| `commandType` | string                    |  ✅  | -      | 列表指令类型，公开资料可见 `REPLACE`、`PLAYMODE_CHANGE` |
+| `userId`      | `number \| string`        |  ✅  | -      | 发起本次列表变更的用户 ID                               |
+| `version`     | number                    |  ✅  | -      | 列表版本号，示例页里使用本地递增计数器                  |
+| `randomList`  | `(number \| string)` 数组 |  ✅  | -      | 随机顺序列表的歌曲 ID 数组                              |
+| `displayList` | `(number \| string)` 数组 |  ✅  | -      | 展示顺序列表的歌曲 ID 数组                              |
 
 ## HTTP 示例
 
@@ -43,10 +43,10 @@ import { listentogetherSyncListCommand } from 'hana-music-api';
 const result = await listentogetherSyncListCommand({
   roomId: 'MzA0NjY5...',
   commandType: 'REPLACE',
-  userId: '32953014',
+  userId: 32953014,
   version: 1,
-  displayList: '1372188635,186016',
-  randomList: '1372188635,186016',
+  displayList: [1372188635, 186016],
+  randomList: [1372188635, 186016],
 });
 
 console.log(result.body);
