@@ -1,6 +1,7 @@
 import { existsSync } from 'node:fs';
-import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
+import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
+
 const ROOT = resolve(import.meta.dir, '..');
 const MODULES_DIRECTORY = join(ROOT, 'src/modules');
 const ACCEPTANCE_DIRECTORY = join(ROOT, 'docs/acceptance/issue-128/inputs');

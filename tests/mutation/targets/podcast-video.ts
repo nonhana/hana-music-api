@@ -2,8 +2,8 @@ export const mutations = [
   {
     id: 'content-video-resource-id-lost',
     file: 'src/modules/video_detail_info.ts',
-    find: 'String(query.vid)',
-    replace: 'String(query.id)',
+    find: '`R_VI_62_${query.vid}`',
+    replace: '`R_VI_62_${query.vid[0]}`',
     expectedFailures: [
       'content client video_detail_info/vid-string owns its baseline wire contract',
     ],
@@ -29,8 +29,8 @@ export const mutations = [
   {
     id: 'content-unsubscribe-target-lost',
     file: 'src/modules/dj_sub.ts',
-    find: "Number(query.t) === 1 ? 'sub' : 'unsub'",
-    replace: "Number(query.t) === 1 ? 'sub' : 'sub'",
+    find: "input.t === 1 ? 'sub' : 'unsub'",
+    replace: "input.t === 1 ? 'sub' : 'sub'",
     expectedFailures: [
       'content client dj_sub/default owns its baseline wire contract',
     ],
@@ -38,8 +38,8 @@ export const mutations = [
   {
     id: 'content-broadcast-cancel-inverted',
     file: 'src/modules/broadcast_sub.ts',
-    find: 'cancelCollect: query.t,',
-    replace: "cancelCollect: query.t === 'false' ? 'true' : 'false',",
+    find: "cancelCollect: collect ? 'false' : 'true',",
+    replace: "cancelCollect: collect ? 'true' : 'false',",
     expectedFailures: [
       'content client broadcast_sub/default owns its baseline wire contract',
     ],
@@ -74,17 +74,17 @@ export const mutations = [
   {
     id: 'content-voice-free-filter-coerced',
     file: 'src/modules/voicelist_list_search.ts',
-    find: 'voiceFeeType: query.voiceFeeType || null,',
-    replace: 'voiceFeeType: query.voiceFeeType ?? null,',
+    find: 'voiceFeeType: input.voiceFeeType ?? null,',
+    replace: 'voiceFeeType: input.voiceFeeType || null,',
     expectedFailures: [
-      'content client voicelist_list_search/zero owns its baseline wire contract',
+      'content client voicelist_list_search/fee-int-0 owns its baseline wire contract',
     ],
   },
   {
     id: 'content-hourly-offset-added',
     file: 'src/modules/dj_program_toplist_hours.ts',
     find: '// 不支持 offset',
-    replace: 'offset: query.offset || 0,',
+    replace: 'offset: (query as unknown as { offset?: number }).offset || 0,',
     expectedFailures: [
       'content client dj_program_toplist_hours/explicit owns its baseline wire contract',
     ],

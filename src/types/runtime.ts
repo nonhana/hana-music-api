@@ -8,7 +8,6 @@ import type {
 } from '../core/errors.ts';
 import type { ModuleActions, RequestAction } from '../core/request-actions.ts';
 import type { RequestServices } from '../core/request.ts';
-import type { LegacyModuleInput } from './legacy.ts';
 import type { UnknownJson } from './unknown.ts';
 import type { LegacyResponseBody, UpstreamResponse } from './upstream.ts';
 
@@ -135,7 +134,7 @@ export type ModuleEffect<
 
 export interface ModuleDefinition<
   Identifier extends string = string,
-  Input = LegacyModuleInput,
+  Input = Readonly<Record<string, unknown>>,
   Body = UnknownJson,
   Actions extends ModuleActions = ModuleActions,
 > {

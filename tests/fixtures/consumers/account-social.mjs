@@ -128,6 +128,8 @@ for (const [index, entry] of baseline.cases.entries()) {
       (resolved) => ({ resolved }),
       (rejected) => ({ rejected }),
     );
+    if (outcome.rejected?.status === 400)
+      console.error('BAD', entry.module, JSON.stringify(entry.query));
     assert.deepEqual(outcome, {
       rejected: {
         status: 403,

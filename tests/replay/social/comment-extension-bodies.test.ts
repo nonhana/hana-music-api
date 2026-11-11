@@ -31,6 +31,17 @@ import commentHugListEmpty from '../../fixtures/netease/comment/comment_hug_list
 import commentNewDefault from '../../fixtures/netease/comment/comment_new.default.json';
 import commentNewEmpty from '../../fixtures/netease/comment/comment_new.empty.json';
 
+// 录制里的 query 只保留数字，type 在类型层收窄为资源枚举 0。
+const commentFloorQuery = { ...commentFloorDefault.query, type: 0 as const };
+const commentFloorEmptyQuery = {
+  ...commentFloorEmpty.query,
+  type: 0 as const,
+};
+const commentHotQuery = { ...commentHotDefault.query, type: 0 as const };
+const commentHotEmptyQuery = { ...commentHotEmpty.query, type: 0 as const };
+const commentNewQuery = { ...commentNewDefault.query, type: 0 as const };
+const commentNewEmptyQuery = { ...commentNewEmpty.query, type: 0 as const };
+
 // issue #102 B8 的录制。六个模块都用登录 Cookie 做过登录对照：先确认 login_status 的
 // account.anonimousUser 为 false；只抽查了本批匿名录制中非 null 的路径与类型，登录录制
 // 未保留，不对公开结构作相同性断言。
@@ -92,28 +103,28 @@ const cases: Array<Case> = [
     recording: commentFloorDefault,
     bodySchema: CommentFloorBody,
     call: (upstream, status) =>
-      replay(upstream, status).commentFloor(commentFloorDefault.query),
+      replay(upstream, status).commentFloor(commentFloorQuery),
   },
   {
     name: 'comment_floor without floor comments',
     recording: commentFloorEmpty,
     bodySchema: CommentFloorBody,
     call: (upstream, status) =>
-      replay(upstream, status).commentFloor(commentFloorEmpty.query),
+      replay(upstream, status).commentFloor(commentFloorEmptyQuery),
   },
   {
     name: 'comment_hot',
     recording: commentHotDefault,
     bodySchema: CommentHotBody,
     call: (upstream, status) =>
-      replay(upstream, status).commentHot(commentHotDefault.query),
+      replay(upstream, status).commentHot(commentHotQuery),
   },
   {
     name: 'comment_hot without hot comments',
     recording: commentHotEmpty,
     bodySchema: CommentHotBody,
     call: (upstream, status) =>
-      replay(upstream, status).commentHot(commentHotEmpty.query),
+      replay(upstream, status).commentHot(commentHotEmptyQuery),
   },
   {
     name: 'comment_hug_list',
@@ -134,14 +145,14 @@ const cases: Array<Case> = [
     recording: commentNewDefault,
     bodySchema: CommentNewBody,
     call: (upstream, status) =>
-      replay(upstream, status).commentNew(commentNewDefault.query),
+      replay(upstream, status).commentNew(commentNewQuery),
   },
   {
     name: 'comment_new without comments',
     recording: commentNewEmpty,
     bodySchema: CommentNewBody,
     call: (upstream, status) =>
-      replay(upstream, status).commentNew(commentNewEmpty.query),
+      replay(upstream, status).commentNew(commentNewEmptyQuery),
   },
 ];
 
@@ -267,7 +278,7 @@ test('comment_hot rejects a hot comment whose commentId is text', async () => {
   (upstream.hotComments[0] as { commentId: unknown }).commentId = '7431461934';
 
   await expectUpstreamShapeRejection(
-    replay(upstream).commentHot(commentHotDefault.query),
+    replay(upstream).commentHot(commentHotQuery),
     {
       module: 'comment_hot',
       path: 'body.hotComments[0].commentId',
@@ -282,7 +293,7 @@ test('comment_floor rejects a floor comment that is not an object', async () => 
   (upstream.data.comments as Array<unknown>)[0] = null;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).commentFloor(commentFloorDefault.query),
+    replay(upstream).commentFloor(commentFloorQuery),
     {
       module: 'comment_floor',
       path: 'body.data.comments[0]',
@@ -317,7 +328,7 @@ test('comment_new rejects a comment whose commentId is text', async () => {
     '7431461934';
 
   await expectUpstreamShapeRejection(
-    replay(upstream).commentNew(commentNewDefault.query),
+    replay(upstream).commentNew(commentNewQuery),
     {
       module: 'comment_new',
       path: 'body.data.comments[0].commentId',
@@ -336,7 +347,7 @@ test('comment_new rejects a body without the comment list', async () => {
   }
 
   await expectUpstreamShapeRejection(
-    replay(upstream).commentNew(commentNewDefault.query),
+    replay(upstream).commentNew(commentNewQuery),
     {
       module: 'comment_new',
       path: 'body.data.comments',
@@ -484,7 +495,7 @@ test('comment_hot drops bad loose fields and keeps undeclared fields', async () 
   upstream.hotComments[0]!.likedCount = '695';
   upstream.hotComments[0]!.user = 'none';
 
-  const result = await replay(upstream).commentHot(commentHotDefault.query);
+  const result = await replay(upstream).commentHot(commentHotQuery);
 
   expect(result.body as unknown).not.toHaveProperty('hasMore');
   expect(result.body as unknown).not.toHaveProperty('total');
@@ -513,7 +524,7 @@ test('comment_floor drops bad loose fields and keeps undeclared fields', async (
   upstream.data.ownerComment.commentId = '9673055460';
   upstream.data.extra = { kept: true };
 
-  const result = await replay(upstream).commentFloor(commentFloorDefault.query);
+  const result = await replay(upstream).commentFloor(commentFloorQuery);
 
   expect(result.body as unknown).not.toHaveProperty('message');
   expect(result.body.data as unknown).not.toHaveProperty('hasMore');
@@ -530,7 +541,7 @@ test('comment_floor returns a floor without replies and keeps the owner comment'
   const result = await replay(
     commentFloorEmpty.response.body,
     commentFloorEmpty.response.status,
-  ).commentFloor(commentFloorEmpty.query);
+  ).commentFloor(commentFloorEmptyQuery);
 
   expect(result.status).toBe(200);
   expect(result.body.data.comments).toEqual([]);
@@ -632,7 +643,7 @@ test('comment_new drops bad loose fields and keeps undeclared fields', async () 
   const user = comment.user as Record<string, unknown>;
   user.encryptUserId = 123;
 
-  const result = await replay(upstream).commentNew(commentNewDefault.query);
+  const result = await replay(upstream).commentNew(commentNewQuery);
 
   expect(result.body as unknown).not.toHaveProperty('message');
   expect(result.body.data as unknown).not.toHaveProperty('commentsTitle');
@@ -653,7 +664,7 @@ test('comment_new returns an empty comment list unchanged', async () => {
   const result = await replay(
     commentNewEmpty.response.body,
     commentNewEmpty.response.status,
-  ).commentNew(commentNewEmpty.query);
+  ).commentNew(commentNewEmptyQuery);
 
   expect(result.status).toBe(200);
   expect(result.body.data.comments).toEqual([]);
@@ -676,14 +687,14 @@ test('comment_hug_list rejects a non-primitive sid before calling upstream', asy
     await settle(
       api.commentHugList({
         ...commentHugListDefault.query,
-        sid: { id: 2092595510 },
+        sid: { id: 2092595510 } as never,
       }),
     ),
   ).toEqual({
     rejected: {
       status: 400,
       cookie: [],
-      body: { code: 400, msg: 'sid must be a primitive value' },
+      body: { code: 400, msg: expect.stringContaining('sid') },
     },
   });
   expect(upstreamCalls).toBe(0);

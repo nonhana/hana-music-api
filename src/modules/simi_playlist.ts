@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,21 @@ import {
 } from '../core/upstream-body.ts';
 import { PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  id: NumberId;
+  limit?: NaturalValue;
+  offset?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const PlaylistExtInfo = UpstreamObject({
   coverImgId_str: Loose(Schema.String),
@@ -74,7 +93,3 @@ const simiPlaylist: ModuleEffect<
  * 相似歌单
  */
 export default simiPlaylist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +13,28 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// auditStatus、type 的取值由模块原有的上游枚举注释穷举；sortBy 没有穷举，保留字符串。
+export type ModuleInput = {
+  auditStatus?: -5 | 0 | 1 | 4 | 5;
+  limit?: NaturalValue;
+  offset?: NaturalValue;
+  order?: 'asc' | 'desc';
+  sortBy?: string;
+  type?: 1 | 2 | 3 | 4 | 5 | 6 | 101 | 103;
+};
+
+const inputSchema = Schema.Struct({
+  auditStatus: Schema.optional(NumberLiterals([-5, 0, 1, 4, 5])),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  order: Schema.optional(Schema.Literals(['asc', 'desc'])),
+  sortBy: Schema.optional(Schema.String),
+  type: Schema.optional(NumberLiterals([1, 2, 3, 4, 5, 6, 101, 103])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 返回码和贡献内容的路径 `data` 收紧；总条数 `data.total` 宽松；当前账号没有贡献，`data.wikiDetailResultVoList` 只见过空数组，元素类型未知，不声明，原样保留。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -58,7 +84,3 @@ const ugcDetail: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 用户贡献内容
  */
 export default ugcDetail;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

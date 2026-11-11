@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,6 @@ import {
 } from '../core/upstream-body.ts';
 import { DjProgram } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -20,6 +23,22 @@ export const moduleActions = {
     retry: 'connect',
   },
 } as const satisfies ModuleActions;
+
+// 文档没有穷举 `type` 的值，录制里只出现过 `PUBLIC`，保留字符串。
+export type ModuleInput = {
+  type?: string;
+  limit?: NaturalValue;
+  offset?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  type: Schema.optional(Schema.String),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 通到推荐节目的路径 `programs` 和每个节目自己的编号 `programs[].id` 收紧；`name`、`more` 和节目其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -36,12 +55,12 @@ const programRecommend: ModuleEffect<
   ModuleInput,
   ModuleBody,
   typeof moduleActions
-> = (query, request) =>
+> = (input, request) =>
   Effect.gen(function* () {
     const data = {
-      cateId: query.type,
-      limit: query.limit || 10,
-      offset: query.offset || 0,
+      cateId: input.type,
+      limit: input.limit || 10,
+      offset: input.offset || 0,
     };
     const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
@@ -56,7 +75,3 @@ const programRecommend: ModuleEffect<
  * 推荐节目
  */
 export default programRecommend;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

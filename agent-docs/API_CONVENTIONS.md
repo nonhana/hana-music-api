@@ -17,8 +17,8 @@
 调用者只传业务值，协议编码由 SDK 在模块内完成。输入的唯一声明来源是模块本地 `ModuleInput` 和 `inputSchema`；生成器、具名函数、client、`invokeModule`、HTTP/动态入口共用同一份 decoder，不维护第二张手工表。
 
 - 编号用 `NumberId`：正安全整数或纯十进制正数字符串，拒绝 0、负数、小数、`NaN`、`Infinity`、分隔符串、布尔、对象和 `null`。需要非空编号集合（歌曲/歌单/排序/收藏）用 `NumberIdList`；可为空的列表用 `Schema.Array(NumberId)`。
-- 页码、数量、时间戳、版本用 `Schema.Natural` 或 `Schema.Int`；布尔用 `Schema.Boolean`；枚举只在代码或文档已穷举时用字面量；不透明 key、token、房间号、文本用 `Schema.String`。
-- 对象、数组和 JSON 载荷逐字段声明为 `Schema.Struct`/`Schema.Array`，不接受调用者预编码的 JSON 字符串。文件保持 `UploadedFile` 二进制结构，不 JSON 化。无参数模块用 `EmptyInput` 和 `Record<never, never>`。
+- 页码、数量、时间戳、版本用 `NaturalValue`/`IntegerValue`/`NumberValue`（接受 HTTP 数字字符串）；布尔用 `BooleanValue`；数字枚举用 `NumberLiterals`，字符串枚举只在代码或文档已穷举时用 `Schema.Literals`；不透明 key、token、房间号、文本用 `Schema.String`。
+- 对象、数组和 JSON 载荷逐字段声明为 `Schema.Struct`/`Schema.Array`，不接受调用者预编码的 JSON 字符串。文件保持 `UploadedFile` 二进制结构，不 JSON 化。无参数模块用 `EmptyInput` 和 `NoInput`。
 - 可选性来自现有默认值和上游要求；不要凭空增加必填、枚举或范围，也不要把 `null` 当缺省接受。
 - 编码在模块内用 `String(id)` 保留十进制文本；不修改调用者数组或对象。旧逗号串、JSON 串、分号串不兼容，属于 major 变化，逐项记录在验收清单。
 - 每个模块的 decoder 必须有正反用例；发生集合、对象、布尔或默认值转换的模块另需公开入口的实际请求体断言。

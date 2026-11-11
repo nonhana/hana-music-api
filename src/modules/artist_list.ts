@@ -1,9 +1,12 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 // 歌手分类
 /*
     type 取值
@@ -29,6 +32,26 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import { Artist } from '../core/upstream-schemas.ts';
+
+// area、type 的取值由模块注释和文档穷举（type=-1 表示全部）；initial 支持字母或数字哨兵。
+export type ModuleInput = {
+  area?: -1 | 0 | 7 | 8 | 16 | 96;
+  initial?: string | -1;
+  limit?: NaturalValue;
+  offset?: NaturalValue;
+  type?: -1 | 1 | 2 | 3;
+};
+
+const inputSchema = Schema.Struct({
+  area: Schema.optional(NumberLiterals([-1, 0, 7, 8, 16, 96])),
+  initial: Schema.optional(Schema.Union([Schema.String, Schema.Literal(-1)])),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  type: Schema.optional(NumberLiterals([-1, 1, 2, 3])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const ArtistListItem = UpstreamObject({
   ...Artist.schema.fields,
@@ -62,27 +85,19 @@ const artistList: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    if (
-      query.initial !== undefined &&
-      query.initial !== null &&
-      typeof query.initial !== 'string' &&
-      typeof query.initial !== 'number' &&
-      typeof query.initial !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'initial must be a primitive value',
-      });
-    }
     const data = {
-      initial: Number.isNaN(Number(query.initial))
-        ? String(query.initial || '')
-            .toUpperCase()
-            .charCodeAt(0) || undefined
-        : query.initial,
+      initial:
+        query.initial === -1
+          ? -1
+          : query.initial
+            ? Number.isNaN(Number(query.initial))
+              ? query.initial.toUpperCase().charCodeAt(0)
+              : query.initial
+            : undefined,
       offset: query.offset || 0,
       limit: query.limit || 30,
       total: true,
-      type: query.type || '1',
+      type: query.type || 1,
       area: query.area,
     };
     const response = yield* request('read', { data });
@@ -91,7 +106,3 @@ const artistList: ModuleEffect<
   });
 
 export default artistList;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

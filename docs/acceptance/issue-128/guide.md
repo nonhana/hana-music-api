@@ -39,13 +39,13 @@ export const decodeModuleInput = (input: unknown) =>
 
 - 编号（歌曲、歌单、用户、评论、专辑、歌手、MV、电台等资源 id）：`NumberId`。接受正安全整数或纯十进制正数字符串，拒绝 0、负数、小数、`"1,2"`、`"01"`、布尔、对象、null。
 - 编号集合：`NumberIdList`（非空）用于“缺了就等于没调用成功”的集合，例如 `song_detail.ids`、`playlist_tracks.tracks`、排序 `ids`、`playlist_track_add.ids`。可为空的列表（如一起听播放列表）用 `Schema.Array(NumberId)`。
-- 页码/数量/时间戳/版本：`Schema.Natural`（非负整数）或 `Schema.Int`；只有上游确实接受小数时才用 `Schema.Finite`。不要再用 `QueryNumber` / `QueryNumberLike`。
-- 布尔：`Schema.Boolean`。上游要 `1/0` 或 `'true'` 时在模块里编码。
-- 枚举：模块内已经按字面量分支的字段用 `Schema.Literals([...])`；文档只给出示例、未穷举的字符串（如 `commandType: 'REPLACE' | 'PLAYMODE_CHANGE'`）保留 `Schema.String`，不要猜完整枚举。
+- 页码/数量/时间戳/版本：用 `NaturalValue`（非负整数）、`IntegerValue`（整数）或 `NumberValue`（有限数）；它们接受 HTTP query 的数字字符串并在解码后变成 number。不要直接用 `Schema.Natural`/`Schema.Int`/`Schema.Finite`，否则 `?limit=5` 会被拒绝。文档或代码把 `-1` 当哨兵（如歌词 `lv/tv/rv/kv`）时用 `IntegerValue`。
+- 布尔：用 `BooleanValue`（接受 `true/false/0/1/'0'/'1'/'true'/'false'`，解码为 boolean）。不要直接用 `Schema.Boolean`。
+- 枚举：模块内已经按字面量分支的字段用 `NumberLiterals([...])`（数字）或 `Schema.Literals([...])`（字符串）；文档只给出示例、未穷举的字符串（如 `commandType: 'REPLACE' | 'PLAYMODE_CHANGE'`）保留 `Schema.String`，不要猜完整枚举。
 - 不透明 key、token、cookie 串、md5、房间号、threadId、文本：`Schema.String`。
 - 对象/数组载荷：`Schema.Struct` / `Schema.Array` 逐字段声明；不要保留 `string` 形式的 JSON。嵌套 struct 的未声明字段同样会被拒绝。
 - 文件/二进制：沿用 `UploadedFile`，不要 JSON 化，不要改成 base64 字符串。
-- 无参数模块：`export type ModuleInput = Record<never, never>`，`const inputSchema = EmptyInput`，decoder 末尾 `.pipe(Effect.as({}))`。不要用 `{}` 或 `Schema.Struct({})`。
+- 无参数模块：`export type ModuleInput = NoInput`，`const inputSchema = EmptyInput`，decoder 末尾 `.pipe(Effect.as({}))`。不要用 `{}`、`Record<never, never>` 或 `Schema.Struct({})`。
 - 唯一允许的开放字典是 `batch`；其他模块需要开放字典时先报给主代理，不要自行放行。
 
 ## 必填、可选和默认值

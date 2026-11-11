@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,23 @@ import {
 } from '../core/upstream-body.ts';
 import { LooseSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  count?: NaturalValue;
+  id: NumberId;
+  pid: NumberId;
+  sid?: NumberId;
+};
+
+const inputSchema = Schema.Struct({
+  count: Schema.optional(NaturalValue),
+  id: NumberId,
+  pid: NumberId,
+  sid: Schema.optional(NumberId),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 心动模式条目：条目自己的 `id` 收紧，`songInfo` 是附带记录，歌曲编号也宽松。
 const RecommendedSong = UpstreamObject({
@@ -66,7 +87,3 @@ const playmodeIntelligenceList: ModuleEffect<
  * 智能播放
  */
 export default playmodeIntelligenceList;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

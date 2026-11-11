@@ -146,8 +146,8 @@ describe('phase 5 module regression suite', () => {
         const songUrl = await invokeRealModule(
           'song_url',
           {
-            id: '1,2',
-            br: '320000',
+            ids: [1, 2],
+            br: 320000,
           },
           requestSpy.fetcher,
         );
@@ -513,7 +513,7 @@ const invokeRealModule = async (
   identifier: string,
   query: Record<string, unknown>,
   fetcher?: FetchLike,
-  config: ModuleCallConfig = {},
+  config: ModuleCallConfig = { cookie: '', state: { anonymousToken: '' } },
 ) => {
   const moduleDefinitions = await realModuleDefinitionsPromise;
 

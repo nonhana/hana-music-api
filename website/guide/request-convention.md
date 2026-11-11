@@ -12,7 +12,7 @@ curl 'http://127.0.0.1:3021/search' \
   --data '{"keywords":"海阔天空","limit":5}'
 ```
 
-JSON body 应是对象，不能是数组或单个值。query 中的数字通常是字符串，模块会按自己的输入规则检查和整理。
+JSON body 应是对象，不能是数组或单个值。query 中的标量数字和布尔可以写成字符串，模块的输入 schema 会归一为数字/布尔；数组和对象（如 `ids`、`tracks`、`tags`）通过 JSON body 传入。未声明字段会在发送上游前返回 `400`。
 
 HTTP 还保留 `cookie` 和 `noCookie`。`domain`、`proxy`、`headers`、`fetcher`、`state`、`retry`、`timeoutMs`、`signal`、`crypto`、`ip`、`realIP`、`ua` 等执行配置不能从 HTTP 传入，服务会在发送上游请求前返回 400。网络与期限设置通过受信任的服务端 SDK config 传入；原始协议、目标或请求头设置只用于显式低层 createRequest。
 

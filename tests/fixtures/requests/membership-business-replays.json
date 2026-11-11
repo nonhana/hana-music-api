@@ -82,7 +82,7 @@
   {
     "module": "digitalAlbum_sales",
     "path": "tests/fixtures/netease/digital-album/digitalAlbum_sales.missing-ids.json",
-    "querySha256": "e0a42a681ecbc4e43a61ab439136aa39ae7c8cd2d2c7021d7bcbeecaf3260103",
+    "querySha256": "ca13ff395ae6a4a63715e7aea49ddb9a1c97705d7f6a8e2362232f10ed64a1dd",
     "outcome": "rejected",
     "status": 400,
     "bodySha256": "fda3484e242dcdb01d08db87fcd112896224ca29d8b42826f4d954433cc40436",
@@ -352,7 +352,7 @@
   {
     "module": "musician_play_trend",
     "path": "tests/fixtures/netease/musician/musician_play_trend.no-params.json",
-    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "querySha256": "04c48690f7bf42c4ca9f98c37780eb1b8208dbbdfa50aad6b6f596f0593de57e",
     "outcome": "rejected",
     "status": 400,
     "bodySha256": "aef3ec305460f1a2cd7253ddc7d078478ab68b9e3febe335f2590a4e0733ad60",

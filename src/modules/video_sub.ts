@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,19 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  id: string;
+  t?: 0 | 1;
+};
+
+const inputSchema = Schema.Struct({
+  id: Schema.String,
+  t: Schema.optional(NumberLiterals([0, 1])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   sub: {
@@ -42,10 +58,9 @@ const videoSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   request,
 ) =>
   Effect.gen(function* () {
-    const query = { ...input };
-    const action = Number(query.t) === 1 ? 'sub' : 'unsub';
+    const action = input.t === 1 ? 'sub' : 'unsub';
     const data = {
-      id: query.id,
+      id: input.id,
     };
     const response = yield* request(action, { data });
     return {
@@ -58,7 +73,3 @@ const videoSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 收藏与取消收藏视频
  */
 export default videoSub;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

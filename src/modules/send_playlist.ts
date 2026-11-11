@@ -1,9 +1,13 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+  NumberIdList,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -16,6 +20,21 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = {
+  playlist: NumberId;
+  userIds: NumberIdList;
+  msg?: string;
+};
+
+const inputSchema = Schema.Struct({
+  playlist: NumberId,
+  userIds: NumberIdList,
+  msg: Schema.optional(Schema.String),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const sendPlaylist: ModuleEffect<
   ModuleInput,
   UnknownJson,
@@ -26,7 +45,7 @@ const sendPlaylist: ModuleEffect<
       id: query.playlist,
       type: 'playlist',
       msg: query.msg,
-      userIds: '[' + query.user_ids + ']',
+      userIds: `[${query.userIds.map(String).join(',')}]`,
     };
     const response = yield* request('request', { data });
     return toModuleResponse(response);
@@ -36,7 +55,3 @@ const sendPlaylist: ModuleEffect<
  * 私信歌单
  */
 export default sendPlaylist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

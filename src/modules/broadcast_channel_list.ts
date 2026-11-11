@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  IntegerValue,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +13,25 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  categoryId?: NaturalValue;
+  regionId?: NaturalValue;
+  limit?: NaturalValue;
+  lastId?: NaturalValue;
+  score?: IntegerValue;
+};
+
+const inputSchema = Schema.Struct({
+  categoryId: Schema.optional(NaturalValue),
+  regionId: Schema.optional(NaturalValue),
+  limit: Schema.optional(NaturalValue),
+  lastId: Schema.optional(NaturalValue),
+  score: Schema.optional(IntegerValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -52,10 +75,10 @@ const broadcastChannelList: ModuleEffect<
 > = (query, request) =>
   Effect.gen(function* () {
     const data = {
-      categoryId: query.categoryId || '0',
-      regionId: query.regionId || '0',
+      categoryId: String(query.categoryId || '0'),
+      regionId: String(query.regionId || '0'),
       limit: query.limit || '20',
-      lastId: query.lastId || '0',
+      lastId: String(query.lastId || '0'),
       score: query.score || '-1',
     };
     const response = yield* request('request', { data });
@@ -71,7 +94,3 @@ const broadcastChannelList: ModuleEffect<
  * 广播电台 - 全部电台
  */
 export default broadcastChannelList;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

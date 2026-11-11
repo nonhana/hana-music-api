@@ -4,7 +4,7 @@ import { fileURLToPath } from 'node:url';
 
 import { Exit } from 'effect';
 
-import { loadModuleDefinitions } from '../../../src/server/module-loader.ts';
+import { discoverModuleFiles } from '../../../src/server/module-discovery.ts';
 import { runExit } from '../../_kit/it.ts';
 import { cases as accountCases } from './input-contracts/account.ts';
 import { cases as albumCases } from './input-contracts/album.ts';
@@ -30,7 +30,7 @@ const REAL_MODULES_DIRECTORY = resolve(
   '../../../src/modules',
 );
 
-const definitionsPromise = loadModuleDefinitions(REAL_MODULES_DIRECTORY);
+const moduleFilesPromise = discoverModuleFiles(REAL_MODULES_DIRECTORY);
 
 const allCases = [
   accountCases,
@@ -53,13 +53,20 @@ const allCases = [
   vipYunbeiCases,
 ].flat();
 
-const definitionOf = async (identifier: string) => {
-  const definitions = await definitionsPromise;
-  const found = definitions.find(({ identifier: name }) => name === identifier);
-  if (found === undefined) {
-    throw new Error(`Module "${identifier}" is not registered`);
+// 352 个模块只能在运行时按用例选择加载；静态导入会让任一同行编辑未完成时所有用例一起失败。
+const decoderOf = async (identifier: string) => {
+  const imported: unknown = await import(
+    `../../../src/modules/${identifier}.ts`
+  );
+  if (
+    typeof imported !== 'object' ||
+    imported === null ||
+    !('decodeModuleInput' in imported) ||
+    typeof imported.decodeModuleInput !== 'function'
+  ) {
+    throw new Error(`Module "${identifier}" has no decodeModuleInput`);
   }
-  return found;
+  return imported.decodeModuleInput as (input: unknown) => unknown;
 };
 
 const isPlainRecord = (value: unknown): value is Record<string, unknown> =>
@@ -70,8 +77,8 @@ const isPlainRecord = (value: unknown): value is Record<string, unknown> =>
     Object.getPrototypeOf(value) === null);
 
 test('every registered module has an input contract', async () => {
-  const definitions = await definitionsPromise;
-  const registered = new Set(definitions.map(({ identifier }) => identifier));
+  const moduleFiles = await moduleFilesPromise;
+  const registered = new Set(moduleFiles.map(({ identifier }) => identifier));
   const covered = new Set(allCases.map(({ module }) => module));
   expect(allCases.length).toBe(covered.size);
   expect([...registered].filter((name) => !covered.has(name))).toEqual([]);
@@ -80,10 +87,10 @@ test('every registered module has an input contract', async () => {
 
 for (const testCase of allCases) {
   test(`${testCase.module} decodes its declared input`, async () => {
-    const definition = await definitionOf(testCase.module);
+    const decodeInput = await decoderOf(testCase.module);
     expect(testCase.valid.length).toBeGreaterThan(0);
     for (const value of testCase.valid) {
-      const exit = await runExit(definition.decodeInput(value));
+      const exit = await runExit(decodeInput(value) as never);
       if (Exit.isFailure(exit)) {
         throw new Error(
           `${testCase.module} rejected valid input ${JSON.stringify(value)}`,
@@ -97,7 +104,7 @@ for (const testCase of allCases) {
     }
     expect(invalid.length).toBeGreaterThan(0);
     for (const value of invalid) {
-      const exit = await runExit(definition.decodeInput(value));
+      const exit = await runExit(decodeInput(value) as never);
       if (Exit.isSuccess(exit)) {
         throw new Error(
           `${testCase.module} accepted invalid input ${JSON.stringify(value)}`,

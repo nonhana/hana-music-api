@@ -1,12 +1,12 @@
 import { expect, test } from 'bun:test';
 
-import type { ModuleInputOf } from '../../../index.ts';
 import {
   LyricNewBody,
   ScrobbleBody,
   SongDownloadUrlV1Body,
   SongUrlV1Body,
 } from '../../../index.ts';
+import type { ModuleInputOf } from '../../../index.ts';
 import type {
   Recording,
   UpstreamShape,
@@ -42,6 +42,27 @@ import urlLossless from '../../fixtures/netease/playback/song_url_v1.vip-lossles
 import urlSky from '../../fixtures/netease/playback/song_url_v1.vip-sky.json';
 import urlStandard from '../../fixtures/netease/playback/song_url_v1.vip-standard.json';
 
+// 录制保存的是当次业务 query（旧 id 形式是数字或逗号串），回放时换成新的业务输入。
+const idInput = (recording: Recording) => ({
+  id: String(recording.query.id),
+});
+
+const songUrlV1Input = (recording: Recording) => ({
+  ids: [String(recording.query.id)],
+  level: String(recording.query.level) as ModuleInputOf<'song_url_v1'>['level'],
+});
+
+const songDownloadUrlV1Input = (recording: Recording) => ({
+  id: String(recording.query.id),
+  level: String(recording.query.level),
+});
+
+const scrobbleInput = (recording: Recording) => ({
+  id: String(recording.query.id),
+  sourceid: Number(recording.query.sourceid),
+  time: Number(recording.query.time),
+});
+
 // 回放 #20 的验证关卡录制及 #71 的匿名下载对照，返回体保留脱敏后的上游字段。
 test.each<{ name: string; recording: Recording }>([
   { name: 'anonymous free', recording: urlAnonFree },
@@ -63,7 +84,7 @@ test.each<{ name: string; recording: Recording }>([
   'songUrlV1 returns the recorded $name body, keeping undeclared fields',
   async ({ recording }) => {
     const result = await replay(recording.response.body).songUrlV1(
-      recording.query as ModuleInputOf<'song_url_v1'>,
+      songUrlV1Input(recording),
     );
 
     expect(result.body as unknown).toEqual(recording.response.body);
@@ -79,7 +100,7 @@ test.each<{ name: string; recording: Recording }>([
   'songDownloadUrlV1 returns the recorded $name body, keeping undeclared fields',
   async ({ recording }) => {
     const result = await replay(recording.response.body).songDownloadUrlV1(
-      recording.query,
+      songDownloadUrlV1Input(recording),
     );
 
     expect(result.body as unknown).toEqual(recording.response.body);
@@ -94,7 +115,7 @@ test.each<{ name: string; recording: Recording }>([
   'songDownloadUrlV1 resolves anonymous member-only $name with a download denial, not a trial URL',
   async ({ recording }) => {
     const result = await replay(recording.response.body).songDownloadUrlV1(
-      recording.query,
+      songDownloadUrlV1Input(recording),
     );
 
     expect(result).toMatchObject({
@@ -129,7 +150,7 @@ test.each<{ name: string; recording: Recording }>([
   'lyricNew returns the recorded $name body, keeping undeclared fields',
   async ({ recording }) => {
     const result = await replay(recording.response.body).lyricNew(
-      recording.query,
+      idInput(recording),
     );
 
     expect(result.body as unknown).toEqual(recording.response.body);
@@ -138,7 +159,7 @@ test.each<{ name: string; recording: Recording }>([
 
 test('scrobble returns the recorded confirmation', async () => {
   const result = await replay(scrobbleRecording.response.body).scrobble(
-    scrobbleRecording.query,
+    scrobbleInput(scrobbleRecording),
   );
 
   expect(result.body as unknown).toEqual(scrobbleRecording.response.body);
@@ -171,7 +192,10 @@ test('songUrlV1 treats a trial clip without its end as absent', async () => {
   delete (upstream.data[0] as { freeTrialInfo: { end?: number } }).freeTrialInfo
     .end;
 
-  const result = await replay(upstream).songUrlV1({ id: 1409311773 });
+  const result = await replay(upstream).songUrlV1({
+    ids: [1409311773],
+    level: 'exhigh',
+  });
 
   expect(result.status).toBe(200);
   expect(result.body.data[0]?.freeTrialInfo as unknown).not.toHaveProperty(
@@ -183,7 +207,9 @@ test('songDownloadUrlV1 treats a download address without its size as absent', a
   const upstream = structuredClone(downloadExhigh.response.body);
   delete (upstream.data as { size?: number }).size;
 
-  const result = await replay(upstream).songDownloadUrlV1(downloadExhigh.query);
+  const result = await replay(upstream).songDownloadUrlV1(
+    songDownloadUrlV1Input(downloadExhigh),
+  );
 
   expect(result.status).toBe(200);
   expect(result.body.data as unknown).not.toHaveProperty('size');
@@ -193,7 +219,7 @@ test('lyricNew treats a word-by-word lyric without its text as present but empty
   const upstream = structuredClone(lyricYrc.response.body);
   delete (upstream.yrc as { lyric?: string }).lyric;
 
-  const result = await replay(upstream).lyricNew(lyricYrc.query);
+  const result = await replay(upstream).lyricNew(idInput(lyricYrc));
 
   expect(result.status).toBe(200);
   expect(result.body.yrc as unknown).not.toHaveProperty('lyric');
@@ -210,7 +236,10 @@ test.each<{
     call: () => {
       const upstream = structuredClone(urlNoCopyright.response.body);
       delete (upstream.data[0] as { url?: null }).url;
-      return replay(upstream).songUrlV1({ id: 2108191414 });
+      return replay(upstream).songUrlV1({
+        ids: [2108191414],
+        level: 'exhigh',
+      });
     },
     shape: {
       module: 'song_url_v1',
@@ -224,7 +253,7 @@ test.each<{
     call: () => {
       const upstream = structuredClone(lyricPureMusic.response.body);
       delete (upstream.lrc as { lyric?: string }).lyric;
-      return replay(upstream).lyricNew(lyricPureMusic.query);
+      return replay(upstream).lyricNew(idInput(lyricPureMusic));
     },
     shape: {
       module: 'lyric_new',
@@ -235,7 +264,7 @@ test.each<{
   },
   {
     name: 'scrobble: a non-object body',
-    call: () => replay('success').scrobble(scrobbleRecording.query),
+    call: () => replay('success').scrobble(scrobbleInput(scrobbleRecording)),
     shape: {
       module: 'scrobble',
       path: 'body',

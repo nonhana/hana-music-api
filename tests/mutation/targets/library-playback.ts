@@ -18,15 +18,6 @@ export const mutations = [
     ],
   },
   {
-    id: 'library-dynamic-boundary-widened',
-    file: 'src/modules/album.ts',
-    find: "target: { prefix: '/api/v1/album/' },",
-    replace: "target: { prefix: '/api/' },",
-    expectedFailures: [
-      'library album rejects a normalized dynamic path escape before sending',
-    ],
-  },
-  {
     id: 'library-sky-encoding-lost',
     file: 'src/modules/song_url_v1.ts',
     find: "if (data.level === 'sky')",

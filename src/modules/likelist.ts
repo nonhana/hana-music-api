@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 返回码和喜欢列表收紧。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -30,6 +33,17 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = {
+  uid: NumberId;
+};
+
+const inputSchema = Schema.Struct({
+  uid: NumberId,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const likelist: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,
   request,
@@ -50,7 +64,3 @@ const likelist: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 喜欢的歌曲(无序)
  */
 export default likelist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

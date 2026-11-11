@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,6 @@ import {
 } from '../core/upstream-body.ts';
 import { PlaylistUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 收藏者就是接口要返回的记录，`userId` 在这里收紧；其余字段沿用 `PlaylistUser` 的宽松写法（`avatarDetail`、`experts` 在收藏者录制里只见过 `null`，仍保留在共享结构里）。
 const Subscriber = UpstreamObject({
@@ -29,6 +33,21 @@ export const ModuleBody = Schema.toStandardSchemaV1(
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
+
+export type ModuleInput = {
+  id: NumberId;
+  limit?: number;
+  offset?: number;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   read: {
@@ -64,7 +83,3 @@ const playlistSubscribers: ModuleEffect<
  * 歌单收藏者
  */
 export default playlistSubscribers;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

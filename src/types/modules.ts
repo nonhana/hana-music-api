@@ -1,9 +1,4 @@
 export type * from './module-shared.ts';
-export type {
-  LegacyModulePrimitive,
-  LegacyModuleQuery,
-  LegacyModuleValue,
-} from './legacy.ts';
 export type { ModuleInput as AlbumListQuery } from '../modules/album_list.ts';
 export type { ModuleInput as AlbumListStyleQuery } from '../modules/album_list_style.ts';
 export type { ModuleInput as AlbumNewestQuery } from '../modules/album_newest.ts';

@@ -2,7 +2,8 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryNumber,
+  NaturalValue,
+  NumberLiterals,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -19,18 +20,24 @@ import {
   Song,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { PagedQuery, QueryNumberLike } from '../types/module-shared.ts';
 
-export type ModuleInput = PagedQuery & {
+// 文档列全了搜索类型；`2000` 的声音搜索走独立上游接口。数值字符串由 decoder 归一为数字。
+const SEARCH_TYPES = [
+  1, 10, 100, 1000, 1002, 1004, 1006, 1009, 1014, 1018, 2000,
+] as const;
+
+export type ModuleInput = {
   keywords: string;
-  type?: QueryNumberLike;
+  limit?: NaturalValue;
+  offset?: NaturalValue;
+  type?: (typeof SEARCH_TYPES)[number];
 };
 
 const inputSchema = Schema.Struct({
   keywords: Schema.String,
-  type: Schema.optional(QueryNumber),
-  limit: Schema.optional(QueryNumber),
-  offset: Schema.optional(QueryNumber),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  type: Schema.optional(NumberLiterals(SEARCH_TYPES)),
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -129,7 +136,7 @@ const search: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   request,
 ) =>
   Effect.gen(function* () {
-    const voice = String(input.type ?? '') === '2000';
+    const voice = input.type === 2000;
     const data = voice
       ? {
           keyword: input.keywords,

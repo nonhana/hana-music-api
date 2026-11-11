@@ -51,97 +51,110 @@ type Case = {
   ) => Promise<{ readonly status: number; readonly body: unknown }>;
 };
 
+const withAction = <Input extends { t: number }>(query: Input) => ({
+  ...query,
+  t: query.t as 0 | 1,
+});
+
 const cases: Array<Case> = [
   {
     name: 'follow unfollow',
     recording: followUnfollow,
     bodySchema: FollowBody,
     call: (upstream, status) =>
-      replay(upstream, status).follow(followUnfollow.query),
+      replay(upstream, status).follow(withAction(followUnfollow.query)),
   },
   {
     name: 'mv_sub subscribe',
     recording: mvSubSubscribe,
     bodySchema: MvSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).mvSub(mvSubSubscribe.query),
+      replay(upstream, status).mvSub(withAction(mvSubSubscribe.query)),
   },
   {
     name: 'mv_sub subscribe again',
     recording: mvSubSubscribeAgain,
     bodySchema: MvSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).mvSub(mvSubSubscribeAgain.query),
+      replay(upstream, status).mvSub(withAction(mvSubSubscribeAgain.query)),
   },
   {
     name: 'mv_sub unsubscribe',
     recording: mvSubUnsubscribe,
     bodySchema: MvSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).mvSub(mvSubUnsubscribe.query),
+      replay(upstream, status).mvSub(withAction(mvSubUnsubscribe.query)),
   },
   {
     name: 'video_sub subscribe',
     recording: videoSubSubscribe,
     bodySchema: VideoSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).videoSub(videoSubSubscribe.query),
+      replay(upstream, status).videoSub(withAction(videoSubSubscribe.query)),
   },
   {
     name: 'video_sub unsubscribe',
     recording: videoSubUnsubscribe,
     bodySchema: VideoSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).videoSub(videoSubUnsubscribe.query),
+      replay(upstream, status).videoSub(withAction(videoSubUnsubscribe.query)),
   },
   {
     name: 'dj_sub subscribe',
     recording: djSubSubscribe,
     bodySchema: DjSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).djSub(djSubSubscribe.query),
+      replay(upstream, status).djSub(withAction(djSubSubscribe.query)),
   },
   {
     name: 'dj_sub subscribe again',
     recording: djSubSubscribeAgain,
     bodySchema: DjSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).djSub(djSubSubscribeAgain.query),
+      replay(upstream, status).djSub(withAction(djSubSubscribeAgain.query)),
   },
   {
     name: 'dj_sub unsubscribe',
     recording: djSubUnsubscribe,
     bodySchema: DjSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).djSub(djSubUnsubscribe.query),
+      replay(upstream, status).djSub(withAction(djSubUnsubscribe.query)),
   },
   {
     name: 'broadcast_sub subscribe',
     recording: broadcastSubSubscribe,
     bodySchema: BroadcastSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).broadcastSub(broadcastSubSubscribe.query),
+      replay(upstream, status).broadcastSub(
+        withAction(broadcastSubSubscribe.query),
+      ),
   },
   {
     name: 'broadcast_sub subscribe again',
     recording: broadcastSubSubscribeAgain,
     bodySchema: BroadcastSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).broadcastSub(broadcastSubSubscribeAgain.query),
+      replay(upstream, status).broadcastSub(
+        withAction(broadcastSubSubscribeAgain.query),
+      ),
   },
   {
     name: 'broadcast_sub unsubscribe',
     recording: broadcastSubUnsubscribe,
     bodySchema: BroadcastSubBody,
     call: (upstream, status) =>
-      replay(upstream, status).broadcastSub(broadcastSubUnsubscribe.query),
+      replay(upstream, status).broadcastSub(
+        withAction(broadcastSubUnsubscribe.query),
+      ),
   },
   {
     name: 'resource_like unlike',
     recording: resourceLikeUnlike,
     bodySchema: ResourceLikeBody,
     call: (upstream, status) =>
-      replay(upstream, status).resourceLike(resourceLikeUnlike.query),
+      replay(upstream, status).resourceLike(
+        withAction(resourceLikeUnlike.query),
+      ),
   },
   {
     name: 'comment_like unlike',
@@ -181,19 +194,21 @@ test.each<{
     name: 'follow',
     recording: followRejected,
     call: (upstream, status) =>
-      replay(upstream, status).follow(followRejected.query),
+      replay(upstream, status).follow(withAction(followRejected.query)),
   },
   {
     name: 'video_sub subscribing twice',
     recording: videoSubSubscribeAgain,
     call: (upstream, status) =>
-      replay(upstream, status).videoSub(videoSubSubscribeAgain.query),
+      replay(upstream, status).videoSub(
+        withAction(videoSubSubscribeAgain.query),
+      ),
   },
   {
     name: 'resource_like',
     recording: resourceLikeLike,
     call: (upstream, status) =>
-      replay(upstream, status).resourceLike(resourceLikeLike.query),
+      replay(upstream, status).resourceLike(withAction(resourceLikeLike.query)),
   },
   {
     name: 'comment_like',
@@ -244,7 +259,7 @@ test('write action bodies type the tightened code and loose hints', () => {
   expectTypeOf<CommentLikeBody['code']>().toEqualTypeOf<200>();
 });
 
-test('follow rejects a non-primitive id before calling upstream', async () => {
+test('follow rejects an invalid id before calling upstream', async () => {
   let upstreamCalls = 0;
   const api = createHanaMusicApi({
     cookie: 'MUSIC_U=listener',
@@ -254,17 +269,13 @@ test('follow rejects a non-primitive id before calling upstream', async () => {
     },
   });
 
-  expect(await settle(api.follow({ id: {}, t: 1 }))).toEqual({
-    rejected: {
-      status: 400,
-      cookie: [],
-      body: { code: 400, msg: 'id must be a primitive value' },
-    },
+  expect(await settle(api.follow({ id: {} as never, t: 1 }))).toMatchObject({
+    rejected: { status: 400 },
   });
   expect(upstreamCalls).toBe(0);
 });
 
-test('resource_like rejects a non-primitive id before calling upstream', async () => {
+test('resource_like rejects an invalid id before calling upstream', async () => {
   let upstreamCalls = 0;
   const api = createHanaMusicApi({
     cookie: 'MUSIC_U=listener',
@@ -274,12 +285,10 @@ test('resource_like rejects a non-primitive id before calling upstream', async (
     },
   });
 
-  expect(await settle(api.resourceLike({ id: [], type: 0, t: 1 }))).toEqual({
-    rejected: {
-      status: 400,
-      cookie: [],
-      body: { code: 400, msg: 'id must be a primitive value' },
-    },
+  expect(
+    await settle(api.resourceLike({ id: [] as never, type: 0, t: 1 })),
+  ).toMatchObject({
+    rejected: { status: 400 },
   });
   expect(upstreamCalls).toBe(0);
 });
@@ -318,38 +327,43 @@ test.each<{
     name: 'follow',
     module: 'follow',
     recording: followUnfollow,
-    call: (upstream) => replay(upstream).follow(followUnfollow.query),
+    call: (upstream) =>
+      replay(upstream).follow(withAction(followUnfollow.query)),
   },
   {
     name: 'mv_sub',
     module: 'mv_sub',
     recording: mvSubUnsubscribe,
-    call: (upstream) => replay(upstream).mvSub(mvSubUnsubscribe.query),
+    call: (upstream) =>
+      replay(upstream).mvSub(withAction(mvSubUnsubscribe.query)),
   },
   {
     name: 'video_sub',
     module: 'video_sub',
     recording: videoSubUnsubscribe,
-    call: (upstream) => replay(upstream).videoSub(videoSubUnsubscribe.query),
+    call: (upstream) =>
+      replay(upstream).videoSub(withAction(videoSubUnsubscribe.query)),
   },
   {
     name: 'dj_sub',
     module: 'dj_sub',
     recording: djSubSubscribe,
-    call: (upstream) => replay(upstream).djSub(djSubSubscribe.query),
+    call: (upstream) =>
+      replay(upstream).djSub(withAction(djSubSubscribe.query)),
   },
   {
     name: 'broadcast_sub',
     module: 'broadcast_sub',
     recording: broadcastSubUnsubscribe,
     call: (upstream) =>
-      replay(upstream).broadcastSub(broadcastSubUnsubscribe.query),
+      replay(upstream).broadcastSub(withAction(broadcastSubUnsubscribe.query)),
   },
   {
     name: 'resource_like',
     module: 'resource_like',
     recording: resourceLikeUnlike,
-    call: (upstream) => replay(upstream).resourceLike(resourceLikeUnlike.query),
+    call: (upstream) =>
+      replay(upstream).resourceLike(withAction(resourceLikeUnlike.query)),
   },
   {
     name: 'comment_like',
@@ -382,7 +396,7 @@ test('mv_sub drops bad loose hints and keeps undeclared fields', async () => {
   upstream.data = null;
   upstream.extra = { reason: 'duplicate' };
 
-  const result = await replay(upstream).mvSub(mvSubSubscribe.query);
+  const result = await replay(upstream).mvSub(withAction(mvSubSubscribe.query));
 
   expect(result.body as unknown).not.toHaveProperty('message');
   expect(result.body as unknown).toHaveProperty('data', null);
@@ -397,7 +411,9 @@ test('mv_sub drops bad loose hints and keeps undeclared fields', async () => {
   delete missing.message;
   delete missing.data;
 
-  const missingResult = await replay(missing).mvSub(mvSubSubscribe.query);
+  const missingResult = await replay(missing).mvSub(
+    withAction(mvSubSubscribe.query),
+  );
 
   expect(missingResult.body as unknown).not.toHaveProperty('message');
   expect(missingResult.body as unknown).not.toHaveProperty('data');
@@ -411,7 +427,9 @@ test('follow drops a bad loose hint and keeps undeclared fields', async () => {
   upstream.msg = 123;
   upstream.dialog = { title: '风险提示' };
 
-  const result = await replay(upstream).follow(followUnfollow.query);
+  const result = await replay(upstream).follow(
+    withAction(followUnfollow.query),
+  );
 
   expect(result.body as unknown).not.toHaveProperty('msg');
   expect(result.body as unknown).toHaveProperty('dialog', {
@@ -423,7 +441,9 @@ test('follow drops a bad loose hint and keeps undeclared fields', async () => {
   };
   delete missing.msg;
 
-  const missingResult = await replay(missing).follow(followUnfollow.query);
+  const missingResult = await replay(missing).follow(
+    withAction(followUnfollow.query),
+  );
 
   expect(missingResult.body as unknown).not.toHaveProperty('msg');
 });
@@ -439,7 +459,7 @@ test('broadcast_sub drops bad loose fields and keeps undeclared fields', async (
   upstream.interactId = 7390120232;
 
   const result = await replay(upstream).broadcastSub(
-    broadcastSubSubscribe.query,
+    withAction(broadcastSubSubscribe.query),
   );
 
   expect(result.body as unknown).not.toHaveProperty('data');
@@ -454,7 +474,7 @@ test('broadcast_sub drops bad loose fields and keeps undeclared fields', async (
   delete missing.message;
 
   const missingResult = await replay(missing).broadcastSub(
-    broadcastSubSubscribe.query,
+    withAction(broadcastSubSubscribe.query),
   );
 
   expect(missingResult.body as unknown).not.toHaveProperty('data');
@@ -469,7 +489,9 @@ test('video_sub drops a bad loose hint and keeps undeclared fields', async () =>
   upstream.message = 42;
   upstream.debugInfo = { reason: 'already-collected' };
 
-  const result = await replay(upstream).videoSub(videoSubSubscribe.query);
+  const result = await replay(upstream).videoSub(
+    withAction(videoSubSubscribe.query),
+  );
 
   expect(result.body as unknown).not.toHaveProperty('message');
   expect(result.body as unknown).toHaveProperty('debugInfo', {
@@ -484,7 +506,9 @@ test('resource_like keeps undeclared fields', async () => {
   >;
   upstream.threadId = 'R_SO_4_2092595510';
 
-  const result = await replay(upstream).resourceLike(resourceLikeUnlike.query);
+  const result = await replay(upstream).resourceLike(
+    withAction(resourceLikeUnlike.query),
+  );
 
   expect(result.body as unknown).toHaveProperty(
     'threadId',

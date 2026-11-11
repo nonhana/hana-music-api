@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,13 @@ import {
 } from '../core/upstream-body.ts';
 import { MvSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { mvid: NumberId };
+
+const inputSchema = Schema.Struct({ mvid: NumberId });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 相似 MV 记录复用 `MvSummary`，另声明录制里非 null 的 `alg`；`desc` 只见过 null，未声明。
 const SimiMv = UpstreamObject({
@@ -53,7 +63,3 @@ const simiMv: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 相似MV
  */
 export default simiMv;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

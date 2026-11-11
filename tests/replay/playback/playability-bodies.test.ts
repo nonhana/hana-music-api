@@ -36,6 +36,26 @@ import songRedCountZero from '../../fixtures/netease/song/song_red_count.zero.js
 import settingAnonymous from '../../fixtures/netease/user/setting.anonymous.json';
 import settingDefault from '../../fixtures/netease/user/setting.default.json';
 
+// 录制保存的是当次业务 query（旧 ids 可能是 JSON/逗号串），回放时换成新的业务输入。
+const idInput = (recording: Recording) => ({
+  id: String(recording.query.id),
+});
+
+const checkMusicInput = (recording: Recording) => ({
+  id: String(recording.query.id),
+  ...(recording.query.br === undefined
+    ? {}
+    : { br: Number(recording.query.br) }),
+});
+
+const songLikeCheckInput = (recording: Recording) => ({
+  ids: Array.isArray(recording.query.ids)
+    ? recording.query.ids.map((id) => String(id))
+    : String(recording.query.ids)
+        .replace(/^\[|\]$/gu, '')
+        .split(','),
+});
+
 // issue #102 B38 的录制：播放可用性、音频识别与用户设置。登录对照先确认 login_status 的
 // account.anonimousUser 为 false；audio_match 的 match 录制只能靠真实歌曲指纹取得，no-match 用
 // 合成的 440Hz 音频指纹，`data.result` 是 `null`。check_music 的公开返回体由 SDK 合成，
@@ -72,56 +92,64 @@ test.each<{
     recording: songLikeCheckMixed,
     bodySchema: SongLikeCheckBody,
     call: (upstream, status) =>
-      replay(upstream, status).songLikeCheck(songLikeCheckMixed.query),
+      replay(upstream, status).songLikeCheck(
+        songLikeCheckInput(songLikeCheckMixed),
+      ),
   },
   {
     name: 'song_like_check without liked songs',
     recording: songLikeCheckNone,
     bodySchema: SongLikeCheckBody,
     call: (upstream, status) =>
-      replay(upstream, status).songLikeCheck(songLikeCheckNone.query),
+      replay(upstream, status).songLikeCheck(
+        songLikeCheckInput(songLikeCheckNone),
+      ),
   },
   {
     name: 'song_like_check anonymously',
     recording: songLikeCheckAnonymous,
     bodySchema: SongLikeCheckBody,
     call: (upstream, status) =>
-      replay(upstream, status).songLikeCheck(songLikeCheckAnonymous.query),
+      replay(upstream, status).songLikeCheck(
+        songLikeCheckInput(songLikeCheckAnonymous),
+      ),
   },
   {
     name: 'song_red_count',
     recording: songRedCountDefault,
     bodySchema: SongRedCountBody,
     call: (upstream, status) =>
-      replay(upstream, status).songRedCount(songRedCountDefault.query),
+      replay(upstream, status).songRedCount(idInput(songRedCountDefault)),
   },
   {
     name: 'song_red_count anonymously',
     recording: songRedCountAnonymous,
     bodySchema: SongRedCountBody,
     call: (upstream, status) =>
-      replay(upstream, status).songRedCount(songRedCountAnonymous.query),
+      replay(upstream, status).songRedCount(idInput(songRedCountAnonymous)),
   },
   {
     name: 'song_red_count without red hearts',
     recording: songRedCountZero,
     bodySchema: SongRedCountBody,
     call: (upstream, status) =>
-      replay(upstream, status).songRedCount(songRedCountZero.query),
+      replay(upstream, status).songRedCount(idInput(songRedCountZero)),
   },
   {
     name: 'song_dynamic_cover with a cover',
     recording: songDynamicCoverDefault,
     bodySchema: SongDynamicCoverBody,
     call: (upstream, status) =>
-      replay(upstream, status).songDynamicCover(songDynamicCoverDefault.query),
+      replay(upstream, status).songDynamicCover(
+        idInput(songDynamicCoverDefault),
+      ),
   },
   {
     name: 'song_dynamic_cover without a cover',
     recording: songDynamicCoverEmpty,
     bodySchema: SongDynamicCoverBody,
     call: (upstream, status) =>
-      replay(upstream, status).songDynamicCover(songDynamicCoverEmpty.query),
+      replay(upstream, status).songDynamicCover(idInput(songDynamicCoverEmpty)),
   },
   {
     name: 'song_dynamic_cover anonymously',
@@ -129,7 +157,7 @@ test.each<{
     bodySchema: SongDynamicCoverBody,
     call: (upstream, status) =>
       replay(upstream, status).songDynamicCover(
-        songDynamicCoverAnonymous.query,
+        idInput(songDynamicCoverAnonymous),
       ),
   },
   {
@@ -171,7 +199,7 @@ test.each([
   { name: 'for a nonexistent song', recording: checkMusicNonexistent },
 ])('check_music $name builds the expected body', async ({ recording }) => {
   const result = await replay(recording.response.body).checkMusic(
-    recording.query,
+    checkMusicInput(recording),
   );
 
   expect(result.status).toBe(200);
@@ -190,7 +218,7 @@ test('check_music hands a non-200 upstream code back as a rejection', async () =
 
 test('check_music only needs the playback entry code', async () => {
   const result = await replay({ code: 200, data: [{ code: 200 }] }).checkMusic(
-    checkMusicPlayable.query,
+    checkMusicInput(checkMusicPlayable),
   );
 
   expect(result.body).toEqual({ code: 200, success: true, message: 'ok' });
@@ -198,7 +226,9 @@ test('check_music only needs the playback entry code', async () => {
 
 test('check_music rejects data that is not an array or null', async () => {
   await expectUpstreamShapeRejection(
-    replay({ code: 200, data: null }).checkMusic(checkMusicPlayable.query),
+    replay({ code: 200, data: null }).checkMusic(
+      checkMusicInput(checkMusicPlayable),
+    ),
     {
       module: 'check_music',
       path: 'body.data',
@@ -208,7 +238,9 @@ test('check_music rejects data that is not an array or null', async () => {
   );
 
   await expectUpstreamShapeRejection(
-    replay({ code: 200, data: {} }).checkMusic(checkMusicPlayable.query),
+    replay({ code: 200, data: {} }).checkMusic(
+      checkMusicInput(checkMusicPlayable),
+    ),
     {
       module: 'check_music',
       path: 'body.data',
@@ -220,7 +252,9 @@ test('check_music rejects data that is not an array or null', async () => {
 
 test('check_music rejects a playback entry that is not an object', async () => {
   await expectUpstreamShapeRejection(
-    replay({ code: 200, data: [null] }).checkMusic(checkMusicPlayable.query),
+    replay({ code: 200, data: [null] }).checkMusic(
+      checkMusicInput(checkMusicPlayable),
+    ),
     {
       module: 'check_music',
       path: 'body.data[0]',
@@ -230,7 +264,9 @@ test('check_music rejects a playback entry that is not an object', async () => {
   );
 
   await expectUpstreamShapeRejection(
-    replay({ code: 200, data: ['200'] }).checkMusic(checkMusicPlayable.query),
+    replay({ code: 200, data: ['200'] }).checkMusic(
+      checkMusicInput(checkMusicPlayable),
+    ),
     {
       module: 'check_music',
       path: 'body.data[0]',
@@ -242,7 +278,7 @@ test('check_music rejects a playback entry that is not an object', async () => {
 
 test('check_music ignores an empty data array and later entries', async () => {
   const empty = await replay({ code: 200, data: [] }).checkMusic(
-    checkMusicPlayable.query,
+    checkMusicInput(checkMusicPlayable),
   );
   expect(empty.body).toEqual({
     code: 200,
@@ -253,7 +289,7 @@ test('check_music ignores an empty data array and later entries', async () => {
   const later = await replay({
     code: 200,
     data: [{ code: 200 }, { code: 'not-a-number' }],
-  }).checkMusic(checkMusicPlayable.query);
+  }).checkMusic(checkMusicInput(checkMusicPlayable));
   expect(later.body).toEqual({ code: 200, success: true, message: 'ok' });
 });
 
@@ -262,7 +298,7 @@ test('check_music rejects a non-object upstream body', async () => {
   const upstream = '{"msg":"参数错误","code":400}{"msg":"参数错误","code":400}';
 
   await expectUpstreamShapeRejection(
-    replay(upstream).checkMusic(checkMusicPlayable.query),
+    replay(upstream).checkMusic(checkMusicInput(checkMusicPlayable)),
     {
       module: 'check_music',
       path: 'body',
@@ -278,7 +314,7 @@ test('check_music rejects playback data without a usable entry code', async () =
   };
   delete withoutData.data;
   await expectUpstreamShapeRejection(
-    replay(withoutData).checkMusic(checkMusicPlayable.query),
+    replay(withoutData).checkMusic(checkMusicInput(checkMusicPlayable)),
     {
       module: 'check_music',
       path: 'body.data',
@@ -292,7 +328,7 @@ test('check_music rejects playback data without a usable entry code', async () =
   };
   delete withoutCode.data[0]?.code;
   await expectUpstreamShapeRejection(
-    replay(withoutCode).checkMusic(checkMusicPlayable.query),
+    replay(withoutCode).checkMusic(checkMusicInput(checkMusicPlayable)),
     {
       module: 'check_music',
       path: 'body.data[0].code',
@@ -306,7 +342,7 @@ test('check_music rejects playback data without a usable entry code', async () =
   };
   if (stringCode.data[0] !== undefined) stringCode.data[0].code = '200';
   await expectUpstreamShapeRejection(
-    replay(stringCode).checkMusic(checkMusicPlayable.query),
+    replay(stringCode).checkMusic(checkMusicInput(checkMusicPlayable)),
     {
       module: 'check_music',
       path: 'body.data[0].code',
@@ -316,20 +352,20 @@ test('check_music rejects playback data without a usable entry code', async () =
   );
 });
 
-test('song_like_check hands an empty id list rejection back', async () => {
-  expect(
-    await settle(
-      replay(songLikeCheckEmptyIds.response.body).songLikeCheck(
-        songLikeCheckEmptyIds.query,
-      ),
-    ),
-  ).toEqual({
-    rejected: {
-      status: 400,
-      cookie: [],
-      body: songLikeCheckEmptyIds.response.body,
+test('song_like_check rejects an empty id list before sending', async () => {
+  let requests = 0;
+  const api = createHanaMusicApi({
+    cookie: 'MUSIC_U=listener',
+    fetcher: async () => {
+      requests += 1;
+      return Response.json(songLikeCheckEmptyIds.response.body);
     },
   });
+
+  const outcome = await settle(api.songLikeCheck({ ids: [] }));
+
+  expect('rejected' in outcome && outcome.rejected.status).toBe(400);
+  expect(requests).toBe(0);
 });
 
 test('audio_match rejects a body without the match data', async () => {
@@ -430,7 +466,7 @@ test('audio_match keeps undeclared top-level fields', async () => {
 
 test('song_like_check rejects a body without ids and a bad id', async () => {
   await expectUpstreamShapeRejection(
-    replay({ code: 200 }).songLikeCheck(songLikeCheckMixed.query),
+    replay({ code: 200 }).songLikeCheck(songLikeCheckInput(songLikeCheckMixed)),
     {
       module: 'song_like_check',
       path: 'body.ids',
@@ -441,7 +477,7 @@ test('song_like_check rejects a body without ids and a bad id', async () => {
 
   await expectUpstreamShapeRejection(
     replay({ code: 200, ids: [1394617453, '1394617453'] }).songLikeCheck(
-      songLikeCheckMixed.query,
+      songLikeCheckInput(songLikeCheckMixed),
     ),
     {
       module: 'song_like_check',
@@ -458,13 +494,15 @@ test('song_like_check keeps undeclared fields', async () => {
     checkPoint: 1394617453,
   };
 
-  const result = await replay(upstream).songLikeCheck(songLikeCheckMixed.query);
+  const result = await replay(upstream).songLikeCheck(
+    songLikeCheckInput(songLikeCheckMixed),
+  );
   expect(result.body as unknown).toHaveProperty('checkPoint', 1394617453);
 });
 
 test('song_red_count rejects a body without the count path', async () => {
   await expectUpstreamShapeRejection(
-    replay({ code: 200 }).songRedCount(songRedCountDefault.query),
+    replay({ code: 200 }).songRedCount(idInput(songRedCountDefault)),
     {
       module: 'song_red_count',
       path: 'body.data',
@@ -475,7 +513,7 @@ test('song_red_count rejects a body without the count path', async () => {
 
   await expectUpstreamShapeRejection(
     replay({ code: 200, data: { count: '315386' } }).songRedCount(
-      songRedCountDefault.query,
+      idInput(songRedCountDefault),
     ),
     {
       module: 'song_red_count',
@@ -496,7 +534,9 @@ test('song_red_count drops a bad count description and keeps undeclared fields',
     },
   };
 
-  const result = await replay(upstream).songRedCount(songRedCountDefault.query);
+  const result = await replay(upstream).songRedCount(
+    idInput(songRedCountDefault),
+  );
   expect(result.body.data as unknown).toHaveProperty('countDesc', null);
   expect(result.body.data as unknown).toHaveProperty('futureCount', 1);
 
@@ -505,7 +545,7 @@ test('song_red_count drops a bad count description and keeps undeclared fields',
     data: { count: 315386, countDesc: 315386 },
   };
   const dropped = await replay(wrongType).songRedCount(
-    songRedCountDefault.query,
+    idInput(songRedCountDefault),
   );
   expect(dropped.body.data as unknown).not.toHaveProperty('countDesc');
 });
@@ -513,7 +553,7 @@ test('song_red_count drops a bad count description and keeps undeclared fields',
 test('song_dynamic_cover keeps an empty cover and rejects a bad url type', async () => {
   const result = await replay(
     songDynamicCoverEmpty.response.body,
-  ).songDynamicCover(songDynamicCoverEmpty.query);
+  ).songDynamicCover(idInput(songDynamicCoverEmpty));
   expect(result.body.data as unknown).not.toHaveProperty('videoPlayUrl');
 
   const nullUrl = structuredClone(songDynamicCoverDefault.response.body) as {
@@ -521,7 +561,7 @@ test('song_dynamic_cover keeps an empty cover and rejects a bad url type', async
   };
   nullUrl.data.videoPlayUrl = null;
   const nullResult = await replay(nullUrl).songDynamicCover(
-    songDynamicCoverDefault.query,
+    idInput(songDynamicCoverDefault),
   );
   expect(nullResult.body.data).toHaveProperty('videoPlayUrl', null);
 
@@ -530,7 +570,7 @@ test('song_dynamic_cover keeps an empty cover and rejects a bad url type', async
   };
   badUrl.data.videoPlayUrl = 42;
   await expectUpstreamShapeRejection(
-    replay(badUrl).songDynamicCover(songDynamicCoverDefault.query),
+    replay(badUrl).songDynamicCover(idInput(songDynamicCoverDefault)),
     {
       module: 'song_dynamic_cover',
       path: 'body.data.videoPlayUrl',
@@ -542,7 +582,7 @@ test('song_dynamic_cover keeps an empty cover and rejects a bad url type', async
 
 test('song_dynamic_cover rejects a body without the cover path', async () => {
   await expectUpstreamShapeRejection(
-    replay({ code: 200 }).songDynamicCover(songDynamicCoverDefault.query),
+    replay({ code: 200 }).songDynamicCover(idInput(songDynamicCoverDefault)),
     {
       module: 'song_dynamic_cover',
       path: 'body.data',
@@ -563,7 +603,7 @@ test('song_dynamic_cover drops bad loose values and keeps undeclared fields', as
   upstream.message = null;
 
   const result = await replay(upstream).songDynamicCover(
-    songDynamicCoverDefault.query,
+    idInput(songDynamicCoverDefault),
   );
   expect(result.body as unknown).toHaveProperty('message', null);
   expect(result.body.data as unknown).not.toHaveProperty('height');

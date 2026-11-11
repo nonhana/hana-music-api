@@ -1,9 +1,9 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -15,6 +15,17 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  nickname: string;
+};
+
+const inputSchema = Schema.Struct({
+  nickname: Schema.String,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const activateInitProfile: ModuleEffect<
   ModuleInput,
@@ -33,7 +44,3 @@ const activateInitProfile: ModuleEffect<
  * 初始化名字
  */
 export default activateInitProfile;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -78,16 +78,9 @@ describe('ordinary read Effect modules', () => {
     },
     {
       module: search,
-      input: { keywords: 'voice', type: '2000', limit: '5', offset: '2' },
+      input: { keywords: 'voice', type: 2000, limit: 5, offset: 2 },
       target: '/api/search/voice/get',
-      body: { keyword: 'voice', scene: 'normal', limit: '5', offset: '2' },
-      protocol: 'eapi',
-    },
-    {
-      module: search,
-      input: { keywords: 'hello', type: '9999', limit: 0, offset: 0 },
-      target: '/api/search/get',
-      body: { s: 'hello', type: '9999', limit: 30, offset: 0 },
+      body: { keyword: 'voice', scene: 'normal', limit: 5, offset: 2 },
       protocol: 'eapi',
     },
     {

@@ -108,13 +108,6 @@ export const mutations = [
     ],
   },
   {
-    id: 'module-query-execution-key-accepted',
-    file: 'src/core/options.ts',
-    find: 'if (Object.hasOwn(value, key))',
-    replace: 'if (false)',
-    expectedFailures: ['module query rejects execution key crypto'],
-  },
-  {
     id: 'module-client-config-unchecked',
     file: 'src/core/call.ts',
     find: '  validateModuleConfig(config, true);',

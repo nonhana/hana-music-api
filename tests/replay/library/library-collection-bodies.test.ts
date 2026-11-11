@@ -170,15 +170,16 @@ test.each<{
     name: 'user_playlist_collect',
     recording: userPlaylistCollectRejected,
     call: (upstream, status) =>
-      replay(upstream, status).userPlaylistCollect(
-        userPlaylistCollectRejected.query,
-      ),
+      replay(upstream, status).userPlaylistCollect({
+        uid: 10000001,
+        limit: 10,
+      }),
   },
   {
     name: 'song_downlist',
     recording: songDownlistRejected,
     call: (upstream, status) =>
-      replay(upstream, status).songDownlist(songDownlistRejected.query),
+      replay(upstream, status).songDownlist({ limit: 20 }),
   },
 ])('$name passes a rejected code through', async (entry) => {
   expect(

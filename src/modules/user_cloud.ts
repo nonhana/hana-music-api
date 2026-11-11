@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,6 @@ import {
 } from '../core/upstream-body.ts';
 import { LooseSong, PrivateCloud } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 const CloudEntry = UpstreamObject({
   songId: Schema.Finite,
@@ -55,6 +58,19 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = {
+  limit?: number;
+  offset?: number;
+};
+
+const inputSchema = Schema.Struct({
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const userCloud: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,
   request,
@@ -75,7 +91,3 @@ const userCloud: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 云盘数据
  */
 export default userCloud;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -3,14 +3,11 @@ import { expect, test } from 'bun:test';
 import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
 
-import {
-  createHanaMusicApi,
-  type ModuleCallConfig,
-  type NcmApiResponse,
-} from '../../../../index.ts';
+import { createHanaMusicApi } from '../../../../index.ts';
+import type { ModuleCallConfig, NcmApiResponse } from '../../../../index.ts';
 import packageJson from '../../../../package.json';
 import { buildCallServices, runCall } from '../../../../src/core/call.ts';
-import { decodeLegacyModuleInput } from '../../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../../src/core/module-input.ts';
 import { toModuleResponse } from '../../../../src/core/response.ts';
 import { setRuntimeState } from '../../../../src/core/runtime.ts';
 import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
@@ -50,24 +47,24 @@ interface Case {
   result: { resolved?: NcmApiResponse; rejected?: NcmApiResponse };
 }
 const baseline = recorded as unknown as { cases: Array<Case> };
-// #128 收窄后，数字、布尔、null、空串和空数组 tracks 不再是有效业务输入；单独验证本地拒绝，不进入请求链回放。
-const retiredPlaylistTracksInputs: Record<string, true> = {
-  'add-31': true,
-  'add-32': true,
-  'add-33': true,
-  'add-34': true,
-  'del-36': true,
-  'del-37': true,
-  'del-38': true,
-  'del-39': true,
-  'invalid-tracks': true,
+// #128 收窄后，这些旧协议输入不再是有效业务输入；单独验证本地拒绝，不进入请求链回放。
+const retiredCases: Record<string, true> = {
+  'playlist_tracks/add-31': true,
+  'playlist_tracks/add-32': true,
+  'playlist_tracks/add-33': true,
+  'playlist_tracks/add-34': true,
+  'playlist_tracks/del-36': true,
+  'playlist_tracks/del-37': true,
+  'playlist_tracks/del-38': true,
+  'playlist_tracks/del-39': true,
+  'playlist_tracks/invalid-tracks': true,
+  'login_qr_create/qr-19': true,
+  'cloud_import/falsy': true,
+  'playlist_cover_update/missing': true,
+  'playlist_track_all/invalid-page': true,
 };
 const baselineCases = baseline.cases.filter(
-  (entry) =>
-    !(
-      entry.module === 'playlist_tracks' &&
-      Object.hasOwn(retiredPlaylistTracksInputs, entry.label)
-    ),
+  (entry) => !Object.hasOwn(retiredCases, `${entry.module}/${entry.label}`),
 );
 const expectedResult = (entry: Case): Case['result'] =>
   entry.module === 'inner_version'
@@ -209,6 +206,24 @@ test.each([
     expect(upstreamCalls).toBe(0);
   },
 );
+
+test('login_qr_create rejects an unknown platform before calling upstream', async () => {
+  let upstreamCalls = 0;
+  const api = createHanaMusicApi({
+    cookie,
+    fetcher: async () => {
+      upstreamCalls += 1;
+      return Response.json({ code: 200 });
+    },
+  });
+  const result = await settle(
+    api.loginQrCreate({ key: 'key', platform: 'other' } as never),
+  );
+  expect(result).toMatchObject({
+    rejected: { status: 400, body: { code: 400 } },
+  });
+  expect(upstreamCalls).toBe(0);
+});
 
 for (const entry of baselineCases) {
   test(`special client ${entry.module}/${entry.label} preserves full baseline orchestration`, async () => {
@@ -946,7 +961,7 @@ test('special dynamic plain accepts its declared origin and target', async () =>
         {
           ...sdkModuleRegistry.audio_match,
           actions: dynamicPlainActions,
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: (_input, request) =>
             request('match', {
               target: 'https://interface.music.163.com/api/music/audio/match',
@@ -986,7 +1001,7 @@ for (const change of [
           {
             ...sdkModuleRegistry.audio_match,
             actions: dynamicPlainActions,
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: (_input, request) =>
               // 模拟 JavaScript 调用者绕过类型检查，验证运行时仍拒绝非法参数。
               request('match', {
@@ -1103,8 +1118,8 @@ for (const entry of [
   },
   {
     module: 'related_playlist',
-    input: { id: 'login' },
-    url: 'https://music.163.com/playlist?id=login',
+    input: { id: '17' },
+    url: 'https://music.163.com/playlist?id=17',
     method: 'relatedPlaylist',
   },
 ]) {

@@ -2,293 +2,358 @@
   {
     "module": "user_account",
     "actions": ["request"],
-    "current": "{}",
+    "current": "NoInput",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定发送空 data",
+    "evidence": ["tests/behavior/modules/input-contracts/user.ts"],
+    "status": "migrated"
   },
   {
     "module": "user_audio",
     "actions": ["request"],
-    "current": "{ uid: QueryIdentifier; }",
+    "current": "{ uid: NumberId; }",
     "fields": ["ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号（正安全整数或纯十进制字符串）",
+    "upstreamEncoding": "data.userId = uid",
+    "evidence": ["tests/behavior/modules/input-contracts/user.ts"],
+    "status": "migrated"
   },
   {
     "module": "user_binding",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ uid: NumberId; }",
     "fields": ["ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号",
+    "upstreamEncoding": "路径 /api/v1/user/bindings/<uid>",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated"
   },
   {
     "module": "user_cloud",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number; offset?: number; }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "limit/offset: 非负整数（数字或数字字符串），默认 30/0",
+    "upstreamEncoding": "limit、offset 以数字发送",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated"
   },
   {
     "module": "user_cloud_del",
     "actions": ["delete"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "id: 单个歌曲编号，调用者不再传数组或逗号串",
+    "upstreamEncoding": "data.songIds = [String(id)]",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated",
+    "notes": "保留单曲删除；模块此前也只发送一项 songIds，不新增多曲删除能力。"
   },
   {
     "module": "user_cloud_detail",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
-    "fields": ["id", "ts"],
-    "legacyEncoding": ["split(',')"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "current": "{ ids: NumberIdList; }",
+    "fields": ["ids", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "ids: 非空编号数组",
+    "upstreamEncoding": "data.songIds = ids.map(String)",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts",
+      "tests/replay/account/user-account-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧逗号串 id 和带空格的 \"17, 23\" 一律拒绝；不再裁剪空白。"
   },
   {
     "module": "user_comment_history",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ uid: NumberId; limit?: number; time?: number; }",
     "fields": ["limit", "time", "ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号；limit/time: 非负整数，默认 10/0",
+    "upstreamEncoding": "compose_reminder/compose_hot_comment 固定 'true'；limit、time 数字；user_id = uid",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated"
   },
   {
     "module": "user_detail",
     "actions": ["request"],
-    "current": "{ uid: QueryIdentifier; }",
+    "current": "{ uid: NumberId; }",
     "fields": ["ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号",
+    "upstreamEncoding": "路径 /api/v1/user/detail/<uid>",
+    "evidence": ["tests/behavior/modules/input-contracts/user.ts"],
+    "status": "migrated"
   },
   {
     "module": "user_dj",
     "actions": ["request"],
-    "current": "{ uid: QueryIdentifier; limit?: QueryNumberLike; offset?: QueryNumberLike; }",
+    "current": "{ uid: NumberId; limit?: number; offset?: number; }",
     "fields": ["limit", "offset", "ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号；limit/offset: 非负整数，默认 30/0",
+    "upstreamEncoding": "路径 /api/dj/program/<uid>；limit、offset 数字",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated"
   },
   {
     "module": "user_event",
     "actions": ["request"],
-    "current": "{ uid: QueryIdentifier; limit?: QueryNumberLike; offset?: QueryNumberLike; lasttime?: QueryNumberLike; }",
+    "current": "{ uid: NumberId; limit?: number; offset?: number; lasttime?: number; }",
     "fields": ["lasttime", "limit", "ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号；limit: 非负整数默认 30；lasttime: 整数默认 -1",
+    "upstreamEncoding": "路径 /api/event/get/<uid>；time=lasttime，limit 数字，getcounts/total 固定布尔",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated",
+    "notes": "lasttime 的 -1 是既有哨兵值，用 IntegerValue 保留，不缩到非负。"
   },
   {
     "module": "user_follow_mixed",
     "actions": ["request"],
-    "current": "{ cursor?: QueryNumberLike; scene?: 0 | 1 | 2 | '0' | '1' | '2'; size?: QueryNumberLike; }",
+    "current": "{ cursor?: number; scene?: 0 | 1 | 2; size?: number; }",
     "fields": ["cursor", "scene", "size", "ts"],
-    "legacyEncoding": ["JSON.stringify"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "cursor/size: 非负整数默认 0/30；scene: 0|1|2 默认 0",
+    "upstreamEncoding": "page = JSON.stringify({ size, cursor })；scene、size 数字",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated",
+    "notes": "scene 的数字字符串（如 '2'）仍接受，但解码为数字后发送；page 仍由模块构造 JSON 字符串，调用者不能传 JSON。"
   },
   {
     "module": "user_followeds",
     "actions": ["request"],
-    "current": "{ uid: QueryIdentifier; limit?: QueryNumberLike; offset?: QueryNumberLike; }",
+    "current": "{ uid: NumberId; limit?: number; offset?: number; }",
     "fields": ["limit", "offset", "ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号；limit/offset: 非负整数，默认 30/0",
+    "upstreamEncoding": "路径 /api/user/getfolloweds/<uid>；userId=uid，time 固定 '0'，getcounts 固定 'true'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated"
   },
   {
     "module": "user_follows",
     "actions": ["request"],
-    "current": "{ uid: QueryIdentifier; limit?: QueryNumberLike; offset?: QueryNumberLike; }",
+    "current": "{ uid: NumberId; limit?: number; offset?: number; }",
     "fields": ["limit", "offset", "ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号；limit/offset: 非负整数，默认 30/0",
+    "upstreamEncoding": "路径 /api/user/getfollows/<uid>；offset/limit 数字，order 固定 true",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated"
   },
   {
     "module": "user_level",
     "actions": ["request"],
-    "current": "{}",
+    "current": "NoInput",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定发送空 data",
+    "evidence": ["tests/behavior/modules/input-contracts/user.ts"],
+    "status": "migrated"
   },
   {
     "module": "user_medal",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ uid: NumberId; }",
     "fields": ["ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号",
+    "upstreamEncoding": "data.uid = uid",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/replay/account/user-account-bodies.test.ts"
+    ],
+    "status": "migrated"
   },
   {
     "module": "user_mutualfollow_get",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ uid: NumberId; }",
     "fields": ["ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号",
+    "upstreamEncoding": "data.friendid = uid",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/replay/social/user-social-bodies.test.ts"
+    ],
+    "status": "migrated"
   },
   {
     "module": "user_playlist",
     "actions": ["read"],
-    "current": "{ uid: QueryIdentifier; limit?: QueryNumberLike; offset?: QueryNumberLike; }",
+    "current": "{ uid: NumberId; limit?: number; offset?: number; }",
     "fields": ["limit", "offset", "ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号；limit/offset: 非负整数，默认 30/0",
+    "upstreamEncoding": "data.uid = uid，limit/offset 数字，includeVideo 固定 true",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated"
   },
   {
     "module": "user_playlist_collect",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ uid: NumberId; limit?: number; offset?: number; }",
     "fields": ["limit", "offset", "ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号；limit/offset: 非负整数，缺省发送 '100'/'0'",
+    "upstreamEncoding": "userId=uid；limit/offset 缺省字符串与 isWebview/includeRedHeart/includeTop 保持原值",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated",
+    "notes": "数值入参解码为数字后直接发送；只有缺省值保持原字符串 '100'/'0'。"
   },
   {
     "module": "user_playlist_create",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ uid: NumberId; limit?: number; offset?: number; }",
     "fields": ["limit", "offset", "ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号；limit/offset: 非负整数，缺省发送 '100'/'0'",
+    "upstreamEncoding": "userId=uid；limit/offset 缺省字符串与 isWebview/includeRedHeart/includeTop 保持原值",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated",
+    "notes": "数值入参解码为数字后直接发送；只有缺省值保持原字符串 '100'/'0'。"
   },
   {
     "module": "user_record",
     "actions": ["request"],
-    "current": "{ uid: QueryIdentifier; type?: 0 | 1 | '0' | '1'; }",
+    "current": "{ uid: NumberId; type?: 0 | 1; }",
     "fields": ["ts", "type", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号；type: 0|1，默认 0",
+    "upstreamEncoding": "uid=uid，type 以数字发送",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 的数字字符串（'0'/'1'）仍接受，解码后发送数字；其他值拒绝。"
   },
   {
     "module": "user_replacephone",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ phone: string; captcha: string; oldcaptcha: string; countrycode?: number; }",
     "fields": ["captcha", "countrycode", "oldcaptcha", "phone", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "phone/captcha/oldcaptcha: 文本；countrycode: 非负整数，默认 86",
+    "upstreamEncoding": "countrycode 以十进制文本发送，缺省 '86'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated",
+    "notes": "countrycode 的数字字符串（如 '852'）解码为数字后再编码回十进制文本。"
   },
   {
     "module": "user_social_status",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ uid: NumberId; }",
     "fields": ["ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "uid: 编号",
+    "upstreamEncoding": "data.visitorId = uid",
+    "evidence": ["tests/behavior/modules/input-contracts/user.ts"],
+    "status": "migrated"
   },
   {
     "module": "user_social_status_edit",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ type?: string; iconUrl?: string; content?: string; actionUrl?: string; }",
     "fields": ["actionUrl", "content", "iconUrl", "ts", "type"],
-    "legacyEncoding": ["JSON.stringify"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "type/iconUrl/content/actionUrl: 文本，均可选",
+    "upstreamEncoding": "content = JSON.stringify({ type, iconUrl, content, actionUrl })，未传字段由 JSON.stringify 省略",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts",
+      "tests/replay/writes/reversible-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "调用者只传四个业务字段，不能再传预编码的 JSON 字符串；空对象仍合法（由上游决定是否拒绝）。"
   },
   {
     "module": "user_social_status_rcmd",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定发送空 data",
+    "evidence": ["tests/behavior/modules/input-contracts/user.ts"],
+    "status": "migrated"
   },
   {
     "module": "user_social_status_support",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定发送空 data",
+    "evidence": ["tests/behavior/modules/input-contracts/user.ts"],
+    "status": "migrated"
   },
   {
     "module": "user_subcount",
     "actions": ["request"],
-    "current": "{}",
+    "current": "NoInput",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定发送空 data",
+    "evidence": ["tests/behavior/modules/input-contracts/user.ts"],
+    "status": "migrated"
   },
   {
     "module": "user_update",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ birthday?: number; city?: number; gender?: 0 | 1 | 2; nickname?: string; province?: number; signature?: string; }",
     "fields": [
       "birthday",
       "city",
@@ -299,9 +364,13 @@
       "ts"
     ],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "birthday/city/province: 非负整数；gender: 0|1|2；nickname/signature: 文本；全部可选",
+    "upstreamEncoding": "字段原样以数字或文本发送，未传字段省略",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ],
+    "status": "migrated",
+    "notes": "gender 的数字字符串（'0'/'1'/'2'）解码为数字；不再接受任意字符串或布尔。"
   }
 ]

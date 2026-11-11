@@ -14,7 +14,10 @@ import {
   innerVersion,
   invokeModule,
   playlistHot,
+  playlistTagsUpdate,
+  playlistTracks,
   search,
+  songDetail,
   songUrl,
 } from '../../../index.ts';
 import type {
@@ -111,15 +114,27 @@ const assertPublicEntrySurface = async () => {
   await api.loginCellphone({ phone: '123' });
   await api.playlistCoverUpdate({ id: '123' });
   await api.batch({ '/api/example': { id: '123' } });
-  // @ts-expect-error batch inputs have only API route keys
-  await api.batch({ unrelated: 'value' });
+  await songDetail({ ids: [12] });
+  await playlistTracks({ op: 'add', pid: 1, tracks: [2] });
+  await playlistTagsUpdate({ id: 1, tags: ['rock'] });
+  await api.songDetail({ ids: [12, '34'] });
+  // @ts-expect-error legacy comma strings are not accepted
+  await api.songDetail({ ids: '12,34' });
+  // @ts-expect-error undeclared input fields are rejected
+  await api.songDetail({ ids: [12], extra: true });
+  await api.playlistTracks({ op: 'add', pid: 1, tracks: [2] });
+  // @ts-expect-error track ids must be an array
+  await api.playlistTracks({ op: 'add', pid: 1, tracks: '2' });
+  await api.playlistTagsUpdate({ id: 1, tags: ['rock'] });
+  // @ts-expect-error tags must be an array
+  await api.playlistTagsUpdate({ id: 1, tags: 'rock;pop' });
   await search({
     keywords: '周杰伦',
   });
   // @ts-expect-error confirmed local input keeps required search keywords
   await search({});
   await songUrl({
-    id: '1,2',
+    ids: [1, 2],
   });
   await banner();
   await innerVersion();
@@ -132,7 +147,7 @@ const assertPublicEntrySurface = async () => {
   });
 
   await songUrl({
-    id: '1,2',
+    ids: [1, 2],
     // @ts-expect-error query/config split forbids proxy in query
     proxy: 'http://localhost:8080',
   });

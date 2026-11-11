@@ -1,9 +1,12 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -16,21 +19,24 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = { id: NumberId };
+
+const inputSchema = Schema.Struct({ id: NumberId });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const voicelistDetail: ModuleEffect<
   ModuleInput,
   UnknownJson,
   typeof moduleActions
-> = (query, request) =>
+> = (input, request) =>
   Effect.gen(function* () {
     const data = {
-      id: query.id,
+      id: input.id,
     };
     const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 
 export default voicelistDetail;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

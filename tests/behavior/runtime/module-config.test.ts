@@ -19,7 +19,7 @@ import {
   loadProgrammaticApi,
 } from '../../../src/app/module-api.ts';
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import { loadModuleDefinitions } from '../../../src/server/module-loader.ts';
 import { projectRoot, settle } from '../../_kit/assertions.ts';
 
@@ -105,7 +105,7 @@ test('module assembly refuses missing actions before executing a local body', as
   const definition = {
     identifier: 'custom',
     route: '/custom',
-    decodeInput: decodeLegacyModuleInput,
+    decodeInput: decodeModuleObject,
     execute: () =>
       Effect.sync(() => {
         executions += 1;
@@ -242,7 +242,7 @@ test('module empty actions cannot send an undeclared API request', async () => {
           identifier: 'local',
           route: '/local',
           actions: {},
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: (_input, request) =>
             request('undeclared', { data: {}, headers: {} }).pipe(
               Effect.map((response) => ({
@@ -356,7 +356,7 @@ for (const [label, fields] of [
             identifier: 'invalid',
             route: '/invalid',
             actions: { read: action } as never,
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: () =>
               Effect.sync(() => {
                 executions++;
@@ -404,7 +404,7 @@ for (const inherited of [false, true]) {
             route: '/hidden-action',
             // 模拟 JavaScript 动态模块的非法声明，交由真实装配边界拒绝。
             actions: { read: action } as never,
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: () =>
               Effect.sync(() => {
                 executions++;
@@ -448,7 +448,7 @@ for (const hidden of [false, true]) {
         identifier: 'legal_action',
         route: '/legal-action',
         actions: { read: action },
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: () => Effect.succeed({ status: 200, cookie: [], body: {} }),
       },
     );
@@ -477,7 +477,7 @@ test('module illegal retry array cannot grant connection replay', async () => {
       {
         identifier: 'invalid_retry',
         route: '/invalid-retry',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         actions: {
           read: {
             profile: 'eapi',

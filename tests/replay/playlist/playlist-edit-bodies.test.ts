@@ -112,7 +112,8 @@ const bodyCases: Array<BodyCase> = [
   {
     name: 'playlistCreate',
     recording: create,
-    call: (client) => client.playlistCreate(create.query),
+    call: (client) =>
+      client.playlistCreate({ name: create.query.name, privacy: 10 }),
   },
   {
     name: 'playlistDelete',
@@ -160,12 +161,14 @@ const bodyCases: Array<BodyCase> = [
   {
     name: 'playlistSubscribe',
     recording: playlistSubscribe,
-    call: (client) => client.playlistSubscribe(playlistSubscribe.query),
+    call: (client) =>
+      client.playlistSubscribe({ id: playlistSubscribe.query.id, t: 1 }),
   },
   {
     name: 'playlistSubscribe unsubscribe',
     recording: playlistUnsubscribe,
-    call: (client) => client.playlistSubscribe(playlistUnsubscribe.query),
+    call: (client) =>
+      client.playlistSubscribe({ id: playlistUnsubscribe.query.id, t: 0 }),
   },
   {
     name: 'playlistCoverUpdate',
@@ -374,7 +377,10 @@ test.each<{
         playlist: Record<string, unknown>;
       } & Record<string, unknown>;
       delete upstream.playlist.id;
-      return replay(upstream).playlistCreate(create.query);
+      return replay(upstream).playlistCreate({
+        name: create.query.name,
+        privacy: 10,
+      });
     },
     shape: {
       module: 'playlist_create',

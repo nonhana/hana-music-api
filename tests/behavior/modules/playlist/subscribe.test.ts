@@ -63,7 +63,7 @@ const createClient = (
 test.each([
   { t: 1, path: 'subscribe' },
   { t: 0, path: 'unsubscribe' },
-])(
+] as const)(
   'playlistSubscribe t=$t sends a weapi web request, whatever client the caller set',
   async ({ t, path }) => {
     const { client, sent } = createClient({
@@ -354,7 +354,7 @@ test.each([
   { name: 'named function', invoke: playlistSubscribe },
   {
     name: 'invokeModule',
-    invoke: (query: { id: number; t: number }, config: ModuleCallConfig) =>
+    invoke: (query: { id: number; t: 0 | 1 | 2 }, config: ModuleCallConfig) =>
       invokeModule('playlist_subscribe', query, config),
   },
 ])(

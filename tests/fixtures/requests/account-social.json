@@ -4113,7 +4113,7 @@
       "module": "get_userids",
       "label": "default",
       "query": {
-        "nicknames": "[\"synthetic\"]"
+        "nicknames": ["synthetic"]
       },
       "method": "getUserids",
       "path": "/api/user/getUserIds",
@@ -4135,7 +4135,7 @@
         "acceptGzip": null
       },
       "data": {
-        "nicknames": "[\"synthetic\"]"
+        "nicknames": "synthetic"
       }
     },
     {
@@ -4755,8 +4755,8 @@
         "commandType": "PLAY",
         "userId": "23",
         "version": 3,
-        "randomList": "17,19",
-        "displayList": "19,17"
+        "randomList": [17, 19],
+        "displayList": [19, 17]
       },
       "method": "listentogetherSyncListCommand",
       "path": "/api/listen/together/sync/list/command/report",
@@ -4790,8 +4790,8 @@
         "commandType": "PLAY",
         "userId": "23",
         "version": 3,
-        "randomList": "",
-        "displayList": ""
+        "randomList": [],
+        "displayList": []
       },
       "method": "listentogetherSyncListCommand",
       "path": "/api/listen/together/sync/list/command/report",
@@ -4814,7 +4814,7 @@
       },
       "data": {
         "roomId": "synthetic-room",
-        "playlistParam": "{\"commandType\":\"PLAY\",\"version\":[{\"userId\":\"23\",\"version\":3}],\"anchorSongId\":\"\",\"anchorPosition\":-1,\"randomList\":[\"\"],\"displayList\":[\"\"]}"
+        "playlistParam": "{\"commandType\":\"PLAY\",\"version\":[{\"userId\":\"23\",\"version\":3}],\"anchorSongId\":\"\",\"anchorPosition\":-1,\"randomList\":[],\"displayList\":[]}"
       }
     },
     {
@@ -6448,7 +6448,7 @@
       "label": "default",
       "query": {
         "id": "17",
-        "user_ids": "23,29"
+        "userIds": [23, 29]
       },
       "method": "sendAlbum",
       "path": "/api/msg/private/send",
@@ -6481,8 +6481,8 @@
       "label": "explicit",
       "query": {
         "id": "17",
-        "user_ids": "23,29",
-        "msg": "synthetic message"
+        "msg": "synthetic message",
+        "userIds": [23, 29]
       },
       "method": "sendAlbum",
       "path": "/api/msg/private/send",
@@ -6514,8 +6514,8 @@
       "module": "send_playlist",
       "label": "default",
       "query": {
-        "user_ids": "23,29",
-        "playlist": "17"
+        "playlist": "17",
+        "userIds": [23, 29]
       },
       "method": "sendPlaylist",
       "path": "/api/msg/private/send",
@@ -6546,9 +6546,9 @@
       "module": "send_playlist",
       "label": "explicit",
       "query": {
-        "user_ids": "23,29",
         "playlist": "17",
-        "msg": "synthetic message"
+        "msg": "synthetic message",
+        "userIds": [23, 29]
       },
       "method": "sendPlaylist",
       "path": "/api/msg/private/send",
@@ -6581,7 +6581,7 @@
       "label": "default",
       "query": {
         "id": "17",
-        "user_ids": "23,29"
+        "userIds": [23, 29]
       },
       "method": "sendSong",
       "path": "/api/msg/private/send",
@@ -6614,8 +6614,8 @@
       "label": "explicit",
       "query": {
         "id": "17",
-        "user_ids": "23,29",
-        "msg": "synthetic message"
+        "msg": "synthetic message",
+        "userIds": [23, 29]
       },
       "method": "sendSong",
       "path": "/api/msg/private/send",
@@ -6647,7 +6647,7 @@
       "module": "send_text",
       "label": "default",
       "query": {
-        "user_ids": "23,29"
+        "userIds": [23, 29]
       },
       "method": "sendText",
       "path": "/api/msg/private/send",
@@ -6677,8 +6677,8 @@
       "module": "send_text",
       "label": "explicit",
       "query": {
-        "user_ids": "23,29",
-        "msg": "synthetic message"
+        "msg": "synthetic message",
+        "userIds": [23, 29]
       },
       "method": "sendText",
       "path": "/api/msg/private/send",
@@ -7717,7 +7717,7 @@
       "data": {
         "authority": "false",
         "page": "{\"size\":5,\"cursor\":3}",
-        "scene": "0",
+        "scene": 0,
         "size": 5,
         "sortType": "0"
       }
@@ -7752,7 +7752,7 @@
       "data": {
         "authority": "false",
         "page": "{\"size\":5,\"cursor\":3}",
-        "scene": "1",
+        "scene": 1,
         "size": 5,
         "sortType": "0"
       }
@@ -7787,7 +7787,7 @@
       "data": {
         "authority": "false",
         "page": "{\"size\":5,\"cursor\":3}",
-        "scene": "2",
+        "scene": 2,
         "size": 5,
         "sortType": "0"
       }

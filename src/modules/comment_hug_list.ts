@@ -1,7 +1,12 @@
 import { Effect, Schema } from 'effect';
 
 import { resolveResourceType } from '../core/comment-thread.ts';
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  IntegerValue,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -15,7 +20,31 @@ import {
   CommentUser,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  cid: NumberId;
+  cursor?: string;
+  idCursor?: IntegerValue;
+  page?: IntegerValue;
+  pageSize?: IntegerValue;
+  sid: NumberId;
+  type?: number;
+  uid: NumberId;
+};
+
+const inputSchema = Schema.Struct({
+  cid: NumberId,
+  cursor: Schema.optional(Schema.String),
+  idCursor: Schema.optional(IntegerValue),
+  page: Schema.optional(IntegerValue),
+  pageSize: Schema.optional(IntegerValue),
+  sid: NumberId,
+  type: Schema.optional(NaturalValue),
+  uid: NumberId,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -107,22 +136,10 @@ const commentHugList: ModuleEffect<
   ModuleInput,
   ModuleBody,
   typeof moduleActions
-> = (input, request) =>
+> = (query, request) =>
   Effect.gen(function* () {
-    const query = { ...input };
-    if (
-      query.sid !== undefined &&
-      query.sid !== null &&
-      typeof query.sid !== 'string' &&
-      typeof query.sid !== 'number' &&
-      typeof query.sid !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'sid must be a primitive value',
-      });
-    }
     const resourceType = resolveResourceType(query.type);
-    const threadId = `${resourceType}${String(query.sid ?? '')}`;
+    const threadId = `${resourceType}${String(query.sid)}`;
     const data = {
       targetUserId: query.uid,
       commentId: query.cid,
@@ -142,7 +159,3 @@ const commentHugList: ModuleEffect<
   });
 
 export default commentHugList;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

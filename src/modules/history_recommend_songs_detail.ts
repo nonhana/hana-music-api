@@ -1,5 +1,6 @@
 import { Effect, Schema } from 'effect';
 
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +10,6 @@ import {
 } from '../core/upstream-body.ts';
 import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 通到某天历史每日推荐的 `data.songs` 和每首歌的 `id` 收紧；`data.dates` 只见过空数组、
 // `data.description` 只见过 null，未声明并原样保留。
@@ -35,6 +35,17 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = {
+  date?: string;
+};
+
+const inputSchema = Schema.Struct({
+  date: Schema.optional(Schema.String),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const historyRecommendSongsDetail: ModuleEffect<
   ModuleInput,
   ModuleBody,
@@ -57,7 +68,3 @@ const historyRecommendSongsDetail: ModuleEffect<
  * 历史每日推荐歌曲详情
  */
 export default historyRecommendSongsDetail;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

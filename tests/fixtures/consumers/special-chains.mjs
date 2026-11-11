@@ -36,7 +36,7 @@ for (const scenario of [
   },
   {
     method: 'playlistTracks',
-    query: { pid: 7, tracks: '17,18', op: 'add' },
+    query: { pid: 7, tracks: [17, 18], op: 'add' },
     steps: [
       {
         url: 'https://interface.music.163.com/eapi/playlist/manipulate/tracks',

@@ -64,16 +64,14 @@ const cases: Array<Case> = [
     recording: digitalAlbumSales,
     bodySchema: DigitalAlbumSalesBody,
     call: (upstream, status) =>
-      replay(upstream, status).digitalAlbumSales(digitalAlbumSales.query),
+      replay(upstream, status).digitalAlbumSales({ ids: [396372188] }),
   },
   {
     name: 'digitalAlbum_sales for an unknown album',
     recording: digitalAlbumSalesUnknown,
     bodySchema: DigitalAlbumSalesBody,
     call: (upstream, status) =>
-      replay(upstream, status).digitalAlbumSales(
-        digitalAlbumSalesUnknown.query,
-      ),
+      replay(upstream, status).digitalAlbumSales({ ids: [1] }),
   },
   {
     name: 'digitalAlbum_purchased without purchases',
@@ -207,15 +205,13 @@ test.each<{
     name: 'digitalAlbum_sales',
     recording: digitalAlbumSalesEmpty,
     call: (upstream, status) =>
-      replay(upstream, status).digitalAlbumSales(digitalAlbumSalesEmpty.query),
+      replay(upstream, status).digitalAlbumSales({ ids: [396372188] }),
   },
   {
     name: 'digitalAlbum_sales without ids',
     recording: digitalAlbumSalesMissingIds,
     call: (upstream, status) =>
-      replay(upstream, status).digitalAlbumSales(
-        digitalAlbumSalesMissingIds.query,
-      ),
+      replay(upstream, status).digitalAlbumSales({ ids: [396372188] }),
   },
 ])('$name passes a rejected code through', async (entry) => {
   expect(
@@ -350,7 +346,7 @@ test('digitalAlbum_sales rejects a non-numeric sale count', async () => {
   upstream.data['396372188'] = '4850';
 
   await expectUpstreamShapeRejection(
-    replay(upstream).digitalAlbumSales(digitalAlbumSales.query),
+    replay(upstream).digitalAlbumSales({ ids: [396372188] }),
     {
       module: 'digitalAlbum_sales',
       path: 'body.data.396372188',
@@ -367,7 +363,7 @@ test('digitalAlbum_sales rejects a body without sales data', async () => {
   delete upstream.data;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).digitalAlbumSales(digitalAlbumSales.query),
+    replay(upstream).digitalAlbumSales({ ids: [396372188] }),
     {
       module: 'digitalAlbum_sales',
       path: 'body.data',
@@ -384,9 +380,9 @@ test('digitalAlbum_sales keeps undeclared fields', async () => {
   >;
   upstream.extra = { albumName: 'PRESS PLAY' };
 
-  const result = await replay(upstream).digitalAlbumSales(
-    digitalAlbumSales.query,
-  );
+  const result = await replay(upstream).digitalAlbumSales({
+    ids: [396372188],
+  });
 
   expect(result.body as unknown).toHaveProperty('extra', {
     albumName: 'PRESS PLAY',

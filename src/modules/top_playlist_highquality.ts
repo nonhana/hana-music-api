@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,23 @@ import {
 } from '../core/upstream-body.ts';
 import { PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  cat?: string | ReadonlyArray<string>;
+  limit?: NaturalValue;
+  before?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  cat: Schema.optional(
+    Schema.Union([Schema.String, Schema.Array(Schema.String)]),
+  ),
+  limit: Schema.optional(NaturalValue),
+  before: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const HighQualityPlaylist = UpstreamObject({
   ...PlaylistSummary.schema.fields,
@@ -65,7 +85,3 @@ const topPlaylistHighquality: ModuleEffect<
  * 精品歌单
  */
 export default topPlaylistHighquality;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

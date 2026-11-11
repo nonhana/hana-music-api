@@ -3,8 +3,9 @@ import { Effect, Schema } from 'effect';
 import { resolveResourceType } from '../core/comment-thread.ts';
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
+  IntegerValue,
+  NaturalValue,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -15,11 +16,6 @@ import {
 } from '../core/upstream-body.ts';
 import { CommentRecord } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  IdentifierQuery,
-  QueryIdentifier,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 
 export const moduleActions = {
   request: {
@@ -31,20 +27,20 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-export type ModuleInput = IdentifierQuery & {
-  type: QueryNumberLike;
-
-  limit?: QueryNumberLike;
-  parentCommentId: QueryIdentifier;
-  time?: QueryNumberLike;
+export type ModuleInput = {
+  id: NumberId;
+  limit?: NaturalValue;
+  parentCommentId: NumberId;
+  time?: IntegerValue;
+  type: number;
 };
 
 const inputSchema = Schema.Struct({
-  id: Identifier,
-  type: QueryNumber,
-  limit: Schema.optional(QueryNumber),
-  parentCommentId: Identifier,
-  time: Schema.optional(QueryNumber),
+  id: NumberId,
+  limit: Schema.optional(NaturalValue),
+  parentCommentId: NumberId,
+  time: Schema.optional(IntegerValue),
+  type: NaturalValue,
 });
 
 export const decodeModuleInput = (input: unknown) =>

@@ -2,7 +2,6 @@ import { expect, test } from 'bun:test';
 
 import { Effect } from 'effect';
 
-import type { ModuleInputOf } from '../../../index.ts';
 import {
   createHanaMusicApi,
   SongDownloadUrlBody,
@@ -66,6 +65,17 @@ const replayFixture = (recording: RecordingFixture) =>
     viewer: recording.context?.viewer,
   });
 
+// 录制保存的是当次业务 query（旧形式是逗号串），回放时换成新的业务输入。
+const songUrlInput = (recording: RecordingFixture) => ({
+  br: Number(recording.query.br),
+  ids: String(recording.query.id).split(','),
+});
+
+const songDownloadUrlInput = (recording: RecordingFixture) => ({
+  br: Number(recording.query.br),
+  id: String(recording.query.id),
+});
+
 type UrlBody = {
   code: number;
   data: Array<Record<string, unknown> & { id: number | string }>;
@@ -106,7 +116,7 @@ test.each<{ name: string; recording: RecordingFixture }>([
   async ({ recording }) => {
     const upstream = recording.response.body as UrlBody;
     const result = await replayFixture(recording).songUrl(
-      recording.query as ModuleInputOf<'song_url'>,
+      songUrlInput(recording),
     );
 
     // 改写规则：保留每条 data 项的原字段，只按请求 id 重排并重建顶层 `{ code, data }`。
@@ -119,7 +129,7 @@ test.each<{ name: string; recording: RecordingFixture }>([
 );
 
 test('songUrl reorders multiple ids into request order and keeps mixed copyright states', async () => {
-  const query = urlMultiId.query as ModuleInputOf<'song_url'>;
+  const query = songUrlInput(urlMultiId);
   const upstream = urlMultiId.response.body as UrlBody;
 
   // 录制里的上游顺序是 [2092595510, 1409311773, 2108191414]，与请求顺序不同。
@@ -168,7 +178,7 @@ test('songUrl keeps the first position of a repeated request id', async () => {
 
   const result = await replay(upstream, {
     viewer: urlAnonFree.context.viewer,
-  }).songUrl({ id: '1,2,1' });
+  }).songUrl({ ids: [1, 2, 1] });
 
   // 基线按 ids.indexOf 排序，重复 id 取第一次出现的位置。
   expect(result.body.data.map(({ id }) => id)).toEqual([1, 2]);
@@ -176,7 +186,9 @@ test('songUrl keeps the first position of a repeated request id', async () => {
 });
 
 test('songUrl keeps the recorded trial window unchanged in the final body', async () => {
-  const result = await replayFixture(urlAnonTrial).songUrl(urlAnonTrial.query);
+  const result = await replayFixture(urlAnonTrial).songUrl(
+    songUrlInput(urlAnonTrial),
+  );
 
   expect(result.body.data[0]?.freeTrialInfo).toEqual({
     fragmentType: 1003,
@@ -194,7 +206,7 @@ test('songUrl rebuilds the top level and drops upstream extra fields', async () 
 
   const result = await replay(upstream, {
     viewer: urlAnonFree.context.viewer,
-  }).songUrl(urlAnonFree.query);
+  }).songUrl(songUrlInput(urlAnonFree));
 
   expect(result.body.code).toBe(200);
   expect(Object.keys(result.body).toSorted()).toEqual(['code', 'data']);
@@ -208,7 +220,7 @@ test('songUrl turns a missing data array into an empty final data array', async 
 
   const result = await replay(upstream, {
     viewer: urlAnonFree.context.viewer,
-  }).songUrl(urlAnonFree.query);
+  }).songUrl(songUrlInput(urlAnonFree));
 
   expect(result.body).toEqual({ code: 200, data: [] });
 });
@@ -218,7 +230,7 @@ test('songUrl ignores a special upstream code and synthesizes 200', async () => 
 
   const result = await replay(upstream, {
     viewer: urlAnonFree.context.viewer,
-  }).songUrl(urlAnonFree.query);
+  }).songUrl(songUrlInput(urlAnonFree));
 
   expect(result.body).toEqual({ code: 200, data: [] });
 });
@@ -237,13 +249,13 @@ test('songUrl synthesizes code 200 when a 301 body reaches the module', async ()
   const call: CallShape = {
     actions: {},
     identifier: 'song_url',
-    input: { id: '1' },
+    input: { ids: ['1'] },
     identity: resolveIdentitySnapshot(config, getRuntimeState()),
     policy: { read: true, upload: false },
   };
 
   const result = await runEffect(
-    songUrlModule({ id: '1' }, request).pipe(provideService(Call, call)),
+    songUrlModule({ ids: ['1'] }, request).pipe(provideService(Call, call)),
   );
 
   expect(result).toEqual({
@@ -259,7 +271,7 @@ test('songUrl keeps a string id and orders it like the request id', async () => 
 
   const result = await replay(upstream, {
     viewer: urlAnonFree.context.viewer,
-  }).songUrl({ id: '2092595510' });
+  }).songUrl({ ids: ['2092595510'] });
 
   expect(result.body.data[0]?.id).toBe('2092595510');
 });
@@ -272,7 +284,7 @@ test('songUrl preserves undeclared entry fields', async () => {
 
   const result = await replay(upstream, {
     viewer: urlAnonFree.context.viewer,
-  }).songUrl(urlAnonFree.query);
+  }).songUrl(songUrlInput(urlAnonFree));
 
   expect(result.body.data[0]).toHaveProperty('futureEntryField', {
     preserved: true,
@@ -330,7 +342,7 @@ test.each<{
 
     await expectUpstreamShapeRejection(
       replay(upstream, { viewer: urlAnonFree.context.viewer }).songUrl(
-        urlAnonFree.query,
+        songUrlInput(urlAnonFree),
       ),
       {
         module: 'song_url',
@@ -346,7 +358,7 @@ test('songUrl rejects a non-object upstream body', async () => {
   await expectUpstreamShapeRejection(
     replay('not a song url body', {
       viewer: urlAnonFree.context.viewer,
-    }).songUrl(urlAnonFree.query),
+    }).songUrl(songUrlInput(urlAnonFree)),
     {
       module: 'song_url',
       path: 'body.data',
@@ -403,7 +415,7 @@ test.each<{
 
   await expectUpstreamShapeRejection(
     replay(upstream, { viewer: urlAnonFree.context.viewer }).songUrl(
-      urlAnonFree.query,
+      songUrlInput(urlAnonFree),
     ),
     shape,
   );
@@ -449,7 +461,7 @@ test.each<{
 
     const result = await replay(upstream, {
       viewer: urlAnonFree.context.viewer,
-    }).songUrl(urlAnonFree.query);
+    }).songUrl(songUrlInput(urlAnonFree));
 
     expect(result.status).toBe(200);
     check(result.body.data[0] as Record<string, unknown>);
@@ -464,7 +476,7 @@ test('songUrl drops the broken end but keeps the trial window', async () => {
 
   const result = await replay(upstream, {
     viewer: urlAnonTrial.context.viewer,
-  }).songUrl(urlAnonTrial.query);
+  }).songUrl(songUrlInput(urlAnonTrial));
 
   expect(result.status).toBe(200);
   expect(result.body.data[0]).toHaveProperty('freeTrialInfo');
@@ -482,7 +494,7 @@ test.each<{ name: string; recording: RecordingFixture }>([
   'songDownloadUrl matches the recorded $name body on a normal response',
   async ({ recording }) => {
     const result = await replayFixture(recording).songDownloadUrl(
-      recording.query,
+      songDownloadUrlInput(recording),
     );
 
     expect(result.body).toEqual(
@@ -646,7 +658,7 @@ test.each<{
 
   await expectUpstreamShapeRejection(
     replay(upstream, { viewer: downloadFree.context.viewer }).songDownloadUrl(
-      downloadFree.query,
+      songDownloadUrlInput(downloadFree),
     ),
     shape,
   );
@@ -666,7 +678,7 @@ test.each<{
 
     const result = await settle(
       replay(upstream, { viewer: downloadFree.context.viewer }).songDownloadUrl(
-        downloadFree.query,
+        songDownloadUrlInput(downloadFree),
       ),
     );
 
@@ -680,7 +692,7 @@ test('songDownloadUrl rejects a non-object body', async () => {
   await expectUpstreamShapeRejection(
     replay('not a download body', {
       viewer: downloadFree.context.viewer,
-    }).songDownloadUrl(downloadFree.query),
+    }).songDownloadUrl(songDownloadUrlInput(downloadFree)),
     {
       module: 'song_download_url',
       path: 'body',
@@ -730,7 +742,7 @@ test.each<{
 
     const result = await replay(upstream, {
       viewer: downloadFree.context.viewer,
-    }).songDownloadUrl(downloadFree.query);
+    }).songDownloadUrl(songDownloadUrlInput(downloadFree));
 
     expect(result.status).toBe(200);
     check(result.body.data);
@@ -749,7 +761,7 @@ test('songDownloadUrl preserves undeclared fields at every level', async () => {
 
   const result = await replay(withExtras, {
     viewer: downloadFree.context.viewer,
-  }).songDownloadUrl(downloadFree.query);
+  }).songDownloadUrl(songDownloadUrlInput(downloadFree));
 
   expect(result.body).toHaveProperty('futureBodyField', {
     preserved: true,

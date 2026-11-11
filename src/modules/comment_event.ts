@@ -2,7 +2,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryNumber,
+  NaturalValue,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -14,7 +14,6 @@ import {
 } from '../core/upstream-body.ts';
 import { CommentRecord } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { PagedQuery, QueryNumberLike } from '../types/module-shared.ts';
 
 export const moduleActions = {
   request: {
@@ -26,15 +25,17 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-export type ModuleInput = PagedQuery & {
-  before?: QueryNumberLike;
+export type ModuleInput = {
+  before?: NaturalValue;
+  limit?: NaturalValue;
+  offset?: NaturalValue;
   threadId: string;
 };
 
 const inputSchema = Schema.Struct({
-  limit: Schema.optional(QueryNumber),
-  offset: Schema.optional(QueryNumber),
-  before: Schema.optional(QueryNumber),
+  before: Schema.optional(NaturalValue),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
   threadId: Schema.String,
 });
 

@@ -18,6 +18,59 @@ import responseFiles from '../../../fixtures/requests/account-social-responses.j
 import baseline from '../../../fixtures/requests/account-social.json';
 
 const defaults = baseline.cases.filter((entry) => entry.label === 'default');
+
+type Case = (typeof baseline.cases)[number];
+
+const parseNicknames = (value: string): Array<string> => {
+  if (value.startsWith('[')) {
+    try {
+      const parsed: unknown = JSON.parse(value);
+      if (
+        Array.isArray(parsed) &&
+        parsed.every((item) => typeof item === 'string')
+      ) {
+        return parsed;
+      }
+    } catch {
+      // Not a JSON nickname list; the recording still shows the semicolon protocol.
+    }
+  }
+  return value.split(';');
+};
+
+const splitList = (value: unknown) =>
+  Array.isArray(value)
+    ? value
+    : typeof value === 'string'
+      ? value.split(',').filter(Boolean)
+      : [];
+
+const businessQuery = (entry: Case): Record<string, unknown> => {
+  const query = entry.query as Record<string, unknown>;
+  if ('user_ids' in query) {
+    const ids = query.user_ids;
+    const { user_ids: _userIds, ...rest } = query;
+    return {
+      ...rest,
+      userIds: Array.isArray(ids)
+        ? ids
+        : String(ids)
+            .split(',')
+            .map((id) => id.trim()),
+    };
+  }
+  if (typeof query.nicknames === 'string') {
+    return { ...query, nicknames: parseNicknames(query.nicknames) };
+  }
+  if (entry.module === 'listentogether_sync_list_command') {
+    return {
+      ...query,
+      displayList: splitList(query.displayList),
+      randomList: splitList(query.randomList),
+    };
+  }
+  return query;
+};
 const cookie =
   'MUSIC_U=account-account; MUSIC_A=account-anonymous; __csrf=csrf';
 
@@ -61,7 +114,7 @@ for (const entry of defaults) {
               query: unknown,
             ) => Promise<NcmApiResponse>;
             return {
-              result: await settle<NcmApiResponse>(call(entry.query)),
+              result: await settle<NcmApiResponse>(call(businessQuery(entry))),
               sends: scenario.sent.length,
             };
           },
@@ -115,11 +168,11 @@ for (const entry of defaults) {
             config?: ModuleCallConfig,
           ) => Promise<NcmApiResponse>;
           const first = await Promise.all([
-            call(entry.query),
-            call(entry.query),
+            call(businessQuery(entry)),
+            call(businessQuery(entry)),
           ]);
-          const next = await call(entry.query);
-          await call(entry.query, { cookie: 'MUSIC_U=other-account' });
+          const next = await call(businessQuery(entry));
+          await call(businessQuery(entry), { cookie: 'MUSIC_U=other-account' });
           return {
             statuses: [...first, next].map((result) => result.status),
             sends: scenario.sent.length,
@@ -137,6 +190,16 @@ for (const entry of defaults) {
     });
   });
 }
+const accountPolicyInput = (method: 'login' | 'comment' | 'loginQrCheck') =>
+  method === 'login'
+    ? {
+        email: 'synthetic@example.invalid',
+        password: 'synthetic-password',
+      }
+    : method === 'comment'
+      ? { id: 17, t: 1, type: 0 }
+      : { key: 'synthetic-key' };
+
 for (const method of ['login', 'comment', 'loginQrCheck'] as const) {
   for (const mode of ['cancel', 'deadline'] as const) {
     for (const phase of ['provider', 'body'] as const) {
@@ -188,17 +251,7 @@ for (const method of ['login', 'comment', 'loginQrCheck'] as const) {
                     query: unknown,
                     config: ModuleCallConfig,
                   ) => Promise<NcmApiResponse>
-                )(
-                  {
-                    id: 17,
-                    type: 0,
-                    t: 1,
-                    key: 'synthetic-key',
-                    email: 'synthetic@example.invalid',
-                    password: 'synthetic-password',
-                  },
-                  { signal: controller.signal },
-                ),
+                )(accountPolicyInput(method), { signal: controller.signal }),
               );
               yield* Effect.promise(() => reached.wait(pending));
               if (mode === 'cancel') controller.abort();
@@ -269,7 +322,7 @@ for (const method of [
           return {
             result: await settle(
               (client[method] as (query: unknown) => Promise<NcmApiResponse>)(
-                entry.query,
+                businessQuery(entry),
               ),
             ),
             sends: scenario.sent.length,
@@ -301,7 +354,7 @@ for (const input of [
     let providers = 0;
     const result = await withScenario([], async (scenario) =>
       settle(
-        invokeModule(input.module, input.query, {
+        invokeModule(input.module, input.query as never, {
           cookie,
           fetcher: scenario.fetcher,
           checkToken: async () => {

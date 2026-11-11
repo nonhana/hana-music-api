@@ -1,5 +1,11 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  IntegerValue,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +15,23 @@ import {
 } from '../core/upstream-body.ts';
 import { AvatarDetail, MlogSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  cursor?: NaturalValue;
+  id: NumberId;
+  order?: IntegerValue;
+  size?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  cursor: Schema.optional(NaturalValue),
+  id: NumberId,
+  order: Schema.optional(IntegerValue),
+  size: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const MlogUser = UpstreamObject({
   avatarDetail: Loose(AvatarDetail),
@@ -149,7 +171,3 @@ const artistVideo: ModuleEffect<
  * 歌手相关视频
  */
 export default artistVideo;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

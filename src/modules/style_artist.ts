@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,21 @@ import {
 } from '../core/upstream-body.ts';
 import { Artist, StylePage } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  tagId: NumberId;
+  cursor?: NaturalValue;
+  size?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  tagId: NumberId,
+  cursor: Schema.optional(NaturalValue),
+  size: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 曲风歌手列表里的歌迷数只是附带信息；`awardTags` 在录制里只见过 `null`，没有声明。
 const StyleArtist = UpstreamObject({
@@ -65,7 +84,3 @@ const styleArtist: ModuleEffect<
  * 曲风-歌手
  */
 export default styleArtist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

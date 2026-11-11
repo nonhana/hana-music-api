@@ -1,11 +1,10 @@
 import { Effect, Schema } from 'effect';
 
-import {
-  decodeModuleInput as decodeInput,
-  PlainObject,
-} from '../core/module-input.ts';
+import { InvalidModuleInput } from '../core/errors.ts';
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import { isRecord } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
@@ -23,15 +22,29 @@ export type BatchSubRequest = Record<string, unknown>;
 
 export type BatchRouteKey = `/api/${string}`;
 
-export type ModuleInput = Partial<Record<BatchRouteKey, BatchSubRequest>>;
+export type ModuleInput = Partial<Record<string, unknown>>;
 
-const inputSchema = Schema.Record(
-  Schema.TemplateLiteral(['/api/', Schema.String]),
-  Schema.UndefinedOr(PlainObject),
-);
+const inputSchema = Schema.Record(Schema.String, Schema.Unknown);
 
 export const decodeModuleInput = (input: unknown) =>
-  decodeInput(inputSchema, input);
+  decodeInput(inputSchema, input).pipe(
+    Effect.flatMap((query) => {
+      for (const [route, parameters] of Object.entries(query)) {
+        if (
+          route.startsWith('/api/') &&
+          parameters !== undefined &&
+          !isRecord(parameters)
+        ) {
+          return Effect.fail(
+            InvalidModuleInput.make({
+              message: `${route} must be an object`,
+            }),
+          );
+        }
+      }
+      return Effect.succeed(query);
+    }),
+  );
 
 const batch: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
   query,
@@ -39,11 +52,11 @@ const batch: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
 ) =>
   Effect.gen(function* () {
     const data: Record<string, unknown> = {};
-    Object.entries(query).forEach(([route, parameters]) => {
+    for (const [route, parameters] of Object.entries(query)) {
       if (route.startsWith('/api/')) {
         data[route] = parameters;
       }
-    });
+    }
     const response = yield* request('request', { data });
     return toModuleResponse(response);
   });

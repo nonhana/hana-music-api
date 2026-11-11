@@ -11,7 +11,7 @@ export const mutations = [
   {
     id: 'membership-order-resource-id-lost',
     file: 'src/modules/digitalAlbum_ordering.ts',
-    find: 'resourceID: query.id,',
+    find: 'resourceID: String(query.id),',
     replace: 'resourceID: query.quantity,',
     expectedFailures: [
       'membership client digitalAlbum_ordering/default owns its baseline wire contract',

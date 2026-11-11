@@ -2,177 +2,267 @@
   {
     "module": "broadcast_category_region_get",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "NoInput",
+    "upstreamEncoding": "无输入参数，data 固定为空对象",
+    "evidence": [
+      "src/modules/broadcast_category_region_get.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/replay/podcast/podcast-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "无参数模块改用 NoInput + EmptyInput，任意键都被拒绝；旧 LegacyModuleInput 会放行任意 query 并忽略。"
   },
   {
     "module": "broadcast_channel_collect_list",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: NaturalValue; }",
     "fields": ["limit", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: NaturalValue; }",
+    "upstreamEncoding": "limit 提供时以 number 进入 data，缺省保持字符串 '99999'；contentType/timeReverseOrder/startDate 固定",
+    "evidence": [
+      "src/modules/broadcast_channel_collect_list.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts",
+      "tests/replay/podcast/podcast-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit 由任意值收窄为 NaturalValue：接受十进制数字串并解码为 number，拒绝空串、布尔、null、小数和负数。数字 0 仍触发默认 '99999'；旧版字符串 '0' 会原样发送 '0'，现在与数字 0 一致地走默认值。"
   },
   {
     "module": "broadcast_channel_currentinfo",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "id 原样进入 data.channelId（数字或十进制字符串保持原形式）",
+    "evidence": [
+      "src/modules/broadcast_channel_currentinfo.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/replay/podcast/podcast-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 必填并收窄为 NumberId，拒绝 0、负数、小数、'01'、分隔符串、布尔和对象；文档将其列为必选参数。"
   },
   {
     "module": "broadcast_channel_list",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ categoryId?: NaturalValue; regionId?: NaturalValue; limit?: NaturalValue; lastId?: NaturalValue; score?: IntegerValue; }",
     "fields": ["categoryId", "lastId", "limit", "regionId", "score", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ categoryId?: NaturalValue; regionId?: NaturalValue; limit?: NaturalValue; lastId?: NaturalValue; score?: IntegerValue; }",
+    "upstreamEncoding": "categoryId/regionId/lastId 用 String(id) 编码为十进制文本；limit 和 score 原样进入 data；默认值仍为 '0'、'20'、'-1'",
+    "evidence": [
+      "src/modules/broadcast_channel_list.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts",
+      "tests/replay/podcast/podcast-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "categoryId/regionId/lastId/limit 收窄为 NaturalValue，score 用 IntegerValue 以保留 -1 哨兵；0 是文档默认值因此允许。数字字符串会先解码为 number 再按字段编码，旧版字符串 '0' 在 limit/score 上原样透传的行为改为与数字 0 相同的默认值路径。"
   },
   {
     "module": "broadcast_sub",
-    "actions": [],
-    "current": "LegacyModuleInput",
+    "actions": ["cancel", "collect"],
+    "current": "{ id: NumberId; t?: 0 | 1; }",
     "fields": ["id", "t", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; t?: 0 | 1; }",
+    "upstreamEncoding": "t=1 时选择 collect 动作并发送 cancelCollect 'false'；未提供 t 或 t=0 时选择 cancel 动作并发送 'true'；id 原样进入 data.contentId",
+    "evidence": [
+      "src/modules/broadcast_sub.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts",
+      "tests/replay/writes/write-actions-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "t 由 Number(query.t) === 1 的强转语义收窄为可选 NumberLiterals([0,1])：仍接受 '0'/'1' 数字字符串，拒绝 2、true/false 和 null。删除对输入副本的写入，冻结输入不再被修改。"
   },
   {
     "module": "hot_topic",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "upstreamEncoding": "limit||20、offset||0 原样进入 data",
+    "evidence": [
+      "src/modules/hot_topic.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts",
+      "tests/replay/social/event-topic-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit/offset 由任意值收窄为 NaturalValue：接受 HTTP 数字字符串并解码为 number，拒绝 'abc'、负数、小数和空串；旧版会把非法值原样透传给上游。0 仍按 || 走默认值 20。"
   },
   {
     "module": "msg_comments",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ uid: NumberId; limit?: NaturalValue; before?: IntegerValue; }",
     "fields": ["before", "limit", "ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ uid: NumberId; limit?: NaturalValue; before?: IntegerValue; }",
+    "upstreamEncoding": "uid 原样进入 data.uid 并拼进 path /api/v1/user/comments/<uid>；before 作为 beforeTime（缺省 '-1'），limit||30，total 固定 'true'",
+    "evidence": [
+      "src/modules/msg_comments.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts",
+      "tests/replay/social/msg-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除手写 uid primitive 检查，uid 必填并收窄为 NumberId；before 用 IntegerValue 保留 -1 哨兵语义，limit 为 NaturalValue。拒绝 'abc'、小数、负数 limit 和分隔符 uid。"
   },
   {
     "module": "msg_forwards",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "upstreamEncoding": "offset||0、limit||30 原样进入 data，total 固定 'true'",
+    "evidence": [
+      "src/modules/msg_forwards.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts",
+      "tests/replay/social/msg-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit/offset 收窄为 NaturalValue，拒绝 'abc'、负数、小数；0 仍按 || 走默认值。"
   },
   {
     "module": "msg_notices",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: NaturalValue; lasttime?: IntegerValue; }",
     "fields": ["lasttime", "limit", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: NaturalValue; lasttime?: IntegerValue; }",
+    "upstreamEncoding": "limit||30，time = lasttime||-1，原样进入 data",
+    "evidence": [
+      "src/modules/msg_notices.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts",
+      "tests/replay/social/msg-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit 收窄为 NaturalValue；lasttime 是带 -1 默认的时间游标，用 IntegerValue 接受整数和数字字符串，拒绝小数与空串。"
   },
   {
     "module": "msg_private",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "upstreamEncoding": "offset||0、limit||30 原样进入 data，total 固定 'true'",
+    "evidence": [
+      "src/modules/msg_private.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts",
+      "tests/replay/social/msg-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit/offset 收窄为 NaturalValue，拒绝 'abc'、负数、小数；0 仍按 || 走默认值。"
   },
   {
     "module": "msg_private_history",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ uid: NumberId; limit?: NaturalValue; before?: NaturalValue; }",
     "fields": ["before", "limit", "ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ uid: NumberId; limit?: NaturalValue; before?: NaturalValue; }",
+    "upstreamEncoding": "userId 使用 uid 原值，time = before||0，limit||30，total 固定 'true'",
+    "evidence": [
+      "src/modules/msg_private_history.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts",
+      "tests/replay/social/msg-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "uid 必填并收窄为 NumberId；before 是默认 0 的时间游标，用 NaturalValue（没有 -1 哨兵证据），拒绝负数、小数和空串；limit 为 NaturalValue。"
   },
   {
     "module": "msg_recentcontact",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "NoInput",
+    "upstreamEncoding": "无输入参数，data 固定为空对象",
+    "evidence": [
+      "src/modules/msg_recentcontact.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/replay/social/msg-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "文档未列出参数；改用 NoInput + EmptyInput，任何键都被拒绝。"
   },
   {
     "module": "starpick_comments_summary",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput",
     "fields": ["ts"],
-    "legacyEncoding": ["JSON.stringify"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "NoInput",
+    "upstreamEncoding": "无调用者参数；cursor 是模块内固定构造的 JSON（offset 0、blockCodeOrderList、refresh），不属于输入编码",
+    "evidence": [
+      "src/modules/starpick_comments_summary.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/replay/activity/sheet-annual-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "文档未列出参数，也没有可业务化的调用者字段，因此用 NoInput；保留模块内 JSON.stringify 的固定 cursor 载荷，它不是旧协议输入。"
   },
   {
     "module": "topic_detail",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ actid: NumberId; }",
     "fields": ["actid", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ actid: NumberId; }",
+    "upstreamEncoding": "actid 原样进入 data",
+    "evidence": [
+      "src/modules/topic_detail.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/replay/social/event-topic-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "actid 必填并收窄为 NumberId；缺失或非编号（0、'abc'、分隔符串）在任何上游请求前被拒绝，旧版会把缺失值透传给上游并记录其 400。"
   },
   {
     "module": "topic_detail_event_hot",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ actid: NumberId; }",
     "fields": ["actid", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ actid: NumberId; }",
+    "upstreamEncoding": "actid 原样进入 data",
+    "evidence": [
+      "src/modules/topic_detail_event_hot.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/replay/social/event-topic-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "actid 必填并收窄为 NumberId；缺失或非编号在任何上游请求前被拒绝。"
   },
   {
     "module": "topic_sublist",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "upstreamEncoding": "limit||50、offset||0 原样进入 data，total 固定 true",
+    "evidence": [
+      "src/modules/topic_sublist.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts",
+      "tests/replay/social/event-topic-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit/offset 收窄为 NaturalValue，拒绝 'abc'、负数、小数；0 仍按 || 走默认值。"
   }
 ]

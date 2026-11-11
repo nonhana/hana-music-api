@@ -1,6 +1,9 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +12,13 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { mvid: NumberId };
+
+const inputSchema = Schema.Struct({ mvid: NumberId });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -39,17 +48,6 @@ const mvDetailInfo: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    if (
-      query.mvid !== undefined &&
-      query.mvid !== null &&
-      typeof query.mvid !== 'string' &&
-      typeof query.mvid !== 'number' &&
-      typeof query.mvid !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'mvid must be a primitive value',
-      });
-    }
     const data = {
       threadid: `R_MV_5_${String(query.mvid)}`,
       composeliked: true,
@@ -67,7 +65,3 @@ const mvDetailInfo: ModuleEffect<
  * MV 点赞转发评论数数据
  */
 export default mvDetailInfo;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

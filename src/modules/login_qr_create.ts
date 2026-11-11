@@ -3,7 +3,10 @@ import * as QRCode from 'qrcode';
 
 import { Call } from '../core/call.ts';
 import { ModuleInvariantFailed } from '../core/errors.ts';
-import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
+import {
+  BooleanValue,
+  decodeModuleInput as decodeInput,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { generateChainId } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -12,18 +15,14 @@ export const moduleActions = {} as const satisfies ModuleActions;
 
 export type ModuleInput = {
   key: string;
-  platform?: 'pc' | 'web' | (string & {});
-  qrimg?: boolean | number | string;
+  platform?: 'pc' | 'web';
+  qrimg?: boolean;
 };
 
 const inputSchema = Schema.Struct({
   key: Schema.String,
-  platform: Schema.optional(
-    Schema.Union([Schema.Literal('pc'), Schema.Literal('web'), Schema.String]),
-  ),
-  qrimg: Schema.optional(
-    Schema.Union([Schema.Boolean, Schema.Finite, Schema.String]),
-  ),
+  platform: Schema.optional(Schema.Literals(['pc', 'web'])),
+  qrimg: Schema.optional(BooleanValue),
 });
 
 export const decodeModuleInput = (input: unknown) =>

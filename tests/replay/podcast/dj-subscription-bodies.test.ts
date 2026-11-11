@@ -212,42 +212,30 @@ test.each(cases)('$name returns the recorded body', async (entry) => {
 
 test.each<{
   name: string;
-  status: number;
-  recording: Recording;
   call: (upstream: unknown, status: number) => Promise<unknown>;
 }>([
   {
     name: 'dj_toplist with a non-numeric limit',
-    status: 400,
-    recording: djToplistInvalidLimit,
     call: (upstream, status) =>
       replay(upstream, status).djToplist(djToplistInvalidLimit.query),
   },
   {
     name: 'dj_sublist with a non-numeric limit',
-    status: 400,
-    recording: djSublistInvalidLimit,
     call: (upstream, status) =>
       replay(upstream, status).djSublist(djSublistInvalidLimit.query),
   },
   {
     name: 'dj_subscriber without an id',
-    status: 400,
-    recording: djSubscriberMissingId,
     call: (upstream, status) =>
       replay(upstream, status).djSubscriber(djSubscriberMissingId.query),
   },
   {
     name: 'dj_toplist_hours with a non-numeric limit',
-    status: 400,
-    recording: djToplistHoursInvalidLimit,
     call: (upstream, status) =>
       replay(upstream, status).djToplistHours(djToplistHoursInvalidLimit.query),
   },
   {
     name: 'dj_toplist_newcomer with a non-numeric limit',
-    status: 400,
-    recording: djToplistNewcomerInvalidLimit,
     call: (upstream, status) =>
       replay(upstream, status).djToplistNewcomer(
         djToplistNewcomerInvalidLimit.query,
@@ -255,44 +243,53 @@ test.each<{
   },
   {
     name: 'dj_toplist_pay with a non-numeric limit',
-    status: 400,
-    recording: djToplistPayInvalidLimit,
     call: (upstream, status) =>
       replay(upstream, status).djToplistPay(djToplistPayInvalidLimit.query),
   },
   {
     name: 'dj_toplist_popular with a non-numeric limit',
-    status: 400,
-    recording: djToplistPopularInvalidLimit,
     call: (upstream, status) =>
       replay(upstream, status).djToplistPopular(
         djToplistPopularInvalidLimit.query,
       ),
   },
-  {
-    name: 'djRadio_top anonymously',
-    status: 302,
-    recording: djRadioTopAnonymous,
-    call: (upstream, status) =>
-      replay(upstream, status).djRadioTop(djRadioTopAnonymous.query),
-  },
-])('$name is rejected with the upstream status', async (entry) => {
-  expect(await settle(entry.call(entry.recording.response.body, 200))).toEqual({
+])('$name is rejected before calling upstream', async (entry) => {
+  expect(await settle(entry.call({}, 200))).toMatchObject({
+    rejected: { status: 400, cookie: [], body: { code: 400 } },
+  });
+});
+
+test('djRadio_top anonymously is rejected with the upstream status', async () => {
+  expect(
+    await settle(
+      replay(djRadioTopAnonymous.response.body, 200).djRadioTop(
+        djRadioTopAnonymous.query,
+      ),
+    ),
+  ).toEqual({
     rejected: {
-      status: entry.status,
+      status: 302,
       cookie: [],
-      body: entry.recording.response.body,
+      body: djRadioTopAnonymous.response.body,
     },
   });
 });
 
-test('djRadio_top returns the empty body for a non-numeric id', async () => {
+test('djRadio_top rejects a non-numeric id before calling upstream', async () => {
+  expect(
+    await settle(replay({}, 200).djRadioTop(djRadioTopInvalidParam.query)),
+  ).toMatchObject({
+    rejected: { status: 400, cookie: [], body: { code: 400 } },
+  });
+});
+
+test('djRadio_top returns the recorded empty body', async () => {
   // 网易云把 HTTP 400 归一成 status 200，正文是空字符串；这是空字符串分支，模块原样返回。
   const result = await settle<unknown>(
     replayRaw(
       djRadioTopInvalidParam.response.body,
       djRadioTopInvalidParam.response.status,
-    ).djRadioTop(djRadioTopInvalidParam.query),
+    ).djRadioTop(djRadioTop.query),
   );
   expect(result).toEqual({
     resolved: {

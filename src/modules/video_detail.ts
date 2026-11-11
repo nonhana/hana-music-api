@@ -1,5 +1,6 @@
 import { Effect, Schema } from 'effect';
 
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -13,7 +14,13 @@ import {
   VideoResolutionEntry,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { id: string };
+
+const inputSchema = Schema.Struct({ id: Schema.String });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -81,7 +88,3 @@ const videoDetail: ModuleEffect<
  * 视频详情
  */
 export default videoDetail;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

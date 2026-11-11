@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -19,6 +22,19 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  countrycode?: NumberId;
+  phone: string;
+};
+
+const inputSchema = Schema.Struct({
+  countrycode: Schema.optional(NumberId),
+  phone: Schema.String,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 返回码和手机号是否已注册的 `exist` 收紧（`1` 已注册、`-1` 未注册）；`avatarUrl`、`cellphone`、`countryCode`、`hasPassword`、`hasSnsBinded`、`nickname` 宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -58,7 +74,3 @@ const cellphoneExistenceCheck: ModuleEffect<
  * 检测手机号码是否已注册
  */
 export default cellphoneExistenceCheck;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

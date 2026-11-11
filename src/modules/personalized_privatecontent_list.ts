@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,20 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// `offset` 省略时取 0，`limit` 省略时取 60。
+export type ModuleInput = {
+  limit?: NaturalValue;
+  offset?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 独家放送列表条目比 `personalized_privatecontent` 多 `time`、少 `alg`，留在本模块里。
 const PrivatecontentListItem = UpstreamObject({
@@ -67,7 +84,3 @@ const personalizedPrivatecontentList: ModuleEffect<
  * 独家放送列表
  */
 export default personalizedPrivatecontentList;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

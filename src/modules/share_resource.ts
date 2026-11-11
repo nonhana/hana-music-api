@@ -1,10 +1,25 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
+
+// 上游文档列出的资源类型；空串沿用模块原有的“取默认 song”行为。
+const ShareType = Schema.Literals([
+  'song',
+  'playlist',
+  'mv',
+  'djradio',
+  'djprogram',
+  'album',
+  'noresource',
+  '',
+]);
 
 export const moduleActions = {
   request: {
@@ -15,6 +30,21 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  id?: NumberId;
+  type?: typeof ShareType.Type;
+  msg?: string;
+};
+
+const inputSchema = Schema.Struct({
+  id: Schema.optional(NumberId),
+  type: Schema.optional(ShareType),
+  msg: Schema.optional(Schema.String),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const shareResource: ModuleEffect<
   ModuleInput,
@@ -35,7 +65,3 @@ const shareResource: ModuleEffect<
  * 分享歌曲到动态
  */
 export default shareResource;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

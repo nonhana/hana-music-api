@@ -6,7 +6,7 @@ import { Effect } from 'effect';
 
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { aesEncrypt } from '../../../src/core/crypto.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import { createRequest } from '../../../src/core/request.ts';
 import type {
   CreateRequestOptions,
@@ -805,7 +805,7 @@ const readProbe = (
       identifier: 'read_probe',
       route: '/read-probe',
       actions: { read: action },
-      decodeInput: decodeLegacyModuleInput,
+      decodeInput: decodeModuleObject,
       execute: (input, request) =>
         request('read', { data: input }).pipe(
           Effect.map((response) => ({

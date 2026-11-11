@@ -957,7 +957,7 @@ test('artist_songs drops bad pagination and keeps undeclared song fields', async
   );
 });
 
-test('artist_list rejects a non-primitive initial before calling upstream', async () => {
+test('artist_list rejects a non-string initial before calling upstream', async () => {
   let upstreamCalls = 0;
   const api = createHanaMusicApi({
     cookie: 'MUSIC_U=listener',
@@ -967,11 +967,13 @@ test('artist_list rejects a non-primitive initial before calling upstream', asyn
     },
   });
 
-  expect(await settle(api.artistList({ initial: { letter: 'a' } }))).toEqual({
+  expect(
+    await settle(api.artistList({ initial: { letter: 'a' } } as never)),
+  ).toEqual({
     rejected: {
       status: 400,
       cookie: [],
-      body: { code: 400, msg: 'initial must be a primitive value' },
+      body: { code: 400, msg: expect.stringContaining('Expected string') },
     },
   });
   expect(upstreamCalls).toBe(0);

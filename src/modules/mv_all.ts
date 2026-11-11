@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,25 @@ import {
 } from '../core/upstream-body.ts';
 import { MvSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  area?: string;
+  limit?: NaturalValue;
+  offset?: NaturalValue;
+  order?: string;
+  type?: string;
+};
+
+const inputSchema = Schema.Struct({
+  area: Schema.optional(Schema.String),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  order: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.String),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -56,7 +78,3 @@ const mvAll: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 全部MV
  */
 export default mvAll;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

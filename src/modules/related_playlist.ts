@@ -1,10 +1,20 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
+
+export type ModuleInput = { id: NumberId };
+
+const inputSchema = Schema.Struct({ id: NumberId });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   page: {
@@ -17,10 +27,6 @@ export const moduleActions = {
     response: 'text',
   },
 } as const satisfies ModuleActions;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;
 
 const relatedPlaylist: ModuleEffect<
   ModuleInput,

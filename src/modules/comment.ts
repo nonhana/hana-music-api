@@ -3,17 +3,13 @@ import { Effect, Schema } from 'effect';
 import { resolveResourceType } from '../core/comment-thread.ts';
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
+  NaturalValue,
+  NumberId,
+  NumberLiterals,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  IdentifierQuery,
-  QueryIdentifier,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -40,22 +36,22 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-export type ModuleInput = IdentifierQuery & {
-  type: QueryNumberLike;
-
-  commentId?: QueryIdentifier;
+export type ModuleInput = {
+  commentId?: NumberId;
   content?: string;
-  t: 0 | 1 | 2 | '0' | '1' | '2';
+  id: NumberId;
+  t: 0 | 1 | 2;
   threadId?: string;
+  type: number;
 };
 
 const inputSchema = Schema.Struct({
-  id: Identifier,
-  type: QueryNumber,
-  commentId: Schema.optional(Identifier),
+  commentId: Schema.optional(NumberId),
   content: Schema.optional(Schema.String),
-  t: Schema.Literals([0, 1, 2, '0', '1', '2']),
+  id: NumberId,
+  t: NumberLiterals([0, 1, 2]),
   threadId: Schema.optional(Schema.String),
+  type: NaturalValue,
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -66,12 +62,7 @@ const comment: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
   request,
 ) =>
   Effect.gen(function* () {
-    const actionMap: Record<number, 'add' | 'delete' | 'reply'> = {
-      1: 'add',
-      0: 'delete',
-      2: 'reply',
-    };
-    const action = actionMap[Number(query.t ?? 0)] ?? 'add';
+    const action = query.t === 1 ? 'add' : query.t === 2 ? 'reply' : 'delete';
     const resourceType = resolveResourceType(query.type);
     const data: Record<string, unknown> = {
       threadId: `${resourceType}${String(query.id)}`,

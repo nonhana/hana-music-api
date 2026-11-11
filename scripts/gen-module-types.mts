@@ -455,6 +455,7 @@ ${contractLines.join('\n')}
 
 export const buildGeneratedArtifacts = async (
   modulesDirectory = MODULES_DIRECTORY,
+  options: { readonly strictInputs?: boolean } = {},
 ): Promise<GeneratedArtifacts> => {
   const discovered = await discoverModuleFiles(modulesDirectory);
   const sorted = discovered.toSorted((left, right) =>
@@ -467,7 +468,7 @@ export const buildGeneratedArtifacts = async (
   );
   const contracts = await readModuleContracts(
     sorted,
-    resolve(modulesDirectory) === MODULES_DIRECTORY,
+    options.strictInputs ?? resolve(modulesDirectory) === MODULES_DIRECTORY,
   );
 
   return {

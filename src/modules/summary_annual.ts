@@ -1,6 +1,9 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +12,14 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// 年份是必选业务值；2017–2019 的报告走 `userdata` 短键，其余走 `data` 长键。
+export type ModuleInput = { year: NaturalValue };
+
+const inputSchema = Schema.Struct({ year: NaturalValue });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -679,24 +689,12 @@ const summaryAnnual: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    if (
-      query.year !== undefined &&
-      query.year !== null &&
-      typeof query.year !== 'string' &&
-      typeof query.year !== 'number' &&
-      typeof query.year !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'year must be a primitive value',
-      });
-    }
     const data = {};
-    const key = ['2017', '2018', '2019'].includes(String(query.year))
-      ? 'userdata'
-      : 'data';
+    const year = String(query.year);
+    const key = ['2017', '2018', '2019'].includes(year) ? 'userdata' : 'data';
     const response = yield* request('request', {
       data,
-      path: `/api/activity/summary/annual/${String(query.year)}/${key}`,
+      path: `/api/activity/summary/annual/${year}/${key}`,
     });
     const body = yield* decodeUpstreamBody(
       'summary_annual',
@@ -710,7 +708,3 @@ const summaryAnnual: ModuleEffect<
  * 年度听歌报告2017-2024
  */
 export default summaryAnnual;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

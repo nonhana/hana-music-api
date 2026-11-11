@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,16 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { limit?: number; offset?: number };
+
+const inputSchema = Schema.Struct({
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 返回码和已购单曲列表的路径 `data` 收紧；`data.list` 只有空数组证据、元素类型未知，未声明并由 `UpstreamObject` 原样保留，`count`、`hasMore` 和 `message` 宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -56,7 +69,3 @@ const songPurchased: ModuleEffect<
  * 已购单曲
  */
 export default songPurchased;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

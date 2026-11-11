@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,13 @@ import {
 } from '../core/upstream-body.ts';
 import { PlaylistUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = NoInput;
+
+const inputSchema = EmptyInput;
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
 
 export const moduleActions = {
   request: {
@@ -69,7 +80,3 @@ const djRecommend: ModuleEffect<
  * 精选电台
  */
 export default djRecommend;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -8,6 +8,7 @@ import {
   TopicDetailEventHotBody,
   TopicSublistBody,
 } from '../../../index.ts';
+import type { HanaMusicApiClient } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,
@@ -17,18 +18,13 @@ import {
 import { replay } from '../../_kit/replay.ts';
 import event from '../../fixtures/netease/event/event.default.json';
 import eventEmpty from '../../fixtures/netease/event/event.empty.json';
-import eventInvalidPagesize from '../../fixtures/netease/event/event.invalid-pagesize.json';
 import hotTopic from '../../fixtures/netease/topic/hot_topic.default.json';
-import hotTopicInvalidLimit from '../../fixtures/netease/topic/hot_topic.invalid-limit.json';
 import topicDetail from '../../fixtures/netease/topic/topic_detail.default.json';
-import topicDetailMissingActid from '../../fixtures/netease/topic/topic_detail.missing-actid.json';
 import topicDetailUnknown from '../../fixtures/netease/topic/topic_detail.unknown.json';
 import topicDetailEventHot from '../../fixtures/netease/topic/topic_detail_event_hot.default.json';
 import topicDetailEventHotEmpty from '../../fixtures/netease/topic/topic_detail_event_hot.empty.json';
-import topicDetailEventHotMissingActid from '../../fixtures/netease/topic/topic_detail_event_hot.missing-actid.json';
 import topicDetailEventHotUnknown from '../../fixtures/netease/topic/topic_detail_event_hot.unknown.json';
 import topicSublist from '../../fixtures/netease/topic/topic_sublist.default.json';
-import topicSublistInvalidOffset from '../../fixtures/netease/topic/topic_sublist.invalid-offset.json';
 import topicSublistOutOfRange from '../../fixtures/netease/topic/topic_sublist.out-of-range.json';
 
 // issue #102 B19 的登录录制：账号 599663130（event.default.json 的 `event[].user.userId`；
@@ -127,43 +123,6 @@ test.each<{
   call: (upstream: unknown, status: number) => Promise<unknown>;
 }>([
   {
-    name: 'event with an invalid pagesize',
-    status: 400,
-    recording: eventInvalidPagesize,
-    call: (upstream, status) =>
-      replay(upstream, status).event(eventInvalidPagesize.query),
-  },
-  {
-    name: 'hot_topic with an invalid limit',
-    status: 400,
-    recording: hotTopicInvalidLimit,
-    call: (upstream, status) =>
-      replay(upstream, status).hotTopic(hotTopicInvalidLimit.query),
-  },
-  {
-    name: 'topic_sublist with an invalid offset',
-    status: 400,
-    recording: topicSublistInvalidOffset,
-    call: (upstream, status) =>
-      replay(upstream, status).topicSublist(topicSublistInvalidOffset.query),
-  },
-  {
-    name: 'topic_detail without an actid',
-    status: 400,
-    recording: topicDetailMissingActid,
-    call: (upstream, status) =>
-      replay(upstream, status).topicDetail(topicDetailMissingActid.query),
-  },
-  {
-    name: 'topic_detail_event_hot without an actid',
-    status: 400,
-    recording: topicDetailEventHotMissingActid,
-    call: (upstream, status) =>
-      replay(upstream, status).topicDetailEventHot(
-        topicDetailEventHotMissingActid.query,
-      ),
-  },
-  {
     name: 'topic_detail',
     status: 404,
     recording: topicDetailUnknown,
@@ -194,6 +153,63 @@ test.each<{
       body: entry.recording.response.body,
     },
   });
+});
+
+test('topic inputs reject protocol values locally without calling upstream', async () => {
+  const invalid: ReadonlyArray<{
+    readonly name: string;
+    readonly run: (api: HanaMusicApiClient) => Promise<unknown>;
+    readonly message: string;
+  }> = [
+    {
+      name: 'event with an invalid pagesize',
+      run: (api: HanaMusicApiClient) => api.event({ pagesize: 'abc' } as never),
+      message:
+        'Expected a string matching the RegExp ^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$\n  at ["pagesize"]',
+    },
+    {
+      name: 'hot_topic with a non-numeric limit',
+      run: (api: HanaMusicApiClient) => api.hotTopic({ limit: 'abc' } as never),
+      message:
+        'Expected a string matching the RegExp ^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$\n  at ["limit"]',
+    },
+    {
+      name: 'topic_sublist with a non-numeric offset',
+      run: (api: HanaMusicApiClient) =>
+        api.topicSublist({ offset: 'abc' } as never),
+      message:
+        'Expected a string matching the RegExp ^-?(?:0|[1-9][0-9]*)(?:\\.[0-9]+)?$\n  at ["offset"]',
+    },
+    {
+      name: 'topic_detail without an actid',
+      run: (api: HanaMusicApiClient) => api.topicDetail({} as never),
+      message: 'Missing key\n  at ["actid"]',
+    },
+    {
+      name: 'topic_detail_event_hot without an actid',
+      run: (api: HanaMusicApiClient) => api.topicDetailEventHot({} as never),
+      message: 'Missing key\n  at ["actid"]',
+    },
+  ];
+  for (const entry of invalid) {
+    let upstreamCalls = 0;
+    const api = createHanaMusicApi({
+      cookie: 'MUSIC_U=listener',
+      fetcher: async () => {
+        upstreamCalls += 1;
+        return Response.json({ code: 200 });
+      },
+    });
+
+    expect(await settle(entry.run(api))).toEqual({
+      rejected: {
+        status: 400,
+        cookie: [],
+        body: { code: 400, msg: entry.message },
+      },
+    });
+    expect(upstreamCalls).toBe(0);
+  }
 });
 
 test('hot_topic rejects a body without the hot list', async () => {

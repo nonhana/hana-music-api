@@ -29,8 +29,8 @@ export const mutations = [
   {
     id: 'discovery-zero-latitude-lost',
     file: 'src/modules/aidj_content_rcmd.ts',
-    find: 'query.latitude !== undefined',
-    replace: 'query.latitude',
+    find: 'query.latitude === undefined',
+    replace: 'query.latitude === undefined || query.latitude === 0',
     expectedFailures: [
       'discovery client aidj_content_rcmd/zero-latitude owns its baseline wire contract',
     ],
@@ -66,7 +66,7 @@ export const mutations = [
     id: 'discovery-refresh-coerced',
     file: 'src/modules/homepage_block_page.ts',
     find: 'refresh: query.refresh || false',
-    replace: 'refresh: Boolean(query.refresh)',
+    replace: 'refresh: query.refresh || true',
     expectedFailures: [
       'discovery client homepage_block_page/refresh-string owns its baseline wire contract',
     ],

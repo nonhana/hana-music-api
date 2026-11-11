@@ -2,7 +2,10 @@ import { Effect, Schema } from 'effect';
 import * as QRCode from 'qrcode';
 
 import { ModuleInvariantFailed } from '../core/errors.ts';
-import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
+import {
+  decodeModuleInput as decodeInput,
+  IntegerValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
@@ -21,7 +24,7 @@ export type ModuleInput = {
   evid?: string;
   sign?: string;
   token?: string;
-  type?: number | string;
+  type?: number;
   vid?: string;
 };
 
@@ -29,7 +32,7 @@ const inputSchema = Schema.Struct({
   evid: Schema.optional(Schema.String),
   sign: Schema.optional(Schema.String),
   token: Schema.optional(Schema.String),
-  type: Schema.optional(Schema.Union([Schema.Finite, Schema.String])),
+  type: Schema.optional(IntegerValue),
   vid: Schema.optional(Schema.String),
 });
 

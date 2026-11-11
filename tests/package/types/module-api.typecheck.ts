@@ -19,7 +19,7 @@ const assertPromotedModuleTypes = async () => {
 
   await api.song_url({
     br: 320000,
-    id: '1,2',
+    ids: [1, 2],
   });
 
   await api.login_cellphone({

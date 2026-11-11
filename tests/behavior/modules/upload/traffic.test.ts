@@ -6,7 +6,7 @@ import { TestClock } from 'effect/testing';
 import { createHanaMusicApi } from '../../../../index.ts';
 import { invokeModule as invokeProgrammatic } from '../../../../src/app/module-api.ts';
 import { buildCallServices, runCall } from '../../../../src/core/call.ts';
-import { decodeLegacyModuleInput } from '../../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../../src/core/module-input.ts';
 import audioMatch, {
   moduleActions as audioMatchActions,
 } from '../../../../src/modules/audio_match.ts';
@@ -298,7 +298,7 @@ test('voice stage timeout is sixty seconds under the five minute Call budget', a
           {
             identifier: 'voice_upload',
             route: '/voice/upload',
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             actions: voiceUploadActions,
             execute: voiceUpload,
           },
@@ -363,7 +363,7 @@ test('concurrent SDK upload cancellations retain each module execution count', a
 test.each([
   {
     identifier: 'audio_match',
-    decodeInput: decodeLegacyModuleInput,
+    decodeInput: decodeModuleObject,
     execute: audioMatch,
     actions: audioMatchActions,
     input: { audioFP: 'fp', duration: 3 },
@@ -371,7 +371,7 @@ test.each([
   },
   {
     identifier: 'related_playlist',
-    decodeInput: decodeLegacyModuleInput,
+    decodeInput: decodeModuleObject,
     execute: relatedPlaylist,
     actions: relatedPlaylistActions,
     input: { id: 1 },
@@ -379,7 +379,7 @@ test.each([
   },
   {
     identifier: 'avatar_upload',
-    decodeInput: decodeLegacyModuleInput,
+    decodeInput: decodeModuleObject,
     actions: avatarUploadActions,
     execute: avatarUpload,
     input: { imgFile: songFile },
@@ -425,7 +425,7 @@ test.each([
       {
         identifier: scenario.identifier,
         route: '/plain',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: scenario.execute as ModuleEffect<ModuleQuery>,
         actions: scenario.actions,
       },
@@ -455,12 +455,14 @@ test.each(['audioMatch', 'relatedPlaylist', 'avatarUpload'] as const)(
         cookie: 'MUSIC_U=proxy-' + method,
         proxy,
       });
+      const input =
+        method === 'audioMatch'
+          ? { audioFP: 'fp', duration: 3 }
+          : method === 'relatedPlaylist'
+            ? { id: 1 }
+            : { imgFile: songFile };
       expect(
-        (
-          await Reflect.apply(client[method], client, [
-            { audioFP: 'fp', duration: 3, id: 1, imgFile: songFile },
-          ])
-        ).status,
+        (await Reflect.apply(client[method], client, [input])).status,
       ).toBe(200);
       expect(proxies).toEqual(
         method === 'avatarUpload' ? [proxy, proxy, proxy] : [proxy],

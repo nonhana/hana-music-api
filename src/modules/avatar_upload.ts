@@ -10,7 +10,6 @@ import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
 import uploadPlugin, { imageUploadActions } from '../plugins/upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyUploadedFile } from '../types/module-shared.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -25,7 +24,7 @@ export const moduleActions = {
 } as const satisfies ModuleActions;
 
 export type ModuleInput = {
-  imgFile?: LegacyUploadedFile;
+  imgFile?: typeof UploadedFile.Type;
 };
 
 const inputSchema = Schema.Struct({

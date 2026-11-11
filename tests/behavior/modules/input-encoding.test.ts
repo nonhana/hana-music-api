@@ -44,8 +44,8 @@ const allCases = [
   vipYunbeiCases,
 ].flat();
 
-for (const testCase of allCases) {
-  test(`${testCase.module} sends its declared business encoding`, async () => {
+for (const [index, testCase] of allCases.entries()) {
+  test(`${testCase.module} sends business encoding #${index}`, async () => {
     const wires: Array<EncodingWire> = [];
     const app = await createServer(
       {},

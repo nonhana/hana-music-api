@@ -80,7 +80,7 @@ for (const kind of ['client', 'named', 'invoke']) {
               .split('-36cd479b6b5-');
             assert.equal(frame[0], '/api/song/enhance/player/url/v1');
             assert.deepEqual(JSON.parse(frame[1]), {
-              ids: '[1411594141]',
+              ids: '["1411594141"]',
               level,
               encodeType: 'flac',
               ...(level === 'sky' ? { immerseType: 'c51' } : {}),
@@ -97,7 +97,7 @@ for (const kind of ['client', 'named', 'invoke']) {
           }
         },
       };
-      const query = { id: 1411594141, level };
+      const query = { ids: [1411594141], level };
       const result =
         kind === 'client'
           ? await sdk.createHanaMusicApi(config).songUrlV1(query)

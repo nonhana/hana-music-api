@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -10,7 +14,13 @@ import {
 } from '../core/upstream-body.ts';
 import { LooseSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { tagId: NumberId };
+
+const inputSchema = Schema.Struct({ tagId: NumberId });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 偏好文案里的占位符条目；`targetUrl` 在录制里只见过 `null`，没有声明。
 const ReviewEntry = UpstreamObject({
@@ -95,7 +105,3 @@ const styleDetail: ModuleEffect<
  * 曲风详情
  */
 export default styleDetail;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -2,7 +2,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryNumber,
+  NaturalValue,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -12,26 +12,19 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { PagedQuery } from '../types/module-shared.ts';
 
-export type AlbumStyleArea = 'Z_H' | 'E_A' | 'KR' | 'JP' | (string & {});
+export type AlbumStyleArea = 'Z_H' | 'E_A' | 'KR' | 'JP';
 
-export type ModuleInput = PagedQuery & {
+export type ModuleInput = {
   area?: AlbumStyleArea;
+  limit?: number;
+  offset?: number;
 };
 
 const inputSchema = Schema.Struct({
-  limit: Schema.optional(QueryNumber),
-  offset: Schema.optional(QueryNumber),
-  area: Schema.optional(
-    Schema.Union([
-      Schema.Literal('Z_H'),
-      Schema.Literal('E_A'),
-      Schema.Literal('KR'),
-      Schema.Literal('JP'),
-      Schema.String,
-    ]),
-  ),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  area: Schema.optional(Schema.Literals(['Z_H', 'E_A', 'KR', 'JP'])),
 });
 
 export const decodeModuleInput = (input: unknown) =>

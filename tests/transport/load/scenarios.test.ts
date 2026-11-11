@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import voiceUpload, {
   moduleActions as voiceUploadActions,
 } from '../../../src/modules/voice_upload.ts';
@@ -64,7 +64,7 @@ test('a local multipart upload stops after the first cancelled part', async () =
     {
       identifier: 'voice_upload',
       route: '/voice/upload',
-      decodeInput: decodeLegacyModuleInput,
+      decodeInput: decodeModuleObject,
       actions: voiceUploadActions,
       execute: voiceUpload,
     },

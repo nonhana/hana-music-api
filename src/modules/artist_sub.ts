@@ -2,7 +2,8 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
+  NumberId,
+  NumberLiterals,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -12,13 +13,15 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { IdentifierActionQuery } from '../types/module-shared.ts';
 
-export type ModuleInput = IdentifierActionQuery;
+export type ModuleInput = {
+  id: NumberId;
+  t: 0 | 1;
+};
 
 const inputSchema = Schema.Struct({
-  id: Identifier,
-  t: Schema.Literals([0, 1, '0', '1']),
+  id: NumberId,
+  t: NumberLiterals([0, 1]),
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -56,10 +59,10 @@ const artistSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   request,
 ) =>
   Effect.gen(function* () {
-    const action = Number(query.t) === 1 ? 'sub' : 'unsub';
+    const action = query.t === 1 ? 'sub' : 'unsub';
     const data = {
       artistId: query.id,
-      artistIds: '[' + query.id + ']',
+      artistIds: `[${String(query.id)}]`,
     };
     const response = yield* request(action, { data });
     return {

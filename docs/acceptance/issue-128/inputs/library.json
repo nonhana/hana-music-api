@@ -2,18 +2,22 @@
   {
     "module": "cloud",
     "actions": [],
-    "current": "{ songFile?: LegacyUploadedFile; }",
+    "current": "{ songFile?: typeof UploadedFile.Type }",
     "fields": ["songFile", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ songFile?: UploadedFile }",
+    "upstreamEncoding": "songFile 原样交给上传插件；md5 缺失时按文件字节计算",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts"
+    ],
+    "status": "already-compliant",
+    "notes": "输入早已是 UploadedFile 具体结构；本次只把类型别名从 LegacyUploadedFile 换成 UploadedFile.Type，行为不变。songFile 缺失仍由模块在请求前返回 InvalidModuleInput。"
   },
   {
     "module": "cloud_import",
     "actions": ["check", "import"],
-    "current": "{ album?: string; artist?: string; bitrate?: QueryNumberLike; fileSize?: QueryNumberLike; fileType?: string; id?: QueryIdentifier; md5?: string; song?: string; }",
+    "current": "{ album?: string; artist?: string; bitrate?: NumberValue; fileSize?: NumberValue; fileType?: string; id?: NumberId; md5?: string; song?: string; }",
     "fields": [
       "album",
       "artist",
@@ -25,186 +29,278 @@
       "song",
       "ts"
     ],
-    "legacyEncoding": ["JSON.stringify"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "{ album?: string; artist?: string; bitrate?: number; fileSize?: number; fileType?: string; id?: NumberId; md5?: string; song?: string }",
+    "upstreamEncoding": "check: songs = JSON.stringify([{ md5, songId: id ?? -2, bitrate, fileSize }])；import: songs = JSON.stringify([{ songId, bitrate, song, artist ?? '未知', album ?? '未知', fileName: song + '.' + fileType }])",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "bitrate/fileSize 用 NumberValue（HTTP 数字字符串解码为 number），id 用 NumberId；artist/album/id 的 -2/'未知' 默认值保持不变。文档把 song/fileType/fileSize/bitrate/md5 列为必填，但现有调用方（tests/behavior/modules/special/special-chains.test.ts）允许缺省且模块无兜底，本批保持可选。"
   },
   {
     "module": "cloudsearch",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ keywords: string; limit?: number; offset?: number; type?: 1 | 10 | 100 | 1000 | 1002 | 1004 | 1006 | 1009 | 1014 | 1018 | 2000 }",
     "fields": ["keywords", "limit", "offset", "ts", "type"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ keywords: string; limit?: number; offset?: number; type?: 1 | 10 | 100 | 1000 | 1002 | 1004 | 1006 | 1009 | 1014 | 1018 | 2000 }",
+    "upstreamEncoding": "s = keywords；type = type || 1；limit = limit || 30；offset = offset || 0；total: true",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "keywords 必填；type 按文档收窄为 1/10/100/1000/1002/1004/1006/1009/1014/1018/2000（NumberLiterals 接受数字字符串）；limit 默认 30、offset 默认 0。"
   },
   {
     "module": "fm_trash",
     "actions": ["write"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; time?: number }",
     "fields": ["id", "time", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; time?: number }",
+    "upstreamEncoding": "songId = id；time = time || 25；alg 固定 'RT'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 必填 NumberId；time 可选 NaturalValue，默认 25。0/负 id、小数和旧逗号串一律拒绝。"
   },
   {
     "module": "history_recommend_songs",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput（EmptyInput）",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数",
+    "upstreamEncoding": "空 data",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "无参数；任何字段由 decoder 拒绝。"
   },
   {
     "module": "history_recommend_songs_detail",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ date?: string }",
     "fields": ["date", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ date?: string }",
+    "upstreamEncoding": "date = date || ''",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "date 可选（模块用 `|| ''` 兜底）；非法日期仍原样交给上游返回 400 业务拒绝。旧实现透传的数组形式（文档写作 string[] | string）不再接受，只收字符串。"
   },
   {
     "module": "like",
     "actions": [],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; like?: boolean }",
     "fields": ["id", "like", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; like?: boolean }",
+    "upstreamEncoding": "trackId = id；like = like ?? true；time 固定 '3'；按 like 选择 like/unlike 动作",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 必填 NumberId；like 用 BooleanValue，缺省 true。0/'0' 现在按 false 取消红心（旧实现只有 false/'false' 取消），属于有意收紧。"
   },
   {
     "module": "likelist",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ uid: NumberId }",
     "fields": ["ts", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ uid: NumberId }",
+    "upstreamEncoding": "uid 原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "uid 按文档必填 NumberId。"
   },
   {
     "module": "personal_fm",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput（EmptyInput）",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数",
+    "upstreamEncoding": "空 data",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "无参数；任何字段由 decoder 拒绝。"
   },
   {
     "module": "personal_fm_mode",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ mode: 'aidj' | 'DEFAULT' | 'FAMILIAR' | 'EXPLORE' | 'SCENE_RCMD'; submode?: string; limit?: number }",
     "fields": ["limit", "mode", "submode", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ mode: 'aidj' | 'DEFAULT' | 'FAMILIAR' | 'EXPLORE' | 'SCENE_RCMD'; submode?: string; limit?: number }",
+    "upstreamEncoding": "mode/subMode 原样透传；limit = limit || 3",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "mode 按文档必填并收窄为 aidj/DEFAULT/FAMILIAR/EXPLORE/SCENE_RCMD；submode 文档只在 SCENE_RCMD 下列出 EXERCISE/FOCUS/NIGHT_EMO，未穷举证据，保留 Schema.String 可选；limit 默认 3。"
   },
   {
     "module": "pl_count",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput（EmptyInput）",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数",
+    "upstreamEncoding": "空 data",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "接口按登录 Cookie 返回计数，没有 uid 等参数。"
   },
   {
     "module": "recent_listen_list",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput（EmptyInput）",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数",
+    "upstreamEncoding": "空 data",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "无参数；任何字段由 decoder 拒绝。"
   },
   {
     "module": "record_recent_album",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number }",
     "fields": ["limit", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: number }",
+    "upstreamEncoding": "limit = limit || 100",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit 可选 NaturalValue，默认 100；非数字 limit 现在由 decoder 拒绝（旧实现会发上游并归一空正文分支）。"
   },
   {
     "module": "record_recent_dj",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number }",
     "fields": ["limit", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: number }",
+    "upstreamEncoding": "limit = limit || 100",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit 可选 NaturalValue，默认 100；非数字 limit 现在由 decoder 拒绝（旧实现会发上游并归一空正文分支）。"
   },
   {
     "module": "record_recent_playlist",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number }",
     "fields": ["limit", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: number }",
+    "upstreamEncoding": "limit = limit || 100",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit 可选 NaturalValue，默认 100；非数字 limit 现在由 decoder 拒绝（旧实现会发上游并归一空正文分支）。"
   },
   {
     "module": "record_recent_song",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number }",
     "fields": ["limit", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: number }",
+    "upstreamEncoding": "limit = limit || 100",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit 可选 NaturalValue，默认 100；非数字 limit 现在由 decoder 拒绝（旧实现会发上游并归一空正文分支）。"
   },
   {
     "module": "record_recent_video",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number }",
     "fields": ["limit", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: number }",
+    "upstreamEncoding": "limit = limit || 100",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit 可选 NaturalValue，默认 100；非数字 limit 现在由 decoder 拒绝（旧实现会发上游并归一空正文分支）。"
   },
   {
     "module": "record_recent_voice",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number }",
     "fields": ["limit", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: number }",
+    "upstreamEncoding": "limit = limit || 100",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/library.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/library.ts"
+    ],
+    "status": "migrated",
+    "notes": "接口只读取 limit，没有 voiceId 参数；limit 可选 NaturalValue，默认 100。非数字 limit 现在由 decoder 拒绝。"
   }
 ]

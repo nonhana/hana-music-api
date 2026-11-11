@@ -1,6 +1,7 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
 import {
+  createHanaMusicApi,
   MusicianCloudbeanBody,
   MusicianDataOverviewBody,
   MusicianPlayTrendBody,
@@ -114,8 +115,8 @@ test.each(cases)('$name returns the recorded body', async (entry) => {
 });
 
 // cloudbean 的 600、data_overview 的 10000 和 tasks/tasks_new 的 301 是请求层既有拒绝：
-// interpretResponse 在模块之前就按业务码定 status 并拒绝，不经过 decodeUpstreamBody；
-// musician_play_trend 的 400（缺参/毫秒/秒）是本批新增的业务拒绝。
+// interpretResponse 在模块之前就按业务码定 status 并拒绝，不经过 decodeUpstreamBody。
+// musician_play_trend 的缺参/毫秒/秒不再是业务失败：输入 decoder 在发送前拒绝（见下方用例）。
 test.each<{
   name: string;
   recording: Recording;
@@ -138,31 +139,6 @@ test.each<{
     call: (upstream, status) =>
       replay(upstream, status).musicianDataOverview(
         musicianDataOverviewAnonymous.query,
-      ),
-  },
-  {
-    name: 'musician_play_trend without time range',
-    recording: musicianPlayTrendNoParams,
-    status: 400,
-    call: (upstream, status) =>
-      replay(upstream, status).musicianPlayTrend(
-        musicianPlayTrendNoParams.query,
-      ),
-  },
-  {
-    name: 'musician_play_trend with millisecond timestamps',
-    recording: musicianPlayTrendMs,
-    status: 400,
-    call: (upstream, status) =>
-      replay(upstream, status).musicianPlayTrend(musicianPlayTrendMs.query),
-  },
-  {
-    name: 'musician_play_trend with second timestamps',
-    recording: musicianPlayTrendSeconds,
-    status: 400,
-    call: (upstream, status) =>
-      replay(upstream, status).musicianPlayTrend(
-        musicianPlayTrendSeconds.query,
       ),
   },
   {
@@ -196,6 +172,28 @@ test.each<{
       body: entry.recording.response.body,
     },
   });
+});
+
+// 旧协议里这些查询能到达上游并换回 400；新合同要求日期字符串，非法输入在发送前拒绝。
+test.each([
+  { name: 'missing time range', query: musicianPlayTrendNoParams.query },
+  { name: 'millisecond timestamps', query: musicianPlayTrendMs.query },
+  { name: 'second timestamps', query: musicianPlayTrendSeconds.query },
+])('musician_play_trend rejects $name before sending', async ({ query }) => {
+  let sends = 0;
+  const api = createHanaMusicApi({
+    cookie: 'MUSIC_U=listener',
+    fetcher: async () => {
+      sends += 1;
+      return Response.json({ code: 200 });
+    },
+  });
+
+  expect(await settle(api.musicianPlayTrend(query as never))).toHaveProperty(
+    'rejected.status',
+    400,
+  );
+  expect(sends).toBe(0);
 });
 
 test('musician bodies type their tightened records and loose fields', () => {

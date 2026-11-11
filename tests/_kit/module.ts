@@ -1,7 +1,7 @@
 import { Effect } from 'effect';
 
 import { buildCallServices, Call, runCall } from '../../src/core/call.ts';
-import { decodeLegacyModuleInput } from '../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../src/core/module-input.ts';
 import type { ModuleActions } from '../../src/core/request-actions.ts';
 import { runRequestAtEdge } from '../../src/core/request.ts';
 import type {
@@ -115,7 +115,7 @@ export const moduleRuntime = (
         identifier,
         actions,
         route: '/' + identifier,
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute,
       }),
   };

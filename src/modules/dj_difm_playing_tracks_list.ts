@@ -1,5 +1,11 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +14,21 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  channelId: NumberId;
+  limit?: number;
+  source?: 0 | 1 | 2;
+};
+
+const inputSchema = Schema.Struct({
+  channelId: NumberId,
+  limit: Schema.optional(NaturalValue),
+  source: Schema.optional(NumberLiterals([0, 1, 2])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -71,7 +91,3 @@ const djDifmPlayingTracksList: ModuleEffect<
  * DIFM电台 - 播放列表
  */
 export default djDifmPlayingTracksList;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,19 @@ import {
 } from '../core/upstream-body.ts';
 import { PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  id?: NumberId;
+  idx?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  id: Schema.optional(NumberId),
+  idx: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const Playlist = UpstreamObject({
   ...PlaylistSummary.schema.fields,
@@ -52,7 +69,7 @@ const topList: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   request,
 ) =>
   Effect.gen(function* () {
-    if (query.idx) {
+    if (query.idx !== undefined) {
       const body: ModuleBody = {
         code: 500,
         msg: '不支持此方式调用,只支持id调用',
@@ -71,6 +88,3 @@ const topList: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   });
 
 export default topList;
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

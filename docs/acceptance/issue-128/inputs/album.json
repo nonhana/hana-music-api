@@ -2,122 +2,183 @@
   {
     "module": "album",
     "actions": ["read"],
-    "current": "IdentifierQuery",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId }（专辑编号，数字或纯十进制字符串）",
+    "upstreamEncoding": "id 原样拼入路径 /api/v1/album/<id>",
+    "evidence": [
+      "src/modules/album.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/replay/library/library-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 从 QueryIdentifier 收紧为 NumberId；不接受 0、负数、小数、分隔符串和布尔。"
   },
   {
     "module": "album_detail",
     "actions": ["read"],
-    "current": "IdentifierQuery",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId }（数字专辑编号）",
+    "upstreamEncoding": "data.id = 业务编号原值（数字或十进制文本）",
+    "evidence": [
+      "src/modules/album_detail.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/replay/library/album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 从 QueryIdentifier 收紧为 NumberId。"
   },
   {
     "module": "album_detail_dynamic",
     "actions": ["read"],
-    "current": "IdentifierQuery",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId }（专辑编号）",
+    "upstreamEncoding": "data.id = 业务编号原值（数字或十进制文本）",
+    "evidence": [
+      "src/modules/album_detail_dynamic.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/replay/library/album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 从 QueryIdentifier 收紧为 NumberId。"
   },
   {
     "module": "album_list",
     "actions": ["read"],
-    "current": "PagedQuery & { area?: AlbumArea; type?: QueryNumberLike; }",
+    "current": "{ area?: AlbumArea; limit?: number; offset?: number; type?: number }",
     "fields": ["area", "limit", "offset", "ts", "type"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: number; offset?: number; area?: 'ALL'|'ZH'|'EA'|'KR'|'JP'; type?: number }",
+    "upstreamEncoding": "limit/offset/type 解码为 number；limit 默认 30、offset 默认 0、area 默认 'ALL'，total 固定 true",
+    "evidence": [
+      "src/modules/album_list.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts",
+      "tests/replay/library/album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "area 由开放字符串收紧为文档列出的五个地区；type 文档未穷举取值，保留非负整数并type 解码为非负整数后原样写入 data；limit/offset 由 QueryNumberLike 收紧为非负整数。"
   },
   {
     "module": "album_list_style",
     "actions": ["read"],
-    "current": "PagedQuery & { area?: AlbumStyleArea; }",
+    "current": "{ area?: AlbumStyleArea; limit?: number; offset?: number }",
     "fields": ["area", "limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: number; offset?: number; area?: 'Z_H'|'E_A'|'KR'|'JP' }",
+    "upstreamEncoding": "limit/offset 解码为 number；limit 默认 10、offset 默认 0、area 默认 'Z_H'，total 固定 true",
+    "evidence": [
+      "src/modules/album_list_style.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts",
+      "tests/replay/library/album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "area 由开放字符串收紧为文档列出的四个语种；limit/offset 由 QueryNumberLike 收紧为非负整数。"
   },
   {
     "module": "album_new",
     "actions": ["read"],
-    "current": "PagedQuery & { area?: AlbumArea; type?: QueryNumberLike; }",
+    "current": "{ area?: AlbumArea; limit?: number; offset?: number }",
     "fields": ["area", "limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: number; offset?: number; area?: 'ALL'|'ZH'|'EA'|'KR'|'JP' }",
+    "upstreamEncoding": "limit/offset 解码为 number；limit 默认 30、offset 默认 0、area 默认 'ALL'，total 固定 true",
+    "evidence": [
+      "src/modules/album_new.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts",
+      "tests/replay/library/album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除旧声明中从未读取的 type 字段，传入 type 现在会被拒绝；area 收紧为文档列出的五个地区；limit/offset 收紧为非负整数。"
   },
   {
     "module": "album_newest",
     "actions": ["read"],
-    "current": "{}",
+    "current": "NoInput",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定 data = {}",
+    "evidence": [
+      "src/modules/album_newest.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/replay/library/album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "改用 EmptyInput；任何字段都会在发送前被拒绝。"
   },
   {
     "module": "album_privilege",
     "actions": ["read"],
-    "current": "IdentifierQuery",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId }（专辑编号）",
+    "upstreamEncoding": "data.id = 业务编号原值（数字或十进制文本）",
+    "evidence": [
+      "src/modules/album_privilege.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/replay/library/album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 从 QueryIdentifier 收紧为 NumberId。"
   },
   {
     "module": "album_songsaleboard",
     "actions": ["read"],
-    "current": "{ albumType?: QueryNumberLike; type?: AlbumSalesBoardType; year?: QueryNumberLike; }",
+    "current": "{ albumType?: number; type?: string; year?: number }",
     "fields": ["albumType", "ts", "type", "year"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ albumType?: number; type?: string; year?: number }",
+    "upstreamEncoding": "albumType 解码为 number、默认 0；type 默认 'daily' 并拼入路径 /api/feealbum/songsaleboard/<type>/type；仅 type=year 时 data 另带解码后的 year 数字",
+    "evidence": [
+      "src/modules/album_songsaleboard.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts",
+      "tests/replay/library/album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 文档列出 daily/week/year/total，但既有请求基线把 custom 等其他字符串作为合法输入（tests/fixtures/requests/library-playback.json），保留不透明字符串；albumType 代码注释只列 0/1，但录制用 99 取空榜，保留非负整数；year 收紧为非负整数且仅在 type=year 时发送。"
   },
   {
     "module": "album_sub",
-    "actions": [],
-    "current": "IdentifierActionQuery",
+    "actions": ["sub", "unsub"],
+    "current": "{ id: NumberId; t: 0 | 1 }",
     "fields": ["id", "t", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; t: 0 | 1 }（1 收藏，0 取消收藏）",
+    "upstreamEncoding": "t 解码为 0|1 并选择 sub/unsub 动作；请求 data 只带 id 原值",
+    "evidence": [
+      "src/modules/album_sub.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts",
+      "tests/replay/library/collection-actions.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "t 从 0|1|'0'|'1' 收紧为 NumberLiterals([0,1])，解码后是数字；其他值拒绝。"
   },
   {
     "module": "album_sublist",
     "actions": ["read"],
-    "current": "PagedQuery",
+    "current": "{ limit?: number; offset?: number }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: number; offset?: number }",
+    "upstreamEncoding": "limit/offset 解码为 number；limit 默认 25、offset 默认 0，total 固定 true",
+    "evidence": [
+      "src/modules/album_sublist.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts",
+      "tests/replay/library/library-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit/offset 由 QueryNumberLike 收紧为非负整数。"
   }
 ]

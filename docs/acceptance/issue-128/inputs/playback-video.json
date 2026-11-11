@@ -2,221 +2,337 @@
   {
     "module": "audio_match",
     "actions": ["match"],
-    "current": "{ audioFP: string; duration: QueryNumberLike; }",
-    "fields": ["audioFP", "duration", "ts"],
+    "current": "{ audioFP: string; duration: NumberValue; }",
+    "fields": ["audioFP", "duration"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ audioFP: 指纹字符串; duration: 音频秒数(数字或数字字符串) }",
+    "upstreamEncoding": "duration 解码为 number 后以十进制文本拼入 GET query；audioFP 原样经过 encodeURIComponent",
+    "evidence": [
+      "src/modules/audio_match.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/audio/audio-match.test.ts",
+      "tests/replay/playback/playability-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "duration 从 QueryNumberLike 收紧为 NumberValue（有限数字或数字字符串），仍接受小数（既有 decoder 测试以 '2.5' 为有效值）；audioFP 是不透明指纹串，保持 Schema.String。"
   },
   {
     "module": "cloud_match",
     "actions": ["match"],
-    "current": "LegacyModuleInput",
-    "fields": ["asid", "sid", "ts", "uid"],
+    "current": "{ asid: NaturalValue; sid: NumberId; uid: NumberId; }",
+    "fields": ["asid", "sid", "uid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ uid: 用户编号; sid: 云盘歌曲编号; asid: 匹配到的歌曲编号(0 表示取消匹配) }",
+    "upstreamEncoding": "原样放入 web data：userId/songId/adjustSongId",
+    "evidence": [
+      "src/modules/cloud_match.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/replay/writes/reversible-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "asid 在录制 cloud_match.unmatch 中以 0 表示取消匹配，因此用 NaturalValue 而不是 NumberId；uid/sid 是资源编号用 NumberId；三者必填。"
   },
   {
     "module": "mv_all",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["area", "limit", "offset", "order", "ts", "type"],
-    "legacyEncoding": ["JSON.stringify"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "current": "{ area?: string; limit?: NaturalValue; offset?: NaturalValue; order?: string; type?: string; }",
+    "fields": ["area", "limit", "offset", "order", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ area?: 地区; type?: 类型; order?: 排序; limit?: 数量(默认 30); offset?: 偏移(默认 0) }",
+    "upstreamEncoding": "eapi data.tags = JSON.stringify({地区: area||'全部', 类型: type||'全部', 排序: order||'上升最快'})；limit/offset 为数字",
+    "evidence": [
+      "src/modules/mv_all.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/mv-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧调用者自己传 JSON 串的 tags 已删除，改为业务字段由模块编码；area/type/order 保留 Schema.String（仓库没有穷举枚举），空串仍按原 || 逻辑回落到默认值。"
   },
   {
     "module": "mv_detail",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["mvid", "ts"],
+    "current": "{ mvid: NumberId; }",
+    "fields": ["mvid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ mvid: MV 编号 }",
+    "upstreamEncoding": "原样放入 web data.id",
+    "evidence": [
+      "src/modules/mv_detail.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/replay/video/mv-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "mvid 必填 NumberId；不再接受 0、分隔符串和对象。"
   },
   {
     "module": "mv_detail_info",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["mvid", "ts"],
+    "current": "{ mvid: NumberId; }",
+    "fields": ["mvid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ mvid: MV 编号 }",
+    "upstreamEncoding": "threadid = `R_MV_5_${String(mvid)}`，composeliked: true",
+    "evidence": [
+      "src/modules/mv_detail_info.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/mv-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "mvid 从可缺省的任意值收紧为必填 NumberId，删除手写 primitive 检查；缺省时原先会生成 R_MV_5_undefined。"
   },
   {
     "module": "mv_exclusive_rcmd",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["limit", "offset", "ts"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["limit", "offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: 数量(默认 30); offset?: 偏移(默认 0) }",
+    "upstreamEncoding": "limit/offset 解码为 number 后放入 eapi data，缺省分别回落 30/0",
+    "evidence": [
+      "src/modules/mv_exclusive_rcmd.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/mv-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit/offset 由任意 LegacyModuleInput 收紧为非负整数（数字或数字字符串）。"
   },
   {
     "module": "mv_first",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["area", "limit", "offset", "ts"],
+    "current": "{ area?: string; limit?: NaturalValue; }",
+    "fields": ["area", "limit"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ area?: 地区(默认 ''); limit?: 数量(默认 30) }",
+    "upstreamEncoding": "area 原样放入 eapi data（空串保持空串），limit 缺省回落 30，total: true",
+    "evidence": [
+      "src/modules/mv_first.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/mv-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "area 沿用原逻辑的空串默认值（不替换为 '全部'）；删除从未读取的 offset 注释。limit 收紧为非负整数。 旧基线夹具向 mv_first 传入未声明的 offset，现在会被拒绝。"
   },
   {
     "module": "mv_sub",
-    "actions": [],
-    "current": "LegacyModuleInput",
-    "fields": ["mvid", "t", "ts"],
+    "actions": ["sub", "unsub"],
+    "current": "{ mvid: NumberId; t: 0 | 1; }",
+    "fields": ["mvid", "t"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ mvid: MV 编号; t?: 1 收藏 / 0 取消收藏，缺省 0 }",
+    "upstreamEncoding": "t===1 选择 sub 动作，否则 unsub；data.mvIds = JSON.stringify([String(mvid)])，data.mvId = mvid",
+    "evidence": [
+      "src/modules/mv_sub.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/writes/write-actions-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "t 可选，缺省 0（unsub），保留旧基线省略 t 的默认行为；t 只接受 0/1，Number(t) 松散强转已删除。mvIds 输出与旧字符串拼接等价。"
   },
   {
     "module": "mv_sublist",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["limit", "offset", "ts"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["limit", "offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: 数量(默认 25); offset?: 偏移(默认 0) }",
+    "upstreamEncoding": "limit/offset 解码为 number 后放入 web data，缺省分别回落 25/0",
+    "evidence": [
+      "src/modules/mv_sublist.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/mv-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit/offset 收紧为非负整数；默认值 25/0 保持原样。"
   },
   {
     "module": "mv_url",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["id", "r", "ts"],
+    "current": "{ id: NumberId; r?: number; }",
+    "fields": ["id", "r"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: MV 编号; r?: 非负整数，缺省 1080 }",
+    "upstreamEncoding": "id 原样放入 web data.id；r 缺省回落 1080",
+    "evidence": [
+      "src/modules/mv_url.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/mv-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 收紧为 NumberId；r 用 NaturalValue，与 video_url.res 一致，0 回落 1080；负数和非法字符串在入口 400。"
   },
   {
     "module": "playmode_intelligence_list",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
-    "fields": ["count", "id", "pid", "sid", "ts"],
+    "current": "{ count?: NaturalValue; id: NumberId; pid: NumberId; sid?: NumberId; }",
+    "fields": ["count", "id", "pid", "sid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号; pid: 歌单编号; sid?: 开始播放的歌曲编号; count?: 数量(默认 1) }",
+    "upstreamEncoding": "data.songId = id，playlistId = pid，startMusicId = sid || id，count 缺省回落 1，type: 'fromPlayOne'",
+    "evidence": [
+      "src/modules/playmode_intelligence_list.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/playback/personal-fm-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id/pid 必填 NumberId（缺 pid 时上游返回 500，等于没调用成功）；sid 可选 NumberId；count 收紧为非负整数，0 仍回落 1。 旧基线夹具用 sid=0 触发回退，现在 0 不是合法编号；省略 sid 表达同一意图。"
   },
   {
     "module": "video_category_list",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["limit", "offset", "ts"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["limit", "offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: 数量(默认 99); offset?: 偏移(默认 0) }",
+    "upstreamEncoding": "limit/offset 解码为 number 后放入 web data，缺省分别回落 99/0，total: 'true'",
+    "evidence": [
+      "src/modules/video_category_list.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/video-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "文档未列参数，但现有实现支持 limit/offset 且有默认值，保留为可选非负整数。"
   },
   {
     "module": "video_detail",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["id", "ts"],
+    "current": "{ id: string; }",
+    "fields": ["id"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 视频编号 }",
+    "upstreamEncoding": "原样放入 web data.id",
+    "evidence": [
+      "src/modules/video_detail.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/replay/video/video-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "视频编号是 32 位十六进制串（录制 BFB0ABD6…），不是数字资源编号，因此用 Schema.String 并必填；未被要求收窄成 NumberId。"
   },
   {
     "module": "video_detail_info",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["ts", "vid"],
+    "current": "{ vid: string; }",
+    "fields": ["vid"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ vid: 视频编号 }",
+    "upstreamEncoding": "threadid = `R_VI_62_${String(vid)}`，composeliked: true",
+    "evidence": [
+      "src/modules/video_detail_info.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/video-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "vid 从可缺省的任意值收紧为必填十六进制串，删除手写 primitive 检查；缺省时原先会生成 R_VI_62_undefined。"
   },
   {
     "module": "video_group",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["id", "offset", "ts"],
+    "current": "{ id: NumberId; offset?: NaturalValue; }",
+    "fields": ["id", "offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 视频标签/分类编号; offset?: 偏移(默认 0) }",
+    "upstreamEncoding": "data.groupId = id，offset 缺省回落 0，need_preview_url: 'true'，total: true",
+    "evidence": [
+      "src/modules/video_group.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/video-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "groupId 来自 video_group_list 的数字 id，用 NumberId；offset 收紧为非负整数。"
   },
   {
     "module": "video_group_list",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["ts"],
+    "current": "NoInput",
+    "fields": [],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无参数",
+    "upstreamEncoding": "data 为空对象",
+    "evidence": [
+      "src/modules/video_group_list.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/replay/video/video-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "接口无参数，改用 EmptyInput + NoInput；旧调用者传入的多余字段现在被拒绝。"
   },
   {
     "module": "video_sub",
-    "actions": [],
-    "current": "LegacyModuleInput",
-    "fields": ["id", "t", "ts"],
+    "actions": ["sub", "unsub"],
+    "current": "{ id: string; t: 0 | 1; }",
+    "fields": ["id", "t"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 视频编号; t?: 1 收藏 / 0 取消收藏，缺省 0 }",
+    "upstreamEncoding": "t===1 选择 sub 动作，否则 unsub；data.id = id",
+    "evidence": [
+      "src/modules/video_sub.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/writes/write-actions-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "t 可选，缺省 0（unsub），保留旧基线省略 t 的默认行为；视频 id 是十六进制串，保留 Schema.String；删除 Number(t) 强转。"
   },
   {
     "module": "video_timeline_all",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["offset", "ts"],
+    "current": "{ offset?: NaturalValue; }",
+    "fields": ["offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ offset?: 偏移(默认 0) }",
+    "upstreamEncoding": "data.offset 缺省回落 0，groupId 固定 0，need_preview_url: 'true'，total: true",
+    "evidence": [
+      "src/modules/video_timeline_all.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/video-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "offset 收紧为非负整数；其余字段是固定值。"
   },
   {
     "module": "video_timeline_recommend",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["offset", "ts"],
+    "current": "{ offset?: NaturalValue; }",
+    "fields": ["offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ offset?: 偏移(默认 0) }",
+    "upstreamEncoding": "data.offset 缺省回落 0；filterLives/withProgramInfo/needUrl/resolution 是固定值",
+    "evidence": [
+      "src/modules/video_timeline_recommend.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/video-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "offset 收紧为非负整数；固定字段保持原样。"
   },
   {
     "module": "video_url",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["id", "res", "ts"],
+    "current": "{ id: string; res?: NaturalValue; }",
+    "fields": ["id", "res"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 视频编号; res?: 分辨率(默认 1080) }",
+    "upstreamEncoding": "data.ids = JSON.stringify([String(id)])；res 缺省回落 1080",
+    "evidence": [
+      "src/modules/video_url.ts",
+      "tests/behavior/modules/input-contracts/playback-video.ts",
+      "tests/behavior/modules/input-encoding/playback-video.ts",
+      "tests/replay/video/video-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "视频 id 是 32 位十六进制串（录制与空结果都是 BFB0…/0000…），不能按 NumberId 处理，保留 Schema.String；res 为非负整数，0 仍回落 1080。"
   }
 ]

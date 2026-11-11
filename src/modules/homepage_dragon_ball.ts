@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +13,13 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = NoInput;
+
+const inputSchema = EmptyInput;
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
 
 // 唯一收紧的路径是返回码 `code`；登录和匿名录制里 `data` 都是空数组，入口元素类型没有证据，未声明并原样保留。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -53,7 +64,3 @@ const homepageDragonBall: ModuleEffect<
  * !需要登录或者游客登录，非登录返回 []
  */
 export default homepageDragonBall;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -2,7 +2,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -13,13 +13,10 @@ import {
 } from '../core/upstream-body.ts';
 import { LyricUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { QueryIdentifier } from '../types/module-shared.ts';
 
-export type ModuleInput = { id?: QueryIdentifier };
+export type ModuleInput = { id: NumberId };
 
-const inputSchema = Schema.Struct({
-  id: Schema.optional(Identifier),
-});
+const inputSchema = Schema.Struct({ id: NumberId });
 
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);

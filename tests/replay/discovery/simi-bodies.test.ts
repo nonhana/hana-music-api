@@ -416,7 +416,7 @@ test('simi_artist rejects a business error with the original body', async () => 
       replay(
         simiArtistMissingId.response.body,
         simiArtistMissingId.response.status,
-      ).simiArtist({}),
+      ).simiArtist({ id: simiArtist.query.id }),
     ),
   ).toEqual({
     rejected: {
@@ -433,7 +433,7 @@ test('simi_song rejects a business error with the original body', async () => {
       replay(
         simiSongMissingId.response.body,
         simiSongMissingId.response.status,
-      ).simiSong({}),
+      ).simiSong({ id: simiSong.query.id }),
     ),
   ).toEqual({
     rejected: {
@@ -450,14 +450,14 @@ test.each([
     recording: simiPlaylistMissingId,
     bodySchema: SimiPlaylistBody,
     call: (body: string, status: number) =>
-      replayRaw(body, status).simiPlaylist({}),
+      replayRaw(body, status).simiPlaylist({ id: 108485 }),
   },
   {
     name: 'simi_user',
     recording: simiUserMissingId,
     bodySchema: SimiUserBody,
     call: (body: string, status: number) =>
-      replayRaw(body, status).simiUser({}),
+      replayRaw(body, status).simiUser({ id: 108485 }),
   },
 ])(
   '$name keeps the normalized empty HTTP 400 body',

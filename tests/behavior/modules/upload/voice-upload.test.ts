@@ -107,9 +107,9 @@ describe('voice upload Effect', () => {
         {
           songFile: { ...songFile, data: new Uint8Array(10 * 1024 * 1024 + 1) },
           songName: 'demo-track',
-          composedSongs: '1,2',
-          autoPublish: 1,
-          privacy: 0,
+          composedSongs: [1, 2],
+          autoPublish: true,
+          privacy: false,
         },
         request,
       ),
@@ -142,8 +142,15 @@ describe('voice upload Effect', () => {
     );
     for (const intent of intents.slice(5)) {
       expect(intent.args.headers?.['x-nos-token']).toBe('nos-token');
-      expect(intent.args.data).toMatchObject({
-        voiceData: expect.stringContaining('"composedSongs":["1","2"]'),
+      const voiceData = JSON.parse(
+        (intent.args.data as { voiceData: string }).voiceData,
+      ) as Array<Record<string, unknown>>;
+      expect(voiceData[0]).toMatchObject({
+        autoPublish: true,
+        composedSongs: ['1', '2'],
+        orderNo: 1,
+        privacy: false,
+        publishTime: 0,
       });
     }
   });

@@ -1,10 +1,20 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberIdList,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { ids: NumberIdList };
+
+const inputSchema = Schema.Struct({ ids: NumberIdList });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 返回码和喜欢列表 `ids` 收紧；`ids` 里是这个账号已喜爱的歌曲编号，没喜欢过任何一首时是空数组。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -32,7 +42,7 @@ const songLikeCheck: ModuleEffect<
 > = (query, request) =>
   Effect.gen(function* () {
     const data = {
-      trackIds: query.ids,
+      trackIds: JSON.stringify(query.ids.map(String)),
     };
     const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
@@ -50,7 +60,3 @@ const songLikeCheck: ModuleEffect<
  * 歌曲是否喜爱
  */
 export default songLikeCheck;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

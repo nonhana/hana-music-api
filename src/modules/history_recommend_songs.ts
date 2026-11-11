@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +13,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 通到历史每日推荐日期的 `data.dates` 收紧；`data.songs` 在登录和匿名录制里都是 `null`，
 // 没有非 null 证据、元素类型猜不出，未声明并原样保留。
@@ -35,6 +39,13 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = NoInput;
+
+const inputSchema = EmptyInput;
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
+
 const historyRecommendSongs: ModuleEffect<
   ModuleInput,
   ModuleBody,
@@ -55,7 +66,3 @@ const historyRecommendSongs: ModuleEffect<
  * 历史每日推荐歌曲
  */
 export default historyRecommendSongs;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

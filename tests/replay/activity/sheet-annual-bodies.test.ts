@@ -454,11 +454,14 @@ test('summary_annual rejects a non-primitive year before calling upstream', asyn
     },
   });
 
-  expect(await settle(api.summaryAnnual({ year: {} }))).toEqual({
+  expect(await settle(api.summaryAnnual({ year: {} } as never))).toEqual({
     rejected: {
       status: 400,
       cookie: [],
-      body: { code: 400, msg: 'year must be a primitive value' },
+      body: {
+        code: 400,
+        msg: 'Expected number | string\n  at ["year"]',
+      },
     },
   });
   expect(upstreamCalls).toBe(0);

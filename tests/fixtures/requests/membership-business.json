@@ -158,154 +158,9 @@
     },
     {
       "module": "daily_signin",
-      "label": "explicit",
-      "query": {
-        "type": "month"
-      },
-      "method": "dailySignin",
-      "path": "/api/point/dailyTask",
-      "url": "https://interface.music.163.com/eapi/point/dailyTask",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "month"
-      }
-    },
-    {
-      "module": "daily_signin",
       "label": "zero",
       "query": {
         "type": 0
-      },
-      "method": "dailySignin",
-      "path": "/api/point/dailyTask",
-      "url": "https://interface.music.163.com/eapi/point/dailyTask",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": 0
-      }
-    },
-    {
-      "module": "daily_signin",
-      "label": "string-zero",
-      "query": {
-        "type": "0"
-      },
-      "method": "dailySignin",
-      "path": "/api/point/dailyTask",
-      "url": "https://interface.music.163.com/eapi/point/dailyTask",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "0"
-      }
-    },
-    {
-      "module": "daily_signin",
-      "label": "empty",
-      "query": {
-        "type": ""
-      },
-      "method": "dailySignin",
-      "path": "/api/point/dailyTask",
-      "url": "https://interface.music.163.com/eapi/point/dailyTask",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": 0
-      }
-    },
-    {
-      "module": "daily_signin",
-      "label": "null",
-      "query": {
-        "type": null
-      },
-      "method": "dailySignin",
-      "path": "/api/point/dailyTask",
-      "url": "https://interface.music.163.com/eapi/point/dailyTask",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": 0
-      }
-    },
-    {
-      "module": "daily_signin",
-      "label": "false",
-      "query": {
-        "type": false
       },
       "method": "dailySignin",
       "path": "/api/point/dailyTask",
@@ -385,7 +240,7 @@
         "acceptGzip": null
       },
       "data": {
-        "type": "1"
+        "type": 1
       }
     },
     {
@@ -443,36 +298,7 @@
         "acceptGzip": null
       },
       "data": {
-        "type": "0"
-      }
-    },
-    {
-      "module": "daily_signin",
-      "label": "all-fields",
-      "query": {
-        "type": "month"
-      },
-      "method": "dailySignin",
-      "path": "/api/point/dailyTask",
-      "url": "https://interface.music.163.com/eapi/point/dailyTask",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "month"
+        "type": 0
       }
     },
     {
@@ -696,134 +522,6 @@
     },
     {
       "module": "digitalAlbum_purchased",
-      "label": "string-zero",
-      "query": {
-        "limit": "0",
-        "offset": "0"
-      },
-      "method": "digitalAlbumPurchased",
-      "path": "/api/digitalAlbum/purchased",
-      "url": "https://music.163.com/weapi/digitalAlbum/purchased",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": "0",
-        "offset": "0",
-        "total": true
-      }
-    },
-    {
-      "module": "digitalAlbum_purchased",
-      "label": "empty",
-      "query": {
-        "limit": "",
-        "offset": ""
-      },
-      "method": "digitalAlbumPurchased",
-      "path": "/api/digitalAlbum/purchased",
-      "url": "https://music.163.com/weapi/digitalAlbum/purchased",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 30,
-        "offset": 0,
-        "total": true
-      }
-    },
-    {
-      "module": "digitalAlbum_purchased",
-      "label": "null",
-      "query": {
-        "limit": null,
-        "offset": null
-      },
-      "method": "digitalAlbumPurchased",
-      "path": "/api/digitalAlbum/purchased",
-      "url": "https://music.163.com/weapi/digitalAlbum/purchased",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 30,
-        "offset": 0,
-        "total": true
-      }
-    },
-    {
-      "module": "digitalAlbum_purchased",
-      "label": "false",
-      "query": {
-        "limit": false,
-        "offset": false
-      },
-      "method": "digitalAlbumPurchased",
-      "path": "/api/digitalAlbum/purchased",
-      "url": "https://music.163.com/weapi/digitalAlbum/purchased",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 30,
-        "offset": 0,
-        "total": true
-      }
-    },
-    {
-      "module": "digitalAlbum_purchased",
       "label": "all-fields",
       "query": {
         "limit": 7,
@@ -852,64 +550,6 @@
         "limit": 7,
         "offset": 3,
         "total": true
-      }
-    },
-    {
-      "module": "digitalAlbum_sales",
-      "label": "default",
-      "query": {
-        "ids": "[17,19]"
-      },
-      "method": "digitalAlbumSales",
-      "path": "/api/vipmall/albumproduct/album/query/sales",
-      "url": "https://music.163.com/weapi/vipmall/albumproduct/album/query/sales",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "albumIds": "[17,19]"
-      }
-    },
-    {
-      "module": "digitalAlbum_sales",
-      "label": "all-fields",
-      "query": {
-        "ids": "[17,19]"
-      },
-      "method": "digitalAlbumSales",
-      "path": "/api/vipmall/albumproduct/album/query/sales",
-      "url": "https://music.163.com/weapi/vipmall/albumproduct/album/query/sales",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "albumIds": "[17,19]"
       }
     },
     {
@@ -966,151 +606,6 @@
       },
       "data": {
         "type": "month"
-      }
-    },
-    {
-      "module": "listen_data_realtime_report",
-      "label": "zero",
-      "query": {
-        "type": 0
-      },
-      "method": "listenDataRealtimeReport",
-      "path": "/api/content/activity/listen/data/realtime/report",
-      "url": "https://interface.music.163.com/eapi/content/activity/listen/data/realtime/report",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "week"
-      }
-    },
-    {
-      "module": "listen_data_realtime_report",
-      "label": "string-zero",
-      "query": {
-        "type": "0"
-      },
-      "method": "listenDataRealtimeReport",
-      "path": "/api/content/activity/listen/data/realtime/report",
-      "url": "https://interface.music.163.com/eapi/content/activity/listen/data/realtime/report",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "0"
-      }
-    },
-    {
-      "module": "listen_data_realtime_report",
-      "label": "empty",
-      "query": {
-        "type": ""
-      },
-      "method": "listenDataRealtimeReport",
-      "path": "/api/content/activity/listen/data/realtime/report",
-      "url": "https://interface.music.163.com/eapi/content/activity/listen/data/realtime/report",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "week"
-      }
-    },
-    {
-      "module": "listen_data_realtime_report",
-      "label": "null",
-      "query": {
-        "type": null
-      },
-      "method": "listenDataRealtimeReport",
-      "path": "/api/content/activity/listen/data/realtime/report",
-      "url": "https://interface.music.163.com/eapi/content/activity/listen/data/realtime/report",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "week"
-      }
-    },
-    {
-      "module": "listen_data_realtime_report",
-      "label": "false",
-      "query": {
-        "type": false
-      },
-      "method": "listenDataRealtimeReport",
-      "path": "/api/content/activity/listen/data/realtime/report",
-      "url": "https://interface.music.163.com/eapi/content/activity/listen/data/realtime/report",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "week"
       }
     },
     {
@@ -1256,151 +751,6 @@
       "data": {
         "type": "month",
         "endTime": 1700600000000
-      }
-    },
-    {
-      "module": "listen_data_report",
-      "label": "zero",
-      "query": {
-        "type": 0
-      },
-      "method": "listenDataReport",
-      "path": "/api/content/activity/listen/data/report",
-      "url": "https://interface.music.163.com/eapi/content/activity/listen/data/report",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "week"
-      }
-    },
-    {
-      "module": "listen_data_report",
-      "label": "string-zero",
-      "query": {
-        "type": "0"
-      },
-      "method": "listenDataReport",
-      "path": "/api/content/activity/listen/data/report",
-      "url": "https://interface.music.163.com/eapi/content/activity/listen/data/report",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "0"
-      }
-    },
-    {
-      "module": "listen_data_report",
-      "label": "empty",
-      "query": {
-        "type": ""
-      },
-      "method": "listenDataReport",
-      "path": "/api/content/activity/listen/data/report",
-      "url": "https://interface.music.163.com/eapi/content/activity/listen/data/report",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "week"
-      }
-    },
-    {
-      "module": "listen_data_report",
-      "label": "null",
-      "query": {
-        "type": null
-      },
-      "method": "listenDataReport",
-      "path": "/api/content/activity/listen/data/report",
-      "url": "https://interface.music.163.com/eapi/content/activity/listen/data/report",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "week"
-      }
-    },
-    {
-      "module": "listen_data_report",
-      "label": "false",
-      "query": {
-        "type": false
-      },
-      "method": "listenDataReport",
-      "path": "/api/content/activity/listen/data/report",
-      "url": "https://interface.music.163.com/eapi/content/activity/listen/data/report",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "type": "week"
       }
     },
     {
@@ -1707,7 +1057,7 @@
       },
       "data": {
         "userMissionId": "17",
-        "period": "7"
+        "period": 7
       }
     },
     {
@@ -1738,7 +1088,7 @@
       },
       "data": {
         "userMissionId": "17",
-        "period": "7"
+        "period": 7
       }
     },
     {
@@ -1765,93 +1115,6 @@
         "acceptGzip": null
       },
       "data": {}
-    },
-    {
-      "module": "musician_play_trend",
-      "label": "default",
-      "query": {},
-      "method": "musicianPlayTrend",
-      "path": "/api/creator/musician/play/count/statistic/data/trend/get",
-      "url": "https://music.163.com/weapi/creator/musician/play/count/statistic/data/trend/get",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {}
-    },
-    {
-      "module": "musician_play_trend",
-      "label": "explicit",
-      "query": {
-        "endTime": 1700600000000,
-        "startTime": 1700000000000
-      },
-      "method": "musicianPlayTrend",
-      "path": "/api/creator/musician/play/count/statistic/data/trend/get",
-      "url": "https://music.163.com/weapi/creator/musician/play/count/statistic/data/trend/get",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "startTime": 1700000000000,
-        "endTime": 1700600000000
-      }
-    },
-    {
-      "module": "musician_play_trend",
-      "label": "all-fields",
-      "query": {
-        "startTime": 1700000000000,
-        "endTime": 1700600000000
-      },
-      "method": "musicianPlayTrend",
-      "path": "/api/creator/musician/play/count/statistic/data/trend/get",
-      "url": "https://music.163.com/weapi/creator/musician/play/count/statistic/data/trend/get",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "startTime": 1700000000000,
-        "endTime": 1700600000000
-      }
     },
     {
       "module": "musician_sign",
@@ -2040,122 +1303,6 @@
     },
     {
       "module": "record_recent_album",
-      "label": "string-zero",
-      "query": {
-        "limit": "0"
-      },
-      "method": "recordRecentAlbum",
-      "path": "/api/play-record/album/list",
-      "url": "https://music.163.com/weapi/play-record/album/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": "0"
-      }
-    },
-    {
-      "module": "record_recent_album",
-      "label": "empty",
-      "query": {
-        "limit": ""
-      },
-      "method": "recordRecentAlbum",
-      "path": "/api/play-record/album/list",
-      "url": "https://music.163.com/weapi/play-record/album/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_album",
-      "label": "null",
-      "query": {
-        "limit": null
-      },
-      "method": "recordRecentAlbum",
-      "path": "/api/play-record/album/list",
-      "url": "https://music.163.com/weapi/play-record/album/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_album",
-      "label": "false",
-      "query": {
-        "limit": false
-      },
-      "method": "recordRecentAlbum",
-      "path": "/api/play-record/album/list",
-      "url": "https://music.163.com/weapi/play-record/album/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_album",
       "label": "all-fields",
       "query": {
         "limit": 7
@@ -2244,122 +1391,6 @@
       "label": "zero",
       "query": {
         "limit": 0
-      },
-      "method": "recordRecentDj",
-      "path": "/api/play-record/djradio/list",
-      "url": "https://music.163.com/weapi/play-record/djradio/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_dj",
-      "label": "string-zero",
-      "query": {
-        "limit": "0"
-      },
-      "method": "recordRecentDj",
-      "path": "/api/play-record/djradio/list",
-      "url": "https://music.163.com/weapi/play-record/djradio/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": "0"
-      }
-    },
-    {
-      "module": "record_recent_dj",
-      "label": "empty",
-      "query": {
-        "limit": ""
-      },
-      "method": "recordRecentDj",
-      "path": "/api/play-record/djradio/list",
-      "url": "https://music.163.com/weapi/play-record/djradio/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_dj",
-      "label": "null",
-      "query": {
-        "limit": null
-      },
-      "method": "recordRecentDj",
-      "path": "/api/play-record/djradio/list",
-      "url": "https://music.163.com/weapi/play-record/djradio/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_dj",
-      "label": "false",
-      "query": {
-        "limit": false
       },
       "method": "recordRecentDj",
       "path": "/api/play-record/djradio/list",
@@ -2500,122 +1531,6 @@
     },
     {
       "module": "record_recent_playlist",
-      "label": "string-zero",
-      "query": {
-        "limit": "0"
-      },
-      "method": "recordRecentPlaylist",
-      "path": "/api/play-record/playlist/list",
-      "url": "https://music.163.com/weapi/play-record/playlist/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": "0"
-      }
-    },
-    {
-      "module": "record_recent_playlist",
-      "label": "empty",
-      "query": {
-        "limit": ""
-      },
-      "method": "recordRecentPlaylist",
-      "path": "/api/play-record/playlist/list",
-      "url": "https://music.163.com/weapi/play-record/playlist/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_playlist",
-      "label": "null",
-      "query": {
-        "limit": null
-      },
-      "method": "recordRecentPlaylist",
-      "path": "/api/play-record/playlist/list",
-      "url": "https://music.163.com/weapi/play-record/playlist/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_playlist",
-      "label": "false",
-      "query": {
-        "limit": false
-      },
-      "method": "recordRecentPlaylist",
-      "path": "/api/play-record/playlist/list",
-      "url": "https://music.163.com/weapi/play-record/playlist/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_playlist",
       "label": "all-fields",
       "query": {
         "limit": 7
@@ -2704,122 +1619,6 @@
       "label": "zero",
       "query": {
         "limit": 0
-      },
-      "method": "recordRecentSong",
-      "path": "/api/play-record/song/list",
-      "url": "https://music.163.com/weapi/play-record/song/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_song",
-      "label": "string-zero",
-      "query": {
-        "limit": "0"
-      },
-      "method": "recordRecentSong",
-      "path": "/api/play-record/song/list",
-      "url": "https://music.163.com/weapi/play-record/song/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": "0"
-      }
-    },
-    {
-      "module": "record_recent_song",
-      "label": "empty",
-      "query": {
-        "limit": ""
-      },
-      "method": "recordRecentSong",
-      "path": "/api/play-record/song/list",
-      "url": "https://music.163.com/weapi/play-record/song/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_song",
-      "label": "null",
-      "query": {
-        "limit": null
-      },
-      "method": "recordRecentSong",
-      "path": "/api/play-record/song/list",
-      "url": "https://music.163.com/weapi/play-record/song/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_song",
-      "label": "false",
-      "query": {
-        "limit": false
       },
       "method": "recordRecentSong",
       "path": "/api/play-record/song/list",
@@ -2960,122 +1759,6 @@
     },
     {
       "module": "record_recent_video",
-      "label": "string-zero",
-      "query": {
-        "limit": "0"
-      },
-      "method": "recordRecentVideo",
-      "path": "/api/play-record/newvideo/list",
-      "url": "https://music.163.com/weapi/play-record/newvideo/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": "0"
-      }
-    },
-    {
-      "module": "record_recent_video",
-      "label": "empty",
-      "query": {
-        "limit": ""
-      },
-      "method": "recordRecentVideo",
-      "path": "/api/play-record/newvideo/list",
-      "url": "https://music.163.com/weapi/play-record/newvideo/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_video",
-      "label": "null",
-      "query": {
-        "limit": null
-      },
-      "method": "recordRecentVideo",
-      "path": "/api/play-record/newvideo/list",
-      "url": "https://music.163.com/weapi/play-record/newvideo/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_video",
-      "label": "false",
-      "query": {
-        "limit": false
-      },
-      "method": "recordRecentVideo",
-      "path": "/api/play-record/newvideo/list",
-      "url": "https://music.163.com/weapi/play-record/newvideo/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_video",
       "label": "all-fields",
       "query": {
         "limit": 7
@@ -3164,122 +1847,6 @@
       "label": "zero",
       "query": {
         "limit": 0
-      },
-      "method": "recordRecentVoice",
-      "path": "/api/play-record/voice/list",
-      "url": "https://music.163.com/weapi/play-record/voice/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_voice",
-      "label": "string-zero",
-      "query": {
-        "limit": "0"
-      },
-      "method": "recordRecentVoice",
-      "path": "/api/play-record/voice/list",
-      "url": "https://music.163.com/weapi/play-record/voice/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": "0"
-      }
-    },
-    {
-      "module": "record_recent_voice",
-      "label": "empty",
-      "query": {
-        "limit": ""
-      },
-      "method": "recordRecentVoice",
-      "path": "/api/play-record/voice/list",
-      "url": "https://music.163.com/weapi/play-record/voice/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_voice",
-      "label": "null",
-      "query": {
-        "limit": null
-      },
-      "method": "recordRecentVoice",
-      "path": "/api/play-record/voice/list",
-      "url": "https://music.163.com/weapi/play-record/voice/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 100
-      }
-    },
-    {
-      "module": "record_recent_voice",
-      "label": "false",
-      "query": {
-        "limit": false
       },
       "method": "recordRecentVoice",
       "path": "/api/play-record/voice/list",
@@ -3396,134 +1963,10 @@
     },
     {
       "module": "sheet_list",
-      "label": "zero",
-      "query": {
-        "id": "17",
-        "ab": 0
-      },
-      "method": "sheetList",
-      "path": "/api/music/sheet/list/v1",
-      "url": "https://interface.music.163.com/eapi/music/sheet/list/v1",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "id": "17",
-        "abTest": "b"
-      }
-    },
-    {
-      "module": "sheet_list",
-      "label": "string-zero",
-      "query": {
-        "id": "17",
-        "ab": "0"
-      },
-      "method": "sheetList",
-      "path": "/api/music/sheet/list/v1",
-      "url": "https://interface.music.163.com/eapi/music/sheet/list/v1",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "id": "17",
-        "abTest": "0"
-      }
-    },
-    {
-      "module": "sheet_list",
       "label": "empty",
       "query": {
         "id": "17",
         "ab": ""
-      },
-      "method": "sheetList",
-      "path": "/api/music/sheet/list/v1",
-      "url": "https://interface.music.163.com/eapi/music/sheet/list/v1",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "id": "17",
-        "abTest": "b"
-      }
-    },
-    {
-      "module": "sheet_list",
-      "label": "null",
-      "query": {
-        "id": "17",
-        "ab": null
-      },
-      "method": "sheetList",
-      "path": "/api/music/sheet/list/v1",
-      "url": "https://interface.music.163.com/eapi/music/sheet/list/v1",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "id": "17",
-        "abTest": "b"
-      }
-    },
-    {
-      "module": "sheet_list",
-      "label": "false",
-      "query": {
-        "id": "17",
-        "ab": false
       },
       "method": "sheetList",
       "path": "/api/music/sheet/list/v1",
@@ -3721,125 +2164,9 @@
     },
     {
       "module": "signin_progress",
-      "label": "zero",
-      "query": {
-        "moduleId": 0
-      },
-      "method": "signinProgress",
-      "path": "/api/act/modules/signin/v2/progress",
-      "url": "https://music.163.com/weapi/act/modules/signin/v2/progress",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "moduleId": "1207signin-1207signin"
-      }
-    },
-    {
-      "module": "signin_progress",
-      "label": "string-zero",
-      "query": {
-        "moduleId": "0"
-      },
-      "method": "signinProgress",
-      "path": "/api/act/modules/signin/v2/progress",
-      "url": "https://music.163.com/weapi/act/modules/signin/v2/progress",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "moduleId": "0"
-      }
-    },
-    {
-      "module": "signin_progress",
       "label": "empty",
       "query": {
         "moduleId": ""
-      },
-      "method": "signinProgress",
-      "path": "/api/act/modules/signin/v2/progress",
-      "url": "https://music.163.com/weapi/act/modules/signin/v2/progress",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "moduleId": "1207signin-1207signin"
-      }
-    },
-    {
-      "module": "signin_progress",
-      "label": "null",
-      "query": {
-        "moduleId": null
-      },
-      "method": "signinProgress",
-      "path": "/api/act/modules/signin/v2/progress",
-      "url": "https://music.163.com/weapi/act/modules/signin/v2/progress",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "moduleId": "1207signin-1207signin"
-      }
-    },
-    {
-      "module": "signin_progress",
-      "label": "false",
-      "query": {
-        "moduleId": false
       },
       "method": "signinProgress",
       "path": "/api/act/modules/signin/v2/progress",
@@ -3892,31 +2219,6 @@
       "data": {
         "moduleId": "synthetic-signin"
       }
-    },
-    {
-      "module": "summary_annual",
-      "label": "default",
-      "query": {},
-      "method": "summaryAnnual",
-      "path": "/api/activity/summary/annual/undefined/data",
-      "url": "https://interface.music.163.com/eapi/activity/summary/annual/undefined/data",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {}
     },
     {
       "module": "summary_annual",
@@ -4109,60 +2411,6 @@
     },
     {
       "module": "summary_annual",
-      "label": "year-bool-False",
-      "query": {
-        "year": false
-      },
-      "method": "summaryAnnual",
-      "path": "/api/activity/summary/annual/false/data",
-      "url": "https://interface.music.163.com/eapi/activity/summary/annual/false/data",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {}
-    },
-    {
-      "module": "summary_annual",
-      "label": "year-NoneType-None",
-      "query": {
-        "year": null
-      },
-      "method": "summaryAnnual",
-      "path": "/api/activity/summary/annual/null/data",
-      "url": "https://interface.music.163.com/eapi/activity/summary/annual/null/data",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {}
-    },
-    {
-      "module": "summary_annual",
       "label": "all-fields",
       "query": {
         "year": 2024
@@ -4282,37 +2530,6 @@
     },
     {
       "module": "user_record",
-      "label": "string-zero",
-      "query": {
-        "uid": "23",
-        "type": "0"
-      },
-      "method": "userRecord",
-      "path": "/api/v1/play/record",
-      "url": "https://music.163.com/weapi/v1/play/record",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "uid": "23",
-        "type": "0"
-      }
-    },
-    {
-      "module": "user_record",
       "label": "type-int-1",
       "query": {
         "uid": "23",
@@ -4370,7 +2587,7 @@
       },
       "data": {
         "uid": "23",
-        "type": "1"
+        "type": 1
       }
     },
     {
@@ -4432,7 +2649,7 @@
       },
       "data": {
         "uid": "23",
-        "type": "0"
+        "type": 0
       }
     },
     {
@@ -4583,130 +2800,6 @@
     },
     {
       "module": "vip_growthpoint_details",
-      "label": "string-zero",
-      "query": {
-        "limit": "0",
-        "offset": "0"
-      },
-      "method": "vipGrowthpointDetails",
-      "path": "/api/vipnewcenter/app/level/growth/details",
-      "url": "https://music.163.com/weapi/vipnewcenter/app/level/growth/details",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": "0",
-        "offset": "0"
-      }
-    },
-    {
-      "module": "vip_growthpoint_details",
-      "label": "empty",
-      "query": {
-        "limit": "",
-        "offset": ""
-      },
-      "method": "vipGrowthpointDetails",
-      "path": "/api/vipnewcenter/app/level/growth/details",
-      "url": "https://music.163.com/weapi/vipnewcenter/app/level/growth/details",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 20,
-        "offset": 0
-      }
-    },
-    {
-      "module": "vip_growthpoint_details",
-      "label": "null",
-      "query": {
-        "limit": null,
-        "offset": null
-      },
-      "method": "vipGrowthpointDetails",
-      "path": "/api/vipnewcenter/app/level/growth/details",
-      "url": "https://music.163.com/weapi/vipnewcenter/app/level/growth/details",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 20,
-        "offset": 0
-      }
-    },
-    {
-      "module": "vip_growthpoint_details",
-      "label": "false",
-      "query": {
-        "limit": false,
-        "offset": false
-      },
-      "method": "vipGrowthpointDetails",
-      "path": "/api/vipnewcenter/app/level/growth/details",
-      "url": "https://music.163.com/weapi/vipnewcenter/app/level/growth/details",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 20,
-        "offset": 0
-      }
-    },
-    {
-      "module": "vip_growthpoint_details",
       "label": "all-fields",
       "query": {
         "limit": 7,
@@ -4734,215 +2827,12 @@
       "data": {
         "limit": 7,
         "offset": 3
-      }
-    },
-    {
-      "module": "vip_growthpoint_get",
-      "label": "default",
-      "query": {
-        "ids": "[17,19]"
-      },
-      "method": "vipGrowthpointGet",
-      "path": "/api/vipnewcenter/app/level/task/reward/get",
-      "url": "https://music.163.com/weapi/vipnewcenter/app/level/task/reward/get",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "taskIds": "[17,19]"
-      }
-    },
-    {
-      "module": "vip_growthpoint_get",
-      "label": "all-fields",
-      "query": {
-        "ids": "[17,19]"
-      },
-      "method": "vipGrowthpointGet",
-      "path": "/api/vipnewcenter/app/level/task/reward/get",
-      "url": "https://music.163.com/weapi/vipnewcenter/app/level/task/reward/get",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "taskIds": "[17,19]"
       }
     },
     {
       "module": "vip_info",
       "label": "default",
       "query": {},
-      "method": "vipInfo",
-      "path": "/api/music-vip-membership/front/vip/info",
-      "url": "https://music.163.com/weapi/music-vip-membership/front/vip/info",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userId": ""
-      }
-    },
-    {
-      "module": "vip_info",
-      "label": "zero",
-      "query": {
-        "uid": 0
-      },
-      "method": "vipInfo",
-      "path": "/api/music-vip-membership/front/vip/info",
-      "url": "https://music.163.com/weapi/music-vip-membership/front/vip/info",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userId": ""
-      }
-    },
-    {
-      "module": "vip_info",
-      "label": "string-zero",
-      "query": {
-        "uid": "0"
-      },
-      "method": "vipInfo",
-      "path": "/api/music-vip-membership/front/vip/info",
-      "url": "https://music.163.com/weapi/music-vip-membership/front/vip/info",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userId": "0"
-      }
-    },
-    {
-      "module": "vip_info",
-      "label": "empty",
-      "query": {
-        "uid": ""
-      },
-      "method": "vipInfo",
-      "path": "/api/music-vip-membership/front/vip/info",
-      "url": "https://music.163.com/weapi/music-vip-membership/front/vip/info",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userId": ""
-      }
-    },
-    {
-      "module": "vip_info",
-      "label": "null",
-      "query": {
-        "uid": null
-      },
-      "method": "vipInfo",
-      "path": "/api/music-vip-membership/front/vip/info",
-      "url": "https://music.163.com/weapi/music-vip-membership/front/vip/info",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userId": ""
-      }
-    },
-    {
-      "module": "vip_info",
-      "label": "false",
-      "query": {
-        "uid": false
-      },
       "method": "vipInfo",
       "path": "/api/music-vip-membership/front/vip/info",
       "url": "https://music.163.com/weapi/music-vip-membership/front/vip/info",
@@ -4999,151 +2889,6 @@
       "module": "vip_info_v2",
       "label": "default",
       "query": {},
-      "method": "vipInfoV2",
-      "path": "/api/music-vip-membership/client/vip/info",
-      "url": "https://music.163.com/weapi/music-vip-membership/client/vip/info",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userId": ""
-      }
-    },
-    {
-      "module": "vip_info_v2",
-      "label": "zero",
-      "query": {
-        "uid": 0
-      },
-      "method": "vipInfoV2",
-      "path": "/api/music-vip-membership/client/vip/info",
-      "url": "https://music.163.com/weapi/music-vip-membership/client/vip/info",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userId": ""
-      }
-    },
-    {
-      "module": "vip_info_v2",
-      "label": "string-zero",
-      "query": {
-        "uid": "0"
-      },
-      "method": "vipInfoV2",
-      "path": "/api/music-vip-membership/client/vip/info",
-      "url": "https://music.163.com/weapi/music-vip-membership/client/vip/info",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userId": "0"
-      }
-    },
-    {
-      "module": "vip_info_v2",
-      "label": "empty",
-      "query": {
-        "uid": ""
-      },
-      "method": "vipInfoV2",
-      "path": "/api/music-vip-membership/client/vip/info",
-      "url": "https://music.163.com/weapi/music-vip-membership/client/vip/info",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userId": ""
-      }
-    },
-    {
-      "module": "vip_info_v2",
-      "label": "null",
-      "query": {
-        "uid": null
-      },
-      "method": "vipInfoV2",
-      "path": "/api/music-vip-membership/client/vip/info",
-      "url": "https://music.163.com/weapi/music-vip-membership/client/vip/info",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userId": ""
-      }
-    },
-    {
-      "module": "vip_info_v2",
-      "label": "false",
-      "query": {
-        "uid": false
-      },
       "method": "vipInfoV2",
       "path": "/api/music-vip-membership/client/vip/info",
       "url": "https://music.163.com/weapi/music-vip-membership/client/vip/info",
@@ -5285,114 +3030,6 @@
       "label": "zero",
       "query": {
         "limit": 0
-      },
-      "method": "vipTimemachine",
-      "path": "/api/vipmusic/newrecord/weekflow",
-      "url": "https://music.163.com/weapi/vipmusic/newrecord/weekflow",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {}
-    },
-    {
-      "module": "vip_timemachine",
-      "label": "string-zero",
-      "query": {
-        "limit": "0"
-      },
-      "method": "vipTimemachine",
-      "path": "/api/vipmusic/newrecord/weekflow",
-      "url": "https://music.163.com/weapi/vipmusic/newrecord/weekflow",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {}
-    },
-    {
-      "module": "vip_timemachine",
-      "label": "empty",
-      "query": {
-        "limit": ""
-      },
-      "method": "vipTimemachine",
-      "path": "/api/vipmusic/newrecord/weekflow",
-      "url": "https://music.163.com/weapi/vipmusic/newrecord/weekflow",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {}
-    },
-    {
-      "module": "vip_timemachine",
-      "label": "null",
-      "query": {
-        "limit": null
-      },
-      "method": "vipTimemachine",
-      "path": "/api/vipmusic/newrecord/weekflow",
-      "url": "https://music.163.com/weapi/vipmusic/newrecord/weekflow",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {}
-    },
-    {
-      "module": "vip_timemachine",
-      "label": "false",
-      "query": {
-        "limit": false
       },
       "method": "vipTimemachine",
       "path": "/api/vipmusic/newrecord/weekflow",
@@ -5567,7 +3204,7 @@
         "startTime": 1,
         "endTime": 2,
         "type": 1,
-        "limit": "0"
+        "limit": 60
       }
     },
     {
@@ -5652,12 +3289,7 @@
         "encryptResponse": false,
         "acceptGzip": null
       },
-      "data": {
-        "startTime": "0",
-        "endTime": "0",
-        "type": 1,
-        "limit": 60
-      }
+      "data": {}
     },
     {
       "module": "vip_timemachine",
@@ -5810,130 +3442,6 @@
     },
     {
       "module": "yunbei_expense",
-      "label": "string-zero",
-      "query": {
-        "limit": "0",
-        "offset": "0"
-      },
-      "method": "yunbeiExpense",
-      "path": "/api/point/expense",
-      "url": "https://interface.music.163.com/eapi/point/expense",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": "0",
-        "offset": "0"
-      }
-    },
-    {
-      "module": "yunbei_expense",
-      "label": "empty",
-      "query": {
-        "limit": "",
-        "offset": ""
-      },
-      "method": "yunbeiExpense",
-      "path": "/api/point/expense",
-      "url": "https://interface.music.163.com/eapi/point/expense",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 10,
-        "offset": 0
-      }
-    },
-    {
-      "module": "yunbei_expense",
-      "label": "null",
-      "query": {
-        "limit": null,
-        "offset": null
-      },
-      "method": "yunbeiExpense",
-      "path": "/api/point/expense",
-      "url": "https://interface.music.163.com/eapi/point/expense",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 10,
-        "offset": 0
-      }
-    },
-    {
-      "module": "yunbei_expense",
-      "label": "false",
-      "query": {
-        "limit": false,
-        "offset": false
-      },
-      "method": "yunbeiExpense",
-      "path": "/api/point/expense",
-      "url": "https://interface.music.163.com/eapi/point/expense",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 10,
-        "offset": 0
-      }
-    },
-    {
-      "module": "yunbei_expense",
       "label": "all-fields",
       "query": {
         "limit": 7,
@@ -6058,181 +3566,6 @@
     },
     {
       "module": "yunbei_rcmd_song",
-      "label": "zero",
-      "query": {
-        "id": "17",
-        "reason": 0,
-        "yunbeiNum": 0
-      },
-      "method": "yunbeiRcmdSong",
-      "path": "/api/yunbei/rcmd/song/submit",
-      "url": "https://music.163.com/weapi/yunbei/rcmd/song/submit",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "songId": "17",
-        "reason": "好歌献给你",
-        "scene": "",
-        "fromUserId": -1,
-        "yunbeiNum": 10
-      }
-    },
-    {
-      "module": "yunbei_rcmd_song",
-      "label": "string-zero",
-      "query": {
-        "id": "17",
-        "reason": "0",
-        "yunbeiNum": "0"
-      },
-      "method": "yunbeiRcmdSong",
-      "path": "/api/yunbei/rcmd/song/submit",
-      "url": "https://music.163.com/weapi/yunbei/rcmd/song/submit",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "songId": "17",
-        "reason": "0",
-        "scene": "",
-        "fromUserId": -1,
-        "yunbeiNum": "0"
-      }
-    },
-    {
-      "module": "yunbei_rcmd_song",
-      "label": "empty",
-      "query": {
-        "id": "17",
-        "reason": "",
-        "yunbeiNum": ""
-      },
-      "method": "yunbeiRcmdSong",
-      "path": "/api/yunbei/rcmd/song/submit",
-      "url": "https://music.163.com/weapi/yunbei/rcmd/song/submit",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "songId": "17",
-        "reason": "好歌献给你",
-        "scene": "",
-        "fromUserId": -1,
-        "yunbeiNum": 10
-      }
-    },
-    {
-      "module": "yunbei_rcmd_song",
-      "label": "null",
-      "query": {
-        "id": "17",
-        "reason": null,
-        "yunbeiNum": null
-      },
-      "method": "yunbeiRcmdSong",
-      "path": "/api/yunbei/rcmd/song/submit",
-      "url": "https://music.163.com/weapi/yunbei/rcmd/song/submit",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "songId": "17",
-        "reason": "好歌献给你",
-        "scene": "",
-        "fromUserId": -1,
-        "yunbeiNum": 10
-      }
-    },
-    {
-      "module": "yunbei_rcmd_song",
-      "label": "false",
-      "query": {
-        "id": "17",
-        "reason": false,
-        "yunbeiNum": false
-      },
-      "method": "yunbeiRcmdSong",
-      "path": "/api/yunbei/rcmd/song/submit",
-      "url": "https://music.163.com/weapi/yunbei/rcmd/song/submit",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "songId": "17",
-        "reason": "好歌献给你",
-        "scene": "",
-        "fromUserId": -1,
-        "yunbeiNum": 10
-      }
-    },
-    {
-      "module": "yunbei_rcmd_song",
       "label": "all-fields",
       "query": {
         "reason": "synthetic reason",
@@ -6321,156 +3654,6 @@
       },
       "data": {
         "page": "{\"size\":5,\"cursor\":\"synthetic-cursor\"}"
-      }
-    },
-    {
-      "module": "yunbei_rcmd_song_history",
-      "label": "zero",
-      "query": {
-        "cursor": 0,
-        "size": 0
-      },
-      "method": "yunbeiRcmdSongHistory",
-      "path": "/api/yunbei/rcmd/song/history/list",
-      "url": "https://music.163.com/weapi/yunbei/rcmd/song/history/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "page": "{\"size\":20,\"cursor\":\"\"}"
-      }
-    },
-    {
-      "module": "yunbei_rcmd_song_history",
-      "label": "string-zero",
-      "query": {
-        "cursor": "0",
-        "size": "0"
-      },
-      "method": "yunbeiRcmdSongHistory",
-      "path": "/api/yunbei/rcmd/song/history/list",
-      "url": "https://music.163.com/weapi/yunbei/rcmd/song/history/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "page": "{\"size\":\"0\",\"cursor\":\"0\"}"
-      }
-    },
-    {
-      "module": "yunbei_rcmd_song_history",
-      "label": "empty",
-      "query": {
-        "cursor": "",
-        "size": ""
-      },
-      "method": "yunbeiRcmdSongHistory",
-      "path": "/api/yunbei/rcmd/song/history/list",
-      "url": "https://music.163.com/weapi/yunbei/rcmd/song/history/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "page": "{\"size\":20,\"cursor\":\"\"}"
-      }
-    },
-    {
-      "module": "yunbei_rcmd_song_history",
-      "label": "null",
-      "query": {
-        "cursor": null,
-        "size": null
-      },
-      "method": "yunbeiRcmdSongHistory",
-      "path": "/api/yunbei/rcmd/song/history/list",
-      "url": "https://music.163.com/weapi/yunbei/rcmd/song/history/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "page": "{\"size\":20,\"cursor\":\"\"}"
-      }
-    },
-    {
-      "module": "yunbei_rcmd_song_history",
-      "label": "false",
-      "query": {
-        "cursor": false,
-        "size": false
-      },
-      "method": "yunbeiRcmdSongHistory",
-      "path": "/api/yunbei/rcmd/song/history/list",
-      "url": "https://music.163.com/weapi/yunbei/rcmd/song/history/list",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "read",
-      "retry": "connect",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "page": "{\"size\":20,\"cursor\":\"\"}"
       }
     },
     {
@@ -6595,130 +3778,6 @@
     },
     {
       "module": "yunbei_receipt",
-      "label": "string-zero",
-      "query": {
-        "limit": "0",
-        "offset": "0"
-      },
-      "method": "yunbeiReceipt",
-      "path": "/api/point/receipt",
-      "url": "https://interface.music.163.com/eapi/point/receipt",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": "0",
-        "offset": "0"
-      }
-    },
-    {
-      "module": "yunbei_receipt",
-      "label": "empty",
-      "query": {
-        "limit": "",
-        "offset": ""
-      },
-      "method": "yunbeiReceipt",
-      "path": "/api/point/receipt",
-      "url": "https://interface.music.163.com/eapi/point/receipt",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 10,
-        "offset": 0
-      }
-    },
-    {
-      "module": "yunbei_receipt",
-      "label": "null",
-      "query": {
-        "limit": null,
-        "offset": null
-      },
-      "method": "yunbeiReceipt",
-      "path": "/api/point/receipt",
-      "url": "https://interface.music.163.com/eapi/point/receipt",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 10,
-        "offset": 0
-      }
-    },
-    {
-      "module": "yunbei_receipt",
-      "label": "false",
-      "query": {
-        "limit": false,
-        "offset": false
-      },
-      "method": "yunbeiReceipt",
-      "path": "/api/point/receipt",
-      "url": "https://interface.music.163.com/eapi/point/receipt",
-      "profile": "eapi",
-      "protocol": "eapi",
-      "semantic": "read",
-      "retry": "never",
-      "identity": {
-        "userAgent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
-        "referer": null,
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "limit": 10,
-        "offset": 0
-      }
-    },
-    {
-      "module": "yunbei_receipt",
       "label": "all-fields",
       "query": {
         "limit": 7,
@@ -6805,37 +3864,6 @@
     },
     {
       "module": "yunbei_task_finish",
-      "label": "explicit",
-      "query": {
-        "userTaskId": "29",
-        "depositCode": "synthetic-deposit"
-      },
-      "method": "yunbeiTaskFinish",
-      "path": "/api/usertool/task/point/receive",
-      "url": "https://music.163.com/weapi/usertool/task/point/receive",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userTaskId": "29",
-        "depositCode": "synthetic-deposit"
-      }
-    },
-    {
-      "module": "yunbei_task_finish",
       "label": "zero",
       "query": {
         "userTaskId": "29",
@@ -6863,161 +3891,6 @@
       "data": {
         "userTaskId": "29",
         "depositCode": "0"
-      }
-    },
-    {
-      "module": "yunbei_task_finish",
-      "label": "string-zero",
-      "query": {
-        "userTaskId": "29",
-        "depositCode": "0"
-      },
-      "method": "yunbeiTaskFinish",
-      "path": "/api/usertool/task/point/receive",
-      "url": "https://music.163.com/weapi/usertool/task/point/receive",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userTaskId": "29",
-        "depositCode": "0"
-      }
-    },
-    {
-      "module": "yunbei_task_finish",
-      "label": "empty",
-      "query": {
-        "userTaskId": "29",
-        "depositCode": ""
-      },
-      "method": "yunbeiTaskFinish",
-      "path": "/api/usertool/task/point/receive",
-      "url": "https://music.163.com/weapi/usertool/task/point/receive",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userTaskId": "29",
-        "depositCode": "0"
-      }
-    },
-    {
-      "module": "yunbei_task_finish",
-      "label": "null",
-      "query": {
-        "userTaskId": "29",
-        "depositCode": null
-      },
-      "method": "yunbeiTaskFinish",
-      "path": "/api/usertool/task/point/receive",
-      "url": "https://music.163.com/weapi/usertool/task/point/receive",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userTaskId": "29",
-        "depositCode": "0"
-      }
-    },
-    {
-      "module": "yunbei_task_finish",
-      "label": "false",
-      "query": {
-        "userTaskId": "29",
-        "depositCode": false
-      },
-      "method": "yunbeiTaskFinish",
-      "path": "/api/usertool/task/point/receive",
-      "url": "https://music.163.com/weapi/usertool/task/point/receive",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userTaskId": "29",
-        "depositCode": "0"
-      }
-    },
-    {
-      "module": "yunbei_task_finish",
-      "label": "all-fields",
-      "query": {
-        "userTaskId": "29",
-        "depositCode": "synthetic-deposit"
-      },
-      "method": "yunbeiTaskFinish",
-      "path": "/api/usertool/task/point/receive",
-      "url": "https://music.163.com/weapi/usertool/task/point/receive",
-      "profile": "weapiPc",
-      "protocol": "weapi",
-      "semantic": "write",
-      "retry": "never",
-      "identity": {
-        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
-        "referer": "https://music.163.com",
-        "cookie": {
-          "os": "pc",
-          "appver": "3.1.17.204416",
-          "channel": "netease",
-          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
-        },
-        "encryptResponse": false,
-        "acceptGzip": null
-      },
-      "data": {
-        "userTaskId": "29",
-        "depositCode": "synthetic-deposit"
       }
     },
     {
@@ -7094,6 +3967,95 @@
         "acceptGzip": null
       },
       "data": {}
+    },
+    {
+      "module": "digitalAlbum_sales",
+      "label": "default",
+      "query": {
+        "ids": [17, 19]
+      },
+      "method": "digitalAlbumSales",
+      "path": "/api/vipmall/albumproduct/album/query/sales",
+      "url": "https://music.163.com/weapi/vipmall/albumproduct/album/query/sales",
+      "profile": "weapiPc",
+      "protocol": "weapi",
+      "semantic": "read",
+      "retry": "connect",
+      "identity": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+        "referer": "https://music.163.com",
+        "cookie": {
+          "os": "pc",
+          "appver": "3.1.17.204416",
+          "channel": "netease",
+          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
+        },
+        "encryptResponse": false,
+        "acceptGzip": null
+      },
+      "data": {
+        "albumIds": "17,19"
+      }
+    },
+    {
+      "module": "vip_growthpoint_get",
+      "label": "default",
+      "query": {
+        "ids": ["task-1", "task-2"]
+      },
+      "method": "vipGrowthpointGet",
+      "path": "/api/vipnewcenter/app/level/task/reward/get",
+      "url": "https://music.163.com/weapi/vipnewcenter/app/level/task/reward/get",
+      "profile": "weapiPc",
+      "protocol": "weapi",
+      "semantic": "write",
+      "retry": "never",
+      "identity": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+        "referer": "https://music.163.com",
+        "cookie": {
+          "os": "pc",
+          "appver": "3.1.17.204416",
+          "channel": "netease",
+          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
+        },
+        "encryptResponse": false,
+        "acceptGzip": null
+      },
+      "data": {
+        "taskIds": "task-1,task-2"
+      }
+    },
+    {
+      "module": "musician_play_trend",
+      "label": "default",
+      "query": {
+        "startTime": "1700000000000",
+        "endTime": "1700600000000"
+      },
+      "method": "musicianPlayTrend",
+      "path": "/api/creator/musician/play/count/statistic/data/trend/get",
+      "url": "https://music.163.com/weapi/creator/musician/play/count/statistic/data/trend/get",
+      "profile": "weapiPc",
+      "protocol": "weapi",
+      "semantic": "read",
+      "retry": "connect",
+      "identity": {
+        "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+        "referer": "https://music.163.com",
+        "cookie": {
+          "os": "pc",
+          "appver": "3.1.17.204416",
+          "channel": "netease",
+          "osver": "Microsoft-Windows-10-Professional-build-19045-64bit"
+        },
+        "encryptResponse": false,
+        "acceptGzip": null
+      },
+      "data": {
+        "startTime": "1700000000000",
+        "endTime": "1700600000000"
+      }
     }
   ]
 }

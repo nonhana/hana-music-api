@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -13,7 +17,6 @@ import {
   PlaylistSummary,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -54,6 +57,17 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export type ModuleInput = {
+  limit?: number;
+};
+
+const inputSchema = Schema.Struct({
+  limit: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const recordRecentPlaylist: ModuleEffect<
   ModuleInput,
   ModuleBody,
@@ -73,7 +87,3 @@ const recordRecentPlaylist: ModuleEffect<
   });
 
 export default recordRecentPlaylist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

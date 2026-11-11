@@ -2,8 +2,8 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
+  NaturalValue,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -14,31 +14,21 @@ import {
 } from '../core/upstream-body.ts';
 import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  IdentifierQuery,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 
-export type ArtistSongsOrder = 'hot' | 'time' | (string & {});
+export type ArtistSongsOrder = 'hot' | 'time';
 
-export type ModuleInput = IdentifierQuery & {
-  limit?: QueryNumberLike;
-  offset?: QueryNumberLike;
-
+export type ModuleInput = {
+  id: NumberId;
+  limit?: NaturalValue;
+  offset?: NaturalValue;
   order?: ArtistSongsOrder;
 };
 
 const inputSchema = Schema.Struct({
-  id: Identifier,
-  limit: Schema.optional(QueryNumber),
-  offset: Schema.optional(QueryNumber),
-  order: Schema.optional(
-    Schema.Union([
-      Schema.Literal('hot'),
-      Schema.Literal('time'),
-      Schema.String,
-    ]),
-  ),
+  id: NumberId,
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  order: Schema.optional(Schema.Literals(['hot', 'time'])),
 });
 
 export const decodeModuleInput = (input: unknown) =>

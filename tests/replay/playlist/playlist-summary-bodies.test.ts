@@ -406,12 +406,8 @@ test.each(recordings)(
     const isList = path.includes('user_playlist');
     const client = replay(body);
     const call = isList
-      ? client.userPlaylist(
-          recording.query as Parameters<typeof client.userPlaylist>[0],
-        )
-      : client.playlistDetail(
-          recording.query as Parameters<typeof client.playlistDetail>[0],
-        );
+      ? client.userPlaylist(recording.query)
+      : client.playlistDetail(recording.query);
     const validator = isList ? UserPlaylistBody : PlaylistDetailBody;
     if (body.code === 200) {
       expect((await call).body as unknown).toEqual(body);

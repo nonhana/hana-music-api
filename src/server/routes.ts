@@ -257,7 +257,9 @@ export const registerModuleRoutes = (
             {
               identifier: moduleDefinition.identifier,
               input: Object.fromEntries(
-                Object.entries(query).filter(([key]) => key !== 'cookie'),
+                Object.entries(query).filter(
+                  ([key]) => key !== 'cookie' && key !== 'noCookie',
+                ),
               ),
 
               config: {

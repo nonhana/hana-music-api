@@ -12,7 +12,7 @@ import {
 } from '../../../src/app/module-api.ts';
 import { registerAnonymousToken } from '../../../src/core/anonymous.ts';
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import {
   createRequest,
   snapshotRequestData,
@@ -204,7 +204,7 @@ test('flow pool retains successful slots and inherits the first explicit clock',
                       retry: 'never',
                     },
                   } as const,
-                  decodeInput: decodeLegacyModuleInput,
+                  decodeInput: decodeModuleObject,
                   execute: (_input: unknown, request: RequestCapability) =>
                     request('read', { data: {}, headers: {} }).pipe(
                       Effect.map((response) => ({
@@ -274,7 +274,7 @@ test('flow shared calls preserve a business checkToken field without configured 
               retry: 'read',
             },
           },
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: (_input, request) =>
             request('read', {
               data: { checkToken: 'business-data' },
@@ -457,7 +457,7 @@ test('bound actions carry business data without copying declared policy', async 
                 retry: 'never',
               },
             },
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: (_input, request) =>
               Effect.gen(function* () {
                 const response = yield* Reflect.apply(request, undefined, [
@@ -819,7 +819,7 @@ test.each([
               retry: 'never',
             },
           },
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: (_input, request) =>
             Effect.gen(function* () {
               const response = yield* Reflect.apply(request, undefined, [
@@ -890,7 +890,7 @@ test.each([
               retry: 'never',
             },
           },
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: (_input, request) =>
             Effect.gen(function* () {
               const response = yield* Reflect.apply(request, undefined, [
@@ -985,7 +985,7 @@ test('bound API snapshots data and request time before token waiting without fre
                       retry: 'never',
                     },
                   },
-                  decodeInput: decodeLegacyModuleInput,
+                  decodeInput: decodeModuleObject,
                   execute: (_input, request) =>
                     Effect.gen(function* () {
                       beforeRequest.reach();
@@ -1038,7 +1038,7 @@ test('assembled actions survive source mutation while new assembly rejects the i
     identifier: 'bound',
     route: '/bound',
     actions,
-    decodeInput: decodeLegacyModuleInput,
+    decodeInput: decodeModuleObject,
     execute: (_input: unknown, request: RequestCapability) =>
       request('read', { data: {} }).pipe(
         Effect.map((response) => ({
@@ -1157,7 +1157,7 @@ test.each(['api', 'plain'] as const)(
             identifier: 'headers',
             route: '/headers',
             actions,
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: (_input, request) =>
               request(
                 'read',
@@ -1233,7 +1233,7 @@ test.each(['cycle', 'bigint', 'toJSON'] as const)(
               retry: 'never',
             },
           },
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: (_input, request) =>
             request('read', { data }).pipe(
               Effect.map((response) => ({
@@ -1296,7 +1296,7 @@ test('API header getter errors keep the provider and entropy phase', async () =>
             retry: 'never',
           },
         },
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: (_input, request) =>
           request('read', { data: {}, headers }).pipe(
             Effect.map((response) => ({
@@ -1340,7 +1340,7 @@ test.each([
       identifier: 'local_removed_handler',
       route: '/local',
       actions: {},
-      decodeInput: decodeLegacyModuleInput,
+      decodeInput: decodeModuleObject,
       execute: () =>
         Effect.sync(() => {
           executions++;

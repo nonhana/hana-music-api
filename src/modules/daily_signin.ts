@@ -1,7 +1,12 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberLiterals,
+} from '../core/module-input.ts';
+import type { ModuleActions } from '../core/request-actions.ts';
+import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 // 签到
 /*
@@ -10,8 +15,14 @@ import type { UnknownJson } from '../types/unknown.ts';
     重复签到 {'android': {'code': -2, 'msg': '重复签到'}, 'web': {'code': -2, 'msg': '重复签到'}}
     未登录 {'android': {'code': 301}, 'web': {'code': 301}}
 */
-import type { ModuleActions } from '../core/request-actions.ts';
-import { toModuleResponse } from '../core/response.ts';
+export type ModuleInput = { type?: 0 | 1 };
+
+const inputSchema = Schema.Struct({
+  type: Schema.optional(NumberLiterals([0, 1])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -30,14 +41,10 @@ const dailySignin: ModuleEffect<
 > = (query, request) =>
   Effect.gen(function* () {
     const data = {
-      type: query.type || 0,
+      type: query.type ?? 0,
     };
     const response = yield* request('request', { data });
     return toModuleResponse(response);
   });
 
 export default dailySignin;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

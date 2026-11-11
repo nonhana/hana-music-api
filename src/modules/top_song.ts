@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,13 @@ import {
 } from '../core/upstream-body.ts';
 import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { type?: NaturalValue };
+
+const inputSchema = Schema.Struct({ type: Schema.optional(NaturalValue) });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 新歌记录共用 `Song`，另声明旧式歌曲字段；它们都是附带信息，全部宽松。
 const NewSong = UpstreamObject({
@@ -64,7 +74,3 @@ const topSong: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 新歌速递
  */
 export default topSong;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

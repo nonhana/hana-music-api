@@ -1,74 +1,111 @@
 [
   {
     "module": "comment",
-    "actions": [],
-    "current": "IdentifierQuery & { type: QueryNumberLike; commentId?: QueryIdentifier; content?: string; t: 0 | 1 | 2 | '0' | '1' | '2'; threadId?: string; }",
-    "fields": ["commentId", "content", "id", "t", "threadId", "ts", "type"],
+    "actions": ["add", "delete", "reply"],
+    "current": "{ commentId?: NumberId; content?: string; id: NumberId; t: 0 | 1 | 2; threadId?: string; type: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7; }",
+    "fields": ["commentId", "content", "id", "t", "threadId", "type"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 资源编号; type: 资源类型 0-7; t: 0 删除/1 发送/2 回复; commentId?: 评论编号(删除/回复); content?: 评论内容(发送/回复); threadId?: 动态 threadId(type=6 时替代拼接的线程号) }",
+    "upstreamEncoding": "threadId = `${resolveResourceType(type)}${String(id)}`，type=6 时改用 threadId；t 选择 add/delete/reply 动作，data 只带对应动作的 commentId/content",
+    "evidence": [
+      "src/modules/comment.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/writes/irreversible-write-bodies.test.ts",
+      "tests/behavior/modules/account/account-social-policy.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id/type/t 必填；type 从 QueryNumberLike 收紧为 resolveResourceType 支持的 0-7 数字枚举，t 收紧为 0/1/2 数字枚举（两者仍接受 HTTP 数字字符串）；id/commentId 从 QueryIdentifier 收紧为 NumberId。content/commentId 沿用现有可选声明，未新增按动作的联合校验；type=6 的 id 仍按现有声明必填。 type 保留非负整数，未知值沿用 resolveResourceType 回退到歌曲前缀，与旧基线 type=99 一致；不收窄为 0-7。"
   },
   {
     "module": "comment_album",
     "actions": ["request"],
-    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
-    "fields": ["before", "id", "limit", "offset", "ts"],
+    "current": "{ before?: NaturalValue; id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["before", "id", "limit", "offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 资源编号; limit?: 取出数量(默认 20); offset?: 偏移数量(默认 0); before?: 上一页最后一项的 time(默认 0) }",
+    "upstreamEncoding": "原样放入 web data：rid=id、limit、offset、beforeTime；缺省分别回落 20/0/0",
+    "evidence": [
+      "src/modules/comment_album.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 从任意标识收紧为必填 NumberId；limit/offset/before 从 QueryNumberLike 收紧为非负整数（数字或数字字符串），缺省仍按原 || 逻辑回落 20/0/0。"
   },
   {
     "module": "comment_dj",
     "actions": ["request"],
-    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
-    "fields": ["before", "id", "limit", "offset", "ts"],
+    "current": "{ before?: NaturalValue; id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["before", "id", "limit", "offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 资源编号; limit?: 取出数量(默认 20); offset?: 偏移数量(默认 0); before?: 上一页最后一项的 time(默认 0) }",
+    "upstreamEncoding": "原样放入 web data：rid=id、limit、offset、beforeTime；缺省分别回落 20/0/0",
+    "evidence": [
+      "src/modules/comment_dj.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-extension-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 从任意标识收紧为必填 NumberId；limit/offset/before 从 QueryNumberLike 收紧为非负整数（数字或数字字符串），缺省仍按原 || 逻辑回落 20/0/0。"
   },
   {
     "module": "comment_event",
     "actions": ["request"],
-    "current": "PagedQuery & { before?: QueryNumberLike; threadId: string; }",
-    "fields": ["before", "limit", "offset", "threadId", "ts"],
+    "current": "{ before?: NaturalValue; limit?: NaturalValue; offset?: NaturalValue; threadId: string; }",
+    "fields": ["before", "limit", "offset", "threadId"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ threadId: 动态线程号(必填); limit?: 取出数量(默认 20); offset?: 偏移数量(默认 0); before?: 上一页最后一项的 time(默认 0) }",
+    "upstreamEncoding": "原样放入 web data：limit、offset、beforeTime；threadId 直接拼进请求路径",
+    "evidence": [
+      "src/modules/comment_event.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-extension-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "threadId 保持必填 Schema.String；limit/offset/before 从 QueryNumberLike 收紧为非负整数，缺省仍回落 20/0/0。"
   },
   {
     "module": "comment_floor",
     "actions": ["request"],
-    "current": "IdentifierQuery & { type: QueryNumberLike; limit?: QueryNumberLike; parentCommentId: QueryIdentifier; time?: QueryNumberLike; }",
-    "fields": ["id", "limit", "parentCommentId", "time", "ts", "type"],
+    "current": "{ id: NumberId; limit?: NaturalValue; parentCommentId: NumberId; time?: IntegerValue; type: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7; }",
+    "fields": ["id", "limit", "parentCommentId", "time", "type"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 资源编号; type: 资源类型 0-7; parentCommentId: 父评论编号; limit?: 取出数量(默认 20); time?: 上一页最后一项的 time(-1 为首屏哨兵) }",
+    "upstreamEncoding": "threadId = `${resolveResourceType(type)}${String(id)}`；data 带 parentCommentId、threadId、time、limit",
+    "evidence": [
+      "src/modules/comment_floor.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-extension-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id/parentCommentId 由 QueryIdentifier 收紧为必填 NumberId；type 收紧为 0-7 数字枚举；limit 收紧为非负整数、time 收紧为整数（time 保留 -1 哨兵），缺省仍回落 20/-1。 type 保留非负整数，未知值沿用 resolveResourceType 回退到歌曲前缀，与旧基线 type=99 一致；不收窄为 0-7。"
   },
   {
     "module": "comment_hot",
     "actions": ["request"],
-    "current": "IdentifierQuery & { type: QueryNumberLike; before?: QueryNumberLike; limit?: QueryNumberLike; offset?: QueryNumberLike; }",
-    "fields": ["before", "id", "limit", "offset", "ts", "type"],
+    "current": "{ before?: NaturalValue; id: NumberId; limit?: NaturalValue; offset?: NaturalValue; type: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7; }",
+    "fields": ["before", "id", "limit", "offset", "type"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 资源编号; type: 资源类型 0-7; limit?: 取出数量(默认 20); offset?: 偏移数量(默认 0); before?: 上一页最后一项的 time(默认 0) }",
+    "upstreamEncoding": "请求路径 /api/v1/resource/hotcomments/<resourceType><id>；data 带 rid、limit、offset、beforeTime",
+    "evidence": [
+      "src/modules/comment_hot.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-extension-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id/type 必填；type 从 QueryNumberLike 收紧为 0-7；limit/offset/before 收紧为非负整数，缺省仍回落 20/0/0。 type 保留非负整数，未知值沿用 resolveResourceType 回退到歌曲前缀，与旧基线 type=99 一致；不收窄为 0-7。"
   },
   {
     "module": "comment_hug_list",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ cid: NumberId; cursor?: string; idCursor?: IntegerValue; page?: IntegerValue; pageSize?: IntegerValue; sid: NumberId; type?: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7; uid: NumberId; }",
     "fields": [
       "cid",
       "cursor",
@@ -76,53 +113,76 @@
       "page",
       "pageSize",
       "sid",
-      "ts",
       "type",
       "uid"
     ],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ uid: 用户编号; cid: 评论编号; sid: 资源编号; page?: 页数(默认 1); cursor?: 上一页 cursor(默认 '-1'); idCursor?: 上一页 idCursor(默认 -1); pageSize?: 每页数量(默认 100); type?: 资源类型 0-7 }",
+    "upstreamEncoding": "threadId = `${resolveResourceType(type)}${String(sid)}`；data 带 targetUserId、commentId、cursor、threadId、pageNo、idCursor、pageSize",
+    "evidence": [
+      "src/modules/comment_hug_list.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-extension-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "uid/cid/sid 由可选任意值收紧为必填 NumberId，删除手写 sid primitive 检查；旧代码缺 sid 会生成 R_SO_4_ 空线程。cursor 保持不透明字符串（数字 cursor 不再接受）；idCursor/page/pageSize 收紧为整数，缺省仍回落 -1/1/100；type 旧代码读取但文档未声明，保留可选且只接受 0-7。 type 保留非负整数，未知值沿用 resolveResourceType 回退到歌曲前缀，与旧基线 type=99 一致；不收窄为 0-7。"
   },
   {
     "module": "comment_like",
-    "actions": [],
-    "current": "IdentifierQuery & { type: QueryNumberLike; cid: QueryIdentifier; t: 0 | 1 | '0' | '1'; threadId?: string; }",
-    "fields": ["cid", "id", "t", "threadId", "ts", "type"],
+    "actions": ["like", "unlike"],
+    "current": "{ cid: NumberId; id: NumberId; t: 0 | 1; threadId?: string; type: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7; }",
+    "fields": ["cid", "id", "t", "threadId", "type"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 资源编号; type: 资源类型 0-7; cid: 评论编号; t: 0 取消点赞/1 点赞; threadId?: 动态 threadId(type=6 时使用) }",
+    "upstreamEncoding": "t 选择 like/unlike 动作；threadId = `${resolveResourceType(type)}${String(id)}`，type=6 时改用 threadId；commentId=cid",
+    "evidence": [
+      "src/modules/comment_like.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/writes/write-actions-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id/cid 由 QueryIdentifier 收紧为必填 NumberId；t 从数字/字符串联合收紧为 0/1 数字枚举（仍接受 HTTP 数字字符串）；type 收紧为 0-7；不再接受 t=2 等越界动作。 type 保留非负整数，未知值沿用 resolveResourceType 回退到歌曲前缀，与旧基线 type=99 一致；不收窄为 0-7。"
   },
   {
     "module": "comment_music",
     "actions": ["request"],
-    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
-    "fields": ["before", "id", "limit", "offset", "ts"],
+    "current": "{ before?: NaturalValue; id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["before", "id", "limit", "offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 资源编号; limit?: 取出数量(默认 20); offset?: 偏移数量(默认 0); before?: 上一页最后一项的 time(默认 0) }",
+    "upstreamEncoding": "原样放入 web data：rid=id、limit、offset、beforeTime；缺省分别回落 20/0/0",
+    "evidence": [
+      "src/modules/comment_music.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 从任意标识收紧为必填 NumberId；limit/offset/before 从 QueryNumberLike 收紧为非负整数（数字或数字字符串），缺省仍按原 || 逻辑回落 20/0/0。"
   },
   {
     "module": "comment_mv",
     "actions": ["request"],
-    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
-    "fields": ["before", "id", "limit", "offset", "ts"],
+    "current": "{ before?: NaturalValue; id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["before", "id", "limit", "offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 资源编号; limit?: 取出数量(默认 20); offset?: 偏移数量(默认 0); before?: 上一页最后一项的 time(默认 0) }",
+    "upstreamEncoding": "原样放入 web data：rid=id、limit、offset、beforeTime；缺省分别回落 20/0/0",
+    "evidence": [
+      "src/modules/comment_mv.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 从任意标识收紧为必填 NumberId；limit/offset/before 从 QueryNumberLike 收紧为非负整数（数字或数字字符串），缺省仍按原 || 逻辑回落 20/0/0。"
   },
   {
     "module": "comment_new",
     "actions": ["request"],
-    "current": "IdentifierQuery & { type: QueryNumberLike; cursor?: string; pageNo?: QueryNumberLike; pageSize?: QueryNumberLike; showInner?: QueryBooleanLike; sortType?: QueryNumberLike; }",
+    "current": "{ cursor?: string; id: NumberId; pageNo?: IntegerValue; pageSize?: IntegerValue; showInner?: boolean; sortType?: IntegerValue; type: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7; }",
     "fields": [
       "cursor",
       "id",
@@ -130,35 +190,53 @@
       "pageSize",
       "showInner",
       "sortType",
-      "ts",
       "type"
     ],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 资源编号; type: 资源类型 0-7; pageNo?: 第 N 页(默认 1); pageSize?: 每页数量(默认 20); sortType?: 排序方式(1 推荐/2 热度/3 时间，缺省 99); cursor?: sortType=3 时上一页最后一项的 time; showInner?: 是否显示内层评论(默认 true) }",
+    "upstreamEncoding": "threadId = `${resolveResourceType(type)}${String(id)}`；showInner 解码为 boolean 后放 data；sortType 缺省 99、1 归一为 99；cursor 按 sortType 由 pageNo/pageSize 计算或取传入的 cursor；pageNo/pageSize 数字放入 data",
+    "evidence": [
+      "src/modules/comment_new.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-extension-bodies.test.ts",
+      "tests/behavior/sdk/module-input.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 由 QueryIdentifier 收紧为必填 NumberId；type 收紧为 0-7；showInner 从 QueryBooleanLike 改为 BooleanValue（接受 true/false/0/1/'0'/'1'/'true'/'false'，解码为 boolean）并保留缺省 true；pageNo/pageSize/sortType 收紧为整数，缺省 1/20/99 及 sortType=1→99 的规整不变；cursor 保持字符串。 type 保留非负整数，未知值沿用 resolveResourceType 回退到歌曲前缀，与旧基线 type=99 一致；不收窄为 0-7。"
   },
   {
     "module": "comment_playlist",
     "actions": ["request"],
-    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
-    "fields": ["before", "id", "limit", "offset", "ts"],
+    "current": "{ before?: NaturalValue; id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["before", "id", "limit", "offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 资源编号; limit?: 取出数量(默认 20); offset?: 偏移数量(默认 0); before?: 上一页最后一项的 time(默认 0) }",
+    "upstreamEncoding": "原样放入 web data：rid=id、limit、offset、beforeTime；缺省分别回落 20/0/0",
+    "evidence": [
+      "src/modules/comment_playlist.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 从任意标识收紧为必填 NumberId；limit/offset/before 从 QueryNumberLike 收紧为非负整数（数字或数字字符串），缺省仍按原 || 逻辑回落 20/0/0。"
   },
   {
     "module": "comment_video",
     "actions": ["request"],
-    "current": "IdentifierPagedQuery & { before?: QueryNumberLike; }",
-    "fields": ["before", "id", "limit", "offset", "ts"],
+    "current": "{ before?: NaturalValue; id: string; limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["before", "id", "limit", "offset"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 视频 MD5 编号; limit?: 取出数量(默认 20); offset?: 偏移数量(默认 0); before?: 上一页最后一项的 time(默认 0) }",
+    "upstreamEncoding": "原样放入 web data：rid=id、limit、offset、beforeTime；缺省分别回落 20/0/0",
+    "evidence": [
+      "src/modules/comment_video.ts",
+      "tests/behavior/modules/input-contracts/comment.ts",
+      "tests/behavior/modules/input-encoding/comment.ts",
+      "tests/replay/social/comment-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "视频 id 是 MD5 串而不是数字编号，保持 Schema.String（数字 id 不再接受）；limit/offset/before 从 QueryNumberLike 收紧为非负整数，缺省仍回落 20/0/0。"
   }
 ]

@@ -1,10 +1,14 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -15,6 +19,13 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = NoInput;
+
+const inputSchema = EmptyInput;
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
 
 // 只注销同一个设备编号上的登录，其他设备上的登录不受影响。
 // 接口只返回返回码，收紧的是返回码。
@@ -39,7 +50,3 @@ const logout: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 退出登录
  */
 export default logout;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

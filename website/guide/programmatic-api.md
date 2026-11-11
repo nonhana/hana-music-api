@@ -73,6 +73,19 @@ flowchart LR
 
 `query` 的类型来自模块自己的输入声明。`config` 使用独立的 `ModuleCallConfig`。`crypto`、`ua`、`domain`、`e_r`、`acceptGzip`、`headers` 和顶层 `deviceId` 已移除，传入会在执行前拒绝；设备改用 `state.deviceId`。完整字段及 major 迁移表见 [配置参考](/guide/config-reference)。HTTP 能接收的字段更少，见 [调用约定](/guide/request-convention)。
 
+### 业务输入怎么传
+
+每个模块的 `query` 是具体结构，字段名、必填性和类型以接口页为准。调用者传业务值，不传上游协议编码：
+
+```ts
+await hana.songDetail({ ids: [347230, '347231'] });
+await hana.playlistTracks({ op: 'add', pid: 24381616, tracks: [347231] });
+await hana.playlistTagsUpdate({ id: 24381616, tags: ['学习', '夜晚'] });
+await hana.songOrderUpdate({ pid: 24381616, ids: [111, 222] });
+```
+
+编号集合用数组，SDK 负责逗号串、JSON 数组或 `{type:3,id}` 编码。未声明字段、旧的逗号串/JSON 串/分号串和非法编号会在发送前以 `400` 拒绝；这属于 5.0 的 major 变化。HTTP 的数组和对象通过 JSON body 传入，标量数字和布尔在 query 里仍可用字符串。
+
 ## 返回值与错误
 
 ### 响应形状

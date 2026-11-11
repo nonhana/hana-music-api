@@ -5,7 +5,7 @@ import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi } from '../../../index.ts';
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import { uploadWork } from '../../../src/core/upload-work.ts';
 import { cookieToJson } from '../../../src/core/utils.ts';
 import {
@@ -96,7 +96,7 @@ describe('sdk response cache', () => {
                 actions: probeReadActions,
                 identifier: 'test',
                 route: '/test',
-                decodeInput: decodeLegacyModuleInput,
+                decodeInput: decodeModuleObject,
                 execute: implementation,
               },
 
@@ -135,7 +135,7 @@ describe('sdk response cache', () => {
         actions: {},
         identifier: 'test',
         route: '/test',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: implementation,
       });
     const [first, second] = await Promise.all([invoke(), invoke()]);
@@ -216,7 +216,7 @@ describe('sdk identity pool', () => {
         actions: probeUploadActions,
         identifier: 'voice_upload',
         route: '/test',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
           uploadWork('voice_upload', request, (stage) =>
             Effect.gen(function* () {
@@ -269,7 +269,7 @@ describe('sdk identity pool', () => {
         actions: probeUploadActions,
         identifier: 'voice_upload',
         route: '/test',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: () =>
           Effect.sync(() => {
             invoked = true;

@@ -2,121 +2,173 @@
   {
     "module": "batch",
     "actions": ["request"],
-    "current": "Partial<Record<`/api/${string}`, BatchSubRequest>>",
-    "fields": ["ts"],
+    "current": "Partial<Record<string, unknown>>",
+    "fields": [],
     "legacyEncoding": [],
-    "businessInput": "按 /api/ 路由转发的开放字典；值为普通对象",
-    "upstreamEncoding": "原样转发每个路由的子请求对象",
+    "businessInput": "按字符串键转发的开放字典；以 /api/ 开头的路由进入 eapi data，值必须是普通对象；其他键忽略",
+    "upstreamEncoding": "原样转发每个路由的子请求对象到 eapi data",
     "evidence": [
-      "tests/behavior/modules/input-contracts.test.ts",
+      "src/modules/batch.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
       "tests/behavior/modules/request-shapes.test.ts"
     ],
     "status": "already-compliant",
-    "notes": "唯一保留的开放字典：接口语义就是按路由转发，值类型由目标接口决定。"
+    "notes": "唯一保留的开放字典：接口语义就是按路由转发，值类型由目标接口决定。类型放宽为 string 键以保留历史“非 /api/ 键静默过滤”的行为；运行时 decoder 仍拒绝 /api/ 路由的 null、数组和 JSON 字符串。"
   },
   {
     "module": "image_upload_token",
-    "actions": [],
-    "current": "{}",
-    "fields": ["ts"],
+    "actions": ["imageAllocate"],
+    "current": "NoInput",
+    "fields": [],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无业务参数",
+    "upstreamEncoding": "上传插件固定申请 image.jpg 的上传位置，无调用方字段进入请求",
+    "evidence": [
+      "src/modules/image_upload_token.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/behavior/modules/upload/image-direct-upload.test.ts",
+      "website/api/playlist/image-upload-token.md"
+    ],
+    "status": "migrated",
+    "notes": "原来 ModuleInput = {}、Schema.Struct({})；改成 NoInput + EmptyInput，任何键（含原 ts 之外的自定义字段）都被拒绝。上传插件与返回体不变。"
   },
   {
     "module": "listen_data_realtime_report",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["ts", "type"],
+    "current": "{ type?: 'week' | 'month' }",
+    "fields": ["type"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ type?: 'week' 周 | 'month' 月 }",
+    "upstreamEncoding": "type 缺省时回落到 week，再原样放入 eapi data",
+    "evidence": [
+      "src/modules/listen_data_realtime_report.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/behavior/modules/input-encoding/misc.ts",
+      "tests/replay/activity/listen-stats-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 保留可选，因为现有代码 query.type || 'week' 有默认值；按文档只接受 week/month，旧数字/布尔/空串/未知维度一律拒绝。membership-business 基线里的 listen_data_report 旧值用例（type: 0/'0'/''/null/false）由主代理在测试侧过滤，fixture 原文未改。"
   },
   {
     "module": "listen_data_report",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["endTime", "ts", "type"],
+    "current": "{ endTime?: NaturalValue; type?: 'week' | 'month' | 'year' }",
+    "fields": ["endTime", "type"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ type?: 'week' | 'month' | 'year'; endTime?: 周期结束时间戳（数字或数字字符串） }",
+    "upstreamEncoding": "type 缺省回落到 week；endTime 解码为非负整数后放入 eapi data，缺省时不发送该键",
+    "evidence": [
+      "src/modules/listen_data_report.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/behavior/modules/input-encoding/misc.ts",
+      "tests/replay/activity/listen-stats-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 和 endTime 都保留可选（代码分别有 || 'week' 和“不填就是本周/月”语义）；type 按文档三种维度做字符串字面量，endTime 用 NaturalValue 接受 HTTP 数字字符串并拒绝负数/小数/任意文本。"
   },
   {
     "module": "listen_data_today_song",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["ts"],
+    "current": "NoInput",
+    "fields": [],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无业务参数",
+    "upstreamEncoding": "固定发送空 eapi data",
+    "evidence": [
+      "src/modules/listen_data_today_song.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/replay/activity/listen-stats-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "改成 NoInput + EmptyInput；原来接受任意键但现在任何业务键都被拒绝。"
   },
   {
     "module": "listen_data_total",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["ts"],
+    "current": "NoInput",
+    "fields": [],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无业务参数",
+    "upstreamEncoding": "固定发送空 eapi data",
+    "evidence": [
+      "src/modules/listen_data_total.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/replay/activity/listen-stats-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "改成 NoInput + EmptyInput；原来接受任意键但现在任何业务键都被拒绝。"
   },
   {
     "module": "listen_data_year_report",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["ts"],
+    "current": "NoInput",
+    "fields": [],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无业务参数",
+    "upstreamEncoding": "固定发送空 eapi data",
+    "evidence": [
+      "src/modules/listen_data_year_report.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/replay/activity/listen-stats-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "改成 NoInput + EmptyInput；原来接受任意键但现在任何业务键都被拒绝。"
   },
   {
     "module": "listentogether_accept",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["inviterId", "roomId", "ts"],
+    "current": "{ inviterId: NumberId; roomId: string }",
+    "fields": ["inviterId", "roomId"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ roomId: 房间 ID 字符串; inviterId: 邀请者用户编号 }",
+    "upstreamEncoding": "roomId 原样、inviterId 保留数字或十进制文本，refer 固定 inbox_invite",
+    "evidence": [
+      "src/modules/listentogether_accept.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "website/api/together/listentogether-accept.md"
+    ],
+    "status": "migrated",
+    "notes": "roomId 是不透明房间号，用 Schema.String（文档类型 string）；inviterId 是用户编号，用 NumberId，接受 number 或纯十进制字符串。两者按文档必填；原来任意类型直接透传。"
   },
   {
     "module": "listentogether_end",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["roomId", "ts"],
+    "current": "{ roomId: string }",
+    "fields": ["roomId"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ roomId: 房间 ID 字符串 }",
+    "upstreamEncoding": "roomId 原样放入 eapi data",
+    "evidence": [
+      "src/modules/listentogether_end.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "website/api/together/listentogether-end.md"
+    ],
+    "status": "migrated",
+    "notes": "roomId 按文档必填且为不透明字符串；数字、null、空对象都被拒绝。"
   },
   {
     "module": "listentogether_heatbeat",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["playStatus", "progress", "roomId", "songId", "ts"],
+    "current": "{ playStatus: string; progress: NaturalValue; roomId: string; songId: NumberId }",
+    "fields": ["playStatus", "progress", "roomId", "songId"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ roomId: 房间 ID 字符串; songId: 歌曲编号; playStatus: 播放状态字符串; progress: 播放进度毫秒 }",
+    "upstreamEncoding": "四个字段原样放入 eapi data",
+    "evidence": [
+      "src/modules/listentogether_heatbeat.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "website/api/together/listentogether-heatbeat.md"
+    ],
+    "status": "migrated",
+    "notes": "四个字段按文档都必填。playStatus 用 Schema.String：文档只写“常见为 PLAY 或 PAUSE”，没有穷举；progress 用 NaturalValue 接受 HTTP 数字字符串并拒绝负数/小数；songId 用 NumberId。account-social 基线 fixture 里的 playStatus: 1 属于旧数字透传，已不再接受，测试侧转换由主代理处理，fixture 未改。"
   },
   {
     "module": "listentogether_play_command",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ clientSeq: NaturalValue; commandType: string; formerSongId?: IntegerValue; playStatus: string; progress?: NaturalValue; roomId: string; targetSongId: NumberId }",
     "fields": [
       "clientSeq",
       "commandType",
@@ -124,47 +176,71 @@
       "playStatus",
       "progress",
       "roomId",
-      "targetSongId",
-      "ts"
+      "targetSongId"
     ],
-    "legacyEncoding": ["JSON.stringify"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "{ roomId: 房间 ID 字符串; commandType: 指令字符串; targetSongId: 目标歌曲编号; playStatus: 播放状态字符串; clientSeq: 客户端递增序号; formerSongId?: 上一首歌曲编号（未知传 -1）; progress?: 播放进度毫秒（默认 0） }",
+    "upstreamEncoding": "commandInfo = JSON.stringify({ commandType, progress: progress || 0, playStatus, formerSongId, targetSongId, clientSeq })，roomId 与 commandInfo 放入 eapi data",
+    "evidence": [
+      "src/modules/listentogether_play_command.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/behavior/modules/input-encoding/misc.ts",
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "website/api/together/listentogether-play-command.md"
+    ],
+    "status": "migrated",
+    "notes": "调用方不再自己拼 commandInfo JSON 串，模块内部构造。formerSongId 可选且用 IntegerValue：文档示例用 -1 表示未知；progress 可选并保留 || 0 默认值，用 NaturalValue；clientSeq 用 NaturalValue，targetSongId 用 NumberId，commandType/playStatus 保留 Schema.String（文档未穷举）。"
   },
   {
     "module": "listentogether_room_check",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["roomId", "ts"],
+    "current": "{ roomId: string }",
+    "fields": ["roomId"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ roomId: 房间 ID 字符串 }",
+    "upstreamEncoding": "roomId 原样放入 eapi data",
+    "evidence": [
+      "src/modules/listentogether_room_check.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/replay/activity/listen-broadcast-bodies.test.ts",
+      "website/api/together/listentogether-room-check.md"
+    ],
+    "status": "migrated",
+    "notes": "roomId 按文档必填且为不透明字符串；历史录制 query 里的 roomId: 0 是旧协议值，replay 测试的入参转换由主代理统一处理（该测试属 msg-topic 代理）。"
   },
   {
     "module": "listentogether_room_create",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["ts"],
+    "current": "NoInput",
+    "fields": [],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无业务参数",
+    "upstreamEncoding": "固定发送 refer=songplay_more",
+    "evidence": [
+      "src/modules/listentogether_room_create.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "website/api/together/listentogether-room-create.md"
+    ],
+    "status": "migrated",
+    "notes": "改成 NoInput + EmptyInput；refer 固定字段不变，任何业务键都被拒绝。"
   },
   {
     "module": "listentogether_status",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["ts"],
+    "current": "NoInput",
+    "fields": [],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "无业务参数",
+    "upstreamEncoding": "固定发送空 eapi data",
+    "evidence": [
+      "src/modules/listentogether_status.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/replay/activity/listen-broadcast-bodies.test.ts",
+      "website/api/together/listentogether-status.md"
+    ],
+    "status": "migrated",
+    "notes": "改成 NoInput + EmptyInput；任何业务键都被拒绝。"
   },
   {
     "module": "listentogether_sync_list_command",
@@ -175,28 +251,36 @@
       "displayList",
       "randomList",
       "roomId",
-      "ts",
       "userId",
       "version"
     ],
     "legacyEncoding": [],
-    "businessInput": "同上；列表传编号数组，roomId 是不透明字符串，commandType 是上游字符串",
-    "upstreamEncoding": "playlistParam = JSON.stringify({... lists: lists.map(String)})",
+    "businessInput": "{ roomId: 房间 ID 字符串; commandType: 列表指令字符串; userId: 用户编号; version: 列表版本号; randomList: 歌曲编号数组; displayList: 歌曲编号数组 }",
+    "upstreamEncoding": "playlistParam = JSON.stringify({ commandType, version: [{ userId, version }], anchorSongId: '', anchorPosition: -1, randomList: randomList.map(String), displayList: displayList.map(String) })",
     "evidence": [
-      "tests/behavior/modules/input-contracts.test.ts",
+      "src/modules/listentogether_sync_list_command.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/behavior/modules/input-encoding/misc.ts",
       "tests/behavior/modules/special/input-encoding.test.ts"
     ],
-    "status": "migrated"
+    "status": "migrated",
+    "notes": "先批次已迁移，本次核对后保持实现：列表只接受编号数组并在模块内 map(String)，userId 保留 number/string 原样，version 用 NaturalValue；补了 version 负数、userId 0 和字符串 userId 的 contract 用例。"
   },
   {
     "module": "listentogether_sync_playlist_get",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
-    "fields": ["roomId", "ts"],
+    "current": "{ roomId: string }",
+    "fields": ["roomId"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ roomId: 房间 ID 字符串 }",
+    "upstreamEncoding": "roomId 原样放入 eapi data",
+    "evidence": [
+      "src/modules/listentogether_sync_playlist_get.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/replay/activity/listen-broadcast-bodies.test.ts",
+      "website/api/together/listentogether-sync-playlist-get.md"
+    ],
+    "status": "migrated",
+    "notes": "roomId 按文档必填且为不透明字符串；历史录制 query 里的 roomId: 0 是旧协议值，replay 测试的入参转换由主代理统一处理（该测试属 msg-topic 代理）。"
   }
 ]

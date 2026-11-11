@@ -36,6 +36,10 @@ type Case = {
   ) => Promise<{ body: unknown }>;
 };
 
+const roomInput = (query: { roomId: number | string }) => ({
+  roomId: String(query.roomId),
+});
+
 const cases: Array<Case> = [
   {
     name: 'listentogether_status',
@@ -55,7 +59,7 @@ const cases: Array<Case> = [
     bodySchema: ListentogetherSyncPlaylistGetBody,
     call: (upstream, status) =>
       replay(upstream, status).listentogetherSyncPlaylistGet(
-        listentogetherSyncPlaylistGet.query,
+        roomInput(listentogetherSyncPlaylistGet.query),
       ),
   },
   {
@@ -64,7 +68,7 @@ const cases: Array<Case> = [
     bodySchema: ListentogetherSyncPlaylistGetBody,
     call: (upstream, status) =>
       replay(upstream, status).listentogetherSyncPlaylistGet(
-        listentogetherSyncPlaylistGetAnonymous.query,
+        roomInput(listentogetherSyncPlaylistGetAnonymous.query),
       ),
   },
   {
@@ -73,7 +77,7 @@ const cases: Array<Case> = [
     bodySchema: ListentogetherRoomCheckBody,
     call: (upstream, status) =>
       replay(upstream, status).listentogetherRoomCheck(
-        listentogetherRoomCheck.query,
+        roomInput(listentogetherRoomCheck.query),
       ),
   },
   {
@@ -82,7 +86,7 @@ const cases: Array<Case> = [
     bodySchema: ListentogetherRoomCheckBody,
     call: (upstream, status) =>
       replay(upstream, status).listentogetherRoomCheck(
-        listentogetherRoomCheckAnonymous.query,
+        roomInput(listentogetherRoomCheckAnonymous.query),
       ),
   },
   {
@@ -196,7 +200,7 @@ test('listentogether_sync_playlist_get rejects a body whose data is null', async
 
   await expectUpstreamShapeRejection(
     replay(upstream).listentogetherSyncPlaylistGet(
-      listentogetherSyncPlaylistGet.query,
+      roomInput(listentogetherSyncPlaylistGet.query),
     ),
     {
       module: 'listentogether_sync_playlist_get',
@@ -215,7 +219,7 @@ test('listentogether_sync_playlist_get rejects a body without data', async () =>
 
   await expectUpstreamShapeRejection(
     replay(upstream).listentogetherSyncPlaylistGet(
-      listentogetherSyncPlaylistGet.query,
+      roomInput(listentogetherSyncPlaylistGet.query),
     ),
     {
       module: 'listentogether_sync_playlist_get',
@@ -234,7 +238,7 @@ test('listentogether_sync_playlist_get keeps undeclared playlist fields', async 
   upstream.data.currentIndex = 0;
 
   const result = await replay(upstream).listentogetherSyncPlaylistGet(
-    listentogetherSyncPlaylistGet.query,
+    roomInput(listentogetherSyncPlaylistGet.query),
   );
 
   expect(result.body.data).toEqual({
@@ -250,7 +254,9 @@ test('listentogether_room_check rejects a body whose data is null', async () => 
   upstream.data = null;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).listentogetherRoomCheck(listentogetherRoomCheck.query),
+    replay(upstream).listentogetherRoomCheck(
+      roomInput(listentogetherRoomCheck.query),
+    ),
     {
       module: 'listentogether_room_check',
       path: 'body.data',
@@ -267,7 +273,9 @@ test('listentogether_room_check rejects a body without a status', async () => {
   delete (upstream.data as Record<string, unknown>).status;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).listentogetherRoomCheck(listentogetherRoomCheck.query),
+    replay(upstream).listentogetherRoomCheck(
+      roomInput(listentogetherRoomCheck.query),
+    ),
     {
       module: 'listentogether_room_check',
       path: 'body.data.status',
@@ -284,7 +292,9 @@ test('listentogether_room_check rejects a status that is a number', async () => 
   upstream.data.status = 4;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).listentogetherRoomCheck(listentogetherRoomCheck.query),
+    replay(upstream).listentogetherRoomCheck(
+      roomInput(listentogetherRoomCheck.query),
+    ),
     {
       module: 'listentogether_room_check',
       path: 'body.data.status',
@@ -301,7 +311,9 @@ test('listentogether_room_check rejects a joinable flag that is text', async () 
   upstream.data.joinable = 'false';
 
   await expectUpstreamShapeRejection(
-    replay(upstream).listentogetherRoomCheck(listentogetherRoomCheck.query),
+    replay(upstream).listentogetherRoomCheck(
+      roomInput(listentogetherRoomCheck.query),
+    ),
     {
       module: 'listentogether_room_check',
       path: 'body.data.joinable',
@@ -321,7 +333,7 @@ test('listentogether_room_check drops bad loose fields and keeps type', async ()
   upstream.message = 1;
 
   const result = await replay(upstream).listentogetherRoomCheck(
-    listentogetherRoomCheck.query,
+    roomInput(listentogetherRoomCheck.query),
   );
 
   expect(result.body.data).not.toHaveProperty('copywriting');
@@ -338,7 +350,7 @@ test('listentogether_sync_playlist_get drops a bad message', async () => {
   upstream.message = 1;
 
   const result = await replay(upstream).listentogetherSyncPlaylistGet(
-    listentogetherSyncPlaylistGet.query,
+    roomInput(listentogetherSyncPlaylistGet.query),
   );
 
   expect(result.body).not.toHaveProperty('message');
@@ -352,7 +364,7 @@ test('listentogether_sync_playlist_get drops a missing message', async () => {
   delete upstream.message;
 
   const result = await replay(upstream).listentogetherSyncPlaylistGet(
-    listentogetherSyncPlaylistGet.query,
+    roomInput(listentogetherSyncPlaylistGet.query),
   );
 
   expect(result.body).not.toHaveProperty('message');
@@ -455,7 +467,7 @@ test('listentogether_room_check drops a missing loose field', async () => {
   delete upstream.data.copywriting;
 
   const result = await replay(upstream).listentogetherRoomCheck(
-    listentogetherRoomCheck.query,
+    roomInput(listentogetherRoomCheck.query),
   );
 
   expect(result.body.data).not.toHaveProperty('copywriting');

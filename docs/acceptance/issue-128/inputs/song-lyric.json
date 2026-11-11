@@ -2,68 +2,93 @@
   {
     "module": "check_music",
     "actions": ["read"],
-    "current": "IdentifierQuery & { br?: QueryNumberLike; }",
+    "current": "{ id: NumberId; br?: number }",
     "fields": ["br", "id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号; br?: 正整数码率 }",
+    "upstreamEncoding": "ids = \"[\" + String(id) + \"]\"；br = br ?? 999000",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/playback/playability-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 由 QueryIdentifier 收窄为 NumberId；br 由 QueryNumberLike 收窄为正整数，0/负数/非数字字符串被拒绝（旧实现 parseInt 后发送 NaN）。"
   },
   {
     "module": "lyric",
     "actions": ["read"],
-    "current": "{ id?: QueryIdentifier }",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号 }",
+    "upstreamEncoding": "id 原样透传；tv/lv/rv/kv 固定 -1，_nmclfl 固定 1",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/replay/playback/lyric-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 由可选 QueryIdentifier 改为必填 NumberId：文档标必填且模块没有兜底；原先 schema 的可选性与文档不一致。"
   },
   {
     "module": "lyric_new",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号 }",
+    "upstreamEncoding": "id 原样透传；cp=false，tv/lv/rv/kv/yv/ytv/yrv 固定 0",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/replay/playback/playback-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；id 必填。"
   },
   {
     "module": "music_first_listen_info",
     "actions": ["request"],
-    "current": "LegacyModuleInput",
+    "current": "{ id?: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id?: NumberId }",
+    "upstreamEncoding": "songId = id",
+    "evidence": ["tests/behavior/modules/input-contracts/song-lyric.ts"],
+    "status": "migrated",
+    "notes": "id 可选：缺少 id 的录制仍被上游 400 归一成 200 空正文，保留既有归一化分支；提供时用 NumberId。"
   },
   {
     "module": "scrobble",
     "actions": ["play", "start"],
-    "current": "LegacyModuleInput & { source?: string }",
+    "current": "{ id: NumberId; source?: string; sourceid: number; time?: number }",
     "fields": ["id", "source", "sourceid", "time", "ts"],
-    "legacyEncoding": ["JSON.stringify"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "{ id: 歌曲编号; sourceid: 播放来源编号（0 允许）; source?: 来源类型，默认 list; time?: 整数秒 }",
+    "upstreamEncoding": "startplay/play 两条 logs 由业务值构造后 JSON.stringify；source 默认 list",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/behavior/modules/playback/scrobble.test.ts",
+      "tests/replay/playback/playback-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；id 用 NumberId；sourceid 文档明确允许 0，用 NaturalValue 而不是 NumberId；time 用 NaturalValue。logs 原本就是模块内部构造，没有调用者传入的 JSON 串。"
   },
   {
     "module": "song_chorus",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
-    "legacyEncoding": ["JSON.stringify"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "{ id: 歌曲编号 }",
+    "upstreamEncoding": "ids = JSON.stringify([String(id)])",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/playback/lyric-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；ids 由业务编号编码，旧调用者若要传多个 id 不再接受（本模块一直是单曲）。"
   },
   {
     "module": "song_detail",
@@ -78,128 +103,178 @@
       "tests/behavior/modules/special/input-encoding.test.ts"
     ],
     "status": "migrated",
-    "notes": "旧逗号串和单值不再接受；空数组拒绝。"
+    "notes": "前一批已迁移；本批核对无 LegacyModuleInput、无手写类型检查，未改动实现。"
   },
   {
     "module": "song_downlist",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number; offset?: number }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: 非负整数，默认 20; offset?: 非负整数，默认 0 }",
+    "upstreamEncoding": "limit/offset 用 String() 保留十进制文本，total 固定 \"true\"",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/library/library-collection-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；页码/偏移用 NaturalValue（HTTP 字符串可解码），不再接受 \"abc\" 等旧宽松值。"
   },
   {
     "module": "song_download_url",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; br?: number }",
     "fields": ["br", "id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号（仅单曲）; br?: 正整数码率 }",
+    "upstreamEncoding": "id 原样透传；br = br ?? 999000",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/playback/song-url-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput 和手写 primitive 检查；br 收窄为正整数，0 被拒绝（旧实现把 0 当默认值），布尔/对象/NaN 不再进入请求。"
   },
   {
     "module": "song_download_url_v1",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; level: string }",
     "fields": ["id", "level", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号; level: 音质等级 }",
+    "upstreamEncoding": "id/level 原样透传；immerseType 固定 \"c51\"",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/replay/playback/playback-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；level 文档标必填，改为必填；模块不按 level 分支、文档列出的音质名与 song_url_v1 既有字面量集合不一致（dolby），保留 Schema.String 不猜枚举。"
   },
   {
     "module": "song_dynamic_cover",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号 }",
+    "upstreamEncoding": "songId = id",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/replay/playback/playability-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；id 必填。"
   },
   {
     "module": "song_like_check",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ ids: NumberIdList }",
     "fields": ["ids", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ ids: readonly NumberId[] }（非空）",
+    "upstreamEncoding": "trackIds = JSON.stringify(ids.map(String))",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/playback/playability-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；旧输入可以是 JSON 数组串或逗号串并原样透传，现在只接受非空编号数组；空数组由 decoder 在请求前拒绝（上游对空数组的 400 不再可达）。"
   },
   {
     "module": "song_lyrics_mark",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号 }",
+    "upstreamEncoding": "songId = id",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/replay/playback/lyric-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；id 必填。"
   },
   {
     "module": "song_lyrics_mark_add",
     "actions": ["add"],
-    "current": "LegacyModuleInput",
-    "fields": ["data", "id", "markId", "ts"],
+    "current": "{ id: NumberId; markId?: NumberId; marks?: ReadonlyArray<LyricsMark> }",
+    "fields": ["id", "markId", "marks", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号; markId?: 已有摘录编号; marks?: 摘录条目数组（translateType、startTimeStamp、translateLyricsText、originalLyricsText） }",
+    "upstreamEncoding": "markId = markId ?? \"\"；data = JSON.stringify(marks ?? [])",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/writes/reversible-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "data 从原始 JSON 串改为 marks 对象数组；markId 从任意值改为可选 NumberId，新建时省略而不是传空串。四列来自文档示例和录制，额外字段被拒绝；marks 缺省仍编码为 []，与原默认一致。"
   },
   {
     "module": "song_lyrics_mark_del",
     "actions": ["delete"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 摘录歌词编号 }",
+    "upstreamEncoding": "markIds = id",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/replay/writes/reversible-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；id 必填。"
   },
   {
     "module": "song_lyrics_mark_user_page",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number; offset?: number }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: 非负整数，默认 10; offset?: 非负整数，默认 0 }",
+    "upstreamEncoding": "limit = limit || 10；offset = offset || 0（数字）",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/playback/lyric-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；页码/偏移用 NaturalValue，默认值保持代码里的 10/0（文档写 20，按现有代码）。"
   },
   {
     "module": "song_monthdownlist",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number; offset?: number }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: 非负整数，默认 20; offset?: 非负整数，默认 0 }",
+    "upstreamEncoding": "limit/offset 用 String() 保留十进制文本，total 固定 \"true\"",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/library/library-collection-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；页码/偏移用 NaturalValue。"
   },
   {
     "module": "song_music_detail",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号 }",
+    "upstreamEncoding": "songId = id",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/replay/playback/lyric-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；id 必填。"
   },
   {
     "module": "song_order_update",
@@ -213,72 +288,101 @@
       "tests/behavior/modules/input-contracts.test.ts",
       "tests/behavior/modules/special/input-encoding.test.ts"
     ],
-    "status": "migrated"
+    "status": "migrated",
+    "notes": "前一批已迁移；本批核对无 LegacyModuleInput、无手写类型检查，未改动实现。"
   },
   {
     "module": "song_purchased",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number; offset?: number }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: 非负整数，默认 20; offset?: 非负整数，默认 0 }",
+    "upstreamEncoding": "limit = limit || 20；offset = offset || 0（数字）",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/library/library-collection-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；页码/偏移用 NaturalValue，默认值保持 20/0。"
   },
   {
     "module": "song_red_count",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号 }",
+    "upstreamEncoding": "songId = id",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/replay/playback/playability-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；id 必填。"
   },
   {
     "module": "song_singledownlist",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ limit?: number; offset?: number }",
     "fields": ["limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ limit?: 非负整数，默认 20; offset?: 非负整数，默认 0 }",
+    "upstreamEncoding": "limit/offset 用 String() 保留十进制文本，total 固定 \"true\"",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/library/library-collection-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；页码/偏移用 NaturalValue。"
   },
   {
     "module": "song_url",
     "actions": ["read"],
-    "current": "IdentifierQuery & { br?: QueryNumberLike; }",
-    "fields": ["br", "id", "ts"],
-    "legacyEncoding": ["JSON.stringify", "split(',')"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "current": "{ ids: NumberIdList; br?: number }",
+    "fields": ["br", "ids", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ ids: readonly NumberId[] }（非空）; br?: 正整数码率",
+    "upstreamEncoding": "ids = JSON.stringify(ids.map(String))；br = br ?? 999000；返回 data 按请求 ids 顺序重排",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/playback/song-url-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "多 id 业务入口从逗号串 id 改为 ids 编号数组；br 收窄为正整数；重复 id 保留第一次出现位置的既有行为。"
   },
   {
     "module": "song_url_v1",
-    "actions": [],
-    "current": "IdentifierQuery & { level?: | 'standard' | 'higher' | 'exhigh' | 'lossless' | 'hires' | 'jyeffect' | 'sky' | 'jymaster'; }",
-    "fields": ["id", "level", "ts"],
+    "actions": ["read", "sky"],
+    "current": "{ ids: NumberIdList; level: AudioLevel }",
+    "fields": ["ids", "level", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ ids: readonly NumberId[] }（非空）; level: standard|higher|exhigh|lossless|hires|jyeffect|sky|jymaster",
+    "upstreamEncoding": "ids = JSON.stringify(ids.map(String))；encodeType 固定 flac；level=sky 时动作选 sky 并加 immerseType=c51",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts",
+      "tests/replay/playback/playback-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 逗号串改为 ids 编号数组；level 由可选改为必填（文档标必填且模块没有兜底）；枚举沿用既有 8 个音质字面量，未加文档提到但既有实现不接受的 dolby。"
   },
   {
     "module": "song_wiki_summary",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 歌曲编号 }",
+    "upstreamEncoding": "songId = id",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/replay/playback/lyric-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "删除 LegacyModuleInput；id 必填。"
   }
 ]

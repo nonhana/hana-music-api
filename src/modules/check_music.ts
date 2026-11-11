@@ -3,8 +3,8 @@ import { Effect, Schema } from 'effect';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
+  IntegerValue,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -15,18 +15,16 @@ import {
 } from '../core/upstream-body.ts';
 import { isRecord } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  IdentifierQuery,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 
-export type ModuleInput = IdentifierQuery & {
-  br?: QueryNumberLike;
+export type ModuleInput = {
+  br?: number;
+  id: NumberId;
 };
 
+// 码率是正整数；旧实现把非法值 parseInt 成 NaN，这里直接拒绝。
 const inputSchema = Schema.Struct({
-  id: Identifier,
-  br: Schema.optional(QueryNumber),
+  id: NumberId,
+  br: Schema.optional(IntegerValue.check(Schema.isGreaterThan(0))),
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -67,8 +65,8 @@ const checkMusic: ModuleEffect<
   Effect.gen(function* () {
     const response = yield* request('read', {
       data: {
-        ids: '[' + parseInt(String(query.id ?? 0), 10) + ']',
-        br: parseInt(String(query.br ?? 999000), 10),
+        ids: '[' + String(query.id) + ']',
+        br: query.br ?? 999000,
       },
     });
     const upstream = yield* decodeUpstreamBody(

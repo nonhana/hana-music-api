@@ -1,6 +1,11 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  IntegerValue,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -10,7 +15,21 @@ import {
 } from '../core/upstream-body.ts';
 import { CommentRecord, CommentUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  uid: NumberId;
+  limit?: NaturalValue;
+  before?: IntegerValue;
+};
+
+const inputSchema = Schema.Struct({
+  uid: NumberId,
+  limit: Schema.optional(NaturalValue),
+  before: Schema.optional(IntegerValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -60,17 +79,6 @@ const msgComments: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    if (
-      query.uid !== undefined &&
-      query.uid !== null &&
-      typeof query.uid !== 'string' &&
-      typeof query.uid !== 'number' &&
-      typeof query.uid !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'uid must be a primitive value',
-      });
-    }
     const data = {
       beforeTime: query.before || '-1',
       limit: query.limit || 30,
@@ -93,7 +101,3 @@ const msgComments: ModuleEffect<
  * 评论
  */
 export default msgComments;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

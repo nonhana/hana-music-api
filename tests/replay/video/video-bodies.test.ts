@@ -571,13 +571,15 @@ test('video_detail_info rejects a non-primitive vid locally without calling upst
     },
   });
 
-  expect(await settle(api.videoDetailInfo({ vid: {} }))).toEqual({
-    rejected: {
-      status: 400,
-      cookie: [],
-      body: { code: 400, msg: 'vid must be a primitive value' },
+  expect(await settle(api.videoDetailInfo({ vid: {} } as never))).toMatchObject(
+    {
+      rejected: {
+        status: 400,
+        cookie: [],
+        body: { code: 400, msg: expect.stringContaining('Expected string') },
+      },
     },
-  });
+  );
   expect(requests).toBe(0);
 });
 

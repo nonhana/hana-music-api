@@ -1,5 +1,11 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  IntegerValue,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +15,21 @@ import {
 } from '../core/upstream-body.ts';
 import { PlaylistUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  id: NumberId;
+  limit?: number;
+  time?: number;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  limit: Schema.optional(NaturalValue),
+  time: Schema.optional(IntegerValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -65,7 +85,3 @@ const djSubscriber: ModuleEffect<
  * 电台详情
  */
 export default djSubscriber;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

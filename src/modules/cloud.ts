@@ -13,7 +13,6 @@ import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
 import uploadSongPlugin, { songUploadActions } from '../plugins/song-upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyUploadedFile } from '../types/module-shared.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -49,7 +48,7 @@ export const moduleActions = {
 } as const satisfies ModuleActions;
 
 export type ModuleInput = {
-  songFile?: LegacyUploadedFile;
+  songFile?: typeof UploadedFile.Type;
 };
 
 const inputSchema = Schema.Struct({

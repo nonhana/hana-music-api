@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,21 @@ import {
 } from '../core/upstream-body.ts';
 import { PlaylistUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  limit?: number;
+  offset?: number;
+  type?: 'hot' | 'new';
+};
+
+const inputSchema = Schema.Struct({
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  type: Schema.optional(Schema.Literals(['hot', 'new'])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -52,9 +70,6 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const resolveDjToplistType = (value: unknown): 0 | 1 =>
-  value === 'hot' ? 1 : 0;
-
 const djToplist: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,
   request,
@@ -63,7 +78,7 @@ const djToplist: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
     const data = {
       limit: query.limit || 100,
       offset: query.offset || 0,
-      type: resolveDjToplistType(query.type), //0为新晋,1为热门
+      type: query.type === 'hot' ? 1 : 0, //0为新晋,1为热门
     };
     const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('dj_toplist', ModuleBody, response);
@@ -74,7 +89,3 @@ const djToplist: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 新晋电台榜/热门电台榜
  */
 export default djToplist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -30,6 +30,20 @@ import songWikiSummaryActions from '../../fixtures/netease/lyric/song_wiki_summa
 import songWikiSummaryDefault from '../../fixtures/netease/lyric/song_wiki_summary.default.json';
 import songWikiSummaryUnknown from '../../fixtures/netease/lyric/song_wiki_summary.unknown.json';
 
+// 录制保存的是当次业务 query（都是单 id 或分页默认值），回放时换成新的业务输入。
+const idInput = (recording: Recording) => ({
+  id: String(recording.query.id),
+});
+
+const pageInput = (recording: Recording) => ({
+  ...(recording.query.limit === undefined
+    ? {}
+    : { limit: Number(recording.query.limit) }),
+  ...(recording.query.offset === undefined
+    ? {}
+    : { offset: Number(recording.query.offset) }),
+});
+
 // issue #102 B4 的匿名录制；本次登录对照未发现结构差异，登录录制没有保留。
 type Case = {
   readonly name: string;
@@ -47,83 +61,84 @@ const cases: Array<Case> = [
     recording: lyricAllForms,
     bodySchema: LyricBody,
     call: (upstream, status) =>
-      replay(upstream, status).lyric(lyricAllForms.query),
+      replay(upstream, status).lyric(idInput(lyricAllForms)),
   },
   {
     name: 'lyric for a song whose translation and romaji are empty',
     recording: lyricCn,
     bodySchema: LyricBody,
-    call: (upstream, status) => replay(upstream, status).lyric(lyricCn.query),
+    call: (upstream, status) =>
+      replay(upstream, status).lyric(idInput(lyricCn)),
   },
   {
     name: 'lyric for a pure music track',
     recording: lyricPureMusic,
     bodySchema: LyricBody,
     call: (upstream, status) =>
-      replay(upstream, status).lyric(lyricPureMusic.query),
+      replay(upstream, status).lyric(idInput(lyricPureMusic)),
   },
   {
     name: 'lyric for an uncollected song',
     recording: lyricUncollected,
     bodySchema: LyricBody,
     call: (upstream, status) =>
-      replay(upstream, status).lyric(lyricUncollected.query),
+      replay(upstream, status).lyric(idInput(lyricUncollected)),
   },
   {
     name: 'lyric with a lyric contributor',
     recording: lyricLyricUser,
     bodySchema: LyricBody,
     call: (upstream, status) =>
-      replay(upstream, status).lyric(lyricLyricUser.query),
+      replay(upstream, status).lyric(idInput(lyricLyricUser)),
   },
   {
     name: 'song_chorus',
     recording: songChorusDefault,
     bodySchema: SongChorusBody,
     call: (upstream, status) =>
-      replay(upstream, status).songChorus(songChorusDefault.query),
+      replay(upstream, status).songChorus(idInput(songChorusDefault)),
   },
   {
     name: 'song_chorus without chorus info',
     recording: songChorusEmpty,
     bodySchema: SongChorusBody,
     call: (upstream, status) =>
-      replay(upstream, status).songChorus(songChorusEmpty.query),
+      replay(upstream, status).songChorus(idInput(songChorusEmpty)),
   },
   {
     name: 'song_music_detail',
     recording: songMusicDetailDefault,
     bodySchema: SongMusicDetailBody,
     call: (upstream, status) =>
-      replay(upstream, status).songMusicDetail(songMusicDetailDefault.query),
+      replay(upstream, status).songMusicDetail(idInput(songMusicDetailDefault)),
   },
   {
     name: 'song_wiki_summary',
     recording: songWikiSummaryDefault,
     bodySchema: SongWikiSummaryBody,
     call: (upstream, status) =>
-      replay(upstream, status).songWikiSummary(songWikiSummaryDefault.query),
+      replay(upstream, status).songWikiSummary(idInput(songWikiSummaryDefault)),
   },
   {
     name: 'song_wiki_summary with button tags',
     recording: songWikiSummaryActions,
     bodySchema: SongWikiSummaryBody,
     call: (upstream, status) =>
-      replay(upstream, status).songWikiSummary(songWikiSummaryActions.query),
+      replay(upstream, status).songWikiSummary(idInput(songWikiSummaryActions)),
   },
   {
     name: 'song_wiki_summary for an unknown song',
     recording: songWikiSummaryUnknown,
     bodySchema: SongWikiSummaryBody,
     call: (upstream, status) =>
-      replay(upstream, status).songWikiSummary(songWikiSummaryUnknown.query),
+      replay(upstream, status).songWikiSummary(idInput(songWikiSummaryUnknown)),
   },
   {
     name: 'song_lyrics_mark without marks',
     recording: songLyricsMarkEmpty,
     bodySchema: SongLyricsMarkBody,
     call: (upstream, status) =>
-      replay(upstream, status).songLyricsMark(songLyricsMarkEmpty.query),
+      replay(upstream, status).songLyricsMark(idInput(songLyricsMarkEmpty)),
   },
   {
     name: 'song_lyrics_mark_user_page without marks',
@@ -131,7 +146,7 @@ const cases: Array<Case> = [
     bodySchema: SongLyricsMarkUserPageBody,
     call: (upstream, status) =>
       replay(upstream, status).songLyricsMarkUserPage(
-        songLyricsMarkUserPageEmpty.query,
+        pageInput(songLyricsMarkUserPageEmpty),
       ),
   },
 ];
@@ -156,7 +171,7 @@ test('song_music_detail passes an unknown song code through', async () => {
   expect(
     await settle(
       replay(songMusicDetailUnknown.response.body).songMusicDetail(
-        songMusicDetailUnknown.query,
+        idInput(songMusicDetailUnknown),
       ),
     ),
   ).toEqual({
@@ -197,7 +212,7 @@ test('lyric rejects a body without lrc', async () => {
   delete upstream.lrc;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).lyric(lyricAllForms.query),
+    replay(upstream).lyric(idInput(lyricAllForms)),
     {
       module: 'lyric',
       path: 'body.lrc',
@@ -214,7 +229,7 @@ test('lyric rejects a lyric text that is not a string', async () => {
   upstream.lrc.lyric = 29;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).lyric(lyricAllForms.query),
+    replay(upstream).lyric(idInput(lyricAllForms)),
     {
       module: 'lyric',
       path: 'body.lrc.lyric',
@@ -234,7 +249,7 @@ test('lyric drops a bad lyric form and keeps undeclared fields', async () => {
   upstream.sgc = 'no';
   upstream.lrc.offset = 0;
 
-  const result = await replay(upstream).lyric(lyricAllForms.query);
+  const result = await replay(upstream).lyric(idInput(lyricAllForms));
 
   expect(result.body as unknown).not.toHaveProperty('tlyric');
   expect(result.body as unknown).not.toHaveProperty('sgc');
@@ -250,7 +265,7 @@ test('lyric keeps a null loose flag', async () => {
   upstream.needDesc = null;
   delete upstream.pureMusic;
 
-  const result = await replay(upstream).lyric(lyricPureMusic.query);
+  const result = await replay(upstream).lyric(idInput(lyricPureMusic));
 
   expect(result.body.needDesc as unknown).toBeNull();
   expect(result.body as unknown).not.toHaveProperty('pureMusic');
@@ -264,7 +279,7 @@ test('song_chorus rejects a body without its chorus list', async () => {
   delete upstream.chorus;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songChorus(songChorusDefault.query),
+    replay(upstream).songChorus(idInput(songChorusDefault)),
     {
       module: 'song_chorus',
       path: 'body.chorus',
@@ -281,7 +296,7 @@ test('song_chorus rejects a chorus record without an id', async () => {
   delete upstream.chorus[0]!.id;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songChorus(songChorusDefault.query),
+    replay(upstream).songChorus(idInput(songChorusDefault)),
     {
       module: 'song_chorus',
       path: 'body.chorus[0].id',
@@ -298,7 +313,7 @@ test('song_chorus rejects a data block that is not an array', async () => {
   upstream.data = {};
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songChorus(songChorusDefault.query),
+    replay(upstream).songChorus(idInput(songChorusDefault)),
     {
       module: 'song_chorus',
       path: 'body.data',
@@ -315,7 +330,7 @@ test('song_chorus drops a bad time range and keeps undeclared fields', async () 
   upstream.chorus[0]!.startTime = '58';
   upstream.chorus[0]!.confidence = 0.9;
 
-  const result = await replay(upstream).songChorus(songChorusDefault.query);
+  const result = await replay(upstream).songChorus(idInput(songChorusDefault));
 
   expect(result.body.chorus[0] as unknown).not.toHaveProperty('startTime');
   expect(result.body.chorus[0]).toHaveProperty('confidence', 0.9);
@@ -331,7 +346,7 @@ test('song_music_detail rejects a body without detail data', async () => {
   delete upstream.data;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songMusicDetail(songMusicDetailDefault.query),
+    replay(upstream).songMusicDetail(idInput(songMusicDetailDefault)),
     {
       module: 'song_music_detail',
       path: 'body.data',
@@ -348,7 +363,7 @@ test('song_music_detail rejects a detail record whose songId is text', async () 
   upstream.data.songId = '1466598056';
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songMusicDetail(songMusicDetailDefault.query),
+    replay(upstream).songMusicDetail(idInput(songMusicDetailDefault)),
     {
       module: 'song_music_detail',
       path: 'body.data.songId',
@@ -369,7 +384,7 @@ test('song_music_detail drops bad quality records and keeps undeclared fields', 
   upstream.error = 'false';
 
   const result = await replay(upstream).songMusicDetail(
-    songMusicDetailDefault.query,
+    idInput(songMusicDetailDefault),
   );
 
   expect(result.body.data as unknown).not.toHaveProperty('h');
@@ -386,7 +401,7 @@ test('song_wiki_summary rejects a body without wiki data', async () => {
   delete upstream.data;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songWikiSummary(songWikiSummaryDefault.query),
+    replay(upstream).songWikiSummary(idInput(songWikiSummaryDefault)),
     {
       module: 'song_wiki_summary',
       path: 'body.data',
@@ -403,7 +418,7 @@ test('song_wiki_summary rejects blocks that are not an array', async () => {
   upstream.data.blocks = {};
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songWikiSummary(songWikiSummaryDefault.query),
+    replay(upstream).songWikiSummary(idInput(songWikiSummaryDefault)),
     {
       module: 'song_wiki_summary',
       path: 'body.data.blocks',
@@ -420,7 +435,7 @@ test('song_wiki_summary rejects a block without its string id', async () => {
   delete upstream.data.blocks[0]!.id;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songWikiSummary(songWikiSummaryDefault.query),
+    replay(upstream).songWikiSummary(idInput(songWikiSummaryDefault)),
     {
       module: 'song_wiki_summary',
       path: 'body.data.blocks[0].id',
@@ -437,7 +452,7 @@ test('song_wiki_summary rejects a block id that is not a string', async () => {
   upstream.data.blocks[0]!.id = 35999;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songWikiSummary(songWikiSummaryDefault.query),
+    replay(upstream).songWikiSummary(idInput(songWikiSummaryDefault)),
     {
       module: 'song_wiki_summary',
       path: 'body.data.blocks[0].id',
@@ -463,7 +478,7 @@ test('song_wiki_summary drops bad block fields and keeps undeclared fields', asy
   upstream.data.hasMore = 'false';
 
   const result = await replay(upstream).songWikiSummary(
-    songWikiSummaryDefault.query,
+    idInput(songWikiSummaryDefault),
   );
 
   expect(
@@ -492,7 +507,7 @@ test('song_lyrics_mark rejects a body without its data object', async () => {
   delete upstream.data;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songLyricsMark(songLyricsMarkEmpty.query),
+    replay(upstream).songLyricsMark(idInput(songLyricsMarkEmpty)),
     {
       module: 'song_lyrics_mark',
       path: 'body.data',
@@ -509,7 +524,7 @@ test('song_lyrics_mark rejects a null data object', async () => {
   upstream.data = null;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songLyricsMark(songLyricsMarkEmpty.query),
+    replay(upstream).songLyricsMark(idInput(songLyricsMarkEmpty)),
     {
       module: 'song_lyrics_mark',
       path: 'body.data',
@@ -528,7 +543,7 @@ test('song_lyrics_mark drops a bad message and keeps undeclared fields', async (
   upstream.data.markVOList = [{ markId: 'm1' }];
 
   const result = await replay(upstream).songLyricsMark(
-    songLyricsMarkEmpty.query,
+    idInput(songLyricsMarkEmpty),
   );
 
   expect(result.body as unknown).not.toHaveProperty('message');
@@ -542,7 +557,9 @@ test('song_lyrics_mark_user_page rejects a data block that is not an object', as
   upstream.data = [];
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songLyricsMarkUserPage(songLyricsMarkUserPageEmpty.query),
+    replay(upstream).songLyricsMarkUserPage(
+      pageInput(songLyricsMarkUserPageEmpty),
+    ),
     {
       module: 'song_lyrics_mark_user_page',
       path: 'body.data',
@@ -561,7 +578,7 @@ test('song_lyrics_mark_user_page drops bad pagination and keeps undeclared field
   upstream.data.markVOList = [{ markId: 'm1' }];
 
   const result = await replay(upstream).songLyricsMarkUserPage(
-    songLyricsMarkUserPageEmpty.query,
+    pageInput(songLyricsMarkUserPageEmpty),
   );
 
   expect(result.body.data as unknown).not.toHaveProperty('offset');

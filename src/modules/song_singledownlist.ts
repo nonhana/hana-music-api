@@ -1,10 +1,23 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { limit?: number; offset?: number };
+
+const inputSchema = Schema.Struct({
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 只收紧返回码；已购买单曲列表 `info` 在录制里只有空数组、元素类型未知，未声明并由 `UpstreamObject` 原样保留。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -31,8 +44,8 @@ const songSingledownlist: ModuleEffect<
 > = (query, request) =>
   Effect.gen(function* () {
     const data = {
-      limit: query.limit || '20',
-      offset: query.offset || '0',
+      limit: String(query.limit || 20),
+      offset: String(query.offset || 0),
       total: 'true',
     };
     const response = yield* request('read', { data });
@@ -48,7 +61,3 @@ const songSingledownlist: ModuleEffect<
  * 已购买单曲
  */
 export default songSingledownlist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

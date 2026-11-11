@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -13,7 +17,6 @@ import {
   MlogSong,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -24,6 +27,17 @@ export const moduleActions = {
     retry: 'connect',
   },
 } as const satisfies ModuleActions;
+
+// mlog id 是不透明字符串（如 a1PvyoDUbEJmk0），不是数字编号。
+export type ModuleInput = { id: string; res?: NaturalValue };
+
+const inputSchema = Schema.Struct({
+  id: Schema.String,
+  res: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const MlogCoverImage = UpstreamObject({
   height: Loose(Schema.Finite),
@@ -179,13 +193,13 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 export type ModuleBody = typeof ModuleBody.Type;
 
 const mlogUrl: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
-  query,
+  input,
   request,
 ) =>
   Effect.gen(function* () {
     const data = {
-      id: query.id,
-      resolution: query.res || 1080,
+      id: input.id,
+      resolution: input.res || 1080,
       type: 1,
     };
     const response = yield* request('request', { data });
@@ -197,7 +211,3 @@ const mlogUrl: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * mlog链接
  */
 export default mlogUrl;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

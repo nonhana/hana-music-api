@@ -4,6 +4,7 @@ import {
   decodeModuleInput as decodeInput,
   EmptyInput,
 } from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { SERVICE_VERSION } from '../core/service-metadata.ts';
 import { UpstreamObject } from '../core/upstream-body.ts';
@@ -11,7 +12,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {} as const satisfies ModuleActions;
 
-export type ModuleInput = Record<never, never>;
+export type ModuleInput = NoInput;
 
 const inputSchema = EmptyInput;
 

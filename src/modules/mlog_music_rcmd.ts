@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,6 @@ import {
 } from '../core/upstream-body.ts';
 import { AvatarDetail, MlogSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -20,6 +24,21 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  songid: NumberId;
+  mvid?: NumberId;
+  limit?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  songid: NumberId,
+  mvid: Schema.optional(NumberId),
+  limit: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const MlogImage = UpstreamObject({
   height: Loose(Schema.Finite),
@@ -136,14 +155,14 @@ const mlogMusicRcmd: ModuleEffect<
   ModuleInput,
   ModuleBody,
   typeof moduleActions
-> = (query, request) =>
+> = (input, request) =>
   Effect.gen(function* () {
     const data = {
-      id: query.mvid || 0,
+      id: input.mvid === undefined ? 0 : String(input.mvid),
       type: 2,
       rcmdType: 20,
-      limit: query.limit || 10,
-      extInfo: JSON.stringify({ songId: query.songid }),
+      limit: input.limit || 10,
+      extInfo: JSON.stringify({ songId: String(input.songid) }),
     };
     const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
@@ -158,7 +177,3 @@ const mlogMusicRcmd: ModuleEffect<
  * 歌曲相关视频
  */
 export default mlogMusicRcmd;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

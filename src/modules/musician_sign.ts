@@ -1,9 +1,13 @@
 import { Effect } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -15,6 +19,13 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = NoInput;
+
+const inputSchema = EmptyInput;
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
 
 const musicianSign: ModuleEffect<
   ModuleInput,
@@ -31,7 +42,3 @@ const musicianSign: ModuleEffect<
  * 音乐人签到
  */
 export default musicianSign;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

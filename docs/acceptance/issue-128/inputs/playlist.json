@@ -2,117 +2,165 @@
   {
     "module": "playlist_catlist",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput（EmptyInput）",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
+    "businessInput": "无参数",
     "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "无参数；任何字段由 decoder 拒绝。"
   },
   {
     "module": "playlist_cover_update",
-    "actions": [],
-    "current": "{ imgFile?: LegacyUploadedFile; imgId?: QueryIdentifier; id?: QueryIdentifier; }",
+    "actions": ["imageAllocate", "imageUpload", "submit"],
+    "current": "{ id: NumberId; imgFile?: UploadedFile; imgId?: string | number }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; imgFile?: UploadedFile; imgId?: string | number }",
+    "upstreamEncoding": "coverImgId = 上传结果 imgId 或调用方的 imgId；imgFile 由上传插件处理",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 按文档改为必填；imgId 与上传凭证 docId 同型（string | number）；imgFile 与 imgId 互斥及至少一项仍由模块返回 400。"
   },
   {
     "module": "playlist_create",
     "actions": ["create"],
-    "current": "LegacyModuleInput",
+    "current": "{ name: string; privacy?: 0 | 10; type?: 'NORMAL' | 'VIDEO' | 'SHARED' }",
     "fields": ["name", "privacy", "ts", "type"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ name: string; privacy?: 0 | 10; type?: 'NORMAL' | 'VIDEO' | 'SHARED' }",
+    "upstreamEncoding": "privacy = privacy || '0'；type = type || 'NORMAL'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "privacy 按文档为 0/10，type 按文档为 NORMAL/VIDEO/SHARED；未传时保持原 '0'/'NORMAL' 默认。"
   },
   {
     "module": "playlist_delete",
     "actions": ["remove"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: 编号或非空编号数组 }",
+    "upstreamEncoding": "ids = '[' + ids.map(String).join(',') + ']'；单个 id 与数组都支持",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 接受单编号或非空编号数组，保留批量删除能力；逗号串、空数组、0 在发送前拒绝。"
   },
   {
     "module": "playlist_desc_update",
     "actions": ["update"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; desc: string }",
     "fields": ["desc", "id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; desc: string }",
+    "upstreamEncoding": "{ id, desc } 原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "空字符串仍表示清空描述。"
   },
   {
     "module": "playlist_detail",
     "actions": ["read"],
-    "current": "IdentifierQuery & { s?: QueryNumberLike; }",
+    "current": "{ id: NumberId; s?: NaturalValue }",
     "fields": ["id", "s", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; s?: number }",
+    "upstreamEncoding": "{ id, n: 100000, s: s || 8 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "s 接受数字或数字字符串并解码为 number；0 仍回退默认 8。"
   },
   {
     "module": "playlist_detail_dynamic",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; s?: NaturalValue }",
     "fields": ["id", "s", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; s?: number }",
+    "upstreamEncoding": "{ id, n: 100000, s: s || 8 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "s 接受数字或数字字符串并解码为 number；0 仍回退默认 8。"
   },
   {
     "module": "playlist_detail_rcmd_get",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId }",
+    "upstreamEncoding": "{ scene: 'playlist_head', playlistId: id, newStyle: 'true' }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 原样作为 playlistId。"
   },
   {
     "module": "playlist_highquality_tags",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput（EmptyInput）",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
+    "businessInput": "无参数",
     "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "无参数；任何字段由 decoder 拒绝。"
   },
   {
     "module": "playlist_hot",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput（EmptyInput）",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
+    "businessInput": "无参数",
     "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "无参数；任何字段由 decoder 拒绝。"
   },
   {
     "module": "playlist_import_name_task_create",
-    "actions": [],
-    "current": "LegacyModuleInput",
+    "actions": ["local", "text", "link", "empty"],
+    "current": "{ importStarPlaylist?: BooleanValue; link?: readonly string[]; local?: readonly { album?: string; artist?: string; name?: string }[]; playlistName?: string; text?: string }",
     "fields": [
       "importStarPlaylist",
       "link",
@@ -121,44 +169,67 @@
       "text",
       "ts"
     ],
-    "legacyEncoding": ["JSON.stringify"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "{ importStarPlaylist?: boolean; link?: readonly string[]; local?: readonly { album?: string; artist?: string; name?: string }[]; playlistName?: string; text?: string }",
+    "upstreamEncoding": "local → multiSongs = JSON.stringify([{ songName, artistName, albumName }])；text → songs = JSON.stringify([{ name: playlistName, type: '', url: encodeURI('rpc://playlist/import?text=' + text) }])；link → 同样的 songs 数组逐条 encodeURI",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "local/link 只接受结构化数组，旧 JSON 字符串拒绝；local 条目字段沿用旧可选性，未声明字段拒绝；三种方式都缺仍保持 empty 动作；importStarPlaylist 接受布尔及 'true'/'false'/'0'/'1' 并解码为布尔。"
   },
   {
     "module": "playlist_import_task_status",
     "actions": ["poll"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
-    "legacyEncoding": ["JSON.stringify"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId }",
+    "upstreamEncoding": "taskIds = JSON.stringify([String(id)])",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts",
+      "tests/replay/playlist/playlist-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 按文档改为必填；旧实现直接放入 id 的 taskIds JSON 现在统一编码为十进制字符串。"
   },
   {
     "module": "playlist_mylike",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ time?: IntegerValue; limit?: NaturalValue }",
     "fields": ["limit", "time", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ time?: number; limit?: number }",
+    "upstreamEncoding": "{ time: time || '-1', limit: limit || '12' }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "time 保留 -1 哨兵用 IntegerValue；limit 非负；默认值仍是原字符串 '-1'/'12'。"
   },
   {
     "module": "playlist_name_update",
     "actions": ["update"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; name: string }",
     "fields": ["id", "name", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; name: string }",
+    "upstreamEncoding": "{ id, name } 原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "空字符串仍原样发送。"
   },
   {
     "module": "playlist_order_update",
@@ -170,6 +241,7 @@
     "upstreamEncoding": "ids = JSON.stringify(ids.map(String))",
     "evidence": [
       "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
       "tests/behavior/modules/special/input-encoding.test.ts"
     ],
     "status": "migrated"
@@ -177,35 +249,52 @@
   {
     "module": "playlist_privacy",
     "actions": ["update"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId }",
+    "upstreamEncoding": "{ id, privacy: 0 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "隐私字段固定为 0，不由调用方传入。"
   },
   {
     "module": "playlist_subscribe",
-    "actions": [],
-    "current": "LegacyModuleInput",
+    "actions": ["subscribe", "unsubscribe"],
+    "current": "{ id: NumberId; t: 0 | 1 | 2 }",
     "fields": ["id", "t", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; t: 0 | 1 | 2 }",
+    "upstreamEncoding": "t === 1 → subscribe 动作，0/2 → unsubscribe；data = { id }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts",
+      "tests/replay/playlist/subscribe.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "文档写 t=2 取消收藏，历史录制及旧客户端用 t=0；两者都保留，t 必填，其他值拒绝。"
   },
   {
     "module": "playlist_subscribers",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue }",
     "fields": ["id", "limit", "offset", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; limit?: number; offset?: number }",
+    "upstreamEncoding": "{ id, limit: limit || 20, offset: offset || 0 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit/offset 非负；0 仍回退默认 20/0。"
   },
   {
     "module": "playlist_tags_update",
@@ -217,6 +306,7 @@
     "upstreamEncoding": "tags = tags.join(';')",
     "evidence": [
       "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
       "tests/behavior/modules/special/input-encoding.test.ts"
     ],
     "status": "migrated"
@@ -224,35 +314,55 @@
   {
     "module": "playlist_track_add",
     "actions": ["add"],
-    "current": "LegacyModuleInput",
+    "current": "{ pid: NumberId; ids: NumberIdList }",
     "fields": ["ids", "pid", "ts"],
-    "legacyEncoding": ["JSON.stringify", "split(',')"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "{ pid: NumberId; ids: readonly NumberId[] }（非空）",
+    "upstreamEncoding": "id = pid；tracks = JSON.stringify(ids.map((id) => ({ type: 3, id: String(id) })))",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts",
+      "tests/replay/playlist/playlist-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "ids 改为非空编号数组；旧逗号串与单值拒绝，编码出的 {type:3,id} JSON 与旧实现一致。"
   },
   {
     "module": "playlist_track_all",
     "actions": ["playlist", "songs"],
-    "current": "IdentifierQuery & { s?: QueryNumberLike; limit?: QueryNumberLike; offset?: QueryNumberLike; }",
+    "current": "{ id: NumberId; s?: NaturalValue; limit?: NaturalValue; offset?: NaturalValue }",
     "fields": ["id", "limit", "offset", "s", "ts"],
-    "legacyEncoding": ["join(',')"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; s?: number; limit?: number; offset?: number }",
+    "upstreamEncoding": "playlist: { id, n: 100000, s: s || 8 }；songs: c = JSON.stringify(trackIds.slice(offset, offset + limit).map((id) => ({ id })))",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "id/limit/offset/s 改为业务数字；limit=0 仍回退 1000，offset 默认 0；trackIds 切片与两次请求逻辑未改。"
   },
   {
     "module": "playlist_track_delete",
     "actions": ["delete"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; ids: NumberIdList }",
     "fields": ["id", "ids", "ts"],
-    "legacyEncoding": ["JSON.stringify", "split(',')"],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; ids: readonly NumberId[] }（非空）",
+    "upstreamEncoding": "id = id；tracks = JSON.stringify(ids.map((id) => ({ type: 3, id: String(id) })))",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts",
+      "tests/replay/playlist/playlist-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "ids 改为非空编号数组；歌单字段沿用模块原本读取的 id（文档必选 pid 与实现不一致），旧逗号串与单值拒绝。"
   },
   {
     "module": "playlist_tracks",
@@ -264,42 +374,58 @@
     "upstreamEncoding": "trackIds = JSON.stringify(ids.map(String))；512 时重复原数组再编码一次",
     "evidence": [
       "tests/behavior/modules/input-contracts.test.ts",
-      "tests/behavior/modules/special/input-encoding.test.ts",
-      "tests/behavior/modules/special/special-chains.test.ts"
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/special/input-encoding.test.ts"
     ],
     "status": "migrated"
   },
   {
     "module": "playlist_update",
     "actions": ["batch"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId; name: string; desc?: string; tags?: readonly string[] }",
     "fields": ["desc", "id", "name", "tags", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId; name: string; desc?: string; tags?: readonly string[] }（空数组清空；成员非空且不含分号）",
+    "upstreamEncoding": "batch 三个字符串：{\"id\":<十进制 id>,\"desc\":<JSON 字符串>}、{\"id\":...,\"tags\":<分号 join 后的 JSON 字符串>}、{\"id\":...,\"name\":<JSON 字符串>}；desc/tags 缺省仍编码为空字符串",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts",
+      "tests/replay/playlist/playlist-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "tags 改为字符串数组并按分号 join；name 按文档改为必填；id 仍以十进制数字文本插入 batch JSON，字符串字段改为 JSON 转义。"
   },
   {
     "module": "playlist_update_playcount",
     "actions": ["report"],
-    "current": "LegacyModuleInput",
+    "current": "{ id: NumberId }",
     "fields": ["id", "ts"],
     "legacyEncoding": [],
-    "businessInput": "",
-    "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "businessInput": "{ id: NumberId }",
+    "upstreamEncoding": "{ id } 原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/replay/playlist/playlist-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 按文档改为必填；上游 HTTP 400 归一成空正文的分支保留。"
   },
   {
     "module": "playlist_video_recent",
     "actions": ["read"],
-    "current": "LegacyModuleInput",
+    "current": "NoInput（EmptyInput）",
     "fields": ["ts"],
     "legacyEncoding": [],
-    "businessInput": "",
+    "businessInput": "无参数",
     "upstreamEncoding": "",
-    "evidence": [],
-    "status": "pending"
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ],
+    "status": "migrated",
+    "notes": "无参数；任何字段由 decoder 拒绝。"
   }
 ]

@@ -1,16 +1,32 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 接口只返回返回码，收紧的是返回码。
 export const ModuleBody = Schema.toStandardSchemaV1(
   UpstreamObject({ code: Schema.Literal(200) }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
+
+export type ModuleInput = {
+  id: NumberId;
+  name: string;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  name: Schema.String,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   update: {
@@ -47,7 +63,3 @@ const playlistNameUpdate: ModuleEffect<
  * 更新歌单名
  */
 export default playlistNameUpdate;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

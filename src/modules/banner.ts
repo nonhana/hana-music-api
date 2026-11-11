@@ -1,6 +1,9 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -10,7 +13,16 @@ import {
 } from '../core/upstream-body.ts';
 import { LooseSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// `type` 的 0–3 由文档和 `clientType` 映射穷举，SDK 编码成上游的客户端名。
+export type ModuleInput = { type?: 0 | 1 | 2 | 3 };
+
+const inputSchema = Schema.Struct({
+  type: Schema.optional(NumberLiterals([0, 1, 2, 3])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // PC 和移动端轮播图共用 `targetId`/`targetType`/`typeTitle`/`url`/`s_ctrp`；
 // `imageUrl`/`bigImageUrl` 只在 PC 出现，`bannerId`/`pic`/`encodeId`/`showAdTag`/`titleColor`/`bannerBizType`/`exclusive`/`alg`/`scm`/`requestId` 只在移动端出现，都按宽松字段声明。
@@ -60,27 +72,11 @@ const banner: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   request,
 ) =>
   Effect.gen(function* () {
-    if (
-      query.type !== undefined &&
-      query.type !== null &&
-      typeof query.type !== 'string' &&
-      typeof query.type !== 'number' &&
-      typeof query.type !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'type must be a primitive value',
-      });
-    }
-    const clientTypeMap: Record<string, string> = {
-      0: 'pc',
-      1: 'android',
-      2: 'iphone',
-      3: 'ipad',
-    };
-    const type = clientTypeMap[String(query.type ?? 0)] || 'pc';
+    const clientTypes = ['pc', 'android', 'iphone', 'ipad'] as const;
+    const clientType = clientTypes[query.type ?? 0];
     const response = yield* request('read', {
       data: {
-        clientType: type,
+        clientType,
       },
     });
     const body = yield* decodeUpstreamBody('banner', ModuleBody, response);
@@ -91,7 +87,3 @@ const banner: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 首页轮播图
  */
 export default banner;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

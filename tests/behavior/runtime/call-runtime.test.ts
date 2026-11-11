@@ -6,7 +6,7 @@ import { TestClock } from 'effect/testing';
 import { createHanaMusicApi } from '../../../index.ts';
 import type { SearchBody } from '../../../index.ts';
 import { buildCallServices, Call, runCall } from '../../../src/core/call.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import { getRuntimeState, setRuntimeState } from '../../../src/core/runtime.ts';
 import registerAnonymous, {
   moduleActions as anonymousActions,
@@ -158,7 +158,7 @@ describe('real kernel request budgets', () => {
                 identifier: 'voice_upload',
                 actions: voiceUploadActions,
                 route: '/voice/upload',
-                decodeInput: decodeLegacyModuleInput,
+                decodeInput: decodeModuleObject,
                 execute: (input, request) =>
                   voiceUpload(input, request).pipe(
                     Effect.onExit((exit) =>
@@ -268,7 +268,7 @@ describe('real kernel request budgets', () => {
               actions: probeWriteActions,
               identifier: 'like',
               route: '/like',
-              decodeInput: decodeLegacyModuleInput,
+              decodeInput: decodeModuleObject,
               execute: (_input, request) =>
                 Effect.gen(function* () {
                   yield* Effect.sleep(10_000);
@@ -355,7 +355,7 @@ describe('call lifecycle', () => {
         actions: probeWriteActions,
         identifier: 'captcha_verify',
         route: '/test',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject as never,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
           Effect.gen(function* () {
             state.deviceId = 'changed';
@@ -374,7 +374,7 @@ describe('call lifecycle', () => {
           }),
       },
     );
-    expect((await invoke({ id: 1 })).body).toMatchObject({
+    expect((await invoke({} as never)).body).toMatchObject({
       header: expect.stringContaining('deviceId=original'),
     });
   });
@@ -454,7 +454,7 @@ describe('call lifecycle', () => {
                   identifier === 'voice_upload' ? probeUploadActions : {},
                 identifier: 'test',
                 route: '/test',
-                decodeInput: decodeLegacyModuleInput,
+                decodeInput: decodeModuleObject,
                 execute: () =>
                   Effect.promise<never>(() => new Promise(() => {})).pipe(
                     Effect.map(moduleResponse),
@@ -485,14 +485,14 @@ describe('call lifecycle', () => {
     },
   );
   test('legacy module normalization cannot mutate the caller business input', async () => {
-    const input = { id: 1, like: 'false' };
+    const input = { id: 1, like: false };
     const response = await invokeModule('like', input, {
       cookie: 'MUSIC_U=user',
       fetcher: async () =>
         Response.json({ code: 200, playlistId: 1, songs: [] }),
     });
     expect(response.status).toBe(200);
-    expect(input).toEqual({ id: 1, like: 'false' });
+    expect(input).toEqual({ id: 1, like: false });
   });
   test('execution configuration never enters module business input', async () => {
     const invoke = createModuleInvoker(
@@ -529,7 +529,7 @@ describe('call lifecycle', () => {
         actions: probeWriteActions,
         identifier: 'captcha_verify',
         route: '/test',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject as never,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
           Effect.gen(function* () {
             cookie.MUSIC_U = 'changed-user';
@@ -546,7 +546,7 @@ describe('call lifecycle', () => {
         },
       },
     );
-    await invoke({ id: 1 });
+    await invoke({} as never);
     expect(sentCookies).toHaveLength(2);
     for (const sent of sentCookies) {
       expect(sent).toContain('MUSIC_U=original-user');
@@ -561,7 +561,7 @@ describe('call lifecycle', () => {
         actions: probeWriteActions,
         identifier: 'captcha_verify',
         route: '/test',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject as never,
         execute: (_query: ModuleQuery, request: RequestCapability) =>
           testRequest(request, '/api/like', {}).pipe(
             Effect.map(moduleResponse),
@@ -577,7 +577,7 @@ describe('call lifecycle', () => {
         },
       },
     );
-    await invoke({ id: 1 });
+    await invoke({} as never);
     expect(sentCookie).toContain('MUSIC_U=explicit-user');
     expect(sentCookie).not.toContain('header-user');
   });
@@ -590,7 +590,7 @@ describe('call lifecycle', () => {
         actions: {},
         identifier: 'captcha_verify',
         route: '/test',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject as never,
         execute: () =>
           Effect.gen(function* () {
             controller.abort();
@@ -599,7 +599,7 @@ describe('call lifecycle', () => {
       },
       { cookie: 'MUSIC_U=user', signal: controller.signal, timeoutMs: 0 },
     );
-    const failure = await invoke({ id: 1 }).catch((error: unknown) => error);
+    const failure = await invoke({} as never).catch((error: unknown) => error);
     expect(failure).toMatchObject({ status: 499 });
   });
 
@@ -610,7 +610,7 @@ describe('call lifecycle', () => {
         actions: {},
         identifier: 'captcha_verify',
         route: '/test',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject as never,
         execute: () =>
           Effect.gen(function* () {
             yield* Effect.sleep(20);
@@ -619,7 +619,7 @@ describe('call lifecycle', () => {
       },
       { cookie: 'MUSIC_U=user', timeoutMs: 0 },
     );
-    expect((await invoke({ id: 1 })).status).toBe(200);
+    expect((await invoke({} as never)).status).toBe(200);
   });
 
   test('one call deadline does not interrupt another waiter on the shared read', async () => {
@@ -674,7 +674,7 @@ describe('call lifecycle', () => {
           actions: probeWriteActions,
           identifier: 'captcha_verify',
           route: '/test',
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject as never,
           execute: (_query: ModuleQuery, request: RequestCapability) =>
             Effect.gen(function* () {
               setRuntimeState({ anonymousToken: 'after-call' });
@@ -689,7 +689,7 @@ describe('call lifecycle', () => {
           },
         },
       );
-      await invoke({ id: 1 });
+      await invoke({} as never);
       expect(cookies[0]).toContain('MUSIC_A=before-call');
       expect(cookies[0]).not.toContain('after-call');
     } finally {
@@ -733,7 +733,7 @@ describe('call lifecycle', () => {
                 actions: probeUploadActions,
                 identifier: 'test',
                 route: '/test',
-                decodeInput: decodeLegacyModuleInput,
+                decodeInput: decodeModuleObject,
                 execute: (_query: ModuleQuery, api: RequestCapability) =>
                   testRequest(api, '/api/nos/token/alloc', {}).pipe(
                     Effect.map(moduleResponse),

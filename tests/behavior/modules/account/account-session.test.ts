@@ -177,10 +177,15 @@ for (const method of [
                 'content-type': 'application/json',
               },
               body: JSON.stringify({
-                email: 'synthetic@example.invalid',
-                password: 'synthetic-password',
-                phone: '00000000000',
-                captcha: 'synthetic-code',
+                ...(method === 'login'
+                  ? {
+                      email: 'synthetic@example.invalid',
+                      password: 'synthetic-password',
+                    }
+                  : {}),
+                ...(method === 'loginCellphone'
+                  ? { phone: '00000000000', captcha: 'synthetic-code' }
+                  : {}),
                 cookie: 'MUSIC_U=body-session',
               }),
             },

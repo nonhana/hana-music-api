@@ -2,6 +2,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
+  NaturalValue,
   NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
@@ -28,7 +29,7 @@ const inputSchema = Schema.Struct({
   randomList: Schema.Array(NumberId),
   roomId: Schema.String,
   userId: NumberId,
-  version: Schema.Int,
+  version: NaturalValue,
 });
 
 export const decodeModuleInput = (input: unknown) =>

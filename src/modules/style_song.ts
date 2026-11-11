@@ -1,5 +1,11 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +15,23 @@ import {
 } from '../core/upstream-body.ts';
 import { Song, StylePage } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  tagId: NumberId;
+  cursor?: NaturalValue;
+  size?: NaturalValue;
+  sort?: 0 | 1;
+};
+
+const inputSchema = Schema.Struct({
+  tagId: NumberId,
+  cursor: Schema.optional(NaturalValue),
+  size: Schema.optional(NaturalValue),
+  sort: Schema.optional(NumberLiterals([0, 1])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 通到曲风歌曲列表的路径 `data.songs` 和每首歌的编号 `data.songs[].id` 收紧；`data.page` 是分页提示，宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -53,7 +75,3 @@ const styleSong: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 曲风-歌曲
  */
 export default styleSong;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

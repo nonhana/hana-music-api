@@ -1,5 +1,6 @@
 import { Effect, Schema } from 'effect';
 
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +9,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -19,6 +19,17 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  qr: string;
+};
+
+const inputSchema = Schema.Struct({
+  qr: Schema.String,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 返回码、状态路径 `data` 和二维码状态 `qrCodeStatus` 收紧；原因提示 `detailReason` 与 `message` 宽松。
 // 上游把成功码写成字符串 `"200"`，请求层会把它归一成数字 200；结构定义同时接受两者。
@@ -53,7 +64,3 @@ const verifyQrcodestatus: ModuleEffect<
   });
 
 export default verifyQrcodestatus;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

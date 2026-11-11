@@ -195,49 +195,30 @@ test.each(cases)('$name returns the recorded body', async (entry) => {
 
 test.each<{
   name: string;
-  status: number;
   call: (upstream: unknown, status: number) => Promise<unknown>;
-  recording: Recording;
 }>([
   {
     name: 'dj_detail without rid',
-    status: 400,
-    recording: djDetailMissingParam,
     call: (upstream, status) =>
       replay(upstream, status).djDetail(djDetailMissingParam.query),
   },
   {
-    name: 'dj_detail for an unknown rid',
-    status: 404,
-    recording: djDetailUnknownRid,
-    call: (upstream, status) =>
-      replay(upstream, status).djDetail(djDetailUnknownRid.query),
-  },
-  {
     name: 'dj_hot with a non-numeric limit',
-    status: 400,
-    recording: djHotInvalidLimit,
     call: (upstream, status) =>
       replay(upstream, status).djHot(djHotInvalidLimit.query),
   },
   {
     name: 'dj_radio_hot without cateId',
-    status: 400,
-    recording: djRadioHotMissingParam,
     call: (upstream, status) =>
       replay(upstream, status).djRadioHot(djRadioHotMissingParam.query),
   },
   {
     name: 'dj_radio_hot with a non-numeric limit',
-    status: 400,
-    recording: djRadioHotInvalidLimit,
     call: (upstream, status) =>
       replay(upstream, status).djRadioHot(djRadioHotInvalidLimit.query),
   },
   {
     name: 'dj_recommend_type without type',
-    status: 400,
-    recording: djRecommendTypeMissingParam,
     call: (upstream, status) =>
       replay(upstream, status).djRecommendType(
         djRecommendTypeMissingParam.query,
@@ -245,17 +226,27 @@ test.each<{
   },
   {
     name: 'dj_paygift with a non-numeric limit',
-    status: 400,
-    recording: djPaygiftInvalidLimit,
     call: (upstream, status) =>
       replay(upstream, status).djPaygift(djPaygiftInvalidLimit.query),
   },
-])('$name is rejected with the upstream status', async (entry) => {
-  expect(await settle(entry.call(entry.recording.response.body, 200))).toEqual({
+])('$name is rejected before calling upstream', async (entry) => {
+  expect(await settle(entry.call({}, 200))).toMatchObject({
+    rejected: { status: 400, cookie: [], body: { code: 400 } },
+  });
+});
+
+test('dj_detail for an unknown rid is rejected with the upstream status', async () => {
+  expect(
+    await settle(
+      replay(djDetailUnknownRid.response.body, 200).djDetail(
+        djDetailUnknownRid.query,
+      ),
+    ),
+  ).toEqual({
     rejected: {
-      status: entry.status,
+      status: 404,
       cookie: [],
-      body: entry.recording.response.body,
+      body: djDetailUnknownRid.response.body,
     },
   });
 });

@@ -112,8 +112,8 @@ for (const entry of ['sdk', 'http'] as const)
               }),
             );
             expect(
-              (await client.songUrlV1({ id: 1411594141, level })).body.data[0]!
-                .url,
+              (await client.songUrlV1({ ids: [1411594141], level })).body
+                .data[0]!.url,
             ).toBeNull();
           } else {
             const app = await createServer(
@@ -122,10 +122,11 @@ for (const entry of ['sdk', 'http'] as const)
                 execution: { fetcher: scenario.fetcher, entropy: testEntropy },
               },
             );
-            const result = await app.request(
-              `/song/url/v1?id=1411594141&level=${level}`,
-              { headers: { cookie } },
-            );
+            const result = await app.request('/song/url/v1', {
+              method: 'POST',
+              headers: { cookie, 'content-type': 'application/json' },
+              body: JSON.stringify({ ids: [1411594141], level }),
+            });
             expect(result.status).toBe(200);
           }
           const wire = scenario.sent[0]!;
@@ -151,7 +152,7 @@ for (const entry of ['sdk', 'http'] as const)
           const decoded = readEapiBody(wire.body);
           expect(decoded.path).toBe('/api/song/enhance/player/url/v1');
           expect(decoded.data).toEqual({
-            ids: '[1411594141]',
+            ids: '["1411594141"]',
             level,
             encodeType: 'flac',
             ...(level === 'sky' ? { immerseType: 'c51' } : {}),
@@ -267,7 +268,7 @@ test('identity refusal -460 sends once and never rotates identity', async () => 
         }),
       );
       expect(
-        await settle(client.songUrlV1({ id: 1411594141, level: 'exhigh' })),
+        await settle(client.songUrlV1({ ids: [1411594141], level: 'exhigh' })),
       ).toMatchObject({ rejected: { body: { code: -460 } } });
       expect(scenario.sent).toHaveLength(1);
     },

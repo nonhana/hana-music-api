@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,19 @@ import {
 } from '../core/upstream-body.ts';
 import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  before?: NaturalValue;
+  limit?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  before: Schema.optional(NaturalValue),
+  limit: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const BlockTitle = UpstreamObject({
   artistId: Loose(Schema.Finite),
@@ -79,7 +95,3 @@ const artistNewSong: ModuleEffect<
   });
 
 export default artistNewSong;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

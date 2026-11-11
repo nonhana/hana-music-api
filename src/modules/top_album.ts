@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -10,7 +14,27 @@ import {
 } from '../core/upstream-body.ts';
 import { AlbumSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  area?: string;
+  type?: 'new' | 'hot';
+  limit?: NaturalValue;
+  offset?: NaturalValue;
+  year?: NaturalValue;
+  month?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  area: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.Literals(['new', 'hot'])),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  year: Schema.optional(NaturalValue),
+  month: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 新碟记录共用 `AlbumSummary`，另声明两张列表都有的宽松字段 `areaId`、`exclusive`。
 const Album = UpstreamObject({
@@ -66,7 +90,3 @@ const topAlbum: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 新碟上架
  */
 export default topAlbum;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

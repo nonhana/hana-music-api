@@ -1,6 +1,5 @@
-import { Effect, Schema } from 'effect';
+import { Effect, Schema, SchemaGetter } from 'effect';
 
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { QueryNumberLike } from '../types/module-shared.ts';
 import { InvalidModuleInput } from './errors.ts';
 
@@ -37,8 +36,10 @@ export const NumberId = Schema.declare<NumberId>(
 export const NumberIdList = Schema.Array(NumberId).check(Schema.isMinLength(1));
 export type NumberIdList = typeof NumberIdList.Type;
 
-export const PlainObject = Schema.declare<LegacyModuleInput>(
-  (value): value is LegacyModuleInput => {
+export type PlainObjectValue = Readonly<Record<string, unknown>>;
+
+export const PlainObject = Schema.declare<PlainObjectValue>(
+  (value): value is PlainObjectValue => {
     if (value === null || typeof value !== 'object' || Array.isArray(value)) {
       return false;
     }
@@ -47,14 +48,78 @@ export const PlainObject = Schema.declare<LegacyModuleInput>(
   },
 );
 
+// 无参数模块的输入：没有任何有效键，生成器因此允许省略 query。
+export type NoInput = { readonly __noInput?: never };
+
 // 无参数模块：普通对象且没有任何键；Struct({}) 对多余键不设防，不能用它表达“无参数”。
-export const EmptyInput = Schema.declare<Record<never, never>>(
-  (value): value is Record<never, never> =>
+export const EmptyInput = Schema.declare<NoInput>(
+  (value): value is NoInput =>
     typeof value === 'object' &&
     value !== null &&
     !Array.isArray(value) &&
     Object.keys(value).length === 0,
 );
+
+// HTTP query 的值都是字符串；业务类型仍是数字/布尔，由 schema 在入口归一。
+const NumericString = Schema.String.check(
+  Schema.isPattern(/^-?(?:0|[1-9][0-9]*)(?:\.[0-9]+)?$/u),
+).pipe(
+  Schema.decodeTo(Schema.Finite, {
+    decode: SchemaGetter.transform((value) => Number(value)),
+    encode: SchemaGetter.transform((value) => String(value)),
+  }),
+);
+
+export const NumberValue = Schema.Union([Schema.Finite, NumericString]);
+export type NumberValue = typeof NumberValue.Type;
+
+export const IntegerValue = NumberValue.check(Schema.isInt());
+export type IntegerValue = typeof IntegerValue.Type;
+
+export const NaturalValue = IntegerValue.check(
+  Schema.isGreaterThanOrEqualTo(0),
+);
+export type NaturalValue = typeof NaturalValue.Type;
+
+const BooleanString = Schema.Literals(['0', '1', 'false', 'true']).pipe(
+  Schema.decodeTo(Schema.Boolean, {
+    decode: SchemaGetter.transform(
+      (value) => value === '1' || value === 'true',
+    ),
+    encode: SchemaGetter.transform((value) => (value ? 'true' : 'false')),
+  }),
+);
+
+const BooleanNumber = Schema.Literals([0, 1]).pipe(
+  Schema.decodeTo(Schema.Boolean, {
+    decode: SchemaGetter.transform((value) => value === 1),
+    encode: SchemaGetter.transform((value) => (value ? 1 : 0)),
+  }),
+);
+
+export const BooleanValue = Schema.Union([
+  Schema.Boolean,
+  BooleanNumber,
+  BooleanString,
+]);
+export type BooleanValue = typeof BooleanValue.Type;
+
+// 数字枚举同样要接受 HTTP query 的字符串形式，解码后仍是数字字面量。
+export const NumberLiteral = <const Value extends number>(value: Value) =>
+  Schema.Union([
+    Schema.Literal(value),
+    Schema.Literal(String(value)).pipe(
+      Schema.decodeTo(Schema.Literal(value), {
+        decode: SchemaGetter.transform(() => value),
+        encode: SchemaGetter.transform(() => String(value)),
+      }),
+    ),
+  ]);
+
+export const NumberLiterals = <const Values extends ReadonlyArray<number>>(
+  values: Values,
+): Schema.Schema<Values[number]> =>
+  Schema.Union(values.map((value) => NumberLiteral(value)));
 
 export const UploadedFile = Schema.Struct({
   data: Schema.Union([
@@ -74,18 +139,17 @@ export const decodeModuleObject = (input: unknown) =>
     ),
   );
 
-// 迁移期间保留旧名字，全部模块迁移完成后删除。
-export const LegacyInput = PlainObject;
-export const decodeLegacyModuleInput = decodeModuleObject;
-
 // 输入必须先是普通对象，再按模块 Schema 解码；未声明字段直接拒绝。
 export const decodeModuleInput = <InputSchema extends Schema.Constraint>(
   schema: InputSchema,
   input: unknown,
-) =>
+): Effect.Effect<InputSchema['Type'], InvalidModuleInput> =>
   decodeModuleObject(input).pipe(
     Effect.flatMap(
-      Schema.decodeUnknownEffect(schema, { onExcessProperty: 'error' }),
+      Schema.decodeUnknownEffect(
+        schema as unknown as Schema.ConstraintCodec<unknown, unknown>,
+        { onExcessProperty: 'error' },
+      ),
     ),
     Effect.mapError((error) =>
       InvalidModuleInput.make({ message: error.message }),

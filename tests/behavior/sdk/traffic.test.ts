@@ -22,7 +22,7 @@ describe('SDK outbound traffic', () => {
 
     const responses = await Promise.all(
       Array.from({ length: 24 }, (_, index) =>
-        hana.lyric({ id: String(index) }),
+        hana.lyric({ id: String(index + 1) }),
       ),
     );
 

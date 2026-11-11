@@ -3,7 +3,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryNumber,
+  NumberValue,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import {
@@ -14,7 +14,6 @@ import {
 } from '../core/upstream-body.ts';
 import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { QueryNumberLike } from '../types/module-shared.ts';
 
 export const moduleActions = {
   match: {
@@ -30,12 +29,12 @@ export const moduleActions = {
 
 export type ModuleInput = {
   audioFP: string;
-  duration: QueryNumberLike;
+  duration: NumberValue;
 };
 
 const inputSchema = Schema.Struct({
   audioFP: Schema.String,
-  duration: QueryNumber,
+  duration: NumberValue,
 });
 
 export const decodeModuleInput = (input: unknown) =>
