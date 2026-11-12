@@ -49,5 +49,7 @@ export default defineConfig({
     'node_modules/**',
     'src/demo/assets/**',
     '_notes/**',
+    'docs/acceptance/issue-128/inputs.md',
+    'docs/acceptance/issue-129/failures.md',
   ],
 });
