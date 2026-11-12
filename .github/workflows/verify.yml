@@ -32,6 +32,8 @@ concurrency:
 
 jobs:
   checks:
+    outputs:
+      package_sha256: ${{ steps.seal.outputs.sha256 }}
     name: ${{ matrix.lane }}
     strategy:
       fail-fast: false
@@ -122,6 +124,7 @@ jobs:
           bun scripts/test.mts ci-built
 
       - name: Verify anonymous live against the tested package
+        id: seal
         if: inputs.release_candidate && matrix.lane == 'package'
         env:
           LIVE_UPSTREAM: '1'
@@ -129,6 +132,7 @@ jobs:
         run: |
           bun run test:live
           bun scripts/seal-release.mts
+          echo "sha256=$(cat .artifacts/testing/release/sha256)" >> "$GITHUB_OUTPUT"
 
       - name: Record completed lane
         run: git rev-parse HEAD > .artifacts/testing/ci/completed
@@ -166,8 +170,10 @@ jobs:
       - name: Record verified package digest
         if: inputs.release_candidate
         id: sealed
+        env:
+          PRODUCER_SHA256: ${{ needs.checks.outputs.package_sha256 }}
         run: |
           cd "$RUNNER_TEMP/ci-results/testing-$GITHUB_SHA-package/release"
           hash=$(sha256sum verified.tgz | cut -d' ' -f1)
-          test "$hash" = "$(cat sha256)"
+          test "$hash" = "$PRODUCER_SHA256"
           echo "sha256=$hash" >> "$GITHUB_OUTPUT"

@@ -135,12 +135,33 @@ jobs:
         with:
           persist-credentials: false
       - uses: ./.github/actions/restore-package
+      - name: Verify a mismatched digest cannot reach publication
+        env:
+          MODE: dry-run
+          EXPECTED_SHA256: intentional-mismatch
+          EXPECTED_VERSION: ${{ needs.plan.outputs.version }}
+        run: |
+          if bun scripts/publish-archive.mts > .artifacts/testing/ci/mismatch.log 2>&1; then
+            exit 1
+          fi
+          grep -F 'Verified archive digest mismatch' .artifacts/testing/ci/mismatch.log
       - name: Exercise verified archive publication without uploading
         env:
           MODE: dry-run
           EXPECTED_SHA256: ${{ needs.checks.outputs.sha256 }}
           EXPECTED_VERSION: ${{ needs.plan.outputs.version }}
         run: bun scripts/publish-archive.mts 2>&1 | tee .artifacts/testing/ci/publish.log
+
+      - name: Upload publication evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: delivery-${{ github.sha }}
+          path: |
+            .artifacts/testing/ci/*.log
+            .artifacts/testing/ci/*.json
+          include-hidden-files: true
+          retention-days: 90
 
   release:
     needs: [plan, checks, mutation]
@@ -217,3 +238,14 @@ jobs:
             test -s "$RUNNER_TEMP/notes.md"
             gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file "$RUNNER_TEMP/notes.md"
           fi
+
+      - name: Upload publication evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: delivery-${{ github.sha }}
+          path: |
+            .artifacts/testing/ci/*.log
+            .artifacts/testing/ci/*.json
+          include-hidden-files: true
+          retention-days: 90

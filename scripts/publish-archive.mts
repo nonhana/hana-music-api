@@ -26,6 +26,7 @@ if (
   (!dry && next !== (mode === 'candidate'))
 )
   throw new Error('Unexpected archive name, version or publish mode');
+console.log(`Verified ${pkg.name}@${pkg.version} SHA-256 ${digest}`);
 const tag = next ? 'next' : 'latest';
 const registry = 'https://registry.npmjs.org';
 if (!dry) {
