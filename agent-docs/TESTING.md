@@ -76,7 +76,7 @@ CI 保留按有限请求和明确断言完成的正确性检查；需要固定�
 
 故意失败上传演练使用同一入口的 `acceptance=failure`：调用同一个 verify workflow，在 static job 中，显式传入默认为 false 的 evidence_failure，让一个临时 Bun 测试真实断言失败。job 必须为 failure、退出非零，同一个 always 上传步骤仍应保留 failure-probe.log、原生 failure-probe.xml 和初始候选信息；不能用 continue-on-error 改成通过。该模式不执行真实上游或账号操作。随后对同一候选运行 acceptance=testing，确认 candidate/verify、live、mutation 正常通过，普通 PR 也必须保持全绿。verify 上传按调用事件选择保留期：手动候选及故障演练 90 天，PR/master push 30 天。省略 acceptance 或选择 release 时保持原发布演练行为。
 
-发布候选在最后一次版本步骤后验证：release-rehearsal 重跑 verify:sdk（包含重新构建、打包和 Node/Bun 消费者），手动模式再跑匿名 live。release 的 publish-script 由 `bun run release:checked` 连接，该脚本在 Bun shell 中执行 `bun scripts/release-preflight.mts && bun run release`；preflight 顺序运行 verify、verify:sdk、fixtures、smoke、登记 mutation 和匿名 live，再核对当前包文件集合/hash、tarball 与源码不变。本地 preflight 不发布；进程控制测试从实际 workflow/package 读取命令，以 Action 的命令和参数方式启动真实 Bun，再在隔离项目用 PATH 命令探针证明每一门禁失败时 release 调用为零。验收内容是当前待发布文件，不能宣称已比对尚未发布的 registry tarball。
+发布候选在最后一次版本步骤后验证：release-rehearsal 重跑 verify:sdk（包含重新构建、打包和 Node/Bun 消费者），手动模式再跑匿名 live。主分支 push 由 release 调用同一 verify workflow，只运行一次。实际候选的 package 分片额外验证匿名 live，封存同一份已安装过的 tarball；全部登记变异在独立 runner 并发。汇总门禁与全量变异都是发布 job 的直接依赖。发布 job 从同一次运行恢复归档，再核对独立传入的 SHA-256、包内名称、版本及 provenance；手动 candidate 仍要求批准的 next 版本和摘要。手动 dry-run 也经过相同验收，最后的 npm 演练无写权限。本地 preflight 保留原串行门禁。
 
 ## 请求与流量变更
 

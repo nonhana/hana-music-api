@@ -67,15 +67,9 @@ for (const control of [
         );
       const archive = 'isolated candidate archive';
       await writeFile(
-        resolve(temporary, '.artifacts/testing/ci/control.tgz'),
+        resolve(temporary, '.artifacts/testing/ci/verified.tgz'),
         archive,
       );
-      const npm = resolve(temporary, 'bin/npm');
-      await writeFile(
-        npm,
-        '#!/bin/sh\nprintf \'[{"filename":"control.tgz","integrity":"control-integrity"}]\'\n',
-      );
-      await chmod(npm, 0o755);
       const child = Bun.spawn(
         ['bash', '--noprofile', '--norc', '-eo', 'pipefail', '-c', guard.run],
         {
@@ -117,29 +111,63 @@ for (const control of [
   });
 }
 
-test('candidate publication suppresses GitHub releases and tag pushes while preserving checked publishing', async () => {
-  const workflow = Bun.YAML.parse(
-    await readFile(
+test('both archive paths require all release gates; only stable publication creates a tag', async () => {
+  const { jobs } = Bun.YAML.parse(
+    await Bun.file(
       resolve(projectRoot, '.github/workflows/release.yml'),
-      'utf8',
-    ),
+    ).text(),
   ) as {
-    jobs: {
-      release: {
-        steps: Array<{ uses?: string; with?: Record<string, unknown> }>;
-      };
-    };
+    jobs: Record<
+      'release' | 'rehearse',
+      {
+        needs: Array<string>;
+        if: string;
+        permissions: Record<string, string>;
+        steps: Array<{ name?: string; if?: string }>;
+      }
+    >;
   };
-  const action = workflow.jobs.release.steps.find(
-    (step) => step.uses === 'changesets/action@v2.1.2',
-  )!;
-  expect(action.with?.['publish-script']).toBe('bun run release:checked');
-  expect(action.with?.['create-github-releases']).toBe(
-    "${{ inputs.mode != 'candidate' }}",
-  );
-  expect(action.with?.['push-git-tags']).toBe(
-    "${{ inputs.mode != 'candidate' }}",
-  );
+  for (const name of ['release', 'rehearse'] as const)
+    expect(jobs[name].needs.toSorted()).toEqual(['checks', 'mutation', 'plan']);
+  expect(jobs.release.if).toContain("inputs.mode != 'dry-run'");
+  expect(jobs.rehearse.permissions).toEqual({ contents: 'read' });
+  expect(
+    jobs.release.steps.find(
+      (step: { name?: string }) => step.name === 'Record stable GitHub release',
+    )?.if,
+  ).toContain("inputs.mode != 'candidate'");
+});
+
+test('changed archive bytes never invoke npm', async () => {
+  const root = await mkdtemp(resolve(tmpdir(), 'hana-bad-archive-'));
+  try {
+    await Bun.write(
+      resolve(root, '.artifacts/testing/ci/verified.tgz'),
+      'changed',
+    );
+    await Bun.write(resolve(root, 'npm'), '#!/bin/sh\ntouch called\n');
+    await chmod(resolve(root, 'npm'), 0o755);
+    const child = Bun.spawn(
+      [process.execPath, resolve(projectRoot, 'scripts/publish-archive.mts')],
+      {
+        cwd: root,
+        env: {
+          ...process.env,
+          PATH: root,
+          EXPECTED_SHA256: 'wrong',
+          MODE: 'dry-run',
+        },
+        stderr: 'pipe',
+      },
+    );
+    expect(await child.exited).not.toBe(0);
+    expect(await new Response(child.stderr).text()).toContain(
+      'digest mismatch',
+    );
+    expect(await Bun.file(resolve(root, 'called')).exists()).toBe(false);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });
 
 const exercise = async (failure: string | undefined) => {
@@ -222,35 +250,7 @@ if (args[0] === 'npm') {
       );
       await chmod(path, 0o755);
     }
-    const workflow: unknown = Bun.YAML.parse(
-      await readFile(
-        resolve(projectRoot, '.github/workflows/release.yml'),
-        'utf8',
-      ),
-    );
-    if (
-      !isRecord(workflow) ||
-      !isRecord(workflow.jobs) ||
-      !isRecord(workflow.jobs.release) ||
-      !Array.isArray(workflow.jobs.release.steps)
-    )
-      throw new Error('invalid release workflow');
-    const publish = workflow.jobs.release.steps.find(
-      (step: unknown) =>
-        isRecord(step) &&
-        isRecord(step.with) &&
-        typeof step.with['publish-script'] === 'string',
-    );
-    if (
-      !isRecord(publish) ||
-      !isRecord(publish.with) ||
-      typeof publish.with['publish-script'] !== 'string'
-    )
-      throw new Error('missing action publish command');
-    // The Action passes a command and argv to spawn, so this fixture must not add an outer shell.
-    const command = publish.with['publish-script'].split(' ');
-    if (command[0] !== 'bun') throw new Error('unsupported publish executable');
-    command[0] = process.execPath;
+    const command = [process.execPath, 'run', 'release:checked'];
     const child = Bun.spawn(command, {
       cwd: root,
       env: {

@@ -2,15 +2,22 @@ name: verify
 
 on:
   workflow_call:
+    outputs:
+      sha256:
+        description: SHA-256 of the package verified offline and live
+        value: ${{ jobs.verify.outputs.sha256 }}
     inputs:
+      release_candidate:
+        type: boolean
+        default: false
+      version_patch:
+        type: boolean
+        default: false
       evidence_failure:
         description: Intentionally fail a native test to validate artifact upload
         type: boolean
         default: false
   pull_request:
-  push:
-    branches:
-      - master
 
 defaults:
   run:
@@ -37,6 +44,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
+      - uses: ./.github/actions/apply-version
+        if: inputs.version_patch
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
@@ -46,6 +56,10 @@ jobs:
         uses: actions/setup-node@v7
         with:
           node-version: 24
+
+      - name: Pin candidate packer
+        if: inputs.release_candidate && matrix.lane == 'package'
+        run: npm install -g npm@11.5.1
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
@@ -107,6 +121,15 @@ jobs:
           bun run check:dist
           bun scripts/test.mts ci-built
 
+      - name: Verify anonymous live against the tested package
+        if: inputs.release_candidate && matrix.lane == 'package'
+        env:
+          LIVE_UPSTREAM: '1'
+          HANA_LIVE_SUITE: anonymous
+        run: |
+          bun run test:live
+          bun scripts/seal-release.mts
+
       - name: Record completed lane
         run: git rev-parse HEAD > .artifacts/testing/ci/completed
 
@@ -117,9 +140,11 @@ jobs:
           name: testing-${{ github.sha }}-${{ matrix.lane }}
           path: .artifacts/testing/**
           include-hidden-files: true
-          retention-days: ${{ github.event_name == 'workflow_dispatch' && 90 || 30 }}
+          retention-days: ${{ (inputs.release_candidate || github.event_name == 'workflow_dispatch') && 90 || 30 }}
 
   verify:
+    outputs:
+      sha256: ${{ steps.sealed.outputs.sha256 }}
     needs: checks
     if: always()
     runs-on: ubuntu-latest
@@ -138,3 +163,11 @@ jobs:
           path: ${{ runner.temp }}/ci-results
       - name: Verify complete test inventory
         run: bun scripts/check-ci-coverage.mts "$RUNNER_TEMP/ci-results" "$GITHUB_SHA"
+      - name: Record verified package digest
+        if: inputs.release_candidate
+        id: sealed
+        run: |
+          cd "$RUNNER_TEMP/ci-results/testing-$GITHUB_SHA-package/release"
+          hash=$(sha256sum verified.tgz | cut -d' ' -f1)
+          test "$hash" = "$(cat sha256)"
+          echo "sha256=$hash" >> "$GITHUB_OUTPUT"

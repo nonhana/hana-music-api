@@ -1,0 +1,23 @@
+name: Restore verified npm archive
+description: Restore only the tested tarball from this workflow run
+runs:
+  using: composite
+  steps:
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: 1.4.4
+    - uses: actions/setup-node@v7
+      with:
+        node-version: 24
+        registry-url: https://registry.npmjs.org
+    - shell: bash
+      run: npm install -g npm@11.5.1
+    - uses: actions/download-artifact@v8
+      with:
+        name: testing-${{ github.sha }}-package
+        path: ${{ runner.temp }}/package-result
+    - name: Restore the tested archive
+      shell: bash
+      run: |
+        mkdir -p .artifacts/testing/ci
+        cp "$RUNNER_TEMP/package-result/release/verified.tgz" .artifacts/testing/ci/
