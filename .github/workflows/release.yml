@@ -27,54 +27,158 @@ defaults:
     shell: bash
 
 permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
+  contents: read
 
 jobs:
-  release:
+  plan:
     runs-on: ubuntu-latest
+    outputs:
+      route: ${{ steps.plan.outputs.route }}
+      version: ${{ steps.plan.outputs.version }}
+      patch: ${{ steps.plan.outputs.patch }}
+      targets: ${{ steps.plan.outputs.targets }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
-
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - uses: oven-sh/setup-bun@v2
         with:
           bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+      - id: plan
+        env:
+          MODE: ${{ inputs.mode }}
+          APPROVED_VERSION: ${{ inputs.candidate_version }}
+          APPROVED_HASH: ${{ inputs.candidate_sha256 }}
+        run: bun scripts/plan-release.mts
+      - if: steps.plan.outputs.patch == 'true'
+        run: |
+          git add -A -- .changeset CHANGELOG.md package.json bun.lock
+          git diff --cached --binary HEAD > "$RUNNER_TEMP/version.patch"
+          test -s "$RUNNER_TEMP/version.patch"
+      - if: steps.plan.outputs.patch == 'true'
+        uses: actions/upload-artifact@v7
+        with:
+          name: version-patch
+          path: ${{ runner.temp }}/version.patch
 
-      - name: Setup Node
-        uses: actions/setup-node@v7
+  version:
+    needs: plan
+    if: needs.plan.outputs.route == 'version'
+    concurrency: release-version-pr
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - run: bun install --frozen-lockfile
+      - uses: changesets/action@v2.1.2
+        with:
+          version-script: bun run version-packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  checks:
+    needs: plan
+    uses: ./.github/workflows/verify.yml
+    with:
+      release_candidate: ${{ needs.plan.outputs.route == 'candidate' }}
+      version_patch: ${{ needs.plan.outputs.patch == 'true' }}
+
+  mutation:
+    needs: plan
+    if: needs.plan.outputs.route == 'candidate'
+    strategy:
+      fail-fast: false
+      matrix:
+        target: ${{ fromJSON(needs.plan.outputs.targets) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/apply-version
+        if: needs.plan.outputs.patch == 'true'
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - uses: actions/setup-node@v7
         with:
           node-version: 24
-          registry-url: https://registry.npmjs.org
-
-      - name: Pin npm
-        run: npm install -g npm@11.5.1
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Install Chromium for offline browser verification
+      - run: bun install --frozen-lockfile
+      - if: matrix.target == 'watchman'
         run: bunx playwright install --with-deps chromium
+      - name: Test every registered mutation in this target
+        env:
+          TARGET: ${{ matrix.target }}
+        run: bun scripts/mutation-test.mts --target "$TARGET"
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: mutation-${{ github.sha }}-${{ matrix.target }}
+          path: .artifacts/testing/mutation/**
+          include-hidden-files: true
+          retention-days: 90
 
-      - name: Record checked out candidate
+  rehearse:
+    needs: [plan, checks, mutation]
+    if: needs.plan.outputs.route == 'candidate' && inputs.mode == 'dry-run'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/restore-package
+      - name: Verify a mismatched digest cannot reach publication
+        env:
+          MODE: dry-run
+          EXPECTED_SHA256: intentional-mismatch
+          EXPECTED_VERSION: ${{ needs.plan.outputs.version }}
         run: |
-          mkdir -p .artifacts/testing/ci
-          git rev-parse HEAD > .artifacts/testing/ci/tested-head.txt
-          bun -e 'import { fingerprint } from "./tests/_kit/evidence.ts"; await Bun.write(".artifacts/testing/ci/initial-candidate.json", JSON.stringify(await fingerprint()));'
+          if bun scripts/publish-archive.mts > .artifacts/testing/ci/mismatch.log 2>&1; then
+            exit 1
+          fi
+          grep -F 'Verified archive digest mismatch' .artifacts/testing/ci/mismatch.log
+      - name: Exercise verified archive publication without uploading
+        env:
+          MODE: dry-run
+          EXPECTED_SHA256: ${{ needs.checks.outputs.sha256 }}
+          EXPECTED_VERSION: ${{ needs.plan.outputs.version }}
+        run: bun scripts/publish-archive.mts 2>&1 | tee .artifacts/testing/ci/publish.log
 
-      - name: Verify before release
-        run: bun run verify:sdk 2>&1 | tee .artifacts/testing/ci/verify-sdk.log
+      - name: Upload publication evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: delivery-${{ github.sha }}
+          path: |
+            .artifacts/testing/ci/*.log
+            .artifacts/testing/ci/*.json
+          include-hidden-files: true
+          retention-days: 90
 
-      - name: Rehearse release preparation
-        if: ${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'dry-run' }}
-        run: |
-          bun run version-packages
-          bun scripts/release-preflight.mts
-
+  release:
+    needs: [plan, checks, mutation]
+    if: needs.plan.outputs.route == 'candidate' && inputs.mode != 'dry-run'
+    runs-on: ubuntu-latest
+    concurrency: release-npm
+    permissions:
+      contents: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: ./.github/actions/apply-version
+        if: needs.plan.outputs.patch == 'true'
+      - uses: ./.github/actions/restore-package
       - name: Check approved candidate
         if: ${{ github.event_name == 'workflow_dispatch' && inputs.mode == 'candidate' }}
         env:
@@ -95,41 +199,53 @@ jobs:
             active.length ||
             pkg.publishConfig?.provenance !== true
           ) throw new Error("candidate version, tag or Changesets state is not approved");
-          const packed = Bun.spawnSync([
-            "npm", "pack", "--json", "--pack-destination", ".artifacts/testing/ci"
-          ]);
-          if (packed.exitCode !== 0) throw new Error("cannot pack candidate");
-          const metadata = JSON.parse(packed.stdout.toString());
-          const entry = Array.isArray(metadata)
-            ? metadata[0] : Object.values(metadata)[0];
-          const bytes = await Bun.file(`.artifacts/testing/ci/${entry.filename}`).bytes();
+          const bytes = await Bun.file(".artifacts/testing/ci/verified.tgz").bytes();
           const hash = createHash("sha256").update(bytes).digest("hex");
           if (hash !== process.env.HANA_CANDIDATE_SHA256)
             throw new Error("candidate tarball differs from approved hash");
           await Bun.write(".artifacts/testing/ci/approved-package.json", JSON.stringify({
-            version: pkg.version, sha256: hash, integrity: entry.integrity, tag: pre.tag
+            version: pkg.version, sha256: hash, tag: pre.tag
           }));
           '
 
-      - name: Create release PR or publish
-        if:
-          ${{ github.event_name == 'push' || (github.event_name == 'workflow_dispatch'
-          && (inputs.mode == 'publish' || inputs.mode == 'candidate')) }}
-        uses: changesets/action@v2.1.2
-        with:
-          version-script: bun run version-packages
-          publish-script: bun run release:checked
-          create-github-releases: ${{ inputs.mode != 'candidate' }}
-          push-git-tags: ${{ inputs.mode != 'candidate' }}
+      - name: Refuse a conflicting stable tag before uploading
+        if: inputs.mode != 'candidate'
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
+          VERSION: ${{ needs.plan.outputs.version }}
+        run: |
+          tag="refs/tags/v$VERSION"
+          if git rev-parse -q --verify "$tag" >/dev/null; then
+            test "$(git rev-list -n1 "$tag")" = "$GITHUB_SHA"
+          fi
+      - name: Publish the verified archive
+        env:
+          MODE: ${{ inputs.mode || 'publish' }}
+          EXPECTED_SHA256: ${{ needs.checks.outputs.sha256 }}
+          EXPECTED_VERSION: ${{ needs.plan.outputs.version }}
+        run: bun scripts/publish-archive.mts 2>&1 | tee .artifacts/testing/ci/publish.log
+      - name: Record stable GitHub release
+        if: inputs.mode != 'candidate' && inputs.mode != 'dry-run'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ needs.plan.outputs.version }}
+        run: |
+          tag="v$VERSION"
+          if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+            test "$(git rev-list -n1 "$tag")" = "$GITHUB_SHA"
+          fi
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            awk -v title="## $VERSION" '$0 == title {found=1;next} found && /^## / {exit} found {print}' CHANGELOG.md > "$RUNNER_TEMP/notes.md"
+            test -s "$RUNNER_TEMP/notes.md"
+            gh release create "$tag" --target "$GITHUB_SHA" --title "$tag" --notes-file "$RUNNER_TEMP/notes.md"
+          fi
 
-      - name: Upload candidate evidence
-        uses: actions/upload-artifact@v7
+      - name: Upload publication evidence
         if: always()
+        uses: actions/upload-artifact@v7
         with:
-          name: release-${{ github.sha }}
-          path: .artifacts/testing/**
+          name: delivery-${{ github.sha }}
+          path: |
+            .artifacts/testing/ci/*.log
+            .artifacts/testing/ci/*.json
           include-hidden-files: true
           retention-days: 90

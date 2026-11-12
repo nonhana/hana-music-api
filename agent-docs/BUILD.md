@@ -36,11 +36,11 @@ PM2 使用 `ecosystem.config.cjs`，默认写入 `logs/`，并将匿名令牌保
 ## 发布
 
 - 下一 major 候选先用 `bun run changeset pre enter next`，再用 `bun run version-packages`。Changesets 3 将已消费的说明移入 `.changeset/pre/`，保留给后续稳定版；不要手改生成的版本或 changelog。
-- 经当次明确授权后，可从候选分支手动运行 `release.yml` 的 `mode=candidate`，同时传入 `candidate_version` 与本地已验收 tarball 的 `candidate_sha256`。入口核对 next 版本、预发布状态、没有未消费 changeset、provenance 和实际 pack hash，再沿原有 `release:checked` 发布；此模式关闭 GitHub Release 和远端 git tag 推送，不创建稳定版。缺失或不符时停止，不自动改用其他包。
+- 经当次明确授权后，可从候选分支手动运行 `release.yml` 的 `mode=candidate`，同时传入 `candidate_version` 与本地已验收 tarball 的 `candidate_sha256`。入口核对 next 版本、预发布状态、没有未消费 changeset、provenance 和实际 pack hash，再发布该 run 实际验过的 tarball；此模式关闭 GitHub Release 和远端 git tag 推送，不创建稳定版。缺失或不符时停止，不自动改用其他包。
 
-- 版本变更使用 `bun run version-packages`，发布使用 `bun run release`。
+- 正式发布使用 release workflow；稳定版只接受 master 上相对第一父提交真正更改版本的提交，普通后续提交不能代发。若 npm 已成功而 GitHub Release 失败，重跑原提交；归档与 registry integrity 相同时可补记录，不会重复上传。本地旧 Changesets 命令不参与这个流程，也不作为已验归档的发布入口。
 - 最后一次 `bun run version-packages` 后，执行 `bun scripts/release-preflight.mts`。它串行运行 TESTING 的正确性门禁、定向变异与候选包匿名 live，确认 tarball、包文件集合和内容未变；它本身不发布。按需手动运行的 soak 见 TESTING。
-- Changesets 的 publish-script 调用 `bun run release:checked`，由该 package script 先 preflight，再执行 `bun run release`；任一检查失败会阻止发布。dry-run 只在版本确定后执行 preflight。版本变更前的 SDK 结果不能验收新包；真实账号写入仍按当次需求单独授权。
+- CI 只用 Changesets 创建版本 PR。真正发布时，在受信任的候选提交上复用 verify；包消费者构建、打包并实际安装，匿名 live 使用同一包。seal 核对文件集合、逐文件摘要、源码和 live 的 tarball 摘要。全部 mutation target 和 verify 均通过后，发布 job 下载本次 run 的归档，验证 SHA-256 和包内元数据，执行 `npm publish <tgz> --ignore-scripts`。稳定版保留 provenance、v 版本 tag 和 GitHub Release；next 不推 tag。手动 dry-run 只有读权限；在 runner 演练升版，用同一补丁对齐所有 job，最终调用 npm 的 dry-run，不改 registry。
 - 构建、测试和发布共用 `dist/`，需要按 [TESTING.md](./TESTING.md) 的顺序串行执行相关检查。
 
 相关实现：`package.json`、`tsdown.config.ts`、`src/app/cli.ts`、`ecosystem.config.cjs`、`netlify.toml`。

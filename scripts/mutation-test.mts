@@ -28,7 +28,7 @@ interface Mutation {
   readonly expectedFailures: ReadonlyArray<string>;
   readonly timeoutMs?: number;
 }
-const groups = [
+export const groups = [
   'candidate-package',
   'module-config',
   'request-identity',

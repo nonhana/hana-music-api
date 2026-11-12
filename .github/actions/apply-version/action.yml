@@ -1,0 +1,11 @@
+name: Apply final version from this run
+description: Restore the versioning patch before testing a release rehearsal
+runs:
+  using: composite
+  steps:
+    - uses: actions/download-artifact@v8
+      with:
+        name: version-patch
+        path: ${{ runner.temp }}/release-version
+    - shell: bash
+      run: git apply --index "$RUNNER_TEMP/release-version/version.patch"
