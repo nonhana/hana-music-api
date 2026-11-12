@@ -1,5 +1,15 @@
 # hana-music-api 发布日志
 
+## 5.0.0
+
+### Major Changes
+
+- 2e14409: 模块输入统一为具体业务结构：编号集合、JSON 对象、标签和布尔参数改由 SDK 编码，旧的逗号串、JSON 串、分号串和宽泛 `Record<string, unknown>` 输入不再接受。`LegacyModuleInput` 与根导出的 `LegacyModule*` 类型删除，未声明字段在发送前以 400 拒绝。
+
+### Minor Changes
+
+- 89b4d8f: 公开失败增加稳定分类：被拒绝的 Promise 仍保留 `{ status, body, cookie }`，顶层新增可序列化的 `failure`，`kind` 为 `business`、`rateLimited`、`upstreamShape`、`timeout`、`cancelled`、`invalidRequest`、`transport` 或 `unknown`。根入口新增 `NcmApiFailure`、`NcmFailureInfo`、`isNcmApiResponse` 和 `getNcmFailureInfo`；成功响应、HTTP 业务正文、Cookie、resolve 非 2xx 的模块和重试次数不变。旧的三字段读取方式继续可用；按对象形状严格比较拒绝结果的消费者会看到新增字段，需要同步调整。
+
 ## 4.0.1
 
 ### Patch Changes
