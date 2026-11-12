@@ -44,6 +44,17 @@ if (!dry) {
   }
   if (response.status !== 404)
     throw new Error(`Registry check failed: ${response.status}`);
+  if (tag === 'latest') {
+    const latest = await fetch(`${registry}/hana-music-api/latest`);
+    if (!latest.ok)
+      throw new Error(`Cannot verify latest dist-tag: ${latest.status}`);
+    const metadata = (await latest.json()) as { version: string };
+    if (
+      !/^\d+\.\d+\.\d+$/.test(metadata.version) ||
+      Bun.semver.order(pkg.version, metadata.version) <= 0
+    )
+      throw new Error('Refusing to move latest backwards');
+  }
 }
 const child = Bun.spawn(
   [

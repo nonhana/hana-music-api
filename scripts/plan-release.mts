@@ -56,12 +56,13 @@ if (dry) {
 } else {
   if (!/^\d+\.\d+\.\d+$/.test(version) || (await pre.exists()))
     throw new Error('Expected a stable version');
-  const response = await fetch(
-    `https://registry.npmjs.org/hana-music-api/${version}`,
-  );
-  if (!response.ok && response.status !== 404)
-    throw new Error(`Registry check failed: ${response.status}`);
-  route = response.status === 404 ? 'candidate' : 'idle';
+  const parent = Bun.spawnSync(['git', 'show', 'HEAD^1:package.json']);
+  if (parent.exitCode !== 0)
+    throw new Error('Cannot identify the version commit');
+  route =
+    JSON.parse(parent.stdout.toString()).version === version
+      ? 'idle'
+      : 'candidate';
 }
 const final = await Bun.file('package.json').json();
 await appendFile(

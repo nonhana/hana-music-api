@@ -187,6 +187,15 @@ jobs:
           }));
           '
 
+      - name: Refuse a conflicting stable tag before uploading
+        if: inputs.mode != 'candidate'
+        env:
+          VERSION: ${{ needs.plan.outputs.version }}
+        run: |
+          tag="refs/tags/v$VERSION"
+          if git rev-parse -q --verify "$tag" >/dev/null; then
+            test "$(git rev-list -n1 "$tag")" = "$GITHUB_SHA"
+          fi
       - name: Publish the verified archive
         env:
           MODE: ${{ inputs.mode || 'publish' }}

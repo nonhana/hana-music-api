@@ -138,6 +138,67 @@ test('both archive paths require all release gates; only stable publication crea
   ).toContain("inputs.mode != 'candidate'");
 });
 
+test('only the commit that introduces a stable version may publish it', async () => {
+  const root = await mkdtemp(resolve(tmpdir(), 'hana-version-parent-'));
+  try {
+    const options = { cwd: root };
+    const commit = () => {
+      execFileSync('git', ['add', 'package.json'], options);
+      execFileSync(
+        'git',
+        [
+          '-c',
+          'user.name=CI',
+          '-c',
+          'user.email=ci@example.invalid',
+          '-c',
+          'commit.gpgSign=false',
+          'commit',
+          '-qm',
+          'version',
+        ],
+        options,
+      );
+    };
+    execFileSync('git', ['init', '-q'], options);
+    await mkdir(resolve(root, '.changeset'));
+    const manifest = {
+      name: 'hana-music-api',
+      version: '1.0.0',
+      publishConfig: { provenance: true },
+    };
+    await Bun.write(resolve(root, 'package.json'), JSON.stringify(manifest));
+    commit();
+    for (const [version, route, description] of [
+      ['1.1.0', 'candidate', 'version'],
+      ['1.1.0', 'idle', 'later source change'],
+    ] as const) {
+      await Bun.write(
+        resolve(root, 'package.json'),
+        JSON.stringify({ ...manifest, version, description }),
+      );
+      commit();
+      const output = resolve(root, route);
+      const child = Bun.spawn(
+        [process.execPath, resolve(projectRoot, 'scripts/plan-release.mts')],
+        {
+          cwd: root,
+          env: {
+            ...process.env,
+            GITHUB_REF: 'refs/heads/master',
+            MODE: 'publish',
+            GITHUB_OUTPUT: output,
+          },
+        },
+      );
+      expect(await child.exited).toBe(0);
+      expect(await Bun.file(output).text()).toContain(`route=${route}\n`);
+    }
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
+});
+
 test('changed archive bytes never invoke npm', async () => {
   const root = await mkdtemp(resolve(tmpdir(), 'hana-bad-archive-'));
   try {
