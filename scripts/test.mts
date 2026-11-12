@@ -23,7 +23,11 @@ import { createVirtualFileSystem } from 'typescript/unstable/fs';
 import { fingerprint, writeEvidence } from '../tests/_kit/evidence.ts';
 import { readLiveOptions } from '../tests/_kit/live.ts';
 import type { TestEntry } from '../tests/suites.ts';
-import { testEntries, typecheckFiles } from '../tests/suites.ts';
+import {
+  selectSuiteFiles,
+  testEntries,
+  typecheckFiles,
+} from '../tests/suites.ts';
 
 const checkFocusedTests = async (
   root: string,
@@ -153,9 +157,7 @@ export const runSuite = async ({
   await mkdir(directory, { recursive: true });
   const junit = resolve(directory, 'junit.xml');
   const log = resolve(directory, 'output.log');
-  const files = entries
-    .filter((entry) => entry.selections.includes(suite))
-    .map((entry) => entry.file);
+  const files = selectSuiteFiles(entries, suite);
   const command = [process.execPath, ...process.argv.slice(1)];
   const commands: Array<Array<string>> = [];
   let exitCode = 1;

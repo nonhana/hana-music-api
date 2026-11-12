@@ -1,6 +1,7 @@
 import { spawnSync } from 'node:child_process';
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { dirname, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 
 import {
@@ -26,41 +27,21 @@ const OUTPUT_FILE = resolve(
   import.meta.dir,
   '../src/types/generated/module-surface.generated.ts',
 );
-const TEMP_FILE = resolve(
-  import.meta.dir,
-  '../src/types/generated/module-surface.tmp.ts',
-);
 const SDK_GENERATED_FILE = resolve(
   import.meta.dir,
   '../src/sdk/generated/client.generated.ts',
-);
-const SDK_GENERATED_TEMP_FILE = resolve(
-  import.meta.dir,
-  '../src/sdk/generated/client.tmp.ts',
 );
 const SDK_FACTORY_FILE = resolve(
   import.meta.dir,
   '../src/sdk/generated/client-factory.generated.ts',
 );
-const SDK_FACTORY_TEMP_FILE = resolve(
-  import.meta.dir,
-  '../src/sdk/generated/client-factory.tmp.ts',
-);
 const SDK_REGISTRY_FILE = resolve(
   import.meta.dir,
   '../src/sdk/generated/registry.generated.ts',
 );
-const SDK_REGISTRY_TEMP_FILE = resolve(
-  import.meta.dir,
-  '../src/sdk/generated/registry.tmp.ts',
-);
 const SDK_BODIES_FILE = resolve(
   import.meta.dir,
   '../src/sdk/generated/bodies.generated.ts',
-);
-const SDK_BODIES_TEMP_FILE = resolve(
-  import.meta.dir,
-  '../src/sdk/generated/bodies.tmp.ts',
 );
 const SDK_API_DIRECTORY = resolve(import.meta.dir, '../src/sdk/api');
 
@@ -68,7 +49,6 @@ interface GeneratedArtifacts {
   readonly files: ReadonlyArray<{
     readonly contents: string;
     readonly path: string;
-    readonly tempPath?: string;
   }>;
   readonly moduleCount: number;
 }
@@ -476,27 +456,22 @@ export const buildGeneratedArtifacts = async (
       {
         contents: buildModuleSurface(contracts),
         path: OUTPUT_FILE,
-        tempPath: TEMP_FILE,
       },
       {
         contents: buildSdkGeneratedClient(identifiers),
         path: SDK_GENERATED_FILE,
-        tempPath: SDK_GENERATED_TEMP_FILE,
       },
       {
         contents: buildSdkFactory(identifiers),
         path: SDK_FACTORY_FILE,
-        tempPath: SDK_FACTORY_TEMP_FILE,
       },
       {
         contents: buildSdkRegistry(identifiers, Object.fromEntries(routes)),
         path: SDK_REGISTRY_FILE,
-        tempPath: SDK_REGISTRY_TEMP_FILE,
       },
       {
         contents: buildSdkBodies(contracts),
         path: SDK_BODIES_FILE,
-        tempPath: SDK_BODIES_TEMP_FILE,
       },
       ...identifiers.map((identifier) => {
         const sdkApiPath = resolve(SDK_API_DIRECTORY, `${identifier}.ts`);
@@ -510,68 +485,63 @@ export const buildGeneratedArtifacts = async (
   };
 };
 
-const formatFile = (filePath: string): void => {
-  const formatResult = spawnSync('bun', ['x', 'oxfmt', filePath], {
-    stdio: 'inherit',
-  });
-
-  if (formatResult.status !== 0) {
-    throw new Error(
-      `Failed to format generated module type surface: ${filePath}`,
-    );
-  }
+const projectRoot = resolve(import.meta.dir, '..');
+const formatFiles = (paths: Array<string>): void => {
+  const result = spawnSync(
+    'bun',
+    [
+      'x',
+      'oxfmt',
+      '--config',
+      resolve(projectRoot, 'oxfmt.config.ts'),
+      ...paths,
+    ],
+    {
+      cwd: projectRoot,
+      stdio: 'inherit',
+    },
+  );
+  if (result.status !== 0)
+    throw new Error('Failed to format generated module type surface');
 };
 
 const writeSurface = async (): Promise<void> => {
   const { files, moduleCount } = await buildGeneratedArtifacts();
-
   for (const file of files) {
-    await mkdir(dirname(file.path), {
-      recursive: true,
-    });
+    await mkdir(dirname(file.path), { recursive: true });
     await writeFile(file.path, file.contents);
-    formatFile(file.path);
   }
-
+  formatFiles(files.map((file) => relative(projectRoot, file.path)));
   console.log(`Generated ${moduleCount} module identifiers -> ${OUTPUT_FILE}`);
 };
 
 const checkSurface = async (): Promise<void> => {
   const { files } = await buildGeneratedArtifacts();
-
+  const temporary = await mkdtemp(resolve(tmpdir(), 'hana-generated-'));
   try {
-    for (const file of files) {
-      await mkdir(dirname(file.tempPath ?? file.path), {
-        recursive: true,
-      });
-      const tempPath = file.tempPath ?? `${file.path}.check-tmp.ts`;
-      await writeFile(tempPath, file.contents);
-      formatFile(tempPath);
+    const staged = files.map((file) => ({
+      actual: file.path,
+      expected: resolve(temporary, relative(projectRoot, file.path)),
+      contents: file.contents,
+    }));
+    for (const file of staged) {
+      await mkdir(dirname(file.expected), { recursive: true });
+      await writeFile(file.expected, file.contents);
     }
-
-    for (const file of files) {
-      const expected = await readFile(
-        file.tempPath ?? `${file.path}.check-tmp.ts`,
-        'utf8',
-      );
-      const actual = await readFile(file.path, 'utf8').catch(() => '');
-
-      if (expected !== actual) {
+    formatFiles([temporary]);
+    for (const file of staged) {
+      const expected = await readFile(file.expected, 'utf8');
+      const actual = await readFile(file.actual, 'utf8').catch(() => '');
+      if (expected !== actual)
         throw new Error(
-          `Generated SDK surface is out of date. Run "bun run types:modules:generate" and commit ${file.path}.`,
+          `Generated SDK surface is out of date. Run "bun run types:modules:generate" and commit ${file.actual}.`,
         );
-      }
     }
-
     console.log(
       `Generated module type surface is up to date -> ${OUTPUT_FILE}`,
     );
   } finally {
-    for (const file of files) {
-      await rm(file.tempPath ?? `${file.path}.check-tmp.ts`, {
-        force: true,
-      });
-    }
+    await rm(temporary, { recursive: true, force: true });
   }
 };
 
