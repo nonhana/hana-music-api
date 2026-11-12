@@ -73,6 +73,9 @@ jobs:
       - name: Record checked out candidate
         run: |
           mkdir -p .artifacts/testing/ci
+          if [[ "$GITHUB_EVENT_NAME" == pull_request ]]; then
+            git status --porcelain=v1 --untracked-files=all > .artifacts/testing/ci/source-before
+          fi
           git rev-parse HEAD > .artifacts/testing/ci/tested-head.txt
           bun -e 'import { fingerprint } from "./tests/_kit/evidence.ts"; await Bun.write(".artifacts/testing/ci/initial-candidate.json", JSON.stringify(await fingerprint()));'
 
@@ -135,7 +138,11 @@ jobs:
           echo "sha256=$(cat .artifacts/testing/release/sha256)" >> "$GITHUB_OUTPUT"
 
       - name: Record completed lane
-        run: git rev-parse HEAD > .artifacts/testing/ci/completed
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == pull_request ]]; then
+            git status --porcelain=v1 --untracked-files=all > .artifacts/testing/ci/source-after
+          fi
+          git rev-parse HEAD > .artifacts/testing/ci/completed
 
       - name: Upload test evidence
         uses: actions/upload-artifact@v7
@@ -165,14 +172,13 @@ jobs:
         with:
           pattern: testing-${{ github.sha }}-*
           path: ${{ runner.temp }}/ci-results
-      - name: Identify the checked-out source
-        id: source
-        run: |
-          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
-          echo "tree=$(git rev-parse 'HEAD^{tree}')" >> "$GITHUB_OUTPUT"
-      # The release planner reads this successful step from this verify job's attempt.
-      - name: Verify test inventory (${{ github.event_name }} ${{ github.event.number || github.run_id }} / ${{ steps.source.outputs.tree }})
+      - name: Verify complete test inventory
+        id: inventory
         run: bun scripts/check-ci-coverage.mts "$RUNNER_TEMP/ci-results" "$GITHUB_SHA"
+      # The planner reads this successful step from the matching verify attempt.
+      - name: Verified PR ${{ github.event.number }} tree ${{ steps.inventory.outputs.tree }}
+        if: github.event_name == 'pull_request' && steps.inventory.outputs.tree != ''
+        run: echo "All lanes tested the clean merge tree."
       - name: Record verified package digest
         if: inputs.release_candidate
         id: sealed

@@ -61,7 +61,7 @@ const findVerifiedRun = async (
   const { jobs } = (await read(
     `actions/runs/${run.id}/attempts/${run.run_attempt}/jobs?per_page=100`,
   )) as { jobs: Array<Job> };
-  const proof = `Verify test inventory (pull_request ${pr.number} / ${tree})`;
+  const proof = `Verified PR ${pr.number} tree ${tree}`;
   if (
     jobs.some(
       (job) =>

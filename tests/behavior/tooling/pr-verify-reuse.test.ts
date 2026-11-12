@@ -29,7 +29,7 @@ test.each([
   await Bun.write(output, '');
   const repo = { full_name: 'example/sdk' };
   const head = 'a'.repeat(40);
-  const step = `Verify test inventory (pull_request ${scenario === 'different pull request' ? 99 : 10} / ${scenario === 'different tree' ? 'b'.repeat(40) : tree})`;
+  const step = `Verified PR ${scenario === 'different pull request' ? 99 : 10} tree ${scenario === 'different tree' ? 'b'.repeat(40) : tree}`;
   const server = Bun.serve({
     hostname: '127.0.0.1',
     port: 0,
