@@ -8,7 +8,17 @@
 
 Watchman 实现使用独立的完整 DOM 类型环境，公开声明仍不要求 DOM 或 Node 类型。同一 tarball 的子路径声明须在 `lib=ES2022/types=[]` 和完整 DOM 两种严格消费者中通过；前者不得因导入声明而获得 window/document，后者不得获得 Bun/Node 全局。构建须只写入约定产物目录，不向源码或类型用例目录发射文件。
 
-根入口同时公开独立的 `ModuleCallConfig` 和 `CreateRequestOptions` 类型。根入口公开 `createHanaMusicApi`、生成的 camelCase 模块函数、`invokeModule`、`createRequest`、`createOption`、`generateDeviceId` 及其支持类型，以及收窄过返回体的模块的 `<模块名>Body` 结构定义和类型（由 `src/sdk/generated/bodies.generated.ts` 生成）。`startServer`、`createServer`、匿名配置生成和模块加载等服务内部能力不属于根 SDK 导出。
+根入口同时公开独立的 `ModuleCallConfig` 和 `CreateRequestOptions` 类型。根入口公开 `createHanaMusicApi`、生成的 camelCase 模块函数、`invokeModule`、`createRequest`、`createOption`、`generateDeviceId` 及其支持类型，以及收窄过返回体的模块的 `<模块名>Body` 结构定义和类型（由 `src/sdk/generated/bodies.generated.ts` 生成）。失败契约另公开 `NcmApiFailure`、`NcmFailureInfo`、`isNcmApiResponse` 和 `getNcmFailureInfo`；内部错误类、Effect 和 Layer 不导出。`startServer`、`createServer`、匿名配置生成和模块加载等服务内部能力不属于根 SDK 导出。
+
+## 失败契约
+
+所有公开入口（client、具名函数、`invokeModule`、`createRequest`）的拒绝对象仍是 `{ status, body, cookie }`，被拒绝时顶层另带可序列化的 `failure`，类型是 `NcmApiFailure`。成功响应不增加 `failure`；HTTP 响应只写 `body`，不暴露元数据。
+
+`failure.kind` 固定为八类：`business`、`rateLimited`、`upstreamShape`、`timeout`、`cancelled`、`invalidRequest`、`transport`、`unknown`。分类在 `normalizeFailure` 的唯一边界产生：业务码以正文中确认的数字 code 为事实，不看 HTTP 状态补猜；plain 上传等非 2xx 是 `transport`；`ModuleInvariantFailed` 是 `unknown`。`partialCompletion`/`completedStages` 保持，分类不承诺可重试。
+
+`isNcmApiResponse(value)` 只做结构守卫：非数组对象、`status` 有限数值、`cookie` 为字符串数组且存在 `body`。`getNcmFailureInfo(value)` 对合法新失败返回判别联合，对普通 Error、成功响应、无元数据的历史响应或无效元数据返回 `undefined`，不抛异常，也不判断业务成功。调用者应使用这两个根导出，不再手写键存在检查。
+
+兼容影响：旧的三字段读取方式不变；新增顶层字段会影响按对象形状严格比较拒绝结果的消费者，发布前由 changeset 说明。实现依据见 [ADR-0004](../docs/adr/0004-public-failure-classification.md)。
 
 ## 调用形状
 
@@ -33,7 +43,7 @@ playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、�
 
 - 模块输入类型由模块本地 `ModuleInput` 生成，公共类型表由 `types:modules:generate` 维护。全部模块使用具体业务结构；`LegacyModuleInput` 和根入口的 `LegacyModule*` 类型已删除。调用者传编号数组、对象、布尔和枚举，SDK 负责逗号串、JSON 串和分号串编码；旧协议输入在发送前以 400 拒绝。这是 major 兼容变化。
 - 未确认的上游响应字段保持未知 JSON；调用者只能依赖模块已经验证的字段。结构定义对外只承诺 Standard Schema 的 `~standard.validate` 和推导出的类型，它们同时是 Effect Schema 这一点不在兼容承诺内。
-- 公开包的 ESM 根入口、Promise 返回形式、`status/body/cookie` 响应外壳和 legacy Cookie 行为属于兼容性合同。
+- 公开包的 ESM 根入口、Promise 返回形式、`status/body/cookie` 响应外壳和 legacy Cookie 行为属于兼容性合同。拒绝对象新增的顶层 `failure` 是可序列化附加事实，不改写原有三字段；严格比较拒绝对象形状的消费者需要按 changeset 调整。
 - 修改公开导出后，必须通过 `bun run test:sdk-contract`、`bun run verify:sdk` 和 `bun run build:check`。
 
 使用说明见 `website/guide/programmatic-api.md`、`website/guide/create-request-and-create-option.md` 和 `website/guide/sdk-package-contract.md`。

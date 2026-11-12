@@ -12,6 +12,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -206,6 +207,7 @@ test('ugc_mv_get rejects an unknown mv with the upstream business code', async (
       status: 404,
       cookie: [],
       body: ugcMvGetMissing.response.body,
+      failure: businessFailure(ugcMvGetMissing.response.body),
     },
   });
 });
@@ -268,6 +270,7 @@ test('ugc modules reject invalid input before calling upstream', async () => {
         status: 400,
         cookie: [],
         body: { code: 400, msg: 'Expected <Declaration>' },
+        failure: { kind: 'invalidRequest' },
       },
     });
   }

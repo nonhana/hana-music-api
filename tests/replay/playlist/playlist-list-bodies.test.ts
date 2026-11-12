@@ -3,6 +3,7 @@ import { expect, expectTypeOf, test } from 'bun:test';
 import { createHanaMusicApi, TopPlaylistBody } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -349,6 +350,7 @@ test('top_playlist passes a rejected code through without rewriting', async () =
       status: 404,
       cookie: [],
       body: upstream,
+      failure: businessFailure(upstream),
     },
   });
 });

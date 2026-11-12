@@ -10,6 +10,7 @@ import {
 import { getRuntimeState, setRuntimeState } from '../../../src/core/runtime.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -180,6 +181,7 @@ test('summary_annual passes a year without a report through', async () => {
       status: 404,
       cookie: [],
       body: summaryAnnualNoReport.response.body,
+      failure: businessFailure(summaryAnnualNoReport.response.body),
     },
   });
 });
@@ -462,6 +464,7 @@ test('summary_annual rejects a non-primitive year before calling upstream', asyn
         code: 400,
         msg: 'Expected number | string\n  at ["year"]',
       },
+      failure: { kind: 'invalidRequest' },
     },
   });
   expect(upstreamCalls).toBe(0);

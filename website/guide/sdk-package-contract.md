@@ -39,6 +39,8 @@ import { createHanaMusicApi, search, invokeModule } from 'hana-music-api';
 | `invokeModule`                  | 按模块标识调用                     |
 | `createRequest`、`createOption` | 显式底层请求与其配置提取           |
 | `generateDeviceId`              | 生成满足匿名注册条件的设备号       |
+| `isNcmApiResponse`              | 结构守卫：是否为 SDK 响应外壳      |
+| `getNcmFailureInfo`             | 读取拒绝对象的稳定失败分类         |
 | 配套公开类型                    | 声明配置、模块标识、输入和响应外壳 |
 
 `startServer`、`createServer`、模块加载器和运行时状态读写函数都属于仓库内部能力，不是 npm 包的公开导出。源码部署的用法见 [部署 HTTP 服务](/guide/server-deployment)。

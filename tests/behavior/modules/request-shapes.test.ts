@@ -418,6 +418,7 @@ describe('phase 5 module regression suite', () => {
               code: 301,
             },
             cookie: [],
+            failure: { kind: 'business', code: 301 },
             status: 301,
           });
         }
@@ -474,6 +475,7 @@ describe('phase 5 module regression suite', () => {
           msg: '请上传音频文件',
         },
         cookie: [],
+        failure: { kind: 'invalidRequest' },
         status: 500,
       });
     }

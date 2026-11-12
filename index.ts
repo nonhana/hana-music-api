@@ -1,5 +1,6 @@
 export { createOption } from './src/core/options.ts';
 export { createRequest } from './src/core/request.ts';
+export { getNcmFailureInfo, isNcmApiResponse } from './src/core/response.ts';
 export { generateDeviceId } from './src/core/utils.ts';
 export type {
   PlaylistSummary,
@@ -21,7 +22,9 @@ export type {
   ModuleInputOf,
   ModuleQueryOf,
   ModuleResponseOf,
+  NcmApiFailure,
   NcmApiResponse,
+  NcmFailureInfo,
   RequestConnectionStrategy,
   RequestCrypto,
   RequestDebugEvent,

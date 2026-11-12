@@ -11,6 +11,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -202,6 +203,7 @@ test.each<{
       status: 301,
       cookie: [],
       body: entry.recording.response.body,
+      failure: businessFailure(entry.recording.response.body),
     },
   });
 });
@@ -350,6 +352,7 @@ test('msg_comments rejects a non-numeric uid locally without calling upstream', 
       status: 400,
       cookie: [],
       body: { code: 400, msg: 'Expected <Declaration>\n  at ["uid"]' },
+      failure: { kind: 'invalidRequest' },
     },
   });
   expect(requests).toBe(0);

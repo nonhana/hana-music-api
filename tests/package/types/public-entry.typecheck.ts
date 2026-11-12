@@ -11,8 +11,10 @@ import {
   createHanaMusicApi,
   createRequest,
   generateDeviceId,
+  getNcmFailureInfo,
   innerVersion,
   invokeModule,
+  isNcmApiResponse,
   playlistHot,
   playlistTagsUpdate,
   playlistTracks,
@@ -29,7 +31,9 @@ import type {
   ModuleCallConfig,
   ModuleInputOf,
   ModuleResponseOf,
+  NcmApiFailure,
   NcmApiResponse,
+  NcmFailureInfo,
 } from '../../../index.ts';
 import {
   invokeModule as invokeProgrammatic,
@@ -248,3 +252,58 @@ const rawOptions: CreateRequestOptions = {
 };
 const assertRawOptions = () => createRequest('/api/probe', {}, rawOptions);
 void assertRawOptions;
+
+const describeFailure = (failure: NcmFailureInfo): string => {
+  switch (failure.kind) {
+    case 'business':
+      return String(failure.code);
+    case 'rateLimited':
+      return String(failure.retryAfter);
+    case 'upstreamShape':
+      return failure.path;
+    case 'timeout':
+    case 'cancelled':
+    case 'invalidRequest':
+    case 'transport':
+    case 'unknown':
+      return failure.kind;
+    default: {
+      const exhaustive: never = failure;
+      return exhaustive;
+    }
+  }
+};
+
+const failureInfo: NcmFailureInfo = {
+  kind: 'business',
+  code: 301,
+  message: '需要登录',
+};
+const failureResponse: NcmApiFailure = {
+  status: 301,
+  cookie: [],
+  body: { code: 301 },
+  failure: failureInfo,
+};
+const widenedFailure: NcmApiResponse = failureResponse;
+expectTypeOf(isNcmApiResponse(failureResponse)).toEqualTypeOf<boolean>();
+const readFailure = getNcmFailureInfo(failureResponse);
+if (readFailure?.kind === 'business') {
+  expectTypeOf(readFailure.code).toEqualTypeOf<number | null>();
+}
+const successWithFailure: NcmApiResponse = {
+  status: 200,
+  cookie: [],
+  body: {},
+  // @ts-expect-error success envelopes do not declare a failure field
+  failure: failureInfo,
+};
+// @ts-expect-error unknown failure kinds are not part of the union
+const unknownKind: NcmFailureInfo = { kind: 'serverError' };
+// @ts-expect-error business metadata needs an explicit serializable code
+const missingBusinessCode: NcmFailureInfo = { kind: 'business' };
+void describeFailure;
+void widenedFailure;
+void successWithFailure;
+void unknownKind;
+void missingBusinessCode;

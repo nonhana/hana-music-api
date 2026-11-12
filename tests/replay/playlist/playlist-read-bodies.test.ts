@@ -11,6 +11,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -394,6 +395,7 @@ test('playlist_mylike rejects an anonymous call with the upstream login code', a
       status: 302,
       cookie: [],
       body: { code: 302, message: null },
+      failure: businessFailure({ code: 302, message: null }),
     },
   });
 });

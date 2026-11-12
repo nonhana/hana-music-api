@@ -9,7 +9,11 @@ import type { ModuleCallConfig, NcmApiResponse } from '../../../../index.ts';
 import { buildCallServices } from '../../../../src/core/call.ts';
 import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
 import { createServer } from '../../../../src/server/create-server.ts';
-import { projectRoot, settle } from '../../../_kit/assertions.ts';
+import {
+  businessFailure,
+  projectRoot,
+  settle,
+} from '../../../_kit/assertions.ts';
 import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
 import { runEffect, runExit } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
@@ -363,7 +367,12 @@ test('discovery root named and dynamic entries retain Promise refusal envelopes'
   );
   for (const result of outcome)
     expect(result).toEqual({
-      rejected: { status: 403, body: { code: 403 }, cookie: [] },
+      rejected: {
+        status: 403,
+        body: { code: 403 },
+        cookie: [],
+        failure: businessFailure({ code: 403 }),
+      },
     });
 });
 

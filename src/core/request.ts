@@ -396,6 +396,9 @@ export const requestEffect = (
                   ProtocolFailed.make({
                     message: 'Upstream request failed',
                     response,
+                    ...(response.businessCode === undefined
+                      ? {}
+                      : { reason: 'business' as const }),
                   }),
               ),
             ),

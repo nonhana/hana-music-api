@@ -445,6 +445,10 @@ test.each([0, 1, 2, 3, 4, 5])(
               ? { partialCompletion: true, completedStages: failedStage }
               : {}),
           },
+          failure:
+            failedStage === 0 || failedStage >= 4
+              ? { kind: 'business', code: 403 }
+              : { kind: 'transport' },
         },
       });
       expect(scenario.entries).toHaveLength(failedStage + 1);

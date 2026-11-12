@@ -19,6 +19,7 @@ import type {
   Validator,
 } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -683,7 +684,12 @@ test.each<{
     );
 
     expect(result).toEqual({
-      rejected: { status, cookie: [], body: upstream },
+      rejected: {
+        status,
+        cookie: [],
+        body: upstream,
+        failure: businessFailure(upstream),
+      },
     });
   },
 );

@@ -1,0 +1,420 @@
+[
+  {
+    "module": "check_music",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": true,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/playability-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "lyric",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/creators/ugc-bodies.test.ts",
+      "tests/replay/playback/lyric-bodies.test.ts",
+      "tests/replay/playback/playback-bodies.test.ts"
+    ]
+  },
+  {
+    "module": "lyric_new",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/playback-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/library/library-playback.test.ts"
+    ]
+  },
+  {
+    "module": "music_first_listen_info",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/record-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "scrobble",
+    "actions": ["play", "start"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": true,
+    "shape": false,
+    "upload": false,
+    "special": "start + play 两次写",
+    "evidence": [
+      "tests/replay/playback/playback-bodies.test.ts",
+      "tests/replay/special/special-chains.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_chorus",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/lyric-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_detail",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-bodies.test.ts",
+      "tests/behavior/architecture/module-discovery.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_downlist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-collection-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_download_url",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/song-url-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_download_url_v1",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/playback-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_dynamic_cover",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/playability-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_like_check",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/playability-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_lyrics_mark",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/lyric-bodies.test.ts",
+      "tests/replay/writes/reversible-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_lyrics_mark_add",
+    "actions": ["add"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/writes/reversible-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_lyrics_mark_del",
+    "actions": ["delete"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/writes/reversible-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_lyrics_mark_user_page",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/lyric-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_monthdownlist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-collection-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_music_detail",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/lyric-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_order_update",
+    "actions": ["update"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/special/input-encoding.test.ts"
+    ]
+  },
+  {
+    "module": "song_purchased",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-collection-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_red_count",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/playability-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_singledownlist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-collection-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_url",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": true,
+    "upload": false,
+    "special": "手工 data 数组校验与合成 code 200",
+    "evidence": [
+      "tests/replay/playback/song-url-bodies.test.ts",
+      "tests/behavior/http/server.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_url_v1",
+    "actions": ["read", "sky"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/playback-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts",
+      "tests/behavior/modules/input-encoding/song-lyric.ts"
+    ]
+  },
+  {
+    "module": "song_wiki_summary",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/lyric-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
+    ]
+  }
+]

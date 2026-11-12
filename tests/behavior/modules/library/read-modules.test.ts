@@ -250,6 +250,11 @@ describe('ordinary read Effect modules', () => {
         status: 301,
         cookie: [],
         body: { code: 301, msg: 'fixture-auth-failure', extra: { keep: true } },
+        failure: {
+          kind: 'business',
+          code: 301,
+          message: 'fixture-auth-failure',
+        },
       },
     },
     {
@@ -259,6 +264,7 @@ describe('ordinary read Effect modules', () => {
         status: 502,
         cookie: [],
         body: { code: 502, msg: 'fixture-handler-error' },
+        failure: { kind: 'transport' },
       },
     },
   ])('maps upstream $name at the programmatic ingress', async (scenario) => {

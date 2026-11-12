@@ -25,7 +25,11 @@ import type {
   UpstreamShape,
   Validator,
 } from '../../_kit/assertions.ts';
-import { expectUpstreamShapeRejection, settle } from '../../_kit/assertions.ts';
+import {
+  businessFailure,
+  expectUpstreamShapeRejection,
+  settle,
+} from '../../_kit/assertions.ts';
 import albumSub from '../../fixtures/netease/like-collect/album_sub.subscribe.json';
 import artistSub from '../../fixtures/netease/like-collect/artist_sub.subscribe.json';
 import like from '../../fixtures/netease/like-collect/like.like.json';
@@ -300,6 +304,7 @@ test('playlistTracks rejects a nested business failure', async () => {
       status: 502,
       cookie: [],
       body: { code: 502, message: '歌单内歌曲重复' },
+      failure: businessFailure({ code: 502, message: '歌单内歌曲重复' }),
     },
   });
 });
@@ -318,6 +323,7 @@ test('songOrderUpdate maps the recorded -1 response to a rejected call', async (
       status: 400,
       cookie: [],
       body: recording.default.response.body,
+      failure: businessFailure(recording.default.response.body),
     },
   });
 });

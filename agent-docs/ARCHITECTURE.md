@@ -39,7 +39,7 @@ ReadStore 持有实际共享任务，每个等待者仍有自己的 signal 和�
 
 ## 入口与依赖边界
 
-- `index.ts` 和 `src/sdk/` 组合公开 Promise API；Effect 和内部错误由 core/runtime 在唯一公开执行边界封口。
+- `index.ts` 和 `src/sdk/` 组合公开 Promise API；Effect 和内部错误由 core/runtime 在唯一公开执行边界封口，`normalizeFailure` 在仍掌握来源时写入 `failure`，HTTP 不序列化该字段。
 - `src/modules/` 处理业务输入、动作选择和返回检查；`src/plugins/` 组合上传步骤。模块不直接 fetch 或 runPromise。
 - `src/core/` 负责请求、身份、纯编码、transport 和 ReadStore，不依赖 Hono。
 - `src/server/` 负责 Hono、准入、Cookie/body、路由和发现；不从 HTTP 输入取得 execution。内部 createServer/startServer runtime 参数提供网络、Clock/熵与实际 ReadStore reader。

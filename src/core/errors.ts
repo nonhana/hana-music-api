@@ -74,6 +74,7 @@ const UpstreamResponseSchema = Schema.Struct({
   headers: HeadersSchema,
   cookie: Schema.Array(Schema.String),
   body: UnknownJsonSchema,
+  businessCode: Schema.optional(Schema.Finite),
 }) satisfies Schema.Codec<UpstreamResponse>;
 
 export class InvalidRequest extends Schema.TaggedError<
@@ -123,6 +124,8 @@ export class ProtocolFailed extends Schema.TaggedError<
   message: Schema.String,
   cause: Schema.optional(Schema.Unknown),
   response: Schema.optional(UpstreamResponseSchema),
+  // 非 2xx 来自已确认的正文业务码时，失败分类仍是业务拒绝，不是传输失败。
+  reason: Schema.optional(Schema.Literal('business')),
 }) {}
 
 export class InvalidModuleInput extends Schema.TaggedError<

@@ -10,6 +10,7 @@ bun scripts/mutation-test.mts --target membership-business
 bun scripts/mutation-test.mts --target podcast-video
 bun scripts/mutation-test.mts --target account-social
 bun scripts/mutation-test.mts --target check-token
+bun scripts/mutation-test.mts --target failure-contract
 bun scripts/mutation-test.mts --target playlist-subscribe
 bun scripts/mutation-test.mts --target shared-reads
 bun scripts/mutation-test.mts --target upload

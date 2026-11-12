@@ -13,6 +13,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -207,6 +208,7 @@ test.each<{
       status: (entry.recording.response.body as { code: number }).code,
       cookie: [],
       body: entry.recording.response.body,
+      failure: businessFailure(entry.recording.response.body),
     },
   });
 });
@@ -296,6 +298,7 @@ test('vip status modules reject invalid input before calling upstream', async ()
         status: 400,
         cookie: [],
         body: { code: 400, msg: 'Expected <Declaration>' },
+        failure: { kind: 'invalidRequest' },
       },
     });
   }

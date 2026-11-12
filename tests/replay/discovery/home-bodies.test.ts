@@ -8,6 +8,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -134,6 +135,7 @@ test('homepage_block_page with an invalid cursor passes a rejected code through'
       status: 400,
       cookie: [],
       body: homepageBlockPageInvalidCursor.response.body,
+      failure: businessFailure(homepageBlockPageInvalidCursor.response.body),
     },
   });
 });
@@ -528,6 +530,11 @@ test('homepage_dragon_ball passes a rejected code through', async () => {
   const body = { code: 301, message: 'need login', data: [] };
 
   expect(await settle(replay(body).homepageDragonBall())).toEqual({
-    rejected: { status: 301, cookie: [], body },
+    rejected: {
+      status: 301,
+      cookie: [],
+      body,
+      failure: businessFailure(body),
+    },
   });
 });

@@ -2,7 +2,11 @@ import { expect, test } from 'bun:test';
 
 import { createHanaMusicApi, LoginCellphoneRiskBody } from '../../../index.ts';
 import type { Recording, UpstreamShape } from '../../_kit/assertions.ts';
-import { expectUpstreamShapeRejection, settle } from '../../_kit/assertions.ts';
+import {
+  businessFailure,
+  expectUpstreamShapeRejection,
+  settle,
+} from '../../_kit/assertions.ts';
 import captchaSent from '../../fixtures/netease/login/captcha_sent.json';
 import smsLogin from '../../fixtures/netease/login/login_cellphone.200.json';
 import smsRisk from '../../fixtures/netease/login/login_cellphone.10004-risk.json';
@@ -97,7 +101,12 @@ test('loginQrCheck hands an unrecorded code back as NetEase’s own rejection', 
   const upstream = { code: 8821, message: '需要行为验证码验证', token: 't' };
 
   expect(await settle(replay(upstream).loginQrCheck({ key: 'k' }))).toEqual({
-    rejected: { status: 400, cookie: [], body: upstream },
+    rejected: {
+      status: 400,
+      cookie: [],
+      body: upstream,
+      failure: businessFailure(upstream),
+    },
   });
 });
 
@@ -129,7 +138,12 @@ test('loginCellphone passes the risk-control rejection through, matching the exp
   );
 
   expect(outcome).toEqual({
-    rejected: { status: 400, cookie: [], body: smsRisk.response.body },
+    rejected: {
+      status: 400,
+      cookie: [],
+      body: smsRisk.response.body,
+      failure: businessFailure(smsRisk.response.body),
+    },
   });
   expect(
     LoginCellphoneRiskBody['~standard'].validate(
@@ -188,7 +202,12 @@ test('loginRefresh hands an expired login’s rejection back unchanged', async (
   const upstream = { code: 301, msg: '需要登录' };
 
   expect(await settle(replay(upstream).loginRefresh())).toEqual({
-    rejected: { status: 301, cookie: [], body: upstream },
+    rejected: {
+      status: 301,
+      cookie: [],
+      body: upstream,
+      failure: businessFailure(upstream),
+    },
   });
 });
 

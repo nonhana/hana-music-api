@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test';
 
 import type { ModuleCallConfig, NcmApiResponse } from '../../../index.ts';
 import { createHanaMusicApi } from '../../../index.ts';
-import { settle } from '../../_kit/assertions.ts';
+import { businessFailure, settle } from '../../_kit/assertions.ts';
 import ownPlaylist from '../../fixtures/netease/playlist_subscribe/own.json';
 import rejectedHttp200 from '../../fixtures/netease/playlist_subscribe/rejected-http-200.json';
 import rejected from '../../fixtures/netease/playlist_subscribe/rejected.json';
@@ -97,6 +97,7 @@ test('playlistSubscribe preserves the recorded own-playlist rejection without tu
       status: 401,
       body: ownPlaylist.response.body,
       cookie: [],
+      failure: businessFailure(ownPlaylist.response.body),
     },
   });
   expect(sent).toHaveLength(1);
@@ -117,6 +118,7 @@ test('playlistSubscribe rejects an HTTP 200 business 405 without replaying the w
       status: 405,
       body: { ...rejectedHttp200.response.body, retryAfter: 30 },
       cookie: [],
+      failure: { kind: 'rateLimited', code: 405, retryAfter: 30 },
     },
   });
   expect(sent).toHaveLength(1);

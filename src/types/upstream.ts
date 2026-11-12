@@ -26,4 +26,6 @@ export interface UpstreamResponse {
   readonly headers: Headers;
   readonly cookie: ReadonlyArray<string>;
   readonly body: UnknownJson;
+  /** interpretResponse 在改写正文前确认的数字业务码，仅用于区分业务拒绝与传输失败。 */
+  readonly businessCode?: number;
 }

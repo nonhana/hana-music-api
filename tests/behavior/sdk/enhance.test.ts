@@ -256,6 +256,7 @@ describe('sdk identity pool', () => {
     expect(failure).toMatchObject({
       status: 504,
       body: { code: 504, partialCompletion: true, completedStages: 1 },
+      failure: { kind: 'timeout' },
     });
     expect(aborted).toBe(true);
     expect(calls).toBe(2);
@@ -283,7 +284,10 @@ describe('sdk identity pool', () => {
       },
     );
     const failure = await upload({}).catch((error: unknown) => error);
-    expect(failure).toMatchObject({ status: 504 });
+    expect(failure).toMatchObject({
+      status: 504,
+      failure: { kind: 'timeout' },
+    });
     expect(invoked).toBe(false);
   });
 

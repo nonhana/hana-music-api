@@ -211,6 +211,21 @@ export const testEntries: ReadonlyArray<TestEntry> = [
     selections: ['local'],
   },
   {
+    file: 'tests/behavior/runtime/failure-contract.test.ts',
+    category: 'behavior',
+    selections: ['local', 'mutation:failure-contract'],
+  },
+  {
+    file: 'tests/unit/runtime/failure-metadata.test.ts',
+    category: 'unit',
+    selections: ['local', 'mutation:failure-contract'],
+  },
+  {
+    file: 'tests/behavior/http/failure-boundary.test.ts',
+    category: 'behavior',
+    selections: ['local', 'mutation:failure-contract'],
+  },
+  {
     file: 'tests/unit/request/rate-limit-classification.test.ts',
     category: 'unit',
     selections: ['local'],

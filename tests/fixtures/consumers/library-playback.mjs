@@ -133,6 +133,11 @@ for (const [index, entry] of baseline.cases.entries()) {
         status: 403,
         body: { code: 403, msg: 'package-refusal' },
         cookie: [],
+        failure: {
+          kind: 'business',
+          code: 403,
+          message: 'package-refusal',
+        },
       },
     });
     assert.equal(sends, 1);

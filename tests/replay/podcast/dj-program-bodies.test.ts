@@ -16,6 +16,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -221,6 +222,7 @@ test('dj_program_detail for an unknown program is rejected with the upstream sta
       status: 404,
       cookie: [],
       body: djProgramDetailUnknown.response.body,
+      failure: businessFailure(djProgramDetailUnknown.response.body),
     },
   });
 });

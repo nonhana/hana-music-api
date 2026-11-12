@@ -11,6 +11,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -174,6 +175,7 @@ test.each([
         status: code,
         cookie: [],
         body: { ...recording.response.body, code },
+        failure: businessFailure({ ...recording.response.body, code }),
       },
     });
   },
@@ -236,6 +238,7 @@ test('account check modules reject invalid input before calling upstream', async
         status: 400,
         cookie: [],
         body: { code: 400, msg: 'Expected <Declaration>' },
+        failure: { kind: 'invalidRequest' },
       },
     });
   }

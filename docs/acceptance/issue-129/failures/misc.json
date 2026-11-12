@@ -1,0 +1,269 @@
+[
+  {
+    "module": "batch",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-write-bodies.test.ts",
+      "tests/behavior/architecture/module-discovery.test.ts",
+      "tests/behavior/http/server.test.ts"
+    ]
+  },
+  {
+    "module": "image_upload_token",
+    "actions": ["imageAllocate"],
+    "body": true,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/replay/special/special-chains.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts"
+    ]
+  },
+  {
+    "module": "listen_data_realtime_report",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-stats-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/behavior/modules/input-encoding/misc.ts"
+    ]
+  },
+  {
+    "module": "listen_data_report",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-stats-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/behavior/modules/input-encoding/misc.ts"
+    ]
+  },
+  {
+    "module": "listen_data_today_song",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-stats-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts"
+    ]
+  },
+  {
+    "module": "listen_data_total",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-stats-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/mutation/targets/membership-business.ts"
+    ]
+  },
+  {
+    "module": "listen_data_year_report",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-stats-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts"
+    ]
+  },
+  {
+    "module": "listentogether_accept",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts"
+    ]
+  },
+  {
+    "module": "listentogether_end",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts"
+    ]
+  },
+  {
+    "module": "listentogether_heatbeat",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/behavior/modules/account/account-social.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts"
+    ]
+  },
+  {
+    "module": "listentogether_play_command",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts",
+      "tests/behavior/modules/input-encoding/misc.ts"
+    ]
+  },
+  {
+    "module": "listentogether_room_check",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/account-social.test.ts",
+      "tests/replay/activity/listen-broadcast-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts"
+    ]
+  },
+  {
+    "module": "listentogether_room_create",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts"
+    ]
+  },
+  {
+    "module": "listentogether_status",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-broadcast-bodies.test.ts",
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts"
+    ]
+  },
+  {
+    "module": "listentogether_sync_list_command",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/account-social.test.ts",
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/behavior/modules/account/account-social-policy.test.ts"
+    ]
+  },
+  {
+    "module": "listentogether_sync_playlist_get",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/account-social.test.ts",
+      "tests/replay/activity/listen-broadcast-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/misc.ts"
+    ]
+  }
+]

@@ -205,6 +205,7 @@ describe('createRequest', () => {
         status: 400,
         cookie: [],
         body: { code: NaN, message: 'original' },
+        failure: { kind: 'transport' },
       },
     });
   });
@@ -249,6 +250,11 @@ describe('createRequest', () => {
           code: 500,
           message: 'upstream rejected',
           extra: ['preserved'],
+        },
+        failure: {
+          kind: 'business',
+          code: 500,
+          message: 'upstream rejected',
         },
       },
     });
@@ -769,6 +775,7 @@ test('strict low-level transport preserves rejection body and multiple response 
           status: 403,
           body: { code: 403, detail: 'retained' },
           cookie: ['first=one; Path=/', 'second=two; Path=/'],
+          failure: { kind: 'business', code: 403 },
         },
       });
       expect(scenario.entries).toHaveLength(1);

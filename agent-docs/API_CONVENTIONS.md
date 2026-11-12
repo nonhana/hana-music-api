@@ -78,6 +78,8 @@ HTTP 路由按请求头 Cookie → query → body 的顺序合并，后者覆盖
 
 请求层负责目标拒绝、上游限流、期限、传输和协议失败；HTTP 服务层负责入口准入拒绝；模块层负责输入错误、上游结构错误、业务失败和上传部分完成。内部错误只在公开边界映射为既有的 `{ status, body, cookie }` Promise 响应。
 
+`normalizeFailure` 同时把来源写成顶层 `failure`，八类见 [PUBLIC_API.md](./PUBLIC_API.md#失败契约) 和 [ADR-0004](../docs/adr/0004-public-failure-classification.md)。业务码事实由 `interpretResponse` 在把正文 `code` 归一成数字前确认：数字或非空数字字符串是 `business`，plain 协议的非 2xx 和没有确认业务码的 HTTP 失败是 `transport`。不得按 502/405 等状态补猜，也不得在模块里另造分类或把元数据混进 HTTP 业务正文。
+
 相关实现：`src/modules/`、`src/server/routes.ts`、`src/server/execution-input.ts`、`src/server/admission.ts`、`src/server/module-loader.ts`、`scripts/gen-module-types.mts`。
 
 ## 响应回放、请求证据与合成数据

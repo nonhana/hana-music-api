@@ -12,6 +12,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -223,6 +224,9 @@ test('broadcast_channel_currentinfo for a delisted channel is rejected with the 
       status: 400,
       cookie: [],
       body: broadcastChannelCurrentinfoDelisted.response.body,
+      failure: businessFailure(
+        broadcastChannelCurrentinfoDelisted.response.body,
+      ),
     },
   });
 });
@@ -239,6 +243,7 @@ test('voice_lyric for an inaccessible voice is rejected with the upstream status
       status: 400,
       cookie: [],
       body: voiceLyricUnavailable.response.body,
+      failure: businessFailure(voiceLyricUnavailable.response.body),
     },
   });
 });
@@ -579,6 +584,7 @@ test('broadcast_channel_list rejects a non-object input locally without calling 
       status: 400,
       cookie: [],
       body: { code: 400, msg: 'Expected <Declaration>' },
+      failure: { kind: 'invalidRequest' },
     },
   });
   expect(requests).toBe(0);

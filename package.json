@@ -48,6 +48,8 @@
     "docs:build": "vitepress build website",
     "docs:dev": "vitepress dev website",
     "docs:preview": "vitepress preview website",
+    "failures:check": "bun scripts/check-failure-contract.mts --final",
+    "failures:report": "bun scripts/check-failure-contract.mts --write",
     "fixtures:record": "bun scripts/record-fixtures.mts",
     "fmt": "oxfmt .",
     "fmt:check": "oxfmt . --check",
@@ -72,7 +74,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p src/browser/tsconfig.json",
     "types:modules:check": "bun scripts/gen-module-types.mts --check",
     "types:modules:generate": "bun scripts/gen-module-types.mts",
-    "verify": "bun run types:modules:check && bun run inputs:check && bun run schema:audit check && bun run build && bun run test && bun run typecheck && bun run lint && bun run spell && bun run fmt:check && bun run docs:build",
+    "verify": "bun run types:modules:check && bun run inputs:check && bun run failures:check && bun run schema:audit check && bun run build && bun run test && bun run typecheck && bun run lint && bun run spell && bun run fmt:check && bun run docs:build",
     "verify:fixtures": "bun run schema:audit check && bun run schema:audit recordings --recordings tests/fixtures/netease",
     "verify:sdk": "bun run types:modules:check && bun run build:check && bun run test:sdk-contract && bun run typecheck && bun run lint && bun run spell && bun run fmt:check && bun run docs:build",
     "version-packages": "changeset version"

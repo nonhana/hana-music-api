@@ -14,6 +14,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -247,6 +248,7 @@ test('dj_detail for an unknown rid is rejected with the upstream status', async 
       status: 404,
       cookie: [],
       body: djDetailUnknownRid.response.body,
+      failure: businessFailure(djDetailUnknownRid.response.body),
     },
   });
 });
