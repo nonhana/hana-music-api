@@ -355,7 +355,7 @@ test.each(['verify', 'live', 'mutation', 'release', 'release-rehearsal'])(
           if (
             !isRecord(step) ||
             typeof step.run !== 'string' ||
-            !step.run.includes('| tee')
+            !(step.run.includes('| tee') || step.run.includes('>(tee '))
           )
             continue;
           const shell = step.shell ?? (isRecord(run) ? run.shell : undefined);
@@ -404,11 +404,11 @@ test('CI artifact probe runs a real failing assertion and preserves native JUnit
   if (
     !isRecord(workflow) ||
     !isRecord(workflow.jobs) ||
-    !isRecord(workflow.jobs.verify) ||
-    !Array.isArray(workflow.jobs.verify.steps)
+    !isRecord(workflow.jobs.checks) ||
+    !Array.isArray(workflow.jobs.checks.steps)
   )
     throw new Error('invalid verify workflow');
-  const step: unknown = workflow.jobs.verify.steps.find(
+  const step: unknown = workflow.jobs.checks.steps.find(
     (entry: unknown) =>
       isRecord(entry) &&
       entry.name ===

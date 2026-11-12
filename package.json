@@ -42,8 +42,9 @@
   },
   "scripts": {
     "build": "tsdown --config tsdown.config.ts && tsdown --config tsdown.browser.config.ts",
-    "build:check": "bun run build && publint --strict && attw --pack . --profile esm-only",
+    "build:check": "bun run build && bun run check:dist",
     "changeset": "changeset",
+    "check:dist": "publint --strict && attw --pack . --profile esm-only",
     "dev": "bun --watch src/app/cli.ts",
     "docs:build": "vitepress build website",
     "docs:dev": "vitepress dev website",

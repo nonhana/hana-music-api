@@ -19,8 +19,19 @@ defaults:
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
-  verify:
+  checks:
+    name: ${{ matrix.lane }}
+    strategy:
+      fail-fast: false
+      matrix:
+        lane: [static, docs, source-a, source-b, package]
+    env:
+      LANE: ${{ matrix.lane }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -40,6 +51,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Install Chromium for offline browser verification
+        if: matrix.lane == 'package'
         run: bunx playwright install --with-deps chromium
 
       - name: Record checked out candidate
@@ -49,7 +61,7 @@ jobs:
           bun -e 'import { fingerprint } from "./tests/_kit/evidence.ts"; await Bun.write(".artifacts/testing/ci/initial-candidate.json", JSON.stringify(await fingerprint()));'
 
       - name: Exercise artifact upload after an intentional test failure
-        if: inputs.evidence_failure
+        if: inputs.evidence_failure && matrix.lane == 'static'
         run: |
           mkdir -p .artifacts/testing/ci
           cat > .artifacts/testing/ci/failure-probe.test.ts <<'TEST'
@@ -60,23 +72,69 @@ jobs:
           TEST
           bun test ./.artifacts/testing/ci/failure-probe.test.ts --reporter=junit --reporter-outfile=.artifacts/testing/ci/failure-probe.xml 2>&1 | tee .artifacts/testing/ci/failure-probe.log
 
-      - name: Run full repository verification
-        run: bun run verify 2>&1 | tee .artifacts/testing/ci/verify.log
+      - name: Check generated files, contracts, types and style
+        if: matrix.lane == 'static'
+        run: |
+          exec > >(tee .artifacts/testing/ci/static.log) 2>&1
+          bun run types:modules:check
+          bun run inputs:check
+          bun run failures:check
+          bun run typecheck
+          bun run lint
+          bun run spell
+          bun run fmt:check
 
-      - name: Run SDK verification
-        run: bun run verify:sdk 2>&1 | tee .artifacts/testing/ci/verify-sdk.log
+      - name: Check fixtures, load and docs
+        if: matrix.lane == 'docs'
+        run: |
+          exec > >(tee .artifacts/testing/ci/docs.log) 2>&1
+          bun run verify:fixtures
+          bun scripts/load-test.mts
+          bun run docs:build
 
-      - name: Run fixtures verification
-        run: bun run verify:fixtures 2>&1 | tee .artifacts/testing/ci/fixtures.log
+      - name: Run isolated source tests
+        if: startsWith(matrix.lane, 'source-')
+        run: bun scripts/test.mts "ci-$LANE" 2>&1 | tee .artifacts/testing/ci/tests.log
 
-      - name: Run load smoke
-        run: bun run test:load:smoke 2>&1 | tee .artifacts/testing/ci/smoke.log
+      - name: Build and test package consumers
+        if: matrix.lane == 'package'
+        run: bun scripts/test.mts ci-package 2>&1 | tee .artifacts/testing/ci/package.log
+
+      - name: Inspect the tested build and run browser and transport contracts
+        if: matrix.lane == 'package'
+        run: |
+          exec > >(tee .artifacts/testing/ci/dist.log) 2>&1
+          bun run check:dist
+          bun scripts/test.mts ci-built
+
+      - name: Record completed lane
+        run: git rev-parse HEAD > .artifacts/testing/ci/completed
 
       - name: Upload test evidence
         uses: actions/upload-artifact@v7
         if: always()
         with:
-          name: testing-${{ github.sha }}
+          name: testing-${{ github.sha }}-${{ matrix.lane }}
           path: .artifacts/testing/**
           include-hidden-files: true
           retention-days: ${{ github.event_name == 'workflow_dispatch' && 90 || 30 }}
+
+  verify:
+    needs: checks
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require every lane to succeed
+        env:
+          RESULT: ${{ needs.checks.result }}
+        run: test "$RESULT" = success
+      - uses: actions/checkout@v7
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.4
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: testing-${{ github.sha }}-*
+          path: ${{ runner.temp }}/ci-results
+      - name: Verify complete test inventory
+        run: bun scripts/check-ci-coverage.mts "$RUNNER_TEMP/ci-results" "$GITHUB_SHA"

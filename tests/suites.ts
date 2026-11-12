@@ -173,7 +173,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/behavior/browser/watchman.test.ts',
     category: 'behavior',
-    selections: ['local', 'watchman', 'mutation:watchman'],
+    selections: ['local', 'ci-built', 'watchman', 'mutation:watchman'],
   },
   {
     file: 'tests/behavior/runtime/shared-read-actions.test.ts',
@@ -273,7 +273,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/behavior/architecture/boundaries.test.ts',
     category: 'behavior',
-    selections: ['local'],
+    selections: ['local', 'ci-built'],
   },
   {
     file: 'tests/replay/library/artist-read-bodies.test.ts',
@@ -643,7 +643,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/transport/proxy/node-proxy.test.ts',
     category: 'transport',
-    selections: ['local'],
+    selections: ['local', 'ci-built'],
   },
   {
     file: 'tests/behavior/tooling/record-fixtures.test.ts',
@@ -784,3 +784,30 @@ export const typecheckFiles = [
   'tests/package/types/playlist-summary.typecheck.ts',
   'tests/package/types/public-entry.typecheck.ts',
 ];
+
+// Package consumers build dist before the checks that inspect it on the same runner.
+export const selectSuiteFiles = (
+  entries: ReadonlyArray<TestEntry>,
+  suite: string,
+) => {
+  const required = entries.filter((entry) =>
+    entry.selections.some((name) => ['local', 'sdk', 'smoke'].includes(name)),
+  );
+  if (suite === 'ci-package')
+    return required
+      .filter((entry) => entry.category === 'package')
+      .map((entry) => entry.file);
+  if (suite === 'ci-source-a' || suite === 'ci-source-b') {
+    return required
+      .filter(
+        (entry) =>
+          entry.category !== 'package' &&
+          !entry.selections.includes('ci-built'),
+      )
+      .filter((_, index) => index % 2 === (suite === 'ci-source-a' ? 0 : 1))
+      .map((entry) => entry.file);
+  }
+  return entries
+    .filter((entry) => entry.selections.includes(suite))
+    .map((entry) => entry.file);
+};
