@@ -165,7 +165,13 @@ jobs:
         with:
           pattern: testing-${{ github.sha }}-*
           path: ${{ runner.temp }}/ci-results
-      - name: Verify complete test inventory
+      - name: Identify the checked-out source
+        id: source
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          echo "tree=$(git rev-parse 'HEAD^{tree}')" >> "$GITHUB_OUTPUT"
+      # The release planner reads this successful step from this verify job's attempt.
+      - name: Verify test inventory (${{ github.event_name }} ${{ github.event.number || github.run_id }} / ${{ steps.source.outputs.tree }})
         run: bun scripts/check-ci-coverage.mts "$RUNNER_TEMP/ci-results" "$GITHUB_SHA"
       - name: Record verified package digest
         if: inputs.release_candidate
