@@ -31,8 +31,13 @@ permissions:
 
 jobs:
   plan:
+    permissions:
+      contents: read
+      pull-requests: read
+      actions: read
     runs-on: ubuntu-latest
     outputs:
+      verified_run: ${{ steps.reuse.outputs.run_id }}
       route: ${{ steps.plan.outputs.route }}
       version: ${{ steps.plan.outputs.version }}
       patch: ${{ steps.plan.outputs.patch }}
@@ -51,6 +56,12 @@ jobs:
           APPROVED_VERSION: ${{ inputs.candidate_version }}
           APPROVED_HASH: ${{ inputs.candidate_sha256 }}
         run: bun scripts/plan-release.mts
+      - name: Look up verified PR tree
+        id: reuse
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && (steps.plan.outputs.route == 'idle' || steps.plan.outputs.route == 'version')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bun scripts/find-pr-verify.mts
       - if: steps.plan.outputs.patch == 'true'
         run: |
           git add -A -- .changeset CHANGELOG.md package.json bun.lock
@@ -86,6 +97,7 @@ jobs:
 
   checks:
     needs: plan
+    if: needs.plan.outputs.route == 'candidate' || !needs.plan.outputs.verified_run
     uses: ./.github/workflows/verify.yml
     with:
       release_candidate: ${{ needs.plan.outputs.route == 'candidate' }}

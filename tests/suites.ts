@@ -772,6 +772,11 @@ export const testEntries: ReadonlyArray<TestEntry> = [
     selections: ['local'],
   },
   {
+    file: 'tests/behavior/tooling/pr-verify-reuse.test.ts',
+    category: 'behavior',
+    selections: ['local'],
+  },
+  {
     file: 'tests/behavior/tooling/release-preflight.test.ts',
     category: 'behavior',
     selections: ['local', 'mutation:candidate-package'],
