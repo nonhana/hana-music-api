@@ -5,7 +5,7 @@ import { TestClock } from 'effect/testing';
 
 import { createHanaMusicApi, invokeModule, lyric } from '../../../index.ts';
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import type { ModuleActions } from '../../../src/core/request-actions.ts';
 import { createClientFromContext } from '../../../src/sdk/generated/client-factory.generated.ts';
 import { createServer } from '../../../src/server/create-server.ts';
@@ -80,7 +80,7 @@ test('five declared read branches preserve wire payloads and share only matching
     },
     {
       module: 'song_detail',
-      query: { ids: '7, 8' },
+      query: { ids: [7, 8] },
       path: '/api/v3/song/detail',
       data: { c: '[{"id":7},{"id":8}]' },
       body: { code: 200, songs: [], privileges: [] },
@@ -231,7 +231,7 @@ test('effective action profiles and targets isolate the same account in one Read
       {
         identifier: 'search',
         route: '/search',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: declaredRead,
         actions: {
           read: {
@@ -284,7 +284,7 @@ test('read semantic alone grants neither shared cache nor wider retries', async 
       {
         identifier: 'unclassified',
         route: '/custom',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         actions: { read: action },
         execute: declaredRead,
       },
@@ -394,7 +394,7 @@ test('named, dynamic and real HTTP loader entries execute the declared profiles'
       const config = { cookie: 'MUSIC_U=reader', fetcher: scenario.fetcher };
       expect((await lyric({ id: 7 }, config)).status).toBe(200);
       expect(
-        (await invokeModule('song_detail', { ids: 7 }, config)).status,
+        (await invokeModule('song_detail', { ids: [7] }, config)).status,
       ).toBe(200);
       const server = await createServer(
         {},

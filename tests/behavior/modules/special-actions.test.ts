@@ -29,13 +29,15 @@ import type {
   ModuleEffect,
   RequestCapability,
 } from '../../../src/types/index.ts';
-import type { LegacyModuleInput } from '../../../src/types/legacy.ts';
 import { runEffect, runExit } from '../../_kit/it.ts';
 import type { RecordedAction } from '../../_kit/module.ts';
 import { executeModule, response } from '../../_kit/upload.ts';
 
 // 测试用的原始模块：没有 ModuleBody，请求结果原样返回，不随真实模块收窄而变化。
-const rawModule: ModuleEffect<LegacyModuleInput> = (_query, request) =>
+const rawModule: ModuleEffect<Readonly<Record<string, unknown>>> = (
+  _query,
+  request,
+) =>
   Effect.gen(function* () {
     const upstream = yield* request('example', { data: {}, headers: {} });
     return toModuleResponse(upstream);
@@ -79,12 +81,15 @@ describe('special Effect module behavior', () => {
     expect(urls).toEqual(['https://music.163.com/weapi/v1/album/1']);
   });
 
-  test.each([playlistTracks, loginQrCheck])(
+  test.each([
+    { module: playlistTracks, input: { op: 'add', pid: 1, tracks: [2] } },
+    { module: loginQrCheck, input: {} },
+  ])(
     'interruption escapes without a second request',
-    async (module) => {
+    async ({ module, input }) => {
       let requests = 0;
       const exit = await runExit(
-        executeModule(module, {}, () => {
+        executeModule(module, input, () => {
           requests += 1;
           return Effect.interrupt;
         }),
@@ -97,19 +102,27 @@ describe('special Effect module behavior', () => {
   );
 
   test.each([
-    { module: checkMusic, body: { code: 200, data: [{}] } },
-    { module: songUrl, body: { data: [{}] } },
-    { module: playlistTrackAll, body: { playlist: { trackIds: [{}] } } },
-    { module: cloudImport, body: { data: [{}] } },
-    { module: verifyGetQr, body: { data: {} } },
-    { module: login, body: [] },
-    { module: loginQrCheck, body: null },
+    { module: checkMusic, input: { id: 1 }, body: { code: 200, data: [{}] } },
+    { module: songUrl, input: { ids: [1] }, body: { data: [{}] } },
+    {
+      module: playlistTrackAll,
+      input: { id: 1 },
+      body: { playlist: { trackIds: [{}] } },
+    },
+    { module: cloudImport, input: {}, body: { data: [{}] } },
+    { module: verifyGetQr, input: {}, body: { data: {} } },
+    {
+      module: login,
+      input: { email: 'user', password: 'password' },
+      body: [],
+    },
+    { module: loginQrCheck, input: { key: 'key' }, body: null },
   ])(
     'field readers reject malformed upstream data before continuing',
-    async ({ module, body }) => {
+    async ({ module, input, body }) => {
       let requests = 0;
       const failure = await runEffect(
-        executeModule(module, {}, () => {
+        executeModule(module, input, () => {
           requests += 1;
           return Effect.succeed(response(body));
         }).pipe(Effect.flip),
@@ -219,7 +232,7 @@ describe('special Effect module behavior', () => {
         mvid: 3,
         name: 'name',
         desc: 'description',
-        tags: 'tag',
+        tags: ['tag'],
         like: 'false',
       });
       const result = await runEffect(
@@ -262,9 +275,7 @@ describe('special Effect module behavior', () => {
     async ({ identifier, input }) => {
       const imported = await import(`../../../src/modules/${identifier}.ts`);
       const failure = await runEffect(
-        executeModule(imported.default, input, () =>
-          Effect.die('No request expected'),
-        ).pipe(Effect.flip),
+        imported.decodeModuleInput(input).pipe(Effect.flip),
       );
       expect(failure).toBeInstanceOf(InvalidModuleInput);
     },
@@ -297,7 +308,7 @@ describe('special Effect module behavior', () => {
     const result = await runEffect(
       executeModule(
         playlistTracks,
-        { op: 'add', pid: 1, tracks: '2,3' },
+        { op: 'add', pid: 1, tracks: [2, 3] },
         request,
       ),
     );
@@ -326,9 +337,11 @@ describe('special Effect module behavior', () => {
         return Effect.fail(failure);
       };
       const result = await runEffect(
-        executeModule(playlistTracks, { tracks: '2' }, request).pipe(
-          Effect.flip,
-        ),
+        executeModule(
+          playlistTracks,
+          { op: 'add', pid: 1, tracks: [2] },
+          request,
+        ).pipe(Effect.flip),
       );
       expect(result).toBe(failure);
       expect(requests).toBe(1);
@@ -341,7 +354,7 @@ describe('special Effect module behavior', () => {
       response: { ...response({ code: 403 }), status: 403 },
     });
     const result = await runEffect(
-      executeModule(playlistTracks, { tracks: '2' }, () =>
+      executeModule(playlistTracks, { op: 'add', pid: 1, tracks: [2] }, () =>
         Effect.fail(failure),
       ).pipe(Effect.flip),
     );

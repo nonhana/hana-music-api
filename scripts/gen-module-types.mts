@@ -203,7 +203,58 @@ const buildSdkBodies = (
     .join('\n')
     .concat('\n');
 
-const readModuleContract = (source: SourceFile) => {
+// 合法开放字典必须在这里逐项登记理由；批次不能自行放行。
+const OPEN_INPUT_EXCEPTIONS: Readonly<Record<string, string>> = {
+  batch: 'batch 接口按 /api/ 路由转发子请求，值类型由目标接口决定',
+};
+
+const BROAD_INPUT_PATTERNS: ReadonlyArray<RegExp> = [
+  /\bLegacyModuleInput\b/u,
+  /\bLegacyModuleQuery\b/u,
+  /Record<\s*string\s*,\s*(?:unknown|any)\s*>/u,
+  /\bunknown\b/u,
+  /\bany\b/u,
+  /\bobject\b/u,
+  /\{\s*\}/u,
+];
+
+const expandLocalAliases = (source: SourceFile, text: string): string => {
+  const aliases = new Map<string, string>();
+  for (const statement of source.statements) {
+    if (
+      isTypeAliasDeclaration(statement) &&
+      statement.name.text !== 'ModuleInput'
+    ) {
+      aliases.set(statement.name.text, statement.type.getText(source));
+    }
+  }
+  let expanded = text;
+  for (let round = 0; round < 5; round += 1) {
+    const next = expanded.replaceAll(/\b[A-Za-z_$][\w$]*\b/gu, (name) => {
+      const alias = aliases.get(name);
+      return alias === undefined ? name : `(${alias})`;
+    });
+    if (next === expanded) break;
+    expanded = next;
+  }
+  return expanded;
+};
+
+const assertConcreteInput = (source: SourceFile, text: string): void => {
+  const identifier =
+    source.fileName.split(/[\\/]/u).at(-1)?.replace(/\.ts$/u, '') ??
+    source.fileName;
+  if (Object.hasOwn(OPEN_INPUT_EXCEPTIONS, identifier)) return;
+  const expanded = expandLocalAliases(source, text);
+  const broad = BROAD_INPUT_PATTERNS.find((pattern) => pattern.test(expanded));
+  if (broad !== undefined) {
+    throw new Error(
+      `Module "${source.fileName}" ModuleInput must be a concrete business structure (matched ${String(broad)})`,
+    );
+  }
+};
+
+const readModuleContract = (source: SourceFile, strictInputs = false) => {
   const exportsType = (name: string) =>
     source.statements.some(
       (statement) =>
@@ -222,20 +273,22 @@ const readModuleContract = (source: SourceFile) => {
               (statement.isTypeOnly || element.isTypeOnly),
           )),
     );
-  if (
-    !source.statements.some(
-      (statement) =>
-        (isTypeAliasDeclaration(statement) ||
-          isInterfaceDeclaration(statement)) &&
-        statement.name.text === 'ModuleInput' &&
-        statement.modifiers?.some(
-          (modifier) => modifier.kind === SyntaxKind.ExportKeyword,
-        ),
-    )
-  ) {
+  const inputDeclaration = source.statements.find(
+    (statement) =>
+      (isTypeAliasDeclaration(statement) ||
+        isInterfaceDeclaration(statement)) &&
+      statement.name.text === 'ModuleInput' &&
+      statement.modifiers?.some(
+        (modifier) => modifier.kind === SyntaxKind.ExportKeyword,
+      ),
+  );
+  if (inputDeclaration === undefined) {
     throw new Error(
       `Module "${source.fileName}" must declare ModuleInput locally and export it`,
     );
+  }
+  if (strictInputs) {
+    assertConcreteInput(source, inputDeclaration.getText(source));
   }
   const defaultExport = source.statements.find(isExportAssignment);
   const defaultName = defaultExport?.expression.getText(source);
@@ -328,6 +381,7 @@ const readModuleContract = (source: SourceFile) => {
 
 const readModuleContracts = async (
   moduleFiles: ReadonlyArray<DiscoveredModuleFile>,
+  strictInputs = false,
 ): Promise<
   Array<DiscoveredModuleFile & ReturnType<typeof readModuleContract>>
 > => {
@@ -345,7 +399,7 @@ const readModuleContracts = async (
           const source = (await project.program.getSourceFile(
             moduleFile.filePath,
           ))!;
-          const contract = readModuleContract(source);
+          const contract = readModuleContract(source, strictInputs);
           const imported = await import(
             pathToFileURL(moduleFile.filePath).href
           );
@@ -401,6 +455,7 @@ ${contractLines.join('\n')}
 
 export const buildGeneratedArtifacts = async (
   modulesDirectory = MODULES_DIRECTORY,
+  options: { readonly strictInputs?: boolean } = {},
 ): Promise<GeneratedArtifacts> => {
   const discovered = await discoverModuleFiles(modulesDirectory);
   const sorted = discovered.toSorted((left, right) =>
@@ -411,7 +466,10 @@ export const buildGeneratedArtifacts = async (
   const routes = sorted.map(
     (moduleFile) => [moduleFile.identifier, moduleFile.route] as const,
   );
-  const contracts = await readModuleContracts(sorted);
+  const contracts = await readModuleContracts(
+    sorted,
+    options.strictInputs ?? resolve(modulesDirectory) === MODULES_DIRECTORY,
+  );
 
   return {
     files: [

@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,15 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { uid?: NumberId };
+
+const inputSchema = Schema.Struct({
+  uid: Schema.optional(NumberId),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -57,7 +69,7 @@ const vipInfo: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   Effect.gen(function* () {
     const response = yield* request('request', {
       data: {
-        userId: query.uid || '',
+        userId: query.uid === undefined ? '' : String(query.uid),
       },
     });
     const body = yield* decodeUpstreamBody('vip_info', ModuleBody, response);
@@ -68,7 +80,3 @@ const vipInfo: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 获取 VIP 信息
  */
 export default vipInfo;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

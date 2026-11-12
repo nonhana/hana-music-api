@@ -31,17 +31,22 @@ const contracts: Array<{
       'artist_top_song',
       'artists',
     ],
-    valid: { id: 'id' },
+    valid: { id: 1 },
     required: ['id'],
   },
   {
-    modules: ['album_list', 'album_new'],
-    valid: { area: 'future-area', type: '2', limit: '10', offset: 0 },
+    modules: ['album_list'],
+    valid: { area: 'ALL', type: 2, limit: 10, offset: 0 },
+    required: [],
+  },
+  {
+    modules: ['album_new'],
+    valid: { area: 'ALL', limit: 10, offset: 0 },
     required: [],
   },
   {
     modules: ['album_list_style'],
-    valid: { area: 'future-style', limit: '10', offset: 0 },
+    valid: { area: 'Z_H', limit: 10, offset: 0 },
     required: [],
   },
   {
@@ -78,7 +83,7 @@ const contracts: Array<{
   },
   {
     modules: ['artist_songs'],
-    valid: { id: 1, limit: '10', offset: 0, order: 'future-order' },
+    valid: { id: 1, limit: 10, offset: 0, order: 'hot' },
     required: ['id'],
   },
   {
@@ -93,9 +98,14 @@ const contracts: Array<{
     required: [],
   },
   {
-    modules: ['check_music', 'song_url'],
-    valid: { id: 'id', br: '128000' },
+    modules: ['check_music'],
+    valid: { id: 1 },
     required: ['id'],
+  },
+  {
+    modules: ['song_url'],
+    valid: { ids: [1], br: 128000 },
+    required: ['ids'],
   },
   { modules: ['cloud'], valid: { songFile }, required: [] },
   {
@@ -117,9 +127,9 @@ const contracts: Array<{
     valid: {
       id: 1,
       type: '99',
-      commentId: 'comment',
+      commentId: 5,
       content: 'text',
-      t: '2',
+      t: 2,
       threadId: 'thread',
     },
     required: ['id', 'type', 't'],
@@ -131,9 +141,13 @@ const contracts: Array<{
       'comment_music',
       'comment_mv',
       'comment_playlist',
-      'comment_video',
     ],
-    valid: { id: 'id', limit: '10', offset: 0, before: '1' },
+    valid: { id: 1, limit: '10', offset: 0, before: '1' },
+    required: ['id'],
+  },
+  {
+    modules: ['comment_video'],
+    valid: { id: '1', limit: 10, offset: 0 },
     required: ['id'],
   },
   {
@@ -147,7 +161,7 @@ const contracts: Array<{
       id: 1,
       type: '99',
       limit: '10',
-      parentCommentId: 'comment',
+      parentCommentId: 5,
       time: '1',
     },
     required: ['id', 'type', 'parentCommentId'],
@@ -159,7 +173,7 @@ const contracts: Array<{
   },
   {
     modules: ['comment_like'],
-    valid: { id: 1, type: '99', cid: 'comment', t: '1', threadId: 'thread' },
+    valid: { id: 1, type: '99', cid: 5, t: '1', threadId: 'thread' },
     required: ['id', 'type', 'cid', 't'],
   },
   {
@@ -194,14 +208,14 @@ const contracts: Array<{
   { modules: ['login_qr_check'], valid: { key: 'key' }, required: ['key'] },
   {
     modules: ['login_qr_create'],
-    valid: { key: 'key', platform: 'future-platform', qrimg: 'yes' },
+    valid: { key: 'key', platform: 'web', qrimg: true },
     required: ['key'],
   },
-  { modules: ['lyric'], valid: { id: 1 }, required: [] },
+  { modules: ['lyric'], valid: { id: 1 }, required: ['id'] },
   {
     modules: ['playlist_cover_update'],
-    valid: { imgFile: songFile, imgId: 'img', id: 'id' },
-    required: [],
+    valid: { imgFile: songFile, imgId: 5, id: 1 },
+    required: ['id'],
   },
   { modules: ['playlist_detail'], valid: { id: 1, s: '8' }, required: ['id'] },
   {
@@ -222,18 +236,18 @@ const contracts: Array<{
   },
   {
     modules: ['search'],
-    valid: { keywords: 'music', type: '99', limit: '10', offset: 0 },
+    valid: { keywords: 'music', type: 2000, limit: 10, offset: 0 },
     required: ['keywords'],
   },
-  { modules: ['song_detail'], valid: { ids: '1,2' }, required: [] },
+  { modules: ['song_detail'], valid: { ids: [1, 2] }, required: ['ids'] },
   {
     modules: ['song_url_v1'],
-    valid: { id: 1, level: 'lossless' },
-    required: ['id'],
+    valid: { ids: [1], level: 'lossless' },
+    required: ['ids', 'level'],
   },
   {
     modules: ['user_audio', 'user_detail'],
-    valid: { uid: 'id' },
+    valid: { uid: 1 },
     required: ['uid'],
   },
   {
@@ -258,7 +272,7 @@ const contracts: Array<{
       evid: 'evid',
       sign: 'sign',
       token: 'token',
-      type: 'arbitrary-type',
+      type: 1,
       vid: 'vid',
     },
     required: [],
@@ -266,19 +280,19 @@ const contracts: Array<{
   {
     modules: ['voice_upload'],
     valid: {
-      autoPublish: 'false',
+      autoPublish: false,
       autoPublishText: 'text',
       categoryId: 1,
-      composedSongs: 'songs',
-      coverImgId: 'cover',
+      composedSongs: [1],
+      coverImgId: 5,
       description: 'description',
-      orderNo: '1',
-      privacy: 0,
-      publishTime: '0',
-      secondCategoryId: 'category',
+      orderNo: 1,
+      privacy: false,
+      publishTime: 0,
+      secondCategoryId: 5,
       songFile,
       songName: 'song',
-      voiceListId: 'list',
+      voiceListId: 1,
     },
     required: [],
   },
@@ -296,26 +310,6 @@ test('confirmed decoder cases cover exactly the 68 confirmed modules', () => {
   expect(new Set(cases.map(({ identifier }) => identifier)).size).toBe(68);
 });
 
-test('all 284 legacy decoders preserve unknown nested input and require plain objects', () => {
-  const confirmed = new Set(cases.map(({ identifier }) => identifier));
-  const legacy = Object.entries(definitions).filter(
-    ([identifier]) => !confirmed.has(identifier),
-  );
-  expect(legacy).toHaveLength(284);
-  const input = {
-    future: { nested: [null, 'kept', { enabled: true }] },
-    custom: 7,
-  };
-  for (const [, definition] of legacy) {
-    expect(definition.decodeInput(input).pipe(runSync)).toBe(input);
-    for (const invalid of [null, [], new Date()]) {
-      expect(
-        definition.decodeInput(invalid).pipe(Effect.flip, runSync),
-      ).toBeInstanceOf(InvalidModuleInput);
-    }
-  }
-});
-
 test.each(cases)(
   '$identifier validates every established field and required key',
   ({ identifier, valid, required }) => {
@@ -324,10 +318,16 @@ test.each(cases)(
     if (!decode) {
       return;
     }
-    expect(
-      decode({ ...valid, unknownFutureField: true }).pipe(runSync),
-    ).toEqual(valid);
+    expect(Exit.isSuccess(decode(valid).pipe(runSyncExit))).toBe(true);
+    if (identifier !== 'batch') {
+      expect(
+        Exit.isFailure(
+          decode({ ...valid, unknownFutureField: true }).pipe(runSyncExit),
+        ),
+      ).toBe(true);
+    }
     for (const field of Object.keys(valid)) {
+      if (identifier === 'voice_upload' && field === 'composedSongs') continue;
       const failure = decode({ ...valid, [field]: [] }).pipe(runSyncExit);
       expect(Exit.isFailure(failure)).toBe(true);
       const without = { ...valid };
@@ -421,7 +421,7 @@ test('closed literal unions reject only values excluded by the public input type
     [
       'song_url_v1',
       'level',
-      { id: 1 },
+      { ids: [1] },
       [
         'standard',
         'higher',
@@ -454,7 +454,16 @@ test('closed literal unions reject only values excluded by the public input type
       ),
     ).toBe(true);
   }
-  for (const value of [true, false, 0, 1, '0', '1', 'true', 'false']) {
+  for (const [value, expected] of [
+    [true, true],
+    [false, false],
+    [0, false],
+    [1, true],
+    ['0', false],
+    ['1', true],
+    ['true', true],
+    ['false', false],
+  ] as const) {
     expect(
       definitions
         .voice_upload!.decodeInput({
@@ -462,14 +471,23 @@ test('closed literal unions reject only values excluded by the public input type
           privacy: value,
         })
         .pipe(runSync),
-    ).toEqual({ autoPublish: value, privacy: value });
+    ).toEqual({ autoPublish: expected, privacy: expected });
   }
-  for (const value of [true, false, 5, 'any-string']) {
+  for (const value of [true, false]) {
     expect(
       definitions
         .login_qr_create!.decodeInput({ key: 'key', qrimg: value })
         .pipe(runSync),
     ).toEqual({ key: 'key', qrimg: value });
+  }
+  for (const value of [5, 'any-string']) {
+    expect(
+      Exit.isFailure(
+        definitions
+          .login_qr_create!.decodeInput({ key: 'key', qrimg: value })
+          .pipe(runSyncExit),
+      ),
+    ).toBe(true);
   }
 });
 
@@ -494,7 +512,7 @@ test.each([{ input: null }, { input: [] }])(
     const programmatic = await invokeModule(
       'likelist',
       input as unknown as ModuleQuery,
-      {},
+      {} as never,
       { fetcher },
     ).catch((error: unknown) => error);
     const app = await createServer({}, { execution: { fetcher } });

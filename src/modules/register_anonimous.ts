@@ -2,7 +2,11 @@ import { Effect, Schema } from 'effect';
 
 import { Call } from '../core/call.ts';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
-import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -23,9 +27,9 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-export type ModuleInput = {};
+export type ModuleInput = NoInput;
 
-const inputSchema = Schema.Struct({});
+const inputSchema = EmptyInput;
 
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input).pipe(Effect.as({}));

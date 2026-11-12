@@ -1,9 +1,12 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -16,6 +19,17 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = {
+  id: NumberId;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const userCloudDel: ModuleEffect<
   ModuleInput,
   UnknownJson,
@@ -23,7 +37,7 @@ const userCloudDel: ModuleEffect<
 > = (query, request) =>
   Effect.gen(function* () {
     const data = {
-      songIds: [query.id],
+      songIds: [String(query.id)],
     };
     const response = yield* request('delete', { data });
     return toModuleResponse(response);
@@ -33,7 +47,3 @@ const userCloudDel: ModuleEffect<
  * 云盘歌曲删除
  */
 export default userCloudDel;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

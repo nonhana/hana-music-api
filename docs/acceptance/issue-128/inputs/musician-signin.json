@@ -1,0 +1,151 @@
+[
+  {
+    "module": "daily_signin",
+    "actions": ["request"],
+    "current": "{ type?: 0 | 1 }",
+    "fields": ["ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ type?: 0 | 1 }（缺省 0；数字枚举，HTTP 数字字符串解码为数字）",
+    "upstreamEncoding": "data.type = type ?? 0",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/request-shapes.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 收为 0/1 数字枚举（文档只列安卓 0 与 web 1）；旧输入可传任意真值（如 month、false、null），现在发送前拒绝。"
+  },
+  {
+    "module": "musician_cloudbean",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "{}（无参数）",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/creators/musician-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "模块与上游文档都没有参数；旧输入里的任意键会被忽略，现在按无参数拒绝。"
+  },
+  {
+    "module": "musician_cloudbean_obtain",
+    "actions": ["request"],
+    "current": "{ id: NumberId; period: NaturalValue }",
+    "fields": ["id", "period", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; period: NaturalValue }",
+    "upstreamEncoding": "data = { userMissionId: id, period }；id 原样保留十进制文本，period 以数字发送",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 必须为正安全整数或纯十进制正数字符串；period 为非负整数（任务列表出现 0/1/7），数字字符串解码为 number。两者此前无校验。无成功录制（写操作未执行）。"
+  },
+  {
+    "module": "musician_data_overview",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "{}（无参数）",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/creators/musician-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "模块与上游文档都没有参数；旧输入里的任意键会被忽略，现在按无参数拒绝。"
+  },
+  {
+    "module": "musician_play_trend",
+    "actions": ["request"],
+    "current": "{ startTime: string; endTime: string }",
+    "fields": ["endTime", "startTime", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ startTime: string; endTime: string }（YYYY-MM-DD 日期）",
+    "upstreamEncoding": "data = { startTime, endTime }，原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/creators/musician-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "日期按文档和录制收为字符串；旧的毫秒/秒时间戳（上游本来返回 400）现在由 decoder 在发送前拒绝，缺参同样拒绝。"
+  },
+  {
+    "module": "musician_sign",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "{}（无参数）",
+    "upstreamEncoding": "data = {}",
+    "evidence": ["tests/behavior/modules/input-contracts.test.ts"],
+    "status": "migrated",
+    "notes": "模块、上游实现和文档都没有参数；旧输入里的任意键会被忽略，现在按无参数拒绝。未实现 text 字段：本仓库与上游实现均不读取它。无成功录制（写操作未执行）。"
+  },
+  {
+    "module": "musician_tasks",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "{}（无参数）",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/creators/musician-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "模块与上游文档都没有参数；旧输入里的任意键会被忽略，现在按无参数拒绝。"
+  },
+  {
+    "module": "musician_tasks_new",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "{}（无参数）",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/creators/musician-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "模块与上游文档都没有参数；旧输入里的任意键会被忽略，现在按无参数拒绝。"
+  },
+  {
+    "module": "sign_happy_info",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "{}（无参数）",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/commerce/vip-status-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "模块与上游文档都没有参数；旧输入里的任意键会被忽略，现在按无参数拒绝。"
+  },
+  {
+    "module": "signin_progress",
+    "actions": ["request"],
+    "current": "{ moduleId?: string }",
+    "fields": ["moduleId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ moduleId?: string }（缺省 '1207signin-1207signin'）",
+    "upstreamEncoding": "data.moduleId = moduleId || '1207signin-1207signin'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/commerce/vip-status-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "moduleId 只接受字符串；空串仍按既有 || 语义回退默认值。旧的数字/布尔/null 现在发送前拒绝。"
+  }
+]

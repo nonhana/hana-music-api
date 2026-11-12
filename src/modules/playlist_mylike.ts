@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  IntegerValue,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +13,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 通到点赞视频列表的路径 `data` 收紧；`data.feeds` 在录制里只见过空数组，元素类型猜不出，没有声明，原样保留。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -22,6 +26,19 @@ export const ModuleBody = Schema.toStandardSchemaV1(
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
+
+export type ModuleInput = {
+  time?: number;
+  limit?: number;
+};
+
+const inputSchema = Schema.Struct({
+  time: Schema.optional(IntegerValue),
+  limit: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   read: {
@@ -53,7 +70,3 @@ const playlistMylike: ModuleEffect<
   });
 
 export default playlistMylike;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

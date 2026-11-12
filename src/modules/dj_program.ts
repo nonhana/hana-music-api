@@ -1,6 +1,11 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  BooleanValue,
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,9 +14,24 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import { DjProgram } from '../core/upstream-schemas.ts';
-import { toBoolean } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  asc?: boolean;
+  limit?: number;
+  offset?: number;
+  rid: NumberId;
+};
+
+const inputSchema = Schema.Struct({
+  asc: Schema.optional(BooleanValue),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  rid: NumberId,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -39,21 +59,11 @@ const djProgram: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   request,
 ) =>
   Effect.gen(function* () {
-    if (
-      query.asc !== undefined &&
-      typeof query.asc !== 'boolean' &&
-      typeof query.asc !== 'number' &&
-      typeof query.asc !== 'string'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'asc must be a boolean, number or string',
-      });
-    }
     const data = {
       radioId: query.rid,
       limit: query.limit || 30,
       offset: query.offset || 0,
-      asc: toBoolean(query.asc),
+      asc: query.asc ?? false,
     };
     const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('dj_program', ModuleBody, response);
@@ -64,7 +74,3 @@ const djProgram: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 电台节目列表
  */
 export default djProgram;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

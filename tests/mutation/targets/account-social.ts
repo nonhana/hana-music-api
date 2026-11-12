@@ -29,8 +29,8 @@ export const mutations = [
   {
     id: 'account-comment-delete-lost',
     file: 'src/modules/comment.ts',
-    find: "0: 'delete',",
-    replace: "0: 'add',",
+    find: "query.t === 2 ? 'reply' : 'delete'",
+    replace: "query.t === 0 ? 'add' : query.t === 2 ? 'reply' : 'delete'",
     expectedFailures: [
       'account client comment/action-0 owns its baseline wire contract',
     ],
@@ -38,8 +38,8 @@ export const mutations = [
   {
     id: 'account-sync-display-list-lost',
     file: 'src/modules/listentogether_sync_list_command.ts',
-    find: "displayList: query.displayList.split(','),",
-    replace: "displayList: query.randomList.split(','),",
+    find: 'displayList: query.displayList.map(String),',
+    replace: 'displayList: query.randomList.map(String),',
     expectedFailures: [
       'account client listentogether_sync_list_command/default owns its baseline wire contract',
     ],

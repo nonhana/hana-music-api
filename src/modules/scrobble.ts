@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +13,24 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  id: NumberId;
+  source?: string;
+  // 没有容器 id 的来源传 0，文档明确允许；因此不能用拒绝 0 的 NumberId。
+  sourceid: number;
+  time?: number;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  source: Schema.optional(Schema.String),
+  sourceid: NaturalValue,
+  time: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   start: {
@@ -93,7 +115,3 @@ const scrobble: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 听歌打卡
  */
 export default scrobble;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput & { source?: string };

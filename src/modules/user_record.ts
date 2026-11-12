@@ -2,7 +2,8 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
+  NumberId,
+  NumberLiterals,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -14,7 +15,6 @@ import {
 } from '../core/upstream-body.ts';
 import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { QueryIdentifier } from '../types/module-shared.ts';
 
 export const moduleActions = {
   request: {
@@ -26,15 +26,16 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-export type ModuleInput = {
-  uid: QueryIdentifier;
+const RecordType = NumberLiterals([0, 1]);
 
-  type?: 0 | 1 | '0' | '1';
+export type ModuleInput = {
+  uid: NumberId;
+  type?: 0 | 1;
 };
 
 const inputSchema = Schema.Struct({
-  uid: Identifier,
-  type: Schema.optional(Schema.Literals([0, 1, '0', '1'])),
+  uid: NumberId,
+  type: Schema.optional(RecordType),
 });
 
 export const decodeModuleInput = (input: unknown) =>

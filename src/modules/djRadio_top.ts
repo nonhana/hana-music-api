@@ -1,5 +1,11 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +14,23 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  dataGapDays?: 7 | 30 | 90;
+  dataType?: number;
+  djRadioId?: NumberId;
+  sortIndex?: 1 | 2 | 3 | 4 | 5;
+};
+
+const inputSchema = Schema.Struct({
+  dataGapDays: Schema.optional(NumberLiterals([7, 30, 90])),
+  dataType: Schema.optional(NaturalValue),
+  djRadioId: Schema.optional(NumberId),
+  sortIndex: Schema.optional(NumberLiterals([1, 2, 3, 4, 5])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -55,7 +77,3 @@ const djRadioTop: ModuleEffect<
  * 电台排行榜获取
  */
 export default djRadioTop;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

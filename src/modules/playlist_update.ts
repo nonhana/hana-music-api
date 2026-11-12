@@ -1,6 +1,9 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +12,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 const RouteResult = UpstreamObject({
   code: Schema.Finite,
@@ -27,6 +29,29 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+// 标签成员去掉分号分隔符后不能为空，空数组表示清空标签。
+const Tag = Schema.declare<string>(
+  (value): value is string =>
+    typeof value === 'string' && value.length > 0 && !value.includes(';'),
+);
+
+export type ModuleInput = {
+  id: NumberId;
+  name: string;
+  desc?: string;
+  tags?: ReadonlyArray<string>;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  name: Schema.String,
+  desc: Schema.optional(Schema.String),
+  tags: Schema.optional(Schema.Array(Tag)),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 export const moduleActions = {
   batch: {
     target: '/api/batch',
@@ -41,59 +66,15 @@ const playlistUpdate: ModuleEffect<
   ModuleInput,
   ModuleBody,
   typeof moduleActions
-> = (input, request) =>
+> = (query, request) =>
   Effect.gen(function* () {
-    const query = { ...input };
-    if (
-      query.id !== undefined &&
-      query.id !== null &&
-      typeof query.id !== 'string' &&
-      typeof query.id !== 'number' &&
-      typeof query.id !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'id must be a primitive value',
-      });
-    }
-    if (
-      query.name !== undefined &&
-      query.name !== null &&
-      typeof query.name !== 'string' &&
-      typeof query.name !== 'number' &&
-      typeof query.name !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'name must be a primitive value',
-      });
-    }
-    if (
-      query.desc !== undefined &&
-      query.desc !== null &&
-      typeof query.desc !== 'string' &&
-      typeof query.desc !== 'number' &&
-      typeof query.desc !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'desc must be a primitive value',
-      });
-    }
-    if (
-      query.tags !== undefined &&
-      query.tags !== null &&
-      typeof query.tags !== 'string' &&
-      typeof query.tags !== 'number' &&
-      typeof query.tags !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'tags must be a primitive value',
-      });
-    }
-    query.desc = query.desc || '';
-    query.tags = query.tags || '';
+    const id = String(query.id);
+    const desc = query.desc || '';
+    const tags = query.tags?.join(';') ?? '';
     const data = {
-      '/api/playlist/desc/update': `{"id":${String(query.id)},"desc":"${String(query.desc)}"}`,
-      '/api/playlist/tags/update': `{"id":${String(query.id)},"tags":"${String(query.tags)}"}`,
-      '/api/playlist/update/name': `{"id":${String(query.id)},"name":"${String(query.name)}"}`,
+      '/api/playlist/desc/update': `{"id":${id},"desc":${JSON.stringify(desc)}}`,
+      '/api/playlist/tags/update': `{"id":${id},"tags":${JSON.stringify(tags)}}`,
+      '/api/playlist/update/name': `{"id":${id},"name":${JSON.stringify(query.name)}}`,
     };
     const response = yield* request('batch', { data });
     return {
@@ -106,7 +87,3 @@ const playlistUpdate: ModuleEffect<
  * 编辑歌单
  */
 export default playlistUpdate;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

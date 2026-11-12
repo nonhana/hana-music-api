@@ -2,7 +2,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryNumber,
+  NaturalValue,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -12,13 +12,15 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { PagedQuery } from '../types/module-shared.ts';
 
-export type ModuleInput = PagedQuery;
+export type ModuleInput = {
+  limit?: NaturalValue;
+  offset?: NaturalValue;
+};
 
 const inputSchema = Schema.Struct({
-  limit: Schema.optional(QueryNumber),
-  offset: Schema.optional(QueryNumber),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
 });
 
 export const decodeModuleInput = (input: unknown) =>

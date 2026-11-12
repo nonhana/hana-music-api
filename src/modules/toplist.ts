@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,13 @@ import {
 } from '../core/upstream-body.ts';
 import { PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = NoInput;
+
+const inputSchema = EmptyInput;
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
 
 // 榜单摘要共用 `PlaylistSummary`，另声明录制里非 null 的 `tsSongCount`、`originalCoverId`。
 const ToplistSummary = UpstreamObject({
@@ -60,7 +71,3 @@ const toplist: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 所有榜单介绍
  */
 export default toplist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

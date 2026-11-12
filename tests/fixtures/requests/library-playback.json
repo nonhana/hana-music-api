@@ -750,7 +750,7 @@
       "method": "playlistOrderUpdate",
       "label": "default",
       "query": {
-        "ids": "17,23"
+        "ids": [17, 23]
       },
       "path": "/api/playlist/order/update",
       "url": "https://music.163.com/weapi/playlist/order/update",
@@ -758,7 +758,7 @@
       "semantic": "write",
       "retry": "never",
       "data": {
-        "ids": "17,23"
+        "ids": "[\"17\",\"23\"]"
       },
       "protocol": "weapi"
     },
@@ -805,7 +805,7 @@
       "label": "default",
       "query": {
         "id": "17",
-        "tags": "rock"
+        "tags": ["rock"]
       },
       "path": "/api/playlist/tags/update",
       "url": "https://interface.music.163.com/eapi/playlist/tags/update",
@@ -823,7 +823,7 @@
       "method": "playlistTrackAdd",
       "label": "default",
       "query": {
-        "ids": "17,23",
+        "ids": [17, 23],
         "pid": "31"
       },
       "path": "/api/playlist/track/add",
@@ -843,7 +843,7 @@
       "label": "default",
       "query": {
         "id": "17",
-        "ids": "17,23"
+        "ids": [17, 23]
       },
       "path": "/api/playlist/track/delete",
       "url": "https://music.163.com/weapi/playlist/track/delete",
@@ -864,7 +864,7 @@
         "id": "17",
         "name": "sample",
         "desc": "description",
-        "tags": "rock"
+        "tags": ["rock"]
       },
       "path": "/api/batch",
       "url": "https://interface.music.163.com/eapi/batch",
@@ -988,7 +988,8 @@
       "method": "songDownloadUrlV1",
       "label": "default",
       "query": {
-        "id": "17"
+        "id": "17",
+        "level": "exhigh"
       },
       "path": "/api/song/enhance/download/url/v1",
       "url": "https://interface.music.163.com/eapi/song/enhance/download/url/v1",
@@ -997,7 +998,8 @@
       "retry": "connect",
       "data": {
         "id": "17",
-        "immerseType": "c51"
+        "immerseType": "c51",
+        "level": "exhigh"
       },
       "protocol": "eapi"
     },
@@ -1023,7 +1025,7 @@
       "method": "songLikeCheck",
       "label": "default",
       "query": {
-        "ids": "17,23"
+        "ids": [17, 23]
       },
       "path": "/api/song/like/check",
       "url": "https://interface.music.163.com/eapi/song/like/check",
@@ -1031,7 +1033,7 @@
       "semantic": "read",
       "retry": "never",
       "data": {
-        "trackIds": "17,23"
+        "trackIds": "[\"17\",\"23\"]"
       },
       "protocol": "eapi"
     },
@@ -1143,7 +1145,7 @@
       "method": "songOrderUpdate",
       "label": "default",
       "query": {
-        "ids": "17,23",
+        "ids": [17, 23],
         "pid": "31"
       },
       "path": "/api/playlist/manipulate/tracks",
@@ -1153,7 +1155,7 @@
       "retry": "never",
       "data": {
         "pid": "31",
-        "trackIds": "17,23",
+        "trackIds": "[\"17\",\"23\"]",
         "op": "update"
       },
       "protocol": "eapi"
@@ -1213,7 +1215,7 @@
       "method": "songUrl",
       "label": "default",
       "query": {
-        "id": "17"
+        "ids": [17]
       },
       "path": "/api/song/enhance/player/url",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url",
@@ -1231,7 +1233,8 @@
       "method": "songUrlV1",
       "label": "default",
       "query": {
-        "id": "17"
+        "ids": [17],
+        "level": "exhigh"
       },
       "path": "/api/song/enhance/player/url/v1",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
@@ -1239,8 +1242,9 @@
       "semantic": "read",
       "retry": "connect",
       "data": {
-        "ids": "[17]",
-        "encodeType": "flac"
+        "ids": "[\"17\"]",
+        "encodeType": "flac",
+        "level": "exhigh"
       },
       "protocol": "eapi"
     },
@@ -1299,7 +1303,7 @@
       "method": "userCloudDetail",
       "label": "default",
       "query": {
-        "id": "17"
+        "ids": [17]
       },
       "path": "/api/v1/cloud/get/byids",
       "url": "https://music.163.com/weapi/v1/cloud/get/byids",
@@ -1609,9 +1613,15 @@
       "label": "local",
       "query": {
         "playlistName": "imported",
-        "local": "[{\"name\":\"song\",\"artist\":\"artist\",\"album\":\"album\"}]",
+        "local": [
+          {
+            "name": "song",
+            "artist": "artist",
+            "album": "album"
+          }
+        ],
         "text": "ignored",
-        "link": "[\"https://example.org/ignored\"]"
+        "link": ["https://example.org/ignored"]
       },
       "path": "/api/playlist/import/name/task/create",
       "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
@@ -1652,7 +1662,7 @@
       "query": {
         "playlistName": "imported",
         "text": "ignored",
-        "link": "[\"https://example.org/list?q=曲\"]"
+        "link": ["https://example.org/list?q=曲"]
       },
       "path": "/api/playlist/import/name/task/create",
       "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
@@ -1688,46 +1698,6 @@
       "protocol": "eapi"
     },
     {
-      "module": "playlist_import_name_task_create",
-      "method": "playlistImportNameTaskCreate",
-      "label": "invalidLocal",
-      "query": {
-        "playlistName": "imported",
-        "local": "broken"
-      },
-      "path": "/api/playlist/import/name/task/create",
-      "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
-      "profile": "eapi",
-      "semantic": "write",
-      "retry": "never",
-      "data": {
-        "importStarPlaylist": false,
-        "multiSongs": "[]"
-      },
-      "protocol": "eapi"
-    },
-    {
-      "module": "playlist_import_name_task_create",
-      "method": "playlistImportNameTaskCreate",
-      "label": "invalidLink",
-      "query": {
-        "playlistName": "imported",
-        "link": "{}"
-      },
-      "path": "/api/playlist/import/name/task/create",
-      "url": "https://interface.music.163.com/eapi/playlist/import/name/task/create",
-      "profile": "eapi",
-      "semantic": "write",
-      "retry": "never",
-      "data": {
-        "importStarPlaylist": false,
-        "playlistName": "imported",
-        "taskIdForLog": "",
-        "songs": "[]"
-      },
-      "protocol": "eapi"
-    },
-    {
       "module": "check_music",
       "method": "checkMusic",
       "label": "bitrate",
@@ -1747,31 +1717,12 @@
       "protocol": "weapi"
     },
     {
-      "module": "check_music",
-      "method": "checkMusic",
-      "label": "zero-bitrate",
-      "query": {
-        "id": "17",
-        "br": 0
-      },
-      "path": "/api/song/enhance/player/url",
-      "url": "https://music.163.com/weapi/song/enhance/player/url",
-      "profile": "weapiPc",
-      "semantic": "read",
-      "retry": "connect",
-      "data": {
-        "ids": "[17]",
-        "br": 0
-      },
-      "protocol": "weapi"
-    },
-    {
       "module": "song_url",
       "method": "songUrl",
       "label": "bitrate",
       "query": {
-        "id": "17",
-        "br": "320000"
+        "br": "320000",
+        "ids": [17]
       },
       "path": "/api/song/enhance/player/url",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url",
@@ -1781,25 +1732,6 @@
       "data": {
         "ids": "[\"17\"]",
         "br": 320000
-      },
-      "protocol": "eapi"
-    },
-    {
-      "module": "song_url",
-      "method": "songUrl",
-      "label": "zero-bitrate",
-      "query": {
-        "id": "17",
-        "br": 0
-      },
-      "path": "/api/song/enhance/player/url",
-      "url": "https://interface.music.163.com/eapi/song/enhance/player/url",
-      "profile": "eapi",
-      "semantic": "read",
-      "retry": "connect",
-      "data": {
-        "ids": "[\"17\"]",
-        "br": 0
       },
       "protocol": "eapi"
     },
@@ -1819,25 +1751,6 @@
       "data": {
         "id": "17",
         "br": 320000
-      },
-      "protocol": "eapi"
-    },
-    {
-      "module": "song_download_url",
-      "method": "songDownloadUrl",
-      "label": "zero-bitrate",
-      "query": {
-        "id": "17",
-        "br": 0
-      },
-      "path": "/api/song/enhance/download/url",
-      "url": "https://interface.music.163.com/eapi/song/enhance/download/url",
-      "profile": "eapi",
-      "semantic": "read",
-      "retry": "connect",
-      "data": {
-        "id": "17",
-        "br": 999000
       },
       "protocol": "eapi"
     },
@@ -1846,8 +1759,8 @@
       "method": "songUrlV1",
       "label": "standard",
       "query": {
-        "id": "17,23",
-        "level": "standard"
+        "level": "standard",
+        "ids": [17, 23]
       },
       "path": "/api/song/enhance/player/url/v1",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
@@ -1855,7 +1768,7 @@
       "semantic": "read",
       "retry": "connect",
       "data": {
-        "ids": "[17,23]",
+        "ids": "[\"17\",\"23\"]",
         "level": "standard",
         "encodeType": "flac"
       },
@@ -1886,8 +1799,8 @@
       "method": "songUrlV1",
       "label": "higher",
       "query": {
-        "id": "17,23",
-        "level": "higher"
+        "level": "higher",
+        "ids": [17, 23]
       },
       "path": "/api/song/enhance/player/url/v1",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
@@ -1895,7 +1808,7 @@
       "semantic": "read",
       "retry": "connect",
       "data": {
-        "ids": "[17,23]",
+        "ids": "[\"17\",\"23\"]",
         "level": "higher",
         "encodeType": "flac"
       },
@@ -1926,8 +1839,8 @@
       "method": "songUrlV1",
       "label": "exhigh",
       "query": {
-        "id": "17,23",
-        "level": "exhigh"
+        "level": "exhigh",
+        "ids": [17, 23]
       },
       "path": "/api/song/enhance/player/url/v1",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
@@ -1935,7 +1848,7 @@
       "semantic": "read",
       "retry": "connect",
       "data": {
-        "ids": "[17,23]",
+        "ids": "[\"17\",\"23\"]",
         "level": "exhigh",
         "encodeType": "flac"
       },
@@ -1966,8 +1879,8 @@
       "method": "songUrlV1",
       "label": "lossless",
       "query": {
-        "id": "17,23",
-        "level": "lossless"
+        "level": "lossless",
+        "ids": [17, 23]
       },
       "path": "/api/song/enhance/player/url/v1",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
@@ -1975,7 +1888,7 @@
       "semantic": "read",
       "retry": "connect",
       "data": {
-        "ids": "[17,23]",
+        "ids": "[\"17\",\"23\"]",
         "level": "lossless",
         "encodeType": "flac"
       },
@@ -2006,8 +1919,8 @@
       "method": "songUrlV1",
       "label": "hires",
       "query": {
-        "id": "17,23",
-        "level": "hires"
+        "level": "hires",
+        "ids": [17, 23]
       },
       "path": "/api/song/enhance/player/url/v1",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
@@ -2015,7 +1928,7 @@
       "semantic": "read",
       "retry": "connect",
       "data": {
-        "ids": "[17,23]",
+        "ids": "[\"17\",\"23\"]",
         "level": "hires",
         "encodeType": "flac"
       },
@@ -2046,8 +1959,8 @@
       "method": "songUrlV1",
       "label": "jyeffect",
       "query": {
-        "id": "17,23",
-        "level": "jyeffect"
+        "level": "jyeffect",
+        "ids": [17, 23]
       },
       "path": "/api/song/enhance/player/url/v1",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
@@ -2055,7 +1968,7 @@
       "semantic": "read",
       "retry": "connect",
       "data": {
-        "ids": "[17,23]",
+        "ids": "[\"17\",\"23\"]",
         "level": "jyeffect",
         "encodeType": "flac"
       },
@@ -2086,8 +1999,8 @@
       "method": "songUrlV1",
       "label": "sky",
       "query": {
-        "id": "17,23",
-        "level": "sky"
+        "level": "sky",
+        "ids": [17, 23]
       },
       "path": "/api/song/enhance/player/url/v1",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
@@ -2095,7 +2008,7 @@
       "semantic": "read",
       "retry": "connect",
       "data": {
-        "ids": "[17,23]",
+        "ids": "[\"17\",\"23\"]",
         "level": "sky",
         "encodeType": "flac",
         "immerseType": "c51"
@@ -2127,8 +2040,8 @@
       "method": "songUrlV1",
       "label": "jymaster",
       "query": {
-        "id": "17,23",
-        "level": "jymaster"
+        "level": "jymaster",
+        "ids": [17, 23]
       },
       "path": "/api/song/enhance/player/url/v1",
       "url": "https://interface.music.163.com/eapi/song/enhance/player/url/v1",
@@ -2136,7 +2049,7 @@
       "semantic": "read",
       "retry": "connect",
       "data": {
-        "ids": "[17,23]",
+        "ids": "[\"17\",\"23\"]",
         "level": "jymaster",
         "encodeType": "flac"
       },
@@ -2167,7 +2080,7 @@
       "method": "userCloudDetail",
       "label": "trimmed",
       "query": {
-        "id": "17, 23"
+        "ids": [17, 23]
       },
       "path": "/api/v1/cloud/get/byids",
       "url": "https://music.163.com/weapi/v1/cloud/get/byids",
@@ -2206,7 +2119,7 @@
       "label": "multiple",
       "query": {
         "pid": 31,
-        "ids": "17,23"
+        "ids": [17, 23]
       },
       "path": "/api/playlist/track/add",
       "url": "https://music.163.com/weapi/playlist/track/add",
@@ -2225,7 +2138,7 @@
       "label": "multiple",
       "query": {
         "id": 31,
-        "ids": "17,23"
+        "ids": [17, 23]
       },
       "path": "/api/playlist/track/delete",
       "url": "https://music.163.com/weapi/playlist/track/delete",
@@ -2245,7 +2158,14 @@
       "query": {
         "id": 17,
         "markId": 29,
-        "data": "[{\"text\":\"sample\"}]"
+        "marks": [
+          {
+            "originalLyricsText": "sample",
+            "startTimeStamp": 0,
+            "translateLyricsText": "",
+            "translateType": 0
+          }
+        ]
       },
       "path": "/api/song/play/lyrics/mark/add",
       "url": "https://interface.music.163.com/eapi/song/play/lyrics/mark/add",
@@ -2255,7 +2175,7 @@
       "data": {
         "songId": 17,
         "markId": 29,
-        "data": "[{\"text\":\"sample\"}]"
+        "data": "[{\"originalLyricsText\":\"sample\",\"startTimeStamp\":0,\"translateLyricsText\":\"\",\"translateType\":0}]"
       },
       "protocol": "eapi"
     },
@@ -2266,7 +2186,6 @@
       "query": {
         "id": 17,
         "pid": 31,
-        "sid": 0,
         "count": 0
       },
       "path": "/api/playmode/intelligence/list",

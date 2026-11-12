@@ -326,6 +326,21 @@ export const testEntries: ReadonlyArray<TestEntry> = [
     selections: ['local'],
   },
   {
+    file: 'tests/behavior/modules/input-contracts.test.ts',
+    category: 'behavior',
+    selections: ['local'],
+  },
+  {
+    file: 'tests/behavior/modules/input-encoding.test.ts',
+    category: 'behavior',
+    selections: ['local'],
+  },
+  {
+    file: 'tests/behavior/modules/special/input-encoding.test.ts',
+    category: 'behavior',
+    selections: ['local'],
+  },
+  {
     file: 'tests/replay/library/library-bodies.test.ts',
     category: 'replay',
     selections: ['local'],
@@ -548,6 +563,11 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   {
     file: 'tests/replay/creators/ugc-bodies.test.ts',
     category: 'replay',
+    selections: ['local'],
+  },
+  {
+    file: 'tests/unit/schema/module-input.test.ts',
+    category: 'unit',
     selections: ['local'],
   },
   {

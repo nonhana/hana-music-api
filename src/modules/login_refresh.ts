@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,6 @@ import {
 } from '../core/upstream-body.ts';
 import { isRecord } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -20,6 +24,13 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = NoInput;
+
+const inputSchema = EmptyInput;
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
 
 // 续期成功时新的 MUSIC_U 在 `cookie` 里；扫码和短信两种登录得到的 Cookie 都能续期。返回码和 Cookie 收紧。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -52,6 +63,3 @@ const loginRefresh: ModuleEffect<
   });
 
 export default loginRefresh;
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

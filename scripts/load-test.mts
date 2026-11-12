@@ -5,7 +5,7 @@ import { Effect } from 'effect';
 
 import { startServer } from '../src/app/cli.ts';
 import { ExecutionScope } from '../src/core/call-context.ts';
-import { decodeLegacyModuleInput } from '../src/core/module-input.ts';
+import { decodeModuleObject } from '../src/core/module-input.ts';
 import avatarUpload, {
   moduleActions as avatarUploadActions,
   decodeModuleInput as decodeAvatarInput,
@@ -115,8 +115,8 @@ const runLoad = async (soak: boolean) => {
       identifier: 'like',
       route: '/like',
       actions: likeActions,
-      decodeInput: decodeLegacyModuleInput,
-      execute: like,
+      decodeInput: decodeModuleObject,
+      execute: like as never,
     },
     {
       identifier: 'avatar_upload',
@@ -139,7 +139,7 @@ const runLoad = async (soak: boolean) => {
       },
       identifier: 'raw',
       route: '/raw',
-      decodeInput: decodeLegacyModuleInput,
+      decodeInput: decodeModuleObject,
       execute: (_query, request) =>
         request('raw', {
           headers: {},
@@ -157,7 +157,7 @@ const runLoad = async (soak: boolean) => {
       },
       identifier: 'slow',
       route: '/slow',
-      decodeInput: decodeLegacyModuleInput,
+      decodeInput: decodeModuleObject,
       execute: (_query, request) =>
         request('slow', { data: {}, headers: {} }).pipe(
           Effect.map((response) => ({

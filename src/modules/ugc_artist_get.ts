@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,15 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { id: NumberId };
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 返回码、歌手百科记录的路径 `data` 和歌手自己的编号 `data.artistId` 收紧；未知歌手的 `data` 整个缺失，写成可以没有；其余资料字段全部宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -65,7 +77,3 @@ const ugcArtistGet: ModuleEffect<
  * 歌手简要百科信息
  */
 export default ugcArtistGet;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

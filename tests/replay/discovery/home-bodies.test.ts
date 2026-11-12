@@ -127,7 +127,7 @@ test('homepage_block_page with an invalid cursor passes a rejected code through'
       replay(
         homepageBlockPageInvalidCursor.response.body,
         homepageBlockPageInvalidCursor.response.status,
-      ).homepageBlockPage(homepageBlockPageInvalidCursor.query),
+      ).homepageBlockPage({ cursor: 'invalid-cursor' }),
     ),
   ).toEqual({
     rejected: {
@@ -187,7 +187,7 @@ test('banner rejects an object type before any upstream call', async () => {
     },
   });
 
-  const outcome = await settle(api.banner({ type: {} }));
+  const outcome = await settle(api.banner({ type: {} } as never));
 
   expect('rejected' in outcome && outcome.rejected.status).toBe(400);
   expect(requests).toBe(0);

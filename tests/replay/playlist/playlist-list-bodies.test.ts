@@ -1,13 +1,13 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
-import { TopPlaylistBody } from '../../../index.ts';
+import { createHanaMusicApi, TopPlaylistBody } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,
   settle,
   validateSync,
 } from '../../_kit/assertions.ts';
-import { replay, replayRaw } from '../../_kit/replay.ts';
+import { replay } from '../../_kit/replay.ts';
 import topPlaylistAnonymous from '../../fixtures/netease/playlist/top_playlist.anonymous.json';
 import topPlaylistBeyondLastPage from '../../fixtures/netease/playlist/top_playlist.beyond-last-page.json';
 import topPlaylistDefault from '../../fixtures/netease/playlist/top_playlist.default.json';
@@ -313,19 +313,21 @@ test('top_playlist drops a creator that is not an object', async () => {
   ).not.toHaveProperty('creator');
 });
 
-// 非数字参数：上游回 HTTP 400 和空字符串正文，没有业务 code；网易云把它归一成
-// `status: 200`、`body: ''`，空字符串作为独立分支保留，不报 502（录制 top_playlist.invalid-limit.json）。
-test('top_playlist keeps the normalized empty HTTP 400 body', async () => {
-  const result = await settle(
-    replayRaw(
-      topPlaylistInvalidLimit.response.body,
-      topPlaylistInvalidLimit.response.status,
-    ).topPlaylist(topPlaylistInvalidLimit.query),
-  );
-
-  expect(result as unknown).toEqual({
-    resolved: { status: 200, cookie: [], body: '' },
+// 非数字 limit 现在由输入 schema 在本地拒绝；录制里的空 HTTP 400 正文仍单独校验。
+test('top_playlist rejects a non-numeric limit before calling upstream', async () => {
+  let upstreamCalls = 0;
+  const api = createHanaMusicApi({
+    fetcher: async () => {
+      upstreamCalls += 1;
+      return Response.json({ code: 200 });
+    },
   });
+  const result = await settle(api.topPlaylist({ limit: 'abc' } as never));
+
+  expect(result).toMatchObject({
+    rejected: { status: 400, cookie: [], body: { code: 400 } },
+  });
+  expect(upstreamCalls).toBe(0);
   const validated = validateSync(
     TopPlaylistBody,
     topPlaylistInvalidLimit.response.body,

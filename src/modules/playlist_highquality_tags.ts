@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +13,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 const Tag = UpstreamObject({
   id: Schema.Finite,
@@ -37,14 +41,20 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = NoInput;
+
+const inputSchema = EmptyInput;
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
+
 const playlistHighqualityTags: ModuleEffect<
   ModuleInput,
   ModuleBody,
   typeof moduleActions
 > = (_query, request) =>
   Effect.gen(function* () {
-    const data = {};
-    const response = yield* request('read', { data });
+    const response = yield* request('read', { data: {} });
     const body = yield* decodeUpstreamBody(
       'playlist_highquality_tags',
       ModuleBody,
@@ -57,7 +67,3 @@ const playlistHighqualityTags: ModuleEffect<
  * 精品歌单 tags
  */
 export default playlistHighqualityTags;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

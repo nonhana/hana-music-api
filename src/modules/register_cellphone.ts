@@ -4,12 +4,11 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryNumber,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { QueryNumberLike } from '../types/module-shared.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -24,7 +23,7 @@ export const moduleActions = {
 
 export type ModuleInput = {
   captcha: string;
-  countrycode?: QueryNumberLike;
+  countrycode?: NumberId;
   nickname: string;
   password: string;
   phone: string;
@@ -32,7 +31,7 @@ export type ModuleInput = {
 
 const inputSchema = Schema.Struct({
   captcha: Schema.String,
-  countrycode: Schema.optional(QueryNumber),
+  countrycode: Schema.optional(NumberId),
   nickname: Schema.String,
   password: Schema.String,
   phone: Schema.String,

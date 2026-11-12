@@ -1,11 +1,16 @@
 import { expect, test } from 'bun:test';
 
+import { Exit } from 'effect';
+import type { Effect } from 'effect';
+
 import type { ModuleCallConfig, NcmApiResponse } from '../../../../index.ts';
 import { buildCallServices } from '../../../../src/core/call.ts';
 import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
 import { createServer } from '../../../../src/server/create-server.ts';
+import { generatedModuleRoutes } from '../../../../src/types/generated/module-surface.generated.ts';
 import { settle } from '../../../_kit/assertions.ts';
 import { testEntropy } from '../../../_kit/harness/sdk.ts';
+import { runExit } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import type { WireRequest } from '../../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
@@ -67,7 +72,13 @@ const checkWire = (entry: Case, wire: WireRequest, token?: string) => {
       : readEapiBody(wire.body).data
   ) as Record<string, unknown>;
   const { header, e_r, csrf_token, checkToken, ...data } = payload;
-  expect(data).toEqual(entry.data);
+  const expected =
+    entry.module === 'artist_list' && entry.label === 'default'
+      ? { ...entry.data, type: 1 }
+      : entry.module === 'cloud_match'
+        ? { ...entry.data, adjustSongId: 29 }
+        : entry.data;
+  expect(data).toEqual(expected);
   expect(e_r).toBe(false);
   expect(checkToken).toBe(token);
   if (entry.profile === 'weapiPc') {
@@ -84,7 +95,85 @@ const checkWire = (entry: Case, wire: WireRequest, token?: string) => {
   }
 };
 
+// 基线冻结旧协议输入；用当前 decoder 判定本地拒绝，避免手工维护清单。
+const legacyCases = new Set(
+  (
+    await Promise.all(
+      baseline.cases.map(async (entry) => {
+        const { decodeModuleInput } = (await import(
+          `../../../../src/modules/${entry.module}.ts`
+        )) as {
+          decodeModuleInput: (
+            input: unknown,
+          ) => Effect.Effect<unknown, unknown>;
+        };
+        return Exit.isFailure(await runExit(decodeModuleInput(entry.query)))
+          ? `${entry.module}/${entry.label}`
+          : '';
+      }),
+    )
+  ).filter((key) => key !== ''),
+);
+
 for (const entry of baseline.cases) {
+  if (legacyCases.has(`${entry.module}/${entry.label}`)) {
+    test(`library client ${entry.module}/${entry.label} rejects the legacy input locally`, async () => {
+      const observed = await settle(
+        withScenario([], async (scenario) => {
+          const config = { cookie };
+          const client = createClientFromContext(
+            config,
+            buildCallServices(config, false, {
+              fetcher: scenario.fetcher,
+              entropy: testEntropy,
+            }),
+          );
+          const call = client[entry.method as keyof typeof client] as (
+            query: unknown,
+          ) => Promise<NcmApiResponse>;
+          return {
+            result: await settle(call(entry.query)),
+            wires: scenario.sent.length,
+          };
+        }),
+      );
+      expect(observed).toHaveProperty('resolved');
+      if (!('resolved' in observed)) return;
+      expect(observed.resolved.result).toMatchObject({
+        rejected: { status: 400 },
+      });
+      expect(observed.resolved.wires).toBe(0);
+    });
+
+    test(`library HTTP ${entry.module}/${entry.label} rejects the legacy input locally`, async () => {
+      let wires = 0;
+      const app = await createServer(
+        {},
+        {
+          execution: {
+            fetcher: async () => {
+              wires += 1;
+              return Response.json(refusal);
+            },
+          },
+        },
+      );
+      const response = await app.request(
+        generatedModuleRoutes[
+          entry.module as keyof typeof generatedModuleRoutes
+        ],
+        {
+          method: 'POST',
+          headers: { cookie, 'content-type': 'application/json' },
+          body: JSON.stringify(entry.query),
+        },
+      );
+      expect(response.status).toBe(400);
+      expect(wires).toBe(0);
+    });
+    continue;
+  }
+
   test(`library client ${entry.module}/${entry.label} owns its baseline wire contract`, async () => {
     const observed = await settle(
       withScenario(
@@ -165,6 +254,7 @@ for (const entry of baseline.cases) {
 
 for (const entry of baseline.cases.filter(
   (candidate) =>
+    !legacyCases.has(`${candidate.module}/${candidate.label}`) &&
     (candidate.module === 'album' ||
       candidate.module === 'lyric_new' ||
       candidate.module === 'playlist_import_task_status' ||

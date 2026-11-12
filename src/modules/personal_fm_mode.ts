@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -12,7 +16,6 @@ import {
   ProgramMainSong,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 私人 FM 的旧版歌曲：节目记录的歌曲字段原样复用，另补录制里出现的推荐理由和旧版字段；
 // 每首歌自己的 `id` 收紧，其余字段宽松。
@@ -57,6 +60,27 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = {
+  mode: 'aidj' | 'DEFAULT' | 'FAMILIAR' | 'EXPLORE' | 'SCENE_RCMD';
+  submode?: string;
+  limit?: number;
+};
+
+const inputSchema = Schema.Struct({
+  mode: Schema.Literals([
+    'aidj',
+    'DEFAULT',
+    'FAMILIAR',
+    'EXPLORE',
+    'SCENE_RCMD',
+  ]),
+  submode: Schema.optional(Schema.String),
+  limit: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const personalFmMode: ModuleEffect<
   ModuleInput,
   ModuleBody,
@@ -83,7 +107,3 @@ const personalFmMode: ModuleEffect<
  * 来不及解释这几个了
  */
 export default personalFmMode;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

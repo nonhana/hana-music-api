@@ -1,5 +1,11 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +15,23 @@ import {
 } from '../core/upstream-body.ts';
 import { SimpleAlbum, StylePage } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  tagId: NumberId;
+  cursor?: NaturalValue;
+  size?: NaturalValue;
+  sort?: 0 | 1;
+};
+
+const inputSchema = Schema.Struct({
+  tagId: NumberId,
+  cursor: Schema.optional(NaturalValue),
+  size: Schema.optional(NaturalValue),
+  sort: Schema.optional(NumberLiterals([0, 1])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 曲风专辑列表里的专辑；`songs` 在录制里只见过空数组，元素类型猜不出，没有声明。
 const StyleAlbum = UpstreamObject({
@@ -60,7 +82,3 @@ const styleAlbum: ModuleEffect<
  * 曲风-专辑
  */
 export default styleAlbum;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

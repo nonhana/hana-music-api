@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,16 @@ import {
 } from '../core/upstream-body.ts';
 import { LooseSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { limit?: number; offset?: number };
+
+const inputSchema = Schema.Struct({
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const MonthDownloadRecord = UpstreamObject({
   firstTime: Loose(Schema.Finite),
@@ -44,8 +57,8 @@ const songMonthdownlist: ModuleEffect<
 > = (query, request) =>
   Effect.gen(function* () {
     const data = {
-      limit: query.limit || '20',
-      offset: query.offset || '0',
+      limit: String(query.limit || 20),
+      offset: String(query.offset || 0),
       total: 'true',
     };
     const response = yield* request('read', { data });
@@ -61,7 +74,3 @@ const songMonthdownlist: ModuleEffect<
  * 会员本月下载歌曲记录
  */
 export default songMonthdownlist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

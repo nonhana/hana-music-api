@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -19,6 +22,13 @@ export const moduleActions = {
     retry: 'connect',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = { id: NumberId };
+
+const inputSchema = Schema.Struct({ id: NumberId });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const Lyric = UpstreamObject({
   lyricUrl: Schema.String,
@@ -38,10 +48,10 @@ const voiceLyric: ModuleEffect<
   ModuleInput,
   ModuleBody,
   typeof moduleActions
-> = (query, request) =>
+> = (input, request) =>
   Effect.gen(function* () {
     const data = {
-      programId: query.id,
+      programId: input.id,
     };
     const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody('voice_lyric', ModuleBody, response);
@@ -52,7 +62,3 @@ const voiceLyric: ModuleEffect<
  * 获取声音歌词
  */
 export default voiceLyric;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -1,6 +1,10 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,27 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  commandType: string;
+  displayList: ReadonlyArray<NumberId>;
+  randomList: ReadonlyArray<NumberId>;
+  roomId: string;
+  userId: NumberId;
+  version: number;
+};
+
+const inputSchema = Schema.Struct({
+  commandType: Schema.String,
+  displayList: Schema.Array(NumberId),
+  randomList: Schema.Array(NumberId),
+  roomId: Schema.String,
+  userId: NumberId,
+  version: NaturalValue,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -43,14 +67,6 @@ const listentogetherSyncListCommand: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    if (
-      typeof query.randomList !== 'string' ||
-      typeof query.displayList !== 'string'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'randomList and displayList must be strings',
-      });
-    }
     const data = {
       roomId: query.roomId,
       playlistParam: JSON.stringify({
@@ -63,8 +79,8 @@ const listentogetherSyncListCommand: ModuleEffect<
         ],
         anchorSongId: '',
         anchorPosition: -1,
-        randomList: query.randomList.split(','),
-        displayList: query.displayList.split(','),
+        randomList: query.randomList.map(String),
+        displayList: query.displayList.map(String),
       }),
     };
     const response = yield* request('request', { data });
@@ -80,7 +96,3 @@ const listentogetherSyncListCommand: ModuleEffect<
  * 一起听 更新播放列表
  */
 export default listentogetherSyncListCommand;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

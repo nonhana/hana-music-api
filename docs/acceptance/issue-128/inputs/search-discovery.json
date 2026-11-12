@@ -1,0 +1,401 @@
+[
+  {
+    "module": "aidj_content_rcmd",
+    "actions": ["read"],
+    "current": "{ latitude?: NumberValue; longitude?: NumberValue; }",
+    "fields": ["latitude", "longitude"],
+    "legacyEncoding": [],
+    "businessInput": "{ latitude?: NumberValue; longitude?: NumberValue; }",
+    "upstreamEncoding": "存在 latitude 时组装 extInfo.lbsInfoList=[{lat,lon,time}]，再 JSON.stringify(extInfo)",
+    "evidence": [
+      "src/modules/aidj_content_rcmd.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/recommend/aidj_content_rcmd.with-location.json"
+    ],
+    "notes": "坐标数字字符串由 decoder 归一为 number；下游仍只在提供 latitude 时带坐标。旧实现接受 null/对象原样进入 extInfo，现在拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "banner",
+    "actions": ["read"],
+    "current": "{ type?: 0 | 1 | 2 | 3; }",
+    "fields": ["type"],
+    "legacyEncoding": [],
+    "businessInput": "{ type?: 0 | 1 | 2 | 3; }",
+    "upstreamEncoding": "clientType = ['pc','android','iphone','ipad'][type ?? 0]",
+    "evidence": [
+      "src/modules/banner.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/home/banner.type-android.json"
+    ],
+    "notes": "文档穷举 0–3（含数字字符串）；旧实现把 99/100/true/null 等任意值兜底成 pc，现在这些值在发送前被拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "calendar",
+    "actions": ["read"],
+    "current": "{ endTime?: NaturalValue; startTime?: NaturalValue; }",
+    "fields": ["endTime", "startTime"],
+    "legacyEncoding": [],
+    "businessInput": "{ endTime?: NaturalValue; startTime?: NaturalValue; }",
+    "upstreamEncoding": "startTime/endTime 缺省或为 0 时各自取 Date.now()；数字字符串解码为 number",
+    "evidence": [
+      "src/modules/calendar.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/recommend/calendar.default.json"
+    ],
+    "notes": "保持原有 || 默认行为与零长度区间语义；负数、小数、非法字符串在发送前被拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "homepage_block_page",
+    "actions": ["read"],
+    "current": "{ cursor?: string; refresh?: boolean; }",
+    "fields": ["cursor", "refresh"],
+    "legacyEncoding": [],
+    "businessInput": "{ cursor?: string; refresh?: boolean; }",
+    "upstreamEncoding": "refresh 由 BooleanValue 归一为 boolean（'false'/0→false，缺省 false）；cursor 原样转发",
+    "evidence": [
+      "src/modules/homepage_block_page.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/home/homepage_block_page.default.json"
+    ],
+    "notes": "cursor 是不透明文本；旧实现接受数字/对象 cursor，现在拒绝。refresh 的字符串/0/1 形式归一为 boolean。",
+    "status": "migrated"
+  },
+  {
+    "module": "homepage_dragon_ball",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "{}",
+    "upstreamEncoding": "data: {}",
+    "evidence": [
+      "src/modules/homepage_dragon_ball.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/fixtures/netease/home/homepage_dragon_ball.default.json"
+    ],
+    "notes": "无参数模块，非空输入被 EmptyInput 拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "personalized",
+    "actions": ["read"],
+    "current": "{ limit?: NaturalValue; }",
+    "fields": ["limit"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: NaturalValue; }",
+    "upstreamEncoding": "limit = query.limit || 30；另发 total: true、n: 1000",
+    "evidence": [
+      "src/modules/personalized.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/recommend/personalized.default.json"
+    ],
+    "notes": "文档不支持 offset，旧 baseline 传入的 offset 现在作为未声明字段拒绝；limit 数字字符串归一为 number。",
+    "status": "migrated"
+  },
+  {
+    "module": "personalized_djprogram",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "{}",
+    "upstreamEncoding": "data: {}",
+    "evidence": [
+      "src/modules/personalized_djprogram.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts"
+    ],
+    "notes": "无参数模块，非空输入被 EmptyInput 拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "personalized_mv",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "{}",
+    "upstreamEncoding": "data: {}",
+    "evidence": [
+      "src/modules/personalized_mv.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/fixtures/netease/recommend/personalized_mv.default.json"
+    ],
+    "notes": "无参数模块，非空输入被 EmptyInput 拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "personalized_newsong",
+    "actions": ["read"],
+    "current": "{ areaId?: NaturalValue; limit?: NaturalValue; }",
+    "fields": ["areaId", "limit"],
+    "legacyEncoding": [],
+    "businessInput": "{ areaId?: NaturalValue; limit?: NaturalValue; }",
+    "upstreamEncoding": "type: 'recommend'、limit = query.limit || 10、areaId = query.areaId || 0",
+    "evidence": [
+      "src/modules/personalized_newsong.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/recommend/personalized_newsong.default.json"
+    ],
+    "notes": "limit/areaId 数字字符串归一为 number；旧 baseline 的非法 limit 在发送前被拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "personalized_privatecontent",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "{}",
+    "upstreamEncoding": "data: {}",
+    "evidence": [
+      "src/modules/personalized_privatecontent.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/fixtures/netease/recommend/personalized_privatecontent.default.json"
+    ],
+    "notes": "无参数模块，非空输入被 EmptyInput 拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "personalized_privatecontent_list",
+    "actions": ["read"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["limit", "offset"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "upstreamEncoding": "offset = query.offset || 0、total: 'true'、limit = query.limit || 60",
+    "evidence": [
+      "src/modules/personalized_privatecontent_list.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/recommend/personalized_privatecontent_list.default.json"
+    ],
+    "notes": "limit/offset 数字字符串归一为 number；旧 baseline 的非数字 offset 在发送前被拒绝，total 仍是字符串 'true'。",
+    "status": "migrated"
+  },
+  {
+    "module": "recommend_resource",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "{}",
+    "upstreamEncoding": "data: {}",
+    "evidence": [
+      "src/modules/recommend_resource.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/fixtures/netease/recommend/recommend_resource.default.json"
+    ],
+    "notes": "无参数模块，非空输入被 EmptyInput 拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "recommend_songs",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "{}",
+    "upstreamEncoding": "data: {}",
+    "evidence": [
+      "src/modules/recommend_songs.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/replay/library/library-bodies.test.ts"
+    ],
+    "notes": "无参数模块，非空输入被 EmptyInput 拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "recommend_songs_dislike",
+    "actions": ["write"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "resId = String(id)（十进制文本）、resType: 4、sceneType: 1",
+    "evidence": [
+      "src/modules/recommend_songs_dislike.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/recommend/recommend_songs_dislike.dislike.json"
+    ],
+    "notes": "id 必须是正安全整数或十进制正数字符串；上游 resId 统一编码为字符串以保留精度。",
+    "status": "migrated"
+  },
+  {
+    "module": "search",
+    "actions": ["read", "voice"],
+    "current": "{ keywords: string; limit?: NaturalValue; offset?: NaturalValue; type?: 1 | 10 | 100 | 1000 | 1002 | 1004 | 1006 | 1009 | 1014 | 1018 | 2000; }",
+    "fields": ["keywords", "limit", "offset", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ keywords: string; limit?: NaturalValue; offset?: NaturalValue; type?: 1 | 10 | 100 | 1000 | 1002 | 1004 | 1006 | 1009 | 1014 | 1018 | 2000; }",
+    "upstreamEncoding": "type=2000 走 /api/search/voice/get，data={keyword,scene:'normal',limit,offset}；否则走 /api/search/get，data={s,type:type||1,limit:limit||30,offset:offset||0}",
+    "evidence": [
+      "src/modules/search.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/search/search.cn.json"
+    ],
+    "notes": "type 收窄为文档穷举的搜索类型（数字字符串同样接受），未知类型如 5 被拒绝；keywords 仍可为空文本，limit/offset 数字字符串归一为 number。",
+    "status": "migrated"
+  },
+  {
+    "module": "search_default",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "{}",
+    "upstreamEncoding": "data: {}",
+    "evidence": [
+      "src/modules/search_default.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/fixtures/netease/search/search_default.default.json"
+    ],
+    "notes": "无参数模块，非空输入被 EmptyInput 拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "search_hot",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "{}",
+    "upstreamEncoding": "data: { type: 1111 }",
+    "evidence": [
+      "src/modules/search_hot.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/fixtures/netease/search/search_hot.default.json"
+    ],
+    "notes": "无参数模块，固定上游参数 type=1111 保持不变。",
+    "status": "migrated"
+  },
+  {
+    "module": "search_hot_detail",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "{}",
+    "upstreamEncoding": "data: {}",
+    "evidence": [
+      "src/modules/search_hot_detail.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/fixtures/netease/search/search_hot_detail.default.json"
+    ],
+    "notes": "无参数模块，非空输入被 EmptyInput 拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "search_match",
+    "actions": ["read"],
+    "current": "{ album?: string; artist?: string; duration?: NumberValue; md5: string; title?: string; }",
+    "fields": ["album", "artist", "duration", "md5", "title"],
+    "legacyEncoding": [],
+    "businessInput": "{ album?: string; artist?: string; duration?: NumberValue; md5: string; title?: string; }",
+    "upstreamEncoding": "songs = JSON.stringify([{title:title||'',album:album||'',artist:artist||'',duration:duration||0,persistId:md5}])",
+    "evidence": [
+      "src/modules/search_match.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/search/search_match.default.json"
+    ],
+    "notes": "md5 必填且保持字符串；duration 接受数字字符串并归一为 number（秒，可为小数）；title/album/artist 省略时仍发空文本。",
+    "status": "migrated"
+  },
+  {
+    "module": "search_multimatch",
+    "actions": ["read"],
+    "current": "{ keywords?: string; type?: NaturalValue; }",
+    "fields": ["keywords", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ keywords?: string; type?: NaturalValue; }",
+    "upstreamEncoding": "type = query.type || 1、s = query.keywords || ''",
+    "evidence": [
+      "src/modules/search_multimatch.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/search/search_multimatch.default.json"
+    ],
+    "notes": "文档未穷举 type，保留任意非负整数（数字字符串归一为 number）；keywords 沿用旧默认，省略时发空文本，非字符串被拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "search_suggest",
+    "actions": ["mobile", "web"],
+    "current": "{ keywords?: string; type?: string; }",
+    "fields": ["keywords", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ keywords?: string; type?: string; }",
+    "upstreamEncoding": "type === 'mobile' 走 /api/search/suggest/keyword，其余走 /api/search/suggest/web；两者 data={s:keywords||''}",
+    "evidence": [
+      "src/modules/search_suggest.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/search/search_suggest.mobile.json"
+    ],
+    "notes": "type 仍接受任意字符串（只识别 mobile，其他值继续走 web），不凭空收窄；旧 baseline 的数字 type 与数字 keywords 现在被拒绝；keywords 沿用旧默认，省略时发空文本。",
+    "status": "migrated"
+  },
+  {
+    "module": "sheet_list",
+    "actions": ["request"],
+    "current": "{ ab?: string; id: NumberId; }",
+    "fields": ["ab", "id"],
+    "legacyEncoding": [],
+    "businessInput": "{ ab?: string; id: NumberId; }",
+    "upstreamEncoding": "id = String(id)、abTest = query.ab || 'b'",
+    "evidence": [
+      "src/modules/sheet_list.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/other/sheet_list.default.json"
+    ],
+    "notes": "id 编码为十进制文本以保留精度；ab 缺省仍为 'b'，非字符串 ab 被拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "sheet_preview",
+    "actions": ["request"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "id = String(id)",
+    "evidence": [
+      "src/modules/sheet_preview.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/other/sheet_preview.default.json"
+    ],
+    "notes": "id 是乐谱编号，编码为十进制文本；0、负数、小数、分隔符串被拒绝。",
+    "status": "migrated"
+  },
+  {
+    "module": "summary_annual",
+    "actions": ["request"],
+    "current": "{ year: NaturalValue; }",
+    "fields": ["year"],
+    "legacyEncoding": [],
+    "businessInput": "{ year: NaturalValue; }",
+    "upstreamEncoding": "路径 /api/activity/summary/annual/${year}/${2017-2019 ? 'userdata' : 'data'}；data 为空对象",
+    "evidence": [
+      "src/modules/summary_annual.ts",
+      "tests/behavior/modules/input-contracts/search-discovery.ts",
+      "tests/behavior/modules/input-encoding/search-discovery.ts",
+      "tests/fixtures/netease/record/summary_annual.2023.json"
+    ],
+    "notes": "year 必填，数字字符串归一为 number 后再拼路径；2017–2019 走 userdata 短键的行为不变，未限定年份范围以保留 2025 业务拒绝的回放。",
+    "status": "migrated"
+  }
+]

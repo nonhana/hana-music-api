@@ -9,6 +9,7 @@ import {
   PlaylistUpdateBody,
   PlaylistUpdatePlaycountBody,
 } from '../../../index.ts';
+import type { HanaMusicApiClient } from '../../../src/sdk/generated/client.generated.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,
@@ -18,15 +19,12 @@ import {
 import { replay, replayRaw } from '../../_kit/replay.ts';
 import importCreateMissingText from '../../fixtures/netease/playlist-write/playlist_import_name_task_create.missing-text.json';
 import importCreate from '../../fixtures/netease/playlist-write/playlist_import_name_task_create.no-match.json';
-import importStatusMissingId from '../../fixtures/netease/playlist-write/playlist_import_task_status.missing-id.json';
 import importStatus from '../../fixtures/netease/playlist-write/playlist_import_task_status.no-match.json';
 import importStatusUnknown from '../../fixtures/netease/playlist-write/playlist_import_task_status.unknown-task.json';
 import trackAddDeleted from '../../fixtures/netease/playlist-write/playlist_track_add.deleted-playlist.json';
 import trackAddDenied from '../../fixtures/netease/playlist-write/playlist_track_add.denied.json';
-import trackAddMissingPid from '../../fixtures/netease/playlist-write/playlist_track_add.missing-pid.json';
 import trackDeleteDeleted from '../../fixtures/netease/playlist-write/playlist_track_delete.deleted-playlist.json';
 import trackDeleteDenied from '../../fixtures/netease/playlist-write/playlist_track_delete.denied.json';
-import trackDeleteMissingId from '../../fixtures/netease/playlist-write/playlist_track_delete.missing-id.json';
 import updateDeleted from '../../fixtures/netease/playlist-write/playlist_update.deleted-playlist.json';
 import update from '../../fixtures/netease/playlist-write/playlist_update.ok.json';
 import updatePartialFailure from '../../fixtures/netease/playlist-write/playlist_update.partial-failure.json';
@@ -37,6 +35,29 @@ import playcount from '../../fixtures/netease/playlist-write/playlist_update_pla
 // issue #102 B6 的录制来自本机登录账号（context.viewer 是 authenticated），
 // 歌单类写操作都写在一个临时歌单上，录完已删除；导入任务只建任务，不建歌单。
 // track_add/track_delete 的成功路径上游拒绝，只有失败录制。
+// 录制保存的是旧 SDK 的协议输入；回放时换成新的业务输入。
+const trackAddInput = (query: { pid: number; ids: number | string }) => ({
+  pid: query.pid,
+  ids: [query.ids],
+});
+
+const trackDeleteInput = (query: { id: number; ids: number | string }) => ({
+  id: query.id,
+  ids: [query.ids],
+});
+
+const updateInput = (query: {
+  id: number;
+  name: string;
+  desc: string;
+  tags: string;
+}) => ({
+  id: query.id,
+  name: query.name,
+  desc: query.desc,
+  tags: query.tags.split(/[;,]/),
+});
+
 type Case = {
   readonly name: string;
   readonly recording: Recording;
@@ -53,21 +74,23 @@ const cases: Array<Case> = [
     recording: update,
     bodySchema: PlaylistUpdateBody,
     call: (upstream, status) =>
-      replay(upstream, status).playlistUpdate(update.query),
+      replay(upstream, status).playlistUpdate(updateInput(update.query)),
   },
   {
     name: 'playlist_update against an already deleted playlist',
     recording: updateDeleted,
     bodySchema: PlaylistUpdateBody,
     call: (upstream, status) =>
-      replay(upstream, status).playlistUpdate(updateDeleted.query),
+      replay(upstream, status).playlistUpdate(updateInput(updateDeleted.query)),
   },
   {
     name: 'playlist_update with one rejected sub-route',
     recording: updatePartialFailure,
     bodySchema: PlaylistUpdateBody,
     call: (upstream, status) =>
-      replay(upstream, status).playlistUpdate(updatePartialFailure.query),
+      replay(upstream, status).playlistUpdate(
+        updateInput(updatePartialFailure.query),
+      ),
   },
   {
     name: 'playlist_update_playcount',
@@ -130,14 +153,18 @@ test.each([
     recording: trackAddDenied,
     bodySchema: PlaylistTrackAddBody,
     call: (upstream: unknown, status: number) =>
-      replay(upstream, status).playlistTrackAdd(trackAddDenied.query),
+      replay(upstream, status).playlistTrackAdd(
+        trackAddInput(trackAddDenied.query),
+      ),
   },
   {
     name: 'playlist_track_delete',
     recording: trackDeleteDenied,
     bodySchema: PlaylistTrackDeleteBody,
     call: (upstream: unknown, status: number) =>
-      replay(upstream, status).playlistTrackDelete(trackDeleteDenied.query),
+      replay(upstream, status).playlistTrackDelete(
+        trackDeleteInput(trackDeleteDenied.query),
+      ),
   },
 ] as Array<Case>)(
   '$name accepts a success body that carries extra fields',
@@ -159,13 +186,17 @@ test.each([
     module: 'playlist_track_add',
     bodySchema: PlaylistTrackAddBody,
     call: (upstream: unknown, status: number) =>
-      replay(upstream, status).playlistTrackAdd(trackAddDenied.query),
+      replay(upstream, status).playlistTrackAdd(
+        trackAddInput(trackAddDenied.query),
+      ),
   },
   {
     module: 'playlist_track_delete',
     bodySchema: PlaylistTrackDeleteBody,
     call: (upstream: unknown, status: number) =>
-      replay(upstream, status).playlistTrackDelete(trackDeleteDenied.query),
+      replay(upstream, status).playlistTrackDelete(
+        trackDeleteInput(trackDeleteDenied.query),
+      ),
   },
 ])(
   '$module rejects a body without a return code',
@@ -189,12 +220,16 @@ test.each([
   {
     module: 'playlist_track_add',
     call: (body: string) =>
-      replayRaw(body, 200).playlistTrackAdd(trackAddDenied.query),
+      replayRaw(body, 200).playlistTrackAdd(
+        trackAddInput(trackAddDenied.query),
+      ),
   },
   {
     module: 'playlist_track_delete',
     call: (body: string) =>
-      replayRaw(body, 200).playlistTrackDelete(trackDeleteDenied.query),
+      replayRaw(body, 200).playlistTrackDelete(
+        trackDeleteInput(trackDeleteDenied.query),
+      ),
   },
 ])('$module rejects a non-object body', async ({ module, call }) => {
   await expectUpstreamShapeRejection(call(''), {
@@ -215,13 +250,9 @@ test('playlist_track_add rejects non-primitive ids before sending', async () => 
     },
   });
 
-  expect(await settle(client.playlistTrackAdd({ ids: {} }))).toEqual({
-    rejected: {
-      status: 400,
-      cookie: [],
-      body: { code: 400, msg: 'ids must be a primitive value' },
-    },
-  });
+  expect(
+    await settle(client.playlistTrackAdd({ ids: {} } as never)),
+  ).toMatchObject({ rejected: { status: 400, cookie: [] } });
   expect(requests).toBe(0);
 });
 
@@ -235,13 +266,9 @@ test('playlist_track_delete rejects non-primitive ids before sending', async () 
     },
   });
 
-  expect(await settle(client.playlistTrackDelete({ ids: {} }))).toEqual({
-    rejected: {
-      status: 400,
-      cookie: [],
-      body: { code: 400, msg: 'ids must be a primitive value' },
-    },
-  });
+  expect(
+    await settle(client.playlistTrackDelete({ ids: {} } as never)),
+  ).toMatchObject({ rejected: { status: 400, cookie: [] } });
   expect(requests).toBe(0);
 });
 
@@ -256,14 +283,8 @@ test('playlist_import_name_task_create rejects non-primitive text before sending
   });
 
   expect(
-    await settle(client.playlistImportNameTaskCreate({ text: {} })),
-  ).toEqual({
-    rejected: {
-      status: 400,
-      cookie: [],
-      body: { code: 400, msg: 'text must be a primitive value' },
-    },
-  });
+    await settle(client.playlistImportNameTaskCreate({ text: {} } as never)),
+  ).toMatchObject({ rejected: { status: 400, cookie: [] } });
   expect(requests).toBe(0);
 });
 
@@ -274,8 +295,8 @@ test.each([
   const client = replay(entry.recording.response.body);
   const call =
     entry.name === 'playlist_track_add'
-      ? client.playlistTrackAdd(entry.recording.query)
-      : client.playlistTrackDelete(entry.recording.query);
+      ? client.playlistTrackAdd(trackAddInput(trackAddDenied.query))
+      : client.playlistTrackDelete(trackDeleteInput(trackDeleteDenied.query));
 
   expect(await settle(call)).toEqual({
     rejected: {
@@ -291,13 +312,17 @@ test.each([
     name: 'playlist_track_add',
     recording: trackAddDeleted,
     call: (upstream: unknown, status: number) =>
-      replay(upstream, status).playlistTrackAdd(trackAddDeleted.query),
+      replay(upstream, status).playlistTrackAdd(
+        trackAddInput(trackAddDeleted.query),
+      ),
   },
   {
     name: 'playlist_track_delete',
     recording: trackDeleteDeleted,
     call: (upstream: unknown, status: number) =>
-      replay(upstream, status).playlistTrackDelete(trackDeleteDeleted.query),
+      replay(upstream, status).playlistTrackDelete(
+        trackDeleteInput(trackDeleteDeleted.query),
+      ),
   },
 ])('$name relays the recorded 404 missing playlist', async (entry) => {
   expect(
@@ -316,34 +341,32 @@ test.each([
   });
 });
 
+// 录制证明缺少 pid/id 时上游回 400；输入现在要求这两个字段，负例改为在发请求前拒绝。
 test.each([
   {
     name: 'playlist_track_add',
-    recording: trackAddMissingPid,
-    call: (upstream: unknown, status: number) =>
-      replay(upstream, status).playlistTrackAdd(trackAddMissingPid.query),
+    call: (client: HanaMusicApiClient) =>
+      client.playlistTrackAdd({ ids: [1] } as never),
   },
   {
     name: 'playlist_track_delete',
-    recording: trackDeleteMissingId,
-    call: (upstream: unknown, status: number) =>
-      replay(upstream, status).playlistTrackDelete(trackDeleteMissingId.query),
+    call: (client: HanaMusicApiClient) =>
+      client.playlistTrackDelete({ ids: [1] } as never),
   },
-])('$name relays the recorded 400 missing parameter', async (entry) => {
-  expect(
-    await settle(
-      entry.call(
-        entry.recording.response.body,
-        entry.recording.response.status,
-      ),
-    ),
-  ).toEqual({
-    rejected: {
-      status: 400,
-      body: entry.recording.response.body,
-      cookie: [],
+])('$name rejects a missing playlist id before sending', async (entry) => {
+  let requests = 0;
+  const client = createHanaMusicApi({
+    cookie: 'MUSIC_U=listener',
+    fetcher: async () => {
+      requests += 1;
+      return Response.json({ code: 200 });
     },
   });
+
+  expect(await settle(entry.call(client))).toMatchObject({
+    rejected: { status: 400, cookie: [] },
+  });
+  expect(requests).toBe(0);
 });
 
 test('playlist_import_name_task_create relays the recorded 400 rejection', async () => {
@@ -362,28 +385,29 @@ test('playlist_import_name_task_create relays the recorded 400 rejection', async
   });
 });
 
-test('playlist_import_task_status relays the recorded 500 rejection', async () => {
-  expect(
-    await settle(
-      replay(importStatusMissingId.response.body).playlistImportTaskStatus(
-        importStatusMissingId.query,
-      ),
-    ),
-  ).toEqual({
-    rejected: {
-      status: 500,
-      body: importStatusMissingId.response.body,
-      cookie: [],
+test('playlist_import_task_status rejects a missing task id before sending', async () => {
+  let requests = 0;
+  const client = createHanaMusicApi({
+    cookie: 'MUSIC_U=listener',
+    fetcher: async () => {
+      requests += 1;
+      return Response.json({ code: 200 });
     },
   });
+
+  expect(
+    await settle(client.playlistImportTaskStatus({} as never)),
+  ).toMatchObject({ rejected: { status: 400, cookie: [] } });
+  expect(requests).toBe(0);
 });
 
 test('playlist_update_playcount keeps the normalized empty HTTP 400 body', async () => {
+  // 录制来自缺少 id 时上游的 HTTP 400 空正文；输入现在要求 id，回放仍校验空正文的归一化。
   const result = await settle(
     replayRaw(
       playcountMissingId.response.body,
       playcountMissingId.response.status,
-    ).playlistUpdatePlaycount(playcountMissingId.query),
+    ).playlistUpdatePlaycount({ id: 18526771500 }),
   );
 
   expect(result).toEqual({
@@ -405,7 +429,7 @@ test('playlist_update rejects a batch without one of the routes', async () => {
   delete upstream['/api/playlist/tags/update'];
 
   await expectUpstreamShapeRejection(
-    replay(upstream).playlistUpdate(update.query),
+    replay(upstream).playlistUpdate(updateInput(update.query)),
     {
       module: 'playlist_update',
       path: 'body./api/playlist/tags/update',
@@ -422,7 +446,7 @@ test('playlist_update rejects a batch without a top-level return code', async ()
   delete upstream.code;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).playlistUpdate(update.query),
+    replay(upstream).playlistUpdate(updateInput(update.query)),
     {
       module: 'playlist_update',
       path: 'body.code',
@@ -440,7 +464,9 @@ test('playlist_update drops a bad loose message and keeps the tightened route co
     '/api/playlist/update/name': { code: 200, extra: { id: 1 } },
   };
 
-  const result = await replay(upstream).playlistUpdate(update.query);
+  const result = await replay(upstream).playlistUpdate(
+    updateInput(update.query),
+  );
 
   expect(result.body).toEqual({
     code: 200,
@@ -457,7 +483,7 @@ test('playlist_update rejects a sub-route without a code', async () => {
       '/api/playlist/desc/update': {},
       '/api/playlist/tags/update': { code: 200 },
       '/api/playlist/update/name': { code: 200 },
-    }).playlistUpdate(update.query),
+    }).playlistUpdate(updateInput(update.query)),
     {
       module: 'playlist_update',
       path: 'body./api/playlist/desc/update.code',
@@ -474,7 +500,7 @@ test('playlist_update rejects a sub-route code that is not a number', async () =
       '/api/playlist/desc/update': { code: '200' },
       '/api/playlist/tags/update': { code: 200 },
       '/api/playlist/update/name': { code: 200 },
-    }).playlistUpdate(update.query),
+    }).playlistUpdate(updateInput(update.query)),
     {
       module: 'playlist_update',
       path: 'body./api/playlist/desc/update.code',

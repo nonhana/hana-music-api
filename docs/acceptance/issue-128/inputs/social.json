@@ -1,0 +1,178 @@
+[
+  {
+    "module": "event",
+    "actions": ["request"],
+    "current": "{ pagesize?: number; lasttime?: number; }",
+    "fields": ["lasttime", "pagesize", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "pagesize: 非负整数默认 20；lasttime: 整数默认 -1",
+    "upstreamEncoding": "pagesize、lasttime 以数字发送",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts"
+    ],
+    "status": "migrated",
+    "notes": "lasttime 的 -1 是既有哨兵值，用 IntegerValue 保留；旧 pagesize='abc' 现在在本地被拒，录制中的上游 code 400 不再可由公开入口触发。"
+  },
+  {
+    "module": "event_del",
+    "actions": ["request"],
+    "current": "{ evId: NumberId; }",
+    "fields": ["evId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "evId: 动态编号",
+    "upstreamEncoding": "data.id = evId",
+    "evidence": ["tests/behavior/modules/input-contracts/social.ts"],
+    "status": "migrated"
+  },
+  {
+    "module": "event_forward",
+    "actions": ["request"],
+    "current": "{ uid: NumberId; evId: NumberId; forwards?: string; }",
+    "fields": ["evId", "forwards", "ts", "uid"],
+    "legacyEncoding": [],
+    "businessInput": "uid/evId: 编号；forwards: 文本可选",
+    "upstreamEncoding": "data.forwards、data.id = evId、data.eventUserId = uid",
+    "evidence": ["tests/behavior/modules/input-contracts/social.ts"],
+    "status": "migrated"
+  },
+  {
+    "module": "follow",
+    "actions": [],
+    "current": "{ id: NumberId; t: 0 | 1; }",
+    "fields": ["id", "t", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "id: 用户编号；t: 0 取关 / 1 关注",
+    "upstreamEncoding": "t=1 走 /api/user/follow/<id>，其余走 /api/user/delfollow/<id>；data 为空",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts",
+      "tests/replay/writes/write-actions-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "t 只接受 0/1（含数字字符串），其他值在本地拒绝；此前任意值都会落入取消关注分支。"
+  },
+  {
+    "module": "get_userids",
+    "actions": ["request"],
+    "current": "{ nicknames: string[]; }",
+    "fields": ["nicknames", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "nicknames: 非空昵称数组，元素不能为空或含分号",
+    "upstreamEncoding": "data.nicknames = nicknames.join(';')",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧分号串、JSON 串和空数组一律拒绝。"
+  },
+  {
+    "module": "hug_comment",
+    "actions": ["request"],
+    "current": "{ uid: NumberId; cid: NumberId; sid: NumberId; type?: number; }",
+    "fields": ["cid", "sid", "ts", "type", "uid"],
+    "legacyEncoding": [],
+    "businessInput": "uid/cid/sid: 编号；type: 非负整数资源类型，默认 0",
+    "upstreamEncoding": "threadId = 资源前缀 + sid；targetUserId=uid，commentId=cid",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 0-7 有既有前缀映射，未知非负整数仍回退歌曲前缀，保留原行为。"
+  },
+  {
+    "module": "resource_like",
+    "actions": [],
+    "current": "{ id: NumberId; type: number; t: 0 | 1; threadId?: string; }",
+    "fields": ["id", "t", "threadId", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "id: 资源编号；type: 非负整数资源类型；t: 0 取消 / 1 点赞；threadId 仅动态类型使用，可选",
+    "upstreamEncoding": "t=1 走 /api/resource/like，其余走 /api/resource/unlike；threadId = 资源前缀 + id，type 6 时使用调用者 threadId",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts",
+      "tests/replay/writes/write-actions-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "t 只接受 0/1（含数字字符串）；type=6 未传 threadId 时该字段仍被省略，保持旧行为。"
+  },
+  {
+    "module": "send_album",
+    "actions": ["request"],
+    "current": "{ id: NumberId; userIds: NumberIdList; msg?: string; }",
+    "fields": ["id", "msg", "ts", "userIds"],
+    "legacyEncoding": [],
+    "businessInput": "id: 专辑编号；userIds: 非空用户编号数组；msg: 文本默认 ''",
+    "upstreamEncoding": "userIds = '[' + userIds.map(String).join(',') + ']'；type 固定 'album'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧 user_ids 逗号串不再是合法业务输入。"
+  },
+  {
+    "module": "send_playlist",
+    "actions": ["request"],
+    "current": "{ playlist: NumberId; userIds: NumberIdList; msg?: string; }",
+    "fields": ["msg", "playlist", "ts", "userIds"],
+    "legacyEncoding": [],
+    "businessInput": "playlist: 歌单编号；userIds: 非空用户编号数组；msg: 文本可选",
+    "upstreamEncoding": "id = playlist；userIds = '[' + userIds.map(String).join(',') + ']'；type 固定 'playlist'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts"
+    ],
+    "status": "migrated",
+    "notes": "msg 保持可选且不补默认值，未传时仍省略该键；旧 user_ids 逗号串不再是合法业务输入。"
+  },
+  {
+    "module": "send_song",
+    "actions": ["request"],
+    "current": "{ id: NumberId; userIds: NumberIdList; msg?: string; }",
+    "fields": ["id", "msg", "ts", "userIds"],
+    "legacyEncoding": [],
+    "businessInput": "id: 歌曲编号；userIds: 非空用户编号数组；msg: 文本默认 ''",
+    "upstreamEncoding": "userIds = '[' + userIds.map(String).join(',') + ']'；type 固定 'song'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts",
+      "tests/replay/writes/irreversible-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧 user_ids 逗号串不再是合法业务输入。"
+  },
+  {
+    "module": "send_text",
+    "actions": ["request"],
+    "current": "{ userIds: NumberIdList; msg?: string; }",
+    "fields": ["msg", "ts", "userIds"],
+    "legacyEncoding": [],
+    "businessInput": "userIds: 非空用户编号数组；msg: 文本可选",
+    "upstreamEncoding": "userIds = '[' + userIds.map(String).join(',') + ']'；type 固定 'text'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts",
+      "tests/replay/writes/irreversible-write-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "msg 保持可选且不补默认值，未传时仍省略该键；旧 user_ids 逗号串不再是合法业务输入。"
+  },
+  {
+    "module": "share_resource",
+    "actions": ["request"],
+    "current": "{ id?: NumberId; type?: ShareType; msg?: string; }",
+    "fields": ["id", "msg", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "id: 资源编号可选；type: 资源类型默认 song；msg: 文本默认 ''",
+    "upstreamEncoding": "type 为空时发送 'song'；msg/id 缺省时发送 ''",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 收窄为文档列出的 song/playlist/mv/djradio/djprogram/album/noresource，并保留空串作为既有默认行为；id 仍可省略以保持旧的空 id 请求。"
+  }
+]

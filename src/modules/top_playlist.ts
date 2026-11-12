@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -10,7 +14,23 @@ import {
 import { PlaylistSummary } from '../core/upstream-schemas.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  cat?: string;
+  order?: 'hot' | 'new';
+  limit?: NaturalValue;
+  offset?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  cat: Schema.optional(Schema.String),
+  order: Schema.optional(Schema.Literals(['hot', 'new'])),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 分类歌单的摘要共用 `PlaylistSummary`，另声明录制里非 null 的 `alg`、`backgroundImageId`、`originalCoverId`、`tsSongCount`。
 const TopPlaylistSummary = UpstreamObject({
@@ -78,7 +98,3 @@ const topPlaylist: ModuleEffect<
  * 分类歌单
  */
 export default topPlaylist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

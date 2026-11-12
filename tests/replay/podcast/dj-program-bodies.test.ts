@@ -201,32 +201,26 @@ test.each(cases)('$name returns the recorded body', async (entry) => {
   expect(validated.value).toEqual(entry.recording.response.body);
 });
 
-test.each<{
-  name: string;
-  status: number;
-  recording: Recording;
-  call: (upstream: unknown, status: number) => Promise<unknown>;
-}>([
-  {
-    name: 'dj_program without a radio id',
-    status: 400,
-    recording: djProgramMissingRid,
-    call: (upstream, status) =>
-      replay(upstream, status).djProgram(djProgramMissingRid.query),
-  },
-  {
-    name: 'dj_program_detail for an unknown program',
-    status: 404,
-    recording: djProgramDetailUnknown,
-    call: (upstream, status) =>
-      replay(upstream, status).djProgramDetail(djProgramDetailUnknown.query),
-  },
-])('$name is rejected with the upstream status', async (entry) => {
-  expect(await settle(entry.call(entry.recording.response.body, 200))).toEqual({
+test('dj_program without a radio id is rejected before calling upstream', async () => {
+  expect(
+    await settle(replay({}, 200).djProgram(djProgramMissingRid.query as never)),
+  ).toMatchObject({
+    rejected: { status: 400, cookie: [], body: { code: 400 } },
+  });
+});
+
+test('dj_program_detail for an unknown program is rejected with the upstream status', async () => {
+  expect(
+    await settle(
+      replay(djProgramDetailUnknown.response.body, 200).djProgramDetail(
+        djProgramDetailUnknown.query,
+      ),
+    ),
+  ).toEqual({
     rejected: {
-      status: entry.status,
+      status: 404,
       cookie: [],
-      body: entry.recording.response.body,
+      body: djProgramDetailUnknown.response.body,
     },
   });
 });
@@ -575,12 +569,10 @@ test('dj_program rejects a non-boolean asc without calling upstream', async () =
     },
   });
 
-  expect(await settle(api.djProgram({ rid: 792544462, asc: {} }))).toEqual({
-    rejected: {
-      status: 400,
-      cookie: [],
-      body: { code: 400, msg: 'asc must be a boolean, number or string' },
-    },
+  expect(
+    await settle(api.djProgram({ rid: 792544462, asc: {} as never })),
+  ).toMatchObject({
+    rejected: { status: 400, cookie: [], body: { code: 400 } },
   });
   expect(calls).toBe(0);
 });

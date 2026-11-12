@@ -2,8 +2,8 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
+  NaturalValue,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -15,10 +15,6 @@ import {
 } from '../core/upstream-body.ts';
 import { CommentRecord } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  IdentifierPagedQuery,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 
 export const moduleActions = {
   request: {
@@ -30,15 +26,18 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-export type ModuleInput = IdentifierPagedQuery & {
-  before?: QueryNumberLike;
+export type ModuleInput = {
+  before?: NaturalValue;
+  id: NumberId;
+  limit?: NaturalValue;
+  offset?: NaturalValue;
 };
 
 const inputSchema = Schema.Struct({
-  id: Identifier,
-  limit: Schema.optional(QueryNumber),
-  offset: Schema.optional(QueryNumber),
-  before: Schema.optional(QueryNumber),
+  before: Schema.optional(NaturalValue),
+  id: NumberId,
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
 });
 
 export const decodeModuleInput = (input: unknown) =>

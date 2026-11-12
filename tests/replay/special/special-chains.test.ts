@@ -52,20 +52,25 @@ for (const entry of baselines) {
       upstream = [recording.response.body, recording.response.body];
     if (entry.module === 'login_qr_create') upstream = [];
     let sends = 0;
+    const query =
+      entry.module === 'playlist_tracks'
+        ? {
+            ...entry.query,
+            tracks: String((entry.query as { tracks?: unknown }).tracks).split(
+              ',',
+            ),
+          }
+        : entry.query;
     const result = await settle(
-      invokeModule(
-        entry.module as ModuleIdentifier,
-        entry.query as ModuleQuery,
-        {
-          cookie: 'MUSIC_U=synthetic-replay',
-          fetcher: async () => {
-            expect(sends).toBeLessThan(entry.sends);
-            return Response.json(upstream[sends++], {
-              status: recording.response.status,
-            });
-          },
+      invokeModule(entry.module as ModuleIdentifier, query as ModuleQuery, {
+        cookie: 'MUSIC_U=synthetic-replay',
+        fetcher: async () => {
+          expect(sends).toBeLessThan(entry.sends);
+          return Response.json(upstream[sends++], {
+            status: recording.response.status,
+          });
         },
-      ),
+      }),
     );
     expect(sends).toBe(entry.sends);
     expect(result).toHaveProperty(entry.outcome);

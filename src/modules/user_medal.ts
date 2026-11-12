@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -20,6 +23,17 @@ export const moduleActions = {
     retry: 'connect',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  uid: NumberId;
+};
+
+const inputSchema = Schema.Struct({
+  uid: NumberId,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const MedalResource = UpstreamObject({
   actionTitle: Loose(Schema.String),
@@ -168,7 +182,3 @@ const userMedal: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 用户徽章
  */
 export default userMedal;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

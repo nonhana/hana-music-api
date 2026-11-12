@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,16 @@ import {
 } from '../core/upstream-body.ts';
 import { PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// 文档只支持 `limit`，不支持 `offset`；省略时仍取 30。
+export type ModuleInput = { limit?: NaturalValue };
+
+const inputSchema = Schema.Struct({
+  limit: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 推荐歌单卡片的字段比 `PlaylistSummary` 少（没有 `creator`、`subscribed` 等），卡片特有字段另声明。
 const RecommendedPlaylist = UpstreamObject({
@@ -50,7 +63,6 @@ const personalized: ModuleEffect<
   Effect.gen(function* () {
     const data = {
       limit: query.limit || 30,
-      // offset: query.offset || 0,
       total: true,
       n: 1000,
     };
@@ -67,7 +79,3 @@ const personalized: ModuleEffect<
  * 推荐歌单
  */
 export default personalized;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

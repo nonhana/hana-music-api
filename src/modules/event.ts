@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  IntegerValue,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -14,7 +19,6 @@ import {
   EventUser,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -25,6 +29,19 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  pagesize?: number;
+  lasttime?: number;
+};
+
+const inputSchema = Schema.Struct({
+  pagesize: Schema.optional(NaturalValue),
+  lasttime: Schema.optional(IntegerValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 动态记录：只收紧动态自己的编号 `id`；评论信息、用户、图片和计数都是宽松声明。
 // `resourceUniqueId` 的类型证据来自 `user_event` 录制；`contentDeclaration`、`repostSource` 在事件列表里出现过空串。
@@ -98,7 +115,3 @@ const event: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 获取动态列表
  */
 export default event;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

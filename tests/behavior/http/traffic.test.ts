@@ -3,7 +3,7 @@ import { describe, expect, test } from 'bun:test';
 import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
 
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import { setConnectionIp } from '../../../src/server/admission.ts';
 import { createServer } from '../../../src/server/create-server.ts';
 import type {
@@ -78,7 +78,7 @@ describe('server traffic admission', () => {
                   actions: probeReadActions,
                   identifier: 'probe',
                   route: '/probe',
-                  decodeInput: decodeLegacyModuleInput,
+                  decodeInput: decodeModuleObject,
                   execute: (_query: ModuleQuery, handler: RequestCapability) =>
                     testRequest(handler, '/api/test', {}).pipe(
                       Effect.map(moduleResponse),
@@ -143,7 +143,7 @@ describe('server traffic admission', () => {
           actions: {},
           identifier: 'search',
           route: '/search',
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: () =>
             Effect.sync(() => {
               calls += 1;
@@ -200,7 +200,7 @@ describe('server traffic admission', () => {
             actions: probeReadActions,
             identifier: 'probe',
             route: '/probe',
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: (_query: ModuleQuery, handler: RequestCapability) =>
               testRequest(handler, '/api/test', {}).pipe(
                 Effect.map(moduleResponse),
@@ -248,7 +248,7 @@ describe('server traffic admission', () => {
       {
         actions: {},
         identifier: 'traffic-probe',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: () =>
           Effect.sync(() => {
             invoked += 1;
@@ -283,7 +283,7 @@ describe('server traffic admission', () => {
           actions: {},
           identifier: 'body-limit',
           route: '/body-limit',
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: () =>
             Effect.sync(() => {
               invoked += 1;
@@ -310,7 +310,7 @@ describe('server traffic admission', () => {
           actions: {},
           identifier: 'upload-limit',
           route: '/upload-limit',
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: (query: ModuleQuery) =>
             Effect.sync(() => {
               fileSize = (query.file as { size: number }).size;
@@ -343,7 +343,7 @@ describe('server traffic admission', () => {
             actions: {},
             identifier: 'voice_upload',
             route: '/voice/upload',
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: () =>
               Effect.sync(() => {
                 invoked += 1;
@@ -385,7 +385,7 @@ describe('server traffic admission', () => {
             actions: {},
             identifier: 'body-timeout',
             route: '/body-timeout',
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: () =>
               Effect.sync(() => ({
                 status: 200,

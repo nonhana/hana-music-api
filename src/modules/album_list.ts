@@ -2,7 +2,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryNumber,
+  NaturalValue,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -12,29 +12,21 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { PagedQuery, QueryNumberLike } from '../types/module-shared.ts';
 
-export type AlbumArea = 'ALL' | 'ZH' | 'EA' | 'KR' | 'JP' | (string & {});
+export type AlbumArea = 'ALL' | 'ZH' | 'EA' | 'KR' | 'JP';
 
-export type ModuleInput = PagedQuery & {
+export type ModuleInput = {
   area?: AlbumArea;
-  type?: QueryNumberLike;
+  limit?: number;
+  offset?: number;
+  type?: number;
 };
 
 const inputSchema = Schema.Struct({
-  limit: Schema.optional(QueryNumber),
-  offset: Schema.optional(QueryNumber),
-  area: Schema.optional(
-    Schema.Union([
-      Schema.Literal('ALL'),
-      Schema.Literal('ZH'),
-      Schema.Literal('EA'),
-      Schema.Literal('KR'),
-      Schema.Literal('JP'),
-      Schema.String,
-    ]),
-  ),
-  type: Schema.optional(QueryNumber),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  area: Schema.optional(Schema.Literals(['ALL', 'ZH', 'EA', 'KR', 'JP'])),
+  type: Schema.optional(NaturalValue),
 });
 
 export const decodeModuleInput = (input: unknown) =>

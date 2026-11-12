@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,13 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { id: NumberId };
+
+const inputSchema = Schema.Struct({ id: NumberId });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const Chorus = UpstreamObject({
   id: Schema.Finite,
@@ -45,7 +55,7 @@ const songChorus: ModuleEffect<
   Effect.gen(function* () {
     const response = yield* request('read', {
       data: {
-        ids: JSON.stringify([query.id]),
+        ids: JSON.stringify([String(query.id)]),
       },
     });
     const body = yield* decodeUpstreamBody('song_chorus', ModuleBody, response);
@@ -59,7 +69,3 @@ const songChorus: ModuleEffect<
  * 副歌时间
  */
 export default songChorus;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

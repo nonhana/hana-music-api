@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -19,6 +22,19 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  endTime?: NaturalValue;
+  type?: 'week' | 'month' | 'year';
+};
+
+const inputSchema = Schema.Struct({
+  endTime: Schema.optional(NaturalValue),
+  type: Schema.optional(Schema.Literals(['week', 'month', 'year'])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const DurationDetail = UpstreamObject({
   audiobookDuration: Loose(Schema.Finite),
@@ -362,7 +378,3 @@ const listenDataReport: ModuleEffect<
  * 听歌足迹 - 周/月/年收听报告
  */
 export default listenDataReport;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -54,7 +54,10 @@ test.each([
       recording.response,
     );
 
-    const result = await client.playlistSubscribe(recording.query);
+    const result = await client.playlistSubscribe({
+      id: recording.query.id,
+      t: recording.query.t as 0 | 1 | 2,
+    });
 
     expect(result.status).toBe(200);
     expect(result.body as unknown).toEqual(recording.response.body);
@@ -67,10 +70,12 @@ test('playlistSubscribe rejects with NetEase own status and message plus retryAf
     rejected.response,
   );
 
-  const failure = (await client.playlistSubscribe(rejected.query).then(
-    () => undefined,
-    (error: unknown) => error,
-  )) as NcmApiResponse | undefined;
+  const failure = (await client
+    .playlistSubscribe({ id: rejected.query.id, t: 1 })
+    .then(
+      () => undefined,
+      (error: unknown) => error,
+    )) as NcmApiResponse | undefined;
 
   expect(failure?.status).toBe(405);
   expect(failure?.body).toEqual({
@@ -85,7 +90,9 @@ test('playlistSubscribe preserves the recorded own-playlist rejection without tu
     ownPlaylist.response,
   );
 
-  expect(await settle(client.playlistSubscribe(ownPlaylist.query))).toEqual({
+  expect(
+    await settle(client.playlistSubscribe({ id: ownPlaylist.query.id, t: 1 })),
+  ).toEqual({
     rejected: {
       status: 401,
       body: ownPlaylist.response.body,
@@ -101,14 +108,16 @@ test('playlistSubscribe rejects an HTTP 200 business 405 without replaying the w
     rejectedHttp200.response,
   );
 
-  expect(await settle(client.playlistSubscribe(rejectedHttp200.query))).toEqual(
-    {
-      rejected: {
-        status: 405,
-        body: { ...rejectedHttp200.response.body, retryAfter: 30 },
-        cookie: [],
-      },
+  expect(
+    await settle(
+      client.playlistSubscribe({ id: rejectedHttp200.query.id, t: 1 }),
+    ),
+  ).toEqual({
+    rejected: {
+      status: 405,
+      body: { ...rejectedHttp200.response.body, retryAfter: 30 },
+      cookie: [],
     },
-  );
+  });
   expect(sent).toHaveLength(1);
 });

@@ -1,11 +1,27 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { MvSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  area?: string;
+  limit?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  area: Schema.optional(Schema.String),
+  limit: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -32,7 +48,6 @@ const mvFirst: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
 ) =>
   Effect.gen(function* () {
     const data = {
-      // 'offset': query.offset || 0,
       area: query.area || '',
       limit: query.limit || 30,
       total: true,
@@ -46,7 +61,3 @@ const mvFirst: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 最新MV
  */
 export default mvFirst;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

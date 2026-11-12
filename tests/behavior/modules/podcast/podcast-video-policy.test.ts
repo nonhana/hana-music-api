@@ -17,7 +17,24 @@ import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
 import responseFiles from '../../../fixtures/requests/podcast-video-responses.json';
 import baseline from '../../../fixtures/requests/podcast-video.json';
 
-const defaults = baseline.cases.filter((entry) => entry.label === 'default');
+// dj_recommend_type 的基线 default 省略了必填 type；#128 后 decoder 直接拒绝，策略用例改用合法分类编号。
+const defaults = baseline.cases
+  .filter(
+    (entry) =>
+      entry.label === 'default' && entry.module !== 'video_detail_info',
+  )
+  .map((entry) => {
+    if (entry.module === 'dj_recommend_type')
+      return { ...entry, query: { type: 3 } };
+    if (entry.module === 'voice_delete')
+      return {
+        ...entry,
+        query: {
+          ids: (entry.query as { ids: Array<number> }).ids,
+        },
+      };
+    return entry;
+  });
 const cookie =
   'MUSIC_U=content-account; MUSIC_A=content-anonymous; __csrf=csrf';
 
@@ -122,6 +139,17 @@ for (const entry of defaults) {
     });
   });
 }
+const contentMethodInput = (
+  method: 'voiceDelete' | 'voiceDetail' | 'djSub' | 'videoTimelineAll',
+) =>
+  method === 'voiceDelete'
+    ? { ids: [17] }
+    : method === 'voiceDetail'
+      ? { id: 17 }
+      : method === 'djSub'
+        ? { rid: 17 }
+        : {};
+
 for (const method of [
   'voiceDelete',
   'voiceDetail',
@@ -173,7 +201,9 @@ for (const method of [
               });
               const client = createClientFromContext(config, services);
               const pending = settle<NcmApiResponse>(
-                client[method]({ id: 17 }, { signal: controller.signal }),
+                client[method](contentMethodInput(method) as never, {
+                  signal: controller.signal,
+                }),
               );
               yield* Effect.promise(() => reached.wait(pending));
               if (mode === 'cancel') controller.abort();
@@ -239,7 +269,9 @@ for (const method of ['voiceDelete', 'videoTimelineAll'] as const) {
           });
           const client = createClientFromContext(config, services);
           return {
-            result: await settle(client[method]({ id: 17 })),
+            result: await settle(
+              client[method](contentMethodInput(method) as never),
+            ),
             sends: scenario.sent.length,
             reads: services.reads.snapshot,
           };
@@ -367,7 +399,7 @@ test('content named and dynamic entries retain Promise refusal envelopes', async
       const results = await Promise.all([
         settle(pending),
         settle(invokeModule('mlog_to_video', { id: 'synthetic-mlog' }, config)),
-        settle(voiceDelete({ ids: '[17]' }, config)),
+        settle(voiceDelete({ ids: [17] }, config)),
       ]);
       for (const result of results)
         expect(result).toEqual({
@@ -381,7 +413,7 @@ test('content interleaved calls freeze distinct account inputs tokens and result
   const ready = createStage('content first token');
   let finish!: (value: string) => void;
   const firstCookie = { MUSIC_U: 'first-content-account' };
-  const query = { ids: '[17]' };
+  const query = { ids: [17] };
   const outcome = await withScenario(
     [
       {
@@ -415,7 +447,7 @@ test('content interleaved calls freeze distinct account inputs tokens and result
       );
       await ready.wait(first);
       firstCookie.MUSIC_U = 'changed';
-      query.ids = '[99]';
+      query.ids = [99];
       const second = await client.videoTimelineAll(
         { offset: 3 },
         {
@@ -518,8 +550,9 @@ for (const entry of [
                 'content-type': 'application/json',
               },
               body: JSON.stringify({
-                id: '17',
-                offset: 3,
+                ...(entry.route === '/voice/detail'
+                  ? { id: '17' }
+                  : { offset: 3 }),
                 cookie: 'MUSIC_U=http-first-body',
               }),
             },
@@ -530,7 +563,9 @@ for (const entry of [
               cookie: 'MUSIC_U=http-second-header',
               'content-type': 'application/json',
             },
-            body: JSON.stringify({ id: '19', offset: 7 }),
+            body: JSON.stringify(
+              entry.route === '/voice/detail' ? { id: '19' } : { offset: 7 },
+            ),
           }),
         ]);
         return {

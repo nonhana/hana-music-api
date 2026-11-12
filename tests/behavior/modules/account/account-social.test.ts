@@ -19,6 +19,94 @@ type Case = (typeof baseline.cases)[number];
 const cookie =
   'MUSIC_U=account-fixture; MUSIC_A=anonymous-fixture; __csrf=csrf; deviceId=account-device';
 const refusal = { code: 403, msg: 'request-probe' };
+
+const parseNicknames = (value: string): Array<string> => {
+  if (value.startsWith('[')) {
+    try {
+      const parsed: unknown = JSON.parse(value);
+      if (
+        Array.isArray(parsed) &&
+        parsed.every((item) => typeof item === 'string')
+      ) {
+        return parsed;
+      }
+    } catch {
+      // Not a JSON nickname list; the recording still shows the semicolon protocol.
+    }
+  }
+  return value.split(';');
+};
+
+const splitList = (value: unknown) =>
+  Array.isArray(value)
+    ? value
+    : typeof value === 'string'
+      ? value.split(',').filter(Boolean)
+      : [];
+
+const businessQuery = (entry: Case): Record<string, unknown> => {
+  const query = entry.query as Record<string, unknown>;
+  if ('user_ids' in query) {
+    const ids = query.user_ids;
+    const { user_ids: _userIds, ...rest } = query;
+    return {
+      ...rest,
+      userIds: Array.isArray(ids)
+        ? ids
+        : String(ids)
+            .split(',')
+            .map((id) => id.trim()),
+    };
+  }
+  if (typeof query.nicknames === 'string') {
+    return { ...query, nicknames: parseNicknames(query.nicknames) };
+  }
+  if (entry.module === 'listentogether_sync_list_command') {
+    return {
+      ...query,
+      displayList: splitList(query.displayList),
+      randomList: splitList(query.randomList),
+    };
+  }
+  return query;
+};
+
+const expectedData = (entry: Case): Record<string, unknown> => {
+  const data = entry.data as Record<string, unknown>;
+  if (entry.module === 'user_follow_mixed' && typeof data.scene === 'string') {
+    return { ...data, scene: Number(data.scene) };
+  }
+  if (entry.module === 'get_userids') {
+    return {
+      ...data,
+      nicknames: (businessQuery(entry).nicknames as Array<string>).join(';'),
+    };
+  }
+  if (entry.module === 'verify_getQr') {
+    return { ...data, verifyType: Number(data.verifyType) };
+  }
+  if (
+    entry.module === 'listentogether_sync_list_command' &&
+    typeof data.playlistParam === 'string'
+  ) {
+    const playlistParam = JSON.parse(data.playlistParam) as Record<
+      string,
+      unknown
+    >;
+    return {
+      ...data,
+      playlistParam: JSON.stringify({
+        ...playlistParam,
+        displayList: (playlistParam.displayList as Array<string>).filter(
+          Boolean,
+        ),
+        randomList: (playlistParam.randomList as Array<string>).filter(Boolean),
+      }),
+    };
+  }
+  return data;
+};
+
 const checkWire = (entry: Case, wire: WireRequest, token?: string) => {
   expect(wire.url).toBe(entry.url);
   expect(wire.method).toBe('POST');
@@ -70,7 +158,7 @@ const checkWire = (entry: Case, wire: WireRequest, token?: string) => {
       : readEapiBody(wire.body).data
   ) as Record<string, unknown>;
   const { header, e_r, csrf_token, checkToken, ...data } = payload;
-  expect(data).toEqual(entry.data);
+  expect(data).toEqual(expectedData(entry));
   expect(e_r).toBe(false);
   expect(checkToken).toBe(token);
   if (entry.profile === 'weapiPc') {
@@ -114,7 +202,7 @@ for (const entry of baseline.cases) {
             query: unknown,
           ) => Promise<NcmApiResponse>;
           return {
-            result: await settle(call(entry.query)),
+            result: await settle(call(businessQuery(entry))),
             wire: scenario.sent[0],
           };
         },
@@ -150,7 +238,7 @@ for (const entry of baseline.cases) {
             {
               method: 'POST',
               headers: { cookie, 'content-type': 'application/json' },
-              body: JSON.stringify(entry.query),
+              body: JSON.stringify(businessQuery(entry)),
             },
           );
           return {
@@ -216,7 +304,7 @@ for (const entry of baseline.cases.filter(
               config?: ModuleCallConfig,
             ) => Promise<NcmApiResponse>;
             return {
-              result: await settle(call(entry.query)),
+              result: await settle(call(businessQuery(entry))),
               wire: scenario.sent[0],
             };
           },

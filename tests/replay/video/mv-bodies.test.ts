@@ -375,11 +375,14 @@ test('mv_detail_info rejects a non-primitive mvid locally without calling upstre
     },
   });
 
-  expect(await settle(api.mvDetailInfo({ mvid: {} }))).toEqual({
+  expect(await settle(api.mvDetailInfo({ mvid: {} } as never))).toMatchObject({
     rejected: {
       status: 400,
       cookie: [],
-      body: { code: 400, msg: 'mvid must be a primitive value' },
+      body: {
+        code: 400,
+        msg: expect.stringContaining('Expected <Declaration>'),
+      },
     },
   });
   expect(requests).toBe(0);

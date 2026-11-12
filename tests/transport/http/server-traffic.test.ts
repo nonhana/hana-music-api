@@ -3,7 +3,7 @@ import { expect, test } from 'bun:test';
 import { Effect } from 'effect';
 
 import { startServer } from '../../../src/app/cli.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import { moduleResponse } from '../../_kit/module.ts';
 import { allowLoopback } from '../../_kit/upstream/offline.ts';
 
@@ -23,7 +23,7 @@ test('bounds 100 real HTTP requests and ignores forged forwarding headers', asyn
           actions: {},
           identifier: 'search',
           route: '/search',
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: () =>
             Effect.gen(function* () {
               active += 1;

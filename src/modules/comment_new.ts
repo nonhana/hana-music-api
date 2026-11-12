@@ -2,10 +2,11 @@ import { Effect, Schema } from 'effect';
 
 import { resolveResourceType } from '../core/comment-thread.ts';
 import {
+  BooleanValue,
   decodeModuleInput as decodeInput,
-  QueryBoolean,
-  QueryIdentifier,
-  QueryNumber,
+  IntegerValue,
+  NaturalValue,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -16,11 +17,6 @@ import {
 } from '../core/upstream-body.ts';
 import { CommentRecord, CommentUser } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  IdentifierQuery,
-  QueryBooleanLike,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 
 export const moduleActions = {
   request: {
@@ -32,36 +28,31 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-export type ModuleInput = IdentifierQuery & {
-  type: QueryNumberLike;
-
+export type ModuleInput = {
   cursor?: string;
-  pageNo?: QueryNumberLike;
-  pageSize?: QueryNumberLike;
-  showInner?: QueryBooleanLike;
-  sortType?: QueryNumberLike;
+  id: NumberId;
+  pageNo?: IntegerValue;
+  pageSize?: IntegerValue;
+  showInner?: boolean;
+  sortType?: IntegerValue;
+  type: number;
 };
 
 const inputSchema = Schema.Struct({
-  id: QueryIdentifier,
-  type: QueryNumber,
   cursor: Schema.optional(Schema.String),
-  pageNo: Schema.optional(QueryNumber),
-  pageSize: Schema.optional(QueryNumber),
-  showInner: Schema.optional(QueryBoolean),
-  sortType: Schema.optional(QueryNumber),
+  id: NumberId,
+  pageNo: Schema.optional(IntegerValue),
+  pageSize: Schema.optional(IntegerValue),
+  showInner: Schema.optional(BooleanValue),
+  sortType: Schema.optional(IntegerValue),
+  type: NaturalValue,
 });
 
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input).pipe(
     Effect.map((query) => ({
       ...query,
-      showInner:
-        query.showInner === undefined ||
-        query.showInner === true ||
-        query.showInner === 1 ||
-        query.showInner === '1' ||
-        query.showInner === 'true',
+      showInner: query.showInner ?? true,
     })),
   );
 
@@ -187,9 +178,9 @@ const commentNew: ModuleEffect<
   Effect.gen(function* () {
     const resourceType = resolveResourceType(query.type);
     const threadId = `${resourceType}${String(query.id)}`;
-    const pageSize = Number(query.pageSize ?? 20) || 20;
-    const pageNo = Number(query.pageNo ?? 1) || 1;
-    let sortType = Number(query.sortType) || 99;
+    const pageSize = query.pageSize || 20;
+    const pageNo = query.pageNo || 1;
+    let sortType = query.sortType || 99;
     if (sortType === 1) {
       sortType = 99;
     }

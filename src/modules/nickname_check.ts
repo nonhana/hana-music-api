@@ -1,5 +1,6 @@
 import { Effect, Schema } from 'effect';
 
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +10,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -20,6 +20,17 @@ export const moduleActions = {
     retry: 'connect',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  nickname: string;
+};
+
+const inputSchema = Schema.Struct({
+  nickname: Schema.String,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 返回码和昵称是否重复的 `duplicated` 收紧；`candidateNicknames` 只在昵称重复时提供，按“可以没有”处理。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -51,7 +62,3 @@ const nicknameCheck: ModuleEffect<
   });
 
 export default nicknameCheck;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

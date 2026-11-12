@@ -2,7 +2,8 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryNumber,
+  NaturalValue,
+  NumberLiterals,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -14,7 +15,6 @@ import {
 } from '../core/upstream-body.ts';
 import { Artist, UserProfile, VipRights } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { QueryNumberLike } from '../types/module-shared.ts';
 
 export const moduleActions = {
   request: {
@@ -26,16 +26,18 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+const Scene = NumberLiterals([0, 1, 2]);
+
 export type ModuleInput = {
-  cursor?: QueryNumberLike;
-  scene?: 0 | 1 | 2 | '0' | '1' | '2';
-  size?: QueryNumberLike;
+  cursor?: number;
+  scene?: 0 | 1 | 2;
+  size?: number;
 };
 
 const inputSchema = Schema.Struct({
-  cursor: Schema.optional(QueryNumber),
-  scene: Schema.optional(Schema.Literals([0, 1, 2, '0', '1', '2'])),
-  size: Schema.optional(QueryNumber),
+  cursor: Schema.optional(NaturalValue),
+  scene: Schema.optional(Scene),
+  size: Schema.optional(NaturalValue),
 });
 
 export const decodeModuleInput = (input: unknown) =>

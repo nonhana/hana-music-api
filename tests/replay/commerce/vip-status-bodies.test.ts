@@ -171,14 +171,6 @@ test.each<{
       ),
   },
   {
-    name: 'yunbei_rcmd_song_history with a negative size',
-    recording: yunbeiRcmdSongHistoryInvalidSize,
-    call: (upstream, status) =>
-      replay(upstream, status).yunbeiRcmdSongHistory(
-        yunbeiRcmdSongHistoryInvalidSize.query,
-      ),
-  },
-  {
     name: 'signin_progress anonymous recording',
     recording: signinProgressAnonymous,
     call: (upstream, status) =>
@@ -217,6 +209,26 @@ test.each<{
       body: entry.recording.response.body,
     },
   });
+});
+
+test('yunbei_rcmd_song_history rejects a negative size before calling upstream', async () => {
+  let upstreamCalls = 0;
+  const api = createHanaMusicApi({
+    cookie: 'MUSIC_U=listener',
+    fetcher: async () => {
+      upstreamCalls += 1;
+      return Response.json(yunbeiRcmdSongHistoryInvalidSize.response.body);
+    },
+  });
+
+  const outcome = await settle(
+    api.yunbeiRcmdSongHistory(yunbeiRcmdSongHistoryInvalidSize.query),
+  );
+
+  expect(outcome).toHaveProperty('rejected');
+  if (!('rejected' in outcome)) return;
+  expect(outcome.rejected.status).toBe(400);
+  expect(upstreamCalls).toBe(0);
 });
 
 test('vip status bodies type their tightened records and loose fields', () => {

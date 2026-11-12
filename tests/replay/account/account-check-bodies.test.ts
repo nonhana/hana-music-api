@@ -44,6 +44,10 @@ type Case = {
   ) => Promise<{ readonly status: number; readonly body: unknown }>;
 };
 
+const nicknamesInput = (query: { nicknames: string }) => ({
+  nicknames: query.nicknames.split(';'),
+});
+
 const cases: Array<Case> = [
   {
     name: 'cellphone_existence_check for a registered number',
@@ -82,21 +86,25 @@ const cases: Array<Case> = [
     recording: getUserids,
     bodySchema: GetUseridsBody,
     call: (upstream, status) =>
-      replay(upstream, status).getUserids(getUserids.query),
+      replay(upstream, status).getUserids(nicknamesInput(getUserids.query)),
   },
   {
     name: 'get_userids for existing and missing nicknames',
     recording: getUseridsMulti,
     bodySchema: GetUseridsBody,
     call: (upstream, status) =>
-      replay(upstream, status).getUserids(getUseridsMulti.query),
+      replay(upstream, status).getUserids(
+        nicknamesInput(getUseridsMulti.query),
+      ),
   },
   {
     name: 'get_userids for a missing nickname',
     recording: getUseridsNoMatch,
     bodySchema: GetUseridsBody,
     call: (upstream, status) =>
-      replay(upstream, status).getUserids(getUseridsNoMatch.query),
+      replay(upstream, status).getUserids(
+        nicknamesInput(getUseridsNoMatch.query),
+      ),
   },
   {
     name: 'countries_code_list',
@@ -387,7 +395,7 @@ test('get_userids rejects a body without the nickname mapping', async () => {
   delete upstream.nicknames;
 
   await expectUpstreamShapeRejection(
-    replay(upstream).getUserids(getUserids.query),
+    replay(upstream).getUserids(nicknamesInput(getUserids.query)),
     {
       module: 'get_userids',
       path: 'body.nicknames',
@@ -404,7 +412,7 @@ test('get_userids rejects a non-numeric user id', async () => {
   upstream.nicknames.non_h = '599663130';
 
   await expectUpstreamShapeRejection(
-    replay(upstream).getUserids(getUserids.query),
+    replay(upstream).getUserids(nicknamesInput(getUserids.query)),
     {
       module: 'get_userids',
       path: 'body.nicknames.non_h',
@@ -421,7 +429,9 @@ test('get_userids keeps an empty mapping and undeclared fields', async () => {
   >;
   upstream.extra = { queried: 1 };
 
-  const result = await replay(upstream).getUserids(getUseridsNoMatch.query);
+  const result = await replay(upstream).getUserids(
+    nicknamesInput(getUseridsNoMatch.query),
+  );
 
   expect(result.body as unknown).toHaveProperty('nicknames', {});
   expect(result.body as unknown).toHaveProperty('extra', { queried: 1 });

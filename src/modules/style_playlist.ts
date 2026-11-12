@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,21 @@ import {
 } from '../core/upstream-body.ts';
 import { StylePage } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  tagId: NumberId;
+  cursor?: NaturalValue;
+  size?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  tagId: NumberId,
+  cursor: Schema.optional(NaturalValue),
+  size: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 曲风歌单列表里的歌单摘要；`userId` 是创建者编号，不是歌单自己的编号，按宽松处理。
 const StylePlaylist = UpstreamObject({
@@ -69,7 +88,3 @@ const stylePlaylist: ModuleEffect<
  * 曲风-歌单
  */
 export default stylePlaylist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

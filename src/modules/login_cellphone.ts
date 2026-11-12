@@ -5,7 +5,7 @@ import { Effect, Schema } from 'effect';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
-  QueryNumber,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -17,7 +17,6 @@ import {
 import { Account, UserProfile } from '../core/upstream-schemas.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { QueryNumberLike } from '../types/module-shared.ts';
 
 export const moduleActions = {
   captcha: {
@@ -47,7 +46,7 @@ type PasswordCredential =
     };
 
 type LoginCellphoneBaseQuery = {
-  countrycode?: QueryNumberLike;
+  countrycode?: NumberId;
   phone: string;
 };
 
@@ -66,21 +65,21 @@ export type ModuleInput = LoginCellphoneBaseQuery &
 
 const inputSchema = Schema.Union([
   Schema.Struct({
-    countrycode: Schema.optional(QueryNumber),
+    countrycode: Schema.optional(NumberId),
     phone: Schema.String,
     captcha: Schema.String,
     md5_password: Schema.optional(Schema.String),
     password: Schema.optional(Schema.String),
   }),
   Schema.Struct({
-    countrycode: Schema.optional(QueryNumber),
+    countrycode: Schema.optional(NumberId),
     phone: Schema.String,
     md5_password: Schema.optional(Schema.String),
     password: Schema.String,
     captcha: Schema.optional(Schema.String),
   }),
   Schema.Struct({
-    countrycode: Schema.optional(QueryNumber),
+    countrycode: Schema.optional(NumberId),
     phone: Schema.String,
     md5_password: Schema.String,
     password: Schema.optional(Schema.String),

@@ -1,6 +1,6 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +9,13 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { vid: string };
+
+const inputSchema = Schema.Struct({ vid: Schema.String });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -39,19 +45,8 @@ const videoDetailInfo: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    if (
-      query.vid !== undefined &&
-      query.vid !== null &&
-      typeof query.vid !== 'string' &&
-      typeof query.vid !== 'number' &&
-      typeof query.vid !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'vid must be a primitive value',
-      });
-    }
     const data = {
-      threadid: `R_VI_62_${String(query.vid)}`,
+      threadid: `R_VI_62_${query.vid}`,
       composeliked: true,
     };
     const response = yield* request('request', { data });
@@ -67,7 +62,3 @@ const videoDetailInfo: ModuleEffect<
  * 视频点赞转发评论数数据
  */
 export default videoDetailInfo;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

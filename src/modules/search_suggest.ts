@@ -1,5 +1,6 @@
 import { Effect, Schema } from 'effect';
 
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -10,7 +11,20 @@ import {
 } from '../core/upstream-body.ts';
 import { AlbumSummary, Artist, SimpleAlbum } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// 文档只约定 `type=mobile` 走移动端，其他值继续按 web 建议处理；`keywords` 省略时仍按空文本查询。
+export type ModuleInput = {
+  keywords?: string;
+  type?: string;
+};
+
+const inputSchema = Schema.Struct({
+  keywords: Schema.optional(Schema.String),
+  type: Schema.optional(Schema.String),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const SuggestedSong = UpstreamObject({
   id: Schema.Finite,
@@ -123,7 +137,3 @@ const searchSuggest: ModuleEffect<
  * 搜索建议
  */
 export default searchSuggest;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

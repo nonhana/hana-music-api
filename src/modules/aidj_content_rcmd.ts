@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -12,7 +16,20 @@ import {
   ProgramMainSong,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// 坐标是可选业务值，SDK 负责组进 `extInfo` 的 `lbsInfoList` 并编码为 JSON。
+export type ModuleInput = {
+  latitude?: NumberValue;
+  longitude?: NumberValue;
+};
+
+const inputSchema = Schema.Struct({
+  latitude: Schema.optional(NumberValue),
+  longitude: Schema.optional(NumberValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 私人 DJ 载荷里的旧版歌曲：复用节目记录的歌曲字段，另补 `alias`/`transName`/`transNames`；
 // 它在宽松的 `value` 里，歌曲编号也宽松。
@@ -90,19 +107,22 @@ const aidjContentRcmd: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    const extInfo: Record<string, unknown> = {};
-    if (query.latitude !== undefined) {
-      extInfo.lbsInfoList = [
-        {
-          lat: query.latitude,
-          lon: query.longitude,
-          time: Math.floor(Date.now() / 1000),
-        },
-      ];
-    }
-    extInfo.noAidjToAidj = false;
-    extInfo.lastRequestTimestamp = Date.now();
-    extInfo.listenedTs = false;
+    const extInfo = {
+      noAidjToAidj: false,
+      lastRequestTimestamp: Date.now(),
+      listenedTs: false,
+      ...(query.latitude === undefined
+        ? {}
+        : {
+            lbsInfoList: [
+              {
+                lat: query.latitude,
+                lon: query.longitude,
+                time: Math.floor(Date.now() / 1000),
+              },
+            ],
+          }),
+    };
     const data = {
       extInfo: JSON.stringify(extInfo),
     };
@@ -119,7 +139,3 @@ const aidjContentRcmd: ModuleEffect<
  * 私人 DJ
  */
 export default aidjContentRcmd;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -2,14 +2,13 @@ import { expect, expectTypeOf, test } from 'bun:test';
 
 import { createHanaMusicApi, RegisterAnonimousBody } from '../../../index.ts';
 import type { CommentQuery } from '../../../src/types/modules.ts';
-import type { RawRecording, Recording } from '../../_kit/assertions.ts';
+import type { Recording } from '../../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,
   settle,
   validateSync,
 } from '../../_kit/assertions.ts';
 import commentAddRejected from '../../fixtures/netease/comment/comment.add-rejected.json';
-import digitalAlbumOrderingMissing from '../../fixtures/netease/digital-album/digitalAlbum_ordering.missing-params.json';
 import registerAnonymousRecording from '../../fixtures/netease/login/register_anonimous.default.json';
 import sendSongRejected from '../../fixtures/netease/msg/send_song.rejected.json';
 import sendTextRejected from '../../fixtures/netease/msg/send_text.rejected.json';
@@ -28,6 +27,19 @@ const replay = (upstream: unknown, setCookie: ReadonlyArray<string> = []) => {
     fetcher: async () => Response.json(upstream, { headers }),
   });
 };
+
+const messageInput = (query: Record<string, unknown>) => {
+  const ids = query.user_ids;
+  return {
+    msg: typeof query.msg === 'string' ? query.msg : undefined,
+    userIds: (Array.isArray(ids) ? ids : [ids]).map(String),
+  };
+};
+
+const songMessageInput = (query: Record<string, unknown>) => ({
+  ...messageInput(query),
+  id: Number(query.id),
+});
 
 test('register_anonimous returns the recorded account and credential cookie', async () => {
   const recording = registerAnonymousRecording as Recording;
@@ -206,12 +218,13 @@ test.each<{
   {
     name: 'send_text',
     recording: sendTextRejected,
-    call: (upstream, query) => replay(upstream).sendText(query),
+    call: (upstream, query) => replay(upstream).sendText(messageInput(query)),
   },
   {
     name: 'send_song',
     recording: sendSongRejected,
-    call: (upstream, query) => replay(upstream).sendSong(query),
+    call: (upstream, query) =>
+      replay(upstream).sendSong(songMessageInput(query)),
   },
 ])(
   '$name passes the 2201 risk-control rejection through',
@@ -224,21 +237,18 @@ test.each<{
   },
 );
 
-test('digitalAlbum_ordering documents the missing-parameter rejection', async () => {
-  const recording = digitalAlbumOrderingMissing as RawRecording;
-  expect(recording.response).toEqual({ status: 400, body: '' });
-
-  // 400 在 SPECIAL_STATUS_CODES 里，SDK 公开状态仍是 200，正文保持上游的空字符串；
-  // 这里只用本地 fetcher 回放缺参返回，没有实际下单或支付。
+test('digitalAlbum_ordering rejects missing parameters before calling upstream', async () => {
+  let upstreamCalls = 0;
   const api = createHanaMusicApi({
     cookie: 'MUSIC_U=listener',
-    fetcher: async () =>
-      new Response('', { status: recording.response.status }),
+    fetcher: async () => {
+      upstreamCalls += 1;
+      return new Response('', { status: 400 });
+    },
   });
 
-  expect(await api.digitalAlbumOrdering({})).toEqual({
-    status: 200,
-    cookie: [],
-    body: '',
+  expect(await settle(api.digitalAlbumOrdering({} as never))).toMatchObject({
+    rejected: { status: 400, cookie: [], body: { code: 400 } },
   });
+  expect(upstreamCalls).toBe(0);
 });

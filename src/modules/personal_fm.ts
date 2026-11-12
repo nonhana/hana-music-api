@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -12,7 +17,6 @@ import {
   ProgramMainSong,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 私人 FM 的旧版歌曲：节目记录的歌曲字段原样复用，另补录制里出现的推荐理由和旧版字段；
 // 每首歌自己的 `id` 收紧，其余字段宽松。
@@ -51,6 +55,13 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = NoInput;
+
+const inputSchema = EmptyInput;
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input).pipe(Effect.as({}));
+
 const personalFm: ModuleEffect<
   ModuleInput,
   ModuleBody,
@@ -66,7 +77,3 @@ const personalFm: ModuleEffect<
  * 私人FM
  */
 export default personalFm;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -1,0 +1,484 @@
+[
+  {
+    "module": "djRadio_top",
+    "actions": ["request"],
+    "current": "{ dataGapDays?: 7 | 30 | 90; dataType?: number; djRadioId?: NumberId; sortIndex?: 1 | 2 | 3 | 4 | 5 }",
+    "fields": ["dataGapDays", "dataType", "djRadioId", "sortIndex", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "全部可选；djRadioId 是电台编号（缺省发送 null），sortIndex 为 1–5，dataGapDays 为 7/30/90，dataType 为非负整数",
+    "upstreamEncoding": "data = { djRadioId: djRadioId || null, sortIndex: sortIndex || 1, dataGapDays: dataGapDays || 7, dataType: dataType || 3 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-subscription-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "sortIndex/dataGapDays 按模块注释枚举收紧；0、负数、小数、布尔、逗号串不再接受。"
+  },
+  {
+    "module": "dj_banner",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定 data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/podcast/dj-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "文档没有参数表，模块也不读取 clientType/type；传入即按未声明字段拒绝。"
+  },
+  {
+    "module": "dj_category_excludehot",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定 data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/podcast/dj-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_category_recommend",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定 data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/podcast/dj-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_catelist",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定 data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/podcast/dj-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_detail",
+    "actions": ["request"],
+    "current": "{ rid: NumberId }",
+    "fields": ["rid", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ rid: NumberId }（必填，电台编号）",
+    "upstreamEncoding": "data.id = rid，十进制文本原样保留",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/podcast/dj-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "文档只声明 rid，模块也只读取 rid；id/extInfo/limit/offset 未声明，传入即拒绝。"
+  },
+  {
+    "module": "dj_difm_all_style_channel",
+    "actions": ["request"],
+    "current": "{ sources?: ReadonlyArray<0 | 1 | 2> }",
+    "fields": ["sources", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ sources?: ReadonlyArray<0 | 1 | 2> }（来源列表，缺省 [0]）",
+    "upstreamEncoding": "sources = JSON.stringify(sources ?? [0])",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧协议串 \"[1,2]\"、单值 \"0\" 和元素 3 不再接受；文档虽标必填，但模块有 [0] 兜底，保持可选。"
+  },
+  {
+    "module": "dj_difm_channel_subscribe",
+    "actions": ["request"],
+    "current": "{ id: NumberId }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId }（必填，频道编号）",
+    "upstreamEncoding": "data.id = id，十进制文本原样保留",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_difm_channel_unsubscribe",
+    "actions": ["request"],
+    "current": "{ id: NumberId }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId }（必填，频道编号）",
+    "upstreamEncoding": "data.id = id，十进制文本原样保留",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_difm_playing_tracks_list",
+    "actions": ["request"],
+    "current": "{ channelId: NumberId; limit?: number; source?: 0 | 1 | 2 }",
+    "fields": ["channelId", "limit", "source", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ channelId: NumberId; limit?: number（默认 5）; source?: 0 | 1 | 2（默认 0） }",
+    "upstreamEncoding": "data = { limit: limit || 5, source: source || 0, channelId }；HTTP 数字字符串解码为数字",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "source 按文档 0/1/2 枚举收紧；空串、null、false 和非数字 limit 不再接受。"
+  },
+  {
+    "module": "dj_difm_subscribe_channels_get",
+    "actions": ["request"],
+    "current": "{ sources?: ReadonlyArray<0 | 1 | 2> }",
+    "fields": ["sources", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ sources?: ReadonlyArray<0 | 1 | 2> }（来源列表，缺省 [0]）",
+    "upstreamEncoding": "sources = JSON.stringify(sources ?? [0])",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧协议串 \"[1,2]\"、单值 \"0\" 和元素 3 不再接受；模块有 [0] 兜底，保持可选。"
+  },
+  {
+    "module": "dj_hot",
+    "actions": ["request"],
+    "current": "{ limit?: number; offset?: number }",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 30）; offset?: number（默认 0） }",
+    "upstreamEncoding": "data = { limit: limit || 30, offset: offset || 0 }；HTTP 数字字符串解码为数字",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "负数、小数、空串、null、false 不再接受；0 仍按原逻辑落回默认值。"
+  },
+  {
+    "module": "dj_paygift",
+    "actions": ["request"],
+    "current": "{ limit?: number; offset?: number }",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 30）; offset?: number（默认 0） }",
+    "upstreamEncoding": "data = { limit: limit || 30, offset: offset || 0, _nmclfl: 1 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "文档和模块都只有 limit/offset；id/type 未声明，传入即拒绝。"
+  },
+  {
+    "module": "dj_personalize_recommend",
+    "actions": ["request"],
+    "current": "{ limit?: number }",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 6） }",
+    "upstreamEncoding": "data = { limit: limit || 6 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_program",
+    "actions": ["request"],
+    "current": "{ asc?: boolean; limit?: number; offset?: number; rid: NumberId }",
+    "fields": ["asc", "limit", "offset", "rid", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ rid: NumberId; limit?: number（默认 30）; offset?: number（默认 0）; asc?: boolean（默认 false） }",
+    "upstreamEncoding": "data = { radioId: rid, limit: limit || 30, offset: offset || 0, asc: asc ?? false }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "asc 接受 true/false/0/1/'0'/'1'/'true'/'false' 并解码为 boolean；对象、其他字符串不再接受，删除原手写类型检查。"
+  },
+  {
+    "module": "dj_program_detail",
+    "actions": ["request"],
+    "current": "{ id: NumberId }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId }（必填，节目编号）",
+    "upstreamEncoding": "data.id = id，十进制文本原样保留",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_program_toplist",
+    "actions": ["request"],
+    "current": "{ limit?: number; offset?: number }",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 100）; offset?: number（默认 0） }",
+    "upstreamEncoding": "data = { limit: limit || 100, offset: offset || 0 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_program_toplist_hours",
+    "actions": ["request"],
+    "current": "{ limit?: number }",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 100） }",
+    "upstreamEncoding": "data = { limit: limit || 100 }（不支持 offset）",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "offset 不是该接口参数，传入即按未声明字段拒绝。"
+  },
+  {
+    "module": "dj_radio_hot",
+    "actions": ["request"],
+    "current": "{ cateId: NumberId; limit?: number; offset?: number }",
+    "fields": ["cateId", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ cateId: NumberId; limit?: number（默认 30）; offset?: number（默认 0） }",
+    "upstreamEncoding": "data = { cateId, limit: limit || 30, offset: offset || 0 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "缺 cateId 时上游返回 400，模块无兜底，因此必填。"
+  },
+  {
+    "module": "dj_recommend",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定 data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/podcast/dj-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_recommend_type",
+    "actions": ["request"],
+    "current": "{ type: NumberId }",
+    "fields": ["ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ type: NumberId }（必填，dj_catelist 的分类编号）",
+    "upstreamEncoding": "data.cateId = type，十进制文本原样保留",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/podcast/dj-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "文档表里的 id 行不是模块参数，传入即拒绝；非数字 type 不再透传到上游。"
+  },
+  {
+    "module": "dj_sub",
+    "actions": ["sub", "unsub"],
+    "current": "{ rid: NumberId; t?: 0 | 1 }",
+    "fields": ["rid", "t", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ rid: NumberId; t?: 0 | 1 }（t=1 订阅，0 或省略取消）",
+    "upstreamEncoding": "action = t === 1 ? 'sub' : 'unsub'；data.id = rid",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "t 从任意数字收紧为 0/1 动作枚举；t=2、null 和字符串动作不再接受。"
+  },
+  {
+    "module": "dj_sublist",
+    "actions": ["request"],
+    "current": "{ limit?: number; offset?: number }",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 30）; offset?: number（默认 0） }",
+    "upstreamEncoding": "data = { limit: limit || 30, offset: offset || 0, total: true }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-subscription-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_subscriber",
+    "actions": ["request"],
+    "current": "{ id: NumberId; limit?: number; time?: number }",
+    "fields": ["id", "limit", "time", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; limit?: number（默认 '20'）; time?: number（默认 '-1' 游标） }",
+    "upstreamEncoding": "data = { time: time || '-1', id, limit: limit || '20', total: 'true' }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-subscription-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "time 用整数（-1 是游标哨兵）；默认值仍保持原来的字符串 '-1'/'20'。"
+  },
+  {
+    "module": "dj_today_perfered",
+    "actions": ["request"],
+    "current": "{ page?: number }",
+    "fields": ["page", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ page?: number（默认 0） }",
+    "upstreamEncoding": "data = { page: page || 0 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_toplist",
+    "actions": ["request"],
+    "current": "{ limit?: number; offset?: number; type?: 'hot' | 'new' }",
+    "fields": ["limit", "offset", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 100）; offset?: number（默认 0）; type?: 'hot' | 'new'（缺省新晋） }",
+    "upstreamEncoding": "data = { limit: limit || 100, offset: offset || 0, type: type === 'hot' ? 1 : 0 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-subscription-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 收紧为文档枚举 new/hot；任意字符串、数字和 null 不再按 0 兜底。"
+  },
+  {
+    "module": "dj_toplist_hours",
+    "actions": ["request"],
+    "current": "{ limit?: number }",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 100） }",
+    "upstreamEncoding": "data = { limit: limit || 100 }（不支持 offset）",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-subscription-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_toplist_newcomer",
+    "actions": ["request"],
+    "current": "{ limit?: number; offset?: number }",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 100）; offset?: number（默认 0） }",
+    "upstreamEncoding": "data = { limit: limit || 100, offset: offset || 0 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-subscription-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_toplist_pay",
+    "actions": ["request"],
+    "current": "{ limit?: number }",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 100） }",
+    "upstreamEncoding": "data = { limit: limit || 100 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-subscription-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "dj_toplist_popular",
+    "actions": ["request"],
+    "current": "{ limit?: number }",
+    "fields": ["limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number（默认 100） }",
+    "upstreamEncoding": "data = { limit: limit || 100 }",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/podcast/dj-subscription-bodies.test.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ],
+    "status": "migrated"
+  }
+]

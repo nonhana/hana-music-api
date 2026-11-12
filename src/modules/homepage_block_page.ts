@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  BooleanValue,
+  decodeModuleInput as decodeInput,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -18,7 +22,20 @@ import {
   ProgramMainSong,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// `cursor` 是上游返回的不透明游标，按文本转发；`refresh` 省略时保持 false。
+export type ModuleInput = {
+  cursor?: string;
+  refresh?: BooleanValue;
+};
+
+const inputSchema = Schema.Struct({
+  cursor: Schema.optional(Schema.String),
+  refresh: Schema.optional(BooleanValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const Title = UpstreamObject({
   title: Loose(Schema.String),
@@ -276,7 +293,3 @@ const homepageBlockPage: ModuleEffect<
  * query.refresh 是否刷新数据
  */
 export default homepageBlockPage;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

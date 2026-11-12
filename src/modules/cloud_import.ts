@@ -3,16 +3,12 @@ import { Effect, Schema } from 'effect';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
+  NumberId,
+  NumberValue,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  QueryIdentifier,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -35,10 +31,10 @@ export const moduleActions = {
 export type ModuleInput = {
   album?: string;
   artist?: string;
-  bitrate?: QueryNumberLike;
-  fileSize?: QueryNumberLike;
+  bitrate?: NumberValue;
+  fileSize?: NumberValue;
   fileType?: string;
-  id?: QueryIdentifier;
+  id?: NumberId;
   md5?: string;
   song?: string;
 };
@@ -46,10 +42,10 @@ export type ModuleInput = {
 const inputSchema = Schema.Struct({
   album: Schema.optional(Schema.String),
   artist: Schema.optional(Schema.String),
-  bitrate: Schema.optional(QueryNumber),
-  fileSize: Schema.optional(QueryNumber),
+  bitrate: Schema.optional(NumberValue),
+  fileSize: Schema.optional(NumberValue),
   fileType: Schema.optional(Schema.String),
-  id: Schema.optional(Identifier),
+  id: Schema.optional(NumberId),
   md5: Schema.optional(Schema.String),
   song: Schema.optional(Schema.String),
 });

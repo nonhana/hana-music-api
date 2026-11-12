@@ -2,7 +2,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -14,7 +14,6 @@ import {
 import { UserProfile } from '../core/upstream-schemas.ts';
 import { renameAvatarField } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { QueryIdentifier } from '../types/module-shared.ts';
 
 export const moduleActions = {
   request: {
@@ -27,11 +26,11 @@ export const moduleActions = {
 } as const satisfies ModuleActions;
 
 export type ModuleInput = {
-  uid: QueryIdentifier;
+  uid: NumberId;
 };
 
 const inputSchema = Schema.Struct({
-  uid: Identifier,
+  uid: NumberId,
 });
 
 export const decodeModuleInput = (input: unknown) =>

@@ -1,0 +1,243 @@
+[
+  {
+    "module": "mlog_music_rcmd",
+    "actions": ["request"],
+    "current": "{ songid: NumberId; mvid?: NumberId; limit?: NaturalValue }",
+    "fields": ["limit", "mvid", "songid"],
+    "legacyEncoding": [],
+    "businessInput": "{ songid: NumberId; mvid?: NumberId; limit?: NaturalValue }",
+    "upstreamEncoding": "id = mvid 的十进制文本或 0；limit = limit || 10；extInfo = JSON.stringify({ songId: String(songid) })",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts",
+      "tests/replay/playback/personal-fm-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "songid 按文档必填并改为 NumberId；mvid、limit 保持可选。extInfo 仍由 SDK 在模块内编码，songId 统一用十进制文本。"
+  },
+  {
+    "module": "mlog_to_video",
+    "actions": ["request"],
+    "current": "{ id: string }",
+    "fields": ["id"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: string }（必填，mlog 不透明 id）",
+    "upstreamEncoding": "mlogId = id，原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/replay/video/voice-mlog-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "录制中的 mlog id 是 a1PvyoDUbEJmk0 这类不透明字符串（文档类型也是 string），因此用 Schema.String 而不是 NumberId；数字 id 与 null 被拒绝。"
+  },
+  {
+    "module": "mlog_url",
+    "actions": ["request"],
+    "current": "{ id: string; res?: NaturalValue }",
+    "fields": ["id", "res"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: string; res?: NaturalValue }",
+    "upstreamEncoding": "id = id；resolution = res || 1080；type = 1",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts",
+      "tests/replay/video/voice-mlog-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "mlog id 是不透明字符串；res 可按文档省略，默认 1080，HTTP 数字字符串解码为数字后仍按 0 走原默认值。"
+  },
+  {
+    "module": "program_recommend",
+    "actions": ["request"],
+    "current": "{ type?: string; limit?: NaturalValue; offset?: NaturalValue }",
+    "fields": ["limit", "offset", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ type?: string; limit?: NaturalValue; offset?: NaturalValue }",
+    "upstreamEncoding": "cateId = type；limit = limit || 10；offset = offset || 0",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "文档未穷举 type，录制只出现过 PUBLIC，保留 Schema.String；limit/offset 默认值不变。"
+  },
+  {
+    "module": "voice_delete",
+    "actions": ["request"],
+    "current": "{ ids: NumberIdList }",
+    "fields": ["ids"],
+    "legacyEncoding": [],
+    "businessInput": "{ ids: readonly NumberId[] }（非空）",
+    "upstreamEncoding": "ids = JSON.stringify(ids.map(String))",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧输入是调用者预编码的 JSON 串（如 \"[17,19]\"），现在改为非空编号数组并由 SDK 编码；空数组、逗号串和 0 被拒绝。"
+  },
+  {
+    "module": "voice_detail",
+    "actions": ["request"],
+    "current": "{ id: NumberId }",
+    "fields": ["id"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId }（必填，声音编号）",
+    "upstreamEncoding": "id = id，十进制文本原样保留",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts"
+    ],
+    "status": "migrated",
+    "notes": "编号按 NumberId 收紧，0、负数、分隔符串和布尔被拒绝。"
+  },
+  {
+    "module": "voice_lyric",
+    "actions": ["request"],
+    "current": "{ id: NumberId }",
+    "fields": ["id"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId }（必填，声音编号）",
+    "upstreamEncoding": "programId = id",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/replay/podcast/podcast-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "当前实现只读取 id，没有 type 分支或 type 输入；编号按 NumberId 收紧。"
+  },
+  {
+    "module": "voice_upload",
+    "actions": [],
+    "current": "{ autoPublish?: boolean; autoPublishText?: string; categoryId?: NumberId; composedSongs?: ReadonlyArray<NumberId>; coverImgId?: NumberId; description?: string; orderNo?: NaturalValue; privacy?: boolean; publishTime?: NaturalValue; secondCategoryId?: NumberId; songFile?: UploadedFile; songName?: string; voiceListId?: NumberId }",
+    "fields": [
+      "autoPublish",
+      "autoPublishText",
+      "categoryId",
+      "composedSongs",
+      "coverImgId",
+      "description",
+      "orderNo",
+      "privacy",
+      "publishTime",
+      "secondCategoryId",
+      "songFile",
+      "songName",
+      "voiceListId"
+    ],
+    "legacyEncoding": [],
+    "businessInput": "业务布尔与编号；composedSongs 是编号数组；songFile 保持 UploadedFile 二进制",
+    "upstreamEncoding": "voiceData = JSON.stringify([...])，composedSongs = composedSongs.map(String)，autoPublish/privacy 来自 BooleanValue，publishTime/orderNo 保留 0/1 默认值",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/upload/voice-upload.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "composedSongs 从逗号串改成编号数组并由 SDK 编码；autoPublish/privacy 从 QueryBoolean/number 强转改为 BooleanValue；id 类字段与分页字段收窄；旧 0、空串等宽松值不再接受。"
+  },
+  {
+    "module": "voicelist_detail",
+    "actions": ["request"],
+    "current": "{ id: NumberId }",
+    "fields": ["id"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId }（必填，播客列表编号）",
+    "upstreamEncoding": "id = id，十进制文本原样保留",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts"
+    ],
+    "status": "migrated",
+    "notes": "编号按 NumberId 收紧；0、负数、分隔符串被拒绝。"
+  },
+  {
+    "module": "voicelist_list",
+    "actions": ["request"],
+    "current": "{ voiceListId: NumberId; limit?: NaturalValue; offset?: NaturalValue }",
+    "fields": ["limit", "offset", "voiceListId"],
+    "legacyEncoding": [],
+    "businessInput": "{ voiceListId: NumberId; limit?: NaturalValue; offset?: NaturalValue }",
+    "upstreamEncoding": "limit = limit || '200'；offset = offset || '0'；voiceListId 原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts"
+    ],
+    "status": "migrated",
+    "notes": "voiceListId 无默认值且接口按它取声音列表，改为必填；分页保持原来的字符串默认值。"
+  },
+  {
+    "module": "voicelist_list_search",
+    "actions": ["request"],
+    "current": "{ voiceListId?: NumberId; limit?: NaturalValue; offset?: NaturalValue; name?: string; displayStatus?: string; type?: string; voiceFeeType?: IntegerValue }",
+    "fields": [
+      "displayStatus",
+      "limit",
+      "name",
+      "offset",
+      "type",
+      "voiceFeeType",
+      "voiceListId"
+    ],
+    "legacyEncoding": [],
+    "businessInput": "{ voiceListId?: NumberId; limit?: NaturalValue; offset?: NaturalValue; name?: string; displayStatus?: string; type?: string; voiceFeeType?: IntegerValue }",
+    "upstreamEncoding": "limit = limit || '200'；offset = offset || '0'；name/displayStatus/type/voiceFeeType = 值 || null；radioId = voiceListId，缺省时不发送",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts",
+      "tests/replay/podcast/podcast-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "voiceListId 可省略：匿名录制里不带它仍成功返回空列表。name 保留字符串；displayStatus、type 文档未穷举，保留 Schema.String；voiceFeeType 用 IntegerValue 接受 -1/0/1 及 HTTP 数字字符串，旧 0 走 null 的默认行为不变。"
+  },
+  {
+    "module": "voicelist_search",
+    "actions": ["request"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; podcastName?: string }",
+    "fields": ["limit", "offset", "podcastName"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: NaturalValue; offset?: NaturalValue; podcastName?: string }",
+    "upstreamEncoding": "fee = '-1'；limit = limit || '200'；offset = offset || '0'；podcastName = podcastName || ''",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts",
+      "tests/replay/podcast/podcast-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "podcastName 是文本，保留 Schema.String；分页默认值与固定 fee 不变。"
+  },
+  {
+    "module": "voicelist_trans",
+    "actions": ["request"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; radioId?: NumberId; programId?: NumberId; position?: NaturalValue }",
+    "fields": ["limit", "offset", "position", "programId", "radioId"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: NaturalValue; offset?: NaturalValue; radioId?: NumberId; programId?: NumberId; position?: 正整数 }",
+    "upstreamEncoding": "limit = limit || '200'；offset = offset || '0'；radioId = radioId || null；programId = programId || '0'；position = position || '1'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts"
+    ],
+    "status": "migrated",
+    "notes": "radioId/programId 按 NumberId 收紧，因此旧 0 不再可用；字符串默认值 '0'/'1' 仅在缺省时发送。 position 额外拒绝 0，避免旧实现用 position || '1' 静默改写。"
+  }
+]

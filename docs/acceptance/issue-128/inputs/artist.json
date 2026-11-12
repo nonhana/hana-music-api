@@ -1,0 +1,378 @@
+[
+  {
+    "module": "artist_album",
+    "actions": ["read"],
+    "current": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "upstreamEncoding": "limit||30、offset||0、total:true；id 拼进 path /api/artist/albums/<id>",
+    "evidence": [
+      "src/modules/artist_album.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/behavior/sdk/module-api.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 由 QueryIdentifier 收窄为 NumberId，拒绝非数字字符串、0、小数和分隔符串；limit/offset 由 QueryNumberLike 收窄为 NaturalValue，仍接受 HTTP 数字字符串但拒绝负数、小数和空串，解码为 number。"
+  },
+  {
+    "module": "artist_desc",
+    "actions": ["read"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "id 原样进入 data",
+    "evidence": [
+      "src/modules/artist_desc.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/library/artist-read-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 即使不参与返回体也按业务歌手编号处理：QueryIdentifier 收窄为 NumberId。"
+  },
+  {
+    "module": "artist_detail",
+    "actions": ["read"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "id 原样进入 data",
+    "evidence": [
+      "src/modules/artist_detail.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/compat/narrowed-legacy-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 由 QueryIdentifier 收窄为 NumberId，数字字符串仍可用。"
+  },
+  {
+    "module": "artist_detail_dynamic",
+    "actions": ["read"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "id 原样进入 data",
+    "evidence": [
+      "src/modules/artist_detail_dynamic.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/library/artist-read-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 由 QueryIdentifier 收窄为 NumberId，数字字符串仍可用。"
+  },
+  {
+    "module": "artist_fans",
+    "actions": ["read"],
+    "current": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "upstreamEncoding": "limit||20、offset||0；id 原样进入 data",
+    "evidence": [
+      "src/modules/artist_fans.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/replay/library/artist-read-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "从 LegacyModuleInput 改为显式字段；id 用 NumberId，limit/offset 用 NaturalValue 并保留 20/0 默认值。"
+  },
+  {
+    "module": "artist_follow_count",
+    "actions": ["read"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "id 原样进入 data",
+    "evidence": [
+      "src/modules/artist_follow_count.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/library/artist-read-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "从 LegacyModuleInput 改为单个 NumberId 字段。"
+  },
+  {
+    "module": "artist_list",
+    "actions": ["read"],
+    "current": "{ area?: -1 | 0 | 7 | 8 | 16 | 96; initial?: string; limit?: NaturalValue; offset?: NaturalValue; type?: 1 | 2 | 3; }",
+    "fields": ["area", "initial", "limit", "offset", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ area?: -1|0|7|8|16|96; initial?: string（字母或 -1/0 哨兵）; limit?: number; offset?: number; type?: -1|1|2|3 }",
+    "upstreamEncoding": "initial 取首字符大写后的 charCode；offset||0、limit||30、total:true、type||1、area 原样；area/type 接受 HTTP 数字字符串",
+    "evidence": [
+      "src/modules/artist_list.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/replay/library/artist-read-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "area 与 type 按模块注释的上游取值穷举为数字枚举（-1 作为 area 哨兵保留在字面量集合）；initial 由“可转数字则原样、任意 primitive 可用”收紧为字母字符串并统一编码为首字符码，数字 initial 不再透传；type 默认值由字符串 '1' 改为数字 1，序列化后仍是 type=1。 initial 保留 -1/0 数字哨兵原样透传，字母编码为首字符大写 charCode；type=-1 表示全部。"
+  },
+  {
+    "module": "artist_mv",
+    "actions": ["read"],
+    "current": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue; }",
+    "upstreamEncoding": "artistId=id，limit/offset/total:true 原样；没有默认值",
+    "evidence": [
+      "src/modules/artist_mv.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/library/artist-read-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 收窄为 NumberId，limit/offset 收窄为 NaturalValue；limit/offset 仍保持可选且无默认值。"
+  },
+  {
+    "module": "artist_new_mv",
+    "actions": ["read"],
+    "current": "{ before?: NaturalValue; limit?: NaturalValue; }",
+    "fields": ["before", "limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ before?: NaturalValue; limit?: NaturalValue; }",
+    "upstreamEncoding": "limit||20、startTimestamp=before||Date.now()",
+    "evidence": [
+      "src/modules/artist_new_mv.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/replay/library/artist-read-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "从 LegacyModuleInput 改为显式字段；before 作为时间戳用 NaturalValue，保留“缺省取当前时间”的默认行为。"
+  },
+  {
+    "module": "artist_new_song",
+    "actions": ["read"],
+    "current": "{ before?: NaturalValue; limit?: NaturalValue; }",
+    "fields": ["before", "limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ before?: NaturalValue; limit?: NaturalValue; }",
+    "upstreamEncoding": "limit||20、startTimestamp=before||Date.now()",
+    "evidence": [
+      "src/modules/artist_new_song.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/replay/library/artist-read-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "从 LegacyModuleInput 改为显式字段；before 作为时间戳用 NaturalValue，保留“缺省取当前时间”的默认行为。"
+  },
+  {
+    "module": "artist_songs",
+    "actions": ["read"],
+    "current": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue; order?: 'hot' | 'time'; }",
+    "fields": ["id", "limit", "offset", "order", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue; order?: 'hot' | 'time'; }",
+    "upstreamEncoding": "id、private_cloud:'true'、work_type:1、order||'hot'、offset||0、limit||100",
+    "evidence": [
+      "src/modules/artist_songs.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/replay/library/artist-read-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 收窄为 NumberId，limit/offset 收窄为 NaturalValue；order 从任意字符串收紧为模块注释穷举的 'hot' | 'time'（这是公开类型变化，共享的 module-decoders 测试需同步改掉 'future-order' 样本）。"
+  },
+  {
+    "module": "artist_sub",
+    "actions": [],
+    "current": "{ id: NumberId; t: 0 | 1; }",
+    "fields": ["id", "t", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; t: 0 | 1; }",
+    "upstreamEncoding": "t 选择 sub/unsub 动作；artistId=id，artistIds=`[${String(id)}]`",
+    "evidence": [
+      "src/modules/artist_sub.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/behavior/sdk/module-api.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 收窄为 NumberId；t 用 NumberLiterals([0,1]) 保留数字/数字字符串两种写法，解码为 number，其他值（含 2、布尔）拒绝；artistIds 由业务 id 编码而不是调用者传字符串。"
+  },
+  {
+    "module": "artist_sublist",
+    "actions": ["read"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "upstreamEncoding": "limit||25、offset||0、total:true",
+    "evidence": [
+      "src/modules/artist_sublist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/replay/library/library-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "PagedQuery 换成显式 NaturalValue 字段，保留 25/0 默认值；拒绝负数、小数和空串。"
+  },
+  {
+    "module": "artist_top_song",
+    "actions": ["read"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "id 原样进入 data",
+    "evidence": [
+      "src/modules/artist_top_song.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/library/library-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 由 QueryIdentifier 收窄为 NumberId。"
+  },
+  {
+    "module": "artist_video",
+    "actions": ["read"],
+    "current": "{ cursor?: NaturalValue; id: NumberId; order?: IntegerValue; size?: NaturalValue; }",
+    "fields": ["cursor", "id", "order", "size", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ cursor?: NaturalValue; id: NumberId; order?: IntegerValue; size?: NaturalValue; }",
+    "upstreamEncoding": "artistId=id、page=JSON.stringify({ size: size||10, cursor: cursor||0 })、tab:0、order: order||0",
+    "evidence": [
+      "src/modules/artist_video.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/replay/library/artist-read-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 收窄为 NumberId，size/cursor 用 NaturalValue，order 用 IntegerValue（没有枚举依据，不收窄符号）；page 仍由模块用业务值构造 JSON，调用者不再传预编码字符串。"
+  },
+  {
+    "module": "artists",
+    "actions": ["read"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "id 拼进 path /api/v1/artist/<id>",
+    "evidence": [
+      "src/modules/artists.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/compat/narrowed-legacy-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 由 QueryIdentifier 收窄为 NumberId，数字字符串仍可用。"
+  },
+  {
+    "module": "ugc_album_get",
+    "actions": ["read"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "albumId=id",
+    "evidence": [
+      "src/modules/ugc_album_get.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/creators/ugc-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "从 LegacyModuleInput 改为单个 NumberId；专辑百科 id 按业务编号处理。"
+  },
+  {
+    "module": "ugc_artist_get",
+    "actions": ["read"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "artistId=id",
+    "evidence": [
+      "src/modules/ugc_artist_get.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/creators/ugc-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "从 LegacyModuleInput 改为单个 NumberId；歌手百科 id 按业务编号处理。"
+  },
+  {
+    "module": "ugc_artist_search",
+    "actions": ["read"],
+    "current": "{ keyword: NumberId | string; limit?: NaturalValue; }",
+    "fields": ["keyword", "limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ keyword: NumberId | string; limit?: NaturalValue; }",
+    "upstreamEncoding": "keyword 原样、limit||40",
+    "evidence": [
+      "src/modules/ugc_artist_search.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/replay/creators/ugc-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "keyword 按模块文档保留“关键字或歌手 id”两种业务值（文本或 NumberId），仍拒绝 0、小数、布尔；limit 由 QueryNumberLike 收窄为 NaturalValue 并保留 40 默认值。"
+  },
+  {
+    "module": "ugc_detail",
+    "actions": ["read"],
+    "current": "{ auditStatus?: -5 | 0 | 1 | 4 | 5; limit?: NaturalValue; offset?: NaturalValue; order?: 'asc' | 'desc'; sortBy?: string; type?: 1 | 2 | 3 | 4 | 5 | 6 | 101 | 103; }",
+    "fields": [
+      "auditStatus",
+      "limit",
+      "offset",
+      "order",
+      "sortBy",
+      "ts",
+      "type"
+    ],
+    "legacyEncoding": [],
+    "businessInput": "{ auditStatus?: -5 | 0 | 1 | 4 | 5; limit?: NaturalValue; offset?: NaturalValue; order?: 'asc' | 'desc'; sortBy?: string; type?: 1 | 2 | 3 | 4 | 5 | 6 | 101 | 103; }",
+    "upstreamEncoding": "auditStatus||''、limit||10、offset||0、order||'desc'、sortBy||'createTime'、type||1",
+    "evidence": [
+      "src/modules/ugc_detail.ts",
+      "tests/behavior/modules/input-encoding/artist.ts",
+      "tests/replay/creators/ugc-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "从 LegacyModuleInput 改为显式字段；auditStatus 和 type 按模块原有上游枚举注释用 NumberLiterals（-5 哨兵保留），order 收窄为 'asc'|'desc'，sortBy 无枚举依据保留字符串；limit/offset 用 NaturalValue 并保留原默认值。auditStatus=0 仍沿用原有 || 语义被当作未筛选，未改默认行为。"
+  },
+  {
+    "module": "ugc_mv_get",
+    "actions": ["read"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "mvId=id",
+    "evidence": [
+      "src/modules/ugc_mv_get.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/creators/ugc-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "从 LegacyModuleInput 改为单个 NumberId；MV 百科 id 按业务编号处理。"
+  },
+  {
+    "module": "ugc_song_get",
+    "actions": ["read"],
+    "current": "{ id: NumberId; }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; }",
+    "upstreamEncoding": "songId=id",
+    "evidence": [
+      "src/modules/ugc_song_get.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/creators/ugc-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "从 LegacyModuleInput 改为单个 NumberId；歌曲百科 id 按业务编号处理。"
+  },
+  {
+    "module": "ugc_user_devote",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "NoInput",
+    "upstreamEncoding": "data: {}",
+    "evidence": [
+      "src/modules/ugc_user_devote.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/replay/creators/ugc-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "无参数模块改为 EmptyInput；不再接受任意多余字段。"
+  }
+]

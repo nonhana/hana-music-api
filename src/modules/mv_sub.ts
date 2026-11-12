@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +13,19 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  mvid: NumberId;
+  t?: 0 | 1;
+};
+
+const inputSchema = Schema.Struct({
+  mvid: NumberId,
+  t: Schema.optional(NumberLiterals([0, 1])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   sub: {
@@ -42,11 +59,10 @@ const mvSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   request,
 ) =>
   Effect.gen(function* () {
-    const query = { ...input };
-    const action = Number(query.t) === 1 ? 'sub' : 'unsub';
+    const action = input.t === 1 ? 'sub' : 'unsub';
     const data = {
-      mvId: query.mvid,
-      mvIds: '["' + query.mvid + '"]',
+      mvId: input.mvid,
+      mvIds: JSON.stringify([String(input.mvid)]),
     };
     const response = yield* request(action, { data });
     return {
@@ -59,7 +75,3 @@ const mvSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 收藏与取消收藏MV
  */
 export default mvSub;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

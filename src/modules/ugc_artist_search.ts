@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +13,20 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// 上游同一个 keyword 参数既接受文本关键字，也接受歌手 id。
+export type ModuleInput = {
+  keyword: NumberId | string;
+  limit?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  keyword: Schema.Union([Schema.String, NumberId]),
+  limit: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const SearchedArtist = UpstreamObject({
   artistId: Schema.Finite,
@@ -63,7 +81,3 @@ const ugcArtistSearch: ModuleEffect<
  * 可传关键字或者歌手id
  */
 export default ugcArtistSearch;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -1,10 +1,24 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { rid: NumberId; t?: 0 | 1 };
+
+const inputSchema = Schema.Struct({
+  rid: NumberId,
+  t: Schema.optional(NumberLiterals([0, 1])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   sub: {
@@ -36,10 +50,9 @@ const djSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   request,
 ) =>
   Effect.gen(function* () {
-    const query = { ...input };
-    const action = Number(query.t) === 1 ? 'sub' : 'unsub';
+    const action = input.t === 1 ? 'sub' : 'unsub';
     const data = {
-      id: query.rid,
+      id: input.rid,
     };
     const response = yield* request(action, { data });
     return {
@@ -52,7 +65,3 @@ const djSub: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 订阅与取消电台
  */
 export default djSub;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

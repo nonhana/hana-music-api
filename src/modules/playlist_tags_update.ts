@@ -1,10 +1,32 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// 标签成员去掉分号分隔符后不能为空，空数组表示清空标签。
+const Tag = Schema.declare<string>(
+  (value): value is string =>
+    typeof value === 'string' && value.length > 0 && !value.includes(';'),
+);
+
+export type ModuleInput = {
+  id: NumberId;
+  tags: ReadonlyArray<string>;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  tags: Schema.Array(Tag),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 接口只返回返回码，收紧的是返回码。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -32,7 +54,7 @@ const playlistTagsUpdate: ModuleEffect<
   Effect.gen(function* () {
     const data = {
       id: query.id,
-      tags: query.tags,
+      tags: query.tags.join(';'),
     };
     const response = yield* request('update', { data });
     return {
@@ -49,7 +71,3 @@ const playlistTagsUpdate: ModuleEffect<
  * 更新歌单标签
  */
 export default playlistTagsUpdate;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

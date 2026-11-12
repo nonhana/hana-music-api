@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 const RecommendedPlaylist = UpstreamObject({
   id: Schema.Finite,
@@ -42,6 +45,13 @@ export const ModuleBody = Schema.toStandardSchemaV1(
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
+
+export type ModuleInput = { id: NumberId };
+
+const inputSchema = Schema.Struct({ id: NumberId });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   read: {
@@ -77,7 +87,3 @@ const playlistDetailRcmdGet: ModuleEffect<
  * 相关歌单推荐
  */
 export default playlistDetailRcmdGet;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

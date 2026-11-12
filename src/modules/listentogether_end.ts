@@ -1,5 +1,6 @@
 import { Effect, Schema } from 'effect';
 
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +9,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -19,6 +19,13 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = { roomId: string };
+
+const inputSchema = Schema.Struct({ roomId: Schema.String });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 接口就是为了确认房间已结束：正文顶层的返回码 `code` 收紧；`data.success`、房间类型和
 // `message` 是附带信息，宽松（其余 `data` 字段只见过 `null`，不声明）。
@@ -58,7 +65,3 @@ const listentogetherEnd: ModuleEffect<
  * 一起听 结束房间
  */
 export default listentogetherEnd;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

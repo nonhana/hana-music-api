@@ -148,9 +148,15 @@ test.each([avatarUpload, playlistCoverUpdate, cloud])(
         },
       ],
       async (network) => {
+        const input =
+          implementation === cloud
+            ? { songFile }
+            : implementation === playlistCoverUpdate
+              ? { id: 1, imgFile: songFile }
+              : { imgFile: songFile };
         const result = await captureBoundModule(
           implementation,
-          { imgFile: songFile, songFile },
+          input,
           network.fetcher,
           { cookie: 'MUSIC_U=upload-shape' },
         );

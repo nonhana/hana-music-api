@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +13,16 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { id: NumberId; t?: 0 | 1 };
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  t: Schema.optional(NumberLiterals([0, 1])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   collect: {
@@ -44,13 +58,12 @@ const broadcastSub: ModuleEffect<
   typeof moduleActions
 > = (input, request) =>
   Effect.gen(function* () {
-    const query = { ...input };
-    query.t = Number(query.t) === 1 ? 'false' : 'true';
-    const action = query.t === 'false' ? 'collect' : 'cancel';
+    const collect = input.t === 1;
+    const action = collect ? 'collect' : 'cancel';
     const data = {
       contentType: 'BROADCAST',
-      contentId: query.id,
-      cancelCollect: query.t,
+      contentId: input.id,
+      cancelCollect: collect ? 'false' : 'true',
     };
     const response = yield* request(action, { data });
     return {
@@ -63,7 +76,3 @@ const broadcastSub: ModuleEffect<
  * 广播电台 - 收藏/取消收藏电台
  */
 export default broadcastSub;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

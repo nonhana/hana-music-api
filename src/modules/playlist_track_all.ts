@@ -3,8 +3,8 @@ import { Effect, Schema } from 'effect';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
+  NaturalValue,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -15,10 +15,33 @@ import {
 } from '../core/upstream-body.ts';
 import { LooseSongPrivilege, Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  IdentifierQuery,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
+
+export type ModuleInput = {
+  id: NumberId;
+  s?: number;
+  limit?: number;
+  offset?: number;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  s: Schema.optional(NaturalValue),
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
+// 通到歌曲列表的路径、每首歌的编号收紧；其余字段宽松（共用 `Song`），`privileges` 里的编号也宽松。
+export const ModuleBody = Schema.toStandardSchemaV1(
+  UpstreamObject({
+    code: Schema.Literal(200),
+    songs: Schema.Array(Song),
+    privileges: Loose(Schema.Array(LooseSongPrivilege)),
+  }),
+);
+export type ModuleBody = typeof ModuleBody.Type;
 
 export const moduleActions = {
   playlist: {
@@ -36,33 +59,6 @@ export const moduleActions = {
     retry: 'read',
   },
 } as const satisfies ModuleActions;
-
-export type ModuleInput = IdentifierQuery & {
-  s?: QueryNumberLike;
-
-  limit?: QueryNumberLike;
-  offset?: QueryNumberLike;
-};
-
-const inputSchema = Schema.Struct({
-  id: Identifier,
-  s: Schema.optional(QueryNumber),
-  limit: Schema.optional(QueryNumber),
-  offset: Schema.optional(QueryNumber),
-});
-
-export const decodeModuleInput = (input: unknown) =>
-  decodeInput(inputSchema, input);
-
-// 通到歌曲列表的路径、每首歌的编号收紧；其余字段宽松（共用 `Song`），`privileges` 里的编号也宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
-  UpstreamObject({
-    code: Schema.Literal(200),
-    songs: Schema.Array(Song),
-    privileges: Loose(Schema.Array(LooseSongPrivilege)),
-  }),
-);
-export type ModuleBody = typeof ModuleBody.Type;
 
 const playlistTrackAll: ModuleEffect<
   ModuleInput,

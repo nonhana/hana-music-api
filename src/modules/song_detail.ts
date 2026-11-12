@@ -2,20 +2,17 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
+  NumberIdList,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { Song, SongPrivilege } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { QueryIdentifier } from '../types/module-shared.ts';
 
-export type ModuleInput = { ids?: QueryIdentifier };
+export type ModuleInput = { ids: NumberIdList };
 
-const inputSchema = Schema.Struct({
-  ids: Schema.optional(Identifier),
-});
+const inputSchema = Schema.Struct({ ids: NumberIdList });
 
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
@@ -46,10 +43,9 @@ const songDetail: ModuleEffect<
   typeof moduleActions
 > = (input, request) =>
   Effect.gen(function* () {
-    const ids = String(input.ids ?? '').split(/\s*,\s*/);
     const response = yield* request('read', {
       data: {
-        c: '[' + ids.map((id) => '{"id":' + id + '}').join(',') + ']',
+        c: `[${input.ids.map((id) => `{"id":${String(id)}}`).join(',')}]`,
       },
     });
     const body = yield* decodeUpstreamBody('song_detail', ModuleBody, response);

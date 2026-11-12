@@ -316,6 +316,60 @@ describe('generated module type surface', () => {
     }
   });
 
+  test('rejects a broad ModuleInput when strict inputs are enabled', async () => {
+    const directory = await mkdtemp(resolve(tmpdir(), 'hana-module-input-'));
+    try {
+      await writeFile(
+        resolve(directory, 'tsconfig.json'),
+        '{"include":["*.ts"]}',
+      );
+      await writeFile(
+        resolve(directory, 'sample.ts'),
+        `
+        type Loose = Record<string, unknown>
+        export type ModuleInput = Loose
+        export const decodeModuleInput = (input: unknown) => input
+        export const moduleActions = {}
+        const sample: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => ({})
+        export default sample
+      `,
+      );
+      const result = await buildGeneratedArtifacts(directory, {
+        strictInputs: true,
+      }).catch((error: unknown) => error);
+      expect(result).toBeInstanceOf(Error);
+      expect(String(result)).toContain('concrete business structure');
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  });
+  test('allows the registered open dictionary exception', async () => {
+    const directory = await mkdtemp(
+      resolve(tmpdir(), 'hana-module-input-open-'),
+    );
+    try {
+      await writeFile(
+        resolve(directory, 'tsconfig.json'),
+        '{"include":["*.ts"]}',
+      );
+      await writeFile(
+        resolve(directory, 'batch.ts'),
+        `
+        export type ModuleInput = Partial<Record<\`/api/\${string}\`, Record<string, unknown>>>
+        export const decodeModuleInput = (input: unknown) => input
+        export const moduleActions = {}
+        const sample: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = () => ({})
+        export default sample
+      `,
+      );
+      const generated = await buildGeneratedArtifacts(directory, {
+        strictInputs: true,
+      });
+      expect(generated.moduleCount).toBe(1);
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
+  });
   test('rejects an input alias re-export without a local declaration', async () => {
     const directory = await mkdtemp(
       resolve(tmpdir(), 'hana-module-input-owner-'),

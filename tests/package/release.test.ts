@@ -478,7 +478,7 @@ describe('sdk release contract', () => {
           "if (invokedSearchResult.status !== 200) throw new Error('invokeModule search call failed')",
           "for (const entry of requests) if (entry.url !== 'https://interface.music.163.com/eapi/search/get' || entry.method !== 'POST') throw new Error('packaged search action failed')",
           'await client.lyric({ id: 7 })',
-          'await client.songDetail({ ids: 7 })',
+          'await client.songDetail({ ids: [7] })',
           'await client.playlistDetail({ id: 7 })',
           "deepStrictEqual(requests.slice(3).map((entry) => entry.url), ['https://interface.music.163.com/eapi/song/lyric', 'https://music.163.com/weapi/v3/song/detail', 'https://interface.music.163.com/eapi/v6/playlist/detail'])",
           "if (!requests[4].headers.get('cookie').includes('os=web')) throw new Error('packaged song detail profile failed')",
@@ -546,9 +546,9 @@ describe('sdk release contract', () => {
         expect(result.exitCode, result.stderr).toBe(0);
         const counts = JSON.parse(result.stdout);
         expect(counts).toEqual({
-          requests: 366,
-          providers: 122,
-          cases: 122,
+          requests: 351,
+          providers: 117,
+          cases: 117,
           modules: 77,
         });
         libraryPlayback.push({
@@ -583,9 +583,9 @@ describe('sdk release contract', () => {
         expect(result.exitCode, result.stderr).toBe(0);
         const counts = JSON.parse(result.stdout);
         expect(counts).toEqual({
-          requests: 432,
-          providers: 144,
-          cases: 144,
+          requests: 387,
+          providers: 129,
+          cases: 129,
           modules: 55,
         });
         searchDiscovery.push({
@@ -657,9 +657,9 @@ describe('sdk release contract', () => {
         expect(result.exitCode, result.stderr).toBe(0);
         const counts = JSON.parse(result.stdout);
         expect(counts).toEqual({
-          requests: 1110,
-          providers: 370,
-          cases: 370,
+          requests: 576,
+          providers: 192,
+          cases: 192,
           modules: 67,
         });
         podcastVideo.push({
@@ -700,9 +700,9 @@ describe('sdk release contract', () => {
         expect(result.exitCode, result.stderr).toBe(0);
         const counts = JSON.parse(result.stdout);
         expect(counts).toEqual({
-          requests: 720,
-          providers: 240,
-          cases: 240,
+          requests: 414,
+          providers: 138,
+          cases: 138,
           modules: 50,
         });
         membershipBusiness.push({
@@ -890,8 +890,8 @@ describe('sdk release contract', () => {
           'api.innerVersion({ cache: {} })',
           '// @ts-expect-error Client identity pool configuration cannot be a module query.',
           'api.innerVersion({ identityPool: { size: 2 } })',
-          "const resultPromise: Promise<ModuleResponseOf<'song_url'>> = api.songUrl({ id: '1,2' })",
-          "const rawResultPromise: Promise<ModuleResponseOf<'song_url'>> = songUrl({ id: '1,2' }, config)",
+          "const resultPromise: Promise<ModuleResponseOf<'song_url'>> = api.songUrl({ ids: [1, 2] })",
+          "const rawResultPromise: Promise<ModuleResponseOf<'song_url'>> = songUrl({ ids: [1, 2] }, config)",
           'void resultPromise',
           'void rawResultPromise',
           '',
@@ -940,9 +940,9 @@ describe('sdk release contract', () => {
           'void unnamedSearchAlbum',
           '',
           'const namedBodies: [Promise<SongDetailBody>, Promise<LikelistBody>, Promise<SongUrlV1Body>, Promise<LyricNewBody>] = [',
-          "  getSongDetail({ ids: '1' }, config).then(({ body }) => body),",
+          "  getSongDetail({ ids: ['1'] }, config).then(({ body }) => body),",
           "  likelist({ uid: '1' }, config).then(({ body }) => body),",
-          "  songUrlV1({ id: '1' }, config).then(({ body }) => body),",
+          "  songUrlV1({ ids: ['1'], level: 'standard' }, config).then(({ body }) => body),",
           "  lyricNew({ id: '1' }, config).then(({ body }) => body),",
           ']',
           'void namedBodies',

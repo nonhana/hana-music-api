@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 
-import { Effect } from 'effect';
+import { Effect, Exit } from 'effect';
 import { TestClock } from 'effect/testing';
 
 import {
@@ -16,17 +16,37 @@ import { createServer } from '../../../../src/server/create-server.ts';
 import type { ModuleIdentifier } from '../../../../src/types/index.ts';
 import { projectRoot, settle } from '../../../_kit/assertions.ts';
 import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
-import { runEffect } from '../../../_kit/it.ts';
+import { runEffect, runExit } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
 import responseFiles from '../../../fixtures/requests/membership-business-responses.json';
 import baseline from '../../../fixtures/requests/membership-business.json';
 
 const defaults = baseline.cases.filter((entry) => entry.label === 'default');
+// #128 收窄公开输入后，编号集合改为数组；延续默认样本的 token/重试覆盖。
+const modernQueries: Readonly<Record<string, unknown>> = {
+  vip_growthpoint_get: { ids: ['17', '19'] },
+  digitalAlbum_sales: { ids: [17, 19] },
+};
+const validDefaults = (
+  await Promise.all(
+    defaults.map(async (entry) => {
+      const { decodeModuleInput } = (await import(
+        `../../../../src/modules/${entry.module}.ts`
+      )) as {
+        decodeModuleInput: (input: unknown) => Effect.Effect<unknown, unknown>;
+      };
+      const query = modernQueries[entry.module] ?? entry.query;
+      return Exit.isSuccess(await runExit(decodeModuleInput(query)))
+        ? entry
+        : undefined;
+    }),
+  )
+).filter((entry) => entry !== undefined);
 const cookie =
   'MUSIC_U=content-account; MUSIC_A=content-anonymous; __csrf=csrf';
 
-for (const entry of defaults) {
+for (const entry of validDefaults) {
   for (const failure of ['EAI_AGAIN', 'socket hang up']) {
     test(`membership ${entry.module} preserves ${failure} retry eligibility`, async () => {
       const attempts =
@@ -65,8 +85,9 @@ for (const entry of defaults) {
             const call = client[entry.method as keyof typeof client] as (
               query: unknown,
             ) => Promise<NcmApiResponse>;
+            const moduleQuery = modernQueries[entry.module] ?? entry.query;
             return {
-              result: await settle<NcmApiResponse>(call(entry.query)),
+              result: await settle<NcmApiResponse>(call(moduleQuery)),
               sends: scenario.sent.length,
             };
           },
@@ -104,12 +125,13 @@ for (const entry of defaults) {
             query: unknown,
             config?: ModuleCallConfig,
           ) => Promise<NcmApiResponse>;
+          const moduleQuery = modernQueries[entry.module] ?? entry.query;
           const first = await Promise.all([
-            call(entry.query),
-            call(entry.query),
+            call(moduleQuery),
+            call(moduleQuery),
           ]);
-          const next = await call(entry.query);
-          await call(entry.query, { cookie: 'MUSIC_U=other-account' });
+          const next = await call(moduleQuery);
+          await call(moduleQuery, { cookie: 'MUSIC_U=other-account' });
           return {
             statuses: [...first, next].map((result) => result.status),
             sends: scenario.sent.length,
@@ -178,7 +200,9 @@ for (const method of [
               });
               const client = createClientFromContext(config, services);
               const pending = settle<NcmApiResponse>(
-                client[method]({ id: 17 }, { signal: controller.signal }),
+                client[method](membershipMethodInput(method) as never, {
+                  signal: controller.signal,
+                }),
               );
               yield* Effect.promise(() => reached.wait(pending));
               if (mode === 'cancel') controller.abort();
@@ -201,6 +225,11 @@ for (const method of [
     }
   }
 }
+const membershipMethodInput = (method: string) =>
+  method === 'digitalAlbumOrdering'
+    ? { id: 17, payment: '3', quantity: 1 }
+    : {};
+
 for (const method of ['dailySignin', 'digitalAlbumOrdering'] as const) {
   test(`membership ${method} never replays after a partial response body fails`, async () => {
     const url =
@@ -244,7 +273,9 @@ for (const method of ['dailySignin', 'digitalAlbumOrdering'] as const) {
           });
           const client = createClientFromContext(config, services);
           return {
-            result: await settle(client[method]({ id: 17 })),
+            result: await settle(
+              client[method](membershipMethodInput(method) as never),
+            ),
             sends: scenario.sent.length,
             reads: services.reads.snapshot,
           };
@@ -361,7 +392,7 @@ test('membership interleaved calls freeze distinct account inputs tokens and res
   const ready = createStage('membership first token');
   let finish!: (value: string) => void;
   const firstCookie = { MUSIC_U: 'first-membership-account' };
-  const query = { type: 1 };
+  const query: { type: 0 | 1 } = { type: 1 };
   const outcome = await withScenario(
     [
       {
@@ -440,11 +471,10 @@ for (const year of ['../../../escape', '2024?extra=1', '2024#fragment']) {
     await withScenario([], async (scenario) => {
       expect(
         await settle(
-          invokeModule(
-            'summary_annual',
-            { year },
-            { cookie, fetcher: scenario.fetcher },
-          ),
+          invokeModule('summary_annual', { year } as never, {
+            cookie,
+            fetcher: scenario.fetcher,
+          }),
         ),
       ).toHaveProperty('rejected.status', 400);
       expect(scenario.sent).toHaveLength(0);
@@ -503,13 +533,16 @@ for (const entry of [
                 cookie: 'MUSIC_U=http-first-header',
                 'content-type': 'application/json',
               },
-              body: JSON.stringify({
-                id: '17',
-                payment: '3',
-                quantity: 1,
-                type: 1,
-                cookie: 'MUSIC_U=http-first-body',
-              }),
+              body: JSON.stringify(
+                entry.protocol === 'eapi'
+                  ? { type: 1, cookie: 'MUSIC_U=http-first-body' }
+                  : {
+                      id: '17',
+                      payment: '3',
+                      quantity: 1,
+                      cookie: 'MUSIC_U=http-first-body',
+                    },
+              ),
             },
           ),
           app.request(entry.route, {
@@ -518,12 +551,15 @@ for (const entry of [
               cookie: 'MUSIC_U=http-second-header',
               'content-type': 'application/json',
             },
-            body: JSON.stringify({
-              id: '19',
-              payment: '0',
-              quantity: 2,
-              type: 0,
-            }),
+            body: JSON.stringify(
+              entry.protocol === 'eapi'
+                ? { type: 0 }
+                : {
+                    id: '19',
+                    payment: '0',
+                    quantity: 2,
+                  },
+            ),
           }),
         ]);
         return {

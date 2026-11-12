@@ -2,7 +2,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
+  NumberId,
   UploadedFile,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
@@ -14,10 +14,6 @@ import {
 } from '../core/upstream-body.ts';
 import uploadPlugin, { imageUploadActions } from '../plugins/upload.ts';
 import type { ModuleEffect, ModuleResponse } from '../types/index.ts';
-import type {
-  LegacyUploadedFile,
-  QueryIdentifier,
-} from '../types/module-shared.ts';
 
 export const moduleActions = {
   ...imageUploadActions,
@@ -31,16 +27,15 @@ export const moduleActions = {
 } as const satisfies ModuleActions;
 
 export type ModuleInput = {
-  imgFile?: LegacyUploadedFile;
-  imgId?: QueryIdentifier;
-
-  id?: QueryIdentifier;
+  id: NumberId;
+  imgFile?: typeof UploadedFile.Type;
+  imgId?: string | number;
 };
 
 const inputSchema = Schema.Struct({
+  id: NumberId,
   imgFile: Schema.optional(UploadedFile),
-  imgId: Schema.optional(Identifier),
-  id: Schema.optional(Identifier),
+  imgId: Schema.optional(Schema.Union([Schema.String, Schema.Finite])),
 });
 
 export const decodeModuleInput = (input: unknown) =>

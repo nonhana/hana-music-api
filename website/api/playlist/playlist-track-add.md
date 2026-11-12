@@ -19,10 +19,10 @@ description: '调用此接口，可收藏视频到视频歌单 ( 需要登录 )'
 
 ## 请求参数
 
-| 参数  | 类型               | 必填 | 默认值 | 说明                       |
-| ----- | ------------------ | :--: | ------ | -------------------------- |
-| `pid` | string             |  ✅  | -      | 歌单 id                    |
-| `ids` | string[] \| string |  ✅  | -      | 视频 id,支持多个,用`,`隔开 |
+| 参数  | 类型                      | 必填 | 默认值 | 说明         |
+| ----- | ------------------------- | :--: | ------ | ------------ |
+| `pid` | `number \| string`        |  ✅  | -      | 歌单 id      |
+| `ids` | `(number \| string)` 数组 |  ✅  | -      | 歌曲 id 数组 |
 
 ## HTTP 示例
 
@@ -36,8 +36,8 @@ GET /playlist/track/add?pid=5271999357&ids=186041
 import { playlistTrackAdd } from 'hana-music-api';
 
 const result = await playlistTrackAdd({
-  pid: '5271999357',
-  ids: '186041',
+  pid: 5271999357,
+  ids: [186041],
 });
 
 console.log(result.body);

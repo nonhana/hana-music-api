@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test';
 
 import { Effect } from 'effect';
 
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import { createServer } from '../../../src/server/create-server.ts';
 import { testEntropy } from '../../_kit/harness/sdk.ts';
 import { moduleResponse, probeUploadActions } from '../../_kit/module.ts';
@@ -57,7 +57,7 @@ test('HTTP admits at most two uploads before consuming multipart bodies', async 
         actions: probeUploadActions,
         identifier: 'voice_upload',
         route: '/voice/upload',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: () =>
           Effect.gen(function* () {
             active += 1;

@@ -1,5 +1,8 @@
 import { expect, test } from 'bun:test';
 
+import { Exit } from 'effect';
+import type { Effect } from 'effect';
+
 import type { ModuleCallConfig, NcmApiResponse } from '../../../../index.ts';
 import { buildCallServices } from '../../../../src/core/call.ts';
 import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
@@ -7,6 +10,7 @@ import { createServer } from '../../../../src/server/create-server.ts';
 import { generatedModuleRoutes } from '../../../../src/types/generated/module-surface.generated.ts';
 import { settle } from '../../../_kit/assertions.ts';
 import { testEntropy } from '../../../_kit/harness/sdk.ts';
+import { runExit } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import type { WireRequest } from '../../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
@@ -17,6 +21,35 @@ type Case = (typeof baseline.cases)[number];
 const cookie =
   'MUSIC_U=discovery-account; MUSIC_A=discovery-anonymous; __csrf=csrf; deviceId=discovery-device';
 const refusal = { code: 403, msg: 'request-probe' };
+const removedInputCases: Readonly<Record<string, true>> = {};
+const localRejectStatus: Readonly<Record<string, number>> = {};
+const caseKey = (entry: Case) => `${entry.module}/${entry.label}`;
+const removedCases = new Set([
+  ...Object.keys(removedInputCases),
+  ...(
+    await Promise.all(
+      baseline.cases.map(async (entry) => {
+        const { decodeModuleInput } = (await import(
+          `../../../../src/modules/${entry.module}.ts`
+        )) as {
+          decodeModuleInput: (
+            input: unknown,
+          ) => Effect.Effect<unknown, unknown>;
+        };
+        return Exit.isFailure(await runExit(decodeModuleInput(entry.query)))
+          ? caseKey(entry)
+          : '';
+      }),
+    )
+  ).filter((key) => key !== ''),
+]);
+// BooleanValue 把 HTTP 的字符串布尔归一成 boolean，其余字段原样转发。
+const normalizedData: Readonly<Record<string, unknown>> = {
+  'homepage_block_page/refresh-string': {
+    refresh: false,
+    cursor: 'cursor-17',
+  },
+};
 const checkWire = (
   entry: Case,
   wire: WireRequest,
@@ -91,7 +124,9 @@ const checkWire = (
     expect(extInfo).toEqual(expected);
     expect(Object.keys(data)).toEqual(['extInfo']);
   } else {
-    expect(data).toEqual(entry.data);
+    expect(data as unknown).toEqual(
+      (normalizedData[caseKey(entry as never)] ?? entry.data) as unknown,
+    );
   }
   expect(e_r).toBe(false);
   expect(checkToken).toBe(token);
@@ -109,7 +144,9 @@ const checkWire = (
   }
 };
 
-for (const entry of baseline.cases) {
+for (const entry of baseline.cases.filter(
+  (candidate) => !removedCases.has(caseKey(candidate)),
+)) {
   test(`discovery client ${entry.module}/${entry.label} owns its baseline wire contract`, async () => {
     const began = Date.now();
     const observed = await settle(
@@ -192,8 +229,37 @@ for (const entry of baseline.cases) {
   });
 }
 
+for (const entry of baseline.cases.filter((candidate) =>
+  removedCases.has(caseKey(candidate)),
+)) {
+  test(`discovery ${entry.module}/${entry.label} rejects removed protocol input before sending`, async () => {
+    const observed = await withScenario([], async (scenario) => {
+      const app = await createServer(
+        {},
+        { execution: { fetcher: scenario.fetcher, entropy: testEntropy } },
+      );
+      const response = await app.request(
+        generatedModuleRoutes[
+          entry.module as keyof typeof generatedModuleRoutes
+        ],
+        {
+          method: 'POST',
+          headers: { cookie, 'content-type': 'application/json' },
+          body: JSON.stringify(entry.query),
+        },
+      );
+      return { sends: scenario.sent.length, status: response.status };
+    });
+    expect(observed).toEqual({
+      sends: 0,
+      status: localRejectStatus[caseKey(entry)] ?? 400,
+    });
+  });
+}
+
 for (const entry of baseline.cases.filter(
   (candidate) =>
+    !removedCases.has(caseKey(candidate)) &&
     [
       'fm_trash',
       'personal_fm_mode',

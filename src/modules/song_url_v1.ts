@@ -2,41 +2,33 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
+  NumberIdList,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { SongUrlData } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { IdentifierQuery } from '../types/module-shared.ts';
 
-export type ModuleInput = IdentifierQuery & {
-  level?:
-    | 'standard'
-    | 'higher'
-    | 'exhigh'
-    | 'lossless'
-    | 'hires'
-    | 'jyeffect'
-    | 'sky'
-    | 'jymaster';
+const AudioLevel = Schema.Literals([
+  'standard',
+  'higher',
+  'exhigh',
+  'lossless',
+  'hires',
+  'jyeffect',
+  'sky',
+  'jymaster',
+]);
+
+export type ModuleInput = {
+  ids: NumberIdList;
+  level: typeof AudioLevel.Type;
 };
 
 const inputSchema = Schema.Struct({
-  id: Identifier,
-  level: Schema.optional(
-    Schema.Literals([
-      'standard',
-      'higher',
-      'exhigh',
-      'lossless',
-      'hires',
-      'jyeffect',
-      'sky',
-      'jymaster',
-    ]),
-  ),
+  ids: NumberIdList,
+  level: AudioLevel,
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -74,7 +66,7 @@ const songUrlV1: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
 ) =>
   Effect.gen(function* () {
     const data: Record<string, unknown> = {
-      ids: '[' + query.id + ']',
+      ids: JSON.stringify(query.ids.map(String)),
       level: query.level,
       encodeType: 'flac',
     };

@@ -6,13 +6,9 @@ import { resolve } from 'node:path';
 import { Effect } from 'effect';
 
 import { createHanaMusicApi } from '../../../index.ts';
-import {
-  invokeModule as invokeProgrammatic,
-  loadProgrammaticApi,
-} from '../../../src/app/module-api.ts';
+import { invokeModule as invokeProgrammatic } from '../../../src/app/module-api.ts';
 import { buildCallServices, Call, runCall } from '../../../src/core/call.ts';
 import { InvalidModuleInput } from '../../../src/core/errors.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
 import { getRuntimeState, setRuntimeState } from '../../../src/core/runtime.ts';
 import audioMatch, {
   decodeModuleInput as decodeAudioInput,
@@ -35,11 +31,9 @@ import type {
   ModuleDefinition,
   ModuleQuery,
   RequestCapability,
-  UnknownJson,
 } from '../../../src/types/index.ts';
 import { projectRoot } from '../../_kit/assertions.ts';
 import { runEffect } from '../../_kit/it.ts';
-import { moduleResponse } from '../../_kit/module.ts';
 import { executeModule, response } from '../../_kit/upload.ts';
 
 describe('module input ownership', () => {
@@ -49,6 +43,7 @@ describe('module input ownership', () => {
     );
     const centralized: Array<string> = [];
     let legacyCount = 0;
+    let legacyDecoderCount = 0;
     for (const module of modules) {
       const source = await readFile(module.filePath, 'utf8');
       if (source.includes("from '../types/modules.ts'")) {
@@ -57,13 +52,17 @@ describe('module input ownership', () => {
       expect(
         source.match(/export (?:type|interface) ModuleInput\b/g) ?? [],
       ).toHaveLength(1);
-      if (/export type ModuleInput = LegacyModuleInput\b/.test(source)) {
+      if (source.includes('LegacyModuleInput')) {
         legacyCount += 1;
+      }
+      if (source.includes('decodeModuleObject')) {
+        legacyDecoderCount += 1;
       }
     }
     expect(modules).toHaveLength(352);
     expect(centralized).toEqual([]);
-    expect(legacyCount).toBe(284);
+    expect(legacyCount).toBe(0);
+    expect(legacyDecoderCount).toBe(0);
   });
 
   test('all 352 registry entries expose their local decoder', () => {
@@ -181,24 +180,26 @@ describe('module-local input decoding', () => {
     },
   );
 
-  test('search accepts numeric strings without changing its existing wire representation', async () => {
+  test('search normalizes numeric strings to numbers in the request body', async () => {
     let requestBody: Record<string, unknown> | undefined;
     const request: RequestCapability = (_action, args) => {
       requestBody = args.data;
       return Effect.succeed(response({ code: 200 }));
     };
-    const result = await runEffect(
-      executeModule(
-        search,
-        { keywords: 'voice', type: '2000', limit: '5', offset: '2' },
-        request,
-      ),
+    const input = await runEffect(
+      decodeSearchInput({
+        keywords: 'voice',
+        type: '2000',
+        limit: '5',
+        offset: '2',
+      }),
     );
+    const result = await runEffect(executeModule(search, input, request));
     expect(requestBody).toEqual({
       keyword: 'voice',
       scene: 'normal',
-      limit: '5',
-      offset: '2',
+      limit: 5,
+      offset: 2,
     });
     expect(result.body).toEqual({ code: 200 });
   });
@@ -269,31 +270,34 @@ describe('module-local input decoding', () => {
     });
   });
 
-  test.each([0, '0', 99, '99'])(
-    'preserves comment resource fallback for type=%s',
-    async (type) => {
-      let requestBody: Record<string, unknown> = {};
-      await runEffect(
-        executeModule(commentNew, { id: 12, type }, (_action, args) => {
-          requestBody = args.data ?? {};
-          return Effect.succeed(
-            response({ code: 200, data: { comments: [] } }),
-          );
-        }),
-      );
-      expect(requestBody).toMatchObject({
-        threadId: 'R_SO_4_12',
-        showInner: true,
-      });
-    },
-  );
+  test.each([
+    [0, 'R_SO_4_12'],
+    [1, 'R_MV_5_12'],
+    [2, 'A_PL_0_12'],
+    [3, 'R_AL_3_12'],
+    [4, 'A_DJ_1_12'],
+    [5, 'R_VI_62_12'],
+    [6, 'A_EV_2_12'],
+    [7, 'A_DR_14_12'],
+  ] as const)('resolves comment resource type %s', async (type, threadId) => {
+    let requestBody: Record<string, unknown> = {};
+    await runEffect(
+      executeModule(commentNew, { id: 12, type }, (_action, args) => {
+        requestBody = args.data ?? {};
+        return Effect.succeed(response({ code: 200, data: { comments: [] } }));
+      }),
+    );
+    expect(requestBody).toMatchObject({
+      threadId,
+      showInner: true,
+    });
+  });
 
   test.each([
     { type: 'hot', expected: 1 },
     { type: 'new', expected: 0 },
-    { type: 'unknown', expected: 0 },
     { type: undefined, expected: 0 },
-  ])('preserves DJ toplist fallback for $type', async ({ type, expected }) => {
+  ])('maps DJ toplist type $type', async ({ type, expected }) => {
     let requestBody: Record<string, unknown> = {};
     await runEffect(
       executeModule(djToplist, { type }, (_action, args) => {
@@ -416,7 +420,7 @@ describe('untrusted entry input', () => {
     expect(requests).toBe(0);
   });
 
-  test('search normalization removes unknown fields before building the cache key', async () => {
+  test('search normalization shares the cache key across numeric string and number inputs', async () => {
     let requests = 0;
     const config = {
       cookie: 'MUSIC_U=normalized-input-cache',
@@ -434,11 +438,9 @@ describe('untrusted entry input', () => {
       context,
     );
     await Reflect.apply(invoke, undefined, [
-      { keywords: 'music', extra: 'first' },
+      { keywords: 'music', type: '2000' },
     ]);
-    await Reflect.apply(invoke, undefined, [
-      { keywords: 'music', extra: 'second' },
-    ]);
+    await Reflect.apply(invoke, undefined, [{ keywords: 'music', type: 2000 }]);
     expect(requests).toBe(1);
     expect(context.reads.snapshot.cacheHits).toBe(1);
   });
@@ -565,53 +567,5 @@ describe('untrusted entry input', () => {
     expect(result.status).toBe(400);
     expect(await result.json()).toMatchObject({ code: 400 });
     expect(requests).toBe(0);
-  });
-
-  test('legacy programmatic inputs preserve unknown nested business fields', async () => {
-    const api = await loadProgrammaticApi({
-      moduleDefinitions: [
-        {
-          actions: {},
-          identifier: 'legacy',
-          route: '/legacy',
-          decodeInput: decodeLegacyModuleInput,
-          execute: (input: ModuleQuery) =>
-            Effect.sync(() => ({
-              status: 200,
-              cookie: [],
-              body: input as UnknownJson,
-            })).pipe(Effect.map(moduleResponse)),
-        },
-      ],
-    });
-    const input = {
-      future: { nested: [null, 'kept', { enabled: true }] },
-      custom: 7,
-    };
-    expect((await api.legacy!(input)).body).toMatchObject(input);
-  });
-
-  test('explicit legacy decoders preserve unknown legacy input fields', async () => {
-    const api = await loadProgrammaticApi({
-      moduleDefinitions: [
-        {
-          actions: {},
-          identifier: 'legacy_effect',
-          route: '/legacy/effect',
-          decodeInput: decodeLegacyModuleInput,
-          execute: (input) =>
-            Effect.succeed({
-              status: 200,
-              cookie: [],
-              body: input as UnknownJson,
-            }),
-        },
-      ],
-    });
-    const input = {
-      future: { nested: [null, 'kept', { enabled: true }] },
-      custom: 7,
-    };
-    expect((await api.legacy_effect!(input)).body).toMatchObject(input);
   });
 });

@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -10,7 +14,20 @@ import {
 } from '../core/upstream-body.ts';
 import { Artist, MlogSong, PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// 文档没有穷举 `type` 的取值，只要求是数字类型；`keywords` 省略时仍按空文本查询。
+export type ModuleInput = {
+  keywords?: string;
+  type?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  keywords: Schema.optional(Schema.String),
+  type: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 建议歌手是记录本身，编号收紧；core 的 `Artist.id` 是宽松的，这里局部覆盖。
 const SuggestedArtist = UpstreamObject({
@@ -131,7 +148,3 @@ const searchMultimatch: ModuleEffect<
  * 多类型搜索
  */
 export default searchMultimatch;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

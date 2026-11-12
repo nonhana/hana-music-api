@@ -1,0 +1,323 @@
+[
+  {
+    "module": "activate_init_profile",
+    "actions": ["request"],
+    "current": "{ nickname: string }",
+    "fields": ["nickname", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "nickname: 昵称文本，必填",
+    "upstreamEncoding": "data.nickname 原样发送",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/fixtures/requests/account-social.json"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "avatar_upload",
+    "actions": [],
+    "current": "{ imgFile?: typeof UploadedFile.Type }",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "imgFile?: JPEG 文件对象（data/name/mimetype/size）",
+    "upstreamEncoding": "文件按二进制上传到 NOS，再以 imgid 提交头像更新",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "website/api/user/avatar-upload.md"
+    ],
+    "status": "migrated",
+    "notes": "运行时 schema 已是 UploadedFile 的具体 Struct；本次把 ModuleInput 类型从 LegacyUploadedFile 对齐为 UploadedFile.Type。imgFile 仍可选，缺失时上传插件返回 InvalidModuleInput，保持原有行为。"
+  },
+  {
+    "module": "captcha_sent",
+    "actions": ["request"],
+    "current": "{ ctcode?: NumberId; phone: string }",
+    "fields": ["ctcode", "phone", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "phone: 手机号码，必填；ctcode?: 国家区号，可选",
+    "upstreamEncoding": "ctcode 缺失时填 '86'；data 发送 cellphone、ctcode 和固定 secrete",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/behavior/modules/input-encoding/account.ts",
+      "tests/replay/account/login-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "ctcode 用 NumberId，接受数字或纯十进制正数字符串，拒绝 '85-2'、布尔和空串。"
+  },
+  {
+    "module": "captcha_verify",
+    "actions": ["request"],
+    "current": "{ captcha: string; ctcode?: NumberId; phone: string }",
+    "fields": ["captcha", "ctcode", "phone", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "phone、captcha 必填；ctcode?: 国家区号，可选",
+    "upstreamEncoding": "ctcode 缺失时填 '86'；data 发送 cellphone、captcha",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/behavior/modules/input-encoding/account.ts"
+    ],
+    "status": "migrated",
+    "notes": "ctcode 从开放输入收紧为 NumberId，接受数字或纯十进制正数字符串；'85-2'、'+86'、前导零、小数、布尔和空串现在本地 400。"
+  },
+  {
+    "module": "cellphone_existence_check",
+    "actions": ["request"],
+    "current": "{ countrycode?: NumberId; phone: string }",
+    "fields": ["countrycode", "phone", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "phone 必填；countrycode?: 国家码，可选",
+    "upstreamEncoding": "data 发送 cellphone、countrycode，原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/replay/account/account-check-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "文档写 countrycode 默认 86，但模块历史上没有兜底；本次保持可选且不补默认值。"
+  },
+  {
+    "module": "countries_code_list",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "发送空 data",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/replay/account/account-check-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "inner_version",
+    "actions": [],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "本地返回版本号，不发请求",
+    "evidence": ["tests/behavior/modules/input-contracts.test.ts"],
+    "status": "migrated"
+  },
+  {
+    "module": "login",
+    "actions": ["password"],
+    "current": "PasswordCredential & { email: string; }",
+    "fields": ["email", "md5_password", "password", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "email 必填；password 或 md5_password 至少一项",
+    "upstreamEncoding": "password 做 md5；md5_password 优先；固定 type/https/rememberLogin",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/replay/account/login-bodies.test.ts"
+    ],
+    "status": "already-compliant",
+    "notes": "本次核对未改：具体 Struct 联合已经要求 password 或 md5_password 至少一项，且 md5_password 优先。"
+  },
+  {
+    "module": "login_cellphone",
+    "actions": [],
+    "current": "LoginCellphoneBaseQuery & (LoginCellphoneCaptchaCredential | LoginCellphonePasswordCredential)",
+    "fields": [
+      "captcha",
+      "countrycode",
+      "md5_password",
+      "password",
+      "phone",
+      "ts"
+    ],
+    "legacyEncoding": [],
+    "businessInput": "phone 必填；captcha、password、md5_password 至少一项；countrycode?: 国家区号",
+    "upstreamEncoding": "有 captcha 走验证码登录，否则密码做 md5；countrycode 缺失时 '86'；固定 type/https/remember",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/behavior/modules/input-encoding/account.ts",
+      "tests/replay/account/login-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "验证码/密码/MD5 三选一联合保留，判别字段与优先顺序不变；countrycode 从 QueryNumber 收紧为 NumberId。"
+  },
+  {
+    "module": "login_qr_check",
+    "actions": ["request"],
+    "current": "{ key: string; }",
+    "fields": ["key", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "key: 二维码 key，必填",
+    "upstreamEncoding": "data 发送 key 和固定 type = 3",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/replay/account/login-bodies.test.ts"
+    ],
+    "status": "already-compliant",
+    "notes": "本次核对未改：输入已是 { key: string } 的具体 Struct，未读取其他字段。"
+  },
+  {
+    "module": "login_qr_create",
+    "actions": [],
+    "current": "{ key: string; platform?: 'pc' | 'web'; qrimg?: boolean; }",
+    "fields": ["key", "platform", "qrimg", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "key 必填；platform?: 'pc' | 'web'；qrimg?: 布尔开关",
+    "upstreamEncoding": "本地拼出 qrurl；platform=web 时追加 chainId；qrimg 为真时生成图片 data URL",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/replay/account/login-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "platform 只保留代码分支实际使用的 pc/web；qrimg 用 BooleanValue 接受 true/false/0/1/'true'/'false' 并归一为 boolean，任意数字和其他字符串被有意收紧。"
+  },
+  {
+    "module": "login_qr_key",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "固定 data.type = 3",
+    "evidence": ["tests/behavior/modules/input-contracts.test.ts"],
+    "status": "migrated"
+  },
+  {
+    "module": "login_refresh",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "发送空 data",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/replay/account/login-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "login_status",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "发送空 data",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/replay/account/login-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "logout",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "发送空 data",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/replay/account/login-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "nickname_check",
+    "actions": ["request"],
+    "current": "{ nickname: string }",
+    "fields": ["nickname", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "nickname: 昵称文本，必填",
+    "upstreamEncoding": "data.nickname 原样发送",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/replay/account/account-check-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "rebind",
+    "actions": ["request"],
+    "current": "{ captcha: string; ctcode?: NumberId; oldcaptcha: string; phone: string }",
+    "fields": ["captcha", "ctcode", "oldcaptcha", "phone", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "phone、oldcaptcha、captcha 必填；ctcode?: 国家区号，可选",
+    "upstreamEncoding": "ctcode 缺失时填 '86'；data 发送 captcha、phone、oldcaptcha、ctcode",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/behavior/modules/input-encoding/account.ts"
+    ],
+    "status": "migrated",
+    "notes": "ctcode 从开放输入收紧为 NumberId，接受数字或纯十进制正数字符串；'85-2'、'+86'、前导零、小数、布尔和空串现在本地 400。"
+  },
+  {
+    "module": "register_anonimous",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "本地计算 username 后发送",
+    "evidence": ["tests/behavior/modules/input-contracts.test.ts"],
+    "status": "migrated"
+  },
+  {
+    "module": "register_cellphone",
+    "actions": ["request"],
+    "current": "{ captcha: string; countrycode?: NumberId; nickname: string; password: string; phone: string }",
+    "fields": ["captcha", "countrycode", "nickname", "password", "phone", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "captcha、nickname、password、phone 必填；countrycode?: 国家码",
+    "upstreamEncoding": "password 做 md5；countrycode 缺失时 '86'；固定 force = 'false'",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/behavior/modules/input-encoding/account.ts"
+    ],
+    "status": "migrated",
+    "notes": "countrycode 从 QueryNumber 收紧为 NumberId，拒绝小数、分隔符串和布尔。"
+  },
+  {
+    "module": "setting",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "发送空 data",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "website/api/user/setting.md"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "verify_getQr",
+    "actions": ["request"],
+    "current": "{ evid?: string; sign?: string; token?: string; type?: number; vid?: string }",
+    "fields": ["evid", "sign", "token", "ts", "type", "vid"],
+    "legacyEncoding": [],
+    "businessInput": "evid/sign/token/vid 为不透明字符串，type 为数字 verifyType；均可选",
+    "upstreamEncoding": "params = JSON.stringify({ event_id, sign })；data 发送 verifyConfigId、verifyType、token、params、size = 150",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/behavior/modules/input-encoding/account.ts",
+      "tests/replay/account/login-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 按数字标量用 IntegerValue，接受数字或数字字符串并归一为 number；旧的任意字符串 type 被有意收紧。文档把五项列为必选，但模块历史上全部可选（值由触发验证的响应提供），本次不新增必填。"
+  },
+  {
+    "module": "verify_qrcodestatus",
+    "actions": ["request"],
+    "current": "{ qr: string }",
+    "fields": ["qr", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "qr: 二维码值，必填",
+    "upstreamEncoding": "data.qrCode 原样发送",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/replay/account/account-check-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "qr 允许空串，历史录制里有空 qr 的上游拒绝返回。"
+  }
+]

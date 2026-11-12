@@ -9,7 +9,7 @@ import {
   invokeModule,
   loadProgrammaticApi,
 } from '../../../src/app/module-api.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import type {
   DynamicProgrammaticApi,
   ModuleDefinition,
@@ -40,7 +40,7 @@ describe('programmatic module api', () => {
           actions: {},
           identifier: 'example',
           route: '/example',
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: (query: ModuleQuery) =>
             Effect.sync(() => ({
               status: 200,
@@ -60,7 +60,7 @@ describe('programmatic module api', () => {
     {
       actions: probeReadActions,
       identifier: 'search',
-      decodeInput: decodeLegacyModuleInput,
+      decodeInput: decodeModuleObject,
       execute: (query: ModuleQuery, request: RequestCapability) =>
         Effect.gen(function* () {
           const upstream = yield* testRequest(request, '/api/search/get', {
@@ -160,7 +160,7 @@ describe('programmatic module api', () => {
         {
           actions: probeReadActions,
           identifier: 'search',
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: () =>
             Effect.gen(function* () {
               calls += 1;
@@ -187,7 +187,7 @@ describe('programmatic module api', () => {
         actions: probeReadActions,
         identifier: 'search',
         route: '/search',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: () =>
           Effect.gen(function* () {
             calls += 1;
@@ -218,7 +218,7 @@ describe('programmatic module api', () => {
             actions: {},
             identifier: 'search',
             route: '/search',
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: () =>
               Effect.sync(() => ({
                 status: 200,

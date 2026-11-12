@@ -1,9 +1,12 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -15,6 +18,23 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  captcha: string;
+  ctcode?: NumberId;
+  oldcaptcha: string;
+  phone: string;
+};
+
+const inputSchema = Schema.Struct({
+  captcha: Schema.String,
+  ctcode: Schema.optional(NumberId),
+  oldcaptcha: Schema.String,
+  phone: Schema.String,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const rebind: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
   query,
@@ -35,7 +55,3 @@ const rebind: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
  * 更换手机
  */
 export default rebind;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -1,11 +1,14 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
 import { resolveResourceType } from '../core/comment-thread.ts';
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -18,26 +21,31 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = {
+  uid: NumberId;
+  cid: NumberId;
+  sid: NumberId;
+  type?: number;
+};
+
+const inputSchema = Schema.Struct({
+  uid: NumberId,
+  cid: NumberId,
+  sid: NumberId,
+  type: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const hugComment: ModuleEffect<
   ModuleInput,
   UnknownJson,
   typeof moduleActions
-> = (input, request) =>
+> = (query, request) =>
   Effect.gen(function* () {
-    const query = { ...input };
-    if (
-      query.sid !== undefined &&
-      query.sid !== null &&
-      typeof query.sid !== 'string' &&
-      typeof query.sid !== 'number' &&
-      typeof query.sid !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'sid must be a primitive value',
-      });
-    }
     const resourceType = resolveResourceType(query.type);
-    const threadId = `${resourceType}${String(query.sid ?? '')}`;
+    const threadId = `${resourceType}${String(query.sid)}`;
     const data = {
       targetUserId: query.uid,
       commentId: query.cid,
@@ -48,7 +56,3 @@ const hugComment: ModuleEffect<
   });
 
 export default hugComment;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

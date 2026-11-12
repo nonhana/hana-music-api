@@ -1,10 +1,29 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
+
+export type ModuleInput = {
+  id: NumberId;
+  payment: string;
+  quantity: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  payment: Schema.String,
+  quantity: NaturalValue,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -28,7 +47,7 @@ const digitalAlbumOrdering: ModuleEffect<
       digitalResources: JSON.stringify([
         {
           business: 'Album',
-          resourceID: query.id,
+          resourceID: String(query.id),
           quantity: query.quantity,
         },
       ]),
@@ -42,7 +61,3 @@ const digitalAlbumOrdering: ModuleEffect<
  * 购买数字专辑
  */
 export default digitalAlbumOrdering;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

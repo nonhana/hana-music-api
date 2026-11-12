@@ -31,6 +31,10 @@ import userSubcount from '../../fixtures/netease/user/user_subcount.default.json
 // issue #102 B16 的登录录制；user_medal.unknown-user 是同一账号视角下不存在的 uid。
 type JsonObject = Record<string, unknown>;
 
+const cloudDetailInput = (recording: { query: { id: string } }) => ({
+  ids: recording.query.id.split(',').map((value) => value.trim()),
+});
+
 const objectAt = (value: unknown) => value as JsonObject;
 
 const recordsAt = (value: unknown) => value as Array<JsonObject>;
@@ -105,14 +109,18 @@ const cases: Array<Case> = [
     recording: userCloudDetail,
     bodySchema: UserCloudDetailBody,
     call: (upstream, status) =>
-      replay(upstream, status).userCloudDetail(userCloudDetail.query),
+      replay(upstream, status).userCloudDetail(
+        cloudDetailInput(userCloudDetail),
+      ),
   },
   {
     name: 'user_cloud_detail without matches',
     recording: userCloudDetailEmpty,
     bodySchema: UserCloudDetailBody,
     call: (upstream, status) =>
-      replay(upstream, status).userCloudDetail(userCloudDetailEmpty.query),
+      replay(upstream, status).userCloudDetail(
+        cloudDetailInput(userCloudDetailEmpty),
+      ),
   },
 ];
 
@@ -300,7 +308,8 @@ test.each<{
   {
     name: 'user_cloud_detail without data',
     recording: userCloudDetail,
-    call: (upstream) => replay(upstream).userCloudDetail(userCloudDetail.query),
+    call: (upstream) =>
+      replay(upstream).userCloudDetail(cloudDetailInput(userCloudDetail)),
     mutate: (upstream) => {
       delete upstream.data;
     },
@@ -497,7 +506,9 @@ test('user_cloud_detail drops bad loose fields and keeps undeclared ones', async
   data[0]!.simpleSong = null;
   data[0]!.customDetailField = 'x';
 
-  const result = await replay(upstream).userCloudDetail(userCloudDetail.query);
+  const result = await replay(upstream).userCloudDetail(
+    cloudDetailInput(userCloudDetail),
+  );
 
   expect(result.body.data[0] as unknown).not.toHaveProperty('matchType');
   expect(result.body.data[0] as unknown).not.toHaveProperty('addTime');

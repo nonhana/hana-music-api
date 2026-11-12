@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url';
 
 import { Effect } from 'effect';
 
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import { setConnectionIp } from '../../../src/server/admission.ts';
 import { createServer } from '../../../src/server/create-server.ts';
 import { parseModuleRoute } from '../../../src/server/module-loader.ts';
@@ -70,7 +70,7 @@ describe('createServer', () => {
         actions: probeReadActions,
         identifier: 'search',
         route: '/search',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: () =>
           Effect.sync(() => ({
             status: 200,
@@ -142,7 +142,7 @@ describe('createServer', () => {
       {
         actions: probeReadActions,
         identifier: 'search',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: (query: ModuleQuery, request: RequestCapability) =>
           Effect.gen(function* () {
             yield* testRequest(
@@ -229,7 +229,7 @@ describe('createServer', () => {
       {
         actions: {},
         identifier: 'upload-probe',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: (query: ModuleQuery) =>
           Effect.sync(() => {
             const songFile = readLegacyUploadedFile(query, 'songFile');
@@ -288,7 +288,7 @@ describe('createServer', () => {
       {
         actions: {},
         identifier: 'secure-cookie',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: () =>
           Effect.sync(() => ({
             body: {
@@ -316,7 +316,7 @@ describe('createServer', () => {
       {
         actions: probeReadActions,
         identifier: 'search',
-        decodeInput: decodeLegacyModuleInput,
+        decodeInput: decodeModuleObject,
         execute: () =>
           Effect.sync(() => {
             invokeCount += 1;
@@ -499,7 +499,7 @@ describe('createServer', () => {
                 actions: probeReadActions,
                 identifier: 'probe',
                 route: '/probe',
-                decodeInput: decodeLegacyModuleInput,
+                decodeInput: decodeModuleObject,
                 execute: (_query: ModuleQuery, handler: RequestCapability) =>
                   testRequest(handler, '/api/test', {}).pipe(
                     Effect.map(moduleResponse),
@@ -756,7 +756,7 @@ describe('createServer', () => {
         expect(dailySigninBody).toEqual({
           code: 200,
           data: {
-            type: '1',
+            type: 1,
           },
           options: expect.objectContaining({
             cookie: expect.objectContaining({

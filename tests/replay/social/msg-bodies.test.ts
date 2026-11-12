@@ -335,7 +335,7 @@ test('msg_comments drops a missing loose field', async () => {
   expect(result.body).not.toHaveProperty('more');
 });
 
-test('msg_comments rejects a non-primitive uid locally without calling upstream', async () => {
+test('msg_comments rejects a non-numeric uid locally without calling upstream', async () => {
   let requests = 0;
   const api = createHanaMusicApi({
     cookie: 'MUSIC_U=listener',
@@ -345,11 +345,11 @@ test('msg_comments rejects a non-primitive uid locally without calling upstream'
     },
   });
 
-  expect(await settle(api.msgComments({ uid: {} }))).toEqual({
+  expect(await settle(api.msgComments({ uid: {} } as never))).toEqual({
     rejected: {
       status: 400,
       cookie: [],
-      body: { code: 400, msg: 'uid must be a primitive value' },
+      body: { code: 400, msg: 'Expected <Declaration>\n  at ["uid"]' },
     },
   });
   expect(requests).toBe(0);

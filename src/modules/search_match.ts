@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,26 @@ import {
 } from '../core/upstream-body.ts';
 import { Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// 本地文件元数据：`md5` 是匹配依据，其余字段省略时仍按空文本/0 发送。
+export type ModuleInput = {
+  album?: string;
+  artist?: string;
+  duration?: NumberValue;
+  md5: string;
+  title?: string;
+};
+
+const inputSchema = Schema.Struct({
+  album: Schema.optional(Schema.String),
+  artist: Schema.optional(Schema.String),
+  duration: Schema.optional(NumberValue),
+  md5: Schema.String,
+  title: Schema.optional(Schema.String),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const MatchedQuality = UpstreamObject({
   id: Loose(Schema.Finite),
@@ -95,7 +118,3 @@ const searchMatch: ModuleEffect<
  * 本地歌曲匹配音乐信息
  */
 export default searchMatch;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

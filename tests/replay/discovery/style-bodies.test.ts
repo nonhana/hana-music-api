@@ -165,31 +165,31 @@ test.each<{
     name: 'style_detail',
     recording: styleDetailMissingTag,
     call: (upstream, status) =>
-      replay(upstream, status).styleDetail(styleDetailMissingTag.query),
+      replay(upstream, status).styleDetail({ tagId: 1000 }),
   },
   {
     name: 'style_artist',
     recording: styleArtistMissingTag,
     call: (upstream, status) =>
-      replay(upstream, status).styleArtist(styleArtistMissingTag.query),
+      replay(upstream, status).styleArtist({ tagId: 1000 }),
   },
   {
     name: 'style_album',
     recording: styleAlbumMissingTag,
     call: (upstream, status) =>
-      replay(upstream, status).styleAlbum(styleAlbumMissingTag.query),
+      replay(upstream, status).styleAlbum({ tagId: 1000 }),
   },
   {
     name: 'style_playlist',
     recording: stylePlaylistMissingTag,
     call: (upstream, status) =>
-      replay(upstream, status).stylePlaylist(stylePlaylistMissingTag.query),
+      replay(upstream, status).stylePlaylist({ tagId: 1000 }),
   },
   {
     name: 'style_song',
     recording: styleSongMissingTag,
     call: (upstream, status) =>
-      replay(upstream, status).styleSong(styleSongMissingTag.query),
+      replay(upstream, status).styleSong({ tagId: 1000 }),
   },
 ])('$name passes a rejected code through', async (entry) => {
   expect(

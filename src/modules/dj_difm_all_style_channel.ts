@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,15 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { sources?: ReadonlyArray<0 | 1 | 2> };
+
+const inputSchema = Schema.Struct({
+  sources: Schema.optional(Schema.Array(NumberLiterals([0, 1, 2]))),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -63,7 +75,7 @@ const djDifmAllStyleChannel: ModuleEffect<
 > = (query, request) =>
   Effect.gen(function* () {
     const data = {
-      sources: query.sources || '[0]',
+      sources: JSON.stringify(query.sources ?? [0]),
     };
     const response = yield* request('request', { data });
     const body = yield* decodeUpstreamBody(
@@ -78,7 +90,3 @@ const djDifmAllStyleChannel: ModuleEffect<
  * DIFM电台 - 分类
  */
 export default djDifmAllStyleChannel;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

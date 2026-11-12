@@ -52,6 +52,19 @@ type Case = {
   ) => Promise<{ readonly status: number; readonly body: unknown }>;
 };
 
+// 录制保存旧的 data JSON 串和空 markId；回放时换成新的 marks 数组/可选 markId。
+const lyricsMarkInput = (query: {
+  data?: string;
+  markId?: number | string;
+}) => {
+  const { data, markId, ...rest } = query;
+  return {
+    ...rest,
+    ...(markId === undefined || markId === '' ? {} : { markId }),
+    ...(data === undefined ? {} : { marks: JSON.parse(data) as unknown }),
+  };
+};
+
 const cases: Array<Case> = [
   {
     name: 'dj_difm_channel_subscribe subscribe',
@@ -103,14 +116,18 @@ const cases: Array<Case> = [
     recording: songLyricsMarkAddAdd,
     bodySchema: SongLyricsMarkAddBody,
     call: (upstream, status) =>
-      replay(upstream, status).songLyricsMarkAdd(songLyricsMarkAddAdd.query),
+      replay(upstream, status).songLyricsMarkAdd(
+        lyricsMarkInput(songLyricsMarkAddAdd.query),
+      ),
   },
   {
     name: 'song_lyrics_mark_add update',
     recording: songLyricsMarkAddUpdate,
     bodySchema: SongLyricsMarkAddBody,
     call: (upstream, status) =>
-      replay(upstream, status).songLyricsMarkAdd(songLyricsMarkAddUpdate.query),
+      replay(upstream, status).songLyricsMarkAdd(
+        lyricsMarkInput(songLyricsMarkAddUpdate.query),
+      ),
   },
   {
     name: 'song_lyrics_mark_del delete',
@@ -296,7 +313,9 @@ test.each<{
     module: 'song_lyrics_mark_add',
     recording: songLyricsMarkAddAdd,
     call: (upstream) =>
-      replay(upstream).songLyricsMarkAdd(songLyricsMarkAddAdd.query),
+      replay(upstream).songLyricsMarkAdd(
+        lyricsMarkInput(songLyricsMarkAddAdd.query),
+      ),
   },
   {
     name: 'song_lyrics_mark_del',
@@ -364,7 +383,9 @@ test.each<{
       delete (upstream.data as Record<string, unknown>).markId;
     },
     call: (upstream) =>
-      replay(upstream).songLyricsMarkAdd(songLyricsMarkAddAdd.query),
+      replay(upstream).songLyricsMarkAdd(
+        lyricsMarkInput(songLyricsMarkAddAdd.query),
+      ),
   },
   {
     name: 'song_lyrics_mark_del without success',
@@ -432,7 +453,9 @@ test('song_lyrics_mark_add rejects a non-numeric markId', async () => {
   upstream.data.markId = 'mark';
 
   await expectUpstreamShapeRejection(
-    replay(upstream).songLyricsMarkAdd(songLyricsMarkAddAdd.query),
+    replay(upstream).songLyricsMarkAdd(
+      lyricsMarkInput(songLyricsMarkAddAdd.query),
+    ),
     {
       module: 'song_lyrics_mark_add',
       path: 'body.data.markId',
@@ -480,7 +503,7 @@ test('song_lyrics_mark_add drops bad loose fields and keeps undeclared fields', 
   upstream.data.extra = { source: 'lyrics' };
 
   const result = await replay(upstream).songLyricsMarkAdd(
-    songLyricsMarkAddAdd.query,
+    lyricsMarkInput(songLyricsMarkAddAdd.query),
   );
 
   const body = result.body as { data: Record<string, unknown> };

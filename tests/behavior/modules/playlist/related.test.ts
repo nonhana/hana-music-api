@@ -54,8 +54,10 @@ test.each([429, 503, 499, 504])(
     });
     const result = normalizeFailure(
       await runEffect(
-        executeModule(playlistTracks, { op: 'add', pid: 1, tracks: '2' }, () =>
-          Effect.fail(failure),
+        executeModule(
+          playlistTracks,
+          { op: 'add', pid: 1, tracks: ['2'] },
+          () => Effect.fail(failure),
         ).pipe(Effect.flip),
       ),
     );

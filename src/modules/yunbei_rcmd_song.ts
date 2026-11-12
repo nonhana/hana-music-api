@@ -1,10 +1,29 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
+
+export type ModuleInput = {
+  id: NumberId;
+  reason?: string;
+  yunbeiNum?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  reason: Schema.optional(Schema.String),
+  yunbeiNum: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -37,7 +56,3 @@ const yunbeiRcmdSong: ModuleEffect<
  * 云贝推歌
  */
 export default yunbeiRcmdSong;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -5063,7 +5063,7 @@
           },
           "data": {
             "dupkey": "<uuid>",
-            "voiceData": "[{\"name\":\"named\",\"autoPublish\":true,\"autoPublishText\":\"publish\",\"description\":\"desc\",\"voiceListId\":\"31\",\"coverImgId\":\"23\",\"dfsId\":\"doc-1\",\"categoryId\":\"17\",\"secondCategoryId\":\"29\",\"composedSongs\":[\"17\",\"19\"],\"privacy\":true,\"publishTime\":\"1234\",\"orderNo\":\"2\"}]",
+            "voiceData": "[{\"name\":\"named\",\"autoPublish\":true,\"autoPublishText\":\"publish\",\"description\":\"desc\",\"voiceListId\":\"31\",\"coverImgId\":\"23\",\"dfsId\":\"doc-1\",\"categoryId\":\"17\",\"secondCategoryId\":\"29\",\"composedSongs\":[\"17\",\"19\"],\"privacy\":true,\"publishTime\":1234,\"orderNo\":2}]",
             "e_r": false,
             "header": {
               "__csrf": "csrf",
@@ -5104,7 +5104,7 @@
           },
           "data": {
             "dupkey": "<uuid>",
-            "voiceData": "[{\"name\":\"named\",\"autoPublish\":true,\"autoPublishText\":\"publish\",\"description\":\"desc\",\"voiceListId\":\"31\",\"coverImgId\":\"23\",\"dfsId\":\"doc-1\",\"categoryId\":\"17\",\"secondCategoryId\":\"29\",\"composedSongs\":[\"17\",\"19\"],\"privacy\":true,\"publishTime\":\"1234\",\"orderNo\":\"2\"}]",
+            "voiceData": "[{\"name\":\"named\",\"autoPublish\":true,\"autoPublishText\":\"publish\",\"description\":\"desc\",\"voiceListId\":\"31\",\"coverImgId\":\"23\",\"dfsId\":\"doc-1\",\"categoryId\":\"17\",\"secondCategoryId\":\"29\",\"composedSongs\":[\"17\",\"19\"],\"privacy\":true,\"publishTime\":1234,\"orderNo\":2}]",
             "e_r": false,
             "header": {
               "__csrf": "csrf",
@@ -5263,7 +5263,7 @@
           },
           "data": {
             "dupkey": "<uuid>",
-            "voiceData": "[{\"name\":\"demo_track\",\"autoPublish\":false,\"autoPublishText\":\"\",\"dfsId\":\"doc-1\",\"composedSongs\":[],\"privacy\":false,\"publishTime\":\"0\",\"orderNo\":\"0\"}]",
+            "voiceData": "[{\"name\":\"demo_track\",\"autoPublish\":false,\"autoPublishText\":\"\",\"dfsId\":\"doc-1\",\"composedSongs\":[],\"privacy\":false,\"publishTime\":0,\"orderNo\":1}]",
             "e_r": false,
             "header": {
               "__csrf": "csrf",
@@ -5304,7 +5304,7 @@
           },
           "data": {
             "dupkey": "<uuid>",
-            "voiceData": "[{\"name\":\"demo_track\",\"autoPublish\":false,\"autoPublishText\":\"\",\"dfsId\":\"doc-1\",\"composedSongs\":[],\"privacy\":false,\"publishTime\":\"0\",\"orderNo\":\"0\"}]",
+            "voiceData": "[{\"name\":\"demo_track\",\"autoPublish\":false,\"autoPublishText\":\"\",\"dfsId\":\"doc-1\",\"composedSongs\":[],\"privacy\":false,\"publishTime\":0,\"orderNo\":1}]",
             "e_r": false,
             "header": {
               "__csrf": "csrf",

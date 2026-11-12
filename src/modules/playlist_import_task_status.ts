@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 const ImportTask = UpstreamObject({
   id: Schema.Finite,
@@ -37,6 +40,13 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
+export type ModuleInput = { id: NumberId };
+
+const inputSchema = Schema.Struct({ id: NumberId });
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 export const moduleActions = {
   poll: {
     target: '/api/playlist/import/task/status/v2',
@@ -55,7 +65,7 @@ const playlistImportTaskStatus: ModuleEffect<
   Effect.gen(function* () {
     const response = yield* request('poll', {
       data: {
-        taskIds: JSON.stringify([query.id]),
+        taskIds: JSON.stringify([String(query.id)]),
       },
     });
     return {
@@ -72,7 +82,3 @@ const playlistImportTaskStatus: ModuleEffect<
  * 歌单导入 - 任务状态
  */
 export default playlistImportTaskStatus;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

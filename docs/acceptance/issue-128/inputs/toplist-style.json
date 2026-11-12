@@ -1,0 +1,430 @@
+[
+  {
+    "module": "digitalAlbum_detail",
+    "actions": ["request"],
+    "current": "{ id: NumberId }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId }",
+    "upstreamEncoding": "id 原样透传（JSON body）",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/commerce/digital-album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 必填，模块无本地默认值。"
+  },
+  {
+    "module": "digitalAlbum_ordering",
+    "actions": ["request"],
+    "current": "{ id: NumberId; payment: string; quantity: NaturalValue }",
+    "fields": ["id", "payment", "quantity", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; payment: string; quantity: number | 数字串 }",
+    "upstreamEncoding": "digitalResources = JSON.stringify([{ business: 'Album', resourceID: String(id), quantity }])",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/commerce/digital-album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "digitalResources 不再接受调用者 JSON 串，由模块构造对象数组；id/payment/quantity 均必填。payment 按文档只接受字符串；quantity 用 NaturalValue 接受 HTTP 数字串，0 仍原样透传。必填使 tests/replay/writes/irreversible-write-bodies.test.ts 的 {} 缺参回放失效，待主代理统一处理。"
+  },
+  {
+    "module": "digitalAlbum_purchased",
+    "actions": ["request"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue }",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number | 数字串; offset?: number | 数字串 }",
+    "upstreamEncoding": "limit 缺省 30、offset 缺省 0（沿用 || 默认值）；total=true 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/commerce/digital-album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit=0 与旧行为一致地回落到 30。"
+  },
+  {
+    "module": "digitalAlbum_sales",
+    "actions": ["request"],
+    "current": "{ ids: NumberIdList }",
+    "fields": ["ids", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ ids: readonly NumberId[] }（非空）",
+    "upstreamEncoding": "albumIds = ids.map(String).join(',')",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/commerce/digital-album-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧单值 id 与空字符串不再接受；空数组拒绝。"
+  },
+  {
+    "module": "related_allvideo",
+    "actions": ["request"],
+    "current": "{ id: NumberId | string }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId | 非空字符串 }",
+    "upstreamEncoding": "id 原样透传；type = /^\\d+$/.test(String(id)) ? 0 : 1",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/video/video-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "视频 id 既有数字编号也有十六进制串，非空字符串保留不透明语义；空串拒绝。"
+  },
+  {
+    "module": "related_playlist",
+    "actions": ["page"],
+    "current": "{ id: NumberId }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId }",
+    "upstreamEncoding": "id=${String(id)}（plain GET query）",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/playlist/related.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "simi_artist",
+    "actions": ["read"],
+    "current": "{ id: NumberId }",
+    "fields": ["id", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId }",
+    "upstreamEncoding": "artistid 原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/discovery/simi-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "simi_mv",
+    "actions": ["read"],
+    "current": "{ mvid: NumberId }",
+    "fields": ["mvid", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ mvid: NumberId }",
+    "upstreamEncoding": "mvid 原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/discovery/simi-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "simi_playlist",
+    "actions": ["read"],
+    "current": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue }",
+    "fields": ["id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; limit?: number | 数字串; offset?: number | 数字串 }",
+    "upstreamEncoding": "songid 原样透传；limit 缺省 50、offset 缺省 0（沿用 || 默认值）",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/simi-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit=0 与旧行为一致地回落到 50/0。"
+  },
+  {
+    "module": "simi_song",
+    "actions": ["read"],
+    "current": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue }",
+    "fields": ["id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; limit?: number | 数字串; offset?: number | 数字串 }",
+    "upstreamEncoding": "songid 原样透传；limit 缺省 50、offset 缺省 0（沿用 || 默认值）",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/simi-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit=0 与旧行为一致地回落到 50/0。"
+  },
+  {
+    "module": "simi_user",
+    "actions": ["read"],
+    "current": "{ id: NumberId; limit?: NaturalValue; offset?: NaturalValue }",
+    "fields": ["id", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; limit?: number | 数字串; offset?: number | 数字串 }",
+    "upstreamEncoding": "songid 原样透传；limit 缺省 50、offset 缺省 0（沿用 || 默认值）",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/simi-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "limit=0 与旧行为一致地回落到 50/0。"
+  },
+  {
+    "module": "style_album",
+    "actions": ["read"],
+    "current": "{ tagId: NumberId; cursor?: NaturalValue; size?: NaturalValue; sort?: 0 | 1 }",
+    "fields": ["cursor", "size", "sort", "tagId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ tagId: NumberId; cursor?: number | 数字串; size?: number | 数字串; sort?: 0 | 1 | 数字串 }",
+    "upstreamEncoding": "tagId 原样透传；cursor 缺省 0、size 缺省 20、sort 缺省 0",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "sort 按文档 0/1 收窄并接受 HTTP 数字串；tagId 必填。"
+  },
+  {
+    "module": "style_artist",
+    "actions": ["read"],
+    "current": "{ tagId: NumberId; cursor?: NaturalValue; size?: NaturalValue }",
+    "fields": ["cursor", "size", "tagId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ tagId: NumberId; cursor?: number | 数字串; size?: number | 数字串 }",
+    "upstreamEncoding": "tagId 原样透传；cursor 缺省 0、size 缺省 20；sort=0 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "模块从不读取 sort，传入 sort 现在作为未声明字段拒绝。"
+  },
+  {
+    "module": "style_detail",
+    "actions": ["read"],
+    "current": "{ tagId: NumberId }",
+    "fields": ["tagId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ tagId: NumberId }",
+    "upstreamEncoding": "tagId 原样透传",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "style_list",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "data={} 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "style_playlist",
+    "actions": ["read"],
+    "current": "{ tagId: NumberId; cursor?: NaturalValue; size?: NaturalValue }",
+    "fields": ["cursor", "size", "tagId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ tagId: NumberId; cursor?: number | 数字串; size?: number | 数字串 }",
+    "upstreamEncoding": "tagId 原样透传；cursor 缺省 0、size 缺省 20；sort=0 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "模块从不读取 sort，传入 sort 现在作为未声明字段拒绝。"
+  },
+  {
+    "module": "style_preference",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "data={} 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/discovery/misc-read-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "style_song",
+    "actions": ["read"],
+    "current": "{ tagId: NumberId; cursor?: NaturalValue; size?: NaturalValue; sort?: 0 | 1 }",
+    "fields": ["cursor", "size", "sort", "tagId", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ tagId: NumberId; cursor?: number | 数字串; size?: number | 数字串; sort?: 0 | 1 | 数字串 }",
+    "upstreamEncoding": "tagId 原样透传；cursor 缺省 0、size 缺省 20、sort 缺省 0",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "sort 按文档 0/1 收窄并接受 HTTP 数字串；tagId 必填。"
+  },
+  {
+    "module": "top_album",
+    "actions": ["read"],
+    "current": "{ area?: string; type?: 'new' | 'hot'; limit?: NaturalValue; offset?: NaturalValue; year?: NaturalValue; month?: NaturalValue }",
+    "fields": ["area", "limit", "month", "offset", "ts", "type", "year"],
+    "legacyEncoding": [],
+    "businessInput": "{ area?: string; type?: 'new' | 'hot'; limit?: number | 数字串; offset?: number | 数字串; year?: number | 数字串; month?: number | 数字串 }",
+    "upstreamEncoding": "area 缺省 ALL、type 缺省 new、limit 缺省 50、offset 缺省 0、year/month 缺省当前年月；total=false、rcmd=true 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/toplist-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 按文档 new/hot 收窄；area 保持字符串不猜枚举。"
+  },
+  {
+    "module": "top_artists",
+    "actions": ["read"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue }",
+    "fields": ["limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number | 数字串; offset?: number | 数字串 }",
+    "upstreamEncoding": "limit 缺省 50、offset 缺省 0；total=true 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/toplist-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "top_list",
+    "actions": ["read"],
+    "current": "{ id?: NumberId; idx?: NaturalValue }",
+    "fields": ["id", "idx", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ id?: NumberId; idx?: number | 数字串 }",
+    "upstreamEncoding": "id 原样透传；idx 仍走本地 500 分支（不发请求）",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/discovery/toplist-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "id 保持可选以保留 idx 分支；两者都不传时沿用旧行为发送空 id。"
+  },
+  {
+    "module": "top_mv",
+    "actions": ["read"],
+    "current": "{ area?: string; limit?: NaturalValue; offset?: NaturalValue }",
+    "fields": ["area", "limit", "offset", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ area?: string; limit?: number | 数字串; offset?: number | 数字串 }",
+    "upstreamEncoding": "area 缺省空串、limit 缺省 30、offset 缺省 0；total=true 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/video/mv-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "area 是中文地区名，保持字符串不猜完整枚举。"
+  },
+  {
+    "module": "top_playlist",
+    "actions": ["read"],
+    "current": "{ cat?: string; order?: 'hot' | 'new'; limit?: NaturalValue; offset?: NaturalValue }",
+    "fields": ["cat", "limit", "offset", "order", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ cat?: string; order?: 'hot' | 'new'; limit?: number | 数字串; offset?: number | 数字串 }",
+    "upstreamEncoding": "cat 缺省 全部、order 缺省 hot、limit 缺省 50、offset 缺省 0；total=true 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/playlist/playlist-list-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "order 按文档 hot/new 收窄；limit='abc' 这类非数字输入现在本地拒绝，tests/replay/playlist/playlist-list-bodies.test.ts 的 invalid-limit 回放需改由该文件 owner 处理。"
+  },
+  {
+    "module": "top_playlist_highquality",
+    "actions": ["read"],
+    "current": "{ cat?: string; limit?: NaturalValue; before?: NaturalValue }",
+    "fields": ["before", "cat", "limit", "ts"],
+    "legacyEncoding": [],
+    "businessInput": "{ cat?: string; limit?: number | 数字串; before?: number | 数字串 }",
+    "upstreamEncoding": "cat 缺省 全部、limit 缺省 50、before 缺省 0 并编码为 lasttime；total=true 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/toplist-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "top_song",
+    "actions": ["read"],
+    "current": "{ type?: NaturalValue }",
+    "fields": ["limit", "offset", "ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ type?: number | 数字串 }",
+    "upstreamEncoding": "type 缺省 0 并编码为 areaId；total=true 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/toplist-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "不按地区枚举收窄：录制证明非法地区 999 也是合法调用并回显空 data。"
+  },
+  {
+    "module": "toplist",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "data={} 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/discovery/toplist-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "toplist_artist",
+    "actions": ["read"],
+    "current": "{ type?: 1 | 2 | 3 | 4 }",
+    "fields": ["ts", "type"],
+    "legacyEncoding": [],
+    "businessInput": "{ type?: 1 | 2 | 3 | 4 | 数字串 }",
+    "upstreamEncoding": "type 缺省 1；limit=100、offset=0、total=true 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/behavior/modules/input-encoding.test.ts",
+      "tests/replay/discovery/toplist-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "type 按文档 1-4 收窄并接受 HTTP 数字串。"
+  },
+  {
+    "module": "toplist_detail",
+    "actions": ["read"],
+    "current": "NoInput",
+    "fields": ["ts"],
+    "legacyEncoding": [],
+    "businessInput": "无参数；query 可省略",
+    "upstreamEncoding": "data={} 固定",
+    "evidence": [
+      "tests/behavior/modules/input-contracts.test.ts",
+      "tests/replay/discovery/toplist-bodies.test.ts"
+    ],
+    "status": "migrated"
+  }
+]

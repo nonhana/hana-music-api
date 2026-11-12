@@ -17,7 +17,7 @@ import {
 } from '../../../src/core/call-context.ts';
 import { buildCallServices, runCall } from '../../../src/core/call.ts';
 import { resolveIdentitySnapshot } from '../../../src/core/identity.ts';
-import { decodeLegacyModuleInput } from '../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../src/core/module-input.ts';
 import { requestProfiles } from '../../../src/core/request-profiles.ts';
 import { requestEffect } from '../../../src/core/request.ts';
 import { toModuleResponse } from '../../../src/core/response.ts';
@@ -106,7 +106,7 @@ test.each(['weapi', 'eapi', 'api', 'linuxapi'] as const)(
             identifier: 'protocol_probe',
             actions: { probe: action },
             route: '/protocol/probe',
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: (query, request) =>
               request('probe', { data: query }).pipe(
                 Effect.map(toModuleResponse),
@@ -145,7 +145,7 @@ for (const tokenKind of ['string', 'provider'] as const) {
       name: 'songDetail',
       path: 'v3/song/detail',
       web: true,
-      call: (client: HanaMusicApiClient) => client.songDetail({ ids: 7 }),
+      call: (client: HanaMusicApiClient) => client.songDetail({ ids: [7] }),
     },
     {
       name: 'playlistDetail',
@@ -379,12 +379,12 @@ test('all public module entry forms pass strings and providers to a declared act
         fetcher: scenario.fetcher,
         checkToken: async () => 'entry-token',
       };
-      await createHanaMusicApi(config).getUserids({ nicknames: 'one' });
+      await createHanaMusicApi(config).getUserids({ nicknames: ['one'] });
       await getUserids(
-        { nicknames: 'two' },
+        { nicknames: ['two'] },
         { ...config, checkToken: 'entry-token' },
       );
-      await invokeModule('get_userids', { nicknames: 'three' }, config);
+      await invokeModule('get_userids', { nicknames: ['three'] }, config);
       expect(scenario.entries).toHaveLength(3);
     },
   );
@@ -780,7 +780,7 @@ for (const kind of ['string', 'provider'] as const) {
           fetcher: scenario.fetcher,
           checkToken,
         });
-        expect(await settle(client.songDetail({ ids: 7 }))).toMatchObject({
+        expect(await settle(client.songDetail({ ids: [7] }))).toMatchObject({
           rejected: { status: 400 },
         });
         expect(scenario.entries).toHaveLength(0);

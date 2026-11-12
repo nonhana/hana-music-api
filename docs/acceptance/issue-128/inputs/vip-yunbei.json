@@ -1,0 +1,263 @@
+[
+  {
+    "module": "vip_growthpoint",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "无参数",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/replay/commerce/digital-album-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "vip_growthpoint_details",
+    "actions": ["request"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["limit", "offset"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number; offset?: number }（接受数字字符串，解码为 number）",
+    "upstreamEncoding": "limit = limit || 20; offset = offset || 0",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/behavior/modules/input-encoding/vip-yunbei.ts"
+    ],
+    "status": "migrated",
+    "notes": "分页字段为 natural number；数字字符串解码为 number，字符串 \"0\" 现在与数字 0 一样走默认值 20。负数、小数、空串和 null 被拒绝。"
+  },
+  {
+    "module": "vip_growthpoint_get",
+    "actions": ["request"],
+    "current": "{ ids: ReadonlyArray<string>; }（非空）",
+    "fields": ["ids"],
+    "legacyEncoding": [],
+    "businessInput": "{ ids: readonly string[] }（非空，来自 vip_tasks 的 unGetIds）",
+    "upstreamEncoding": "taskIds = ids.join(',')",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/behavior/modules/input-encoding/vip-yunbei.ts"
+    ],
+    "status": "migrated",
+    "notes": "旧 JSON 数组串和逗号串输入被拒绝；每项不能为空或含逗号，SDK 用逗号连接成上游 taskIds。"
+  },
+  {
+    "module": "vip_info",
+    "actions": ["request"],
+    "current": "{ uid?: NumberId; }",
+    "fields": ["uid"],
+    "legacyEncoding": [],
+    "businessInput": "{ uid?: NumberId }（可选；省略表示当前用户）",
+    "upstreamEncoding": "userId = uid === undefined ? '' : String(uid)",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/behavior/modules/input-encoding/vip-yunbei.ts"
+    ],
+    "status": "migrated",
+    "notes": "uid 仍可选（文档和模块默认值都是空 userId）；0、\"0\"、空串、null 不再当缺省处理，省略字段才是当前用户。"
+  },
+  {
+    "module": "vip_info_v2",
+    "actions": ["request"],
+    "current": "{ uid?: NumberId; }",
+    "fields": ["uid"],
+    "legacyEncoding": [],
+    "businessInput": "{ uid?: NumberId }（可选；省略表示当前用户）",
+    "upstreamEncoding": "userId = uid === undefined ? '' : String(uid)",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/behavior/modules/input-encoding/vip-yunbei.ts"
+    ],
+    "status": "migrated",
+    "notes": "与 vip_info 相同；uid 省略时仍发送空 userId。"
+  },
+  {
+    "module": "vip_tasks",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "无参数",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/replay/commerce/digital-album-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "vip_timemachine",
+    "actions": ["request"],
+    "current": "{ startTime?: NaturalValue; endTime?: NaturalValue; limit?: NaturalValue; }",
+    "fields": ["endTime", "limit", "startTime"],
+    "legacyEncoding": [],
+    "businessInput": "{ startTime?: number; endTime?: number; limit?: number }（时间戳为毫秒或秒，接受数字字符串）",
+    "upstreamEncoding": "startTime/endTime 同时存在时发送 startTime、endTime、type = 1、limit = limit || 60；否则 data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/behavior/modules/input-encoding/vip-yunbei.ts"
+    ],
+    "status": "migrated",
+    "notes": "起止时间解码为 number；数字字符串 \"0\" 解码后为 0，与数字 0 一样不触发起止分支。负数、小数和空串被拒绝。"
+  },
+  {
+    "module": "yunbei",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "无参数",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/replay/commerce/vip-status-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "yunbei_expense",
+    "actions": ["request"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["limit", "offset"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number; offset?: number }（接受数字字符串，解码为 number）",
+    "upstreamEncoding": "limit = limit || 10; offset = offset || 0",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/behavior/modules/input-encoding/vip-yunbei.ts"
+    ],
+    "status": "migrated",
+    "notes": "分页字段为 natural number；负数、小数、空串和 null 被拒绝。"
+  },
+  {
+    "module": "yunbei_info",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "无参数",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/replay/commerce/vip-status-bodies.test.ts"
+    ],
+    "status": "migrated"
+  },
+  {
+    "module": "yunbei_rcmd_song",
+    "actions": ["request"],
+    "current": "{ id: NumberId; reason?: string; yunbeiNum?: NaturalValue; }",
+    "fields": ["id", "reason", "yunbeiNum"],
+    "legacyEncoding": [],
+    "businessInput": "{ id: NumberId; reason?: string; yunbeiNum?: number }",
+    "upstreamEncoding": "songId = id; reason = reason || '好歌献给你'; yunbeiNum = yunbeiNum || 10",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/behavior/modules/input-encoding/vip-yunbei.ts"
+    ],
+    "status": "migrated",
+    "notes": "`id` 为歌曲编号，必填；`reason` 只接受字符串（旧输入里的 0/false 被拒绝）；`yunbeiNum` 为 natural number，0 仍按默认值 10 处理。"
+  },
+  {
+    "module": "yunbei_rcmd_song_history",
+    "actions": ["request"],
+    "current": "{ cursor?: string; size?: NaturalValue; }",
+    "fields": ["cursor", "size"],
+    "legacyEncoding": [],
+    "businessInput": "{ cursor?: string; size?: number }",
+    "upstreamEncoding": "page = JSON.stringify({ size: size || 20, cursor: cursor || '' })",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/behavior/modules/input-encoding/vip-yunbei.ts"
+    ],
+    "status": "migrated",
+    "notes": "`page` 仍是上游 JSON 串，但由业务值在模块内构造；`size` 为 natural number，负数现在在发送前以 400 拒绝（`invalid-size` 录制仍证明上游也会拒绝）；`cursor` 为字符串，数字 0 不再转成空串。"
+  },
+  {
+    "module": "yunbei_receipt",
+    "actions": ["request"],
+    "current": "{ limit?: NaturalValue; offset?: NaturalValue; }",
+    "fields": ["limit", "offset"],
+    "legacyEncoding": [],
+    "businessInput": "{ limit?: number; offset?: number }（接受数字字符串，解码为 number）",
+    "upstreamEncoding": "limit = limit || 10; offset = offset || 0",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/behavior/modules/input-encoding/vip-yunbei.ts"
+    ],
+    "status": "migrated",
+    "notes": "分页字段为 natural number；负数、小数、空串和 null 被拒绝。"
+  },
+  {
+    "module": "yunbei_sign",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "无参数",
+    "upstreamEncoding": "data = {}",
+    "evidence": ["tests/behavior/modules/input-contracts/vip-yunbei.ts"],
+    "status": "migrated"
+  },
+  {
+    "module": "yunbei_task_finish",
+    "actions": ["request"],
+    "current": "{ userTaskId: NumberId; depositCode?: NaturalValue; }",
+    "fields": ["depositCode", "userTaskId"],
+    "legacyEncoding": [],
+    "businessInput": "{ userTaskId: NumberId; depositCode?: number }",
+    "upstreamEncoding": "userTaskId = userTaskId; depositCode = String(depositCode ?? 0)",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/behavior/modules/input-encoding/vip-yunbei.ts"
+    ],
+    "status": "migrated",
+    "notes": "`userTaskId` 为任务编号，必填；`depositCode` 是任务里的数字码（录制中为 0），接受数字字符串并按十进制文本发送，非数字字符串不再透传。"
+  },
+  {
+    "module": "yunbei_tasks",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "无参数",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/replay/commerce/vip-status-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "当前模块不读取分页字段，也不向上游发送，因此没有可分页的输入；文档也没有该接口的参数。"
+  },
+  {
+    "module": "yunbei_tasks_todo",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "无参数",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/replay/commerce/vip-status-bodies.test.ts"
+    ],
+    "status": "migrated",
+    "notes": "当前模块不读取分页字段，也不向上游发送，因此没有可分页的输入；文档也没有该接口的参数。"
+  },
+  {
+    "module": "yunbei_today",
+    "actions": ["request"],
+    "current": "NoInput",
+    "fields": [],
+    "legacyEncoding": [],
+    "businessInput": "无参数",
+    "upstreamEncoding": "data = {}",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/vip-yunbei.ts",
+      "tests/replay/commerce/vip-status-bodies.test.ts"
+    ],
+    "status": "migrated"
+  }
+]

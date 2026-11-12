@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,20 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// 毫秒时间戳，省略时各自取当前时间，保持原有零长度区间的默认行为。
+export type ModuleInput = {
+  endTime?: NaturalValue;
+  startTime?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  endTime: Schema.optional(NaturalValue),
+  startTime: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const CalendarEvent = UpstreamObject({
   id: Schema.String,
@@ -77,7 +94,3 @@ const calendar: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   });
 
 export default calendar;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

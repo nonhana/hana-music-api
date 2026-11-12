@@ -1,6 +1,9 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  NumberIdList,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -10,7 +13,6 @@ import {
 } from '../core/upstream-body.ts';
 import { LooseSong } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 const CloudDetailEntry = UpstreamObject({
   songId: Schema.Finite,
@@ -49,18 +51,25 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = {
+  ids: NumberIdList;
+};
+
+const inputSchema = Schema.Struct({
+  ids: NumberIdList,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const userCloudDetail: ModuleEffect<
   ModuleInput,
   ModuleBody,
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    if (typeof query.id !== 'string') {
-      return yield* InvalidModuleInput.make({ message: 'id must be a string' });
-    }
-    const id = query.id.replace(/\s/g, '').split(',');
     const data = {
-      songIds: id,
+      songIds: query.ids.map(String),
     };
     const result = yield* request('read', { data });
     return {
@@ -73,7 +82,3 @@ const userCloudDetail: ModuleEffect<
  * 云盘数据详情
  */
 export default userCloudDetail;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

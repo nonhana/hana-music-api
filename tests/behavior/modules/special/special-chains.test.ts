@@ -3,10 +3,11 @@ import { expect, test } from 'bun:test';
 import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
 
+import { createHanaMusicApi } from '../../../../index.ts';
 import type { ModuleCallConfig, NcmApiResponse } from '../../../../index.ts';
 import packageJson from '../../../../package.json';
 import { buildCallServices, runCall } from '../../../../src/core/call.ts';
-import { decodeLegacyModuleInput } from '../../../../src/core/module-input.ts';
+import { decodeModuleObject } from '../../../../src/core/module-input.ts';
 import { toModuleResponse } from '../../../../src/core/response.ts';
 import { setRuntimeState } from '../../../../src/core/runtime.ts';
 import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
@@ -46,6 +47,25 @@ interface Case {
   result: { resolved?: NcmApiResponse; rejected?: NcmApiResponse };
 }
 const baseline = recorded as unknown as { cases: Array<Case> };
+// #128 收窄后，这些旧协议输入不再是有效业务输入；单独验证本地拒绝，不进入请求链回放。
+const retiredCases: Record<string, true> = {
+  'playlist_tracks/add-31': true,
+  'playlist_tracks/add-32': true,
+  'playlist_tracks/add-33': true,
+  'playlist_tracks/add-34': true,
+  'playlist_tracks/del-36': true,
+  'playlist_tracks/del-37': true,
+  'playlist_tracks/del-38': true,
+  'playlist_tracks/del-39': true,
+  'playlist_tracks/invalid-tracks': true,
+  'login_qr_create/qr-19': true,
+  'cloud_import/falsy': true,
+  'playlist_cover_update/missing': true,
+  'playlist_track_all/invalid-page': true,
+};
+const baselineCases = baseline.cases.filter(
+  (entry) => !Object.hasOwn(retiredCases, `${entry.module}/${entry.label}`),
+);
 const expectedResult = (entry: Case): Case['result'] =>
   entry.module === 'inner_version'
     ? {
@@ -60,6 +80,9 @@ const cookie =
   'MUSIC_U=synthetic-account; MUSIC_A=synthetic-anonymous; __csrf=csrf; deviceId=special-device';
 const revive = (entry: Case) => {
   const input = structuredClone(entry.query);
+  if (entry.module === 'playlist_tracks' && typeof input.tracks === 'string') {
+    input.tracks = input.tracks.split(',');
+  }
   for (const name of ['songFile', 'imgFile']) {
     const file = input[name] as { data: Array<number> } | undefined;
     if (file) input[name] = { ...file, data: new Uint8Array(file.data) };
@@ -157,7 +180,52 @@ const normalize = (result: Case['result']) => {
     );
   return copy;
 };
-for (const entry of baseline.cases) {
+test.each([
+  { tracks: 17 },
+  { tracks: false },
+  { tracks: '' },
+  { tracks: null },
+  { tracks: [] },
+])(
+  'playlist_tracks rejects the retired tracks input $tracks before calling upstream',
+  async ({ tracks }) => {
+    let upstreamCalls = 0;
+    const api = createHanaMusicApi({
+      cookie,
+      fetcher: async () => {
+        upstreamCalls += 1;
+        return Response.json({ code: 200 });
+      },
+    });
+    const result = await settle(
+      api.playlistTracks({ op: 'add', pid: 19, tracks } as never),
+    );
+    expect(result).toMatchObject({
+      rejected: { status: 400, body: { code: 400 } },
+    });
+    expect(upstreamCalls).toBe(0);
+  },
+);
+
+test('login_qr_create rejects an unknown platform before calling upstream', async () => {
+  let upstreamCalls = 0;
+  const api = createHanaMusicApi({
+    cookie,
+    fetcher: async () => {
+      upstreamCalls += 1;
+      return Response.json({ code: 200 });
+    },
+  });
+  const result = await settle(
+    api.loginQrCreate({ key: 'key', platform: 'other' } as never),
+  );
+  expect(result).toMatchObject({
+    rejected: { status: 400, body: { code: 400 } },
+  });
+  expect(upstreamCalls).toBe(0);
+});
+
+for (const entry of baselineCases) {
   test(`special client ${entry.module}/${entry.label} preserves full baseline orchestration`, async () => {
     await withScenario(
       entry.wires.map((wire) => ({
@@ -235,7 +303,7 @@ for (const entry of baseline.cases) {
           body = form;
         } else {
           headers['content-type'] = 'application/json';
-          body = JSON.stringify(entry.query);
+          body = JSON.stringify(revive(entry));
         }
         const result = await app.request(
           generatedModuleRoutes[
@@ -258,7 +326,7 @@ for (const entry of baseline.cases) {
         for (const [index, wire] of scenario.sent.entries())
           await checkWire(
             (
-              baseline.cases.find(
+              baselineCases.find(
                 (candidate) =>
                   candidate.module === entry.module &&
                   candidate.label === entry.label + '-http-form',
@@ -271,7 +339,7 @@ for (const entry of baseline.cases) {
   });
 }
 
-for (const entry of baseline.cases.filter((candidate) =>
+for (const entry of baselineCases.filter((candidate) =>
   [
     'default',
     'file',
@@ -379,7 +447,7 @@ for (const entry of baseline.cases.filter((candidate) =>
   }
 }
 
-for (const entry of baseline.cases.filter(
+for (const entry of baselineCases.filter(
   (candidate) =>
     ['default', 'file', 'upload-True-md5-False', 'business-512'].includes(
       candidate.label,
@@ -479,7 +547,7 @@ for (const entry of baseline.cases.filter(
   }
 }
 
-for (const entry of baseline.cases.filter((candidate) =>
+for (const entry of baselineCases.filter((candidate) =>
   [
     'default',
     'file',
@@ -541,7 +609,7 @@ for (const entry of baseline.cases.filter((candidate) =>
 
 for (const secondCode of [200, 512, 403]) {
   test(`special tracks business 512 sends exactly one fallback ending ${secondCode}`, async () => {
-    const entry = baseline.cases.find(
+    const entry = baselineCases.find(
       (candidate) => candidate.label === 'business-512',
     )!;
     await withScenario(
@@ -560,7 +628,7 @@ for (const secondCode of [200, 512, 403]) {
           }),
         );
         const outcome = await settle(
-          client.playlistTracks({ op: 'add', pid: 19, tracks: '17,23' }),
+          client.playlistTracks({ op: 'add', pid: 19, tracks: [17, 23] }),
         );
         expect(outcome).toHaveProperty(
           secondCode === 200 ? 'resolved.status' : 'rejected.status',
@@ -586,7 +654,7 @@ for (const module of [
   'voice_upload',
 ] as const) {
   test(`special ${module} refuses a second API use of a fixed token`, async () => {
-    const entry = baseline.cases.find(
+    const entry = baselineCases.find(
       (candidate) =>
         candidate.module === module && candidate.label === 'default',
     )!;
@@ -622,7 +690,7 @@ for (const module of [
 
 for (const size of [0, 10 * 1024 * 1024 + 1]) {
   test(`special voice ${size} bytes preserves actual multipart bytes and ETag order`, async () => {
-    const entry = baseline.cases.find(
+    const entry = baselineCases.find(
       (candidate) =>
         candidate.module === 'voice_upload' && candidate.label === 'default',
     )!;
@@ -893,7 +961,7 @@ test('special dynamic plain accepts its declared origin and target', async () =>
         {
           ...sdkModuleRegistry.audio_match,
           actions: dynamicPlainActions,
-          decodeInput: decodeLegacyModuleInput,
+          decodeInput: decodeModuleObject,
           execute: (_input, request) =>
             request('match', {
               target: 'https://interface.music.163.com/api/music/audio/match',
@@ -933,7 +1001,7 @@ for (const change of [
           {
             ...sdkModuleRegistry.audio_match,
             actions: dynamicPlainActions,
-            decodeInput: decodeLegacyModuleInput,
+            decodeInput: decodeModuleObject,
             execute: (_input, request) =>
               // 模拟 JavaScript 调用者绕过类型检查，验证运行时仍拒绝非法参数。
               request('match', {
@@ -956,8 +1024,8 @@ test('special local modules declare an empty action set', () => {
   expect(sdkModuleRegistry.login_qr_create.actions).toEqual({});
 });
 
-for (const module of new Set(baseline.cases.map((entry) => entry.module))) {
-  const entry = baseline.cases.find(
+for (const module of new Set(baselineCases.map((entry) => entry.module))) {
+  const entry = baselineCases.find(
     (candidate) =>
       candidate.module === module && candidate.result.resolved?.status === 200,
   )!;
@@ -1006,7 +1074,7 @@ for (const uploadBase of [
   'https://nosup-hz1.127.net/other',
 ]) {
   test(`special cloud rejects allocated upload destination ${uploadBase} without forwarding credentials`, async () => {
-    const entry = baseline.cases.find(
+    const entry = baselineCases.find(
       (candidate) =>
         candidate.module === 'cloud' &&
         candidate.label === 'upload-True-md5-False',
@@ -1050,8 +1118,8 @@ for (const entry of [
   },
   {
     module: 'related_playlist',
-    input: { id: 'login' },
-    url: 'https://music.163.com/playlist?id=login',
+    input: { id: '17' },
+    url: 'https://music.163.com/playlist?id=17',
     method: 'relatedPlaylist',
   },
 ]) {
@@ -1098,7 +1166,7 @@ for (const selection of [
   { module: 'cloud', label: 'upload-True-md5-False' },
 ]) {
   test(`special ${selection.module} accepts opaque NOS bytes before submitting`, async () => {
-    const entry = baseline.cases.find(
+    const entry = baselineCases.find(
       (candidate) =>
         candidate.module === selection.module &&
         candidate.label === selection.label,

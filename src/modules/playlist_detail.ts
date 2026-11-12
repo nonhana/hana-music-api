@@ -2,8 +2,8 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
+  NaturalValue,
+  NumberId,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -17,18 +17,15 @@ import {
   PlaylistSummary,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  IdentifierQuery,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 
-export type ModuleInput = IdentifierQuery & {
-  s?: QueryNumberLike;
+export type ModuleInput = {
+  id: NumberId;
+  s?: number;
 };
 
 const inputSchema = Schema.Struct({
-  id: Identifier,
-  s: Schema.optional(QueryNumber),
+  id: NumberId,
+  s: Schema.optional(NaturalValue),
 });
 
 export const decodeModuleInput = (input: unknown) =>

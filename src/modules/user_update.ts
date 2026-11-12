@@ -1,9 +1,13 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -15,6 +19,29 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+const Gender = NumberLiterals([0, 1, 2]);
+
+export type ModuleInput = {
+  birthday?: number;
+  city?: number;
+  gender?: 0 | 1 | 2;
+  nickname?: string;
+  province?: number;
+  signature?: string;
+};
+
+const inputSchema = Schema.Struct({
+  birthday: Schema.optional(NaturalValue),
+  city: Schema.optional(NaturalValue),
+  gender: Schema.optional(Gender),
+  nickname: Schema.optional(Schema.String),
+  province: Schema.optional(NaturalValue),
+  signature: Schema.optional(Schema.String),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const userUpdate: ModuleEffect<
   ModuleInput,
@@ -39,7 +66,3 @@ const userUpdate: ModuleEffect<
  * 编辑用户信息
  */
 export default userUpdate;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -1,15 +1,19 @@
 import { Effect, Schema } from 'effect';
 
-import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { AlbumSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
-export type ModuleInput = {};
+export type ModuleInput = NoInput;
 
-const inputSchema = Schema.Struct({});
+const inputSchema = EmptyInput;
 
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input).pipe(Effect.as({}));

@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -10,7 +15,6 @@ import {
 } from '../core/upstream-body.ts';
 import { AlbumSummary, Artist, Song } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 const SearchedArtist = UpstreamObject({
   ...Artist.schema.fields,
@@ -75,6 +79,27 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = {
+  keywords: string;
+  limit?: number;
+  offset?: number;
+  type?: 1 | 10 | 100 | 1000 | 1002 | 1004 | 1006 | 1009 | 1014 | 1018 | 2000;
+};
+
+const inputSchema = Schema.Struct({
+  keywords: Schema.String,
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+  type: Schema.optional(
+    NumberLiterals([
+      1, 10, 100, 1000, 1002, 1004, 1006, 1009, 1014, 1018, 2000,
+    ]),
+  ),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const cloudsearch: ModuleEffect<
   ModuleInput,
   ModuleBody,
@@ -100,7 +125,3 @@ const cloudsearch: ModuleEffect<
  * 搜索
  */
 export default cloudsearch;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

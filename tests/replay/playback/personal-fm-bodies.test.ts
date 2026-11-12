@@ -203,24 +203,25 @@ test('playmode_intelligence_list passes an unsupported playlist code through', a
   });
 });
 
-test('playmode_intelligence_list passes a missing playlist id through', async () => {
-  expect(
-    await settle(
-      replay(
-        playmodeIntelligenceListNoPid.response.body,
-        playmodeIntelligenceListNoPid.response.status,
-      ).playmodeIntelligenceList(playmodeIntelligenceListNoPid.query),
-    ),
-  ).toEqual({
-    rejected: {
-      status: 500,
-      cookie: [],
-      body: {
-        ...playmodeIntelligenceListNoPid.response.body,
-        code: 500,
-      },
+test('playmode_intelligence_list rejects a missing playlist id before sending', async () => {
+  let requests = 0;
+  const api = createHanaMusicApi({
+    cookie: 'MUSIC_U=listener',
+    fetcher: async () => {
+      requests += 1;
+      return Response.json(playmodeIntelligenceListNoPid.response.body, {
+        status: playmodeIntelligenceListNoPid.response.status,
+      });
     },
   });
+
+  const outcome = await settle(
+    // 故意缺失 pid 的负向输入：类型层面用 never 才能表达无效调用。
+    api.playmodeIntelligenceList(playmodeIntelligenceListNoPid.query as never),
+  );
+
+  expect('rejected' in outcome && outcome.rejected.status).toBe(400);
+  expect(requests).toBe(0);
 });
 
 test('personal FM bodies type tightened songs and loose fields', () => {

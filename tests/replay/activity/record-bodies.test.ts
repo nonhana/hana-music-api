@@ -33,22 +33,16 @@ import musicFirstListenInfo from '../../fixtures/netease/record/music_first_list
 import musicFirstListenInfoMissingId from '../../fixtures/netease/record/music_first_listen_info.missing-id.json';
 import recordRecentAlbumAnonymous from '../../fixtures/netease/record/record_recent_album.anonymous.json';
 import recordRecentAlbum from '../../fixtures/netease/record/record_recent_album.default.json';
-import recordRecentAlbumInvalid from '../../fixtures/netease/record/record_recent_album.invalid-limit.json';
 import recordRecentDjAnonymous from '../../fixtures/netease/record/record_recent_dj.anonymous.json';
 import recordRecentDj from '../../fixtures/netease/record/record_recent_dj.default.json';
-import recordRecentDjInvalid from '../../fixtures/netease/record/record_recent_dj.invalid-limit.json';
 import recordRecentPlaylistAnonymous from '../../fixtures/netease/record/record_recent_playlist.anonymous.json';
 import recordRecentPlaylist from '../../fixtures/netease/record/record_recent_playlist.default.json';
-import recordRecentPlaylistInvalid from '../../fixtures/netease/record/record_recent_playlist.invalid-limit.json';
 import recordRecentSongAnonymous from '../../fixtures/netease/record/record_recent_song.anonymous.json';
 import recordRecentSong from '../../fixtures/netease/record/record_recent_song.default.json';
-import recordRecentSongInvalid from '../../fixtures/netease/record/record_recent_song.invalid-limit.json';
 import recordRecentVideoAnonymous from '../../fixtures/netease/record/record_recent_video.anonymous.json';
 import recordRecentVideo from '../../fixtures/netease/record/record_recent_video.default.json';
-import recordRecentVideoInvalid from '../../fixtures/netease/record/record_recent_video.invalid-limit.json';
 import recordRecentVoiceAnonymous from '../../fixtures/netease/record/record_recent_voice.anonymous.json';
 import recordRecentVoice from '../../fixtures/netease/record/record_recent_voice.default.json';
-import recordRecentVoiceInvalid from '../../fixtures/netease/record/record_recent_voice.invalid-limit.json';
 
 // issue #102 B34 的播放记录读取录制：9 个模块，18 份成功录制（正常 + 空结果/匿名），
 // 6 份非法 `limit` 的 HTTP 400 空正文、1 份缺少 id 的空正文和 1 份非法 `date` 的业务拒绝。
@@ -250,50 +244,6 @@ type RawCase = {
 };
 
 const rawCases: Array<RawCase> = [
-  {
-    name: 'record_recent_song keeps the normalized empty HTTP 400 body',
-    recording: recordRecentSongInvalid,
-    bodySchema: RecordRecentSongBody,
-    call: (body, status) =>
-      replayRaw(body, status).recordRecentSong(recordRecentSongInvalid.query),
-  },
-  {
-    name: 'record_recent_playlist keeps the normalized empty HTTP 400 body',
-    recording: recordRecentPlaylistInvalid,
-    bodySchema: RecordRecentPlaylistBody,
-    call: (body, status) =>
-      replayRaw(body, status).recordRecentPlaylist(
-        recordRecentPlaylistInvalid.query,
-      ),
-  },
-  {
-    name: 'record_recent_album keeps the normalized empty HTTP 400 body',
-    recording: recordRecentAlbumInvalid,
-    bodySchema: RecordRecentAlbumBody,
-    call: (body, status) =>
-      replayRaw(body, status).recordRecentAlbum(recordRecentAlbumInvalid.query),
-  },
-  {
-    name: 'record_recent_video keeps the normalized empty HTTP 400 body',
-    recording: recordRecentVideoInvalid,
-    bodySchema: RecordRecentVideoBody,
-    call: (body, status) =>
-      replayRaw(body, status).recordRecentVideo(recordRecentVideoInvalid.query),
-  },
-  {
-    name: 'record_recent_dj keeps the normalized empty HTTP 400 body',
-    recording: recordRecentDjInvalid,
-    bodySchema: RecordRecentDjBody,
-    call: (body, status) =>
-      replayRaw(body, status).recordRecentDj(recordRecentDjInvalid.query),
-  },
-  {
-    name: 'record_recent_voice keeps the normalized empty HTTP 400 body',
-    recording: recordRecentVoiceInvalid,
-    bodySchema: RecordRecentVoiceBody,
-    call: (body, status) =>
-      replayRaw(body, status).recordRecentVoice(recordRecentVoiceInvalid.query),
-  },
   {
     name: 'music_first_listen_info keeps the normalized empty HTTP 400 body',
     recording: musicFirstListenInfoMissingId,
@@ -765,10 +715,40 @@ const localRejections: Array<{
     call: (api: ReturnType<typeof createHanaMusicApi>) =>
       api.musicFirstListenInfo(null as never),
   },
+  {
+    name: 'record_recent_song invalid limit',
+    call: (api: ReturnType<typeof createHanaMusicApi>) =>
+      api.recordRecentSong({ limit: 'abc' } as never),
+  },
+  {
+    name: 'record_recent_playlist invalid limit',
+    call: (api: ReturnType<typeof createHanaMusicApi>) =>
+      api.recordRecentPlaylist({ limit: 'abc' } as never),
+  },
+  {
+    name: 'record_recent_album invalid limit',
+    call: (api: ReturnType<typeof createHanaMusicApi>) =>
+      api.recordRecentAlbum({ limit: 'abc' } as never),
+  },
+  {
+    name: 'record_recent_video invalid limit',
+    call: (api: ReturnType<typeof createHanaMusicApi>) =>
+      api.recordRecentVideo({ limit: 'abc' } as never),
+  },
+  {
+    name: 'record_recent_dj invalid limit',
+    call: (api: ReturnType<typeof createHanaMusicApi>) =>
+      api.recordRecentDj({ limit: 'abc' } as never),
+  },
+  {
+    name: 'record_recent_voice invalid limit',
+    call: (api: ReturnType<typeof createHanaMusicApi>) =>
+      api.recordRecentVoice({ limit: 'abc' } as never),
+  },
 ];
 
 test.each(localRejections)(
-  '$name rejects a non-object input locally without calling upstream',
+  '$name rejects invalid input locally without calling upstream',
   async (entry) => {
     let requests = 0;
     const api = createHanaMusicApi({
@@ -779,11 +759,11 @@ test.each(localRejections)(
       },
     });
 
-    expect(await settle(entry.call(api))).toEqual({
+    expect(await settle(entry.call(api))).toMatchObject({
       rejected: {
         status: 400,
         cookie: [],
-        body: { code: 400, msg: 'Expected <Declaration>' },
+        body: { code: 400, msg: expect.any(String) },
       },
     });
     expect(requests).toBe(0);

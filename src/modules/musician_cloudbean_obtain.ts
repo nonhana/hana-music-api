@@ -1,9 +1,13 @@
-import { Effect } from 'effect';
+import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -15,6 +19,19 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  id: NumberId;
+  period: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  period: NaturalValue,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const musicianCloudbeanObtain: ModuleEffect<
   ModuleInput,
@@ -34,7 +51,3 @@ const musicianCloudbeanObtain: ModuleEffect<
  * 领取云豆
  */
 export default musicianCloudbeanObtain;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

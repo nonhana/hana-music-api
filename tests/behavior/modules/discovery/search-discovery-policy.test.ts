@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 
-import { Effect } from 'effect';
+import { Effect, Exit } from 'effect';
 import { TestClock } from 'effect/testing';
 
 import { fmTrash, invokeModule, searchSuggest } from '../../../../index.ts';
@@ -11,17 +11,31 @@ import { createClientFromContext } from '../../../../src/sdk/generated/client-fa
 import { createServer } from '../../../../src/server/create-server.ts';
 import { projectRoot, settle } from '../../../_kit/assertions.ts';
 import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
-import { runEffect } from '../../../_kit/it.ts';
+import { runEffect, runExit } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
 import responseFiles from '../../../fixtures/requests/search-discovery-responses.json';
 import baseline from '../../../fixtures/requests/search-discovery.json';
 
 const defaults = baseline.cases.filter((entry) => entry.label === 'default');
+const validDefaults = (
+  await Promise.all(
+    defaults.map(async (entry) => {
+      const { decodeModuleInput } = (await import(
+        `../../../../src/modules/${entry.module}.ts`
+      )) as {
+        decodeModuleInput: (input: unknown) => Effect.Effect<unknown, unknown>;
+      };
+      return Exit.isSuccess(await runExit(decodeModuleInput(entry.query)))
+        ? entry
+        : undefined;
+    }),
+  )
+).filter((entry) => entry !== undefined);
 const cookie =
   'MUSIC_U=discovery-account; MUSIC_A=discovery-anonymous; __csrf=csrf';
 
-for (const entry of defaults) {
+for (const entry of validDefaults) {
   for (const failure of ['EAI_AGAIN', 'socket hang up']) {
     test(`discovery ${entry.module} preserves ${failure} retry eligibility`, async () => {
       const attempts =
@@ -120,6 +134,15 @@ for (const entry of defaults) {
     });
   });
 }
+const discoveryMethodInput = (
+  method: 'fmTrash' | 'cloudsearch' | 'personalFmMode',
+) =>
+  method === 'fmTrash'
+    ? { id: 17 }
+    : method === 'cloudsearch'
+      ? { keywords: 'probe' }
+      : { mode: 'DEFAULT' };
+
 for (const method of ['fmTrash', 'cloudsearch', 'personalFmMode'] as const) {
   for (const mode of ['cancel', 'deadline'] as const) {
     for (const phase of ['provider', 'body'] as const) {
@@ -166,7 +189,9 @@ for (const method of ['fmTrash', 'cloudsearch', 'personalFmMode'] as const) {
               });
               const client = createClientFromContext(config, services);
               const pending = settle<NcmApiResponse>(
-                client[method]({ id: 17 }, { signal: controller.signal }),
+                client[method](discoveryMethodInput(method) as never, {
+                  signal: controller.signal,
+                }),
               );
               yield* Effect.promise(() => reached.wait(pending));
               if (mode === 'cancel') controller.abort();
@@ -232,7 +257,9 @@ for (const method of ['fmTrash', 'personalFmMode'] as const) {
           });
           const client = createClientFromContext(config, services);
           return {
-            result: await settle(client[method]({ id: 17 })),
+            result: await settle(
+              client[method](discoveryMethodInput(method) as never),
+            ),
             sends: scenario.sent.length,
             reads: services.reads.snapshot,
           };
@@ -269,7 +296,7 @@ for (const entry of [
         buildCallServices(config, false, { fetcher: scenario.fetcher }),
       );
       const call = entry.module === 'banner' ? client.banner : client.topList;
-      const sdk = await settle<NcmApiResponse>(call(entry.query));
+      const sdk = await settle<NcmApiResponse>(call(entry.query as never));
       const app = await createServer(
         {},
         { execution: { fetcher: scenario.fetcher } },

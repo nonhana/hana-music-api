@@ -57,7 +57,7 @@ const scenarios = [
   { identifier: 'lyric', input: { id: '12' }, target: '/api/song/lyric' },
   {
     identifier: 'song_detail',
-    input: { ids: '12, 34' },
+    input: { ids: [12, 34] },
     target: '/api/v3/song/detail',
   },
   {
@@ -78,16 +78,9 @@ describe('ordinary read Effect modules', () => {
     },
     {
       module: search,
-      input: { keywords: 'voice', type: '2000', limit: '5', offset: '2' },
+      input: { keywords: 'voice', type: 2000, limit: 5, offset: 2 },
       target: '/api/search/voice/get',
-      body: { keyword: 'voice', scene: 'normal', limit: '5', offset: '2' },
-      protocol: 'eapi',
-    },
-    {
-      module: search,
-      input: { keywords: 'hello', type: '9999', limit: 0, offset: 0 },
-      target: '/api/search/get',
-      body: { s: 'hello', type: '9999', limit: 30, offset: 0 },
+      body: { keyword: 'voice', scene: 'normal', limit: 5, offset: 2 },
       protocol: 'eapi',
     },
     {
@@ -99,14 +92,14 @@ describe('ordinary read Effect modules', () => {
     },
     {
       module: songDetail,
-      input: { ids: '12, 34' },
+      input: { ids: [12, 34] },
       target: '/api/v3/song/detail',
       body: { c: '[{"id":12},{"id":34}]' },
       protocol: 'weapi',
     },
     {
       module: songDetail,
-      input: { ids: 12 },
+      input: { ids: [12] },
       target: '/api/v3/song/detail',
       body: { c: '[{"id":12}]' },
       protocol: 'weapi',
@@ -222,8 +215,15 @@ describe('ordinary read Effect modules', () => {
       try {
         const app = await createServer();
         const response = await app.request(
-          `http://localhost/${scenario.identifier.replaceAll('_', '/')}?${new URLSearchParams(Object.entries(scenario.input).map(([key, value]): [string, string] => [key, String(value)])).toString()}`,
-          { headers: { cookie: 'MUSIC_U=http-effect' } },
+          `http://localhost/${scenario.identifier.replaceAll('_', '/')}`,
+          {
+            method: 'POST',
+            headers: {
+              cookie: 'MUSIC_U=http-effect',
+              'content-type': 'application/json',
+            },
+            body: JSON.stringify(scenario.input),
+          },
         );
         expect(response.status).toBe(200);
         expect(await response.json()).toEqual({

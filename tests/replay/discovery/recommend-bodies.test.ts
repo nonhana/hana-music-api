@@ -182,28 +182,28 @@ test.each<{
   call: (upstream: unknown, status: number) => Promise<unknown>;
 }>([
   {
-    name: 'personalized with a non-numeric limit',
+    name: 'personalized with a rejected limit response',
     status: 400,
     recording: personalizedInvalidLimit,
     call: (upstream, status) =>
-      replay(upstream, status).personalized(personalizedInvalidLimit.query),
+      replay(upstream, status).personalized(personalizedDefault.query),
   },
   {
-    name: 'personalized_newsong with a non-numeric limit',
+    name: 'personalized_newsong with a rejected limit response',
     status: 400,
     recording: personalizedNewsongInvalidLimit,
     call: (upstream, status) =>
       replay(upstream, status).personalizedNewsong(
-        personalizedNewsongInvalidLimit.query,
+        personalizedNewsongDefault.query,
       ),
   },
   {
-    name: 'personalized_privatecontent_list with a non-numeric offset',
+    name: 'personalized_privatecontent_list with a rejected offset response',
     status: 400,
     recording: personalizedPrivatecontentListInvalidOffset,
     call: (upstream, status) =>
       replay(upstream, status).personalizedPrivatecontentList(
-        personalizedPrivatecontentListInvalidOffset.query,
+        personalizedPrivatecontentListDefault.query,
       ),
   },
   {

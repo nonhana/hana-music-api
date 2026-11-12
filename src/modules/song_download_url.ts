@@ -1,12 +1,29 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  decodeModuleInput as decodeInput,
+  IntegerValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import { SongUrlData } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = {
+  br?: number;
+  id: NumberId;
+};
+
+// 码率是正整数；旧实现把非法值 parseInt 成 NaN，这里直接拒绝。
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  br: Schema.optional(IntegerValue.check(Schema.isGreaterThan(0))),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 通到下载地址的路径 `data`、`data.id` / `data.url` / `data.code` 收紧；其余字段宽松。
 // 拿不到地址时 `data.url` 是 null：`data.code` 为 -105 表示会员限制，-110 在本批无版权录制里出现；
@@ -35,20 +52,9 @@ const songDownloadUrl: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    if (
-      query.br !== undefined &&
-      query.br !== null &&
-      typeof query.br !== 'string' &&
-      typeof query.br !== 'number' &&
-      typeof query.br !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'br must be a primitive value',
-      });
-    }
     const data = {
       id: query.id,
-      br: parseInt(String(query.br || 999000)),
+      br: query.br ?? 999000,
     };
     const response = yield* request('read', { data });
     const body = yield* decodeUpstreamBody(
@@ -63,7 +69,3 @@ const songDownloadUrl: ModuleEffect<
  * 获取客户端歌曲下载链接
  */
 export default songDownloadUrl;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

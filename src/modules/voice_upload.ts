@@ -4,22 +4,16 @@ import { Effect, Schema } from 'effect';
 
 import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
+  BooleanValue,
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryBoolean,
-  QueryNumber,
+  NaturalValue,
+  NumberId,
   UploadedFile,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  LegacyUploadedFile,
-  QueryBooleanLike,
-  QueryIdentifier,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
@@ -74,35 +68,37 @@ export const moduleActions = {
 } as const satisfies ModuleActions;
 
 export type ModuleInput = {
-  autoPublish?: QueryBooleanLike;
+  autoPublish?: boolean;
   autoPublishText?: string;
-  categoryId?: QueryIdentifier;
-  composedSongs?: string;
-  coverImgId?: QueryIdentifier;
+  categoryId?: NumberId;
+  composedSongs?: ReadonlyArray<NumberId> | string;
+  coverImgId?: NumberId;
   description?: string;
-  orderNo?: QueryNumberLike;
-  privacy?: QueryBooleanLike;
-  publishTime?: QueryNumberLike;
-  secondCategoryId?: QueryIdentifier;
-  songFile?: LegacyUploadedFile;
+  orderNo?: NaturalValue;
+  privacy?: boolean;
+  publishTime?: NaturalValue;
+  secondCategoryId?: NumberId;
+  songFile?: typeof UploadedFile.Type;
   songName?: string;
-  voiceListId?: QueryIdentifier;
+  voiceListId?: NumberId;
 };
 
 const inputSchema = Schema.Struct({
-  autoPublish: Schema.optional(QueryBoolean),
+  autoPublish: Schema.optional(BooleanValue),
   autoPublishText: Schema.optional(Schema.String),
-  categoryId: Schema.optional(Identifier),
-  composedSongs: Schema.optional(Schema.String),
-  coverImgId: Schema.optional(Identifier),
+  categoryId: Schema.optional(NumberId),
+  composedSongs: Schema.optional(
+    Schema.Union([Schema.Array(NumberId), Schema.String]),
+  ),
+  coverImgId: Schema.optional(NumberId),
   description: Schema.optional(Schema.String),
-  orderNo: Schema.optional(QueryNumber),
-  privacy: Schema.optional(QueryBoolean),
-  publishTime: Schema.optional(QueryNumber),
-  secondCategoryId: Schema.optional(Identifier),
+  orderNo: Schema.optional(NaturalValue),
+  privacy: Schema.optional(BooleanValue),
+  publishTime: Schema.optional(NaturalValue),
+  secondCategoryId: Schema.optional(NumberId),
   songFile: Schema.optional(UploadedFile),
   songName: Schema.optional(Schema.String),
-  voiceListId: Schema.optional(Identifier),
+  voiceListId: Schema.optional(NumberId),
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -225,10 +221,16 @@ const voiceUpload: ModuleEffect<
         },
         body: createMultipartCompleteXml(etags),
       });
+      const composedSongs =
+        typeof input.composedSongs === 'string'
+          ? input.composedSongs
+            ? input.composedSongs.split(',')
+            : []
+          : (input.composedSongs ?? []);
       const voiceData = JSON.stringify([
         {
           name: filename,
-          autoPublish: Number(input.autoPublish) === 1,
+          autoPublish: input.autoPublish === true,
           autoPublishText: input.autoPublishText || '',
           description: input.description,
           voiceListId: input.voiceListId,
@@ -236,10 +238,8 @@ const voiceUpload: ModuleEffect<
           dfsId: token.docId,
           categoryId: input.categoryId,
           secondCategoryId: input.secondCategoryId,
-          composedSongs: input.composedSongs
-            ? input.composedSongs.split(',')
-            : [],
-          privacy: Number(input.privacy) === 1,
+          composedSongs: composedSongs.map(String),
+          privacy: input.privacy === true,
           publishTime: input.publishTime || 0,
           orderNo: input.orderNo || 1,
         },

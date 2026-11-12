@@ -49,5 +49,6 @@ export default defineConfig({
     'node_modules/**',
     'src/demo/assets/**',
     '_notes/**',
+    'docs/acceptance/issue-128/inputs.md',
   ],
 });

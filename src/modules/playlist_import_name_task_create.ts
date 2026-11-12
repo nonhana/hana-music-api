@@ -1,6 +1,9 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  BooleanValue,
+  decodeModuleInput as decodeInput,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,13 +12,12 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
-interface PlaylistImportLocalEntry {
-  album?: string;
-  artist?: string;
-  name?: string;
-}
+const PlaylistImportLocalEntry = Schema.Struct({
+  album: Schema.optional(Schema.String),
+  artist: Schema.optional(Schema.String),
+  name: Schema.optional(Schema.String),
+});
 
 // 返回码收紧；导入任务的 `data`、`taskId` 和说明文字宽松，`local`/`link` 分支没有录制，不收紧。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -27,6 +29,25 @@ export const ModuleBody = Schema.toStandardSchemaV1(
   }),
 );
 export type ModuleBody = typeof ModuleBody.Type;
+
+export type ModuleInput = {
+  importStarPlaylist?: boolean;
+  link?: ReadonlyArray<string>;
+  local?: ReadonlyArray<typeof PlaylistImportLocalEntry.Type>;
+  playlistName?: string;
+  text?: string;
+};
+
+const inputSchema = Schema.Struct({
+  importStarPlaylist: Schema.optional(BooleanValue),
+  link: Schema.optional(Schema.Array(Schema.String)),
+  local: Schema.optional(Schema.Array(PlaylistImportLocalEntry)),
+  playlistName: Schema.optional(Schema.String),
+  text: Schema.optional(Schema.String),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   local: {
@@ -65,29 +86,17 @@ const playlistImportNameTaskCreate: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    if (
-      query.text !== undefined &&
-      query.text !== null &&
-      typeof query.text !== 'string' &&
-      typeof query.text !== 'number' &&
-      typeof query.text !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'text must be a primitive value',
-      });
-    }
     let data: Record<string, unknown> = {
       importStarPlaylist: query.importStarPlaylist || false, // 导入我喜欢的音乐
     };
 
     if (query.local) {
       // 元数据导入
-      const local = readPlaylistImportLocalEntries(query.local);
       const multiSongs = JSON.stringify(
-        local.map((e) => ({
-          songName: e.name,
-          artistName: e.artist,
-          albumName: e.album,
+        query.local.map((entry) => ({
+          songName: entry.name,
+          artistName: entry.artist,
+          albumName: entry.album,
         })),
       );
       data = {
@@ -104,21 +113,18 @@ const playlistImportNameTaskCreate: ModuleEffect<
           {
             name: playlistName,
             type: '',
-            url: encodeURI(
-              'rpc://playlist/import?text='.concat(String(query.text)),
-            ),
+            url: encodeURI('rpc://playlist/import?text='.concat(query.text)),
           },
         ]);
       }
 
       if (query.link) {
         // 链接导入
-        const link = readPlaylistImportLinks(query.link);
         songs = JSON.stringify(
-          link.map((e: string) => ({
+          query.link.map((link) => ({
             name: playlistName,
             type: '',
-            url: encodeURI(e),
+            url: encodeURI(link),
           })),
         );
       }
@@ -153,38 +159,3 @@ const playlistImportNameTaskCreate: ModuleEffect<
  * 歌单导入 - 元数据/文字/链接导入
  */
 export default playlistImportNameTaskCreate;
-
-const readPlaylistImportLocalEntries = (
-  value: unknown,
-): Array<PlaylistImportLocalEntry> => {
-  const parsed = readJsonArray(value);
-
-  return parsed
-    .filter((entry): entry is Record<string, unknown> => isRecordLike(entry))
-    .map((entry) => ({
-      album: typeof entry.album === 'string' ? entry.album : undefined,
-      artist: typeof entry.artist === 'string' ? entry.artist : undefined,
-      name: typeof entry.name === 'string' ? entry.name : undefined,
-    }));
-};
-
-const readPlaylistImportLinks = (value: unknown): Array<string> =>
-  readJsonArray(value)
-    .filter((entry): entry is string => typeof entry === 'string')
-    .map((entry) => entry);
-
-const readJsonArray = (value: unknown): Array<unknown> => {
-  try {
-    const parsed = JSON.parse(String(value));
-    return Array.isArray(parsed) ? parsed : [];
-  } catch {
-    return [];
-  }
-};
-
-const isRecordLike = (value: unknown): value is Record<string, unknown> =>
-  typeof value === 'object' && value !== null;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

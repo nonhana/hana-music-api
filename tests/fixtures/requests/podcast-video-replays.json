@@ -602,7 +602,7 @@
   {
     "module": "dj_recommend_type",
     "path": "tests/fixtures/netease/dj/dj_recommend_type.missing-param.json",
-    "querySha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+    "querySha256": "909a40a34e6f466c46f9c8e23b521b9fe8ea228b7b22058c49a3bee3e9c347c4",
     "outcome": "rejected",
     "status": 400,
     "bodySha256": "a114a7996990bf8f1537a889e6d5c0ebf09df79c239973a2345a461c1ca8b17c",

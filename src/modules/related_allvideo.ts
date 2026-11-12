@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +12,16 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// 视频 id 既可能是数字编号，也可能是十六进制串；纯数字串按编号校验，其余按不透明字符串保留。
+export type ModuleInput = { id: NumberId | string };
+
+const inputSchema = Schema.Struct({
+  id: Schema.Union([NumberId, Schema.String.check(Schema.isPattern(/\D/u))]),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 export const moduleActions = {
   request: {
@@ -52,7 +65,3 @@ const relatedAllvideo: ModuleEffect<
  * 相关视频
  */
 export default relatedAllvideo;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

@@ -1,10 +1,13 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -15,6 +18,17 @@ export const moduleActions = {
     retry: 'connect',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  uid: NumberId;
+};
+
+const inputSchema = Schema.Struct({
+  uid: NumberId,
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 通到互相关注结果的路径 `data` 收紧；接口就是为了拿这个布尔值，未登录时上游同样返回 false。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -47,7 +61,3 @@ const userMutualfollowGet: ModuleEffect<
  * 用户是否互相关注
  */
 export default userMutualfollowGet;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

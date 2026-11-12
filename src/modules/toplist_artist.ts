@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NumberLiterals,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,15 @@ import {
 } from '../core/upstream-body.ts';
 import { Artist } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+export type ModuleInput = { type?: 1 | 2 | 3 | 4 };
+
+const inputSchema = Schema.Struct({
+  type: Schema.optional(NumberLiterals([1, 2, 3, 4])),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 歌手榜里的歌手是记录本身，编号收紧；core 的 `Artist.id` 是宽松的，这里局部覆盖。
 const ChartArtist = UpstreamObject({
@@ -67,7 +79,3 @@ const toplistArtist: ModuleEffect<
  * 歌手榜
  */
 export default toplistArtist;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

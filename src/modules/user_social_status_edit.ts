@@ -1,5 +1,6 @@
 import { Effect, Schema } from 'effect';
 
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -8,7 +9,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 export const moduleActions = {
   request: {
@@ -19,6 +19,23 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  type?: string;
+  iconUrl?: string;
+  content?: string;
+  actionUrl?: string;
+};
+
+const inputSchema = Schema.Struct({
+  type: Schema.optional(Schema.String),
+  iconUrl: Schema.optional(Schema.String),
+  content: Schema.optional(Schema.String),
+  actionUrl: Schema.optional(Schema.String),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 返回码收紧；`data` 是设置成功后的展示提示（录制里是字符串“将展示7天”），`message` 是附带
 // 提示，都宽松。
@@ -61,7 +78,3 @@ const userSocialStatusEdit: ModuleEffect<
  * 用户状态 - 编辑
  */
 export default userSocialStatusEdit;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

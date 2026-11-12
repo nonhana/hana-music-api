@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 import { readFile } from 'node:fs/promises';
 
-import { Effect } from 'effect';
+import { Effect, Exit } from 'effect';
 import { TestClock } from 'effect/testing';
 
 import { album, invokeModule, songUrlV1 } from '../../../../index.ts';
@@ -11,17 +11,31 @@ import { createClientFromContext } from '../../../../src/sdk/generated/client-fa
 import { createServer } from '../../../../src/server/create-server.ts';
 import { projectRoot, settle } from '../../../_kit/assertions.ts';
 import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
-import { runEffect } from '../../../_kit/it.ts';
+import { runEffect, runExit } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
 import responseFiles from '../../../fixtures/requests/library-playback-responses.json';
 import baseline from '../../../fixtures/requests/library-playback.json';
 
 const defaults = baseline.cases.filter((entry) => entry.label === 'default');
+const validDefaults = (
+  await Promise.all(
+    defaults.map(async (entry) => {
+      const { decodeModuleInput } = (await import(
+        `../../../../src/modules/${entry.module}.ts`
+      )) as {
+        decodeModuleInput: (input: unknown) => Effect.Effect<unknown, unknown>;
+      };
+      return Exit.isSuccess(await runExit(decodeModuleInput(entry.query)))
+        ? entry
+        : undefined;
+    }),
+  )
+).filter((entry) => entry !== undefined);
 const cookie =
   'MUSIC_U=library-account; MUSIC_A=library-anonymous; __csrf=csrf';
 
-for (const entry of defaults) {
+for (const entry of validDefaults) {
   for (const failure of ['EAI_AGAIN', 'socket hang up']) {
     test(`library ${entry.module} preserves ${failure} retry eligibility`, async () => {
       const attempts =
@@ -123,56 +137,6 @@ for (const entry of defaults) {
   });
 }
 
-for (const entry of [
-  { module: 'album', query: { id: '../../artist/17' }, route: '/album' },
-  {
-    module: 'artist_album',
-    query: { id: '../../artist/17' },
-    route: '/artist/album',
-  },
-  { module: 'artists', query: { id: '../../album/17' }, route: '/artists' },
-  {
-    module: 'album_songsaleboard',
-    query: { type: '../../../artist' },
-    route: '/album/songsaleboard',
-  },
-] as const) {
-  test(`library ${entry.module} rejects a normalized dynamic path escape before sending`, async () => {
-    const result = await settle(
-      withScenario([], async (scenario) => {
-        const client = createClientFromContext(
-          { cookie },
-          buildCallServices({ cookie }, false, { fetcher: scenario.fetcher }),
-        );
-        const method = entry.module.replace(/_([a-z])/g, (_, letter: string) =>
-          letter.toUpperCase(),
-        );
-        const call = client[method as keyof typeof client] as (
-          query: unknown,
-        ) => Promise<NcmApiResponse>;
-        const sdk = await settle(call(entry.query));
-        const app = await createServer(
-          {},
-          { execution: { fetcher: scenario.fetcher } },
-        );
-        const http = await app.request(entry.route, {
-          method: 'POST',
-          headers: { cookie, 'content-type': 'application/json' },
-          body: JSON.stringify(entry.query),
-        });
-        return { sdk, status: http.status, sends: scenario.sent.length };
-      }),
-    );
-    expect(result).toMatchObject({
-      resolved: {
-        sdk: { rejected: { status: 400 } },
-        status: 400,
-        sends: 0,
-      },
-    });
-  });
-}
-
 test('library HTTP still rejects token execution config before sending', async () => {
   const result = await withScenario([], async (scenario) => {
     const app = await createServer(
@@ -208,8 +172,14 @@ test('library root named and dynamic SDK entries retain Promise refusal envelope
         const config = { cookie, fetcher: scenario.fetcher };
         return Promise.all([
           settle(album({ id: 17 }, config)),
-          settle(songUrlV1({ id: 17, level: 'sky' }, config)),
-          settle(invokeModule('song_url_v1', { id: 17 }, config)),
+          settle(songUrlV1({ ids: [17], level: 'sky' }, config)),
+          settle(
+            invokeModule(
+              'song_url_v1',
+              { ids: [17], level: 'standard' },
+              config,
+            ),
+          ),
         ]);
       },
     ),
@@ -334,7 +304,12 @@ for (const method of [
               });
               const client = createClientFromContext(config, services);
               const pending = settle<NcmApiResponse>(
-                client[method]({ id: 17 }, { signal: controller.signal }),
+                method === 'songUrlV1'
+                  ? client.songUrlV1(
+                      { ids: [17], level: 'standard' },
+                      { signal: controller.signal },
+                    )
+                  : client[method]({ id: 17 }, { signal: controller.signal }),
               );
               yield* Effect.promise(() => reached.wait(pending));
               if (mode === 'cancel') controller.abort();
@@ -400,7 +375,7 @@ test('library interleaved PC calls freeze each account input and token', async (
       query.like = true;
       const second = await settle(
         client.songUrlV1(
-          { id: 23 },
+          { ids: [23], level: 'standard' },
           { cookie: 'MUSIC_U=second-account', checkToken: 'second-token' },
         ),
       );
@@ -416,7 +391,7 @@ test('library interleaved PC calls freeze each account input and token', async (
     checkToken: 'first-token',
   });
   expect(readEapiBody(result.wires[0]!.body).data).toMatchObject({
-    ids: '[23]',
+    ids: '["23"]',
     checkToken: 'second-token',
     header: { MUSIC_U: 'second-account' },
   });

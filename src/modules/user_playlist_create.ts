@@ -1,5 +1,10 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +14,6 @@ import {
 } from '../core/upstream-body.ts';
 import { PlaylistSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 返回码、创建歌单列表的路径 `data.playlist` 和每个歌单自己的编号 `id` 收紧（复用 `PlaylistSummary`）；分页 `count`/`more`、`subCount` 和其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -34,6 +38,21 @@ export const moduleActions = {
     retry: 'never',
   },
 } as const satisfies ModuleActions;
+
+export type ModuleInput = {
+  uid: NumberId;
+  limit?: number;
+  offset?: number;
+};
+
+const inputSchema = Schema.Struct({
+  uid: NumberId,
+  limit: Schema.optional(NaturalValue),
+  offset: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 const userPlaylistCreate: ModuleEffect<
   ModuleInput,
@@ -62,7 +81,3 @@ const userPlaylistCreate: ModuleEffect<
  * 获取用户的创建歌单列表
  */
 export default userPlaylistCreate;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

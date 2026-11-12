@@ -54,4 +54,3 @@ export type {
   UpstreamResponse,
 } from './upstream.ts';
 export type { UnknownJson } from './unknown.ts';
-export type { LegacyModuleInput } from './legacy.ts';

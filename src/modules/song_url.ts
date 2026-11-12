@@ -3,8 +3,8 @@ import { Effect, Schema } from 'effect';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
+  IntegerValue,
+  NumberIdList,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import {
@@ -15,18 +15,15 @@ import {
 import { SongUrlData } from '../core/upstream-schemas.ts';
 import { isRecord } from '../core/utils.ts';
 import type { ModuleEffect, UnknownJson } from '../types/index.ts';
-import type {
-  IdentifierQuery,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 
-export type ModuleInput = IdentifierQuery & {
-  br?: QueryNumberLike;
+export type ModuleInput = {
+  br?: number;
+  ids: NumberIdList;
 };
 
 const inputSchema = Schema.Struct({
-  id: Identifier,
-  br: Schema.optional(QueryNumber),
+  ids: NumberIdList,
+  br: Schema.optional(IntegerValue.check(Schema.isGreaterThan(0))),
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -64,11 +61,11 @@ const songUrl: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   request,
 ) =>
   Effect.gen(function* () {
-    const ids = String(query.id).split(',');
+    const ids = query.ids.map(String);
     const response = yield* request('read', {
       data: {
         ids: JSON.stringify(ids),
-        br: parseInt(String(query.br ?? 999000), 10),
+        br: query.br ?? 999000,
       },
     });
     const upstream = response.body;

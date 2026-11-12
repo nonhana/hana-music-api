@@ -3,18 +3,14 @@ import { Effect, Schema } from 'effect';
 import { resolveResourceType } from '../core/comment-thread.ts';
 import {
   decodeModuleInput as decodeInput,
-  QueryIdentifier as Identifier,
-  QueryNumber,
+  NaturalValue,
+  NumberId,
+  NumberLiterals,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type {
-  IdentifierQuery,
-  QueryIdentifier,
-  QueryNumberLike,
-} from '../types/module-shared.ts';
 
 export const moduleActions = {
   like: {
@@ -33,20 +29,20 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-export type ModuleInput = IdentifierQuery & {
-  type: QueryNumberLike;
-
-  cid: QueryIdentifier;
-  t: 0 | 1 | '0' | '1';
+export type ModuleInput = {
+  cid: NumberId;
+  id: NumberId;
+  t: 0 | 1;
   threadId?: string;
+  type: number;
 };
 
 const inputSchema = Schema.Struct({
-  id: Identifier,
-  type: QueryNumber,
-  cid: Identifier,
-  t: Schema.Literals([0, 1, '0', '1']),
+  cid: NumberId,
+  id: NumberId,
+  t: NumberLiterals([0, 1]),
   threadId: Schema.optional(Schema.String),
+  type: NaturalValue,
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -67,7 +63,7 @@ const commentLike: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    const action = Number(query.t) === 1 ? 'like' : 'unlike';
+    const action = query.t === 1 ? 'like' : 'unlike';
     const resourceType = resolveResourceType(query.type);
     const data: Record<string, unknown> = {
       threadId: `${resourceType}${String(query.id)}`,

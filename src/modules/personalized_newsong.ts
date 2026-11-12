@@ -1,5 +1,9 @@
 import { Effect, Schema } from 'effect';
 
+import {
+  decodeModuleInput as decodeInput,
+  NaturalValue,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -14,7 +18,20 @@ import {
   SimpleAlbum,
 } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
+
+// `limit` 省略时取 10，`areaId` 省略时取 0（全部地区）。
+export type ModuleInput = {
+  areaId?: NaturalValue;
+  limit?: NaturalValue;
+};
+
+const inputSchema = Schema.Struct({
+  areaId: Schema.optional(NaturalValue),
+  limit: Schema.optional(NaturalValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
 
 // 推荐新歌的专辑比 `SimpleAlbum` 多一个单数 `transName`；`songs` 只见过空数组，未声明。
 const NewsongAlbum = UpstreamObject({
@@ -90,7 +107,3 @@ const personalizedNewsong: ModuleEffect<
  * 推荐新歌
  */
 export default personalizedNewsong;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

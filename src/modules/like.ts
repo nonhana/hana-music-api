@@ -1,6 +1,10 @@
 import { Effect, Schema } from 'effect';
 
-import { InvalidModuleInput } from '../core/errors.ts';
+import {
+  BooleanValue,
+  decodeModuleInput as decodeInput,
+  NumberId,
+} from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
 import {
@@ -9,7 +13,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { LegacyModuleInput } from '../types/legacy.ts';
 
 // 返回码收紧；其余字段宽松。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -37,31 +40,32 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
+export type ModuleInput = {
+  id: NumberId;
+  like?: boolean;
+};
+
+const inputSchema = Schema.Struct({
+  id: NumberId,
+  like: Schema.optional(BooleanValue),
+});
+
+export const decodeModuleInput = (input: unknown) =>
+  decodeInput(inputSchema, input);
+
 const like: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   input,
   request,
 ) =>
   Effect.gen(function* () {
-    const query = { ...input };
-    if (
-      query.like !== undefined &&
-      query.like !== null &&
-      typeof query.like !== 'string' &&
-      typeof query.like !== 'number' &&
-      typeof query.like !== 'boolean'
-    ) {
-      return yield* InvalidModuleInput.make({
-        message: 'like must be a primitive value',
-      });
-    }
-    query.like = String(query.like ?? '') !== 'false';
+    const liked = input.like ?? true;
     const data = {
       alg: 'itembased',
-      trackId: query.id,
-      like: query.like,
+      trackId: input.id,
+      like: liked,
       time: '3',
     };
-    const action = query.like ? 'like' : 'unlike';
+    const action = liked ? 'like' : 'unlike';
     const response = yield* request(action, { data });
     return {
       ...toModuleResponse(response),
@@ -73,7 +77,3 @@ const like: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
  * 红心与取消红心歌曲
  */
 export default like;
-
-export { decodeLegacyModuleInput as decodeModuleInput } from '../core/module-input.ts';
-
-export type ModuleInput = LegacyModuleInput;

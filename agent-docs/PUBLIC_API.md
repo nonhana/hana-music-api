@@ -31,7 +31,7 @@ playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、�
 
 ## 兼容性规则
 
-- 模块输入类型由模块本地 `ModuleInput` 生成，公共类型表由 `types:modules:generate` 维护。
+- 模块输入类型由模块本地 `ModuleInput` 生成，公共类型表由 `types:modules:generate` 维护。全部模块使用具体业务结构；`LegacyModuleInput` 和根入口的 `LegacyModule*` 类型已删除。调用者传编号数组、对象、布尔和枚举，SDK 负责逗号串、JSON 串和分号串编码；旧协议输入在发送前以 400 拒绝。这是 major 兼容变化。
 - 未确认的上游响应字段保持未知 JSON；调用者只能依赖模块已经验证的字段。结构定义对外只承诺 Standard Schema 的 `~standard.validate` 和推导出的类型，它们同时是 Effect Schema 这一点不在兼容承诺内。
 - 公开包的 ESM 根入口、Promise 返回形式、`status/body/cookie` 响应外壳和 legacy Cookie 行为属于兼容性合同。
 - 修改公开导出后，必须通过 `bun run test:sdk-contract`、`bun run verify:sdk` 和 `bun run build:check`。

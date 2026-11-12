@@ -2,7 +2,7 @@ import { Effect, Schema } from 'effect';
 
 import {
   decodeModuleInput as decodeInput,
-  QueryNumber,
+  NaturalValue,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
@@ -12,7 +12,6 @@ import {
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
-import type { QueryNumberLike } from '../types/module-shared.ts';
 
 export type AlbumSalesBoardType =
   | 'daily'
@@ -22,23 +21,15 @@ export type AlbumSalesBoardType =
   | (string & {});
 
 export type ModuleInput = {
-  albumType?: QueryNumberLike;
-  type?: AlbumSalesBoardType;
-  year?: QueryNumberLike;
+  albumType?: number;
+  type?: string;
+  year?: number;
 };
 
 const inputSchema = Schema.Struct({
-  albumType: Schema.optional(QueryNumber),
-  type: Schema.optional(
-    Schema.Union([
-      Schema.Literal('daily'),
-      Schema.Literal('week'),
-      Schema.Literal('year'),
-      Schema.Literal('total'),
-      Schema.String,
-    ]),
-  ),
-  year: Schema.optional(QueryNumber),
+  albumType: Schema.optional(NaturalValue),
+  type: Schema.optional(Schema.String),
+  year: Schema.optional(NaturalValue),
 });
 
 export const decodeModuleInput = (input: unknown) =>

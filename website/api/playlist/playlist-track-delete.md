@@ -19,10 +19,10 @@ description: '调用此接口，可删除视频歌单里的视频 ( 需要登录
 
 ## 请求参数
 
-| 参数  | 类型               | 必填 | 默认值 | 说明                       |
-| ----- | ------------------ | :--: | ------ | -------------------------- |
-| `pid` | string             |  ✅  | -      | 歌单 id                    |
-| `ids` | string[] \| string |  ✅  | -      | 视频 id,支持多个,用`,`隔开 |
+| 参数  | 类型                      | 必填 | 默认值 | 说明         |
+| ----- | ------------------------- | :--: | ------ | ------------ |
+| `pid` | `number \| string`        |  ✅  | -      | 歌单 id      |
+| `ids` | `(number \| string)` 数组 |  ✅  | -      | 歌曲 id 数组 |
 
 ## HTTP 示例
 
@@ -36,8 +36,8 @@ GET /playlist/track/delete?pid=5271999357&ids=186041
 import { playlistTrackDelete } from 'hana-music-api';
 
 const result = await playlistTrackDelete({
-  pid: '5271999357',
-  ids: '186041',
+  pid: 5271999357,
+  ids: [186041],
 });
 
 console.log(result.body);

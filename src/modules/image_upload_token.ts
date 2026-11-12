@@ -1,6 +1,10 @@
 import { Effect, Schema } from 'effect';
 
-import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
+import {
+  decodeModuleInput as decodeInput,
+  EmptyInput,
+} from '../core/module-input.ts';
+import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { UpstreamObject } from '../core/upstream-body.ts';
 import { allocateImageUpload, imageUploadActions } from '../plugins/upload.ts';
@@ -10,7 +14,7 @@ export const moduleActions = {
   imageAllocate: imageUploadActions.imageAllocate,
 } as const satisfies ModuleActions;
 
-export type ModuleInput = {};
+export type ModuleInput = NoInput;
 
 // 返回码、上传凭证路径和凭证字段都是接口要拿的那一项，全部收紧。
 export const ModuleBody = Schema.toStandardSchemaV1(
@@ -26,7 +30,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 );
 export type ModuleBody = typeof ModuleBody.Type;
 
-const inputSchema = Schema.Struct({});
+const inputSchema = EmptyInput;
 
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input).pipe(Effect.as({}));
