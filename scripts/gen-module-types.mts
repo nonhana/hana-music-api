@@ -511,7 +511,7 @@ const writeSurface = async (): Promise<void> => {
     await mkdir(dirname(file.path), { recursive: true });
     await writeFile(file.path, file.contents);
   }
-  formatFiles(files.map((file) => file.path));
+  formatFiles(files.map((file) => relative(projectRoot, file.path)));
   console.log(`Generated ${moduleCount} module identifiers -> ${OUTPUT_FILE}`);
 };
 
@@ -528,7 +528,7 @@ const checkSurface = async (): Promise<void> => {
       await mkdir(dirname(file.expected), { recursive: true });
       await writeFile(file.expected, file.contents);
     }
-    formatFiles(staged.map((file) => file.expected));
+    formatFiles([temporary]);
     for (const file of staged) {
       const expected = await readFile(file.expected, 'utf8');
       const actual = await readFile(file.actual, 'utf8').catch(() => '');
