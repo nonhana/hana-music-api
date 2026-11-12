@@ -1,0 +1,189 @@
+[
+  {
+    "module": "album",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/record-bodies.test.ts",
+      "tests/replay/commerce/digital-album-bodies.test.ts",
+      "tests/replay/creators/ugc-bodies.test.ts"
+    ]
+  },
+  {
+    "module": "album_detail",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/album-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "album_detail_dynamic",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/album-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "album_list",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/album-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts"
+    ]
+  },
+  {
+    "module": "album_list_style",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/album-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts"
+    ]
+  },
+  {
+    "module": "album_new",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/album-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts"
+    ]
+  },
+  {
+    "module": "album_newest",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/album-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "album_privilege",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/album-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "album_songsaleboard",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/album-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts"
+    ]
+  },
+  {
+    "module": "album_sub",
+    "actions": ["sub", "unsub"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/collection-actions.test.ts",
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/architecture/module-discovery.test.ts"
+    ]
+  },
+  {
+    "module": "album_sublist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/album.ts",
+      "tests/behavior/modules/input-encoding/album.ts"
+    ]
+  }
+]

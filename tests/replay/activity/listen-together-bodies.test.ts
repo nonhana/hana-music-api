@@ -12,6 +12,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -154,6 +155,7 @@ test('listentogether_accept passes an expired-room code through', async () => {
       status: 488,
       cookie: [],
       body: acceptExpiredRoom.response.body,
+      failure: businessFailure(acceptExpiredRoom.response.body),
     },
   });
 });

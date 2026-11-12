@@ -1,0 +1,387 @@
+[
+  {
+    "module": "artist_album",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts"
+    ]
+  },
+  {
+    "module": "artist_desc",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/artist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "artist_detail",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/compat/narrowed-legacy-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "artist_detail_dynamic",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/artist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "artist_fans",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/artist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts"
+    ]
+  },
+  {
+    "module": "artist_follow_count",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/artist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts"
+    ]
+  },
+  {
+    "module": "artist_list",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/artist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts"
+    ]
+  },
+  {
+    "module": "artist_mv",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/artist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "artist_new_mv",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/artist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts"
+    ]
+  },
+  {
+    "module": "artist_new_song",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/artist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts"
+    ]
+  },
+  {
+    "module": "artist_songs",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/artist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts"
+    ]
+  },
+  {
+    "module": "artist_sub",
+    "actions": ["sub", "unsub"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/collection-actions.test.ts",
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/architecture/module-discovery.test.ts"
+    ]
+  },
+  {
+    "module": "artist_sublist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts"
+    ]
+  },
+  {
+    "module": "artist_top_song",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "artist_video",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/artist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts"
+    ]
+  },
+  {
+    "module": "artists",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/compat/narrowed-legacy-bodies.test.ts",
+      "tests/replay/discovery/recommend-bodies.test.ts",
+      "tests/replay/discovery/simi-bodies.test.ts"
+    ]
+  },
+  {
+    "module": "ugc_album_get",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/creators/ugc-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts"
+    ]
+  },
+  {
+    "module": "ugc_artist_get",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/creators/ugc-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts"
+    ]
+  },
+  {
+    "module": "ugc_artist_search",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/creators/ugc-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts"
+    ]
+  },
+  {
+    "module": "ugc_detail",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/creators/ugc-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts",
+      "tests/behavior/modules/input-encoding/artist.ts"
+    ]
+  },
+  {
+    "module": "ugc_mv_get",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/creators/ugc-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts"
+    ]
+  },
+  {
+    "module": "ugc_song_get",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/creators/ugc-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts"
+    ]
+  },
+  {
+    "module": "ugc_user_devote",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/creators/ugc-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/artist.ts"
+    ]
+  }
+]

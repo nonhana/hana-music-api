@@ -117,6 +117,7 @@ describe('SDK outbound traffic', () => {
       status: 405,
       cookie: [],
       body: { ...rateLimitRecording.response.body, retryAfter: 30 },
+      failure: { kind: 'rateLimited', code: 405, retryAfter: 30 },
     });
     expect(calls).toBe(1);
   });
@@ -137,7 +138,16 @@ describe('SDK outbound traffic', () => {
       const failure = await hana
         .album({ id: 84072830 })
         .catch((error: unknown) => error);
-      expect(failure).toEqual({ status: 405, cookie: [], body });
+      expect(failure).toEqual({
+        status: 405,
+        cookie: [],
+        body,
+        failure: {
+          kind: 'business',
+          code: 405,
+          message: '请求方法不允许',
+        },
+      });
     },
   );
 });

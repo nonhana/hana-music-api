@@ -11,6 +11,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -695,6 +696,7 @@ test('comment_hug_list rejects a non-primitive sid before calling upstream', asy
       status: 400,
       cookie: [],
       body: { code: 400, msg: expect.stringContaining('sid') },
+      failure: { kind: 'invalidRequest' },
     },
   });
   expect(upstreamCalls).toBe(0);
@@ -715,6 +717,7 @@ test('comment_dj passes an upstream business failure through unchanged', async (
       status: 400,
       cookie: [],
       body: upstream,
+      failure: businessFailure(upstream),
     },
   });
 });

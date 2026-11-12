@@ -11,6 +11,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -153,6 +154,7 @@ test('user_medal passes a rejected code through', async () => {
       status: 499,
       cookie: [],
       body: userMedalUnknownUser.response.body,
+      failure: businessFailure(userMedalUnknownUser.response.body),
     },
   });
 });

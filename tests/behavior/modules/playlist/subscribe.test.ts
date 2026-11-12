@@ -162,6 +162,7 @@ test('playlistSubscribe rejects when the checkToken provider fails', async () =>
       status: 400,
       body: { code: 400, msg: 'checkToken provider failed' },
       cookie: [],
+      failure: { kind: 'invalidRequest' },
     },
   });
   expect(sent).toHaveLength(0);
@@ -180,6 +181,7 @@ test.each(['', '   ', async () => '', async () => '   '])(
         status: 400,
         body: { code: 400, msg: 'checkToken must not be empty' },
         cookie: [],
+        failure: { kind: 'invalidRequest' },
       },
     });
     expect(sent).toHaveLength(0);

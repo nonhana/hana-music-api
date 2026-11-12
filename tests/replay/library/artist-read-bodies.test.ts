@@ -15,6 +15,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -219,6 +220,7 @@ test('artist_follow_count passes an unknown artist through', async () => {
       status: 404,
       cookie: [],
       body: artistFollowCountUnknown.response.body,
+      failure: businessFailure(artistFollowCountUnknown.response.body),
     },
   });
 });
@@ -236,6 +238,7 @@ test('artist_desc passes an unknown artist through', async () => {
       status: 404,
       cookie: [],
       body: artistDescUnknown.response.body,
+      failure: businessFailure(artistDescUnknown.response.body),
     },
   });
 });
@@ -974,6 +977,7 @@ test('artist_list rejects a non-string initial before calling upstream', async (
       status: 400,
       cookie: [],
       body: { code: 400, msg: expect.stringContaining('Expected string') },
+      failure: { kind: 'invalidRequest' },
     },
   });
   expect(upstreamCalls).toBe(0);

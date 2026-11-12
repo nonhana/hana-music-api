@@ -1,0 +1,203 @@
+[
+  {
+    "module": "event",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/account-social.test.ts",
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/replay/discovery/misc-read-bodies.test.ts"
+    ]
+  },
+  {
+    "module": "event_del",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/replay/discovery/misc-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/social.ts"
+    ]
+  },
+  {
+    "module": "event_forward",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/social.ts"
+    ]
+  },
+  {
+    "module": "follow",
+    "actions": ["delfollow", "follow"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/toplist-bodies.test.ts",
+      "tests/replay/social/msg-bodies.test.ts",
+      "tests/replay/social/user-social-bodies.test.ts"
+    ]
+  },
+  {
+    "module": "get_userids",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/account-check-bodies.test.ts",
+      "tests/behavior/modules/account/account-social.test.ts",
+      "tests/behavior/modules/input-contracts/social.ts"
+    ]
+  },
+  {
+    "module": "hug_comment",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts",
+      "tests/behavior/modules/special-actions.test.ts"
+    ]
+  },
+  {
+    "module": "resource_like",
+    "actions": ["like", "unlike"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/writes/write-actions-bodies.test.ts",
+      "tests/behavior/architecture/module-discovery.test.ts",
+      "tests/behavior/modules/input-contracts/social.ts"
+    ]
+  },
+  {
+    "module": "send_album",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts"
+    ]
+  },
+  {
+    "module": "send_playlist",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts"
+    ]
+  },
+  {
+    "module": "send_song",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/writes/irreversible-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts"
+    ]
+  },
+  {
+    "module": "send_text",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/writes/irreversible-write-bodies.test.ts",
+      "tests/behavior/modules/account/account-social.test.ts",
+      "tests/behavior/modules/input-contracts/social.ts"
+    ]
+  },
+  {
+    "module": "share_resource",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/social.ts",
+      "tests/behavior/modules/input-encoding/social.ts"
+    ]
+  }
+]

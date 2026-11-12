@@ -19,6 +19,7 @@ import personalizedModule from '../../../src/modules/personalized.ts';
 import type { RequestCapability } from '../../../src/types/index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectFailure,
   expectUpstreamShapeRejection,
   settle,
@@ -221,6 +222,7 @@ test.each<{
       status: entry.status,
       cookie: [],
       body: entry.recording.response.body,
+      failure: businessFailure(entry.recording.response.body),
     },
   });
 });

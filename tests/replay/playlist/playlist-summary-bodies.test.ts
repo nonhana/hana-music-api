@@ -6,7 +6,11 @@ import { gunzipSync } from 'node:zlib';
 import { PlaylistDetailBody, UserPlaylistBody } from '../../../index.ts';
 import type { PlaylistSummary, PlaylistUser } from '../../../index.ts';
 import type { Recording } from '../../_kit/assertions.ts';
-import { expectUpstreamShapeRejection, settle } from '../../_kit/assertions.ts';
+import {
+  businessFailure,
+  expectUpstreamShapeRejection,
+  settle,
+} from '../../_kit/assertions.ts';
 import { replay } from '../../_kit/replay.ts';
 import detailOwn from '../../fixtures/netease/library/playlist_detail.own-small.json';
 import userPlaylist from '../../fixtures/netease/library/user_playlist.json';
@@ -416,7 +420,12 @@ test.each(recordings)(
       });
     } else {
       expect((await settle<unknown>(call)) as unknown).toEqual({
-        rejected: { status: body.code, body, cookie: [] },
+        rejected: {
+          status: body.code,
+          body,
+          cookie: [],
+          failure: businessFailure(body),
+        },
       });
     }
   },

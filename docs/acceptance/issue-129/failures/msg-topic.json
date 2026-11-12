@@ -1,0 +1,268 @@
+[
+  {
+    "module": "broadcast_category_region_get",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/podcast/podcast-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "broadcast_channel_collect_list",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/podcast/podcast-bodies.test.ts",
+      "tests/replay/writes/write-actions-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "broadcast_channel_currentinfo",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/podcast/podcast-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "broadcast_channel_list",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/podcast/podcast-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "broadcast_sub",
+    "actions": ["cancel", "collect"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/writes/write-actions-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "hot_topic",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/account-social.test.ts",
+      "tests/replay/social/event-topic-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "msg_comments",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/msg-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "msg_forwards",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/msg-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "msg_notices",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/msg-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "msg_private",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/msg-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "msg_private_history",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/msg-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts",
+      "tests/behavior/modules/input-encoding/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "msg_recentcontact",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/msg-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "starpick_comments_summary",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/sheet-annual-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "topic_detail",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/event-topic-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "topic_detail_event_hot",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/event-topic-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts"
+    ]
+  },
+  {
+    "module": "topic_sublist",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/account-social.test.ts",
+      "tests/replay/social/event-topic-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/msg-topic.ts"
+    ]
+  }
+]

@@ -4,6 +4,7 @@ import { createHanaMusicApi, RegisterAnonimousBody } from '../../../index.ts';
 import type { CommentQuery } from '../../../src/types/modules.ts';
 import type { Recording } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -129,7 +130,12 @@ test('register_anonimous passes an unrecorded code through as a business rejecti
   const upstream = { code: 400, message: 'registration failed' };
 
   expect(await settle(replay(upstream).registerAnonimous())).toEqual({
-    rejected: { status: 400, cookie: [], body: upstream },
+    rejected: {
+      status: 400,
+      cookie: [],
+      body: upstream,
+      failure: businessFailure(upstream),
+    },
   });
 });
 
@@ -232,7 +238,12 @@ test.each<{
     expect(
       await settle(call(recording.response.body, recording.query)),
     ).toEqual({
-      rejected: { status: 400, cookie: [], body: recording.response.body },
+      rejected: {
+        status: 400,
+        cookie: [],
+        body: recording.response.body,
+        failure: businessFailure(recording.response.body),
+      },
     });
   },
 );

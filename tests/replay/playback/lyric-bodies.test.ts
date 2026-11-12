@@ -10,6 +10,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -179,6 +180,7 @@ test('song_music_detail passes an unknown song code through', async () => {
       status: 400,
       cookie: [],
       body: songMusicDetailUnknown.response.body,
+      failure: businessFailure(songMusicDetailUnknown.response.body),
     },
   });
 });

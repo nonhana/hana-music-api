@@ -90,33 +90,23 @@ await hana.songOrderUpdate({ pid: 24381616, ids: [111, 222] });
 
 ### 响应形状
 
-client 的方法、具名函数、`invokeModule` 和 `createRequest` 都返回 Promise。成功和失败时拿到的都是同样的三字段对象，类型是公开导出的 `NcmApiResponse`：
+client 的方法、具名函数、`invokeModule` 和 `createRequest` 都返回 Promise。成功和失败时都保留 `{ status, body, cookie }`；被拒绝时顶层另带可序列化的 `failure`，类型是公开导出的 `NcmApiFailure`。
 
-| 字段     | 含义                                                       |
-| -------- | ---------------------------------------------------------- |
-| `status` | 请求层或模块整理后的状态码，不一定等于上游原始 HTTP 状态码 |
-| `body`   | 接口正文，可能包含业务 `code`，普通响应保留未知 JSON       |
-| `cookie` | 上游下发的 Cookie 字符串数组                               |
+| 字段      | 含义                                                       |
+| --------- | ---------------------------------------------------------- |
+| `status`  | 请求层或模块整理后的状态码，不一定等于上游原始 HTTP 状态码 |
+| `body`    | 接口正文，可能包含业务 `code`，普通响应保留未知 JSON       |
+| `cookie`  | 上游下发的 Cookie 字符串数组                               |
+| `failure` | 只在 reject 时出现；八类失败事实，成功响应没有这个字段     |
 
 ### 成功与失败的区分
 
-**失败时 Promise reject，成功时 resolve**，但两者都是上面的对象形状。抛出的不是 `Error` 实例（`instanceof Error` 为 `false`），不能只读 `error.message`。
+**失败时 Promise reject，成功时 resolve**，但两者都是响应对象。抛出的不是 `Error` 实例（`instanceof Error` 为 `false`），不能只读 `error.message`。
 
-少数模块可能 **resolve 非 2xx 状态**。例如歌单封面更新在参数冲突或缺失时 resolve `status: 400`，榜单查询不支持特定调用方式时 resolve `status: 500`。调用方要在 `await` 后检查 `status`，不能假设 resolve 就是 200。
+少数模块可能 **resolve 非 2xx 状态**。例如歌单封面更新在参数冲突或缺失时 resolve `status: 400`，榜单查询不支持特定调用方式时 resolve `status: 500`。这些 resolve 对象没有 `failure`；`failure` 只描述 reject 的来源。调用方仍要在 `await` 后检查 `status`，不能假设 resolve 就是 200。
 
 ```ts
-import { search, type NcmApiResponse } from 'hana-music-api';
-
-// 类型守卫：检查是否为 SDK 的标准响应对象
-function isNcmApiResponse(error: unknown): error is NcmApiResponse {
-  return (
-    typeof error === 'object' &&
-    error !== null &&
-    'status' in error &&
-    'body' in error &&
-    'cookie' in error
-  );
-}
+import { getNcmFailureInfo, isNcmApiResponse, search } from 'hana-music-api';
 
 try {
   const result = await search({ keywords: '海阔天空' });
@@ -126,33 +116,74 @@ try {
     console.log(result.body);
   }
 } catch (error: unknown) {
-  if (isNcmApiResponse(error)) {
-    console.error('调用失败:', error.status, error.body);
-  } else {
+  if (!isNcmApiResponse(error)) {
     // 不应该到这里，除非是意外的运行时错误
     throw error;
   }
+  const failure = getNcmFailureInfo(error);
+  if (failure?.kind === 'business') {
+    console.error('网易云业务拒绝:', failure.code, failure.message);
+  } else if (failure?.kind === 'rateLimited') {
+    console.error('网易云限流，建议等待秒数:', failure.retryAfter);
+  } else {
+    console.error('调用失败:', error.status, error.body, failure?.kind);
+  }
+}
+```
+
+`isNcmApiResponse` 只验证结构：`status` 是有限数值、`cookie` 是字符串数组且存在 `body`；它不判断业务成功，也不证明对象来源。`getNcmFailureInfo` 对普通 Error、成功响应、没有元数据的历史响应或无效元数据返回 `undefined`，不会抛异常。
+
+### 失败分类
+
+`failure.kind` 固定为八类，附加字段只包含已经公开的事实：
+
+| kind             | 含义                                            | 附加字段                               |
+| ---------------- | ----------------------------------------------- | -------------------------------------- |
+| `business`       | 已确认的上游业务拒绝                            | `code`、可选 `message`                 |
+| `rateLimited`    | SDK 已确认的限流                                | `code`、`retryAfter`（秒）             |
+| `upstreamShape`  | 模块返回体校验失败                              | `module`、`path`、`expected`、`actual` |
+| `timeout`        | 调用总期限耗尽                                  | —                                      |
+| `cancelled`      | 调用方取消                                      | —                                      |
+| `invalidRequest` | 输入、执行配置或目标检查在本地拒绝              | —                                      |
+| `transport`      | 网络、响应消费/解码、协议或无法确认业务码的失败 | —                                      |
+| `unknown`        | 历史响应、无法归类的异常或 SDK 本地执行失败     | —                                      |
+
+业务码以正文里确认的数字 `code` 为事实，不看 HTTP 状态补猜：HTTP 200 的 `{ code: 405 }` 是 `business`，带“操作频繁”的 405 是 `rateLimited`；`{ code: 502 }` 是 `business` 502，网络失败的 502 是 `transport`。plain 上传等非 2xx 是 `transport`。分类不承诺重试安全，也不会增加请求或重试。
+
+旧代码按状态码或正文键猜测的写法可以逐项替换：
+
+```ts
+// 旧：只看 status 和正文
+if (error.status === 405 && 'retryAfter' in error.body) {
+  const retryAfter = error.body.retryAfter;
+}
+
+// 新：读取稳定事实
+const failure = getNcmFailureInfo(error);
+if (failure?.kind === 'rateLimited') {
+  const retryAfter = failure.retryAfter;
 }
 ```
 
 ### 失败情况与状态码
 
-| 情况                      | status           | body 内容                                                     |
-| ------------------------- | ---------------- | ------------------------------------------------------------- |
-| 网易云业务拒绝            | 业务 `code`*     | 网易云原样返回的正文                                          |
-| 网易云限流                | 429 或 405       | 网易云正文或 `{ code, msg }`，带 `retryAfter`（秒）           |
-| 返回结构不符预期          | 502              | `{ code: 502, msg, upstreamShape: { module, path, … } }`      |
-| 参数错误                  | 400 或模块指定值 | `{ code, msg }`                                               |
-| 超时                      | 504              | `{ code: 504, msg: 'Request timed out' }`                     |
-| 调用方取消（AbortSignal） | 499              | `{ code: 499, msg: 'Request cancelled' }`                     |
-| 其他传输或协议失败        | 502              | `{ code: 502, msg }`                                          |
-| 分段上传中途失败          | 按上面规则       | 另加 `partialCompletion: true`、`completedStages`（已完成数） |
+| 情况                      | status           | failure.kind     | body 内容                                                     |
+| ------------------------- | ---------------- | ---------------- | ------------------------------------------------------------- |
+| 网易云业务拒绝            | 业务 `code`*     | `business`       | 网易云原样返回的正文                                          |
+| 网易云限流                | 429 或 405       | `rateLimited`    | 网易云正文或 `{ code, msg }`，带 `retryAfter`（秒）           |
+| 返回结构不符预期          | 502              | `upstreamShape`  | `{ code: 502, msg, upstreamShape: { module, path, … } }`      |
+| 参数错误                  | 400 或模块指定值 | `invalidRequest` | `{ code, msg }`                                               |
+| 超时                      | 504              | `timeout`        | `{ code: 504, msg: 'Request timed out' }`                     |
+| 调用方取消（AbortSignal） | 499              | `cancelled`      | `{ code: 499, msg: 'Request cancelled' }`                     |
+| 其他传输或协议失败        | 502              | `transport`      | `{ code: 502, msg }`                                          |
+| 本地执行失败或历史响应    | 按上面规则       | `unknown`        | 保留原有正文                                                  |
+| 分段上传中途失败          | 按上面规则       | 按上面规则       | 另加 `partialCompletion: true`、`completedStages`（已完成数） |
 
 \* 业务 `code` 在 101–599 时直接用作 `status`，否则钳位到 400。例如手机登录被风控返回 `code: 10004` 时，`status` 是 400。
 
-**网易云限流**：收到 HTTP 429（无论正文），正文 `code: 429`，或正文 `code: 405` 且说明包含“操作频繁”或“操作过于频繁”时，SDK 识别为限频。业务码的识别不依赖 HTTP 状态，因此 HTTP 200 的“操作频繁”也会以 `status: 405` 拒绝。其他 405 业务拒绝保持原样，不补 `retryAfter`。`body.retryAfter` 给出建议等待秒数（1–300 秒，缺省或无效时为 30 秒）。SDK 不重试限流，也不影响其他调用，调用方要自己控制请求频率。详见 [重试、超时与连接策略](/guide/retry-timeout-resilience)。
+**网易云限流**：收到 HTTP 429（无论正文），正文 `code: 429`，或正文 `code: 405` 且说明包含“操作频繁”或“操作过于频繁”时，SDK 识别为限频，`failure.kind` 是 `rateLimited`。业务码的识别不依赖 HTTP 状态，因此 HTTP 200 的“操作频繁”也会以 `status: 405` 拒绝。其他 405 业务拒绝是 `business`，保持原样，不补 `retryAfter`。`failure.retryAfter` 和 `body.retryAfter` 给出同一份建议等待秒数（1–300 秒，缺省或无效时为 30 秒）。SDK 不重试限流，也不影响其他调用，调用方要自己控制请求频率。详见 [重试、超时与连接策略](/guide/retry-timeout-resilience)。
 
-**返回结构不符**：做了运行时校验的模块（见 [返回体结构](/guide/response-bodies)）在网易云改了返回结构时，以 `status: 502` 拒绝。`body.upstreamShape` 带上 `{ module, path, expected, actual }`，指明出错位置。用 `body.upstreamShape` 判断，不要解析 `msg`。这种失败通常需要升级 SDK，重试没有用。
+**返回结构不符**：做了运行时校验的模块（见 [返回体结构](/guide/response-bodies)）在网易云改了返回结构时，以 `status: 502` 拒绝，`failure.kind` 是 `upstreamShape`，并带上 `{ module, path, expected, actual }`。`body.upstreamShape` 保留同一份信息；优先用 `failure.kind` 判断，不要解析 `msg`。这种失败通常需要升级 SDK，重试没有用。
 
 ### 业务状态码的映射
 

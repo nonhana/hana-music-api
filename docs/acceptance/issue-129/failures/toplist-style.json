@@ -1,0 +1,473 @@
+[
+  {
+    "module": "digitalAlbum_detail",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/commerce/digital-album-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "digitalAlbum_ordering",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/writes/irreversible-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts",
+      "tests/behavior/modules/input-encoding/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "digitalAlbum_purchased",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/commerce/digital-album-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts",
+      "tests/behavior/modules/input-encoding/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "digitalAlbum_sales",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/commerce/digital-album-bodies.test.ts",
+      "tests/replay/membership/membership-business.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "related_allvideo",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/video/video-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts",
+      "tests/behavior/modules/input-encoding/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "related_playlist",
+    "actions": ["page"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": true,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/toplist-style.ts",
+      "tests/behavior/modules/playlist/related.test.ts",
+      "tests/behavior/modules/special/special-chains.test.ts"
+    ]
+  },
+  {
+    "module": "simi_artist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/search-discovery.test.ts",
+      "tests/replay/discovery/simi-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "simi_mv",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/simi-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "simi_playlist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/search-discovery.test.ts",
+      "tests/replay/discovery/simi-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "simi_song",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/search-discovery.test.ts",
+      "tests/replay/discovery/simi-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "simi_user",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/search-discovery.test.ts",
+      "tests/replay/discovery/simi-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "style_album",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/search-discovery.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "style_artist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/search-discovery.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "style_detail",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/search-discovery.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "style_list",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/style-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "style_playlist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/search-discovery.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "style_preference",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/misc-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "style_song",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/search-discovery.test.ts",
+      "tests/replay/discovery/style-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "top_album",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/toplist-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts",
+      "tests/behavior/modules/input-encoding/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "top_artists",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/toplist-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts",
+      "tests/behavior/modules/input-encoding/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "top_list",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/toplist-bodies.test.ts",
+      "tests/behavior/modules/discovery/search-discovery-policy.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "top_mv",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/video/mv-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts",
+      "tests/behavior/modules/input-encoding/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "top_playlist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/search-discovery.test.ts",
+      "tests/replay/playlist/playlist-list-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "top_playlist_highquality",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/toplist-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts",
+      "tests/behavior/modules/input-encoding/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "top_song",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/toplist-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts",
+      "tests/behavior/modules/input-encoding/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "toplist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/toplist-bodies.test.ts",
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/replay/podcast/dj-subscription-bodies.test.ts"
+    ]
+  },
+  {
+    "module": "toplist_artist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/toplist-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts",
+      "tests/behavior/modules/input-encoding/toplist-style.ts"
+    ]
+  },
+  {
+    "module": "toplist_detail",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/toplist-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/toplist-style.ts"
+    ]
+  }
+]

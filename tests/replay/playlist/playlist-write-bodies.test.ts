@@ -12,6 +12,7 @@ import {
 import type { HanaMusicApiClient } from '../../../src/sdk/generated/client.generated.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -303,6 +304,7 @@ test.each([
       status: 401,
       body: entry.recording.response.body,
       cookie: [],
+      failure: businessFailure(entry.recording.response.body),
     },
   });
 });
@@ -337,6 +339,7 @@ test.each([
       status: 404,
       body: entry.recording.response.body,
       cookie: [],
+      failure: businessFailure(entry.recording.response.body),
     },
   });
 });
@@ -381,6 +384,7 @@ test('playlist_import_name_task_create relays the recorded 400 rejection', async
       status: 400,
       body: importCreateMissingText.response.body,
       cookie: [],
+      failure: businessFailure(importCreateMissingText.response.body),
     },
   });
 });

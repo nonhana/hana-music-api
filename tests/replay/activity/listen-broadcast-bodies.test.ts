@@ -522,6 +522,7 @@ test('recent_listen_list rejects a non-object input locally without calling upst
       status: 400,
       cookie: [],
       body: { code: 400, msg: 'Expected <Declaration>' },
+      failure: { kind: 'invalidRequest' },
     },
   });
   expect(requests).toBe(0);
@@ -542,6 +543,7 @@ test('listentogether_room_check rejects a non-object input locally without calli
       status: 400,
       cookie: [],
       body: { code: 400, msg: 'Expected <Declaration>' },
+      failure: { kind: 'invalidRequest' },
     },
   });
   expect(requests).toBe(0);

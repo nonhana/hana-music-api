@@ -770,5 +770,6 @@ test('search rejects a missing keyword locally without calling upstream', async 
     status: 400,
     cookie: [],
     body: { code: 400, msg: 'Missing key\n  at ["keywords"]' },
+    failure: { kind: 'invalidRequest' },
   });
 });

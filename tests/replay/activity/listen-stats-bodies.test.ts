@@ -10,6 +10,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -589,6 +590,7 @@ test.each(anonymousCases)(
         status: 302,
         cookie: [],
         body: recording.response.body,
+        failure: businessFailure(recording.response.body),
       },
     });
   },

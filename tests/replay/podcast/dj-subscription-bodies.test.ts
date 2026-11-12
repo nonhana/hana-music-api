@@ -12,6 +12,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -271,6 +272,7 @@ test('djRadio_top anonymously is rejected with the upstream status', async () =>
       status: 302,
       cookie: [],
       body: djRadioTopAnonymous.response.body,
+      failure: businessFailure(djRadioTopAnonymous.response.body),
     },
   });
 });

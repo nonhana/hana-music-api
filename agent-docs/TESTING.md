@@ -10,7 +10,7 @@
 - `tests/transport/`：默认适配器、代理、真实 loopback socket 与有限 load；`scripts/load-test.mts` 执行 500 次 smoke 和十分钟 soak，判定规则在 `tests/unit/testing/load-acceptance.test.ts`。
 - `tests/package/`：当前候选 tarball 的 Node/Bun 消费者、公开类型/导出与单文件 serverless；`types/` 下文件由 tsc 检查。
 - `tests/live/`：真实上游门控验证，不属于默认回归；条件与证据另记。
-- `tests/mutation/`：定向故障与关联测试的登记，检查测试辨别力，不复制业务测试；CLI 为 `bun scripts/mutation-test.mts --all`（或 `--target candidate-package|module-config|request-identity|special-chains|membership-business|podcast-video|account-social|search-discovery|library-playback|check-token|playlist-subscribe|shared-reads|upload|watchman|browser-types`、`--dry-run`）。
+- `tests/mutation/`：定向故障与关联测试的登记，检查测试辨别力，不复制业务测试；CLI 为 `bun scripts/mutation-test.mts --all`（或 `--target candidate-package|module-config|request-identity|special-chains|membership-business|podcast-video|account-social|search-discovery|library-playback|check-token|failure-contract|playlist-subscribe|shared-reads|upload|watchman|browser-types`、`--dry-run`）。
 
 变异先跑该组全部登记文件的绿色基线；注入后按 `expectedFailures` 定位所属文件，执行这些文件的全部用例。原生 JUnit 必须与选中文件的基线用例逐项一致，空关联、缺名、跳过、遗漏、意外用例或超时均不能计为 killed；有效 kill 仍须是登记用例的原生断言失败。
 
@@ -20,6 +20,7 @@
 
 - 默认回归：`bun run test`（唯一选择源为 `tests/suites.ts`）。
 - 模块生成检查：`bun run types:modules:check`。
+- 失败路径清单：`bun run failures:check` 核对 `docs/acceptance/issue-129/failures/*.json` 与 352 模块注册表、模块事实和生成报告一致；`bun run failures:report` 重新生成。新增内部错误类、模块或返回体校验分支时，先更新清单。
 - 结构定义与录制审计：`bun run schema:audit check` 检查结构定义写法，`bun run schema:audit recordings --recordings tests/fixtures/netease` 用本仓库录制回放校验。`schema:audit` 的默认录制根是 Campanula 仓库的 `../campanula-svelte-main/tests/fixtures/netease`，在 SDK 仓库里运行必须显式传 `--recordings tests/fixtures/netease`。
 - Fixtures 门槛：`bun run verify:fixtures`（`bun run schema:audit check && bun run schema:audit recordings --recordings tests/fixtures/netease`），只依赖本仓库 fixtures。
 - 类型、静态检查和格式：`bun run typecheck`、`bun run lint`、`bun run spell`、`bun run fmt:check`。typecheck 串行检查 Bun/Node 与完整 DOM 两个工程；服务端不得获得 DOM 全局，浏览器不得自动获得 Bun/Node 全局。配置控制样本从实际命令验证两个阶段都能阻止错误。
@@ -33,7 +34,7 @@
 
 准备交付前，先按需求和实际改动列出本次必须通过的检查：
 
-- 代码、测试、构建、生成器或工具配置变更：执行 `bun run verify`。
+- 代码、测试、构建、生成器或工具配置变更：执行 `bun run verify`（包含 `bun run failures:check`）。
 - SDK 公开表面或包交付变更：另执行 `bun run verify:sdk`，并满足 [PUBLIC_API.md](./PUBLIC_API.md) 的验证要求；返回体结构定义或录制变更另执行 `bun run verify:fixtures`。请求与流量变更还需通过下文规定的 smoke。
 - 仅文档变更：执行 `bun run fmt:check`、`bun run spell`；涉及文档站内容或配置时另执行 `bun run docs:build`。
 

@@ -43,6 +43,37 @@ export interface ModuleResponse<Body = UnknownJson> {
 
 export type NcmApiResponse<TBody = LegacyResponseBody> = ModuleResponse<TBody>;
 
+/** 公开失败事实：只描述来源和已公开的必要信息，不承诺重试安全。 */
+export type NcmFailureInfo =
+  | {
+      readonly kind: 'business';
+      readonly code: number | null;
+      readonly message?: string;
+    }
+  | {
+      readonly kind: 'rateLimited';
+      readonly code: number;
+      readonly retryAfter: number;
+    }
+  | {
+      readonly kind: 'upstreamShape';
+      readonly module: string;
+      readonly path: string;
+      readonly expected: string;
+      readonly actual: string;
+    }
+  | { readonly kind: 'timeout' }
+  | { readonly kind: 'cancelled' }
+  | { readonly kind: 'invalidRequest' }
+  | { readonly kind: 'transport' }
+  | { readonly kind: 'unknown' };
+
+export interface NcmApiFailure<
+  TBody = LegacyResponseBody,
+> extends NcmApiResponse<TBody> {
+  readonly failure: NcmFailureInfo;
+}
+
 type ApiArguments<Target> = Target extends string
   ? {
       readonly data: Record<string, unknown>;

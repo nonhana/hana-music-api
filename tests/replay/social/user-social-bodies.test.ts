@@ -12,6 +12,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -201,6 +202,7 @@ test('user_follow_mixed passes the not-login rejection through', async () => {
       status: 400,
       cookie: [],
       body: userFollowMixedAnonymous.response.body,
+      failure: businessFailure(userFollowMixedAnonymous.response.body),
     },
   });
 });

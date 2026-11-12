@@ -11,6 +11,7 @@ import {
 import type { HanaMusicApiClient } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -151,6 +152,7 @@ test.each<{
       status: entry.status,
       cookie: [],
       body: entry.recording.response.body,
+      failure: businessFailure(entry.recording.response.body),
     },
   });
 });
@@ -206,6 +208,7 @@ test('topic inputs reject protocol values locally without calling upstream', asy
         status: 400,
         cookie: [],
         body: { code: 400, msg: entry.message },
+        failure: { kind: 'invalidRequest' },
       },
     });
     expect(upstreamCalls).toBe(0);

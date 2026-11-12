@@ -1,0 +1,228 @@
+[
+  {
+    "module": "mlog_music_rcmd",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playback/personal-fm-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts"
+    ]
+  },
+  {
+    "module": "mlog_to_video",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/video/voice-mlog-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/podcast/podcast-video-policy.test.ts"
+    ]
+  },
+  {
+    "module": "mlog_url",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/video/voice-mlog-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts"
+    ]
+  },
+  {
+    "module": "program_recommend",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/podcast/dj-program-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts"
+    ]
+  },
+  {
+    "module": "voice_delete",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts",
+      "tests/behavior/modules/podcast/podcast-video-policy.test.ts"
+    ]
+  },
+  {
+    "module": "voice_detail",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-broadcast-bodies.test.ts",
+      "tests/replay/podcast/podcast-bodies.test.ts",
+      "tests/replay/podcast/podcast-video.test.ts"
+    ]
+  },
+  {
+    "module": "voice_lyric",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/podcast/podcast-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts"
+    ]
+  },
+  {
+    "module": "voice_upload",
+    "actions": [
+      "allocate",
+      "complete",
+      "initialize",
+      "part",
+      "preCheck",
+      "submit"
+    ],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": true,
+    "upload": true,
+    "special": "uploadWork 多阶段与部分完成",
+    "evidence": [
+      "tests/behavior/architecture/module-discovery.test.ts",
+      "tests/behavior/http/traffic.test.ts",
+      "tests/behavior/http/upload.test.ts"
+    ]
+  },
+  {
+    "module": "voicelist_detail",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/video/voice-mlog-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts"
+    ]
+  },
+  {
+    "module": "voicelist_list",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-broadcast-bodies.test.ts",
+      "tests/replay/podcast/podcast-bodies.test.ts",
+      "tests/replay/podcast/podcast-video.test.ts"
+    ]
+  },
+  {
+    "module": "voicelist_list_search",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/podcast/podcast-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts"
+    ]
+  },
+  {
+    "module": "voicelist_search",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/podcast/podcast-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts"
+    ]
+  },
+  {
+    "module": "voicelist_trans",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/program-voice.ts",
+      "tests/behavior/modules/input-encoding/program-voice.ts",
+      "tests/behavior/modules/podcast/podcast-video.test.ts"
+    ]
+  }
+]

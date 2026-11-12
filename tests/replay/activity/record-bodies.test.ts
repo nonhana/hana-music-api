@@ -18,6 +18,7 @@ import type {
   Validator,
 } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -660,6 +661,9 @@ test('history_recommend_songs_detail rejects an invalid date as a business failu
       status: 400,
       cookie: [],
       body: historyRecommendSongsDetailInvalid.response.body,
+      failure: businessFailure(
+        historyRecommendSongsDetailInvalid.response.body,
+      ),
     },
   });
 });

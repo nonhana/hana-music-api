@@ -8,7 +8,7 @@ import { buildCallServices } from '../../../../src/core/call.ts';
 import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
 import { createServer } from '../../../../src/server/create-server.ts';
 import { generatedModuleRoutes } from '../../../../src/types/generated/module-surface.generated.ts';
-import { settle } from '../../../_kit/assertions.ts';
+import { businessFailure, settle } from '../../../_kit/assertions.ts';
 import { testEntropy } from '../../../_kit/harness/sdk.ts';
 import { runExit } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
@@ -183,7 +183,12 @@ for (const entry of baseline.cases.filter(
     expect(observed).toHaveProperty('resolved');
     if (!('resolved' in observed)) return;
     expect(observed.resolved.result).toEqual({
-      rejected: { status: 403, body: refusal, cookie: [] },
+      rejected: {
+        status: 403,
+        body: refusal,
+        cookie: [],
+        failure: businessFailure(refusal),
+      },
     });
     checkWire(entry, observed.resolved.wire!, undefined, began);
   });

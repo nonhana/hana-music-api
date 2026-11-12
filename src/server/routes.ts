@@ -3,7 +3,7 @@ import type { Context, Hono } from 'hono';
 import { runCall } from '../core/call.ts';
 import type { createServiceLayer } from '../core/call.ts';
 import { modulePolicy } from '../core/request-actions.ts';
-import { businessCode } from '../core/response.ts';
+import { businessCode, isNcmApiResponse } from '../core/response.ts';
 import { getRuntimeState } from '../core/runtime.ts';
 import { SERVICE_VERSION } from '../core/service-metadata.ts';
 import { cookieToJson, isCookieRecord } from '../core/utils.ts';
@@ -381,13 +381,6 @@ const normalizeErrorResponse = (error: unknown): NcmApiResponse => {
     status: 500,
   };
 };
-
-const isNcmApiResponse = (value: unknown): value is NcmApiResponse =>
-  typeof value === 'object' &&
-  value !== null &&
-  'status' in value &&
-  'body' in value &&
-  'cookie' in value;
 
 const shouldWriteCookies = (query: ModuleQuery): boolean =>
   query.noCookie !== true &&

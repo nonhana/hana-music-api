@@ -1,0 +1,435 @@
+[
+  {
+    "module": "playlist_catlist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_cover_update",
+    "actions": ["imageAllocate", "imageUpload", "submit"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": true,
+    "special": "uploadWork 多阶段与部分完成",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/replay/special/special-chains.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_create",
+    "actions": ["create"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_delete",
+    "actions": ["remove"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_desc_update",
+    "actions": ["update"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_detail",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-bodies.test.ts",
+      "tests/replay/playlist/playlist-summary-bodies.test.ts",
+      "tests/behavior/architecture/module-discovery.test.ts"
+    ]
+  },
+  {
+    "module": "playlist_detail_dynamic",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_detail_rcmd_get",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_highquality_tags",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_hot",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_import_name_task_create",
+    "actions": ["empty", "link", "local", "text"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_import_task_status",
+    "actions": ["poll"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_mylike",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_name_update",
+    "actions": ["update"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_order_update",
+    "actions": ["update"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/special/input-encoding.test.ts"
+    ]
+  },
+  {
+    "module": "playlist_privacy",
+    "actions": ["update"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_subscribe",
+    "actions": ["subscribe", "unsubscribe"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/replay/playlist/subscribe.test.ts",
+      "tests/behavior/architecture/module-discovery.test.ts"
+    ]
+  },
+  {
+    "module": "playlist_subscribers",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_tags_update",
+    "actions": ["update"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/special/input-encoding.test.ts"
+    ]
+  },
+  {
+    "module": "playlist_track_add",
+    "actions": ["add"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_track_all",
+    "actions": ["playlist", "songs"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": true,
+    "shape": true,
+    "upload": false,
+    "special": "playlist 读 + songs 批量读",
+    "evidence": [
+      "tests/replay/library/library-bodies.test.ts",
+      "tests/replay/special/special-chains.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_track_delete",
+    "actions": ["delete"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_tracks",
+    "actions": ["fallback", "manipulate"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": true,
+    "shape": false,
+    "upload": false,
+    "special": "512 fallback 第二次写请求",
+    "evidence": [
+      "tests/replay/playlist/playlist-edit-bodies.test.ts",
+      "tests/replay/special/special-chains.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_update",
+    "actions": ["batch"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts",
+      "tests/behavior/modules/input-encoding/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_update_playcount",
+    "actions": ["report"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  },
+  {
+    "module": "playlist_video_recent",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/playlist/playlist-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/playlist.ts"
+    ]
+  }
+]

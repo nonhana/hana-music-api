@@ -442,7 +442,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         smokeScriptPath,
         [
-          "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody, SongDetailBody, createHanaMusicApi, generateDeviceId, playlistSubscribe, albumSub, artistSub, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody, SongDetailBody, createHanaMusicApi, createRequest, generateDeviceId, getNcmFailureInfo, isNcmApiResponse, playlistSubscribe, albumSub, artistSub, invokeModule, search, songUrl } from 'hana-music-api'",
           "import { deepStrictEqual } from 'node:assert'",
           '',
           `const recordedArtistAlbum = ${JSON.stringify(artistAlbum.response.body)}`,
@@ -495,6 +495,18 @@ describe('sdk release contract', () => {
           '  }',
           '}',
           'if (requests.length !== 19 || tokenProviders !== 4) throw new Error("unexpected packaged collection sends or providers")',
+          "if (typeof isNcmApiResponse !== 'function' || typeof getNcmFailureInfo !== 'function') throw new Error('missing packaged failure helpers')",
+          "const refusalFetcher = async () => new Response(JSON.stringify({ code: 403, msg: 'package-refusal' }), { headers: { 'content-type': 'application/json' } })",
+          "const namedFailure = await search({ keywords: 'demo' }, { ...config, fetcher: refusalFetcher }).catch((error) => error)",
+          'const clientFailure = await client.album({ id: 7 }, { fetcher: refusalFetcher }).catch((error) => error)',
+          "const invokedFailure = await invokeModule('album', { id: 7 }, { ...config, fetcher: refusalFetcher }).catch((error) => error)",
+          "const rawFailure = await createRequest('/api/v1/album/7', {}, { crypto: 'api', state: { deviceId }, fetcher: refusalFetcher }).catch((error) => error)",
+          'for (const failure of [namedFailure, clientFailure, invokedFailure, rawFailure])',
+          "  if (!isNcmApiResponse(failure)) throw new Error('packaged failure is not a response envelope')",
+          "deepStrictEqual(getNcmFailureInfo(namedFailure), { kind: 'business', code: 403, message: 'package-refusal' })",
+          "deepStrictEqual(getNcmFailureInfo(clientFailure), { kind: 'business', code: 403, message: 'package-refusal' })",
+          "deepStrictEqual(getNcmFailureInfo(invokedFailure), { kind: 'business', code: 403, message: 'package-refusal' })",
+          "deepStrictEqual(getNcmFailureInfo(rawFailure), { kind: 'business', code: 403, message: 'package-refusal' })",
           "process.stdout.write(JSON.stringify({ runtime: typeof Bun === 'undefined' ? 'node' : 'bun', version: typeof Bun === 'undefined' ? process.versions.node : Bun.version, status: subscription.status }))",
         ].join('\n'),
       );

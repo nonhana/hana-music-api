@@ -39,6 +39,7 @@ const groups = [
   'search-discovery',
   'library-playback',
   'check-token',
+  'failure-contract',
   'playlist-subscribe',
   'shared-reads',
   'upload',

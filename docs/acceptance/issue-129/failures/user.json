@@ -1,0 +1,453 @@
+[
+  {
+    "module": "user_account",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/login-bodies.test.ts",
+      "tests/behavior/modules/account/account-social.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_audio",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/video/voice-mlog-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "user_binding",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/user-account-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_cloud",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/user-account-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_cloud_del",
+    "actions": ["delete"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_cloud_detail",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/account-social.test.ts",
+      "tests/replay/account/user-account-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_comment_history",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/user-social-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_detail",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/login-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/sdk/module-api.test.ts"
+    ]
+  },
+  {
+    "module": "user_dj",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/user-social-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_event",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/activity/listen-together-bodies.test.ts",
+      "tests/replay/social/user-social-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_follow_mixed",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/user-social-bodies.test.ts",
+      "tests/behavior/modules/account/account-social.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_followeds",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/user-social-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_follows",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/user-social-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_level",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/user-account-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/sdk/module-api.test.ts"
+    ]
+  },
+  {
+    "module": "user_medal",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/user-account-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_mutualfollow_get",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/social/user-social-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_playlist",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-bodies.test.ts",
+      "tests/replay/playlist/playlist-summary-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_playlist_collect",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-collection-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_playlist_create",
+    "actions": ["read"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/library/library-collection-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_record",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/compat/narrowed-legacy-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_replacephone",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  },
+  {
+    "module": "user_social_status",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/user-account-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_social_status_edit",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/misc-read-bodies.test.ts",
+      "tests/replay/writes/reversible-write-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_social_status_rcmd",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/misc-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_social_status_support",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/discovery/misc-read-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts"
+    ]
+  },
+  {
+    "module": "user_subcount",
+    "actions": ["request"],
+    "body": true,
+    "codes": false,
+    "decode": true,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/replay/account/user-account-bodies.test.ts",
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/sdk/module-decoders.test.ts"
+    ]
+  },
+  {
+    "module": "user_update",
+    "actions": ["request"],
+    "body": false,
+    "codes": false,
+    "decode": false,
+    "local": false,
+    "multi": false,
+    "shape": false,
+    "upload": false,
+    "special": "",
+    "evidence": [
+      "tests/behavior/modules/input-contracts/user.ts",
+      "tests/behavior/modules/input-encoding/user.ts"
+    ]
+  }
+]

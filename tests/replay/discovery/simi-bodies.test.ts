@@ -10,6 +10,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -423,6 +424,7 @@ test('simi_artist rejects a business error with the original body', async () => 
       status: 400,
       cookie: [],
       body: simiArtistMissingId.response.body,
+      failure: businessFailure(simiArtistMissingId.response.body),
     },
   });
 });
@@ -440,6 +442,7 @@ test('simi_song rejects a business error with the original body', async () => {
       status: 400,
       cookie: [],
       body: simiSongMissingId.response.body,
+      failure: businessFailure(simiSongMissingId.response.body),
     },
   });
 });

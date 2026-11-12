@@ -1,6 +1,11 @@
 import { Cause } from 'effect';
 
-import type { NcmApiResponse, RequestCrypto } from '../types/index.ts';
+import type {
+  NcmApiFailure,
+  NcmApiResponse,
+  NcmFailureInfo,
+  RequestCrypto,
+} from '../types/index.ts';
 import type { UpstreamBody, UpstreamResponse } from '../types/upstream.ts';
 import { SPECIAL_STATUS_CODES } from './config.ts';
 import { eapiResDecrypt } from './crypto.ts';
@@ -10,7 +15,9 @@ import {
   InvalidRequest,
   PartialUpload,
   ProtocolFailed,
+  ResponseDecodeFailed,
   TargetRejected,
+  TransportFailed,
   UnexpectedUpstreamShape,
   UpstreamBusinessFailed,
   UpstreamRateLimited,
@@ -121,13 +128,20 @@ export const interpretResponse = (
     }
   }
   const body = normalizeUpstreamBody(parsed);
-  const code =
-    isRecord(body) && body.code !== undefined
-      ? Number(body.code)
-      : response.status;
-  if (isRecord(body) && body.code !== undefined) {
-    body.code = code;
+  const record = isRecord(body) ? body : undefined;
+  const rawCode = record?.code;
+  const code = rawCode === undefined ? response.status : Number(rawCode);
+  if (record !== undefined && rawCode !== undefined) {
+    record.code = code;
   }
+  // 只有数字或非空数字字符串才是已确认的业务码；null、布尔、数组等仍按协议失败处理。
+  const businessCode =
+    rawCode !== undefined &&
+    Number.isFinite(code) &&
+    (typeof rawCode === 'number' ||
+      (typeof rawCode === 'string' && rawCode.trim() !== ''))
+      ? code
+      : undefined;
   const status =
     response.status === 429 || code === 429
       ? 429
@@ -139,6 +153,7 @@ export const interpretResponse = (
     body,
     cookie: response.setCookies.map(stripCookieDomain),
     status: status > 100 && status < 600 ? status : 400,
+    ...(businessCode === undefined ? {} : { businessCode }),
   };
 };
 
@@ -191,11 +206,108 @@ export const businessCode = (response: NcmApiResponse): number | undefined =>
     ? Number(response.body.code)
     : undefined;
 
+const businessFailure = (
+  response: UpstreamResponse,
+  knownCode?: number,
+): NcmFailureInfo => {
+  const code =
+    typeof knownCode === 'number' && Number.isFinite(knownCode)
+      ? knownCode
+      : (response.businessCode ?? readBusinessCode(response.body));
+  const message = readBusinessMessage(response.body);
+  return {
+    kind: 'business',
+    code: typeof code === 'number' && Number.isFinite(code) ? code : null,
+    ...(message === undefined ? {} : { message }),
+  };
+};
+
+const isFailureInfo = (value: unknown): value is NcmFailureInfo => {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  try {
+    if (Array.isArray(value)) {
+      return false;
+    }
+    const kind = Reflect.get(value, 'kind');
+    if (kind === 'business') {
+      const code = Reflect.get(value, 'code');
+      const message = Reflect.get(value, 'message');
+      return (
+        (code === null ||
+          (typeof code === 'number' && Number.isFinite(code))) &&
+        (message === undefined || typeof message === 'string')
+      );
+    }
+    if (kind === 'rateLimited') {
+      const code = Reflect.get(value, 'code');
+      const retryAfter = Reflect.get(value, 'retryAfter');
+      return (
+        typeof code === 'number' &&
+        Number.isFinite(code) &&
+        typeof retryAfter === 'number' &&
+        Number.isFinite(retryAfter)
+      );
+    }
+    if (kind === 'upstreamShape') {
+      return ['module', 'path', 'expected', 'actual'].every(
+        (key) => typeof Reflect.get(value, key) === 'string',
+      );
+    }
+    return (
+      kind === 'timeout' ||
+      kind === 'cancelled' ||
+      kind === 'invalidRequest' ||
+      kind === 'transport' ||
+      kind === 'unknown'
+    );
+  } catch {
+    return false;
+  }
+};
+
+export const isNcmApiResponse = (value: unknown): value is NcmApiResponse => {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+  try {
+    if (Array.isArray(value)) {
+      return false;
+    }
+    const status = Reflect.get(value, 'status');
+    const cookie = Reflect.get(value, 'cookie');
+    return (
+      typeof status === 'number' &&
+      Number.isFinite(status) &&
+      Array.isArray(cookie) &&
+      cookie.every((item) => typeof item === 'string') &&
+      Reflect.has(value, 'body')
+    );
+  } catch {
+    return false;
+  }
+};
+
+export const getNcmFailureInfo = (
+  value: unknown,
+): NcmFailureInfo | undefined => {
+  if (!isNcmApiResponse(value)) {
+    return undefined;
+  }
+  try {
+    const failure = Reflect.get(value, 'failure');
+    return isFailureInfo(failure) ? failure : undefined;
+  } catch {
+    return undefined;
+  }
+};
+
 export const normalizeFailure = (
   error: unknown,
   cancelled = false,
   timedOut = false,
-): NcmApiResponse => {
+): NcmApiFailure => {
   if (Cause.isCause(error)) {
     cancelled ||= Cause.hasInterrupts(error);
     error = Cause.squash(error);
@@ -214,42 +326,78 @@ export const normalizeFailure = (
   if (timedOut) {
     error = DeadlineExceeded.make({ message: 'Request timed out' });
   }
-  if (error instanceof UpstreamRateLimited && error.response) {
-    return {
-      status: error.status,
-      cookie: [...error.response.cookie],
-      body: {
-        ...(isRecord(error.response.body)
-          ? error.response.body
-          : { code: error.status, msg: error.message }),
-        retryAfter: Math.ceil(error.retryAfterMs / 1_000),
-      },
-    };
-  }
   if (error instanceof UpstreamRateLimited) {
+    const retryAfter = Math.ceil(error.retryAfterMs / 1_000);
+    const failure: NcmFailureInfo = {
+      kind: 'rateLimited',
+      code: error.status,
+      retryAfter,
+    };
+    if (error.response) {
+      return {
+        status: error.status,
+        cookie: [...error.response.cookie],
+        body: {
+          ...(isRecord(error.response.body)
+            ? error.response.body
+            : { code: error.status, msg: error.message }),
+          retryAfter,
+        },
+        failure,
+      };
+    }
     return {
       status: error.status,
       cookie: [],
       body: {
         code: error.status,
         msg: error.message,
-        retryAfter: Math.ceil(error.retryAfterMs / 1_000),
+        retryAfter,
       },
+      failure,
     };
   }
-  if (
-    (error instanceof ProtocolFailed ||
-      error instanceof UpstreamBusinessFailed) &&
-    error.response
-  ) {
+  if (error instanceof ProtocolFailed && error.response) {
     return {
       status: error.response.status,
       cookie: [...error.response.cookie],
       body: error.response.body,
+      failure:
+        error.reason === 'business'
+          ? businessFailure(error.response)
+          : { kind: 'transport' },
+    };
+  }
+  if (error instanceof UpstreamBusinessFailed && error.response) {
+    return {
+      status: error.response.status,
+      cookie: [...error.response.cookie],
+      body: error.response.body,
+      failure: businessFailure(error.response, error.code),
+    };
+  }
+  if (error instanceof UpstreamBusinessFailed) {
+    return {
+      status: 502,
+      cookie: [],
+      body: { code: 502, msg: error.message },
+      failure: {
+        kind: 'business',
+        code:
+          typeof error.code === 'number' && Number.isFinite(error.code)
+            ? error.code
+            : null,
+        message: error.message,
+      },
     };
   }
   if (isNcmApiResponse(error)) {
-    return error;
+    return {
+      status: error.status,
+      cookie: [...error.cookie],
+      body: error.body,
+      failure: getNcmFailureInfo(error) ?? { kind: 'unknown' },
+    };
   }
   if (error instanceof UnexpectedUpstreamShape) {
     const { module, path, expected, actual } = error;
@@ -261,6 +409,7 @@ export const normalizeFailure = (
         msg: `Unexpected upstream shape in ${module} at ${path}: expected ${expected}, got ${actual}`,
         upstreamShape: { module, path, expected, actual },
       },
+      failure: { kind: 'upstreamShape', module, path, expected, actual },
     };
   }
   const status =
@@ -285,6 +434,20 @@ export const normalizeFailure = (
     typeof error.retryAfterMs === 'number'
       ? error.retryAfterMs
       : undefined;
+  const failure: NcmFailureInfo =
+    error instanceof DeadlineExceeded
+      ? { kind: 'timeout' }
+      : cancelled
+        ? { kind: 'cancelled' }
+        : error instanceof InvalidModuleInput ||
+            error instanceof InvalidRequest ||
+            error instanceof TargetRejected
+          ? { kind: 'invalidRequest' }
+          : error instanceof TransportFailed ||
+              error instanceof ResponseDecodeFailed ||
+              error instanceof ProtocolFailed
+            ? { kind: 'transport' }
+            : { kind: 'unknown' };
   return {
     status,
     cookie: [],
@@ -300,14 +463,9 @@ export const normalizeFailure = (
         ? {}
         : { retryAfter: Math.ceil(retryDelayMs / 1_000) }),
     },
+    failure,
   };
 };
-export const isNcmApiResponse = (error: unknown): error is NcmApiResponse =>
-  typeof error === 'object' &&
-  error !== null &&
-  'body' in error &&
-  'cookie' in error &&
-  'status' in error;
 
 const normalizeUpstreamBody = (value: unknown): UpstreamBody => {
   if (

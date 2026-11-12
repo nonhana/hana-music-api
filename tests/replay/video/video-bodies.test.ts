@@ -14,6 +14,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -218,6 +219,7 @@ test.each<{
       status: 400,
       cookie: [],
       body: upstream,
+      failure: businessFailure(upstream),
     },
   });
 });

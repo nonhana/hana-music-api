@@ -11,6 +11,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -212,7 +213,12 @@ test.each([
 
 test('check_music hands a non-200 upstream code back as a rejection', async () => {
   expect(await settle(replay({ code: 400 }).checkMusic({ id: 1 }))).toEqual({
-    rejected: { status: 400, cookie: [], body: { code: 400 } },
+    rejected: {
+      status: 400,
+      cookie: [],
+      body: { code: 400 },
+      failure: businessFailure({ code: 400 }),
+    },
   });
 });
 
@@ -725,6 +731,7 @@ test('playability modules reject invalid input before calling upstream', async (
         status: 400,
         cookie: [],
         body: { code: 400, msg: 'Expected <Declaration>' },
+        failure: { kind: 'invalidRequest' },
       },
     });
   }

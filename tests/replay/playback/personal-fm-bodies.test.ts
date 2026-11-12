@@ -10,6 +10,7 @@ import {
 } from '../../../index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
+  businessFailure,
   expectUpstreamShapeRejection,
   settle,
   validateSync,
@@ -199,6 +200,9 @@ test('playmode_intelligence_list passes an unsupported playlist code through', a
       status: 400,
       cookie: [],
       body: playmodeIntelligenceListUnsupported.response.body,
+      failure: businessFailure(
+        playmodeIntelligenceListUnsupported.response.body,
+      ),
     },
   });
 });
@@ -306,6 +310,7 @@ test('personal FM modules reject invalid input before calling upstream', async (
         status: 400,
         cookie: [],
         body: { code: 400, msg: 'Expected <Declaration>' },
+        failure: { kind: 'invalidRequest' },
       },
     });
   }
