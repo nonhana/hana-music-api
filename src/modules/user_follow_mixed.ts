@@ -18,7 +18,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/user/follow/users/mixed/get/v2',
     semantic: 'read',
     cache: 'none',

@@ -83,11 +83,14 @@ for (const [label, state, cookie, expected] of [
 
 for (const entry of ['sdk', 'http'] as const)
   for (const level of ['exhigh', 'sky'] as const) {
-    test(`identity ${entry} Ficus ${level} uses one iPhone identity`, async () => {
+    test(`identity ${entry} Ficus ${level} uses its declared identity`, async () => {
       await withScenario(
         [
           {
-            url: 'https://interface.music.163.com/eapi/song/enhance/player/url/v1',
+            url:
+              level === 'sky'
+                ? 'https://interface.music.163.com/eapi/song/enhance/player/url/v1'
+                : 'https://music.163.com/weapi/song/enhance/player/url/v1',
             method: 'POST',
             response: () =>
               Response.json({
@@ -131,9 +134,11 @@ for (const entry of ['sdk', 'http'] as const)
           }
           const wire = scenario.sent[0]!;
           const cookies = readCookies(wire.headers);
-          expect(wire.headers.get('user-agent')).toBe(iphone);
+          expect(wire.headers.get('user-agent')).toBe(
+            level === 'sky' ? iphone : expectedClients.web.userAgent,
+          );
           expect(cookies).toMatchObject({
-            ...platform,
+            ...(level === 'sky' ? platform : { os: 'web' }),
             deviceId: entry === 'sdk' ? 'D1' : 'D2',
           });
           for (const key of [
@@ -149,7 +154,13 @@ for (const entry of ['sdk', 'http'] as const)
             'BUILDVER',
           ])
             expect(cookies).not.toHaveProperty(key);
-          const decoded = readEapiBody(wire.body);
+          const decoded =
+            level === 'sky'
+              ? readEapiBody(wire.body)
+              : {
+                  path: '/api/song/enhance/player/url/v1',
+                  data: readWebBody(wire.body),
+                };
           expect(decoded.path).toBe('/api/song/enhance/player/url/v1');
           expect(decoded.data).toEqual({
             ids: '["1411594141"]',
@@ -157,9 +168,9 @@ for (const entry of ['sdk', 'http'] as const)
             encodeType: 'flac',
             ...(level === 'sky' ? { immerseType: 'c51' } : {}),
             e_r: false,
-            header: cookies,
+            ...(level === 'sky' ? { header: cookies } : { csrf_token: '' }),
           });
-          expect(cookies.requestId).toMatch(/^\d+_0000$/);
+          if (level === 'sky') expect(cookies.requestId).toMatch(/^\d+_0000$/);
         },
       );
     });
@@ -248,7 +259,7 @@ test('identity refusal -460 sends once and never rotates identity', async () => 
   await withScenario(
     [
       {
-        url: 'https://interface.music.163.com/eapi/song/enhance/player/url/v1',
+        url: 'https://music.163.com/weapi/song/enhance/player/url/v1',
         method: 'POST',
         response: () =>
           Response.json({ code: -460, message: 'synthetic-refusal' }),
@@ -320,7 +331,7 @@ for (const [label, state, cookie, expected] of [
             ),
         },
         {
-          url: 'https://interface.music.163.com/eapi/login/qrcode/unikey',
+          url: 'https://music.163.com/weapi/login/qrcode/unikey',
           method: 'POST',
           response: () => Response.json({ code: 200, unikey: 'key' }),
         },
@@ -356,18 +367,16 @@ test('identity shared reads separate accounts and devices and keep matching cach
   await withScenario(
     [
       {
-        url: 'https://interface.music.163.com/eapi/song/lyric',
+        url: 'https://music.163.com/weapi/song/lyric',
         method: 'POST',
         times: 3,
         response: (wire) => {
-          const data = readEapiBody(wire.body).data as {
-            id: number;
-            header: { MUSIC_U: string; deviceId: string };
-          };
+          const data = readWebBody(wire.body) as { id: number };
+          const header = readCookies(wire.headers);
           return Response.json({
             code: 200,
             lrc: {
-              lyric: `${data.header.MUSIC_U}/${data.header.deviceId}/${data.id}`,
+              lyric: `${header.MUSIC_U}/${header.deviceId}/${data.id}`,
             },
           });
         },
@@ -622,7 +631,7 @@ test('identity concurrent anonymous calls retain distinct devices and returned c
         },
       },
       {
-        url: 'https://interface.music.163.com/eapi/login/qrcode/unikey',
+        url: 'https://music.163.com/weapi/login/qrcode/unikey',
         method: 'POST',
         times: 2,
         response: (wire) => {
@@ -675,9 +684,9 @@ test('identity registry has no mixed profiles or undeclared defaults', () => {
     for (const action of Object.values(module.actions ?? {}))
       profiles.push(action.profile);
   }
-  expect(profiles).toHaveLength(389);
-  expect(profiles.filter((profile) => profile === 'web')).toHaveLength(227);
-  expect(profiles.filter((profile) => profile === 'eapi')).toHaveLength(151);
+  expect(profiles).toHaveLength(390);
+  expect(profiles.filter((profile) => profile === 'web')).toHaveLength(289);
+  expect(profiles.filter((profile) => profile === 'eapi')).toHaveLength(90);
 });
 
 for (const [label, state, cookie, expected] of [
@@ -706,14 +715,11 @@ for (const [label, state, cookie, expected] of [
           },
         },
         {
-          url: 'https://interface.music.163.com/eapi/login/qrcode/unikey',
+          url: 'https://music.163.com/weapi/login/qrcode/unikey',
           method: 'POST',
           response: (wire) => {
             expect(readCookies(wire.headers).deviceId).toBe(expected);
-            expect(
-              (readEapiBody(wire.body).data as { header: { deviceId: string } })
-                .header.deviceId,
-            ).toBe(expected);
+            expect(readCookies(wire.headers).deviceId).toBe(expected);
             return Response.json({ code: 200, unikey: 'pool-key' });
           },
         },
@@ -871,7 +877,7 @@ for (const [label, deviceId] of [
           },
         },
         {
-          url: 'https://interface.music.163.com/eapi/login/qrcode/unikey',
+          url: 'https://music.163.com/weapi/login/qrcode/unikey',
           method: 'POST',
           response: (wire) => {
             expect(readCookies(wire.headers).deviceId).toBe('initial-runtime');
@@ -903,7 +909,7 @@ test('identity existing anonymous session keeps its runtime device without an ex
   await withScenario(
     [
       {
-        url: 'https://interface.music.163.com/eapi/login/qrcode/unikey',
+        url: 'https://music.163.com/weapi/login/qrcode/unikey',
         method: 'POST',
         response: (wire) => {
           const cookies = readCookies(wire.headers);
@@ -911,9 +917,11 @@ test('identity existing anonymous session keeps its runtime device without an ex
             MUSIC_A: 'existing-runtime-token',
             deviceId: 'existing-anonymous-device',
           });
-          expect(
-            (readEapiBody(wire.body).data as { header: unknown }).header,
-          ).toEqual(cookies);
+          expect(wire.url).toBe(
+            'https://music.163.com/weapi/login/qrcode/unikey',
+          );
+          expect(new URLSearchParams(wire.body).has('params')).toBe(true);
+          expect(cookies.os).toBe('web');
           return Response.json({ code: 200, unikey: 'existing' });
         },
       },
@@ -935,13 +943,10 @@ test('identity shared cache includes a changing runtime device with the same ano
   });
   await withScenario(
     ['runtime-D1', 'runtime-D2'].map((device) => ({
-      url: 'https://interface.music.163.com/eapi/song/lyric',
+      url: 'https://music.163.com/weapi/song/lyric',
       method: 'POST',
       response: (wire) => {
-        const decoded = readEapiBody(wire.body).data as {
-          header: { deviceId: string };
-        };
-        expect(decoded.header.deviceId).toBe(device);
+        expect(readCookies(wire.headers).deviceId).toBe(device);
         return Response.json({ code: 200, lrc: { lyric: device } });
       },
     })),

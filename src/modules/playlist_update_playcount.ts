@@ -29,7 +29,7 @@ export const decodeModuleInput = (input: unknown) =>
 export const moduleActions = {
   report: {
     target: '/api/playlist/update/playcount',
-    profile: 'eapi',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

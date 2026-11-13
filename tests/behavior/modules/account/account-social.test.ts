@@ -7,12 +7,15 @@ import { createClientFromContext } from '../../../../src/sdk/generated/client-fa
 import { createServer } from '../../../../src/server/create-server.ts';
 import { generatedModuleRoutes } from '../../../../src/types/generated/module-surface.generated.ts';
 import { businessFailure, settle } from '../../../_kit/assertions.ts';
+import { currentRequests } from '../../../_kit/current-requests.ts';
 import { testEntropy } from '../../../_kit/harness/sdk.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import type { WireRequest } from '../../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
 import expectedClients from '../../../fixtures/consumers/client-identities.json';
-import baseline from '../../../fixtures/requests/account-social.json';
+import frozenRequests from '../../../fixtures/requests/account-social.json';
+
+const baseline = currentRequests('account-social', frozenRequests);
 
 setRuntimeState({ deviceId: 'account-device' });
 type Case = (typeof baseline.cases)[number];

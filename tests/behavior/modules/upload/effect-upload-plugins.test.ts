@@ -196,7 +196,7 @@ test.each([{ upload: [] }, { upload: [null] }, { upload: [''] }])(
             Response.json({ code: 200, needUpload: true, songId: 7 }),
         },
         {
-          url: 'https://interface.music.163.com/eapi/nos/token/alloc',
+          url: 'https://music.163.com/weapi/nos/token/alloc',
           method: 'POST',
           response: () => Response.json(tokenBody),
         },

@@ -14,6 +14,16 @@ export interface TestEntry {
 // Every physical test file has one category; selections may share that file.
 export const testEntries: ReadonlyArray<TestEntry> = [
   {
+    file: 'tests/behavior/tooling/upstream-endpoints.test.ts',
+    category: 'behavior',
+    selections: ['local', 'web-endpoints', 'mutation:web-endpoints'],
+  },
+  {
+    file: 'tests/behavior/modules/web-endpoints.test.ts',
+    category: 'behavior',
+    selections: ['local', 'web-endpoints', 'mutation:web-endpoints'],
+  },
+  {
     file: 'tests/behavior/tooling/module-query-types.test.ts',
     category: 'behavior',
     selections: ['local', 'module-config', 'mutation:module-config'],

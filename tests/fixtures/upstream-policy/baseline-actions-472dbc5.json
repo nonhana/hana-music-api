@@ -1,0 +1,3577 @@
+[
+  {
+    "module": "activate_init_profile",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/activate/initProfile",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "aidj_content_rcmd",
+    "action": "read",
+    "target": "/api/aidj/content/rcmd/info",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "album",
+    "action": "read",
+    "target": {
+      "prefix": "/api/v1/album/"
+    },
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "album_detail",
+    "action": "read",
+    "target": "/api/vipmall/albumproduct/detail",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "album_detail_dynamic",
+    "action": "read",
+    "target": "/api/album/detail/dynamic",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "album_list",
+    "action": "read",
+    "target": "/api/vipmall/albumproduct/list",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "album_list_style",
+    "action": "read",
+    "target": "/api/vipmall/appalbum/album/style",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "album_new",
+    "action": "read",
+    "target": "/api/album/new",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "album_newest",
+    "action": "read",
+    "target": "/api/discovery/newAlbum",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "album_privilege",
+    "action": "read",
+    "target": "/api/album/privilege",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "album_songsaleboard",
+    "action": "read",
+    "target": {
+      "prefix": "/api/feealbum/songsaleboard/"
+    },
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "album_sub",
+    "action": "sub",
+    "profile": "web",
+    "target": "/api/album/sub",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "album_sub",
+    "action": "unsub",
+    "profile": "web",
+    "target": "/api/album/unsub",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "album_sublist",
+    "action": "read",
+    "target": "/api/album/sublist",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_album",
+    "action": "read",
+    "target": {
+      "prefix": "/api/artist/albums/"
+    },
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_desc",
+    "action": "read",
+    "target": "/api/artist/introduction",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_detail",
+    "action": "read",
+    "target": "/api/artist/head/info/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_detail_dynamic",
+    "action": "read",
+    "target": "/api/artist/detail/dynamic",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_fans",
+    "action": "read",
+    "target": "/api/artist/fans/get",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_follow_count",
+    "action": "read",
+    "target": "/api/artist/follow/count/get",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_list",
+    "action": "read",
+    "target": "/api/v1/artist/list",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_mv",
+    "action": "read",
+    "target": "/api/artist/mvs",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_new_mv",
+    "action": "read",
+    "target": "/api/sub/artist/new/works/mv/list",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "artist_new_song",
+    "action": "read",
+    "target": "/api/sub/artist/new/works/song/list",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "artist_songs",
+    "action": "read",
+    "target": "/api/v1/artist/songs",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_sub",
+    "action": "sub",
+    "profile": "web",
+    "target": "/api/artist/sub",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "artist_sub",
+    "action": "unsub",
+    "profile": "web",
+    "target": "/api/artist/unsub",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "artist_sublist",
+    "action": "read",
+    "target": "/api/artist/sublist",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_top_song",
+    "action": "read",
+    "target": "/api/artist/top/song",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artist_video",
+    "action": "read",
+    "target": "/api/mlog/artist/video",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "artists",
+    "action": "read",
+    "target": {
+      "prefix": "/api/v1/artist/"
+    },
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "audio_match",
+    "action": "match",
+    "profile": "plainInterface",
+    "target": "/api/music/audio/match",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never",
+    "method": "GET",
+    "response": "json"
+  },
+  {
+    "module": "avatar_upload",
+    "action": "imageAllocate",
+    "profile": "web",
+    "target": "/api/nos/token/alloc",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "avatar_upload",
+    "action": "imageUpload",
+    "profile": "plainImage",
+    "target": {
+      "prefix": "/yyimgs/"
+    },
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never",
+    "method": "POST",
+    "response": "bytes"
+  },
+  {
+    "module": "avatar_upload",
+    "action": "submit",
+    "profile": "eapi",
+    "target": "/api/user/avatar/upload/v1",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "banner",
+    "action": "read",
+    "target": "/api/v2/banner/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "batch",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/batch",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "broadcast_category_region_get",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/voice/broadcast/category/region/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "broadcast_channel_collect_list",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/content/channel/collect/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "broadcast_channel_currentinfo",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/voice/broadcast/channel/currentinfo",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "broadcast_channel_list",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/voice/broadcast/channel/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "broadcast_sub",
+    "action": "collect",
+    "profile": "eapi",
+    "target": "/api/content/interact/collect",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "broadcast_sub",
+    "action": "cancel",
+    "profile": "eapi",
+    "target": "/api/content/interact/collect",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "calendar",
+    "action": "read",
+    "target": "/api/mcalendar/detail",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "captcha_sent",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/sms/captcha/sent",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "captcha_verify",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/sms/captcha/verify",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "cellphone_existence_check",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/cellphone/existence/check",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "check_music",
+    "action": "read",
+    "target": "/api/song/enhance/player/url",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "cloud",
+    "action": "songAllocate",
+    "profile": "web",
+    "target": "/api/nos/token/alloc",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "cloud",
+    "action": "songLookup",
+    "profile": "plainLookup",
+    "target": "/lbs",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect",
+    "method": "GET",
+    "response": "json"
+  },
+  {
+    "module": "cloud",
+    "action": "songUpload",
+    "profile": "plainNos",
+    "target": {
+      "prefix": "/jd-musicrep-privatecloud-audio-public/"
+    },
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never",
+    "method": "POST",
+    "response": "bytes"
+  },
+  {
+    "module": "cloud",
+    "action": "check",
+    "profile": "eapi",
+    "target": "/api/cloud/upload/check",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "cloud",
+    "action": "allocate",
+    "profile": "eapi",
+    "target": "/api/nos/token/alloc",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "cloud",
+    "action": "information",
+    "profile": "eapi",
+    "target": "/api/upload/cloud/info/v2",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "cloud",
+    "action": "publish",
+    "profile": "eapi",
+    "target": "/api/cloud/pub/v2",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "cloud_import",
+    "action": "check",
+    "profile": "eapi",
+    "target": "/api/cloud/upload/check/v2",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "cloud_import",
+    "action": "import",
+    "profile": "eapi",
+    "target": "/api/cloud/user/song/import",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "cloud_match",
+    "action": "match",
+    "target": "/api/cloud/user/song/match",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "cloudsearch",
+    "action": "read",
+    "target": "/api/cloudsearch/pc",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment",
+    "action": "add",
+    "profile": "web",
+    "target": "/api/resource/comments/add",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "comment",
+    "action": "delete",
+    "profile": "web",
+    "target": "/api/resource/comments/delete",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "comment",
+    "action": "reply",
+    "profile": "web",
+    "target": "/api/resource/comments/reply",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "comment_album",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/resource/comments/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment_dj",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/resource/comments/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment_event",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/resource/comments/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment_floor",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/resource/comment/floor/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment_hot",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/resource/hotcomments/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment_hug_list",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/v2/resource/comments/hug/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment_like",
+    "action": "like",
+    "profile": "web",
+    "target": "/api/v1/comment/like",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "comment_like",
+    "action": "unlike",
+    "profile": "web",
+    "target": "/api/v1/comment/unlike",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "comment_music",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/resource/comments/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment_mv",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/resource/comments/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment_new",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/v2/resource/comments",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment_playlist",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/resource/comments/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "comment_video",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/resource/comments/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "countries_code_list",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/lbs/countries/v1",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "daily_signin",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/point/dailyTask",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "digitalAlbum_detail",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/vipmall/albumproduct/detail",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "digitalAlbum_ordering",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/ordering/web/digital",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "digitalAlbum_purchased",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/digitalAlbum/purchased",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "digitalAlbum_sales",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/vipmall/albumproduct/album/query/sales",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_banner",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/banner/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_category_excludehot",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/category/excludehot",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_category_recommend",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/home/category/recommend",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_catelist",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/category/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_detail",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/v2/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_difm_all_style_channel",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/dj/difm/all/style/channel/v2",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_difm_channel_subscribe",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/dj/difm/channel/subscribe",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "dj_difm_channel_unsubscribe",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/dj/difm/channel/unsubscribe",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "dj_difm_playing_tracks_list",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/dj/difm/playing/tracks/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "dj_difm_subscribe_channels_get",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/dj/difm/subscribe/channels/get/v2",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "dj_hot",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/hot/v1",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_paygift",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/home/paygift/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_personalize_recommend",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/personalize/rcmd",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "dj_program",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/dj/program/byradio",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_program_detail",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/dj/program/detail",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_program_toplist",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/program/toplist/v1",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_program_toplist_hours",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djprogram/toplist/hours",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_radio_hot",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/hot",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_recommend",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/recommend/v1",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_recommend_type",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/recommend",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_sub",
+    "action": "sub",
+    "profile": "web",
+    "target": "/api/djradio/sub",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "dj_sub",
+    "action": "unsub",
+    "profile": "web",
+    "target": "/api/djradio/unsub",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "dj_sublist",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/get/subed",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_subscriber",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/subscriber",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_today_perfered",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/home/today/perfered",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "dj_toplist",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/toplist",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_toplist_hours",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/dj/toplist/hours",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_toplist_newcomer",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/dj/toplist/newcomer",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_toplist_pay",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/toplist/pay",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "dj_toplist_popular",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/dj/toplist/popular",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "djRadio_top",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/expert/worksdata/works/top/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "event",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/v1/event/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "event_del",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/event/delete",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "event_forward",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/event/forward",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "fm_trash",
+    "action": "write",
+    "target": "/api/radio/trash/add",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "follow",
+    "action": "follow",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/user/follow/"
+    },
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "follow",
+    "action": "delfollow",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/user/delfollow/"
+    },
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "get_userids",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/user/getUserIds",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "history_recommend_songs",
+    "action": "read",
+    "target": "/api/discovery/recommend/songs/history/recent",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "history_recommend_songs_detail",
+    "action": "read",
+    "target": "/api/discovery/recommend/songs/history/detail",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "homepage_block_page",
+    "action": "read",
+    "target": "/api/homepage/block/page",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "homepage_dragon_ball",
+    "action": "read",
+    "target": "/api/homepage/dragon/ball/static",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "hot_topic",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/act/hot",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "hug_comment",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/v2/resource/comments/hug/listener",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "image_upload_token",
+    "action": "imageAllocate",
+    "profile": "web",
+    "target": "/api/nos/token/alloc",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "like",
+    "action": "like",
+    "target": "/api/radio/like",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "like",
+    "action": "unlike",
+    "target": "/api/radio/like",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "likelist",
+    "action": "read",
+    "target": "/api/song/like/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listen_data_realtime_report",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/content/activity/listen/data/realtime/report",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listen_data_report",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/content/activity/listen/data/report",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listen_data_today_song",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/content/activity/listen/data/today/song/play/rank",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "listen_data_total",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/content/activity/listen/data/total",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "listen_data_year_report",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/content/activity/listen/data/year/report",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listentogether_accept",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/listen/together/play/invitation/accept",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listentogether_end",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/listen/together/end/v2",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listentogether_heatbeat",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/listen/together/heartbeat",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listentogether_play_command",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/listen/together/play/command/report",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listentogether_room_check",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/listen/together/room/check",
+    "semantic": "poll",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listentogether_room_create",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/listen/together/room/create",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listentogether_status",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/listen/together/status/get",
+    "semantic": "poll",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listentogether_sync_list_command",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/listen/together/sync/list/command/report",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "listentogether_sync_playlist_get",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/listen/together/sync/playlist/get",
+    "semantic": "poll",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "login",
+    "action": "password",
+    "profile": "eapi",
+    "target": "/api/w/login",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "login_cellphone",
+    "action": "captcha",
+    "profile": "web",
+    "target": "/api/w/login/cellphone",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "login_cellphone",
+    "action": "password",
+    "profile": "web",
+    "target": "/api/w/login/cellphone",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "login_qr_check",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/login/qrcode/client/login",
+    "semantic": "poll",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "login_qr_key",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/login/qrcode/unikey",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "login_refresh",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/login/token/refresh",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "login_status",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/w/nuser/account/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "logout",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/logout",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "lyric",
+    "action": "read",
+    "target": "/api/song/lyric",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "shared",
+    "retry": "read"
+  },
+  {
+    "module": "lyric_new",
+    "action": "read",
+    "target": "/api/song/lyric/v1",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "mlog_music_rcmd",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/mlog/rcmd/feed/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "mlog_to_video",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/mlog/video/convert/id",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "mlog_url",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/mlog/detail/v1",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "msg_comments",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/user/comments/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "msg_forwards",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/forwards/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "msg_notices",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/msg/notices",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "msg_private",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/msg/private/users",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "msg_private_history",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/msg/private/history",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "msg_recentcontact",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/msg/recentcontact/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "music_first_listen_info",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/content/activity/music/first/listen/info",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "musician_cloudbean",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/cloudbean/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "musician_cloudbean_obtain",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/nmusician/workbench/mission/reward/obtain/new",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "musician_data_overview",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/creator/musician/statistic/data/overview/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "musician_play_trend",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/creator/musician/play/count/statistic/data/trend/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "musician_sign",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/creator/user/access",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "musician_tasks",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/nmusician/workbench/mission/cycle/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "musician_tasks_new",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/nmusician/workbench/mission/stage/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "mv_all",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/mv/all",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "mv_detail",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/v1/mv/detail",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "mv_detail_info",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/comment/commentthread/info",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "mv_exclusive_rcmd",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/mv/exclusive/rcmd",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "mv_first",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/mv/first",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "mv_sub",
+    "action": "sub",
+    "profile": "web",
+    "target": "/api/mv/sub",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "mv_sub",
+    "action": "unsub",
+    "profile": "web",
+    "target": "/api/mv/unsub",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "mv_sublist",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/cloudvideo/allvideo/sublist",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "mv_url",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/song/enhance/play/mv/url",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "nickname_check",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/nickname/duplicated",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "personal_fm",
+    "action": "read",
+    "target": "/api/v1/radio/get",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "personal_fm_mode",
+    "action": "read",
+    "target": "/api/v1/radio/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "personalized",
+    "action": "read",
+    "target": "/api/personalized/playlist",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "personalized_djprogram",
+    "action": "read",
+    "target": "/api/personalized/djprogram",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "personalized_mv",
+    "action": "read",
+    "target": "/api/personalized/mv",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "personalized_newsong",
+    "action": "read",
+    "target": "/api/personalized/newsong",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "personalized_privatecontent",
+    "action": "read",
+    "target": "/api/personalized/privatecontent",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "personalized_privatecontent_list",
+    "action": "read",
+    "target": "/api/v2/privatecontent/list",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "pl_count",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/pl/count",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_catlist",
+    "action": "read",
+    "target": "/api/playlist/catalogue",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "playlist_cover_update",
+    "action": "imageAllocate",
+    "profile": "web",
+    "target": "/api/nos/token/alloc",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_cover_update",
+    "action": "imageUpload",
+    "profile": "plainImage",
+    "target": {
+      "prefix": "/yyimgs/"
+    },
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never",
+    "method": "POST",
+    "response": "bytes"
+  },
+  {
+    "module": "playlist_cover_update",
+    "action": "submit",
+    "profile": "web",
+    "target": "/api/playlist/cover/update",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_create",
+    "action": "create",
+    "target": "/api/playlist/create",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_delete",
+    "action": "remove",
+    "target": "/api/playlist/remove",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_desc_update",
+    "action": "update",
+    "target": "/api/playlist/desc/update",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_detail",
+    "action": "read",
+    "target": "/api/v6/playlist/detail",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "shared",
+    "retry": "read"
+  },
+  {
+    "module": "playlist_detail_dynamic",
+    "action": "read",
+    "target": "/api/playlist/detail/dynamic",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "playlist_detail_rcmd_get",
+    "action": "read",
+    "target": "/api/playlist/detail/rcmd/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "playlist_highquality_tags",
+    "action": "read",
+    "target": "/api/playlist/highquality/tags",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "playlist_hot",
+    "action": "read",
+    "target": "/api/playlist/hottags",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "playlist_import_name_task_create",
+    "action": "local",
+    "target": "/api/playlist/import/name/task/create",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_import_name_task_create",
+    "action": "text",
+    "target": "/api/playlist/import/name/task/create",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_import_name_task_create",
+    "action": "link",
+    "target": "/api/playlist/import/name/task/create",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_import_name_task_create",
+    "action": "empty",
+    "target": "/api/playlist/import/name/task/create",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_import_task_status",
+    "action": "poll",
+    "target": "/api/playlist/import/task/status/v2",
+    "profile": "eapi",
+    "semantic": "poll",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_mylike",
+    "action": "read",
+    "target": "/api/mlog/playlist/mylike/bytime/get",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "playlist_name_update",
+    "action": "update",
+    "target": "/api/playlist/update/name",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_order_update",
+    "action": "update",
+    "target": "/api/playlist/order/update",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_privacy",
+    "action": "update",
+    "target": "/api/playlist/update/privacy",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_subscribe",
+    "action": "subscribe",
+    "target": "/api/playlist/subscribe",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_subscribe",
+    "action": "unsubscribe",
+    "target": "/api/playlist/unsubscribe",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_subscribers",
+    "action": "read",
+    "target": "/api/playlist/subscribers",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "playlist_tags_update",
+    "action": "update",
+    "target": "/api/playlist/tags/update",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_track_add",
+    "action": "add",
+    "target": "/api/playlist/track/add",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_track_all",
+    "action": "playlist",
+    "profile": "eapi",
+    "target": "/api/v6/playlist/detail",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "playlist_track_all",
+    "action": "songs",
+    "profile": "eapi",
+    "target": "/api/v3/song/detail",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "playlist_track_delete",
+    "action": "delete",
+    "target": "/api/playlist/track/delete",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_tracks",
+    "action": "manipulate",
+    "profile": "eapi",
+    "target": "/api/playlist/manipulate/tracks",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_tracks",
+    "action": "fallback",
+    "profile": "eapi",
+    "target": "/api/playlist/manipulate/tracks",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_update",
+    "action": "batch",
+    "target": "/api/batch",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_update_playcount",
+    "action": "report",
+    "target": "/api/playlist/update/playcount",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "playlist_video_recent",
+    "action": "read",
+    "target": "/api/playlist/video/recent",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "playmode_intelligence_list",
+    "action": "read",
+    "target": "/api/playmode/intelligence/list",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "program_recommend",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/program/recommend/v1",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "rebind",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/user/replaceCellphone",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "recent_listen_list",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/pc/recent/listen/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "recommend_resource",
+    "action": "read",
+    "target": "/api/v1/discovery/recommend/resource",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "recommend_songs",
+    "action": "read",
+    "target": "/api/v3/discovery/recommend/songs",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "recommend_songs_dislike",
+    "action": "write",
+    "target": "/api/v2/discovery/recommend/dislike",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "record_recent_album",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/play-record/album/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "record_recent_dj",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/play-record/djradio/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "record_recent_playlist",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/play-record/playlist/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "record_recent_song",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/play-record/song/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "record_recent_video",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/play-record/newvideo/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "record_recent_voice",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/play-record/voice/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "register_anonimous",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/register/anonimous",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "register_cellphone",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/w/register/cellphone",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "related_allvideo",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/cloudvideo/v1/allvideo/rcmd",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "related_playlist",
+    "action": "page",
+    "profile": "plainMusic",
+    "target": "/playlist",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never",
+    "method": "GET",
+    "response": "text"
+  },
+  {
+    "module": "resource_like",
+    "action": "like",
+    "profile": "web",
+    "target": "/api/resource/like",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "resource_like",
+    "action": "unlike",
+    "profile": "web",
+    "target": "/api/resource/unlike",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "scrobble",
+    "action": "start",
+    "profile": "clientlogOsx",
+    "target": "/api/feedback/weblog",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "scrobble",
+    "action": "play",
+    "profile": "clientlogOsx",
+    "target": "/api/feedback/weblog",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "search",
+    "action": "read",
+    "target": "/api/search/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "shared",
+    "retry": "read"
+  },
+  {
+    "module": "search",
+    "action": "voice",
+    "target": "/api/search/voice/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "shared",
+    "retry": "read"
+  },
+  {
+    "module": "search_default",
+    "action": "read",
+    "target": "/api/search/defaultkeyword/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "search_hot",
+    "action": "read",
+    "target": "/api/search/hot",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "search_hot_detail",
+    "action": "read",
+    "target": "/api/hotsearchlist/get",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "search_match",
+    "action": "read",
+    "target": "/api/search/match/new",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "search_multimatch",
+    "action": "read",
+    "target": "/api/search/suggest/multimatch",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "search_suggest",
+    "action": "mobile",
+    "target": "/api/search/suggest/keyword",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "search_suggest",
+    "action": "web",
+    "target": "/api/search/suggest/web",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "read"
+  },
+  {
+    "module": "send_album",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/msg/private/send",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "send_playlist",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/msg/private/send",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "send_song",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/msg/private/send",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "send_text",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/msg/private/send",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "setting",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/user/setting",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "share_resource",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/share/friends/resource",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "sheet_list",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/music/sheet/list/v1",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "sheet_preview",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/music/sheet/preview/info",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "sign_happy_info",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/sign/happy/info",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "signin_progress",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/act/modules/signin/v2/progress",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "simi_artist",
+    "action": "read",
+    "target": "/api/discovery/simiArtist",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "simi_mv",
+    "action": "read",
+    "target": "/api/discovery/simiMV",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "simi_playlist",
+    "action": "read",
+    "target": "/api/discovery/simiPlaylist",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "simi_song",
+    "action": "read",
+    "target": "/api/v1/discovery/simiSong",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "simi_user",
+    "action": "read",
+    "target": "/api/discovery/simiUser",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_chorus",
+    "action": "read",
+    "target": "/api/song/chorus",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_detail",
+    "action": "read",
+    "target": "/api/v3/song/detail",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "shared",
+    "retry": "read"
+  },
+  {
+    "module": "song_downlist",
+    "action": "read",
+    "target": "/api/member/song/downlist",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_download_url",
+    "action": "read",
+    "target": "/api/song/enhance/download/url",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_download_url_v1",
+    "action": "read",
+    "target": "/api/song/enhance/download/url/v1",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_dynamic_cover",
+    "action": "read",
+    "target": "/api/songplay/dynamic-cover",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_like_check",
+    "action": "read",
+    "target": "/api/song/like/check",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "song_lyrics_mark",
+    "action": "read",
+    "target": "/api/song/play/lyrics/mark/song",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_lyrics_mark_add",
+    "action": "add",
+    "target": "/api/song/play/lyrics/mark/add",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "song_lyrics_mark_del",
+    "action": "delete",
+    "target": "/api/song/play/lyrics/mark/del",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "song_lyrics_mark_user_page",
+    "action": "read",
+    "target": "/api/song/play/lyrics/mark/user/page",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_monthdownlist",
+    "action": "read",
+    "target": "/api/member/song/monthdownlist",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_music_detail",
+    "action": "read",
+    "target": "/api/song/music/detail/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_order_update",
+    "action": "update",
+    "target": "/api/playlist/manipulate/tracks",
+    "profile": "eapi",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "song_purchased",
+    "action": "read",
+    "target": "/api/single/mybought/song/list",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_red_count",
+    "action": "read",
+    "target": "/api/song/red/count",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_singledownlist",
+    "action": "read",
+    "target": "/api/member/song/singledownlist",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_url",
+    "action": "read",
+    "target": "/api/song/enhance/player/url",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_url_v1",
+    "action": "read",
+    "target": "/api/song/enhance/player/url/v1",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_url_v1",
+    "action": "sky",
+    "target": "/api/song/enhance/player/url/v1",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "song_wiki_summary",
+    "action": "read",
+    "target": "/api/song/play/about/block/page",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "starpick_comments_summary",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/homepage/block/page",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "style_album",
+    "action": "read",
+    "target": "/api/style-tag/home/album",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "style_artist",
+    "action": "read",
+    "target": "/api/style-tag/home/artist",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "style_detail",
+    "action": "read",
+    "target": "/api/style-tag/home/head",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "style_list",
+    "action": "read",
+    "target": "/api/tag/list/get",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "style_playlist",
+    "action": "read",
+    "target": "/api/style-tag/home/playlist",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "style_preference",
+    "action": "read",
+    "target": "/api/tag/my/preference/get",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "style_song",
+    "action": "read",
+    "target": "/api/style-tag/home/song",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "summary_annual",
+    "action": "request",
+    "profile": "eapi",
+    "target": {
+      "prefix": "/api/activity/summary/annual/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "top_album",
+    "action": "read",
+    "target": "/api/discovery/new/albums/area",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "top_artists",
+    "action": "read",
+    "target": "/api/artist/top",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "top_list",
+    "action": "read",
+    "target": "/api/playlist/v4/detail",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "top_mv",
+    "action": "read",
+    "target": "/api/mv/toplist",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "top_playlist",
+    "action": "read",
+    "target": "/api/playlist/list",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "top_playlist_highquality",
+    "action": "read",
+    "target": "/api/playlist/highquality/list",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "top_song",
+    "action": "read",
+    "target": "/api/v1/discovery/new/songs",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "topic_detail",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/act/detail",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "topic_detail_event_hot",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/act/event/hot",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "topic_sublist",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/topic/sublist",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "toplist",
+    "action": "read",
+    "target": "/api/toplist",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "toplist_artist",
+    "action": "read",
+    "target": "/api/toplist/artist",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "toplist_detail",
+    "action": "read",
+    "target": "/api/toplist/detail",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "ugc_album_get",
+    "action": "read",
+    "target": "/api/rep/ugc/album/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "ugc_artist_get",
+    "action": "read",
+    "target": "/api/rep/ugc/artist/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "ugc_artist_search",
+    "action": "read",
+    "target": "/api/rep/ugc/artist/search",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "ugc_detail",
+    "action": "read",
+    "target": "/api/rep/ugc/detail",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "ugc_mv_get",
+    "action": "read",
+    "target": "/api/rep/ugc/mv/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "ugc_song_get",
+    "action": "read",
+    "target": "/api/rep/ugc/song/get",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "ugc_user_devote",
+    "action": "read",
+    "target": "/api/rep/ugc/user/devote",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_account",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/nuser/account/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_audio",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/djradio/get/byuser",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_binding",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/user/bindings/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_cloud",
+    "action": "read",
+    "target": "/api/v1/cloud/get",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_cloud_del",
+    "action": "delete",
+    "target": "/api/cloud/del",
+    "profile": "web",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_cloud_detail",
+    "action": "read",
+    "target": "/api/v1/cloud/get/byids",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_comment_history",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/comment/user/comment/history",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_detail",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/v1/user/detail/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_dj",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/dj/program/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_event",
+    "action": "request",
+    "profile": "eapi",
+    "target": {
+      "prefix": "/api/event/get/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_follow_mixed",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/user/follow/users/mixed/get/v2",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_followeds",
+    "action": "request",
+    "profile": "eapi",
+    "target": {
+      "prefix": "/api/user/getfolloweds/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_follows",
+    "action": "request",
+    "profile": "web",
+    "target": {
+      "prefix": "/api/user/getfollows/"
+    },
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_level",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/user/level",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_medal",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/medal/user/page",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_mutualfollow_get",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/user/mutualfollow/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_playlist",
+    "action": "read",
+    "target": "/api/user/playlist",
+    "profile": "web",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_playlist_collect",
+    "action": "read",
+    "target": "/api/user/playlist/collect",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_playlist_create",
+    "action": "read",
+    "target": "/api/user/playlist/create",
+    "profile": "eapi",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_record",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/v1/play/record",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_replacephone",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/user/replaceCellphone",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_social_status",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/social/user/status",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_social_status_edit",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/social/user/status/edit",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_social_status_rcmd",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/social/user/status/rcmd",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "user_social_status_support",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/social/user/status/support",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_subcount",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/subcount",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "user_update",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/user/profile/update",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "verify_getQr",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/frontrisk/verify/getqrcode",
+    "semantic": "login",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "verify_qrcodestatus",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/frontrisk/verify/qrcodestatus",
+    "semantic": "poll",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "video_category_list",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/cloudvideo/category/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "video_detail",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/cloudvideo/v1/video/detail",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "video_detail_info",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/comment/commentthread/info",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "video_group",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/videotimeline/videogroup/otherclient/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "video_group_list",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/cloudvideo/group/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "video_sub",
+    "action": "sub",
+    "profile": "web",
+    "target": "/api/cloudvideo/video/sub",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "video_sub",
+    "action": "unsub",
+    "profile": "web",
+    "target": "/api/cloudvideo/video/unsub",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "video_timeline_all",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/videotimeline/otherclient/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "video_timeline_recommend",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/videotimeline/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "video_url",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/cloudvideo/playurl",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "vip_growthpoint",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/vipnewcenter/app/level/growhpoint/basic",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "vip_growthpoint_details",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/vipnewcenter/app/level/growth/details",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "vip_growthpoint_get",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/vipnewcenter/app/level/task/reward/get",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "vip_info",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/music-vip-membership/front/vip/info",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "vip_info_v2",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/music-vip-membership/client/vip/info",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "vip_tasks",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/vipnewcenter/app/level/task/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "vip_timemachine",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/vipmusic/newrecord/weekflow",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "voice_delete",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/content/voice/delete",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "voice_detail",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/voice/workbench/voice/detail",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "voice_lyric",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/voice/lyric/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "voice_upload",
+    "action": "allocate",
+    "profile": "web",
+    "target": "/api/nos/token/alloc",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "voice_upload",
+    "action": "initialize",
+    "profile": "plainVoice",
+    "target": {
+      "prefix": "/"
+    },
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never",
+    "method": "POST",
+    "response": "text"
+  },
+  {
+    "module": "voice_upload",
+    "action": "part",
+    "profile": "plainVoice",
+    "target": {
+      "prefix": "/"
+    },
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never",
+    "method": "PUT",
+    "response": "bytes"
+  },
+  {
+    "module": "voice_upload",
+    "action": "complete",
+    "profile": "plainVoice",
+    "target": {
+      "prefix": "/"
+    },
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never",
+    "method": "POST",
+    "response": "bytes"
+  },
+  {
+    "module": "voice_upload",
+    "action": "preCheck",
+    "profile": "eapi",
+    "target": "/api/voice/workbench/voice/batch/upload/preCheck",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "voice_upload",
+    "action": "submit",
+    "profile": "eapi",
+    "target": "/api/voice/workbench/voice/batch/upload/v2",
+    "semantic": "upload",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "voicelist_detail",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/voice/workbench/voicelist/detail",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "voicelist_list",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/voice/workbench/voices/by/voicelist",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "voicelist_list_search",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/voice/workbench/voice/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "voicelist_search",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/voice/workbench/voicelist/search",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "voicelist_trans",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/voice/workbench/radio/program/trans",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "yunbei",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/point/signed/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "yunbei_expense",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/point/expense",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "yunbei_info",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/v1/user/info",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "yunbei_rcmd_song",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/yunbei/rcmd/song/submit",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "yunbei_rcmd_song_history",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/yunbei/rcmd/song/history/list",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "yunbei_receipt",
+    "action": "request",
+    "profile": "eapi",
+    "target": "/api/point/receipt",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "yunbei_sign",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/pointmall/user/sign",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "yunbei_task_finish",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/usertool/task/point/receive",
+    "semantic": "write",
+    "cache": "none",
+    "retry": "never"
+  },
+  {
+    "module": "yunbei_tasks",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/usertool/task/list/all",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "yunbei_tasks_todo",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/usertool/task/todo/query",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  },
+  {
+    "module": "yunbei_today",
+    "action": "request",
+    "profile": "web",
+    "target": "/api/point/today/get",
+    "semantic": "read",
+    "cache": "none",
+    "retry": "connect"
+  }
+]

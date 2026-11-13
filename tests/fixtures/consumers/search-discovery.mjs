@@ -6,6 +6,7 @@ import * as sdk from 'hana-music-api';
 
 import expectedClients from './client-identities.json' with { type: 'json' };
 
+Math.random = () => 0;
 const baseline = JSON.parse(
   readFileSync(new URL('./search-discovery.json', import.meta.url), 'utf8'),
 );
@@ -111,7 +112,13 @@ for (const [index, entry] of baseline.cases.entries()) {
               assert.deepEqual(info, expected);
               assert.deepEqual(Object.keys(data), ['extInfo']);
             } else {
-              assert.deepEqual(data, entry.data);
+              assert.deepEqual(
+                data,
+                entry.module === 'homepage_block_page' &&
+                  entry.label === 'refresh-string'
+                  ? { ...entry.data, refresh: false }
+                  : entry.data,
+              );
             }
             assert.equal(e_r, false);
             assert.equal(checkToken, token);
@@ -128,7 +135,30 @@ for (const [index, entry] of baseline.cases.entries()) {
               request.headers.get('referer'),
               'https://music.163.com',
             );
-            assert.ok(new URLSearchParams(body).has('params'));
+            let decoded = new URLSearchParams(body).get('params');
+            for (const key of ['aaaaaaaaaaaaaaaa', '0CoJUm6Qyw8W8jud']) {
+              const decipher = createDecipheriv(
+                'aes-128-cbc',
+                Buffer.from(key),
+                Buffer.from('0102030405060708'),
+              );
+              decoded = Buffer.concat([
+                decipher.update(Buffer.from(decoded, 'base64')),
+                decipher.final(),
+              ]).toString();
+            }
+            const { e_r, csrf_token, checkToken, ...data } =
+              JSON.parse(decoded);
+            assert.equal(e_r, false);
+            assert.equal(csrf_token, 'csrf');
+            assert.equal(checkToken, token);
+            assert.deepEqual(
+              data,
+              entry.module === 'homepage_block_page' &&
+                entry.label === 'refresh-string'
+                ? { ...entry.data, refresh: false }
+                : entry.data,
+            );
           }
           return Response.json({ code: 403, msg: 'package-refusal' });
         } catch (error) {

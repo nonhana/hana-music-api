@@ -8,7 +8,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'like',
     input: { id: '347230' },
     check: (wires) => {
-      expect(wires[0]!.url).toBe('https://music.163.com/weapi/radio/like');
+      expect(wires[0]!.url).toBe('https://music.163.com/weapi/song/like');
       expect(readWebBody(wires[0]!.body)).toMatchObject({
         alg: 'itembased',
         trackId: '347230',
@@ -21,7 +21,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'like',
     input: { id: 347230, like: 'false' },
     check: (wires) => {
-      expect(wires[0]!.url).toBe('https://music.163.com/weapi/radio/like');
+      expect(wires[0]!.url).toBe('https://music.163.com/weapi/song/like');
       expect(readWebBody(wires[0]!.body)).toMatchObject({
         trackId: 347230,
         like: false,
@@ -93,7 +93,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'cloudsearch',
     input: { keywords: '海阔天空' },
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).data).toMatchObject({
+      expect(readWebBody(wires[0]!.body)).toMatchObject({
         s: '海阔天空',
         type: 1,
         limit: 30,
@@ -106,7 +106,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'cloudsearch',
     input: { keywords: '海阔天空', type: '10', limit: '5', offset: '30' },
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).data).toMatchObject({
+      expect(readWebBody(wires[0]!.body)).toMatchObject({
         type: 10,
         limit: 5,
         offset: 30,
@@ -135,7 +135,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'personal_fm_mode',
     input: { mode: 'DEFAULT' },
     check: (wires) => {
-      const data = readEapiBody(wires[0]!.body).data as Record<string, unknown>;
+      const data = readWebBody(wires[0]!.body) as Record<string, unknown>;
       expect(data).toMatchObject({ mode: 'DEFAULT', limit: 3 });
       expect(data).not.toHaveProperty('subMode');
     },
@@ -144,7 +144,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'personal_fm_mode',
     input: { mode: 'SCENE_RCMD', submode: 'FOCUS', limit: '5' },
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).data).toMatchObject({
+      expect(readWebBody(wires[0]!.body)).toMatchObject({
         mode: 'SCENE_RCMD',
         subMode: 'FOCUS',
         limit: 5,

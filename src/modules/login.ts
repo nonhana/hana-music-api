@@ -12,7 +12,7 @@ import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   password: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/w/login',
     semantic: 'login',
     cache: 'none',

@@ -29,7 +29,7 @@ export const moduleActions = {
   },
   reply: {
     profile: 'web',
-    target: '/api/resource/comments/reply',
+    target: '/api/v1/resource/comments/reply',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

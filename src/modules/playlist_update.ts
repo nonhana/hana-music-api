@@ -55,7 +55,7 @@ export const decodeModuleInput = (input: unknown) =>
 export const moduleActions = {
   batch: {
     target: '/api/batch',
-    profile: 'eapi',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',
@@ -68,13 +68,13 @@ const playlistUpdate: ModuleEffect<
   typeof moduleActions
 > = (query, request) =>
   Effect.gen(function* () {
-    const id = String(query.id);
+    const id = query.id;
     const desc = query.desc || '';
     const tags = query.tags?.join(';') ?? '';
     const data = {
-      '/api/playlist/desc/update': `{"id":${id},"desc":${JSON.stringify(desc)}}`,
-      '/api/playlist/tags/update': `{"id":${id},"tags":${JSON.stringify(tags)}}`,
-      '/api/playlist/update/name': `{"id":${id},"name":${JSON.stringify(query.name)}}`,
+      '/api/playlist/desc/update': { id, desc },
+      '/api/playlist/tags/update': { id, tags },
+      '/api/playlist/update/name': { id, name: query.name },
     };
     const response = yield* request('batch', { data });
     return {

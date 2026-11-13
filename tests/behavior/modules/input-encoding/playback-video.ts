@@ -94,7 +94,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'playmode_intelligence_list',
     input: { id: 1, pid: 2 },
     check: (wires) => {
-      const data = readEapiBody(wires[0]!.body).data as Record<string, unknown>;
+      const data = readWebBody(wires[0]!.body) as Record<string, unknown>;
       expect(data).toMatchObject({
         songId: 1,
         type: 'fromPlayOne',

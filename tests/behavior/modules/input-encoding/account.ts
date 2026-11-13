@@ -1,6 +1,6 @@
 import { expect } from 'bun:test';
 
-import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
+import { readWebBody } from '../../../_kit/upstream/wire.ts';
 import type { EncodingCase } from './contract.ts';
 
 export const cases: ReadonlyArray<EncodingCase> = [
@@ -73,7 +73,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
       phone: '13800138000',
     },
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).data).toMatchObject({
+      expect(readWebBody(wires[0]!.body)).toMatchObject({
         captcha: '1234',
         phone: '13800138000',
         password: '5ebe2294ecd0e0f08eab7690d2a6ee69',

@@ -12,7 +12,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/listen/together/room/check',
     semantic: 'poll',
     cache: 'none',

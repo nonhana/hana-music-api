@@ -1,0 +1,287 @@
+{
+  "scope": "Representative synthetic historical request paths; not exhaustive inputs or current upstream results",
+  "actions": [
+    {
+      "module": "album",
+      "action": "read",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/album/17",
+          "source": "tests/fixtures/requests/library-playback.json#album/default"
+        }
+      ]
+    },
+    {
+      "module": "album_songsaleboard",
+      "action": "read",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/feealbum/songsaleboard/daily/type",
+          "source": "tests/fixtures/requests/library-playback.json#album_songsaleboard/default"
+        },
+        {
+          "url": "https://music.163.com/api/feealbum/songsaleboard/week/type",
+          "source": "tests/fixtures/requests/library-playback.json#album_songsaleboard/week"
+        }
+      ]
+    },
+    {
+      "module": "artist_album",
+      "action": "read",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/artist/albums/17",
+          "source": "tests/fixtures/requests/library-playback.json#artist_album/default"
+        }
+      ]
+    },
+    {
+      "module": "artists",
+      "action": "read",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/artist/17",
+          "source": "tests/fixtures/requests/library-playback.json#artists/default"
+        }
+      ]
+    },
+    {
+      "module": "avatar_upload",
+      "action": "imageUpload",
+      "samples": [
+        {
+          "url": "https://nosup-hz1.127.net/yyimgs/object/Key?offset=0&complete=true&version=1.0",
+          "source": "tests/fixtures/requests/special-chains.json#avatar_upload/default"
+        }
+      ]
+    },
+    {
+      "module": "cloud",
+      "action": "songUpload",
+      "samples": [
+        {
+          "url": "https://nosup-hz1.127.net/jd-musicrep-privatecloud-audio-public/object%2FKey?offset=0&complete=true&version=1.0",
+          "source": "tests/fixtures/requests/special-chains.json#cloud/upload-True-md5-False"
+        }
+      ]
+    },
+    {
+      "module": "comment_album",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/resource/comments/R_AL_3_17",
+          "source": "tests/fixtures/requests/account-social.json#comment_album/default"
+        }
+      ]
+    },
+    {
+      "module": "comment_dj",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/resource/comments/A_DJ_1_17",
+          "source": "tests/fixtures/requests/account-social.json#comment_dj/default"
+        }
+      ]
+    },
+    {
+      "module": "comment_event",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/resource/comments/A_EV_2_synthetic",
+          "source": "tests/fixtures/requests/account-social.json#comment_event/default"
+        }
+      ]
+    },
+    {
+      "module": "comment_hot",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/resource/hotcomments/R_SO_4_17",
+          "source": "tests/fixtures/requests/account-social.json#comment_hot/default"
+        },
+        {
+          "url": "https://music.163.com/api/v1/resource/hotcomments/R_MV_5_17",
+          "source": "tests/fixtures/requests/account-social.json#comment_hot/resource-1"
+        }
+      ]
+    },
+    {
+      "module": "comment_music",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/resource/comments/R_SO_4_17",
+          "source": "tests/fixtures/requests/account-social.json#comment_music/default"
+        }
+      ]
+    },
+    {
+      "module": "comment_mv",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/resource/comments/R_MV_5_17",
+          "source": "tests/fixtures/requests/account-social.json#comment_mv/default"
+        }
+      ]
+    },
+    {
+      "module": "comment_playlist",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/resource/comments/A_PL_0_17",
+          "source": "tests/fixtures/requests/account-social.json#comment_playlist/default"
+        }
+      ]
+    },
+    {
+      "module": "comment_video",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/resource/comments/R_VI_62_17",
+          "source": "tests/fixtures/requests/account-social.json#comment_video/default"
+        }
+      ]
+    },
+    {
+      "module": "follow",
+      "action": "follow",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/user/follow/17",
+          "source": "tests/fixtures/requests/account-social.json#follow/default"
+        }
+      ]
+    },
+    {
+      "module": "follow",
+      "action": "delfollow",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/user/delfollow/17",
+          "source": "tests/fixtures/requests/account-social.json#follow/remove"
+        }
+      ]
+    },
+    {
+      "module": "msg_comments",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/user/comments/23",
+          "source": "tests/fixtures/requests/account-social.json#msg_comments/default"
+        }
+      ]
+    },
+    {
+      "module": "playlist_cover_update",
+      "action": "imageUpload",
+      "samples": [
+        {
+          "url": "https://nosup-hz1.127.net/yyimgs/object/Key?offset=0&complete=true&version=1.0",
+          "source": "tests/fixtures/requests/special-chains.json#playlist_cover_update/file"
+        }
+      ]
+    },
+    {
+      "module": "summary_annual",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://interface.music.163.com/api/activity/summary/annual/2024/data",
+          "source": "tests/fixtures/requests/membership-business.json#summary_annual/explicit"
+        },
+        {
+          "url": "https://interface.music.163.com/api/activity/summary/annual/2017/userdata",
+          "source": "tests/fixtures/requests/membership-business.json#summary_annual/year-int-2017"
+        }
+      ]
+    },
+    {
+      "module": "user_binding",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/user/bindings/23",
+          "source": "tests/fixtures/requests/account-social.json#user_binding/default"
+        }
+      ]
+    },
+    {
+      "module": "user_detail",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/v1/user/detail/23",
+          "source": "tests/fixtures/requests/account-social.json#user_detail/default"
+        }
+      ]
+    },
+    {
+      "module": "user_dj",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/dj/program/23",
+          "source": "tests/fixtures/requests/podcast-video.json#user_dj/default"
+        }
+      ]
+    },
+    {
+      "module": "user_event",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/event/get/23",
+          "source": "tests/fixtures/requests/account-social.json#user_event/default"
+        }
+      ]
+    },
+    {
+      "module": "user_follows",
+      "action": "request",
+      "samples": [
+        {
+          "url": "https://music.163.com/api/user/getfollows/23",
+          "source": "tests/fixtures/requests/account-social.json#user_follows/default"
+        }
+      ]
+    },
+    {
+      "module": "voice_upload",
+      "action": "initialize",
+      "samples": [
+        {
+          "url": "https://ymusic.nos-hz.163yun.com/object%2FKey?uploads",
+          "source": "tests/fixtures/requests/special-chains.json#voice_upload/default/wires/1"
+        }
+      ]
+    },
+    {
+      "module": "voice_upload",
+      "action": "part",
+      "samples": [
+        {
+          "url": "https://ymusic.nos-hz.163yun.com/object%2FKey?partNumber=1&uploadId=upload-1",
+          "source": "tests/fixtures/requests/special-chains.json#voice_upload/default/wires/2"
+        }
+      ]
+    },
+    {
+      "module": "voice_upload",
+      "action": "complete",
+      "samples": [
+        {
+          "url": "https://ymusic.nos-hz.163yun.com/object%2FKey?uploadId=upload-1",
+          "source": "tests/fixtures/requests/special-chains.json#voice_upload/default/wires/3"
+        }
+      ]
+    }
+  ]
+}

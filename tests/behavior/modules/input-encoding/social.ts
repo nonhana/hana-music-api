@@ -104,7 +104,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'send_album',
     input: { id: '17', userIds: ['23', '29'] },
     check: (wires) => {
-      expect(eapiData(wires[0]!.body)).toEqual({
+      expect(webData(wires[0]!.body)).toEqual({
         id: '17',
         msg: '',
         type: 'album',
@@ -116,7 +116,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'send_playlist',
     input: { playlist: '17', userIds: ['23', 29], msg: 'synthetic' },
     check: (wires) => {
-      expect(eapiData(wires[0]!.body)).toEqual({
+      expect(webData(wires[0]!.body)).toEqual({
         id: '17',
         type: 'playlist',
         msg: 'synthetic',
@@ -128,7 +128,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'send_song',
     input: { id: '17', userIds: [23] },
     check: (wires) => {
-      expect(eapiData(wires[0]!.body)).toEqual({
+      expect(webData(wires[0]!.body)).toEqual({
         id: '17',
         msg: '',
         type: 'song',
@@ -140,7 +140,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'send_text',
     input: { userIds: ['23', '29'] },
     check: (wires) => {
-      expect(eapiData(wires[0]!.body)).toEqual({
+      expect(webData(wires[0]!.body)).toEqual({
         type: 'text',
         userIds: '[23,29]',
       });
@@ -150,7 +150,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'share_resource',
     input: {},
     check: (wires) => {
-      expect(eapiData(wires[0]!.body)).toEqual({
+      expect(webData(wires[0]!.body)).toEqual({
         type: 'song',
         msg: '',
         id: '',
@@ -161,7 +161,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'share_resource',
     input: { id: '17', type: 'mv', msg: 'synthetic share' },
     check: (wires) => {
-      expect(eapiData(wires[0]!.body)).toEqual({
+      expect(webData(wires[0]!.body)).toEqual({
         type: 'mv',
         msg: 'synthetic share',
         id: '17',

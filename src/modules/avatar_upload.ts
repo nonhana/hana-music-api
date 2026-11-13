@@ -15,7 +15,7 @@ import type { UnknownJson } from '../types/unknown.ts';
 export const moduleActions = {
   ...imageUploadActions,
   submit: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/user/avatar/upload/v1',
     semantic: 'upload',
     cache: 'none',

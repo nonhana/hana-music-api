@@ -5,6 +5,7 @@ import * as sdk from 'hana-music-api';
 
 import expectedClients from './client-identities.json' with { type: 'json' };
 
+Math.random = () => 0;
 const failures = [];
 let requests = 0;
 for (const kind of ['client', 'named', 'invoke']) {
@@ -29,12 +30,16 @@ for (const kind of ['client', 'named', 'invoke']) {
             const request = new Request(input, init);
             assert.equal(
               request.url,
-              'https://interface.music.163.com/eapi/song/enhance/player/url/v1',
+              level === 'sky'
+                ? 'https://interface.music.163.com/eapi/song/enhance/player/url/v1'
+                : 'https://music.163.com/weapi/song/enhance/player/url/v1',
             );
             assert.equal(request.method, 'POST');
             assert.equal(
               request.headers.get('user-agent'),
-              expectedClients.iphone.userAgent,
+              level === 'sky'
+                ? expectedClients.iphone.userAgent
+                : expectedClients.web.userAgent,
             );
             const cookies = Object.fromEntries(
               request.headers
@@ -49,7 +54,9 @@ for (const kind of ['client', 'named', 'invoke']) {
                 }),
             );
             for (const [name, value] of Object.entries({
-              ...expectedClients.iphone.cookie,
+              ...(level === 'sky'
+                ? expectedClients.iphone.cookie
+                : { os: 'web' }),
               MUSIC_U: 'package-identity',
             }))
               assert.equal(cookies[name], value);
@@ -67,25 +74,46 @@ for (const kind of ['client', 'named', 'invoke']) {
             const params = new URLSearchParams(await request.text()).get(
               'params',
             );
-            const decipher = createDecipheriv(
-              'aes-128-ecb',
-              Buffer.from('e82ckenh8dichen8'),
-              null,
-            );
-            const frame = Buffer.concat([
-              decipher.update(Buffer.from(params, 'hex')),
-              decipher.final(),
-            ])
-              .toString()
-              .split('-36cd479b6b5-');
-            assert.equal(frame[0], '/api/song/enhance/player/url/v1');
-            assert.deepEqual(JSON.parse(frame[1]), {
+            let data;
+            if (level === 'sky') {
+              const decipher = createDecipheriv(
+                'aes-128-ecb',
+                Buffer.from('e82ckenh8dichen8'),
+                null,
+              );
+              const frame = Buffer.concat([
+                decipher.update(Buffer.from(params, 'hex')),
+                decipher.final(),
+              ])
+                .toString()
+                .split('-36cd479b6b5-');
+              assert.equal(frame[0], '/api/song/enhance/player/url/v1');
+              data = JSON.parse(frame[1]);
+            } else {
+              let decoded = params;
+              for (const key of ['aaaaaaaaaaaaaaaa', '0CoJUm6Qyw8W8jud']) {
+                const decipher = createDecipheriv(
+                  'aes-128-cbc',
+                  Buffer.from(key),
+                  Buffer.from('0102030405060708'),
+                );
+                decoded = Buffer.concat([
+                  decipher.update(Buffer.from(decoded, 'base64')),
+                  decipher.final(),
+                ]).toString();
+              }
+              data = JSON.parse(decoded);
+              for (const name of ['appver', 'osver', 'channel'])
+                assert.ok(!(name in cookies));
+            }
+            assert.deepEqual(data, {
               ids: '["1411594141"]',
               level,
               encodeType: 'flac',
-              ...(level === 'sky' ? { immerseType: 'c51' } : {}),
+              ...(level === 'sky'
+                ? { immerseType: 'c51', header: cookies }
+                : { csrf_token: '' }),
               e_r: false,
-              header: cookies,
             });
             return Response.json({
               code: 200,

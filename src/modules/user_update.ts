@@ -12,7 +12,7 @@ import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/user/profile/update',
     semantic: 'write',
     cache: 'none',

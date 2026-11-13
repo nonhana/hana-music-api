@@ -622,7 +622,7 @@ describe('createServer', () => {
 
   test('should load real migrated modules from the modules directory', async () => {
     await withApiScenario(
-      ['https://interface.music.163.com/eapi/search/voice/get'],
+      ['https://music.163.com/weapi/search/voice/get'],
       async ({ path: uri, data, ...options }) => {
         const { signal, ...responseOptions } = options;
         expect(signal).toBeInstanceOf(AbortSignal);
@@ -663,7 +663,7 @@ describe('createServer', () => {
           },
           options: expect.objectContaining({
             cookie: expect.objectContaining({}),
-            crypto: 'eapi',
+            crypto: 'weapi',
             headers: expect.objectContaining({
               'content-type': 'application/x-www-form-urlencoded',
             }),

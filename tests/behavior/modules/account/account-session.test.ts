@@ -19,7 +19,7 @@ const account = {
 for (const entry of [
   {
     module: 'login',
-    path: 'https://interface.music.163.com/eapi/w/login',
+    path: 'https://music.163.com/weapi/w/login',
     query: {
       email: 'synthetic@example.invalid',
       password: 'synthetic-password',
@@ -34,13 +34,13 @@ for (const entry of [
   },
   {
     module: 'loginRefresh',
-    path: 'https://interface.music.163.com/eapi/login/token/refresh',
+    path: 'https://music.163.com/weapi/login/token/refresh',
     query: {},
     body: { code: 200 },
   },
   {
     module: 'logout',
-    path: 'https://interface.music.163.com/eapi/logout',
+    path: 'https://music.163.com/weapi/logout',
     query: {},
     body: { code: 200 },
   },
@@ -129,7 +129,7 @@ for (const method of [
 ] as const) {
   test(`account HTTP ${method} merges request cookies and preserves secure response attributes`, async () => {
     const entry = {
-      login: { route: '/login', url: 'eapi/w/login', body: { code: 200 } },
+      login: { route: '/login', url: 'weapi/w/login', body: { code: 200 } },
       loginCellphone: {
         route: '/login/cellphone',
         url: 'weapi/w/login/cellphone',
@@ -137,10 +137,10 @@ for (const method of [
       },
       loginRefresh: {
         route: '/login/refresh',
-        url: 'eapi/login/token/refresh',
+        url: 'weapi/login/token/refresh',
         body: { code: 200 },
       },
-      logout: { route: '/logout', url: 'eapi/logout', body: { code: 200 } },
+      logout: { route: '/logout', url: 'weapi/logout', body: { code: 200 } },
     }[method];
     await withScenario(
       [
@@ -230,7 +230,7 @@ test('account anonymous initialization updates only anonymous runtime state and 
             ),
         },
         {
-          url: 'https://interface.music.163.com/eapi/login/qrcode/unikey',
+          url: 'https://music.163.com/weapi/login/qrcode/unikey',
           method: 'POST',
           check: (wire) => {
             expect(wire.headers.get('cookie')).toContain(

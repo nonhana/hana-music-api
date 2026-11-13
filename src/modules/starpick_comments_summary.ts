@@ -29,7 +29,7 @@ export const decodeModuleInput = (input: unknown) =>
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/homepage/block/page',
     semantic: 'read',
     cache: 'none',

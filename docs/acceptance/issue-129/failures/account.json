@@ -10,7 +10,10 @@
     "shape": false,
     "upload": false,
     "special": "",
-    "evidence": ["tests/behavior/modules/input-contracts/account.ts"]
+    "evidence": [
+      "tests/behavior/modules/input-contracts/account.ts",
+      "tests/behavior/tooling/upstream-endpoints.test.ts"
+    ]
   },
   {
     "module": "avatar_upload",

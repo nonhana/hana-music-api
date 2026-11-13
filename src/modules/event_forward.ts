@@ -11,7 +11,7 @@ import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/event/forward',
     semantic: 'write',
     cache: 'none',

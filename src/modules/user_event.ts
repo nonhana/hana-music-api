@@ -23,7 +23,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: { prefix: '/api/event/get/' },
     semantic: 'read',
     cache: 'none',

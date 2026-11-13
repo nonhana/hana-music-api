@@ -53,7 +53,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   read: {
     target: '/api/song/lyric',
-    profile: 'eapi',
+    profile: 'web',
     semantic: 'read',
     cache: 'shared',
     retry: 'read',

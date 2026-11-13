@@ -25,7 +25,7 @@ export const decodeModuleInput = (input: unknown) =>
 export const moduleActions = {
   update: {
     target: '/api/playlist/update/privacy',
-    profile: 'eapi',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

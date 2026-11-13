@@ -48,7 +48,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'playlist_detail',
     input: { id: '123' },
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).data).toMatchObject({
+      expect(readWebBody(wires[0]!.body)).toMatchObject({
         id: '123',
         n: 100000,
         s: 8,
@@ -59,7 +59,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'playlist_detail_dynamic',
     input: { id: 456, s: '7' },
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).data).toMatchObject({
+      expect(readWebBody(wires[0]!.body)).toMatchObject({
         id: 456,
         n: 100000,
         s: 7,
@@ -80,7 +80,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'playlist_subscribers',
     input: { id: 1 },
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).data).toMatchObject({
+      expect(readWebBody(wires[0]!.body)).toMatchObject({
         id: 1,
         limit: 20,
         offset: 0,
@@ -140,12 +140,12 @@ export const cases: ReadonlyArray<EncodingCase> = [
           })
         : undefined,
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).data).toMatchObject({
+      expect(readWebBody(wires[0]!.body)).toMatchObject({
         id: '9',
         n: 100000,
         s: 7,
       });
-      expect(readEapiBody(wires[1]!.body).data).toMatchObject({
+      expect(readWebBody(wires[1]!.body)).toMatchObject({
         c: '[{"id":2},{"id":3}]',
       });
     },
@@ -154,10 +154,10 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'playlist_update',
     input: { id: '2', name: '歌单', desc: '描述', tags: ['华语', '流行'] },
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).data).toMatchObject({
-        '/api/playlist/desc/update': '{"id":2,"desc":"描述"}',
-        '/api/playlist/tags/update': '{"id":2,"tags":"华语;流行"}',
-        '/api/playlist/update/name': '{"id":2,"name":"歌单"}',
+      expect(readWebBody(wires[0]!.body)).toMatchObject({
+        '/api/playlist/desc/update': { id: '2', desc: '描述' },
+        '/api/playlist/tags/update': { id: '2', tags: '华语;流行' },
+        '/api/playlist/update/name': { id: '2', name: '歌单' },
       });
     },
   },
@@ -165,10 +165,10 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'playlist_update',
     input: { id: 3, name: '歌单' },
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).data).toMatchObject({
-        '/api/playlist/desc/update': '{"id":3,"desc":""}',
-        '/api/playlist/tags/update': '{"id":3,"tags":""}',
-        '/api/playlist/update/name': '{"id":3,"name":"歌单"}',
+      expect(readWebBody(wires[0]!.body)).toMatchObject({
+        '/api/playlist/desc/update': { id: 3, desc: '' },
+        '/api/playlist/tags/update': { id: 3, tags: '' },
+        '/api/playlist/update/name': { id: 3, name: '歌单' },
       });
     },
   },

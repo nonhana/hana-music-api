@@ -27,7 +27,7 @@
 
 | 模块 | 动作 | 返回体校验 | 额外来源 | 特有分支 | 证据 |
 | --- | --- | --- | --- | --- | --- |
-| `activate_init_profile` | request | 原样返回 | — | — | `tests/behavior/modules/input-contracts/account.ts` |
+| `activate_init_profile` | request | 原样返回 | — | — | `tests/behavior/modules/input-contracts/account.ts`<br>`tests/behavior/tooling/upstream-endpoints.test.ts` |
 | `avatar_upload` | imageAllocate, imageUpload, submit | 原样返回 | business, upstreamShape | uploadWork 多阶段与部分完成 | `tests/behavior/modules/input-contracts/account.ts`<br>`tests/behavior/modules/special/special-chains.test.ts`<br>`tests/behavior/modules/upload/effect-upload-plugins.test.ts` |
 | `captcha_sent` | request | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/account/login-bodies.test.ts`<br>`tests/behavior/modules/input-contracts/account.ts`<br>`tests/behavior/modules/input-encoding/account.ts` |
 | `captcha_verify` | request | 原样返回 | — | — | `tests/behavior/modules/account/account-social.test.ts`<br>`tests/behavior/modules/input-contracts/account.ts`<br>`tests/behavior/modules/input-encoding/account.ts` |
@@ -306,7 +306,7 @@
 | 模块 | 动作 | 返回体校验 | 额外来源 | 特有分支 | 证据 |
 | --- | --- | --- | --- | --- | --- |
 | `aidj_content_rcmd` | read | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/playback/personal-fm-bodies.test.ts`<br>`tests/behavior/modules/discovery/search-discovery.test.ts`<br>`tests/behavior/modules/input-contracts/search-discovery.ts` |
-| `banner` | read | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/discovery/home-bodies.test.ts`<br>`tests/replay/podcast/dj-bodies.test.ts`<br>`tests/replay/social/comment-extension-bodies.test.ts` |
+| `banner` | read, readPc | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/discovery/home-bodies.test.ts`<br>`tests/replay/podcast/dj-bodies.test.ts`<br>`tests/replay/social/comment-extension-bodies.test.ts` |
 | `calendar` | read | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/discovery/misc-read-bodies.test.ts`<br>`tests/behavior/modules/discovery/search-discovery-policy.test.ts`<br>`tests/behavior/modules/input-contracts/search-discovery.ts` |
 | `homepage_block_page` | read | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/discovery/home-bodies.test.ts`<br>`tests/replay/discovery/search-discovery.test.ts`<br>`tests/behavior/modules/discovery/search-discovery.test.ts` |
 | `homepage_dragon_ball` | read | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/discovery/home-bodies.test.ts`<br>`tests/behavior/modules/input-contracts/search-discovery.ts` |

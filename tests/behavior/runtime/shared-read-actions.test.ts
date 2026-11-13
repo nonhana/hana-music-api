@@ -1,4 +1,4 @@
-import { expect, test } from 'bun:test';
+import { afterAll, expect, test } from 'bun:test';
 
 import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
@@ -94,7 +94,7 @@ test('five declared read branches preserve wire payloads and share only matching
     },
   ] as const;
   for (const entry of cases) {
-    const web = entry.module === 'song_detail';
+    const web = entry.path !== '/api/search/get';
     const began = createStage('read sent');
     let release!: () => void;
     const held = new Promise<void>((resolve) => {
@@ -369,13 +369,13 @@ test('named, dynamic and real HTTP loader entries execute the declared profiles'
   await withScenario(
     [
       {
-        url: 'https://interface.music.163.com/eapi/song/lyric',
+        url: 'https://music.163.com/weapi/song/lyric',
         method: 'POST',
         times: 2,
         check: (wire) =>
-          expect(
-            String((readEapiBody(wire.body).data as { id: unknown }).id),
-          ).toBe('7'),
+          expect(String((readWebBody(wire.body) as { id: unknown }).id)).toBe(
+            '7',
+          ),
         response: () => Response.json({ code: 200, lrc: { lyric: 'sample' } }),
       },
       {
@@ -384,7 +384,7 @@ test('named, dynamic and real HTTP loader entries execute the declared profiles'
         response: () => Response.json({ code: 200, songs: [], privileges: [] }),
       },
       {
-        url: 'https://interface.music.163.com/eapi/v6/playlist/detail',
+        url: 'https://music.163.com/weapi/v6/playlist/detail',
         method: 'POST',
         response: () =>
           Response.json({ code: 200, playlist: { id: 7, trackIds: [] } }),
@@ -516,4 +516,10 @@ test('shared body readers keep independent cancellation and deadlines until the 
       }),
     ),
   );
+});
+
+const originalRandom = Math.random;
+Math.random = () => 0;
+afterAll(() => {
+  Math.random = originalRandom;
 });

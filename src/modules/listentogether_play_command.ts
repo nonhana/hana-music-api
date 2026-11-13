@@ -17,7 +17,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/listen/together/play/command/report',
     semantic: 'write',
     cache: 'none',

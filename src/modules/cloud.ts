@@ -25,7 +25,7 @@ export const moduleActions = {
     retry: 'never',
   },
   allocate: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/nos/token/alloc',
     semantic: 'upload',
     cache: 'none',
@@ -39,7 +39,7 @@ export const moduleActions = {
     retry: 'never',
   },
   publish: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/cloud/pub/v2',
     semantic: 'upload',
     cache: 'none',

@@ -23,7 +23,7 @@ const ShareType = Schema.Literals([
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/share/friends/resource',
     semantic: 'write',
     cache: 'none',

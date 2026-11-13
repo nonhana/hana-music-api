@@ -45,14 +45,14 @@ export type ModuleBody = typeof ModuleBody.Type;
 
 export const moduleActions = {
   playlist: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/v6/playlist/detail',
     semantic: 'read',
     cache: 'none',
     retry: 'read',
   },
   songs: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/v3/song/detail',
     semantic: 'read',
     cache: 'none',

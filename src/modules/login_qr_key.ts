@@ -12,7 +12,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/login/qrcode/unikey',
     semantic: 'login',
     cache: 'none',
