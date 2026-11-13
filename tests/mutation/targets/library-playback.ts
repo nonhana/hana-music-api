@@ -38,9 +38,9 @@ export const mutations = [
   {
     id: 'library-write-retry-granted',
     file: 'src/modules/like.ts',
-    find: "  like: {\n    target: '/api/radio/like',\n    profile: 'web',\n    semantic: 'write',\n    cache: 'none',\n    retry: 'never',",
+    find: "  like: {\n    target: '/api/song/like',\n    profile: 'web',\n    semantic: 'write',\n    cache: 'none',\n    retry: 'never',",
     replace:
-      "  like: {\n    target: '/api/radio/like',\n    profile: 'web',\n    semantic: 'read',\n    cache: 'none',\n    retry: 'connect',",
+      "  like: {\n    target: '/api/song/like',\n    profile: 'web',\n    semantic: 'read',\n    cache: 'none',\n    retry: 'connect',",
     expectedFailures: ['library like preserves EAI_AGAIN retry eligibility'],
   },
   {

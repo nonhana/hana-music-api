@@ -37,7 +37,7 @@ export const decodeModuleInput = (input: unknown) =>
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/listen/together/sync/list/command/report',
     semantic: 'write',
     cache: 'none',

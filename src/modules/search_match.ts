@@ -80,7 +80,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   read: {
     target: '/api/search/match/new',
-    profile: 'eapi',
+    profile: 'web',
     semantic: 'read',
     cache: 'none',
     retry: 'read',

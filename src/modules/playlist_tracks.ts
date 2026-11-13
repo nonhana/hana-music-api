@@ -32,15 +32,15 @@ export const decodeModuleInput = (input: unknown) =>
 
 export const moduleActions = {
   manipulate: {
-    profile: 'eapi',
-    target: '/api/playlist/manipulate/tracks',
+    profile: 'web',
+    target: '/api/v1/playlist/manipulate/tracks',
     semantic: 'write',
     cache: 'none',
     retry: 'never',
   },
   fallback: {
-    profile: 'eapi',
-    target: '/api/playlist/manipulate/tracks',
+    profile: 'web',
+    target: '/api/v1/playlist/manipulate/tracks',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

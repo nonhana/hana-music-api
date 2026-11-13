@@ -94,7 +94,7 @@ const writeControl = async (
 
 const initial = () => [
   entry('weapi/w/nuser/account/get', account()),
-  entry('eapi/v6/playlist/detail', {
+  entry('weapi/v6/playlist/detail', {
     code: 200,
     playlist: {
       id: 99,
@@ -230,9 +230,9 @@ test('anonymous search, detail and lyric use the derived ID and catalog uses the
           expect(readWebBody(wire.body)).toMatchObject({ c: '[{"id":7}]' }),
       },
       {
-        ...entry('eapi/song/lyric', { code: 200, lrc: { lyric: 'control' } }),
+        ...entry('weapi/song/lyric', { code: 200, lrc: { lyric: 'control' } }),
         check: (wire) =>
-          expect(readEapiBody(wire.body).data).toMatchObject({ id: 7 }),
+          expect(readWebBody(wire.body)).toMatchObject({ id: 7 }),
       },
       {
         ...entry('eapi/toplist', { code: 200, list: [{ id: 1 }] }),
@@ -469,7 +469,7 @@ test('explicit live command without gate exits nonzero with no package preparati
 test('writes refuse an owned or already collected target before any write', async () =>
   writeControl(async (options) => {
     for (const own of [true, false]) {
-      const detail = entry('eapi/v6/playlist/detail', {
+      const detail = entry('weapi/v6/playlist/detail', {
         code: 200,
         playlist: {
           id: 99,
@@ -552,7 +552,7 @@ test('unknown creator identity stops before any collection read or write', async
     await withScenario(
       [
         entry('weapi/w/nuser/account/get', account()),
-        entry('eapi/v6/playlist/detail', {
+        entry('weapi/v6/playlist/detail', {
           code: 200,
           playlist: { id: 99, trackIds: [], creator: {}, subscribed: false },
         }),

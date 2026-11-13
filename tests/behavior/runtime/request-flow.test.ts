@@ -28,7 +28,7 @@ import type { WireRequest } from '../../_kit/upstream/scenario.ts';
 import { withScenario } from '../../_kit/upstream/scenario.ts';
 
 const registration = 'https://music.163.com/weapi/register/anonimous';
-const business = 'https://interface.music.163.com/eapi/login/qrcode/unikey';
+const business = 'https://music.163.com/weapi/login/qrcode/unikey';
 
 test.each(['pool', 'implicit'] as const)(
   'flow %s keeps default registration and single-call network ownership',

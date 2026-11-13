@@ -19,12 +19,15 @@ import {
   projectRoot,
   settle,
 } from '../../../_kit/assertions.ts';
+import { currentRequests } from '../../../_kit/current-requests.ts';
 import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
 import { runEffect, runExit } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
 import responseFiles from '../../../fixtures/requests/membership-business-responses.json';
-import baseline from '../../../fixtures/requests/membership-business.json';
+import frozenRequests from '../../../fixtures/requests/membership-business.json';
+
+const baseline = currentRequests('membership-business', frozenRequests);
 
 const defaults = baseline.cases.filter((entry) => entry.label === 'default');
 // #128 收窄公开输入后，编号集合改为数组；延续默认样本的 token/重试覆盖。

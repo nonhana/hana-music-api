@@ -172,8 +172,8 @@ describe('ordinary read Effect modules', () => {
       expect(response.body).toEqual({
         ...extraBody,
         target:
-          scenario.identifier === 'song_detail'
-            ? 'https://music.163.com/weapi/v3/song/detail'
+          scenario.identifier !== 'search'
+            ? `https://music.163.com/weapi/${scenario.target.slice(5)}`
             : `https://interface.music.163.com/eapi/${scenario.target.slice(5)}`,
       });
     },
@@ -195,8 +195,8 @@ describe('ordinary read Effect modules', () => {
       expect(response.body).toEqual({
         ...extraBody,
         target:
-          scenario.identifier === 'song_detail'
-            ? 'https://music.163.com/weapi/v3/song/detail'
+          scenario.identifier !== 'search'
+            ? `https://music.163.com/weapi/${scenario.target.slice(5)}`
             : `https://interface.music.163.com/eapi/${scenario.target.slice(5)}`,
       });
     },
@@ -229,8 +229,8 @@ describe('ordinary read Effect modules', () => {
         expect(await response.json()).toEqual({
           ...extraBody,
           target:
-            scenario.identifier === 'song_detail'
-              ? 'https://music.163.com/weapi/v3/song/detail'
+            scenario.identifier !== 'search'
+              ? `https://music.163.com/weapi/${scenario.target.slice(5)}`
               : `https://interface.music.163.com/eapi/${scenario.target.slice(5)}`,
         });
       } finally {

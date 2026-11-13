@@ -13,7 +13,7 @@ import type { UnknownJson } from '../types/unknown.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/w/register/cellphone',
     semantic: 'login',
     cache: 'none',

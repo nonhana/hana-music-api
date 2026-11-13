@@ -124,7 +124,7 @@ export const moduleActions = {
   },
   voice: {
     target: '/api/search/voice/get',
-    profile: 'eapi',
+    profile: 'web',
     semantic: 'read',
     cache: 'shared',
     retry: 'read',

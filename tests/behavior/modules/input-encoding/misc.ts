@@ -1,6 +1,6 @@
 import { expect } from 'bun:test';
 
-import { readEapiBody } from '../../../_kit/upstream/wire.ts';
+import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
 import type { EncodingCase } from './contract.ts';
 
 export const cases: ReadonlyArray<EncodingCase> = [
@@ -40,7 +40,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
       targetSongId: '1394617453',
     },
     check: (wires) => {
-      const data = readEapiBody(wires[0]!.body).data as Record<string, unknown>;
+      const data = readWebBody(wires[0]!.body) as Record<string, unknown>;
       expect(data.roomId).toBe('room_1');
       expect(JSON.parse(data.commandInfo as string)).toEqual({
         clientSeq: 3,
@@ -63,7 +63,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
       displayList: [],
     },
     check: (wires) => {
-      const data = readEapiBody(wires[0]!.body).data as Record<string, unknown>;
+      const data = readWebBody(wires[0]!.body) as Record<string, unknown>;
       expect(data.roomId).toBe('room_1');
       expect(JSON.parse(data.playlistParam as string)).toEqual({
         anchorPosition: -1,

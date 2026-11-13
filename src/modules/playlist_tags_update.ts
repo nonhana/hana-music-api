@@ -39,7 +39,7 @@ export type ModuleBody = typeof ModuleBody.Type;
 export const moduleActions = {
   update: {
     target: '/api/playlist/tags/update',
-    profile: 'eapi',
+    profile: 'web',
     semantic: 'write',
     cache: 'none',
     retry: 'never',

@@ -45,7 +45,7 @@ export const decodeModuleInput = (input: unknown) =>
 export const moduleActions = {
   read: {
     target: '/api/playlist/detail/dynamic',
-    profile: 'eapi',
+    profile: 'web',
     semantic: 'read',
     cache: 'none',
     retry: 'read',

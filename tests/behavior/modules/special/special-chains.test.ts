@@ -15,6 +15,7 @@ import { sdkModuleRegistry } from '../../../../src/sdk/generated/registry.genera
 import { createServer } from '../../../../src/server/create-server.ts';
 import { generatedModuleRoutes } from '../../../../src/types/generated/module-surface.generated.ts';
 import { settle } from '../../../_kit/assertions.ts';
+import { currentRequests } from '../../../_kit/current-requests.ts';
 import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
 import { runEffect } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
@@ -25,7 +26,9 @@ import {
   readWireRequest,
 } from '../../../_kit/upstream/wire.ts';
 import expectedClients from '../../../fixtures/consumers/client-identities.json';
-import recorded from '../../../fixtures/requests/special-chains.json';
+import frozenRequests from '../../../fixtures/requests/special-chains.json';
+
+const recorded = currentRequests('special-chains', frozenRequests);
 
 setRuntimeState({ deviceId: 'special-device', cnIp: '127.0.0.1' });
 interface Wire {
@@ -634,10 +637,10 @@ for (const secondCode of [200, 512, 403]) {
           secondCode === 200 ? 'resolved.status' : 'rejected.status',
           secondCode === 200 ? 200 : secondCode,
         );
-        expect(readEapiBody(scenario.sent[0]!.body).data).toMatchObject({
+        expect(readWebBody(scenario.sent[0]!.body)).toMatchObject({
           trackIds: '["17","23"]',
         });
-        expect(readEapiBody(scenario.sent[1]!.body).data).toMatchObject({
+        expect(readWebBody(scenario.sent[1]!.body)).toMatchObject({
           trackIds: '["17","23","17","23"]',
         });
         expect(scenario.sent).toHaveLength(2);

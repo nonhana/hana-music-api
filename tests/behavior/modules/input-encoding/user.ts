@@ -87,8 +87,8 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'user_event',
     input: { uid: '23' },
     check: (wires) => {
-      expect(readEapiBody(wires[0]!.body).path).toBe('/api/event/get/23');
-      expect(eapiData(wires[0]!.body)).toEqual({
+      expect(wires[0]!.url).toBe('https://music.163.com/weapi/event/get/23');
+      expect(webData(wires[0]!.body)).toEqual({
         getcounts: true,
         time: -1,
         limit: 30,
@@ -100,7 +100,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'user_follow_mixed',
     input: { cursor: '3', size: '5', scene: '2' },
     check: (wires) => {
-      expect(eapiData(wires[0]!.body)).toEqual({
+      expect(webData(wires[0]!.body)).toEqual({
         authority: 'false',
         page: '{"size":5,"cursor":3}',
         scene: 2,
@@ -113,7 +113,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'user_followeds',
     input: { uid: '23' },
     check: (wires) => {
-      expect(eapiData(wires[0]!.body)).toEqual({
+      expect(webData(wires[0]!.body)).toEqual({
         userId: '23',
         time: '0',
         limit: 30,
@@ -234,7 +234,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
       signature: 'synthetic signature',
     },
     check: (wires) => {
-      expect(eapiData(wires[0]!.body)).toEqual({
+      expect(webData(wires[0]!.body)).toEqual({
         birthday: 946684800000,
         city: 100000,
         gender: 1,

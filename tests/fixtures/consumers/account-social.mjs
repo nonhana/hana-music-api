@@ -6,6 +6,7 @@ import * as sdk from 'hana-music-api';
 
 import expectedClients from './client-identities.json' with { type: 'json' };
 
+Math.random = () => 0;
 const baseline = JSON.parse(
   readFileSync(new URL('./account-social.json', import.meta.url), 'utf8'),
 );
@@ -92,7 +93,20 @@ for (const [index, entry] of baseline.cases.entries()) {
               .split('-36cd479b6b5-');
             assert.equal(frame[0], entry.path);
             const { header, e_r, checkToken, ...data } = JSON.parse(frame[1]);
-            assert.deepEqual(data, entry.data);
+            if (entry.module === 'register_anonimous') {
+              assert.equal(
+                Buffer.from(data.username, 'base64').toString().split(' ')[0],
+                'package-device',
+              );
+              assert.deepEqual(Object.keys(data), ['username']);
+            } else {
+              assert.deepEqual(
+                data,
+                entry.module === 'verify_getQr'
+                  ? { ...entry.data, verifyType: Number(entry.data.verifyType) }
+                  : entry.data,
+              );
+            }
             assert.equal(e_r, false);
             assert.equal(checkToken, token);
             assert.deepEqual(header, {
@@ -108,7 +122,37 @@ for (const [index, entry] of baseline.cases.entries()) {
               request.headers.get('referer'),
               'https://music.163.com',
             );
-            assert.ok(new URLSearchParams(body).has('params'));
+            let decoded = new URLSearchParams(body).get('params');
+            for (const key of ['aaaaaaaaaaaaaaaa', '0CoJUm6Qyw8W8jud']) {
+              const decipher = createDecipheriv(
+                'aes-128-cbc',
+                Buffer.from(key),
+                Buffer.from('0102030405060708'),
+              );
+              decoded = Buffer.concat([
+                decipher.update(Buffer.from(decoded, 'base64')),
+                decipher.final(),
+              ]).toString();
+            }
+            const { e_r, csrf_token, checkToken, ...data } =
+              JSON.parse(decoded);
+            assert.equal(e_r, false);
+            assert.equal(csrf_token, 'csrf');
+            assert.equal(checkToken, token);
+            if (entry.module === 'register_anonimous') {
+              assert.equal(
+                Buffer.from(data.username, 'base64').toString().split(' ')[0],
+                'package-device',
+              );
+              assert.deepEqual(Object.keys(data), ['username']);
+            } else {
+              assert.deepEqual(
+                data,
+                entry.module === 'verify_getQr'
+                  ? { ...entry.data, verifyType: Number(entry.data.verifyType) }
+                  : entry.data,
+              );
+            }
           }
           return Response.json({ code: 403, msg: 'package-refusal' });
         } catch (error) {

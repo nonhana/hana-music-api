@@ -15,7 +15,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/cellphone/existence/check',
     semantic: 'read',
     cache: 'none',

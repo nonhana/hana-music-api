@@ -107,6 +107,33 @@ test('loopback accepts declared PC like actions and decodes each write in order'
   expect(observed.resolved.writes).toEqual(['true', 'false', 'true']);
   expect(observed.resolved.active).toBe(0);
   expect(observed.resolved.sent.map((entry) => entry.logical)).toEqual(
-    Array.from({ length: 3 }, () => 'https://music.163.com/weapi/radio/like'),
+    Array.from({ length: 3 }, () => 'https://music.163.com/weapi/song/like'),
   );
+});
+
+test('loopback avatar upload completes its declared web submit after external bytes', async () => {
+  await using fake = createFakeUpstream(1);
+  const config = { cookie: 'MUSIC_U=loopback-upload' };
+  const client = createClientFromContext(
+    config,
+    buildCallServices(config, false, {
+      fetcher: fake.fetcher,
+      entropy: testEntropy,
+    }),
+  );
+  const response = await client.avatarUpload({
+    imgFile: {
+      name: 'local.jpg',
+      data: new Uint8Array([1, 2]),
+      size: 2,
+      mimetype: 'image/jpeg',
+    },
+  });
+  expect(response.status).toBe(200);
+  expect(fake.sent.map((entry) => entry.logical)).toEqual([
+    'https://music.163.com/weapi/nos/token/alloc',
+    'https://nosup-hz1.127.net/yyimgs/local/object?offset=0&complete=true&version=1.0',
+    'https://music.163.com/weapi/user/avatar/upload/v1',
+  ]);
+  expect(fake.metrics.active).toBe(0);
 });

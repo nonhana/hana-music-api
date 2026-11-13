@@ -12,12 +12,30 @@ import {
   generatedModuleIdentifiers,
   generatedModuleRoutes,
 } from '../../../src/types/generated/module-surface.generated.ts';
-import accountSocial from '../../fixtures/requests/account-social.json';
-import libraryPlayback from '../../fixtures/requests/library-playback.json';
-import membershipBusiness from '../../fixtures/requests/membership-business.json';
+import { currentRequests } from '../../_kit/current-requests.ts';
+import accountSocialFrozen from '../../fixtures/requests/account-social.json';
+import libraryPlaybackFrozen from '../../fixtures/requests/library-playback.json';
+import membershipBusinessFrozen from '../../fixtures/requests/membership-business.json';
 import podcastVideo from '../../fixtures/requests/podcast-video.json';
-import searchDiscovery from '../../fixtures/requests/search-discovery.json';
+import searchDiscoveryFrozen from '../../fixtures/requests/search-discovery.json';
 import specialChains from '../../fixtures/requests/special-chains.json';
+
+const accountSocial = currentRequests('account-social', accountSocialFrozen);
+
+const libraryPlayback = currentRequests(
+  'library-playback',
+  libraryPlaybackFrozen,
+);
+
+const membershipBusiness = currentRequests(
+  'membership-business',
+  membershipBusinessFrozen,
+);
+
+const searchDiscovery = currentRequests(
+  'search-discovery',
+  searchDiscoveryFrozen,
+);
 
 const REAL_MODULES_DIRECTORY = resolve(
   dirname(fileURLToPath(import.meta.url)),
@@ -59,9 +77,14 @@ describe('generated module type surface', () => {
         (candidate) => candidate.identifier === entry.module,
       )!;
       expect(Object.keys(definition.actions)).not.toHaveLength(0);
-      for (const action of Object.values(definition.actions)) {
+      for (const [actionName, action] of Object.entries(definition.actions)) {
         expect(action).toMatchObject({
-          profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,
+          profile:
+            entry.module === 'song_url_v1' && actionName === 'sky'
+              ? 'eapi'
+              : entry.profile === 'weapiPc'
+                ? 'web'
+                : entry.profile,
           semantic: entry.semantic,
           cache: 'none',
           retry: entry.retry,
@@ -74,13 +97,16 @@ describe('generated module type surface', () => {
       )!;
       const action =
         definition.actions[
-          entry.module === 'search_suggest'
-            ? entry.query.type === 'mobile'
-              ? 'mobile'
-              : 'web'
-            : entry.semantic === 'write'
-              ? 'write'
-              : 'read'
+          entry.module === 'banner' &&
+          (entry.query.type === undefined || Number(entry.query.type) === 0)
+            ? 'readPc'
+            : entry.module === 'search_suggest'
+              ? entry.query.type === 'mobile'
+                ? 'mobile'
+                : 'web'
+              : entry.semantic === 'write'
+                ? 'write'
+                : 'read'
         ];
       expect(action as unknown).toEqual({
         profile: entry.profile === 'weapiPc' ? 'web' : entry.profile,

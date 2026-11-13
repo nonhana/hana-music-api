@@ -1,0 +1,36 @@
+{
+  "observedAt": "2026-11-13",
+  "sources": [
+    {
+      "url": "https://music.163.com/api/middle/clientcfg/config/pushed/list?platform=web&moduleName=yidun",
+      "file": "list",
+      "sha256": "c957f6fb14888c1f46c8eabd7dc90cac1b54c294ba1c991f43507194dbfdebeb",
+      "bytes": 20915,
+      "normalizedSha256": "ffe2b2e995223fbdd40347fd89601cf77eb3f06dc829264bc3dafbd37a00c375"
+    },
+    {
+      "url": "https://s5.music.126.net/static_public/68aea63daca57500bb3fb4b6_68aea63daca57500bb3fb4b7/hybrid/app.4c9df986.js",
+      "file": "app.4c9df986.js",
+      "sha256": "baa76cd9cefd3b638b4ea8b6c55d42d8b6ebd0a14027818a465ed3e1b6fa4a44",
+      "bytes": 5609816
+    },
+    {
+      "url": "https://s5.music.126.net/static_public/68aea63daca57500bb3fb4b6_68aea63daca57500bb3fb4b7/hybrid/vendors~app.31d15e2d.js",
+      "file": "vendors~app.31d15e2d.js",
+      "sha256": "de33b2d8521fafb84f8a9cde0c3208236484969ca186a38c15ff234b53117331",
+      "bytes": 2521813
+    },
+    {
+      "url": "https://s3.music.126.net/web/s/core_d6d4797f1d4a94aa615ceca52518c8a3.js",
+      "file": "core_d6d4797f1d4a94aa615ceca52518c8a3.js",
+      "sha256": "b79d32317e06a47690848873398affead74a6e1d650f5a592a72654469b248d8",
+      "bytes": 699156
+    },
+    {
+      "url": "https://s3.music.126.net/web/s/pt_frame_index_f8fa68369f5c6b260f4bdd85eeb5f954.js",
+      "file": "pt_frame_index_f8fa68369f5c6b260f4bdd85eeb5f954.js",
+      "sha256": "4ccc6cb5d58085e4b13fb0dfdbafcd2292d273a2f7ba311d7a00ef5d9eb2bd91",
+      "bytes": 209110
+    }
+  ]
+}

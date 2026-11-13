@@ -70,7 +70,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'banner',
     input: {},
     check: (wires) => {
-      expect(eapiData(wires[0]!)).toEqual({ clientType: 'pc' });
+      expect(webData(wires[0]!)).toEqual({ clientType: 'pc' });
     },
   },
   {
@@ -232,9 +232,10 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'search',
     input: { keywords: '晴天', type: '2000', limit: '5', offset: 2 },
     check: (wires) => {
-      const decoded = readEapiBody(wires[0]!.body);
-      expect(decoded.path).toBe('/api/search/voice/get');
-      expect(eapiData(wires[0]!)).toEqual({
+      expect(wires[0]!.url).toBe(
+        'https://music.163.com/weapi/search/voice/get',
+      );
+      expect(webData(wires[0]!)).toEqual({
         keyword: '晴天',
         scene: 'normal',
         limit: 5,
@@ -246,7 +247,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     module: 'search_match',
     input: { md5: 'bd708d006912a09d827f02e754cf8e56' },
     check: (wires) => {
-      const data = eapiData(wires[0]!);
+      const data = webData(wires[0]!);
       expect(JSON.parse(String(data.songs))).toEqual([
         {
           title: '',
@@ -267,7 +268,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
       title: '晴天',
     },
     check: (wires) => {
-      const data = eapiData(wires[0]!);
+      const data = webData(wires[0]!);
       expect(JSON.parse(String(data.songs))).toEqual([
         {
           title: '晴天',

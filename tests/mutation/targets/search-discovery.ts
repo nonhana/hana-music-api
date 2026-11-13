@@ -2,8 +2,8 @@ export const mutations = [
   {
     id: 'discovery-protocol-swapped',
     file: 'src/modules/cloudsearch.ts',
-    find: "profile: 'eapi',",
-    replace: "profile: 'web',",
+    find: "profile: 'web',",
+    replace: "profile: 'eapi',",
     expectedFailures: [
       'discovery client cloudsearch/default owns its baseline wire contract',
     ],

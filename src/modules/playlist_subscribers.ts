@@ -52,7 +52,7 @@ export const decodeModuleInput = (input: unknown) =>
 export const moduleActions = {
   read: {
     target: '/api/playlist/subscribers',
-    profile: 'eapi',
+    profile: 'web',
     semantic: 'read',
     cache: 'none',
     retry: 'connect',

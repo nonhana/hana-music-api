@@ -22,7 +22,7 @@ describe('phase 5 module regression suite', () => {
     await withRequestSpy(
       [
         'https://interface.music.163.com/eapi/search/get',
-        'https://interface.music.163.com/eapi/search/voice/get',
+        'https://music.163.com/weapi/search/voice/get',
       ],
       (uri) => ({
         body: {
@@ -83,7 +83,7 @@ describe('phase 5 module regression suite', () => {
           },
           options: expect.objectContaining({
             cookie: expect.any(Object),
-            crypto: 'eapi',
+            crypto: 'weapi',
             headers: expect.objectContaining({
               'content-type': 'application/x-www-form-urlencoded',
             }),
@@ -116,7 +116,7 @@ describe('phase 5 module regression suite', () => {
     await withRequestSpy(
       [
         'https://interface.music.163.com/eapi/song/enhance/player/url',
-        'https://interface.music.163.com/eapi/v6/playlist/detail',
+        'https://music.163.com/weapi/v6/playlist/detail',
       ],
       (uri) => {
         if (uri === '/api/song/enhance/player/url') {
@@ -183,7 +183,7 @@ describe('phase 5 module regression suite', () => {
           },
           options: expect.objectContaining({
             cookie: expect.any(Object),
-            crypto: 'eapi',
+            crypto: 'weapi',
             headers: expect.objectContaining({
               'content-type': 'application/x-www-form-urlencoded',
             }),

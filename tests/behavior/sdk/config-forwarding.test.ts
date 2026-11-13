@@ -41,7 +41,7 @@ describe('sdk config forwarding', () => {
     });
 
     expect(getRequestUrl(captured.input)).toBe(
-      'https://interface.music.163.com/eapi/song/lyric',
+      'https://music.163.com/weapi/song/lyric',
     );
     expect(getHeader(captured.init, 'X-Debug-Mode')).toBe('');
     expect(getHeader(captured.init, 'X-Real-IP')).toBe('1.2.3.4');
@@ -89,7 +89,7 @@ describe('sdk config forwarding', () => {
     );
 
     expect(getRequestUrl(captured.input)).toBe(
-      'https://interface.music.163.com/eapi/song/lyric',
+      'https://music.163.com/weapi/song/lyric',
     );
     expect(getHeader(captured.init, 'X-Debug-Mode')).toBe('');
     expect(getHeader(captured.init, 'X-Real-IP')).toBe('5.6.7.8');

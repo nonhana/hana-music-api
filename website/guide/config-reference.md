@@ -62,7 +62,7 @@ weapi 把同一值放进加密正文 `checkToken` 和 HTTP 头 `X-antiCheatToken
 | `ua`         | `string`                                         | 按协议或原始 Cookie 平台准备   | 显式设置 User-Agent                          |
 | `headers`    | `Record<string, string>`                         | 无                             | 额外原始请求头；协议字段仍按请求准备规则处理 |
 
-上表的覆盖能力用于显式低层 `createRequest`；普通模块均按各自动作声明执行，不接受这些自由覆盖。各接口继续使用原协议，EAPI 使用配套的 iPhone 字段，weapi 浏览器动作为干净 web 身份，特殊 clientlog 使用配套 macOS 身份。需要直接控制协议和目标时改用 `createRequest`，并按上游格式传业务参数。
+上表的覆盖能力用于显式低层 `createRequest`；普通模块均按各自动作声明执行，不接受这些自由覆盖。有官方网页依据的 61 个原 EAPI 动作已改用 WEAPI、网页 UA 和干净的 `os=web` 身份。Banner 默认/`type=0` 的 PC 业务使用 web，移动类型保持 EAPI；普通 `songUrlV1` 使用 web，显式 `level=sky` 保持原 EAPI 与沉浸声参数。通用 batch、歌曲排序和云盘原生阶段等保留 EAPI，专用 clientlog 保持 macOS 身份。需要直接控制协议和目标时改用 `createRequest`，并按上游格式传业务参数。
 
 日常调用沿用模块默认协议即可。带账号或游客身份的 API 请求只允许已知 HTTPS 网易云 API 域名，`domain` 不能用来任意转发凭据。`e_r`、`acceptGzip` 建议使用明确的布尔值，细节见 [加密模式](/guide/crypto-modes)。
 
@@ -88,3 +88,5 @@ weapi 把同一值放进加密正文 `checkToken` 和 HTTP 头 `X-antiCheatToken
 | 把 `createOption(...)` 传给模块方法                          | 直接提供 `ModuleCallConfig`；`createOption` 的结果只给低层请求       |
 
 Cookie 中的旧平台字段仍由动作统一清理和投影；会话与设备优先级保持。低层请求要求上游原始业务参数，比如搜索用 `s`，不会替你把 `keywords` 转换过去。移除字段没有废弃别名或兼容分支。
+
+本次默认协议与身份变化按 major 处理。红心、评论回复和歌单曲目操作同时更新逻辑地址，具名歌单编辑仍为一次 batch，三个子操作改传对象；函数名、业务输入和返回体合同保持。SDK 不按远端名单自动改请求，也不在失败后换协议重放。`checkToken` 继续可选，未配置不会本地强制拒绝；多请求模块使用 provider 逐次取新值。网页源码和离线测试不能保证真实账号的权益或反作弊结果，应用升级后仍需单独验证实际业务。完整迁移与保留清单见 [#137](https://github.com/nonhana/hana-music-api/issues/137)。

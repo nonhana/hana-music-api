@@ -61,7 +61,7 @@ test('playlist_tracks encodes ordered track ids as a JSON string list', async ()
     tracks: [2, '3'],
   });
   expect(sent).toHaveLength(1);
-  expect(readEapiBody(sent[0]!.body).data).toMatchObject({
+  expect(readWebBody(sent[0]!.body)).toMatchObject({
     imme: 'true',
     op: 'add',
     pid: 1,
@@ -97,7 +97,7 @@ test('playlist_tags_update joins tags with semicolons and keeps an empty list', 
     tags: ['rock', 'pop'],
   });
   expect(sent).toHaveLength(1);
-  expect(readEapiBody(sent[0]!.body).data).toMatchObject({
+  expect(readWebBody(sent[0]!.body)).toMatchObject({
     id: 1,
     tags: 'rock;pop',
   });
@@ -105,7 +105,7 @@ test('playlist_tags_update joins tags with semicolons and keeps an empty list', 
     id: 1,
     tags: [],
   });
-  expect(readEapiBody(empty[0]!.body).data).toMatchObject({ id: 1, tags: '' });
+  expect(readWebBody(empty[0]!.body)).toMatchObject({ id: 1, tags: '' });
 });
 
 test('listentogether_sync_list_command encodes lists inside playlistParam', async () => {
@@ -118,7 +118,7 @@ test('listentogether_sync_list_command encodes lists inside playlistParam', asyn
     displayList: [],
   });
   expect(sent).toHaveLength(1);
-  const data = readEapiBody(sent[0]!.body).data as {
+  const data = readWebBody(sent[0]!.body) as {
     playlistParam: string;
     roomId: string;
   };

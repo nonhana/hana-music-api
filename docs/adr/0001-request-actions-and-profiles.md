@@ -117,3 +117,11 @@ prepareRequest仍是纯函数，时间、请求编号和随机熵从外层传入
 以上各批次描述保留当时的来源。当前普通模块必需显式动作声明，缺失或非法在生成、动态发现、SDK/HTTP装配时拒绝；本地模块保留空动作集。pending列表、模块默认协议桥接、URI语义正则及identifier缓存/上传名单已经删除。读缓存、重试和上传期限只有动作声明这一个来源。
 
 ModuleCallConfig独立列出会话与执行字段，删除crypto/ua/domain/e_r/acceptGzip/headers和顶层deviceId。运行时也拒绝这些旧键及未知键，设备改用state.deviceId；不保留别名或静默忽略。内部动态程序入口同步query/config分离。显式低层createRequest/createOption继续保留原始协议与请求头能力，默认eapi及各协议原目标/身份由既有registry提供；api/linuxapi的低层默认身份也有明确条目，内置389动作映射不变。原始请求不猜URI语义，不自动重放。endpoint-policy保留最终目标、HTTPS与凭据外送检查。响应Schema和原录制不变，以major交付。
+
+## #137：按网页依据迁移默认协议与目标
+
+当前决定以 [#137](https://github.com/nonhana/hana-music-api/issues/137) 和[固定审计清单](../acceptance/web-endpoint-sync-2026-11-inventory.md)为准，取代以上历史切片的“保留所有基线协议”。61 个有同业务网页依据的 EAPI 动作改用现有 web profile，Banner 新增 PC 专用 readPc，移动 read 保留。当前 352 模块、390 动作中有 289 web、90 eapi、2 clientlogOsx 和 9 plain 动作。共享读取的普通 search 保持 EAPI，voice、lyric、playlist_detail 和既有 song_detail 使用 web；共享资格、取消和 token 合同不变。
+
+红心、回复、歌单曲目的逻辑目标按当前网页修正；粉丝列表固定路径，userid 仍按原模块的 userId 字段发送。具名 playlist_update 保持一次 batch，将三个固定子操作改为对象。通用 batch 的任意子路由没有整体网页等价依据，所以仍为 EAPI。sky、歌单排序和 cloud 原生阶段等保留理由逐动作列在清单中。
+
+`scripts/audit-upstream-endpoints.mts` 只读固定配置与实际导出动作，报告顺序匹配、域名、动态边界及 batch 内层，不参与产品请求。公共配置不提供运行时自动改址能力，也不让 checkToken 成为本地必填；根 SDK 不自动取 token，不新增 token 别名或补账号请求。此次默认身份变化按 major 说明。网页代码、离线 wire、历史响应和过去账号探针分别记录，不能互相替代真实可用性证据。

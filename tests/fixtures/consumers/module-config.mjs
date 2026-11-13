@@ -70,6 +70,7 @@ await assert.rejects(
   (error) => error.status === 400,
 );
 
+Math.random = () => 0;
 const failures = [];
 for (const [index, call] of [
   (config) => sdk.lyric({ id: 101 }, config),
@@ -86,14 +87,11 @@ for (const [index, call] of [
         sends++;
         assert.equal(
           input instanceof Request ? input.url : input.toString(),
-          'https://interface.music.163.com/eapi/song/lyric',
+          'https://music.163.com/weapi/song/lyric',
         );
         assert.equal(init.method, 'POST');
         const headers = new Headers(init.headers);
-        assert.equal(
-          headers.get('User-Agent'),
-          expectedClients.iphone.userAgent,
-        );
+        assert.equal(headers.get('User-Agent'), expectedClients.web.userAgent);
         const cookies = Object.fromEntries(
           headers
             .get('cookie')
@@ -108,27 +106,26 @@ for (const [index, call] of [
         );
         assert.equal(cookies.deviceId, device);
         assert.equal(cookies.MUSIC_U, account);
-        assert.equal(cookies.os, 'iPhone OS');
+        assert.equal(cookies.os, 'web');
+        assert.equal(cookies.appver, undefined);
         assert.equal(cookies.OS, undefined);
-        const decipher = createDecipheriv(
-          'aes-128-ecb',
-          Buffer.from('e82ckenh8dichen8'),
-          null,
-        );
-        const decoded = Buffer.concat([
-          decipher.update(
-            Buffer.from(new URLSearchParams(init.body).get('params'), 'hex'),
-          ),
-          decipher.final(),
-        ])
-          .toString()
-          .split('-36cd479b6b5-');
-        assert.equal(decoded[0], '/api/song/lyric');
-        const data = JSON.parse(decoded[1]);
+        let decoded = new URLSearchParams(init.body).get('params');
+        for (const key of ['aaaaaaaaaaaaaaaa', '0CoJUm6Qyw8W8jud']) {
+          const decipher = createDecipheriv(
+            'aes-128-cbc',
+            Buffer.from(key),
+            Buffer.from('0102030405060708'),
+          );
+          decoded = Buffer.concat([
+            decipher.update(Buffer.from(decoded, 'base64')),
+            decipher.final(),
+          ]).toString();
+        }
+        const data = JSON.parse(decoded);
         assert.equal(String(data.id), String((index + 1) * 101));
         assert.equal(data.e_r, false);
-        for (const [key, value] of Object.entries(cookies))
-          assert.equal(data.header[key], value);
+        assert.equal(data.csrf_token, '');
+        assert.equal(data.header, undefined);
         return Response.json({
           code: 200,
           lrc: { lyric: `${account}/${device}` },

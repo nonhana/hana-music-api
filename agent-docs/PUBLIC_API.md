@@ -63,3 +63,5 @@ playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、�
 #116 的 `ModuleCallConfig` 与低层 `CreateRequestOptions` 独立。普通模块只接受 cookie、代理/fetcher、ip/realIP、state、期限/取消、连接/事件、受动作限制的retry和可选checkToken。crypto、ua、domain、e_r、acceptGzip、headers、顶层deviceId与未知键（即使值undefined）在运行时拒绝，不能放query；client无效默认配置抛TypeError，调用拒绝status400。设备迁移到state.deviceId，头Cookie迁移到cookie。createOption只供createRequest，低层默认eapi并保留原始选项/目标安全；没有动作语义的原始请求不自动重放。内部动态程序入口也采用query/config分离；装配与发现强制有效动作，本地必须空集。此为major，见[配置迁移表](../website/guide/config-reference.md)。
 
 请求数据流收敛保留上述根 Promise API。内部自定义模块改用绑定本地 moduleActions 的二元 request(actionName,args)，生产 server/动态装配删除 requestHandler，并明确拒绝旧 JavaScript 键；这是 major 迁移。测试网络通过 fetcher，内部 execution 仍不是根发布面。
+
+#137 更新默认协议和部分逻辑目标，以上各历史批次的“保持协议”以本节为准。61 个完整动作与 Banner PC 分支使用 web；普通 search 仍为 EAPI，voice/lyric/playlistDetail 已迁 web，songDetail 保持 web。普通 songUrlV1 使用 web，显式 sky、移动 Banner、通用 batch、歌曲排序和云盘原生阶段继续保留各自合同。公开输入、Schema、失败分类及低层 createRequest 不变。身份与地址变更按 major 发布，调用方继续提供可选 token，多请求用 provider；源码和离线包验证不保证真实账号的当前权益或反作弊接受。完整范围见[固定清单](../docs/acceptance/web-endpoint-sync-2026-11-inventory.md)。

@@ -1,0 +1,2984 @@
+{
+  "source": "Issue #137; synthetic current expectations over immutable historical request baselines",
+  "groups": {
+    "library-playback": [
+      {
+        "module": "album_privilege",
+        "label": "default",
+        "url": "https://music.163.com/weapi/album/privilege",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "artist_detail_dynamic",
+        "label": "default",
+        "url": "https://music.163.com/weapi/artist/detail/dynamic",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "like",
+        "label": "default",
+        "path": "/api/song/like",
+        "url": "https://music.163.com/weapi/song/like"
+      },
+      {
+        "module": "lyric_new",
+        "label": "default",
+        "url": "https://music.163.com/weapi/song/lyric/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "playlist_catlist",
+        "label": "default",
+        "url": "https://music.163.com/weapi/playlist/catalogue",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "playlist_desc_update",
+        "label": "default",
+        "url": "https://music.163.com/weapi/playlist/desc/update",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "playlist_detail_dynamic",
+        "label": "default",
+        "url": "https://music.163.com/weapi/playlist/detail/dynamic",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "playlist_name_update",
+        "label": "default",
+        "url": "https://music.163.com/weapi/playlist/update/name",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "playlist_privacy",
+        "label": "default",
+        "url": "https://music.163.com/weapi/playlist/update/privacy",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "playlist_subscribers",
+        "label": "default",
+        "url": "https://music.163.com/weapi/playlist/subscribers",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "playlist_tags_update",
+        "label": "default",
+        "url": "https://music.163.com/weapi/playlist/tags/update",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "playlist_update",
+        "label": "default",
+        "url": "https://music.163.com/weapi/batch",
+        "profile": "weapiPc",
+        "data": {
+          "/api/playlist/desc/update": {
+            "id": "17",
+            "desc": "description"
+          },
+          "/api/playlist/tags/update": {
+            "id": "17",
+            "tags": "rock"
+          },
+          "/api/playlist/update/name": {
+            "id": "17",
+            "name": "sample"
+          }
+        },
+        "protocol": "weapi"
+      },
+      {
+        "module": "playlist_update_playcount",
+        "label": "default",
+        "url": "https://music.163.com/weapi/playlist/update/playcount",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "playmode_intelligence_list",
+        "label": "default",
+        "url": "https://music.163.com/weapi/playmode/intelligence/list",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_chorus",
+        "label": "default",
+        "url": "https://music.163.com/weapi/song/chorus",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_download_url_v1",
+        "label": "default",
+        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_music_detail",
+        "label": "default",
+        "url": "https://music.163.com/weapi/song/music/detail/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_red_count",
+        "label": "default",
+        "url": "https://music.163.com/weapi/song/red/count",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_url_v1",
+        "label": "default",
+        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "like",
+        "label": "unlike",
+        "path": "/api/song/like",
+        "url": "https://music.163.com/weapi/song/like"
+      },
+      {
+        "module": "like",
+        "label": "literal-true",
+        "path": "/api/song/like",
+        "url": "https://music.163.com/weapi/song/like"
+      },
+      {
+        "module": "song_url_v1",
+        "label": "standard",
+        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_download_url_v1",
+        "label": "standard",
+        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_url_v1",
+        "label": "higher",
+        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_download_url_v1",
+        "label": "higher",
+        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_url_v1",
+        "label": "exhigh",
+        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_download_url_v1",
+        "label": "exhigh",
+        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_url_v1",
+        "label": "lossless",
+        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_download_url_v1",
+        "label": "lossless",
+        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_url_v1",
+        "label": "hires",
+        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_download_url_v1",
+        "label": "hires",
+        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_url_v1",
+        "label": "jyeffect",
+        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_download_url_v1",
+        "label": "jyeffect",
+        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_download_url_v1",
+        "label": "sky",
+        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_url_v1",
+        "label": "jymaster",
+        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "song_download_url_v1",
+        "label": "jymaster",
+        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "playmode_intelligence_list",
+        "label": "fallback",
+        "url": "https://music.163.com/weapi/playmode/intelligence/list",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      }
+    ],
+    "search-discovery": [
+      {
+        "module": "banner",
+        "label": "default",
+        "url": "https://music.163.com/weapi/v2/banner/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "banner",
+        "label": "zero",
+        "url": "https://music.163.com/weapi/v2/banner/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "default",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "personal_fm_mode",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/v1/radio/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "search_match",
+        "label": "default",
+        "url": "https://music.163.com/weapi/search/match/new",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "search_match",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/search/match/new",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "top_list",
+        "label": "default",
+        "url": "https://music.163.com/weapi/playlist/v4/detail",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-1",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-10",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-100",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-1000",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-1002",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-1004",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-1006",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-1009",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-1014",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-1018",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cloudsearch",
+        "label": "type-2000",
+        "url": "https://music.163.com/weapi/cloudsearch/pc",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "banner",
+        "label": "type-0",
+        "url": "https://music.163.com/weapi/v2/banner/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "personal_fm_mode",
+        "label": "aidj-none",
+        "url": "https://music.163.com/weapi/v1/radio/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "personal_fm_mode",
+        "label": "DEFAULT-none",
+        "url": "https://music.163.com/weapi/v1/radio/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "personal_fm_mode",
+        "label": "FAMILIAR-none",
+        "url": "https://music.163.com/weapi/v1/radio/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "personal_fm_mode",
+        "label": "EXPLORE-none",
+        "url": "https://music.163.com/weapi/v1/radio/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "personal_fm_mode",
+        "label": "SCENE_RCMD-EXERCISE",
+        "url": "https://music.163.com/weapi/v1/radio/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "personal_fm_mode",
+        "label": "SCENE_RCMD-FOCUS",
+        "url": "https://music.163.com/weapi/v1/radio/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "personal_fm_mode",
+        "label": "SCENE_RCMD-NIGHT_EMO",
+        "url": "https://music.163.com/weapi/v1/radio/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "personal_fm_mode",
+        "label": "default",
+        "url": "https://music.163.com/weapi/v1/radio/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      }
+    ],
+    "account-social": [
+      {
+        "module": "activate_init_profile",
+        "label": "default",
+        "url": "https://music.163.com/weapi/activate/initProfile",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cellphone_existence_check",
+        "label": "default",
+        "url": "https://music.163.com/weapi/cellphone/existence/check",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "cellphone_existence_check",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/cellphone/existence/check",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "comment",
+        "label": "action-2",
+        "path": "/api/v1/resource/comments/reply",
+        "url": "https://music.163.com/weapi/v1/resource/comments/reply"
+      },
+      {
+        "module": "comment",
+        "label": "action-string-2",
+        "path": "/api/v1/resource/comments/reply",
+        "url": "https://music.163.com/weapi/v1/resource/comments/reply"
+      },
+      {
+        "module": "countries_code_list",
+        "label": "default",
+        "url": "https://music.163.com/weapi/lbs/countries/v1",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "event_forward",
+        "label": "default",
+        "url": "https://music.163.com/weapi/event/forward",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "event_forward",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/event/forward",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_accept",
+        "label": "default",
+        "url": "https://music.163.com/weapi/listen/together/play/invitation/accept",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_end",
+        "label": "default",
+        "url": "https://music.163.com/weapi/listen/together/end/v2",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_heatbeat",
+        "label": "default",
+        "url": "https://music.163.com/weapi/listen/together/heartbeat",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_play_command",
+        "label": "default",
+        "url": "https://music.163.com/weapi/listen/together/play/command/report",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_room_check",
+        "label": "default",
+        "url": "https://music.163.com/weapi/listen/together/room/check",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_room_create",
+        "label": "default",
+        "url": "https://music.163.com/weapi/listen/together/room/create",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_sync_list_command",
+        "label": "default",
+        "url": "https://music.163.com/weapi/listen/together/sync/list/command/report",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_sync_list_command",
+        "label": "empty-lists",
+        "url": "https://music.163.com/weapi/listen/together/sync/list/command/report",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_sync_playlist_get",
+        "label": "default",
+        "url": "https://music.163.com/weapi/listen/together/sync/playlist/get",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "login",
+        "label": "default",
+        "url": "https://music.163.com/weapi/w/login",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "login",
+        "label": "md5",
+        "url": "https://music.163.com/weapi/w/login",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "login",
+        "label": "md5-only",
+        "url": "https://music.163.com/weapi/w/login",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "login_qr_check",
+        "label": "default",
+        "url": "https://music.163.com/weapi/login/qrcode/client/login",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "login_qr_key",
+        "label": "default",
+        "url": "https://music.163.com/weapi/login/qrcode/unikey",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "login_refresh",
+        "label": "default",
+        "url": "https://music.163.com/weapi/login/token/refresh",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "logout",
+        "label": "default",
+        "url": "https://music.163.com/weapi/logout",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "register_cellphone",
+        "label": "default",
+        "url": "https://music.163.com/weapi/w/register/cellphone",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "register_cellphone",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/w/register/cellphone",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "send_album",
+        "label": "default",
+        "url": "https://music.163.com/weapi/msg/private/send",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "send_album",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/msg/private/send",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "send_playlist",
+        "label": "default",
+        "url": "https://music.163.com/weapi/msg/private/send",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "send_playlist",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/msg/private/send",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "send_song",
+        "label": "default",
+        "url": "https://music.163.com/weapi/msg/private/send",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "send_song",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/msg/private/send",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "send_text",
+        "label": "default",
+        "url": "https://music.163.com/weapi/msg/private/send",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "send_text",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/msg/private/send",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "share_resource",
+        "label": "default",
+        "url": "https://music.163.com/weapi/share/friends/resource",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "share_resource",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/share/friends/resource",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "share_resource",
+        "label": "type-song",
+        "url": "https://music.163.com/weapi/share/friends/resource",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "share_resource",
+        "label": "type-playlist",
+        "url": "https://music.163.com/weapi/share/friends/resource",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "share_resource",
+        "label": "type-mv",
+        "url": "https://music.163.com/weapi/share/friends/resource",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "share_resource",
+        "label": "type-djprogram",
+        "url": "https://music.163.com/weapi/share/friends/resource",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "share_resource",
+        "label": "type-djradio",
+        "url": "https://music.163.com/weapi/share/friends/resource",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "share_resource",
+        "label": "type-noresource",
+        "url": "https://music.163.com/weapi/share/friends/resource",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "share_resource",
+        "label": "type-empty",
+        "url": "https://music.163.com/weapi/share/friends/resource",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "starpick_comments_summary",
+        "label": "default",
+        "url": "https://music.163.com/weapi/homepage/block/page",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_event",
+        "label": "default",
+        "url": "https://music.163.com/weapi/event/get/23",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_event",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/event/get/23",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_event",
+        "label": "zero",
+        "url": "https://music.163.com/weapi/event/get/23",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_follow_mixed",
+        "label": "default",
+        "url": "https://music.163.com/weapi/user/follow/users/mixed/get/v2",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_follow_mixed",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/user/follow/users/mixed/get/v2",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_follow_mixed",
+        "label": "zero",
+        "url": "https://music.163.com/weapi/user/follow/users/mixed/get/v2",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_follow_mixed",
+        "label": "scene-int-0",
+        "url": "https://music.163.com/weapi/user/follow/users/mixed/get/v2",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_follow_mixed",
+        "label": "scene-int-1",
+        "url": "https://music.163.com/weapi/user/follow/users/mixed/get/v2",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_follow_mixed",
+        "label": "scene-int-2",
+        "url": "https://music.163.com/weapi/user/follow/users/mixed/get/v2",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_follow_mixed",
+        "label": "scene-str-0",
+        "url": "https://music.163.com/weapi/user/follow/users/mixed/get/v2",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_follow_mixed",
+        "label": "scene-str-1",
+        "url": "https://music.163.com/weapi/user/follow/users/mixed/get/v2",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_follow_mixed",
+        "label": "scene-str-2",
+        "url": "https://music.163.com/weapi/user/follow/users/mixed/get/v2",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_followeds",
+        "label": "default",
+        "path": "/api/user/getfolloweds/",
+        "url": "https://music.163.com/weapi/user/getfolloweds/",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_followeds",
+        "label": "explicit",
+        "path": "/api/user/getfolloweds/",
+        "url": "https://music.163.com/weapi/user/getfolloweds/",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_followeds",
+        "label": "zero",
+        "path": "/api/user/getfolloweds/",
+        "url": "https://music.163.com/weapi/user/getfolloweds/",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_update",
+        "label": "default",
+        "url": "https://music.163.com/weapi/user/profile/update",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "user_update",
+        "label": "explicit",
+        "url": "https://music.163.com/weapi/user/profile/update",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_play_command",
+        "label": "zero-progress",
+        "url": "https://music.163.com/weapi/listen/together/play/command/report",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "listentogether_play_command",
+        "label": "missing-progress",
+        "url": "https://music.163.com/weapi/listen/together/play/command/report",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      },
+      {
+        "module": "comment",
+        "label": "event-reply",
+        "path": "/api/v1/resource/comments/reply",
+        "url": "https://music.163.com/weapi/v1/resource/comments/reply"
+      },
+      {
+        "module": "share_resource",
+        "label": "missing-id",
+        "url": "https://music.163.com/weapi/share/friends/resource",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      }
+    ],
+    "special-chains": [
+      {
+        "module": "avatar_upload",
+        "label": "default",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "MUSIC_U=synthetic-account; MUSIC_A=synthetic-anonymous; __csrf=csrf; deviceId=special-device; __remember_me=true; _ntes_nnid=00000000000000000000000000000000%2C1700000000000; _ntes_nuid=00000000000000000000000000000000; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; appver=3.1.17.204416; channel=netease; ntes_kaola_ad=1; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; NMTID=1111111111111111",
+              "referer": "https://music.163.com",
+              "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bucket": "yyimgs",
+              "ext": "jpg",
+              "filename": "image.jpg",
+              "local": false,
+              "nos_product": 0,
+              "return_body": "{\"code\":200,\"size\":\"$(ObjectSize)\"}",
+              "type": "other",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "plainImage",
+            "url": "https://nosup-hz1.127.net/yyimgs/object/Key?offset=0&complete=true&version=1.0",
+            "path": "/yyimgs/object/Key",
+            "method": "POST",
+            "protocol": "plain",
+            "headers": {
+              "content-type": "image/jpeg",
+              "x-nos-token": "synthetic-nos-token"
+            },
+            "bodyHex": "0001027fff",
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/user/avatar/upload/v1",
+            "path": "/api/user/avatar/upload/v1",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "imgid": "doc-1",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "module": "avatar_upload",
+        "label": "image.png",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "MUSIC_U=synthetic-account; MUSIC_A=synthetic-anonymous; __csrf=csrf; deviceId=special-device; __remember_me=true; _ntes_nnid=00000000000000000000000000000000%2C1700000000000; _ntes_nuid=00000000000000000000000000000000; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; appver=3.1.17.204416; channel=netease; ntes_kaola_ad=1; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; NMTID=1111111111111111",
+              "referer": "https://music.163.com",
+              "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bucket": "yyimgs",
+              "ext": "jpg",
+              "filename": "image.png",
+              "local": false,
+              "nos_product": 0,
+              "return_body": "{\"code\":200,\"size\":\"$(ObjectSize)\"}",
+              "type": "other",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "plainImage",
+            "url": "https://nosup-hz1.127.net/yyimgs/object/Key?offset=0&complete=true&version=1.0",
+            "path": "/yyimgs/object/Key",
+            "method": "POST",
+            "protocol": "plain",
+            "headers": {
+              "content-type": "image/jpeg",
+              "x-nos-token": "synthetic-nos-token"
+            },
+            "bodyHex": "0001027fff",
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/user/avatar/upload/v1",
+            "path": "/api/user/avatar/upload/v1",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "imgid": "doc-1",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "module": "avatar_upload",
+        "label": "photo.jpg",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "MUSIC_U=synthetic-account; MUSIC_A=synthetic-anonymous; __csrf=csrf; deviceId=special-device; __remember_me=true; _ntes_nnid=00000000000000000000000000000000%2C1700000000000; _ntes_nuid=00000000000000000000000000000000; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; appver=3.1.17.204416; channel=netease; ntes_kaola_ad=1; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; NMTID=1111111111111111",
+              "referer": "https://music.163.com",
+              "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bucket": "yyimgs",
+              "ext": "jpg",
+              "filename": "photo.jpg",
+              "local": false,
+              "nos_product": 0,
+              "return_body": "{\"code\":200,\"size\":\"$(ObjectSize)\"}",
+              "type": "other",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "plainImage",
+            "url": "https://nosup-hz1.127.net/yyimgs/object/Key?offset=0&complete=true&version=1.0",
+            "path": "/yyimgs/object/Key",
+            "method": "POST",
+            "protocol": "plain",
+            "headers": {
+              "content-type": "image/jpeg",
+              "x-nos-token": "synthetic-nos-token"
+            },
+            "bodyHex": "0001027fff",
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/user/avatar/upload/v1",
+            "path": "/api/user/avatar/upload/v1",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "imgid": "doc-1",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "module": "cloud",
+        "label": "upload-False-md5-False",
+        "wires": [
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/cloud/upload/check",
+            "path": "/api/cloud/upload/check",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bitrate": "999000",
+              "ext": "",
+              "length": 5,
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "songId": "0",
+              "version": 1,
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "needUpload": false,
+              "songId": 117
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "bucket": "",
+              "ext": "mp3",
+              "filename": "demo_track",
+              "local": false,
+              "nos_product": 3,
+              "type": "audio",
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/upload/cloud/info/v2",
+            "path": "/api/upload/cloud/info/v2",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "songid": 117,
+              "filename": " demo.track.mp3",
+              "song": "demo_track",
+              "album": "未知专辑",
+              "artist": "未知艺术家",
+              "bitrate": "999000",
+              "resourceId": "resource-1",
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "songId": 217
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/cloud/pub/v2",
+            "path": "/api/cloud/pub/v2",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "songid": 217,
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "module": "cloud",
+        "label": "upload-False-md5-True",
+        "wires": [
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/cloud/upload/check",
+            "path": "/api/cloud/upload/check",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bitrate": "999000",
+              "ext": "",
+              "length": 17,
+              "md5": "synthetic-md5",
+              "songId": "0",
+              "version": 1,
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "needUpload": false,
+              "songId": 117
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "bucket": "",
+              "ext": "mp3",
+              "filename": "demo_track",
+              "local": false,
+              "nos_product": 3,
+              "type": "audio",
+              "md5": "synthetic-md5",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/upload/cloud/info/v2",
+            "path": "/api/upload/cloud/info/v2",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "md5": "synthetic-md5",
+              "songid": 117,
+              "filename": " demo.track.mp3",
+              "song": "demo_track",
+              "album": "未知专辑",
+              "artist": "未知艺术家",
+              "bitrate": "999000",
+              "resourceId": "resource-1",
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "songId": 217
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/cloud/pub/v2",
+            "path": "/api/cloud/pub/v2",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "songid": 217,
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "module": "cloud",
+        "label": "upload-True-md5-False",
+        "wires": [
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/cloud/upload/check",
+            "path": "/api/cloud/upload/check",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bitrate": "999000",
+              "ext": "",
+              "length": 5,
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "songId": "0",
+              "version": 1,
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "needUpload": true,
+              "songId": 117
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "bucket": "",
+              "ext": "mp3",
+              "filename": "demo_track",
+              "local": false,
+              "nos_product": 3,
+              "type": "audio",
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "MUSIC_U=synthetic-account; MUSIC_A=synthetic-anonymous; __csrf=csrf; deviceId=special-device; __remember_me=true; _ntes_nnid=00000000000000000000000000000000%2C1700000000000; _ntes_nuid=00000000000000000000000000000000; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; appver=3.1.17.204416; channel=netease; ntes_kaola_ad=1; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; NMTID=1111111111111111",
+              "referer": "https://music.163.com",
+              "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bucket": "jd-musicrep-privatecloud-audio-public",
+              "ext": "mp3",
+              "filename": "demo_track",
+              "local": false,
+              "nos_product": 3,
+              "type": "audio",
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "plainLookup",
+            "url": "https://wanproxy.127.net/lbs?version=1.0&bucketname=jd-musicrep-privatecloud-audio-public",
+            "path": "/lbs",
+            "method": "GET",
+            "protocol": "plain",
+            "headers": {},
+            "bodyHex": "",
+            "response": {
+              "upload": ["https://nosup-hz1.127.net"]
+            }
+          },
+          {
+            "profile": "plainNos",
+            "url": "https://nosup-hz1.127.net/jd-musicrep-privatecloud-audio-public/object%2FKey?offset=0&complete=true&version=1.0",
+            "path": "/jd-musicrep-privatecloud-audio-public/object%2FKey",
+            "method": "POST",
+            "protocol": "plain",
+            "headers": {
+              "content-length": "5",
+              "content-md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "content-type": "audio/mpeg",
+              "x-nos-token": "synthetic-nos-token"
+            },
+            "bodyHex": "0001027fff",
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          },
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/upload/cloud/info/v2",
+            "path": "/api/upload/cloud/info/v2",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "songid": 117,
+              "filename": " demo.track.mp3",
+              "song": "demo_track",
+              "album": "未知专辑",
+              "artist": "未知艺术家",
+              "bitrate": "999000",
+              "resourceId": "resource-1",
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "songId": 217
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/cloud/pub/v2",
+            "path": "/api/cloud/pub/v2",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "songid": 217,
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "module": "cloud",
+        "label": "upload-True-md5-True",
+        "wires": [
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/cloud/upload/check",
+            "path": "/api/cloud/upload/check",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bitrate": "999000",
+              "ext": "",
+              "length": 17,
+              "md5": "synthetic-md5",
+              "songId": "0",
+              "version": 1,
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "needUpload": true,
+              "songId": 117
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "bucket": "",
+              "ext": "mp3",
+              "filename": "demo_track",
+              "local": false,
+              "nos_product": 3,
+              "type": "audio",
+              "md5": "synthetic-md5",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "MUSIC_U=synthetic-account; MUSIC_A=synthetic-anonymous; __csrf=csrf; deviceId=special-device; __remember_me=true; _ntes_nnid=00000000000000000000000000000000%2C1700000000000; _ntes_nuid=00000000000000000000000000000000; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; appver=3.1.17.204416; channel=netease; ntes_kaola_ad=1; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; NMTID=1111111111111111",
+              "referer": "https://music.163.com",
+              "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bucket": "jd-musicrep-privatecloud-audio-public",
+              "ext": "mp3",
+              "filename": "demo_track",
+              "local": false,
+              "nos_product": 3,
+              "type": "audio",
+              "md5": "synthetic-md5",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "plainLookup",
+            "url": "https://wanproxy.127.net/lbs?version=1.0&bucketname=jd-musicrep-privatecloud-audio-public",
+            "path": "/lbs",
+            "method": "GET",
+            "protocol": "plain",
+            "headers": {},
+            "bodyHex": "",
+            "response": {
+              "upload": ["https://nosup-hz1.127.net"]
+            }
+          },
+          {
+            "profile": "plainNos",
+            "url": "https://nosup-hz1.127.net/jd-musicrep-privatecloud-audio-public/object%2FKey?offset=0&complete=true&version=1.0",
+            "path": "/jd-musicrep-privatecloud-audio-public/object%2FKey",
+            "method": "POST",
+            "protocol": "plain",
+            "headers": {
+              "content-length": "17",
+              "content-md5": "synthetic-md5",
+              "content-type": "audio/mpeg",
+              "x-nos-token": "synthetic-nos-token"
+            },
+            "bodyHex": "0001027fff",
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          },
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/upload/cloud/info/v2",
+            "path": "/api/upload/cloud/info/v2",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "md5": "synthetic-md5",
+              "songid": 117,
+              "filename": " demo.track.mp3",
+              "song": "demo_track",
+              "album": "未知专辑",
+              "artist": "未知艺术家",
+              "bitrate": "999000",
+              "resourceId": "resource-1",
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "songId": 217
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/cloud/pub/v2",
+            "path": "/api/cloud/pub/v2",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "songid": 217,
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "module": "cloud",
+        "label": "no-extension",
+        "wires": [
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/cloud/upload/check",
+            "path": "/api/cloud/upload/check",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bitrate": "999000",
+              "ext": "",
+              "length": 5,
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "songId": "0",
+              "version": 1,
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "needUpload": true,
+              "songId": 117
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "bucket": "",
+              "ext": "mp3",
+              "filename": "track",
+              "local": false,
+              "nos_product": 3,
+              "type": "audio",
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "MUSIC_U=synthetic-account; MUSIC_A=synthetic-anonymous; __csrf=csrf; deviceId=special-device; __remember_me=true; _ntes_nnid=00000000000000000000000000000000%2C1700000000000; _ntes_nuid=00000000000000000000000000000000; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; appver=3.1.17.204416; channel=netease; ntes_kaola_ad=1; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; NMTID=1111111111111111",
+              "referer": "https://music.163.com",
+              "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36 Edg/124.0.0.0",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bucket": "jd-musicrep-privatecloud-audio-public",
+              "ext": "mp3",
+              "filename": "track",
+              "local": false,
+              "nos_product": 3,
+              "type": "audio",
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "plainLookup",
+            "url": "https://wanproxy.127.net/lbs?version=1.0&bucketname=jd-musicrep-privatecloud-audio-public",
+            "path": "/lbs",
+            "method": "GET",
+            "protocol": "plain",
+            "headers": {},
+            "bodyHex": "",
+            "response": {
+              "upload": ["https://nosup-hz1.127.net"]
+            }
+          },
+          {
+            "profile": "plainNos",
+            "url": "https://nosup-hz1.127.net/jd-musicrep-privatecloud-audio-public/object%2FKey?offset=0&complete=true&version=1.0",
+            "path": "/jd-musicrep-privatecloud-audio-public/object%2FKey",
+            "method": "POST",
+            "protocol": "plain",
+            "headers": {
+              "content-length": "5",
+              "content-md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "content-type": "audio/mpeg",
+              "x-nos-token": "synthetic-nos-token"
+            },
+            "bodyHex": "0001027fff",
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          },
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/upload/cloud/info/v2",
+            "path": "/api/upload/cloud/info/v2",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "md5": "e555b7e025cdf6f435c4c400f4df7ef4",
+              "songid": 117,
+              "filename": "track",
+              "song": "track",
+              "album": "未知专辑",
+              "artist": "未知艺术家",
+              "bitrate": "999000",
+              "resourceId": "resource-1",
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "songId": 217
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/cloud/pub/v2",
+            "path": "/api/cloud/pub/v2",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "songid": 217,
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_track_all",
+        "label": "default",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v6/playlist/detail",
+            "path": "/api/v6/playlist/detail",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "id": 17,
+              "n": 100000,
+              "s": 8,
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "playlist": {
+                "trackIds": [
+                  {
+                    "id": 17
+                  },
+                  {
+                    "id": 19
+                  },
+                  {
+                    "id": 23
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v3/song/detail",
+            "path": "/api/v3/song/detail",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "c": "[{\"id\":17},{\"id\":19},{\"id\":23}]",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "songs": []
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_track_all",
+        "label": "page",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v6/playlist/detail",
+            "path": "/api/v6/playlist/detail",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "id": 17,
+              "n": 100000,
+              "s": 3,
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "playlist": {
+                "trackIds": [
+                  {
+                    "id": 17
+                  },
+                  {
+                    "id": 19
+                  },
+                  {
+                    "id": 23
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v3/song/detail",
+            "path": "/api/v3/song/detail",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "c": "[{\"id\":19},{\"id\":23}]",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "songs": []
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_track_all",
+        "label": "falsy",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v6/playlist/detail",
+            "path": "/api/v6/playlist/detail",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "id": 17,
+              "n": 100000,
+              "s": 8,
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "playlist": {
+                "trackIds": [
+                  {
+                    "id": 17
+                  },
+                  {
+                    "id": 19
+                  },
+                  {
+                    "id": 23
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v3/song/detail",
+            "path": "/api/v3/song/detail",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "c": "[{\"id\":17},{\"id\":19},{\"id\":23}]",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "songs": []
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_track_all",
+        "label": "empty",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v6/playlist/detail",
+            "path": "/api/v6/playlist/detail",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "id": 17,
+              "n": 100000,
+              "s": 8,
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "playlist": {
+                "trackIds": [
+                  {
+                    "id": 17
+                  },
+                  {
+                    "id": 19
+                  },
+                  {
+                    "id": 23
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v3/song/detail",
+            "path": "/api/v3/song/detail",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "c": "[]",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "songs": []
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "add-30",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "add",
+              "pid": 19,
+              "trackIds": "[\"17\",\"23\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "add-31",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "add",
+              "pid": 19,
+              "trackIds": "[\"17\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "add-32",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "add",
+              "pid": 19,
+              "trackIds": "[\"false\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "add-33",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "add",
+              "pid": 19,
+              "trackIds": "[\"\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "add-34",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "add",
+              "pid": 19,
+              "trackIds": "[\"\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "del-35",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "del",
+              "pid": 19,
+              "trackIds": "[\"17\",\"23\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "del-36",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "del",
+              "pid": 19,
+              "trackIds": "[\"17\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "del-37",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "del",
+              "pid": 19,
+              "trackIds": "[\"false\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "del-38",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "del",
+              "pid": 19,
+              "trackIds": "[\"\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "del-39",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "del",
+              "pid": 19,
+              "trackIds": "[\"\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "playlist_tracks",
+        "label": "business-512",
+        "wires": [
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "add",
+              "pid": 19,
+              "trackIds": "[\"17\",\"23\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 512
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/v1/playlist/manipulate/tracks",
+            "path": "/api/v1/playlist/manipulate/tracks",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "op": "add",
+              "pid": 19,
+              "trackIds": "[\"17\",\"23\",\"17\",\"23\"]",
+              "imme": "true",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "count": 1
+            }
+          }
+        ]
+      },
+      {
+        "module": "cloud",
+        "label": "valid-wave-tags",
+        "wires": [
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/cloud/upload/check",
+            "path": "/api/cloud/upload/check",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "bitrate": "999000",
+              "ext": "",
+              "length": 132,
+              "md5": "6cc5e1d22ca1786a6b946a63f15d29c5",
+              "songId": "0",
+              "version": 1,
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "needUpload": false,
+              "songId": 117
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/nos/token/alloc",
+            "path": "/api/nos/token/alloc",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "bucket": "",
+              "ext": "wav",
+              "filename": "synthetic",
+              "local": false,
+              "nos_product": 3,
+              "type": "audio",
+              "md5": "6cc5e1d22ca1786a6b946a63f15d29c5",
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "result": {
+                "docId": "doc-1",
+                "objectKey": "object/Key",
+                "token": "synthetic-nos-token",
+                "resourceId": "resource-1"
+              }
+            }
+          },
+          {
+            "profile": "eapi",
+            "url": "https://interface.music.163.com/eapi/upload/cloud/info/v2",
+            "path": "/api/upload/cloud/info/v2",
+            "method": "POST",
+            "protocol": "eapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; requestId=1700000000000_0000; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1"
+            },
+            "data": {
+              "md5": "6cc5e1d22ca1786a6b946a63f15d29c5",
+              "songid": 117,
+              "filename": "synthetic.wav",
+              "song": "Synthetic title",
+              "album": "Synthetic album",
+              "artist": "Synthetic artist",
+              "bitrate": "999000",
+              "resourceId": "resource-1",
+              "e_r": false,
+              "header": {
+                "__csrf": "csrf",
+                "appver": "3.1.17.204416",
+                "buildver": "1700000000",
+                "channel": "netease",
+                "deviceId": "special-device",
+                "mobilename": "",
+                "os": "pc",
+                "osver": "Microsoft-Windows-10-Professional-build-19045-64bit",
+                "requestId": "1700000000000_0000",
+                "resolution": "1920x1080",
+                "versioncode": "140",
+                "MUSIC_A": "synthetic-anonymous",
+                "MUSIC_U": "synthetic-account"
+              }
+            },
+            "response": {
+              "code": 200,
+              "songId": 217
+            }
+          },
+          {
+            "profile": "weapiPc",
+            "url": "https://music.163.com/weapi/cloud/pub/v2",
+            "path": "/api/cloud/pub/v2",
+            "method": "POST",
+            "protocol": "weapi",
+            "headers": {
+              "content-type": "application/x-www-form-urlencoded",
+              "cookie": "__csrf=csrf; appver=3.1.17.204416; buildver=1700000000; channel=netease; deviceId=special-device; mobilename=; os=pc; osver=Microsoft-Windows-10-Professional-build-19045-64bit; resolution=1920x1080; versioncode=140; MUSIC_A=synthetic-anonymous; MUSIC_U=synthetic-account; NMTID=1111111111111111; WEVNSM=1.0.0; WNMCID=abcdef.1700000000000.01.0; __remember_me=true; _ntes_nnid=00000000000000000000000000000000,1700000000000; _ntes_nuid=00000000000000000000000000000000; ntes_kaola_ad=1",
+              "user-agent": "NeteaseMusic 9.0.90/5038 (iPhone; iOS 16.2; zh_CN)",
+              "x-forwarded-for": "127.0.0.1",
+              "x-real-ip": "127.0.0.1",
+              "referer": "https://music.163.com"
+            },
+            "data": {
+              "songid": 217,
+              "e_r": false,
+              "csrf_token": "csrf"
+            },
+            "response": {
+              "code": 200,
+              "data": {
+                "synthetic": true
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "membership-business": [
+      {
+        "module": "recent_listen_list",
+        "label": "default",
+        "url": "https://music.163.com/weapi/pc/recent/listen/list",
+        "profile": "weapiPc",
+        "protocol": "weapi"
+      }
+    ]
+  }
+}

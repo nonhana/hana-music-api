@@ -15,6 +15,7 @@ import { chromium } from 'playwright';
 
 import { findForbiddenArtifactSymbols } from '../_kit/artifacts.ts';
 import { projectRoot } from '../_kit/assertions.ts';
+import { currentRequests } from '../_kit/current-requests.ts';
 import { fingerprint, writeEvidence } from '../_kit/evidence.ts';
 import albumNoDescription from '../fixtures/netease/library/album.no-description.json';
 import artistAlbum from '../fixtures/netease/library/artist_album.json';
@@ -480,7 +481,7 @@ describe('sdk release contract', () => {
           'await client.lyric({ id: 7 })',
           'await client.songDetail({ ids: [7] })',
           'await client.playlistDetail({ id: 7 })',
-          "deepStrictEqual(requests.slice(3).map((entry) => entry.url), ['https://interface.music.163.com/eapi/song/lyric', 'https://music.163.com/weapi/v3/song/detail', 'https://interface.music.163.com/eapi/v6/playlist/detail'])",
+          "deepStrictEqual(requests.slice(3).map((entry) => entry.url), ['https://music.163.com/weapi/song/lyric', 'https://music.163.com/weapi/v3/song/detail', 'https://music.163.com/weapi/v6/playlist/detail'])",
           "if (!requests[4].headers.get('cookie').includes('os=web')) throw new Error('packaged song detail profile failed')",
           "const subscription = await playlistSubscribe({ id: 17, t: 1 }, { ...config, cookie: 'MUSIC_U=package-listener; os=iphone', checkToken: 'package-token' })",
           'const write = requests.at(-1)',
@@ -543,8 +544,19 @@ describe('sdk release contract', () => {
       );
       writeFileSync(
         resolve(consumerDirectory, 'library-playback.json'),
-        readFileSync(
-          resolve(projectRoot, 'tests/fixtures/requests/library-playback.json'),
+        JSON.stringify(
+          currentRequests(
+            'library-playback',
+            JSON.parse(
+              readFileSync(
+                resolve(
+                  projectRoot,
+                  'tests/fixtures/requests/library-playback.json',
+                ),
+                'utf8',
+              ),
+            ),
+          ),
         ),
       );
       for (const runtime of ['node', 'bun']) {
@@ -580,8 +592,19 @@ describe('sdk release contract', () => {
       );
       writeFileSync(
         resolve(consumerDirectory, 'search-discovery.json'),
-        readFileSync(
-          resolve(projectRoot, 'tests/fixtures/requests/search-discovery.json'),
+        JSON.stringify(
+          currentRequests(
+            'search-discovery',
+            JSON.parse(
+              readFileSync(
+                resolve(
+                  projectRoot,
+                  'tests/fixtures/requests/search-discovery.json',
+                ),
+                'utf8',
+              ),
+            ),
+          ),
         ),
       );
       for (const runtime of ['node', 'bun']) {
@@ -617,8 +640,19 @@ describe('sdk release contract', () => {
       );
       writeFileSync(
         resolve(consumerDirectory, 'account-social.json'),
-        readFileSync(
-          resolve(projectRoot, 'tests/fixtures/requests/account-social.json'),
+        JSON.stringify(
+          currentRequests(
+            'account-social',
+            JSON.parse(
+              readFileSync(
+                resolve(
+                  projectRoot,
+                  'tests/fixtures/requests/account-social.json',
+                ),
+                'utf8',
+              ),
+            ),
+          ),
         ),
       );
       for (const runtime of ['node', 'bun']) {
@@ -694,10 +728,18 @@ describe('sdk release contract', () => {
       );
       writeFileSync(
         resolve(consumerDirectory, 'membership-business.json'),
-        readFileSync(
-          resolve(
-            projectRoot,
-            'tests/fixtures/requests/membership-business.json',
+        JSON.stringify(
+          currentRequests(
+            'membership-business',
+            JSON.parse(
+              readFileSync(
+                resolve(
+                  projectRoot,
+                  'tests/fixtures/requests/membership-business.json',
+                ),
+                'utf8',
+              ),
+            ),
           ),
         ),
       );
@@ -810,9 +852,9 @@ describe('sdk release contract', () => {
         expect(result.exitCode, result.stderr).toBe(0);
         const counts = JSON.parse(result.stdout);
         expect(counts).toEqual({
-          requests: 21,
-          providers: 6,
-          scenarios: 3,
+          requests: 41,
+          providers: 13,
+          scenarios: 6,
           localProviders: 0,
         });
         specialChains.push({

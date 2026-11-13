@@ -17,8 +17,8 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
-    target: { prefix: '/api/user/getfolloweds/' },
+    profile: 'web',
+    target: '/api/user/getfolloweds/',
     semantic: 'read',
     cache: 'none',
     retry: 'connect',
@@ -76,7 +76,6 @@ const userFolloweds: ModuleEffect<
     };
     const response = yield* request('request', {
       data,
-      path: `/api/user/getfolloweds/${query.uid}`,
     });
     const body = yield* decodeUpstreamBody(
       'user_followeds',

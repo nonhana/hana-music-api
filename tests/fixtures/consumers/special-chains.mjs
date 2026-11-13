@@ -15,6 +15,91 @@ const client = sdk.createHanaMusicApi({
 });
 for (const scenario of [
   {
+    method: 'search',
+    query: { keywords: 'sample', type: 2000 },
+    steps: [
+      {
+        url: 'https://music.163.com/weapi/search/voice/get',
+        data: { keyword: 'sample', scene: 'normal', limit: 30, offset: 0 },
+        response: { code: 200, data: [] },
+      },
+    ],
+  },
+  {
+    method: 'playlistTrackAll',
+    query: { id: 7 },
+    steps: [
+      {
+        url: 'https://music.163.com/weapi/v6/playlist/detail',
+        data: { id: 7, n: 100000, s: 8 },
+        response: { code: 200, playlist: { trackIds: [{ id: 17 }] } },
+      },
+      {
+        url: 'https://music.163.com/weapi/v3/song/detail',
+        data: { c: '[{"id":17}]' },
+        response: { code: 200, songs: [], privileges: [] },
+      },
+    ],
+  },
+  {
+    method: 'cloud',
+    query: {
+      songFile: {
+        name: 'sample.mp3',
+        data: bytes,
+        size: 4,
+        mimetype: 'audio/mpeg',
+        md5: 'synthetic-md5',
+      },
+    },
+    steps: [
+      {
+        url: 'https://interface.music.163.com/eapi/cloud/upload/check',
+        data: {
+          bitrate: '999000',
+          ext: '',
+          length: 4,
+          md5: 'synthetic-md5',
+          songId: '0',
+          version: 1,
+        },
+        response: { code: 200, needUpload: false, songId: 117 },
+      },
+      {
+        url: 'https://music.163.com/weapi/nos/token/alloc',
+        data: {
+          bucket: '',
+          ext: 'mp3',
+          filename: 'sample',
+          local: false,
+          nos_product: 3,
+          type: 'audio',
+          md5: 'synthetic-md5',
+        },
+        response: { code: 200, result: { resourceId: 'resource-1' } },
+      },
+      {
+        url: 'https://interface.music.163.com/eapi/upload/cloud/info/v2',
+        data: {
+          md5: 'synthetic-md5',
+          songid: 117,
+          filename: 'sample.mp3',
+          song: 'sample',
+          album: '未知专辑',
+          artist: '未知艺术家',
+          bitrate: '999000',
+          resourceId: 'resource-1',
+        },
+        response: { code: 200, songId: 118 },
+      },
+      {
+        url: 'https://music.163.com/weapi/cloud/pub/v2',
+        data: { songid: 118 },
+        response: { code: 200 },
+      },
+    ],
+  },
+  {
     method: 'cloudImport',
     query: { id: 7, song: 'sample', fileType: 'flac' },
     steps: [
@@ -39,12 +124,12 @@ for (const scenario of [
     query: { pid: 7, tracks: [17, 18], op: 'add' },
     steps: [
       {
-        url: 'https://interface.music.163.com/eapi/playlist/manipulate/tracks',
+        url: 'https://music.163.com/weapi/v1/playlist/manipulate/tracks',
         data: { op: 'add', pid: 7, trackIds: '["17","18"]', imme: 'true' },
         response: { code: 512 },
       },
       {
-        url: 'https://interface.music.163.com/eapi/playlist/manipulate/tracks',
+        url: 'https://music.163.com/weapi/v1/playlist/manipulate/tracks',
         data: {
           op: 'add',
           pid: 7,
@@ -88,7 +173,7 @@ for (const scenario of [
         response: { code: 200 },
       },
       {
-        url: 'https://interface.music.163.com/eapi/user/avatar/upload/v1',
+        url: 'https://music.163.com/weapi/user/avatar/upload/v1',
         data: { imgid: '17' },
         response: { code: 200 },
       },
@@ -195,7 +280,10 @@ for (const scenario of [
       (error) => ({ error }),
     );
     assert.deepEqual(failures, []);
-    if (mode === 'string') {
+    if (
+      mode === 'string' &&
+      scenario.steps.filter((step) => !step.plain).length > 1
+    ) {
       assert.equal(result.error.status, 400);
       assert.equal(sent, scenario.method === 'avatarUpload' ? 2 : 1);
     } else if (mode === 'refusal') {
@@ -210,7 +298,12 @@ for (const scenario of [
       assert.equal(result.value.status, 200);
       assert.equal(sent, scenario.steps.length);
     }
-    assert.equal(taken, mode === 'provider' ? 2 : 0);
+    assert.equal(
+      taken,
+      mode === 'provider'
+        ? scenario.steps.filter((step) => !step.plain).length
+        : 0,
+    );
   }
 }
 let localProviders = 0;
@@ -230,8 +323,8 @@ assert.equal(local.status, 200);
 assert.equal(local.body.data.version, process.argv[2]);
 assert.equal(localProviders, 0);
 assert.deepEqual(failures, []);
-assert.equal(requests, 21);
-assert.equal(providers, 6);
+assert.equal(requests, 41);
+assert.equal(providers, 13);
 process.stdout.write(
-  JSON.stringify({ requests, providers, scenarios: 3, localProviders }),
+  JSON.stringify({ requests, providers, scenarios: 6, localProviders }),
 );

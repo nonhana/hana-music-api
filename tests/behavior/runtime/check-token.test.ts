@@ -131,14 +131,14 @@ for (const tokenKind of ['string', 'provider'] as const) {
     {
       name: 'search voice',
       path: 'search/voice/get',
-      web: false,
+      web: true,
       call: (client: HanaMusicApiClient) =>
         client.search({ keywords: 'same', type: 2000 }),
     },
     {
       name: 'lyric',
       path: 'song/lyric',
-      web: false,
+      web: true,
       call: (client: HanaMusicApiClient) => client.lyric({ id: 7 }),
     },
     {
@@ -150,7 +150,7 @@ for (const tokenKind of ['string', 'provider'] as const) {
     {
       name: 'playlistDetail',
       path: 'v6/playlist/detail',
-      web: false,
+      web: true,
       call: (client: HanaMusicApiClient) => client.playlistDetail({ id: 7 }),
     },
   ])(
@@ -303,7 +303,7 @@ test.each(['string', 'provider'] as const)(
     let providers = 0;
     const expected = [
       {
-        url: 'https://interface.music.163.com/eapi/v6/playlist/detail',
+        url: 'https://music.163.com/weapi/v6/playlist/detail',
         method: 'POST',
         headers: { 'X-antiCheatToken': 'multi-1' },
         response: () =>
@@ -312,7 +312,7 @@ test.each(['string', 'provider'] as const)(
     ];
     if (kind === 'provider')
       expected.push({
-        url: 'https://interface.music.163.com/eapi/v3/song/detail',
+        url: 'https://music.163.com/weapi/v3/song/detail',
         method: 'POST',
         headers: { 'X-antiCheatToken': 'multi-2' },
         response: () => Response.json({ code: 200, songs: [], privileges: [] }),
@@ -477,7 +477,7 @@ test('a multi-request provider failure stops before the next send and redacts it
   await withScenario(
     [
       {
-        url: 'https://interface.music.163.com/eapi/v6/playlist/detail',
+        url: 'https://music.163.com/weapi/v6/playlist/detail',
         method: 'POST',
         headers: { 'X-antiCheatToken': 'first-token' },
         response: () =>

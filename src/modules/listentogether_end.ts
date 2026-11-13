@@ -12,7 +12,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/listen/together/end/v2',
     semantic: 'write',
     cache: 'none',

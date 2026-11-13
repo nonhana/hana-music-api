@@ -49,7 +49,7 @@ export const mutations = [
     find: "eapi: {\n    protocol: 'eapi',\n    domain: 'https://interface.music.163.com',\n    ...clientIdentities.iphone,",
     replace:
       "eapi: {\n    protocol: 'eapi',\n    domain: 'https://interface.music.163.com',\n    ...clientIdentities.iphone,\n    userAgent: clientIdentities.web.userAgent,",
-    expectedFailures: ['identity sdk Ficus exhigh uses one iPhone identity'],
+    expectedFailures: ['identity sdk Ficus sky uses its declared identity'],
   },
   {
     id: 'identity-case-cleanup-lost',

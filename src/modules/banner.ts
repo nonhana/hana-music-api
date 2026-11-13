@@ -58,6 +58,13 @@ export const ModuleBody = Schema.toStandardSchemaV1(
 export type ModuleBody = typeof ModuleBody.Type;
 
 export const moduleActions = {
+  readPc: {
+    target: '/api/v2/banner/get',
+    profile: 'web',
+    semantic: 'read',
+    cache: 'none',
+    retry: 'connect',
+  },
   read: {
     target: '/api/v2/banner/get',
     profile: 'eapi',
@@ -74,11 +81,14 @@ const banner: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   Effect.gen(function* () {
     const clientTypes = ['pc', 'android', 'iphone', 'ipad'] as const;
     const clientType = clientTypes[query.type ?? 0];
-    const response = yield* request('read', {
-      data: {
-        clientType,
+    const response = yield* request(
+      (query.type ?? 0) === 0 ? 'readPc' : 'read',
+      {
+        data: {
+          clientType,
+        },
       },
-    });
+    );
     const body = yield* decodeUpstreamBody('banner', ModuleBody, response);
     return { ...toModuleResponse(response), body };
   });

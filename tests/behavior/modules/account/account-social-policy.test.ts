@@ -10,12 +10,15 @@ import { buildCallServices } from '../../../../src/core/call.ts';
 import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
 import { createServer } from '../../../../src/server/create-server.ts';
 import { projectRoot, settle } from '../../../_kit/assertions.ts';
+import { currentRequests } from '../../../_kit/current-requests.ts';
 import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
 import { runEffect } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
-import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
+import { readWebBody } from '../../../_kit/upstream/wire.ts';
 import responseFiles from '../../../fixtures/requests/account-social-responses.json';
-import baseline from '../../../fixtures/requests/account-social.json';
+import frozenRequests from '../../../fixtures/requests/account-social.json';
+
+const baseline = currentRequests('account-social', frozenRequests);
 
 const defaults = baseline.cases.filter((entry) => entry.label === 'default');
 
@@ -400,7 +403,7 @@ test('account interleaved calls freeze credentials input and account snapshots',
         response: () => Response.json({ code: 403 }),
       },
       {
-        url: 'https://interface.music.163.com/eapi/w/login',
+        url: 'https://music.163.com/weapi/w/login',
         method: 'POST',
         response: () => Response.json({ code: 403 }),
       },
@@ -444,10 +447,10 @@ test('account interleaved calls freeze credentials input and account snapshots',
     checkToken: 'second-token',
   });
   expect(result[0]!.headers.get('cookie')).toContain('MUSIC_U=second-account');
-  expect(readEapiBody(result[1]!.body).data).toMatchObject({
+  expect(result[1]!.headers.get('cookie')).toContain('MUSIC_U=first-account');
+  expect(readWebBody(result[1]!.body)).toMatchObject({
     username: 'synthetic@example.invalid',
     password: 'b975f06bfd229cc7f1c47a1ade7720ce',
     checkToken: 'first-token',
-    header: { MUSIC_U: 'first-account' },
   });
 });

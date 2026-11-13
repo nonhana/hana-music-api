@@ -14,12 +14,15 @@ import {
   projectRoot,
   settle,
 } from '../../../_kit/assertions.ts';
+import { currentRequests } from '../../../_kit/current-requests.ts';
 import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
 import { runEffect, runExit } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
-import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
+import { readWebBody } from '../../../_kit/upstream/wire.ts';
 import responseFiles from '../../../fixtures/requests/search-discovery-responses.json';
-import baseline from '../../../fixtures/requests/search-discovery.json';
+import frozenRequests from '../../../fixtures/requests/search-discovery.json';
+
+const baseline = currentRequests('search-discovery', frozenRequests);
 
 const defaults = baseline.cases.filter((entry) => entry.label === 'default');
 const validDefaults = (
@@ -223,7 +226,7 @@ for (const method of ['fmTrash', 'personalFmMode'] as const) {
     const url =
       method === 'fmTrash'
         ? 'https://music.163.com/weapi/radio/trash/add'
-        : 'https://interface.music.163.com/eapi/v1/radio/get';
+        : 'https://music.163.com/weapi/v1/radio/get';
     let bodyPulls = 0;
     const observed = await settle(
       withScenario(
@@ -428,7 +431,7 @@ test('discovery interleaved calls freeze account input and token snapshots', asy
   const outcome = await withScenario(
     [
       {
-        url: 'https://interface.music.163.com/eapi/cloudsearch/pc',
+        url: 'https://music.163.com/weapi/cloudsearch/pc',
         method: 'POST',
         response: () => Response.json({ code: 403 }),
       },
@@ -477,10 +480,9 @@ test('discovery interleaved calls freeze account input and token snapshots', asy
     time: 29,
     checkToken: 'first-token',
   });
-  expect(readEapiBody(outcome.wires[0]!.body).data).toMatchObject({
+  expect(readWebBody(outcome.wires[0]!.body)).toMatchObject({
     s: 'other',
     checkToken: 'second-token',
-    header: { MUSIC_U: 'second-account' },
   });
   expect(outcome.wires[1]!.headers.get('cookie')).toContain(
     'MUSIC_U=first-account',

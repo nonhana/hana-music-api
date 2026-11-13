@@ -2,8 +2,8 @@ export const mutations = [
   {
     id: 'account-login-protocol-swapped',
     file: 'src/modules/login.ts',
-    find: "profile: 'eapi',",
-    replace: "profile: 'web',",
+    find: "profile: 'web',",
+    replace: "profile: 'eapi',",
     expectedFailures: [
       'account client login/default owns its baseline wire contract',
     ],

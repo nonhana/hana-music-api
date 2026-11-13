@@ -27,7 +27,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
       type: 6,
     },
     check: (wires) => {
-      expect(wires[0]!.url).toContain('/weapi/resource/comments/reply');
+      expect(wires[0]!.url).toContain('/weapi/v1/resource/comments/reply');
       expect(readWebBody(wires[0]!.body)).toMatchObject({
         threadId: 'A_EV_2_1_2',
         commentId: '3',

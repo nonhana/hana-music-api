@@ -35,7 +35,7 @@ export const createFakeUpstream = (delayMs = 50) => {
       response: success,
     },
     {
-      url: 'https://music.163.com/weapi/radio/like',
+      url: 'https://music.163.com/weapi/song/like',
       method: 'POST',
       response: () => Response.json({ code: 200, playlistId: 1, songs: [] }),
     },
@@ -70,7 +70,7 @@ export const createFakeUpstream = (delayMs = 50) => {
       response: success,
     },
     {
-      url: 'https://interface.music.163.com/eapi/user/avatar/upload/v1',
+      url: 'https://music.163.com/weapi/user/avatar/upload/v1',
       method: 'POST',
       response: success,
     },
@@ -133,7 +133,7 @@ export const createFakeUpstream = (delayMs = 50) => {
             {
               ...route,
               response: async (wire) => {
-                if (path === '/weapi/radio/like') {
+                if (path === '/weapi/song/like') {
                   const payload = readWebBody(wire.body) as { like: boolean };
                   writes.push(String(payload.like));
                 }

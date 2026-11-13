@@ -16,7 +16,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'eapi',
+    profile: 'web',
     target: '/api/lbs/countries/v1',
     semantic: 'read',
     cache: 'none',

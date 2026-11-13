@@ -1,0 +1,1477 @@
+{
+  "source": "https://github.com/nonhana/hana-music-api/issues/137",
+  "baselineHead": "472dbc5c46ecd9cfed075b47c8f5a1aad0b006e1",
+  "eapiDispositions": [
+    {
+      "module": "activate_init_profile",
+      "action": "request",
+      "baselineTarget": "/api/activate/initProfile",
+      "decision": "web；/api/activate/initProfile",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2367524"
+    },
+    {
+      "module": "aidj_content_rcmd",
+      "action": "read",
+      "baselineTarget": "/api/aidj/content/rcmd/info",
+      "decision": "eapi；/api/aidj/content/rcmd/info",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "album_privilege",
+      "action": "read",
+      "baselineTarget": "/api/album/privilege",
+      "decision": "web；/api/album/privilege",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2382163"
+    },
+    {
+      "module": "artist_detail_dynamic",
+      "action": "read",
+      "baselineTarget": "/api/artist/detail/dynamic",
+      "decision": "web；/api/artist/detail/dynamic",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2410473"
+    },
+    {
+      "module": "artist_detail",
+      "action": "read",
+      "baselineTarget": "/api/artist/head/info/get",
+      "decision": "eapi；/api/artist/head/info/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "artist_songs",
+      "action": "read",
+      "baselineTarget": "/api/v1/artist/songs",
+      "decision": "eapi；/api/v1/artist/songs",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "avatar_upload",
+      "action": "submit",
+      "baselineTarget": "/api/user/avatar/upload/v1",
+      "decision": "web；/api/user/avatar/upload/v1",
+      "reason": "S5；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2407612"
+    },
+    {
+      "module": "banner",
+      "action": "read",
+      "baselineTarget": "/api/v2/banner/get",
+      "decision": "type=0 → web；type=1/2/3 → eapi；/api/v2/banner/get",
+      "reason": "S3；分支迁移：仅默认 PC 分支有同业务网页依据；移动客户端选择继续保持；W@2399136"
+    },
+    {
+      "module": "batch",
+      "action": "request",
+      "baselineTarget": "/api/batch",
+      "decision": "eapi；/api/batch",
+      "reason": "保留；保留：开放子路由集合可能包含仅客户端支持的请求；不能把通用批量入口整体改为 web"
+    },
+    {
+      "module": "broadcast_category_region_get",
+      "action": "request",
+      "baselineTarget": "/api/voice/broadcast/category/region/get",
+      "decision": "eapi；/api/voice/broadcast/category/region/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "broadcast_channel_collect_list",
+      "action": "request",
+      "baselineTarget": "/api/content/channel/collect/list",
+      "decision": "eapi；/api/content/channel/collect/list",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "broadcast_channel_currentinfo",
+      "action": "request",
+      "baselineTarget": "/api/voice/broadcast/channel/currentinfo",
+      "decision": "eapi；/api/voice/broadcast/channel/currentinfo",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "broadcast_channel_list",
+      "action": "request",
+      "baselineTarget": "/api/voice/broadcast/channel/list",
+      "decision": "eapi；/api/voice/broadcast/channel/list",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "broadcast_sub",
+      "action": "cancel",
+      "baselineTarget": "/api/content/interact/collect",
+      "decision": "eapi；/api/content/interact/collect",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "broadcast_sub",
+      "action": "collect",
+      "baselineTarget": "/api/content/interact/collect",
+      "decision": "eapi；/api/content/interact/collect",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "cellphone_existence_check",
+      "action": "request",
+      "baselineTarget": "/api/cellphone/existence/check",
+      "decision": "web；/api/cellphone/existence/check",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2366950"
+    },
+    {
+      "module": "cloud_import",
+      "action": "check",
+      "baselineTarget": "/api/cloud/upload/check/v2",
+      "decision": "eapi；/api/cloud/upload/check/v2",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "cloud_import",
+      "action": "import",
+      "baselineTarget": "/api/cloud/user/song/import",
+      "decision": "eapi；/api/cloud/user/song/import",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "cloud",
+      "action": "allocate",
+      "baselineTarget": "/api/nos/token/alloc",
+      "decision": "web；/api/nos/token/alloc",
+      "reason": "S5；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；C@486286"
+    },
+    {
+      "module": "cloud",
+      "action": "check",
+      "baselineTarget": "/api/cloud/upload/check",
+      "decision": "eapi；/api/cloud/upload/check",
+      "reason": "保留；保留：当前现代资源中的线索来自原生上传器配置，不是已证明的浏览器请求；保留该阶段"
+    },
+    {
+      "module": "cloud",
+      "action": "information",
+      "baselineTarget": "/api/upload/cloud/info/v2",
+      "decision": "eapi；/api/upload/cloud/info/v2",
+      "reason": "保留；保留：当前现代资源中的线索来自原生上传器配置；保留上传元信息阶段"
+    },
+    {
+      "module": "cloud",
+      "action": "publish",
+      "baselineTarget": "/api/cloud/pub/v2",
+      "decision": "web；/api/cloud/pub/v2",
+      "reason": "S5；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2351445"
+    },
+    {
+      "module": "cloudsearch",
+      "action": "read",
+      "baselineTarget": "/api/cloudsearch/pc",
+      "decision": "web；/api/cloudsearch/pc",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2375158"
+    },
+    {
+      "module": "comment_hug_list",
+      "action": "request",
+      "baselineTarget": "/api/v2/resource/comments/hug/list",
+      "decision": "eapi；/api/v2/resource/comments/hug/list",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "comment_new",
+      "action": "request",
+      "baselineTarget": "/api/v2/resource/comments",
+      "decision": "eapi；/api/v2/resource/comments",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "countries_code_list",
+      "action": "request",
+      "baselineTarget": "/api/lbs/countries/v1",
+      "decision": "web；/api/lbs/countries/v1",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；C@436273"
+    },
+    {
+      "module": "daily_signin",
+      "action": "request",
+      "baselineTarget": "/api/point/dailyTask",
+      "decision": "eapi；/api/point/dailyTask",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "dj_difm_all_style_channel",
+      "action": "request",
+      "baselineTarget": "/api/dj/difm/all/style/channel/v2",
+      "decision": "eapi；/api/dj/difm/all/style/channel/v2",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "dj_difm_channel_subscribe",
+      "action": "request",
+      "baselineTarget": "/api/dj/difm/channel/subscribe",
+      "decision": "eapi；/api/dj/difm/channel/subscribe",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "dj_difm_channel_unsubscribe",
+      "action": "request",
+      "baselineTarget": "/api/dj/difm/channel/unsubscribe",
+      "decision": "eapi；/api/dj/difm/channel/unsubscribe",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "dj_difm_playing_tracks_list",
+      "action": "request",
+      "baselineTarget": "/api/dj/difm/playing/tracks/list",
+      "decision": "eapi；/api/dj/difm/playing/tracks/list",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "dj_difm_subscribe_channels_get",
+      "action": "request",
+      "baselineTarget": "/api/dj/difm/subscribe/channels/get/v2",
+      "decision": "eapi；/api/dj/difm/subscribe/channels/get/v2",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "djRadio_top",
+      "action": "request",
+      "baselineTarget": "/api/expert/worksdata/works/top/get",
+      "decision": "eapi；/api/expert/worksdata/works/top/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "event_forward",
+      "action": "request",
+      "baselineTarget": "/api/event/forward",
+      "decision": "web；/api/event/forward",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2384466, F@187389"
+    },
+    {
+      "module": "homepage_dragon_ball",
+      "action": "read",
+      "baselineTarget": "/api/homepage/dragon/ball/static",
+      "decision": "eapi；/api/homepage/dragon/ball/static",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "hug_comment",
+      "action": "request",
+      "baselineTarget": "/api/v2/resource/comments/hug/listener",
+      "decision": "eapi；/api/v2/resource/comments/hug/listener",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "likelist",
+      "action": "read",
+      "baselineTarget": "/api/song/like/get",
+      "decision": "eapi；/api/song/like/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "listen_data_realtime_report",
+      "action": "request",
+      "baselineTarget": "/api/content/activity/listen/data/realtime/report",
+      "decision": "eapi；/api/content/activity/listen/data/realtime/report",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "listen_data_report",
+      "action": "request",
+      "baselineTarget": "/api/content/activity/listen/data/report",
+      "decision": "eapi；/api/content/activity/listen/data/report",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "listen_data_today_song",
+      "action": "request",
+      "baselineTarget": "/api/content/activity/listen/data/today/song/play/rank",
+      "decision": "eapi；/api/content/activity/listen/data/today/song/play/rank",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "listen_data_total",
+      "action": "request",
+      "baselineTarget": "/api/content/activity/listen/data/total",
+      "decision": "eapi；/api/content/activity/listen/data/total",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "listen_data_year_report",
+      "action": "request",
+      "baselineTarget": "/api/content/activity/listen/data/year/report",
+      "decision": "eapi；/api/content/activity/listen/data/year/report",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "listentogether_accept",
+      "action": "request",
+      "baselineTarget": "/api/listen/together/play/invitation/accept",
+      "decision": "web；/api/listen/together/play/invitation/accept",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2351351"
+    },
+    {
+      "module": "listentogether_end",
+      "action": "request",
+      "baselineTarget": "/api/listen/together/end/v2",
+      "decision": "web；/api/listen/together/end/v2",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2350682"
+    },
+    {
+      "module": "listentogether_heatbeat",
+      "action": "request",
+      "baselineTarget": "/api/listen/together/heartbeat",
+      "decision": "web；/api/listen/together/heartbeat",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2350776"
+    },
+    {
+      "module": "listentogether_play_command",
+      "action": "request",
+      "baselineTarget": "/api/listen/together/play/command/report",
+      "decision": "web；/api/listen/together/play/command/report",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2398298"
+    },
+    {
+      "module": "listentogether_room_check",
+      "action": "request",
+      "baselineTarget": "/api/listen/together/room/check",
+      "decision": "web；/api/listen/together/room/check",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2350727"
+    },
+    {
+      "module": "listentogether_room_create",
+      "action": "request",
+      "baselineTarget": "/api/listen/together/room/create",
+      "decision": "web；/api/listen/together/room/create",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2350632"
+    },
+    {
+      "module": "listentogether_sync_list_command",
+      "action": "request",
+      "baselineTarget": "/api/listen/together/sync/list/command/report",
+      "decision": "web；/api/listen/together/sync/list/command/report",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2397596"
+    },
+    {
+      "module": "listentogether_sync_playlist_get",
+      "action": "request",
+      "baselineTarget": "/api/listen/together/sync/playlist/get",
+      "decision": "web；/api/listen/together/sync/playlist/get",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2397666"
+    },
+    {
+      "module": "login_qr_check",
+      "action": "request",
+      "baselineTarget": "/api/login/qrcode/client/login",
+      "decision": "web；/api/login/qrcode/client/login",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2365977, F@128408"
+    },
+    {
+      "module": "login_qr_key",
+      "action": "request",
+      "baselineTarget": "/api/login/qrcode/unikey",
+      "decision": "web；/api/login/qrcode/unikey",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2365934, F@129616"
+    },
+    {
+      "module": "login_refresh",
+      "action": "request",
+      "baselineTarget": "/api/login/token/refresh",
+      "decision": "web；/api/login/token/refresh",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2356900, F@195309"
+    },
+    {
+      "module": "login",
+      "action": "password",
+      "baselineTarget": "/api/w/login",
+      "decision": "web；/api/w/login",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2356943, C@417764"
+    },
+    {
+      "module": "logout",
+      "action": "request",
+      "baselineTarget": "/api/logout",
+      "decision": "web；/api/logout",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2352508, C@419864"
+    },
+    {
+      "module": "lyric_new",
+      "action": "read",
+      "baselineTarget": "/api/song/lyric/v1",
+      "decision": "web；/api/song/lyric/v1",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2410524"
+    },
+    {
+      "module": "lyric",
+      "action": "read",
+      "baselineTarget": "/api/song/lyric",
+      "decision": "web；/api/song/lyric",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；C@142102, F@25709"
+    },
+    {
+      "module": "mlog_music_rcmd",
+      "action": "request",
+      "baselineTarget": "/api/mlog/rcmd/feed/list",
+      "decision": "eapi；/api/mlog/rcmd/feed/list",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "music_first_listen_info",
+      "action": "request",
+      "baselineTarget": "/api/content/activity/music/first/listen/info",
+      "decision": "eapi；/api/content/activity/music/first/listen/info",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "mv_all",
+      "action": "request",
+      "baselineTarget": "/api/mv/all",
+      "decision": "eapi；/api/mv/all",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "mv_exclusive_rcmd",
+      "action": "request",
+      "baselineTarget": "/api/mv/exclusive/rcmd",
+      "decision": "eapi；/api/mv/exclusive/rcmd",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "mv_first",
+      "action": "request",
+      "baselineTarget": "/api/mv/first",
+      "decision": "eapi；/api/mv/first",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "personal_fm_mode",
+      "action": "read",
+      "baselineTarget": "/api/v1/radio/get",
+      "decision": "web；/api/v1/radio/get",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2387986"
+    },
+    {
+      "module": "playlist_catlist",
+      "action": "read",
+      "baselineTarget": "/api/playlist/catalogue",
+      "decision": "web；/api/playlist/catalogue",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2399895"
+    },
+    {
+      "module": "playlist_desc_update",
+      "action": "update",
+      "baselineTarget": "/api/playlist/desc/update",
+      "decision": "web；/api/playlist/desc/update",
+      "reason": "S5；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@4081016, C@167614"
+    },
+    {
+      "module": "playlist_detail_dynamic",
+      "action": "read",
+      "baselineTarget": "/api/playlist/detail/dynamic",
+      "decision": "web；/api/playlist/detail/dynamic",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2358532"
+    },
+    {
+      "module": "playlist_detail_rcmd_get",
+      "action": "read",
+      "baselineTarget": "/api/playlist/detail/rcmd/get",
+      "decision": "eapi；/api/playlist/detail/rcmd/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "playlist_detail",
+      "action": "read",
+      "baselineTarget": "/api/v6/playlist/detail",
+      "decision": "web；/api/v6/playlist/detail",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2358653, C@141334"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "action": "empty",
+      "baselineTarget": "/api/playlist/import/name/task/create",
+      "decision": "eapi；/api/playlist/import/name/task/create",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "action": "link",
+      "baselineTarget": "/api/playlist/import/name/task/create",
+      "decision": "eapi；/api/playlist/import/name/task/create",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "action": "local",
+      "baselineTarget": "/api/playlist/import/name/task/create",
+      "decision": "eapi；/api/playlist/import/name/task/create",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "playlist_import_name_task_create",
+      "action": "text",
+      "baselineTarget": "/api/playlist/import/name/task/create",
+      "decision": "eapi；/api/playlist/import/name/task/create",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "playlist_import_task_status",
+      "action": "poll",
+      "baselineTarget": "/api/playlist/import/task/status/v2",
+      "decision": "eapi；/api/playlist/import/task/status/v2",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "playlist_name_update",
+      "action": "update",
+      "baselineTarget": "/api/playlist/update/name",
+      "decision": "web；/api/playlist/update/name",
+      "reason": "S5；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@4080922, C@167289"
+    },
+    {
+      "module": "playlist_privacy",
+      "action": "update",
+      "baselineTarget": "/api/playlist/update/privacy",
+      "decision": "web；/api/playlist/update/privacy",
+      "reason": "S5；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2358816"
+    },
+    {
+      "module": "playlist_subscribers",
+      "action": "read",
+      "baselineTarget": "/api/playlist/subscribers",
+      "decision": "web；/api/playlist/subscribers",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2358868"
+    },
+    {
+      "module": "playlist_tags_update",
+      "action": "update",
+      "baselineTarget": "/api/playlist/tags/update",
+      "decision": "web；/api/playlist/tags/update",
+      "reason": "S5；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@4080964, C@167451"
+    },
+    {
+      "module": "playlist_track_all",
+      "action": "playlist",
+      "baselineTarget": "/api/v6/playlist/detail",
+      "decision": "web；/api/v6/playlist/detail",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2358653, C@141334"
+    },
+    {
+      "module": "playlist_track_all",
+      "action": "songs",
+      "baselineTarget": "/api/v3/song/detail",
+      "decision": "web；/api/v3/song/detail",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2390211, C@173875"
+    },
+    {
+      "module": "playlist_tracks",
+      "action": "fallback",
+      "baselineTarget": "/api/playlist/manipulate/tracks",
+      "decision": "web；/api/v1/playlist/manipulate/tracks",
+      "reason": "S5；迁移：以现代 v1 逻辑目标替换旧目标；保留 add/del、512 后备、逐请求 token 合同；C@174556"
+    },
+    {
+      "module": "playlist_tracks",
+      "action": "manipulate",
+      "baselineTarget": "/api/playlist/manipulate/tracks",
+      "decision": "web；/api/v1/playlist/manipulate/tracks",
+      "reason": "S5；迁移：以现代 v1 逻辑目标替换旧目标；保留 add/del、512 后备、逐请求 token 合同；C@174556"
+    },
+    {
+      "module": "playlist_update_playcount",
+      "action": "report",
+      "baselineTarget": "/api/playlist/update/playcount",
+      "decision": "web；/api/playlist/update/playcount",
+      "reason": "S5；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2365651, C@141572"
+    },
+    {
+      "module": "playlist_update",
+      "action": "batch",
+      "baselineTarget": "/api/batch",
+      "decision": "web；/api/batch",
+      "reason": "S5；迁移：按官方同一次 batch 组包，三条子参数由 JSON 字符串改为对象；W@2323080, V@555007, C@139473"
+    },
+    {
+      "module": "playmode_intelligence_list",
+      "action": "read",
+      "baselineTarget": "/api/playmode/intelligence/list",
+      "decision": "web；/api/playmode/intelligence/list",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2361491"
+    },
+    {
+      "module": "recent_listen_list",
+      "action": "request",
+      "baselineTarget": "/api/pc/recent/listen/list",
+      "decision": "web；/api/pc/recent/listen/list",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2419305"
+    },
+    {
+      "module": "register_cellphone",
+      "action": "request",
+      "baselineTarget": "/api/w/register/cellphone",
+      "decision": "web；/api/w/register/cellphone",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2366861, C@419073"
+    },
+    {
+      "module": "scrobble",
+      "action": "play",
+      "baselineTarget": "/api/feedback/weblog",
+      "decision": "clientlogOsx；/api/feedback/weblog",
+      "reason": "保留；保留：播放日志专用 clientlog 域名与 macOS 组合，不是网页业务 API 替代物"
+    },
+    {
+      "module": "scrobble",
+      "action": "start",
+      "baselineTarget": "/api/feedback/weblog",
+      "decision": "clientlogOsx；/api/feedback/weblog",
+      "reason": "保留；保留：播放日志专用 clientlog 域名与 macOS 组合，不是网页业务 API 替代物"
+    },
+    {
+      "module": "search_default",
+      "action": "read",
+      "baselineTarget": "/api/search/defaultkeyword/get",
+      "decision": "eapi；/api/search/defaultkeyword/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "search_hot",
+      "action": "read",
+      "baselineTarget": "/api/search/hot",
+      "decision": "eapi；/api/search/hot",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "search_match",
+      "action": "read",
+      "baselineTarget": "/api/search/match/new",
+      "decision": "web；/api/search/match/new",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2365119"
+    },
+    {
+      "module": "search",
+      "action": "read",
+      "baselineTarget": "/api/search/get",
+      "decision": "eapi；/api/search/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "search",
+      "action": "voice",
+      "baselineTarget": "/api/search/voice/get",
+      "decision": "web；/api/search/voice/get",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2375406"
+    },
+    {
+      "module": "send_album",
+      "action": "request",
+      "baselineTarget": "/api/msg/private/send",
+      "decision": "web；/api/msg/private/send",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2381899, C@461330, F@149062"
+    },
+    {
+      "module": "send_playlist",
+      "action": "request",
+      "baselineTarget": "/api/msg/private/send",
+      "decision": "web；/api/msg/private/send",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2381899, C@461330, F@149062"
+    },
+    {
+      "module": "send_song",
+      "action": "request",
+      "baselineTarget": "/api/msg/private/send",
+      "decision": "web；/api/msg/private/send",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2381899, C@461330, F@149062"
+    },
+    {
+      "module": "send_text",
+      "action": "request",
+      "baselineTarget": "/api/msg/private/send",
+      "decision": "web；/api/msg/private/send",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2381899, C@461330, F@149062"
+    },
+    {
+      "module": "share_resource",
+      "action": "request",
+      "baselineTarget": "/api/share/friends/resource",
+      "decision": "web；/api/share/friends/resource",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2381853, C@461044"
+    },
+    {
+      "module": "sheet_list",
+      "action": "request",
+      "baselineTarget": "/api/music/sheet/list/v1",
+      "decision": "eapi；/api/music/sheet/list/v1",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "sheet_preview",
+      "action": "request",
+      "baselineTarget": "/api/music/sheet/preview/info",
+      "decision": "eapi；/api/music/sheet/preview/info",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_chorus",
+      "action": "read",
+      "baselineTarget": "/api/song/chorus",
+      "decision": "web；/api/song/chorus",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2427096"
+    },
+    {
+      "module": "song_downlist",
+      "action": "read",
+      "baselineTarget": "/api/member/song/downlist",
+      "decision": "eapi；/api/member/song/downlist",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_download_url_v1",
+      "action": "read",
+      "baselineTarget": "/api/song/enhance/download/url/v1",
+      "decision": "web；/api/song/enhance/download/url/v1",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2397355"
+    },
+    {
+      "module": "song_download_url",
+      "action": "read",
+      "baselineTarget": "/api/song/enhance/download/url",
+      "decision": "eapi；/api/song/enhance/download/url",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_dynamic_cover",
+      "action": "read",
+      "baselineTarget": "/api/songplay/dynamic-cover",
+      "decision": "eapi；/api/songplay/dynamic-cover",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_like_check",
+      "action": "read",
+      "baselineTarget": "/api/song/like/check",
+      "decision": "eapi；/api/song/like/check",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_lyrics_mark_add",
+      "action": "add",
+      "baselineTarget": "/api/song/play/lyrics/mark/add",
+      "decision": "eapi；/api/song/play/lyrics/mark/add",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_lyrics_mark_del",
+      "action": "delete",
+      "baselineTarget": "/api/song/play/lyrics/mark/del",
+      "decision": "eapi；/api/song/play/lyrics/mark/del",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_lyrics_mark_user_page",
+      "action": "read",
+      "baselineTarget": "/api/song/play/lyrics/mark/user/page",
+      "decision": "eapi；/api/song/play/lyrics/mark/user/page",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_lyrics_mark",
+      "action": "read",
+      "baselineTarget": "/api/song/play/lyrics/mark/song",
+      "decision": "eapi；/api/song/play/lyrics/mark/song",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_monthdownlist",
+      "action": "read",
+      "baselineTarget": "/api/member/song/monthdownlist",
+      "decision": "eapi；/api/member/song/monthdownlist",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_music_detail",
+      "action": "read",
+      "baselineTarget": "/api/song/music/detail/get",
+      "decision": "web；/api/song/music/detail/get",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2365805"
+    },
+    {
+      "module": "song_order_update",
+      "action": "update",
+      "baselineTarget": "/api/playlist/manipulate/tracks",
+      "decision": "eapi；/api/playlist/manipulate/tracks",
+      "reason": "保留；保留：官方当前网页 v1 线索证明加歌/移除，未证明 op=update 的排序语义等价"
+    },
+    {
+      "module": "song_red_count",
+      "action": "read",
+      "baselineTarget": "/api/song/red/count",
+      "decision": "web；/api/song/red/count",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2365733"
+    },
+    {
+      "module": "song_singledownlist",
+      "action": "read",
+      "baselineTarget": "/api/member/song/singledownlist",
+      "decision": "eapi；/api/member/song/singledownlist",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "song_url_v1",
+      "action": "read",
+      "baselineTarget": "/api/song/enhance/player/url/v1",
+      "decision": "web；/api/song/enhance/player/url/v1",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2359044, C@631494"
+    },
+    {
+      "module": "song_url_v1",
+      "action": "sky",
+      "baselineTarget": "/api/song/enhance/player/url/v1",
+      "decision": "eapi；/api/song/enhance/player/url/v1",
+      "reason": "保留；保留：sky/c51 在当前网页源码受硬件/模式条件影响；保留既有显式沉浸声分支，不作可用音质降级"
+    },
+    {
+      "module": "song_url",
+      "action": "read",
+      "baselineTarget": "/api/song/enhance/player/url",
+      "decision": "eapi；/api/song/enhance/player/url",
+      "reason": "保留；保留：仅有 SDK 自身的 web 同路径实现，缺独立官方网页依据，本轮不据此认定可迁"
+    },
+    {
+      "module": "song_wiki_summary",
+      "action": "read",
+      "baselineTarget": "/api/song/play/about/block/page",
+      "decision": "eapi；/api/song/play/about/block/page",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "starpick_comments_summary",
+      "action": "request",
+      "baselineTarget": "/api/homepage/block/page",
+      "decision": "web；/api/homepage/block/page",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2390720"
+    },
+    {
+      "module": "summary_annual",
+      "action": "request",
+      "baselineTarget": "prefix /api/activity/summary/annual/",
+      "decision": "eapi；prefix /api/activity/summary/annual/",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "top_list",
+      "action": "read",
+      "baselineTarget": "/api/playlist/v4/detail",
+      "decision": "web；/api/playlist/v4/detail",
+      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2357901"
+    },
+    {
+      "module": "toplist",
+      "action": "read",
+      "baselineTarget": "/api/toplist",
+      "decision": "eapi；/api/toplist",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "ugc_album_get",
+      "action": "read",
+      "baselineTarget": "/api/rep/ugc/album/get",
+      "decision": "eapi；/api/rep/ugc/album/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "ugc_artist_get",
+      "action": "read",
+      "baselineTarget": "/api/rep/ugc/artist/get",
+      "decision": "eapi；/api/rep/ugc/artist/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "ugc_artist_search",
+      "action": "read",
+      "baselineTarget": "/api/rep/ugc/artist/search",
+      "decision": "eapi；/api/rep/ugc/artist/search",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "ugc_mv_get",
+      "action": "read",
+      "baselineTarget": "/api/rep/ugc/mv/get",
+      "decision": "eapi；/api/rep/ugc/mv/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "ugc_song_get",
+      "action": "read",
+      "baselineTarget": "/api/rep/ugc/song/get",
+      "decision": "eapi；/api/rep/ugc/song/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "ugc_user_devote",
+      "action": "read",
+      "baselineTarget": "/api/rep/ugc/user/devote",
+      "decision": "eapi；/api/rep/ugc/user/devote",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "user_event",
+      "action": "request",
+      "baselineTarget": "prefix /api/event/get/",
+      "decision": "web；prefix /api/event/get/",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2355450"
+    },
+    {
+      "module": "user_follow_mixed",
+      "action": "request",
+      "baselineTarget": "/api/user/follow/users/mixed/get/v2",
+      "decision": "web；/api/user/follow/users/mixed/get/v2",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2359557"
+    },
+    {
+      "module": "user_followeds",
+      "action": "request",
+      "baselineTarget": "prefix /api/user/getfolloweds/",
+      "decision": "web；/api/user/getfolloweds/",
+      "reason": "S4；迁移：官方网页固定路径已含 userId 参数，去掉路径中的 uid；W@2359106"
+    },
+    {
+      "module": "user_medal",
+      "action": "request",
+      "baselineTarget": "/api/medal/user/page",
+      "decision": "eapi；/api/medal/user/page",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "user_mutualfollow_get",
+      "action": "request",
+      "baselineTarget": "/api/user/mutualfollow/get",
+      "decision": "eapi；/api/user/mutualfollow/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "user_playlist_collect",
+      "action": "read",
+      "baselineTarget": "/api/user/playlist/collect",
+      "decision": "eapi；/api/user/playlist/collect",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "user_playlist_create",
+      "action": "read",
+      "baselineTarget": "/api/user/playlist/create",
+      "decision": "eapi；/api/user/playlist/create",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "user_social_status_edit",
+      "action": "request",
+      "baselineTarget": "/api/social/user/status/edit",
+      "decision": "eapi；/api/social/user/status/edit",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "user_social_status_rcmd",
+      "action": "request",
+      "baselineTarget": "/api/social/user/status/rcmd",
+      "decision": "eapi；/api/social/user/status/rcmd",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "user_social_status_support",
+      "action": "request",
+      "baselineTarget": "/api/social/user/status/support",
+      "decision": "eapi；/api/social/user/status/support",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "user_social_status",
+      "action": "request",
+      "baselineTarget": "/api/social/user/status",
+      "decision": "eapi；/api/social/user/status",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "user_update",
+      "action": "request",
+      "baselineTarget": "/api/user/profile/update",
+      "decision": "web；/api/user/profile/update",
+      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2407657"
+    },
+    {
+      "module": "voice_delete",
+      "action": "request",
+      "baselineTarget": "/api/content/voice/delete",
+      "decision": "eapi；/api/content/voice/delete",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "voice_detail",
+      "action": "request",
+      "baselineTarget": "/api/voice/workbench/voice/detail",
+      "decision": "eapi；/api/voice/workbench/voice/detail",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "voice_lyric",
+      "action": "request",
+      "baselineTarget": "/api/voice/lyric/get",
+      "decision": "eapi；/api/voice/lyric/get",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "voice_upload",
+      "action": "preCheck",
+      "baselineTarget": "/api/voice/workbench/voice/batch/upload/preCheck",
+      "decision": "eapi；/api/voice/workbench/voice/batch/upload/preCheck",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "voice_upload",
+      "action": "submit",
+      "baselineTarget": "/api/voice/workbench/voice/batch/upload/v2",
+      "decision": "eapi；/api/voice/workbench/voice/batch/upload/v2",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "voicelist_detail",
+      "action": "request",
+      "baselineTarget": "/api/voice/workbench/voicelist/detail",
+      "decision": "eapi；/api/voice/workbench/voicelist/detail",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "voicelist_list_search",
+      "action": "request",
+      "baselineTarget": "/api/voice/workbench/voice/list",
+      "decision": "eapi；/api/voice/workbench/voice/list",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "voicelist_list",
+      "action": "request",
+      "baselineTarget": "/api/voice/workbench/voices/by/voicelist",
+      "decision": "eapi；/api/voice/workbench/voices/by/voicelist",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "voicelist_search",
+      "action": "request",
+      "baselineTarget": "/api/voice/workbench/voicelist/search",
+      "decision": "eapi；/api/voice/workbench/voicelist/search",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "voicelist_trans",
+      "action": "request",
+      "baselineTarget": "/api/voice/workbench/radio/program/trans",
+      "decision": "eapi；/api/voice/workbench/radio/program/trans",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "yunbei_expense",
+      "action": "request",
+      "baselineTarget": "/api/point/expense",
+      "decision": "eapi；/api/point/expense",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    },
+    {
+      "module": "yunbei_receipt",
+      "action": "request",
+      "baselineTarget": "/api/point/receipt",
+      "decision": "eapi；/api/point/receipt",
+      "reason": "保留；保留：在本次四份当前官方网页资源中没有同业务请求依据；不是证明 web 不支持"
+    }
+  ],
+  "changes": [
+    {
+      "module": "activate_init_profile",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/activate/initProfile"
+    },
+    {
+      "module": "album_privilege",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/album/privilege"
+    },
+    {
+      "module": "artist_detail_dynamic",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/artist/detail/dynamic"
+    },
+    {
+      "module": "avatar_upload",
+      "action": "submit",
+      "profile": "web",
+      "target": "/api/user/avatar/upload/v1"
+    },
+    {
+      "module": "cellphone_existence_check",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/cellphone/existence/check"
+    },
+    {
+      "module": "cloud",
+      "action": "allocate",
+      "profile": "web",
+      "target": "/api/nos/token/alloc"
+    },
+    {
+      "module": "cloud",
+      "action": "publish",
+      "profile": "web",
+      "target": "/api/cloud/pub/v2"
+    },
+    {
+      "module": "cloudsearch",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/cloudsearch/pc"
+    },
+    {
+      "module": "countries_code_list",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/lbs/countries/v1"
+    },
+    {
+      "module": "event_forward",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/event/forward"
+    },
+    {
+      "module": "listentogether_accept",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/listen/together/play/invitation/accept"
+    },
+    {
+      "module": "listentogether_end",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/listen/together/end/v2"
+    },
+    {
+      "module": "listentogether_heatbeat",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/listen/together/heartbeat"
+    },
+    {
+      "module": "listentogether_play_command",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/listen/together/play/command/report"
+    },
+    {
+      "module": "listentogether_room_check",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/listen/together/room/check"
+    },
+    {
+      "module": "listentogether_room_create",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/listen/together/room/create"
+    },
+    {
+      "module": "listentogether_sync_list_command",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/listen/together/sync/list/command/report"
+    },
+    {
+      "module": "listentogether_sync_playlist_get",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/listen/together/sync/playlist/get"
+    },
+    {
+      "module": "login_qr_check",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/login/qrcode/client/login"
+    },
+    {
+      "module": "login_qr_key",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/login/qrcode/unikey"
+    },
+    {
+      "module": "login_refresh",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/login/token/refresh"
+    },
+    {
+      "module": "login",
+      "action": "password",
+      "profile": "web",
+      "target": "/api/w/login"
+    },
+    {
+      "module": "logout",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/logout"
+    },
+    {
+      "module": "lyric_new",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/song/lyric/v1"
+    },
+    {
+      "module": "lyric",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/song/lyric"
+    },
+    {
+      "module": "personal_fm_mode",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/v1/radio/get"
+    },
+    {
+      "module": "playlist_catlist",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/playlist/catalogue"
+    },
+    {
+      "module": "playlist_desc_update",
+      "action": "update",
+      "profile": "web",
+      "target": "/api/playlist/desc/update"
+    },
+    {
+      "module": "playlist_detail_dynamic",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/playlist/detail/dynamic"
+    },
+    {
+      "module": "playlist_detail",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/v6/playlist/detail"
+    },
+    {
+      "module": "playlist_name_update",
+      "action": "update",
+      "profile": "web",
+      "target": "/api/playlist/update/name"
+    },
+    {
+      "module": "playlist_privacy",
+      "action": "update",
+      "profile": "web",
+      "target": "/api/playlist/update/privacy"
+    },
+    {
+      "module": "playlist_subscribers",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/playlist/subscribers"
+    },
+    {
+      "module": "playlist_tags_update",
+      "action": "update",
+      "profile": "web",
+      "target": "/api/playlist/tags/update"
+    },
+    {
+      "module": "playlist_track_all",
+      "action": "playlist",
+      "profile": "web",
+      "target": "/api/v6/playlist/detail"
+    },
+    {
+      "module": "playlist_track_all",
+      "action": "songs",
+      "profile": "web",
+      "target": "/api/v3/song/detail"
+    },
+    {
+      "module": "playlist_tracks",
+      "action": "fallback",
+      "profile": "web",
+      "target": "/api/v1/playlist/manipulate/tracks"
+    },
+    {
+      "module": "playlist_tracks",
+      "action": "manipulate",
+      "profile": "web",
+      "target": "/api/v1/playlist/manipulate/tracks"
+    },
+    {
+      "module": "playlist_update_playcount",
+      "action": "report",
+      "profile": "web",
+      "target": "/api/playlist/update/playcount"
+    },
+    {
+      "module": "playlist_update",
+      "action": "batch",
+      "profile": "web",
+      "target": "/api/batch"
+    },
+    {
+      "module": "playmode_intelligence_list",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/playmode/intelligence/list"
+    },
+    {
+      "module": "recent_listen_list",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/pc/recent/listen/list"
+    },
+    {
+      "module": "register_cellphone",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/w/register/cellphone"
+    },
+    {
+      "module": "search_match",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/search/match/new"
+    },
+    {
+      "module": "search",
+      "action": "voice",
+      "profile": "web",
+      "target": "/api/search/voice/get"
+    },
+    {
+      "module": "send_album",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/msg/private/send"
+    },
+    {
+      "module": "send_playlist",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/msg/private/send"
+    },
+    {
+      "module": "send_song",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/msg/private/send"
+    },
+    {
+      "module": "send_text",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/msg/private/send"
+    },
+    {
+      "module": "share_resource",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/share/friends/resource"
+    },
+    {
+      "module": "song_chorus",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/song/chorus"
+    },
+    {
+      "module": "song_download_url_v1",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/song/enhance/download/url/v1"
+    },
+    {
+      "module": "song_music_detail",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/song/music/detail/get"
+    },
+    {
+      "module": "song_red_count",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/song/red/count"
+    },
+    {
+      "module": "song_url_v1",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/song/enhance/player/url/v1"
+    },
+    {
+      "module": "starpick_comments_summary",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/homepage/block/page"
+    },
+    {
+      "module": "top_list",
+      "action": "read",
+      "profile": "web",
+      "target": "/api/playlist/v4/detail"
+    },
+    {
+      "module": "user_event",
+      "action": "request",
+      "profile": "web",
+      "target": {
+        "prefix": "/api/event/get/"
+      }
+    },
+    {
+      "module": "user_follow_mixed",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/user/follow/users/mixed/get/v2"
+    },
+    {
+      "module": "user_followeds",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/user/getfolloweds/"
+    },
+    {
+      "module": "user_update",
+      "action": "request",
+      "profile": "web",
+      "target": "/api/user/profile/update"
+    },
+    {
+      "module": "like",
+      "action": "like",
+      "profile": "web",
+      "target": "/api/song/like"
+    },
+    {
+      "module": "like",
+      "action": "unlike",
+      "profile": "web",
+      "target": "/api/song/like"
+    },
+    {
+      "module": "comment",
+      "action": "reply",
+      "profile": "web",
+      "target": "/api/v1/resource/comments/reply"
+    }
+  ],
+  "banner": {
+    "webAction": "readPc",
+    "target": "/api/v2/banner/get",
+    "webTypes": [0],
+    "retainedAction": "read",
+    "retainedTypes": [1, 2, 3]
+  },
+  "batchObjectRoutes": [
+    "/api/playlist/desc/update",
+    "/api/playlist/tags/update",
+    "/api/playlist/update/name"
+  ]
+}

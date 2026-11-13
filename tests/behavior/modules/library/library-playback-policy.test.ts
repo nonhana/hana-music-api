@@ -10,12 +10,15 @@ import { buildCallServices } from '../../../../src/core/call.ts';
 import { createClientFromContext } from '../../../../src/sdk/generated/client-factory.generated.ts';
 import { createServer } from '../../../../src/server/create-server.ts';
 import { projectRoot, settle } from '../../../_kit/assertions.ts';
+import { currentRequests } from '../../../_kit/current-requests.ts';
 import { createStage, testEntropy } from '../../../_kit/harness/sdk.ts';
 import { runEffect, runExit } from '../../../_kit/it.ts';
 import { withScenario } from '../../../_kit/upstream/scenario.ts';
 import { readEapiBody, readWebBody } from '../../../_kit/upstream/wire.ts';
 import responseFiles from '../../../fixtures/requests/library-playback-responses.json';
-import baseline from '../../../fixtures/requests/library-playback.json';
+import frozenRequests from '../../../fixtures/requests/library-playback.json';
+
+const baseline = currentRequests('library-playback', frozenRequests);
 
 const defaults = baseline.cases.filter((entry) => entry.label === 'default');
 const validDefaults = (
@@ -164,7 +167,11 @@ test('library root named and dynamic SDK entries retain Promise refusal envelope
         {
           url: 'https://interface.music.163.com/eapi/song/enhance/player/url/v1',
           method: 'POST',
-          times: 2,
+          response: () => Response.json({ code: 403, msg: 'refused' }),
+        },
+        {
+          url: 'https://music.163.com/weapi/song/enhance/player/url/v1',
+          method: 'POST',
           response: () => Response.json({ code: 403, msg: 'refused' }),
         },
       ],
@@ -341,12 +348,12 @@ test('library interleaved PC calls freeze each account input and token', async (
   const result = await withScenario(
     [
       {
-        url: 'https://interface.music.163.com/eapi/song/enhance/player/url/v1',
+        url: 'https://music.163.com/weapi/song/enhance/player/url/v1',
         method: 'POST',
         response: () => Response.json({ code: 403 }),
       },
       {
-        url: 'https://music.163.com/weapi/radio/like',
+        url: 'https://music.163.com/weapi/song/like',
         method: 'POST',
         response: () => Response.json({ code: 403 }),
       },
@@ -390,10 +397,9 @@ test('library interleaved PC calls freeze each account input and token', async (
     like: false,
     checkToken: 'first-token',
   });
-  expect(readEapiBody(result.wires[0]!.body).data).toMatchObject({
+  expect(readWebBody(result.wires[0]!.body)).toMatchObject({
     ids: '["23"]',
     checkToken: 'second-token',
-    header: { MUSIC_U: 'second-account' },
   });
   expect(result.wires[1]!.headers.get('cookie')).toContain(
     'MUSIC_U=first-account',
@@ -437,7 +443,7 @@ for (const method of ['like', 'playlistImportTaskStatus'] as const) {
   test(`library ${method} never replays after a partial response body fails`, async () => {
     const url =
       method === 'like'
-        ? 'https://music.163.com/weapi/radio/like'
+        ? 'https://music.163.com/weapi/song/like'
         : 'https://interface.music.163.com/eapi/playlist/import/task/status/v2';
     let bodyPulls = 0;
     const observed = await settle(
