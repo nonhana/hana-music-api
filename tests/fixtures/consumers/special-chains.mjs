@@ -306,6 +306,108 @@ for (const scenario of [
     );
   }
 }
+let stepRequests = 0;
+for (const entry of ['client', 'named', 'invoke']) {
+  for (const mode of ['none', 'string', 'provider']) {
+    const tracks = Object.freeze([17, '18']);
+    for (const [index, step] of ['initial', 'fallback'].entries()) {
+      let sent = 0;
+      let taken = 0;
+      const token = `package-step-${entry}-${index}`;
+      const config = {
+        cookie: `MUSIC_U=step-${index}; __csrf=csrf`,
+        ...(mode === 'none'
+          ? {}
+          : {
+              checkToken:
+                mode === 'string'
+                  ? token
+                  : async () => {
+                      taken++;
+                      providers++;
+                      return token;
+                    },
+            }),
+        fetcher: async (input, init) => {
+          sent++;
+          requests++;
+          stepRequests++;
+          try {
+            assert.equal(sent, 1);
+            const request = new Request(input, init);
+            assert.equal(
+              request.url,
+              'https://music.163.com/weapi/v1/playlist/manipulate/tracks',
+            );
+            assert.equal(request.method, 'POST');
+            assert.equal(
+              request.headers.get('X-antiCheatToken'),
+              mode === 'none' ? null : token,
+            );
+            assert.ok(
+              request.headers.get('cookie').includes(`MUSIC_U=step-${index}`),
+            );
+            assert.ok(!request.headers.get('cookie').includes('package-step-'));
+            let value = new URLSearchParams(await request.text()).get('params');
+            for (const key of ['aaaaaaaaaaaaaaaa', '0CoJUm6Qyw8W8jud']) {
+              const decipher = createDecipheriv(
+                'aes-128-cbc',
+                Buffer.from(key),
+                Buffer.from('0102030405060708'),
+              );
+              value = Buffer.concat([
+                decipher.update(Buffer.from(value, 'base64')),
+                decipher.final(),
+              ]).toString();
+            }
+            const data = JSON.parse(value);
+            assert.equal(
+              data.trackIds,
+              index ? '["17","18","17","18"]' : '["17","18"]',
+            );
+            assert.equal(data.op, 'add');
+            assert.equal(data.pid, 7);
+            assert.equal(data.imme, 'true');
+            assert.equal(data.checkToken, mode === 'none' ? undefined : token);
+            assert.equal(data.step, undefined);
+            return Response.json({ code: index ? 200 : 512 });
+          } catch (error) {
+            failures.push(error);
+            throw error;
+          }
+        },
+      };
+      const query = { op: 'add', pid: 7, tracks, step };
+      const result = await (
+        entry === 'client'
+          ? client.playlistTracks(query, config)
+          : entry === 'named'
+            ? sdk.playlistTracks(query, config)
+            : sdk.invokeModule('playlist_tracks', query, config)
+      ).then(
+        (value) => ({ value }),
+        (error) => ({ error }),
+      );
+      if (index === 0)
+        assert.deepEqual(sdk.getNcmFailureInfo(result.error), {
+          kind: 'business',
+          code: 512,
+        });
+      else {
+        assert.equal(result.error, undefined);
+        assert.deepEqual(result.value, {
+          status: 200,
+          body: { code: 200 },
+          cookie: [],
+        });
+      }
+      assert.equal(sent, 1);
+      assert.equal(taken, mode === 'provider' ? 1 : 0);
+      assert.deepEqual(tracks, [17, '18']);
+    }
+  }
+}
+assert.equal(stepRequests, 18);
 let localProviders = 0;
 const local = await client.innerVersion(
   {},
@@ -323,8 +425,14 @@ assert.equal(local.status, 200);
 assert.equal(local.body.data.version, process.argv[2]);
 assert.equal(localProviders, 0);
 assert.deepEqual(failures, []);
-assert.equal(requests, 41);
-assert.equal(providers, 13);
+assert.equal(requests, 59);
+assert.equal(providers, 19);
 process.stdout.write(
-  JSON.stringify({ requests, providers, scenarios: 6, localProviders }),
+  JSON.stringify({
+    requests,
+    providers,
+    scenarios: 6,
+    localProviders,
+    stepRequests,
+  }),
 );

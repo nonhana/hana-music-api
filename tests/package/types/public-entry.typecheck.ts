@@ -127,6 +127,26 @@ const assertPublicEntrySurface = async () => {
   // @ts-expect-error undeclared input fields are rejected
   await api.songDetail({ ids: [12], extra: true });
   await api.playlistTracks({ op: 'add', pid: 1, tracks: [2] });
+  await playlistTracks({ op: 'add', pid: 1, tracks: [2], step: 'initial' });
+  await api.playlistTracks({
+    op: 'del',
+    pid: 1,
+    tracks: [2],
+    step: 'fallback',
+  });
+  await invokeModule('playlist_tracks', {
+    op: 'add',
+    pid: 1,
+    tracks: [2],
+    step: 'initial',
+  });
+  // @ts-expect-error step selects one of the two business stages
+  await api.playlistTracks({ op: 'add', pid: 1, tracks: [2], step: 'auto' });
+  await api.playlistTracks(
+    { op: 'add', pid: 1, tracks: [2] },
+    // @ts-expect-error step belongs to the module input
+    { step: 'fallback' },
+  );
   // @ts-expect-error track ids must be an array
   await api.playlistTracks({ op: 'add', pid: 1, tracks: '2' });
   await api.playlistTagsUpdate({ id: 1, tags: ['rock'] });

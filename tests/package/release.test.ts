@@ -852,10 +852,11 @@ describe('sdk release contract', () => {
         expect(result.exitCode, result.stderr).toBe(0);
         const counts = JSON.parse(result.stdout);
         expect(counts).toEqual({
-          requests: 41,
-          providers: 13,
+          requests: 59,
+          providers: 19,
           scenarios: 6,
           localProviders: 0,
+          stepRequests: 18,
         });
         specialChains.push({
           runtime,
@@ -934,6 +935,12 @@ describe('sdk release contract', () => {
           '  tokenClient.albumSub({ id: 1, t: 0 }),',
           '])',
           'void tokenCalls',
+          "const stepCalls = () => Promise.all([api.playlistTracks({ op: 'add', pid: 1, tracks: [2], step: 'initial' }), invokeModule('playlist_tracks', { op: 'del', pid: 1, tracks: [2], step: 'fallback' })])",
+          'void stepCalls',
+          '// @ts-expect-error The stage must be initial or fallback.',
+          "api.playlistTracks({ op: 'add', pid: 1, tracks: [2], step: 'auto' })",
+          '// @ts-expect-error A stage is business input rather than execution config.',
+          "api.playlistTracks({ op: 'add', pid: 1, tracks: [2] }, { step: 'fallback' })",
           '// @ts-expect-error Token providers must return Promise<string>.',
           'api.artistSub({ id: 1, t: 1 }, { checkToken: async () => 42 })',
           '// @ts-expect-error Tokens do not accept booleans.',
