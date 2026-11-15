@@ -200,9 +200,16 @@ export const cases: ReadonlyArray<ModuleInputCase> = [
   },
   {
     module: 'playlist_tracks',
-    valid: [{ op: 'add', pid: 1, tracks: [2, '3'] }],
+    valid: [
+      { op: 'add', pid: 1, tracks: [2, '3'] },
+      { op: 'add', pid: 1, tracks: [2], step: 'initial' },
+      { op: 'del', pid: '1', tracks: [2], step: 'fallback' },
+    ],
     invalid: [
       { op: 'move', pid: 1, tracks: [2] },
+      { op: 'add', pid: 1, tracks: [2], step: 'auto' },
+      { op: 'add', pid: 1, tracks: [2], step: null },
+      { op: 'add', pid: 1, tracks: [2], step: 1 },
       { op: 'add', pid: 0, tracks: [2] },
       { op: 'add', pid: 1, tracks: [] },
       { op: 'add', pid: 1, tracks: ['1,2'] },

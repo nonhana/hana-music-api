@@ -33,6 +33,8 @@ query 只承载端点业务输入，config 承载 Cookie、代理、fetcher、�
 
 所有程序化 SDK 模块统一接受可选 `checkToken` 字符串或异步 provider，读取、收藏和取消均按调用者配置处理，不按动作判定必填或禁用。未配置不取值、不附加，也不因缺 token 在本地拒绝；已配置却失败或为空在发送前失败。token 值必须能原样写入 HTTP 头，首尾空白或非法头字符在发送前以 400 拒绝，避免正文与头不一致。provider 等待计入总期限，取消/超时后不再发送；独立调用及同一次多请求调用逐次取值。带 token 调用不缓存、不合并、不自动重试；固定字符串在同一模块调用只允许一次 API 请求，第二次需求以 400 拒绝，改用 provider 可逐请求提供新值。纯本地和外部 plain 上传不取值、不发送 token。HTTP 仍拒绝通用 checkToken 配置，显式低层 createRequest 不新增模块 token 参数。
 
+`playlistTracks` 的业务输入可选 `step: 'initial' | 'fallback'`。省略时保留仅在业务 512 后自动发送一次后备的默认行为；initial 只发送首次请求，512 通过现有 `getNcmFailureInfo()` 识别；fallback 直接把调用者的原始 tracks 追加一遍发送一次，不再执行首次步骤或递归后备。两步各自接受完整 config，不共享身份、token 计数、取消或期限；不保存调用历史，不保证跨调用事务、回滚或幂等。client、具名函数、invokeModule、动态程序入口及 HTTP 使用同一 decoder，HTTP 继续拒绝通用 checkToken。该可选业务字段为 minor 新增，不新增根导出或通用动作执行器；见[按需后备示例](../website/guide/programmatic-api.md#歌单曲目在-512-后再取-token)。
+
 playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、浏览器 UA、os=web，清除受控桌面/移动端 Cookie 字段并保留会话，普通配置不能覆盖身份。专辑/歌手此前默认 Cookie 含 PC 身份字段，此次改为 web 是兼容变化。四个共享读取的原 profile 保持：search、lyric、playlistDetail 为 eapi，songDetail 为 web/weapi；无 token 时缓存、重试、等待者期限/取消保持。公开配置字段已在 #116 移除，相关兼容变化用 major changeset 记录。
 
 #110 的77个曲库与播放模块也固定各自的基线请求身份：38个使用 weapiPc（weapi、浏览器 UA、PC Cookie），39个使用既有 eapi。普通 config 的 crypto、domain、ua、e_r、acceptGzip 和受控身份 Cookie 不再覆盖声明；MUSIC_U/MUSIC_A、__csrf 与设备仍随本次调用传递。默认请求组合、业务输入与返回体保持；需要显式协议控制时使用低层 createRequest。本批不新增共享读取或重试资格，详见 [迁移依据](../docs/acceptance/issue-110.md)。

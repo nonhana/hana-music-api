@@ -1,5 +1,27 @@
 export const mutations = [
   {
+    id: 'special-tracks-initial-continues',
+    file: 'src/modules/playlist_tracks.ts',
+    find: "error.code !== 512 || query.step === 'initial'",
+    replace: 'error.code !== 512',
+    expectedFailures: ['playlist steps initial exposes business 512'],
+  },
+  {
+    id: 'special-tracks-fallback-selection-lost',
+    file: 'src/modules/playlist_tracks.ts',
+    find: "query.step === 'fallback'",
+    replace: "query.step === 'initial'",
+    expectedFailures: ['playlist steps fallback stops after business 200'],
+  },
+  {
+    id: 'special-tracks-explicit-fallback-not-duplicated',
+    file: 'src/modules/playlist_tracks.ts',
+    find: 'trackIds: JSON.stringify(\n            [...query.tracks, ...query.tracks].map(String),\n          ),',
+    replace: 'trackIds: JSON.stringify(query.tracks.map(String)),',
+    expectedFailures: ['playlist steps fallback stops after business 200'],
+  },
+
+  {
     id: 'special-clientlog-domain-lost',
     file: 'src/modules/scrobble.ts',
     find: "start: {\n    profile: 'clientlogOsx',",
@@ -20,8 +42,8 @@ export const mutations = [
   {
     id: 'special-tracks-wrong-fallback-code',
     file: 'src/modules/playlist_tracks.ts',
-    find: 'if (error.code !== 512)',
-    replace: 'if (error.code !== 403)',
+    find: "if (error.code !== 512 || query.step === 'initial')",
+    replace: "if (error.code !== 403 || query.step === 'initial')",
     expectedFailures: [
       'special tracks business 512 sends exactly one fallback ending 200',
     ],

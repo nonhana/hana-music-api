@@ -86,6 +86,42 @@ await hana.songOrderUpdate({ pid: 24381616, ids: [111, 222] });
 
 编号集合用数组，SDK 负责逗号串、JSON 数组或 `{type:3,id}` 编码。未声明字段、旧的逗号串/JSON 串/分号串和非法编号会在发送前以 `400` 拒绝；这属于 5.0 的 major 变化。HTTP 的数组和对象通过 JSON body 传入，标量数字和布尔在 query 里仍可用字符串。
 
+## 歌单曲目在 512 后再取 token
+
+`playlistTracks` 默认只在首次请求返回业务码 512 时，自动发送一次后备请求。如果浏览器负责取 token、服务端负责调用 SDK，可以把两步分开，让浏览器收到 512 后再取第二枚 token。
+
+业务输入中传 `step: 'initial'` 只执行首次请求，传 `step: 'fallback'` 则直接执行一次后备。两步都传原始 `op/pid/tracks`，SDK 会在后备请求中把曲目编号数组追加一遍并编码，不修改原数组。
+
+下面的 `getFreshToken` 由应用提供，每次调用取得一枚新 token。只有首次调用确实返回业务 512，才会再次取值：
+
+```ts
+import { getNcmFailureInfo, playlistTracks } from 'hana-music-api';
+
+const changeTracks = async (getFreshToken: () => Promise<string>) => {
+  const input = { op: 'add' as const, pid: 24381616, tracks: [347231] };
+  const config = { cookie: 'MUSIC_U=your-cookie' };
+  try {
+    return await playlistTracks(
+      { ...input, step: 'initial' },
+      { ...config, checkToken: await getFreshToken() },
+    );
+  } catch (error) {
+    const failure = getNcmFailureInfo(error);
+    if (failure?.kind !== 'business' || failure.code !== 512) throw error;
+  }
+  return playlistTracks(
+    { ...input, step: 'fallback' },
+    { ...config, checkToken: await getFreshToken() },
+  );
+};
+```
+
+浏览器与 SDK 分处两端时，应用需要分两次请求自己的服务端：第一次转交 `initial` 和当次 token，确认 512 后再转交 `fallback` 和新 token。服务端把步骤放入业务输入，把 token 放入 SDK 的 `config.checkToken`；SDK 不会向浏览器回连取值。自建 HTTP 服务的 `/playlist/tracks` 支持 `step`，但仍不接收通用 `checkToken` 配置。
+
+每步各自接收 Cookie、设备、取消信号和期限，应用决定后备步骤使用哪份会话；SDK 不自动合并首次失败中的 Cookie。成功与失败仍保留 `status/body/cookie`，后备失败不会继续发送。步骤之间不保存状态，也没有跨调用事务、回滚或幂等保证。
+
+不传 `step` 时维持原有自动模式：首次成功只发一次；512 时发一次后备。自动模式需要逐次提供 token 时继续使用异步 provider，固定字符串在同一次模块调用的第二次 API 请求前会被拒绝。
+
 ## 返回值与错误
 
 ### 响应形状

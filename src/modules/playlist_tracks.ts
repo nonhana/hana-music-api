@@ -19,12 +19,14 @@ export type ModuleInput = {
   op: 'add' | 'del';
   pid: NumberId;
   tracks: NumberIdList;
+  step?: 'initial' | 'fallback';
 };
 
 const inputSchema = Schema.Struct({
   op: Schema.Literals(['add', 'del']),
   pid: NumberId,
   tracks: NumberIdList,
+  step: Schema.optional(Schema.Literals(['initial', 'fallback'])),
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -88,6 +90,16 @@ const playlistTracks: ModuleEffect<
       trackIds: JSON.stringify(query.tracks.map(String)),
       imme: 'true',
     };
+    if (query.step === 'fallback') {
+      return yield* request('fallback', {
+        data: {
+          ...data,
+          trackIds: JSON.stringify(
+            [...query.tracks, ...query.tracks].map(String),
+          ),
+        },
+      }).pipe(Effect.flatMap(decodeResponse));
+    }
     return yield* request('manipulate', { data }).pipe(
       Effect.flatMap(decodeResponse),
       Effect.mapError((error) => {
@@ -111,7 +123,7 @@ const playlistTracks: ModuleEffect<
       }),
       Effect.catchTag('UpstreamBusinessFailed', (error) =>
         Effect.gen(function* () {
-          if (error.code !== 512) {
+          if (error.code !== 512 || query.step === 'initial') {
             return yield* error;
           }
           return yield* request('fallback', {
