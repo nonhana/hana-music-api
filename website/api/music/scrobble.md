@@ -1,79 +1,93 @@
 ---
 title: '听歌打卡'
-description: '调用此接口，传入音乐 id, 来源 id，歌曲时间 time，更新听歌排行数据'
+description: '调用此接口，传入音乐 id，来源 id，歌曲时间 time，更新听歌排行数据'
 ---
 
 # 听歌打卡
 
-> 调用此接口，传入音乐 id, 来源 id，歌曲时间 time，更新听歌排行数据
+调用此接口，传入音乐 id，来源 id，歌曲时间 time，更新听歌排行数据
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/scrobble`    |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `scrobble`     |
-| 文档分类 | 歌曲与播放     |
+| 项目       | 值                                          |
+| ---------- | ------------------------------------------- |
+| 接口地址   | `/scrobble`                                 |
+| 请求方式   | `GET` / `POST`                              |
+| 需要登录   | 是                                          |
+| 对应模块   | `scrobble`                                  |
+| SDK 函数   | `scrobble`（`hana-music-api/api/scrobble`） |
+| 返回体类型 | `ScrobbleBody`（已建模返回体）              |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数       | 类型             | 必填 | 默认值 | 说明                                  |
-| ---------- | ---------------- | :--: | ------ | ------------------------------------- |
-| `id`       | string           |  ✅  | -      | 歌曲 id                               |
-| `sourceid` | string \| number |  ✅  | -      | 播放来源 id；没有容器 id 的来源传 `0` |
-| `source`   | string           |  —   | `list` | 播放来源类型                          |
-| `time`     | number \| string |  —   | -      | 歌曲播放时间，单位为整数秒            |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /scrobble?id=518066366&sourceid=36780169&source=list&time=291
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { scrobble } from 'hana-music-api';
 
-const result = await scrobble({
-  id: '518066366',
-  sourceid: '36780169',
-  source: 'list',
-  time: '291',
-});
-
+const result = await scrobble(
+  {
+    id: '518066366',
+    sourceid: 36780169,
+    source: 'list',
+    time: 291,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-声明了 `code`、`data`、`message`，只有 `code` 收紧。调用会向 `clientlog.music.163.com` 发送 `startplay` 和 `play` 两条 eapi 上报；返回 200 仍不等于网易云已经计入排行。结构定义和类型是 `ScrobbleBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/scrobble' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=518066366' \
+  --data-urlencode 'sourceid=36780169' \
+  --data-urlencode 'source=list' \
+  --data-urlencode 'time=291'
+```
 
-## 播放来源
+<!-- api-doc:params:start -->
 
-`source` 会原样写入 `play` 上报，常用值和 `sourceid` 约定如下：
+## 请求参数
 
-| `source`    | `sourceid`               |
-| ----------- | ------------------------ |
-| `list`      | 歌单 id                  |
-| `album`     | 专辑 id                  |
-| `artist`    | 歌手 id                  |
-| `recommend` | 没有稳定来源 id 时传 `0` |
-| `search`    | 没有稳定来源 id 时传 `0` |
-| `download`  | 没有稳定来源 id 时传 `0` |
+| 参数       | 类型               | 必填 | 默认值 | 说明                                  |
+| ---------- | ------------------ | ---- | ------ | ------------------------------------- |
+| `id`       | `number \| string` | 是   | -      | 歌曲 id                               |
+| `source`   | `string`           | 否   | `list` | 播放来源类型                          |
+| `sourceid` | `number`           | 是   | -      | 播放来源 id；没有容器 id 的来源传 `0` |
+| `time`     | `number`           | 否   | -      | 歌曲播放时间，单位为整数秒            |
 
-计入听歌排行需要有效登录 Cookie。打卡结果有延迟，真实账号验证应只做 1–2 次，并记录打卡前后的排行数值。
+<!-- api-doc:params:end -->
 
-## 补充说明
+<!-- api-doc:response:start -->
 
-说明 : 调用此接口，传入音乐 id, 来源 id，歌曲时间 time，更新听歌排行数据
+## 返回值
 
-**必选参数 :** `id`: 歌曲 id, `sourceid`: 播放来源 id
+返回体类型：`ScrobbleBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/scrobble`、`hana-music-api/schemas/scrobble` 导入运行时校验器）。
 
-**可选参数 :** `source`: 播放来源类型（默认 `list`）, `time`: 歌曲播放时间,单位为整数秒
+```ts
+type ScrobbleBody = {
+  code: 200;
+  data?: string | null;
+  message?: string | null;
+};
+```
 
-**接口地址 :** `/scrobble`
+| 字段      | 类型     | 必填 | 说明                         |
+| --------- | -------- | ---- | ---------------------------- |
+| `code`    | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `data`    | `string` | 否   | 接口返回的数据主体           |
+| `message` | `string` | 否   | 返回说明信息                 |
 
-**调用例子 :** `/scrobble?id=518066366&sourceid=36780169&source=list&time=291`
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **播放来源约定**：`source` 常用值与 `sourceid` 对应关系——`list`（歌单 ID）、`album`（专辑 ID）、`artist`（歌手 ID）；`recommend`/`search`/`download` 无容器 ID 时 `sourceid` 传 `0`。
+- **数据延迟**：听歌打卡计入用户听歌排行存在上游延迟，返回 `code: 200` 不代表排行立即更新。

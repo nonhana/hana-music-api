@@ -5,44 +5,86 @@ description: '调用此接口，可获取默认搜索关键词'
 
 # 默认搜索关键词
 
-> 调用此接口，可获取默认搜索关键词
+调用此接口，可获取默认搜索关键词
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                |
-| -------- | ----------------- |
-| 接口地址 | `/search/default` |
-| 请求方式 | `GET` / `POST`    |
-| 需要登录 | 否                |
-| 对应模块 | `search_default`  |
-| 文档分类 | 搜索              |
+| 项目       | 值                                                     |
+| ---------- | ------------------------------------------------------ |
+| 接口地址   | `/search/default`                                      |
+| 请求方式   | `GET` / `POST`                                         |
+| 需要登录   | 否                                                     |
+| 对应模块   | `search_default`                                       |
+| SDK 函数   | `searchDefault`（`hana-music-api/api/search_default`） |
+| 返回体类型 | `SearchDefaultBody`（已建模返回体）                    |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /search/default
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { searchDefault } from 'hana-music-api';
 
 const result = await searchDefault();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.data` 和 `data.showKeyword`（展示词）、`data.realkeyword`（实际搜索词）收紧；`data.styleKeyword`、`data.action`、`data.alg`、`data.bizQueryInfo`、`data.gap`、`data.searchType` 是宽松字段。只见过 `null` 的 `data.imageUrl`、`data.logInfo`、`data.source`、`data.trp_id`、`data.trp_type`、`data.styleKeyword.descWord` 和 `body.message` 没有声明，原样保留。本批录制（`search_default.default.json`，另有一次登录对照探测，未保留录制）没有发现可达的空结果，`data` 在这些录制里都存在。结构定义和类型是 `SearchDefaultBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/search/default'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获取默认搜索关键词
+## 请求参数
 
-**接口地址 :** `/search/default`
+无业务参数。
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`SearchDefaultBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/search_default`、`hana-music-api/schemas/search_default` 导入运行时校验器）。
+
+```ts
+type SearchDefaultData = {
+  showKeyword: string;
+  realkeyword: string;
+  styleKeyword?: {
+    keyWord?: string | null;
+  } | null;
+  action?: number | null;
+  alg?: string | null;
+  bizQueryInfo?: string | null;
+  gap?: number | null;
+  searchType?: number | null;
+};
+
+type SearchDefaultBody = {
+  code: 200;
+  data: SearchDefaultData;
+};
+```
+
+| 字段                        | 类型                | 必填 | 说明                         |
+| --------------------------- | ------------------- | ---- | ---------------------------- |
+| `code`                      | `200`               | 是   | 业务状态码（`200` 表示成功） |
+| `data`                      | `SearchDefaultData` | 是   | 接口返回的数据主体           |
+| `data.showKeyword`          | `string`            | 是   | 搜索框展示推荐词             |
+| `data.realkeyword`          | `string`            | 是   | 实际触发搜索的关键词         |
+| `data.styleKeyword`         | `object`            | 否   | -                            |
+| `data.styleKeyword.keyWord` | `string`            | 否   | -                            |
+| `data.action`               | `number`            | 否   | -                            |
+| `data.alg`                  | `string`            | 否   | 推荐算法标识                 |
+| `data.bizQueryInfo`         | `string`            | 否   | -                            |
+| `data.gap`                  | `number`            | 否   | -                            |
+| `data.searchType`           | `number`            | 否   | -                            |
+
+<!-- api-doc:response:end -->

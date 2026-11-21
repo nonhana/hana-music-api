@@ -7,51 +7,24 @@ description: '上传音频文件，并提交对应的播客声音信息。'
 
 先上传音频文件，再提交声音所属播客、封面和分类等信息。使用具有发布权限的登录 Cookie，不能只调用一个空的 `voiceUpload()`。
 
+<!-- api-doc:meta:start -->
+
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/voice/upload`      |
-| 上传方式 | POST multipart       |
-| 身份要求 | 有发布权限的登录身份 |
-| 对应模块 | `voice_upload`       |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/voice/upload`                                    |
+| 请求方式   | `POST`（`multipart/form-data`）                    |
+| 需要登录   | 是（需具备播客发布权限）                           |
+| 对应模块   | `voice_upload`                                     |
+| SDK 函数   | `voiceUpload`（`hana-music-api/api/voice_upload`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                        |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-`songFile` 是上传所需的文件。其余发布信息按目标播客和上游要求填写，当前本地输入解码不会替上游完整验证发布规则。
+## 调用示例
 
-| 参数               | 类型                     | 说明                                                    |
-| ------------------ | ------------------------ | ------------------------------------------------------- |
-| `songFile`         | HTTP 文件或 SDK 文件对象 | 音频字节，SDK 对象含 `data`、`name`、`mimetype`、`size` |
-| `voiceListId`      | number 或 string         | 所属播客 ID                                             |
-| `coverImgId`       | number 或 string         | 封面图片 ID                                             |
-| `categoryId`       | number 或 string         | 分类 ID                                                 |
-| `secondCategoryId` | number 或 string         | 子分类 ID                                               |
-| `description`      | string                   | 声音介绍                                                |
-| `songName`         | string                   | 声音名称，未提供时从文件名整理                          |
-| `privacy`          | 布尔值或相应数字、字符串 | 是否为隐私声音，示例配置可用 `1` 或 `0`                 |
-| `publishTime`      | number 或数字字符串      | 定时发布时间，未设置时发送 `0`                          |
-| `autoPublish`      | 布尔值或相应数字、字符串 | 是否发布动态，建议传 `1` 或 `0`                         |
-| `autoPublishText`  | string                   | 动态文案，默认空字符串                                  |
-| `orderNo`          | number 或数字字符串      | 排序，默认 `1`                                          |
-| `composedSongs`    | string                   | 包含的歌曲 ID，用逗号分隔                               |
-
-## HTTP 示例
-
-先准备 MP3 文件，并替换示例中的发布信息：
-
-```bash
-curl 'http://127.0.0.1:3021/voice/upload' \
-  -H 'Cookie: MUSIC_U=your-cookie' \
-  -F 'songFile=@./episode.mp3;type=audio/mpeg' \
-  -F 'voiceListId=your-voice-list-id' \
-  -F 'coverImgId=your-cover-id' \
-  -F 'categoryId=your-category-id' \
-  -F 'secondCategoryId=your-subcategory-id' \
-  -F 'description=本期声音介绍'
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { readFile } from 'node:fs/promises';
@@ -79,17 +52,51 @@ const result = await voiceUpload(
 console.log(result.body);
 ```
 
-## 分块上传和部分完成
+### HTTP
 
-```mermaid
-flowchart TD
-  TOKEN["申请上传凭据"] --> INIT["初始化文件上传"]
-  INIT --> PARTS["逐块上传音频"]
-  PARTS --> COMPLETE["合并上传块"]
-  COMPLETE --> CHECK["检查发布信息"]
-  CHECK --> PUBLISH["提交声音"]
+```bash
+curl 'http://127.0.0.1:3021/voice/upload' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  -F 'songFile=@./episode.mp3;type=audio/mpeg' \
+  -F 'voiceListId=your-voice-list-id' \
+  -F 'coverImgId=your-cover-id' \
+  -F 'categoryId=your-category-id' \
+  -F 'secondCategoryId=your-subcategory-id' \
+  -F 'description=本期声音介绍'
 ```
 
-内部按最多 10 MiB 一块传输，但这不会绕过 HTTP 服务默认 10 MiB 的入站文件总量限制。通过 HTTP 上传更大文件时，需要调整服务配置，见 [部署 HTTP 服务](/guide/server-deployment)。
+<!-- api-doc:params:start -->
 
-每个阶段最多 60 秒，整个上传模块最多 5 分钟，调用方可以设置更短的总期限。已经完成的上游阶段无法回滚；失败时的 `partialCompletion` 和数字 `completedStages` 表示部分阶段已完成，不代表声音已经发布成功。再次上传前先确认上游结果，避免重复提交。
+## 请求参数
+
+| 参数               | 类型                                | 必填 | 默认值 | 说明                                              |
+| ------------------ | ----------------------------------- | ---- | ------ | ------------------------------------------------- |
+| `autoPublish`      | `boolean`                           | 否   | -      | 发布后是否同步发送动态                            |
+| `autoPublishText`  | `string`                            | 否   | ``     | 同步动态文案，默认空字符串                        |
+| `categoryId`       | `number \| string`                  | 否   | -      | 一级分类 ID                                       |
+| `composedSongs`    | `Array<number \| string> \| string` | 否   | -      | 关联歌曲 ID 列表或逗号分隔字符串                  |
+| `coverImgId`       | `number \| string`                  | 否   | -      | 声音封面图片 ID                                   |
+| `description`      | `string`                            | 否   | -      | 声音简介                                          |
+| `orderNo`          | `number`                            | 否   | `1`    | 播客内排序序号，默认 `1`                          |
+| `privacy`          | `boolean`                           | 否   | -      | 是否设为仅自己可见                                |
+| `publishTime`      | `number`                            | 否   | `0`    | 定时发布时间戳（毫秒），立即发布可传 `0`          |
+| `secondCategoryId` | `number \| string`                  | 否   | -      | 二级分类 ID                                       |
+| `songFile`         | 上传文件对象                        | 否   | -      | 音频文件（HTTP 使用 multipart，SDK 传入文件对象） |
+| `songName`         | `string`                            | 否   | -      | 声音名称（未传时从文件名整理）                    |
+| `voiceListId`      | `number \| string`                  | 否   | -      | 所属播客 ID                                       |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **HTTP 体积限制**：HTTP 服务默认请求体上限为 `10 MiB`，上传更大文件需调整服务配置 `maxBodyBytes`，详见 [HTTP 服务部署](/guide/http-deployment)；SDK 直接调用不受此限制。
+- **阶段超时与部分完成**：上传按阶段分别计时（单阶段最多 `60s`，整体最多 `5min`），可通过 `timeoutMs` 缩短总超时时间；失败若返回 `partialCompletion: true`，`completedStages` 表示已完成阶段数（非百分比），且已完成的阶段不会自动回滚，详见 [弹性与超时](/guide/resilience) 与 [错误处理](/guide/error-handling)。
+- **分块流程**：内部自动按最多 10 MiB 分块完成凭证申请、初始化、逐块上传、合并、预检与发布提交（可通过 `composedSongs` 传入关联歌曲 ID 数组）。

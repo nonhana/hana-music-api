@@ -1,48 +1,88 @@
 ---
 title: '国家编码列表'
-description: '调用此接口,可获取国家编码列表'
+description: '调用此接口，可获取国家编码列表'
 ---
 
 # 国家编码列表
 
-> 调用此接口,可获取国家编码列表
+调用此接口，可获取国家编码列表
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                     |
-| -------- | ---------------------- |
-| 接口地址 | `/countries/code/list` |
-| 请求方式 | `GET` / `POST`         |
-| 需要登录 | 否                     |
-| 对应模块 | `countries_code_list`  |
-| 文档分类 | 其他工具               |
+| 项目       | 值                                                              |
+| ---------- | --------------------------------------------------------------- |
+| 接口地址   | `/countries/code/list`                                          |
+| 请求方式   | `GET` / `POST`                                                  |
+| 需要登录   | 否                                                              |
+| 对应模块   | `countries_code_list`                                           |
+| SDK 函数   | `countriesCodeList`（`hana-music-api/api/countries_code_list`） |
+| 返回体类型 | `CountriesCodeListBody`（已建模返回体）                         |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /countries/code/list
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { countriesCodeList } from 'hana-music-api';
 
 const result = await countriesCodeList();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-国家分组在 `data`，每组有 `label` 和 `countryList`，每个国家记录用 `code`（国际区号）、`zh`、`en`、`locale`。`code`、`data`、`data[].countryList` 和 `countryList[].code` 收紧；分组名和语言名宽松。国家列表是固定数据，本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `CountriesCodeListBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/countries/code/list'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口,可获取国家编码列表
+## 请求参数
 
-**接口地址 :** `/countries/code/list`
+无业务参数。
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`CountriesCodeListBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/countries_code_list`、`hana-music-api/schemas/countries_code_list` 导入运行时校验器）。
+
+```ts
+type Country = {
+  code: string;
+  en?: string | null;
+  locale?: string | null;
+  zh?: string | null;
+};
+
+type CountryGroup = {
+  label?: string | null;
+  countryList: Array<Country>;
+};
+
+type CountriesCodeListBody = {
+  code: 200;
+  data: Array<CountryGroup>;
+  message?: string | null;
+};
+```
+
+| 字段                          | 类型                  | 必填 | 说明                         |
+| ----------------------------- | --------------------- | ---- | ---------------------------- |
+| `code`                        | `200`                 | 是   | 业务状态码（`200` 表示成功） |
+| `data`                        | `Array<CountryGroup>` | 是   | 接口返回的数据主体           |
+| `data[].label`                | `string`              | 否   | -                            |
+| `data[].countryList`          | `Array<Country>`      | 是   | -                            |
+| `data[].countryList[].code`   | `string`              | 是   | 业务状态码（`200` 表示成功） |
+| `data[].countryList[].en`     | `string`              | 否   | -                            |
+| `data[].countryList[].locale` | `string`              | 否   | -                            |
+| `data[].countryList[].zh`     | `string`              | 否   | -                            |
+| `message`                     | `string`              | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

@@ -1,57 +1,92 @@
 ---
 title: '歌手粉丝'
-description: '调用此接口，传入歌手 id, 可获取歌手粉丝'
+description: '调用此接口，传入歌手 id，可获取歌手粉丝'
 ---
 
 # 歌手粉丝
 
-> 调用此接口，传入歌手 id, 可获取歌手粉丝
+调用此接口，传入歌手 id，可获取歌手粉丝
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/artist/fans` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `artist_fans`  |
-| 文档分类 | 歌手           |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/artist/fans`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 否                                               |
+| 对应模块   | `artist_fans`                                    |
+| SDK 函数   | `artistFans`（`hana-music-api/api/artist_fans`） |
+| 返回体类型 | `ArtistFansBody`（已建模返回体）                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 歌手 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /artist/fans?id=2116&limit=10&offset=0
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { artistFans } from 'hana-music-api';
 
 const result = await artistFans({
   id: '2116',
-  limit: '10',
-  offset: '0',
+  limit: 10,
+  offset: 0,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 收紧；粉丝列表 `body.data` 是可以没有的路径，越界分页/没有更多粉丝时上游返回 `data: null`（录制 `artist_fans.empty.json`，`offset=100000`）。出现时每个粉丝的 `userProfile` 和 `userProfile.userId` 按收紧校验，坏一条记录报 502；`vipRights` 是宽松字段。`userProfile` 的其余字段（昵称、头像、签名等）都是宽松字段，`remarkName` 这类只在录制里出现过 `null` 的字段没有声明。结构定义和类型是 `ArtistFansBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/artist/fans' \
+  --data-urlencode 'id=2116' \
+  --data-urlencode 'limit=10' \
+  --data-urlencode 'offset=0'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入歌手 id, 可获取歌手粉丝
-**必选参数 :** `id` : 歌手 id
+## 请求参数
 
-**接口地址 :** `/artist/fans`
+| 参数     | 类型               | 必填 | 默认值 | 说明                         |
+| -------- | ------------------ | ---- | ------ | ---------------------------- |
+| `id`     | `number \| string` | 是   | -      | 歌手 id                      |
+| `limit`  | `number`           | 否   | `20`   | 返回数量，默认 `20`          |
+| `offset` | `number`           | 否   | `0`    | 偏移数量，用于分页，默认 `0` |
 
-**调用例子 :** `/artist/fans?id=2116&limit=10&offset=0`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`ArtistFansBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/artist_fans`、`hana-music-api/schemas/artist_fans` 导入运行时校验器）。
+
+```ts
+type Fan = {
+  userProfile: UserProfile;
+  vipRights?: VipRights | null;
+};
+
+type ArtistFansBody = {
+  code: 200;
+  message?: string | null;
+  data?: Array<Fan> | null;
+};
+```
+
+- **公共类型**：[UserProfile](/api/shared-types#userprofile)、[VipRights](/api/shared-types#viprights)
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段                 | 类型                                         | 必填 | 说明                         |
+| -------------------- | -------------------------------------------- | ---- | ---------------------------- |
+| `code`               | `200`                                        | 是   | 业务状态码（`200` 表示成功） |
+| `message`            | `string`                                     | 否   | 返回说明信息                 |
+| `data`               | `Array<Fan>`                                 | 可空 | 接口返回的数据主体           |
+| `data[].userProfile` | [UserProfile](/api/shared-types#userprofile) | 是   | UserProfile 实体             |
+| `data[].vipRights`   | [VipRights](/api/shared-types#viprights)     | 否   | VipRights 实体               |
+
+<!-- api-doc:response:end -->

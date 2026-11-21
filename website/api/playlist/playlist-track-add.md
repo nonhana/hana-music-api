@@ -5,58 +5,74 @@ description: '调用此接口，可收藏视频到视频歌单 ( 需要登录 )'
 
 # 收藏视频到视频歌单
 
-> 调用此接口，可收藏视频到视频歌单 ( 需要登录 )
+调用此接口，可收藏视频到视频歌单 ( 需要登录 )
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                    |
-| -------- | --------------------- |
-| 接口地址 | `/playlist/track/add` |
-| 请求方式 | `GET` / `POST`        |
-| 需要登录 | 是                    |
-| 对应模块 | `playlist_track_add`  |
-| 文档分类 | 歌单                  |
+| 项目       | 值                                                            |
+| ---------- | ------------------------------------------------------------- |
+| 接口地址   | `/playlist/track/add`                                         |
+| 请求方式   | `GET` / `POST`                                                |
+| 需要登录   | 是                                                            |
+| 对应模块   | `playlist_track_add`                                          |
+| SDK 函数   | `playlistTrackAdd`（`hana-music-api/api/playlist_track_add`） |
+| 返回体类型 | `PlaylistTrackAddBody`（已建模返回体）                        |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数  | 类型                      | 必填 | 默认值 | 说明         |
-| ----- | ------------------------- | :--: | ------ | ------------ |
-| `pid` | `number \| string`        |  ✅  | -      | 歌单 id      |
-| `ids` | `(number \| string)` 数组 |  ✅  | -      | 歌曲 id 数组 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/track/add?pid=5271999357&ids=186041
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistTrackAdd } from 'hana-music-api';
 
-const result = await playlistTrackAdd({
-  pid: 5271999357,
-  ids: [186041],
-});
-
+const result = await playlistTrackAdd(
+  {
+    pid: 5271999357,
+    ids: [186041],
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-写操作：把 `ids` 里的歌曲加到 `pid` 指定的歌单，成功会改变这个歌单的曲目。正文只承诺返回码，结构定义只收紧 `code`；成功正文没有录到，其余字段原样保留。缺少 `pid` 时上游回 `code: 400`（请求参数错误）；这个 400 以前被归一成 `status: 200` 放行，现在按业务拒绝转交 `status: 400` 和原始正文。上游对自有的临时歌单也可能回 `code: 401`（无权限操作歌单），对已删除的歌单回 `404`，这两个状态不变。结构定义和类型是 `PlaylistTrackAddBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/playlist/track/add' \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data '{"pid":5271999357,"ids":[186041]}'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可收藏视频到视频歌单 ( 需要登录 )
+## 请求参数
 
-**必选参数 :**
+| 参数  | 类型                      | 必填 | 默认值 | 说明                       |
+| ----- | ------------------------- | ---- | ------ | -------------------------- |
+| `pid` | `number \| string`        | 是   | -      | 目标歌单 ID                |
+| `ids` | `Array<number \| string>` | 是   | -      | 要添加到歌单的歌曲 ID 数组 |
 
-`pid` : 歌单 id
+<!-- api-doc:params:end -->
 
-`ids` : 视频 id,支持多个,用`,`隔开
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/playlist/track/add`
+## 返回值
 
-**调用例子 :** `/playlist/track/add?pid=5271999357&ids=186041`
+返回体类型：`PlaylistTrackAddBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_track_add`、`hana-music-api/schemas/playlist_track_add` 导入运行时校验器）。
+
+```ts
+type PlaylistTrackAddBody = {
+  code: 200;
+};
+```
+
+| 字段   | 类型  | 必填 | 说明                         |
+| ------ | ----- | ---- | ---------------------------- |
+| `code` | `200` | 是   | 业务状态码（`200` 表示成功） |
+
+<!-- api-doc:response:end -->

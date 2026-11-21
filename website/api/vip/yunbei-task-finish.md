@@ -5,54 +5,64 @@ description: '云贝完成任务 接口文档。'
 
 # 云贝完成任务
 
-> 云贝完成任务 接口文档。
+云贝完成任务 接口文档。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                    |
-| -------- | --------------------- |
-| 接口地址 | `/yunbei/task/finish` |
-| 请求方式 | `GET` / `POST`        |
-| 需要登录 | 否                    |
-| 对应模块 | `yunbei_task_finish`  |
-| 文档分类 | 会员与云贝            |
+| 项目       | 值                                                            |
+| ---------- | ------------------------------------------------------------- |
+| 接口地址   | `/yunbei/task/finish`                                         |
+| 请求方式   | `GET` / `POST`                                                |
+| 需要登录   | 是                                                            |
+| 对应模块   | `yunbei_task_finish`                                          |
+| SDK 函数   | `yunbeiTaskFinish`（`hana-music-api/api/yunbei_task_finish`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                                   |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数          | 类型   | 必填 | 默认值 | 说明             |
-| ------------- | ------ | :--: | ------ | ---------------- |
-| `userTaskId`  | string |  ✅  | -      | 任务 id          |
-| `depositCode` | string |  —   | -      | 任务 depositCode |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /yunbei/task/finish?userTaskId=5146243240&depositCode=0
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { yunbeiTaskFinish } from 'hana-music-api';
 
-const result = await yunbeiTaskFinish({
-  userTaskId: '5146243240',
-  depositCode: '0',
-});
-
+const result = await yunbeiTaskFinish(
+  {
+    userTaskId: '5146243240',
+    depositCode: 0,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-**必选参数 :**
+```bash
+curl --get 'http://127.0.0.1:3021/yunbei/task/finish' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'userTaskId=5146243240' \
+  --data-urlencode 'depositCode=0'
+```
 
-`userTaskId` : 任务 id
+<!-- api-doc:params:start -->
 
-**可选参数 :**
+## 请求参数
 
-`depositCode`: 任务 depositCode
+| 参数          | 类型               | 必填 | 默认值 | 说明             |
+| ------------- | ------------------ | ---- | ------ | ---------------- |
+| `userTaskId`  | `number \| string` | 是   | -      | 任务 id          |
+| `depositCode` | `number`           | 否   | `0`    | 任务 depositCode |
 
-**接口地址 :** `/yunbei/task/finish`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/yunbei/task/finish?userTaskId=5146243240&depositCode=0`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

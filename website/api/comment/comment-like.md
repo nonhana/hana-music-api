@@ -1,94 +1,100 @@
 ---
 title: '给评论点赞'
-description: '调用此接口，传入 type, 资源 id, 和评论 id cid 和 是否点赞参数 t 即可给对'
+description: '调用此接口，传入 type，资源 id，和评论 id cid 和 是否点赞参数 t 即可给对'
 ---
 
 # 给评论点赞
 
-> 调用此接口，传入 type, 资源 id, 和评论 id cid 和 是否点赞参数 t 即可给对
+调用此接口，传入 type，资源 id，和评论 id cid 和 是否点赞参数 t 即可给对
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/comment/like` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 是              |
-| 对应模块 | `comment_like`  |
-| 文档分类 | 评论            |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/comment/like`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 是                                                 |
+| 对应模块   | `comment_like`                                     |
+| SDK 函数   | `commentLike`（`hana-music-api/api/comment_like`） |
+| 返回体类型 | `CommentLikeBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明                                                                                                                                                       |
-| ------ | ------ | :--: | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `id`   | string |  ✅  | -      | 资源 id, 如歌曲 id,mv id                                                                                                                                   |
-| `cid`  | string |  ✅  | -      | 评论 id                                                                                                                                                    |
-| `t`    | string |  ✅  | -      | 是否点赞，1 为点赞 ,0 为取消点赞                                                                                                                           |
-| `type` | string |  ✅  | -      | 数字，资源类型，对应歌曲，mv, 专辑，歌单，电台, 视频对应以下类型<br>0: 歌曲<br>1: mv<br>2: 歌单<br>3: 专辑<br>4: 电台节目<br>5: 视频<br>6: 动态<br>7: 电台 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /comment/like?id=29178366&cid=12840183&t=1&type=0
-GET /comment/like?type=6&cid=1419532712&threadId=A_EV_2_6559519868_32953014&t=0
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { commentLike } from 'hana-music-api';
 
-const result = await commentLike({
-  id: '29178366',
-  cid: '12840183',
-  t: '1',
-  type: '0',
-});
-
+const result = await commentLike(
+  {
+    id: '29178366',
+    cid: '12840183',
+    t: 1,
+    type: 0,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 是接口要拿的操作结果，收紧为 `200`，其余字段原样保留。点赞方向被上游拒绝（正文 `code: 250`、`msg: 点赞异常，请稍后再试！`、`data.dialog` 是 `null`，不是设备风险提示），SDK 按业务拒绝原样转交，`status` 为 250；成功正文只有取消点赞的证据。结构定义和类型是 `CommentLikeBody`，见 [返回体结构](/guide/response-bodies)。
-
-## 补充说明
-
-说明 : 调用此接口，传入 type, 资源 id, 和评论 id cid 和 是否点赞参数 t 即可给对
-应评论点赞 ( 需要登录 )
-
-**必选参数 :** `id` : 资源 id, 如歌曲 id,mv id
-
-`cid` : 评论 id
-
-`t` : 是否点赞，1 为点赞 ,0 为取消点赞
-
-`type`: 数字，资源类型，对应歌曲，mv, 专辑，歌单，电台, 视频对应以下类型
-
-```text
-0: 歌曲
-
-1: mv
-
-2: 歌单
-
-3: 专辑
-
-4: 电台节目
-
-5: 视频
-
-6: 动态
-
-7: 电台
+```bash
+curl --get 'http://127.0.0.1:3021/comment/like' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=29178366' \
+  --data-urlencode 'cid=12840183' \
+  --data-urlencode 't=1' \
+  --data-urlencode 'type=0'
 ```
 
-**接口地址 :** `/comment/like`
+<!-- api-doc:params:start -->
 
-**调用例子 :**
-`/comment/like?id=29178366&cid=12840183&t=1&type=0`
-对应给 [https://music.163.com/#/song?id=29178366](https://music.163.com/#/song?id=29178366) 最热门的评论点赞
+## 请求参数
 
-注意：动态点赞不需要传入 `id` 参数，需要传入动态的 `threadId` 参数，例如：
-`/comment/like?type=6&cid=1419532712&threadId=A_EV_2_6559519868_32953014&t=0`
-`threadId` 可通过 `/event`、`/user/event` 接口获取。
+| 参数       | 类型               | 必填 | 默认值 | 说明                                                                                                                                                       |
+| ---------- | ------------------ | ---- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `cid`      | `number \| string` | 是   | -      | 评论 id                                                                                                                                                    |
+| `id`       | `number \| string` | 是   | -      | 资源 id，如歌曲 id，mv id                                                                                                                                  |
+| `t`        | `0 \| 1`           | 是   | -      | 是否点赞，1 为点赞 ，0 为取消点赞                                                                                                                          |
+| `threadId` | `string`           | 否   | -      | 资源线程 ID（点赞动态评论 `type=6` 时使用）                                                                                                                |
+| `type`     | `number`           | 是   | -      | 数字，资源类型，对应歌曲，mv，专辑，歌单，电台，视频对应以下类型<br>0: 歌曲<br>1: mv<br>2: 歌单<br>3: 专辑<br>4: 电台节目<br>5: 视频<br>6: 动态<br>7: 电台 |
+
+| `type` | 资源类型                          |
+| ------ | --------------------------------- |
+| `0`    | 歌曲                              |
+| `1`    | MV                                |
+| `2`    | 歌单                              |
+| `3`    | 专辑                              |
+| `4`    | 电台节目                          |
+| `5`    | 视频                              |
+| `6`    | 动态（部分接口需改传 `threadId`） |
+| `7`    | 电台                              |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`CommentLikeBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/comment_like`、`hana-music-api/schemas/comment_like` 导入运行时校验器）。
+
+```ts
+type CommentLikeBody = {
+  code: 200;
+};
+```
+
+| 字段   | 类型  | 必填 | 说明                         |
+| ------ | ----- | ---- | ---------------------------- |
+| `code` | `200` | 是   | 业务状态码（`200` 表示成功） |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **动态评论点赞**：当 `type=6`（动态）时，需传入动态的 `threadId`。

@@ -5,52 +5,94 @@ description: '登录后调用此接口，传入云盘歌曲 id，可获取云盘
 
 # 云盘数据详情
 
-> 登录后调用此接口，传入云盘歌曲 id，可获取云盘数据详情
+登录后调用此接口，传入云盘歌曲 id，可获取云盘数据详情
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/user/cloud/detail` |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 是                   |
-| 对应模块 | `user_cloud_detail`  |
-| 文档分类 | 云盘与上传           |
+| 项目       | 值                                                          |
+| ---------- | ----------------------------------------------------------- |
+| 接口地址   | `/user/cloud/detail`                                        |
+| 请求方式   | `GET` / `POST`                                              |
+| 需要登录   | 是                                                          |
+| 对应模块   | `user_cloud_detail`                                         |
+| SDK 函数   | `userCloudDetail`（`hana-music-api/api/user_cloud_detail`） |
+| 返回体类型 | `UserCloudDetailBody`（已建模返回体）                       |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型               | 必填 | 默认值 | 说明                      |
-| ---- | ------------------ | :--: | ------ | ------------------------- |
-| `id` | string[] \| string |  ✅  | -      | 歌曲 id,可多个,用逗号隔开 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/cloud/detail?id=5374627
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userCloudDetail } from 'hana-music-api';
 
-const result = await userCloudDetail({
-  id: '5374627',
-});
-
+const result = await userCloudDetail(
+  {
+    ids: [347230],
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-云盘歌曲在 `data`，每条记录自己的 `songId` 收紧；`simpleSong` 是记录里套着的歌曲对象，复用 core 的 `LooseSong`，字段宽松，`id` 也宽松。传入不在云盘的歌曲 id 时 `data` 是空数组（录制 `user_cloud_detail.empty.json`）。结构定义和类型是 `UserCloudDetailBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/user/cloud/detail' \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data '{"ids":[347230]}'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，传入云盘歌曲 id，可获取云盘数据详情
+## 请求参数
 
-**必选参数 :** `id`: 歌曲 id,可多个,用逗号隔开
+| 参数  | 类型                      | 必填 | 默认值 | 说明             |
+| ----- | ------------------------- | ---- | ------ | ---------------- |
+| `ids` | `Array<number \| string>` | 是   | -      | 云盘歌曲 ID 数组 |
 
-**接口地址 :** `/user/cloud/detail`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/user/cloud/detail?id=5374627`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`UserCloudDetailBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/user_cloud_detail`、`hana-music-api/schemas/user_cloud_detail` 导入运行时校验器）。
+
+```ts
+type CloudDetailEntry = {
+  songId: number;
+  addTime?: number | null;
+  album?: string | null;
+  artist?: string | null;
+  bitrate?: number | null;
+  cover?: number | null;
+  coverId?: string | null;
+  fileName?: string | null;
+  fileSize?: number | null;
+  lyricId?: string | null;
+  matchType?: string | null;
+  pcId?: number | null;
+  simpleSong?: LooseSong | null;
+  songName?: string | null;
+  version?: number | null;
+};
+
+type UserCloudDetailBody = {
+  code: 200;
+  data: Array<CloudDetailEntry>;
+};
+```
+
+- **公共类型**：[LooseSong](/api/shared-types#loosesong)
+
+| 字段   | 类型                      | 必填 | 说明                         |
+| ------ | ------------------------- | ---- | ---------------------------- |
+| `code` | `200`                     | 是   | 业务状态码（`200` 表示成功） |
+| `data` | `Array<CloudDetailEntry>` | 是   | 接口返回的数据主体           |
+
+<!-- api-doc:response:end -->

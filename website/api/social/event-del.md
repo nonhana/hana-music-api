@@ -1,56 +1,75 @@
 ---
 title: '删除用户动态'
-description: '登录后调用此接口 ,可以删除用户动态'
+description: '登录后调用此接口 ，可以删除用户动态'
 ---
 
 # 删除用户动态
 
-> 登录后调用此接口 ,可以删除用户动态
+登录后调用此接口 ，可以删除用户动态
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/event/del`   |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `event_del`    |
-| 文档分类 | 社交与消息     |
+| 项目       | 值                                           |
+| ---------- | -------------------------------------------- |
+| 接口地址   | `/event/del`                                 |
+| 请求方式   | `GET` / `POST`                               |
+| 需要登录   | 是                                           |
+| 对应模块   | `event_del`                                  |
+| SDK 函数   | `eventDel`（`hana-music-api/api/event_del`） |
+| 返回体类型 | `EventDelBody`（已建模返回体）               |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明    |
-| ------ | ------ | :--: | ------ | ------- |
-| `evId` | string |  ✅  | -      | 动态 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /event/del?evId=6712917601
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { eventDel } from 'hana-music-api';
 
-const result = await eventDel({
-  evId: '6712917601',
-});
-
+const result = await eventDel(
+  {
+    evId: '6712917601',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 收紧为 `200`。本批录制是删除合成 id 的返回体（`event_del.missing-id.json`），只证明成功返回码；同时录制的 `share_resource`、`event_forward` 被上游风控拒绝，没有创建出可删除的测试动态。
+```bash
+curl --get 'http://127.0.0.1:3021/event/del' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'evId=6712917601'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口 ,可以删除用户动态
+## 请求参数
 
-**必选参数 :** `evId` : 动态 id
+| 参数   | 类型               | 必填 | 默认值 | 说明    |
+| ------ | ------------------ | ---- | ------ | ------- |
+| `evId` | `number \| string` | 是   | -      | 动态 id |
 
-**接口地址 :** `/event/del`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/event/del?evId=6712917601`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`EventDelBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/event_del`、`hana-music-api/schemas/event_del` 导入运行时校验器）。
+
+```ts
+type EventDelBody = {
+  code: 200;
+};
+```
+
+| 字段   | 类型  | 必填 | 说明                         |
+| ------ | ----- | ---- | ---------------------------- |
+| `code` | `200` | 是   | 业务状态码（`200` 表示成功） |
+
+<!-- api-doc:response:end -->

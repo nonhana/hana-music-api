@@ -1,52 +1,78 @@
 ---
 title: '我的数字专辑'
-description: '登录后调用此接口 ,可获取我的数字专辑'
+description: '登录后调用此接口 ，可获取我的数字专辑'
 ---
 
 # 我的数字专辑
 
-> 登录后调用此接口 ,可获取我的数字专辑
+登录后调用此接口 ，可获取我的数字专辑
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                        |
-| -------- | ------------------------- |
-| 接口地址 | `/digitalAlbum/purchased` |
-| 请求方式 | `GET` / `POST`            |
-| 需要登录 | 是                        |
-| 对应模块 | `digitalAlbum_purchased`  |
-| 文档分类 | 专辑                      |
+| 项目       | 值                                                                     |
+| ---------- | ---------------------------------------------------------------------- |
+| 接口地址   | `/digitalAlbum/purchased`                                              |
+| 请求方式   | `GET` / `POST`                                                         |
+| 需要登录   | 是                                                                     |
+| 对应模块   | `digitalAlbum_purchased`                                               |
+| SDK 函数   | `digitalAlbumPurchased`（`hana-music-api/api/digitalAlbum_purchased`） |
+| 返回体类型 | `DigitalAlbumPurchasedBody`（已建模返回体）                            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /digitalAlbum/purchased?limit=10
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { digitalAlbumPurchased } from 'hana-music-api';
 
-const result = await digitalAlbumPurchased({
-  limit: '10',
-});
-
+const result = await digitalAlbumPurchased(
+  {
+    limit: 10,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 收紧。录制账号没有购买记录，`paidAlbums` 只有空数组证据、元素类型未知，未声明，按未声明字段原样保留；`total` 是宽松字段。没有另一个已购买账号可补录非空 `paidAlbums`。匿名与登录调用都返回空的 `paidAlbums`，列表为空时 `offset=100000` 仍为空（录制 `digital-album/digitalAlbum_purchased.offset-100000.json`；匿名对照 `digital-album/digitalAlbum_purchased.anonymous.json`）。结构定义和类型是 `DigitalAlbumPurchasedBody`，见[返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/digitalAlbum/purchased' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'limit=10'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口 ,可获取我的数字专辑
+## 请求参数
 
-**接口地址 :** `/digitalAlbum/purchased`
+| 参数     | 类型     | 必填 | 默认值 | 说明                         |
+| -------- | -------- | ---- | ------ | ---------------------------- |
+| `limit`  | `number` | 否   | `30`   | 返回数量，默认 `30`          |
+| `offset` | `number` | 否   | `0`    | 偏移数量，用于分页，默认 `0` |
 
-**调用例子 :** `/digitalAlbum/purchased?limit=10`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`DigitalAlbumPurchasedBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/digitalAlbum_purchased`、`hana-music-api/schemas/digitalAlbum_purchased` 导入运行时校验器）。
+
+```ts
+type DigitalAlbumPurchasedBody = {
+  code: 200;
+  total?: number | null;
+};
+```
+
+| 字段    | 类型     | 必填 | 说明                         |
+| ------- | -------- | ---- | ---------------------------- |
+| `code`  | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `total` | `number` | 否   | 总条目数                     |
+
+<!-- api-doc:response:end -->

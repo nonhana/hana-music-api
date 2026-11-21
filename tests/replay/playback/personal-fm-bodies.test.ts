@@ -37,8 +37,8 @@ import playmodeIntelligenceListUnsupported from '../../fixtures/netease/recommen
 
 // issue #102 B40 的录制：私人 FM、心动模式与推荐接口。登录对照先经 login_status 确认
 // account.anonimousUser 为 false；personal_fm、personal_fm_mode 和 aidj_content_rcmd
-// 另保留匿名录制。列表类接口中只有 mlog_music_rcmd 录到可达空结果；另有缺口见
-// website/guide/response-bodies.md。
+// 另保留匿名录制。列表类接口中只有 mlog_music_rcmd 录到可达空结果；其余返回体说明见
+// 对应 website/api/ 下的接口参考页。
 type Case = {
   readonly name: string;
   readonly recording: Recording;

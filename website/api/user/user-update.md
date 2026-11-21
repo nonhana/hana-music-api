@@ -1,80 +1,86 @@
 ---
 title: '更新用户信息'
-description: '登录后调用此接口，传入相关信息,可以更新用户信息'
+description: '登录后调用此接口，传入相关信息，可以更新用户信息'
 ---
 
 # 更新用户信息
 
-> 登录后调用此接口，传入相关信息,可以更新用户信息
+登录后调用此接口，传入相关信息，可以更新用户信息
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/user/update` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `user_update`  |
-| 文档分类 | 用户与登录     |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/user/update`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 是                                               |
+| 对应模块   | `user_update`                                    |
+| SDK 函数   | `userUpdate`（`hana-music-api/api/user_update`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                      |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数        | 类型             | 必填 | 默认值 | 说明                           |
-| ----------- | ---------------- | :--: | ------ | ------------------------------ |
-| `gender`    | string           |  ✅  | -      | 性别 0:保密 1:男性 2:女性      |
-| `birthday`  | number \| string |  ✅  | -      | 出生日期,时间戳 unix timestamp |
-| `nickname`  | string           |  ✅  | -      | 用户昵称                       |
-| `province`  | string           |  ✅  | -      | 省份id                         |
-| `city`      | string           |  ✅  | -      | 城市id                         |
-| `signature` | string           |  ✅  | -      | ：用户签名                     |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/update?gender=0&signature=测试签名&city=440300&nickname=binary&birthday=1525918298004&province=440000
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userUpdate } from 'hana-music-api';
 
-const result = await userUpdate({
-  gender: '0',
-  signature: '测试签名',
-  city: '440300',
-  nickname: 'binary',
-  birthday: '1525918298004',
-  province: '440000',
-});
-
+const result = await userUpdate(
+  {
+    gender: 0,
+    signature: '测试签名',
+    city: 440300,
+    nickname: 'binary',
+    birthday: 1525918298004,
+    province: 440000,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-本批尝试补录成功正文，但录制账号调用时上游返回 `code: 250`「用户资料初始化或修改失败」，尝试前后用 [用户详情](/api/user/user-detail) 回读的资料没有变化。没有成功正文证据，返回体仍未收窄，`body` 原样返回，也不按返回码转成业务拒绝。
-
-## 补充说明
-
-说明 : 登录后调用此接口，传入相关信息,可以更新用户信息
-
-**必选参数 :**
-
-```text
-gender: 性别 0:保密 1:男性 2:女性
-
-birthday: 出生日期,时间戳 unix timestamp
-
-nickname: 用户昵称
-
-province: 省份id
-
-city: 城市id
-
-signature：用户签名
+```bash
+curl --get 'http://127.0.0.1:3021/user/update' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'gender=0' \
+  --data-urlencode 'signature=测试签名' \
+  --data-urlencode 'city=440300' \
+  --data-urlencode 'nickname=binary' \
+  --data-urlencode 'birthday=1525918298004' \
+  --data-urlencode 'province=440000'
 ```
 
-**接口地址 :** `/user/update`
+<!-- api-doc:params:start -->
 
-**调用例子 :** `/user/update?gender=0&signature=测试签名&city=440300&nickname=binary&birthday=1525918298004&province=440000`
+## 请求参数
+
+| 参数        | 类型          | 必填 | 默认值 | 说明                            |
+| ----------- | ------------- | ---- | ------ | ------------------------------- |
+| `birthday`  | `number`      | 否   | -      | 出生日期，时间戳 unix timestamp |
+| `city`      | `number`      | 否   | -      | 城市id                          |
+| `gender`    | `0 \| 1 \| 2` | 否   | -      | 性别 0:保密 1:男性 2:女性       |
+| `nickname`  | `string`      | 否   | -      | 用户昵称                        |
+| `province`  | `number`      | 否   | -      | 省份id                          |
+| `signature` | `string`      | 否   | -      | ：用户签名                      |
+
+| `gender` | 性别 |
+| -------- | ---- |
+| `0`      | 保密 |
+| `1`      | 男性 |
+| `2`      | 女性 |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

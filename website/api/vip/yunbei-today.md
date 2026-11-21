@@ -5,48 +5,68 @@ description: '登录后调用此接口可获取云贝今日签到信息(今日�
 
 # 云贝今日签到信息
 
-> 登录后调用此接口可获取云贝今日签到信息(今日签到获取的云贝数)
+登录后调用此接口可获取云贝今日签到信息(今日签到获取的云贝数)
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/yunbei/today` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 是              |
-| 对应模块 | `yunbei_today`  |
-| 文档分类 | 会员与云贝      |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/yunbei/today`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 是                                                 |
+| 对应模块   | `yunbei_today`                                     |
+| SDK 函数   | `yunbeiToday`（`hana-music-api/api/yunbei_today`） |
+| 返回体类型 | `YunbeiTodayBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /yunbei/today
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { yunbeiToday } from 'hana-music-api';
 
-const result = await yunbeiToday();
-
+const result = await yunbeiToday({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、今日云贝路径 `body.data` 及当天获得的云贝 `data.shells` 收紧；本账号录制时是 0。结构定义和类型是 `YunbeiTodayBody`，见[返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/yunbei/today' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-匿名调用返回 `body.code: 302`，SDK 按业务失败转交为 HTTP 302；匿名对照录制是 `vip/yunbei_today.anonymous.json`。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 : 登录后调用此接口可获取云贝今日签到信息(今日签到获取的云贝数)
+无业务参数。
 
-**接口地址 :** `/yunbei/today`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/yunbei/today`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`YunbeiTodayBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/yunbei_today`、`hana-music-api/schemas/yunbei_today` 导入运行时校验器）。
+
+```ts
+type YunbeiTodayBody = {
+  code: 200;
+  data: {
+    shells: number;
+  };
+};
+```
+
+| 字段          | 类型     | 必填 | 说明                         |
+| ------------- | -------- | ---- | ---------------------------- |
+| `code`        | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `data`        | `object` | 是   | 接口返回的数据主体           |
+| `data.shells` | `number` | 是   | -                            |
+
+<!-- api-doc:response:end -->

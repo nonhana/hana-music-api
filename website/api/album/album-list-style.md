@@ -1,65 +1,109 @@
 ---
 title: '数字专辑-语种风格馆'
-description: '调用此接口 ,可获取语种风格馆数字专辑列表'
+description: '调用此接口 ，可获取语种风格馆数字专辑列表'
 ---
 
 # 数字专辑-语种风格馆
 
-> 调用此接口 ,可获取语种风格馆数字专辑列表
+调用此接口 ，可获取语种风格馆数字专辑列表
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                  |
-| -------- | ------------------- |
-| 接口地址 | `/album/list/style` |
-| 请求方式 | `GET` / `POST`      |
-| 需要登录 | 否                  |
-| 对应模块 | `album_list_style`  |
-| 文档分类 | 专辑                |
+| 项目       | 值                                                        |
+| ---------- | --------------------------------------------------------- |
+| 接口地址   | `/album/list/style`                                       |
+| 请求方式   | `GET` / `POST`                                            |
+| 需要登录   | 否                                                        |
+| 对应模块   | `album_list_style`                                        |
+| SDK 函数   | `albumListStyle`（`hana-music-api/api/album_list_style`） |
+| 返回体类型 | `AlbumListStyleBody`（已建模返回体）                      |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                    |
-| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------- |
-| `limit`  | number \| string |  —   | 30     | 返回数量，默认为 30                                                     |
-| `offset` | number \| string |  —   | 0      | 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0 |
-| `area`   | string           |  —   | -      | 地区 Z_H:华语,E_A:欧美,KR:韩国,JP:日本                                  |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /album/list/style?area=Z_H&offset=2
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { albumListStyle } from 'hana-music-api';
 
 const result = await albumListStyle({
   area: 'Z_H',
-  offset: '2',
+  offset: 2,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.albumProducts` 和每张专辑的 `albumProducts[].albumId` 收紧；`albumName`、`artistNames`、`price`、`sales`、`bought`、`saleDisplayType` 与 `hasNextPage` 都是宽松字段。越界分页（`offset=100000`）返回 `code: 404`（`没有数据`），SDK 按业务拒绝转交。本批录制与探测未发现可达的空结果；`albumProducts` 数组本身允许为空。结构定义和类型是 `AlbumListStyleBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/album/list/style' \
+  --data-urlencode 'area=Z_H' \
+  --data-urlencode 'offset=2'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口 ,可获取语种风格馆数字专辑列表
+## 请求参数
 
-**可选参数 :**
+| 参数     | 类型                             | 必填 | 默认值 | 说明                                                                    |
+| -------- | -------------------------------- | ---- | ------ | ----------------------------------------------------------------------- |
+| `area`   | `'Z_H' \| 'E_A' \| 'KR' \| 'JP'` | 否   | `Z_H`  | 地区 Z_H:华语，E_A:欧美，KR:韩国，JP:日本                               |
+| `limit`  | `number`                         | 否   | `10`   | 返回数量，默认为 30                                                     |
+| `offset` | `number`                         | 否   | `0`    | 偏移数量，用于分页，如：(页数 - 1)\*30，其中 30 为 limit 的值，默认为 0 |
 
-`limit` : 返回数量，默认为 30
+| `area` | 地区         |
+| ------ | ------------ |
+| `Z_H`  | 华语（默认） |
+| `E_A`  | 欧美         |
+| `KR`   | 韩国         |
+| `JP`   | 日本         |
 
-`offset` : 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0
+<!-- api-doc:params:end -->
 
-`area` 地区 Z_H:华语,E_A:欧美,KR:韩国,JP:日本
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/album/list/style`
+## 返回值
 
-**调用例子 :** `/album/list/style?area=Z_H&offset=2`
+返回体类型：`AlbumListStyleBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/album_list_style`、`hana-music-api/schemas/album_list_style` 导入运行时校验器）。
+
+```ts
+type StyleAlbum = {
+  albumId: number;
+  albumName?: string | null;
+  artistName?: string | null;
+  artistNames?: Array<string> | null;
+  bought?: boolean | null;
+  coverUrl?: string | null;
+  price?: number | null;
+  saleDisplayType?: number | null;
+  sales?: number | null;
+  type?: number | null;
+};
+
+type AlbumListStyleBody = {
+  code: 200;
+  albumProducts: Array<StyleAlbum>;
+  hasNextPage?: boolean | null;
+};
+```
+
+| 字段                              | 类型                | 必填 | 说明                         |
+| --------------------------------- | ------------------- | ---- | ---------------------------- |
+| `code`                            | `200`               | 是   | 业务状态码（`200` 表示成功） |
+| `albumProducts`                   | `Array<StyleAlbum>` | 是   | 数字专辑商品列表             |
+| `albumProducts[].albumId`         | `number`            | 是   | 专辑 ID                      |
+| `albumProducts[].albumName`       | `string`            | 否   | 专辑名称                     |
+| `albumProducts[].artistName`      | `string`            | 否   | 歌手名称                     |
+| `albumProducts[].artistNames`     | `Array<string>`     | 否   | 歌手名称列表或文本           |
+| `albumProducts[].bought`          | `boolean`           | 否   | -                            |
+| `albumProducts[].coverUrl`        | `string`            | 否   | 资源访问链接                 |
+| `albumProducts[].price`           | `number`            | 否   | 价格                         |
+| `albumProducts[].saleDisplayType` | `number`            | 否   | -                            |
+| `albumProducts[].sales`           | `number`            | 否   | -                            |
+| `albumProducts[].type`            | `number`            | 否   | -                            |
+| `hasNextPage`                     | `boolean`           | 否   | -                            |
+
+<!-- api-doc:response:end -->

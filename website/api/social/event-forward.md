@@ -1,64 +1,71 @@
 ---
 title: '转发用户动态'
-description: '登录后调用此接口 ,可以转发用户动态'
+description: '登录后调用此接口 ，可以转发用户动态'
 ---
 
 # 转发用户动态
 
-> 登录后调用此接口 ,可以转发用户动态
+登录后调用此接口 ，可以转发用户动态
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值               |
-| -------- | ---------------- |
-| 接口地址 | `/event/forward` |
-| 请求方式 | `GET` / `POST`   |
-| 需要登录 | 是               |
-| 对应模块 | `event_forward`  |
-| 文档分类 | 社交与消息       |
+| 项目       | 值                                                   |
+| ---------- | ---------------------------------------------------- |
+| 接口地址   | `/event/forward`                                     |
+| 请求方式   | `GET` / `POST`                                       |
+| 需要登录   | 是                                                   |
+| 对应模块   | `event_forward`                                      |
+| SDK 函数   | `eventForward`（`hana-music-api/api/event_forward`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                          |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数       | 类型   | 必填 | 默认值 | 说明       |
-| ---------- | ------ | :--: | ------ | ---------- |
-| `uid`      | string |  ✅  | -      | 用户 id    |
-| `evId`     | string |  ✅  | -      | 动态 id    |
-| `forwards` | string |  ✅  | -      | 转发的评论 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /event/forward?evId=6712917601&uid=32953014&forwards=测试内容
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { eventForward } from 'hana-music-api';
 
-const result = await eventForward({
-  evId: '6712917601',
-  uid: '32953014',
-  forwards: '测试内容',
-});
-
+const result = await eventForward(
+  {
+    evId: '6712917601',
+    uid: '32953014',
+    forwards: '测试内容',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-本批没有声明结构：转发自己的动态被上游风控拒绝（`code: 250`，消息「分享异常」），没有成功正文的证据，`body` 原样转交、仍是 resolve `status: 250`。另用探测转发另一条自己的动态，同样返回 `250`（探测未保留录制）。
+```bash
+curl --get 'http://127.0.0.1:3021/event/forward' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'evId=6712917601' \
+  --data-urlencode 'uid=32953014' \
+  --data-urlencode 'forwards=测试内容'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口 ,可以转发用户动态
+## 请求参数
 
-**必选参数 :** `uid` : 用户 id
+| 参数       | 类型               | 必填 | 默认值 | 说明       |
+| ---------- | ------------------ | ---- | ------ | ---------- |
+| `uid`      | `number \| string` | 是   | -      | 用户 id    |
+| `evId`     | `number \| string` | 是   | -      | 动态 id    |
+| `forwards` | `string`           | 否   | -      | 转发的评论 |
 
-`evId` : 动态 id
+<!-- api-doc:params:end -->
 
-`forwards` : 转发的评论
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/event/forward`
+## 返回值
 
-**调用例子 :** `/event/forward?evId=6712917601&uid=32953014&forwards=测试内容`
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

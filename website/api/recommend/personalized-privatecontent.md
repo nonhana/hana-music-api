@@ -5,46 +5,85 @@ description: '调用此接口，可获取独家放送'
 
 # 独家放送(入口列表)
 
-> 调用此接口，可获取独家放送
+调用此接口，可获取独家放送
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                             |
-| -------- | ------------------------------ |
-| 接口地址 | `/personalized/privatecontent` |
-| 请求方式 | `GET` / `POST`                 |
-| 需要登录 | 否                             |
-| 对应模块 | `personalized_privatecontent`  |
-| 文档分类 | 推荐与发现                     |
+| 项目       | 值                                                                               |
+| ---------- | -------------------------------------------------------------------------------- |
+| 接口地址   | `/personalized/privatecontent`                                                   |
+| 请求方式   | `GET` / `POST`                                                                   |
+| 需要登录   | 否                                                                               |
+| 对应模块   | `personalized_privatecontent`                                                    |
+| SDK 函数   | `personalizedPrivatecontent`（`hana-music-api/api/personalized_privatecontent`） |
+| 返回体类型 | `PersonalizedPrivatecontentBody`（已建模返回体）                                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /personalized/privatecontent
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { personalizedPrivatecontent } from 'hana-music-api';
 
 const result = await personalizedPrivatecontent();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、独家放送列表 `body.result` 和每条内容自己的编号 `result[].id` 收紧；`name` 和条目的 `alg`、`copywriter`、`picUrl`、`sPicUrl`、`url`、`type` 宽松。匿名和登录录制都是 3 条且字段集相同；这个接口没有分页参数，没有可达的空结果，数组本身允许为空。
+```bash
+curl 'http://127.0.0.1:3021/personalized/privatecontent'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获取独家放送
+## 请求参数
 
-**接口地址 :** `/personalized/privatecontent`
+无业务参数。
 
-**调用例子 :** `/personalized/privatecontent`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`PersonalizedPrivatecontentBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/personalized_privatecontent`、`hana-music-api/schemas/personalized_privatecontent` 导入运行时校验器）。
+
+```ts
+type Privatecontent = {
+  id: number;
+  alg?: string | null;
+  copywriter?: string | null;
+  name?: string | null;
+  picUrl?: string | null;
+  sPicUrl?: string | null;
+  type?: number | null;
+  url?: string | null;
+};
+
+type PersonalizedPrivatecontentBody = {
+  code: 200;
+  result: Array<Privatecontent>;
+  name?: string | null;
+};
+```
+
+| 字段                  | 类型                    | 必填 | 说明                         |
+| --------------------- | ----------------------- | ---- | ---------------------------- |
+| `code`                | `200`                   | 是   | 业务状态码（`200` 表示成功） |
+| `result`              | `Array<Privatecontent>` | 是   | 接口返回的结果主体           |
+| `result[].id`         | `number`                | 是   | 记录 ID                      |
+| `result[].alg`        | `string`                | 否   | 推荐算法标识                 |
+| `result[].copywriter` | `string`                | 否   | -                            |
+| `result[].name`       | `string`                | 否   | 名称                         |
+| `result[].picUrl`     | `string`                | 否   | 资源访问链接                 |
+| `result[].sPicUrl`    | `string`                | 否   | 资源访问链接                 |
+| `result[].type`       | `number`                | 否   | -                            |
+| `result[].url`        | `string`                | 否   | 资源访问地址                 |
+| `name`                | `string`                | 否   | 名称                         |
+
+<!-- api-doc:response:end -->

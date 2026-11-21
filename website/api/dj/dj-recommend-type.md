@@ -1,59 +1,135 @@
 ---
 title: '电台 - 分类推荐'
-description: '登录后调用此接口，传入分类,可获得对应类型电台列表'
+description: '登录后调用此接口，传入分类，可获得对应类型电台列表'
 ---
 
 # 电台 - 分类推荐
 
-> 登录后调用此接口，传入分类,可获得对应类型电台列表
+登录后调用此接口，传入分类，可获得对应类型电台列表
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/dj/recommend/type` |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 是                   |
-| 对应模块 | `dj_recommend_type`  |
-| 文档分类 | 电台与播客           |
+| 项目       | 值                                                          |
+| ---------- | ----------------------------------------------------------- |
+| 接口地址   | `/dj/recommend/type`                                        |
+| 请求方式   | `GET` / `POST`                                              |
+| 需要登录   | 是                                                          |
+| 对应模块   | `dj_recommend_type`                                         |
+| SDK 函数   | `djRecommendType`（`hana-music-api/api/dj_recommend_type`） |
+| 返回体类型 | `DjRecommendTypeBody`（已建模返回体）                       |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明                                                 |
-| ------ | ------ | :--: | ------ | ---------------------------------------------------- |
-| `type` | string |  ✅  | -      | 电台类型，数字，可通过`/dj/catelist`获取，对应关系为 |
-| `id`   | string |  ✅  | -      | 对应 此接口的 type, name 对应类型                    |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /dj/recommend/type?type=1
-GET /dj/recommend/type?type=2001
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { djRecommendType } from 'hana-music-api';
 
-const result = await djRecommendType({
-  type: '1',
-});
-
+const result = await djRecommendType(
+  {
+    type: '1',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、通到分类精选电台列表的 `body.djRadios` 和每个电台的编号 `djRadios[].id` 收紧；`hasMore`、电台名称、封面、分类、价格、计数、`descPicList` 图文和 `dj` 主播（复用宽松的 `PlaylistUser`）都是宽松字段，`lastUpdateProgramName` 只在这个接口有非 `null` 证据。未知分类（`type=999999`）返回空数组（录制 `dj_recommend_type.empty.json`）。缺少 `type` 时上游返回 HTTP 200、正文 `code: 400`，SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `DjRecommendTypeBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/dj/recommend/type' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'type=1'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，传入分类,可获得对应类型电台列表
+## 请求参数
 
-**必选参数 :** `type`: 电台类型，数字，可通过`/dj/catelist`获取，对应关系为
-id 对应 此接口的 type, name 对应类型
+| 参数   | 类型               | 必填 | 默认值 | 说明                                                 |
+| ------ | ------------------ | ---- | ------ | ---------------------------------------------------- |
+| `type` | `number \| string` | 是   | -      | 电台类型，数字，可通过`/dj/catelist`获取，对应关系为 |
 
-**接口地址 :** `/dj/recommend/type`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/dj/recommend/type?type=1`(明星做主播) `/dj/recommend/type?type=2001` (创作|翻唱)
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`DjRecommendTypeBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/dj_recommend_type`、`hana-music-api/schemas/dj_recommend_type` 导入运行时校验器）。
+
+```ts
+type DescText = {
+  text?: string | null;
+};
+
+type DescNestedData = {
+  textList?: Array<DescText> | null;
+};
+
+type DescPic = {
+  content?: string | null;
+  height?: number | null;
+  id?: number | null;
+  nestedData?: DescNestedData | null;
+  type?: number | null;
+  width?: number | null;
+};
+
+type Radio = {
+  id: number;
+  buyed?: boolean | null;
+  category?: string | null;
+  categoryId?: number | null;
+  createTime?: number | null;
+  desc?: string | null;
+  descPicList?: Array<DescPic> | null;
+  dj?: PlaylistUser | null;
+  dynamic?: boolean | null;
+  feeScope?: number | null;
+  finished?: boolean | null;
+  intervenePicId?: number | null;
+  intervenePicUrl?: string | null;
+  lastProgramCreateTime?: number | null;
+  lastProgramId?: number | null;
+  lastProgramName?: string | null;
+  lastUpdateProgramName?: string | null;
+  name?: string | null;
+  originalPrice?: number | null;
+  picId?: number | null;
+  picUrl?: string | null;
+  playCount?: number | null;
+  price?: number | null;
+  privacy?: boolean | null;
+  programCount?: number | null;
+  purchaseCount?: number | null;
+  radioFeeType?: number | null;
+  rcmdtext?: string | null;
+  replaceRadioId?: number | null;
+  secondCategory?: string | null;
+  subCount?: number | null;
+  subed?: boolean | null;
+  taskId?: number | null;
+  underShelf?: boolean | null;
+};
+
+type DjRecommendTypeBody = {
+  code: 200;
+  djRadios: Array<Radio>;
+  hasMore?: boolean | null;
+};
+```
+
+- **公共类型**：[PlaylistUser](/api/shared-types#playlistuser)
+
+| 字段       | 类型           | 必填 | 说明                         |
+| ---------- | -------------- | ---- | ---------------------------- |
+| `code`     | `200`          | 是   | 业务状态码（`200` 表示成功） |
+| `djRadios` | `Array<Radio>` | 是   | 电台列表                     |
+| `hasMore`  | `boolean`      | 否   | 是否还有更多数据             |
+
+<!-- api-doc:response:end -->

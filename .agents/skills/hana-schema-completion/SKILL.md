@@ -128,7 +128,7 @@ bun run schema:audit module <module>
 ## 4. 生成、文档、changeset
 
 1. 模块合同改完运行 `bun run types:modules:generate`，不手改生成文件。
-2. 更新 `website/guide/response-bodies.md` 的模块表和模块页的“返回内容”；写清收紧字段、`Optional` 路径和宽松范围。
+2. 运行 `bun run docs:api:sync` 同步 `website/api/shared-types.md` 与对应接口参考页的返回值定义，并用 `bun run docs:api:check` 校验一致。
 3. changeset 正文写：新增哪些 `*Body` 导出；哪些模块开始运行时校验；调用方需要处理的新 502/类型变化；迁移建议。
 4. 共享标准变了才改 `agent-docs/API_CONVENTIONS.md`，不要在每个模块页面重复一遍标准。
 

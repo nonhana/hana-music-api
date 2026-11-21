@@ -5,29 +5,26 @@ description: '调用此接口，可获取话题详情'
 
 # 获取话题详情
 
-> 调用此接口，可获取话题详情
+调用此接口，可获取话题详情
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/topic/detail` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `topic_detail`  |
-| 文档分类 | 社交与消息      |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/topic/detail`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 否                                                 |
+| 对应模块   | `topic_detail`                                     |
+| SDK 函数   | `topicDetail`（`hana-music-api/api/topic_detail`） |
+| 返回体类型 | `TopicDetailBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /topic/detail?actid=111551188
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { topicDetail } from 'hana-music-api';
@@ -35,22 +32,73 @@ import { topicDetail } from 'hana-music-api';
 const result = await topicDetail({
   actid: '111551188',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.act` 和话题自己的编号 `body.act.actId` 收紧。`title`、`text`、封面 URL/ID、`resourceJson`（JSON 字符串）、参与人数和时间字段都是宽松字段；`commodityInfo` 只见过 `null` 没有声明。未知话题由上游返回 `code: 404`（录制 `topic_detail.unknown.json`），SDK 按业务拒绝原样转交，不报 502；`needBeginNotify` 宽松。
+```bash
+curl --get 'http://127.0.0.1:3021/topic/detail' \
+  --data-urlencode 'actid=111551188'
+```
 
-## 非 200 业务码的状态码变化
+<!-- api-doc:params:start -->
 
-本模块的 `code:400` 录制见 `topic_detail.missing-actid.json`，未知话题的 `code:404` 录制见 `topic_detail.unknown.json`；通用规则见[返回体结构](/guide/response-bodies#非-200-业务码的状态码变化)。`SPECIAL_STATUS_CODES` 里的其他码（201/302/502 以原码拒绝，800–803 钳位为 400）同样以 `status=业务码` 拒绝；不在该表里的码（如 404）原样转交。
+## 请求参数
 
-## 补充说明
+| 参数    | 类型               | 必填 | 默认值 | 说明    |
+| ------- | ------------------ | ---- | ------ | ------- |
+| `actid` | `number \| string` | 是   | -      | 话题 ID |
 
-说明 : 调用此接口，可获取话题详情
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/topic/detail`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/topic/detail?actid=111551188`
+## 返回值
+
+返回体类型：`TopicDetailBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/topic_detail`、`hana-music-api/schemas/topic_detail` 导入运行时校验器）。
+
+```ts
+type Act = {
+  actId: number;
+  coverId?: number | null;
+  coverMobileUrl?: string | null;
+  coverPCId?: number | null;
+  coverPCIdList?: number | null;
+  coverPCIdLong?: number | null;
+  coverPCListUrl?: string | null;
+  coverPCLongUrl?: string | null;
+  coverPCUrl?: string | null;
+  displayType?: number | null;
+  enableResourcePublish?: boolean | null;
+  endTime?: number | null;
+  isDefaultImg?: boolean | null;
+  meetingBeginTime?: number | null;
+  meetingEndTime?: number | null;
+  participateCount?: number | null;
+  publishTip?: string | null;
+  resourceJson?: string | null;
+  resourceType?: number | null;
+  sharePicId?: number | null;
+  sharePicUrl?: string | null;
+  startTime?: number | null;
+  text?: Array<string> | null;
+  title?: string | null;
+  topicType?: number | null;
+  videoType?: number | null;
+};
+
+type TopicDetailBody = {
+  code: 200;
+  act: Act;
+  needBeginNotify?: boolean | null;
+};
+```
+
+| 字段              | 类型      | 必填 | 说明                         |
+| ----------------- | --------- | ---- | ---------------------------- |
+| `code`            | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `act`             | `Act`     | 是   | -                            |
+| `needBeginNotify` | `boolean` | 否   | -                            |
+
+<!-- api-doc:response:end -->

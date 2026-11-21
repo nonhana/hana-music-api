@@ -1,66 +1,76 @@
 ---
 title: '购买数字专辑'
-description: '登录后调用此接口 ,可获取购买数字专辑的地址,把地址生成二维码后,可扫描购买专辑'
+description: '登录后调用此接口 ，可获取购买数字专辑的地址，把地址生成二维码后，可扫描购买专辑'
 ---
 
 # 购买数字专辑
 
-> 登录后调用此接口 ,可获取购买数字专辑的地址,把地址生成二维码后,可扫描购买专辑
+登录后调用此接口 ，可获取购买数字专辑的地址，把地址生成二维码后，可扫描购买专辑
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                       |
-| -------- | ------------------------ |
-| 接口地址 | `/digitalAlbum/ordering` |
-| 请求方式 | `GET` / `POST`           |
-| 需要登录 | 是                       |
-| 对应模块 | `digitalAlbum_ordering`  |
-| 文档分类 | 专辑                     |
+| 项目       | 值                                                                   |
+| ---------- | -------------------------------------------------------------------- |
+| 接口地址   | `/digitalAlbum/ordering`                                             |
+| 请求方式   | `GET` / `POST`                                                       |
+| 需要登录   | 是                                                                   |
+| 对应模块   | `digitalAlbum_ordering`                                              |
+| SDK 函数   | `digitalAlbumOrdering`（`hana-music-api/api/digitalAlbum_ordering`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                                          |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数       | 类型             | 必填 | 默认值 | 说明                           |
-| ---------- | ---------------- | :--: | ------ | ------------------------------ |
-| `id`       | string           |  ✅  | -      | 专辑的 id                      |
-| `payment`  | string           |  ✅  | -      | 支付方式， 0 为支付宝 3 为微信 |
-| `quantity` | number \| string |  ✅  | -      | 购买的数量                     |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /digitalAlbum/ordering?id=86286082&payment=3&quantity=1
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { digitalAlbumOrdering } from 'hana-music-api';
 
-const result = await digitalAlbumOrdering({
-  id: '86286082',
-  payment: '3',
-  quantity: '1',
-});
-
+const result = await digitalAlbumOrdering(
+  {
+    id: '86286082',
+    payment: '3',
+    quantity: 1,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-本批没有给 `digitalAlbum_ordering` 声明结构定义，也没有实际下单或支付：缺 `id`/`payment` 参数时上游返回 HTTP 400 空正文（`digital-album/digitalAlbum_ordering.missing-params.json`），SDK 把 400 归入已知状态码后按 200 原样放行空正文。成功正文未验证，补录条件：在确认不会触发真实订单和支付的环境里补录。返回体继续按原始 JSON 放行。
+```bash
+curl --get 'http://127.0.0.1:3021/digitalAlbum/ordering' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=86286082' \
+  --data-urlencode 'payment=3' \
+  --data-urlencode 'quantity=1'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口 ,可获取购买数字专辑的地址,把地址生成二维码后,可扫描购买专辑
+## 请求参数
 
-**必选参数 :**
+| 参数       | 类型               | 必填 | 默认值 | 说明                           |
+| ---------- | ------------------ | ---- | ------ | ------------------------------ |
+| `id`       | `number \| string` | 是   | -      | 专辑的 id                      |
+| `payment`  | `string`           | 是   | -      | 支付方式， 0 为支付宝 3 为微信 |
+| `quantity` | `number`           | 是   | -      | 购买的数量                     |
 
-`id` : 专辑的 id
+| `payment` | 支付方式 |
+| --------- | -------- |
+| `'0'`     | 支付宝   |
+| `'3'`     | 微信     |
 
-`payment` : 支付方式， 0 为支付宝 3 为微信
+<!-- api-doc:params:end -->
 
-`quantity` : 购买的数量
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/digitalAlbum/ordering`
+## 返回值
 
-**调用例子 :** `/digitalAlbum/ordering?id=86286082&payment=3&quantity=1`
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

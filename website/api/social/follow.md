@@ -1,62 +1,80 @@
 ---
 title: '关注/取消关注用户'
-description: '登录后调用此接口，传入用户 id, 和操作 t,可关注/取消关注用户'
+description: '登录后调用此接口，传入用户 id，和操作 t，可关注/取消关注用户'
 ---
 
 # 关注/取消关注用户
 
-> 登录后调用此接口，传入用户 id, 和操作 t,可关注/取消关注用户
+登录后调用此接口，传入用户 id，和操作 t，可关注/取消关注用户
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/follow`      |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `follow`       |
-| 文档分类 | 社交与消息     |
+| 项目       | 值                                      |
+| ---------- | --------------------------------------- |
+| 接口地址   | `/follow`                               |
+| 请求方式   | `GET` / `POST`                          |
+| 需要登录   | 是                                      |
+| 对应模块   | `follow`                                |
+| SDK 函数   | `follow`（`hana-music-api/api/follow`） |
+| 返回体类型 | `FollowBody`（已建模返回体）            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明                     |
-| ---- | ------ | :--: | ------ | ------------------------ |
-| `id` | string |  ✅  | -      | 用户 id                  |
-| `t`  | string |  ✅  | -      | `1`为关注,其他为取消关注 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /follow?id=32953014&t=1
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { follow } from 'hana-music-api';
 
-const result = await follow({
-  id: '32953014',
-  t: '1',
-});
-
+const result = await follow(
+  {
+    id: '32953014',
+    t: 1,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 是接口要拿的操作结果，收紧为 `200`；`msg` 是附带的提示，宽松。关注方向在录制设备上被上游风控拒绝（正文 `code: 250`、`message: 关注异常` 加风险提示 `dialog`），SDK 按业务拒绝原样转交，`status` 为 250；成功正文只有取关的证据。结构定义和类型是 `FollowBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/follow' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=32953014' \
+  --data-urlencode 't=1'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，传入用户 id, 和操作 t,可关注/取消关注用户
+## 请求参数
 
-**必选参数 :**
+| 参数 | 类型               | 必填 | 默认值 | 说明                      |
+| ---- | ------------------ | ---- | ------ | ------------------------- |
+| `id` | `number \| string` | 是   | -      | 用户 id                   |
+| `t`  | `0 \| 1`           | 是   | -      | `1`为关注，其他为取消关注 |
 
-`id` : 用户 id
+<!-- api-doc:params:end -->
 
-`t` : `1`为关注,其他为取消关注
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/follow`
+## 返回值
 
-**调用例子 :** `/follow?id=32953014&t=1`
+返回体类型：`FollowBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/follow`、`hana-music-api/schemas/follow` 导入运行时校验器）。
+
+```ts
+type FollowBody = {
+  code: 200;
+  msg?: string | null;
+};
+```
+
+| 字段   | 类型     | 必填 | 说明                         |
+| ------ | -------- | ---- | ---------------------------- |
+| `code` | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `msg`  | `string` | 否   | 提示信息                     |
+
+<!-- api-doc:response:end -->

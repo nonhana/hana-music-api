@@ -1,71 +1,79 @@
 ---
 title: '每日推荐歌曲-不感兴趣'
-description: '日推歌曲标记为不感兴趣( 同时会返回一个新推荐歌曲, 需要登录 )'
+description: '日推歌曲标记为不感兴趣( 同时会返回一个新推荐歌曲，需要登录 )'
 ---
 
 # 每日推荐歌曲-不感兴趣
 
-> 日推歌曲标记为不感兴趣( 同时会返回一个新推荐歌曲, 需要登录 )
+日推歌曲标记为不感兴趣( 同时会返回一个新推荐歌曲，需要登录 )
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                         |
-| -------- | -------------------------- |
-| 接口地址 | `/recommend/songs/dislike` |
-| 请求方式 | `GET` / `POST`             |
-| 需要登录 | 是                         |
-| 对应模块 | `recommend_songs_dislike`  |
-| 文档分类 | 推荐与发现                 |
+| 项目       | 值                                                                      |
+| ---------- | ----------------------------------------------------------------------- |
+| 接口地址   | `/recommend/songs/dislike`                                              |
+| 请求方式   | `GET` / `POST`                                                          |
+| 需要登录   | 是                                                                      |
+| 对应模块   | `recommend_songs_dislike`                                               |
+| SDK 函数   | `recommendSongsDislike`（`hana-music-api/api/recommend_songs_dislike`） |
+| 返回体类型 | `RecommendSongsDislikeBody`（已建模返回体）                             |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 歌曲 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /recommend/songs/dislike?id=168091
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { recommendSongsDislike } from 'hana-music-api';
 
-const result = await recommendSongsDislike({
-  id: '168091',
-});
-
+const result = await recommendSongsDislike(
+  {
+    id: '168091',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-返回码 `body.code` 收紧为 `200`；接口在标记不感兴趣的同时返回一首替换的推荐歌曲，`body.data` 和歌曲自己的 `data.id` 收紧，歌曲其余字段宽松（录制 `recommend_songs_dislike.dislike.json`）。这个写入没有撤销调用，标记后的歌曲会从日推里移除。结构定义和类型是 `RecommendSongsDislikeBody`，见 [返回体结构](/guide/response-bodies)。
-
-## 补充说明
-
-说明 : 日推歌曲标记为不感兴趣( 同时会返回一个新推荐歌曲, 需要登录 )
-
-**必选参数 :** `id`: 歌曲 id
-
-**接口地址 :** `/recommend/songs/dislike`
-
-**调用例子 :** `/recommend/songs/dislike?id=168091`
-
-返回数据 :
-
-```json
-{
-  "data":{
-    "name":"破碎太阳之心",
-    "id":2009592201,
-    "position":0,
-    "alias":[],
-    ...
-  },
-  "code":200
-}
+```bash
+curl --get 'http://127.0.0.1:3021/recommend/songs/dislike' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=168091'
 ```
+
+<!-- api-doc:params:start -->
+
+## 请求参数
+
+| 参数 | 类型               | 必填 | 默认值 | 说明    |
+| ---- | ------------------ | ---- | ------ | ------- |
+| `id` | `number \| string` | 是   | -      | 歌曲 id |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`RecommendSongsDislikeBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/recommend_songs_dislike`、`hana-music-api/schemas/recommend_songs_dislike` 导入运行时校验器）。
+
+```ts
+type RecommendSongsDislikeBody = {
+  code: 200;
+  data: Song;
+};
+```
+
+- **公共类型**：[Song](/api/shared-types#song)
+
+| 字段   | 类型                           | 必填 | 说明                         |
+| ------ | ------------------------------ | ---- | ---------------------------- |
+| `code` | `200`                          | 是   | 业务状态码（`200` 表示成功） |
+| `data` | [Song](/api/shared-types#song) | 是   | 接口返回的数据主体           |
+
+<!-- api-doc:response:end -->

@@ -1,60 +1,69 @@
 ---
 title: '发送私信(带歌单)'
-description: '登录后调用此接口，传入用户 id 和要发送的信息和歌单 id, 可以发送带歌单的私信(注:不能发送重复的歌单)'
+description: '登录后调用此接口，传入用户 id 和要发送的信息和歌单 id，可以发送带歌单的私信(注:不能发送重复的歌单)'
 ---
 
 # 发送私信(带歌单)
 
-> 登录后调用此接口，传入用户 id 和要发送的信息和歌单 id, 可以发送带歌单的私信(注:不能发送重复的歌单)
+登录后调用此接口，传入用户 id 和要发送的信息和歌单 id，可以发送带歌单的私信(注:不能发送重复的歌单)
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值               |
-| -------- | ---------------- |
-| 接口地址 | `/send/playlist` |
-| 请求方式 | `GET` / `POST`   |
-| 需要登录 | 是               |
-| 对应模块 | `send_playlist`  |
-| 文档分类 | 社交与消息       |
+| 项目       | 值                                                   |
+| ---------- | ---------------------------------------------------- |
+| 接口地址   | `/send/playlist`                                     |
+| 请求方式   | `GET` / `POST`                                       |
+| 需要登录   | 是                                                   |
+| 对应模块   | `send_playlist`                                      |
+| SDK 函数   | `sendPlaylist`（`hana-music-api/api/send_playlist`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                          |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数       | 类型               | 必填 | 默认值 | 说明                     |
-| ---------- | ------------------ | :--: | ------ | ------------------------ |
-| `user_ids` | string[] \| string |  ✅  | -      | 用户 id,多个需用逗号隔开 |
-| `msg`      | string             |  ✅  | -      | 要发送的信息             |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /send/playlist?msg=test&user_ids=475625142&playlist=705123491
-GET /send/playlist?msg=test2&user_ids=475625142,32953014&playlist=705123493
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { sendPlaylist } from 'hana-music-api';
 
-const result = await sendPlaylist({
-  msg: 'test',
-  user_ids: '475625142',
-  playlist: '705123491',
-});
-
+const result = await sendPlaylist(
+  {
+    playlist: 24381616,
+    userIds: [32953014],
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-说明 : 登录后调用此接口，传入用户 id 和要发送的信息和歌单 id, 可以发送带歌单的私信(注:不能发送重复的歌单)
+```bash
+curl 'http://127.0.0.1:3021/send/playlist' \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data '{"playlist":24381616,"userIds":[32953014]}'
+```
 
-**必选参数 :**
+<!-- api-doc:params:start -->
 
-`user_ids` : 用户 id,多个需用逗号隔开
+## 请求参数
 
-`msg` : 要发送的信息
+| 参数       | 类型                      | 必填 | 默认值 | 说明                   |
+| ---------- | ------------------------- | ---- | ------ | ---------------------- |
+| `playlist` | `number \| string`        | 是   | -      | 要分享的歌单 ID        |
+| `userIds`  | `Array<number \| string>` | 是   | -      | 接收私信的用户 ID 数组 |
+| `msg`      | `string`                  | 否   | -      | 要发送的信息           |
 
-**接口地址 :** `/send/playlist`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/send/playlist?msg=test&user_ids=475625142&playlist=705123491`,`/send/playlist?msg=test2&user_ids=475625142,32953014&playlist=705123493`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

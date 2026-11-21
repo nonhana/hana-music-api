@@ -1,61 +1,97 @@
 ---
 title: '通知 - 通知'
-description: '登录后调用此接口 ,可获取通知'
+description: '登录后调用此接口 ，可获取通知'
 ---
 
 # 通知 - 通知
 
-> 登录后调用此接口 ,可获取通知
+登录后调用此接口 ，可获取通知
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/msg/notices` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `msg_notices`  |
-| 文档分类 | 社交与消息     |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/msg/notices`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 是                                               |
+| 对应模块   | `msg_notices`                                    |
+| SDK 函数   | `msgNotices`（`hana-music-api/api/msg_notices`） |
+| 返回体类型 | `MsgNoticesBody`（已建模返回体）                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数       | 类型             | 必填 | 默认值                  | 说明                                                                     |
-| ---------- | ---------------- | :--: | ----------------------- | ------------------------------------------------------------------------ |
-| `limit`    | number \| string |  —   | 30                      | 返回数量，默认为 30                                                      |
-| `lasttime` | string           |  —   | -1,传入上一次返回结果的 | 返回数据的 `time` ,默认-1,传入上一次返回结果的 time,将会返回下一页的数据 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /msg/notices?limit=3
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { msgNotices } from 'hana-music-api';
 
-const result = await msgNotices({
-  limit: '3',
-});
-
+const result = await msgNotices(
+  {
+    limit: 3,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.notices` 是通知列表，每条通知只收紧自己的 `id`；`notice` 是通知正文的 JSON 字符串，`time`、`type`、`userId`、`queued`、`lastTime`、`more` 都宽松。`lasttime` 传早于账号创建的游标时返回空数组。未登录时上游返回 `code: 301`，SDK 按业务拒绝原样转交。结构定义和类型是 `MsgNoticesBody`。
+```bash
+curl --get 'http://127.0.0.1:3021/msg/notices' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'limit=3'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口 ,可获取通知
+## 请求参数
 
-**可选参数 :**
+| 参数       | 类型     | 必填 | 默认值 | 说明                                                                        |
+| ---------- | -------- | ---- | ------ | --------------------------------------------------------------------------- |
+| `limit`    | `number` | 否   | `30`   | 返回数量，默认为 30                                                         |
+| `lasttime` | `number` | 否   | `-1`   | 返回数据的 `time` ，默认-1，传入上一次返回结果的 time，将会返回下一页的数据 |
 
-`limit` : 返回数量，默认为 30
+<!-- api-doc:params:end -->
 
-`lasttime` : 返回数据的 `time` ,默认-1,传入上一次返回结果的 time,将会返回下一页的数据
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/msg/notices`
+## 返回值
 
-**调用例子 :** `/msg/notices?limit=3`
+返回体类型：`MsgNoticesBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/msg_notices`、`hana-music-api/schemas/msg_notices` 导入运行时校验器）。
+
+```ts
+type NoticeRecord = {
+  id: number;
+  notice?: string | null;
+  queued?: boolean | null;
+  time?: number | null;
+  type?: number | null;
+  userId?: number | null;
+};
+
+type MsgNoticesBody = {
+  code: 200;
+  notices: Array<NoticeRecord>;
+  lastTime?: number | null;
+  more?: boolean | null;
+};
+```
+
+| 字段               | 类型                  | 必填 | 说明                         |
+| ------------------ | --------------------- | ---- | ---------------------------- |
+| `code`             | `200`                 | 是   | 业务状态码（`200` 表示成功） |
+| `notices`          | `Array<NoticeRecord>` | 是   | 系统通知列表                 |
+| `notices[].id`     | `number`              | 是   | 记录 ID                      |
+| `notices[].notice` | `string`              | 否   | -                            |
+| `notices[].queued` | `boolean`             | 否   | -                            |
+| `notices[].time`   | `number`              | 否   | 时间戳                       |
+| `notices[].type`   | `number`              | 否   | -                            |
+| `notices[].userId` | `number`              | 否   | 用户 ID                      |
+| `lastTime`         | `number`              | 否   | 下一页游标时间戳             |
+| `more`             | `boolean`             | 否   | 是否还有更多数据             |
+
+<!-- api-doc:response:end -->

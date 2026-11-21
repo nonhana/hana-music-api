@@ -5,78 +5,88 @@ description: '检查一起听房间是否可加入以及当前可用状态。'
 
 # 一起听 - 房间检查
 
-> 校验房间是否存在、是否还能加入，以及当前房间状态。
+检查一起听房间是否可加入以及当前可用状态。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                                |
-| -------- | --------------------------------- |
-| 接口地址 | `/listentogether/room/check`      |
-| 请求方式 | `GET` / `POST`                    |
-| 需要登录 | 是                                |
-| 对应模块 | `listentogether_room_check`       |
-| 文档分类 | 一起听                            |
-| 上游路径 | `/api/listen/together/room/check` |
+| 项目       | 值                                                                          |
+| ---------- | --------------------------------------------------------------------------- |
+| 接口地址   | `/listentogether/room/check`                                                |
+| 请求方式   | `GET` / `POST`                                                              |
+| 需要登录   | 是                                                                          |
+| 对应模块   | `listentogether_room_check`                                                 |
+| SDK 函数   | `listentogetherRoomCheck`（`hana-music-api/api/listentogether_room_check`） |
+| 返回体类型 | `ListentogetherRoomCheckBody`（已建模返回体）                               |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型   | 必填 | 默认值 | 说明    |
-| -------- | ------ | :--: | ------ | ------- |
-| `roomId` | string |  ✅  | -      | 房间 ID |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-POST /listentogether/room/check?roomId=MzA0NjY5...
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { listentogetherRoomCheck } from 'hana-music-api';
 
-const result = await listentogetherRoomCheck({
-  roomId: 'MzA0NjY5...',
-});
-
+const result = await listentogetherRoomCheck(
+  {
+    roomId: 'MzA0NjY5...',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、通到房间情况的 `body.data` 和接口就是为了拿的 `data.joinable`、`data.status` 收紧；`data.copywriting` 宽松；`data.type` 在录制里只见过 `null`，未声明并原样保留。结构定义和类型是 `ListentogetherRoomCheckBody`，见 [返回体结构](/guide/response-bodies)。
-
-## 返回示例
-
-```json
-{
-  "code": 200,
-  "data": {
-    "joinable": true,
-    "type": "NORMAL",
-    "copywriting": null,
-    "status": "AVAILABLE"
-  },
-  "message": ""
-}
+```bash
+curl --get 'http://127.0.0.1:3021/listentogether/room/check' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'roomId=MzA0NjY5...'
 ```
 
-示例里的 `data.type` 在本批录制里只见过 `null`，未声明，原样保留；`data.copywriting` 是宽松展示文案。
+<!-- api-doc:params:start -->
 
-## 返回关注点
+## 请求参数
 
-- `data.joinable`: 当前房间是否还能加入。
-- `data.status`: 房间状态，公开样例里可见 `AVAILABLE`。
-- `data.type`: 房间类型，公开样例里可见 `NORMAL`；未声明，原样保留。
-- `data.copywriting`: 服务端返回的补充文案，可能为空。
+| 参数     | 类型     | 必填 | 默认值 | 说明    |
+| -------- | -------- | ---- | ------ | ------- |
+| `roomId` | `string` | 是   | -      | 房间 ID |
 
-## 调用场景
+<!-- api-doc:params:end -->
 
-- 房主创建房间后检查是否创建成功。
-- 从机接受邀请前后确认房间仍可加入。
-- 前端在分享页或轮询逻辑里做可用性校验。
+<!-- api-doc:response:start -->
 
-## 相关接口
+## 返回值
 
-- [`/listentogether/room/create`](/api/together/listentogether-room-create)
-- [`/listentogether/accept`](/api/together/listentogether-accept)
+返回体类型：`ListentogetherRoomCheckBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/listentogether_room_check`、`hana-music-api/schemas/listentogether_room_check` 导入运行时校验器）。
+
+```ts
+type RoomCheck = {
+  joinable: boolean;
+  status: string;
+  copywriting?: string | null;
+};
+
+type ListentogetherRoomCheckBody = {
+  code: 200;
+  data: RoomCheck;
+  message?: string | null;
+};
+```
+
+| 字段               | 类型        | 必填 | 说明                         |
+| ------------------ | ----------- | ---- | ---------------------------- |
+| `code`             | `200`       | 是   | 业务状态码（`200` 表示成功） |
+| `data`             | `RoomCheck` | 是   | 接口返回的数据主体           |
+| `data.joinable`    | `boolean`   | 是   | -                            |
+| `data.status`      | `string`    | 是   | -                            |
+| `data.copywriting` | `string`    | 否   | -                            |
+| `message`          | `string`    | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **可用性字段**：`data.joinable` 表示房间当前是否可加入，`data.status` 常见可用状态为 `AVAILABLE`。

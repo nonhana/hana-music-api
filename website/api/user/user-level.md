@@ -1,50 +1,92 @@
 ---
 title: '获取用户等级信息'
-description: '登录后调用此接口，可以获取用户等级信息,包含当前登录天数,听歌次数,下一等级需要的登录天数和听歌次数,当前等级进度,对应 https://music.163.com/#/user/level'
+description: '获取当前登录账号的等级、听歌次数、登录天数及升级进度。'
 ---
 
 # 获取用户等级信息
 
-> 登录后调用此接口，可以获取用户等级信息,包含当前登录天数,听歌次数,下一等级需要的登录天数和听歌次数,当前等级进度,对应 <https://music.163.com/#/user/level>
+获取当前登录账号的等级、听歌次数、登录天数及升级进度。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/user/level`  |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `user_level`   |
-| 文档分类 | 用户与登录     |
+| 项目       | 值                                             |
+| ---------- | ---------------------------------------------- |
+| 接口地址   | `/user/level`                                  |
+| 请求方式   | `GET` / `POST`                                 |
+| 需要登录   | 是                                             |
+| 对应模块   | `user_level`                                   |
+| SDK 函数   | `userLevel`（`hana-music-api/api/user_level`） |
+| 返回体类型 | `UserLevelBody`（已建模返回体）                |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/level
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userLevel } from 'hana-music-api';
 
-const result = await userLevel();
-
+const result = await userLevel({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-等级信息在 `data`，`data.level` 是当前等级、`data.userId` 是账号自己的编号；`code`、`data`、`data.userId`、`data.level` 收紧。`info`、`progress`、`nowPlayCount`、`nowLoginCount`、`nextPlayCount`、`nextLoginCount` 和顶层的 `full` 宽松。结构定义和类型是 `UserLevelBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/user/level' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，可以获取用户等级信息,包含当前登录天数,听歌次数,下一等级需要的登录天数和听歌次数,当前等级进度,对应 <https://music.163.com/#/user/level>
+## 请求参数
 
-**接口地址 :** `/user/level`
+无业务参数。
 
-**调用例子 :** `/user/level`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`UserLevelBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/user_level`、`hana-music-api/schemas/user_level` 导入运行时校验器）。
+
+```ts
+type UserLevelBody = {
+  code: 200;
+  data: {
+    userId: number;
+    level: number;
+    info?: string | null;
+    nextLoginCount?: number | null;
+    nextPlayCount?: number | null;
+    nowLoginCount?: number | null;
+    nowPlayCount?: number | null;
+    progress?: number | null;
+  };
+  full?: boolean | null;
+};
+```
+
+| 字段                  | 类型      | 必填 | 说明                         |
+| --------------------- | --------- | ---- | ---------------------------- |
+| `code`                | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `data`                | `object`  | 是   | 接口返回的数据主体           |
+| `data.userId`         | `number`  | 是   | 用户 ID                      |
+| `data.level`          | `number`  | 是   | 当前等级                     |
+| `data.info`           | `string`  | 否   | -                            |
+| `data.nextLoginCount` | `number`  | 否   | 升至下一等级所需登录天数     |
+| `data.nextPlayCount`  | `number`  | 否   | 升至下一等级所需听歌次数     |
+| `data.nowLoginCount`  | `number`  | 否   | 当前累计登录天数             |
+| `data.nowPlayCount`   | `number`  | 否   | 当前累计听歌次数             |
+| `data.progress`       | `number`  | 否   | 当前升级进度                 |
+| `full`                | `boolean` | 否   | 是否已达到满级               |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **身份要求**：需要传入有效登录 Cookie，详见 [认证机制](/guide/authentication)。

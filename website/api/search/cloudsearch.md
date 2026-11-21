@@ -5,33 +5,26 @@ description: '和搜索接口相同，但结果更完整。'
 
 # 云搜索
 
-> 和搜索接口相同，但结果更完整。
+和搜索接口相同，但结果更完整。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/cloudsearch` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `cloudsearch`  |
-| 文档分类 | 搜索           |
+| 项目       | 值                                                |
+| ---------- | ------------------------------------------------- |
+| 接口地址   | `/cloudsearch`                                    |
+| 请求方式   | `GET` / `POST`                                    |
+| 需要登录   | 否                                                |
+| 对应模块   | `cloudsearch`                                     |
+| SDK 函数   | `cloudsearch`（`hana-music-api/api/cloudsearch`） |
+| 返回体类型 | `CloudsearchBody`（已建模返回体）                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数       | 类型             | 必填 | 默认值 | 说明                                                                                                                                                                                            |
-| ---------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `keywords` | string           |  ✅  | -      | 关键词                                                                                                                                                                                          |
-| `limit`    | number \| string |  —   | 30     | 返回数量，默认为 30 `offset` : 偏移数量，用于分页，如<br>: 如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0                                                                                  |
-| `type`     | string           |  —   | 1      | 搜索类型；默认为 1 即单曲，取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000:<br>歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合, 2000:声音(搜索声音返回字段格式会不一样) |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /cloudsearch?keywords=海阔天空
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { cloudsearch } from 'hana-music-api';
@@ -39,38 +32,117 @@ import { cloudsearch } from 'hana-music-api';
 const result = await cloudsearch({
   keywords: '海阔天空',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.result` 里只有 `type` 对应的那一类结果，并带上结果总数：
+```bash
+curl --get 'http://127.0.0.1:3021/cloudsearch' \
+  --data-urlencode 'keywords=海阔天空'
+```
 
-| `type`       | 结果列表    | 总数            | 每项声明的字段                                                                            |
-| ------------ | ----------- | --------------- | ----------------------------------------------------------------------------------------- |
-| 1（单曲）    | `songs`     | `songCount`     | `id`、`name`、`ar`、`al`、`dt`、`fee`、`privilege`（`id`、`st`、`pl`）；字段说明同“歌曲”  |
-| 10（专辑）   | `albums`    | `albumCount`    | `id`、`name`、`picUrl`、`artists`（`id`、`name`）、`publishTime`                          |
-| 100（歌手）  | `artists`   | `artistCount`   | `id`、`name`、`picUrl`、`musicSize`（歌曲数）                                             |
-| 1000（歌单） | `playlists` | `playlistCount` | `id`、`name`、`coverImgUrl`、`trackCount`、`playCount`、`creator`（`userId`、`nickname`） |
+<!-- api-doc:params:start -->
 
-只有 `code`、`result` 收紧；结果列表是可以没有的路径：缺失或为 `null` 时照常返回，出现了就按每类结果的 `id` 收紧校验，坏一条记录会报 `UnexpectedUpstreamShape`，不会整列消失。各总数和每项的其他字段是宽松字段，正文的 `trp` 也宽松。没有结果时只有总数（0），列表整个缺失或是 `null`；类型里这些字段因此都是可选的。歌词搜索（1006）的结果也在 `songs` 里，同样按歌曲校验；其他 `type`（用户、MV 等）的结果在别的字段里，没有声明，原样保留。翻页时以第一页的总数为准：实测单曲的 `songCount` 最多是 300，`offset` 超过它以后仍会返回歌曲；歌手翻过最后一页时 `artistCount` 变成 0。结构定义和类型是 `CloudsearchBody`，见 [返回体结构](/guide/response-bodies)。
+## 请求参数
 
-单曲结果的专辑名 `al.name` 和其他声明字段一样是宽松字段：可能是字符串、`null`，也可能整个缺失，读取类型为 `string | null | undefined`。SDK 不替调用方补值；类型不对时把这一项当成缺失。3.0.0 起不再需要 `cloudsearch` 单独放宽 `al.name`，共用歌曲结构本来就是宽松的。3.0.1 起结果列表出现了但某条记录编号不对时整次调用报 502，不再让列表整个消失。
+| 参数       | 类型                                                                             | 必填 | 默认值 | 说明                                                                                                                                                                                            |
+| ---------- | -------------------------------------------------------------------------------- | ---- | ------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `keywords` | `string`                                                                         | 是   | -      | 关键词                                                                                                                                                                                          |
+| `limit`    | `number`                                                                         | 否   | `30`   | 返回数量，默认为 30 `offset` : 偏移数量，用于分页，如<br>: 如：(页数 - 1)\*30，其中 30 为 limit 的值，默认为 0                                                                                  |
+| `offset`   | `number`                                                                         | 否   | `0`    | 偏移数量，用于分页                                                                                                                                                                              |
+| `type`     | `1 \| 10 \| 100 \| 1000 \| 1002 \| 1004 \| 1006 \| 1009 \| 1014 \| 1018 \| 2000` | 否   | `1`    | 搜索类型；默认为 1 即单曲，取值意义 : 1: 单曲，10: 专辑，100: 歌手，1000:<br>歌单，1002: 用户，1004: MV，1006: 歌词，1009: 电台，1014: 视频，1018:综合，2000:声音(搜索声音返回字段格式会不一样) |
 
-## 补充说明
+| `type` | 搜索内容                                           |
+| ------ | -------------------------------------------------- |
+| `1`    | 单曲                                               |
+| `10`   | 专辑                                               |
+| `100`  | 歌手                                               |
+| `1000` | 歌单                                               |
+| `1002` | 用户                                               |
+| `1004` | MV                                                 |
+| `1006` | 歌词                                               |
+| `1009` | 电台                                               |
+| `1014` | 视频                                               |
+| `1018` | 综合                                               |
+| `2000` | 声音（使用独立搜索接口，返回体结构为 `data` 形态） |
 
-说明 : 调用此接口，传入搜索关键词可以搜索该音乐 / 专辑 / 歌手 / 歌单 / 用户 ,
-关键词可以多个，以空格隔开，如 " 周杰伦 搁浅 "( 不需要登录 ), 可通过 `/song/url` 接口传入歌曲 id 获取具体的播放链接
+<!-- api-doc:params:end -->
 
-**必选参数 :** `keywords` : 关键词
+<!-- api-doc:response:start -->
 
-**可选参数 :** `limit` : 返回数量，默认为 30 `offset` : 偏移数量，用于分页，如
-: 如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0
+## 返回值
 
-`type`: 搜索类型；默认为 1 即单曲，取值意义 : 1: 单曲, 10: 专辑, 100: 歌手, 1000:
-歌单, 1002: 用户, 1004: MV, 1006: 歌词, 1009: 电台, 1014: 视频, 1018:综合, 2000:声音(搜索声音返回字段格式会不一样)
+返回体类型：`CloudsearchBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/cloudsearch`、`hana-music-api/schemas/cloudsearch` 导入运行时校验器）。
 
-**接口地址 :** `/search` 或者 `/cloudsearch`(更全)
+```ts
+type SearchedArtist = Omit<Artist, 'id'> & {
+  id: number;
+};
 
-**调用例子 :** `/search?keywords=海阔天空` `/cloudsearch?keywords=海阔天空`
+type SearchedPlaylist = {
+  id: number;
+  name?: string | null;
+  coverImgUrl?: string | null;
+  trackCount?: number | null;
+  playCount?: number | null;
+  creator?: {
+    userId?: number | null;
+    nickname?: string | null;
+    authStatus?: number | null;
+    avatarUrl?: string | null;
+    userType?: number | null;
+  } | null;
+  bookCount?: number | null;
+  description?: string | null;
+  highQuality?: boolean | null;
+  officialPlaylistTitle?: string | null;
+  playlistType?: string | null;
+  specialType?: number | null;
+  subscribed?: boolean | null;
+  userId?: number | null;
+};
+
+type CloudsearchBody = {
+  code: 200;
+  result: {
+    songs?: Array<Song> | null;
+    songCount?: number | null;
+    albums?: Array<AlbumSummary> | null;
+    albumCount?: number | null;
+    artists?: Array<SearchedArtist> | null;
+    artistCount?: number | null;
+    playlists?: Array<SearchedPlaylist> | null;
+    playlistCount?: number | null;
+  };
+  trp?: {
+    rules?: Array<string> | null;
+  } | null;
+};
+```
+
+- **公共类型**：[AlbumSummary](/api/shared-types#albumsummary)、[Artist](/api/shared-types#artist)、[Song](/api/shared-types#song)
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段                   | 类型                                                    | 必填 | 说明                         |
+| ---------------------- | ------------------------------------------------------- | ---- | ---------------------------- |
+| `code`                 | `200`                                                   | 是   | 业务状态码（`200` 表示成功） |
+| `result`               | `object`                                                | 是   | 接口返回的结果主体           |
+| `result.songs`         | Array\<[Song](/api/shared-types#song)\>                 | 可空 | 歌曲列表                     |
+| `result.songCount`     | `number`                                                | 否   | -                            |
+| `result.albums`        | Array\<[AlbumSummary](/api/shared-types#albumsummary)\> | 可空 | 专辑列表                     |
+| `result.albumCount`    | `number`                                                | 否   | -                            |
+| `result.artists`       | `Array<SearchedArtist>`                                 | 可空 | 歌手列表                     |
+| `result.artists[].id`  | `number`                                                | 是   | 记录 ID                      |
+| `result.artistCount`   | `number`                                                | 否   | -                            |
+| `result.playlists`     | `Array<SearchedPlaylist>`                               | 可空 | 歌单列表                     |
+| `result.playlistCount` | `number`                                                | 否   | -                            |
+| `trp`                  | `object`                                                | 否   | -                            |
+| `trp.rules`            | `Array<string>`                                         | 否   | -                            |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **声音搜索**：当 `type=2000` 时返回声音结构，建议在代码中按 `type` 分别读取 `result` 内的对应列表字段。

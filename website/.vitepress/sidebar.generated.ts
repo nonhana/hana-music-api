@@ -2,10 +2,24 @@ import type { DefaultTheme } from 'vitepress';
 
 export const apiNavLink: DefaultTheme.NavItem = {
   text: 'API 参考',
-  link: '/api/user/login-cellphone',
+  link: '/api/',
 };
 
 export const apiSidebar: Array<DefaultTheme.SidebarItem> = [
+  {
+    text: '概览与类型',
+    collapsed: false,
+    items: [
+      {
+        text: 'API 概览',
+        link: '/api/',
+      },
+      {
+        text: '公共数据结构',
+        link: '/api/shared-types',
+      },
+    ],
+  },
   {
     text: '用户与登录',
     collapsed: false,

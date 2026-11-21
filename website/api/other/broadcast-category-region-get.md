@@ -1,50 +1,89 @@
 ---
 title: '广播电台 - 分类/地区信息'
-description: '调用此接口, 获取广播电台 - 分类/地区信息'
+description: '调用此接口，获取广播电台 - 分类/地区信息'
 ---
 
 # 广播电台 - 分类/地区信息
 
-> 调用此接口, 获取广播电台 - 分类/地区信息
+调用此接口，获取广播电台 - 分类/地区信息
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                               |
-| -------- | -------------------------------- |
-| 接口地址 | `/broadcast/category/region/get` |
-| 请求方式 | `GET` / `POST`                   |
-| 需要登录 | 否                               |
-| 对应模块 | `broadcast_category_region_get`  |
-| 文档分类 | 其他工具                         |
+| 项目       | 值                                                                                 |
+| ---------- | ---------------------------------------------------------------------------------- |
+| 接口地址   | `/broadcast/category/region/get`                                                   |
+| 请求方式   | `GET` / `POST`                                                                     |
+| 需要登录   | 否                                                                                 |
+| 对应模块   | `broadcast_category_region_get`                                                    |
+| SDK 函数   | `broadcastCategoryRegionGet`（`hana-music-api/api/broadcast_category_region_get`） |
+| 返回体类型 | `BroadcastCategoryRegionGetBody`（已建模返回体）                                   |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /broadcast/category/region/get
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { broadcastCategoryRegionGet } from 'hana-music-api';
 
 const result = await broadcastCategoryRegionGet();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、通到分类和地区列表的 `body.data.categoryList`、`body.data.regionList` 以及每条分类/地区自己的编号收紧；名称宽松。这是静态目录，本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `BroadcastCategoryRegionGetBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/broadcast/category/region/get'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 调用此接口, 获取广播电台 - 分类/地区信息
+## 请求参数
 
-**接口地址:** `/broadcast/category/region/get`
+无业务参数。
 
-**调用例子:** `/broadcast/category/region/get`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`BroadcastCategoryRegionGetBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/broadcast_category_region_get`、`hana-music-api/schemas/broadcast_category_region_get` 导入运行时校验器）。
+
+```ts
+type Category = {
+  id: number;
+  name?: string | null;
+};
+
+type Region = {
+  id: number;
+  name?: string | null;
+};
+
+type BroadcastCategoryRegionGetBody = {
+  code: 200;
+  data: {
+    categoryList: Array<Category>;
+    regionList: Array<Region>;
+  };
+  message?: string | null;
+};
+```
+
+| 字段                       | 类型              | 必填 | 说明                         |
+| -------------------------- | ----------------- | ---- | ---------------------------- |
+| `code`                     | `200`             | 是   | 业务状态码（`200` 表示成功） |
+| `data`                     | `object`          | 是   | 接口返回的数据主体           |
+| `data.categoryList`        | `Array<Category>` | 是   | -                            |
+| `data.categoryList[].id`   | `number`          | 是   | 记录 ID                      |
+| `data.categoryList[].name` | `string`          | 否   | 名称                         |
+| `data.regionList`          | `Array<Region>`   | 是   | -                            |
+| `data.regionList[].id`     | `number`          | 是   | 记录 ID                      |
+| `data.regionList[].name`   | `string`          | 否   | 名称                         |
+| `message`                  | `string`          | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

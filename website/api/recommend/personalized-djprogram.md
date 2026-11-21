@@ -5,46 +5,151 @@ description: '调用此接口，可获取推荐电台'
 
 # 推荐电台
 
-> 调用此接口，可获取推荐电台
+调用此接口，可获取推荐电台
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                        |
-| -------- | ------------------------- |
-| 接口地址 | `/personalized/djprogram` |
-| 请求方式 | `GET` / `POST`            |
-| 需要登录 | 否                        |
-| 对应模块 | `personalized_djprogram`  |
-| 文档分类 | 推荐与发现                |
+| 项目       | 值                                                                     |
+| ---------- | ---------------------------------------------------------------------- |
+| 接口地址   | `/personalized/djprogram`                                              |
+| 请求方式   | `GET` / `POST`                                                         |
+| 需要登录   | 否                                                                     |
+| 对应模块   | `personalized_djprogram`                                               |
+| SDK 函数   | `personalizedDjprogram`（`hana-music-api/api/personalized_djprogram`） |
+| 返回体类型 | `PersonalizedDjprogramBody`（已建模返回体）                            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /personalized/djprogram
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { personalizedDjprogram } from 'hana-music-api';
 
 const result = await personalizedDjprogram();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、通到推荐电台的 `body.result` 和条目自己的编号 `result[].id` 收紧；`category` 宽松。条目里的节目比 `DjProgram` 多 `publish`、`subscribed`、`subscribedCount`、`userId`、`adjustedPlayCount` 等个人电台字段，在模块内单独声明，只复用其中的旧版歌曲 `ProgramMainSong` 和主播 `ProgramDj`；节目里的电台摘要多 `whiteList`、`hightQuality`，也单独声明。`programDesc`、`titbits`、`titbitImages`、`songs` 在本批录制里只见过 `null`，没有声明。本批录制与探测未发现可达的空结果，`result` 数组本身允许为空。录制按字段覆盖保留非连续子集（索引 5/0/1/2，原始 6 条），见 `context.truncated`。
+```bash
+curl 'http://127.0.0.1:3021/personalized/djprogram'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获取推荐电台
+## 请求参数
 
-**接口地址 :** `/personalized/djprogram`
+无业务参数。
 
-**调用例子 :** `/personalized/djprogram`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`PersonalizedDjprogramBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/personalized_djprogram`、`hana-music-api/schemas/personalized_djprogram` 导入运行时校验器）。
+
+```ts
+type Radio = {
+  buyed?: boolean | null;
+  category?: string | null;
+  categoryId?: number | null;
+  composeVideo?: boolean | null;
+  createTime?: number | null;
+  desc?: string | null;
+  feeScope?: number | null;
+  finished?: boolean | null;
+  hightQuality?: boolean | null;
+  id?: number | null;
+  lastProgramCreateTime?: number | null;
+  lastProgramId?: number | null;
+  name?: string | null;
+  originalPrice?: number | null;
+  picId?: number | null;
+  picUrl?: string | null;
+  price?: number | null;
+  programCount?: number | null;
+  purchaseCount?: number | null;
+  radioFeeType?: number | null;
+  rcmdText?: string | null;
+  subCount?: number | null;
+  subed?: boolean | null;
+  underShelf?: boolean | null;
+  whiteList?: boolean | null;
+};
+
+type RecommendedProgram = {
+  adjustedPlayCount?: number | null;
+  auditStatus?: number | null;
+  bdAuditStatus?: number | null;
+  blurCoverUrl?: string | null;
+  buyed?: boolean | null;
+  canReward?: boolean | null;
+  channels?: Array<string> | null;
+  commentCount?: number | null;
+  commentThreadId?: string | null;
+  coverId?: number | null;
+  coverUrl?: string | null;
+  createTime?: number | null;
+  description?: string | null;
+  dj?: ProgramDj | null;
+  duration?: number | null;
+  id?: number | null;
+  isPublish?: boolean | null;
+  likedCount?: number | null;
+  listenerCount?: number | null;
+  mainSong?: ProgramMainSong | null;
+  mainTrackId?: number | null;
+  name?: string | null;
+  programFeeType?: number | null;
+  pubStatus?: number | null;
+  publish?: boolean | null;
+  radio?: Radio | null;
+  reward?: boolean | null;
+  serialNum?: number | null;
+  shareCount?: number | null;
+  subscribed?: boolean | null;
+  subscribedCount?: number | null;
+  trackCount?: number | null;
+  userId?: number | null;
+};
+
+type RecommendItem = {
+  id: number;
+  alg?: string | null;
+  canDislike?: boolean | null;
+  copywriter?: string | null;
+  name?: string | null;
+  picUrl?: string | null;
+  program?: RecommendedProgram | null;
+  type?: number | null;
+};
+
+type PersonalizedDjprogramBody = {
+  code: 200;
+  result: Array<RecommendItem>;
+  category?: number | null;
+};
+```
+
+- **公共类型**：[ProgramDj](/api/shared-types#programdj)、[ProgramMainSong](/api/shared-types#programmainsong)
+
+| 字段                  | 类型                   | 必填 | 说明                         |
+| --------------------- | ---------------------- | ---- | ---------------------------- |
+| `code`                | `200`                  | 是   | 业务状态码（`200` 表示成功） |
+| `result`              | `Array<RecommendItem>` | 是   | 接口返回的结果主体           |
+| `result[].id`         | `number`               | 是   | 记录 ID                      |
+| `result[].alg`        | `string`               | 否   | 推荐算法标识                 |
+| `result[].canDislike` | `boolean`              | 否   | -                            |
+| `result[].copywriter` | `string`               | 否   | -                            |
+| `result[].name`       | `string`               | 否   | 名称                         |
+| `result[].picUrl`     | `string`               | 否   | 资源访问链接                 |
+| `result[].program`    | `RecommendedProgram`   | 否   | 电台节目详情                 |
+| `result[].type`       | `number`               | 否   | -                            |
+| `category`            | `number`               | 否   | -                            |
+
+<!-- api-doc:response:end -->

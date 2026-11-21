@@ -1,36 +1,30 @@
 ---
 title: '获取视频标签/分类下的视频'
-description: '调用此接口，传入标签/分类`id`,可获取到相关的视频,分页参数只能传入 offset'
+description: '调用此接口，传入标签/分类`id`，可获取到相关的视频，分页参数只能传入 offset'
 ---
 
 # 获取视频标签/分类下的视频
 
-> 调用此接口，传入标签/分类`id`,可获取到相关的视频,分页参数只能传入 offset
+调用此接口，传入标签/分类`id`，可获取到相关的视频，分页参数只能传入 offset
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/video/group` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `video_group`  |
-| 文档分类 | 视频与 MV      |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/video/group`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 否                                               |
+| 对应模块   | `video_group`                                    |
+| SDK 函数   | `videoGroup`（`hana-music-api/api/video_group`） |
+| 返回体类型 | `VideoGroupBody`（已建模返回体）                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明             |
-| -------- | ---------------- | :--: | ------ | ---------------- |
-| `id`     | string           |  ✅  | -      | videoGroup 的 id |
-| `offset` | number \| string |  —   | 0      | 默认 0           |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /video/group?id=9104
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { videoGroup } from 'hana-music-api';
@@ -38,22 +32,45 @@ import { videoGroup } from 'hana-music-api';
 const result = await videoGroup({
   id: '9104',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 收紧；`hasmore`、`rcmdLimit` 宽松。分组视频列表 `datas` 在本批录制和对全部标签 id 的探测里没有出现过非 `null` 值，元素类型无法确定，没有声明，原样保留；`msg` 只见过 `null`，也未声明，原样保留。结构定义和类型是 `VideoGroupBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/video/group' \
+  --data-urlencode 'id=9104'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入标签/分类`id`,可获取到相关的视频,分页参数只能传入 offset
+## 请求参数
 
-**必选参数 :** `id`: videoGroup 的 id
+| 参数     | 类型               | 必填 | 默认值 | 说明             |
+| -------- | ------------------ | ---- | ------ | ---------------- |
+| `id`     | `number \| string` | 是   | -      | videoGroup 的 id |
+| `offset` | `number`           | 否   | `0`    | 默认 0           |
 
-**可选参数 :** `offset`: 默认 0
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/video/group`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/video/group?id=9104`
+## 返回值
+
+返回体类型：`VideoGroupBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/video_group`、`hana-music-api/schemas/video_group` 导入运行时校验器）。
+
+```ts
+type VideoGroupBody = {
+  code: 200;
+  hasmore?: boolean | null;
+  rcmdLimit?: number | null;
+};
+```
+
+| 字段        | 类型      | 必填 | 说明                         |
+| ----------- | --------- | ---- | ---------------------------- |
+| `code`      | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `hasmore`   | `boolean` | 否   | -                            |
+| `rcmdLimit` | `number`  | 否   | -                            |
+
+<!-- api-doc:response:end -->

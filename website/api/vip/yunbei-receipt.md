@@ -5,51 +5,64 @@ description: '分页获取当前账号的云贝收入明细。'
 
 # 云贝收入
 
-> 分页获取当前账号的云贝收入明细。
+分页获取当前账号的云贝收入明细。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/yunbei/receipt`    |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 是                   |
-| 对应模块 | `yunbei_receipt`     |
-| 文档分类 | 会员与云贝           |
-| 上游路径 | `/api/point/receipt` |
+| 项目       | 值                                                     |
+| ---------- | ------------------------------------------------------ |
+| 接口地址   | `/yunbei/receipt`                                      |
+| 请求方式   | `GET` / `POST`                                         |
+| 需要登录   | 是                                                     |
+| 对应模块   | `yunbei_receipt`                                       |
+| SDK 函数   | `yunbeiReceipt`（`hana-music-api/api/yunbei_receipt`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型   | 必填 | 默认值 | 说明             |
-| -------- | ------ | :--: | ------ | ---------------- |
-| `limit`  | number |  —   | `10`   | 返回条目数量     |
-| `offset` | number |  —   | `0`    | 偏移量，用于分页 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /yunbei/receipt
-GET /yunbei/receipt?limit=1
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { yunbeiReceipt } from 'hana-music-api';
 
-const result = await yunbeiReceipt({
-  limit: 10,
-  offset: 0,
-});
-
+const result = await yunbeiReceipt(
+  {
+    limit: 10,
+    offset: 0,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-本接口尚未补 `ModuleBody`：2026-10-26 用登录账号探测（先经 `login_status` 确认 `account.anonimousUser: false`）仍返回 `code: 404`、消息“接口未找到”，没有成功返回体证据。SDK 不校验返回体，`body` 原样转交；出现成功返回后再按“收紧与宽松”补录并声明。
+```bash
+curl --get 'http://127.0.0.1:3021/yunbei/receipt' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'limit=10' \
+  --data-urlencode 'offset=0'
+```
 
-## 返回关注点
+<!-- api-doc:params:start -->
 
-- `code`: 请求是否成功。
-- `data`: 当前账号的云贝收入明细。
+## 请求参数
+
+| 参数     | 类型     | 必填 | 默认值 | 说明             |
+| -------- | -------- | ---- | ------ | ---------------- |
+| `limit`  | `number` | 否   | `10`   | 返回条目数量     |
+| `offset` | `number` | 否   | `0`    | 偏移量，用于分页 |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

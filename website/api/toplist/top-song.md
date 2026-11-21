@@ -5,66 +5,102 @@ description: '调用此接口，可获取新歌速递'
 
 # 新歌速递
 
-> 调用此接口，可获取新歌速递
+调用此接口，可获取新歌速递
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/top/song`    |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `top_song`     |
-| 文档分类 | 排行榜         |
+| 项目       | 值                                         |
+| ---------- | ------------------------------------------ |
+| 接口地址   | `/top/song`                                |
+| 请求方式   | `GET` / `POST`                             |
+| 需要登录   | 否                                         |
+| 对应模块   | `top_song`                                 |
+| SDK 函数   | `topSong`（`hana-music-api/api/top_song`） |
+| 返回体类型 | `TopSongBody`（已建模返回体）              |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明                                                                      |
-| ------ | ------ | :--: | ------ | ------------------------------------------------------------------------- |
-| `type` | string |  ✅  | -      | 地区类型 id,对应以下:<br>全部:0<br>华语:7<br>欧美:96<br>日本:8<br>韩国:16 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /top/song?type=96
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { topSong } from 'hana-music-api';
 
 const result = await topSong({
-  type: '96',
+  type: 96,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.data` 和每首歌的 `id` 收紧；歌曲共用 `Song`，并局部声明旧式歌曲字段 `popularity`、`starred`、`score`、`position`、`exclusive`、`playedNum`、`dayPlays`、`hearTime`、`starredNum`，全部宽松。`type=999` 会返回真实的空结果：`data: []`，照常返回 200。`bMusic`、`lMusic`、`hMusic`、`mMusic`、`sqMusic`、`mp3Url` 等旧版音质字段不在声明里，原样保留。结构定义和类型是 `TopSongBody`，见 [返回体结构](/guide/response-bodies)。
-
-## 补充说明
-
-说明 : 调用此接口，可获取新歌速递
-
-**必选参数 :**
-
-`type`: 地区类型 id,对应以下:
-
-```text
-全部:0
-
-华语:7
-
-欧美:96
-
-日本:8
-
-韩国:16
+```bash
+curl --get 'http://127.0.0.1:3021/top/song' \
+  --data-urlencode 'type=96'
 ```
 
-**接口地址 :** `/top/song`
+<!-- api-doc:params:start -->
 
-**调用例子 :** `/top/song?type=96`
+## 请求参数
+
+| 参数   | 类型     | 必填 | 默认值 | 说明                                                                       |
+| ------ | -------- | ---- | ------ | -------------------------------------------------------------------------- |
+| `type` | `number` | 否   | `0`    | 地区类型 id，对应以下:<br>全部:0<br>华语:7<br>欧美:96<br>日本:8<br>韩国:16 |
+
+| `type` | 地区分类     |
+| ------ | ------------ |
+| `0`    | 全部（默认） |
+| `7`    | 华语         |
+| `96`   | 欧美         |
+| `8`    | 日本         |
+| `16`   | 韩国         |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`TopSongBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/top_song`、`hana-music-api/schemas/top_song` 导入运行时校验器）。
+
+```ts
+type NewSong = Omit<
+  Song,
+  | 'popularity'
+  | 'starred'
+  | 'score'
+  | 'position'
+  | 'exclusive'
+  | 'playedNum'
+  | 'dayPlays'
+  | 'hearTime'
+  | 'starredNum'
+> & {
+  popularity?: number | null;
+  starred?: boolean | null;
+  score?: number | null;
+  position?: number | null;
+  exclusive?: boolean | null;
+  playedNum?: number | null;
+  dayPlays?: number | null;
+  hearTime?: number | null;
+  starredNum?: number | null;
+};
+
+type TopSongBody = {
+  code: 200;
+  data: Array<NewSong>;
+};
+```
+
+- **公共类型**：[Song](/api/shared-types#song)
+
+| 字段   | 类型             | 必填 | 说明                         |
+| ------ | ---------------- | ---- | ---------------------------- |
+| `code` | `200`            | 是   | 业务状态码（`200` 表示成功） |
+| `data` | `Array<NewSong>` | 是   | 接口返回的数据主体           |
+
+<!-- api-doc:response:end -->

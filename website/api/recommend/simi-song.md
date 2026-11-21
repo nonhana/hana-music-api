@@ -1,35 +1,30 @@
 ---
 title: '获取相似音乐'
-description: '调用此接口，传入歌曲 id, 可获得相似歌曲'
+description: '调用此接口，传入歌曲 id，可获得相似歌曲'
 ---
 
 # 获取相似音乐
 
-> 调用此接口，传入歌曲 id, 可获得相似歌曲
+调用此接口，传入歌曲 id，可获得相似歌曲
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/simi/song`   |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `simi_song`    |
-| 文档分类 | 推荐与发现     |
+| 项目       | 值                                           |
+| ---------- | -------------------------------------------- |
+| 接口地址   | `/simi/song`                                 |
+| 请求方式   | `GET` / `POST`                               |
+| 需要登录   | 否                                           |
+| 对应模块   | `simi_song`                                  |
+| SDK 函数   | `simiSong`（`hana-music-api/api/simi_song`） |
+| 返回体类型 | `SimiSongBody`（已建模返回体）               |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 歌曲 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /simi/song?id=347230
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { simiSong } from 'hana-music-api';
@@ -37,20 +32,68 @@ import { simiSong } from 'hana-music-api';
 const result = await simiSong({
   id: '347230',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.songs` 和每首歌的 `body.songs[].id` 收紧（旧版歌曲记录复用 `ProgramMainSong`）；`name`、`album`、`artists`、`duration`、`fee` 等声明字段宽松，`alg`、`alias`、`mp3Url`、`privilege`、`recommendReason`、`sqMusic`、`transNames` 另声明为宽松字段，只见过 `null` 或空数组的字段未声明、原样保留。未知歌曲 id 返回空数组（`simi_song.unknown.json`）；缺少 `id` 时上游是 HTTP 200 + `code: 400`（`msg`），SDK 以 `status: 400` 转交原文。本页录制来自登录账号（`context.viewer` 是 `authenticated`），没有保留匿名对照录制。
+```bash
+curl --get 'http://127.0.0.1:3021/simi/song' \
+  --data-urlencode 'id=347230'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入歌曲 id, 可获得相似歌曲
+## 请求参数
 
-**必选参数 :** `id`: 歌曲 id
+| 参数     | 类型               | 必填 | 默认值 | 说明                         |
+| -------- | ------------------ | ---- | ------ | ---------------------------- |
+| `id`     | `number \| string` | 是   | -      | 歌曲 id                      |
+| `limit`  | `number`           | 否   | `50`   | 返回数量，默认 `50`          |
+| `offset` | `number`           | 否   | `0`    | 偏移数量，用于分页，默认 `0` |
 
-**接口地址 :** `/simi/song`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/simi/song?id=347230` ( 对应 ' 光辉岁月 ' 相似歌曲 )
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`SimiSongBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/simi_song`、`hana-music-api/schemas/simi_song` 导入运行时校验器）。
+
+```ts
+type SimiSong = Omit<
+  ProgramMainSong,
+  | 'id'
+  | 'alg'
+  | 'alias'
+  | 'mp3Url'
+  | 'privilege'
+  | 'recommendReason'
+  | 'sqMusic'
+  | 'transNames'
+> & {
+  id: number;
+  alg?: string | null;
+  alias?: Array<string> | null;
+  mp3Url?: string | null;
+  privilege?: LooseSongPrivilege | null;
+  recommendReason?: string | null;
+  sqMusic?: ProgramQuality | null;
+  transNames?: Array<string> | null;
+};
+
+type SimiSongBody = {
+  code: 200;
+  songs: Array<SimiSong>;
+};
+```
+
+- **公共类型**：[LooseSongPrivilege](/api/shared-types#loosesongprivilege)、[ProgramMainSong](/api/shared-types#programmainsong)、[ProgramQuality](/api/shared-types#programquality)
+
+| 字段         | 类型              | 必填 | 说明                         |
+| ------------ | ----------------- | ---- | ---------------------------- |
+| `code`       | `200`             | 是   | 业务状态码（`200` 表示成功） |
+| `songs`      | `Array<SimiSong>` | 是   | 歌曲列表                     |
+| `songs[].id` | `number`          | 是   | 记录 ID                      |
+
+<!-- api-doc:response:end -->

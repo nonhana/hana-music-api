@@ -1,50 +1,101 @@
 ---
 title: '电台 - 非热门类型'
-description: '登录后调用此接口, 可获得电台非热门类型'
+description: '登录后调用此接口，可获得电台非热门类型'
 ---
 
 # 电台 - 非热门类型
 
-> 登录后调用此接口, 可获得电台非热门类型
+登录后调用此接口，可获得电台非热门类型
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                        |
-| -------- | ------------------------- |
-| 接口地址 | `/dj/category/excludehot` |
-| 请求方式 | `GET` / `POST`            |
-| 需要登录 | 是                        |
-| 对应模块 | `dj_category_excludehot`  |
-| 文档分类 | 电台与播客                |
+| 项目       | 值                                                                    |
+| ---------- | --------------------------------------------------------------------- |
+| 接口地址   | `/dj/category/excludehot`                                             |
+| 请求方式   | `GET` / `POST`                                                        |
+| 需要登录   | 是                                                                    |
+| 对应模块   | `dj_category_excludehot`                                              |
+| SDK 函数   | `djCategoryExcludehot`（`hana-music-api/api/dj_category_excludehot`） |
+| 返回体类型 | `DjCategoryExcludehotBody`（已建模返回体）                            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /dj/category/excludehot
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { djCategoryExcludehot } from 'hana-music-api';
 
-const result = await djCategoryExcludehot();
-
+const result = await djCategoryExcludehot(
+  {},
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、通到非热门分类列表的 `body.data` 和分类自己的编号 `data[].id` 收紧；`name` 和各尺寸封面字段是宽松字段。分类记录与 `dj_catelist` 的字段相同，但只有两个模块使用，留在模块里。本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `DjCategoryExcludehotBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/dj/category/excludehot' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口, 可获得电台非热门类型
+## 请求参数
 
-**接口地址 :** `/dj/category/excludehot`
+无业务参数。
 
-**调用例子 :** `/dj/category/excludehot`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`DjCategoryExcludehotBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/dj_category_excludehot`、`hana-music-api/schemas/dj_category_excludehot` 导入运行时校验器）。
+
+```ts
+type Category = {
+  id: number;
+  name?: string | null;
+  pic56x56Id?: number | null;
+  pic56x56IdStr?: string | null;
+  pic56x56Url?: string | null;
+  pic84x84Id?: number | null;
+  pic84x84IdUrl?: string | null;
+  pic96x96Id?: number | null;
+  pic96x96IdStr?: string | null;
+  pic96x96Url?: string | null;
+  picIPad?: number | null;
+  picIPadStr?: string | null;
+  picIPadUrl?: string | null;
+  picMacId?: string | null;
+  picMacUrl?: string | null;
+  picPCBlack?: number | null;
+  picPCBlackStr?: string | null;
+  picPCBlackUrl?: string | null;
+  picPCWhite?: number | null;
+  picPCWhiteStr?: string | null;
+  picPCWhiteUrl?: string | null;
+  picUWPId?: string | null;
+  picUWPUrl?: string | null;
+  picWeb?: number | null;
+  picWebStr?: string | null;
+  picWebUrl?: string | null;
+};
+
+type DjCategoryExcludehotBody = {
+  code: 200;
+  data: Array<Category>;
+};
+```
+
+| 字段   | 类型              | 必填 | 说明                         |
+| ------ | ----------------- | ---- | ---------------------------- |
+| `code` | `200`             | 是   | 业务状态码（`200` 表示成功） |
+| `data` | `Array<Category>` | 是   | 接口返回的数据主体           |
+
+<!-- api-doc:response:end -->

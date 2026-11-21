@@ -1,60 +1,98 @@
 ---
 title: '获取用户播放记录'
-description: '登录后调用此接口，传入用户 id, 可获取用户播放记录'
+description: '登录后调用此接口，传入用户 id，可获取用户播放记录'
 ---
 
 # 获取用户播放记录
 
-> 登录后调用此接口，传入用户 id, 可获取用户播放记录
+登录后调用此接口，传入用户 id，可获取用户播放记录
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/user/record` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `user_record`  |
-| 文档分类 | 听歌记录       |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/user/record`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 是                                               |
+| 对应模块   | `user_record`                                    |
+| SDK 函数   | `userRecord`（`hana-music-api/api/user_record`） |
+| 返回体类型 | `UserRecordBody`（已建模返回体）                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明                                            |
-| ------ | ------ | :--: | ------ | ----------------------------------------------- |
-| `uid`  | string |  ✅  | -      | 用户 id                                         |
-| `type` | string |  —   | -      | type=1 时只返回 weekData, type=0 时返回 allData |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/record?uid=32953014&type=1
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userRecord } from 'hana-music-api';
 
-const result = await userRecord({
-  uid: '32953014',
-  type: '1',
-});
-
+const result = await userRecord(
+  {
+    uid: '32953014',
+    type: 1,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-正文带 `code`，以及 `type` 对应的 `allData` 或 `weekData`。两个列表都是“可以没有”的路径：缺失或 `null` 时照常返回；出现时每一项按 `playCount`、`score`、`song` 校验，缺 `song` 会报 502。`song` 是记录里套着的歌曲，`song.id` 宽松。结构定义和类型是 `UserRecordBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/user/record' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'uid=32953014' \
+  --data-urlencode 'type=1'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，传入用户 id, 可获取用户播放记录
+## 请求参数
 
-**必选参数 :** `uid` : 用户 id
+| 参数   | 类型               | 必填 | 默认值 | 说明                                            |
+| ------ | ------------------ | ---- | ------ | ----------------------------------------------- |
+| `uid`  | `number \| string` | 是   | -      | 用户 id                                         |
+| `type` | `0 \| 1`           | 否   | `0`    | type=1 时只返回 weekData，type=0 时返回 allData |
 
-**可选参数 :** `type` : type=1 时只返回 weekData, type=0 时返回 allData
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/user/record`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/user/record?uid=32953014&type=1`
+## 返回值
+
+返回体类型：`UserRecordBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/user_record`、`hana-music-api/schemas/user_record` 导入运行时校验器）。
+
+```ts
+type PlayRecord = {
+  playCount?: number | null;
+  score?: number | null;
+  song: Song;
+};
+
+type UserRecordBody = {
+  code: 200;
+  allData?: Array<PlayRecord> | null;
+  weekData?: Array<PlayRecord> | null;
+};
+```
+
+- **公共类型**：[Song](/api/shared-types#song)
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段                   | 类型                           | 必填 | 说明                         |
+| ---------------------- | ------------------------------ | ---- | ---------------------------- |
+| `code`                 | `200`                          | 是   | 业务状态码（`200` 表示成功） |
+| `allData`              | `Array<PlayRecord>`            | 可空 | -                            |
+| `allData[].playCount`  | `number`                       | 否   | 播放次数                     |
+| `allData[].score`      | `number`                       | 否   | -                            |
+| `allData[].song`       | [Song](/api/shared-types#song) | 是   | Song 实体                    |
+| `weekData`             | `Array<PlayRecord>`            | 可空 | -                            |
+| `weekData[].playCount` | `number`                       | 否   | 播放次数                     |
+| `weekData[].score`     | `number`                       | 否   | -                            |
+| `weekData[].song`      | [Song](/api/shared-types#song) | 是   | Song 实体                    |
+
+<!-- api-doc:response:end -->

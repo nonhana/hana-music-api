@@ -5,31 +5,26 @@ description: '调用此接口可以获取该曲风的描述信息'
 
 # 曲风详情
 
-> 调用此接口可以获取该曲风的描述信息
+调用此接口可以获取该曲风的描述信息
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/style/detail` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `style_detail`  |
-| 文档分类 | 曲风            |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/style/detail`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 否                                                 |
+| 对应模块   | `style_detail`                                     |
+| SDK 函数   | `styleDetail`（`hana-music-api/api/style_detail`） |
+| 返回体类型 | `StyleDetailBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数    | 类型   | 必填 | 默认值 | 说明    |
-| ------- | ------ | :--: | ------ | ------- |
-| `tagId` | string |  ✅  | -      | 曲风 ID |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /style/detail?tagId=1000
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { styleDetail } from 'hana-music-api';
@@ -37,20 +32,86 @@ import { styleDetail } from 'hana-music-api';
 const result = await styleDetail({
   tagId: '1000',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 收紧；`body.data` 可以没有：未知曲风 id 时上游返回 `data: null`（录制 `style_detail.unknown-tag.json`），缺失或 `null` 都照常返回；出现时曲风自己的编号 `data.tagId` 收紧。`name`、`level`、`parentNames`、`enName`、`desc`、`cover`、`colorDeep`、`colorShallow`、`songNum`、`artistNum`、`tabs` 宽松；`professionalReviews`、`favouriteSong`、`tagPortrait` 是登录后才有的偏好内容，匿名时都是 `null`（录制 `style_detail.anonymous.json`），按宽松字段处理；`playRate` 在录制里只见过 `null`，没有声明。`favouriteSong.favouriteSong` 复用歌曲结构，宽松容器里的歌曲编号也宽松。
+```bash
+curl --get 'http://127.0.0.1:3021/style/detail' \
+  --data-urlencode 'tagId=1000'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 调用此接口可以获取该曲风的描述信息
+## 请求参数
 
-**接口地址:** `/style/detail`
+| 参数    | 类型               | 必填 | 默认值 | 说明    |
+| ------- | ------------------ | ---- | ------ | ------- |
+| `tagId` | `number \| string` | 是   | -      | 曲风 ID |
 
-**必选参数:** `tagId`: 曲风 ID
+<!-- api-doc:params:end -->
 
-**调用例子:** `/style/detail?tagId=1000`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`StyleDetailBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/style_detail`、`hana-music-api/schemas/style_detail` 导入运行时校验器）。
+
+```ts
+type FavouriteSong = {
+  favouriteSong?: LooseSong | null;
+  markHeart?: number | null;
+};
+
+type ReviewEntry = {
+  coverType?: number | null;
+  text?: string | null;
+  textType?: number | null;
+};
+
+type ProfessionalReviews = {
+  pattern?: Record<string, ReviewEntry> | null;
+  templateContent?: string | null;
+};
+
+type TagPortrait = {
+  dataTip?: string | null;
+  pattern?: Record<string, ReviewEntry> | null;
+  templateContent?: string | null;
+};
+
+type StyleDetail = {
+  tagId: number;
+  artistNum?: string | null;
+  colorDeep?: string | null;
+  colorShallow?: string | null;
+  cover?: Array<string> | null;
+  desc?: string | null;
+  enName?: string | null;
+  favouriteSong?: FavouriteSong | null;
+  level?: number | null;
+  name?: string | null;
+  parentNames?: string | null;
+  professionalReviews?: ProfessionalReviews | null;
+  songNum?: string | null;
+  tabs?: Array<string> | null;
+  tagPortrait?: TagPortrait | null;
+};
+
+type StyleDetailBody = {
+  code: 200;
+  data?: StyleDetail | null;
+};
+```
+
+- **公共类型**：[LooseSong](/api/shared-types#loosesong)
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段   | 类型          | 必填 | 说明                         |
+| ------ | ------------- | ---- | ---------------------------- |
+| `code` | `200`         | 是   | 业务状态码（`200` 表示成功） |
+| `data` | `StyleDetail` | 可空 | 接口返回的数据主体           |
+
+<!-- api-doc:response:end -->

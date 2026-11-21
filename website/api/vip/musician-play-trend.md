@@ -5,56 +5,85 @@ description: '音乐人登录后调用此接口，可获取歌曲播放趋势'
 
 # 音乐人播放趋势
 
-> 音乐人登录后调用此接口，可获取歌曲播放趋势
+音乐人登录后调用此接口，可获取歌曲播放趋势
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                     |
-| -------- | ---------------------- |
-| 接口地址 | `/musician/play/trend` |
-| 请求方式 | `GET` / `POST`         |
-| 需要登录 | 是                     |
-| 对应模块 | `musician_play_trend`  |
-| 文档分类 | 会员与云贝             |
+| 项目       | 值                                                              |
+| ---------- | --------------------------------------------------------------- |
+| 接口地址   | `/musician/play/trend`                                          |
+| 请求方式   | `GET` / `POST`                                                  |
+| 需要登录   | 是                                                              |
+| 对应模块   | `musician_play_trend`                                           |
+| SDK 函数   | `musicianPlayTrend`（`hana-music-api/api/musician_play_trend`） |
+| 返回体类型 | `MusicianPlayTrendBody`（已建模返回体）                         |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数        | 类型   | 必填 | 默认值 | 说明     |
-| ----------- | ------ | :--: | ------ | -------- |
-| `startTime` | string |  ✅  | -      | 开始时间 |
-| `endTime`   | string |  ✅  | -      | 结束时间 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /musician/play/trend?startTime=2021-05-24&endTime=2021-05-30
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { musicianPlayTrend } from 'hana-music-api';
 
-const result = await musicianPlayTrend({
-  startTime: '2021-05-24',
-  endTime: '2021-05-30',
-});
-
+const result = await musicianPlayTrend(
+  {
+    startTime: '2021-05-24',
+    endTime: '2021-05-30',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、趋势数组 `body.data`、日期键 `body.data[].dateTime` 和每天的播放数 `body.data[].dataValue` 收紧，播放数是字符串（`"0"` 也正常）。`startTime`/`endTime` 传 `YYYY-MM-DD` 字符串；毫秒数、秒数或缺少参数会返回 `code: 400`（`musician_play_trend.ms-params.json`、`musician_play_trend.s-params.json`、`musician_play_trend.no-params.json`），SDK 以 `status: 400` 转交原文。没有播放记录的区间返回 `data: []`（`musician_play_trend.empty.json`），匿名调用也返回空趋势（`musician_play_trend.anonymous-empty.json`）。录制来自音乐人账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `anonimousUser: false`（未落盘））。结构定义和类型是 `MusicianPlayTrendBody`，见[返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/musician/play/trend' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'startTime=2021-05-24' \
+  --data-urlencode 'endTime=2021-05-30'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 音乐人登录后调用此接口，可获取歌曲播放趋势
+## 请求参数
 
-**必选参数 :** `startTime` : 开始时间
+| 参数        | 类型     | 必填 | 默认值 | 说明     |
+| ----------- | -------- | ---- | ------ | -------- |
+| `startTime` | `string` | 是   | -      | 开始时间 |
+| `endTime`   | `string` | 是   | -      | 结束时间 |
 
-`endTime` : 结束时间
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/musician/play/trend`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/musician/play/trend?startTime=2021-05-24&endTime=2021-05-30`
+## 返回值
+
+返回体类型：`MusicianPlayTrendBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/musician_play_trend`、`hana-music-api/schemas/musician_play_trend` 导入运行时校验器）。
+
+```ts
+type PlayTrendPoint = {
+  dateTime: string;
+  dataValue: string;
+};
+
+type MusicianPlayTrendBody = {
+  code: 200;
+  data: Array<PlayTrendPoint>;
+  message?: string | null;
+};
+```
+
+| 字段               | 类型                    | 必填 | 说明                         |
+| ------------------ | ----------------------- | ---- | ---------------------------- |
+| `code`             | `200`                   | 是   | 业务状态码（`200` 表示成功） |
+| `data`             | `Array<PlayTrendPoint>` | 是   | 接口返回的数据主体           |
+| `data[].dateTime`  | `string`                | 是   | 时间戳                       |
+| `data[].dataValue` | `string`                | 是   | -                            |
+| `message`          | `string`                | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

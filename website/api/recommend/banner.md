@@ -5,63 +5,104 @@ description: '调用此接口，可获取 banner( 轮播图 ) 数据'
 
 # banner
 
-> 调用此接口，可获取 banner( 轮播图 ) 数据
+调用此接口，可获取 banner( 轮播图 ) 数据
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/banner`      |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `banner`       |
-| 文档分类 | 推荐与发现     |
+| 项目       | 值                                      |
+| ---------- | --------------------------------------- |
+| 接口地址   | `/banner`                               |
+| 请求方式   | `GET` / `POST`                          |
+| 需要登录   | 否                                      |
+| 对应模块   | `banner`                                |
+| SDK 函数   | `banner`（`hana-music-api/api/banner`） |
+| 返回体类型 | `BannerBody`（已建模返回体）            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明                                                                                |
-| ------ | ------ | :--: | ------ | ----------------------------------------------------------------------------------- |
-| `type` | string |  —   | 0      | 资源类型,对应以下类型,默认为 0 即 PC<br>0: pc<br>1: android<br>2: iphone<br>3: ipad |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /banner
-GET /banner?type=2
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { banner } from 'hana-music-api';
 
-const result = await banner();
-
+const result = await banner({
+  type: 0,
+});
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 和通到轮播图列表的 `body.banners` 收紧；`targetId`、`targetType`、`typeTitle`、`url` 和移动端的 `bannerId`、`pic`、`encodeId`、`showAdTag` 等展示与埋点字段宽松，嵌着的歌曲复用宽松的 `LooseSong`。PC 和移动端是两套字段，都按宽松字段放在同一个对象里。本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `BannerBody`，见 [返回体结构](/guide/response-bodies)。
-
-## 补充说明
-
-说明 : 调用此接口，可获取 banner( 轮播图 ) 数据
-
-**可选参数 :**
-
-`type`:资源类型,对应以下类型,默认为 0 即 PC
-
-```text
-0: pc
-
-1: android
-
-2: iphone
-
-3: ipad
+```bash
+curl --get 'http://127.0.0.1:3021/banner' \
+  --data-urlencode 'type=0'
 ```
 
-**接口地址 :** `/banner`
+<!-- api-doc:params:start -->
 
-**调用例子 :** `/banner`, `/banner?type=2`
+## 请求参数
+
+| 参数   | 类型               | 必填 | 默认值 | 说明                                                                                  |
+| ------ | ------------------ | ---- | ------ | ------------------------------------------------------------------------------------- |
+| `type` | `0 \| 1 \| 2 \| 3` | 否   | `0`    | 资源类型，对应以下类型，默认为 0 即 PC<br>0: pc<br>1: android<br>2: iphone<br>3: ipad |
+
+| `type` | 客户端类型 |
+| ------ | ---------- |
+| `0`    | PC（默认） |
+| `1`    | Android    |
+| `2`    | iPhone     |
+| `3`    | iPad       |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`BannerBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/banner`、`hana-music-api/schemas/banner` 导入运行时校验器）。
+
+```ts
+type Banner = {
+  targetId?: number | null;
+  targetType?: number | null;
+  typeTitle?: string | null;
+  url?: string | null;
+  imageUrl?: string | null;
+  bigImageUrl?: string | null;
+  bannerId?: string | null;
+  pic?: string | null;
+  encodeId?: string | null;
+  titleColor?: string | null;
+  bannerBizType?: string | null;
+  exclusive?: boolean | null;
+  showAdTag?: boolean | null;
+  alg?: string | null;
+  scm?: string | null;
+  requestId?: string | null;
+  s_ctrp?: string | null;
+  song?: LooseSong | null;
+};
+
+type BannerBody = {
+  code: 200;
+  banners: Array<Banner>;
+  trp?: {
+    rules?: Array<string> | null;
+  } | null;
+};
+```
+
+- **公共类型**：[LooseSong](/api/shared-types#loosesong)
+
+| 字段        | 类型            | 必填 | 说明                         |
+| ----------- | --------------- | ---- | ---------------------------- |
+| `code`      | `200`           | 是   | 业务状态码（`200` 表示成功） |
+| `banners`   | `Array<Banner>` | 是   | 轮播 Banner 列表             |
+| `trp`       | `object`        | 否   | -                            |
+| `trp.rules` | `Array<string>` | 否   | -                            |
+
+<!-- api-doc:response:end -->

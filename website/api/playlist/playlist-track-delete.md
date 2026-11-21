@@ -5,57 +5,74 @@ description: '调用此接口，可删除视频歌单里的视频 ( 需要登录
 
 # 删除视频歌单里的视频
 
-> 调用此接口，可删除视频歌单里的视频 ( 需要登录 )
+调用此接口，可删除视频歌单里的视频 ( 需要登录 )
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                       |
-| -------- | ------------------------ |
-| 接口地址 | `/playlist/track/delete` |
-| 请求方式 | `GET` / `POST`           |
-| 需要登录 | 是                       |
-| 对应模块 | `playlist_track_delete`  |
-| 文档分类 | 歌单                     |
+| 项目       | 值                                                                  |
+| ---------- | ------------------------------------------------------------------- |
+| 接口地址   | `/playlist/track/delete`                                            |
+| 请求方式   | `GET` / `POST`                                                      |
+| 需要登录   | 是                                                                  |
+| 对应模块   | `playlist_track_delete`                                             |
+| SDK 函数   | `playlistTrackDelete`（`hana-music-api/api/playlist_track_delete`） |
+| 返回体类型 | `PlaylistTrackDeleteBody`（已建模返回体）                           |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数  | 类型                      | 必填 | 默认值 | 说明         |
-| ----- | ------------------------- | :--: | ------ | ------------ |
-| `pid` | `number \| string`        |  ✅  | -      | 歌单 id      |
-| `ids` | `(number \| string)` 数组 |  ✅  | -      | 歌曲 id 数组 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/track/delete?pid=5271999357&ids=186041
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistTrackDelete } from 'hana-music-api';
 
-const result = await playlistTrackDelete({
-  pid: 5271999357,
-  ids: [186041],
-});
-
+const result = await playlistTrackDelete(
+  {
+    id: 347230,
+    ids: [347230],
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-写操作：从 `id` 指定的歌单里删除 `ids` 对应的歌曲，成功会改变这个歌单的曲目。正文只承诺返回码，结构定义只收紧 `code`；成功正文没有录到，其余字段原样保留。缺少 `id` 时上游回 `code: 400`（请求参数错误）；这个 400 以前被归一成 `status: 200` 放行，现在按业务拒绝转交 `status: 400` 和原始正文。上游对自有的临时歌单也可能回 `code: 401`（无权限操作歌单），对已删除的歌单回 `404`，这两个状态不变。结构定义和类型是 `PlaylistTrackDeleteBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/playlist/track/delete' \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data '{"id":347230,"ids":[347230]}'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可删除视频歌单里的视频 ( 需要登录 )
-**必选参数 :**
+## 请求参数
 
-`pid` : 歌单 id
+| 参数  | 类型                      | 必填 | 默认值 | 说明                         |
+| ----- | ------------------------- | ---- | ------ | ---------------------------- |
+| `id`  | `number \| string`        | 是   | -      | 目标歌单 ID                  |
+| `ids` | `Array<number \| string>` | 是   | -      | 要从歌单中移除的歌曲 ID 数组 |
 
-`ids` : 视频 id,支持多个,用`,`隔开
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/playlist/track/delete`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/playlist/track/delete?pid=5271999357&ids=186041`
+## 返回值
+
+返回体类型：`PlaylistTrackDeleteBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_track_delete`、`hana-music-api/schemas/playlist_track_delete` 导入运行时校验器）。
+
+```ts
+type PlaylistTrackDeleteBody = {
+  code: 200;
+};
+```
+
+| 字段   | 类型  | 必填 | 说明                         |
+| ------ | ----- | ---- | ---------------------------- |
+| `code` | `200` | 是   | 业务状态码（`200` 表示成功） |
+
+<!-- api-doc:response:end -->

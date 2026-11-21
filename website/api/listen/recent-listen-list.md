@@ -5,44 +5,98 @@ description: '调用后可获取最近听歌列表'
 
 # 最近听歌列表
 
-> 调用后可获取最近听歌列表
+调用后可获取最近听歌列表
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                    |
-| -------- | --------------------- |
-| 接口地址 | `/recent/listen/list` |
-| 请求方式 | `GET` / `POST`        |
-| 需要登录 | 否                    |
-| 对应模块 | `recent_listen_list`  |
-| 文档分类 | 听歌记录              |
+| 项目       | 值                                                            |
+| ---------- | ------------------------------------------------------------- |
+| 接口地址   | `/recent/listen/list`                                         |
+| 请求方式   | `GET` / `POST`                                                |
+| 需要登录   | 否                                                            |
+| 对应模块   | `recent_listen_list`                                          |
+| SDK 函数   | `recentListenList`（`hana-music-api/api/recent_listen_list`） |
+| 返回体类型 | `RecentListenListBody`（已建模返回体）                        |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /recent/listen/list
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { recentListenList } from 'hana-music-api';
 
 const result = await recentListenList();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 和通到最近常听列表的 `body.data` 收紧；`data.resources` 在匿名调用里是 `null`，按可以没有处理，出现时各条记录自己的 `resourceId` 收紧；标题、封面、落地链接和展示字段宽松。结构定义和类型是 `RecentListenListBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/recent/listen/list'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用后可获取最近听歌列表
+## 请求参数
 
-**接口地址 :** `/recent/listen/list`
+无业务参数。
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`RecentListenListBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/recent_listen_list`、`hana-music-api/schemas/recent_listen_list` 导入运行时校验器）。
+
+```ts
+type RecentResource = {
+  resourceId: number;
+  resourceType?: string | null;
+  subResourceId?: string | null;
+  title?: string | null;
+  tag?: string | null;
+  coverUrlList?: Array<string> | null;
+  landingUrl?: string | null;
+  update?: boolean | null;
+  playOrUpdateTime?: number | null;
+  star?: boolean | null;
+  coverCenter?: boolean | null;
+};
+
+type RecentListenListBody = {
+  code: 200;
+  data: {
+    title?: string | null;
+    resources?: Array<RecentResource> | null;
+  };
+  message?: string | null;
+};
+```
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段                                | 类型                    | 必填 | 说明                         |
+| ----------------------------------- | ----------------------- | ---- | ---------------------------- |
+| `code`                              | `200`                   | 是   | 业务状态码（`200` 表示成功） |
+| `data`                              | `object`                | 是   | 接口返回的数据主体           |
+| `data.title`                        | `string`                | 否   | 标题                         |
+| `data.resources`                    | `Array<RecentResource>` | 可空 | -                            |
+| `data.resources[].resourceId`       | `number`                | 是   | 资源 ID                      |
+| `data.resources[].resourceType`     | `string`                | 否   | -                            |
+| `data.resources[].subResourceId`    | `string`                | 否   | subResource ID               |
+| `data.resources[].title`            | `string`                | 否   | 标题                         |
+| `data.resources[].tag`              | `string`                | 否   | -                            |
+| `data.resources[].coverUrlList`     | `Array<string>`         | 否   | -                            |
+| `data.resources[].landingUrl`       | `string`                | 否   | 资源访问链接                 |
+| `data.resources[].update`           | `boolean`               | 否   | -                            |
+| `data.resources[].playOrUpdateTime` | `number`                | 否   | 时间戳                       |
+| `data.resources[].star`             | `boolean`               | 否   | -                            |
+| `data.resources[].coverCenter`      | `boolean`               | 否   | -                            |
+| `message`                           | `string`                | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

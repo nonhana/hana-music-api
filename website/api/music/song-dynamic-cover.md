@@ -1,60 +1,96 @@
 ---
 title: '歌曲动态封面'
-description: '登录后调用此接口, 传入歌曲id, 获取歌曲动态封面'
+description: '登录后调用此接口，传入歌曲id，获取歌曲动态封面'
 ---
 
 # 歌曲动态封面
 
-> 登录后调用此接口, 传入歌曲id, 获取歌曲动态封面
+登录后调用此接口，传入歌曲id，获取歌曲动态封面
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                    |
-| -------- | --------------------- |
-| 接口地址 | `/song/dynamic/cover` |
-| 请求方式 | `GET` / `POST`        |
-| 需要登录 | 是                    |
-| 对应模块 | `song_dynamic_cover`  |
-| 文档分类 | 歌曲与播放            |
+| 项目       | 值                                                            |
+| ---------- | ------------------------------------------------------------- |
+| 接口地址   | `/song/dynamic/cover`                                         |
+| 请求方式   | `GET` / `POST`                                                |
+| 需要登录   | 是                                                            |
+| 对应模块   | `song_dynamic_cover`                                          |
+| SDK 函数   | `songDynamicCover`（`hana-music-api/api/song_dynamic_cover`） |
+| 返回体类型 | `SongDynamicCoverBody`（已建模返回体）                        |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 歌曲 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /song/dynamic/cover?id=2101179024
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { songDynamicCover } from 'hana-music-api';
 
-const result = await songDynamicCover({
-  id: '2101179024',
-});
-
+const result = await songDynamicCover(
+  {
+    id: '2101179024',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body` 是网易云原文；`code` 和封面路径 `data` 收紧。`data.videoPlayUrl` 是接口要拿的动态封面地址，按可以没有处理：歌曲没有动态封面时整个字段缺失（`data` 是空对象），缺失或 `null` 都照常返回；出现但类型不对会报 502。`videoPlayUrl` 带 `wsSecret`/`wsTime` 签名参数，会随时间变化，不要缓存或逐字比较。`height`、`weight`、`needTransition` 和顶层 `message` 宽松。
+```bash
+curl --get 'http://127.0.0.1:3021/song/dynamic/cover' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=2101179024'
+```
 
-公开文档写的是登录后调用，但本次匿名探测也返回同样的结构；`song_dynamic_cover.anonymous.json` 是匿名对照。结构定义和类型是 `SongDynamicCoverBody`，见 [返回体结构](/guide/response-bodies#曲库)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 : 登录后调用此接口, 传入歌曲id, 获取歌曲动态封面
+| 参数 | 类型               | 必填 | 默认值 | 说明    |
+| ---- | ------------------ | ---- | ------ | ------- |
+| `id` | `number \| string` | 是   | -      | 歌曲 id |
 
-**必选参数 :**
+<!-- api-doc:params:end -->
 
-`id`: 歌曲 id
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/song/dynamic/cover`
+## 返回值
 
-**调用例子 :** `/song/dynamic/cover?id=2101179024`
+返回体类型：`SongDynamicCoverBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/song_dynamic_cover`、`hana-music-api/schemas/song_dynamic_cover` 导入运行时校验器）。
+
+```ts
+type DynamicCover = {
+  videoPlayUrl?: string | null;
+  height?: number | null;
+  weight?: number | null;
+  needTransition?: boolean | null;
+};
+
+type SongDynamicCoverBody = {
+  code: 200;
+  data: DynamicCover;
+  message?: string | null;
+};
+```
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段                  | 类型           | 必填 | 说明                         |
+| --------------------- | -------------- | ---- | ---------------------------- |
+| `code`                | `200`          | 是   | 业务状态码（`200` 表示成功） |
+| `data`                | `DynamicCover` | 是   | 接口返回的数据主体           |
+| `data.videoPlayUrl`   | `string`       | 可空 | 动态封面视频播放 URL         |
+| `data.height`         | `number`       | 否   | -                            |
+| `data.weight`         | `number`       | 否   | -                            |
+| `data.needTransition` | `boolean`      | 否   | -                            |
+| `message`             | `string`       | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **签名有效期**：`data.videoPlayUrl` 附带时效签名参数（`wsSecret`/`wsTime`），切勿长期缓存该链接；歌曲无动态封面时该字段可能缺失或为 `null`。

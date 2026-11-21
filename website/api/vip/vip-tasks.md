@@ -5,46 +5,111 @@ description: '登录后调用此接口，可获取会员任务'
 
 # vip 任务
 
-> 登录后调用此接口，可获取会员任务
+登录后调用此接口，可获取会员任务
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/vip/tasks`   |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `vip_tasks`    |
-| 文档分类 | 会员与云贝     |
+| 项目       | 值                                           |
+| ---------- | -------------------------------------------- |
+| 接口地址   | `/vip/tasks`                                 |
+| 请求方式   | `GET` / `POST`                               |
+| 需要登录   | 是                                           |
+| 对应模块   | `vip_tasks`                                  |
+| SDK 函数   | `vipTasks`（`hana-music-api/api/vip_tasks`） |
+| 返回体类型 | `VipTasksBody`（已建模返回体）               |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /vip/tasks
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { vipTasks } from 'hana-music-api';
 
-const result = await vipTasks();
-
+const result = await vipTasks({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、任务页 `body.data`、任务分组 `body.data.taskList`、组内任务 `body.data.taskList[].taskItems` 和任务的 `taskId` 收紧；本批只录到一条任务，`taskId` 为字符串；其余任务字段宽松，只见过 `null` 的字段没有声明。本批录制（匿名与登录）没有出现可达的空任务列表。匿名对照录制保留为 `vip/vip_tasks.anonymous.json`。结构定义和类型是 `VipTasksBody`，见[返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/vip/tasks' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，可获取会员任务
+## 请求参数
 
-**接口地址 :** `/vip/tasks`
+无业务参数。
 
-**调用例子 :** `/vip/tasks`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`VipTasksBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/vip_tasks`、`hana-music-api/schemas/vip_tasks` 导入运行时校验器）。
+
+```ts
+type TaskItem = {
+  taskId: string;
+  action?: string | null;
+  actionType?: number | null;
+  basicTaskId?: number | null;
+  currentProgress?: number | null;
+  description?: string | null;
+  growthPoint?: number | null;
+  iconUrl?: string | null;
+  missionId?: number | null;
+  name?: string | null;
+  needReceive?: boolean | null;
+  period?: number | null;
+  progressType?: number | null;
+  ruleId?: number | null;
+  seqTag?: number | null;
+  showProgress?: boolean | null;
+  sortValue?: number | null;
+  status?: number | null;
+  tagId?: number | null;
+  targetWorth?: number | null;
+  taskTag?: string | null;
+  totalUngetScore?: number | null;
+  type?: number | null;
+  updateTime?: number | null;
+  url?: string | null;
+};
+
+type TaskGroup = {
+  taskItems: Array<TaskItem>;
+  seq?: number | null;
+  seqName?: string | null;
+  taskType?: number | null;
+};
+
+type VipTasksBody = {
+  code: 200;
+  data: {
+    taskList: Array<TaskGroup>;
+    taskScore?: number | null;
+  };
+  message?: string | null;
+};
+```
+
+| 字段                        | 类型               | 必填 | 说明                         |
+| --------------------------- | ------------------ | ---- | ---------------------------- |
+| `code`                      | `200`              | 是   | 业务状态码（`200` 表示成功） |
+| `data`                      | `object`           | 是   | 接口返回的数据主体           |
+| `data.taskList`             | `Array<TaskGroup>` | 是   | -                            |
+| `data.taskList[].taskItems` | `Array<TaskItem>`  | 是   | -                            |
+| `data.taskList[].seq`       | `number`           | 否   | -                            |
+| `data.taskList[].seqName`   | `string`           | 否   | -                            |
+| `data.taskList[].taskType`  | `number`           | 否   | -                            |
+| `data.taskScore`            | `number`           | 否   | -                            |
+| `message`                   | `string`           | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

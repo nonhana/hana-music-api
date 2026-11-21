@@ -5,63 +5,67 @@ description: '登录后调用此接口，可以更换绑定手机'
 
 # 用户绑定手机
 
-> 登录后调用此接口，可以更换绑定手机
+登录后调用此接口，可以更换绑定手机
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/user/replacephone` |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 是                   |
-| 对应模块 | `user_replacephone`  |
-| 文档分类 | 用户与登录           |
+| 项目       | 值                                                           |
+| ---------- | ------------------------------------------------------------ |
+| 接口地址   | `/user/replacephone`                                         |
+| 请求方式   | `GET` / `POST`                                               |
+| 需要登录   | 是                                                           |
+| 对应模块   | `user_replacephone`                                          |
+| SDK 函数   | `userReplacephone`（`hana-music-api/api/user_replacephone`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数          | 类型   | 必填 | 默认值 | 说明                 |
-| ------------- | ------ | :--: | ------ | -------------------- |
-| `phone`       | string |  ✅  | -      | 手机号码             |
-| `oldcaptcha`  | string |  ✅  | -      | 原手机号码的验证码   |
-| `captcha`     | string |  ✅  | -      | 新手机号码的验证码   |
-| `countrycode` | string |  —   | 86     | 国家地区代码,默认 86 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/replacephone?phone=xxx&captcha=1234&oldcaptcha=2345
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userReplacephone } from 'hana-music-api';
 
-const result = await userReplacephone({
-  phone: 'xxx',
-  captcha: '1234',
-  oldcaptcha: '2345',
-});
-
+const result = await userReplacephone(
+  {
+    phone: 'xxx',
+    captcha: '1234',
+    oldcaptcha: '2345',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-说明 : 登录后调用此接口，可以更换绑定手机
+```bash
+curl 'http://127.0.0.1:3021/user/replacephone' \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data '{"phone":"xxx","captcha":"1234","oldcaptcha":"2345"}'
+```
 
-**必选参数 :**
+<!-- api-doc:params:start -->
 
-`phone` : 手机号码
+## 请求参数
 
-`oldcaptcha`: 原手机号码的验证码
+| 参数          | 类型     | 必填 | 默认值 | 说明                  |
+| ------------- | -------- | ---- | ------ | --------------------- |
+| `phone`       | `string` | 是   | -      | 手机号码              |
+| `captcha`     | `string` | 是   | -      | 新手机号码的验证码    |
+| `oldcaptcha`  | `string` | 是   | -      | 原手机号码的验证码    |
+| `countrycode` | `number` | 否   | 86     | 国家地区代码，默认 86 |
 
-`captcha`:新手机号码的验证码
+<!-- api-doc:params:end -->
 
-**可选参数 :**
+<!-- api-doc:response:start -->
 
-`countrycode`: 国家地区代码,默认 86
+## 返回值
 
-**接口地址 :** `/user/replacephone`
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
 
-**调用例子 :** `/user/replacephone?phone=xxx&captcha=1234&oldcaptcha=2345`
+<!-- api-doc:response:end -->

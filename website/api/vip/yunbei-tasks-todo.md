@@ -5,48 +5,85 @@ description: '无需登录即可调用；登录后返回当前账号的云贝 to
 
 # 云贝 todo 任务
 
-> 无需登录即可调用；登录后返回当前账号的云贝 todo 任务
+无需登录即可调用；登录后返回当前账号的云贝 todo 任务
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/yunbei/tasks/todo` |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 否                   |
-| 对应模块 | `yunbei_tasks_todo`  |
-| 文档分类 | 会员与云贝           |
+| 项目       | 值                                                          |
+| ---------- | ----------------------------------------------------------- |
+| 接口地址   | `/yunbei/tasks/todo`                                        |
+| 请求方式   | `GET` / `POST`                                              |
+| 需要登录   | 否                                                          |
+| 对应模块   | `yunbei_tasks_todo`                                         |
+| SDK 函数   | `yunbeiTasksTodo`（`hana-music-api/api/yunbei_tasks_todo`） |
+| 返回体类型 | `YunbeiTasksTodoBody`（已建模返回体）                       |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /yunbei/tasks/todo
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { yunbeiTasksTodo } from 'hana-music-api';
 
 const result = await yunbeiTasksTodo();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、待办任务列表路径 `body.data` 及每个任务的编号 `data[].userTaskId` 收紧（任务未开始时为 0）；任务名、奖励和链接宽松。结构定义和类型是 `YunbeiTasksTodoBody`，见[返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/yunbei/tasks/todo'
+```
 
-匿名调用返回 `body.code: 200`，正文同样通过结构校验；匿名对照录制是 `vip/yunbei_tasks_todo.anonymous.json`。本批未录到空任务列表（未验证是否可达）。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 :无需登录即可调用；登录后返回当前账号的云贝 todo 任务
+无业务参数。
 
-**接口地址 :** `/yunbei/tasks/todo`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/yunbei/tasks/todo`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`YunbeiTasksTodoBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/yunbei_tasks_todo`、`hana-music-api/schemas/yunbei_tasks_todo` 导入运行时校验器）。
+
+```ts
+type TodoTask = {
+  userTaskId: number;
+  completed?: boolean | null;
+  depositCode?: number | null;
+  expireTime?: number | null;
+  link?: string | null;
+  period?: number | null;
+  taskName?: string | null;
+  taskPoint?: number | null;
+};
+
+type YunbeiTasksTodoBody = {
+  code: 200;
+  data: Array<TodoTask>;
+  message?: string | null;
+};
+```
+
+| 字段                 | 类型              | 必填 | 说明                         |
+| -------------------- | ----------------- | ---- | ---------------------------- |
+| `code`               | `200`             | 是   | 业务状态码（`200` 表示成功） |
+| `data`               | `Array<TodoTask>` | 是   | 接口返回的数据主体           |
+| `data[].userTaskId`  | `number`          | 是   | userTask ID                  |
+| `data[].completed`   | `boolean`         | 否   | -                            |
+| `data[].depositCode` | `number`          | 否   | -                            |
+| `data[].expireTime`  | `number`          | 否   | 时间戳                       |
+| `data[].link`        | `string`          | 否   | -                            |
+| `data[].period`      | `number`          | 否   | -                            |
+| `data[].taskName`    | `string`          | 否   | -                            |
+| `data[].taskPoint`   | `number`          | 否   | -                            |
+| `message`            | `string`          | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

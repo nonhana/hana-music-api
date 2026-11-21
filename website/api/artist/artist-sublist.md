@@ -1,59 +1,101 @@
 ---
 title: '收藏的歌手列表'
-description: '调用此接口,可获取收藏的歌手列表'
+description: '调用此接口，可获取收藏的歌手列表'
 ---
 
 # 收藏的歌手列表
 
-> 调用此接口,可获取收藏的歌手列表
+调用此接口，可获取收藏的歌手列表
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                |
-| -------- | ----------------- |
-| 接口地址 | `/artist/sublist` |
-| 请求方式 | `GET` / `POST`    |
-| 需要登录 | 否                |
-| 对应模块 | `artist_sublist`  |
-| 文档分类 | 歌手              |
+| 项目       | 值                                                     |
+| ---------- | ------------------------------------------------------ |
+| 接口地址   | `/artist/sublist`                                      |
+| 请求方式   | `GET` / `POST`                                         |
+| 需要登录   | 否                                                     |
+| 对应模块   | `artist_sublist`                                       |
+| SDK 函数   | `artistSublist`（`hana-music-api/api/artist_sublist`） |
+| 返回体类型 | `ArtistSublistBody`（已建模返回体）                    |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                              |
-| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------- |
-| `limit`  | number \| string |  —   | 25     | 取出歌单数量，默认为 25                                           |
-| `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*25, 其中 25 为 limit 的值 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /artist/sublist
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { artistSublist } from 'hana-music-api';
 
-const result = await artistSublist();
-
+const result = await artistSublist({
+  limit: 30,
+});
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.data` 里每位歌手声明了 `id`、`name`、`picUrl`、`albumSize`（专辑数）、`alias`、`img1v1Url`、`info`、`mvSize`、`picId`、`trans`，`hasMore` 表示后面还有没有。只有 `code`、`data`、`data[].id` 收紧；其余字段宽松。第一页还带收藏总数 `count`，现已声明为宽松字段；第二页起不带。结构定义和类型是 `ArtistSublistBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/artist/sublist' \
+  --data-urlencode 'limit=30'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口,可获取收藏的歌手列表
+## 请求参数
 
-**可选参数 :**
+| 参数     | 类型     | 必填 | 默认值 | 说明                                                              |
+| -------- | -------- | ---- | ------ | ----------------------------------------------------------------- |
+| `limit`  | `number` | 否   | `25`   | 取出歌单数量，默认为 25                                           |
+| `offset` | `number` | 否   | `0`    | 偏移数量，用于分页，如：(评论页数 - 1)\*25，其中 25 为 limit 的值 |
 
-`limit`: 取出歌单数量，默认为 25
+<!-- api-doc:params:end -->
 
-`offset`: 偏移数量，用于分页，如：(评论页数 - 1)\*25, 其中 25 为 limit 的值
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/artist/sublist`
+## 返回值
 
-**调用例子 :** `/artist/sublist`
+返回体类型：`ArtistSublistBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/artist_sublist`、`hana-music-api/schemas/artist_sublist` 导入运行时校验器）。
+
+```ts
+type SubscribedArtist = {
+  id: number;
+  name?: string | null;
+  picUrl?: string | null;
+  albumSize?: number | null;
+  alias?: Array<string> | null;
+  img1v1Url?: string | null;
+  info?: string | null;
+  mvSize?: number | null;
+  picId?: number | null;
+  trans?: string | null;
+};
+
+type ArtistSublistBody = {
+  code: 200;
+  data: Array<SubscribedArtist>;
+  hasMore?: boolean | null;
+  count?: number | null;
+};
+```
+
+| 字段               | 类型                      | 必填 | 说明                         |
+| ------------------ | ------------------------- | ---- | ---------------------------- |
+| `code`             | `200`                     | 是   | 业务状态码（`200` 表示成功） |
+| `data`             | `Array<SubscribedArtist>` | 是   | 接口返回的数据主体           |
+| `data[].id`        | `number`                  | 是   | 记录 ID                      |
+| `data[].name`      | `string`                  | 否   | 名称                         |
+| `data[].picUrl`    | `string`                  | 否   | 资源访问链接                 |
+| `data[].albumSize` | `number`                  | 否   | -                            |
+| `data[].alias`     | `Array<string>`           | 否   | -                            |
+| `data[].img1v1Url` | `string`                  | 否   | 资源访问链接                 |
+| `data[].info`      | `string`                  | 否   | -                            |
+| `data[].mvSize`    | `number`                  | 否   | -                            |
+| `data[].picId`     | `number`                  | 否   | pic ID                       |
+| `data[].trans`     | `string`                  | 否   | -                            |
+| `hasMore`          | `boolean`                 | 否   | 是否还有更多数据             |
+| `count`            | `number`                  | 否   | 条目总数                     |
+
+<!-- api-doc:response:end -->

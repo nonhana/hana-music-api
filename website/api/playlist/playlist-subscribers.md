@@ -5,60 +5,88 @@ description: '调用此接口，传入歌单 id 可获取歌单的所有收藏�
 
 # 歌单收藏者
 
-> 调用此接口，传入歌单 id 可获取歌单的所有收藏者
+调用此接口，传入歌单 id 可获取歌单的所有收藏者
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                      |
-| -------- | ----------------------- |
-| 接口地址 | `/playlist/subscribers` |
-| 请求方式 | `GET` / `POST`          |
-| 需要登录 | 否                      |
-| 对应模块 | `playlist_subscribers`  |
-| 文档分类 | 歌单                    |
+| 项目       | 值                                                                 |
+| ---------- | ------------------------------------------------------------------ |
+| 接口地址   | `/playlist/subscribers`                                            |
+| 请求方式   | `GET` / `POST`                                                     |
+| 需要登录   | 否                                                                 |
+| 对应模块   | `playlist_subscribers`                                             |
+| SDK 函数   | `playlistSubscribers`（`hana-music-api/api/playlist_subscribers`） |
+| 返回体类型 | `PlaylistSubscribersBody`（已建模返回体）                          |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                              |
-| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------- |
-| `id`     | string           |  ✅  | -      | 歌单 id                                                           |
-| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20                                           |
-| `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*20, 其中 20 为 limit 的值 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/subscribers?id=544215255&limit=30
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistSubscribers } from 'hana-music-api';
 
 const result = await playlistSubscribers({
   id: '544215255',
-  limit: '30',
+  limit: 30,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.subscribers` 和每个收藏者自己的编号 `subscribers[].userId` 收紧；其余收藏者字段沿用 `PlaylistUser` 的宽松写法（`avatarDetail`、`experts` 在收藏者录制里只见过 `null`，仍保留在共享结构里），`subscribeTime` 是模块内补的宽松字段；`total`、`more`、`reason` 宽松。匿名视角的 `total` 上限是 30：`offset=0` 返回 20 条（`more: true`），`offset=20` 仍返回 10 条，但带 `reason: needLogin`、`more: false`；`offset=40/60/100` 返回空数组、`total: 0` 和 `reason: needLogin`。登录后 `total` 是完整数量（同歌单 2000，录制 `playlist_subscribers.authenticated-page-one.json`）；登录 `offset=100000` 返回空数组和 `total: 0`（`playlist_subscribers.empty.json`）。非 null 路径与类型相同；登录只在宽松字段上多出现 null 或不同值（`total` 等）。结构定义和类型是 `PlaylistSubscribersBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/playlist/subscribers' \
+  --data-urlencode 'id=544215255' \
+  --data-urlencode 'limit=30'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入歌单 id 可获取歌单的所有收藏者  
-**必选参数 :**
+## 请求参数
 
-`id` : 歌单 id
+| 参数     | 类型               | 必填 | 默认值 | 说明                                                              |
+| -------- | ------------------ | ---- | ------ | ----------------------------------------------------------------- |
+| `id`     | `number \| string` | 是   | -      | 歌单 id                                                           |
+| `limit`  | `number`           | 否   | `20`   | 取出评论数量，默认为 20                                           |
+| `offset` | `number`           | 否   | `0`    | 偏移数量，用于分页，如：(评论页数 - 1)\*20，其中 20 为 limit 的值 |
 
-**可选参数 :** `limit`: 取出评论数量，默认为 20
+<!-- api-doc:params:end -->
 
-`offset`: 偏移数量，用于分页，如：(评论页数 - 1)\*20, 其中 20 为 limit 的值
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/playlist/subscribers`
+## 返回值
 
-**调用例子 :** `/playlist/subscribers?id=544215255&limit=30`
+返回体类型：`PlaylistSubscribersBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_subscribers`、`hana-music-api/schemas/playlist_subscribers` 导入运行时校验器）。
+
+```ts
+type Subscriber = Omit<PlaylistUser, 'userId' | 'subscribeTime'> & {
+  userId: number;
+  subscribeTime?: number | null;
+};
+
+type PlaylistSubscribersBody = {
+  code: 200;
+  subscribers: Array<Subscriber>;
+  total?: number | null;
+  more?: boolean | null;
+  reason?: string | null;
+};
+```
+
+- **公共类型**：[PlaylistUser](/api/shared-types#playlistuser)
+
+| 字段                          | 类型                | 必填 | 说明                         |
+| ----------------------------- | ------------------- | ---- | ---------------------------- |
+| `code`                        | `200`               | 是   | 业务状态码（`200` 表示成功） |
+| `subscribers`                 | `Array<Subscriber>` | 是   | 订阅者列表                   |
+| `subscribers[].userId`        | `number`            | 是   | 用户 ID                      |
+| `subscribers[].subscribeTime` | `number`            | 否   | 时间戳                       |
+| `total`                       | `number`            | 否   | 总条目数                     |
+| `more`                        | `boolean`           | 否   | 是否还有更多数据             |
+| `reason`                      | `string`            | 否   | -                            |
+
+<!-- api-doc:response:end -->

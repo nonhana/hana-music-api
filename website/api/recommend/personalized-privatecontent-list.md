@@ -5,62 +5,95 @@ description: '调用此接口，可获取独家放送列表'
 
 # 独家放送列表
 
-> 调用此接口，可获取独家放送列表
+调用此接口，可获取独家放送列表
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                                  |
-| -------- | ----------------------------------- |
-| 接口地址 | `/personalized/privatecontent/list` |
-| 请求方式 | `GET` / `POST`                      |
-| 需要登录 | 否                                  |
-| 对应模块 | `personalized_privatecontent_list`  |
-| 文档分类 | 推荐与发现                          |
+| 项目       | 值                                                                                        |
+| ---------- | ----------------------------------------------------------------------------------------- |
+| 接口地址   | `/personalized/privatecontent/list`                                                       |
+| 请求方式   | `GET` / `POST`                                                                            |
+| 需要登录   | 否                                                                                        |
+| 对应模块   | `personalized_privatecontent_list`                                                        |
+| SDK 函数   | `personalizedPrivatecontentList`（`hana-music-api/api/personalized_privatecontent_list`） |
+| 返回体类型 | `PersonalizedPrivatecontentListBody`（已建模返回体）                                      |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                    |
-| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------- |
-| `limit`  | number \| string |  —   | 60     | 返回数量，默认为 60                                                     |
-| `offset` | number \| string |  —   | 0      | 偏移数量，用于分页，如：(页数 - 1)\*60, 其中 60 为 limit 的值，默认为 0 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /personalized/privatecontent/list?limit=1&offset=2
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { personalizedPrivatecontentList } from 'hana-music-api';
 
 const result = await personalizedPrivatecontentList({
-  limit: '1',
-  offset: '2',
+  limit: 1,
+  offset: 2,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、独家放送列表 `body.result` 和每条内容自己的编号 `result[].id` 收紧；分页的 `more`、`offset` 和条目的 `time`、`copywriter`、`picUrl`、`sPicUrl`、`url`、`type` 宽松。条目比 `/personalized/privatecontent` 多 `time`、少 `alg`，结构分开声明。越界 `offset=100000` 返回 `code: 404`，`offset=abc` 返回 `code: 400`，SDK 都按业务拒绝原样转交；本批未找到空列表，数组本身允许为空。
+```bash
+curl --get 'http://127.0.0.1:3021/personalized/privatecontent/list' \
+  --data-urlencode 'limit=1' \
+  --data-urlencode 'offset=2'
+```
 
-## 非 200 业务码的状态码变化
+<!-- api-doc:params:start -->
 
-本模块的 `code:400` 录制见 `personalized_privatecontent_list.invalid-offset.json`，越界 `offset=100000` 的 `code:404` 录制见 `personalized_privatecontent_list.offset-out-of-range.json`；通用规则见[返回体结构](/guide/response-bodies#非-200-业务码的状态码变化)。改造前 `code:400` 经 `SPECIAL_STATUS_CODES` 映射为 resolve `status:200`、`code:404` 是 resolve `status:404`，现在都按业务拒绝（`status:400`/`status:404`），`body` 保留上游原文，不报 502。
+## 请求参数
 
-## 补充说明
+| 参数     | 类型     | 必填 | 默认值 | 说明                                                                    |
+| -------- | -------- | ---- | ------ | ----------------------------------------------------------------------- |
+| `limit`  | `number` | 否   | `60`   | 返回数量，默认为 60                                                     |
+| `offset` | `number` | 否   | `0`    | 偏移数量，用于分页，如：(页数 - 1)\*60，其中 60 为 limit 的值，默认为 0 |
 
-说明 : 调用此接口，可获取独家放送列表
+<!-- api-doc:params:end -->
 
-**可选参数 :**
+<!-- api-doc:response:start -->
 
-`limit` : 返回数量，默认为 60
+## 返回值
 
-`offset` : 偏移数量，用于分页，如：(页数 - 1)\*60, 其中 60 为 limit 的值，默认为 0
+返回体类型：`PersonalizedPrivatecontentListBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/personalized_privatecontent_list`、`hana-music-api/schemas/personalized_privatecontent_list` 导入运行时校验器）。
 
-**接口地址 :** `/personalized/privatecontent/list`
+```ts
+type PrivatecontentListItem = {
+  id: number;
+  copywriter?: string | null;
+  name?: string | null;
+  picUrl?: string | null;
+  sPicUrl?: string | null;
+  time?: number | null;
+  type?: number | null;
+  url?: string | null;
+};
 
-**调用例子 :** `/personalized/privatecontent/list?limit=1&offset=2`
+type PersonalizedPrivatecontentListBody = {
+  code: 200;
+  result: Array<PrivatecontentListItem>;
+  more?: boolean | null;
+  offset?: number | null;
+};
+```
+
+| 字段                  | 类型                            | 必填 | 说明                         |
+| --------------------- | ------------------------------- | ---- | ---------------------------- |
+| `code`                | `200`                           | 是   | 业务状态码（`200` 表示成功） |
+| `result`              | `Array<PrivatecontentListItem>` | 是   | 接口返回的结果主体           |
+| `result[].id`         | `number`                        | 是   | 记录 ID                      |
+| `result[].copywriter` | `string`                        | 否   | -                            |
+| `result[].name`       | `string`                        | 否   | 名称                         |
+| `result[].picUrl`     | `string`                        | 否   | 资源访问链接                 |
+| `result[].sPicUrl`    | `string`                        | 否   | 资源访问链接                 |
+| `result[].time`       | `number`                        | 否   | 时间戳                       |
+| `result[].type`       | `number`                        | 否   | -                            |
+| `result[].url`        | `string`                        | 否   | 资源访问地址                 |
+| `more`                | `boolean`                       | 否   | 是否还有更多数据             |
+| `offset`              | `number`                        | 否   | -                            |
+
+<!-- api-doc:response:end -->

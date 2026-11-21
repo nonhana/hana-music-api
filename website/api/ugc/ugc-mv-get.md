@@ -1,56 +1,114 @@
 ---
 title: 'mv简要百科信息'
-description: '登录后调用此接口,使用此接口,传入mv id,可获取对应的mv简要百科信息'
+description: '登录后调用此接口，使用此接口，传入mv id，可获取对应的mv简要百科信息'
 ---
 
 # mv简要百科信息
 
-> 登录后调用此接口,使用此接口,传入mv id,可获取对应的mv简要百科信息
+登录后调用此接口，使用此接口，传入mv id，可获取对应的mv简要百科信息
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/ugc/mv/get`  |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `ugc_mv_get`   |
-| 文档分类 | 百科与用户贡献 |
+| 项目       | 值                                            |
+| ---------- | --------------------------------------------- |
+| 接口地址   | `/ugc/mv/get`                                 |
+| 请求方式   | `GET` / `POST`                                |
+| 需要登录   | 是                                            |
+| 对应模块   | `ugc_mv_get`                                  |
+| SDK 函数   | `ugcMvGet`（`hana-music-api/api/ugc_mv_get`） |
+| 返回体类型 | `UgcMvGetBody`（已建模返回体）                |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /ugc/mv/get?id=14572641
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { ugcMvGet } from 'hana-music-api';
 
-const result = await ugcMvGet({
-  id: '14572641',
-});
-
+const result = await ugcMvGet(
+  {
+    id: '14572641',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、MV 百科记录的路径 `body.data` 和 MV 自己的编号 `body.data.mvId` 收紧。未知 MV 返回 `code: 404`、正文只有 `message`，SDK 按业务拒绝原样转交（`status: 404`），不会报 502。MV 名、封面、发行时间、简介，以及随行的歌手和关联歌曲记录全部宽松；`albumRepVo` 里只声明见过值的 `albumId`、`albumName`。输入仍是 legacy，不做 id 本地校验。结构定义和类型是 `UgcMvGetBody`，见[返回体结构](/guide/response-bodies#百科与用户贡献)。
+```bash
+curl --get 'http://127.0.0.1:3021/ugc/mv/get' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=14572641'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 登录后调用此接口,使用此接口,传入mv id,可获取对应的mv简要百科信息
+## 请求参数
 
-**必选参数：**
+| 参数 | 类型               | 必填 | 默认值 | 说明  |
+| ---- | ------------------ | ---- | ------ | ----- |
+| `id` | `number \| string` | 是   | -      | mv id |
 
-`id`: mv id
+<!-- api-doc:params:end -->
 
-**接口地址:** `/ugc/mv/get`
+<!-- api-doc:response:start -->
 
-**调用例子:** `/ugc/mv/get?id=14572641`
+## 返回值
+
+返回体类型：`UgcMvGetBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/ugc_mv_get`、`hana-music-api/schemas/ugc_mv_get` 导入运行时校验器）。
+
+```ts
+type AlbumRef = {
+  albumId?: number | null;
+  albumName?: string | null;
+};
+
+type MvSongRep = {
+  songId?: number | null;
+  songName?: string | null;
+  albumRepVo?: AlbumRef | null;
+  artistRepVos?: Array<UgcArtistRef> | null;
+};
+
+type UgcMvGetBody = {
+  code: 200;
+  data: {
+    mvId: number;
+    mvName?: string | null;
+    artistRepVos?: Array<UgcArtistRef> | null;
+    desc?: string | null;
+    mvSongVos?: Array<MvSongRep> | null;
+    pic16v9Url?: string | null;
+    pic4v3Url?: string | null;
+    publishTime?: number | null;
+  };
+  message?: string | null;
+};
+```
+
+- **公共类型**：[UgcArtistRef](/api/shared-types#ugcartistref)
+
+| 字段                            | 类型                                                    | 必填 | 说明                         |
+| ------------------------------- | ------------------------------------------------------- | ---- | ---------------------------- |
+| `code`                          | `200`                                                   | 是   | 业务状态码（`200` 表示成功） |
+| `data`                          | `object`                                                | 是   | 接口返回的数据主体           |
+| `data.mvId`                     | `number`                                                | 是   | MV ID                        |
+| `data.mvName`                   | `string`                                                | 否   | -                            |
+| `data.artistRepVos`             | Array\<[UgcArtistRef](/api/shared-types#ugcartistref)\> | 否   | UgcArtistRef 列表            |
+| `data.desc`                     | `string`                                                | 否   | 简介信息                     |
+| `data.mvSongVos`                | `Array<MvSongRep>`                                      | 否   | -                            |
+| `data.mvSongVos[].songId`       | `number`                                                | 否   | 歌曲 ID                      |
+| `data.mvSongVos[].songName`     | `string`                                                | 否   | -                            |
+| `data.mvSongVos[].albumRepVo`   | `AlbumRef`                                              | 否   | -                            |
+| `data.mvSongVos[].artistRepVos` | Array\<[UgcArtistRef](/api/shared-types#ugcartistref)\> | 否   | UgcArtistRef 列表            |
+| `data.pic16v9Url`               | `string`                                                | 否   | 资源访问链接                 |
+| `data.pic4v3Url`                | `string`                                                | 否   | 资源访问链接                 |
+| `data.publishTime`              | `number`                                                | 否   | 时间戳                       |
+| `message`                       | `string`                                                | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

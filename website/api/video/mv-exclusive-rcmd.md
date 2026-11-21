@@ -5,56 +5,74 @@ description: '调用此接口，可获取网易出品 mv'
 
 # 网易出品 mv
 
-> 调用此接口，可获取网易出品 mv
+调用此接口，可获取网易出品 mv
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/mv/exclusive/rcmd` |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 否                   |
-| 对应模块 | `mv_exclusive_rcmd`  |
-| 文档分类 | 视频与 MV            |
+| 项目       | 值                                                          |
+| ---------- | ----------------------------------------------------------- |
+| 接口地址   | `/mv/exclusive/rcmd`                                        |
+| 请求方式   | `GET` / `POST`                                              |
+| 需要登录   | 否                                                          |
+| 对应模块   | `mv_exclusive_rcmd`                                         |
+| SDK 函数   | `mvExclusiveRcmd`（`hana-music-api/api/mv_exclusive_rcmd`） |
+| 返回体类型 | `MvExclusiveRcmdBody`（已建模返回体）                       |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                        |
-| -------- | ---------------- | :--: | ------ | --------------------------------------------------------------------------- |
-| `limit`  | number \| string |  —   | 30     | 取出数量，默认为 30                                                         |
-| `offset` | number \| string |  —   | <br>为 | 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认<br>为 0 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /mv/exclusive/rcmd?limit=10
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { mvExclusiveRcmd } from 'hana-music-api';
 
 const result = await mvExclusiveRcmd({
-  limit: '10',
+  limit: 10,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、网易出品 MV 列表 `body.data` 和每个 MV 的编号 `data[].id` 收紧（共用 `MvSummary`）；`more` 和记录里的封面、简介、播放数、时长、收藏状态、`artists` 都是宽松字段。`offset` 越过总数时返回空数组（录制 `mv_exclusive_rcmd.no-result.json`）。结构定义和类型是 `MvExclusiveRcmdBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/mv/exclusive/rcmd' \
+  --data-urlencode 'limit=10'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获取网易出品 mv
+## 请求参数
 
-**可选参数 :** `limit`: 取出数量，默认为 30
+| 参数     | 类型     | 必填 | 默认值 | 说明                                                                        |
+| -------- | -------- | ---- | ------ | --------------------------------------------------------------------------- |
+| `limit`  | `number` | 否   | `30`   | 取出数量，默认为 30                                                         |
+| `offset` | `number` | 否   | `0`    | 偏移数量，用于分页，如：(页数 - 1)\*30，其中 30 为 limit 的值，默认<br>为 0 |
 
-`offset`: 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认
-为 0
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/mv/exclusive/rcmd`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/mv/exclusive/rcmd?limit=10`
+## 返回值
+
+返回体类型：`MvExclusiveRcmdBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/mv_exclusive_rcmd`、`hana-music-api/schemas/mv_exclusive_rcmd` 导入运行时校验器）。
+
+```ts
+type MvExclusiveRcmdBody = {
+  code: 200;
+  data: Array<MvSummary>;
+  more?: boolean | null;
+};
+```
+
+- **公共类型**：[MvSummary](/api/shared-types#mvsummary)
+
+| 字段   | 类型                                              | 必填 | 说明                         |
+| ------ | ------------------------------------------------- | ---- | ---------------------------- |
+| `code` | `200`                                             | 是   | 业务状态码（`200` 表示成功） |
+| `data` | Array\<[MvSummary](/api/shared-types#mvsummary)\> | 是   | 接口返回的数据主体           |
+| `more` | `boolean`                                         | 否   | 是否还有更多数据             |
+
+<!-- api-doc:response:end -->

@@ -5,61 +5,81 @@ description: '获取当前登录账号的一起听房间状态、房间信息和
 
 # 一起听状态
 
-> 查询当前登录账号是否在一起听房间中，以及房间内的成员信息。
+获取当前登录账号的一起听房间状态、房间信息和成员列表。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                                |
-| -------- | --------------------------------- |
-| 接口地址 | `/listentogether/status`          |
-| 请求方式 | `GET` / `POST`                    |
-| 需要登录 | 是                                |
-| 对应模块 | `listentogether_status`           |
-| 文档分类 | 一起听                            |
-| 上游路径 | `/api/listen/together/status/get` |
+| 项目       | 值                                                                   |
+| ---------- | -------------------------------------------------------------------- |
+| 接口地址   | `/listentogether/status`                                             |
+| 请求方式   | `GET` / `POST`                                                       |
+| 需要登录   | 是                                                                   |
+| 对应模块   | `listentogether_status`                                              |
+| SDK 函数   | `listentogetherStatus`（`hana-music-api/api/listentogether_status`） |
+| 返回体类型 | `ListentogetherStatusBody`（已建模返回体）                           |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-无需业务参数。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /listentogether/status
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { listentogetherStatus } from 'hana-music-api';
 
-const result = await listentogetherStatus();
-
+const result = await listentogetherStatus(
+  {},
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、通到状态的 `body.data` 和接口就是为了拿的 `body.data.inRoom` 收紧；`data.anotherFollowStatus` 宽松；`data.roomInfo`、`data.anotherDeviceInfo` 和 `data.status` 在录制里只见过 `null`，未声明并原样保留。结构定义和类型是 `ListentogetherStatusBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/listentogether/status' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 返回关注点
+<!-- api-doc:params:start -->
 
-- `data.inRoom`: 当前账号是否在一起听房间中。
-- `data.roomInfo`: 当前房间信息。
-- `data.roomInfo.roomUsers`: 房间成员列表；上游示例页会直接用它渲染在线用户头像和昵称。
+## 请求参数
 
-## 调用场景
+无业务参数。
 
-- 房主或从机刷新当前房间状态。
-- 页面初始化时判断是否需要恢复房间 UI。
-- 轮询房间成员变化。
+<!-- api-doc:params:end -->
 
-## 补充说明
+<!-- api-doc:response:start -->
 
-- 如果 `data.inRoom` 为 `false`，通常意味着需要重新创建房间或重新接受邀请。
+## 返回值
 
-## 相关接口
+返回体类型：`ListentogetherStatusBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/listentogether_status`、`hana-music-api/schemas/listentogether_status` 导入运行时校验器）。
 
-- [`/listentogether/room/create`](/api/together/listentogether-room-create)
-- [`/listentogether/accept`](/api/together/listentogether-accept)
-- [`/listentogether/end`](/api/together/listentogether-end)
+```ts
+type TogetherStatus = {
+  inRoom: boolean;
+  anotherFollowStatus?: boolean | null;
+};
+
+type ListentogetherStatusBody = {
+  code: 200;
+  data: TogetherStatus;
+  message?: string | null;
+};
+```
+
+| 字段                       | 类型             | 必填 | 说明                         |
+| -------------------------- | ---------------- | ---- | ---------------------------- |
+| `code`                     | `200`            | 是   | 业务状态码（`200` 表示成功） |
+| `data`                     | `TogetherStatus` | 是   | 接口返回的数据主体           |
+| `data.inRoom`              | `boolean`        | 是   | -                            |
+| `data.anotherFollowStatus` | `boolean`        | 否   | -                            |
+| `message`                  | `string`         | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **房间状态判断**：当 `data.inRoom` 为 `false` 时，表示当前账号不在房间中，需要重新创建房间或接受邀请；在线成员列表位于 `data.roomInfo.roomUsers`。

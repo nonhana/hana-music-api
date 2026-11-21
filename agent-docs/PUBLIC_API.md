@@ -47,7 +47,7 @@ query 只承载端点业务输入，config 承载 Cookie、代理、fetcher、�
 
 所有程序化 SDK 模块统一接受可选 `checkToken` 字符串或异步 provider，读取、收藏和取消均按调用者配置处理，不按动作判定必填或禁用。未配置不取值、不附加，也不因缺 token 在本地拒绝；已配置却失败或为空在发送前失败。token 值必须能原样写入 HTTP 头，首尾空白或非法头字符在发送前以 400 拒绝，避免正文与头不一致。provider 等待计入总期限，取消/超时后不再发送；独立调用及同一次多请求调用逐次取值。带 token 调用不缓存、不合并、不自动重试；固定字符串在同一模块调用只允许一次 API 请求，第二次需求以 400 拒绝，改用 provider 可逐请求提供新值。纯本地和外部 plain 上传不取值、不发送 token。HTTP 仍拒绝通用 checkToken 配置，显式低层 createRequest 不新增模块 token 参数。
 
-`playlistTracks` 的业务输入可选 `step: 'initial' | 'fallback'`。省略时保留仅在业务 512 后自动发送一次后备的默认行为；initial 只发送首次请求，512 通过现有 `getNcmFailureInfo()` 识别；fallback 直接把调用者的原始 tracks 追加一遍发送一次，不再执行首次步骤或递归后备。两步各自接受完整 config，不共享身份、token 计数、取消或期限；不保存调用历史，不保证跨调用事务、回滚或幂等。client、具名函数、invokeModule、动态程序入口及 HTTP 使用同一 decoder，HTTP 继续拒绝通用 checkToken。该可选业务字段为 minor 新增，不新增根导出或通用动作执行器；见[按需后备示例](../website/guide/programmatic-api.md#歌单曲目在-512-后再取-token)。
+`playlistTracks` 的业务输入可选 `step: 'initial' | 'fallback'`。省略时保留仅在业务 512 后自动发送一次后备的默认行为；initial 只发送首次请求，512 通过现有 `getNcmFailureInfo()` 识别；fallback 直接把调用者的原始 tracks 追加一遍发送一次，不再执行首次步骤或递归后备。两步各自接受完整 config，不共享身份、token 计数、取消或期限；不保存调用历史，不保证跨调用事务、回滚或幂等。client、具名函数、invokeModule、动态程序入口及 HTTP 使用同一 decoder，HTTP 继续拒绝通用 checkToken。该可选业务字段为 minor 新增，不新增根导出或通用动作执行器；见[按需后备示例](../website/guide/watchman.md#歌单曲目操作-512-分步取-token)。
 
 playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、浏览器 UA、os=web，清除受控桌面/移动端 Cookie 字段并保留会话，普通配置不能覆盖身份。专辑/歌手此前默认 Cookie 含 PC 身份字段，此次改为 web 是兼容变化。四个共享读取的原 profile 保持：search、lyric、playlistDetail 为 eapi，songDetail 为 web/weapi；无 token 时缓存、重试、等待者期限/取消保持。公开配置字段已在 #116 移除，相关兼容变化用 major changeset 记录。
 
@@ -62,7 +62,7 @@ playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、�
 - 公开包的 ESM 根入口、Promise 返回形式、`status/body/cookie` 响应外壳和 legacy Cookie 行为属于兼容性合同。拒绝对象新增的顶层 `failure` 是可序列化附加事实，不改写原有三字段；严格比较拒绝对象形状的消费者需要按 changeset 调整。
 - 修改公开导出后，必须通过 `bun run test:sdk-contract`、`bun run verify:sdk` 和 `bun run build:check`。
 
-使用说明见 `website/guide/programmatic-api.md`、`website/guide/create-request-and-create-option.md` 和 `website/guide/sdk-package-contract.md`。
+使用说明见 `website/guide/sdk-usage.md`、`website/guide/low-level-request.md` 和 `website/guide/package-exports.md`。
 
 #111 的55个搜索、推荐与发现模块同样固定各自基线身份：39个weapiPc、16个eapi。普通覆盖收口属于major兼容变化，业务输入、响应Schema和低层createRequest保持。FM、私人DJ和首页刷新不再自动重试连接前失败；不新增缓存或共享。详见 [issue-111](../docs/acceptance/issue-111.md)。
 
@@ -76,7 +76,7 @@ playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、�
 
 #122明确批准上述各历史批次的身份变化：state.deviceId优先于旧Cookie.deviceId，再用匿名/运行时兜底，调用者负责设备与会话保存；有效值不含空白或控制字符。现有EAPI采用iPhone字段，原weapiPc浏览器动作使用web，clientlog使用自洽macOS组合，原协议和返回体保持。普通配置不能污染受控平台；低层createRequest的显式原始选项保留。详见[全动作迁移](../docs/acceptance/issue-122-actions.md)，通用旧类型已由#116收口。
 
-#116 的 `ModuleCallConfig` 与低层 `CreateRequestOptions` 独立。普通模块只接受 cookie、代理/fetcher、ip/realIP、state、期限/取消、连接/事件、受动作限制的retry和可选checkToken。crypto、ua、domain、e_r、acceptGzip、headers、顶层deviceId与未知键（即使值undefined）在运行时拒绝，不能放query；client无效默认配置抛TypeError，调用拒绝status400。设备迁移到state.deviceId，头Cookie迁移到cookie。createOption只供createRequest，低层默认eapi并保留原始选项/目标安全；没有动作语义的原始请求不自动重放。内部动态程序入口也采用query/config分离；装配与发现强制有效动作，本地必须空集。此为major，见[配置迁移表](../website/guide/config-reference.md)。
+#116 的 `ModuleCallConfig` 与低层 `CreateRequestOptions` 独立。普通模块只接受 cookie、代理/fetcher、ip/realIP、state、期限/取消、连接/事件、受动作限制的retry和可选checkToken。crypto、ua、domain、e_r、acceptGzip、headers、顶层deviceId与未知键（即使值undefined）在运行时拒绝，不能放query；client无效默认配置抛TypeError，调用拒绝status400。设备迁移到state.deviceId，头Cookie迁移到cookie。createOption只供createRequest，低层默认eapi并保留原始选项/目标安全；没有动作语义的原始请求不自动重放。内部动态程序入口也采用query/config分离；装配与发现强制有效动作，本地必须空集。此为major，见[执行配置参考](../website/guide/config.md)。
 
 请求数据流收敛保留上述根 Promise API。内部自定义模块改用绑定本地 moduleActions 的二元 request(actionName,args)，生产 server/动态装配删除 requestHandler，并明确拒绝旧 JavaScript 键；这是 major 迁移。测试网络通过 fetcher，内部 execution 仍不是根发布面。
 

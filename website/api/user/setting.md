@@ -1,52 +1,141 @@
 ---
 title: '设置'
-description: '登录后调用此接口 ,可获取用户设置'
+description: '登录后调用此接口 ，可获取用户设置'
 ---
 
 # 设置
 
-> 登录后调用此接口 ,可获取用户设置
+登录后调用此接口 ，可获取用户设置
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/setting`     |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `setting`      |
-| 文档分类 | 用户与登录     |
+| 项目       | 值                                        |
+| ---------- | ----------------------------------------- |
+| 接口地址   | `/setting`                                |
+| 请求方式   | `GET` / `POST`                            |
+| 需要登录   | 是                                        |
+| 对应模块   | `setting`                                 |
+| SDK 函数   | `setting`（`hana-music-api/api/setting`） |
+| 返回体类型 | `SettingBody`（已建模返回体）             |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /setting
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { setting } from 'hana-music-api';
 
-const result = await setting();
-
+const result = await setting({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body` 是网易云原文；`code`、设置路径 `setting` 和 `setting.userId` 收紧。`setting.userId` 是这份设置所属账号的编号，其余设置项（通知开关、隐私、播放记录、广告推荐等）全部宽松；缺失、`null` 或类型不对都只丢这一项。
+```bash
+curl 'http://127.0.0.1:3021/setting' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-`setting` 匿名也可调用，这时返回匿名账号的设置，`userId` 是匿名账号编号；登录和匿名的字段集合相同。只见过 `null` 的 `newSongDiskSetting` 没有声明，原样保留。结构定义和类型是 `SettingBody`，见 [返回体结构](/guide/response-bodies#用户资料)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 : 登录后调用此接口 ,可获取用户设置
+无业务参数。
 
-**接口地址 :** `/setting`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/setting`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`SettingBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/setting`、`hana-music-api/schemas/setting` 导入运行时校验器）。
+
+```ts
+type UserSetting = {
+  userId: number;
+  profileSetting?: number | null;
+  ageSetting?: number | null;
+  areaSetting?: number | null;
+  collegeSetting?: number | null;
+  villageAgeSetting?: number | null;
+  followSingerSetting?: number | null;
+  personalServiceSetting?: number | null;
+  topLayerNotifySetting?: number | null;
+  concertSetting?: number | null;
+  phoneFriendSetting?: boolean | null;
+  allowKtvRoomNotify?: boolean | null;
+  broadcastSetting?: number | null;
+  shareSetting?: number | null;
+  socialSetting?: number | null;
+  playRecordSetting?: number | null;
+  allowSubscriptionNotify?: boolean | null;
+  allowLikedNotify?: boolean | null;
+  allowNewFollowerNotify?: boolean | null;
+  needRcmdEvent?: boolean | null;
+  allowPlaylistShareNotify?: boolean | null;
+  allowDJProgramShareNotify?: boolean | null;
+  allowDJProgramSubscriptionNotify?: boolean | null;
+  allowDJRadioSubscriptionNotify?: boolean | null;
+  allowPeopleCanSeeMyPlayRecord?: boolean | null;
+  allowFollowedCanSeeMyPlayRecord?: boolean | null;
+  allowOfflinePrivateMessageNotify?: boolean | null;
+  allowOfflineCommentNotify?: boolean | null;
+  allowOfflineCommentReplyNotify?: boolean | null;
+  allowOfflineNotify?: boolean | null;
+  allowVideoSubscriptionNotify?: boolean | null;
+  allowOfflineForwardNotify?: boolean | null;
+  sendMiuiMsg?: boolean | null;
+  allowImportDoubanPlaylist?: boolean | null;
+  allowImportXiamiPlaylist?: boolean | null;
+  importedDoubanPlaylist?: boolean | null;
+  importedXiamiPlaylist?: boolean | null;
+  peopleNearbyCanSeeMe?: boolean | null;
+  finishedFollowGuide?: boolean | null;
+  showedSharkBabyVinylEntry?: number | null;
+  video_bg_switch_key?: number | null;
+  showSearchAtBottomTab?: number | null;
+  adRecommendSetting?: number | null;
+  socialPlaylistSetting?: number | null;
+  showFMAtBottomTabMagicOs?: number | null;
+  showSearchAtBottomTabMagicOs?: number | null;
+  inNoteBeta?: number | null;
+  double_flow_auto_play_switch?: number | null;
+  showFMAtBottomTab?: number | null;
+  allowNoteRedSongNotify?: number | null;
+  allowCommentFavoriteNotify?: number | null;
+  fansRequestUpdate?: number | null;
+  mutualFollowSeeOnline?: number | null;
+  showNoteAtBottomTab?: number | null;
+  showMoreLocalsListenLabel?: number | null;
+  commentLiveBroadcastSetting?: number | null;
+  allowNotePlaySongNotify?: number | null;
+  allowThankendNotify?: number | null;
+  commentSetting?: number | null;
+  showMagentAtBottomTab?: number | null;
+  personalizedAdRecommendSwitch?: number | null;
+  musicJarReceiveNotifySwitch?: number | null;
+  voiceAutoPlay?: number | null;
+  user_auto_play_switch?: number | null;
+  showSearchMagent?: number | null;
+  messageRejectStatus?: number | null;
+  showCityMusicStyleLabel?: number | null;
+  allowSongRedSongNotify?: number | null;
+  reduceAdSwitch?: number | null;
+};
+
+type SettingBody = {
+  code: 200;
+  setting: UserSetting;
+};
+```
+
+| 字段      | 类型          | 必填 | 说明                         |
+| --------- | ------------- | ---- | ---------------------------- |
+| `code`    | `200`         | 是   | 业务状态码（`200` 表示成功） |
+| `setting` | `UserSetting` | 是   | -                            |
+
+<!-- api-doc:response:end -->

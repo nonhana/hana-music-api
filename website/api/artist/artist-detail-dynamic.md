@@ -1,35 +1,30 @@
 ---
 title: '歌手详情动态'
-description: '调用后可获取歌手详情动态部分,如是否关注,视频数'
+description: '调用后可获取歌手详情动态部分，如是否关注，视频数'
 ---
 
 # 歌手详情动态
 
-> 调用后可获取歌手详情动态部分,如是否关注,视频数
+调用后可获取歌手详情动态部分，如是否关注，视频数
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                       |
-| -------- | ------------------------ |
-| 接口地址 | `/artist/detail/dynamic` |
-| 请求方式 | `GET` / `POST`           |
-| 需要登录 | 否                       |
-| 对应模块 | `artist_detail_dynamic`  |
-| 文档分类 | 歌手                     |
+| 项目       | 值                                                                  |
+| ---------- | ------------------------------------------------------------------- |
+| 接口地址   | `/artist/detail/dynamic`                                            |
+| 请求方式   | `GET` / `POST`                                                      |
+| 需要登录   | 否                                                                  |
+| 对应模块   | `artist_detail_dynamic`                                             |
+| SDK 函数   | `artistDetailDynamic`（`hana-music-api/api/artist_detail_dynamic`） |
+| 返回体类型 | `ArtistDetailDynamicBody`（已建模返回体）                           |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 歌手 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /artist/detail/dynamic?id=15396
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { artistDetailDynamic } from 'hana-music-api';
@@ -37,20 +32,75 @@ import { artistDetailDynamic } from 'hana-music-api';
 const result = await artistDetailDynamic({
   id: '15396',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-只有 `body.code` 收紧；`followed`（是否关注）、`concert`（演出）、`videoNum`（视频数）和 `rcmdResource`（推荐资源）都是宽松字段。录制里 `concert.simpleConcert`、`rcmdResource.picUrl`、`rcmdResource.resId` 只出现过 `null`，没有声明，继续原样保留。结构定义和类型是 `ArtistDetailDynamicBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/artist/detail/dynamic' \
+  --data-urlencode 'id=15396'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用后可获取歌手详情动态部分,如是否关注,视频数
+## 请求参数
 
-**必选参数 :** `id` : 歌手 id
+| 参数 | 类型               | 必填 | 默认值 | 说明    |
+| ---- | ------------------ | ---- | ------ | ------- |
+| `id` | `number \| string` | 是   | -      | 歌手 id |
 
-**接口地址 :** `/artist/detail/dynamic`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/artist/detail/dynamic?id=15396`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`ArtistDetailDynamicBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/artist_detail_dynamic`、`hana-music-api/schemas/artist_detail_dynamic` 导入运行时校验器）。
+
+```ts
+type Concert = {
+  onlineCount?: number | null;
+  view?: boolean | null;
+};
+
+type RcmdResource = {
+  buttonName?: string | null;
+  description?: string | null;
+  resourceType?: number | null;
+  title?: string | null;
+  url?: string | null;
+};
+
+type VideoNum = {
+  cat?: number | null;
+  num?: number | null;
+};
+
+type ArtistDetailDynamicBody = {
+  code: 200;
+  concert?: Concert | null;
+  followed?: boolean | null;
+  rcmdResource?: RcmdResource | null;
+  videoNum?: Array<VideoNum> | null;
+};
+```
+
+| 字段                        | 类型              | 必填 | 说明                         |
+| --------------------------- | ----------------- | ---- | ---------------------------- |
+| `code`                      | `200`             | 是   | 业务状态码（`200` 表示成功） |
+| `concert`                   | `Concert`         | 否   | -                            |
+| `concert.onlineCount`       | `number`          | 否   | -                            |
+| `concert.view`              | `boolean`         | 否   | -                            |
+| `followed`                  | `boolean`         | 否   | 是否已关注                   |
+| `rcmdResource`              | `RcmdResource`    | 否   | -                            |
+| `rcmdResource.buttonName`   | `string`          | 否   | -                            |
+| `rcmdResource.description`  | `string`          | 否   | 描述信息                     |
+| `rcmdResource.resourceType` | `number`          | 否   | -                            |
+| `rcmdResource.title`        | `string`          | 否   | 标题                         |
+| `rcmdResource.url`          | `string`          | 否   | 资源访问地址                 |
+| `videoNum`                  | `Array<VideoNum>` | 否   | -                            |
+| `videoNum[].cat`            | `number`          | 否   | -                            |
+| `videoNum[].num`            | `number`          | 否   | -                            |
+
+<!-- api-doc:response:end -->

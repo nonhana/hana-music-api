@@ -1,71 +1,88 @@
 ---
 title: '验证接口 - 二维码生成'
-description: '进行某些操作,如关注用户,可能会触发验证,可调用这个接口生成二维码,使用app扫码后可解除验证'
+description: '进行某些操作，如关注用户，可能会触发验证，可调用这个接口生成二维码，使用app扫码后可解除验证'
 ---
 
 # 验证接口 - 二维码生成
 
-> 进行某些操作,如关注用户,可能会触发验证,可调用这个接口生成二维码,使用app扫码后可解除验证
+进行某些操作，如关注用户，可能会触发验证，可调用这个接口生成二维码，使用app扫码后可解除验证
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/verify/getQr` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `verify_getQr`  |
-| 文档分类 | 其他工具        |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/verify/getQr`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 否                                                 |
+| 对应模块   | `verify_getQr`                                     |
+| SDK 函数   | `verifyGetQr`（`hana-music-api/api/verify_getQr`） |
+| 返回体类型 | `VerifyGetQrBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /verify/getQr
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { verifyGetQr } from 'hana-music-api';
 
-const result = await verifyGetQr();
-
+const result = await verifyGetQr({
+  evid: 'example',
+});
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-```json
-{
-  "code": 200,
-  "data": {
-    "qrCode": "...",
-    "qrurl": "https://st.music.163.com/encrypt-pages?qrCode=...",
-    "qrimg": "data:image/png;base64,..."
-  }
-}
+```bash
+curl --get 'http://127.0.0.1:3021/verify/getQr' \
+  --data-urlencode 'evid=example'
 ```
 
-`qrurl` 是在手机上完成行为验证的页面，`qrimg` 是它的二维码图片。返回码、`data` 和三个二维码字段都是收紧字段。结构定义和类型是 `VerifyGetQrBody`，见 [返回体结构](/guide/response-bodies)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明: 进行某些操作,如关注用户,可能会触发验证,可调用这个接口生成二维码,使用app扫码后可解除验证
+| 参数    | 类型     | 必填 | 默认值 | 说明                                   |
+| ------- | -------- | ---- | ------ | -------------------------------------- |
+| `evid`  | `string` | 否   | -      | 触发验证后，接口返回的params的event_id |
+| `sign`  | `string` | 否   | -      | 触发验证后，接口返回的params的sign     |
+| `token` | `string` | 否   | -      | 触发验证后，接口返回的verifyToken      |
+| `type`  | `number` | 否   | -      | 触发验证后，接口返回的verifyType       |
+| `vid`   | `string` | 否   | -      | 触发验证后，接口返回的verifyId         |
 
-**接口地址:** `/verify/getQr`
+<!-- api-doc:params:end -->
 
-**必选参数：**
+<!-- api-doc:response:start -->
 
-`vid`: 触发验证后,接口返回的verifyId
+## 返回值
 
-`type`:触发验证后,接口返回的verifyType
+返回体类型：`VerifyGetQrBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/verify_getQr`、`hana-music-api/schemas/verify_getQr` 导入运行时校验器）。
 
-`token`:触发验证后,接口返回的verifyToken
+```ts
+type VerifyGetQrBody = {
+  code: 200;
+  data: {
+    qrCode: string;
+    qrurl: string;
+    qrimg: string;
+  };
+};
+```
 
-`evid`:触发验证后,接口返回的params的event_id
+| 字段          | 类型     | 必填 | 说明                                               |
+| ------------- | -------- | ---- | -------------------------------------------------- |
+| `code`        | `200`    | 是   | 业务状态码（`200` 表示成功）                       |
+| `data`        | `object` | 是   | 接口返回的数据主体                                 |
+| `data.qrCode` | `string` | 是   | 验证二维码标识                                     |
+| `data.qrurl`  | `string` | 是   | 二维码对应的授权页面 URL                           |
+| `data.qrimg`  | `string` | 是   | 二维码图片 Data URL（未开启 `qrimg` 时为空字符串） |
 
-`sign`:触发验证后,接口返回的params的sign
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **可选依赖**：生成验证二维码图片需环境中安装可选依赖 `qrcode`。

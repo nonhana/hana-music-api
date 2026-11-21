@@ -5,57 +5,77 @@ description: '调用此接口，可获取推荐电台'
 
 # 推荐节目
 
-> 调用此接口，可获取推荐电台
+调用此接口，可获取推荐电台
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/program/recommend` |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 否                   |
-| 对应模块 | `program_recommend`  |
-| 文档分类 | 推荐与发现           |
+| 项目       | 值                                                           |
+| ---------- | ------------------------------------------------------------ |
+| 接口地址   | `/program/recommend`                                         |
+| 请求方式   | `GET` / `POST`                                               |
+| 需要登录   | 否                                                           |
+| 对应模块   | `program_recommend`                                          |
+| SDK 函数   | `programRecommend`（`hana-music-api/api/program_recommend`） |
+| 返回体类型 | `ProgramRecommendBody`（已建模返回体）                       |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                        |
-| -------- | ---------------- | :--: | ------ | --------------------------------------------------------------------------- |
-| `limit`  | number \| string |  —   | 10     | 取出数量，默认为 10                                                         |
-| `offset` | number \| string |  —   | <br>为 | 偏移数量，用于分页，如：(页数 - 1)\*10, 其中 10 为 limit 的值，默认<br>为 0 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /program/recommend?limit=5
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { programRecommend } from 'hana-music-api';
 
 const result = await programRecommend({
-  limit: '5',
+  limit: 5,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、通到推荐节目的 `body.programs` 和每个节目自己的编号 `programs[].id` 收紧；`name`、`more` 宽松，节目按 `DjProgram` 校验。越界分页返回 `programs: []`（录制 `program_recommend.empty.json`），数组本身允许为空。录制按字段覆盖保留非连续子集（索引 3/4/0，原始 5 条），见 `context.truncated`。
+```bash
+curl --get 'http://127.0.0.1:3021/program/recommend' \
+  --data-urlencode 'limit=5'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获取推荐电台
+## 请求参数
 
-**接口地址 :** `/program/recommend`
+| 参数     | 类型     | 必填 | 默认值 | 说明                                                                        |
+| -------- | -------- | ---- | ------ | --------------------------------------------------------------------------- |
+| `type`   | `string` | 否   | -      | 节目分类过滤标识（如 `PUBLIC`）                                             |
+| `limit`  | `number` | 否   | `10`   | 取出数量，默认为 10                                                         |
+| `offset` | `number` | 否   | `0`    | 偏移数量，用于分页，如：(页数 - 1)\*10，其中 10 为 limit 的值，默认<br>为 0 |
 
-**可选参数 :**  
-`limit`: 取出数量，默认为 10
+<!-- api-doc:params:end -->
 
-`offset`: 偏移数量，用于分页，如：(页数 - 1)\*10, 其中 10 为 limit 的值，默认
-为 0
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/program/recommend?limit=5`
+## 返回值
+
+返回体类型：`ProgramRecommendBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/program_recommend`、`hana-music-api/schemas/program_recommend` 导入运行时校验器）。
+
+```ts
+type ProgramRecommendBody = {
+  code: 200;
+  programs: Array<DjProgram>;
+  more?: boolean | null;
+  name?: string | null;
+};
+```
+
+- **公共类型**：[DjProgram](/api/shared-types#djprogram)
+
+| 字段       | 类型                                              | 必填 | 说明                         |
+| ---------- | ------------------------------------------------- | ---- | ---------------------------- |
+| `code`     | `200`                                             | 是   | 业务状态码（`200` 表示成功） |
+| `programs` | Array\<[DjProgram](/api/shared-types#djprogram)\> | 是   | 电台节目列表                 |
+| `more`     | `boolean`                                         | 否   | 是否还有更多数据             |
+| `name`     | `string`                                          | 否   | 名称                         |
+
+<!-- api-doc:response:end -->

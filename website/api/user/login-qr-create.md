@@ -1,33 +1,30 @@
 ---
 title: '二维码生成接口'
-description: '调用此接口传入上一个接口生成的 key 可生成二维码图片的 base64 和二维码信息,可使用 base64 展示图片,或者使用二维码信息内容自行使用第三方二维码生成库渲染二维码'
+description: '调用此接口传入上一个接口生成的 key 可生成二维码图片的 base64 和二维码信息，可使用 base64 展示图片，或者使用二维码信息内容自行使用第三方二维码生成库渲染二维码'
 ---
 
 # 二维码生成接口
 
-> 调用此接口传入上一个接口生成的 key 可生成二维码图片的 base64 和二维码信息,可使用 base64 展示图片,或者使用二维码信息内容自行使用第三方二维码生成库渲染二维码
+调用此接口传入上一个接口生成的 key 可生成二维码图片的 base64 和二维码信息，可使用 base64 展示图片，或者使用二维码信息内容自行使用第三方二维码生成库渲染二维码
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                 |
-| -------- | ------------------ |
-| 接口地址 | `/login/qr/create` |
-| 请求方式 | `GET` / `POST`     |
-| 需要登录 | 否                 |
-| 对应模块 | `login_qr_create`  |
-| 文档分类 | 用户与登录         |
+| 项目       | 值                                                      |
+| ---------- | ------------------------------------------------------- |
+| 接口地址   | `/login/qr/create`                                      |
+| 请求方式   | `GET` / `POST`                                          |
+| 需要登录   | 否                                                      |
+| 对应模块   | `login_qr_create`                                       |
+| SDK 函数   | `loginQrCreate`（`hana-music-api/api/login_qr_create`） |
+| 返回体类型 | `LoginQrCreateBody`（已建模返回体）                     |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /login/qr/create?key=xxx
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { loginQrCreate } from 'hana-music-api';
@@ -35,32 +32,53 @@ import { loginQrCreate } from 'hana-music-api';
 const result = await loginQrCreate({
   key: 'xxx',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-```json
-{
-  "code": 200,
-  "data": {
-    "qrurl": "https://music.163.com/login?codekey=your-qr-key",
-    "qrimg": "data:image/png;base64,..."
-  }
-}
+```bash
+curl --get 'http://127.0.0.1:3021/login/qr/create' \
+  --data-urlencode 'key=xxx'
 ```
 
-返回体由 SDK 自己拼出，不请求网易云。没传 `qrimg` 时 `data.qrimg` 是空串。`code`、`data`、`data.qrurl`、`data.qrimg` 全部收紧。结构定义和类型是 `LoginQrCreateBody`，见 [返回体结构](/guide/response-bodies)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明: 调用此接口传入上一个接口生成的 key 可生成二维码图片的 base64 和二维码信息,可使用 base64 展示图片,或者使用二维码信息内容自行使用第三方二维码生成库渲染二维码
+| 参数       | 类型            | 必填 | 默认值 | 说明                                                  |
+| ---------- | --------------- | ---- | ------ | ----------------------------------------------------- |
+| `key`      | `string`        | 是   | -      | 由 `/login/qr/key` 获取的二维码 `unikey`              |
+| `platform` | `'pc' \| 'web'` | 否   | `pc`   | 生成链接的平台类型，默认 `pc`（可选 `pc`、`web`）     |
+| `qrimg`    | `boolean`       | 否   | -      | 是否同时生成 Base64 Data URL 二维码图片，默认 `false` |
 
-必选参数: `key`,由第一个接口生成
+<!-- api-doc:params:end -->
 
-可选参数: `qrimg` 传入后会额外返回二维码图片 base64 编码
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/login/qr/create`
+## 返回值
 
-**调用例子 :** `/login/qr/create?key=xxx`
+返回体类型：`LoginQrCreateBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/login_qr_create`、`hana-music-api/schemas/login_qr_create` 导入运行时校验器）。
+
+```ts
+type LoginQrCreateBody = {
+  code: 200;
+  data: {
+    qrurl: string;
+    qrimg: string;
+  };
+};
+```
+
+| 字段         | 类型     | 必填 | 说明                                               |
+| ------------ | -------- | ---- | -------------------------------------------------- |
+| `code`       | `200`    | 是   | 业务状态码（`200` 表示成功）                       |
+| `data`       | `object` | 是   | 接口返回的数据主体                                 |
+| `data.qrurl` | `string` | 是   | 二维码对应的授权页面 URL                           |
+| `data.qrimg` | `string` | 是   | 二维码图片 Data URL（未开启 `qrimg` 时为空字符串） |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **可选依赖**：当传入 `qrimg: true` 生成 Base64 二维码图片时，需要环境中安装可选依赖 `qrcode`。

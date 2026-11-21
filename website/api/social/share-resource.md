@@ -1,71 +1,73 @@
 ---
 title: '分享文本、歌曲、歌单、mv、电台、电台节目到动态'
-description: '登录后调用此接口 ,可以分享文本、歌曲、歌单、mv、电台、电台节目,专辑到动态'
+description: '登录后调用此接口 ，可以分享文本、歌曲、歌单、mv、电台、电台节目，专辑到动态'
 ---
 
 # 分享文本、歌曲、歌单、mv、电台、电台节目到动态
 
-> 登录后调用此接口 ,可以分享文本、歌曲、歌单、mv、电台、电台节目,专辑到动态
+登录后调用此接口 ，可以分享文本、歌曲、歌单、mv、电台、电台节目，专辑到动态
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                |
-| -------- | ----------------- |
-| 接口地址 | `/share/resource` |
-| 请求方式 | `GET` / `POST`    |
-| 需要登录 | 是                |
-| 对应模块 | `share_resource`  |
-| 文档分类 | 社交与消息        |
+| 项目       | 值                                                     |
+| ---------- | ------------------------------------------------------ |
+| 接口地址   | `/share/resource`                                      |
+| 请求方式   | `GET` / `POST`                                         |
+| 需要登录   | 是                                                     |
+| 对应模块   | `share_resource`                                       |
+| SDK 函数   | `shareResource`（`hana-music-api/api/share_resource`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明                                                                                                             |
-| ------ | ------ | :--: | ------ | ---------------------------------------------------------------------------------------------------------------- |
-| `id`   | string |  ✅  | -      | 资源 id （歌曲，歌单，mv，电台，电台节目对应 id）                                                                |
-| `type` | string |  —   | 歌曲   | 资源类型，默认歌曲 song，可传 `song`,`playlist`,`mv`,`djradio`,`djprogram`, `album`                              |
-| `msg`  | string |  —   | -      | 内容，140 字限制，支持 emoji，@用户名（`/user/follows`接口获取的用户名，用户名后和内容应该有空格），图片暂不支持 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /share/resource?id=1297494209&msg=测试
-GET /share/resource?type=djradio&id=336355127
-GET /share/resource?type=djprogram&id=2061034798
-GET /share/resource?type=djprogram&id=2061034798&msg=测试@binaryify
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { shareResource } from 'hana-music-api';
 
-const result = await shareResource({
-  id: '1297494209',
-  msg: '测试',
-});
-
+const result = await shareResource(
+  {
+    id: '1297494209',
+    msg: '测试',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-本批没有声明结构：分享请求被上游风控拒绝（`code: 250`，消息「安全验证分享异常」），没有成功正文的证据，`body` 原样转交、仍是 resolve `status: 250`。另用探测确认 `song`、`album`、`playlist`、`noresource` 同样返回 `250`（探测未保留录制）。
+```bash
+curl --get 'http://127.0.0.1:3021/share/resource' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=1297494209' \
+  --data-urlencode 'msg=测试'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口 ,可以分享文本、歌曲、歌单、mv、电台、电台节目,专辑到动态
+## 请求参数
 
-**必选参数 :** `id` : 资源 id （歌曲，歌单，mv，电台，电台节目对应 id）
+| 参数   | 类型                                                                                        | 必填 | 默认值 | 说明                                                                                                             |
+| ------ | ------------------------------------------------------------------------------------------- | ---- | ------ | ---------------------------------------------------------------------------------------------------------------- |
+| `id`   | `number \| string`                                                                          | 否   | ``     | 资源 id （歌曲，歌单，mv，电台，电台节目对应 id）                                                                |
+| `type` | `'song' \| 'playlist' \| 'mv' \| 'djradio' \| 'djprogram' \| 'album' \| 'noresource' \| ''` | 否   | `song` | 资源类型，默认歌曲 song，可传 `song`，`playlist`，`mv`，`djradio`，`djprogram`，`album`                          |
+| `msg`  | `string`                                                                                    | 否   | ``     | 内容，140 字限制，支持 emoji，@用户名（`/user/follows`接口获取的用户名，用户名后和内容应该有空格），图片暂不支持 |
 
-**可选参数 :** `type`: 资源类型，默认歌曲 song，可传 `song`,`playlist`,`mv`,`djradio`,`djprogram`, `album`
+<!-- api-doc:params:end -->
 
-`msg`: 内容，140 字限制，支持 emoji，@用户名（`/user/follows`接口获取的用户名，用户名后和内容应该有空格），图片暂不支持
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/share/resource`
+## 返回值
 
-**调用例子 :**
-`/share/resource?id=1297494209&msg=测试`
-`/share/resource?type=djradio&id=336355127`
-`/share/resource?type=djprogram&id=2061034798`
-`/share/resource?type=djprogram&id=2061034798&msg=测试@binaryify 测试`
-`/share/resource?type=noresource&msg=测试`
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **内容限制**：分享文案 `msg` 限制 140 字以内，支持 emoji；`@用户名` 后需保留空格，暂不支持附带图片。

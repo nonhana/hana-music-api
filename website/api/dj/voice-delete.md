@@ -5,44 +5,62 @@ description: '可以删除播客'
 
 # 播客删除
 
-> 可以删除播客
+可以删除播客
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/voice/delete` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `voice_delete`  |
-| 文档分类 | 电台与播客      |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/voice/delete`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 是                                                 |
+| 对应模块   | `voice_delete`                                     |
+| SDK 函数   | `voiceDelete`（`hana-music-api/api/voice_delete`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                        |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /voice/delete
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { voiceDelete } from 'hana-music-api';
 
-const result = await voiceDelete();
-
+const result = await voiceDelete(
+  {
+    ids: [347230],
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-说明: 可以删除播客
+```bash
+curl 'http://127.0.0.1:3021/voice/delete' \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data '{"ids":[347230]}'
+```
 
-**接口地址:** `/voice/delete`
+<!-- api-doc:params:start -->
 
-**必选参数：**
+## 请求参数
 
-`ids`: 播客id，即voiceListId,多个以逗号隔开
+| 参数  | 类型                      | 必填 | 默认值 | 说明                                  |
+| ----- | ------------------------- | ---- | ------ | ------------------------------------- |
+| `ids` | `Array<number \| string>` | 是   | -      | 播客id，即voiceListId，多个以逗号隔开 |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

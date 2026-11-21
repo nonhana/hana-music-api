@@ -1,35 +1,30 @@
 ---
 title: '获取最近 5 个听了这首歌的用户'
-description: '调用此接口，传入歌曲 id, 最近 5 个听了这首歌的用户'
+description: '调用此接口，传入歌曲 id，最近 5 个听了这首歌的用户'
 ---
 
 # 获取最近 5 个听了这首歌的用户
 
-> 调用此接口，传入歌曲 id, 最近 5 个听了这首歌的用户
+调用此接口，传入歌曲 id，最近 5 个听了这首歌的用户
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/simi/user`   |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `simi_user`    |
-| 文档分类 | 推荐与发现     |
+| 项目       | 值                                           |
+| ---------- | -------------------------------------------- |
+| 接口地址   | `/simi/user`                                 |
+| 请求方式   | `GET` / `POST`                               |
+| 需要登录   | 否                                           |
+| 对应模块   | `simi_user`                                  |
+| SDK 函数   | `simiUser`（`hana-music-api/api/simi_user`） |
+| 返回体类型 | `SimiUserBody`（已建模返回体）               |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 歌曲 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /simi/user?id=347230
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { simiUser } from 'hana-music-api';
@@ -37,20 +32,46 @@ import { simiUser } from 'hana-music-api';
 const result = await simiUser({
   id: '347230',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 收紧；相似用户列表 `body.userprofiles` 只有空数组证据、元素类型未知，没有声明，仍作为未声明字段原样保留。登录账号用 15 首歌曲（含 `108485`）探测都是空数组，只保留 `108485` 的录制（`simi_user.empty.json`），没有找到非空结果；缺少 `id` 时上游是 HTTP 400 空正文，SDK 归一成 `status: 200`、`body` 为空字符串原样返回，不报 502。本页录制来自登录账号（`context.viewer` 是 `authenticated`），没有保留匿名对照录制。
+```bash
+curl --get 'http://127.0.0.1:3021/simi/user' \
+  --data-urlencode 'id=347230'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入歌曲 id, 最近 5 个听了这首歌的用户
+## 请求参数
 
-**必选参数 :** `id`: 歌曲 id
+| 参数     | 类型               | 必填 | 默认值 | 说明                         |
+| -------- | ------------------ | ---- | ------ | ---------------------------- |
+| `id`     | `number \| string` | 是   | -      | 歌曲 id                      |
+| `limit`  | `number`           | 否   | `50`   | 返回数量，默认 `50`          |
+| `offset` | `number`           | 否   | `0`    | 偏移数量，用于分页，默认 `0` |
 
-**接口地址 :** `/simi/user`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/simi/user?id=347230` ( 对应 ' 光辉岁月 ' 相似歌曲 )
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`SimiUserBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/simi_user`、`hana-music-api/schemas/simi_user` 导入运行时校验器）。
+
+```ts
+type SimiUserBody =
+  | {
+      code: 200;
+    }
+  | '';
+```
+
+| 字段   | 类型  | 必填 | 说明                         |
+| ------ | ----- | ---- | ---------------------------- |
+| `code` | `200` | 是   | 业务状态码（`200` 表示成功） |
+
+> 当参数格式异常时，上游可能返回空响应，此时返回体为 `""`。
+
+<!-- api-doc:response:end -->

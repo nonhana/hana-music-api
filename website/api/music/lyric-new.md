@@ -5,31 +5,26 @@ description: '此接口的 `yrc` 字段即为逐字歌词 (可能有歌曲不包
 
 # 获取逐字歌词
 
-> 此接口的 `yrc` 字段即为逐字歌词 (可能有歌曲不包含逐字歌词)
+此接口的 `yrc` 字段即为逐字歌词 (可能有歌曲不包含逐字歌词)
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/lyric/new`   |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `lyric_new`    |
-| 文档分类 | 歌曲与播放     |
+| 项目       | 值                                           |
+| ---------- | -------------------------------------------- |
+| 接口地址   | `/lyric/new`                                 |
+| 请求方式   | `GET` / `POST`                               |
+| 需要登录   | 否                                           |
+| 对应模块   | `lyric_new`                                  |
+| SDK 函数   | `lyricNew`（`hana-music-api/api/lyric_new`） |
+| 返回体类型 | `LyricNewBody`（已建模返回体）               |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 音乐 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /lyric/new?id=1824020871
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { lyricNew } from 'hana-music-api';
@@ -37,66 +32,97 @@ import { lyricNew } from 'hana-music-api';
 const result = await lyricNew({
   id: '1824020871',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-每种歌词都是 `{ lyric }`，`lyric` 是歌词文本：
-
-- `lrc`：逐行歌词，一直都在；没有收录歌词时 `lyric` 是空串。`lrc` 和 `lrc.lyric` 是收紧字段。
-- `tlyric`、`romalrc`：逐行歌词的翻译和音译。
-- `yrc`：逐字歌词；`ytlrc`、`yromalrc` 是按逐字歌词的时间对齐的翻译和音译。
-
-除 `lrc` 外的几种可能整个缺失，也可能在、但 `lyric` 是空串，两种都表示没有这种歌词；它们和 `pureMusic` 都是宽松字段。正文还声明了宽松的 `klyric`、`lyricUser`、`transUser`、`qfy`、`sfy`、`sgc`、`needDesc`、`uncollected`。结构定义和类型是 `LyricNewBody`，见 [返回体结构](/guide/response-bodies)。
-
-## 补充说明
-
-说明 : 此接口的 `yrc` 字段即为逐字歌词 (可能有歌曲不包含逐字歌词)
-
-**必选参数 :** `id`: 音乐 id
-
-**接口地址 :** `/lyric/new`
-
-**调用例子 :** `/lyric/new?id=1824020871`
-
-相关讨论可见: [Issue](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/1667)
-
-**歌词格式解析 :**
-
-当逐字歌词适用时，`yrc`的`lyric`字段包括形式如下的内容
-
-- （可能存在）JSON 歌曲元数据
-
-```json
-{"t":0,"c":[{"tx":"作曲: "},{"tx":"柳重言","li":"http://p1.music.126.net/Icj0IcaOjH2ZZpyAM-QGoQ==/6665239487822533.jpg","or":"orpheus://nm/artist/home?id=228547&type=artist"}]}
-{"t":5403,"c":[{"tx":"编曲: "},{"tx":"Alex San","li":"http://p1.music.126.net/pSbvYkrzZ1RFKqoh-fA9AQ==/109951166352922615.jpg","or":"orpheus://nm/artist/home?id=28984845&type=artist"}]}
-{"t":10806,"c":[{"tx":"制作人: "},{"tx":"王菲","li":"http://p1.music.126.net/1KQVD6XWbs5IAV0xOj1ZIA==/18764265441342019.jpg","or":"orpheus://nm/artist/home?id=9621&type=artist"},{"tx":"/"},{"tx":"梁荣骏","li":"http://p1.music.126.net/QrD8drwrRcegfKLPoiiG2Q==/109951166288436155.jpg","or":"orpheus://nm/artist/home?id=189294&type=artist"}]}
+```bash
+curl --get 'http://127.0.0.1:3021/lyric/new' \
+  --data-urlencode 'id=1824020871'
 ```
 
-该字段不一定出现；可能出现的数据意义有：
+<!-- api-doc:params:start -->
 
-- `t` : 数据显示开始时间戳 (毫秒)
-- `c` : 元数据list
-- `tx`: 文字段
-- `li`: 艺术家、歌手头像图url
-- `or`：云音乐app内路径；例中作用即打开艺术家主页
+## 请求参数
 
-- 逐字歌词
+| 参数 | 类型               | 必填 | 默认值 | 说明    |
+| ---- | ------------------ | ---- | ------ | ------- |
+| `id` | `number \| string` | 是   | -      | 音乐 id |
 
-```text
-[16210,3460](16210,670,0)还(16880,410,0)没...
- ~~~~1 ~~~2  ~~~~3 ~~4 5 ~6 (...)
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`LyricNewBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/lyric_new`、`hana-music-api/schemas/lyric_new` 导入运行时校验器）。
+
+```ts
+type Lyric = {
+  lyric?: string | null;
+  version?: number | null;
+};
+
+type LyricNewBody = {
+  code: 200;
+  lrc: {
+    lyric: string;
+  };
+  tlyric?: Lyric | null;
+  romalrc?: Lyric | null;
+  yrc?: Lyric | null;
+  ytlrc?: Lyric | null;
+  yromalrc?: Lyric | null;
+  klyric?: Lyric | null;
+  lyricUser?: LyricUser | null;
+  transUser?: LyricUser | null;
+  pureMusic?: boolean | null;
+  needDesc?: boolean | null;
+  qfy?: boolean | null;
+  sfy?: boolean | null;
+  sgc?: boolean | null;
+  uncollected?: boolean | null;
+};
 ```
 
-由标号解释:
+- **公共类型**：[LyricUser](/api/shared-types#lyricuser)
 
-1. 歌词行显示开始时间戳 (毫秒)
-2. 歌词行显示总时长(毫秒)
-3. 逐字显示开始时间戳 (毫秒)
-4. 逐字显示时长 (厘秒/0.01s)
-5. 未知
-6. 文字
+| 字段               | 类型                                     | 必填 | 说明                         |
+| ------------------ | ---------------------------------------- | ---- | ---------------------------- |
+| `code`             | `200`                                    | 是   | 业务状态码（`200` 表示成功） |
+| `lrc`              | `object`                                 | 是   | 逐行歌词对象                 |
+| `lrc.lyric`        | `string`                                 | 是   | -                            |
+| `tlyric`           | `Lyric`                                  | 否   | 歌词翻译对象                 |
+| `tlyric.lyric`     | `string`                                 | 否   | -                            |
+| `tlyric.version`   | `number`                                 | 否   | 当前服务版本号               |
+| `romalrc`          | `Lyric`                                  | 否   | 歌词音译对象                 |
+| `romalrc.lyric`    | `string`                                 | 否   | -                            |
+| `romalrc.version`  | `number`                                 | 否   | 当前服务版本号               |
+| `yrc`              | `Lyric`                                  | 否   | 逐字歌词对象                 |
+| `yrc.lyric`        | `string`                                 | 否   | -                            |
+| `yrc.version`      | `number`                                 | 否   | 当前服务版本号               |
+| `ytlrc`            | `Lyric`                                  | 否   | 逐字歌词翻译对象             |
+| `ytlrc.lyric`      | `string`                                 | 否   | -                            |
+| `ytlrc.version`    | `number`                                 | 否   | 当前服务版本号               |
+| `yromalrc`         | `Lyric`                                  | 否   | 逐字歌词音译对象             |
+| `yromalrc.lyric`   | `string`                                 | 否   | -                            |
+| `yromalrc.version` | `number`                                 | 否   | 当前服务版本号               |
+| `klyric`           | `Lyric`                                  | 否   | 卡拉 OK 歌词对象             |
+| `klyric.lyric`     | `string`                                 | 否   | -                            |
+| `klyric.version`   | `number`                                 | 否   | 当前服务版本号               |
+| `lyricUser`        | [LyricUser](/api/shared-types#lyricuser) | 否   | 歌词贡献者信息               |
+| `transUser`        | [LyricUser](/api/shared-types#lyricuser) | 否   | 翻译贡献者信息               |
+| `pureMusic`        | `boolean`                                | 否   | 是否为纯音乐                 |
+| `needDesc`         | `boolean`                                | 否   | -                            |
+| `qfy`              | `boolean`                                | 否   | -                            |
+| `sfy`              | `boolean`                                | 否   | -                            |
+| `sgc`              | `boolean`                                | 否   | -                            |
+| `uncollected`      | `boolean`                                | 否   | -                            |
 
-`yrc`的`version`字段貌似与`lyric`字段格式无关
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **歌词类型**：`lrc` 为逐行歌词，`tlyric`/`romalrc` 为翻译与音译；`yrc` 为逐字歌词，`ytlrc`/`yromalrc` 为逐字对齐翻译与音译。无歌词或无对应版本时字段可能缺失或 `lyric` 为空串。
+- **逐字歌词格式**：`yrc.lyric` 中可能包含按行组织的 JSON 歌曲元数据（含 `t`、`c`/`tx`、`li`、`or`），以及 `[行起始毫秒,行时长毫秒](字起始毫秒,字时长厘秒,0)文字` 格式的逐字时间戳。

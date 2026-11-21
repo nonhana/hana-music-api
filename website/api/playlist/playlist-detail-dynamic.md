@@ -1,35 +1,30 @@
 ---
 title: '歌单详情动态'
-description: '调用后可获取歌单详情动态部分,如评论数,是否收藏,播放数'
+description: '调用后可获取歌单详情动态部分，如评论数，是否收藏，播放数'
 ---
 
 # 歌单详情动态
 
-> 调用后可获取歌单详情动态部分,如评论数,是否收藏,播放数
+调用后可获取歌单详情动态部分，如评论数，是否收藏，播放数
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                         |
-| -------- | -------------------------- |
-| 接口地址 | `/playlist/detail/dynamic` |
-| 请求方式 | `GET` / `POST`             |
-| 需要登录 | 否                         |
-| 对应模块 | `playlist_detail_dynamic`  |
-| 文档分类 | 歌单                       |
+| 项目       | 值                                                                      |
+| ---------- | ----------------------------------------------------------------------- |
+| 接口地址   | `/playlist/detail/dynamic`                                              |
+| 请求方式   | `GET` / `POST`                                                          |
+| 需要登录   | 否                                                                      |
+| 对应模块   | `playlist_detail_dynamic`                                               |
+| SDK 函数   | `playlistDetailDynamic`（`hana-music-api/api/playlist_detail_dynamic`） |
+| 返回体类型 | `PlaylistDetailDynamicBody`（已建模返回体）                             |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 歌单 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/detail/dynamic?id=24381616
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistDetailDynamic } from 'hana-music-api';
@@ -37,20 +32,55 @@ import { playlistDetailDynamic } from 'hana-music-api';
 const result = await playlistDetailDynamic({
   id: '24381616',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 收紧；`bookedCount`、`commentCount`、`followed`、`gradeStatus`、`playCount`、`shareCount`、`subscribed` 是宽松字段，`remarkName`、`remixVideo` 在录制里只见过 `null`，没有声明，原样保留。正文没有列表，本批录制与探测未发现可达的空结果；非 null 路径与类型相同；登录探测只在宽松字段上出现不同值（`subscribed` 从 `false` 变成 `true`），登录对照录制已删除。结构定义和类型是 `PlaylistDetailDynamicBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/playlist/detail/dynamic' \
+  --data-urlencode 'id=24381616'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用后可获取歌单详情动态部分,如评论数,是否收藏,播放数
+## 请求参数
 
-**必选参数 :** `id` : 歌单 id
+| 参数 | 类型               | 必填 | 默认值 | 说明                           |
+| ---- | ------------------ | ---- | ------ | ------------------------------ |
+| `id` | `number \| string` | 是   | -      | 歌单 id                        |
+| `s`  | `number`           | 否   | `8`    | 返回的最近收藏者数量，默认 `8` |
 
-**接口地址 :** `/playlist/detail/dynamic`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/playlist/detail/dynamic?id=24381616`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`PlaylistDetailDynamicBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_detail_dynamic`、`hana-music-api/schemas/playlist_detail_dynamic` 导入运行时校验器）。
+
+```ts
+type PlaylistDetailDynamicBody = {
+  code: 200;
+  bookedCount?: number | null;
+  commentCount?: number | null;
+  followed?: boolean | null;
+  gradeStatus?: string | null;
+  playCount?: number | null;
+  shareCount?: number | null;
+  subscribed?: boolean | null;
+};
+```
+
+| 字段           | 类型      | 必填 | 说明                         |
+| -------------- | --------- | ---- | ---------------------------- |
+| `code`         | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `bookedCount`  | `number`  | 否   | -                            |
+| `commentCount` | `number`  | 否   | 评论数                       |
+| `followed`     | `boolean` | 否   | 是否已关注                   |
+| `gradeStatus`  | `string`  | 否   | -                            |
+| `playCount`    | `number`  | 否   | 播放次数                     |
+| `shareCount`   | `number`  | 否   | 分享数                       |
+| `subscribed`   | `boolean` | 否   | 是否已收藏                   |
+
+<!-- api-doc:response:end -->

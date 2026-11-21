@@ -1,8 +1,10 @@
 # 调试与可观测性
 
-需要知道请求有没有重试、为什么失败时，可以传入 `onRequestEvent`。需要统计完整调用耗时，则在调用外层计时。
+排查请求是否触发了自动重试或定位上游失败原因时，可通过 `onRequestEvent` 订阅请求尝试事件。需要度量包含身份准备与正文读取在内的完整延迟时，应在调用外层计时。
 
-## 记录请求事件
+## 请求事件回调
+
+`onRequestEvent` 可配置在 `createHanaMusicApi`、`createClient`、单次模块调用配置或 `createRequest` 中，用于接收请求内核派发的 `RequestDebugEvent` 事件。
 
 ```ts
 import { createHanaMusicApi } from 'hana-music-api';
@@ -23,48 +25,57 @@ const hana = createHanaMusicApi({
 await hana.search({ keywords: '海阔天空' });
 ```
 
-回调只用于观测，应保持轻量并避免抛错。事件 URL 已移除 query，事件不提供 Cookie 字段；自定义日志也不要记录凭据或完整请求正文。
+> [!TIP]
+> 事件回调仅用于日志或指标观测，内部应保持轻量且避免抛出异常。事件中的 `url` 已自动剥离 query 参数且不包含 Cookie、请求正文或未脱敏的 `checkToken`。
 
-| 事件      | 表示什么                                      |
-| --------- | --------------------------------------------- |
-| `attempt` | 请求内核开始一次尝试                          |
-| `retry`   | 这次失败符合重试规则，接下来按 `delayMs` 等待 |
-| `failure` | 请求尝试遇到无法继续重试的失败                |
-
-`attempt` 不等于请求已经真正发出，不能直接拿它当上游实际请求数。一次最终成功的调用也可能先出现多个 `attempt` 和 `retry`。
+| 事件类型  | 触发时机                                          |
+| --------- | ------------------------------------------------- |
+| `attempt` | 请求内核即将开始一次发送尝试（含首次尝试与重试）  |
+| `retry`   | 当前尝试失败且命中重试规则，等待 `delayMs` 后重发 |
+| `failure` | 当前尝试遇到无法继续重试的失败                    |
 
 ```mermaid
 sequenceDiagram
   participant App as 事件回调
   participant Core as 请求内核
-  participant Upstream as 网易云
-  Core-->>App: attempt，第一次尝试
+  participant Upstream as 网易云上游
+  Core-->>App: attempt（第 1 次尝试）
   Core->>Upstream: 发送请求
-  Upstream-->>Core: 符合策略的连接错误
-  Core-->>App: retry，包含等待时间
-  Note over Core: 在总期限内等待
-  Core-->>App: attempt，第二次尝试
+  Upstream-->>Core: 可重试的连接失败
+  Core-->>App: retry（附带 delayMs）
+  Note over Core: 在总超时时间内等待退避
+  Core-->>App: attempt（第 2 次尝试）
   Core->>Upstream: 发送请求
-  Upstream-->>Core: 成功响应
+  Upstream-->>Core: 返回成功响应
 ```
 
-## 每个字段怎样理解
+## 事件字段说明
 
-| 字段                     | 含义                                                 |
-| ------------------------ | ---------------------------------------------------- |
-| `attempt`、`maxAttempts` | 当前尝试序号和请求层记录的尝试上限；不表示必定会重试 |
-| `connectionStrategy`     | 这次尝试使用的连接策略                               |
-| `crypto`                 | API 加密模式，普通文本或字节请求使用空字符串         |
-| `url`                    | 移除 query 后的请求地址                              |
-| `status`、`error`        | 可用时提供失败状态或错误信息                         |
-| `durationMs`             | 通常为这次失败尝试的耗时，不是稳定的整次调用耗时     |
-| `delayMs`                | 下一次尝试前的等待时间                               |
+事件对象的公开类型为 `RequestDebugEvent`，可从主入口或 `/core`、`/utils` 导出类型中导入。
 
-这些字段的公开类型是 `RequestDebugEvent`。参数检查失败、缓存命中、模块本地计算或外层取消等情况，不一定产生对应请求事件。共享读取只执行一次上游工作，也不会替每个等待者各发一套事件。
+| 字段                 | 类型                                | 说明                                                                 |
+| -------------------- | ----------------------------------- | -------------------------------------------------------------------- |
+| `type`               | `'attempt' \| 'retry' \| 'failure'` | 当前事件类型                                                         |
+| `attempt`            | `number`                            | 当前尝试序号，从 `1` 开始计数                                        |
+| `maxAttempts`        | `number`                            | 当前策略记录的尝试次数上限（实际失败前未必达到此上限）               |
+| `connectionStrategy` | `RequestConnectionStrategy`         | 本次尝试使用的连接策略（重试阶段自动切换为 `'close'`）               |
+| `crypto`             | `RequestCrypto`                     | API 协议加密模式，普通直链或上传资源请求为空字符串 `''`              |
+| `url`                | `string`                            | 已剥离 query 字符串的请求目标地址                                    |
+| `status`             | `number \| undefined`               | 失败状态码（在 `retry` 或 `failure` 事件中可用时提供）               |
+| `error`              | `string \| undefined`               | 失败摘要信息（若含 `checkToken` 值会自动脱敏为 `[redacted]`）        |
+| `durationMs`         | `number \| undefined`               | 单次失败尝试的耗时（毫秒），`createRequest` 边界补充事件含外层总耗时 |
+| `delayMs`            | `number \| undefined`               | 下一次重试前等待的毫秒数（仅 `retry` 事件提供）                      |
 
-因此不要依赖 `failure` 统计所有调用失败，也不要把没有 `failure` 当成调用成功的证明。直接 `createRequest` 的边界还会补充部分取消或超时失败事件，其耗时范围与普通请求尝试可能不同。
+使用事件回调时需注意以下观测边界：
+
+- **尝试次数不等同发包次数**：`attempt` 在发送准备阶段触发，不能直接当作实际抵达网络的请求计数。一次最终成功的调用也可能包含多次 `attempt` 与 `retry`。
+- **跳过网络层时无事件**：输入参数拒绝、响应缓存命中、纯本地模块执行或调用开始前即被 `signal` 取消时，均不会触发网络请求事件。
+- **并发请求去重不重复派发**：多个调用方合并共享同一次读取时，事件仅在该次上游请求周期内触发一次，不会为每个等待者重复回调。
+- **失败判定以 Promise 为准**：不要依赖 `failure` 事件统计全部调用错误，也不要将未触发 `failure` 视为调用成功。`createRequest` 在外层超时或取消时还会补充一条 `failure` 事件，业务侧应始终依据 Promise 结果与 [错误处理](/guide/error-handling) 判定成败。
 
 ## 统计完整调用耗时
+
+在模块调用外层包裹 `performance.now()`，可将身份准备、缓存排队、请求重试与响应解码全部纳入同一次计时：
 
 ```ts
 import { search } from 'hana-music-api';
@@ -80,12 +91,7 @@ try {
 }
 ```
 
-这样能把身份初始化、缓存等待、重试和正文读取算在同一次调用里。错误对象的处理见 [返回值与错误](/guide/programmatic-api#返回值与错误)。
+## 与自定义 fetcher 的分工
 
-## 什么时候需要自定义 fetcher
-
-`onRequestEvent` 观察请求内核的尝试与重试。自定义 `fetcher` 则能看到真正交给传输实现的 URL、请求头和响应，可以用于连接管理或测试。
-
-包装 `fetch` 后立刻返回 `Response`，测到的通常只是收到响应头之前的时间；后续读取正文仍由内核完成。自定义实现与取消要求见 [自定义 fetcher](/guide/custom-fetcher)。
-
-维护者可以继续阅读 [架构详解](/guide/request-layer-overview)，以及仓库中的 `tests/transport/load/` 和 `agent-docs/TESTING.md`。
+- **`onRequestEvent`**：聚焦于请求内核内部的尝试次数、退避间隔、连接策略切换以及失败状态追踪，无需介入网络流处理。
+- **自定义 `fetcher`**：聚焦于传输层实现本身，可观测最终组装好的请求头、底层 socket 异常或控制响应头到达时机，详见 [HTTP 代理与自定义 fetcher](/guide/proxy-and-fetcher)。

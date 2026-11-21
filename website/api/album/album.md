@@ -1,35 +1,30 @@
 ---
 title: '获取专辑内容'
-description: '调用此接口，传入专辑 id, 可获得专辑内容'
+description: '调用此接口，传入专辑 id，可获得专辑内容'
 ---
 
 # 获取专辑内容
 
-> 调用此接口，传入专辑 id, 可获得专辑内容
+调用此接口，传入专辑 id，可获得专辑内容
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/album`       |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `album`        |
-| 文档分类 | 专辑           |
+| 项目       | 值                                    |
+| ---------- | ------------------------------------- |
+| 接口地址   | `/album`                              |
+| 请求方式   | `GET` / `POST`                        |
+| 需要登录   | 否                                    |
+| 对应模块   | `album`                               |
+| SDK 函数   | `album`（`hana-music-api/api/album`） |
+| 返回体类型 | `AlbumBody`（已建模返回体）           |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 专辑 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /album?id=32311
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { album } from 'hana-music-api';
@@ -37,22 +32,48 @@ import { album } from 'hana-music-api';
 const result = await album({
   id: '32311',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-专辑里的歌在 `body.songs`（字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”），`body.album.songs` 是空数组。`body.album` 声明了 `id`、`name`、`picUrl`、`size`（歌曲数）、`artist`（`id`、`name`）、`publishTime`（毫秒时间戳）、`description`（简介）、`company`（唱片公司，没写时是空串）。
+```bash
+curl --get 'http://127.0.0.1:3021/album' \
+  --data-urlencode 'id=32311'
+```
 
-只有 `code`、`songs`、`songs[].id`、`album`、`album.id` 收紧；`album` 的其余字段、正文的 `resourceState` 和歌曲的其他字段都是宽松字段，可能缺失或是 `null`，类型不对时当成缺失。结构定义和类型是 `AlbumBody`。3.0.0 起 `album.description` 的类型是 `string | null | undefined`。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 : 调用此接口，传入专辑 id, 可获得专辑内容
+| 参数 | 类型               | 必填 | 默认值 | 说明    |
+| ---- | ------------------ | ---- | ------ | ------- |
+| `id` | `number \| string` | 是   | -      | 专辑 id |
 
-**必选参数 :** `id`: 专辑 id
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/album`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/album?id=32311`
+## 返回值
+
+返回体类型：`AlbumBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/album`、`hana-music-api/schemas/album` 导入运行时校验器）。
+
+```ts
+type AlbumBody = {
+  code: 200;
+  songs: Array<Song>;
+  album: AlbumSummary;
+  resourceState?: boolean | null;
+};
+```
+
+- **公共类型**：[AlbumSummary](/api/shared-types#albumsummary)、[Song](/api/shared-types#song)
+
+| 字段            | 类型                                           | 必填 | 说明                         |
+| --------------- | ---------------------------------------------- | ---- | ---------------------------- |
+| `code`          | `200`                                          | 是   | 业务状态码（`200` 表示成功） |
+| `songs`         | Array\<[Song](/api/shared-types#song)\>        | 是   | 歌曲列表                     |
+| `album`         | [AlbumSummary](/api/shared-types#albumsummary) | 是   | 专辑信息                     |
+| `resourceState` | `boolean`                                      | 否   | -                            |
+
+<!-- api-doc:response:end -->

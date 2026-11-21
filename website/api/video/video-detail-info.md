@@ -5,31 +5,26 @@ description: '调用此接口，传入 vid ( 视频 id )，可获取对应视频
 
 # 获取视频点赞转发评论数数据
 
-> 调用此接口，传入 vid ( 视频 id )，可获取对应视频点赞转发评论数数据
+调用此接口，传入 vid ( 视频 id )，可获取对应视频点赞转发评论数数据
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/video/detail/info` |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 否                   |
-| 对应模块 | `video_detail_info`  |
-| 文档分类 | 视频与 MV            |
+| 项目       | 值                                                          |
+| ---------- | ----------------------------------------------------------- |
+| 接口地址   | `/video/detail/info`                                        |
+| 请求方式   | `GET` / `POST`                                              |
+| 需要登录   | 否                                                          |
+| 对应模块   | `video_detail_info`                                         |
+| SDK 函数   | `videoDetailInfo`（`hana-music-api/api/video_detail_info`） |
+| 返回体类型 | `VideoDetailInfoBody`（已建模返回体）                       |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数  | 类型   | 必填 | 默认值 | 说明    |
-| ----- | ------ | :--: | ------ | ------- |
-| `vid` | string |  ✅  | -      | 视频 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /video/detail/info?vid=89ADDE33C0AAE8EC14B99F6750DB954D
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { videoDetailInfo } from 'hana-music-api';
@@ -37,19 +32,48 @@ import { videoDetailInfo } from 'hana-music-api';
 const result = await videoDetailInfo({
   vid: '89ADDE33C0AAE8EC14B99F6750DB954D',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 和接口要返回的计数 `commentCount`、`shareCount`、`likedCount` 收紧；`liked` 是当前账号的点赞状态，宽松。本批录制与探测未发现可达的空结果（未知视频返回 `code: 400`，作为业务失败原样转交）。结构定义和类型是 `VideoDetailInfoBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/video/detail/info' \
+  --data-urlencode 'vid=89ADDE33C0AAE8EC14B99F6750DB954D'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入 vid ( 视频 id )，可获取对应视频点赞转发评论数数据
-**必选参数 :** `vid`: 视频 id
+## 请求参数
 
-**接口地址 :** `/video/detail/info`
+| 参数  | 类型     | 必填 | 默认值 | 说明    |
+| ----- | -------- | ---- | ------ | ------- |
+| `vid` | `string` | 是   | -      | 视频 id |
 
-**调用例子 :** `/video/detail/info?vid=89ADDE33C0AAE8EC14B99F6750DB954D`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`VideoDetailInfoBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/video_detail_info`、`hana-music-api/schemas/video_detail_info` 导入运行时校验器）。
+
+```ts
+type VideoDetailInfoBody = {
+  code: 200;
+  commentCount: number;
+  liked?: boolean | null;
+  likedCount: number;
+  shareCount: number;
+};
+```
+
+| 字段           | 类型      | 必填 | 说明                         |
+| -------------- | --------- | ---- | ---------------------------- |
+| `code`         | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `commentCount` | `number`  | 是   | 评论数                       |
+| `liked`        | `boolean` | 否   | 是否已点赞                   |
+| `likedCount`   | `number`  | 是   | 点赞数                       |
+| `shareCount`   | `number`  | 是   | 分享数                       |
+
+<!-- api-doc:response:end -->

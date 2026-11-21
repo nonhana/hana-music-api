@@ -5,29 +5,26 @@ description: '调用此接口获取歌曲的红心用户数量'
 
 # 歌曲红心数量
 
-> 调用此接口获取歌曲的红心用户数量
+调用此接口获取歌曲的红心用户数量
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                |
-| -------- | ----------------- |
-| 接口地址 | `/song/red/count` |
-| 请求方式 | `GET` / `POST`    |
-| 需要登录 | 否                |
-| 对应模块 | `song_red_count`  |
-| 文档分类 | 歌曲与播放        |
+| 项目       | 值                                                    |
+| ---------- | ----------------------------------------------------- |
+| 接口地址   | `/song/red/count`                                     |
+| 请求方式   | `GET` / `POST`                                        |
+| 需要登录   | 否                                                    |
+| 对应模块   | `song_red_count`                                      |
+| SDK 函数   | `songRedCount`（`hana-music-api/api/song_red_count`） |
+| 返回体类型 | `SongRedCountBody`（已建模返回体）                    |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /song/red/count?id=186016
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { songRedCount } from 'hana-music-api';
@@ -35,24 +32,49 @@ import { songRedCount } from 'hana-music-api';
 const result = await songRedCount({
   id: '186016',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body` 是网易云原文；`code`、数量路径 `data` 和 `data.count` 收紧。`data.count` 是红心数量，不存在的歌曲返回 `0`；`countDesc` 只是展示文案，宽松（缺失、`null` 或类型不对都只丢这一项）。
+```bash
+curl --get 'http://127.0.0.1:3021/song/red/count' \
+  --data-urlencode 'id=186016'
+```
 
-匿名调用也会返回数量，登录和匿名的结构相同。结构定义和类型是 `SongRedCountBody`，见 [返回体结构](/guide/response-bodies#曲库)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明: 调用此接口获取歌曲的红心用户数量
+| 参数 | 类型               | 必填 | 默认值 | 说明   |
+| ---- | ------------------ | ---- | ------ | ------ |
+| `id` | `number \| string` | 是   | -      | 歌曲id |
 
-**必选参数：**
+<!-- api-doc:params:end -->
 
-`id`: 歌曲id
+<!-- api-doc:response:start -->
 
-**接口地址:** `/song/red/count`
+## 返回值
 
-**调用例子:** `/song/red/count?id=186016`
+返回体类型：`SongRedCountBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/song_red_count`、`hana-music-api/schemas/song_red_count` 导入运行时校验器）。
+
+```ts
+type RedCount = {
+  count: number;
+  countDesc?: string | null;
+};
+
+type SongRedCountBody = {
+  code: 200;
+  data: RedCount;
+};
+```
+
+| 字段             | 类型       | 必填 | 说明                         |
+| ---------------- | ---------- | ---- | ---------------------------- |
+| `code`           | `200`      | 是   | 业务状态码（`200` 表示成功） |
+| `data`           | `RedCount` | 是   | 接口返回的数据主体           |
+| `data.count`     | `number`   | 是   | 条目总数                     |
+| `data.countDesc` | `string`   | 否   | -                            |
+
+<!-- api-doc:response:end -->

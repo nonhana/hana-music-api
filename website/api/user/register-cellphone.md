@@ -1,39 +1,30 @@
 ---
 title: '注册(修改密码)'
-description: '调用此接口 ,传入手机号码和验证码,密码,昵称, 可注册网易云音乐账号(同时可修改密码)'
+description: '调用此接口 ，传入手机号码和验证码，密码，昵称，可注册网易云音乐账号(同时可修改密码)'
 ---
 
 # 注册(修改密码)
 
-> 调用此接口 ,传入手机号码和验证码,密码,昵称, 可注册网易云音乐账号(同时可修改密码)
+调用此接口 ，传入手机号码和验证码，密码，昵称，可注册网易云音乐账号(同时可修改密码)
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                    |
-| -------- | --------------------- |
-| 接口地址 | `/register/cellphone` |
-| 请求方式 | `GET` / `POST`        |
-| 需要登录 | 否                    |
-| 对应模块 | `register_cellphone`  |
-| 文档分类 | 用户与登录            |
+| 项目       | 值                                                             |
+| ---------- | -------------------------------------------------------------- |
+| 接口地址   | `/register/cellphone`                                          |
+| 请求方式   | `GET` / `POST`                                                 |
+| 需要登录   | 否                                                             |
+| 对应模块   | `register_cellphone`                                           |
+| SDK 函数   | `registerCellphone`（`hana-music-api/api/register_cellphone`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                                    |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数          | 类型   | 必填 | 默认值 | 说明                                                      |
-| ------------- | ------ | :--: | ------ | --------------------------------------------------------- |
-| `captcha`     | string |  ✅  | -      | 验证码                                                    |
-| `phone`       | string |  ✅  | -      | 手机号码                                                  |
-| `password`    | string |  ✅  | -      | 密码                                                      |
-| `nickname`    | string |  ✅  | -      | 昵称                                                      |
-| `countrycode` | string |  —   | 86     | 国家码，用于国外手机号，例如美国传入：`1` ,默认 86 即中国 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /register/cellphone?phone=13xxx&password=xxxxx&captcha=1234&nickname=binary1345
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { registerCellphone } from 'hana-music-api';
@@ -44,28 +35,35 @@ const result = await registerCellphone({
   captcha: '1234',
   nickname: 'binary1345',
 });
-
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-说明 : 调用此接口 ,传入手机号码和验证码,密码,昵称, 可注册网易云音乐账号(同时可修改密码)
+```bash
+curl 'http://127.0.0.1:3021/register/cellphone' \
+  -H 'Content-Type: application/json' \
+  --data '{"phone":"13xxx","password":"xxxxx","captcha":"1234","nickname":"binary1345"}'
+```
 
-**必选参数 :**
+<!-- api-doc:params:start -->
 
-`captcha`: 验证码
+## 请求参数
 
-`phone` : 手机号码
+| 参数          | 类型               | 必填 | 默认值 | 说明                                                       |
+| ------------- | ------------------ | ---- | ------ | ---------------------------------------------------------- |
+| `captcha`     | `string`           | 是   | -      | 验证码                                                     |
+| `countrycode` | `number \| string` | 否   | `86`   | 国家码，用于国外手机号，例如美国传入：`1` ，默认 86 即中国 |
+| `nickname`    | `string`           | 是   | -      | 昵称                                                       |
+| `password`    | `string`           | 是   | -      | 密码                                                       |
+| `phone`       | `string`           | 是   | -      | 手机号码                                                   |
 
-`password`: 密码
+<!-- api-doc:params:end -->
 
-`nickname`: 昵称
+<!-- api-doc:response:start -->
 
-**可选参数 :**
+## 返回值
 
-`countrycode`: 国家码，用于国外手机号，例如美国传入：`1` ,默认 86 即中国
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
 
-**接口地址 :** `/register/cellphone`
-
-**调用例子 :** `/register/cellphone?phone=13xxx&password=xxxxx&captcha=1234&nickname=binary1345`
+<!-- api-doc:response:end -->

@@ -1,58 +1,86 @@
 ---
 title: '电台 - 24 小时主播榜'
-description: '调用此接口,可获取 24 小时主播榜'
+description: '调用此接口，可获取 24 小时主播榜'
 ---
 
 # 电台 - 24 小时主播榜
 
-> 调用此接口,可获取 24 小时主播榜
+调用此接口，可获取 24 小时主播榜
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                  |
-| -------- | ------------------- |
-| 接口地址 | `/dj/toplist/hours` |
-| 请求方式 | `GET` / `POST`      |
-| 需要登录 | 否                  |
-| 对应模块 | `dj_toplist_hours`  |
-| 文档分类 | 电台与播客          |
+| 项目       | 值                                                        |
+| ---------- | --------------------------------------------------------- |
+| 接口地址   | `/dj/toplist/hours`                                       |
+| 请求方式   | `GET` / `POST`                                            |
+| 需要登录   | 否                                                        |
+| 对应模块   | `dj_toplist_hours`                                        |
+| SDK 函数   | `djToplistHours`（`hana-music-api/api/dj_toplist_hours`） |
+| 返回体类型 | `DjToplistHoursBody`（已建模返回体）                      |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数    | 类型             | 必填 | 默认值 | 说明                                 |
-| ------- | ---------------- | :--: | ------ | ------------------------------------ |
-| `limit` | number \| string |  —   | 100    | 返回数量，默认为 100 (不支持 offset) |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /dj/toplist/hours?limit=30
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { djToplistHours } from 'hana-music-api';
 
 const result = await djToplistHours({
-  limit: '30',
+  limit: 30,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、通到主播榜的 `body.data`、`data.list` 和榜上主播自己的编号 `data.list[].id` 收紧；`data.total`、`data.updateTime`、排名、分数、头像、认证和直播状态都是宽松字段。`msg` 在成功录制里只见过 `null`，未声明。接口不支持 `offset`，SDK 的 `limit || 100` 会把 `limit=0` 当默认 `100` 发送；本批录制和探测里没有可达的空结果。非数字或超出 `[1, 100]` 的 `limit` 返回正文 `code: 400`，SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `DjToplistHoursBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/dj/toplist/hours' \
+  --data-urlencode 'limit=30'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口,可获取 24 小时主播榜
+## 请求参数
 
-**可选参数 :**
+| 参数    | 类型     | 必填 | 默认值 | 说明                                 |
+| ------- | -------- | ---- | ------ | ------------------------------------ |
+| `limit` | `number` | 否   | `100`  | 返回数量，默认为 100 (不支持 offset) |
 
-`limit` : 返回数量，默认为 100 (不支持 offset)
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/dj/toplist/hours`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/dj/toplist/hours?limit=30`
+## 返回值
+
+返回体类型：`DjToplistHoursBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/dj_toplist_hours`、`hana-music-api/schemas/dj_toplist_hours` 导入运行时校验器）。
+
+```ts
+type DjToplistHoursBody = {
+  code: 200;
+  data: {
+    total?: number | null;
+    updateTime?: number | null;
+    list: Array<DjAnchorRank>;
+  };
+};
+```
+
+- **公共类型**：[DjAnchorRank](/api/shared-types#djanchorrank)
+
+| 字段              | 类型                                                    | 必填 | 说明                         |
+| ----------------- | ------------------------------------------------------- | ---- | ---------------------------- |
+| `code`            | `200`                                                   | 是   | 业务状态码（`200` 表示成功） |
+| `data`            | `object`                                                | 是   | 接口返回的数据主体           |
+| `data.total`      | `number`                                                | 否   | 总条目数                     |
+| `data.updateTime` | `number`                                                | 否   | 时间戳                       |
+| `data.list`       | Array\<[DjAnchorRank](/api/shared-types#djanchorrank)\> | 是   | 结果条目列表                 |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **分页限制**：上游接口不支持 `offset` 参数，仅支持通过 `limit` 控制返回条数。

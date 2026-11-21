@@ -5,79 +5,84 @@ description: '可以搜索播客里的声音'
 
 # 播客声音搜索
 
-> 可以搜索播客里的声音
+可以搜索播客里的声音
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                       |
-| -------- | ------------------------ |
-| 接口地址 | `/voicelist/list/search` |
-| 请求方式 | `GET` / `POST`           |
-| 需要登录 | 否                       |
-| 对应模块 | `voicelist_list_search`  |
-| 文档分类 | 电台与播客               |
+| 项目       | 值                                                                  |
+| ---------- | ------------------------------------------------------------------- |
+| 接口地址   | `/voicelist/list/search`                                            |
+| 请求方式   | `GET` / `POST`                                                      |
+| 需要登录   | 否                                                                  |
+| 对应模块   | `voicelist_list_search`                                             |
+| SDK 函数   | `voicelistListSearch`（`hana-music-api/api/voicelist_list_search`） |
+| 返回体类型 | `VoicelistListSearchBody`（已建模返回体）                           |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /voicelist/list/search
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { voicelistListSearch } from 'hana-music-api';
 
-const result = await voicelistListSearch();
-
+const result = await voicelistListSearch({
+  voiceListId: 999999,
+});
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 和通到声音列表的 `body.data` 收紧；`data.total`、`data.hasMore` 是宽松的分页提示。本批登录和匿名录制都是空列表（账号没有声音），`data.list` 的元素类型没有证据，未声明并原样保留。结构定义和类型是 `VoicelistListSearchBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/voicelist/list/search' \
+  --data-urlencode 'voiceListId=999999'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 可以搜索播客里的声音
+## 请求参数
 
-**接口地址:** `/voicelist/list/search`
+| 参数            | 类型               | 必填 | 默认值 | 说明                                                                                                                     |
+| --------------- | ------------------ | ---- | ------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `voiceListId`   | `number \| string` | 否   | -      | 所属播客 ID（不传则查询账号下所有声音）                                                                                  |
+| `limit`         | `number`           | 否   | `200`  | 返回数量，默认 `200`                                                                                                     |
+| `offset`        | `number`           | 否   | `0`    | 偏移数量，用于分页，默认 `0`                                                                                             |
+| `name`          | `string`           | 否   | -      | 声音名称关键词                                                                                                           |
+| `displayStatus` | `string`           | 否   | -      | 声音展示状态（如 `ONLINE`、`AUDITING`、`ONLY_SELF_SEE`、`SCHEDULE_PUBLISH`、`TRANSCODE_FAILED`、`PUBLISHING`、`FAILED`） |
+| `type`          | `string`           | 否   | -      | 可见类型（如 `PUBLIC`、`PRIVATE`）                                                                                       |
+| `voiceFeeType`  | `number`           | 否   | -      | 付费类型（`-1` 全部、`0` 免费、`1` 收费）                                                                                |
 
-### 可选参数
+<!-- api-doc:params:end -->
 
-- 状态（非必填）：
-  - `displayStatus: null`（默认）：返回所有状态的声音
-  - `displayStatus: "ONLINE"`：已发布的声音
-  - `displayStatus: "AUDITING"`：审核中的声音
-  - `displayStatus: "ONLY_SELF_SEE"`：尽自己可见的声音
-  - `displayStatus: "SCHEDULE_PUBLISH"`：定时发布的声音
-  - `displayStatus: "TRANSCODE_FAILED"`：上传失败的声音
-  - `displayStatus: "PUBLISHING"`：发布中的声音
-  - `displayStatus: "FAILED"`：发布失败的声音
+<!-- api-doc:response:start -->
 
-- `limit: 20`：每次返回的声音数量（最多200个）
+## 返回值
 
-- 搜索关键词：
-  - `name: null`：返回所有的声音
-  - `name: [关键词]`：返回包含指定关键词的声音文件
+返回体类型：`VoicelistListSearchBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/voicelist_list_search`、`hana-music-api/schemas/voicelist_list_search` 导入运行时校验器）。
 
-- `offset: 0`：偏移量，用于分页，默认为0，表示从第一个声音开始获取
+```ts
+type VoicelistListSearchBody = {
+  code: 200;
+  data: {
+    hasMore?: boolean | null;
+    total?: number | null;
+  };
+};
+```
 
-- 博客：
-  - `radioId: null`：返回所有电台的声音
-  - `radioId: [播客id]`：返回特定播客的声音
+| 字段           | 类型      | 必填 | 说明                         |
+| -------------- | --------- | ---- | ---------------------------- |
+| `code`         | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `data`         | `object`  | 是   | 接口返回的数据主体           |
+| `data.hasMore` | `boolean` | 否   | 是否还有更多数据             |
+| `data.total`   | `number`  | 否   | 总条目数                     |
 
-- 是否公开：
-  - `type: null`：返回所有类型的声音
-  - `type: "PUBLIC"`：返回公开的声音
-  - `type: "PRIVATE"`：返回隐私的声音
+<!-- api-doc:response:end -->
 
-- 是否付费：
-  - `voiceFeeType: null`（默认）：返回所有类型的声音
-  - `voiceFeeType: -1`：返回所有类型的声音
-  - `voiceFeeType: 0`：返回免费的声音
-  - `voiceFeeType: 1`：返回收费的声音
+## 注意事项
+
+- **权限范围**：工作台接口仅查询当前登录账号下的声音；可选按 `displayStatus`、`type`、`voiceFeeType` 筛选。

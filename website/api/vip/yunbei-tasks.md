@@ -5,48 +5,108 @@ description: '无需登录即可调用；登录后返回当前账号的云贝所
 
 # 云贝所有任务
 
-> 无需登录即可调用；登录后返回当前账号的云贝所有任务
+无需登录即可调用；登录后返回当前账号的云贝所有任务
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/yunbei/tasks` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `yunbei_tasks`  |
-| 文档分类 | 会员与云贝      |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/yunbei/tasks`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 否                                                 |
+| 对应模块   | `yunbei_tasks`                                     |
+| SDK 函数   | `yunbeiTasks`（`hana-music-api/api/yunbei_tasks`） |
+| 返回体类型 | `YunbeiTasksBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /yunbei/tasks
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { yunbeiTasks } from 'hana-music-api';
 
 const result = await yunbeiTasks();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、任务列表路径 `body.data` 及每个任务的编号 `data[].taskId` 收紧；任务说明、图标、链接和奖励明细宽松，只见过 `null` 的 `wordsPicUrl`、图标与目标状态字段未声明。结构定义和类型是 `YunbeiTasksBody`，见[返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/yunbei/tasks'
+```
 
-匿名调用返回 `body.code: 200`，正文同样通过结构校验；匿名对照录制是 `vip/yunbei_tasks.anonymous.json`。本批未录到空任务列表（未验证是否可达）。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 :无需登录即可调用；登录后返回当前账号的云贝所有任务
+无业务参数。
 
-**接口地址 :** `/yunbei/tasks`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/yunbei/tasks`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`YunbeiTasksBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/yunbei_tasks`、`hana-music-api/schemas/yunbei_tasks` 导入运行时校验器）。
+
+```ts
+type TaskExtInfo = {
+  missionCode?: string | null;
+};
+
+type TaskPointDetail = {
+  progressRate?: number | null;
+  rewardExtendInfo?: string | null;
+  rewardId?: number | null;
+  rewardType?: number | null;
+  sortValue?: number | null;
+  stageType?: number | null;
+  status?: number | null;
+  sumTarget?: number | null;
+  times?: number | null;
+  userMissionId?: number | null;
+  value?: number | null;
+  worth?: number | null;
+};
+
+type Task = {
+  taskId: number;
+  actionType?: number | null;
+  completed?: boolean | null;
+  completedPoint?: number | null;
+  extInfoMap?: TaskExtInfo | null;
+  link?: string | null;
+  linkText?: string | null;
+  period?: number | null;
+  position?: number | null;
+  status?: number | null;
+  subAction?: string | null;
+  targetPoint?: number | null;
+  targetUserTaskId?: number | null;
+  taskDescription?: string | null;
+  taskName?: string | null;
+  taskPoint?: number | null;
+  taskPointDetail?: Array<TaskPointDetail> | null;
+  taskType?: string | null;
+  userTaskId?: number | null;
+  webPicUrl?: string | null;
+};
+
+type YunbeiTasksBody = {
+  code: 200;
+  data: Array<Task>;
+  message?: string | null;
+};
+```
+
+| 字段      | 类型          | 必填 | 说明                         |
+| --------- | ------------- | ---- | ---------------------------- |
+| `code`    | `200`         | 是   | 业务状态码（`200` 表示成功） |
+| `data`    | `Array<Task>` | 是   | 接口返回的数据主体           |
+| `message` | `string`      | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

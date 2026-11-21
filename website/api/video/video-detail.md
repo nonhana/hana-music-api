@@ -5,31 +5,26 @@ description: '调用此接口，可获取视频详情'
 
 # 视频详情
 
-> 调用此接口，可获取视频详情
+调用此接口，可获取视频详情
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/video/detail` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `video_detail`  |
-| 文档分类 | 视频与 MV       |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/video/detail`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 否                                                 |
+| 对应模块   | `video_detail`                                     |
+| SDK 函数   | `videoDetail`（`hana-music-api/api/video_detail`） |
+| 返回体类型 | `VideoDetailBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明       |
-| ---- | ------ | :--: | ------ | ---------- |
-| `id` | string |  ✅  | -      | 视频 的 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /video/detail?id=89ADDE33C0AAE8EC14B99F6750DB954D
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { videoDetail } from 'hana-music-api';
@@ -37,20 +32,70 @@ import { videoDetail } from 'hana-music-api';
 const result = await videoDetail({
   id: '89ADDE33C0AAE8EC14B99F6750DB954D',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、详情 `body.data` 和视频自己的编号 `data.vid` 收紧；`creator` 复用宽松的 `PlaylistUser`，封面、标题、描述、评论/分享/收藏计数、时长、发布时间、`resolutions[]`、`videoGroup[]` 等其余字段宽松。`markTypes` 只见过空数组、`videoUserLiveInfo` 只见过 `null`，没有声明，原样保留。数字视频 id 会返回 `code: 400`，作为业务失败原样转交；本批录制与探测未发现可达的空结果。结构定义和类型是 `VideoDetailBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/video/detail' \
+  --data-urlencode 'id=89ADDE33C0AAE8EC14B99F6750DB954D'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获取视频详情
+## 请求参数
 
-**必选参数 :** `id`: 视频 的 id
+| 参数 | 类型     | 必填 | 默认值 | 说明       |
+| ---- | -------- | ---- | ------ | ---------- |
+| `id` | `string` | 是   | -      | 视频 的 id |
 
-**接口地址 :** `/video/detail`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/video/detail?id=89ADDE33C0AAE8EC14B99F6750DB954D`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`VideoDetailBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/video_detail`、`hana-music-api/schemas/video_detail` 导入运行时校验器）。
+
+```ts
+type VideoDetail = {
+  vid: string;
+  advertisement?: boolean | null;
+  authType?: number | null;
+  avatarUrl?: string | null;
+  commentCount?: number | null;
+  coverUrl?: string | null;
+  creator?: PlaylistUser | null;
+  description?: string | null;
+  durationms?: number | null;
+  hasRelatedGameAd?: boolean | null;
+  height?: number | null;
+  playTime?: number | null;
+  praisedCount?: number | null;
+  publishTime?: number | null;
+  resolutions?: Array<VideoResolutionEntry> | null;
+  shareCount?: number | null;
+  subscribeCount?: number | null;
+  threadId?: string | null;
+  title?: string | null;
+  videoGroup?: Array<VideoGroupRef> | null;
+  width?: number | null;
+};
+
+type VideoDetailBody = {
+  code: 200;
+  message?: string | null;
+  data: VideoDetail;
+};
+```
+
+- **公共类型**：[PlaylistUser](/api/shared-types#playlistuser)、[VideoGroupRef](/api/shared-types#videogroupref)、[VideoResolutionEntry](/api/shared-types#videoresolutionentry)
+
+| 字段      | 类型          | 必填 | 说明                         |
+| --------- | ------------- | ---- | ---------------------------- |
+| `code`    | `200`         | 是   | 业务状态码（`200` 表示成功） |
+| `message` | `string`      | 否   | 返回说明信息                 |
+| `data`    | `VideoDetail` | 是   | 接口返回的数据主体           |
+
+<!-- api-doc:response:end -->

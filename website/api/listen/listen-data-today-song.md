@@ -1,48 +1,96 @@
 ---
 title: '听歌足迹 - 今日收听'
-description: '登录后调用此接口, 获取今日收听'
+description: '登录后调用此接口，获取今日收听'
 ---
 
 # 听歌足迹 - 今日收听
 
-> 登录后调用此接口, 获取今日收听
+登录后调用此接口，获取今日收听
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                        |
-| -------- | ------------------------- |
-| 接口地址 | `/listen/data/today/song` |
-| 请求方式 | `GET` / `POST`            |
-| 需要登录 | 是                        |
-| 对应模块 | `listen_data_today_song`  |
-| 文档分类 | 听歌记录                  |
+| 项目       | 值                                                                   |
+| ---------- | -------------------------------------------------------------------- |
+| 接口地址   | `/listen/data/today/song`                                            |
+| 请求方式   | `GET` / `POST`                                                       |
+| 需要登录   | 是                                                                   |
+| 对应模块   | `listen_data_today_song`                                             |
+| SDK 函数   | `listenDataTodaySong`（`hana-music-api/api/listen_data_today_song`） |
+| 返回体类型 | `ListenDataTodaySongBody`（已建模返回体）                            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /listen/data/today/song
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { listenDataTodaySong } from 'hana-music-api';
 
-const result = await listenDataTodaySong();
-
+const result = await listenDataTodaySong({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、通到今日收听列表的 `body.data.songDTOs` 和每首歌的 `body.data.songDTOs[].songId` 收紧；`songName`、`aliasName`、`picUrl`、`redStar`、`lastPlayTime` 等字段宽松，`artists` 及其中的 `artistId` 在宽松容器里也宽松。列表本身允许为空数组，`[]` 是构造边界；本批只有一个有数据的登录账号，空账号下 `data`/列表的实际表现未验证。本页录制来自登录账号（`context.viewer` 是 `authenticated`）；未登录时上游返回 `code: 302`（`listen_data_today_song.anonymous.json`）。
+```bash
+curl 'http://127.0.0.1:3021/listen/data/today/song' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口, 获取今日收听
+## 请求参数
 
-**接口地址 :** `/listen/data/today/song`
+无业务参数。
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`ListenDataTodaySongBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/listen_data_today_song`、`hana-music-api/schemas/listen_data_today_song` 导入运行时校验器）。
+
+```ts
+type TodaySong = {
+  aliasName?: string | null;
+  artists?: Array<{
+    artistId?: number | null;
+    artistName?: string | null;
+  }> | null;
+  lastPlayTime?: number | null;
+  picId?: number | null;
+  picUrl?: string | null;
+  redStar?: boolean | null;
+  songId: number;
+  songName?: string | null;
+};
+
+type ListenDataTodaySongBody = {
+  code: 200;
+  data: {
+    songDTOs: Array<TodaySong>;
+  };
+  message?: string | null;
+};
+```
+
+| 字段                           | 类型               | 必填 | 说明                         |
+| ------------------------------ | ------------------ | ---- | ---------------------------- |
+| `code`                         | `200`              | 是   | 业务状态码（`200` 表示成功） |
+| `data`                         | `object`           | 是   | 接口返回的数据主体           |
+| `data.songDTOs`                | `Array<TodaySong>` | 是   | -                            |
+| `data.songDTOs[].aliasName`    | `string`           | 否   | -                            |
+| `data.songDTOs[].artists`      | `Array<object>`    | 否   | 歌手列表                     |
+| `data.songDTOs[].lastPlayTime` | `number`           | 否   | 时间戳                       |
+| `data.songDTOs[].picId`        | `number`           | 否   | pic ID                       |
+| `data.songDTOs[].picUrl`       | `string`           | 否   | 资源访问链接                 |
+| `data.songDTOs[].redStar`      | `boolean`          | 否   | -                            |
+| `data.songDTOs[].songId`       | `number`           | 是   | 歌曲 ID                      |
+| `data.songDTOs[].songName`     | `string`           | 否   | -                            |
+| `message`                      | `string`           | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

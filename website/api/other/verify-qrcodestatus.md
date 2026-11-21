@@ -1,62 +1,88 @@
 ---
 title: '验证接口 - 二维码检测'
-description: '使用此接口,传入`/verify/getQr`接口返回的`qr`字符串,可检测二维码扫描状态'
+description: '使用此接口，传入`/verify/getQr`接口返回的`qr`字符串，可检测二维码扫描状态'
 ---
 
 # 验证接口 - 二维码检测
 
-> 使用此接口,传入`/verify/getQr`接口返回的`qr`字符串,可检测二维码扫描状态
+使用此接口，传入`/verify/getQr`接口返回的`qr`字符串，可检测二维码扫描状态
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                     |
-| -------- | ---------------------- |
-| 接口地址 | `/verify/qrcodestatus` |
-| 请求方式 | `GET` / `POST`         |
-| 需要登录 | 是                     |
-| 对应模块 | `verify_qrcodestatus`  |
-| 文档分类 | 其他工具               |
+| 项目       | 值                                                               |
+| ---------- | ---------------------------------------------------------------- |
+| 接口地址   | `/verify/qrcodestatus`                                           |
+| 请求方式   | `GET` / `POST`                                                   |
+| 需要登录   | 是                                                               |
+| 对应模块   | `verify_qrcodestatus`                                            |
+| SDK 函数   | `verifyQrcodestatus`（`hana-music-api/api/verify_qrcodestatus`） |
+| 返回体类型 | `VerifyQrcodestatusBody`（已建模返回体）                         |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /verify/qrcodestatus
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { verifyQrcodestatus } from 'hana-music-api';
 
-const result = await verifyQrcodestatus();
-
+const result = await verifyQrcodestatus(
+  {
+    qr: 'your-verify-qr',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-二维码状态在 `data.qrCodeStatus`（`0` 生成成功、`10` 已扫描、`20` 验证成功、`21` 已失效），`data.detailReason` 给出原因码（`0` 正常、`303` 账号不一致）。`code`、`data` 和 `qrCodeStatus` 收紧；`detailReason` 与 `message` 宽松，缺失或 `null` 照常返回；有值但类型不对时丢这一项。上游把成功码写成字符串 `"200"`，请求层会归一成数字 200。本批没有可构造的扫码会话，只录到已失效二维码（`qrCodeStatus: 21`）；未扫、已扫、已确认三态没有录制，未声明额外字段。接口需要登录：未登录时上游返回 `code: 301`（`un login`，`verify_qrcodestatus.anonymous.json`），空 `qr` 返回 `code: 400`（`qrcode is null`，`verify_qrcodestatus.empty.json`），SDK 按业务拒绝原样转交。结构定义和类型是 `VerifyQrcodestatusBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/verify/qrcodestatus' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'qr=your-verify-qr'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 使用此接口,传入`/verify/getQr`接口返回的`qr`字符串,可检测二维码扫描状态
+## 请求参数
 
-**接口地址:** `/verify/qrcodestatus`
+| 参数 | 类型     | 必填 | 默认值 | 说明                                |
+| ---- | -------- | ---- | ------ | ----------------------------------- |
+| `qr` | `string` | 是   | -      | `/verify/getQr`接口返回的`qr`字符串 |
 
-**必选参数：**
+<!-- api-doc:params:end -->
 
-`qr`: `/verify/getQr`接口返回的`qr`字符串
+<!-- api-doc:response:start -->
 
-返回结果说明:
+## 返回值
 
-qrCodeStatus:0,detailReason:0 二维码生成成功
+返回体类型：`VerifyQrcodestatusBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/verify_qrcodestatus`、`hana-music-api/schemas/verify_qrcodestatus` 导入运行时校验器）。
 
-qrCodeStatus:0,detailReason:303 账号不一致
+```ts
+type VerifyQrcodestatusBody = {
+  code: 200 | '200';
+  data: {
+    qrCodeStatus: number;
+    detailReason?: number | null;
+  };
+  message?: string | null;
+};
+```
 
-qrCodeStatus:10,detailReason:0 二维码已扫描,并且手机号相同
+| 字段                | 类型           | 必填 | 说明                                                              |
+| ------------------- | -------------- | ---- | ----------------------------------------------------------------- |
+| `code`              | `200 \| '200'` | 是   | 业务状态码（`200` 表示成功）                                      |
+| `data`              | `object`       | 是   | 接口返回的数据主体                                                |
+| `data.qrCodeStatus` | `number`       | 是   | 二维码状态（`0` 已生成、`10` 已扫描、`20` 验证成功、`21` 已失效） |
+| `data.detailReason` | `number`       | 否   | 状态原因码（`0` 正常、`303` 账号不一致）                          |
+| `message`           | `string`       | 否   | 返回说明信息                                                      |
 
-qrCodeStatus:20,detailReason:0 验证成功qrCodeStatus:21,detailReason:0 二维码已失效
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **状态码组合**：`data.qrCodeStatus` 表示扫描进度（`0` 已生成、`10` 已扫描、`20` 验证成功、`21` 已失效），`data.detailReason` 表示校验结果（`0` 正常、`303` 账号不一致）。

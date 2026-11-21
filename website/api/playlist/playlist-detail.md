@@ -1,36 +1,31 @@
 ---
 title: '获取歌单详情'
-description: '歌单能看到歌单名字, 但看不到具体歌单内容，调用此接口，传入歌单 id, 可'
+description: '歌单能看到歌单名字，但看不到具体歌单内容，调用此接口，传入歌单 id，可'
 ---
 
 # 获取歌单详情
 
-> 歌单能看到歌单名字, 但看不到具体歌单内容，调用此接口，传入歌单 id, 可
+歌单能看到歌单名字，但看不到具体歌单内容，调用此接口，传入歌单 id，可
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                 |
-| -------- | ------------------ |
-| 接口地址 | `/playlist/detail` |
-| 请求方式 | `GET` / `POST`     |
-| 需要登录 | 否                 |
-| 对应模块 | `playlist_detail`  |
-| 文档分类 | 歌单               |
+| 项目       | 值                                                                                |
+| ---------- | --------------------------------------------------------------------------------- |
+| 接口地址   | `/playlist/detail`                                                                |
+| 请求方式   | `GET` / `POST`                                                                    |
+| 需要登录   | 否                                                                                |
+| 对应模块   | `playlist_detail`                                                                 |
+| SDK 函数   | `playlistDetail`（`hana-music-api/api/playlist_detail`）                          |
+| 返回体类型 | `PlaylistDetailBody`（已建模返回体）                                              |
+| 读缓存     | 支持共享读缓存与并发请求去重，详见 [缓存与身份池](/guide/cache-and-identity-pool) |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明                           |
-| ---- | ------ | :--: | ------ | ------------------------------ |
-| `id` | string |  ✅  | -      | 歌单 id                        |
-| `s`  | string |  —   | 8      | 歌单最近的 s 个收藏者,默认为 8 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/detail?id=24381616
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistDetail } from 'hana-music-api';
@@ -38,25 +33,62 @@ import { playlistDetail } from 'hana-music-api';
 const result = await playlistDetail({
   id: '24381616',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-声明了 `body.playlist` 的 `id`、`name`、`coverImgUrl`、`description`、`trackCount`、`trackIds`（每项声明了 `id`）、`creator`（`userId`、`nickname`）、`subscribed`（Cookie 里的 `MUSIC_U` 已经失效时是 `null`）、`updateTime`、`trackUpdateTime`，以及 `PlaylistSummary` 的其余宽松字段。
+```bash
+curl --get 'http://127.0.0.1:3021/playlist/detail' \
+  --data-urlencode 'id=24381616'
+```
 
-只有 `code`、`playlist`、`playlist.id`、`playlist.trackIds`、`playlist.trackIds[].id` 收紧；其余字段宽松，`creator`、`subscribers` 里的用户字段也全部宽松。`tracks` 是歌单里套着的歌曲，`tracks[].id` 和正文 `privileges[].id` 同样是宽松字段，类型不对只丢这个编号。正文另外声明了宽松的 `fromUserCount`、`privileges`。`trackIds` 是整张歌单的歌曲编号，`tracks` 最多只有 1,000 首。要拿全部歌曲的信息，用 [获取歌单中的歌曲](/api/playlist/playlist-track-all) 按页取。结构定义和类型是 `PlaylistDetailBody`，见 [返回体结构](/guide/response-bodies)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 : 歌单能看到歌单名字, 但看不到具体歌单内容，调用此接口，传入歌单 id, 可
-以获取对应歌单内的所有的音乐(未登录状态只能获取不完整的歌单,登录后是完整的)，但是返回的 trackIds 是完整的，tracks 则是不完整的，可拿全部 trackIds 请求一次 `song/detail` 接口获取所有歌曲的详情 ([https://github.com/Binaryify/NeteaseCloudMusicApi/issues/452](https://github.com/Binaryify/NeteaseCloudMusicApi/issues/452))
+| 参数 | 类型               | 必填 | 默认值 | 说明                            |
+| ---- | ------------------ | ---- | ------ | ------------------------------- |
+| `id` | `number \| string` | 是   | -      | 歌单 id                         |
+| `s`  | `number`           | 否   | `8`    | 歌单最近的 s 个收藏者，默认为 8 |
 
-**必选参数 :** `id` : 歌单 id
+<!-- api-doc:params:end -->
 
-**可选参数 :** `s` : 歌单最近的 s 个收藏者,默认为 8
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/playlist/detail`
+## 返回值
 
-**调用例子 :** `/playlist/detail?id=24381616`
+返回体类型：`PlaylistDetailBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_detail`、`hana-music-api/schemas/playlist_detail` 导入运行时校验器）。
+
+```ts
+type Playlist = Omit<PlaylistSummary, 'trackIds'> & {
+  trackIds: Array<{
+    id: number;
+  }>;
+};
+
+type PlaylistDetailBody = {
+  code: 200;
+  playlist: Playlist;
+  fromUserCount?: number | null;
+  privileges?: Array<LooseSongPrivilege> | null;
+};
+```
+
+- **公共类型**：[LooseSongPrivilege](/api/shared-types#loosesongprivilege)、[PlaylistSummary](/api/shared-types#playlistsummary)
+
+| 字段                | 类型                                                                | 必填 | 说明                         |
+| ------------------- | ------------------------------------------------------------------- | ---- | ---------------------------- |
+| `code`              | `200`                                                               | 是   | 业务状态码（`200` 表示成功） |
+| `playlist`          | `Playlist`                                                          | 是   | 歌单详情                     |
+| `playlist.trackIds` | `Array<object>`                                                     | 是   | 曲目 ID 列表                 |
+| `fromUserCount`     | `number`                                                            | 否   | -                            |
+| `privileges`        | Array\<[LooseSongPrivilege](/api/shared-types#loosesongprivilege)\> | 否   | 歌曲播放与下载权限列表       |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **读缓存与并发请求去重**：本接口支持共享读缓存与并发请求去重，未声明的请求字段会在输入校验时被拒绝，详见 [缓存与身份池](/guide/cache-and-identity-pool)。
+- **曲目列表完整性**：未登录或歌单曲目较多时，`playlist.tracks` 可能只包含部分曲目；`playlist.trackIds` 包含完整的曲目 ID 列表，可配合 [获取歌曲详情](/api/music/song-detail) 批量拉取全部歌曲信息。
+- **登录态识别**：当登录 Cookie 失效回落到游客视角时，`playlist.subscribed` 会返回 `null`。

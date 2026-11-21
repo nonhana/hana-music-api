@@ -1,66 +1,107 @@
 ---
 title: '云盘歌曲信息匹配纠正'
-description: '登录后调用此接口,可对云盘歌曲信息匹配纠正,如需取消匹配,asid 需要传 0'
+description: '登录后调用此接口，可对云盘歌曲信息匹配纠正，如需取消匹配，asid 需要传 0'
 ---
 
 # 云盘歌曲信息匹配纠正
 
-> 登录后调用此接口,可对云盘歌曲信息匹配纠正,如需取消匹配,asid 需要传 0
+登录后调用此接口，可对云盘歌曲信息匹配纠正，如需取消匹配，asid 需要传 0
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/cloud/match` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `cloud_match`  |
-| 文档分类 | 云盘与上传     |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/cloud/match`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 是                                               |
+| 对应模块   | `cloud_match`                                    |
+| SDK 函数   | `cloudMatch`（`hana-music-api/api/cloud_match`） |
+| 返回体类型 | `CloudMatchBody`（已建模返回体）                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明            |
-| ------ | ------ | :--: | ------ | --------------- |
-| `uid`  | string |  ✅  | -      | 用户 id         |
-| `sid`  | string |  ✅  | -      | 云盘的歌曲 id   |
-| `asid` | string |  ✅  | -      | 要匹配的歌曲 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /cloud/match?uid=32953014&sid=aaa&asid=bbb
-GET /cloud/match?uid=32953014&sid=bbb&asid=0
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { cloudMatch } from 'hana-music-api';
 
-const result = await cloudMatch({
-  uid: '32953014',
-  sid: 'aaa',
-  asid: 'bbb',
-});
-
+const result = await cloudMatch(
+  {
+    asid: 1,
+    sid: 347230,
+    uid: 32953014,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-返回码 `body.code` 收紧为 `200`；匹配后的云盘记录 `body.matchData` 和这条记录自己的 `matchData.songId` 收紧（匹配后 `songId` 变成纠错目标），`matchData` 的其余字段宽松，内嵌歌曲复用 `LooseSong`；`message` 在成功正文里是数字 `200`，`data` 是布尔成功标记，都宽松。`asid` 不是有效曲库歌曲时上游返回 `code: 400` 且没有 `matchData`（录制 `cloud_match.invalid-asid.json`）：改造前是 resolve `status: 200`、正文 `code: 400`，现在按业务拒绝 reject `status: 400`、`body` 保留原文。结构定义和类型是 `CloudMatchBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/cloud/match' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'asid=1' \
+  --data-urlencode 'sid=347230' \
+  --data-urlencode 'uid=32953014'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口,可对云盘歌曲信息匹配纠正,如需取消匹配,asid 需要传 0
+## 请求参数
 
-**必选参数 :**  
-`uid`: 用户 id
+| 参数   | 类型               | 必填 | 默认值 | 说明            |
+| ------ | ------------------ | ---- | ------ | --------------- |
+| `asid` | `number`           | 是   | -      | 要匹配的歌曲 id |
+| `sid`  | `number \| string` | 是   | -      | 云盘的歌曲 id   |
+| `uid`  | `number \| string` | 是   | -      | 用户 id         |
 
-`sid`: 云盘的歌曲 id
+<!-- api-doc:params:end -->
 
-`asid`: 要匹配的歌曲 id
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/cloud/match`
+## 返回值
 
-**调用例子 :** `/cloud/match?uid=32953014&sid=aaa&asid=bbb` `/cloud/match?uid=32953014&sid=bbb&asid=0`
+返回体类型：`CloudMatchBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/cloud_match`、`hana-music-api/schemas/cloud_match` 导入运行时校验器）。
+
+```ts
+type MatchedCloudSong = {
+  songId: number;
+  addTime?: number | null;
+  album?: string | null;
+  artist?: string | null;
+  bitrate?: number | null;
+  cover?: number | null;
+  coverId?: string | null;
+  fileName?: string | null;
+  fileSize?: number | null;
+  lyricId?: string | null;
+  matchType?: string | null;
+  pcId?: number | null;
+  simpleSong?: LooseSong | null;
+  songName?: string | null;
+  version?: number | null;
+};
+
+type CloudMatchBody = {
+  code: 200;
+  data?: boolean | null;
+  matchData: MatchedCloudSong;
+  message?: number | null;
+};
+```
+
+- **公共类型**：[LooseSong](/api/shared-types#loosesong)
+
+| 字段        | 类型               | 必填 | 说明                         |
+| ----------- | ------------------ | ---- | ---------------------------- |
+| `code`      | `200`              | 是   | 业务状态码（`200` 表示成功） |
+| `data`      | `boolean`          | 否   | 接口返回的数据主体           |
+| `matchData` | `MatchedCloudSong` | 是   | -                            |
+| `message`   | `number`           | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

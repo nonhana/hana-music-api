@@ -1,35 +1,30 @@
 ---
 title: '获取视频播放地址'
-description: '调用此接口，传入视频 id,可获取视频播放地址'
+description: '调用此接口，传入视频 id，可获取视频播放地址'
 ---
 
 # 获取视频播放地址
 
-> 调用此接口，传入视频 id,可获取视频播放地址
+调用此接口，传入视频 id，可获取视频播放地址
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/video/url`   |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `video_url`    |
-| 文档分类 | 视频与 MV      |
+| 项目       | 值                                           |
+| ---------- | -------------------------------------------- |
+| 接口地址   | `/video/url`                                 |
+| 请求方式   | `GET` / `POST`                               |
+| 需要登录   | 否                                           |
+| 对应模块   | `video_url`                                  |
+| SDK 函数   | `videoUrl`（`hana-music-api/api/video_url`） |
+| 返回体类型 | `VideoUrlBody`（已建模返回体）               |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明       |
-| ---- | ------ | :--: | ------ | ---------- |
-| `id` | string |  ✅  | -      | 视频 的 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /video/url?id=89ADDE33C0AAE8EC14B99F6750DB954D
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { videoUrl } from 'hana-music-api';
@@ -37,20 +32,58 @@ import { videoUrl } from 'hana-music-api';
 const result = await videoUrl({
   id: '89ADDE33C0AAE8EC14B99F6750DB954D',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、地址列表 `body.urls`、条目里的视频编号 `urls[].id` 和地址 `urls[].url` 收紧；`r`、`size`、`validityTime`、`needPay` 宽松，`payInfo` 只见过 `null` 没有声明。录制覆盖请求 1080 实际给到 720（`video_url.default.json`）、480p（`video_url.480p.json`）和 240p（`video_url.240p.json`）；未知视频返回 `urls: []`（`video_url.empty.json`），本批未探测到 `url` 为 `null`。付费/会员视频的 `urls[].url` 未覆盖；若上游给 `null`，会以 `UnexpectedUpstreamShape`（`status: 502`）拒绝。结构定义和类型是 `VideoUrlBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/video/url' \
+  --data-urlencode 'id=89ADDE33C0AAE8EC14B99F6750DB954D'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入视频 id,可获取视频播放地址
+## 请求参数
 
-**必选参数 :** `id`: 视频 的 id
+| 参数  | 类型     | 必填 | 默认值 | 说明                                                      |
+| ----- | -------- | ---- | ------ | --------------------------------------------------------- |
+| `id`  | `string` | 是   | -      | 视频 的 id                                                |
+| `res` | `number` | 否   | `1080` | 目标分辨率（如 `1080`、`720`、`480`、`240`），默认 `1080` |
 
-**接口地址 :** `/video/url`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/video/url?id=89ADDE33C0AAE8EC14B99F6750DB954D`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`VideoUrlBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/video_url`、`hana-music-api/schemas/video_url` 导入运行时校验器）。
+
+```ts
+type VideoUrl = {
+  id: string;
+  url: string;
+  needPay?: boolean | null;
+  r?: number | null;
+  size?: number | null;
+  validityTime?: number | null;
+};
+
+type VideoUrlBody = {
+  code: 200;
+  urls: Array<VideoUrl>;
+};
+```
+
+| 字段                  | 类型              | 必填 | 说明                         |
+| --------------------- | ----------------- | ---- | ---------------------------- |
+| `code`                | `200`             | 是   | 业务状态码（`200` 表示成功） |
+| `urls`                | `Array<VideoUrl>` | 是   | 播放或下载链接列表           |
+| `urls[].id`           | `string`          | 是   | 记录 ID                      |
+| `urls[].url`          | `string`          | 是   | 资源访问地址                 |
+| `urls[].needPay`      | `boolean`         | 否   | -                            |
+| `urls[].r`            | `number`          | 否   | -                            |
+| `urls[].size`         | `number`          | 否   | -                            |
+| `urls[].validityTime` | `number`          | 否   | 时间戳                       |
+
+<!-- api-doc:response:end -->

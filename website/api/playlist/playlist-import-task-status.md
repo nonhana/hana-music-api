@@ -1,33 +1,30 @@
 ---
 title: '歌单导入 - 任务状态'
-description: '调用此接口, 传入导入歌单任务id, 获取任务状态'
+description: '调用此接口，传入导入歌单任务id，获取任务状态'
 ---
 
 # 歌单导入 - 任务状态
 
-> 调用此接口, 传入导入歌单任务id, 获取任务状态
+调用此接口，传入导入歌单任务id，获取任务状态
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                             |
-| -------- | ------------------------------ |
-| 接口地址 | `/playlist/import/task/status` |
-| 请求方式 | `GET` / `POST`                 |
-| 需要登录 | 否                             |
-| 对应模块 | `playlist_import_task_status`  |
-| 文档分类 | 歌单                           |
+| 项目       | 值                                                                             |
+| ---------- | ------------------------------------------------------------------------------ |
+| 接口地址   | `/playlist/import/task/status`                                                 |
+| 请求方式   | `GET` / `POST`                                                                 |
+| 需要登录   | 否                                                                             |
+| 对应模块   | `playlist_import_task_status`                                                  |
+| SDK 函数   | `playlistImportTaskStatus`（`hana-music-api/api/playlist_import_task_status`） |
+| 返回体类型 | `PlaylistImportTaskStatusBody`（已建模返回体）                                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/import/task/status?id=123834369
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistImportTaskStatus } from 'hana-music-api';
@@ -35,22 +32,74 @@ import { playlistImportTaskStatus } from 'hana-music-api';
 const result = await playlistImportTaskStatus({
   id: '123834369',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-只读轮询，没有副作用。正文的 `data.tasks` 是任务列表，每个任务的 `id` 和 `status` 收紧；`parentId`、`playlistId`、`createTime`、`msg`、`succCount`、`playlistStatus`、`playlistPrivacy`、`type` 宽松，`taskProcess` 宽松。缺少 `id` 时上游回 `code: 500`（系统异常），按业务拒绝转交 `status: 500`，状态与改造前一致。未知任务 id 回 `code: 200` 和空 `tasks`；`imgUrl`、`playlistName` 只见过 `null`，没有声明。结构定义和类型是 `PlaylistImportTaskStatusBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/playlist/import/task/status' \
+  --data-urlencode 'id=123834369'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 调用此接口, 传入导入歌单任务id, 获取任务状态
+## 请求参数
 
-**必选参数：**
+| 参数 | 类型               | 必填 | 默认值 | 说明   |
+| ---- | ------------------ | ---- | ------ | ------ |
+| `id` | `number \| string` | 是   | -      | 任务id |
 
-`id`: 任务id
+<!-- api-doc:params:end -->
 
-**接口地址:** `/playlist/import/task/status`
+<!-- api-doc:response:start -->
 
-**调用例子:** `/playlist/import/task/status?id=123834369`
+## 返回值
+
+返回体类型：`PlaylistImportTaskStatusBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_import_task_status`、`hana-music-api/schemas/playlist_import_task_status` 导入运行时校验器）。
+
+```ts
+type ImportTask = {
+  id: number;
+  status: string;
+  parentId?: number | null;
+  playlistId?: number | null;
+  createTime?: number | null;
+  msg?: string | null;
+  succCount?: number | null;
+  playlistStatus?: number | null;
+  playlistPrivacy?: number | null;
+  type?: string | null;
+};
+
+type PlaylistImportTaskStatusBody = {
+  code: 200;
+  data: {
+    tasks: Array<ImportTask>;
+    taskProcess?: string | null;
+  };
+  msg?: string | null;
+  message?: string | null;
+};
+```
+
+| 字段                           | 类型                | 必填 | 说明                         |
+| ------------------------------ | ------------------- | ---- | ---------------------------- |
+| `code`                         | `200`               | 是   | 业务状态码（`200` 表示成功） |
+| `data`                         | `object`            | 是   | 接口返回的数据主体           |
+| `data.tasks`                   | `Array<ImportTask>` | 是   | -                            |
+| `data.tasks[].id`              | `number`            | 是   | 记录 ID                      |
+| `data.tasks[].status`          | `string`            | 是   | -                            |
+| `data.tasks[].parentId`        | `number`            | 否   | parent ID                    |
+| `data.tasks[].playlistId`      | `number`            | 否   | 歌单 ID                      |
+| `data.tasks[].createTime`      | `number`            | 否   | 时间戳                       |
+| `data.tasks[].msg`             | `string`            | 否   | 提示信息                     |
+| `data.tasks[].succCount`       | `number`            | 否   | -                            |
+| `data.tasks[].playlistStatus`  | `number`            | 否   | -                            |
+| `data.tasks[].playlistPrivacy` | `number`            | 否   | -                            |
+| `data.tasks[].type`            | `string`            | 否   | -                            |
+| `data.taskProcess`             | `string`            | 否   | -                            |
+| `msg`                          | `string`            | 否   | 提示信息                     |
+| `message`                      | `string`            | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

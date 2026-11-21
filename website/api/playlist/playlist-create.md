@@ -5,61 +5,90 @@ description: '调用此接口，传入歌单名字可新建歌单'
 
 # 新建歌单
 
-> 调用此接口，传入歌单名字可新建歌单
+调用此接口，传入歌单名字可新建歌单
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                 |
-| -------- | ------------------ |
-| 接口地址 | `/playlist/create` |
-| 请求方式 | `GET` / `POST`     |
-| 需要登录 | 否                 |
-| 对应模块 | `playlist_create`  |
-| 文档分类 | 歌单               |
+| 项目       | 值                                                       |
+| ---------- | -------------------------------------------------------- |
+| 接口地址   | `/playlist/create`                                       |
+| 请求方式   | `GET` / `POST`                                           |
+| 需要登录   | 是                                                       |
+| 对应模块   | `playlist_create`                                        |
+| SDK 函数   | `playlistCreate`（`hana-music-api/api/playlist_create`） |
+| 返回体类型 | `PlaylistCreateBody`（已建模返回体）                     |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数      | 类型   | 必填 | 默认值      | 说明                                                                 |
-| --------- | ------ | :--: | ----------- | -------------------------------------------------------------------- |
-| `name`    | string |  ✅  | -           | 歌单名                                                               |
-| `privacy` | string |  —   | 否          | 是否设置为隐私歌单，默认否，传'10'则设置成隐私歌单                   |
-| `type`    | string |  —   | 'NORMAL',传 | 歌单类型,默认'NORMAL',传 'VIDEO'则为视频歌单,传 'SHARED'则为共享歌单 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/create?name=测试歌单
-GET /playlist/create?name=test&type=VIDEO
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistCreate } from 'hana-music-api';
 
-const result = await playlistCreate({
-  name: '测试歌单',
-});
-
+const result = await playlistCreate(
+  {
+    name: '测试歌单',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-正文带 `code`、新歌单的 `id` 和 `playlist`。只有 `code`、`id`、`playlist`、`playlist.id` 收紧；`playlist` 里的其他字段宽松。歌单里套着的 `playlist.tracks[].id` 也宽松，缺失或类型不对只丢这个编号。结构定义和类型是 `PlaylistCreateBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/playlist/create' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'name=测试歌单'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入歌单名字可新建歌单
+## 请求参数
 
-**必选参数 :** `name` : 歌单名
+| 参数      | 类型                              | 必填 | 默认值   | 说明                                                                    |
+| --------- | --------------------------------- | ---- | -------- | ----------------------------------------------------------------------- |
+| `name`    | `string`                          | 是   | -        | 歌单名                                                                  |
+| `privacy` | `0 \| 10`                         | 否   | `0`      | 是否设置为隐私歌单，默认否，传'10'则设置成隐私歌单                      |
+| `type`    | `'NORMAL' \| 'VIDEO' \| 'SHARED'` | 否   | `NORMAL` | 歌单类型，默认'NORMAL'，传 'VIDEO'则为视频歌单，传 'SHARED'则为共享歌单 |
 
-**可选参数 :**
+| `privacy` | 隐私设置             |
+| --------- | -------------------- |
+| `0`       | 普通公开歌单（默认） |
+| `10`      | 隐私歌单             |
 
-`privacy` : 是否设置为隐私歌单，默认否，传'10'则设置成隐私歌单
+| `type`   | 歌单类型         |
+| -------- | ---------------- |
+| `NORMAL` | 普通歌单（默认） |
+| `VIDEO`  | 视频歌单         |
+| `SHARED` | 共享歌单         |
 
-`type` : 歌单类型,默认'NORMAL',传 'VIDEO'则为视频歌单,传 'SHARED'则为共享歌单
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/playlist/create`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/playlist/create?name=测试歌单`,`/playlist/create?name=test&type=VIDEO`
+## 返回值
+
+返回体类型：`PlaylistCreateBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_create`、`hana-music-api/schemas/playlist_create` 导入运行时校验器）。
+
+```ts
+type PlaylistCreateBody = {
+  code: 200;
+  id: number;
+  playlist: PlaylistSummary;
+};
+```
+
+- **公共类型**：[PlaylistSummary](/api/shared-types#playlistsummary)
+
+| 字段       | 类型                                                 | 必填 | 说明                         |
+| ---------- | ---------------------------------------------------- | ---- | ---------------------------- |
+| `code`     | `200`                                                | 是   | 业务状态码（`200` 表示成功） |
+| `id`       | `number`                                             | 是   | 记录 ID                      |
+| `playlist` | [PlaylistSummary](/api/shared-types#playlistsummary) | 是   | 歌单详情                     |
+
+<!-- api-doc:response:end -->

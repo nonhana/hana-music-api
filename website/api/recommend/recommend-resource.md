@@ -5,46 +5,87 @@ description: '调用此接口，可获得每日推荐歌单 ( 需要登录 )'
 
 # 获取每日推荐歌单
 
-> 调用此接口，可获得每日推荐歌单 ( 需要登录 )
+调用此接口，可获得每日推荐歌单 ( 需要登录 )
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                    |
-| -------- | --------------------- |
-| 接口地址 | `/recommend/resource` |
-| 请求方式 | `GET` / `POST`        |
-| 需要登录 | 是                    |
-| 对应模块 | `recommend_resource`  |
-| 文档分类 | 推荐与发现            |
+| 项目       | 值                                                             |
+| ---------- | -------------------------------------------------------------- |
+| 接口地址   | `/recommend/resource`                                          |
+| 请求方式   | `GET` / `POST`                                                 |
+| 需要登录   | 是                                                             |
+| 对应模块   | `recommend_resource`                                           |
+| SDK 函数   | `recommendResource`（`hana-music-api/api/recommend_resource`） |
+| 返回体类型 | `RecommendResourceBody`（已建模返回体）                        |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /recommend/resource
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { recommendResource } from 'hana-music-api';
 
-const result = await recommendResource();
-
+const result = await recommendResource({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、每日推荐歌单列表 `body.recommend` 和每个歌单自己的编号 `recommend[].id` 收紧；歌单摘要复用 `PlaylistSummary`，`featureFirst`、`haveRcmdSongs` 和卡片附加字段（`copywriter`、`picUrl`、小写 `playcount` 等）宽松。录制覆盖匿名（6 条）和登录（19 条）两种视角，字段路径相同，`creator.expertTags` 匿名 6/6 是 `null`、登录 19 条中 14 条仍 `null`、5 条是非空数组；没有可达的空结果，数组本身允许为空。
+```bash
+curl 'http://127.0.0.1:3021/recommend/resource' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获得每日推荐歌单 ( 需要登录 )
+## 请求参数
 
-**接口地址 :** `/recommend/resource`
+无业务参数。
 
-**调用例子 :** `/recommend/resource`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`RecommendResourceBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/recommend_resource`、`hana-music-api/schemas/recommend_resource` 导入运行时校验器）。
+
+```ts
+type RecommendedPlaylist = Omit<
+  PlaylistSummary,
+  'alg' | 'copywriter' | 'picUrl' | 'playcount' | 'type'
+> & {
+  alg?: string | null;
+  copywriter?: string | null;
+  picUrl?: string | null;
+  playcount?: number | null;
+  type?: number | null;
+};
+
+type RecommendResourceBody = {
+  code: 200;
+  recommend: Array<RecommendedPlaylist>;
+  featureFirst?: boolean | null;
+  haveRcmdSongs?: boolean | null;
+};
+```
+
+- **公共类型**：[PlaylistSummary](/api/shared-types#playlistsummary)
+
+| 字段                     | 类型                         | 必填 | 说明                         |
+| ------------------------ | ---------------------------- | ---- | ---------------------------- |
+| `code`                   | `200`                        | 是   | 业务状态码（`200` 表示成功） |
+| `recommend`              | `Array<RecommendedPlaylist>` | 是   | 推荐条目列表                 |
+| `recommend[].alg`        | `string`                     | 否   | 推荐算法标识                 |
+| `recommend[].copywriter` | `string`                     | 否   | -                            |
+| `recommend[].picUrl`     | `string`                     | 否   | 资源访问链接                 |
+| `recommend[].playcount`  | `number`                     | 否   | -                            |
+| `recommend[].type`       | `number`                     | 否   | -                            |
+| `featureFirst`           | `boolean`                    | 否   | -                            |
+| `haveRcmdSongs`          | `boolean`                    | 否   | -                            |
+
+<!-- api-doc:response:end -->

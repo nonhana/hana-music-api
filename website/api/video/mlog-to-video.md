@@ -1,37 +1,32 @@
 ---
 title: '将 mlog id 转为视频 id'
-description: '调用此接口，传入 mlog id, 可获取 video id，然后通过`video/url` 获取播放地址'
+description: '调用此接口，传入 mlog id，可获取 video id，然后通过`video/url` 获取播放地址'
 ---
 
 <!-- cSpell:ignore OVPTWKS -->
 
 # 将 mlog id 转为视频 id
 
-> 调用此接口，传入 mlog id, 可获取 video id，然后通过`video/url` 获取播放地址
+调用此接口，传入 mlog id，可获取 video id，然后通过`video/url` 获取播放地址
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值               |
-| -------- | ---------------- |
-| 接口地址 | `/mlog/to/video` |
-| 请求方式 | `GET` / `POST`   |
-| 需要登录 | 否               |
-| 对应模块 | `mlog_to_video`  |
-| 文档分类 | 视频与 MV        |
+| 项目       | 值                                                  |
+| ---------- | --------------------------------------------------- |
+| 接口地址   | `/mlog/to/video`                                    |
+| 请求方式   | `GET` / `POST`                                      |
+| 需要登录   | 否                                                  |
+| 对应模块   | `mlog_to_video`                                     |
+| SDK 函数   | `mlogToVideo`（`hana-music-api/api/mlog_to_video`） |
+| 返回体类型 | `MlogToVideoBody`（已建模返回体）                   |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | mlog id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /mlog/to/video?id=a1qOVPTWKS1ZrK8
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { mlogToVideo } from 'hana-music-api';
@@ -39,20 +34,48 @@ import { mlogToVideo } from 'hana-music-api';
 const result = await mlogToVideo({
   id: 'a1qOVPTWKS1ZrK8',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 和接口要拿的视频 id `body.data`（32 位十六进制字符串）收紧，`message` 宽松。结构定义和类型是 `MlogToVideoBody`，见 [返回体结构](/guide/response-bodies)。视频 mlog 和分享歌曲的 mlog 都能转换；非法 id 返回 `code: 400`、`msg: mlog无对应video`，按业务拒绝原样转交。
+```bash
+curl --get 'http://127.0.0.1:3021/mlog/to/video' \
+  --data-urlencode 'id=a1qOVPTWKS1ZrK8'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入 mlog id, 可获取 video id，然后通过`video/url` 获取播放地址
+## 请求参数
 
-**必选参数 :** `id` : mlog id
+| 参数 | 类型     | 必填 | 默认值 | 说明    |
+| ---- | -------- | ---- | ------ | ------- |
+| `id` | `string` | 是   | -      | mlog id |
 
-**接口地址 :** `/mlog/to/video`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/mlog/to/video?id=a1qOVPTWKS1ZrK8`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`MlogToVideoBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/mlog_to_video`、`hana-music-api/schemas/mlog_to_video` 导入运行时校验器）。
+
+```ts
+type MlogToVideoBody = {
+  code: 200;
+  data: string;
+  message?: string | null;
+};
+```
+
+| 字段      | 类型     | 必填 | 说明                         |
+| --------- | -------- | ---- | ---------------------------- |
+| `code`    | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `data`    | `string` | 是   | 接口返回的数据主体           |
+| `message` | `string` | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **返回值说明**：转换成功后 `data` 返回长度为 32 位的十六进制视频 ID 字符串。

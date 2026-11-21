@@ -5,48 +5,62 @@ description: '调用此接口，可退出登录'
 
 # 退出登录
 
-> 调用此接口，可退出登录
+调用此接口，可退出登录
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/logout`      |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `logout`       |
-| 文档分类 | 用户与登录     |
+| 项目       | 值                                      |
+| ---------- | --------------------------------------- |
+| 接口地址   | `/logout`                               |
+| 请求方式   | `GET` / `POST`                          |
+| 需要登录   | 否                                      |
+| 对应模块   | `logout`                                |
+| SDK 函数   | `logout`（`hana-music-api/api/logout`） |
+| 返回体类型 | `LogoutBody`（已建模返回体）            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /logout
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { logout } from 'hana-music-api';
 
 const result = await logout();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-```json
-{ "code": 200 }
+```bash
+curl 'http://127.0.0.1:3021/logout'
 ```
 
-只注销同一个设备编号（`deviceId`）上的登录，听众在其他设备上的登录不受影响。`code` 是唯一的收紧字段。结构定义和类型是 `LogoutBody`，见 [返回体结构](/guide/response-bodies)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 : 调用此接口，可退出登录
+无业务参数。
 
-**调用例子 :** `/logout`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`LogoutBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/logout`、`hana-music-api/schemas/logout` 导入运行时校验器）。
+
+```ts
+type LogoutBody = {
+  code: 200;
+};
+```
+
+| 字段   | 类型  | 必填 | 说明                         |
+| ------ | ----- | ---- | ---------------------------- |
+| `code` | `200` | 是   | 业务状态码（`200` 表示成功） |
+
+<!-- api-doc:response:end -->

@@ -1,50 +1,75 @@
 ---
 title: '电台 - 今日优选'
-description: '登录后调用此接口, 可获得电台今日优选'
+description: '登录后调用此接口，可获得电台今日优选'
 ---
 
 # 电台 - 今日优选
 
-> 登录后调用此接口, 可获得电台今日优选
+登录后调用此接口，可获得电台今日优选
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/dj/today/perfered` |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 是                   |
-| 对应模块 | `dj_today_perfered`  |
-| 文档分类 | 电台与播客           |
+| 项目       | 值                                                          |
+| ---------- | ----------------------------------------------------------- |
+| 接口地址   | `/dj/today/perfered`                                        |
+| 请求方式   | `GET` / `POST`                                              |
+| 需要登录   | 是                                                          |
+| 对应模块   | `dj_today_perfered`                                         |
+| SDK 函数   | `djTodayPerfered`（`hana-music-api/api/dj_today_perfered`） |
+| 返回体类型 | `DjTodayPerferedBody`（已建模返回体）                       |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /dj/today/perfered
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { djTodayPerfered } from 'hana-music-api';
 
-const result = await djTodayPerfered();
-
+const result = await djTodayPerfered(
+  {
+    page: 1,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-只收紧 `body.code`。`data` 在匿名、登录和 `page` 0/1/99 的探测里都是空数组，元素类型没有证据，未声明并原样保留；`msg` 只见过 `null`，同样没有声明。`data` 为空是这个账号在本批探测（含登录）里的正常结果（录制 `dj_today_perfered.empty.json`）；登录后可能返回内容，本账号/地区为空，不代表所有账号都有内容。
+```bash
+curl --get 'http://127.0.0.1:3021/dj/today/perfered' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'page=1'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口, 可获得电台今日优选
+## 请求参数
 
-**接口地址 :** `/dj/today/perfered`
+| 参数   | 类型     | 必填 | 默认值 | 说明           |
+| ------ | -------- | ---- | ------ | -------------- |
+| `page` | `number` | 否   | `0`    | 页码，默认 `0` |
 
-**调用例子 :** `/dj/today/perfered`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`DjTodayPerferedBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/dj_today_perfered`、`hana-music-api/schemas/dj_today_perfered` 导入运行时校验器）。
+
+```ts
+type DjTodayPerferedBody = {
+  code: 200;
+};
+```
+
+| 字段   | 类型  | 必填 | 说明                         |
+| ------ | ----- | ---- | ---------------------------- |
+| `code` | `200` | 是   | 业务状态码（`200` 表示成功） |
+
+<!-- api-doc:response:end -->

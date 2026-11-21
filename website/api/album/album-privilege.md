@@ -5,31 +5,26 @@ description: '调用后可获取专辑歌曲的音质'
 
 # 获取专辑歌曲的音质
 
-> 调用后可获取专辑歌曲的音质
+调用后可获取专辑歌曲的音质
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                 |
-| -------- | ------------------ |
-| 接口地址 | `/album/privilege` |
-| 请求方式 | `GET` / `POST`     |
-| 需要登录 | 否                 |
-| 对应模块 | `album_privilege`  |
-| 文档分类 | 专辑               |
+| 项目       | 值                                                       |
+| ---------- | -------------------------------------------------------- |
+| 接口地址   | `/album/privilege`                                       |
+| 请求方式   | `GET` / `POST`                                           |
+| 需要登录   | 否                                                       |
+| 对应模块   | `album_privilege`                                        |
+| SDK 函数   | `albumPrivilege`（`hana-music-api/api/album_privilege`） |
+| 返回体类型 | `AlbumPrivilegeBody`（已建模返回体）                     |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 专辑 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /album/privilege?id=168223858
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { albumPrivilege } from 'hana-music-api';
@@ -37,20 +32,44 @@ import { albumPrivilege } from 'hana-music-api';
 const result = await albumPrivilege({
   id: '168223858',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.data` 和每首歌的 `data[].id` 收紧，记录共用 `SongPrivilege`；权限里的 `dl`、`pl`、`payed`、`freeTrialPrivilege` 等其余字段宽松。登录后播放/下载权限和 `freeTrialPrivilege.listenType` 会变化，登录对照录制保留在 `album_privilege.album-vip.json`。未知专辑 id 返回 `code: 404`；本批录制与探测未发现可达的空结果，`data` 数组本身允许为空。结构定义和类型是 `AlbumPrivilegeBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/album/privilege' \
+  --data-urlencode 'id=168223858'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用后可获取专辑歌曲的音质
+## 请求参数
 
-**必选参数 :** `id` : 专辑 id
+| 参数 | 类型               | 必填 | 默认值 | 说明    |
+| ---- | ------------------ | ---- | ------ | ------- |
+| `id` | `number \| string` | 是   | -      | 专辑 id |
 
-**接口地址 :** `/album/privilege`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/album/privilege?id=168223858`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`AlbumPrivilegeBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/album_privilege`、`hana-music-api/schemas/album_privilege` 导入运行时校验器）。
+
+```ts
+type AlbumPrivilegeBody = {
+  code: 200;
+  data: Array<SongPrivilege>;
+};
+```
+
+- **公共类型**：[SongPrivilege](/api/shared-types#songprivilege)
+
+| 字段   | 类型                                                      | 必填 | 说明                         |
+| ------ | --------------------------------------------------------- | ---- | ---------------------------- |
+| `code` | `200`                                                     | 是   | 业务状态码（`200` 表示成功） |
+| `data` | Array\<[SongPrivilege](/api/shared-types#songprivilege)\> | 是   | 接口返回的数据主体           |
+
+<!-- api-doc:response:end -->

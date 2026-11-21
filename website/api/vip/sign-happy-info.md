@@ -1,50 +1,107 @@
 ---
 title: '乐签信息'
-description: '调用此接口, 可获取乐签信息'
+description: '调用此接口，可获取乐签信息'
 ---
 
 # 乐签信息
 
-> 调用此接口, 可获取乐签信息
+调用此接口，可获取乐签信息
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                 |
-| -------- | ------------------ |
-| 接口地址 | `/sign/happy/info` |
-| 请求方式 | `GET` / `POST`     |
-| 需要登录 | 是                 |
-| 对应模块 | `sign_happy_info`  |
-| 文档分类 | 会员与云贝         |
+| 项目       | 值                                                      |
+| ---------- | ------------------------------------------------------- |
+| 接口地址   | `/sign/happy/info`                                      |
+| 请求方式   | `GET` / `POST`                                          |
+| 需要登录   | 是                                                      |
+| 对应模块   | `sign_happy_info`                                       |
+| SDK 函数   | `signHappyInfo`（`hana-music-api/api/sign_happy_info`） |
+| 返回体类型 | `SignHappyInfoBody`（已建模返回体）                     |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /sign/happy/info
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { signHappyInfo } from 'hana-music-api';
 
-const result = await signHappyInfo();
-
+const result = await signHappyInfo({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、活动信息路径 `body.data`、`body.data.info` 及活动记录的 `id` 收紧；活动文案、资源链接、图片和热评字段宽松，只见过 `null` 的 `jumpText`、`specialJumpUrl`、`btnPicUrl`、`operator`、`videoStrId` 未声明、原样保留。结构定义和类型是 `SignHappyInfoBody`，见[返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/sign/happy/info' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-匿名调用返回 `body.code: 302`，SDK 按业务失败转交为 HTTP 302；匿名对照录制是 `signin/sign_happy_info.anonymous.json`。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 : 调用此接口, 可获取乐签信息
+无业务参数。
 
-**接口地址 :** `/sign/happy/info`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`SignHappyInfoBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/sign_happy_info`、`hana-music-api/schemas/sign_happy_info` 导入运行时校验器）。
+
+```ts
+type HotComment = {
+  authorName?: string | null;
+  content?: string | null;
+};
+
+type SignHappyInfo = {
+  id: number;
+  author?: string | null;
+  backColor?: string | null;
+  currentUserName?: string | null;
+  endTime?: number | null;
+  hotComments?: Array<HotComment> | null;
+  jumpUrl?: string | null;
+  mainText?: string | null;
+  newPicUrl?: string | null;
+  newSharePicUrl?: string | null;
+  picUrl?: string | null;
+  qrCodeUrl?: string | null;
+  qrCodeWithLogoUrl?: string | null;
+  resourceAuthor?: string | null;
+  resourceCover?: string | null;
+  resourceId?: number | null;
+  resourceName?: string | null;
+  resourceType?: number | null;
+  resourceUrl?: string | null;
+  sharePicUrl?: string | null;
+  startTime?: number | null;
+  status?: number | null;
+  type?: number | null;
+  videoHeight?: number | null;
+  videoWidth?: number | null;
+};
+
+type SignHappyInfoBody = {
+  code: 200;
+  data: {
+    info: SignHappyInfo;
+  };
+  message?: string | null;
+};
+```
+
+| 字段        | 类型            | 必填 | 说明                         |
+| ----------- | --------------- | ---- | ---------------------------- |
+| `code`      | `200`           | 是   | 业务状态码（`200` 表示成功） |
+| `data`      | `object`        | 是   | 接口返回的数据主体           |
+| `data.info` | `SignHappyInfo` | 是   | -                            |
+| `message`   | `string`        | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

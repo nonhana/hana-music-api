@@ -5,31 +5,26 @@ description: '调用此接口，传入 `mvid` 可获取相似 mv'
 
 # 相似 mv
 
-> 调用此接口，传入 `mvid` 可获取相似 mv
+调用此接口，传入 `mvid` 可获取相似 mv
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/simi/mv`     |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `simi_mv`      |
-| 文档分类 | 推荐与发现     |
+| 项目       | 值                                       |
+| ---------- | ---------------------------------------- |
+| 接口地址   | `/simi/mv`                               |
+| 请求方式   | `GET` / `POST`                           |
+| 需要登录   | 否                                       |
+| 对应模块   | `simi_mv`                                |
+| SDK 函数   | `simiMv`（`hana-music-api/api/simi_mv`） |
+| 返回体类型 | `SimiMvBody`（已建模返回体）             |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明  |
-| ------ | ------ | :--: | ------ | ----- |
-| `mvid` | string |  ✅  | -      | mv id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /simi/mv?mvid=5436712
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { simiMv } from 'hana-music-api';
@@ -37,20 +32,49 @@ import { simiMv } from 'hana-music-api';
 const result = await simiMv({
   mvid: '5436712',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.mvs` 和每个 MV 的 `body.mvs[].id` 收紧；MV 记录复用 `MvSummary`，`cover`、`name`、`playCount`、`duration`、`mark`、`artistId`、`artistName`、`artists`（宽松的 `Artist`）等宽松，`desc` 只见过 `null` 没有声明，`alg` 是宽松字段。传入未知 `mvid` 仍返回默认 5 条（`simi_mv.unknown-mvid.json`），本批录制与探测未发现可达的空结果，`mvs` 数组本身允许为空。本页录制来自登录账号（`context.viewer` 是 `authenticated`），没有保留匿名对照录制。
+```bash
+curl --get 'http://127.0.0.1:3021/simi/mv' \
+  --data-urlencode 'mvid=5436712'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入 `mvid` 可获取相似 mv
+## 请求参数
 
-**必选参数 :** `mvid`: mv id
+| 参数   | 类型               | 必填 | 默认值 | 说明  |
+| ------ | ------------------ | ---- | ------ | ----- |
+| `mvid` | `number \| string` | 是   | -      | mv id |
 
-**接口地址 :** `/simi/mv`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/simi/mv?mvid=5436712`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`SimiMvBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/simi_mv`、`hana-music-api/schemas/simi_mv` 导入运行时校验器）。
+
+```ts
+type SimiMv = Omit<MvSummary, 'alg'> & {
+  alg?: string | null;
+};
+
+type SimiMvBody = {
+  code: 200;
+  mvs: Array<SimiMv>;
+};
+```
+
+- **公共类型**：[MvSummary](/api/shared-types#mvsummary)
+
+| 字段        | 类型            | 必填 | 说明                         |
+| ----------- | --------------- | ---- | ---------------------------- |
+| `code`      | `200`           | 是   | 业务状态码（`200` 表示成功） |
+| `mvs`       | `Array<SimiMv>` | 是   | MV 列表                      |
+| `mvs[].alg` | `string`        | 否   | 推荐算法标识                 |
+
+<!-- api-doc:response:end -->

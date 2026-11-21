@@ -1,36 +1,30 @@
 ---
 title: '发送验证码'
-description: '调用此接口 ,传入手机号码, 可发送验证码'
+description: '调用此接口 ，传入手机号码，可发送验证码'
 ---
 
 # 发送验证码
 
-> 调用此接口 ,传入手机号码, 可发送验证码
+调用此接口 ，传入手机号码，可发送验证码
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/captcha/sent` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `captcha_sent`  |
-| 文档分类 | 用户与登录      |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/captcha/sent`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 否                                                 |
+| 对应模块   | `captcha_sent`                                     |
+| SDK 函数   | `captchaSent`（`hana-music-api/api/captcha_sent`） |
+| 返回体类型 | `CaptchaSentBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型   | 必填 | 默认值 | 说明                    |
-| -------- | ------ | :--: | ------ | ----------------------- |
-| `phone`  | string |  ✅  | -      | 手机号码                |
-| `ctcode` | string |  —   | 86     | 国家区号,默认 86 即中国 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /captcha/sent?phone=13xxx
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { captchaSent } from 'hana-music-api';
@@ -38,27 +32,43 @@ import { captchaSent } from 'hana-music-api';
 const result = await captchaSent({
   phone: '13xxx',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-```json
-{ "code": 200, "data": true }
+```bash
+curl --get 'http://127.0.0.1:3021/captcha/sent' \
+  --data-urlencode 'phone=13xxx'
 ```
 
-`code` 是收紧字段，`data` 是宽松字段（可能缺失或是 `null`）。结构定义和类型是 `CaptchaSentBody`，见 [返回体结构](/guide/response-bodies)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 : 调用此接口 ,传入手机号码, 可发送验证码
+| 参数     | 类型               | 必填 | 默认值 | 说明                     |
+| -------- | ------------------ | ---- | ------ | ------------------------ |
+| `ctcode` | `number \| string` | 否   | `86`   | 国家区号，默认 86 即中国 |
+| `phone`  | `string`           | 是   | -      | 手机号码                 |
 
-**必选参数 :** `phone`: 手机号码
+<!-- api-doc:params:end -->
 
-**可选参数 :**
-`ctcode`: 国家区号,默认 86 即中国
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/captcha/sent`
+## 返回值
 
-**调用例子 :** `/captcha/sent?phone=13xxx`
+返回体类型：`CaptchaSentBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/captcha_sent`、`hana-music-api/schemas/captcha_sent` 导入运行时校验器）。
+
+```ts
+type CaptchaSentBody = {
+  code: 200;
+  data?: boolean | null;
+};
+```
+
+| 字段   | 类型      | 必填 | 说明                         |
+| ------ | --------- | ---- | ---------------------------- |
+| `code` | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `data` | `boolean` | 否   | 接口返回的数据主体           |
+
+<!-- api-doc:response:end -->

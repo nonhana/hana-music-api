@@ -5,52 +5,94 @@ description: '登录后调用此接口，可以获取用户绑定信息'
 
 # 获取用户绑定信息
 
-> 登录后调用此接口，可以获取用户绑定信息
+登录后调用此接口，可以获取用户绑定信息
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/user/binding` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 是              |
-| 对应模块 | `user_binding`  |
-| 文档分类 | 用户与登录      |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/user/binding`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 是                                                 |
+| 对应模块   | `user_binding`                                     |
+| SDK 函数   | `userBinding`（`hana-music-api/api/user_binding`） |
+| 返回体类型 | `UserBindingBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数  | 类型   | 必填 | 默认值 | 说明    |
-| ----- | ------ | :--: | ------ | ------- |
-| `uid` | string |  ✅  | -      | 用户 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/binding?uid=32953014
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userBinding } from 'hana-music-api';
 
-const result = await userBinding({
-  uid: '32953014',
-});
-
+const result = await userBinding(
+  {
+    uid: '32953014',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-绑定列表在 `bindings`，每条绑定自己的 `id` 收紧；`bindingTime`、`refreshTime`、`expiresIn`、`expired`、`url`、`type`、`userId` 和 `tokenJsonStr` 宽松。不存在的 uid 返回 `bindings: []`（录制 `user_binding.no-bindings.json`）。录制里的绑定 id 和账号编号已换成合成值（`10000000001`/`10000000002`、`10000001`），`tokenJsonStr` 按凭据规则替换成 `<redacted>`。结构定义和类型是 `UserBindingBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/user/binding' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'uid=32953014'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，可以获取用户绑定信息
+## 请求参数
 
-**必选参数 :** `uid` : 用户 id
+| 参数  | 类型               | 必填 | 默认值 | 说明    |
+| ----- | ------------------ | ---- | ------ | ------- |
+| `uid` | `number \| string` | 是   | -      | 用户 id |
 
-**接口地址 :** `/user/binding`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/user/binding?uid=32953014`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`UserBindingBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/user_binding`、`hana-music-api/schemas/user_binding` 导入运行时校验器）。
+
+```ts
+type Binding = {
+  id: number;
+  bindingTime?: number | null;
+  expired?: boolean | null;
+  expiresIn?: number | null;
+  refreshTime?: number | null;
+  tokenJsonStr?: string | null;
+  type?: number | null;
+  url?: string | null;
+  userId?: number | null;
+};
+
+type UserBindingBody = {
+  code: 200;
+  bindings: Array<Binding>;
+};
+```
+
+| 字段                      | 类型             | 必填 | 说明                         |
+| ------------------------- | ---------------- | ---- | ---------------------------- |
+| `code`                    | `200`            | 是   | 业务状态码（`200` 表示成功） |
+| `bindings`                | `Array<Binding>` | 是   | 账号第三方绑定列表           |
+| `bindings[].id`           | `number`         | 是   | 记录 ID                      |
+| `bindings[].bindingTime`  | `number`         | 否   | 绑定时间戳（毫秒）           |
+| `bindings[].expired`      | `boolean`        | 否   | 是否已过期                   |
+| `bindings[].expiresIn`    | `number`         | 否   | 有效期时长（秒）             |
+| `bindings[].refreshTime`  | `number`         | 否   | 令牌刷新时间戳               |
+| `bindings[].tokenJsonStr` | `string`         | 否   | 序列化令牌信息 JSON 字符串   |
+| `bindings[].type`         | `number`         | 否   | -                            |
+| `bindings[].url`          | `string`         | 否   | 资源访问地址                 |
+| `bindings[].userId`       | `number`         | 否   | 用户 ID                      |
+
+<!-- api-doc:response:end -->

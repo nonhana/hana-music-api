@@ -1,75 +1,83 @@
 ---
 title: '获取用户歌单'
-description: '登录后调用此接口，传入用户 id, 可以获取用户歌单'
+description: '登录后调用此接口，传入用户 id，可以获取用户歌单'
 ---
 
 # 获取用户歌单
 
-> 登录后调用此接口，传入用户 id, 可以获取用户歌单
+登录后调用此接口，传入用户 id，可以获取用户歌单
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值               |
-| -------- | ---------------- |
-| 接口地址 | `/user/playlist` |
-| 请求方式 | `GET` / `POST`   |
-| 需要登录 | 是               |
-| 对应模块 | `user_playlist`  |
-| 文档分类 | 歌单             |
+| 项目       | 值                                                   |
+| ---------- | ---------------------------------------------------- |
+| 接口地址   | `/user/playlist`                                     |
+| 请求方式   | `GET` / `POST`                                       |
+| 需要登录   | 是                                                   |
+| 对应模块   | `user_playlist`                                      |
+| SDK 函数   | `userPlaylist`（`hana-music-api/api/user_playlist`） |
+| 返回体类型 | `UserPlaylistBody`（已建模返回体）                   |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                    |
-| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------- |
-| `uid`    | string           |  ✅  | -      | 用户 id                                                                 |
-| `limit`  | number \| string |  —   | 30     | 返回数量，默认为 30                                                     |
-| `offset` | number \| string |  —   | 0      | 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/playlist?uid=32953014
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userPlaylist } from 'hana-music-api';
 
-const result = await userPlaylist({
-  uid: '32953014',
-});
-
+const result = await userPlaylist(
+  {
+    uid: '32953014',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.playlist` 里同时有自建的歌单和收藏的歌单，`more` 表示后面还有没有。每张歌单声明了这些字段：
+```bash
+curl --get 'http://127.0.0.1:3021/user/playlist' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'uid=32953014'
+```
 
-| 字段                                      | 说明                                                             |
-| ----------------------------------------- | ---------------------------------------------------------------- |
-| `id`、`name`、`coverImgUrl`、`trackCount` | 编号、名称、封面、歌曲数                                         |
-| `creator.userId`、`creator.nickname`      | 创建者                                                           |
-| `subscribed`                              | 收藏的歌单是 `true`，自建的是 `false`；没有有效登录时都是 `null` |
-| `specialType`                             | 我喜欢的音乐是 `5`，排在第一张                                   |
-| `privacy`                                 | 隐私设置，原样保留网易云的数值                                   |
-| `updateTime`、`trackUpdateTime`           | 网易云给的两个更新时间（毫秒时间戳），可用来判断歌单变没变       |
+<!-- api-doc:params:start -->
 
-只有 `code`、`playlist`、`playlist[].id` 收紧；表格里的其余字段和 `PlaylistSummary`、`PlaylistUser` 的其他声明字段都宽松。每张歌单里的 `tracks[].id` 也宽松，因为它是歌单记录里套着的歌曲。结构定义和类型是 `UserPlaylistBody`，见 [返回体结构](/guide/response-bodies)。
+## 请求参数
 
-## 补充说明
+| 参数     | 类型               | 必填 | 默认值 | 说明                                                                    |
+| -------- | ------------------ | ---- | ------ | ----------------------------------------------------------------------- |
+| `uid`    | `number \| string` | 是   | -      | 用户 id                                                                 |
+| `limit`  | `number`           | 否   | `30`   | 返回数量，默认为 30                                                     |
+| `offset` | `number`           | 否   | `0`    | 偏移数量，用于分页，如：(页数 - 1)\*30，其中 30 为 limit 的值，默认为 0 |
 
-说明 : 登录后调用此接口，传入用户 id, 可以获取用户歌单
+<!-- api-doc:params:end -->
 
-**必选参数 :** `uid` : 用户 id
+<!-- api-doc:response:start -->
 
-**可选参数 :**
+## 返回值
 
-`limit` : 返回数量，默认为 30
+返回体类型：`UserPlaylistBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/user_playlist`、`hana-music-api/schemas/user_playlist` 导入运行时校验器）。
 
-`offset` : 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0
+```ts
+type UserPlaylistBody = {
+  code: 200;
+  more?: boolean | null;
+  playlist: Array<PlaylistSummary>;
+};
+```
 
-**接口地址 :** `/user/playlist`
+- **公共类型**：[PlaylistSummary](/api/shared-types#playlistsummary)
 
-**调用例子 :** `/user/playlist?uid=32953014`
+| 字段       | 类型                                                          | 必填 | 说明                         |
+| ---------- | ------------------------------------------------------------- | ---- | ---------------------------- |
+| `code`     | `200`                                                         | 是   | 业务状态码（`200` 表示成功） |
+| `more`     | `boolean`                                                     | 否   | 是否还有更多数据             |
+| `playlist` | Array\<[PlaylistSummary](/api/shared-types#playlistsummary)\> | 是   | 歌单详情                     |
+
+<!-- api-doc:response:end -->

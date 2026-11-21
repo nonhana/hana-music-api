@@ -1,61 +1,78 @@
 ---
 title: '更新歌单名'
-description: '登录后调用此接口,可以单独更新用户歌单名'
+description: '登录后调用此接口，可以单独更新用户歌单名'
 ---
 
 # 更新歌单名
 
-> 登录后调用此接口,可以单独更新用户歌单名
+登录后调用此接口，可以单独更新用户歌单名
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                      |
-| -------- | ----------------------- |
-| 接口地址 | `/playlist/name/update` |
-| 请求方式 | `GET` / `POST`          |
-| 需要登录 | 是                      |
-| 对应模块 | `playlist_name_update`  |
-| 文档分类 | 歌单                    |
+| 项目       | 值                                                                |
+| ---------- | ----------------------------------------------------------------- |
+| 接口地址   | `/playlist/name/update`                                           |
+| 请求方式   | `GET` / `POST`                                                    |
+| 需要登录   | 是                                                                |
+| 对应模块   | `playlist_name_update`                                            |
+| SDK 函数   | `playlistNameUpdate`（`hana-music-api/api/playlist_name_update`） |
+| 返回体类型 | `PlaylistNameUpdateBody`（已建模返回体）                          |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明   |
-| ------ | ------ | :--: | ------ | ------ |
-| `id`   | string |  ✅  | -      | 歌单id |
-| `name` | string |  ✅  | -      | 歌单名 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/name/update?id=24381616&name=歌单名
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistNameUpdate } from 'hana-music-api';
 
-const result = await playlistNameUpdate({
-  id: '24381616',
-  name: '歌单名',
-});
-
+const result = await playlistNameUpdate(
+  {
+    id: '24381616',
+    name: '歌单名',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-说明 : 登录后调用此接口,可以单独更新用户歌单名
-
-**必选参数 :**
-
-```text
-id: 歌单id
-
-name: 歌单名
-
+```bash
+curl --get 'http://127.0.0.1:3021/playlist/name/update' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=24381616' \
+  --data-urlencode 'name=歌单名'
 ```
 
-**接口地址 :** `/playlist/name/update`
+<!-- api-doc:params:start -->
 
-**调用例子 :** `/playlist/name/update?id=24381616&name=歌单名`
+## 请求参数
+
+| 参数   | 类型               | 必填 | 默认值 | 说明   |
+| ------ | ------------------ | ---- | ------ | ------ |
+| `id`   | `number \| string` | 是   | -      | 歌单id |
+| `name` | `string`           | 是   | -      | 歌单名 |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`PlaylistNameUpdateBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_name_update`、`hana-music-api/schemas/playlist_name_update` 导入运行时校验器）。
+
+```ts
+type PlaylistNameUpdateBody = {
+  code: 200;
+};
+```
+
+| 字段   | 类型  | 必填 | 说明                         |
+| ------ | ----- | ---- | ---------------------------- |
+| `code` | `200` | 是   | 业务状态码（`200` 表示成功） |
+
+<!-- api-doc:response:end -->

@@ -1,115 +1,99 @@
 ---
 title: '歌单导入 - 元数据/文字/链接导入'
-description: '登录后调用此接口, 支持通过元数据/文字/链接三种方式生成歌单; 三种方式不可同时调用'
+description: '登录后调用此接口，支持通过元数据/文字/链接三种方式生成歌单; 三种方式不可同时调用'
 ---
-
-<!-- cSpell:ignore ZLMS -->
 
 # 歌单导入 - 元数据/文字/链接导入
 
-> 登录后调用此接口, 支持通过元数据/文字/链接三种方式生成歌单; 三种方式不可同时调用
+登录后调用此接口，支持通过元数据/文字/链接三种方式生成歌单; 三种方式不可同时调用
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                                  |
-| -------- | ----------------------------------- |
-| 接口地址 | `/playlist/import/name/task/create` |
-| 请求方式 | `GET` / `POST`                      |
-| 需要登录 | 是                                  |
-| 对应模块 | `playlist_import_name_task_create`  |
-| 文档分类 | 歌单                                |
+| 项目       | 值                                                                                      |
+| ---------- | --------------------------------------------------------------------------------------- |
+| 接口地址   | `/playlist/import/name/task/create`                                                     |
+| 请求方式   | `GET` / `POST`                                                                          |
+| 需要登录   | 是                                                                                      |
+| 对应模块   | `playlist_import_name_task_create`                                                      |
+| SDK 函数   | `playlistImportNameTaskCreate`（`hana-music-api/api/playlist_import_name_task_create`） |
+| 返回体类型 | `PlaylistImportNameTaskCreateBody`（已建模返回体）                                      |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数                 | 类型    | 必填 | 默认值 | 说明                                                                                            |
-| -------------------- | ------- | :--: | ------ | ----------------------------------------------------------------------------------------------- |
-| `importStarPlaylist` | boolean |  —   | -      | 是否导入`我喜欢的音乐`, 此项为true则不生成新的歌单                                              |
-| `playlistName`       | string  |  —   | 为     | 生成的歌单名, 仅文字导入和链接导入支持, 默认为`'导入音乐 '.concat(new Date().toLocaleString())` |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/import/name/task/create?local=${local}
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistImportNameTaskCreate } from 'hana-music-api';
 
-const result = await playlistImportNameTaskCreate({
-  local: '${local}',
-});
-
+const result = await playlistImportNameTaskCreate(
+  {
+    text: '周杰伦 - 晴天',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-写操作：创建一个导入任务，文字导入和链接导入成功后网易云会按任务结果新建歌单。正文的 `code` 收紧；`data`、`data.taskId`、`msg`、`message` 宽松（`local`/`link` 分支没有录制，不收紧 `data.taskId`），拿到任务编号后用 [歌单导入任务状态](/api/playlist/playlist-import-task-status) 轮询。缺少 `text` 时上游回 `code: 400`（格式错误或暂不支持该类型音乐导入）；这个 400 以前归一成 `status: 200` 放行，现在按业务拒绝转交 `status: 400`。即使没有匹配到歌曲也会建任务并回 `code: 200`，任务失败信息在状态接口里。结构定义和类型是 `PlaylistImportNameTaskCreateBody`，见 [返回体结构](/guide/response-bodies)。
-
-## 补充说明
-
-说明 : 登录后调用此接口, 支持通过元数据/文字/链接三种方式生成歌单; 三种方式不可同时调用
-
-**接口地址 :** `/playlist/import/name/task/create`
-
-**可选参数 :**
-
-`importStarPlaylist` : 是否导入`我喜欢的音乐`, 此项为true则不生成新的歌单
-`playlistName` : 生成的歌单名, 仅文字导入和链接导入支持, 默认为`'导入音乐 '.concat(new Date().toLocaleString())`
-
-**元数据导入 :**
-
-`local`: json类型的字符串, 如：
-
-```javascript
-let local = encodeURIComponent(
-  JSON.stringify([
-    {
-      name: 'アイニーブルー', // 歌曲名称
-      artist: 'ZLMS', // 艺术家名称
-      album: 'アイニーブルー', // 专辑名称
-    },
-    {
-      name: 'ファンタズマ',
-      artist: 'sasakure.UK',
-      album: '未来イヴ',
-    },
-  ]),
-);
+```bash
+curl --get 'http://127.0.0.1:3021/playlist/import/name/task/create' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'text=周杰伦 - 晴天'
 ```
 
-**调用例子 :** `/playlist/import/name/task/create?local=${local}`
+<!-- api-doc:params:start -->
 
-**文字导入 :**
+## 请求参数
 
-`text`: 导入的文字, 如：
+| 参数                 | 类型                              | 必填 | 默认值  | 说明                                            |
+| -------------------- | --------------------------------- | ---- | ------- | ----------------------------------------------- |
+| `importStarPlaylist` | `boolean`                         | 否   | `false` | 是否直接导入「我喜欢的音乐」，默认 `false`      |
+| `link`               | `Array<string>`                   | 否   | -       | 外部歌单链接数组（链接导入）                    |
+| `local`              | `Array<PlaylistImportLocalEntry>` | 否   | -       | 本地元数据条目数组（`name`、`artist`、`album`） |
+| `playlistName`       | `string`                          | 否   | 为      | 生成的新歌单名称                                |
+| `text`               | `string`                          | 否   | -       | 纯文本歌单内容（文字导入）                      |
 
-```javascript
-let text = encodeURIComponent(`アイニーブルー ZLMS
-ファンタズマ sasakure.UK`);
+| `local[]` 字段 | 类型     | 必填 | 说明     |
+| -------------- | -------- | ---- | -------- |
+| `name`         | `string` | 否   | 歌曲名称 |
+| `artist`       | `string` | 否   | 歌手名称 |
+| `album`        | `string` | 否   | 专辑名称 |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`PlaylistImportNameTaskCreateBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_import_name_task_create`、`hana-music-api/schemas/playlist_import_name_task_create` 导入运行时校验器）。
+
+```ts
+type PlaylistImportNameTaskCreateBody = {
+  code: 200;
+  data?: {
+    taskId?: number | null;
+  } | null;
+  msg?: string | null;
+  message?: string | null;
+};
 ```
 
-**调用例子 :** `/playlist/import/name/task/create?text=${text}`
+| 字段          | 类型     | 必填 | 说明                         |
+| ------------- | -------- | ---- | ---------------------------- |
+| `code`        | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `data`        | `object` | 否   | 接口返回的数据主体           |
+| `data.taskId` | `number` | 否   | 异步任务 ID                  |
+| `msg`         | `string` | 否   | 提示信息                     |
+| `message`     | `string` | 否   | 返回说明信息                 |
 
-**链接导入 :**
+<!-- api-doc:response:end -->
 
-`link`: 存有歌单链接的数组类型的字符串, 如：
+## 注意事项
 
-```javascript
-let link = encodeURIComponent(
-  JSON.stringify([
-    'https://i.y.qq.com/n2/m/share/details/taoge.html?id=7716341988&hosteuin=',
-    'https://i.y.qq.com/n2/m/share/details/taoge.html?id=8010042041&hosteuin=',
-  ]),
-);
-```
-
-歌单链接来源:
-
-1. 将歌单分享到微信/微博/QQ后复制链接
-2. 直接复制歌单/个人主页链接
-3. 直接复制文章链接
-
-**调用例子 :** `/playlist/import/name/task/create?link=${link}`
+- **导入模式**：支持三种互斥导入方式——传 `local`（元数据数组）、`text`（纯文本）或 `link`（链接数组）。
+- **任务轮询**：创建任务后可通过返回的 `data.taskId` 调用 [歌单导入任务状态](/api/playlist/playlist-import-task-status) 查询导入进度。

@@ -1,62 +1,78 @@
 ---
 title: '歌曲是否喜爱'
-description: '登录后调用此接口, 传入歌曲id, 可判断歌曲是否被喜爱;'
+description: '登录后调用此接口，传入歌曲id，可判断歌曲是否被喜爱;'
 ---
 
 # 歌曲是否喜爱
 
-> 登录后调用此接口, 传入歌曲id, 可判断歌曲是否被喜爱;
+登录后调用此接口，传入歌曲id，可判断歌曲是否被喜爱;
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                 |
-| -------- | ------------------ |
-| 接口地址 | `/song/like/check` |
-| 请求方式 | `GET` / `POST`     |
-| 需要登录 | 是                 |
-| 对应模块 | `song_like_check`  |
-| 文档分类 | 歌曲与播放         |
+| 项目       | 值                                                      |
+| ---------- | ------------------------------------------------------- |
+| 接口地址   | `/song/like/check`                                      |
+| 请求方式   | `GET` / `POST`                                          |
+| 需要登录   | 是                                                      |
+| 对应模块   | `song_like_check`                                       |
+| SDK 函数   | `songLikeCheck`（`hana-music-api/api/song_like_check`） |
+| 返回体类型 | `SongLikeCheckBody`（已建模返回体）                     |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数  | 类型               | 必填 | 默认值 | 说明         |
-| ----- | ------------------ | :--: | ------ | ------------ |
-| `ids` | string[] \| string |  ✅  | -      | 歌曲 id 列表 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /song/like/check?ids=[2058263032,1497529942]
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { songLikeCheck } from 'hana-music-api';
 
-const result = await songLikeCheck({
-  ids: '[2058263032,1497529942]',
-});
-
+const result = await songLikeCheck(
+  {
+    ids: [347230],
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body` 是网易云原文；`code` 和喜欢列表 `ids` 收紧。`ids` 是这个账号已喜爱的歌曲编号；传入的歌都没喜欢过时是空数组，匿名调用也返回空数组。`ids` 缺失或元素不是数字会报 502。
+```bash
+curl 'http://127.0.0.1:3021/song/like/check' \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data '{"ids":[347230]}'
+```
 
-空 `ids` 请求会被上游以 `{ code: 400 }` 拒绝，SDK 按业务拒绝原样转交（`status: 400`）。登录对照未发现结构差异，`song_like_check.anonymous.json` 是匿名录制。结构定义和类型是 `SongLikeCheckBody`，见 [返回体结构](/guide/response-bodies#曲库)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 : 登录后调用此接口, 传入歌曲id, 可判断歌曲是否被喜爱;
+| 参数  | 类型                      | 必填 | 默认值 | 说明         |
+| ----- | ------------------------- | ---- | ------ | ------------ |
+| `ids` | `Array<number \| string>` | 是   | -      | 歌曲 id 列表 |
 
-若传入一个包含多个歌曲ID的数组, 则接口将返回一个由这些ID中被标记为喜爱的歌曲组成的数组
+<!-- api-doc:params:end -->
 
-**必选参数 :**
+<!-- api-doc:response:start -->
 
-`ids`: 歌曲 id 列表
+## 返回值
 
-**接口地址 :** `/song/like/check`
+返回体类型：`SongLikeCheckBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/song_like_check`、`hana-music-api/schemas/song_like_check` 导入运行时校验器）。
 
-**调用例子 :** `/song/like/check?ids=[2058263032,1497529942]`
+```ts
+type SongLikeCheckBody = {
+  code: 200;
+  ids: Array<number>;
+};
+```
+
+| 字段   | 类型            | 必填 | 说明                         |
+| ------ | --------------- | ---- | ---------------------------- |
+| `code` | `200`           | 是   | 业务状态码（`200` 表示成功） |
+| `ids`  | `Array<number>` | 是   | -                            |
+
+<!-- api-doc:response:end -->

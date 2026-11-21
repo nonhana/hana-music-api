@@ -1,35 +1,30 @@
 ---
 title: '相关歌单'
-description: '请替换为[相关歌单推荐](/api/playlist/playlist-detail-rcmd-get)接口; 本接口通过html抓取内容, 现已无法抓取歌单'
+description: '原网页抓取接口已失效，建议使用相关歌单推荐接口 `/playlist/detail/rcmd/get`。'
 ---
 
 # 相关歌单
 
-> 请替换为[相关歌单推荐](/api/playlist/playlist-detail-rcmd-get)接口; 本接口通过html抓取内容, 现已无法抓取歌单
+原网页抓取接口已失效，建议使用相关歌单推荐接口 `/playlist/detail/rcmd/get`。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                  |
-| -------- | ------------------- |
-| 接口地址 | `/related/playlist` |
-| 请求方式 | `GET` / `POST`      |
-| 需要登录 | 否                  |
-| 对应模块 | `related_playlist`  |
-| 文档分类 | 歌单                |
+| 项目       | 值                                                         |
+| ---------- | ---------------------------------------------------------- |
+| 接口地址   | `/related/playlist`                                        |
+| 请求方式   | `GET` / `POST`                                             |
+| 需要登录   | 否                                                         |
+| 对应模块   | `related_playlist`                                         |
+| SDK 函数   | `relatedPlaylist`（`hana-music-api/api/related_playlist`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                                |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明                                                                                               |
-| ---- | ------ | :--: | ------ | -------------------------------------------------------------------------------------------------- |
-| `id` | string |  ✅  | -      | 歌单 id~~<br>~~**接口地址 :** `/related/playlist`~~<br>~~**调用例子 :** `/related/playlist?id=1`~~ |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /related/playlist?id=1
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { relatedPlaylist } from 'hana-music-api';
@@ -37,18 +32,34 @@ import { relatedPlaylist } from 'hana-music-api';
 const result = await relatedPlaylist({
   id: '1',
 });
-
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-说明: 请替换为[相关歌单推荐](/api/playlist/playlist-detail-rcmd-get)接口; 本接口通过html抓取内容, 现已无法抓取歌单
+```bash
+curl --get 'http://127.0.0.1:3021/related/playlist' \
+  --data-urlencode 'id=1'
+```
 
-~~说明 : 调用此接口,传入歌单 id 可获取相关歌单(对应页面 [https://music.163.com/#/playlist?id=1](https://music.163.com/#/playlist?id=1))~~
+<!-- api-doc:params:start -->
 
-~~**必选参数 :** `id` : 歌单 id~~
+## 请求参数
 
-~~**接口地址 :** `/related/playlist`~~
+| 参数 | 类型               | 必填 | 默认值 | 说明        |
+| ---- | ------------------ | ---- | ------ | ----------- |
+| `id` | `number \| string` | 是   | -      | 目标资源 ID |
 
-~~**调用例子 :** `/related/playlist?id=1`~~
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **接口状态**：原上游网页抓取来源已失效，建议改用 [相关歌单推荐](/api/playlist/playlist-detail-rcmd-get)。

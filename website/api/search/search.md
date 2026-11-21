@@ -7,48 +7,25 @@ description: '按关键词搜索歌曲、专辑、歌手、歌单等内容。'
 
 按关键词搜索歌曲、专辑、歌手、歌单等内容。关键词可以用空格分隔，比如“周杰伦 搁浅”。
 
+<!-- api-doc:meta:start -->
+
 ## 接口信息
 
-| 项目     | 值                 |
-| -------- | ------------------ |
-| 接口地址 | `/search`          |
-| 请求方式 | GET / POST         |
-| 需要登录 | 否，可使用游客身份 |
-| 对应模块 | `search`           |
+| 项目       | 值                                                                                |
+| ---------- | --------------------------------------------------------------------------------- |
+| 接口地址   | `/search`                                                                         |
+| 请求方式   | `GET` / `POST`                                                                    |
+| 需要登录   | 否（可使用游客身份）                                                              |
+| 对应模块   | `search`                                                                          |
+| SDK 函数   | `search`（`hana-music-api/api/search`）                                           |
+| 返回体类型 | `SearchBody`（已建模返回体）                                                      |
+| 读缓存     | 支持共享读缓存与并发请求去重，详见 [缓存与身份池](/guide/cache-and-identity-pool) |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数       | 类型                | 必填 | 默认值 | 说明                                        |
-| ---------- | ------------------- | ---- | ------ | ------------------------------------------- |
-| `keywords` | string              | 是   | 无     | 搜索关键词                                  |
-| `type`     | number 或数字字符串 | 否   | `1`    | 搜索类型，见下表                            |
-| `limit`    | number 或数字字符串 | 否   | `30`   | 返回数量                                    |
-| `offset`   | number 或数字字符串 | 否   | `0`    | 跳过的结果数量，一般为 `(页码 - 1) * limit` |
+## 调用示例
 
-| `type` | 搜索内容                                     |
-| ------ | -------------------------------------------- |
-| `1`    | 单曲                                         |
-| `10`   | 专辑                                         |
-| `100`  | 歌手                                         |
-| `1000` | 歌单                                         |
-| `1002` | 用户                                         |
-| `1004` | MV                                           |
-| `1006` | 歌词                                         |
-| `1009` | 电台                                         |
-| `1014` | 视频                                         |
-| `1018` | 综合                                         |
-| `2000` | 声音，使用独立的上游搜索接口，响应结构也不同 |
-
-## HTTP 示例
-
-```bash
-curl --get 'http://127.0.0.1:3021/search' \
-  --data-urlencode 'keywords=海阔天空' \
-  --data-urlencode 'limit=5' \
-  --data-urlencode 'offset=0'
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { search } from 'hana-music-api';
@@ -57,10 +34,182 @@ const result = await search({ keywords: '海阔天空', limit: 5, offset: 0 });
 console.log(result.body);
 ```
 
-本接口属于明确读接口，可使用 [缓存与同时请求合并](/guide/sdk-cache-and-identity-pool)。未声明字段会在输入解码时移除，添加 `timestamp` 不能强制刷新本地缓存。
+### HTTP
 
-## 返回内容
+```bash
+curl --get 'http://127.0.0.1:3021/search' \
+  --data-urlencode 'keywords=海阔天空' \
+  --data-urlencode 'limit=5' \
+  --data-urlencode 'offset=0'
+```
 
-`body.code` 收紧；`body.result` 是通到搜索结果的路径，按 `type` 只给一类列表（`songs`、`albums`、`artists`、`playlists`、`mvs`）。没有结果时只有总数（如 `songCount: 0`），列表可能是空数组（`albums`、`artists`、`playlists`）、`null`（`type=1004` 的 `mvs`）或整个缺失（`songs`）；列表出现时每项记录的 `id` 收紧，坏一条记录会报 502。空结果由 `search.no-result.json`、`search.empty-albums.json`、`search.empty-artists.json`、`search.empty-playlists.json`、`search.empty-mvs.json` 覆盖。`body.result` 本身可以没有：`type=2000` 的语音搜索走另一条上游接口，返回 `data` 形状，这批没有收窄它，`data` 作为未声明字段原样返回。歌曲共用 `Song`，专辑共用 `AlbumSummary` 并局部补了宽松的 `alg`、`containedSong`，歌手、歌单和 MV 在模块内声明；各总数、`hasMore`、`hlWords`、`trp` 是宽松字段；歌单的 `score` 只见过 `null`，没有声明，原样保留。结构定义和类型是 `SearchBody`，见 [返回体结构](/guide/response-bodies)。
+<!-- api-doc:params:start -->
 
-也可以使用 [云搜索](/api/search/cloudsearch)。拿到歌曲 ID 后，通过 [歌曲播放地址](/api/music/song-url) 获取播放链接。
+## 请求参数
+
+| 参数       | 类型                                                                             | 必填 | 默认值 | 说明                                        |
+| ---------- | -------------------------------------------------------------------------------- | ---- | ------ | ------------------------------------------- |
+| `keywords` | `string`                                                                         | 是   | -      | 搜索关键词                                  |
+| `limit`    | `number`                                                                         | 否   | `30`   | 返回数量                                    |
+| `offset`   | `number`                                                                         | 否   | `0`    | 跳过的结果数量，一般为 `(页码 - 1) * limit` |
+| `type`     | `1 \| 10 \| 100 \| 1000 \| 1002 \| 1004 \| 1006 \| 1009 \| 1014 \| 1018 \| 2000` | 否   | `1`    | 搜索类型，见下表                            |
+
+| `type` | 搜索内容                                           |
+| ------ | -------------------------------------------------- |
+| `1`    | 单曲                                               |
+| `10`   | 专辑                                               |
+| `100`  | 歌手                                               |
+| `1000` | 歌单                                               |
+| `1002` | 用户                                               |
+| `1004` | MV                                                 |
+| `1006` | 歌词                                               |
+| `1009` | 电台                                               |
+| `1014` | 视频                                               |
+| `1018` | 综合                                               |
+| `2000` | 声音（使用独立搜索接口，返回体结构为 `data` 形态） |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`SearchBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/search`、`hana-music-api/schemas/search` 导入运行时校验器）。
+
+```ts
+type SearchedAlbum = Omit<AlbumSummary, 'alg' | 'containedSong'> & {
+  alg?: string | null;
+  containedSong?: string | null;
+};
+
+type SearchedArtist = Omit<
+  Artist,
+  | 'id'
+  | 'appendRecText'
+  | 'fansSize'
+  | 'identityIconUrl'
+  | 'recommendText'
+  | 'alg'
+> & {
+  id: number;
+  appendRecText?: string | null;
+  fansSize?: number | null;
+  identityIconUrl?: string | null;
+  recommendText?: string | null;
+  alg?: string | null;
+};
+
+type SearchedPlaylist = Omit<
+  PlaylistSummary,
+  | 'action'
+  | 'actionType'
+  | 'alg'
+  | 'bookCount'
+  | 'officialTags'
+  | 'recommendText'
+> & {
+  action?: string | null;
+  actionType?: string | null;
+  alg?: string | null;
+  bookCount?: number | null;
+  officialTags?: Array<string> | null;
+  recommendText?: string | null;
+};
+
+type SearchedMvArtist = {
+  id?: number | null;
+  name?: string | null;
+};
+
+type SearchedMv = {
+  id: number;
+  alg?: string | null;
+  artistId?: number | null;
+  artistName?: string | null;
+  artists?: Array<SearchedMvArtist> | null;
+  arTransName?: string | null;
+  cover?: string | null;
+  duration?: number | null;
+  mark?: number | null;
+  name?: string | null;
+  playCount?: number | null;
+};
+
+type SearchResult = {
+  songs?: Array<Song> | null;
+  songCount?: number | null;
+  albums?: Array<SearchedAlbum> | null;
+  albumCount?: number | null;
+  artists?: Array<SearchedArtist> | null;
+  artistCount?: number | null;
+  playlists?: Array<SearchedPlaylist> | null;
+  playlistCount?: number | null;
+  mvs?: Array<SearchedMv> | null;
+  mvCount?: number | null;
+  hasMore?: boolean | null;
+  hlWords?: Array<string> | null;
+};
+
+type SearchBody = {
+  code: 200;
+  result?: SearchResult | null;
+  trp?: {
+    rules?: Array<string> | null;
+  } | null;
+};
+```
+
+- **公共类型**：[AlbumSummary](/api/shared-types#albumsummary)、[Artist](/api/shared-types#artist)、[PlaylistSummary](/api/shared-types#playlistsummary)、[Song](/api/shared-types#song)
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段                               | 类型                                    | 必填 | 说明                         |
+| ---------------------------------- | --------------------------------------- | ---- | ---------------------------- |
+| `code`                             | `200`                                   | 是   | 业务状态码（`200` 表示成功） |
+| `result`                           | `SearchResult`                          | 可空 | 接口返回的结果主体           |
+| `result.songs`                     | Array\<[Song](/api/shared-types#song)\> | 可空 | 歌曲列表                     |
+| `result.songCount`                 | `number`                                | 否   | -                            |
+| `result.albums`                    | `Array<SearchedAlbum>`                  | 可空 | 专辑列表                     |
+| `result.albums[].alg`              | `string`                                | 否   | 推荐算法标识                 |
+| `result.albums[].containedSong`    | `string`                                | 否   | -                            |
+| `result.albumCount`                | `number`                                | 否   | -                            |
+| `result.artists`                   | `Array<SearchedArtist>`                 | 可空 | 歌手列表                     |
+| `result.artists[].id`              | `number`                                | 是   | 记录 ID                      |
+| `result.artists[].appendRecText`   | `string`                                | 否   | -                            |
+| `result.artists[].fansSize`        | `number`                                | 否   | 粉丝数                       |
+| `result.artists[].identityIconUrl` | `string`                                | 否   | 资源访问链接                 |
+| `result.artists[].recommendText`   | `string`                                | 否   | -                            |
+| `result.artists[].alg`             | `string`                                | 否   | 推荐算法标识                 |
+| `result.artistCount`               | `number`                                | 否   | -                            |
+| `result.playlists`                 | `Array<SearchedPlaylist>`               | 可空 | 歌单列表                     |
+| `result.playlists[].action`        | `string`                                | 否   | -                            |
+| `result.playlists[].actionType`    | `string`                                | 否   | -                            |
+| `result.playlists[].alg`           | `string`                                | 否   | 推荐算法标识                 |
+| `result.playlists[].bookCount`     | `number`                                | 否   | 收藏数                       |
+| `result.playlists[].officialTags`  | `Array<string>`                         | 否   | -                            |
+| `result.playlists[].recommendText` | `string`                                | 否   | -                            |
+| `result.playlistCount`             | `number`                                | 否   | -                            |
+| `result.mvs`                       | `Array<SearchedMv>`                     | 可空 | MV 列表                      |
+| `result.mvs[].id`                  | `number`                                | 是   | 记录 ID                      |
+| `result.mvs[].alg`                 | `string`                                | 否   | 推荐算法标识                 |
+| `result.mvs[].artistId`            | `number`                                | 否   | 歌手 ID                      |
+| `result.mvs[].artistName`          | `string`                                | 否   | 歌手名称                     |
+| `result.mvs[].artists`             | `Array<SearchedMvArtist>`               | 否   | 歌手列表                     |
+| `result.mvs[].arTransName`         | `string`                                | 否   | 歌手译名                     |
+| `result.mvs[].cover`               | `string`                                | 否   | 封面图片 URL                 |
+| `result.mvs[].duration`            | `number`                                | 否   | 时长（毫秒）                 |
+| `result.mvs[].mark`                | `number`                                | 否   | 状态标记位                   |
+| `result.mvs[].name`                | `string`                                | 否   | 名称                         |
+| `result.mvs[].playCount`           | `number`                                | 否   | 播放次数                     |
+| `result.mvCount`                   | `number`                                | 否   | -                            |
+| `result.hasMore`                   | `boolean`                               | 否   | 是否还有更多数据             |
+| `result.hlWords`                   | `Array<string>`                         | 否   | -                            |
+| `trp`                              | `object`                                | 否   | -                            |
+| `trp.rules`                        | `Array<string>`                         | 否   | -                            |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **读缓存与并发请求去重**：本接口支持共享读缓存与并发请求去重，未声明的请求字段会在输入校验时被拒绝，详见 [缓存与身份池](/guide/cache-and-identity-pool)。
+- **声音搜索**：当 `type=2000` 时请求独立声音搜索接口，返回体结构位于 `data` 字段而非 `result`。

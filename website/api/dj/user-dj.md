@@ -1,56 +1,85 @@
 ---
 title: '获取用户电台'
-description: '登录后调用此接口，传入用户 id, 可以获取用户电台'
+description: '登录后调用此接口，传入用户 id，可以获取用户电台'
 ---
 
 # 获取用户电台
 
-> 登录后调用此接口，传入用户 id, 可以获取用户电台
+登录后调用此接口，传入用户 id，可以获取用户电台
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/user/dj`     |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `user_dj`      |
-| 文档分类 | 电台与播客     |
+| 项目       | 值                                       |
+| ---------- | ---------------------------------------- |
+| 接口地址   | `/user/dj`                               |
+| 请求方式   | `GET` / `POST`                           |
+| 需要登录   | 是                                       |
+| 对应模块   | `user_dj`                                |
+| SDK 函数   | `userDj`（`hana-music-api/api/user_dj`） |
+| 返回体类型 | `UserDjBody`（已建模返回体）             |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数  | 类型   | 必填 | 默认值 | 说明    |
-| ----- | ------ | :--: | ------ | ------- |
-| `uid` | string |  ✅  | -      | 用户 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/dj?uid=32953014
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userDj } from 'hana-music-api';
 
-const result = await userDj({
-  uid: '32953014',
-});
-
+const result = await userDj(
+  {
+    uid: '32953014',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.programs` 和每个节目的 `body.programs[].id` 收紧；节目记录复用 `DjProgram`，其余字段宽松。没有节目时 `programs` 是空数组（录制 `user_dj.empty.json`，账号 599663130）。`count`、`more` 宽松。结构定义和类型是 `UserDjBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/user/dj' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'uid=32953014'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，传入用户 id, 可以获取用户电台
+## 请求参数
 
-**必选参数 :** `uid` : 用户 id
+| 参数     | 类型               | 必填 | 默认值 | 说明                         |
+| -------- | ------------------ | ---- | ------ | ---------------------------- |
+| `uid`    | `number \| string` | 是   | -      | 用户 id                      |
+| `limit`  | `number`           | 否   | `30`   | 返回数量，默认 `30`          |
+| `offset` | `number`           | 否   | `0`    | 偏移数量，用于分页，默认 `0` |
 
-**接口地址 :** `/user/dj`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/user/dj?uid=32953014`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`UserDjBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/user_dj`、`hana-music-api/schemas/user_dj` 导入运行时校验器）。
+
+```ts
+type UserDjBody = {
+  code: 200;
+  count?: number | null;
+  more?: boolean | null;
+  programs: Array<DjProgram>;
+};
+```
+
+- **公共类型**：[DjProgram](/api/shared-types#djprogram)
+
+| 字段       | 类型                                              | 必填 | 说明                         |
+| ---------- | ------------------------------------------------- | ---- | ---------------------------- |
+| `code`     | `200`                                             | 是   | 业务状态码（`200` 表示成功） |
+| `count`    | `number`                                          | 否   | 条目总数                     |
+| `more`     | `boolean`                                         | 否   | 是否还有更多数据             |
+| `programs` | Array\<[DjProgram](/api/shared-types#djprogram)\> | 是   | 电台节目列表                 |
+
+<!-- api-doc:response:end -->

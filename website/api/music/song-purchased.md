@@ -5,55 +5,81 @@ description: '登录后调用此接口可获取已购买的单曲'
 
 # 已购单曲
 
-> 登录后调用此接口可获取已购买的单曲
+登录后调用此接口可获取已购买的单曲
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                |
-| -------- | ----------------- |
-| 接口地址 | `/song/purchased` |
-| 请求方式 | `GET` / `POST`    |
-| 需要登录 | 是                |
-| 对应模块 | `song_purchased`  |
-| 文档分类 | 歌曲与播放        |
+| 项目       | 值                                                     |
+| ---------- | ------------------------------------------------------ |
+| 接口地址   | `/song/purchased`                                      |
+| 请求方式   | `GET` / `POST`                                         |
+| 需要登录   | 是                                                     |
+| 对应模块   | `song_purchased`                                       |
+| SDK 函数   | `songPurchased`（`hana-music-api/api/song_purchased`） |
+| 返回体类型 | `SongPurchasedBody`（已建模返回体）                    |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                              |
-| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------- |
-| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20                                           |
-| `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*10, 其中 10 为 limit 的值 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /song/purchased?limit=10
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { songPurchased } from 'hana-music-api';
 
-const result = await songPurchased({
-  limit: '10',
-});
-
+const result = await songPurchased(
+  {
+    limit: 10,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`code` 和已购单曲列表的路径 `data` 收紧；`data.count`、`data.hasMore` 和 `message` 宽松。`data.list` 是已购单曲列表，录制账号没有已购单曲，只有空数组证据、元素类型未知，未声明并由 `UpstreamObject` 原样保留（录制 `song_purchased.empty.json`）。结构定义和类型是 `SongPurchasedBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/song/purchased' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'limit=10'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 :登录后调用此接口可获取已购买的单曲
+## 请求参数
 
-**可选参数 :** `limit`: 取出评论数量，默认为 20
+| 参数     | 类型     | 必填 | 默认值 | 说明                                                              |
+| -------- | -------- | ---- | ------ | ----------------------------------------------------------------- |
+| `limit`  | `number` | 否   | `20`   | 取出评论数量，默认为 20                                           |
+| `offset` | `number` | 否   | `0`    | 偏移数量，用于分页，如：(评论页数 - 1)\*10，其中 10 为 limit 的值 |
 
-`offset`: 偏移数量，用于分页，如：(评论页数 - 1)\*10, 其中 10 为 limit 的值
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/song/purchased`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/song/purchased?limit=10`
+## 返回值
+
+返回体类型：`SongPurchasedBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/song_purchased`、`hana-music-api/schemas/song_purchased` 导入运行时校验器）。
+
+```ts
+type SongPurchasedBody = {
+  code: 200;
+  data: {
+    count?: number | null;
+    hasMore?: boolean | null;
+  };
+  message?: string | null;
+};
+```
+
+| 字段           | 类型      | 必填 | 说明                         |
+| -------------- | --------- | ---- | ---------------------------- |
+| `code`         | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `data`         | `object`  | 是   | 接口返回的数据主体           |
+| `data.count`   | `number`  | 否   | 条目总数                     |
+| `data.hasMore` | `boolean` | 否   | 是否还有更多数据             |
+| `message`      | `string`  | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

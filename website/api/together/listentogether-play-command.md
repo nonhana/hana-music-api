@@ -5,69 +5,100 @@ description: '向一起听房间上报播放、暂停、跳转和进度同步等
 
 # 一起听 - 播放指令
 
-> 向房间广播当前播放器动作，例如播放、暂停、切歌和同步进度。
+向一起听房间上报播放、暂停、跳转和进度同步等指令。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                                         |
-| -------- | ------------------------------------------ |
-| 接口地址 | `/listentogether/play/command`             |
-| 请求方式 | `GET` / `POST`                             |
-| 需要登录 | 是                                         |
-| 对应模块 | `listentogether_play_command`              |
-| 文档分类 | 一起听                                     |
-| 上游路径 | `/api/listen/together/play/command/report` |
+| 项目       | 值                                                                              |
+| ---------- | ------------------------------------------------------------------------------- |
+| 接口地址   | `/listentogether/play/command`                                                  |
+| 请求方式   | `GET` / `POST`                                                                  |
+| 需要登录   | 是                                                                              |
+| 对应模块   | `listentogether_play_command`                                                   |
+| SDK 函数   | `listentogetherPlayCommand`（`hana-music-api/api/listentogether_play_command`） |
+| 返回体类型 | `ListentogetherPlayCommandBody`（已建模返回体）                                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数           | 类型   | 必填 | 默认值 | 说明                                                   |
-| -------------- | ------ | :--: | ------ | ------------------------------------------------------ |
-| `roomId`       | string |  ✅  | -      | 房间 ID                                                |
-| `commandType`  | string |  ✅  | -      | 指令类型。示例页中可见 `PLAY`、`PAUSE`、`GOTO`、`seek` |
-| `targetSongId` | string |  ✅  | -      | 指令目标歌曲 ID                                        |
-| `clientSeq`    | number |  ✅  | -      | 客户端维护的递增序号                                   |
-| `playStatus`   | string |  ✅  | -      | 播放状态，常见为 `PLAY` 或 `PAUSE`                     |
-| `formerSongId` | string |  —   | -      | 上一首歌曲 ID；示例页未知时传 `-1`                     |
-| `progress`     | number |  —   | `0`    | 当前进度，单位毫秒                                     |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-POST /listentogether/play/command?roomId=MzA0NjY5...&commandType=PLAY&targetSongId=1372188635&clientSeq=1&playStatus=PLAY&progress=0
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { listentogetherPlayCommand } from 'hana-music-api';
 
-const result = await listentogetherPlayCommand({
-  roomId: 'MzA0NjY5...',
-  commandType: 'GOTO',
-  targetSongId: '1372188635',
-  formerSongId: '-1',
-  clientSeq: 2,
-  playStatus: 'PLAY',
-  progress: 15342,
-});
-
+const result = await listentogetherPlayCommand(
+  {
+    roomId: 'MzA0NjY5...',
+    commandType: 'GOTO',
+    targetSongId: '1372188635',
+    formerSongId: '-1',
+    clientSeq: 2,
+    playStatus: 'PLAY',
+    progress: 15342,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回关注点
+### HTTP
 
-- `code`: 是否上报成功。
-- `message`: 失败时的错误信息。
+```bash
+curl --get 'http://127.0.0.1:3021/listentogether/play/command' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'roomId=MzA0NjY5...' \
+  --data-urlencode 'commandType=GOTO' \
+  --data-urlencode 'targetSongId=1372188635' \
+  --data-urlencode 'formerSongId=-1' \
+  --data-urlencode 'clientSeq=2' \
+  --data-urlencode 'playStatus=PLAY' \
+  --data-urlencode 'progress=15342'
+```
 
-## 返回内容
+<!-- api-doc:params:start -->
 
-`body.code` 收紧为 `200`；`data.result` 和 `message` 是宽松字段，`data.message` 只见过 `null`，未声明。
+## 请求参数
 
-## 补充说明
+| 参数           | 类型               | 必填 | 默认值 | 说明                                                   |
+| -------------- | ------------------ | ---- | ------ | ------------------------------------------------------ |
+| `clientSeq`    | `number`           | 是   | -      | 客户端维护的递增序号                                   |
+| `commandType`  | `string`           | 是   | -      | 指令类型。示例页中可见 `PLAY`、`PAUSE`、`GOTO`、`seek` |
+| `formerSongId` | `string \| number` | 否   | -      | 上一首歌曲 ID；示例页未知时传 `-1`                     |
+| `playStatus`   | `string \| number` | 是   | -      | 播放状态，常见为 `PLAY` 或 `PAUSE`                     |
+| `progress`     | `number`           | 否   | `0`    | 当前进度，单位毫秒                                     |
+| `roomId`       | `string`           | 是   | -      | 房间 ID                                                |
+| `targetSongId` | `number \| string` | 是   | -      | 指令目标歌曲 ID                                        |
 
-- 播放指令通常和 [`/listentogether/heatbeat`](/api/together/listentogether-heatbeat) 配合使用：前者表示动作，后者维持当前播放态。
+<!-- api-doc:params:end -->
 
-## 相关接口
+<!-- api-doc:response:start -->
 
-- [`/listentogether/heatbeat`](/api/together/listentogether-heatbeat)
-- [`/listentogether/sync/list/command`](/api/together/listentogether-sync-list-command)
+## 返回值
+
+返回体类型：`ListentogetherPlayCommandBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/listentogether_play_command`、`hana-music-api/schemas/listentogether_play_command` 导入运行时校验器）。
+
+```ts
+type ListentogetherPlayCommandBody = {
+  code: 200;
+  data?: {
+    result?: boolean | null;
+  } | null;
+  message?: string | null;
+};
+```
+
+| 字段          | 类型      | 必填 | 说明                         |
+| ------------- | --------- | ---- | ---------------------------- |
+| `code`        | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `data`        | `object`  | 否   | 接口返回的数据主体           |
+| `data.result` | `boolean` | 否   | 接口返回的结果主体           |
+| `message`     | `string`  | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **心跳配合**：发送播放控制指令后，通常需配合 [上报一起听心跳](/api/together/listentogether-heatbeat) 维持房间播放状态。

@@ -1,50 +1,85 @@
 ---
 title: '最近联系人'
-description: '登录后调用此接口 ,可获取最接近联系人'
+description: '登录后调用此接口 ，可获取最接近联系人'
 ---
 
 # 最近联系人
 
-> 登录后调用此接口 ,可获取最接近联系人
+登录后调用此接口 ，可获取最接近联系人
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/msg/recentcontact` |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 是                   |
-| 对应模块 | `msg_recentcontact`  |
-| 文档分类 | 社交与消息           |
+| 项目       | 值                                                           |
+| ---------- | ------------------------------------------------------------ |
+| 接口地址   | `/msg/recentcontact`                                         |
+| 请求方式   | `GET` / `POST`                                               |
+| 需要登录   | 是                                                           |
+| 对应模块   | `msg_recentcontact`                                          |
+| SDK 函数   | `msgRecentcontact`（`hana-music-api/api/msg_recentcontact`） |
+| 返回体类型 | `MsgRecentcontactBody`（已建模返回体）                       |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /msg/recentcontact
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { msgRecentcontact } from 'hana-music-api';
 
-const result = await msgRecentcontact();
-
+const result = await msgRecentcontact({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.data.follow` 是最近联系人列表，每条记录复用 `UserProfile` 并补上 `py`、`onlined`、`expertTags` 宽松字段；只有 `code`、`data`、`data.follow`、`data.follow[].userId` 收紧。登录账号有最近联系人时列表非空；未登录时上游返回 `code: 200` 和 `data.follow: []`。结构定义和类型是 `MsgRecentcontactBody`。
+```bash
+curl 'http://127.0.0.1:3021/msg/recentcontact' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口 ,可获取最接近联系人
+## 请求参数
 
-**接口地址 :** `/msg/recentcontact`
+无业务参数。
 
-**调用例子 :** `/msg/recentcontact`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`MsgRecentcontactBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/msg_recentcontact`、`hana-music-api/schemas/msg_recentcontact` 导入运行时校验器）。
+
+```ts
+type RecentContact = Omit<UserProfile, 'py' | 'onlined' | 'expertTags'> & {
+  py?: string | null;
+  onlined?: boolean | null;
+  expertTags?: Array<string> | null;
+};
+
+type RecentContactData = {
+  follow: Array<RecentContact>;
+};
+
+type MsgRecentcontactBody = {
+  code: 200;
+  data: RecentContactData;
+};
+```
+
+- **公共类型**：[UserProfile](/api/shared-types#userprofile)
+
+| 字段                       | 类型                   | 必填 | 说明                                                          |
+| -------------------------- | ---------------------- | ---- | ------------------------------------------------------------- |
+| `code`                     | `200`                  | 是   | 业务状态码（`200` 表示成功）                                  |
+| `data`                     | `RecentContactData`    | 是   | 接口返回的数据主体                                            |
+| `data.follow`              | `Array<RecentContact>` | 是   | 条目列表，继承自 [UserProfile](/api/shared-types#userprofile) |
+| `data.follow[].py`         | `string`               | 否   | -                                                             |
+| `data.follow[].onlined`    | `boolean`              | 否   | -                                                             |
+| `data.follow[].expertTags` | `Array<string>`        | 否   | -                                                             |
+
+<!-- api-doc:response:end -->

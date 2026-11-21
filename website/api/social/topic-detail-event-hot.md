@@ -5,29 +5,26 @@ description: '调用此接口，可获取话题详情热门动态'
 
 # 获取话题详情热门动态
 
-> 调用此接口，可获取话题详情热门动态
+调用此接口，可获取话题详情热门动态
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                        |
-| -------- | ------------------------- |
-| 接口地址 | `/topic/detail/event/hot` |
-| 请求方式 | `GET` / `POST`            |
-| 需要登录 | 否                        |
-| 对应模块 | `topic_detail_event_hot`  |
-| 文档分类 | 社交与消息                |
+| 项目       | 值                                                                   |
+| ---------- | -------------------------------------------------------------------- |
+| 接口地址   | `/topic/detail/event/hot`                                            |
+| 请求方式   | `GET` / `POST`                                                       |
+| 需要登录   | 否                                                                   |
+| 对应模块   | `topic_detail_event_hot`                                             |
+| SDK 函数   | `topicDetailEventHot`（`hana-music-api/api/topic_detail_event_hot`） |
+| 返回体类型 | `TopicDetailEventHotBody`（已建模返回体）                            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /topic/detail/event/hot?actid=111551188
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { topicDetailEventHot } from 'hana-music-api';
@@ -35,22 +32,84 @@ import { topicDetailEventHot } from 'hana-music-api';
 const result = await topicDetailEventHot({
   actid: '111551188',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.events` 和每条动态自己的编号 `body.events[].id` 收紧；动态记录与 `event` 使用同一套声明，`topEvent` 是宽松布尔字段。`contentDeclaration`、`repostSource`、`resourceUniqueId` 按共享记录声明为宽松字符串（类型证据来自 `event` 录制）。已知例外：非 null 扩展对象 `anonymityInfo`、`bottomActivityInfos`、`extJsonInfo`、`pointTopicInfo`、`privacySettingInfo`、`tailMark`、`xInfo` 未声明；`likeAnimationMap` 只见过空对象、`topActivityInfos` 只见过空数组；`adInfo`、`pubSource` 在本录制里只有 `null`。这些字段都原样保留（JSON）。未知话题返回 `code: 404`（录制 `topic_detail_event_hot.unknown.json`），按业务拒绝原样转交。非空录制保留 2 条（原 5 条，索引 0/4）；话题 47972517 没有热门动态，返回 `events: []`（录制 `topic_detail_event_hot.empty.json`）。
+```bash
+curl --get 'http://127.0.0.1:3021/topic/detail/event/hot' \
+  --data-urlencode 'actid=111551188'
+```
 
-## 非 200 业务码的状态码变化
+<!-- api-doc:params:start -->
 
-本模块的 `code:400` 录制见 `topic_detail_event_hot.missing-actid.json`，未知话题的 `code:404` 录制见 `topic_detail_event_hot.unknown.json`；通用规则见[返回体结构](/guide/response-bodies#非-200-业务码的状态码变化)。`SPECIAL_STATUS_CODES` 里的其他码（201/302/502 以原码拒绝，800–803 钳位为 400）同样以 `status=业务码` 拒绝；不在该表里的码（如 404）原样转交。
+## 请求参数
 
-## 补充说明
+| 参数    | 类型               | 必填 | 默认值 | 说明    |
+| ------- | ------------------ | ---- | ------ | ------- |
+| `actid` | `number \| string` | 是   | -      | 话题 ID |
 
-说明 : 调用此接口，可获取话题详情热门动态
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/topic/detail/event/hot`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/topic/detail/event/hot?actid=111551188`
+## 返回值
+
+返回体类型：`TopicDetailEventHotBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/topic_detail_event_hot`、`hana-music-api/schemas/topic_detail_event_hot` 导入运行时校验器）。
+
+```ts
+type EventRecord = {
+  id: number;
+  actId?: number | null;
+  actName?: string | null;
+  aiPrivatePic?: boolean | null;
+  canShare?: boolean | null;
+  containAiContent?: boolean | null;
+  contentDeclaration?: string | null;
+  discussId?: string | null;
+  encryptUserId?: string | null;
+  eventTime?: number | null;
+  expireTime?: number | null;
+  extType?: string | null;
+  firstEditTime?: number | null;
+  forwardCount?: number | null;
+  info?: EventInfo | null;
+  insiteForwardCount?: number | null;
+  ipLocation?: EventIpLocation | null;
+  json?: string | null;
+  more?: boolean | null;
+  musicianSay?: boolean | null;
+  needAiDefaultPic?: boolean | null;
+  owner?: boolean | null;
+  pics?: Array<EventPic> | null;
+  privacySetting?: number | null;
+  relationTopic?: boolean | null;
+  repostSource?: string | null;
+  resourceUniqueId?: string | null;
+  showFollowButton?: boolean | null;
+  showTime?: number | null;
+  songPlayStyle?: string | null;
+  threadId?: string | null;
+  tmplId?: number | null;
+  topEvent?: boolean | null;
+  type?: number | null;
+  typeDesc?: string | null;
+  user?: EventUser | null;
+  uuid?: string | null;
+};
+
+type TopicDetailEventHotBody = {
+  code: 200;
+  events: Array<EventRecord>;
+};
+```
+
+- **公共类型**：[EventInfo](/api/shared-types#eventinfo)、[EventIpLocation](/api/shared-types#eventiplocation)、[EventPic](/api/shared-types#eventpic)、[EventUser](/api/shared-types#eventuser)
+
+| 字段     | 类型                 | 必填 | 说明                         |
+| -------- | -------------------- | ---- | ---------------------------- |
+| `code`   | `200`                | 是   | 业务状态码（`200` 表示成功） |
+| `events` | `Array<EventRecord>` | 是   | 动态列表                     |
+
+<!-- api-doc:response:end -->

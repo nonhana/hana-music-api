@@ -1,50 +1,117 @@
 ---
 title: '所有榜单内容摘要'
-description: '调用此接口,可获取所有榜单内容摘要'
+description: '调用此接口，可获取所有榜单内容摘要'
 ---
 
 # 所有榜单内容摘要
 
-> 调用此接口,可获取所有榜单内容摘要
+调用此接口，可获取所有榜单内容摘要
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                |
-| -------- | ----------------- |
-| 接口地址 | `/toplist/detail` |
-| 请求方式 | `GET` / `POST`    |
-| 需要登录 | 否                |
-| 对应模块 | `toplist_detail`  |
-| 文档分类 | 排行榜            |
+| 项目       | 值                                                     |
+| ---------- | ------------------------------------------------------ |
+| 接口地址   | `/toplist/detail`                                      |
+| 请求方式   | `GET` / `POST`                                         |
+| 需要登录   | 否                                                     |
+| 对应模块   | `toplist_detail`                                       |
+| SDK 函数   | `toplistDetail`（`hana-music-api/api/toplist_detail`） |
+| 返回体类型 | `ToplistDetailBody`（已建模返回体）                    |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /toplist/detail
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { toplistDetail } from 'hana-music-api';
 
 const result = await toplistDetail();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.list` 和每个榜单的 `id` 收紧；榜单摘要共用 `PlaylistSummary`，并局部补了宽松的 `tsSongCount`、`originalCoverId`，`list[].trackIds` 在这个摘要接口里缺失，没有声明。`artistToplist`（含 `artists[]` 的 `first`、`second`、`third`）和 `rewardToplist`（含 `songs`）是附加入口，整块宽松：类型不对时只丢这一块；`rewardToplist.songs` 里的歌曲对象没有逐字段声明，原样保留。`list[].tracks` 在这里是榜单前几首歌的 `{ first, second }` 摘要，不是完整歌曲，按 `PlaylistSummary` 的宽松 `tracks` 保留。榜单摘要没有空结果。结构定义和类型是 `ToplistDetailBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/toplist/detail'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口,可获取所有榜单内容摘要
+## 请求参数
 
-**接口地址 :** `/toplist/detail`
+无业务参数。
 
-**调用例子 :** `/toplist/detail`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`ToplistDetailBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/toplist_detail`、`hana-music-api/schemas/toplist_detail` 导入运行时校验器）。
+
+```ts
+type ToplistSummary = Omit<
+  PlaylistSummary,
+  'tsSongCount' | 'originalCoverId'
+> & {
+  tsSongCount?: number | null;
+  originalCoverId?: number | null;
+};
+
+type ArtistToplist = {
+  coverUrl?: string | null;
+  name?: string | null;
+  position?: number | null;
+  upateFrequency?: string | null;
+  updateFrequency?: string | null;
+  artists?: Array<{
+    first?: string | null;
+    second?: string | null;
+    third?: number | null;
+  }> | null;
+};
+
+type RewardToplist = {
+  coverUrl?: string | null;
+  name?: string | null;
+  position?: number | null;
+  songs?: Array<Record<string, UnknownJson>> | null;
+};
+
+type ToplistDetailBody = {
+  code: 200;
+  list: Array<ToplistSummary>;
+  artistToplist?: ArtistToplist | null;
+  rewardToplist?: RewardToplist | null;
+};
+```
+
+- **公共类型**：[PlaylistSummary](/api/shared-types#playlistsummary)
+
+| 字段                             | 类型                                 | 必填 | 说明                         |
+| -------------------------------- | ------------------------------------ | ---- | ---------------------------- |
+| `code`                           | `200`                                | 是   | 业务状态码（`200` 表示成功） |
+| `list`                           | `Array<ToplistSummary>`              | 是   | 结果条目列表                 |
+| `list[].tsSongCount`             | `number`                             | 否   | -                            |
+| `list[].originalCoverId`         | `number`                             | 否   | originalCover ID             |
+| `artistToplist`                  | `ArtistToplist`                      | 否   | -                            |
+| `artistToplist.coverUrl`         | `string`                             | 否   | 资源访问链接                 |
+| `artistToplist.name`             | `string`                             | 否   | 名称                         |
+| `artistToplist.position`         | `number`                             | 否   | -                            |
+| `artistToplist.upateFrequency`   | `string`                             | 否   | -                            |
+| `artistToplist.updateFrequency`  | `string`                             | 否   | -                            |
+| `artistToplist.artists`          | `Array<object>`                      | 否   | 歌手列表                     |
+| `artistToplist.artists[].first`  | `string`                             | 否   | 热搜关键词                   |
+| `artistToplist.artists[].second` | `string`                             | 否   | -                            |
+| `artistToplist.artists[].third`  | `number`                             | 否   | -                            |
+| `rewardToplist`                  | `RewardToplist`                      | 否   | -                            |
+| `rewardToplist.coverUrl`         | `string`                             | 否   | 资源访问链接                 |
+| `rewardToplist.name`             | `string`                             | 否   | 名称                         |
+| `rewardToplist.position`         | `number`                             | 否   | -                            |
+| `rewardToplist.songs`            | `Array<Record<string, UnknownJson>>` | 否   | 歌曲列表                     |
+
+<!-- api-doc:response:end -->

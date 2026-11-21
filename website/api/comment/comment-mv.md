@@ -5,34 +5,26 @@ description: '调用此接口，传入音乐 id 和 limit 参数，可获得该 
 
 # mv 评论
 
-> 调用此接口，传入音乐 id 和 limit 参数，可获得该 mv 的所有评论 ( 不需要
+调用此接口，传入音乐 id 和 limit 参数，可获得该 mv 的所有评论 ( 不需要
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/comment/mv`  |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `comment_mv`   |
-| 文档分类 | 评论           |
+| 项目       | 值                                             |
+| ---------- | ---------------------------------------------- |
+| 接口地址   | `/comment/mv`                                  |
+| 请求方式   | `GET` / `POST`                                 |
+| 需要登录   | 否                                             |
+| 对应模块   | `comment_mv`                                   |
+| SDK 函数   | `commentMv`（`hana-music-api/api/comment_mv`） |
+| 返回体类型 | `CommentMvBody`（已建模返回体）                |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                                  |
-| -------- | ---------------- | :--: | ------ | ------------------------------------------------------------------------------------- |
-| `id`     | string           |  ✅  | -      | mv id                                                                                 |
-| `limit`  | number \| string |  —   | 20     | 取出评论数量，默认为 20                                                               |
-| `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*20, 其中 20 为 limit 的值                     |
-| `before` | number \| string |  —   | -      | 分页参数,取上一页最后一项的 `time` 获取下一页数据(获取超过 5000 条评论的时候需要用到) |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /comment/mv?id=5436712
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { commentMv } from 'hana-music-api';
@@ -40,27 +32,63 @@ import { commentMv } from 'hana-music-api';
 const result = await commentMv({
   id: '5436712',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.comments`、`body.comments[].commentId` 收紧；`body.hotComments` 是可以没有的路径：越界分页时整个缺失，出现时 `hotComments[].commentId` 收紧。评论记录共用 `CommentRecord`，`user`、`beReplied`、`likedCount`、`time`、`decoration`、`ipLocation`、`pendantData` 等其余声明字段都宽松；`beReplied[]` 是评论里套着的回复记录，编号也宽松。`total`、`more`、`moreHot`、`cnum`、`isMusician`、`userId` 宽松。越界分页（录制 `comment_mv.out-of-range.json`，`offset=100000`）返回 `comments: []` 且没有 `hotComments`；本批录制与探测未发现可达的无评论 MV。`topComments`（只见过空数组）和 `commentBanner`（只见过 `null`）没有声明，原样保留。非空录制（`comment_mv.default.json`）从原 20 条 `comments`/15 条 `hotComments` 中保留覆盖各字段的非连续 6/4 条。登录对照先用 `login_status` 确认 `account.anonimousUser: false` 后抽查：非 `null` 路径与类型相同，登录响应只会在宽松字段上多出现值为 `null` 的路径（如 `comments[].user.vipRights`、`beReplied[].content`/`richContent`、`beReplied[].ipLocation.userId`），登录录制未保留。
+```bash
+curl --get 'http://127.0.0.1:3021/comment/mv' \
+  --data-urlencode 'id=5436712'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入音乐 id 和 limit 参数，可获得该 mv 的所有评论 ( 不需要
-登录 )
+## 请求参数
 
-**必选参数 :** `id`: mv id
+| 参数     | 类型               | 必填 | 默认值 | 说明                                                                                   |
+| -------- | ------------------ | ---- | ------ | -------------------------------------------------------------------------------------- |
+| `before` | `number`           | 否   | `0`    | 分页参数，取上一页最后一项的 `time` 获取下一页数据(获取超过 5000 条评论的时候需要用到) |
+| `id`     | `number \| string` | 是   | -      | mv id                                                                                  |
+| `limit`  | `number`           | 否   | `20`   | 取出评论数量，默认为 20                                                                |
+| `offset` | `number`           | 否   | `0`    | 偏移数量，用于分页，如：(评论页数 - 1)\*20，其中 20 为 limit 的值                      |
 
-**可选参数 :** `limit`: 取出评论数量，默认为 20
+<!-- api-doc:params:end -->
 
-`offset`: 偏移数量，用于分页，如：(评论页数 - 1)\*20, 其中 20 为 limit 的值
+<!-- api-doc:response:start -->
 
-`before`: 分页参数,取上一页最后一项的 `time` 获取下一页数据(获取超过 5000 条评论的时候需要用到)
+## 返回值
 
-**接口地址 :** `/comment/mv`
+返回体类型：`CommentMvBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/comment_mv`、`hana-music-api/schemas/comment_mv` 导入运行时校验器）。
 
-**调用例子 :** `/comment/mv?id=5436712`
+```ts
+type CommentMvBody = {
+  code: 200;
+  comments: Array<CommentRecord>;
+  hotComments?: Array<CommentRecord> | null;
+  cnum?: number | null;
+  isMusician?: boolean | null;
+  more?: boolean | null;
+  moreHot?: boolean | null;
+  total?: number | null;
+  userId?: number | null;
+};
+```
+
+- **公共类型**：[CommentRecord](/api/shared-types#commentrecord)
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段          | 类型                                                      | 必填 | 说明                         |
+| ------------- | --------------------------------------------------------- | ---- | ---------------------------- |
+| `code`        | `200`                                                     | 是   | 业务状态码（`200` 表示成功） |
+| `comments`    | Array\<[CommentRecord](/api/shared-types#commentrecord)\> | 是   | 评论列表                     |
+| `hotComments` | Array\<[CommentRecord](/api/shared-types#commentrecord)\> | 可空 | 热门评论列表                 |
+| `cnum`        | `number`                                                  | 否   | -                            |
+| `isMusician`  | `boolean`                                                 | 否   | -                            |
+| `more`        | `boolean`                                                 | 否   | 是否还有更多数据             |
+| `moreHot`     | `boolean`                                                 | 否   | -                            |
+| `total`       | `number`                                                  | 否   | 总条目数                     |
+| `userId`      | `number`                                                  | 否   | 用户 ID                      |
+
+<!-- api-doc:response:end -->

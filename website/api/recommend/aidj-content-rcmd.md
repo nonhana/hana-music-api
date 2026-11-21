@@ -5,46 +5,124 @@ description: '调用此接口可以获取私人 DJ 的推荐内容 (包括 DJ �
 
 # 私人 DJ
 
-> 调用此接口可以获取私人 DJ 的推荐内容 (包括 DJ 声音和推荐歌曲)
+调用此接口可以获取私人 DJ 的推荐内容 (包括 DJ 声音和推荐歌曲)
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                   |
-| -------- | -------------------- |
-| 接口地址 | `/aidj/content/rcmd` |
-| 请求方式 | `GET` / `POST`       |
-| 需要登录 | 否                   |
-| 对应模块 | `aidj_content_rcmd`  |
-| 文档分类 | 推荐与发现           |
+| 项目       | 值                                                          |
+| ---------- | ----------------------------------------------------------- |
+| 接口地址   | `/aidj/content/rcmd`                                        |
+| 请求方式   | `GET` / `POST`                                              |
+| 需要登录   | 否                                                          |
+| 对应模块   | `aidj_content_rcmd`                                         |
+| SDK 函数   | `aidjContentRcmd`（`hana-music-api/api/aidj_content_rcmd`） |
+| 返回体类型 | `AidjContentRcmdBody`（已建模返回体）                       |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /aidj/content/rcmd
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { aidjContentRcmd } from 'hana-music-api';
 
-const result = await aidjContentRcmd();
-
+const result = await aidjContentRcmd({
+  latitude: 1,
+});
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.data.aiDjResources` 是私人 DJ 资源列表，每条资源的 `type` 和 `value` 是附带的异构载荷，整体宽松；`value` 里声明录制有证据的 `songId`（字符串）、`includeVoice`、`songData`、`songPrivilege`、`audioList`（音频编号、地址、时长等）等字段，全部宽松；`songData` 用模块内的 `AiDjSong`（复用 `ProgramMainSong`，补 `alias`/`transName`/`transNames`，歌曲编号也宽松）。`tagName`、`message`、`trp.rules` 宽松；声明了这些字段，其余原样保留。宽松字段可能缺席，例如 `with-location` 录制里的 song 资源没有 `audioList`。结构定义和类型是 `AidjContentRcmdBody`，见 [返回体结构](/guide/response-bodies)。登录、携带通用坐标和匿名三份录制里，声明过的字段及其允许类型一致；本批没有找到可达的空资源列表，数组本身允许为空。
+```bash
+curl --get 'http://127.0.0.1:3021/aidj/content/rcmd' \
+  --data-urlencode 'latitude=1'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 调用此接口可以获取私人 DJ 的推荐内容 (包括 DJ 声音和推荐歌曲)
+## 请求参数
 
-**接口地址:** `/aidj/content/rcmd`
+| 参数        | 类型     | 必填 | 默认值 | 说明                                          |
+| ----------- | -------- | ---- | ------ | --------------------------------------------- |
+| `latitude`  | `number` | 否   | -      | 当前位置纬度（可选，与 `longitude` 搭配使用） |
+| `longitude` | `number` | 否   | -      | 当前位置经度（可选，与 `latitude` 搭配使用）  |
 
-**可选参数：** `longitude` `latitude` : 当前的经纬度
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`AidjContentRcmdBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/aidj_content_rcmd`、`hana-music-api/schemas/aidj_content_rcmd` 导入运行时校验器）。
+
+```ts
+type AiDjAudio = {
+  audioId?: string | null;
+  audioUrl?: string | null;
+  detailCategory?: string | null;
+  duration?: number | null;
+  fadeInOut?: boolean | null;
+  gain?: number | null;
+  includeVoice?: boolean | null;
+  introductionRelatedSongIds?: Array<number> | null;
+  nosKey?: string | null;
+  peak?: number | null;
+  poolCode?: string | null;
+  size?: number | null;
+  textType?: string | null;
+  timbreKey?: string | null;
+  validTime?: number | null;
+};
+
+type AiDjSong = Omit<ProgramMainSong, 'alias' | 'transName' | 'transNames'> & {
+  alias?: Array<string> | null;
+  transName?: string | null;
+  transNames?: Array<string> | null;
+};
+
+type AiDjValue = {
+  alg?: string | null;
+  audioList?: Array<AiDjAudio> | null;
+  includeVoice?: boolean | null;
+  songData?: AiDjSong | null;
+  songId?: string | null;
+  songPrivilege?: LooseSongPrivilege | null;
+};
+
+type AiDjResource = {
+  type?: string | null;
+  value?: AiDjValue | null;
+};
+
+type AidjContentRcmdBody = {
+  code: 200;
+  data: {
+    aiDjResources: Array<AiDjResource>;
+    tagName?: string | null;
+  };
+  message?: string | null;
+  trp?: {
+    rules?: Array<string> | null;
+  } | null;
+};
+```
+
+- **公共类型**：[LooseSongPrivilege](/api/shared-types#loosesongprivilege)、[ProgramMainSong](/api/shared-types#programmainsong)
+
+| 字段                         | 类型                  | 必填 | 说明                         |
+| ---------------------------- | --------------------- | ---- | ---------------------------- |
+| `code`                       | `200`                 | 是   | 业务状态码（`200` 表示成功） |
+| `data`                       | `object`              | 是   | 接口返回的数据主体           |
+| `data.aiDjResources`         | `Array<AiDjResource>` | 是   | -                            |
+| `data.aiDjResources[].type`  | `string`              | 否   | -                            |
+| `data.aiDjResources[].value` | `AiDjValue`           | 否   | -                            |
+| `data.tagName`               | `string`              | 否   | -                            |
+| `message`                    | `string`              | 否   | 返回说明信息                 |
+| `trp`                        | `object`              | 否   | -                            |
+| `trp.rules`                  | `Array<string>`       | 否   | -                            |
+
+<!-- api-doc:response:end -->

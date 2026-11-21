@@ -25,8 +25,9 @@ export default withMermaid({
     logo: '/logo.svg',
     nav: [
       { text: '首页', link: '/' },
-      { text: '指南', link: '/guide/getting-started' },
+      { text: '指南', link: '/guide/introduction' },
       apiNavLink,
+      { text: '升级指南', link: '/guide/migrating-to-v7' },
       {
         text: '更新日志',
         link: 'https://github.com/nonhana/hana-music-api/blob/main/CHANGELOG.md',
@@ -39,57 +40,49 @@ export default withMermaid({
     sidebar: {
       '/guide/': [
         {
-          text: '开始使用',
+          text: '起步',
           items: [
-            {
-              text: '什么是 hana-music-api',
-              link: '/guide/what-is-hana-music-api',
-            },
+            { text: '简介', link: '/guide/introduction' },
             { text: '快速开始', link: '/guide/getting-started' },
-            { text: '编程式调用', link: '/guide/programmatic-api' },
-            { text: '返回体结构', link: '/guide/response-bodies' },
+            { text: '导出入口与运行环境', link: '/guide/package-exports' },
+          ],
+        },
+        {
+          text: 'SDK 指南',
+          items: [
+            { text: '调用方式', link: '/guide/sdk-usage' },
+            { text: '认证与登录', link: '/guide/authentication' },
+            { text: '返回值与错误处理', link: '/guide/error-handling' },
+            { text: '执行配置参考', link: '/guide/config' },
+          ],
+        },
+        {
+          text: '进阶用法',
+          items: [
+            { text: '超时、重试与限流', link: '/guide/resilience' },
             {
-              text: '返回体缺口与补录条件',
-              link: '/guide/response-body-gaps',
+              text: '缓存、请求去重与身份池',
+              link: '/guide/cache-and-identity-pool',
             },
-            { text: '认证机制', link: '/guide/authentication' },
-            { text: 'HTTP 调用约定', link: '/guide/request-convention' },
-            { text: '部署 HTTP 服务', link: '/guide/server-deployment' },
-            { text: 'SDK 使用边界', link: '/guide/sdk-package-contract' },
-            { text: '从 6.x 升级到 7.x', link: '/guide/migrating-to-v7' },
-            { text: '从 3.x 升级到 4.x', link: '/guide/migrating-to-v4' },
+            { text: '运行时状态与设备身份', link: '/guide/runtime-identity' },
+            { text: '代理与自定义 fetcher', link: '/guide/proxy-and-fetcher' },
+            { text: '调试与事件观测', link: '/guide/observability' },
             { text: '浏览器 Watchman', link: '/guide/watchman' },
+            { text: '底层请求与加密协议', link: '/guide/low-level-request' },
           ],
         },
         {
-          text: '请求配置进阶',
+          text: 'HTTP 服务',
           items: [
-            { text: '执行配置参考', link: '/guide/config-reference' },
-            { text: '加密模式', link: '/guide/crypto-modes' },
-            { text: '自定义 fetcher', link: '/guide/custom-fetcher' },
-            {
-              text: '重试、超时与连接策略',
-              link: '/guide/retry-timeout-resilience',
-            },
-            { text: '调试与可观测性', link: '/guide/observability' },
-            { text: '运行时状态与身份', link: '/guide/runtime-identity' },
-            {
-              text: 'SDK 缓存与身份池',
-              link: '/guide/sdk-cache-and-identity-pool',
-            },
-            {
-              text: '直接使用底层请求',
-              link: '/guide/create-request-and-create-option',
-            },
+            { text: 'HTTP 调用约定', link: '/guide/http-conventions' },
+            { text: '部署与服务配置', link: '/guide/http-deployment' },
           ],
         },
         {
-          text: '内部架构',
+          text: '架构与升级',
           items: [
-            {
-              text: 'hana-music-api 架构详解',
-              link: '/guide/request-layer-overview',
-            },
+            { text: '架构与数据流', link: '/guide/architecture' },
+            { text: '从 6.x 升级到 7.x', link: '/guide/migrating-to-v7' },
           ],
         },
       ],

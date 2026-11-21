@@ -5,46 +5,87 @@ description: '调用此接口，可获得每日推荐歌曲 ( 需要登录 )'
 
 # 获取每日推荐歌曲
 
-> 调用此接口，可获得每日推荐歌曲 ( 需要登录 )
+调用此接口，可获得每日推荐歌曲 ( 需要登录 )
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                 |
-| -------- | ------------------ |
-| 接口地址 | `/recommend/songs` |
-| 请求方式 | `GET` / `POST`     |
-| 需要登录 | 是                 |
-| 对应模块 | `recommend_songs`  |
-| 文档分类 | 推荐与发现         |
+| 项目       | 值                                                       |
+| ---------- | -------------------------------------------------------- |
+| 接口地址   | `/recommend/songs`                                       |
+| 请求方式   | `GET` / `POST`                                           |
+| 需要登录   | 是                                                       |
+| 对应模块   | `recommend_songs`                                        |
+| SDK 函数   | `recommendSongs`（`hana-music-api/api/recommend_songs`） |
+| 返回体类型 | `RecommendSongsBody`（已建模返回体）                     |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /recommend/songs
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { recommendSongs } from 'hana-music-api';
 
-const result = await recommendSongs();
-
+const result = await recommendSongs({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-每日推荐的歌在 `body.data.dailySongs`，每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”；每首歌的 `privilege` 声明录制里出现过的权限字段。`data` 里还声明了宽松的 `recommendReasons`、`fromCache`、`demote`、`algReturnDemote`；只出现过 `null` 或空数组、看不出元素类型的字段（如 `orderSongs`、`dailyRecommendInfo`、`mvResourceInfos`）没有声明，仍原样保留。只有 `code`、`data`、`data.dailySongs`、`data.dailySongs[].id` 收紧，其他字段宽松。结构定义和类型是 `RecommendSongsBody`。
+```bash
+curl 'http://127.0.0.1:3021/recommend/songs' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获得每日推荐歌曲 ( 需要登录 )
+## 请求参数
 
-**接口地址 :** `/recommend/songs`
+无业务参数。
 
-**调用例子 :** `/recommend/songs`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`RecommendSongsBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/recommend_songs`、`hana-music-api/schemas/recommend_songs` 导入运行时校验器）。
+
+```ts
+type RecommendReason = {
+  reason?: string | null;
+  reasonId?: string | null;
+  songId?: number | null;
+};
+
+type RecommendSongsBody = {
+  code: 200;
+  data: {
+    dailySongs: Array<Song>;
+    algReturnDemote?: boolean | null;
+    demote?: boolean | null;
+    fromCache?: boolean | null;
+    recommendReasons?: Array<RecommendReason> | null;
+  };
+};
+```
+
+- **公共类型**：[Song](/api/shared-types#song)
+
+| 字段                               | 类型                                    | 必填 | 说明                         |
+| ---------------------------------- | --------------------------------------- | ---- | ---------------------------- |
+| `code`                             | `200`                                   | 是   | 业务状态码（`200` 表示成功） |
+| `data`                             | `object`                                | 是   | 接口返回的数据主体           |
+| `data.dailySongs`                  | Array\<[Song](/api/shared-types#song)\> | 是   | Song 列表                    |
+| `data.algReturnDemote`             | `boolean`                               | 否   | -                            |
+| `data.demote`                      | `boolean`                               | 否   | -                            |
+| `data.fromCache`                   | `boolean`                               | 否   | -                            |
+| `data.recommendReasons`            | `Array<RecommendReason>`                | 否   | -                            |
+| `data.recommendReasons[].reason`   | `string`                                | 否   | -                            |
+| `data.recommendReasons[].reasonId` | `string`                                | 否   | reason ID                    |
+| `data.recommendReasons[].songId`   | `number`                                | 否   | 歌曲 ID                      |
+
+<!-- api-doc:response:end -->

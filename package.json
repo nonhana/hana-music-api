@@ -66,6 +66,8 @@
     "changeset": "changeset",
     "check:dist": "publint --strict && attw --pack . --profile esm-only",
     "dev": "bun --watch src/app/cli.ts",
+    "docs:api:check": "bun scripts/sync-api-docs.mts --check",
+    "docs:api:sync": "bun scripts/sync-api-docs.mts",
     "docs:build": "vitepress build website",
     "docs:dev": "vitepress dev website",
     "docs:preview": "vitepress preview website",

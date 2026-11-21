@@ -5,70 +5,100 @@ description: '调用此接口，可获取网友精选碟歌单'
 
 # 歌单 ( 网友精选碟 )
 
-> 调用此接口，可获取网友精选碟歌单
+调用此接口，可获取网友精选碟歌单
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/top/playlist` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `top_playlist`  |
-| 文档分类 | 歌单            |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/top/playlist`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 否                                                 |
+| 对应模块   | `top_playlist`                                     |
+| SDK 函数   | `topPlaylist`（`hana-music-api/api/top_playlist`） |
+| 返回体类型 | `TopPlaylistBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                                                        |
-| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------------------------------------------- |
-| `order`  | string           |  —   | 为     | 可选值为 'new' 和 'hot', 分别对应最新和最热，默认为<br>'hot'                                                |
-| `cat`    | string           |  —   | 为     | tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为<br>"全部",可从歌单分类接口获取(/playlist/catlist) |
-| `limit`  | number \| string |  —   | 50     | 取出歌单数量，默认为 50                                                                                     |
-| `offset` | number \| string |  —   | -      | 偏移数量，用于分页，如：(评论页数 - 1)\*50, 其中 50 为 limit 的值                                           |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /top/playlist?limit=10&order=new
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { topPlaylist } from 'hana-music-api';
 
 const result = await topPlaylist({
-  limit: '10',
+  limit: 10,
   order: 'new',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.playlists` 和每个歌单自己的编号 `playlists[].id` 收紧；歌单摘要共用 `PlaylistSummary`，并局部声明了宽松的 `alg`、`backgroundImageId`、`originalCoverId`、`tsSongCount`。`total`、`more` 和回显的 `cat` 是分页/查询提示，全部宽松。
+```bash
+curl --get 'http://127.0.0.1:3021/top/playlist' \
+  --data-urlencode 'limit=10' \
+  --data-urlencode 'order=new'
+```
 
-上游原文里的 `avatarImgId_str`（`creator`、`subscribers[]`）只在成功返回体里改写成 `avatarImgIdStr`，所以 `body` 描述的是改写后的最终体；录制保存上游原文，契约测试用显式转换比较。`code: 404` 等业务拒绝的正文原样透传，不做改写。
+<!-- api-doc:params:start -->
 
-`order=new` 返回真实空结果：`playlists: []`、`total: 0`、`more: false`（录制 `top_playlist.empty.json`）。`order=hot` 下 `offset=680` 是真实尾页（6 条，含 `14089582600`，`more: false`，录制 `top_playlist.last-page.json`）；`offset>=686` 返回本批录制里的另一份固定 6 条兜底列表（`18271967084` 等，与尾页不同，`limit` 不生效，`more: true`，录制 `top_playlist.beyond-last-page.json`、`top_playlist.fallback-ignores-limit.json`）。`playlists` 数组本身允许为空。
+## 请求参数
 
-`limit`/`offset` 等非数字参数时上游回 HTTP 400 和空字符串正文，网易云把它归一成 `status: 200`、`body: ''`；结构定义把空字符串作为独立分支保留，不报 502（录制 `top_playlist.invalid-limit.json`）。登录与匿名返回相同顶层键，条目顺序和值因个性化不同；登录录制里出现 `subscribed: true`，`creator.experts` 的键 `1`、`2` 都出现过；匿名只有键 `2`（`top_playlist.anonymous.json`）。结构定义和类型是 `TopPlaylistBody`，见 [返回体结构](/guide/response-bodies)。
+| 参数     | 类型             | 必填 | 默认值 | 说明                                                                                                         |
+| -------- | ---------------- | ---- | ------ | ------------------------------------------------------------------------------------------------------------ |
+| `cat`    | `string`         | 否   | `全部` | tag，比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 "，默认为<br>"全部"，可从歌单分类接口获取(/playlist/catlist) |
+| `order`  | `'hot' \| 'new'` | 否   | `hot`  | 可选值为 'new' 和 'hot'，分别对应最新和最热，默认为<br>'hot'                                                 |
+| `limit`  | `number`         | 否   | `50`   | 取出歌单数量，默认为 50                                                                                      |
+| `offset` | `number`         | 否   | `0`    | 偏移数量，用于分页，如：(评论页数 - 1)\*50，其中 50 为 limit 的值                                            |
 
-## 补充说明
+<!-- api-doc:params:end -->
 
-说明 : 调用此接口，可获取网友精选碟歌单
+<!-- api-doc:response:start -->
 
-**可选参数 :** `order`: 可选值为 'new' 和 'hot', 分别对应最新和最热，默认为
-'hot'
+## 返回值
 
-`cat`: tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为
-"全部",可从歌单分类接口获取(/playlist/catlist)
+返回体类型：`TopPlaylistBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/top_playlist`、`hana-music-api/schemas/top_playlist` 导入运行时校验器）。
 
-`limit`: 取出歌单数量，默认为 50
+```ts
+type TopPlaylistSummary = Omit<
+  PlaylistSummary,
+  'alg' | 'backgroundImageId' | 'originalCoverId' | 'tsSongCount'
+> & {
+  alg?: string | null;
+  backgroundImageId?: number | null;
+  originalCoverId?: number | null;
+  tsSongCount?: number | null;
+};
 
-`offset`: 偏移数量，用于分页，如：(评论页数 - 1)\*50, 其中 50 为 limit 的值
+type TopPlaylistBody =
+  | {
+      code: 200;
+      playlists: Array<TopPlaylistSummary>;
+      total?: number | null;
+      more?: boolean | null;
+      cat?: string | null;
+    }
+  | '';
+```
 
-**接口地址 :** `/top/playlist`
+- **公共类型**：[PlaylistSummary](/api/shared-types#playlistsummary)
 
-**调用例子 :** `/top/playlist?limit=10&order=new`
+| 字段                            | 类型                        | 必填 | 说明                         |
+| ------------------------------- | --------------------------- | ---- | ---------------------------- |
+| `code`                          | `200`                       | 是   | 业务状态码（`200` 表示成功） |
+| `playlists`                     | `Array<TopPlaylistSummary>` | 是   | 歌单列表                     |
+| `playlists[].alg`               | `string`                    | 否   | 推荐算法标识                 |
+| `playlists[].backgroundImageId` | `number`                    | 否   | backgroundImage ID           |
+| `playlists[].originalCoverId`   | `number`                    | 否   | originalCover ID             |
+| `playlists[].tsSongCount`       | `number`                    | 否   | -                            |
+| `total`                         | `number`                    | 否   | 总条目数                     |
+| `more`                          | `boolean`                   | 否   | 是否还有更多数据             |
+| `cat`                           | `string`                    | 否   | -                            |
+
+> 当参数格式异常时，上游可能返回空响应，此时返回体为 `""`。
+
+<!-- api-doc:response:end -->

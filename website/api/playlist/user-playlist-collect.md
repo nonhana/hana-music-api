@@ -1,37 +1,30 @@
 ---
 title: '用户的收藏歌单列表'
-description: '调用此接口, 传入用户id, 获取用户的收藏歌单列表'
+description: '调用此接口，传入用户id，获取用户的收藏歌单列表'
 ---
 
 # 用户的收藏歌单列表
 
-> 调用此接口, 传入用户id, 获取用户的收藏歌单列表
+调用此接口，传入用户id，获取用户的收藏歌单列表
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                       |
-| -------- | ------------------------ |
-| 接口地址 | `/user/playlist/collect` |
-| 请求方式 | `GET` / `POST`           |
-| 需要登录 | 否                       |
-| 对应模块 | `user_playlist_collect`  |
-| 文档分类 | 歌单                     |
+| 项目       | 值                                                                  |
+| ---------- | ------------------------------------------------------------------- |
+| 接口地址   | `/user/playlist/collect`                                            |
+| 请求方式   | `GET` / `POST`                                                      |
+| 需要登录   | 否                                                                  |
+| 对应模块   | `user_playlist_collect`                                             |
+| SDK 函数   | `userPlaylistCollect`（`hana-music-api/api/user_playlist_collect`） |
+| 返回体类型 | `UserPlaylistCollectBody`（已建模返回体）                           |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                    |
-| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------- |
-| `uid`    | string           |  ✅  | -      | 用户 id                                                                 |
-| `limit`  | number \| string |  —   | 100    | 返回数量，默认为 100                                                    |
-| `offset` | number \| string |  —   | 0      | 偏移数量，用于分页 ,如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/playlist/collect?uid=32953014
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userPlaylistCollect } from 'hana-music-api';
@@ -39,30 +32,53 @@ import { userPlaylistCollect } from 'hana-music-api';
 const result = await userPlaylistCollect({
   uid: '32953014',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.data.playlist` 是收藏的歌单列表，`body.data.count` 是总数，`body.data.more` 表示后面还有没有。每张歌单复用 `PlaylistSummary`：只收紧每张歌单自己的编号 `id`（以及 `code`、`data`、`data.playlist`），其余字段宽松。`subscribed` 没有有效登录时是 `null`。
+```bash
+curl --get 'http://127.0.0.1:3021/user/playlist/collect' \
+  --data-urlencode 'uid=32953014'
+```
 
-`offset` 越过总数时 `data.playlist` 是空数组（录制 `user_playlist_collect.empty.json`）；匿名调用返回同样的结构，`subscribed` 是 `null`（录制 `user_playlist_collect.anonymous.json`）。结构定义和类型是 `UserPlaylistCollectBody`，见 [返回体结构](/guide/response-bodies)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明 : 调用此接口, 传入用户id, 获取用户的收藏歌单列表
+| 参数     | 类型               | 必填 | 默认值 | 说明                                                                     |
+| -------- | ------------------ | ---- | ------ | ------------------------------------------------------------------------ |
+| `uid`    | `number \| string` | 是   | -      | 用户 id                                                                  |
+| `limit`  | `number`           | 否   | `100`  | 返回数量，默认为 100                                                     |
+| `offset` | `number`           | 否   | `0`    | 偏移数量，用于分页 ，如：(页数 - 1)\*30，其中 30 为 limit 的值，默认为 0 |
 
-**必选参数 :**
+<!-- api-doc:params:end -->
 
-`uid`: 用户 id
+<!-- api-doc:response:start -->
 
-**可选参数 :**
+## 返回值
 
-`limit` : 返回数量，默认为 100
+返回体类型：`UserPlaylistCollectBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/user_playlist_collect`、`hana-music-api/schemas/user_playlist_collect` 导入运行时校验器）。
 
-`offset` : 偏移数量，用于分页 ,如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0
+```ts
+type UserPlaylistCollectBody = {
+  code: 200;
+  data: {
+    count?: number | null;
+    more?: boolean | null;
+    playlist: Array<PlaylistSummary>;
+  };
+};
+```
 
-**接口地址 :** `/user/playlist/collect`
+- **公共类型**：[PlaylistSummary](/api/shared-types#playlistsummary)
 
-**调用例子 :** `/user/playlist/collect?uid=32953014`
+| 字段            | 类型                                                          | 必填 | 说明                         |
+| --------------- | ------------------------------------------------------------- | ---- | ---------------------------- |
+| `code`          | `200`                                                         | 是   | 业务状态码（`200` 表示成功） |
+| `data`          | `object`                                                      | 是   | 接口返回的数据主体           |
+| `data.count`    | `number`                                                      | 否   | 条目总数                     |
+| `data.more`     | `boolean`                                                     | 否   | 是否还有更多数据             |
+| `data.playlist` | Array\<[PlaylistSummary](/api/shared-types#playlistsummary)\> | 是   | 歌单详情                     |
+
+<!-- api-doc:response:end -->

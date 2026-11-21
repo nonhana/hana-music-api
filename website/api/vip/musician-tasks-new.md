@@ -5,46 +5,109 @@ description: '音乐人登录后调用此接口，可获取音乐人任务。返
 
 # 音乐人任务(新)
 
-> 音乐人登录后调用此接口，可获取音乐人任务。返回的数据中`status`字段为任务状态，0 表示任务未开始，10 表示任务正在进行中，20 表示任务完成，但未领取云豆，100 表示任务完成，并且已经领取了相应的云豆
+音乐人登录后调用此接口，可获取音乐人任务。返回的数据中`status`字段为任务状态，0 表示任务未开始，10 表示任务正在进行中，20 表示任务完成，但未领取云豆，100 表示任务完成，并且已经领取了相应的云豆
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                    |
-| -------- | --------------------- |
-| 接口地址 | `/musician/tasks/new` |
-| 请求方式 | `GET` / `POST`        |
-| 需要登录 | 是                    |
-| 对应模块 | `musician_tasks_new`  |
-| 文档分类 | 会员与云贝            |
+| 项目       | 值                                                            |
+| ---------- | ------------------------------------------------------------- |
+| 接口地址   | `/musician/tasks/new`                                         |
+| 请求方式   | `GET` / `POST`                                                |
+| 需要登录   | 是                                                            |
+| 对应模块   | `musician_tasks_new`                                          |
+| SDK 函数   | `musicianTasksNew`（`hana-music-api/api/musician_tasks_new`） |
+| 返回体类型 | `MusicianTasksNewBody`（已建模返回体）                        |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /musician/tasks/new
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { musicianTasksNew } from 'hana-music-api';
 
-const result = await musicianTasksNew();
-
+const result = await musicianTasksNew({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、任务列表 `body.data.list` 和每个任务的编号 `body.data.list[].missionId` 收紧；其余任务字段宽松，`extendInfo` 是 JSON 字符串。阶段目标 `body.data.list[].userStageTargetList` 是任务里套着的展示数据，整列宽松，坏一条只丢这一列。录制来自音乐人账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `anonimousUser: false`（未落盘）），有 5 条任务；本批没有录到任务列表为空的账号，`data.list` 在空账号下的实际表现未验证。匿名调用返回 `code: 301`（`musician_tasks_new.anonymous.json`），SDK 以 `status: 301` 转交原文。结构定义和类型是 `MusicianTasksNewBody`，见[返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/musician/tasks/new' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 音乐人登录后调用此接口，可获取音乐人任务。返回的数据中`status`字段为任务状态，0 表示任务未开始，10 表示任务正在进行中，20 表示任务完成，但未领取云豆，100 表示任务完成，并且已经领取了相应的云豆
+## 请求参数
 
-**接口地址 :** `/musician/tasks/new`
+无业务参数。
 
-**调用例子 :** `/musician/tasks/new`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`MusicianTasksNewBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/musician_tasks_new`、`hana-music-api/schemas/musician_tasks_new` 导入运行时校验器）。
+
+```ts
+type StageTarget = {
+  progressRate?: number | null;
+  rewardId?: number | null;
+  rewardType?: number | null;
+  sortValue?: number | null;
+  stageType?: number | null;
+  status?: number | null;
+  sumTarget?: number | null;
+  times?: number | null;
+  value?: number | null;
+  worth?: number | null;
+};
+
+type StageMission = {
+  missionId: number;
+  actionType?: number | null;
+  business?: string | null;
+  button?: string | null;
+  description?: string | null;
+  endTime?: number | null;
+  extendInfo?: string | null;
+  hasSendWorth?: number | null;
+  missionEntityId?: number | null;
+  needToReceive?: number | null;
+  period?: number | null;
+  platform?: number | null;
+  progressRate?: number | null;
+  rewardId?: number | null;
+  sortValue?: number | null;
+  startTime?: number | null;
+  status?: number | null;
+  subAction?: string | null;
+  tag?: number | null;
+  type?: number | null;
+  updateTime?: number | null;
+  userId?: number | null;
+  userStageTargetList?: Array<StageTarget> | null;
+};
+
+type MusicianTasksNewBody = {
+  code: 200;
+  data: {
+    list: Array<StageMission>;
+  };
+  message?: string | null;
+};
+```
+
+| 字段        | 类型                  | 必填 | 说明                         |
+| ----------- | --------------------- | ---- | ---------------------------- |
+| `code`      | `200`                 | 是   | 业务状态码（`200` 表示成功） |
+| `data`      | `object`              | 是   | 接口返回的数据主体           |
+| `data.list` | `Array<StageMission>` | 是   | 结果条目列表                 |
+| `message`   | `string`              | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

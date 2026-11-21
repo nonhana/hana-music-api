@@ -1,35 +1,30 @@
 ---
 title: '排行榜详情'
-description: '请使用[歌单详情](/api/playlist/playlist-detail)接口,传入排行榜 id 获取排行榜详情数据(排行榜也是歌单的一种)'
+description: '传入榜单 ID 获取排行榜详情数据（也可使用歌单详情接口 `/playlist/detail`）。'
 ---
 
 # 排行榜详情
 
-> 请使用[歌单详情](/api/playlist/playlist-detail)接口,传入排行榜 id 获取排行榜详情数据(排行榜也是歌单的一种)
+传入榜单 ID 获取排行榜详情数据（也可使用歌单详情接口 `/playlist/detail`）。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/top/list`    |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `top_list`     |
-| 文档分类 | 排行榜         |
+| 项目       | 值                                         |
+| ---------- | ------------------------------------------ |
+| 接口地址   | `/top/list`                                |
+| 请求方式   | `GET` / `POST`                             |
+| 需要登录   | 否                                         |
+| 对应模块   | `top_list`                                 |
+| SDK 函数   | `topList`（`hana-music-api/api/top_list`） |
+| 返回体类型 | `TopListBody`（已建模返回体）              |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明                                                                                                             |
-| ---- | ------ | :--: | ------ | ---------------------------------------------------------------------------------------------------------------- |
-| `id` | string |  ✅  | -      | 榜单 id,通过所有榜单接口获取~~<br>~~**接口地址 :** `/top/list`~~<br>~~**调用例子 :** `/top/list?id=2809577409`~~ |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /top/list?id=2809577409
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { topList } from 'hana-music-api';
@@ -37,22 +32,64 @@ import { topList } from 'hana-music-api';
 const result = await topList({
   id: '2809577409',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.playlist`、`playlist.id`、`playlist.trackIds` 和每项 `trackIds[].id` 收紧；`trackIds` 是调用方要用的 track 引用，按记录编号处理。歌单摘要共用 `PlaylistSummary`，`tracks[]` 里的编号宽松。飙升榜（`19723756`）的 v4 详情只返回 `code` 和 `playlist`，没有顶层 `privileges`；`s` 固定为 `0` 时 `tracks` 仍然返回。`idx` 参数不请求上游，本地返回 `status: 500` 和 `{ code: 500, msg }`，这个拒绝分支也写进了结构定义的联合：`code` 收紧、`msg` 宽松。榜单详情没有空结果，不存在的 id 会得到上游错误。结构定义和类型是 `TopListBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/top/list' \
+  --data-urlencode 'id=2809577409'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 请使用[歌单详情](/api/playlist/playlist-detail)接口,传入排行榜 id 获取排行榜详情数据(排行榜也是歌单的一种)
+## 请求参数
 
-~~说明 : 调用此接口，传入榜单 id, 可获取不同排行榜数据(v3.34.0 之后不再支持 idx 参数)~~
+| 参数  | 类型               | 必填 | 默认值 | 说明                                                         |
+| ----- | ------------------ | ---- | ------ | ------------------------------------------------------------ |
+| `id`  | `number \| string` | 否   | -      | 排行榜歌单 ID，可通过 `/toplist` 获取                        |
+| `idx` | `number`           | 否   | -      | 已废弃的历史参数，传入会在本地直接返回 `code: 500`，请勿使用 |
 
-~~**必选参数 :** `id`: 榜单 id,通过所有榜单接口获取~~
+<!-- api-doc:params:end -->
 
-~~**接口地址 :** `/top/list`~~
+<!-- api-doc:response:start -->
 
-~~**调用例子 :** `/top/list?id=2809577409`~~
+## 返回值
+
+返回体类型：`TopListBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/top_list`、`hana-music-api/schemas/top_list` 导入运行时校验器）。
+
+```ts
+type Playlist = Omit<PlaylistSummary, 'trackIds'> & {
+  trackIds: Array<{
+    id: number;
+  }>;
+};
+
+type RejectedBody = {
+  code: 500;
+  msg?: string | null;
+};
+
+type TopListBody =
+  | {
+      code: 200;
+      playlist: Playlist;
+    }
+  | RejectedBody;
+```
+
+- **公共类型**：[PlaylistSummary](/api/shared-types#playlistsummary)
+
+| 字段                | 类型            | 必填 | 说明         |
+| ------------------- | --------------- | ---- | ------------ |
+| `code`              | `200 \| 500`    | 是   | 业务状态码   |
+| `playlist`          | `Playlist`      | 否   | 歌单详情     |
+| `playlist.trackIds` | `Array<object>` | 否   | 曲目 ID 列表 |
+| `msg`               | `string`        | 否   | 提示信息     |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **已废弃参数**：`idx` 参数已不再支持，传入会在本地直接返回 `code: 500`；请改用排行榜歌单 `id` 查询，或直接调用 [获取歌单详情](/api/playlist/playlist-detail)。

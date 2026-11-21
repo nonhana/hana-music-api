@@ -1,35 +1,30 @@
 ---
 title: '专辑动态信息'
-description: '调用此接口，传入专辑 id, 可获得专辑动态信息,如是否收藏,收藏数,评论数,分享数'
+description: '调用此接口，传入专辑 id，可获得专辑动态信息，如是否收藏，收藏数，评论数，分享数'
 ---
 
 # 专辑动态信息
 
-> 调用此接口，传入专辑 id, 可获得专辑动态信息,如是否收藏,收藏数,评论数,分享数
+调用此接口，传入专辑 id，可获得专辑动态信息，如是否收藏，收藏数，评论数，分享数
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                      |
-| -------- | ----------------------- |
-| 接口地址 | `/album/detail/dynamic` |
-| 请求方式 | `GET` / `POST`          |
-| 需要登录 | 否                      |
-| 对应模块 | `album_detail_dynamic`  |
-| 文档分类 | 专辑                    |
+| 项目       | 值                                                                |
+| ---------- | ----------------------------------------------------------------- |
+| 接口地址   | `/album/detail/dynamic`                                           |
+| 请求方式   | `GET` / `POST`                                                    |
+| 需要登录   | 否                                                                |
+| 对应模块   | `album_detail_dynamic`                                            |
+| SDK 函数   | `albumDetailDynamic`（`hana-music-api/api/album_detail_dynamic`） |
+| 返回体类型 | `AlbumDetailDynamicBody`（已建模返回体）                          |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 专辑 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /album/detail/dynamic?id=32311
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { albumDetailDynamic } from 'hana-music-api';
@@ -37,20 +32,71 @@ import { albumDetailDynamic } from 'hana-music-api';
 const result = await albumDetailDynamic({
   id: '32311',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-只有 `body.code` 收紧，其余字段都是宽松字段：收藏数 `subCount`、评论数 `commentCount`、分享数 `shareCount`、`isSub`、`subTime`、`onSale`、`albumNearbyProduct` 等可能缺失或是 `null`，类型不对时只丢这一项。普通专辑和数字专辑的字段不同（数字专辑多 `paid`、`sales`、`displayType`），两种形态写进同一个结构，缺失的字段不会报错；未知 id 返回全 0 的同一形态。结构定义和类型是 `AlbumDetailDynamicBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/album/detail/dynamic' \
+  --data-urlencode 'id=32311'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入专辑 id, 可获得专辑动态信息,如是否收藏,收藏数,评论数,分享数
+## 请求参数
 
-**必选参数 :** `id`: 专辑 id
+| 参数 | 类型               | 必填 | 默认值 | 说明    |
+| ---- | ------------------ | ---- | ------ | ------- |
+| `id` | `number \| string` | 是   | -      | 专辑 id |
 
-**接口地址 :** `/album/detail/dynamic`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/album/detail/dynamic?id=32311`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`AlbumDetailDynamicBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/album_detail_dynamic`、`hana-music-api/schemas/album_detail_dynamic` 导入运行时校验器）。
+
+```ts
+type AlbumNearbyProduct = {
+  subTitle?: string | null;
+  title?: string | null;
+  url?: string | null;
+};
+
+type AlbumDetailDynamicBody = {
+  code: 200;
+  albumNearbyProduct?: AlbumNearbyProduct | null;
+  commentCount?: number | null;
+  displayType?: number | null;
+  isSub?: boolean | null;
+  likedCount?: number | null;
+  onSale?: boolean | null;
+  paid?: boolean | null;
+  sales?: number | null;
+  shareCount?: number | null;
+  subCount?: number | null;
+  subTime?: number | null;
+};
+```
+
+| 字段                          | 类型                 | 必填 | 说明                         |
+| ----------------------------- | -------------------- | ---- | ---------------------------- |
+| `code`                        | `200`                | 是   | 业务状态码（`200` 表示成功） |
+| `albumNearbyProduct`          | `AlbumNearbyProduct` | 否   | -                            |
+| `albumNearbyProduct.subTitle` | `string`             | 否   | -                            |
+| `albumNearbyProduct.title`    | `string`             | 否   | 标题                         |
+| `albumNearbyProduct.url`      | `string`             | 否   | 资源访问地址                 |
+| `commentCount`                | `number`             | 否   | 评论数                       |
+| `displayType`                 | `number`             | 否   | -                            |
+| `isSub`                       | `boolean`            | 否   | -                            |
+| `likedCount`                  | `number`             | 否   | 点赞数                       |
+| `onSale`                      | `boolean`            | 否   | -                            |
+| `paid`                        | `boolean`            | 否   | -                            |
+| `sales`                       | `number`             | 否   | -                            |
+| `shareCount`                  | `number`             | 否   | 分享数                       |
+| `subCount`                    | `number`             | 否   | -                            |
+| `subTime`                     | `number`             | 否   | 时间戳                       |
+
+<!-- api-doc:response:end -->

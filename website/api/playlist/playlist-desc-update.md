@@ -1,61 +1,78 @@
 ---
 title: '更新歌单描述'
-description: '登录后调用此接口,可以单独更新用户歌单描述'
+description: '登录后调用此接口，可以单独更新用户歌单描述'
 ---
 
 # 更新歌单描述
 
-> 登录后调用此接口,可以单独更新用户歌单描述
+登录后调用此接口，可以单独更新用户歌单描述
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                      |
-| -------- | ----------------------- |
-| 接口地址 | `/playlist/desc/update` |
-| 请求方式 | `GET` / `POST`          |
-| 需要登录 | 是                      |
-| 对应模块 | `playlist_desc_update`  |
-| 文档分类 | 歌单                    |
+| 项目       | 值                                                                |
+| ---------- | ----------------------------------------------------------------- |
+| 接口地址   | `/playlist/desc/update`                                           |
+| 请求方式   | `GET` / `POST`                                                    |
+| 需要登录   | 是                                                                |
+| 对应模块   | `playlist_desc_update`                                            |
+| SDK 函数   | `playlistDescUpdate`（`hana-music-api/api/playlist_desc_update`） |
+| 返回体类型 | `PlaylistDescUpdateBody`（已建模返回体）                          |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明     |
-| ------ | ------ | :--: | ------ | -------- |
-| `id`   | string |  ✅  | -      | 歌单id   |
-| `desc` | string |  ✅  | -      | 歌单描述 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/desc/update?id=24381616&desc=描述
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistDescUpdate } from 'hana-music-api';
 
-const result = await playlistDescUpdate({
-  id: '24381616',
-  desc: '描述',
-});
-
+const result = await playlistDescUpdate(
+  {
+    id: '24381616',
+    desc: '描述',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-说明 : 登录后调用此接口,可以单独更新用户歌单描述
-
-**必选参数 :**
-
-```text
-id:歌单id
-
-desc:歌单描述
-
+```bash
+curl --get 'http://127.0.0.1:3021/playlist/desc/update' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=24381616' \
+  --data-urlencode 'desc=描述'
 ```
 
-**接口地址 :** `/playlist/desc/update`
+<!-- api-doc:params:start -->
 
-**调用例子 :** `/playlist/desc/update?id=24381616&desc=描述`
+## 请求参数
+
+| 参数   | 类型               | 必填 | 默认值 | 说明     |
+| ------ | ------------------ | ---- | ------ | -------- |
+| `id`   | `number \| string` | 是   | -      | 歌单id   |
+| `desc` | `string`           | 是   | -      | 歌单描述 |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`PlaylistDescUpdateBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_desc_update`、`hana-music-api/schemas/playlist_desc_update` 导入运行时校验器）。
+
+```ts
+type PlaylistDescUpdateBody = {
+  code: 200;
+};
+```
+
+| 字段   | 类型  | 必填 | 说明                         |
+| ------ | ----- | ---- | ---------------------------- |
+| `code` | `200` | 是   | 业务状态码（`200` 表示成功） |
+
+<!-- api-doc:response:end -->

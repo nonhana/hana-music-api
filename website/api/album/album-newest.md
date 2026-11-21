@@ -5,46 +5,66 @@ description: '调用此接口 ，获取云音乐首页新碟上架数据'
 
 # 最新专辑
 
-> 调用此接口 ，获取云音乐首页新碟上架数据
+调用此接口 ，获取云音乐首页新碟上架数据
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/album/newest` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `album_newest`  |
-| 文档分类 | 专辑            |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/album/newest`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 否                                                 |
+| 对应模块   | `album_newest`                                     |
+| SDK 函数   | `albumNewest`（`hana-music-api/api/album_newest`） |
+| 返回体类型 | `AlbumNewestBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /album/newest
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { albumNewest } from 'hana-music-api';
 
 const result = await albumNewest();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.albums` 和每张专辑的 `albums[].id` 收紧；专辑记录共用 `AlbumSummary`，其余声明字段宽松。这个接口没有分页参数；本批录制与探测未发现可达的空结果，`albums` 数组本身允许为空；专辑里的 `songs` 只见过 `null`，没有声明，原样保留。结构定义和类型是 `AlbumNewestBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/album/newest'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口 ，获取云音乐首页新碟上架数据
+## 请求参数
 
-**接口地址 :** `/album/newest`
+无业务参数。
 
-**调用例子 :** `/album/newest`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`AlbumNewestBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/album_newest`、`hana-music-api/schemas/album_newest` 导入运行时校验器）。
+
+```ts
+type AlbumNewestBody = {
+  code: 200;
+  albums: Array<AlbumSummary>;
+};
+```
+
+- **公共类型**：[AlbumSummary](/api/shared-types#albumsummary)
+
+| 字段     | 类型                                                    | 必填 | 说明                         |
+| -------- | ------------------------------------------------------- | ---- | ---------------------------- |
+| `code`   | `200`                                                   | 是   | 业务状态码（`200` 表示成功） |
+| `albums` | Array\<[AlbumSummary](/api/shared-types#albumsummary)\> | 是   | 专辑列表                     |
+
+<!-- api-doc:response:end -->

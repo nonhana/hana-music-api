@@ -1,58 +1,79 @@
 ---
 title: '歌词摘录 - 歌词摘录信息'
-description: '登录后调用此接口, 传入歌曲id, 获取歌词摘录信息'
+description: '登录后调用此接口，传入歌曲id，获取歌词摘录信息'
 ---
 
 # 歌词摘录 - 歌词摘录信息
 
-> 登录后调用此接口, 传入歌曲id, 获取歌词摘录信息
+登录后调用此接口，传入歌曲id，获取歌词摘录信息
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                  |
-| -------- | ------------------- |
-| 接口地址 | `/song/lyrics/mark` |
-| 请求方式 | `GET` / `POST`      |
-| 需要登录 | 是                  |
-| 对应模块 | `song_lyrics_mark`  |
-| 文档分类 | 歌词摘录            |
+| 项目       | 值                                                        |
+| ---------- | --------------------------------------------------------- |
+| 接口地址   | `/song/lyrics/mark`                                       |
+| 请求方式   | `GET` / `POST`                                            |
+| 需要登录   | 是                                                        |
+| 对应模块   | `song_lyrics_mark`                                        |
+| SDK 函数   | `songLyricsMark`（`hana-music-api/api/song_lyrics_mark`） |
+| 返回体类型 | `SongLyricsMarkBody`（已建模返回体）                      |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /song/lyrics/mark?id=2058263032
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { songLyricsMark } from 'hana-music-api';
 
-const result = await songLyricsMark({
-  id: '2058263032',
-});
-
+const result = await songLyricsMark(
+  {
+    id: '2058263032',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`data` 是这首歌的歌词摘录信息，`code`、`data` 是收紧字段；`message` 是宽松字段。`markVOList`、`markCountList` 在本次录制账号上都是空数组，元素类型没有证据，没有声明，原样保留。
+```bash
+curl --get 'http://127.0.0.1:3021/song/lyrics/mark' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=2058263032'
+```
 
-匿名和登录调用在本次录制里返回相同的空列表。摘录记录的形状要等有摘录内容的录制；写入操作 `song_lyrics_mark_add`、`song_lyrics_mark_del` 在后续批次处理，本批没有收窄它们的返回体。结构定义和类型是 `SongLyricsMarkBody`，见 [返回体结构](/guide/response-bodies)。
+<!-- api-doc:params:start -->
 
-## 补充说明
+## 请求参数
 
-说明: 登录后调用此接口, 传入歌曲id, 获取歌词摘录信息
+| 参数 | 类型               | 必填 | 默认值 | 说明   |
+| ---- | ------------------ | ---- | ------ | ------ |
+| `id` | `number \| string` | 是   | -      | 歌曲id |
 
-**必选参数：**
+<!-- api-doc:params:end -->
 
-`id`: 歌曲id
+<!-- api-doc:response:start -->
 
-**接口地址:** `/song/lyrics/mark`
+## 返回值
 
-**调用例子:** `/song/lyrics/mark?id=2058263032`
+返回体类型：`SongLyricsMarkBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/song_lyrics_mark`、`hana-music-api/schemas/song_lyrics_mark` 导入运行时校验器）。
+
+```ts
+type SongLyricsMarkBody = {
+  code: 200;
+  data: Record<string, UnknownJson>;
+  message?: string | null;
+};
+```
+
+| 字段      | 类型                          | 必填 | 说明                         |
+| --------- | ----------------------------- | ---- | ---------------------------- |
+| `code`    | `200`                         | 是   | 业务状态码（`200` 表示成功） |
+| `data`    | `Record<string, UnknownJson>` | 是   | 接口返回的数据主体           |
+| `message` | `string`                      | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

@@ -1,35 +1,30 @@
 ---
 title: '获取 mv 点赞转发评论数数据'
-description: '调用此接口，传入 mvid ( 在搜索音乐的时候传 type=1004 获得 )，可获取对应'
+description: '传入 MV ID，获取对应 MV 的点赞、转发与评论统计数据。'
 ---
 
 # 获取 mv 点赞转发评论数数据
 
-> 调用此接口，传入 mvid ( 在搜索音乐的时候传 type=1004 获得 )，可获取对应
+传入 MV ID，获取对应 MV 的点赞、转发与评论统计数据。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                |
-| -------- | ----------------- |
-| 接口地址 | `/mv/detail/info` |
-| 请求方式 | `GET` / `POST`    |
-| 需要登录 | 否                |
-| 对应模块 | `mv_detail_info`  |
-| 文档分类 | 视频与 MV         |
+| 项目       | 值                                                    |
+| ---------- | ----------------------------------------------------- |
+| 接口地址   | `/mv/detail/info`                                     |
+| 请求方式   | `GET` / `POST`                                        |
+| 需要登录   | 否                                                    |
+| 对应模块   | `mv_detail_info`                                      |
+| SDK 函数   | `mvDetailInfo`（`hana-music-api/api/mv_detail_info`） |
+| 返回体类型 | `MvDetailInfoBody`（已建模返回体）                    |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明     |
-| ------ | ------ | :--: | ------ | -------- |
-| `mvid` | string |  ✅  | -      | mv 的 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /mv/detail/info?mvid=5436712
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { mvDetailInfo } from 'hana-music-api';
@@ -37,21 +32,48 @@ import { mvDetailInfo } from 'hana-music-api';
 const result = await mvDetailInfo({
   mvid: '5436712',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-接口要返回的评论数 `commentCount`、转发数 `shareCount`、点赞数 `likedCount` 和 `code` 收紧；当前账号的点赞状态 `liked` 是宽松字段。给出非原始值的 `mvid` 会在本地返回 400，不请求上游。结构定义和类型是 `MvDetailInfoBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/mv/detail/info' \
+  --data-urlencode 'mvid=5436712'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入 mvid ( 在搜索音乐的时候传 type=1004 获得 )，可获取对应
-MV 点赞转发评论数数据
+## 请求参数
 
-**必选参数 :** `mvid`: mv 的 id
+| 参数   | 类型               | 必填 | 默认值 | 说明     |
+| ------ | ------------------ | ---- | ------ | -------- |
+| `mvid` | `number \| string` | 是   | -      | mv 的 id |
 
-**接口地址 :** `/mv/detail/info`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/mv/detail/info?mvid=5436712`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`MvDetailInfoBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/mv_detail_info`、`hana-music-api/schemas/mv_detail_info` 导入运行时校验器）。
+
+```ts
+type MvDetailInfoBody = {
+  code: 200;
+  commentCount: number;
+  liked?: boolean | null;
+  likedCount: number;
+  shareCount: number;
+};
+```
+
+| 字段           | 类型      | 必填 | 说明                         |
+| -------------- | --------- | ---- | ---------------------------- |
+| `code`         | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `commentCount` | `number`  | 是   | 评论数                       |
+| `liked`        | `boolean` | 否   | 是否已点赞                   |
+| `likedCount`   | `number`  | 是   | 点赞数                       |
+| `shareCount`   | `number`  | 是   | 分享数                       |
+
+<!-- api-doc:response:end -->

@@ -1,64 +1,88 @@
 ---
 title: '获取歌手专辑'
-description: '调用此接口，传入歌手 id, 可获得歌手专辑内容'
+description: '调用此接口，传入歌手 id，可获得歌手专辑内容'
 ---
 
 # 获取歌手专辑
 
-> 调用此接口，传入歌手 id, 可获得歌手专辑内容
+调用此接口，传入歌手 id，可获得歌手专辑内容
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/artist/album` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `artist_album`  |
-| 文档分类 | 歌手            |
+| 项目       | 值                                                 |
+| ---------- | -------------------------------------------------- |
+| 接口地址   | `/artist/album`                                    |
+| 请求方式   | `GET` / `POST`                                     |
+| 需要登录   | 否                                                 |
+| 对应模块   | `artist_album`                                     |
+| SDK 函数   | `artistAlbum`（`hana-music-api/api/artist_album`） |
+| 返回体类型 | `ArtistAlbumBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                        |
-| -------- | ---------------- | :--: | ------ | --------------------------------------------------------------------------- |
-| `id`     | string           |  ✅  | -      | 歌手 id                                                                     |
-| `limit`  | number \| string |  —   | 30     | 取出数量，默认为 30                                                         |
-| `offset` | number \| string |  —   | <br>为 | 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认<br>为 0 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /artist/album?id=6452&limit=5
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { artistAlbum } from 'hana-music-api';
 
 const result = await artistAlbum({
   id: '6452',
-  limit: '5',
+  limit: 5,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.hotAlbums` 里每张专辑声明了 `id`、`name`、`picUrl`、`size`（歌曲数）、`artist`（`id`、`name`）、`publishTime`（毫秒时间戳）、`company`（唱片公司），`more` 表示后面还有没有。只有 `code`、`hotAlbums`、`hotAlbums[].id` 收紧；顶层 `artist` 和专辑的其他字段宽松。结构定义和类型是 `ArtistAlbumBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/artist/album' \
+  --data-urlencode 'id=6452' \
+  --data-urlencode 'limit=5'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入歌手 id, 可获得歌手专辑内容
+## 请求参数
 
-**必选参数 :** `id`: 歌手 id
+| 参数     | 类型               | 必填 | 默认值 | 说明                                                                        |
+| -------- | ------------------ | ---- | ------ | --------------------------------------------------------------------------- |
+| `id`     | `number \| string` | 是   | -      | 歌手 id                                                                     |
+| `limit`  | `number`           | 否   | `30`   | 取出数量，默认为 30                                                         |
+| `offset` | `number`           | 否   | `0`    | 偏移数量，用于分页，如：(页数 - 1)\*30，其中 30 为 limit 的值，默认<br>为 0 |
 
-**可选参数 :** `limit`: 取出数量，默认为 30
+<!-- api-doc:params:end -->
 
-`offset`: 偏移数量，用于分页，如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认
-为 0
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/artist/album`
+## 返回值
 
-**调用例子 :** `/artist/album?id=6452&limit=5` ( 周杰伦 )
+返回体类型：`ArtistAlbumBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/artist_album`、`hana-music-api/schemas/artist_album` 导入运行时校验器）。
+
+```ts
+type Album = Omit<AlbumSummary, 'isSub'> & {
+  isSub?: boolean | null;
+};
+
+type ArtistAlbumBody = {
+  code: 200;
+  artist?: Artist | null;
+  hotAlbums: Array<Album>;
+  more?: boolean | null;
+};
+```
+
+- **公共类型**：[AlbumSummary](/api/shared-types#albumsummary)、[Artist](/api/shared-types#artist)
+
+| 字段                | 类型                               | 必填 | 说明                                                            |
+| ------------------- | ---------------------------------- | ---- | --------------------------------------------------------------- |
+| `code`              | `200`                              | 是   | 业务状态码（`200` 表示成功）                                    |
+| `artist`            | [Artist](/api/shared-types#artist) | 否   | 歌手详情                                                        |
+| `hotAlbums`         | `Array<Album>`                     | 是   | 条目列表，继承自 [AlbumSummary](/api/shared-types#albumsummary) |
+| `hotAlbums[].isSub` | `boolean`                          | 否   | -                                                               |
+| `more`              | `boolean`                          | 否   | 是否还有更多数据                                                |
+
+<!-- api-doc:response:end -->

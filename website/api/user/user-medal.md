@@ -1,35 +1,30 @@
 ---
 title: '用户徽章'
-description: '调用此接口, 传入用户id, 获取用户徽章'
+description: '调用此接口，传入用户id，获取用户徽章'
 ---
 
 # 用户徽章
 
-> 调用此接口, 传入用户id, 获取用户徽章
+调用此接口，传入用户id，获取用户徽章
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/user/medal`  |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `user_medal`   |
-| 文档分类 | 用户与登录     |
+| 项目       | 值                                             |
+| ---------- | ---------------------------------------------- |
+| 接口地址   | `/user/medal`                                  |
+| 请求方式   | `GET` / `POST`                                 |
+| 需要登录   | 否                                             |
+| 对应模块   | `user_medal`                                   |
+| SDK 函数   | `userMedal`（`hana-music-api/api/user_medal`） |
+| 返回体类型 | `UserMedalBody`（已建模返回体）                |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数  | 类型   | 必填 | 默认值 | 说明    |
-| ----- | ------ | :--: | ------ | ------- |
-| `uid` | string |  ✅  | -      | 用户 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/medal?uid=32953014
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userMedal } from 'hana-music-api';
@@ -37,22 +32,177 @@ import { userMedal } from 'hana-music-api';
 const result = await userMedal({
   uid: '32953014',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-徽章页在 `data`，`data.obtainMedals`、`data.categoryMedalBlockVos`、分类块的 `medalVOS` 和分组里的 `subGroups[].medals` 都是必填数组，收紧；`obtainMedals[].medalCode` 是记录自己的编号，也收紧，`medalVOS` 和 `subGroups[].medals` 里套着的徽章是嵌套记录，编号宽松。`subGroups` 可以没有（缺失或 `null` 正常），出现时里面的 `medals` 仍按记录校验，坏一条报 502；`subGroups` 里的 `hasMore`、`total`、`obtainedTotal`、`nextPage` 宽松。`medalTabs`、`musicMedalOperationVO`、`levelMedalPicUrl`、`userObtainProportion`、`detailPage`、`scene` 只见过 `null`，没有声明。不存在的 uid 返回 `code: 499`（`用户信息获取失败`），SDK 按业务拒绝原样转交。本批录制与探测未发现可达的空结果；数组本身允许为空（`user_medal.unknown-user.json` 是 code 499，不是空结果）。录制从 493 条已获得徽章截到 5 条、5 个分类块截到 3 个（见 `context.truncated`）；已获得徽章按字段覆盖抽样，保留原下标 0/1/18/259/289，分类块为 0/1/2；`sideBarGuideText` 的空串样例来自完整录制。结构定义和类型是 `UserMedalBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/user/medal' \
+  --data-urlencode 'uid=32953014'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口, 传入用户id, 获取用户徽章
+## 请求参数
 
-**必选参数 :**
+| 参数  | 类型               | 必填 | 默认值 | 说明    |
+| ----- | ------------------ | ---- | ------ | ------- |
+| `uid` | `number \| string` | 是   | -      | 用户 id |
 
-`uid`: 用户 id
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/user/medal`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/user/medal?uid=32953014`
+## 返回值
+
+返回体类型：`UserMedalBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/user_medal`、`hana-music-api/schemas/user_medal` 导入运行时校验器）。
+
+```ts
+type MedalResource = {
+  actionTitle?: string | null;
+  coverUrl?: string | null;
+  desUrl?: string | null;
+  resId?: string | null;
+  resStatus?: number | null;
+  resourceTip?: string | null;
+  resourceType?: string | null;
+  subTitle?: string | null;
+  title?: string | null;
+};
+
+type MedalWearPic = {
+  height?: number | null;
+  url?: string | null;
+  width?: number | null;
+};
+
+type Medal = {
+  medalCode: string;
+  acceptCondition?: string | null;
+  artistName?: string | null;
+  backgroundLight?: string | null;
+  bizSceneId?: string | null;
+  canAcceptTimeEnd?: number | null;
+  canAcceptTimeStart?: number | null;
+  canWear?: boolean | null;
+  centerBasePicUrl?: string | null;
+  descriptionText?: string | null;
+  entranceShowPicUrl?: string | null;
+  high?: number | null;
+  homeTable?: string | null;
+  levelTitle?: string | null;
+  levelTitleShort?: string | null;
+  lightImage?: string | null;
+  linearGradientBottomColor?: string | null;
+  linearGradientTopColor?: string | null;
+  low?: number | null;
+  medalLevel?: number | null;
+  medalLevelAll?: number | null;
+  medalName?: string | null;
+  medalPicText?: string | null;
+  medalPicUrl?: string | null;
+  newStyle?: boolean | null;
+  obtainTime?: number | null;
+  particleImage?: string | null;
+  progress?: string | null;
+  progressSort?: number | null;
+  rankText?: string | null;
+  resource?: MedalResource | null;
+  sceneIds?: Array<number> | null;
+  shineEffect?: boolean | null;
+  shouldNotice?: boolean | null;
+  showAfterAcceptTimeIfNotObtain?: boolean | null;
+  showProgress?: boolean | null;
+  showWillObtain?: boolean | null;
+  sideBarGuideText?: string | null;
+  skipLevel?: boolean | null;
+  specialMedalType?: string | null;
+  status?: string | null;
+  timeAcceptMedal?: boolean | null;
+  tips?: string | null;
+  wear?: boolean | null;
+  wearPic?: string | null;
+  wearPicDto?: MedalWearPic | null;
+  wearPicV2?: string | null;
+};
+
+type LooseMedal = Omit<Medal, 'medalCode'> & {
+  medalCode?: string | null;
+};
+
+type NextPage = {
+  hasMore?: boolean | null;
+  pageSize?: number | null;
+};
+
+type MedalSubGroup = {
+  medals: Array<LooseMedal>;
+  hasMore?: boolean | null;
+  nextPage?: NextPage | null;
+  obtainedTotal?: number | null;
+  subGroupCode?: string | null;
+  subGroupId?: string | null;
+  subGroupTitle?: string | null;
+  total?: number | null;
+};
+
+type MedalBlock = {
+  categoryCode?: string | null;
+  categoryId?: string | null;
+  categoryTitle?: string | null;
+  desc?: string | null;
+  medalVOS: Array<LooseMedal>;
+  subGroups?: Array<MedalSubGroup> | null;
+};
+
+type MedalPage = {
+  obtainMedals: Array<Medal>;
+  categoryMedalBlockVos: Array<MedalBlock>;
+  avatar?: string | null;
+  canManageWear?: boolean | null;
+  medalNum?: number | null;
+  newPageUIAb?: boolean | null;
+  nickName?: string | null;
+  rankingPer?: number | null;
+  showGuide?: boolean | null;
+  useMedalTabs?: boolean | null;
+};
+
+type UserMedalBody = {
+  code: 200;
+  data: MedalPage;
+  message?: string | null;
+  trp?: {
+    rules?: Array<string> | null;
+  } | null;
+};
+```
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段                                         | 类型                   | 必填 | 说明                         |
+| -------------------------------------------- | ---------------------- | ---- | ---------------------------- |
+| `code`                                       | `200`                  | 是   | 业务状态码（`200` 表示成功） |
+| `data`                                       | `MedalPage`            | 是   | 接口返回的数据主体           |
+| `data.obtainMedals`                          | `Array<Medal>`         | 是   | -                            |
+| `data.categoryMedalBlockVos`                 | `Array<MedalBlock>`    | 是   | -                            |
+| `data.categoryMedalBlockVos[].categoryCode`  | `string`               | 否   | -                            |
+| `data.categoryMedalBlockVos[].categoryId`    | `string`               | 否   | category ID                  |
+| `data.categoryMedalBlockVos[].categoryTitle` | `string`               | 否   | -                            |
+| `data.categoryMedalBlockVos[].desc`          | `string`               | 否   | 简介信息                     |
+| `data.categoryMedalBlockVos[].medalVOS`      | `Array<LooseMedal>`    | 是   | -                            |
+| `data.categoryMedalBlockVos[].subGroups`     | `Array<MedalSubGroup>` | 可空 | -                            |
+| `data.avatar`                                | `string`               | 否   | -                            |
+| `data.canManageWear`                         | `boolean`              | 否   | -                            |
+| `data.medalNum`                              | `number`               | 否   | -                            |
+| `data.newPageUIAb`                           | `boolean`              | 否   | -                            |
+| `data.nickName`                              | `string`               | 否   | -                            |
+| `data.rankingPer`                            | `number`               | 否   | -                            |
+| `data.showGuide`                             | `boolean`              | 否   | -                            |
+| `data.useMedalTabs`                          | `boolean`              | 否   | -                            |
+| `message`                                    | `string`               | 否   | 返回说明信息                 |
+| `trp`                                        | `object`               | 否   | -                            |
+| `trp.rules`                                  | `Array<string>`        | 否   | -                            |
+
+<!-- api-doc:response:end -->

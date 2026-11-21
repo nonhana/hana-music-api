@@ -5,46 +5,85 @@ description: '调用此接口，可获取视频分类列表'
 
 # 获取视频分类列表
 
-> 调用此接口，可获取视频分类列表
+调用此接口，可获取视频分类列表
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                     |
-| -------- | ---------------------- |
-| 接口地址 | `/video/category/list` |
-| 请求方式 | `GET` / `POST`         |
-| 需要登录 | 否                     |
-| 对应模块 | `video_category_list`  |
-| 文档分类 | 视频与 MV              |
+| 项目       | 值                                                              |
+| ---------- | --------------------------------------------------------------- |
+| 接口地址   | `/video/category/list`                                          |
+| 请求方式   | `GET` / `POST`                                                  |
+| 需要登录   | 否                                                              |
+| 对应模块   | `video_category_list`                                           |
+| SDK 函数   | `videoCategoryList`（`hana-music-api/api/video_category_list`） |
+| 返回体类型 | `VideoCategoryListBody`（已建模返回体）                         |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /video/category/list
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { videoCategoryList } from 'hana-music-api';
 
-const result = await videoCategoryList();
-
+const result = await videoCategoryList({
+  limit: 30,
+});
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、分类列表 `body.data` 和每条分类自己的编号 `data[].id` 收紧；`name`、`url`、`relatedVideoType`、`selectTab` 宽松，`abExtInfo` 只见过 `null` 没有声明，原样保留。本批录制与探测没有发现可达的空结果（`offset` 越界仍返回同样的分类）。结构定义和类型是 `VideoCategoryListBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/video/category/list' \
+  --data-urlencode 'limit=30'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获取视频分类列表
+## 请求参数
 
-**接口地址 :** `/video/category/list`
+| 参数     | 类型     | 必填 | 默认值 | 说明                         |
+| -------- | -------- | ---- | ------ | ---------------------------- |
+| `limit`  | `number` | 否   | `99`   | 返回数量，默认 `99`          |
+| `offset` | `number` | 否   | `0`    | 偏移数量，用于分页，默认 `0` |
 
-**调用例子 :** `/video/category/list`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`VideoCategoryListBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/video_category_list`、`hana-music-api/schemas/video_category_list` 导入运行时校验器）。
+
+```ts
+type VideoCategory = {
+  id: number;
+  name?: string | null;
+  relatedVideoType?: string | null;
+  selectTab?: boolean | null;
+  url?: string | null;
+};
+
+type VideoCategoryListBody = {
+  code: 200;
+  message?: string | null;
+  data: Array<VideoCategory>;
+};
+```
+
+| 字段                      | 类型                   | 必填 | 说明                         |
+| ------------------------- | ---------------------- | ---- | ---------------------------- |
+| `code`                    | `200`                  | 是   | 业务状态码（`200` 表示成功） |
+| `message`                 | `string`               | 否   | 返回说明信息                 |
+| `data`                    | `Array<VideoCategory>` | 是   | 接口返回的数据主体           |
+| `data[].id`               | `number`               | 是   | 记录 ID                      |
+| `data[].name`             | `string`               | 否   | 名称                         |
+| `data[].relatedVideoType` | `string`               | 否   | -                            |
+| `data[].selectTab`        | `boolean`              | 否   | -                            |
+| `data[].url`              | `string`               | 否   | 资源访问地址                 |
+
+<!-- api-doc:response:end -->

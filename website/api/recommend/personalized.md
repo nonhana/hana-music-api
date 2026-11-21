@@ -5,56 +5,91 @@ description: '调用此接口，可获取推荐歌单'
 
 # 推荐歌单
 
-> 调用此接口，可获取推荐歌单
+调用此接口，可获取推荐歌单
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值              |
-| -------- | --------------- |
-| 接口地址 | `/personalized` |
-| 请求方式 | `GET` / `POST`  |
-| 需要登录 | 否              |
-| 对应模块 | `personalized`  |
-| 文档分类 | 推荐与发现      |
+| 项目       | 值                                                  |
+| ---------- | --------------------------------------------------- |
+| 接口地址   | `/personalized`                                     |
+| 请求方式   | `GET` / `POST`                                      |
+| 需要登录   | 否                                                  |
+| 对应模块   | `personalized`                                      |
+| SDK 函数   | `personalized`（`hana-music-api/api/personalized`） |
+| 返回体类型 | `PersonalizedBody`（已建模返回体）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数    | 类型             | 必填 | 默认值 | 说明                                |
-| ------- | ---------------- | :--: | ------ | ----------------------------------- |
-| `limit` | number \| string |  —   | 30     | 取出数量，默认为 30 (不支持 offset) |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /personalized?limit=1
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { personalized } from 'hana-music-api';
 
 const result = await personalized({
-  limit: '1',
+  limit: 1,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、推荐歌单列表 `body.result` 和每个歌单自己的编号 `result[].id` 收紧；卡片复用 `PlaylistSummary`，`category`、`hasTaste`、`copywriter`、`canDislike`、`highQuality` 等宽松。匿名和登录录制各 30 条，字段集相同；`limit=0` 会回落到默认 30，没有可达的空结果，数组本身允许为空。`limit=abc` 返回 `code: 400`，SDK 按业务拒绝原样转交，不会报 502。
+```bash
+curl --get 'http://127.0.0.1:3021/personalized' \
+  --data-urlencode 'limit=1'
+```
 
-## 非 200 业务码的状态码变化
+<!-- api-doc:params:start -->
 
-本模块的 `code:400` 录制见 `personalized.invalid-limit.json`；通用规则见[返回体结构](/guide/response-bodies#非-200-业务码的状态码变化)。改造前 `code:400` 经 `SPECIAL_STATUS_CODES` 映射为 resolve `status:200`，现在按业务拒绝为 reject `status:400`、`body` 保留上游原文。
+## 请求参数
 
-## 补充说明
+| 参数    | 类型     | 必填 | 默认值 | 说明                                |
+| ------- | -------- | ---- | ------ | ----------------------------------- |
+| `limit` | `number` | 否   | `30`   | 取出数量，默认为 30 (不支持 offset) |
 
-说明 : 调用此接口，可获取推荐歌单
+<!-- api-doc:params:end -->
 
-**可选参数 :** `limit`: 取出数量，默认为 30 (不支持 offset)
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/personalized`
+## 返回值
 
-**调用例子 :** `/personalized?limit=1`
+返回体类型：`PersonalizedBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/personalized`、`hana-music-api/schemas/personalized` 导入运行时校验器）。
+
+```ts
+type RecommendedPlaylist = Omit<
+  PlaylistSummary,
+  'alg' | 'canDislike' | 'copywriter' | 'picUrl' | 'type'
+> & {
+  alg?: string | null;
+  canDislike?: boolean | null;
+  copywriter?: string | null;
+  picUrl?: string | null;
+  type?: number | null;
+};
+
+type PersonalizedBody = {
+  code: 200;
+  result: Array<RecommendedPlaylist>;
+  category?: number | null;
+  hasTaste?: boolean | null;
+};
+```
+
+- **公共类型**：[PlaylistSummary](/api/shared-types#playlistsummary)
+
+| 字段                  | 类型                         | 必填 | 说明                         |
+| --------------------- | ---------------------------- | ---- | ---------------------------- |
+| `code`                | `200`                        | 是   | 业务状态码（`200` 表示成功） |
+| `result`              | `Array<RecommendedPlaylist>` | 是   | 接口返回的结果主体           |
+| `result[].alg`        | `string`                     | 否   | 推荐算法标识                 |
+| `result[].canDislike` | `boolean`                    | 否   | -                            |
+| `result[].copywriter` | `string`                     | 否   | -                            |
+| `result[].picUrl`     | `string`                     | 否   | 资源访问链接                 |
+| `result[].type`       | `number`                     | 否   | -                            |
+| `category`            | `number`                     | 否   | -                            |
+| `hasTaste`            | `boolean`                    | 否   | -                            |
+
+<!-- api-doc:response:end -->

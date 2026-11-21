@@ -1,62 +1,83 @@
 ---
 title: '抱一抱评论'
-description: '调用此接口,可抱一抱评论'
+description: '调用此接口，可抱一抱评论'
 ---
 
 # 抱一抱评论
 
-> 调用此接口,可抱一抱评论
+调用此接口，可抱一抱评论
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/hug/comment` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `hug_comment`  |
-| 文档分类 | 评论           |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/hug/comment`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 是                                               |
+| 对应模块   | `hug_comment`                                    |
+| SDK 函数   | `hugComment`（`hana-music-api/api/hug_comment`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                      |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数  | 类型   | 必填 | 默认值 | 说明    |
-| ----- | ------ | :--: | ------ | ------- |
-| `uid` | string |  ✅  | -      | 用户 id |
-| `cid` | string |  ✅  | -      | 评论 id |
-| `sid` | string |  ✅  | -      | 资源 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /hug/comment?uid=285516405&cid=1167145843&sid=863481066
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { hugComment } from 'hana-music-api';
 
-const result = await hugComment({
-  uid: '285516405',
-  cid: '1167145843',
-  sid: '863481066',
-});
-
+const result = await hugComment(
+  {
+    uid: '285516405',
+    cid: '1167145843',
+    sid: '863481066',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-说明 : 调用此接口,可抱一抱评论
+```bash
+curl --get 'http://127.0.0.1:3021/hug/comment' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'uid=285516405' \
+  --data-urlencode 'cid=1167145843' \
+  --data-urlencode 'sid=863481066'
+```
 
-**必选参数 :**
+<!-- api-doc:params:start -->
 
-`uid`: 用户 id
+## 请求参数
 
-`cid`: 评论 id
+| 参数   | 类型               | 必填 | 默认值 | 说明                                     |
+| ------ | ------------------ | ---- | ------ | ---------------------------------------- |
+| `uid`  | `number \| string` | 是   | -      | 用户 id                                  |
+| `cid`  | `number \| string` | 是   | -      | 评论 id                                  |
+| `sid`  | `number \| string` | 是   | -      | 资源 id                                  |
+| `type` | `number`           | 否   | -      | 资源类型，见下方枚举表，默认 `0`（歌曲） |
 
-`sid`: 资源 id
+| `type` | 资源类型                          |
+| ------ | --------------------------------- |
+| `0`    | 歌曲                              |
+| `1`    | MV                                |
+| `2`    | 歌单                              |
+| `3`    | 专辑                              |
+| `4`    | 电台节目                          |
+| `5`    | 视频                              |
+| `6`    | 动态（部分接口需改传 `threadId`） |
+| `7`    | 电台                              |
 
-**接口地址 :** `/hug/comment`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/hug/comment?uid=285516405&cid=1167145843&sid=863481066`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

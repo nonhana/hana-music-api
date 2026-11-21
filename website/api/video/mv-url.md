@@ -1,37 +1,30 @@
 ---
 title: 'mv 地址'
-description: '调用此接口，传入 mv id,可获取 mv 播放地址'
+description: '调用此接口，传入 mv id，可获取 mv 播放地址'
 ---
 
 # mv 地址
 
-> 调用此接口，传入 mv id,可获取 mv 播放地址
+调用此接口，传入 mv id，可获取 mv 播放地址
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/mv/url`      |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `mv_url`       |
-| 文档分类 | 视频与 MV      |
+| 项目       | 值                                     |
+| ---------- | -------------------------------------- |
+| 接口地址   | `/mv/url`                              |
+| 请求方式   | `GET` / `POST`                         |
+| 需要登录   | 否                                     |
+| 对应模块   | `mv_url`                               |
+| SDK 函数   | `mvUrl`（`hana-music-api/api/mv_url`） |
+| 返回体类型 | `MvUrlBody`（已建模返回体）            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型               | 必填 | 默认值 | 说明                                                  |
-| ---- | ------------------ | :--: | ------ | ----------------------------------------------------- |
-| `id` | string             |  ✅  | -      | mv id                                                 |
-| `r`  | string[] \| string |  —   | 1080   | 分辨率,默认 1080,可从 `/mv/detail` 接口获取分辨率列表 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /mv/url?id=5436712
-GET /mv/url?id=10896407&r=1080
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { mvUrl } from 'hana-music-api';
@@ -39,24 +32,68 @@ import { mvUrl } from 'hana-music-api';
 const result = await mvUrl({
   id: '5436712',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、地址对象 `body.data`、视频编号 `data.id`、地址 `data.url` 和该项返回码 `data.code` 收紧；`url` 拿不到地址时是 `null`，原因看 `data.code`（录制 `mv_url.unavailable.json` 时上游间歇返回 `-125`），不要把它当成稳定的版权状态。`r`、`size`、`md5`、`expi`、`msg` 等是宽松字段。录制覆盖默认 1080p、720p（`mv_url.default.json`、`mv_url.720p.json`）和不可用场景。结构定义和类型是 `MvUrlBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/mv/url' \
+  --data-urlencode 'id=5436712'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入 mv id,可获取 mv 播放地址
+## 请求参数
 
-**必选参数 :** `id`: mv id
+| 参数 | 类型               | 必填 | 默认值 | 说明                                                    |
+| ---- | ------------------ | ---- | ------ | ------------------------------------------------------- |
+| `id` | `number \| string` | 是   | -      | mv id                                                   |
+| `r`  | `number`           | 否   | `1080` | 分辨率，默认 1080，可从 `/mv/detail` 接口获取分辨率列表 |
 
-**可选参数 :** `r`: 分辨率,默认 1080,可从 `/mv/detail` 接口获取分辨率列表
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/mv/url`
+<!-- api-doc:response:start -->
 
-**调用例子 :**
+## 返回值
 
-`/mv/url?id=5436712` `/mv/url?id=10896407&r=1080`
+返回体类型：`MvUrlBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/mv_url`、`hana-music-api/schemas/mv_url` 导入运行时校验器）。
+
+```ts
+type MvUrl = {
+  code: number;
+  expi?: number | null;
+  fee?: number | null;
+  id: number;
+  md5?: string | null;
+  msg?: string | null;
+  mvFee?: number | null;
+  r?: number | null;
+  size?: number | null;
+  st?: number | null;
+  url: string | null;
+};
+
+type MvUrlBody = {
+  code: 200;
+  data: MvUrl;
+};
+```
+
+| 字段         | 类型             | 必填 | 说明                         |
+| ------------ | ---------------- | ---- | ---------------------------- |
+| `code`       | `200`            | 是   | 业务状态码（`200` 表示成功） |
+| `data`       | `MvUrl`          | 是   | 接口返回的数据主体           |
+| `data.code`  | `number`         | 是   | 业务状态码（`200` 表示成功） |
+| `data.expi`  | `number`         | 否   | -                            |
+| `data.fee`   | `number`         | 否   | -                            |
+| `data.id`    | `number`         | 是   | 记录 ID                      |
+| `data.md5`   | `string`         | 否   | -                            |
+| `data.msg`   | `string`         | 否   | 提示信息                     |
+| `data.mvFee` | `number`         | 否   | -                            |
+| `data.r`     | `number`         | 否   | -                            |
+| `data.size`  | `number`         | 否   | -                            |
+| `data.st`    | `number`         | 否   | -                            |
+| `data.url`   | `string \| null` | 是   | 资源访问地址                 |
+
+<!-- api-doc:response:end -->

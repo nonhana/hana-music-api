@@ -5,47 +5,76 @@ description: '调用此接口可以获取声音歌词'
 
 # 获取声音歌词
 
-> 调用此接口可以获取声音歌词
+调用此接口可以获取声音歌词
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/voice/lyric` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `voice_lyric`  |
-| 文档分类 | 电台与播客     |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/voice/lyric`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 否                                               |
+| 对应模块   | `voice_lyric`                                    |
+| SDK 函数   | `voiceLyric`（`hana-music-api/api/voice_lyric`） |
+| 返回体类型 | `VoiceLyricBody`（已建模返回体）                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /voice/lyric
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { voiceLyric } from 'hana-music-api';
 
-const result = await voiceLyric();
-
+const result = await voiceLyric({
+  id: 347230,
+});
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 和通到歌词的 `body.data` 收紧；没有歌词的声音 `data` 是 `null`（录制 `voice_lyric.without-lyric.json`），按可以没有处理，出现时 `data.lyricUrl` 仍收紧。`data.source` 和 `message` 只见过 `null`，未声明并原样保留。无播放权限的声音返回 HTTP 200、正文 `code: 400`（录制 `voice_lyric.unavailable.json`），SDK 按业务拒绝转交 `status: 400`。结构定义和类型是 `VoiceLyricBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/voice/lyric' \
+  --data-urlencode 'id=347230'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 调用此接口可以获取声音歌词
+## 请求参数
 
-**接口地址:** `/voice/lyric`
+| 参数 | 类型               | 必填 | 默认值 | 说明   |
+| ---- | ------------------ | ---- | ------ | ------ |
+| `id` | `number \| string` | 是   | -      | 声音id |
 
-**必选参数：**
-`id`: 声音id
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`VoiceLyricBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/voice_lyric`、`hana-music-api/schemas/voice_lyric` 导入运行时校验器）。
+
+```ts
+type Lyric = {
+  lyricUrl: string;
+};
+
+type VoiceLyricBody = {
+  code: 200;
+  data?: Lyric | null;
+};
+```
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段            | 类型     | 必填 | 说明                         |
+| --------------- | -------- | ---- | ---------------------------- |
+| `code`          | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `data`          | `Lyric`  | 可空 | 接口返回的数据主体           |
+| `data.lyricUrl` | `string` | 是   | 资源访问链接                 |
+
+<!-- api-doc:response:end -->

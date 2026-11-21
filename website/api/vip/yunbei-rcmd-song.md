@@ -1,59 +1,67 @@
 ---
 title: '云贝推歌'
-description: '登录后调用此接口，传入歌曲 id, 可以进行云贝推歌'
+description: '登录后调用此接口，传入歌曲 id，可以进行云贝推歌'
 ---
 
 # 云贝推歌
 
-> 登录后调用此接口，传入歌曲 id, 可以进行云贝推歌
+登录后调用此接口，传入歌曲 id，可以进行云贝推歌
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                  |
-| -------- | ------------------- |
-| 接口地址 | `/yunbei/rcmd/song` |
-| 请求方式 | `GET` / `POST`      |
-| 需要登录 | 是                  |
-| 对应模块 | `yunbei_rcmd_song`  |
-| 文档分类 | 会员与云贝          |
+| 项目       | 值                                                        |
+| ---------- | --------------------------------------------------------- |
+| 接口地址   | `/yunbei/rcmd/song`                                       |
+| 请求方式   | `GET` / `POST`                                            |
+| 需要登录   | 是                                                        |
+| 对应模块   | `yunbei_rcmd_song`                                        |
+| SDK 函数   | `yunbeiRcmdSong`（`hana-music-api/api/yunbei_rcmd_song`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                               |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数        | 类型             | 必填 | 默认值 | 说明            |
-| ----------- | ---------------- | :--: | ------ | --------------- |
-| `id`        | string           |  ✅  | -      | 歌曲 id         |
-| `reason`    | string           |  —   | -      | 推歌理由        |
-| `yunbeiNum` | number \| string |  —   | 10     | 云贝数量,默认10 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /yunbei/rcmd/song?id=65528
-GET /yunbei/rcmd/song?id=65528&reason=人间好声音推荐给听
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { yunbeiRcmdSong } from 'hana-music-api';
 
-const result = await yunbeiRcmdSong({
-  id: '65528',
-});
-
+const result = await yunbeiRcmdSong(
+  {
+    id: '65528',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-说明 : 登录后调用此接口，传入歌曲 id, 可以进行云贝推歌
+```bash
+curl --get 'http://127.0.0.1:3021/yunbei/rcmd/song' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'id=65528'
+```
 
-**必选参数 :** `id` : 歌曲 id
+<!-- api-doc:params:start -->
 
-**可选参数 :** `reason` : 推歌理由
+## 请求参数
 
-`yunbeiNum`: 云贝数量,默认10
+| 参数        | 类型               | 必填 | 默认值       | 说明             |
+| ----------- | ------------------ | ---- | ------------ | ---------------- |
+| `id`        | `number \| string` | 是   | -            | 歌曲 id          |
+| `reason`    | `string`           | 否   | `好歌献给你` | 推歌理由         |
+| `yunbeiNum` | `number`           | 否   | `10`         | 云贝数量，默认10 |
 
-**接口地址 :** `/yunbei/rcmd/song`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/yunbei/rcmd/song?id=65528` `/yunbei/rcmd/song?id=65528&reason=人间好声音推荐给听`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

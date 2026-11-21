@@ -1,35 +1,30 @@
 ---
 title: '获取相似歌手'
-description: '调用此接口，传入歌手 id, 可获得相似歌手'
+description: '调用此接口，传入歌手 id，可获得相似歌手'
 ---
 
 # 获取相似歌手
 
-> 调用此接口，传入歌手 id, 可获得相似歌手
+调用此接口，传入歌手 id，可获得相似歌手
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/simi/artist` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `simi_artist`  |
-| 文档分类 | 歌手           |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/simi/artist`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 否                                               |
+| 对应模块   | `simi_artist`                                    |
+| SDK 函数   | `simiArtist`（`hana-music-api/api/simi_artist`） |
+| 返回体类型 | `SimiArtistBody`（已建模返回体）                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 歌手 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /simi/artist?id=6452
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { simiArtist } from 'hana-music-api';
@@ -37,20 +32,53 @@ import { simiArtist } from 'hana-music-api';
 const result = await simiArtist({
   id: '6452',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.artists` 和每个歌手的 `body.artists[].id` 收紧；歌手记录复用共享的 `Artist` 字段声明，`name`、`picUrl`、`albumSize`、`musicSize`、`alias` 等宽松。相似歌手记录里多出的 `alg`、`fansCount` 另声明为宽松字段，只见过 `null` 的 `identifyTag`、`isSubed`、`publishTime`、`showPrivateMsg` 没有声明，`mvSize` 按 `Artist` 的宽松声明处理。未知歌手 id 返回空数组（`simi_artist.unknown.json`）；缺少 `id` 时上游是 HTTP 200 + `code: 400`，SDK 以 `status: 400` 转交原文。本页录制来自登录账号（`context.viewer` 是 `authenticated`），没有保留匿名对照录制。
+```bash
+curl --get 'http://127.0.0.1:3021/simi/artist' \
+  --data-urlencode 'id=6452'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，传入歌手 id, 可获得相似歌手
+## 请求参数
 
-**必选参数 :** `id`: 歌手 id
+| 参数 | 类型               | 必填 | 默认值 | 说明    |
+| ---- | ------------------ | ---- | ------ | ------- |
+| `id` | `number \| string` | 是   | -      | 歌手 id |
 
-**接口地址 :** `/simi/artist`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/simi/artist?id=6452` ( 对应和周杰伦相似歌手 )
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`SimiArtistBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/simi_artist`、`hana-music-api/schemas/simi_artist` 导入运行时校验器）。
+
+```ts
+type SimiArtist = Omit<Artist, 'id' | 'alg' | 'fansCount'> & {
+  id: number;
+  alg?: string | null;
+  fansCount?: number | null;
+};
+
+type SimiArtistBody = {
+  code: 200;
+  artists: Array<SimiArtist>;
+};
+```
+
+- **公共类型**：[Artist](/api/shared-types#artist)
+
+| 字段                  | 类型                | 必填 | 说明                         |
+| --------------------- | ------------------- | ---- | ---------------------------- |
+| `code`                | `200`               | 是   | 业务状态码（`200` 表示成功） |
+| `artists`             | `Array<SimiArtist>` | 是   | 歌手列表                     |
+| `artists[].id`        | `number`            | 是   | 记录 ID                      |
+| `artists[].alg`       | `string`            | 否   | 推荐算法标识                 |
+| `artists[].fansCount` | `number`            | 否   | -                            |
+
+<!-- api-doc:response:end -->

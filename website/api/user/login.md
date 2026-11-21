@@ -1,37 +1,30 @@
 ---
 title: '邮箱登录'
-description: '可以直接从浏览器中获取cookie值, 只需要其中key为`MUSIC_U`的数据即可'
+description: '可以直接从浏览器中获取cookie值，只需要其中key为`MUSIC_U`的数据即可'
 ---
 
 # 邮箱登录
 
-> 可以直接从浏览器中获取cookie值, 只需要其中key为`MUSIC_U`的数据即可
+可以直接从浏览器中获取cookie值，只需要其中key为`MUSIC_U`的数据即可
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/login`       |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `login`        |
-| 文档分类 | 用户与登录     |
+| 项目       | 值                                    |
+| ---------- | ------------------------------------- |
+| 接口地址   | `/login`                              |
+| 请求方式   | `GET` / `POST`                        |
+| 需要登录   | 否                                    |
+| 对应模块   | `login`                               |
+| SDK 函数   | `login`（`hana-music-api/api/login`） |
+| 返回体类型 | `UnknownJson`（未建模接口）           |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数           | 类型   | 必填 | 默认值 | 说明                                      |
-| -------------- | ------ | :--: | ------ | ----------------------------------------- |
-| `email`        | string |  ✅  | -      | 163 网易邮箱                              |
-| `password`     | string |  ✅  | -      | 密码                                      |
-| `md5_password` | string |  —   | -      | md5 加密后的密码,传入后 `password` 将失效 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /login?email=xxx@163.com&password=yyy
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { login } from 'hana-music-api';
@@ -40,49 +33,40 @@ const result = await login({
   email: 'xxx@163.com',
   password: 'yyy',
 });
-
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-**必选参数 :**
-
-`email`: 163 网易邮箱
-
-`password`: 密码
-
-**可选参数 :**
-
-`md5_password`: md5 加密后的密码,传入后 `password` 将失效
-
-**接口地址 :** `/login`
-
-**调用例子 :** `/login?email=xxx@163.com&password=yyy`
-
-完成登录后，会在浏览器保存一个 Cookies 用作登录凭证，大部分 API 都需要用到这个
-Cookies,非跨域情况请求会自动带上 Cookies,跨域情况参考`调用前须知`
-
-v3.30.0 后支持手动传入 cookie。登录接口返回内容新增 `cookie` 字段，保存到本地后，
-get 请求带上 `?cookie=xxx`（先使用 `encodeURIComponent()` 编码 cookie 值），
-或者 post 请求 body 带上 `cookie` 即可，例如：`/user/cloud?cookie=xxx` 或者
-
-```json
-{
-    ...,
-    cookie:"xxx"
-}
+```bash
+curl 'http://127.0.0.1:3021/login' \
+  -H 'Content-Type: application/json' \
+  --data '{"email":"xxx@163.com","password":"yyy"}'
 ```
 
-另外的cookie说明:
-可以直接从浏览器中获取cookie值, 只需要其中key为`MUSIC_U`的数据即可
-请求
+<!-- api-doc:params:start -->
 
-```text
-GET https://example.com/search?keywords=HELLO&cookie=MUSIC_U%3Dxxxx
-POST https://example.com/search?keywords=HELLO
-body {
-  ...,
-  "cookie": "MUSIC_U=xxxx"
-}
-```
+## 请求参数
+
+> `password` 与 `md5_password` 二选一必填，同时传入时优先使用 `md5_password`。
+
+| 参数           | 类型     | 必填   | 默认值 | 说明                                       |
+| -------------- | -------- | ------ | ------ | ------------------------------------------ |
+| `email`        | `string` | 是     | -      | 163 网易邮箱                               |
+| `password`     | `string` | 二选一 | -      | 密码                                       |
+| `md5_password` | `string` | 二选一 | -      | md5 加密后的密码，传入后 `password` 将失效 |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **凭据优先级**：`password` 与 `md5_password` 二选一，同时传入时优先使用 `md5_password`。
+- **会话保存**：SDK 不会自动将登录 Cookie 写入已有 client；请保存响应中的 `result.cookie` 并在后续请求通过 `{ cookie }` 传入，详见 [认证机制](/guide/authentication)。

@@ -1,48 +1,86 @@
 ---
 title: '用户状态 - 编辑'
-description: '登录后调用此接口, 编辑当前用户状态， 所需参数可在接口`/user/social/status/support`获取'
+description: '登录后调用此接口，编辑当前用户的社交状态，可用参数可通过 `/user/social/status/support` 获取。'
 ---
 
 # 用户状态 - 编辑
 
-> 登录后调用此接口, 编辑当前用户状态， 所需参数可在接口`/user/social/status/support`获取
+登录后调用此接口，编辑当前用户的社交状态，可用参数可通过 `/user/social/status/support` 获取。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                         |
-| -------- | -------------------------- |
-| 接口地址 | `/user/social/status/edit` |
-| 请求方式 | `GET` / `POST`             |
-| 需要登录 | 是                         |
-| 对应模块 | `user_social_status_edit`  |
-| 文档分类 | 用户与登录                 |
+| 项目       | 值                                                                     |
+| ---------- | ---------------------------------------------------------------------- |
+| 接口地址   | `/user/social/status/edit`                                             |
+| 请求方式   | `GET` / `POST`                                                         |
+| 需要登录   | 是                                                                     |
+| 对应模块   | `user_social_status_edit`                                              |
+| SDK 函数   | `userSocialStatusEdit`（`hana-music-api/api/user_social_status_edit`） |
+| 返回体类型 | `UserSocialStatusEditBody`（已建模返回体）                             |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/social/status/edit
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userSocialStatusEdit } from 'hana-music-api';
 
-const result = await userSocialStatusEdit();
-
+const result = await userSocialStatusEdit(
+  {
+    content: '听歌中',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-返回码 `body.code` 收紧为 `200`；`data` 是设置成功后的展示提示（录制里是字符串「将展示7天」），`message` 是附带提示，都宽松。该接口只能设置状态：四个字段全空的调用被上游以 `code: 500` 拒绝（录制 `user_social_status_edit.clear-rejected.json`），模块内没有清空调用；录制结束后用模块外 `content` 为空的原始请求清空，再用 `user_social_status` 回读确认 `data` 为空对象。结构定义和类型是 `UserSocialStatusEditBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/user/social/status/edit' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'content=听歌中'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口, 编辑当前用户状态， 所需参数可在接口`/user/social/status/support`获取
+## 请求参数
 
-**接口地址 :** `/user/social/status/edit`
+| 参数        | 类型     | 必填 | 默认值 | 说明                 |
+| ----------- | -------- | ---- | ------ | -------------------- |
+| `type`      | `string` | 否   | -      | 社交状态类型标识     |
+| `iconUrl`   | `string` | 否   | -      | 状态图标图片 URL     |
+| `content`   | `string` | 否   | -      | 状态展示文本         |
+| `actionUrl` | `string` | 否   | -      | 点击状态后的跳转链接 |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`UserSocialStatusEditBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/user_social_status_edit`、`hana-music-api/schemas/user_social_status_edit` 导入运行时校验器）。
+
+```ts
+type UserSocialStatusEditBody = {
+  code: 200;
+  data?: string | null;
+  message?: string | null;
+};
+```
+
+| 字段      | 类型     | 必填 | 说明                         |
+| --------- | -------- | ---- | ---------------------------- |
+| `code`    | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `data`    | `string` | 否   | 接口返回的数据主体           |
+| `message` | `string` | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **参数校验**：`type`、`iconUrl`、`content`、`actionUrl` 不能全部为空，否则上游返回 `code: 500`。

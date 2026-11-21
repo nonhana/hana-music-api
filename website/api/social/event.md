@@ -5,62 +5,118 @@ description: '调用此接口，可获取各种动态，对应网页版网易云
 
 # 获取动态列表
 
-> 调用此接口，可获取各种动态，对应网页版网易云，朋友界面里的各种动态消息
+调用此接口，可获取各种动态，对应网页版网易云，朋友界面里的各种动态消息
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/event`       |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `event`        |
-| 文档分类 | 社交与消息     |
+| 项目       | 值                                    |
+| ---------- | ------------------------------------- |
+| 接口地址   | `/event`                              |
+| 请求方式   | `GET` / `POST`                        |
+| 需要登录   | 否                                    |
+| 对应模块   | `event`                               |
+| SDK 函数   | `event`（`hana-music-api/api/event`） |
+| 返回体类型 | `EventBody`（已建模返回体）           |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数       | 类型             | 必填 | 默认值                  | 说明                                                                             |
-| ---------- | ---------------- | :--: | ----------------------- | -------------------------------------------------------------------------------- |
-| `pagesize` | number \| string |  ✅  | 20                      | 每页数据,默认 20                                                                 |
-| `lasttime` | string           |  ✅  | -1,传入上一次返回结果的 | 返回数据的 `lasttime` ,默认-1,传入上一次返回结果的 lasttime,将会返回下一页的数据 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /event?pagesize=30&lasttime=1556740526369
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { event } from 'hana-music-api';
 
 const result = await event({
-  pagesize: '30',
-  lasttime: '1556740526369',
+  pagesize: 30,
+  lasttime: 1556740526369,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.event` 和每条动态的 `body.event[].id` 收紧；没有动态时 `event` 是空数组（录制 `event.empty.json`，登录账号用 `lasttime=1` 取空，此时没有 `lasttime`）。`json` 是动态正文的 JSON 字符串，`info` 是评论信息；作者 `event[].user`、图片 `pics`、`ipLocation`、`topEvent` 和计数/展示字段都是宽松字段；`privacySetting`、`uuid` 也是宽松字段。`contentDeclaration`、`repostSource` 按事件列表里的空串证据声明为宽松字符串，`resourceUniqueId` 的宽松字符串类型证据来自 `user_event` 录制。`info.commentThread` 和 `event[].user` 是附带对象，编号不收紧；`commentThread.latestLikedUsers[]` 的 `s`、`t` 是宽松数字字段。`lasttime`、`more` 宽松。已知例外：非 null 扩展对象 `adInfo`、`anonymityInfo`、`bottomActivityInfos`、`extJsonInfo`、`pointTopicInfo`、`privacySettingInfo`、`pubSource`、`xInfo` 未声明；`likeAnimationMap` 只见过空对象、`topActivityInfos` 只见过空数组；`tailMark` 在本录制里只有 `null`。这些字段都原样保留（JSON）。非空录制原 20 条保留 3 条（索引 0/4/9，id 37982331004、37819249612、37812157222）。登录对照先用 `login_status` 确认 `account.anonimousUser: false`；本批匿名调用返回的空列表与登录后的空结果逐字段一致。
+```bash
+curl --get 'http://127.0.0.1:3021/event' \
+  --data-urlencode 'pagesize=30' \
+  --data-urlencode 'lasttime=1556740526369'
+```
 
-## 非 200 业务码的状态码变化
+<!-- api-doc:params:start -->
 
-本模块的 `code:400` 录制见 `event.invalid-pagesize.json`；通用规则见[返回体结构](/guide/response-bodies#非-200-业务码的状态码变化)。`SPECIAL_STATUS_CODES` 里的其他码（201/302/502 以原码拒绝，800–803 钳位为 400）同样以 `status=业务码` 拒绝；不在该表里的码（如 404）原样转交。
+## 请求参数
 
-## 补充说明
+| 参数       | 类型     | 必填 | 默认值 | 说明                                                                                |
+| ---------- | -------- | ---- | ------ | ----------------------------------------------------------------------------------- |
+| `pagesize` | `number` | 否   | `20`   | 每页数据，默认 20                                                                   |
+| `lasttime` | `number` | 否   | `-1`   | 返回数据的 `lasttime` ，默认-1，传入上一次返回结果的 lasttime，将会返回下一页的数据 |
 
-说明 : 调用此接口，可获取各种动态，对应网页版网易云，朋友界面里的各种动态消息
-，如分享的视频，音乐，照片等！
+<!-- api-doc:params:end -->
 
-**必选参数 :**
-`pagesize` : 每页数据,默认 20
+<!-- api-doc:response:start -->
 
-`lasttime` : 返回数据的 `lasttime` ,默认-1,传入上一次返回结果的 lasttime,将会返回下一页的数据
+## 返回值
 
-**接口地址 :** `/event`
+返回体类型：`EventBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/event`、`hana-music-api/schemas/event` 导入运行时校验器）。
 
-**调用例子 :** `/event?pagesize=30&lasttime=1556740526369`
+```ts
+type EventRecord = {
+  id: number;
+  actId?: number | null;
+  actName?: string | null;
+  aiPrivatePic?: boolean | null;
+  canShare?: boolean | null;
+  containAiContent?: boolean | null;
+  contentDeclaration?: string | null;
+  discussId?: string | null;
+  encryptUserId?: string | null;
+  eventTime?: number | null;
+  expireTime?: number | null;
+  extType?: string | null;
+  firstEditTime?: number | null;
+  forwardCount?: number | null;
+  info?: EventInfo | null;
+  insiteForwardCount?: number | null;
+  ipLocation?: EventIpLocation | null;
+  json?: string | null;
+  more?: boolean | null;
+  musicianSay?: boolean | null;
+  needAiDefaultPic?: boolean | null;
+  owner?: boolean | null;
+  pics?: Array<EventPic> | null;
+  privacySetting?: number | null;
+  relationTopic?: boolean | null;
+  repostSource?: string | null;
+  resourceUniqueId?: string | null;
+  showFollowButton?: boolean | null;
+  showTime?: number | null;
+  songPlayStyle?: string | null;
+  threadId?: string | null;
+  tmplId?: number | null;
+  topEvent?: boolean | null;
+  type?: number | null;
+  typeDesc?: string | null;
+  user?: EventUser | null;
+  uuid?: string | null;
+};
+
+type EventBody = {
+  code: 200;
+  event: Array<EventRecord>;
+  lasttime?: number | null;
+  more?: boolean | null;
+};
+```
+
+- **公共类型**：[EventInfo](/api/shared-types#eventinfo)、[EventIpLocation](/api/shared-types#eventiplocation)、[EventPic](/api/shared-types#eventpic)、[EventUser](/api/shared-types#eventuser)
+
+| 字段       | 类型                 | 必填 | 说明                         |
+| ---------- | -------------------- | ---- | ---------------------------- |
+| `code`     | `200`                | 是   | 业务状态码（`200` 表示成功） |
+| `event`    | `Array<EventRecord>` | 是   | 动态列表                     |
+| `lasttime` | `number`             | 否   | 下一页游标时间戳             |
+| `more`     | `boolean`            | 否   | 是否还有更多数据             |
+
+<!-- api-doc:response:end -->

@@ -5,58 +5,94 @@ description: '调用此接口，可获取排行榜中的歌手榜'
 
 # 歌手榜
 
-> 调用此接口，可获取排行榜中的歌手榜
+调用此接口，可获取排行榜中的歌手榜
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                |
-| -------- | ----------------- |
-| 接口地址 | `/toplist/artist` |
-| 请求方式 | `GET` / `POST`    |
-| 需要登录 | 否                |
-| 对应模块 | `toplist_artist`  |
-| 文档分类 | 歌手              |
+| 项目       | 值                                                     |
+| ---------- | ------------------------------------------------------ |
+| 接口地址   | `/toplist/artist`                                      |
+| 请求方式   | `GET` / `POST`                                         |
+| 需要登录   | 否                                                     |
+| 对应模块   | `toplist_artist`                                       |
+| SDK 函数   | `toplistArtist`（`hana-music-api/api/toplist_artist`） |
+| 返回体类型 | `ToplistArtistBody`（已建模返回体）                    |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数   | 类型   | 必填 | 默认值 | 说明                                             |
-| ------ | ------ | :--: | ------ | ------------------------------------------------ |
-| `type` | string |  —   | -      | 地区<br>1: 华语<br>2: 欧美<br>3: 韩国<br>4: 日本 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /toplist/artist
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { toplistArtist } from 'hana-music-api';
 
-const result = await toplistArtist();
-
+const result = await toplistArtist({
+  type: 1,
+});
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.list`、`list.artists` 和每个歌手的 `id` 收紧。歌手记录沿用 `Artist` 的宽松字段，在模块内局部收紧了 `id`，并声明了宽松的 `lastRank`、`score`。本批 type=1 录制里有一条歌手缺少 `lastRank`，也保留在截取后的证据里；上游可能缺失或给 `null`，两种都按宽松字段处理（`lastRank` 的类型是 `number | null | undefined`）。`list.type` 是请求的地区类型，不是记录编号，和 `list.updateTime` 一起保持宽松。接口固定 `limit: 100`、`offset: 0`，没有空结果路径。结构定义和类型是 `ToplistArtistBody`，见 [返回体结构](/guide/response-bodies)。
-
-## 补充说明
-
-说明 : 调用此接口，可获取排行榜中的歌手榜
-
-**可选参数 :**
-
-```text
-type : 地区
-1: 华语
-2: 欧美
-3: 韩国
-4: 日本
+```bash
+curl --get 'http://127.0.0.1:3021/toplist/artist' \
+  --data-urlencode 'type=1'
 ```
 
-**接口地址 :** `/toplist/artist`
+<!-- api-doc:params:start -->
 
-**调用例子 :** `/toplist/artist`
+## 请求参数
+
+| 参数   | 类型               | 必填 | 默认值 | 说明                                             |
+| ------ | ------------------ | ---- | ------ | ------------------------------------------------ |
+| `type` | `1 \| 2 \| 3 \| 4` | 否   | `1`    | 地区<br>1: 华语<br>2: 欧美<br>3: 韩国<br>4: 日本 |
+
+| `type` | 地区分类     |
+| ------ | ------------ |
+| `1`    | 华语（默认） |
+| `2`    | 欧美         |
+| `3`    | 韩国         |
+| `4`    | 日本         |
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`ToplistArtistBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/toplist_artist`、`hana-music-api/schemas/toplist_artist` 导入运行时校验器）。
+
+```ts
+type ChartArtist = Omit<Artist, 'id' | 'lastRank' | 'score'> & {
+  id: number;
+  lastRank?: number | null;
+  score?: number | null;
+};
+
+type ToplistArtistBody = {
+  code: 200;
+  list: {
+    type?: number | null;
+    updateTime?: number | null;
+    artists: Array<ChartArtist>;
+  };
+};
+```
+
+- **公共类型**：[Artist](/api/shared-types#artist)
+
+| 字段                      | 类型                 | 必填 | 说明                         |
+| ------------------------- | -------------------- | ---- | ---------------------------- |
+| `code`                    | `200`                | 是   | 业务状态码（`200` 表示成功） |
+| `list`                    | `object`             | 是   | 结果条目列表                 |
+| `list.type`               | `number`             | 否   | -                            |
+| `list.updateTime`         | `number`             | 否   | 时间戳                       |
+| `list.artists`            | `Array<ChartArtist>` | 是   | 歌手列表                     |
+| `list.artists[].id`       | `number`             | 是   | 记录 ID                      |
+| `list.artists[].lastRank` | `number`             | 否   | -                            |
+| `list.artists[].score`    | `number`             | 否   | -                            |
+
+<!-- api-doc:response:end -->

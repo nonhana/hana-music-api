@@ -1,65 +1,96 @@
 ---
 title: '获取用户粉丝列表'
-description: '登录后调用此接口，传入用户 id, 可以获取用户粉丝列表'
+description: '登录后调用此接口，传入用户 id，可以获取用户粉丝列表'
 ---
 
 # 获取用户粉丝列表
 
-> 登录后调用此接口，传入用户 id, 可以获取用户粉丝列表
+登录后调用此接口，传入用户 id，可以获取用户粉丝列表
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                |
-| -------- | ----------------- |
-| 接口地址 | `/user/followeds` |
-| 请求方式 | `GET` / `POST`    |
-| 需要登录 | 是                |
-| 对应模块 | `user_followeds`  |
-| 文档分类 | 社交与消息        |
+| 项目       | 值                                                     |
+| ---------- | ------------------------------------------------------ |
+| 接口地址   | `/user/followeds`                                      |
+| 请求方式   | `GET` / `POST`                                         |
+| 需要登录   | 是                                                     |
+| 对应模块   | `user_followeds`                                       |
+| SDK 函数   | `userFolloweds`（`hana-music-api/api/user_followeds`） |
+| 返回体类型 | `UserFollowedsBody`（已建模返回体）                    |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                    |
-| -------- | ---------------- | :--: | ------ | ----------------------------------------------------------------------- |
-| `uid`    | string           |  ✅  | -      | 用户 id                                                                 |
-| `limit`  | number \| string |  —   | 30     | 返回数量，默认为 30                                                     |
-| `offset` | number \| string |  —   | 0      | 偏移数量，用于分页 ,如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /user/followeds?uid=32953014
-GET /user/followeds?uid=416608258&limit=1
-GET /user/followeds?uid=416608258&limit=1&offset=1
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { userFolloweds } from 'hana-music-api';
 
-const result = await userFolloweds({
-  uid: '32953014',
-});
-
+const result = await userFolloweds(
+  {
+    uid: '32953014',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.followeds` 和每条粉丝记录的 `body.followeds[].userId` 收紧；没有粉丝时 `followeds` 是空数组（录制 `user_followeds.empty.json`，账号 13595690613）。粉丝记录复用 `UserProfile` 的宽松字段，并补上 `py`、`time`、`vipRights`；`vipRights` 可能为 `null`，声明为宽松字段。`remarkName` 在本批录制里只见过 `null`，没有声明。`more`、`newCount`、`size` 是宽松字段，`newCount` 只在部分响应里出现。结构定义和类型是 `UserFollowedsBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/user/followeds' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'uid=32953014'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，传入用户 id, 可以获取用户粉丝列表
+## 请求参数
 
-**必选参数 :** `uid` : 用户 id
+| 参数     | 类型               | 必填 | 默认值 | 说明                                                                     |
+| -------- | ------------------ | ---- | ------ | ------------------------------------------------------------------------ |
+| `uid`    | `number \| string` | 是   | -      | 用户 id                                                                  |
+| `limit`  | `number`           | 否   | `30`   | 返回数量，默认为 30                                                      |
+| `offset` | `number`           | 否   | `0`    | 偏移数量，用于分页 ，如：(页数 - 1)\*30，其中 30 为 limit 的值，默认为 0 |
 
-**可选参数 :**
-`limit` : 返回数量，默认为 30
+<!-- api-doc:params:end -->
 
-`offset` : 偏移数量，用于分页 ,如：(页数 - 1)\*30, 其中 30 为 limit 的值，默认为 0
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/user/followeds`
+## 返回值
 
-**调用例子 :** `/user/followeds?uid=32953014` `/user/followeds?uid=416608258&limit=1` `/user/followeds?uid=416608258&limit=1&offset=1`
+返回体类型：`UserFollowedsBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/user_followeds`、`hana-music-api/schemas/user_followeds` 导入运行时校验器）。
+
+```ts
+type Follower = Omit<UserProfile, 'py' | 'time' | 'vipRights'> & {
+  py?: string | null;
+  time?: number | null;
+  vipRights?: VipRights | null;
+};
+
+type UserFollowedsBody = {
+  code: 200;
+  followeds: Array<Follower>;
+  more?: boolean | null;
+  newCount?: number | null;
+  size?: number | null;
+};
+```
+
+- **公共类型**：[UserProfile](/api/shared-types#userprofile)、[VipRights](/api/shared-types#viprights)
+
+| 字段                    | 类型                                     | 必填 | 说明                                                          |
+| ----------------------- | ---------------------------------------- | ---- | ------------------------------------------------------------- |
+| `code`                  | `200`                                    | 是   | 业务状态码（`200` 表示成功）                                  |
+| `followeds`             | `Array<Follower>`                        | 是   | 条目列表，继承自 [UserProfile](/api/shared-types#userprofile) |
+| `followeds[].py`        | `string`                                 | 否   | -                                                             |
+| `followeds[].time`      | `number`                                 | 否   | 时间戳                                                        |
+| `followeds[].vipRights` | [VipRights](/api/shared-types#viprights) | 否   | VipRights 实体                                                |
+| `more`                  | `boolean`                                | 否   | 是否还有更多数据                                              |
+| `newCount`              | `number`                                 | 否   | -                                                             |
+| `size`                  | `number`                                 | 否   | -                                                             |
+
+<!-- api-doc:response:end -->

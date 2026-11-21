@@ -1,56 +1,73 @@
 ---
 title: '广播电台 - 我的收藏'
-description: '调用此接口, 获取广播电台 - 我的收藏'
+description: '调用此接口，获取广播电台 - 我的收藏'
 ---
 
 # 广播电台 - 我的收藏
 
-> 调用此接口, 获取广播电台 - 我的收藏
+调用此接口，获取广播电台 - 我的收藏
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                                |
-| -------- | --------------------------------- |
-| 接口地址 | `/broadcast/channel/collect/list` |
-| 请求方式 | `GET` / `POST`                    |
-| 需要登录 | 否                                |
-| 对应模块 | `broadcast_channel_collect_list`  |
-| 文档分类 | 其他工具                          |
+| 项目       | 值                                                                                   |
+| ---------- | ------------------------------------------------------------------------------------ |
+| 接口地址   | `/broadcast/channel/collect/list`                                                    |
+| 请求方式   | `GET` / `POST`                                                                       |
+| 需要登录   | 否                                                                                   |
+| 对应模块   | `broadcast_channel_collect_list`                                                     |
+| SDK 函数   | `broadcastChannelCollectList`（`hana-music-api/api/broadcast_channel_collect_list`） |
+| 返回体类型 | `BroadcastChannelCollectListBody`（已建模返回体）                                    |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数    | 类型             | 必填 | 默认值 | 说明                   |
-| ------- | ---------------- | :--: | ------ | ---------------------- |
-| `limit` | number \| string |  —   | 99999  | 返回数量，默认为 99999 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /broadcast/channel/collect/list
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { broadcastChannelCollectList } from 'hana-music-api';
 
-const result = await broadcastChannelCollectList();
-
+const result = await broadcastChannelCollectList({
+  limit: 30,
+});
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-只收紧 `body.code`。`data` 在登录和匿名录制里都是空数组（账号没有收藏电台），元素类型没有证据，未声明并原样保留。结构定义和类型是 `BroadcastChannelCollectListBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/broadcast/channel/collect/list' \
+  --data-urlencode 'limit=30'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 调用此接口, 获取广播电台 - 我的收藏
+## 请求参数
 
-**可选参数 :**
+| 参数    | 类型     | 必填 | 默认值  | 说明                   |
+| ------- | -------- | ---- | ------- | ---------------------- |
+| `limit` | `number` | 否   | `99999` | 返回数量，默认为 99999 |
 
-`limit` : 返回数量，默认为 99999
+<!-- api-doc:params:end -->
 
-**接口地址:** `/broadcast/channel/collect/list`
+<!-- api-doc:response:start -->
 
-**调用例子:** `/broadcast/channel/collect/list`
+## 返回值
+
+返回体类型：`BroadcastChannelCollectListBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/broadcast_channel_collect_list`、`hana-music-api/schemas/broadcast_channel_collect_list` 导入运行时校验器）。
+
+```ts
+type BroadcastChannelCollectListBody = {
+  code: 200;
+  message?: string | null;
+};
+```
+
+| 字段      | 类型     | 必填 | 说明                         |
+| --------- | -------- | ---- | ---------------------------- |
+| `code`    | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `message` | `string` | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

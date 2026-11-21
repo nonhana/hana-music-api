@@ -5,52 +5,94 @@ description: '登录后调用此接口，可以获取动态下评论'
 
 # 获取动态评论
 
-> 登录后调用此接口，可以获取动态下评论
+登录后调用此接口，可以获取动态下评论
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值               |
-| -------- | ---------------- |
-| 接口地址 | `/comment/event` |
-| 请求方式 | `GET` / `POST`   |
-| 需要登录 | 是               |
-| 对应模块 | `comment_event`  |
-| 文档分类 | 评论             |
+| 项目       | 值                                                   |
+| ---------- | ---------------------------------------------------- |
+| 接口地址   | `/comment/event`                                     |
+| 请求方式   | `GET` / `POST`                                       |
+| 需要登录   | 是                                                   |
+| 对应模块   | `comment_event`                                      |
+| SDK 函数   | `commentEvent`（`hana-music-api/api/comment_event`） |
+| 返回体类型 | `CommentEventBody`（已建模返回体）                   |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数       | 类型   | 必填 | 默认值 | 说明                                             |
-| ---------- | ------ | :--: | ------ | ------------------------------------------------ |
-| `threadId` | string |  ✅  | -      | 动态 id，可通过 `/event`，`/user/event` 接口获取 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /comment/event?threadId=A_EV_2_6559519868_32953014
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { commentEvent } from 'hana-music-api';
 
-const result = await commentEvent({
-  threadId: 'A_EV_2_6559519868_32953014',
-});
-
+const result = await commentEvent(
+  {
+    threadId: 'A_EV_2_6559519868_32953014',
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.comments`、`body.comments[].commentId` 收紧；`body.hotComments` 是可以没有的路径：越界分页时整个缺失，出现时 `hotComments[].commentId` 收紧。评论记录复用 `CommentRecord`，其余声明字段宽松。零评论动态（录制 `comment_event.empty.json`，`A_EV_2_38014023821_17062533682`）返回空的 `comments`、`hotComments`；越界分页（录制 `comment_event.out-of-range.json`，`offset=100000`）返回 `comments: []` 且没有 `hotComments`。非空录制 `comment_event.default.json`（动态 `A_EV_2_37730695660_17062533682`）保留 2 条评论。`topComments` 只见过空数组、`commentBanner` 只见过 `null`，没有声明，原样保留。登录对照先用 `login_status` 确认 `account.anonimousUser: false`，只抽查了本批匿名录制中非 `null` 的路径与类型；登录录制未保留；不对公开结构作相同性断言。
+```bash
+curl --get 'http://127.0.0.1:3021/comment/event' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'threadId=A_EV_2_6559519868_32953014'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，可以获取动态下评论
+## 请求参数
 
-**必选参数 :** `threadId` : 动态 id，可通过 `/event`，`/user/event` 接口获取
+| 参数       | 类型     | 必填 | 默认值 | 说明                                              |
+| ---------- | -------- | ---- | ------ | ------------------------------------------------- |
+| `before`   | `number` | 否   | `0`    | 分页游标，取上一页最后一条评论的 `time`，默认 `0` |
+| `limit`    | `number` | 否   | `20`   | 返回数量，默认 `20`                               |
+| `offset`   | `number` | 否   | `0`    | 偏移数量，用于分页，默认 `0`                      |
+| `threadId` | `string` | 是   | -      | 动态线程 ID（可从动态接口的 `threadId` 字段获取） |
 
-**接口地址 :** `/comment/event`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/comment/event?threadId=A_EV_2_6559519868_32953014`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`CommentEventBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/comment_event`、`hana-music-api/schemas/comment_event` 导入运行时校验器）。
+
+```ts
+type CommentEventBody = {
+  code: 200;
+  comments: Array<CommentRecord>;
+  hotComments?: Array<CommentRecord> | null;
+  cnum?: number | null;
+  isMusician?: boolean | null;
+  more?: boolean | null;
+  moreHot?: boolean | null;
+  total?: number | null;
+  userId?: number | null;
+};
+```
+
+- **公共类型**：[CommentRecord](/api/shared-types#commentrecord)
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段          | 类型                                                      | 必填 | 说明                         |
+| ------------- | --------------------------------------------------------- | ---- | ---------------------------- |
+| `code`        | `200`                                                     | 是   | 业务状态码（`200` 表示成功） |
+| `comments`    | Array\<[CommentRecord](/api/shared-types#commentrecord)\> | 是   | 评论列表                     |
+| `hotComments` | Array\<[CommentRecord](/api/shared-types#commentrecord)\> | 可空 | 热门评论列表                 |
+| `cnum`        | `number`                                                  | 否   | -                            |
+| `isMusician`  | `boolean`                                                 | 否   | -                            |
+| `more`        | `boolean`                                                 | 否   | 是否还有更多数据             |
+| `moreHot`     | `boolean`                                                 | 否   | -                            |
+| `total`       | `number`                                                  | 否   | 总条目数                     |
+| `userId`      | `number`                                                  | 否   | 用户 ID                      |
+
+<!-- api-doc:response:end -->

@@ -5,53 +5,88 @@ description: '调用此接口可以获取电台排行榜'
 
 # 电台排行榜获取
 
-> 调用此接口可以获取电台排行榜
+调用此接口可以获取电台排行榜
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/djRadio/top` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `djRadio_top`  |
-| 文档分类 | 电台与播客     |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/djRadio/top`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 是                                               |
+| 对应模块   | `djRadio_top`                                    |
+| SDK 函数   | `djRadioTop`（`hana-music-api/api/djRadio_top`） |
+| 返回体类型 | `DjRadioTopBody`（已建模返回体）                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /djRadio/top
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { djRadioTop } from 'hana-music-api';
 
-const result = await djRadioTop();
-
+const result = await djRadioTop(
+  {
+    dataGapDays: 7,
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 收紧，`message` 宽松。`data` 是通到电台作品榜的路径，但本账号的一次登录录制里始终是空数组，元素类型无法确认，没有声明，原样透传。非数字 `djRadioId` 返回 HTTP 400、空正文，网易云把 400 归一成 `status: 200`，结构定义包含空字符串分支，SDK 原样返回 `""`。匿名调用返回 `code: 302`（录制 `djRadio_top.anonymous.json`），SDK 按业务拒绝转交 `status: 302`；本接口需要登录。结构定义和类型是 `DjRadioTopBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/djRadio/top' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data-urlencode 'dataGapDays=7'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 调用此接口可以获取电台排行榜
+## 请求参数
 
-**接口地址:** `/djRadio/top`
+| 参数          | 类型                    | 必填 | 默认值 | 说明                                                        |
+| ------------- | ----------------------- | ---- | ------ | ----------------------------------------------------------- |
+| `dataGapDays` | `7 \| 30 \| 90`         | 否   | `7`    | 天数 7:一周 30:一个月 90:三个月 默认 7                      |
+| `dataType`    | `number`                | 否   | `3`    | 未知，默认 3                                                |
+| `djRadioId`   | `number \| string`      | 否   | -      | 电台id                                                      |
+| `sortIndex`   | `1 \| 2 \| 3 \| 4 \| 5` | 否   | `1`    | 排序 1:播放数 2:点赞数 3：评论数 4：分享数 5：收藏数 默认 1 |
 
-**可选参数：**
-`djRadioId` : 电台id
+| `sortIndex` | 排序指标       |
+| ----------- | -------------- |
+| `1`         | 播放数（默认） |
+| `2`         | 点赞数         |
+| `3`         | 评论数         |
+| `4`         | 分享数         |
+| `5`         | 收藏数         |
 
-`sortIndex`: 排序 1:播放数 2:点赞数 3：评论数 4：分享数 5：收藏数 默认 1
+<!-- api-doc:params:end -->
 
-`dataGapDays`: 天数 7:一周 30:一个月 90:三个月 默认 7
+<!-- api-doc:response:start -->
 
-`dataType`: 未知,默认 3
+## 返回值
+
+返回体类型：`DjRadioTopBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/djRadio_top`、`hana-music-api/schemas/djRadio_top` 导入运行时校验器）。
+
+```ts
+type DjRadioTopBody =
+  | {
+      code: 200;
+      message?: string | null;
+    }
+  | '';
+```
+
+| 字段      | 类型     | 必填 | 说明                         |
+| --------- | -------- | ---- | ---------------------------- |
+| `code`    | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `message` | `string` | 否   | 返回说明信息                 |
+
+> 当参数格式异常时，上游可能返回空响应，此时返回体为 `""`。
+
+<!-- api-doc:response:end -->

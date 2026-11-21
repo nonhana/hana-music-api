@@ -5,46 +5,84 @@ description: '调用此接口，可获取推荐 mv'
 
 # 推荐 mv
 
-> 调用此接口，可获取推荐 mv
+调用此接口，可获取推荐 mv
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                 |
-| -------- | ------------------ |
-| 接口地址 | `/personalized/mv` |
-| 请求方式 | `GET` / `POST`     |
-| 需要登录 | 否                 |
-| 对应模块 | `personalized_mv`  |
-| 文档分类 | 推荐与发现         |
+| 项目       | 值                                                       |
+| ---------- | -------------------------------------------------------- |
+| 接口地址   | `/personalized/mv`                                       |
+| 请求方式   | `GET` / `POST`                                           |
+| 需要登录   | 否                                                       |
+| 对应模块   | `personalized_mv`                                        |
+| SDK 函数   | `personalizedMv`（`hana-music-api/api/personalized_mv`） |
+| 返回体类型 | `PersonalizedMvBody`（已建模返回体）                     |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /personalized/mv
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { personalizedMv } from 'hana-music-api';
 
 const result = await personalizedMv();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、推荐 MV 列表 `body.result` 和每个 MV 自己的编号 `result[].id` 收紧；记录复用 `MvSummary`，`category`、`picUrl`、`canDislike`、`copywriter`、`alg`、`type` 宽松。`trackNumberUpdateTime` 在录制里只见过 `null`，没有声明。匿名和登录录制都是 2 条且字段集相同；没有可达的空结果，数组本身允许为空。
+```bash
+curl 'http://127.0.0.1:3021/personalized/mv'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获取推荐 mv
+## 请求参数
 
-**接口地址 :** `/personalized/mv`
+无业务参数。
 
-**调用例子 :** `/personalized/mv`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`PersonalizedMvBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/personalized_mv`、`hana-music-api/schemas/personalized_mv` 导入运行时校验器）。
+
+```ts
+type RecommendedMv = Omit<
+  MvSummary,
+  'alg' | 'canDislike' | 'copywriter' | 'picUrl' | 'type'
+> & {
+  alg?: string | null;
+  canDislike?: boolean | null;
+  copywriter?: string | null;
+  picUrl?: string | null;
+  type?: number | null;
+};
+
+type PersonalizedMvBody = {
+  code: 200;
+  result: Array<RecommendedMv>;
+  category?: number | null;
+};
+```
+
+- **公共类型**：[MvSummary](/api/shared-types#mvsummary)
+
+| 字段                  | 类型                   | 必填 | 说明                         |
+| --------------------- | ---------------------- | ---- | ---------------------------- |
+| `code`                | `200`                  | 是   | 业务状态码（`200` 表示成功） |
+| `result`              | `Array<RecommendedMv>` | 是   | 接口返回的结果主体           |
+| `result[].alg`        | `string`               | 否   | 推荐算法标识                 |
+| `result[].canDislike` | `boolean`              | 否   | -                            |
+| `result[].copywriter` | `string`               | 否   | -                            |
+| `result[].picUrl`     | `string`               | 否   | 资源访问链接                 |
+| `result[].type`       | `number`               | 否   | -                            |
+| `category`            | `number`               | 否   | -                            |
+
+<!-- api-doc:response:end -->

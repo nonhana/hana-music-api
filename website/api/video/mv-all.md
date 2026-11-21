@@ -5,35 +5,26 @@ description: '调用此接口，可获取全部 mv'
 
 # 全部 mv
 
-> 调用此接口，可获取全部 mv
+调用此接口，可获取全部 mv
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/mv/all`      |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `mv_all`       |
-| 文档分类 | 视频与 MV      |
+| 项目       | 值                                     |
+| ---------- | -------------------------------------- |
+| 接口地址   | `/mv/all`                              |
+| 请求方式   | `GET` / `POST`                         |
+| 需要登录   | 否                                     |
+| 对应模块   | `mv_all`                               |
+| SDK 函数   | `mvAll`（`hana-music-api/api/mv_all`） |
+| 返回体类型 | `MvAllBody`（已建模返回体）            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数     | 类型             | 必填 | 默认值 | 说明                                                                        |
-| -------- | ---------------- | :--: | ------ | --------------------------------------------------------------------------- |
-| `area`   | string           |  —   | -      | 地区,可选值为全部,内地,港台,欧美,日本,韩国,不填则为全部                     |
-| `type`   | string           |  —   | -      | 类型,可选值为全部,官方版,原生,现场版,网易出品,不填则为全部                  |
-| `order`  | string           |  —   | -      | 排序,可选值为上升最快,最热,最新,不填则为上升最快                            |
-| `limit`  | number \| string |  —   | 30     | 取出数量，默认为 30                                                         |
-| `offset` | number \| string |  —   | <br>为 | 偏移数量，用于分页，如：(页数 - 1)\*50, 其中 50 为 limit 的值，默认<br>为 0 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /mv/all?area=港台
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { mvAll } from 'hana-music-api';
@@ -41,29 +32,52 @@ import { mvAll } from 'hana-music-api';
 const result = await mvAll({
   area: '港台',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、MV 列表 `body.data` 和每个 MV 的编号 `data[].id` 收紧（共用 `MvSummary`）；`count`、`hasMore` 以及记录里的封面、简介、播放数、时长、收藏状态、`artists`、`alias`、`transNames` 都是宽松字段。`count` 只在第一页出现，非零 `offset` 时可能整个缺失（录制 `mv_all.page-two.json`）。本批录制与探测未发现可达的空结果。结构定义和类型是 `MvAllBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl --get 'http://127.0.0.1:3021/mv/all' \
+  --data-urlencode 'area=港台'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获取全部 mv
+## 请求参数
 
-**可选参数 :**  
-`area`: 地区,可选值为全部,内地,港台,欧美,日本,韩国,不填则为全部
-`type`: 类型,可选值为全部,官方版,原生,现场版,网易出品,不填则为全部
+| 参数     | 类型     | 必填 | 默认值     | 说明                                                                        |
+| -------- | -------- | ---- | ---------- | --------------------------------------------------------------------------- |
+| `area`   | `string` | 否   | `全部`     | 地区，可选值为全部，内地，港台，欧美，日本，韩国，不填则为全部              |
+| `limit`  | `number` | 否   | `30`       | 取出数量，默认为 30                                                         |
+| `offset` | `number` | 否   | `0`        | 偏移数量，用于分页，如：(页数 - 1)\*50，其中 50 为 limit 的值，默认<br>为 0 |
+| `order`  | `string` | 否   | `上升最快` | 排序，可选值为上升最快，最热，最新，不填则为上升最快                        |
+| `type`   | `string` | 否   | `全部`     | 类型，可选值为全部，官方版，原生，现场版，网易出品，不填则为全部            |
 
-`order`: 排序,可选值为上升最快,最热,最新,不填则为上升最快
+<!-- api-doc:params:end -->
 
-`limit`: 取出数量，默认为 30
+<!-- api-doc:response:start -->
 
-`offset`: 偏移数量，用于分页，如：(页数 - 1)\*50, 其中 50 为 limit 的值，默认
-为 0
+## 返回值
 
-**接口地址 :** `/mv/all`
+返回体类型：`MvAllBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/mv_all`、`hana-music-api/schemas/mv_all` 导入运行时校验器）。
 
-**调用例子 :** `/mv/all?area=港台`
+```ts
+type MvAllBody = {
+  code: 200;
+  count?: number | null;
+  data: Array<MvSummary>;
+  hasMore?: boolean | null;
+};
+```
+
+- **公共类型**：[MvSummary](/api/shared-types#mvsummary)
+
+| 字段      | 类型                                              | 必填 | 说明                         |
+| --------- | ------------------------------------------------- | ---- | ---------------------------- |
+| `code`    | `200`                                             | 是   | 业务状态码（`200` 表示成功） |
+| `count`   | `number`                                          | 否   | 条目总数                     |
+| `data`    | Array\<[MvSummary](/api/shared-types#mvsummary)\> | 是   | 接口返回的数据主体           |
+| `hasMore` | `boolean`                                         | 否   | 是否还有更多数据             |
+
+<!-- api-doc:response:end -->

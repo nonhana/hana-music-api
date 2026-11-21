@@ -5,46 +5,77 @@ description: '调用此接口，可获取精品歌单标签列表'
 
 # 精品歌单标签列表
 
-> 调用此接口，可获取精品歌单标签列表
+调用此接口，可获取精品歌单标签列表
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                           |
-| -------- | ---------------------------- |
-| 接口地址 | `/playlist/highquality/tags` |
-| 请求方式 | `GET` / `POST`               |
-| 需要登录 | 否                           |
-| 对应模块 | `playlist_highquality_tags`  |
-| 文档分类 | 歌单                         |
+| 项目       | 值                                                                          |
+| ---------- | --------------------------------------------------------------------------- |
+| 接口地址   | `/playlist/highquality/tags`                                                |
+| 请求方式   | `GET` / `POST`                                                              |
+| 需要登录   | 否                                                                          |
+| 对应模块   | `playlist_highquality_tags`                                                 |
+| SDK 函数   | `playlistHighqualityTags`（`hana-music-api/api/playlist_highquality_tags`） |
+| 返回体类型 | `PlaylistHighqualityTagsBody`（已建模返回体）                               |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /playlist/highquality/tags
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { playlistHighqualityTags } from 'hana-music-api';
 
 const result = await playlistHighqualityTags();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.tags` 和每个标签的编号 `tags[].id` 收紧；`name`、`type`、`category`、`hot` 宽松。本批录制与探测未发现可达的空结果，数组本身允许为空；非 null 路径与类型相同；登录只在宽松字段上多出现 null 或不同值，登录对照录制已删除。结构定义和类型是 `PlaylistHighqualityTagsBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/playlist/highquality/tags'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获取精品歌单标签列表
+## 请求参数
 
-**接口地址 :** `/playlist/highquality/tags`
+无业务参数。
 
-**调用例子 :** `/playlist/highquality/tags`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`PlaylistHighqualityTagsBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/playlist_highquality_tags`、`hana-music-api/schemas/playlist_highquality_tags` 导入运行时校验器）。
+
+```ts
+type Tag = {
+  id: number;
+  name?: string | null;
+  type?: number | null;
+  category?: number | null;
+  hot?: boolean | null;
+};
+
+type PlaylistHighqualityTagsBody = {
+  code: 200;
+  tags: Array<Tag>;
+};
+```
+
+| 字段              | 类型         | 必填 | 说明                         |
+| ----------------- | ------------ | ---- | ---------------------------- |
+| `code`            | `200`        | 是   | 业务状态码（`200` 表示成功） |
+| `tags`            | `Array<Tag>` | 是   | 标签列表                     |
+| `tags[].id`       | `number`     | 是   | 记录 ID                      |
+| `tags[].name`     | `string`     | 否   | 名称                         |
+| `tags[].type`     | `number`     | 否   | -                            |
+| `tags[].category` | `number`     | 否   | -                            |
+| `tags[].hot`      | `boolean`    | 否   | -                            |
+
+<!-- api-doc:response:end -->

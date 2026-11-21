@@ -1,63 +1,67 @@
 ---
 title: '发送私信'
-description: '登录后调用此接口，传入用户 id 和要发送的信息, 可以发送私信,返回内容为历史私信,包含带歌单的私信信息(注:不能发送私信给自己)'
+description: '登录后调用此接口，传入用户 id 和要发送的信息，可以发送私信，返回内容为历史私信，包含带歌单的私信信息(注:不能发送私信给自己)'
 ---
 
 # 发送私信
 
-> 登录后调用此接口，传入用户 id 和要发送的信息, 可以发送私信,返回内容为历史私信,包含带歌单的私信信息(注:不能发送私信给自己)
+登录后调用此接口，传入用户 id 和要发送的信息，可以发送私信，返回内容为历史私信，包含带歌单的私信信息(注:不能发送私信给自己)
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/send/text`   |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `send_text`    |
-| 文档分类 | 社交与消息     |
+| 项目       | 值                                           |
+| ---------- | -------------------------------------------- |
+| 接口地址   | `/send/text`                                 |
+| 请求方式   | `GET` / `POST`                               |
+| 需要登录   | 是                                           |
+| 对应模块   | `send_text`                                  |
+| SDK 函数   | `sendText`（`hana-music-api/api/send_text`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                  |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数       | 类型               | 必填 | 默认值 | 说明                     |
-| ---------- | ------------------ | :--: | ------ | ------------------------ |
-| `user_ids` | string[] \| string |  ✅  | -      | 用户 id,多个需用逗号隔开 |
-| `msg`      | string             |  ✅  | -      | 要发送的信息             |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /send/text?user_ids=32953014&msg=test
-GET /send/text?user_ids=32953014,475625142&msg=test
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { sendText } from 'hana-music-api';
 
-const result = await sendText({
-  user_ids: '32953014',
-  msg: 'test',
-});
-
+const result = await sendText(
+  {
+    userIds: [32953014],
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-本批没有给 `send_text` 声明结构定义：发给自己被上游以 `code: 2201`（发送过于频繁）拒绝（`msg/send_text.rejected.json`），换自然内容重试同样被拒；发给自己可能本身不允许，无法区分频率限制与不允许发给自己。成功正文未验证（需要第二账号），补录条件：用第二个账号重录成功体。返回体继续按原始 JSON 放行。
+```bash
+curl 'http://127.0.0.1:3021/send/text' \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data '{"userIds":[32953014]}'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口，传入用户 id 和要发送的信息, 可以发送私信,返回内容为历史私信,包含带歌单的私信信息(注:不能发送私信给自己)
+## 请求参数
 
-**必选参数 :**
+| 参数      | 类型                      | 必填 | 默认值 | 说明                   |
+| --------- | ------------------------- | ---- | ------ | ---------------------- |
+| `userIds` | `Array<number \| string>` | 是   | -      | 接收私信的用户 ID 数组 |
+| `msg`     | `string`                  | 否   | -      | 要发送的信息           |
 
-`user_ids` : 用户 id,多个需用逗号隔开
+<!-- api-doc:params:end -->
 
-`msg` : 要发送的信息
+<!-- api-doc:response:start -->
 
-**接口地址 :** `/send/text`
+## 返回值
 
-**调用例子 :** `/send/text?user_ids=32953014&msg=test`,`/send/text?user_ids=32953014,475625142&msg=test`
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

@@ -5,46 +5,81 @@ description: '音乐人登录后调用此接口，可获取统计数据概况'
 
 # 音乐人数据概况
 
-> 音乐人登录后调用此接口，可获取统计数据概况
+音乐人登录后调用此接口，可获取统计数据概况
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                        |
-| -------- | ------------------------- |
-| 接口地址 | `/musician/data/overview` |
-| 请求方式 | `GET` / `POST`            |
-| 需要登录 | 是                        |
-| 对应模块 | `musician_data_overview`  |
-| 文档分类 | 会员与云贝                |
+| 项目       | 值                                                                    |
+| ---------- | --------------------------------------------------------------------- |
+| 接口地址   | `/musician/data/overview`                                             |
+| 请求方式   | `GET` / `POST`                                                        |
+| 需要登录   | 是                                                                    |
+| 对应模块   | `musician_data_overview`                                              |
+| SDK 函数   | `musicianDataOverview`（`hana-music-api/api/musician_data_overview`） |
+| 返回体类型 | `MusicianDataOverviewBody`（已建模返回体）                            |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /musician/data/overview
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { musicianDataOverview } from 'hana-music-api';
 
-const result = await musicianDataOverview();
-
+const result = await musicianDataOverview(
+  {},
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 和通到概况对象的 `body.data` 收紧；各项统计（`availableExtractIncomeTotal`、`productionTotal`、`musicianLevelScore`、`totalFansCount`）宽松，`playCount`、`totalPlayCount`、`fansPlayCount`、`fansPlayRatio`、`followerCountIncrement` 只见过 `null`，没有声明。录制来自音乐人账号（`context.viewer` 是 `authenticated`，录制前经 `login_status` 确认 `anonimousUser: false`（未落盘））；未登录（匿名）返回 `code: 10000`（`musician_data_overview.anonymous.json`），SDK 以 `status: 400` 转交原文；登录的非音乐人账号未录到，返回码与成功正文未验证。结构定义和类型是 `MusicianDataOverviewBody`，见[返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/musician/data/overview' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 音乐人登录后调用此接口，可获取统计数据概况
+## 请求参数
 
-**接口地址 :** `/musician/data/overview`
+无业务参数。
 
-**调用例子 :** `/musician/data/overview`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`MusicianDataOverviewBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/musician_data_overview`、`hana-music-api/schemas/musician_data_overview` 导入运行时校验器）。
+
+```ts
+type OverviewData = {
+  availableExtractIncomeTotal?: string | null;
+  musicianLevelScore?: number | null;
+  productionTotal?: number | null;
+  totalFansCount?: number | null;
+};
+
+type MusicianDataOverviewBody = {
+  code: 200;
+  data: OverviewData;
+  message?: string | null;
+};
+```
+
+| 字段                               | 类型           | 必填 | 说明                         |
+| ---------------------------------- | -------------- | ---- | ---------------------------- |
+| `code`                             | `200`          | 是   | 业务状态码（`200` 表示成功） |
+| `data`                             | `OverviewData` | 是   | 接口返回的数据主体           |
+| `data.availableExtractIncomeTotal` | `string`       | 否   | -                            |
+| `data.musicianLevelScore`          | `number`       | 否   | -                            |
+| `data.productionTotal`             | `number`       | 否   | -                            |
+| `data.totalFansCount`              | `number`       | 否   | -                            |
+| `message`                          | `string`       | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

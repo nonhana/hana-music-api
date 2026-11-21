@@ -1,60 +1,102 @@
 ---
 title: '听歌识曲'
-description: '使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息,具体调用例子参考 `/audio_match_demo/index.html` (项目文件: `public/audio_match_demo/index.html`)'
+description: '使用此接口，上传音频文件或者麦克风采集声音可识别对应歌曲信息，具体调用例子参考 `/audio_match_demo/index.html` (项目文件: `public/audio_match_demo/index.html`)'
 ---
 
 # 听歌识曲
 
-> 使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息,具体调用例子参考 `/audio_match_demo/index.html` (项目文件: `public/audio_match_demo/index.html`)
+使用此接口，上传音频文件或者麦克风采集声音可识别对应歌曲信息，具体调用例子参考 `/audio_match_demo/index.html` (项目文件: `public/audio_match_demo/index.html`)
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/audio/match` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `audio_match`  |
-| 文档分类 | 歌曲与播放     |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/audio/match`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 否                                               |
+| 对应模块   | `audio_match`                                    |
+| SDK 函数   | `audioMatch`（`hana-music-api/api/audio_match`） |
+| 返回体类型 | `AudioMatchBody`（已建模返回体）                 |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /audio/match
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { audioMatch } from 'hana-music-api';
 
-const result = await audioMatch();
-
+const result = await audioMatch({
+  audioFP: 'your-audio-fingerprint',
+  duration: 120,
+});
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body` 是网易云原文：`code` 和识别结果路径 `data` 收紧；`data.result` 可以没有（没识别到时是 `null`），出现时每条记录的 `song` 按歌曲声明校验，`song.id` 收紧。`data.queryId`、`data.type`、`data.moduleList`、`data.noMatchReason`、`startTime` 等宽松；只见过 `null` 的 `data.mv` 没有声明，原样保留。
+```bash
+curl --get 'http://127.0.0.1:3021/audio/match' \
+  --data-urlencode 'audioFP=your-audio-fingerprint' \
+  --data-urlencode 'duration=120'
+```
 
-- 有命中：`data.result` 是匹配列表，每项带 `startTime` 和 `song`（`song.id`、`song.name`、歌手和专辑等）。
-- 没有命中：`data.result` 是 `null`，`data.noMatchReason` 给出原因（本次录制是 10）。
-- 上游返回码不是 200 时按业务拒绝原样转交，`status` 取返回码。
+<!-- api-doc:params:start -->
 
-这是普通 GET，`audioFP` 由浏览器音频运行时按 8 kHz/3 秒的流程生成；录制里的 `query.audioFP` 可以原样复用。仓库脚本可以复现这两种指纹：`bun scripts/audio-fingerprint.mts <音频文件> --offset 1`（有命中，源歌曲《平凡之路》 id 28815250，源 FLAC 从登录态播放地址取得，偏移 1 秒取 3 秒；匿名播放地址是 30 秒试听 MP3，未用于该指纹）和 `bun scripts/audio-fingerprint.mts --tone 440`（无命中）。登录和匿名录制的字段集合相同，`queryId` 等动态值不同。未声明的顶层字段原样保留。结构定义和类型是 `AudioMatchBody`，见 [返回体结构](/guide/response-bodies#播放)。
+## 请求参数
 
-## 补充说明
+| 参数       | 类型     | 必填 | 默认值 | 说明                           |
+| ---------- | -------- | ---- | ------ | ------------------------------ |
+| `audioFP`  | `string` | 是   | -      | 音频指纹，参考项目调用例子获取 |
+| `duration` | `number` | 是   | -      | 音频时长，单位秒               |
 
-说明: 使用此接口,上传音频文件或者麦克风采集声音可识别对应歌曲信息,具体调用例子参考 `/audio_match_demo/index.html` (项目文件: `public/audio_match_demo/index.html`)
+<!-- api-doc:params:end -->
 
-**接口地址:** `/audio/match`
+<!-- api-doc:response:start -->
 
-**必选参数：**
+## 返回值
 
-`duration`: 音频时长,单位秒
+返回体类型：`AudioMatchBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/audio_match`、`hana-music-api/schemas/audio_match` 导入运行时校验器）。
 
-`audioFP`: 音频指纹,参考项目调用例子获取
+```ts
+type Match = {
+  song: Song;
+  startTime?: number | null;
+};
+
+type MatchData = {
+  result?: Array<Match> | null;
+  moduleList?: Array<string> | null;
+  noMatchReason?: number | null;
+  queryId?: string | null;
+  type?: number | null;
+};
+
+type AudioMatchBody = {
+  code: 200;
+  data: MatchData;
+  message?: string | null;
+};
+```
+
+- **公共类型**：[Song](/api/shared-types#song)
+
+> 标为`可空`的路径在缺失或为 `null` 时正常返回，存在时按内部结构校验。
+
+| 字段                      | 类型                           | 必填 | 说明                         |
+| ------------------------- | ------------------------------ | ---- | ---------------------------- |
+| `code`                    | `200`                          | 是   | 业务状态码（`200` 表示成功） |
+| `data`                    | `MatchData`                    | 是   | 接口返回的数据主体           |
+| `data.result`             | `Array<Match>`                 | 可空 | 接口返回的结果主体           |
+| `data.result[].song`      | [Song](/api/shared-types#song) | 是   | Song 实体                    |
+| `data.result[].startTime` | `number`                       | 否   | 时间戳                       |
+| `data.moduleList`         | `Array<string>`                | 否   | -                            |
+| `data.noMatchReason`      | `number`                       | 否   | -                            |
+| `data.queryId`            | `string`                       | 否   | query ID                     |
+| `data.type`               | `number`                       | 否   | -                            |
+| `message`                 | `string`                       | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->

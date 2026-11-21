@@ -5,52 +5,121 @@ description: '调用此接口，可获得最近播放-声音'
 
 # 最近播放-声音
 
-> 调用此接口，可获得最近播放-声音
+调用此接口，可获得最近播放-声音
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                     |
-| -------- | ---------------------- |
-| 接口地址 | `/record/recent/voice` |
-| 请求方式 | `GET` / `POST`         |
-| 需要登录 | 否                     |
-| 对应模块 | `record_recent_voice`  |
-| 文档分类 | 听歌记录               |
+| 项目       | 值                                                              |
+| ---------- | --------------------------------------------------------------- |
+| 接口地址   | `/record/recent/voice`                                          |
+| 请求方式   | `GET` / `POST`                                                  |
+| 需要登录   | 否                                                              |
+| 对应模块   | `record_recent_voice`                                           |
+| SDK 函数   | `recordRecentVoice`（`hana-music-api/api/record_recent_voice`） |
+| 返回体类型 | `RecordRecentVoiceBody`（已建模返回体）                         |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数    | 类型             | 必填 | 默认值 | 说明                 |
-| ------- | ---------------- | :--: | ------ | -------------------- |
-| `limit` | number \| string |  —   | 100    | 返回数量，默认为 100 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /record/recent/voice?limit=1
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { recordRecentVoice } from 'hana-music-api';
 
 const result = await recordRecentVoice({
-  limit: '1',
+  limit: 1,
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、`body.data`、`body.data.list` 和每条记录的 `resourceId`（字符串）、节目 `data.pubDJProgramData.id` 收紧；`pubDJProgramData` 复用 `DjProgram` 并补上最近播放列表额外返回的统计和分类字段，其余节目字段、`commentCount`、`playTime`、`resourceType`、`total`、`message` 宽松。`limit` 非数字时上游 HTTP 400 空正文被归一成 `status: 200`、`body: ''`，结构定义保留这个空字符串分支。结构定义和类型是 `RecordRecentVoiceBody`，见 [返回体结构](/guide/response-bodies)。匿名调用返回 `total: 0`、`list: []`（录制 `record_recent_voice.anonymous.json`），作为真实空结果；登录录制见 `record_recent_voice.default.json`。
+```bash
+curl --get 'http://127.0.0.1:3021/record/recent/voice' \
+  --data-urlencode 'limit=1'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口，可获得最近播放-声音
+## 请求参数
 
-**可选参数 :** `limit` : 返回数量，默认为 100
+| 参数    | 类型     | 必填 | 默认值 | 说明                 |
+| ------- | -------- | ---- | ------ | -------------------- |
+| `limit` | `number` | 否   | `100`  | 返回数量，默认为 100 |
 
-**接口地址 :** `/record/recent/voice`
+<!-- api-doc:params:end -->
 
-**调用例子 :** `/record/recent/voice?limit=1`
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`RecordRecentVoiceBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/record_recent_voice`、`hana-music-api/schemas/record_recent_voice` 导入运行时校验器）。
+
+```ts
+type RecentVoiceProgram = Omit<
+  DjProgram,
+  | 'adjustedPlayCount'
+  | 'updateTime'
+  | 'category'
+  | 'secondCategory'
+  | 'disPlayStatus'
+  | 'publish'
+  | 'userId'
+> & {
+  adjustedPlayCount?: number | null;
+  updateTime?: number | null;
+  category?: string | null;
+  secondCategory?: string | null;
+  disPlayStatus?: string | null;
+  publish?: boolean | null;
+  userId?: number | null;
+};
+
+type RecentVoiceData = {
+  pubDJProgramData: RecentVoiceProgram;
+  commentCount?: number | null;
+};
+
+type RecentVoiceRecord = {
+  resourceId: string;
+  playTime?: number | null;
+  resourceType?: string | null;
+  data: RecentVoiceData;
+  os?: string | null;
+  multiTerminalInfo?: MultiTerminalInfo | null;
+};
+
+type RecordRecentVoiceBody =
+  | {
+      code: 200;
+      data: {
+        list: Array<RecentVoiceRecord>;
+        total?: number | null;
+      };
+      message?: string | null;
+    }
+  | '';
+```
+
+- **公共类型**：[DjProgram](/api/shared-types#djprogram)、[MultiTerminalInfo](/api/shared-types#multiterminalinfo)
+
+| 字段                            | 类型                                                     | 必填 | 说明                         |
+| ------------------------------- | -------------------------------------------------------- | ---- | ---------------------------- |
+| `code`                          | `200`                                                    | 是   | 业务状态码（`200` 表示成功） |
+| `data`                          | `object`                                                 | 是   | 接口返回的数据主体           |
+| `data.list`                     | `Array<RecentVoiceRecord>`                               | 是   | 结果条目列表                 |
+| `data.list[].resourceId`        | `string`                                                 | 是   | 资源 ID                      |
+| `data.list[].playTime`          | `number`                                                 | 否   | 时间戳                       |
+| `data.list[].resourceType`      | `string`                                                 | 否   | -                            |
+| `data.list[].data`              | `RecentVoiceData`                                        | 是   | 接口返回的数据主体           |
+| `data.list[].os`                | `string`                                                 | 否   | -                            |
+| `data.list[].multiTerminalInfo` | [MultiTerminalInfo](/api/shared-types#multiterminalinfo) | 否   | MultiTerminalInfo 实体       |
+| `data.total`                    | `number`                                                 | 否   | 总条目数                     |
+| `message`                       | `string`                                                 | 否   | 返回说明信息                 |
+
+> 当参数格式异常时，上游可能返回空响应，此时返回体为 `""`。
+
+<!-- api-doc:response:end -->

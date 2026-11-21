@@ -1,50 +1,100 @@
 ---
 title: '电台 - 推荐类型'
-description: '登录后调用此接口, 可获得电台推荐类型'
+description: '登录后调用此接口，可获得电台推荐类型'
 ---
 
 # 电台 - 推荐类型
 
-> 登录后调用此接口, 可获得电台推荐类型
+登录后调用此接口，可获得电台推荐类型
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                       |
-| -------- | ------------------------ |
-| 接口地址 | `/dj/category/recommend` |
-| 请求方式 | `GET` / `POST`           |
-| 需要登录 | 是                       |
-| 对应模块 | `dj_category_recommend`  |
-| 文档分类 | 电台与播客               |
+| 项目       | 值                                                                  |
+| ---------- | ------------------------------------------------------------------- |
+| 接口地址   | `/dj/category/recommend`                                            |
+| 请求方式   | `GET` / `POST`                                                      |
+| 需要登录   | 是                                                                  |
+| 对应模块   | `dj_category_recommend`                                             |
+| SDK 函数   | `djCategoryRecommend`（`hana-music-api/api/dj_category_recommend`） |
+| 返回体类型 | `DjCategoryRecommendBody`（已建模返回体）                           |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /dj/category/recommend
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { djCategoryRecommend } from 'hana-music-api';
 
-const result = await djCategoryRecommend();
-
+const result = await djCategoryRecommend({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code`、通到推荐分类的 `body.data`、分类自己的编号 `data[].categoryId` 和分类下的电台列表 `data[].radios` 收紧，每个电台只收紧自己的 `id`；`categoryName`、`radios[]` 里的名称、封面、计数和价格字段是宽松字段，`icon` 出现时按 `type`、`value`、`color` 宽松校验。`msg` 只见过 `null`，没有声明。本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `DjCategoryRecommendBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/dj/category/recommend' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 登录后调用此接口, 可获得电台推荐类型
+## 请求参数
 
-**接口地址 :** `/dj/category/recommend`
+无业务参数。
 
-**调用例子 :** `/dj/category/recommend`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`DjCategoryRecommendBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/dj_category_recommend`、`hana-music-api/schemas/dj_category_recommend` 导入运行时校验器）。
+
+```ts
+type RadioIcon = {
+  color?: string | null;
+  type?: string | null;
+  value?: string | null;
+};
+
+type Radio = {
+  id: number;
+  alg?: string | null;
+  feeScope?: number | null;
+  icon?: RadioIcon | null;
+  lastProgramName?: string | null;
+  name?: string | null;
+  picUrl?: string | null;
+  playCount?: number | null;
+  programCount?: number | null;
+  radioFeeType?: number | null;
+  rcmdText?: string | null;
+  subCount?: number | null;
+  subed?: boolean | null;
+};
+
+type Category = {
+  categoryId: number;
+  categoryName?: string | null;
+  radios: Array<Radio>;
+};
+
+type DjCategoryRecommendBody = {
+  code: 200;
+  data: Array<Category>;
+};
+```
+
+| 字段                  | 类型              | 必填 | 说明                         |
+| --------------------- | ----------------- | ---- | ---------------------------- |
+| `code`                | `200`             | 是   | 业务状态码（`200` 表示成功） |
+| `data`                | `Array<Category>` | 是   | 接口返回的数据主体           |
+| `data[].categoryId`   | `number`          | 是   | category ID                  |
+| `data[].categoryName` | `string`          | 否   | -                            |
+| `data[].radios`       | `Array<Radio>`    | 是   | -                            |
+
+<!-- api-doc:response:end -->

@@ -5,42 +5,53 @@ description: '登录后调用此接口可进行云贝签到'
 
 # 云贝签到
 
-> 登录后调用此接口可进行云贝签到
+登录后调用此接口可进行云贝签到
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/yunbei/sign` |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 是             |
-| 对应模块 | `yunbei_sign`  |
-| 文档分类 | 会员与云贝     |
+| 项目       | 值                                               |
+| ---------- | ------------------------------------------------ |
+| 接口地址   | `/yunbei/sign`                                   |
+| 请求方式   | `GET` / `POST`                                   |
+| 需要登录   | 是                                               |
+| 对应模块   | `yunbei_sign`                                    |
+| SDK 函数   | `yunbeiSign`（`hana-music-api/api/yunbei_sign`） |
+| 返回体类型 | `UnknownJson`（未建模接口）                      |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /yunbei/sign
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { yunbeiSign } from 'hana-music-api';
 
-const result = await yunbeiSign();
-
+const result = await yunbeiSign({}, { cookie: 'MUSIC_U=your-cookie' });
 console.log(result.body);
 ```
 
-## 补充说明
+### HTTP
 
-说明 : 登录后调用此接口可进行云贝签到
+```bash
+curl 'http://127.0.0.1:3021/yunbei/sign' \
+  -H 'Cookie: MUSIC_U=your-cookie'
+```
 
-**接口地址 :** `/yunbei/sign`
+<!-- api-doc:params:start -->
 
-**调用例子 :** `/yunbei/sign`
+## 请求参数
+
+无业务参数。
+
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+该接口未建模固定返回体，SDK 返回的 `body` 类型为 `UnknownJson`，实际字段以网易云上游响应为准。
+
+<!-- api-doc:response:end -->

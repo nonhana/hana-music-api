@@ -1,74 +1,87 @@
 ---
 title: '获取音乐 url'
-description: '使用歌单详情接口后，能得到的音乐的 id, 但不能得到的音乐 url, 调用此接口, 传入的音乐 id( 可多个，用逗号隔开 ), 可以获取对应的音乐的 url,未登录状态或者非会员返回试听片段(返回字段包含被截取的正常歌曲的开始时间和结束时间)'
+description: '传入歌曲 ID 数组，获取对应码率的音乐播放链接；未登录或非会员曲目可能仅返回试听片段。'
 ---
 
 # 获取音乐 url
 
-> 使用歌单详情接口后，能得到的音乐的 id, 但不能得到的音乐 url, 调用此接口, 传入的音乐 id( 可多个，用逗号隔开 ), 可以获取对应的音乐的 url,未登录状态或者非会员返回试听片段(返回字段包含被截取的正常歌曲的开始时间和结束时间)
+传入歌曲 ID 数组，获取对应码率的音乐播放链接；未登录或非会员曲目可能仅返回试听片段。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/song/url`    |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `song_url`     |
-| 文档分类 | 歌曲与播放     |
+| 项目       | 值                                         |
+| ---------- | ------------------------------------------ |
+| 接口地址   | `/song/url`                                |
+| 请求方式   | `GET` / `POST`                             |
+| 需要登录   | 否                                         |
+| 对应模块   | `song_url`                                 |
+| SDK 函数   | `songUrl`（`hana-music-api/api/song_url`） |
+| 返回体类型 | `SongUrlBody`（已建模返回体）              |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型             | 必填 | 默认值 | 说明                                                                     |
-| ---- | ---------------- | :--: | ------ | ------------------------------------------------------------------------ |
-| `id` | string           |  ✅  | -      | 音乐 id                                                                  |
-| `br` | number \| string |  —   | 999000 | 码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推 |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /song/url?id=33894312
-GET /song/url?id=405998841,33894312
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { songUrl } from 'hana-music-api';
 
 const result = await songUrl({
-  id: '33894312',
+  ids: [347230],
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body` 是 SDK 重排后的最终体，不是网易云原文：上游顶层 `code` 被模块忽略并合成 `code: 200`（301 等非特殊状态码仍会先被请求层拒绝），`data` 数组按请求里 `id` 的顺序排列，顶层重建为 `{ code: 200, data }`，网易云原文的其他顶层字段不会保留；`data` 缺失时最终体是空数组。
+```bash
+curl 'http://127.0.0.1:3021/song/url' \
+  -H 'Content-Type: application/json' \
+  --data '{"ids":[347230]}'
+```
 
-`body.data` 里每项是一首歌的播放地址。只有 `code`、`data`、`data[].id`、`data[].url`、`data[].code` 收紧；`id` 兼容字符串和数字编号，其余字段宽松。`url` 不替换；`freeTrialInfo` 不合并片段，内部坏字段按宽松字段丢弃：
+<!-- api-doc:params:start -->
 
-- 本批无版权录制：`url` 和 `level` 是 `null`，条目 `code` 是 404。
-- 只能试听：`freeTrialInfo` 是 `{ start, end }`，表示试听片段在整首里的起止秒数（本批匿名录制 35 秒，携带失效 Cookie 时 30 秒）；`url` 是这段试听片段的地址。
-- 可完整播放：`freeTrialInfo` 是 `null`，`url` 是完整歌曲的地址。
+## 请求参数
 
-上游码语义不稳定：同一请求在本次探测/重录中会从 200 翻转为 404。`song_url.transient-404.json` 与 `song_url.anon-trial.json` 是同一 query，仓库里前者是 404、后者是 200。`url: null` 时不能凭一次 `code` 判定无版权，先重试或交叉验证。
+| 参数  | 类型                      | 必填 | 默认值   | 说明                                                                        |
+| ----- | ------------------------- | ---- | -------- | --------------------------------------------------------------------------- |
+| `br`  | `number`                  | 否   | `999000` | 码率，默认设置了 999000 即最大码率，如果要 320k 则可设置为 320000，其他类推 |
+| `ids` | `Array<number \| string>` | 是   | -        | 歌曲 ID 数组（至少包含一个正整数或纯数字字符串 ID）                         |
 
-本批只保留匿名和失效 Cookie 录制；失效 Cookie 不是登录证据，没有登录对照，不对登录后的 `freeTrialInfo` 等字段作相同性断言。
+<!-- api-doc:params:end -->
 
-结构定义和类型是 `SongUrlBody`，见 [返回体结构](/guide/response-bodies#播放)。
+<!-- api-doc:response:start -->
 
-## 补充说明
+## 返回值
 
-说明 : 使用歌单详情接口后，能得到的音乐的 id, 但不能得到的音乐 url, 调用此接口, 传入的音乐 id( 可多个，用逗号隔开 ), 可以获取对应的音乐的 url,未登录状态或者非会员返回试听片段(返回字段包含被截取的正常歌曲的开始时间和结束时间)
+返回体类型：`SongUrlBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/song_url`、`hana-music-api/schemas/song_url` 导入运行时校验器）。
 
-遇到 403 错误时，请在 head 标签内加入 `<meta name="referrer" content="no-referrer">`
+```ts
+type SongUrlEntry = Omit<SongUrlData, 'id'> & {
+  id: string | number;
+};
 
-**必选参数 :** `id` : 音乐 id
+type SongUrlBody = {
+  code: 200;
+  data: Array<SongUrlEntry>;
+};
+```
 
-**可选参数 :** `br`: 码率,默认设置了 999000 即最大码率,如果要 320k 则可设置为 320000,其他类推
+- **公共类型**：[SongUrlData](/api/shared-types#songurldata)
 
-**接口地址 :** `/song/url`
+| 字段        | 类型                  | 必填 | 说明                         |
+| ----------- | --------------------- | ---- | ---------------------------- |
+| `code`      | `200`                 | 是   | 业务状态码（`200` 表示成功） |
+| `data`      | `Array<SongUrlEntry>` | 是   | 接口返回的数据主体           |
+| `data[].id` | `string \| number`    | 是   | 记录 ID                      |
 
-**调用例子 :** `/song/url?id=33894312` `/song/url?id=405998841,33894312`
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **响应结构**：模块按请求传入的 `ids` 顺序重排 `data` 并统一输出 `code: 200`；单项是否可播放或受限于版权请检查 `data[].code` 与 `data[].url`。
+- **试听与防盗链**：仅可试听时 `data[].freeTrialInfo` 给出试听起止秒数；浏览器播放若遇 403，请在页面 `<head>` 添加 `<meta name="referrer" content="no-referrer">`。

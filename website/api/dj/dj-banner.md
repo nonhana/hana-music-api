@@ -1,50 +1,83 @@
 ---
 title: '电台 banner'
-description: '调用此接口,可获取电台 banner'
+description: '调用此接口，可获取电台 banner'
 ---
 
 # 电台 banner
 
-> 调用此接口,可获取电台 banner
+调用此接口，可获取电台 banner
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值             |
-| -------- | -------------- |
-| 接口地址 | `/dj/banner`   |
-| 请求方式 | `GET` / `POST` |
-| 需要登录 | 否             |
-| 对应模块 | `dj_banner`    |
-| 文档分类 | 电台与播客     |
+| 项目       | 值                                           |
+| ---------- | -------------------------------------------- |
+| 接口地址   | `/dj/banner`                                 |
+| 请求方式   | `GET` / `POST`                               |
+| 需要登录   | 否                                           |
+| 对应模块   | `dj_banner`                                  |
+| SDK 函数   | `djBanner`（`hana-music-api/api/dj_banner`） |
+| 返回体类型 | `DjBannerBody`（已建模返回体）               |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /dj/banner
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { djBanner } from 'hana-music-api';
 
 const result = await djBanner();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.code` 和通到 banner 列表的 `body.data` 收紧；banner 指向的目标编号 `targetId` 和 `targetType`、`pic`、`url`、`typeTitle`、`exclusive` 都是宽松字段。本批录制与探测未发现可达的空结果，数组本身允许为空。结构定义和类型是 `DjBannerBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/dj/banner'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口,可获取电台 banner
+## 请求参数
 
-**接口地址 :** `/dj/banner`
+无业务参数。
 
-**调用例子 :** `/dj/banner`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`DjBannerBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/dj_banner`、`hana-music-api/schemas/dj_banner` 导入运行时校验器）。
+
+```ts
+type Banner = {
+  exclusive?: boolean | null;
+  pic?: string | null;
+  targetId?: number | null;
+  targetType?: number | null;
+  typeTitle?: string | null;
+  url?: string | null;
+};
+
+type DjBannerBody = {
+  code: 200;
+  data: Array<Banner>;
+};
+```
+
+| 字段                | 类型            | 必填 | 说明                         |
+| ------------------- | --------------- | ---- | ---------------------------- |
+| `code`              | `200`           | 是   | 业务状态码（`200` 表示成功） |
+| `data`              | `Array<Banner>` | 是   | 接口返回的数据主体           |
+| `data[].exclusive`  | `boolean`       | 否   | -                            |
+| `data[].pic`        | `string`        | 否   | -                            |
+| `data[].targetId`   | `number`        | 否   | target ID                    |
+| `data[].targetType` | `number`        | 否   | -                            |
+| `data[].typeTitle`  | `string`        | 否   | -                            |
+| `data[].url`        | `string`        | 否   | 资源访问地址                 |
+
+<!-- api-doc:response:end -->

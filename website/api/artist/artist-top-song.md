@@ -1,35 +1,30 @@
 ---
 title: '歌手热门 50 首歌曲'
-description: '调用此接口,可获取歌手热门 50 首歌曲'
+description: '调用此接口，可获取歌手热门 50 首歌曲'
 ---
 
 # 歌手热门 50 首歌曲
 
-> 调用此接口,可获取歌手热门 50 首歌曲
+调用此接口，可获取歌手热门 50 首歌曲
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                 |
-| -------- | ------------------ |
-| 接口地址 | `/artist/top/song` |
-| 请求方式 | `GET` / `POST`     |
-| 需要登录 | 否                 |
-| 对应模块 | `artist_top_song`  |
-| 文档分类 | 歌手               |
+| 项目       | 值                                                      |
+| ---------- | ------------------------------------------------------- |
+| 接口地址   | `/artist/top/song`                                      |
+| 请求方式   | `GET` / `POST`                                          |
+| 需要登录   | 否                                                      |
+| 对应模块   | `artist_top_song`                                       |
+| SDK 函数   | `artistTopSong`（`hana-music-api/api/artist_top_song`） |
+| 返回体类型 | `ArtistTopSongBody`（已建模返回体）                     |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数 | 类型   | 必填 | 默认值 | 说明    |
-| ---- | ------ | :--: | ------ | ------- |
-| `id` | string |  ✅  | -      | 歌手 id |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /artist/top/song?id=6452
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { artistTopSong } from 'hana-music-api';
@@ -37,22 +32,46 @@ import { artistTopSong } from 'hana-music-api';
 const result = await artistTopSong({
   id: '6452',
 });
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-`body.songs` 是歌手的热门歌曲，每首歌的字段见 [返回体结构](/guide/response-bodies) 里的“歌曲”；正文还声明了宽松的 `more`。只有 `code`、`songs`、`songs[].id` 收紧，其余字段宽松。结构定义和类型是 `ArtistTopSongBody`。
+```bash
+curl --get 'http://127.0.0.1:3021/artist/top/song' \
+  --data-urlencode 'id=6452'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明 : 调用此接口,可获取歌手热门 50 首歌曲
+## 请求参数
 
-**必选参数 :**
+| 参数 | 类型               | 必填 | 默认值 | 说明    |
+| ---- | ------------------ | ---- | ------ | ------- |
+| `id` | `number \| string` | 是   | -      | 歌手 id |
 
-`id` : 歌手 id
+<!-- api-doc:params:end -->
 
-**接口地址 :** `/artist/top/song`
+<!-- api-doc:response:start -->
 
-**调用例子 :** `/artist/top/song?id=6452`
+## 返回值
+
+返回体类型：`ArtistTopSongBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/artist_top_song`、`hana-music-api/schemas/artist_top_song` 导入运行时校验器）。
+
+```ts
+type ArtistTopSongBody = {
+  code: 200;
+  songs: Array<Song>;
+  more?: boolean | null;
+};
+```
+
+- **公共类型**：[Song](/api/shared-types#song)
+
+| 字段    | 类型                                    | 必填 | 说明                         |
+| ------- | --------------------------------------- | ---- | ---------------------------- |
+| `code`  | `200`                                   | 是   | 业务状态码（`200` 表示成功） |
+| `songs` | Array\<[Song](/api/shared-types#song)\> | 是   | 歌曲列表                     |
+| `more`  | `boolean`                               | 否   | 是否还有更多数据             |
+
+<!-- api-doc:response:end -->

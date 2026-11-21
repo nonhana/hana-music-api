@@ -5,46 +5,132 @@ description: '获取我的曲风偏好，匿名调用返回空偏好'
 
 # 曲风偏好
 
-> 获取我的曲风偏好，匿名调用返回空偏好
+获取我的曲风偏好，匿名调用返回空偏好
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                  |
-| -------- | ------------------- |
-| 接口地址 | `/style/preference` |
-| 请求方式 | `GET` / `POST`      |
-| 需要登录 | 否（匿名空偏好）    |
-| 对应模块 | `style_preference`  |
-| 文档分类 | 曲风                |
+| 项目       | 值                                                         |
+| ---------- | ---------------------------------------------------------- |
+| 接口地址   | `/style/preference`                                        |
+| 请求方式   | `GET` / `POST`                                             |
+| 需要登录   | 否（匿名返回空偏好）                                       |
+| 对应模块   | `style_preference`                                         |
+| SDK 函数   | `stylePreference`（`hana-music-api/api/style_preference`） |
+| 返回体类型 | `StylePreferenceBody`（已建模返回体）                      |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-这页暂时没有单独整理参数表，直接参考下面的示例调用即可。
+## 调用示例
 
-## HTTP 示例
-
-```bash
-GET /style/preference
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { stylePreference } from 'hana-music-api';
 
 const result = await stylePreference();
-
 console.log(result.body);
 ```
 
-## 返回内容
+### HTTP
 
-曲风偏好在 `data.tagPreferenceVos`，每条偏好的 `tagId` 收紧；`data.tags` 的三层曲风树和 `ratio`、封面、链接等展示字段宽松。匿名调用返回两个空数组，结构定义接受。结构定义和类型是 `StylePreferenceBody`，见 [返回体结构](/guide/response-bodies)。
+```bash
+curl 'http://127.0.0.1:3021/style/preference'
+```
 
-## 补充说明
+<!-- api-doc:params:start -->
 
-说明: 获取我的曲风偏好；匿名调用返回空 `tagPreferenceVos` 和 `tags`。
+## 请求参数
 
-**接口地址:** `/style/preference`
+无业务参数。
 
-**调用例子:** `/style/preference`
+<!-- api-doc:params:end -->
+
+<!-- api-doc:response:start -->
+
+## 返回值
+
+返回体类型：`StylePreferenceBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/style_preference`、`hana-music-api/schemas/style_preference` 导入运行时校验器）。
+
+```ts
+type TagPreference = {
+  tagId: number;
+  tagName?: string | null;
+  ratio?: string | null;
+  picUrl?: string | null;
+};
+
+type StyleTagChild = {
+  tagId?: number | null;
+  tagName?: string | null;
+  enName?: string | null;
+  level?: number | null;
+  picUrl?: string | null;
+  colorDeep?: string | null;
+  colorShallow?: string | null;
+  link?: string | null;
+  showText?: string | null;
+  tabs?: Array<string> | null;
+};
+
+type StyleTagMiddle = {
+  tagId?: number | null;
+  tagName?: string | null;
+  enName?: string | null;
+  level?: number | null;
+  picUrl?: string | null;
+  colorDeep?: string | null;
+  colorShallow?: string | null;
+  link?: string | null;
+  showText?: string | null;
+  tabs?: Array<string> | null;
+  childrenTags?: Array<StyleTagChild> | null;
+};
+
+type StyleTag = {
+  tagId?: number | null;
+  tagName?: string | null;
+  enName?: string | null;
+  level?: number | null;
+  picUrl?: string | null;
+  colorDeep?: string | null;
+  colorShallow?: string | null;
+  link?: string | null;
+  showText?: string | null;
+  tabs?: Array<string> | null;
+  childrenTags?: Array<StyleTagMiddle> | null;
+};
+
+type StylePreferenceBody = {
+  code: 200;
+  data: {
+    tagPreferenceVos: Array<TagPreference>;
+    tags?: Array<StyleTag> | null;
+  };
+};
+```
+
+| 字段                              | 类型                    | 必填 | 说明                         |
+| --------------------------------- | ----------------------- | ---- | ---------------------------- |
+| `code`                            | `200`                   | 是   | 业务状态码（`200` 表示成功） |
+| `data`                            | `object`                | 是   | 接口返回的数据主体           |
+| `data.tagPreferenceVos`           | `Array<TagPreference>`  | 是   | -                            |
+| `data.tagPreferenceVos[].tagId`   | `number`                | 是   | 曲风标签 ID                  |
+| `data.tagPreferenceVos[].tagName` | `string`                | 否   | -                            |
+| `data.tagPreferenceVos[].ratio`   | `string`                | 否   | -                            |
+| `data.tagPreferenceVos[].picUrl`  | `string`                | 否   | 资源访问链接                 |
+| `data.tags`                       | `Array<StyleTag>`       | 否   | 标签列表                     |
+| `data.tags[].tagId`               | `number`                | 否   | 曲风标签 ID                  |
+| `data.tags[].tagName`             | `string`                | 否   | -                            |
+| `data.tags[].enName`              | `string`                | 否   | -                            |
+| `data.tags[].level`               | `number`                | 否   | 当前等级                     |
+| `data.tags[].picUrl`              | `string`                | 否   | 资源访问链接                 |
+| `data.tags[].colorDeep`           | `string`                | 否   | -                            |
+| `data.tags[].colorShallow`        | `string`                | 否   | -                            |
+| `data.tags[].link`                | `string`                | 否   | -                            |
+| `data.tags[].showText`            | `string`                | 否   | -                            |
+| `data.tags[].tabs`                | `Array<string>`         | 否   | -                            |
+| `data.tags[].childrenTags`        | `Array<StyleTagMiddle>` | 否   | -                            |
+
+<!-- api-doc:response:end -->

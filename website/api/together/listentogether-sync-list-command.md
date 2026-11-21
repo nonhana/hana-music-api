@@ -5,76 +5,95 @@ description: '向一起听房间上报当前播放列表快照和列表版本。
 
 # 一起听 - 同步播放列表
 
-> 向房间广播当前歌单内容，通常由房主在加载或替换播放列表后调用。
+向一起听房间上报当前播放列表快照和列表版本。
+
+<!-- api-doc:meta:start -->
 
 ## 接口信息
 
-| 项目     | 值                                              |
-| -------- | ----------------------------------------------- |
-| 接口地址 | `/listentogether/sync/list/command`             |
-| 请求方式 | `GET` / `POST`                                  |
-| 需要登录 | 是                                              |
-| 对应模块 | `listentogether_sync_list_command`              |
-| 文档分类 | 一起听                                          |
-| 上游路径 | `/api/listen/together/sync/list/command/report` |
+| 项目       | 值                                                                                       |
+| ---------- | ---------------------------------------------------------------------------------------- |
+| 接口地址   | `/listentogether/sync/list/command`                                                      |
+| 请求方式   | `GET` / `POST`                                                                           |
+| 需要登录   | 是                                                                                       |
+| 对应模块   | `listentogether_sync_list_command`                                                       |
+| SDK 函数   | `listentogetherSyncListCommand`（`hana-music-api/api/listentogether_sync_list_command`） |
+| 返回体类型 | `ListentogetherSyncListCommandBody`（已建模返回体）                                      |
 
-## 请求参数
+<!-- api-doc:meta:end -->
 
-| 参数          | 类型                      | 必填 | 默认值 | 说明                                                    |
-| ------------- | ------------------------- | :--: | ------ | ------------------------------------------------------- |
-| `roomId`      | string                    |  ✅  | -      | 房间 ID                                                 |
-| `commandType` | string                    |  ✅  | -      | 列表指令类型，公开资料可见 `REPLACE`、`PLAYMODE_CHANGE` |
-| `userId`      | `number \| string`        |  ✅  | -      | 发起本次列表变更的用户 ID                               |
-| `version`     | number                    |  ✅  | -      | 列表版本号，示例页里使用本地递增计数器                  |
-| `randomList`  | `(number \| string)` 数组 |  ✅  | -      | 随机顺序列表的歌曲 ID 数组                              |
-| `displayList` | `(number \| string)` 数组 |  ✅  | -      | 展示顺序列表的歌曲 ID 数组                              |
+## 调用示例
 
-## HTTP 示例
-
-```bash
-POST /listentogether/sync/list/command?roomId=MzA0NjY5...&commandType=REPLACE&userId=32953014&version=1&displayList=1372188635,186016&randomList=1372188635,186016
-```
-
-## 编程式调用
+### SDK
 
 ```ts
 import { listentogetherSyncListCommand } from 'hana-music-api';
 
-const result = await listentogetherSyncListCommand({
-  roomId: 'MzA0NjY5...',
-  commandType: 'REPLACE',
-  userId: 32953014,
-  version: 1,
-  displayList: [1372188635, 186016],
-  randomList: [1372188635, 186016],
-});
-
+const result = await listentogetherSyncListCommand(
+  {
+    roomId: 'MzA0NjY5...',
+    commandType: 'REPLACE',
+    userId: 32953014,
+    version: 1,
+    displayList: [1372188635, 186016],
+    randomList: [1372188635, 186016],
+  },
+  { cookie: 'MUSIC_U=your-cookie' },
+);
 console.log(result.body);
 ```
 
-## 返回关注点
+### HTTP
 
-- `code`: 是否同步成功。
-- `message`: 失败时的错误信息。
+```bash
+curl 'http://127.0.0.1:3021/listentogether/sync/list/command' \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: MUSIC_U=your-cookie' \
+  --data '{"roomId":"MzA0NjY5...","commandType":"REPLACE","userId":32953014,"version":1,"displayList":[1372188635,186016],"randomList":[1372188635,186016]}'
+```
 
-## 返回内容
+<!-- api-doc:params:start -->
 
-`body.code` 收紧为 `200`；`data.result`、`data.message` 和 `message` 是宽松字段。`randomList`、`displayList` 不是字符串时在本地返回 `400`，不会请求上游。
+## 请求参数
 
-## 补充说明
+| 参数          | 类型                      | 必填 | 默认值 | 说明                                                    |
+| ------------- | ------------------------- | ---- | ------ | ------------------------------------------------------- |
+| `commandType` | `string`                  | 是   | -      | 列表指令类型，公开资料可见 `REPLACE`、`PLAYMODE_CHANGE` |
+| `displayList` | `Array<number \| string>` | 是   | -      | 展示顺序的歌曲 ID 数组                                  |
+| `randomList`  | `Array<number \| string>` | 是   | -      | 随机播放顺序的歌曲 ID 数组                              |
+| `roomId`      | `string`                  | 是   | -      | 房间 ID                                                 |
+| `userId`      | `number \| string`        | 是   | -      | 发起本次列表变更的用户 ID                               |
+| `version`     | `number`                  | 是   | -      | 列表递增版本号                                          |
 
-- 当前模块会把 `randomList` 和 `displayList` 先按逗号拆成数组，再拼进上游需要的 `playlistParam` JSON 字符串。
-- `playlistParam.version` 在真正发送到上游时会被包装成数组：`[{ userId, version }]`。
-- 当前实现会把 `anchorSongId` 固定为空串，把 `anchorPosition` 固定为 `-1`。
+<!-- api-doc:params:end -->
 
-## 典型流程
+<!-- api-doc:response:start -->
 
-1. 房主创建房间。
-2. 加载歌单并拿到歌曲 ID 列表。
-3. 用本接口把 `displayList` 和 `randomList` 推送到房间。
-4. 从机调用 [`/listentogether/sync/playlist/get`](/api/together/listentogether-sync-playlist-get) 拉取最新歌单快照。
+## 返回值
 
-## 相关接口
+返回体类型：`ListentogetherSyncListCommandBody`（可从 `hana-music-api` 导入类型，或从 `hana-music-api/api/listentogether_sync_list_command`、`hana-music-api/schemas/listentogether_sync_list_command` 导入运行时校验器）。
 
-- [`/listentogether/sync/playlist/get`](/api/together/listentogether-sync-playlist-get)
-- [`/listentogether/play/command`](/api/together/listentogether-play-command)
+```ts
+type ListentogetherSyncListCommandBody = {
+  code: 200;
+  data?: {
+    message?: string | null;
+    result?: boolean | null;
+  } | null;
+  message?: string | null;
+};
+```
+
+| 字段           | 类型      | 必填 | 说明                         |
+| -------------- | --------- | ---- | ---------------------------- |
+| `code`         | `200`     | 是   | 业务状态码（`200` 表示成功） |
+| `data`         | `object`  | 否   | 接口返回的数据主体           |
+| `data.message` | `string`  | 否   | 返回说明信息                 |
+| `data.result`  | `boolean` | 否   | 接口返回的结果主体           |
+| `message`      | `string`  | 否   | 返回说明信息                 |
+
+<!-- api-doc:response:end -->
+
+## 注意事项
+
+- **参数格式**：`displayList` 与 `randomList` 需传入数字/字符串 ID 数组，SDK 会自动编码为上游所需的列表同步载荷；推送后从机可调用 [获取同步歌单](/api/together/listentogether-sync-playlist-get) 拉取快照。
