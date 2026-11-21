@@ -1,6 +1,6 @@
 import type { CreateHanaMusicApiConfig } from '../../types/index.ts';
-import { createEffectModuleInvoker } from '../runtime.ts';
-import type { SdkClientContext } from '../runtime.ts';
+import { createEffectModuleInvoker } from '../invoker.ts';
+import type { SdkClientContext } from '../invoker.ts';
 import type { HanaMusicApiClient } from './client.generated.ts';
 import { sdkModuleRegistry } from './registry.generated.ts';
 
