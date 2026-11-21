@@ -37,7 +37,7 @@ const findVerifiedRun = async (
     (pr) =>
       pr.merged_at &&
       pr.merge_commit_sha === commit &&
-      pr.base.ref === 'master' &&
+      pr.base.ref === 'main' &&
       pr.base.repo.full_name === repository,
   );
   if (merged.length !== 1) return undefined;

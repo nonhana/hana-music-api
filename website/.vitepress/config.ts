@@ -29,7 +29,7 @@ export default withMermaid({
       apiNavLink,
       {
         text: '更新日志',
-        link: 'https://github.com/nonhana/hana-music-api/blob/master/CHANGELOG.md',
+        link: 'https://github.com/nonhana/hana-music-api/blob/main/CHANGELOG.md',
       },
       {
         text: 'GitHub',

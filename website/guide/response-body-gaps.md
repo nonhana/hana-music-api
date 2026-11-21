@@ -75,4 +75,4 @@
 
 这些例外不是遗漏。重跑 `bun run schema:audit status` 应仍得到：352 个模块、315 个有 `ModuleBody`、37 个没有（raw 33、batch 1、upload 3）。`bun run schema:audit status --list` 列出的模块应与本页 37 行一一对应；`bun run schema:audit check` 用于检查结构定义写法，`bun run schema:audit recordings --recordings tests/fixtures/netease` 用于确认本仓库现有录制都能通过校验。`schema:audit` 的默认录制根是 Campanula 仓库的 `../campanula-svelte-main/tests/fixtures/netease`，在 SDK 仓库里必须显式传 `--recordings tests/fixtures/netease`。
 
-补录成功后，按 [`agent-docs/API_CONVENTIONS.md` 的“收紧与宽松”](https://github.com/nonhana/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)新增 `ModuleBody`、契约测试和模块页说明，再从本页删除对应行并更新[返回体结构](/guide/response-bodies)。如果审计数字变化但本页没有同步，以 `bun run schema:audit status` 为准并先修正本页。
+补录成功后，按 [`agent-docs/API_CONVENTIONS.md` 的“收紧与宽松”](https://github.com/nonhana/hana-music-api/blob/main/agent-docs/API_CONVENTIONS.md#收紧与宽松)新增 `ModuleBody`、契约测试和模块页说明，再从本页删除对应行并更新[返回体结构](/guide/response-bodies)。如果审计数字变化但本页没有同步，以 `bun run schema:audit status` 为准并先修正本页。

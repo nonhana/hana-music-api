@@ -5,8 +5,8 @@ import { groups } from './mutation-test.mts';
 const mode = process.env.MODE || 'publish';
 const dry = mode === 'dry-run';
 const approvedNext = mode === 'candidate';
-if (!dry && !approvedNext && process.env.GITHUB_REF !== 'refs/heads/master')
-  throw new Error('Stable publication requires master');
+if (!dry && !approvedNext && process.env.GITHUB_REF !== 'refs/heads/main')
+  throw new Error('Stable publication requires main');
 const pkg = Bun.file('package.json');
 const { name, version, publishConfig } = await pkg.json();
 if (name !== 'hana-music-api' || publishConfig?.provenance !== true)

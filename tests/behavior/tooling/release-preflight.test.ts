@@ -185,7 +185,7 @@ test('only the commit that introduces a stable version may publish it', async ()
           cwd: root,
           env: {
             ...process.env,
-            GITHUB_REF: 'refs/heads/master',
+            GITHUB_REF: 'refs/heads/main',
             MODE: 'publish',
             GITHUB_OUTPUT: output,
           },

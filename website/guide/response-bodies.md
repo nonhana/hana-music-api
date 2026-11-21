@@ -7,7 +7,7 @@
 
 还有一类**可以没有**的路径：正常情况下就可能整个缺失或为 `null`（例如搜索没有结果时的结果列表）。缺失或 `null` 时照常返回；出现了就按里面记录的收紧字段校验，坏一条记录会报 502，不会整列消失。
 
-判断标准和写法的完整说明见 [`agent-docs/API_CONVENTIONS.md` 的“收紧与宽松”](https://github.com/nonhana/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)。下面按领域列出每个模块的**收紧字段**和**可以没有**的路径；其余已声明字段都是宽松字段，未声明的字段原样保留在 `body` 里，类型是 JSON 值。
+判断标准和写法的完整说明见 [`agent-docs/API_CONVENTIONS.md` 的“收紧与宽松”](https://github.com/nonhana/hana-music-api/blob/main/agent-docs/API_CONVENTIONS.md#收紧与宽松)。下面按领域列出每个模块的**收紧字段**和**可以没有**的路径；其余已声明字段都是宽松字段，未声明的字段原样保留在 `body` 里，类型是 JSON 值。
 
 宽松字段里套着的记录（例如歌单的 `tracks[]`、`privileges[]`）不按“记录自己的编号”收紧：这些编号也宽松，类型不对只让这一项或整个宽松字段缺失，不会 502。只有不在宽松容器里的收紧字段才会报 `UnexpectedUpstreamShape`。例如 `song_detail.privileges[].id` 在必填的 `privileges` 数组里，缺失会 502；歌曲里可选的 `privilege` 对象用的是宽松的 `LooseSongPrivilege`，里面的 `id` 也是宽松字段，类型不对只丢这一个 `id`，`privilege` 的其余字段仍在。
 

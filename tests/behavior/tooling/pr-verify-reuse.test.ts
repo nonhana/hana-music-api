@@ -44,7 +44,7 @@ test.each([
             number: 10,
             merged_at: '2026-01-01',
             merge_commit_sha: scenario === 'different merge' ? head : commit,
-            base: { ref: 'master', repo },
+            base: { ref: 'main', repo },
             head: { sha: head, repo },
           },
         ]);

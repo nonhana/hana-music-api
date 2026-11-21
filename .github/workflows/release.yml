@@ -3,7 +3,7 @@ name: release
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
     inputs:
       mode:
@@ -58,7 +58,7 @@ jobs:
         run: bun scripts/plan-release.mts
       - name: Look up verified PR tree
         id: reuse
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && (steps.plan.outputs.route == 'idle' || steps.plan.outputs.route == 'version')
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main' && (steps.plan.outputs.route == 'idle' || steps.plan.outputs.route == 'version')
         env:
           GH_TOKEN: ${{ github.token }}
         run: bun scripts/find-pr-verify.mts

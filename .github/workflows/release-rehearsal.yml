@@ -68,7 +68,7 @@ jobs:
           bun -e 'import { fingerprint } from "./tests/_kit/evidence.ts"; await Bun.write(".artifacts/testing/ci/initial-candidate.json", JSON.stringify(await fingerprint()));'
 
       - name: Seed a disposable patch for a tooling-only PR
-        if: github.event_name == 'pull_request' && github.head_ref != 'changeset-release/master'
+        if: github.event_name == 'pull_request' && github.head_ref != 'changeset-release/main'
         run: |
           bun -e '
           const dir = ".changeset";
@@ -79,7 +79,7 @@ jobs:
           '
 
       - name: Rehearse versioning
-        if: github.head_ref != 'changeset-release/master'
+        if: github.head_ref != 'changeset-release/main'
         run: bun run version-packages
 
       - name: Verify final version and installed package
