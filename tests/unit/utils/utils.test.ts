@@ -26,6 +26,16 @@ describe('generateDeviceId', () => {
       random.mockRestore();
     }
   });
+
+  test('falls back to random bytes instead of looping when Math.random is constant', () => {
+    const random = spyOn(Math, 'random').mockImplementation(() => 0);
+    try {
+      const deviceId = generateDeviceId();
+      expect(deviceId).toMatch(/^[0-9A-F]{52}$/);
+    } finally {
+      random.mockRestore();
+    }
+  });
 });
 
 describe('stableStringify', () => {

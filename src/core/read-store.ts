@@ -1,4 +1,9 @@
-import { Clock, Deferred, Effect, Exit, Fiber, Ref } from 'effect';
+import * as Clock from 'effect/Clock';
+import * as Deferred from 'effect/Deferred';
+import * as Effect from 'effect/Effect';
+import * as Exit from 'effect/Exit';
+import * as Fiber from 'effect/Fiber';
+import * as Ref from 'effect/Ref';
 
 export interface ReadStoreRunOptions<Value> {
   readonly cache?: boolean;
@@ -38,9 +43,9 @@ export class ReadStore<Value = unknown, Failure = unknown> {
 
   get snapshot(): { inflight: number; cacheHits: number; merged: number } {
     return {
-      inflight: Effect.runSync(Ref.get(this.state)).inFlight.size,
-      cacheHits: Effect.runSync(Ref.get(this.cacheHits)),
-      merged: Effect.runSync(Ref.get(this.merged)),
+      inflight: this.state.pipe(Ref.get, Effect.runSync).inFlight.size,
+      cacheHits: this.cacheHits.pipe(Ref.get, Effect.runSync),
+      merged: this.merged.pipe(Ref.get, Effect.runSync),
     };
   }
 

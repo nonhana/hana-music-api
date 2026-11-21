@@ -1,8 +1,13 @@
 // cspell:ignore anticheattoken
 import { createHash } from 'node:crypto';
 
-import type { Context } from 'effect';
-import { Cause, Clock, Effect, Exit, Option, Ref } from 'effect';
+import * as Cause from 'effect/Cause';
+import * as Clock from 'effect/Clock';
+import type * as Context from 'effect/Context';
+import * as Effect from 'effect/Effect';
+import * as Exit from 'effect/Exit';
+import * as Option from 'effect/Option';
+import * as Ref from 'effect/Ref';
 
 import type {
   CreateHanaMusicApiConfig,
@@ -117,15 +122,13 @@ export const runCall = <Input extends ModuleQuery>(
     validateModuleQuery(input.input);
     actions = validateModuleActions(implementation.actions);
   } catch (error) {
-    return runPublicEffect(
-      Effect.fail(
-        error instanceof InvalidRequest
-          ? error
-          : InvalidRequest.make({
-              message: 'Invalid module config or actions',
-            }),
-      ),
-    );
+    return (
+      error instanceof InvalidRequest
+        ? error
+        : InvalidRequest.make({
+            message: 'Invalid module config or actions',
+          })
+    ).pipe(Effect.fail, runPublicEffect);
   }
   const declaredPolicy = modulePolicy(actions);
   const upload = declaredPolicy.upload;
@@ -477,6 +480,6 @@ export const runCall = <Input extends ModuleQuery>(
         : effect,
     ),
     signal,
-    () => Option.getOrUndefined(Effect.runSync(Ref.get(moduleFailure))),
+    () => moduleFailure.pipe(Ref.get, Effect.runSync, Option.getOrUndefined),
   );
 };

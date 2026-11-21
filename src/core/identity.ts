@@ -1,4 +1,5 @@
-import { Effect, Ref } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Ref from 'effect/Ref';
 
 import type { IdentityPoolConfig, ModuleCallConfig } from '../types/index.ts';
 import type { RequestError } from './errors.ts';

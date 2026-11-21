@@ -1,5 +1,6 @@
-import type { Clock, Ref } from 'effect';
-import { Context } from 'effect';
+import type * as Clock from 'effect/Clock';
+import * as Context from 'effect/Context';
+import type * as Ref from 'effect/Ref';
 
 import type {
   FetchLike,

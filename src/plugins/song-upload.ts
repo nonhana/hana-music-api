@@ -1,5 +1,6 @@
 // cspell:words bucketname
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { Call } from '../core/call.ts';
 import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
