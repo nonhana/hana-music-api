@@ -266,7 +266,6 @@ export const registerModuleRoutes = (
                 signal: context.req.raw.signal,
                 cookie: isCookieRecord(query.cookie) ? query.cookie : undefined,
                 ip: resolveClientIp(context, options.serverOptions),
-                proxy: undefined,
                 fetcher: undefined,
                 state: undefined,
                 retry: undefined,

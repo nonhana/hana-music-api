@@ -16,7 +16,6 @@ export interface ModuleCallConfig {
   readonly fetcher?: CreateRequestOptions['fetcher'];
   readonly ip?: string;
   readonly onRequestEvent?: CreateRequestOptions['onRequestEvent'];
-  readonly proxy?: string;
   readonly realIP?: string;
   readonly retry?: CreateRequestOptions['retry'];
   readonly signal?: AbortSignal;
@@ -44,6 +43,7 @@ export type DisallowExecutionKeys = {
   [
     K in
       | keyof ModuleCallConfig
+      | 'proxy'
       | 'cache'
       | 'identityPool'
       | 'crypto'

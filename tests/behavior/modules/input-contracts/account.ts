@@ -80,14 +80,10 @@ export const cases: ReadonlyArray<ModuleInputCase> = [
   },
   {
     module: 'login_qr_create',
-    valid: [
-      { key: 'qr-key' },
-      { key: 'qr-key', platform: 'web', qrimg: true },
-      { key: 'qr-key', qrimg: 'true' },
-    ],
+    valid: [{ key: 'qr-key' }, { key: 'qr-key', platform: 'web' }],
     invalid: [
       { key: 'qr-key', platform: 'mobile' },
-      { key: 'qr-key', qrimg: 'yes' },
+      { key: 'qr-key', qrimg: true },
     ],
   },
   {

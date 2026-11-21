@@ -1,30 +1,8 @@
-# HTTP 代理与自定义 fetcher
+# 自定义 fetcher 与网络代理
 
-当请求需要经由代理服务器转发，或需要接入自定义网络客户端、统一日志埋点与单元测试桩时，可通过 `proxy` 或 `fetcher` 控制传输层行为。普通调用无需额外配置。
+SDK 通过 `config.fetcher` 提供统一的传输层依赖注入点。当需要经由代理服务器转发请求、接入自定义网络客户端、记录统一日志埋点或编写单元测试桩时，均可传入自定义 `fetcher`。
 
-## 配置 HTTP 代理
-
-使用简单 HTTP 代理时，直接在执行配置中传入 `proxy` 地址即可：
-
-```ts
-import { search } from 'hana-music-api';
-
-const result = await search(
-  { keywords: '海阔天空' },
-  { proxy: 'http://127.0.0.1:7890' },
-);
-console.log(result.body);
-```
-
-- **Bun 环境**：默认使用 `Bun.fetch` 原生支持的 `proxy` 参数，无需安装额外依赖。
-- **Node.js 环境**：通过可选对等依赖 `undici` 的 `ProxyAgent` 转发请求，并在单次尝试完成后销毁代理实例。若 Node.js 下未安装 `undici` 而传入 `proxy`，调用会立即以 `status: 400`（`failure.kind === 'invalidRequest'`）拒绝。
-
-使用 `proxy` 时有以下限制：
-
-- **不支持 PAC 脚本**：必须明确指定 HTTP 代理服务器地址。
-- **不可与 `fetcher` 同时传入**：同时配置 `proxy` 与自定义 `fetcher` 会在执行前被拒绝（`status: 400`）。
-- **不静默降级直连**：代理连接失败时会直接报错返回，不会自动回退为直连请求。
-- **高级网络需求**：需要 SOCKS 代理、mTLS 双向认证或自定义长连接池时，请使用自定义 `fetcher` 对接专业网络库。
+自 v8.0.0 起，SDK 不再内置 `proxy` 配置项。在模块配置或 `createRequest` 中传入 `proxy` 会在发送请求前明确拒绝（`status: 400`、`failure.kind === 'invalidRequest'`）。
 
 ## 自定义 fetcher
 
@@ -40,7 +18,7 @@ const result = await hana.search({ keywords: '海阔天空' });
 console.log(result.body);
 ```
 
-自定义 `fetcher` 仅替换实际的 HTTP 传输发送环节，目标域名检查、参数加密以及响应解密解码仍由 SDK 请求内核完成。
+自定义 `fetcher` 仅替换实际的 HTTP 传输发送环节。目标域名校验、参数加密以及响应解密解码仍由 SDK 请求内核完成。
 
 ```mermaid
 flowchart LR
@@ -52,11 +30,53 @@ flowchart LR
 
 编写或封装自定义 `fetcher` 时，必须遵守以下传输契约：
 
-- **透传 `init.signal`**：必须将 `init.signal` 传入底层请求，并确保响应体的可读流支持中断。若自定义实现忽略信号而在后台继续联网，外层触发取消或超时时 SDK 仅能释放自身等待资源，无法强制中止第三方请求。
-- **正文读取计入超时**：`fetcher` 返回 `Response` 时传输尚未结束，请求内核读取完整响应正文的耗时同样受调用总超时时间 `timeoutMs` 约束。
-- **遵守 `redirect: 'manual'`**：请求内核会显式传入 `redirect: 'manual'` 并拒绝 3xx 重定向响应，自定义实现不得自动跟随重定向以防绕过安全域名校验。
+- **透传 `init.signal`**：必须将 `init.signal` 传入底层请求，并确保响应体的可读流支持中断。若自定义实现忽略信号而在后台继续联网，外层触发取消或超时时 SDK 仅能释放自身等待资源，无法强制中止底层请求。
+- **正文读取计入超时**：`fetcher` 返回 `Response` 时传输尚未结束。请求内核读取完整响应正文的耗时同样受调用总超时时间 `timeoutMs` 约束。
+- **遵守 `redirect: 'manual'`**：请求内核会显式传入 `redirect: 'manual'` 并拒绝 3xx 重定向响应。自定义实现不得自动跟随重定向，以免绕过安全域名校验。
 
 ## 常见用法示例
+
+### Node.js 通过代理发送请求
+
+在 Node.js 环境中安装 `undici` 后，可创建复用连接池的 `ProxyAgent` 并通过自定义 `fetcher` 传入。请确保传入的 `init.signal` 与 `redirect: 'manual'` 原样交给 `undici.fetch`。
+
+```ts
+import { createHanaMusicApi, type FetchLike } from 'hana-music-api';
+import { fetch as undiciFetch, ProxyAgent } from 'undici';
+
+const agent = new ProxyAgent('http://127.0.0.1:7890');
+
+const proxyFetcher: FetchLike = (input, init) =>
+  undiciFetch(input, {
+    ...init,
+    dispatcher: agent,
+  } as Parameters<typeof undiciFetch>[1]) as unknown as Promise<Response>;
+
+const hana = createHanaMusicApi({ fetcher: proxyFetcher });
+const result = await hana.search({ keywords: '海阔天空' });
+console.log(result.body);
+
+// 应用关闭前释放代理连接池
+await agent.destroy();
+```
+
+### Bun 通过代理发送请求
+
+Bun 原生 `fetch` 支持非标准 `proxy` 选项，可在 `fetcher` 中透传该选项并保留其余参数。
+
+```ts
+import { createHanaMusicApi, type FetchLike } from 'hana-music-api';
+
+const bunProxyFetcher: FetchLike = (input, init) =>
+  fetch(input, {
+    ...init,
+    proxy: 'http://127.0.0.1:7890',
+  } as RequestInit);
+
+const hana = createHanaMusicApi({ fetcher: bunProxyFetcher });
+const result = await hana.search({ keywords: '海阔天空' });
+console.log(result.body);
+```
 
 ### 记录请求耗时
 
@@ -83,7 +103,7 @@ await hana.search({ keywords: '海阔天空' });
 ```
 
 > [!NOTE]
-> 此处统计的是收到响应头为止的单次网络耗时，不包含后续流式正文读取、身份准备及重试退避。需要追踪重试与完整调用耗时，请参见 [调试与可观测性](/guide/observability)。
+> 此处统计的是收到响应头为止的单次网络耗时，不包含后续流式正文读取、身份准备及重试退避。需要追踪重试与完整调用耗时，请参见 [调试与事件观测](/guide/observability)。
 
 ### 单元测试假响应
 

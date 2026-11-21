@@ -516,6 +516,9 @@ const PARAM_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'broadcast_channel_list.score': '分页游标分数，默认 `-1`',
   'calendar.startTime': '开始时间戳（毫秒），默认取当前时间',
   'calendar.endTime': '结束时间戳（毫秒），默认取当前时间',
+  'cloud.album': '专辑名称（可选，缺省时默认为“未知专辑”）',
+  'cloud.artist': '歌手名称（可选，缺省时默认为“未知艺术家”）',
+  'cloud.song': '歌曲名称（可选，缺省时从上传文件名解析）',
   'cloud.songFile': '音频文件（HTTP 使用 multipart，SDK 传入文件对象）',
   'comment.threadId': '资源线程 ID（评论动态 `type=6` 时必填，用于代替 `id`）',
   'comment_event.threadId': '动态线程 ID（可从动态接口的 `threadId` 字段获取）',
@@ -539,8 +542,6 @@ const PARAM_DESCRIPTIONS: Readonly<Record<string, string>> = {
   'login_qr_create.key': '由 `/login/qr/key` 获取的二维码 `unikey`',
   'login_qr_create.platform':
     '生成链接的平台类型，默认 `pc`（可选 `pc`、`web`）',
-  'login_qr_create.qrimg':
-    '是否同时生成 Base64 Data URL 二维码图片，默认 `false`',
   'mv_sublist.limit': '返回数量，默认 `25`',
   'mv_sublist.offset': '偏移数量，用于分页，默认 `0`',
   'personal_fm_mode.limit': '返回歌曲数量',
@@ -951,7 +952,7 @@ const ENDPOINT_NOTES: Readonly<Record<string, ReadonlyArray<string>>> = {
     '- **图片格式**：当前上传流程按 JPEG 处理且不再支持裁剪参数（`imgSize`/`imgX`/`imgY`），请在上传前完成图片裁剪。',
   ],
   cloud: [
-    '- **可选依赖**：SDK 在本地解析音频元数据时尝试加载可选依赖 `music-metadata`；未安装时自动回退至文件名与默认标签完成上传。',
+    '- **音频元信息**：如需指定歌名、歌手或专辑名，可通过可选字段 `song`、`artist`、`album` 传入；省略时自动使用上传文件名与默认值。',
   ],
   voice_upload: [
     '- **分块流程**：内部自动按最多 10 MiB 分块完成凭证申请、初始化、逐块上传、合并、预检与发布提交（可通过 `composedSongs` 传入关联歌曲 ID 数组）。',
@@ -1023,7 +1024,7 @@ const ENDPOINT_NOTES: Readonly<Record<string, ReadonlyArray<string>>> = {
     '- **会话保存**：SDK 不会自动持久化登录状态，请保存 `result.cookie` 供后续调用使用，详见 [认证机制](/guide/authentication)。',
   ],
   login_qr_create: [
-    '- **可选依赖**：当传入 `qrimg: true` 生成 Base64 二维码图片时，需要环境中安装可选依赖 `qrcode`。',
+    '- **二维码渲染**：接口仅返回扫码登录链接 `data.qrurl`，二维码图片请由应用层自行使用 `qrcode` 等库按 `qrurl` 生成。',
   ],
   login_qr_check: [
     '- **轮询状态码**：`800` 二维码过期、`801` 等待扫码、`802` 已扫码待确认（含 `nickname` 与 `avatarUrl`）、`803` 授权登录成功。',
@@ -1042,7 +1043,7 @@ const ENDPOINT_NOTES: Readonly<Record<string, ReadonlyArray<string>>> = {
     '- **参数校验**：`type`、`iconUrl`、`content`、`actionUrl` 不能全部为空，否则上游返回 `code: 500`。',
   ],
   verify_getQr: [
-    '- **可选依赖**：生成验证二维码图片需环境中安装可选依赖 `qrcode`。',
+    '- **二维码渲染**：接口仅返回验证票据 `data.qrCode` 与验证链接 `data.qrurl`，二维码图片请由应用层自行使用 `qrcode` 等库按 `qrurl` 生成。',
   ],
   verify_qrcodestatus: [
     '- **状态码组合**：`data.qrCodeStatus` 表示扫描进度（`0` 已生成、`10` 已扫描、`20` 验证成功、`21` 已失效），`data.detailReason` 表示校验结果（`0` 正常、`303` 账号不一致）。',

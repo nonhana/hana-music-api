@@ -353,7 +353,6 @@ export const requestEffect = (
                 },
                 identity: plan.identity,
                 method: plan.method,
-                proxy: scope.proxy,
                 fetcher: scope.fetcher,
               },
               (response): UpstreamResponse => {
@@ -657,6 +656,12 @@ export const createRequest = async (
     return InvalidRequest.make({
       message:
         'checkToken is a module option; raw requests use explicit data/headers',
+    }).pipe(Effect.fail, runPublicEffect);
+  }
+  if (Object.hasOwn(options, 'proxy')) {
+    return InvalidRequest.make({
+      message:
+        'proxy option has been removed; configure a custom fetcher instead',
     }).pipe(Effect.fail, runPublicEffect);
   }
   const response = await runRequestAtEdge(

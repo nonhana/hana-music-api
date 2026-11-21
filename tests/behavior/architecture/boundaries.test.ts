@@ -388,6 +388,7 @@ test('product source and generated artifacts expose one Effect execution path', 
     'raw-request',
     'cache',
     'module-runtime',
+    'optional-dependency',
   ]) {
     if (existsSync(resolve(projectRoot, `src/core/${file}.ts`))) {
       failures.push(`src/core/${file}.ts: retired path`);

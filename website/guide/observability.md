@@ -94,4 +94,4 @@ try {
 ## 与自定义 fetcher 的分工
 
 - **`onRequestEvent`**：聚焦于请求内核内部的尝试次数、退避间隔、连接策略切换以及失败状态追踪，无需介入网络流处理。
-- **自定义 `fetcher`**：聚焦于传输层实现本身，可观测最终组装好的请求头、底层 socket 异常或控制响应头到达时机，详见 [HTTP 代理与自定义 fetcher](/guide/proxy-and-fetcher)。
+- **自定义 `fetcher`**：聚焦于传输层实现本身，可观测最终组装好的请求头、底层 socket 异常或控制响应头到达时机，详见 [自定义 fetcher 与网络代理](/guide/proxy-and-fetcher)。

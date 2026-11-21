@@ -2,7 +2,7 @@ import { expect, test } from 'bun:test';
 import { spawn } from 'node:child_process';
 import { resolve } from 'node:path';
 
-test('Node SDK rejects unavailable proxies without direct upstream fallback', async () => {
+test('Node SDK supports custom proxy fetchers without direct upstream fallback and rejects removed proxy option', async () => {
   const child = spawn(
     process.env.HANA_TEST_NODE ?? 'node',
     [resolve('tests/fixtures/consumers/node-proxy.mjs')],

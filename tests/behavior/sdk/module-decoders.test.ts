@@ -107,7 +107,11 @@ const contracts: Array<{
     valid: { ids: [1], br: 128000 },
     required: ['ids'],
   },
-  { modules: ['cloud'], valid: { songFile }, required: [] },
+  {
+    modules: ['cloud'],
+    valid: { songFile, song: 'song', artist: 'artist', album: 'album' },
+    required: [],
+  },
   {
     modules: ['cloud_import'],
     valid: {
@@ -208,7 +212,7 @@ const contracts: Array<{
   { modules: ['login_qr_check'], valid: { key: 'key' }, required: ['key'] },
   {
     modules: ['login_qr_create'],
-    valid: { key: 'key', platform: 'web', qrimg: true },
+    valid: { key: 'key', platform: 'web' },
     required: ['key'],
   },
   { modules: ['lyric'], valid: { id: 1 }, required: ['id'] },
@@ -473,22 +477,18 @@ test('closed literal unions reject only values excluded by the public input type
         .pipe(runSync),
     ).toEqual({ autoPublish: expected, privacy: expected });
   }
-  for (const value of [true, false]) {
-    expect(
+  expect(
+    definitions
+      .cloud!.decodeInput({ song: 'Song', artist: 'Artist', album: 'Album' })
+      .pipe(runSync),
+  ).toEqual({ song: 'Song', artist: 'Artist', album: 'Album' });
+  expect(
+    Exit.isFailure(
       definitions
-        .login_qr_create!.decodeInput({ key: 'key', qrimg: value })
-        .pipe(runSync),
-    ).toEqual({ key: 'key', qrimg: value });
-  }
-  for (const value of [5, 'any-string']) {
-    expect(
-      Exit.isFailure(
-        definitions
-          .login_qr_create!.decodeInput({ key: 'key', qrimg: value })
-          .pipe(runSyncExit),
-      ),
-    ).toBe(true);
-  }
+        .login_qr_create!.decodeInput({ key: 'key', qrimg: true })
+        .pipe(runSyncExit),
+    ),
+  ).toBe(true);
 });
 
 test.each([{ input: null }, { input: [] }])(

@@ -41,7 +41,6 @@ export interface CreateRequestOptions {
   readonly headers?: Record<string, string>;
   readonly ip?: string;
   readonly onRequestEvent?: (event: RequestDebugEvent) => void;
-  readonly proxy?: string;
   readonly realIP?: string;
   readonly retry?: RequestRetryOptions;
   readonly signal?: AbortSignal;

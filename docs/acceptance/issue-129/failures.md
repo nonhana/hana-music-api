@@ -374,7 +374,7 @@
 | `song_red_count` | read | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/playback/playability-bodies.test.ts`<br>`tests/behavior/modules/input-contracts/song-lyric.ts` |
 | `song_singledownlist` | read | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/library/library-collection-bodies.test.ts`<br>`tests/behavior/modules/input-contracts/song-lyric.ts`<br>`tests/behavior/modules/input-encoding/song-lyric.ts` |
 | `song_url` | read | decodeUpstreamBody | business, upstreamShape | 手工 data 数组校验与合成 code 200 | `tests/replay/playback/song-url-bodies.test.ts`<br>`tests/behavior/http/server.test.ts`<br>`tests/behavior/modules/input-contracts/song-lyric.ts` |
-| `song_url_v1` | read, sky | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/playback/playback-bodies.test.ts`<br>`tests/behavior/modules/input-contracts/song-lyric.ts`<br>`tests/behavior/modules/input-encoding/song-lyric.ts` |
+| `song_url_v1` | read, sky | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/playback/playback-bodies.test.ts`<br>`tests/behavior/architecture/module-discovery.test.ts`<br>`tests/behavior/modules/input-contracts/song-lyric.ts` |
 | `song_wiki_summary` | read | decodeUpstreamBody | business, upstreamShape | — | `tests/replay/playback/lyric-bodies.test.ts`<br>`tests/behavior/modules/input-contracts/song-lyric.ts` |
 
 ### toplist-style

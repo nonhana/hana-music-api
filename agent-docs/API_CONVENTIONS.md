@@ -62,7 +62,7 @@
 
 ## SDK 与 HTTP 输入
 
-SDK 调用把接口业务参数放在 query，把 `cookie`、`proxy`、`fetcher`、`retry`、`timeoutMs` 和 `signal` 等执行配置放在 config。HTTP 只接受业务参数以及传统的 `cookie`、`noCookie`；执行配置在发送前返回 400。
+SDK 调用把接口业务参数放在 query，把 `cookie`、`fetcher`、`retry`、`timeoutMs` 和 `signal` 等执行配置放在 config。HTTP 只接受业务参数以及传统的 `cookie`、`noCookie`；执行配置在发送前返回 400。
 
 HTTP 路由按请求头 Cookie → query → body 的顺序合并，后者覆盖前者；HTTPS 响应写回 Cookie 时保留 `SameSite=None; Secure`。调试请求入口默认关闭，只有 loopback 的 `startServer` 配置可以开启。
 

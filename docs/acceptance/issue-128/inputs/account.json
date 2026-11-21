@@ -155,17 +155,17 @@
   {
     "module": "login_qr_create",
     "actions": [],
-    "current": "{ key: string; platform?: 'pc' | 'web'; qrimg?: boolean; }",
-    "fields": ["key", "platform", "qrimg", "ts"],
+    "current": "{ key: string; platform?: 'pc' | 'web'; }",
+    "fields": ["key", "platform", "ts"],
     "legacyEncoding": [],
-    "businessInput": "key 必填；platform?: 'pc' | 'web'；qrimg?: 布尔开关",
-    "upstreamEncoding": "本地拼出 qrurl；platform=web 时追加 chainId；qrimg 为真时生成图片 data URL",
+    "businessInput": "key 必填；platform?: 'pc' | 'web'",
+    "upstreamEncoding": "本地构造 qrurl；platform=web 时追加 chainId",
     "evidence": [
       "tests/behavior/modules/input-contracts/account.ts",
       "tests/replay/account/login-bodies.test.ts"
     ],
     "status": "migrated",
-    "notes": "platform 只保留代码分支实际使用的 pc/web；qrimg 用 BooleanValue 接受 true/false/0/1/'true'/'false' 并归一为 boolean，任意数字和其他字符串被有意收紧。"
+    "notes": "platform 只保留代码分支实际使用的 pc/web；v8 起移除 qrimg 开关，二维码图片交由应用层按 qrurl 自行渲染。"
   },
   {
     "module": "login_qr_key",

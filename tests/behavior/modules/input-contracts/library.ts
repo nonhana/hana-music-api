@@ -18,11 +18,23 @@ const cloudImportFields = {
 export const cases: ReadonlyArray<ModuleInputCase> = [
   {
     module: 'cloud',
-    valid: [{}, { songFile: uploadedSong }],
+    valid: [
+      {},
+      { songFile: uploadedSong },
+      {
+        songFile: uploadedSong,
+        song: '海阔天空',
+        artist: 'Beyond',
+        album: '乐与怒',
+      },
+    ],
     invalid: [
       { songFile: { ...uploadedSong, data: 'song.mp3' } },
       { songFile: { ...uploadedSong, size: '3' } },
       { songFile: { name: 'song.mp3', mimetype: 'audio/mpeg', size: 3 } },
+      { song: 1 },
+      { artist: 1 },
+      { album: 1 },
     ],
   },
   {

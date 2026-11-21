@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 
 import type { Context, Hono } from 'hono';
 import { jsxRenderer } from 'hono/jsx-renderer';
+import QRCode from 'qrcode';
 
 import type { createServiceLayer } from '../core/call.ts';
 import { businessCode } from '../core/response.ts';
@@ -170,6 +171,32 @@ export const registerDemoRoutes = (
   app.get('/demo/search', (context) => context.render(<SearchPage />));
 
   app.get('/demo/qr-login', (context) => context.render(<QrLoginPage />));
+
+  app.get('/demo/qr-login/image', async (context) => {
+    const rawUrl = context.req.query('url') ?? '';
+    let parsed: URL;
+    try {
+      parsed = new URL(rawUrl);
+    } catch {
+      return context.json({ code: 400, msg: 'Invalid QR URL' }, 400);
+    }
+    if (
+      parsed.origin !== 'https://music.163.com' ||
+      parsed.pathname !== '/login' ||
+      !parsed.searchParams.get('codekey') ||
+      parsed.href.length > 512
+    ) {
+      return context.json({ code: 400, msg: 'Unsupported QR URL' }, 400);
+    }
+    const svg = await QRCode.toString(parsed.href, {
+      margin: 2,
+      type: 'svg',
+    });
+    return context.body(svg, 200, {
+      'Cache-Control': 'no-store',
+      'Content-Type': 'image/svg+xml; charset=utf-8',
+    });
+  });
 
   app.get('/demo/upload/playlist-cover', (context) =>
     context.render(<UploadPlaylistCoverPage />),

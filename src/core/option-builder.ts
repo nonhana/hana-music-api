@@ -17,7 +17,6 @@ interface OptionSource {
   readonly headers?: CreateRequestOptions['headers'];
   readonly ip?: unknown;
   readonly onRequestEvent?: CreateRequestOptions['onRequestEvent'];
-  readonly proxy?: unknown;
   readonly realIP?: unknown;
   readonly retry?: CreateRequestOptions['retry'];
   readonly signal?: AbortSignal;
@@ -53,7 +52,6 @@ export const createOption = (
   headers: query.headers,
   ip: toOptionalString(query.ip),
   onRequestEvent: query.onRequestEvent,
-  proxy: toOptionalString(query.proxy),
   realIP: toOptionalString(query.realIP),
   retry: query.retry,
   signal: query.signal,

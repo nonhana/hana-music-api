@@ -271,6 +271,8 @@ const assertOptionalCheckToken = async () => {
 void assertOptionalCheckToken;
 
 const assertNarrowModuleConfig = async () => {
+  // @ts-expect-error Ordinary modules do not accept proxy configuration.
+  await search({ keywords: 'x' }, { proxy: 'http://127.0.0.1:8080' });
   // @ts-expect-error Ordinary modules cannot choose a protocol.
   await search({ keywords: 'x' }, { crypto: 'api' });
   // @ts-expect-error Ordinary modules cannot choose a UA.
@@ -300,7 +302,11 @@ const rawOptions: CreateRequestOptions = {
   e_r: false,
   acceptGzip: true,
 };
-const assertRawOptions = () => createRequest('/api/probe', {}, rawOptions);
+const assertRawOptions = () => {
+  // @ts-expect-error proxy option has been removed from CreateRequestOptions.
+  void createRequest('/api/probe', {}, { proxy: 'http://127.0.0.1:8080' });
+  return createRequest('/api/probe', {}, rawOptions);
+};
 void assertRawOptions;
 
 const describeFailure = (failure: NcmFailureInfo): string => {

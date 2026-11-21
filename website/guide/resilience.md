@@ -46,7 +46,7 @@ await pending.catch((error: unknown) => console.log(error));
 
 - **取消状态映射**：主动取消会拒绝为 `status: 499`（`failure.kind === 'cancelled'`），完整错误判定见 [错误处理](/guide/error-handling)。
 - **并发请求去重下的取消**：多个调用方同时等待同一个共享读取时，单个调用方取消或超时只会结束自身的等待。只有当最后一个等待者也离开后，内核才会中断底层上游请求，详见 [缓存与身份池](/guide/cache-and-identity-pool#并发请求去重的取消行为)。
-- **自定义传输配合**：传入自定义 `fetcher` 时，实现内部必须透传 `init.signal` 并支持流式正文取消，详见 [HTTP 代理与自定义 fetcher](/guide/proxy-and-fetcher#实现约束)。
+- **自定义传输配合**：传入自定义 `fetcher` 时，实现内部必须透传 `init.signal` 并支持流式正文取消，详见 [自定义 fetcher 与网络代理](/guide/proxy-and-fetcher#实现约束)。
 - **HTTP 客户端断开**：在自建 HTTP 服务中，客户端连接中断的取消信号会自动传入模块执行。
 
 ## 重试策略

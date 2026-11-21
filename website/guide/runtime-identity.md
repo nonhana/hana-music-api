@@ -67,7 +67,7 @@ const result = await songUrl({ ids: [347230] }, { realIP: '116.25.146.177' });
 console.log(result.body);
 ```
 
-- **仅作用于请求头**：该设置仅影响发往上游的 `X-Forwarded-For` 与 `X-Real-IP` 请求头，不会改变真实网络出口。需要代理流量路由请参考 [HTTP 代理与自定义 fetcher](/guide/proxy-and-fetcher)。
+- **仅作用于请求头**：该设置仅影响发往上游的 `X-Forwarded-For` 与 `X-Real-IP` 请求头，不会改变真实网络出口。需要代理流量路由请参考 [自定义 fetcher 与网络代理](/guide/proxy-and-fetcher)。
 - **HTTP 服务来源解析**：自建 HTTP 服务拒绝客户端直接传入 `ip` 或 `realIP` 参数（返回 `400`），改为依据实际连接地址及 `trustedProxyIps` 配置获取来源 IP。无法识别来源或遇到 `::1` 回环地址时回退至运行时 `cnIp`，详见 [部署 HTTP 服务](/guide/http-deployment)。
 
 ## 匿名身份初始化

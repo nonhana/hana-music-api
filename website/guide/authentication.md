@@ -22,9 +22,9 @@ sequenceDiagram
   participant User as 用户客户端
   App->>API: loginQrKey() 获取二维码 key
   API-->>App: unikey
-  App->>API: loginQrCreate({ key }) 生成二维码
-  API-->>App: qrurl 或 qrimg
-  App->>User: 展示二维码
+  App->>API: loginQrCreate({ key }) 生成二维码链接
+  API-->>App: qrurl
+  App->>User: 使用 qrcode 等库按 qrurl 渲染并展示二维码
   Note over User: 使用网易云音乐客户端扫码并确认
   loop 轮询扫码状态
     App->>API: loginQrCheck({ key })

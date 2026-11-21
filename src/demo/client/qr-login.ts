@@ -101,11 +101,13 @@ const refreshQrCode = async () => {
   const createParams = new URLSearchParams({
     key: activeKey,
     platform: 'web',
-    qrimg: 'true',
     timestamp: String(Date.now()),
   })
   const createResult = await fetchJson('/login/qr/create?' + createParams.toString())
-  image.src = createResult.data?.data?.qrimg ?? ''
+  const qrurl = createResult.data?.data?.qrurl ?? ''
+  image.src = qrurl
+    ? '/demo/qr-login/image?url=' + encodeURIComponent(qrurl)
+    : ''
   setTextContent(statusText, '二维码已生成，开始轮询')
 
   await pollStatus()

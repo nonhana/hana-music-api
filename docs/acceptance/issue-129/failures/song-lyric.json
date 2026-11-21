@@ -397,8 +397,8 @@
     "special": "",
     "evidence": [
       "tests/replay/playback/playback-bodies.test.ts",
-      "tests/behavior/modules/input-contracts/song-lyric.ts",
-      "tests/behavior/modules/input-encoding/song-lyric.ts"
+      "tests/behavior/architecture/module-discovery.test.ts",
+      "tests/behavior/modules/input-contracts/song-lyric.ts"
     ]
   },
   {

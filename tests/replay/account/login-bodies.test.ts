@@ -73,7 +73,7 @@ test('loginQrKey returns the recorded key', async () => {
   });
 });
 
-test('loginQrCreate builds the recorded login link and image', async () => {
+test('loginQrCreate builds the recorded login link', async () => {
   const result = await replay({}).loginQrCreate(qrCreated.query);
 
   expect(result.body as unknown).toEqual(qrCreated.response.body);
@@ -91,11 +91,14 @@ test('verifyGetQr builds the verification page link from NetEase’s code', asyn
     sign: 's',
   });
 
-  expect(result.body.data.qrCode).toBe('abc');
-  expect(result.body.data.qrurl).toBe(
-    'https://st.music.163.com/encrypt-pages?qrCode=abc&verifyToken=t&verifyId=v&verifyType=2&params={"event_id":"e","sign":"s"}',
-  );
-  expect(result.body.data.qrimg).toStartWith('data:image/png;base64,');
+  expect(result.body).toEqual({
+    code: 200,
+    data: {
+      qrCode: 'abc',
+      qrurl:
+        'https://st.music.163.com/encrypt-pages?qrCode=abc&verifyToken=t&verifyId=v&verifyType=2&params={"event_id":"e","sign":"s"}',
+    },
+  });
 });
 
 test('loginQrCheck hands an unrecorded code back as NetEase’s own rejection', async () => {

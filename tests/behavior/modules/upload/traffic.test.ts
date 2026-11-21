@@ -439,37 +439,27 @@ test.each([
 );
 
 test.each(['audioMatch', 'relatedPlaylist', 'avatarUpload'] as const)(
-  '%s forwards proxy to the shared plain transport',
+  '%s forwards fetcher to the shared plain transport',
   async (method) => {
-    const proxy = 'http://127.0.0.1:18080';
-    const proxies: Array<unknown> = [];
-    const upstream = spyOn(globalThis, 'fetch').mockImplementation((async (
-      input,
-      init,
-    ) => {
-      proxies.push((init as RequestInit & { proxy?: string }).proxy);
+    const urls: Array<string> = [];
+    const fetcher: FetchLike = async (input, init) => {
+      urls.push(requestUrl(input));
       return fetchUpload(input, init);
-    }) as typeof fetch);
-    try {
-      const client = createHanaMusicApi({
-        cookie: 'MUSIC_U=proxy-' + method,
-        proxy,
-      });
-      const input =
-        method === 'audioMatch'
-          ? { audioFP: 'fp', duration: 3 }
-          : method === 'relatedPlaylist'
-            ? { id: 1 }
-            : { imgFile: songFile };
-      expect(
-        (await Reflect.apply(client[method], client, [input])).status,
-      ).toBe(200);
-      expect(proxies).toEqual(
-        method === 'avatarUpload' ? [proxy, proxy, proxy] : [proxy],
-      );
-    } finally {
-      upstream.mockRestore();
-    }
+    };
+    const client = createHanaMusicApi({
+      cookie: 'MUSIC_U=fetcher-' + method,
+      fetcher,
+    });
+    const input =
+      method === 'audioMatch'
+        ? { audioFP: 'fp', duration: 3 }
+        : method === 'relatedPlaylist'
+          ? { id: 1 }
+          : { imgFile: songFile };
+    expect((await Reflect.apply(client[method], client, [input])).status).toBe(
+      200,
+    );
+    expect(urls).toHaveLength(method === 'avatarUpload' ? 3 : 1);
   },
 );
 

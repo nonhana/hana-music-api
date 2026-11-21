@@ -1,17 +1,8 @@
 import * as Effect from 'effect/Effect';
 import * as Schema from 'effect/Schema';
-import type * as QRCode from 'qrcode';
 
 import { Call } from '../core/call-context.ts';
-import { ModuleInvariantFailed } from '../core/errors.ts';
-import {
-  BooleanValue,
-  decodeModuleInput as decodeInput,
-} from '../core/module-input.ts';
-import {
-  isMissingOptionalDependencyError,
-  loadOptionalDependency,
-} from '../core/optional-dependency.ts';
+import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import type { BodyType } from '../core/upstream-body.ts';
 import { defineModuleBody } from '../core/upstream-body.ts';
@@ -23,24 +14,22 @@ export const moduleActions = {} as const satisfies ModuleActions;
 export type ModuleInput = {
   key: string;
   platform?: 'pc' | 'web';
-  qrimg?: boolean;
 };
 
 const inputSchema = Schema.Struct({
   key: Schema.String,
   platform: Schema.optional(Schema.Literals(['pc', 'web'])),
-  qrimg: Schema.optional(BooleanValue),
 });
 
 export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
-// 返回码、二维码数据路径和二维码字段都是接口要拿的那一项，全部收紧。
-// 返回体由 SDK 自己拼出，`qrimg` 只在请求了图片时才有内容，否则是空串。
+// 返回码与登录链接路径均为接口核心输出，全部声明为必填字段。
+// 返回体由 SDK 构造，仅包含登录链接 `qrurl`。
 export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   Schema.Struct({
     code: Schema.Literal(200),
-    data: Schema.Struct({ qrurl: Schema.String, qrimg: Schema.String }),
+    data: Schema.Struct({ qrurl: Schema.String }),
   }),
 );
 export type ModuleBody = BodyType<typeof ModuleBody>;
@@ -56,24 +45,9 @@ const loginQrCreate: ModuleEffect<
     if ((query.platform || 'pc') === 'web') {
       url += `&chainId=${generateChainId(call.identity.cookie)}`;
     }
-    const qrimg = query.qrimg
-      ? yield* Effect.tryPromise({
-          try: async () => {
-            const qrCode =
-              await loadOptionalDependency<typeof QRCode>('qrcode');
-            return qrCode.toDataURL(url);
-          },
-          catch: (error) =>
-            ModuleInvariantFailed.make({
-              message: isMissingOptionalDependencyError(error, 'qrcode')
-                ? "Generating QR code images requires installing optional peer dependency 'qrcode'"
-                : String(error),
-            }),
-        })
-      : '';
     return {
       status: 200,
-      body: { code: 200 as const, data: { qrurl: url, qrimg } },
+      body: { code: 200 as const, data: { qrurl: url } },
       cookie: [],
     };
   });

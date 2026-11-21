@@ -399,6 +399,19 @@ describe('createServer', () => {
     expect(qrLoginResponse.status).toBe(200);
     expect(await qrLoginResponse.text()).toContain('扫码登录');
 
+    const validQrImage = await app.request(
+      `http://localhost/demo/qr-login/image?url=${encodeURIComponent('https://music.163.com/login?codekey=demo-key')}`,
+    );
+    expect(validQrImage.status).toBe(200);
+    expect(validQrImage.headers.get('content-type')).toContain('image/svg+xml');
+    expect(validQrImage.headers.get('cache-control')).toBe('no-store');
+    expect(await validQrImage.text()).toContain('<svg');
+
+    const invalidQrImage = await app.request(
+      `http://localhost/demo/qr-login/image?url=${encodeURIComponent('https://evil.example/login?codekey=demo-key')}`,
+    );
+    expect(invalidQrImage.status).toBe(400);
+
     expect(audioMatchResponse.status).toBe(200);
     expect(await audioMatchResponse.text()).toContain('听歌识曲');
 

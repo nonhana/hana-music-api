@@ -1,6 +1,6 @@
 # ADR 0005: Unbundled Subpaths, Scoped Client, Pure Body Declarations, and Optional Peers
 
-- Status: Accepted
+- Status: Accepted (Superseded in part by [ADR-0006](./0006-zero-optional-peers-and-protocol-boundary.md) on optional `peerDependencies`)
 - Date: 2026-11-20
 
 ## Context

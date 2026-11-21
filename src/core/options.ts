@@ -9,7 +9,6 @@ export const moduleConfigKeys = [
   'fetcher',
   'ip',
   'onRequestEvent',
-  'proxy',
   'realIP',
   'retry',
   'signal',
@@ -19,6 +18,7 @@ export const moduleConfigKeys = [
 ] as const;
 
 export const removedModuleConfigKeys = [
+  'proxy',
   'crypto',
   'ua',
   'domain',

@@ -41,7 +41,7 @@ export default defineConfig({
     __HANA_SERVICE_VERSION__: JSON.stringify(packageJson.version),
   },
   deps: {
-    neverBundle: ['bun', 'effect', 'music-metadata', 'qrcode', 'undici'],
+    neverBundle: ['bun', 'effect'],
   },
   fixedExtension: false,
   platform: 'node',
