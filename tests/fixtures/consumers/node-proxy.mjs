@@ -1,7 +1,9 @@
 import { createServer, request as httpRequest } from 'node:http';
 import { createConnection } from 'node:net';
 
-import { createRequest } from '../../../dist/index.js';
+import { ProxyAgent, fetch as undiciFetch } from 'undici';
+
+import { createRequest, getNcmFailureInfo } from '../../../dist/index.js';
 import {
   allowLoopback,
   installOfflineGuard,
@@ -44,8 +46,7 @@ proxy.on('connect', (request, downstream, head) => {
   downstream.on('error', () => socket.destroy());
 });
 
-// undici 8 的 ProxyAgent 与 Bun 原生 fetch 的 proxy 选项对 http:// 目标都按「绝对 URI 直发代理」转发（RFC 7230 §5.3.2）
-// 只有 https 目标才 CONNECT 建隧道，假代理需要同时支持两种形态
+// undici 的 ProxyAgent 对 http:// 目标按「绝对 URI 直发代理」转发（RFC 7230 §5.3.2）
 proxy.on('request', (request, response) => {
   proxiedRequests += 1;
   const raw = request.url ?? '/';
@@ -89,16 +90,47 @@ const disallowUpstream = allowLoopback(
   `http://127.0.0.1:${upstream.address().port}`,
 );
 const disallowProxy = allowLoopback(`http://127.0.0.1:${proxy.address().port}`);
-const config = {
+
+const createProxyFetcher = (proxyUrl) => {
+  const agent = new ProxyAgent(proxyUrl);
+  const fetcher = (input, init) =>
+    undiciFetch(input, { ...init, dispatcher: agent });
+  return { agent, fetcher };
+};
+
+const workingProxy = createProxyFetcher(
+  `http://127.0.0.1:${proxy.address().port}`,
+);
+const deadProxy = createProxyFetcher('http://127.0.0.1:1');
+
+const baseConfig = {
   crypto: 'api',
   state: { anonymousToken: '' },
   domain: `http://127.0.0.1:${upstream.address().port}`,
-  proxy: `http://127.0.0.1:${proxy.address().port}`,
+  fetcher: workingProxy.fetcher,
   timeoutMs: 500,
 };
 const failures = [];
 try {
-  const success = await createRequest('/api/test', {}, config);
+  const legacyProxyRejected = await createRequest(
+    '/api/test',
+    {},
+    {
+      crypto: 'api',
+      state: { anonymousToken: '' },
+      domain: baseConfig.domain,
+      proxy: `http://127.0.0.1:${proxy.address().port}`,
+    },
+  ).catch((error) => error);
+  if (
+    legacyProxyRejected.status !== 400 ||
+    getNcmFailureInfo(legacyProxyRejected)?.kind !== 'invalidRequest' ||
+    upstreamCalls !== 0
+  ) {
+    throw new Error('Removed proxy option did not reject cleanly');
+  }
+
+  const success = await createRequest('/api/test', {}, baseConfig);
   if (
     success.status !== 200 ||
     upstreamCalls !== 1 ||
@@ -109,7 +141,7 @@ try {
   const timed = await createRequest(
     '/api/slow',
     {},
-    { ...config, timeoutMs: 30 },
+    { ...baseConfig, timeoutMs: 30 },
   ).catch((error) => error);
   if (timed.status !== 504) {
     throw new Error('Slow body deadline failed');
@@ -118,7 +150,7 @@ try {
   const cancelled = createRequest(
     '/api/slow',
     {},
-    { ...config, signal: controller.signal },
+    { ...baseConfig, signal: controller.signal },
   );
   setTimeout(() => controller.abort(), 20);
   let cancelledStatus;
@@ -133,7 +165,7 @@ try {
   const unavailable = await createRequest(
     '/api/test',
     {},
-    { ...config, proxy: 'http://127.0.0.1:1', timeoutMs: 100 },
+    { ...baseConfig, fetcher: deadProxy.fetcher, timeoutMs: 100 },
   ).catch((error) => error);
   if (![502, 504].includes(unavailable.status) || upstreamCalls !== 3) {
     throw new Error('Proxy failure silently used a direct connection');
@@ -156,6 +188,7 @@ try {
   } catch (error) {
     failures.push(error);
   }
+  await Promise.all([workingProxy.agent.destroy(), deadProxy.agent.destroy()]);
   network.dispose();
   disallowUpstream();
   disallowProxy();

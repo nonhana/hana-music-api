@@ -1,6 +1,6 @@
 # 执行配置
 
-业务参数（`query`）决定调用哪个接口的哪份数据，执行配置（`config`）控制身份、超时、代理、重试与观测行为。执行配置仅用于 SDK 编程式调用与底层请求，不能通过 HTTP 参数传入。
+业务参数（`query`）决定调用哪个接口的哪份数据，执行配置（`config`）控制身份、超时、传输、重试与观测行为。执行配置仅用于 SDK 编程式调用与底层请求，不能通过 HTTP 参数传入。
 
 ## 配置入口与合并优先级
 
@@ -32,20 +32,18 @@
 
 ## 网络、超时与观测选项
 
-| 字段                 | 类型                                       | 默认值             | 说明                                                       |
-| -------------------- | ------------------------------------------ | ------------------ | ---------------------------------------------------------- |
-| `proxy`              | `string`                                   | 无代理             | HTTP/HTTPS 代理地址，不支持 PAC（Node.js 需安装 `undici`） |
-| `fetcher`            | `FetchLike`                                | 运行时全局 `fetch` | 自定义请求发送函数，须尊重传入的 `AbortSignal`             |
-| `timeoutMs`          | `number`                                   | `8000`             | 整次调用总超时时间（毫秒），含身份准备、等待、重试与读正文 |
-| `signal`             | `AbortSignal`                              | 无                 | 外部取消信号，触发时以 `status: 499`（`cancelled`）拒绝    |
-| `retry`              | `RequestRetryOptions`                      | 按模块策略决定     | 配置允许重试的次数、退避间隔、抖动与状态码                 |
-| `connectionStrategy` | `'default' \| 'close' \| 'fresh-on-retry'` | `'default'`        | 控制是否在请求中附带 `Connection: close`                   |
-| `onRequestEvent`     | `(event: RequestDebugEvent) => void`       | 无                 | 订阅请求尝试、重试与失败观测事件                           |
+| 字段                 | 类型                                       | 默认值             | 说明                                                               |
+| -------------------- | ------------------------------------------ | ------------------ | ------------------------------------------------------------------ |
+| `fetcher`            | `FetchLike`                                | 运行时全局 `fetch` | 自定义请求发送函数（可用于代理与日志），须尊重传入的 `AbortSignal` |
+| `timeoutMs`          | `number`                                   | `8000`             | 整次调用总超时时间（毫秒），含身份准备、等待、重试与读正文         |
+| `signal`             | `AbortSignal`                              | 无                 | 外部取消信号，触发时以 `status: 499`（`cancelled`）拒绝            |
+| `retry`              | `RequestRetryOptions`                      | 按模块策略决定     | 配置允许重试的次数、退避间隔、抖动与状态码                         |
+| `connectionStrategy` | `'default' \| 'close' \| 'fresh-on-retry'` | `'default'`        | 控制是否在请求中附带 `Connection: close`                           |
+| `onRequestEvent`     | `(event: RequestDebugEvent) => void`       | 无                 | 订阅请求尝试、重试与失败观测事件                                   |
 
-- **代理与自定义 `fetcher` 互斥**：`proxy` 与 `fetcher` 不能同时传入，否则立即拒绝（`400`）。
 - **超时关闭与上传上限**：普通调用将 `timeoutMs` 设为 `0` 或负数会关闭总超时控制。上传类模块固定受单阶段 60 秒、总计 5 分钟（`300000` 毫秒）上限约束，正数 `timeoutMs` 仅能进一步缩短上传总超时时间。
 
-各选项的完整行为详见 [代理与自定义 fetcher](/guide/proxy-and-fetcher)、[超时、重试与连接策略](/guide/resilience) 与 [调试与可观测性](/guide/observability)。
+各选项的完整行为详见 [自定义 fetcher 与网络代理](/guide/proxy-and-fetcher)、[超时、重试与连接策略](/guide/resilience) 与 [调试与可观测性](/guide/observability)。
 
 ## 客户端级选项
 
@@ -64,10 +62,11 @@
 
 ## 已移除的旧配置键
 
-以下配置键已从普通模块 `ModuleCallConfig` 中移除，传入（即使值为 `undefined`）会在发送前被直接拒绝：
+以下配置键已从模块执行配置或请求选项中移除，传入（即使值为 `undefined`）会在发送前被直接拒绝：
 
-| 已移除配置键                                                  | 替代方案                                                               |
-| ------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| 顶层 `deviceId`                                               | 改用 `state: { deviceId }`                                             |
-| `headers.Cookie`                                              | 改用 `cookie` 字段传递会话字符串或键值对象                             |
-| `crypto`、`domain`、`ua`、`e_r`、`acceptGzip`、其他 `headers` | 普通接口按内置协议执行。确需手动控制协议或请求头时改用 `createRequest` |
+| 已移除配置键                                                  | 替代方案                                                                             |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `proxy`                                                       | 改用自定义 `fetcher` 注入代理客户端（见 [自定义 fetcher](/guide/proxy-and-fetcher)） |
+| 顶层 `deviceId`                                               | 改用 `state: { deviceId }`                                                           |
+| `headers.Cookie`                                              | 改用 `cookie` 字段传递会话字符串或键值对象                                           |
+| `crypto`、`domain`、`ua`、`e_r`、`acceptGzip`、其他 `headers` | 普通接口按内置协议执行。确需手动控制协议或请求头时改用 `createRequest`               |

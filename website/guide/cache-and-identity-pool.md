@@ -42,7 +42,7 @@ console.log(first.body, second.body);
 
 - **接口标识与请求动作**：模块标识符以及该模块绑定的接口目标配置。
 - **解码后的业务参数**：经过输入校验并归一化后的参数对象。
-- **生效的执行配置**：排除 `onRequestEvent` 与 `timeoutMs` 后的请求配置（含解析后的 `cookie`、`ip`/`realIP`、`proxy`、`retry`、`connectionStrategy`、`state` 等）。
+- **生效的执行配置**：排除 `onRequestEvent` 与 `timeoutMs` 后的请求配置（含解析后的 `cookie`、`ip`/`realIP`、`retry`、`connectionStrategy`、`state` 等）。
 - **有效身份指纹**：当前生效的会话令牌与设备 ID 组合摘要。账号或设备 ID 不同时不会命中彼此的缓存。
 - **传输实现引用**：模块执行函数与 `fetcher` 函数的实例标识。
 

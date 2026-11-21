@@ -313,19 +313,18 @@ describe('phase 5 module regression suite', () => {
   test('should keep login_qr_create local qr generation behavior', async () => {
     const response = await invokeRealModule(
       'login_qr_create',
-      { key: 'qr-key', platform: 'web', qrimg: true },
+      { key: 'qr-key', platform: 'web' },
       undefined,
       { cookie: 'sDeviceId=device-phase5' },
     );
 
     const bodyData = readRecordProperty(response.body, 'data');
     const qrurl = readStringProperty(bodyData, 'qrurl');
-    const qrimg = readStringProperty(bodyData, 'qrimg');
 
     expect(qrurl).toMatch(
       /^https:\/\/music\.163\.com\/login\?codekey=qr-key&chainId=v1_device-phase5_web_login_\d+$/,
     );
-    expect(qrimg.startsWith('data:image/png;base64,')).toBe(true);
+    expect(bodyData).toEqual({ qrurl });
   });
 
   test('should keep batch filtering only legacy /api-prefixed subrequests', async () => {

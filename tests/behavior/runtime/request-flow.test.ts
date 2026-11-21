@@ -1,4 +1,4 @@
-import { expect, spyOn, test } from 'bun:test';
+import { expect, test } from 'bun:test';
 
 import { Effect } from 'effect';
 import { TestClock } from 'effect/testing';
@@ -293,13 +293,13 @@ test('flow shared calls preserve a business checkToken field without configured 
 });
 
 test.each(['pool', 'implicit'] as const)(
-  'flow %s preserves proxy ownership at the actual transport boundary',
+  'flow %s preserves fetcher ownership at the actual transport boundary',
   async (mode) => {
     const previous = getRuntimeState();
-    const proxies: Array<unknown> = [];
+    const calls: Array<string> = [];
     setRuntimeState({
       anonymousToken: '',
-      deviceId: 'proxy-device',
+      deviceId: 'fetcher-device',
       cnIp: '1.1.1.1',
     });
     try {
@@ -311,45 +311,42 @@ test.each(['pool', 'implicit'] as const)(
             response: () =>
               Response.json(
                 { code: 200 },
-                { headers: { 'set-cookie': 'MUSIC_A=proxy-token; Path=/' } },
+                { headers: { 'set-cookie': 'MUSIC_A=fetcher-token; Path=/' } },
               ),
           },
           {
             url: business,
             method: 'POST',
-            response: () => Response.json({ code: 200, unikey: 'proxy-key' }),
+            response: () => Response.json({ code: 200, unikey: 'fetcher-key' }),
           },
         ],
         async (network) => {
-          const standardFetch = spyOn(globalThis, 'fetch').mockImplementation(
-            Object.assign(
-              (input: Request | URL | string, init?: RequestInit) => {
-                proxies.push(init && Reflect.get(init, 'proxy'));
-                return network.fetcher(input, init);
-              },
-              { preconnect: globalThis.fetch.preconnect },
-            ),
+          const clientFetcher = (
+            input: Request | URL | string,
+            init?: RequestInit,
+          ) => {
+            calls.push('client');
+            return network.fetcher(input, init);
+          };
+          const callFetcher = (
+            input: Request | URL | string,
+            init?: RequestInit,
+          ) => {
+            calls.push('call');
+            return network.fetcher(input, init);
+          };
+          const config = {
+            fetcher: clientFetcher,
+            ...(mode === 'pool' ? { identityPool: { size: 1 } } : {}),
+          };
+          const client = createClientFromContext(
+            config,
+            buildCallServices(config, true, { entropy: testEntropy }),
           );
-          try {
-            const config = {
-              proxy: 'http://127.0.0.1:3001',
-              ...(mode === 'pool' ? { identityPool: { size: 1 } } : {}),
-            };
-            const client = createClientFromContext(
-              config,
-              buildCallServices(config, true, { entropy: testEntropy }),
-            );
-            expect(
-              (await client.loginQrKey({}, { proxy: 'http://127.0.0.1:3002' }))
-                .body,
-            ).toMatchObject({ data: { unikey: 'proxy-key' } });
-            expect(proxies).toEqual([
-              mode === 'pool' ? config.proxy : 'http://127.0.0.1:3002',
-              'http://127.0.0.1:3002',
-            ]);
-          } finally {
-            standardFetch.mockRestore();
-          }
+          expect(
+            (await client.loginQrKey({}, { fetcher: callFetcher })).body,
+          ).toMatchObject({ data: { unikey: 'fetcher-key' } });
+          expect(calls).toEqual([mode === 'pool' ? 'client' : 'call', 'call']);
         },
       );
     } finally {

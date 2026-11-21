@@ -27,7 +27,7 @@ export default withMermaid({
       { text: '首页', link: '/' },
       { text: '指南', link: '/guide/introduction' },
       apiNavLink,
-      { text: '升级指南', link: '/guide/migrating-to-v7' },
+      { text: '升级指南', link: '/guide/migrating-to-v8' },
       {
         text: '更新日志',
         link: 'https://github.com/nonhana/hana-music-api/blob/main/CHANGELOG.md',
@@ -65,7 +65,7 @@ export default withMermaid({
               link: '/guide/cache-and-identity-pool',
             },
             { text: '运行时状态与设备身份', link: '/guide/runtime-identity' },
-            { text: '代理与自定义 fetcher', link: '/guide/proxy-and-fetcher' },
+            { text: '自定义 fetcher 与代理', link: '/guide/proxy-and-fetcher' },
             { text: '调试与事件观测', link: '/guide/observability' },
             { text: '浏览器 Watchman', link: '/guide/watchman' },
             { text: '底层请求与加密协议', link: '/guide/low-level-request' },
@@ -82,6 +82,7 @@ export default withMermaid({
           text: '架构与升级',
           items: [
             { text: '架构与数据流', link: '/guide/architecture' },
+            { text: '从 7.x 升级到 8.x', link: '/guide/migrating-to-v8' },
             { text: '从 6.x 升级到 7.x', link: '/guide/migrating-to-v7' },
           ],
         },

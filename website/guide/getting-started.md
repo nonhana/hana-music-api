@@ -62,7 +62,7 @@ console.log(result.body);
 所有 SDK 调用均将业务输入与执行配置分为两个对象传入：
 
 - **第一参数 `query`**：接口自身的业务参数，例如 `keywords`、`ids`、`limit`。
-- **第二参数 `config`**：本次调用的执行配置，例如 `cookie`、`timeoutMs`、`proxy`、`signal`。
+- **第二参数 `config`**：本次调用的执行配置，例如 `cookie`、`timeoutMs`、`fetcher`、`signal`。
 
 ```ts
 await hana.search({ keywords: '海阔天空', limit: 5 }, { timeoutMs: 5000 });
@@ -70,15 +70,15 @@ await hana.search({ keywords: '海阔天空', limit: 5 }, { timeoutMs: 5000 });
 
 完整调用形态见 [SDK 调用方式](/guide/sdk-usage)，全部配置字段见 [执行配置](/guide/config)。
 
-## 可选依赖速查
+## 依赖边界与扩展方式
 
-默认安装仅引入 `effect` 一个运行时依赖。以下三项能力仅在用到时按需安装对应的可选依赖：
+默认安装仅引入 `effect` 一个运行时依赖，不包含任何可选 `peerDependencies`。非协议能力由调用方按需在应用层组合：
 
-| 可选包           | 适用场景                                                        | 未安装时的行为                                                                   |
-| ---------------- | --------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| `undici`         | 在 Node.js 中配置 `proxy`（Bun 无需安装）                       | 立即拒绝为 `status: 400`（`invalidRequest`），提示安装 `undici`                  |
-| `qrcode`         | 调用 `loginQrCreate({ qrimg: true })` 或 `verifyGetQr` 生成 PNG | `loginQrCreate({ key })` 不开启 `qrimg` 时正常返回，开启图片生成时拒绝并提示安装 |
-| `music-metadata` | 调用 `cloud` 上传音频时自动解析 ID3 / FLAC 标签                 | 不中断上传，自动回退为文件名与默认专辑、歌手信息                                 |
+| 场景            | SDK 行为                                                | 应用层组合方式                                                                                               |
+| --------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| 网络代理        | 通过 `config.fetcher` 注入传输实现                      | Node.js 搭配 `undici.ProxyAgent`，Bun 透传 `fetch` 代理参数（见 [自定义 fetcher](/guide/proxy-and-fetcher)） |
+| 扫码/验证二维码 | `loginQrCreate` 与 `verifyGetQr` 返回 `data.qrurl` 链接 | 前端或服务端使用 `qrcode` 等库按 `qrurl` 生成图片                                                            |
+| 云盘音频标签    | `cloud` 接受可选 `song`、`artist`、`album` 输入字段     | 省略时回退至文件名与默认标签，或由应用层预先解析音频元数据后传入                                             |
 
 ## 启动 HTTP 服务
 

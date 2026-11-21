@@ -2,17 +2,17 @@
   {
     "module": "cloud",
     "actions": [],
-    "current": "{ songFile?: typeof UploadedFile.Type }",
-    "fields": ["songFile", "ts"],
+    "current": "{ album?: string; artist?: string; song?: string; songFile?: typeof UploadedFile.Type; }",
+    "fields": ["album", "artist", "song", "songFile", "ts"],
     "legacyEncoding": [],
-    "businessInput": "{ songFile?: UploadedFile }",
-    "upstreamEncoding": "songFile 原样交给上传插件；md5 缺失时按文件字节计算",
+    "businessInput": "{ album?: string; artist?: string; song?: string; songFile?: UploadedFile }",
+    "upstreamEncoding": "songFile 原样交给上传插件；md5 缺失时按文件字节计算；song/album/artist 缺省时回退至文件名与默认标签",
     "evidence": [
       "tests/behavior/modules/input-contracts.test.ts",
       "tests/behavior/modules/input-contracts/library.ts"
     ],
-    "status": "already-compliant",
-    "notes": "输入早已是 UploadedFile 具体结构；本次只把类型别名从 LegacyUploadedFile 换成 UploadedFile.Type，行为不变。songFile 缺失仍由模块在请求前返回 InvalidModuleInput。"
+    "status": "migrated",
+    "notes": "v8 移除 music-metadata 运行时解析，改为显式可选 song/artist/album 输入字段；缺省时自动回退至文件名与默认标签，songFile 缺失仍由模块在请求前返回 InvalidModuleInput。"
   },
   {
     "module": "cloud_import",

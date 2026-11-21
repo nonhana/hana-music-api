@@ -2,14 +2,12 @@ import { createHash } from 'node:crypto';
 
 import * as Effect from 'effect/Effect';
 import * as Schema from 'effect/Schema';
-import type * as MusicMetadata from 'music-metadata';
 
 import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
   UploadedFile,
 } from '../core/module-input.ts';
-import { loadOptionalDependency } from '../core/optional-dependency.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
@@ -50,10 +48,16 @@ export const moduleActions = {
 } as const satisfies ModuleActions;
 
 export type ModuleInput = {
+  album?: string;
+  artist?: string;
+  song?: string;
   songFile?: typeof UploadedFile.Type;
 };
 
 const inputSchema = Schema.Struct({
+  album: Schema.optional(Schema.String),
+  artist: Schema.optional(Schema.String),
+  song: Schema.optional(Schema.String),
   songFile: Schema.optional(UploadedFile),
 });
 
@@ -115,20 +119,6 @@ const cloud: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
           }),
         ),
       );
-      const tags = yield* Effect.tryPromise({
-        try: async () => {
-          const metadata =
-            await loadOptionalDependency<typeof MusicMetadata>(
-              'music-metadata',
-            );
-          return metadata.parseBuffer(bytes, songFile.mimetype);
-        },
-        catch: () =>
-          InvalidModuleInput.make({ message: '无法读取音乐文件元数据' }),
-      }).pipe(
-        Effect.map((info) => info.common),
-        Effect.orElseSucceed(() => ({ title: '', album: '', artist: '' })),
-      );
       const allocation = yield* stage('allocate', {
         data: {
           bucket: '',
@@ -164,9 +154,9 @@ const cloud: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
           md5: songFile.md5,
           songid: check.songId,
           filename: songFile.name,
-          song: tags.title || filename,
-          album: tags.album || '未知专辑',
-          artist: tags.artist || '未知艺术家',
+          song: input.song || filename,
+          album: input.album || '未知专辑',
+          artist: input.artist || '未知艺术家',
           bitrate: '999000',
           resourceId: token.resourceId,
         },

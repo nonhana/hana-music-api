@@ -114,7 +114,6 @@
     "cspell": "^10.4.0",
     "hono": "^4.13.16",
     "mermaid": "^12.3.0",
-    "music-metadata": "^12.3.4",
     "oxfmt": "^0.76.0",
     "oxlint": "^1.91.0",
     "oxlint-tsgolint": "^7.0.2005",
@@ -126,22 +125,6 @@
     "undici": "^8.12.3",
     "vitepress": "^1.6.4",
     "vitepress-plugin-mermaid": "^2.0.17"
-  },
-  "peerDependencies": {
-    "music-metadata": "^12.3.4",
-    "qrcode": "^1.5.4",
-    "undici": "^8.12.3"
-  },
-  "peerDependenciesMeta": {
-    "music-metadata": {
-      "optional": true
-    },
-    "qrcode": {
-      "optional": true
-    },
-    "undici": {
-      "optional": true
-    }
   },
   "engines": {
     "node": ">=24"

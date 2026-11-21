@@ -68,21 +68,19 @@ type VerifyGetQrBody = {
   data: {
     qrCode: string;
     qrurl: string;
-    qrimg: string;
   };
 };
 ```
 
-| 字段          | 类型     | 必填 | 说明                                               |
-| ------------- | -------- | ---- | -------------------------------------------------- |
-| `code`        | `200`    | 是   | 业务状态码（`200` 表示成功）                       |
-| `data`        | `object` | 是   | 接口返回的数据主体                                 |
-| `data.qrCode` | `string` | 是   | 验证二维码标识                                     |
-| `data.qrurl`  | `string` | 是   | 二维码对应的授权页面 URL                           |
-| `data.qrimg`  | `string` | 是   | 二维码图片 Data URL（未开启 `qrimg` 时为空字符串） |
+| 字段          | 类型     | 必填 | 说明                         |
+| ------------- | -------- | ---- | ---------------------------- |
+| `code`        | `200`    | 是   | 业务状态码（`200` 表示成功） |
+| `data`        | `object` | 是   | 接口返回的数据主体           |
+| `data.qrCode` | `string` | 是   | 验证二维码标识               |
+| `data.qrurl`  | `string` | 是   | 二维码对应的授权页面 URL     |
 
 <!-- api-doc:response:end -->
 
 ## 注意事项
 
-- **可选依赖**：生成验证二维码图片需环境中安装可选依赖 `qrcode`。
+- **二维码渲染**：接口仅返回验证票据 `data.qrCode` 与验证链接 `data.qrurl`，二维码图片请由应用层自行使用 `qrcode` 等库按 `qrurl` 生成。

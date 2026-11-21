@@ -25,7 +25,6 @@ export interface InternalExecution {
 
 export interface ExecutionScopeShape {
   readonly fetcher?: FetchLike;
-  readonly proxy?: string;
   readonly connectionStrategy?: ModuleCallConfig['connectionStrategy'];
   readonly entropy?: (now: number) => RequestEntropy;
   readonly onRequestEvent?: (event: RequestDebugEvent) => void;
@@ -42,7 +41,7 @@ export class ExecutionScope extends Context.Service<
 export const resolveExecutionScope = (
   options: Pick<
     ModuleCallConfig,
-    'fetcher' | 'proxy' | 'connectionStrategy' | 'onRequestEvent'
+    'fetcher' | 'connectionStrategy' | 'onRequestEvent'
   >,
   execution: InternalExecution | undefined,
   startedAt: number,
@@ -51,7 +50,6 @@ export const resolveExecutionScope = (
 ): ExecutionScopeShape =>
   Object.freeze({
     fetcher: options.fetcher ?? execution?.fetcher,
-    proxy: options.proxy,
     connectionStrategy: options.connectionStrategy,
     onRequestEvent: options.onRequestEvent ?? execution?.onRequestEvent,
     entropy: execution?.entropy,

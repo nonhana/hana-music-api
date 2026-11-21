@@ -17,11 +17,11 @@ Watchman 实现使用独立的完整 DOM 类型环境，公开声明仍不要求
 
 所有 `*Body` 运行时校验器对外统一收敛为纯 Standard Schema v1 类型 `BodySchema<Output>`（无 Effect Schema 内部 AST 泄漏到 `.d.ts`），内部错误类、Effect 和 Layer 不导出。`startServer`、`createServer`、匿名配置生成和模块加载等服务内部能力不属于公开 SDK 导出。
 
-依赖边界：`package.json#dependencies` 仅保留 `effect`；`hono` 留在 `devDependencies`；`undici`、`music-metadata`、`qrcode` 声明为可选 `peerDependencies`（`optional: true`），在对应能力被触发时动态加载：
+依赖边界：`package.json#dependencies` 仅保留 `effect`，零 `peerDependencies`（详见 [ADR-0006](../docs/adr/0006-zero-optional-peers-and-protocol-boundary.md)）；`hono`、`qrcode`、`undici` 留在 `devDependencies`：
 
-- Node.js 传入 `proxy` 且未安装 `undici`：拒绝为 `status: 400`、`failure.kind === 'invalidRequest'`，提示安装 `undici`；
-- 未安装 `qrcode`：`loginQrCreate({ key })` 不开 `qrimg` 正常成功；`loginQrCreate({ key, qrimg: true })` 与 `verifyGetQr` 拒绝为 `failure.kind === 'unknown'`，提示安装 `qrcode`；
-- 未安装 `music-metadata`：`cloud` 优雅回退至文件名与默认标签并完成上传流程。
+- `proxy` 已从 `ModuleCallConfig` 与 `CreateRequestOptions` 移除（传入均以 `400` / `invalidRequest` 或 `TypeError` 拒绝）；代理统一通过 `config.fetcher` 注入；
+- `loginQrCreate`（移除 `qrimg` 输入与输出）与 `verifyGetQr`（移除 `qrimg` 输出）仅返回 `qrurl`（及 `qrCode`），二维码图片由应用层自行渲染；
+- `cloud` 不再在内核解析音频二进制标签，新增可选 `song`、`artist`、`album` 输入字段，省略时回退至文件名与默认标签。
 
 ## 失败契约
 
@@ -43,7 +43,7 @@ Watchman 实现使用独立的完整 DOM 类型环境，公开声明仍不要求
 
 以上入口都返回 Promise；响应继续保持 `{ status, body, cookie }` 外壳。Effect、Hono、`Layer` 和内部错误类型不穿过公开边界。
 
-query 只承载端点业务输入，config 承载 Cookie、代理、fetcher、重试、期限、取消和运行时状态。SDK 的 `fetcher` 必须兼容标准 fetch 签名并遵守 `AbortSignal`；请求总期限包含重试等待和完整正文读取。
+query 只承载端点业务输入，config 承载 Cookie、fetcher、重试、期限、取消和运行时状态。SDK 的 `fetcher` 必须兼容标准 fetch 签名并遵守 `AbortSignal`；请求总期限包含重试等待和完整正文读取。
 
 所有程序化 SDK 模块统一接受可选 `checkToken` 字符串或异步 provider，读取、收藏和取消均按调用者配置处理，不按动作判定必填或禁用。未配置不取值、不附加，也不因缺 token 在本地拒绝；已配置却失败或为空在发送前失败。token 值必须能原样写入 HTTP 头，首尾空白或非法头字符在发送前以 400 拒绝，避免正文与头不一致。provider 等待计入总期限，取消/超时后不再发送；独立调用及同一次多请求调用逐次取值。带 token 调用不缓存、不合并、不自动重试；固定字符串在同一模块调用只允许一次 API 请求，第二次需求以 400 拒绝，改用 provider 可逐请求提供新值。纯本地和外部 plain 上传不取值、不发送 token。HTTP 仍拒绝通用 checkToken 配置，显式低层 createRequest 不新增模块 token 参数。
 
@@ -76,7 +76,7 @@ playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、�
 
 #122明确批准上述各历史批次的身份变化：state.deviceId优先于旧Cookie.deviceId，再用匿名/运行时兜底，调用者负责设备与会话保存；有效值不含空白或控制字符。现有EAPI采用iPhone字段，原weapiPc浏览器动作使用web，clientlog使用自洽macOS组合，原协议和返回体保持。普通配置不能污染受控平台；低层createRequest的显式原始选项保留。详见[全动作迁移](../docs/acceptance/issue-122-actions.md)，通用旧类型已由#116收口。
 
-#116 的 `ModuleCallConfig` 与低层 `CreateRequestOptions` 独立。普通模块只接受 cookie、代理/fetcher、ip/realIP、state、期限/取消、连接/事件、受动作限制的retry和可选checkToken。crypto、ua、domain、e_r、acceptGzip、headers、顶层deviceId与未知键（即使值undefined）在运行时拒绝，不能放query；client无效默认配置抛TypeError，调用拒绝status400。设备迁移到state.deviceId，头Cookie迁移到cookie。createOption只供createRequest，低层默认eapi并保留原始选项/目标安全；没有动作语义的原始请求不自动重放。内部动态程序入口也采用query/config分离；装配与发现强制有效动作，本地必须空集。此为major，见[执行配置参考](../website/guide/config.md)。
+#116 的 `ModuleCallConfig` 与低层 `CreateRequestOptions` 独立。普通模块只接受 cookie、fetcher、ip/realIP、state、期限/取消、连接/事件、受动作限制的retry和可选checkToken。proxy（v8 移除）、crypto、ua、domain、e_r、acceptGzip、headers、顶层deviceId与未知键（即使值undefined）在运行时拒绝，不能放query；client无效默认配置抛TypeError，调用拒绝status400。设备迁移到state.deviceId，头Cookie迁移到cookie。createOption只供createRequest，低层默认eapi并保留原始选项/目标安全；没有动作语义的原始请求不自动重放。内部动态程序入口也采用query/config分离；装配与发现强制有效动作，本地必须空集。此为major，见[执行配置参考](../website/guide/config.md)。
 
 请求数据流收敛保留上述根 Promise API。内部自定义模块改用绑定本地 moduleActions 的二元 request(actionName,args)，生产 server/动态装配删除 requestHandler，并明确拒绝旧 JavaScript 键；这是 major 迁移。测试网络通过 fetcher，内部 execution 仍不是根发布面。
 

@@ -24,7 +24,7 @@ curl 'http://127.0.0.1:3021/search' \
 
 - **网络与执行配置**：`proxy`、`fetcher`、`timeoutMs`、`retry`、`connectionStrategy`、`signal`、`ip`、`realIP`、`state`、`checkToken`、`onRequestEvent`、`cache`、`identityPool`。
 - **底层协议配置**：`crypto`、`domain`、`ua`、`headers`、`e_r`、`acceptGzip`、`deviceId`。
-- **正确配置方式**：超时时间、代理与重试策略应在服务端通过 SDK 配置设置，显式构造底层协议请求详见 [底层请求](/guide/low-level-request)。
+- **正确配置方式**：超时时间、传输实现与重试策略应在服务端通过 SDK 配置设置，显式构造底层协议请求详见 [底层请求](/guide/low-level-request)。
 
 ## Cookie 传递与写回
 

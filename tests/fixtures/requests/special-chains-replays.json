@@ -342,16 +342,15 @@
   {
     "module": "login_qr_create",
     "path": "tests/fixtures/netease/login/login_qr_create.json",
-    "recordingSha256": "87f3274c3b112a91821732577fa17e43c8e712d9d7646098d00ca5b882d5710c",
+    "recordingSha256": "10e4c708047e91ff142d6ce86a5360d98989c4d7a5b1bd557d224e59da6d7b49",
     "query": {
-      "key": "f124a8be-db3f-42f9-a236-30cc4130ed2c",
-      "qrimg": true
+      "key": "f124a8be-db3f-42f9-a236-30cc4130ed2c"
     },
-    "upstreamMode": "local QR generation, no upstream",
+    "upstreamMode": "local QR link generation, no upstream",
     "sends": 0,
     "outcome": "resolved",
     "status": 200,
-    "bodySha256": "eb6f39d263c3f70e7f29e9ce647dbf0c4854499e86b4fef260aa9772985bfaa2",
+    "bodySha256": "8fba22e7ba9ece2d5dd6af4dcaf05985ab92d619726fd461c07c0f511c06a24d",
     "cookieSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
   }
 ]

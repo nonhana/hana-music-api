@@ -236,7 +236,7 @@ export const testEntries: ReadonlyArray<TestEntry> = [
     selections: ['local', 'mutation:failure-contract'],
   },
   {
-    file: 'tests/unit/runtime/optional-dependencies.test.ts',
+    file: 'tests/unit/runtime/dependency-boundary.test.ts',
     category: 'unit',
     selections: ['local'],
   },

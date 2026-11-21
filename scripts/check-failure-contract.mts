@@ -59,13 +59,12 @@ const SPECIAL_MODULES = new Map<string, string>([
   ['inner_version', '纯本地，无网络来源'],
   ['login', '特殊 502 业务码本地改写与 Cookie 检查'],
   ['login_qr_check', '成功码 800-803 与 8821 业务拒绝'],
-  ['login_qr_create', '本地二维码不变式（unknown）'],
+  ['login_qr_create', '纯本地，无网络来源'],
   ['playlist_cover_update', 'uploadWork 多阶段与部分完成'],
   ['playlist_track_all', 'playlist 读 + songs 批量读'],
   ['playlist_tracks', '512 fallback 第二次写请求'],
   ['scrobble', 'start + play 两次写'],
   ['song_url', '手工 data 数组校验与合成 code 200'],
-  ['verify_getQr', '上游 read + 本地二维码不变式（unknown）'],
   ['voice_upload', 'uploadWork 多阶段与部分完成'],
 ]);
 

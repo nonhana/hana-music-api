@@ -16,7 +16,8 @@ npm install hana-music-api
 ```
 
 - **运行时要求**：SDK 需要 Node.js `>=24` 或 Bun，仅支持 ESM 模块。
-- **轻量化可选依赖**：默认安装仅依赖 `effect`。在 Node.js 中使用 `proxy` 需安装 `undici`，生成二维码图片需安装 `qrcode`，上传云盘音频解析标签需安装 `music-metadata`。
+- **极简依赖边界**：默认安装仅依赖 `effect`，不包含 `peerDependencies` 与额外多媒体或网络代理依赖。
+- **传输扩展方式**：网络代理、连接池管理与日志埋点统一通过 `config.fetcher` 注入实现，详见 [代理与自定义 fetcher](website/guide/proxy-and-fetcher.md)。
 - **浏览器 Watchman 支持**：需要在浏览器端获取风控 Watchman 令牌时，可使用独立子路径 `hana-music-api/watchman`，详见 [浏览器 Watchman](website/guide/watchman.md)。
 
 ## SDK 调用
@@ -78,7 +79,7 @@ bun start
 curl 'http://127.0.0.1:3021/search?keywords=hello&limit=5'
 ```
 
-HTTP 路由仅接受业务参数以及 `cookie`、`noCookie` 控制字段。代理、超时时间等执行配置须在服务端设置，详见 [HTTP 调用约定](website/guide/http-conventions.md) 与 [部署 HTTP 服务](website/guide/http-deployment.md)。
+HTTP 路由仅接受业务参数以及 `cookie`、`noCookie` 控制字段。超时时间、传输层与重试策略须在服务端设置，详见 [HTTP 调用约定](website/guide/http-conventions.md) 与 [部署 HTTP 服务](website/guide/http-deployment.md)。
 
 ## 文档导航
 
@@ -88,7 +89,7 @@ HTTP 路由仅接受业务参数以及 `cookie`、`noCookie` 控制字段。代�
 - **SDK 开发**：查看 [SDK 调用方式](website/guide/sdk-usage.md)、[包导出与子路径](website/guide/package-exports.md) 与 [认证机制](website/guide/authentication.md)。
 - **配置与容错**：查看 [错误处理](website/guide/error-handling.md)、[配置参考](website/guide/config.md) 与 [重试、超时与连接策略](website/guide/resilience.md)。
 - **HTTP 服务**：查看 [HTTP 调用约定](website/guide/http-conventions.md) 与 [部署 HTTP 服务](website/guide/http-deployment.md)。
-- **架构与迁移**：查看 [架构设计与技术演进](website/guide/architecture.md) 与 [从 6.x 升级到 7.x](website/guide/migrating-to-v7.md)。
+- **架构与迁移**：查看 [架构设计与技术演进](website/guide/architecture.md)、[从 7.x 升级到 8.x](website/guide/migrating-to-v8.md) 与 [从 6.x 升级到 7.x](website/guide/migrating-to-v7.md)。
 - **接口参考**：浏览 [API 参考目录](website/api/index.md) 与 [公共数据结构](website/api/shared-types.md)。
 
 ## 使用边界与频率控制

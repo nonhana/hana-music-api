@@ -61,7 +61,10 @@ const retiredCases: Record<string, true> = {
   'playlist_tracks/del-38': true,
   'playlist_tracks/del-39': true,
   'playlist_tracks/invalid-tracks': true,
+  'login_qr_create/qr-17': true,
   'login_qr_create/qr-19': true,
+  'login_qr_create/qr-20': true,
+  'cloud/valid-wave-tags': true,
   'cloud_import/falsy': true,
   'playlist_cover_update/missing': true,
   'playlist_track_all/invalid-page': true,
@@ -69,16 +72,33 @@ const retiredCases: Record<string, true> = {
 const baselineCases = baseline.cases.filter(
   (entry) => !Object.hasOwn(retiredCases, `${entry.module}/${entry.label}`),
 );
-const expectedResult = (entry: Case): Case['result'] =>
-  entry.module === 'inner_version'
-    ? {
-        resolved: {
-          status: 200,
-          cookie: [],
-          body: { code: 200, data: { version: packageJson.version } },
+const expectedResult = (entry: Case): Case['result'] => {
+  if (entry.module === 'inner_version') {
+    return {
+      resolved: {
+        status: 200,
+        cookie: [],
+        body: { code: 200, data: { version: packageJson.version } },
+      },
+    };
+  }
+  if (entry.module === 'login_qr_create' && entry.result.resolved) {
+    const resolvedBody = entry.result.resolved.body as {
+      code: number;
+      data: { qrurl: string };
+    };
+    return {
+      resolved: {
+        ...entry.result.resolved,
+        body: {
+          code: resolvedBody.code,
+          data: { qrurl: resolvedBody.data.qrurl },
         },
-      }
-    : entry.result;
+      },
+    };
+  }
+  return entry.result;
+};
 const cookie =
   'MUSIC_U=synthetic-account; MUSIC_A=synthetic-anonymous; __csrf=csrf; deviceId=special-device';
 const revive = (entry: Case) => {
@@ -226,6 +246,111 @@ test('login_qr_create rejects an unknown platform before calling upstream', asyn
     rejected: { status: 400, body: { code: 400 } },
   });
   expect(upstreamCalls).toBe(0);
+});
+
+test.each([true, false])(
+  'login_qr_create rejects retired qrimg=%s input before local execution',
+  async (qrimg) => {
+    const api = createHanaMusicApi({ cookie });
+    const result = await settle(
+      api.loginQrCreate({ key: 'key', qrimg } as never),
+    );
+    expect(result).toMatchObject({
+      rejected: {
+        status: 400,
+        body: { code: 400 },
+        failure: { kind: 'invalidRequest' },
+      },
+    });
+  },
+);
+
+test('cloud sends explicit song, album, and artist metadata or falls back to defaults', async () => {
+  const cloudEntry = baseline.cases.find(
+    (candidate) =>
+      candidate.module === 'cloud' && candidate.label === 'valid-wave-tags',
+  )!;
+  const explicitWires = cloudEntry.wires.map((wire) =>
+    wire.url.includes('/eapi/upload/cloud/info/v2')
+      ? {
+          ...wire,
+          data: {
+            ...wire.data,
+            song: 'Explicit Song',
+            album: 'Explicit Album',
+            artist: 'Explicit Artist',
+          },
+        }
+      : wire,
+  );
+  await withScenario(
+    explicitWires.map((wire) => ({
+      url: wire.url,
+      method: wire.method,
+      response: () => response(wire),
+    })),
+    async (scenario) => {
+      const config: ModuleCallConfig = { cookie };
+      const client = createClientFromContext(
+        config,
+        buildCallServices(config, false, {
+          fetcher: scenario.fetcher,
+          entropy: () => testEntropy(1700000000000),
+        }),
+      );
+      const baseInput = revive(cloudEntry);
+      const result = await settle(
+        client.cloud({
+          ...baseInput,
+          song: 'Explicit Song',
+          album: 'Explicit Album',
+          artist: 'Explicit Artist',
+        }),
+      );
+      expect(result).toHaveProperty('resolved.status', 200);
+      expect(scenario.sent).toHaveLength(explicitWires.length);
+      for (const [index, wire] of scenario.sent.entries()) {
+        await checkWire(explicitWires[index]!, wire);
+      }
+    },
+  );
+
+  const fallbackWires = cloudEntry.wires.map((wire) =>
+    wire.url.includes('/eapi/upload/cloud/info/v2')
+      ? {
+          ...wire,
+          data: {
+            ...wire.data,
+            song: 'synthetic',
+            album: '未知专辑',
+            artist: '未知艺术家',
+          },
+        }
+      : wire,
+  );
+  await withScenario(
+    fallbackWires.map((wire) => ({
+      url: wire.url,
+      method: wire.method,
+      response: () => response(wire),
+    })),
+    async (scenario) => {
+      const config: ModuleCallConfig = { cookie };
+      const client = createClientFromContext(
+        config,
+        buildCallServices(config, false, {
+          fetcher: scenario.fetcher,
+          entropy: () => testEntropy(1700000000000),
+        }),
+      );
+      const result = await settle(client.cloud(revive(cloudEntry)));
+      expect(result).toHaveProperty('resolved.status', 200);
+      expect(scenario.sent).toHaveLength(fallbackWires.length);
+      for (const [index, wire] of scenario.sent.entries()) {
+        await checkWire(fallbackWires[index]!, wire);
+      }
+    },
+  );
 });
 
 for (const entry of baselineCases) {

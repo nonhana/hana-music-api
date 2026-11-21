@@ -6,6 +6,7 @@ import * as sdk from 'hana-music-api';
 import expectedClients from './client-identities.json' with { type: 'json' };
 
 const removed = {
+  proxy: 'http://127.0.0.1:8080',
   crypto: 'api',
   ua: 'old',
   domain: 'https://external.example',
@@ -166,12 +167,16 @@ await sdk.createRequest(
     },
   }),
 );
+await assert.rejects(
+  sdk.createRequest('/api/raw/probe', {}, { proxy: 'http://127.0.0.1:8080' }),
+  (error) => error.status === 400 && error.failure?.kind === 'invalidRequest',
+);
 assert.deepEqual(failures, []);
 assert.equal(sends, 3);
 assert.equal(rawSends, 1);
 process.stdout.write(
   JSON.stringify({
-    removedKeys: 7,
+    removedKeys: 8,
     rejectedCalls,
     rejectedConstructors,
     nonEnumerableRejections,

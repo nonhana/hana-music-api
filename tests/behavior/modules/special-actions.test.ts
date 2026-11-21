@@ -482,17 +482,16 @@ describe('special Effect module behavior', () => {
     expect(result.body).toEqual(body);
   });
 
-  test('QR image computation stays local', async () => {
+  test('QR link computation stays local', async () => {
     const result = await runEffect(
-      executeModule(loginQrCreate, { key: 'key', qrimg: true }, () =>
+      executeModule(loginQrCreate, { key: 'key' }, () =>
         Effect.die('No network expected'),
       ),
     );
-    expect(result.body).toMatchObject({
+    expect(result.body).toEqual({
       code: 200,
       data: {
         qrurl: 'https://music.163.com/login?codekey=key',
-        qrimg: expect.stringContaining('data:image/png;base64,'),
       },
     });
   });

@@ -24,6 +24,7 @@ import { loadModuleDefinitions } from '../../../src/server/module-loader.ts';
 import { projectRoot, settle } from '../../_kit/assertions.ts';
 
 const removed = {
+  proxy: 'http://127.0.0.1:8080',
   crypto: 'api',
   ua: 'mixed-client',
   domain: 'https://outside.example',
@@ -83,9 +84,32 @@ test('module config rejects unknown keys and low-level createOption as a module 
   expect(
     await settle(innerVersion({}, createOption({ crypto: 'weapi' }))),
   ).toMatchObject({ rejected: { status: 400 } });
+  let sends = 0;
+  expect(
+    await settle(
+      Reflect.apply(createRequest, undefined, [
+        '/api/probe',
+        {},
+        {
+          proxy: 'http://127.0.0.1:8080',
+          fetcher: async () => {
+            sends += 1;
+            return Response.json({ code: 200 });
+          },
+        },
+      ]),
+    ),
+  ).toMatchObject({
+    rejected: {
+      status: 400,
+      failure: { kind: 'invalidRequest' },
+    },
+  });
+  expect(sends).toBe(0);
 });
 
 test.each([
+  'proxy',
   'crypto',
   'ua',
   'domain',

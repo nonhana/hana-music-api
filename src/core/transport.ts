@@ -1,22 +1,16 @@
 import * as Clock from 'effect/Clock';
 import * as Effect from 'effect/Effect';
 import * as Result from 'effect/Result';
-import type * as Undici from 'undici';
 
 import type { FetchLike } from '../types/index.ts';
 import type { UpstreamResponse } from '../types/upstream.ts';
 import type { RequestError } from './errors.ts';
 import {
-  InvalidRequest,
   ProtocolFailed,
   ResponseDecodeFailed,
   TransportFailed,
   UpstreamRateLimited,
 } from './errors.ts';
-import {
-  isMissingOptionalDependencyError,
-  loadOptionalDependency,
-} from './optional-dependency.ts';
 import type { ConsumedResponse } from './response.ts';
 import {
   classifyConsumedRateLimit,
@@ -29,13 +23,9 @@ export interface TransportOptions {
   readonly headers?: RequestInit['headers'];
   readonly identity?: string;
   readonly method?: string;
-  readonly proxy?: string;
   readonly signal?: AbortSignal;
   readonly timeoutMs?: number;
 }
-
-/** Bun.fetch 支持非标 `proxy` 选项；自定义 fetcher 也按此约定读取。 */
-type ProxyRequestInit = RequestInit & { readonly proxy?: string };
 
 export const transportEffect = <
   A extends ConsumedResponse | UpstreamResponse = ConsumedResponse,
@@ -44,13 +34,6 @@ export const transportEffect = <
   options: TransportOptions,
   interpret?: (response: ConsumedResponse, now: number) => A,
 ): Effect.Effect<A, RequestError> => {
-  if (options.proxy && options.fetcher) {
-    return Effect.fail(
-      InvalidRequest.make({
-        message: 'proxy cannot be combined with a custom fetcher',
-      }),
-    );
-  }
   const host = new URL(url).host;
   const identity = options.identity ?? 'anonymous';
   const attempt = Effect.scoped(
@@ -65,31 +48,6 @@ export const transportEffect = <
             }
           }),
       );
-      const proxyUrl =
-        options.proxy && typeof Bun === 'undefined' ? options.proxy : undefined;
-      const undici = proxyUrl
-        ? yield* Effect.tryPromise({
-            try: () => loadOptionalDependency<typeof Undici>('undici'),
-            catch: (error) =>
-              isMissingOptionalDependencyError(error, 'undici')
-                ? InvalidRequest.make({
-                    message:
-                      "Node.js proxy support requires installing optional peer dependency 'undici'",
-                  })
-                : TransportFailed.make({
-                    message:
-                      error instanceof Error ? error.message : String(error),
-                    cause: error,
-                  }),
-          })
-        : undefined;
-      const agent =
-        proxyUrl && undici
-          ? yield* Effect.acquireRelease(
-              Effect.sync(() => new undici.ProxyAgent(proxyUrl)),
-              (resource) => Effect.promise(() => resource.destroy()),
-            )
-          : undefined;
       const response = yield* Effect.tryPromise({
         try: (signal) => {
           const init: RequestInit = {
@@ -103,26 +61,7 @@ export const transportEffect = <
             ]),
             redirect: 'manual',
           };
-          if (agent && undici) {
-            // undici 与 DOM 的 RequestInit/Response 类型互不兼容（HeadersInit tuple、
-            // Response 类不同），但运行时字段同型、消费端只读 status/headers/text。
-            // 类型鸿沟边界，断言为唯一手段。
-            // oxlint-disable-next-line typescript/no-unsafe-type-assertion
-            const undiciInit = {
-              ...init,
-              dispatcher: agent,
-            } as Parameters<typeof undici.fetch>[1];
-            return undici.fetch(
-              url,
-              undiciInit,
-            ) as unknown as Promise<Response>;
-          }
-          return (options.fetcher ?? fetch)(
-            url,
-            options.proxy
-              ? ({ ...init, proxy: options.proxy } as ProxyRequestInit)
-              : init,
-          );
+          return (options.fetcher ?? fetch)(url, init);
         },
         catch: (error) =>
           TransportFailed.make({
