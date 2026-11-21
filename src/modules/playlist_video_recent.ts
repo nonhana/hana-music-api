@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -48,7 +51,7 @@ const MlogBaseData = UpstreamObject({
   coverWidth: Loose(Schema.Finite),
   duration: Loose(Schema.Finite),
   greatCover: Loose(Schema.Boolean),
-  videos: Loose(Schema.Array(VideoStream)),
+  videos: VideoStream.pipe(Schema.Array, Loose),
 });
 
 const MlogArtist = UpstreamObject({
@@ -59,7 +62,7 @@ const MlogArtist = UpstreamObject({
 
 const MlogExtVO = UpstreamObject({
   artistName: Loose(Schema.String),
-  artists: Loose(Schema.Array(MlogArtist)),
+  artists: MlogArtist.pipe(Schema.Array, Loose),
   canCollect: Loose(Schema.Boolean),
   commentCount: Loose(Schema.Finite),
   likedCount: Loose(Schema.Finite),
@@ -75,7 +78,7 @@ const RecentVideo = UpstreamObject({
 });
 
 // 通到最近播放视频列表的路径 `data.videos` 和每段视频自己的编号 `mlogBaseData.id` 收紧；其余字段宽松，只见过 `null` 的字段没有声明。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     message: Loose(Schema.String),
@@ -84,7 +87,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     }),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

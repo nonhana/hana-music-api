@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -69,7 +72,7 @@ const EventRecord = UpstreamObject({
   musicianSay: Loose(Schema.Boolean),
   needAiDefaultPic: Loose(Schema.Boolean),
   owner: Loose(Schema.Boolean),
-  pics: Loose(Schema.Array(EventPic)),
+  pics: EventPic.pipe(Schema.Array, Loose),
   privacySetting: Loose(Schema.Finite),
   relationTopic: Loose(Schema.Boolean),
   repostSource: Loose(Schema.String),
@@ -87,7 +90,7 @@ const EventRecord = UpstreamObject({
 });
 
 // 获取动态列表：通到列表的路径 `event` 和每条动态自己的编号 `event[].id` 收紧；没有动态时 `event` 为空数组。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     event: Schema.Array(EventRecord),
@@ -95,7 +98,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     more: Loose(Schema.Boolean),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const event: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,

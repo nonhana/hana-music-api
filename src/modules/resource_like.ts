@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { resolveResourceType } from '../core/comment-thread.ts';
 import {
@@ -9,7 +10,12 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import type { BodyType } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  defineModuleBody,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
@@ -50,12 +56,12 @@ export const decodeModuleInput = (input: unknown) =>
 
 // 接口就是为了确认点赞/取消点赞成功：正文只带返回码 `code`，收紧。
 // 正方向（点赞）在录制设备上被上游风控拒绝（code 250），成功正文只有反向（取消点赞）的证据。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const resourceLike: ModuleEffect<
   ModuleInput,

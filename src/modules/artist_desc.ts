@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -55,7 +58,7 @@ const Topic = UpstreamObject({
   auditStatus: Loose(Schema.Finite),
   auditTime: Loose(Schema.Finite),
   categoryId: Loose(Schema.Finite),
-  content: Loose(Schema.Array(TopicContent)),
+  content: TopicContent.pipe(Schema.Array, Loose),
   cover: Loose(Schema.Finite),
   delReason: Loose(Schema.String),
   fromBackend: Loose(Schema.Boolean),
@@ -79,7 +82,7 @@ const Topic = UpstreamObject({
   startText: Loose(Schema.String),
   status: Loose(Schema.Finite),
   summary: Loose(Schema.String),
-  tags: Loose(Schema.Array(Schema.String)),
+  tags: Schema.String.pipe(Schema.Array, Loose),
   title: Loose(Schema.String),
   updateTime: Loose(Schema.Finite),
   userId: Loose(Schema.Finite),
@@ -113,7 +116,7 @@ const TopicArticle = UpstreamObject({
   showComment: Loose(Schema.Boolean),
   showRelated: Loose(Schema.Boolean),
   summary: Loose(Schema.String),
-  tags: Loose(Schema.Array(Schema.String)),
+  tags: Schema.String.pipe(Schema.Array, Loose),
   title: Loose(Schema.String),
   topic: Loose(Topic),
   url: Loose(Schema.String),
@@ -121,16 +124,16 @@ const TopicArticle = UpstreamObject({
 });
 
 // 通到歌手介绍正文的路径 `introduction` 收紧；`briefDesc` 是摘要、`topicData` 是相关专栏，都是宽松字段。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     briefDesc: Loose(Schema.String),
     count: Loose(Schema.Finite),
     introduction: Schema.Array(Introduction),
-    topicData: Loose(Schema.Array(TopicArticle)),
+    topicData: TopicArticle.pipe(Schema.Array, Loose),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { InvalidModuleInput } from '../core/errors.ts';
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';

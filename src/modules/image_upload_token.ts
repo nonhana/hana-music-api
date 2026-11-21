@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,7 +7,8 @@ import {
 } from '../core/module-input.ts';
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { UpstreamObject } from '../core/upstream-body.ts';
+import type { BodyType } from '../core/upstream-body.ts';
+import { defineModuleBody, UpstreamObject } from '../core/upstream-body.ts';
 import { allocateImageUpload, imageUploadActions } from '../plugins/upload.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
@@ -17,7 +19,7 @@ export const moduleActions = {
 export type ModuleInput = NoInput;
 
 // 返回码、上传凭证路径和凭证字段都是接口要拿的那一项，全部收紧。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -28,7 +30,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     }),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const inputSchema = EmptyInput;
 

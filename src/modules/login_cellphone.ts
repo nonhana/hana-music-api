@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
@@ -9,8 +10,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -103,28 +106,28 @@ const Binding = UpstreamObject({
 });
 
 // 返回码、账号和用户资料的路径及编号收紧；其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     account: Account,
     profile: UserProfile,
-    bindings: Loose(Schema.Array(Binding)),
+    bindings: Binding.pipe(Schema.Array, Loose),
     hitType: Loose(Schema.Finite),
     loginType: Loose(Schema.Finite),
     token: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 // 网易云风控拦下短信登录时的返回体（10004），SDK 原样作为失败的 body 抛出；`redirectUrl` 指向网易云的手机号复用验证页面。
-export const RiskBody = Schema.toStandardSchemaV1(
+export const RiskBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(10004),
     message: Schema.String,
     redirectUrl: Schema.String,
   }),
 );
-export type RiskBody = typeof RiskBody.Type;
+export type RiskBody = BodyType<typeof RiskBody>;
 
 const loginCellphone: ModuleEffect<
   ModuleInput,

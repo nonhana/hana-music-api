@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   BooleanValue,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -73,7 +76,7 @@ const SectionUiElement = UpstreamObject({
 const ResourceUiElement = UpstreamObject({
   ...SectionUiElement.schema.fields,
   image: Loose(Image),
-  labelTexts: Loose(Schema.Array(Schema.String)),
+  labelTexts: Schema.String.pipe(Schema.Array, Loose),
   labelType: Loose(Schema.String),
   labelColor: Loose(Schema.String),
   labelBgColor: Loose(Schema.String),
@@ -83,7 +86,7 @@ const ResourceUiElement = UpstreamObject({
 
 const PlayParams = UpstreamObject({
   playerType: Loose(Schema.String),
-  resourceIds: Loose(Schema.Array(Schema.String)),
+  resourceIds: Schema.String.pipe(Schema.Array, Loose),
   showUI: Loose(Schema.Boolean),
 });
 
@@ -153,15 +156,15 @@ const ResourceExtInfo = UpstreamObject({
   specialType: Loose(Schema.Finite),
   specialCover: Loose(Schema.Finite),
   alias: Loose(Schema.String),
-  artists: Loose(Schema.Array(Artist)),
+  artists: Artist.pipe(Schema.Array, Loose),
   song: Loose(LooseSong),
   songData: Loose(ProgramMainSong),
-  songDatas: Loose(Schema.Array(ProgramMainSong)),
+  songDatas: ProgramMainSong.pipe(Schema.Array, Loose),
   songPrivilege: Loose(LooseSongPrivilege),
   djProgram: Loose(ResourceProgram),
   commentSimpleData: Loose(CommentSimpleData),
   user: Loose(PlaylistUser),
-  users: Loose(Schema.Array(PlaylistUser)),
+  users: PlaylistUser.pipe(Schema.Array, Loose),
   threadId: Loose(Schema.String),
   eventId: Loose(Schema.String),
   eventType: Loose(Schema.String),
@@ -171,7 +174,7 @@ const ResourceExtInfo = UpstreamObject({
   subed: Loose(Schema.Boolean),
   canSubscribe: Loose(Schema.Boolean),
   voiceRelatedSongName: Loose(Schema.String),
-  voiceRelatedSongNames: Loose(Schema.Array(Schema.String)),
+  voiceRelatedSongNames: Schema.String.pipe(Schema.Array, Loose),
   voiceRelatedSongSize: Loose(Schema.Finite),
 });
 
@@ -200,7 +203,7 @@ const Creative = UpstreamObject({
   code: Loose(Schema.String),
   algReason: Loose(Schema.String),
   position: Loose(Schema.Finite),
-  resources: Loose(Schema.Array(Resource)),
+  resources: Resource.pipe(Schema.Array, Loose),
   uiElement: Loose(ResourceUiElement),
   action: Loose(Schema.String),
   actionType: Loose(Schema.String),
@@ -211,7 +214,7 @@ const Creative = UpstreamObject({
 const Block = UpstreamObject({
   blockCode: Schema.String,
   showType: Loose(Schema.String),
-  creatives: Optional(Schema.Array(Creative)),
+  creatives: Creative.pipe(Schema.Array, Optional),
   uiElement: Loose(SectionUiElement),
   canClose: Loose(Schema.Boolean),
   canFeedback: Loose(Schema.Boolean),
@@ -219,7 +222,7 @@ const Block = UpstreamObject({
   blockStyle: Loose(Schema.Finite),
   dislikeShowType: Loose(Schema.Finite),
   sort: Loose(Schema.Finite),
-  resourceIdList: Loose(Schema.Array(Schema.String)),
+  resourceIdList: Schema.String.pipe(Schema.Array, Loose),
   action: Loose(Schema.String),
   actionType: Loose(Schema.String),
   alg: Loose(Schema.String),
@@ -231,12 +234,12 @@ const PageConfig = UpstreamObject({
   nodataToast: Loose(Schema.String),
   refreshInterval: Loose(Schema.Finite),
   fullscreen: Loose(Schema.Boolean),
-  abtest: Loose(Schema.Array(Schema.String)),
+  abtest: Schema.String.pipe(Schema.Array, Loose),
   homepageMode: Loose(Schema.String),
   orderInfo: Loose(Schema.String),
   showModeEntry: Loose(Schema.Boolean),
   songLabelMarkLimit: Loose(Schema.Finite),
-  songLabelMarkPriority: Loose(Schema.Array(Schema.String)),
+  songLabelMarkPriority: Schema.String.pipe(Schema.Array, Loose),
 });
 
 const BlockData = UpstreamObject({
@@ -251,15 +254,17 @@ const BlockData = UpstreamObject({
 
 // 通到首页 block 列表的路径 `data`、`data.blocks` 和每个 block 自己的编号 `blockCode` 收紧；
 // 例如 banner 这类 block 用 `extInfo` 承载内容、没有 `creatives`，按可以没有处理。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: BlockData,
     message: Loose(Schema.String),
-    trp: Loose(UpstreamObject({ rules: Loose(Schema.Array(Schema.String)) })),
+    trp: Loose(
+      UpstreamObject({ rules: Schema.String.pipe(Schema.Array, Loose) }),
+    ),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

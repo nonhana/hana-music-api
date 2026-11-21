@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -55,7 +58,7 @@ const MvInfo = UpstreamObject({
   appTitle: Loose(Schema.String),
   appword: Loose(Schema.String),
   area: Loose(Schema.String),
-  artists: Loose(Schema.Array(Artist)),
+  artists: Artist.pipe(Schema.Array, Loose),
   authId: Loose(Schema.Finite),
   caption: Loose(Schema.Finite),
   captionLanguage: Loose(Schema.String),
@@ -81,7 +84,7 @@ const MvInfo = UpstreamObject({
   type: Loose(Schema.String),
   upban: Loose(Schema.Finite),
   valid: Loose(Schema.Finite),
-  videos: Loose(Schema.Array(MvVideo)),
+  videos: MvVideo.pipe(Schema.Array, Loose),
   weekplays: Loose(Schema.Finite),
 });
 
@@ -93,7 +96,7 @@ const TopMv = UpstreamObject({
 });
 
 // 通到 MV 排行榜的路径 `data` 和 MV 自己的编号 `data[].id` 收紧（记录共用 `MvSummary`，局部补 `lastRank`、`score`、嵌套 `mv` 等宽松字段）；`hasMore`、`updateTime` 宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Schema.Array(TopMv),
@@ -101,7 +104,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     updateTime: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

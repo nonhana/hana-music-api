@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -8,8 +9,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -32,7 +35,7 @@ export type ModuleInput = {
 const inputSchema = Schema.Struct({
   id: NumberId,
   markId: Schema.optional(NumberId),
-  marks: Schema.optional(Schema.Array(LyricsMark)),
+  marks: LyricsMark.pipe(Schema.Array, Schema.optional),
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -45,14 +48,14 @@ const LyricsMarkResult = UpstreamObject({
 });
 
 // 返回码、摘录结果 `data` 和这条摘录自己的 `markId` 收紧；`success`、`updateTime` 宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: LyricsMarkResult,
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   add: {

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -63,12 +66,12 @@ const UiMainTitle = UpstreamObject({
 });
 
 const UiElement = UpstreamObject({
-  buttons: Loose(Schema.Array(UiButton)),
-  descriptions: Loose(Schema.Array(UiDescription)),
-  images: Loose(Schema.Array(UiImage)),
+  buttons: UiButton.pipe(Schema.Array, Loose),
+  descriptions: UiDescription.pipe(Schema.Array, Loose),
+  images: UiImage.pipe(Schema.Array, Loose),
   mainTitle: Loose(UiMainTitle),
-  subTitles: Loose(Schema.Array(UiSubTitle)),
-  textLinks: Loose(Schema.Array(UiTextLink)),
+  subTitles: UiSubTitle.pipe(Schema.Array, Loose),
+  textLinks: UiTextLink.pipe(Schema.Array, Loose),
   type: Loose(Schema.String),
 });
 
@@ -91,7 +94,7 @@ const Resource = UpstreamObject({
 const Creative = UpstreamObject({
   creativeType: Loose(Schema.String),
   position: Loose(Schema.String),
-  resources: Loose(Schema.Array(Resource)),
+  resources: Resource.pipe(Schema.Array, Loose),
   uiElement: Loose(UiElement),
 });
 
@@ -100,7 +103,7 @@ const Block = UpstreamObject({
   canRefresh: Loose(Schema.Boolean),
   channel: Loose(Schema.String),
   code: Loose(Schema.String),
-  creatives: Loose(Schema.Array(Creative)),
+  creatives: Creative.pipe(Schema.Array, Loose),
   hasMore: Loose(Schema.Boolean),
   hideTitle: Loose(Schema.Boolean),
   id: Schema.String,
@@ -112,7 +115,7 @@ const Block = UpstreamObject({
 });
 
 // 通到百科页区块的路径 `data`、`data.blocks` 和每个区块自己的字符串编号 `data.blocks[].id` 收紧；区块内容是按 showType 组装的 UI 树，标题、图片、按钮、资源等字段全部宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -123,7 +126,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

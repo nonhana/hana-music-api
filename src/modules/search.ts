@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -66,7 +69,7 @@ const SearchedPlaylist = UpstreamObject({
   actionType: Loose(Schema.String),
   alg: Loose(Schema.String),
   bookCount: Loose(Schema.Finite),
-  officialTags: Loose(Schema.Array(Schema.String)),
+  officialTags: Schema.String.pipe(Schema.Array, Loose),
   recommendText: Loose(Schema.String),
 });
 
@@ -80,7 +83,7 @@ const SearchedMv = UpstreamObject({
   alg: Loose(Schema.String),
   artistId: Loose(Schema.Finite),
   artistName: Loose(Schema.String),
-  artists: Loose(Schema.Array(SearchedMvArtist)),
+  artists: SearchedMvArtist.pipe(Schema.Array, Loose),
   arTransName: Loose(Schema.String),
   cover: Loose(Schema.String),
   duration: Loose(Schema.Finite),
@@ -90,29 +93,31 @@ const SearchedMv = UpstreamObject({
 });
 
 const SearchResult = UpstreamObject({
-  songs: Optional(Schema.Array(Song)),
+  songs: Song.pipe(Schema.Array, Optional),
   songCount: Loose(Schema.Finite),
-  albums: Optional(Schema.Array(SearchedAlbum)),
+  albums: SearchedAlbum.pipe(Schema.Array, Optional),
   albumCount: Loose(Schema.Finite),
-  artists: Optional(Schema.Array(SearchedArtist)),
+  artists: SearchedArtist.pipe(Schema.Array, Optional),
   artistCount: Loose(Schema.Finite),
-  playlists: Optional(Schema.Array(SearchedPlaylist)),
+  playlists: SearchedPlaylist.pipe(Schema.Array, Optional),
   playlistCount: Loose(Schema.Finite),
-  mvs: Optional(Schema.Array(SearchedMv)),
+  mvs: SearchedMv.pipe(Schema.Array, Optional),
   mvCount: Loose(Schema.Finite),
   hasMore: Loose(Schema.Boolean),
-  hlWords: Loose(Schema.Array(Schema.String)),
+  hlWords: Schema.String.pipe(Schema.Array, Loose),
 });
 
 // 通到搜索结果的路径 `result` 按 `type` 只给一类列表（songs/albums/artists/playlists/mvs），没有结果时列表是空数组、null 或整个缺失；type=2000 的语音搜索走 `data` 形状，未收窄，原样保留。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     result: Optional(SearchResult),
-    trp: Loose(UpstreamObject({ rules: Loose(Schema.Array(Schema.String)) })),
+    trp: Loose(
+      UpstreamObject({ rules: Schema.String.pipe(Schema.Array, Loose) }),
+    ),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

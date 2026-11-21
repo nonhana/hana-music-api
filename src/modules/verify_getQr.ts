@@ -1,13 +1,23 @@
-import { Effect, Schema } from 'effect';
-import * as QRCode from 'qrcode';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
+import type * as QRCode from 'qrcode';
 
 import { ModuleInvariantFailed } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
   IntegerValue,
 } from '../core/module-input.ts';
+import {
+  isMissingOptionalDependencyError,
+  loadOptionalDependency,
+} from '../core/optional-dependency.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import type { BodyType } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  defineModuleBody,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
@@ -45,7 +55,7 @@ const upstreamSchema = UpstreamObject({
 
 // 返回码、验证数据路径和二维码字段都是接口要拿的那一项，全部收紧。
 // 返回体由 SDK 自己拼出：`qrurl` 是手机上完成行为验证的页面，`qrimg` 是它的二维码图片（data URL）。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   Schema.Struct({
     code: Schema.Literal(200),
     data: Schema.Struct({
@@ -55,7 +65,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     }),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const verifyGetQr: ModuleEffect<
   ModuleInput,
@@ -80,8 +90,16 @@ const verifyGetQr: ModuleEffect<
     )).data;
     const qrurl = `https://st.music.163.com/encrypt-pages?qrCode=${qrCode}&verifyToken=${query.token}&verifyId=${query.vid}&verifyType=${query.type}&params=${params}`;
     const qrimg = yield* Effect.tryPromise({
-      try: () => QRCode.toDataURL(qrurl),
-      catch: (error) => ModuleInvariantFailed.make({ message: String(error) }),
+      try: async () => {
+        const qrcode = await loadOptionalDependency<typeof QRCode>('qrcode');
+        return qrcode.toDataURL(qrurl);
+      },
+      catch: (error) =>
+        ModuleInvariantFailed.make({
+          message: isMissingOptionalDependencyError(error, 'qrcode')
+            ? "Generating QR code images requires installing optional peer dependency 'qrcode'"
+            : String(error),
+        }),
     });
     return {
       status: 200,

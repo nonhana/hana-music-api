@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -31,7 +34,7 @@ const RecentResource = UpstreamObject({
   subResourceId: Loose(Schema.String),
   title: Loose(Schema.String),
   tag: Loose(Schema.String),
-  coverUrlList: Loose(Schema.Array(Schema.String)),
+  coverUrlList: Schema.String.pipe(Schema.Array, Loose),
   landingUrl: Loose(Schema.String),
   update: Loose(Schema.Boolean),
   playOrUpdateTime: Loose(Schema.Finite),
@@ -41,17 +44,17 @@ const RecentResource = UpstreamObject({
 
 // 通到最近常听列表的 `data.resources` 和各条记录自己的 `resourceId` 收紧；
 // 匿名调用 `data.resources` 是 `null`，按可以没有处理；标题、封面和展示字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
       title: Loose(Schema.String),
-      resources: Optional(Schema.Array(RecentResource)),
+      resources: RecentResource.pipe(Schema.Array, Optional),
     }),
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export type ModuleInput = NoInput;
 

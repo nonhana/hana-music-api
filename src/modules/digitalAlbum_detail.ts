@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,6 +7,7 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import { decodeUpstreamBody } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 import { ModuleBody as AlbumDetailBody } from './album_detail.ts';
@@ -29,7 +31,7 @@ export const moduleActions = {
 
 // 通到数字专辑商品详情（上游 `/api/vipmall/albumproduct/detail`）的路径 `album`、`product` 和专辑自己的编号 `album.albumId` 收紧，返回码为 200；与 `album_detail` 共用同一个上游接口和 `AlbumDetailBody`。
 export const ModuleBody = AlbumDetailBody;
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const digitalAlbumDetail: ModuleEffect<
   ModuleInput,

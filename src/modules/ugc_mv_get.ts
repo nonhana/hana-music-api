@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -32,19 +35,19 @@ const MvSongRep = UpstreamObject({
   songId: Loose(Schema.Finite),
   songName: Loose(Schema.String),
   albumRepVo: Loose(AlbumRef),
-  artistRepVos: Loose(Schema.Array(UgcArtistRef)),
+  artistRepVos: UgcArtistRef.pipe(Schema.Array, Loose),
 });
 
 // 返回码、MV 百科记录的路径 `data` 和 MV 自己的编号 `data.mvId` 收紧；未知 MV 是 code 404 的业务拒绝，正文里没有 `data`；歌手、关联歌曲和封面字段全部宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
       mvId: Schema.Finite,
       mvName: Loose(Schema.String),
-      artistRepVos: Loose(Schema.Array(UgcArtistRef)),
+      artistRepVos: UgcArtistRef.pipe(Schema.Array, Loose),
       desc: Loose(Schema.String),
-      mvSongVos: Loose(Schema.Array(MvSongRep)),
+      mvSongVos: MvSongRep.pipe(Schema.Array, Loose),
       pic16v9Url: Loose(Schema.String),
       pic4v3Url: Loose(Schema.String),
       publishTime: Loose(Schema.Finite),
@@ -52,7 +55,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

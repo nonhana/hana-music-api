@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -68,16 +71,16 @@ const UserPoint = UpstreamObject({
 });
 
 // 返回码、用户资料的路径和编号收紧；其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     profile: UserProfile,
     adValid: Loose(Schema.Boolean),
-    bindings: Loose(Schema.Array(Binding)),
+    bindings: Binding.pipe(Schema.Array, Loose),
     createDays: Loose(Schema.Finite),
     createTime: Loose(Schema.Finite),
     currentExpert: Loose(ExpertRole),
-    expertArray: Loose(Schema.Array(ExpertRole)),
+    expertArray: ExpertRole.pipe(Schema.Array, Loose),
     identify: Loose(
       UpstreamObject({
         imageDesc: Loose(Schema.String),
@@ -90,7 +93,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     newUser: Loose(Schema.Boolean),
     pcSign: Loose(Schema.Boolean),
     peopleCanSeeMyPlayRecord: Loose(Schema.Boolean),
-    products: Loose(Schema.Array(UserProduct)),
+    products: UserProduct.pipe(Schema.Array, Loose),
     profileVillageInfo: Loose(
       UpstreamObject({
         targetUrl: Loose(Schema.String),
@@ -101,7 +104,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     userPoint: Loose(UserPoint),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const userDetail: ModuleEffect<
   ModuleInput,

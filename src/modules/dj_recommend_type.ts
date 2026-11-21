@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -36,7 +39,7 @@ const DescText = UpstreamObject({
 });
 
 const DescNestedData = UpstreamObject({
-  textList: Loose(Schema.Array(DescText)),
+  textList: DescText.pipe(Schema.Array, Loose),
 });
 
 const DescPic = UpstreamObject({
@@ -55,7 +58,7 @@ const Radio = UpstreamObject({
   categoryId: Loose(Schema.Finite),
   createTime: Loose(Schema.Finite),
   desc: Loose(Schema.String),
-  descPicList: Loose(Schema.Array(DescPic)),
+  descPicList: DescPic.pipe(Schema.Array, Loose),
   dj: Loose(PlaylistUser),
   dynamic: Loose(Schema.Boolean),
   feeScope: Loose(Schema.Finite),
@@ -86,14 +89,14 @@ const Radio = UpstreamObject({
 });
 
 // 通到分类精选电台列表的路径 `djRadios` 和每个电台的编号 `djRadios[].id` 收紧；主播、简介图文和其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     djRadios: Schema.Array(Radio),
     hasMore: Loose(Schema.Boolean),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 // `type` 传 `dj_catelist` 的分类 id。上游文档里的对应关系：
 /*

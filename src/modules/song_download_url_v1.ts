@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,7 +7,12 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import type { BodyType } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  defineModuleBody,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import { SongUrlData } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
@@ -27,13 +33,13 @@ export const decodeModuleInput = (input: unknown) =>
 // 通到下载地址的路径、`id` / `url` / `code` 收紧；其余字段宽松。
 // 匿名下载会员歌录到 -105，无版权录到 -110，均无地址；下载录制里 freeTrialInfo 都是 null，按宽松字段声明
 // （与播放地址共用结构），不据此假定下载接口会给试听片段。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: SongUrlData,
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

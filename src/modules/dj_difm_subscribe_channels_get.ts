@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -16,7 +19,7 @@ import type { ModuleEffect } from '../types/index.ts';
 export type ModuleInput = { sources?: ReadonlyArray<0 | 1 | 2> };
 
 const inputSchema = Schema.Struct({
-  sources: Schema.optional(Schema.Array(NumberLiterals([0, 1, 2]))),
+  sources: NumberLiterals([0, 1, 2]).pipe(Schema.Array, Schema.optional),
 });
 
 export const decodeModuleInput = (input: unknown) =>
@@ -34,13 +37,13 @@ export const moduleActions = {
 
 // 只收紧返回码。`data` 在匿名、登录和 `sources` 的 `[0]`/`[1]` 探测里都是空数组，元素类型没有证据，
 // 未声明并原样保留；账号的收藏频道为空是正常结果。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const djDifmSubscribeChannelsGet: ModuleEffect<
   ModuleInput,

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -48,20 +51,20 @@ const TimelineVideo = UpstreamObject({
   durationms: Loose(Schema.Finite),
   hasRelatedGameAd: Loose(Schema.Boolean),
   height: Loose(Schema.Finite),
-  markTypes: Loose(Schema.Array(Schema.Finite)),
+  markTypes: Schema.Finite.pipe(Schema.Array, Loose),
   playTime: Loose(Schema.Finite),
   praised: Loose(Schema.Boolean),
   praisedCount: Loose(Schema.Finite),
   previewDurationms: Loose(Schema.Finite),
   previewUrl: Loose(Schema.String),
-  relateSong: Loose(Schema.Array(LooseSong)),
-  resolutions: Loose(Schema.Array(VideoResolutionEntry)),
+  relateSong: LooseSong.pipe(Schema.Array, Loose),
+  resolutions: VideoResolutionEntry.pipe(Schema.Array, Loose),
   scm: Loose(Schema.String),
   shareCount: Loose(Schema.Finite),
   subscribed: Loose(Schema.Boolean),
   threadId: Loose(Schema.String),
   title: Loose(Schema.String),
-  videoGroup: Loose(Schema.Array(VideoGroupRef)),
+  videoGroup: VideoGroupRef.pipe(Schema.Array, Loose),
   width: Loose(Schema.Finite),
 });
 
@@ -73,7 +76,7 @@ const TimelineEntry = UpstreamObject({
 });
 
 // 通到全部视频列表的路径 `datas` 和每条视频的编号 `datas[].data.vid` 收紧；`extAlg`、`relatedInfo`、`urlInfo`、`videoUserLiveInfo` 只见过 null，未声明。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     datas: Schema.Array(TimelineEntry),
@@ -82,7 +85,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     rcmdLimit: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const videoTimelineAll: ModuleEffect<
   ModuleInput,

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -31,7 +34,7 @@ const MusicQuality = UpstreamObject({
 });
 
 // 通到音质详情的路径 `data` 和歌曲自己的编号 `data.songId` 收紧；各档音质（有的整档是 null）、`sks` 和状态字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -42,7 +45,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
       sq: Loose(MusicQuality),
       vi: Loose(MusicQuality),
       sk: Loose(MusicQuality),
-      sks: Loose(Schema.Array(MusicQuality)),
+      sks: MusicQuality.pipe(Schema.Array, Loose),
       jm: Loose(MusicQuality),
       je: Loose(MusicQuality),
     }),
@@ -51,7 +54,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     success: Loose(Schema.Boolean),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

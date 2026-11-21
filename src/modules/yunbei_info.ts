@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -48,7 +51,7 @@ const UserPoint = UpstreamObject({
 
 // 返回码、云贝账户的 `userPoint` 及其记录编号 `userId` 和余额 `balance` 收紧；账户等级、签到标记和
 // 票券文案宽松，只见过 null 的配置字段未声明。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     userPoint: UserPoint,
@@ -63,7 +66,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     viptype: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const yunbeiInfo: ModuleEffect<
   ModuleInput,

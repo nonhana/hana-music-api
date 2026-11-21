@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -70,7 +73,7 @@ const LegacyQuality = UpstreamObject({
 
 const LegacySong = UpstreamObject({
   album: Loose(SimpleAlbum),
-  artists: Loose(Schema.Array(Artist)),
+  artists: Artist.pipe(Schema.Array, Loose),
   bMusic: Loose(LegacyQuality),
   commentThreadId: Loose(Schema.String),
   copyFrom: Loose(Schema.String),
@@ -111,7 +114,7 @@ const Program = UpstreamObject({
   buyedNew: Loose(Schema.Boolean),
   canReward: Loose(Schema.Boolean),
   categoryId: Loose(Schema.Finite),
-  channels: Loose(Schema.Array(Schema.String)),
+  channels: Schema.String.pipe(Schema.Array, Loose),
   code: Loose(Schema.Finite),
   commentCount: Loose(Schema.Finite),
   commentThreadId: Loose(Schema.String),
@@ -155,7 +158,7 @@ const FeeModuleDetailItem = UpstreamObject({
 });
 
 const FeeModuleDetail = UpstreamObject({
-  detail: Loose(Schema.Array(FeeModuleDetailItem)),
+  detail: FeeModuleDetailItem.pipe(Schema.Array, Loose),
   title: Loose(Schema.String),
   type: Loose(Schema.Finite),
 });
@@ -168,7 +171,7 @@ const FeeModule = UpstreamObject({
 const FeeInfo = UpstreamObject({
   buyed: Loose(Schema.Boolean),
   finished: Loose(Schema.Boolean),
-  modules: Loose(Schema.Array(FeeModule)),
+  modules: FeeModule.pipe(Schema.Array, Loose),
   originalPrice: Loose(Schema.Finite),
   price: Loose(Schema.Finite),
   purchaseCount: Loose(Schema.Finite),
@@ -182,7 +185,7 @@ const RadioDetail = UpstreamObject({
   category: Loose(Schema.String),
   categoryId: Loose(Schema.Finite),
   commentCount: Loose(Schema.Finite),
-  commentDatas: Loose(Schema.Array(CommentData)),
+  commentDatas: CommentData.pipe(Schema.Array, Loose),
   createTime: Loose(Schema.Finite),
   desc: Loose(Schema.String),
   detailRcmdTabOrpheus: Loose(Schema.String),
@@ -212,13 +215,13 @@ const RadioDetail = UpstreamObject({
 });
 
 // 通到电台详情的路径 `data` 和电台自己的编号 `data.id` 收紧；主播、评论、付费电台的 `feeInfo` 和其余展示字段宽松；`feeInfo.discountPrice` 只见过 null，未声明，`feeInfo.videos` 只见过空对象，声明为空对象。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: RadioDetail,
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const djDetail: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,

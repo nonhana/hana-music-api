@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -30,21 +33,21 @@ const AlbumRef = UpstreamObject({
 });
 
 // 返回码、歌曲百科记录的路径 `data` 和歌曲自己的编号 `data.songId` 收紧；未知歌曲的 `data` 整个缺失，写成可以没有；歌手、专辑、歌词和状态字段全部宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Optional(
       UpstreamObject({
         songId: Schema.Finite,
         songName: Loose(Schema.String),
-        artistRepVos: Loose(Schema.Array(UgcArtistRef)),
+        artistRepVos: UgcArtistRef.pipe(Schema.Array, Loose),
         songSubTitle: Loose(Schema.String),
         publishTime: Loose(Schema.Finite),
         language: Loose(Schema.String),
         originalCover: Loose(Schema.Finite),
         disc: Loose(Schema.String),
-        lyricArtists: Loose(Schema.Array(UgcArtistRef)),
-        composeArtists: Loose(Schema.Array(UgcArtistRef)),
+        lyricArtists: UgcArtistRef.pipe(Schema.Array, Loose),
+        composeArtists: UgcArtistRef.pipe(Schema.Array, Loose),
         albumRepVo: Loose(AlbumRef),
         transName: Loose(Schema.String),
         lyricContent: Loose(Schema.String),
@@ -61,7 +64,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

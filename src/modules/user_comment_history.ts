@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -52,8 +55,8 @@ const HistoryComment = UpstreamObject({
 });
 
 const HistoryData = UpstreamObject({
-  comments: Optional(Schema.Array(HistoryComment)),
-  hotComments: Optional(Schema.Array(HistoryComment)),
+  comments: HistoryComment.pipe(Schema.Array, Optional),
+  hotComments: HistoryComment.pipe(Schema.Array, Optional),
   commentCount: Loose(Schema.Finite),
   hasMore: Loose(Schema.Boolean),
   reminder: Loose(Schema.Boolean),
@@ -61,13 +64,13 @@ const HistoryData = UpstreamObject({
 
 // 通到历史评论的路径 `data.comments`、`data.hotComments` 和每条评论的编号 `data.comments[].commentId` 收紧；
 // 没有历史评论或未登录时两个数组都是 `null`。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: HistoryData,
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const userCommentHistory: ModuleEffect<
   ModuleInput,

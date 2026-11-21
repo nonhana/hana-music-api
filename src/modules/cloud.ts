@@ -1,13 +1,15 @@
 import { createHash } from 'node:crypto';
 
-import { Effect, Schema } from 'effect';
-import * as metadata from 'music-metadata';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
+import type * as MusicMetadata from 'music-metadata';
 
 import { InvalidModuleInput, UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
   UploadedFile,
 } from '../core/module-input.ts';
+import { loadOptionalDependency } from '../core/optional-dependency.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { uploadWork } from '../core/upload-work.ts';
 import { isRecord } from '../core/utils.ts';
@@ -114,7 +116,13 @@ const cloud: ModuleEffect<ModuleInput, UnknownJson, typeof moduleActions> = (
         ),
       );
       const tags = yield* Effect.tryPromise({
-        try: () => metadata.parseBuffer(bytes, songFile.mimetype),
+        try: async () => {
+          const metadata =
+            await loadOptionalDependency<typeof MusicMetadata>(
+              'music-metadata',
+            );
+          return metadata.parseBuffer(bytes, songFile.mimetype);
+        },
         catch: () =>
           InvalidModuleInput.make({ message: '无法读取音乐文件元数据' }),
       }).pipe(

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -33,14 +36,10 @@ export const decodeModuleInput = (input: unknown) =>
 
 const TodaySong = UpstreamObject({
   aliasName: Loose(Schema.String),
-  artists: Loose(
-    Schema.Array(
-      UpstreamObject({
-        artistId: Loose(Schema.Finite),
-        artistName: Loose(Schema.String),
-      }),
-    ),
-  ),
+  artists: UpstreamObject({
+    artistId: Loose(Schema.Finite),
+    artistName: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   lastPlayTime: Loose(Schema.Finite),
   picId: Loose(Schema.Finite),
   picUrl: Loose(Schema.String),
@@ -50,7 +49,7 @@ const TodaySong = UpstreamObject({
 });
 
 // 通到今日收听列表的路径 `data.songDTOs` 和每首歌自己的 `songId` 收紧；其余字段宽松，空列表是空数组。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -59,7 +58,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const listenDataTodaySong: ModuleEffect<
   ModuleInput,

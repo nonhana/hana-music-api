@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -58,27 +61,27 @@ const Sheet = UpstreamObject({
   source: Loose(Schema.Finite),
   sourceDesc: Loose(Schema.String),
   totalPageSize: Loose(Schema.Finite),
-  type: Loose(Schema.Array(Instrument)),
+  type: Instrument.pipe(Schema.Array, Loose),
 });
 
 const SheetListData = UpstreamObject({
   errorCode: Loose(Schema.Finite),
   findSheet: Loose(Schema.Finite),
-  musicSheetSimpleInfoVOS: Optional(Schema.Array(Sheet)),
-  sheetInstrumentTypeVOList: Optional(Schema.Array(Instrument)),
+  musicSheetSimpleInfoVOS: Sheet.pipe(Schema.Array, Optional),
+  sheetInstrumentTypeVOList: Instrument.pipe(Schema.Array, Optional),
   uploadSheet: Loose(Schema.Finite),
 });
 
 // 返回码、乐谱列表的路径 `data.musicSheetSimpleInfoVOS` 和每份乐谱自己的编号 `id` 收紧；
 // 没有乐谱时两个列表都是 null，按可以没有处理；展示和筛选项字段全部宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: SheetListData,
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const sheetList: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,

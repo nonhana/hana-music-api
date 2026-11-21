@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -89,7 +92,7 @@ const MlogVideo = UpstreamObject({
   rcmdUrlInfo: Loose(MlogUrlInfo),
   size: Loose(Schema.Finite),
   urlInfo: MlogPlaybackUrlInfo,
-  urlInfos: Loose(Schema.Array(MlogUrlInfo)),
+  urlInfos: MlogUrlInfo.pipe(Schema.Array, Loose),
   videoAreaInfo: Loose(MlogVideoAreaInfo),
   videoKey: Loose(Schema.String),
   width: Loose(Schema.Finite),
@@ -113,10 +116,10 @@ const MlogContent = UpstreamObject({
   eventPinned: Loose(Schema.Boolean),
   interveneText: Loose(Schema.String),
   privacySetting: Loose(Schema.Finite),
-  realateSongs: Loose(Schema.Array(MlogContentSong)),
-  relateSongs: Loose(Schema.Array(MlogContentSong)),
+  realateSongs: MlogContentSong.pipe(Schema.Array, Loose),
+  relateSongs: MlogContentSong.pipe(Schema.Array, Loose),
   song: Loose(MlogContentSong),
-  songs: Loose(Schema.Array(MlogContentSong)),
+  songs: MlogContentSong.pipe(Schema.Array, Loose),
   text: Loose(Schema.String),
   title: Loose(Schema.String),
   video: MlogVideo,
@@ -175,7 +178,7 @@ const MlogResource = UpstreamObject({
 
 // 返回码、通到 mlog 记录的 `data` 和 `data.resource`、mlog 自己的编号 `data.id`/`data.resource.id`，
 // 以及接口要拿的播放地址 `data.resource.content.video.urlInfo.url` 收紧；mlog 正文、作者和展示字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -190,7 +193,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const mlogUrl: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   input,

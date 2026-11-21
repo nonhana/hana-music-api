@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -39,22 +42,22 @@ const SimiSong = UpstreamObject({
   ...ProgramMainSong.schema.fields,
   id: Schema.Finite,
   alg: Loose(Schema.String),
-  alias: Loose(Schema.Array(Schema.String)),
+  alias: Schema.String.pipe(Schema.Array, Loose),
   mp3Url: Loose(Schema.String),
   privilege: Loose(LooseSongPrivilege),
   recommendReason: Loose(Schema.String),
   sqMusic: Loose(ProgramQuality),
-  transNames: Loose(Schema.Array(Schema.String)),
+  transNames: Schema.String.pipe(Schema.Array, Loose),
 });
 
 // 通到相似歌曲列表的路径 `songs` 和每首歌的编号收紧（复用 `SimiSong`）；其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     songs: Schema.Array(SimiSong),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

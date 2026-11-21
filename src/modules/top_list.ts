@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -43,7 +46,7 @@ const RejectedBody = UpstreamObject({
 });
 
 // 通到榜单详情歌单的路径 `playlist`、歌单与 `trackIds` 的编号收紧；本地 `idx` 拒绝分支的返回码也在这里声明。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   Schema.Union([
     UpstreamObject({
       code: Schema.Literal(200),
@@ -52,7 +55,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     RejectedBody,
   ]),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

@@ -4,7 +4,11 @@ import type {
   ModuleResponseOf,
 } from './module-contracts.ts';
 import type { CreateRequestOptions } from './request.ts';
-import type { ModuleDefinition, ModuleEffect } from './runtime.ts';
+import type {
+  ModuleDefinition,
+  ModuleEffect,
+  ModuleResponse,
+} from './runtime.ts';
 
 export interface ModuleCallConfig {
   readonly connectionStrategy?: CreateRequestOptions['connectionStrategy'];
@@ -59,16 +63,28 @@ type RequiredKeys<T> = {
 export type SdkQueryOf<K extends ModuleIdentifier> = ModuleInputOf<K> &
   DisallowExecutionKeys;
 
-export type SdkModuleInvoker<K extends ModuleIdentifier> =
-  RequiredKeys<SdkQueryOf<K>> extends never
+export type SdkModuleInvokerFor<
+  Input,
+  Response extends ModuleResponse<unknown> = ModuleResponse,
+> =
+  RequiredKeys<Input & DisallowExecutionKeys> extends never
     ? (
-        query?: SdkQueryOf<K>,
+        query?: Input & DisallowExecutionKeys,
         config?: ModuleCallConfig,
-      ) => Promise<ModuleResponseOf<K>>
+      ) => Promise<Response>
     : (
-        query: SdkQueryOf<K>,
+        query: Input & DisallowExecutionKeys,
         config?: ModuleCallConfig,
-      ) => Promise<ModuleResponseOf<K>>;
+      ) => Promise<Response>;
+
+export type AnySdkModuleInvoker = (
+  ...args: ReadonlyArray<never>
+) => Promise<ModuleResponse<unknown>>;
+
+export type SdkModuleInvoker<K extends ModuleIdentifier> = SdkModuleInvokerFor<
+  ModuleInputOf<K>,
+  ModuleResponseOf<K>
+>;
 
 export type SdkModuleImplementation<
   K extends ModuleIdentifier = ModuleIdentifier,

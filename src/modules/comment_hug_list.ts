@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { resolveResourceType } from '../core/comment-thread.ts';
 import {
@@ -9,8 +10,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -74,7 +77,7 @@ const HugReply = UpstreamObject({
 // `currentComment` 是被抱评论的附带信息，v2 比歌曲评论多出楼层、视频和隐私字段，编号一并放开。
 const HugCurrentComment = UpstreamObject({
   ...CommentRecord.schema.fields,
-  beReplied: Loose(Schema.Array(HugReply)),
+  beReplied: HugReply.pipe(Schema.Array, Loose),
   commentId: Loose(Schema.Finite),
   commentVideoVO: Loose(
     UpstreamObject({
@@ -116,7 +119,7 @@ const HugComment = UpstreamObject({
 });
 
 // 通到抱一抱列表的路径 `data.hugComments` 收紧；没有抱一抱时它是空数组，`data.currentComment` 是附带信息，其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -130,7 +133,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const commentHugList: ModuleEffect<
   ModuleInput,

@@ -1,5 +1,6 @@
-import { Schema } from 'effect';
+import * as Schema from 'effect/Schema';
 
+import type { UpstreamSchemaType } from './upstream-body.ts';
 import { Loose, UpstreamObject } from './upstream-body.ts';
 
 // 云盘上传、没有匹配上曲库的歌，歌手和专辑的编号是 0、名字是 null（nonhana/hana-music-api#48）。
@@ -8,8 +9,8 @@ export const Artist = UpstreamObject({
   name: Loose(Schema.String),
   accountId: Loose(Schema.Finite),
   albumSize: Loose(Schema.Finite),
-  alia: Loose(Schema.Array(Schema.String)),
-  alias: Loose(Schema.Array(Schema.String)),
+  alia: Schema.String.pipe(Schema.Array, Loose),
+  alias: Schema.String.pipe(Schema.Array, Loose),
   briefDesc: Loose(Schema.String),
   followed: Loose(Schema.Boolean),
   img1v1: Loose(Schema.Finite),
@@ -21,11 +22,12 @@ export const Artist = UpstreamObject({
   picId: Loose(Schema.Finite),
   picId_str: Loose(Schema.String),
   picUrl: Loose(Schema.String),
-  tns: Loose(Schema.Array(Schema.String)),
+  tns: Schema.String.pipe(Schema.Array, Loose),
   topicPerson: Loose(Schema.Finite),
   trans: Loose(Schema.String),
-  transNames: Loose(Schema.Array(Schema.String)),
+  transNames: Schema.String.pipe(Schema.Array, Loose),
 });
+export type Artist = UpstreamSchemaType<typeof Artist>;
 
 const Quality = UpstreamObject({
   br: Loose(Schema.Finite),
@@ -39,10 +41,10 @@ const SongAlbum = UpstreamObject({
   id: Loose(Schema.Finite),
   name: Loose(Schema.String),
   picUrl: Loose(Schema.String),
-  alia: Loose(Schema.Array(Schema.String)),
+  alia: Schema.String.pipe(Schema.Array, Loose),
   pic: Loose(Schema.Finite),
   pic_str: Loose(Schema.String),
-  tns: Loose(Schema.Array(Schema.String)),
+  tns: Schema.String.pipe(Schema.Array, Loose),
 });
 
 export const PrivateCloud = UpstreamObject({
@@ -67,6 +69,7 @@ export const PrivateCloud = UpstreamObject({
   userId: Loose(Schema.Finite),
   version: Loose(Schema.Finite),
 });
+export type PrivateCloud = UpstreamSchemaType<typeof PrivateCloud>;
 
 const PcInfo = UpstreamObject({
   alb: Loose(Schema.String),
@@ -85,8 +88,8 @@ export const SimpleAlbum = UpstreamObject({
   id: Loose(Schema.Finite),
   name: Loose(Schema.String),
   artist: Loose(Artist),
-  artists: Loose(Schema.Array(Artist)),
-  alias: Loose(Schema.Array(Schema.String)),
+  artists: Artist.pipe(Schema.Array, Loose),
+  alias: Schema.String.pipe(Schema.Array, Loose),
   blurPicUrl: Loose(Schema.String),
   briefDesc: Loose(Schema.String),
   commentThreadId: Loose(Schema.String),
@@ -111,22 +114,19 @@ export const SimpleAlbum = UpstreamObject({
   status: Loose(Schema.Finite),
   subType: Loose(Schema.String),
   tags: Loose(Schema.String),
-  transNames: Loose(Schema.Array(Schema.String)),
+  transNames: Schema.String.pipe(Schema.Array, Loose),
   type: Loose(Schema.String),
 });
+export type SimpleAlbum = UpstreamSchemaType<typeof SimpleAlbum>;
 
 export const SongPrivilege = UpstreamObject({
   id: Schema.Finite,
   st: Loose(Schema.Finite),
   pl: Loose(Schema.Finite),
-  chargeInfoList: Loose(
-    Schema.Array(
-      UpstreamObject({
-        chargeType: Loose(Schema.Finite),
-        rate: Loose(Schema.Finite),
-      }),
-    ),
-  ),
+  chargeInfoList: UpstreamObject({
+    chargeType: Loose(Schema.Finite),
+    rate: Loose(Schema.Finite),
+  }).pipe(Schema.Array, Loose),
   code: Loose(Schema.Finite),
   cp: Loose(Schema.Finite),
   cs: Loose(Schema.Boolean),
@@ -161,12 +161,14 @@ export const SongPrivilege = UpstreamObject({
   subp: Loose(Schema.Finite),
   toast: Loose(Schema.Boolean),
 });
+export type SongPrivilege = UpstreamSchemaType<typeof SongPrivilege>;
 
 // 宽松容器里嵌着的权限：记录编号也宽松。
 export const LooseSongPrivilege = UpstreamObject({
   ...SongPrivilege.schema.fields,
   id: Loose(Schema.Finite),
 });
+export type LooseSongPrivilege = UpstreamSchemaType<typeof LooseSongPrivilege>;
 
 const SongMarkTag = UpstreamObject({
   tagKey: Loose(Schema.String),
@@ -176,7 +178,7 @@ const SongMarkTag = UpstreamObject({
 export const Song = UpstreamObject({
   id: Schema.Finite,
   name: Loose(Schema.String),
-  ar: Loose(Schema.Array(Artist)),
+  ar: Artist.pipe(Schema.Array, Loose),
   al: Loose(SongAlbum),
   dt: Loose(Schema.Finite),
   fee: Loose(Schema.Finite),
@@ -184,14 +186,14 @@ export const Song = UpstreamObject({
   // 专辑接口里的歌没有 `publishTime`。
   no: Loose(Schema.Finite),
   cd: Loose(Schema.String),
-  alia: Loose(Schema.Array(Schema.String)),
-  tns: Loose(Schema.Array(Schema.String)),
+  alia: Schema.String.pipe(Schema.Array, Loose),
+  tns: Schema.String.pipe(Schema.Array, Loose),
   publishTime: Loose(Schema.Finite),
   additionalTitle: Loose(Schema.String),
   alg: Loose(Schema.String),
-  alias: Loose(Schema.Array(Schema.String)),
+  alias: Schema.String.pipe(Schema.Array, Loose),
   album: Loose(SimpleAlbum),
-  artists: Loose(Schema.Array(Artist)),
+  artists: Artist.pipe(Schema.Array, Loose),
   artistClassics: Loose(Schema.Boolean),
   awardName: Loose(Schema.String),
   cf: Loose(Schema.String),
@@ -208,7 +210,7 @@ export const Song = UpstreamObject({
   m: Loose(Quality),
   mainTitle: Loose(Schema.String),
   mark: Loose(Schema.Finite),
-  markTags: Loose(Schema.Array(SongMarkTag)),
+  markTags: SongMarkTag.pipe(Schema.Array, Loose),
   mst: Loose(Schema.Finite),
   mv: Loose(Schema.Finite),
   mvid: Loose(Schema.Finite),
@@ -227,7 +229,7 @@ export const Song = UpstreamObject({
           name: Loose(Schema.String),
         }),
       ),
-      artists: Loose(Schema.Array(Artist)),
+      artists: Artist.pipe(Schema.Array, Loose),
       name: Loose(Schema.String),
       songId: Loose(Schema.Finite),
     }),
@@ -247,10 +249,11 @@ export const Song = UpstreamObject({
   st: Loose(Schema.Finite),
   status: Loose(Schema.Finite),
   t: Loose(Schema.Finite),
-  transNames: Loose(Schema.Array(Schema.String)),
+  transNames: Schema.String.pipe(Schema.Array, Loose),
   v: Loose(Schema.Finite),
   version: Loose(Schema.Finite),
 });
+export type Song = UpstreamSchemaType<typeof Song>;
 
 // 六个播放记录列表共用的播放终端信息，字段一致；终端名称和图标只用于展示，全部宽松。
 export const MultiTerminalInfo = UpstreamObject({
@@ -258,6 +261,7 @@ export const MultiTerminalInfo = UpstreamObject({
   os: Loose(Schema.String),
   osText: Loose(Schema.String),
 });
+export type MultiTerminalInfo = UpstreamSchemaType<typeof MultiTerminalInfo>;
 
 // mlog 记录里嵌着的歌曲：`artist_video`、`search_multimatch`、`playlist_video_recent` 字段完全相同，全部宽松。
 const MlogSongArtist = UpstreamObject({
@@ -271,18 +275,20 @@ export const MlogSong = UpstreamObject({
   albumName: Loose(Schema.String),
   coverUrl: Loose(Schema.String),
   duration: Loose(Schema.Finite),
-  artists: Loose(Schema.Array(MlogSongArtist)),
+  artists: MlogSongArtist.pipe(Schema.Array, Loose),
 });
+export type MlogSong = UpstreamSchemaType<typeof MlogSong>;
 
 // 歌单、云盘里嵌着的歌曲：宽松容器里的记录，编号也宽松。
 export const LooseSong = UpstreamObject({
   ...Song.schema.fields,
   id: Loose(Schema.Finite),
 });
+export type LooseSong = UpstreamSchemaType<typeof LooseSong>;
 
 const AuthType = UpstreamObject({
   desc: Loose(Schema.String),
-  tags: Loose(Schema.Array(Schema.String)),
+  tags: Schema.String.pipe(Schema.Array, Loose),
   type: Loose(Schema.Finite),
 });
 
@@ -291,6 +297,7 @@ export const AvatarDetail = UpstreamObject({
   identityLevel: Loose(Schema.Finite),
   userType: Loose(Schema.Finite),
 });
+export type AvatarDetail = UpstreamSchemaType<typeof AvatarDetail>;
 
 const PrivacyItemUnlimit = UpstreamObject({
   age: Loose(Schema.Boolean),
@@ -335,7 +342,7 @@ export const VipRights = UpstreamObject({
   redVipLevel: Loose(Schema.Finite),
   relationType: Loose(Schema.Finite),
 });
-export type VipRights = typeof VipRights.Type;
+export type VipRights = UpstreamSchemaType<typeof VipRights>;
 
 export const PlaylistUser = UpstreamObject({
   userId: Loose(Schema.Finite),
@@ -365,11 +372,11 @@ export const PlaylistUser = UpstreamObject({
   defaultAvatar: Loose(Schema.Boolean),
   followed: Loose(Schema.Boolean),
   mutual: Loose(Schema.Boolean),
-  expertTags: Loose(Schema.Array(Schema.String)),
+  expertTags: Schema.String.pipe(Schema.Array, Loose),
   avatarDetail: Loose(AvatarDetail),
   experts: Loose(Schema.Record(Schema.String, Schema.String)),
 });
-export type PlaylistUser = typeof PlaylistUser.Type;
+export type PlaylistUser = UpstreamSchemaType<typeof PlaylistUser>;
 
 export const Account = UpstreamObject({
   id: Schema.Finite,
@@ -389,17 +396,17 @@ export const Account = UpstreamObject({
   viptypeVersion: Loose(Schema.Finite),
   whitelistAuthority: Loose(Schema.Finite),
 });
-export type Account = typeof Account.Type;
+export type Account = UpstreamSchemaType<typeof Account>;
 
 export const UserProfile = UpstreamObject({
   userId: Schema.Finite,
   accountStatus: Loose(Schema.Finite),
   accountType: Loose(Schema.Finite),
-  allAuthTypes: Loose(Schema.Array(AuthType)),
+  allAuthTypes: AuthType.pipe(Schema.Array, Loose),
   allSubscribedCount: Loose(Schema.Finite),
   anchor: Loose(Schema.Boolean),
   artistId: Loose(Schema.Finite),
-  artistIdentity: Loose(Schema.Array(Schema.Finite)),
+  artistIdentity: Schema.Finite.pipe(Schema.Array, Loose),
   artistName: Loose(Schema.String),
   authStatus: Loose(Schema.Finite),
   authenticated: Loose(Schema.Boolean),
@@ -450,7 +457,7 @@ export const UserProfile = UpstreamObject({
   vipType: Loose(Schema.Finite),
   viptypeVersion: Loose(Schema.Finite),
 });
-export type UserProfile = typeof UserProfile.Type;
+export type UserProfile = UpstreamSchemaType<typeof UserProfile>;
 
 // user_event、event、topic_detail_event_hot 共用的事件附带结构；事件记录本身的字段三份不同，留在各模块。
 // 动态里的用户是附带对象，`userId` 宽松；`urlAnalyze`、`vipRights` 是 `UserProfile` 之外的字段。
@@ -460,12 +467,12 @@ export const EventUser = UpstreamObject({
   urlAnalyze: Loose(Schema.Boolean),
   vipRights: Loose(VipRights),
 });
-export type EventUser = typeof EventUser.Type;
+export type EventUser = UpstreamSchemaType<typeof EventUser>;
 
 export const EventIpLocation = UpstreamObject({
   location: Loose(Schema.String),
 });
-export type EventIpLocation = typeof EventIpLocation.Type;
+export type EventIpLocation = UpstreamSchemaType<typeof EventIpLocation>;
 
 export const EventPic = UpstreamObject({
   format: Loose(Schema.String),
@@ -485,7 +492,7 @@ export const EventPic = UpstreamObject({
   squareUrl: Loose(Schema.String),
   videoDurationMs: Loose(Schema.Finite),
 });
-export type EventPic = typeof EventPic.Type;
+export type EventPic = UpstreamSchemaType<typeof EventPic>;
 
 const EventResourceInfo = UpstreamObject({
   id: Loose(Schema.Finite),
@@ -496,14 +503,14 @@ const EventResourceInfo = UpstreamObject({
   artistId: Loose(Schema.Finite),
   artistAreaCode: Loose(Schema.Finite),
 });
-type EventResourceInfo = typeof EventResourceInfo.Type;
+type EventResourceInfo = UpstreamSchemaType<typeof EventResourceInfo>;
 
 // `s` 是点赞用户编号，`t` 是点赞时间（上游字段名就是缩写）。
 const EventLikedUser = UpstreamObject({
   s: Loose(Schema.Finite),
   t: Loose(Schema.Finite),
 });
-type EventLikedUser = typeof EventLikedUser.Type;
+type EventLikedUser = UpstreamSchemaType<typeof EventLikedUser>;
 
 const EventCommentThread = UpstreamObject({
   id: Loose(Schema.String),
@@ -515,11 +522,11 @@ const EventCommentThread = UpstreamObject({
   commentCount: Loose(Schema.Finite),
   floorCommentCount: Loose(Schema.Finite),
   likedCount: Loose(Schema.Finite),
-  latestLikedUsers: Loose(Schema.Array(EventLikedUser)),
+  latestLikedUsers: EventLikedUser.pipe(Schema.Array, Loose),
   shareCount: Loose(Schema.Finite),
   hotCount: Loose(Schema.Finite),
 });
-type EventCommentThread = typeof EventCommentThread.Type;
+type EventCommentThread = UpstreamSchemaType<typeof EventCommentThread>;
 
 // 动态的评论信息：`commentThread` 指向这条动态的评论串；动态正文在记录的 `json` 字符串里。
 export const EventInfo = UpstreamObject({
@@ -532,7 +539,7 @@ export const EventInfo = UpstreamObject({
   resourceType: Loose(Schema.Finite),
   threadId: Loose(Schema.String),
 });
-export type EventInfo = typeof EventInfo.Type;
+export type EventInfo = UpstreamSchemaType<typeof EventInfo>;
 
 export const PlaylistSummary = UpstreamObject({
   id: Schema.Finite,
@@ -546,7 +553,7 @@ export const PlaylistSummary = UpstreamObject({
   specialType: Loose(Schema.Finite),
   status: Loose(Schema.Finite),
   description: Loose(Schema.String),
-  tags: Loose(Schema.Array(Schema.String)),
+  tags: Schema.String.pipe(Schema.Array, Loose),
   // 凭据失效时网易云回匿名视角，subscribed 是 null，调用方靠它认出需要重新登录（#48）。
   subscribed: Loose(Schema.Boolean),
   creator: Loose(PlaylistUser),
@@ -571,9 +578,9 @@ export const PlaylistSummary = UpstreamObject({
   newImported: Loose(Schema.Boolean),
   opRecommend: Loose(Schema.Boolean),
   ordered: Loose(Schema.Boolean),
-  subscribers: Loose(Schema.Array(PlaylistUser)),
+  subscribers: PlaylistUser.pipe(Schema.Array, Loose),
   ToplistType: Loose(Schema.String),
-  algTags: Loose(Schema.Array(Schema.String)),
+  algTags: Schema.String.pipe(Schema.Array, Loose),
   anonimous: Loose(Schema.Boolean),
   bizExtInfo: Loose(UpstreamObject({})),
   commentCount: Loose(Schema.Finite),
@@ -591,11 +598,11 @@ export const PlaylistSummary = UpstreamObject({
   shareCount: Loose(Schema.Finite),
   top: Loose(Schema.Boolean),
   totalDuration: Loose(Schema.Finite),
-  tracks: Loose(Schema.Array(LooseSong)),
+  tracks: LooseSong.pipe(Schema.Array, Loose),
   trialMode: Loose(Schema.Finite),
   uiPlaylistType: Loose(Schema.String),
 });
-export type PlaylistSummary = typeof PlaylistSummary.Type;
+export type PlaylistSummary = UpstreamSchemaType<typeof PlaylistSummary>;
 
 const CommentThreadResourceInfo = UpstreamObject({
   id: Loose(Schema.Finite),
@@ -647,7 +654,7 @@ export const CommentUser = UpstreamObject({
   vipRights: Loose(CommentVipRights),
   vipType: Loose(Schema.Finite),
 });
-export type CommentUser = typeof CommentUser.Type;
+export type CommentUser = UpstreamSchemaType<typeof CommentUser>;
 
 const CommentIpLocation = UpstreamObject({
   location: Loose(Schema.String),
@@ -663,7 +670,7 @@ export const CommentReply = UpstreamObject({
   status: Loose(Schema.Finite),
   user: Loose(CommentUser),
 });
-export type CommentReply = typeof CommentReply.Type;
+export type CommentReply = UpstreamSchemaType<typeof CommentReply>;
 
 const CommentDecoration = UpstreamObject({
   repliedByAuthorCount: Loose(Schema.Finite),
@@ -676,7 +683,7 @@ const CommentPendant = UpstreamObject({
 
 // 评论列表共用的评论记录：`commentId` 是记录自己的编号，其余字段宽松。
 export const CommentRecord = UpstreamObject({
-  beReplied: Loose(Schema.Array(CommentReply)),
+  beReplied: CommentReply.pipe(Schema.Array, Loose),
   commentId: Schema.Finite,
   commentLocationType: Loose(Schema.Finite),
   content: Loose(Schema.String),
@@ -695,7 +702,7 @@ export const CommentRecord = UpstreamObject({
   timeStr: Loose(Schema.String),
   user: Loose(CommentUser),
 });
-export type CommentRecord = typeof CommentRecord.Type;
+export type CommentRecord = UpstreamSchemaType<typeof CommentRecord>;
 
 export const AlbumInfo = UpstreamObject({
   commentCount: Loose(Schema.Finite),
@@ -707,6 +714,7 @@ export const AlbumInfo = UpstreamObject({
   shareCount: Loose(Schema.Finite),
   threadId: Loose(Schema.String),
 });
+export type AlbumInfo = UpstreamSchemaType<typeof AlbumInfo>;
 
 export const LyricUser = UpstreamObject({
   demand: Loose(Schema.Finite),
@@ -716,20 +724,22 @@ export const LyricUser = UpstreamObject({
   uptime: Loose(Schema.Finite),
   userid: Loose(Schema.Finite),
 });
+export type LyricUser = UpstreamSchemaType<typeof LyricUser>;
 
 export const AlbumSummary = UpstreamObject({
   ...SimpleAlbum.schema.fields,
   id: Schema.Finite,
   info: Loose(AlbumInfo),
 });
+export type AlbumSummary = UpstreamSchemaType<typeof AlbumSummary>;
 
 // mv_all、mv_first、mv_exclusive_rcmd、top_mv 共用的 MV 列表记录，字段一致；`desc` 在各录制里只见过 null，未声明，`alias`/`transNames` 只在部分接口出现、声明为宽松字段。
 export const MvSummary = UpstreamObject({
   id: Schema.Finite,
-  alias: Loose(Schema.Array(Schema.String)),
+  alias: Schema.String.pipe(Schema.Array, Loose),
   artistId: Loose(Schema.Finite),
   artistName: Loose(Schema.String),
-  artists: Loose(Schema.Array(Artist)),
+  artists: Artist.pipe(Schema.Array, Loose),
   briefDesc: Loose(Schema.String),
   cover: Loose(Schema.String),
   duration: Loose(Schema.Finite),
@@ -737,20 +747,25 @@ export const MvSummary = UpstreamObject({
   name: Loose(Schema.String),
   playCount: Loose(Schema.Finite),
   subed: Loose(Schema.Boolean),
-  transNames: Loose(Schema.Array(Schema.String)),
+  transNames: Schema.String.pipe(Schema.Array, Loose),
 });
+export type MvSummary = UpstreamSchemaType<typeof MvSummary>;
 
 // video_detail、video_timeline_all、video_timeline_recommend 共用的视频清晰度条目，字段一致。
 export const VideoResolutionEntry = UpstreamObject({
   resolution: Loose(Schema.Finite),
   size: Loose(Schema.Finite),
 });
+export type VideoResolutionEntry = UpstreamSchemaType<
+  typeof VideoResolutionEntry
+>;
 
 // 三个视频模块共用的视频标签引用；标签编号是附带信息，宽松。
 export const VideoGroupRef = UpstreamObject({
   id: Loose(Schema.Finite),
   name: Loose(Schema.String),
 });
+export type VideoGroupRef = UpstreamSchemaType<typeof VideoGroupRef>;
 
 // song_url_v1、song_download_url、song_download_url_v1 共用的内部播放/下载地址条目，字段一致；
 // `id` / `url` / `code` 收紧，其余字段宽松。
@@ -811,6 +826,7 @@ export const SongUrlData = UpstreamObject({
   type: Loose(Schema.String),
   urlSource: Loose(Schema.Finite),
 });
+export type SongUrlData = UpstreamSchemaType<typeof SongUrlData>;
 
 // style_artist、style_album、style_playlist、style_song 共用的分页信息，字段一致；分页提示不是接口要拿的东西，全部宽松。
 export const StylePage = UpstreamObject({
@@ -819,6 +835,7 @@ export const StylePage = UpstreamObject({
   size: Loose(Schema.Finite),
   total: Loose(Schema.Finite),
 });
+export type StylePage = UpstreamSchemaType<typeof StylePage>;
 
 // 旧版音质档：`bMusic`、`hMusic`、`lMusic`、`mMusic` 字段相同，全部宽松；
 // `personalized_newsong` 的 `sqMusic`/`hrMusic` 和 `simi_song` 的 `sqMusic` 也用同一份。
@@ -834,6 +851,7 @@ export const ProgramQuality = UpstreamObject({
   sr: Loose(Schema.Finite),
   volumeDelta: Loose(Schema.Finite),
 });
+export type ProgramQuality = UpstreamSchemaType<typeof ProgramQuality>;
 
 // 节目里的 `mainSong` 是旧版歌曲结构（`album`/`artists`/四个音质档），dj_program、dj_program_detail、
 // dj_program_toplist、dj_program_toplist_hours、program_recommend、personalized_djprogram 的字段相同；
@@ -841,7 +859,7 @@ export const ProgramQuality = UpstreamObject({
 // `transName`/`transNames`，并给 `album` 加单数 `transName`。
 export const ProgramMainSong = UpstreamObject({
   album: Loose(SimpleAlbum),
-  artists: Loose(Schema.Array(Artist)),
+  artists: Artist.pipe(Schema.Array, Loose),
   bMusic: Loose(ProgramQuality),
   commentThreadId: Loose(Schema.String),
   copyFrom: Loose(Schema.String),
@@ -874,12 +892,14 @@ export const ProgramMainSong = UpstreamObject({
   starredNum: Loose(Schema.Finite),
   status: Loose(Schema.Finite),
 });
+export type ProgramMainSong = UpstreamSchemaType<typeof ProgramMainSong>;
 
 // 节目与电台记录里的主播：`PlaylistUser` 之外还有品牌名。
 export const ProgramDj = UpstreamObject({
   ...PlaylistUser.schema.fields,
   brand: Loose(Schema.String),
 });
+export type ProgramDj = UpstreamSchemaType<typeof ProgramDj>;
 
 const ProgramDescText = UpstreamObject({
   attributes: Loose(
@@ -891,7 +911,7 @@ const ProgramDescText = UpstreamObject({
 });
 
 const ProgramDescNestedData = UpstreamObject({
-  textList: Loose(Schema.Array(ProgramDescText)),
+  textList: ProgramDescText.pipe(Schema.Array, Loose),
 });
 
 // 节目记录和订阅电台列表里的简介图文；`timeStamp` 只见过 null，未声明。
@@ -903,6 +923,7 @@ export const ProgramDescPic = UpstreamObject({
   type: Loose(Schema.Finite),
   width: Loose(Schema.Finite),
 });
+export type ProgramDescPic = UpstreamSchemaType<typeof ProgramDescPic>;
 
 // 节目记录里嵌着的电台摘要；它是节目里的附带对象，编号也宽松。
 const ProgramRadio = UpstreamObject({
@@ -911,7 +932,7 @@ const ProgramRadio = UpstreamObject({
   categoryId: Loose(Schema.Finite),
   createTime: Loose(Schema.Finite),
   desc: Loose(Schema.String),
-  descPicList: Loose(Schema.Array(ProgramDescPic)),
+  descPicList: ProgramDescPic.pipe(Schema.Array, Loose),
   dynamic: Loose(Schema.Boolean),
   feeScope: Loose(Schema.Finite),
   finished: Loose(Schema.Boolean),
@@ -921,9 +942,9 @@ const ProgramRadio = UpstreamObject({
   lastProgramCreateTime: Loose(Schema.Finite),
   lastProgramId: Loose(Schema.Finite),
   name: Loose(Schema.String),
-  operateUidList: Loose(Schema.Array(Schema.Finite)),
+  operateUidList: Schema.Finite.pipe(Schema.Array, Loose),
   originalPrice: Loose(Schema.Finite),
-  participateUidList: Loose(Schema.Array(Schema.Finite)),
+  participateUidList: Schema.Finite.pipe(Schema.Array, Loose),
   picId: Loose(Schema.Finite),
   picUrl: Loose(Schema.String),
   playCount: Loose(Schema.Finite),
@@ -963,7 +984,7 @@ export const DjProgram = UpstreamObject({
   canReward: Loose(Schema.Boolean),
   categoryId: Loose(Schema.Finite),
   categoryName: Loose(Schema.String),
-  channels: Loose(Schema.Array(Schema.String)),
+  channels: Schema.String.pipe(Schema.Array, Loose),
   code: Loose(Schema.Finite),
   commentCount: Loose(Schema.Finite),
   commentThreadId: Loose(Schema.String),
@@ -982,9 +1003,9 @@ export const DjProgram = UpstreamObject({
   mainSong: Loose(ProgramMainSong),
   mainTrackId: Loose(Schema.Finite),
   name: Loose(Schema.String),
-  participateAnchors: Loose(Schema.Array(ParticipateAnchor)),
+  participateAnchors: ParticipateAnchor.pipe(Schema.Array, Loose),
   privacy: Loose(Schema.Boolean),
-  programDesc: Loose(Schema.Array(ProgramDescPic)),
+  programDesc: ProgramDescPic.pipe(Schema.Array, Loose),
   programFeeType: Loose(Schema.Finite),
   pubStatus: Loose(Schema.Finite),
   radio: Loose(ProgramRadio),
@@ -999,12 +1020,13 @@ export const DjProgram = UpstreamObject({
   serialNum: Loose(Schema.Finite),
   shareCount: Loose(Schema.Finite),
   smallLanguageAuditStatus: Loose(Schema.Finite),
-  specialTags: Loose(Schema.Array(Schema.String)),
+  specialTags: Schema.String.pipe(Schema.Array, Loose),
   specialType: Loose(Schema.Finite),
   subscribed: Loose(Schema.Boolean),
   subscribedCount: Loose(Schema.Finite),
   trackCount: Loose(Schema.Finite),
 });
+export type DjProgram = UpstreamSchemaType<typeof DjProgram>;
 
 // ugc_album_get、ugc_mv_get、ugc_song_get 的 `artistRepVos`，以及 ugc_song_get 的 `lyricArtists`、
 // `composeArtists`，都是同一结构，字段完全相同：只有编号和名字出现过值，其余资料在嵌套记录里都是
@@ -1013,6 +1035,7 @@ export const UgcArtistRef = UpstreamObject({
   artistId: Loose(Schema.Finite),
   artistName: Loose(Schema.String),
 });
+export type UgcArtistRef = UpstreamSchemaType<typeof UgcArtistRef>;
 
 // dj_toplist_hours、dj_toplist_newcomer、dj_toplist_popular 的主播榜条目：只收紧主播自己的 `id`，
 // 排名、分数、头像、认证和直播状态宽松；`avatarDetail` 在部分条目里是 null，出现时按宽松结构声明。
@@ -1032,3 +1055,4 @@ export const DjAnchorRank = UpstreamObject({
   userFollowedCount: Loose(Schema.Finite),
   userType: Loose(Schema.Finite),
 });
+export type DjAnchorRank = UpstreamSchemaType<typeof DjAnchorRank>;

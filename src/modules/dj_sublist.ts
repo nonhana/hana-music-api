@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -41,7 +44,7 @@ const Radio = UpstreamObject({
   categoryId: Loose(Schema.Finite),
   createTime: Loose(Schema.Finite),
   desc: Loose(Schema.String),
-  descPicList: Loose(Schema.Array(ProgramDescPic)),
+  descPicList: ProgramDescPic.pipe(Schema.Array, Loose),
   dj: Loose(PlaylistUser),
   dynamic: Loose(Schema.Boolean),
   feeScope: Loose(Schema.Finite),
@@ -53,7 +56,7 @@ const Radio = UpstreamObject({
   lastProgramName: Loose(Schema.String),
   name: Loose(Schema.String),
   newProgramCount: Loose(Schema.Finite),
-  operateUidList: Loose(Schema.Array(Schema.Finite)),
+  operateUidList: Schema.Finite.pipe(Schema.Array, Loose),
   originalPrice: Loose(Schema.Finite),
   picId: Loose(Schema.Finite),
   picUrl: Loose(Schema.String),
@@ -72,7 +75,7 @@ const Radio = UpstreamObject({
 
 // 通到订阅列表的路径 `djRadios` 和每个电台自己的编号 `djRadios[].id` 收紧；`count`、`time`、`hasMore`、
 // 电台展示字段和主播记录（复用宽松的 `PlaylistUser`）宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     djRadios: Schema.Array(Radio),
@@ -81,7 +84,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     hasMore: Loose(Schema.Boolean),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const djSublist: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,

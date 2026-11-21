@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -46,7 +49,7 @@ const SongInfo = UpstreamObject({
   mainArtistName: Loose(Schema.String),
   artistNames: Loose(Schema.String),
   online: Loose(Schema.Boolean),
-  songStype: Loose(Schema.Array(Schema.String)),
+  songStype: Schema.String.pipe(Schema.Array, Loose),
   coverUrl: Loose(Schema.String),
   artistMap: Loose(Schema.Record(Schema.String, Schema.String)),
   albumName: Loose(Schema.String),
@@ -67,40 +70,32 @@ const Player = UpstreamObject({
 
 const TimemachineAlbumInfo = UpstreamObject({
   count: Loose(Schema.Finite),
-  details: Loose(
-    Schema.Array(
-      UpstreamObject({
-        albumId: Loose(Schema.Finite),
-        albumName: Loose(Schema.String),
-        coverUrl: Loose(Schema.String),
-        online: Loose(Schema.Boolean),
-        playerId: Loose(Schema.Finite),
-        playerName: Loose(Schema.String),
-        tag: Loose(Schema.String),
-      }),
-    ),
-  ),
+  details: UpstreamObject({
+    albumId: Loose(Schema.Finite),
+    albumName: Loose(Schema.String),
+    coverUrl: Loose(Schema.String),
+    online: Loose(Schema.Boolean),
+    playerId: Loose(Schema.Finite),
+    playerName: Loose(Schema.String),
+    tag: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
 });
 
 const PlayerList = UpstreamObject({
   count: Loose(Schema.Finite),
-  players: Loose(Schema.Array(Player)),
+  players: Player.pipe(Schema.Array, Loose),
 });
 
 const SingleList = UpstreamObject({
   count: Loose(Schema.Finite),
-  singles: Loose(Schema.Array(SongInfo)),
+  singles: SongInfo.pipe(Schema.Array, Loose),
 });
 
 const CommonStyle = UpstreamObject({
-  styleDetailList: Loose(
-    Schema.Array(
-      UpstreamObject({
-        percent: Loose(Schema.String),
-        styleName: Loose(Schema.String),
-      }),
-    ),
-  ),
+  styleDetailList: UpstreamObject({
+    percent: Loose(Schema.String),
+    styleName: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
 });
 
 const DurationItem = UpstreamObject({
@@ -117,38 +112,26 @@ const DayDetail = UpstreamObject({
 });
 
 const MusicEmotion = UpstreamObject({
-  emotions: Loose(
-    Schema.Array(
-      UpstreamObject({
-        type: Loose(Schema.Finite),
-        detail: Loose(
-          Schema.Array(
-            UpstreamObject({
-              day: Loose(Schema.Finite),
-              percent: Loose(Schema.String),
-            }),
-          ),
-        ),
-      }),
-    ),
-  ),
-  subTitle: Loose(Schema.Array(Schema.String)),
+  emotions: UpstreamObject({
+    type: Loose(Schema.Finite),
+    detail: UpstreamObject({
+      day: Loose(Schema.Finite),
+      percent: Loose(Schema.String),
+    }).pipe(Schema.Array, Loose),
+  }).pipe(Schema.Array, Loose),
+  subTitle: Schema.String.pipe(Schema.Array, Loose),
 });
 
 const MusicYear = UpstreamObject({
   percent: Loose(Schema.String),
   total: Loose(Schema.Finite),
   year: Loose(Schema.Finite),
-  yearPercents: Loose(
-    Schema.Array(
-      UpstreamObject({
-        endYear: Loose(Schema.Finite),
-        percent: Loose(Schema.String),
-        startYear: Loose(Schema.Finite),
-      }),
-    ),
-  ),
-  yearSingles: Loose(Schema.Array(SongInfo)),
+  yearPercents: UpstreamObject({
+    endYear: Loose(Schema.Finite),
+    percent: Loose(Schema.String),
+    startYear: Loose(Schema.Finite),
+  }).pipe(Schema.Array, Loose),
+  yearSingles: SongInfo.pipe(Schema.Array, Loose),
 });
 
 const RecommendPlayList = UpstreamObject({
@@ -166,12 +149,12 @@ const SecondStyle = UpstreamObject({
 });
 
 const TimemachineData = UpstreamObject({
-  appDurationDataList: Loose(Schema.Array(DurationItem)),
-  details: Loose(Schema.Array(DayDetail)),
+  appDurationDataList: DurationItem.pipe(Schema.Array, Loose),
+  details: DayDetail.pipe(Schema.Array, Loose),
   endSong: Loose(SongInfo),
   endTime: Loose(Schema.Finite),
   intervelCount: Loose(Schema.Finite),
-  intervelDurationDataList: Loose(Schema.Array(DurationItem)),
+  intervelDurationDataList: DurationItem.pipe(Schema.Array, Loose),
   intervelType: Loose(Schema.Finite),
   keyword: Loose(Schema.String),
   listenAlbum: Loose(Schema.Finite),
@@ -190,11 +173,11 @@ const TimemachineData = UpstreamObject({
   newStyleName: Loose(Schema.String),
   percent: Loose(Schema.String),
   player: Loose(Player),
-  recommendPlayList: Loose(Schema.Array(RecommendPlayList)),
-  recommendPlayers: Loose(Schema.Array(Player)),
-  recommendSongs: Loose(Schema.Array(SongInfo)),
-  secondStyleDataList: Loose(Schema.Array(SecondStyle)),
-  songInfos: Loose(Schema.Array(SongInfo)),
+  recommendPlayList: RecommendPlayList.pipe(Schema.Array, Loose),
+  recommendPlayers: Player.pipe(Schema.Array, Loose),
+  recommendSongs: SongInfo.pipe(Schema.Array, Loose),
+  secondStyleDataList: SecondStyle.pipe(Schema.Array, Loose),
+  songInfos: SongInfo.pipe(Schema.Array, Loose),
   startSong: Loose(SongInfo),
   startTime: Loose(Schema.Finite),
   styleId: Loose(Schema.Finite),
@@ -222,12 +205,12 @@ const TimemachineDetail = UpstreamObject({
 });
 
 // 返回码、时光机页的路径 `data`、周报列表 `data.detail`（无记录时为 `null`）、每份周报自己的 `rowKey` 收紧；报告体 `data.detail[].data` 必填，缺失、`null` 或非对象时报 502，四种 `type` 的报告内容共用一个宽松结构。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
       beta: Loose(Schema.Boolean),
-      detail: Optional(Schema.Array(TimemachineDetail)),
+      detail: TimemachineDetail.pipe(Schema.Array, Optional),
       hasnext: Loose(Schema.Boolean),
       notVipLimitNum: Loose(Schema.Finite),
       recordTime: Loose(Schema.Finite),
@@ -236,7 +219,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const vipTimemachine: ModuleEffect<
   ModuleInput,

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -44,11 +47,11 @@ export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
 // 通到评论列表的路径 `comments`、`hotComments` 和每条评论的编号 `comments[].commentId` 收紧；越界分页时 `hotComments` 整个缺失，其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     comments: Schema.Array(CommentRecord),
-    hotComments: Optional(Schema.Array(CommentRecord)),
+    hotComments: CommentRecord.pipe(Schema.Array, Optional),
     cnum: Loose(Schema.Finite),
     isMusician: Loose(Schema.Boolean),
     more: Loose(Schema.Boolean),
@@ -57,7 +60,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     userId: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const commentMusic: ModuleEffect<
   ModuleInput,
