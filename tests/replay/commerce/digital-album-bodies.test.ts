@@ -1,7 +1,7 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
 import {
-  createHanaMusicApi,
   DigitalAlbumDetailBody,
   DigitalAlbumPurchasedBody,
   DigitalAlbumSalesBody,
@@ -9,7 +9,7 @@ import {
   VipGrowthpointDetailsBody,
   VipTasksBody,
   VipTimemachineBody,
-} from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   businessFailure,

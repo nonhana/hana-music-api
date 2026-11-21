@@ -1,19 +1,19 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
 import {
   AlbumBody,
   AlbumSublistBody,
   ArtistAlbumBody,
   ArtistSublistBody,
   ArtistTopSongBody,
-  createHanaMusicApi,
   LikelistBody,
   PlaylistDetailBody,
   PlaylistTrackAllBody,
   RecommendSongsBody,
   SongDetailBody,
   UserPlaylistBody,
-} from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type {
   Recording,
   UpstreamShape,

@@ -1,6 +1,8 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
-import { createHanaMusicApi, TopPlaylistBody } from '../../../index.ts';
+import { createHanaMusicApi } from '../../../index.ts';
+import type { TopPlaylistBody as TopPlaylistBodyType } from '../../../index.ts';
+import { TopPlaylistBody } from '../../../src/sdk/schemas.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   businessFailure,
@@ -25,7 +27,7 @@ const rewriteAvatarKey = (raw: unknown) =>
     JSON.stringify(raw).replaceAll('avatarImgId_str', 'avatarImgIdStr'),
   ) as unknown;
 
-type TopPlaylistSuccess = Extract<TopPlaylistBody, { code: 200 }>;
+type TopPlaylistSuccess = Extract<TopPlaylistBodyType, { code: 200 }>;
 
 // issue #102 B28 的登录主形态、匿名对照、真实空结果、真实尾页和 order=hot 兜底录制；
 // 顶层视图见各录制的 context。

@@ -2,10 +2,12 @@ import { expectTypeOf } from 'bun:test';
 
 import { Effect, Schema } from 'effect';
 
+import * as rootPublicEntry from '../../../index.ts';
 import {
   albumSub,
   artistSub,
   banner,
+  createClient,
   // @ts-expect-error Internal assembly must not become a root export.
   createClientFromContext,
   createHanaMusicApi,
@@ -23,17 +25,21 @@ import {
   songUrl,
 } from '../../../index.ts';
 import type {
+  BodySchema,
   CreateHanaMusicApiConfig,
   CreateRequestOptions,
   HanaMusicApiClient,
   // @ts-expect-error Execution dependencies stay behind the public config boundary.
   InternalExecution,
+  LoginCellphoneRiskBody,
   ModuleCallConfig,
   ModuleInputOf,
   ModuleResponseOf,
   NcmApiFailure,
   NcmApiResponse,
   NcmFailureInfo,
+  SongDetailBody,
+  StandardSchemaV1,
 } from '../../../index.ts';
 import {
   invokeModule as invokeProgrammatic,
@@ -41,6 +47,30 @@ import {
 } from '../../../src/app/module-api.ts';
 import { decodeModuleInput } from '../../../src/core/module-input.ts';
 import type { ModuleInput as SearchInput } from '../../../src/modules/search.ts';
+import {
+  SongDetailBody as SubpathApiSongDetailBody,
+  songDetail as subpathSongDetail,
+} from '../../../src/sdk/api/song_detail.ts';
+import type { SongDetailInput as SubpathApiSongDetailInput } from '../../../src/sdk/api/song_detail.ts';
+import {
+  createClient as coreCreateClient,
+  createOption as coreCreateOption,
+  createRequest as coreCreateRequest,
+  generateDeviceId as coreGenerateDeviceId,
+  getNcmFailureInfo as coreGetNcmFailureInfo,
+  isNcmApiResponse as coreIsNcmApiResponse,
+} from '../../../src/sdk/core.ts';
+import {
+  LoginCellphoneRiskBody as SchemasLoginCellphoneRiskBody,
+  SongDetailBody as SchemasSongDetailBody,
+} from '../../../src/sdk/schemas.ts';
+import { SongDetailBody as SingleSchemaSongDetailBody } from '../../../src/sdk/schemas/song_detail.ts';
+import {
+  createOption as utilsCreateOption,
+  generateDeviceId as utilsGenerateDeviceId,
+  getNcmFailureInfo as utilsGetNcmFailureInfo,
+  isNcmApiResponse as utilsIsNcmApiResponse,
+} from '../../../src/sdk/utils.ts';
 import type {
   ModuleDefinition,
   ModuleEffect,
@@ -327,3 +357,51 @@ void widenedFailure;
 void successWithFailure;
 void unknownKind;
 void missingBusinessCode;
+
+// 根入口仅导出 *Body 类型，不能作为运行时值使用。
+// @ts-expect-error Root entry does not value-export SongDetailBody.
+void rootPublicEntry.SongDetailBody;
+// @ts-expect-error Root entry does not value-export LoginCellphoneRiskBody.
+void rootPublicEntry.LoginCellphoneRiskBody;
+
+// 子路径与组合式 createClient 类型契约。
+const assertSubpathAndScopedClientSurface = async () => {
+  const scoped = createClient(
+    { banner, songDetail: subpathSongDetail },
+    { cookie: 'MUSIC_U=scoped', cache: { enabled: true } },
+  );
+  const coreScoped = coreCreateClient(
+    { songDetail: subpathSongDetail },
+    { state: { deviceId: utilsGenerateDeviceId() } },
+  );
+  const input: SubpathApiSongDetailInput = { ids: [1, '2'] };
+  const detailResponse = await scoped.songDetail(input);
+  expectTypeOf(detailResponse.body).toEqualTypeOf<SongDetailBody>();
+  await coreScoped.songDetail({ ids: [3] });
+  await scoped.banner();
+  // @ts-expect-error createClient only exposes the passed module subset.
+  await scoped.search({ keywords: 'missing' });
+
+  const schemaFromApi: BodySchema<SongDetailBody> = SubpathApiSongDetailBody;
+  const schemaFromBarrel: BodySchema<SongDetailBody> = SchemasSongDetailBody;
+  const schemaFromSingle: BodySchema<SongDetailBody> =
+    SingleSchemaSongDetailBody;
+  const riskSchema: BodySchema<LoginCellphoneRiskBody> =
+    SchemasLoginCellphoneRiskBody;
+  const standardSchema: StandardSchemaV1<unknown, SongDetailBody> =
+    schemaFromSingle;
+
+  void schemaFromApi;
+  void schemaFromBarrel;
+  void riskSchema;
+  void standardSchema;
+  void coreCreateOption;
+  void coreCreateRequest;
+  void coreGenerateDeviceId;
+  void coreGetNcmFailureInfo;
+  void coreIsNcmApiResponse;
+  void utilsCreateOption;
+  void utilsGetNcmFailureInfo;
+  void utilsIsNcmApiResponse;
+};
+void assertSubpathAndScopedClientSurface;

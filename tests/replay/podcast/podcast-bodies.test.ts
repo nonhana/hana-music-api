@@ -1,15 +1,15 @@
 import { expect, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
 import {
   BroadcastCategoryRegionGetBody,
   BroadcastChannelCollectListBody,
   BroadcastChannelCurrentinfoBody,
   BroadcastChannelListBody,
-  createHanaMusicApi,
   VoicelistListSearchBody,
   VoicelistSearchBody,
   VoiceLyricBody,
-} from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   businessFailure,

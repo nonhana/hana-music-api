@@ -1,7 +1,7 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
-import { CloudsearchBody } from '../../../index.ts';
 import type { SearchSuggestBody } from '../../../index.ts';
+import { CloudsearchBody } from '../../../src/sdk/schemas.ts';
 import type { Recording } from '../../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,

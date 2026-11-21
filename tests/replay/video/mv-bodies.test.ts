@@ -1,7 +1,7 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
 import {
-  createHanaMusicApi,
   MvAllBody,
   MvDetailBody,
   MvDetailInfoBody,
@@ -10,7 +10,7 @@ import {
   MvSublistBody,
   MvUrlBody,
   TopMvBody,
-} from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,

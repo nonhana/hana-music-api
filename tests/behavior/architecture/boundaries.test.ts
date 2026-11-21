@@ -409,6 +409,33 @@ test('product source and generated artifacts expose one Effect execution path', 
   ]);
 });
 
+test('published source graph imports exact effect subpaths instead of the root barrel', async () => {
+  const publishRoots = [
+    'index.ts',
+    'src/core',
+    'src/modules',
+    'src/plugins',
+    'src/sdk',
+    'src/types',
+  ];
+  const violations: Array<string> = [];
+  for (const root of publishRoots) {
+    const fullRoot = resolve(projectRoot, root);
+    const entries = root.endsWith('.ts')
+      ? [root]
+      : (await readdir(fullRoot, { recursive: true }))
+          .filter((entry) => /\.tsx?$/.test(entry))
+          .map((entry) => `${root}/${entry}`);
+    for (const file of entries) {
+      const source = await readFile(resolve(projectRoot, file), 'utf8');
+      if (/\bfrom\s+['"]effect['"]/.test(source)) {
+        violations.push(file);
+      }
+    }
+  }
+  expect(violations).toEqual([]);
+});
+
 test('all module defaults construct Effect work without starting transport', () => {
   const failures = Object.values(sdkModuleRegistry).flatMap((definition) => {
     const work = definition.execute({} as never, () =>

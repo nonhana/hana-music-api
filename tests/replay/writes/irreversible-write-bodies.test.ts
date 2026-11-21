@@ -1,6 +1,7 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
-import { createHanaMusicApi, RegisterAnonimousBody } from '../../../index.ts';
+import { createHanaMusicApi } from '../../../index.ts';
+import { RegisterAnonimousBody } from '../../../src/sdk/schemas.ts';
 import type { CommentQuery } from '../../../src/types/modules.ts';
 import type { Recording } from '../../_kit/assertions.ts';
 import {
