@@ -1,12 +1,12 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
+import type { SongDetailBody } from '../../../index.ts';
 import {
   PlaylistCreateBody,
   PlaylistDetailBody,
   PlaylistTrackAllBody,
   UserPlaylistBody,
-} from '../../../index.ts';
-import type { SongDetailBody } from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { Validator } from '../../_kit/assertions.ts';
 import { validateSync } from '../../_kit/assertions.ts';
 

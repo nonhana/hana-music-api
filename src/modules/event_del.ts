@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,7 +7,12 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import type { BodyType } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  defineModuleBody,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
@@ -31,10 +37,10 @@ export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
 // 接口就是为了确认删除成功：正文只返回返回码 `code`，收紧；本批录制是删除不存在 id 的返回体，只证明成功返回码，其他字段未声明。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({ code: Schema.Literal(200) }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const eventDel: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -25,7 +28,7 @@ export const moduleActions = {
 } as const satisfies ModuleActions;
 
 // 返回码收紧；接口返回的私信、通知、关注等计数平铺在正文，少一项只是少一项信息，全部宽松（同 user_subcount）。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     battle: Loose(
@@ -72,7 +75,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     ydAntiUrlConfigVersion: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export type ModuleInput = NoInput;
 

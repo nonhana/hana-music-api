@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -49,14 +52,14 @@ const RoomInfo = UpstreamObject({
   roomCreateTime: Loose(Schema.Finite),
   roomId: Schema.String,
   roomType: Loose(Schema.String),
-  roomUsers: Loose(Schema.Array(RoomUser)),
+  roomUsers: RoomUser.pipe(Schema.Array, Loose),
   roomVipAbGroup: Loose(Schema.Record(Schema.String, Schema.String)),
   waitMs: Loose(Schema.Finite),
 });
 
 // 通到新房间的 `data.roomInfo` 和接口就是为了拿的 `data.roomInfo.roomId` 收紧；房主
 // `creatorId`、房间成员和展示字段都是附带信息，宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -67,7 +70,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const listentogetherRoomCreate: ModuleEffect<
   ModuleInput,

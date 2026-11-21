@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,22 +7,24 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
 // 返回码和喜欢列表收紧。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     ids: Schema.Array(Schema.Finite),
     checkPoint: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -54,21 +57,21 @@ const Act = UpstreamObject({
   sharePicId: Loose(Schema.Finite),
   sharePicUrl: Loose(Schema.String),
   startTime: Loose(Schema.Finite),
-  text: Loose(Schema.Array(Schema.String)),
+  text: Schema.String.pipe(Schema.Array, Loose),
   title: Loose(Schema.String),
   topicType: Loose(Schema.Finite),
   videoType: Loose(Schema.Finite),
 });
 
 // 获取话题详情：通到话题的路径 `act` 和话题自己的编号 `act.actId` 收紧；未知话题由上游返回 code 404。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     act: Act,
     needBeginNotify: Loose(Schema.Boolean),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const topicDetail: ModuleEffect<
   ModuleInput,

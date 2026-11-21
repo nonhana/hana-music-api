@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -57,7 +60,7 @@ const NoCopyrightRcmd = UpstreamObject({
       pic16v9Url: Loose(Schema.String),
       pic4v3: Loose(Schema.Finite),
       type: Loose(Schema.String),
-      videos: Loose(Schema.Array(NoCopyrightMvInfoVideo)),
+      videos: NoCopyrightMvInfoVideo.pipe(Schema.Array, Loose),
     }),
   ),
   type: Loose(Schema.Finite),
@@ -71,7 +74,7 @@ const ArtistSong = UpstreamObject({
 });
 
 // 通到歌手单曲列表的路径 `songs` 和每首歌的编号收紧；`more`、`total` 是分页信息，宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     songs: Schema.Array(ArtistSong),
@@ -79,7 +82,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     total: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

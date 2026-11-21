@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -42,7 +45,7 @@ const SignHappyInfo = UpstreamObject({
   backColor: Loose(Schema.String),
   currentUserName: Loose(Schema.String),
   endTime: Loose(Schema.Finite),
-  hotComments: Loose(Schema.Array(HotComment)),
+  hotComments: HotComment.pipe(Schema.Array, Loose),
   jumpUrl: Loose(Schema.String),
   mainText: Loose(Schema.String),
   newPicUrl: Loose(Schema.String),
@@ -66,7 +69,7 @@ const SignHappyInfo = UpstreamObject({
 
 // 返回码和签到活动信息的路径 `data.info` 及活动记录 `id` 收紧；活动文案、资源与热评字段宽松，
 // 只见过 null 的 `jumpText`、`specialJumpUrl`、`btnPicUrl`、`operator`、`videoStrId` 未声明。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -75,7 +78,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const signHappyInfo: ModuleEffect<
   ModuleInput,

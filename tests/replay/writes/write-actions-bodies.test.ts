@@ -1,15 +1,15 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
 import {
   BroadcastSubBody,
   CommentLikeBody,
-  createHanaMusicApi,
   DjSubBody,
   FollowBody,
   MvSubBody,
   ResourceLikeBody,
   VideoSubBody,
-} from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   businessFailure,

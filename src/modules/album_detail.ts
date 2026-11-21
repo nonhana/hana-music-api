@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -57,10 +60,10 @@ const Product = UpstreamObject({
   albumfee: Loose(Schema.Finite),
   albumType: Loose(Schema.Finite),
   bundling: Loose(Schema.Finite),
-  buynotes: Loose(Schema.Array(Schema.String)),
+  buynotes: Schema.String.pipe(Schema.Array, Loose),
   buysingle: Loose(Schema.Boolean),
   canDraw: Loose(Schema.Finite),
-  descr: Loose(Schema.Array(ProductDescr)),
+  descr: ProductDescr.pipe(Schema.Array, Loose),
   donateMsg: Loose(Schema.String),
   extInfo: Loose(ProductExtInfo),
   finished: Loose(Schema.Boolean),
@@ -79,7 +82,7 @@ const Product = UpstreamObject({
   showMv: Loose(Schema.Boolean),
   singleCanBoard: Loose(Schema.Boolean),
   status: Loose(Schema.Finite),
-  tags: Loose(Schema.Array(Schema.String)),
+  tags: Schema.String.pipe(Schema.Array, Loose),
 });
 
 const DigitalAlbum = UpstreamObject({
@@ -105,7 +108,7 @@ const ProductBoard = UpstreamObject({
 });
 
 // 通到数字专辑详情的路径 `album`、`product` 和专辑自己的编号 `album.albumId` 收紧；其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     album: DigitalAlbum,
@@ -119,7 +122,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     visitorId: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

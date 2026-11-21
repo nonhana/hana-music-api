@@ -1,13 +1,20 @@
-import { Effect, Schema } from 'effect';
-import * as QRCode from 'qrcode';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
+import type * as QRCode from 'qrcode';
 
-import { Call } from '../core/call.ts';
+import { Call } from '../core/call-context.ts';
 import { ModuleInvariantFailed } from '../core/errors.ts';
 import {
   BooleanValue,
   decodeModuleInput as decodeInput,
 } from '../core/module-input.ts';
+import {
+  isMissingOptionalDependencyError,
+  loadOptionalDependency,
+} from '../core/optional-dependency.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
+import type { BodyType } from '../core/upstream-body.ts';
+import { defineModuleBody } from '../core/upstream-body.ts';
 import { generateChainId } from '../core/utils.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
@@ -30,13 +37,13 @@ export const decodeModuleInput = (input: unknown) =>
 
 // 返回码、二维码数据路径和二维码字段都是接口要拿的那一项，全部收紧。
 // 返回体由 SDK 自己拼出，`qrimg` 只在请求了图片时才有内容，否则是空串。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   Schema.Struct({
     code: Schema.Literal(200),
     data: Schema.Struct({ qrurl: Schema.String, qrimg: Schema.String }),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const loginQrCreate: ModuleEffect<
   ModuleInput,
@@ -51,9 +58,17 @@ const loginQrCreate: ModuleEffect<
     }
     const qrimg = query.qrimg
       ? yield* Effect.tryPromise({
-          try: () => QRCode.toDataURL(url),
+          try: async () => {
+            const qrCode =
+              await loadOptionalDependency<typeof QRCode>('qrcode');
+            return qrCode.toDataURL(url);
+          },
           catch: (error) =>
-            ModuleInvariantFailed.make({ message: String(error) }),
+            ModuleInvariantFailed.make({
+              message: isMissingOptionalDependencyError(error, 'qrcode')
+                ? "Generating QR code images requires installing optional peer dependency 'qrcode'"
+                : String(error),
+            }),
         })
       : '';
     return {

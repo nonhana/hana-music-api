@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -31,14 +34,14 @@ const DynamicCover = UpstreamObject({
 
 // 返回码和动态封面路径 `data` 收紧；`data.videoPlayUrl` 是接口要拿的那一项，没有动态封面时整个字段缺失，
 // 这时 `data` 是空对象，其余展示字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: DynamicCover,
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -49,7 +52,7 @@ const IdentityInfo = UpstreamObject({
   detailDescription: Loose(Schema.String),
   showName: Loose(Schema.String),
   iconUrl: Loose(Schema.String),
-  tags: Loose(Schema.Array(Schema.String)),
+  tags: Schema.String.pipe(Schema.Array, Loose),
 });
 
 const TagRcmd = UpstreamObject({
@@ -64,23 +67,23 @@ const RcmdUser = UpstreamObject({
   actionUrl: Loose(Schema.String),
   statusContentDTO: Loose(StatusContent),
   identityInfoDTO: Loose(IdentityInfo),
-  tagRcmdVOList: Loose(Schema.Array(TagRcmd)),
+  tagRcmdVOList: TagRcmd.pipe(Schema.Array, Loose),
 });
 
 // 返回码、相同状态用户列表 data.userRcmdInfoVOList 和每条记录的 userId 收紧（没有状态时列表整个缺失，写成可以没有）；当前状态和推荐理由宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
       rcmdTitle: Loose(Schema.String),
       onlyShowState: Loose(Schema.Boolean),
       statusContentDTO: Loose(StatusContent),
-      userRcmdInfoVOList: Optional(Schema.Array(RcmdUser)),
+      userRcmdInfoVOList: RcmdUser.pipe(Schema.Array, Optional),
     }),
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const userSocialStatusRcmd: ModuleEffect<
   ModuleInput,

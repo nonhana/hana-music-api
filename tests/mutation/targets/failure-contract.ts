@@ -1,7 +1,7 @@
 export const mutations = [
   {
     id: 'failure-guard-cookie-type-unchecked',
-    file: 'src/core/response.ts',
+    file: 'src/core/failure-guards.ts',
     find: "cookie.every((item) => typeof item === 'string') &&",
     replace: 'true &&',
     expectedFailures: [
@@ -29,7 +29,7 @@ export const mutations = [
   },
   {
     id: 'legacy-reader-invents-unknown',
-    file: 'src/core/response.ts',
+    file: 'src/core/failure-guards.ts',
     find: 'return isFailureInfo(failure) ? failure : undefined;',
     replace: "return isFailureInfo(failure) ? failure : { kind: 'unknown' };",
     expectedFailures: [

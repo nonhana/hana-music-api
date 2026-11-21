@@ -1,5 +1,12 @@
 import { spawnSync } from 'node:child_process';
-import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises';
+import {
+  mkdir,
+  mkdtemp,
+  readdir,
+  readFile,
+  rm,
+  writeFile,
+} from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { dirname, relative, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -43,7 +50,12 @@ const SDK_BODIES_FILE = resolve(
   import.meta.dir,
   '../src/sdk/generated/bodies.generated.ts',
 );
+const SDK_BODIES_TYPES_FILE = resolve(
+  import.meta.dir,
+  '../src/sdk/generated/bodies-types.generated.ts',
+);
 const SDK_API_DIRECTORY = resolve(import.meta.dir, '../src/sdk/api');
+const SDK_SCHEMAS_DIRECTORY = resolve(import.meta.dir, '../src/sdk/schemas');
 
 interface GeneratedArtifacts {
   readonly files: ReadonlyArray<{
@@ -101,11 +113,10 @@ const buildSdkGeneratedClient = (
   );
   const exportLines = entries.map(
     ({ functionName, identifier }) =>
-      `export const ${functionName}: SdkModuleInvoker<'${identifier}'> = createEffectModuleInvoker('${identifier}', sdkModuleRegistry.${identifier})`,
+      `export { ${functionName} } from '../api/${identifier}.ts'`,
   );
   return `import type { CreateHanaMusicApiConfig, SdkModuleInvoker } from '../../types/index.ts'
-import { createEffectModuleInvoker, createSdkClientContext } from '../runtime.ts'
-import { sdkModuleRegistry } from './registry.generated.ts'
+import { createSdkClientContext } from '../invoker.ts'
 import { createClientFromContext } from './client-factory.generated.ts'
 
 export interface HanaMusicApiClient {
@@ -129,8 +140,8 @@ const buildSdkFactory = (identifiers: ReadonlyArray<string>): string => {
   );
 
   return `import type { CreateHanaMusicApiConfig } from '../../types/index.ts'
-import { createEffectModuleInvoker } from '../runtime.ts'
-import type { SdkClientContext } from '../runtime.ts'
+import { createEffectModuleInvoker } from '../invoker.ts'
+import type { SdkClientContext } from '../invoker.ts'
 import type { HanaMusicApiClient } from './client.generated.ts'
 import { sdkModuleRegistry } from './registry.generated.ts'
 
@@ -182,6 +193,91 @@ const buildSdkBodies = (
     )
     .join('\n')
     .concat('\n');
+
+const buildSdkBodiesTypes = (
+  contracts: ReadonlyArray<{
+    readonly identifier: string;
+    readonly body: boolean;
+  }>,
+): string =>
+  contracts
+    .filter(({ body }) => body)
+    .map(
+      ({ identifier }) =>
+        `export type { ModuleBody as ${toPascalCase(identifier)}Body } from '../../modules/${identifier}.ts'`,
+    )
+    .join('\n')
+    .concat('\n');
+
+const buildSdkApiModule = (contract: {
+  readonly identifier: string;
+  readonly route: string;
+  readonly body: boolean;
+  readonly bodySchema: boolean;
+}): string => {
+  const functionName = toCamelCase(contract.identifier);
+  const typePrefix = toPascalCase(contract.identifier);
+  const typeImports = contract.body ? 'ModuleBody, ModuleInput' : 'ModuleInput';
+  const runtimeImport = contract.body
+    ? `import type { ModuleResponse } from '../../types/runtime.ts';\n`
+    : '';
+  const invokerAnnotation = contract.body
+    ? `SdkModuleInvokerFor<\n  ModuleInput,\n  ModuleResponse<ModuleBody>\n>`
+    : 'SdkModuleInvokerFor<ModuleInput>';
+  const extraExports = [
+    `export type { ModuleInput as ${typePrefix}Input } from '../../modules/${contract.identifier}.ts';`,
+  ];
+  if (contract.bodySchema) {
+    extraExports.unshift(
+      `export { ModuleBody as ${typePrefix}Body } from '../../modules/${contract.identifier}.ts';`,
+    );
+  } else if (contract.body) {
+    extraExports.unshift(
+      `export type { ModuleBody as ${typePrefix}Body } from '../../modules/${contract.identifier}.ts';`,
+    );
+  }
+  if (contract.identifier === 'login_cellphone') {
+    extraExports.push(
+      `export { RiskBody as LoginCellphoneRiskBody } from '../../modules/login_cellphone.ts';`,
+    );
+  }
+
+  const invokerTypeArgs = contract.body
+    ? '<ModuleInput, ModuleBody>'
+    : '<ModuleInput>';
+
+  return `import type { ${typeImports} } from '../../modules/${contract.identifier}.ts';
+import moduleEffect, {
+  decodeModuleInput,
+  moduleActions,
+} from '../../modules/${contract.identifier}.ts';
+${runtimeImport}import type { SdkModuleInvokerFor } from '../../types/sdk.ts';
+import { createStandaloneModuleInvoker } from '../invoker.ts';
+
+export const ${functionName}: ${invokerAnnotation} = /* @__PURE__ */ createStandaloneModuleInvoker${invokerTypeArgs}({
+  identifier: '${contract.identifier}',
+  route: '${contract.route}',
+  execute: moduleEffect,
+  decodeInput: decodeModuleInput,
+  actions: moduleActions,
+});
+
+${extraExports.join('\n')}
+`;
+};
+
+const buildSdkSchemaModule = (identifier: string): string => {
+  const typePrefix = toPascalCase(identifier);
+  const lines = [
+    `export { ModuleBody as ${typePrefix}Body } from '../../modules/${identifier}.ts';`,
+  ];
+  if (identifier === 'login_cellphone') {
+    lines.push(
+      `export { RiskBody as LoginCellphoneRiskBody } from '../../modules/login_cellphone.ts';`,
+    );
+  }
+  return `${lines.join('\n')}\n`;
+};
 
 // 合法开放字典必须在这里逐项登记理由；批次不能自行放行。
 const OPEN_INPUT_EXCEPTIONS: Readonly<Record<string, string>> = {
@@ -400,10 +496,14 @@ const buildModuleSurface = (
     readonly identifier: string;
     readonly route: string;
     readonly body: boolean;
+    readonly bodySchema: boolean;
     readonly actions: boolean;
   }>,
 ): string => {
   const identifiers = contracts.map(({ identifier }) => identifier);
+  const schemaIdentifiers = contracts
+    .filter(({ bodySchema }) => bodySchema)
+    .map(({ identifier }) => identifier);
   const routes = contracts.map(
     ({ identifier, route }) => [identifier, route] as const,
   );
@@ -422,6 +522,10 @@ ${localImports.join('\n')}
 export const generatedModuleIdentifiers = ${JSON.stringify(identifiers, null, 2)} as const
 
 export type GeneratedModuleIdentifier = (typeof generatedModuleIdentifiers)[number]
+
+export const generatedSchemaIdentifiers = ${JSON.stringify(schemaIdentifiers, null, 2)} as const
+
+export type GeneratedSchemaIdentifier = (typeof generatedSchemaIdentifiers)[number]
 
 export const generatedModuleRoutes = ${JSON.stringify(Object.fromEntries(routes), null, 2)} as const satisfies Readonly<
   Record<GeneratedModuleIdentifier, string>
@@ -473,16 +577,32 @@ export const buildGeneratedArtifacts = async (
         contents: buildSdkBodies(contracts),
         path: SDK_BODIES_FILE,
       },
-      ...identifiers.map((identifier) => {
-        const sdkApiPath = resolve(SDK_API_DIRECTORY, `${identifier}.ts`);
-        return {
-          contents: `export { ${toCamelCase(identifier)} } from '../generated/client.generated.ts'\n`,
-          path: sdkApiPath,
-        };
-      }),
+      {
+        contents: buildSdkBodiesTypes(contracts),
+        path: SDK_BODIES_TYPES_FILE,
+      },
+      ...contracts.map((contract) => ({
+        contents: buildSdkApiModule(contract),
+        path: resolve(SDK_API_DIRECTORY, `${contract.identifier}.ts`),
+      })),
+      ...contracts
+        .filter(({ bodySchema }) => bodySchema)
+        .map(({ identifier }) => ({
+          contents: buildSdkSchemaModule(identifier),
+          path: resolve(SDK_SCHEMAS_DIRECTORY, `${identifier}.ts`),
+        })),
     ],
     moduleCount: identifiers.length,
   };
+};
+
+const listDirectoryTsFiles = async (
+  directory: string,
+): Promise<Array<string>> => {
+  const entries = await readdir(directory, { recursive: true }).catch(() => []);
+  return entries
+    .filter((entry) => entry.endsWith('.ts'))
+    .map((entry) => resolve(directory, entry));
 };
 
 const projectRoot = resolve(import.meta.dir, '..');
@@ -507,6 +627,14 @@ const formatFiles = (paths: Array<string>): void => {
 
 const writeSurface = async (): Promise<void> => {
   const { files, moduleCount } = await buildGeneratedArtifacts();
+  const expectedPaths = new Set(files.map((file) => file.path));
+  for (const directory of [SDK_API_DIRECTORY, SDK_SCHEMAS_DIRECTORY]) {
+    for (const existing of await listDirectoryTsFiles(directory)) {
+      if (!expectedPaths.has(existing)) {
+        await rm(existing, { force: true });
+      }
+    }
+  }
   for (const file of files) {
     await mkdir(dirname(file.path), { recursive: true });
     await writeFile(file.path, file.contents);
@@ -517,6 +645,16 @@ const writeSurface = async (): Promise<void> => {
 
 const checkSurface = async (): Promise<void> => {
   const { files } = await buildGeneratedArtifacts();
+  const expectedPaths = new Set(files.map((file) => file.path));
+  for (const directory of [SDK_API_DIRECTORY, SDK_SCHEMAS_DIRECTORY]) {
+    for (const existing of await listDirectoryTsFiles(directory)) {
+      if (!expectedPaths.has(existing)) {
+        throw new Error(
+          `Stale generated file found: ${existing}. Run "bun run types:modules:generate".`,
+        );
+      }
+    }
+  }
   const temporary = await mkdtemp(resolve(tmpdir(), 'hana-generated-'));
   try {
     const staged = files.map((file) => ({

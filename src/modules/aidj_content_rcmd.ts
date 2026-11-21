@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -35,9 +38,9 @@ export const decodeModuleInput = (input: unknown) =>
 // 它在宽松的 `value` 里，歌曲编号也宽松。
 const AiDjSong = UpstreamObject({
   ...ProgramMainSong.schema.fields,
-  alias: Loose(Schema.Array(Schema.String)),
+  alias: Schema.String.pipe(Schema.Array, Loose),
   transName: Loose(Schema.String),
-  transNames: Loose(Schema.Array(Schema.String)),
+  transNames: Schema.String.pipe(Schema.Array, Loose),
 });
 
 // 私人 DJ 的 DJ 声音：音频编号、地址、时长、文案等展示字段，全部宽松。
@@ -49,7 +52,7 @@ const AiDjAudio = UpstreamObject({
   fadeInOut: Loose(Schema.Boolean),
   gain: Loose(Schema.Finite),
   includeVoice: Loose(Schema.Boolean),
-  introductionRelatedSongIds: Loose(Schema.Array(Schema.Finite)),
+  introductionRelatedSongIds: Schema.Finite.pipe(Schema.Array, Loose),
   nosKey: Loose(Schema.String),
   peak: Loose(Schema.Finite),
   poolCode: Loose(Schema.String),
@@ -62,7 +65,7 @@ const AiDjAudio = UpstreamObject({
 // 私人 DJ 资源载荷：歌曲和 DJ 声音两种形状的字段放在同一对象里，全部宽松。
 const AiDjValue = UpstreamObject({
   alg: Loose(Schema.String),
-  audioList: Loose(Schema.Array(AiDjAudio)),
+  audioList: AiDjAudio.pipe(Schema.Array, Loose),
   includeVoice: Loose(Schema.Boolean),
   songData: Loose(AiDjSong),
   songId: Loose(Schema.String),
@@ -76,7 +79,7 @@ const AiDjResource = UpstreamObject({
 });
 
 // 通到私人 DJ 资源的 `data.aiDjResources` 收紧；资源载荷、场景名和埋点字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -84,10 +87,12 @@ export const ModuleBody = Schema.toStandardSchemaV1(
       tagName: Loose(Schema.String),
     }),
     message: Loose(Schema.String),
-    trp: Loose(UpstreamObject({ rules: Loose(Schema.Array(Schema.String)) })),
+    trp: Loose(
+      UpstreamObject({ rules: Schema.String.pipe(Schema.Array, Loose) }),
+    ),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 // 实际请求参数如下，部分内容省略，敏感信息已进行混淆，可按需修改此 API 的代码：
 /* {"extInfo":"{\"lastRequestTimestamp\":1692358373509,\"lbsInfoList\":[{\"lat\":40.23076381,\"lon\":129.07545186,\"time\":1692358543},{\"lat\":40.23076381,\"lon\":129.07545186,\"time\":1692055283}],\"listenedTs\":false,\"noAidjToAidj\":true}","header":"{}"} */

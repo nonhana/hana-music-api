@@ -909,9 +909,12 @@ MV 记录的 `data.mvId` 收紧；名称、封面、发行时间和简介宽松�
 
 ## 导出约定
 
-收窄返回体的模块从根入口导出结构定义和同名类型，名字是模块名转成 PascalCase 再加 `Body`，例如 `user_account` → `UserAccountBody`、`login_qr_check` → `LoginQrCheckBody`。导出了哪些结构定义，以上面按领域列出的表为准。
+收窄返回体的模块将结构定义以 `<模块名 PascalCase>Body` 命名，例如 `user_account` → `UserAccountBody`、`login_qr_check` → `LoginQrCheckBody`。导出了哪些结构定义，以上面按领域列出的表为准。
 
-结构定义的值是函数，不是普通对象（`typeof UserAccountBody === 'function'`）。Standard Schema 接口在它的 `~standard` 属性上，用法见 [用结构定义校验数据](#用结构定义校验数据)。
+- **类型导入**：从根入口 `hana-music-api` 通过 `import type { UserAccountBody } from 'hana-music-api'` 导入（自 7.x 起，根入口不再导出 `*Body` 运行时值）。
+- **运行时校验器导入**：按需从单模块入口 `hana-music-api/api/<module>`、单校验器入口 `hana-music-api/schemas/<module>` 或合集入口 `hana-music-api/schemas` 导入。
+
+Standard Schema v1 接口在结构定义的 `~standard` 属性上，用法见 [用结构定义校验数据](#用结构定义校验数据)。
 
 ## 成功码与失败处理
 
@@ -939,10 +942,10 @@ const isMember = (body: UserAccountBody) => (body.account?.vipType ?? 0) > 0;
 
 ## 用结构定义校验数据
 
-结构定义是 [Standard Schema](https://standardschema.dev/) 对象，可以交给任何支持 Standard Schema 的库，也可以直接调 `~standard.validate`，不需要引入 Effect：
+结构定义是 [Standard Schema](https://standardschema.dev/) 对象（公开类型 `BodySchema<T>`），可以交给任何支持 Standard Schema 的库，也可以直接调 `~standard.validate`，不需要引入 Effect：
 
 ```ts
-import { UserAccountBody } from 'hana-music-api';
+import { UserAccountBody } from 'hana-music-api/schemas/user_account';
 
 const result = UserAccountBody['~standard'].validate(savedBody);
 if (result.issues) {
@@ -954,14 +957,17 @@ if (result.issues) {
 
 `validate` 是同步的，不需要 Effect 运行时。适合在测试里检查自己的假数据是否和 SDK 认可的结构一致。
 
-对外只承诺 Standard Schema 接口和导出的类型。这些对象同时也是 Effect Schema，熟悉 Effect 的使用者可以照常组合使用，但这部分不在兼容承诺之内，Effect 升级大版本时可能变化。
+对外仅承诺 Standard Schema v1 接口（`BodySchema<T>`）和导出的 TypeScript 类型，不暴露或承诺内部校验引擎的类型与组合能力。
 
 ## 网易云拒绝时
 
 失败正文的处理已在 [成功码与失败处理](#成功码与失败处理) 说明。部分失败场景另外导出了结构定义，可用于精确错误处理：
 
 ```ts
-import { loginCellphone, LoginCellphoneRiskBody } from 'hana-music-api';
+import {
+  loginCellphone,
+  LoginCellphoneRiskBody,
+} from 'hana-music-api/api/login_cellphone';
 
 try {
   await loginCellphone({ phone: 'your-phone', captcha: 'your-captcha' });

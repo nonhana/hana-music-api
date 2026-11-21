@@ -31,6 +31,26 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./api/*": {
+      "types": "./dist/api/*.d.ts",
+      "default": "./dist/api/*.js"
+    },
+    "./schemas": {
+      "types": "./dist/schemas.d.ts",
+      "default": "./dist/schemas.js"
+    },
+    "./schemas/*": {
+      "types": "./dist/schemas/*.d.ts",
+      "default": "./dist/schemas/*.js"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "default": "./dist/core.js"
+    },
+    "./utils": {
+      "types": "./dist/utils.d.ts",
+      "default": "./dist/utils.js"
+    },
     "./watchman": {
       "types": "./dist/watchman.d.ts",
       "default": "./dist/watchman.js"
@@ -81,11 +101,7 @@
     "version-packages": "changeset version"
   },
   "dependencies": {
-    "effect": "^4.1.2",
-    "hono": "^4.13.16",
-    "music-metadata": "^12.3.4",
-    "qrcode": "^1.5.4",
-    "undici": "^8.12.3"
+    "effect": "^4.1.2"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.5",
@@ -94,16 +110,36 @@
     "@types/bun": "^1.4.4",
     "@types/qrcode": "^1.5.6",
     "cspell": "^10.4.0",
+    "hono": "^4.13.16",
     "mermaid": "^12.3.0",
+    "music-metadata": "^12.3.4",
     "oxfmt": "^0.76.0",
     "oxlint": "^1.91.0",
     "oxlint-tsgolint": "^7.0.2005",
     "playwright": "1.65.0",
     "publint": "^0.3.25",
+    "qrcode": "^1.5.4",
     "tsdown": "^0.23.5",
     "typescript": "^7.0.2",
+    "undici": "^8.12.3",
     "vitepress": "^1.6.4",
     "vitepress-plugin-mermaid": "^2.0.17"
+  },
+  "peerDependencies": {
+    "music-metadata": "^12.3.4",
+    "qrcode": "^1.5.4",
+    "undici": "^8.12.3"
+  },
+  "peerDependenciesMeta": {
+    "music-metadata": {
+      "optional": true
+    },
+    "qrcode": {
+      "optional": true
+    },
+    "undici": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=24"

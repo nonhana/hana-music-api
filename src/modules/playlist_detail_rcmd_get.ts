@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -36,7 +39,7 @@ const RcmdData = UpstreamObject({
 });
 
 // 通到相关歌单推荐的路径 `data` 可以没有（没有推荐时是 `null`），出现时 `data.recPlaylist` 和每个推荐歌单的编号 `playlist.id` 收紧；其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     message: Loose(Schema.String),
@@ -44,7 +47,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     data: Optional(RcmdData),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export type ModuleInput = { id: NumberId };
 

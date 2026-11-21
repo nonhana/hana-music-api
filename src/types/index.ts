@@ -17,12 +17,14 @@ export type {
   RequestRetryOptions,
 } from './request.ts';
 export type {
+  AnySdkModuleInvoker,
   CreateHanaMusicApiConfig,
   IdentityPoolConfig,
   ModuleCallConfig,
   SdkCacheConfig,
   SdkModuleImplementation,
   SdkModuleInvoker,
+  SdkModuleInvokerFor,
   SdkModuleRegistry,
   SdkQueryOf,
 } from './sdk.ts';
@@ -55,4 +57,14 @@ export type {
   UpstreamBody,
   UpstreamResponse,
 } from './upstream.ts';
+export type {
+  BodySchema,
+  StandardSchemaV1,
+  StandardSchemaV1Issue,
+  StandardSchemaV1Options,
+  StandardSchemaV1PathSegment,
+  StandardSchemaV1Props,
+  StandardSchemaV1Result,
+  StandardSchemaV1Types,
+} from './standard-schema.ts';
 export type { UnknownJson } from './unknown.ts';

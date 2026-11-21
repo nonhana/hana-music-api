@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -30,7 +33,7 @@ const TagFields = {
   link: Loose(Schema.String),
   picUrl: Loose(Schema.String),
   showText: Loose(Schema.String),
-  tabs: Loose(Schema.Array(Schema.String)),
+  tabs: Schema.String.pipe(Schema.Array, Loose),
   tagName: Loose(Schema.String),
 };
 
@@ -43,23 +46,23 @@ const LeafTag = UpstreamObject({
 const ChildTag = UpstreamObject({
   ...TagFields,
   tagId: Loose(Schema.Finite),
-  childrenTags: Loose(Schema.Array(LeafTag)),
+  childrenTags: LeafTag.pipe(Schema.Array, Loose),
 });
 
 const Tag = UpstreamObject({
   ...TagFields,
   tagId: Schema.Finite,
-  childrenTags: Loose(Schema.Array(ChildTag)),
+  childrenTags: ChildTag.pipe(Schema.Array, Loose),
 });
 
 // 通到曲风列表的路径 `data` 和每个曲风的编号 `data[].tagId` 收紧；子曲风在宽松字段里，编号也宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Schema.Array(Tag),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

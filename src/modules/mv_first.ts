@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,7 +7,12 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import type { BodyType } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  defineModuleBody,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import { MvSummary } from '../core/upstream-schemas.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
@@ -34,13 +40,13 @@ export const moduleActions = {
 } as const satisfies ModuleActions;
 
 // 通到最新 MV 列表的路径 `data` 和 MV 自己的编号 `data[].id` 收紧（共用 `MvSummary`）；筛选不到时 `data` 是空数组。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Schema.Array(MvSummary),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const mvFirst: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,7 +7,12 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import type { BodyType } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  defineModuleBody,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
 export type ModuleInput = { limit?: number; offset?: number };
@@ -20,12 +26,12 @@ export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
 // 只收紧返回码；已购买单曲列表 `info` 在录制里只有空数组、元素类型未知，未声明并由 `UpstreamObject` 原样保留。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -44,15 +47,15 @@ const Album = UpstreamObject({
 });
 
 // 通到新碟列表的路径 `weekData`/`monthData` 和每张专辑的编号收紧；没有本周新碟时 `weekData` 整个没有。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     hasMore: Loose(Schema.Boolean),
-    weekData: Optional(Schema.Array(Album)),
+    weekData: Album.pipe(Schema.Array, Optional),
     monthData: Schema.Array(Album),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

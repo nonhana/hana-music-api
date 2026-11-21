@@ -1,14 +1,14 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
+import { SERVICE_VERSION } from '../../../src/core/service-metadata.ts';
 import {
   CalendarBody,
-  createHanaMusicApi,
   InnerVersionBody,
   StylePreferenceBody,
   UserSocialStatusRcmdBody,
   UserSocialStatusSupportBody,
-} from '../../../index.ts';
-import { SERVICE_VERSION } from '../../../src/core/service-metadata.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   businessFailure,

@@ -1,5 +1,5 @@
 // cspell:ignore anticheattoken
-import type { Ref } from 'effect';
+import type * as Ref from 'effect/Ref';
 
 import type {
   BooleanLike,

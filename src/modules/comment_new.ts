@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { resolveResourceType } from '../core/comment-thread.ts';
 import {
@@ -10,8 +11,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -108,7 +111,7 @@ const NewComment = UpstreamObject({
   ),
   extInfo: Loose(
     UpstreamObject({
-      authorRepliedIds: Loose(Schema.Array(Schema.Finite)),
+      authorRepliedIds: Schema.Finite.pipe(Schema.Array, Loose),
       forwardEvent: Loose(Schema.Finite),
       repliedByAuthorCount: Loose(Schema.String),
       statistics: Loose(
@@ -148,7 +151,7 @@ const NewLikeAnimation = UpstreamObject({
 });
 
 // 通到 v2 评论列表的路径 `data.comments` 和每条评论的编号 `data.comments[].commentId` 收紧；资源没有评论时 `data.comments` 是空数组，其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     message: Loose(Schema.String),
@@ -162,13 +165,13 @@ export const ModuleBody = Schema.toStandardSchemaV1(
       likeAnimation: Loose(NewLikeAnimation),
       newReplyExpGroupName: Loose(Schema.String),
       sortType: Loose(Schema.Finite),
-      sortTypeList: Loose(Schema.Array(NewSortType)),
+      sortTypeList: NewSortType.pipe(Schema.Array, Loose),
       style: Loose(Schema.String),
       totalCount: Loose(Schema.Finite),
     }),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const commentNew: ModuleEffect<
   ModuleInput,

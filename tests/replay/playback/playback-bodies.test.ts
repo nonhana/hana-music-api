@@ -1,12 +1,12 @@
 import { expect, test } from 'bun:test';
 
+import type { ModuleInputOf } from '../../../index.ts';
 import {
   LyricNewBody,
   ScrobbleBody,
   SongDownloadUrlV1Body,
   SongUrlV1Body,
-} from '../../../index.ts';
-import type { ModuleInputOf } from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type {
   Recording,
   UpstreamShape,

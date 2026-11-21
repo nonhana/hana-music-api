@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -65,7 +68,7 @@ const SectionUiElement = UpstreamObject({
 const ResourceUiElement = UpstreamObject({
   ...SectionUiElement.schema.fields,
   image: Loose(Image),
-  labelTexts: Loose(Schema.Array(Schema.String)),
+  labelTexts: Schema.String.pipe(Schema.Array, Loose),
 });
 
 // 首页资源里的 songData 是旧版歌曲结构，`ProgramMainSong` 之外还带 `sqMusic`/`hrMusic` 两档音质。
@@ -82,7 +85,7 @@ const ResourceExtInfo = UpstreamObject({
   songData: Loose(SongData),
   specialType: Loose(Schema.Finite),
   threadId: Loose(Schema.String),
-  users: Loose(Schema.Array(PlaylistUser)),
+  users: PlaylistUser.pipe(Schema.Array, Loose),
 });
 
 const Resource = UpstreamObject({
@@ -108,7 +111,7 @@ const Creative = UpstreamObject({
   creativeType: Loose(Schema.String),
   logInfo: Loose(Schema.String),
   position: Loose(Schema.Finite),
-  resources: Loose(Schema.Array(Resource)),
+  resources: Resource.pipe(Schema.Array, Loose),
   uiElement: Loose(ResourceUiElement),
 });
 
@@ -133,7 +136,7 @@ const Block = UpstreamObject({
   blockStyle: Loose(Schema.Finite),
   canClose: Loose(Schema.Boolean),
   canFeedback: Loose(Schema.Boolean),
-  creatives: Optional(Schema.Array(Creative)),
+  creatives: Creative.pipe(Schema.Array, Optional),
   crossPlatformConfig: Loose(CrossPlatformConfig),
   dislikeShowType: Loose(Schema.Finite),
   showType: Loose(Schema.String),
@@ -142,7 +145,7 @@ const Block = UpstreamObject({
 });
 
 const PageConfig = UpstreamObject({
-  abtest: Loose(Schema.Array(Schema.String)),
+  abtest: Schema.String.pipe(Schema.Array, Loose),
   fullscreen: Loose(Schema.Boolean),
   homepageMode: Loose(Schema.String),
   nodataToast: Loose(Schema.String),
@@ -151,7 +154,7 @@ const PageConfig = UpstreamObject({
   refreshToast: Loose(Schema.String),
   showModeEntry: Loose(Schema.Boolean),
   songLabelMarkLimit: Loose(Schema.Finite),
-  songLabelMarkPriority: Loose(Schema.Array(Schema.String)),
+  songLabelMarkPriority: Schema.String.pipe(Schema.Array, Loose),
 });
 
 const GuideToast = UpstreamObject({
@@ -169,14 +172,14 @@ const BlockData = UpstreamObject({
 
 // 返回码、首页 block 列表的路径 `data.blocks` 和每个 block 自己的编号 `blockCode` 收紧；
 // 星评评论在 `creatives[].resources[]` 里；block 的 `extInfo` 未声明、原样保留，其余展示字段全部宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: BlockData,
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const starpickCommentsSummary: ModuleEffect<
   ModuleInput,

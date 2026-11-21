@@ -1,21 +1,27 @@
-import { Context, Effect } from 'effect';
+import * as Context from 'effect/Context';
+import * as Effect from 'effect/Effect';
 
 import type { RuntimeState } from '../types/index.ts';
 import { DeadlineExceeded } from './errors.ts';
 import { normalizeFailure } from './response.ts';
 import { generateDeviceId, generateRandomChineseIP } from './utils.ts';
 
-// 运行时状态只放内存：SDK 可能跑在随时回收的云函数里，匿名令牌由首次调用注册；需要持久化的 CLI 自行读写文件。
-let runtimeState: RuntimeState = {
-  anonymousToken: '',
-  cnIp: generateRandomChineseIP(),
-  deviceId: generateDeviceId(),
+// 运行时状态只放内存且按需懒初始化：避免模块导入期立即生成随机设备号和 IP，匿名令牌由首次调用注册；需要持久化的 CLI 自行读写文件。
+let runtimeState: RuntimeState | undefined;
+
+const ensureRuntimeState = (): RuntimeState => {
+  runtimeState ??= {
+    anonymousToken: '',
+    cnIp: generateRandomChineseIP(),
+    deviceId: generateDeviceId(),
+  };
+  return runtimeState;
 };
 
 export const getRuntimeState = (
   overrides: Partial<RuntimeState> = {},
 ): RuntimeState => ({
-  ...runtimeState,
+  ...ensureRuntimeState(),
   ...overrides,
 });
 
@@ -23,7 +29,7 @@ export const setRuntimeState = (
   nextState: Partial<RuntimeState>,
 ): RuntimeState => {
   runtimeState = {
-    ...runtimeState,
+    ...ensureRuntimeState(),
     ...nextState,
   };
 

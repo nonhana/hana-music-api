@@ -1,10 +1,13 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -30,8 +33,8 @@ const SuggestedSong = UpstreamObject({
   id: Schema.Finite,
   name: Loose(Schema.String),
   album: Loose(SimpleAlbum),
-  alias: Loose(Schema.Array(Schema.String)),
-  artists: Loose(Schema.Array(Artist)),
+  alias: Schema.String.pipe(Schema.Array, Loose),
+  artists: Artist.pipe(Schema.Array, Loose),
   copyrightId: Loose(Schema.Finite),
   duration: Loose(Schema.Finite),
   fee: Loose(Schema.Finite),
@@ -40,7 +43,7 @@ const SuggestedSong = UpstreamObject({
   mvid: Loose(Schema.Finite),
   rtype: Loose(Schema.Finite),
   status: Loose(Schema.Finite),
-  transNames: Loose(Schema.Array(Schema.String)),
+  transNames: Schema.String.pipe(Schema.Array, Loose),
 });
 
 const SuggestedArtist = UpstreamObject({
@@ -79,20 +82,20 @@ const AllMatch = UpstreamObject({
 });
 
 // 默认按类别给 songs/artists/albums/playlists（type 为 mobile 时只给 allMatch；没有建议时 result 是空对象），这些列表可以没有，出现了就按编号或关键词收紧校验，其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     result: UpstreamObject({
-      songs: Optional(Schema.Array(SuggestedSong)),
-      artists: Optional(Schema.Array(SuggestedArtist)),
-      albums: Optional(Schema.Array(AlbumSummary)),
-      playlists: Optional(Schema.Array(SuggestedPlaylist)),
-      allMatch: Optional(Schema.Array(AllMatch)),
-      order: Loose(Schema.Array(Schema.String)),
+      songs: SuggestedSong.pipe(Schema.Array, Optional),
+      artists: SuggestedArtist.pipe(Schema.Array, Optional),
+      albums: AlbumSummary.pipe(Schema.Array, Optional),
+      playlists: SuggestedPlaylist.pipe(Schema.Array, Optional),
+      allMatch: AllMatch.pipe(Schema.Array, Optional),
+      order: Schema.String.pipe(Schema.Array, Loose),
     }),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   mobile: {

@@ -1,5 +1,7 @@
+import type { BodyType } from '../core/upstream-body.ts';
 // cspell:words shazam
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -8,6 +10,7 @@ import {
 import type { ModuleActions } from '../core/request-actions.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -46,8 +49,8 @@ const Match = UpstreamObject({
 });
 
 const MatchData = UpstreamObject({
-  result: Optional(Schema.Array(Match)),
-  moduleList: Loose(Schema.Array(Schema.String)),
+  result: Match.pipe(Schema.Array, Optional),
+  moduleList: Schema.String.pipe(Schema.Array, Loose),
   noMatchReason: Loose(Schema.Finite),
   queryId: Loose(Schema.String),
   type: Loose(Schema.Finite),
@@ -55,14 +58,14 @@ const MatchData = UpstreamObject({
 
 // 返回码和识别结果路径 `data` 收紧；`data.result` 在没识别到时是 `null`，按可以没有处理，
 // 出现时每条记录的 `song.id` 收紧；`queryId`、`type`、`moduleList`、`noMatchReason` 和 `message` 宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: MatchData,
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const audioMatch: ModuleEffect<
   ModuleInput,

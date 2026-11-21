@@ -124,8 +124,8 @@ export const generateChainId = (
 };
 
 export const generateDeviceId = (): string => {
-  let deviceId: string;
-  do {
+  let previous: string | undefined;
+  for (let attempt = 0; attempt < 64; attempt += 1) {
     const characters: Array<string> = [];
 
     for (let index = 0; index < 52; index += 1) {
@@ -134,10 +134,23 @@ export const generateDeviceId = (): string => {
       characters.push(character === undefined ? '0' : character);
     }
 
-    deviceId = characters.join('');
-  } while (/[+/]/.test(encodeAnonymousDeviceId(deviceId)));
+    const deviceId = characters.join('');
+    if (!/[+/]/.test(encodeAnonymousDeviceId(deviceId))) {
+      return deviceId;
+    }
+    // 宿主或测试固定 Math.random 为常量时跳出，改用随机字节避免死循环。
+    if (deviceId === previous) {
+      break;
+    }
+    previous = deviceId;
+  }
 
-  return deviceId;
+  let fallback: string;
+  do {
+    fallback = randomBytes(26).toString('hex').toUpperCase();
+  } while (/[+/]/.test(encodeAnonymousDeviceId(fallback)));
+
+  return fallback;
 };
 
 export const encodeAnonymousDeviceId = (deviceId: string): string => {

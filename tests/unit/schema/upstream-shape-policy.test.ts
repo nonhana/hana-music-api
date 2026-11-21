@@ -6,7 +6,7 @@ import {
   PlaylistDetailBody,
   SongDetailBody,
   UserAccountBody,
-} from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import { validateSync } from '../../_kit/assertions.ts';
 import album from '../../fixtures/netease/library/album.json';
 import detail from '../../fixtures/netease/library/playlist_detail.own-small.json';

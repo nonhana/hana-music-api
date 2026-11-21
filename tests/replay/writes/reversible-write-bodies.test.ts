@@ -1,8 +1,8 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
 import {
   CloudMatchBody,
-  createHanaMusicApi,
   DjDifmChannelSubscribeBody,
   DjDifmChannelUnsubscribeBody,
   FmTrashBody,
@@ -10,7 +10,7 @@ import {
   SongLyricsMarkAddBody,
   SongLyricsMarkDelBody,
   UserSocialStatusEditBody,
-} from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   businessFailure,

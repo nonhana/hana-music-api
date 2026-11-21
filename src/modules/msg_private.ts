@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -38,7 +41,7 @@ export const moduleActions = {
 const MessageUser = UpstreamObject({
   ...UserProfile.schema.fields,
   userId: Loose(Schema.Finite),
-  expertTags: Loose(Schema.Array(Schema.String)),
+  expertTags: Schema.String.pipe(Schema.Array, Loose),
 });
 
 // `user` 是会话摘要，`user.id` 是会话键（不是用户 id）；双方用户资料在 `fromUser`/`toUser`。
@@ -65,7 +68,7 @@ const Conversation = UpstreamObject({
 });
 
 // 通到私信会话列表的路径 `msgs` 和每个会话自己的编号 `msgs[].user.id` 收紧；会话双方和最后一条消息宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     msgs: Schema.Array(Conversation),
@@ -73,7 +76,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     newMsgCount: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const msgPrivate: ModuleEffect<
   ModuleInput,

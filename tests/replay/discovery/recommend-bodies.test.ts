@@ -2,20 +2,20 @@ import { expect, expectTypeOf, test } from 'bun:test';
 
 import { Effect } from 'effect';
 
+import { createHanaMusicApi } from '../../../index.ts';
+import { Call } from '../../../src/core/call.ts';
+import type { CallShape } from '../../../src/core/call.ts';
+import { resolveIdentitySnapshot } from '../../../src/core/identity.ts';
+import { getRuntimeState } from '../../../src/core/runtime.ts';
+import personalizedModule from '../../../src/modules/personalized.ts';
 import {
-  createHanaMusicApi,
   PersonalizedBody,
   PersonalizedMvBody,
   PersonalizedNewsongBody,
   PersonalizedPrivatecontentBody,
   PersonalizedPrivatecontentListBody,
   RecommendResourceBody,
-} from '../../../index.ts';
-import { Call } from '../../../src/core/call.ts';
-import type { CallShape } from '../../../src/core/call.ts';
-import { resolveIdentitySnapshot } from '../../../src/core/identity.ts';
-import { getRuntimeState } from '../../../src/core/runtime.ts';
-import personalizedModule from '../../../src/modules/personalized.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { RequestCapability } from '../../../src/types/index.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {

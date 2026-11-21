@@ -1,4 +1,4 @@
-import { Schema } from 'effect';
+import * as Schema from 'effect/Schema';
 
 import type { UnknownJson } from '../types/unknown.ts';
 import type { UpstreamResponse } from '../types/upstream.ts';

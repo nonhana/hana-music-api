@@ -1,15 +1,17 @@
 import { beforeAll, describe, expect, test } from 'bun:test';
 import { createHash } from 'node:crypto';
 import {
+  existsSync,
   mkdirSync,
   mkdtempSync,
   readdirSync,
   readFileSync,
   rmSync,
+  statSync,
   writeFileSync,
 } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { join, relative, resolve } from 'node:path';
 
 import { chromium } from 'playwright';
 
@@ -39,11 +41,14 @@ const OFFLINE_PROCESS_PATH = resolve(
   'tests/fixtures/consumers/offline-process.mjs',
 );
 const REQUIRED_ROOT_EXPORTS = [
+  'createClient',
   'createHanaMusicApi',
   'invokeModule',
   'createRequest',
   'createOption',
   'generateDeviceId',
+  'isNcmApiResponse',
+  'getNcmFailureInfo',
 ];
 const REPRESENTATIVE_CAMEL_CASE_EXPORTS = ['search', 'songUrl'];
 const FORBIDDEN_ROOT_EXPORTS = [
@@ -57,12 +62,58 @@ const FORBIDDEN_ROOT_EXPORTS = [
   'createModuleApi',
   'loadProgrammaticApi',
   'NeteaseCloudMusicApi',
+  'SongDetailBody',
+  'AlbumBody',
+  'ArtistAlbumBody',
+  'ArtistTopSongBody',
+  'LoginCellphoneRiskBody',
 ];
-const EXPECTED_EXPORT_PATHS = ['.', './watchman'];
+const EXPECTED_EXPORT_PATHS = [
+  '.',
+  './api/*',
+  './core',
+  './schemas',
+  './schemas/*',
+  './utils',
+  './watchman',
+];
+const EXPECTED_EXPORT_MAP = {
+  '.': {
+    types: './dist/index.d.ts',
+    default: './dist/index.js',
+  },
+  './api/*': {
+    types: './dist/api/*.d.ts',
+    default: './dist/api/*.js',
+  },
+  './schemas': {
+    types: './dist/schemas.d.ts',
+    default: './dist/schemas.js',
+  },
+  './schemas/*': {
+    types: './dist/schemas/*.d.ts',
+    default: './dist/schemas/*.js',
+  },
+  './core': {
+    types: './dist/core.d.ts',
+    default: './dist/core.js',
+  },
+  './utils': {
+    types: './dist/utils.d.ts',
+    default: './dist/utils.js',
+  },
+  './watchman': {
+    types: './dist/watchman.d.ts',
+    default: './dist/watchman.js',
+  },
+} as const;
+const MAX_SINGLE_DTS_BYTES = 512 * 1024;
+const MAX_SINGLE_JS_BYTES = 256 * 1024;
+const OPTIONAL_PEER_PACKAGES = ['music-metadata', 'qrcode', 'undici'] as const;
 
 describe('sdk release contract', () => {
   beforeAll(ensureBuiltArtifacts, 60_000);
-  test('should expose the root and isolated watchman package entrypoints', () => {
+  test('should expose the approved subpath exports and minimal dependency boundary', () => {
     const exportMap = sdkPackage.exports ?? {};
 
     expect(sdkPackage.name).toBe('hana-music-api');
@@ -71,14 +122,18 @@ describe('sdk release contract', () => {
     expect(sdkPackage.sideEffects).toBe(false);
     expect(sdkPackage.engines).toEqual({ node: '>=24' });
     expect(Object.keys(exportMap).toSorted()).toEqual(EXPECTED_EXPORT_PATHS);
-    expect(exportMap['.']).toEqual({
-      types: './dist/index.d.ts',
-      default: './dist/index.js',
-    });
-    expect(exportMap['./watchman']).toEqual({
-      types: './dist/watchman.d.ts',
-      default: './dist/watchman.js',
-    });
+    for (const [subpath, target] of Object.entries(EXPECTED_EXPORT_MAP)) {
+      expect(exportMap[subpath]).toEqual(target);
+    }
+    expect(Object.keys(sdkPackage.dependencies ?? {})).toEqual(['effect']);
+    expect(Object.keys(sdkPackage.peerDependencies ?? {}).toSorted()).toEqual([
+      ...OPTIONAL_PEER_PACKAGES,
+    ]);
+    for (const peerName of OPTIONAL_PEER_PACKAGES) {
+      expect(sdkPackage.peerDependenciesMeta?.[peerName]).toEqual({
+        optional: true,
+      });
+    }
   });
 
   test('should keep the root runtime surface inside the frozen allowlist/denylist contract', async () => {
@@ -95,6 +150,10 @@ describe('sdk release contract', () => {
     for (const exportName of FORBIDDEN_ROOT_EXPORTS) {
       expect(entry).not.toHaveProperty(exportName);
     }
+
+    expect(Object.keys(entry).filter((key) => key.endsWith('Body'))).toEqual(
+      [],
+    );
   });
 
   test('should provide release governance files with changesets and trusted publishing guardrails', () => {
@@ -155,6 +214,16 @@ describe('sdk release contract', () => {
     expect(filename.length).toBeGreaterThan(0);
     expect(filePaths).toContain('dist/index.d.ts');
     expect(filePaths).toContain('dist/index.js');
+    expect(filePaths).toContain('dist/core.d.ts');
+    expect(filePaths).toContain('dist/core.js');
+    expect(filePaths).toContain('dist/utils.d.ts');
+    expect(filePaths).toContain('dist/utils.js');
+    expect(filePaths).toContain('dist/schemas.d.ts');
+    expect(filePaths).toContain('dist/schemas.js');
+    expect(filePaths).toContain('dist/api/song_detail.d.ts');
+    expect(filePaths).toContain('dist/api/song_detail.js');
+    expect(filePaths).toContain('dist/schemas/song_detail.d.ts');
+    expect(filePaths).toContain('dist/schemas/song_detail.js');
     expect(filePaths).toContain('dist/watchman.js');
     expect(filePaths).toContain('dist/watchman.d.ts');
     expect(filePaths.some((file) => file.endsWith('/tool.min.js'))).toBe(false);
@@ -179,6 +248,10 @@ describe('sdk release contract', () => {
     }> = [];
     let consumerExit = 1;
     let browserEvidence: unknown;
+    let distAuditEvidence: unknown;
+    let treeShakingEvidence: unknown;
+    const subpathEvidence: Array<unknown> = [];
+    const optionalPeersEvidence: Array<unknown> = [];
     const libraryPlayback: Array<unknown> = [];
     const accountSocial: Array<unknown> = [];
     const podcastVideo: Array<unknown> = [];
@@ -202,11 +275,25 @@ describe('sdk release contract', () => {
         ),
       );
 
+      // 阶段 A：最小干净安装（零 optional peerDependencies）。
       const installResult = run(
         ['npm', 'install', '--no-package-lock', tarballPath, '@types/node@24'],
         consumerDirectory,
       );
-      expect(installResult.exitCode).toBe(0);
+      expect(installResult.exitCode, installResult.stderr).toBe(0);
+      for (const excludedPackage of [
+        'hono',
+        'undici',
+        'music-metadata',
+        'qrcode',
+      ]) {
+        expect(
+          existsSync(
+            resolve(consumerDirectory, 'node_modules', excludedPackage),
+          ),
+          `minimal install must not include ${excludedPackage}`,
+        ).toBe(false);
+      }
       for (const path of filePaths) {
         expect(
           readFileSync(
@@ -218,11 +305,14 @@ describe('sdk release contract', () => {
       expect(integrity).toBe(
         `sha512-${createHash('sha512').update(readFileSync(tarballPath)).digest('base64')}`,
       );
+      const installedDistDirectory = resolve(
+        consumerDirectory,
+        'node_modules/hana-music-api/dist',
+      );
       expect(
-        await findForbiddenArtifactSymbols(
-          resolve(consumerDirectory, 'node_modules/hana-music-api/dist'),
-        ),
+        await findForbiddenArtifactSymbols(installedDistDirectory),
       ).toEqual([]);
+      distAuditEvidence = auditInstalledDist(installedDistDirectory);
 
       const importScript = resolve(consumerDirectory, 'watchman-import.mjs');
       writeFileSync(
@@ -443,9 +533,13 @@ describe('sdk release contract', () => {
       writeFileSync(
         smokeScriptPath,
         [
-          "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody, SongDetailBody, createHanaMusicApi, createRequest, generateDeviceId, getNcmFailureInfo, isNcmApiResponse, playlistSubscribe, albumSub, artistSub, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import * as rootNamespace from 'hana-music-api'",
+          "import { createHanaMusicApi, createRequest, generateDeviceId, getNcmFailureInfo, isNcmApiResponse, playlistSubscribe, albumSub, artistSub, invokeModule, search, songUrl } from 'hana-music-api'",
+          "import { SongDetailBody } from 'hana-music-api/api/song_detail'",
+          "import { AlbumBody, ArtistAlbumBody, ArtistTopSongBody } from 'hana-music-api/schemas'",
           "import { deepStrictEqual } from 'node:assert'",
           '',
+          "if ('SongDetailBody' in rootNamespace || 'AlbumBody' in rootNamespace || 'LoginCellphoneRiskBody' in rootNamespace) throw new Error('root entry must not value-export runtime *Body schemas')",
           `const recordedArtistAlbum = ${JSON.stringify(artistAlbum.response.body)}`,
           "deepStrictEqual(await ArtistAlbumBody['~standard'].validate(recordedArtistAlbum), { value: recordedArtistAlbum })",
           `const recordedAlbum = ${JSON.stringify(albumNoDescription.response.body)}`,
@@ -526,6 +620,184 @@ describe('sdk release contract', () => {
         expect(output.runtime).toBe(runtime);
         runtimes.push({ ...output, exitCode: smokeResult.exitCode });
       }
+
+      // 阶段 A：公开子路径、createClient 与可选依赖缺失行为验证（Node 24 + Bun）。
+      const subpathScriptPath = resolve(
+        consumerDirectory,
+        'subpaths-and-missing-peers.mjs',
+      );
+      writeFileSync(
+        subpathScriptPath,
+        [
+          "import { strict as assert } from 'node:assert'",
+          "import { songDetail, SongDetailBody as ApiSongDetailBody } from 'hana-music-api/api/song_detail'",
+          "import { loginQrCreate } from 'hana-music-api/api/login_qr_create'",
+          "import { verifyGetQr } from 'hana-music-api/api/verify_getQr'",
+          "import { cloud } from 'hana-music-api/api/cloud'",
+          "import { SongDetailBody as SingleSongDetailBody } from 'hana-music-api/schemas/song_detail'",
+          "import { LoginCellphoneRiskBody, SongDetailBody as BarrelSongDetailBody } from 'hana-music-api/schemas'",
+          "import { createClient, createOption as coreCreateOption, createRequest, generateDeviceId as coreGenerateDeviceId, getNcmFailureInfo as coreGetNcmFailureInfo, isNcmApiResponse as coreIsNcmApiResponse } from 'hana-music-api/core'",
+          "import { createOption, generateDeviceId, getNcmFailureInfo, isNcmApiResponse } from 'hana-music-api/utils'",
+          '',
+          'assert.equal(ApiSongDetailBody, SingleSongDetailBody)',
+          'assert.equal(SingleSongDetailBody, BarrelSongDetailBody)',
+          "assert.equal(typeof LoginCellphoneRiskBody['~standard'].validate, 'function')",
+          'assert.equal(createOption, coreCreateOption)',
+          'assert.equal(generateDeviceId, coreGenerateDeviceId)',
+          'assert.equal(getNcmFailureInfo, coreGetNcmFailureInfo)',
+          'assert.equal(isNcmApiResponse, coreIsNcmApiResponse)',
+          'assert.match(generateDeviceId(), /^[0-9A-F]{52}$/)',
+          "assert.equal(createOption({ crypto: 'api' }).crypto, 'api')",
+          '',
+          `const recordedSongDetail = ${JSON.stringify(songDetailPrivileges.response.body)}`,
+          "assert.deepEqual(await SingleSongDetailBody['~standard'].validate(recordedSongDetail), { value: recordedSongDetail })",
+          '',
+          'let songDetailRequests = 0',
+          'const sharedFetcher = async () => {',
+          '  songDetailRequests += 1',
+          '  return Response.json(recordedSongDetail)',
+          '}',
+          'const scoped = createClient(',
+          '  { songDetail },',
+          "  { cookie: { MUSIC_A: 'scoped-anon' }, cache: { enabled: true }, fetcher: sharedFetcher, state: { deviceId: generateDeviceId() } },",
+          ')',
+          'assert.deepEqual(Object.keys(scoped), ["songDetail"])',
+          'const firstDetail = await scoped.songDetail({ ids: [7] })',
+          'const secondDetail = await scoped.songDetail({ ids: [7] })',
+          'assert.equal(firstDetail.status, 200)',
+          'assert.equal(secondDetail.status, 200)',
+          'assert.equal(songDetailRequests, 1)',
+          "assert.throws(() => createClient({ songDetail }, { crypto: 'api' }), TypeError)",
+          'assert.throws(() => createClient({ broken: () => {} }), TypeError)',
+          '',
+          '// 未安装 qrcode：qrimg 关闭时正常返回，qrimg=true 与 verifyGetQr 明确拒绝。',
+          "const qrWithoutImage = await loginQrCreate({ key: 'sample-key' })",
+          'assert.equal(qrWithoutImage.status, 200)',
+          "assert.equal(qrWithoutImage.body.data.qrimg, '')",
+          "assert.equal(qrWithoutImage.body.data.qrurl, 'https://music.163.com/login?codekey=sample-key')",
+          "const qrMissingError = await loginQrCreate({ key: 'sample-key', qrimg: true }).catch((error) => error)",
+          'assert.equal(isNcmApiResponse(qrMissingError), true)',
+          "assert.equal(getNcmFailureInfo(qrMissingError)?.kind, 'unknown')",
+          "assert.match(String(qrMissingError.body?.msg ?? ''), /qrcode/)",
+          'const verifyQrMissingError = await verifyGetQr(',
+          "  { vid: '1', type: 1, token: 'tok', evid: 'ev', sign: 'sig' },",
+          '  {',
+          "    cookie: 'MUSIC_U=qr-test',",
+          '    state: { deviceId: generateDeviceId() },',
+          "    fetcher: async () => Response.json({ code: 200, data: { qrCode: 'qr-ticket' } }),",
+          '  },',
+          ').catch((error) => error)',
+          'assert.equal(isNcmApiResponse(verifyQrMissingError), true)',
+          "assert.equal(getNcmFailureInfo(verifyQrMissingError)?.kind, 'unknown')",
+          "assert.match(String(verifyQrMissingError.body?.msg ?? ''), /qrcode/)",
+          '',
+          '// 未安装 music-metadata：cloud 优雅回退至文件名与默认标签并完成流程。',
+          'const cloudResponses = [',
+          '  { code: 200, needUpload: false, songId: 117 },',
+          "  { code: 200, result: { resourceId: 'resource-1' } },",
+          '  { code: 200, songId: 118 },',
+          '  { code: 200 },',
+          ']',
+          'let cloudStep = 0',
+          'const cloudResult = await cloud(',
+          '  {',
+          '    songFile: {',
+          "      name: 'fallback-track.mp3',",
+          '      data: Buffer.from([0, 255, 17, 128]),',
+          '      size: 4,',
+          "      mimetype: 'audio/mpeg',",
+          "      md5: 'fallback-md5',",
+          '    },',
+          '  },',
+          '  {',
+          "    cookie: 'MUSIC_U=cloud-fallback',",
+          '    state: { deviceId: generateDeviceId() },',
+          '    fetcher: async () => Response.json(cloudResponses[cloudStep++]),',
+          '  },',
+          ')',
+          'assert.equal(cloudResult.status, 200)',
+          'assert.equal(cloudStep, 4)',
+          '',
+          '// Node 24 未安装 undici 时传 proxy 明确返回 invalidRequest 并提示安装 undici。',
+          "const runtime = typeof Bun === 'undefined' ? 'node' : 'bun'",
+          'let nodeProxyRejection = null',
+          "if (runtime === 'node') {",
+          "  const proxyError = await createRequest('/api/test', {}, { crypto: 'api', domain: 'http://127.0.0.1:9', proxy: 'http://127.0.0.1:8080', state: { anonymousToken: '' } }).catch((error) => error)",
+          '  assert.equal(isNcmApiResponse(proxyError), true)',
+          '  assert.equal(proxyError.status, 400)',
+          '  const failure = getNcmFailureInfo(proxyError)',
+          "  assert.equal(failure?.kind, 'invalidRequest')",
+          "  assert.match(String(proxyError.body?.msg ?? ''), /undici/)",
+          '  nodeProxyRejection = { ...failure, msg: proxyError.body?.msg }',
+          '}',
+          'process.stdout.write(JSON.stringify({ runtime, songDetailRequests, cloudStep, nodeProxyRejection }))',
+        ].join('\n'),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const result = run(
+          [runtime, '--import', OFFLINE_PROCESS_PATH, subpathScriptPath],
+          consumerDirectory,
+        );
+        expect(result.exitCode, result.stderr).toBe(0);
+        subpathEvidence.push(JSON.parse(result.stdout));
+      }
+
+      // 阶段 A：Tree-shaking 与物理隔离实测（Bun.build metafile）。
+      treeShakingEvidence = await verifyConsumerTreeShaking(consumerDirectory);
+
+      // 阶段 A：无可选 peerDependencies 的干净消费者单文件云函数冷启动零 FS 读取。
+      const minimalServerlessEntry = resolve(
+        consumerDirectory,
+        'minimal-serverless-entry.mjs',
+      );
+      writeFileSync(
+        minimalServerlessEntry,
+        "export { innerVersion, search } from 'hana-music-api';\n",
+      );
+      const minimalServerlessOutdir = resolve(
+        consumerDirectory,
+        'serverless-out',
+      );
+      const minimalServerlessBuild = await Bun.build({
+        entrypoints: [minimalServerlessEntry],
+        format: 'esm',
+        naming: 'function.mjs',
+        outdir: minimalServerlessOutdir,
+        target: 'node',
+        metafile: true,
+      });
+      expect(minimalServerlessBuild.success).toBe(true);
+      const minimalServerlessInputs = Object.keys(
+        minimalServerlessBuild.metafile!.inputs,
+      );
+      expect(
+        minimalServerlessInputs.some((path) =>
+          /watchman|\/browser\/|\/undici\/|\/music-metadata\/|\/qrcode\//.test(
+            path,
+          ),
+        ),
+      ).toBe(false);
+      const minimalServerlessRun = run(
+        [
+          'node',
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          '--import',
+          FS_ACCESS_RECORDER_PATH,
+          SERVERLESS_CONSUMER_PATH,
+          resolve(minimalServerlessOutdir, 'function.mjs'),
+        ],
+        minimalServerlessOutdir,
+      );
+      expect(minimalServerlessRun.exitCode, minimalServerlessRun.stderr).toBe(
+        0,
+      );
+      expect(JSON.parse(minimalServerlessRun.stdout)).toEqual({
+        anonymousRegistrations: 1,
+        fileAccesses: [],
+        searchStatus: 200,
+        version: sdkPackage.version,
+      });
 
       writeFileSync(
         resolve(consumerDirectory, 'client-identities.json'),
@@ -624,54 +896,6 @@ describe('sdk release contract', () => {
           modules: 55,
         });
         searchDiscovery.push({
-          runtime,
-          command,
-          exitCode: result.exitCode,
-          counts,
-          stderr: result.stderr,
-        });
-      }
-
-      writeFileSync(
-        resolve(consumerDirectory, 'account-social.mjs'),
-        readFileSync(
-          resolve(projectRoot, 'tests/fixtures/consumers/account-social.mjs'),
-        ),
-      );
-      writeFileSync(
-        resolve(consumerDirectory, 'account-social.json'),
-        JSON.stringify(
-          currentRequests(
-            'account-social',
-            JSON.parse(
-              readFileSync(
-                resolve(
-                  projectRoot,
-                  'tests/fixtures/requests/account-social.json',
-                ),
-                'utf8',
-              ),
-            ),
-          ),
-        ),
-      );
-      for (const runtime of ['node', 'bun']) {
-        const command = [
-          runtime,
-          '--import',
-          OFFLINE_PROCESS_PATH,
-          resolve(consumerDirectory, 'account-social.mjs'),
-        ];
-        const result = run(command, consumerDirectory);
-        expect(result.exitCode, result.stderr).toBe(0);
-        const counts = JSON.parse(result.stdout);
-        expect(counts).toEqual({
-          requests: 801,
-          providers: 267,
-          cases: 267,
-          modules: 83,
-        });
-        accountSocial.push({
           runtime,
           command,
           exitCode: result.exitCode,
@@ -834,39 +1058,6 @@ describe('sdk release contract', () => {
         });
       }
 
-      writeFileSync(
-        resolve(consumerDirectory, 'special-chains.mjs'),
-        readFileSync(
-          resolve(projectRoot, 'tests/fixtures/consumers/special-chains.mjs'),
-        ),
-      );
-      for (const runtime of ['node', 'bun']) {
-        const command = [
-          runtime,
-          '--import',
-          OFFLINE_PROCESS_PATH,
-          resolve(consumerDirectory, 'special-chains.mjs'),
-          sdkPackage.version!,
-        ];
-        const result = run(command, consumerDirectory);
-        expect(result.exitCode, result.stderr).toBe(0);
-        const counts = JSON.parse(result.stdout);
-        expect(counts).toEqual({
-          requests: 59,
-          providers: 19,
-          scenarios: 6,
-          localProviders: 0,
-          stepRequests: 18,
-        });
-        specialChains.push({
-          runtime,
-          command,
-          exitCode: result.exitCode,
-          counts,
-          stderr: result.stderr,
-        });
-      }
-
       const negativeImportScriptPath = resolve(
         consumerDirectory,
         'negative-import.mjs',
@@ -874,7 +1065,7 @@ describe('sdk release contract', () => {
       writeFileSync(
         negativeImportScriptPath,
         [
-          "const blockedSpecifiers = ['hana-music-api/api/search', 'hana-music-api/src/app/cli.ts', 'hana-music-api/src/sdk/generated/client-factory.generated.ts']",
+          "const blockedSpecifiers = ['hana-music-api/src/app/cli.ts', 'hana-music-api/src/sdk/generated/client-factory.generated.ts', 'hana-music-api/core/call.js', 'hana-music-api/modules/search.js', 'hana-music-api/dist/index.js']",
           'for (const specifier of blockedSpecifiers) {',
           '  let failedAsExpected = false',
           '  try {',
@@ -901,7 +1092,27 @@ describe('sdk release contract', () => {
       writeFileSync(
         typesFixturePath,
         [
-          "import { createHanaMusicApi, generateDeviceId, invokeModule, likelist, lyricNew, songDetail as getSongDetail, songUrl, songUrlV1, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type CloudsearchBody, type LikelistBody, type LyricNewBody, type SearchSuggestBody, type SongDetailBody, type SongUrlV1Body, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
+          "import { createClient, createHanaMusicApi, generateDeviceId, invokeModule, likelist, lyricNew, songDetail as getSongDetail, SongDetailBody as RootSongDetailBody, songUrl, songUrlV1, type AlbumBody, type ArtistAlbumBody, type ArtistTopSongBody, type BodySchema, type CloudsearchBody, type LikelistBody, type LoginCellphoneRiskBody, type LyricNewBody, type SearchSuggestBody, type SongDetailBody, type SongUrlV1Body, type StandardSchemaV1, type CreateHanaMusicApiConfig, type ModuleResponseOf } from 'hana-music-api'",
+          "import { songDetail as apiSongDetail, SongDetailBody as ApiSongDetailBody, type SongDetailInput } from 'hana-music-api/api/song_detail'",
+          "import { createClient as coreCreateClient, createOption as coreCreateOption, createRequest as coreCreateRequest, generateDeviceId as coreGenerateDeviceId, getNcmFailureInfo as coreGetNcmFailureInfo, isNcmApiResponse as coreIsNcmApiResponse } from 'hana-music-api/core'",
+          "import { AlbumBody as SchemasAlbumBody, LoginCellphoneRiskBody as SchemasLoginCellphoneRiskBody, SongDetailBody as SchemasSongDetailBody } from 'hana-music-api/schemas'",
+          "import { SongDetailBody as SingleSongDetailBody } from 'hana-music-api/schemas/song_detail'",
+          "import { createOption as utilsCreateOption, generateDeviceId as utilsGenerateDeviceId, getNcmFailureInfo as utilsGetNcmFailureInfo, isNcmApiResponse as utilsIsNcmApiResponse } from 'hana-music-api/utils'",
+          '',
+          '// @ts-expect-error Root entry exports *Body schemas as type-only in v7.',
+          'void RootSongDetailBody',
+          'const rootSongDetailTypeValue: RootSongDetailBody = {} as SongDetailBody',
+          'void rootSongDetailTypeValue',
+          "const subpathDetailInput: SongDetailInput = { ids: ['1'] }",
+          'const scopedClient = createClient({ songDetail: apiSongDetail }, { cookie: "MUSIC_U=scoped" })',
+          'const coreScopedClient = coreCreateClient({ songDetail: apiSongDetail }, { state: { deviceId: utilsGenerateDeviceId() } })',
+          'const scopedCalls = () => Promise.all([scopedClient.songDetail(subpathDetailInput), coreScopedClient.songDetail(subpathDetailInput)])',
+          'void scopedCalls',
+          '// @ts-expect-error Scoped clients only expose modules passed to createClient.',
+          'scopedClient.search({ keywords: "missing" })',
+          'const bodySchemas: [BodySchema<SongDetailBody>, BodySchema<SongDetailBody>, BodySchema<SongDetailBody>, BodySchema<AlbumBody>, BodySchema<LoginCellphoneRiskBody>, StandardSchemaV1<unknown, SongDetailBody>] = [ApiSongDetailBody, SchemasSongDetailBody, SingleSongDetailBody, SchemasAlbumBody, SchemasLoginCellphoneRiskBody, SingleSongDetailBody]',
+          'void bodySchemas',
+          'void [coreCreateOption, coreCreateRequest, coreGenerateDeviceId, coreGetNcmFailureInfo, coreIsNcmApiResponse, utilsCreateOption, utilsGetNcmFailureInfo, utilsIsNcmApiResponse]',
           '',
           "import { createRequest, type CreateRequestOptions } from 'hana-music-api'",
           "const rawOptions: CreateRequestOptions = { crypto: 'api', ua: 'raw', headers: { 'X-Raw': 'value' }, e_r: false, acceptGzip: true }",
@@ -1075,6 +1286,268 @@ describe('sdk release contract', () => {
       expect(strictTypecheckResult.exitCode, strictTypecheckResult.stdout).toBe(
         0,
       );
+
+      // 阶段 B：安装同仓匹配的 optional peerDependencies 后跑通完整套件与全部可选依赖能力。
+      const optionalPeerSpecs = OPTIONAL_PEER_PACKAGES.map(
+        (peerName) => `${peerName}@${sdkPackage.peerDependencies![peerName]}`,
+      );
+      const optionalInstallResult = run(
+        [
+          'npm',
+          'install',
+          '--no-package-lock',
+          '--no-save',
+          ...optionalPeerSpecs,
+        ],
+        consumerDirectory,
+      );
+      expect(optionalInstallResult.exitCode, optionalInstallResult.stderr).toBe(
+        0,
+      );
+
+      writeFileSync(
+        resolve(consumerDirectory, 'account-social.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/account-social.mjs'),
+        ),
+      );
+      writeFileSync(
+        resolve(consumerDirectory, 'account-social.json'),
+        JSON.stringify(
+          currentRequests(
+            'account-social',
+            JSON.parse(
+              readFileSync(
+                resolve(
+                  projectRoot,
+                  'tests/fixtures/requests/account-social.json',
+                ),
+                'utf8',
+              ),
+            ),
+          ),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'account-social.mjs'),
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 801,
+          providers: 267,
+          cases: 267,
+          modules: 83,
+        });
+        accountSocial.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
+      writeFileSync(
+        resolve(consumerDirectory, 'special-chains.mjs'),
+        readFileSync(
+          resolve(projectRoot, 'tests/fixtures/consumers/special-chains.mjs'),
+        ),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const command = [
+          runtime,
+          '--import',
+          OFFLINE_PROCESS_PATH,
+          resolve(consumerDirectory, 'special-chains.mjs'),
+          sdkPackage.version!,
+        ];
+        const result = run(command, consumerDirectory);
+        expect(result.exitCode, result.stderr).toBe(0);
+        const counts = JSON.parse(result.stdout);
+        expect(counts).toEqual({
+          requests: 59,
+          providers: 19,
+          scenarios: 6,
+          localProviders: 0,
+          stepRequests: 18,
+        });
+        specialChains.push({
+          runtime,
+          command,
+          exitCode: result.exitCode,
+          counts,
+          stderr: result.stderr,
+        });
+      }
+
+      const optionalPeersScriptPath = resolve(
+        consumerDirectory,
+        'optional-peers-installed.mjs',
+      );
+      writeFileSync(
+        optionalPeersScriptPath,
+        [
+          "import { strict as assert } from 'node:assert'",
+          "import { createDecipheriv } from 'node:crypto'",
+          "import { cloud } from 'hana-music-api/api/cloud'",
+          "import { loginQrCreate } from 'hana-music-api/api/login_qr_create'",
+          "import { verifyGetQr } from 'hana-music-api/api/verify_getQr'",
+          "import { generateDeviceId } from 'hana-music-api/utils'",
+          '',
+          "const qrResult = await loginQrCreate({ key: 'installed-key', qrimg: true })",
+          'assert.equal(qrResult.status, 200)',
+          'assert.match(qrResult.body.data.qrimg, /^data:image\\/png;base64,/)',
+          '',
+          'const verifyQrResult = await verifyGetQr(',
+          "  { vid: '1', type: 1, token: 'tok', evid: 'ev', sign: 'sig' },",
+          '  {',
+          "    cookie: 'MUSIC_U=qr-installed',",
+          '    state: { deviceId: generateDeviceId() },',
+          "    fetcher: async () => Response.json({ code: 200, data: { qrCode: 'qr-ticket' } }),",
+          '  },',
+          ')',
+          'assert.equal(verifyQrResult.status, 200)',
+          'assert.match(verifyQrResult.body.data.qrimg, /^data:image\\/png;base64,/)',
+          '',
+          '// 构造含有效 ID3v2.3 标签与 MPEG 帧的最小 MP3 缓冲，正向验证已安装的 music-metadata 解析生效。',
+          'const makeId3Frame = (id, text) => {',
+          "  const body = Buffer.concat([Buffer.from([0x03]), Buffer.from(text, 'utf8')])",
+          '  const header = Buffer.alloc(10)',
+          "  header.write(id, 0, 'ascii')",
+          '  header.writeUInt32BE(body.length, 4)',
+          '  return Buffer.concat([header, body])',
+          '}',
+          'const id3Frames = Buffer.concat([',
+          "  makeId3Frame('TIT2', 'Parsed Title'),",
+          "  makeId3Frame('TPE1', 'Parsed Artist'),",
+          "  makeId3Frame('TALB', 'Parsed Album'),",
+          '])',
+          'const id3Size = id3Frames.length',
+          'const id3Header = Buffer.from([',
+          '  0x49, 0x44, 0x33, 0x03, 0x00, 0x00,',
+          '  (id3Size >> 21) & 0x7f, (id3Size >> 14) & 0x7f, (id3Size >> 7) & 0x7f, id3Size & 0x7f,',
+          '])',
+          'const mp3Frame = Buffer.concat([Buffer.from([0xff, 0xfb, 0x90, 0x00]), Buffer.alloc(413)])',
+          'const taggedMp3 = Buffer.concat([id3Header, id3Frames, mp3Frame])',
+          'let cloudInfoPayload = null',
+          'const cloudResponses = [',
+          '  { code: 200, needUpload: false, songId: 201 },',
+          "  { code: 200, result: { resourceId: 'resource-parsed' } },",
+          '  { code: 200, songId: 202 },',
+          '  { code: 200 },',
+          ']',
+          'let cloudStep = 0',
+          'const cloudResult = await cloud(',
+          '  {',
+          '    songFile: {',
+          "      name: 'fallback-name.mp3',",
+          '      data: taggedMp3,',
+          '      size: taggedMp3.length,',
+          "      mimetype: 'audio/mpeg',",
+          "      md5: 'parsed-md5',",
+          '    },',
+          '  },',
+          '  {',
+          "    cookie: 'MUSIC_U=cloud-installed',",
+          '    state: { deviceId: generateDeviceId() },',
+          '    fetcher: async (input, init) => {',
+          '      const request = new Request(input, init)',
+          "      if (request.url.includes('/eapi/upload/cloud/info/v2')) {",
+          "        const params = new URLSearchParams(await request.text()).get('params')",
+          "        const decipher = createDecipheriv('aes-128-ecb', Buffer.from('e82ckenh8dichen8'), null)",
+          "        const frame = Buffer.concat([decipher.update(Buffer.from(params, 'hex')), decipher.final()]).toString().split('-36cd479b6b5-')",
+          '        cloudInfoPayload = JSON.parse(frame[1])',
+          '      }',
+          '      return Response.json(cloudResponses[cloudStep++])',
+          '    },',
+          '  },',
+          ')',
+          'assert.equal(cloudResult.status, 200)',
+          'assert.equal(cloudStep, 4)',
+          "assert.equal(cloudInfoPayload?.song, 'Parsed Title')",
+          "assert.equal(cloudInfoPayload?.artist, 'Parsed Artist')",
+          "assert.equal(cloudInfoPayload?.album, 'Parsed Album')",
+          "assert.equal(cloudInfoPayload?.bitrate, '999000')",
+          "process.stdout.write(JSON.stringify({ runtime: typeof Bun === 'undefined' ? 'node' : 'bun', qrOk: true, verifyQrOk: true, cloudMetadataOk: true }))",
+        ].join('\n'),
+      );
+      for (const runtime of ['node', 'bun']) {
+        const result = run(
+          [runtime, '--import', OFFLINE_PROCESS_PATH, optionalPeersScriptPath],
+          consumerDirectory,
+        );
+        expect(result.exitCode, result.stderr).toBe(0);
+        optionalPeersEvidence.push(JSON.parse(result.stdout));
+      }
+
+      const installedNodeProxyScriptPath = resolve(
+        consumerDirectory,
+        'installed-node-proxy.mjs',
+      );
+      writeFileSync(
+        installedNodeProxyScriptPath,
+        [
+          "import { strict as assert } from 'node:assert'",
+          "import { createServer, request as httpRequest } from 'node:http'",
+          "import { createRequest } from 'hana-music-api/core'",
+          '',
+          'let upstreamCalls = 0',
+          'let proxiedRequests = 0',
+          'const upstream = createServer((request, response) => {',
+          '  upstreamCalls += 1',
+          '  request.resume()',
+          '  response.end(JSON.stringify({ code: 200 }))',
+          '})',
+          'const proxy = createServer((request, response) => {',
+          '  proxiedRequests += 1',
+          "  const target = new URL(request.url ?? '/', `http://${request.headers.host ?? '127.0.0.1'}`)",
+          '  assert.equal(target.hostname, "127.0.0.1")',
+          '  assert.equal(Number(target.port), upstream.address().port)',
+          '  const forwarded = httpRequest(target.href, { method: request.method }, (upstreamResponse) => {',
+          '    response.writeHead(upstreamResponse.statusCode, upstreamResponse.headers)',
+          '    upstreamResponse.pipe(response)',
+          '  })',
+          '  request.pipe(forwarded)',
+          '})',
+          "await new Promise((resolve) => upstream.listen(0, '127.0.0.1', resolve))",
+          "await new Promise((resolve) => proxy.listen(0, '127.0.0.1', resolve))",
+          'try {',
+          "  const response = await createRequest('/api/test', {}, {",
+          "    crypto: 'api',",
+          "    state: { anonymousToken: '' },",
+          '    domain: `http://127.0.0.1:${upstream.address().port}`,',
+          '    proxy: `http://127.0.0.1:${proxy.address().port}`,',
+          '    timeoutMs: 1000,',
+          '  })',
+          '  assert.equal(response.status, 200)',
+          '  assert.equal(upstreamCalls, 1)',
+          '  assert.equal(proxiedRequests, 1)',
+          '  process.stdout.write(JSON.stringify({ runtime: "node", upstreamCalls, proxiedRequests }))',
+          '} finally {',
+          '  upstream.closeAllConnections()',
+          '  proxy.closeAllConnections()',
+          '  await Promise.all([',
+          '    new Promise((resolve) => upstream.close(resolve)),',
+          '    new Promise((resolve) => proxy.close(resolve)),',
+          '  ])',
+          '}',
+        ].join('\n'),
+      );
+      const installedNodeProxyResult = run(
+        ['node', installedNodeProxyScriptPath],
+        consumerDirectory,
+      );
+      expect(
+        installedNodeProxyResult.exitCode,
+        installedNodeProxyResult.stderr,
+      ).toBe(0);
+      optionalPeersEvidence.push(JSON.parse(installedNodeProxyResult.stdout));
       consumerExit = 0;
     } finally {
       await writeEvidence(
@@ -1097,6 +1570,10 @@ describe('sdk release contract', () => {
             tarballSha256: createHash('sha256')
               .update(readFileSync(tarballPath))
               .digest('hex'),
+            distAudit: distAuditEvidence,
+            treeShaking: treeShakingEvidence,
+            subpaths: subpathEvidence,
+            optionalPeers: optionalPeersEvidence,
             runtimes,
             libraryPlayback,
             searchDiscovery,
@@ -1120,7 +1597,7 @@ describe('sdk release contract', () => {
       );
       rmSync(consumerDirectory, { force: true, recursive: true });
     }
-  }, 60_000);
+  }, 120_000);
 
   test('should load and answer first calls from a single-file serverless bundle without touching the filesystem', async () => {
     // 云函数打包会把 SDK 和依赖合成单个文件，周围既没有 package.json，也不保证能读写临时目录。
@@ -1197,6 +1674,197 @@ const run = (cmd: Array<string>, cwd: string) => {
   };
 };
 
+const auditInstalledDist = (distDirectory: string) => {
+  const files: Array<{ path: string; size: number }> = [];
+  const walk = (directory: string) => {
+    for (const entry of readdirSync(directory, { withFileTypes: true })) {
+      const fullPath = join(directory, entry.name);
+      if (entry.isDirectory()) {
+        walk(fullPath);
+      } else {
+        files.push({
+          path: relative(distDirectory, fullPath),
+          size: statSync(fullPath).size,
+        });
+      }
+    }
+  };
+  walk(distDirectory);
+
+  const jsFiles = files.filter((file) => file.path.endsWith('.js'));
+  const dtsFiles = files.filter((file) => file.path.endsWith('.d.ts'));
+
+  const effectBarrelImports = jsFiles
+    .filter((file) =>
+      /\bfrom\s*['"]effect['"]/.test(
+        readFileSync(join(distDirectory, file.path), 'utf8'),
+      ),
+    )
+    .map((file) => file.path);
+  expect(effectBarrelImports).toEqual([]);
+
+  const packageJsonImports = jsFiles
+    .filter((file) =>
+      /package\.json/.test(
+        readFileSync(join(distDirectory, file.path), 'utf8'),
+      ),
+    )
+    .map((file) => file.path);
+  expect(packageJsonImports).toEqual([]);
+
+  const leakedEffectInternals = dtsFiles
+    .filter((file) =>
+      /StructWithRest|middlewareDecoding|MutableJson/.test(
+        readFileSync(join(distDirectory, file.path), 'utf8'),
+      ),
+    )
+    .map((file) => file.path);
+  expect(leakedEffectInternals).toEqual([]);
+
+  const largestDts = dtsFiles.toSorted(
+    (left, right) => right.size - left.size,
+  )[0];
+  const largestJs = jsFiles.toSorted(
+    (left, right) => right.size - left.size,
+  )[0];
+  expect(largestDts?.size ?? 0).toBeLessThan(MAX_SINGLE_DTS_BYTES);
+  expect(largestJs?.size ?? 0).toBeLessThan(MAX_SINGLE_JS_BYTES);
+
+  return {
+    fileCount: files.length,
+    totalBytes: files.reduce((sum, file) => sum + file.size, 0),
+    jsCount: jsFiles.length,
+    jsBytes: jsFiles.reduce((sum, file) => sum + file.size, 0),
+    dtsCount: dtsFiles.length,
+    dtsBytes: dtsFiles.reduce((sum, file) => sum + file.size, 0),
+    largestJs,
+    largestDts,
+  };
+};
+
+const verifyConsumerTreeShaking = async (consumerDirectory: string) => {
+  const buildEntry = async (name: string, source: string) => {
+    const entryPath = resolve(consumerDirectory, `${name}.mjs`);
+    writeFileSync(entryPath, source);
+    const result = await Bun.build({
+      entrypoints: [entryPath],
+      target: 'node',
+      format: 'esm',
+      metafile: true,
+    });
+    expect(result.success, name).toBe(true);
+    const inputs = Object.keys(result.metafile!.inputs);
+    const outputBytes = result.outputs[0]!.size;
+    return { inputs, outputBytes };
+  };
+
+  const utilsBundle = await buildEntry(
+    'treeshake-utils',
+    "import { createOption, generateDeviceId, getNcmFailureInfo, isNcmApiResponse } from 'hana-music-api/utils'; console.log(generateDeviceId(), isNcmApiResponse({}), getNcmFailureInfo({}), createOption({}));\n",
+  );
+  expect(
+    utilsBundle.inputs.some((path) =>
+      /\/effect\/|\/undici\/|\/music-metadata\/|\/qrcode\/|\/src\/modules\/|registry\.generated/.test(
+        path,
+      ),
+    ),
+    utilsBundle.inputs.join('\n'),
+  ).toBe(false);
+
+  const rootUtilBundle = await buildEntry(
+    'treeshake-root-util',
+    "import { generateDeviceId } from 'hana-music-api'; console.log(generateDeviceId());\n",
+  );
+  expect(
+    rootUtilBundle.inputs.some((path) =>
+      /\/effect\/|\/undici\/|\/music-metadata\/|\/qrcode\/|\/src\/modules\/|registry\.generated/.test(
+        path,
+      ),
+    ),
+    rootUtilBundle.inputs.join('\n'),
+  ).toBe(false);
+
+  const apiSongDetailBundle = await buildEntry(
+    'treeshake-api-song-detail',
+    "import { songDetail } from 'hana-music-api/api/song_detail'; console.log(songDetail);\n",
+  );
+  const apiSongDetailModules = apiSongDetailBundle.inputs.filter((path) =>
+    /\/src\/modules\/.+\.js$/.test(path),
+  );
+  expect(apiSongDetailModules, apiSongDetailModules.join('\n')).toHaveLength(1);
+  expect(apiSongDetailModules[0]).toMatch(/\/src\/modules\/song_detail\.js$/);
+  expect(
+    apiSongDetailBundle.inputs.some((path) =>
+      /registry\.generated|\/undici\/|\/music-metadata\/|\/qrcode\//.test(path),
+    ),
+    apiSongDetailBundle.inputs.join('\n'),
+  ).toBe(false);
+
+  const rootSongDetailBundle = await buildEntry(
+    'treeshake-root-song-detail',
+    "import { songDetail } from 'hana-music-api'; console.log(songDetail);\n",
+  );
+  const rootSongDetailModules = rootSongDetailBundle.inputs.filter((path) =>
+    /\/src\/modules\/.+\.js$/.test(path),
+  );
+  expect(rootSongDetailModules, rootSongDetailModules.join('\n')).toHaveLength(
+    1,
+  );
+  expect(rootSongDetailModules[0]).toMatch(/\/src\/modules\/song_detail\.js$/);
+  expect(
+    rootSongDetailBundle.inputs.some((path) =>
+      /registry\.generated|\/undici\/|\/music-metadata\/|\/qrcode\//.test(path),
+    ),
+    rootSongDetailBundle.inputs.join('\n'),
+  ).toBe(false);
+
+  const schemaSongDetailBundle = await buildEntry(
+    'treeshake-schema-song-detail',
+    "import { SongDetailBody } from 'hana-music-api/schemas/song_detail'; console.log(SongDetailBody);\n",
+  );
+  const schemaSongDetailModules = schemaSongDetailBundle.inputs.filter((path) =>
+    /\/src\/modules\/.+\.js$/.test(path),
+  );
+  expect(
+    schemaSongDetailModules,
+    schemaSongDetailModules.join('\n'),
+  ).toHaveLength(1);
+  expect(schemaSongDetailModules[0]).toMatch(
+    /\/src\/modules\/song_detail\.js$/,
+  );
+  expect(
+    schemaSongDetailBundle.inputs.some((path) =>
+      /\/core\/call\.js|\/core\/request\.js|\/core\/transport\.js|registry\.generated|\/undici\/|\/music-metadata\/|\/qrcode\//.test(
+        path,
+      ),
+    ),
+    schemaSongDetailBundle.inputs.join('\n'),
+  ).toBe(false);
+
+  return {
+    utils: {
+      inputCount: utilsBundle.inputs.length,
+      outputBytes: utilsBundle.outputBytes,
+    },
+    rootUtil: {
+      inputCount: rootUtilBundle.inputs.length,
+      outputBytes: rootUtilBundle.outputBytes,
+    },
+    apiSongDetail: {
+      inputCount: apiSongDetailBundle.inputs.length,
+      outputBytes: apiSongDetailBundle.outputBytes,
+    },
+    rootSongDetail: {
+      inputCount: rootSongDetailBundle.inputs.length,
+      outputBytes: rootSongDetailBundle.outputBytes,
+    },
+    schemaSongDetail: {
+      inputCount: schemaSongDetailBundle.inputs.length,
+      outputBytes: schemaSongDetailBundle.outputBytes,
+    },
+  };
+};
+
 type PackEntry = {
   files?: Array<{ path: string }>;
   filename: string;
@@ -1204,9 +1872,12 @@ type PackEntry = {
 };
 
 type PackageJsonLike = {
+  dependencies?: Record<string, string>;
   engines?: Record<string, string>;
   exports?: Record<string, unknown>;
   name?: string;
+  peerDependencies?: Record<string, string>;
+  peerDependenciesMeta?: Record<string, { optional?: boolean }>;
   private?: boolean;
   sideEffects?: boolean;
   type?: string;

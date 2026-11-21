@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -46,26 +49,18 @@ const DurationDetail = UpstreamObject({
 
 const ListenTimeBlock = UpstreamObject({
   blockType: Loose(Schema.String),
-  circleTimePeriodDurations: Loose(
-    Schema.Array(
-      UpstreamObject({
-        duration: Loose(Schema.Finite),
-        period: Loose(Schema.String),
-      }),
-    ),
-  ),
+  circleTimePeriodDurations: UpstreamObject({
+    duration: Loose(Schema.Finite),
+    period: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   playDuration: Loose(Schema.Finite),
   playDurationText: Loose(Schema.String),
-  sections: Loose(
-    Schema.Array(
-      UpstreamObject({
-        field: Loose(Schema.String),
-        textB: Loose(Schema.String),
-        type: Loose(Schema.String),
-        valueA: Loose(Schema.String),
-      }),
-    ),
-  ),
+  sections: UpstreamObject({
+    field: Loose(Schema.String),
+    textB: Loose(Schema.String),
+    type: Loose(Schema.String),
+    valueA: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
 });
 
 const TimeDistributionBlock = UpstreamObject({
@@ -76,77 +71,53 @@ const TimeDistributionBlock = UpstreamObject({
     }),
   ),
   blockType: Loose(Schema.String),
-  durationDetails: Loose(Schema.Array(DurationDetail)),
+  durationDetails: DurationDetail.pipe(Schema.Array, Loose),
   listenDays: Loose(Schema.Finite),
   playDuration: Loose(Schema.Finite),
-  sections: Loose(
-    Schema.Array(
-      UpstreamObject({
-        type: Loose(Schema.String),
-        value: Loose(Schema.String),
-      }),
-    ),
-  ),
+  sections: UpstreamObject({
+    type: Loose(Schema.String),
+    value: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
 });
 
 const WallpaperBlock = UpstreamObject({
   blockType: Loose(Schema.String),
-  items: Loose(
-    Schema.Array(
-      UpstreamObject({
-        artists: Loose(
-          Schema.Array(
-            UpstreamObject({
-              artistId: Loose(Schema.Finite),
-              artistName: Loose(Schema.String),
-            }),
-          ),
-        ),
-        picId: Loose(Schema.Finite),
-        picUrl: Loose(Schema.String),
-        songId: Loose(Schema.Finite),
-        songName: Loose(Schema.String),
-      }),
-    ),
-  ),
-  picUrls: Loose(Schema.Array(Schema.String)),
+  items: UpstreamObject({
+    artists: UpstreamObject({
+      artistId: Loose(Schema.Finite),
+      artistName: Loose(Schema.String),
+    }).pipe(Schema.Array, Loose),
+    picId: Loose(Schema.Finite),
+    picUrl: Loose(Schema.String),
+    songId: Loose(Schema.Finite),
+    songName: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
+  picUrls: Schema.String.pipe(Schema.Array, Loose),
   songCount: Loose(Schema.Finite),
 });
 
 const TopSongBlock = UpstreamObject({
-  artists: Loose(
-    Schema.Array(
-      UpstreamObject({
-        artistId: Loose(Schema.Finite),
-        artistName: Loose(Schema.String),
-      }),
-    ),
-  ),
+  artists: UpstreamObject({
+    artistId: Loose(Schema.Finite),
+    artistName: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   blockType: Loose(Schema.String),
-  items: Loose(
-    Schema.Array(
-      UpstreamObject({
-        field: Loose(Schema.String),
-        mainText: Loose(Schema.String),
-        subText: Loose(Schema.String),
-        type: Loose(Schema.String),
-      }),
-    ),
-  ),
+  items: UpstreamObject({
+    field: Loose(Schema.String),
+    mainText: Loose(Schema.String),
+    subText: Loose(Schema.String),
+    type: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   picUrl: Loose(Schema.String),
   playCount: Loose(Schema.Finite),
-  sections: Loose(
-    Schema.Array(
-      UpstreamObject({
-        field: Loose(Schema.String),
-        picUrl: Loose(Schema.String),
-        songId: Loose(Schema.Finite),
-        songName: Loose(Schema.String),
-        text: Loose(Schema.String),
-        type: Loose(Schema.String),
-      }),
-    ),
-  ),
+  sections: UpstreamObject({
+    field: Loose(Schema.String),
+    picUrl: Loose(Schema.String),
+    songId: Loose(Schema.Finite),
+    songName: Loose(Schema.String),
+    text: Loose(Schema.String),
+    type: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   songId: Loose(Schema.Finite),
   songName: Loose(Schema.String),
 });
@@ -156,30 +127,22 @@ const TopArtistBlock = UpstreamObject({
   artistName: Loose(Schema.String),
   avatarUrl: Loose(Schema.String),
   blockType: Loose(Schema.String),
-  items: Loose(
-    Schema.Array(
-      UpstreamObject({
-        field: Loose(Schema.String),
-        mainText: Loose(Schema.String),
-        resourceId: Loose(Schema.String),
-        subText: Loose(Schema.String),
-        type: Loose(Schema.String),
-      }),
-    ),
-  ),
+  items: UpstreamObject({
+    field: Loose(Schema.String),
+    mainText: Loose(Schema.String),
+    resourceId: Loose(Schema.String),
+    subText: Loose(Schema.String),
+    type: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   playCount: Loose(Schema.Finite),
-  sections: Loose(
-    Schema.Array(
-      UpstreamObject({
-        artistId: Loose(Schema.Finite),
-        artistName: Loose(Schema.String),
-        field: Loose(Schema.String),
-        picUrl: Loose(Schema.String),
-        text: Loose(Schema.String),
-        type: Loose(Schema.String),
-      }),
-    ),
-  ),
+  sections: UpstreamObject({
+    artistId: Loose(Schema.Finite),
+    artistName: Loose(Schema.String),
+    field: Loose(Schema.String),
+    picUrl: Loose(Schema.String),
+    text: Loose(Schema.String),
+    type: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
 });
 
 const TopStyleBlock = UpstreamObject({
@@ -187,30 +150,22 @@ const TopStyleBlock = UpstreamObject({
   genreEnglishName: Loose(Schema.String),
   genreId: Loose(Schema.Finite),
   genreName: Loose(Schema.String),
-  items: Loose(
-    Schema.Array(
-      UpstreamObject({
-        field: Loose(Schema.String),
-        mainText: Loose(Schema.String),
-        resourceId: Loose(Schema.String),
-        subText: Loose(Schema.String),
-        type: Loose(Schema.String),
-      }),
-    ),
-  ),
+  items: UpstreamObject({
+    field: Loose(Schema.String),
+    mainText: Loose(Schema.String),
+    resourceId: Loose(Schema.String),
+    subText: Loose(Schema.String),
+    type: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   picUrl: Loose(Schema.String),
   secondGenreEnglishName: Loose(Schema.String),
   secondGenreId: Loose(Schema.Finite),
   secondGenreName: Loose(Schema.String),
-  sections: Loose(
-    Schema.Array(
-      UpstreamObject({
-        genreId: Loose(Schema.Finite),
-        genreName: Loose(Schema.String),
-        percent: Loose(Schema.String),
-      }),
-    ),
-  ),
+  sections: UpstreamObject({
+    genreId: Loose(Schema.Finite),
+    genreName: Loose(Schema.String),
+    percent: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   songId: Loose(Schema.Finite),
   songName: Loose(Schema.String),
 });
@@ -219,25 +174,17 @@ const TopAgeBlock = UpstreamObject({
   age: Loose(Schema.String),
   blockType: Loose(Schema.String),
   picUrl: Loose(Schema.String),
-  sections: Loose(
-    Schema.Array(
-      UpstreamObject({
-        age: Loose(Schema.String),
-        playSongNum: Loose(Schema.Finite),
-      }),
-    ),
-  ),
+  sections: UpstreamObject({
+    age: Loose(Schema.String),
+    playSongNum: Loose(Schema.Finite),
+  }).pipe(Schema.Array, Loose),
   songId: Loose(Schema.Finite),
-  songItems: Loose(
-    Schema.Array(
-      UpstreamObject({
-        picUrl: Loose(Schema.String),
-        songId: Loose(Schema.Finite),
-        songName: Loose(Schema.String),
-        text: Loose(Schema.String),
-      }),
-    ),
-  ),
+  songItems: UpstreamObject({
+    picUrl: Loose(Schema.String),
+    songId: Loose(Schema.Finite),
+    songName: Loose(Schema.String),
+    text: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   songName: Loose(Schema.String),
   text: Loose(Schema.String),
 });
@@ -245,90 +192,66 @@ const TopAgeBlock = UpstreamObject({
 const TopLanguageBlock = UpstreamObject({
   blockType: Loose(Schema.String),
   picUrl: Loose(Schema.String),
-  sections: Loose(
-    Schema.Array(
-      UpstreamObject({
-        language: Loose(Schema.String),
-        percent: Loose(Schema.String),
-        playSongNum: Loose(Schema.Finite),
-        songName: Loose(Schema.String),
-      }),
-    ),
-  ),
+  sections: UpstreamObject({
+    language: Loose(Schema.String),
+    percent: Loose(Schema.String),
+    playSongNum: Loose(Schema.Finite),
+    songName: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   songId: Loose(Schema.Finite),
-  songItems: Loose(
-    Schema.Array(
-      UpstreamObject({
-        picUrl: Loose(Schema.String),
-        songId: Loose(Schema.Finite),
-        songName: Loose(Schema.String),
-        text: Loose(Schema.String),
-      }),
-    ),
-  ),
+  songItems: UpstreamObject({
+    picUrl: Loose(Schema.String),
+    songId: Loose(Schema.Finite),
+    songName: Loose(Schema.String),
+    text: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   songName: Loose(Schema.String),
 });
 
 const VipBlock = UpstreamObject({
   blockType: Loose(Schema.String),
   picUrl: Loose(Schema.String),
-  sections: Loose(
-    Schema.Array(
-      UpstreamObject({
-        field: Loose(Schema.String),
-        mainText: Loose(Schema.String),
-        subText: Loose(Schema.String),
-        type: Loose(Schema.String),
-      }),
-    ),
-  ),
+  sections: UpstreamObject({
+    field: Loose(Schema.String),
+    mainText: Loose(Schema.String),
+    subText: Loose(Schema.String),
+    type: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   songId: Loose(Schema.Finite),
   songName: Loose(Schema.String),
 });
 
 const FriendListenBlock = UpstreamObject({
   blockType: Loose(Schema.String),
-  items: Loose(
-    Schema.Array(
-      UpstreamObject({
-        collect: Loose(Schema.Boolean),
-        playCount: Loose(Schema.Finite),
-        songId: Loose(Schema.Finite),
-        songName: Loose(Schema.String),
-        songPicUrl: Loose(Schema.String),
-        userAvatar: Loose(Schema.String),
-        userId: Loose(Schema.Finite),
-        username: Loose(Schema.String),
-      }),
-    ),
-  ),
+  items: UpstreamObject({
+    collect: Loose(Schema.Boolean),
+    playCount: Loose(Schema.Finite),
+    songId: Loose(Schema.Finite),
+    songName: Loose(Schema.String),
+    songPicUrl: Loose(Schema.String),
+    userAvatar: Loose(Schema.String),
+    userId: Loose(Schema.Finite),
+    username: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
 });
 
 const FriendKeywordBlock = UpstreamObject({
   blockType: Loose(Schema.String),
-  items: Loose(
-    Schema.Array(
-      UpstreamObject({
-        enumCode: Loose(Schema.String),
-        friendList: Loose(
-          Schema.Array(
-            UpstreamObject({
-              userAvatar: Loose(Schema.String),
-              userId: Loose(Schema.Finite),
-              username: Loose(Schema.String),
-            }),
-          ),
-        ),
-        friendsKeywordEnum: Loose(Schema.String),
-        subTitle: Loose(Schema.String),
-        title: Loose(Schema.String),
-      }),
-    ),
-  ),
+  items: UpstreamObject({
+    enumCode: Loose(Schema.String),
+    friendList: UpstreamObject({
+      userAvatar: Loose(Schema.String),
+      userId: Loose(Schema.Finite),
+      username: Loose(Schema.String),
+    }).pipe(Schema.Array, Loose),
+    friendsKeywordEnum: Loose(Schema.String),
+    subTitle: Loose(Schema.String),
+    title: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
 });
 
 // 通到周/月/年听歌报告的路径 `data` 收紧；各统计块是附带展示信息，字段全部宽松，没出现的块（年报、无收听周）原样保留。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -352,7 +275,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const listenDataReport: ModuleEffect<
   ModuleInput,

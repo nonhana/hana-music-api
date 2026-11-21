@@ -1,21 +1,29 @@
-export { createOption } from './src/core/options.ts';
+import type { ModuleBody as UserPlaylistModuleBody } from './src/modules/user_playlist.ts';
+
+export {
+  getNcmFailureInfo,
+  isNcmApiResponse,
+} from './src/core/failure-guards.ts';
+export { createOption } from './src/core/option-builder.ts';
 export { createRequest } from './src/core/request.ts';
-export { getNcmFailureInfo, isNcmApiResponse } from './src/core/response.ts';
 export { generateDeviceId } from './src/core/utils.ts';
-export type {
-  PlaylistSummary,
-  PlaylistUser,
-} from './src/core/upstream-schemas.ts';
+export { createClient } from './src/sdk/client.ts';
 export { createHanaMusicApi } from './src/sdk/generated/client.generated.ts';
 export * from './src/sdk/generated/client.generated.ts';
-export * from './src/sdk/generated/bodies.generated.ts';
-export { RiskBody as LoginCellphoneRiskBody } from './src/modules/login_cellphone.ts';
 export { invokeModule } from './src/sdk/runtime.ts';
 
+export type PlaylistSummary = UserPlaylistModuleBody['playlist'][number];
+export type PlaylistUser = NonNullable<PlaylistSummary['creator']>;
+
+export type * from './src/sdk/generated/bodies-types.generated.ts';
+export type { RiskBody as LoginCellphoneRiskBody } from './src/modules/login_cellphone.ts';
+
 export type {
+  AnySdkModuleInvoker,
+  BodySchema,
+  CookieRecord,
   CreateHanaMusicApiConfig,
   CreateRequestOptions,
-  CookieRecord,
   FetchLike,
   ModuleCallConfig,
   ModuleIdentifier,
@@ -31,5 +39,14 @@ export type {
   RequestRetryOptions,
   RuntimeState,
   SdkModuleInvoker,
+  SdkModuleInvokerFor,
+  StandardSchemaV1,
+  StandardSchemaV1Issue,
+  StandardSchemaV1Options,
+  StandardSchemaV1PathSegment,
+  StandardSchemaV1Props,
+  StandardSchemaV1Result,
+  StandardSchemaV1Types,
+  UnknownJson,
 } from './src/types/index.ts';
 export type { HanaMusicApiClient } from './src/sdk/generated/client.generated.ts';

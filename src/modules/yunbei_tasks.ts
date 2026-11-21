@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -67,7 +70,7 @@ const Task = UpstreamObject({
   taskDescription: Loose(Schema.String),
   taskName: Loose(Schema.String),
   taskPoint: Loose(Schema.Finite),
-  taskPointDetail: Loose(Schema.Array(TaskPointDetail)),
+  taskPointDetail: TaskPointDetail.pipe(Schema.Array, Loose),
   taskType: Loose(Schema.String),
   userTaskId: Loose(Schema.Finite),
   webPicUrl: Loose(Schema.String),
@@ -75,14 +78,14 @@ const Task = UpstreamObject({
 
 // 返回码、任务列表路径 `data` 及每个任务的编号 `taskId` 收紧；任务说明、图标、链接和奖励明细宽松，
 // 只见过 null 的图标、`wordsPicUrl` 与目标状态字段未声明。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Schema.Array(Task),
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const yunbeiTasks: ModuleEffect<
   ModuleInput,

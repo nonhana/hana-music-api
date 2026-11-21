@@ -1,12 +1,38 @@
 # 编程式调用
 
-升级到 4.x 时，请先按[迁移说明](/guide/migrating-to-v4)移除旧配置键，再核对设备与 token 的保存和传递方式。
+从 6.x 升级请先看[7.x 迁移说明](/guide/migrating-to-v7)；从 3.x 升级请先看[4.x 迁移说明](/guide/migrating-to-v4)。
 
-SDK 的常用入口有三个：创建 client、导入具名函数、按模块名调用。它们都返回 Promise，业务参数和执行配置分开传。
+SDK 提供四种调用方式：按需组合式 client（`createClient` + `./api/*`）、全量 client（`createHanaMusicApi`）、直接导入具名函数、以及按模块名调用（`invokeModule`）。它们都返回 Promise，业务参数和执行配置分开传。
 
-## 连续调用多个接口
+## 按需组合多个接口（推荐）
 
-`createHanaMusicApi` 将一组默认配置绑定到 client。适合共享 Cookie、缓存或自定义 `fetcher` 的场景。
+在 Serverless 函数或只用到部分接口的服务里，从 `hana-music-api/api/<module>` 导入需要的接口，并用 `createClient` 绑定共享默认配置、共享读取缓存和匿名身份池。最终产物只包含传入的模块，不打包其余接口：
+
+```ts
+import { search } from 'hana-music-api/api/search';
+import { songUrlV1 } from 'hana-music-api/api/song_url_v1';
+import { createClient } from 'hana-music-api/core';
+
+const hana = createClient(
+  { search, songUrlV1 },
+  {
+    cookie: 'MUSIC_U=your-cookie',
+    cache: { enabled: true },
+    timeoutMs: 8000,
+  },
+);
+
+const searchResult = await hana.search({ keywords: '周杰伦', limit: 5 });
+const songResult = await hana.songUrlV1({ ids: [347230], level: 'standard' });
+
+console.log(searchResult.body, songResult.body);
+```
+
+`createClient` 在创建时会校验默认配置与传入模块对象；非法配置或非 SDK 模块函数会立即同步抛出 `TypeError`。
+
+## 连续调用全量接口
+
+需要在一个实例上访问全部 352 个接口时，使用 `createHanaMusicApi` 将一组默认配置绑定到 client。适合共享 Cookie、缓存或自定义 `fetcher` 的场景。
 
 ```ts
 import { createHanaMusicApi } from 'hana-music-api';
@@ -30,10 +56,10 @@ await hana.search({ keywords: '林俊杰' }, { timeoutMs: 5000 });
 
 ## 只调用少量接口
 
-可以直接导入具名函数。名称采用 camelCase，例如 HTTP 的 `/song/url` 对应 `songUrl`：
+可以直接从单模块子路径或根入口导入具名函数。子路径文件名采用下划线标识，导出函数名采用 camelCase，例如 HTTP 的 `/song/url` 对应 `hana-music-api/api/song_url` 中的 `songUrl`：
 
 ```ts
-import { songUrl } from 'hana-music-api';
+import { songUrl } from 'hana-music-api/api/song_url';
 
 const result = await songUrl(
   { id: '347230' },
@@ -43,7 +69,7 @@ const result = await songUrl(
 console.log(result.body);
 ```
 
-这里导入的是公开的 Promise 包装函数。仓库 `src/modules/` 里的默认导出是内部 Effect 实现，不是下游应直接导入的 SDK 函数。
+单模块子路径同时导出该接口的输入类型（如 `SongDetailInput`）以及返回体运行时校验器（如 `SongDetailBody`）。若只需要运行时返回体校验器，可直接从 `hana-music-api/schemas/<module>` 或 `hana-music-api/schemas` 导入；若只需要设备号生成或失败识别等纯工具，可从 `hana-music-api/utils` 导入（不引入运行时依赖）。根入口 `hana-music-api` 保留全部具名函数和纯类型导出（`import type { SongDetailBody } from 'hana-music-api'`）。
 
 ## 按模块名调用
 

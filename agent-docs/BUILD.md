@@ -6,9 +6,10 @@
 
 - 仓库使用 Bun `1.4.4`，以 `bun.lock` 为唯一锁文件；安装使用 `bun install --frozen-lockfile`。
 - SDK 面向 Node.js `>=24` 的 ESM 项目；仓库的开发、测试和服务运行时均为 Bun。
-- 包声明为公开包，构建入口由 `tsdown.config.ts` 管理，产物输出到 `dist/`。
+- 包声明为公开包，构建入口由 `tsdown.config.ts` 管理，以 `unbundle: true` 输出到 `dist/`；`define` 注入 `__HANA_SERVICE_VERSION__`，构建产物不含运行时 `package.json` 导入。
+- 运行时必填依赖只有 `effect`；`hono` 留在 `devDependencies`（仅供仓库自建 HTTP 服务）；`undici`、`music-metadata`、`qrcode` 声明为可选 `peerDependencies`（同时保留在 `devDependencies` 供仓内测试与服务运行）。
 - `tsconfig.base.json` 保存共同严格选项；根 `tsconfig.json` 检查 Bun/Node 代码，`src/browser/tsconfig.json` 检查标准 DOM 浏览器源码与对应类型用例。`bun run typecheck` 串行执行两者，任一失败均返回非零。
-- `bun run build` 先用 `tsdown.config.ts` 生成服务端入口并清理旧 dist，再用 `tsdown.browser.config.ts` 生成浏览器入口及声明。浏览器声明使用根目录的 `tsconfig.browser.build.json` 继承 DOM 配置并只包含生产源码，兼容当前声明生成器按配置目录确定发射根的行为。第二阶段保留服务端产物，全部入口齐全后统一运行 publint/attw；`build:check` 继续执行严格包检查。
+- `bun run build` 先用 `tsdown.config.ts` 以 `unbundle: true` 生成根入口、子路径（`core`、`utils`、`schemas`、`api/*`、`schemas/*`）并清理旧 `dist/`，再用 `tsdown.browser.config.ts` 生成浏览器入口及声明。浏览器声明使用根目录的 `tsconfig.browser.build.json` 继承 DOM 配置并只包含生产源码，兼容当前声明生成器按配置目录确定发射根的行为。第二阶段保留服务端产物，全部入口齐全后统一运行 publint/attw；`build:check` 继续执行严格包检查。
 - 首次执行测试前用 `bunx playwright install chromium` 安装与锁文件匹配的浏览器；Linux CI 使用 `bunx playwright install --with-deps chromium`。默认回归和包消费者都包含离线浏览器验证，缺浏览器不能跳过报绿。
 
 ## 常用命令
@@ -25,7 +26,7 @@
 | 生成模块表面 | `bun run types:modules:generate`           |
 | 检查模块表面 | `bun run types:modules:check`              |
 
-模块生成器会从 `src/modules/` 读取本地 `ModuleInput`、decoder 和 `ModuleEffect`，并更新 `src/types/generated/`、`src/sdk/generated/` 与 `src/sdk/api/`；生成文件应通过生成器更新。
+模块生成器会从 `src/modules/` 读取本地 `ModuleInput`、decoder、`ModuleBody` 和 `ModuleEffect`，并更新 `src/types/generated/`、`src/sdk/generated/`、`src/sdk/api/` 与 `src/sdk/schemas/`；生成文件应通过生成器更新。
 
 ## 服务配置
 

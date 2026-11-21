@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -72,7 +75,7 @@ const UserAudioRadio = UpstreamObject({
 
 // 返回码和用户创建的电台列表 `djRadios` 及每条电台自己的编号 `djRadios[].id` 收紧；
 // `count`、`subCount`、`hasMore` 是宽松的计数与分页提示，没有创建电台时 `djRadios` 是空数组。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     djRadios: Schema.Array(UserAudioRadio),
@@ -81,7 +84,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     subCount: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const userAudio: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,

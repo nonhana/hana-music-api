@@ -460,6 +460,12 @@ describe('generated module type surface', () => {
       expect(registry.contents).toContain("identifier: 'sample'");
       expect(registry.contents).toContain("route: '/sample'");
       expect(registry.contents).toContain('execute: sampleModule');
+      const apiFile = artifacts.files.find((file) =>
+        file.path.endsWith('sdk/api/sample.ts'),
+      )!;
+      expect(apiFile.contents).toContain('createStandaloneModuleInvoker');
+      expect(apiFile.contents).not.toContain('registry.generated');
+      expect(apiFile.contents).not.toContain('client.generated');
       expect(await buildGeneratedArtifacts(directory)).toEqual(artifacts);
     } finally {
       await rm(directory, { recursive: true, force: true });

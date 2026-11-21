@@ -1,15 +1,15 @@
 import { expect, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
+import type { HanaMusicApiClient } from '../../../src/sdk/generated/client.generated.ts';
 import {
-  createHanaMusicApi,
   PlaylistImportNameTaskCreateBody,
   PlaylistImportTaskStatusBody,
   PlaylistTrackAddBody,
   PlaylistTrackDeleteBody,
   PlaylistUpdateBody,
   PlaylistUpdatePlaycountBody,
-} from '../../../index.ts';
-import type { HanaMusicApiClient } from '../../../src/sdk/generated/client.generated.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   businessFailure,

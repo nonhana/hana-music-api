@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   BooleanValue,
@@ -8,8 +9,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -44,7 +47,7 @@ export const moduleActions = {
 } as const satisfies ModuleActions;
 
 // 通到节目列表的路径 `programs` 和每个节目自己的编号 `programs[].id` 收紧；总数、`more` 和节目其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     programs: Schema.Array(DjProgram),
@@ -52,7 +55,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     more: Loose(Schema.Boolean),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const djProgram: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,

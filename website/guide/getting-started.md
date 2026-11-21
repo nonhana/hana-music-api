@@ -42,7 +42,17 @@ console.log(result.body);
 await hana.search({ keywords: '海阔天空', limit: 5 }, { timeoutMs: 5000 });
 ```
 
-也可以单独导入 `search` 等函数，或用 `invokeModule` 按模块名调用。完整示例与错误处理见 [编程式调用](/guide/programmatic-api)。
+也可以通过 `hana-music-api/api/*` 与 `createClient` 按需只引入需要的接口，减小打包体积并加快 Serverless 冷启动：
+
+```ts
+import { search } from 'hana-music-api/api/search';
+import { createClient } from 'hana-music-api/core';
+
+const hana = createClient({ search }, { timeoutMs: 5000 });
+const result = await hana.search({ keywords: '海阔天空', limit: 5 });
+```
+
+若需要 Node.js 代理（`proxy`）、二维码图片生成（`qrimg: true` / `verifyGetQr`）或云盘音频标签解析，分别按需安装可选依赖 `undici`、`qrcode` 或 `music-metadata`。完整示例、公开子路径与错误处理见[编程式调用](/guide/programmatic-api)和[SDK 使用边界](/guide/sdk-package-contract)。
 
 ## 启动 HTTP 服务
 

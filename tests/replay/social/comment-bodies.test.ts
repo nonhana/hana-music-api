@@ -6,7 +6,7 @@ import {
   CommentMvBody,
   CommentPlaylistBody,
   CommentVideoBody,
-} from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   expectUpstreamShapeRejection,

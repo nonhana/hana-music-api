@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -36,7 +39,7 @@ export const moduleActions = {
 // 通到主播榜的路径 `data.list` 和榜上主播自己的编号 `data.list[].id` 收紧；排名、分数、头像、认证、
 // 直播状态、`data.total` 和 `data.updateTime` 宽松。`msg` 在成功录制里只见过 null，未声明。
 // 三个主播榜（hours/newcomer/popular）的 envelope 字段相同，本批作为模块公开合同暂留，后续统一榜单结构时再抽 core。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -46,7 +49,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     }),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const djToplistHours: ModuleEffect<
   ModuleInput,

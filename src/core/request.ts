@@ -1,6 +1,9 @@
 import { types as valueTypes } from 'node:util';
 
-import { Clock, Effect, Ref, Result } from 'effect';
+import * as Clock from 'effect/Clock';
+import * as Effect from 'effect/Effect';
+import * as Ref from 'effect/Ref';
+import * as Result from 'effect/Result';
 
 import type {
   CookieRecord,
@@ -651,14 +654,10 @@ export const createRequest = async (
   options: CreateRequestOptions = {},
 ): Promise<NcmApiResponse> => {
   if (Object.hasOwn(options, 'checkToken')) {
-    return runPublicEffect(
-      Effect.fail(
-        InvalidRequest.make({
-          message:
-            'checkToken is a module option; raw requests use explicit data/headers',
-        }),
-      ),
-    );
+    return InvalidRequest.make({
+      message:
+        'checkToken is a module option; raw requests use explicit data/headers',
+    }).pipe(Effect.fail, runPublicEffect);
   }
   const response = await runRequestAtEdge(
     {

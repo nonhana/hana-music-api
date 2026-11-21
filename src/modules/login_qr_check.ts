@@ -1,10 +1,13 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -33,7 +36,7 @@ export const decodeModuleInput = (input: unknown) =>
 
 // 每个成员只认一个返回码，结构不符时只报命中那一支的问题；8821（扫码后要求行为验证）还没录到真实返回，作为业务拒绝原样转交。
 // 返回码收紧；扫码用户的昵称和头像宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   Schema.Union([
     UpstreamObject({
       code: Schema.Literal(800),
@@ -55,7 +58,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     }),
   ]),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const loginQrCheck: ModuleEffect<
   ModuleInput,

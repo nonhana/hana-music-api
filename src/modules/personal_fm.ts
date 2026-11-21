@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -24,18 +27,18 @@ const FmSong = UpstreamObject({
   ...ProgramMainSong.schema.fields,
   id: Schema.Finite,
   alg: Loose(Schema.String),
-  alias: Loose(Schema.Array(Schema.String)),
+  alias: Schema.String.pipe(Schema.Array, Loose),
   fmRecReason: Loose(Schema.String),
   privilege: Loose(LooseSongPrivilege),
   reason: Loose(Schema.String),
   reasonId: Loose(Schema.String),
   transName: Loose(Schema.String),
-  transNames: Loose(Schema.Array(Schema.String)),
+  transNames: Schema.String.pipe(Schema.Array, Loose),
 });
 
 // 通到私人 FM 歌曲列表的 `data` 和每首歌自己的编号 `data[].id` 收紧；`extTransMap` 是附带
 // 推荐理由，`tag` 只见过 null，未声明并原样保留；响应与 `personal_fm_mode` 同构。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Schema.Array(FmSong),
@@ -43,7 +46,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     popAdjust: Loose(Schema.Boolean),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

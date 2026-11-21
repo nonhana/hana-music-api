@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -47,27 +50,27 @@ const SearchedPlaylist = UpstreamObject({
 });
 
 // 按 type 只给一类结果（songs/albums/artists/playlists，各带总数；没有结果时列表缺失或是 null），这些列表可以没有，出现了就按记录编号收紧校验，其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     result: UpstreamObject({
-      songs: Optional(Schema.Array(Song)),
+      songs: Song.pipe(Schema.Array, Optional),
       songCount: Loose(Schema.Finite),
-      albums: Optional(Schema.Array(AlbumSummary)),
+      albums: AlbumSummary.pipe(Schema.Array, Optional),
       albumCount: Loose(Schema.Finite),
-      artists: Optional(Schema.Array(SearchedArtist)),
+      artists: SearchedArtist.pipe(Schema.Array, Optional),
       artistCount: Loose(Schema.Finite),
-      playlists: Optional(Schema.Array(SearchedPlaylist)),
+      playlists: SearchedPlaylist.pipe(Schema.Array, Optional),
       playlistCount: Loose(Schema.Finite),
     }),
     trp: Loose(
       UpstreamObject({
-        rules: Loose(Schema.Array(Schema.String)),
+        rules: Schema.String.pipe(Schema.Array, Loose),
       }),
     ),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

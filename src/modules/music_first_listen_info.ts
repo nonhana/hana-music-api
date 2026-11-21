@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -68,7 +71,7 @@ const LikeSongInfo = UpstreamObject({
 // 通到回忆坐标的 `data`、歌曲编号 `data.songInfoDto.songId` 和首次收听时间 `data.musicFirstListenDto.date` 收紧；
 // 匿名调用 `data` 是空对象，各信息块按可以没有处理；缺少 `id` 时上游 HTTP 400 空正文被归一成 `status: 200`，
 // 空字符串作为独立分支保留。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   Schema.Union([
     UpstreamObject({
       code: Schema.Literal(200),
@@ -83,7 +86,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     Schema.Literal(''),
   ]).annotate({ expected: 'object with code 200 or an empty string' }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const musicFirstListenInfo: ModuleEffect<
   ModuleInput,

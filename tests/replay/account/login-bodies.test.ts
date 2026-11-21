@@ -1,6 +1,7 @@
 import { expect, test } from 'bun:test';
 
-import { createHanaMusicApi, LoginCellphoneRiskBody } from '../../../index.ts';
+import { createHanaMusicApi } from '../../../index.ts';
+import { LoginCellphoneRiskBody } from '../../../src/sdk/schemas.ts';
 import type { Recording, UpstreamShape } from '../../_kit/assertions.ts';
 import {
   businessFailure,

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -7,8 +8,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -38,30 +41,30 @@ const styleTagFields = {
   colorShallow: Loose(Schema.String),
   link: Loose(Schema.String),
   showText: Loose(Schema.String),
-  tabs: Loose(Schema.Array(Schema.String)),
+  tabs: Schema.String.pipe(Schema.Array, Loose),
 };
 
 const StyleTagChild = UpstreamObject(styleTagFields);
 const StyleTagMiddle = UpstreamObject({
   ...styleTagFields,
-  childrenTags: Loose(Schema.Array(StyleTagChild)),
+  childrenTags: StyleTagChild.pipe(Schema.Array, Loose),
 });
 const StyleTag = UpstreamObject({
   ...styleTagFields,
-  childrenTags: Loose(Schema.Array(StyleTagMiddle)),
+  childrenTags: StyleTagMiddle.pipe(Schema.Array, Loose),
 });
 
 // 返回码、曲风偏好列表 data.tagPreferenceVos 及其 tagId 收紧；偏好列表就是接口要返回的东西，data.tags 曲风树和比例等展示信息宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
       tagPreferenceVos: Schema.Array(TagPreference),
-      tags: Loose(Schema.Array(StyleTag)),
+      tags: StyleTag.pipe(Schema.Array, Loose),
     }),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

@@ -236,6 +236,11 @@ export const testEntries: ReadonlyArray<TestEntry> = [
     selections: ['local', 'mutation:failure-contract'],
   },
   {
+    file: 'tests/unit/runtime/optional-dependencies.test.ts',
+    category: 'unit',
+    selections: ['local'],
+  },
+  {
     file: 'tests/behavior/http/failure-boundary.test.ts',
     category: 'behavior',
     selections: ['local', 'mutation:failure-contract'],
@@ -412,6 +417,11 @@ export const testEntries: ReadonlyArray<TestEntry> = [
   },
   {
     file: 'tests/behavior/sdk/module-api.test.ts',
+    category: 'behavior',
+    selections: ['local', 'sdk'],
+  },
+  {
+    file: 'tests/behavior/sdk/scoped-client.test.ts',
     category: 'behavior',
     selections: ['local', 'sdk'],
   },

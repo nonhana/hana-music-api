@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -8,8 +9,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -51,11 +54,11 @@ const Track = UpstreamObject({
   name: Loose(Schema.String),
   offset: Loose(Schema.Finite),
   source: Loose(Schema.Finite),
-  wave: Loose(Schema.Array(Schema.Finite)),
+  wave: Schema.Finite.pipe(Schema.Array, Loose),
 });
 
 // 通到频道播放列表的路径 `data.list` 和每个曲目自己的编号 `data.list[].id` 收紧；封面、音频地址、波形和总数宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: UpstreamObject({
@@ -65,7 +68,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const djDifmPlayingTracksList: ModuleEffect<
   ModuleInput,

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,7 +7,12 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import type { BodyType } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  defineModuleBody,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
 export type ModuleInput = { page?: number };
@@ -30,12 +36,12 @@ export const moduleActions = {
 
 // 只收紧返回码。`data` 在匿名、登录和 page 0/1/99 的探测里都是空数组，元素类型没有证据，
 // 未声明并原样保留；`msg` 只见过 null，同样没有声明。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const djTodayPerfered: ModuleEffect<
   ModuleInput,

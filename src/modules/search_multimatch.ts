@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -55,7 +58,7 @@ const MlogArtist = UpstreamObject({
 
 const MlogExt = UpstreamObject({
   artistName: Loose(Schema.String),
-  artists: Loose(Schema.Array(MlogArtist)),
+  artists: MlogArtist.pipe(Schema.Array, Loose),
   canCollect: Loose(Schema.Boolean),
   commentCount: Loose(Schema.Finite),
   likedCount: Loose(Schema.Finite),
@@ -102,18 +105,18 @@ const SuggestedMlog = UpstreamObject({
 });
 
 // 通到多类型搜索建议的路径 `result`；`orders` 是宽松的类别顺序，每个类别里记录的 `id`/`resourceId` 收紧。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     result: UpstreamObject({
-      artist: Optional(Schema.Array(SuggestedArtist)),
-      new_mlog: Optional(Schema.Array(SuggestedMlog)),
-      playlist: Optional(Schema.Array(SuggestedPlaylist)),
-      orders: Loose(Schema.Array(Schema.String)),
+      artist: SuggestedArtist.pipe(Schema.Array, Optional),
+      new_mlog: SuggestedMlog.pipe(Schema.Array, Optional),
+      playlist: SuggestedPlaylist.pipe(Schema.Array, Optional),
+      orders: Schema.String.pipe(Schema.Array, Loose),
     }),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

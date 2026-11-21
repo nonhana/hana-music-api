@@ -1,5 +1,7 @@
-import { Clock, Effect, Result } from 'effect';
-import { ProxyAgent, fetch as undiciFetch } from 'undici';
+import * as Clock from 'effect/Clock';
+import * as Effect from 'effect/Effect';
+import * as Result from 'effect/Result';
+import type * as Undici from 'undici';
 
 import type { FetchLike } from '../types/index.ts';
 import type { UpstreamResponse } from '../types/upstream.ts';
@@ -11,6 +13,10 @@ import {
   TransportFailed,
   UpstreamRateLimited,
 } from './errors.ts';
+import {
+  isMissingOptionalDependencyError,
+  loadOptionalDependency,
+} from './optional-dependency.ts';
 import type { ConsumedResponse } from './response.ts';
 import {
   classifyConsumedRateLimit,
@@ -61,12 +67,29 @@ export const transportEffect = <
       );
       const proxyUrl =
         options.proxy && typeof Bun === 'undefined' ? options.proxy : undefined;
-      const agent = proxyUrl
-        ? yield* Effect.acquireRelease(
-            Effect.sync(() => new ProxyAgent(proxyUrl)),
-            (resource) => Effect.promise(() => resource.destroy()),
-          )
+      const undici = proxyUrl
+        ? yield* Effect.tryPromise({
+            try: () => loadOptionalDependency<typeof Undici>('undici'),
+            catch: (error) =>
+              isMissingOptionalDependencyError(error, 'undici')
+                ? InvalidRequest.make({
+                    message:
+                      "Node.js proxy support requires installing optional peer dependency 'undici'",
+                  })
+                : TransportFailed.make({
+                    message:
+                      error instanceof Error ? error.message : String(error),
+                    cause: error,
+                  }),
+          })
         : undefined;
+      const agent =
+        proxyUrl && undici
+          ? yield* Effect.acquireRelease(
+              Effect.sync(() => new undici.ProxyAgent(proxyUrl)),
+              (resource) => Effect.promise(() => resource.destroy()),
+            )
+          : undefined;
       const response = yield* Effect.tryPromise({
         try: (signal) => {
           const init: RequestInit = {
@@ -80,7 +103,7 @@ export const transportEffect = <
             ]),
             redirect: 'manual',
           };
-          if (agent) {
+          if (agent && undici) {
             // undici 与 DOM 的 RequestInit/Response 类型互不兼容（HeadersInit tuple、
             // Response 类不同），但运行时字段同型、消费端只读 status/headers/text。
             // 类型鸿沟边界，断言为唯一手段。
@@ -88,8 +111,11 @@ export const transportEffect = <
             const undiciInit = {
               ...init,
               dispatcher: agent,
-            } as Parameters<typeof undiciFetch>[1];
-            return undiciFetch(url, undiciInit) as unknown as Promise<Response>;
+            } as Parameters<typeof undici.fetch>[1];
+            return undici.fetch(
+              url,
+              undiciInit,
+            ) as unknown as Promise<Response>;
           }
           return (options.fetcher ?? fetch)(
             url,

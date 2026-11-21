@@ -1,10 +1,13 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -47,24 +50,24 @@ const VideoDetail = UpstreamObject({
   playTime: Loose(Schema.Finite),
   praisedCount: Loose(Schema.Finite),
   publishTime: Loose(Schema.Finite),
-  resolutions: Loose(Schema.Array(VideoResolutionEntry)),
+  resolutions: VideoResolutionEntry.pipe(Schema.Array, Loose),
   shareCount: Loose(Schema.Finite),
   subscribeCount: Loose(Schema.Finite),
   threadId: Loose(Schema.String),
   title: Loose(Schema.String),
-  videoGroup: Loose(Schema.Array(VideoGroupRef)),
+  videoGroup: VideoGroupRef.pipe(Schema.Array, Loose),
   width: Loose(Schema.Finite),
 });
 
 // 通到视频详情的路径 `data` 和视频自己的编号 `data.vid` 收紧；`markTypes`（只见过空数组）和 `videoUserLiveInfo`（只见过 null）未声明。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     message: Loose(Schema.String),
     data: VideoDetail,
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const videoDetail: ModuleEffect<
   ModuleInput,

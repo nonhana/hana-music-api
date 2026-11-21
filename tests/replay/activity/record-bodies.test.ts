@@ -1,7 +1,7 @@
 import { expect, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
 import {
-  createHanaMusicApi,
   HistoryRecommendSongsBody,
   HistoryRecommendSongsDetailBody,
   MusicFirstListenInfoBody,
@@ -11,7 +11,7 @@ import {
   RecordRecentSongBody,
   RecordRecentVideoBody,
   RecordRecentVoiceBody,
-} from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type {
   RawRecording,
   UpstreamShape,

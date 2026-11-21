@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
@@ -8,8 +9,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   kindOf,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -38,14 +41,14 @@ const upstreamSchema = UpstreamObject({
 
 // 返回码和是否可播放 `success` 收紧：`success` 由上游 `data[0].code` 是否 200 得出，是接口要拿的那一项；
 // 返回体由 SDK 拼出，`message` 是固定文案。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   Schema.Struct({
     code: Schema.Literal(200),
     success: Schema.Boolean,
     message: Schema.String,
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

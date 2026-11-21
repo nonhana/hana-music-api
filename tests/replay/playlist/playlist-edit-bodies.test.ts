@@ -1,9 +1,10 @@
 import { expect, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
+import type { HanaMusicApiClient } from '../../../src/sdk/generated/client.generated.ts';
 import {
   AlbumSubBody,
   ArtistSubBody,
-  createHanaMusicApi,
   ImageUploadTokenBody,
   LikeBody,
   PlaylistCatlistBody,
@@ -18,8 +19,7 @@ import {
   PlaylistTagsUpdateBody,
   PlaylistTracksBody,
   SongOrderUpdateBody,
-} from '../../../index.ts';
-import type { HanaMusicApiClient } from '../../../src/sdk/generated/client.generated.ts';
+} from '../../../src/sdk/schemas.ts';
 import type {
   Recording,
   UpstreamShape,

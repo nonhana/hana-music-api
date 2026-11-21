@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -8,8 +9,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -50,7 +53,7 @@ const Subscriber = UpstreamObject({
 // 通到订阅者列表的路径 `subscribers` 和每个订阅者自己的编号 `subscribers[].userId` 收紧；昵称、头像、认证、
 // 关注状态、`subscribeTime`、`time` 和 `hasMore` 宽松。记录展开 `PlaylistUser`，其中 `expertTags`、`experts`
 // 在本批录制里只见过 null，随共享结构保留。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     subscribers: Schema.Array(Subscriber),
@@ -58,7 +61,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     hasMore: Loose(Schema.Boolean),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const djSubscriber: ModuleEffect<
   ModuleInput,

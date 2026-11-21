@@ -3,8 +3,16 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { gunzipSync } from 'node:zlib';
 
-import { PlaylistDetailBody, UserPlaylistBody } from '../../../index.ts';
-import type { PlaylistSummary, PlaylistUser } from '../../../index.ts';
+import type {
+  PlaylistDetailBody as PlaylistDetailBodyType,
+  PlaylistSummary,
+  PlaylistUser,
+  UserPlaylistBody as UserPlaylistBodyType,
+} from '../../../index.ts';
+import {
+  PlaylistDetailBody,
+  UserPlaylistBody,
+} from '../../../src/sdk/schemas.ts';
 import type { Recording } from '../../_kit/assertions.ts';
 import {
   businessFailure,
@@ -433,19 +441,21 @@ test.each(recordings)(
 
 test('exports the common playlist and user types from the package root', () => {
   expectTypeOf<
-    UserPlaylistBody['playlist'][number]
+    UserPlaylistBodyType['playlist'][number]
   >().toEqualTypeOf<PlaylistSummary>();
-  expectTypeOf<PlaylistDetailBody['playlist']>().toExtend<PlaylistSummary>();
+  expectTypeOf<
+    PlaylistDetailBodyType['playlist']
+  >().toExtend<PlaylistSummary>();
   expectTypeOf<PlaylistSummary['creator']>().toEqualTypeOf<
     PlaylistUser | null | undefined
   >();
   expectTypeOf<
     NonNullable<PlaylistSummary['subscribers']>[number]
   >().toEqualTypeOf<PlaylistUser>();
-  expectTypeOf<PlaylistDetailBody['playlist']['creator']>().toEqualTypeOf<
+  expectTypeOf<PlaylistDetailBodyType['playlist']['creator']>().toEqualTypeOf<
     PlaylistUser | null | undefined
   >();
   expectTypeOf<
-    NonNullable<PlaylistDetailBody['playlist']['subscribers']>[number]
+    NonNullable<PlaylistDetailBodyType['playlist']['subscribers']>[number]
   >().toEqualTypeOf<PlaylistUser>();
 });

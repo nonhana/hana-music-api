@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -62,7 +65,7 @@ const EventRecord = UpstreamObject({
   musicianSay: Loose(Schema.Boolean),
   needAiDefaultPic: Loose(Schema.Boolean),
   owner: Loose(Schema.Boolean),
-  pics: Loose(Schema.Array(EventPic)),
+  pics: EventPic.pipe(Schema.Array, Loose),
   privacySetting: Loose(Schema.Finite),
   relationTopic: Loose(Schema.Boolean),
   repostSource: Loose(Schema.String),
@@ -80,13 +83,13 @@ const EventRecord = UpstreamObject({
 });
 
 // 获取话题热门动态：通到列表的路径 `events` 和每条动态自己的编号 `events[].id` 收紧；没有热门动态时 `events` 为空数组。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     events: Schema.Array(EventRecord),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const topicDetailEventHot: ModuleEffect<
   ModuleInput,

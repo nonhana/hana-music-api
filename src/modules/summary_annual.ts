@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -81,8 +84,8 @@ const AnnualData = UpstreamObject({
   aan: Loose(Schema.String),
   annualPlaylist: Loose(
     UpstreamObject({
-      items: Loose(Schema.Array(AnnualPlaylistItem)),
-      pureItems: Loose(Schema.Array(AnnualPlaylistItem)),
+      items: AnnualPlaylistItem.pipe(Schema.Array, Loose),
+      pureItems: AnnualPlaylistItem.pipe(Schema.Array, Loose),
     }),
   ),
   annualPlaylistAlbum: Loose(
@@ -116,31 +119,23 @@ const AnnualData = UpstreamObject({
       singerPicUrl: Loose(Schema.String),
       singerPicid: Loose(Schema.String),
       singerPlayDays: Loose(Schema.Finite),
-      top5Songs: Loose(
-        Schema.Array(
-          UpstreamObject({
-            index: Loose(Schema.Finite),
-            name: Loose(Schema.String),
-            playCount: Loose(Schema.Finite),
-            songId: Loose(Schema.Finite),
-          }),
-        ),
-      ),
+      top5Songs: UpstreamObject({
+        index: Loose(Schema.Finite),
+        name: Loose(Schema.String),
+        playCount: Loose(Schema.Finite),
+        songId: Loose(Schema.Finite),
+      }).pipe(Schema.Array, Loose),
     }),
   ),
   annualSingerComparePage: Loose(
     UpstreamObject({
-      singers: Loose(
-        Schema.Array(
-          UpstreamObject({
-            singerId: Loose(Schema.String),
-            singerName: Loose(Schema.String),
-            singerPicUrl: Loose(Schema.String),
-            singerPicid: Loose(Schema.String),
-            year: Loose(Schema.Union([Schema.Finite, Schema.String])),
-          }),
-        ),
-      ),
+      singers: UpstreamObject({
+        singerId: Loose(Schema.String),
+        singerName: Loose(Schema.String),
+        singerPicUrl: Loose(Schema.String),
+        singerPicid: Loose(Schema.String),
+        year: Loose(Schema.Union([Schema.Finite, Schema.String])),
+      }).pipe(Schema.Array, Loose),
     }),
   ),
   annualSong: Loose(
@@ -162,16 +157,12 @@ const AnnualData = UpstreamObject({
   ),
   arid: Loose(Schema.Finite),
   arpc: Loose(Schema.Finite),
-  arstp: Loose(
-    Schema.Array(
-      UpstreamObject({
-        an: Loose(Schema.String),
-        pc: Loose(Schema.Finite),
-        sid: Loose(Schema.Finite),
-        sn: Loose(Schema.String),
-      }),
-    ),
-  ),
+  arstp: UpstreamObject({
+    an: Loose(Schema.String),
+    pc: Loose(Schema.Finite),
+    sid: Loose(Schema.Finite),
+    sn: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   arul: Loose(Schema.String),
   aul: Loose(Schema.String),
   bydu: Loose(Schema.Finite),
@@ -228,7 +219,7 @@ const AnnualData = UpstreamObject({
       dopamine: Loose(Schema.Finite),
       group: Loose(Schema.String),
       playDuration: Loose(Schema.Finite),
-      rainbowText: Loose(Schema.Array(Schema.String)),
+      rainbowText: Schema.String.pipe(Schema.Array, Loose),
       type: Loose(Schema.String),
     }),
   ),
@@ -240,15 +231,11 @@ const AnnualData = UpstreamObject({
       commentCount: Loose(Schema.Finite),
       dailyRcmdViewDays: Loose(Schema.Finite),
       djPlayHours: Loose(Schema.Finite),
-      genrePercents: Loose(
-        Schema.Array(
-          UpstreamObject({
-            genrePlayCnt: Loose(Schema.Finite),
-            genreTagName: Loose(Schema.String),
-            rank: Loose(Schema.Finite),
-          }),
-        ),
-      ),
+      genrePercents: UpstreamObject({
+        genrePlayCnt: Loose(Schema.Finite),
+        genreTagName: Loose(Schema.String),
+        rank: Loose(Schema.Finite),
+      }).pipe(Schema.Array, Loose),
       genrePlayCount: Loose(Schema.Finite),
       headArtistName: Loose(Schema.String),
       headArtistPlayCnt: Loose(Schema.Finite),
@@ -278,36 +265,24 @@ const AnnualData = UpstreamObject({
   fsn: Loose(Schema.String),
   genrePlayRank: Loose(
     UpstreamObject({
-      genreRank: Loose(
-        Schema.Array(
-          UpstreamObject({
-            genreTagName: Loose(Schema.String),
-            oneGenreTagName: Loose(Schema.String),
-            percent: Loose(Schema.Finite),
-            rank: Loose(Schema.Finite),
-          }),
-        ),
-      ),
-      specialGenreRank: Loose(Schema.Array(Schema.String)),
+      genreRank: UpstreamObject({
+        genreTagName: Loose(Schema.String),
+        oneGenreTagName: Loose(Schema.String),
+        percent: Loose(Schema.Finite),
+        rank: Loose(Schema.Finite),
+      }).pipe(Schema.Array, Loose),
+      specialGenreRank: Schema.String.pipe(Schema.Array, Loose),
     }),
   ),
-  genrePlayRanks: Loose(
-    Schema.Array(
-      UpstreamObject({
-        genreCnt: Loose(Schema.String),
-        genreRank: Loose(
-          Schema.Array(
-            UpstreamObject({
-              genrePlayCnt: Loose(Schema.String),
-              genreTagName: Loose(Schema.String),
-              rank: Loose(Schema.String),
-            }),
-          ),
-        ),
-        genreType: Loose(Schema.String),
-      }),
-    ),
-  ),
+  genrePlayRanks: UpstreamObject({
+    genreCnt: Loose(Schema.String),
+    genreRank: UpstreamObject({
+      genrePlayCnt: Loose(Schema.String),
+      genreTagName: Loose(Schema.String),
+      rank: Loose(Schema.String),
+    }).pipe(Schema.Array, Loose),
+    genreType: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   ha: Loose(Schema.Boolean),
   hcc: Loose(Schema.Finite),
   jcz: Loose(Schema.Finite),
@@ -315,18 +290,14 @@ const AnnualData = UpstreamObject({
     UpstreamObject({
       keyword: Loose(Schema.String),
       lyricCnt: Loose(Schema.Finite),
-      lyricList: Loose(
-        Schema.Array(
-          UpstreamObject({
-            artistId: Loose(Schema.String),
-            artistName: Loose(Schema.String),
-            lyric: Loose(Schema.String),
-            playCnt: Loose(Schema.Finite),
-            songId: Loose(Schema.Finite),
-            songName: Loose(Schema.String),
-          }),
-        ),
-      ),
+      lyricList: UpstreamObject({
+        artistId: Loose(Schema.String),
+        artistName: Loose(Schema.String),
+        lyric: Loose(Schema.String),
+        playCnt: Loose(Schema.Finite),
+        songId: Loose(Schema.Finite),
+        songName: Loose(Schema.String),
+      }).pipe(Schema.Array, Loose),
     }),
   ),
   kw: Loose(Schema.String),
@@ -361,45 +332,33 @@ const AnnualData = UpstreamObject({
   ),
   listenTimePeriod: Loose(
     UpstreamObject({
-      distributions: Loose(
-        Schema.Array(
-          UpstreamObject({
-            hour: Loose(Schema.Finite),
-            month: Loose(Schema.Finite),
-            peak: Loose(Schema.Finite),
-          }),
-        ),
-      ),
+      distributions: UpstreamObject({
+        hour: Loose(Schema.Finite),
+        month: Loose(Schema.Finite),
+        peak: Loose(Schema.Finite),
+      }).pipe(Schema.Array, Loose),
       maxTimePeriod: Loose(Schema.String),
       totalMaxPlayCount: Loose(Schema.Finite),
     }),
   ),
   listenYears: Loose(
     UpstreamObject({
-      pies: Loose(
-        Schema.Array(
-          UpstreamObject({
-            count: Loose(Schema.Finite),
-            name: Loose(Schema.String),
-          }),
-        ),
-      ),
-      songs: Loose(
-        Schema.Array(
-          UpstreamObject({
-            artistName: Loose(Schema.String),
-            playCount: Loose(Schema.Finite),
-            publishYear: Loose(Schema.String),
-            songId: Loose(Schema.Finite),
-            songName: Loose(Schema.String),
-            songPicId: Loose(Schema.Finite),
-            songPicUrl: Loose(Schema.String),
-          }),
-        ),
-      ),
+      pies: UpstreamObject({
+        count: Loose(Schema.Finite),
+        name: Loose(Schema.String),
+      }).pipe(Schema.Array, Loose),
+      songs: UpstreamObject({
+        artistName: Loose(Schema.String),
+        playCount: Loose(Schema.Finite),
+        publishYear: Loose(Schema.String),
+        songId: Loose(Schema.Finite),
+        songName: Loose(Schema.String),
+        songPicId: Loose(Schema.Finite),
+        songPicUrl: Loose(Schema.String),
+      }).pipe(Schema.Array, Loose),
     }),
   ),
-  listenYearsAlbumCovers: Loose(Schema.Array(Schema.String)),
+  listenYearsAlbumCovers: Schema.String.pipe(Schema.Array, Loose),
   loopSongDTO: Loose(
     UpstreamObject({
       playCount: Loose(Schema.Finite),
@@ -412,17 +371,13 @@ const AnnualData = UpstreamObject({
     }),
   ),
   lsc: Loose(Schema.Finite),
-  lyr: Loose(
-    Schema.Array(
-      UpstreamObject({
-        an: Loose(Schema.String),
-        lyc: Loose(Schema.String),
-        sid: Loose(Schema.Finite),
-        sn: Loose(Schema.String),
-        w: Loose(Schema.String),
-      }),
-    ),
-  ),
+  lyr: UpstreamObject({
+    an: Loose(Schema.String),
+    lyc: Loose(Schema.String),
+    sid: Loose(Schema.Finite),
+    sn: Loose(Schema.String),
+    w: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   man: Loose(Schema.String),
   mdan: Loose(Schema.String),
   mdc: Loose(Schema.Finite),
@@ -519,16 +474,12 @@ const AnnualData = UpstreamObject({
       winter: Loose(SeasonSong),
     }),
   ),
-  sil: Loose(
-    Schema.Array(
-      UpstreamObject({
-        an: Loose(Schema.String),
-        ap: Loose(Schema.String),
-        sid: Loose(Schema.Finite),
-        sn: Loose(Schema.String),
-      }),
-    ),
-  ),
+  sil: UpstreamObject({
+    an: Loose(Schema.String),
+    ap: Loose(Schema.String),
+    sid: Loose(Schema.Finite),
+    sn: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   slc: Loose(Schema.Finite),
   spc: Loose(Schema.Finite),
   specialDay: Loose(
@@ -567,24 +518,16 @@ const AnnualData = UpstreamObject({
   st: Loose(Schema.String),
   stc: Loose(Schema.Finite),
   sth: Loose(Schema.Finite),
-  stl: Loose(
-    Schema.Array(
-      UpstreamObject({
-        tn: Loose(Schema.String),
-        tv: Loose(Schema.Finite),
-      }),
-    ),
-  ),
-  stp: Loose(
-    Schema.Array(
-      UpstreamObject({
-        an: Loose(Schema.String),
-        pc: Loose(Schema.Finite),
-        sid: Loose(Schema.Finite),
-        sn: Loose(Schema.String),
-      }),
-    ),
-  ),
+  stl: UpstreamObject({
+    tn: Loose(Schema.String),
+    tv: Loose(Schema.Finite),
+  }).pipe(Schema.Array, Loose),
+  stp: UpstreamObject({
+    an: Loose(Schema.String),
+    pc: Loose(Schema.Finite),
+    sid: Loose(Schema.Finite),
+    sn: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   summaryPage: Loose(
     UpstreamObject({
       colorCode: Loose(Schema.String),
@@ -636,14 +579,10 @@ const AnnualData = UpstreamObject({
   vsc: Loose(Schema.Finite),
   vsid: Loose(Schema.Finite),
   vt: Loose(Schema.Finite),
-  yal: Loose(
-    Schema.Array(
-      UpstreamObject({
-        pc: Loose(Schema.Finite),
-        sn: Loose(Schema.String),
-      }),
-    ),
-  ),
+  yal: UpstreamObject({
+    pc: Loose(Schema.Finite),
+    sn: Loose(Schema.String),
+  }).pipe(Schema.Array, Loose),
   yan: Loose(Schema.String),
   yap: Loose(Schema.String),
   ycc: Loose(Schema.Finite),
@@ -659,29 +598,25 @@ const AnnualData = UpstreamObject({
   ysc: Loose(Schema.Finite),
   yuncunFootprintPage: Loose(
     UpstreamObject({
-      footprintItems: Loose(
-        Schema.Array(
-          UpstreamObject({
-            publishYear: Loose(Schema.String),
-            song: Loose(YearSong),
-            year: Loose(Schema.Finite),
-          }),
-        ),
-      ),
+      footprintItems: UpstreamObject({
+        publishYear: Loose(Schema.String),
+        song: Loose(YearSong),
+        year: Loose(Schema.Finite),
+      }).pipe(Schema.Array, Loose),
     }),
   ),
 });
 
 // 返回码和年度报告的路径 `data` 收紧；报告正文随年份变化（2020 年起是长键，2017–2019 走 `userdata` 短键），
 // 已声明字段全部宽松，未声明的字段原样保留。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: AnnualData,
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const summaryAnnual: ModuleEffect<
   ModuleInput,

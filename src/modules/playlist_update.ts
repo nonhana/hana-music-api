@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -19,7 +22,7 @@ const RouteResult = UpstreamObject({
 });
 
 // `/api/batch` 的返回码和三条子路由的返回码收紧；子路由的说明宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     '/api/playlist/desc/update': RouteResult,
@@ -27,7 +30,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     '/api/playlist/update/name': RouteResult,
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 // 标签成员去掉分号分隔符后不能为空，空数组表示清空标签。
 const Tag = Schema.declare<string>(
@@ -46,7 +49,7 @@ const inputSchema = Schema.Struct({
   id: NumberId,
   name: Schema.String,
   desc: Schema.optional(Schema.String),
-  tags: Schema.optional(Schema.Array(Tag)),
+  tags: Tag.pipe(Schema.Array, Schema.optional),
 });
 
 export const decodeModuleInput = (input: unknown) =>

@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   BooleanValue,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -20,7 +23,7 @@ const PlaylistImportLocalEntry = Schema.Struct({
 });
 
 // 返回码收紧；导入任务的 `data`、`taskId` 和说明文字宽松，`local`/`link` 分支没有录制，不收紧。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Loose(UpstreamObject({ taskId: Loose(Schema.Finite) })),
@@ -28,7 +31,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export type ModuleInput = {
   importStarPlaylist?: boolean;
@@ -40,8 +43,8 @@ export type ModuleInput = {
 
 const inputSchema = Schema.Struct({
   importStarPlaylist: Schema.optional(BooleanValue),
-  link: Schema.optional(Schema.Array(Schema.String)),
-  local: Schema.optional(Schema.Array(PlaylistImportLocalEntry)),
+  link: Schema.String.pipe(Schema.Array, Schema.optional),
+  local: PlaylistImportLocalEntry.pipe(Schema.Array, Schema.optional),
   playlistName: Schema.optional(Schema.String),
   text: Schema.optional(Schema.String),
 });

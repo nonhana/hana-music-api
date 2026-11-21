@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -54,7 +57,7 @@ const RoomInfo = UpstreamObject({
   roomCreateTime: Loose(Schema.Finite),
   roomId: Loose(Schema.String),
   roomType: Loose(Schema.String),
-  roomUsers: Loose(Schema.Array(RoomUser)),
+  roomUsers: RoomUser.pipe(Schema.Array, Loose),
   roomVipAbGroup: Loose(Schema.Record(Schema.String, Schema.String)),
   waitMs: Loose(Schema.Finite),
 });
@@ -62,7 +65,7 @@ const RoomInfo = UpstreamObject({
 // 接口就是为了确认接受邀请成功：正文顶层的返回码 `code` 收紧。没有第二账号的真实邀请，只录到
 // 接受自己房间时的 `ALREADY_IN_ROOM`（`data.roomInfo` 是当前房间），新加入成员的路径没有证据，
 // 所以 `data` 及房间信息整体宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Loose(
@@ -75,7 +78,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const listentogetherAccept: ModuleEffect<
   ModuleInput,

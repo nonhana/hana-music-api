@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Optional,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -36,13 +39,13 @@ const Lyric = UpstreamObject({
 
 // 返回码和通到歌词的 `data` 收紧；没有歌词的声音 `data` 是 `null`，按可以没有处理，出现时 `data.lyricUrl` 仍收紧。
 // `source` 和 `message` 在录制里只见过 `null`，不声明，原样保留。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Optional(Lyric),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const voiceLyric: ModuleEffect<
   ModuleInput,

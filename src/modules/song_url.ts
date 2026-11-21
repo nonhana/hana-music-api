@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
@@ -7,8 +8,10 @@ import {
   NumberIdList,
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   kindOf,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -38,13 +41,13 @@ const SongUrlEntry = UpstreamObject({
 // 通到播放地址的路径 `data`、每一项的 `id` / `url` / `code` 收紧；其余字段宽松。
 // 这是 SDK 最终体：上游顶层 code 被忽略，模块合成 `code: 200`；上游 `data` 数组按请求 id
 // 顺序重排，其他顶层字段丢弃。单项失败看 `data[].code`。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Schema.Array(SongUrlEntry),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

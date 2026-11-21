@@ -1,1 +1,25 @@
-export { songDownloadUrlV1 } from '../generated/client.generated.ts';
+import type {
+  ModuleBody,
+  ModuleInput,
+} from '../../modules/song_download_url_v1.ts';
+import moduleEffect, {
+  decodeModuleInput,
+  moduleActions,
+} from '../../modules/song_download_url_v1.ts';
+import type { ModuleResponse } from '../../types/runtime.ts';
+import type { SdkModuleInvokerFor } from '../../types/sdk.ts';
+import { createStandaloneModuleInvoker } from '../invoker.ts';
+
+export const songDownloadUrlV1: SdkModuleInvokerFor<
+  ModuleInput,
+  ModuleResponse<ModuleBody>
+> = /* @__PURE__ */ createStandaloneModuleInvoker<ModuleInput, ModuleBody>({
+  identifier: 'song_download_url_v1',
+  route: '/song/download/url/v1',
+  execute: moduleEffect,
+  decodeInput: decodeModuleInput,
+  actions: moduleActions,
+});
+
+export { ModuleBody as SongDownloadUrlV1Body } from '../../modules/song_download_url_v1.ts';
+export type { ModuleInput as SongDownloadUrlV1Input } from '../../modules/song_download_url_v1.ts';

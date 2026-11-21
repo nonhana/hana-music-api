@@ -1,9 +1,15 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import { decodeModuleInput as decodeInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
-import { decodeUpstreamBody, UpstreamObject } from '../core/upstream-body.ts';
+import type { BodyType } from '../core/upstream-body.ts';
+import {
+  decodeUpstreamBody,
+  defineModuleBody,
+  UpstreamObject,
+} from '../core/upstream-body.ts';
 import type { ModuleEffect } from '../types/index.ts';
 
 const Nickname = Schema.String.check(Schema.isPattern(/^[^;]+$/u));
@@ -31,13 +37,13 @@ export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input);
 
 // 返回码和昵称到 user id 的映射 `nicknames` 收紧；没有匹配的昵称时映射是空对象。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     nicknames: Schema.Record(Schema.String, Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const getUserids: ModuleEffect<
   ModuleInput,

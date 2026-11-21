@@ -1,7 +1,7 @@
 import { expect, expectTypeOf, test } from 'bun:test';
 
+import { createHanaMusicApi } from '../../../index.ts';
 import {
-  createHanaMusicApi,
   DjDifmAllStyleChannelBody,
   DjDifmPlayingTracksListBody,
   DjDifmSubscribeChannelsGetBody,
@@ -13,7 +13,7 @@ import {
   DjTodayPerferedBody,
   PersonalizedDjprogramBody,
   ProgramRecommendBody,
-} from '../../../index.ts';
+} from '../../../src/sdk/schemas.ts';
 import type { Recording, Validator } from '../../_kit/assertions.ts';
 import {
   businessFailure,

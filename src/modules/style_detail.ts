@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -51,7 +54,7 @@ const StyleDetail = UpstreamObject({
   artistNum: Loose(Schema.String),
   colorDeep: Loose(Schema.String),
   colorShallow: Loose(Schema.String),
-  cover: Loose(Schema.Array(Schema.String)),
+  cover: Schema.String.pipe(Schema.Array, Loose),
   desc: Loose(Schema.String),
   enName: Loose(Schema.String),
   favouriteSong: Loose(FavouriteSong),
@@ -60,18 +63,18 @@ const StyleDetail = UpstreamObject({
   parentNames: Loose(Schema.String),
   professionalReviews: Loose(ProfessionalReviews),
   songNum: Loose(Schema.String),
-  tabs: Loose(Schema.Array(Schema.String)),
+  tabs: Schema.String.pipe(Schema.Array, Loose),
   tagPortrait: Loose(TagPortrait),
 });
 
 // 通到曲风详情的路径 `data` 可以没有（未知曲风 id 时是 `null`），曲风自己的编号 `data.tagId` 收紧；其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Optional(StyleDetail),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

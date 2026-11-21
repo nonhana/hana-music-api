@@ -1,4 +1,6 @@
-import { Effect, Schema, SchemaGetter } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
+import * as SchemaGetter from 'effect/SchemaGetter';
 
 import type { QueryNumberLike } from '../types/module-shared.ts';
 import { InvalidModuleInput } from './errors.ts';

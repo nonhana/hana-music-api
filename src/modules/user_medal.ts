@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -85,7 +88,7 @@ const Medal = UpstreamObject({
   progressSort: Loose(Schema.Finite),
   rankText: Loose(Schema.String),
   resource: Loose(MedalResource),
-  sceneIds: Loose(Schema.Array(Schema.Finite)),
+  sceneIds: Schema.Finite.pipe(Schema.Array, Loose),
   shineEffect: Loose(Schema.Boolean),
   shouldNotice: Loose(Schema.Boolean),
   showAfterAcceptTimeIfNotObtain: Loose(Schema.Boolean),
@@ -131,7 +134,7 @@ const MedalBlock = UpstreamObject({
   categoryTitle: Loose(Schema.String),
   desc: Loose(Schema.String),
   medalVOS: Schema.Array(LooseMedal),
-  subGroups: Optional(Schema.Array(MedalSubGroup)),
+  subGroups: MedalSubGroup.pipe(Schema.Array, Optional),
 });
 
 const MedalPage = UpstreamObject({
@@ -148,19 +151,19 @@ const MedalPage = UpstreamObject({
 });
 
 // 返回码、徽章页的路径 `data`、`obtainMedals` 及每条徽章自己的 `medalCode`、分类块 `categoryMedalBlockVos` 及其 `medalVOS`/`subGroups[].medals` 数组收紧；`subGroups` 可以没有；其余字段宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: MedalPage,
     message: Loose(Schema.String),
     trp: Loose(
       UpstreamObject({
-        rules: Loose(Schema.Array(Schema.String)),
+        rules: Schema.String.pipe(Schema.Array, Loose),
       }),
     ),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const userMedal: ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions> = (
   query,

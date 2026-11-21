@@ -2,16 +2,13 @@ import { expect, test } from 'bun:test';
 
 import { Effect } from 'effect';
 
-import {
-  createHanaMusicApi,
-  SongDownloadUrlBody,
-  SongUrlBody,
-} from '../../../index.ts';
+import { createHanaMusicApi } from '../../../index.ts';
 import { Call } from '../../../src/core/call.ts';
 import type { CallShape } from '../../../src/core/call.ts';
 import { resolveIdentitySnapshot } from '../../../src/core/identity.ts';
 import { getRuntimeState } from '../../../src/core/runtime.ts';
 import songUrlModule from '../../../src/modules/song_url.ts';
+import { SongDownloadUrlBody, SongUrlBody } from '../../../src/sdk/schemas.ts';
 import type { RequestCapability } from '../../../src/types/index.ts';
 import type {
   Recording,

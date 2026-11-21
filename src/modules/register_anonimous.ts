@@ -1,6 +1,7 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
-import { Call } from '../core/call.ts';
+import { Call } from '../core/call-context.ts';
 import { UnexpectedUpstreamShape } from '../core/errors.ts';
 import {
   decodeModuleInput as decodeInput,
@@ -9,8 +10,10 @@ import {
 import type { NoInput } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -35,7 +38,7 @@ export const decodeModuleInput = (input: unknown) =>
   decodeInput(inputSchema, input).pipe(Effect.as({}));
 
 // 返回码、新建匿名账号自己的编号 `userId` 和匿名凭据 `cookie` 收紧，注册时间宽松；`cookie` 由响应的 Set-Cookie 拼出。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     userId: Schema.Finite,
@@ -43,7 +46,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     createTime: Loose(Schema.Finite),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 const registerAnonymous: ModuleEffect<
   ModuleInput,

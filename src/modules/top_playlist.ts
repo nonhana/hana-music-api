@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   UpstreamObject,
 } from '../core/upstream-body.ts';
@@ -45,7 +48,7 @@ const TopPlaylistSummary = UpstreamObject({
 // 上游原文的 `avatarImgId_str` 只在成功返回体里改写成 `avatarImgIdStr`，这里描述改写后的最终返回体。
 // `limit`/`offset` 等非数字参数时上游回 HTTP 400 空正文，网易云把它归一成 `status: 200`、`body: ''`，
 // 空字符串作为独立分支保留，避免把非对象正文误当成功对象。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   Schema.Union([
     UpstreamObject({
       code: Schema.Literal(200),
@@ -57,7 +60,7 @@ export const ModuleBody = Schema.toStandardSchemaV1(
     Schema.Literal(''),
   ]).annotate({ expected: 'object with code 200 or an empty string' }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {

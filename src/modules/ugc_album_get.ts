@@ -1,4 +1,5 @@
-import { Effect, Schema } from 'effect';
+import * as Effect from 'effect/Effect';
+import * as Schema from 'effect/Schema';
 
 import {
   decodeModuleInput as decodeInput,
@@ -6,8 +7,10 @@ import {
 } from '../core/module-input.ts';
 import type { ModuleActions } from '../core/request-actions.ts';
 import { toModuleResponse } from '../core/response.ts';
+import type { BodyType } from '../core/upstream-body.ts';
 import {
   decodeUpstreamBody,
+  defineModuleBody,
   Loose,
   Optional,
   UpstreamObject,
@@ -32,18 +35,18 @@ const SongTag = UpstreamObject({
 const AlbumSongRep = UpstreamObject({
   songId: Loose(Schema.Finite),
   songName: Loose(Schema.String),
-  artistRepVos: Loose(Schema.Array(UgcArtistRef)),
+  artistRepVos: UgcArtistRef.pipe(Schema.Array, Loose),
   songSubTitle: Loose(Schema.String),
   publishTime: Loose(Schema.Finite),
   language: Loose(Schema.String),
   no: Loose(Schema.Finite),
   disc: Loose(Schema.String),
-  songTags: Loose(Schema.Array(SongTag)),
+  songTags: SongTag.pipe(Schema.Array, Loose),
   transName: Loose(Schema.String),
 });
 
 // 返回码、专辑百科记录的路径 `data` 和专辑自己的编号 `data.albumId` 收紧；未知专辑的 `data` 整个缺失，写成可以没有；专辑里的歌手、歌曲和标签是随行信息，字段全部宽松。
-export const ModuleBody = Schema.toStandardSchemaV1(
+export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({
     code: Schema.Literal(200),
     data: Optional(
@@ -52,20 +55,20 @@ export const ModuleBody = Schema.toStandardSchemaV1(
         albumName: Loose(Schema.String),
         albumPicUrl: Loose(Schema.String),
         albumSubTitle: Loose(Schema.String),
-        artistRepVos: Loose(Schema.Array(UgcArtistRef)),
+        artistRepVos: UgcArtistRef.pipe(Schema.Array, Loose),
         company: Loose(Schema.String),
         language: Loose(Schema.String),
         production: Loose(Schema.String),
         publishTime: Loose(Schema.Finite),
-        songRepVos: Loose(Schema.Array(AlbumSongRep)),
-        songTags: Loose(Schema.Array(SongTag)),
+        songRepVos: AlbumSongRep.pipe(Schema.Array, Loose),
+        songTags: SongTag.pipe(Schema.Array, Loose),
         type: Loose(Schema.String),
       }),
     ),
     message: Loose(Schema.String),
   }),
 );
-export type ModuleBody = typeof ModuleBody.Type;
+export type ModuleBody = BodyType<typeof ModuleBody>;
 
 export const moduleActions = {
   read: {
