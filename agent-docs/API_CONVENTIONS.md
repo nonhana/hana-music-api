@@ -25,7 +25,7 @@
 
 ## 收窄返回体
 
-按 ADR（campanula-music `docs/adr/0005`），被下游依赖的模块在 SDK 里收窄返回体：导出 `ModuleBody` 结构定义（`Schema.toStandardSchemaV1` 包装）和同名类型，默认导出标注为 `ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions>`。生成器把它们以 `<模块名 PascalCase>Body` 从根入口公开；只导出类型的模块（如 `image_upload_token`）只公开类型。
+按 ADR（本仓 [ADR-0005](../docs/adr/0005-unbundled-subpaths-and-optional-peers.md) 与 campanula-music `docs/adr/0005`），被下游依赖的模块在 SDK 里收窄返回体：使用 `/* @__PURE__ */ defineModuleBody(...)` 导出纯 Standard Schema v1 的 `ModuleBody` 结构定义，并配合 `export type ModuleBody = BodyType<typeof ModuleBody>` 导出同名类型，默认导出标注为 `ModuleEffect<ModuleInput, ModuleBody, typeof moduleActions>`。禁止直接将原始 Effect `Schema` 或未包装的 `Schema.toStandardSchemaV1(...)` 作为公开 `ModuleBody` 导出（会向 `.d.ts` 泄漏 `StructWithRest` / `middlewareDecoding` / `MutableJson`）。生成器将 `<模块名 PascalCase>Body` 作为**纯类型**从根入口公开，并将运行时校验器公开到 `./schemas`、`./schemas/<id>` 与 `./api/<id>`。
 
 - 用 `src/core/upstream-body.ts` 的 `UpstreamObject` 声明对象，每个字段按下面的[收紧与宽松](#收紧与宽松)写，未声明的字段原样保留为 JSON。宽松字段用同文件的 `Loose(schema)`，可以整个没有的路径用 `Optional(schema)`，收紧字段照常写。区分返回码时每个联合成员只认一个 `code` 字面量。
 - 同一个模块按查询参数返回不同形状、正文里又没有区分字段时（如 `cloudsearch` 的 `type`、`search_suggest` 的 `type=mobile`），把各形状的字段都声明成可以缺失，放在同一个对象里，不用联合：没声明的形状（如 MV 搜索）原样通过，出现了的字段照样校验。

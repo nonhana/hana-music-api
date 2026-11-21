@@ -4,11 +4,24 @@
 
 ## 发布边界
 
-`package.json` 的 `exports` 开放根入口 `.` 和独立的 `./watchman`。根类型和运行时代码指向 `dist/index.d.ts` 与 `dist/index.js`；浏览器子路径指向 `dist/watchman.d.ts` 与 `dist/watchman.js`，公开 `initializeWatchman`、`WatchmanError` 与配套类型，不从根入口转导出。`files` 只发布 `dist/`。下游不得依赖 `src/`、`src/server/` 或生成文件的内部路径。
+`package.json` 的 `exports` 开放 7 组公开入口：根入口 `.`、单模块 `./api/*`、校验器合集 `./schemas`、单模块校验器 `./schemas/*`、核心运行时 `./core`、零 Effect 纯工具 `./utils` 与独立浏览器子路径 `./watchman`。产物通过 `tsdown` `unbundle: true` 输出到 `dist/`，`files` 只发布 `dist/`。下游不得依赖 `src/`、`src/server/`、`dist/` 或生成文件的内部路径。完整架构决策见 [ADR-0005](../docs/adr/0005-unbundled-subpaths-and-optional-peers.md)。
+
+- `.`：公开 `createHanaMusicApi`、`createClient`、352 个具名 camelCase 模块函数、`invokeModule`、`createRequest`、`createOption`、`generateDeviceId`、`isNcmApiResponse`、`getNcmFailureInfo` 及全部公开类型（含 315 个 `<模块名>Body` 与 `LoginCellphoneRiskBody` 的**纯类型**导出、`BodySchema`、`StandardSchemaV1`、`ModuleCallConfig`、`CreateRequestOptions`、`NcmApiFailure`、`NcmFailureInfo`）。自 v7.0.0 起，根入口不再值导出运行时 `*Body` 与 `LoginCellphoneRiskBody`。
+- `./api/*`：单模块独立入口，导出 `<camelCase>` 函数、`<PascalCase>Input` 类型以及该模块的 `<PascalCase>Body`（含运行时 `ModuleBody` 的模块同时值导出校验器，其余仅类型导出；`login_cellphone` 另值导出 `LoginCellphoneRiskBody`），不依赖全量 `sdkModuleRegistry`。
+- `./schemas` 与 `./schemas/*`：导出全部 315 个含运行时校验器的 `*Body`（及 `LoginCellphoneRiskBody`）纯 Standard Schema v1 校验器与配套类型，不拉入请求/传输链。
+- `./core`：导出 `createClient`、`createRequest`、`createOption`、`generateDeviceId`、`isNcmApiResponse`、`getNcmFailureInfo` 及核心类型，不导入任何业务模块。
+- `./utils`：仅导出零 `effect` 依赖的 `createOption`、`generateDeviceId`、`isNcmApiResponse`、`getNcmFailureInfo` 及纯类型。
+- `./watchman`：浏览器子路径指向 `dist/watchman.d.ts` 与 `dist/watchman.js`，公开 `initializeWatchman`、`WatchmanError` 与配套类型，不从根入口转导出。
 
 Watchman 实现使用独立的完整 DOM 类型环境，公开声明仍不要求 DOM 或 Node 类型。同一 tarball 的子路径声明须在 `lib=ES2022/types=[]` 和完整 DOM 两种严格消费者中通过；前者不得因导入声明而获得 window/document，后者不得获得 Bun/Node 全局。构建须只写入约定产物目录，不向源码或类型用例目录发射文件。
 
-根入口同时公开独立的 `ModuleCallConfig` 和 `CreateRequestOptions` 类型。根入口公开 `createHanaMusicApi`、生成的 camelCase 模块函数、`invokeModule`、`createRequest`、`createOption`、`generateDeviceId` 及其支持类型，以及收窄过返回体的模块的 `<模块名>Body` 结构定义和类型（由 `src/sdk/generated/bodies.generated.ts` 生成）。失败契约另公开 `NcmApiFailure`、`NcmFailureInfo`、`isNcmApiResponse` 和 `getNcmFailureInfo`；内部错误类、Effect 和 Layer 不导出。`startServer`、`createServer`、匿名配置生成和模块加载等服务内部能力不属于根 SDK 导出。
+所有 `*Body` 运行时校验器对外统一收敛为纯 Standard Schema v1 类型 `BodySchema<Output>`（无 Effect Schema 内部 AST 泄漏到 `.d.ts`），内部错误类、Effect 和 Layer 不导出。`startServer`、`createServer`、匿名配置生成和模块加载等服务内部能力不属于公开 SDK 导出。
+
+依赖边界：`package.json#dependencies` 仅保留 `effect`；`hono` 留在 `devDependencies`；`undici`、`music-metadata`、`qrcode` 声明为可选 `peerDependencies`（`optional: true`），在对应能力被触发时动态加载：
+
+- Node.js 传入 `proxy` 且未安装 `undici`：拒绝为 `status: 400`、`failure.kind === 'invalidRequest'`，提示安装 `undici`；
+- 未安装 `qrcode`：`loginQrCreate({ key })` 不开 `qrimg` 正常成功；`loginQrCreate({ key, qrimg: true })` 与 `verifyGetQr` 拒绝为 `failure.kind === 'unknown'`，提示安装 `qrcode`；
+- 未安装 `music-metadata`：`cloud` 优雅回退至文件名与默认标签并完成上传流程。
 
 ## 失败契约
 
@@ -22,8 +35,9 @@ Watchman 实现使用独立的完整 DOM 类型环境，公开声明仍不要求
 
 ## 调用形状
 
-- `createHanaMusicApi(config)` 创建可连续调用的 client。
-- 具名模块函数适合按需调用单个端点。
+- `createClient(modules, config)` 仅绑定传入的模块子集并共享缓存、身份池与默认配置，非法默认配置或非法模块输入同步抛 `TypeError`，推荐与 `hana-music-api/api/*` 搭配按需使用。
+- `createHanaMusicApi(config)` 创建包含全部 352 模块的默认配置 client。
+- 具名模块函数（来自 `.` 或 `./api/*`）适合按需调用单个端点。
 - `invokeModule(identifier, query, config)` 适合模块名来自运行时的场景。
 - `createRequest(target, data, options)` 是公开的底层请求原语。
 
