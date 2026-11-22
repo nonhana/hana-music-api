@@ -69,6 +69,7 @@ export const mutations = [
     expectedFailures: [
       'bound capability types constrain local actions and API/plain parameters',
     ],
+    timeoutMs: 30_000,
   },
   {
     id: 'mutable-action-source-cache-reused',
@@ -175,6 +176,7 @@ export const mutations = [
     expectedFailures: [
       'module direct dynamic invocation types reject execution keys in both queries',
     ],
+    timeoutMs: 30_000,
   },
   {
     id: 'module-direct-dynamic-query-type-widened',
@@ -184,6 +186,7 @@ export const mutations = [
     expectedFailures: [
       'module direct dynamic invocation types reject execution keys in both queries',
     ],
+    timeoutMs: 30_000,
   },
   {
     id: 'module-debug-instance-fetcher-omitted',
@@ -211,6 +214,7 @@ export const mutations = [
     expectedFailures: [
       'module direct dynamic invocation types reject execution keys in both queries',
     ],
+    timeoutMs: 30_000,
   },
   {
     id: 'module-query-identity-pool-type-widened',
@@ -220,5 +224,6 @@ export const mutations = [
     expectedFailures: [
       'module direct dynamic invocation types reject execution keys in both queries',
     ],
+    timeoutMs: 30_000,
   },
 ];

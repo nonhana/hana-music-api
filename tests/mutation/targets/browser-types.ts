@@ -7,6 +7,7 @@ export const mutations = [
     expectedFailures: [
       'typecheck rejects an invalid browser source even when the server project is valid',
     ],
+    timeoutMs: 30_000,
   },
   {
     id: 'typecheck-server-project-omitted',
@@ -16,5 +17,6 @@ export const mutations = [
     expectedFailures: [
       'typecheck rejects an invalid server source even when the browser project is valid',
     ],
+    timeoutMs: 30_000,
   },
 ];
