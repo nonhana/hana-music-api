@@ -1,0 +1,69 @@
+{
+  "source": "docs/adr/0007-eapi-and-weapi-protocol-boundary.md",
+  "mandatoryEapi": {
+    "audioDelivery": [
+      {
+        "module": "song_url",
+        "action": "read",
+        "target": "/api/song/enhance/player/url"
+      },
+      {
+        "module": "song_url_v1",
+        "action": "read",
+        "target": "/api/song/enhance/player/url/v1"
+      },
+      {
+        "module": "song_url_v1",
+        "action": "sky",
+        "target": "/api/song/enhance/player/url/v1"
+      },
+      {
+        "module": "song_download_url",
+        "action": "read",
+        "target": "/api/song/enhance/download/url"
+      },
+      {
+        "module": "song_download_url_v1",
+        "action": "read",
+        "target": "/api/song/enhance/download/url/v1"
+      }
+    ],
+    "sessionRotation": [
+      {
+        "module": "login_refresh",
+        "action": "request",
+        "target": "/api/login/token/refresh"
+      }
+    ],
+    "nativeCapability": [
+      {
+        "module": "banner",
+        "action": "read",
+        "target": "/api/v2/banner/get"
+      },
+      {
+        "module": "batch",
+        "action": "request",
+        "target": "/api/batch"
+      },
+      {
+        "module": "cloud",
+        "action": "check",
+        "target": "/api/cloud/upload/check"
+      },
+      {
+        "module": "cloud",
+        "action": "information",
+        "target": "/api/upload/cloud/info/v2"
+      },
+      {
+        "module": "song_order_update",
+        "action": "update",
+        "target": "/api/playlist/manipulate/tracks"
+      }
+    ]
+  },
+  "audioDeliveryTargetPattern": "^/api/song/enhance/(?:player|download)/url(?:/|$)",
+  "audioDeliveryNonDeliveringAllowlist": ["check_music.read"],
+  "sessionRotationTargets": ["/api/login/token/refresh"]
+}

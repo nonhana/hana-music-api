@@ -87,10 +87,7 @@ for (const entry of ['sdk', 'http'] as const)
       await withScenario(
         [
           {
-            url:
-              level === 'sky'
-                ? 'https://interface.music.163.com/eapi/song/enhance/player/url/v1'
-                : 'https://music.163.com/weapi/song/enhance/player/url/v1',
+            url: 'https://interface.music.163.com/eapi/song/enhance/player/url/v1',
             method: 'POST',
             response: () =>
               Response.json({
@@ -134,11 +131,9 @@ for (const entry of ['sdk', 'http'] as const)
           }
           const wire = scenario.sent[0]!;
           const cookies = readCookies(wire.headers);
-          expect(wire.headers.get('user-agent')).toBe(
-            level === 'sky' ? iphone : expectedClients.web.userAgent,
-          );
+          expect(wire.headers.get('user-agent')).toBe(iphone);
           expect(cookies).toMatchObject({
-            ...(level === 'sky' ? platform : { os: 'web' }),
+            ...platform,
             deviceId: entry === 'sdk' ? 'D1' : 'D2',
           });
           for (const key of [
@@ -154,13 +149,7 @@ for (const entry of ['sdk', 'http'] as const)
             'BUILDVER',
           ])
             expect(cookies).not.toHaveProperty(key);
-          const decoded =
-            level === 'sky'
-              ? readEapiBody(wire.body)
-              : {
-                  path: '/api/song/enhance/player/url/v1',
-                  data: readWebBody(wire.body),
-                };
+          const decoded = readEapiBody(wire.body);
           expect(decoded.path).toBe('/api/song/enhance/player/url/v1');
           expect(decoded.data).toEqual({
             ids: '["1411594141"]',
@@ -168,9 +157,9 @@ for (const entry of ['sdk', 'http'] as const)
             encodeType: 'flac',
             ...(level === 'sky' ? { immerseType: 'c51' } : {}),
             e_r: false,
-            ...(level === 'sky' ? { header: cookies } : { csrf_token: '' }),
+            header: cookies,
           });
-          if (level === 'sky') expect(cookies.requestId).toMatch(/^\d+_0000$/);
+          expect(cookies.requestId).toMatch(/^\d+_0000$/);
         },
       );
     });
@@ -259,7 +248,7 @@ test('identity refusal -460 sends once and never rotates identity', async () => 
   await withScenario(
     [
       {
-        url: 'https://music.163.com/weapi/song/enhance/player/url/v1',
+        url: 'https://interface.music.163.com/eapi/song/enhance/player/url/v1',
         method: 'POST',
         response: () =>
           Response.json({ code: -460, message: 'synthetic-refusal' }),
@@ -685,8 +674,8 @@ test('identity registry has no mixed profiles or undeclared defaults', () => {
       profiles.push(action.profile);
   }
   expect(profiles).toHaveLength(390);
-  expect(profiles.filter((profile) => profile === 'web')).toHaveLength(289);
-  expect(profiles.filter((profile) => profile === 'eapi')).toHaveLength(90);
+  expect(profiles.filter((profile) => profile === 'web')).toHaveLength(286);
+  expect(profiles.filter((profile) => profile === 'eapi')).toHaveLength(93);
 });
 
 for (const [label, state, cookie, expected] of [

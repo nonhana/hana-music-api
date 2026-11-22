@@ -370,8 +370,8 @@
       "module": "login_refresh",
       "action": "request",
       "baselineTarget": "/api/login/token/refresh",
-      "decision": "web；/api/login/token/refresh",
-      "reason": "S4；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2356900, F@195309"
+      "decision": "eapi；/api/login/token/refresh",
+      "reason": "保留（ADR-0007 session-rotation）；实测 web 通道返回 code: 200、bizCode: \"400\" 且不下发新 MUSIC_U，eapi 正常返回 bizCode: \"200\" 并轮换新 MUSIC_U"
     },
     {
       "module": "login",
@@ -720,8 +720,8 @@
       "module": "song_download_url_v1",
       "action": "read",
       "baselineTarget": "/api/song/enhance/download/url/v1",
-      "decision": "web；/api/song/enhance/download/url/v1",
-      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2397355"
+      "decision": "eapi；/api/song/enhance/download/url/v1",
+      "reason": "保留（ADR-0007 audio-delivery）；web 音频 CDN 存在 m704/m804 无 Vary: Origin 的 CORS 缓存投毒与 m10 对非官方 Referer 的 ~100 KB/s 限速，必须保留 eapi"
     },
     {
       "module": "song_download_url",
@@ -811,8 +811,8 @@
       "module": "song_url_v1",
       "action": "read",
       "baselineTarget": "/api/song/enhance/player/url/v1",
-      "decision": "web；/api/song/enhance/player/url/v1",
-      "reason": "S3；迁移：保持公开业务输入、返回结构及流量资格，只替换传输 profile；W@2359044, C@631494"
+      "decision": "eapi；/api/song/enhance/player/url/v1",
+      "reason": "保留（ADR-0007 audio-delivery）；同音频直链取址家族，规避 m10 100 KB/s 限速与 m704/m804 CORS 缺陷，并与 sky 分支统一为 eapi"
     },
     {
       "module": "song_url_v1",
@@ -1196,12 +1196,6 @@
       "target": "/api/login/qrcode/unikey"
     },
     {
-      "module": "login_refresh",
-      "action": "request",
-      "profile": "web",
-      "target": "/api/login/token/refresh"
-    },
-    {
       "module": "login",
       "action": "password",
       "profile": "web",
@@ -1382,12 +1376,6 @@
       "target": "/api/song/chorus"
     },
     {
-      "module": "song_download_url_v1",
-      "action": "read",
-      "profile": "web",
-      "target": "/api/song/enhance/download/url/v1"
-    },
-    {
       "module": "song_music_detail",
       "action": "read",
       "profile": "web",
@@ -1398,12 +1386,6 @@
       "action": "read",
       "profile": "web",
       "target": "/api/song/red/count"
-    },
-    {
-      "module": "song_url_v1",
-      "action": "read",
-      "profile": "web",
-      "target": "/api/song/enhance/player/url/v1"
     },
     {
       "module": "starpick_comments_summary",

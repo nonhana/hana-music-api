@@ -2,6 +2,7 @@ import { requestProfiles } from '../src/core/request-profiles.ts';
 import { sdkModuleRegistry } from '../src/sdk/generated/registry.generated.ts';
 import baseline from '../tests/fixtures/upstream-policy/baseline-actions-472dbc5.json';
 import dynamicSamples from '../tests/fixtures/upstream-policy/dynamic-samples.json';
+import protocolBoundary from '../tests/fixtures/upstream-policy/protocol-boundary.json';
 import migration from '../tests/fixtures/upstream-policy/web-migration-2026-11.json';
 import snapshot from '../tests/fixtures/upstream-policy/yidun-web-2026-11-13.json';
 
@@ -101,6 +102,60 @@ export const audit = () => {
 const key = (entry: { module: string; action: string }) =>
   `${entry.module}.${entry.action}`;
 
+const logicalTargetOf = (target: string | { readonly prefix: string }) =>
+  typeof target === 'string' ? target : target.prefix;
+
+export const checkProtocolBoundary = (
+  actual = audit().actions,
+  boundary = protocolBoundary,
+) => {
+  const errors: Array<string> = [];
+  const audioPattern = new RegExp(boundary.audioDeliveryTargetPattern);
+  const allowlist = new Set(boundary.audioDeliveryNonDeliveringAllowlist);
+  const rotationTargets = new Set(boundary.sessionRotationTargets);
+
+  for (const [category, entries] of Object.entries(boundary.mandatoryEapi)) {
+    for (const rule of entries) {
+      const found = actual.filter(
+        (entry) => entry.module === rule.module && entry.action === rule.action,
+      );
+      if (found.length !== 1) {
+        errors.push(
+          `Mandatory eapi action ${rule.module}.${rule.action} (${category}): ${found.length} actions`,
+        );
+        continue;
+      }
+      const entry = found[0]!;
+      if (entry.profile !== 'eapi')
+        errors.push(
+          `Boundary violation (${category}): ${key(entry)} must use eapi, got ${entry.profile}`,
+        );
+      const target = logicalTargetOf(entry.target);
+      if (target !== rule.target)
+        errors.push(
+          `Boundary target mismatch (${category}): ${key(entry)} expected ${rule.target}, got ${target}`,
+        );
+    }
+  }
+
+  for (const entry of actual) {
+    const target = logicalTargetOf(entry.target);
+    if (
+      audioPattern.test(target) &&
+      !allowlist.has(key(entry)) &&
+      entry.profile !== 'eapi'
+    )
+      errors.push(
+        `Audio delivery action must use eapi: ${key(entry)} (${target}, got ${entry.profile})`,
+      );
+    if (rotationTargets.has(target) && entry.profile !== 'eapi')
+      errors.push(
+        `Session rotation action must use eapi: ${key(entry)} (${target}, got ${entry.profile})`,
+      );
+  }
+  return errors;
+};
+
 export const checkCoverage = (
   actual = audit().actions,
   dispositions = migration.eapiDispositions,
@@ -143,6 +198,7 @@ export const checkCoverage = (
   for (const entry of actual)
     if (!expected.some((row) => key(row) === key(entry)))
       errors.push(`Unclassified action: ${key(entry)}`);
+  errors.push(...checkProtocolBoundary(actual));
   return errors;
 };
 

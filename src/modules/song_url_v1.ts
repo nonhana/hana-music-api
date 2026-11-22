@@ -52,7 +52,7 @@ export type ModuleBody = BodyType<typeof ModuleBody>;
 export const moduleActions = {
   read: {
     target: '/api/song/enhance/player/url/v1',
-    profile: 'web',
+    profile: 'eapi',
     semantic: 'read',
     cache: 'none',
     retry: 'connect',

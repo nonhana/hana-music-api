@@ -20,7 +20,7 @@ import type { ModuleEffect } from '../types/index.ts';
 
 export const moduleActions = {
   request: {
-    profile: 'web',
+    profile: 'eapi',
     target: '/api/login/token/refresh',
     semantic: 'login',
     cache: 'none',

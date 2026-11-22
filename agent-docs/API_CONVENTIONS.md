@@ -8,6 +8,8 @@
 
 每个模块必须在本地导出 `moduleActions`，每个动作指定 profile、target（固定路径或 prefix 边界）、semantic、cache 和 retry，checkToken 不属于动作声明，由所有 SDK 模块统一接受可选配置，再用 `request(actionName, args)` 选择本地动作并提供业务数据。API 传 data 和业务 headers，动态 API 另传 path；固定 plain 传原始 query，动态 plain 传 target 和原始 body。模块不得改写 Call 身份或自行放置 token；纯本地模块声明空动作集，多请求模块分别声明动作；plain动作还声明实际method/response，目标由profile域名与规范路径限制，动态NOS同时限制允许后缀和桶目录。生成器、SDK/HTTP装配和动态loader都校验声明，缺失或非法立即拒绝；不再保留pending清单或缺声明fallback，见 [ADR-0001](../docs/adr/0001-request-actions-and-profiles.md)。
 
+`eapi` 与 `web`（`weapi`）的协议选用必须遵守 [ADR-0007](../docs/adr/0007-eapi-and-weapi-protocol-boundary.md) 定义的四层硬分界线（L1 专用/plain → L2 音频直链取址、会话 `MUSIC_U` 轮换及原生独占能力强制 `eapi` → L3 有官方网页依据或受网页反作弊保护的常规业务用 `web` → L4 无网页依据保守维持 `eapi`），并由 `tests/fixtures/upstream-policy/protocol-boundary.json` 与 `scripts/audit-upstream-endpoints.mts` 强制校验。不得仅凭官方 JS 出现路径就将媒体取址或凭据轮换接口迁入 `web`。
+
 输入先经过 `src/core/module-input.ts` 的普通对象校验，再进入模块自己的 Schema；decoder 用 `onExcessProperty: 'error'` 拒绝未声明字段。每个模块必须声明具体业务字段、可选性和字面量，不使用 `LegacyModuleInput`、`Record<string, unknown>` 或 `unknown` 兜底；`batch` 是唯一有依据的开放字典。模块生成器会检查这三个导出合同，动态 loader 也会拒绝缺少 decoder 或不是 Effect 函数的模块。
 
 模块只为确实要读取的上游字段做局部检查。普通响应体保持 `UnknownJson`，未知字段继续保留；收紧的字段（见[收紧与宽松](#收紧与宽松)）缺失或类型错误时返回带模块名和路径的 `UnexpectedUpstreamShape`。公开边界把它映射为 `status: 502`，`body.upstreamShape` 带上 `{ module, path, expected, actual }`。

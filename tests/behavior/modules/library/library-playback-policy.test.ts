@@ -167,11 +167,7 @@ test('library root named and dynamic SDK entries retain Promise refusal envelope
         {
           url: 'https://interface.music.163.com/eapi/song/enhance/player/url/v1',
           method: 'POST',
-          response: () => Response.json({ code: 403, msg: 'refused' }),
-        },
-        {
-          url: 'https://music.163.com/weapi/song/enhance/player/url/v1',
-          method: 'POST',
+          times: 2,
           response: () => Response.json({ code: 403, msg: 'refused' }),
         },
       ],
@@ -348,7 +344,7 @@ test('library interleaved PC calls freeze each account input and token', async (
   const result = await withScenario(
     [
       {
-        url: 'https://music.163.com/weapi/song/enhance/player/url/v1',
+        url: 'https://interface.music.163.com/eapi/song/enhance/player/url/v1',
         method: 'POST',
         response: () => Response.json({ code: 403 }),
       },
@@ -397,7 +393,7 @@ test('library interleaved PC calls freeze each account input and token', async (
     like: false,
     checkToken: 'first-token',
   });
-  expect(readWebBody(result.wires[0]!.body)).toMatchObject({
+  expect(readEapiBody(result.wires[0]!.body).data).toMatchObject({
     ids: '["23"]',
     checkToken: 'second-token',
   });

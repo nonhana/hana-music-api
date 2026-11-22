@@ -80,4 +80,4 @@ playlistSubscribe、albumSub、artistSub 固定 web：weapi、music.163.com、�
 
 请求数据流收敛保留上述根 Promise API。内部自定义模块改用绑定本地 moduleActions 的二元 request(actionName,args)，生产 server/动态装配删除 requestHandler，并明确拒绝旧 JavaScript 键；这是 major 迁移。测试网络通过 fetcher，内部 execution 仍不是根发布面。
 
-#137 更新默认协议和部分逻辑目标，以上各历史批次的“保持协议”以本节为准。61 个完整动作与 Banner PC 分支使用 web；普通 search 仍为 EAPI，voice/lyric/playlistDetail 已迁 web，songDetail 保持 web。普通 songUrlV1 使用 web，显式 sky、移动 Banner、通用 batch、歌曲排序和云盘原生阶段继续保留各自合同。公开输入、Schema、失败分类及低层 createRequest 不变。身份与地址变更按 major 发布，调用方继续提供可选 token，多请求用 provider；源码和离线包验证不保证真实账号的当前权益或反作弊接受。完整范围见[固定清单](../docs/acceptance/web-endpoint-sync-2026-11-inventory.md)。
+#137 更新默认协议和部分逻辑目标，以上各历史批次的“保持协议”以本节及 [ADR-0007](../docs/adr/0007-eapi-and-weapi-protocol-boundary.md) 为准。除受 ADR-0007 强制边界约束的音频直链取址与会话续期外，其余 58 个完整动作与 Banner PC 分支使用 web；普通 search 仍为 EAPI，voice/lyric/playlistDetail 已迁 web，songDetail 保持 web。`songUrlV1`（`read` 与 `sky`）、`songDownloadUrlV1`、`loginRefresh`、移动 Banner、通用 batch、歌曲排序和云盘原生阶段使用 EAPI。公开输入、Schema、失败分类及低层 createRequest 不变。身份与地址变更按 major 发布，调用方继续提供可选 token，多请求用 provider；源码和离线包验证不保证真实账号的当前权益或反作弊接受。完整范围见[固定清单](../docs/acceptance/web-endpoint-sync-2026-11-inventory.md)。

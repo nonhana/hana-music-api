@@ -118,9 +118,11 @@ prepareRequest仍是纯函数，时间、请求编号和随机熵从外层传入
 
 ModuleCallConfig独立列出会话与执行字段，删除crypto/ua/domain/e_r/acceptGzip/headers和顶层deviceId。运行时也拒绝这些旧键及未知键，设备改用state.deviceId；不保留别名或静默忽略。内部动态程序入口同步query/config分离。显式低层createRequest/createOption继续保留原始协议与请求头能力，默认eapi及各协议原目标/身份由既有registry提供；api/linuxapi的低层默认身份也有明确条目，内置389动作映射不变。原始请求不猜URI语义，不自动重放。endpoint-policy保留最终目标、HTTPS与凭据外送检查。响应Schema和原录制不变，以major交付。
 
-## #137：按网页依据迁移默认协议与目标
+## #137：按网页依据迁移默认协议与目标（已由 ADR-0007 更新）
 
-当前决定以 [#137](https://github.com/nonhana/hana-music-api/issues/137) 和[固定审计清单](../acceptance/web-endpoint-sync-2026-11-inventory.md)为准，取代以上历史切片的“保留所有基线协议”。61 个有同业务网页依据的 EAPI 动作改用现有 web profile，Banner 新增 PC 专用 readPc，移动 read 保留。当前 352 模块、390 动作中有 289 web、90 eapi、2 clientlogOsx 和 9 plain 动作。共享读取的普通 search 保持 EAPI，voice、lyric、playlist_detail 和既有 song_detail 使用 web；共享资格、取消和 token 合同不变。
+> 2026-11-22 更新：本节中将 `song_download_url_v1.read`、`song_url_v1.read` 与 `login_refresh.request` 迁往 `web` 的决定已被 [ADR-0007](./0007-eapi-and-weapi-protocol-boundary.md) 修正并收回；三者按 L2 协议边界恢复为 `eapi`，当前全量为 **286 web、93 eapi、2 clientlogOsx、9 plain**。
+
+当前决定以 [#137](https://github.com/nonhana/hana-music-api/issues/137) 和[固定审计清单](../acceptance/web-endpoint-sync-2026-11-inventory.md)为历史起点，结合 [ADR-0007](./0007-eapi-and-weapi-protocol-boundary.md) 共同约束。61 个有同业务网页依据且无下游分发/会话轮换分叉的 EAPI 动作改用现有 web profile，Banner 新增 PC 专用 readPc，移动 read 保留。共享读取的普通 search 保持 EAPI，voice、lyric、playlist_detail 和既有 song_detail 使用 web；共享资格、取消和 token 合同不变。
 
 红心、回复、歌单曲目的逻辑目标按当前网页修正；粉丝列表固定路径，userid 仍按原模块的 userId 字段发送。具名 playlist_update 保持一次 batch，将三个固定子操作改为对象。通用 batch 的任意子路由没有整体网页等价依据，所以仍为 EAPI。sky、歌单排序和 cloud 原生阶段等保留理由逐动作列在清单中。
 
