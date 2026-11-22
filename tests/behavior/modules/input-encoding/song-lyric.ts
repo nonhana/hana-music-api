@@ -262,7 +262,7 @@ export const cases: ReadonlyArray<EncodingCase> = [
     input: { ids: [1], level: 'lossless' },
     check: (wires) => {
       expect(wires).toHaveLength(1);
-      const data = readWebBody(wires[0]!.body) as Record<string, unknown>;
+      const data = readEapiBody(wires[0]!.body).data as Record<string, unknown>;
       expect(data).toMatchObject({
         encodeType: 'flac',
         ids: '["1"]',

@@ -304,3 +304,104 @@ for (const code of [301, 405, -460]) {
     });
   }
 }
+
+test('protocol boundary keeps songDownloadUrlV1 on eapi', async () => {
+  await withScenario(
+    [
+      {
+        url: 'https://interface.music.163.com/eapi/song/enhance/download/url/v1',
+        method: 'POST',
+        check: (wire) => {
+          expect(readEapiBody(wire.body).data).toMatchObject({
+            id: 7,
+            immerseType: 'c51',
+            level: 'exhigh',
+          });
+        },
+        response: () =>
+          Response.json({
+            code: 200,
+            data: { id: 7, url: null, code: -105 },
+          }),
+      },
+    ],
+    async (scenario) => {
+      const result = await settle(
+        sdk.songDownloadUrlV1(
+          { id: 7, level: 'exhigh' },
+          { cookie: 'MUSIC_U=modern', fetcher: scenario.fetcher },
+        ),
+      );
+      expect(result).toMatchObject({
+        resolved: { body: { code: 200, data: { id: 7 } } },
+      });
+      expect(scenario.sent).toHaveLength(1);
+    },
+  );
+});
+
+test('protocol boundary keeps songUrlV1 exhigh on eapi', async () => {
+  await withScenario(
+    [
+      {
+        url: 'https://interface.music.163.com/eapi/song/enhance/player/url/v1',
+        method: 'POST',
+        check: (wire) => {
+          expect(readEapiBody(wire.body).data).toMatchObject({
+            ids: '["7"]',
+            level: 'exhigh',
+            encodeType: 'flac',
+          });
+        },
+        response: () =>
+          Response.json({
+            code: 200,
+            data: [{ id: 7, url: null, code: 404 }],
+          }),
+      },
+    ],
+    async (scenario) => {
+      const result = await settle(
+        sdk.songUrlV1(
+          { ids: [7], level: 'exhigh' },
+          { cookie: 'MUSIC_U=modern', fetcher: scenario.fetcher },
+        ),
+      );
+      expect(result).toMatchObject({
+        resolved: { body: { code: 200, data: [{ id: 7 }] } },
+      });
+      expect(scenario.sent).toHaveLength(1);
+    },
+  );
+});
+
+test('protocol boundary keeps loginRefresh on eapi', async () => {
+  await withScenario(
+    [
+      {
+        url: 'https://interface.music.163.com/eapi/login/token/refresh',
+        method: 'POST',
+        response: () =>
+          Response.json(
+            { code: 200, bizCode: '200' },
+            { headers: { 'set-cookie': 'MUSIC_U=fresh; Path=/; HttpOnly' } },
+          ),
+      },
+    ],
+    async (scenario) => {
+      const result = await settle(
+        sdk.loginRefresh(
+          {},
+          { cookie: 'MUSIC_U=modern', fetcher: scenario.fetcher },
+        ),
+      );
+      expect(result).toMatchObject({
+        resolved: { body: { code: 200, bizCode: '200' } },
+      });
+      if ('resolved' in result) {
+        expect(result.resolved.body.cookie).toContain('MUSIC_U=fresh');
+      }
+      expect(scenario.sent).toHaveLength(1);
+    },
+  );
+});

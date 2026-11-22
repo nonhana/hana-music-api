@@ -121,13 +121,6 @@
         "protocol": "weapi"
       },
       {
-        "module": "song_download_url_v1",
-        "label": "default",
-        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
         "module": "song_music_detail",
         "label": "default",
         "url": "https://music.163.com/weapi/song/music/detail/get",
@@ -142,13 +135,6 @@
         "protocol": "weapi"
       },
       {
-        "module": "song_url_v1",
-        "label": "default",
-        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
         "module": "like",
         "label": "unlike",
         "path": "/api/song/like",
@@ -159,111 +145,6 @@
         "label": "literal-true",
         "path": "/api/song/like",
         "url": "https://music.163.com/weapi/song/like"
-      },
-      {
-        "module": "song_url_v1",
-        "label": "standard",
-        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_download_url_v1",
-        "label": "standard",
-        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_url_v1",
-        "label": "higher",
-        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_download_url_v1",
-        "label": "higher",
-        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_url_v1",
-        "label": "exhigh",
-        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_download_url_v1",
-        "label": "exhigh",
-        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_url_v1",
-        "label": "lossless",
-        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_download_url_v1",
-        "label": "lossless",
-        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_url_v1",
-        "label": "hires",
-        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_download_url_v1",
-        "label": "hires",
-        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_url_v1",
-        "label": "jyeffect",
-        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_download_url_v1",
-        "label": "jyeffect",
-        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_download_url_v1",
-        "label": "sky",
-        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_url_v1",
-        "label": "jymaster",
-        "url": "https://music.163.com/weapi/song/enhance/player/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "song_download_url_v1",
-        "label": "jymaster",
-        "url": "https://music.163.com/weapi/song/enhance/download/url/v1",
-        "profile": "weapiPc",
-        "protocol": "weapi"
       },
       {
         "module": "playmode_intelligence_list",
@@ -621,13 +502,6 @@
         "module": "login_qr_key",
         "label": "default",
         "url": "https://music.163.com/weapi/login/qrcode/unikey",
-        "profile": "weapiPc",
-        "protocol": "weapi"
-      },
-      {
-        "module": "login_refresh",
-        "label": "default",
-        "url": "https://music.163.com/weapi/login/token/refresh",
         "profile": "weapiPc",
         "protocol": "weapi"
       },

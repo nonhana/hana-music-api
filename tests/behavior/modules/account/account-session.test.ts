@@ -34,7 +34,7 @@ for (const entry of [
   },
   {
     module: 'loginRefresh',
-    path: 'https://music.163.com/weapi/login/token/refresh',
+    path: 'https://interface.music.163.com/eapi/login/token/refresh',
     query: {},
     body: { code: 200 },
   },
@@ -137,7 +137,7 @@ for (const method of [
       },
       loginRefresh: {
         route: '/login/refresh',
-        url: 'weapi/login/token/refresh',
+        url: 'eapi/login/token/refresh',
         body: { code: 200 },
       },
       logout: { route: '/logout', url: 'weapi/logout', body: { code: 200 } },

@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import {
   audit,
   checkCoverage,
+  checkProtocolBoundary,
   matchRules,
 } from '../../../scripts/audit-upstream-endpoints.mts';
 import baseline from '../../fixtures/upstream-policy/baseline-actions-472dbc5.json';
@@ -98,4 +99,38 @@ test('upstream audit attaches representative paths and ordered matches to their 
     'https://nosup-hz1.127.net/yyimgs/',
   );
   expect(external.matches).toEqual([]);
+});
+
+test('protocol boundary allows check_music on web and enforces mandatory eapi rules', () => {
+  const actions = audit().actions;
+  expect(checkProtocolBoundary(actions)).toEqual([]);
+  const checkMusic = actions.find(
+    (entry) => entry.module === 'check_music' && entry.action === 'read',
+  )!;
+  expect(checkMusic.profile).toBe('web');
+
+  for (const moduleName of [
+    'song_download_url_v1',
+    'song_url_v1',
+    'login_refresh',
+  ] as const) {
+    const mutated = actions.map((entry) =>
+      entry.module === moduleName &&
+      (moduleName !== 'song_url_v1' || entry.action === 'read')
+        ? { ...entry, profile: 'web' as const }
+        : entry,
+    );
+    expect(checkProtocolBoundary(mutated).length).toBeGreaterThan(0);
+  }
+
+  const futureAudioAction = {
+    ...actions.find((entry) => entry.module === 'song_url_v1')!,
+    module: 'song_url_v2',
+    action: 'read',
+    profile: 'web' as const,
+    target: '/api/song/enhance/player/url/v2',
+  };
+  expect(checkProtocolBoundary([...actions, futureAudioAction])).toContain(
+    'Audio delivery action must use eapi: song_url_v2.read (/api/song/enhance/player/url/v2, got web)',
+  );
 });

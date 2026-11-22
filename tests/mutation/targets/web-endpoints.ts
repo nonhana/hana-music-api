@@ -54,4 +54,28 @@ export const mutations = [
       'web batch keeps object children and partial child failures in one request',
     ],
   },
+  {
+    id: 'protocol-boundary-download-url-web',
+    file: 'src/modules/song_download_url_v1.ts',
+    find: "  read: {\n    target: '/api/song/enhance/download/url/v1',\n    profile: 'eapi',",
+    replace:
+      "  read: {\n    target: '/api/song/enhance/download/url/v1',\n    profile: 'web',",
+    expectedFailures: ['protocol boundary keeps songDownloadUrlV1 on eapi'],
+  },
+  {
+    id: 'protocol-boundary-song-url-v1-read-web',
+    file: 'src/modules/song_url_v1.ts',
+    find: "  read: {\n    target: '/api/song/enhance/player/url/v1',\n    profile: 'eapi',",
+    replace:
+      "  read: {\n    target: '/api/song/enhance/player/url/v1',\n    profile: 'web',",
+    expectedFailures: ['protocol boundary keeps songUrlV1 exhigh on eapi'],
+  },
+  {
+    id: 'protocol-boundary-login-refresh-web',
+    file: 'src/modules/login_refresh.ts',
+    find: "  request: {\n    profile: 'eapi',\n    target: '/api/login/token/refresh',",
+    replace:
+      "  request: {\n    profile: 'web',\n    target: '/api/login/token/refresh',",
+    expectedFailures: ['protocol boundary keeps loginRefresh on eapi'],
+  },
 ];
