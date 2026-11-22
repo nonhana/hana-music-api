@@ -1,6 +1,6 @@
 # #109 当次验收
 
-来源：[#109](https://github.com/nonhana/hana-music-api/issues/109) 的 AC-01 至 AC-16、父票 #80；完整快照保存在 `.artifacts/testing/issue-109/source-109.json`、`source-80.json`，矩阵见 [issue-109.md](../issue-109.md)。
+来源：[#109](https://github.com/campanula-music/hana-music-api/issues/109) 的 AC-01 至 AC-16、父票 #80；完整快照保存在 `.artifacts/testing/issue-109/source-109.json`、`source-80.json`，矩阵见 [issue-109.md](../issue-109.md)。
 
 基线：`feature/refactor` / `6b0b9f8bc8e4ca34351be6c6945fe8fb35a0d1fb`，初始工作区干净。真实账号操作由用户在当前聊天明确授权，见后文记录；验收完成后，用户另行确认本任务完成并授权提交、推送及关闭 #109。
 
@@ -103,4 +103,4 @@ review_109 未参与实施，只读检查完整工作区：base...HEAD、cached�
 
 ## 提交与关票
 
-用户已确认本任务完成，授权按项目约定提交、推送并关闭 #109。实际提交、远端分支与关闭回执记录在 [#109](https://github.com/nonhana/hana-music-api/issues/109)。本报告保留实际测试 HEAD、候选内容指纹和包哈希，不将提交后的 HEAD 改标为测试基线。
+用户已确认本任务完成，授权按项目约定提交、推送并关闭 #109。实际提交、远端分支与关闭回执记录在 [#109](https://github.com/campanula-music/hana-music-api/issues/109)。本报告保留实际测试 HEAD、候选内容指纹和包哈希，不将提交后的 HEAD 改标为测试基线。

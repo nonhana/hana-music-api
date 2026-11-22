@@ -114,4 +114,4 @@ soak 的 rssGrowth 为 0。压力拒绝按负载脚本合同判定，`failures=[
 
 用户于 2026-11-07 在确认验收结果及测试复用情况后，明确要求提交并推送两份验收文档，再关闭 #105。需求矩阵保留验收执行时的范围；该后续授权用于本次归档收尾。
 
-归档提交只包含验收矩阵与本记录，文档收尾检查执行 `bun run fmt:check`、`bun run spell` 和差异检查。完整门禁的 testedHead、内容指纹和实际运行时间保留为上文所记，不将提交后的 HEAD 冒充为重新执行过完整门禁。最终提交与关票状态可从 [GitHub #105](https://github.com/nonhana/hana-music-api/issues/105) 的收尾记录追溯。
+归档提交只包含验收矩阵与本记录，文档收尾检查执行 `bun run fmt:check`、`bun run spell` 和差异检查。完整门禁的 testedHead、内容指纹和实际运行时间保留为上文所记，不将提交后的 HEAD 冒充为重新执行过完整门禁。最终提交与关票状态可从 [GitHub #105](https://github.com/campanula-music/hana-music-api/issues/105) 的收尾记录追溯。

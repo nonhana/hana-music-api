@@ -1,6 +1,6 @@
 # #122 统一SDK请求身份
 
-来源：[#122](https://github.com/nonhana/hana-music-api/issues/122)、[#80](https://github.com/nonhana/hana-music-api/issues/80)，完整正文及评论存于`.artifacts/testing/issue-122/sources/`。当前票唯一前置#115已completed关闭，#122阻塞#116，后者八个原生前置；2026-11-08已核对。
+来源：[#122](https://github.com/campanula-music/hana-music-api/issues/122)、[#80](https://github.com/campanula-music/hana-music-api/issues/80)，完整正文及评论存于`.artifacts/testing/issue-122/sources/`。当前票唯一前置#115已completed关闭，#122阻塞#116，后者八个原生前置；2026-11-08已核对。
 
 基线：feature/refactor，697958982360dc0e5d29726366385ce01da0d2b9，远端同提交、工作区干净。使用当前检出。授权：更新AC、实施离线测试、独立subagent审查、通过后提交/普通推送/关票；用户后续明确要求本票完成后暂停，不创建后继聊天；不授权真实上游、账号、发布或部署。自动接力原文与state位于`.artifacts/testing/auto-ticket-chain/hana-80-2026-11-08/`。
 

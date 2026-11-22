@@ -52,7 +52,7 @@ export const moduleActions = {
   },
 } as const satisfies ModuleActions;
 
-// 返回 200 不代表计入了听歌排行（验证关卡①实测没有计入，见 nonhana/hana-music-api#31）。
+// 返回 200 不代表计入了听歌排行（验证关卡①实测没有计入，见 campanula-music/hana-music-api#31）。
 // 接口只返回返回码，收紧的是返回码。
 export const ModuleBody = /* @__PURE__ */ defineModuleBody(
   UpstreamObject({

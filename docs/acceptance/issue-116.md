@@ -1,6 +1,6 @@
 # #116 请求配置收口：验收依据
 
-来源：[本票](https://github.com/nonhana/hana-music-api/issues/116)及[父#80](https://github.com/nonhana/hana-music-api/issues/80)、本链当前提示词和接力原文。完整来源快照位于 `.artifacts/testing/issue-116/sources/`。基线 `feature/refactor` / `a9ecac4e94f571193a987f087cea32e76f023819`，远端相同，初始工作区干净，八个原生前置均 completed。
+来源：[本票](https://github.com/campanula-music/hana-music-api/issues/116)及[父#80](https://github.com/campanula-music/hana-music-api/issues/80)、本链当前提示词和接力原文。完整来源快照位于 `.artifacts/testing/issue-116/sources/`。基线 `feature/refactor` / `a9ecac4e94f571193a987f087cea32e76f023819`，远端相同，初始工作区干净，八个原生前置均 completed。
 
 目标是删除普通模块的自由控制面和旧判定，保留 #122 身份与 #115 特殊链路。只实施 #116，不改响应Schema，不实施 #117、不做真实网络/账号/发布。当前授权覆盖本票验收后的提交、普通推送、关票；用户最新要求本票完成后暂停接力，不创建后继聊天。
 

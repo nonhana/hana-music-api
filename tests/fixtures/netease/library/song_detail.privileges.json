@@ -9,7 +9,7 @@
     "region": "local",
     "ip": "default",
     "viewer": "vip-qr",
-    "note": "Issue #65: two unchanged songs and their matching privileges selected from nonhana/campanula-music at b00949d136e8e1735c70f1c61a933514146675f8, tests/fixtures/netease/library/song_detail.liked-page3.json.gz. Includes st=-200/pl=0 and st=0/pl=0 for the recorded VIP viewer."
+    "note": "Issue #65: two unchanged songs and their matching privileges selected from campanula-music/campanula at b00949d136e8e1735c70f1c61a933514146675f8, tests/fixtures/netease/library/song_detail.liked-page3.json.gz. Includes st=-200/pl=0 and st=0/pl=0 for the recorded VIP viewer."
   },
   "response": {
     "status": 200,

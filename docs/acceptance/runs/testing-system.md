@@ -251,7 +251,7 @@ E1 所需条件已由用户本次提供或授权取得，并已验证通过；fr
 
 ## PR 119 当次远端接续
 
-用户已授权创建 feature/refactor → master 的 PR、持续跟进 CI 并修复失败，明确先不合并。[PR 119](https://github.com/nonhana/hana-music-api/pull/119) 已创建；第一轮 head e682744 的 verify/rehearsal 全部 completed/success，默认回归 3531、SDK 32、fixtures 761 与 smoke 87+500 均实证通过，成功 artifacts 已下载核对。Netlify 预览成功，两个无相关变化检查为 NEUTRAL。没有发生实际 CI 失败，没有为获得绿灯删测试或降低规则。
+用户已授权创建 feature/refactor → master 的 PR、持续跟进 CI 并修复失败，明确先不合并。[PR 119](https://github.com/campanula-music/hana-music-api/pull/119) 已创建；第一轮 head e682744 的 verify/rehearsal 全部 completed/success，默认回归 3531、SDK 32、fixtures 761 与 smoke 87+500 均实证通过，成功 artifacts 已下载核对。Netlify 预览成功，两个无相关变化检查为 NEUTRAL。没有发生实际 CI 失败，没有为获得绿灯删测试或降低规则。
 
 具体 SHA、GitHub 测试候选、跨平台权限指纹、包 hash、预期拒绝控制报告、已完成的独立验收和后续 HEAD 的检查见 [PR CI 记录](testing-system-ci.md)。PR 保持 OPEN，自动合并关闭，未合并或发布。
 

@@ -1,6 +1,6 @@
 # #129 SDK 失败：统一全模块公开失败契约与分类
 
-来源：GitHub issue [#129](https://github.com/nonhana/hana-music-api/issues/129)，用户 2026-11-12 确认按实施者理解完成本票。基线：分支 `master`，HEAD `2e14409`，开工时工作区干净，无既有用户改动。
+来源：GitHub issue [#129](https://github.com/campanula-music/hana-music-api/issues/129)，用户 2026-11-12 确认按实施者理解完成本票。基线：分支 `master`，HEAD `2e14409`，开工时工作区干净，无既有用户改动。
 
 目标：在唯一公开 Promise 失败边界保留失败来源，根入口公开 `NcmApiFailure`、`NcmFailureInfo`、`isNcmApiResponse` 和 `getNcmFailureInfo`；八类失败由掌握来源的内核路径产生；既有 resolve/reject、status/body/cookie、未知字段和部分完成信息保持。
 

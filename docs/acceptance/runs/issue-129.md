@@ -1,6 +1,6 @@
 # #129 当次运行记录
 
-来源与授权：GitHub issue [#129](https://github.com/nonhana/hana-music-api/issues/129)；用户 2026-11-12 确认按实施者理解完成本票。仅授权本地实现、测试、文档与验证；未提交、推送、发布或执行真实账号操作。
+来源与授权：GitHub issue [#129](https://github.com/campanula-music/hana-music-api/issues/129)；用户 2026-11-12 确认按实施者理解完成本票。仅授权本地实现、测试、文档与验证；未提交、推送、发布或执行真实账号操作。
 
 基线：`master`，HEAD `2e14409946db785501dba2e45108a4f78861de18`，开工时工作区干净，无既有用户改动。
 

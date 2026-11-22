@@ -3,7 +3,7 @@ import * as Schema from 'effect/Schema';
 import type { UpstreamSchemaType } from './upstream-body.ts';
 import { Loose, UpstreamObject } from './upstream-body.ts';
 
-// 云盘上传、没有匹配上曲库的歌，歌手和专辑的编号是 0、名字是 null（nonhana/hana-music-api#48）。
+// 云盘上传、没有匹配上曲库的歌，歌手和专辑的编号是 0、名字是 null（campanula-music/hana-music-api#48）。
 export const Artist = UpstreamObject({
   id: Loose(Schema.Finite),
   name: Loose(Schema.String),

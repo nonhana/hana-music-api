@@ -1,20 +1,20 @@
 # PR 119 远端 CI 验收记录
 
-[PR #119](https://github.com/nonhana/hana-music-api/pull/119) 从 feature/refactor 指向 master。用户本次明确授权创建 PR、持续跟进检查、失败时修复并提交/推送重跑；明确不合并。PR 当前 OPEN，自动合并未启用。
+[PR #119](https://github.com/campanula-music/hana-music-api/pull/119) 从 feature/refactor 指向 master。用户本次明确授权创建 PR、持续跟进检查、失败时修复并提交/推送重跑；明确不合并。PR 当前 OPEN，自动合并未启用。
 
 ## 第一轮真实 PR 门禁
 
 本轮 head 为 `e68274493ee861d2ecbb2bc444c97c9a1680ecb5`，base 为 `94a900b95413b1039f750c185b305db63d443855`。GitHub 测试用候选为 `fb567b8000df6059559bf21e970118a063957963`，其 tree `f86fb6c4b9d70845b40c2da5e4397ccb16e67662` 与 head 的 tree 相同；这是 PR 自动测试候选，不代表 PR 已合并。
 
-| 检查           | 当次结果                                                                                      | 原始证据                                                                              |
-| -------------- | --------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| 完整 PR verify | completed/success；完整仓库 verify、SDK、fixtures、smoke 与上传步骤全部成功                   | [run 42343329978](https://github.com/nonhana/hana-music-api/actions/runs/42343329978) |
-| 默认回归       | 3531 pass、0 fail、0 skip；逐文件原生 JUnit 与汇总实际核对                                    | verify artifact 的 local summary/JUnit                                                |
-| SDK            | 32 pass、0 fail、0 skip，Node v24.22.2 / Bun 1.4.4；当前 3.2.0 tarball 经 Node/Bun 消费者校验 | 同 artifact 的 sdk/package 原件                                                       |
-| Fixtures       | 915 scanned、761 validated、4 无 ModuleBody 明确另列、0 failures                              | ci/fixtures.log                                                                       |
-| Smoke          | 87 pass，加 500 次 loopback 请求；active/inflight 均 0、failures=[]                           | smoke 原生 JUnit 与 load/smoke 原始 JSON                                              |
-| PR 发布演练    | completed/success；版本推进至 3.2.1 后 SDK 32 pass，同包 hash 核对；未发布                    | [run 42343332584](https://github.com/nonhana/hana-music-api/actions/runs/42343332584) |
-| Netlify 预览   | deploy-preview 和 Redirect rules 成功；Header rules、Pages changed 无相关变化，为 NEUTRAL     | [预览](https://deploy-preview-119--hana-music-api.netlify.app) 与 PR checks           |
+| 检查           | 当次结果                                                                                      | 原始证据                                                                                      |
+| -------------- | --------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| 完整 PR verify | completed/success；完整仓库 verify、SDK、fixtures、smoke 与上传步骤全部成功                   | [run 42343329978](https://github.com/campanula-music/hana-music-api/actions/runs/42343329978) |
+| 默认回归       | 3531 pass、0 fail、0 skip；逐文件原生 JUnit 与汇总实际核对                                    | verify artifact 的 local summary/JUnit                                                        |
+| SDK            | 32 pass、0 fail、0 skip，Node v24.22.2 / Bun 1.4.4；当前 3.2.0 tarball 经 Node/Bun 消费者校验 | 同 artifact 的 sdk/package 原件                                                               |
+| Fixtures       | 915 scanned、761 validated、4 无 ModuleBody 明确另列、0 failures                              | ci/fixtures.log                                                                               |
+| Smoke          | 87 pass，加 500 次 loopback 请求；active/inflight 均 0、failures=[]                           | smoke 原生 JUnit 与 load/smoke 原始 JSON                                                      |
+| PR 发布演练    | completed/success；版本推进至 3.2.1 后 SDK 32 pass，同包 hash 核对；未发布                    | [run 42343332584](https://github.com/campanula-music/hana-music-api/actions/runs/42343332584) |
+| Netlify 预览   | deploy-preview 和 Redirect rules 成功；Header rules、Pages changed 无相关变化，为 NEUTRAL     | [预览](https://deploy-preview-119--hana-music-api.netlify.app) 与 PR checks                   |
 
 两个 Actions artifact 均已下载，SDK/默认回归/smoke 原生 JUnit 的数量、failure/error/skipped 节点、summary 退出码与候选字段一致。没有从 job 的 success 标签单独推断测试数量。
 
@@ -54,15 +54,15 @@ release-rehearsal 保留默认 release 演练，新增显式 testing/failure 模
 
 ### 同一提交的远端结果
 
-| 实际命令 / 运行                                                                      | 决定性结果                                                                                                                                                                                                           | 报告与保留期                                                                                         |
-| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| PR verify                                                                            | [42347563456](https://github.com/nonhana/hana-music-api/actions/runs/42347563456) completed/success；verify 3532/0/0、SDK 32/0/0、fixtures 761 validated/0 failures、smoke 87/0/0 加 500 请求                        | 已下载原生 JUnit、包和负载报告；PR artifact 约 30 天                                                 |
-| PR release-rehearsal                                                                 | [42347563494](https://github.com/nonhana/hana-music-api/actions/runs/42347563494) completed/success；版本步骤后 3.2.1 包重新构建、SDK 32/0/0                                                                         | 已下载、重算 tarball；约 90 天；没有发布                                                             |
-| `gh workflow run release-rehearsal.yml --ref feature/refactor -f acceptance=failure` | [42347650538](https://github.com/nonhana/hana-music-api/actions/runs/42347650538) **completed/failure**；candidate/verify 真实失败；原生测试 1 项、1 个 AssertionError、0 skip；原 Upload test evidence 步骤 success | artifact 13563144719；failure-probe.log/xml/test.ts、初始候选和 checkout SHA 已下载，约 90 天        |
-| `gh workflow run release-rehearsal.yml --ref feature/refactor -f acceptance=testing` | [42347915406](https://github.com/nonhana/hana-music-api/actions/runs/42347915406) **completed/success**；candidate/verify、live/live、mutation/mutation 全部 success                                                 | testing/live/mutation 三份 artifact 均下载，均约 90 天                                               |
-| 独立 live/live                                                                       | 安装后的 3.2.0 候选包；先完成同包 SDK 32 项及 Node/Bun 消费，再执行匿名 2 场景、6 次实际请求（含初始化），0 fail/0 skip；没有账号 Secrets 或替身                                                                     | live 原生 JUnit、请求摘要、包/源码 hash；artifact 13564112726                                        |
-| 独立 mutation/mutation                                                               | playlist-subscribe、shared-reads、upload 三目标的 5 个登记故障均 killed；每项退出 1、非超时，并在登记标题下找到原生断言失败；不是 dry-run、导入失败或普通错误冒充 kill                                               | 逐项 XML/stdout/stderr、summary；artifact 13564945317；上传阶段的组合错误中含明确 Bun AssertionError |
-| `gh workflow run load.yml --ref feature/refactor`                                    | [42347653042](https://github.com/nonhana/hana-music-api/actions/runs/42347653042) completed/success；600193.46ms、30203 请求、p95 52.21ms、RSS 尾部增长 8.56%，active/inflight=0，failures=[]                        | artifact 13564865824 已下载，约 90 天                                                                |
+| 实际命令 / 运行                                                                      | 决定性结果                                                                                                                                                                                                                   | 报告与保留期                                                                                         |
+| ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| PR verify                                                                            | [42347563456](https://github.com/campanula-music/hana-music-api/actions/runs/42347563456) completed/success；verify 3532/0/0、SDK 32/0/0、fixtures 761 validated/0 failures、smoke 87/0/0 加 500 请求                        | 已下载原生 JUnit、包和负载报告；PR artifact 约 30 天                                                 |
+| PR release-rehearsal                                                                 | [42347563494](https://github.com/campanula-music/hana-music-api/actions/runs/42347563494) completed/success；版本步骤后 3.2.1 包重新构建、SDK 32/0/0                                                                         | 已下载、重算 tarball；约 90 天；没有发布                                                             |
+| `gh workflow run release-rehearsal.yml --ref feature/refactor -f acceptance=failure` | [42347650538](https://github.com/campanula-music/hana-music-api/actions/runs/42347650538) **completed/failure**；candidate/verify 真实失败；原生测试 1 项、1 个 AssertionError、0 skip；原 Upload test evidence 步骤 success | artifact 13563144719；failure-probe.log/xml/test.ts、初始候选和 checkout SHA 已下载，约 90 天        |
+| `gh workflow run release-rehearsal.yml --ref feature/refactor -f acceptance=testing` | [42347915406](https://github.com/campanula-music/hana-music-api/actions/runs/42347915406) **completed/success**；candidate/verify、live/live、mutation/mutation 全部 success                                                 | testing/live/mutation 三份 artifact 均下载，均约 90 天                                               |
+| 独立 live/live                                                                       | 安装后的 3.2.0 候选包；先完成同包 SDK 32 项及 Node/Bun 消费，再执行匿名 2 场景、6 次实际请求（含初始化），0 fail/0 skip；没有账号 Secrets 或替身                                                                             | live 原生 JUnit、请求摘要、包/源码 hash；artifact 13564112726                                        |
+| 独立 mutation/mutation                                                               | playlist-subscribe、shared-reads、upload 三目标的 5 个登记故障均 killed；每项退出 1、非超时，并在登记标题下找到原生断言失败；不是 dry-run、导入失败或普通错误冒充 kill                                                       | 逐项 XML/stdout/stderr、summary；artifact 13564945317；上传阶段的组合错误中含明确 Bun AssertionError |
+| `gh workflow run load.yml --ref feature/refactor`                                    | [42347653042](https://github.com/campanula-music/hana-music-api/actions/runs/42347653042) completed/success；600193.46ms、30203 请求、p95 52.21ms、RSS 尾部增长 8.56%，active/inflight=0，failures=[]                        | artifact 13564865824 已下载，约 90 天                                                                |
 
 故障 run 没有删除、改成成功或用相同 failure 输入重跑来假装恢复。随后同一提交的正常 testing run 明确关闭故障输入并全部成功。PR 实际 statusCheckRollup 也已读取：verify/rehearsal 和预览成功，无失败或等待项，两个信息检查为 NEUTRAL。普通 PR 的 candidate/live/mutation 因未选择手动模式而为 SKIPPED，testing 的 rehearsal 同理；这些未选择的模式不计为测试通过。原件为 `ci-acceptance/pr-implementation-rollup.json`。
 
@@ -98,7 +98,7 @@ CI-01～04、AC-13 的独立远端待办已取得实际证据。本地完整门�
 
 ## 文档状态同步与发版核对
 
-用户随后要求消除文档漂移，并核对本 PR 的发版与 changeset。基线为 5ba826cd967b9adef7d9d1eba17e53e7fad9c342，工作区干净；该提交的 [verify](https://github.com/nonhana/hana-music-api/actions/runs/42348793133) 和 [发布演练](https://github.com/nonhana/hana-music-api/actions/runs/42348793126) 均 completed/success，最新原生结果为 3532 回归、32 SDK、87 smoke 检查加 500 请求，版本演练后的 SDK 为 32 项。此时所有必要外部验收已完成，PR OPEN、自动合并关闭。
+用户随后要求消除文档漂移，并核对本 PR 的发版与 changeset。基线为 5ba826cd967b9adef7d9d1eba17e53e7fad9c342，工作区干净；该提交的 [verify](https://github.com/campanula-music/hana-music-api/actions/runs/42348793133) 和 [发布演练](https://github.com/campanula-music/hana-music-api/actions/runs/42348793126) 均 completed/success，最新原生结果为 3532 回归、32 SDK、87 smoke 检查加 500 请求，版本演练后的 SDK 为 32 项。此时所有必要外部验收已完成，PR OPEN、自动合并关闭。
 
 本次仅修改验收文档：AC-13 不再写远端待授权；迁移表和 E1 记录同步真实登录及 CI 已通过；S7 总览同步 S11 补充后的 8 个控制样本。各切片正文和历史候选的命令、失败与阻塞仍保留当时事实，没有重跑账号写入或改写旧报告。需求矩阵与迁移台账参与原指纹规则，新文档候选的 hash 单独保存；产品、测试、构建配置、包清单及 hana-implement 均未改变。
 

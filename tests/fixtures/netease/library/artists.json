@@ -15,7 +15,7 @@
         "length": 50
       }
     ],
-    "note": "从 Campanula 的录制补录，作为 SDK 结构定义的证据（nonhana/hana-music-api#99）"
+    "note": "从 Campanula 的录制补录，作为 SDK 结构定义的证据（campanula-music/hana-music-api#99）"
   },
   "response": {
     "status": 200,

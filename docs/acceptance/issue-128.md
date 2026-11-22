@@ -1,6 +1,6 @@
 # #128 SDK 输入：统一全模块业务类型、运行时校验与请求编码
 
-来源：GitHub issue [#128](https://github.com/nonhana/hana-music-api/issues/128)，用户 2026-11-11 明确要求全量收窄、major changeset、不保留旧输入形式。基线：`c9c27fb3c07340476b998bf6c30675c547ccd10a`，352 个模块、284 个声明 `LegacyModuleInput`；实施分支 `refactor/issue-128-input-contracts`，开工时工作区干净。
+来源：GitHub issue [#128](https://github.com/campanula-music/hana-music-api/issues/128)，用户 2026-11-11 明确要求全量收窄、major changeset、不保留旧输入形式。基线：`c9c27fb3c07340476b998bf6c30675c547ccd10a`，352 个模块、284 个声明 `LegacyModuleInput`；实施分支 `refactor/issue-128-input-contracts`，开工时工作区干净。
 
 目标：所有公开业务模块的输入改为模块本地 `ModuleInput` + 严格运行时 decoder；调用者传业务值，SDK 完成上游编码；`LegacyModuleInput` 及其导出彻底删除。非目标：返回体 Schema、成功码、响应外壳、协议/身份/目标/token/缓存/重试政策、分页与业务同步策略。不做真实账号写操作。
 

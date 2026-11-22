@@ -1,6 +1,6 @@
 # #109：统一可选 checkToken，迁移专辑与歌手收藏
 
-来源：[#109](https://github.com/nonhana/hana-music-api/issues/109) 的 AC-01 至 AC-16；父合同 [#80](https://github.com/nonhana/hana-music-api/issues/80) 2026-11-07 更新。完整来源保存在 `.artifacts/testing/issue-109/source-109.json`、`source-80.json`。
+来源：[#109](https://github.com/campanula-music/hana-music-api/issues/109) 的 AC-01 至 AC-16；父合同 [#80](https://github.com/campanula-music/hana-music-api/issues/80) 2026-11-07 更新。完整来源保存在 `.artifacts/testing/issue-109/source-109.json`、`source-80.json`。
 
 基线：`feature/refactor`，HEAD `6b0b9f8bc8e4ca34351be6c6945fe8fb35a0d1fb`，初始工作区干净。目标为统一可选 token 接缝和 album_sub/artist_sub 四动作，不执行 P12 全量公开配置移除。
 

@@ -1,6 +1,6 @@
 # ADR-0001：请求动作与客户端身份分别声明
 
-状态：已采用，适用于 [#105](https://github.com/nonhana/hana-music-api/issues/105)、[#106](https://github.com/nonhana/hana-music-api/issues/106) 、[#109](https://github.com/nonhana/hana-music-api/issues/109) 、[#110](https://github.com/nonhana/hana-music-api/issues/110) 、[#111](https://github.com/nonhana/hana-music-api/issues/111) 、[#112](https://github.com/nonhana/hana-music-api/issues/112) 、[#113](https://github.com/nonhana/hana-music-api/issues/113) 、[#114](https://github.com/nonhana/hana-music-api/issues/114) 和 [#115](https://github.com/nonhana/hana-music-api/issues/115) 的动作迁移。
+状态：已采用，适用于 [#105](https://github.com/campanula-music/hana-music-api/issues/105)、[#106](https://github.com/campanula-music/hana-music-api/issues/106) 、[#109](https://github.com/campanula-music/hana-music-api/issues/109) 、[#110](https://github.com/campanula-music/hana-music-api/issues/110) 、[#111](https://github.com/campanula-music/hana-music-api/issues/111) 、[#112](https://github.com/campanula-music/hana-music-api/issues/112) 、[#113](https://github.com/campanula-music/hana-music-api/issues/113) 、[#114](https://github.com/campanula-music/hana-music-api/issues/114) 和 [#115](https://github.com/campanula-music/hana-music-api/issues/115) 的动作迁移。
 
 ## 原因与决定
 
@@ -34,7 +34,7 @@ Call 只保存模块调用数据；原始配置的校验、默认浅合并与 si
 
 所有 SDK 模块的收藏、取消和读取均可配置字符串/provider：没配置不取值、不附加，配置失败或为空在发送前失败；动作不声明 token 需求。正文 checkToken 与 HTTP 头 X-antiCheatToken 使用同一个值。HTTP 通用执行配置继续拒绝 checkToken。
 
-协议、目标和 token 位置依据 [#77 的官方现代 web player 调查](https://github.com/nonhana/hana-music-api/issues/77#issuecomment-6238560685) 与 [PR #78](https://github.com/nonhana/hana-music-api/pull/78)。本次以本地 fetcher 检查最终请求并解密测试正文；旧响应录制保持原来源，不作为本次真实上游或完整浏览器 Cookie 抓包证据。
+协议、目标和 token 位置依据 [#77 的官方现代 web player 调查](https://github.com/campanula-music/hana-music-api/issues/77#issuecomment-6238560685) 与 [PR #78](https://github.com/campanula-music/hana-music-api/pull/78)。本次以本地 fetcher 检查最终请求并解密测试正文；旧响应录制保持原来源，不作为本次真实上游或完整浏览器 Cookie 抓包证据。
 
 ## 兼容边界与过渡删除条件
 
@@ -122,7 +122,7 @@ ModuleCallConfig独立列出会话与执行字段，删除crypto/ua/domain/e_r/a
 
 > 2026-11-22 更新：本节中将 `song_download_url_v1.read`、`song_url_v1.read` 与 `login_refresh.request` 迁往 `web` 的决定已被 [ADR-0007](./0007-eapi-and-weapi-protocol-boundary.md) 修正并收回；三者按 L2 协议边界恢复为 `eapi`，当前全量为 **286 web、93 eapi、2 clientlogOsx、9 plain**。
 
-当前决定以 [#137](https://github.com/nonhana/hana-music-api/issues/137) 和[固定审计清单](../acceptance/web-endpoint-sync-2026-11-inventory.md)为历史起点，结合 [ADR-0007](./0007-eapi-and-weapi-protocol-boundary.md) 共同约束。61 个有同业务网页依据且无下游分发/会话轮换分叉的 EAPI 动作改用现有 web profile，Banner 新增 PC 专用 readPc，移动 read 保留。共享读取的普通 search 保持 EAPI，voice、lyric、playlist_detail 和既有 song_detail 使用 web；共享资格、取消和 token 合同不变。
+当前决定以 [#137](https://github.com/campanula-music/hana-music-api/issues/137) 和[固定审计清单](../acceptance/web-endpoint-sync-2026-11-inventory.md)为历史起点，结合 [ADR-0007](./0007-eapi-and-weapi-protocol-boundary.md) 共同约束。61 个有同业务网页依据且无下游分发/会话轮换分叉的 EAPI 动作改用现有 web profile，Banner 新增 PC 专用 readPc，移动 read 保留。共享读取的普通 search 保持 EAPI，voice、lyric、playlist_detail 和既有 song_detail 使用 web；共享资格、取消和 token 合同不变。
 
 红心、回复、歌单曲目的逻辑目标按当前网页修正；粉丝列表固定路径，userid 仍按原模块的 userId 字段发送。具名 playlist_update 保持一次 batch，将三个固定子操作改为对象。通用 batch 的任意子路由没有整体网页等价依据，所以仍为 EAPI。sky、歌单排序和 cloud 原生阶段等保留理由逐动作列在清单中。
 

@@ -110,4 +110,4 @@ bun test ./tests/unit/testing/mutation.test.ts --reporter=junit --reporter-outfi
 
 以上记录保留首次实现阶段的候选、门禁与真实 origin 证据。随后按用户要求，为浏览器入口配置完整 DOM 类型，替换手写浏览器类型与固定全局字段反射，并重新验证 typecheck、声明构建和同包消费者；该轮最终结果见 [浏览器 DOM 类型验收](browser-dom-types.md)，不将首次真实 origin 结果说成后续候选重新执行的结果。
 
-2026-11-07，用户明确授权按项目约定提交、推送并关闭 #107。收尾前重新计算当前内容指纹，为 `1b80ea339f74ffc039667a1743470ec341de78778126dd40b553ac77a8cbb2c4`，与后续类型调整的最终门禁和独立审查候选一致；没有新增产品或测试改动。提交、推送、远端检查及关票结果以 [#107 收尾评论](https://github.com/nonhana/hana-music-api/issues/107) 为准。
+2026-11-07，用户明确授权按项目约定提交、推送并关闭 #107。收尾前重新计算当前内容指纹，为 `1b80ea339f74ffc039667a1743470ec341de78778126dd40b553ac77a8cbb2c4`，与后续类型调整的最终门禁和独立审查候选一致；没有新增产品或测试改动。提交、推送、远端检查及关票结果以 [#107 收尾评论](https://github.com/campanula-music/hana-music-api/issues/107) 为准。

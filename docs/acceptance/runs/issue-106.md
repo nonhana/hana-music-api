@@ -74,7 +74,7 @@ review_issue106 为未参与实现的独立 agent，按 hana-implement/reference
 
 用户在确认验收及 eapi 保留原因后，明确授权“根据验收结果更新原票的 Acceptance criteria，然后关票”。已将 #106 的原五项 AC 按实际证据细化并补充为 AC-01～AC-07，全部勾选，原票附上同候选门禁、独立审查、包与源码指纹、协议及外部验证边界。更新后读取远端正文，确认与准备内容一致，再按 completed 关闭。
 
-远端回读：[issue #106](https://github.com/nonhana/hana-music-api/issues/106) 为 CLOSED，closedAt `2026-11-07T11:29:59Z`。关票前重新核对当前源码内容指纹与最终候选完全一致。原票已明确实现和验收文档仍在本地工作区，没有将关票声称为提交、推送、合并或发布；本轮没有执行这些动作。
+远端回读：[issue #106](https://github.com/campanula-music/hana-music-api/issues/106) 为 CLOSED，closedAt `2026-11-07T11:29:59Z`。关票前重新核对当前源码内容指纹与最终候选完全一致。原票已明确实现和验收文档仍在本地工作区，没有将关票声称为提交、推送、合并或发布；本轮没有执行这些动作。
 
 ## 本地提交收尾
 

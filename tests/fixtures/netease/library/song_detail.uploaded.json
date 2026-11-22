@@ -9,7 +9,7 @@
     "region": "local",
     "ip": "default",
     "viewer": "vip-qr",
-    "note": "上传者本人视角的 3 首云盘上传、没有匹配上曲库的歌（t 是 1）：歌手、专辑的编号是 0，名字是 null。取自 nonhana/campanula-music#21 的 song_detail.liked-page4.json.gz（网易云原样的返回，用 fetcher 在 SDK 校验之前截下，那次请求一次查 1,000 首），只留这 3 首和它们的 privileges（nonhana/hana-music-api#48）"
+    "note": "上传者本人视角的 3 首云盘上传、没有匹配上曲库的歌（t 是 1）：歌手、专辑的编号是 0，名字是 null。取自 campanula-music/campanula#21 的 song_detail.liked-page4.json.gz（网易云原样的返回，用 fetcher 在 SDK 校验之前截下，那次请求一次查 1,000 首），只留这 3 首和它们的 privileges（campanula-music/hana-music-api#48）"
   },
   "response": {
     "status": 200,

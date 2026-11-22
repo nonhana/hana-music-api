@@ -27,7 +27,7 @@ import accountInvalid from '../../fixtures/netease/login/user_account.invalid-co
 import accountVip from '../../fixtures/netease/login/user_account.vip.json';
 import detailVip from '../../fixtures/netease/login/user_detail.vip.json';
 
-// 每个用例回放一份验证关卡录下、脱敏后的网易云返回（Campanula 验证关卡①，nonhana/hana-music-api#18）。
+// 每个用例回放一份验证关卡录下、脱敏后的网易云返回（Campanula 验证关卡①，campanula-music/hana-music-api#18）。
 const replay = (upstream: unknown, setCookie: ReadonlyArray<string> = []) => {
   const headers = new Headers();
   for (const cookie of setCookie) {

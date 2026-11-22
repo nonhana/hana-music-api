@@ -1,6 +1,6 @@
 # 按官方配置同步网页目标与 EAPI 迁移
 
-来源：[Issue #137](https://github.com/nonhana/hana-music-api/issues/137)，2026-11-13 当前用户授权先更新 AC 再完整实施。基线 master / `472dbc5c46ecd9cfed075b47c8f5a1aad0b006e1`，干净工作区，无已有用户改动；实施分支 `fix/issue-137-web-endpoints`。
+来源：[Issue #137](https://github.com/campanula-music/hana-music-api/issues/137)，2026-11-13 当前用户授权先更新 AC 再完整实施。基线 master / `472dbc5c46ecd9cfed075b47c8f5a1aad0b006e1`，干净工作区，无已有用户改动；实施分支 `fix/issue-137-web-endpoints`。
 
 目标与范围：S1 固定审计，S2 三个 web 改址动作，S3 23 个读取与 Banner PC，S4 27 个账号/社交动作，S5 11 个写入/上传动作，S6 生成、文档、验收。非目标：Campanula、自动 Watchman、全局协议降级、真实账号、部署、提交/推送/关票或发布。
 

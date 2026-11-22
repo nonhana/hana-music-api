@@ -1,6 +1,6 @@
 # #107：浏览器 Watchman 子路径
 
-来源：[#107](https://github.com/nonhana/hana-music-api/issues/107) 的 AC-01 至 AC-13，父合同 [#80](https://github.com/nonhana/hana-music-api/issues/80)，参数来源 [Campanula #30](https://github.com/nonhana/campanula-music/issues/30#issuecomment-6238568996)。
+来源：[#107](https://github.com/campanula-music/hana-music-api/issues/107) 的 AC-01 至 AC-13，父合同 [#80](https://github.com/campanula-music/hana-music-api/issues/80)，参数来源 [Campanula #30](https://github.com/campanula-music/campanula/issues/30#issuecomment-6238568996)。
 
 基线：`feature/refactor`，HEAD `d03260f7bf2f015311031898b689ff7340b52e6e`，起始工作区干净。
 

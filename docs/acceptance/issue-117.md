@@ -1,6 +1,6 @@
 # #117：npm 候选包
 
-来源：[原票](https://github.com/nonhana/hana-music-api/issues/117)、[父合同](https://github.com/nonhana/hana-music-api/issues/80)及本次接力提示词。原文快照保存在 `.artifacts/testing/issue-117/sources/`。
+来源：[原票](https://github.com/campanula-music/hana-music-api/issues/117)、[父合同](https://github.com/campanula-music/hana-music-api/issues/80)及本次接力提示词。原文快照保存在 `.artifacts/testing/issue-117/sources/`。
 
 基线：`feature/refactor`，`96a318adb2908e5bd423636aeaf77700cda107dc`；开始时工作区干净，远端相同。#107/#116/#123 均 completed。#117 已自分配。
 

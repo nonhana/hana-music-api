@@ -85,7 +85,7 @@ await hana.search({ keywords: '海阔天空', limit: 5 }, { timeoutMs: 5000 });
 安装 Bun 后，克隆源码仓库并依次安装依赖、构建文档资源与启动服务：
 
 ```bash
-git clone https://github.com/nonhana/hana-music-api.git
+git clone https://github.com/campanula-music/hana-music-api.git
 cd hana-music-api
 bun install --frozen-lockfile
 bun run docs:build

@@ -1,6 +1,6 @@
 # 网页目标同步：固定审计清单
 
-来源：[Issue #137](https://github.com/nonhana/hana-music-api/issues/137)；协议边界后续更新见 [ADR-0007](../adr/0007-eapi-and-weapi-protocol-boundary.md)。基线 `472dbc5c46ecd9cfed075b47c8f5a1aad0b006e1`，352 模块、389 动作；153 个实际 EAPI 动作逐项处置如下。原 #137 迁出 61 个动作，经 ADR-0007 将 `song_download_url_v1.read`、`song_url_v1.read` 与 `login_refresh.request` 恢复为 `eapi` 后，58 个完整动作与 Banner PC 新增分支 `readPc` 使用 web，94 个完整动作（含 Banner 移动分支）使用 EAPI，候选共 390 动作。
+来源：[Issue #137](https://github.com/campanula-music/hana-music-api/issues/137)；协议边界后续更新见 [ADR-0007](../adr/0007-eapi-and-weapi-protocol-boundary.md)。基线 `472dbc5c46ecd9cfed075b47c8f5a1aad0b006e1`，352 模块、389 动作；153 个实际 EAPI 动作逐项处置如下。原 #137 迁出 61 个动作，经 ADR-0007 将 `song_download_url_v1.read`、`song_url_v1.read` 与 `login_refresh.request` 恢复为 `eapi` 后，58 个完整动作与 Banner PC 新增分支 `readPc` 使用 web，94 个完整动作（含 Banner 移动分支）使用 EAPI，候选共 390 动作。
 
 公共配置快照及来源摘要见 `tests/fixtures/upstream-policy/`；配置按 JSON.stringify(body,null,2) 保存，摘要与票内固定来源一致。四份网页 JS 仅在本地 .artifacts 中用于核对，仓库保存 hash、偏移和最短调用摘录，不分发整份 bundle。源码只证明网页调用依据，不证明实际账号成功。
 

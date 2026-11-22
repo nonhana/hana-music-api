@@ -11,14 +11,14 @@
     "sdk",
     "typescript"
   ],
-  "homepage": "https://github.com/nonhana/hana-music-api#readme",
+  "homepage": "https://github.com/campanula-music/hana-music-api#readme",
   "bugs": {
-    "url": "https://github.com/nonhana/hana-music-api/issues"
+    "url": "https://github.com/campanula-music/hana-music-api/issues"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nonhana/hana-music-api.git"
+    "url": "git+https://github.com/campanula-music/hana-music-api.git"
   },
   "files": [
     "dist"

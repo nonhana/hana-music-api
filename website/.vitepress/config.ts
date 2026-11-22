@@ -30,11 +30,11 @@ export default withMermaid({
       { text: '升级指南', link: '/guide/migrating-to-v8' },
       {
         text: '更新日志',
-        link: 'https://github.com/nonhana/hana-music-api/blob/main/CHANGELOG.md',
+        link: 'https://github.com/campanula-music/hana-music-api/blob/main/CHANGELOG.md',
       },
       {
         text: 'GitHub',
-        link: 'https://github.com/nonhana/hana-music-api/',
+        link: 'https://github.com/campanula-music/hana-music-api/',
       },
     ],
     sidebar: {
@@ -104,7 +104,10 @@ export default withMermaid({
       next: '下一页',
     },
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/nonhana/hana-music-api' },
+      {
+        icon: 'github',
+        link: 'https://github.com/campanula-music/hana-music-api',
+      },
     ],
     footer: {
       message: 'Released under the MIT License.',

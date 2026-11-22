@@ -767,7 +767,7 @@
     "status": 200,
     "bodySha256": "5829476ae8180d4c1d5ca6bcbef37b7f7e63b028bd67950cb4539e77d1a3f0c8",
     "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
-    "recordingSha256": "c8685f80694af2cef32c82ce50e77b37ca4b8fd57e0d236f9862b2b0f53fa2e3"
+    "recordingSha256": "305f2bd2128ec79fa1d7cb8471899b8cd0c65b74b072c29bbe4c7e71db28d0e8"
   },
   {
     "module": "user_record",
@@ -777,7 +777,7 @@
     "status": 200,
     "bodySha256": "6bf2b34bc5294c9c19b2a82a631da21c1d9219c084f918b1cbf00633ff20b055",
     "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
-    "recordingSha256": "b4c681ece26769de3d1346d9cf005aeeccc707558ba9df364f2049f239f3229e"
+    "recordingSha256": "a3b8d3a27e997ae170ed9a2541b0f15b564635b342156b59b134151db8f34ebc"
   },
   {
     "module": "vip_growthpoint",
@@ -837,7 +837,7 @@
     "status": 200,
     "bodySha256": "de95cc84ea7daee6f6974d5481ad940485f9fe8ccd0ad0248c76762542398925",
     "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
-    "recordingSha256": "dde6c1aa800cbbe38fdcff26cbc2ad0dc9bc1e6d882708fa5379f3f55a68476b"
+    "recordingSha256": "cb53293b8a3055512b9bf3e9f82c0ee41fd1c8c1835d16a4cea6753f2125a2f6"
   },
   {
     "module": "vip_info_v2",
@@ -847,7 +847,7 @@
     "status": 200,
     "bodySha256": "af1489e49881e2ebdda85696a694f6f60dddcbdebcea8b1709e4da2b93ed6ce8",
     "cookieSha256": "83b1b3cc58ea593fc73383a7052da4efe800f7e2e355d4fb14e02811a1f7dc93",
-    "recordingSha256": "6009ad2cc9a03887bb692c8d3aaa023731520397998729518595d91bf459f197"
+    "recordingSha256": "6ff83ccbb8eada95adffeb0d6d5453b228ac93696979abc3e79266d9ecb1bce3"
   },
   {
     "module": "vip_tasks",

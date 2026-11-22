@@ -1,6 +1,6 @@
 # #110 当次验收
 
-来源：[#110](https://github.com/nonhana/hana-music-api/issues/110) AC-01～AC-14、父票#80和本次实施指令；[验收依据](../issue-110.md)固定基线、77模块/实际分支与证据边界。
+来源：[#110](https://github.com/campanula-music/hana-music-api/issues/110) AC-01～AC-14、父票#80和本次实施指令；[验收依据](../issue-110.md)固定基线、77模块/实际分支与证据边界。
 
 最终结论：完成。AC-01～AC-14均通过，全部适用门禁与独立双轴审查通过，无未解决阻断项。所有最终门禁针对下列同一候选，旧轮次不计通过。
 
@@ -88,4 +88,4 @@ live与十分钟soak按实施前范围不适用，未运行，不计通过。未
 
 ## 提交与关票
 
-用户已确认本任务完成，并在当前聊天明确授权提交、推送和关闭#110。提交信息遵循单行 `<type>: <message>`；保留原feature/refactor分支，不创建PR、合并或发布。实际提交、远端分支和关闭回执登记在 [#110](https://github.com/nonhana/hana-music-api/issues/110)。本文保留原testedHead、候选内容指纹与包hash，不把提交后的HEAD改标为测试基线。
+用户已确认本任务完成，并在当前聊天明确授权提交、推送和关闭#110。提交信息遵循单行 `<type>: <message>`；保留原feature/refactor分支，不创建PR、合并或发布。实际提交、远端分支和关闭回执登记在 [#110](https://github.com/campanula-music/hana-music-api/issues/110)。本文保留原testedHead、候选内容指纹与包hash，不把提交后的HEAD改标为测试基线。

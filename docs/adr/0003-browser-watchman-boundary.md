@@ -1,6 +1,6 @@
 # ADR-0003：Watchman 独立于业务 SDK
 
-状态：已采用，适用于 [#107](https://github.com/nonhana/hana-music-api/issues/107) 与父票 #80 的浏览器包边界。
+状态：已采用，适用于 [#107](https://github.com/campanula-music/hana-music-api/issues/107) 与父票 #80 的浏览器包边界。
 
 浏览器从 `hana-music-api/watchman` 调用 `initializeWatchman`，封装运行时加载官方脚本，以 Promise 包装初始化和每次 `getToken` 回调。根 SDK 不转导出该入口，浏览器入口不依赖请求内核、Hono、Effect 或 Node 运行时。服务端只接收应用转交的当次字符串，继续走既有唯一请求链。
 

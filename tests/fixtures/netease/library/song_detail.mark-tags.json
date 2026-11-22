@@ -9,7 +9,7 @@
     "region": "local",
     "ip": "default",
     "viewer": "vip-qr",
-    "note": "含非空 markTags（MusicianUserAiMark）的歌曲。取自 nonhana/campanula-music tests/fixtures/netease/library/sync/before/036-song_detail.json.gz（网易云原样的返回，用 fetcher 在 SDK 校验之前截下），只留这两首歌和它们的 privileges（nonhana/hana-music-api#99）",
+    "note": "含非空 markTags（MusicianUserAiMark）的歌曲。取自 campanula-music/campanula tests/fixtures/netease/library/sync/before/036-song_detail.json.gz（网易云原样的返回，用 fetcher 在 SDK 校验之前截下），只留这两首歌和它们的 privileges（campanula-music/hana-music-api#99）",
     "truncated": [
       {
         "path": "body.songs",

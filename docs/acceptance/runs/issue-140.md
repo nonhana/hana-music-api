@@ -1,6 +1,6 @@
 # issue-140 当次实施与验收
 
-来源：[issue #140](https://github.com/nonhana/hana-music-api/issues/140)；[实施前接口记录](https://github.com/nonhana/hana-music-api/issues/140#issuecomment-6889383660)。需求和门禁：[矩阵](../issue-140.md)。
+来源：[issue #140](https://github.com/campanula-music/hana-music-api/issues/140)；[实施前接口记录](https://github.com/campanula-music/hana-music-api/issues/140#issuecomment-6889383660)。需求和门禁：[矩阵](../issue-140.md)。
 
 基线：`feat/issue-140-playlist-steps`，base/HEAD `7b8fdd5d5cef9059420b4d196d996625e699c8bd`。从干净工作区起步，无既有用户改动。所有实现尚未提交。
 

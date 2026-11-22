@@ -1,6 +1,6 @@
 # #137 当次实施与验收
 
-来源：[Issue #137](https://github.com/nonhana/hana-music-api/issues/137)；验收依据为 [需求矩阵](../web-endpoint-sync-2026-11.md)。2026-11-13 当前任务先授权更新 AC，再调用 hana-implement 完整实施。Issue 正文已同步 AC-01–09 和本次实施状态。
+来源：[Issue #137](https://github.com/campanula-music/hana-music-api/issues/137)；验收依据为 [需求矩阵](../web-endpoint-sync-2026-11.md)。2026-11-13 当前任务先授权更新 AC，再调用 hana-implement 完整实施。Issue 正文已同步 AC-01–09 和本次实施状态。
 
 基线：master / `472dbc5c46ecd9cfed075b47c8f5a1aad0b006e1`，初始工作区干净，无已有用户改动。验收时分支为 `fix/issue-137-web-endpoints`，HEAD 保持基线，全部本任务改动在工作区；该轮尚未提交、推送、关票、升版、发布或部署。
 

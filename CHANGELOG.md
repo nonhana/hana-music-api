@@ -225,7 +225,7 @@
   - 被删除声明的字段仍是未声明字段，继续原样保留，读取类型仍是 JSON 值；除新增的 5 个模块外，没有新增收紧字段。
   - `experts`、`authType.tags`、登录 `bindings`、搜索建议 `order` 的读取类型分别收窄为字符串记录、字符串数组、对象数组、字符串数组；它们仍都是宽松字段。
 
-  详见公开指南的[返回体结构](/guide/response-bodies)和仓库的 [`agent-docs/API_CONVENTIONS.md`](https://github.com/nonhana/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)。
+  详见公开指南的[返回体结构](/guide/response-bodies)和仓库的 [`agent-docs/API_CONVENTIONS.md`](https://github.com/campanula-music/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)。
 
 ## 3.0.0
 
@@ -255,7 +255,7 @@
   - 以前靠 502 发现内容字段缺失的调用方，现在会正常拿到返回体；需要自己判断字段是否可用。
   - 收紧字段的读取方式不变；`song_url_v1`、`song_download_url_v1` 的 `url` 仍可能是 `null`。
   - 新增声明的字段可以直接读取，类型都是 `T | null | undefined`。
-  - 每个模块收紧哪些字段、其余字段为什么宽松，见公开指南的[返回体结构](/guide/response-bodies)和仓库的 [`agent-docs/API_CONVENTIONS.md`](https://github.com/nonhana/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)。
+  - 每个模块收紧哪些字段、其余字段为什么宽松，见公开指南的[返回体结构](/guide/response-bodies)和仓库的 [`agent-docs/API_CONVENTIONS.md`](https://github.com/campanula-music/hana-music-api/blob/master/agent-docs/API_CONVENTIONS.md#收紧与宽松)。
 
 ## 2.13.0
 

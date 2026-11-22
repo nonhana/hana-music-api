@@ -1,6 +1,6 @@
 # Issue 105：请求契约首条落地验收
 
-来源：[issue #105](https://github.com/nonhana/hana-music-api/issues/105) 及父票 #80 的固定合同；用户于 2026-11-07 要求按最新版测试系统补充验收条件、执行完整测试并判断是否通过。
+来源：[issue #105](https://github.com/campanula-music/hana-music-api/issues/105) 及父票 #80 的固定合同；用户于 2026-11-07 要求按最新版测试系统补充验收条件、执行完整测试并判断是否通过。
 
 基线：`feature/refactor`，`15e99ef197307e0e2e8486043721c8bf20cb5b33`，工作区干净。本轮修改本票验收条件和验收记录，不改业务实现；执行本地验证、候选包消费者、loopback 负载和登记的定向变异。关票、合并、发布、真实账号操作和沿用旧 E1 授权均不属于本轮。
 

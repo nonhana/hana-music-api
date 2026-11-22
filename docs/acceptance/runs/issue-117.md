@@ -67,7 +67,7 @@ lint 达到 0 warning / 0 error。构建中的 TypeScript 7.0 声明生成器弃
 
 按用户当次明确允许的提交时序例外，生成候选准备提交 `f243c9e75fd88681468d570a7bfa29272ec555d9`（`feat: 准备 4.0.0-next.0 npm 候选包`），普通推送 feature/refactor，读回远端一致，工作区干净；回执 `.artifacts/testing/issue-117/preparation-receipt.json`。这不是最终验收完成提交，#117 未关闭。
 
-首次实际 dispatch `release.yml mode=candidate` 的 run [42507974926](https://github.com/nonhana/hana-music-api/actions/runs/42507974926) **failure**：远端 Node24/Bun 的 SDK 32 项通过，随后实际 hash guard 拒绝本地旧 gzip hash，发布步骤 skipped，未执行匿名 preflight 或 npm publish。原始日志、步骤结论和下载产物在 `trusted-workflow-failed.log/json`、`trusted-run-42507974926/`，不将这一轮记通过。
+首次实际 dispatch `release.yml mode=candidate` 的 run [42507974926](https://github.com/campanula-music/hana-music-api/actions/runs/42507974926) **failure**：远端 Node24/Bun 的 SDK 32 项通过，随后实际 hash guard 拒绝本地旧 gzip hash，发布步骤 skipped，未执行匿名 preflight 或 npm publish。原始日志、步骤结论和下载产物在 `trusted-workflow-failed.log/json`、`trusted-run-42507974926/`，不将这一轮记通过。
 
 定位没有修改产品或 guard：原本地 Node26.13.0/zlib1.2.12 的 gzip 包为 493507 字节，CI Node24 的包为 493097 字节；713 个文件、内容、tar 元数据乃至**解压后的整个 tar 逐字节相同**。工具链对齐到实际 CI Node24.22.2/npm11.5.1 后，本地新 gzip 也与 CI 整包逐字节相同。另用同一份 tar、相同 level9/portable OS，仅切换 Node 运行 `node:zlib.gzipSync`，分别精确复现两个实际包的 hash 和大小，排除 npm 选项或输入文件差异。复现命令、差异表和同类检查排查见 `hash-failure-diagnosis.md`、`archive-difference.json`、`gzip-control.mjs`、`gzip-node26.json`、`gzip-node24.json` 和 `toolchain-aligned/reproduction.json`。
 
@@ -77,7 +77,7 @@ lint 达到 0 warning / 0 error。构建中的 TypeScript 7.0 声明生成器弃
 
 CI source content 指纹实际为 `5323484511dcebf8dc9d7fb98b96acfc92dcc840bcda0737f5bca797d1713c83`，与本地23d不同仅因 CLAUDE.md 软链接的 lstat 权限 macOS755/Linux777。按 git checkout 权限重算本地指纹精确等于532，证据 `source-mode-difference.json`；保留各环境的真实值，不改标旧报告。产品/版本/声明/矩阵未变，原本地门禁仍对应相同包内容。
 
-第二次实际 dispatch 使用 canonical 8143 作为原 hash guard 的预期输入，仍是同一 f243c9e/4.0.0-next.0/next，run [42508969202](https://github.com/nonhana/hana-music-api/actions/runs/42508969202)。本轮工作流正在执行，完整 preflight 和发布仍待后续实际结果，尚不能写为通过；首轮零次真实匿名请求，后续匿名预算仍为最多12次。没有绕过 hash 检查、放宽 ledger 或修改版本/行为来消除失败。
+第二次实际 dispatch 使用 canonical 8143 作为原 hash guard 的预期输入，仍是同一 f243c9e/4.0.0-next.0/next，run [42508969202](https://github.com/campanula-music/hana-music-api/actions/runs/42508969202)。本轮工作流正在执行，完整 preflight 和发布仍待后续实际结果，尚不能写为通过；首轮零次真实匿名请求，后续匿名预算仍为最多12次。没有绕过 hash 检查、放宽 ledger 或修改版本/行为来消除失败。
 
 ## 第二次可信运行失败与变异选择修复
 
@@ -126,7 +126,7 @@ debug fetcher故障本来就触发目标原生断言，但还使同文件其他d
 
 必要工具修复经最终离线功能双轴和专门风格审查通过，报告为 `functional-review-tooling-final.md`、`style-review-tooling-final.md`。按当次授权生成准备提交 **fc07ee25d3f18163959047f464a19cb6fdbb2bd6**（fix: 按关联文件执行候选发布变异检查），普通推送feature/refactor，读回一致且工作区干净；源内容仍8b81b7e…，没有把原本地testedHead=f243改写成提交后重跑，回执 `tooling-preparation-receipt.json`。
 
-第三次可信工作流 [42518438492](https://github.com/nonhana/hana-music-api/actions/runs/42518438492) **success**，实际checkout=fc07ee2，CI实际source content=3c3e1070…，与本地8b的已记录symlink模式映射完全一致。原始job日志、状态和下载产物分别为 `trusted-workflow-42518438492.log/json`、`trusted-run-42518438492/release-fc07ee25d3f18163959047f464a19cb6fdbb2bd6/`。当前源码实际Node24.22.2/Bun/Chromium消费者安装8143物理包并通过；候选hash guard、全部preflight和发布均实际执行，不能只以job绿色替代registry。
+第三次可信工作流 [42518438492](https://github.com/campanula-music/hana-music-api/actions/runs/42518438492) **success**，实际checkout=fc07ee2，CI实际source content=3c3e1070…，与本地8b的已记录symlink模式映射完全一致。原始job日志、状态和下载产物分别为 `trusted-workflow-42518438492.log/json`、`trusted-run-42518438492/release-fc07ee25d3f18163959047f464a19cb6fdbb2bd6/`。当前源码实际Node24.22.2/Bun/Chromium消费者安装8143物理包并通过；候选hash guard、全部preflight和发布均实际执行，不能只以job绿色替代registry。
 
 preflight目录为该产物下 `preflight/1794168637017-d71296fa-6b3f-4d6e-9934-4877a17dd95c`，7项exit0：verify（8254/0/0）、verify:sdk（32/0/0）、fixtures、smoke（142/0/0与500次资源归零）、mutation（123有效kill、0invalid/timeout/skip）、实际anonymous live及最后npm pack --dry-run --json --ignore-scripts文件/内容核对。完整源码、同包hash和结束不变检查通过；当前CI所有报告真实HEAD均fc07，未借用f243失败轮次。
 

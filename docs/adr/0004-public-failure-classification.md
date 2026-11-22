@@ -1,6 +1,6 @@
 # ADR-0004：公开失败只描述事实，不按状态猜来源
 
-状态：已采用，适用于 [#129](https://github.com/nonhana/hana-music-api/issues/129)。实施基线 `2e14409`。
+状态：已采用，适用于 [#129](https://github.com/campanula-music/hana-music-api/issues/129)。实施基线 `2e14409`。
 
 ## 原因与决定
 

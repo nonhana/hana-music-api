@@ -1,6 +1,6 @@
 # 共用歌单类型的录制
 
-来源：[nonhana/campanula-music](https://github.com/nonhana/campanula-music/tree/ce9e6840596e6f6214868fe55016d7d583455f6c/tests/fixtures/netease)，提交 `ce9e6840596e6f6214868fe55016d7d583455f6c`。
+来源：[campanula-music/campanula](https://github.com/campanula-music/campanula/tree/ce9e6840596e6f6214868fe55016d7d583455f6c/tests/fixtures/netease)，提交 `ce9e6840596e6f6214868fe55016d7d583455f6c`。
 
 本目录复制该提交中 `tests/fixtures/netease/` 下文件名含 `user_playlist` 或 `playlist_detail` 的全部 76 份录制，保留原目录层级和 gzip 压缩；未压缩的 JSON 仅按本仓库规则格式化，数据未改动。录制的参数和背景见各文件的 `query`、`context`。
 

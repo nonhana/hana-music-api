@@ -7,7 +7,7 @@ HTTP 服务基于 Bun 运行时从仓库源码启动。公开 npm 包根入口�
 在已安装 Bun 的环境中克隆仓库并启动服务：
 
 ```bash
-git clone https://github.com/nonhana/hana-music-api.git
+git clone https://github.com/campanula-music/hana-music-api.git
 cd hana-music-api
 bun install --frozen-lockfile
 bun run docs:build

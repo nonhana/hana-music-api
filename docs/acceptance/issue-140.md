@@ -1,6 +1,6 @@
 # 歌单曲目分步执行 512 后备请求
 
-来源：[issue #140](https://github.com/nonhana/hana-music-api/issues/140)，以及 #115 的 512 业务分支、#137 的 web 目标、ADR-0001/0003；本次用户明确要求完整实施，验收按当前 TESTING.md。旧票里的建票限制、历史提交/账号授权不继承。
+来源：[issue #140](https://github.com/campanula-music/hana-music-api/issues/140)，以及 #115 的 512 业务分支、#137 的 web 目标、ADR-0001/0003；本次用户明确要求完整实施，验收按当前 TESTING.md。旧票里的建票限制、历史提交/账号授权不继承。
 
 基线：从干净的 `fix/issue-137-web-endpoints`（`2b7deb9`）切到最新 `origin/master`，新建 `feat/issue-140-playlist-steps`；固定 base/HEAD 为 `7b8fdd5d5cef9059420b4d196d996625e699c8bd`，版本 6.0.0，无既有用户改动。根 GLOSSARY.md 不存在；沿用现有 ADR 与模块术语，不额外建立领域文档。
 

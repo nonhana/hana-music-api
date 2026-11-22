@@ -144,7 +144,7 @@ Slice 4 独立审查 /root/request_flow_review 已直接核对八组原报告、
 
 用户在本 Session 追加明确授权：将本轮重构补票留档、集成到 #80 Spec，随后提交并推送改动，再关闭补票；暂不开下个任务。该授权替代原 AC-18 在实施阶段的“不提交/推送/跟踪器”限制，其余真实上游、账号、发布、合并部署和暂停接力边界继续保留。前文未提交状态是当时事实，不是本次交付的最新权限。
 
-补票为 [#123：请求数据流收敛](https://github.com/nonhana/hana-music-api/issues/123)，原生父票为 [#80](https://github.com/nonhana/hana-music-api/issues/80)。票正文保存原计划目标、已实施五片、19 项 AC、保持合同、六道门禁与原生证据和独立审查结论；已登记原生依赖 #116 → #123 → #117。#80 的日期补充、当前调用链、阶段表和依赖图均已更新并读回核对，原 P1–P15 编号和后续发布/下游验收保留。
+补票为 [#123：请求数据流收敛](https://github.com/campanula-music/hana-music-api/issues/123)，原生父票为 [#80](https://github.com/campanula-music/hana-music-api/issues/80)。票正文保存原计划目标、已实施五片、19 项 AC、保持合同、六道门禁与原生证据和独立审查结论；已登记原生依赖 #116 → #123 → #117。#80 的日期补充、当前调用链、阶段表和依赖图均已更新并读回核对，原 P1–P15 编号和后续发布/下游验收保留。
 
 本轮交付追加只修改本运行记录，源码与需求矩阵保持已验收的最终 V2。原 testedHead、原始日志、JUnit、锁文件和 tarball 指纹保留；提交前核对源码 contentSha256 仍为 `f1be39765eab06fdd51ad363e80c8789c19da20cb9e58f322d8536f7067ecb76`，提交后以同一内容指纹核对提交中的受测文件，不能把新的 Git HEAD 写回冒充原 testedHead。
 

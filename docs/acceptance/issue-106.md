@@ -1,6 +1,6 @@
 # #106：共享读取迁移
 
-来源：[P2 #106](https://github.com/nonhana/hana-music-api/issues/106)，父合同 [#80](https://github.com/nonhana/hana-music-api/issues/80)。前置 #105 已关闭，当前树已具备动作合同、生成器和唯一请求链。
+来源：[P2 #106](https://github.com/campanula-music/hana-music-api/issues/106)，父合同 [#80](https://github.com/campanula-music/hana-music-api/issues/80)。前置 #105 已关闭，当前树已具备动作合同、生成器和唯一请求链。
 
 基线：`feature/refactor`，HEAD `eb8f8616b986549e6b510b71849fd207a89d4efa`，工作区干净，无需保护的既有用户改动。
 
